@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "Mortal"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Reducir"
+  },
   "DELTA_V": {
     "description": "",
     "message": "Delta-V"
@@ -963,6 +967,10 @@
     "description": "For player reputation",
     "message": "Incompetente"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Aumentar"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Novato"
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "Recompensa"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Rotar vista"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Info de Ruta"
@@ -1626,6 +1638,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Astillero"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Tipo de Nave"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",

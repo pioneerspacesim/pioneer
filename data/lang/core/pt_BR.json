@@ -167,6 +167,10 @@
     "description": "",
     "message": "Colhimento de carga tentado. Sem espaço suficiente no compartimento de carga."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\"Atmosfera de metano\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Porto estelar orbital"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Mundo externo agricultor"
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Semieixo maior"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Definir como destino de navegação"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

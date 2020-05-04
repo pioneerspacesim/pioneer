@@ -167,6 +167,10 @@
     "description": "",
     "message": "Sezbírání nákladu selhalo. V nákladovém prostoru není dostatek místa."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" metanovou atmosférou\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Orbitální stanice"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Planeta se zemědělstvím pod širým nebem."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Velká poloosa dráhy"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Nastavit jako cíl navigace"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

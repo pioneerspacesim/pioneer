@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "Ölümcül"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Azalt"
+  },
   "DELTA_V": {
     "description": "",
     "message": "Delta-v"
@@ -337,7 +341,7 @@
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
-    "message": "Drive active"
+    "message": "Sürücü aktif"
   },
   "DUE": {
     "description": "mission deadline date",
@@ -963,17 +967,21 @@
     "description": "For player reputation",
     "message": "Yetersiz"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Arttır"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Deneyimsiz"
   },
   "INITIATED": {
     "description": "Ship jump status",
-    "message": "Initiated"
+    "message": "Başlatıldı"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
-    "message": "Insufficient fuel"
+    "message": "Yetersiz yakıt"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
@@ -1293,7 +1301,7 @@
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
-    "message": "No drive"
+    "message": "Sürücü yok"
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
@@ -1357,7 +1365,7 @@
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
-    "message": "Out of range"
+    "message": "Menzil dışı"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "Ödül"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Görünümü döndür"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Rota Bilgisi"
@@ -1541,7 +1553,7 @@
   },
   "SAFETY_LOCKOUT": {
     "description": "Ship jump status",
-    "message": "Safety lockout"
+    "message": "Güvenlik kısıtlaması"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1626,6 +1638,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Gemi Tamiri"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Gemi Tipi"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",

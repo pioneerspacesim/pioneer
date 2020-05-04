@@ -167,6 +167,10 @@
     "description": "",
     "message": "Неудачная попытка сбора. Недостаточно места в грузовом отсеке."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" метановой атмосферой\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Орбитальный космопорт"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Открытый сельскохозяйственный мир."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Большая полуось"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Установить как цель для навигации"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

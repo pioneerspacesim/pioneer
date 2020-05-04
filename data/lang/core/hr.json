@@ -167,6 +167,10 @@
     "description": "",
     "message": "Cargo scoop attempted. Not enough room in cargo hold."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" metanskom atmosferom\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Orbitna zvjezdana luka"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Vanjski poljoprivredni svijet."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Velika poluos"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Set as navigation target"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

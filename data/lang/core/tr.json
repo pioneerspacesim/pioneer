@@ -167,6 +167,10 @@
     "description": "",
     "message": "Kargo toplama denendi. Kargo bölümünde yeterli yer yok."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Merkez"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" Metan atmosfer\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Yörünge yıldız limanı"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Yörünge planlayıcısı"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Dış tarım dünyası."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Semi-majör eksen"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Savaş hedefi olarak seç"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigasyon hedefi olarak seç"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

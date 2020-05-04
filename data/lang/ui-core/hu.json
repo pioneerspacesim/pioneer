@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "Halálos"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Csökkent"
+  },
   "DELTA_V": {
     "description": "",
     "message": "Delta-V"
@@ -963,6 +967,10 @@
     "description": "For player reputation",
     "message": "Alkalmatlan"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Növel"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Tapasztalatlan"
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "Jutalom"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Nézet forgatása"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Útvonal info:"
@@ -1626,6 +1638,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Űrhajó szervíz"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Hajó típus"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",

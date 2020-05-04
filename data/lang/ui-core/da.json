@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "Dødelig"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Decrease"
+  },
   "DELTA_V": {
     "description": "",
     "message": "Delta-v"
@@ -963,6 +967,10 @@
     "description": "For player reputation",
     "message": "Inkompetent"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Increase"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Uerfaren"
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "Belønning"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Rotate view"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Route Info"
@@ -1626,6 +1638,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Skibsreperation"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Ship Type"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",

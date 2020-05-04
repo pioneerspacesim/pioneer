@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "مميت"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Decrease"
+  },
   "DELTA_V": {
     "description": "",
     "message": "دلتا-في"
@@ -963,6 +967,10 @@
     "description": "For player reputation",
     "message": "Incompetent"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Increase"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Inexperienced"
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "مكافأة"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Rotate view"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Route Info"
@@ -1626,6 +1638,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Ship Repairs"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Ship Type"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",

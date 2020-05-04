@@ -325,11 +325,11 @@
   },
   "THRUSTERS_MEDIUM": {
     "description": "",
-    "message": "Optimisierte Schubdüsen"
+    "message": "Optimierte Schubdüsen"
   },
   "THRUSTERS_MEDIUM_DESCRIPTION": {
     "description": "",
-    "message": "Schubdüsen die in Hinblick auf Effizienz und Schubkraft optimisiert wurden."
+    "message": "Schubdüsen die in Hinblick auf Effizienz und Schubkraft optimiert wurden."
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",

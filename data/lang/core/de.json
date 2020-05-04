@@ -167,6 +167,10 @@
     "description": "",
     "message": "Frachtaufnahme gescheitert. Nicht genug Platz im Frachtraum."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Zentrum"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" Methanatmosphäre\""
@@ -481,7 +485,7 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
-    "message": "Switch between grid display modes."
+    "message": "Zwischen Netz-Anzeige-Modi wechseln"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -889,7 +893,7 @@
   },
   "MISSILE_DETECTED": {
     "description": "",
-    "message": "Missile launch detected."
+    "message": "Raketenabschuss entdeckt"
   },
   "MIXED_ECONOMY": {
     "description": "",
@@ -1090,6 +1094,10 @@
   "ORBITAL_STARPORT": {
     "description": "",
     "message": "Orbitaler Raumhafen"
+  },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit Planer"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Große Halbachse"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "als Kampfziel festlegen"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Als Navigationsziel setzen"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

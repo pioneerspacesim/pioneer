@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "Letale"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Decrementa"
+  },
   "DELTA_V": {
     "description": "",
     "message": "Delta-V"
@@ -963,6 +967,10 @@
     "description": "For player reputation",
     "message": "Incompetente"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Incrementa"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Inesperto"
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "Ricompensa"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Ruota vista"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Informazioni Percorso"
@@ -1626,6 +1638,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Riparazione Astronavi"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Tipo di Astronave"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",

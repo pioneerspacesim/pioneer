@@ -167,6 +167,10 @@
     "description": "",
     "message": "Cargo scoop attempted. Not enough room in cargo hold."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" Methane atmosphere\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Orbital starport"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Outdoor agricultural world."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Semi-major axis"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Set as navigation target"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

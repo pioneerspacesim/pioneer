@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "Mortel"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Diminuer"
+  },
   "DELTA_V": {
     "description": "",
     "message": "V_delta"
@@ -963,6 +967,10 @@
     "description": "For player reputation",
     "message": "Incompétent"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Augmenter"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Inexpérimenté"
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "Récompense"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Tourner la vue"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Info itinéraire"
@@ -1626,6 +1638,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Réparation de vaisseaux"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Type de vaisseau"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",

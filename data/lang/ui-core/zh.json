@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "致命的"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "减少"
+  },
   "DELTA_V": {
     "description": "",
     "message": "速度增量"
@@ -337,7 +341,7 @@
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
-    "message": "Drive active"
+    "message": "驱动器激活"
   },
   "DUE": {
     "description": "mission deadline date",
@@ -963,17 +967,21 @@
     "description": "For player reputation",
     "message": "无能的"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "增加"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "缺乏经验的"
   },
   "INITIATED": {
     "description": "Ship jump status",
-    "message": "Initiated"
+    "message": "发动"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
-    "message": "Insufficient fuel"
+    "message": "燃料不足"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
@@ -1293,7 +1301,7 @@
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
-    "message": "No drive"
+    "message": "没有驱动器"
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
@@ -1357,7 +1365,7 @@
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
-    "message": "Out of range"
+    "message": "超出范围"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "报酬"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "旋转视图"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "线路信息"
@@ -1541,7 +1553,7 @@
   },
   "SAFETY_LOCKOUT": {
     "description": "Ship jump status",
-    "message": "Safety lockout"
+    "message": "安全锁定"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1626,6 +1638,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "修理飞船"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "飞船类型"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",

@@ -167,6 +167,10 @@
     "description": "",
     "message": "Tentative de récupération de cargo avortée. Pas assez de place dans la soute."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Centre"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" atmosphère méthanique\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Station Orbitale"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Planificateur d'orbite"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Monde agricole à l'air libre."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Axe demi-majeur"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Définir comme cible de combat"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Définir comme cible de navigation"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

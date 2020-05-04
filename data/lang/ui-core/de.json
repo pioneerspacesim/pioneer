@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "Tödlich"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Abnahme"
+  },
   "DELTA_V": {
     "description": "",
     "message": "Delta-v"
@@ -337,7 +341,7 @@
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
-    "message": "Drive active"
+    "message": "Antrieb aktiviert"
   },
   "DUE": {
     "description": "mission deadline date",
@@ -797,7 +801,7 @@
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "% of max Δv"
+    "message": "% von Δv-Maximum"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
@@ -963,17 +967,21 @@
     "description": "For player reputation",
     "message": "Inkompetent"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Erhöhung"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Unerfahren"
   },
   "INITIATED": {
     "description": "Ship jump status",
-    "message": "Initiated"
+    "message": "Initiert"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
-    "message": "Insufficient fuel"
+    "message": "zu wenig Treibstoff"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
@@ -1293,7 +1301,7 @@
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
-    "message": "No drive"
+    "message": "Kein Antrieb"
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
@@ -1357,7 +1365,7 @@
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
-    "message": "Out of range"
+    "message": "Außer Reichweite"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1369,7 +1377,7 @@
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
-    "message": "Pay"
+    "message": "Zahlen"
   },
   "PAY_FINE_OF_N": {
     "description": "",
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "Belohnung"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Ansicht schwenken"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Routeninformation"
@@ -1541,7 +1553,7 @@
   },
   "SAFETY_LOCKOUT": {
     "description": "Ship jump status",
-    "message": "Safety lockout"
+    "message": "Sicherheits Verriegelung"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1627,6 +1639,10 @@
     "description": "",
     "message": "Reparaturservice"
   },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Schiffstyp"
+  },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",
     "message": "Das betrachtete Schiff wurde soeben verkauft"
@@ -1677,7 +1693,7 @@
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
-    "message": "Our total capacity is {total_docking_pads} docking pads."
+    "message": "Unsere Gesamtkapazität ist {total_docking_pads} Andockstützen."
   },
   "STATION_MANAGER": {
     "description": "",
@@ -1721,7 +1737,7 @@
   },
   "THIS_IS_FACTION_POLICE": {
     "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
-    "message": "This is the {faction_police} of the {faction}"
+    "message": "Das ist die {faction_police} der {faction}."
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",

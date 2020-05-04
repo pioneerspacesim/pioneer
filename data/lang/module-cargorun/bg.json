@@ -1,51 +1,51 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Excellent. I'll load the goods on to your ship."
+    "message": "Отлично. Ще натоваря стоката на кораба ти."
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Very good."
+    "message": "Много добре."
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Ok, good. I hope I can trust you."
+    "message": "Ок, добре. Надявам се, че мога да ти се доверя."
   },
   "ACCEPTED_4": {
     "description": "",
-    "message": "It's a deal!"
+    "message": "Имаме сделка!"
   },
   "ACCEPTED_PICKUP_1": {
     "description": "",
-    "message": "Ok, I will make sure that the goods are ready for collection."
+    "message": "Ок, ще се уверя, че стоката е готова за превоз."
   },
   "ACCEPTED_PICKUP_2": {
     "description": "",
-    "message": "It's a deal! I will let my colleagues know that you are on your way."
+    "message": "Имаме сделка! Ще информирам колегите, че си на път."
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "CARGO RUN. Delivery of cargo to the {system} system."
+    "message": "РАЗНОС. Доставка на товар до системата {system}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "ТРЯБВА МИ ТРАНСПОРТ. Нуждая се от транспорт на стоки до системата {system}. Плащам {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "DELIVERY. Valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "ДОСТАВКА. Ценен товар до системата {system}. {cash} за опитен пилот."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "LOCAL DELIVERY. Move of goods to {starport}."
+    "message": "МЕСТНА ДОСТАВКА. Преместване на стоки до {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "TRANSPORT NEEDED. Delivery of local cargo to {starport}."
+    "message": "ТЪРСИ СЕ ТРАНСПОРТ. Доставка на местен товар до {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN. Delivery of goods to {starport}."
+    "message": "МЕСТЕН РАЗНОС. Доставка на стоки до {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
@@ -57,47 +57,47 @@
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "CARGO SERVICE. We require a ship for a delivery to {system} system."
+    "message": "ТОВАРНА УСЛУГА. Нуждаем се от доставчик до системата {system}."
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "Aluminium tubes"
+    "message": "Алуминиеви тръби"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
-    "message": "Amount:"
+    "message": "Количество:"
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "Art objects"
+    "message": "Произведения на изкуството"
   },
   "CARGO": {
     "description": "",
-    "message": "Cargo:"
+    "message": "Товар:"
   },
   "CARGORUN": {
     "description": "Name of mission type",
-    "message": "Cargo run"
+    "message": "Разнос"
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "loaded"
+    "message": "зареден"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "not loaded"
+    "message": "не е зареден"
   },
   "CEASE_FIRE": {
     "description": "",
-    "message": "Cease fire, cease fire! I'm on your side!"
+    "message": "Прекрати огъня, прекрати огъня! На твоя страна съм!"
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "Containerized living units"
+    "message": "Животински контейнери"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Could you please repeat the original request?"
+    "message": "Удобно ли е да повторите Вашата заявка?"
   },
   "DANGER": {
     "description": "the risk level",
@@ -109,39 +109,39 @@
   },
   "DELIVER_TO": {
     "description": "Deliver to this location",
-    "message": "Deliver to:"
+    "message": "Достави до:"
   },
   "DENY_1": {
     "description": "",
-    "message": "I'm sorry, but this cargo is too valuable for me to hand over to an inexperienced pilot."
+    "message": "Съжалявам, но този товар ми е твърде ценен за да го предам на неопитен пилот."
   },
   "DENY_2": {
     "description": "",
-    "message": "I've never heard of you. I don't know you and I don't trust you."
+    "message": "Не съм чувал нищо за теб. Не те познавам и ти нямам доверие."
   },
   "DENY_3": {
     "description": "",
-    "message": "I'm sorry, I'm looking for an experienced pilot."
+    "message": "Съжалявам, търся опитен пилот."
   },
   "DENY_4": {
     "description": "",
-    "message": "Excuse me, but I don't think you have what it takes to get the job done."
+    "message": "Извини ме, но не мисля, че ти си способен да свършиш тази работа."
   },
   "DENY_5": {
     "description": "",
-    "message": "Don't waste my time! You are too wet behind the ears."
+    "message": "Не ми губи времето! Още ходиш под масата."
   },
   "DENY_6": {
     "description": "",
-    "message": "Come back when you're more experienced."
+    "message": "Върнете се, когато натрупате повече опит."
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "Diamonds"
+    "message": "Диаманти"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "Digesters"
+    "message": "Биореактори"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -149,7 +149,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "Electrical appliances"
+    "message": "Електрически уреди"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "Explosives"
+    "message": "Експлозиви"
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -197,51 +197,51 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Furniture"
+    "message": "Мебели"
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "Greenhouses"
+    "message": "Парници"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
-    "message": "Guns, guns, guns."
+    "message": "Стрелба, стрелба, стрелба."
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "Hazardous substances"
+    "message": "Опасни вещества"
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} metric tons."
+    "message": "{amount} метрични тона."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t"
+    "message": "{amount}т"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "The mass is {amount}t."
+    "message": "Тежи {amount}т."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "There are {amount}t."
+    "message": "Има {amount}т."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric tons (singular)",
-    "message": "It's only {amount}t."
+    "message": "Само {amount}т."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount}t of {cargoname}."
+    "message": "Има {amount}т от {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname}"
+    "message": "{amount}т {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "How much mass?"
+    "message": "Колко тежи?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "I_AM_ON_MY_WAY": {
     "description": "",
-    "message": "Sensors show that you are taking damage. I'm on my way."
+    "message": "Сензорите показват, че имаш щети по кораба. На път съм."
   },
   "I_HAVE_DEBITED_YOUR_ACCOUNT": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "I_NEED_HELP": {
     "description": "",
-    "message": "I'm taking damage. I need help."
+    "message": "Понасям щети. Нуждая се от помощ."
   },
   "LY": {
     "description": "",
@@ -333,11 +333,11 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "Machine tools"
+    "message": "Машинни инструменти"
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "Neptunium"
+    "message": "Нептуний"
   },
   "OK_AGREED": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "PICKUP_FROM": {
     "description": "from a location",
-    "message": "Pickup cargo from:"
+    "message": "Вземи товара от:"
   },
   "PIRATE_GRIPES_1": {
     "description": "",
@@ -361,23 +361,23 @@
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "This will be your last run!"
+    "message": "Това ще е последния ти полет!"
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "You work for {client}? This will be the end of you!"
+    "message": "Работиш за {client}? Това е твоят край!"
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
-    "message": "Hey buddy, hand over the goods. Now!"
+    "message": "Приятелче, предай стоката. Сега!"
   },
   "PIRATE_TAUNTS_4": {
     "description": "",
-    "message": "Pal, you'll never reach your destination."
+    "message": "Приятел, няма да достигнеш твоята дестинация."
   },
   "PIRATE_TAUNTS_5": {
     "description": "",
-    "message": "Ah, another fat goose en route to {location}."
+    "message": "А, още една тлъска гъска на път за {location}."
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
@@ -389,7 +389,7 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "Plutonium"
+    "message": "Плутоний"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
@@ -397,7 +397,7 @@
   },
   "RISK_1": {
     "description": "",
-    "message": "I expect no hassle."
+    "message": "Не очаквам неприятности."
   },
   "RISK_2": {
     "description": "",
@@ -405,7 +405,7 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "This is valuable cargo, you should keep your eyes open."
+    "message": "Това е ценен товар, отваряйте си очите на четири."
   },
   "RISK_4": {
     "description": "",
@@ -413,11 +413,11 @@
   },
   "RISK_5": {
     "description": "",
-    "message": "This might be very risky, you could run into some significant resistance."
+    "message": "Това може да е много рисковано, най-вероятно ще срещнете силна съпротива."
   },
   "RISK_6": {
     "description": "",
-    "message": "Don't count on reaching your destination unharmed."
+    "message": "Не се надявайте да стигнете невредими."
   },
   "RISK_ART_1": {
     "description": "",
@@ -449,7 +449,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "Semi-finished products"
+    "message": "Полузавършени продукти"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Задайте маршрут за връщане"
   },
   "SPACEPORT": {
     "description": "",
@@ -465,11 +465,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "Spaceship parts"
+    "message": "Части за космически кораби"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Self-sealing stem bolts"
+    "message": "Самозапечатващи се стволови болтове"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -497,55 +497,55 @@
   },
   "TARGET_DESTROYED": {
     "description": "",
-    "message": "Target destroyed."
+    "message": "Целта е унищожена."
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "Titanium"
+    "message": "Титаний"
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "Tungsten"
+    "message": "Волфрам"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "Uranium"
+    "message": "Уран"
   },
   "URGENCY_1": {
     "description": "",
-    "message": "There is no rush. It must be delivered by {date}."
+    "message": "Не бързай. Трябва да се достави преди {date}."
   },
   "URGENCY_2": {
     "description": "",
-    "message": "It must necessarily be delivered by {date}."
+    "message": "Трябва непременно да се достави преди {date}."
   },
   "URGENCY_3": {
     "description": "",
-    "message": "Because of the tight schedule it must be delivered by {date}."
+    "message": "Заради краткия срок, трябва да се достави преди {date}."
   },
   "URGENCY_4": {
     "description": "",
-    "message": "We are in a hurry, so it must be delivered by {date}."
+    "message": "Бързаме, затова трябва да се достави преди {date}."
   },
   "URGENCY_5": {
     "description": "",
-    "message": "It is essential that the goods have been delivered before {date}."
+    "message": "Важно е стоките да се доставят преди {date}."
   },
   "URGENCY_FLUFFY_1": {
     "description": "",
-    "message": "Because of the reproduction rate of the little animals and the limited food in the container, the delivery must be completed until {date}."
+    "message": "Заради размножаването на малките животни и ограниченото количество храна в контейнера, доставката трябва да се изпълни преди {date}."
   },
   "URGENCY_RADIOACTIVE_1": {
     "description": "",
-    "message": "Because of the half-life period of this isotope, delivery must be completed by {date}."
+    "message": "Заради периода на полуразпад на този изотоп, доставката трябва да се изпълни преди {date}."
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "Wedding dresses"
+    "message": "Сватбени дрехи"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "We have loaded up the cargo on your ship."
+    "message": "Заредихме товара на Вашия кораб."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -573,7 +573,7 @@
   },
   "WHYSOMUCH_6": {
     "description": "",
-    "message": "Well, we would be happy to pay you less."
+    "message": "Е, ще се радваме да Ви платим по-малко пари."
   },
   "WHYSOMUCH_CENTRIFUGES_1": {
     "description": "",
@@ -613,7 +613,7 @@
   },
   "WHYSOMUCH_URGENT_3": {
     "description": "",
-    "message": "These goods are urgently needed."
+    "message": "Тези стоки са необходими по спешност."
   },
   "WHYSOMUCH_WEDDING_1": {
     "description": "",
@@ -629,10 +629,10 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
     "description": "",
-    "message": "You do not have enough cargo space on your ship."
+    "message": "Нямате достатъчно товарно пространство на Вашия кораб."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Please come back when you have sufficient cargo space."
+    "message": "Моля, върнете се, когато имате достатъчно товарно пространство."
   }
 }

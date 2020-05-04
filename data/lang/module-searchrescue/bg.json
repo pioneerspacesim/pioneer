@@ -81,83 +81,83 @@
   },
   "ENTITY_GENERAL_1": {
     "description": "",
-    "message": "the {locality} General Prospectors Inc"
+    "message": "Златотърсачи {locality} АД"
   },
   "ENTITY_GENERAL_10": {
     "description": "",
-    "message": "{locality} Infinity Energy One"
+    "message": "Неограничена Рудна Енергия {locality}"
   },
   "ENTITY_GENERAL_2": {
     "description": "",
-    "message": "the {locality} Society for Ecological Preservation"
+    "message": " Общество за Екологично Опазване {locality}"
   },
   "ENTITY_GENERAL_3": {
     "description": "",
-    "message": "the Interest Rights Groups for {locality}"
+    "message": "Правозащитници на Лихварите за {locality}"
   },
   "ENTITY_GENERAL_4": {
     "description": "",
-    "message": "the {locality} Mining Rights Office"
+    "message": "Служба за Права на Минното Дело {locality}"
   },
   "ENTITY_GENERAL_5": {
     "description": "",
-    "message": "the Landowners Association of {locality}"
+    "message": "Земевладелска Асоциация {locality}"
   },
   "ENTITY_GENERAL_6": {
     "description": "",
-    "message": "the Statistical Institute of {locality}"
+    "message": "Статистически Институт {locality}"
   },
   "ENTITY_GENERAL_7": {
     "description": "",
-    "message": "the {locality} branch office of SpaceCruise Inc"
+    "message": "Клон {locality} на Космически Екскурзии АД"
   },
   "ENTITY_GENERAL_8": {
     "description": "",
-    "message": "{locality} iSatellite Ltd"
+    "message": "{locality} iSatellite ООД"
   },
   "ENTITY_GENERAL_9": {
     "description": "",
-    "message": "{locality} Burial-Services Corp"
+    "message": "Корпорация за Покребални Услуги {locality}"
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
-    "message": "the {locality} Biological Society"
+    "message": "Общество на Биолозите {locality}"
   },
   "ENTITY_RESEARCH_10": {
     "description": "",
-    "message": "the {locality} Center of Zoological Research"
+    "message": "Център за Зоологични Изследвания {locality}"
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": "the {locality} Microbiological Society"
+    "message": "Общество на Микробиолозите {locality}"
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
-    "message": "the {locality} Chemical Society"
+    "message": "Общество на Химиците {locality}"
   },
   "ENTITY_RESEARCH_4": {
     "description": "",
-    "message": "the {locality} Astrobiological Society"
+    "message": "Общество на Астробиолозите {locality}"
   },
   "ENTITY_RESEARCH_5": {
     "description": "",
-    "message": "the {locality} Geological Society"
+    "message": "Общество на Геолозите {locality}"
   },
   "ENTITY_RESEARCH_6": {
     "description": "",
-    "message": "the {locality} Society for Astropaleontology"
+    "message": "Общество на Астропланетолозите {locality}"
   },
   "ENTITY_RESEARCH_7": {
     "description": "",
-    "message": "the {locality} Astrophysics Research Center"
+    "message": "Изследователски Център на Астрофизиците {locality}"
   },
   "ENTITY_RESEARCH_8": {
     "description": "",
-    "message": "the {locality} Astrochemistry Research Center"
+    "message": "Изследователски Център на Астрохимиците {locality}"
   },
   "ENTITY_RESEARCH_9": {
     "description": "",
-    "message": "the {locality} Center for Botany"
+    "message": "Ботанически Център {locality}"
   },
   "EQUIPMENT": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Very good. We will recommend you for future assignments."
+    "message": "Много добре. Ще Ви препоръчаме за останалите задачи."
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
@@ -401,11 +401,11 @@
   },
   "HOW_FAR": {
     "description": "",
-    "message": "How far away is the target?"
+    "message": "Колко далече е целта?"
   },
   "HOW_MUCH_TIME": {
     "description": "",
-    "message": "How much time do I have?"
+    "message": "Колко време имам?"
   },
   "INTERACTION_ABORTED": {
     "description": "",
@@ -417,7 +417,7 @@
   },
   "IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It must be completed by "
+    "message": "Трябва да се завърши преди "
   },
   "KM": {
     "description": "",
@@ -425,15 +425,15 @@
   },
   "LAST_KNOWN_LOCATION": {
     "description": "",
-    "message": "Last known location:"
+    "message": "Последно известно местоположение:"
   },
   "LAT": {
     "description": "",
-    "message": "Lat:"
+    "message": "Шир:"
   },
   "LON": {
     "description": "",
-    "message": "Lon:"
+    "message": "Дълж:"
   },
   "LY": {
     "description": "",
@@ -469,11 +469,11 @@
   },
   "PASSENGERS": {
     "description": "",
-    "message": "Passengers"
+    "message": "Пасажери"
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Payment location:"
+    "message": "Място за плащане:"
   },
   "PICKUP": {
     "description": "",
@@ -637,15 +637,15 @@
   },
   "RETURN_TO": {
     "description": "",
-    "message": "Return To:"
+    "message": "Върни в:"
   },
   "REWARD": {
     "description": "",
-    "message": "Reward:"
+    "message": "Награда:"
   },
   "SEARCH_RESCUE": {
     "description": "",
-    "message": "Search & Rescue"
+    "message": "Намери и Спаси"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -653,7 +653,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Задайте маршрут за връщане"
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
@@ -701,6 +701,6 @@
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",
-    "message": "Where do I find the target?"
+    "message": "Къде да търся целта?"
   }
 }

@@ -167,6 +167,10 @@
     "description": "",
     "message": "Raccolta di cargo non riuscita. La stiva è piena."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Centro"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" atmosfera a prevalenza di metano\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Stazione orbitale"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Programmatore Orbitale"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Mondo esterno agricolo."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Semiasse maggiore"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Imposta come bersaglio"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Imposta come destinazione di navigazione"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

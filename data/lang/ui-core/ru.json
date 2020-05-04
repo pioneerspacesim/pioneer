@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "Смертельный"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Decrease"
+  },
   "DELTA_V": {
     "description": "",
     "message": "Дельта v"
@@ -963,6 +967,10 @@
     "description": "For player reputation",
     "message": "Некомпетентный"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Increase"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Неопытный"
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "Награда"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Rotate view"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Информация о маршруте"
@@ -1626,6 +1638,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Сервисный центр"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Ship Type"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",

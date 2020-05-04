@@ -65,11 +65,11 @@
   },
   "BIND_LOOK_PITCH": {
     "description": "Descriptive name for the Freelook Pitch axis.",
-    "message": "Freelook Pitch"
+    "message": "Frisikt lutning"
   },
   "BIND_LOOK_YAW": {
     "description": "Descriptive name for the Freelook Yaw axis.",
-    "message": "Freelook Yaw"
+    "message": "Frisikt gira"
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
@@ -93,11 +93,11 @@
   },
   "BIND_SPEED_CONTROL": {
     "description": "Descriptive name for the SpeedControl axis.",
-    "message": "Set Target Speed"
+    "message": "Sätt målhastighet"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
-    "message": "Target Object"
+    "message": "Målobjekt"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
@@ -121,7 +121,7 @@
   },
   "BIND_VIEW_ZOOM": {
     "description": "Descriptive name for the View Zoom axis",
-    "message": "View Zoom"
+    "message": "Zoom-vy"
   },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
@@ -136,7 +136,7 @@
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
-    "message": "Ship Orientation"
+    "message": "Skepporientering"
   },
   "GROUP_SPEED_CONTROL": {
     "description": "Header for the SpeedControl input group.",
@@ -148,31 +148,31 @@
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
-    "message": "General Controls"
+    "message": "Generella kontroller"
   },
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",
-    "message": "Ship - Controls"
+    "message": "Skeppkontroller"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",
-    "message": "Ship - View"
+    "message": "Skeppvy"
   },
   "TEXT_ALT_BINDING": {
     "description": "",
-    "message": "Alt. Binding:"
+    "message": "Alt. bind"
   },
   "TEXT_AXIS_DEADZONE": {
     "description": "Message shown for the axis deadzone slider.",
-    "message": "Axis Deadzone"
+    "message": "Axeldödzon"
   },
   "TEXT_AXIS_SENSITIVITY": {
     "description": "Message shown for the axis sensitivity slider.",
-    "message": "Axis Sensitivity"
+    "message": "Axelkännslighet"
   },
   "TEXT_BINDING": {
     "description": "",
-    "message": "Binding:"
+    "message": "Bindning"
   },
   "TEXT_INVERT_AXIS": {
     "description": "Message shown for the invert axis checkbox.",
@@ -180,7 +180,7 @@
   },
   "TEXT_KEY_BINDINGS": {
     "description": "Section header for an axis or action's key bindings.",
-    "message": "Key Bindings:"
+    "message": "Tangentbindning"
   },
   "TEXT_KEY_NEGATIVE": {
     "description": "Indicates the negative half of a key-binding pair.",

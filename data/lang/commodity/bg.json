@@ -13,7 +13,7 @@
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+    "message": "Болезнената тема за веганите, месото е плътта на животните. Благодарение на синтетичните протеини, много хора вече са на мнение, че животните не трябва да се убиват. Месото е нелегално в повечето развити системи, но в традиционните то си остава важна част от живота на хората."
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+    "message": "Големи оръжия за военни цели, като танкове на въздушна възглавница и ракети земя-космос. Търговията с тях обикновено е монополизирана от правителствата. На черния пазар, обаче, от тях може да се изкарат много пари."
   },
   "CARBON_ORE": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+    "message": "Въглеродът е един от най-универсалните елементи, които познаваме. Използва се в производството на всякакви материали, той е евтин продукт и е важен като стока. Почти всички индустриални средища внасят въглеродна руда."
   },
   "COMPUTERS": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+    "message": "От преди повече от хиляда години, като започнем с Абакуса, ПДП-11 и чипа Моторола 68К, и стигнем до съвременните ХАЛ 9001 и серията Мултивак, компютрите бележат зората на информационната епоха. Важни са както за космическите пътувания, така и за споделянето на видео и файлове през мрежата УниНет."
   },
   "CONSUMER_GOODS": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+    "message": "Това са крайните продукти, готови за употреба от потребителите. Всичко от четки за зъби и кухненски уреди до летящи коли."
   },
   "FARM_MACHINERY": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+    "message": "Торовете са от ключово значение за отглеждането на големи количества реколта за кратко време и позволяват извличането на по-големи дивиденти от крайния резултат. Прекомерното наторяване, обаче, може да причини повече проблеми, отколкото ползи."
   },
   "FRUIT_AND_VEG": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+    "message": "То е в основата на всекидневното меню на много хора. Използва се в земеделието, за прехрана на животни и за добавка към синтетичните храни. Също така, житото се използва и в направата на други хранителни продукти като овесена каша и печени изделия. Повечето междузвездни общества отглеждат жито, което адаптират към климата на тяхното местообитание."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+    "message": "Използван като гориво за хиперсветлинните двигатели и космическите кораби, водородът е изключително важен химичен елемент. За щастие е често срещан във Вселената, въпреки че съхранението му не е детска игра. Обикновено е една от най-евтините стоки на пазара. Космодрумите разполагат с големи запаси от водород по всяко време."
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+    "message": "Нужни са за поточните линии, рефинериите, металургията и за изработката на механизации, които от своя страна ще произвеждат други стоки. Нужни са големи умения за производството на тези машини."
   },
   "LIQUID_OXYGEN": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+    "message": "Течния кислород има много предназначения, главно в медицината и индустрията, и понякога в обработката на отпадъци. На достъпна цена е, защото е лесно да се извлече от водата."
   },
   "LIQUOR": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+    "message": "Алкохолът се среща в различни разновидности, като някои са удрят повече в главата, отколкото други. На места е забранен продукт, поради споменатите по-горе ефекти. Въпреки закона, една чашка винаги може да се пийне на черния пазар срещу заплащане, разбира се."
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+    "message": "Поради човешки, икономични и екологични причини, отглеждането на животни, както и тяхната търговия е стриктно регламентирана или забранена в много от слънчевите системи. Като цяло, добитъкът винаги е бил важна част от живота на хората и това трудно може да се промени. Екзотичните зоологически градини и резервати за диви животни допринасят за търговията с животни в галактиката, но всичко това се случва със строг контрол, за да се попречи на нелегалните ловджийски хайки."
   },
   "MEDICINES": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+    "message": "Извличани от естествени или синтетични източници, лекарствата са нужни навсякъде където има хора. От лечение на настинка до лекуване на ефектите от дългите космически пътувания, лекарствата са важна част за просперитета на човешката междузвездна цивилизация. Лекарствата подлежат на строг контрол, понеже не е трудно наркотиците да бъдат представени като лечебни средства."
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+    "message": "Много колонии извличат желязна руда за износ, която след това се обработва и използва в производството. Използва се във направата на малки играчки до космически кораби, желязото е съществена част от съвременната цивилизация."
   },
   "MILITARY_FUEL": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel in the more advanced military drives. These drives produce nuclear waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+    "message": "Използва се като гориво за по-модерните военни двигатели. В резултат на използването му се отделят ядрени отпадъци, които в последствие трябва да се унищожат. Поради химичните си качества, военното гориво е по-скъпо от водорода и не се среща в естественото си състояние."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
+    "message": "Традиционната черна работа на миньорите се свързва с използването на машини, които служат за откриването и добива на различни видове руда, както и нейното транспортиране до най-близките съоръжения за преработка на руда."
   },
   "NARCOTICS": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+    "message": "Естествена или синтетична субстанция, която засяга разума и тялото. Въпреки, че използването на наркотици за лечебна цел съществува от древни времена, преноса и търговията им са забранени от закона. "
   },
   "NERVE_GAS": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+    "message": "Прието е, че това е оръжие за масово унищожение, дори военните избягват неговото използване в повечето слънчево състеми и е обявено за нелегално."
   },
   "PLASTICS": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+    "message": "Синтетични и полусинтетични материали се използват в направата на всичко от всекидневните потребности до космическите кораби. Лесни са за употреба в производството, евтини са за изработка и са важна част от човешката цивилизация."
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+    "message": "Ценните метали, както името подсказва, са по-редки и по-трудни за добив, което води до тяхната висока икономическа стойност. Те често включват злато, сребро, платина и други редки метали. Някои от тях са съществено важни за направата на компютри и друга електроника."
   },
   "RADIOACTIVES": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
+    "message": "Ядрените отпадъци са резултат от използването на ядрените реактори и военните хиперсветлинни двигатели, те са една от на-опасните и трудни за транспорт и пласиране стоки. Поради тази причинина, повечето космодруми ще предложат заплащане за да се отърват от тях. Изхвърлянето на ядрен отпадък е сериозно престъпление."
   },
   "ROBOTS": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+    "message": "Роботите са основен внос в индустриалните и минни системи, поради факта, че са роботи и не се оплакват, за разлика от хората. Също така, има случаи, когато роботи са ставали политици и адвокати."
   },
   "RUBBISH": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+    "message": "Боклуците са вторичния продукт на цивилизацията, състоят се от индустриални отпадъци, битови отпадъци и остаряла техника. Повечето боклуци се рециклират или се изпращат към космодрумите за извозване извън обитаемата система. Изхвърлянето на боклук в необитаемите системи е почти винаги нелегално. Космодрумите обикновено вземат такса за рециклиране, но с удоволствие ще Ви платят, ако искате да им извозите боклуците."
   },
   "SLAVES": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+    "message": "Текстилът е обикновена материя, изработена от синтетични, растителни или животински влакна. Обикновено се произвежда от роботи в големи предприятия, но все още се намират места, където може да видите тъкачи."
   },
   "WATER": {
     "description": "",
@@ -245,6 +245,6 @@
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+    "message": "Водата е един от най-ценните ресурси във Вселената и е нужна навсякъде, където има хора. Голяма част от колониите, които са далече от Земята, внасят вода от комети или планети, подобни на Земята. Водата се използва в големи мащаби за производството на водород и кислород."
   }
 }

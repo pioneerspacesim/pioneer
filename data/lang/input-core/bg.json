@@ -1,23 +1,23 @@
 {
   "BIND_AXIS_PITCH": {
     "description": "Descriptive name for the Pitch axis.",
-    "message": "Pitch"
+    "message": "Накланяне"
   },
   "BIND_AXIS_ROLL": {
     "description": "Descriptive name for the Roll axis",
-    "message": "Roll"
+    "message": "Ротация"
   },
   "BIND_AXIS_THRUST_FORWARD": {
     "description": "Descriptive name for the ThrustForward axis",
-    "message": "Thrust Forward / Backwards"
+    "message": "Тяга Напред / Назад"
   },
   "BIND_AXIS_THRUST_LEFT": {
     "description": "Descriptive name for the ThrustLeft axis",
-    "message": "Thrust Left / Right"
+    "message": "Тяга Наляво / Надясно"
   },
   "BIND_AXIS_THRUST_UP": {
     "description": "Descriptive name for the ThrustUp axis",
-    "message": "Thrust Up / Down"
+    "message": "Тяга Нагоре / Надолу"
   },
   "BIND_AXIS_YAW": {
     "description": "Descriptive name for the Yaw axis.",
@@ -25,51 +25,51 @@
   },
   "BIND_BOTTOM_CAMERA": {
     "description": "Descriptive name for the BottomCamera action.",
-    "message": "Switch to Bottom Camera"
+    "message": "Включване на Долна Камера"
   },
   "BIND_CAMERA_PITCH": {
     "description": "Descriptive name for the Camera Pitch axis.",
-    "message": "Camera Pitch"
+    "message": "Накланяне на Камерата"
   },
   "BIND_CAMERA_ROLL": {
     "description": "Descriptive name for the Camera Roll axis",
-    "message": "Camera Roll"
+    "message": "Ротация на Камерата"
   },
   "BIND_CAMERA_YAW": {
     "description": "Descriptive name for the Camera Yaw axis.",
-    "message": "Camera Yaw"
+    "message": "Отклонение на Камерата"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
-    "message": "Cycle Camera Mode"
+    "message": "Циклиране на Камерите"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
-    "message": "Decrease Time Acceleration"
+    "message": "Намали Ускорение на Времето"
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
-    "message": "Switch to Front Camera"
+    "message": "Включване на Предна Камера"
   },
   "BIND_INCREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the IncreaseTimeAcceleration action.",
-    "message": "Increase Time Acceleration"
+    "message": "Увеличи Ускорение на Времето"
   },
   "BIND_KILL_ROT": {
     "description": "Descriptive name for the KillRot action.",
-    "message": "Kill Rotation"
+    "message": "Прекрати Ротация"
   },
   "BIND_LEFT_CAMERA": {
     "description": "Descriptive name for the LeftCamera action.",
-    "message": "Switch to Left Camera"
+    "message": "Включване на Лява Камера"
   },
   "BIND_LOOK_PITCH": {
     "description": "Descriptive name for the Freelook Pitch axis.",
-    "message": "Freelook Pitch"
+    "message": "Накланяне на Свободен Изглед"
   },
   "BIND_LOOK_YAW": {
     "description": "Descriptive name for the Freelook Yaw axis.",
-    "message": "Freelook Yaw"
+    "message": "Отклонение на Свободен Изглед"
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
@@ -77,15 +77,15 @@
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
-    "message": "Switch to Rear Camera"
+    "message": "Включване на Задна Камера"
   },
   "BIND_RESET_CAMERA": {
     "description": "Descriptive name for the ResetCamera action.",
-    "message": "Reset Camera View to Default"
+    "message": "Нулиране на Камерата"
   },
   "BIND_RIGHT_CAMERA": {
     "description": "Descriptive name for the RightCamera action.",
-    "message": "Switch to Right Camera"
+    "message": "Включване на Дясна Камера"
   },
   "BIND_SECONDARY_FIRE": {
     "description": "Descriptive name for the SecondaryFire action.",
@@ -93,54 +93,54 @@
   },
   "BIND_SPEED_CONTROL": {
     "description": "Descriptive name for the SpeedControl axis.",
-    "message": "Set Target Speed"
+    "message": "Задай Целева Скорост"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
-    "message": "Target Object"
+    "message": "Целеви Обект"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
-    "message": "Low Power Thrust Mode (hold)"
+    "message": "Режим Ниска Тягова Мощност (задръж)"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
-    "message": "Toggle HUD Mode"
+    "message": "Включи HUD Режим"
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
-    "message": "Toggle Rotation Damping"
+    "message": "Включи Плавна Ротация"
   },
   "BIND_TOGGLE_SET_SPEED": {
     "description": "Descriptive name for the ToggleSetSpeed action.",
-    "message": "Toggle Speed Control Mode"
+    "message": "Включи Режим на Скоростта"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
-    "message": "Switch to Top Camera"
+    "message": "Включване на Горна Камера"
   },
   "BIND_VIEW_ZOOM": {
     "description": "Descriptive name for the View Zoom axis",
-    "message": "View Zoom"
+    "message": "Увеличение на Изглед"
   },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
-    "message": "General View Controls"
+    "message": "Общи Контроли за Изглед"
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
-    "message": "Manual Thrust Control"
+    "message": "Ръчен Тягов Контрол"
   },
   "GROUP_MISCELLANEOUS": {
     "message": "Разни"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
-    "message": "Ship Orientation"
+    "message": "Корабна Ориентация"
   },
   "GROUP_SPEED_CONTROL": {
     "description": "Header for the SpeedControl input group.",
-    "message": "Set-Speed Thrust Control"
+    "message": "Задай Тягова Скорост"
   },
   "GROUP_WEAPONS": {
     "description": "Header for the Weapons input group.",
@@ -148,46 +148,46 @@
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
-    "message": "General Controls"
+    "message": "Общи Контроли"
   },
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",
-    "message": "Ship - Controls"
+    "message": "Кораб - Контроли"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",
-    "message": "Ship - View"
+    "message": "Кораб - Изглед"
   },
   "TEXT_ALT_BINDING": {
     "description": "",
-    "message": "Alt. Binding:"
+    "message": "Вторичен:"
   },
   "TEXT_AXIS_DEADZONE": {
     "description": "Message shown for the axis deadzone slider.",
-    "message": "Axis Deadzone"
+    "message": "Мъртва Зона на Оста"
   },
   "TEXT_AXIS_SENSITIVITY": {
     "description": "Message shown for the axis sensitivity slider.",
-    "message": "Axis Sensitivity"
+    "message": "Чувствителност на Оста"
   },
   "TEXT_BINDING": {
     "description": "",
-    "message": "Binding:"
+    "message": "Главен:"
   },
   "TEXT_INVERT_AXIS": {
     "description": "Message shown for the invert axis checkbox.",
-    "message": "Invert Axis"
+    "message": "Обръщане на оста"
   },
   "TEXT_KEY_BINDINGS": {
     "description": "Section header for an axis or action's key bindings.",
-    "message": "Key Bindings:"
+    "message": "Контроли:"
   },
   "TEXT_KEY_NEGATIVE": {
     "description": "Indicates the negative half of a key-binding pair.",
-    "message": "Negative:"
+    "message": "Намаление:"
   },
   "TEXT_KEY_POSITIVE": {
     "description": "Indicates the positive half of a key-binding pair.",
-    "message": "Positive:"
+    "message": "Увеличение:"
   }
 }

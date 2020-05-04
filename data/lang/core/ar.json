@@ -167,6 +167,10 @@
     "description": "",
     "message": "مغرفة البضائع حاولت. لا يوجد مكان في عنبر الشحن."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "غلاف جوي مكون من الميثان"
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "محطة فضائية"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "العالم الزراعي الخارجي"
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "محور شبه الرئيسي"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "ضعها كوجهة للملاحة"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

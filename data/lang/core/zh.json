@@ -167,6 +167,10 @@
     "description": "",
     "message": "货物收集器启动. 货仓空间不足."
   },
+  "CENTER": {
+    "description": "",
+    "message": "中间"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\"甲烷大气\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "轨道星港"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "轨道规划器"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "可在户外活动的农业星球."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "半长轴"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "设定为作战目标"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "设置为导航目标"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

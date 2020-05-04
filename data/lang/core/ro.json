@@ -167,6 +167,10 @@
     "description": "",
     "message": "S-a încercat colectarea mărfii. Nu e suficient spațiu în depozit."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" Atmosferă de Metan\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Port stelar orbital"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Lume cu agricultură de exterior."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Axă semi-majoră"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Selectați ca țintă navigare"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

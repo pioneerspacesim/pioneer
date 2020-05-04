@@ -167,6 +167,10 @@
     "description": "",
     "message": "Intent de recollida de càrrega. No hi ha prou espai a la bodega."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" atmosfera de metà\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Port estel·lar orbital"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Món exterior agrícola."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Semieix major"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Establir com a objectiu de navegació"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

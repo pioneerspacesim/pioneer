@@ -167,6 +167,10 @@
     "description": "",
     "message": "Lastskopning försökt. Inte tillräckligt med lastutrymme."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" Metanatmosfär\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Rymdhamn i omlopp"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Utomhus jordbruksvärld."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Semi-stor axel"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Använd destination som navigationsmål"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

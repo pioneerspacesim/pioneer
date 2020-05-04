@@ -13,7 +13,7 @@
   },
   "FLAVOUR_10_NEWSBODY": {
     "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-    "message": "Прикал АД искат да монополизират въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последния безплатен."
+    "message": "Prekall Inc. искат да монополизират въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последния безплатен."
   },
   "FLAVOUR_11_HEADLINE": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "FLAVOUR_12_NEWSBODY": {
     "description": "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-    "message": "Гаден вирус причини унищожаване на хард дисковете на компютрите Начософт в системата {system} ({sectorx}, {sectory}, {sectorz}). Компютърните специалисти споделиха, че повредените хард дискове стават за фризби."
+    "message": "Гаден вирус причини унищожаване на хард дисковете на компютрите Nachosoft в системата {system} ({sectorx}, {sectory}, {sectorz}). Компютърните специалисти споделиха, че повредените хард дискове стават за фризби."
   },
   "FLAVOUR_13_HEADLINE": {
     "description": "",
@@ -57,163 +57,163 @@
   },
   "FLAVOUR_16_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
+    "message": "НОВИНИ {date}: Сериозен инцидент по време на годишния Голям Парен Панаир в {system}."
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+    "message": "По време на Големия Парен Панаир в системата {system} ({sectorx}, {sectory}, {sectorz}), в опит за подобрение на глакатическия рекорд, състезанието за дърпане на трактори приключи с трагедия, един от участниците загуби контрол над трактора си, унищожавайки всички останали трактори. Администрацията очаква това да обрече на гибел местните фермери."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: New found riches in the {system} system."
+    "message": "НОВИНИ {date}: Открити са нови находища в системата {system}."
   },
   "FLAVOUR_17_NEWSBODY": {
     "description": "Imply vast abundance of METAL_ORE.",
-    "message": "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+    "message": "Миньори в системата {system} ({sectorx}, {sectory}, {sectorz}) откриха огромни находища на руда, в невиждани досега размери."
   },
   "FLAVOUR_18_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Economic reform in the {system} system a great success."
+    "message": "НОВИНИ {date}: Икономическите реформи в системата {system} са повече от успешни."
   },
   "FLAVOUR_18_NEWSBODY": {
     "description": "Imply vast demand of CONSUMER_GOODS.",
-    "message": "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+    "message": "Колелата се въртят все по-бързо в системата {system} ({sectorx}, {sectory}, {sectorz}), понеже потребителите разполагат с повече пари за харчене."
   },
   "FLAVOUR_19_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: It is raining gold in the {system} system."
+    "message": "НОВИНИ {date}: Вали злато в системата {system}."
   },
   "FLAVOUR_19_NEWSBODY": {
     "description": "Imply vast abundance of PRECIOUS_METALS.",
-    "message": "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+    "message": "Човек в системата {system} ({sectorx}, {sectory}, {sectorz}) наследи изобретение от неговия покоен чичо, което му позволява да превръща всеки метал в злато или платина. Икономистите очакват дестабилизация на местната икономика, освен ако машината не се повреди скоро."
   },
   "FLAVOUR_1_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Conflict escalates in {system} system."
+    "message": "НОВИНИ {date}: Ескалиращ конфликт в системата {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
     "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-    "message": "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+    "message": "Конфликтът в системата {system} ({sectorx}, {sectory}, {sectorz}) ескалира, след като армиите влязоха в сблъсък помежду си."
   },
   "FLAVOUR_20_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+    "message": "НОВИНИ {date}: Реколтата на водорасли от газовия гигант в системата {system} поставя нови рекорди."
   },
   "FLAVOUR_20_NEWSBODY": {
     "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-    "message": "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+    "message": "{system} ({sectorx}, {sectory}, {sectorz}) навлезе във фаза, благоприятна за жълтите водорасли, които виреят в атмосферата на местния газов гигант, което доведе до добра реколта на компанията за торове Soylent Yellow Inc."
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+    "message": "НОВИНИ {date}: В системата {system} се сключи договор за \"хуманна\" война."
   },
   "FLAVOUR_21_NEWSBODY": {
     "description": "Imply vast abundance of NERVE_GAS.",
-    "message": "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+    "message": "Въпреки, че воюващите сили в системата {system} ({sectorx}, {sectory}, {sectorz}) не сключиха споразумение за прекратяване на огъня, те се съгласиха да не използват химически оръжия."
   },
   "FLAVOUR_22_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+    "message": "НОВИНИ {date}: Полицейски протест в системата {system}. Гражданите са оставени на произвола на съдбата."
   },
   "FLAVOUR_22_NEWSBODY": {
     "description": "Imply high demand of HAND_WEAPONS.",
-    "message": "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+    "message": "Поради съкращения в системата {system} ({sectorx}, {sectory}, {sectorz}), полицаите отказаха да работят. Междувременно, гражданите формират банди и се въоръжават, готвейки се за най-лошото."
   },
   "FLAVOUR_23_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Grand opening of a new factory in the {system} system."
+    "message": "НОВИНИ {date}: Тържествено откриване на нова фабрика в системата {system}."
   },
   "FLAVOUR_23_NEWSBODY": {
     "description": "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-    "message": "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knives capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+    "message": "Новата фабрика Amissionox в системата {system} ({sectorx}, {sectory}, {sectorz}) вече работи. Тя ще произвежда висококачествени ножове, способни да отрежат космически ботуш, но поради липса на достатъчно материали за направата на остриетата, все още не е достигнала пълния си производствен потенциал."
   },
   "FLAVOUR_2_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Drought in {system}. Crop ruined."
+    "message": "НОВИНИ {date}: Суша в {system}. Реколтата е съсипана."
   },
   "FLAVOUR_2_NEWSBODY": {
     "description": "Hint there will be high demand of GRAIN.",
-    "message": "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+    "message": "Голяма суша съсипа реколтата в системата {system} ({sectorx}, {sectory}, {sectorz}). Очаква се масов глад в системата."
   },
   "FLAVOUR_3_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
+    "message": "НОВИНИ {date}: Веганите в системата {system} се увеличават."
   },
   "FLAVOUR_3_NEWSBODY": {
     "description": "Imply high demand of FRUIT_AND_VEG.",
-    "message": "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+    "message": "Администрацията в системата {system} ({sectorx}, {sectory}, {sectorz}) търси начин да увеличи вноса на зелените продукти за да задоволи търсенето им."
   },
   "FLAVOUR_4_HEADLINE": {
     "description": "About mob rivals competing for selling drugs",
-    "message": "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+    "message": "НОВИНИ {date}: Нарковойна в системата {system}. Властите се борят да си върнат контрола."
   },
   "FLAVOUR_4_NEWSBODY": {
     "description": "Imply high abundance of NARCOTICS.",
-    "message": "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+    "message": "Пазарът се напълни с евтини наркотици в системата {system} ({sectorx}, {sectory}, {sectorz}), в резултат на конкуренцията от наркобосове, които се опитват да увеличат влиянието си."
   },
   "FLAVOUR_5_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+    "message": "НОВИНИ {date}: Роби вдигат въстание в системата {system}. Селскостопанската индустрия е парализирана."
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+    "message": "Работници в системата {system} ({sectorx}, {sectory}, {sectorz}) изхвърлиха оковите си и дигнаха въстание, понеже не искат да работят на Лотус полетата. Местната икономиката е парализирана, защото не може да се намери нова евтина работна ръка."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
-    "message": "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+    "message": "НОВИНИ {date}: Фестивал на щастието от Quibble в системата {system}."
   },
   "FLAVOUR_6_NEWSBODY": {
     "description": "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-    "message": "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+    "message": "Пиянските купони в системата {system} ({sectorx}, {sectory}, {sectorz}) ще продължат в чест на малкото космато създание."
   },
   "FLAVOUR_7_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Industry screeches to a halt in the {system} system."
+    "message": "НОВИНИ {date}: Индустриалните звуци затихнаха в системата {system}."
   },
   "FLAVOUR_7_NEWSBODY": {
     "description": "Imply demand of INDUSTRIAL_MACHINERY.",
-    "message": "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+    "message": "Липсата на техническа поддръжка доведе до парализиране на местната индустрия в системата {system} ({sectorx}, {sectory}, {sectorz})."
   },
   "FLAVOUR_8_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Mining accident reported from the {system} system."
+    "message": "НОВИНИ {date}: Миньорски инцидент в системата {system}."
   },
   "FLAVOUR_8_NEWSBODY": {
     "description": "Imply high demand of MINING_MACHINERY.",
-    "message": "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
+    "message": "Мина се срути в системата {system} ({sectorx}, {sectory}, {sectorz}), убити са стотици работници и е унищожена минна техника, жизненоважна за икономиката."
   },
   "FLAVOUR_9_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Fashion craze in the {system} system."
+    "message": "НОВИНИ {date}: Модна лудост в системата {system}."
   },
   "FLAVOUR_9_NEWSBODY": {
     "description": "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-    "message": "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
+    "message": "Според последната тенденция в системата {system} ({sectorx}, {sectory}, {sectorz}), истинските домашни любимци са последната дума на модата."
   },
   "GRATEFUL_GREETING_0": {
     "description": "",
-    "message": "Welcome trader! We will give you a good price for your {cargo}."
+    "message": "Добре дошъл, търговецо! Ще ти дадем добра цена за твоя {cargo}."
   },
   "GRATEFUL_GREETING_1": {
     "description": "",
-    "message": "Your arrival is most welcome, as is your shipment of {cargo}!"
+    "message": "Приветстваме Вас и Вашата доставка на {cargo}!"
   },
   "GRATEFUL_GREETING_2": {
     "description": "",
-    "message": "Greetings and salutations! You should have no trouble selling {cargo} here."
+    "message": "Поздравяваме Ви за добре дошли! Тук може да продадете Вашата {cargo}."
   },
   "GRATEFUL_GREETING_3": {
     "description": "",
-    "message": "Welcome! Finally some {cargo}."
+    "message": "Добре дошли! Най-накрая малко {cargo}."
   },
   "GRATEFUL_GREETING_4": {
     "description": "",
-    "message": "How we've longed for some {cargo}."
+    "message": "Как копнеем за малко от {cargo}."
   },
   "GRATEFUL_GREETING_5": {
     "description": "",
-    "message": "Welcome! Your shipment of {cargo} will sell out fast here."
+    "message": "Добре дошли! Вашата доставка от {cargo} ще бъде изкупена бързо при нас."
   },
   "NEWSPAPER_CIW": {
     "description": "",
@@ -273,22 +273,22 @@
   },
   "TITLE_0": {
     "description": "",
-    "message": "Fresh report from {newspaper}"
+    "message": "Пресен репортаж от {newspaper}"
   },
   "TITLE_1": {
     "description": "",
-    "message": "News from {newspaper}"
+    "message": "Новини от {newspaper}"
   },
   "TITLE_2": {
     "description": "",
-    "message": "Report from {newspaper}"
+    "message": "Репортаж от {newspaper}"
   },
   "TITLE_3": {
     "description": "",
-    "message": "The latest from {newspaper}"
+    "message": "Най-новото от {newspaper}"
   },
   "TITLE_4": {
     "description": "",
-    "message": "Notes from {newspaper}"
+    "message": "Извадки от {newspaper}"
   }
 }

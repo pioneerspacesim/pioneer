@@ -167,6 +167,10 @@
     "description": "",
     "message": "Rakomány szívása sikertelen, nincs hely a raktérben."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Középre"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" metán\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Űrállomás"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Pályatervező"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Szabadföldi agrikulturális világ"
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Félnagytengely"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Beállítás harci célpontnak"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigációs célnak beállít."
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

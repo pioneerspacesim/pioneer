@@ -29,7 +29,7 @@
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Углерод-один из самых разнообразных известных нам элементов. Используемый почти во всем, от пластмасс до сплавов, а иногда даже в энергетическом производстве, углерод является недорогим, но важным товаром. Таким образом, почти все промышленные поселения импортируют углеродистую руду."
+    "message": "Углерод-один из самых разнообразных известных нам элементов. Используемый почти во всём, от пластмасс до сплавов, а иногда даже в производстве энергии, углерод является недорогим, но важным товаром. Таким образом, почти все промышленные поселения импортируют углеродистую руду."
   },
   "COMPUTERS": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+    "message": "Основная диета многих народов. Используется в сельском хозяйстве, чтобы накормить животных, и как дополнение к синтетическим продуктам. Зерновые также используются во многих других продуктах, такие как мучные и хлебобулочные изделия. Большинство звёздных культур растут и потребляют, по крайней мере, несколько зёрен, которые были адаптированы к климату их среды обитания."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+    "message": "Частично по гуманистическим, экономическим и экологическим причинам разведение и торговля животными строго регламентированы или даже незаконны во многих основных системах. Выходя наружу, домашний скот становится более важной частью жизнедеятельности людей, как в качестве источника питания, так и в качестве вьючного животного. Экзотические зоопарки и заповедники дикой природы способствуют торговле животными по всей галактике, обычно в соответствии со строгими государственными правилами, для борьбы с незаконными охотничьими угодьями."
   },
   "MEDICINES": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+    "message": "Драгоценные металлы, как правило, менее химически активны, более трудны для добычи и более редки, что приводит к значительной экономической ценности. Часто включают золото, серебро, платину и редкоземельные элементы. Некоторые элементы, такие как золото и кремний или редкоземельные элементы, имеют решающее значение для создания компьютеров и другой электроники."
   },
   "RADIOACTIVES": {
     "description": "",

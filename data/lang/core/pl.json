@@ -167,6 +167,10 @@
     "description": "",
     "message": "Próba przechwycenia ładunku. Brak miejsca w ładowni."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" atmosfera oparta na metanie\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Stacja orbitalna"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Zewnętrzny rolniczy świat."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Duża półoś"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Ustaw jako cel nawigacyjny."
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

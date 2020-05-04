@@ -167,6 +167,10 @@
     "description": "",
     "message": "Fheuch thu ri sgobadh carago. Chan eil rum gu leòr agad san roinn carago."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" àile meatain\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Reul-phort air reul-chuairt"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Saoghal àiteachais le sluagh a' fuireach a-muigh."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Leth-mhòr-aiseal"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Cuir ceann-uidhe na seòladaireachd air"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

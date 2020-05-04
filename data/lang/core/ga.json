@@ -167,6 +167,10 @@
     "description": "",
     "message": "Rinne tú iarracht an scúp lasta a úsáid. Níl go leor spáis sa mbolg lasta."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" Atmaisféar meatáin\""
@@ -1091,6 +1095,10 @@
     "description": "",
     "message": "Spásphort fithiseach"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "Domhan amuigh talmhaíochta."
@@ -1322,6 +1330,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Ais leathmhór"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Socraigh mar sprioc loingseoireachta"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",

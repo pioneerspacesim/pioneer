@@ -263,6 +263,10 @@
     "description": "Player combat rating",
     "message": "Marbhtach"
   },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Decrease"
+  },
   "DELTA_V": {
     "description": "",
     "message": "Delta-v"
@@ -963,6 +967,10 @@
     "description": "For player reputation",
     "message": "Neo-chomasach"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Increase"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Aineolach"
@@ -1531,6 +1539,10 @@
     "description": "",
     "message": "Duais"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Rotate view"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Fiosrachadh a’ chùrsa"
@@ -1626,6 +1638,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Càradh shoithich"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Ship Type"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",
