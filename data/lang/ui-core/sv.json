@@ -45,7 +45,7 @@
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Auto Route"
+    "message": "Auto-rutt"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "CANNOT_SELL_ITEM": {
     "description": "",
-    "message": "This item cannot be sold"
+    "message": "Denna kan ej säljas"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -129,11 +129,11 @@
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Centrera till system"
   },
   "CHANGE": {
     "description": "Face feature option",
-    "message": "Change:"
+    "message": "Ändra:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -161,7 +161,7 @@
   },
   "CLEAR_ROUTE": {
     "description": "Clear a planned route of hyperjumps",
-    "message": "Clear Route"
+    "message": "Nollställ rutt"
   },
   "CLIENT": {
     "description": "",
@@ -169,7 +169,7 @@
   },
   "CLOSE": {
     "description": "",
-    "message": "Close"
+    "message": "Stäng"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -233,7 +233,7 @@
   },
   "CREDITS": {
     "description": "in game currency",
-    "message": "Credits"
+    "message": "Krediter"
   },
   "CREW_CABINS": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
-    "message": "Current Fuel:"
+    "message": "Nuvarande bränsle"
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
@@ -265,7 +265,7 @@
   },
   "DECREASE": {
     "description": "Decrease something.",
-    "message": "Decrease"
+    "message": "Minska"
   },
   "DELTA_V": {
     "description": "",
@@ -293,11 +293,11 @@
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Lower gives better performance, at cost of visual aesthetics"
+    "message": "Lägre ger bättre prestanda, på bekostnad av visuell detaljer"
   },
   "DISABLE_SCREENSHOT_INFO": {
     "description": "",
-    "message": "Disable Screenshot Info"
+    "message": "Deaktivera skärmdumpsinfo"
   },
   "DISABLE_SCREENSHOT_INFO_DESC": {
     "description": "",
@@ -397,7 +397,7 @@
   },
   "END_GAME": {
     "description": "",
-    "message": "End Game"
+    "message": "Avsluta spel"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
@@ -445,47 +445,47 @@
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Accessories"
+    "message": "Tillbehör"
   },
   "FEATURE_ARMOUR": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Armour"
+    "message": "Pansar"
   },
   "FEATURE_CLOTHES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Clothes"
+    "message": "Kläder"
   },
   "FEATURE_EYES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Eyes"
+    "message": "Ögon"
   },
   "FEATURE_GENDER": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Gender"
+    "message": "Kön"
   },
   "FEATURE_HAIRSTYLE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Hairstyle"
+    "message": "Frisyr"
   },
   "FEATURE_HEAD": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Head"
+    "message": "Huvud"
   },
   "FEATURE_MOUTH": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Mouth"
+    "message": "Mun"
   },
   "FEATURE_NOSE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Nose"
+    "message": "Näsa"
   },
   "FEATURE_RACE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Race"
+    "message": "Ras"
   },
   "FEATURE_SPECIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Species"
+    "message": "Art"
   },
   "FEMALE": {
     "description": "",
@@ -501,7 +501,7 @@
   },
   "FLYING": {
     "description": "",
-    "message": "Flying"
+    "message": "Flyger"
   },
   "FORWARD_ACCEL": {
     "description": "",
@@ -545,7 +545,7 @@
   },
   "GAME_TIME": {
     "description": "",
-    "message": "Game time"
+    "message": "Speltid"
   },
   "GENERAL_CREW": {
     "description": "",
@@ -969,7 +969,7 @@
   },
   "INCREASE": {
     "description": "Increase something.",
-    "message": "Increase"
+    "message": "Öka"
   },
   "INEXPERIENCED": {
     "description": "For player reputation",
@@ -1101,11 +1101,11 @@
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Major exports"
+    "message": "Huvudexporter"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Major imports"
+    "message": "Huvudimporter"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1185,11 +1185,11 @@
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Minor exports"
+    "message": "Mindre exporter"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Minor imports"
+    "message": "Mindre importer"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1213,11 +1213,11 @@
   },
   "MOVE_DOWN": {
     "description": "move selection down in list",
-    "message": "Move Down"
+    "message": "Flytta ner"
   },
   "MOVE_UP": {
     "description": "move selection up in list",
-    "message": "Move Up"
+    "message": "Flytta upp"
   },
   "MULTISAMPLING": {
     "description": "",
@@ -1261,7 +1261,7 @@
   },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
-    "message": "Next"
+    "message": "Nästa"
   },
   "NEXT_PAID": {
     "description": "",
@@ -1305,7 +1305,7 @@
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
-    "message": "Nothing matches that filter"
+    "message": "Inget matchar det filtret"
   },
   "NO_MISSIONS": {
     "description": "",
@@ -1365,7 +1365,7 @@
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
-    "message": "Out of range"
+    "message": "Utom räckhåll"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
@@ -1377,7 +1377,7 @@
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
-    "message": "Pay"
+    "message": "Betala"
   },
   "PAY_FINE_OF_N": {
     "description": "",
@@ -1433,7 +1433,7 @@
   },
   "PREVIOUS_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
-    "message": "Previous"
+    "message": "Föregående"
   },
   "PRICE": {
     "description": "",
@@ -1485,7 +1485,7 @@
   },
   "REGISTRATION_NUMBER": {
     "description": "",
-    "message": "Registration number"
+    "message": "Registretingsnummer"
   },
   "RELIABLE": {
     "description": "For player reputation",
@@ -1493,7 +1493,7 @@
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
-    "message": "Remove Jump"
+    "message": "Ta bort hopp"
   },
   "REMOVE_WHEN_COMPLETED": {
     "description": "For UI hyperjump planner, referring to jump target system",
@@ -1541,19 +1541,19 @@
   },
   "ROTATE_VIEW": {
     "description": "",
-    "message": "Rotate view"
+    "message": "Rotera vy"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
-    "message": "Route Info"
+    "message": "Ruttinfo"
   },
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
-    "message": "Route Jumps"
+    "message": "Rutthopp"
   },
   "SAFETY_LOCKOUT": {
     "description": "Ship jump status",
-    "message": "Safety lockout"
+    "message": "Säkerhetslåst"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1601,7 +1601,7 @@
   },
   "SETTINGS": {
     "description": "UI option",
-    "message": "Settings"
+    "message": "Inställningar"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -1825,7 +1825,7 @@
   },
   "VICINITY_OF": {
     "description": "",
-    "message": "In vicinity of"
+    "message": "I närheten av"
   },
   "VIDEO": {
     "description": "",
