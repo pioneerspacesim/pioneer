@@ -97,6 +97,7 @@ struct Projectable
 		const SystemBody* sbody;
 	} ref;
 	vector3d screenpos; // x,y - screen coordinate, z - in NDC
+	vector3d worldpos;
 
 	Projectable(const types t, const bases b, const Body* obj) : type(t), base(b)
 	{
@@ -135,15 +136,16 @@ public:
 	// all used colors. defined in system-view-ui.lua
 	enum ColorIndex { // <enum name=SystemViewColorIndex scope='SystemView' public>
 		GRID = 0,
-		SYSTEMBODY = 1,
-		SYSTEMBODY_ORBIT = 2,
-		PLAYER_ORBIT = 3,
-		PLANNER_ORBIT = 4,
-		SELECTED_SHIP_ORBIT = 5,
-		SHIP_ORBIT = 6
+		GRID_LEG = 1,
+		SYSTEMBODY = 2,
+		SYSTEMBODY_ORBIT = 3,
+		PLAYER_ORBIT = 4,
+		PLANNER_ORBIT = 5,
+		SELECTED_SHIP_ORBIT = 6,
+		SHIP_ORBIT = 7
 	};
 
-	Color svColor[7];
+	Color svColor[8];
 	void SetColor(ColorIndex color_index, Color* color_value) { svColor[color_index] = *color_value; }
 
 private:
@@ -165,12 +167,11 @@ private:
 	void MouseWheel(bool up);
 	void RefreshShips(void);
 	void DrawShips(const double t, const vector3d &offset);
-	void PrepareGrid();
 	void DrawGrid();
 	template <typename T>
-	void AddProjected(Projectable::types type, Projectable::bases base, T *ref, vector3d &pos);
+	void AddProjected(Projectable::types type, Projectable::bases base, T *ref, vector3d &pos, const vector3d &worldpos);
 	template <typename T>
-	void AddNotProjected(Projectable::types type, Projectable::bases base, T *ref, const vector3d &worldscaledpos);
+	void AddNotProjected(Projectable::types type, Projectable::bases base, T *ref, const vector3d &worldpos);
 	void CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos);
 	void CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos);
 	double GetOrbitTime(double t, const SystemBody* b);

@@ -35,7 +35,8 @@ local svColor = {
 	BUTTON_BACK = colors.buttonBlue,
 	BUTTON_INK = colors.white,
 	COMBAT_TARGET = colors.combatTarget,
-	GRID = Color(25,25,25),
+	GRID = Color(40,40,40),
+	GRID_LEG = Color(120,120,120),
 	LAGRANGE = Color(0,214,226),
 	NAV_TARGET = colors.navTarget,
 	OBJECT = colors.frame,
@@ -366,8 +367,8 @@ local function displayOnScreenObjects()
 
 		ui.addIcon(mainCoords, getBodyIcon(mainObject), getColor(mainObject), iconsize, ui.anchor.center, ui.anchor.center)
 
+		local label = getLabel(mainObject)
 		if should_show_label then
-			local label = getLabel(mainObject)
 			if group.objects then
 				label = label .. " (" .. #group.objects .. ")"
 			end
@@ -379,11 +380,11 @@ local function displayOnScreenObjects()
 			-- mouse release handler for right button
 			if (mp - mainCoords):length() < click_radius then
 				if not ui.isAnyWindowHovered() and ui.isMouseReleased(1) then
-					ui.openPopup("target" .. objectCounter)
+					ui.openPopup("target" .. label)
 				end
 			end
 			-- make popup
-			ui.popup("target" .. objectCounter, function()
+			ui.popup("target" .. label, function()
 				local isObject = mainObject.type == Projectable.OBJECT
 				local isSystemBody = isObject and mainObject.base == Projectable.SYSTEMBODY
 				local isShip = isObject and not isSystemBody and mainObject.ref:IsShip()
