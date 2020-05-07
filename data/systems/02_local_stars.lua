@@ -259,7 +259,7 @@ CustomSystem:new('Gliese 706',{'STAR_K'}):add_to_sector(-4,-1,2,v(0.460,0.851,0.
 CustomSystem:new('Gliese 707',{'STAR_K'}):add_to_sector(-4,-1,-4,v(0.170,0.793,0.368))
 CustomSystem:new('Gliese 701',{'STAR_M'}):add_to_sector(-4,-1,-1,v(0.827,0.929,0.832))
 CustomSystem:new('Gliese 661',{'STAR_K','STAR_M'}):add_to_sector(-2,0,1,v(0.238,0.374,0.844))
-CustomSystem:new('Gliese 664',{'STAR_K'}):add_to_sector(-3,0,-2,v(0.863,0.413,0.913))
+--CustomSystem:new('Gliese 664',{'STAR_K'}):add_to_sector(-3,0,-2,v(0.863,0.413,0.913)) Duplicate of 36 Ophiuchi system
 CustomSystem:new('Gliese 667',{'STAR_K','STAR_K','STAR_M'}):add_to_sector(-3,0,-2,v(0.709,0.415,0.370))
 CustomSystem:new('Gliese 666',{'STAR_M','STAR_M'}):add_to_sector(-3,0,-3,v(0.579,0.437,0.396))
 CustomSystem:new('Kruger 60',{'STAR_M','STAR_M'}):add_to_sector(-1,-1,1,v(0.659,0.195,0.381))
