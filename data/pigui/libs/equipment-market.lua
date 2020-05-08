@@ -32,7 +32,11 @@ local defaultFuncs = {
     getSellPrice = function (self, e)
         local basePrice = Game.player:GetDockedWith():GetEquipmentPrice(e)
         if basePrice > 0 then
-            return sellPriceReduction * basePrice
+			if e:IsValidSlot("cargo") then
+				return basePrice
+			else
+				return sellPriceReduction * basePrice
+			end
         else
             return 1.0/sellPriceReduction * basePrice
         end
