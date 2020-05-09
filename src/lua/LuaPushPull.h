@@ -32,6 +32,7 @@ inline void pi_lua_generic_pull(lua_State *l, int index, std::string &out)
 	const char *buf = luaL_checklstring(l, index, &len);
 	std::string(buf, len).swap(out);
 }
+
 template <typename Type>
 inline void LuaPush(lua_State *l, Type value)
 {

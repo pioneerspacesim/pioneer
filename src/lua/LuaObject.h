@@ -6,6 +6,7 @@
 
 #include "DeleteEmitter.h"
 #include "Lua.h"
+#include "LuaMetaType.h"
 #include "LuaPushPull.h"
 #include "LuaRef.h"
 #include "LuaUtils.h"
@@ -97,6 +98,8 @@ struct SerializerPair {
 	FromJson from_json;
 };
 
+class PropertyMap;
+
 // wrapper baseclass, and extra bits for getting at certain parts of the
 // LuaObject layer
 class LuaObjectBase {
@@ -108,10 +111,13 @@ public:
 	// stack
 	static void CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta, bool protect = false);
 
-	// get all valid method/attribute names for the object on the top of the
-	// stack. mainly intended for the console. uses the same logic as the
-	// method dispatcher
-	static void GetNames(std::vector<std::string> &names, const std::string &prefix = "", bool methodsOnly = false);
+	// Creates a single "typeless" object and attaches the given metatype
+	// to it. Leaves the created object on the stack.
+	static void CreateObject(LuaMetaTypeBase *metaType);
+
+	// Checks if the object at the stack position is a PropertiedObject and returns a pointer to
+	// its PropertyMap. Returns nullptr on failure.
+	static PropertyMap *GetPropertiesFromObject(lua_State *l, int object);
 
 protected:
 	// base class constructor, called by the wrapper Push* methods
@@ -124,6 +130,11 @@ protected:
 	// attributes extra magic is added to the metaclass to make them work as
 	// expected
 	static void CreateClass(const char *type, const char *parent, const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta);
+
+	// Creates a class in the lua vm with the given name and attaches the
+	// listed metatype to it. All method, attribute, and metamethod handling
+	// is contained in the metatype.
+	static void CreateClass(LuaMetaTypeBase *metaType);
 
 	// push an already-registered object onto the lua stack. the object is
 	// looked up in the lua registry, if it exists its userdata its userdata
@@ -174,32 +185,8 @@ private:
 	LuaObjectBase() {}
 	LuaObjectBase(const LuaObjectBase &) {}
 
-	// lua method to determine if the underlying object is still present in
-	// the registry (ie still exists)
-	static int l_exists(lua_State *l);
-
-	// lua method to determine if the object inherits from a type. wrapper
-	// around ::Isa()
-	static int l_isa(lua_State *l);
-
-	// lua method to set a property on a propertied object
-	static int l_setprop(lua_State *l);
-
-	// lua method to unset a property on a propertied object
-	static int l_unsetprop(lua_State *l);
-
-	// lua method to check the existence of a specific property on an object
-	static int l_hasprop(lua_State *l);
-
-	// the lua object "destructor" that gets called by the garbage collector.
-	static int l_gc(lua_State *l);
-
-	// default tostring. shows a little more info about the object, like its
-	// type
-	static int l_tostring(lua_State *l);
-
-	// __index metamethod
-	static int l_dispatch_index(lua_State *l);
+	// Lua-side helper functionality, declared in LuaObject.cpp
+	friend class LuaObjectHelpers;
 
 	// determine if the object has a class in its ancestry
 	bool Isa(const char *base) const;
@@ -218,8 +205,8 @@ public:
 	// wrap an object and push it onto the stack. these create a wrapper
 	// object that knows how to deal with the type of object
 	static inline void PushToLua(DeleteEmitter *o); // LuaCoreObject
-	static inline void PushToLua(RefCounted *o); // LuaSharedObject
-	static inline void PushToLua(const T &o); // LuaCopyObject
+	static inline void PushToLua(RefCounted *o);	// LuaSharedObject
+	static inline void PushToLua(const T &o);		// LuaCopyObject
 
 	template <typename Ret, typename Key, typename... Args>
 	static inline Ret CallMethod(T *o, const Key &key, const Args &... args);
@@ -281,6 +268,7 @@ private:
 	// initial lua type string. defined in a specialisation in the appropriate
 	// .cpp file
 	static const char *s_type;
+	static LuaMetaType<T> s_metaType;
 };
 
 // wrapper for a "core" object - one owned by c++ (eg Body).
