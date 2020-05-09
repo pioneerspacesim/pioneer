@@ -30,44 +30,44 @@ local function showSystemInfo(label, current_systempath, systempath, othersystem
 		local starsystem = systempath:GetStarSystem()
 		local clicked = false
 		ui.withID(label, function()
-								local jumpData = ""
-								if not current_systempath:IsSameSystem(systempath) then
-									local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(current_systempath, systempath)
-									jumpData = "\n" .. jumpStatus .. "  " .. string.format("%.2f", distance) .. lc.UNIT_LY .. "  " .. fuelRequired .. lc.UNIT_TONNES .. "  " .. ui.Format.Duration(duration, 2)
-								end
-								if ui.collapsingHeader(label .. ': ' .. starsystem.name .. '  ' .. jumpData .. " (" .. math.floor(systempath.sectorX) .. ", " .. math.floor(systempath.sectorY) .. ", " .. math.floor(systempath.sectorZ) .. ")", { "DefaultOpen" }) then
-									local stars = starsystem:GetStars()
-									for _,star in pairs(stars) do
-										if ui.selectable(star.name, star.path == systempath, {}) then
-											clicked = star.path
-										end
-									end
-									if clicked then
-										Engine.SetSectorMapSelected(clicked)
-										Engine.SectorMapGotoSystemPath(clicked)
-									end
-									local numstars = starsystem.numberOfStars
-									local numstarstext = ""
-									if numstars == 4 then
-										numstarstext = lc.QUADRUPLE_SYSTEM
-									elseif numstars == 3 then
-										numstarstext = lc.TRIPLE_SYSTEM
-									elseif numstars == 2 then
-										numstarstext = lc.BINARY_SYSTEM
-									else
-										numstarstext = starsystem.rootSystemBody.astroDescription
-									end
-									ui.text(numstarstext)
-									if next(starsystem.other_names) ~= nil then
-										ui.text(table.concat(starsystem.other_names, ", "))
-									end
-									ui.text(starsystem.shortDescription)
-									if othersystempath and not othersystempath:IsSameSystem(systempath) then
-										local otherstarsystem = othersystempath:GetStarSystem()
-										local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(systempath, othersystempath)
-										ui.text('Relative to ' .. otherstarsystem.name .. ': ' .. jumpStatus .. "  " .. string.format("%.2f", distance) .. lc.UNIT_LY .. "  " .. fuelRequired .. lc.UNIT_TONNES .. "  " .. ui.Format.Duration(duration, 2))
-									end
-								end
+			local jumpData = ""
+			if not current_systempath:IsSameSystem(systempath) then
+				local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(current_systempath, systempath)
+				jumpData = "\n" .. jumpStatus .. "  " .. string.format("%.2f", distance) .. lc.UNIT_LY .. "  " .. fuelRequired .. lc.UNIT_TONNES .. "  " .. ui.Format.Duration(duration, 2)
+			end
+			if ui.collapsingHeader(label .. ': ' .. starsystem.name .. '  ' .. jumpData .. " (" .. math.floor(systempath.sectorX) .. ", " .. math.floor(systempath.sectorY) .. ", " .. math.floor(systempath.sectorZ) .. ")", { "DefaultOpen" }) then
+				local stars = starsystem:GetStars()
+				for _,star in pairs(stars) do
+					if ui.selectable(star.name, star.path == systempath, {}) then
+						clicked = star.path
+					end
+				end
+				if clicked then
+					Engine.SetSectorMapSelected(clicked)
+					Engine.SectorMapGotoSystemPath(clicked)
+				end
+				local numstars = starsystem.numberOfStars
+				local numstarstext = ""
+				if numstars == 4 then
+					numstarstext = lc.QUADRUPLE_SYSTEM
+				elseif numstars == 3 then
+					numstarstext = lc.TRIPLE_SYSTEM
+				elseif numstars == 2 then
+					numstarstext = lc.BINARY_SYSTEM
+				else
+					numstarstext = starsystem.rootSystemBody.astroDescription
+				end
+				ui.text(numstarstext)
+				if next(starsystem.other_names) ~= nil then
+					ui.text(table.concat(starsystem.other_names, ", "))
+				end
+				ui.text(starsystem.shortDescription)
+				if othersystempath and not othersystempath:IsSameSystem(systempath) then
+					local otherstarsystem = othersystempath:GetStarSystem()
+					local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(systempath, othersystempath)
+					ui.text('Relative to ' .. otherstarsystem.name .. ': ' .. jumpStatus .. "  " .. string.format("%.2f", distance) .. lc.UNIT_LY .. "  " .. fuelRequired .. lc.UNIT_TONNES .. "  " .. ui.Format.Duration(duration, 2))
+				end
+			end
 		end)
 	end
 end
@@ -142,87 +142,90 @@ local function showSearch()
 					table.insert(data, { jumpStatus = jumpStatus, distance = distance, fuelRequired = fuelRequired, duration = duration, path = path })
 				end
 				ui.child("search_results", function ()
-									 table.sort(data, function(a,b)
-																if a.path == b.path or a.path:IsSameSystem(b.path) then
-																	return false
-																end
-																return a.distance < b.distance
-									 end)
-									 for _,item in pairs(data) do
-										 local system = item.path:GetStarSystem()
-										 local label = system.name
-										 label = label .. '  (' .. lui[item.jumpStatus] .. "), " .. string.format("%.2f", item.distance) .. lc.UNIT_LY .. ", " .. item.fuelRequired .. lc.UNIT_TONNES .. ", " .. ui.Format.Duration(item.duration, 2)
+					table.sort(data, function(a,b)
+						if a.path == b.path or a.path:IsSameSystem(b.path) then
+							return false
+						end
+						return a.distance < b.distance
+					end)
+					for _,item in pairs(data) do
+						local system = item.path:GetStarSystem()
+						local label = system.name
+						label = label .. '  (' .. lui[item.jumpStatus] .. "), " .. string.format("%.2f", item.distance) .. lc.UNIT_LY .. ", " .. item.fuelRequired .. lc.UNIT_TONNES .. ", " .. ui.Format.Duration(item.duration, 2)
 
-										 if ui.selectable(label, false, {}) then
-											 Engine.SetSectorMapSelected(item.path)
-											 Engine.SectorMapGotoSystemPath(item.path)
-										 end
-									 end
+						if ui.selectable(label, false, {}) then
+							Engine.SetSectorMapSelected(item.path)
+							Engine.SectorMapGotoSystemPath(item.path)
+						end
+					end
 				end)
 			end
 		end
 	end
 end
+
 local function showInfoWindow()
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
-			ui.window("MapSectorViewInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "HorizontalScrollbar"},
-								function()
+		ui.window("MapSectorViewInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "HorizontalScrollbar"},
+		function()
 
-									ui.text(string.format("%.2f", Engine.GetSectorMapZoomLevel()) .. lc.UNIT_LY)
-									ui.sameLine()
-									local zoom_in = mainMenuButton(icons.zoom_in, false, "Zoom in")
-									if zoom_in or ui.isItemActive() then
-										Engine.SectorMapZoomIn()
-									end
-									ui.sameLine()
-									local zoom_out = mainMenuButton(icons.zoom_out, false, "Zoom out")
-									if zoom_out or ui.isItemActive() then
-										Engine.SectorMapZoomOut()
-									end
-									ui.separator()
-									local sector = Engine.GetSectorMapCenterSector()
-									local distance = Engine.GetSectorMapCenterDistance()
-									ui.text("Sector (" .. math.floor(sector.x) .. ", " .. math.floor(sector.y) .. ", " .. math.floor(sector.z) .. "), Distance " .. string.format("%.2f", distance) .. lc.UNIT_LY)
-									ui.separator()
-									local current = Engine.GetSectorMapCurrentSystemPath()
-									local selected = Engine.GetSectorMapSelectedSystemPath()
-									local hyperspaceTarget = Engine.GetSectorMapHyperspaceTargetSystemPath()
+			ui.text(string.format("%.2f", Engine.GetSectorMapZoomLevel()) .. lc.UNIT_LY)
+			ui.sameLine()
+			local zoom_in = mainMenuButton(icons.zoom_in, false, "Zoom in")
+			if zoom_in or ui.isItemActive() then
+				Engine.SectorMapZoomIn()
+			end
+			ui.sameLine()
+			local zoom_out = mainMenuButton(icons.zoom_out, false, "Zoom out")
+			if zoom_out or ui.isItemActive() then
+				Engine.SectorMapZoomOut()
+			end
+			ui.separator()
+			local sector = Engine.GetSectorMapCenterSector()
+			local distance = Engine.GetSectorMapCenterDistance()
+			ui.text("Sector (" .. math.floor(sector.x) .. ", " .. math.floor(sector.y) .. ", " .. math.floor(sector.z) .. "), Distance " .. string.format("%.2f", distance) .. lc.UNIT_LY)
+			ui.separator()
+			local current = Engine.GetSectorMapCurrentSystemPath()
+			local selected = Engine.GetSectorMapSelectedSystemPath()
+			local hyperspaceTarget = Engine.GetSectorMapHyperspaceTargetSystemPath()
 
-									showSystemInfo(lc.CURRENT_SYSTEM, current, current)
-									ui.separator()
-									showSystemInfo(lc.HYPERSPACE_TARGET, current, hyperspaceTarget, selected)
-									local changed, lht = ui.checkbox(lock_hyperspace_target and lc.LOCKED or lc.FOLLOWING_SELECTION, lock_hyperspace_target)
-									lock_hyperspace_target = lht
-									if changed then
-										Engine.SetSectorMapLockHyperspaceTarget(lock_hyperspace_target)
-									end
-									ui.separator()
-									showSystemInfo(lc.SELECTED_SYSTEM, current, selected)
-									ui.separator()
-									showSettings()
-									ui.separator()
-									showSearch()
-			end)
+			showSystemInfo(lc.CURRENT_SYSTEM, current, current)
+			ui.separator()
+			showSystemInfo(lc.HYPERSPACE_TARGET, current, hyperspaceTarget, selected)
+			local changed, lht = ui.checkbox(lock_hyperspace_target and lc.LOCKED or lc.FOLLOWING_SELECTION, lock_hyperspace_target)
+			lock_hyperspace_target = lht
+			if changed then
+				Engine.SetSectorMapLockHyperspaceTarget(lock_hyperspace_target)
+			end
+			ui.separator()
+			showSystemInfo(lc.SELECTED_SYSTEM, current, selected)
+			ui.separator()
+			showSettings()
+			ui.separator()
+			showSearch()
+		end)
 	end)
 end
+
 local function showFactionLegendWindow()
 	ui.setNextWindowSize(Vector2(ui.screenWidth / 5, ui.screenHeight / 5), "Always")
 	ui.setNextWindowPos(Vector2(ui.screenWidth - ui.screenWidth / 5 - 10, 10) , "Always")
 	ui.window("MapSectorViewFactions", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
-						function()
-							ui.text("Factions")
-							local factions = Engine.GetSectorMapFactions()
-							for _,f in pairs(factions) do
-								local changed, value
-								ui.withStyleColors({ ["Text"] = Color(f.faction.colour.r, f.faction.colour.g, f.faction.colour.b) }, function()
-										changed, value = ui.checkbox(f.faction.name, f.visible)
-								end)
-								if changed then
-									Engine.SetSectorMapFactionVisible(f.faction, value)
-								end
-							end
+	function()
+		ui.text("Factions")
+		local factions = Engine.GetSectorMapFactions()
+		for _,f in pairs(factions) do
+			local changed, value
+			ui.withStyleColors({ ["Text"] = Color(f.faction.colour.r, f.faction.colour.g, f.faction.colour.b) }, function()
+				changed, value = ui.checkbox(f.faction.name, f.visible)
+			end)
+			if changed then
+				Engine.SetSectorMapFactionVisible(f.faction, value)
+			end
+		end
 	end)
 end
+
 local function displaySectorViewWindow()
 	if not initialized then
 		Engine.SetSectorMapAutomaticSystemSelection(automatic_system_selection)
@@ -248,7 +251,7 @@ end
 
 ui.registerModule("game", displaySectorViewWindow)
 Event.Register("onLeaveSystem", function()
-								 hyperspaceDetailsCache = {}
+	hyperspaceDetailsCache = {}
 end)
 
 return {}
