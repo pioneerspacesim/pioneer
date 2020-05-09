@@ -461,6 +461,7 @@
     <ClCompile Include="..\..\src\lua\LuaSystemBody.cpp" />
     <ClCompile Include="..\..\src\lua\LuaSystemPath.cpp" />
     <ClCompile Include="..\..\src\lua\LuaSystemView.cpp" />
+    <ClCompile Include="..\..\src\lua\LuaSectorView.cpp" />
     <ClCompile Include="..\..\src\lua\LuaTimer.cpp" />
     <ClCompile Include="..\..\src\lua\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\lua\LuaVector.cpp" />

@@ -25,6 +25,13 @@ local function mainMenuButton(icon, selected, tooltip, color)
 	return ui.coloredSelectedIconButton(icon, mainButtonSize, selected, mainButtonFramePadding, colors.buttonBlue, color, tooltip)
 end
 
+local sectorView
+
+local onGameStart = function ()
+	--connect to class SectorView
+	sectorView = Game.sectorView
+end
+
 local function showSystemInfo(label, current_systempath, systempath, othersystempath)
 	if systempath then
 		local starsystem = systempath:GetStarSystem()
@@ -43,8 +50,8 @@ local function showSystemInfo(label, current_systempath, systempath, othersystem
 					end
 				end
 				if clicked then
-					Engine.SetSectorMapSelected(clicked)
-					Engine.SectorMapGotoSystemPath(clicked)
+					sectorView:SetSelected(clicked)
+					sectorView:GotoSystemPath(clicked)
 				end
 				local numstars = starsystem.numberOfStars
 				local numstarstext = ""
@@ -85,19 +92,19 @@ local function showSettings()
 		local changed
 		changed, draw_vertical_lines = ui.checkbox(lc.DRAW_VERTICAL_LINES, draw_vertical_lines)
 		if changed then
-			Engine.SetSectorMapDrawVerticalLines(draw_vertical_lines)
+			sectorView:SetDrawVerticalLines(draw_vertical_lines)
 		end
 		changed, draw_out_range_labels = ui.checkbox(lc.DRAW_OUT_RANGE_LABELS, draw_out_range_labels)
 		if changed then
-			Engine.SetSectorMapDrawOutRangeLabels(draw_out_range_labels)
+			sectorView:SetDrawOutRangeLabels(draw_out_range_labels)
 		end
 		changed, draw_uninhabited_labels = ui.checkbox(lc.DRAW_UNINHABITED_LABELS, draw_uninhabited_labels)
 		if changed then
-			Engine.SetSectorMapDrawUninhabitedLabels(draw_uninhabited_labels)
+			sectorView:SetDrawUninhabitedLabels(draw_uninhabited_labels)
 		end
 		changed, automatic_system_selection = ui.checkbox(lc.AUTOMATIC_SYSTEM_SELECTION, automatic_system_selection)
 		if changed then
-			Engine.SetSectorMapAutomaticSystemSelection(automatic_system_selection)
+			sectorView:SetAutomaticSystemSelection(automatic_system_selection)
 		end
 	end
 end
@@ -130,9 +137,9 @@ local function showSearch()
 	if search_text ~= "" then
 		local parsedSystem = SystemPath.ParseString(search_text)
 		if parsedSystem ~= nil then
-			Engine.SectorMapGotoSectorPath(parsedSystem)
+			sectorView:GotoSectorPath(parsedSystem)
 		else
-			local systempaths = Engine.SearchNearbyStarSystemsByName(search_text)
+			local systempaths = sectorView:SearchNearbyStarSystemsByName(search_text)
 			if #systempaths == 0 then
 				ui.text(lc.NOT_FOUND)
 			else
@@ -154,8 +161,8 @@ local function showSearch()
 						label = label .. '  (' .. lui[item.jumpStatus] .. "), " .. string.format("%.2f", item.distance) .. lc.UNIT_LY .. ", " .. item.fuelRequired .. lc.UNIT_TONNES .. ", " .. ui.Format.Duration(item.duration, 2)
 
 						if ui.selectable(label, false, {}) then
-							Engine.SetSectorMapSelected(item.path)
-							Engine.SectorMapGotoSystemPath(item.path)
+							sectorView:SetSelected(item.path)
+							sectorView.GotoSystemPath(item.path)
 						end
 					end
 				end)
@@ -168,26 +175,25 @@ local function showInfoWindow()
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
 		ui.window("MapSectorViewInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "HorizontalScrollbar"},
 		function()
-
-			ui.text(string.format("%.2f", Engine.GetSectorMapZoomLevel()) .. lc.UNIT_LY)
+			ui.text(string.format("%.2f", sectorView:GetZoomLevel()) .. lc.UNIT_LY)
 			ui.sameLine()
 			local zoom_in = mainMenuButton(icons.zoom_in, false, "Zoom in")
 			if zoom_in or ui.isItemActive() then
-				Engine.SectorMapZoomIn()
+				sectorView:ZoomIn()
 			end
 			ui.sameLine()
 			local zoom_out = mainMenuButton(icons.zoom_out, false, "Zoom out")
 			if zoom_out or ui.isItemActive() then
-				Engine.SectorMapZoomOut()
+				sectorView:ZoomOut()
 			end
 			ui.separator()
-			local sector = Engine.GetSectorMapCenterSector()
-			local distance = Engine.GetSectorMapCenterDistance()
+			local sector = sectorView:GetCenterSector()
+			local distance = sectorView:GetCenterDistance()
 			ui.text("Sector (" .. math.floor(sector.x) .. ", " .. math.floor(sector.y) .. ", " .. math.floor(sector.z) .. "), Distance " .. string.format("%.2f", distance) .. lc.UNIT_LY)
 			ui.separator()
-			local current = Engine.GetSectorMapCurrentSystemPath()
-			local selected = Engine.GetSectorMapSelectedSystemPath()
-			local hyperspaceTarget = Engine.GetSectorMapHyperspaceTargetSystemPath()
+			local current = sectorView:GetCurrentSystemPath()
+			local selected = sectorView:GetSelectedSystemPath()
+			local hyperspaceTarget = sectorView:GetHyperspaceTargetSystemPath()
 
 			showSystemInfo(lc.CURRENT_SYSTEM, current, current)
 			ui.separator()
@@ -195,7 +201,7 @@ local function showInfoWindow()
 			local changed, lht = ui.checkbox(lock_hyperspace_target and lc.LOCKED or lc.FOLLOWING_SELECTION, lock_hyperspace_target)
 			lock_hyperspace_target = lht
 			if changed then
-				Engine.SetSectorMapLockHyperspaceTarget(lock_hyperspace_target)
+				sectorView:SetLockHyperspaceTarget(lock_hyperspace_target)
 			end
 			ui.separator()
 			showSystemInfo(lc.SELECTED_SYSTEM, current, selected)
@@ -213,14 +219,14 @@ local function showFactionLegendWindow()
 	ui.window("MapSectorViewFactions", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 	function()
 		ui.text("Factions")
-		local factions = Engine.GetSectorMapFactions()
+		local factions = sectorView:GetFactions()
 		for _,f in pairs(factions) do
 			local changed, value
 			ui.withStyleColors({ ["Text"] = Color(f.faction.colour.r, f.faction.colour.g, f.faction.colour.b) }, function()
 				changed, value = ui.checkbox(f.faction.name, f.visible)
 			end)
 			if changed then
-				Engine.SetSectorMapFactionVisible(f.faction, value)
+				sectorView:SetFactionVisible(f.faction, value)
 			end
 		end
 	end)
@@ -228,10 +234,10 @@ end
 
 local function displaySectorViewWindow()
 	if not initialized then
-		Engine.SetSectorMapAutomaticSystemSelection(automatic_system_selection)
-		Engine.SetSectorMapDrawOutRangeLabels(draw_out_range_labels)
-		Engine.SetSectorMapDrawUninhabitedLabels(draw_uninhabited_labels)
-		Engine.SetSectorMapDrawVerticalLines(draw_vertical_lines)
+		sectorView:SetAutomaticSystemSelection(automatic_system_selection)
+		sectorView:SetDrawOutRangeLabels(draw_out_range_labels)
+		sectorView:SetDrawUninhabitedLabels(draw_uninhabited_labels)
+		sectorView:SetDrawVerticalLines(draw_vertical_lines)
 		initialized = true
 	end
 	player = Game.player
@@ -250,6 +256,7 @@ local function displaySectorViewWindow()
 end
 
 ui.registerModule("game", displaySectorViewWindow)
+Event.Register("onGameStart", onGameStart)
 Event.Register("onLeaveSystem", function()
 	hyperspaceDetailsCache = {}
 end)

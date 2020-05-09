@@ -1,7 +1,6 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = require 'Engine'
 local Game = require 'Game'
 local Event = require 'Event'
 local Equipment = require 'Equipment'
@@ -15,6 +14,8 @@ local ui = require 'pigui'
 local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
+
+local sectorView
 
 local mainButtonSize = Vector2(24,24) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
@@ -116,7 +117,7 @@ local function showJumpRoute()
 	if ui.collapsingHeader(lui.ROUTE_JUMPS, {"DefaultOpen"}) then
 		mainButton(icons.forward, lui.ADD_JUMP,
 			function()
-				Engine.SectorMapAddToRoute(map_selected_path)
+				sectorView:AddToRoute(map_selected_path)
 		end)
 		ui.sameLine()
 
@@ -125,7 +126,7 @@ local function showJumpRoute()
 				local new_route = {}
 				local new_count = 0
 				if selected_jump then
-					Engine.SectorMapRemoveRouteItem(selected_jump)
+					sectorView:RemoveRouteItem(selected_jump)
 				end
 		end)
 		ui.sameLine()
@@ -133,7 +134,7 @@ local function showJumpRoute()
 		mainButton(icons.current_periapsis, lui.MOVE_UP,
 			function()
 				if selected_jump then
-					if Engine.SectorMapMoveRouteItemUp(selected_jump) then
+					if sectorView:MoveRouteItemUp(selected_jump) then
 						selected_jump = selected_jump - 1
 					end
 				end
@@ -143,7 +144,7 @@ local function showJumpRoute()
 		mainButton(icons.current_apoapsis, lui.MOVE_DOWN,
 			function()
 				if selected_jump then
-					if Engine.SectorMapMoveRouteItemDown(selected_jump) then
+					if sectorView:MoveRouteItemDown(selected_jump) then
 						selected_jump = selected_jump + 1
 					end
 				end
@@ -152,14 +153,14 @@ local function showJumpRoute()
 
 		mainButton(icons.retrograde_thin, lui.CLEAR_ROUTE,
 			function()
-				Engine.SectorMapClearRoute()
+				sectorView:ClearRoute()
 				selected_jump = nil
 		end)
 		ui.sameLine()
 
 		mainButton(icons.hyperspace, lui.AUTO_ROUTE,
 			function()
-				Engine.SectorMapAutoRoute()
+				sectorView:AutoRoute()
 
 		end)
 		ui.sameLine()
@@ -167,7 +168,7 @@ local function showJumpRoute()
 		mainButton(icons.search_lens, lui.CENTER_ON_SYSTEM,
 			function()
 				if selected_jump then
-					Engine.SectorMapGotoSystemPath(hyperjump_route[selected_jump])
+					sectorView:GotoSystemPath(hyperjump_route[selected_jump])
 				end
 		end)
 
@@ -227,7 +228,6 @@ local function showHyperJumpPlannerWindow()
 	end)
 end -- showHyperJumpPlannerWindow
 
-
 local function displayHyperJumpPlanner()
 	player = Game.player
 	local current_view = Game.CurrentView()
@@ -238,9 +238,9 @@ local function displayHyperJumpPlanner()
 		current_system = Game.system
 		current_path = current_system.path
 		current_fuel = player:CountEquip(fuel_type,"cargo")
-		map_selected_path = Engine.GetSectorMapSelectedSystemPath()
-		hyperjump_route = Engine.SectorMapGetRoute()
-		route_jumps = Engine.SectorMapGetRouteSize()
+		map_selected_path = sectorView:GetSelectedSystemPath()
+		hyperjump_route = sectorView:GetRoute()
+		route_jumps = sectorView:GetRouteSize()
 		if ui.isKeyReleased(ui.keys.tab) then
 			hideHyperJumpPlaner = not hideHyperJumpPlaner;
 		end
@@ -259,14 +259,20 @@ Event.Register("onEnterSystem",
 		-- updated as you make multiple jumps
 		if ship:IsPlayer() and remove_first_if_current then
 			if route_jumps > 0 and hyperjump_route[1]:IsSameSystem(Game.system.path) then
-				Engine.SectorMapRemoveRouteItem(1)
+				sectorView:RemoveRouteItem(1)
 			end
 		end
+end)
+
+Event.Register("onGameStart",
+	function()
+		--connect to the class SectorView
+		sectorView = Game.sectorView
 end)
 
 Event.Register("onGameEnd",
 	function(ship)
 		-- clear the route out so it doesn't show up if the user starts a new game
-		Engine.SectorMapClearRoute()
+		sectorView:ClearRoute()
 end)
 return {}

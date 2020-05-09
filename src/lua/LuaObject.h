@@ -12,6 +12,7 @@
 #include "LuaUtils.h"
 #include "LuaWrappable.h"
 #include "RefCounted.h"
+#include "galaxy/SystemPath.h"
 #include <tuple>
 #include <typeinfo>
 
@@ -34,7 +35,7 @@
 //
 //   // Heap-allocated, Lua will get a copy
 //   SystemPath path(0,0,0,0,1);
-//   LuaObject<SystamPath>::PushToLua(path);
+//   LuaObject<SystemPath>::PushToLua(path);
 //
 // Get an object from the Lua stack at index n. Causes a Lua exception if the
 // object doesn't exist or the types don't match.
@@ -423,6 +424,18 @@ inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T *o, const Key &
 class SystemPath;
 template <>
 void LuaObject<SystemPath>::PushToLua(const SystemPath &o);
+
+inline void pi_lua_generic_pull(lua_State *l, int index, SystemPath &out)
+{
+	assert(l == Lua::manager->GetLuaState());
+	out = *LuaObject<SystemPath>::CheckFromLua(index);
+}
+
+inline void pi_lua_generic_push(lua_State *l, const SystemPath &value)
+{
+	assert(l == Lua::manager->GetLuaState());
+	LuaObject<SystemPath>::PushToLua(&value);
+}
 
 // LuaPushPull stuff.
 template <class T>

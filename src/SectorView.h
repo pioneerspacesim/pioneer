@@ -9,6 +9,7 @@
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 #include "gui/Gui.h"
+#include "DeleteEmitter.h"
 #include <set>
 #include <string>
 #include <vector>
@@ -20,7 +21,7 @@ namespace Graphics {
 	class RenderState;
 }
 
-class SectorView : public UIView {
+class SectorView : public UIView, public DeleteEmitter {
 public:
 	SectorView(Game *game);
 	SectorView(const Json &jsonObj, Game *game);

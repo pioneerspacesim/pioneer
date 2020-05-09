@@ -310,7 +310,7 @@ local function showSystemName()
 	ui.withStyleColors({["WindowBg"] = svColor.SYSTEMNAME_BACK}, function()
 		ui.window("SystemName", {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
 		function()
-			local path = Engine.GetSectorMapSelectedSystemPath()
+			local path = Game.sectorView:GetSelectedSystemPath()
 			local starsystem = path:GetStarSystem()
 			ui.text(starsystem.name .. " (" .. path.sectorX .. ", " .. path.sectorY .. ", " .. path.sectorZ .. ")")
 		end)

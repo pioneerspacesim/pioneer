@@ -359,6 +359,28 @@ static int l_game_attr_systemview(lua_State *l)
 }
 
 /*
+ * Attribute: sectorView
+ *
+ * The <SectorView> object for the sector map view class
+ *
+ * Availability:
+ *
+ *  April 2020
+ *
+ * Status:
+ *
+ *  experiment
+ */
+static int l_game_attr_sectorview(lua_State *l)
+{
+	if (!Pi::game)
+		lua_pushnil(l);
+	else
+		LuaObject<SectorView>::PushToLua(Pi::game->GetSectorView());
+	return 1;
+}
+
+/*
  * Attribute: time
  *
  * The current game time, in seconds since 12:00 01-01-3200
@@ -685,6 +707,7 @@ void LuaGame::Register()
 		{ "player", l_game_attr_player },
 		{ "system", l_game_attr_system },
 		{ "systemView", l_game_attr_systemview },
+		{ "sectorView", l_game_attr_sectorview },
 		{ "time", l_game_attr_time },
 		{ "paused", l_game_attr_paused },
 		{ 0, 0 }
