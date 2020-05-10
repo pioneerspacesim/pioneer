@@ -5,6 +5,7 @@
 
 #include "Galaxy.h"
 #include "SystemPath.h"
+#include "core/LZ4Format.h"
 
 #include "../gameconsts.h"
 #include "Factions.h"

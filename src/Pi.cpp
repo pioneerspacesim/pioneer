@@ -23,7 +23,7 @@
 #include "ModManager.h"
 #include "ModelCache.h"
 #include "NavLights.h"
-#include "OS.h"
+#include "core/OS.h"
 #include "core/GuiApplication.h"
 #include "graphics/opengl/RendererGL.h"
 #include "lua/Lua.h"

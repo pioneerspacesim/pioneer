@@ -7,7 +7,7 @@
 #include "FileSystem.h"
 #include "Frame.h"
 #include "GameSaveError.h"
-#include "IniConfig.h"
+#include "core/IniConfig.h"
 #include "Json.h"
 #include "JsonUtils.h"
 #include "ModelBody.h"

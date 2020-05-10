@@ -18,7 +18,7 @@
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "LuaVector2.h"
-#include "OS.h"
+#include "core/OS.h"
 #include "Pi.h"
 #include "Player.h"
 #include "Random.h"

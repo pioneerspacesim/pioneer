@@ -4,7 +4,7 @@
 #ifndef UI_ICON_H
 #define UI_ICON_H
 
-#include "IniConfig.h"
+#include "core/IniConfig.h"
 #include "SmartPtr.h"
 #include "Widget.h"
 #include "graphics/Drawables.h"

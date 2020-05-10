@@ -14,7 +14,7 @@
 #include "GameSaveError.h"
 #include "JobQueue.h"
 #include "ModManager.h"
-#include "OS.h"
+#include "core/OS.h"
 #include "StringF.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"

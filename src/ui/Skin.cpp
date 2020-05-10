@@ -3,7 +3,7 @@
 
 #include "Skin.h"
 #include "FileSystem.h"
-#include "IniConfig.h"
+#include "core/IniConfig.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "utils.h"

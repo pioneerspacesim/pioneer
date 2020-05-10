@@ -7,7 +7,7 @@
 
 #include "JsonUtils.h"
 #include "FileSystem.h"
-#include "GZipFormat.h"
+#include "core/GZipFormat.h"
 #include "base64/base64.hpp"
 #include "utils.h"
 #include <cmath>

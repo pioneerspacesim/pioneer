@@ -5,7 +5,7 @@
 
 #include "FileSystem.h"
 #include "GameSaveError.h"
-#include "IniConfig.h"
+#include "core/IniConfig.h"
 #include "Json.h"
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"

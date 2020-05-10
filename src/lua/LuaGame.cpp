@@ -5,7 +5,7 @@
 #include "DateTime.h"
 #include "DeathView.h"
 #include "FileSystem.h"
-#include "GZipFormat.h"
+#include "core/GZipFormat.h"
 #include "Game.h"
 #include "GameSaveError.h"
 #include "Lang.h"

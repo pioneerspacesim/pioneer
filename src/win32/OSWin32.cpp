@@ -6,7 +6,7 @@
 #include "Win32Setup.h"
 
 #include "FileSystem.h"
-#include "OS.h"
+#include "core/OS.h"
 #include "TextUtils.h"
 #include "utils.h"
 #ifdef WITH_BREAKPAD

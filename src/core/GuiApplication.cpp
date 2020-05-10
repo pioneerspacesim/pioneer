@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GuiApplication.h"
-#include "GameConfig.h"
+#include "IniConfig.h"
 #include "OS.h"
 
 #include "SDL.h"

@@ -7,7 +7,7 @@
 #include "GameSaveError.h"
 #include "KeyBindings.h"
 #include "ModManager.h"
-#include "OS.h"
+#include "core/OS.h"
 #include "SDL_keycode.h"
 #include "StringF.h"
 #include "graphics/Drawables.h"

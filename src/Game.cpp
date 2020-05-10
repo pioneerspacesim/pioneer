@@ -8,7 +8,7 @@
 #include "Body.h"
 #include "DeathView.h"
 #include "FileSystem.h"
-#include "GZipFormat.h"
+#include "core/GZipFormat.h"
 #include "GameLog.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"

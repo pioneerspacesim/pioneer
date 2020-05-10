@@ -7,7 +7,7 @@
 #include "GameConfig.h"
 #include "GameSaveError.h"
 #include "KeyBindings.h"
-#include "OS.h"
+#include "core/OS.h"
 #include "Pi.h"
 #include "Player.h"
 #include "Ship.h"

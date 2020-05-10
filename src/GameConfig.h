@@ -4,7 +4,7 @@
 #ifndef _GAMECONFIG_H
 #define _GAMECONFIG_H
 
-#include "IniConfig.h"
+#include "core/IniConfig.h"
 
 class GameConfig : public IniConfig {
 public:
