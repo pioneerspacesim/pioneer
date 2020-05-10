@@ -1,8 +1,8 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "LZ4Format.h"
 #include "basic_cbor.h"
+#include "core/LZ4Format.h"
 
 #include "argh/argh.h"
 #include "csv-parser/csv.hpp"
@@ -13,6 +13,7 @@
 #include <exception>
 #include <iostream>
 #include <memory>
+#include <regex>
 #include <stdexcept>
 #include <streambuf>
 
@@ -34,6 +35,175 @@ struct StarData {
 	Json to_json();
 	void to_cbor(std::vector<uint8_t> &out);
 };
+
+// Convert superscript indexes into unicode characters
+static const std::vector<std::string> superscript = {
+	"⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"
+};
+
+// A list of constellation abbreviations
+static const std::map<std::string, std::string> greek = {
+	{ "Alp", "Alpha" },
+	{ "Bet", "Beta" },
+	{ "Gam", "Gamma" },
+	{ "Del", "Delta" },
+	{ "Eps", "Epsilon" },
+	{ "Zet", "Zeta" },
+	{ "Eta", "Eta" },
+	{ "The", "Theta" },
+	{ "Iot", "Iota" },
+	{ "Kap", "Kappa" },
+	{ "Lam", "Lambda" },
+	{ "Mu", "Mu" },
+	{ "Nu", "Nu" },
+	{ "Xi", "Xi" },
+	{ "Omi", "Omicron" },
+	{ "Pi", "Pi" },
+	{ "Rho", "Rho" },
+	{ "Sig", "Sigma" },
+	{ "Tau", "Tau" },
+	{ "Ups", "Upsilon" },
+	{ "Phi", "Phi" },
+	{ "Chi", "Chi" },
+	{ "Psi", "Psi" },
+	{ "Ome", "Omega" },
+};
+
+// A list of constellations and their nominative and genitive names
+// Thanks to ecraven!
+static const std::map<std::string, std::pair<std::string, std::string>> constellations = {
+	{ "And", { "Andromeda", "Andromedae" } },
+	{ "Ant", { "Antlia", "Antliae" } },
+	{ "Aps", { "Apus", "Apodis" } },
+	{ "Aqr", { "Aquarius", "Aquarii" } },
+	{ "Aql", { "Aquila", "Aquilae" } },
+	{ "Ara", { "Ara", "Arae" } },
+	{ "Ari", { "Aries", "Arietis" } },
+	{ "Aur", { "Auriga", "Aurigae" } },
+	{ "Boo", { "Boötes", "Boötis" } },
+	{ "Cae", { "Caelum", "Caeli" } },
+	{ "Cam", { "Camelopardalis", "Camelopardalis" } },
+	{ "Cnc", { "Cancer", "Cancri" } },
+	{ "CVn", { "Canes Venatici", "Canum Venaticorum" } },
+	{ "CMa", { "Canis Major", "Canis Majoris" } },
+	{ "CMi", { "Canis Minor", "Canis Minoris" } },
+	{ "Cap", { "Capricornus", "Capricorni" } },
+	{ "Car", { "Carina", "Carinae" } },
+	{ "Cas", { "Cassiopeia", "Cassiopeiae" } },
+	{ "Cen", { "Centaurus", "Centauri" } },
+	{ "Cep", { "Cepheus", "Cephei" } },
+	{ "Cet", { "Cetus", "Ceti" } },
+	{ "Cha", { "Chamaeleon", "Chamaeleontis" } },
+	{ "Cir", { "Circinus", "Circini" } },
+	{ "Col", { "Columba", "Columbae" } },
+	{ "Com", { "Coma Berenices", "Comae Berenices" } },
+	{ "CrA", { "Corona Australis", "Coronae Australis" } },
+	{ "CrB", { "Corona Borealis", "Coronae Borealis" } },
+	{ "Crv", { "Corvus", "Corvi" } },
+	{ "Crt", { "Crater", "Crateris" } },
+	{ "Cru", { "Crux", "Crucis" } },
+	{ "Cyg", { "Cygnus", "Cygni" } },
+	{ "Del", { "Delphinus", "Delphini" } },
+	{ "Dor", { "Dorado", "Doradus" } },
+	{ "Dra", { "Draco", "Draconis" } },
+	{ "Equ", { "Equuleus", "Equulei" } },
+	{ "Eri", { "Eridanus", "Eridani" } },
+	{ "For", { "Fornax", "Fornacis" } },
+	{ "Gem", { "Gemini", "Geminorum" } },
+	{ "Gru", { "Grus", "Gruis" } },
+	{ "Her", { "Hercules", "Herculis" } },
+	{ "Hor", { "Horologium", "Horologii" } },
+	{ "Hya", { "Hydra", "Hydrae" } },
+	{ "Hyi", { "Hydrus", "Hydri" } },
+	{ "Ind", { "Indus", "Indi" } },
+	{ "Lac", { "Lacerta", "Lacertae" } },
+	{ "Leo", { "Leo", "Leonis" } },
+	{ "LMi", { "Leo Minor", "Leonis Minoris" } },
+	{ "Lep", { "Lepus", "Leporis" } },
+	{ "Lib", { "Libra", "Librae" } },
+	{ "Lup", { "Lupus", "Lupi" } },
+	{ "Lyn", { "Lynx", "Lyncis" } },
+	{ "Lyr", { "Lyra", "Lyrae" } },
+	{ "Men", { "Mensa", "Mensae" } },
+	{ "Mic", { "Microscopium", "Microscopii" } },
+	{ "Mon", { "Monoceros", "Monocerotis" } },
+	{ "Mus", { "Musca", "Muscae" } },
+	{ "Nor", { "Norma", "Normae" } },
+	{ "Oct", { "Octans", "Octantis" } },
+	{ "Oph", { "Ophiuchus", "Ophiuchi" } },
+	{ "Ori", { "Orion", "Orionis" } },
+	{ "Pav", { "Pavo", "Pavonis" } },
+	{ "Peg", { "Pegasus", "Pegasi" } },
+	{ "Per", { "Perseus", "Persei" } },
+	{ "Phe", { "Phoenix", "Phoenicis" } },
+	{ "Pic", { "Pictor", "Pictoris" } },
+	{ "Psc", { "Pisces", "Piscium" } },
+	{ "PsA", { "Piscis Austrinus", "Piscis Austrini" } },
+	{ "Pup", { "Puppis", "Puppis" } },
+	{ "Pyx", { "Pyxis", "Pyxidis" } },
+	{ "Ret", { "Reticulum", "Reticuli" } },
+	{ "Sge", { "Sagitta", "Sagittae" } },
+	{ "Sgr", { "Sagittarius", "Sagittarii" } },
+	{ "Sco", { "Scorpius", "Scorpii" } },
+	{ "Scl", { "Sculptor", "Sculptoris" } },
+	{ "Sct", { "Scutum", "Scuti" } },
+	{ "Ser", { "Serpens", "Serpentis" } },
+	{ "Sex", { "Sextans", "Sextantis" } },
+	{ "Tau", { "Taurus", "Tauri" } },
+	{ "Tel", { "Telescopium", "Telescopii" } },
+	{ "Tri", { "Triangulum", "Trianguli" } },
+	{ "TrA", { "Triangulum Australe", "Trianguli Australis" } },
+	{ "Tuc", { "Tucana", "Tucanae" } },
+	{ "UMa", { "Ursa Major", "Ursae Majoris" } },
+	{ "UMi", { "Ursa Minor", "Ursae Minoris" } },
+	{ "Vel", { "Vela", "Velorum" } },
+	{ "Vir", { "Virgo", "Virginis" } },
+	{ "Vol", { "Volans", "Volantis" } },
+	{ "Vul", { "Vulpecula", "Vulpeculae" } }
+};
+
+std::string convert_bayer_flamsteed(std::string name)
+{
+	// convert bayer-flamsteed
+	static std::regex matcher(
+		R"((\d+)?([a-zA-Z]+)? *(\d)?(\w{3}))",
+		std::regex::optimize);
+
+	std::smatch results;
+	if (!std::regex_search(name, results, matcher)) {
+		std::cerr << "Could not parse B-F name " << name << std::endl;
+		return "";
+	}
+
+	std::string out;
+
+	// Flamsteed number
+	if (results[1].length())
+		out = results[1].str() + " ";
+
+	// Bayer greek letter
+	if (results[2].length() && results[2].str()[0] != ' ') {
+		if (!greek.count(results[2].str()))
+			std::cerr << "Unknown greek abbreviation " << results[2].str() << std::endl;
+		out += greek.at(results[2].str());
+	}
+
+	if (results[3].length() && results[3].str()[0] != ' ') {
+		char c = results[3].str()[0];
+
+		// convert ASCII to 0-9
+		int idx = c - 48;
+		if (idx < 0 || idx > 9) {
+			std::cerr << "Encountered invalid character '" << c << "' when parsing B-F desc: " << name << std::endl;
+		} else {
+			out += superscript[idx];
+		}
+	}
+
+	if (!constellations.count(results[4].str()))
+		std::cerr << "Unknown constellation abbreviation " << results[4].str() << " when building B-F name " << out << std::endl;
+	return out + " " + constellations.at(results[4].str()).second;
+}
 
 /*
 	# Fields in the HYG database:
@@ -74,8 +244,15 @@ std::string get_star_name(const CSVRow &row)
 
 	// Compressed Bayer-Flamsteed designation
 	// e.g. 85 Peg -> 85 Pegasus
+	// e.g. Kap1Scl -> Kappa¹ Sculptoris
 	if (row[5].is_str()) {
-		// convert bayer-flamsteed
+		try {
+			std::string name = convert_bayer_flamsteed(row[5].get());
+			if (!name.empty())
+				return name;
+		} catch (std::exception &e) {
+			std::cerr << "Encountered error " << e.what() << " parsing Bayer-Flamsteed description " << row[5].get() << std::endl;
+		}
 	}
 
 	// Gliese catalog definition
@@ -105,12 +282,23 @@ std::string get_star_name(const CSVRow &row)
 	return "INV " + to_string(row[0].get<uint32_t>());
 }
 
-std::vector<StarData> parse_csv(std::string &filename, CSVReader &reader)
+std::vector<StarData> parse_csv(const std::string &filename, CSVReader &reader)
 {
 	const auto &column_names = reader.get_col_names();
-	if (column_names[0] != "id" && column_names[6] != "proper") {
+	if (column_names.empty()) {
+		std::cerr << "Input file " << filename << " is not in CSV format!" << std::endl;
+		return {};
+	}
+
+	if (column_names[0] != "id" && (column_names.size() < 31 || column_names[6] != "proper")) {
 		std::cerr << "Invalid database format in file " + filename << std::endl;
 		std::cerr << "Expected HYG v3 database format." << std::endl;
+		std::cerr << "Got format: ";
+		for (const auto &name : column_names) {
+			std::cerr << name << ", ";
+		}
+		std::cerr << std::endl;
+
 		return {};
 	}
 
@@ -257,7 +445,8 @@ int parse_database(argh::parser &sourceFiles, bool outputBinary, bool compress)
 
 	Json fileObject = Json::array();
 
-	for (auto inputFile : sourceFiles) {
+	for (size_t idx = 1; idx < sourceFiles.size(); idx++) {
+		auto &inputFile = sourceFiles[idx];
 		try {
 			CSVReader reader(inputFile);
 			std::vector<StarData> data = parse_csv(inputFile, reader);
@@ -301,7 +490,7 @@ int parse_database(argh::parser &sourceFiles, bool outputBinary, bool compress)
 
 int run_validation(argh::parser &sourceFiles)
 {
-	std::string input = sourceFiles[0];
+	std::string input = sourceFiles[1];
 
 	auto inputStream = std::ifstream(input, std::ios::ate);
 	size_t size = inputStream.tellg();
@@ -346,13 +535,14 @@ int main(int argc, const char **argv)
 		"\thyg-database-parser [OPTIONS] [FILE...]\n\n"
 		"OPTIONS:\n\n"
 		"\t-h  --help         Display this help menu\n"
-		"\t-o                 Output file name. If not present, writes to stdout\n"
+		"\t-o  [FILE]         Output file name. If not present, writes to stdout\n"
 		"\t    --binary       Output compressed CBOR files (default)\n"
 		"\t    --no-compress  Output uncompressed CBOR files\n"
 		"\t    --validate     Interpret input files as CBOR and convert to equivalent\n"
 		"\t                   JSON for round-trip validation\n";
 
-	argh::parser args(argv);
+	argh::parser args({ "-o" });
+	args.parse(argv);
 
 	if (args[{ "-h", "--help" }] || args.size() == 0) {
 		std::cerr << help_text;

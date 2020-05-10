@@ -87,4 +87,4 @@ result
 .vscode/
 *.code-workspace
 # Custom star definitions generated as part of the build process.
-data/systems/stars/hygdata_v3.*
+data/systems/custom/stars/hygdata_v3.*
