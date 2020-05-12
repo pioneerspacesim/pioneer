@@ -404,9 +404,9 @@ void StarData::to_cbor(std::vector<uint8_t> &out)
 	cbor::push_string(out, "coords");
 	cbor::push_tag(out, CBORTag::Array, 3);
 	{
-		cbor::push_float(out, std::fmod(x, 8.0f));
-		cbor::push_float(out, std::fmod(y, 8.0f));
-		cbor::push_float(out, std::fmod(z, 8.0f));
+		cbor::push_float(out, system_loc(x));
+		cbor::push_float(out, system_loc(y));
+		cbor::push_float(out, system_loc(z));
 	}
 }
 
@@ -424,15 +424,15 @@ Json StarData::to_json()
 	// FIXME: temporary workaround until I get clang-format to be sane with initializer lists
 	/* clang-format off */
 	star_obj["sector"] = Json::array({
-		int(std::floor(x)) / 8,
-		int(std::floor(y)) / 8,
-		int(std::floor(z)) / 8
+		sector_coord(x),
+		sector_coord(y),
+		sector_coord(z),
 	});
 
 	star_obj["coords"] = Json::array({
-		std::fmod(x, 8.0f),
-		std::fmod(y, 8.0f),
-		std::fmod(z, 8.0f)
+		system_loc(x),
+		system_loc(y),
+		system_loc(z)
 	});
 	/* clang-format on */
 
