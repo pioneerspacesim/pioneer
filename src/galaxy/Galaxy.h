@@ -8,6 +8,7 @@
 #include "Factions.h"
 #include "GalaxyCache.h"
 #include "JsonFwd.h"
+#include "PerfStats.h"
 #include "RefCounted.h"
 #include <cstdio>
 
@@ -36,7 +37,7 @@ public:
 	bool IsInitialized() const { return m_initialized; }
 	/* 0 - 255 */
 	virtual Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const = 0;
-	FactionsDatabase *GetFactions() { return &m_factions; } // XXX const correctness
+	FactionsDatabase *GetFactions() { return &m_factions; }				   // XXX const correctness
 	CustomSystemsDatabase *GetCustomSystems() { return &m_customSystems; } // XXX const correctness
 
 	RefCountedPtr<const Sector> GetSector(const SystemPath &path) { return m_sectorCache.GetCached(path); }
@@ -53,8 +54,12 @@ public:
 	const std::string &GetGeneratorName() const;
 	int GetGeneratorVersion() const;
 
+	Perf::Stats &GetStats() { return m_stats; }
+	const Perf::Stats &GetStats() const { return m_stats; }
+
 private:
 	bool m_initialized;
+	Perf::Stats m_stats;
 	RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 	SectorCache m_sectorCache;
 	StarSystemCache m_starSystemCache;

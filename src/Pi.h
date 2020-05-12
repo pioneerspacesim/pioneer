@@ -136,6 +136,9 @@ public:
 	// for internal use, don't modify unless you know what you're doing
 	static void SetGameTickAlpha(float alpha) { gameTickAlpha = alpha; }
 
+	static void SetShowDebugInfo(bool enabled) { showDebugInfo = enabled; };
+	static void ToggleShowDebugInfo() { showDebugInfo = !showDebugInfo; };
+
 	// FIXME: hacked-in singleton pattern, find a better way to locate the application
 	static App *GetApp() { return m_instance; }
 

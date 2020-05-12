@@ -40,10 +40,16 @@ namespace Perf {
 
 		CounterRef GetOrCreateCounter(std::string name, bool resetOnNewFrame = true);
 
-		void CounterAdd(CounterRef ref, uint32_t amount) const
+		void CounterAdd(CounterRef ref, uint32_t amount = 1) const
 		{
 			assert(ref.id != 0);
 			m_counters.at(ref.id).ctr.fetch_add(amount);
+		}
+
+		void CounterDec(CounterRef ref, uint32_t amount = 1) const
+		{
+			assert(ref.id != 0);
+			m_counters.at(ref.id).ctr.fetch_sub(amount);
 		}
 
 		void CounterSet(CounterRef ref, uint32_t value) const
@@ -58,8 +64,9 @@ namespace Perf {
 			m_counters.at(ref.id).ctr.store(0);
 		}
 
+		void EnableReset(bool enabled) { m_neverReset = !enabled; }
+
 		const FrameInfo &GetFrameStats() const { return m_frameCache; }
-		const FrameInfo &GetPrevFrameStats() const { return m_prevFrameCache; };
 
 		std::string GetNameForCounter(CounterRef ref) const { return m_definedCounters.at(ref.id); }
 
@@ -67,24 +74,23 @@ namespace Perf {
 		void FlushFrame();
 
 	private:
-		static const size_t MAX_FRAME_COUNT = 10;
-
 		struct Counter {
 			Counter(bool reset) :
 				resetOnNewFrame(reset){};
-			std::atomic<uint32_t> ctr;
+			// mutable because the only thing we're modifying via non-const references is the atomic counters
+			mutable std::atomic<uint32_t> ctr;
 			bool resetOnNewFrame;
 		};
 
-		// hashmap of counter name to counter value
-		// mutable because the only thing we're modifying via non-const references is the atomic counters
-		mutable std::map<std::size_t, Counter> m_counters;
+		// hashmap of counter ID to counter value
+		std::map<std::size_t, Counter> m_counters;
 
-		// Cache the previous two frames
+		// Cache the previous frame
 		FrameInfo m_frameCache;
-		FrameInfo m_prevFrameCache;
 
-		// defined counter names
+		bool m_neverReset = false;
+
+		// hashmap of counter IDs to counter names
 		std::map<std::size_t, std::string> m_definedCounters;
 
 		// mutex used to synchronize updates to definedCounters

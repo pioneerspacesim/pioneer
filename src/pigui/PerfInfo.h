@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "PerfStats.h"
 #include "RefCounted.h"
 #include <array>
 #include <memory>
@@ -35,20 +36,26 @@ namespace PiGUI {
 		void DrawTextureCache();
 		void DrawTextureInspector();
 
+		void DrawRendererStats();
+		void DrawImGuiStats();
+		void DrawStatList(const Perf::Stats::FrameInfo &fi);
+
 		static const int NUM_FRAMES = 60;
 		std::array<float, NUM_FRAMES> m_fpsGraph;
 		std::array<float, NUM_FRAMES> m_physFpsGraph;
-		float frameTimeAverage;
-		float frameTimeMax;
-		float frameTimeMin;
-		float physFrameTimeAverage;
-		float physFrameTimeMax;
-		float physFrameTimeMin;
+		float frameTimeAverage = 0;
+		float frameTimeMax = 0;
+		float frameTimeMin = 0;
+		float physFrameTimeAverage = 0;
+		float physFrameTimeMax = 0;
+		float physFrameTimeMin = 0;
 
 		MemoryInfo process_mem;
-		size_t lua_mem;
-		float framesThisSecond;
-		float physFramesThisSecond;
+		size_t lua_mem = 0;
+		float framesThisSecond = 0;
+		float physFramesThisSecond = 0;
+
+		float lastUpdateTime = 0;
 
 		ImGuiState *m_state;
 	};

@@ -23,8 +23,8 @@
 #include "ModManager.h"
 #include "ModelCache.h"
 #include "NavLights.h"
-#include "core/OS.h"
 #include "core/GuiApplication.h"
+#include "core/OS.h"
 #include "graphics/opengl/RendererGL.h"
 #include "lua/Lua.h"
 #include "lua/LuaConsole.h"
@@ -115,9 +115,7 @@ Game *Pi::game;
 Random Pi::rng;
 float Pi::frameTime;
 bool Pi::doingMouseGrab;
-#if WITH_DEVKEYS
 bool Pi::showDebugInfo = false;
-#endif
 #if PIONEER_PROFILER
 std::string Pi::profilerPath;
 bool Pi::doProfileSlow = false;
@@ -180,6 +178,11 @@ protected:
 	void Update(float) override;
 };
 
+// FIXME: this is a hack, this class should have its lifecycle managed elsewhere
+// Ideally an application framework class handles this (as well as the rest of the main loop)
+// but for now this is the best we have.
+std::unique_ptr<PiGUI::PerfInfo> perfInfoDisplay;
+
 class MainMenu : public Application::Lifecycle {
 public:
 	void SetStartPath(const SystemPath &path)
@@ -224,13 +227,7 @@ protected:
 	int MAX_PHYSICS_TICKS;
 	double accumulator;
 
-#if WITH_DEVKEYS
 	Uint32 last_stats = SDL_GetTicks();
-	// FIXME: this is a hack, this class should have its lifecycle managed elsewhere
-	// Ideally an application framework class handles this (as well as the rest of the main loop)
-	// but for now this is the best we have.
-	std::unique_ptr<PiGUI::PerfInfo> perfInfoDisplay;
-#endif
 };
 
 class TombstoneLoop : public Application::Lifecycle {
@@ -426,6 +423,8 @@ void Pi::App::Shutdown()
 		_pclose(Pi::ffmpegFile);
 	}
 
+	perfInfoDisplay.reset();
+
 	// TODO: connect initializers and deinitializers in a single Module interface
 	// Will need to think about dependency injection for e.g. modules which need a
 	// reference to the renderer
@@ -595,6 +594,8 @@ void LoadStep::Start()
 		KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
 
 		Pi::planner = new TransferPlanner();
+
+		perfInfoDisplay.reset(new PiGUI::PerfInfo());
 	});
 }
 
@@ -655,6 +656,11 @@ void MainMenu::Update(float deltaTime)
 
 	Pi::pigui->NewFrame();
 	PiGUI::RunHandler(deltaTime, "MAINMENU");
+
+	perfInfoDisplay->Update(deltaTime * 1e3, 0.0);
+	if (Pi::showDebugInfo) {
+		perfInfoDisplay->Draw();
+	}
 
 	Pi::pigui->Render();
 
@@ -735,11 +741,11 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 		break;
 #endif
 
-#if WITH_DEVKEYS
 	case SDLK_i: // Toggle Debug info
 		Pi::showDebugInfo = !Pi::showDebugInfo;
 		break;
 
+#if WITH_DEVKEYS
 #ifdef PIONEER_PROFILER
 	case SDLK_p: // alert it that we want to profile
 		if (input->KeyState(SDLK_LSHIFT) || input->KeyState(SDLK_RSHIFT))
@@ -949,8 +955,6 @@ void GameLoop::Start()
 	LuaEvent::Queue("onGameStart");
 	LuaEvent::Emit();
 
-	perfInfoDisplay.reset(new PiGUI::PerfInfo());
-
 	frame_stat = 0;
 	phys_stat = 0;
 	accumulator = Pi::game->GetTimeStep();
@@ -1096,12 +1100,10 @@ void GameLoop::Update(float deltaTime)
 		Pi::game->GetWorldView()->EndCameraFrame();
 	}
 
-#if WITH_DEVKEYS
 	// Render this even when we're dead.
 	if (Pi::showDebugInfo) {
 		perfInfoDisplay->Draw();
 	}
-#endif
 
 	Pi::pigui->Render();
 
@@ -1121,7 +1123,6 @@ void GameLoop::Update(float deltaTime)
 
 	Pi::GetApp()->RunJobs();
 
-#if WITH_DEVKEYS
 	perfInfoDisplay->Update(frame_time_real, phys_time);
 	if (Pi::showDebugInfo && SDL_GetTicks() - last_stats >= 1000) {
 		perfInfoDisplay->UpdateFrameInfo(frame_stat, phys_stat);
@@ -1145,8 +1146,6 @@ void GameLoop::Update(float deltaTime)
 	}
 #endif
 
-#endif
-
 #if 0 // FIXME: decouple video recording from Pi
 	if (Pi::isRecordingVideo && (Pi::ffmpegFile != nullptr)) {
 		Graphics::ScreendumpState sd;
@@ -1163,7 +1162,6 @@ void GameLoop::End()
 
 	// Clean up any left-over mouse state
 	Pi::input->SetCapturingMouse(false);
-	perfInfoDisplay.reset();
 
 	Pi::SetMouseGrab(false);
 

@@ -176,7 +176,7 @@ Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::
 	if (lz4::IsLZ4Format(bin.begin, bin.Size())) {
 		try {
 			std::string decompressedData = lz4::DecompressLZ4({ bin.begin, bin.Size() });
-			Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, decompressedData.size() / 1024.f);
+			// Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, decompressedData.size() / 1024.f);
 			Serializer::Reader rd(ByteRange(decompressedData.data(), decompressedData.size()));
 			model = CreateModel(name, rd);
 		} catch (std::runtime_error &e) {
@@ -189,7 +189,7 @@ Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::
 			PROFILE_SCOPED_DESC("tinfl_decompress_mem_to_heap")
 			pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
 		}
-		Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, outSize / 1024.f);
+		// Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, outSize / 1024.f);
 		if (pDecompressedData) {
 			// now parse in-memory representation as new ByteRange.
 			Serializer::Reader rd(ByteRange(static_cast<char *>(pDecompressedData), outSize));

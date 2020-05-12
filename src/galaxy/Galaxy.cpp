@@ -16,12 +16,14 @@ Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, flo
 	SOL_OFFSET_X(sol_offset_x),
 	SOL_OFFSET_Y(sol_offset_y),
 	m_initialized(false),
+	m_stats(),
 	m_galaxyGenerator(galaxyGenerator),
 	m_sectorCache(this),
 	m_starSystemCache(this),
 	m_factions(this, factionsDir),
 	m_customSystems(this, customSysDir)
 {
+	m_stats.EnableReset(false);
 }
 
 //static
