@@ -380,9 +380,9 @@ add_custom_command(OUTPUT ${HYG_DATABASE_FILE}
 	COMMENT "Fetching HYG star database")
 
 add_custom_target(build-hyg-data
-	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/data/systems/custom/stars
+	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/data/systems/stars
 	COMMAND hyg-database-parser --binary ${HYG_DATABASE_FILE}
-			-o ${CMAKE_SOURCE_DIR}/data/systems/custom/stars/hygdata_v3.lz4
+			-o ${CMAKE_SOURCE_DIR}/data/systems/stars/hygdata_v3.lz4
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 	DEPENDS ${HYG_DATABASE_FILE}
 	COMMENT "Building HYG custom system file")

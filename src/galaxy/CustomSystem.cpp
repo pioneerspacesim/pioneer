@@ -15,11 +15,11 @@
 #include "FileSystem.h"
 #include "Polit.h"
 
+#include "galaxy/SystemBody.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaFixed.h"
 #include "lua/LuaUtils.h"
 #include "lua/LuaVector.h"
-#include "galaxy/SystemBody.h"
 #include "vector3.h"
 
 #include <map>
@@ -565,24 +565,37 @@ static int l_csys_bodies(lua_State *L)
 
 static int l_csys_add_to_sector(lua_State *L)
 {
-	CustomSystem **csptr = l_csys_check_ptr(L, 1);
+	CustomSystem **luaptr = l_csys_check_ptr(L, 1);
 
-	(*csptr)->SanityChecks();
+	assert(luaptr);
+	CustomSystem *csptr = *luaptr;
+
+	csptr->SanityChecks();
 
 	int x = luaL_checkinteger(L, 2);
 	int y = luaL_checkinteger(L, 3);
 	int z = luaL_checkinteger(L, 4);
 	const vector3d *v = LuaVector::CheckFromLua(L, 5);
 
-	(*csptr)->sectorX = x;
-	(*csptr)->sectorY = y;
-	(*csptr)->sectorZ = z;
-	(*csptr)->pos = vector3f(*v);
+	csptr->sectorX = x;
+	csptr->sectorY = y;
+	csptr->sectorZ = z;
+	csptr->pos = vector3f(*v);
 
 	//Output("l_csys_add_to_sector: %s added to %d, %d, %d\n", (*csptr)->name.c_str(), x, y, z);
 
-	s_activeCustomSystemsDatabase->AddCustomSystem(SystemPath(x, y, z), *csptr);
-	*csptr = 0;
+	auto &systems = s_activeCustomSystemsDatabase->GetCustomSystemsForSector(x, y, z);
+	auto iter = std::find_if(systems.begin(), systems.end(), [=](const CustomSystem *c) {
+		return c->name == csptr->name;
+	});
+
+	if (iter != systems.end()) {
+		Output("Overwriting existing system %s with a custom system\n", csptr->name.c_str());
+		s_activeCustomSystemsDatabase->ReplaceCustomSystem(SystemPath(x, y, z), csptr);
+	} else
+		s_activeCustomSystemsDatabase->AddCustomSystem(SystemPath(x, y, z), csptr);
+
+	*luaptr = 0;
 	return 0;
 }
 
@@ -639,6 +652,9 @@ static void RegisterCustomSystemsAPI(lua_State *L)
 SystemBody::BodyType bodyTypeFromSpectral(const nonstd::string_view spectral)
 {
 	using BodyType = SystemBody::BodyType;
+	if (spectral.empty())
+		return BodyType::TYPE_GRAVPOINT;
+
 	auto first = spectral[0];
 
 	switch (first) {
@@ -653,7 +669,7 @@ SystemBody::BodyType bodyTypeFromSpectral(const nonstd::string_view spectral)
 		return BodyType::TYPE_STAR_M_WF;
 	}
 	default:
-		return BodyType::TYPE_GRAVPOINT;
+		break;
 	}
 
 	auto luminance = spectral.substr(spectral.find_first_of("0123456789") + 1);
@@ -716,10 +732,13 @@ void CustomSystemsDatabase::LoadCatalogDefinition(const char *data, size_t len, 
 	}
 
 	// silently skip bad entries, given that we're parsing a 10,000+ star catalog.
-	size_t invalidEntries = 0;
+	size_t invNoCoords = 0;
+	size_t invNoStar = 0;
+	size_t invBadJson = 0;
+	bool has_warned = false;
 	for (Json &obj : catalogObj) {
 		if (!obj.is_object()) {
-			invalidEntries++;
+			invBadJson++;
 			continue;
 		}
 
@@ -736,7 +755,7 @@ void CustomSystemsDatabase::LoadCatalogDefinition(const char *data, size_t len, 
 
 			// If we weren't able to extract a proper body type from spectral class, this entry is invalid.
 			if (csys->primaryType[0] == SystemBody::TYPE_GRAVPOINT) {
-				invalidEntries++;
+				invNoStar++;
 				continue;
 			}
 
@@ -744,24 +763,40 @@ void CustomSystemsDatabase::LoadCatalogDefinition(const char *data, size_t len, 
 			// std::string constellation = obj.at("constl");
 
 			Json sector = obj.at("sector");
+			if (sector.is_null()) {
+				invNoCoords++;
+				continue;
+			}
+
 			csys->sectorX = sector.at(0);
 			csys->sectorY = sector.at(1);
 			csys->sectorZ = sector.at(2);
 
-			csys->pos = obj.at("coords");
+			Json coords = obj.at("coords");
+			if (coords.is_null()) {
+				invNoCoords++;
+				continue;
+			}
+
+			csys->pos.x = coords.at(0);
+			csys->pos.y = coords.at(1);
+			csys->pos.z = coords.at(2);
 
 			s_activeCustomSystemsDatabase->AddCustomSystem(
-				SystemPath(csys->sectorX, csys->sectorY, csys->sectorZ),
-				csys.release());
+				SystemPath(csys->sectorX, csys->sectorY, csys->sectorZ), csys.get());
+			csys.release();
 		} catch (Json::type_error &e) {
 			csys.reset();
-			invalidEntries++;
+			invBadJson++;
 			continue;
 		}
 	}
 
+	size_t invalidEntries = invBadJson + invNoCoords + invNoStar;
 	if (invalidEntries > 0) {
-		Warning("encountered %ld invalid entries while parsing catalog %s.\n", invalidEntries, path.c_str());
+		Output("Warning: encountered %ld invalid entries (of %ld) while parsing catalog %s.\n", invalidEntries, catalogObj.size(), path.c_str());
+		Output("\t%ld JSON errors\n\t%ld entries without coordinates\n\t%ld entries with an unknown star type\n",
+			invBadJson, invNoCoords, invNoStar);
 	}
 }
 
@@ -825,6 +860,16 @@ void CustomSystemsDatabase::Load()
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);
 	s_activeCustomSystemsDatabase = nullptr;
+
+	CalcMemoryLoad();
+}
+
+CustomSystemsDatabase::CustomSystemsDatabase(Galaxy *galaxy, const std::string &customSysDir) :
+	m_galaxy(galaxy),
+	m_customSysDirectory(customSysDir),
+	m_customSystemCount(galaxy->GetStats().GetOrCreateCounter("Custom System Count")),
+	m_customSystemMem(galaxy->GetStats().GetOrCreateCounter("Custom System Memory (Bytes)"))
+{
 }
 
 CustomSystemsDatabase::~CustomSystemsDatabase()
@@ -836,6 +881,9 @@ CustomSystemsDatabase::~CustomSystemsDatabase()
 		}
 	}
 	m_sectorMap.clear();
+
+	m_galaxy->GetStats().CounterReset(m_customSystemCount);
+	m_galaxy->GetStats().CounterReset(m_customSystemMem);
 }
 
 const CustomSystemsDatabase::SystemList &CustomSystemsDatabase::GetCustomSystemsForSector(int x, int y, int z) const
@@ -845,9 +893,65 @@ const CustomSystemsDatabase::SystemList &CustomSystemsDatabase::GetCustomSystems
 	return (it != m_sectorMap.end()) ? it->second : s_emptySystemList;
 }
 
+void CustomSystemsDatabase::ReplaceCustomSystem(const SystemPath &path, CustomSystem *csys)
+{
+	SectorMap::iterator it = m_sectorMap.find(path);
+	if (it == m_sectorMap.end())
+		return; // silently fail, this shouldn't be called frivolously
+
+	std::vector<const CustomSystem *> &systems = it->second;
+	auto iter = std::find_if(systems.begin(), systems.end(), [=](const CustomSystem *c) {
+		return c->name == csys->name;
+	});
+
+	if (iter == systems.end())
+		return; // ditto
+
+	delete *iter;
+	*iter = csys;
+}
+
 void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem *csys)
 {
 	m_sectorMap[path].push_back(csys);
+}
+
+double recursive_estimate(const CustomSystemBody *body)
+{
+	double s = sizeof(CustomSystemBody);
+	if (body->name.size() > sizeof(std::string))
+		s += body->name.size();
+
+	s += std::max(body->name.size(), sizeof(std::string));
+	for (const auto *b : body->children)
+		if (b != nullptr)
+			s += recursive_estimate(b);
+
+	return s;
+}
+
+void CustomSystemsDatabase::CalcMemoryLoad()
+{
+	double mem = 0.0;
+	uint32_t count = 0;
+
+	for (const auto &pair : m_sectorMap) {
+		mem += sizeof(decltype(pair));
+		for (const CustomSystem *system : pair.second) {
+			assert(system != nullptr);
+			count++;
+			mem += sizeof(CustomSystem);
+			if (system->name.size() > sizeof(std::string))
+				mem += system->name.size();
+
+			mem += system->other_names.size() * 24;
+			if (system->sBody)
+				mem += recursive_estimate(system->sBody);
+		}
+	}
+
+	m_galaxy->GetStats().CounterSet(m_customSystemCount, count);
+	m_galaxy->GetStats().CounterSet(m_customSystemMem, mem);
 }
 
 CustomSystem::CustomSystem() :

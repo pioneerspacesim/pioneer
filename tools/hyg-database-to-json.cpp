@@ -310,7 +310,10 @@ std::vector<StarData> parse_csv(const std::string &filename, CSVReader &reader)
 		this_star.starName = get_star_name(row);
 
 		try {
-			this_star.spectralType = row[15].get();
+			if (row[15].is_str())
+				this_star.spectralType = row[15].get();
+			else // if we don't have a spectral type, assume it's a "standard" main-sequence M-class
+				this_star.spectralType = "M3V";
 			this_star.absoluteMagnitude = row[14].get<float>();
 
 			// if we don't have a color index, default to approx. a G0V class star
@@ -347,12 +350,12 @@ static const float PARSEC_TO_LY = 3.261564;
 
 int sector_coord(float x)
 {
-	return int(std::floor(x / PARSEC_TO_LY)) / 8;
+	return int(std::floor(x * PARSEC_TO_LY)) / 8;
 }
 
 float system_loc(float x)
 {
-	return std::fmod(x / PARSEC_TO_LY, 8.0);
+	return std::fmod(x * PARSEC_TO_LY, 8.0);
 }
 
 // Object format for JSON / CBOR star data:
