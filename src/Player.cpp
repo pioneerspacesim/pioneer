@@ -200,6 +200,9 @@ void Player::NotifyRemoved(const Body *const removedBody)
 			SetNavTarget(static_cast<const Ship *>(removedBody)->GetHyperspaceCloud());
 	}
 
+	if (GetSetSpeedTarget() == removedBody)
+		SetSetSpeedTarget(0);
+
 	Ship::NotifyRemoved(removedBody);
 }
 
@@ -209,6 +212,7 @@ void Player::OnEnterHyperspace()
 	s_soundHyperdrive.Play(m_hyperspace.sounds.jump_sound.c_str());
 	SetNavTarget(0);
 	SetCombatTarget(0);
+	SetSetSpeedTarget(0);
 
 	m_controller->SetFlightControlState(CONTROL_MANUAL); //could set CONTROL_HYPERDRIVE
 	ClearThrusterState();
