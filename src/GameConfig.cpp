@@ -47,12 +47,6 @@ GameConfig::GameConfig(const map_string &override_)
 	map["AmountOfBackgroundStars"] = "1.0";
 	map["UseAnisotropicFiltering"] = "0";
 	map["RendererName"] = "Opengl 3.x"; // default to our best renderer
-
-#ifdef _WIN32
-	map["RedirectStdio"] = "1";
-#else
-	map["RedirectStdio"] = "0";
-#endif
 	map["EnableGLDebug"] = "0";
 	map["EnableGPUJobs"] = "1";
 	map["GL3ForwardCompatible"] = "1";

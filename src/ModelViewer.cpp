@@ -7,9 +7,10 @@
 #include "GameSaveError.h"
 #include "KeyBindings.h"
 #include "ModManager.h"
-#include "core/OS.h"
 #include "SDL_keycode.h"
 #include "StringF.h"
+#include "core/Log.h"
+#include "core/OS.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
@@ -108,7 +109,7 @@ namespace ImGui {
 void ModelViewerApp::Startup()
 {
 	Application::Startup();
-	OS::RedirectStdio();
+	Log::GetLog()->SetLogFile("output.txt");
 
 	std::unique_ptr<GameConfig> config(new GameConfig);
 

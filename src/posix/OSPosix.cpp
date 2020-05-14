@@ -2,8 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FileSystem.h"
-#include "core/OS.h"
 #include "buildopts.h"
+#include "core/OS.h"
 #include "utils.h"
 
 #include <SDL.h>
@@ -34,19 +34,6 @@ namespace OS {
 	const char *GetIconFilename()
 	{
 		return "icons/badge.png";
-	}
-
-	void RedirectStdio()
-	{
-		std::string output_path = FileSystem::JoinPath(FileSystem::GetUserDir(), "output.txt");
-
-		FILE *f;
-
-		f = freopen(output_path.c_str(), "w", stderr);
-		if (!f)
-			Output("ERROR: Couldn't redirect output to '%s': %s\n", output_path.c_str(), strerror(errno));
-		else
-			setvbuf(f, 0, _IOLBF, BUFSIZ);
 	}
 
 	void EnableFPE()

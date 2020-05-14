@@ -17,8 +17,6 @@ namespace OS {
 
 	const char *GetIconFilename();
 
-	void RedirectStdio();
-
 	// Enable and disable floating point exceptions. Disabled is usually default.
 	void EnableFPE();
 	void DisableFPE();

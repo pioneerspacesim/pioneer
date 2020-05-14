@@ -24,6 +24,7 @@
 #include "ModelCache.h"
 #include "NavLights.h"
 #include "core/GuiApplication.h"
+#include "core/Log.h"
 #include "core/OS.h"
 #include "graphics/opengl/RendererGL.h"
 #include "lua/Lua.h"
@@ -330,8 +331,7 @@ void Pi::App::Startup()
 	Pi::profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
 #endif
 
-	if (config->Int("RedirectStdio"))
-		OS::RedirectStdio();
+	Log::GetLog()->SetLogFile("output.txt");
 
 	std::string version(PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
