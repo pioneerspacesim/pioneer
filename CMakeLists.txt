@@ -219,10 +219,15 @@ find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 
 add_subdirectory(contrib/lz4)
+add_subdirectory(contrib/fmt)
+
+set(PIONEER_SRC ${CMAKE_SOURCE_DIR}/src)
+set(PIONEER_CONTRIB ${CMAKE_SOURCE_DIR}/contrib)
 
 include_directories(
-	${CMAKE_SOURCE_DIR}/src
-	${CMAKE_SOURCE_DIR}/contrib
+	${PIONEER_SRC}
+	${PIONEER_CONTRIB}
+	${PIONEER_CONTRIB}/fmt/include
 	${ASSIMP_INCLUDE_DIRS}
 	${FREETYPE_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIRS}
@@ -346,15 +351,18 @@ else (CMAKE_CROSSCOMPILING)
 	set(MODELCOMPILER $<TARGET_FILE:modelcompiler>)
 endif (CMAKE_CROSSCOMPILING)
 
+add_custom_target(build-data)
+
 if (MODELCOMPILER)
 	# Optimize the models.
 	# This really shouldn't be done inside the source tree...
 	if (NOT MSVC)
-		add_custom_command(TARGET modelcompiler POST_BUILD
+		add_custom_target(build-models
 			COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy ${MODELCOMPILER} -b inplace
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 			COMMENT "Optimizing models" VERBATIM
 		)
+		add_dependencies(build-data build-models)
 	endif (NOT MSVC)
 else (MODELCOMPILER)
 	message(WARNING "No modelcompiler provided, models won't be optimized!")
