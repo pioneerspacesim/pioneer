@@ -8,7 +8,9 @@
 #define NOMINMAX
 #endif
 
+#include "core/Log.h"
 #include "libs.h"
+#include <fmt/printf.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string>
@@ -31,18 +33,33 @@
 #define ALIGN(x, a) __ALIGN_MASK(x, (a - 1))
 #define __ALIGN_MASK(x, mask) (((x) + (mask)) & ~(mask))
 
-void Error(const char *format, ...) __attribute((format(printf, 1, 2))) __attribute((noreturn));
-void Warning(const char *format, ...) __attribute((format(printf, 1, 2)));
-void Output(const char *format, ...) __attribute((format(printf, 1, 2)));
-void OpenGLDebugMsg(const char *format, ...) __attribute((format(printf, 1, 2)));
+// void Error(const char *format, ...) __attribute((format(printf, 1, 2))) __attribute((noreturn));
+// void Warning(const char *format, ...) __attribute((format(printf, 1, 2)));
+// void Output(const char *format, ...) __attribute((format(printf, 1, 2)));
 
-/**
-* Works like Output, but adds indent before message.
-* Call IndentIncrease and IndentDecrease to control indent level.
-*/
-void IndentedOutput(const char *format, ...) __attribute((format(printf, 1, 2)));
-void IndentIncrease();
-void IndentDecrease();
+template <typename... Args>
+inline void Output(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Info, fmt::sprintf(message, args...));
+}
+
+template <typename... Args>
+inline void Warning(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Warning, fmt::sprintf(message, args...));
+}
+
+template <typename... Args>
+[[noreturn]] inline void Error(const char *message, Args... args)
+{
+	Log::LogFatalOld(fmt::sprintf(message, args...));
+}
+
+template <typename... Args>
+inline void DebugMsg(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Debug, fmt::sprintf(message, args...));
+}
 
 // Helper for timing functions with multiple stages
 // Used on a branch to help time loading.

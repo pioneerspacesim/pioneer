@@ -288,7 +288,6 @@ add_executable(savegamedump WIN32
 	src/StringF.cpp
 	src/DateTime.cpp
 	src/Lang.cpp
-	src/core/GZipFormat.cpp
 	${FILESYSTEM_CXX_FILES}
 	# This one's in here because there's no such thing as separation in the codebase.
 	src/PngWriter.cpp
@@ -302,7 +301,7 @@ if (NATURALDOCS)
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 endif()
 
-target_link_libraries(pioneer-lib PUBLIC lz4)
+target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
 
 list(APPEND pioneerLibs
 	pioneer-lib
@@ -332,7 +331,7 @@ endif (WIN32)
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
-target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} profiler lz4 ${winLibs})
+target_link_libraries(savegamedump LINK_PRIVATE pioneer-core ${SDL2_IMAGE_LIBRARIES} ${winLibs})
 
 set_cxx11_properties(${PROJECT_NAME} modelcompiler savegamedump)
 

@@ -9,10 +9,11 @@
 
 #undef DEBUG_IMPORT
 #ifdef DEBUG_IMPORT
+#include "core/Log.h"
 #define DEBUG_PRINTF Output
-#define DEBUG_INDENTED_PRINTF IndentedOutput
-#define DEBUG_INDENT_INCREASE IndentIncrease
-#define DEBUG_INDENT_DECREASE IndentDecrease
+#define DEBUG_INDENTED_PRINTF Output
+#define DEBUG_INDENT_INCREASE Log::IncreaseIndent
+#define DEBUG_INDENT_DECREASE Log::DecreaseIndent
 #else
 #define DEBUG_PRINTF(...)
 #define DEBUG_INDENTED_PRINTF(...)
@@ -66,9 +67,9 @@ static const char *MODULE_MAP_CACHE_NAME = "ImportPaths";
 
 // simple struct to pass data between functions
 struct ImportInfo {
-	const std::string &importName; // original name argument from "import(importName)"
-	std::string &fileName; // name of the existing file
-	const bool &isFullName; // if true import will no try to load relative to the importDirectories
+	const std::string &importName;				 // original name argument from "import(importName)"
+	std::string &fileName;						 // name of the existing file
+	const bool &isFullName;						 // if true import will no try to load relative to the importDirectories
 	std::vector<std::string> &importDirectories; // contans list of paths where file can be imported
 };
 
@@ -480,9 +481,9 @@ static int l_deprecated_import(lua_State *L)
 	std::replace(moduleName.begin(), moduleName.end(), '/', '.');
 
 	if (moduleName != importPath)
-		Output("warning: the use of import(\"%s\") is deprecated; use require '%s' instead.\n\t(%s)\n", importPath.c_str(), moduleName.c_str(), get_caller(L).c_str());
+		Log::Warning("the use of import(\"{}\") is deprecated; use require '{}' instead.\n\t({})\n", importPath.c_str(), moduleName.c_str(), get_caller(L).c_str());
 	else
-		Output("warning: the use of import() is deprecated; use require '%s' instead.\n\t(%s)\n", moduleName.c_str(), get_caller(L).c_str());
+		Log::Warning("the use of import() is deprecated; use require '{}' instead.\n\t({})\n", moduleName.c_str(), get_caller(L).c_str());
 
 	if (moduleName[0] == '.')
 		moduleName = path_to_module(get_caller(L)) + moduleName;

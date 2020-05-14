@@ -86,7 +86,7 @@ namespace Graphics {
 			GLuint id, GLenum severity, GLsizei length,
 			const GLchar *message, const void *userParam)
 		{
-			OpenGLDebugMsg("Type: %s, Source: %s, ID: %u, Severity: %s, Message: %s\n",
+			Output("Type: %s, Source: %s, ID: %u, Severity: %s, Message: %s\n",
 				type_to_string(type), source_to_string(source), id,
 				severity_to_string(severity), message);
 		}

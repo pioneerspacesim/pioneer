@@ -8,9 +8,9 @@
 #include "PngWriter.h"
 #include "StringF.h"
 #include "gameconsts.h"
+#include "graphics/Graphics.h"
 #include "gui/Gui.h"
 #include "libs.h"
-#include "graphics/Graphics.h"
 #include <cmath>
 #include <cstdio>
 #include <sstream>
@@ -103,75 +103,6 @@ std::string string_join(std::vector<std::string> &v, std::string sep)
 		if (i != v.end()) out += sep;
 	}
 	return out;
-}
-
-void Error(const char *format, ...)
-{
-	char buf[1024];
-	va_list ap;
-	va_start(ap, format);
-	vsnprintf(buf, sizeof(buf), format, ap);
-	va_end(ap);
-
-	Output("error: %s\n", buf);
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Pioneer guru meditation error", buf, 0);
-
-	exit(1);
-}
-
-void Warning(const char *format, ...)
-{
-	char buf[1024];
-	va_list ap;
-	va_start(ap, format);
-	vsnprintf(buf, sizeof(buf), format, ap);
-	va_end(ap);
-
-	Output("warning: %s\n", buf);
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Pioneer warning", buf, 0);
-}
-
-void Output(const char *format, ...)
-{
-	char buf[1024];
-	va_list ap;
-	va_start(ap, format);
-	vsnprintf(buf, sizeof(buf), format, ap);
-	va_end(ap);
-
-	fputs(buf, stderr);
-}
-
-void OpenGLDebugMsg(const char *format, ...)
-{
-	char buf[1024];
-	va_list ap;
-	va_start(ap, format);
-	vsnprintf(buf, sizeof(buf), format, ap);
-	va_end(ap);
-
-	fputs(buf, stderr);
-}
-
-static unsigned int __indentationLevel = 0;
-void IndentIncrease() { __indentationLevel++; }
-void IndentDecrease()
-{
-	assert(__indentationLevel > 0);
-	__indentationLevel--;
-}
-void IndentedOutput(const char *format, ...)
-{
-	std::string indentation(__indentationLevel, '\t');
-	char buf[1024];
-	va_list ap;
-	va_start(ap, format);
-	strcpy(buf, indentation.c_str());
-	int indentationSize = indentation.size();
-	vsnprintf(buf + indentationSize, sizeof(buf) - indentationSize, format, ap);
-	va_end(ap);
-
-	fputs(buf, stderr);
 }
 
 std::string format_duration(double seconds)
