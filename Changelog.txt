@@ -10,6 +10,7 @@ May 2020
 
    * Internal Changes
      * Remove many warnings (#4864)
+     * Add LuaMetaType mechanism, refactor LuaObject to v2.0 (#4878)
 
 April 2020
    * New Features
