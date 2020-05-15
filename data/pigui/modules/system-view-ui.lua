@@ -1,3 +1,6 @@
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local Game = require 'Game'
 local Engine = require 'Engine'
 local Event = require 'Event'
@@ -16,6 +19,10 @@ local icons = ui.theme.icons
 
 local systemView
 
+-- will be initialized at first frame
+local textIconSize = nil
+local edgePadding = nil
+
 local mainButtonSize = ui.rescaleUI(Vector2(32,32), Vector2(1600, 900))
 local mainButtonFramePadding = 3
 local itemSpacing = Vector2(8, 4) -- couldn't get default from ui
@@ -23,18 +30,25 @@ local indicatorSize = Vector2(30 , 30)
 
 local selectedObject -- object, centered in SystemView
 
-local pionillium = ui.fonts.pionillium
+local hudfont = ui.fonts.pionillium.small
+local winfont = ui.fonts.pionillium.medlarge
+
 local ASTEROID_RADIUS = 1500000 -- rocky planets smaller than this (in meters) are considered an asteroid, not a planet
+
 
 --load enums Projectable::types and Projectable::bases in one table "Projectable"
 local Projectable = {}
 for _, key in pairs(Constants.ProjectableTypes) do Projectable[key] = Engine.GetEnumValue("ProjectableTypes", key) end
 for _, key in pairs(Constants.ProjectableBases) do Projectable[key] = Engine.GetEnumValue("ProjectableBases", key) end
 
+-- all colors, used in this module
 local svColor = {
-	BUTTON_BACK = colors.buttonBlue,
+	BUTTON_ACTIVE = colors.buttonBlue,
+	BUTTON_INACTIVE = Color(150, 150, 200, 0),
+	BUTTON_SEMIACTIVE = Color(150, 150, 200, 80),
 	BUTTON_INK = colors.white,
 	COMBAT_TARGET = colors.combatTarget,
+	FONT = colors.white,
 	GRID = Color(40,40,40),
 	GRID_LEG = Color(120,120,120),
 	LAGRANGE = Color(0,214,226),
@@ -51,9 +65,33 @@ local svColor = {
 	SYSTEMBODY_ICON = colors.frame,
 	SYSTEMBODY_ORBIT = Color(0,155,0),
 	SYSTEMNAME_BACK = colors.transparent,
-	WINDOW_BACK = colors.lightBlackBackground,
+	WINDOW_BG = colors.lightBlackBackground,
 	UNKNOWN = Color(255,0,255)
 }
+
+-- button states
+local function loop3items(a, b, c) return { [a] = b, [b] = c, [c] = a } end
+
+local buttonState = {
+	SHIPS_OFF     = { icon = icons.ships_no_orbits,    color = svColor.BUTTON_INACTIVE },
+	SHIPS_ON      = { icon = icons.ships_no_orbits,    color = svColor.BUTTON_SEMIACTIVE },
+	SHIPS_ORBITS  = { icon = icons.ships_with_orbits,  color = svColor.BUTTON_ACTIVE },
+	LAG_OFF       = { icon = icons.lagrange_no_text,   color = svColor.BUTTON_INACTIVE },
+	LAG_ICON      = { icon = icons.lagrange_no_text,   color = svColor.BUTTON_SEMIACTIVE },
+	LAG_ICONTEXT  = { icon = icons.lagrange_with_text, color = svColor.BUTTON_ACTIVE },
+	GRID_OFF      = { icon = icons.toggle_grid,        color = svColor.BUTTON_INACTIVE },
+	GRID_ON       = { icon = icons.toggle_grid,        color = svColor.BUTTON_SEMIACTIVE },
+	GRID_AND_LEGS = { icon = icons.toggle_grid,        color = svColor.BUTTON_ACTIVE },
+	[true]        = {                                  color = svColor.BUTTON_ACTIVE },
+	[false]       = {                                  color = svColor.BUTTON_INACTIVE }
+}
+
+local ship_drawing = "SHIPS_OFF"
+local show_lagrange = "LAG_OFF"
+local show_grid = "GRID_OFF"
+local nextShipDrawings = loop3items("SHIPS_OFF", "SHIPS_ON", "SHIPS_ORBITS")
+local nextShowLagrange = loop3items("LAG_OFF", "LAG_ICON", "LAG_ICONTEXT")
+local nextShowGrid = loop3items("GRID_OFF", "GRID_ON", "GRID_AND_LEGS")
 
 local onGameStart = function ()
 	--connect to class SystemView
@@ -62,6 +100,14 @@ local onGameStart = function ()
 	for _, key in pairs(Constants.SystemViewColorIndex) do
 		systemView:SetColor(key, svColor[key])
 	end
+	-- update visibility states
+	systemView:SetVisibility(ship_drawing)
+	systemView:SetVisibility(show_lagrange)
+	systemView:SetVisibility(show_grid)
+end
+
+local function textIcon(icon, tooltip)
+	ui.icon(icon, textIconSize, svColor.FONT, tooltip)
 end
 
 local function showDvLine(leftIcon, resetIcon, rightIcon, key, Formatter, leftTooltip, resetTooltip, rightTooltip)
@@ -73,18 +119,18 @@ local function showDvLine(leftIcon, resetIcon, rightIcon, key, Formatter, leftTo
 			end
 		end
 	end
-	local press = ui.coloredSelectedIconButton(leftIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_BACK, svColor.BUTTON_INK, leftTooltip, nil, key)
+	local press = ui.coloredSelectedIconButton(leftIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, leftTooltip, nil, key)
 	if press or (key ~= "factor" and ui.isItemActive()) then
 		systemView:TransferPlannerAdd(key, -10)
 	end
 	wheel()
 	ui.sameLine()
-	if ui.coloredSelectedIconButton(resetIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_BACK, svColor.BUTTON_INK, resetTooltip, nil, key) then
+	if ui.coloredSelectedIconButton(resetIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, resetTooltip, nil, key) then
 		systemView:TransferPlannerReset(key)
 	end
 	wheel()
 	ui.sameLine()
-	press = ui.coloredSelectedIconButton(rightIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_BACK, svColor.BUTTON_INK, rightTooltip, nil, key)
+	press = ui.coloredSelectedIconButton(rightIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, rightTooltip, nil, key)
 	if press or (key ~= "factor" and ui.isItemActive()) then
 		systemView:TransferPlannerAdd(key, 10)
 	end
@@ -98,7 +144,7 @@ end
 local time_selected_button_icon = icons.time_center
 
 local function timeButton(icon, tooltip, factor)
-	if ui.coloredSelectedIconButton(icon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_BACK, svColor.BUTTON_INK, tooltip) then
+	if ui.coloredSelectedIconButton(icon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, tooltip) then
 		time_selected_button_icon = icon
 	end
 	local active = ui.isItemActive()
@@ -109,68 +155,64 @@ local function timeButton(icon, tooltip, factor)
 	return active
 end
 
-local function loop3items(a, b, c) return { [a] = b, [b] = c, [c] = a } end
-
-local ship_drawing = "SHIPS_OFF"
-local show_lagrange = "LAG_OFF"
-local show_grid = "GRID_OFF"
-local nextShipDrawings = loop3items("SHIPS_OFF", "SHIPS_ON", "SHIPS_ORBITS")
-local nextShowLagrange = loop3items("LAG_OFF", "LAG_ICON", "LAG_ICONTEXT")
-local nextShowGrid = loop3items("GRID_OFF", "GRID_ON", "GRID_AND_LEGS")
-
-local function calcWindowWidth(buttons)
-	return (mainButtonSize.y + mainButtonFramePadding * 2) * buttons
-	+ itemSpacing.x * (buttons + 1)
+local function newWindow(name)
+	return {
+		size = Vector2(0.0, 0.0),
+		pos = Vector2(0.0, 0.0),
+		visible = true,
+		name = name,
+		style_colors = {["WindowBg"] = svColor.WINDOW_BG},
+		params = {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
+	}
 end
 
-local function calcWindowHeight(buttons, separators, texts)
-	return
-	(mainButtonSize.y + mainButtonFramePadding * 2) * buttons
-	+ separators * itemSpacing.y
-	+ texts * ui.fonts.pionillium.medium.size
-	+ (buttons + texts - 1) * itemSpacing.y
-	+ itemSpacing.x * 2
-end
+-- all windows in this view
+local Windows = {
+	systemName = newWindow("SystemMapSystemName"),
+	objectInfo = newWindow("SystemMapObjectIngo"),
+	edgeButtons = newWindow("SystemMapEdgeButtons"),
+	orbitPlanner = newWindow("SystemMapOrbitPlanner"),
+	timeButtons = newWindow("SystemMapTimeButtons")
+}
 
-local orbitPlannerWindowPos = Vector2(ui.screenWidth - calcWindowWidth(7), ui.screenHeight - calcWindowHeight(7, 3, 2))
-
-local function showOrbitPlannerWindow()
-	ui.setNextWindowPos(orbitPlannerWindowPos, "Always")
-	ui.withStyleColors({["WindowBg"] = svColor.WINDOW_BACK}, function()
-		ui.window("OrbitPlannerWindow", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "AlwaysAutoResize"},
-		function()
-			ui.text(lc.ORBIT_PLANNER)
-
-			ui.separator()
-
-			if ui.coloredSelectedIconButton(icons.reset_view, mainButtonSize, showShips, mainButtonFramePadding, svColor.BUTTON_BACK, svColor.BUTTON_INK, lc.RESET_ORIENTATION_AND_ZOOM) then
+function Windows.edgeButtons.Show()
+			-- view control buttons
+			if ui.coloredSelectedIconButton(icons.reset_view, mainButtonSize, showShips, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, lc.RESET_ORIENTATION_AND_ZOOM) then
 				systemView:SetVisibility("RESET_VIEW")
 			end
-			ui.sameLine()
-			if ui.coloredSelectedIconButton(icons.toggle_grid, mainButtonSize, showShips, mainButtonFramePadding, svColor.BUTTON_BACK, svColor.BUTTON_INK, lc.GRID_DISPLAY_MODE_TOGGLE) then
-				show_grid = nextShowGrid[show_grid]
-				systemView:SetVisibility(show_grid);
-			end
-			ui.sameLine()
-			if ui.coloredSelectedIconButton(icons.toggle_ships, mainButtonSize, showShips, mainButtonFramePadding, svColor.BUTTON_BACK, svColor.BUTTON_INK, lc.SHIPS_DISPLAY_MODE_TOGGLE) then
-				ship_drawing = nextShipDrawings[ship_drawing]
-				systemView:SetVisibility(ship_drawing);
-			end
-			ui.sameLine()
-			if ui.coloredSelectedIconButton(icons.toggle_lagrange, mainButtonSize, showLagrangePoints, mainButtonFramePadding, svColor.BUTTON_BACK, svColor.BUTTON_INK, lc.L4L5_DISPLAY_MODE_TOGGLE) then
-				show_lagrange = nextShowLagrange[show_lagrange]
-				systemView:SetVisibility(show_lagrange);
-			end
-			ui.sameLine()
-			ui.coloredSelectedIconButton(icons.search_lens,mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_BACK, svColor.BUTTON_INK, luc.ZOOM)
-			systemView:SetZoomMode(ui.isItemActive())
-
-			ui.sameLine()
-			ui.coloredSelectedIconButton(icons.rotate_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_BACK, svColor.BUTTON_INK, luc.ROTATE_VIEW)
+			ui.coloredSelectedIconButton(icons.rotate_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.ROTATE_VIEW)
 			systemView:SetRotateMode(ui.isItemActive())
+			ui.coloredSelectedIconButton(icons.search_lens,mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.ZOOM)
+			systemView:SetZoomMode(ui.isItemActive())
+			ui.text("")
+			-- visibility control buttons
+			if ui.coloredSelectedIconButton(buttonState[ship_drawing].icon, mainButtonSize, showShips, mainButtonFramePadding, buttonState[ship_drawing].color, svColor.BUTTON_INK, lc.SHIPS_DISPLAY_MODE_TOGGLE) then
+				ship_drawing = nextShipDrawings[ship_drawing]
+				systemView:SetVisibility(ship_drawing)
+			end
+			if ui.coloredSelectedIconButton(buttonState[show_lagrange].icon, mainButtonSize, showLagrangePoints, mainButtonFramePadding, buttonState[show_lagrange].color, svColor.BUTTON_INK, lc.L4L5_DISPLAY_MODE_TOGGLE) then
+				show_lagrange = nextShowLagrange[show_lagrange]
+				systemView:SetVisibility(show_lagrange)
+			end
+			if ui.coloredSelectedIconButton(buttonState[show_grid].icon, mainButtonSize, showShips, mainButtonFramePadding, buttonState[show_grid].color, svColor.BUTTON_INK, lc.GRID_DISPLAY_MODE_TOGGLE) then
+				show_grid = nextShowGrid[show_grid]
+				systemView:SetVisibility(show_grid)
+			end
+			ui.text("")
+			-- windows control buttons
+			if ui.coloredSelectedIconButton(icons.info, mainButtonSize, showShips, mainButtonFramePadding, buttonState[Windows.objectInfo.visible].color, svColor.BUTTON_INK, lc.OBJECT_INFO) then
+				Windows.objectInfo.visible = not Windows.objectInfo.visible
+			end
+			if ui.coloredSelectedIconButton(icons.semi_major_axis, mainButtonSize, showShips, mainButtonFramePadding, buttonState[Windows.orbitPlanner.visible].color, svColor.BUTTON_INK, lc.ORBIT_PLANNER) then
+				Windows.orbitPlanner.visible = not Windows.orbitPlanner.visible
+			end
+end
 
+function Windows.orbitPlanner.Show()
+			textIcon(icons.semi_major_axis)
+			ui.sameLine()
+			ui.text(lc.ORBIT_PLANNER)
 			ui.separator()
-
 			showDvLine(icons.decrease, icons.delta, icons.increase, "factor", function(i) return i, "x" end, luc.DECREASE, lc.PLANNER_RESET_FACTOR, luc.INCREASE)
 			showDvLine(icons.decrease, icons.clock, icons.increase, "starttime",
 			function(i)
@@ -186,9 +228,9 @@ local function showOrbitPlannerWindow()
 			showDvLine(icons.decrease, icons.orbit_prograde, icons.increase, "prograde", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_PROGRADE, luc.INCREASE)
 			showDvLine(icons.decrease, icons.orbit_normal, icons.increase, "normal", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_NORMAL, luc.INCREASE)
 			showDvLine(icons.decrease, icons.orbit_radial, icons.increase, "radial", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_RADIAL, luc.INCREASE)
+end
 
-			ui.separator()
-
+function Windows.timeButtons.Show()
 			local t = systemView:GetOrbitPlannerTime()
 			ui.text(t and ui.Format.Datetime(t) or lc.NOW)
 			local r = false
@@ -206,8 +248,6 @@ local function showOrbitPlannerWindow()
 					systemView:AccelerateTime(0.0)
 				end
 			end
-		end)
-	end)
 end
 
 local function getBodyIcon(obj)
@@ -306,16 +346,10 @@ local function getColor(obj)
 	end
 end
 
-local function showSystemName()
-	ui.setNextWindowPos(Vector2(20, 20), "Always")
-	ui.withStyleColors({["WindowBg"] = svColor.SYSTEMNAME_BACK}, function()
-		ui.window("SystemName", {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
-		function()
+function Windows.systemName.Show()
 			local path = Game.sectorView:GetSelectedSystemPath()
 			local starsystem = path:GetStarSystem()
 			ui.text(starsystem.name .. " (" .. path.sectorX .. ", " .. path.sectorY .. ", " .. path.sectorZ .. ")")
-		end)
-	end)
 end
 
 -- forked from data/pigui/views/game.lua
@@ -372,7 +406,7 @@ local function displayOnScreenObjects()
 			if group.objects then
 				label = label .. " (" .. #group.objects .. ")"
 			end
-			ui.addStyledText(mainCoords + Vector2(label_offset,0), ui.anchor.left, ui.anchor.center, label , getColor(mainObject), pionillium.small)
+			ui.addStyledText(mainCoords + Vector2(label_offset,0), ui.anchor.left, ui.anchor.center, label , getColor(mainObject), hudfont)
 		end
 		local mp = ui.getMousePos()
 
@@ -413,36 +447,44 @@ local function displayOnScreenObjects()
 				systemView:SetSelectedObject(mainObject.type, mainObject.base, mainObject.ref)
 			end
 		end
-
 		objectCounter = objectCounter + 1
 	end
 end
 
-local function tabular(data)
+local function tabular(data, maxSize)
 	if data and #data > 0 then
-		ui.columns(2, "Attributes", true)
+		ui.columns(2, "Attributes", false)
+		local nameWidth = 0
+		local valueWidth = 0
 		for _,item in pairs(data) do
 			if item.value then
 				ui.text(item.name)
 				ui.nextColumn()
 				ui.text(item.value)
 				ui.nextColumn()
+				-- adding "--" for spacing
+				nameWidth = math.max(nameWidth, ui.calcTextSize(item.name .. "--").x)
+				valueWidth = math.max(valueWidth, ui.calcTextSize(item.value .. "--").x)
 			end
 		end
-		ui.columns(1, "NoAttributes", false)
+		if nameWidth + valueWidth > maxSize then
+			-- first of all, we want to see the values, but the keys should not be too small either
+			nameWidth = math.max(maxSize - valueWidth, maxSize * 0.1)
+		end
+		ui.setColumnWidth(0, nameWidth)
 	end
 end
 
-local function showTargetInfoWindow(obj)
+function Windows.objectInfo.Show()
+	textIcon(icons.info)
+	ui.sameLine()
+	ui.text(lc.OBJECT_INFO)
+	ui.separator()
+	obj = systemView:GetSelectedObject()
 	if obj.type ~= Projectable.OBJECT or obj.base ~= Projectable.SHIP and obj.base ~= Projectable.SYSTEMBODY then return end
-	ui.setNextWindowSize(Vector2(ui.screenWidth / 5, 0), "Always")
-	ui.setNextWindowPos(Vector2(20, (ui.screenHeight / 5) * 2 + 20), "Always")
-	ui.withStyleColors({["WindowBg"] = svColor.WINDOW_BACK}, function()
-		ui.window("TargetInfoWindow", {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
-		function()
 			local data
 			-- system body
-			if obj.type == Projectable.OBJECT and obj.base == Projectable.SYSTEMBODY then
+			if obj.base == Projectable.SYSTEMBODY then
 				local systemBody = obj.ref
 				local name = systemBody.name
 				local rp = systemBody.rotationPeriod * 24 * 60 * 60
@@ -462,7 +504,7 @@ local function showTargetInfoWindow(obj)
 				data = {
 					{ name = lc.NAME_OBJECT,
 					value = name },
-					{ name = lc.DAY_LENGTH .. lc.ROTATIONAL_PERIOD,
+					{ name = lc.DAY_LENGTH,
 					value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
 					{ name = lc.RADIUS,
 					value = radius },
@@ -472,10 +514,10 @@ local function showTargetInfoWindow(obj)
 					value = op and op > 0 and ui.Format.Duration(op, 2) or nil }
 				}
 				-- physical body
-			elseif obj.type == Projectable.OBJECT and obj.ref:IsShip() then
+			elseif obj.ref:IsShip() then
 				local body = obj.ref
 				local name = body.label
-				data = {{ name = lc.NAME_OBJECT, value = name }, }
+				data = {{ name = lc.NAME_OBJECT, value = name }}
 				-- TODO: the advanced target scanner should add additional data here,
 				-- but we really do not want to hardcode that here. there should be
 				-- some kind of hook that the target scanner can hook into to display
@@ -484,30 +526,92 @@ local function showTargetInfoWindow(obj)
 				table.insert(data, { name = luc.SHIP_TYPE, value = body:GetShipType() })
 				if player:GetEquipCountOccupied('target_scanner') > 0 or player:GetEquipCountOccupied('advanced_target_scanner') > 0 then
 					local hd = body:GetEquip("engine", 1)
-					table.insert(data, { name = lc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
-					table.insert(data, { name = lc.MASS, value = Format.MassTonnes(body:GetStats().staticMass) })
-					table.insert(data, { name = lc.CARGO, value = Format.MassTonnes(body:GetStats().usedCargo) })
+					table.insert(data, { name = luc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
+					table.insert(data, { name = luc.MASS, value = Format.MassTonnes(body:GetStats().staticMass) })
+					table.insert(data, { name = luc.CARGO, value = Format.MassTonnes(body:GetStats().usedCargo) })
 				end
 			else
 				data = {}
 			end
-			tabular(data)
-		end)
-	end)
+			tabular(data, Windows.objectInfo.size.x)
 end
+
+function Windows.objectInfo.Dummy()
+	ui.text(lc.OBJECT_INFO)
+	ui.separator()
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
+end
+
+local function showWindow(w)
+	ui.setNextWindowSize(w.size, "Always")
+	ui.setNextWindowPos(w.pos, "Always")
+	ui.withStyleColors(w.style_colors, function() ui.window(w.name, w.params, w.Show) end)
+end
+
+local dummyFrames = 3
+
+local hideSystemViewWindows = false
 
 local function displaySystemViewUI()
 	player = Game.player
 	local current_view = Game.CurrentView()
-
 	if current_view == "system" and not Game.InHyperspace() then
-		selectedObject = systemView:GetSelectedObject()
-		displayOnScreenObjects()
-		ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
-			showOrbitPlannerWindow()
-			showTargetInfoWindow(selectedObject)
-		end)
-		showSystemName()
+		if dummyFrames > 0 then -- do it a few frames, because imgui need a few frames to make the correct window size
+
+			-- first, doing some one-time actions here
+			-- calculating in-text icon size for used font size
+			if not textIconSize then
+				ui.withFont(winfont, function()
+					textIconSize = ui.calcTextSize("H")
+					textIconSize.x = textIconSize.y -- make square
+				end)
+				edgePadding = textIconSize
+			end
+			-- measuring windows (or dummies)
+			ui.withFont(winfont, function()
+				for _,w in pairs(Windows) do
+					ui.setNextWindowPos(Vector2(ui.screenWidth, 0.0), "Always")
+					ui.window(w.name, w.params, function()
+						if w.Dummy then w.Dummy()
+						else w.Show()
+						end
+						w.size = ui.getWindowSize()
+					end)
+				end
+			end)
+
+			-- make final calculations on the last non-working frame
+			if dummyFrames == 1 then
+				-- resizing, aligning windows - static
+				Windows.systemName.pos = Vector2(edgePadding.x, edgePadding.y)
+				Windows.systemName.size.x = 0 -- adaptive width
+				Windows.edgeButtons.pos = Vector2(ui.screenWidth - Windows.edgeButtons.size.x, ui.screenHeight / 2 - Windows.edgeButtons.size.y / 2) -- center-right
+				Windows.timeButtons.pos = Vector2(ui.screenWidth, ui.screenHeight) - Windows.timeButtons.size
+				Windows.orbitPlanner.pos = Windows.timeButtons.pos - Vector2(0, Windows.orbitPlanner.size.y)
+				Windows.orbitPlanner.size.x = Windows.edgeButtons.pos.x - Windows.timeButtons.pos.x
+				Windows.objectInfo.pos = Windows.orbitPlanner.pos - Vector2(0, Windows.objectInfo.size.y)
+				Windows.objectInfo.size = Vector2(Windows.orbitPlanner.size.x, 0) -- adaptive height
+			end
+			dummyFrames = dummyFrames - 1
+		else
+			if ui.isKeyReleased(ui.keys.tab) then
+				hideSystemViewWindows = not hideSystemViewWindows;
+			end
+			if not hideSystemViewWindows then
+				-- display all windows
+				ui.withFont(winfont, function()
+					for _,w in pairs(Windows) do
+						if w.visible then showWindow(w) end
+					end
+				end)
+			end
+			displayOnScreenObjects()
+		end
 	end
 end
 
