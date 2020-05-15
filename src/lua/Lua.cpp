@@ -57,6 +57,8 @@ namespace Lua {
 	void InitModules()
 	{
 		PROFILE_SCOPED()
+		lua_State *l = Lua::manager->GetLuaState();
+
 		LuaObject<PropertiedObject>::RegisterClass();
 
 		LuaObject<Body>::RegisterClass();
@@ -110,7 +112,6 @@ namespace Lua {
 		SceneGraph::Lua::Init();
 
 		// XXX load everything. for now, just modules
-		lua_State *l = Lua::manager->GetLuaState();
 		pi_lua_dofile(l, "libs/autoload.lua");
 		lua_pop(l, 1);
 

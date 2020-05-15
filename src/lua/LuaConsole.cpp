@@ -1,6 +1,7 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "LuaMetaType.h"
 #include "buildopts.h"
 
 #include "FileSystem.h"
@@ -314,7 +315,8 @@ void LuaConsole::UpdateCompletion(const std::string &statement)
 		lua_gettable(l, -2);
 		chunks.pop();
 	}
-	LuaObjectBase::GetNames(m_completionList, chunks.top(), method);
+	
+	LuaMetaTypeBase::GetNames(m_completionList, chunks.top(), method);
 	if (!m_completionList.empty()) {
 		std::sort(m_completionList.begin(), m_completionList.end());
 		m_completionList.erase(std::unique(m_completionList.begin(), m_completionList.end()), m_completionList.end());
