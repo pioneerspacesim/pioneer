@@ -143,6 +143,10 @@ Pioneer includes the following third-party software:
   Copyright (C) 2002, Lev Povalahev
   Licensed under the Modified BSD licence (see licenses/GLEW.txt)
 
+  argh
+  Copyright (C) 2016, Adi Shavit
+  Licensed under the BSD 3-clause license (see licenses/BSD-3-Clause.txt)
+
   miniz by Rich Geldreich, April 2012
   Public domain (see contrib/miniz/miniz.h)
 
