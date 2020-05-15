@@ -147,6 +147,11 @@ Pioneer includes the following third-party software:
   Copyright (C) 2016, Adi Shavit
   Licensed under the BSD 3-clause license (see licenses/BSD-3-Clause.txt)
 
+  string-view lite, a C++17-like string_view for C++98 and later.
+  https://github.com/martinmoene/string-view-lite
+  Copyright 2017-2019 by Martin Moene
+  Distributed under the Boost Software License, Version 1.0. (see licenses/Boost-1.0.txt)
+
   miniz by Rich Geldreich, April 2012
   Public domain (see contrib/miniz/miniz.h)
 
@@ -176,6 +181,10 @@ Pioneer includes the following third-party software:
   Base64 Encode / Decode
   Copyright © 2013 Tomas Kislan, Adam Rudd
   Licensed under the MIT License (see contrib/base64/base64.hpp)
+
+  fmt - open-source formatting library for C++
+  Copyright (c) 2012 - present, Victor Zverovich
+  Licensed under the MIT license
 
   High Performance C++ Profiler
   https://code.google.com/p/high-performance-cplusplus-profiler/
