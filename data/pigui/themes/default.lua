@@ -260,8 +260,8 @@ theme.icons = {
 	apoapsis = 201,
 	reset_view = 202,
 	toggle_grid = 203,
-	toggle_lagrange = 204,
-	toggle_ships = 205,
+	--EMPTY
+	--EMPTY
 	decrease = 206,
 	increase = 207,
 	-- fourteenth row, wide icons
@@ -281,9 +281,16 @@ theme.icons = {
 	chart = 224,
 	binder = 225,
 	navtarget = 226,
+	ships_no_orbits = 227,
+	ships_with_orbits = 228,
+	lagrange_no_text = 229,
+	lagrange_with_text = 230,
+	route = 231,
+	route_destination = 232,
+	route_dist = 233,
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly
-	mouse_move_direction = 14,
+	mouse_move_direction = 14
 }
 
 -- TODO: apply these styles at startup.
