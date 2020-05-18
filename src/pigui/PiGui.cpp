@@ -121,17 +121,31 @@ Instance::Instance() :
 {
 	// TODO: clang-format doesn't like list initializers inside function calls
 	// clang-format off
+
+	// The main face of the font should go first in the list, because:
+	//
+	// - during the first initialization, only the first face is used to bake the
+	// font ( see Instance::AddFont )
+	//
+	// - when a non-standard glyph is found in the text, a search is started in
+	// the faces, and the faces are scanned in the order of this list
+	// ( see Instance::AddGlyph )
+	//
+	// - the default imgui glyph range ( 0x20 .. 0xFF ) is always baked from the
+	// first face, that has some ranges defined
+	// ( see Instance::BakeFont )
+
 	PiFont uiheading("orbiteer", {
+		PiFace("Orbiteer-Bold.ttf", 1.0), // imgui only supports 0xffff, not 0x10ffff
 		PiFace("DejaVuSans.ttf", /*18.0/20.0*/ 1.2),
-		PiFace("wqy-microhei.ttc", 1.0),
-		PiFace("Orbiteer-Bold.ttf", 1.0) // imgui only supports 0xffff, not 0x10ffff
+		PiFace("wqy-microhei.ttc", 1.0)
 	});
 	AddFontDefinition(uiheading);
 
 	PiFont guifont("pionillium", {
+		PiFace("PionilliumText22L-Medium.ttf", 1.0),
 		PiFace("DejaVuSans.ttf", 13.0 / 14.0),
-		PiFace("wqy-microhei.ttc", 1.0),
-		PiFace("PionilliumText22L-Medium.ttf", 1.0)
+		PiFace("wqy-microhei.ttc", 1.0)
 	});
 	AddFontDefinition(guifont);
 	// clang-format on
@@ -158,6 +172,7 @@ ImFont *Instance::GetFont(const std::string &name, int size)
 	return font;
 }
 
+// If after rendering, the dear ImGui lacks a glyph, this function is called
 void Instance::AddGlyph(ImFont *font, unsigned short glyph)
 {
 	PROFILE_SCOPED()
@@ -172,10 +187,15 @@ void Instance::AddGlyph(ImFont *font, unsigned short glyph)
 		Error("No registered PiFont for name %s size %i\n", iter->second.first.c_str(), iter->second.second);
 		assert(false);
 	}
+	// as a result, we look at all the faces of the font in turn, for the
+	// presence of this glyph.
 	PiFont &pifont = pifont_iter->second;
 	for (PiFace &face : pifont.faces()) {
 		if (face.isValidGlyph(glyph)) {
+			// and as soon as we find it, we define the glyph..glyph range in this face
 			face.addGlyph(glyph);
+			// and enable the flag that all fonts should be rebaked
+			// ( see Instance::BakeFont )
 			m_should_bake_fonts = true;
 			return;
 		}
@@ -199,7 +219,10 @@ ImFont *Instance::AddFont(const std::string &name, int size)
 
 	PiFont &pifont = iter->second;
 	pifont.setPixelsize(size);
-	pifont.faces().back().addGlyph(0x20); // only add space
+	// here we add the range 0x0020 .. 0x0020 to the first face of the font
+	// the other faces of this font do not yet have ranges, so they will not be
+	// used for baking for the first time
+	pifont.faces()[0].addGlyph(0x20);
 	m_pi_fonts[std::make_pair(name, size)] = pifont;
 
 	m_should_bake_fonts = true;
@@ -344,6 +367,7 @@ void Instance::ClearFonts()
 	io.Fonts->Clear();
 }
 
+// this function rasterizes a specific font
 void Instance::BakeFont(PiFont &font)
 {
 	PROFILE_SCOPED()
@@ -356,11 +380,18 @@ void Instance::BakeFont(PiFont &font)
 		const std::string path = FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), face.ttfname());
 		//		Output("- baking face %s at size %f\n", path.c_str(), size);
 		face.sortUsedRanges();
+		// note that if there are no ranges at all in the face, it is ignored
 		if (face.used_ranges().size() > 0) {
 			face.m_imgui_ranges.clear();
-			ImFontAtlas::GlyphRangesBuilder gb;
-			// Always include the default range
+			ImFontGlyphRangesBuilder gb;
+			// but if at least one range is defined for a face, then we are trying to
+			// add a default range to it
 			gb.AddRanges(io.Fonts->GetGlyphRangesDefault());
+			// ( default imgui glyph range - 0x0020 .. 0x00FF : Basic Latin + Latin Supplement )
+			// it turns out that if ranges are defined in several faces of the font,
+			// we try to add a default range to each. but since the repeated range
+			// is ignored, the default range is baked only from the first face that
+			// falls into this scope
 			ImWchar gr[3] = { 0, 0, 0 };
 			for (auto &range : face.used_ranges()) {
 				// Output("Used range: %x - %x", range.first, range.second);
