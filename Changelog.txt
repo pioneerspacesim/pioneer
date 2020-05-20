@@ -8,6 +8,7 @@ May 2020
      * Remove price reduction when selling commodities (#4876)
      * Clear SetSpeedTarget when jumping (#4880)
      * Commodity name clean-up (#4875)
+     * Prevent unwanted font face changes (#4882)
 
    * Internal Changes
      * Remove many warnings (#4864)
