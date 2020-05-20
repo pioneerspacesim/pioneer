@@ -135,7 +135,7 @@ protected:
 	}
 
 	template <typename T, typename Rt, typename... Args>
-	static int member_fn_wrapper_(lua_State *L)
+	typename std::enable_if<!std::is_same<Rt, void>::value, int>::type static member_fn_wrapper_(lua_State *L)
 	{
 		T *ptr = LuaPull<T *>(L, 1);
 		const char *name = lua_tostring(L, lua_upvalueindex(1));
@@ -153,8 +153,8 @@ protected:
 		return 1;
 	}
 
-	template <typename T, typename Rt, typename... Args, typename std::enable_if<std::is_same<Rt, void>::value>::type = nullptr>
-	static int member_fn_wrapper_(lua_State *L)
+	template <typename T, typename Rt, typename... Args>
+	typename std::enable_if<std::is_same<Rt, void>::value, int>::type static member_fn_wrapper_(lua_State *L)
 	{
 		T *ptr = LuaPull<T *>(L, 1);
 		const char *name = lua_tostring(L, lua_upvalueindex(1));
@@ -310,7 +310,7 @@ public:
 	template <typename Dt>
 	LuaMetaType &AddMember(const char *name, const_member_function<T, Dt> getter, member_function<T, void, Dt> setter = nullptr)
 	{
-		return AddMember(name, const_cast<member_function<T, Dt>>(getter), setter);
+		return AddMember(name, reinterpret_cast<member_function<T, Dt>>(getter), setter);
 	}
 
 	// Bind a pseudo-member to Lua via a member-function getter and setter.
@@ -339,7 +339,7 @@ public:
 	template <typename Rt, typename... Args>
 	LuaMetaType &AddFunction(const char *name, const_member_function<T, Rt, Args...> fn)
 	{
-		return AddFunction(name, const_cast<member_function<T, Rt, Args...>>(fn));
+		return AddFunction(name, reinterpret_cast<member_function<T, Rt, Args...>>(fn));
 	}
 
 	// Bind a member function to Lua.
