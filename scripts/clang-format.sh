@@ -20,7 +20,10 @@ fi
 
 if [[ $RANGE_BASE ]]; then
 	# if we're comparing against a certain commit, diff the tree
-    GIT_DIFF_TOOL="git diff-tree"
+    GIT_DIFF_TOOL="git diff-tree -r"
+	if [[ -z $PATCH_MODE ]]; then
+		echo -e "Checking files between commit $RANGE_BASE and HEAD"
+	fi
 else
 	# otherwise, only diff the HEAD against the index
     GIT_DIFF_TOOL="git diff-index --cached"
