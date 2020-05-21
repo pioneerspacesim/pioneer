@@ -396,9 +396,23 @@ bool LuaMetaTypeBase::GetMetatableFromName(lua_State *l, const char *name)
 	return true;
 }
 
+void LuaMetaTypeBase::GetMetatable() const
+{
+	assert(IsValid());
+	LUA_DEBUG_START(m_lua);
+
+	luaL_getsubtable(m_lua, LUA_REGISTRYINDEX, "LuaMetaTypes");
+	lua_rawgeti(m_lua, -1, m_ref);
+	lua_remove(m_lua, -2);
+	assert(lua_type(m_lua, -1) == LUA_TTABLE);
+
+	LUA_DEBUG_END(m_lua, 1);
+}
+
 void LuaMetaTypeBase::CreateMetaType(lua_State *l)
 {
 	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaMetaTypes");
+	m_lua = l;
 
 	// if the type name is empty, we're creating a "throwaway" object with no parent either
 	if (!m_typeName.empty()) {
@@ -417,8 +431,9 @@ void LuaMetaTypeBase::CreateMetaType(lua_State *l)
 		lua_setfield(l, -3, m_typeName.c_str());
 	}
 
-	// Generate the reference to be stored in the C++ object
-	m_typeTable = LuaRef(l, -1);
+	// Store this metatable via a numeric ref index for easy access
+	lua_pushvalue(l, -1);
+	m_ref = luaL_ref(l, -3);
 
 	// set the type name on the metatable
 	lua_pushstring(l, m_typeName.c_str());

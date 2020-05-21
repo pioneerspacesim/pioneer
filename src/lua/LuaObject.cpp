@@ -201,12 +201,6 @@ int LuaObjectHelpers::l_setprop(lua_State *l)
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	const std::string key(luaL_checkstring(l, 2));
 
-	int isnum;
-	double vn = lua_tonumberx(l, 3, &isnum);
-	std::string vs;
-	if (!isnum)
-		vs = luaL_checkstring(l, 3);
-
 	// quick check to make sure this object actually has properties
 	// before we go diving through the stack etc
 	lua_getuservalue(l, 1);
@@ -221,10 +215,14 @@ int LuaObjectHelpers::l_setprop(lua_State *l)
 	PropertiedObject *po = dynamic_cast<PropertiedObject *>(o);
 	assert(po);
 
-	if (isnum)
-		po->Properties().Set(key, vn);
+	if (lua_isnumber(l, 3))
+		po->Properties().Set(key, lua_tonumber(l, 3));
+	else if (lua_isboolean(l, 3))
+		po->Properties().Set(key, lua_toboolean(l, 3));
+	else if (lua_isstring(l, 3))
+		po->Properties().Set(key, lua_tostring(l, 3));
 	else
-		po->Properties().Set(key, vs);
+		return luaL_error(l, "Bad argument #2 to 'setprop' (number, string, or boolean expected, got %s)", luaL_typename(l, 3));
 
 	return 0;
 }
@@ -293,7 +291,7 @@ static void register_functions(lua_State *l, const luaL_Reg *methods, bool prote
 void LuaObjectBase::CreateObject(LuaMetaTypeBase *metaType)
 {
 	assert(metaType);
-	assert(metaType->GetMetatable().IsValid());
+	assert(metaType->IsValid());
 
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -303,7 +301,7 @@ void LuaObjectBase::CreateObject(LuaMetaTypeBase *metaType)
 	lua_newtable(l);
 
 	// apply the metatable
-	metaType->GetMetatable().PushCopyToStack();
+	metaType->GetMetatable();
 	lua_setmetatable(l, -2);
 
 	// leave the finished object on the stack
@@ -414,10 +412,9 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 void LuaObjectBase::CreateClass(LuaMetaTypeBase *metaType)
 {
 	assert(metaType);
-	assert(metaType->GetMetatable().IsValid());
+	assert(metaType->IsValid());
 
 	lua_State *l = Lua::manager->GetLuaState();
-	assert(l == metaType->GetMetatable().GetLua());
 
 	_instantiate();
 
@@ -429,7 +426,7 @@ void LuaObjectBase::CreateClass(LuaMetaTypeBase *metaType)
 	pi_lua_split_table_path(l, metaType->GetTypeName());
 
 	// Get the method table from the metatype
-	metaType->GetMetatable().PushCopyToStack();
+	metaType->GetMetatable();
 	lua_getfield(l, -1, "methods");
 	lua_remove(l, -2); // "global" table, type name, methods table
 
@@ -458,7 +455,7 @@ void LuaObjectBase::CreateClass(LuaMetaTypeBase *metaType)
 	lua_pop(l, 1);
 
 	// Get the metatype's table (again)
-	metaType->GetMetatable().PushCopyToStack();
+	metaType->GetMetatable();
 
 	// default tostring method.
 	// if the metatype already has a tostring metamethod, don't override it
