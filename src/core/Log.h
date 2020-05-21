@@ -42,7 +42,7 @@ namespace Log {
 			if (current_indent) current_indent -= 1;
 		}
 
-		sigc::signal<void(Time::DateTime, Severity, nonstd::string_view)> printCallback;
+		sigc::signal<void, Time::DateTime, Severity, nonstd::string_view> printCallback;
 
 	private:
 		void WriteLog(Time::DateTime t, Severity sv, nonstd::string_view msg);
