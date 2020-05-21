@@ -8,12 +8,12 @@
 #include "Body.h"
 #include "DeathView.h"
 #include "FileSystem.h"
-#include "core/GZipFormat.h"
 #include "GameLog.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
 #include "MathUtil.h"
 #include "Object.h"
+#include "core/GZipFormat.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaSerializer.h"
 #if WITH_OBJECTVIEWER
@@ -619,21 +619,21 @@ void Game::SwitchToNormalSpace()
 }
 
 const float Game::s_timeAccelRates[] = {
-	0.0f, // paused
-	1.0f, // 1x
-	10.0f, // 10x
-	100.0f, // 100x
-	1000.0f, // 1000x
+	0.0f,	  // paused
+	1.0f,	  // 1x
+	10.0f,	  // 10x
+	100.0f,	  // 100x
+	1000.0f,  // 1000x
 	10000.0f, // 10000x
 	100000.0f // hyperspace
 };
 
 const float Game::s_timeInvAccelRates[] = {
-	0.0f, // paused
-	1.0f, // 1x
-	0.1f, // 10x
-	0.01f, // 100x
-	0.001f, // 1000x
+	0.0f,	 // paused
+	1.0f,	 // 1x
+	0.1f,	 // 10x
+	0.01f,	 // 100x
+	0.001f,	 // 1000x
 	0.0001f, // 10000x
 	0.00001f // hyperspace
 };
@@ -888,9 +888,9 @@ Game *Game::LoadGame(const std::string &filename)
 
 	try {
 		return new Game(rootNode);
-	} catch (const Json::type_error&) {
+	} catch (const Json::type_error &) {
 		throw SavedGameCorruptException();
-	} catch (const Json::out_of_range&) {
+	} catch (const Json::out_of_range &) {
 		throw SavedGameCorruptException();
 	}
 }
@@ -928,7 +928,7 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	Profiler::reset();
 #endif
 
-	Json rootNode; // Create the root JSON value for receiving the game data.
+	Json rootNode;			// Create the root JSON value for receiving the game data.
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
 	std::vector<uint8_t> jsonData;
 	{
