@@ -251,6 +251,18 @@ public:
 		LuaMetaTypeBase(name)
 	{}
 
+	LuaMetaType &StartRecording()
+	{
+		LuaMetaTypeBase::StartRecording();
+		return *this;
+	}
+
+	LuaMetaType &StopRecording()
+	{
+		LuaMetaTypeBase::StopRecording();
+		return *this;
+	}
+
 	// All functions and members pushed while protection is enabled will error
 	// when accessed by a non-trusted lua script.
 	void SetProtected(bool enabled) { m_protected = enabled; }
