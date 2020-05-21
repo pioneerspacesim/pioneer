@@ -2,6 +2,7 @@ May 2020
    * New Features
      * Add Star's End system on the other side of the galaxy (#4873)
      * Merge 36 Ophiuchi & Gliese 664 into a single star system (#4874)
+     * Performance Information widget is available in all builds (#4881)
 
    * Fixes
      * Correctly restart mission timer when loading saves (#4870)
@@ -13,6 +14,8 @@ May 2020
    * Internal Changes
      * Remove many warnings (#4864)
      * Add LuaMetaType mechanism, refactor LuaObject to v2.0 (#4878)
+     * Move more code to core/ module, add several helper libraries (#4881)
+     * Added better logging system, obsoleted OS::RedirectStdio (#4881)
 
 April 2020
    * New Features
