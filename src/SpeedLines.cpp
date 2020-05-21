@@ -5,11 +5,11 @@
 
 #include "FileSystem.h"
 #include "Frame.h"
-#include "IniConfig.h"
 #include "Pi.h"
 #include "Ship.h"
-#include "graphics/Renderer.h"
+#include "core/IniConfig.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 
 // default values
 float SpeedLines::BOUNDS = 2000.f;

@@ -219,10 +219,15 @@ find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 
 add_subdirectory(contrib/lz4)
+add_subdirectory(contrib/fmt)
+
+set(PIONEER_SRC ${CMAKE_SOURCE_DIR}/src)
+set(PIONEER_CONTRIB ${CMAKE_SOURCE_DIR}/contrib)
 
 include_directories(
-	${CMAKE_SOURCE_DIR}/src
-	${CMAKE_SOURCE_DIR}/contrib
+	${PIONEER_SRC}
+	${PIONEER_CONTRIB}
+	${PIONEER_CONTRIB}/fmt/include
 	${ASSIMP_INCLUDE_DIRS}
 	${FREETYPE_INCLUDE_DIRS}
 	${OPENGL_INCLUDE_DIRS}
@@ -281,7 +286,6 @@ add_executable(savegamedump WIN32
 	src/FileSystem.cpp
 	src/utils.cpp
 	src/StringF.cpp
-	src/GZipFormat.cpp
 	src/DateTime.cpp
 	src/Lang.cpp
 	${FILESYSTEM_CXX_FILES}
@@ -297,7 +301,7 @@ if (NATURALDOCS)
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 endif()
 
-target_link_libraries(pioneer-lib PUBLIC lz4)
+target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
 
 list(APPEND pioneerLibs
 	pioneer-lib
@@ -327,7 +331,7 @@ endif (WIN32)
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
-target_link_libraries(savegamedump LINK_PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES} profiler lz4 ${winLibs})
+target_link_libraries(savegamedump LINK_PRIVATE pioneer-core ${SDL2_IMAGE_LIBRARIES} ${winLibs})
 
 set_cxx11_properties(${PROJECT_NAME} modelcompiler savegamedump)
 
@@ -346,15 +350,18 @@ else (CMAKE_CROSSCOMPILING)
 	set(MODELCOMPILER $<TARGET_FILE:modelcompiler>)
 endif (CMAKE_CROSSCOMPILING)
 
+add_custom_target(build-data)
+
 if (MODELCOMPILER)
 	# Optimize the models.
 	# This really shouldn't be done inside the source tree...
 	if (NOT MSVC)
-		add_custom_command(TARGET modelcompiler POST_BUILD
+		add_custom_target(build-models
 			COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy ${MODELCOMPILER} -b inplace
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 			COMMENT "Optimizing models" VERBATIM
 		)
+		add_dependencies(build-data build-models)
 	endif (NOT MSVC)
 else (MODELCOMPILER)
 	message(WARNING "No modelcompiler provided, models won't be optimized!")

@@ -2,13 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FileSystem.h"
-#include "Lua.h"
-#include "OS.h"
-#include "PropertiedObject.h"
 #include "SDL.h"
+#include "core/OS.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/opengl/RendererGL.h"
+#include "lua/Lua.h"
+#include "lua/PropertiedObject.h"
 #include "ui/Context.h"
 #include <cstdlib>
 #include <typeinfo>

@@ -4,9 +4,9 @@
 #ifndef UI_ICON_H
 #define UI_ICON_H
 
-#include "IniConfig.h"
 #include "SmartPtr.h"
 #include "Widget.h"
+#include "core/IniConfig.h"
 #include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Texture.h"

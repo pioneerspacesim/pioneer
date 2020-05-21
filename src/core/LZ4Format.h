@@ -3,11 +3,15 @@
 
 #pragma once
 
+#include "nonstd/string_view.hpp"
+
 #include <memory>
 #include <stdexcept>
 #include <string>
 
 namespace lz4 {
+	using nonstd::string_view;
+
 	struct DecompressionFailedException : public std::runtime_error {
 		using std::runtime_error::runtime_error;
 	};
@@ -21,10 +25,10 @@ namespace lz4 {
 
 	// Decompress lz4 format data.
 	// If the input fails format checks or checksum then it will throw an exception.
-	std::string DecompressLZ4(const char *data, size_t length);
+	std::string DecompressLZ4(const string_view data);
 
 	// Compresses a block of data according to the lz4 framing format.
 	// If compression fails it throws an exception.
 	// lz4_speed is the compression preset; 0 = default compression, 3-12 = HC compression
-	std::unique_ptr<char[]> CompressLZ4(const std::string &data, const int lz4_preset, std::size_t &outSize);
+	std::string CompressLZ4(const string_view data, const int lz4_preset);
 } // namespace lz4

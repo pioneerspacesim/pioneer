@@ -265,6 +265,12 @@ local function showVideoOptions()
 	if c then
 		Engine.SetAmountStars(starDensity/100)
 	end
+
+	ui.separator()
+	optionTextButton("Debug Info", nil, true, function()
+		Engine.SetShowDebugInfo()
+		ui.optionsWindow:close()
+	end)
 end
 
 local captureBindingWindow

@@ -5,7 +5,6 @@
 #include "DateTime.h"
 #include "DeathView.h"
 #include "FileSystem.h"
-#include "GZipFormat.h"
 #include "Game.h"
 #include "GameSaveError.h"
 #include "Lang.h"
@@ -21,6 +20,7 @@
 #include "SystemInfoView.h"
 #include "SystemView.h"
 #include "WorldView.h"
+#include "core/GZipFormat.h"
 #include "galaxy/Galaxy.h"
 
 /*
@@ -129,10 +129,10 @@ static int l_game_savegame_stats(lua_State *l)
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", filename));
 		lua_pushlstring(l, message.c_str(), message.size());
 		return lua_error(l);
-	} catch (const Json::type_error&) {
+	} catch (const Json::type_error &) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 		return 0;
-	} catch (const Json::out_of_range&) {
+	} catch (const Json::out_of_range &) {
 		return luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 	} catch (SavedGameCorruptException) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);

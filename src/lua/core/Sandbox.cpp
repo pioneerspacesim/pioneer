@@ -5,19 +5,6 @@
 #include "FileSystem.h"
 #include "libs.h"
 
-#undef DEBUG_IMPORT
-#ifdef DEBUG_IMPORT
-#define DEBUG_PRINTF Output
-#define DEBUG_INDENTED_PRINTF IndentedOutput
-#define DEBUG_INDENT_INCREASE IndentIncrease
-#define DEBUG_INDENT_DECREASE IndentDecrease
-#else
-#define DEBUG_PRINTF(...)
-#define DEBUG_INDENTED_PRINTF(...)
-#define DEBUG_INDENT_INCREASE(...)
-#define DEBUG_INDENT_DECREASE(...)
-#endif
-
 static int l_d_null_userdata(lua_State *L)
 {
 	lua_pushlightuserdata(L, nullptr);

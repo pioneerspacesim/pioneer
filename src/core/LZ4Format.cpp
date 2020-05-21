@@ -23,7 +23,7 @@ static void checkError(std::size_t errorCode)
 	}
 }
 
-std::string lz4::DecompressLZ4(const char *data, size_t length)
+std::string lz4::DecompressLZ4(const string_view data)
 {
 	PROFILE_SCOPED()
 	LZ4F_dctx *_tmp;
@@ -32,11 +32,14 @@ std::string lz4::DecompressLZ4(const char *data, size_t length)
 
 	std::unique_ptr<LZ4F_dctx, std::function<size_t(LZ4F_dctx *)>> dctx(_tmp, LZ4F_freeDecompressionContext);
 
-	const char *read_ptr = data;
-	std::size_t read_len = length;
+	const char *read_ptr = data.data();
+	std::size_t read_len = data.size();
 	std::size_t write_len = 0;
+	const char *const end_ptr = read_ptr + read_len;
 
 	LZ4F_frameInfo_t frame = LZ4F_INIT_FRAMEINFO;
+	// get the frame info: resets read_len to the number of bytes consumed,
+	// and fills nextLen with the number of bytes it expects to read.
 	std::size_t nextLen = LZ4F_getFrameInfo(dctx.get(), &frame, read_ptr, &read_len);
 	checkError<lz4::DecompressionFailedException>(nextLen);
 
@@ -46,10 +49,13 @@ std::string lz4::DecompressLZ4(const char *data, size_t length)
 	std::string out;
 
 	while (nextLen != 0) {
+		// advance the read pointer by the number of bytes consumed last time
 		read_ptr += read_len;
-		read_len = length - (read_ptr - data);
+		// and initialize read_len with the number of available bytes
+		read_len = end_ptr - read_ptr;
 		write_len = buffer_len;
 
+		// read_len is set to the number of bytes consumed
 		nextLen = LZ4F_decompress(dctx.get(), decompress_buffer.get(), &write_len, read_ptr, &read_len, NULL);
 		checkError<lz4::DecompressionFailedException>(nextLen);
 
@@ -62,18 +68,18 @@ std::string lz4::DecompressLZ4(const char *data, size_t length)
 	return out;
 }
 
-std::unique_ptr<char[]> lz4::CompressLZ4(const std::string &data, const int lz4_preset, std::size_t &outSize)
+std::string lz4::CompressLZ4(const string_view data, const int lz4_preset)
 {
 	PROFILE_SCOPED()
 	LZ4F_preferences_t pref = LZ4F_INIT_PREFERENCES;
 	pref.compressionLevel = lz4_preset;
 
 	std::size_t compressBound = LZ4F_compressFrameBound(data.size(), &pref);
+	// null-initialize the string to the specified length
 	std::unique_ptr<char[]> out(new char[compressBound]);
 
-	std::size_t _size = LZ4F_compressFrame(out.get(), compressBound, data.data(), data.size(), &pref);
-	checkError<lz4::CompressionFailedException>(_size);
+	std::size_t outSize = LZ4F_compressFrame(out.get(), compressBound, data.data(), data.size(), &pref);
+	checkError<lz4::CompressionFailedException>(outSize);
 
-	outSize = _size;
-	return out;
+	return std::string(out.get(), outSize);
 }

@@ -33,13 +33,12 @@ void Stats::FlushFrame()
 {
 	m_counterMutex.lock();
 
-	m_prevFrameCache = m_frameCache;
 	FrameInfo lastFrame;
 
 	try {
 		for (auto iter = m_counters.begin(); iter != m_counters.end(); iter++) {
 			lastFrame.emplace(m_definedCounters[iter->first], iter->second.ctr.load());
-			if (iter->second.resetOnNewFrame)
+			if (iter->second.resetOnNewFrame && !m_neverReset)
 				iter->second.ctr.store(0);
 		}
 

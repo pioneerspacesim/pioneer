@@ -6,8 +6,8 @@
 #include "Win32Setup.h"
 
 #include "FileSystem.h"
-#include "OS.h"
 #include "TextUtils.h"
+#include "core/OS.h"
 #include "utils.h"
 #ifdef WITH_BREAKPAD
 #include "breakpad/exception_handler.h"
@@ -84,21 +84,6 @@ namespace OS {
 	{
 		// SDL doc says "Win32 icons must be 32x32".
 		return "icons/badge32-8b.png";
-	}
-
-	void RedirectStdio()
-	{
-		std::string output_path = FileSystem::JoinPath(FileSystem::GetUserDir(), "output.txt");
-		std::wstring woutput_path = transcode_utf8_to_utf16(output_path);
-
-		FILE *f;
-
-		f = _wfreopen(woutput_path.c_str(), L"w", stderr);
-		if (!f) {
-			Output("ERROR: Couldn't redirect output to '%s': %s\n", output_path.c_str(), strerror(errno));
-		} else {
-			setvbuf(f, 0, _IOLBF, BUFSIZ);
-		}
 	}
 
 	void EnableFPE()
@@ -282,13 +267,13 @@ namespace OS {
 		FileSystem::userFiles.MakeDirectory("crashdumps");
 		dumps_path.append(L"\\crashdumps");
 		exceptionHandler = new ExceptionHandler(
-			dumps_path, // Dump path
-			FilterCallback, // Filter callback
-			MinidumpCallback, // Minidumps callback
-			nullptr, // Callback context
+			dumps_path,									// Dump path
+			FilterCallback,								// Filter callback
+			MinidumpCallback,							// Minidumps callback
+			nullptr,									// Callback context
 			ExceptionHandler::HandlerType::HANDLER_ALL, // Handler types
 			MINIDUMP_TYPE::MiniDumpWithDataSegs,
-			L"", // Minidump server pipe name
+			L"",   // Minidump server pipe name
 			&cci); // Custom client information
 #endif
 	}

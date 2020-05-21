@@ -179,7 +179,7 @@ void Instance::AddGlyph(ImFont *font, unsigned short glyph)
 	// range glyph..glyph
 	auto iter = m_im_fonts.find(font);
 	if (iter == m_im_fonts.end()) {
-		Error("Cannot find font instance for ImFont %p\n", font);
+		Error("Cannot find font instance for ImFont %p\n", (void *)font);
 		assert(false);
 	}
 	auto pifont_iter = m_pi_fonts.find(iter->second);

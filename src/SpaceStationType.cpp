@@ -5,7 +5,6 @@
 #include "FileSystem.h"
 #include "Json.h"
 #include "MathUtil.h"
-#include "OS.h"
 #include "Pi.h"
 #include "Ship.h"
 #include "StringF.h"
@@ -181,7 +180,7 @@ void SpaceStationType::OnSetupComplete()
 			const vector3f approach1Pos = approach1.GetTranslate();
 			const vector3f approach2Pos = approach2.GetTranslate();
 			{
-				const vector3f p0 = locTransform.GetTranslate(); // plane position
+				const vector3f p0 = locTransform.GetTranslate();			   // plane position
 				const vector3f l = (approach2Pos - approach1Pos).Normalized(); // ray direction
 				const vector3f l0 = approach1Pos + (l * 10000.0f);
 
@@ -221,10 +220,10 @@ void SpaceStationType::OnSetupComplete()
 			}
 
 			// create the leaving locators
-			m_portPaths[bay].m_leaving[1] = locTransform; // start - maintain the same orientation and position as when docked.
-			m_portPaths[bay].m_leaving[2] = orient; // above the pad - reorient...
+			m_portPaths[bay].m_leaving[1] = locTransform;				 // start - maintain the same orientation and position as when docked.
+			m_portPaths[bay].m_leaving[2] = orient;						 // above the pad - reorient...
 			m_portPaths[bay].m_leaving[2].SetTranslate(intersectionPos); //  ...and translate to new position
-			m_portPaths[bay].m_leaving[3] = EndOrient; // end (on manual after here)
+			m_portPaths[bay].m_leaving[3] = EndOrient;					 // end (on manual after here)
 			numUndockStages = 3;
 		}
 	}

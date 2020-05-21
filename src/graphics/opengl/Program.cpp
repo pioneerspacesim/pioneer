@@ -3,7 +3,6 @@
 
 #include "Program.h"
 #include "FileSystem.h"
-#include "OS.h"
 #include "StringF.h"
 #include "StringRange.h"
 #include "graphics/Graphics.h"
@@ -62,6 +61,7 @@ namespace Graphics {
 	}
 #endif
 
+			// TODO: this code is obsolete
 			// Log warnings even if successfully compiled
 			// Sometimes the log is full of junk "success" messages so
 			// this is not a good use for OS::Warning
@@ -157,7 +157,6 @@ namespace Graphics {
 
 				Compile(shader);
 
-				// CheckGLSL may use OS::Warning instead of Error so the game may still (attempt to) run
 				if (!check_glsl_errors(filename.c_str(), shader))
 					throw ShaderException();
 			};

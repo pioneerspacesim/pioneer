@@ -28,6 +28,7 @@ namespace Graphics {
 			// buffers
 			STAT_CREATE_BUFFER,
 			STAT_DESTROY_BUFFER,
+			STAT_BUFFER_INUSE,
 
 			// objects
 			STAT_BUILDINGS,
@@ -56,7 +57,7 @@ namespace Graphics {
 		};
 
 		struct TFrameData {
-			Uint32 m_stats[MAX_STAT];
+			uint32_t m_stats[MAX_STAT];
 		};
 
 		Stats();
@@ -67,6 +68,11 @@ namespace Graphics {
 			CounterAdd(m_counterRefs.at(type), count);
 		}
 
+		void DecStatCount(const StatType type, const uint32_t count) const
+		{
+			CounterDec(m_counterRefs.at(type), count);
+		}
+
 		void SetStatCount(const StatType type, const uint32_t count) const
 		{
 			CounterSet(m_counterRefs.at(type), count);
@@ -75,6 +81,7 @@ namespace Graphics {
 		void NextFrame();
 
 		const TFrameData &FrameStatsPrevious() const;
+		const FrameInfo &GetFullStats() const { return GetFrameStats(); }
 
 	private:
 		TFrameData m_frameStats[MAX_FRAMES_STORE];

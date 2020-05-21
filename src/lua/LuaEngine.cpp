@@ -18,13 +18,13 @@
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "LuaVector2.h"
-#include "OS.h"
 #include "Pi.h"
 #include "Player.h"
 #include "Random.h"
 #include "SectorView.h"
 #include "WorldView.h"
 #include "buildopts.h"
+#include "core/OS.h"
 #include "graphics/Graphics.h"
 #include "pigui/PiGui.h"
 #include "scenegraph/Model.h"
@@ -334,6 +334,34 @@ static int l_engine_set_fullscreen(lua_State *l)
 	const bool fullscreen = lua_toboolean(l, 1);
 	Pi::config->SetInt("StartFullscreen", (fullscreen ? 1 : 0));
 	Pi::config->Save();
+	return 0;
+}
+
+/*
+ * Method: SetShowDebugInfo
+ *
+ * Show, hide, or toggle the debug information window
+ *
+ * > Engine.SetShowDebugInfo(true)
+ * > // toggle
+ * > Engine.SetShowDebugInfo()
+ *
+ * Parameters:
+ *
+ *   enabled - true to show, false to hide. If not present, toggles the state instead
+ *
+ * Availability: 2020-05
+ *
+ * Status: experimental
+ */
+static int l_engine_set_show_debug_info(lua_State *l)
+{
+	if (lua_gettop(l) < 1) {
+		Pi::ToggleShowDebugInfo();
+	} else {
+		const bool enabled = lua_toboolean(l, 1);
+		Pi::SetShowDebugInfo(enabled);
+	}
 	return 0;
 }
 
@@ -939,7 +967,7 @@ static int l_engine_sector_map_get_route(lua_State *l)
 
 	lua_newtable(l);
 	int i = 1;
-	for (const SystemPath& j : route) {
+	for (const SystemPath &j : route) {
 		lua_pushnumber(l, i++);
 		LuaObject<SystemPath>::PushToLua(j);
 		lua_settable(l, -3);
@@ -1111,6 +1139,8 @@ void LuaEngine::Register()
 
 	static const luaL_Reg l_methods[] = {
 		{ "Quit", l_engine_quit },
+
+		{ "SetShowDebugInfo", l_engine_set_show_debug_info },
 
 		{ "GetVideoModeList", l_engine_get_video_mode_list },
 		{ "GetMaximumAASamples", l_engine_get_maximum_aa_samples },

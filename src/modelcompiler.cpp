@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "buildopts.h"
+#include "core/Log.h"
 #include "libs.h"
 #include "utils.h"
 #include <cstdio>
@@ -14,8 +15,8 @@
 #include "GameSaveError.h"
 #include "JobQueue.h"
 #include "ModManager.h"
-#include "OS.h"
 #include "StringF.h"
+#include "core/OS.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
@@ -71,7 +72,7 @@ void SetupRenderer()
 	PROFILE_SCOPED()
 	s_config.reset(new GameConfig);
 
-	OS::RedirectStdio();
+	Log::GetLog()->SetLogFile("modelcompiler.log");
 
 	//init components
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists

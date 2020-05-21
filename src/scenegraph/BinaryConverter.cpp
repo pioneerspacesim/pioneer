@@ -3,10 +3,10 @@
 #include "BinaryConverter.h"
 #include "FileSystem.h"
 #include "GameSaveError.h"
-#include "LZ4Format.h"
 #include "NodeVisitor.h"
 #include "Parser.h"
 #include "StringF.h"
+#include "core/LZ4Format.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Label3D.h"
 #include "scenegraph/MatrixTransform.h"
@@ -149,9 +149,10 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 	size_t outSize = 0;
 	const std::string &data = wr.GetData();
 	try {
-		std::unique_ptr<char[]> compressedData = lz4::CompressLZ4(data, 6, outSize);
+		std::string compressedData = lz4::CompressLZ4(data, 6);
+		outSize = compressedData.size();
 		Output("Compressed model (%s): %.2f KB -> %.2f KB\n", filename.c_str(), data.size() / 1024.f, outSize / 1024.f);
-		fwrite(compressedData.get(), outSize, 1, f);
+		fwrite(compressedData.data(), outSize, 1, f);
 		fclose(f);
 	} catch (std::runtime_error &e) {
 		Warning("Error saving SGM model: %s\n", e.what());
@@ -174,8 +175,8 @@ Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::
 	const ByteRange bin = binfile->AsByteRange();
 	if (lz4::IsLZ4Format(bin.begin, bin.Size())) {
 		try {
-			std::string decompressedData = lz4::DecompressLZ4(bin.begin, bin.Size());
-			Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, decompressedData.size() / 1024.f);
+			std::string decompressedData = lz4::DecompressLZ4({ bin.begin, bin.Size() });
+			// Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, decompressedData.size() / 1024.f);
 			Serializer::Reader rd(ByteRange(decompressedData.data(), decompressedData.size()));
 			model = CreateModel(name, rd);
 		} catch (std::runtime_error &e) {
@@ -188,7 +189,7 @@ Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::
 			PROFILE_SCOPED_DESC("tinfl_decompress_mem_to_heap")
 			pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
 		}
-		Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, outSize / 1024.f);
+		// Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, outSize / 1024.f);
 		if (pDecompressedData) {
 			// now parse in-memory representation as new ByteRange.
 			Serializer::Reader rd(ByteRange(static_cast<char *>(pDecompressedData), outSize));
