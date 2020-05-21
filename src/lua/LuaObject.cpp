@@ -89,33 +89,8 @@
  *   stable
  */
 
-// since LuaManager is a singleton, these must be heap-allocated. If they're
-// stack-allocated, they will be torn down at program shutdown before the
-// singleton is. This will cause LuaObject to crash during garbage collection
-// FIXME(sturnclaw): LuaManager isn't a singleton any more (since when?) so this is unnecessary.
-static bool instantiated = false;
-
-static std::map<std::string, std::map<std::string, PromotionTest>> *promotions;
-static std::map<std::string, SerializerPair> *serializers;
-
-static void _teardown()
-{
-	delete promotions;
-	delete serializers;
-}
-
-static inline void _instantiate()
-{
-	if (!instantiated) {
-		promotions = new std::map<std::string, std::map<std::string, PromotionTest>>;
-		serializers = new std::map<std::string, SerializerPair>;
-
-		// XXX atexit is not a very nice way to deal with this in C++
-		atexit(_teardown);
-
-		instantiated = true;
-	}
-}
+static std::map<std::string, std::map<std::string, PromotionTest>> promotions;
+static std::map<std::string, SerializerPair> serializers;
 
 class LuaObjectHelpers {
 public:
@@ -374,8 +349,6 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	lua_State *l = Lua::manager->GetLuaState();
 
-	_instantiate();
-
 	LUA_DEBUG_START(l);
 
 	initialize_object_registry(l);
@@ -415,8 +388,6 @@ void LuaObjectBase::CreateClass(LuaMetaTypeBase *metaType)
 	assert(metaType->IsValid());
 
 	lua_State *l = Lua::manager->GetLuaState();
-
-	_instantiate();
 
 	LUA_DEBUG_START(l);
 
@@ -480,8 +451,6 @@ void LuaObjectBase::CreateClass(LuaMetaTypeBase *metaType)
 
 bool LuaObjectBase::PushRegistered(LuaWrappable *o)
 {
-	assert(instantiated);
-
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
@@ -516,15 +485,14 @@ bool LuaObjectBase::PushRegistered(LuaWrappable *o)
 
 void LuaObjectBase::Register(LuaObjectBase *lo)
 {
-	assert(instantiated);
 	assert(lo->GetObject());
 
 	bool have_promotions = true;
 	bool tried_promote = false;
 
 	while (have_promotions && !tried_promote) {
-		std::map<std::string, std::map<std::string, PromotionTest>>::const_iterator base_iter = promotions->find(lo->m_type);
-		if (base_iter != promotions->end()) {
+		std::map<std::string, std::map<std::string, PromotionTest>>::const_iterator base_iter = promotions.find(lo->m_type);
+		if (base_iter != promotions.end()) {
 			tried_promote = true;
 
 			for (
@@ -619,8 +587,6 @@ void LuaObjectBase::Deregister(LuaObjectBase *lo)
 
 LuaWrappable *LuaObjectBase::CheckFromLua(int index, const char *type)
 {
-	assert(instantiated);
-
 	lua_State *l = Lua::manager->GetLuaState();
 
 	luaL_checktype(l, index, LUA_TUSERDATA);
@@ -641,8 +607,6 @@ LuaWrappable *LuaObjectBase::CheckFromLua(int index, const char *type)
 
 LuaWrappable *LuaObjectBase::GetFromLua(int index, const char *type)
 {
-	assert(instantiated);
-
 	lua_State *l = Lua::manager->GetLuaState();
 
 	if (lua_type(l, index) != LUA_TUSERDATA)
@@ -666,8 +630,6 @@ bool LuaObjectBase::Isa(const char *base) const
 	// fast path
 	if (strcmp(m_type, base) == 0)
 		return true;
-
-	assert(instantiated);
 
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -701,12 +663,12 @@ bool LuaObjectBase::Isa(const char *base) const
 
 void LuaObjectBase::RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn)
 {
-	(*promotions)[base_type][target_type] = test_fn;
+	promotions[base_type][target_type] = test_fn;
 }
 
 void LuaObjectBase::RegisterSerializer(const char *type, SerializerPair pair)
 {
-	(*serializers)[type] = pair;
+	serializers[type] = pair;
 }
 
 std::string LuaObjectBase::Serialize()
@@ -715,8 +677,8 @@ std::string LuaObjectBase::Serialize()
 
 	lua_State *l = Lua::manager->GetLuaState();
 
-	auto i = serializers->find(m_type);
-	if (i == serializers->end()) {
+	auto i = serializers.find(m_type);
+	if (i == serializers.end()) {
 		luaL_error(l, "No registered serializer for type %s\n", m_type);
 		abort();
 	}
@@ -738,8 +700,8 @@ bool LuaObjectBase::Deserialize(const char *stream, const char **next)
 
 	lua_State *l = Lua::manager->GetLuaState();
 
-	auto i = serializers->find(buf);
-	if (i == serializers->end()) {
+	auto i = serializers.find(buf);
+	if (i == serializers.end()) {
 		luaL_error(l, "No registered deserializer for type %s\n", buf);
 		abort();
 	}
@@ -751,8 +713,8 @@ void LuaObjectBase::ToJson(Json &out)
 {
 	lua_State *l = Lua::manager->GetLuaState();
 
-	const auto it = serializers->find(m_type);
-	if (it == serializers->end()) {
+	const auto it = serializers.find(m_type);
+	if (it == serializers.end()) {
 		luaL_error(l, "No registered serializer for type %s\n", m_type);
 		abort();
 	}
@@ -767,8 +729,8 @@ bool LuaObjectBase::FromJson(const Json &obj)
 {
 	if (obj["cpp_class"].is_null() || obj["inner"].is_null()) return false;
 	const std::string type = obj["cpp_class"];
-	auto it = serializers->find(type);
-	if (it == serializers->end()) {
+	auto it = serializers.find(type);
+	if (it == serializers.end()) {
 		lua_State *l = Lua::manager->GetLuaState();
 		luaL_error(l, "No registered deserializer for type %s\n", type.c_str());
 		abort();
