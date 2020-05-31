@@ -179,78 +179,78 @@ local Windows = {
 }
 
 function Windows.edgeButtons.Show()
-			-- view control buttons
-			if ui.coloredSelectedIconButton(icons.reset_view, mainButtonSize, showShips, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, lc.RESET_ORIENTATION_AND_ZOOM) then
-				systemView:SetVisibility("RESET_VIEW")
-			end
-			ui.coloredSelectedIconButton(icons.rotate_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.ROTATE_VIEW)
-			systemView:SetRotateMode(ui.isItemActive())
-			ui.coloredSelectedIconButton(icons.search_lens,mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.ZOOM)
-			systemView:SetZoomMode(ui.isItemActive())
-			ui.text("")
-			-- visibility control buttons
-			if ui.coloredSelectedIconButton(buttonState[ship_drawing].icon, mainButtonSize, showShips, mainButtonFramePadding, buttonState[ship_drawing].color, svColor.BUTTON_INK, lc.SHIPS_DISPLAY_MODE_TOGGLE) then
-				ship_drawing = nextShipDrawings[ship_drawing]
-				systemView:SetVisibility(ship_drawing)
-			end
-			if ui.coloredSelectedIconButton(buttonState[show_lagrange].icon, mainButtonSize, showLagrangePoints, mainButtonFramePadding, buttonState[show_lagrange].color, svColor.BUTTON_INK, lc.L4L5_DISPLAY_MODE_TOGGLE) then
-				show_lagrange = nextShowLagrange[show_lagrange]
-				systemView:SetVisibility(show_lagrange)
-			end
-			if ui.coloredSelectedIconButton(buttonState[show_grid].icon, mainButtonSize, showShips, mainButtonFramePadding, buttonState[show_grid].color, svColor.BUTTON_INK, lc.GRID_DISPLAY_MODE_TOGGLE) then
-				show_grid = nextShowGrid[show_grid]
-				systemView:SetVisibility(show_grid)
-			end
-			ui.text("")
-			-- windows control buttons
-			if ui.coloredSelectedIconButton(icons.info, mainButtonSize, showShips, mainButtonFramePadding, buttonState[Windows.objectInfo.visible].color, svColor.BUTTON_INK, lc.OBJECT_INFO) then
-				Windows.objectInfo.visible = not Windows.objectInfo.visible
-			end
-			if ui.coloredSelectedIconButton(icons.semi_major_axis, mainButtonSize, showShips, mainButtonFramePadding, buttonState[Windows.orbitPlanner.visible].color, svColor.BUTTON_INK, lc.ORBIT_PLANNER) then
-				Windows.orbitPlanner.visible = not Windows.orbitPlanner.visible
-			end
+	-- view control buttons
+	if ui.coloredSelectedIconButton(icons.reset_view, mainButtonSize, showShips, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, lc.RESET_ORIENTATION_AND_ZOOM) then
+		systemView:SetVisibility("RESET_VIEW")
+	end
+	ui.coloredSelectedIconButton(icons.rotate_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.ROTATE_VIEW)
+	systemView:SetRotateMode(ui.isItemActive())
+	ui.coloredSelectedIconButton(icons.search_lens,mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.ZOOM)
+	systemView:SetZoomMode(ui.isItemActive())
+	ui.text("")
+	-- visibility control buttons
+	if ui.coloredSelectedIconButton(buttonState[ship_drawing].icon, mainButtonSize, showShips, mainButtonFramePadding, buttonState[ship_drawing].color, svColor.BUTTON_INK, lc.SHIPS_DISPLAY_MODE_TOGGLE) then
+		ship_drawing = nextShipDrawings[ship_drawing]
+		systemView:SetVisibility(ship_drawing)
+	end
+	if ui.coloredSelectedIconButton(buttonState[show_lagrange].icon, mainButtonSize, showLagrangePoints, mainButtonFramePadding, buttonState[show_lagrange].color, svColor.BUTTON_INK, lc.L4L5_DISPLAY_MODE_TOGGLE) then
+		show_lagrange = nextShowLagrange[show_lagrange]
+		systemView:SetVisibility(show_lagrange)
+	end
+	if ui.coloredSelectedIconButton(buttonState[show_grid].icon, mainButtonSize, showShips, mainButtonFramePadding, buttonState[show_grid].color, svColor.BUTTON_INK, lc.GRID_DISPLAY_MODE_TOGGLE) then
+		show_grid = nextShowGrid[show_grid]
+		systemView:SetVisibility(show_grid)
+	end
+	ui.text("")
+	-- windows control buttons
+	if ui.coloredSelectedIconButton(icons.info, mainButtonSize, showShips, mainButtonFramePadding, buttonState[Windows.objectInfo.visible].color, svColor.BUTTON_INK, lc.OBJECT_INFO) then
+		Windows.objectInfo.visible = not Windows.objectInfo.visible
+	end
+	if ui.coloredSelectedIconButton(icons.semi_major_axis, mainButtonSize, showShips, mainButtonFramePadding, buttonState[Windows.orbitPlanner.visible].color, svColor.BUTTON_INK, lc.ORBIT_PLANNER) then
+		Windows.orbitPlanner.visible = not Windows.orbitPlanner.visible
+	end
 end
 
 function Windows.orbitPlanner.Show()
-			textIcon(icons.semi_major_axis)
-			ui.sameLine()
-			ui.text(lc.ORBIT_PLANNER)
-			ui.separator()
-			showDvLine(icons.decrease, icons.delta, icons.increase, "factor", function(i) return i, "x" end, luc.DECREASE, lc.PLANNER_RESET_FACTOR, luc.INCREASE)
-			showDvLine(icons.decrease, icons.clock, icons.increase, "starttime",
-			function(i)
-				local now = Game.time
-				local start = systemView:GetOrbitPlannerStartTime()
-				if start then
-					return ui.Format.Duration(math.floor(start - now)), ""
-				else
-					return lc.NOW, ""
-				end
-			end,
-			luc.DECREASE, lc.PLANNER_RESET_START, luc.INCREASE)
-			showDvLine(icons.decrease, icons.orbit_prograde, icons.increase, "prograde", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_PROGRADE, luc.INCREASE)
-			showDvLine(icons.decrease, icons.orbit_normal, icons.increase, "normal", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_NORMAL, luc.INCREASE)
-			showDvLine(icons.decrease, icons.orbit_radial, icons.increase, "radial", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_RADIAL, luc.INCREASE)
+	textIcon(icons.semi_major_axis)
+	ui.sameLine()
+	ui.text(lc.ORBIT_PLANNER)
+	ui.separator()
+	showDvLine(icons.decrease, icons.delta, icons.increase, "factor", function(i) return i, "x" end, luc.DECREASE, lc.PLANNER_RESET_FACTOR, luc.INCREASE)
+	showDvLine(icons.decrease, icons.clock, icons.increase, "starttime",
+	function(i)
+		local now = Game.time
+		local start = systemView:GetOrbitPlannerStartTime()
+		if start then
+			return ui.Format.Duration(math.floor(start - now)), ""
+		else
+			return lc.NOW, ""
+		end
+	end,
+	luc.DECREASE, lc.PLANNER_RESET_START, luc.INCREASE)
+	showDvLine(icons.decrease, icons.orbit_prograde, icons.increase, "prograde", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_PROGRADE, luc.INCREASE)
+	showDvLine(icons.decrease, icons.orbit_normal, icons.increase, "normal", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_NORMAL, luc.INCREASE)
+	showDvLine(icons.decrease, icons.orbit_radial, icons.increase, "radial", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_RADIAL, luc.INCREASE)
 end
 
 function Windows.timeButtons.Show()
-			local t = systemView:GetOrbitPlannerTime()
-			ui.text(t and ui.Format.Datetime(t) or lc.NOW)
-			local r = false
-			r = timeButton(icons.time_backward_100x, "-10,000,000x",-10000000) or r
-			r = timeButton(icons.time_backward_10x, "-100,000x", -100000) or r
-			r = timeButton(icons.time_backward_1x, "-1,000x", -1000) or r
-			r = timeButton(icons.time_center, lc.NOW, nil) or r
-			r = timeButton(icons.time_forward_1x, "1,000x", 1000) or r
-			r = timeButton(icons.time_forward_10x, "100,000x", 100000) or r
-			r = timeButton(icons.time_forward_100x, "10,000,000x", 10000000) or r
-			if not r then
-				if time_selected_button_icon == icons.time_center then
-					systemView:AccelerateTime(nil)
-				else
-					systemView:AccelerateTime(0.0)
-				end
-			end
+	local t = systemView:GetOrbitPlannerTime()
+	ui.text(t and ui.Format.Datetime(t) or lc.NOW)
+	local r = false
+	r = timeButton(icons.time_backward_100x, "-10,000,000x",-10000000) or r
+	r = timeButton(icons.time_backward_10x, "-100,000x", -100000) or r
+	r = timeButton(icons.time_backward_1x, "-1,000x", -1000) or r
+	r = timeButton(icons.time_center, lc.NOW, nil) or r
+	r = timeButton(icons.time_forward_1x, "1,000x", 1000) or r
+	r = timeButton(icons.time_forward_10x, "100,000x", 100000) or r
+	r = timeButton(icons.time_forward_100x, "10,000,000x", 10000000) or r
+	if not r then
+		if time_selected_button_icon == icons.time_center then
+			systemView:AccelerateTime(nil)
+		else
+			systemView:AccelerateTime(0.0)
+		end
+	end
 end
 
 local function getBodyIcon(obj)
@@ -350,9 +350,9 @@ local function getColor(obj)
 end
 
 function Windows.systemName.Show()
-			local path = Game.sectorView:GetSelectedSystemPath()
-			local starsystem = path:GetStarSystem()
-			ui.text(starsystem.name .. " (" .. path.sectorX .. ", " .. path.sectorY .. ", " .. path.sectorZ .. ")")
+	local path = Game.sectorView:GetSelectedSystemPath()
+	local starsystem = path:GetStarSystem()
+	ui.text(starsystem.name .. " (" .. path.sectorX .. ", " .. path.sectorY .. ", " .. path.sectorZ .. ")")
 end
 
 -- forked from data/pigui/views/game.lua
@@ -485,58 +485,58 @@ function Windows.objectInfo.Show()
 	ui.separator()
 	obj = systemView:GetSelectedObject()
 	if obj.type ~= Projectable.OBJECT or obj.base ~= Projectable.SHIP and obj.base ~= Projectable.SYSTEMBODY then return end
-			local data
-			-- system body
-			if obj.base == Projectable.SYSTEMBODY then
-				local systemBody = obj.ref
-				local name = systemBody.name
-				local rp = systemBody.rotationPeriod * 24 * 60 * 60
-				local r = systemBody.radius
-				local radius = nil
-				if r and r > 0 then
-					local v,u = ui.Format.Distance(r)
-					radius = v .. u
-				end
-				local sma = systemBody.semiMajorAxis
-				local semimajoraxis = nil
-				if sma and sma > 0 then
-					local v,u = ui.Format.Distance(sma)
-					semimajoraxis = v .. u
-				end
-				local op = systemBody.orbitPeriod * 24 * 60 * 60
-				data = {
-					{ name = lc.NAME_OBJECT,
-					value = name },
-					{ name = lc.DAY_LENGTH,
-					value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
-					{ name = lc.RADIUS,
-					value = radius },
-					{ name = lc.SEMI_MAJOR_AXIS,
-					value = semimajoraxis },
-					{ name = lc.ORBITAL_PERIOD,
-					value = op and op > 0 and ui.Format.Duration(op, 2) or nil }
-				}
-				-- physical body
-			elseif obj.ref:IsShip() then
-				local body = obj.ref
-				local name = body.label
-				data = {{ name = lc.NAME_OBJECT, value = name }}
-				-- TODO: the advanced target scanner should add additional data here,
-				-- but we really do not want to hardcode that here. there should be
-				-- some kind of hook that the target scanner can hook into to display
-				-- more info here.
-				-- This is what should be inserted:
-				table.insert(data, { name = luc.SHIP_TYPE, value = body:GetShipType() })
-				if player:GetEquipCountOccupied('target_scanner') > 0 or player:GetEquipCountOccupied('advanced_target_scanner') > 0 then
-					local hd = body:GetEquip("engine", 1)
-					table.insert(data, { name = luc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
-					table.insert(data, { name = luc.MASS, value = Format.MassTonnes(body:GetStats().staticMass) })
-					table.insert(data, { name = luc.CARGO, value = Format.MassTonnes(body:GetStats().usedCargo) })
-				end
-			else
-				data = {}
-			end
-			tabular(data, Windows.objectInfo.size.x)
+	local data
+	-- system body
+	if obj.base == Projectable.SYSTEMBODY then
+		local systemBody = obj.ref
+		local name = systemBody.name
+		local rp = systemBody.rotationPeriod * 24 * 60 * 60
+		local r = systemBody.radius
+		local radius = nil
+		if r and r > 0 then
+			local v,u = ui.Format.Distance(r)
+			radius = v .. u
+		end
+		local sma = systemBody.semiMajorAxis
+		local semimajoraxis = nil
+		if sma and sma > 0 then
+			local v,u = ui.Format.Distance(sma)
+			semimajoraxis = v .. u
+		end
+		local op = systemBody.orbitPeriod * 24 * 60 * 60
+		data = {
+			{ name = lc.NAME_OBJECT,
+			value = name },
+			{ name = lc.DAY_LENGTH,
+			value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
+			{ name = lc.RADIUS,
+			value = radius },
+			{ name = lc.SEMI_MAJOR_AXIS,
+			value = semimajoraxis },
+			{ name = lc.ORBITAL_PERIOD,
+			value = op and op > 0 and ui.Format.Duration(op, 2) or nil }
+		}
+		-- physical body
+	elseif obj.ref:IsShip() then
+		local body = obj.ref
+		local name = body.label
+		data = {{ name = lc.NAME_OBJECT, value = name }}
+		-- TODO: the advanced target scanner should add additional data here,
+		-- but we really do not want to hardcode that here. there should be
+		-- some kind of hook that the target scanner can hook into to display
+		-- more info here.
+		-- This is what should be inserted:
+		table.insert(data, { name = luc.SHIP_TYPE, value = body:GetShipType() })
+		if player:GetEquipCountOccupied('target_scanner') > 0 or player:GetEquipCountOccupied('advanced_target_scanner') > 0 then
+			local hd = body:GetEquip("engine", 1)
+			table.insert(data, { name = luc.HYPERDRIVE, value = hd and hd:GetName() or lc.NO_HYPERDRIVE })
+			table.insert(data, { name = luc.MASS, value = Format.MassTonnes(body:GetStats().staticMass) })
+			table.insert(data, { name = luc.CARGO, value = Format.MassTonnes(body:GetStats().usedCargo) })
+		end
+	else
+		data = {}
+	end
+	tabular(data, Windows.objectInfo.size.x)
 end
 
 function Windows.objectInfo.Dummy()

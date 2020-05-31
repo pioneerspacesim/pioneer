@@ -887,17 +887,17 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			}
 
 			if (m_route.size() > 0) {
-			const SystemPath &routeBack = m_route.back();
-			if (!bInRoute) {
-				RefCountedPtr<Sector> backSec = GetCached(routeBack);
-				const vector3f hyperAbsPos =
-					Sector::SIZE * vector3f(routeBack.sectorX, routeBack.sectorY, routeBack.sectorZ) + backSec->m_systems[routeBack.systemIndex].GetPosition();
-				if (m_selected != m_current) {
-					m_secondLine.SetStart(vector3f(0.f, 0.f, 0.f));
-					m_secondLine.SetEnd(hyperAbsPos - sysAbsPos);
-					m_secondLine.Draw(m_renderer, m_solidState);
+				const SystemPath &routeBack = m_route.back();
+				if (!bInRoute) {
+					RefCountedPtr<Sector> backSec = GetCached(routeBack);
+					const vector3f hyperAbsPos =
+						Sector::SIZE * vector3f(routeBack.sectorX, routeBack.sectorY, routeBack.sectorZ) + backSec->m_systems[routeBack.systemIndex].GetPosition();
+					if (m_selected != m_current) {
+						m_secondLine.SetStart(vector3f(0.f, 0.f, 0.f));
+						m_secondLine.SetEnd(hyperAbsPos - sysAbsPos);
+						m_secondLine.Draw(m_renderer, m_solidState);
+					}
 				}
-			}
 			}
 		}
 

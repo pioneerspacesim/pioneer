@@ -109,56 +109,56 @@ function Windows.systemInfo.Show()
 				local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(current_systempath, systempath)
 				jumpData = jumpStatus .. "  " .. string.format("%.2f", distance) .. lc.UNIT_LY .. "  " .. fuelRequired .. lc.UNIT_TONNES .. "  " .. ui.Format.Duration(duration, 2)
 			end
-				textIcon(icons.info)
+			textIcon(icons.info)
+			ui.sameLine()
+			ui.text(starsystem.name .. " (" .. math.floor(systempath.sectorX) .. ", " .. math.floor(systempath.sectorY) .. ", " .. math.floor(systempath.sectorZ) .. ")")
+			if not sectorView:IsCenteredOn(systempath) then
+				-- add button to center on the object
 				ui.sameLine()
-				ui.text(starsystem.name .. " (" .. math.floor(systempath.sectorX) .. ", " .. math.floor(systempath.sectorY) .. ", " .. math.floor(systempath.sectorZ) .. ")")
-				if not sectorView:IsCenteredOn(systempath) then
-					-- add button to center on the object
-					ui.sameLine()
-					if ui.coloredSelectedIconButton(icons.maneuver, textIconSize, false, 0, svColor.WINDOW_BG, svColor.FONT, lui.CENTER_ON_SYSTEM) then
-						sectorView:GotoSystemPath(systempath)
-					end
+				if ui.coloredSelectedIconButton(icons.maneuver, textIconSize, false, 0, svColor.WINDOW_BG, svColor.FONT, lui.CENTER_ON_SYSTEM) then
+					sectorView:GotoSystemPath(systempath)
 				end
-				ui.separator()
-				ui.text(jumpData)
-				ui.separator()
-				local stars = starsystem:GetStars()
-				for _,star in pairs(stars) do
-					if ui.selectable(star.name, star.path == systempath, {}) then
-						clicked = star.path
-					end
+			end
+			ui.separator()
+			ui.text(jumpData)
+			ui.separator()
+			local stars = starsystem:GetStars()
+			for _,star in pairs(stars) do
+				if ui.selectable(star.name, star.path == systempath, {}) then
+					clicked = star.path
 				end
-				if clicked then
-					sectorView:SwitchToPath(clicked)
-				end
+			end
+			if clicked then
+				sectorView:SwitchToPath(clicked)
+			end
 
-				-- check if the selected star has changed
-				if systempath ~= prevSystemPath then
-					-- if so, check the route, and update there if necessary
-					hyperJumpPlanner.updateInRoute(systempath)
-					prevSystemPath = systempath
-				end
+			-- check if the selected star has changed
+			if systempath ~= prevSystemPath then
+				-- if so, check the route, and update there if necessary
+				hyperJumpPlanner.updateInRoute(systempath)
+				prevSystemPath = systempath
+			end
 
-				local numstars = starsystem.numberOfStars
-				local numstarstext = ""
-				if numstars == 4 then
-					numstarstext = lc.QUADRUPLE_SYSTEM
-				elseif numstars == 3 then
-					numstarstext = lc.TRIPLE_SYSTEM
-				elseif numstars == 2 then
-					numstarstext = lc.BINARY_SYSTEM
-				else
-					numstarstext = starsystem.rootSystemBody.astroDescription
-				end
-				ui.text(numstarstext)
-				if next(starsystem.other_names) ~= nil then
-					ui.text(table.concat(starsystem.other_names, ", "))
-				end
-				ui.pushTextWrapPos(ui.getContentRegion().x)
-				ui.textWrapped(starsystem.shortDescription)
-				ui.popTextWrapPos()
-			end)
-		end
+			local numstars = starsystem.numberOfStars
+			local numstarstext = ""
+			if numstars == 4 then
+				numstarstext = lc.QUADRUPLE_SYSTEM
+			elseif numstars == 3 then
+				numstarstext = lc.TRIPLE_SYSTEM
+			elseif numstars == 2 then
+				numstarstext = lc.BINARY_SYSTEM
+			else
+				numstarstext = starsystem.rootSystemBody.astroDescription
+			end
+			ui.text(numstarstext)
+			if next(starsystem.other_names) ~= nil then
+				ui.text(table.concat(starsystem.other_names, ", "))
+			end
+			ui.pushTextWrapPos(ui.getContentRegion().x)
+			ui.textWrapped(starsystem.shortDescription)
+			ui.popTextWrapPos()
+		end)
+	end
 end
 
 function Windows.systemInfo.Dummy()
@@ -194,23 +194,23 @@ local prevSystemPath = nil
 local search_text = ""
 
 local function showSettings()
-		local changed
-		changed, draw_vertical_lines = ui.checkbox(lc.DRAW_VERTICAL_LINES, draw_vertical_lines)
-		if changed then
-			sectorView:SetDrawVerticalLines(draw_vertical_lines)
-		end
-		changed, draw_out_range_labels = ui.checkbox(lc.DRAW_OUT_RANGE_LABELS, draw_out_range_labels)
-		if changed then
-			sectorView:SetDrawOutRangeLabels(draw_out_range_labels)
-		end
-		changed, draw_uninhabited_labels = ui.checkbox(lc.DRAW_UNINHABITED_LABELS, draw_uninhabited_labels)
-		if changed then
-			sectorView:SetDrawUninhabitedLabels(draw_uninhabited_labels)
-		end
-		changed, automatic_system_selection = ui.checkbox(lc.AUTOMATIC_SYSTEM_SELECTION, automatic_system_selection)
-		if changed then
-			sectorView:SetAutomaticSystemSelection(automatic_system_selection)
-		end
+	local changed
+	changed, draw_vertical_lines = ui.checkbox(lc.DRAW_VERTICAL_LINES, draw_vertical_lines)
+	if changed then
+		sectorView:SetDrawVerticalLines(draw_vertical_lines)
+	end
+	changed, draw_out_range_labels = ui.checkbox(lc.DRAW_OUT_RANGE_LABELS, draw_out_range_labels)
+	if changed then
+		sectorView:SetDrawOutRangeLabels(draw_out_range_labels)
+	end
+	changed, draw_uninhabited_labels = ui.checkbox(lc.DRAW_UNINHABITED_LABELS, draw_uninhabited_labels)
+	if changed then
+		sectorView:SetDrawUninhabitedLabels(draw_uninhabited_labels)
+	end
+	changed, automatic_system_selection = ui.checkbox(lc.AUTOMATIC_SYSTEM_SELECTION, automatic_system_selection)
+	if changed then
+		sectorView:SetAutomaticSystemSelection(automatic_system_selection)
+	end
 	-- end
 end
 
@@ -324,19 +324,19 @@ function Windows.current.Show()
 end
 
 function Windows.factions.Show()
-		textIcon(icons.shield)
-		ui.sameLine()
-		ui.text("Factions")
-		local factions = sectorView:GetFactions()
-		for _,f in pairs(factions) do
-			local changed, value
-			ui.withStyleColors({ ["Text"] = Color(f.faction.colour.r, f.faction.colour.g, f.faction.colour.b) }, function()
-				changed, value = ui.checkbox(f.faction.name, f.visible)
-			end)
-			if changed then
-				sectorView:SetFactionVisible(f.faction, value)
-			end
+	textIcon(icons.shield)
+	ui.sameLine()
+	ui.text("Factions")
+	local factions = sectorView:GetFactions()
+	for _,f in pairs(factions) do
+		local changed, value
+		ui.withStyleColors({ ["Text"] = Color(f.faction.colour.r, f.faction.colour.g, f.faction.colour.b) }, function()
+			changed, value = ui.checkbox(f.faction.name, f.visible)
+		end)
+		if changed then
+			sectorView:SetFactionVisible(f.faction, value)
 		end
+	end
 end
 
 Windows.hjPlanner.Show = hyperJumpPlanner.display
@@ -417,13 +417,13 @@ Event.Register("onLeaveSystem", function()
 end)
 -- events moved from hyperJumpPlanner
 Event.Register("onGameEnd",
-	function(ship)
-		-- clear the route out so it doesn't show up if the user starts a new game
-		sectorView:ClearRoute()
+function(ship)
+	-- clear the route out so it doesn't show up if the user starts a new game
+	sectorView:ClearRoute()
 end)
 Event.Register("onEnterSystem",
-	function(ship)
-		hyperJumpPlanner.onEnterSystem(ship)
+function(ship)
+	hyperJumpPlanner.onEnterSystem(ship)
 end)
 
 return {}
