@@ -41,32 +41,35 @@ local Projectable = {}
 for _, key in pairs(Constants.ProjectableTypes) do Projectable[key] = Engine.GetEnumValue("ProjectableTypes", key) end
 for _, key in pairs(Constants.ProjectableBases) do Projectable[key] = Engine.GetEnumValue("ProjectableBases", key) end
 
+local function setAlpha(c, a)
+	return Color(c.r, c.g, c.b, a)
+end
+
 -- all colors, used in this module
 local svColor = {
 	BUTTON_ACTIVE = colors.buttonBlue,
-	BUTTON_INACTIVE = Color(150, 150, 200, 0),
-	BUTTON_SEMIACTIVE = Color(150, 150, 200, 80),
-	BUTTON_INK = colors.white,
+	BUTTON_INACTIVE = setAlpha(colors.buttonBlue, 0),
+	BUTTON_SEMIACTIVE = setAlpha(colors.buttonBlue, 80),
+	BUTTON_INK = colors.buttonInk,
 	COMBAT_TARGET = colors.combatTarget,
-	FONT = colors.white,
-	GRID = Color(40,40,40),
-	GRID_LEG = Color(120,120,120),
-	LAGRANGE = Color(0,214,226),
+	FONT = colors.font,
+	GRID = colors.systemMapGrid,
+	GRID_LEG = colors.systemMapGridLeg,
+	LAGRANGE = colors.systemMapLagrangePoint,
 	NAV_TARGET = colors.navTarget,
-	OBJECT = colors.frame,
-	PLANNER = Color(0,0,255),
-	PLANNER_ORBIT = Color(0,0,255),
-	PLAYER = Color(255,0,0),
-	PLAYER_ORBIT = Color(255,0,0),
-	SELECTED_SHIP_ORBIT = Color(0,186,255),
-	SHIP = colors.frame,
-	SHIP_ORBIT = Color(0,0,155),
-	SYSTEMBODY = Color(109,109,134),
-	SYSTEMBODY_ICON = colors.frame,
-	SYSTEMBODY_ORBIT = Color(0,155,0),
-	SYSTEMNAME_BACK = colors.transparent,
+	OBJECT = colors.systemMapObject,
+	PLANNER = colors.systemMapPlanner,
+	PLANNER_ORBIT = colors.systemMapPlannerOrbit,
+	PLAYER = colors.systemMapPlayer,
+	PLAYER_ORBIT = colors.systemMapPlayerOrbit,
+	SELECTED_SHIP_ORBIT = colors.systemMapSelectedShipOrbit,
+	SHIP = colors.systemMapShip,
+	SHIP_ORBIT = colors.systemMapShipOrbit,
+	SYSTEMBODY = colors.systemMapSystemBody,
+	SYSTEMBODY_ICON = colors.systemMapSystemBodyIcon,
+	SYSTEMBODY_ORBIT = colors.systemMapSystemBodyOrbit,
 	WINDOW_BG = colors.lightBlackBackground,
-	UNKNOWN = Color(255,0,255)
+	UNKNOWN = colors.unknown
 }
 
 -- button states
@@ -369,7 +372,7 @@ local function displayOnScreenObjects()
 	local objects_grouped = systemView:GetProjectedGrouped(collapse, 1e64)
 	if #objects_grouped == 0 then
 		ui.setNextWindowPos(Vector2(ui.screenWidth, ui.screenHeight) / 2 - ui.calcTextSize(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW) / 2, "Always")
-		ui.withStyleColors({["WindowBg"] = svColor.SYSTEMNAME_BACK}, function()
+		ui.withStyleColors({["WindowBg"] = svColor.WINDOW_BG}, function()
 			ui.window("NoSystemView", {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
 			function()
 				ui.text(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);

@@ -27,14 +27,17 @@ local MAX_SEARCH_STRINGS_VISIBLE = 15
 local textIconSize = nil
 local edgePadding = nil
 
+local function setAlpha(c, a)
+	return Color(c.r, c.g, c.b, a)
+end
 -- all colors, used in this module
 local svColor = {
 	BUTTON_ACTIVE = colors.buttonBlue,
-	BUTTON_INACTIVE = Color(150, 150, 200, 0),
-	BUTTON_SEMIACTIVE = Color(150, 150, 200, 80),
-	BUTTON_INK = colors.white,
-	FONT = colors.white,
-	UNKNOWN = Color(255,0,255),
+	BUTTON_INACTIVE = setAlpha(colors.buttonBlue, 0),
+	BUTTON_SEMIACTIVE = setAlpha(colors.buttonBlue, 80),
+	BUTTON_INK = colors.buttonInk,
+	FONT = colors.font,
+	UNKNOWN = colors.unknown,
 	WINDOW_BG = colors.lightBlackBackground
 }
 
