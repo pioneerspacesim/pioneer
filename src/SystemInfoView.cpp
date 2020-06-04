@@ -12,8 +12,8 @@
 #include "StringF.h"
 #include "galaxy/Factions.h"
 #include "galaxy/Galaxy.h"
-#include "galaxy/SystemPath.h"
 #include "galaxy/Polit.h"
+#include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
 #include <functional>
@@ -51,7 +51,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 			if (body != 0)
 				Pi::player->SetNavTarget(body);
 		} else if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) { // We allow hyperjump to any star of the system
-			m_game->GetSectorView()->SetSelected(path);
+			m_game->GetSectorView()->SwitchToPath(path);
 		}
 	}
 
@@ -201,12 +201,14 @@ void SystemInfoView::UpdateEconomyTab()
 
 		for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
 			if (isInList(s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i))) && s->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
-				std::string extra = meh; // default color
+				std::string extra = meh;  // default color
 				std::string tooltip = ""; // no tooltip for default
 				if (compareSelectedWithCurrent) {
 					if (isInInterval(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
-						extra = colorInInterval; // change color
-						tooltip = toolTipInInterval; // describe trade status in current system
+						// change color
+						extra = colorInInterval;
+						// describe trade status in current system
+						tooltip = toolTipInInterval;
 					} else if (isOther(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
 						extra = colorOther;
 						tooltip = toolTipOther;
@@ -545,8 +547,9 @@ SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 		} else {
 			// No body was selected
 			if (m_game->GetSectorView()->GetSelected().IsBodyPath())
-				return REFRESH_SELECTED_BODY; // but now we want one, this can only be a star,
-					// so no check for IsShownInInfoView() needed
+				// but now we want one, this can only be a star,
+				// so no check for IsShownInInfoView() needed
+				return REFRESH_SELECTED_BODY;
 		}
 	} else {
 		Body *navTarget = Pi::player->GetNavTarget();

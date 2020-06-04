@@ -291,7 +291,7 @@ void SectorView::FloatHyperspaceTarget()
 void SectorView::ResetHyperspaceTarget()
 {
 	SystemPath old = m_hyperspaceTarget;
-	m_hyperspaceTarget = m_selected;
+	m_hyperspaceTarget = Pi::game->GetSpace()->GetStarSystem()->GetStars()[0]->GetPath();
 	FloatHyperspaceTarget();
 
 	if (!old.IsSameSystem(m_hyperspaceTarget)) {
@@ -323,14 +323,32 @@ void SectorView::GotoSystem(const SystemPath &path)
 	}
 }
 
+bool SectorView::IsCenteredOn(const SystemPath &path)
+{
+	RefCountedPtr<Sector> ps = GetCached(path);
+	const vector3f &p = ps->m_systems[path.systemIndex].GetPosition();
+	vector3f diff = vector3f(
+		fabs(m_pos.x - path.sectorX - p.x / Sector::SIZE),
+		fabs(m_pos.y - path.sectorY - p.y / Sector::SIZE),
+		fabs(m_pos.z - path.sectorZ - p.z / Sector::SIZE));
+	return ((diff.x < 0.005f && diff.y < 0.005f && diff.z < 0.005f));
+}
+
 void SectorView::SetSelected(const SystemPath &path)
 {
-	m_selected = path;
-
-	if (m_matchTargetToSelection && m_selected != m_current) {
-		m_hyperspaceTarget = m_selected;
-		onHyperspaceTargetChanged.emit();
+	if (path.IsBodyPath())
+		m_selected = path;
+	else if (path.IsSystemPath()) {
+		RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(path);
+		m_selected = system->GetStars()[CheckIndexInRoute(path)]->GetPath();
 	}
+}
+
+void SectorView::SwitchToPath(const SystemPath &path)
+{
+	SetSelected(path);
+	if (m_automaticSystemSelection)
+		GotoSystem(path);
 }
 
 void SectorView::SwapSelectedHyperspaceTarget()
@@ -341,33 +359,26 @@ void SectorView::SwapSelectedHyperspaceTarget()
 		GotoSystem(tmpTarget);
 	} else {
 		RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(tmpTarget);
-		SetSelected(system->GetStars()[0]->GetPath());
+		SetSelected(system->GetStars()[CheckIndexInRoute(tmpTarget)]->GetPath());
 	}
 }
 
 void SectorView::OnClickSystem(const SystemPath &path)
 {
-	if (path.IsSameSystem(m_selected)) {
-		RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(path);
-		if (system->GetNumStars() > 1 && m_selected.IsBodyPath()) {
-			unsigned i;
-			for (i = 0; i < system->GetNumStars(); ++i)
-				if (system->GetStars()[i]->GetPath() == m_selected) break;
-			if (i >= system->GetNumStars() - 1)
-				SetSelected(system->GetStars()[0]->GetPath());
-			else
-				SetSelected(system->GetStars()[i + 1]->GetPath());
-		} else {
-			SetSelected(system->GetStars()[0]->GetPath());
+	SwitchToPath(path);
+}
+
+// check the route, maybe this system is there, then we'll take star number from there
+// if single system, bodyindex = 0; if multisystem, bodyindex = (0 or 1),2 ...
+int SectorView::CheckIndexInRoute(const SystemPath &path)
+{
+	for (auto &p : m_route)
+		if (p.IsSameSystem(path)) {
+			if (p.bodyIndex > 0)
+				return p.bodyIndex - 1;
+			return 0;
 		}
-	} else {
-		if (m_automaticSystemSelection) {
-			GotoSystem(path);
-		} else {
-			RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(path);
-			SetSelected(system->GetStars()[0]->GetPath());
-		}
-	}
+	return 0;
 }
 
 void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &origin, int drawRadius)
@@ -568,6 +579,11 @@ bool SectorView::MoveRouteItemDown(const std::vector<SystemPath>::size_type elem
 	return true;
 }
 
+void SectorView::UpdateRouteItem(const std::vector<SystemPath>::size_type element, const SystemPath &path)
+{
+	m_route[element] = path;
+}
+
 void SectorView::AddToRoute(const SystemPath &path)
 {
 	m_route.push_back(path);
@@ -717,7 +733,7 @@ void SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, st
 		outRoute.reserve(nodes.size());
 		// Build the route, in reverse starting with the target
 		while (u != 0) {
-			outRoute.push_back(nodes[u]);
+			outRoute.push_back(m_galaxy->GetStarSystem(nodes[u])->GetStars()[0]->GetPath());
 			u = path_prev[u];
 		}
 		std::reverse(std::begin(outRoute), std::end(outRoute));
@@ -802,9 +818,10 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
 		const bool bIsCurrentSystem = i->IsSameSystem(m_current);
+		const bool bInRoute = std::find_if(m_route.begin(), m_route.end(), [i](const SystemPath &a) -> bool { return i->IsSameSystem(a); }) != m_route.end();
 
 		// if the system is the current system or target we can't skip it
-		bool can_skip = !i->IsSameSystem(m_selected) && !i->IsSameSystem(m_hyperspaceTarget) && !bIsCurrentSystem;
+		bool can_skip = !i->IsSameSystem(m_selected) && !i->IsSameSystem(m_hyperspaceTarget) && !bIsCurrentSystem && !bInRoute;
 
 		// if the system belongs to a faction we've chosen to temporarily hide
 		// then skip it if we can
@@ -863,29 +880,24 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		}
 
 		if (i->IsSameSystem(m_selected)) {
-			if (m_selected != m_current) {
+			if (m_selected != m_current && !bInRoute) {
 				m_selectedLine.SetStart(vector3f(0.f, 0.f, 0.f));
 				m_selectedLine.SetEnd(playerAbsPos - sysAbsPos);
 				m_selectedLine.Draw(m_renderer, m_solidState);
-			} else {
 			}
-			if (m_selected != m_hyperspaceTarget) {
-				RefCountedPtr<Sector> hyperSec = GetCached(m_hyperspaceTarget);
+
+			if (m_route.size() > 0) {
+			const SystemPath &routeBack = m_route.back();
+			if (!bInRoute) {
+				RefCountedPtr<Sector> backSec = GetCached(routeBack);
 				const vector3f hyperAbsPos =
-					Sector::SIZE * vector3f(m_hyperspaceTarget.sectorX, m_hyperspaceTarget.sectorY, m_hyperspaceTarget.sectorZ) + hyperSec->m_systems[m_hyperspaceTarget.systemIndex].GetPosition();
+					Sector::SIZE * vector3f(routeBack.sectorX, routeBack.sectorY, routeBack.sectorZ) + backSec->m_systems[routeBack.systemIndex].GetPosition();
 				if (m_selected != m_current) {
 					m_secondLine.SetStart(vector3f(0.f, 0.f, 0.f));
 					m_secondLine.SetEnd(hyperAbsPos - sysAbsPos);
 					m_secondLine.Draw(m_renderer, m_solidState);
 				}
-
-				if (m_hyperspaceTarget != m_current) {
-					// FIXME: Draw when drawing hyperjump target or current system
-					m_jumpLine.SetStart(hyperAbsPos - sysAbsPos);
-					m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
-					m_jumpLine.Draw(m_renderer, m_solidState);
-				}
-			} else {
+			}
 			}
 		}
 
@@ -1104,12 +1116,23 @@ void SectorView::Update()
 		if (KeyBindings::mapViewRotateDown.IsActive()) m_rotXMovingTo += 0.5f * moveSpeed;
 	}
 
-	if (Pi::input->MouseButtonState(SDL_BUTTON_RIGHT)) {
+	// to capture mouse when button was pressed and release when released
+	if (Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
+		m_rotateWithMouseButton = !m_rotateWithMouseButton;
+		Pi::input->SetCapturingMouse(m_rotateWithMouseButton);
+	}
+
+	if (m_rotateWithMouseButton || m_rotateView) {
 		int motion[2];
 		Pi::input->GetMouseMotion(motion);
-
 		m_rotXMovingTo += 0.2f * float(motion[1]);
 		m_rotZMovingTo += 0.2f * float(motion[0]);
+	}
+	else if (m_zoomView) {
+		Pi::input->SetCapturingMouse(true);
+		int motion[2];
+		Pi::input->GetMouseMotion(motion);
+		m_zoomMovingTo += ZOOM_SPEED * 0.002f * motion[1];
 	}
 
 	m_rotXMovingTo = Clamp(m_rotXMovingTo, -170.0f, -10.0f);
@@ -1169,7 +1192,7 @@ void SectorView::Update()
 
 			if (!m_selected.IsSameSystem(new_selected)) {
 				RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(new_selected);
-				SetSelected(system->GetStars()[0]->GetPath());
+				SetSelected(system->GetStars()[CheckIndexInRoute(new_selected)]->GetPath());
 			}
 		}
 	}
@@ -1330,4 +1353,28 @@ void SectorView::SetFactionVisible(const Faction *faction, bool visible)
 	else
 		m_hiddenFactions.insert(faction);
 	m_toggledFaction = true;
+}
+
+void SectorView::SetZoomMode(bool enable)
+{
+	if (enable != m_zoomView) {
+		Pi::input->SetCapturingMouse(enable);
+		m_zoomView = enable;
+		if (m_zoomView) m_rotateView = false;
+	}
+}
+
+void SectorView::SetRotateMode(bool enable) {
+	if (enable != m_rotateView) {
+		Pi::input->SetCapturingMouse(enable);
+		m_rotateView = enable;
+		if (m_rotateView) m_zoomView = false;
+	}
+}
+
+void SectorView::ResetView() {
+	GotoSystem(m_current);
+	m_rotXMovingTo = m_rotXDefault;
+	m_rotZMovingTo = m_rotZDefault;
+	m_zoomMovingTo = m_zoomDefault;
 }

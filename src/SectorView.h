@@ -33,7 +33,7 @@ public:
 	vector3f GetPosition() const { return m_pos; }
 	SystemPath GetCurrent() const { return m_current; }
 	SystemPath GetSelected() const { return m_selected; }
-	void SetSelected(const SystemPath &path);
+	void SwitchToPath(const SystemPath &path);
 	SystemPath GetHyperspaceTarget() const { return m_hyperspaceTarget; }
 	void SetHyperspaceTarget(const SystemPath &path);
 	void FloatHyperspaceTarget();
@@ -45,6 +45,7 @@ public:
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
 	void SwapSelectedHyperspaceTarget();
+	bool IsCenteredOn(const SystemPath &path);
 	virtual void SaveToJson(Json &jsonObj);
 
 	sigc::signal<void> onHyperspaceTargetChanged;
@@ -62,10 +63,14 @@ public:
 	const std::set<const Faction *> &GetVisibleFactions() { return m_visibleFactions; }
 	const std::set<const Faction *> &GetHiddenFactions() { return m_hiddenFactions; }
 	void SetFactionVisible(const Faction *faction, bool visible);
+	void SetZoomMode(bool enable);
+	void SetRotateMode(bool enable);
+	void ResetView();
 
 	// HyperJump Route Planner
 	bool MoveRouteItemUp(const std::vector<SystemPath>::size_type element);
 	bool MoveRouteItemDown(const std::vector<SystemPath>::size_type element);
+	void UpdateRouteItem(const std::vector<SystemPath>::size_type element, const SystemPath &path);
 	void AddToRoute(const SystemPath &path);
 	bool RemoveRouteItem(const std::vector<SystemPath>::size_type element);
 	void ClearRoute();
@@ -106,9 +111,11 @@ private:
 	void AddStarBillboard(const matrix4x4f &modelview, const vector3f &pos, const Color &col, float size);
 
 	void OnClickSystem(const SystemPath &path);
+	int CheckIndexInRoute(const SystemPath &path);
 
 	RefCountedPtr<Sector> GetCached(const SystemPath &loc) { return m_sectorCache->GetCached(loc); }
 	void ShrinkCache();
+	void SetSelected(const SystemPath &path);
 
 	void MouseWheel(bool up);
 	void OnKeyPressed(SDL_Keysym *keysym);
@@ -131,6 +138,10 @@ private:
 	float m_zoom;
 	float m_zoomClamped;
 	float m_zoomMovingTo;
+
+	bool m_rotateWithMouseButton = false;
+	bool m_rotateView = false;
+	bool m_zoomView = false;
 
 	SystemPath m_hyperspaceTarget;
 	bool m_matchTargetToSelection;
