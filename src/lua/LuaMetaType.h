@@ -25,7 +25,32 @@ public:
 
 	void SetParent(const char *parent) { m_parent = parent; }
 
-	const LuaRef &GetMetatable() const { return m_typeTable; }
+	// Push the metatable to the lua stack.
+	void GetMetatable() const;
+
+	// Returns true if the metatype has been correctly set up.
+	bool IsValid() const { return m_lua && m_ref != LUA_NOREF; }
+
+	// Call this function to set the lua stack up to begin recording members
+	// and methods into the metatype.
+	// It is invalid to call other functions outside a StartRecording / StopRecording pair.
+	void StartRecording()
+	{
+		assert(IsValid());
+		assert(m_index == 0);
+
+		GetMetatable();
+		m_index = lua_gettop(m_lua);
+	}
+
+	// Stop recording and remove the metatype from the stack
+	void StopRecording()
+	{
+		assert(IsValid());
+		assert(m_index != 0);
+		lua_remove(m_lua, m_index);
+		m_index = 0;
+	}
 
 	// Get all valid method/attribute names for the object on the top of the stack.
 	// Mainly intended to be used by the console, though it can also be used for
@@ -126,6 +151,7 @@ protected:
 	{
 		T *ptr = LuaPull<T *>(L, 1);
 		const char *name = lua_tostring(L, lua_upvalueindex(1));
+		luaL_checktype(L, lua_upvalueindex(2), LUA_TLIGHTUSERDATA);
 
 		if (!ptr)
 			return luaL_error(L, "Invalid userdata accessed for function %s", name);
@@ -135,7 +161,7 @@ protected:
 	}
 
 	template <typename T, typename Rt, typename... Args>
-	static int member_fn_wrapper_(lua_State *L)
+	typename std::enable_if<!std::is_same<Rt, void>::value, int>::type static member_fn_wrapper_(lua_State *L)
 	{
 		T *ptr = LuaPull<T *>(L, 1);
 		const char *name = lua_tostring(L, lua_upvalueindex(1));
@@ -153,8 +179,8 @@ protected:
 		return 1;
 	}
 
-	template <typename T, typename Rt, typename... Args, typename std::enable_if<std::is_same<Rt, void>::value>::type = nullptr>
-	static int member_fn_wrapper_(lua_State *L)
+	template <typename T, typename Rt, typename... Args>
+	typename std::enable_if<std::is_same<Rt, void>::value, int>::type static member_fn_wrapper_(lua_State *L)
 	{
 		T *ptr = LuaPull<T *>(L, 1);
 		const char *name = lua_tostring(L, lua_upvalueindex(1));
@@ -186,13 +212,14 @@ protected:
 	template <typename T>
 	static void PushFreeFunction(lua_State *L, free_function<T> obj)
 	{
+		static_assert(sizeof(free_function<T>) == sizeof(void *), "Free functions cannot be 'fat' lambdas!");
 		lua_pushlightuserdata(L, reinterpret_cast<void *>(obj));
 	}
 
 	template <typename T>
-	static free_function<T> &PullFreeFunction(lua_State *L, int index)
+	static free_function<T> PullFreeFunction(lua_State *L, int index)
 	{
-		return *reinterpret_cast<free_function<T> *>(lua_touserdata(L, index));
+		return reinterpret_cast<free_function<T>>(lua_touserdata(L, index));
 	}
 
 	// Pushes a copy of the metatable's attribute table to the stack
@@ -209,7 +236,12 @@ protected:
 
 	std::string m_typeName;
 	std::string m_parent;
-	LuaRef m_typeTable;
+
+	lua_State *m_lua;
+	// the reference id of the metatable
+	int m_ref = LUA_NOREF;
+	// the position of the metatable on the stack while recording
+	int m_index = 0;
 };
 
 template <typename T>
@@ -219,31 +251,15 @@ public:
 		LuaMetaTypeBase(name)
 	{}
 
-	// Call this function to set the lua stack up to begin recording members
-	// and methods into the metatype.
-	// It is invalid to call other functions outside a StartRecording / StopRecording pair.
 	LuaMetaType &StartRecording()
 	{
-		assert(m_typeTable.IsValid());
-		assert(m_index == 0);
-		lua_State *L = m_typeTable.GetLua();
-
-		m_typeTable.PushCopyToStack();
-		m_index = lua_gettop(L);
-
+		LuaMetaTypeBase::StartRecording();
 		return *this;
 	}
 
-	// Stop recording and remove the metatype from the stack
 	LuaMetaType &StopRecording()
 	{
-		assert(m_typeTable.IsValid());
-		assert(m_index != 0);
-		lua_State *L = m_typeTable.GetLua();
-
-		lua_remove(L, m_index);
-		m_index = 0;
-
+		LuaMetaTypeBase::StopRecording();
 		return *this;
 	}
 
@@ -255,7 +271,7 @@ public:
 	// This enables function and member inheritance from parent 'classes'.
 	LuaMetaType &SetParent(const char *parent)
 	{
-		lua_State *L = m_typeTable.GetLua();
+		lua_State *L = m_lua;
 
 		lua_pushstring(L, parent);
 		lua_setfield(L, -2, "parent");
@@ -270,7 +286,7 @@ public:
 	template <typename Dt>
 	LuaMetaType &AddMember(const char *name, member_pointer<T, Dt> t)
 	{
-		lua_State *L = m_typeTable.GetLua();
+		lua_State *L = m_lua;
 		GetAttrTable(L, m_index);
 
 		lua_pushstring(L, (m_typeName + "." + name).c_str());
@@ -289,7 +305,7 @@ public:
 	// The getter and setter are responsible for pulling parameters from Lua.
 	LuaMetaType &AddMember(const char *name, free_function<T> getter, free_function<T> setter = nullptr)
 	{
-		lua_State *L = m_typeTable.GetLua();
+		lua_State *L = m_lua;
 		GetAttrTable(L, m_index);
 
 		lua_pushstring(L, (m_typeName + "." + name).c_str());
@@ -310,7 +326,7 @@ public:
 	template <typename Dt>
 	LuaMetaType &AddMember(const char *name, const_member_function<T, Dt> getter, member_function<T, void, Dt> setter = nullptr)
 	{
-		return AddMember(name, const_cast<member_function<T, Dt>>(getter), setter);
+		return AddMember(name, reinterpret_cast<member_function<T, Dt>>(getter), setter);
 	}
 
 	// Bind a pseudo-member to Lua via a member-function getter and setter.
@@ -318,7 +334,7 @@ public:
 	template <typename Dt>
 	LuaMetaType &AddMember(const char *name, member_function<T, Dt> getter, member_function<T, void, Dt> setter = nullptr)
 	{
-		lua_State *L = m_typeTable.GetLua();
+		lua_State *L = m_lua;
 		GetAttrTable(L, m_index);
 
 		lua_pushstring(L, (m_typeName + "." + name).c_str());
@@ -339,7 +355,7 @@ public:
 	template <typename Rt, typename... Args>
 	LuaMetaType &AddFunction(const char *name, const_member_function<T, Rt, Args...> fn)
 	{
-		return AddFunction(name, const_cast<member_function<T, Rt, Args...>>(fn));
+		return AddFunction(name, reinterpret_cast<member_function<T, Rt, Args...>>(fn));
 	}
 
 	// Bind a member function to Lua.
@@ -351,7 +367,7 @@ public:
 	template <typename Rt, typename... Args>
 	LuaMetaType &AddFunction(const char *name, member_function<T, Rt, Args...> fn)
 	{
-		lua_State *L = m_typeTable.GetLua();
+		lua_State *L = m_lua;
 		GetMethodTable(L, m_index);
 
 		lua_pushstring(L, (m_typeName + "." + name).c_str());
@@ -372,7 +388,7 @@ public:
 	// appropriate number of return values.
 	LuaMetaType &AddFunction(const char *name, free_function<T> fn)
 	{
-		lua_State *L = m_typeTable.GetLua();
+		lua_State *L = m_lua;
 		GetMethodTable(L, m_index);
 
 		lua_pushstring(L, (m_typeName + "." + name).c_str());
@@ -389,7 +405,7 @@ public:
 
 	LuaMetaType &RegisterFuncs(const luaL_Reg *functions)
 	{
-		lua_State *L = m_typeTable.GetLua();
+		lua_State *L = m_lua;
 		GetMethodTable(L, m_index);
 
 		for (const luaL_Reg *func = functions; func->name; ++func) {
@@ -405,5 +421,4 @@ public:
 
 private:
 	bool m_protected = false;
-	int m_index = 0;
 };

@@ -429,14 +429,14 @@ template <class T>
 void pi_lua_generic_pull(lua_State *l, int index, T *&out)
 {
 	assert(l == Lua::manager->GetLuaState());
-	out = LuaObject<T>::CheckFromLua(index);
+	out = LuaObject<typename std::remove_cv<T>::type>::CheckFromLua(index);
 }
 
 template <class T>
 bool pi_lua_strict_pull(lua_State *l, int index, T *&out)
 {
 	assert(l == Lua::manager->GetLuaState());
-	out = LuaObject<T>::GetFromLua(index);
+	out = LuaObject<typename std::remove_cv<T>::type>::GetFromLua(index);
 	return out != 0;
 }
 
@@ -445,7 +445,7 @@ void pi_lua_generic_push(lua_State *l, T *value)
 {
 	assert(l == Lua::manager->GetLuaState());
 	if (value)
-		LuaObject<T>::PushToLua(value);
+		LuaObject<typename std::remove_cv<T>::type>::PushToLua(value);
 	else
 		lua_pushnil(l);
 }
