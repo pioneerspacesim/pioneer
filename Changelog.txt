@@ -1,3 +1,7 @@
+June 2020
+   * Fixes
+     * Fix LuaMetaType issues (#4883)
+
 May 2020
    * New Features
      * Add Star's End system on the other side of the galaxy (#4873)
