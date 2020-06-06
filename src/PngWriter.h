@@ -11,7 +11,13 @@ namespace FileSystem {
 	class FileSourceFS;
 }
 
+namespace Graphics {
+	struct ScreendumpState;
+}
+
 // stride is in bytes (bytes per row)
 void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint8 *bytes, int width, int height, int stride, int bytes_per_pixel);
+
+void write_screenshot(const Graphics::ScreendumpState &sd, const char *destFile);
 
 #endif

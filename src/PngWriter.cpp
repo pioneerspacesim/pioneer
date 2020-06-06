@@ -3,6 +3,7 @@
 
 #include "PngWriter.h"
 #include "FileSystem.h"
+#include "graphics/Graphics.h"
 #include "utils.h"
 
 void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint8 *bytes, int width, int height, int stride, int bytes_per_pixel)
@@ -39,7 +40,7 @@ void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint
 		}
 		srcy--;
 	}
-	
+
 	// do the actual saving
 	const std::string fname = FileSystem::JoinPathBelow(fs.GetRoot(), path);
 	IMG_SavePNG(surface, fname.c_str());
@@ -47,4 +48,15 @@ void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint
 	//cleanup after ourselves
 	SDL_FreeSurface(surface);
 	surface = nullptr;
+}
+
+void write_screenshot(const Graphics::ScreendumpState &sd, const char *destFile)
+{
+	const std::string dir = "screenshots";
+	FileSystem::userFiles.MakeDirectory(dir);
+	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
+
+	write_png(FileSystem::userFiles, fname, sd.pixels.get(), sd.width, sd.height, sd.stride, sd.bpp);
+
+	Output("Screenshot %s saved\n", fname.c_str());
 }
