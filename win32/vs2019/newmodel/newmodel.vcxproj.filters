@@ -40,7 +40,6 @@
     <ClCompile Include="..\..\..\contrib\lz4\xxhash.c">
       <Filter>lz4</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\LZ4Format.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\scenegraph\Thruster.h" />
