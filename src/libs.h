@@ -41,11 +41,7 @@
 #endif
 #endif
 
-#ifdef _WIN32 // MSVC doesn't support the %z specifier, but has its own %I specifier
-#define SIZET_FMT "%Iu"
-#else
 #define SIZET_FMT "%zu"
-#endif
 
 #include "fixed.h"
 #include "matrix3x3.h"
