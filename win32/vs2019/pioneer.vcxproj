@@ -180,7 +180,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -190,7 +190,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static_vc2015_debug.lib;libvorbis_static_v140_debug.lib;libvorbisfile_static_v140_debug.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static_vc2015_debug.lib;libvorbis_static_v140_debug.lib;libvorbisfile_static_v140_debug.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2017;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LargeAddressAware>true</LargeAddressAware>
@@ -202,7 +202,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -211,7 +211,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2017;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LargeAddressAware>true</LargeAddressAware>
@@ -232,7 +232,7 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -246,14 +246,14 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2017;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -268,13 +268,13 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2017;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <SDLCheck>false</SDLCheck>
@@ -292,13 +292,13 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2017;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <SDLCheck>false</SDLCheck>
@@ -317,14 +317,14 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2017;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/Qpar-report:2 /Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>false</SDLCheck>
@@ -341,14 +341,14 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2017;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../../../pioneer-thirdparty/source/libsigc++-2.10.2;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/Qpar-report:2 /Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>false</SDLCheck>
@@ -385,6 +385,10 @@
     <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\core\Application.cpp" />
     <ClCompile Include="..\..\src\core\GuiApplication.cpp" />
+    <ClCompile Include="..\..\src\core\GZipFormat.cpp" />
+    <ClCompile Include="..\..\src\core\IniConfig.cpp" />
+    <ClCompile Include="..\..\src\core\Log.cpp" />
+    <ClCompile Include="..\..\src\core\LZ4Format.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\DateTime.cpp" />
     <ClCompile Include="..\..\src\DeathView.cpp" />
@@ -407,10 +411,8 @@
     <ClCompile Include="..\..\src\GeoPatchID.cpp" />
     <ClCompile Include="..\..\src\GeoPatchJobs.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
-    <ClCompile Include="..\..\src\GZipFormat.cpp" />
     <ClCompile Include="..\..\src\HudTrail.cpp" />
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
-    <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\Input.cpp" />
     <ClCompile Include="..\..\src\Intro.cpp" />
     <ClCompile Include="..\..\src\JobQueue.cpp" />
@@ -439,6 +441,7 @@
     <ClCompile Include="..\..\src\lua\LuaJson.cpp" />
     <ClCompile Include="..\..\src\lua\LuaLang.cpp" />
     <ClCompile Include="..\..\src\lua\LuaManager.cpp" />
+    <ClCompile Include="..\..\src\lua\LuaMetaType.cpp" />
     <ClCompile Include="..\..\src\lua\LuaMissile.cpp" />
     <ClCompile Include="..\..\src\lua\LuaModelBody.cpp" />
     <ClCompile Include="..\..\src\lua\LuaMusic.cpp" />
@@ -591,6 +594,10 @@
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\core\Application.h" />
     <ClInclude Include="..\..\src\core\GuiApplication.h" />
+    <ClInclude Include="..\..\src\core\GZipFormat.h" />
+    <ClInclude Include="..\..\src\core\IniConfig.h" />
+    <ClInclude Include="..\..\src\core\Log.h" />
+    <ClInclude Include="..\..\src\core\LZ4Format.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\DateTime.h" />
     <ClInclude Include="..\..\src\DeathView.h" />
@@ -617,10 +624,8 @@
     <ClInclude Include="..\..\src\GeoPatchID.h" />
     <ClInclude Include="..\..\src\GeoPatchJobs.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
-    <ClInclude Include="..\..\src\GZipFormat.h" />
     <ClInclude Include="..\..\src\HudTrail.h" />
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
-    <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\Input.h" />
     <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\JobQueue.h" />
@@ -644,6 +649,7 @@
     <ClInclude Include="..\..\src\lua\LuaJson.h" />
     <ClInclude Include="..\..\src\lua\LuaLang.h" />
     <ClInclude Include="..\..\src\lua\LuaManager.h" />
+    <ClInclude Include="..\..\src\lua\LuaMetaType.h" />
     <ClInclude Include="..\..\src\lua\LuaMissile.h" />
     <ClInclude Include="..\..\src\lua\LuaMusic.h" />
     <ClInclude Include="..\..\src\lua\LuaNameGen.h" />
