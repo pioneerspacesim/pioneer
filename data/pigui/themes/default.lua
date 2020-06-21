@@ -305,6 +305,7 @@ theme.icons = {
 	route = 231,
 	route_destination = 232,
 	route_dist = 233,
+	impact_warning = 234,
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly
 	mouse_move_direction = 14
