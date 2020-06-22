@@ -624,6 +624,10 @@ ui.sliderInt = pigui.SliderInt
 ui.pushItemWidth = pigui.PushItemWidth
 ui.popItemWidth = pigui.PopItemWidth
 ui.sliderFloat = pigui.SliderFloat
+ui.beginTabBar = pigui.BeginTabBar
+ui.beginTabItem = pigui.BeginTabItem
+ui.endTabItem = pigui.EndTabItem
+ui.endTabBar = pigui.EndTabBar
 
 -- Flag validation functions. Call with a table of string flags as the only argument.
 ui.SelectableFlags = pigui.SelectableFlags
