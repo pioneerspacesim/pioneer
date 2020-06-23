@@ -75,15 +75,15 @@
     "description": "Axis binding",
     "message": "Map Pitch"
   },
-  "BIND_MAP_VIEW_SHIFT_HORIZONTALLY": {
+  "BIND_MAP_VIEW_MOVE_LEFT": {
     "description": "Axis binding",
     "message": "Shift Map Horizontally"
   },
-  "BIND_MAP_VIEW_SHIFT_LONGITUDINALLY": {
+  "BIND_MAP_VIEW_MOVE_FORWARD": {
     "description": "Axis binding",
     "message": "Shift Map Longitudinally"
   },
-  "BIND_MAP_VIEW_SHIFT_VERTICALLY": {
+  "BIND_MAP_VIEW_MOVE_UP": {
     "description": "Axis binding",
     "message": "Shift Map Vertically"
   },

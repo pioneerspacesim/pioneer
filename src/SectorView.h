@@ -89,9 +89,9 @@ public:
 		Action *mapWarpToSelected;
 		Action *mapViewReset;
 
-		Axis *mapViewShiftLongitudinally;
-		Axis *mapViewShiftHorizontally;
-		Axis *mapViewShiftVertically;
+		Axis *mapViewMoveForward;
+		Axis *mapViewMoveLeft;
+		Axis *mapViewMoveUp;
 		Axis *mapViewYaw;
 		Axis *mapViewPitch;
 		Axis *mapViewZoom;

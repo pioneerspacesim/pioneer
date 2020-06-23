@@ -1081,13 +1081,15 @@ void SectorView::Update()
 	// don't check raw keypresses if the search box is active
 	// XXX ugly hack checking for Lua console here
 	if (!Pi::IsConsoleActive()) {
+		matrix3x3f shiftRot = matrix3x3f::Rotate(DEG2RAD(m_rotZ), { 0, 0, 1 });
+
 		const float moveSpeed = Pi::GetMoveSpeedShiftModifier();
-		float move = moveSpeed * frameTime;
+		float move = moveSpeed * frameTime * m_zoomClamped;
 		vector3f shift(0.0f);
-		if (InputBindings.mapViewShiftHorizontally->IsActive()) shift.x += move * InputBindings.mapViewShiftHorizontally->GetValue();
-		if (InputBindings.mapViewShiftVertically->IsActive()) shift.y += move * InputBindings.mapViewShiftVertically->GetValue();
-		if (InputBindings.mapViewShiftLongitudinally->IsActive()) shift.z += move * InputBindings.mapViewShiftLongitudinally->GetValue();
-		m_posMovingTo += shift * rot;
+		if (InputBindings.mapViewMoveLeft->IsActive()) shift.x -= move * InputBindings.mapViewMoveLeft->GetValue();
+		if (InputBindings.mapViewMoveForward->IsActive()) shift.y += move * InputBindings.mapViewMoveForward->GetValue();
+		if (InputBindings.mapViewMoveUp->IsActive()) shift.z += move * InputBindings.mapViewMoveUp->GetValue();
+		m_posMovingTo += shift * shiftRot;
 
 		if (InputBindings.mapViewZoom->IsActive()) m_zoomMovingTo -= move * InputBindings.mapViewZoom->GetValue();
 		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, FAR_MAX);
@@ -1342,14 +1344,14 @@ void SectorView::RegisterInputBindings()
 	AXIS_BINDING(mapViewYaw, "BindMapViewYaw", SDLK_KP_4, SDLK_KP_6)
 	AXIS_BINDING(mapViewPitch, "BindMapViewPitch", SDLK_KP_8, SDLK_KP_2)
 	AXIS_BINDING(mapViewZoom, "BindViewZoom", SDLK_KP_PLUS, SDLK_KP_MINUS)
+	AXIS_BINDING(mapViewMoveUp, "BindMapViewMoveUp", SDLK_r, SDLK_f)
+	AXIS_BINDING(mapViewMoveLeft, "BindMapViewMoveLeft", SDLK_a, SDLK_d)
+	AXIS_BINDING(mapViewMoveForward, "BindMapViewMoveForward", SDLK_w, SDLK_s)
 
 	BINDING_GROUP(SectorMapViewControls)
 	KEY_BINDING(mapToggleSelectionFollowView, "MapToggleSelectionFollowView", SDLK_RETURN, SDLK_KP_ENTER)
 	KEY_BINDING(mapWarpToCurrent, "MapWarpToCurrentSystem", SDLK_c, 0)
 	KEY_BINDING(mapWarpToSelected, "MapWarpToSelectedSystem", SDLK_g, 0)
-	AXIS_BINDING(mapViewShiftLongitudinally, "BindMapViewShiftLongitudinally", SDLK_f, SDLK_r)
-	AXIS_BINDING(mapViewShiftHorizontally, "BindMapViewShiftHorizontally", SDLK_d, SDLK_a)
-	AXIS_BINDING(mapViewShiftVertically, "BindMapViewShiftVertically", SDLK_s, SDLK_w)
 }
 
 void SectorView::SetFactionVisible(const Faction *faction, bool visible)

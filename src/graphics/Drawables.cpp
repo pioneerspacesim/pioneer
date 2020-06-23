@@ -3,9 +3,9 @@
 
 #include "Drawables.h"
 
-#include "graphics/RenderState.h"
 #include "Texture.h"
 #include "TextureBuilder.h"
+#include "graphics/RenderState.h"
 
 namespace Graphics {
 
@@ -908,10 +908,10 @@ namespace Graphics {
 			static const Color colors[] = {
 				Color::RED,
 				Color::RED,
-				Color::BLUE,
-				Color::BLUE,
 				Color::GREEN,
 				Color::GREEN,
+				Color::BLUE,
+				Color::BLUE,
 			};
 
 			for (int i = 0; i < 6; i++) {
