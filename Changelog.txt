@@ -1,4 +1,7 @@
 June 2020
+   * Internal Changes
+     * Add support for IMGUI tabs in pigui (#4893)
+
    * Fixes
      * Fix LuaMetaType issues (#4883)
      * Update MSVS2019 Project (#4887)
