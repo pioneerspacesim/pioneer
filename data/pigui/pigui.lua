@@ -624,6 +624,22 @@ ui.sliderInt = pigui.SliderInt
 ui.pushItemWidth = pigui.PushItemWidth
 ui.popItemWidth = pigui.PopItemWidth
 ui.sliderFloat = pigui.SliderFloat
+
+ui.tabBar = function (id, items)
+	local open = pigui.BeginTabBar(id)
+	if not open then return false end
+
+	for i, v in ipairs(items) do
+		if type(v) == "table" and v[1] and type(v[2]) == "function" then
+			if pigui.BeginTabItem(tostring(v[1]) .. "##" .. tostring(i)) then
+				v[2](v)
+			end
+		end
+	end
+
+	pigui.EndTabBar()
+	return true
+end
 ui.beginTabBar = pigui.BeginTabBar
 ui.beginTabItem = pigui.BeginTabItem
 ui.endTabItem = pigui.EndTabItem
