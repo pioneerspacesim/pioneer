@@ -84,13 +84,17 @@ void Log::Logger::LogLevel(Severity sv, nonstd::string_view message)
 void Log::Logger::WriteLog(Time::DateTime time, Severity sv, nonstd::string_view msg)
 {
 	std::string &svName = s_severityNames.at(sv);
-
-	if (sv <= Severity::Warning) {
-		fmt::print(stderr, "{}: {}", svName, msg);
-	} else if (sv <= m_maxSeverity) {
-		fmt::print(stdout, "{}", msg);
-		// flush stdout because it might have a different cache size than stderr
-		fflush(stdout);
+	try {
+		if (sv <= Severity::Warning) {
+			fmt::print(stderr, "{}: {}", svName, msg);
+		} else if (sv <= m_maxSeverity) {
+			fmt::print(stdout, "{}", msg);
+			// flush stdout because it might have a different cache size than stderr
+			fflush(stdout);
+		}
+	} catch (fmt::system_error) {
+		// stderr or stdout not valid (ie. no console attached)
+		// silently fail (msg will still be written to file if it's open)
 	}
 
 	if (!printCallback.empty()) {

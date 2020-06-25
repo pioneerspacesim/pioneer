@@ -2132,6 +2132,39 @@ static int l_pigui_system_info_view_next_page(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_begin_tab_bar(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string str = LuaPull<std::string>(l, 1);
+	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
+	bool state = ImGui::BeginTabBar(str.c_str(), tab_bar_flags);
+	LuaPush<bool>(l, state);
+	return 1;
+}
+
+static int l_pigui_begin_tab_item(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string str = LuaPull<std::string>(l, 1);
+	bool state = ImGui::BeginTabItem(str.c_str());
+	LuaPush<bool>(l, state);
+	return 1;
+}
+
+static int l_pigui_end_tab_bar(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGui::EndTabBar();
+	return 0;
+}
+
+static int l_pigui_end_tab_item(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGui::EndTabItem();
+	return 0;
+}
+
 static int l_pigui_input_text(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2613,6 +2646,10 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "InputTextFlags", l_pigui_check_input_text_flags },
 		{ "WindowFlags", l_pigui_check_window_flags },
 		{ "HoveredFlags", l_pigui_check_hovered_flags },
+		{ "BeginTabBar", l_pigui_begin_tab_bar },
+		{ "BeginTabItem", l_pigui_begin_tab_item },
+		{ "EndTabBar", l_pigui_end_tab_bar },
+		{ "EndTabItem", l_pigui_end_tab_item },
 		{ 0, 0 }
 	};
 

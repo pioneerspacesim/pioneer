@@ -24,8 +24,7 @@ Table of Contents
 Pioneer is known to build on the following platforms and build systems:
 
 Linux: CMake with GCC or Clang
-Windows: Microsoft Visual C++ 2015 (Community or Pro)
-         Microsoft Visual C++ 2017 (Community or Pro)
+Windows: Microsoft Visual C++ 2019 (Community or Pro)
          CMake with MSYS2 (and MinGW-w64)
 OS X: XCode 4 or Homebrew or CMake
 
@@ -79,8 +78,7 @@ questions are welcome anytime.
    in a directory side by side. Don't rename pioneer-thirdparty because the
    relative path to it is included in the project files.
 
-2. Open the pioneer solution from /win32/vc2015/pioneer.sln
-   or /win32/vc2017/pioneer.sln according to your MSVC version.
+2. Open the pioneer solution from /win32/vc2019/pioneer.sln.
 
 3. Build and run the project or solution. Note: the default is to build debug
    version, which is what you want if developing, but release gives an executable

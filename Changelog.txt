@@ -1,6 +1,11 @@
 June 2020
+   * Internal Changes
+     * Add support for IMGUI tabs in pigui (#4893)
+
    * Fixes
      * Fix LuaMetaType issues (#4883)
+     * Update MSVS2019 Project (#4887)
+     * Update SIZET_FMT and catch fmt::system_error exception (#4890)
 
 May 2020
    * New Features
