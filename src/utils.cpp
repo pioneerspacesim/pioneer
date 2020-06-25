@@ -5,7 +5,6 @@
 #include "DateTime.h"
 #include "FileSystem.h"
 #include "Lang.h"
-#include "PngWriter.h"
 #include "StringF.h"
 #include "gameconsts.h"
 #include "graphics/Graphics.h"
@@ -150,17 +149,6 @@ std::string format_distance(double dist, int precision)
 			ss << (dist / LY) << " " << Lang::UNIT_LY;
 	}
 	return ss.str();
-}
-
-void write_screenshot(const Graphics::ScreendumpState &sd, const char *destFile)
-{
-	const std::string dir = "screenshots";
-	FileSystem::userFiles.MakeDirectory(dir);
-	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
-
-	write_png(FileSystem::userFiles, fname, sd.pixels.get(), sd.width, sd.height, sd.stride, sd.bpp);
-
-	Output("Screenshot %s saved\n", fname.c_str());
 }
 
 // strcasestr() adapted from gnulib

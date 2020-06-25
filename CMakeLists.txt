@@ -289,8 +289,6 @@ add_executable(savegamedump WIN32
 	src/DateTime.cpp
 	src/Lang.cpp
 	${FILESYSTEM_CXX_FILES}
-	# This one's in here because there's no such thing as separation in the codebase.
-	src/PngWriter.cpp
 )
 
 find_program(NATURALDOCS NAMES naturaldocs)

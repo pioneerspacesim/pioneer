@@ -39,6 +39,7 @@
 #endif
 #include "Beam.h"
 #include "Player.h"
+#include "PngWriter.h"
 #include "Projectile.h"
 #include "SectorView.h"
 #include "Sfx.h"

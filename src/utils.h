@@ -61,24 +61,6 @@ inline void DebugMsg(const char *message, Args... args)
 	Log::LogOld(Log::Severity::Debug, fmt::sprintf(message, args...));
 }
 
-// Helper for timing functions with multiple stages
-// Used on a branch to help time loading.
-struct MsgTimer {
-	MsgTimer() { mTimer.Start(); }
-	~MsgTimer() {}
-
-	void Mark(const char *identifier)
-	{
-		mTimer.SoftStop();
-		const double lastTiming = mTimer.avgms();
-		mTimer.SoftReset();
-		Output("(%lf) avgms in %s\n", lastTiming, identifier);
-	}
-
-protected:
-	Profiler::Timer mTimer;
-};
-
 std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);
 std::string format_date_only(double time);
@@ -108,12 +90,6 @@ static inline Sint64 isqrt(fixed v)
 	}
 	return ret;
 }
-
-namespace Graphics {
-	struct ScreendumpState;
-}
-
-void write_screenshot(const Graphics::ScreendumpState &sd, const char *destFile);
 
 // find string in bigger string, ignoring case
 const char *pi_strcasestr(const char *haystack, const char *needle);

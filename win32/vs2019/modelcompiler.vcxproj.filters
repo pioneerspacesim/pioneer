@@ -27,9 +27,6 @@
     <ClCompile Include="..\..\src\modelcompiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\IniConfig.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FileSourceZip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
     <ClCompile Include="..\..\src\JsonUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GZipFormat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\contrib\lz4\lz4.c">
       <Filter>Source Files\lz4</Filter>
     </ClCompile>
@@ -103,6 +97,18 @@
       <Filter>Source Files\lz4</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\PerfStats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\IniConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\LZ4Format.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\GZipFormat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

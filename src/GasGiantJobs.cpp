@@ -29,7 +29,7 @@ namespace GasGiantJobs {
 		{ p7, p8, p4, p3 }, // -y
 
 		{ p6, p5, p8, p7 }, // +z - NB: these are actually reversed!
-		{ p1, p2, p3, p4 } // -z
+		{ p1, p2, p3, p4 }	// -z
 	};
 	const vector3d &GetPatchFaces(const Uint32 patch, const Uint32 face) { return s_patchFaces[patch][face]; }
 
@@ -48,7 +48,6 @@ namespace GasGiantJobs {
 	void STextureFaceRequest::OnRun()
 	{
 		PROFILE_SCOPED()
-		//MsgTimer timey;
 
 		assert(corners != nullptr);
 		double fracStep = 1.0 / double(UVDims() - 1);
@@ -71,8 +70,6 @@ namespace GasGiantJobs {
 				col[0].a = 255;
 			}
 		}
-
-		//timey.Mark("SingleTextureFaceCPUJob::OnRun");
 	}
 
 	// ********************************************************************************
@@ -241,7 +238,6 @@ namespace GasGiantJobs {
 	void SingleGPUGenJob::OnRun() // Runs in the main thread, may trash the GPU state
 	{
 		PROFILE_SCOPED()
-		//MsgTimer timey;
 
 		Pi::renderer->SetViewport(0, 0, mData->UVDims(), mData->UVDims());
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
@@ -285,8 +281,6 @@ namespace GasGiantJobs {
 
 		// store the result
 		mpResults = sr;
-
-		//timey.Mark("SingleGPUGenJob::OnRun");
 	}
 
 	void SingleGPUGenJob::OnFinish() // runs in primary thread of the context
