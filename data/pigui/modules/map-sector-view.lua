@@ -421,9 +421,7 @@ function(ship)
 	-- clear the route out so it doesn't show up if the user starts a new game
 	sectorView:ClearRoute()
 end)
-Event.Register("onEnterSystem",
-function(ship)
-	hyperJumpPlanner.onEnterSystem(ship)
-end)
+Event.Register("onEnterSystem", hyperJumpPlanner.onEnterSystem)
+Event.Register("onShipEquipmentChanged", hyperJumpPlanner.onShipEquipmentChanged)
 
 return {}

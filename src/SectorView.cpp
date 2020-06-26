@@ -138,6 +138,33 @@ void SectorView::InitDefaults()
 
 void SectorView::InitObject()
 {
+	// single keystroke handlers
+	m_onToggleSelectionFollowView =
+		InputBindings.mapToggleSelectionFollowView->onPress.connect([&]() {
+			m_automaticSystemSelection = !m_automaticSystemSelection;
+		});
+	m_onWarpToCurrent =
+		InputBindings.mapWarpToCurrent->onPress.connect([&]() {
+			GotoSystem(m_current);
+		});
+	m_onWarpToSelected =
+		InputBindings.mapWarpToSelected->onPress.connect([&]() {
+			GotoSystem(m_selected);
+		});
+	m_onViewReset =
+		InputBindings.mapViewReset->onPress.connect([&]() {
+			while (m_rotZ < -180.0f)
+				m_rotZ += 360.0f;
+			while (m_rotZ > 180.0f)
+				m_rotZ -= 360.0f;
+			m_rotXMovingTo = m_rotXDefault;
+			m_rotZMovingTo = m_rotZDefault;
+			m_zoomMovingTo = m_zoomDefault;
+		});
+
+	m_onMouseWheelCon =
+		Pi::input->onMouseWheel.connect(sigc::mem_fun(this, &SectorView::MouseWheel));
+
 	SetTransparency(true);
 
 	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
@@ -168,15 +195,15 @@ void SectorView::InitObject()
 	m_starMaterial.Reset(m_renderer->CreateMaterial(bbMatDesc));
 
 	m_disk.reset(new Graphics::Drawables::Disk(m_renderer, m_solidState, Color::WHITE, 0.2f));
-
-	m_onMouseWheelCon =
-		Pi::input->onMouseWheel.connect(sigc::mem_fun(this, &SectorView::MouseWheel));
 }
 
 SectorView::~SectorView()
 {
 	m_onMouseWheelCon.disconnect();
-	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
+	m_onToggleSelectionFollowView.disconnect();
+	m_onWarpToCurrent.disconnect();
+	m_onWarpToSelected.disconnect();
+	m_onViewReset.disconnect();
 }
 
 void SectorView::SaveToJson(Json &jsonObj)
@@ -1009,54 +1036,14 @@ void SectorView::BuildFarSector(RefCountedPtr<Sector> sec, const vector3f &origi
 void SectorView::OnSwitchTo()
 {
 	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
-
-	if (!m_onKeyPressConnection.connected())
-		m_onKeyPressConnection =
-			Pi::input->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnKeyPressed));
-
+	Pi::input->PushInputFrame(&InputBindings);
 	UIView::OnSwitchTo();
-
 	Update();
 }
 
-void SectorView::OnKeyPressed(SDL_Keysym *keysym)
+void SectorView::OnSwitchFrom()
 {
-	if (Pi::GetView() != this) {
-		m_onKeyPressConnection.disconnect();
-		return;
-	}
-
-	// XXX ugly hack checking for Lua console here
-	if (Pi::IsConsoleActive())
-		return;
-
-	if (InputBindings.mapToggleSelectionFollowView->Matches(keysym)) {
-		m_automaticSystemSelection = !m_automaticSystemSelection;
-		return;
-	}
-
-	bool reset_view = false;
-
-	// fast move selection to current player system or hyperspace target
-	const bool shifted = (Pi::input->KeyState(SDLK_LSHIFT) || Pi::input->KeyState(SDLK_RSHIFT));
-	if (InputBindings.mapWarpToCurrent->Matches(keysym)) {
-		GotoSystem(m_current);
-		reset_view = shifted;
-	} else if (InputBindings.mapWarpToSelected->Matches(keysym)) {
-		GotoSystem(m_selected);
-		reset_view = shifted;
-	}
-
-	// reset rotation and zoom
-	if (reset_view || InputBindings.mapViewReset->Matches(keysym)) {
-		while (m_rotZ < -180.0f)
-			m_rotZ += 360.0f;
-		while (m_rotZ > 180.0f)
-			m_rotZ -= 360.0f;
-		m_rotXMovingTo = m_rotXDefault;
-		m_rotZMovingTo = m_rotZDefault;
-		m_zoomMovingTo = m_zoomDefault;
-	}
+	Pi::input->RemoveInputFrame(&InputBindings);
 }
 
 void SectorView::Update()
@@ -1329,15 +1316,21 @@ std::vector<SystemPath> SectorView::GetNearbyStarSystemsByName(std::string patte
 
 SectorView::InputBinding SectorView::InputBindings;
 
-void SectorView::RegisterInputBindings()
+void SectorView::InputBinding::RegisterBindings()
 {
 	using namespace KeyBindings;
 	Input::BindingPage *page = Pi::input->GetBindingPage("MapControls");
 	Input::BindingGroup *group;
 
 #define BINDING_GROUP(n) group = page->GetBindingGroup(#n);
-#define KEY_BINDING(n, id, k1, k2) InputBindings.n = Pi::input->AddActionBinding(id, group, ActionBinding(k1, k2));
-#define AXIS_BINDING(n, id, k1, k2) InputBindings.n = Pi::input->AddAxisBinding(id, group, AxisBinding(k1, k2));
+#define KEY_BINDING(n, id, k1, k2)                                     \
+	n =                                                                \
+		Pi::input->AddActionBinding(id, group, ActionBinding(k1, k2)); \
+	actions.push_back(n);
+#define AXIS_BINDING(n, id, k1, k2)                                \
+	n =                                                            \
+		Pi::input->AddAxisBinding(id, group, AxisBinding(k1, k2)); \
+	axes.push_back(n);
 
 	BINDING_GROUP(GeneralViewControls)
 	KEY_BINDING(mapViewReset, "ResetOrientationAndZoom", SDLK_t, 0)
@@ -1352,6 +1345,10 @@ void SectorView::RegisterInputBindings()
 	KEY_BINDING(mapToggleSelectionFollowView, "MapToggleSelectionFollowView", SDLK_RETURN, SDLK_KP_ENTER)
 	KEY_BINDING(mapWarpToCurrent, "MapWarpToCurrentSystem", SDLK_c, 0)
 	KEY_BINDING(mapWarpToSelected, "MapWarpToSelectedSystem", SDLK_g, 0)
+
+#undef BINDING_GROUP
+#undef KEY_BINDING
+#undef AXIS_BINDING
 }
 
 void SectorView::SetFactionVisible(const Faction *faction, bool visible)

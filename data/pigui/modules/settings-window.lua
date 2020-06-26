@@ -17,6 +17,8 @@ local ModalWindow = require 'pigui.libs.modal-win'
 
 -- convert an axis binding style ID to a translation resource identifier
 local function localize_binding_id(str)
+	-- TODO: avoid reading lines from the "Core" resource (lc)
+	-- it's here to reuse old strings (keyboard bindings for maps in KeyBindings.inc.h)
 	local jsonIndex = str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
 	return rawget(linput, jsonIndex) or rawget(lc, jsonIndex) or error("NO_JSON: " .. jsonIndex)
 end

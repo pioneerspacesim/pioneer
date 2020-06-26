@@ -76,13 +76,13 @@ local function showInfo()
 		local start = current_path
 		-- Tally up totals for the entire jump plan
 		for _,jump in pairs(hyperjump_route) do
-			local status, distance, fuel, duration = player:GetHyperspaceDetails(start, jump)
+			local status, distance, fuel, duration = player:GetHyperspaceDetails(start, jump.path)
 
 			total_fuel = total_fuel + fuel
 			total_duration = total_duration + duration
 			total_distance = total_distance + distance
 
-			start = jump
+			start = jump.path
 		end
 
 		textIcon(icons.display_navtarget, lui.CURRENT_SYSTEM)
@@ -94,7 +94,7 @@ local function showInfo()
 		textIcon(icons.route_destination, lui.FINAL_TARGET)
 
 		if route_jumps > 0 then
-			local final_path = hyperjump_route[route_jumps]
+			local final_path = hyperjump_route[route_jumps].path
 			local final_sys = final_path:GetStarSystem()
 			ui.sameLine()
 			if ui.selectable(final_sys.name .. " (" .. final_path.sectorX .. ", " .. final_path.sectorY .. ", " .. final_path.sectorZ .. ")", false, {}) then
@@ -137,11 +137,42 @@ local function mainButton(icon, tooltip, callback)
 	return button
 end --mainButton
 
+local function buildJumpRouteList()
+	hyperjump_route = {}
+	local start = current_path
+	local drive = table.unpack(player:GetEquip("engine")) or nil
+	local fuel_type = drive and drive.fuel or Equipment.cargo.hydrogen
+	local current_fuel = player:CountEquip(fuel_type,"cargo")
+	local running_fuel = 0
+	for jumpIndex, jump in pairs(sectorView:GetRoute()) do
+		local jump_sys = jump:GetSystemBody()
+		local status, distance, fuel, duration = player:GetHyperspaceDetails(start, jump)
+		local color
+		local remaining_fuel = current_fuel - running_fuel - fuel
+		if remaining_fuel == 0 then
+			color = colors.alertYellow
+		else
+			if remaining_fuel < 0 then
+				color = colors.alertRed
+			else
+				color = colors.font
+			end
+		end
+		hyperjump_route[jumpIndex] = {
+			path = jump,
+			color = color,
+			textLine = jumpIndex ..": ".. jump_sys.name .. " (" .. string.format("%.2f", distance) .. lc.UNIT_LY .. " - " .. fuel .. lc.UNIT_TONNES..")"
+		}
+		running_fuel = fuel + running_fuel
+		start = jump
+	end -- for
+end
+
 local function updateHyperspaceTarget()
-	hyperjump_route = sectorView:GetRoute()
+	buildJumpRouteList()
 	if #hyperjump_route > 0 then
 		-- first waypoint is always the hyperspace target
-		sectorView:SetHyperspaceTarget(hyperjump_route[1])
+		sectorView:SetHyperspaceTarget(hyperjump_route[1].path)
 	else
 		sectorView:ResetHyperspaceTarget()
 	end
@@ -208,47 +239,28 @@ local function showJumpRoute()
 		mainButton(icons.search_lens, lui.CENTER_ON_SYSTEM,
 			function()
 				if selected_jump then
-					sectorView:GotoSystemPath(hyperjump_route[selected_jump])
+					sectorView:GotoSystemPath(hyperjump_route[selected_jump].path)
 				end
 		end)
 
 		ui.separator()
 
-		local start = current_path
 		local clicked
-		local running_fuel = 0
 		ui.child("routelist", function()
 		for jumpIndex, jump in pairs(hyperjump_route) do
-			local jump_sys = jump:GetSystemBody()
-			local status, distance, fuel, duration = player:GetHyperspaceDetails(start, jump)
-			local color
-			local remaining_fuel = current_fuel - running_fuel - fuel
-
-			if remaining_fuel == 0 then
-				color = colors.alertYellow
-			else
-				if remaining_fuel < 0 then
-					color = colors.alertRed
-				else
-					color = colors.font
-				end
-			end
-
-			ui.withStyleColors({["Text"] = color},
+			ui.withStyleColors({["Text"] = jump.color},
 				function()
-					if ui.selectable(jumpIndex..": ".. jump_sys.name .. " (" .. string.format("%.2f", distance) .. lc.UNIT_LY .. " - " .. fuel .. lc.UNIT_TONNES..")", jumpIndex == selected_jump, {}) then
+					if ui.selectable(jump.textLine, jumpIndex == selected_jump) then
 						clicked = jumpIndex
 					end
 			end)
-			running_fuel = fuel + running_fuel
-			start = jump
 		end -- for
 		end --function
 		)
 
 		if clicked then
 			selected_jump = clicked
-			sectorView:SwitchToPath(hyperjump_route[selected_jump])
+			sectorView:SwitchToPath(hyperjump_route[selected_jump].path)
 		end
 	end
 end -- showJumpPlan
@@ -256,7 +268,7 @@ end -- showJumpPlan
 -- scan the route and if this system is there, but another star is selected, update it in route
 function hyperJumpPlanner.updateInRoute(path)
 	for jumpIndex, jump in pairs(hyperjump_route) do
-		if jump:IsSameSystem(path) then
+		if jump.path:IsSameSystem(path) then
 			selected_jump = jumpIndex
 			if jump ~= path then
 				sectorView:UpdateRouteItem(jumpIndex, path)
@@ -322,7 +334,6 @@ function hyperJumpPlanner.display()
 		current_path = current_system.path
 		current_fuel = player:CountEquip(fuel_type,"cargo")
 		map_selected_path = sectorView:GetSelectedSystemPath()
-		hyperjump_route = sectorView:GetRoute()
 		route_jumps = sectorView:GetRouteSize()
 		showHyperJumpPlannerWindow()
 end -- hyperJumpPlanner.display
@@ -331,12 +342,18 @@ function hyperJumpPlanner.setSectorView(sv)
 	sectorView = sv
 end
 
+function hyperJumpPlanner.onShipEquipmentChanged(ship, equipment)
+	if ship:IsPlayer() and equipment and (equipment:GetName() == "Hydrogen"  or equipment:IsValidSlot("engine", ship)) then
+		buildJumpRouteList()
+	end
+end
+
 function hyperJumpPlanner.onEnterSystem(ship)
 		-- remove the first jump if it's the current system (and enabled to do so)
 		-- this should be the case if you are following a route and want the route to be
 		-- updated as you make multiple jumps
 		if ship:IsPlayer() and remove_first_if_current then
-			if route_jumps > 0 and hyperjump_route[1]:IsSameSystem(Game.system.path) then
+			if route_jumps > 0 and hyperjump_route[1].path:IsSameSystem(Game.system.path) then
 				sectorView:RemoveRouteItem(1)
 			end
 		end

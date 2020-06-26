@@ -479,7 +479,9 @@ void SystemView::CalculateFramePositionAtTime(FrameId frameId, double t, vector3
 void SystemView::Draw3D()
 {
 	PROFILE_SCOPED()
-	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1000.f * float(AU) + DEFAULT_VIEW_DISTANCE * 2);
+	// We need to adjust the "far" cutoff plane, so that at high magnifications you can see
+	// distant objects in the background.
+	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1000.f * m_zoom * float(AU) + DEFAULT_VIEW_DISTANCE * 2);
 	m_renderer->ClearScreen();
 	m_projected.clear();
 	//TODO add reserve
@@ -504,6 +506,18 @@ void SystemView::Draw3D()
 		m_unexplored = m_system->GetUnexplored();
 	}
 
+	// The matrix is shifted from the (0,0,0) by DEFAULT_VIEW_DISTANCE
+	// and then rotated (around 0,0,0) and scaled by m_zoom, shift doesn't scale.
+	// m_zoom default value is 1/AU.
+	// { src/gameconsts.h:static const double AU = 149598000000.0; // m }
+	// The coordinates of the objects are given in meters; they are multiplied by m_zoom,
+	// therefore dy default, 1.0 AU (in meters) in the coordinate turns into 1.0 in camera space.
+	// Since the *shift doesn't scale*, it always equals to DEFAULT_VIEW_DISTANCE,
+	// in camera space.
+	// So, the "apparent" view distance, is DEFAULT_VIEW_DISTANCE / m_zoom * AU (AU)
+	// Therefore the default "apparent" view distance is DEFAULT_VIEW_DISTANCE, in AU
+	// When we change m_zoom, we actually change the "apparent" view distance, because
+	// the coordinates of the objects are scaled, but the shift is not.
 	m_cameraSpace = matrix4x4f::Identity();
 	m_cameraSpace.Translate(0, 0, -DEFAULT_VIEW_DISTANCE);
 	m_cameraSpace.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);

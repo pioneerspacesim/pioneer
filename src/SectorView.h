@@ -24,14 +24,13 @@ namespace Graphics {
 
 class SectorView : public UIView, public DeleteEmitter {
 public:
-	static void RegisterInputBindings();
 	SectorView(Game *game);
 	SectorView(const Json &jsonObj, Game *game);
-	virtual ~SectorView();
+	~SectorView() override;
 
-	virtual void Update();
-	virtual void ShowAll();
-	virtual void Draw3D();
+	void Update() override;
+	void ShowAll() override;
+	void Draw3D() override;
 	vector3f GetPosition() const { return m_pos; }
 	SystemPath GetCurrent() const { return m_current; }
 	SystemPath GetSelected() const { return m_selected; }
@@ -48,7 +47,7 @@ public:
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
 	void SwapSelectedHyperspaceTarget();
 	bool IsCenteredOn(const SystemPath &path);
-	virtual void SaveToJson(Json &jsonObj);
+	void SaveToJson(Json &jsonObj) override;
 
 	sigc::signal<void> onHyperspaceTargetChanged;
 
@@ -95,11 +94,12 @@ public:
 		Axis *mapViewYaw;
 		Axis *mapViewPitch;
 		Axis *mapViewZoom;
-
+		void RegisterBindings() override;
 	} InputBindings;
 
 protected:
-	virtual void OnSwitchTo();
+	void OnSwitchTo() override;
+	void OnSwitchFrom() override;
 
 private:
 	void InitDefaults();
@@ -183,7 +183,10 @@ private:
 	void OnToggleFaction(Gui::ToggleButton *button, bool pressed, const Faction *faction);
 
 	sigc::connection m_onMouseWheelCon;
-	sigc::connection m_onKeyPressConnection;
+	sigc::connection m_onToggleSelectionFollowView;
+	sigc::connection m_onWarpToCurrent;
+	sigc::connection m_onWarpToSelected;
+	sigc::connection m_onViewReset;
 
 	RefCountedPtr<SectorCache::Slave> m_sectorCache;
 	std::string m_previousSearch;
