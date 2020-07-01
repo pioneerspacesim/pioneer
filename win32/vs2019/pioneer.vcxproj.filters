@@ -561,6 +561,9 @@
     <ClCompile Include="..\..\src\lua\LuaSystemView.cpp">
       <Filter>src\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\lua\LuaSectorView.cpp">
+      <Filter>src\Lua</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\core\IniConfig.cpp">
       <Filter>src\core</Filter>
     </ClCompile>

@@ -26,7 +26,7 @@ function NavButton.New (text, target)
 						Game.player:SetNavTarget(Space.GetBody(self.target.bodyIndex))
 					end
 				elseif not Game.InHyperspace() then
-					Game.player:SetHyperspaceTarget(self.target:GetStarSystem().path)
+					Game.sectorView:SwitchToPath(self.target:GetStarSystem().path)
 					-- XXX we should do something useful here
 					-- e.g. switch to the sector map or just beep
 				end

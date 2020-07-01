@@ -130,6 +130,7 @@ const struct EnumItem ENUM_ProjectableBases[] = {
 
 const struct EnumItem ENUM_SystemViewColorIndex[] = {
 	{ "GRID", int(SystemView::GRID) },
+	{ "GRID_LEG", int(SystemView::GRID_LEG) },
 	{ "SYSTEMBODY", int(SystemView::SYSTEMBODY) },
 	{ "SYSTEMBODY_ORBIT", int(SystemView::SYSTEMBODY_ORBIT) },
 	{ "PLAYER_ORBIT", int(SystemView::PLAYER_ORBIT) },

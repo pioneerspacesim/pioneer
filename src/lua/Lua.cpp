@@ -28,6 +28,7 @@
 #include "LuaVector2.h"
 
 #include "Body.h"
+#include "SectorView.h"
 #include "Ship.h"
 #include "SpaceStation.h"
 #include "Star.h"
@@ -75,6 +76,7 @@ namespace Lua {
 		LuaObject<StarSystem>::RegisterClass();
 		LuaObject<SystemPath>::RegisterClass();
 		LuaObject<SystemView>::RegisterClass();
+		LuaObject<SectorView>::RegisterClass();
 		LuaObject<SystemBody>::RegisterClass();
 		LuaObject<Random>::RegisterClass();
 		LuaObject<Faction>::RegisterClass();

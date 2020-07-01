@@ -169,7 +169,7 @@ function ChatForm:AddNavButton (target)
 					Game.player:SetNavTarget(Space.GetBody(target.bodyIndex))
 				end
 			elseif not Game.InHyperspace() then
-				Game.player:SetHyperspaceTarget(target:GetStarSystem().path)
+				Game.sectorView:SwitchToPath(target:GetStarSystem().path)
 				ui.playBoinkNoise()
 			end
 		end

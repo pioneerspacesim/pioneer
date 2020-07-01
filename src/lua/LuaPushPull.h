@@ -40,9 +40,9 @@ inline void LuaPush(lua_State *l, Type value)
 }
 
 template <typename Type>
-inline Type LuaPull(lua_State *l, int index)
+inline typename std::remove_reference<Type>::type LuaPull(lua_State *l, int index)
 {
-	Type value;
+	typename std::decay<Type>::type value;
 	pi_lua_generic_pull(l, index, value);
 	return value;
 }
