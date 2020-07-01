@@ -71,21 +71,21 @@
     "description": "Descriptive name for the Freelook Yaw axis.",
     "message": "Freelook Yaw"
   },
-  "BIND_MAP_VIEW_PITCH": {
+  "BIND_MAP_VIEW_MOVE_FORWARD": {
     "description": "Axis binding",
-    "message": "Map Pitch"
+    "message": "Shift Map Longitudinally"
   },
   "BIND_MAP_VIEW_MOVE_LEFT": {
     "description": "Axis binding",
     "message": "Shift Map Horizontally"
   },
-  "BIND_MAP_VIEW_MOVE_FORWARD": {
-    "description": "Axis binding",
-    "message": "Shift Map Longitudinally"
-  },
   "BIND_MAP_VIEW_MOVE_UP": {
     "description": "Axis binding",
     "message": "Shift Map Vertically"
+  },
+  "BIND_MAP_VIEW_PITCH": {
+    "description": "Axis binding",
+    "message": "Map Pitch"
   },
   "BIND_MAP_VIEW_YAW": {
     "description": "Axis binding",

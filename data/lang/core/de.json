@@ -1083,6 +1083,10 @@
     "description": "",
     "message": "\" Sauerstoffatmosphäre\""
   },
+  "OBJECT_INFO": {
+    "description": "Originally for use as a window title and a button tooltip in the system map",
+    "message": "Object info"
+  },
   "OCEANICWORLD": {
     "description": "",
     "message": "\" ozeanischer Planet\""
