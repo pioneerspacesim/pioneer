@@ -1,4 +1,7 @@
 June 2020
+   * New Features
+     * Redesign System and Sector Map View layouts (#4852)
+     
    * Internal Changes
      * Add support for IMGUI tabs in pigui (#4893)
 
