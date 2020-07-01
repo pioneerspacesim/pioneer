@@ -28,6 +28,11 @@ if (WIN32)
 	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
 endif (WIN32)
 
+# Put the output into the root dir so it can be run from Visual Studio
+if (MSVC)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+endif (MSVC)
+
 if (MSVC)
 	# Avoid annoying warnings from Visual Studio
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
@@ -335,7 +340,7 @@ set_cxx11_properties(${PROJECT_NAME} modelcompiler savegamedump)
 
 if(MSVC)
 	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-		COMMAND xcopy ..\\pioneer-thirdparty\\win32\\bin\\x64\\vs2017\\*.dll $(TargetDir)*.dll /Y /C
+		COMMAND xcopy ..\\pioneer-thirdparty\\win32\\bin\\x64\\vs2017\\*.dll ${TargetDir}*.dll /Y /C
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		COMMENT "copy the dlls into the directory"
 		VERBATIM
