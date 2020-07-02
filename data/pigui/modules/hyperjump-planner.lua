@@ -139,7 +139,8 @@ end --mainButton
 
 local function buildJumpRouteList()
 	hyperjump_route = {}
-	local start = current_path
+	local player = Game.player
+	local start = Game.system.path
 	local drive = table.unpack(player:GetEquip("engine")) or nil
 	local fuel_type = drive and drive.fuel or Equipment.cargo.hydrogen
 	local current_fuel = player:CountEquip(fuel_type,"cargo")
