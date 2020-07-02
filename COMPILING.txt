@@ -4,8 +4,9 @@ Table of Contents
   1.1 Linux - CMake
   1.2 Windows - MSVC
   1.3 Windows - CMake and MSYS2 (and MinGW-w64)
-  1.4 OS X - Homebrew
-  1.5 OS X - CMake and XCode
+  1.4 Windows - CMake and MSVC
+  1.5 OS X - Homebrew
+  1.6 OS X - CMake and XCode
 2 pioneer-thirdparty
   2.1 Linux - Autotools
   2.2 Windows - MSVC
@@ -108,8 +109,29 @@ questions are welcome anytime.
 7. Now, you can go back to the root directory of Pioneer and do './build/pioneer.exe'
    to play the game.
 
+1.4 Windows - CMake and MSVC
+----------------------------
 
-1.4 OS X - Homebrew
+1. Get both the pioneer and the pioneer-thirdparty repositories and keep them
+   in a directory side by side. Don't rename pioneer-thirdparty because the
+   relative path to it is included in the project files.
+
+2. Open Visual Sudio 2019 and do not open a solution or project ('Continue without code').
+
+3. Go to File->Open->CMake and select pioneer/CMakeLists.txt
+
+4. If a Release build is desired, select 'Manage Configurations' under the build type,
+   which will default to x64-Debug and add x64-Release.
+
+5. Select the appropriate build type.
+
+6. Buid the project (Build->Build All).
+
+7. Pioneer can be run and debugged by selecting 'pioneer.exe' on the 
+   'Select Startup Item' toolbar button, and then clicking run.
+
+
+1.5 OS X - Homebrew
 -------------------
 
 1. Install Homebrew package manager (http://brew.sh/) if you don't have one yet.
@@ -123,7 +145,7 @@ questions are welcome anytime.
      brew install --HEAD pioneer
 
 
-1.5 OS X - CMake and XCode
+1.6 OS X - CMake and XCode
 --------------------------
 
 THESE INSTRUCTIONS ARE APPROXIMATE AND ARE UNTESTED; PLEASE SUBMIT CORRECTIONS!
