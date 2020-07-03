@@ -121,11 +121,11 @@ FlightLog = {
 --   iterator - A function which will generate the paths from the log, returning
 --              one each time it is called until it runs out, after which it
 --              returns nil. It also returns, as two additional value, the game
---              time at which the player undocked, and palyer's financial balance.
+--              time at which the player docked, and palyer's financial balance.
 --
 -- Example:
 --
--- Print the names and departure times of the last five stations visited by
+-- Print the names and arrival times of the last five stations visited by
 -- the player
 --
 -- > for systemp, deptime, money, entry in FlightLog.GetStationPaths(5) do
@@ -158,12 +158,12 @@ FlightLog = {
 --
 -- Parameters:
 --
---   index - Index in log, 1 being most recent station undocked from
+--   index - Index in log, 1 being most recent station docked with
 --   entry - New text string to insert instead
 --
 -- Example:
 --
--- Replace note for the second most recent station undocked from
+-- Replace note for the second most recent station docked with
 --
 -- > UpdateStationEntry(2, "This was a smelly station")
 --
@@ -410,7 +410,7 @@ local AddSystemArrivalToLog = function (ship)
 	end
 end
 
--- onShipUndocked
+-- onShipDocked
 local AddStationToLog = function (ship, station)
 	if not ship:IsPlayer() then return end
 	table.insert(FlightLogStation,1,{station.path, Game.time, Game.player:GetMoney(), ""})
@@ -456,7 +456,7 @@ end
 
 Event.Register("onEnterSystem", AddSystemArrivalToLog)
 Event.Register("onLeaveSystem", AddSystemDepartureToLog)
-Event.Register("onShipUndocked", AddStationToLog)
+Event.Register("onShipDocked", AddStationToLog)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Serializer:Register("FlightLog", serialize, unserialize)
