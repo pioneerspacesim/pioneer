@@ -342,7 +342,8 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 		(max_orbit_vel * max_orbit_vel);
 
 	// ensure an absolute minimum and an absolute maximum distance
-	dist = Clamp(dist, 0.2 * AU, std::max(primary->GetSystemBody()->GetRadius() * 1.1, 100 * AU));
+	// the minimum distance from the center of the star should not be less than the radius of the star
+	dist = Clamp(dist, primary->GetSystemBody()->GetRadius() * 1.1, std::max(primary->GetSystemBody()->GetRadius() * 1.1, 100 * AU));
 
 	// point velocity vector along the line from source to dest,
 	// make exit position perpendicular to it,
