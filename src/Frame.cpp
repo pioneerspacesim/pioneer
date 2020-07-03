@@ -188,7 +188,7 @@ FrameId Frame::FromJson(const Json &frameObj, Space *space, FrameId parent, doub
 		f->m_thisId = frameObj["frameId"];
 
 		// Check if frames order in load and save are the same
-		assert(s_frames.size() == 0 || (s_frames.size() - 1) != f->m_thisId.id());
+		assert(s_frames.size() == 0 || (s_frames.size() - 1) == f->m_thisId.id());
 
 		f->m_flags = frameObj["flags"];
 		f->m_radius = frameObj["radius"];
@@ -350,7 +350,7 @@ vector3d Frame::GetPositionRelTo(FrameId relToId) const
 	const Frame *relTo = Frame::GetFrame(relToId);
 
 	if (GetParent() == relToId) return m_pos; // relative to parent
-	if (relTo->GetParent() == m_thisId) { // relative to child
+	if (relTo->GetParent() == m_thisId) {	  // relative to child
 		if (!relTo->IsRotFrame())
 			return -relTo->m_pos;
 		else
@@ -378,7 +378,7 @@ vector3d Frame::GetInterpPositionRelTo(FrameId relToId) const
 	// early-outs for simple cases, required for accuracy in large systems
 	if (m_thisId == relToId) return vector3d(0, 0, 0);
 	if (GetParent() == relTo->GetId()) return m_interpPos; // relative to parent
-	if (relTo->GetParent() == m_thisId) { // relative to child
+	if (relTo->GetParent() == m_thisId) {				   // relative to child
 		if (!relTo->IsRotFrame())
 			return -relTo->m_interpPos;
 		else
@@ -423,7 +423,7 @@ void Frame::UpdateInterpTransform(double alpha)
 	m_interpPos = alpha * m_pos + (1.0 - alpha) * m_oldPos;
 
 	double len = m_oldAngDisplacement * (1.0 - alpha);
-	if (!is_zero_exact(len)) { // very small values are normal here
+	if (!is_zero_exact(len)) {					   // very small values are normal here
 		matrix3x3d rot = matrix3x3d::RotateY(len); // RotateY is backwards
 		m_interpOrient = m_orient * rot;
 	} else
@@ -479,8 +479,8 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 
 		// update frame rotation
 		double ang = fmod(frame.m_angSpeed * time, 2.0 * M_PI);
-		if (!is_zero_exact(ang)) { // frequently used with e^-10 etc
-			matrix3x3d rot = matrix3x3d::RotateY(-ang); // RotateY is backwards
+		if (!is_zero_exact(ang)) {						  // frequently used with e^-10 etc
+			matrix3x3d rot = matrix3x3d::RotateY(-ang);	  // RotateY is backwards
 			frame.m_orient = frame.m_initialOrient * rot; // angvel always +y
 		}
 		frame.UpdateRootRelativeVars(); // update root-relative pos/vel/orient
@@ -497,9 +497,9 @@ void Frame::SetInitialOrient(const matrix3x3d &m, double time)
 {
 	m_initialOrient = m;
 	double ang = fmod(m_angSpeed * time, 2.0 * M_PI);
-	if (!is_zero_exact(ang)) { // frequently used with e^-10 etc
+	if (!is_zero_exact(ang)) {						// frequently used with e^-10 etc
 		matrix3x3d rot = matrix3x3d::RotateY(-ang); // RotateY is backwards
-		m_orient = m_initialOrient * rot; // angvel always +y
+		m_orient = m_initialOrient * rot;			// angvel always +y
 	} else {
 		m_orient = m_initialOrient;
 	}
@@ -509,9 +509,9 @@ void Frame::SetOrient(const matrix3x3d &m, double time)
 {
 	m_orient = m;
 	double ang = fmod(m_angSpeed * time, 2.0 * M_PI);
-	if (!is_zero_exact(ang)) { // frequently used with e^-10 etc
+	if (!is_zero_exact(ang)) {					   // frequently used with e^-10 etc
 		matrix3x3d rot = matrix3x3d::RotateY(ang); // RotateY is backwards
-		m_initialOrient = m_orient * rot; // angvel always +y
+		m_initialOrient = m_orient * rot;		   // angvel always +y
 	} else {
 		m_initialOrient = m_orient;
 	}
