@@ -9,6 +9,7 @@ June 2020
      * Fix LuaMetaType issues (#4883)
      * Update MSVS2019 Project (#4887)
      * Update SIZET_FMT and catch fmt::system_error exception (#4890)
+     * Fix player sometimes exiting hyperspace inside a star (#4905)
 
 May 2020
    * New Features
