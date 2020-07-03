@@ -14,4 +14,4 @@ set(VORBISFILE_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/incl
 set(VORBISFILE_LIBRARIES ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/x64/vs2017/libogg_static.lib;${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/x64/vs2017/libvorbis_static.lib;${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/x64/vs2017/libvorbisfile_static.lib)
 
 set(SIGCPP_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/include/sigc++-2.0)
-set(SIGCPP_LIBRARIES ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/x64/vs2017/sigc-vc140-2_0.lib)
+set(SIGCPP_LIBRARIES optimized ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/x64/vs2017/sigc-vc140-2_0.lib debug ${CMAKE_SOURCE_DIR}/../pioneer-thirdparty/win32/lib/x64/vs2017/sigc-vc140-d-2_0.lib)
