@@ -45,7 +45,6 @@ public:
 	void GotoCurrentSystem() { GotoSystem(m_current); }
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
-	void SwapSelectedHyperspaceTarget();
 	bool IsCenteredOn(const SystemPath &path);
 	void SaveToJson(Json &jsonObj) override;
 
@@ -131,7 +130,7 @@ private:
 	void AddStarBillboard(const matrix4x4f &modelview, const vector3f &pos, const Color &col, float size);
 
 	void OnClickSystem(const SystemPath &path);
-	int CheckIndexInRoute(const SystemPath &path);
+	const SystemPath &CheckPathInRoute(const SystemPath &path);
 
 	RefCountedPtr<Sector> GetCached(const SystemPath &loc) { return m_sectorCache->GetCached(loc); }
 	void ShrinkCache();

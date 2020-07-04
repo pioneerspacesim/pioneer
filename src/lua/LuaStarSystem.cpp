@@ -316,6 +316,20 @@ static int l_starsystem_get_stars(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_get_jumpable(lua_State *l)
+{
+	const StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	lua_newtable(l);
+	int i = 1;
+	for (RefCountedPtr<SystemBody> sb : s->GetBodies())
+		if (sb->IsJumpable()) {
+			lua_pushnumber(l, i++);
+			LuaObject<SystemBody>::PushToLua(sb.Get());
+			lua_settable(l, -3);
+		}
+	return 1;
+}
+
 /*
  * Method: DistanceTo
  *
@@ -647,6 +661,7 @@ void LuaObject<StarSystem>::RegisterClass()
 		{ "GetStationPaths", l_starsystem_get_station_paths },
 		{ "GetBodyPaths", l_starsystem_get_body_paths },
 		{ "GetStars", l_starsystem_get_stars },
+		{ "GetJumpable", l_starsystem_get_jumpable },
 
 		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
 		{ "IsCommodityLegal", l_starsystem_is_commodity_legal },

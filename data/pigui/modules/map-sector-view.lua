@@ -104,11 +104,7 @@ function Windows.systemInfo.Show()
 		local starsystem = systempath:GetStarSystem()
 		local clicked = false
 		ui.withID(label, function()
-			local jumpData = ""
-			if not current_systempath:IsSameSystem(systempath) then
-				local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(current_systempath, systempath)
-				jumpData = jumpStatus .. "  " .. string.format("%.2f", distance) .. lc.UNIT_LY .. "  " .. fuelRequired .. lc.UNIT_TONNES .. "  " .. ui.Format.Duration(duration, 2)
-			end
+			-- selected system label
 			textIcon(icons.info)
 			ui.sameLine()
 			ui.text(starsystem.name .. " (" .. math.floor(systempath.sectorX) .. ", " .. math.floor(systempath.sectorY) .. ", " .. math.floor(systempath.sectorZ) .. ")")
@@ -119,26 +115,24 @@ function Windows.systemInfo.Show()
 					sectorView:GotoSystemPath(systempath)
 				end
 			end
+			-- selected system alternative labels
+			if next(starsystem.other_names) ~= nil then
+				ui.pushTextWrapPos(ui.getContentRegion().x)
+				ui.textWrapped(table.concat(starsystem.other_names, ", "))
+				ui.popTextWrapPos()
+			end
+			-- jump data
+			if not current_systempath:IsSameSystem(systempath) then
 			ui.separator()
-			ui.text(jumpData)
+				local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(current_systempath, systempath)
+				ui.text(jumpStatus .. "  " .. string.format("%.2f", distance) .. lc.UNIT_LY .. "  " .. fuelRequired .. lc.UNIT_TONNES .. "  " .. ui.Format.Duration(duration, 2))
+			end
+			-- description
+			ui.pushTextWrapPos(ui.getContentRegion().x)
+			ui.textWrapped(starsystem.shortDescription)
+			ui.popTextWrapPos()
 			ui.separator()
-			local stars = starsystem:GetStars()
-			for _,star in pairs(stars) do
-				if ui.selectable(star.name, star.path == systempath, {}) then
-					clicked = star.path
-				end
-			end
-			if clicked then
-				sectorView:SwitchToPath(clicked)
-			end
-
-			-- check if the selected star has changed
-			if systempath ~= prevSystemPath then
-				-- if so, check the route, and update there if necessary
-				hyperJumpPlanner.updateInRoute(systempath)
-				prevSystemPath = systempath
-			end
-
+			-- number of stars
 			local numstars = starsystem.numberOfStars
 			local numstarstext = ""
 			if numstars == 4 then
@@ -151,12 +145,28 @@ function Windows.systemInfo.Show()
 				numstarstext = starsystem.rootSystemBody.astroDescription
 			end
 			ui.text(numstarstext)
-			if next(starsystem.other_names) ~= nil then
-				ui.text(table.concat(starsystem.other_names, ", "))
+			-- star list
+			local stars = starsystem:GetJumpable()
+			for _,star in pairs(stars) do
+				local pos = ui.getCursorPos() + Vector2(0, 1) -- add vertical alignment, not quite necessary
+				if ui.selectable("## " .. star.name, star.path == systempath, {}) then
+					clicked = star.path
+				end
+				ui.setCursorPos(pos)
+				textIcon(icons.sun)
+				ui.sameLine()
+				ui.text(star.name)
 			end
-			ui.pushTextWrapPos(ui.getContentRegion().x)
-			ui.textWrapped(starsystem.shortDescription)
-			ui.popTextWrapPos()
+			if clicked then
+				sectorView:SwitchToPath(clicked)
+			end
+
+			-- check if the selected star has changed
+			if systempath ~= prevSystemPath then
+				-- if so, check the route, and update there if necessary
+				hyperJumpPlanner.updateInRoute(systempath)
+				prevSystemPath = systempath
+			end
 		end)
 	end
 end
@@ -416,11 +426,7 @@ Event.Register("onLeaveSystem", function()
 	hyperspaceDetailsCache = {}
 end)
 -- events moved from hyperJumpPlanner
-Event.Register("onGameEnd",
-function(ship)
-	-- clear the route out so it doesn't show up if the user starts a new game
-	sectorView:ClearRoute()
-end)
+Event.Register("onGameEnd", hyperJumpPlanner.onGameEnd)
 Event.Register("onEnterSystem", hyperJumpPlanner.onEnterSystem)
 Event.Register("onShipEquipmentChanged", hyperJumpPlanner.onShipEquipmentChanged)
 

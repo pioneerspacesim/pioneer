@@ -176,6 +176,7 @@ local function updateHyperspaceTarget()
 		sectorView:SetHyperspaceTarget(hyperjump_route[1].path)
 	else
 		sectorView:ResetHyperspaceTarget()
+		selected_jump = nil
 	end
 end
 
@@ -225,7 +226,6 @@ local function showJumpRoute()
 		mainButton(icons.retrograde_thin, lui.CLEAR_ROUTE,
 			function()
 				sectorView:ClearRoute()
-				selected_jump = nil
 				updateHyperspaceTarget()
 		end)
 		ui.sameLine()
@@ -359,6 +359,13 @@ function hyperJumpPlanner.onEnterSystem(ship)
 			end
 		end
 	updateHyperspaceTarget()
+end
+
+function hyperJumpPlanner.onGameEnd(ship)
+	-- clear the route out so it doesn't show up if the user starts a new game
+	sectorView:ClearRoute()
+	-- also clear the route list, saved in this module
+	buildJumpRouteList()
 end
 
 return hyperJumpPlanner

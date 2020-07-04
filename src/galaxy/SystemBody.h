@@ -52,22 +52,22 @@ public:
 		TYPE_STAR_A_HYPER_GIANT = 28,
 		TYPE_STAR_B_HYPER_GIANT = 29,
 		TYPE_STAR_O_HYPER_GIANT = 30, // these various stars do exist = they are transitional states and are rare
-		TYPE_STAR_M_WF = 31, //Wolf-Rayet star
-		TYPE_STAR_B_WF = 32, // while you do not specifically get class M,B or O WF stars,
-		TYPE_STAR_O_WF = 33, //  you do get red = blue and purple from the colour of the gasses = so spectral class is an easy way to define them.
-		TYPE_STAR_S_BH = 34, //stellar blackhole
-		TYPE_STAR_IM_BH = 35, //Intermediate-mass blackhole
-		TYPE_STAR_SM_BH = 36, //Supermassive blackhole
+		TYPE_STAR_M_WF = 31,		  //Wolf-Rayet star
+		TYPE_STAR_B_WF = 32,		  // while you do not specifically get class M,B or O WF stars,
+		TYPE_STAR_O_WF = 33,		  //  you do get red = blue and purple from the colour of the gasses = so spectral class is an easy way to define them.
+		TYPE_STAR_S_BH = 34,		  //stellar blackhole
+		TYPE_STAR_IM_BH = 35,		  //Intermediate-mass blackhole
+		TYPE_STAR_SM_BH = 36,		  //Supermassive blackhole
 		TYPE_PLANET_GAS_GIANT = 37,
 		TYPE_PLANET_ASTEROID = 38,
 		TYPE_PLANET_TERRESTRIAL = 39,
 		TYPE_STARPORT_ORBITAL = 40,
 		TYPE_STARPORT_SURFACE = 41,
-		TYPE_MIN = TYPE_BROWN_DWARF, // <enum skip>
+		TYPE_MIN = TYPE_BROWN_DWARF,	  // <enum skip>
 		TYPE_MAX = TYPE_STARPORT_SURFACE, // <enum skip>
 		TYPE_STAR_MIN = TYPE_BROWN_DWARF, // <enum skip>
-		TYPE_STAR_MAX = TYPE_STAR_SM_BH, // <enum skip>
-		// XXX need larger atmosphereless thing
+		TYPE_STAR_MAX = TYPE_STAR_SM_BH,  // <enum skip>
+										  // XXX need larger atmosphereless thing
 	};
 
 	enum BodySuperType { // <enum scope='SystemBody' prefix=SUPERTYPE_ public>
@@ -83,6 +83,8 @@ public:
 
 	bool IsPlanet() const;
 	bool IsMoon() const { return GetSuperType() == SUPERTYPE_ROCKY_PLANET && !IsPlanet(); }
+	// We allow hyperjump to any star of the system
+	bool IsJumpable() const { return GetSuperType() == SUPERTYPE_STAR; }
 
 	bool HasChildren() const { return !m_children.empty(); }
 	Uint32 GetNumChildren() const { return static_cast<Uint32>(m_children.size()); }
@@ -98,7 +100,7 @@ public:
 	BodySuperType GetSuperType() const;
 	bool IsCustomBody() const { return m_isCustomBody; }
 	bool IsCoOrbitalWith(const SystemBody *other) const; //this and other form a binary pair
-	bool IsCoOrbital() const; //is part of any binary pair
+	bool IsCoOrbital() const;							 //is part of any binary pair
 	fixed GetRadiusAsFixed() const { return m_radius; }
 
 	// the aspect ratio adjustment is converting from equatorial to polar radius to account for ellipsoid bodies, used for calculating terrains etc
@@ -228,38 +230,38 @@ private:
 
 	void ClearParentAndChildPointers();
 
-	SystemBody *m_parent; // these are only valid if the StarSystem
+	SystemBody *m_parent;				  // these are only valid if the StarSystem
 	std::vector<SystemBody *> m_children; // that create them still exists
 
 	SystemPath m_path;
 	Orbit m_orbit;
 	Uint32 m_seed; // Planet.cpp can use to generate terrain
 	std::string m_name;
-	fixed m_radius; // in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
-	fixed m_aspectRatio; // ratio between equatorial and polar radius for bodies with eqatorial bulges
-	fixed m_mass; // earth masses if planet, solar masses if star
-	fixed m_orbMin, m_orbMax; // periapsism, apoapsis in AUs
-	fixed m_rotationPeriod; // in days
+	fixed m_radius;					// in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
+	fixed m_aspectRatio;			// ratio between equatorial and polar radius for bodies with eqatorial bulges
+	fixed m_mass;					// earth masses if planet, solar masses if star
+	fixed m_orbMin, m_orbMax;		// periapsism, apoapsis in AUs
+	fixed m_rotationPeriod;			// in days
 	fixed m_rotationalPhaseAtStart; // 0 to 2 pi
-	fixed m_humanActivity; // 0 - 1
-	fixed m_semiMajorAxis; // in AUs
+	fixed m_humanActivity;			// 0 - 1
+	fixed m_semiMajorAxis;			// in AUs
 	fixed m_eccentricity;
 	fixed m_orbitalOffset;
 	fixed m_orbitalPhaseAtStart; // 0 to 2 pi
-	fixed m_axialTilt; // in radians
-	fixed m_inclination; // in radians, for surface bodies = latitude
+	fixed m_axialTilt;			 // in radians
+	fixed m_inclination;		 // in radians, for surface bodies = latitude
 	int m_averageTemp;
 	BodyType m_type;
 	bool m_isCustomBody;
 
 	/* composition */
-	fixed m_metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
-	fixed m_volatileGas; // 1.0 = earth atmosphere density
+	fixed m_metallicity;	// (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
+	fixed m_volatileGas;	// 1.0 = earth atmosphere density
 	fixed m_volatileLiquid; // 1.0 = 100% ocean cover (earth = 70%)
-	fixed m_volatileIces; // 1.0 = 100% ice cover (earth = 3%)
-	fixed m_volcanicity; // 0 = none, 1.0 = fucking volcanic
+	fixed m_volatileIces;	// 1.0 = 100% ice cover (earth = 3%)
+	fixed m_volcanicity;	// 0 = none, 1.0 = fucking volcanic
 	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
-	fixed m_life; // 0.0 = dead, 1.0 = teeming
+	fixed m_life;			// 0.0 = dead, 1.0 = teeming
 
 	RingStyle m_rings;
 
