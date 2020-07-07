@@ -109,7 +109,7 @@ private:
 		Ship *ship;
 		int shipIndex; // deserialisation
 		int stage;
-		double stagePos; // 0 -> 1.0
+		double stagePos;  // 0 -> 1.0
 		vector3d fromPos; // in station model coords
 		Quaterniond fromRot;
 		double maxOffset;

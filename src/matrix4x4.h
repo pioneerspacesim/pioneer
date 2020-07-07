@@ -467,7 +467,7 @@ public:
 		// inv(A) * x instead of actually forming inv(A)..."
 		//
 		// inv(A) * [x] = [ inv(M) * (x - b) ]
-        //          [1] = [        1         ]
+		//          [1] = [        1         ]
 		//
 
 		vector3<T> v = inVec - GetTranslate();

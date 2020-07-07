@@ -134,9 +134,9 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		m_testLanded = shipObj["test_landed"];
 		m_flightState = shipObj["flight_state"];
 
-		m_lastAlertUpdate = 0.0; // alertstate check cache timer
-		m_shipNear = false; // alertstate check cache value
-		m_shipFiring = false; // alertstate check cache value
+		m_lastAlertUpdate = 0.0;   // alertstate check cache timer
+		m_shipNear = false;		   // alertstate check cache value
+		m_shipFiring = false;	   // alertstate check cache value
 		m_missileDetected = false; // alertstate check cache value
 
 		m_alertState = shipObj["alert_state"];

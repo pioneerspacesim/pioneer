@@ -938,7 +938,7 @@ vector3d WorldView::WorldSpaceToScreenSpace(const vector3d &position) const
 vector3d WorldView::ShipSpaceToScreenSpace(const vector3d &pos) const
 {
 	// rotate ship-local coordinates into the camera frame orientation
-	vector3d camspace = Pi::player->GetInterpOrient() * pos  * m_cameraContext->GetCameraOrient();
+	vector3d camspace = Pi::player->GetInterpOrient() * pos * m_cameraContext->GetCameraOrient();
 	return projectToScreenSpace(camspace, m_cameraContext, false);
 }
 

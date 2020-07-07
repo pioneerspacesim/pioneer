@@ -297,7 +297,7 @@ void SpaceStation::SwapDockedShipsPort(const int oldPort, const int newPort)
 bool SpaceStation::LaunchShip(Ship *ship, const int port)
 {
 	shipDocking_t &sd = m_shipDocking[port];
-	if (sd.stage < 0) return true; // already launching
+	if (sd.stage < 0) return true;		  // already launching
 	if (IsPortLocked(port)) return false; // another ship docking
 	LockPort(port, true);
 
@@ -468,7 +468,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 				// PS: This is to avoid to float around if dock
 				// at high time steps on an orbital
 				if (!IsGroundStation()) {
-					dt.fromPos = vector3d(0.0); //No offset
+					dt.fromPos = vector3d(0.0);					  //No offset
 					dt.fromRot = Quaterniond(1.0, 0.0, 0.0, 0.0); //Identity (no rotation)
 					dt.stage += 2;
 					continue;
@@ -495,7 +495,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 				dt.stagePos += timeStep / 2.0;
 				if (dt.stagePos >= 1.0) {
 					dt.stage++;
-					dt.fromPos = vector3d(0.0); //No offset
+					dt.fromPos = vector3d(0.0);					  //No offset
 					dt.fromRot = Quaterniond(1.0, 0.0, 0.0, 0.0); //Identity (no rotation)
 				}
 				continue;
