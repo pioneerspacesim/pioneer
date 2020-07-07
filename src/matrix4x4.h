@@ -26,6 +26,11 @@ public:
 	{
 		memcpy(cell, vals, sizeof(T) * 16);
 	}
+	matrix4x4(const matrix3x3<T> &m, const vector3<T> &v)
+	{
+		LoadFrom3x3Matrix(m.Data());
+		SetTranslate(v);
+	}
 	void SetTranslate(const vector3<T> &v)
 	{
 		cell[12] = v.x;
@@ -442,6 +447,37 @@ public:
 		out.z = a.cell[8] * v.x + a.cell[9] * v.y + a.cell[10] * v.z;
 		return out;
 	}
+
+	// Transform a vector by the affine inverse of a matrix4x4
+	// internally this does a transpose operation, and thus only works on
+	// Euclidean (translation + rotation) matricies.
+	vector3<T> InvTransform(const vector3<T> &inVec)
+	{
+		// Formula derivation from songho (https://songho.ca/opengl):
+		//
+		// M = [ R | T ]
+		//     [ --+-- ]    (R denotes 3x3 rotation/reflection matrix)
+		//     [ 0 | 1 ]    (T denotes 1x3 translation matrix)
+		//
+		// y = M*x  ->  y = R*x + T  ->  x = R^-1*(y - T)  ->  x = R^T*y - R^T*T
+		// (R is orthogonal,  R^-1 = R^T)
+
+		// thanks to https://stackoverflow.com/a/2625420
+		// "Depending on your situation, it may be faster to compute the result of
+		// inv(A) * x instead of actually forming inv(A)..."
+		//
+		// inv(A) * [x] = [ inv(M) * (x - b) ]
+        //          [1] = [        1         ]
+		//
+
+		vector3<T> v = inVec - GetTranslate();
+		vector3<T> out;
+		out.x = cell[0] * v.x + cell[1] * v.y + cell[2] * v.z;
+		out.y = cell[4] * v.x + cell[5] * v.y + cell[6] * v.z;
+		out.z = cell[8] * v.x + cell[9] * v.y + cell[10] * v.z;
+		return out;
+	}
+
 	friend matrix4x4 operator*(const matrix4x4 &a, T v)
 	{
 		matrix4x4 m;

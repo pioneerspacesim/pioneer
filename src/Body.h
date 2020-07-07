@@ -103,8 +103,10 @@ public:
 		m_interpPos = GetPosition();
 	}
 
-	// where to draw targeting indicators - usually equal to GetInterpolatedPositionRelTo
-	virtual vector3d GetTargetIndicatorPosition(FrameId relToId) const;
+	// TODO: abstract this functionality into a component of some fashion
+	// Return the position in body-local coordinates where the target indicator should be displayed.
+	// Usually equal to the center of the body == vector3d(0, 0, 0)
+	virtual vector3d GetTargetIndicatorPosition() const;
 
 	enum { FLAG_CAN_MOVE_FRAME = (1 << 0),
 		FLAG_LABEL_HIDDEN = (1 << 1),

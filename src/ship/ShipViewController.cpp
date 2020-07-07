@@ -4,6 +4,7 @@
 #include "ShipViewController.h"
 
 #include "CameraController.h"
+#include "GameSaveError.h"
 #include "WorldView.h"
 
 #include "Pi.h"
@@ -62,6 +63,11 @@ void ShipViewController::InputBinding::RegisterBindings()
 
 void ShipViewController::LoadFromJson(const Json &jsonObj)
 {
+	if (!jsonObj["cam_type"].is_number_integer())
+		throw SavedGameCorruptException();
+
+	m_camType = jsonObj["cam_type"];
+
 	m_internalCameraController->LoadFromJson(jsonObj);
 	m_externalCameraController->LoadFromJson(jsonObj);
 	m_siderealCameraController->LoadFromJson(jsonObj);
@@ -136,6 +142,11 @@ void ShipViewController::SetCamType(enum CamType c)
 	m_activeCameraController->Reset();
 
 	onChangeCamType.emit();
+}
+
+bool ShipViewController::IsExteriorView() const
+{
+	return m_camType != CAM_INTERNAL;
 }
 
 void ShipViewController::ChangeInternalCameraMode(InternalCameraController::Mode m)

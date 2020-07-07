@@ -1615,6 +1615,21 @@ static int l_pigui_get_mouse_clicked_pos(lua_State *l)
 	return 1;
 }
 
+PiGUI::TScreenSpace PiGUI::lua_rel_space_to_screen_space(const vector3d &pos)
+{
+	PROFILE_SCOPED()
+	const WorldView *wv = Pi::game->GetWorldView();
+	const vector3d p = wv->RelSpaceToScreenSpace(pos);
+	const int width = Graphics::GetScreenWidth();
+	const int height = Graphics::GetScreenHeight();
+	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
+	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
+		return PiGUI::TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
+	} else {
+		return PiGUI::TScreenSpace(true, vector2d(p.x, p.y), direction);
+	}
+}
+
 PiGUI::TScreenSpace PiGUI::lua_world_space_to_screen_space(const vector3d &pos)
 {
 	PROFILE_SCOPED()

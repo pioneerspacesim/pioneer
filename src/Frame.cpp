@@ -417,6 +417,16 @@ matrix3x3d Frame::GetInterpOrientRelTo(FrameId relToId) const
 */
 }
 
+matrix4x4d Frame::GetTransformRelTo(FrameId relToId) const
+{
+	return matrix4x4d(GetOrientRelTo(relToId), GetPositionRelTo(relToId));
+}
+
+matrix4x4d Frame::GetInterpTransformRelTo(FrameId relToId) const
+{
+	return matrix4x4d(GetInterpOrientRelTo(relToId), GetInterpPositionRelTo(relToId));
+}
+
 void Frame::UpdateInterpTransform(double alpha)
 {
 	PROFILE_SCOPED()

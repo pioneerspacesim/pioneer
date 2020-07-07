@@ -193,8 +193,16 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			break;
 		default: assert(0); break;
 		}
-	} else
+	} else {
 		SetFlightControlState(CONTROL_MANUAL);
+
+		// TODO: this is a bit monkey-patched, but calling from SetFlightControlState doesn't properly clear the mouse capture state.
+		// Do it here so we properly react to becoming docked while holding the mouse button down
+		if (m_ship->GetFlightState() == Ship::DOCKED && m_mouseActive) {
+			Pi::input->SetCapturingMouse(false);
+			m_mouseActive = false;
+		}
+	}
 
 	//call autopilot AI, if active (also applies to set speed and heading lock modes)
 	OS::EnableFPE();
@@ -211,6 +219,17 @@ vector3d PlayerShipController::GetMouseDir() const
 {
 	// translate from system to local frame
 	return m_mouseDir * Frame::GetFrame(m_ship->GetFrame())->GetOrient();
+}
+
+// needs to run inside CameraContext::Begin/EndFrame();
+vector3d PlayerShipController::GetMouseViewDir() const
+{
+	// orientation according to mouse
+	matrix3x3d cam_rot = Pi::game->GetWorldView()->GetCameraContext()->GetCameraOrient();
+	vector3d mouseDir = GetMouseDir() * cam_rot;
+	if (m_invertMouse)
+		mouseDir = -mouseDir;
+	return (m_ship->GetPhysRadius() * 1.5) * mouseDir;
 }
 
 // mouse wraparound control function
@@ -358,6 +377,7 @@ void PlayerShipController::SetFlightControlState(FlightControlState s)
 			// A change from Manual to Set Speed never sets a negative speed.
 			m_setSpeed = std::max(shipVel.Dot(-m_ship->GetOrient().VectorZ()), 0.0);
 		}
+
 		//XXX global stuff
 		Pi::onPlayerChangeFlightControlState.emit();
 	}

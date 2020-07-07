@@ -120,11 +120,13 @@ public:
 	vector3d GetPositionRelTo(FrameId relTo) const;
 	vector3d GetVelocityRelTo(FrameId relTo) const;
 	matrix3x3d GetOrientRelTo(FrameId relTo) const;
+	matrix4x4d GetTransformRelTo(FrameId relTo) const;
 
 	// Same as above except it does interpolation between
 	// physics ticks so rendering is smooth above physics hz
 	vector3d GetInterpPositionRelTo(FrameId relTo) const;
 	matrix3x3d GetInterpOrientRelTo(FrameId relTo) const;
+	matrix4x4d GetInterpTransformRelTo(FrameId relTo) const;
 
 	static void GetFrameTransform(FrameId fFrom, FrameId fTo, matrix4x4d &m);
 

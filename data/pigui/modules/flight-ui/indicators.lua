@@ -86,12 +86,12 @@ gameView.displayIndicator = displayIndicator
 local function displayCombatTargetIndicator(combatTarget)
 	local pos = combatTarget:GetPositionRelTo(player)
 	local vel = -combatTarget:GetVelocityRelTo(player)
-	local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(pos)
+	local onscreen,position,direction = Engine.RelSpaceToScreenSpace(pos)
 
 	displayIndicator(onscreen, position, direction, icons.square, colors.combatTarget, true)
-	onscreen,position,direction = Engine.WorldSpaceToScreenSpace(vel)
+	onscreen,position,direction = Engine.RelSpaceToScreenSpace(vel)
 	displayIndicator(onscreen, position, direction, icons.prograde, colors.combatTarget, true, lui.HUD_INDICATOR_COMBAT_TARGET_PROGRADE)
-	onscreen,position,direction = Engine.WorldSpaceToScreenSpace(-vel)
+	onscreen,position,direction = Engine.RelSpaceToScreenSpace(-vel)
 	displayIndicator(onscreen, position, direction, icons.retrograde, colors.combatTarget, false, lui.HUD_INDICATOR_COMBAT_TARGET_RETROGRADE)
 end
 
@@ -99,14 +99,14 @@ end
 local function displayFrameIndicators(frame, navTarget)
 	local frameVelocity = -frame:GetVelocityRelTo(player)
 	if frameVelocity:length() > 1 and frame ~= navTarget then
-		local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(frameVelocity)
+		local onscreen,position,direction = Engine.RelSpaceToScreenSpace(frameVelocity)
 		displayIndicator(onscreen, position, direction, icons.prograde, colors.frame, true, lui.HUD_INDICATOR_FRAME_PROGRADE)
-		onscreen,position,direction = Engine.WorldSpaceToScreenSpace(-frameVelocity)
+		onscreen,position,direction = Engine.RelSpaceToScreenSpace(-frameVelocity)
 		displayIndicator(onscreen, position, direction, icons.retrograde, colors.frame, false, lui.HUD_INDICATOR_FRAME_RETROGRADE)
 	end
 
 	local awayFromFrame = player:GetPositionRelTo(frame) * 1.01
-	local onscreen,position,direction = Engine.WorldSpaceToScreenSpace(awayFromFrame)
+	local onscreen,position,direction = Engine.RelSpaceToScreenSpace(awayFromFrame)
 	displayIndicator(onscreen, position, direction, icons.frame_away, colors.frame, false, lui.HUD_INDICATOR_AWAY_FROM_FRAME)
 end
 
@@ -116,9 +116,9 @@ local function displayNavTargetIndicator(navTarget)
 	displayIndicator(onscreen, position, direction, icons.square, colors.navTarget, true)
 	local navVelocity = -navTarget:GetVelocityRelTo(Game.player)
 	if navVelocity:length() > 1 then
-		onscreen,position,direction = Engine.WorldSpaceToScreenSpace(navVelocity)
+		onscreen,position,direction = Engine.RelSpaceToScreenSpace(navVelocity)
 		displayIndicator(onscreen, position, direction, icons.prograde, colors.navTarget, true, lui.HUD_INDICATOR_NAV_TARGET_PROGRADE)
-		onscreen,position,direction = Engine.WorldSpaceToScreenSpace(-navVelocity)
+		onscreen,position,direction = Engine.RelSpaceToScreenSpace(-navVelocity)
 		displayIndicator(onscreen, position, direction, icons.retrograde, colors.navTarget, false, lui.HUD_INDICATOR_NAV_TARGET_RETROGRADE)
 	end
 end

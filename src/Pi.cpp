@@ -1093,13 +1093,9 @@ void GameLoop::Update(float deltaTime)
 	Pi::pigui->NewFrame();
 
 	if (Pi::game && !Pi::player->IsDead()) {
-		// FIXME: Always begin a camera frame because WorldSpaceToScreenSpace
-		// requires it and is exposed to pigui.
-		Pi::game->GetWorldView()->BeginCameraFrame();
 		// FIXME: major hack to work around the fact that the console is in newUI and not pigui
 		if (!Pi::IsConsoleActive())
 			PiGUI::RunHandler(deltaTime, "GAME");
-		Pi::game->GetWorldView()->EndCameraFrame();
 	}
 
 	// Render this even when we're dead.

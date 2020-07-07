@@ -58,7 +58,7 @@ public:
 
 	RefCountedPtr<CameraContext> GetCameraContext() const { return m_cameraContext; }
 
-	ShipViewController shipView;
+	std::unique_ptr<ShipViewController> shipView;
 
 	int GetActiveWeapon() const;
 
@@ -66,9 +66,9 @@ public:
 
 	vector3d WorldSpaceToScreenSpace(const Body *body) const;
 	vector3d WorldSpaceToScreenSpace(const vector3d &position) const;
+	vector3d RelSpaceToScreenSpace(const vector3d &position) const;
 	vector3d ShipSpaceToScreenSpace(const vector3d &position) const;
 	vector3d GetTargetIndicatorScreenPosition(const Body *body) const;
-	vector3d GetMouseDirection() const;
 	vector3d CameraSpaceToScreenSpace(const vector3d &pos) const;
 
 	void BeginCameraFrame() { m_cameraContext->BeginFrame(); };
@@ -137,9 +137,6 @@ private:
 
 	// useful docking locations for new-ui widgets in the HUD
 	RefCountedPtr<UI::Widget> m_hudRoot;
-	// new-ui HUD components
-
-	Gui::VBox *m_hudSensorGaugeStack;
 
 	sigc::connection m_onHyperspaceTargetChangedCon;
 	sigc::connection m_onPlayerChangeTargetCon;

@@ -30,6 +30,9 @@ public:
 	void ChangeSetSpeed(double delta) override { m_setSpeed += delta; }
 	FlightControlState GetFlightControlState() const override { return m_flightControlState; }
 	vector3d GetMouseDir() const; // in local frame
+
+	// Return the current mouse direction in camera space.
+	vector3d GetMouseViewDir() const;
 	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
 	void SetFlightControlState(FlightControlState s) override;
 	float GetLowThrustPower() const { return m_lowThrustPower; }
