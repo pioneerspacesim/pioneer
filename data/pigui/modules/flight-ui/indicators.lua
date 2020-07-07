@@ -46,7 +46,7 @@ local function displayDirectionalMarkers()
 		end
 	end
 	local aux = Vector3(0,0,-1)
-	local forward = Engine.ShipSpaceToScreenSpace(aux - Vector3(center))
+	local forward = Engine.ShipSpaceToScreenSpace(aux) - Vector3(center)
 	local showDirection = displayDirectionalMarker(aux, icons.forward, true)
 	showDirection = displayDirectionalMarker(aux(0, 0, 1), icons.backward, showDirection)
 	showDirection = displayDirectionalMarker(aux(0, 1, 0), icons.up, showDirection, angle(forward, ui.pi))
