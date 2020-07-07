@@ -84,8 +84,6 @@ protected:
 private:
 	void InitObject();
 
-	void RefreshButtonStateAndVisibility();
-
 	enum IndicatorSide {
 		INDICATOR_HIDDEN,
 		INDICATOR_ONSCREEN,

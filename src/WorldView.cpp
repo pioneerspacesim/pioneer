@@ -224,54 +224,6 @@ void WorldView::OnToggleLabels()
 void WorldView::ShowAll()
 {
 	View::ShowAll(); // by default, just delegate back to View
-	RefreshButtonStateAndVisibility();
-}
-
-void WorldView::RefreshButtonStateAndVisibility()
-{
-	assert(m_game);
-	assert(Pi::player);
-	assert(!Pi::player->IsDead());
-
-#if WITH_DEVKEYS
-	if (Pi::showDebugInfo) {
-		std::ostringstream ss;
-
-		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-			vector3d pos = Pi::player->GetPosition();
-			vector3d abs_pos = Pi::player->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
-
-			const Frame *playerFrame = Pi::player->GetFrame();
-
-			ss << stringf("Pos: %0{f.2}, %1{f.2}, %2{f.2}\n", pos.x, pos.y, pos.z);
-			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
-
-			const SystemPath &path(playerFrame->GetSystemBody()->GetPath());
-			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ",
-				playerFrame->GetLabel(),
-				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
-			ss << stringf("(%0{f.2} km), rotating: %1, has rotation: %2\n",
-				pos.Length() / 1000, (playerFrame->IsRotFrame() ? "yes" : "no"), (playerFrame->HasRotFrame() ? "yes" : "no"));
-
-			//Calculate lat/lon for ship position
-			const vector3d dir = pos.NormalizedSafe();
-			const float lat = RAD2DEG(asin(dir.y));
-			const float lon = RAD2DEG(atan2(dir.x, dir.z));
-
-			ss << stringf("Lat / Lon: %0{f.8} / %1{f.8}\n", lat, lon);
-		}
-
-		char aibuf[256];
-		Pi::player->AIGetStatusText(aibuf);
-		aibuf[255] = 0;
-		ss << aibuf << std::endl;
-
-		m_debugInfo->SetText(ss.str());
-		m_debugInfo->Show();
-	} else {
-		m_debugInfo->Hide();
-	}
-#endif
 }
 
 void WorldView::Update()
@@ -280,9 +232,6 @@ void WorldView::Update()
 	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
-
-	// show state-appropriate buttons
-	RefreshButtonStateAndVisibility();
 
 	shipView->Update();
 
@@ -335,7 +284,6 @@ void WorldView::BuildUI(UI::Single *container)
 void WorldView::OnSwitchTo()
 {
 	UIView::OnSwitchTo();
-	RefreshButtonStateAndVisibility();
 	shipView->Activated();
 }
 
