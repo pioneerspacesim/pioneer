@@ -109,7 +109,7 @@ local defaultFuncs = {
 		if self.tradeAmount ~= nil then
 			count = self.tradeAmount
 		end
-        Game.player:GetDockedWith():AddEquipmentStock(e, count)
+        Game.player:GetDockedWith():AddEquipmentStock(e, -count)
     end,
 
     -- do something when a "sell" button is clicked
