@@ -225,7 +225,7 @@ local onGameStart = function ()
 
 	if not loaded_data then
 		service_history = {
-			lastdate = 0, -- Default will be overwritten on game start
+			lastdate = Game.time,
 			company = nil, -- Name of company that did the last service
 			service_period = oneyear, -- default
 			jumpcount = 0, -- Number of jumps made after the service_period
