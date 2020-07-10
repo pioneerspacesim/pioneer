@@ -91,26 +91,9 @@ void WorldView::InitObject()
 	m_navTunnel = new NavTunnelWidget(this, m_blendState);
 	Add(m_navTunnel, 0, 0);
 
-#if WITH_DEVKEYS
-	Gui::Screen::PushFont("ConsoleFont");
-	m_debugInfo = (new Gui::Label(""))->Color(204, 204, 204);
-	Add(m_debugInfo, 10, 200);
-	Gui::Screen::PopFont();
-#endif
 	/*
 	  NEW UI
 	*/
-
-	// --
-
-	Gui::Screen::PushFont("OverlayFont");
-
-	m_combatTargetIndicator.label = new Gui::Label(""); // colour set dynamically
-	m_targetLeadIndicator.label = new Gui::Label("");
-
-	// these labels are repositioned during Draw3D()
-	Add(m_combatTargetIndicator.label, 0, 0);
-	Add(m_targetLeadIndicator.label, 0, 0);
 
 	m_speedLines.reset(new SpeedLines(Pi::player));
 
@@ -390,31 +373,10 @@ void WorldView::UpdateProjectedObjects()
 			vector3d leadpos = targpos + targvel * (targpos.Length() / projspeed);
 			leadpos = targpos + targvel * (leadpos.Length() / projspeed); // second order approx
 
-			// now the text speed/distance
-			// want to calculate closing velocity that you couldn't counter with retros
-
-			double vel = targvel.Dot(targpos.NormalizedSafe()); // position should be towards
-			double raccel =
-				Pi::player->GetShipType()->linThrust[Thruster::THRUSTER_REVERSE] / Pi::player->GetMass();
-
-			double c = Clamp(vel / sqrt(2.0 * raccel * dist), -1.0, 1.0);
-			float r = float(0.2 + (c + 1.0) * 0.4);
-			float b = float(0.2 + (1.0 - c) * 0.4);
-
-			m_combatTargetIndicator.label->Color(r * 255, 0, b * 255);
-			m_targetLeadIndicator.label->Color(r * 255, 0, b * 255);
-
 			UpdateIndicator(m_targetLeadIndicator, leadpos);
 
 			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
 				HideIndicator(m_targetLeadIndicator);
-
-			// if the lead indicator is very close to the position indicator
-			// try (just a little) to keep the labels from interfering with one another
-			if (m_targetLeadIndicator.side == INDICATOR_ONSCREEN) {
-				assert(m_combatTargetIndicator.side == INDICATOR_ONSCREEN);
-				SeparateLabels(m_combatTargetIndicator.label, m_targetLeadIndicator.label);
-			}
 		} else
 			HideIndicator(m_targetLeadIndicator);
 	} else {
@@ -439,114 +401,72 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 		indicator.pos.x = w / 2.0f;
 		indicator.pos.y = h / 2.0f;
 		indicator.side = INDICATOR_ONSCREEN;
-	} else {
-		vector3d proj;
-		bool success = project_to_screen(cameraSpacePos, proj, frustum, guiSize);
-		if (!success)
-			proj = vector3d(w / 2.0, h / 2.0, 0.0);
-
-		indicator.realpos.x = int(proj.x);
-		indicator.realpos.y = int(proj.y);
-
-		bool onscreen =
-			(cameraSpacePos.z < 0.0) &&
-			(proj.x >= BORDER) && (proj.x < w - BORDER) &&
-			(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM);
-
-		if (onscreen) {
-			indicator.pos.x = int(proj.x);
-			indicator.pos.y = int(proj.y);
-			indicator.side = INDICATOR_ONSCREEN;
-		} else {
-			// homogeneous 2D points and lines are really useful
-			const vector3d ptCentre(w / 2.0, h / 2.0, 1.0);
-			const vector3d ptProj(proj.x, proj.y, 1.0);
-			const vector3d lnDir = ptProj.Cross(ptCentre);
-
-			indicator.side = INDICATOR_TOP;
-
-			// this fallback is used if direction is close to (0, 0, +ve)
-			indicator.pos.x = w / 2.0;
-			indicator.pos.y = BORDER;
-
-			if (cameraSpacePos.x < -1e-3) {
-				vector3d ptLeft = lnDir.Cross(vector3d(-1.0, 0.0, BORDER));
-				ptLeft /= ptLeft.z;
-				if (ptLeft.y >= BORDER && ptLeft.y < h - BORDER_BOTTOM) {
-					indicator.pos.x = ptLeft.x;
-					indicator.pos.y = ptLeft.y;
-					indicator.side = INDICATOR_LEFT;
-				}
-			} else if (cameraSpacePos.x > 1e-3) {
-				vector3d ptRight = lnDir.Cross(vector3d(-1.0, 0.0, w - BORDER));
-				ptRight /= ptRight.z;
-				if (ptRight.y >= BORDER && ptRight.y < h - BORDER_BOTTOM) {
-					indicator.pos.x = ptRight.x;
-					indicator.pos.y = ptRight.y;
-					indicator.side = INDICATOR_RIGHT;
-				}
-			}
-
-			if (cameraSpacePos.y < -1e-3) {
-				vector3d ptBottom = lnDir.Cross(vector3d(0.0, -1.0, h - BORDER_BOTTOM));
-				ptBottom /= ptBottom.z;
-				if (ptBottom.x >= BORDER && ptBottom.x < w - BORDER) {
-					indicator.pos.x = ptBottom.x;
-					indicator.pos.y = ptBottom.y;
-					indicator.side = INDICATOR_BOTTOM;
-				}
-			} else if (cameraSpacePos.y > 1e-3) {
-				vector3d ptTop = lnDir.Cross(vector3d(0.0, -1.0, BORDER));
-				ptTop /= ptTop.z;
-				if (ptTop.x >= BORDER && ptTop.x < w - BORDER) {
-					indicator.pos.x = ptTop.x;
-					indicator.pos.y = ptTop.y;
-					indicator.side = INDICATOR_TOP;
-				}
-			}
-		}
+		return;
 	}
 
-	// update the label position
-	if (indicator.label) {
-		if (indicator.side != INDICATOR_HIDDEN) {
-			float labelSize[2] = { 500.0f, 500.0f };
-			indicator.label->GetSizeRequested(labelSize);
+	vector3d proj;
+	bool success = project_to_screen(cameraSpacePos, proj, frustum, guiSize);
+	if (!success)
+		proj = vector3d(w / 2.0, h / 2.0, 0.0);
 
-			int pos[2] = { 0, 0 };
-			switch (indicator.side) {
-			case INDICATOR_HIDDEN: break;
-			case INDICATOR_ONSCREEN: // when onscreen, default to label-below unless it would clamp to be on top of the marker
-				pos[0] = -(labelSize[0] / 2.0f);
-				if (indicator.pos.y + pos[1] + labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f > h - BORDER_BOTTOM)
-					pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
-				else
-					pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
-				break;
-			case INDICATOR_TOP:
-				pos[0] = -(labelSize[0] / 2.0f);
-				pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
-				break;
-			case INDICATOR_LEFT:
-				pos[0] = HUD_CROSSHAIR_SIZE + 2.0f;
-				pos[1] = -(labelSize[1] / 2.0f);
-				break;
-			case INDICATOR_RIGHT:
-				pos[0] = -(labelSize[0] + HUD_CROSSHAIR_SIZE + 2.0f);
-				pos[1] = -(labelSize[1] / 2.0f);
-				break;
-			case INDICATOR_BOTTOM:
-				pos[0] = -(labelSize[0] / 2.0f);
-				pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
-				break;
+	indicator.realpos.x = int(proj.x);
+	indicator.realpos.y = int(proj.y);
+
+	bool onscreen =
+		(cameraSpacePos.z < 0.0) &&
+		(proj.x >= BORDER) && (proj.x < w - BORDER) &&
+		(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM);
+
+	if (onscreen) {
+		indicator.pos.x = int(proj.x);
+		indicator.pos.y = int(proj.y);
+		indicator.side = INDICATOR_ONSCREEN;
+	} else {
+		// homogeneous 2D points and lines are really useful
+		const vector3d ptCentre(w / 2.0, h / 2.0, 1.0);
+		const vector3d ptProj(proj.x, proj.y, 1.0);
+		const vector3d lnDir = ptProj.Cross(ptCentre);
+
+		indicator.side = INDICATOR_TOP;
+
+		// this fallback is used if direction is close to (0, 0, +ve)
+		indicator.pos.x = w / 2.0;
+		indicator.pos.y = BORDER;
+
+		if (cameraSpacePos.x < -1e-3) {
+			vector3d ptLeft = lnDir.Cross(vector3d(-1.0, 0.0, BORDER));
+			ptLeft /= ptLeft.z;
+			if (ptLeft.y >= BORDER && ptLeft.y < h - BORDER_BOTTOM) {
+				indicator.pos.x = ptLeft.x;
+				indicator.pos.y = ptLeft.y;
+				indicator.side = INDICATOR_LEFT;
 			}
+		} else if (cameraSpacePos.x > 1e-3) {
+			vector3d ptRight = lnDir.Cross(vector3d(-1.0, 0.0, w - BORDER));
+			ptRight /= ptRight.z;
+			if (ptRight.y >= BORDER && ptRight.y < h - BORDER_BOTTOM) {
+				indicator.pos.x = ptRight.x;
+				indicator.pos.y = ptRight.y;
+				indicator.side = INDICATOR_RIGHT;
+			}
+		}
 
-			pos[0] = Clamp(pos[0] + indicator.pos.x, BORDER, w - BORDER - labelSize[0]);
-			pos[1] = Clamp(pos[1] + indicator.pos.y, BORDER, h - BORDER_BOTTOM - labelSize[1]);
-			MoveChild(indicator.label, pos[0], pos[1]);
-			indicator.label->Show();
-		} else {
-			indicator.label->Hide();
+		if (cameraSpacePos.y < -1e-3) {
+			vector3d ptBottom = lnDir.Cross(vector3d(0.0, -1.0, h - BORDER_BOTTOM));
+			ptBottom /= ptBottom.z;
+			if (ptBottom.x >= BORDER && ptBottom.x < w - BORDER) {
+				indicator.pos.x = ptBottom.x;
+				indicator.pos.y = ptBottom.y;
+				indicator.side = INDICATOR_BOTTOM;
+			}
+		} else if (cameraSpacePos.y > 1e-3) {
+			vector3d ptTop = lnDir.Cross(vector3d(0.0, -1.0, BORDER));
+			ptTop /= ptTop.z;
+			if (ptTop.x >= BORDER && ptTop.x < w - BORDER) {
+				indicator.pos.x = ptTop.x;
+				indicator.pos.y = ptTop.y;
+				indicator.side = INDICATOR_TOP;
+			}
 		}
 	}
 }
@@ -555,42 +475,6 @@ void WorldView::HideIndicator(Indicator &indicator)
 {
 	indicator.side = INDICATOR_HIDDEN;
 	indicator.pos = vector2f(0.0f, 0.0f);
-	if (indicator.label)
-		indicator.label->Hide();
-}
-
-void WorldView::SeparateLabels(Gui::Label *a, Gui::Label *b)
-{
-	float posa[2], posb[2], sizea[2], sizeb[2];
-	GetChildPosition(a, posa);
-	a->GetSize(sizea);
-	sizea[0] *= 0.5f;
-	sizea[1] *= 0.5f;
-	posa[0] += sizea[0];
-	posa[1] += sizea[1];
-	GetChildPosition(b, posb);
-	b->GetSize(sizeb);
-	sizeb[0] *= 0.5f;
-	sizeb[1] *= 0.5f;
-	posb[0] += sizeb[0];
-	posb[1] += sizeb[1];
-
-	float overlapX = sizea[0] + sizeb[0] - fabs(posa[0] - posb[0]);
-	float overlapY = sizea[1] + sizeb[1] - fabs(posa[1] - posb[1]);
-
-	if (overlapX > 0.0f && overlapY > 0.0f) {
-		if (overlapX <= 4.0f) {
-			// small horizontal overlap; bump horizontally
-			if (posa[0] > posb[0]) overlapX *= -1.0f;
-			MoveChild(a, posa[0] - overlapX * 0.5f - sizea[0], posa[1] - sizea[1]);
-			MoveChild(b, posb[0] + overlapX * 0.5f - sizeb[0], posb[1] - sizeb[1]);
-		} else {
-			// large horizonal overlap; bump vertically
-			if (posa[1] > posb[1]) overlapY *= -1.0f;
-			MoveChild(a, posa[0] - sizea[0], posa[1] - overlapY * 0.5f - sizea[1]);
-			MoveChild(b, posb[0] - sizeb[0], posb[1] + overlapY * 0.5f - sizeb[1]);
-		}
-	}
 }
 
 double getSquareDistance(double initialDist, double scalingFactor, int num)
@@ -614,12 +498,6 @@ void WorldView::Draw()
 
 	// don't draw crosshairs etc in hyperspace
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
-
-	// glLineWidth(2.0f);
-
-	// glLineWidth(1.0f);
-
-	// glLineWidth(2.0f);
 
 	// combat target indicator
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);

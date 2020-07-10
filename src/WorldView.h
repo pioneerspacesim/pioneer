@@ -97,18 +97,16 @@ private:
 		vector2f pos;
 		vector2f realpos;
 		IndicatorSide side;
-		Gui::Label *label;
 		Indicator() :
 			pos(0.0f, 0.0f),
 			realpos(0.0f, 0.0f),
-			side(INDICATOR_HIDDEN),
-			label(0) {}
+			side(INDICATOR_HIDDEN)
+			{}
 	};
 
 	void UpdateProjectedObjects();
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);
 	void HideIndicator(Indicator &indicator);
-	void SeparateLabels(Gui::Label *a, Gui::Label *b);
 
 	void OnToggleLabels();
 
@@ -127,11 +125,7 @@ private:
 	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;
 
-	Gui::Label *m_pauseText;
 	bool m_labelsOn;
-
-	/* Only use #if WITH_DEVKEYS */
-	Gui::Label *m_debugInfo;
 
 	// useful docking locations for new-ui widgets in the HUD
 	RefCountedPtr<UI::Widget> m_hudRoot;
