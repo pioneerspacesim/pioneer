@@ -1,7 +1,12 @@
+July 2020
+   * Fixes
+     * Fix buying commodities not subtracting station stock (#4909)
+     * Fix hyperdrive last service date being wrong (#4910)
+
 June 2020
    * New Features
      * Redesign System and Sector Map View layouts (#4852)
-     
+
    * Internal Changes
      * Add support for IMGUI tabs in pigui (#4893)
 
@@ -34,7 +39,7 @@ April 2020
    * New Features
      * Move the System Map to PiGUI (#4821)
      * Reduce hydrogen price back to 1 credit (#4859)
-   
+
    * Fixes
      * Fix increase / decrease buttons in SystemView being linked (#4868)
 
