@@ -84,18 +84,19 @@ void Log::Logger::LogLevel(Severity sv, nonstd::string_view message)
 void Log::Logger::WriteLog(Time::DateTime time, Severity sv, nonstd::string_view msg)
 {
 	std::string &svName = s_severityNames.at(sv);
-	try {
-		if (sv <= Severity::Warning) {
-			fmt::print(stderr, "{}: {}", svName, msg);
-		} else if (sv <= m_maxSeverity) {
-			fmt::print(stdout, "{}", msg);
-			// flush stdout because it might have a different cache size than stderr
-			fflush(stdout);
-		}
-	} catch (fmt::system_error) {
-		// stderr or stdout not valid (ie. no console attached)
-		// silently fail (msg will still be written to file if it's open)
+
+	/* Don't output to the console on Windows
+	   Builds on /subsystem:WINDOWS will not usually have a console
+	   and fmt::print will throw an exception in this case */
+#ifndef WIN32
+	if (sv <= Severity::Warning) {
+		fmt::print(stderr, "{}: {}", svName, msg);
+	} else if (sv <= m_maxSeverity) {
+		fmt::print(stdout, "{}", msg);
+		// flush stdout because it might have a different cache size than stderr
+		fflush(stdout);
 	}
+#endif
 
 	if (!printCallback.empty()) {
 		printCallback(time, sv, msg);

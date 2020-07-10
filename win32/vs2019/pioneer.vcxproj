@@ -225,7 +225,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static_vc2015_debug.lib;libvorbis_static_v140_debug.lib;libvorbisfile_static_v140_debug.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2017;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
