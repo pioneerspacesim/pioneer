@@ -250,20 +250,16 @@ Body *Player::GetSetSpeedTarget() const
 void Player::SetCombatTarget(Body *const target, bool setSpeedTo)
 {
 	static_cast<PlayerShipController *>(m_controller)->SetCombatTarget(target, setSpeedTo);
-	Pi::onPlayerChangeTarget.emit();
 }
 
 void Player::SetNavTarget(Body *const target)
 {
 	static_cast<PlayerShipController *>(m_controller)->SetNavTarget(target);
-	Pi::onPlayerChangeTarget.emit();
 }
 
 void Player::SetSetSpeedTarget(Body *const target)
 {
 	static_cast<PlayerShipController *>(m_controller)->SetSetSpeedTarget(target);
-	// TODO: not sure, do we actually need this? we are only changing the set speed target
-	Pi::onPlayerChangeTarget.emit();
 }
 
 void Player::ChangeSetSpeed(double delta)

@@ -54,6 +54,8 @@ public:
 	void SetSetSpeedTarget(Body *const target);
 
 	sigc::signal<void> onRotationDampingChanged;
+	sigc::signal<void> onChangeTarget;
+	sigc::signal<void> onChangeFlightControlState;
 
 private:
 	static struct InputBinding : public Input::InputFrame {

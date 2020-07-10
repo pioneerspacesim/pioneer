@@ -4,8 +4,8 @@
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
-#include "UIView.h"
 #include "gui/GuiWidget.h"
+#include "pigui/View.h"
 #include "ship/ShipViewController.h"
 
 class Body;
@@ -33,7 +33,7 @@ namespace Gui {
 namespace KeyBindings {
 	struct ActionBinding;
 	struct AxisBinding;
-}
+} // namespace KeyBindings
 
 namespace UI {
 	class Widget;
@@ -41,20 +41,19 @@ namespace UI {
 	class Label;
 } // namespace UI
 
-class WorldView : public UIView {
+class WorldView : public PiGuiView {
 public:
 	static void RegisterInputBindings();
 	friend class NavTunnelWidget;
 	WorldView(Game *game);
 	WorldView(const Json &jsonObj, Game *game);
 	virtual ~WorldView();
-	virtual void ShowAll();
-	virtual void Update();
-	virtual void Draw3D();
-	virtual void Draw();
-	static const double PICK_OBJECT_RECT_SIZE;
-	virtual void SaveToJson(Json &jsonObj);
-	virtual void HandleSDLEvent(SDL_Event &event);
+
+	void Update() override;
+	void Draw3D() override;
+	void Draw() override;
+	void SaveToJson(Json &jsonObj) override;
+	void HandleSDLEvent(SDL_Event &event) override;
 
 	RefCountedPtr<CameraContext> GetCameraContext() const { return m_cameraContext; }
 
@@ -77,9 +76,8 @@ public:
 	bool ShouldShowLabels() { return m_labelsOn; }
 
 protected:
-	virtual void BuildUI(UI::Single *container);
-	virtual void OnSwitchTo();
-	virtual void OnSwitchFrom();
+	void OnSwitchTo() override;
+	void OnSwitchFrom() override;
 
 private:
 	void InitObject();
@@ -101,7 +99,7 @@ private:
 			pos(0.0f, 0.0f),
 			realpos(0.0f, 0.0f),
 			side(INDICATOR_HIDDEN)
-			{}
+		{}
 	};
 
 	void UpdateProjectedObjects();
@@ -127,12 +125,7 @@ private:
 
 	bool m_labelsOn;
 
-	// useful docking locations for new-ui widgets in the HUD
-	RefCountedPtr<UI::Widget> m_hudRoot;
-
-	sigc::connection m_onHyperspaceTargetChangedCon;
 	sigc::connection m_onPlayerChangeTargetCon;
-	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onToggleHudModeCon;
 	sigc::connection m_onIncTimeAccelCon;
 	sigc::connection m_onDecTimeAccelCon;

@@ -26,7 +26,6 @@
 #include "sound/Sound.h"
 #include "ui/Widget.h"
 
-const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 namespace {
 	static const Color s_hudTextColor(0, 255, 0, 230);
 	static const float HUD_CROSSHAIR_SIZE = 8.0f;
@@ -37,14 +36,14 @@ namespace {
 } // namespace
 
 WorldView::WorldView(Game *game) :
-	UIView(),
+	PiGuiView("WorldView"),
 	m_game(game)
 {
 	InitObject();
 }
 
 WorldView::WorldView(const Json &jsonObj, Game *game) :
-	UIView(),
+	PiGuiView("WorldView"),
 	m_game(game)
 {
 	if (!jsonObj["world_view"].is_object()) throw SavedGameCorruptException();
@@ -77,9 +76,6 @@ void WorldView::RegisterInputBindings()
 
 void WorldView::InitObject()
 {
-	float size[2];
-	GetSizeRequested(size);
-
 	m_labelsOn = true;
 	SetTransparency(true);
 
@@ -112,7 +108,7 @@ void WorldView::InitObject()
 	shipView->Init();
 
 	m_onPlayerChangeTargetCon =
-		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
+		Pi::player->GetPlayerController()->onChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
 
 	m_onToggleHudModeCon = InputBindings.toggleHudMode->onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
 	m_onIncTimeAccelCon = InputBindings.increaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
@@ -186,8 +182,6 @@ void WorldView::Draw3D()
 	}
 
 	m_cameraContext->EndFrame();
-
-	UIView::Draw3D();
 }
 
 void WorldView::OnToggleLabels()
@@ -202,11 +196,6 @@ void WorldView::OnToggleLabels()
 			m_labelsOn = true;
 		}
 	}
-}
-
-void WorldView::ShowAll()
-{
-	View::ShowAll(); // by default, just delegate back to View
 }
 
 void WorldView::Update()
@@ -256,17 +245,10 @@ void WorldView::Update()
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->Reset(playerFrameId);
 	}
-
-	UIView::Update();
-}
-
-void WorldView::BuildUI(UI::Single *container)
-{
 }
 
 void WorldView::OnSwitchTo()
 {
-	UIView::OnSwitchTo();
 	shipView->Activated();
 }
 

@@ -361,26 +361,26 @@ bool PlayerShipController::IsAnyLinearThrusterKeyDown()
 
 void PlayerShipController::SetFlightControlState(FlightControlState s)
 {
-	if (m_flightControlState != s) {
-		m_flightControlState = s;
-		m_ship->AIClearInstructions();
-		//set desired velocity to current actual
-		if (m_flightControlState == CONTROL_FIXSPEED) {
-			// Speed is set to the projection of the velocity onto the target.
+	if (m_flightControlState == s)
+		return;
 
-			vector3d shipVel = m_setSpeedTarget ?
-				// Ship's velocity with respect to the target, in current frame's coordinates
-				-m_setSpeedTarget->GetVelocityRelTo(m_ship) :
-				// Ship's velocity with respect to current frame
-				m_ship->GetVelocity();
+	m_flightControlState = s;
+	m_ship->AIClearInstructions();
+	//set desired velocity to current actual
+	if (m_flightControlState == CONTROL_FIXSPEED) {
+		// Speed is set to the projection of the velocity onto the target.
 
-			// A change from Manual to Set Speed never sets a negative speed.
-			m_setSpeed = std::max(shipVel.Dot(-m_ship->GetOrient().VectorZ()), 0.0);
-		}
+		vector3d shipVel = m_setSpeedTarget ?
+			// Ship's velocity with respect to the target, in current frame's coordinates
+			-m_setSpeedTarget->GetVelocityRelTo(m_ship) :
+			// Ship's velocity with respect to current frame
+			m_ship->GetVelocity();
 
-		//XXX global stuff
-		Pi::onPlayerChangeFlightControlState.emit();
+		// A change from Manual to Set Speed never sets a negative speed.
+		m_setSpeed = std::max(shipVel.Dot(-m_ship->GetOrient().VectorZ()), 0.0);
 	}
+
+	onChangeFlightControlState.emit();
 }
 
 void PlayerShipController::SetLowThrustPower(float power)
@@ -438,14 +438,18 @@ void PlayerShipController::SetCombatTarget(Body *const target, bool setSpeedTo)
 	if (setSpeedTo)
 		m_setSpeedTarget = target;
 	m_combatTarget = target;
+	onChangeTarget.emit();
 }
 
 void PlayerShipController::SetNavTarget(Body *const target)
 {
 	m_navTarget = target;
+	onChangeTarget.emit();
 }
 
 void PlayerShipController::SetSetSpeedTarget(Body *const target)
 {
 	m_setSpeedTarget = target;
+	// TODO: not sure, do we actually need this? we are only changing the set speed target
+	onChangeTarget.emit();
 }

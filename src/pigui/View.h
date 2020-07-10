@@ -16,6 +16,7 @@ public:
 
 	virtual void Update() {}
 	virtual void Draw3D() {}
+	virtual void DrawPiGui() {}
 
 private:
 	virtual void OnSwitchTo(){};
