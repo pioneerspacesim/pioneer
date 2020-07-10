@@ -43,6 +43,11 @@ Legal.CrimeType["TRADING_ILLEGAL_GOODS"] = {basefine = 5e3, name = l.TRADING_ILL
 Legal.CrimeType["WEAPONS_DISCHARGE"] = {basefine = 5e2, name = l.UNLAWFUL_WEAPONS_DISCHARGE}
 Legal.CrimeType["CONTRACT_FRAUD"] = {basefine = 5e2, name = l.CONTRACT_FRAUD}
 
+
+function Legal:fine (crime, lawlessness)
+	return math.max(1, 1+math.floor(self.CrimeType[crime].basefine * (1.0-lawlessness)))
+end
+
 function Legal:notifyOfCrime (ship, crime)
 	if not ship:IsPlayer() then return end
 	-- TODO: can this be called in hyperpace?
@@ -63,7 +68,7 @@ function Legal:notifyOfCrime (ship, crime)
 
 	local lawlessness = Game.system.lawlessness
 	local _, outstandingfines = Game.player:GetCrimeOutstanding()
-	local newFine = math.max(1, 1+math.floor(self.CrimeType[crime].basefine * (1.0-lawlessness)))
+	local newFine = self:fine(crime, lawlessness)
 
 	-- don't keep compounding fines, except for murder
 	if crime ~= "MURDER" and newFine < outstandingfines then newFine = 0 end

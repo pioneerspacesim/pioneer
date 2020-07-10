@@ -1331,6 +1331,14 @@
     "description": "",
     "message": "Legal status"
   },
+  "LEGAL_RULES": {
+      "description": "Refers to laws, rules and regulations",
+      "message": "Legal rules enforced in station controlled space, within: {distance}"
+  },
+  "LEGAL_RULES_AND_REGULATIONS": {
+      "description": "Heading on a tab, keep it short",
+      "message": "Rules and Regulations"
+  },
   "LIGHT_CARGO_SHUTTLE": {
     "description": "",
     "message": "Light cargo shuttle"
