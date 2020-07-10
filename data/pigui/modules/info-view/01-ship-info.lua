@@ -54,7 +54,7 @@ end
 local collapsingHeaderFlags = ui.TreeNodeFlags { "DefaultOpen" }
 
 local function shipStats()
-	local closed = ui.withFont(fonts.pionillium.medium, function()
+	local closed = ui.withFont(fonts.pionillium.medlarge, function()
 		return not ui.collapsingHeader("Ship Information", collapsingHeaderFlags)
 	end)
 
@@ -126,7 +126,7 @@ local function shipStats()
 end
 
 local function equipmentList()
-	local closed = ui.withFont(fonts.pionillium.medium, function()
+	local closed = ui.withFont(fonts.pionillium.medlarge, function()
 		return not ui.collapsingHeader("Equipment", collapsingHeaderFlags)
 	end)
 
@@ -166,7 +166,7 @@ InfoView:registerView({
 	icon = ui.theme.icons.info,
 	showView = true,
 	draw = function()
-		ui.withFont(fonts.pionillium.medium, function()
+		ui.withFont(fonts.pionillium.medlarge, function()
 			if _OLD_LAYOUT then
 				ui.columns(2, "shipInfo")
 
