@@ -26,6 +26,7 @@ public:
 	lua_State *GetLua() const { return m_lua; }
 
 	bool IsValid() const { return m_lua && m_id != LUA_NOREF; }
+	bool IsNil() const { return m_lua && m_id == LUA_REFNIL; }
 
 	void SaveToJson(Json &jsonObj);
 	void LoadFromJson(const Json &jsonObj);

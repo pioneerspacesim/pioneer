@@ -278,8 +278,8 @@ function Windows.searchBar.Show()
 	ui.text(lc.SEARCH)
 	search_text, changed = ui.inputText("", search_text, {})
 	if search_text ~= "" then
-		local parsedSystem = SystemPath.ParseString(search_text)
-		if parsedSystem ~= nil then
+		local parsedSystem = changed and SystemPath.ParseString(search_text)
+		if parsedSystem and parsedSystem ~= nil then
 			sectorView:GotoSectorPath(parsedSystem)
 		else
 			local systempaths = sectorView:SearchNearbyStarSystemsByName(search_text)

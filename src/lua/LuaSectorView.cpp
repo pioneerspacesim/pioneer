@@ -6,20 +6,6 @@
 #include "LuaVector.h"
 #include "SectorView.h"
 
-static int l_sectorview_get_route(lua_State *l, SectorView *sv)
-{
-	std::vector<SystemPath> route = sv->GetRoute();
-
-	lua_newtable(l);
-	int i = 1;
-	for (const SystemPath &j : route) {
-		lua_pushnumber(l, i++);
-		LuaObject<SystemPath>::PushToLua(j);
-		lua_settable(l, -3);
-	}
-	return 1;
-}
-
 template <>
 const char *LuaObject<SectorView>::s_type = "SectorView";
 
@@ -125,14 +111,27 @@ void LuaObject<SectorView>::RegisterClass()
 			SystemPath current_path = sv->GetCurrent();
 			SystemPath target_path = sv->GetSelected();
 			std::vector<SystemPath> route;
-			sv->AutoRoute(current_path, target_path, route);
-			sv->ClearRoute();
-			for (auto it = route.begin(); it != route.end(); it++) {
-				sv->AddToRoute(*it);
+			const std::string result = sv->AutoRoute(current_path, target_path, route);
+			if (result == "OKAY") {
+				sv->ClearRoute();
+				for (auto it = route.begin(); it != route.end(); it++) {
+					sv->AddToRoute(*it);
+				}
 			}
-			return l_sectorview_get_route(l, sv);
+			LuaPush<std::string>(l, result);
+			return 1;
 		})
-		.AddFunction("GetRoute", &l_sectorview_get_route)
+		.AddFunction("GetRoute", [](lua_State *l, SectorView *sv) {
+			std::vector<SystemPath> route = sv->GetRoute();
+			lua_newtable(l);
+			int i = 1;
+			for (const SystemPath &j : route) {
+				lua_pushnumber(l, i++);
+				LuaObject<SystemPath>::PushToLua(j);
+				lua_settable(l, -3);
+			}
+			return 1;
+		})
 		.StopRecording();
 	LuaObjectBase::CreateClass(&metaType);
 }

@@ -620,13 +620,16 @@ std::vector<SystemPath> SectorView::GetRoute()
 	return m_route;
 }
 
-void SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const
+const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const
 {
 	const RefCountedPtr<const Sector> start_sec = m_galaxy->GetSector(start);
 	const RefCountedPtr<const Sector> target_sec = m_galaxy->GetSector(target);
 
+	LuaRef try_hdrive = LuaObject<Player>::CallMethod<LuaRef>(Pi::player, "GetEquip", "engine", 1);
+	if (try_hdrive.IsNil())
+		return "NO_DRIVE";
 	// Get the player's hyperdrive from Lua, later used to calculate the duration between systems
-	const ScopedTable hyperdrive = ScopedTable(LuaObject<Player>::CallMethod<LuaRef>(Pi::player, "GetEquip", "engine", 1));
+	const ScopedTable hyperdrive = ScopedTable(try_hdrive);
 	// Cache max range so it doesn't get recalculated every time we call GetDuration
 	const float max_range = hyperdrive.CallMethod<float>("GetMaximumRange", Pi::player);
 
@@ -748,7 +751,9 @@ void SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, st
 			u = path_prev[u];
 		}
 		std::reverse(std::begin(outRoute), std::end(outRoute));
+		return "OKAY";
 	}
+	return "NO_VALID_ROUTE";
 }
 
 void SectorView::DrawRouteLines(const vector3f &playerAbsPos, const matrix4x4f &trans)

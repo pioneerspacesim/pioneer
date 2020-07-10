@@ -10,6 +10,7 @@ local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core");
 
 local ui = require 'pigui'
+local mb = require 'pigui.libs.message-box'
 
 local player = nil
 local colors = ui.theme.colors
@@ -232,7 +233,12 @@ local function showJumpRoute()
 
 		mainButton(icons.hyperspace, lui.AUTO_ROUTE,
 			function()
-				sectorView:AutoRoute()
+				local result = sectorView:AutoRoute()
+				if result == "NO_DRIVE" then
+					mb.OK(lui.NO_DRIVE)
+				elseif result == "NO_VALID_ROUTE" then
+					mb.OK(lui.NO_VALID_ROUTE)
+				end
 				updateHyperspaceTarget()
 		end)
 		ui.sameLine()
