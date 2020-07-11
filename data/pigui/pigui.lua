@@ -654,7 +654,7 @@ ui.HoveredFlags = pigui.HoveredFlags
 
 -- FINALLY OUT OF Pi.cpp! BEGONE!
 ui.playBoinkNoise = function ()
-	ui.playSfx("Click", 0.3, 0.3)
+	ui.playSfx("Click", 0.3)
 end
 
 local shouldShowRadialMenu = false
@@ -684,7 +684,8 @@ local radial_menu_actions_station = {
 	 action=function(target)
 			local msg = Game.player:RequestDockingClearance(target)
 		 	Game.AddCommsLogLine(msg, target.label)
-		 	Game.player:SetNavTarget(target)
+			Game.player:SetNavTarget(target)
+			ui.playSfx("OK")
 	end},
 	{icon=ui.theme.icons.autopilot_dock, tooltip=lc.AUTOPILOT_DOCK_WITH_STATION,
 	 action=function(target)
@@ -692,6 +693,7 @@ local radial_menu_actions_station = {
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIDockWith(target)
 		 		Game.player:SetNavTarget(target)
+				ui.playSfx("OK")
 			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
@@ -705,6 +707,7 @@ local radial_menu_actions_all_bodies = {
 		 	Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 	Game.player:AIFlyTo(target)
 		 	Game.player:SetNavTarget(target)
+			ui.playSfx("OK")
 		else
 			Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 		end
@@ -719,7 +722,8 @@ local radial_menu_actions_systembody = {
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterLowOrbit(target)
 		 		Game.player:SetNavTarget(target)
-		 	else
+				ui.playSfx("OK")
+			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},
@@ -729,7 +733,8 @@ local radial_menu_actions_systembody = {
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterMediumOrbit(target)
 		 		Game.player:SetNavTarget(target)
-		 	else
+				ui.playSfx("OK")
+			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},
@@ -739,7 +744,8 @@ local radial_menu_actions_systembody = {
 		 		Game.player:SetFlightControlState("CONTROL_AUTOPILOT")
 		 		Game.player:AIEnterHighOrbit(target)
 		 		Game.player:SetNavTarget(target)
-		 	else
+				ui.playSfx("OK")
+			else
 				Game.AddCommsLogLine(lc.NO_AUTOPILOT_INSTALLED)
 			end
 	end},

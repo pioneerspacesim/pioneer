@@ -37,8 +37,6 @@ public:
 	void SwitchToPath(const SystemPath &path);
 	SystemPath GetHyperspaceTarget() const { return m_hyperspaceTarget; }
 	void SetHyperspaceTarget(const SystemPath &path);
-	void FloatHyperspaceTarget();
-	void LockHyperspaceTarget(bool lock);
 	void ResetHyperspaceTarget();
 	void GotoSector(const SystemPath &path);
 	void GotoSystem(const SystemPath &path);
@@ -163,7 +161,6 @@ private:
 	bool m_zoomView = false;
 
 	SystemPath m_hyperspaceTarget;
-	bool m_matchTargetToSelection;
 	bool m_automaticSystemSelection;
 
 	bool m_drawUninhabitedLabels;

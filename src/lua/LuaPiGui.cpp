@@ -2274,12 +2274,23 @@ static int l_pigui_input_text(lua_State *l)
 	return 2;
 }
 
+/*
+	Function: pigui.playSfx
+
+	Play the specified sound effect, optionally with a different volume on the
+	left/right side.
+
+	Parameters:
+		name - string, name of the sound effect to play
+		left - optional number, volume on the left speaker/ear. Defaults to 1.0
+		right - optional number, volume on the right speaker/ear. Defaults to the left volume.
+*/
 static int l_pigui_play_sfx(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string name = LuaPull<std::string>(l, 1);
-	double left = LuaPull<float>(l, 2);
-	double right = LuaPull<float>(l, 3);
+	double left = LuaPull<float>(l, 2, 1.0);
+	double right = LuaPull<float>(l, 3, left);
 	Sound::PlaySfx(name.c_str(), left, right, false);
 	return 0;
 }

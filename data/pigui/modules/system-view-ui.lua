@@ -434,9 +434,11 @@ local function displayOnScreenObjects()
 				if (isShip or isSystemBody and mainObject.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
 					if isSystemBody then
 						player:SetNavTarget(mainObject.ref.physicsBody)
+						ui.playSfx("OK")
 					else
 						if combatTarget == mainObject.ref then player:SetCombatTarget(nil) end
 						player:SetNavTarget(mainObject.ref)
+						ui.playSfx("OK")
 					end
 				end
 				if isShip and ui.selectable(lc.SET_AS_COMBAT_TARGET, false, {}) then

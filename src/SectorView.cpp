@@ -70,7 +70,6 @@ SectorView::SectorView(Game *game) :
 	GotoSystem(m_current);
 	m_pos = m_posMovingTo;
 
-	m_matchTargetToSelection = true;
 	m_automaticSystemSelection = true;
 	m_detailBoxVisible = DETAILBOX_INFO;
 	m_toggledFaction = false;
@@ -100,7 +99,6 @@ SectorView::SectorView(const Json &jsonObj, Game *game) :
 		m_current = SystemPath::FromJson(sectorViewObj["current"]);
 		m_selected = SystemPath::FromJson(sectorViewObj["selected"]);
 		m_hyperspaceTarget = SystemPath::FromJson(sectorViewObj["hyperspace"]);
-		m_matchTargetToSelection = sectorViewObj["match_target_to_selection"];
 		m_automaticSystemSelection = sectorViewObj["automatic_system_selection"];
 		m_detailBoxVisible = sectorViewObj["detail_box_visible"];
 	} catch (Json::type_error &) {
@@ -230,7 +228,6 @@ void SectorView::SaveToJson(Json &jsonObj)
 	m_hyperspaceTarget.ToJson(hyperspaceSystemObj);
 	sectorViewObj["hyperspace"] = hyperspaceSystemObj; // Add hyperspace system object to sector view object.
 
-	sectorViewObj["match_target_to_selection"] = m_matchTargetToSelection;
 	sectorViewObj["automatic_system_selection"] = m_automaticSystemSelection;
 	sectorViewObj["detail_box_visible"] = m_detailBoxVisible;
 
@@ -306,20 +303,13 @@ void SectorView::Draw3D()
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
 {
 	m_hyperspaceTarget = path;
-	m_matchTargetToSelection = false;
 	onHyperspaceTargetChanged.emit();
-}
-
-void SectorView::FloatHyperspaceTarget()
-{
-	m_matchTargetToSelection = true;
 }
 
 void SectorView::ResetHyperspaceTarget()
 {
 	SystemPath old = m_hyperspaceTarget;
 	m_hyperspaceTarget = Pi::game->GetSpace()->GetStarSystem()->GetStars()[0]->GetPath();
-	FloatHyperspaceTarget();
 
 	if (!old.IsSameSystem(m_hyperspaceTarget)) {
 		onHyperspaceTargetChanged.emit();
@@ -1265,14 +1255,6 @@ double SectorView::GetCenterDistance()
 	}
 }
 
-void SectorView::LockHyperspaceTarget(bool lock)
-{
-	if (lock) {
-		SetHyperspaceTarget(GetSelected());
-	} else {
-		FloatHyperspaceTarget();
-	}
-}
 std::vector<SystemPath> SectorView::GetNearbyStarSystemsByName(std::string pattern)
 {
 	std::vector<SystemPath> result;

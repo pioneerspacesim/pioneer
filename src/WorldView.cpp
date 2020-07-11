@@ -107,9 +107,6 @@ void WorldView::InitObject()
 	shipView.reset(new ShipViewController(this));
 	shipView->Init();
 
-	m_onPlayerChangeTargetCon =
-		Pi::player->GetPlayerController()->onChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
-
 	m_onToggleHudModeCon = InputBindings.toggleHudMode->onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
 	m_onIncTimeAccelCon = InputBindings.increaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
 	m_onDecTimeAccelCon = InputBindings.decreaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
@@ -117,7 +114,6 @@ void WorldView::InitObject()
 
 WorldView::~WorldView()
 {
-	m_onPlayerChangeTargetCon.disconnect();
 	m_onToggleHudModeCon.disconnect();
 	m_onIncTimeAccelCon.disconnect();
 	m_onDecTimeAccelCon.disconnect();
@@ -284,17 +280,6 @@ static void PlayerPayFine()
 	}
 }
 */
-
-void WorldView::OnPlayerChangeTarget()
-{
-	Body *b = Pi::player->GetNavTarget();
-	if (b) {
-		Sound::PlaySfx("OK");
-		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud *>(b)->GetShip() : 0;
-		if (!s || !m_game->GetSectorView()->GetHyperspaceTarget().IsSameSystem(s->GetHyperspaceDest()))
-			m_game->GetSectorView()->FloatHyperspaceTarget();
-	}
-}
 
 int WorldView::GetActiveWeapon() const
 {
