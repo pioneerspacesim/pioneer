@@ -37,11 +37,14 @@ public:
 	static void Uninit();
 	static void SetCityModelPatterns(const SystemPath &path);
 
-	static constexpr double RADIUS = 5000.0;
+	static const int citygridmidpoint = 100;
+	static const int citygridlimit = citygridmidpoint * 2;
 
 private:
 	void AddStaticGeomsToCollisionSpace();
 	void RemoveStaticGeomsFromCollisionSpace();
+	bool isCityCellsOccupied(uint32_t x, uint32_t z, uint32_t layout);
+	void setCityCellsOccupied(uint32_t x, uint32_t z, uint32_t layout);
 
 	struct BuildingDef {
 		Uint32 instIndex;
@@ -56,39 +59,36 @@ private:
 	std::vector<BuildingDef> m_buildings;
 	std::vector<BuildingDef> m_enabledBuildings;
 	std::vector<Uint32> m_buildingCounts;
+	uint8_t citybits[citygridlimit][citygridlimit >> 3];
 	int m_detailLevel;
 	vector3d m_realCentre;
 	float m_clipRadius;
 
-	// --------------------------------------------------------
-	// statics
-	static const unsigned int CITYFLAVOURS = 5;
-
 	struct citybuilding_t {
+		// primitive data first
+		uint32_t index;
+		uint32_t layout; // for multi-cell buildings
+		int32_t x_offset;
+		int32_t z_offset;
+		float airless_rarity; // attribute for adjusting building rarity - airless worlds
+		float atmo_rarity; // attribute for adjusting building rarity - atmospheric worlds
+		bool storage;
+		bool industry;
+		bool monument;
+		bool habitat;
 		const char *modelname;
-		double xzradius;
 		SceneGraph::Model *resolvedModel;
-		SceneGraph::Animation *idle;
+		SceneGraph::Animation *idleanimation;
 		RefCountedPtr<CollMesh> collMesh;
-		Uint32 instIndex;
 	};
 
 	struct citybuildinglist_t {
 		const char *modelTagName;
-		double minRadius, maxRadius;
 		unsigned int numBuildings;
 		citybuilding_t *buildings;
 	};
 
-	struct cityflavourdef_t {
-		vector3d center;
-		double size;
-	};
-
-	static bool s_cityBuildingsInitted;
-
 	static citybuildinglist_t s_buildingList;
-	static cityflavourdef_t cityflavour[CITYFLAVOURS];
 
 	static void EnumerateNewBuildings(std::set<std::string> &filenames);
 	static void LookupBuildingListModels(citybuildinglist_t *list);

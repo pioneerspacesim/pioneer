@@ -1,0 +1,62 @@
+{
+    "global": {
+        "atmo-size": 60,
+        "airless-size": 20,
+        "pop-0": 1000000000.0,
+        "rnd-0": 30,
+        "mod-0": 1.0,
+        "pop-1": 200000000.0,
+        "rnd-1": 15,
+        "mod-1": 0.8,
+        "pop-2": 20000000.0,
+        "rnd-2": 14,
+        "mod-2": 0.6,
+        "pop-3": 1000000.0,
+        "rnd-3": 12,
+        "mod-3": 0.4,
+        "pop-4": 0.0,
+        "rnd-4": 10,
+        "mod-4": 0.2
+    },
+    "Dome1": {
+        "airless-rarity": 0.8,
+        "atmospheric-rarity": 0.5
+    },
+    "Dome2": {
+        "layout": 1,
+        "airless-rarity": 0.8,
+        "atmospheric-rarity": 0.2
+    },
+    "kbuilding01": {
+        "layout": 0,
+        "industry": true
+    },
+    "kbuilding02": {
+        "layout": 1,
+        "airless-rarity": 0.3,
+        "atmospheric-rarity": 0.3,
+        "industry": true
+    },
+    "kbuilding03": {
+        "layout": 1,
+        "airless-rarity": 0.3,
+        "atmospheric-rarity": 0.3,
+        "industry": true
+    },
+    "Library": {
+        "layout": 1,
+        "airless-rarity": 0.3,
+        "atmospheric-rarity": 0.3
+    },
+    "newbuilding9": {
+        "layout": 1,
+        "airless-rarity": 0.4,
+        "atmospheric-rarity": 0.3,
+        "industry": true
+    },
+    "newbuilding11": {
+        "airless-rarity": 0.3,
+        "atmospheric-rarity": 0.5,
+        "monument": true
+    }
+}

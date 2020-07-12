@@ -15,45 +15,50 @@
 #include "scenegraph/Animation.h"
 #include "scenegraph/ModelSkin.h"
 #include "scenegraph/SceneGraph.h"
+#include "JsonUtils.h"
 
-static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
-static const double START_SEG_SIZE = CityOnPlanet::RADIUS;
-static const double START_SEG_SIZE_NO_ATMO = CityOnPlanet::RADIUS / 5.0f;
+#define DEBUG_OUTPUT 1
+
+static const char *CITY_CONFIG_FILE = "models/buildings/details.json";
+static uint8_t citydistancegrid[CityOnPlanet::citygridlimit][CityOnPlanet::citygridlimit];
+static double population2radius[5];
+static double cityradius_mod[5];
+static uint32_t cityradius_rnd[5];
+
+int simplebuildings[50];
+int numberofSimplebuildings;
+
+static const uint32_t DEFAULT_ATMO_SIZE;
+static const uint32_t DEFAULT_AIRLESS_SIZE;
+uint32_t config_atmo_size;
+uint32_t config_airless_size;
 
 using SceneGraph::Model;
 
 CityOnPlanet::citybuildinglist_t CityOnPlanet::s_buildingList = {
 	"city_building",
-	800,
-	2000,
 	0,
 	0,
 };
-
-CityOnPlanet::cityflavourdef_t CityOnPlanet::cityflavour[CITYFLAVOURS];
 
 void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 {
 	// reset data structures
 	m_enabledBuildings.clear();
 	m_buildingCounts.resize(s_buildingList.numBuildings);
-	for (Uint32 i = 0; i < s_buildingList.numBuildings; i++) {
+	for (uint32_t i = 0; i < s_buildingList.numBuildings; i++) {
 		m_buildingCounts[i] = 0;
 	}
 
 	// Generate the new building list
 	int skipMask;
-	switch (Pi::detail.cities) {
-	case 0: skipMask = 0xf; break;
-	case 1: skipMask = 0x7; break;
-	case 2: skipMask = 0x3; break;
-	case 3: skipMask = 0x1; break;
-	default:
+	if (Pi::detail.cities >= 0 && Pi::detail.cities <= 3)
+		skipMask = (16 >> Pi::detail.cities) - 1;
+	else
 		skipMask = 0;
-		break;
-	}
-	Uint32 numVisibleBuildings = 0;
-	for (unsigned int i = 0; i < m_buildings.size(); i++) {
+
+	uint32_t numVisibleBuildings = 0;
+	for (uint32_t i = 0; i < m_buildings.size(); i++) {
 		if (!(i & skipMask)) {
 			++numVisibleBuildings;
 		}
@@ -61,7 +66,7 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 
 	// we know how many building we'll be adding, reserve space up front
 	m_enabledBuildings.reserve(numVisibleBuildings);
-	for (unsigned int i = 0; i < m_buildings.size(); i++) {
+	for (int i = 0; i < m_buildings.size(); i++) {
 		if (i & skipMask) {
 		} else {
 			Frame *f = Frame::GetFrame(m_frame);
@@ -121,19 +126,92 @@ void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 	assert(!models.empty());
 	Output("Got %d buildings of tag %s\n", static_cast<int>(models.size()), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
-	list->numBuildings = models.size();
+	list->numBuildings = (uint32_t)models.size();
+	numberofSimplebuildings = 0;
+
+	Json data = JsonUtils::LoadJsonDataFile(CITY_CONFIG_FILE);
+
+	// allow config to determine city sizes
+	config_atmo_size = DEFAULT_ATMO_SIZE;
+	config_airless_size = DEFAULT_AIRLESS_SIZE;
+	if (!data["global"].is_null()) {
+		config_atmo_size = data["global"].value("atmo-size", DEFAULT_ATMO_SIZE);
+		config_airless_size = data["global"].value("airless-size", DEFAULT_AIRLESS_SIZE);
+
+		population2radius[0] = data["global"].value("pop-0", 1000000000.0);
+		population2radius[1] = data["global"].value("pop-1", 200000000.0);
+		population2radius[2] = data["global"].value("pop-2", 20000000.0);
+		population2radius[3] = data["global"].value("pop-3", 1000000.0);
+		population2radius[4] = 0.0;
+
+		cityradius_mod[0] = data["global"].value("mod-0", 1.0);
+		cityradius_mod[1] = data["global"].value("mod-1", 0.8);
+		cityradius_mod[2] = data["global"].value("mod-2", 0.6);
+		cityradius_mod[3] = data["global"].value("mod-3", 0.4);
+		cityradius_mod[4] = data["global"].value("mod-4", 0.2);
+
+		cityradius_rnd[0] = data["global"].value("rnd-0", 30);
+		cityradius_rnd[1] = data["global"].value("rnd-1", 15);
+		cityradius_rnd[2] = data["global"].value("rnd-2", 14);
+		cityradius_rnd[3] = data["global"].value("rnd-3", 12);
+		cityradius_rnd[4] = data["global"].value("rnd-4", 10);
+
+	}
+	if (config_atmo_size > 68 || config_atmo_size < 5)
+		config_atmo_size = DEFAULT_ATMO_SIZE;
+	if (config_airless_size > 68 || config_airless_size < 5)
+		config_airless_size = DEFAULT_AIRLESS_SIZE;
 
 	int i = 0;
-	for (auto m = models.begin(), itEnd = models.end(); m != itEnd; ++m, i++) {
-		list->buildings[i].instIndex = i;
+	for (auto m = models.begin(); m != models.end(); ++m, i++) {
+		list->buildings[i].index = i;
+		list->buildings[i].layout = 0;
+		list->buildings[i].x_offset = 0;
+		list->buildings[i].z_offset = 0;
+		list->buildings[i].airless_rarity = 1.0;
+		list->buildings[i].atmo_rarity = 1.0;
+		list->buildings[i].storage = false;
+		list->buildings[i].industry = false;
+		list->buildings[i].monument = false;
+		list->buildings[i].habitat = true;
 		list->buildings[i].resolvedModel = *m;
-		list->buildings[i].idle = (*m)->FindAnimation("idle");
+		list->buildings[i].idleanimation = (*m)->FindAnimation("idle");
 		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
-		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
-		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
-		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
-		list->buildings[i].xzradius = sqrt(maxx * maxx + maxy * maxy);
-		Output(" - %s: %f\n", (*m)->GetName().c_str(), list->buildings[i].xzradius);
+
+		const std::string modelname = (*m)->GetName();
+		std::string extra_attributes = "";
+		if (!data[modelname].is_null()) {
+			extra_attributes = "extras:";
+			list->buildings[i].layout = data[modelname].value("layout", 0);
+			if (list->buildings[i].layout != 0) extra_attributes += " layout";
+			list->buildings[i].x_offset = data[modelname].value("x-offset", 0);
+			if (list->buildings[i].x_offset != 0) extra_attributes += " x-offset";
+			list->buildings[i].z_offset = data[modelname].value("z-offset", 0);
+			if (list->buildings[i].z_offset != 0) extra_attributes += " z-offset";
+			list->buildings[i].airless_rarity = data[modelname].value("airless-rarity", 1.0);
+			if (list->buildings[i].airless_rarity != 1.0) extra_attributes += " airless-rarity";
+			list->buildings[i].atmo_rarity = data[modelname].value("atmospheric-rarity", 1.0);
+			if (list->buildings[i].atmo_rarity != 1.0) extra_attributes += " atmospheric-rarity";
+			list->buildings[i].storage = data[modelname].value("storage", false);
+			if (list->buildings[i].storage != false) extra_attributes += " storage";
+			list->buildings[i].industry = data[modelname].value("industry", false);
+			if (list->buildings[i].industry != false) extra_attributes += " industry";
+			list->buildings[i].monument = data[modelname].value("monument", false);
+			if (list->buildings[i].monument != false) extra_attributes += " monument";
+			list->buildings[i].habitat = data[modelname].value("habitat", true);
+			if (list->buildings[i].habitat != true) extra_attributes += " habitat";
+
+			if (list->buildings[i].industry == true)
+				list->buildings[i].habitat = false;
+		}
+		// keep a list of simple buildings
+		assert(numberofSimplebuildings < 50);
+		if (list->buildings[i].layout == 0 && list->buildings[i].storage == false && list->buildings[i].industry == false
+			&& list->buildings[i].monument == false	&& list->buildings[i].habitat == true
+			&& list->buildings[i].atmo_rarity == 1.0 && list->buildings[i].airless_rarity == 1.0) {
+			simplebuildings[numberofSimplebuildings++] = i;
+		}
+		Output(" - %s: %s airless %.3f atmo %.3f\n", modelname, extra_attributes, list->buildings[i].airless_rarity, list->buildings[i].atmo_rarity);
 	}
 	Output("End of buildings.\n");
 }
@@ -143,6 +221,16 @@ void CityOnPlanet::Init()
 	PROFILE_SCOPED()
 	/* Resolve city model numbers since it is a bit expensive */
 	LookupBuildingListModels(&s_buildingList);
+
+	assert(citygridlimit < 256);
+	assert(citygridmidpoint < 128);
+
+	// precalc each cells distance from the center
+	for (int x = 0; x < citygridlimit; x++) {
+		for (int z = 0; z < citygridlimit; z++) {
+			citydistancegrid[x][z] = round(vector2d(x - citygridmidpoint, z - citygridmidpoint).Length());
+		}
+	}
 }
 
 void CityOnPlanet::Uninit()
@@ -199,6 +287,42 @@ CityOnPlanet::~CityOnPlanet()
 	}
 }
 
+bool CityOnPlanet::isCityCellsOccupied(uint32_t x, uint32_t z, uint32_t layout)
+{
+	uint8_t *cells;
+	uint16_t testbits = ((uint16_t)(0xff00 << (7 - layout))) >> (z & 7);
+	uint16_t bits;
+
+	for (uint32_t i = 0; i <= layout; i++) {
+		cells = &citybits[x + i][z >> 3];
+		bits = ((uint16_t)cells[0] << 8) | cells[1];
+		if ((bits & testbits) != 0)
+			return (true);
+	}
+	return (false);
+}
+
+void CityOnPlanet::setCityCellsOccupied(uint32_t x, uint32_t z, uint32_t layout)
+{
+	union bits {
+		uint16_t whole;
+		uint8_t bytes[2];
+	} bits;
+
+	bits.whole = ((uint16_t)(0xff00 << (7 - layout))) >> (z & 7);
+
+	for (uint32_t i = 0; i <= layout; i++) {
+#ifdef __BIG_ENDIAN__
+		citybits[x + i][z >> 3] |= bits.bytes[0];
+		citybits[x + i][(z >> 3) + 1] |= bits.bytes[1];
+#else
+		// x86/x64
+		citybits[x + i][z >> 3] |= bits.bytes[1];
+		citybits[x + i][(z >> 3) + 1] |= bits.bytes[0];
+#endif
+	}
+}
+
 CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed)
 {
 	// beware, these are not used in this function, but are used in subroutines!
@@ -206,57 +330,63 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	m_frame = planet->GetFrame();
 	m_detailLevel = Pi::detail.cities;
 
-	m_buildings.clear();
-	m_buildings.reserve(DEFAULT_NUM_BUILDINGS);
-
+	// Group outcalls together to make things easier for cpu cache
 	const Aabb &aabb = station->GetAabb();
 	const matrix4x4d &m = station->GetOrient();
-	const vector3d p = station->GetPosition();
-
-	const vector3d mx = m * vector3d(1, 0, 0);
-	const vector3d mz = m * vector3d(0, 0, 1);
+	const vector3d station_position = station->GetPosition();
+	const std::string &stationmodelname = station->GetStationType()->ModelName();
+	const double bodyradius = planet->GetSystemBody()->GetRadius();				// cache for bodyradius value
+	const double pop = 1000000000 * planet->GetSystemBody()->GetPopulation();	// GetPopulation() returns population in whole billions, as in 0.5 -> 500M
+	const int atmo = planet->GetSystemBody()->HasAtmosphere() ? config_atmo_size : config_airless_size;
 
 	Random rand;
 	rand.seed(seed);
 
-	int population = planet->GetSystemBody()->GetPopulation();
-	int cityradius;
+	const vector3d mx = m * vector3d(1, 0, 0);
+	const vector3d mz = m * vector3d(0, 0, 1);
+	citybuildinglist_t *buildings = &s_buildingList;
 
-	if (planet->GetSystemBody()->HasAtmosphere()) {
-		population *= 1000;
-		cityradius = (population < 200) ? 200 : ((population > START_SEG_SIZE) ? START_SEG_SIZE : population);
-	} else {
-		population *= 100;
-		cityradius = (population < 250) ? 250 : ((population > START_SEG_SIZE_NO_ATMO) ? START_SEG_SIZE_NO_ATMO : population);
+	const int cellsize_i = 50;
+	const double cellsize = double(cellsize_i);
+	int cityradius = 0;
+
+	for (int i = 0; i < 5; i++) {
+		if (pop > population2radius[i]) {
+			cityradius = (atmo * cityradius_mod[i]) + rand.Int32(cityradius_rnd[i]);
+			break;
+		}
 	}
 
-	citybuildinglist_t *buildings = &s_buildingList;
-	vector3d cent = p;
-	const int cellsize_i = 80;
-	const double cellsize = double(cellsize_i);						// current widest building = 92
-	const double bodyradius = planet->GetSystemBody()->GetRadius(); // cache for bodyradius value
+	if (cityradius > 98)
+		cityradius = 98;
+	if (cityradius < 10)
+		cityradius = 10;
 
-	static const int gmid = (cityradius / cellsize_i);
-	static const int gsize = gmid * 2;
-
-	assert((START_SEG_SIZE / cellsize_i) < 100);
-	assert((START_SEG_SIZE_NO_ATMO / cellsize_i) < 100);
-	uint8_t cellgrid[200][200];
-	std::memset(cellgrid, 0, sizeof(cellgrid));
+	// Clear grid occupancy bitfield
+	std::memset(citybits, 0, sizeof(citybits));
 
 	// calculate the size of the station model
-	const int x1 = floor(aabb.min.x / cellsize);
-	const int x2 = ceil(aabb.max.x / cellsize);
-	const int z1 = floor(aabb.min.z / cellsize);
-	const int z2 = ceil(aabb.max.z / cellsize);
+	const int station_x1 = floor(aabb.min.x / cellsize) + citygridmidpoint + 1;
+	const int station_x2 = ceil(aabb.max.x / cellsize) + citygridmidpoint;
+	const int station_z1 = floor(aabb.min.z / cellsize) + citygridmidpoint + 1;
+	const int station_z2 = ceil(aabb.max.z / cellsize) + citygridmidpoint;
 
-	// Clear the cells where the station is
-	for (int x = 0; x <= gsize; x++) {
-		for (int z = 0; z <= gsize; z++) {
-			const int zz = z - gmid;
-			const int xx = x - gmid;
-			if (zz > z1 && zz < z2 && xx > x1 && xx < x2)
-				cellgrid[x][z] = 1;
+	if (stationmodelname == "ground_station") {
+		assert(cellsize_i == 50); // this block is specifically tuned to cellsize 50.
+		int z = (citygridmidpoint >> 3);
+		citybits[citygridmidpoint + 0][z] |= (64 + 32 + 16 + 8 + 4 + 2 + 1);
+		citybits[citygridmidpoint - 1][z] |= (64 + 32 + 16 + 8 + 4 + 2 + 1);
+		citybits[citygridmidpoint + 1][z] |= (64 + 32 + 16 + 8 + 4 + 2 + 1);
+		citybits[citygridmidpoint - 2][z] |= (64 + 32 + 16 + 8 + 4 + 2 + 1);
+		citybits[citygridmidpoint + 2][z] |= (64 + 32 + 16 + 8 + 4 + 2 + 1);
+		citybits[citygridmidpoint - 3][z] |= (32 + 16 + 8 + 4 + 2);
+		citybits[citygridmidpoint + 3][z] |= (32 + 16 + 8 + 4 + 2);
+	} else {
+		// Occupy the cells where the station is
+		for (int x = station_x1; x < station_x2; x++) {
+			for (int z = station_z1; z < station_z2; z++) {
+				citybits[x][z >> 3] |= 128 >> (z & 7);
+			}
 		}
 	}
 
@@ -267,23 +397,110 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	orientcalc[2] = m * matrix4x4d::RotateYMatrix(M_PI * 0.5 * 2);
 	orientcalc[3] = m * matrix4x4d::RotateYMatrix(M_PI * 0.5 * 3);
 
-	const double maxdist = pow(gmid + 0.333, 2);
-	for (int x = 0; x <= gsize; x++) {
-		const double distx = pow((x - gmid), 2);
-		for (int z = 0; z <= gsize; z++) {
-			if (cellgrid[x][z] > 0) {
-				// This cell has been allocated for something already
+	Output("CityOnPlanet: Station '%s' X %i .. %i, Z %i .. %i, pop %.0f cityradius %i\n",
+		stationmodelname, station_x1, station_x2, station_z1, station_z2, pop, cityradius);
+
+#ifdef DEBUG_OUTPUT
+	int skipped = 0, placed = 0, emptycells = 0, occupiedcells = 0, loopcells = 0, rarityrolls = 0;
+#endif
+
+	m_buildings.clear();
+	m_buildings.reserve(cityradius * cityradius); // estimate 25% occupancy (cityradius*cityradius*4*0.25) -> 4*0.25 == 1
+
+	const int mincell = citygridmidpoint - cityradius;
+	const int maxcell = citygridmidpoint + cityradius;
+	double x_offset = 0, z_offset = 0;
+	vector3d cent;
+
+	// Loop through all the available cells to find suitable spots for buildings.
+	for (int x = mincell; x <= maxcell; x++) {
+		const vector3d cent_mx_cache = station_position + mx * ((x - citygridmidpoint) * cellsize);
+		for (int z = mincell; z <= maxcell; z++) {
+#ifdef DEBUG_OUTPUT
+			loopcells++;
+#endif
+			// Using precalculated distances saves a bunch of floating point math.
+			if (citydistancegrid[x][z] > cityradius) {
+#ifdef DEBUG_OUTPUT
+				skipped++;
+#endif
 				continue;
 			}
-			const double distz = pow((z - gmid), 2);
-			if ((distz + distx) > maxdist)
+			// check for cells that are already occupied
+			if ((citybits[x][z >> 3] & (128 >> (z & 7)))) {
+#ifdef DEBUG_OUTPUT
+				occupiedcells++;
+#endif
 				continue;
+			}
 
 			// fewer and fewer buildings the further from center you get
-			if ((distx + distz) * (1.0 / maxdist) > rand.Double())
+			if ((((double)cityradius - citydistancegrid[x][z]) / (double)cityradius) < rand.Double()) {
+#ifdef DEBUG_OUTPUT
+				emptycells++;
+#endif
 				continue;
+			}
 
-			cent = p + mz * ((z - gmid) * cellsize) + mx * ((x - gmid) * cellsize);
+			// quickly get a random building
+			const citybuilding_t *chosenBuilding;
+			for (uint32_t retry = 0; retry < 8; retry++) {
+				chosenBuilding = &buildings->buildings[rand.Int32(buildings->numBuildings)];
+				if (chosenBuilding->layout > 0 && isCityCellsOccupied(x, z, chosenBuilding->layout)) {
+					chosenBuilding = NULL;
+					continue;
+				}
+				// rarity modifiers (from details.json)
+				float rarity = (atmo == config_atmo_size) ? chosenBuilding->atmo_rarity : chosenBuilding->airless_rarity;
+
+				// industry buildings are rarer in the center and more common on the fringe
+				if (chosenBuilding->industry) {
+					// modify rarity instead of having a separate roll, otherwise we'll be in this loop a lot longer
+					rarity = rarity * (0.5 + ((double)(citydistancegrid[x][z] > 1) / cityradius));
+					// rarity = x0.5 at center up to x1.0 at edge
+
+				}
+				if (chosenBuilding->habitat) {
+					rarity = rarity * (1.0 - ((double)(citydistancegrid[x][z] > 1) / cityradius));
+					// rarity = x1.0 at center down to x0.5 at edge
+				}
+
+				if (rarity < 1.0 && rand.Double() > rarity) {
+#ifdef DEBUG_OUTPUT
+					rarityrolls++;
+#endif
+					chosenBuilding = NULL;
+					continue;
+				}
+			}
+
+			if (chosenBuilding == NULL) {
+				if ((citybits[x][z >> 3] & (128 >> (z & 7))) == 0) {
+					chosenBuilding = &buildings->buildings[simplebuildings[rand.Int32(numberofSimplebuildings)]];
+				}
+				else
+					continue;
+			}
+			
+			// building offset modifiers (from details.json)
+			if (chosenBuilding->x_offset)
+				x_offset = chosenBuilding->x_offset;
+			if (chosenBuilding->z_offset)
+				z_offset = chosenBuilding->z_offset;
+			
+			// multicell layout (from details.json)
+			if (chosenBuilding->layout > 0) {
+				setCityCellsOccupied(x, z, chosenBuilding->layout);
+				x_offset += chosenBuilding->layout * cellsize / 2;
+				z_offset += chosenBuilding->layout * cellsize / 2;
+			}
+
+			if (x_offset > 0 || z_offset > 0) {
+				cent = station_position + mx * ((x - citygridmidpoint) * cellsize + x_offset) + mz * ((z - citygridmidpoint) * cellsize + z_offset);
+				x_offset = z_offset = 0;
+			} else {
+				cent = cent_mx_cache + mz * ((z - citygridmidpoint) * cellsize);
+			}
 			cent = cent.Normalized();
 
 			const double height = planet->GetTerrainHeight(cent);
@@ -292,10 +509,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 
 			cent = cent * height;
 
-			// quickly get a random building
-			const citybuilding_t &bt = buildings->buildings[rand.Int32(buildings->numBuildings)];
-			const CollMesh *cmesh = bt.collMesh.Get(); // collision mesh
-
+			const CollMesh *cmesh = chosenBuilding->collMesh.Get(); // collision mesh
 			// rotate the building to face a random direction
 			const int32_t orient = rand.Int32(4);
 			// FIXME: geoms need a userdata to tell gameplay code what we actually hit.
@@ -304,13 +518,22 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 			Geom *geom = new Geom(cmesh->GetGeomTree(), orientcalc[orient], cent, GetPlanet());
 
 			// add it to the list of buildings to render
-			m_buildings.push_back({ bt.instIndex, float(cmesh->GetRadius()), orient, cent, geom });
+			m_buildings.push_back({ chosenBuilding->index, float(cmesh->GetRadius()), orient, cent, geom });
+#ifdef DEBUG_OUTPUT
+			placed++;
+#endif
 		}
 	}
 
+#ifdef DEBUG_OUTPUT
+	// This is statistics for debug and profiling purposes
+	Output("CityOnPlanet: skipped %i, placed %i, emptycells %i, occupiedcells %i, loopcells %i, rarityrolls %i, buildings reserved space: %i\n",
+		skipped, placed, emptycells, occupiedcells, loopcells, rarityrolls, (cityradius * cityradius));
+#endif
+
 	Aabb buildAABB;
 	for (std::vector<BuildingDef>::const_iterator iter = m_buildings.begin(), itEND = m_buildings.end(); iter != itEND; ++iter) {
-		buildAABB.Update((*iter).pos - p);
+		buildAABB.Update((*iter).pos - station_position);
 	}
 	m_realCentre = buildAABB.min + ((buildAABB.max - buildAABB.min) * 0.5);
 	m_clipRadius = buildAABB.GetRadius();
@@ -348,7 +571,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 
 	// update any idle animations
 	for (Uint32 i = 0; i < s_buildingList.numBuildings; i++) {
-		SceneGraph::Animation *pAnim = s_buildingList.buildings[i].idle;
+		SceneGraph::Animation *pAnim = s_buildingList.buildings[i].idleanimation;
 		if (pAnim) {
 			pAnim->SetProgress(fmod(pAnim->GetProgress() + (Pi::game->GetTimeStep() / pAnim->GetDuration()), 1.0));
 			pAnim->Interpolate();
