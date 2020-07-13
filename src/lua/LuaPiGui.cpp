@@ -469,6 +469,24 @@ static int l_pigui_get_column_width(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: ui.setColumnWidth
+ *
+ * For not dividing column widths equally
+ *
+ * > ui.setColumnWidth(column_index, width)
+ *
+ * Example:
+ *
+ * > ui.columns(2, "mycolum", true)
+ * > ui.setColumnWidth(0, ui.getWindowSize().x*0.8)
+ *
+ * Parameters:
+ *
+ *   column_index - integer, which column width to set, first being 0
+ *   width - float, width to set
+ *
+ */
 static int l_pigui_set_column_width(lua_State *l)
 {
 	int column_index = LuaPull<int>(l, 1);
@@ -799,6 +817,30 @@ static int l_pigui_path_stroke(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: selectable
+ *
+ * Determine if a text was slected or not
+ *
+ * > clicked = ui.selectable(text, is_selectable, flag)
+ *
+ * Example:
+ *
+ * > if ui.selectable("Fly me to the moon", true) then
+ * >     buyRocketShip()
+ * > end
+ *
+ * Parameters:
+ *
+ *   text - string, text
+ *   is_selectable - boolean, wheater or not a text field is highlighted by mouse over
+ *   flag - optional, selectable flag
+ *
+ * Return:
+ *
+ *   clicked - bool, true if was clicked, else false
+ *
+ */
 static int l_pigui_selectable(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -918,6 +960,18 @@ static int l_pigui_button_image_sized(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: textWrapped
+ *
+ * Wrap text, if too long, suitable for English, and similar languages
+ *
+ * > ui.textWrapped(text)
+ *
+ * Parameters:
+ *
+ *   text - string, text string, possibly longer than a single line
+ *
+ */
 static int l_pigui_text_wrapped(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2165,6 +2219,29 @@ static int l_pigui_end_tab_item(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: inputText
+ *
+ * A field for text input
+ *
+ * > text_entered, entered = ui.inputText(label, text_displayed, flag)
+ *
+ * Example:
+ *
+ * > text, changed = ui.inputText(label, text, {"EnterReturnsTrue"})
+ *
+ * Parameters:
+ *
+ *   label - A unique string labeling the widget
+ *   text_displayed - Default text in field
+ *   flag - <inputTextFlags>
+ *
+ * Returns:
+ *
+ *   text_entered - text entered
+ *   changed - bool, true if text was entered
+ *
+ */
 static int l_pigui_input_text(lua_State *l)
 {
 	PROFILE_SCOPED()

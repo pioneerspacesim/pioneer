@@ -84,6 +84,20 @@ static int l_set_nav_target(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: SetSetSpeedTarget
+ *
+ * Set the "set speed" of player's ship
+ *
+ * Example:
+ *
+ * > player:SetSetSpeedTarget(body)
+ *
+ * Parameters:
+ *
+ *   body - <Body> relative to witch speed is set relative to
+ *
+ */
 static int l_set_set_speed_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
@@ -92,6 +106,20 @@ static int l_set_set_speed_target(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: ChangeSetSpeed
+ *
+ * Set the "set speed" of player's ship
+ *
+ * Example:
+ *
+ * > player:ChangeSetSpeed(delta)
+ *
+ * Parameters:
+ *
+ *   delta - Float, by how much to change current set speed
+ *
+ */
 static int l_change_set_speed(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
@@ -488,6 +516,20 @@ static int l_get_heading_pitch_roll(lua_State *l)
 	return 3;
 }
 
+/*
+ * Function: SetRotationDamping
+ *
+ * Set rotation dampening on or off of player's ship
+ *
+ * Example:
+ *
+ * > player:SetRotationDamping(is_on)
+ *
+ * Parameters:
+ *
+ *   is_on - boolean
+ *
+ */
 static int l_set_rotation_damping(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -496,6 +538,20 @@ static int l_set_rotation_damping(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: GetRotationDamping
+ *
+ * Get rotation dampening state of player's ship
+ *
+ * Example:
+ *
+ * > state = player:GetRotationDamping()
+ *
+ * Returns:
+ *
+ *   state - bool
+ *
+ */
 static int l_get_rotation_damping(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -503,6 +559,16 @@ static int l_get_rotation_damping(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: ToggleRotationDamping
+ *
+ * Toggle rotation dampening on/off
+ *
+ * Example:
+ *
+ * > player:ToggleRotationDamping()
+ *
+ */
 static int l_toggle_rotation_damping(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -510,6 +576,26 @@ static int l_toggle_rotation_damping(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: GetGPS()
+ *
+ * Get altitude, speed, and position of player's ship
+ *
+ * Example:
+ *
+ * > alt, vspd, lat, long = player:GetGPS()
+ *
+ * Returns:
+ *
+ *   alt - altitude
+ *
+ *   vspd - vertical speed
+ *
+ *   latitude - latitude
+ *
+ *   longitude - longitude
+ *
+ */
 static int l_get_gps(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);

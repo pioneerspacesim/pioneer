@@ -10,6 +10,7 @@ local Equipment = require 'Equipment'
 local Format = require 'Format'
 local Event = require 'Event'
 local Lang = require 'Lang'
+local FlightLog = require ("FlightLog")
 
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
@@ -42,6 +43,7 @@ local startLocations = {
 	{['name']=lui.START_AT_MARS,
 	 ['desc']=lui.START_AT_MARS_DESC,
 	 ['location']=SystemPath.New(0,0,0,0,18),
+	 ['logmsg']=lui.START_LOG_ENTRY_1,
 	 ['shipType']='sinonatrix',['money']=100,['hyperdrive']=true,
 	 ['equipment']={
 		{laser.pulsecannon_1mw,1},
@@ -52,6 +54,7 @@ local startLocations = {
 	{['name']=lui.START_AT_NEW_HOPE,
 	 ['desc']=lui.START_AT_NEW_HOPE_DESC,
 	 ['location']=SystemPath.New(1,-1,-1,0,4),
+	 ['logmsg']=lui.START_LOG_ENTRY_2,
 	 ['shipType']='pumpkinseed',['money']=100,['hyperdrive']=true,
 	 ['equipment']={
 		{laser.pulsecannon_1mw,1},
@@ -62,6 +65,7 @@ local startLocations = {
 	{['name']=lui.START_AT_BARNARDS_STAR,
 	 ['desc']=lui.START_AT_BARNARDS_STAR_DESC,
 	 ['location']=SystemPath.New(-1,0,0,0,16),
+	 ['logmsg']=lui.START_LOG_ENTRY_3,
 	 ['shipType']='xylophis',['money']=100,['hyperdrive']=false,
 	 ['equipment']={
 		{misc.atmospheric_shielding,1},
@@ -158,6 +162,7 @@ local function startAtLocation(location)
 	for _,equip in pairs(location.equipment) do
 		Game.player:AddEquip(equip[1],equip[2])
 	end
+	FlightLog.MakeCustomEntry(location.logmsg)
 end
 
 local function callModules(mode)

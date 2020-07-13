@@ -122,18 +122,19 @@ local function showDvLine(leftIcon, resetIcon, rightIcon, key, Formatter, leftTo
 			end
 		end
 	end
-	local press = ui.coloredSelectedIconButton(leftIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, leftTooltip, nil, key)
+	local id =  "##" .. key
+	local press = ui.coloredSelectedIconButton(leftIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, leftTooltip..id, nil)
 	if press or (key ~= "factor" and ui.isItemActive()) then
 		systemView:TransferPlannerAdd(key, -10)
 	end
 	wheel()
 	ui.sameLine()
-	if ui.coloredSelectedIconButton(resetIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, resetTooltip, nil, key) then
+	if ui.coloredSelectedIconButton(resetIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, resetTooltip..id, nil) then
 		systemView:TransferPlannerReset(key)
 	end
 	wheel()
 	ui.sameLine()
-	press = ui.coloredSelectedIconButton(rightIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, rightTooltip, nil, key)
+	press = ui.coloredSelectedIconButton(rightIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, rightTooltip..id, nil)
 	if press or (key ~= "factor" and ui.isItemActive()) then
 		systemView:TransferPlannerAdd(key, 10)
 	end
@@ -433,7 +434,7 @@ local function displayOnScreenObjects()
 				if (isShip or isSystemBody and mainObject.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
 					if isSystemBody then
 						player:SetNavTarget(mainObject.ref.physicsBody)
-					else 
+					else
 						if combatTarget == mainObject.ref then player:SetCombatTarget(nil) end
 						player:SetNavTarget(mainObject.ref)
 					end
