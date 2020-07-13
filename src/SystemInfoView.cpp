@@ -50,7 +50,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 			Body *body = m_game->GetSpace()->FindBodyForPath(&path);
 			if (body != 0)
 				Pi::player->SetNavTarget(body);
-		} else if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) { // We allow hyperjump to any star of the system
+		} else if (b->IsJumpable()) {
 			m_game->GetSectorView()->SwitchToPath(path);
 		}
 	}

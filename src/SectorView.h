@@ -45,7 +45,6 @@ public:
 	void GotoCurrentSystem() { GotoSystem(m_current); }
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
-	void SwapSelectedHyperspaceTarget();
 	bool IsCenteredOn(const SystemPath &path);
 	void SaveToJson(Json &jsonObj) override;
 
@@ -76,7 +75,7 @@ public:
 	bool RemoveRouteItem(const std::vector<SystemPath>::size_type element);
 	void ClearRoute();
 	std::vector<SystemPath> GetRoute();
-	void AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const;
+	const std::string AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const;
 	void SetDrawRouteLines(bool value) { m_drawRouteLines = value; }
 
 	static struct InputBinding : public Input::InputFrame {
@@ -131,7 +130,7 @@ private:
 	void AddStarBillboard(const matrix4x4f &modelview, const vector3f &pos, const Color &col, float size);
 
 	void OnClickSystem(const SystemPath &path);
-	int CheckIndexInRoute(const SystemPath &path);
+	const SystemPath &CheckPathInRoute(const SystemPath &path);
 
 	RefCountedPtr<Sector> GetCached(const SystemPath &loc) { return m_sectorCache->GetCached(loc); }
 	void ShrinkCache();

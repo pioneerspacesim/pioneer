@@ -1311,6 +1311,10 @@
     "description": "",
     "message": "No missions."
   },
+  "NO_VALID_ROUTE": {
+    "description": "Message in the sector map, issued by the autoroute function.",
+    "message": "No valid route to the selected system."
+  },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
     "message": "{range} light years ({maxRange} max)"

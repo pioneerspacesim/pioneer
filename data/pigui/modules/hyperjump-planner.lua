@@ -10,6 +10,7 @@ local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core");
 
 local ui = require 'pigui'
+local mb = require 'pigui.libs.message-box'
 
 local player = nil
 local colors = ui.theme.colors
@@ -176,6 +177,7 @@ local function updateHyperspaceTarget()
 		sectorView:SetHyperspaceTarget(hyperjump_route[1].path)
 	else
 		sectorView:ResetHyperspaceTarget()
+		selected_jump = nil
 	end
 end
 
@@ -225,14 +227,18 @@ local function showJumpRoute()
 		mainButton(icons.retrograde_thin, lui.CLEAR_ROUTE,
 			function()
 				sectorView:ClearRoute()
-				selected_jump = nil
 				updateHyperspaceTarget()
 		end)
 		ui.sameLine()
 
 		mainButton(icons.hyperspace, lui.AUTO_ROUTE,
 			function()
-				sectorView:AutoRoute()
+				local result = sectorView:AutoRoute()
+				if result == "NO_DRIVE" then
+					mb.OK(lui.NO_DRIVE)
+				elseif result == "NO_VALID_ROUTE" then
+					mb.OK(lui.NO_VALID_ROUTE)
+				end
 				updateHyperspaceTarget()
 		end)
 		ui.sameLine()
@@ -359,6 +365,13 @@ function hyperJumpPlanner.onEnterSystem(ship)
 			end
 		end
 	updateHyperspaceTarget()
+end
+
+function hyperJumpPlanner.onGameEnd(ship)
+	-- clear the route out so it doesn't show up if the user starts a new game
+	sectorView:ClearRoute()
+	-- also clear the route list, saved in this module
+	buildJumpRouteList()
 end
 
 return hyperJumpPlanner

@@ -1,4 +1,7 @@
 July 2020
+   * New Features
+     * Plentiful tweaks to sector map (#4906)
+
    * Fixes
      * Fix buying commodities not subtracting station stock (#4909)
      * Fix hyperdrive last service date being wrong (#4910)

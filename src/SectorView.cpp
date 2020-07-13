@@ -367,7 +367,7 @@ void SectorView::SetSelected(const SystemPath &path)
 		m_selected = path;
 	else if (path.IsSystemPath()) {
 		RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(path);
-		m_selected = system->GetStars()[CheckIndexInRoute(path)]->GetPath();
+		m_selected = CheckPathInRoute(system->GetStars()[0]->GetPath());
 	}
 }
 
@@ -378,34 +378,18 @@ void SectorView::SwitchToPath(const SystemPath &path)
 		GotoSystem(path);
 }
 
-void SectorView::SwapSelectedHyperspaceTarget()
-{
-	SystemPath tmpTarget = GetHyperspaceTarget();
-	SetHyperspaceTarget(GetSelected());
-	if (m_automaticSystemSelection) {
-		GotoSystem(tmpTarget);
-	} else {
-		RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(tmpTarget);
-		SetSelected(system->GetStars()[CheckIndexInRoute(tmpTarget)]->GetPath());
-	}
-}
-
 void SectorView::OnClickSystem(const SystemPath &path)
 {
 	SwitchToPath(path);
 }
 
-// check the route, maybe this system is there, then we'll take star number from there
-// if single system, bodyindex = 0; if multisystem, bodyindex = (0 or 1),2 ...
-int SectorView::CheckIndexInRoute(const SystemPath &path)
+// check the route, maybe this system is there, then we'll take the path from the route
+const SystemPath &SectorView::CheckPathInRoute(const SystemPath &path)
 {
-	for (auto &p : m_route)
-		if (p.IsSameSystem(path)) {
-			if (p.bodyIndex > 0)
-				return p.bodyIndex - 1;
-			return 0;
-		}
-	return 0;
+	for (const auto &p : m_route)
+		if (p.IsSameSystem(path))
+			return p;
+	return path;
 }
 
 void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &origin, int drawRadius)
@@ -636,13 +620,16 @@ std::vector<SystemPath> SectorView::GetRoute()
 	return m_route;
 }
 
-void SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const
+const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const
 {
 	const RefCountedPtr<const Sector> start_sec = m_galaxy->GetSector(start);
 	const RefCountedPtr<const Sector> target_sec = m_galaxy->GetSector(target);
 
+	LuaRef try_hdrive = LuaObject<Player>::CallMethod<LuaRef>(Pi::player, "GetEquip", "engine", 1);
+	if (try_hdrive.IsNil())
+		return "NO_DRIVE";
 	// Get the player's hyperdrive from Lua, later used to calculate the duration between systems
-	const ScopedTable hyperdrive = ScopedTable(LuaObject<Player>::CallMethod<LuaRef>(Pi::player, "GetEquip", "engine", 1));
+	const ScopedTable hyperdrive = ScopedTable(try_hdrive);
 	// Cache max range so it doesn't get recalculated every time we call GetDuration
 	const float max_range = hyperdrive.CallMethod<float>("GetMaximumRange", Pi::player);
 
@@ -764,7 +751,9 @@ void SectorView::AutoRoute(const SystemPath &start, const SystemPath &target, st
 			u = path_prev[u];
 		}
 		std::reverse(std::begin(outRoute), std::end(outRoute));
+		return "OKAY";
 	}
+	return "NO_VALID_ROUTE";
 }
 
 void SectorView::DrawRouteLines(const vector3f &playerAbsPos, const matrix4x4f &trans)
@@ -1160,7 +1149,7 @@ void SectorView::Update()
 
 			if (!m_selected.IsSameSystem(new_selected)) {
 				RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(new_selected);
-				SetSelected(system->GetStars()[CheckIndexInRoute(new_selected)]->GetPath());
+				SetSelected(CheckPathInRoute(system->GetStars()[0]->GetPath()));
 			}
 		}
 	}
