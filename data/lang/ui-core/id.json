@@ -35,6 +35,10 @@
     "description": "",
     "message": "An error has occurred"
   },
+  "ARRIVAL_DATE": {
+    "description": "Time of arrival, used in flight log",
+    "message": "Arrival date"
+  },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
     "message": "Atmospheric shielding"
@@ -259,6 +263,10 @@
     "description": "Player combat rating",
     "message": "Dangerous"
   },
+  "DATE": {
+    "description": "Date of an event, used in flight log",
+    "message": "Date"
+  },
   "DEADLY": {
     "description": "Player combat rating",
     "message": "Deadly"
@@ -282,6 +290,10 @@
   "DELTA_V_MAX": {
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Delta-v (max)"
+  },
+  "DEPARTURE_DATE": {
+    "description": "Time of departure, used in flight log",
+    "message": "Departure date"
   },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
@@ -359,6 +371,10 @@
     "description": "",
     "message": "Economy & Trade"
   },
+  "EDIT": {
+    "description": "Tooltip, to edit a flight log entry",
+    "message": "Edit"
+  },
   "EFFECTS": {
     "description": "",
     "message": "Effects:"
@@ -402,6 +418,10 @@
   "ENGINEERING": {
     "description": "Engineering skills of crew",
     "message": "Engineering:"
+  },
+  "ENTRY": {
+    "description": "A note/entry/record into the flight log",
+    "message": "Entry"
   },
   "EQUIPMENT": {
     "description": "",
@@ -494,6 +514,42 @@
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
     "message": "Final Target:"
+  },
+  "FLIGHTLOG_DOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "Docking at {primary_info}"
+  },
+  "FLIGHTLOG_FLYING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
+    "message": "Flying in space, relative {primary_info}"
+  },
+  "FLIGHTLOG_HYPERSPACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "In Hyperspace, enroute to {primary_info}"
+  },
+  "FLIGHTLOG_JUMPING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "Hyper jumping towards {primary_info}"
+  },
+  "FLIGHTLOG_LANDED": {
+    "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
+    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+  },
+  "FLIGHTLOG_STARPORT_ORBITAL": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "Docked at {primary_info}, in orbit around {secondary_info}"
+  },
+  "FLIGHTLOG_STARPORT_SURFACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "Docked at {primary_info}, on {secondary_info}"
+  },
+  "FLIGHTLOG_UNDOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "Undocking at {primary_info}"
+  },
+  "FLIGHT_LOG": {
+    "description": "Title for flight log screen, in info view",
+    "message": "Flight Log"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -999,6 +1055,10 @@
     "description": "",
     "message": "In stock"
   },
+  "IN_SYSTEM": {
+    "description": "Used in flight log, show which star system we are/were in",
+    "message": "In system"
+  },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
     "message": "This item is out of stock."
@@ -1090,6 +1150,22 @@
   "LOCATION": {
     "description": "",
     "message": "Location"
+  },
+  "LOG_CUSTOM": {
+    "description": "Label tab for showing custom logged events",
+    "message": "Custom Log"
+  },
+  "LOG_NEW": {
+    "description": "Indicate to make an entry into flight log system",
+    "message": "New Entry"
+  },
+  "LOG_STATION": {
+    "description": "Label tab for showing logged station events",
+    "message": "Station Log"
+  },
+  "LOG_SYSTEM": {
+    "description": "Label tab for showing logged system events",
+    "message": "System Log"
   },
   "LOW": {
     "description": "",
@@ -1311,6 +1387,10 @@
     "description": "",
     "message": "No missions."
   },
+  "NO_VALID_ROUTE": {
+    "description": "Message in the sector map, issued by the autoroute function.",
+    "message": "No valid route to the selected system."
+  },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
     "message": "{range} light years ({maxRange} max)"
@@ -1490,6 +1570,10 @@
   "RELIABLE": {
     "description": "For player reputation",
     "message": "Reliable"
+  },
+  "REMOVE": {
+    "description": "Remove, e.g. deleting a log entry",
+    "message": "Remove"
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
@@ -1687,9 +1771,25 @@
     "description": "",
     "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
   },
+  "START_LOG_ENTRY_1": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
+    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+  },
+  "START_LOG_ENTRY_2": {
+    "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
+    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+  },
+  "START_LOG_ENTRY_3": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
+    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+  },
   "STAR_FIELD_DENSITY": {
     "description": "",
     "message": "Density of Star field"
+  },
+  "STATION": {
+    "description": "Flight log info, will refer to a station by name",
+    "message": "Station"
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
