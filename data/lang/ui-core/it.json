@@ -37,7 +37,7 @@
   },
   "ARRIVAL_DATE": {
     "description": "Time of arrival, used in flight log",
-    "message": "Arrival date"
+    "message": "Giorno di arrivo"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
@@ -265,7 +265,7 @@
   },
   "DATE": {
     "description": "Date of an event, used in flight log",
-    "message": "Date"
+    "message": "Data"
   },
   "DEADLY": {
     "description": "Player combat rating",
@@ -293,7 +293,7 @@
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
-    "message": "Departure date"
+    "message": "Giorno della partenza"
   },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
@@ -373,7 +373,7 @@
   },
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
-    "message": "Edit"
+    "message": "Modifica"
   },
   "EFFECTS": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
-    "message": "Entry"
+    "message": "Voce"
   },
   "EQUIPMENT": {
     "description": "",
@@ -517,39 +517,39 @@
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Docking at {primary_info}"
+    "message": "Attracco a {primary_info}"
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
-    "message": "Flying in space, relative {primary_info}"
+    "message": "In volo spaziale, relativo a {primary_info}"
   },
   "FLIGHTLOG_HYPERSPACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "In Hyperspace, enroute to {primary_info}"
+    "message": "Nell'Iperspazio, in rotta verso {primary_info}"
   },
   "FLIGHTLOG_JUMPING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "Hyper jumping towards {primary_info}"
+    "message": "Salto iperspaziale verso {primary_info}"
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+    "message": "Atterrato a {primary_info}, posizione ({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, in orbit around {secondary_info}"
+    "message": "Attraccato a {primary_info}, in orbita attorno a {secondary_info}"
   },
   "FLIGHTLOG_STARPORT_SURFACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, on {secondary_info}"
+    "message": "Attraccato a {primary_info}, su {secondary_info}"
   },
   "FLIGHTLOG_UNDOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Undocking at {primary_info}"
+    "message": "Salpando da {primary_info}"
   },
   "FLIGHT_LOG": {
     "description": "Title for flight log screen, in info view",
-    "message": "Flight Log"
+    "message": "Diario di Volo"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -1057,7 +1057,7 @@
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
-    "message": "In system"
+    "message": "Nel sistema"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -1153,19 +1153,19 @@
   },
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
-    "message": "Custom Log"
+    "message": "Voci di diario personalizzate"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
-    "message": "New Entry"
+    "message": "Nuova voce"
   },
   "LOG_STATION": {
     "description": "Label tab for showing logged station events",
-    "message": "Station Log"
+    "message": "Diario della Stazione"
   },
   "LOG_SYSTEM": {
     "description": "Label tab for showing logged system events",
-    "message": "System Log"
+    "message": "Diario del Sistema"
   },
   "LOW": {
     "description": "",
@@ -1389,7 +1389,7 @@
   },
   "NO_VALID_ROUTE": {
     "description": "Message in the sector map, issued by the autoroute function.",
-    "message": "No valid route to the selected system."
+    "message": "Non ci sono rotte valide verso il sistema scelto."
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
@@ -1773,15 +1773,15 @@
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
-    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+    "message": "Sfortunatamente, finché era in vita, lo zio non mi ha mai mostrato come guidare questo vecchio barcone, ma penso che ora scriverò una voce in questo diario di bordo. È strano, mi sembra di sentirlo, come se fosse dentro le pareti di questa nave. Forse potrebbe diventare il mio co-pilota ed assieme potremmo seguire il nostro destino nel grande vuoto. Ma prima, ho bisogno di comprare un po' di idrogeno per il motore di salto, impostare una rotta verso qualche redditizia opportunità e pregare i cieli che il controllo del volo aereo permetta ad un pilota inesperto come me di decollare, ed allora vedremo cos'è capace di fare questa piccolina. È tempo di costruirmi una reputazione!"
   },
   "START_LOG_ENTRY_2": {
     "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
-    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+    "message": "I miei stivali sono ancora madidi per il temporale di ieri notte, nel tornare a casa. Il marciapiede era così bagnato che - forse per una sorta di vendetta - inzuppò il cielo notturno con il bagliore riflesso dai cartelli al neon che ci squadrano dall'alto sopra la strada umida. Ma ce la feci, solcando la pioggia, a raggiungere la mia coincidenza allo spazioporto dove la mia nuova nave mi stava aspettando. La sicurezza del porto mi guardò in modo strano quando dissi loro che ero lì per ritirare una nave. Immagino di non avere avuto l'aspetto del tipico spaziale, dopo aver venduto tutto ciò che potevo per investire in questa vecchia bagnarola, mentre stavo di fronte ad esso con gli stivali fradici e tutto il resto. Ma ora sento davvero che da questo momento il mio futuro sarà scritto nelle stelle. Ora, devo solo trovare la chiave di accensione."
   },
   "START_LOG_ENTRY_3": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
-    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+    "message": "Dopo un lungo processo burocratico, finalmente ho potuto riavere la mia nave sequestrata, ma me l'hanno spogliata di ogni cosa per ripagare 'il debito' che sostengono io avessi. Non solo mi hanno portato via la mia caffettiera preferita, ma quei bastardi hanno anche strappato via il motore iperspaziale, lasciandomi così bloccato in questo sistema... a meno di non vendere quel poco che è rimasto nella nave per pagarmi una nuova iperguida. Ma come si dice: non tutto il male vien per nuocere; quindi, anche se sono tornato al segnalino del 'Via', la prenderò come un'opportunità anziché un contrattempo. Ma senza il caffè. Lasciandosene andare l'io che ero, potrò diventare ciò che vorrò. Il mondo si farà da parte per farmi passare, come fa per quelli che sanno bene dove stanno andando, ed io sono diretto alle stelle."
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
@@ -1789,7 +1789,7 @@
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
-    "message": "Station"
+    "message": "Stazione"
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
