@@ -291,6 +291,10 @@
     "description": "",
     "message": "Just land at a station with a {org} office."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message":  "You need to have a radar installed in order to complete this mission."
+  },
   "RISK_1": {
     "description": "",
     "message": "The competitor has only limited resources. Nothing you can't handle."

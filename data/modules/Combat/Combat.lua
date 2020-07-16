@@ -140,29 +140,35 @@ local onChat = function (form, ref, option)
 		end
 
 	elseif option == 5 then
-		form:RemoveAdvertOnClose()
-		ads[ref] = nil
-		local mission = {
-			type        = "Combat",
-			client      = ad.client,
-			faction     = Game.system.faction.id,
-			org         = ad.org,
-			location    = ad.location,
-			rendezvous  = ad.rendezvous,
-			mercenaries = {},
-			introtext   = ad.introtext,
-			flavour     = ad.flavour,
-			in_progress = false,
-			complete    = false,
-			risk        = ad.risk,
-			dedication  = ad.dedication,
-			reward      = ad.reward,
-			bonus       = -(math.ceil(ad.dedication * 3) - 1),
-			due         = ad.due,
-		}
-		table.insert(missions,Mission.New(mission))
-		form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
-		return
+		if Game.player:GetEquip('radar', 1) then
+			form:RemoveAdvertOnClose()
+			ads[ref] = nil
+			local mission = {
+				type        = "Combat",
+				client      = ad.client,
+				faction     = Game.system.faction.id,
+				org         = ad.org,
+				location    = ad.location,
+				rendezvous  = ad.rendezvous,
+				mercenaries = {},
+				introtext   = ad.introtext,
+				flavour     = ad.flavour,
+				in_progress = false,
+				complete    = false,
+				risk        = ad.risk,
+				dedication  = ad.dedication,
+				reward      = ad.reward,
+				bonus       = -(math.ceil(ad.dedication * 3) - 1),
+				due         = ad.due,
+			}
+			table.insert(missions,Mission.New(mission))
+			form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
+			return
+		else
+			form:SetMessage(l.RADAR_NOT_INSTALLED)
+			form:RemoveNavButton()
+			return
+		end
 
 	end
 
