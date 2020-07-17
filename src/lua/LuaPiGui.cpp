@@ -480,6 +480,18 @@ static int l_pigui_columns(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: getColumnWidth
+ *
+ * Return width of column, as float
+ *
+ * > local col_width = ui.getColumnWidth()
+ *
+ * Returns:
+ *
+ *   col_width - float, width of column
+ *
+ */
 static int l_pigui_get_column_width(lua_State *l)
 {
 	int column_index = LuaPull<int>(l, 1, -1);
@@ -515,6 +527,19 @@ static int l_pigui_set_column_width(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: setColumnOffset
+ *
+ * Set offset of column
+ *
+ * >  ui.setColumnOffset(index, width)
+ *
+ * Parameters:
+ *
+ *   index - int, index of column
+ *   width - float, offset of x coordinate
+ *
+ */
 static int l_pigui_set_column_offset(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -524,6 +549,18 @@ static int l_pigui_set_column_offset(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: getScrollY
+ *
+ * returns a float
+ *
+ * > local scroll = ui.getScrollY()
+ *
+ * Returns:
+ *
+ *   scroll - float
+ *
+ */
 static int l_pigui_get_scroll_y(lua_State *l)
 {
 	PROFILE_SCOPED()

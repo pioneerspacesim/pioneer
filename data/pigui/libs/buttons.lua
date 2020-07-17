@@ -40,25 +40,27 @@ end
 --
 -- Function: ui.coloredSelectedButton
 --
--- ui.coloredSelectedButton(label, thesize, is_selected, bg_color, tooltip, enabled)
+-- > clicked = ui.coloredSelectedIconButton(label, button_size, is_selected,
+-- >               bg_color, tooltip, enabled)
+--
 --
 -- Example:
 --
--- >
+-- > clicked = ui.coloredSelectedButton("Click me", Vector2(100,0), false,
+-- >               ui.theme.colors.buttonBlue, "Does the thing", true)
 --
 -- Parameters:
 --
---   label       - string,
---   thesize     - Vector2,
---   is_selected - boolean,
---   bg_color    - Color, for background
---   fg_color    - Color, for forground
---   tint_color  - Color,
---   tooltip     - string, mouseover text, will be used as ID, must be unique, append "##uniqueID" if needed
+--   label - string, text rendered on the button, must be unique, can append with "##..."
+--   thesize - Vector2 object, giving size of button
+--   is_selected - boolean, if false, uses a darker tint of the button
+--   bg_color - Color(R,G,B), for background
+--   tooltip - string, mouseover text
+--   enabled - enable tootip text and highlight of button when mouse over
 --
 -- Returns:
 --
---   boolean - true if button was clicked
+--   clicked - true if button was clicked, (note: is_selected and enabled does not affect this)
 --
 function ui.coloredSelectedButton(label, thesize, is_selected, bg_color, tooltip, enabled)
 	if is_selected then
@@ -93,7 +95,7 @@ end
 --
 -- Function: ui.coloredSelectedIconButton
 --
--- > clicked = ui.coloredSelectedIconButton(icon, button_size, is_selected,
+-- > clicked = ui.coloredSelectedIconButton(icon, thesize, is_selected,
 -- >               frame_padding, bg_color, fg_color, tooltip, img_size)
 --
 --
@@ -105,7 +107,7 @@ end
 -- Parameters:
 --
 --   icon - image to place on button, e.g. from ui.theme.icons
---   button_size - size of button, Vector2
+--   thesize - size of button, Vector2
 --   is_selected - bool
 --   frame_padding - number
 --   bg_color - Color(R,G,B), for background
