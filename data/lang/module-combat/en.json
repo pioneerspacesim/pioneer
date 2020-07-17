@@ -293,7 +293,7 @@
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
-    "message":  "You need to have a radar installed in order to complete this mission."
+    "message":  "Sorry, I don't think you can handle this without a radar."
   },
   "RISK_1": {
     "description": "",
