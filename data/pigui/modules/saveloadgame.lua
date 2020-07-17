@@ -21,9 +21,7 @@ local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
 local popupOpened = false
 
-local mainButtonSize = Vector2(40,40) * (ui.screenHeight / 1200)
-local optionButtonSize = Vector2(125,40) * (ui.screenHeight / 1200)
-local bindingButtonSize = Vector2(135,25) * (ui.screenHeight / 1200)
+local optionButtonSize = ui.rescaleUI(Vector2(150,25), Vector2(1920,1080))
 local mainButtonFramePadding = 3
 
 local saveFileCache = {}
@@ -129,6 +127,7 @@ ui.saveLoadWindow = ModalWindow.New("LoadGame", function()
 
 	showSaveFiles()
 end, function (self, drawPopupFn)
+	ui.setNextWindowSize(ui.rescaleUI(Vector2(640, 400), Vector2(1920,1080)), "Always")
 	ui.setNextWindowPosCenter('Always')
 	ui.withStyleColorsAndVars({PopupBg = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
 end)
