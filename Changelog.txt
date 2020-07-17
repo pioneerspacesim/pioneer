@@ -2,6 +2,7 @@ July 2020
    * New Features
      * Captains log added to info-view (#4795)
      * Plentiful tweaks to sector map (#4906)
+     * Make size of load/save dialogue window sane (#4912)
 
    * Fixes
      * Fix buying commodities not subtracting station stock (#4909)
