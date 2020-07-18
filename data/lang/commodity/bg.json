@@ -5,7 +5,7 @@
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+    "message": "Чистият въздух се приема за даденост, само когато е в изобилие. Вярва се, че техниката за пречистване на въздуха е с марсиански произход. Много фирми произвеждат въздухопречистватели, които са способни да превърнат дори най-враждебната атмосфера в приятна за живеене среда, също така е важно да се отбележи, че правителствата не толелират монопола върху производството на въздух."
   },
   "ANIMAL_MEAT": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+    "message": "Макар и рядко, все още е възможно да се намери някой заблуден фермер с волски плуг. Реалността е, че почти навсякъде където има селски стопанства, се използват машини за обработването на земята."
   },
   "FERTILIZER": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+    "message": "Въпреки че има доста синтетични алтернативи, истинските плодове и зеленчуци все още са важна част от начина ни на хранене. Те се отглеждат в  селскостопанските светове и се изнасят към системи, в които отглеждането им не е възможно."
   },
   "GRAIN": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+    "message": "Осигурявайки допълнителна сигурност, извън дългата ръка на закона, тези оръжия са неизменна част от арсенала на космическите търговци в отдалечените системи. Обаче, много правителства третират малките оръжия като опасна стока, затова тяхната търговия и притежание е под строг контрол."
   },
   "HYDROGEN": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+    "message": "След извличане, металната руда се обработва и се превръща в различни сплави. Те са съвкупност от метали, комбинирани в точно определени пропорции за придобиване на специфични характристики. Следователно, повечето метални продукти са сплави."
   },
   "METAL_ORE": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+    "message": "В днешно време, робския труд се извършва от машините, в резултат на което робството е забранено и се счита за неморално. Въпреки всички хуманитарни усилия в тази насока, то все още съществува, дори в развитите светове."
   },
   "TEXTILES": {
     "description": "",
