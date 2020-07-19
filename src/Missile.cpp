@@ -176,8 +176,13 @@ void Missile::Explode()
 {
 	Pi::game->GetSpace()->KillBody(this);
 
-	const double damageRadius = 200.0;
-	const double kgDamage = 10000.0;
+	const double kgYield = 10000.0;
+	// we use the formula to compute the area of a sphere to compute the radius of the explosion by a given yield
+	// A = 4*PI*r^2
+	// -
+	// r = sqrt(A/(4*PI))
+	const double area = kgYield * 50.0; // formula to convert between yield to area, to compute the radius
+	const double damageRadius = sqrt(area/(4.0*M_PI));
 
 	CollisionContact dummy;
 	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, damageRadius);
@@ -186,7 +191,7 @@ void Missile::Explode()
 		double dist = (body->GetPosition() - GetPosition()).Length();
 		if (dist < damageRadius) {
 			// linear damage decay with distance
-			body->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius, dummy);
+			body->OnDamage(m_owner, kgYield * (damageRadius - dist) / damageRadius, dummy);
 			if (body->IsType(Object::SHIP))
 				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(body), m_owner);
 		}
