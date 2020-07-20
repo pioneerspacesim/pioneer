@@ -114,7 +114,7 @@ const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> ga
 		for (int i = 0; i < len; i++) {
 			name += sys_names[rng.Int32(0, SYS_NAME_FRAGS - 1)];
 		}
-		name += sys_names[SYS_NAME_FRAGS + ((sx * 23 + sy * 7) % SYS_NAME_FRAGS)]; // make name more unique, note that prime numbers are used to lower chance of collisions
+		name += sys_names[(SYS_NAME_FRAGS + ((sx * 23 + sy * 7) % SYS_NAME_FRAGS)) % SYS_NAME_FRAGS]; // make name more unique, note that prime numbers are used to lower chance of collisions
 		name[0] = toupper(name[0]);
 		return name;
 	} else if (weight < 800) {
