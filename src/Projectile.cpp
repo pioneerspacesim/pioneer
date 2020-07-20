@@ -210,9 +210,7 @@ void Projectile::TimeStepUpdate(const float timeStep)
 /* In hull kg */
 float Projectile::GetDamage() const
 {
-	return m_baseDam * sqrt((m_lifespan - m_age) / m_lifespan);
-	// TEST
-	//	return 0.01f;
+	return m_baseDam; // realistic damage, no decay because there is no drag in space
 }
 
 double Projectile::GetRadius() const
@@ -338,7 +336,6 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 
 	Color color = m_color;
 	// fade them out as they age so they don't suddenly disappear
-	// this matches the damage fall-off calculation
 	const float base_alpha = sqrt(1.0f - m_age / m_lifespan);
 	// fade out side quads when viewing nearly edge on
 	vector3f view_dir = vector3f(viewCoords).Normalized();
