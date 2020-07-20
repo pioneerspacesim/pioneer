@@ -194,24 +194,25 @@ void Missile::Explode()
 	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, queryRadius);
 	for (Body *body : nearby) {
 		if (body->GetFrame() != GetFrame()) continue;
-		double dist = (body->GetPosition() - GetPosition()).Length(); // distance from explosion in meter
+		const double dist = (body->GetPosition() - GetPosition()).Length(); // distance from explosion in meter
 
-		double targetRadius = 6.0; // radius of the hit target in meter
+		const double targetRadius = body->GetPhysRadius(); // radius of the hit target in meter
 
-		double areaSphere = calcAreaSphere(dist);
-		double crossSectionTarget = calcAreaCircle(targetRadius);
+		const double areaSphere = calcAreaSphere(dist);
+		const double crossSectionTarget = calcAreaCircle(targetRadius);
 		double ratioArea = crossSectionTarget / areaSphere; // compute ratio of areas to know how much energy was transfered to target
 		ratioArea = std::min(ratioArea, 1.0); // we must limit received energy to finite amount
 
-		double jReceivedEnergy = ratioArea * jYield; // compute received energy by blast
+		const double jReceivedEnergy = ratioArea * jYield; // compute received energy by blast
 
+		//Output("target.r %f\n", targetRadius);
 		//Output("dist %f\n", dist);
 		//Output("area sphere %f\n", areaSphere);
 		//Output("crossSectionTarget %f\n", crossSectionTarget);
 		//Output("ratio %f\n", ratioArea);
 		//Output("received energy %f\n", jReceivedEnergy);
 
-		double kgDamage = jReceivedEnergy * 0.000022; // received energy back to damage in pioneer "kg" unit
+		double kgDamage = jReceivedEnergy * 0.000016; // received energy back to damage in pioneer "kg" unit
 		//Output("dmg %f\n", kgDamage);
 
 		body->OnDamage(m_owner, kgDamage, dummy);
