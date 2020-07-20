@@ -12,6 +12,7 @@
 #include "libs.h"
 #include <cmath>
 #include <cstdio>
+#include <fstream>
 #include <sstream>
 
 std::string format_money(double cents, bool showCents)
@@ -633,5 +634,39 @@ void hexdump(const unsigned char *buf, int len)
 			Output("%c", isprint(buf[i + j]) ? buf[i + j] : '.');
 
 		Output("\n");
+	}
+}
+
+void CopyDir(std::string sourceDir, std::string targetDir, FileSystem::CopyMode copymode)
+{
+	// NOTE: copymode var is not used, because only mode ONLY_MISSING_IN_TARGET is implemented
+
+	FileSystem::FileSourceFS sourceFS(sourceDir);
+	FileSystem::FileSourceFS targetFS(targetDir);
+
+	// collect files, that are already in the target
+	// NOTE: modification time (in map value) probably will be needed in another mode
+	std::map<std::string, Time::DateTime> targetFiles;
+	for (FileSystem::FileEnumerator files(targetFS, "", FileSystem::FileEnumerator::Recurse | FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next())
+		targetFiles[files.Current().GetPath()] = files.Current().GetModificationTime();
+
+	for (FileSystem::FileEnumerator files(sourceFS, "", FileSystem::FileEnumerator::Recurse | FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next()) {
+		const FileSystem::FileInfo &info = files.Current();
+		const auto &oldFile = targetFiles.find(info.GetPath());
+		if (oldFile == targetFiles.end()) { // there is no such file (or dir) in the target
+			if (info.IsFile()) {
+				//copy file
+				std::ifstream infile(info.GetAbsolutePath().c_str(), std::ios::binary);
+				std::ofstream outfile(FileSystem::JoinPath(targetFS.GetRoot(), info.GetPath()), std::ios::binary);
+				outfile << infile.rdbuf();
+				//Output("copy %s to %s\n", info.GetAbsolutePath().c_str(), FileSystem::JoinPath(targetFS.GetRoot(), info.GetPath()));
+			} else if (info.IsDir()) {
+				//create the subdir
+				targetFS.MakeDirectory(info.GetPath());
+				//Output("create dir %s\n", FileSystem::JoinPath(targetFS.GetRoot(), info.GetPath()));
+			}
+		} else
+			//this file is no longer needed when searching
+			targetFiles.erase(oldFile);
 	}
 }

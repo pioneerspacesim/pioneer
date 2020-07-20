@@ -33,6 +33,8 @@ void Application::Startup()
 
 #ifdef PIONEER_PROFILER
 	FileSystem::userFiles.MakeDirectory("profiler");
+	// copy icons for the html report
+	CopyDir(FileSystem::JoinPath(FileSystem::GetDataDir(), "icons/profiler"), FileSystem::JoinPath(FileSystem::userFiles.GetRoot(), "profiler/img"), FileSystem::CopyMode::ONLY_MISSING_IN_TARGET);
 #endif
 
 	SDL_Init(SDL_INIT_EVENTS);

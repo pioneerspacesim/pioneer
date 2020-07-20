@@ -46,10 +46,6 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 	m_forceTimeAccel(false)
 {
 #ifdef PIONEER_PROFILER
-	std::string profilerPath;
-	FileSystem::userFiles.MakeDirectory("profiler");
-	FileSystem::userFiles.MakeDirectory("profiler/NewGame");
-	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler/NewGame");
 	Profiler::reset();
 #endif
 
@@ -94,7 +90,7 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 
 	EmitPauseState(IsPaused());
 #ifdef PIONEER_PROFILER
-	Profiler::dumphtml(profilerPath.c_str());
+	Profiler::dumphtml(FileSystem::JoinPathBelow(Pi::profilerPath, "NewGame").c_str());
 #endif
 }
 
@@ -921,10 +917,6 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	}
 
 #ifdef PIONEER_PROFILER
-	std::string profilerPath;
-	FileSystem::userFiles.MakeDirectory("profiler");
-	FileSystem::userFiles.MakeDirectory("profiler/saving");
-	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler/saving");
 	Profiler::reset();
 #endif
 
@@ -953,6 +945,6 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	}
 
 #ifdef PIONEER_PROFILER
-	Profiler::dumphtml(profilerPath.c_str());
+	Profiler::dumphtml(FileSystem::JoinPathBelow(Pi::profilerPath, "saving").c_str());
 #endif
 }

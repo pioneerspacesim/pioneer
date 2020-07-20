@@ -206,7 +206,9 @@ start:
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 #ifdef PIONEER_PROFILER
 	FileSystem::userFiles.MakeDirectory("profiler");
-	const std::string profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
+	// copy icons for the html report
+	FileSystem::userFiles.MakeDirectory("profiler/img");
+	CopyDir(FileSystem::JoinPath(FileSystem::GetDataDir(), "icons/profiler"), FileSystem::JoinPath(FileSystem::userFiles.GetRoot(), "profiler/img"), FileSystem::CopyMode::ONLY_MISSING_IN_TARGET);
 #endif
 
 	// what mode are we in?
@@ -325,7 +327,7 @@ start:
 	}
 
 #ifdef PIONEER_PROFILER
-	Profiler::dumphtml(profilerPath.c_str());
+	Profiler::dumphtml(FileSystem::JoinPathBelow(FileSystem::GetUserDir(), "profiler").c_str());
 #endif
 
 	Graphics::Uninit();

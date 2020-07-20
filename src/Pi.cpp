@@ -331,6 +331,12 @@ void Pi::App::Startup()
 	Application::Startup();
 #if PIONEER_PROFILER
 	Pi::profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
+	std::string profilerIconsPath = FileSystem::JoinPath(FileSystem::GetDataDir(), "icons/profiler");
+	for (std::string target : { "", "saving/", "NewGame/" }) {
+		FileSystem::userFiles.MakeDirectory("profiler/" + target);
+		FileSystem::userFiles.MakeDirectory("profiler/" + target + "img");
+		CopyDir(profilerIconsPath, FileSystem::JoinPathBelow(Pi::profilerPath, target + "img"), FileSystem::CopyMode::ONLY_MISSING_IN_TARGET);
+	}
 #endif
 
 	Log::GetLog()->SetLogFile("output.txt");
