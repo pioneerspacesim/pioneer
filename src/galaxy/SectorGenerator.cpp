@@ -13,10 +13,136 @@
 
 #define Square(x) ((x) * (x))
 
-static const unsigned int SYS_NAME_FRAGS = 32;
-static const char *sys_names[SYS_NAME_FRAGS] = { "en", "la", "can", "be", "and", "phi", "eth", "ol", "ve", "ho", "a",
-	"lia", "an", "ar", "ur", "mi", "in", "ti", "qu", "so", "ed", "ess",
-	"ex", "io", "ce", "ze", "fa", "ay", "wa", "da", "ack", "gre" };
+namespace FrontierNames {
+	static const char *sys_names[] = {
+		"en", "la", "can", "be",
+		"and", "phi", "eth", "ol",
+		"ve", "ho", "a", "lia",
+		"an", "ar", "ur", "mi",
+		"in", "ti", "qu", "so",
+		"ed", "ess", "ex", "io",
+		"ce", "ze", "fa", "ay",
+		"wa", "da", "ack", "gre"
+	};
+	static const unsigned int SYS_NAME_FRAGS = ((unsigned int)(sizeof(sys_names) / sizeof(char *)));
+
+	void GetName(std::string &name, Random &rng)
+	{
+		/* well done. you get a real name  */
+		int len = rng.Int32(2, 3);
+		for (int i = 0; i < len; i++) {
+			name += sys_names[rng.Int32(0, SYS_NAME_FRAGS - 1)];
+		}
+
+		name[0] = toupper(name[0]);
+	}
+} // namespace FrontierNames
+
+namespace HybridNames {
+	static const char *sys_names[] = {
+		"en", "la", "can", "be",
+		"and", "phi", "eth", "ol",
+		"ve", "ho", "a", "lia",
+		"an", "ar", "ur", "mi",
+		"in", "ti", "qu", "so",
+		"ed", "ess", "ex", "io",
+		"ce", "ze", "fa", "ay",
+		"wa", "da", "ack", "gre",
+
+		//Doomdark-esque additions
+		"img", "or", "ir", "dol",
+		"orth", "angr", "igr", "ash",
+		"el", "mor", "ul", "atr",
+		"orm", "udr", "is", "ildr",
+		"orn", "il", "iel", "im",
+		"uk", "ium", "ia", "eon",
+		"ob", "ak", "arg", "ber",
+		"ane", "esh", "ad", "un"
+	};
+	static const unsigned int SYS_NAME_FRAGS = ((unsigned int)(sizeof(sys_names) / sizeof(char *)));
+
+	void GetName(std::string &name, Random &rng)
+	{
+		/* well done. you get a real name  */
+		int len = rng.Int32(2, 3);
+		for (int i = 0; i < len; i++) {
+			name += sys_names[rng.Int32(0, SYS_NAME_FRAGS - 1)];
+		}
+
+		name[0] = toupper(name[0]);
+	}
+} // namespace HybridNames
+
+namespace Doomdark {
+	static const char *Prefixes[] = {
+		"img", "dol", "lor", "ush", "mor", "tal", "car", "ulf", "as", "tor", "ob", "f", "gl",
+		"s", "th", "gan", "mal", "im", "var", "hag", "zar", "anv", "ber", "kah", "ash"
+	};
+	static const unsigned int PREFIX_FRAGS = ((unsigned int)(sizeof(Prefixes) / sizeof(char *)));
+
+	static const char *Midwords[] = {
+		"ar", "or", "ir", "en", "orth", "angr", "igr", "ash", "el", "in", "ul", "atr", "orm", "udr", "is", "ildr"
+	};
+	static const unsigned int MIDWORD_FRAGS = ((unsigned int)(sizeof(Midwords) / sizeof(char *)));
+
+	static const char *Suffixes[] = {
+		"orn", "il", "iel", "im", "uk", "ium", "ia", "eon", "ay", "ak", "arg", "and", "ane", "esh", "ad", "un"
+	};
+	static const unsigned int SUFFIX_FRAGS = ((unsigned int)(sizeof(Suffixes) / sizeof(char *)));
+
+	void GetName(std::string &name, Random &rng)
+	{
+		// Doodarken a name
+		name += Prefixes[rng.Int32(0, PREFIX_FRAGS - 1)];
+		name += Midwords[rng.Int32(0, MIDWORD_FRAGS - 1)];
+		name += Suffixes[rng.Int32(0, SUFFIX_FRAGS - 1)];
+
+		name[0] = toupper(name[0]);
+	}
+} // namespace Doomdark
+
+namespace Katakana {
+	static const char *KatakanaFragments[] = {
+		"a", "i", "u", "e", "o",
+		"ka", "ki", "ku", "ke", "ko",
+		"ga", "gi", "gu", "ge", "go",
+		"sa", "shi", "su", "se", "so",
+		"za", "ji", "zu", "ze", "zo",
+		"ta", "chi", "tsu", "te", "to",
+		"da", "ji", "zu", "de", "do",
+		"na", "ni", "nu", "ne", "no",
+		"ha", "hi", "fu", "he", "ho",
+		"ba", "bi", "bu", "be", "bo",
+		"pa", "pi", "pu", "pe", "po",
+		"ma", "mi", "mu", "me", "mo",
+		"ya", "yu", "yo",
+		"ra", "ri", "ru", "re", "ro",
+		"wa", "wo",
+		"kya", "kyu", "kyo",
+		"gya", "gyu", "gyo",
+		"sha", "shu", "sho",
+		"ja", "ju", "jo",
+		"cha", "chu", "cho",
+		"nya", "nyu", "nyo",
+		"hya", "hyu", "hyo",
+		"bya", "byu", "byo",
+		"pya", "pyu", "pyo",
+		"mya", "myu", "myo",
+		"rya", "ryu", "ryo"
+	};
+	static const unsigned int KATAKANA_FRAGS = ((unsigned int)(sizeof(KatakanaFragments) / sizeof(char *)));
+
+	void GetName(std::string &name, Random &rng)
+	{
+		/* well done. you get a real name  */
+		int len = rng.Int32(2, 3);
+		for (int i = 0; i < len; i++) {
+			name += KatakanaFragments[rng.Int32(0, KATAKANA_FRAGS - 1)];
+		}
+
+		name[0] = toupper(name[0]);
+	}
+} // namespace Katakana
 
 bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig *config)
 {
@@ -109,12 +235,16 @@ const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> ga
 
 	Uint32 weight = rng.Int32(chance);
 	if (weight < 500 || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, si))) {
-		/* well done. you get a real name  */
-		int len = rng.Int32(2, 3);
-		for (int i = 0; i < len; i++) {
-			name += sys_names[rng.Int32(0, SYS_NAME_FRAGS - 1)];
+		int nameGen = rng.Int32(0, 3);
+		switch (nameGen) {
+		case 0: FrontierNames::GetName(name, rng); break;
+		case 1: HybridNames::GetName(name, rng); break;
+		case 2: Doomdark::GetName(name, rng); break;
+		case 3: Katakana::GetName(name, rng); break;
+		default:
+			FrontierNames::GetName(name, rng); 
+			break;
 		}
-		name[0] = toupper(name[0]);
 		return name;
 	} else if (weight < 800) {
 		char buf[128];
@@ -240,7 +370,7 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 				s.m_starType[0] = SystemBody::TYPE_STAR_M_GIANT;
 			} else if (weight < 800) {
 				s.m_starType[0] = SystemBody::TYPE_STAR_O; // should be 1 but that is boring
-			} else if (weight < 2000) { // weight < 1300 / 20500
+			} else if (weight < 2000) {					   // weight < 1300 / 20500
 				s.m_starType[0] = SystemBody::TYPE_STAR_B;
 			} else if (weight < 8000) { // weight < 7300
 				s.m_starType[0] = SystemBody::TYPE_STAR_A;
