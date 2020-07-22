@@ -52,12 +52,6 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 		skipMask = 0;
 		break;
 	}
-	Uint32 numVisibleBuildings = 0;
-	for (unsigned int i = 0; i < m_buildings.size(); i++) {
-		if (!(i & skipMask)) {
-			++numVisibleBuildings;
-		}
-	}
 
 	for (unsigned int i = 0; i < m_buildings.size(); i++) {
 		if (i & skipMask) {
