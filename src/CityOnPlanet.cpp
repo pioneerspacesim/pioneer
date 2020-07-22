@@ -59,8 +59,6 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 		}
 	}
 
-	// we know how many building we'll be adding, reserve space up front
-	m_enabledBuildings.reserve(numVisibleBuildings);
 	for (unsigned int i = 0; i < m_buildings.size(); i++) {
 		if (i & skipMask) {
 		} else {
