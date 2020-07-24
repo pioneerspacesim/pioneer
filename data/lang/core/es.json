@@ -337,11 +337,11 @@
   },
   "DOCKED": {
     "description": "",
-    "message": "Atracado"
+    "message": "Acoplado"
   },
   "DOCKING": {
     "description": "",
-    "message": "Atracando"
+    "message": "Acoplándose"
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
@@ -1085,7 +1085,7 @@
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
-    "message": "Object info"
+    "message": "Información del Objeto"
   },
   "OCEANICWORLD": {
     "description": "",
