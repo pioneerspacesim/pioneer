@@ -22,7 +22,7 @@ namespace FrontierNames {
 		"in", "ti", "qu", "so",
 		"ed", "ess", "ex", "io",
 		"ce", "ze", "fa", "ay",
-		"wa", "da", "ack", "gre"
+		"wa", "de", "ack", "gre"
 	};
 	static const unsigned int SYS_NAME_FRAGS = ((unsigned int)(sizeof(sys_names) / sizeof(char *)));
 
@@ -47,7 +47,7 @@ namespace HybridNames {
 		"in", "ti", "qu", "so",
 		"ed", "ess", "ex", "io",
 		"ce", "ze", "fa", "ay",
-		"wa", "da", "ack", "gre",
+		"wa", "de", "ack", "gre",
 
 		//Doomdark-esque additions
 		"img", "or", "ir", "dol",
