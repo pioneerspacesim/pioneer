@@ -1745,7 +1745,7 @@
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "Comienzo de juego difícil en la estación penitenciaria Sistema Administrativo de Descanso."
+    "message": "Comienzo de juego difícil en la estación penitenciaria Sistema Administrativo Resting."
   },
   "START_AT_EARTH": {
     "description": "",
@@ -1801,7 +1801,7 @@
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
-    "message": "Estamos en una órbita periódica diaria de {orbit_period} alrededor de {parent_body}."
+    "message": "Estamos en una órbita periódica diaria de {orbit_period} alrededor de {parent_body}."
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
@@ -1869,7 +1869,7 @@
   },
   "TOO_SMALL_TO_TRANSSHIP": {
     "description": "Ship market error message",
-    "message": "La nueva nave no dispone de capacidad para la actual carga ni para hipermotor"
+    "message": "La nueva nave no dispone de capacidad para la carga actual ni para el hiperimpulsor."
   },
   "TOTAL": {
     "description": "",

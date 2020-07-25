@@ -581,7 +581,7 @@
   },
   "HYPERSPACE_JUMP_DISABLED": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Hiperimpulsor no funcional"
+    "message": "Hiperimpulsor desactivado"
   },
   "HYPERSPACE_JUMP_ENGAGE": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -1609,7 +1609,7 @@
   },
   "SWAP_SELECTED_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Cambiar entre objetivo seleccionado y objetivo de hipersalto"
+    "message": "Alternar entre objetivo seleccionado y objetivo de hipersalto"
   },
   "SWITCHED_TO_PARENT": {
     "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",

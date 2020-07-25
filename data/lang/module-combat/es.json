@@ -277,7 +277,7 @@
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} pagará {cash} por una misión de combate en el sistema {system} ({sectorx}, {sectory}, {sectorz}). Andamos cortos de pilotos y naves. Por eso esto será una oportunidad de hacer dinero para un ciudadano leal. El objetivo es una pequeña base pirata en {area}. Necesitarás  propelente de hipermotor para {dist} ly y fuel adicional para la ruta de regreso."
+    "message": "{org} pagará {cash} por una misión de combate en el sistema {system} ({sectorx}, {sectory}, {sectorz}). Andamos cortos de pilotos y naves. Por eso esto será una oportunidad de hacer dinero para un ciudadano leal. El objetivo es una pequeña base pirata en {area}. Necesitarás  propelente de hiperimpulsor para {dist} ly y fuel adicional para la ruta de regreso."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",

@@ -357,7 +357,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "SE BUSCA: Pasaje al Sistema {system}. Se paga {cash}."
+    "message": "SE BUSCA: Pasaje al Sistema {system}. Se pagará {cash}."
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
