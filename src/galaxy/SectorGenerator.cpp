@@ -28,7 +28,7 @@ namespace FrontierNames {
 
 	void GetName(std::string &name, Random &rng)
 	{
-		/* well done. you get a real name  */
+		// add fragments to build a name
 		int len = rng.Int32(2, 3);
 		for (int i = 0; i < len; i++) {
 			name += sys_names[rng.Int32(0, SYS_NAME_FRAGS - 1)];
@@ -63,7 +63,7 @@ namespace HybridNames {
 
 	void GetName(std::string &name, Random &rng)
 	{
-		/* well done. you get a real name  */
+		// add fragments to build a name
 		int len = rng.Int32(2, 3);
 		for (int i = 0; i < len; i++) {
 			name += sys_names[rng.Int32(0, SYS_NAME_FRAGS - 1)];
@@ -134,8 +134,8 @@ namespace Katakana {
 
 	void GetName(std::string &name, Random &rng)
 	{
-		/* well done. you get a real name  */
-		int len = rng.Int32(2, 3);
+		// add fragments to build a name
+		int len = rng.Int32(2, 4);
 		for (int i = 0; i < len; i++) {
 			name += KatakanaFragments[rng.Int32(0, KATAKANA_FRAGS - 1)];
 		}
@@ -235,6 +235,7 @@ const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> ga
 
 	Uint32 weight = rng.Int32(chance);
 	if (weight < 500 || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, si))) {
+		// well done. you get a "real" name
 		int nameGen = rng.Int32(0, 3);
 		switch (nameGen) {
 		case 0: FrontierNames::GetName(name, rng); break;
