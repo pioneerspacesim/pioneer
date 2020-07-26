@@ -8,7 +8,6 @@
 #include "LuaManager.h"
 #include "LuaPushPull.h"
 #include "LuaTable.h"
-#include "src/lua.h"
 
 class LuaMetaTypeBase {
 public:
