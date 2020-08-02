@@ -182,24 +182,6 @@ function ui.withStyleColorsAndVars(styles, vars, fun)
 	return res
 end
 
-pigui.handlers.INIT = function(progress)
-	if pigui.handlers and pigui.handlers.init then
-		pigui.handlers.init(progress)
-	end
-end
-
-pigui.handlers.GAME = function(deltat)
-	if pigui.handlers and pigui.handlers.game then
-		pigui.handlers.game(deltat)
-	end
-end
-
-pigui.handlers.MAINMENU = function(deltat)
-	if pigui.handlers and pigui.handlers.mainMenu then
-		pigui.handlers.mainMenu(deltat)
-	end
-end
-
 local function get_icon_tex_coords(icon)
 	assert(icon, "no icon given")
 	local count = 16.0 -- icons per row/column
@@ -516,6 +498,7 @@ end
 ui.setNextWindowSize = pigui.SetNextWindowSize
 ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints
 ui.dummy = pigui.Dummy
+ui.newLine = pigui.NewLine
 ui.sameLine = function(pos_x, spacing_w)
 	local px = pos_x or 0.0
 	local sw = spacing_w or -1.0
@@ -621,6 +604,7 @@ ui.shiftHeld = function() return pigui.key_shift end
 ui.noModifierHeld = function() return pigui.key_none end
 ui.vSliderInt = pigui.VSliderInt
 ui.sliderInt = pigui.SliderInt
+ui.nextItemWidth = pigui.NextItemWidth
 ui.pushItemWidth = pigui.PushItemWidth
 ui.popItemWidth = pigui.PopItemWidth
 ui.sliderFloat = pigui.SliderFloat

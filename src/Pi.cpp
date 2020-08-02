@@ -501,7 +501,7 @@ void LoadStep::Start()
 
 	// Don't render the first frame, just make sure all of our fonts are loaded
 	Pi::pigui->NewFrame();
-	PiGUI::RunHandler(0.01, "INIT");
+	PiGUI::RunHandler(0.01, "init");
 	Pi::pigui->EndFrame();
 
 	AddStep("UI::AddContext", []() {
@@ -616,7 +616,7 @@ void LoadStep::Update(float deltaTime)
 			loader.name.c_str(), timer.milliseconds());
 
 		Pi::pigui->NewFrame();
-		PiGUI::RunHandler(progress, "INIT");
+		PiGUI::RunHandler(progress, "init");
 		Pi::pigui->Render();
 
 	} else {
@@ -655,7 +655,7 @@ void MainMenu::Update(float deltaTime)
 	Pi::intro->Draw(deltaTime);
 
 	Pi::pigui->NewFrame();
-	PiGUI::RunHandler(deltaTime, "MAINMENU");
+	PiGUI::RunHandler(deltaTime, "mainMenu");
 
 	perfInfoDisplay->Update(deltaTime * 1e3, 0.0);
 	if (Pi::showDebugInfo) {
@@ -1093,7 +1093,7 @@ void GameLoop::Update(float deltaTime)
 	if (Pi::game && !Pi::player->IsDead()) {
 		// FIXME: major hack to work around the fact that the console is in newUI and not pigui
 		if (!Pi::IsConsoleActive())
-			PiGUI::RunHandler(deltaTime, "GAME");
+			PiGUI::RunHandler(deltaTime, "game");
 	}
 
 	// Render this even when we're dead.

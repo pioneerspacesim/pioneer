@@ -3,10 +3,12 @@ Game = require 'Game'
 Space = require 'Space'
 Ship = require 'Ship'
 ShipDef = require 'ShipDef'
+Timer = require 'Timer'
 Equipment = require 'Equipment'
 
-import Vector2, Color from _G
-ui = require 'pigui.pigui'
+import Vector2 from _G
+ui = require 'pigui'
+debug_ui = require 'pigui.views.debug'
 
 ship_defs = {}
 
@@ -42,11 +44,24 @@ draw_ship_info = =>
     ui.text "Ship Class:"
     ui.nextColumn!
     ui.text @shipClass
-    ui.nextColumn!
+	ui.nextColumn!
+
+	ui.columns 1, ''
 
 ai_opt_selected = 1
 ai_options = {
     "FlyTo", "Kamikaze", "Kill"
+}
+
+-- ui.combo is zero-based
+missile_selected = 0
+missile_names = {
+	"Guided Missile", "Unguided Missile", "Smart Missile"
+}
+missile_types = {
+	"missile_guided",
+	"missile_unguided",
+	"missile_smart",
 }
 
 draw_ai_info = ->
@@ -54,41 +69,98 @@ draw_ai_info = ->
         if ui.selectable opt, ai_opt_selected == i
             ai_opt_selected = i
 
-spawn_distance = 10
+spawn_distance = 5.0 -- km
+
+spawn_ship_free = (ship_name, ai_option, equipment) ->
+	new_ship = with Space.SpawnShipNear ship_name, Game.player, spawn_distance, spawn_distance
+		\SetLabel Ship.MakeRandomLabel!
+		\AddEquip equip for equip in *equipment
+		\UpdateEquipStats!
+
+	-- Invoke the specified AI method on the new ship.
+	new_ship["AI#{ai_option}"] new_ship, Game.player
+
+spawn_ship_docked = (ship_name, ai_option, equipment) ->
+	new_ship = with Space.SpawnShipDocked ship_name, Game.player\GetNavTarget!
+		\SetLabel Ship.MakeRandomLabel!
+		\AddEquip equip for equip in *equipment
+		\UpdateEquipStats!
+
+	-- Invoke the specified AI method on the new ship.
+	new_ship["AI#{ai_option}"] new_ship, Game.player
+
+-- Spawn a missile attacking the player's current combat target
+do_spawn_missile = (type) ->
+	if Game.player\IsDocked!
+		return nil
+
+	new_missile = with Game.player\SpawnMissile type
+		\AIKamikaze Game.player\GetCombatTarget!
+
+	Timer\CallEvery 2, ->
+		if new_missile\exists!
+			new_missile\Arm!
+
+		return true
+
 ship_spawn_debug_window = ->
     ui.child 'ship_list', Vector2(150, 0), draw_ship_types
 
     ship_name = ship_defs[selected_ship_type]
     ship = ShipDef[ship_name] if ship_name
 
+	ship_equip = {
+		Equipment.laser.pulsecannon_dual_1mw
+		Equipment.misc.laser_cooling_booster
+		Equipment.misc.atmospheric_shielding
+	}
+
     ui.sameLine!
-    if ship then ui.group ->
-        ui.child 'ship_info', Vector2(-150, -ui.getFrameHeightWithSpacing!), ->
-            draw_ship_info ship
+	if ship then ui.group ->
+		spawner_group_height = ui.getFrameHeight! * 2 + ui.getFrameHeightWithSpacing!
+        ui.child 'ship_info', Vector2(0, -spawner_group_height), ->
+			draw_ship_info ship
 
-        ui.sameLine!
-        ui.child 'ai_info', Vector2(150, -ui.getFrameHeightWithSpacing!), draw_ai_info
+			ui.spacing!
+			ui.separator!
+			ui.spacing!
 
-        if ui.button "Spawn", Vector2(0, 0)
-            new_ship = Space.SpawnShipNear(ship_name, Game.player, spawn_distance, spawn_distance)
-            new_ship\AddEquip Equipment.laser.pulsecannon_dual_1mw
-            new_ship\AddEquip Equipment.misc.laser_cooling_booster
-            new_ship\AddEquip Equipment.misc.atmospheric_shielding
-            new_ship\SetLabel Ship.MakeRandomLabel !
-            ai_method_name = "AI#{ai_options[ai_opt_selected]}"
-            new_ship[ai_method_name] new_ship, Game.player
+			draw_ai_info!
 
-        ui.sameLine!
+		if ui.button "Spawn Ship", Vector2(0, 0)
+			spawn_ship_free ship_name, ai_options[ai_opt_selected], ship_equip
 
-        ui.text "Spawn Distance:"
-        ui.sameLine!
-        spawn_distance = ui.sliderFloat("#spawn_distance", spawn_distance, 0.5, 50, "%.1fkm")
+		nav_target = Game.player\GetNavTarget!
+		if nav_target and nav_target\isa "SpaceStation"
+			ui.sameLine!
+			if ui.button "Spawn Docked", Vector2(0, 0)
+				spawn_ship_docked ship_name, ai_options[ai_opt_selected], ship_equip
 
-displayDebugWindow = false
-ui.registerModule 'game', ->
-    if ui.isKeyReleased(ui.keys.f11) and ui.ctrlHeld!
-        displayDebugWindow = not displayDebugWindow
+		if Game.player\GetCombatTarget!
+			ui.sameLine!
+			if ui.button "Spawn Missile", Vector2(0, 0)
+				do_spawn_missile missile_types[missile_selected + 1]
 
-    if displayDebugWindow and Game.CurrentView() == "world"
-        ui.withStyleColors { "WindowBg": Color(15, 15, 16, 240) }, ->
-            ui.window "Ship Spawn Debug", {}, ship_spawn_debug_window
+		ui.nextItemWidth -1.0
+		_, missile_selected = ui.combo "##missile_type", missile_selected, missile_names
+
+		ui.text "Spawn Distance:"
+		ui.nextItemWidth -1.0
+		spawn_distance = ui.sliderFloat("##spawn_distance", spawn_distance, 0.5, 20, "%.1fkm")
+
+debug_ui.registerTab "Ship Spawner", ->
+	unless Game.player and Game.CurrentView() == "world" -- when not in a game, Game.player will return nil
+		return nil
+
+	if ui.beginTabItem "Ship Spawner"
+		ship_spawn_debug_window!
+
+		ui.endTabItem!
+
+		if ui.isKeyReleased(string.byte 'r') and ui.ctrlHeld!
+			package.reimport '.DebugShipSpawn'
+
+	if ui.isKeyReleased(ui.keys.f12) and ui.ctrlHeld!
+		-- TODO: port Pi.cpp ship spawning behavior here
+		-- do_spawn_ship()
+		nil

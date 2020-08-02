@@ -13,6 +13,7 @@
 #include "lua/Lua.h"
 #include "lua/LuaManager.h"
 #include "scenegraph/Model.h"
+#include "lua/LuaPiGui.h"
 #include "text/TextureFont.h"
 
 #include <imgui/imgui.h>
@@ -228,9 +229,13 @@ void PerfInfo::DrawPerfWindow()
 			}
 		}
 
+		PiGUI::RunHandler(Pi::GetFrameTime(), "debug-tabs");
+
 		ImGui::EndTabBar();
 	}
 	ImGui::End();
+
+	PiGUI::RunHandler(Pi::GetFrameTime(), "debug");
 }
 
 void PerfInfo::DrawRendererStats()

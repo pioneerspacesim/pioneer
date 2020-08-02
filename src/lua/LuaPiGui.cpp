@@ -1327,6 +1327,12 @@ static int l_pigui_dummy(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_newline(lua_State *l)
+{
+	ImGui::NewLine();
+	return 0;
+}
+
 static int l_pigui_begin_popup(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1528,6 +1534,14 @@ static int l_pigui_pop_item_width(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImGui::PopItemWidth();
+	return 0;
+}
+
+static int l_pigui_next_item_width(lua_State *l)
+{
+	PROFILE_SCOPED()
+	double width = LuaPull<double>(l, 1);
+	ImGui::SetNextItemWidth(width);
 	return 0;
 }
 
@@ -2674,6 +2688,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "IsItemClicked", l_pigui_is_item_clicked },
 		{ "Spacing", l_pigui_spacing },
 		{ "Dummy", l_pigui_dummy },
+		{ "NewLine", l_pigui_newline },
 		{ "BeginChild", l_pigui_begin_child },
 		{ "EndChild", l_pigui_end_child },
 		{ "PushFont", l_pigui_push_font },
@@ -2687,6 +2702,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "PathStroke", l_pigui_path_stroke },
 		{ "PushItemWidth", l_pigui_push_item_width },
 		{ "PopItemWidth", l_pigui_pop_item_width },
+		{ "NextItemWidth", l_pigui_next_item_width },
 		{ "PushTextWrapPos", l_pigui_push_text_wrap_pos },
 		{ "PopTextWrapPos", l_pigui_pop_text_wrap_pos },
 		{ "BeginPopup", l_pigui_begin_popup },
