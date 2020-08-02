@@ -699,9 +699,6 @@ void Pi::StartGame(Game *game)
 ===============================================================================
 */
 
-// FIXME: move out of Pi.cpp into a proper debug interface!
-static void SpawnTestObjects();
-
 void Pi::HandleKeyDown(SDL_Keysym *key)
 {
 	if (key->sym == SDLK_ESCAPE) {
@@ -760,14 +757,6 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 	case SDLK_F11: // Reload shaders
 		renderer->ReloadShaders();
 		break;
-
-	case SDLK_F12: // Spawn
-	{
-		if (Pi::game)
-			SpawnTestObjects();
-
-		break;
-	}
 #endif /* DEVKEYS */
 
 #if WITH_OBJECTVIEWER
@@ -1333,61 +1322,6 @@ static void SetVideoRecording(bool enabled)
 	}
 }
 #endif
-
-static void SpawnTestObjects()
-{
-	vector3d dir = -Pi::player->GetOrient().VectorZ();
-	/* add test object */
-	if (Pi::input->KeyState(SDLK_RSHIFT)) {
-		Missile *missile =
-			new Missile(ShipType::MISSILE_GUIDED, Pi::player);
-		missile->SetOrient(Pi::player->GetOrient());
-		missile->SetFrame(Pi::player->GetFrame());
-		missile->SetPosition(Pi::player->GetPosition() + 50.0 * dir);
-		missile->SetVelocity(Pi::player->GetVelocity());
-		Pi::game->GetSpace()->AddBody(missile);
-		missile->AIKamikaze(Pi::player->GetCombatTarget());
-	} else if (Pi::input->KeyState(SDLK_LSHIFT)) {
-		SpaceStation *s = static_cast<SpaceStation *>(Pi::player->GetNavTarget());
-		if (s) {
-			Ship *ship = new Ship(ShipType::POLICE);
-			int port = s->GetFreeDockingPort(ship);
-			if (port != -1) {
-				Output("Putting ship into station\n");
-				// Make police ship intent on killing the player
-				ship->AIKill(Pi::player);
-				ship->SetFrame(Pi::player->GetFrame());
-				ship->SetDockedWith(s, port);
-				Pi::game->GetSpace()->AddBody(ship);
-			} else {
-				delete ship;
-				Output("No docking ports free dude\n");
-			}
-		} else {
-			Output("Select a space station...\n");
-		}
-	} else {
-		Ship *ship = new Ship(ShipType::POLICE);
-		if (!Pi::input->KeyState(SDLK_LALT)) { //Left ALT = no AI
-			if (!Pi::input->KeyState(SDLK_LCTRL))
-				ship->AIFlyTo(Pi::player); // a less lethal option
-			else
-				ship->AIKill(Pi::player); // a really lethal option!
-		}
-		lua_State *l = Lua::manager->GetLuaState();
-		pi_lua_import(l, "Equipment");
-		LuaTable equip(l, -1);
-		LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("laser").Sub("pulsecannon_dual_1mw"));
-		LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("laser_cooling_booster"));
-		LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("atmospheric_shielding"));
-		lua_pop(l, 5);
-		ship->SetFrame(Pi::player->GetFrame());
-		ship->SetPosition(Pi::player->GetPosition() + 100.0 * dir);
-		ship->SetVelocity(Pi::player->GetVelocity());
-		ship->UpdateEquipStats();
-		Pi::game->GetSpace()->AddBody(ship);
-	}
-}
 
 void printShipStats()
 {

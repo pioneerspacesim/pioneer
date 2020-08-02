@@ -12,8 +12,8 @@
 #include "graphics/Texture.h"
 #include "lua/Lua.h"
 #include "lua/LuaManager.h"
-#include "scenegraph/Model.h"
 #include "lua/LuaPiGui.h"
+#include "scenegraph/Model.h"
 #include "text/TextureFont.h"
 
 #include <imgui/imgui.h>
@@ -283,6 +283,10 @@ void PerfInfo::DrawRendererStats()
 
 	if (ImGui::Button("Open Texture Cache Visualizer"))
 		m_state->textureCacheViewerOpen = true;
+
+	if (ImGui::Button("Reload Shaders"))
+		Pi::renderer->ReloadShaders();
+
 	ImGui::Text("%u Texture2D in cache (%.3f MB)", numTex2ds, double(tex2dMemUsage) / scale_MB);
 	ImGui::Text("%u Cubemaps in cache (%.3f MB)", numTexCubemaps, double(texCubeMemUsage) / scale_MB);
 	ImGui::Text("%u TextureArray2D in cache (%.3f MB)", numTexArray2ds, double(texArray2dMemUsage) / scale_MB);

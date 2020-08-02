@@ -103,17 +103,17 @@ do_spawn_missile = (type) ->
 
 		return true
 
+ship_equip = {
+	Equipment.laser.pulsecannon_dual_1mw
+	Equipment.misc.laser_cooling_booster
+	Equipment.misc.atmospheric_shielding
+}
+
 ship_spawn_debug_window = ->
     ui.child 'ship_list', Vector2(150, 0), draw_ship_types
 
     ship_name = ship_defs[selected_ship_type]
     ship = ShipDef[ship_name] if ship_name
-
-	ship_equip = {
-		Equipment.laser.pulsecannon_dual_1mw
-		Equipment.misc.laser_cooling_booster
-		Equipment.misc.atmospheric_shielding
-	}
 
     ui.sameLine!
 	if ship then ui.group ->
@@ -160,7 +160,9 @@ debug_ui.registerTab "Ship Spawner", ->
 		if ui.isKeyReleased(string.byte 'r') and ui.ctrlHeld!
 			package.reimport '.DebugShipSpawn'
 
+ui.registerModule "game", ->
+	unless Game.CurrentView() == "world"
+		return nil
+
 	if ui.isKeyReleased(ui.keys.f12) and ui.ctrlHeld!
-		-- TODO: port Pi.cpp ship spawning behavior here
-		-- do_spawn_ship()
-		nil
+		spawn_ship_free "kanara", "Kill", ship_equip

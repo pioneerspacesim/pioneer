@@ -121,6 +121,11 @@ do_spawn_missile = function(type)
     return true
   end)
 end
+local ship_equip = {
+  Equipment.laser.pulsecannon_dual_1mw,
+  Equipment.misc.laser_cooling_booster,
+  Equipment.misc.atmospheric_shielding
+}
 local ship_spawn_debug_window
 ship_spawn_debug_window = function()
   ui.child('ship_list', Vector2(150, 0), draw_ship_types)
@@ -129,11 +134,6 @@ ship_spawn_debug_window = function()
   if ship_name then
     ship = ShipDef[ship_name]
   end
-  local ship_equip = {
-    Equipment.laser.pulsecannon_dual_1mw,
-    Equipment.misc.laser_cooling_booster,
-    Equipment.misc.atmospheric_shielding
-  }
   ui.sameLine()
   if ship then
     return ui.group(function()
@@ -170,7 +170,7 @@ ship_spawn_debug_window = function()
     end)
   end
 end
-return debug_ui.registerTab("Ship Spawner", function()
+debug_ui.registerTab("Ship Spawner", function()
   if not (Game.player and Game.CurrentView() == "world") then
     return nil
   end
@@ -178,10 +178,15 @@ return debug_ui.registerTab("Ship Spawner", function()
     ship_spawn_debug_window()
     ui.endTabItem()
     if ui.isKeyReleased(string.byte('r')) and ui.ctrlHeld() then
-      package.reimport('.DebugShipSpawn')
+      return package.reimport('.DebugShipSpawn')
     end
   end
-  if ui.isKeyReleased(ui.keys.f12) and ui.ctrlHeld() then
+end)
+return ui.registerModule("game", function()
+  if not (Game.CurrentView() == "world") then
     return nil
+  end
+  if ui.isKeyReleased(ui.keys.f12) and ui.ctrlHeld() then
+    return spawn_ship_free("kanara", "Kill", ship_equip)
   end
 end)
