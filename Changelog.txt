@@ -1,7 +1,21 @@
+August 2020
+   * New Features
+     * Debug ship spawner tool now integrated with Ctrl+I debug menu (#4941)
+   
+   * Internal Changes
+     * Refactor WorldView to no longer use newUI (#4941)
+     * Add WorldView debug info to PerfInfo tool (#4941)
+   
+   * Fixes
+     * Fix ship directional indicators not pointing in the correct direction (#4941)
+     * Fix requring a camera frame when drawing PiGui (#4941)
+
 July 2020
    * New Features
      * Captains log added to info-view (#4795)
      * Plentiful tweaks to sector map (#4906)
+   
+   Internal Changes
      * Make size of load/save dialogue window sane (#4912)
 
    * Fixes
