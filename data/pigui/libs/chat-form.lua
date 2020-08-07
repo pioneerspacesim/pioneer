@@ -164,9 +164,11 @@ function ChatForm:AddNavButton (target)
 		if ui.coloredSelectedButton(l.SET_AS_TARGET, self.style.buttonSize, false, colors.buttonBlue, nil, true) then
 			if target:isa("Body") and target:IsDynamic() then
 				Game.player:SetNavTarget(target)
+				ui.playSfx("OK")
 			elseif Game.system and target:IsSameSystem(Game.system.path) then
 				if target.bodyIndex then
 					Game.player:SetNavTarget(Space.GetBody(target.bodyIndex))
+					ui.playSfx("OK")
 				end
 			elseif not Game.InHyperspace() then
 				Game.sectorView:SwitchToPath(target:GetStarSystem().path)

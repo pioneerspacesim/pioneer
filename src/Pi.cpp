@@ -100,8 +100,6 @@
 */
 
 float Pi::gameTickAlpha;
-sigc::signal<void> Pi::onPlayerChangeTarget;
-sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 LuaSerializer *Pi::luaSerializer;
 LuaTimer *Pi::luaTimer;
 LuaNameGen *Pi::luaNameGen;
@@ -503,7 +501,7 @@ void LoadStep::Start()
 
 	// Don't render the first frame, just make sure all of our fonts are loaded
 	Pi::pigui->NewFrame();
-	PiGUI::RunHandler(0.01, "INIT");
+	PiGUI::RunHandler(0.01, "init");
 	Pi::pigui->EndFrame();
 
 	AddStep("UI::AddContext", []() {
@@ -618,7 +616,7 @@ void LoadStep::Update(float deltaTime)
 			loader.name.c_str(), timer.milliseconds());
 
 		Pi::pigui->NewFrame();
-		PiGUI::RunHandler(progress, "INIT");
+		PiGUI::RunHandler(progress, "init");
 		Pi::pigui->Render();
 
 	} else {
@@ -657,7 +655,7 @@ void MainMenu::Update(float deltaTime)
 	Pi::intro->Draw(deltaTime);
 
 	Pi::pigui->NewFrame();
-	PiGUI::RunHandler(deltaTime, "MAINMENU");
+	PiGUI::RunHandler(deltaTime, "mainMenu");
 
 	perfInfoDisplay->Update(deltaTime * 1e3, 0.0);
 	if (Pi::showDebugInfo) {
@@ -700,9 +698,6 @@ void Pi::StartGame(Game *game)
 	EVENT HANDLING
 ===============================================================================
 */
-
-// FIXME: move out of Pi.cpp into a proper debug interface!
-static void SpawnTestObjects();
 
 void Pi::HandleKeyDown(SDL_Keysym *key)
 {
@@ -762,14 +757,6 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 	case SDLK_F11: // Reload shaders
 		renderer->ReloadShaders();
 		break;
-
-	case SDLK_F12: // Spawn
-	{
-		if (Pi::game)
-			SpawnTestObjects();
-
-		break;
-	}
 #endif /* DEVKEYS */
 
 #if WITH_OBJECTVIEWER
@@ -1093,13 +1080,9 @@ void GameLoop::Update(float deltaTime)
 	Pi::pigui->NewFrame();
 
 	if (Pi::game && !Pi::player->IsDead()) {
-		// FIXME: Always begin a camera frame because WorldSpaceToScreenSpace
-		// requires it and is exposed to pigui.
-		Pi::game->GetWorldView()->BeginCameraFrame();
 		// FIXME: major hack to work around the fact that the console is in newUI and not pigui
 		if (!Pi::IsConsoleActive())
-			PiGUI::RunHandler(deltaTime, "GAME");
-		Pi::game->GetWorldView()->EndCameraFrame();
+			PiGUI::RunHandler(deltaTime, "game");
 	}
 
 	// Render this even when we're dead.
@@ -1339,61 +1322,6 @@ static void SetVideoRecording(bool enabled)
 	}
 }
 #endif
-
-static void SpawnTestObjects()
-{
-	vector3d dir = -Pi::player->GetOrient().VectorZ();
-	/* add test object */
-	if (Pi::input->KeyState(SDLK_RSHIFT)) {
-		Missile *missile =
-			new Missile(ShipType::MISSILE_GUIDED, Pi::player);
-		missile->SetOrient(Pi::player->GetOrient());
-		missile->SetFrame(Pi::player->GetFrame());
-		missile->SetPosition(Pi::player->GetPosition() + 50.0 * dir);
-		missile->SetVelocity(Pi::player->GetVelocity());
-		Pi::game->GetSpace()->AddBody(missile);
-		missile->AIKamikaze(Pi::player->GetCombatTarget());
-	} else if (Pi::input->KeyState(SDLK_LSHIFT)) {
-		SpaceStation *s = static_cast<SpaceStation *>(Pi::player->GetNavTarget());
-		if (s) {
-			Ship *ship = new Ship(ShipType::POLICE);
-			int port = s->GetFreeDockingPort(ship);
-			if (port != -1) {
-				Output("Putting ship into station\n");
-				// Make police ship intent on killing the player
-				ship->AIKill(Pi::player);
-				ship->SetFrame(Pi::player->GetFrame());
-				ship->SetDockedWith(s, port);
-				Pi::game->GetSpace()->AddBody(ship);
-			} else {
-				delete ship;
-				Output("No docking ports free dude\n");
-			}
-		} else {
-			Output("Select a space station...\n");
-		}
-	} else {
-		Ship *ship = new Ship(ShipType::POLICE);
-		if (!Pi::input->KeyState(SDLK_LALT)) { //Left ALT = no AI
-			if (!Pi::input->KeyState(SDLK_LCTRL))
-				ship->AIFlyTo(Pi::player); // a less lethal option
-			else
-				ship->AIKill(Pi::player); // a really lethal option!
-		}
-		lua_State *l = Lua::manager->GetLuaState();
-		pi_lua_import(l, "Equipment");
-		LuaTable equip(l, -1);
-		LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("laser").Sub("pulsecannon_dual_1mw"));
-		LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("laser_cooling_booster"));
-		LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("atmospheric_shielding"));
-		lua_pop(l, 5);
-		ship->SetFrame(Pi::player->GetFrame());
-		ship->SetPosition(Pi::player->GetPosition() + 100.0 * dir);
-		ship->SetVelocity(Pi::player->GetVelocity());
-		ship->UpdateEquipStats();
-		Pi::game->GetSpace()->AddBody(ship);
-	}
-}
 
 void printShipStats()
 {

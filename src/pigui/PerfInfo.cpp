@@ -2,17 +2,23 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "PerfInfo.h"
+#include "Frame.h"
 #include "Game.h"
 #include "Pi.h"
+#include "Player.h"
+#include "Space.h"
 #include "graphics/Renderer.h"
 #include "graphics/Stats.h"
 #include "graphics/Texture.h"
 #include "lua/Lua.h"
 #include "lua/LuaManager.h"
+#include "lua/LuaPiGui.h"
+#include "scenegraph/Model.h"
 #include "text/TextureFont.h"
 
 #include <imgui/imgui.h>
 #include <algorithm>
+#include <cstddef>
 #include <fstream>
 #include <functional>
 
@@ -27,6 +33,7 @@ using namespace PiGUI;
 struct PerfInfo::ImGuiState {
 	bool perfWindowOpen = true;
 	bool updatePause = false;
+	uint32_t playerModelDebugFlags = 0;
 
 	bool textureCacheViewerOpen = false;
 
@@ -208,16 +215,27 @@ void PerfInfo::DrawPerfWindow()
 			ImGui::EndTabItem();
 		}
 
-		if (Pi::game && Pi::game->GetGalaxy() && ImGui::BeginTabItem("Galaxy Stats")) {
-			auto &stats = Pi::game->GetGalaxy()->GetStats();
-			stats.FlushFrame();
-			DrawStatList(stats.GetFrameStats());
-			ImGui::EndTabItem();
+		if (Pi::game) {
+			if (Pi::player->GetFlightState() != Ship::HYPERSPACE && ImGui::BeginTabItem("WorldView")) {
+				DrawWorldViewStats();
+				ImGui::EndTabItem();
+			}
+
+			if (Pi::game->GetGalaxy() && ImGui::BeginTabItem("Galaxy Stats")) {
+				auto &stats = Pi::game->GetGalaxy()->GetStats();
+				stats.FlushFrame();
+				DrawStatList(stats.GetFrameStats());
+				ImGui::EndTabItem();
+			}
 		}
+
+		PiGUI::RunHandler(Pi::GetFrameTime(), "debug-tabs");
 
 		ImGui::EndTabBar();
 	}
 	ImGui::End();
+
+	PiGUI::RunHandler(Pi::GetFrameTime(), "debug");
 }
 
 void PerfInfo::DrawRendererStats()
@@ -265,9 +283,74 @@ void PerfInfo::DrawRendererStats()
 
 	if (ImGui::Button("Open Texture Cache Visualizer"))
 		m_state->textureCacheViewerOpen = true;
+
+	if (ImGui::Button("Reload Shaders"))
+		Pi::renderer->ReloadShaders();
+
 	ImGui::Text("%u Texture2D in cache (%.3f MB)", numTex2ds, double(tex2dMemUsage) / scale_MB);
 	ImGui::Text("%u Cubemaps in cache (%.3f MB)", numTexCubemaps, double(texCubeMemUsage) / scale_MB);
 	ImGui::Text("%u TextureArray2D in cache (%.3f MB)", numTexArray2ds, double(texArray2dMemUsage) / scale_MB);
+}
+
+void PerfInfo::DrawWorldViewStats()
+{
+	vector3d pos = Pi::player->GetPosition();
+	vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
+
+	const FrameId playerFrame = Pi::player->GetFrame();
+
+	ImGui::TextUnformatted(fmt::format("Player Position: {:.5}, {:.5}, {:.5}", pos.x, pos.y, pos.z).c_str());
+	ImGui::TextUnformatted(fmt::format("Absolute Position: {:.5}, {:.5}, {:.5}", abs_pos.x, abs_pos.y, abs_pos.z).c_str());
+
+	const Frame *frame = Frame::GetFrame(playerFrame);
+	const SystemPath &path(frame->GetSystemBody()->GetPath());
+
+	std::string tempStr;
+	tempStr = fmt::format("Relative to frame: {} [{}, {}, {}, {}, {}]",
+		frame->GetLabel(), path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
+
+	ImGui::TextUnformatted(tempStr.c_str());
+
+	tempStr = fmt::format("Distance from frame: {:.2f} km, rotating: {}, has rotation: {}",
+		pos.Length() / 1000.0, frame->IsRotFrame(), frame->HasRotFrame());
+
+	ImGui::TextUnformatted(tempStr.c_str());
+
+	ImGui::Spacing();
+
+	//Calculate lat/lon for ship position
+	const vector3d dir = pos.NormalizedSafe();
+	const float lat = RAD2DEG(asin(dir.y));
+	const float lon = RAD2DEG(atan2(dir.x, dir.z));
+
+	ImGui::TextUnformatted(fmt::format("Lat / Lon: {:.8} / {:.8}", lat, lon).c_str());
+
+	char aibuf[256];
+	Pi::player->AIGetStatusText(aibuf);
+
+	ImGui::TextUnformatted(aibuf);
+
+	ImGui::Spacing();
+	ImGui::TextUnformatted("Player Model ShowFlags:");
+
+	using Flags = SceneGraph::Model::DebugFlags;
+
+	bool showColl = m_state->playerModelDebugFlags & Flags::DEBUG_COLLMESH;
+	bool showBBox = m_state->playerModelDebugFlags & Flags::DEBUG_BBOX;
+	bool showTags = m_state->playerModelDebugFlags & Flags::DEBUG_TAGS;
+
+	bool changed = ImGui::Checkbox("Show Collision Mesh", &showColl);
+	changed |= ImGui::Checkbox("Show Bounding Box", &showBBox);
+	changed |= ImGui::Checkbox("Show Tag Locations", &showTags);
+
+	/* clang-format off */
+	if (changed) {
+		m_state->playerModelDebugFlags = (showColl ? Flags::DEBUG_COLLMESH : 0)
+			| (showBBox ? Flags::DEBUG_BBOX : 0)
+			| (showTags ? Flags::DEBUG_TAGS : 0);
+		Pi::player->GetModel()->SetDebugFlags(m_state->playerModelDebugFlags);
+	}
+	/* clang-format on */
 }
 
 void PerfInfo::DrawImGuiStats()

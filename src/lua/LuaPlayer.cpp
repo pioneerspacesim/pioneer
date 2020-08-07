@@ -260,8 +260,8 @@ static int l_set_hyperspace_target(lua_State *l)
 
 static int l_get_mouse_direction(lua_State *l)
 {
-	//		Player *player = LuaObject<Player>::CheckFromLua(1);
-	LuaPush<vector3d>(l, Pi::game->GetWorldView()->GetMouseDirection());
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	LuaPush<vector3d>(l, player->GetPlayerController()->GetMouseViewDir());
 	return 1;
 }
 

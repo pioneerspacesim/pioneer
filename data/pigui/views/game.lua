@@ -94,6 +94,7 @@ local function setTarget(body)
 		player:SetCombatTarget(body)
 	else
 		player:SetNavTarget(body)
+		ui.playSfx("OK")
 	end
 end
 
@@ -209,6 +210,7 @@ local function displayOnScreenObjects()
 						player:SetCombatTarget(b)
 					else
 						player:SetNavTarget(b)
+						ui.playSfx("OK")
 					end
 					if ui.ctrlHeld() then
 						-- also set setspeed target on ctrl-click

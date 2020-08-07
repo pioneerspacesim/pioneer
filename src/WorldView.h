@@ -4,8 +4,8 @@
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
-#include "UIView.h"
 #include "gui/GuiWidget.h"
+#include "pigui/View.h"
 #include "ship/ShipViewController.h"
 
 class Body;
@@ -33,7 +33,7 @@ namespace Gui {
 namespace KeyBindings {
 	struct ActionBinding;
 	struct AxisBinding;
-}
+} // namespace KeyBindings
 
 namespace UI {
 	class Widget;
@@ -41,24 +41,23 @@ namespace UI {
 	class Label;
 } // namespace UI
 
-class WorldView : public UIView {
+class WorldView : public PiGuiView {
 public:
 	static void RegisterInputBindings();
 	friend class NavTunnelWidget;
 	WorldView(Game *game);
 	WorldView(const Json &jsonObj, Game *game);
 	virtual ~WorldView();
-	virtual void ShowAll();
-	virtual void Update();
-	virtual void Draw3D();
-	virtual void Draw();
-	static const double PICK_OBJECT_RECT_SIZE;
-	virtual void SaveToJson(Json &jsonObj);
-	virtual void HandleSDLEvent(SDL_Event &event);
+
+	void Update() override;
+	void Draw3D() override;
+	void Draw() override;
+	void SaveToJson(Json &jsonObj) override;
+	void HandleSDLEvent(SDL_Event &event) override;
 
 	RefCountedPtr<CameraContext> GetCameraContext() const { return m_cameraContext; }
 
-	ShipViewController shipView;
+	std::unique_ptr<ShipViewController> shipView;
 
 	int GetActiveWeapon() const;
 
@@ -66,9 +65,9 @@ public:
 
 	vector3d WorldSpaceToScreenSpace(const Body *body) const;
 	vector3d WorldSpaceToScreenSpace(const vector3d &position) const;
+	vector3d RelSpaceToScreenSpace(const vector3d &position) const;
 	vector3d ShipSpaceToScreenSpace(const vector3d &position) const;
 	vector3d GetTargetIndicatorScreenPosition(const Body *body) const;
-	vector3d GetMouseDirection() const;
 	vector3d CameraSpaceToScreenSpace(const vector3d &pos) const;
 
 	void BeginCameraFrame() { m_cameraContext->BeginFrame(); };
@@ -77,14 +76,11 @@ public:
 	bool ShouldShowLabels() { return m_labelsOn; }
 
 protected:
-	virtual void BuildUI(UI::Single *container);
-	virtual void OnSwitchTo();
-	virtual void OnSwitchFrom();
+	void OnSwitchTo() override;
+	void OnSwitchFrom() override;
 
 private:
 	void InitObject();
-
-	void RefreshButtonStateAndVisibility();
 
 	enum IndicatorSide {
 		INDICATOR_HIDDEN,
@@ -99,25 +95,22 @@ private:
 		vector2f pos;
 		vector2f realpos;
 		IndicatorSide side;
-		Gui::Label *label;
 		Indicator() :
 			pos(0.0f, 0.0f),
 			realpos(0.0f, 0.0f),
-			side(INDICATOR_HIDDEN),
-			label(0) {}
+			side(INDICATOR_HIDDEN)
+		{}
 	};
 
 	void UpdateProjectedObjects();
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);
 	void HideIndicator(Indicator &indicator);
-	void SeparateLabels(Gui::Label *a, Gui::Label *b);
 
 	void OnToggleLabels();
 
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
-	void OnPlayerChangeTarget();
 	/// Handler for "requestTimeAccelerationInc" event
 	void OnRequestTimeAccelInc();
 	/// Handler for "requestTimeAccelerationDec" event
@@ -129,21 +122,8 @@ private:
 	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;
 
-	Gui::Label *m_pauseText;
 	bool m_labelsOn;
 
-	/* Only use #if WITH_DEVKEYS */
-	Gui::Label *m_debugInfo;
-
-	// useful docking locations for new-ui widgets in the HUD
-	RefCountedPtr<UI::Widget> m_hudRoot;
-	// new-ui HUD components
-
-	Gui::VBox *m_hudSensorGaugeStack;
-
-	sigc::connection m_onHyperspaceTargetChangedCon;
-	sigc::connection m_onPlayerChangeTargetCon;
-	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onToggleHudModeCon;
 	sigc::connection m_onIncTimeAccelCon;
 	sigc::connection m_onDecTimeAccelCon;

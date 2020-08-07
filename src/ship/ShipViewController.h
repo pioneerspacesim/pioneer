@@ -26,13 +26,19 @@ public:
 		CAM_SIDEREAL,
 		CAM_FLYBY
 	};
+
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
 	CameraController *GetCameraController() const { return m_activeCameraController; }
 
+	// returns true if the active camera is an exterior view.
+	bool IsExteriorView() const;
+
 	sigc::signal<void> onChangeCamType;
 
 private:
+	// TODO: better system for cockpit rendering that doesn't require
+	// WorldView looking at the internals of ShipViewController.
 	friend class WorldView;
 	void ChangeInternalCameraMode(InternalCameraController::Mode m);
 

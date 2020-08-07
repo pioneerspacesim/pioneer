@@ -297,7 +297,7 @@ void SpaceStation::SwapDockedShipsPort(const int oldPort, const int newPort)
 bool SpaceStation::LaunchShip(Ship *ship, const int port)
 {
 	shipDocking_t &sd = m_shipDocking[port];
-	if (sd.stage < 0) return true; // already launching
+	if (sd.stage < 0) return true;		  // already launching
 	if (IsPortLocked(port)) return false; // another ship docking
 	LockPort(port, true);
 
@@ -468,7 +468,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 				// PS: This is to avoid to float around if dock
 				// at high time steps on an orbital
 				if (!IsGroundStation()) {
-					dt.fromPos = vector3d(0.0); //No offset
+					dt.fromPos = vector3d(0.0);					  //No offset
 					dt.fromRot = Quaterniond(1.0, 0.0, 0.0, 0.0); //Identity (no rotation)
 					dt.stage += 2;
 					continue;
@@ -495,7 +495,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 				dt.stagePos += timeStep / 2.0;
 				if (dt.stagePos >= 1.0) {
 					dt.stage++;
-					dt.fromPos = vector3d(0.0); //No offset
+					dt.fromPos = vector3d(0.0);					  //No offset
 					dt.fromRot = Quaterniond(1.0, 0.0, 0.0, 0.0); //Identity (no rotation)
 				}
 				continue;
@@ -780,7 +780,7 @@ bool SpaceStation::AllocateStaticSlot(int &slot)
 	return false;
 }
 
-vector3d SpaceStation::GetTargetIndicatorPosition(FrameId relToId) const
+vector3d SpaceStation::GetTargetIndicatorPosition() const
 {
 	// return the next waypoint if permission has been granted for player,
 	// and the docking point's position once the docking anim starts
@@ -793,11 +793,10 @@ vector3d SpaceStation::GetTargetIndicatorPosition(FrameId relToId) const
 				PiVerify(m_type->GetDockAnimPositionOrient(i, m_type->NumDockingStages(),
 					1.0f, vector3d(0.0), dport, m_shipDocking[i].ship));
 
-			vector3d v = GetInterpPositionRelTo(relToId);
-			return v + GetInterpOrientRelTo(relToId) * dport.pos;
+			return dport.pos;
 		}
 	}
-	return GetInterpPositionRelTo(relToId);
+	return Body::GetTargetIndicatorPosition();
 }
 
 bool SpaceStation::IsPortLocked(const int bay) const

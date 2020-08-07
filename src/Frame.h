@@ -29,8 +29,8 @@ class Frame {
 	// Used to avoid direct instantiation of Frames: use factory methods instead.
 	// TODO: Find a better way, as checking it at compile time
 	struct Dummy;
-public:
 
+public:
 	Frame() = delete;
 	Frame(const Dummy &d, FrameId parent, const char *label, unsigned int flags = FLAG_DEFAULT, double radius = 0.0);
 	// Used *only* for Camera frame:
@@ -39,7 +39,7 @@ public:
 
 	Frame(const Frame &) = delete;
 	Frame(Frame &&) noexcept;
-	Frame &operator=(Frame && );
+	Frame &operator=(Frame &&);
 
 	~Frame();
 
@@ -61,7 +61,7 @@ public:
 
 	static Frame *GetFrame(FrameId FId);
 
-	FrameId GetId() const {return m_thisId; }
+	FrameId GetId() const { return m_thisId; }
 
 	const std::string &GetLabel() const { return m_label; }
 	void SetLabel(const char *label) { m_label = label; }
@@ -120,11 +120,13 @@ public:
 	vector3d GetPositionRelTo(FrameId relTo) const;
 	vector3d GetVelocityRelTo(FrameId relTo) const;
 	matrix3x3d GetOrientRelTo(FrameId relTo) const;
+	matrix4x4d GetTransformRelTo(FrameId relTo) const;
 
 	// Same as above except it does interpolation between
 	// physics ticks so rendering is smooth above physics hz
 	vector3d GetInterpPositionRelTo(FrameId relTo) const;
 	matrix3x3d GetInterpOrientRelTo(FrameId relTo) const;
+	matrix4x4d GetInterpTransformRelTo(FrameId relTo) const;
 
 	static void GetFrameTransform(FrameId fFrom, FrameId fTo, matrix4x4d &m);
 
@@ -135,10 +137,10 @@ private:
 
 	void UpdateRootRelativeVars();
 
-	FrameId m_parent; // if parent is null then frame position is absolute
+	FrameId m_parent;				 // if parent is null then frame position is absolute
 	std::vector<FrameId> m_children; // child frames, first may be rotating
-	SystemBody *m_sbody; // points to SBodies in Pi::current_system
-	Body *m_astroBody; // if frame contains a star or planet or something
+	SystemBody *m_sbody;			 // points to SBodies in Pi::current_system
+	Body *m_astroBody;				 // if frame contains a star or planet or something
 
 	vector3d m_pos;
 	vector3d m_oldPos;
@@ -146,8 +148,8 @@ private:
 	matrix3x3d m_initialOrient;
 	matrix3x3d m_orient;
 	matrix3x3d m_interpOrient;
-	vector3d m_vel; // note we don't use this to move frame. rather,
-		// orbital rails determine velocity.
+	vector3d m_vel;	   // note we don't use this to move frame. rather,
+					   // orbital rails determine velocity.
 	double m_angSpeed; // this however *is* directly applied (for rotating frames)
 	double m_oldAngDisplacement;
 	std::string m_label;
@@ -158,7 +160,7 @@ private:
 	vector3d m_rootVel; // velocity, position and orient relative to root frame
 	vector3d m_rootPos; // updated by UpdateOrbitRails
 	matrix3x3d m_rootOrient;
-	vector3d m_rootInterpPos; // interp position and orient relative to root frame
+	vector3d m_rootInterpPos;	   // interp position and orient relative to root frame
 	matrix3x3d m_rootInterpOrient; // updated by UpdateInterpTransform
 
 	int m_astroBodyIndex; // deserialisation
@@ -168,9 +170,9 @@ private:
 
 	// A trick in order to avoid a direct call of ctor or dtor: use factory methods instead
 	struct Dummy {
-		Dummy():
+		Dummy() :
 			madeWithFactory(false)
-			{}
+		{}
 		bool madeWithFactory;
 	};
 

@@ -1327,6 +1327,12 @@ static int l_pigui_dummy(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_newline(lua_State *l)
+{
+	ImGui::NewLine();
+	return 0;
+}
+
 static int l_pigui_begin_popup(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1531,6 +1537,14 @@ static int l_pigui_pop_item_width(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_next_item_width(lua_State *l)
+{
+	PROFILE_SCOPED()
+	double width = LuaPull<double>(l, 1);
+	ImGui::SetNextItemWidth(width);
+	return 0;
+}
+
 static int l_pigui_push_id(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1613,6 +1627,21 @@ static int l_pigui_get_mouse_clicked_pos(lua_State *l)
 	vector2d pos(ImGui::GetIO().MouseClickedPos[n].x, ImGui::GetIO().MouseClickedPos[n].y);
 	LuaPush<vector2d>(l, pos);
 	return 1;
+}
+
+PiGUI::TScreenSpace PiGUI::lua_rel_space_to_screen_space(const vector3d &pos)
+{
+	PROFILE_SCOPED()
+	const WorldView *wv = Pi::game->GetWorldView();
+	const vector3d p = wv->RelSpaceToScreenSpace(pos);
+	const int width = Graphics::GetScreenWidth();
+	const int height = Graphics::GetScreenHeight();
+	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
+	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
+		return PiGUI::TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
+	} else {
+		return PiGUI::TScreenSpace(true, vector2d(p.x, p.y), direction);
+	}
 }
 
 PiGUI::TScreenSpace PiGUI::lua_world_space_to_screen_space(const vector3d &pos)
@@ -2259,12 +2288,23 @@ static int l_pigui_input_text(lua_State *l)
 	return 2;
 }
 
+/*
+	Function: pigui.playSfx
+
+	Play the specified sound effect, optionally with a different volume on the
+	left/right side.
+
+	Parameters:
+		name - string, name of the sound effect to play
+		left - optional number, volume on the left speaker/ear. Defaults to 1.0
+		right - optional number, volume on the right speaker/ear. Defaults to the left volume.
+*/
 static int l_pigui_play_sfx(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string name = LuaPull<std::string>(l, 1);
-	double left = LuaPull<float>(l, 2);
-	double right = LuaPull<float>(l, 3);
+	double left = LuaPull<float>(l, 2, 1.0);
+	double right = LuaPull<float>(l, 3, left);
 	Sound::PlaySfx(name.c_str(), left, right, false);
 	return 0;
 }
@@ -2648,6 +2688,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "IsItemClicked", l_pigui_is_item_clicked },
 		{ "Spacing", l_pigui_spacing },
 		{ "Dummy", l_pigui_dummy },
+		{ "NewLine", l_pigui_newline },
 		{ "BeginChild", l_pigui_begin_child },
 		{ "EndChild", l_pigui_end_child },
 		{ "PushFont", l_pigui_push_font },
@@ -2661,6 +2702,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "PathStroke", l_pigui_path_stroke },
 		{ "PushItemWidth", l_pigui_push_item_width },
 		{ "PopItemWidth", l_pigui_pop_item_width },
+		{ "NextItemWidth", l_pigui_next_item_width },
 		{ "PushTextWrapPos", l_pigui_push_text_wrap_pos },
 		{ "PopTextWrapPos", l_pigui_pop_text_wrap_pos },
 		{ "BeginPopup", l_pigui_begin_popup },

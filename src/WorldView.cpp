@@ -22,10 +22,10 @@
 #include "graphics/Renderer.h"
 #include "matrix4x4.h"
 #include "ship/PlayerShipController.h"
+#include "ship/ShipViewController.h"
 #include "sound/Sound.h"
 #include "ui/Widget.h"
 
-const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 namespace {
 	static const Color s_hudTextColor(0, 255, 0, 230);
 	static const float HUD_CROSSHAIR_SIZE = 8.0f;
@@ -36,27 +36,22 @@ namespace {
 } // namespace
 
 WorldView::WorldView(Game *game) :
-	UIView(),
-	shipView(this),
+	PiGuiView("WorldView"),
 	m_game(game)
 {
 	InitObject();
 }
 
 WorldView::WorldView(const Json &jsonObj, Game *game) :
-	UIView(),
-	shipView(this),
+	PiGuiView("WorldView"),
 	m_game(game)
 {
 	if (!jsonObj["world_view"].is_object()) throw SavedGameCorruptException();
 	Json worldViewObj = jsonObj["world_view"];
 
-	if (!worldViewObj["cam_type"].is_number_integer()) throw SavedGameCorruptException();
-	shipView.m_camType = worldViewObj["cam_type"];
-
 	InitObject();
 
-	shipView.LoadFromJson(worldViewObj);
+	shipView->LoadFromJson(worldViewObj);
 }
 
 WorldView::InputBinding WorldView::InputBindings;
@@ -81,9 +76,6 @@ void WorldView::RegisterInputBindings()
 
 void WorldView::InitObject()
 {
-	float size[2];
-	GetSizeRequested(size);
-
 	m_labelsOn = true;
 	SetTransparency(true);
 
@@ -95,38 +87,9 @@ void WorldView::InitObject()
 	m_navTunnel = new NavTunnelWidget(this, m_blendState);
 	Add(m_navTunnel, 0, 0);
 
-#if WITH_DEVKEYS
-	Gui::Screen::PushFont("ConsoleFont");
-	m_debugInfo = (new Gui::Label(""))->Color(204, 204, 204);
-	Add(m_debugInfo, 10, 200);
-	Gui::Screen::PopFont();
-#endif
 	/*
 	  NEW UI
 	*/
-
-	// --
-
-	m_hudSensorGaugeStack = new Gui::VBox();
-	m_hudSensorGaugeStack->SetSpacing(2.0f);
-	Add(m_hudSensorGaugeStack, 5.0f, 5.0f);
-
-	Gui::Screen::PushFont("OverlayFont");
-
-	{
-		m_pauseText = new Gui::Label(std::string("#f7f") + Lang::PAUSED);
-		float w, h;
-		Gui::Screen::MeasureString(Lang::PAUSED, w, h);
-		Add(m_pauseText, 0.5f * (Gui::Screen::GetWidth() - w), 100);
-	}
-	Gui::Screen::PopFont();
-
-	m_combatTargetIndicator.label = new Gui::Label(""); // colour set dynamically
-	m_targetLeadIndicator.label = new Gui::Label("");
-
-	// these labels are repositioned during Draw3D()
-	Add(m_combatTargetIndicator.label, 0, 0);
-	Add(m_targetLeadIndicator.label, 0, 0);
 
 	m_speedLines.reset(new SpeedLines(Pi::player));
 
@@ -140,10 +103,9 @@ void WorldView::InitObject()
 
 	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
 	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
-	shipView.Init();
 
-	m_onPlayerChangeTargetCon =
-		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
+	shipView.reset(new ShipViewController(this));
+	shipView->Init();
 
 	m_onToggleHudModeCon = InputBindings.toggleHudMode->onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
 	m_onIncTimeAccelCon = InputBindings.increaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
@@ -152,7 +114,6 @@ void WorldView::InitObject()
 
 WorldView::~WorldView()
 {
-	m_onPlayerChangeTargetCon.disconnect();
 	m_onToggleHudModeCon.disconnect();
 	m_onIncTimeAccelCon.disconnect();
 	m_onDecTimeAccelCon.disconnect();
@@ -162,7 +123,7 @@ void WorldView::SaveToJson(Json &jsonObj)
 {
 	Json worldViewObj = Json::object(); // Create JSON object to contain world view data.
 
-	shipView.SaveToJson(worldViewObj);
+	shipView->SaveToJson(worldViewObj);
 
 	jsonObj["world_view"] = worldViewObj; // Add world view object to supplied object.
 }
@@ -190,12 +151,20 @@ void WorldView::Draw3D()
 
 	Body *excludeBody = nullptr;
 	ShipCockpit *cockpit = nullptr;
-	if (shipView.GetCamType() == ShipViewController::CAM_INTERNAL) {
+	if (shipView->GetCamType() == ShipViewController::CAM_INTERNAL) {
 		excludeBody = Pi::player;
-		if (shipView.m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
+		if (shipView->m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
 			cockpit = Pi::player->GetCockpit();
 	}
-	m_camera->Draw(excludeBody, cockpit);
+	m_camera->Draw(excludeBody);
+
+	// NB: Do any screen space rendering after here:
+	// Things like the cockpit and AR features like hudtrails, space dust etc.
+
+	// Render cockpit
+	// XXX camera should rotate inside cockpit, not rotate the cockpit around in the world
+	if (cockpit)
+		cockpit->RenderCockpit(m_renderer, m_camera.get(), m_camera->GetContext()->GetTempFrame());
 
 	// Draw 3D HUD
 	// Speed lines
@@ -209,8 +178,6 @@ void WorldView::Draw3D()
 	}
 
 	m_cameraContext->EndFrame();
-
-	UIView::Draw3D();
 }
 
 void WorldView::OnToggleLabels()
@@ -227,64 +194,6 @@ void WorldView::OnToggleLabels()
 	}
 }
 
-void WorldView::ShowAll()
-{
-	View::ShowAll(); // by default, just delegate back to View
-	RefreshButtonStateAndVisibility();
-}
-
-void WorldView::RefreshButtonStateAndVisibility()
-{
-	assert(m_game);
-	assert(Pi::player);
-	assert(!Pi::player->IsDead());
-
-	if (m_game->IsPaused())
-		m_pauseText->Show();
-	else
-		m_pauseText->Hide();
-
-#if WITH_DEVKEYS
-	if (Pi::showDebugInfo) {
-		std::ostringstream ss;
-
-		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-			vector3d pos = Pi::player->GetPosition();
-			vector3d abs_pos = Pi::player->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
-
-			const Frame *playerFrame = Pi::player->GetFrame();
-
-			ss << stringf("Pos: %0{f.2}, %1{f.2}, %2{f.2}\n", pos.x, pos.y, pos.z);
-			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
-
-			const SystemPath &path(playerFrame->GetSystemBody()->GetPath());
-			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ",
-				playerFrame->GetLabel(),
-				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
-			ss << stringf("(%0{f.2} km), rotating: %1, has rotation: %2\n",
-				pos.Length() / 1000, (playerFrame->IsRotFrame() ? "yes" : "no"), (playerFrame->HasRotFrame() ? "yes" : "no"));
-
-			//Calculate lat/lon for ship position
-			const vector3d dir = pos.NormalizedSafe();
-			const float lat = RAD2DEG(asin(dir.y));
-			const float lon = RAD2DEG(atan2(dir.x, dir.z));
-
-			ss << stringf("Lat / Lon: %0{f.8} / %1{f.8}\n", lat, lon);
-		}
-
-		char aibuf[256];
-		Pi::player->AIGetStatusText(aibuf);
-		aibuf[255] = 0;
-		ss << aibuf << std::endl;
-
-		m_debugInfo->SetText(ss.str());
-		m_debugInfo->Show();
-	} else {
-		m_debugInfo->Hide();
-	}
-#endif
-}
-
 void WorldView::Update()
 {
 	PROFILE_SCOPED()
@@ -292,10 +201,7 @@ void WorldView::Update()
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
-	// show state-appropriate buttons
-	RefreshButtonStateAndVisibility();
-
-	shipView.Update();
+	shipView->Update();
 
 	m_cameraContext->BeginFrame();
 	m_camera->Update();
@@ -303,7 +209,7 @@ void WorldView::Update()
 	UpdateProjectedObjects();
 
 	FrameId playerFrameId = Pi::player->GetFrame();
-	FrameId camFrameId = m_cameraContext->GetCamFrame();
+	FrameId camFrameId = m_cameraContext->GetTempFrame();
 
 	const Frame *playerFrame = Frame::GetFrame(playerFrameId);
 	const Frame *camFrame = Frame::GetFrame(camFrameId);
@@ -335,24 +241,16 @@ void WorldView::Update()
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->Reset(playerFrameId);
 	}
-
-	UIView::Update();
-}
-
-void WorldView::BuildUI(UI::Single *container)
-{
 }
 
 void WorldView::OnSwitchTo()
 {
-	UIView::OnSwitchTo();
-	RefreshButtonStateAndVisibility();
-	shipView.Activated();
+	shipView->Activated();
 }
 
 void WorldView::OnSwitchFrom()
 {
-	shipView.Deactivated();
+	shipView->Deactivated();
 	Pi::DrawGUI = true;
 }
 
@@ -383,23 +281,12 @@ static void PlayerPayFine()
 }
 */
 
-void WorldView::OnPlayerChangeTarget()
-{
-	Body *b = Pi::player->GetNavTarget();
-	if (b) {
-		Sound::PlaySfx("OK");
-		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud *>(b)->GetShip() : 0;
-		if (!s || !m_game->GetSectorView()->GetHyperspaceTarget().IsSameSystem(s->GetHyperspaceDest()))
-			m_game->GetSectorView()->FloatHyperspaceTarget();
-	}
-}
-
 int WorldView::GetActiveWeapon() const
 {
 	using CamType = ShipViewController::CamType;
-	switch (shipView.GetCamType()) {
+	switch (shipView->GetCamType()) {
 	case CamType::CAM_INTERNAL:
-		return shipView.m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
+		return shipView->m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
 
 	case CamType::CAM_EXTERNAL:
 	case CamType::CAM_SIDEREAL:
@@ -419,7 +306,7 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 
 void WorldView::UpdateProjectedObjects()
 {
-	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetCamFrame());
+	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetTempFrame());
 	matrix3x3d cam_rot = cam_frame->GetOrient();
 
 	// later we might want non-ship enemies (e.g., for assaults on military bases)
@@ -437,8 +324,8 @@ void WorldView::UpdateProjectedObjects()
 		// calculate firing solution and relative velocity along our z axis
 		int laser = -1;
 		double projspeed = 0;
-		if (shipView.GetCamType() == ShipViewController::CAM_INTERNAL) {
-			switch (shipView.m_internalCameraController->GetMode()) {
+		if (shipView->GetCamType() == ShipViewController::CAM_INTERNAL) {
+			switch (shipView->m_internalCameraController->GetMode()) {
 			case InternalCameraController::MODE_FRONT: laser = 0; break;
 			case InternalCameraController::MODE_REAR: laser = 1; break;
 			default: break;
@@ -453,31 +340,10 @@ void WorldView::UpdateProjectedObjects()
 			vector3d leadpos = targpos + targvel * (targpos.Length() / projspeed);
 			leadpos = targpos + targvel * (leadpos.Length() / projspeed); // second order approx
 
-			// now the text speed/distance
-			// want to calculate closing velocity that you couldn't counter with retros
-
-			double vel = targvel.Dot(targpos.NormalizedSafe()); // position should be towards
-			double raccel =
-				Pi::player->GetShipType()->linThrust[Thruster::THRUSTER_REVERSE] / Pi::player->GetMass();
-
-			double c = Clamp(vel / sqrt(2.0 * raccel * dist), -1.0, 1.0);
-			float r = float(0.2 + (c + 1.0) * 0.4);
-			float b = float(0.2 + (1.0 - c) * 0.4);
-
-			m_combatTargetIndicator.label->Color(r * 255, 0, b * 255);
-			m_targetLeadIndicator.label->Color(r * 255, 0, b * 255);
-
 			UpdateIndicator(m_targetLeadIndicator, leadpos);
 
 			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
 				HideIndicator(m_targetLeadIndicator);
-
-			// if the lead indicator is very close to the position indicator
-			// try (just a little) to keep the labels from interfering with one another
-			if (m_targetLeadIndicator.side == INDICATOR_ONSCREEN) {
-				assert(m_combatTargetIndicator.side == INDICATOR_ONSCREEN);
-				SeparateLabels(m_combatTargetIndicator.label, m_targetLeadIndicator.label);
-			}
 		} else
 			HideIndicator(m_targetLeadIndicator);
 	} else {
@@ -502,114 +368,72 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 		indicator.pos.x = w / 2.0f;
 		indicator.pos.y = h / 2.0f;
 		indicator.side = INDICATOR_ONSCREEN;
-	} else {
-		vector3d proj;
-		bool success = project_to_screen(cameraSpacePos, proj, frustum, guiSize);
-		if (!success)
-			proj = vector3d(w / 2.0, h / 2.0, 0.0);
-
-		indicator.realpos.x = int(proj.x);
-		indicator.realpos.y = int(proj.y);
-
-		bool onscreen =
-			(cameraSpacePos.z < 0.0) &&
-			(proj.x >= BORDER) && (proj.x < w - BORDER) &&
-			(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM);
-
-		if (onscreen) {
-			indicator.pos.x = int(proj.x);
-			indicator.pos.y = int(proj.y);
-			indicator.side = INDICATOR_ONSCREEN;
-		} else {
-			// homogeneous 2D points and lines are really useful
-			const vector3d ptCentre(w / 2.0, h / 2.0, 1.0);
-			const vector3d ptProj(proj.x, proj.y, 1.0);
-			const vector3d lnDir = ptProj.Cross(ptCentre);
-
-			indicator.side = INDICATOR_TOP;
-
-			// this fallback is used if direction is close to (0, 0, +ve)
-			indicator.pos.x = w / 2.0;
-			indicator.pos.y = BORDER;
-
-			if (cameraSpacePos.x < -1e-3) {
-				vector3d ptLeft = lnDir.Cross(vector3d(-1.0, 0.0, BORDER));
-				ptLeft /= ptLeft.z;
-				if (ptLeft.y >= BORDER && ptLeft.y < h - BORDER_BOTTOM) {
-					indicator.pos.x = ptLeft.x;
-					indicator.pos.y = ptLeft.y;
-					indicator.side = INDICATOR_LEFT;
-				}
-			} else if (cameraSpacePos.x > 1e-3) {
-				vector3d ptRight = lnDir.Cross(vector3d(-1.0, 0.0, w - BORDER));
-				ptRight /= ptRight.z;
-				if (ptRight.y >= BORDER && ptRight.y < h - BORDER_BOTTOM) {
-					indicator.pos.x = ptRight.x;
-					indicator.pos.y = ptRight.y;
-					indicator.side = INDICATOR_RIGHT;
-				}
-			}
-
-			if (cameraSpacePos.y < -1e-3) {
-				vector3d ptBottom = lnDir.Cross(vector3d(0.0, -1.0, h - BORDER_BOTTOM));
-				ptBottom /= ptBottom.z;
-				if (ptBottom.x >= BORDER && ptBottom.x < w - BORDER) {
-					indicator.pos.x = ptBottom.x;
-					indicator.pos.y = ptBottom.y;
-					indicator.side = INDICATOR_BOTTOM;
-				}
-			} else if (cameraSpacePos.y > 1e-3) {
-				vector3d ptTop = lnDir.Cross(vector3d(0.0, -1.0, BORDER));
-				ptTop /= ptTop.z;
-				if (ptTop.x >= BORDER && ptTop.x < w - BORDER) {
-					indicator.pos.x = ptTop.x;
-					indicator.pos.y = ptTop.y;
-					indicator.side = INDICATOR_TOP;
-				}
-			}
-		}
+		return;
 	}
 
-	// update the label position
-	if (indicator.label) {
-		if (indicator.side != INDICATOR_HIDDEN) {
-			float labelSize[2] = { 500.0f, 500.0f };
-			indicator.label->GetSizeRequested(labelSize);
+	vector3d proj;
+	bool success = project_to_screen(cameraSpacePos, proj, frustum, guiSize);
+	if (!success)
+		proj = vector3d(w / 2.0, h / 2.0, 0.0);
 
-			int pos[2] = { 0, 0 };
-			switch (indicator.side) {
-			case INDICATOR_HIDDEN: break;
-			case INDICATOR_ONSCREEN: // when onscreen, default to label-below unless it would clamp to be on top of the marker
-				pos[0] = -(labelSize[0] / 2.0f);
-				if (indicator.pos.y + pos[1] + labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f > h - BORDER_BOTTOM)
-					pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
-				else
-					pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
-				break;
-			case INDICATOR_TOP:
-				pos[0] = -(labelSize[0] / 2.0f);
-				pos[1] = HUD_CROSSHAIR_SIZE + 2.0f;
-				break;
-			case INDICATOR_LEFT:
-				pos[0] = HUD_CROSSHAIR_SIZE + 2.0f;
-				pos[1] = -(labelSize[1] / 2.0f);
-				break;
-			case INDICATOR_RIGHT:
-				pos[0] = -(labelSize[0] + HUD_CROSSHAIR_SIZE + 2.0f);
-				pos[1] = -(labelSize[1] / 2.0f);
-				break;
-			case INDICATOR_BOTTOM:
-				pos[0] = -(labelSize[0] / 2.0f);
-				pos[1] = -(labelSize[1] + HUD_CROSSHAIR_SIZE + 2.0f);
-				break;
+	indicator.realpos.x = int(proj.x);
+	indicator.realpos.y = int(proj.y);
+
+	bool onscreen =
+		(cameraSpacePos.z < 0.0) &&
+		(proj.x >= BORDER) && (proj.x < w - BORDER) &&
+		(proj.y >= BORDER) && (proj.y < h - BORDER_BOTTOM);
+
+	if (onscreen) {
+		indicator.pos.x = int(proj.x);
+		indicator.pos.y = int(proj.y);
+		indicator.side = INDICATOR_ONSCREEN;
+	} else {
+		// homogeneous 2D points and lines are really useful
+		const vector3d ptCentre(w / 2.0, h / 2.0, 1.0);
+		const vector3d ptProj(proj.x, proj.y, 1.0);
+		const vector3d lnDir = ptProj.Cross(ptCentre);
+
+		indicator.side = INDICATOR_TOP;
+
+		// this fallback is used if direction is close to (0, 0, +ve)
+		indicator.pos.x = w / 2.0;
+		indicator.pos.y = BORDER;
+
+		if (cameraSpacePos.x < -1e-3) {
+			vector3d ptLeft = lnDir.Cross(vector3d(-1.0, 0.0, BORDER));
+			ptLeft /= ptLeft.z;
+			if (ptLeft.y >= BORDER && ptLeft.y < h - BORDER_BOTTOM) {
+				indicator.pos.x = ptLeft.x;
+				indicator.pos.y = ptLeft.y;
+				indicator.side = INDICATOR_LEFT;
 			}
+		} else if (cameraSpacePos.x > 1e-3) {
+			vector3d ptRight = lnDir.Cross(vector3d(-1.0, 0.0, w - BORDER));
+			ptRight /= ptRight.z;
+			if (ptRight.y >= BORDER && ptRight.y < h - BORDER_BOTTOM) {
+				indicator.pos.x = ptRight.x;
+				indicator.pos.y = ptRight.y;
+				indicator.side = INDICATOR_RIGHT;
+			}
+		}
 
-			pos[0] = Clamp(pos[0] + indicator.pos.x, BORDER, w - BORDER - labelSize[0]);
-			pos[1] = Clamp(pos[1] + indicator.pos.y, BORDER, h - BORDER_BOTTOM - labelSize[1]);
-			MoveChild(indicator.label, pos[0], pos[1]);
-			indicator.label->Show();
-		} else {
-			indicator.label->Hide();
+		if (cameraSpacePos.y < -1e-3) {
+			vector3d ptBottom = lnDir.Cross(vector3d(0.0, -1.0, h - BORDER_BOTTOM));
+			ptBottom /= ptBottom.z;
+			if (ptBottom.x >= BORDER && ptBottom.x < w - BORDER) {
+				indicator.pos.x = ptBottom.x;
+				indicator.pos.y = ptBottom.y;
+				indicator.side = INDICATOR_BOTTOM;
+			}
+		} else if (cameraSpacePos.y > 1e-3) {
+			vector3d ptTop = lnDir.Cross(vector3d(0.0, -1.0, BORDER));
+			ptTop /= ptTop.z;
+			if (ptTop.x >= BORDER && ptTop.x < w - BORDER) {
+				indicator.pos.x = ptTop.x;
+				indicator.pos.y = ptTop.y;
+				indicator.side = INDICATOR_TOP;
+			}
 		}
 	}
 }
@@ -618,42 +442,6 @@ void WorldView::HideIndicator(Indicator &indicator)
 {
 	indicator.side = INDICATOR_HIDDEN;
 	indicator.pos = vector2f(0.0f, 0.0f);
-	if (indicator.label)
-		indicator.label->Hide();
-}
-
-void WorldView::SeparateLabels(Gui::Label *a, Gui::Label *b)
-{
-	float posa[2], posb[2], sizea[2], sizeb[2];
-	GetChildPosition(a, posa);
-	a->GetSize(sizea);
-	sizea[0] *= 0.5f;
-	sizea[1] *= 0.5f;
-	posa[0] += sizea[0];
-	posa[1] += sizea[1];
-	GetChildPosition(b, posb);
-	b->GetSize(sizeb);
-	sizeb[0] *= 0.5f;
-	sizeb[1] *= 0.5f;
-	posb[0] += sizeb[0];
-	posb[1] += sizeb[1];
-
-	float overlapX = sizea[0] + sizeb[0] - fabs(posa[0] - posb[0]);
-	float overlapY = sizea[1] + sizeb[1] - fabs(posa[1] - posb[1]);
-
-	if (overlapX > 0.0f && overlapY > 0.0f) {
-		if (overlapX <= 4.0f) {
-			// small horizontal overlap; bump horizontally
-			if (posa[0] > posb[0]) overlapX *= -1.0f;
-			MoveChild(a, posa[0] - overlapX * 0.5f - sizea[0], posa[1] - sizea[1]);
-			MoveChild(b, posb[0] + overlapX * 0.5f - sizeb[0], posb[1] - sizeb[1]);
-		} else {
-			// large horizonal overlap; bump vertically
-			if (posa[1] > posb[1]) overlapY *= -1.0f;
-			MoveChild(a, posa[0] - sizea[0], posa[1] - overlapY * 0.5f - sizea[1]);
-			MoveChild(b, posb[0] - sizeb[0], posb[1] + overlapY * 0.5f - sizeb[1]);
-		}
-	}
 }
 
 double getSquareDistance(double initialDist, double scalingFactor, int num)
@@ -677,12 +465,6 @@ void WorldView::Draw()
 
 	// don't draw crosshairs etc in hyperspace
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
-
-	// glLineWidth(2.0f);
-
-	// glLineWidth(1.0f);
-
-	// glLineWidth(2.0f);
 
 	// combat target indicator
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
@@ -774,7 +556,7 @@ void NavTunnelWidget::Draw()
 	if (navtarget) {
 		const vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
 		const matrix3x3d &rotmat = Pi::player->GetOrient();
-		const vector3d eyevec = rotmat * m_worldView->shipView.GetCameraController()->GetOrient().VectorZ();
+		const vector3d eyevec = rotmat * m_worldView->shipView->GetCameraController()->GetOrient().VectorZ();
 		if (eyevec.Dot(navpos) >= 0.0) return;
 
 		const double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
@@ -782,9 +564,9 @@ void NavTunnelWidget::Draw()
 		const int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
 		const double angle = atan(maxSquareHeight / distToDest);
 		// ECRAVEN: TODO not the ideal way to handle Begin/EndCameraFrame here :-/
-		m_worldView->BeginCameraFrame();
+		// m_worldView->BeginCameraFrame();
 		const vector3d nav_screen = m_worldView->WorldSpaceToScreenSpace(navtarget);
-		m_worldView->EndCameraFrame();
+		// m_worldView->EndCameraFrame();
 		const vector2f tpos(vector2f(nav_screen.x / Graphics::GetScreenWidth() * Gui::Screen::GetWidth(), nav_screen.y / Graphics::GetScreenHeight() * Gui::Screen::GetHeight()));
 		const vector2f distDiff(tpos - vector2f(Gui::Screen::GetWidth() / 2.0f, Gui::Screen::GetHeight() / 2.0f));
 
@@ -927,61 +709,52 @@ static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraCo
 	return proj;
 }
 
-// needs to run inside m_cameraContext->Begin/EndFrame();
+// project a body in world-space to a screen-space location
 vector3d WorldView::WorldSpaceToScreenSpace(const Body *body) const
 {
-	if (body->IsType(Object::PLAYER) && shipView.GetCamType() == ShipViewController::CAM_INTERNAL)
+	if (body->IsType(Object::PLAYER) && !shipView->IsExteriorView())
 		return vector3d(0, 0, 0);
-	const FrameId cam_frame = m_cameraContext->GetCamFrame();
-	vector3d pos = body->GetInterpPositionRelTo(cam_frame);
-	return projectToScreenSpace(pos, m_cameraContext);
+
+	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());
+	return WorldSpaceToScreenSpace(pos);
 }
 
-// needs to run inside m_cameraContext->Begin/EndFrame();
+// position is relative to the parent frame of the camera
+// use the Body* overload to convert from other frames' spaces
 vector3d WorldView::WorldSpaceToScreenSpace(const vector3d &position) const
 {
-	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetCamFrame());
-	matrix3x3d cam_rot = cam_frame->GetInterpOrient();
-	vector3d pos = position * cam_rot;
+	vector3d pos = (position - m_cameraContext->GetCameraPos()) * m_cameraContext->GetCameraOrient();
 	return projectToScreenSpace(pos, m_cameraContext);
 }
 
-// needs to run inside m_cameraContext->Begin/EndFrame();
+// convert a position in ship-local coordinates to screen-space coordinates
 vector3d WorldView::ShipSpaceToScreenSpace(const vector3d &pos) const
 {
-	matrix3x3d orient = Pi::player->GetInterpOrient();
-	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetCamFrame());
-	matrix3x3d cam_rot = cam_frame->GetInterpOrient();
-	vector3d camspace = orient * pos * cam_rot;
+	// rotate ship-local coordinates into the camera frame orientation
+	vector3d camspace = Pi::player->GetInterpOrient() * pos * m_cameraContext->GetCameraOrient();
 	return projectToScreenSpace(camspace, m_cameraContext, false);
 }
 
-// needs to run inside m_cameraContext->Begin/EndFrame();
+// convert a position in body-relative coordinates (frame-oriented, player-origin) to screen-space
+vector3d WorldView::RelSpaceToScreenSpace(const vector3d &pos) const
+{
+	return projectToScreenSpace(pos * m_cameraContext->GetCameraOrient(), m_cameraContext);
+}
+
 vector3d WorldView::CameraSpaceToScreenSpace(const vector3d &pos) const
 {
 	return projectToScreenSpace(pos, m_cameraContext);
 }
 
-// needs to run inside m_cameraContext->Begin/EndFrame();
 vector3d WorldView::GetTargetIndicatorScreenPosition(const Body *body) const
 {
-	if (body->IsType(Object::PLAYER) && shipView.GetCamType() == ShipViewController::CAM_INTERNAL)
+	if (body->IsType(Object::PLAYER) && !shipView->IsExteriorView())
 		return vector3d(0, 0, 0);
-	FrameId cam_frame = m_cameraContext->GetCamFrame();
-	vector3d pos = body->GetTargetIndicatorPosition(cam_frame);
-	return projectToScreenSpace(pos, m_cameraContext);
-}
 
-// needs to run inside m_cameraContext->Begin/EndFrame();
-vector3d WorldView::GetMouseDirection() const
-{
-	// orientation according to mouse
-	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetCamFrame());
-	matrix3x3d cam_rot = cam_frame->GetInterpOrient();
-	vector3d mouseDir = Pi::player->GetPlayerController()->GetMouseDir() * cam_rot;
-	if (shipView.GetCamType() == ShipViewController::CAM_INTERNAL && shipView.m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR)
-		mouseDir = -mouseDir;
-	return (Pi::player->GetPhysRadius() * 1.5) * mouseDir;
+	// get the target indicator position in body-local coordinates
+	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());
+	pos += body->GetInterpOrientRelTo(m_cameraContext->GetCameraFrame()) * body->GetTargetIndicatorPosition();
+	return WorldSpaceToScreenSpace(pos);
 }
 
 void WorldView::HandleSDLEvent(SDL_Event &event)

@@ -193,8 +193,16 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			break;
 		default: assert(0); break;
 		}
-	} else
+	} else {
 		SetFlightControlState(CONTROL_MANUAL);
+
+		// TODO: this is a bit monkey-patched, but calling from SetFlightControlState doesn't properly clear the mouse capture state.
+		// Do it here so we properly react to becoming docked while holding the mouse button down
+		if (m_ship->GetFlightState() == Ship::DOCKED && m_mouseActive) {
+			Pi::input->SetCapturingMouse(false);
+			m_mouseActive = false;
+		}
+	}
 
 	//call autopilot AI, if active (also applies to set speed and heading lock modes)
 	OS::EnableFPE();
@@ -211,6 +219,17 @@ vector3d PlayerShipController::GetMouseDir() const
 {
 	// translate from system to local frame
 	return m_mouseDir * Frame::GetFrame(m_ship->GetFrame())->GetOrient();
+}
+
+// needs to run inside CameraContext::Begin/EndFrame();
+vector3d PlayerShipController::GetMouseViewDir() const
+{
+	// orientation according to mouse
+	matrix3x3d cam_rot = Pi::game->GetWorldView()->GetCameraContext()->GetCameraOrient();
+	vector3d mouseDir = GetMouseDir() * cam_rot;
+	if (m_invertMouse)
+		mouseDir = -mouseDir;
+	return (m_ship->GetPhysRadius() * 1.5) * mouseDir;
 }
 
 // mouse wraparound control function
@@ -342,25 +361,26 @@ bool PlayerShipController::IsAnyLinearThrusterKeyDown()
 
 void PlayerShipController::SetFlightControlState(FlightControlState s)
 {
-	if (m_flightControlState != s) {
-		m_flightControlState = s;
-		m_ship->AIClearInstructions();
-		//set desired velocity to current actual
-		if (m_flightControlState == CONTROL_FIXSPEED) {
-			// Speed is set to the projection of the velocity onto the target.
+	if (m_flightControlState == s)
+		return;
 
-			vector3d shipVel = m_setSpeedTarget ?
-				// Ship's velocity with respect to the target, in current frame's coordinates
-				-m_setSpeedTarget->GetVelocityRelTo(m_ship) :
-				// Ship's velocity with respect to current frame
-				m_ship->GetVelocity();
+	m_flightControlState = s;
+	m_ship->AIClearInstructions();
+	//set desired velocity to current actual
+	if (m_flightControlState == CONTROL_FIXSPEED) {
+		// Speed is set to the projection of the velocity onto the target.
 
-			// A change from Manual to Set Speed never sets a negative speed.
-			m_setSpeed = std::max(shipVel.Dot(-m_ship->GetOrient().VectorZ()), 0.0);
-		}
-		//XXX global stuff
-		Pi::onPlayerChangeFlightControlState.emit();
+		vector3d shipVel = m_setSpeedTarget ?
+			// Ship's velocity with respect to the target, in current frame's coordinates
+			-m_setSpeedTarget->GetVelocityRelTo(m_ship) :
+			// Ship's velocity with respect to current frame
+			m_ship->GetVelocity();
+
+		// A change from Manual to Set Speed never sets a negative speed.
+		m_setSpeed = std::max(shipVel.Dot(-m_ship->GetOrient().VectorZ()), 0.0);
 	}
+
+	onChangeFlightControlState.emit();
 }
 
 void PlayerShipController::SetLowThrustPower(float power)
@@ -418,14 +438,18 @@ void PlayerShipController::SetCombatTarget(Body *const target, bool setSpeedTo)
 	if (setSpeedTo)
 		m_setSpeedTarget = target;
 	m_combatTarget = target;
+	onChangeTarget.emit();
 }
 
 void PlayerShipController::SetNavTarget(Body *const target)
 {
 	m_navTarget = target;
+	onChangeTarget.emit();
 }
 
 void PlayerShipController::SetSetSpeedTarget(Body *const target)
 {
 	m_setSpeedTarget = target;
+	// TODO: not sure, do we actually need this? we are only changing the set speed target
+	onChangeTarget.emit();
 }

@@ -134,7 +134,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 
 void Camera::Update()
 {
-	FrameId camFrame = m_context->GetCamFrame();
+	FrameId camFrame = m_context->GetTempFrame();
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
@@ -202,11 +202,11 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw(const Body *excludeBody, ShipCockpit *cockpit)
+void Camera::Draw(const Body *excludeBody)
 {
 	PROFILE_SCOPED()
 
-	FrameId camFrameId = m_context->GetCamFrame();
+	FrameId camFrameId = m_context->GetTempFrame();
 	FrameId rootFrameId = Pi::game->GetSpace()->GetRootFrame();
 
 	Frame *camFrame = Frame::GetFrame(camFrameId);
@@ -288,15 +288,6 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit *cockpit)
 	}
 
 	SfxManager::RenderAll(m_renderer, rootFrameId, camFrameId);
-
-	// NB: Do any screen space rendering after here:
-	// Things like the cockpit and AR features like hudtrails, space dust etc.
-
-	// Render cockpit
-	// XXX only here because it needs a frame for lighting calc
-	// should really be in WorldView, immediately after camera draw
-	if (cockpit)
-		cockpit->RenderCockpit(m_renderer, this, camFrameId);
 }
 
 void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const

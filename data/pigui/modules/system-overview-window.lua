@@ -66,11 +66,11 @@ local function sortByPlayerDistance(a,b)
 	if a.body == nil then
 		return false;
 	end
-	
+
 	if b.body == nil then
 		return false;
 	end
-	
+
 	return a.body:DistanceTo(Game.player) < b.body:DistanceTo(Game.player)
 end
 
@@ -142,6 +142,7 @@ local function showEntry(entry, indent, sortFunction)
 		ui.sameLine()
 		if ui.selectable(label or "UNKNOWN", is_target, {"SpanAllColumns"}) then
 			Game.player:SetNavTarget(body)
+			ui.playSfx("OK")
 		end
 		if ui.isItemHovered() and ui.isMouseClicked(1) then
 			ui.openDefaultRadialMenu(body)

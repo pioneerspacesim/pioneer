@@ -37,6 +37,7 @@ namespace PiGUI {
 		void DrawTextureInspector();
 
 		void DrawRendererStats();
+		void DrawWorldViewStats();
 		void DrawImGuiStats();
 		void DrawStatList(const Perf::Stats::FrameInfo &fi);
 
