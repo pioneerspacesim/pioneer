@@ -36,7 +36,6 @@ public:
 	bool IsMoving() const { return m_isMoving; }
 	virtual double GetMass() const override { return m_mass; } // XXX don't override this
 	virtual void TimeStepUpdate(const float timeStep) override;
-	virtual vector3d CalcAtmosphericForce() const;
 	double CalcAtmosphericDrag(double velSqr, double area, double coeff) const;
 	void CalcExternalForce();
 
@@ -93,6 +92,8 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
+
+	virtual vector3d CalcAtmosphericForce() const;
 
 	static const double DEFAULT_DRAG_COEFF;
 
