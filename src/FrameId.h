@@ -14,7 +14,6 @@ struct FrameId {
 		m_id(new_id) {}
 
 	constexpr operator bool() const { return m_id != Invalid; }
-	constexpr operator uint32_t() const { return m_id; }
 	constexpr operator size_t() const { return m_id; }
 
 	constexpr bool operator==(FrameId rhs) const { return m_id == rhs.m_id; }
