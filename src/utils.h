@@ -271,12 +271,4 @@ static inline Uint32 ceil_pow2(Uint32 v)
 
 void hexdump(const unsigned char *buf, int bufsz);
 
-namespace FileSystem {
-	enum class CopyMode {
-		ONLY_MISSING_IN_TARGET
-	};
-}
-
-void CopyDir(std::string sourceDir, std::string targetDir, FileSystem::CopyMode copymode);
-
 #endif /* _UTILS_H */

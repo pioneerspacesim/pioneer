@@ -54,12 +54,25 @@ namespace FileSystem {
 	/// <base> must not be empty
 	std::string JoinPathBelow(const std::string &base, const std::string &path);
 
+	/// Given a path in the form <base>/<relpath>, return <relpath>.
+	/// If <base> is not the exact base of <path>, return <path> unchanged
+	std::string GetRelativePath(const std::string &base, const std::string &path);
+
 	/// Collapse redundant path separators, and '.' and '..' components
 	/// NB: this does not interpret symlinks, so the result may refer to
 	/// an entirely different file than the input
 	/// throws std::invalid_argument if the input path resolves to a 'negative' path
 	/// (e.g., "a/../.." resolves to a negative path)
 	std::string NormalisePath(const std::string &path);
+
+	enum class CopyMode {
+		OVERWRITE,			   // overwrite all files in target with files from source
+		ONLY_MISSING_IN_TARGET // only copy files that aren't present in target
+	};
+
+	/// Copy the contents of a directory from sourceFS into a directory in targetFS, according to copymode.
+	/// Returns false if sourceDir or targetDir are invalid
+	bool CopyDir(FileSource &sourceFS, std::string sourceDir, FileSourceFS &targetFS, std::string targetDir, CopyMode copymode = CopyMode::OVERWRITE);
 
 	class FileInfo {
 		friend class FileSource;
