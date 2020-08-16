@@ -4,7 +4,8 @@ image: Visual Studio 2017
 environment:
   matrix:
     - TARGET: msvc
-    - TARGET: mingw
+    # mingw currently causes unnecessary compilation errors due to appveyor-internal problems
+    # - TARGET: mingw
 
 install:
     - IF "%TARGET%"=="mingw" (choco install InnoSetup)
