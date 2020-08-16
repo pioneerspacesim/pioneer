@@ -12,6 +12,7 @@
 #include "libs.h"
 #include <cmath>
 #include <cstdio>
+#include <fstream>
 #include <sstream>
 
 std::string format_money(double cents, bool showCents)

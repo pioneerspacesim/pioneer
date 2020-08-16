@@ -123,6 +123,68 @@ namespace FileSystem {
 			return base;
 	}
 
+	std::string GetRelativePath(const std::string &base, const std::string &path)
+	{
+		// catch all common errors early
+		if (base.empty() || path.empty() || path.size() < base.size())
+			return path;
+
+		// can't strip a non-root prefix from a root path and vice-versa
+		if ((path[0] == '/' || base[0] == '/') && (path[0] != base[0]))
+			return path;
+
+		// check if <path> exactly starts with <base>
+		if (path.compare(0, base.size(), base) == 0) {
+			if (path.size() == base.size())
+				return ""; // strip the entire base and return an empty path
+			else if (path[base.size()] == '/')
+				return path.substr(base.size() + 1); // strip the base and the trailing separator
+		}
+
+		// if <path> isn't relative to <base>, return the original <path>
+		return path;
+	}
+
+	bool CopyDir(FileSource &sourceFS, std::string sourceDir, FileSourceFS &targetFS, std::string targetDir, FileSystem::CopyMode copymode)
+	{
+		// NOTE: copymode var is not used, because only mode ONLY_MISSING_IN_TARGET is implemented
+		if (!sourceFS.Lookup(sourceDir).IsDir() || !targetFS.Lookup(targetDir).IsDir())
+			return false;
+
+		// collect files, that are already in the target
+		// NOTE: modification time (in map value) probably will be needed in another mode
+		std::map<std::string, Time::DateTime> targetFiles;
+		if (copymode != CopyMode::OVERWRITE) {
+			// don't bother collecting target file data if we're overwriting
+			for (FileSystem::FileEnumerator files(targetFS, targetDir, FileSystem::FileEnumerator::Recurse | FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next())
+				targetFiles[files.Current().GetPath()] = files.Current().GetModificationTime();
+		}
+
+		for (FileSystem::FileEnumerator files(sourceFS, sourceDir, FileSystem::FileEnumerator::Recurse | FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next()) {
+			const FileSystem::FileInfo &info = files.Current();
+			const std::string targetPath = FileSystem::JoinPathBelow(targetDir, FileSystem::GetRelativePath(sourceDir, info.GetPath()));
+			const auto &oldFile = targetFiles.find(targetPath);
+			if (oldFile == targetFiles.end()) { // there is no such file (or dir) in the target
+				if (info.IsFile()) {
+					//copy file
+					RefCountedPtr<FileData> fileData = info.Read();
+					FILE *outfile = targetFS.OpenWriteStream(targetPath);
+					fwrite(fileData->GetData(), 1, fileData->GetSize(), outfile);
+					fclose(outfile);
+					// Output("copy %s to %s\n", info.GetAbsolutePath(), FileSystem::JoinPath(targetFS.GetRoot(), targetPath));
+				} else if (info.IsDir()) {
+					//create the subdir
+					targetFS.MakeDirectory(targetPath);
+					// Output("create dir %s\n", FileSystem::JoinPath(targetFS.GetRoot(), targetPath));
+				}
+			} else
+				//this file is no longer needed when searching
+				targetFiles.erase(oldFile);
+		}
+
+		return true;
+	}
+
 	void Init()
 	{
 		gameDataFiles.AppendSource(&dataFilesUser);

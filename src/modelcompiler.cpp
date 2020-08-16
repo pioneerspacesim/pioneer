@@ -206,7 +206,6 @@ start:
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 #ifdef PIONEER_PROFILER
 	FileSystem::userFiles.MakeDirectory("profiler");
-	const std::string profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
 #endif
 
 	// what mode are we in?
@@ -325,7 +324,7 @@ start:
 	}
 
 #ifdef PIONEER_PROFILER
-	Profiler::dumphtml(profilerPath.c_str());
+	Profiler::dumphtml(FileSystem::JoinPathBelow(FileSystem::GetUserDir(), "profiler").c_str());
 #endif
 
 	Graphics::Uninit();
