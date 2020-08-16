@@ -51,7 +51,14 @@ endif(APPLE)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
     if (NOT IS_TRAVIS)
-        add_compile_options(-fdiagnostics-color)
+        add_compile_options(
+			-fdiagnostics-color
+			-Wall
+			-Wextra
+			-Wno-unused-parameter
+			-Wno-unused-but-set-parameter
+			-Wno-implicit-fallthrough
+		)
     endif()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
 endif (CMAKE_COMPILER_IS_GNUCXX)
