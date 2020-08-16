@@ -331,11 +331,8 @@ void Pi::App::Startup()
 	Application::Startup();
 #if PIONEER_PROFILER
 	Pi::profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
-	std::string profilerIconsPath = FileSystem::JoinPath(FileSystem::GetDataDir(), "icons/profiler");
 	for (std::string target : { "", "saving/", "NewGame/" }) {
 		FileSystem::userFiles.MakeDirectory("profiler/" + target);
-		FileSystem::userFiles.MakeDirectory("profiler/" + target + "img");
-		CopyDir(profilerIconsPath, FileSystem::JoinPathBelow(Pi::profilerPath, target + "img"), FileSystem::CopyMode::ONLY_MISSING_IN_TARGET);
 	}
 #endif
 
@@ -400,10 +397,6 @@ void Pi::App::Startup()
 	threadTimer.Stop();
 	Output("started %d worker threads in %.2fms\n", numThreads, threadTimer.milliseconds());
 
-#ifdef PIONEER_PROFILER
-	Profiler::dumphtml(profilerPath.c_str());
-#endif
-
 	QueueLifecycle(m_loader);
 
 	// Don't start the main menu if we don't have a GUI
@@ -423,6 +416,7 @@ void Pi::App::Startup()
 // Immediately destroy everything and end the game.
 void Pi::App::Shutdown()
 {
+	PROFILE_SCOPED()
 	Output("Pi shutting down.\n");
 
 	// This function should only be called at the very end of the shutdown procedure.
@@ -488,6 +482,8 @@ void Pi::App::Shutdown()
 // TODO: investigate constructing a DAG out of Init functions and dependencies
 void LoadStep::Start()
 {
+	PROFILE_SCOPED()
+
 	Output("LoadStep::Start()\n");
 	m_loadTimer.Reset();
 	m_loadTimer.Start();
@@ -609,6 +605,8 @@ void LoadStep::Start()
 
 void LoadStep::Update(float deltaTime)
 {
+	PROFILE_SCOPED()
+
 	if (m_currentLoader < m_loaders.size()) {
 		LoaderStep &loader = m_loaders[m_currentLoader++];
 		float progress = (m_currentLoader) / float(m_loaders.size());
@@ -633,6 +631,10 @@ void LoadStep::Update(float deltaTime)
 
 		m_loadTimer.Stop();
 		Output("\n\nPioneer loading took %.2fms\n", m_loadTimer.milliseconds());
+
+#ifdef PIONEER_PROFILER
+		Profiler::dumphtml(Pi::profilerPath.c_str());
+#endif
 	}
 }
 
