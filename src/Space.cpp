@@ -664,8 +664,6 @@ void Space::UpdateStarSystemCache(const SystemPath *here)
 
 static FrameId MakeFramesFor(const double at_time, SystemBody *sbody, Body *b, FrameId fId, std::vector<vector3d> &prevPositions)
 {
-	Frame *f = Frame::GetFrame(fId);
-
 	if (!sbody->GetParent()) {
 		if (b) b->SetFrame(fId);
 		Frame *f = Frame::GetFrame(fId);

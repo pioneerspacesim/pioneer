@@ -181,7 +181,7 @@ RefCountedPtr<Sector> GalaxyGenerator::GenerateSector(RefCountedPtr<Galaxy> gala
 RefCountedPtr<StarSystem> GalaxyGenerator::GenerateStarSystem(RefCountedPtr<Galaxy> galaxy, const SystemPath &path, StarSystemCache *cache)
 {
 	RefCountedPtr<const Sector> sec = galaxy->GetSector(path);
-	assert(path.systemIndex >= 0 && path.systemIndex < sec->m_systems.size());
+	assert(path.systemIndex < sec->m_systems.size());
 	Uint32 seed = sec->m_systems[path.systemIndex].GetSeed();
 	std::string name = sec->m_systems[path.systemIndex].GetName();
 	Uint32 _init[6] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED, Uint32(seed) };

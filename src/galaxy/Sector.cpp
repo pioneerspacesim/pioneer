@@ -74,7 +74,6 @@ void Sector::Dump(FILE *file, const char *indent) const
 	fprintf(file, "\t" SIZET_FMT " systems\n", m_systems.size());
 	for (const Sector::System &sys : m_systems) {
 		assert(sx == sys.sx && sy == sys.sy && sz == sys.sz);
-		assert(sys.idx >= 0);
 		fprintf(file, "\tSystem(%d,%d,%d,%u) {\n", sys.sx, sys.sy, sys.sz, sys.idx);
 		fprintf(file, "\t\t\"%s\"\n", sys.GetName().c_str());
 		fprintf(file, "\t\t%sEXPLORED%s\n", sys.IsExplored() ? "" : "UN", sys.GetCustomSystem() != nullptr ? ", CUSTOM" : "");

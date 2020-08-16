@@ -3,16 +3,9 @@
 #include <cstring>
 #include <string>
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wattributes"
-#endif
 extern "C" {
 #include <miniz/miniz.h>
 }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
 
 namespace {
 	enum GZipFlags {

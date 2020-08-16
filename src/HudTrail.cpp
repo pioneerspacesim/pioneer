@@ -33,7 +33,6 @@ void HudTrail::Update(float time)
 	if (m_updateTime > UPDATE_INTERVAL) {
 		m_updateTime = 0.f;
 		FrameId bodyFrameId = m_body->GetFrame();
-		const Frame *bodyFrame = Frame::GetFrame(bodyFrameId);
 
 		if (!m_currentFrame) {
 			m_currentFrame = bodyFrameId;

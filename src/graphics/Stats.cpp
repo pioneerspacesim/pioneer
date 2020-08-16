@@ -61,7 +61,6 @@ namespace Graphics {
 
 	const Stats::TFrameData &Stats::FrameStatsPrevious() const
 	{
-		uint32_t frameIdx = m_currentFrame > 0 ? m_currentFrame - 1 : MAX_FRAMES_STORE - 1;
 		return m_frameStats[Clamp(m_currentFrame - 1, 0U, MAX_FRAMES_STORE - 1)];
 	}
 

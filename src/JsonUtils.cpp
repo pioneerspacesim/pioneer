@@ -13,17 +13,13 @@
 #include <cmath>
 
 extern "C" {
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wattributes"
-#endif
 #include "miniz/miniz.h"
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
 }
 
 namespace {
+// XXX currently unused, uncomment if/when needed again.
+// also has some endianness issues,
+/*
 	uint32_t pack4char(const uint8_t a, const uint8_t b, const uint8_t c, const uint8_t d)
 	{
 		return ((a << 24) | (b << 16) | (c << 8) | d);
@@ -36,6 +32,7 @@ namespace {
 		c = ((packed >> 8) & 0xff);
 		d = (packed & 0xff);
 	}
+*/
 
 	static const vector3f zeroVector3f(0.0f);
 	static const vector3d zeroVector3d(0.0);

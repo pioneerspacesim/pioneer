@@ -168,7 +168,7 @@ protected:
 		if (!ptr)
 			return luaL_error(L, "Invalid userdata accessed for function %s", name);
 
-		if (lua_gettop(L) - 1 < sizeof...(Args))
+		if (size_t(lua_gettop(L) - 1) < sizeof...(Args))
 			return luaL_error(L, "Invalid number of arguments for function %s", name);
 
 		auto &fn = PullPointerToMember<member_function<T, Rt, Args...>>(L, lua_upvalueindex(2));
@@ -187,7 +187,7 @@ protected:
 		if (!ptr)
 			return luaL_error(L, "Invalid userdata accessed for function %s", name);
 
-		if (lua_gettop(L) - 1 < sizeof...(Args))
+		if (size_t(lua_gettop(L) - 1) < sizeof...(Args))
 			return luaL_error(L, "Invalid number of arguments for function %s", name);
 
 		auto &fn = PullPointerToMember<member_function<T, Rt, Args...>>(L, lua_upvalueindex(2));

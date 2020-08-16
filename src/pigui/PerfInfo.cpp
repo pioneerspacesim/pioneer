@@ -251,7 +251,6 @@ void PerfInfo::DrawRendererStats()
 	const Uint32 numDrawGroundStations = stats.m_stats[Graphics::Stats::STAT_GROUNDSTATIONS];
 	const Uint32 numDrawSpaceStations = stats.m_stats[Graphics::Stats::STAT_SPACESTATIONS];
 	const Uint32 numDrawAtmospheres = stats.m_stats[Graphics::Stats::STAT_ATMOSPHERES];
-	const Uint32 numDrawPatches = stats.m_stats[Graphics::Stats::STAT_PATCHES];
 	const Uint32 numDrawPlanets = stats.m_stats[Graphics::Stats::STAT_PLANETS];
 	const Uint32 numDrawGasGiants = stats.m_stats[Graphics::Stats::STAT_GASGIANTS];
 	const Uint32 numDrawStars = stats.m_stats[Graphics::Stats::STAT_STARS];

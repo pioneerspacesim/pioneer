@@ -13,16 +13,9 @@
 #include "scenegraph/Serializer.h"
 #include "utils.h"
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wattributes"
-#endif
 extern "C" {
 #include <miniz/miniz.h>
 }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
 
 using namespace SceneGraph;
 

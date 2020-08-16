@@ -211,9 +211,6 @@ void WorldView::Update()
 	FrameId playerFrameId = Pi::player->GetFrame();
 	FrameId camFrameId = m_cameraContext->GetTempFrame();
 
-	const Frame *playerFrame = Frame::GetFrame(playerFrameId);
-	const Frame *camFrame = Frame::GetFrame(camFrameId);
-
 	//speedlines and contact trails need camFrame for transform, so they
 	//must be updated here
 	if (Pi::AreSpeedLinesDisplayed()) {
@@ -316,7 +313,6 @@ void WorldView::UpdateProjectedObjects()
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
 	if (enemy) {
 		const vector3d targpos = enemy->GetInterpPositionRelTo(Pi::player) * cam_rot;
-		const double dist = targpos.Length();
 		const vector3d targScreenPos = enemy->GetInterpPositionRelTo(cam_frame->GetId());
 
 		UpdateIndicator(m_combatTargetIndicator, targScreenPos);

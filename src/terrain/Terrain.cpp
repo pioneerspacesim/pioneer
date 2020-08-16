@@ -634,7 +634,7 @@ Terrain::~Terrain()
  */
 void Terrain::SetFracDef(const unsigned int index, const double featureHeightMeters, const double featureWidthMeters, const double smallestOctaveMeters)
 {
-	assert(index >= 0 && index < MAX_FRACDEFS);
+	assert(index < MAX_FRACDEFS);
 	// feature
 	m_fracdef[index].amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);
 	m_fracdef[index].frequency = m_planetRadius / featureWidthMeters;

@@ -2025,7 +2025,6 @@ static int l_pigui_should_show_labels(lua_State *l)
 static int l_attr_handlers(lua_State *l)
 {
 	PROFILE_SCOPED()
-	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	PiGUI::GetHandlers().PushCopyToStack();
 	return 1;
 }
@@ -2033,7 +2032,7 @@ static int l_attr_handlers(lua_State *l)
 static int l_attr_keys(lua_State *l)
 {
 	PROFILE_SCOPED()
-	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
+	// PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	PiGUI::GetKeys().PushCopyToStack();
 	return 1;
 }
@@ -2041,7 +2040,6 @@ static int l_attr_keys(lua_State *l)
 static int l_attr_screen_width(lua_State *l)
 {
 	PROFILE_SCOPED()
-	//	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	LuaPush<int>(l, Graphics::GetScreenWidth());
 	return 1;
 }
@@ -2516,7 +2514,7 @@ static int l_pigui_add_convex_poly_filled(lua_State *l)
 static int l_pigui_load_texture_from_svg(lua_State *l)
 {
 	PROFILE_SCOPED()
-	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
+	// PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	std::string svg_filename = LuaPull<std::string>(l, 2);
 	int width = LuaPull<int>(l, 3);
 	int height = LuaPull<int>(l, 4);

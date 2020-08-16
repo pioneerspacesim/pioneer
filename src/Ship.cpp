@@ -947,7 +947,6 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 	m_wheelTransition = 0;
 	m_wheelState = 1.0f;
 	Frame *f_non_rot = Frame::GetFrame(p->GetFrame());
-	Frame *f = Frame::GetFrame(f_non_rot->GetRotFrame());
 	SetFrame(f_non_rot->GetRotFrame());
 
 	vector3d up = vector3d(cos(latitude) * sin(longitude), sin(latitude), cos(latitude) * cos(longitude));

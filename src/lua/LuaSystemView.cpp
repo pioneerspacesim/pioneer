@@ -150,7 +150,6 @@ static int l_systemview_get_projected_grouped(lua_State *l)
 
 	const Body *nav_target = Pi::game->GetPlayer()->GetNavTarget();
 	const Body *combat_target = Pi::game->GetPlayer()->GetCombatTarget();
-	const Body *player_body = static_cast<Body *>(Pi::game->GetPlayer());
 
 	for (Projectable &p : projected) {
 		// --- icons---

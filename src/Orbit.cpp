@@ -85,13 +85,11 @@ static void calc_position_from_mean_anomaly(const double M, const double e, cons
 			double Emin = M - 1.1;
 			double Emax = M + 1.1;
 			double Ymin = Emin - e * sin(Emin) - M;
-			double Ymax = Emax - e * sin(Emax) - M;
 			double Y;
 			for (int i = 0; i < 14; i++) { // 14 iterations for precision 0.00006
 				E = (Emin + Emax) / 2;
 				Y = E - e * sin(E) - M;
 				if ((Ymin * Y) < 0) {
-					Ymax = Y;
 					Emax = E;
 				} else {
 					Ymin = Y;
@@ -313,7 +311,6 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	// angular momentum
 	const vector3d ang = pos.Cross(vel);
 	const double LLSqr = ang.LengthSqr();
-	const double LL = ang.Length();
 
 	// total energy
 	const double EE = vel.LengthSqr() / 2.0 - u / r_now;

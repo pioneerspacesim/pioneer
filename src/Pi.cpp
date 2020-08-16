@@ -1123,7 +1123,6 @@ void GameLoop::Update(float deltaTime)
 	Pi::statNumPatches = 0;
 
 #ifdef PIONEER_PROFILER
-	const Uint32 profTicks = SDL_GetTicks();
 	if (Pi::doProfileOne || (Pi::doProfileSlow && (deltaTime > 0.1))) { // slow: < ~10fps
 		Output("dumping profile data\n");
 		Profiler::dumphtml(Pi::profilerPath.c_str());

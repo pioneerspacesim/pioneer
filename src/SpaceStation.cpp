@@ -455,7 +455,6 @@ bool SpaceStation::DoShipDamage(Ship *s, Uint32 flags, double relVel)
 
 void SpaceStation::DockingUpdate(const double timeStep)
 {
-	vector3d p1, p2, zaxis;
 	for (Uint32 i = 0; i < m_shipDocking.size(); i++) {
 		shipDocking_t &dt = m_shipDocking[i];
 		if (!dt.ship) continue;
