@@ -189,7 +189,6 @@ public:
 	void SetTotalPop(fixed pop) { m_totalPop = pop; }
 	void AddTotalPop(fixed pop) { m_totalPop += pop; }
 
-	// FIXME(sturnclaw): properly take into account InvalidCommodityId in these functions
 	int GetTradeLevel(GalacticEconomy::CommodityId type) { return m_tradeLevel[type]; }
 	void SetTradeLevel(GalacticEconomy::CommodityId type, int level) { m_tradeLevel[type] = level; }
 	void AddTradeLevel(GalacticEconomy::CommodityId type, int level) { m_tradeLevel[type] += level; }

@@ -35,72 +35,72 @@ namespace {
 
 // indexed by enum type turd
 const Color StarSystem::starColors[] = {
-	{ 0, 0, 0 }, // gravpoint
-	{ 128, 0, 0 }, // brown dwarf
+	{ 0, 0, 0 },	   // gravpoint
+	{ 128, 0, 0 },	   // brown dwarf
 	{ 102, 102, 204 }, // white dwarf
-	{ 255, 51, 0 }, // M
-	{ 255, 153, 26 }, // K
+	{ 255, 51, 0 },	   // M
+	{ 255, 153, 26 },  // K
 	{ 255, 255, 102 }, // G
 	{ 255, 255, 204 }, // F
 	{ 255, 255, 255 }, // A
 	{ 178, 178, 255 }, // B
 	{ 255, 178, 255 }, // O
-	{ 255, 51, 0 }, // M Giant
-	{ 255, 153, 26 }, // K Giant
+	{ 255, 51, 0 },	   // M Giant
+	{ 255, 153, 26 },  // K Giant
 	{ 255, 255, 102 }, // G Giant
 	{ 255, 255, 204 }, // F Giant
 	{ 255, 255, 255 }, // A Giant
 	{ 178, 178, 255 }, // B Giant
 	{ 255, 178, 255 }, // O Giant
-	{ 255, 51, 0 }, // M Super Giant
-	{ 255, 153, 26 }, // K Super Giant
+	{ 255, 51, 0 },	   // M Super Giant
+	{ 255, 153, 26 },  // K Super Giant
 	{ 255, 255, 102 }, // G Super Giant
 	{ 255, 255, 204 }, // F Super Giant
 	{ 255, 255, 255 }, // A Super Giant
 	{ 178, 178, 255 }, // B Super Giant
 	{ 255, 178, 255 }, // O Super Giant
-	{ 255, 51, 0 }, // M Hyper Giant
-	{ 255, 153, 26 }, // K Hyper Giant
+	{ 255, 51, 0 },	   // M Hyper Giant
+	{ 255, 153, 26 },  // K Hyper Giant
 	{ 255, 255, 102 }, // G Hyper Giant
 	{ 255, 255, 204 }, // F Hyper Giant
 	{ 255, 255, 255 }, // A Hyper Giant
 	{ 178, 178, 255 }, // B Hyper Giant
 	{ 255, 178, 255 }, // O Hyper Giant
-	{ 255, 51, 0 }, // Red/M Wolf Rayet Star
+	{ 255, 51, 0 },	   // Red/M Wolf Rayet Star
 	{ 178, 178, 255 }, // Blue/B Wolf Rayet Star
 	{ 255, 178, 255 }, // Purple-Blue/O Wolf Rayet Star
-	{ 76, 178, 76 }, // Stellar Blackhole
-	{ 51, 230, 51 }, // Intermediate mass Black-hole
-	{ 0, 255, 0 } // Super massive black hole
+	{ 76, 178, 76 },   // Stellar Blackhole
+	{ 51, 230, 51 },   // Intermediate mass Black-hole
+	{ 0, 255, 0 }	   // Super massive black hole
 };
 
 // indexed by enum type turd
 const Color StarSystem::starRealColors[] = {
-	{ 0, 0, 0 }, // gravpoint
-	{ 128, 0, 0 }, // brown dwarf
+	{ 0, 0, 0 },	   // gravpoint
+	{ 128, 0, 0 },	   // brown dwarf
 	{ 255, 255, 255 }, // white dwarf
-	{ 255, 128, 51 }, // M
+	{ 255, 128, 51 },  // M
 	{ 255, 255, 102 }, // K
 	{ 255, 255, 242 }, // G
 	{ 255, 255, 255 }, // F
 	{ 255, 255, 255 }, // A
 	{ 204, 204, 255 }, // B
 	{ 255, 204, 255 }, // O
-	{ 255, 128, 51 }, // M Giant
+	{ 255, 128, 51 },  // M Giant
 	{ 255, 255, 102 }, // K Giant
 	{ 255, 255, 242 }, // G Giant
 	{ 255, 255, 255 }, // F Giant
 	{ 255, 255, 255 }, // A Giant
 	{ 204, 204, 255 }, // B Giant
 	{ 255, 204, 255 }, // O Giant
-	{ 255, 128, 51 }, // M Super Giant
+	{ 255, 128, 51 },  // M Super Giant
 	{ 255, 255, 102 }, // K Super Giant
 	{ 255, 255, 242 }, // G Super Giant
 	{ 255, 255, 255 }, // F Super Giant
 	{ 255, 255, 255 }, // A Super Giant
 	{ 204, 204, 255 }, // B Super Giant
 	{ 255, 204, 255 }, // O Super Giant
-	{ 255, 128, 51 }, // M Hyper Giant
+	{ 255, 128, 51 },  // M Hyper Giant
 	{ 255, 255, 102 }, // K Hyper Giant
 	{ 255, 255, 242 }, // G Hyper Giant
 	{ 255, 255, 255 }, // F Hyper Giant
@@ -110,35 +110,35 @@ const Color StarSystem::starRealColors[] = {
 	{ 255, 153, 153 }, // M WF
 	{ 204, 204, 255 }, // B WF
 	{ 255, 204, 255 }, // O WF
-	{ 22, 0, 24 }, // small Black hole
-	{ 16, 0, 20 }, // med BH
-	{ 10, 0, 16 } // massive BH
+	{ 22, 0, 24 },	   // small Black hole
+	{ 16, 0, 20 },	   // med BH
+	{ 10, 0, 16 }	   // massive BH
 };
 
 const double StarSystem::starLuminosities[] = {
 	0,
-	0.0003, // brown dwarf
-	0.1, // white dwarf
-	0.08, // M0
-	0.38, // K0
-	1.2, // G0
-	5.1, // F0
-	24.0, // A0
-	100.0, // B0
-	200.0, // O5
-	1000.0, // M0 Giant
-	2000.0, // K0 Giant
-	4000.0, // G0 Giant
-	6000.0, // F0 Giant
-	8000.0, // A0 Giant
-	9000.0, // B0 Giant
-	12000.0, // O5 Giant
-	12000.0, // M0 Super Giant
-	14000.0, // K0 Super Giant
-	18000.0, // G0 Super Giant
-	24000.0, // F0 Super Giant
-	30000.0, // A0 Super Giant
-	50000.0, // B0 Super Giant
+	0.0003,	  // brown dwarf
+	0.1,	  // white dwarf
+	0.08,	  // M0
+	0.38,	  // K0
+	1.2,	  // G0
+	5.1,	  // F0
+	24.0,	  // A0
+	100.0,	  // B0
+	200.0,	  // O5
+	1000.0,	  // M0 Giant
+	2000.0,	  // K0 Giant
+	4000.0,	  // G0 Giant
+	6000.0,	  // F0 Giant
+	8000.0,	  // A0 Giant
+	9000.0,	  // B0 Giant
+	12000.0,  // O5 Giant
+	12000.0,  // M0 Super Giant
+	14000.0,  // K0 Super Giant
+	18000.0,  // G0 Super Giant
+	24000.0,  // F0 Super Giant
+	30000.0,  // A0 Super Giant
+	50000.0,  // B0 Super Giant
 	100000.0, // O5 Super Giant
 	125000.0, // M0 Hyper Giant
 	150000.0, // K0 Hyper Giant
@@ -147,11 +147,11 @@ const double StarSystem::starLuminosities[] = {
 	200000.0, // A0 Hyper Giant
 	200000.0, // B0 Hyper Giant
 	200000.0, // O5 Hyper Giant
-	50000.0, // M WF
+	50000.0,  // M WF
 	100000.0, // B WF
 	200000.0, // O WF
-	0.0003, // Stellar Black hole
-	0.00003, // IM Black hole
+	0.0003,	  // Stellar Black hole
+	0.00003,  // IM Black hole
 	0.000003, // Supermassive Black hole
 };
 
@@ -193,7 +193,7 @@ const float StarSystem::starScale[] = {
 	1.6f, // O WF
 	1.0f, // Black hole
 	2.5f, // Intermediate-mass blackhole
-	4.0f // Supermassive blackhole
+	4.0f  // Supermassive blackhole
 };
 
 SystemBody *StarSystem::GetBodyByPath(const SystemPath &path) const
