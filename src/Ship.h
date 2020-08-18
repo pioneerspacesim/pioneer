@@ -121,7 +121,6 @@ public:
 		HYPERSPACE, // in hyperspace
 	};
 
-	vector3d CalcAtmosphericForce() const override;
 	// vector3d CalcAtmoPassiveControl() const;
 	vector3d CalcAtmoTorque() const;
 
@@ -234,6 +233,9 @@ public:
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
 
 protected:
+
+	vector3d CalcAtmosphericForce() const override;
+
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
