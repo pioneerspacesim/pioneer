@@ -1,7 +1,7 @@
 material fuselage-material
 diffuse 1.0 1.0 1.0
 specular 0.8 0.8 0.8
-#use_patterns
+use_patterns
 tex_norm skipjack_norm.png
 tex_diff skipjack_diff.dds
 tex_spec skipjack_spec.dds
