@@ -118,6 +118,7 @@ bool Pi::doingMouseGrab;
 bool Pi::showDebugInfo = false;
 #if PIONEER_PROFILER
 std::string Pi::profilerPath;
+std::string Pi::profileOnePath;
 bool Pi::doProfileSlow = false;
 bool Pi::doProfileOne = false;
 #endif
@@ -267,6 +268,19 @@ void Pi::App::SetStartPath(const SystemPath &startPath)
 	static_cast<MainMenu *>(m_mainMenu.get())->SetStartPath(startPath);
 }
 
+void Pi::RequestProfileFrame(const std::string &profilePath)
+{
+// don't do anything if we're building without profiler.
+#ifdef PIONEER_PROFILER
+	if (!profilePath.empty()) {
+		profileOnePath = FileSystem::JoinPathBelow(Pi::profilerPath, profilePath);
+		FileSystem::userFiles.MakeDirectory(FileSystem::JoinPathBelow("profiler/", profilePath));
+	}
+
+	doProfileOne = true;
+#endif
+}
+
 void TestGPUJobsSupport()
 {
 	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
@@ -329,7 +343,7 @@ void Pi::App::Startup()
 	Application::Startup();
 #if PIONEER_PROFILER
 	Pi::profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
-	for (std::string target : { "", "saving/", "NewGame/" }) {
+	for (std::string target : { "", "SaveGame/", "NewGame/" }) {
 		FileSystem::userFiles.MakeDirectory("profiler/" + target);
 	}
 #endif
@@ -630,9 +644,7 @@ void LoadStep::Update(float deltaTime)
 		m_loadTimer.Stop();
 		Output("\n\nPioneer loading took %.2fms\n", m_loadTimer.milliseconds());
 
-#ifdef PIONEER_PROFILER
-		Profiler::dumphtml(Pi::profilerPath.c_str());
-#endif
+		Pi::RequestProfileFrame();
 	}
 }
 
@@ -912,6 +924,19 @@ void Pi::App::PostUpdate()
 	GuiApplication::PostUpdate();
 
 	HandleRequests();
+
+#ifdef PIONEER_PROFILER
+	// TODO: profileSlow is profiling the previous frame, need to move that functionality to Application
+	if (Pi::doProfileOne || (Pi::doProfileSlow && (GetFrameTime() > 0.1))) { // slow: < ~10fps
+		Pi::doProfileOne = false;
+		if (!Pi::profileOnePath.empty()) {
+			Profiler::dumphtml(Pi::profileOnePath.c_str());
+			Pi::profileOnePath.clear();
+		} else {
+			Profiler::dumphtml(Pi::profilerPath.c_str());
+		}
+	}
+#endif
 }
 
 void Pi::App::RunJobs()
@@ -1129,14 +1154,6 @@ void GameLoop::Update(float deltaTime)
 	}
 	Pi::statSceneTris = 0;
 	Pi::statNumPatches = 0;
-
-#ifdef PIONEER_PROFILER
-	if (Pi::doProfileOne || (Pi::doProfileSlow && (deltaTime > 0.1))) { // slow: < ~10fps
-		Output("dumping profile data\n");
-		Profiler::dumphtml(Pi::profilerPath.c_str());
-		Pi::doProfileOne = false;
-	}
-#endif
 
 #if 0 // FIXME: decouple video recording from Pi
 	if (Pi::isRecordingVideo && (Pi::ffmpegFile != nullptr)) {

@@ -45,10 +45,6 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-#ifdef PIONEER_PROFILER
-	Profiler::reset();
-#endif
-
 	// Now that we have a Galaxy, check the starting location
 	if (!path.IsBodyPath())
 		throw InvalidGameStartLocation("SystemPath is not a body path");
@@ -89,8 +85,9 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 	CreateViews();
 
 	EmitPauseState(IsPaused());
+
 #ifdef PIONEER_PROFILER
-	Profiler::dumphtml(FileSystem::JoinPathBelow(Pi::profilerPath, "NewGame").c_str());
+	Pi::RequestProfileFrame("NewGame");
 #endif
 }
 
@@ -178,6 +175,8 @@ Game::Game(const Json &jsonObj) :
 	Pi::luaSerializer->UninitTableRefs();
 
 	EmitPauseState(IsPaused());
+
+	Pi::RequestProfileFrame("LoadGame");
 }
 
 void Game::ToJson(Json &jsonObj)
@@ -916,11 +915,7 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotOpenFileException();
 	}
 
-#ifdef PIONEER_PROFILER
-	Profiler::reset();
-#endif
-
-	Json rootNode;			// Create the root JSON value for receiving the game data.
+	Json rootNode;
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
 	std::vector<uint8_t> jsonData;
 	{
@@ -944,7 +939,5 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotWriteToFileException();
 	}
 
-#ifdef PIONEER_PROFILER
-	Profiler::dumphtml(FileSystem::JoinPathBelow(Pi::profilerPath, "saving").c_str());
-#endif
+	Pi::RequestProfileFrame("SaveGame");
 }

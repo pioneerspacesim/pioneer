@@ -8,6 +8,7 @@
 #include "LuaManager.h"
 #include "LuaPushPull.h"
 #include "LuaTable.h"
+#include "src/lua.h"
 
 class LuaMetaTypeBase {
 public:
@@ -243,6 +244,62 @@ protected:
 	int m_index = 0;
 };
 
+class LuaMetaTypeGeneric : public LuaMetaTypeBase {
+public:
+	using Self = LuaMetaTypeGeneric;
+
+	LuaMetaTypeGeneric(const char *name) :
+		LuaMetaTypeBase(name)
+	{}
+
+	Self &StartRecording()
+	{
+		LuaMetaTypeBase::StartRecording();
+		return *this;
+	}
+
+	Self &StopRecording()
+	{
+		LuaMetaTypeBase::StopRecording();
+		return *this;
+	}
+
+	Self &SetProtected(bool enabled)
+	{
+		m_protected = enabled;
+		return *this;
+	}
+
+	Self &AddMember(const char *name, lua_CFunction getter)
+	{
+		GetAttrTable(m_lua, m_index);
+
+		lua_pushcfunction(m_lua, getter);
+		if (m_protected)
+			lua_pushcclosure(m_lua, secure_trampoline, 1);
+
+		lua_setfield(m_lua, -2, name);
+		lua_pop(m_lua, 1);
+		return *this;
+	}
+
+	Self &AddFunction(const char *name, lua_CFunction func)
+	{
+		GetMethodTable(m_lua, m_index);
+
+		lua_pushcfunction(m_lua, func);
+		if (m_protected)
+			lua_pushcclosure(m_lua, secure_trampoline, 1);
+
+		lua_setfield(m_lua, -2, name);
+		lua_pop(m_lua, 1);
+		return *this;
+	}
+
+private:
+	bool m_protected = false;
+};
+
 template <typename T>
 class LuaMetaType : public LuaMetaTypeBase {
 public:
@@ -265,19 +322,6 @@ public:
 	// All functions and members pushed while protection is enabled will error
 	// when accessed by a non-trusted lua script.
 	void SetProtected(bool enabled) { m_protected = enabled; }
-
-	// Set the parent type name of this metatype to the type name provided.
-	// This enables function and member inheritance from parent 'classes'.
-	LuaMetaType &SetParent(const char *parent)
-	{
-		lua_State *L = m_lua;
-
-		lua_pushstring(L, parent);
-		lua_setfield(L, -2, "parent");
-		m_parent = parent;
-
-		return *this;
-	}
 
 	// Bind a raw C++ data member to Lua.
 	// Obviously, the member in question must be publically accessible, or
@@ -412,7 +456,7 @@ public:
 			if (m_protected)
 				lua_pushcclosure(L, secure_trampoline, 1);
 
-			lua_setfield(L, -1, func->name);
+			lua_setfield(L, -2, func->name);
 		}
 
 		lua_pop(L, 1);

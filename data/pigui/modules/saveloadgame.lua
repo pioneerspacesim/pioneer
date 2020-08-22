@@ -26,6 +26,7 @@ local mainButtonFramePadding = 3
 
 local saveFileCache = {}
 local selectedSave
+local saveIsValid = false
 
 local function optionTextButton(label, tooltip, enabled, callback)
 	local bgcolor = enabled and colors.buttonBlue or colors.grey
@@ -83,6 +84,7 @@ local function showSaveFiles()
 		for _,f in pairs(files) do
 			if ui.selectable(f.name, f.name == selectedSave, {"SpanAllColumns", "DontClosePopups"}) then
 				selectedSave = f.name
+				saveIsValid = pcall(Game.SaveGameStats, f.name)
 			end
 			if Engine.pigui.IsItemHovered() then
 				local tooltip = getSaveTooltip(f.name)
@@ -106,18 +108,19 @@ end
 
 local function closeAndLoadOrSave()
 	if selectedSave ~= nil and selectedSave ~= '' then
-		if ui.saveLoadWindow.mode == "LOAD" then
+		if ui.saveLoadWindow.mode == "LOAD" and saveIsValid then
 			Game.LoadGame(selectedSave)
+			closeAndClearCache()
 		elseif ui.saveLoadWindow.mode == "SAVE" then
 			Game.SaveGame(selectedSave)
+			closeAndClearCache()
 		end
-		closeAndClearCache()
 	end
 end
 
 ui.saveLoadWindow = ModalWindow.New("LoadGame", function()
 	local mode = ui.saveLoadWindow.mode == 'SAVE' and lui.SAVE or lui.LOAD
-	optionTextButton(mode, nil, selectedSave ~= nil and selectedSave ~= '', closeAndLoadOrSave)
+	optionTextButton(mode, nil, selectedSave ~= nil and selectedSave ~= '' and saveIsValid, closeAndLoadOrSave)
 	ui.sameLine()
 	optionTextButton(lui.CANCEL, nil, true, closeAndClearCache)
 
