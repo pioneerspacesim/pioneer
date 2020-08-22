@@ -7,10 +7,13 @@ August 2020
      * Add WorldView debug info to PerfInfo tool (#4941)
      * Cleanup Win32 build for VS2019 (#4911)
      * Add icons to profiler reports, implement directory copying for FileSystem (#4932)
+     * Extend LuaMetaType system to "function library" objects (#4945)
    
    * Fixes
      * Fix ship directional indicators not pointing in the correct direction (#4941)
      * Fix requring a camera frame when drawing PiGui (#4941)
+     * Fix being able to load invalid save versions (#4945)
+     * Fix compilation on i686 builds (#4945)
 
 July 2020
    * New Features
