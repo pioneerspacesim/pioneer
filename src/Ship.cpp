@@ -379,50 +379,55 @@ inline int sign(T num)
 vector3d Ship::CalcAtmosphericForce() const
 {
 	// Data from ship.
-	double m_topCrossSec = GetShipType()->topCrossSection;
-	double m_sideCrossSec = GetShipType()->sideCrossSection;
-	double m_frontCrossSec = GetShipType()->frontCrossSection;
+	const auto topCrossSec = GetShipType()->topCrossSection;
+	const auto sideCrossSec = GetShipType()->sideCrossSection;
+	const auto frontCrossSec = GetShipType()->frontCrossSection;
 
 	// TODO: vary drag coefficient based on Reynolds number, specifically by
 	// atmospheric composition (viscosity) and airspeed (mach number).
-	double m_topDragCoeff = GetShipType()->topDragCoeff;
-	double m_sideDragCoeff = GetShipType()->sideDragCoeff;
-	double m_frontDragCoeff = GetShipType()->frontDragCoeff;
+	const auto topDragCoeff = GetShipType()->topDragCoeff;
+	const auto sideDragCoeff = GetShipType()->sideDragCoeff;
+	const auto frontDragCoeff = GetShipType()->frontDragCoeff;
 
-	double m_shipLiftCoeff = GetShipType()->shipLiftCoefficient;
+	const auto shipLiftCoeff = GetShipType()->shipLiftCoefficient;
 
 	// By converting the velocity into local space, we can apply the drag individually to each component.
-	auto m_localVel = GetVelocity() * GetOrient();
-	auto m_lVSqr = m_localVel.LengthSqr();
+	const auto localVel = GetVelocity() * GetOrient();
 
 	// The drag forces applied to the craft, in local space.
 	// TODO: verify dimensional accuracy and that we're not generating more drag than physically possible.
 	// TODO: use a different drag constant for each side (front, back, etc).
 	// This also handles (most of) the lift due to wing deflection.
-	vector3d fAtmosDrag = vector3d(
-		CalcAtmosphericDrag(m_lVSqr, m_sideCrossSec, m_sideDragCoeff),
-		CalcAtmosphericDrag(m_lVSqr, m_topCrossSec, m_topDragCoeff),
-		CalcAtmosphericDrag(m_lVSqr, m_frontCrossSec, m_frontDragCoeff));
 
-	// The direction vector of the velocity also serves to scale and sign the generated drag.
-	fAtmosDrag = fAtmosDrag * -m_localVel.NormalizedSafe();
+	// Get current atmosphere parameters
+	double pressure, density;
+	GetCurrentAtmosphericState(pressure, density);
+
+	// Precalculate common part of drag components calculation (rho / 2)
+	const auto rho_2 = density / 2.;
+	// Vector, which components are square of local airspeed vector components
+	const vector3d lv2(localVel * localVel);
+	const vector3d fAtmosDrag(
+		-sign(localVel.x) * rho_2 * lv2.x * sideCrossSec * sideDragCoeff,
+		-sign(localVel.y) * rho_2 * lv2.y * topCrossSec * topDragCoeff,
+		-sign(localVel.z) * rho_2 * lv2.z * frontCrossSec * frontDragCoeff);
 
 	// The amount of lift produced by air pressure differential across the top and bottom of the lifting surfaces.
-	vector3d fAtmosLift = vector3d(0.0);
+	vector3d fAtmosLift(0.0);
 
-	double m_AoAMultiplier = m_localVel.NormalizedSafe().y;
+	auto AoAMultiplier = localVel.NormalizedSafe().y;
 
 	// There's no lift produced once the wing hits the stall angle.
-	if (std::abs(m_AoAMultiplier) < 0.61) {
+	if (std::abs(AoAMultiplier) < 0.61) {
 		// Pioneer simulates non-cambered wings, with equal air displacement on either side of AoA.
 
 		// Generated lift peaks at around 20 degrees here, and falls off fully at 35-ish.
 		// TODO: handle AoA better / more gracefully with an actual angle- and curve-based implementation.
-		m_AoAMultiplier = cos((std::abs(m_AoAMultiplier) - 0.31) * 5.0) * sign(m_AoAMultiplier);
+		AoAMultiplier = cos((std::abs(AoAMultiplier) - 0.31) * 5.0) * sign(AoAMultiplier);
 
 		// TODO: verify dimensional accuracy and that we're not generating more lift than physically possible.
 		// We scale down the lift contribution because fAtmosDrag handles deflection-based lift.
-		fAtmosLift.y = CalcAtmosphericDrag(pow(m_localVel.z, 2), m_topCrossSec, m_shipLiftCoeff) * -m_AoAMultiplier * 0.2;
+		fAtmosLift.y = CalcAtmosphericDrag(pow(localVel.z, 2), topCrossSec, shipLiftCoeff) * -AoAMultiplier * 0.2;
 	}
 
 	return GetOrient() * (fAtmosDrag + fAtmosLift);

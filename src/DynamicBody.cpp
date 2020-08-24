@@ -255,7 +255,7 @@ void DynamicBody::CalcExternalForce()
 	if (f->IsRotFrame()) {
 		vector3d angRot(0, f->GetAngSpeed(), 0);
 		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition())); // centrifugal
-		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity()); // coriolis
+		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity());		   // coriolis
 	}
 }
 
