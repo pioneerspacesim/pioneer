@@ -1,14 +1,16 @@
 August 2020
    * New Features
      * Debug ship spawner tool now integrated with Ctrl+I debug menu (#4941)
-   
+     * Add surface impact alerts #4891
+     * Recon/combat missions require radar #4916
+
    * Internal Changes
      * Refactor WorldView to no longer use newUI (#4941)
      * Add WorldView debug info to PerfInfo tool (#4941)
      * Cleanup Win32 build for VS2019 (#4911)
      * Add icons to profiler reports, implement directory copying for FileSystem (#4932)
      * Extend LuaMetaType system to "function library" objects (#4945)
-   
+
    * Fixes
      * Fix ship directional indicators not pointing in the correct direction (#4941)
      * Fix requring a camera frame when drawing PiGui (#4941)
@@ -19,7 +21,7 @@ July 2020
    * New Features
      * Captains log added to info-view (#4795)
      * Plentiful tweaks to sector map (#4906)
-   
+
    Internal Changes
      * Make size of load/save dialogue window sane (#4912)
 
