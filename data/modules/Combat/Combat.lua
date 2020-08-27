@@ -140,6 +140,11 @@ local onChat = function (form, ref, option)
 		end
 
 	elseif option == 5 then
+		if not Game.player:GetEquip('radar', 1) then
+			form:SetMessage(l.RADAR_NOT_INSTALLED)
+			form:RemoveNavButton()
+			return
+		end
 		form:RemoveAdvertOnClose()
 		ads[ref] = nil
 		local mission = {
@@ -163,7 +168,6 @@ local onChat = function (form, ref, option)
 		table.insert(missions,Mission.New(mission))
 		form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
 		return
-
 	end
 
 	form:AddOption(l.WHAT_ARE_THE_MISSION_OBJECTIVES, 1)
