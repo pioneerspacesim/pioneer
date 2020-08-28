@@ -54,9 +54,9 @@ void Planet::InitParams(const SystemBody *sbody)
 	const double GAS_CONSTANT = 8.3144621;
 	const double PA_2_ATMOS = 1.0 / 101325.0;
 
-	// surface gravity = -G*M/planet radius^2
-	m_surfaceGravity_g = -G * sbody->GetMass() / (sbody->GetRadius() * sbody->GetRadius());
-	const double lapseRate_L = -m_surfaceGravity_g / specificHeatCp; // negative deg/m
+	// surface gravity = G*M/planet radius^2
+	m_surfaceGravity_g = G * sbody->GetMass() / (sbody->GetRadius() * sbody->GetRadius());
+	const double lapseRate_L = m_surfaceGravity_g / specificHeatCp; // deg/m
 	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
 
 	double surfaceDensity, h;
@@ -72,7 +72,7 @@ void Planet::InitParams(const SystemBody *sbody)
 		//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
 		// want height for pressure 0.001 atm:
 		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
-		double RLdivgM = (GAS_CONSTANT * lapseRate_L) / (-m_surfaceGravity_g * gasMolarMass);
+		double RLdivgM = (GAS_CONSTANT * lapseRate_L) / (m_surfaceGravity_g * gasMolarMass);
 		h = (1.0 - exp(RLdivgM * log(0.001 / surfaceP_p0))) * surfaceTemperature_T0 / lapseRate_L;
 		//		double h2 = (1.0 - pow(0.001/surfaceP_p0, RLdivgM)) * surfaceTemperature_T0 / lapseRate_L;
 		//		double P = surfaceP_p0*pow((1.0-lapseRate_L*h/surfaceTemperature_T0),1/RLdivgM);
@@ -136,7 +136,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	// lapse rate http://en.wikipedia.org/wiki/Adiabatic_lapse_rate#Dry_adiabatic_lapse_rate
 	// the wet adiabatic rate can be used when cloud layers are incorporated
 	// fairly accurate in the troposphere
-	const double lapseRate_L = -m_surfaceGravity_g / specificHeatCp; // negative deg/m
+	const double lapseRate_L = m_surfaceGravity_g / specificHeatCp; // deg/m
 
 	const double height_h = (dist - sbody->GetRadius()); // height in m
 	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
@@ -157,10 +157,10 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	}
 
 	//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
-	*outPressure = surfaceP_p0 * pow((1 - lapseRate_L * height_h / surfaceTemperature_T0), (-m_surfaceGravity_g * gasMolarMass / (GAS_CONSTANT * lapseRate_L))); // in ATM since p0 was in ATM
+	*outPressure = surfaceP_p0 * pow((1 - lapseRate_L * height_h / surfaceTemperature_T0), (m_surfaceGravity_g * gasMolarMass / (GAS_CONSTANT * lapseRate_L))); // in ATM since p0 was in ATM
 	//                                                                               ^^g used is abs(g)
 	// temperature at height
-	double temp = surfaceTemperature_T0 + lapseRate_L * height_h;
+	double temp = surfaceTemperature_T0 - lapseRate_L * height_h;
 
 	*outDensity = (*outPressure / (PA_2_ATMOS * GAS_CONSTANT * temp)) * gasMolarMass;
 }
