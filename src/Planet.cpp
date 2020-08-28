@@ -57,12 +57,12 @@ void Planet::InitParams(const SystemBody *sbody)
 	// surface gravity = G*M/planet radius^2
 	m_surfaceGravity_g = G * sbody->GetMass() / (sbody->GetRadius() * sbody->GetRadius());
 	const double lapseRate_L = m_surfaceGravity_g / specificHeatCp; // deg/m
-	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
+	const double surfaceTemperature_T0 = sbody->GetAverageTemp();	//K
 
 	double surfaceDensity, h;
 	Color c;
 	sbody->GetAtmosphereFlavor(&c, &surfaceDensity); // kg / m^3
-	surfaceDensity /= gasMolarMass; // convert to moles/m^3
+	surfaceDensity /= gasMolarMass;					 // convert to moles/m^3
 
 	//P = density*R*T=(n/V)*R*T
 	const double surfaceP_p0 = PA_2_ATMOS * ((surfaceDensity)*GAS_CONSTANT * surfaceTemperature_T0); // in atmospheres
@@ -138,7 +138,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	// fairly accurate in the troposphere
 	const double lapseRate_L = m_surfaceGravity_g / specificHeatCp; // deg/m
 
-	const double height_h = (dist - sbody->GetRadius()); // height in m
+	const double height_h = (dist - sbody->GetRadius());		  // height in m
 	const double surfaceTemperature_T0 = sbody->GetAverageTemp(); //K
 
 	Color c;
@@ -222,9 +222,9 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	{
 		Color *row;
 		row = buf.get();
-                std::fill_n(row, RING_TEXTURE_WIDTH, Color::BLACK);
+		std::fill_n(row, RING_TEXTURE_WIDTH, Color::BLACK);
 		row = buf.get() + (RING_TEXTURE_LENGTH - 1) * RING_TEXTURE_WIDTH;
-                std::fill_n(row, RING_TEXTURE_WIDTH, Color::BLACK);
+		std::fill_n(row, RING_TEXTURE_WIDTH, Color::BLACK);
 	}
 
 	const vector3f texSize(RING_TEXTURE_WIDTH, RING_TEXTURE_LENGTH, 0.0f);
