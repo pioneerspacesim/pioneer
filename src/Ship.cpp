@@ -379,20 +379,20 @@ inline int sign(T num)
 vector3d Ship::CalcAtmosphericForce() const
 {
 	// Data from ship.
-	const auto topCrossSec = GetShipType()->topCrossSection;
-	const auto sideCrossSec = GetShipType()->sideCrossSection;
-	const auto frontCrossSec = GetShipType()->frontCrossSection;
+	const double topCrossSec = GetShipType()->topCrossSection;
+	const double sideCrossSec = GetShipType()->sideCrossSection;
+	const double frontCrossSec = GetShipType()->frontCrossSection;
 
 	// TODO: vary drag coefficient based on Reynolds number, specifically by
 	// atmospheric composition (viscosity) and airspeed (mach number).
-	const auto topDragCoeff = GetShipType()->topDragCoeff;
-	const auto sideDragCoeff = GetShipType()->sideDragCoeff;
-	const auto frontDragCoeff = GetShipType()->frontDragCoeff;
+	const double topDragCoeff = GetShipType()->topDragCoeff;
+	const double sideDragCoeff = GetShipType()->sideDragCoeff;
+	const double frontDragCoeff = GetShipType()->frontDragCoeff;
 
-	const auto shipLiftCoeff = GetShipType()->shipLiftCoefficient;
+	const double shipLiftCoeff = GetShipType()->shipLiftCoefficient;
 
 	// By converting the velocity into local space, we can apply the drag individually to each component.
-	const auto localVel = GetVelocity() * GetOrient();
+	const vector3d localVel = GetVelocity() * GetOrient();
 
 	// The drag forces applied to the craft, in local space.
 	// TODO: verify dimensional accuracy and that we're not generating more drag than physically possible.
@@ -402,6 +402,8 @@ vector3d Ship::CalcAtmosphericForce() const
 	// Get current atmosphere parameters
 	double pressure, density;
 	GetCurrentAtmosphericState(pressure, density);
+	if (is_zero_exact(density))
+		return vector3d(0.0);
 
 	// Precalculate common part of drag components calculation (rho / 2)
 	const auto rho_2 = density / 2.;
@@ -415,7 +417,7 @@ vector3d Ship::CalcAtmosphericForce() const
 	// The amount of lift produced by air pressure differential across the top and bottom of the lifting surfaces.
 	vector3d fAtmosLift(0.0);
 
-	auto AoAMultiplier = localVel.NormalizedSafe().y;
+	double AoAMultiplier = localVel.NormalizedSafe().y;
 
 	// There's no lift produced once the wing hits the stall angle.
 	if (std::abs(AoAMultiplier) < 0.61) {
