@@ -291,6 +291,10 @@
     "description": "",
     "message": "Landen Sie einfach auf einer Station mit einer {org}-Außenstelle."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
+  },
   "RISK_1": {
     "description": "",
     "message": "Der Konkurrent hat nur begrenzte Ressourcen. Also nichts, was Sie nicht handhaben könnten."

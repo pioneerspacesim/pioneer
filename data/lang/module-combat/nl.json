@@ -291,6 +291,10 @@
     "description": "",
     "message": "Land gewoon bij een station met een {org}-kantoor."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
+  },
   "RISK_1": {
     "description": "",
     "message": "De concurrent heeft maar beperkte middelen. Niets wat je niet aankunt."

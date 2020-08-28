@@ -291,6 +291,10 @@
     "description": "",
     "message": "只需在一个有{org}办公室的站点停靠。"
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
+  },
   "RISK_1": {
     "description": "",
     "message": "竞争对手的资源有限。没有什么是你搞不定的。"

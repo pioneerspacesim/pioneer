@@ -291,6 +291,10 @@
     "description": "",
     "message": "Po prostu wyląduj na stacji z biurem {org}."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
+  },
   "RISK_1": {
     "description": "",
     "message": "Konkurent ma ograniczone zasoby. Nic, z czym nie możesz sobie poradzić."

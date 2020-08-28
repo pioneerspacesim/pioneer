@@ -291,6 +291,10 @@
     "description": "",
     "message": "Elég, ha egy olyan helyen landolsz, ahol van {org} iroda."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
+  },
   "RISK_1": {
     "description": "",
     "message": "A konkurenciának korlátozott források állnak rendelkezésére. Nincs mitől tartania."

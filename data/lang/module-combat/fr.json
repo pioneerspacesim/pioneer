@@ -291,6 +291,10 @@
     "description": "",
     "message": "Atterrissez simplement sur une station possédant un bureau de {org}."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
+  },
   "RISK_1": {
     "description": "",
     "message": "Le concurrent n'a que peu de ressources. Rien que vous ne pouvez gérer."

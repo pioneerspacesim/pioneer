@@ -291,6 +291,10 @@
     "description": "",
     "message": "اهبط فقط في محطة لديها مكتب {org}."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
+  },
   "RISK_1": {
     "description": "",
     "message": "لدى المنافس موارد محدودة فقط. لا شيء لا يمكنك التعامل معه."

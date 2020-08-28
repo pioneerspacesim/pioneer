@@ -975,6 +975,18 @@
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
     "message": "Pokaż bierzącą prędkość dla każdego kierunku (cienkie linie) oraz napęd (grube tło)"
   },
+  "HUD_WARNING_DESCENT_RATE": {
+    "description": "Shown on HUD as a warning flasher",
+    "message": "DESCENT RATE"
+  },
+  "HUD_WARNING_IMPACT": {
+    "description": "Alert tooltip",
+    "message": "Impact warning"
+  },
+  "HUD_WARNING_IMPACT_IMMINENT": {
+    "description": "Alert tooltip",
+    "message": "Impact imminent"
+  },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
     "message": "Kadłub nie wymaga naprawy."

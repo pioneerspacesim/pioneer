@@ -291,6 +291,10 @@
     "description": "",
     "message": "Símplemente atraca en una estación con una oficina de {org} "
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
+  },
   "RISK_1": {
     "description": "",
     "message": "El competidor solo dispone de recursos limitados. Nada que no puedas manejar."

@@ -291,6 +291,10 @@
     "description": "",
     "message": "Simplement amarreu a una estació amb delegació de {org}."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
+  },
   "RISK_1": {
     "description": "",
     "message": "El competidor només té recursos limitats. Res que no pugueu manejar."

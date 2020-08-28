@@ -291,6 +291,10 @@
     "description": "",
     "message": "È sufficiente atterrare ad una stazione in cui vi sia un ufficio {org}."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Spiacente, ma dubito che possa farcela senza un radar."
+  },
   "RISK_1": {
     "description": "",
     "message": "L'avversario ha risorse limitate. Niente che tu non possa gestire."

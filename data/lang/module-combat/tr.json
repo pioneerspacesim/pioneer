@@ -291,6 +291,10 @@
     "description": "",
     "message": "{org} ofisi olan bir istasyona inmeniz yeterli."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Üzgünüm, ancak bir radarınız olmadan bunun üstesinden gelebileceğinizi düşünmüyorum."
+  },
   "RISK_1": {
     "description": "",
     "message": "Rakip sınırlı kaynaklara sahip. Üstesinden gelemeyeceğin bir şey değil."
