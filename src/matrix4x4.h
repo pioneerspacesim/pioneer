@@ -8,11 +8,13 @@
 #include "vector3.h"
 #include <math.h>
 #include <stdio.h>
+#include <type_traits>
 
 template <typename T>
 class matrix4x4 {
 private:
 	T cell[16];
+	using other_float_t = typename std::conditional<std::is_same<T, float>::value, double, float>::type;
 
 public:
 	matrix4x4() {}
@@ -26,11 +28,21 @@ public:
 	{
 		memcpy(cell, vals, sizeof(T) * 16);
 	}
+	matrix4x4(const matrix3x3<T> &m)
+	{
+		LoadFrom3x3Matrix(m.Data());
+	}
 	matrix4x4(const matrix3x3<T> &m, const vector3<T> &v)
 	{
 		LoadFrom3x3Matrix(m.Data());
 		SetTranslate(v);
 	}
+	explicit matrix4x4(const matrix4x4<other_float_t> &m)
+	{
+		for (int i = 0; i < 16; i++)
+			cell[i] = T(m[i]);
+	}
+
 	void SetTranslate(const vector3<T> &v)
 	{
 		cell[12] = v.x;
@@ -42,25 +54,6 @@ public:
 	{
 		for (int i = 0; i < 12; i++)
 			cell[i] = m.cell[i];
-	}
-	matrix4x4(const matrix3x3<T> &m)
-	{
-		cell[0] = m[0];
-		cell[4] = m[1];
-		cell[8] = m[2];
-		cell[12] = 0;
-		cell[1] = m[3];
-		cell[5] = m[4];
-		cell[9] = m[5];
-		cell[13] = 0;
-		cell[2] = m[6];
-		cell[6] = m[7];
-		cell[10] = m[8];
-		cell[14] = 0;
-		cell[3] = 0;
-		cell[7] = 0;
-		cell[11] = 0;
-		cell[15] = 1;
 	}
 	matrix3x3<T> GetOrient() const
 	{
@@ -592,17 +585,6 @@ public:
 
 typedef matrix4x4<float> matrix4x4f;
 typedef matrix4x4<double> matrix4x4d;
-
-static inline void matrix4x4ftod(const matrix4x4f &in, matrix4x4d &out)
-{
-	for (int i = 0; i < 16; i++)
-		out[i] = double(in[i]);
-}
-static inline void matrix4x4dtof(const matrix4x4d &in, matrix4x4f &out)
-{
-	for (int i = 0; i < 16; i++)
-		out[i] = float(in[i]);
-}
 
 static const matrix4x4f matrix4x4fIdentity(matrix4x4f::Identity());
 static const matrix4x4d matrix4x4dIdentity(matrix4x4d::Identity());

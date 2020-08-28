@@ -59,7 +59,7 @@ public:
 	{
 		if (!cg.GetGeom()) return;
 
-		matrix4x4ftod(m_matrixStack.back(), cg.GetGeom()->m_animTransform);
+		cg.GetGeom()->m_animTransform = matrix4x4d(m_matrixStack.back());
 	}
 };
 

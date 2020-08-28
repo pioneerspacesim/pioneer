@@ -810,8 +810,7 @@ void SystemView::SetSelectedObject(Projectable::types type, Projectable::bases b
 
 double SystemView::ProjectedSize(double size, vector3d pos)
 {
-	matrix4x4d dtrans;
-	matrix4x4ftod(m_cameraSpace, dtrans);
+	matrix4x4d dtrans = matrix4x4d(m_cameraSpace);
 	pos = dtrans * pos; //position in camera space to know distance
 	double result = size / pos.Length() / CAMERA_FOV_RADIANS;
 	return result;

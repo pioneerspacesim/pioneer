@@ -588,9 +588,7 @@ namespace Graphics {
 	bool RendererOGL::SetTransform(const matrix4x4d &m)
 	{
 		PROFILE_SCOPED()
-		matrix4x4f mf;
-		matrix4x4dtof(m, mf);
-		return SetTransform(mf);
+		return SetTransform(matrix4x4f(m));
 	}
 
 	bool RendererOGL::SetTransform(const matrix4x4f &m)

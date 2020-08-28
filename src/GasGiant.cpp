@@ -667,10 +667,8 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	matrix4x4d trans = modelView;
 	trans.Translate(-campos.x, -campos.y, -campos.z);
 	renderer->SetTransform(trans); //need to set this for the following line to work
-	matrix4x4d modv;
-	matrix4x4d proj;
-	matrix4x4ftod(renderer->GetTransform(), modv);
-	matrix4x4ftod(renderer->GetProjection(), proj);
+	matrix4x4d modv = matrix4x4d(renderer->GetTransform());
+	matrix4x4d proj = matrix4x4d(renderer->GetProjection());
 	Graphics::Frustum frustum(modv, proj);
 
 	// no frustum test of entire gasSphere, since Space::Render does this
