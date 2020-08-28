@@ -140,8 +140,8 @@ namespace Gui {
 
 		Graphics::Renderer *r = GetRenderer();
 
-		modelMatrix = r->GetCurrentModelView();
-		projMatrix = r->GetCurrentProjection();
+		modelMatrix = r->GetTransform();
+		projMatrix = r->GetProjection();
 
 		r->GetCurrentViewport(&viewport[0]);
 		r->SetOrthographicProjection(0, width, height, 0, -1, 1);
@@ -301,15 +301,16 @@ namespace Gui {
 
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
 
-		const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
-		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		const matrix4x4f &modelMatrix_ = r->GetTransform();
+		Graphics::Renderer::MatrixTicket ticket(r);
 
 		const float x = modelMatrix_[12] + xoff;
 		const float y = modelMatrix_[13] + yoff;
 
-		r->LoadIdentity();
-		r->Translate(floor(x / Screen::fontScale[0]) * Screen::fontScale[0], floor(y / Screen::fontScale[1]) * Screen::fontScale[1], 0);
-		r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		matrix4x4f modelView = matrix4x4f::Identity();
+		modelView.Translate(floor(x / Screen::fontScale[0]) * Screen::fontScale[0], floor(y / Screen::fontScale[1]) * Screen::fontScale[1], 0);
+		modelView.Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		r->SetTransform(modelView);
 
 		// temporary, owned by the font
 		Graphics::VertexBuffer *pVB = font->GetCachedVertexBuffer(s);
@@ -339,15 +340,16 @@ namespace Gui {
 
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
 
-		const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
-		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		const matrix4x4f &modelMatrix_ = r->GetTransform();
+		Graphics::Renderer::MatrixTicket ticket(r);
 
 		const float x = modelMatrix_[12];
 		const float y = modelMatrix_[13];
 
-		r->LoadIdentity();
-		r->Translate(floor(x / Screen::fontScale[0]) * Screen::fontScale[0], floor(y / Screen::fontScale[1]) * Screen::fontScale[1], 0);
-		r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		matrix4x4f modelView = matrix4x4f::Identity();
+		modelView.Translate(floor(x / Screen::fontScale[0]) * Screen::fontScale[0], floor(y / Screen::fontScale[1]) * Screen::fontScale[1], 0);
+		modelView.Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		r->SetTransform(modelView);
 
 		// temporary, owned by the font
 		Graphics::VertexBuffer *pVB = font->GetCachedVertexBuffer(s);

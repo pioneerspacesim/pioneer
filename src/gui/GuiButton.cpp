@@ -128,9 +128,11 @@ namespace Gui {
 		}
 
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
-		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 
-		r->Translate(m_padding, m_padding * 0.5, 0);
+		matrix4x4f modelView = r->GetTransform();
+		modelView.Translate(m_padding, m_padding * 0.5, 0);
+		Graphics::Renderer::MatrixTicket ticket(r, modelView);
+
 		m_label->Draw();
 	}
 

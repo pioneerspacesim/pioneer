@@ -382,8 +382,8 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	renderer->SetTransform(trans); //need to set this for the following line to work
 	matrix4x4d modv;
 	matrix4x4d proj;
-	matrix4x4ftod(renderer->GetCurrentModelView(), modv);
-	matrix4x4ftod(renderer->GetCurrentProjection(), proj);
+	matrix4x4ftod(renderer->GetTransform(), modv);
+	matrix4x4ftod(renderer->GetProjection(), proj);
 	Graphics::Frustum frustum(modv, proj);
 	m_tempFrustum = frustum;
 

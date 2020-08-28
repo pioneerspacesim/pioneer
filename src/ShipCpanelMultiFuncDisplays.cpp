@@ -148,9 +148,11 @@ void RadarWidget::Draw()
 
 	// circles and spokes
 	{
-		Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
-		m_renderer->Translate(RADAR_XSHRINK * m_x, m_y, 0);
-		m_renderer->Scale(m_x, m_y, 1.0f);
+		matrix4x4f modelView = m_renderer->GetTransform();
+		modelView.Translate(RADAR_XSHRINK * m_x, m_y, 0);
+		modelView.Scale(m_x, m_y, 1.0f);
+
+		Graphics::Renderer::MatrixTicket ticket(m_renderer, modelView);
 		DrawRingsAndSpokes(false);
 	}
 

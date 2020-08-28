@@ -254,7 +254,7 @@ void SectorView::Draw3D()
 
 	m_renderer->ClearScreen();
 
-	Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
+	Graphics::Renderer::MatrixTicket ticket(m_renderer);
 
 	// units are lightyears, my friend
 	modelview.Translate(0.f, 0.f, -10.f - 10.f * m_zoom); // not zoomClamped, let us zoom out a bit beyond what we're drawing

@@ -161,7 +161,6 @@ namespace Graphics {
 		m_invLogZfarPlus1(0.f),
 		m_activeRenderTarget(0),
 		m_activeRenderState(nullptr),
-		m_matrixMode(MatrixMode::MODELVIEW),
 		m_glContext(glContext)
 	{
 		glewExperimental = true;
@@ -222,11 +221,6 @@ namespace Graphics {
 
 		glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
 		glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);
-
-		SetMatrixMode(MatrixMode::MODELVIEW);
-
-		m_modelViewStack.push(matrix4x4f::Identity());
-		m_projectionStack.push(matrix4x4f::Identity());
 
 		SetClearColor(Color4f(0.f, 0.f, 0.f, 0.f));
 		SetViewport(0, 0, m_width, m_height);
@@ -602,10 +596,13 @@ namespace Graphics {
 	bool RendererOGL::SetTransform(const matrix4x4f &m)
 	{
 		PROFILE_SCOPED()
-		//same as above
-		SetMatrixMode(MatrixMode::MODELVIEW);
-		LoadMatrix(m);
+		m_modelViewMat = m;
 		return true;
+	}
+
+	matrix4x4f RendererOGL::GetTransform() const
+	{
+		return m_modelViewMat;
 	}
 
 	bool RendererOGL::SetPerspectiveProjection(float fov, float aspect, float near_, float far_)
@@ -638,10 +635,13 @@ namespace Graphics {
 	bool RendererOGL::SetProjection(const matrix4x4f &m)
 	{
 		PROFILE_SCOPED()
-		//same as above
-		SetMatrixMode(MatrixMode::PROJECTION);
-		LoadMatrix(m);
+		m_projectionMat = m;
 		return true;
+	}
+
+	matrix4x4f RendererOGL::GetProjection() const
+	{
+		return m_projectionMat;
 	}
 
 	bool RendererOGL::SetWireFrameMode(bool enabled)
@@ -696,7 +696,8 @@ namespace Graphics {
 
 	void RendererOGL::SetMaterialShaderTransforms(Material *m)
 	{
-		m->SetCommonUniforms(m_modelViewStack.top(), m_projectionStack.top());
+		//m->SetCommonUniforms(m_modelViewStack.top(), m_projectionStack.top());
+		m->SetCommonUniforms(m_modelViewMat, m_projectionMat);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 	}
 
@@ -1166,10 +1167,6 @@ namespace Graphics {
 	// only restoring the things that have changed
 	void RendererOGL::PushState()
 	{
-		SetMatrixMode(MatrixMode::PROJECTION);
-		PushMatrix();
-		SetMatrixMode(MatrixMode::MODELVIEW);
-		PushMatrix();
 		m_viewportStack.push(m_viewportStack.top());
 	}
 
@@ -1179,92 +1176,6 @@ namespace Graphics {
 		assert(!m_viewportStack.empty());
 		const Viewport &cvp = m_viewportStack.top();
 		SetViewport(cvp.x, cvp.y, cvp.w, cvp.h);
-
-		SetMatrixMode(MatrixMode::PROJECTION);
-		PopMatrix();
-		SetMatrixMode(MatrixMode::MODELVIEW);
-		PopMatrix();
-	}
-
-	void RendererOGL::SetMatrixMode(MatrixMode mm)
-	{
-		if (mm != m_matrixMode) {
-			m_matrixMode = mm;
-		}
-	}
-
-	void RendererOGL::PushMatrix()
-	{
-		switch (m_matrixMode) {
-		case MatrixMode::MODELVIEW:
-			m_modelViewStack.push(m_modelViewStack.top());
-			break;
-		case MatrixMode::PROJECTION:
-			m_projectionStack.push(m_projectionStack.top());
-			break;
-		}
-	}
-
-	void RendererOGL::PopMatrix()
-	{
-		switch (m_matrixMode) {
-		case MatrixMode::MODELVIEW:
-			m_modelViewStack.pop();
-			assert(m_modelViewStack.size());
-			break;
-		case MatrixMode::PROJECTION:
-			m_projectionStack.pop();
-			assert(m_projectionStack.size());
-			break;
-		}
-	}
-
-	void RendererOGL::LoadIdentity()
-	{
-		switch (m_matrixMode) {
-		case MatrixMode::MODELVIEW:
-			m_modelViewStack.top() = matrix4x4f::Identity();
-			break;
-		case MatrixMode::PROJECTION:
-			m_projectionStack.top() = matrix4x4f::Identity();
-			break;
-		}
-	}
-
-	void RendererOGL::LoadMatrix(const matrix4x4f &m)
-	{
-		switch (m_matrixMode) {
-		case MatrixMode::MODELVIEW:
-			m_modelViewStack.top() = m;
-			break;
-		case MatrixMode::PROJECTION:
-			m_projectionStack.top() = m;
-			break;
-		}
-	}
-
-	void RendererOGL::Translate(const float x, const float y, const float z)
-	{
-		switch (m_matrixMode) {
-		case MatrixMode::MODELVIEW:
-			m_modelViewStack.top().Translate(x, y, z);
-			break;
-		case MatrixMode::PROJECTION:
-			m_projectionStack.top().Translate(x, y, z);
-			break;
-		}
-	}
-
-	void RendererOGL::Scale(const float x, const float y, const float z)
-	{
-		switch (m_matrixMode) {
-		case MatrixMode::MODELVIEW:
-			m_modelViewStack.top().Scale(x, y, z);
-			break;
-		case MatrixMode::PROJECTION:
-			m_modelViewStack.top().Scale(x, y, z);
-			break;
-		}
 	}
 
 	bool RendererOGL::Screendump(ScreendumpState &sd)
