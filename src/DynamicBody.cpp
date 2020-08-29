@@ -97,6 +97,18 @@ void DynamicBody::SaveToJson(Json &jsonObj, Space *space)
 	jsonObj["dynamic_body"] = dynamicBodyObj; // Add dynamic body object to supplied object.
 }
 
+void DynamicBody::GetCurrentAtmosphericState(double &pressure, double &density) const
+{
+	Frame *f = Frame::GetFrame(GetFrame());
+	Body *body = f->GetBody();
+	if (!body || !f->IsRotFrame() || !body->IsType(Object::PLANET)) {
+		pressure = density = 0;
+		return;
+	}
+	Planet *planet = static_cast<Planet *>(body);
+	planet->GetAtmosphericState(GetPosition().Length(), &pressure, &density);
+}
+
 void DynamicBody::PostLoadFixup(Space *space)
 {
 	Body::PostLoadFixup(space);
@@ -190,16 +202,11 @@ void DynamicBody::SetFrame(FrameId fId)
 
 double DynamicBody::CalcAtmosphericDrag(double velSqr, double area, double coeff) const
 {
-	Frame *f = Frame::GetFrame(GetFrame());
-	Body *body = f->GetBody();
-	if (!body || !f->IsRotFrame() || !body->IsType(Object::PLANET))
-		return 0.0;
-	Planet *planet = static_cast<Planet *>(body);
 	double pressure, density;
-	planet->GetAtmosphericState(GetPosition().Length(), &pressure, &density);
+	GetCurrentAtmosphericState(pressure, density);
 
 	// Simplified calculation of atmospheric drag/lift force.
-	return 0.5 * density * velSqr * area * coeff;
+	return density > 0 ? 0.5 * density * velSqr * area * coeff : 0;
 }
 
 vector3d DynamicBody::CalcAtmosphericForce() const
@@ -248,7 +255,7 @@ void DynamicBody::CalcExternalForce()
 	if (f->IsRotFrame()) {
 		vector3d angRot(0, f->GetAngSpeed(), 0);
 		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition())); // centrifugal
-		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity()); // coriolis
+		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity());		   // coriolis
 	}
 }
 

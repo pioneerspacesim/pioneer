@@ -93,6 +93,8 @@ public:
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 
+	void GetCurrentAtmosphericState(double &pressure, double &density) const;
+
 	virtual vector3d CalcAtmosphericForce() const;
 
 	static const double DEFAULT_DRAG_COEFF;
