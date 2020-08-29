@@ -16,6 +16,7 @@ August 2020
      * Fix requring a camera frame when drawing PiGui (#4941)
      * Fix being able to load invalid save versions (#4945)
      * Fix compilation on i686 builds (#4945)
+     * Fix atmospheric flight calculations (#4946)
 
 July 2020
    * New Features
