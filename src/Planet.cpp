@@ -256,7 +256,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer, const matrix4x4d &modelView)
 	if (!m_ringTexture)
 		GenerateRings(renderer);
 
-	renderer->SetTransform(modelView);
+	renderer->SetTransform(matrix4x4f(modelView));
 	renderer->DrawTriangles(&m_ringVertices, m_ringState, m_ringMaterial.get(), TRIANGLE_STRIP);
 }
 

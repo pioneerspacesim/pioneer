@@ -163,7 +163,7 @@ namespace UI {
 
 		// Ticket for the viewport mostly
 		Graphics::Renderer::StateTicket ticket(r);
-		r->SetViewport(0, 0, m_width, m_height);
+		r->SetViewport({ 0, 0, m_width, m_height });
 
 		// reset renderer for each layer
 		for (std::vector<Layer *>::iterator i = m_layers.begin(); i != m_layers.end(); ++i) {

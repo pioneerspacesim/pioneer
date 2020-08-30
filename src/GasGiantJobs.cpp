@@ -239,17 +239,12 @@ namespace GasGiantJobs {
 	{
 		PROFILE_SCOPED()
 
-		Pi::renderer->SetViewport(0, 0, mData->UVDims(), mData->UVDims());
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
-
-		matrix4x4f savedProj = Pi::renderer->GetProjection();
-		matrix4x4f savedMV = Pi::renderer->GetTransform();
+		Graphics::Renderer::StateTicket ticket(Pi::renderer);
 
 		// enter ortho
-		{
-			Pi::renderer->SetOrthographicProjection(0, mData->UVDims(), mData->UVDims(), 0, -1, 1);
-			Pi::renderer->SetTransform(matrix4x4f::Identity());
-		}
+		Pi::renderer->SetViewport({ 0, 0, mData->UVDims(), mData->UVDims() });
+		Pi::renderer->SetOrthographicProjection(0, mData->UVDims(), mData->UVDims(), 0, -1, 1);
+		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
 		GasGiant::BeginRenderTarget();
 		for (Uint32 iFace = 0; iFace < NUM_PATCHES; iFace++) {
@@ -266,18 +261,14 @@ namespace GasGiantJobs {
 		}
 		GasGiant::EndRenderTarget();
 
-		// leave ortho?
-		{
-			Pi::renderer->SetProjection(savedProj);
-			Pi::renderer->SetTransform(savedMV);
-		}
-
 		// add this patches data
 		SGPUGenResult *sr = new SGPUGenResult();
 		sr->addResult(mData->Texture(), mData->UVDims());
 
 		// store the result
 		mpResults = sr;
+
+		// leave ortho when ticket is destroyed
 	}
 
 	void SingleGPUGenJob::OnFinish() // runs in primary thread of the context

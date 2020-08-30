@@ -379,7 +379,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	matrix4x4d trans = modelView;
 	trans.Translate(-campos.x, -campos.y, -campos.z);
-	renderer->SetTransform(trans); //need to set this for the following line to work
+	renderer->SetTransform(matrix4x4f(trans)); //need to set this for the following line to work
 	matrix4x4d modv = matrix4x4d(renderer->GetTransform());
 	matrix4x4d proj = matrix4x4d(renderer->GetProjection());
 	Graphics::Frustum frustum(modv, proj);
@@ -443,7 +443,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	renderer->SetAmbientColor(ambient);
 
-	renderer->SetTransform(modelView);
+	renderer->SetTransform(matrix4x4f(modelView));
 
 	for (int i = 0; i < NUM_PATCHES; i++) {
 		m_patches[i]->Render(renderer, campos, modelView, frustum);

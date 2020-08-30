@@ -6,6 +6,7 @@
 
 #include "FontCache.h"
 #include "Gui.h"
+#include "graphics/Graphics.h"
 #include "graphics/RenderState.h"
 #include "text/TextureFont.h"
 #include <list>
@@ -87,7 +88,7 @@ namespace Gui {
 		static void OnDeleteFocusedWidget();
 		static matrix4x4f modelMatrix;
 		static matrix4x4f projMatrix;
-		static Sint32 viewport[4];
+		static Graphics::Viewport viewport;
 
 		static FontCache s_fontCache;
 		static std::stack<RefCountedPtr<Text::TextureFont>> s_fontStack;

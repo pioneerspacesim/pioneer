@@ -143,7 +143,8 @@ void ObjectViewerView::Draw3D()
 		body->Render(m_renderer, m_camera.get(), vector3d(0, 0, -viewingDist), m_camRot);
 
 		// industry-standard red/green/blue XYZ axis indiactor
-		m_renderer->SetTransform(matrix4x4d::Translation(vector3d(0, 0, -viewingDist)) * m_camRot * matrix4x4d::ScaleMatrix(body->GetClipRadius() * 2.0));
+		matrix4x4d trans = matrix4x4d::Translation(vector3d(0, 0, -viewingDist)) * m_camRot * matrix4x4d::ScaleMatrix(body->GetClipRadius() * 2.0);
+		m_renderer->SetTransform(matrix4x4f(trans));
 		Graphics::Drawables::GetAxes3DDrawable(m_renderer)->Draw(m_renderer);
 	}
 

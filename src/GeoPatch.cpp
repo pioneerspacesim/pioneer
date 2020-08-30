@@ -291,7 +291,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		Graphics::RenderState *rs = m_geosphere->GetSurfRenderState();
 
 		const vector3d relpos = m_clipCentroid - campos;
-		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
+		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
 
 		Pi::statSceneTris += (m_ctx->GetNumTris());
 		++Pi::statNumPatches;

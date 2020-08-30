@@ -198,8 +198,6 @@ namespace Graphics {
 
 		TextureBuilder::Init();
 
-		m_viewportStack.push(Viewport());
-
 		const bool useDXTnTextures = vs.useTextureCompression;
 		m_useCompressedTextures = useDXTnTextures;
 
@@ -223,7 +221,7 @@ namespace Graphics {
 		glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);
 
 		SetClearColor(Color4f(0.f, 0.f, 0.f, 0.f));
-		SetViewport(0, 0, m_width, m_height);
+		SetViewport(Viewport(0, 0, m_width, m_height));
 
 		if (vs.enableDebugMessages)
 			GLDebug::Enable();
@@ -573,22 +571,16 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::SetViewport(int x, int y, int width, int height)
+	bool RendererOGL::SetViewport(Viewport v)
 	{
-		assert(!m_viewportStack.empty());
-		Viewport &currentViewport = m_viewportStack.top();
-		currentViewport.x = x;
-		currentViewport.y = y;
-		currentViewport.w = width;
-		currentViewport.h = height;
-		glViewport(x, y, width, height);
+		m_viewport = v;
+		glViewport(v.x, v.y, v.w, v.h);
 		return true;
 	}
 
-	bool RendererOGL::SetTransform(const matrix4x4d &m)
+	Viewport RendererOGL::GetViewport() const
 	{
-		PROFILE_SCOPED()
-		return SetTransform(matrix4x4f(m));
+		return m_viewport;
 	}
 
 	bool RendererOGL::SetTransform(const matrix4x4f &m)
@@ -694,7 +686,6 @@ namespace Graphics {
 
 	void RendererOGL::SetMaterialShaderTransforms(Material *m)
 	{
-		//m->SetCommonUniforms(m_modelViewStack.top(), m_projectionStack.top());
 		m->SetCommonUniforms(m_modelViewMat, m_projectionMat);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 	}
@@ -1165,15 +1156,12 @@ namespace Graphics {
 	// only restoring the things that have changed
 	void RendererOGL::PushState()
 	{
-		m_viewportStack.push(m_viewportStack.top());
+		// empty since viewport handling is now external, evaluate if renderer will need to save any custom state
 	}
 
 	void RendererOGL::PopState()
 	{
-		m_viewportStack.pop();
-		assert(!m_viewportStack.empty());
-		const Viewport &cvp = m_viewportStack.top();
-		SetViewport(cvp.x, cvp.y, cvp.w, cvp.h);
+		// empty since viewport handling is now external, evaluate if renderer will need to save any custom state
 	}
 
 	bool RendererOGL::Screendump(ScreendumpState &sd)

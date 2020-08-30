@@ -79,10 +79,10 @@ namespace Graphics {
 		virtual bool ClearDepthBuffer() = 0;
 		virtual bool SetClearColor(const Color &c) = 0;
 
-		virtual bool SetViewport(int x, int y, int width, int height) = 0;
+		virtual bool SetViewport(Viewport vp) = 0;
+		virtual Viewport GetViewport() const = 0;
 
 		//set the model view matrix
-		[[deprecated]] virtual bool SetTransform(const matrix4x4d &m) = 0;
 		virtual bool SetTransform(const matrix4x4f &m) = 0;
 		virtual matrix4x4f GetTransform() const = 0;
 
@@ -144,9 +144,6 @@ namespace Graphics {
 
 		virtual bool ReloadShaders() = 0;
 
-		/// XXX at least use a custom structure you heathens
-		[[deprecated]] virtual void GetCurrentViewport(Sint32 *vp) const = 0;
-
 		// take a ticket representing the current renderer state. when the ticket
 		// is deleted, the renderer state is restored
 		// XXX state must die
@@ -156,6 +153,7 @@ namespace Graphics {
 				m_renderer(r)
 			{
 				m_renderer->PushState();
+				m_storedVP = m_renderer->GetViewport();
 				m_storedProj = m_renderer->GetProjection();
 				m_storedMV = m_renderer->GetTransform();
 			}
@@ -163,6 +161,7 @@ namespace Graphics {
 			virtual ~StateTicket()
 			{
 				m_renderer->PopState();
+				m_renderer->SetViewport(m_storedVP);
 				m_renderer->SetTransform(m_storedMV);
 				m_renderer->SetProjection(m_storedProj);
 			}
@@ -174,6 +173,7 @@ namespace Graphics {
 			Renderer *m_renderer;
 			matrix4x4f m_storedProj;
 			matrix4x4f m_storedMV;
+			Viewport m_storedVP;
 		};
 
 		// Temporarily save the current transform matrix to do non-destructive drawing.

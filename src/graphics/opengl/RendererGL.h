@@ -75,9 +75,9 @@ namespace Graphics {
 		virtual bool ClearDepthBuffer() override final;
 		virtual bool SetClearColor(const Color &c) override final;
 
-		virtual bool SetViewport(int x, int y, int width, int height) override final;
+		virtual bool SetViewport(Viewport v) override final;
+		virtual Viewport GetViewport() const override final;
 
-		virtual bool SetTransform(const matrix4x4d &m) override final;
 		virtual bool SetTransform(const matrix4x4f &m) override final;
 		virtual matrix4x4f GetTransform() const override final;
 
@@ -111,15 +111,6 @@ namespace Graphics {
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override final;
 
 		virtual bool ReloadShaders() override final;
-
-		virtual void GetCurrentViewport(Sint32 *vp) const override final
-		{
-			const Viewport &cur = m_viewportStack.top();
-			vp[0] = cur.x;
-			vp[1] = cur.y;
-			vp[2] = cur.w;
-			vp[3] = cur.h;
-		}
 
 		virtual bool Screendump(ScreendumpState &sd) override final;
 		virtual bool FrameGrab(ScreendumpState &sd) override final;
@@ -162,16 +153,7 @@ namespace Graphics {
 
 		matrix4x4f m_modelViewMat;
 		matrix4x4f m_projectionMat;
-
-		struct Viewport {
-			Viewport() :
-				x(0),
-				y(0),
-				w(0),
-				h(0) {}
-			Sint32 x, y, w, h;
-		};
-		std::stack<Viewport> m_viewportStack;
+		Viewport m_viewport;
 
 	private:
 		static bool initted;

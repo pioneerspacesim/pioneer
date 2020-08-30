@@ -130,7 +130,7 @@ void SpeedLines::Render(Graphics::Renderer *r)
 
 	m_vbuffer->Populate(*m_varray);
 
-	r->SetTransform(m_transform);
+	r->SetTransform(matrix4x4f(m_transform));
 	r->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get(), Graphics::LINE_SINGLE);
 }
 

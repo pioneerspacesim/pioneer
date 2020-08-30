@@ -543,7 +543,7 @@ namespace Background {
 	void Container::Draw(const matrix4x4d &transform)
 	{
 		PROFILE_SCOPED()
-		m_renderer->SetTransform(transform);
+		m_renderer->SetTransform(matrix4x4f(transform));
 		if (DRAW_SKYBOX & m_drawFlags) {
 			m_universeBox.Draw(m_renderState);
 		}
@@ -551,7 +551,7 @@ namespace Background {
 			m_milkyWay.Draw(m_renderState);
 		}
 		if (DRAW_STARS & m_drawFlags) {
-			m_renderer->SetTransform(transform);
+			m_renderer->SetTransform(matrix4x4f(transform));
 			m_starField.Draw(m_renderState);
 		}
 	}
