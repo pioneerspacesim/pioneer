@@ -245,11 +245,11 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 #ifdef DEBUG_BOUNDING_SPHERES
 		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial(Graphics::MaterialDescriptor()));
 		switch (m_depth) {
-			case 0: mat->diffuse = Color::WHITE; break;
-			case 1: mat->diffuse = Color::RED; break;
-			case 2: mat->diffuse = Color::GREEN; break;
-			case 3: mat->diffuse = Color::BLUE; break;
-			default: mat->diffuse = Color::BLACK; break;
+		case 0: mat->diffuse = Color::WHITE; break;
+		case 1: mat->diffuse = Color::RED; break;
+		case 2: mat->diffuse = Color::GREEN; break;
+		case 3: mat->diffuse = Color::BLUE; break;
+		default: mat->diffuse = Color::BLACK; break;
 		}
 		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, mat, Pi::renderer->CreateRenderState(Graphics::RenderStateDesc()), 2, m_clipRadius));
 #endif
@@ -323,7 +323,7 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 	// always split at first level
 	double centroidDist = DBL_MAX;
 	if (m_parent) {
-		centroidDist = (campos - m_centroid).Length(); // distance from camera to centre of the patch
+		centroidDist = (campos - m_centroid).Length();		 // distance from camera to centre of the patch
 		const bool tooFar = (centroidDist >= m_roughLength); // check if the distance is greater than the rough length, which is how far it should be before it can split
 		if (m_depth >= std::min(GEOPATCH_MAX_DEPTH, m_geosphere->GetMaxDepth()) || tooFar) {
 			canSplit = false; // we're too deep in the quadtree or too far away so cannot split

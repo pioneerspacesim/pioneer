@@ -14,23 +14,23 @@ namespace UI {
 	static const int SCALE_CUTOFF_HEIGHT = 768;
 
 	static const float FONT_SCALE[] = {
-		0.7f, // XSMALL
+		0.7f,  // XSMALL
 		0.85f, // SMALL
-		1.0f, // NORMAL
-		1.4f, // LARGE
-		1.8f, // XLARGE
+		1.0f,  // NORMAL
+		1.4f,  // LARGE
+		1.8f,  // XLARGE
 
-		0.7f, // HEADING_XSMALL
+		0.7f,  // HEADING_XSMALL
 		0.85f, // HEADING_SMALL
-		1.0f, // HEADING_NORMAL
-		1.4f, // HEADING_LARGE
-		1.8f, // HEADING_XLARGE
+		1.0f,  // HEADING_NORMAL
+		1.4f,  // HEADING_LARGE
+		1.8f,  // HEADING_XLARGE
 
-		0.7f, // MONO_XSMALL
+		0.7f,  // MONO_XSMALL
 		0.85f, // MONO_SMALL
-		1.0f, // MONO_NORMAL
-		1.4f, // MONO_LARGE
-		1.8f // MONO_XLARGE
+		1.0f,  // MONO_NORMAL
+		1.4f,  // MONO_LARGE
+		1.8f   // MONO_XLARGE
 	};
 
 	Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) :

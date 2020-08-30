@@ -4,8 +4,8 @@
 #include "Star.h"
 
 #include "Pi.h"
-#include "galaxy/SystemBody.h"
 #include "galaxy/StarSystem.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
