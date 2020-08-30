@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "C'est maintenant l'homme contre la machine dans le système {systeme}  ({sectorx}, {sectory}, {sectorz}), depuis que des \"malfonctions comportementales\" ont causé la perte de la confiance des consommateurs domestiques envers leur serviteur robotique."
+    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Une éruption solaire entraîne le blackout du millénaire, dans le système {system} system."
+    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "La panne de courant couvrant l'ensemble du système {system} ({sectorx}, {sectory}, {sectorz}) a causé des dégâts considérables. Les producteurs ayant épuisé leur stock de matières premières, les consommateurs font la queue pour acheter le dernier Trapperware dans le but de remplacer leur réfrigérateur."
+    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "NEWS {date}: La police s'attaque au syndicat du crime, dans le système {system}, Les principaux leaders sont sous les verrous."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "Suite à l'arrestation de plusieurs dealers, l'administration du système {system} ({sectorx}, {sectory}, {sectorz}) espère que la pénurie de drogue entraînera une baisse de la criminalité."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "Pendant l'exposition de la grande vapeur dans le système [system] ({sectorx}, {sectory}, {sectorz}), une tentative de record pour le concours du plus gros poids tiré par un tracteur s'est transformé en carnage lorsqu'un des participant a perdu le contrôle de son engin, détruisant au passage toutes les machines des autres participants. L'administration a prévenu que cela pourrait engendrer la fin pour les agriculteurs locaux."
+    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "NEWS {date}: Le conflit s'intensifie dans le système {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "Le conflit de longue durée s'intensifie dans le système {system} ({sectorx}, {sectory}, {sectorz}), tandis que les armées se lancent dans une guerre ouverte."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Les travailleurs du système {system} ({sectorx}, {sectory}, {sectorz}) sont entrés en rebellion et ont brisé leurs chaînes, refusant de travailler dans les champs Lotus. Ne parvenant pas à recruter d'autres travailleurs bon marché, toute l'économie est à l'arrêt total."
+    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",

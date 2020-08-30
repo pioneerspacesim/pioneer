@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "Nu är det man mot maskin som gäller i {system} systemet ({sectorx}, {sectory}, {sectorz}) när \"beteendefel\" orsakar att konsumenter förlorat tilltron till sina robottjänare."
+    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NYHETER {date}: En solerruption orsakar årtusendets största mörkläggning i {system} systemet."
+    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Strömavbrott över hela {system} systemet ({sectorx}, {sectory}, {sectorz}) orsakar kaos. Konsumenter köar för att köpa de sista plastbehållarna för att byta ut sina kylskåp då producenterna fått slut på råmaterial."
+    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "NYHETER {date}: Polisen har utfört räder mot brottssyndikat i {system} systemet, nyckelpersoner arresterade."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "Administrationen i {system} systemet ({sectorx}, {sectory}, {sectorz}) hoppas på att brott kommer att minska när droger inte finns tillgängliga längre efter att ett flertal gangster blivit arresterade."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "Under den stora marknaden i {system} systemet ({sectorx}, {sectory}, {sectorz}) slutade ett galaktiskt rekordförsökt i drag med den största traktorn i förödelse när en av deltagarna förlorade kontrollen över sin skapelse och förstörde alla andra deltagares maskiner. Administrationen uppger att det kan visa sig vara ödesdigert för lokala jordbrukare."
+    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "NYHETER {date}: Konflikt eskalerar i {system} systemet."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "Den långvariga konflikten i {system} systemet ({sectorx}, {sectory}, {sectorz}) eskalerade ytterligare efter öppna strider mellan arméerna."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Arbetare i {system} systemet ({sectorx}, {sectory}, {sectorz}) har kastat av sig sina kedjor i ett uppror då de vägrar att arbeta i Lotusfälten. Ekonomin avstannar då billig arbetskraft saknas."
+    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",

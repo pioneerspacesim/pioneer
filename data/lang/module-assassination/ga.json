@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "Is trua go bhfuil {target} beo beathach fós. Ní bhfaighidh tú airgead ar bith toisc nár chomhlíon tú an conradh."
+    "message": "It is most regrettable that {target} is still alive and well. You will receive no payment as you did not complete your contract."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "An bhfuil tú ag iarraidh airgid as jab a rinne duine éigin eile? Imigh leat."
+    "message": "Are you asking money for a job done by someone else? Get lost."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",

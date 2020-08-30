@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "Het is zonde dat {doelwit} nog steeds leeft. Je zal geen betaling krijgen doordat je niet je contract voltooid hebt"
+    "message": "It is most regrettable that {target} is still alive and well. You will receive no payment as you did not complete your contract."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Ben je geld aan het vragen voor je contract ondertussen het gedaan is bij iemand anders? Hoepel op"
+    "message": "Are you asking money for a job done by someone else? Get lost."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",

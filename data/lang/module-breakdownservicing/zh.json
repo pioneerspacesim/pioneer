@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_INTRO": {
     "description": "",
-    "message": "避免超空间引擎故障带来的不便。今天由官方认可的{name} 发动机维修公司为您提供服务。\n"
+    "message": "Avoid the inconvenience of a broken-down hyperspace engine. Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n"
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
-    "message": "你好。我们在{proprietor}联合公司将我们的声誉与我们的工作挂钩。\n我们可以调整你船的超空间推进器，确保12个月的无故障运行。"
+    "message": "Hi there. We at {proprietor} & Co stake our reputation on our work.\nWe can tune your ship's hyperdrive, ensuring 12 months of trouble-free operation. "
   },
   "FLAVOUR_2_PRICE": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
-    "message": "维护完成. 感谢您的惠顾."
+    "message": "Service complete. Thanks for your custom."
   },
   "FLAVOUR_2_TITLE": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
-    "message": "欢迎超精维修。你一年两次保养的时间到了？让我们对你的超光速引擎进行超精加工！"
+    "message": "Welcome SuperFix Maintenance. Time for your biannual maintenance? Let us SuperFix your hyperdrive!"
   },
   "FLAVOUR_3_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\n我们可以调整您的{drive}只需 {price}。没有比这更便宜的了！"
+    "message": "\n\n{lasttime}\nWe can tune your {drive} for just {price}. There's nobody cheaper!"
   },
   "FLAVOUR_3_RESPONSE": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
-    "message": "\n{lasttime}\n保养您的{drive} 需要 {price}。是否继续？"
+    "message": "\n{lasttime}\nServicing your {drive} will cost {price}. Would you like to proceed?"
   },
   "FLAVOUR_4_RESPONSE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
-    "message": "避免超空间引擎故障带来的不便。今天为您服务。\n"
+    "message": "Avoid the inconvenience of a broken-down hyperspace engine. Get yours serviced today.\n"
   },
   "FLAVOUR_5_PRICE": {
     "description": "",

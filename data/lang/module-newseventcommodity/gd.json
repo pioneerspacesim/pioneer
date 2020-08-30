@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "Tha daoine a' strì an aghaidh nan innealan ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) fhad 's a tha \" mearachd-giùlain\" air adhbharachadh gun do chaill an luchd-ceannach an earbsa ann an robotairean seirbheiseach."
+    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NAIDHEACHD {date}: Lasan-grèine ag adhbharachadh an dubh-sgàil as motha ar linne ann an siostam {system}."
+    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Dh'adhbhraich call cumhachd air feadh siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh mòr. Tha an luchd-ceannachd a' feitheamh gus an Trapperware as ùire a cheannach gus a chur an àite nam fridsichean aca on a tha an stuth amh air a ruith air an dèanadair."
+    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "NAIDHEACHD {date}: Ruaig am poileas siondacaid eucorach ann an siostam {system}, chaidh ceannardan mòra a chur an làimh."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "Tha rianachd siostam {system} ({sectorx}, {sectory}, {sectorz}) an dòchas gun lùghdaich na h-eucoirean air sgàth 's nach eil drugaichean ri am faighinn tuilleadh às dèidh cur an làimh cheannardan siondacaid eucoirich."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "Dh'adhbharaich feuchainn air clàr curaidh an reul-chriosa ann an co-fharpais tarraing tractair as motha rè Fèill Smùide Mhòr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh nuair an do chaill fear dhe na co-fharpaisich a smachd air an tionnsgal aige, a' milleadh innealan nan co-fharpaiseach eile uile. 'S eagal leis an rianachd gun daoraich seo na tuathanaich ionadail."
+    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "NAIDHEACHD {date}: Tha còmhstri air èirigh ann an siostam {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "Tha a' chòmhstri fhada ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air dol am miosad leis na feachdan ag èirigh gu cath a-nis."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Shaor an luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) iad fhèin o na slabhraidhean 's iad a' diùltadh ri obair ann an achaidhean lòtais. Thug seo stad air an eaconamaidh o nach eil luchd-obrach saor ri fhaighinn."
+    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",

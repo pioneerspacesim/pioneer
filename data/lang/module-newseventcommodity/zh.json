@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "现在星系 {system} ({sectorx}, {sectory}, {sectorz}) 内反对机器人的呼声空前高涨. 由于\"行为失控\"导致星系内没人再敢买机器仆人了."
+    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "{date} 新闻: 千年一遇的太阳耀斑爆发导致 {system} 星系内有史以来最大的一次停电."
+    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "大面积的停电侵袭了整个 {system} 星系 ({sectorx}, {sectory}, {sectorz}). 顾客们排起长龙购买塑料保温盒来代替他们的电冰箱. 而生产商存储的生产原料也将告罄."
+    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "{date} 新闻: 警察突袭了 {system} 星系内的犯罪窝点, 核心犯罪分子头目被抓获."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 的当局者希望在犯罪组织头目被捕以后, 例如毒品之类的犯罪活动会消失."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "在 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 举办的蒸汽机车博览会上, 宇宙历史上最大的蒸汽机车拔河赛以大混乱收场. 失控的机车横冲乱撞,毁掉了其他所有参赛的机车. 当局表示这可能会给当地农场主带来一场灾难."
+    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "{date} 新闻: {system} 星系中的冲突加剧."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 内的长期冲突逐步升级为军队全面参与的战斗."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 内的奴隶工人摆脱了锁链并发生了暴动事件. 由于无法找到廉价的劳动力, 经济现在处于停滞状态."
+    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",

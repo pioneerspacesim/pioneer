@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "\"Viselkedési rendellenességek\" csökkenti a bizalmat gépek és emberek között  {system} rendszerben. ({sectorx}, {sectory}, {sectorz}). Csökken a kereslet a háztartási robotok iránt."
+    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "HÍREK {date}: Napkitörés okozta az évszázad áramszünetét {system} rendszerben."
+    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Rendszerszintű áramszünet söpört végig {system rendszeren ({sectorx}, {sectory}, {sectorz}). Hosszú sorok kígyóznak a Trapperware szaküzletek előtt, melyek nem képesek tartani a lépést hűtőgépek meghibásodása miatt a tárolóedények iránt megnövekedett kereslettel. A nyersanyaghiány egyre nagyobb problémákat okoz a piacon."
+    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "HÍREK {date}: Rendőrségi rajtaütés {system} szervezett bűnözői csoportjain. Több vezetőt letartóztattak."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "A hatóságok a drogkartellek vezéreinek letartóztatásától azt remélik, hogy {system} rendszerben ({sectorx}, {sectory}, {sectorz}) jelentősen csökkenni fog a bűnözés."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "Az idei {system}-i Nagy Mezőgazdasági Seregszemlén a Traktoros kötélhúzás galaktikus rekordkísérlete hatalmas rombolásba torkollott. Az egyik résztvevő elvesztette az uralmat a járműve felett és a keletkező káoszban az összes résztvevő gépe tönkrement. A hatóságok a mezőgazdaság súlyos visszaesésétől tartanak."
+    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "HÍREK: {date}: Eszkalálódó konfliktus {system} rendszerben."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "Régóta tartó feszült helyzet mérgesedett nyílt fegyveres konfliktussá {system} rendszerben ({sectorx}, {sectory}, {sectorz})."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "{system} ({sectorx}, {sectory}, {sectorz}) rabszolgái megtagadták a munkát a földeken, szervezett lázadásba kezdtek. A gazdaság az olcsó munkaerő hiányában megbénult."
+    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",

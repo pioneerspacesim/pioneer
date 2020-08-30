@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "Agora é homem contra máquina no sistema {sistema} ({setorx}, {setory}, {setorz}), já que uma \"avaria comportamental\" fez com que consumidores domésticos perdessem a fé em empregados robôs."
+    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NOTÍCIAS {data}: Explosão solar causa o maior apagão do milênio no sistema {sistema}."
+    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "A interrupção de energia do sistema causa destruição no sistema {sistema} ({setorx}, {setory}, {setorz}). Consumidores fazem fila para comprar o último Trapperware para substituir suas geladeiras, já que os produtores sofriam com a falta de matéria prima."
+    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "NOTÍCIAS {data}: Polícia invade sindicato criminoso no sistema {sistema}, principais líderes presos."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "O administrador no sistema {sistema} ({setorx}, {setory}, {setorz}) espera diminuição no crime, já que as drogas não estão mais disponíveis, desde a prisão de diversos mafiosos."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "Durante a Grande Feira do Vapor no sistema {sistema} ({setorx}, {setory}, {setorz}) uma tentativa de atingir o recorde galáctico no maior concurso de puxar trator terminou em desordem quando um dos competidores perdeu o controle de sua engenhoca, destruindo as máquinas de todos os outros participantes.A administração diz que isso poderia ser o fim para os fazendeiros locais."
+    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "NOTÍCIAS {data}: Conflito aumenta no sistema {sistema}."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "O interminável conflito no sistema {sistema} ({setorx}, {setory}, {setorz}) aumenta conforme os exércitos se empenham no combate aberto completo."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Trabalhadores do sistema {sistema} ({setorx}, {setory}, {setorz}) se livraram das correntes na rebelião e se recusaram a trabalhar nos campos Lotus. A Economia está parada, uma vez que não é possível encontrar trabalhadores baratos."
+    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",

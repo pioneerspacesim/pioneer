@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "Хората се изправят срещу машините в системата {system} ({sectorx}, {sectory}, {sectorz}), поради \"поведенческа неизправност\", която кара домашните потребители да загубят доверието си в техните роботи."
+    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "НОВИНИ {date}: Слънчево изригване причини най-голямото спиране на тока в историята на системата {system}."
+    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Спирането на тока в цялата система {system} ({sectorx}, {sectory}, {sectorz}) причини масови безредици. Потребителите се надпреварват да купят последния Трапъруеър за да си подменят хладилниците, защото производителя им си е изчерпал запасите."
+    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "НОВИНИ {date}: Полицейска акция в системата {system}, арестувани са ключови наркодилъри."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "Администрацията в системата {system} ({sectorx}, {sectory}, {sectorz}) се надява престъпността да намалее след като е спрян трафика на наркотици, поради арестите на наркодилърите."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "По време на Големия Парен Панаир в системата {system} ({sectorx}, {sectory}, {sectorz}), в опит за подобрение на глакатическия рекорд, състезанието за дърпане на трактори приключи с трагедия, един от участниците загуби контрол над трактора си, унищожавайки всички останали трактори. Администрацията очаква това да обрече на гибел местните фермери."
+    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "НОВИНИ {date}: Ескалиращ конфликт в системата {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "Конфликтът в системата {system} ({sectorx}, {sectory}, {sectorz}) ескалира, след като армиите влязоха в сблъсък помежду си."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Работници в системата {system} ({sectorx}, {sectory}, {sectorz}) изхвърлиха оковите си и дигнаха въстание, понеже не искат да работят на Лотус полетата. Местната икономиката е парализирана, защото не може да се намери нова евтина работна ръка."
+    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
