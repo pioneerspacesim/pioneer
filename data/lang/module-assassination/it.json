@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "It is most regrettable that {target} is still alive and well. You will receive no payment as you did not complete your contract."
+    "message": "È molto deplorevole che {target} sia ancora vivo e vegeto. Non riceverà alcun pagamento, dato che non ha portato a termine il suo contratto."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Are you asking money for a job done by someone else? Get lost."
+    "message": "Stai forse chiedendo soldi per un lavoro fatto da altri? Vattene!"
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
