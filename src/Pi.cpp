@@ -492,6 +492,21 @@ void LoadStep::Start()
 	PiGui::RunHandler(0.01, "init");
 	Pi::pigui->EndFrame();
 
+	AddStep("Sound::Init", []() {
+		if (Pi::GetApp()->HeadlessMode() || Pi::config->Int("DisableSound"))
+			return;
+
+		Sound::Init();
+		Sound::SetMasterVolume(Pi::config->Float("MasterVolume"));
+		Sound::SetSfxVolume(Pi::config->Float("SfxVolume"));
+		Pi::GetMusicPlayer().SetVolume(Pi::config->Float("MusicVolume"));
+
+		Sound::Pause(0);
+		if (Pi::config->Int("MasterMuted")) Sound::Pause(1);
+		if (Pi::config->Int("SfxMuted")) Sound::SetSfxVolume(0.f);
+		if (Pi::config->Int("MusicMuted")) Pi::GetMusicPlayer().SetEnabled(false);
+	});
+
 #ifdef ENABLE_SERVER_AGENT
 	AddStep("Initialize ServerAgent", []() {
 		Pi::serverAgent = 0;
@@ -548,21 +563,6 @@ void LoadStep::Start()
 		SfxManager::Init(Pi::renderer);
 	});
 
-	AddStep("Sound::Init", []() {
-		if (Pi::GetApp()->HeadlessMode() || Pi::config->Int("DisableSound"))
-			return;
-
-		Sound::Init();
-		Sound::SetMasterVolume(Pi::config->Float("MasterVolume"));
-		Sound::SetSfxVolume(Pi::config->Float("SfxVolume"));
-		Pi::GetMusicPlayer().SetVolume(Pi::config->Float("MusicVolume"));
-
-		Sound::Pause(0);
-		if (Pi::config->Int("MasterMuted")) Sound::Pause(1);
-		if (Pi::config->Int("SfxMuted")) Sound::SetSfxVolume(0.f);
-		if (Pi::config->Int("MusicMuted")) Pi::GetMusicPlayer().SetEnabled(false);
-	});
-
 	AddStep("PostLoad", []() {
 		Pi::luaConsole.reset(new LuaConsole());
 		Pi::luaConsole->SetupBindings();
@@ -584,30 +584,30 @@ void LoadStep::Update(float deltaTime)
 		return RequestEndLifecycle();
 	}
 
-		LoaderStep &loader = m_loaders[m_currentLoader++];
-		float progress = (m_currentLoader) / float(m_loaders.size());
-		Output("Loading [%02.f%%]: %s started\n", progress * 100., loader.name.c_str());
+	LoaderStep &loader = m_loaders[m_currentLoader++];
+	float progress = (m_currentLoader) / float(m_loaders.size());
+	Output("Loading [%02.f%%]: %s started\n", progress * 100., loader.name.c_str());
 
-		Profiler::Clock timer;
-		timer.Start();
+	Profiler::Clock timer;
+	timer.Start();
 
-		loader.fn();
+	loader.fn();
 
-		timer.Stop();
-		Output("Loading [%02.f%%]: %s took %.2fms\n", progress * 100.,
-			loader.name.c_str(), timer.milliseconds());
+	timer.Stop();
+	Output("Loading [%02.f%%]: %s took %.2fms\n", progress * 100.,
+		loader.name.c_str(), timer.milliseconds());
 
-		Pi::pigui->NewFrame();
-		PiGui::RunHandler(progress, "init");
-		Pi::pigui->Render();
+	Pi::pigui->NewFrame();
+	PiGui::RunHandler(progress, "init");
+	Pi::pigui->Render();
 }
 
 void LoadStep::End()
 {
-		OS::NotifyLoadEnd();
+	OS::NotifyLoadEnd();
 
-		m_loadTimer.Stop();
-		Output("\n\nPioneer loading took %.2fms\n", m_loadTimer.milliseconds());
+	m_loadTimer.Stop();
+	Output("\n\nPioneer loading took %.2fms\n", m_loadTimer.milliseconds());
 }
 
 /*

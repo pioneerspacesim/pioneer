@@ -479,10 +479,10 @@ namespace Sound {
 		SDL_UnlockAudioDevice(m_audioDevice);
 	}
 
-	static void load_sound(const std::string &basename, const std::string &path, bool is_music)
+	static std::pair<std::string, Sample> load_sound(const std::string &basename, const std::string &path, bool is_music)
 	{
 		PROFILE_SCOPED()
-		if (!ends_with_ci(basename, ".ogg")) return;
+		if (!ends_with_ci(basename, ".ogg")) return {};
 
 		Sample sample;
 		OggVorbis_File oggv;
@@ -536,17 +536,50 @@ namespace Sound {
 		if (is_music) {
 			sample.isMusic = true;
 			// music keyed by pathname minus (datapath)/music/ and extension
-			sfx_samples[path.substr(0, path.size() - 4)] = sample;
+			return { path.substr(0, path.size() - 4), sample };
 		} else {
 			sample.isMusic = false;
 			// sfx keyed by basename minus the .ogg
-			sfx_samples[basename.substr(0, basename.size() - 4)] = sample;
+			return { basename.substr(0, basename.size() - 4), sample };
 		}
 
 		ov_clear(&oggv);
 	}
 
-	std::vector<std::string> audioDeviceNames = {};
+	class LoadSoundJob : public Job {
+	public:
+		LoadSoundJob(std::string directory, bool isMusic) :
+			m_directory(directory),
+			m_isMusic(isMusic)
+		{}
+
+		virtual void OnRun() override
+		{
+			PROFILE_SCOPED()
+			// TODO: this is *probably* thread-safe, but FileSystem could use some further evaluation
+			for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, m_directory, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+				const FileSystem::FileInfo &info = files.Current();
+				assert(info.IsFile());
+				std::pair<std::string, Sample> result = load_sound(info.GetName(), info.GetPath(), m_isMusic);
+				m_loadedSounds.emplace(result);
+			}
+		}
+
+		virtual void OnFinish() override
+		{
+			for (const auto &pair : m_loadedSounds) {
+				sfx_samples.emplace(std::move(pair));
+			}
+		}
+
+	private:
+		std::string m_directory;
+		bool m_isMusic;
+		std::map<std::string, Sample> m_loadedSounds;
+	};
+
+	std::vector<std::string> s_audioDeviceNames = {};
+	std::unique_ptr<JobSet> s_audioJobSet;
 
 	bool Init(bool automaticallyOpenDevice)
 	{
@@ -557,23 +590,17 @@ namespace Sound {
 		}
 
 		if (SDL_Init(SDL_INIT_AUDIO) == -1) {
-			Output("Count not initialise SDL: %s.\n", SDL_GetError());
+			Output("Could not initialize SDL Audio: %s.\n", SDL_GetError());
 			return false;
 		}
 
+		s_audioJobSet.reset(new JobSet(Pi::GetAsyncJobQueue()));
+
 		// load all the wretched effects
-		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "sounds", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
-			const FileSystem::FileInfo &info = files.Current();
-			assert(info.IsFile());
-			load_sound(info.GetName(), info.GetPath(), false);
-		}
+		s_audioJobSet->Order(new LoadSoundJob("sounds", false));
 
 		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
-		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "music", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
-			const FileSystem::FileInfo &info = files.Current();
-			assert(info.IsFile());
-			load_sound(info.GetName(), info.GetPath(), true);
-		}
+		s_audioJobSet->Order(new LoadSoundJob("music", true));
 
 		UpdateAudioDevices();
 
@@ -633,6 +660,8 @@ namespace Sound {
 
 	void Uninit()
 	{
+		s_audioJobSet.reset();
+
 		if (!m_audioDevice)
 			return;
 
@@ -647,10 +676,10 @@ namespace Sound {
 	void UpdateAudioDevices()
 	{
 		PROFILE_SCOPED()
-		audioDeviceNames.clear();
+		s_audioDeviceNames.clear();
 		for (int idx = 0; idx < SDL_GetNumAudioDevices(0); idx++) {
 			const char *name = SDL_GetAudioDeviceName(idx, 0);
-			audioDeviceNames.emplace_back(name);
+			s_audioDeviceNames.emplace_back(name);
 		}
 	}
 
