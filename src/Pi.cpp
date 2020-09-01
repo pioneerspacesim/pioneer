@@ -167,6 +167,7 @@ protected:
 
 	void Start() override;
 	void Update(float) override;
+	void End() override;
 };
 
 // FIXME: this is a hack, this class should have its lifecycle managed elsewhere
@@ -576,7 +577,13 @@ void LoadStep::Update(float deltaTime)
 {
 	PROFILE_SCOPED()
 
-	if (m_currentLoader < m_loaders.size()) {
+	if (m_currentLoader >= m_loaders.size()) {
+		// TODO: this is here because profile dumps are currently run before Lifecycle::End is called
+		// Move profile dumping to Application.cpp to work around this!
+		Pi::RequestProfileFrame();
+		return RequestEndLifecycle();
+	}
+
 		LoaderStep &loader = m_loaders[m_currentLoader++];
 		float progress = (m_currentLoader) / float(m_loaders.size());
 		Output("Loading [%02.f%%]: %s started\n", progress * 100., loader.name.c_str());
@@ -593,16 +600,14 @@ void LoadStep::Update(float deltaTime)
 		Pi::pigui->NewFrame();
 		PiGui::RunHandler(progress, "init");
 		Pi::pigui->Render();
+}
 
-	} else {
+void LoadStep::End()
+{
 		OS::NotifyLoadEnd();
-		RequestEndLifecycle();
 
 		m_loadTimer.Stop();
 		Output("\n\nPioneer loading took %.2fms\n", m_loadTimer.milliseconds());
-
-		Pi::GetApp()->RequestProfileFrame();
-	}
 }
 
 /*
@@ -828,6 +833,8 @@ void Pi::App::PostUpdate()
 	PROFILE_SCOPED()
 	GuiApplication::PostUpdate();
 
+	RunJobs();
+
 	HandleRequests();
 }
 
@@ -1021,8 +1028,6 @@ void GameLoop::Update(float deltaTime)
 	}
 
 	Pi::GetMusicPlayer().Update();
-
-	Pi::GetApp()->RunJobs();
 
 	perfInfoDisplay->Update(frame_time_real, phys_time);
 	if (Pi::showDebugInfo && SDL_GetTicks() - last_stats >= 1000) {

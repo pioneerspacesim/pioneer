@@ -3,6 +3,7 @@
 
 #include "JobQueue.h"
 #include "StringF.h"
+#include "profiler/Profiler.h"
 
 void Job::UnlinkHandle()
 {
@@ -17,7 +18,7 @@ Job::~Job()
 }
 
 //static
-unsigned long long Job::Handle::s_nextId(0);
+Uint64 Job::Handle::s_nextId(0);
 
 Job::Handle::Handle(Job *job, JobQueue *queue, JobClient *client) :
 	m_id(++s_nextId),
@@ -164,6 +165,8 @@ Job::Handle AsyncJobQueue::Queue(Job *job, JobClient *client)
 // called by the runner to get a new job
 Job *AsyncJobQueue::GetJob()
 {
+	// profile to find the amount of time we spend waiting for a job
+	PROFILE_SCOPED()
 	SDL_LockMutex(m_queueLock);
 
 	// loop until a new job is available
@@ -314,6 +317,7 @@ int AsyncJobQueue::JobRunner::Trampoline(void *data)
 
 void AsyncJobQueue::JobRunner::Main()
 {
+	PROFILE_THREAD_SCOPED_RAW(m_threadName.c_str())
 	Job *job;
 
 	// Lock to prevent destruction of the queue while calling GetJob.

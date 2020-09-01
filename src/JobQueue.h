@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-static const Uint32 MAX_THREADS = 64;
+static const uint32_t MAX_THREADS = 64;
 
 class JobClient;
 class JobQueue;
@@ -61,9 +61,9 @@ public:
 		Handle(Job *job, JobQueue *queue, JobClient *client);
 		void Unlink();
 
-		static unsigned long long s_nextId;
+		static Uint64 s_nextId;
 
-		unsigned long long m_id;
+		Uint64 m_id;
 		Job *m_job;
 		JobQueue *m_queue;
 		JobClient *m_client;
@@ -235,6 +235,7 @@ private:
 	std::deque<Job *> m_finished;
 };
 
+// JobClient is an abstraction to allow transparent management of job handles
 class JobClient {
 public:
 	virtual void Order(Job *job) = 0;
@@ -242,6 +243,8 @@ public:
 	virtual ~JobClient() {}
 };
 
+// JobSet provides an interface for "fire and forget" jobs - call Order with your job,
+// and JobSet will keep the handle alive until the job has finished.
 class JobSet : public JobClient {
 public:
 	JobSet(JobQueue *queue) :
