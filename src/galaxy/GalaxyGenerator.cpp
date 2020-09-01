@@ -19,6 +19,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::s_galaxy;
 //static
 void GalaxyGenerator::Init(const std::string &name, Version version)
 {
+	PROFILE_SCOPED()
 	s_defaultGenerator = name;
 	s_defaultVersion = (version == LAST_VERSION) ? GetLastVersion(name) : version;
 	GalaxyGenerator::Create(); // This will set s_galaxy
@@ -121,7 +122,7 @@ void GalaxyGenerator::ToJson(Json &jsonObj, RefCountedPtr<Galaxy> galaxy)
 		sysgen->ToJson(starSystemStageArrayEl, galaxy);
 		starSystemStageArray.push_back(starSystemStageArrayEl); // Append system stage object to array.
 	}
-	galaxyGenObj["sector_stage"] = sectorStageArray; // Add sector stage array to galaxy generator object.
+	galaxyGenObj["sector_stage"] = sectorStageArray;		  // Add sector stage array to galaxy generator object.
 	galaxyGenObj["star_system_stage"] = starSystemStageArray; // Add system stage array to galaxy generator object.
 
 	jsonObj["galaxy_generator"] = galaxyGenObj; // Add galaxy generator object to supplied object.

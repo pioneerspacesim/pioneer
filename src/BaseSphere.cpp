@@ -6,8 +6,8 @@
 #include "GasGiant.h"
 #include "GeoSphere.h"
 
-#include "graphics/Renderer.h"
 #include "graphics/Drawables.h"
+#include "graphics/Renderer.h"
 
 BaseSphere::BaseSphere(const SystemBody *body) :
 	m_sbody(body),
@@ -18,6 +18,7 @@ BaseSphere::~BaseSphere() {}
 //static
 void BaseSphere::Init()
 {
+	PROFILE_SCOPED()
 	GeoSphere::Init();
 	GasGiant::Init();
 }

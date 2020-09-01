@@ -360,6 +360,7 @@ bool SfxManager::SplitMaterialData(const std::string &spec, MaterialData &output
 
 void SfxManager::Init(Graphics::Renderer *r)
 {
+	PROFILE_SCOPED()
 	IniConfig cfg;
 	// set defaults in case they're missing from the file
 	cfg.SetString("damageFile", "textures/smoke.png");

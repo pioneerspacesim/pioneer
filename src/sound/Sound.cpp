@@ -470,6 +470,7 @@ namespace Sound {
 
 	static void load_sound(const std::string &basename, const std::string &path, bool is_music)
 	{
+		PROFILE_SCOPED()
 		if (!ends_with_ci(basename, ".ogg")) return;
 
 		Sample sample;
@@ -538,6 +539,7 @@ namespace Sound {
 
 	bool Init(bool automaticallyOpenDevice)
 	{
+		PROFILE_SCOPED()
 		if (m_audioDevice) {
 			DestroyAllEvents();
 			return true;
@@ -633,6 +635,7 @@ namespace Sound {
 
 	void UpdateAudioDevices()
 	{
+		PROFILE_SCOPED()
 		audioDeviceNames.clear();
 		for (int idx = 0; idx < SDL_GetNumAudioDevices(0); idx++) {
 			const char *name = SDL_GetAudioDeviceName(idx, 0);
