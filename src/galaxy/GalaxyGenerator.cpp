@@ -19,6 +19,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::s_galaxy;
 //static
 void GalaxyGenerator::Init(const std::string &name, Version version)
 {
+	PROFILE_SCOPED()
 	s_defaultGenerator = name;
 	s_defaultVersion = (version == LAST_VERSION) ? GetLastVersion(name) : version;
 	GalaxyGenerator::Create(); // This will set s_galaxy

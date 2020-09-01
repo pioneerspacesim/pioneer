@@ -3,6 +3,7 @@
 
 #include "TextureBuilder.h"
 #include "FileSystem.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 #include <SDL_image.h>
 #include <SDL_rwops.h>
@@ -140,7 +141,9 @@ namespace Graphics {
 		}
 
 		TextureFormat targetTextureFormat;
-		unsigned int virtualWidth, actualWidth, virtualHeight, actualHeight, numberOfMipMaps = 0, numberOfImages = 1;
+		// initialize actualWidth to 1 to avoid divide-by-zero in case we fail to set the values somehow
+		uint32_t virtualWidth = 0, actualWidth = 1, virtualHeight = 0, actualHeight = 1;
+		uint32_t numberOfMipMaps = 0, numberOfImages = 1;
 		if (m_surface) {
 			SDL_PixelFormat *targetPixelFormat;
 			bool needConvert = !GetTargetFormat(m_surface->format, &targetTextureFormat, &targetPixelFormat, m_forceRGBA);
@@ -265,6 +268,7 @@ namespace Graphics {
 
 	void TextureBuilder::LoadSurface()
 	{
+		PROFILE_SCOPED()
 		assert(!m_surface);
 
 		SDLSurfacePtr s;
@@ -286,6 +290,7 @@ namespace Graphics {
 
 	void TextureBuilder::LoadDDS()
 	{
+		PROFILE_SCOPED()
 		assert(!m_surface);
 		assert(!m_dds.headerdone_);
 		if(m_textureType != TEXTURE_2D_ARRAY)

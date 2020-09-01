@@ -73,6 +73,7 @@ Shields::Hits::Hits(const vector3d &_pos, const Uint32 _start, const Uint32 _end
 
 void Shields::Init(Graphics::Renderer *renderer)
 {
+	PROFILE_SCOPED()
 	assert(!s_initialised);
 
 	// create our global shield material

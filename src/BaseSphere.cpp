@@ -18,6 +18,7 @@ BaseSphere::~BaseSphere() {}
 //static
 void BaseSphere::Init()
 {
+	PROFILE_SCOPED()
 	GeoSphere::Init();
 	GasGiant::Init();
 }

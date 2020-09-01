@@ -48,6 +48,7 @@ NavLights::LightBulb::LightBulb(Uint8 _group, Uint8 _mask, Uint8 _color, SceneGr
 
 void NavLights::Init(Graphics::Renderer *renderer)
 {
+	PROFILE_SCOPED()
 	assert(!g_initted);
 
 	IniConfig cfg;

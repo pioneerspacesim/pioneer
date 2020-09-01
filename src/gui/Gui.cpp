@@ -115,6 +115,7 @@ namespace Gui {
 
 	void Init(Graphics::Renderer *renderer, int screen_width, int screen_height, int ui_width, int ui_height)
 	{
+		PROFILE_SCOPED()
 		Screen::Init(renderer, screen_width, screen_height, ui_width, ui_height);
 	}
 
