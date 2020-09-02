@@ -421,7 +421,7 @@
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
-    "message": "Entry"
+    "message": "进入"
   },
   "EQUIPMENT": {
     "description": "",
@@ -521,7 +521,7 @@
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
-    "message": "Flying in space, relative {primary_info}"
+    "message": "在太空飞行，相对{primary_info}"
   },
   "FLIGHTLOG_HYPERSPACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
@@ -533,7 +533,7 @@
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+    "message": "登陆到{primary}，位置（{secondary}，{teriory}info}）"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
@@ -545,7 +545,7 @@
   },
   "FLIGHTLOG_UNDOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Undocking at {primary_info}"
+    "message": "脱离{primary_info}"
   },
   "FLIGHT_LOG": {
     "description": "Title for flight log screen, in info view",
@@ -977,15 +977,15 @@
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
-    "message": "DESCENT RATE"
+    "message": "下降率"
   },
   "HUD_WARNING_IMPACT": {
     "description": "Alert tooltip",
-    "message": "Impact warning"
+    "message": "撞击警告"
   },
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
-    "message": "Impact imminent"
+    "message": "即将碰撞"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -1069,7 +1069,7 @@
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
-    "message": "In system"
+    "message": "进入星系"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -1169,15 +1169,15 @@
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
-    "message": "New Entry"
+    "message": "新条目"
   },
   "LOG_STATION": {
     "description": "Label tab for showing logged station events",
-    "message": "Station Log"
+    "message": "空间站日志"
   },
   "LOG_SYSTEM": {
     "description": "Label tab for showing logged system events",
-    "message": "System Log"
+    "message": "系统日志"
   },
   "LOW": {
     "description": "",
@@ -1785,15 +1785,15 @@
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
-    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+    "message": "不幸的是，叔叔生前从未教过我如何操作这艘旧飞船，但我想我现在要在航海日志上做个记录。很奇怪，我还能感觉到他，好像他就在这艘飞船船体里。也许他可以成为我的副驾驶，我们将一起在巨大的虚空中展现我们的命运。但首先，我只需要买些氢燃料来做跳跃式驾驶，规划出一条通往利润丰厚的交易机会的路线，并向上天祈祷，交通管制会允许像我这样没有经验的飞行员起飞，然后我们看看这个婴儿能做些什么。是时候让自己出名了！"
   },
   "START_LOG_ENTRY_2": {
     "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
-    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+    "message": "我的靴子还是湿的，因为昨晚回家时下大雨，人行道被淹没。似乎是为了报复，夜空被霓虹灯的反射光照亮了，这些霓虹灯从潮湿的街道上往下看。但我还是冒雨赶到了去星港的转机航班，在那里我的新飞船正等着我。当我告诉星港安全官员我来接飞船时，他给了我一个有趣的眼神。我想我看起来不像一个典型的清洁工，我把所有投资在这个生锈的旧水桶里的东西都卖掉了，当时我正站在他面前，穿着湿靴子什么的。但我真的觉得，从现在起，我的未来将写在星星上。现在，我只需要找到启动键。"
   },
   "START_LOG_ENTRY_3": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
-    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+    "message": "经过漫长的官僚主义程序，我终于把我的飞船从扣押处拿了回来，但他们已经把它剥光了，以偿还他们声称我欠下的“债务”。他们不仅抢走了我最喜欢的咖啡机，而且那些混蛋还抢走了超空间驱动器，所以我现在只能呆在这个星系里了，除非我卖掉船上剩下的东西来买个驱动器。但正如他们所说：当生活给了你柠檬——做柠檬水吧；所以即使我回到原点，我也会把这看作一次机会，而不是挫折，第二次机会。没有咖啡。放下我的本来面目，我就会变成我可能的样子。世界将转向一边，让我过去，就像对那些知道他们要去哪里的人一样，而我正走向星空。"
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
@@ -1801,7 +1801,7 @@
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
-    "message": "Station"
+    "message": "站点"
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",

@@ -37,15 +37,15 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
+    "message": "现在{system}星系（{sectorx}，{sectorz}，{sectorz}）中机器人与人类产生对抗，因为“行为故障”导致家庭消费者对机器人仆人失去信心。"
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
+    "message": "NEWS {date}:  {system} 星系太阳耀斑造成千年来最大的停电。"
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
+    "message": "整个系统的停电对{system}星系（{sectorx}，{sectorz}）造成了严重破坏。由于生产商的原材料已经用完，消费者排队购买最后一件用来更换冰箱的材料。"
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+    "message": "在{system}星系（{sectorx}，{sectorz}，{sectorz}）的大型蒸汽集市期间，一次试图在最大的拖拉机牵引比赛中打破银河系纪录的尝试以一名参赛者失去对他的装置的控制，摧毁了所有其他参赛者的机器而告终。政府称这可能会给当地农民带来厄运。"
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
+    "message": "{system}星系（{sectorx}，{sectory}，{sectorz}）中的工人由于拒绝在莲花田工作而在叛乱中挣脱了枷锁。由于找不到廉价工人，经济陷入停滞。"
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",

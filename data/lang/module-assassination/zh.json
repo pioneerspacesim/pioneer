@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "It is most regrettable that {target} is still alive and well. You will receive no payment as you did not complete your contract."
+    "message": "最遗憾的是{target}还活着。你不会收到任何报酬，因为你没有完成你的合同。"
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Are you asking money for a job done by someone else? Get lost."
+    "message": "你为别人的工作找我要钱？滚开。"
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
