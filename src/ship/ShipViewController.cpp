@@ -85,7 +85,7 @@ void ShipViewController::SaveToJson(Json &jsonObj)
 
 void ShipViewController::Init()
 {
-	RefCountedPtr<CameraContext> m_cameraContext = parentView->GetCameraContext();
+	RefCountedPtr<CameraContext> m_cameraContext = m_parentView->GetCameraContext();
 	m_internalCameraController.reset(new InternalCameraController(m_cameraContext, Pi::player));
 	m_externalCameraController.reset(new ExternalCameraController(m_cameraContext, Pi::player));
 	m_siderealCameraController.reset(new SiderealCameraController(m_cameraContext, Pi::player));
@@ -101,10 +101,12 @@ void ShipViewController::Activated()
 		Pi::input->onMouseWheel.connect(sigc::mem_fun(this, &ShipViewController::MouseWheel));
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
+	Pi::player->SetFlag(Body::FLAG_DRAW_EXCLUDE, !IsExteriorView());
 }
 
 void ShipViewController::Deactivated()
 {
+	Pi::player->SetFlag(Body::FLAG_DRAW_EXCLUDE, false);
 	Pi::input->RemoveInputFrame(&InputBindings);
 
 	m_onMouseWheelCon.disconnect();
@@ -137,6 +139,7 @@ void ShipViewController::SetCamType(enum CamType c)
 		headtracker_input_priority = false;
 	}
 
+	Pi::player->SetFlag(Body::FLAG_DRAW_EXCLUDE, !IsExteriorView());
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 
 	m_activeCameraController->Reset();
@@ -236,6 +239,14 @@ void ShipViewController::Update()
 	}
 
 	m_activeCameraController->Update();
+}
+
+void ShipViewController::Draw(Camera *camera)
+{
+	// Render cockpit
+	// XXX camera should rotate inside cockpit, not rotate the cockpit around in the world
+	if (!IsExteriorView() && m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
+		Pi::player->GetCockpit()->RenderCockpit(Pi::renderer, camera, camera->GetContext()->GetTempFrame());
 }
 
 void ShipViewController::MouseWheel(bool up)

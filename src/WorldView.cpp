@@ -106,6 +106,7 @@ void WorldView::InitObject()
 
 	shipView.reset(new ShipViewController(this));
 	shipView->Init();
+	SetViewController(shipView.get());
 
 	m_onToggleHudModeCon = InputBindings.toggleHudMode->onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
 	m_onIncTimeAccelCon = InputBindings.increaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
@@ -140,6 +141,11 @@ void WorldView::OnRequestTimeAccelDec()
 	Pi::game->RequestTimeAccelDec();
 }
 
+void WorldView::SetViewController(ViewController *newView)
+{
+	m_viewController = newView;
+}
+
 void WorldView::Draw3D()
 {
 	PROFILE_SCOPED()
@@ -149,22 +155,11 @@ void WorldView::Draw3D()
 
 	m_cameraContext->ApplyDrawTransforms(m_renderer);
 
-	Body *excludeBody = nullptr;
-	ShipCockpit *cockpit = nullptr;
-	if (shipView->GetCamType() == ShipViewController::CAM_INTERNAL) {
-		excludeBody = Pi::player;
-		if (shipView->m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
-			cockpit = Pi::player->GetCockpit();
-	}
-	m_camera->Draw(excludeBody);
+	m_camera->Draw();
 
 	// NB: Do any screen space rendering after here:
 	// Things like the cockpit and AR features like hudtrails, space dust etc.
-
-	// Render cockpit
-	// XXX camera should rotate inside cockpit, not rotate the cockpit around in the world
-	if (cockpit)
-		cockpit->RenderCockpit(m_renderer, m_camera.get(), m_camera->GetContext()->GetTempFrame());
+	m_viewController->Draw(m_camera.get());
 
 	// Draw 3D HUD
 	// Speed lines
@@ -201,7 +196,7 @@ void WorldView::Update()
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
-	shipView->Update();
+	m_viewController->Update();
 
 	m_cameraContext->BeginFrame();
 	m_camera->Update();
@@ -242,12 +237,14 @@ void WorldView::Update()
 
 void WorldView::OnSwitchTo()
 {
-	shipView->Activated();
+	if (m_viewController)
+		m_viewController->Activated();
 }
 
 void WorldView::OnSwitchFrom()
 {
-	shipView->Deactivated();
+	if (m_viewController)
+		m_viewController->Deactivated();
 	Pi::DrawGUI = true;
 }
 
