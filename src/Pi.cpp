@@ -1116,6 +1116,8 @@ void GameLoop::Update(float deltaTime)
 		// FIXME: major hack to work around the fact that the console is in newUI and not pigui
 		if (!Pi::IsConsoleActive())
 			PiGUI::RunHandler(deltaTime, "game");
+
+		Pi::GetView()->DrawPiGui();
 	}
 
 	// Render this even when we're dead.
