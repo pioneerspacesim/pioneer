@@ -78,21 +78,21 @@ local function showInfo()
 		ui.sameLine()
 		-- we can only have the current path in normal space
 		if current_path then
-		local start = current_path
-		-- Tally up totals for the entire jump plan
-		for _,jump in pairs(hyperjump_route) do
-			local status, distance, fuel, duration = player:GetHyperspaceDetails(start, jump.path)
+			local start = current_path
+			-- Tally up totals for the entire jump plan
+			for _,jump in pairs(hyperjump_route) do
+				local status, distance, fuel, duration = player:GetHyperspaceDetails(start, jump.path)
 
-			total_fuel = total_fuel + fuel
-			total_duration = total_duration + duration
-			total_distance = total_distance + distance
+				total_fuel = total_fuel + fuel
+				total_duration = total_duration + duration
+				total_distance = total_distance + distance
 
-			start = jump.path
-		end
+				start = jump.path
+			end
 
-		if ui.selectable(current_system.name .. " (" .. current_path.sectorX .. ", " .. current_path.sectorY .. ", " .. current_path.sectorZ ..")") then
-			sectorView:SwitchToPath(current_path)
-		end
+			if ui.selectable(current_system.name .. " (" .. current_path.sectorX .. ", " .. current_path.sectorY .. ", " .. current_path.sectorZ ..")") then
+				sectorView:SwitchToPath(current_path)
+			end
 		else -- no current path => we are hyperjumping => no current system
 			ui.text("---")
 		end
@@ -189,84 +189,84 @@ end
 local function showJumpRoute()
 	if ui.collapsingHeader(lui.ROUTE_JUMPS, {"DefaultOpen"}) then
 		mainButton(icons.forward, lui.ADD_JUMP,
-			function()
-				sectorView:AddToRoute(map_selected_path)
-				updateHyperspaceTarget()
-				selected_jump = #hyperjump_route
+		function()
+			sectorView:AddToRoute(map_selected_path)
+			updateHyperspaceTarget()
+			selected_jump = #hyperjump_route
 		end)
 		ui.sameLine()
 
 		mainButton(icons.current_line, lui.REMOVE_JUMP,
-			function()
-				local new_route = {}
-				local new_count = 0
-				if selected_jump then
-					sectorView:RemoveRouteItem(selected_jump)
-				end
-				updateHyperspaceTarget()
+		function()
+			local new_route = {}
+			local new_count = 0
+			if selected_jump then
+				sectorView:RemoveRouteItem(selected_jump)
+			end
+			updateHyperspaceTarget()
 		end)
 		ui.sameLine()
 
 		mainButton(icons.current_periapsis, lui.MOVE_UP,
-			function()
-				if selected_jump then
-					if sectorView:MoveRouteItemUp(selected_jump) then
-						selected_jump = selected_jump - 1
-					end
+		function()
+			if selected_jump then
+				if sectorView:MoveRouteItemUp(selected_jump) then
+					selected_jump = selected_jump - 1
 				end
-				updateHyperspaceTarget()
+			end
+			updateHyperspaceTarget()
 		end)
 		ui.sameLine()
 
 		mainButton(icons.current_apoapsis, lui.MOVE_DOWN,
-			function()
-				if selected_jump then
-					if sectorView:MoveRouteItemDown(selected_jump) then
-						selected_jump = selected_jump + 1
-					end
+		function()
+			if selected_jump then
+				if sectorView:MoveRouteItemDown(selected_jump) then
+					selected_jump = selected_jump + 1
 				end
-				updateHyperspaceTarget()
+			end
+			updateHyperspaceTarget()
 		end)
 		ui.sameLine()
 
 		mainButton(icons.retrograde_thin, lui.CLEAR_ROUTE,
-			function()
-				sectorView:ClearRoute()
-				updateHyperspaceTarget()
+		function()
+			sectorView:ClearRoute()
+			updateHyperspaceTarget()
 		end)
 		ui.sameLine()
 
 		mainButton(icons.hyperspace, lui.AUTO_ROUTE,
-			function()
-				local result = sectorView:AutoRoute()
-				if result == "NO_DRIVE" then
-					mb.OK(lui.NO_DRIVE)
-				elseif result == "NO_VALID_ROUTE" then
-					mb.OK(lui.NO_VALID_ROUTE)
-				end
-				updateHyperspaceTarget()
+		function()
+			local result = sectorView:AutoRoute()
+			if result == "NO_DRIVE" then
+				mb.OK(lui.NO_DRIVE)
+			elseif result == "NO_VALID_ROUTE" then
+				mb.OK(lui.NO_VALID_ROUTE)
+			end
+			updateHyperspaceTarget()
 		end)
 		ui.sameLine()
 
 		mainButton(icons.search_lens, lui.CENTER_ON_SYSTEM,
-			function()
-				if selected_jump then
-					sectorView:GotoSystemPath(hyperjump_route[selected_jump].path)
-				end
+		function()
+			if selected_jump then
+				sectorView:GotoSystemPath(hyperjump_route[selected_jump].path)
+			end
 		end)
 
 		ui.separator()
 
 		local clicked
 		ui.child("routelist", function()
-		for jumpIndex, jump in pairs(hyperjump_route) do
-			ui.withStyleColors({["Text"] = jump.color},
+			for jumpIndex, jump in pairs(hyperjump_route) do
+				ui.withStyleColors({["Text"] = jump.color},
 				function()
 					if ui.selectable(jump.textLine, jumpIndex == selected_jump) then
 						clicked = jumpIndex
 					end
-			end)
-		end -- for
+				end)
+			end -- for
 		end --function
 		)
 
@@ -293,13 +293,13 @@ function hyperJumpPlanner.updateInRoute(path)
 end
 
 local function showHyperJumpPlannerWindow()
-				textIcon(icons.route)
-				ui.sameLine()
-				ui.text(lui.HYPERJUMP_ROUTE)
-				ui.separator()
-				showInfo()
-				ui.separator()
-				showJumpRoute()
+	textIcon(icons.route)
+	ui.sameLine()
+	ui.text(lui.HYPERJUMP_ROUTE)
+	ui.separator()
+	showInfo()
+	ui.separator()
+	showJumpRoute()
 end -- showHyperJumpPlannerWindow
 
 function hyperJumpPlanner.Dummy()
@@ -337,17 +337,17 @@ end
 function hyperJumpPlanner.display()
 	player = Game.player
 	if not textIconSize then
-			textIconSize = ui.calcTextSize("H")
-			textIconSize.x = textIconSize.y -- make square
+		textIconSize = ui.calcTextSize("H")
+		textIconSize.x = textIconSize.y -- make square
 	end
-		local drive = table.unpack(player:GetEquip("engine")) or nil
-		local fuel_type = drive and drive.fuel or Equipment.cargo.hydrogen
-		current_system = Game.system -- will be nil during the hyperjump
-		current_path = Game.system and current_system.path -- will be nil during the hyperjump
-		current_fuel = player:CountEquip(fuel_type,"cargo")
-		map_selected_path = sectorView:GetSelectedSystemPath()
-		route_jumps = sectorView:GetRouteSize()
-		showHyperJumpPlannerWindow()
+	local drive = table.unpack(player:GetEquip("engine")) or nil
+	local fuel_type = drive and drive.fuel or Equipment.cargo.hydrogen
+	current_system = Game.system -- will be nil during the hyperjump
+	current_path = Game.system and current_system.path -- will be nil during the hyperjump
+	current_fuel = player:CountEquip(fuel_type,"cargo")
+	map_selected_path = sectorView:GetSelectedSystemPath()
+	route_jumps = sectorView:GetRouteSize()
+	showHyperJumpPlannerWindow()
 end -- hyperJumpPlanner.display
 
 function hyperJumpPlanner.setSectorView(sv)
@@ -361,14 +361,14 @@ function hyperJumpPlanner.onShipEquipmentChanged(ship, equipment)
 end
 
 function hyperJumpPlanner.onEnterSystem(ship)
-		-- remove the first jump if it's the current system (and enabled to do so)
-		-- this should be the case if you are following a route and want the route to be
-		-- updated as you make multiple jumps
-		if ship:IsPlayer() and remove_first_if_current then
-			if route_jumps > 0 and hyperjump_route[1].path:IsSameSystem(Game.system.path) then
-				sectorView:RemoveRouteItem(1)
-			end
+	-- remove the first jump if it's the current system (and enabled to do so)
+	-- this should be the case if you are following a route and want the route to be
+	-- updated as you make multiple jumps
+	if ship:IsPlayer() and remove_first_if_current then
+		if route_jumps > 0 and hyperjump_route[1].path:IsSameSystem(Game.system.path) then
+			sectorView:RemoveRouteItem(1)
 		end
+	end
 	updateHyperspaceTarget()
 end
 
