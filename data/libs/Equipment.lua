@@ -320,7 +320,7 @@ HyperdriveType.HyperjumpTo = function (self, ship, destination)
 	return ship:InitiateHyperjumpTo(destination, warmup_time, duration, sounds), fuel_use, duration
 end
 
-HyperdriveType.OnEnterHyperspace = function (self, ship)
+HyperdriveType.OnLeaveHyperspace = function (self, ship)
 	if ship:hasprop('nextJumpFuelUse') then
 		local amount = ship.nextJumpFuelUse
 		ship:RemoveEquip(self.fuel, amount)

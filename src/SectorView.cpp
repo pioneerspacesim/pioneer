@@ -263,9 +263,6 @@ void SectorView::Draw3D()
 	modelview.Translate(-FFRAC(m_pos.x) * Sector::SIZE, -FFRAC(m_pos.y) * Sector::SIZE, -FFRAC(m_pos.z) * Sector::SIZE);
 	m_renderer->SetTransform(modelview);
 
-	RefCountedPtr<const Sector> playerSec = GetCached(m_current);
-	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].GetPosition();
-
 	if (m_zoomClamped <= FAR_THRESHOLD)
 		DrawNearSectors(modelview);
 	else
@@ -295,7 +292,44 @@ void SectorView::Draw3D()
 	trans.Rotate(DEG2RAD(m_rotZ), 0.f, 0.f, 1.f);
 	trans.Translate(-(m_pos.x) * Sector::SIZE, -(m_pos.y) * Sector::SIZE, -(m_pos.z) * Sector::SIZE);
 
+	// calculate the player's location (it will be interpolated between systems during a hyperjump)
+	const Sector::System currentSystem = GetCached(m_current)->m_systems[m_current.systemIndex];
+	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + currentSystem.GetPosition();
+	float currentStarSize = StarSystem::starScale[currentSystem.GetStarType(0)];
+	if (!m_inSystem) {
+		// we are in hyperspace, interpolate
+		// m_current has been set to the destination path
+		// destination system data:
+		const SystemPath dstPath = Pi::game->GetHyperspaceDest();
+		const Sector::System dstSystem = GetCached(dstPath)->m_systems[dstPath.systemIndex];
+		const vector3f dstPos = Sector::SIZE * vector3f(float(dstPath.sectorX), float(dstPath.sectorY), float(dstPath.sectorZ)) + dstSystem.GetPosition();
+		// jumpProcess: 0.0f (at source) .. 1.0f (at destination)
+		// smoothing speed at the ends with cubic interpolation
+		const float jumpProcess = InOutCubicEasing(Pi::game->GetHyperspaceProgress() / Pi::game->GetHyperspaceDuration());
+		// player location indicator's size of the star, on which it is drawn
+		// so we interpolate it too
+		const float dstStarSize = StarSystem::starScale[dstSystem.GetStarType(0)];
+		// interpolating player location indicator's position and size
+		playerPos = playerPos.Lerp(dstPos, jumpProcess);
+		currentStarSize = currentStarSize + (dstStarSize - currentStarSize) * jumpProcess;
+	}
+
+	// the next function assumes that m_renderer->(matrix4x4f::Identity()),
+	// so we run this function before we touch m_renderer again
 	DrawRouteLines(playerPos, trans);
+
+	// player location indicator
+	// starting with the "trans" matrix, see above, adding translation to playerPos
+	matrix4x4f pTrans = trans * matrix4x4f::Translation(playerPos.x, playerPos.y, playerPos.z);
+	// rotate in the opposite direction, so that the disk always looks like a circle
+	pTrans.Rotate(DEG2RAD(-m_rotZ), 0, 0, 1);
+	pTrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
+	// corretion to the size of the current star, and hardcoded "3", the size of the player's indicator
+	pTrans.Scale(currentStarSize * 3.);
+	m_renderer->SetTransform(pTrans);
+	m_renderer->SetDepthRange(0.2, 1.0);
+	m_disk->SetColor(Color(0, 0, 204));
+	m_disk->Draw(m_renderer);
 
 	UIView::Draw3D();
 }
@@ -534,13 +568,10 @@ void SectorView::DrawNearSectors(const matrix4x4f &modelview)
 	PROFILE_SCOPED()
 	m_visibleFactions.clear();
 
-	RefCountedPtr<const Sector> playerSec = GetCached(m_current);
-	const vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].GetPosition();
-
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
-				DrawNearSector(int(floorf(m_pos.x)) + sx, int(floorf(m_pos.y)) + sy, int(floorf(m_pos.z)) + sz, playerPos,
+				DrawNearSector(int(floorf(m_pos.x)) + sx, int(floorf(m_pos.y)) + sy, int(floorf(m_pos.z)) + sz,
 					modelview * matrix4x4f::Translation(Sector::SIZE * sx, Sector::SIZE * sy, Sector::SIZE * sz));
 			}
 		}
@@ -778,7 +809,7 @@ void SectorView::DrawRouteLines(const vector3f &playerAbsPos, const matrix4x4f &
 	}
 }
 
-void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos, const matrix4x4f &trans)
+void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const matrix4x4f &trans)
 {
 	PROFILE_SCOPED()
 	m_renderer->SetTransform(trans);
@@ -887,6 +918,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 
 		if (i->IsSameSystem(m_selected)) {
 			if (m_selected != m_current && !bInRoute) {
+				const vector3f playerAbsPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) +
+					GetCached(m_current)->m_systems[m_current.systemIndex].GetPosition();
 				m_selectedLine.SetStart(vector3f(0.f, 0.f, 0.f));
 				m_selectedLine.SetEnd(playerAbsPos - sysAbsPos);
 				m_selectedLine.Draw(m_renderer, m_solidState);
@@ -916,15 +949,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		const Uint8 *col = StarSystem::starColors[(*i).GetStarType(0)];
 		AddStarBillboard(systrans, vector3f(0.f), Color(col[0], col[1], col[2], 255), 0.5f);
 
-		// player location indicator
-		if (m_inSystem && bIsCurrentSystem) {
-			m_renderer->SetDepthRange(0.2, 1.0);
-			m_disk->SetColor(Color(0, 0, 204));
-			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
-			m_disk->Draw(m_renderer);
-		}
 		// selected indicator
-		if (bIsCurrentSystem) {
+		if (i->IsSameSystem(m_selected)) {
 			m_renderer->SetDepthRange(0.1, 1.0);
 			m_disk->SetColor(Color(0, 204, 0));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
@@ -937,6 +963,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
+		// hyperspace range sphere
 		if (bIsCurrentSystem && m_jumpSphere && m_playerHyperspaceRange > 0.0f) {
 			const matrix4x4f sphTrans = trans * matrix4x4f::Translation(i->GetPosition().x, i->GetPosition().y, i->GetPosition().z);
 			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
@@ -1035,7 +1062,7 @@ void SectorView::Update()
 		m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 	} else {
 		m_inSystem = false;
-		m_current = Pi::player->GetHyperspaceDest();
+		m_current = Pi::game->GetHyperspaceSource();
 	}
 
 	const float frameTime = Pi::GetFrameTime();

@@ -74,6 +74,10 @@ local function showInfo()
 		local total_duration = 0
 		local total_distance = 0
 
+		textIcon(icons.display_navtarget, lui.CURRENT_SYSTEM)
+		ui.sameLine()
+		-- we can only have the current path in normal space
+		if current_path then
 		local start = current_path
 		-- Tally up totals for the entire jump plan
 		for _,jump in pairs(hyperjump_route) do
@@ -86,10 +90,11 @@ local function showInfo()
 			start = jump.path
 		end
 
-		textIcon(icons.display_navtarget, lui.CURRENT_SYSTEM)
-		ui.sameLine()
 		if ui.selectable(current_system.name .. " (" .. current_path.sectorX .. ", " .. current_path.sectorY .. ", " .. current_path.sectorZ ..")") then
 			sectorView:SwitchToPath(current_path)
+		end
+		else -- no current path => we are hyperjumping => no current system
+			ui.text("---")
 		end
 
 		textIcon(icons.route_destination, lui.FINAL_TARGET)
@@ -337,8 +342,8 @@ function hyperJumpPlanner.display()
 	end
 		local drive = table.unpack(player:GetEquip("engine")) or nil
 		local fuel_type = drive and drive.fuel or Equipment.cargo.hydrogen
-		current_system = Game.system
-		current_path = current_system.path
+		current_system = Game.system -- will be nil during the hyperjump
+		current_path = Game.system and current_system.path -- will be nil during the hyperjump
 		current_fuel = player:CountEquip(fuel_type,"cargo")
 		map_selected_path = sectorView:GetSelectedSystemPath()
 		route_jumps = sectorView:GetRouteSize()

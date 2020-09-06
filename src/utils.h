@@ -269,6 +269,18 @@ static inline Uint32 ceil_pow2(Uint32 v)
 	return v;
 }
 
+// easing from https://github.com/Michaelangel007/easing#tldr-shut-up-and-show-me-the-code
+// p should go from 0.0 to 1.0
+inline float InOutCubicEasing(float p)
+{
+	float m = p - 1;
+	float t = p * 2;
+	if (t < 1)
+		return p * t * t;
+	else
+		return 1 + m * m * m * 4;
+}
+
 void hexdump(const unsigned char *buf, int bufsz);
 
 #endif /* _UTILS_H */
