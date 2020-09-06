@@ -780,9 +780,16 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 #endif /* DEVKEYS */
 
 #if WITH_OBJECTVIEWER
-	case SDLK_F10:
-		Pi::SetView(Pi::game->GetObjectViewerView());
+	case SDLK_F10: {
+		if (!Pi::game)
+			break;
+
+		if (Pi::GetView() == Pi::game->GetObjectViewerView())
+			Pi::SetView(Pi::game->GetWorldView());
+		else if (Pi::player->GetNavTarget())
+			Pi::SetView(Pi::game->GetObjectViewerView());
 		break;
+	}
 #endif
 
 	case SDLK_F9: // Quicksave
