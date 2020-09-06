@@ -245,7 +245,7 @@ void ShipViewController::Draw(Camera *camera)
 {
 	// Render cockpit
 	// XXX camera should rotate inside cockpit, not rotate the cockpit around in the world
-	if (!IsExteriorView() && m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
+	if (!IsExteriorView() && Pi::player->GetCockpit() && m_internalCameraController->GetMode() == InternalCameraController::MODE_FRONT)
 		Pi::player->GetCockpit()->RenderCockpit(Pi::renderer, camera, camera->GetContext()->GetTempFrame());
 }
 
