@@ -547,7 +547,7 @@ void SystemView::Draw3D()
 	}
 	// glLineWidth(1);
 
-	if (m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(m_game->GetSectorView()->GetSelected())) {
+	if (m_game->IsNormalSpace() && m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(m_game->GetSectorView()->GetSelected())) {
 		// draw ships
 		if (m_shipDrawing != OFF) {
 			RefreshShips();
