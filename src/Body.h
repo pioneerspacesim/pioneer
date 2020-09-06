@@ -80,7 +80,17 @@ public:
 
 	virtual void SetLabel(const std::string &label);
 	const std::string &GetLabel() const { return m_label; }
+
 	unsigned int GetFlags() const { return m_flags; }
+	// TODO(sturnclaw) use this sparingly, the flags interface is rather fragile and needs work
+	void SetFlag(unsigned int flag, bool enable)
+	{
+		if (enable)
+			m_flags |= flag;
+		else
+			m_flags &= ~flag;
+	}
+
 	// Only Space::KillBody() should call this method.
 	void MarkDead() { m_dead = true; }
 	bool IsDead() const { return m_dead; }
@@ -108,9 +118,12 @@ public:
 	// Usually equal to the center of the body == vector3d(0, 0, 0)
 	virtual vector3d GetTargetIndicatorPosition() const;
 
-	enum { FLAG_CAN_MOVE_FRAME = (1 << 0),
+	enum {
+		FLAG_CAN_MOVE_FRAME = (1 << 0),
 		FLAG_LABEL_HIDDEN = (1 << 1),
-		FLAG_DRAW_LAST = (1 << 2) }; // causes the body drawn after other bodies in the z-sort
+		FLAG_DRAW_LAST = (1 << 2),	 // causes the body drawn after other bodies in the z-sort
+		FLAG_DRAW_EXCLUDE = (1 << 3) // do not draw this body, intended for e.g. when camera is inside
+	};
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space);

@@ -3,13 +3,13 @@
 
 #include "ShipCockpit.h"
 
-#include "CameraController.h"
 #include "Easing.h"
 #include "Game.h"
 #include "Pi.h"
 #include "Player.h"
 #include "WorldView.h"
 #include "graphics/Renderer.h"
+#include "ship/CameraController.h"
 
 ShipCockpit::ShipCockpit(const std::string &modelName) :
 	m_shipDir(0.0),
