@@ -348,7 +348,10 @@ local spawnInitialShips = function (game_start)
 	-- quicker checks first
 	-- dont spawn tradeships in unpopulated systems
 	local population = Game.system.population
-	if population == 0 then return nil end
+	if population == 0 then
+		starports = {}
+		return nil
+	end
 
 	-- check if the current system can be traded in
 	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
