@@ -1,3 +1,11 @@
+September 2020
+   * Internal Changes
+     * Cleanup Renderer API to Remove Fixed-Function State (#4947)
+
+   * Fixes
+     * Show the ship's translated name in savegame stats (#4953)
+     * Clear starports array if system has no population (#4950)
+
 August 2020
    * New Features
      * Debug ship spawner tool now integrated with Ctrl+I debug menu (#4941)
