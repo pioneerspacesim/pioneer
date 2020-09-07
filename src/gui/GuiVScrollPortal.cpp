@@ -128,10 +128,12 @@ namespace Gui {
 		Screen::GetCoords2Pixels(scale);
 
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
-		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 
 		// scroll to whole pixel locations whatever the resolution
-		r->Translate(0, floor((-m_scrollY * toScroll) / scale[1]) * scale[1], 0);
+		matrix4x4f modelView = r->GetTransform();
+		modelView.Translate(0, floor((-m_scrollY * toScroll) / scale[1]) * scale[1], 0);
+
+		Graphics::Renderer::MatrixTicket ticket(r, modelView);
 		Container::Draw();
 
 		SetScissor(false);

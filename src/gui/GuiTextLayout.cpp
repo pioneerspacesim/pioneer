@@ -92,14 +92,15 @@ namespace Gui {
 
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
 
-		const matrix4x4f &modelMatrix = r->GetCurrentModelView();
-		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		const matrix4x4f &modelMatrix = r->GetTransform();
+		Graphics::Renderer::MatrixTicket ticket(r);
 		{
 			const float x = modelMatrix[12];
 			const float y = modelMatrix[13];
-			r->LoadIdentity();
-			r->Translate(floor(x / fontScale[0]) * fontScale[0], floor(y / fontScale[1]) * fontScale[1], 0);
-			r->Scale(fontScale[0], fontScale[1], 1);
+			matrix4x4f modelView = matrix4x4f::Identity();
+			modelView.Translate(floor(x / fontScale[0]) * fontScale[0], floor(y / fontScale[1]) * fontScale[1], 0);
+			modelView.Scale(fontScale[0], fontScale[1], 1);
+			r->SetTransform(modelView);
 			m_font->RenderBuffer(m_vbuffer.Get(), color);
 		}
 	}
@@ -124,7 +125,7 @@ namespace Gui {
 		Gui::Screen::GetCoords2Pixels(fontScale);
 
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
-		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		Graphics::Renderer::MatrixTicket ticket(r);
 
 		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 

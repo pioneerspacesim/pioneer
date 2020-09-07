@@ -9,6 +9,7 @@
 #include "Stats.h"
 #include "Types.h"
 #include "libs.h"
+#include "matrix4x4.h"
 #include <map>
 #include <memory>
 
@@ -32,11 +33,6 @@ namespace Graphics {
 	struct VertexBufferDesc;
 	struct RenderStateDesc;
 	struct RenderTargetDesc;
-
-	enum class MatrixMode {
-		MODELVIEW,
-		PROJECTION
-	};
 
 	// Renderer base, functions return false if
 	// failed/unsupported
@@ -83,15 +79,18 @@ namespace Graphics {
 		virtual bool ClearDepthBuffer() = 0;
 		virtual bool SetClearColor(const Color &c) = 0;
 
-		virtual bool SetViewport(int x, int y, int width, int height) = 0;
+		virtual bool SetViewport(Viewport vp) = 0;
+		virtual Viewport GetViewport() const = 0;
 
 		//set the model view matrix
-		virtual bool SetTransform(const matrix4x4d &m) = 0;
 		virtual bool SetTransform(const matrix4x4f &m) = 0;
+		virtual matrix4x4f GetTransform() const = 0;
+
 		//set projection matrix
 		virtual bool SetPerspectiveProjection(float fov, float aspect, float near_, float far_) = 0;
 		virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) = 0;
 		virtual bool SetProjection(const matrix4x4f &m) = 0;
+		virtual matrix4x4f GetProjection() const = 0;
 
 		virtual bool SetRenderState(RenderState *) = 0;
 
@@ -145,59 +144,64 @@ namespace Graphics {
 
 		virtual bool ReloadShaders() = 0;
 
-		// our own matrix stack
-		// XXX state must die
-		virtual const matrix4x4f &GetCurrentModelView() const = 0;
-		virtual const matrix4x4f &GetCurrentProjection() const = 0;
-		virtual void GetCurrentViewport(Sint32 *vp) const = 0;
-
-		// XXX all quite GL specific. state must die!
-		virtual void SetMatrixMode(MatrixMode mm) = 0;
-		virtual void PushMatrix() = 0;
-		virtual void PopMatrix() = 0;
-		virtual void LoadIdentity() = 0;
-		virtual void LoadMatrix(const matrix4x4f &m) = 0;
-		virtual void Translate(const float x, const float y, const float z) = 0;
-		virtual void Scale(const float x, const float y, const float z) = 0;
-
 		// take a ticket representing the current renderer state. when the ticket
 		// is deleted, the renderer state is restored
 		// XXX state must die
 		class StateTicket {
 		public:
 			StateTicket(Renderer *r) :
-				m_renderer(r) { m_renderer->PushState(); }
-			virtual ~StateTicket() { m_renderer->PopState(); }
+				m_renderer(r)
+			{
+				m_renderer->PushState();
+				m_storedVP = m_renderer->GetViewport();
+				m_storedProj = m_renderer->GetProjection();
+				m_storedMV = m_renderer->GetTransform();
+			}
+
+			virtual ~StateTicket()
+			{
+				m_renderer->PopState();
+				m_renderer->SetViewport(m_storedVP);
+				m_renderer->SetTransform(m_storedMV);
+				m_renderer->SetProjection(m_storedProj);
+			}
+
+			StateTicket(const StateTicket &) = delete;
+			StateTicket &operator=(const StateTicket &) = delete;
 
 		private:
-			StateTicket(const StateTicket &);
-			StateTicket &operator=(const StateTicket &);
 			Renderer *m_renderer;
+			matrix4x4f m_storedProj;
+			matrix4x4f m_storedMV;
+			Viewport m_storedVP;
 		};
 
-		// take a ticket representing a single state matrix. when the ticket is
-		// deleted, the previous matrix state is restored
-		// XXX state must die
+		// Temporarily save the current transform matrix to do non-destructive drawing.
+		// XXX state has died, does this need to die further?
 		class MatrixTicket {
 		public:
-			MatrixTicket(Renderer *r, MatrixMode m) :
-				m_renderer(r),
-				m_matrixMode(m)
+			MatrixTicket(Renderer *r) :
+				MatrixTicket(r, r->GetTransform())
+			{}
+
+			MatrixTicket(Renderer *r, const matrix4x4f &newMat) :
+				m_renderer(r)
 			{
-				m_renderer->SetMatrixMode(m_matrixMode);
-				m_renderer->PushMatrix();
-			}
-			virtual ~MatrixTicket()
-			{
-				m_renderer->SetMatrixMode(m_matrixMode);
-				m_renderer->PopMatrix();
+				m_storedMat = m_renderer->GetTransform();
+				m_renderer->SetTransform(newMat);
 			}
 
+			virtual ~MatrixTicket()
+			{
+				m_renderer->SetTransform(m_storedMat);
+			}
+
+			MatrixTicket(const MatrixTicket &) = delete;
+			MatrixTicket &operator=(const MatrixTicket &) = delete;
+
 		private:
-			MatrixTicket(const MatrixTicket &);
-			MatrixTicket &operator=(const MatrixTicket &);
 			Renderer *m_renderer;
-			MatrixMode m_matrixMode;
+			matrix4x4f m_storedMat;
 		};
 
 		virtual bool Screendump(ScreendumpState &sd) { return false; }

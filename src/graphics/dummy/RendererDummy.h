@@ -43,13 +43,15 @@ namespace Graphics {
 		virtual bool ClearDepthBuffer() override final { return true; }
 		virtual bool SetClearColor(const Color &c) override final { return true; }
 
-		virtual bool SetViewport(int x, int y, int width, int height) override final { return true; }
+		virtual bool SetViewport(Viewport v) override final { return true; }
+		virtual Viewport GetViewport() const override final { return {}; }
 
-		virtual bool SetTransform(const matrix4x4d &m) override final { return true; }
 		virtual bool SetTransform(const matrix4x4f &m) override final { return true; }
+		virtual matrix4x4f GetTransform() const override final { return matrix4x4f::Identity(); }
 		virtual bool SetPerspectiveProjection(float fov, float aspect, float near_, float far_) override final { return true; }
 		virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) override final { return true; }
 		virtual bool SetProjection(const matrix4x4f &m) override final { return true; }
+		virtual matrix4x4f GetProjection() const override final { return matrix4x4f::Identity(); }
 
 		virtual bool SetWireFrameMode(bool enabled) override final { return true; }
 
@@ -76,18 +78,6 @@ namespace Graphics {
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage bu) override final { return new Graphics::Dummy::InstanceBuffer(size, bu); }
 
 		virtual bool ReloadShaders() override final { return true; }
-
-		virtual const matrix4x4f &GetCurrentModelView() const override final { return m_identity; }
-		virtual const matrix4x4f &GetCurrentProjection() const override final { return m_identity; }
-		virtual void GetCurrentViewport(Sint32 *vp) const override final {}
-
-		virtual void SetMatrixMode(MatrixMode mm) override final {}
-		virtual void PushMatrix() override final {}
-		virtual void PopMatrix() override final {}
-		virtual void LoadIdentity() override final {}
-		virtual void LoadMatrix(const matrix4x4f &m) override final {}
-		virtual void Translate(const float x, const float y, const float z) override final {}
-		virtual void Scale(const float x, const float y, const float z) override final {}
 
 	protected:
 		virtual void PushState() override final {}

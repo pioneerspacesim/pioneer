@@ -279,8 +279,7 @@ void Camera::Draw(const Body *excludeBody)
 
 		// draw something!
 		if (attrs->billboard) {
-			Graphics::Renderer::MatrixTicket mt(m_renderer, Graphics::MatrixMode::MODELVIEW);
-			m_renderer->SetTransform(matrix4x4d::Identity());
+			Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity());
 			m_billboardMaterial->diffuse = attrs->billboardColor;
 			m_renderer->DrawPointSprites(1, &attrs->billboardPos, SfxManager::additiveAlphaState, m_billboardMaterial.get(), attrs->billboardSize);
 		} else

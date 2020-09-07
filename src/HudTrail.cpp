@@ -77,7 +77,7 @@ void HudTrail::Render(Graphics::Renderer *r)
 			colors.back().a = Uint8(alpha * 255);
 		}
 
-		r->SetTransform(m_transform);
+		r->SetTransform(matrix4x4f(m_transform));
 		m_lines.SetData(tvts.size(), &tvts[0], &colors[0]);
 		m_lines.Draw(r, m_renderState, Graphics::LINE_STRIP);
 	}

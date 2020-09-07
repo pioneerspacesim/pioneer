@@ -4,8 +4,8 @@
 #include "Star.h"
 
 #include "Pi.h"
-#include "galaxy/SystemBody.h"
 #include "galaxy/StarSystem.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
@@ -97,7 +97,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		BuildHaloBuffer(renderer, rad);
 	}
 	// scale the halo by the new radius from it's unit size
-	renderer->SetTransform(trans * matrix4x4d::ScaleMatrix(rad) * rot);
+	renderer->SetTransform(matrix4x4f(trans * matrix4x4d::ScaleMatrix(rad) * rot));
 	//render star halo
 	renderer->DrawBuffer(m_haloBuffer.get(), m_haloState, Graphics::vtxColorMaterial, Graphics::TRIANGLE_FAN);
 

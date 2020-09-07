@@ -67,7 +67,7 @@ void ModelSpinner::Render()
 	r->SetPerspectiveProjection(fov, m_size.x / m_size.y, 1.f, 10000.f);
 	r->SetTransform(matrix4x4f::Identity());
 	const auto &desc = m_renderTarget.get()->GetDesc();
-	r->SetViewport(0, 0, desc.width, desc.height);
+	r->SetViewport({ 0, 0, desc.width, desc.height });
 
 	r->SetLights(1, &m_light);
 

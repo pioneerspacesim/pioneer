@@ -22,7 +22,7 @@ namespace Gui {
 	Gui::Widget *Screen::focusedWidget;
 	matrix4x4f Screen::modelMatrix;
 	matrix4x4f Screen::projMatrix;
-	Sint32 Screen::viewport[4];
+	Graphics::Viewport Screen::viewport;
 
 	FontCache Screen::s_fontCache;
 	std::stack<RefCountedPtr<Text::TextureFont>> Screen::s_fontStack;
@@ -124,8 +124,8 @@ namespace Gui {
 			(vclip[2] / w) * 0.5 + 0.5
 		};
 
-		out.x = v[0] * viewport[2] + viewport[0];
-		out.y = v[1] * viewport[3] + viewport[1];
+		out.x = v[0] * viewport.w + viewport.x;
+		out.y = v[1] * viewport.h + viewport.y;
 		out.z = v[2];
 
 		// map to pixels
@@ -140,10 +140,10 @@ namespace Gui {
 
 		Graphics::Renderer *r = GetRenderer();
 
-		modelMatrix = r->GetCurrentModelView();
-		projMatrix = r->GetCurrentProjection();
+		modelMatrix = r->GetTransform();
+		projMatrix = r->GetProjection();
 
-		r->GetCurrentViewport(&viewport[0]);
+		viewport = r->GetViewport();
 		r->SetOrthographicProjection(0, width, height, 0, -1, 1);
 		r->SetTransform(matrix4x4f::Identity());
 	}
@@ -301,15 +301,16 @@ namespace Gui {
 
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
 
-		const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
-		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		const matrix4x4f &modelMatrix_ = r->GetTransform();
+		Graphics::Renderer::MatrixTicket ticket(r);
 
 		const float x = modelMatrix_[12] + xoff;
 		const float y = modelMatrix_[13] + yoff;
 
-		r->LoadIdentity();
-		r->Translate(floor(x / Screen::fontScale[0]) * Screen::fontScale[0], floor(y / Screen::fontScale[1]) * Screen::fontScale[1], 0);
-		r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		matrix4x4f modelView = matrix4x4f::Identity();
+		modelView.Translate(floor(x / Screen::fontScale[0]) * Screen::fontScale[0], floor(y / Screen::fontScale[1]) * Screen::fontScale[1], 0);
+		modelView.Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		r->SetTransform(modelView);
 
 		// temporary, owned by the font
 		Graphics::VertexBuffer *pVB = font->GetCachedVertexBuffer(s);
@@ -339,15 +340,16 @@ namespace Gui {
 
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
 
-		const matrix4x4f &modelMatrix_ = r->GetCurrentModelView();
-		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		const matrix4x4f &modelMatrix_ = r->GetTransform();
+		Graphics::Renderer::MatrixTicket ticket(r);
 
 		const float x = modelMatrix_[12];
 		const float y = modelMatrix_[13];
 
-		r->LoadIdentity();
-		r->Translate(floor(x / Screen::fontScale[0]) * Screen::fontScale[0], floor(y / Screen::fontScale[1]) * Screen::fontScale[1], 0);
-		r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		matrix4x4f modelView = matrix4x4f::Identity();
+		modelView.Translate(floor(x / Screen::fontScale[0]) * Screen::fontScale[0], floor(y / Screen::fontScale[1]) * Screen::fontScale[1], 0);
+		modelView.Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
+		r->SetTransform(modelView);
 
 		// temporary, owned by the font
 		Graphics::VertexBuffer *pVB = font->GetCachedVertexBuffer(s);

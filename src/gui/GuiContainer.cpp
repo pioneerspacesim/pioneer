@@ -212,8 +212,9 @@ namespace Gui {
 			if (!(*i).w->IsVisible())
 				continue;
 
-			Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
-			r->Translate((*i).pos[0], (*i).pos[1], 0);
+			matrix4x4f modelView = r->GetTransform();
+			modelView.Translate((*i).pos[0], (*i).pos[1], 0);
+			Graphics::Renderer::MatrixTicket ticket(r, modelView);
 			(*i).w->Draw();
 		}
 	}

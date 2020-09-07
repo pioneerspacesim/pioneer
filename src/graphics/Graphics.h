@@ -54,6 +54,23 @@ namespace Graphics {
 		int height;
 	};
 
+	// Lightweight representation of viewport bounds to simplify viewport state management
+	struct Viewport {
+		Viewport() :
+			x(0),
+			y(0),
+			w(0),
+			h(0) {}
+
+		Viewport(int32_t _x, int32_t _y, int32_t _w, int32_t _h) :
+			x(_x),
+			y(_y),
+			w(_w),
+			h(_h) {}
+
+		int32_t x, y, w, h;
+	};
+
 	class Material;
 	extern Material *vtxColorMaterial;
 

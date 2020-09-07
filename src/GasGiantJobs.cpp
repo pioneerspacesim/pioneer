@@ -239,18 +239,12 @@ namespace GasGiantJobs {
 	{
 		PROFILE_SCOPED()
 
-		Pi::renderer->SetViewport(0, 0, mData->UVDims(), mData->UVDims());
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
+		Graphics::Renderer::StateTicket ticket(Pi::renderer);
 
 		// enter ortho
-		{
-			Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
-			Pi::renderer->PushMatrix();
-			Pi::renderer->SetOrthographicProjection(0, mData->UVDims(), mData->UVDims(), 0, -1, 1);
-			Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
-			Pi::renderer->PushMatrix();
-			Pi::renderer->LoadIdentity();
-		}
+		Pi::renderer->SetViewport({ 0, 0, mData->UVDims(), mData->UVDims() });
+		Pi::renderer->SetOrthographicProjection(0, mData->UVDims(), mData->UVDims(), 0, -1, 1);
+		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
 		GasGiant::BeginRenderTarget();
 		for (Uint32 iFace = 0; iFace < NUM_PATCHES; iFace++) {
@@ -267,20 +261,14 @@ namespace GasGiantJobs {
 		}
 		GasGiant::EndRenderTarget();
 
-		// leave ortho?
-		{
-			Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
-			Pi::renderer->PopMatrix();
-			Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
-			Pi::renderer->PopMatrix();
-		}
-
 		// add this patches data
 		SGPUGenResult *sr = new SGPUGenResult();
 		sr->addResult(mData->Texture(), mData->UVDims());
 
 		// store the result
 		mpResults = sr;
+
+		// leave ortho when ticket is destroyed
 	}
 
 	void SingleGPUGenJob::OnFinish() // runs in primary thread of the context

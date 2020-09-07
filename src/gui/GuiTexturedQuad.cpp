@@ -50,11 +50,10 @@ namespace Gui {
 
 		{
 			// move and scale the quad on-screen
-			Graphics::Renderer::MatrixTicket mt(renderer, Graphics::MatrixMode::MODELVIEW);
-			const matrix4x4f &mv = renderer->GetCurrentModelView();
+			const matrix4x4f &mv = renderer->GetTransform();
 			matrix4x4f trans(matrix4x4f::Translation(vector3f(pos.x, pos.y, 0.0f)));
 			trans.Scale(size.x, size.y, 0.0f);
-			renderer->SetTransform(mv * trans);
+			Graphics::Renderer::MatrixTicket mt(renderer, mv * trans);
 
 			m_material->diffuse = tint;
 			renderer->DrawBuffer(m_vb.Get(), Gui::Screen::alphaBlendState, m_material.get(), TRIANGLE_STRIP);

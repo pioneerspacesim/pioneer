@@ -94,9 +94,11 @@ namespace Gui {
 
 		if (m_shadow) {
 			Graphics::Renderer *r = Gui::Screen::GetRenderer();
-			r->Translate(1, 1, 0);
+			matrix4x4f modelView = r->GetTransform();
+			modelView.Translate(1, 1, 0);
+
+			Graphics::Renderer::MatrixTicket ticket(r, modelView);
 			m_layout->Render(size[0], Color::BLACK);
-			r->Translate(-1, -1, 0);
 		}
 		m_layout->Render(size[0], m_color);
 	}

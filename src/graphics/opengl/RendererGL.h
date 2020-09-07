@@ -75,13 +75,16 @@ namespace Graphics {
 		virtual bool ClearDepthBuffer() override final;
 		virtual bool SetClearColor(const Color &c) override final;
 
-		virtual bool SetViewport(int x, int y, int width, int height) override final;
+		virtual bool SetViewport(Viewport v) override final;
+		virtual Viewport GetViewport() const override final;
 
-		virtual bool SetTransform(const matrix4x4d &m) override final;
 		virtual bool SetTransform(const matrix4x4f &m) override final;
+		virtual matrix4x4f GetTransform() const override final;
+
 		virtual bool SetPerspectiveProjection(float fov, float aspect, float near_, float far_) override final;
 		virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) override final;
 		virtual bool SetProjection(const matrix4x4f &m) override final;
+		virtual matrix4x4f GetProjection() const override final;
 
 		virtual bool SetWireFrameMode(bool enabled) override final;
 
@@ -108,25 +111,6 @@ namespace Graphics {
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override final;
 
 		virtual bool ReloadShaders() override final;
-
-		virtual const matrix4x4f &GetCurrentModelView() const override final { return m_modelViewStack.top(); }
-		virtual const matrix4x4f &GetCurrentProjection() const override final { return m_projectionStack.top(); }
-		virtual void GetCurrentViewport(Sint32 *vp) const override final
-		{
-			const Viewport &cur = m_viewportStack.top();
-			vp[0] = cur.x;
-			vp[1] = cur.y;
-			vp[2] = cur.w;
-			vp[3] = cur.h;
-		}
-
-		virtual void SetMatrixMode(MatrixMode mm) override final;
-		virtual void PushMatrix() override final;
-		virtual void PopMatrix() override final;
-		virtual void LoadIdentity() override final;
-		virtual void LoadMatrix(const matrix4x4f &m) override final;
-		virtual void Translate(const float x, const float y, const float z) override final;
-		virtual void Scale(const float x, const float y, const float z) override final;
 
 		virtual bool Screendump(ScreendumpState &sd) override final;
 		virtual bool FrameGrab(ScreendumpState &sd) override final;
@@ -167,19 +151,9 @@ namespace Graphics {
 		OGL::RenderTarget *m_activeRenderTarget;
 		RenderState *m_activeRenderState;
 
-		MatrixMode m_matrixMode;
-		std::stack<matrix4x4f> m_modelViewStack;
-		std::stack<matrix4x4f> m_projectionStack;
-
-		struct Viewport {
-			Viewport() :
-				x(0),
-				y(0),
-				w(0),
-				h(0) {}
-			Sint32 x, y, w, h;
-		};
-		std::stack<Viewport> m_viewportStack;
+		matrix4x4f m_modelViewMat;
+		matrix4x4f m_projectionMat;
+		Viewport m_viewport;
 
 	private:
 		static bool initted;

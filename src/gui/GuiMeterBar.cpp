@@ -39,8 +39,10 @@ namespace Gui {
 
 		// draw inner bar
 		{
-			Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
-			r->Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
+			matrix4x4f modelView = r->GetTransform();
+			modelView.Translate(METERBAR_PADDING, METERBAR_PADDING, 0.0f);
+			Graphics::Renderer::MatrixTicket ticket(r, modelView);
+
 			size.x = m_barValue * (size.x - 2.0f * METERBAR_PADDING);
 			size.y = METERBAR_BAR_HEIGHT;
 			if (!m_inner)

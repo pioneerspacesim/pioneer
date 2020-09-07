@@ -25,7 +25,7 @@ void GuiApplication::BeginFrame()
 	m_renderer->SetRenderTarget(m_renderTarget);
 #endif
 	// TODO: render target size
-	m_renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+	m_renderer->SetViewport({ 0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight() });
 	m_renderer->BeginFrame();
 }
 

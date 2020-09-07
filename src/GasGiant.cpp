@@ -262,7 +262,7 @@ public:
 		Graphics::RenderState *rs = gasSphere->GetSurfRenderState();
 
 		const vector3d relpos = clipCentroid - campos;
-		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
+		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
 
 		Pi::statSceneTris += 2 * (ctx->edgeLen - 1) * (ctx->edgeLen - 1);
 		++Pi::statNumPatches;
@@ -666,11 +666,9 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 
 	matrix4x4d trans = modelView;
 	trans.Translate(-campos.x, -campos.y, -campos.z);
-	renderer->SetTransform(trans); //need to set this for the following line to work
-	matrix4x4d modv;
-	matrix4x4d proj;
-	matrix4x4ftod(renderer->GetCurrentModelView(), modv);
-	matrix4x4ftod(renderer->GetCurrentProjection(), proj);
+	renderer->SetTransform(matrix4x4f(trans)); //need to set this for the following line to work
+	matrix4x4d modv = matrix4x4d(renderer->GetTransform());
+	matrix4x4d proj = matrix4x4d(renderer->GetProjection());
 	Graphics::Frustum frustum(modv, proj);
 
 	// no frustum test of entire gasSphere, since Space::Render does this
@@ -719,7 +717,7 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 
 	renderer->SetAmbientColor(ambient);
 
-	renderer->SetTransform(modelView);
+	renderer->SetTransform(matrix4x4f(modelView));
 
 	for (int i = 0; i < NUM_PATCHES; i++) {
 		m_patches[i]->Render(renderer, campos, modelView, frustum);

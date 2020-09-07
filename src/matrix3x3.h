@@ -7,11 +7,13 @@
 #include "vector3.h"
 #include <math.h>
 #include <stdio.h>
+#include <type_traits>
 
 template <typename T>
 class matrix3x3 {
 private:
 	T cell[9];
+	using other_float_t = typename std::conditional<std::is_same<T, float>::value, double, float>::type;
 
 public:
 	matrix3x3() {}
@@ -23,6 +25,11 @@ public:
 	matrix3x3(const T *vals)
 	{
 		memcpy(cell, vals, sizeof(T) * 9);
+	}
+	explicit matrix3x3(const matrix3x3<other_float_t> &m)
+	{
+		for (int i = 0; i < 9; i++)
+			cell[i] = T(m[i]);
 	}
 
 	T &operator[](const size_t i) { return cell[i]; } // used for serializing
@@ -230,17 +237,6 @@ public:
 
 typedef matrix3x3<float> matrix3x3f;
 typedef matrix3x3<double> matrix3x3d;
-
-static inline void matrix3x3ftod(const matrix3x3f &in, matrix3x3d &out)
-{
-	for (int i = 0; i < 9; i++)
-		out[i] = double(in[i]);
-}
-static inline void matrix3x3dtof(const matrix3x3d &in, matrix3x3f &out)
-{
-	for (int i = 0; i < 9; i++)
-		out[i] = float(in[i]);
-}
 
 static const matrix3x3f matrix3x3fIdentity(matrix3x3f::Identity());
 static const matrix3x3d matrix3x3dIdentity(matrix3x3d::Identity());

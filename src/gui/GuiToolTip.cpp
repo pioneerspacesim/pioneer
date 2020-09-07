@@ -84,9 +84,10 @@ namespace Gui {
 		m_outlines.SetData(2, &outlineVts[0], outlineColor);
 		m_outlines.Draw(r, Screen::alphaBlendState, Graphics::LINE_LOOP);
 
-		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+		matrix4x4f modelView = r->GetTransform();
+		modelView.Translate(TOOLTIP_PADDING, 0, 0);
 
-		r->Translate(TOOLTIP_PADDING, 0, 0);
+		Graphics::Renderer::MatrixTicket ticket(r, modelView);
 		m_layout->Render(size[0] - 2 * TOOLTIP_PADDING);
 	}
 
