@@ -9,6 +9,7 @@
 #include "GameSaveError.h"
 #include "MathUtil.h"
 #include "Pi.h"
+#include "Quaternion.h"
 #include "Ship.h"
 #include "Space.h"
 #include "scenegraph/MatrixTransform.h"
@@ -34,9 +35,10 @@ void CameraController::Update()
 		m_camera->SetCameraOrient(m_orient);
 		m_camera->SetCameraPosition(m_pos);
 	} else {
+		const matrix3x3d &m = m_ship->GetInterpOrient();
+
 		// interpolate between last physics tick position and current one,
 		// to remove temporal aliasing
-		const matrix3x3d &m = m_ship->GetInterpOrient();
 		m_camera->SetCameraOrient(m * m_orient);
 		m_camera->SetCameraPosition(m * m_pos + m_ship->GetInterpPosition());
 	}
@@ -163,7 +165,8 @@ ExternalCameraController::ExternalCameraController(RefCountedPtr<CameraContext> 
 	m_distTo(m_dist),
 	m_rotX(0),
 	m_rotY(0),
-	m_extOrient(matrix3x3d::Identity())
+	m_extOrient(matrix3x3d::Identity()),
+	m_smoothed_ship_orient(Quaternionf())
 {
 }
 
@@ -174,14 +177,14 @@ void ExternalCameraController::ZoomIn(float frameTime)
 
 void ExternalCameraController::ZoomOut(float frameTime)
 {
-	m_dist += 400 * frameTime;
+	m_dist += 5 * frameTime * m_distTo;
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 	m_distTo = m_dist;
 }
 
 void ExternalCameraController::ZoomEvent(float amount)
 {
-	m_distTo += 400 * amount;
+	m_distTo += 5 * amount * m_distTo;
 	m_distTo = std::max(GetShip()->GetClipRadius(), m_distTo);
 }
 
@@ -195,6 +198,7 @@ void ExternalCameraController::Reset()
 {
 	m_dist = 200;
 	m_distTo = m_dist;
+	m_smoothed_ship_orient = Quaternionf::FromMatrix3x3(GetShip()->GetInterpOrient());
 }
 
 void ExternalCameraController::Update()
@@ -218,7 +222,26 @@ void ExternalCameraController::Update()
 	SetPosition(p);
 	SetOrient(m_extOrient);
 
-	CameraController::Update();
+	m_camera->SetCameraFrame(GetShip()->GetFrame());
+	if (GetType() == FLYBY) {
+		m_camera->SetCameraOrient(GetOrient());
+		m_camera->SetCameraPosition(GetPosition());
+	} else {
+		// This lerping factor feels nice and scales non-linearly with larger (and slower-turning) ships
+		float lerp_factor = (2.5 + GetShip()->GetClipRadius() * 0.05) * Pi::GetFrameTime();
+		// Smooth the ship orientation by lerping toward the current orientation
+		m_smoothed_ship_orient = Quaternionf::lerp(
+			m_smoothed_ship_orient,
+			Quaternionf::FromMatrix3x3(GetShip()->GetInterpOrient()),
+			lerp_factor)
+									 .Normalized();
+		const matrix3x3d &smoothed_m = m_smoothed_ship_orient.ToMatrix3x3<double>();
+
+		// interpolate between last physics tick position and current one,
+		// to remove temporal aliasing
+		m_camera->SetCameraOrient(smoothed_m * GetOrient());
+		m_camera->SetCameraPosition(smoothed_m * GetPosition() + GetShip()->GetInterpPosition());
+	}
 }
 
 void ExternalCameraController::SaveToJson(Json &jsonObj)
@@ -262,14 +285,14 @@ void SiderealCameraController::ZoomIn(float frameTime)
 
 void SiderealCameraController::ZoomOut(float frameTime)
 {
-	m_dist += 400 * frameTime;
+	m_dist += 5 * frameTime * m_distTo;
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 	m_distTo = m_dist;
 }
 
 void SiderealCameraController::ZoomEvent(float amount)
 {
-	m_distTo += 400 * amount;
+	m_distTo += 5 * amount * m_distTo;
 	m_distTo = std::max(GetShip()->GetClipRadius(), m_distTo);
 }
 
@@ -338,14 +361,14 @@ void FlyByCameraController::ZoomIn(float frameTime)
 
 void FlyByCameraController::ZoomOut(float frameTime)
 {
-	m_dist += 400 * frameTime;
+	m_dist += 5 * frameTime * m_distTo;
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 	m_distTo = m_dist;
 }
 
 void FlyByCameraController::ZoomEvent(float amount)
 {
-	m_distTo += 400 * amount;
+	m_distTo += 5 * amount * m_distTo;
 	m_distTo = std::max(GetShip()->GetClipRadius(), m_distTo);
 }
 

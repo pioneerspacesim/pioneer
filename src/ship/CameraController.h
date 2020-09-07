@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "JsonFwd.h"
 #include "Lang.h"
+#include "Quaternion.h"
 #include "matrix4x4.h"
 #include "vector3.h"
 
@@ -44,8 +45,10 @@ public:
 
 	const Ship *GetShip() const { return m_ship; }
 
-private:
+protected:
 	RefCountedPtr<CameraContext> m_camera;
+
+private:
 	const Ship *m_ship;
 	vector3d m_pos;
 	matrix3x3d m_orient;
@@ -159,6 +162,7 @@ private:
 	double m_rotX; //vertical rot
 	double m_rotY; //horizontal rot
 	matrix3x3d m_extOrient;
+	Quaternionf m_smoothed_ship_orient;
 };
 
 // Much like external camera, but does not turn when the ship turns
