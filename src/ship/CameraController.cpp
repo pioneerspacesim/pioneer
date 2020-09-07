@@ -219,29 +219,20 @@ void ExternalCameraController::Update()
 	m_extOrient = matrix3x3d::RotateY(-m_rotY) *
 		matrix3x3d::RotateX(-m_rotX);
 
-	SetPosition(p);
-	SetOrient(m_extOrient);
+	const matrix3x3d &shipOrient = GetShip()->GetInterpOrient();
 
-	m_camera->SetCameraFrame(GetShip()->GetFrame());
-	if (GetType() == FLYBY) {
-		m_camera->SetCameraOrient(GetOrient());
-		m_camera->SetCameraPosition(GetPosition());
-	} else {
-		// This lerping factor feels nice and scales non-linearly with larger (and slower-turning) ships
-		float lerp_factor = (2.5 + GetShip()->GetClipRadius() * 0.05) * Pi::GetFrameTime();
-		// Smooth the ship orientation by lerping toward the current orientation
-		m_smoothed_ship_orient = Quaternionf::lerp(
-			m_smoothed_ship_orient,
-			Quaternionf::FromMatrix3x3(GetShip()->GetInterpOrient()),
-			lerp_factor)
-									 .Normalized();
-		const matrix3x3d &smoothed_m = m_smoothed_ship_orient.ToMatrix3x3<double>();
+	// This lerping factor feels nice and scales non-linearly with larger (and slower-turning) ships
+	float lerp_factor = (2.5 + GetShip()->GetClipRadius() * 0.05) * Pi::GetFrameTime();
+	// Smooth the ship orientation by lerping toward the current orientation
+	m_smoothed_ship_orient = Quaternionf::Slerp(m_smoothed_ship_orient, Quaternionf::FromMatrix3x3(shipOrient), lerp_factor).Normalized();
+	matrix3x3d smoothed_m = shipOrient.Inverse() * m_smoothed_ship_orient.ToMatrix3x3<double>();
+	// renormalize to remove any artifacts causing jitter
+	smoothed_m.Renormalize();
 
-		// interpolate between last physics tick position and current one,
-		// to remove temporal aliasing
-		m_camera->SetCameraOrient(smoothed_m * GetOrient());
-		m_camera->SetCameraPosition(smoothed_m * GetPosition() + GetShip()->GetInterpPosition());
-	}
+	SetPosition(smoothed_m * p);
+	SetOrient(smoothed_m * m_extOrient);
+
+	CameraController::Update();
 }
 
 void ExternalCameraController::SaveToJson(Json &jsonObj)
