@@ -12,6 +12,8 @@
 #include "Quaternion.h"
 #include "Ship.h"
 #include "Space.h"
+#include "collider/CollisionContact.h"
+#include "collider/CollisionSpace.h"
 #include "scenegraph/MatrixTransform.h"
 
 CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
@@ -170,28 +172,16 @@ ExternalCameraController::ExternalCameraController(RefCountedPtr<CameraContext> 
 {
 }
 
-void ExternalCameraController::ZoomIn(float frameTime)
-{
-	ZoomOut(-frameTime);
-}
-
-void ExternalCameraController::ZoomOut(float frameTime)
-{
-	m_dist += 5 * frameTime * m_distTo;
-	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
-	m_distTo = m_dist;
-}
-
 void ExternalCameraController::ZoomEvent(float amount)
 {
 	m_distTo += 5 * amount * m_distTo;
-	m_distTo = std::max(GetShip()->GetClipRadius(), m_distTo);
+	// make sure the camera can't go inside the ship or more than 1.5km away
+	m_distTo = std::max(GetShip()->GetClipRadius(), std::min(GetShip()->GetClipRadius() + 1500.0, m_distTo));
 }
 
 void ExternalCameraController::ZoomEventUpdate(float frameTime)
 {
-	AnimationCurves::Approach(m_dist, m_distTo, frameTime);
-	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
+	// do nothing, ZoomEventUpdate is deprecated
 }
 
 void ExternalCameraController::Reset()
@@ -209,15 +199,12 @@ void ExternalCameraController::Update()
 	if (ship->IsType(Object::PLAYER)) {
 		if (ship->GetFlightState() == Ship::LANDED ||
 			ship->GetFlightState() == Ship::DOCKED) {
-			m_rotX = Clamp(m_rotX, DEG2RAD(-170.0), DEG2RAD(-10.0));
+			m_rotX = Clamp(m_rotX, DEG2RAD(-170.0), DEG2RAD(-5.0));
 		}
 	}
 
-	vector3d p = vector3d(0, 0, m_dist);
-	p = matrix3x3d::RotateX(-m_rotX) * p;
-	p = matrix3x3d::RotateY(-m_rotY) * p;
-	m_extOrient = matrix3x3d::RotateY(-m_rotY) *
-		matrix3x3d::RotateX(-m_rotX);
+	matrix3x3d rotMatrix = matrix3x3d::RotateY(-m_rotY) * matrix3x3d::RotateX(-m_rotX);
+	vector3d dir = rotMatrix * vector3d(0, 0, 1); // ship-space camera direction
 
 	const matrix3x3d &shipOrient = GetShip()->GetInterpOrient();
 
@@ -226,12 +213,38 @@ void ExternalCameraController::Update()
 	// Smooth the ship orientation by lerping toward the current (frame-invariant) orientation
 	Quaternionf frame_quat = Quaternionf::FromMatrix3x3(Frame::GetFrame(GetShip()->GetFrame())->GetOrientRelTo(Pi::game->GetSpace()->GetRootFrame()));
 	m_smoothed_ship_orient = Quaternionf::Slerp(m_smoothed_ship_orient, frame_quat * Quaternionf::FromMatrix3x3(shipOrient), lerp_factor).Normalized();
-	matrix3x3d smoothed_m = shipOrient.Inverse() * (~frame_quat * m_smoothed_ship_orient).ToMatrix3x3<double>();
+	matrix3x3d smoothed_m = shipOrient.Transpose() * (~frame_quat * m_smoothed_ship_orient).ToMatrix3x3<double>();
 	// renormalize to remove any artifacts causing jitter
 	smoothed_m.Renormalize();
 
-	SetPosition(smoothed_m * p);
-	SetOrient(smoothed_m * m_extOrient);
+	// de-penetrate the camera from any world objects it might be clipping into
+	double max_dist = m_distTo;
+	CollisionSpace *cspace = Frame::GetFrame(ship->GetFrame())->GetCollisionSpace();
+	if (cspace) {
+		// to check if we will end up inside an object, trace from the camera's target position towards
+		// the ship - if the first thing we hit is a normal that's facing away from us; we're inside an object
+
+		// idealPosition is in ship space
+		vector3d idealPosition = smoothed_m * (dir * m_distTo);
+		vector3d rayDirection = ship->GetOrient() * (-idealPosition).Normalized();
+
+		CollisionContact contact;
+		cspace->TraceRay(ship->GetOrient() * idealPosition + ship->GetPosition(), rayDirection, m_distTo, &contact, GetShip()->GetGeom());
+
+		// userData1 will be set if we hit something
+		if (contact.userData1) {
+			// simple v dot n; if the result is greater than zero, we're on the wrong side of the normal
+			if (contact.normal.Dot(rayDirection) > 0)
+				// set the max dist to just outside the contact; for our purposes this is just fine
+				max_dist = m_distTo - (contact.distance + 0.1);
+		}
+	}
+
+	AnimationCurves::Approach(m_dist, std::min(m_distTo, max_dist), Pi::GetFrameTime());
+	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
+
+	SetPosition(smoothed_m * (dir * m_dist));
+	SetOrient(smoothed_m * rotMatrix);
 
 	CameraController::Update();
 }
@@ -268,18 +281,6 @@ SiderealCameraController::SiderealCameraController(RefCountedPtr<CameraContext> 
 	m_distTo(m_dist),
 	m_sidOrient(matrix3x3d::Identity())
 {
-}
-
-void SiderealCameraController::ZoomIn(float frameTime)
-{
-	ZoomOut(-frameTime);
-}
-
-void SiderealCameraController::ZoomOut(float frameTime)
-{
-	m_dist += 5 * frameTime * m_distTo;
-	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
-	m_distTo = m_dist;
 }
 
 void SiderealCameraController::ZoomEvent(float amount)
@@ -344,18 +345,6 @@ FlyByCameraController::FlyByCameraController(RefCountedPtr<CameraContext> camera
 	m_roll(0),
 	m_flybyOrient(matrix3x3d::Identity())
 {
-}
-
-void FlyByCameraController::ZoomIn(float frameTime)
-{
-	ZoomOut(-frameTime);
-}
-
-void FlyByCameraController::ZoomOut(float frameTime)
-{
-	m_dist += 5 * frameTime * m_distTo;
-	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
-	m_distTo = m_dist;
 }
 
 void FlyByCameraController::ZoomEvent(float amount)

@@ -68,10 +68,6 @@ public:
 	// Manually set the camera's rotation angle.
 	virtual void SetRotationAngles(vector3f rotation) {}
 
-	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
-	virtual void ZoomIn(float amount) {}
-	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
-	virtual void ZoomOut(float amount) {}
 	/// Animated zoom trigger (on each event), primarily designed for mouse wheel.
 	///\param amount The zoom delta to add or substract (>0: zoom out, <0: zoom in), indirectly controling the zoom animation speed.
 	virtual void ZoomEvent(float amount) {}
@@ -146,8 +142,6 @@ public:
 		m_rotY = rotation.y;
 	}
 
-	void ZoomIn(float frameTime) override;
-	void ZoomOut(float frameTime) override;
 	void ZoomEvent(float amount) override;
 	void ZoomEventUpdate(float frameTime) override;
 
@@ -201,8 +195,6 @@ public:
 		RollCamera(rotation.z);
 	}
 
-	void ZoomIn(float frameTime) override;
-	void ZoomOut(float frameTime) override;
 	void ZoomEvent(float amount) override;
 	void ZoomEventUpdate(float frameTime) override;
 
@@ -243,8 +235,6 @@ public:
 		m_roll += M_PI / 4 * amount;
 	}
 
-	void ZoomIn(float frameTime) override;
-	void ZoomOut(float frameTime) override;
 	void ZoomEvent(float amount) override;
 	void ZoomEventUpdate(float frameTime) override;
 
