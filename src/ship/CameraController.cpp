@@ -198,7 +198,7 @@ void ExternalCameraController::Reset()
 {
 	m_dist = 200;
 	m_distTo = m_dist;
-	m_smoothed_ship_orient = Quaternionf::FromMatrix3x3(GetShip()->GetInterpOrient());
+	m_smoothed_ship_orient = Quaternionf::FromMatrix3x3(GetShip()->GetInterpOrientRelTo(Pi::game->GetSpace()->GetRootFrame()));
 }
 
 void ExternalCameraController::Update()
@@ -223,9 +223,10 @@ void ExternalCameraController::Update()
 
 	// This lerping factor feels nice and scales non-linearly with larger (and slower-turning) ships
 	float lerp_factor = (2.5 + GetShip()->GetClipRadius() * 0.05) * Pi::GetFrameTime();
-	// Smooth the ship orientation by lerping toward the current orientation
-	m_smoothed_ship_orient = Quaternionf::Slerp(m_smoothed_ship_orient, Quaternionf::FromMatrix3x3(shipOrient), lerp_factor).Normalized();
-	matrix3x3d smoothed_m = shipOrient.Inverse() * m_smoothed_ship_orient.ToMatrix3x3<double>();
+	// Smooth the ship orientation by lerping toward the current (frame-invariant) orientation
+	Quaternionf frame_quat = Quaternionf::FromMatrix3x3(Frame::GetFrame(GetShip()->GetFrame())->GetOrientRelTo(Pi::game->GetSpace()->GetRootFrame()));
+	m_smoothed_ship_orient = Quaternionf::Slerp(m_smoothed_ship_orient, frame_quat * Quaternionf::FromMatrix3x3(shipOrient), lerp_factor).Normalized();
+	matrix3x3d smoothed_m = shipOrient.Inverse() * (~frame_quat * m_smoothed_ship_orient).ToMatrix3x3<double>();
 	// renormalize to remove any artifacts causing jitter
 	smoothed_m.Renormalize();
 
