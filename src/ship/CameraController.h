@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "JsonFwd.h"
 #include "Lang.h"
+#include "Quaternion.h"
 #include "matrix4x4.h"
 #include "vector3.h"
 
@@ -44,8 +45,10 @@ public:
 
 	const Ship *GetShip() const { return m_ship; }
 
-private:
+protected:
 	RefCountedPtr<CameraContext> m_camera;
+
+private:
 	const Ship *m_ship;
 	vector3d m_pos;
 	matrix3x3d m_orient;
@@ -65,10 +68,6 @@ public:
 	// Manually set the camera's rotation angle.
 	virtual void SetRotationAngles(vector3f rotation) {}
 
-	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
-	virtual void ZoomIn(float amount) {}
-	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
-	virtual void ZoomOut(float amount) {}
 	/// Animated zoom trigger (on each event), primarily designed for mouse wheel.
 	///\param amount The zoom delta to add or substract (>0: zoom out, <0: zoom in), indirectly controling the zoom animation speed.
 	virtual void ZoomEvent(float amount) {}
@@ -143,8 +142,6 @@ public:
 		m_rotY = rotation.y;
 	}
 
-	void ZoomIn(float frameTime) override;
-	void ZoomOut(float frameTime) override;
 	void ZoomEvent(float amount) override;
 	void ZoomEventUpdate(float frameTime) override;
 
@@ -159,6 +156,7 @@ private:
 	double m_rotX; //vertical rot
 	double m_rotY; //horizontal rot
 	matrix3x3d m_extOrient;
+	Quaternionf m_smoothed_ship_orient;
 };
 
 // Much like external camera, but does not turn when the ship turns
@@ -197,8 +195,6 @@ public:
 		RollCamera(rotation.z);
 	}
 
-	void ZoomIn(float frameTime) override;
-	void ZoomOut(float frameTime) override;
 	void ZoomEvent(float amount) override;
 	void ZoomEventUpdate(float frameTime) override;
 
@@ -239,8 +235,6 @@ public:
 		m_roll += M_PI / 4 * amount;
 	}
 
-	void ZoomIn(float frameTime) override;
-	void ZoomOut(float frameTime) override;
 	void ZoomEvent(float amount) override;
 	void ZoomEventUpdate(float frameTime) override;
 

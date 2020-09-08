@@ -143,6 +143,10 @@ void Camera::Update()
 		attrs.body = b;
 		attrs.billboard = false; // false by default
 
+		// If the body wishes to be excluded from the draw, skip it.
+		if (b->GetFlags() & Body::FLAG_DRAW_EXCLUDE)
+			continue;
+
 		// determine position and transform for draw
 		//		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);		// doesn't use interp coords, so breaks in some cases
 		Frame *f = Frame::GetFrame(b->GetFrame());
