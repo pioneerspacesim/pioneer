@@ -1,4 +1,7 @@
 September 2020
+   * New Features
+     * Add external camera interpolation and spring (#4955)
+     
    * Internal Changes
      * Cleanup Renderer API to Remove Fixed-Function State (#4947)
 
