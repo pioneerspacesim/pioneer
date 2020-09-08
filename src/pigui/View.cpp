@@ -7,5 +7,5 @@
 
 void PiGuiView::DrawPiGui()
 {
-	PiGUI::RunHandler(Pi::GetFrameTime(), m_handlerName);
+	PiGui::RunHandler(Pi::GetFrameTime(), m_handlerName);
 }

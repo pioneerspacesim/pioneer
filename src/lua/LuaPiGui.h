@@ -12,7 +12,7 @@
 
 class Body;
 
-namespace PiGUI {
+namespace PiGui {
 	bool first_body_is_more_important_than(Body *body, Body *other);
 
 	struct TScreenSpace {
@@ -32,6 +32,6 @@ namespace PiGUI {
 
 	// Run a lua PiGui handler.
 	void RunHandler(double delta, std::string handler = "GAME");
-} // namespace PiGUI
+} // namespace PiGui
 
 #endif

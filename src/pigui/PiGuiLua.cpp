@@ -31,7 +31,7 @@ static std::vector<std::pair<std::string, int>> m_keycodes = {
 static LuaRef m_handlers;
 static LuaRef m_keys;
 
-namespace PiGUI {
+namespace PiGui {
 
 	namespace Lua {
 
@@ -50,9 +50,9 @@ namespace PiGUI {
 				keys.Set(p.first, p.second);
 			}
 
-			LuaObject<PiGUI::Image>::RegisterClass();
-			LuaObject<PiGUI::Face>::RegisterClass();
-			LuaObject<PiGUI::ModelSpinner>::RegisterClass();
+			LuaObject<PiGui::Image>::RegisterClass();
+			LuaObject<PiGui::Face>::RegisterClass();
+			LuaObject<PiGui::ModelSpinner>::RegisterClass();
 			RegisterSandbox();
 		}
 
@@ -66,4 +66,4 @@ namespace PiGUI {
 
 	LuaRef GetHandlers() { return m_handlers; }
 	LuaRef GetKeys() { return m_keys; }
-} // namespace PiGUI
+} // namespace PiGui

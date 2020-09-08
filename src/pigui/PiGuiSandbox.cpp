@@ -136,7 +136,7 @@ luaL_Reg l_stack_functions[] = {
 	{ NULL, NULL }
 };
 
-void PiGUI::Lua::RegisterSandbox()
+void PiGui::Lua::RegisterSandbox()
 {
 	lua_State *L = ::Lua::manager->GetLuaState();
 	LUA_DEBUG_START(L);

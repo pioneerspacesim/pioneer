@@ -6,7 +6,7 @@
 
 #include "lua/LuaObject.h"
 
-namespace PiGUI {
+namespace PiGui {
 
 	// Get registered PiGui handlers.
 	LuaRef GetHandlers();
@@ -19,6 +19,6 @@ namespace PiGUI {
 		void Init();
 		void Uninit();
 	} // namespace Lua
-} // namespace PiGUI
+} // namespace PiGui
 
 #endif

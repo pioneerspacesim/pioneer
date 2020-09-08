@@ -242,7 +242,7 @@ void ObjectViewerView::DrawControlsWindow()
 			OnChangeTerrain();
 	}
 
-	PiGUI::RunHandler(Pi::GetFrameTime(), GetViewName() + ".Controls");
+	PiGui::RunHandler(Pi::GetFrameTime(), GetViewName() + ".Controls");
 
 	ImGui::End();
 }

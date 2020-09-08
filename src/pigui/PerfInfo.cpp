@@ -28,7 +28,7 @@
 #include <psapi.h>
 #endif
 
-using namespace PiGUI;
+using namespace PiGui;
 
 struct PerfInfo::ImGuiState {
 	bool perfWindowOpen = true;
@@ -229,13 +229,13 @@ void PerfInfo::DrawPerfWindow()
 			}
 		}
 
-		PiGUI::RunHandler(Pi::GetFrameTime(), "debug-tabs");
+		PiGui::RunHandler(Pi::GetFrameTime(), "debug-tabs");
 
 		ImGui::EndTabBar();
 	}
 	ImGui::End();
 
-	PiGUI::RunHandler(Pi::GetFrameTime(), "debug");
+	PiGui::RunHandler(Pi::GetFrameTime(), "debug");
 }
 
 void PerfInfo::DrawRendererStats()

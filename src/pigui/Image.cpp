@@ -5,7 +5,7 @@
 #include "FileSystem.h"
 #include "graphics/TextureBuilder.h"
 
-namespace PiGUI {
+namespace PiGui {
 
 	Image::Image(const std::string &filename)
 	{
@@ -28,4 +28,4 @@ namespace PiGUI {
 		return m_texture->GetDescriptor().texSize;
 	}
 
-} // namespace PiGUI
+} // namespace PiGui

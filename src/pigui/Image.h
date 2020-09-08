@@ -8,7 +8,7 @@
 #include "SmartPtr.h"
 #include "graphics/TextureBuilder.h"
 
-namespace PiGUI {
+namespace PiGui {
 
 	class Image : public RefCounted {
 	public:
@@ -22,6 +22,6 @@ namespace PiGUI {
 		RefCountedPtr<Graphics::Texture> m_texture;
 	};
 
-} // namespace PiGUI
+} // namespace PiGui
 
 #endif
