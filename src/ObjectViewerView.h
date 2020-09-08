@@ -5,44 +5,52 @@
 #define _OBJECTVIEWERVIEW_H
 
 #include "Camera.h"
-#include "UIView.h"
 #include "gui/Gui.h"
 #include "libs.h"
+#include "pigui/View.h"
 
 class Body;
+class SystemBody;
 
-class ObjectViewerView : public UIView {
+class ObjectViewerView : public PiGuiView {
 public:
 	ObjectViewerView();
-	virtual void Update();
-	virtual void Draw3D();
+	virtual void Update() override;
+	virtual void Draw3D() override;
 
 protected:
-	virtual void OnSwitchTo();
+	virtual void OnSwitchTo() override;
+
+	virtual void DrawPiGui() override;
 
 private:
+	void ReloadState();
+	void OnChangeTerrain();
+
+	void DrawInfoWindow();
+	void DrawControlsWindow();
+
+	Body *m_targetBody;
+	const SystemBody *m_systemBody;
+	bool m_isTerrainBody;
+
+	struct ControlState {
+		uint32_t seed;
+		double mass;
+		double radius;
+		double life;
+		double volatileGas;
+		double volatileIces;
+		double volatileLiquid;
+		double metallicity;
+		double volcanicity;
+	} m_state;
+
 	float viewingDist;
-	Gui::Label *m_infoLabel;
-	Gui::VBox *m_vbox;
-	const Body *lastTarget;
 	matrix4x4d m_camRot;
 
 	RefCountedPtr<CameraContext> m_cameraContext;
 	std::unique_ptr<Camera> m_camera;
-
-	Gui::TextEntry *m_sbodyMass;
-	Gui::TextEntry *m_sbodyRadius;
-	Gui::TextEntry *m_sbodySeed;
-	Gui::TextEntry *m_sbodyVolatileGas;
-	Gui::TextEntry *m_sbodyVolatileLiquid;
-	Gui::TextEntry *m_sbodyVolatileIces;
-	Gui::TextEntry *m_sbodyLife;
-	Gui::TextEntry *m_sbodyVolcanicity;
-	Gui::TextEntry *m_sbodyMetallicity;
-	void OnChangeTerrain();
-	void OnRandomSeed();
-	void OnNextSeed();
-	void OnPrevSeed();
 };
 
 #endif /* _OBJECTVIEWERVIEW_H */

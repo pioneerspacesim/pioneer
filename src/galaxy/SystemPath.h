@@ -192,4 +192,6 @@ public:
 	}
 };
 
+std::string to_string(const SystemPath &path);
+
 #endif
