@@ -5,7 +5,6 @@
 #define ANIMATIONCURVES_H
 
 #include "FloatComparison.h"
-#include "Pi.h"
 #include <cmath>
 
 namespace AnimationCurves {
