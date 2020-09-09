@@ -5,6 +5,8 @@
 #define ANIMATIONCURVES_H
 
 #include "FloatComparison.h"
+#include "Pi.h"
+#include <cmath>
 
 namespace AnimationCurves {
 
@@ -24,6 +26,37 @@ namespace AnimationCurves {
 		// clamp to target (independent of the direction of motion)
 		const T newDelta(target - cur);
 		if (newDelta * delta < 0) cur = target;
+	}
+
+	// easing from https://github.com/Michaelangel007/easing#tldr-shut-up-and-show-me-the-code
+	// p should go from 0.0 to 1.0
+	inline float InOutQuadraticEasing(float p)
+	{
+		float m = p - 1.0;
+		float t = p * 2.0;
+		if (t < 1)
+			return p * t;
+		else
+			return 1.0 - m * m * 2.0;
+	}
+
+	// easing from https://github.com/Michaelangel007/easing#tldr-shut-up-and-show-me-the-code
+	// p should go from 0.0 to 1.0
+	inline float InOutCubicEasing(float p)
+	{
+		float m = p - 1.0;
+		float t = p * 2.0;
+		if (t < 1)
+			return p * t * t;
+		else
+			return 1.0 + m * m * m * 4.0;
+	}
+
+	// easing from https://github.com/Michaelangel007/easing#tldr-shut-up-and-show-me-the-code
+	// p should go from 0.0 to 1.0
+	inline float InOutSineEasing(float p)
+	{
+		return 0.5 * (1.0 - std::cos(p * M_PI));
 	}
 
 } // namespace AnimationCurves
