@@ -26,7 +26,7 @@
 #include "Star.h"
 
 namespace PiGui {
-	// Defined in LuaPiGui.h
+	// Declared in LuaPiGuiInternal.h
 	extern bool first_body_is_more_important_than(Body *, Body *);
 	extern int pushOnScreenPositionDirection(lua_State *l, vector3d position);
 } // namespace PiGui

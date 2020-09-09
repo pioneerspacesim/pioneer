@@ -2,9 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Face.h"
+#include "LuaPiGui.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaObject.h"
-#include "lua/LuaPiGui.h"
 #include "lua/LuaTable.h"
 #include "lua/LuaVector2.h"
 

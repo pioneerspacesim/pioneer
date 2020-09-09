@@ -1,7 +1,7 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "PiGuiLua.h"
+#include "LuaPiGui.h"
 #include "Face.h"
 #include "Image.h"
 #include "ModelSpinner.h"
@@ -66,4 +66,14 @@ namespace PiGui {
 
 	LuaRef GetHandlers() { return m_handlers; }
 	LuaRef GetKeys() { return m_keys; }
+
+	void RunHandler(double delta, std::string handler)
+	{
+		PROFILE_SCOPED()
+		ScopedTable t(GetHandlers());
+		if (t.Get<bool>(handler)) {
+			t.Call<bool>(handler, delta);
+			Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
+		}
+	}
 } // namespace PiGui

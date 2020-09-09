@@ -4,6 +4,7 @@
 #include "PerfInfo.h"
 #include "Frame.h"
 #include "Game.h"
+#include "LuaPiGui.h"
 #include "Pi.h"
 #include "Player.h"
 #include "Space.h"
@@ -12,7 +13,6 @@
 #include "graphics/Texture.h"
 #include "lua/Lua.h"
 #include "lua/LuaManager.h"
-#include "lua/LuaPiGui.h"
 #include "scenegraph/Model.h"
 #include "text/TextureFont.h"
 
@@ -28,7 +28,8 @@
 #include <psapi.h>
 #endif
 
-using namespace PiGui;
+// using namespace PiGui;
+using PerfInfo = PiGui::PerfInfo;
 
 struct PerfInfo::ImGuiState {
 	bool perfWindowOpen = true;
@@ -138,7 +139,7 @@ void PerfInfo::Update(float deltaTime, float physTime)
 	if (lastUpdateTime > 1000.0) {
 		lastUpdateTime = fmod(lastUpdateTime, 1000.0);
 
-		lua_mem = Lua::manager->GetMemoryUsage();
+		lua_mem = ::Lua::manager->GetMemoryUsage();
 		process_mem = GetMemoryInfo();
 	}
 }

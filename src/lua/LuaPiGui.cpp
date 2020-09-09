@@ -1,7 +1,7 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "LuaPiGui.h"
+#include "LuaPiGuiInternal.h"
 
 #include "EnumStrings.h"
 #include "Game.h"
@@ -17,8 +17,8 @@
 #include "WorldView.h"
 #include "graphics/Graphics.h"
 #include "pigui/LuaFlags.h"
+#include "pigui/LuaPiGui.h"
 #include "pigui/PiGui.h"
-#include "pigui/PiGuiLua.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
 #include "ui/Context.h"
@@ -2614,16 +2614,6 @@ static int l_pigui_push_text_wrap_pos(lua_State *l)
 	float wrap_pos_x = LuaPull<float>(l, 1);
 	ImGui::PushTextWrapPos(wrap_pos_x);
 	return 0;
-}
-
-void PiGui::RunHandler(double delta, std::string handler)
-{
-	PROFILE_SCOPED()
-	ScopedTable t(GetHandlers());
-	if (t.Get<bool>(handler)) {
-		t.Call<bool>(handler, delta);
-		Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
-	}
 }
 
 template <>

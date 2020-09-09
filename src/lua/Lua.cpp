@@ -36,7 +36,7 @@
 
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
-#include "pigui/PiGuiLua.h"
+#include "pigui/LuaPiGui.h"
 #include "scenegraph/Lua.h"
 #include "ui/Lua.h"
 

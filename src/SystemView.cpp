@@ -1,7 +1,7 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "lua/LuaPiGui.h"
+#include "pigui/LuaPiGui.h"
 
 #include "SystemView.h"
 
@@ -17,6 +17,7 @@
 #include "StringF.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
+#include "galaxy/SystemPath.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"

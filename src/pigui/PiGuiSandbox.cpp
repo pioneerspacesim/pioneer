@@ -1,10 +1,9 @@
 
 #include <lua.hpp>
 
+#include "LuaPiGui.h"
 #include "PiGui.h"
-#include "PiGuiLua.h"
 
-#include "lua/LuaPiGui.h"
 #include "lua/LuaUtils.h"
 
 #include "imgui/imgui_internal.h"

@@ -14,7 +14,7 @@
 #include "LuaColor.h"
 #include "LuaConstants.h"
 #include "LuaObject.h"
-#include "LuaPiGui.h"
+#include "LuaPiGuiInternal.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "LuaVector2.h"

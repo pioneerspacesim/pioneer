@@ -17,7 +17,7 @@
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
 #include "imgui/imgui.h"
-#include "lua/LuaPiGui.h"
+#include "pigui/LuaPiGui.h"
 #include "terrain/Terrain.h"
 #include "utils.h"
 

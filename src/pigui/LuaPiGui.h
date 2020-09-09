@@ -19,6 +19,9 @@ namespace PiGui {
 		void Init();
 		void Uninit();
 	} // namespace Lua
+
+	// Run a lua PiGui handler.
+	void RunHandler(double delta, std::string handler = "GAME");
 } // namespace PiGui
 
 #endif
