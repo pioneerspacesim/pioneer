@@ -479,6 +479,38 @@
     "description": "",
     "message": "Government type:"
   },
+  "LAWLESSNESS": {
+    "description": "",
+    "message": "Lawlessness:"
+  },
+  "LL_ALMOST_NON_EXISTENT": {
+    "description": "",
+    "message": "Almost non-existent"
+  },
+  "LL_VERY_SAFE": {
+    "description": "",
+    "message": "Very safe"
+  },
+  "LL_SAFE": {
+    "description": "",
+    "message": "Safe"
+  },
+  "LL_MODERATE": {
+    "description": "",
+    "message": "Moderate"
+  },
+  "LL_HIGH": {
+    "description": "",
+    "message": "High"
+  },
+  "LL_VERY_HIGH": {
+    "description": "",
+    "message": "Very high"
+  },
+  "LL_EXTREME": {
+    "description": "",
+    "message": "Rampant"
+  },
   "GRAIN": {
     "description": "like wheat or barley",
     "message": "Grain"
