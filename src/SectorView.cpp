@@ -3,6 +3,7 @@
 
 #include "SectorView.h"
 
+#include "AnimationCurves.h"
 #include "Game.h"
 #include "GameConfig.h"
 #include "GameSaveError.h"
@@ -305,7 +306,7 @@ void SectorView::Draw3D()
 		const vector3f dstPos = Sector::SIZE * vector3f(float(dstPath.sectorX), float(dstPath.sectorY), float(dstPath.sectorZ)) + dstSystem.GetPosition();
 		// jumpProcess: 0.0f (at source) .. 1.0f (at destination)
 		// smoothing speed at the ends with cubic interpolation
-		const float jumpProcess = InOutCubicEasing(Pi::game->GetHyperspaceProgress() / Pi::game->GetHyperspaceDuration());
+		const float jumpProcess = AnimationCurves::InOutCubicEasing(Pi::game->GetHyperspaceProgress() / Pi::game->GetHyperspaceDuration());
 		// player location indicator's size of the star, on which it is drawn
 		// so we interpolate it too
 		const float dstStarSize = StarSystem::starScale[dstSystem.GetStarType(0)];
