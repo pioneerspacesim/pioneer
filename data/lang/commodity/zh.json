@@ -13,7 +13,7 @@
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "一个主要的争议点是，肉是动物的肉。由于合成蛋白质唾手可得，大多数人认为动物不应该被杀死。虽然肉类在大多数核心系统中是非法的，但活的动物和它们的肉在更传统的世界里是人们生活的重要组成部分。\n\n"
+    "message": "一个主要的争议点是，肉是动物的肉。由于合成蛋白质唾手可得，大多数人认为动物不应该被杀死。虽然肉类在大多数核心系统中是非法的，但活的动物和它们的肉在更传统的世界里是人们生活的重要组成部分。"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "虽然很少见，偶尔还是有农民捕捉牛拖犁耕田。但在几乎任何一个有农业的地方，机器都被用于土地的耕作，无论是地下栖息地的水培法，还是花园世界无边无际的田野。\n\n"
+    "message": "虽然很少见，偶尔还是有农民捕捉牛拖犁耕田。但在几乎任何一个有农业的地方，机器都被用于土地的耕作，无论是地下栖息地的水培法，还是花园世界无边无际的田野。"
   },
   "FERTILIZER": {
     "description": "",
