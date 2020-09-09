@@ -17,6 +17,7 @@
 #include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
 #include <functional>
+#include <sstream>
 
 SystemInfoView::SystemInfoView(Game *game) :
 	UIView(),
@@ -496,6 +497,11 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 		col1->Add((new Gui::Label(Lang::SYSTEM_NUMBER))->Color(255, 255, 0), 0, 7 * YSEP);
 		col2->Add(new Gui::Label(stringf("%0", path.systemIndex)), 0, 7 * YSEP);
+
+		col1->Add((new Gui::Label(Lang::LAWLESSNESS))->Color(255, 255, 0), 0, 8 * YSEP);
+		std::ostringstream str_stream;
+		str_stream << this->m_system->GetSysPolit().lawlessness.ToDouble();
+		col2->Add(new Gui::Label(str_stream.str().c_str()), 0, 8 * YSEP);
 	}
 
 	UpdateIconSelections();
