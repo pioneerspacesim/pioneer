@@ -197,11 +197,12 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiCond_ &value)
 	value = parse_imgui_enum(l, index, imguiSetCondTable);
 }
 
+/* clang-format off */
 static LuaFlags<ImGuiCol_> imguiColTable = {
 	{ "Text", ImGuiCol_Text },
 	{ "TextDisabled", ImGuiCol_TextDisabled },
 	{ "WindowBg", ImGuiCol_WindowBg },
-	{ "ChildWindowBg", ImGuiCol_ChildWindowBg },
+	{ "ChildBg", ImGuiCol_ChildBg },
 	{ "PopupBg", ImGuiCol_PopupBg },
 	{ "Border", ImGuiCol_Border },
 	{ "BorderShadow", ImGuiCol_BorderShadow },
@@ -209,8 +210,8 @@ static LuaFlags<ImGuiCol_> imguiColTable = {
 	{ "FrameBgHovered", ImGuiCol_FrameBgHovered },
 	{ "FrameBgActive", ImGuiCol_FrameBgActive },
 	{ "TitleBg", ImGuiCol_TitleBg },
-	{ "TitleBgCollapsed", ImGuiCol_TitleBgCollapsed },
 	{ "TitleBgActive", ImGuiCol_TitleBgActive },
+	{ "TitleBgCollapsed", ImGuiCol_TitleBgCollapsed },
 	{ "MenuBarBg", ImGuiCol_MenuBarBg },
 	{ "ScrollbarBg", ImGuiCol_ScrollbarBg },
 	{ "ScrollbarGrab", ImGuiCol_ScrollbarGrab },
@@ -231,13 +232,23 @@ static LuaFlags<ImGuiCol_> imguiColTable = {
 	{ "ResizeGrip", ImGuiCol_ResizeGrip },
 	{ "ResizeGripHovered", ImGuiCol_ResizeGripHovered },
 	{ "ResizeGripActive", ImGuiCol_ResizeGripActive },
+	{ "Tab", ImGuiCol_Tab, },
+	{ "TabHovered", ImGuiCol_TabHovered, },
+	{ "TabActive", ImGuiCol_TabActive, },
+	{ "TabUnfocused", ImGuiCol_TabUnfocused, },
+	{ "TabUnfocusedActive", ImGuiCol_TabUnfocusedActive, },
 	{ "PlotLines", ImGuiCol_PlotLines },
 	{ "PlotLinesHovered", ImGuiCol_PlotLinesHovered },
 	{ "PlotHistogram", ImGuiCol_PlotHistogram },
 	{ "PlotHistogramHovered", ImGuiCol_PlotHistogramHovered },
 	{ "TextSelectedBg", ImGuiCol_TextSelectedBg },
-	{ "ModalWindowDarkening", ImGuiCol_ModalWindowDarkening }
+	{ "DragDropTarget", ImGuiCol_DragDropTarget, },
+	{ "NavHighlight", ImGuiCol_NavHighlight, },
+	{ "NavWindowingHighlight", ImGuiCol_NavWindowingHighlight, },
+	{ "NavWindowingDimBg", ImGuiCol_NavWindowingDimBg, },
+	{ "ModalWindowDimBg", ImGuiCol_ModalWindowDimBg, },
 };
+/* clang-format on */
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiCol_ &value)
 {
