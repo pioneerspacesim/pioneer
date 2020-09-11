@@ -566,7 +566,7 @@ local hideSystemViewWindows = false
 local function displaySystemViewUI()
 	player = Game.player
 	local current_view = Game.CurrentView()
-	if current_view == "system" and not Game.InHyperspace() then
+	if current_view == "system" then
 		if dummyFrames > 0 then -- do it a few frames, because imgui need a few frames to make the correct window size
 
 			-- first, doing some one-time actions here

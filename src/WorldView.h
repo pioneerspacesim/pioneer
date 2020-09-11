@@ -57,6 +57,9 @@ public:
 
 	RefCountedPtr<CameraContext> GetCameraContext() const { return m_cameraContext; }
 
+	ViewController *GetViewController() const { return m_viewController; }
+	void SetViewController(ViewController *newView);
+
 	std::unique_ptr<ShipViewController> shipView;
 
 	int GetActiveWeapon() const;
@@ -118,6 +121,7 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 
 	Game *m_game;
+	ViewController *m_viewController;
 
 	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;

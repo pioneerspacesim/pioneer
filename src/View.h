@@ -29,6 +29,8 @@ public:
 	virtual void Draw3D() = 0;
 	// for checking key states, mouse crud
 	virtual void Update() = 0;
+	// Called during the pigui frame to draw UI
+	virtual void DrawPiGui(){};
 	virtual void SaveToJson(Json &jsonObj) {}
 	virtual void LoadFromJson(const Json &jsonObj) {}
 	virtual void HandleSDLEvent(SDL_Event &event) {}

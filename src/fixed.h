@@ -17,9 +17,9 @@ public:
 		v(0) {}
 	//	template <int bits>
 	//	fixedf(fixedf<bits> f) { *this = f; }
-	fixedf(Sint64 raw) :
+	constexpr fixedf(Sint64 raw) :
 		v(raw) {}
-	fixedf(Sint64 num, Sint64 denom) :
+	constexpr fixedf(Sint64 num, Sint64 denom) :
 		v((num << FRAC) / denom) {}
 	// ^^ this is fucking shit
 

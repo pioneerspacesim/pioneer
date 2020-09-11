@@ -5,20 +5,21 @@
 
 #include "CameraController.h"
 #include "Input.h"
-#include "InteractionController.h"
 #include "KeyBindings.h"
+#include "ViewController.h"
 #include "utils.h"
 
-class ShipViewController : public InteractionController {
+class ShipViewController : public ViewController {
 public:
 	ShipViewController(WorldView *v) :
-		InteractionController(v),
+		ViewController(v),
 		m_camType(CAM_INTERNAL),
 		headtracker_input_priority(false) {}
 
 	void Update() override;
 	void Activated() override;
 	void Deactivated() override;
+	void Draw(Camera *camera) override;
 
 	enum CamType {
 		CAM_INTERNAL,

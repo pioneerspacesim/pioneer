@@ -14,12 +14,14 @@ public:
 	PiGuiView(std::string name) :
 		m_handlerName(name) {}
 
-	virtual void Update() {}
-	virtual void Draw3D() {}
-	virtual void DrawPiGui() {}
+	virtual void Update() override {}
+	virtual void Draw3D() override {}
+	virtual void DrawPiGui() override;
+
+	const std::string &GetViewName() { return m_handlerName; }
 
 private:
-	virtual void OnSwitchTo(){};
+	virtual void OnSwitchTo() override{};
 
 	std::string m_handlerName;
 };
