@@ -10,22 +10,22 @@ struct lua_State;
 
 struct Color4f {
 	float r, g, b, a;
-	Color4f() :
+	constexpr Color4f() :
 		r(0.f),
 		g(0.f),
 		b(0.f),
 		a(1.f) {}
-	Color4f(float v_) :
+	constexpr Color4f(float v_) :
 		r(v_),
 		g(v_),
 		b(v_),
 		a(v_) {}
-	Color4f(float r_, float g_, float b_) :
+	constexpr Color4f(float r_, float g_, float b_) :
 		r(r_),
 		g(g_),
 		b(b_),
 		a(1.f) {}
-	Color4f(float r_, float g_, float b_, float a_) :
+	constexpr Color4f(float r_, float g_, float b_, float a_) :
 		r(r_),
 		g(g_),
 		b(b_),
@@ -66,27 +66,27 @@ namespace {
 struct Color4ub {
 
 	Uint8 r, g, b, a;
-	Color4ub() :
+	constexpr Color4ub() :
 		r(0),
 		g(0),
 		b(0),
 		a(255) {}
-	Color4ub(Uint8 r_, Uint8 g_, Uint8 b_) :
+	constexpr Color4ub(Uint8 r_, Uint8 g_, Uint8 b_) :
 		r(r_),
 		g(g_),
 		b(b_),
 		a(255) {}
-	Color4ub(Uint8 r_, Uint8 g_, Uint8 b_, Uint8 a_) :
+	constexpr Color4ub(Uint8 r_, Uint8 g_, Uint8 b_, Uint8 a_) :
 		r(r_),
 		g(g_),
 		b(b_),
 		a(a_) {}
-	Color4ub(const Color4f &c) :
+	constexpr Color4ub(const Color4f &c) :
 		r(Uint8(c.r * 255.f)),
 		g(Uint8(c.g * 255.f)),
 		b(Uint8(c.b * 255.f)),
 		a(Uint8(c.a * 255.f)) {}
-	Color4ub(const Uint32 rgba) :
+	constexpr Color4ub(const Uint32 rgba) :
 		r((rgba >> 24) & 0xff),
 		g((rgba >> 16) & 0xff),
 		b((rgba >> 8) & 0xff),
@@ -151,19 +151,19 @@ struct Color4ub {
 
 struct Color3ub {
 	Uint8 r, g, b;
-	Color3ub() :
+	constexpr Color3ub() :
 		r(0),
 		g(0),
 		b(0) {}
-	Color3ub(Uint8 v_) :
+	constexpr Color3ub(Uint8 v_) :
 		r(v_),
 		g(v_),
 		b(v_) {}
-	Color3ub(Uint8 r_, Uint8 g_, Uint8 b_) :
+	constexpr Color3ub(Uint8 r_, Uint8 g_, Uint8 b_) :
 		r(r_),
 		g(g_),
 		b(b_) {}
-	Color3ub(const Color4f &c) :
+	constexpr Color3ub(const Color4f &c) :
 		r(Uint8(c.r * 255.f)),
 		g(Uint8(c.g * 255.f)),
 		b(Uint8(c.b * 255.f)) {}

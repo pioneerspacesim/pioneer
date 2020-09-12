@@ -2627,6 +2627,25 @@ static int l_pigui_push_text_wrap_pos(lua_State *l)
 	return 0;
 }
 
+static Color4ub to_Color4ub(ImVec4 c)
+{
+	return Color4ub(uint8_t(c.x * 255), uint8_t(c.y * 255), uint8_t(c.z * 255), uint8_t(c.w * 255));
+}
+
+static ImVec4 to_ImVec4(Color4ub c)
+{
+	Color4f _c = c.ToColor4f();
+	return { _c.r, _c.g, _c.b, _c.a };
+}
+
+void load_theme_from_table(LuaTable &table, ImGuiStyle &style)
+{
+	for (auto &pair : imguiColTable.LUT) {
+		Color4ub defaultColor = to_Color4ub(style.Colors[pair.second]);
+		style.Colors[pair.second] = to_ImVec4(table.Get<Color4ub>(pair.first, defaultColor));
+	}
+}
+
 template <>
 const char *LuaObject<PiGui::Instance>::s_type = "PiGui";
 

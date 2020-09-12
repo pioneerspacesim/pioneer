@@ -11,6 +11,7 @@
 #include "vector3.h"
 
 class Body;
+struct ImGuiStyle;
 
 namespace PiGui {
 	bool first_body_is_more_important_than(Body *body, Body *other);
@@ -29,6 +30,8 @@ namespace PiGui {
 	int pushOnScreenPositionDirection(lua_State *l, vector3d position);
 	TScreenSpace lua_rel_space_to_screen_space(const vector3d &pos);
 	TScreenSpace lua_world_space_to_screen_space(const vector3d &pos);
+
+	void load_theme_from_table(LuaTable &table, ImGuiStyle &style);
 } // namespace PiGui
 
 #endif
