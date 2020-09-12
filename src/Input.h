@@ -126,6 +126,9 @@ public:
 	// Call immediately after processing events, dispatches events to Action / Axis bindings.
 	void DispatchEvents();
 
+	// When enable is false, this prevents the input system from writing to the config file.
+	void EnableConfigSaving(bool enable) { m_enableConfigSaving = enable; }
+
 	BindingPage *GetBindingPage(std::string id) { return &bindingPages[id]; }
 	std::map<std::string, BindingPage> GetBindingPages() { return bindingPages; }
 
@@ -182,10 +185,10 @@ public:
 	float JoystickAxisState(int joystick, int axis);
 
 	bool IsJoystickEnabled() { return joystickEnabled; }
-	void SetJoystickEnabled(bool state) { joystickEnabled = state; }
+	void SetJoystickEnabled(bool state);
 
-	void SetMouseYInvert(bool state) { mouseYInvert = state; }
 	bool IsMouseYInvert() { return mouseYInvert; }
+	void SetMouseYInvert(bool state);
 
 	int MouseButtonState(int button) { return mouseButton[button]; }
 	void SetMouseButtonState(int button, bool state) { mouseButton[button] = state; }
@@ -220,6 +223,7 @@ private:
 	float GetAxisState(InputBindings::JoyAxis &axis);
 
 	IniConfig *m_config;
+	bool m_enableConfigSaving;
 
 	std::map<SDL_Keycode, uint8_t> keyState;
 	int keyModState;

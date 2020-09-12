@@ -373,6 +373,24 @@ float Manager::JoystickAxisState(int joystick, int axis)
 	return GetJoysticks()[joystick].axes[axis].value;
 }
 
+void Manager::SetJoystickEnabled(bool state)
+{
+	joystickEnabled = state;
+	if (m_enableConfigSaving) {
+		m_config->SetInt("EnableJoystick", joystickEnabled);
+		m_config->Save();
+	}
+}
+
+void Manager::SetMouseYInvert(bool state)
+{
+	mouseYInvert = state;
+	if (m_enableConfigSaving) {
+		m_config->SetInt("InvertMouseY", mouseYInvert);
+		m_config->Save();
+	}
+}
+
 /*
 
 	FRAME AND EVENT HANDLING

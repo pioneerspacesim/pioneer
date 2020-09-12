@@ -15,11 +15,18 @@ namespace FileSystem {
 
 class IniConfig {
 public:
-	IniConfig() {}
+	IniConfig() = default;
 
+	// Read from a file on disk. If fs is a FileSourceFS, enables in-place saving
+	// of the IniConfig.
 	void Read(FileSystem::FileSource &fs, const std::string &path);
-	void Read(const FileSystem::FileData &data);
+
+	// Write to a file on disk.
 	bool Write(FileSystem::FileSourceFS &fs, const std::string &path);
+
+	// If a previous call to Read() was made using a writable file source,
+	// save the IniConfig in-place to that file.
+	bool Save();
 
 	void SetInt(const std::string &section, const std::string &key, int val);
 	void SetFloat(const std::string &section, const std::string &key, float val);
@@ -39,21 +46,26 @@ public:
 
 	bool HasSection(const std::string &section) const
 	{
-		SectionMapType::const_iterator it = m_map.find(section);
+		const auto it = m_map.find(section);
 		return (it != m_map.end()) && (!it->second.empty());
 	}
 
 	bool HasEntry(const std::string &section, const std::string &key) const
 	{
-		SectionMapType::const_iterator it = m_map.find(section);
+		const auto it = m_map.find(section);
 		return (it != m_map.end()) && it->second.count(key);
 	}
 	bool HasEntry(const std::string &key) const { return HasEntry("", key); }
 
 protected:
+	void Read(const FileSystem::FileData &data);
+
 	typedef std::map<std::string, std::string> MapType;
 	typedef std::map<std::string, MapType> SectionMapType;
 	SectionMapType m_map;
+
+	FileSystem::FileSourceFS *m_fs = nullptr;
+	std::string m_path;
 };
 
 #endif /* _INICONFIG_H */
