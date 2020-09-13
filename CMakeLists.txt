@@ -239,6 +239,9 @@ add_subdirectory(contrib/fmt)
 set(PIONEER_SRC ${CMAKE_SOURCE_DIR}/src)
 set(PIONEER_CONTRIB ${CMAKE_SOURCE_DIR}/contrib)
 
+set(PIONEER_SRC ${CMAKE_SOURCE_DIR}/src)
+set(PIONEER_CONTRIB ${CMAKE_SOURCE_DIR}/contrib)
+
 include_directories(
 	${PIONEER_SRC}
 	${PIONEER_CONTRIB}
@@ -346,6 +349,8 @@ target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(savegamedump LINK_PRIVATE pioneer-core ${SDL2_IMAGE_LIBRARIES} ${winLibs})
 
+add_subdirectory(tools)
+
 set_cxx11_properties(${PROJECT_NAME} modelcompiler savegamedump)
 
 if(MSVC)
@@ -371,6 +376,7 @@ if (MODELCOMPILER)
 	if (NOT MSVC)
 		add_custom_target(build-models
 			COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy ${MODELCOMPILER} -b inplace
+			COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_BINARY_DIR}/.built-models
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 			COMMENT "Optimizing models" VERBATIM
 		)
@@ -379,6 +385,21 @@ if (MODELCOMPILER)
 else (MODELCOMPILER)
 	message(WARNING "No modelcompiler provided, models won't be optimized!")
 endif(MODELCOMPILER)
+
+set(HYG_DATABASE_FILE ${CMAKE_BINARY_DIR}/hygdata_v3.csv)
+add_custom_command(OUTPUT ${HYG_DATABASE_FILE}
+	COMMAND curl https://raw.githubusercontent.com/astronexus/HYG-Database/master/hygdata_v3.csv
+			-o ${HYG_DATABASE_FILE} -z ${HYG_DATABASE_FILE}
+	COMMENT "Fetching HYG star database")
+
+add_custom_target(build-hyg-data
+	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/data/systems/stars
+	COMMAND hyg-database-parser --binary ${HYG_DATABASE_FILE}
+			-o ${CMAKE_SOURCE_DIR}/data/systems/stars/hygdata_v3.lz4
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+	DEPENDS ${HYG_DATABASE_FILE}
+	COMMENT "Building HYG custom system file")
+add_dependencies(build-data build-hyg-data)
 
 install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
