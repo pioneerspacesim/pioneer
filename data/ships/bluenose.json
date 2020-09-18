@@ -30,6 +30,7 @@
    "roles" : {
       "merchant" : true
    },
+   "atmospheric_pressure_limit" : 5,
    "front_cross_section" : 80,
    "side_cross_section" : 337,
    "top_cross_section" : 580,

@@ -113,8 +113,10 @@ local function shipStats()
 		{ l.CREW_CABINS..":",  shipDef.maxCrew },
 		false,
 		{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
-		{ l.ATMOSPHERIC_SHIELDING..":",     shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO },
 		{ l.SCOOP_MOUNTS..":",              shipDef.equipSlotCapacity.scoop},
+		false,
+		{ l.ATMOSPHERIC_SHIELDING..":",     shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO },
+		{ l.ATMO_PRESS_LIMIT..":", string.format("%d atm", shipDef.atmosphericPressureLimit) },
 	}
 end
 
