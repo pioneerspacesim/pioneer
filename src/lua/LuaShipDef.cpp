@@ -249,6 +249,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "hyperdriveClass", st.hyperdriveClass);
 		pi_lua_settable(l, "effectiveExhaustVelocity", st.effectiveExhaustVelocity);
 		pi_lua_settable(l, "thrusterFuelUse", st.GetFuelUseRate());
+		pi_lua_settable(l, "atmosphericPressureLimit", st.atmosphericPressureLimit);
 
 		lua_newtable(l);
 		for (int t = Thruster::THRUSTER_REVERSE; t < Thruster::THRUSTER_MAX; t++)
