@@ -309,7 +309,11 @@ local tradeMenu = function()
 						ui.nextColumn()
 						ui.text(l.ATMO_PRESS_LIMIT)
 						ui.nextColumn()
-						ui.text(string.format("%d atm", def.atmosphericPressureLimit))
+						if def.equipSlotCapacity["atmo_shield"] > 0 then
+							ui.text(string.format("%d(+%d/+%d) atm", def.atmosphericPressureLimit, def.atmosphericPressureLimit * (Equipment.misc.atmospheric_shielding.capabilities.atmo_shield - 1), def.atmosphericPressureLimit * (Equipment.misc.heavy_atmospheric_shielding.capabilities.atmo_shield - 1) ))
+						else
+							ui.text(string.format("%d atm", def.atmosphericPressureLimit))
+						end
 						ui.nextColumn()
 
 						ui.text(l.SCOOP_MOUNTS)
