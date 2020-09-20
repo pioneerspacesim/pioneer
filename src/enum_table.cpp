@@ -34,6 +34,7 @@
 const struct EnumItem ENUM_ShipAIError[] = {
 	{ "NONE", int(Ship::AIERROR_NONE) },
 	{ "GRAV_TOO_HIGH", int(Ship::AIERROR_GRAV_TOO_HIGH) },
+	{ "PRESS_TOO_HIGH", int(Ship::AIERROR_PRESS_TOO_HIGH) },
 	{ "REFUSED_PERM", int(Ship::AIERROR_REFUSED_PERM) },
 	{ "ORBIT_IMPOSSIBLE", int(Ship::AIERROR_ORBIT_IMPOSSIBLE) },
 	{ 0, 0 },
