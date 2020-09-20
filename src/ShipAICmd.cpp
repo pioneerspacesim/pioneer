@@ -6,6 +6,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "Pi.h"
+#include "Planet.h"
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
@@ -1171,6 +1172,21 @@ AICmdDock::AICmdDock(DynamicBody *dBody, SpaceStation *target) :
 
 	m_prop.Reset(ship->GetPropulsion());
 	assert(m_prop != nullptr);
+
+	if (target->IsGroundStation()) {
+		Frame *frame = Frame::GetFrame(target->GetFrame());
+		Body *stationPlanet = frame->GetBody();
+		Planet *p = static_cast<Planet *>(stationPlanet);
+
+		double pressure, density;
+		p->GetAtmosphericState(target->GetPositionRelTo(stationPlanet).Length(), &pressure, &density);
+
+		if (pressure > static_cast<Ship *>(dBody)->GetAtmosphericPressureLimit()) {
+			m_dBody->AIMessage(Ship::AIERROR_PRESS_TOO_HIGH);
+			m_target = nullptr; // bail out on next timestep call
+			return;
+		}
+	}
 
 	double grav = GetGravityAtPos(m_target->GetFrame(), m_target->GetPosition());
 	if (m_prop->GetAccelUp() < grav) {
