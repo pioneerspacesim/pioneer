@@ -39,7 +39,7 @@ struct shipstats_t {
 	int used_capacity;
 	int used_cargo;
 	int free_capacity;
-	int static_mass; // cargo, equipment + hull
+	int static_mass;	  // cargo, equipment + hull
 	float hull_mass_left; // effectively hitpoints
 	float hyperspace_range;
 	float hyperspace_range_max;
@@ -112,13 +112,13 @@ public:
 	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData) override;
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
-		FLYING, // open flight (includes autopilot)
-		DOCKING, // in docking animation
-		UNDOCKING, // in docking animation
-		DOCKED, // docked with station
-		LANDED, // rough landed (not docked)
-		JUMPING, // between space and hyperspace ;)
-		HYPERSPACE, // in hyperspace
+		FLYING,		   // open flight (includes autopilot)
+		DOCKING,	   // in docking animation
+		UNDOCKING,	   // in docking animation
+		DOCKED,		   // docked with station
+		LANDED,		   // rough landed (not docked)
+		JUMPING,	   // between space and hyperspace ;)
+		HYPERSPACE,	   // in hyperspace
 	};
 
 	// vector3d CalcAtmoPassiveControl() const;
@@ -182,12 +182,12 @@ public:
 	void AIGetStatusText(char *str); // Note: defined in Ship-AI.cpp
 
 	void AIKamikaze(Body *target); // Note: defined in Ship-AI.cpp
-	void AIKill(Ship *target); // Note: defined in Ship-AI.cpp
+	void AIKill(Ship *target);	   // Note: defined in Ship-AI.cpp
 	//void AIJourney(SystemBodyPath &dest);
-	void AIDock(SpaceStation *target); // Note: defined in Ship-AI.cpp
-	void AIFlyTo(Body *target); // Note: defined in Ship-AI.cpp
+	void AIDock(SpaceStation *target);		// Note: defined in Ship-AI.cpp
+	void AIFlyTo(Body *target);				// Note: defined in Ship-AI.cpp
 	void AIOrbit(Body *target, double alt); // Note: defined in Ship-AI.cpp
-	void AIHoldPosition(); // Note: defined in Ship-AI.cpp
+	void AIHoldPosition();					// Note: defined in Ship-AI.cpp
 
 	void AIBodyDeleted(const Body *const body){}; // Note: defined in Ship-AI.cpp // todo: signals
 
@@ -234,7 +234,6 @@ public:
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
 
 protected:
-
 	vector3d CalcAtmosphericForce() const override;
 
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
