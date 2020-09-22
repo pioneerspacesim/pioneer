@@ -14,6 +14,8 @@ local lui = Lang.GetResource("ui-core");
 
 local ui = require 'pigui'
 
+local vutil = require 'pigui.libs.view-util'
+
 -- cache ui
 local pionillium = ui.fonts.pionillium
 local pionicons = ui.fonts.pionicons
@@ -42,7 +44,9 @@ local gameView = {
 	player = nil
 }
 
-import("pigui.libs.view-util").mixin_modules(gameView)
+--import("pigui.libs.view-util").mixin_modules(gameView)
+vutil.mixin_modules(gameView)
+
 
 local function getBodyIcon(body)
 	local st = body.superType

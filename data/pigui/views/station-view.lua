@@ -1,15 +1,15 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
-local Lang = import 'Lang'
-local Game = import 'Game'
-local Format = import 'Format'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Format = require 'Format'
 
 local l = Lang.GetResource("ui-core")
-local ui = import 'pigui/pigui.lua'
+local ui = require 'pigui'
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
-local TabView = import 'pigui/views/tab-view.lua'
+local TabView = require 'pigui.views.tab-view'
 
 local stationView
 
