@@ -499,7 +499,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 		col1->Add((new Gui::Label(Lang::LAWLESSNESS))->Color(255, 255, 0), 0, 8 * YSEP);
 		const double lawlessness = this->m_system->GetSysPolit().lawlessness.ToDouble();
-		char* lawlessness_label;
+		char *lawlessness_label;
 		if (lawlessness <= 0.01)
 			lawlessness_label = Lang::LL_ALMOST_NON_EXISTENT;
 		else if (lawlessness <= 0.05)
