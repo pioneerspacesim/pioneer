@@ -489,11 +489,11 @@
   },
   "LL_VERY_SAFE": {
     "description": "",
-    "message": "Very safe"
+    "message": "Very little"
   },
   "LL_SAFE": {
     "description": "",
-    "message": "Safe"
+    "message": "A little"
   },
   "LL_MODERATE": {
     "description": "",
