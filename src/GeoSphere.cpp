@@ -1,7 +1,6 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "FileSystem.h"
 #include "GeoSphere.h"
 #include "FileSystem.h"
 
@@ -523,7 +522,7 @@ void GeoSphere::LoadTerrainJSON(const std::string &path)
 	// load the look-up-table
 	Json lut = rootNode["LUT"];
 	assert(!lut.empty() && lut.is_string());
-	m_surfaceLUT.Reset(Graphics::TextureBuilder::LookUpTable(lut).GetOrCreateTexture(Pi::renderer, "lut"));
+	m_surfaceLUT.Reset(Graphics::TextureBuilder::LookUpTable(stringf("textures/terrain/%0", lut.get<std::string>())).GetOrCreateTexture(Pi::renderer, "lut"));
 
 	// what detail textures does this terrain use
 	const std::string detailTextureHigh = rootNode["detailTextureHigh"];

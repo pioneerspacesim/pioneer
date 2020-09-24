@@ -1,6 +1,6 @@
 {
    "name" : "template",
-   "LUT" : "terrainLUT",
+   "LUT" : "terrainLUTrandom.png",
    "Layers" : 16,
    "detailTextureHigh" : "high.dds",
    "detailTextureLow" : "low.dds",
