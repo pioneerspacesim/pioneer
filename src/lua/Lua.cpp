@@ -44,15 +44,26 @@ namespace Lua {
 
 	LuaManager *manager = 0;
 
+	void InitMath();
+
 	void Init()
 	{
 		manager = new LuaManager();
+		InitMath();
 	}
 
 	void Uninit()
 	{
 		delete manager;
 		manager = 0;
+	}
+
+	// initialize standalone math types as the "extended standard library" for all lua instances
+	void InitMath()
+	{
+		LuaVector::Register(manager->GetLuaState());
+		LuaVector2::Register(manager->GetLuaState());
+		LuaColor::Register(manager->GetLuaState());
 	}
 
 	void InitModules()
@@ -104,9 +115,6 @@ namespace Lua {
 		LuaMusic::Register();
 		LuaDev::Register();
 		LuaConsole::Register();
-		LuaVector::Register(Lua::manager->GetLuaState());
-		LuaVector2::Register(Lua::manager->GetLuaState());
-		LuaColor::Register(Lua::manager->GetLuaState());
 
 		// XXX sigh
 		UI::Lua::Init();

@@ -16,6 +16,7 @@
 #include "SystemInfoView.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
+#include "imgui/imgui.h"
 #include "pigui/LuaFlags.h"
 #include "pigui/LuaPiGui.h"
 #include "pigui/PiGui.h"
@@ -262,14 +263,19 @@ static LuaFlags<ImGuiStyleVar_> imguiStyleVarTable = {
 	{ "WindowRounding", ImGuiStyleVar_WindowRounding },
 	{ "WindowBorderSize", ImGuiStyleVar_WindowBorderSize },
 	{ "WindowMinSize", ImGuiStyleVar_WindowMinSize },
+	{ "WindowTitleAlign", ImGuiStyleVar_WindowTitleAlign },
 	{ "ChildRounding", ImGuiStyleVar_ChildRounding },
 	{ "ChildBorderSize", ImGuiStyleVar_ChildBorderSize },
+	{ "PopupRounding", ImGuiStyleVar_PopupRounding },
+	{ "PopupBorderSize", ImGuiStyleVar_PopupBorderSize },
 	{ "FramePadding", ImGuiStyleVar_FramePadding },
 	{ "FrameRounding", ImGuiStyleVar_FrameRounding },
 	{ "FrameBorderSize", ImGuiStyleVar_FrameBorderSize },
 	{ "ItemSpacing", ImGuiStyleVar_ItemSpacing },
 	{ "ItemInnerSpacing", ImGuiStyleVar_ItemInnerSpacing },
 	{ "IndentSpacing", ImGuiStyleVar_IndentSpacing },
+	{ "ScrollbarSize", ImGuiStyleVar_ScrollbarSize },
+	{ "ScrollbarRounding", ImGuiStyleVar_ScrollbarRounding },
 	{ "GrabMinSize", ImGuiStyleVar_GrabMinSize },
 	{ "ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign }
 };
@@ -2638,12 +2644,41 @@ static ImVec4 to_ImVec4(Color4ub c)
 	return { _c.r, _c.g, _c.b, _c.a };
 }
 
-void load_theme_from_table(LuaTable &table, ImGuiStyle &style)
+void PiGui::load_theme_from_table(LuaTable &table, ImGuiStyle &style)
 {
+	ScopedTable colors = table.Sub("colors");
 	for (auto &pair : imguiColTable.LUT) {
 		Color4ub defaultColor = to_Color4ub(style.Colors[pair.second]);
-		style.Colors[pair.second] = to_ImVec4(table.Get<Color4ub>(pair.first, defaultColor));
+		style.Colors[pair.second] = to_ImVec4(colors.Get<Color4ub>(pair.first, defaultColor));
 	}
+
+	ScopedTable styles = table.Sub("styles");
+#define GET_STYLE(name) styles.Get<decltype(style.name)>(#name, style.name)
+#define SET_STYLE(name) style.name = styles.Get<decltype(style.name)>(#name, style.name)
+
+	// use template magic and decltype to efficiently load the correct data type
+	SET_STYLE(Alpha);
+	SET_STYLE(WindowPadding);
+	SET_STYLE(WindowRounding);
+	SET_STYLE(WindowBorderSize);
+	SET_STYLE(WindowMinSize);
+	SET_STYLE(WindowTitleAlign);
+	SET_STYLE(ChildRounding);
+	SET_STYLE(ChildBorderSize);
+	SET_STYLE(FramePadding);
+	SET_STYLE(FrameRounding);
+	SET_STYLE(FrameBorderSize);
+	SET_STYLE(PopupRounding);
+	SET_STYLE(PopupBorderSize);
+	SET_STYLE(ItemSpacing);
+	SET_STYLE(ItemInnerSpacing);
+	SET_STYLE(IndentSpacing);
+	SET_STYLE(ScrollbarSize);
+	SET_STYLE(ScrollbarRounding);
+	SET_STYLE(GrabMinSize);
+	SET_STYLE(ButtonTextAlign);
+
+#undef SET_STYLE
 }
 
 template <>

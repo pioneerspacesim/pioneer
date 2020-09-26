@@ -202,6 +202,11 @@ ui.registerHandler = function(name, fun)
 	pigui.handlers[name] = fun
 end
 
+ui.registerTheme = function(name, theme)
+	assert(type(theme) == "table", "UI Themes must be table values!")
+	pigui.handlers[name] = theme
+end
+
 ui.circleSegments = function(radius)
 	if radius < 5 then
 		return 8
@@ -942,5 +947,7 @@ ui.withTooltip = function(tooltip, fun)
 		end
 	end
 end
+
+ui.registerTheme('default', defaultTheme)
 
 return ui

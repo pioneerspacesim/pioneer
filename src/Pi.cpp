@@ -27,6 +27,7 @@
 #include "core/Log.h"
 #include "core/OS.h"
 #include "graphics/opengl/RendererGL.h"
+#include "imgui/imgui.h"
 #include "lua/Lua.h"
 #include "lua/LuaConsole.h"
 #include "lua/LuaEvent.h"
@@ -513,6 +514,9 @@ void LoadStep::Start()
 	// normal init flow, or drawing the init screen in C++ instead?
 	// Loads just the PiGui class and PiGui-related modules
 	PiGui::Lua::Init();
+	// FIXME: this just exists to load the theme out-of-order from Lua::InitModules. Needs a better solution
+	PiGui::LoadThemeFromDisk("default");
+	PiGui::LoadTheme(ImGui::GetStyle(), "default");
 
 	// Don't render the first frame, just make sure all of our fonts are loaded
 	Pi::pigui->NewFrame();

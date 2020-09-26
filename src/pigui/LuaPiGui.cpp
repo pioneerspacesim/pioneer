@@ -5,6 +5,7 @@
 #include "Face.h"
 #include "Image.h"
 #include "ModelSpinner.h"
+#include "lua/LuaPiGuiInternal.h"
 #include "lua/LuaTable.h"
 
 static std::vector<std::pair<std::string, int>> m_keycodes = {
@@ -29,6 +30,7 @@ static std::vector<std::pair<std::string, int>> m_keycodes = {
 };
 
 static LuaRef m_handlers;
+static LuaRef m_themes;
 static LuaRef m_keys;
 
 namespace PiGui {
@@ -42,6 +44,9 @@ namespace PiGui {
 			lua_State *l = ::Lua::manager->GetLuaState();
 			lua_newtable(l);
 			m_handlers = LuaRef(l, -1);
+
+			lua_newtable(l);
+			m_themes = LuaRef(l, -1);
 
 			lua_newtable(l);
 			m_keys = LuaRef(l, -1);
@@ -59,6 +64,7 @@ namespace PiGui {
 		void Uninit()
 		{
 			m_handlers.Unref();
+			m_themes.Unref();
 			m_keys.Unref();
 		}
 
@@ -66,6 +72,7 @@ namespace PiGui {
 
 	LuaRef GetHandlers() { return m_handlers; }
 	LuaRef GetKeys() { return m_keys; }
+	LuaRef GetThemes() { return m_themes; }
 
 	void RunHandler(double delta, std::string handler)
 	{
@@ -75,5 +82,28 @@ namespace PiGui {
 			t.Call<bool>(handler, delta);
 			Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 		}
+	}
+
+	void LoadTheme(ImGuiStyle &style, std::string theme)
+	{
+		PROFILE_SCOPED();
+		ScopedTable t(GetThemes());
+		if (t.Get<bool>(theme)) {
+			ScopedTable theme_tab = t.Sub(theme);
+			load_theme_from_table(theme_tab, style);
+		} else {
+			Output("Unable to load theme %s from lua!\n", theme.c_str());
+		}
+	}
+
+	void LoadThemeFromDisk(std::string theme)
+	{
+		PROFILE_SCOPED();
+		GetThemes().PushCopyToStack();
+
+		pi_lua_import(GetThemes().GetLua(), "pigui.themes." + theme);
+		lua_setfield(GetThemes().GetLua(), -2, theme.c_str());
+
+		lua_pop(GetThemes().GetLua(), 1);
 	}
 } // namespace PiGui

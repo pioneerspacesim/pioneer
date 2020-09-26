@@ -239,14 +239,14 @@ static int l_color_set(lua_State *L)
 	return 1;
 }
 
-static luaL_Reg l_vector_lib[] = {
+static luaL_Reg l_color_lib[] = {
 	{ "new", &l_color_new },
 	{ "shade", &l_color_shade },
 	{ "tint", &l_color_tint },
 	{ 0, 0 }
 };
 
-static luaL_Reg l_vector_meta[] = {
+static luaL_Reg l_color_meta[] = {
 	{ "__tostring", &l_color_tostring },
 	{ "__add", &l_color_add },
 	{ "__mul", &l_color_mul },
@@ -265,7 +265,7 @@ void LuaColor::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
-	luaL_newlib(L, l_vector_lib);
+	luaL_newlib(L, l_color_lib);
 
 	lua_newtable(L);
 	lua_pushcfunction(L, &l_color_call);
@@ -275,7 +275,7 @@ void LuaColor::Register(lua_State *L)
 	lua_setglobal(L, LuaColor::LibName);
 
 	luaL_newmetatable(L, LuaColor::TypeName);
-	luaL_setfuncs(L, l_vector_meta, 0);
+	luaL_setfuncs(L, l_color_meta, 0);
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
