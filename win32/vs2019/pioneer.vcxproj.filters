@@ -360,9 +360,6 @@
     <ClCompile Include="..\..\src\pigui\LuaFace.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\pigui\PiGuiLua.cpp">
-      <Filter>src\pigui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\ship\Propulsion.cpp">
       <Filter>src\ship</Filter>
     </ClCompile>
@@ -580,6 +577,9 @@
       <Filter>src\ship</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\pigui\View.cpp">
+      <Filter>src\pigui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pigui\LuaPiGui.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
   </ItemGroup>
@@ -965,9 +965,6 @@
     <ClInclude Include="..\..\src\pigui\Face.h">
       <Filter>src\pigui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\pigui\PiGuiLua.h">
-      <Filter>src\pigui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ship\Propulsion.h">
       <Filter>src\ship</Filter>
     </ClInclude>
@@ -1055,9 +1052,6 @@
     <ClInclude Include="..\..\src\lua\LuaObject.h">
       <Filter>src\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\lua\LuaPiGui.h">
-      <Filter>src\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\lua\LuaPushPull.h">
       <Filter>src\Lua</Filter>
     </ClInclude>
@@ -1141,6 +1135,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\ViewController.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lua\LuaPiGuiInternal.h">
+      <Filter>src\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pigui\LuaPiGui.h">
+      <Filter>src\pigui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
