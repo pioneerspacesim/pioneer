@@ -378,7 +378,6 @@
     <ClCompile Include="..\..\src\Beam.cpp" />
     <ClCompile Include="..\..\src\Body.cpp" />
     <ClCompile Include="..\..\src\Camera.cpp" />
-    <ClCompile Include="..\..\src\CameraController.cpp" />
     <ClCompile Include="..\..\src\CargoBody.cpp" />
     <ClCompile Include="..\..\src\CityOnPlanet.cpp" />
     <ClCompile Include="..\..\src\CollMesh.cpp" />
@@ -493,6 +492,10 @@
     <ClCompile Include="..\..\src\pigui\PiGuiLua.cpp" />
     <ClCompile Include="..\..\src\pigui\LuaFace.cpp" />
     <ClCompile Include="..\..\src\pigui\PiGuiSandbox.cpp" />
+    <ClCompile Include="..\..\src\pigui\View.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pigui\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)pigui\</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="..\..\src\pigui\Widgets.cpp" />
     <ClCompile Include="..\..\src\Plane.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
@@ -533,6 +536,7 @@
     <ClCompile Include="..\..\src\ShipCpanel.cpp" />
     <ClCompile Include="..\..\src\ShipCpanelMultiFuncDisplays.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
+    <ClCompile Include="..\..\src\ship\CameraController.cpp" />
     <ClCompile Include="..\..\src\ship\PlayerShipController.cpp" />
     <ClCompile Include="..\..\src\ship\Propulsion.cpp" />
     <ClCompile Include="..\..\src\ship\ShipController.cpp" />
@@ -588,7 +592,6 @@
     <ClInclude Include="..\..\src\Body.h" />
     <ClInclude Include="..\..\src\ByteRange.h" />
     <ClInclude Include="..\..\src\Camera.h" />
-    <ClInclude Include="..\..\src\CameraController.h" />
     <ClInclude Include="..\..\src\CargoBody.h" />
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
     <ClInclude Include="..\..\src\CollMesh.h" />
@@ -716,7 +719,7 @@
     <ClInclude Include="..\..\src\ShipCpanel.h" />
     <ClInclude Include="..\..\src\ShipCpanelMultiFuncDisplays.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
-    <ClInclude Include="..\..\src\ship\InteractionController.h" />
+    <ClInclude Include="..\..\src\ship\CameraController.h" />
     <ClInclude Include="..\..\src\ship\PlayerShipController.h" />
     <ClInclude Include="..\..\src\ship\Propulsion.h" />
     <ClInclude Include="..\..\src\ship\ShipController.h" />
@@ -744,6 +747,7 @@
     <ClInclude Include="..\..\src\versioningInfo.h" />
     <ClInclude Include="..\..\src\VideoLink.h" />
     <ClInclude Include="..\..\src\View.h" />
+    <ClInclude Include="..\..\src\ViewController.h" />
     <ClInclude Include="..\..\src\win32\TextUtils.h" />
     <ClInclude Include="..\..\src\win32\WinMath.h" />
     <ClInclude Include="..\..\src\WorldView.h" />

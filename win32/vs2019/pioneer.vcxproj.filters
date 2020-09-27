@@ -228,9 +228,6 @@
     <ClCompile Include="..\..\src\SpaceStationType.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\CameraController.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\EnumStrings.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -579,6 +576,12 @@
     <ClCompile Include="..\..\src\core\LZ4Format.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\ship\CameraController.cpp">
+      <Filter>src\ship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pigui\View.cpp">
+      <Filter>src\pigui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -803,9 +806,6 @@
     <ClInclude Include="..\..\src\SpaceStationType.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\CameraController.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\EnumStrings.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -952,9 +952,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\sound\SoundMusic.h">
       <Filter>src\sound</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ship\InteractionController.h">
-      <Filter>src\ship</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ship\PlayerShipController.h">
       <Filter>src\ship</Filter>
@@ -1138,6 +1135,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\core\LZ4Format.h">
       <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ship\CameraController.h">
+      <Filter>src\ship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ViewController.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
