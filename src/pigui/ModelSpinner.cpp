@@ -9,7 +9,7 @@
 
 #include <algorithm>
 
-using namespace PiGUI;
+using namespace PiGui;
 
 ModelSpinner::ModelSpinner() :
 	m_pauseTime(.0f),

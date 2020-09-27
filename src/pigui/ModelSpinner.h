@@ -24,7 +24,7 @@ using ImTextureID = void *;
 // In essence, we want to make the regular main-scene rendering code modular and able to render
 // arbitrary scenes to RTs that we can use in Pigui et. al.
 // For now we'll do a basic implementation here to move the model spinner functionality to Pigui.
-namespace PiGUI {
+namespace PiGui {
 	class ModelSpinner : public RefCounted {
 	public:
 		ModelSpinner();
@@ -73,4 +73,4 @@ namespace PiGUI {
 		// The rotation of the model.
 		vector2f m_rot;
 	};
-} // namespace PiGUI
+} // namespace PiGui

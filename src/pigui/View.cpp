@@ -2,10 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "pigui/View.h"
+#include "LuaPiGui.h"
 #include "Pi.h"
-#include "lua/LuaPiGui.h"
 
 void PiGuiView::DrawPiGui()
 {
-	PiGUI::RunHandler(Pi::GetFrameTime(), m_handlerName);
+	PiGui::RunHandler(Pi::GetFrameTime(), m_handlerName);
 }

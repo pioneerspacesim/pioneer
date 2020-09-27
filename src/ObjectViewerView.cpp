@@ -17,7 +17,7 @@
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
 #include "imgui/imgui.h"
-#include "lua/LuaPiGui.h"
+#include "pigui/LuaPiGui.h"
 #include "terrain/Terrain.h"
 #include "utils.h"
 
@@ -242,7 +242,7 @@ void ObjectViewerView::DrawControlsWindow()
 			OnChangeTerrain();
 	}
 
-	PiGUI::RunHandler(Pi::GetFrameTime(), GetViewName() + ".Controls");
+	PiGui::RunHandler(Pi::GetFrameTime(), GetViewName() + ".Controls");
 
 	ImGui::End();
 }
