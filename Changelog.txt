@@ -7,6 +7,7 @@ September 2020
      * Cleanup Renderer API to Remove Fixed-Function State (#4947)
      * Add pigui handlers for PiGuiViews (#4952)
      * Collapse PiGui namespaces, load pigui theme from Lua (#4963)
+     * Clean up Lua PiGui code, split into multiple modules (#4964)
 
    * Fixes
      * Show the ship's translated name in savegame stats (#4953)
