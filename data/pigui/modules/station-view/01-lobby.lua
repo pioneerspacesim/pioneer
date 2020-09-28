@@ -1,28 +1,28 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local ui = import 'pigui/pigui.lua'
-local StationView = import 'pigui/views/station-view'
+local ui = require 'pigui'
+local StationView = require 'pigui.views.station-view'
 
-local Game = import 'Game'
-local Rand = import 'Rand'
-local Format = import 'Format'
-local Equipment = import 'Equipment'
-local ShipDef = import 'ShipDef'
-local Character = import 'Character'
-local Comms = import 'Comms'
+local Game = require 'Game'
+local Rand = require 'Rand'
+local Format = require 'Format'
+local Equipment = require 'Equipment'
+local ShipDef = require 'ShipDef'
+local Character = require 'Character'
+local Comms = require 'Comms'
 
-local InfoFace = import 'ui/PiguiFace'
-local PiImage = import 'ui/PiImage'
-local textTable = import 'pigui/libs/text-table.lua'
-local ModalWindow = import 'pigui/libs/modal-win.lua'
+local InfoFace = require 'ui.PiguiFace'
+local PiImage = require 'ui.PiImage'
+local textTable = require 'pigui.libs.text-table'
+local ModalWindow = require 'pigui.libs.modal-win'
 
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local Lang = import 'Lang'
+local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
 
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
