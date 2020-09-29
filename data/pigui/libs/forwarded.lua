@@ -50,7 +50,6 @@ ui.getTextLineHeight = pigui.GetTextLineHeight
 ui.getTextLineHeightWithSpacing = pigui.GetTextLineHeightWithSpacing
 ui.lowThrustButton = pigui.LowThrustButton
 ui.thrustIndicator = pigui.ThrustIndicator
-ui.oneOverSqrtTwo = one_over_sqrt_two
 ui.isMouseClicked = pigui.IsMouseClicked
 ui.isMouseDown = pigui.IsMouseDown
 ui.getMousePos = pigui.GetMousePos
