@@ -13,6 +13,8 @@ local two_pi = pi * 2
 local standard_gravity = 9.80665
 local one_over_sqrt_two = 1 / math.sqrt(2)
 
+ui.oneOverSqrtTwo = one_over_sqrt_two
+ui.standardGravity = standard_gravity
 ui.theme = defaultTheme
 ui.twoPi = two_pi
 ui.pi_2 = pi_2
