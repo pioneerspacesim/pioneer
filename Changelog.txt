@@ -1,3 +1,7 @@
+October 2020
+   * New Features
+     * Ship-specific atmospheric pressure limits (#4958)
+
 September 2020
    * New Features
      * Add external camera interpolation and spring (#4955)
