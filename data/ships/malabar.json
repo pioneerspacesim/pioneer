@@ -1,41 +1,54 @@
 {
-   "angular_thrust" : 170000000.0,
-   "capacity" : 2300,
-   "cockpit" : "",
-   "down_thrust" : 50000000.0,
-   "effective_exhaust_velocity" : 17940000.0,
-   "forward_thrust" : 160000000.0,
-   "fuel_tank_mass" : 2000,
-   "hull_mass" : 700,
-   "hyperdrive_class" : 0,
-   "left_thrust" : 50000000.0,
-   "manufacturer" : "mandarava_csepel",
-   "max_crew" : 8,
-   "min_crew" : 1,
-   "model" : "malabar",
-   "name" : "Malabar",
-   "price" : 6128000.0,
-   "reverse_thrust" : 80000000.0,
-   "right_thrust" : 50000000.0,
-   "ship_class" : "medium_passenger_transport",
-   "slots" : {
-      "cargo" : 2000,
-      "scoop" : 2,
-      "engine" : 1,
-      "laser_front" : 1,
-      "laser_rear" : 1,
-      "missile" : 0,
-      "sensor"  : 0
-   },
-   "roles" : {
-      "merchant" : true
-   },
-   "thruster_fuel_use" : -1.0,
-   "up_thrust" : 70000000.0,
-   "atmospheric_pressure_limit" : 10,
-   "front_cross_section" : 635,
-   "side_cross_section" : 1215,
-   "top_cross_section" : 980,
-   "lift_coeff" : 0,
-   "aero_stability" : 0.65
+	"model": "malabar",
+	"name": "Malabar",
+	"cockpit": " ",
+	"manufacturer": "mandarava_csepel",
+	"ship_class": "heavy_passenger_transport",
+	"min_crew": 1,
+	"max_crew": 8,
+	"price": 2261262,
+	"hull_mass": 700,
+	"atmospheric_pressure_limit": 4.7,
+	"capacity": 2300,
+	"slots": {
+		"cabin": 80,
+		"laser_front": 1,
+		"laser_rear": 1,
+		"missile": 6,
+		"cargo": 2000
+	},
+	"roles": {
+		"mercenary": true,
+		"pirate": true
+	},
+	"effective_exhaust_velocity": 16900000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 2000,
+	"hyperdrive_class": 0,
+
+	"forward_thrust": 120000000,
+	"forward_acceleration_cap": 17.658,
+	"reverse_thrust": 65000000,
+	"reverse_acceleration_cap": 14.715,
+	"up_thrust": 33000000,
+	"up_acceleration_cap": 19.62,
+	"down_thrust": 27000000,
+	"down_acceleration_cap": 12.1644,
+	"left_thrust": 27000000,
+	"left_acceleration_cap": 12.1644,
+	"right_thrust": 27000000,
+	"right_acceleration_cap": 12.1644,
+
+	"angular_thrust": 555171928.095946,
+
+	"front_cross_section": 635,
+	"side_cross_section": 1215,
+	"top_cross_section": 980,
+
+	"front_drag_coeff": 1.3,
+	"side_drag_coeff": 1.21,
+	"top_drag_coeff": 0.91,
+
+	"lift_coeff": 0.12,
+	"aero_stability": 0.65
 }

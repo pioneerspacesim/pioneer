@@ -1,40 +1,53 @@
 {
-   "angular_thrust" : 25000000.0,
-   "capacity" : 35,
-   "cockpit" : "sinonatrix_cockpit",
-   "down_thrust" : 1000000.0,
-   "effective_exhaust_velocity" : 19500000.0,
-   "forward_thrust" : 5500000.0,
-   "fuel_tank_mass" : 30,
-   "hull_mass" : 20,
-   "hyperdrive_class" : 3,
-   "left_thrust" : 1000000.0,
-   "manufacturer" : "opli",
-   "max_crew" : 1,
-   "min_crew" : 1,
-   "model" : "sinonatrix",
-   "name" : "Sinonatrix",
-   "price" : 219000.0,
-   "reverse_thrust" : 1200000.0,
-   "right_thrust" : 1000000.0,
-   "ship_class" : "light_courier",
-   "slots" : {
-      "cargo" : 35,
-      "scoop" : 2,
-      "laser_front" : 1,
-      "missile" : 2,
-      "sensor" : 8
-   },
-   "roles" : {
-      "merchant" : true,
-      "pirate" : true
-   },
-   "thruster_fuel_use" : -1.0,
-   "atmospheric_pressure_limit" : 10,
-   "up_thrust" : 1500000.0,
-   "front_cross_section" : 26,
-   "side_cross_section" : 40,
-   "top_cross_section" : 97,
-   "lift_coeff" : 0,
-   "aero_stability" : 0.3
+	"model": "sinonatrix",
+	"name": "Sinonatrix",
+	"cockpit": " ",
+	"manufacturer": "opli",
+	"ship_class": "light_courier",
+	"min_crew": 1,
+	"max_crew": 2,
+	"price": 54930,
+	"hull_mass": 20,
+	"atmospheric_pressure_limit": 3.2,
+	"capacity": 35,
+	"slots": {
+		"cabin": 3,
+		"laser_front": 1,
+		"missile": 4,
+		"cargo": 30
+	},
+	"roles": {
+		"mercenary": true,
+		"pirate": true
+	},
+	"effective_exhaust_velocity": 20900000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 30,
+	"hyperdrive_class": 1,
+
+	"forward_thrust": 2000000,
+	"forward_acceleration_cap": 38.259,
+	"reverse_thrust": 900000,
+	"reverse_acceleration_cap": 17.658,
+	"up_thrust": 1800000,
+	"up_acceleration_cap": 19.62,
+	"down_thrust": 600000,
+	"down_acceleration_cap": 14.715,
+	"left_thrust": 600000,
+	"left_acceleration_cap": 14.715,
+	"right_thrust": 600000,
+	"right_acceleration_cap": 14.715,
+
+	"angular_thrust": 4022984.98620251,
+
+	"front_cross_section": 26,
+	"side_cross_section": 40,
+	"top_cross_section": 97,
+
+	"front_drag_coeff": 0.3,
+	"side_drag_coeff": 0.5,
+	"top_drag_coeff": 0.98,
+
+	"lift_coeff": 0.2,
+	"aero_stability": 0.6
 }

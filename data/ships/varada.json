@@ -1,39 +1,52 @@
 {
-   "angular_thrust" : 4500000.0,
-   "capacity" : 5,
-   "cockpit" : "",
-   "down_thrust" : 120000.0,
-   "effective_exhaust_velocity" : 14000000.0,
-   "forward_thrust" : 600000.0,
-   "fuel_tank_mass" : 3,
-   "hull_mass" : 2,
-   "hyperdrive_class" : 1,
-   "left_thrust" : 240000.0,
-   "manufacturer" : "mandarava_csepel",
-   "max_crew" : 1,
-   "min_crew" : 1,
-   "model" : "varada",
-   "name" : "Varada",
-   "price" : 123000.0,
-   "reverse_thrust" : 200000.0,
-   "right_thrust" : 240000.0,
-   "ship_class" : "light_courier",
-   "slots" : {
-      "cargo" : 5,
-      "scoop" : 1,
-      "laser_front" : 0,
-      "missile" : 0,
-      "sensor"  : 8
-   },
-   "roles" : {
-      "merchant" : true
-   },
-   "thruster_fuel_use" : -1.0,
-   "up_thrust" : 120000.0,
-   "atmospheric_pressure_limit" : 9,
-   "front_cross_section" : 3.5,
-   "side_cross_section" : 23,
-   "top_cross_section" : 10,
-   "lift_coeff" : 0,
-   "aero_stability" : 0.0125
+	"model": "varada",
+	"name": "Varada",
+	"cockpit": " ",
+	"manufacturer": "mandarava_csepel",
+	"ship_class": "light_courier",
+	"min_crew": 1,
+	"max_crew": 1,
+	"price": 15638,
+	"hull_mass": 2,
+	"atmospheric_pressure_limit": 4,
+	"capacity": 5,
+	"slots": {
+		"cabin": 0,
+		"laser_front": 1,
+		"cargo": 5
+	},
+	"roles": {
+		"mercenary": true,
+		"pirate": true
+	},
+	"effective_exhaust_velocity": 38900000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 2,
+	"hyperdrive_class": 0,
+
+	"forward_thrust": 200000,
+	"forward_acceleration_cap": 39.24,
+	"reverse_thrust": 100000,
+	"reverse_acceleration_cap": 22.563,
+	"up_thrust": 160000,
+	"up_acceleration_cap": 29.43,
+	"down_thrust": 80000,
+	"down_acceleration_cap": 22.563,
+	"left_thrust": 50000,
+	"left_acceleration_cap": 19.62,
+	"right_thrust": 50000,
+	"right_acceleration_cap": 19.62,
+
+	"angular_thrust": 165389.382766103,
+
+	"front_cross_section": 3.5,
+	"side_cross_section": 23,
+	"top_cross_section": 10,
+
+	"front_drag_coeff": 0.7,
+	"side_drag_coeff": 0.9,
+	"top_drag_coeff": 0.3,
+
+	"lift_coeff": 0.2,
+	"aero_stability": 0.6
 }

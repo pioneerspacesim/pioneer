@@ -1,40 +1,53 @@
 {
-   "angular_thrust" : 2000000.0,
-   "capacity" : 80,
-   "cockpit" : "",
-   "down_thrust" : 600000.0,
-   "effective_exhaust_velocity" : 23140000.0,
-   "forward_thrust" : 5000000.0,
-   "fuel_tank_mass" : 40,
-   "hull_mass" : 27,
-   "hyperdrive_class" : 1,
-   "left_thrust" : 600000.0,
-   "manufacturer" : "kaluri",
-   "max_crew" : 3,
-   "min_crew" : 1,
-   "model" : "molamola",
-   "name" : "Mola Mola",
-   "price" : 199000.0,
-   "reverse_thrust" : 2200000.0,
-   "right_thrust" : 600000.0,
-   "ship_class" : "light_freighter",
-   "slots" : {
-      "cargo" : 80,
-      "scoop" : 2,
-      "laser_front" : 1,
-      "missile" : 0,
-      "sensor"  : 2
-   },
-   "roles" : {
-      "merchant" : true,
-      "pirate" : true
-   },
-   "thruster_fuel_use" : -1.0,
-   "up_thrust" : 1900000.0,
-   "atmospheric_pressure_limit" : 12,
-   "front_cross_section" : 46,
-   "side_cross_section" : 75,
-   "top_cross_section" : 77,
-   "lift_coeff" : 0,
-   "aero_stability" : 0.225
+	"model": "molamola",
+	"name": "Mola Mola",
+	"cockpit": " ",
+	"manufacturer": "kaluri",
+	"ship_class": "light_freighter",
+	"min_crew": 1,
+	"max_crew": 3,
+	"price": 60221,
+	"hull_mass": 27,
+	"atmospheric_pressure_limit": 5.1,
+	"capacity": 80,
+	"slots": {
+		"cabin": 8,
+		"laser_front": 1,
+		"missile": 2,
+		"cargo": 80
+	},
+	"roles": {
+		"mercenary": true,
+		"pirate": true
+	},
+	"effective_exhaust_velocity": 18000000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 40,
+	"hyperdrive_class": 0,
+
+	"forward_thrust": 3000000,
+	"forward_acceleration_cap": 21.582,
+	"reverse_thrust": 1800000,
+	"reverse_acceleration_cap": 20.7972,
+	"up_thrust": 2100000,
+	"up_acceleration_cap": 24.525,
+	"down_thrust": 1000000,
+	"down_acceleration_cap": 16.677,
+	"left_thrust": 1000000,
+	"left_acceleration_cap": 16.677,
+	"right_thrust": 1000000,
+	"right_acceleration_cap": 16.677,
+
+	"angular_thrust": 2714174,
+
+	"front_cross_section": 46,
+	"side_cross_section": 75,
+	"top_cross_section": 77,
+
+	"front_drag_coeff": 0.24,
+	"side_drag_coeff": 0.43,
+	"top_drag_coeff": 0.39,
+
+	"lift_coeff": 0.1,
+	"aero_stability": 0.225
 }

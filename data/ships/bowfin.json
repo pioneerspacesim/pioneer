@@ -1,43 +1,53 @@
 {
-	"model" : "bowfin",
-	"name" : "Bowfin fighter",
-	"cockpit" : "",
-	"manufacturer" : "kaluri",
-	"ship_class" : "medium_fighter",
-	"min_crew" : 1,
-	"max_crew" : 1,
-	"price" : 189000,
-	"hull_mass" : 25,
-	"capacity" : 12,
-	"slots" : {
-		"cargo" : 6,
-		"engine" : 13,
-		"scoop" : 1,
-		"laser_front" : 1,
-		"laser_rear" : 0,
-		"missile" : 20,
-		"cargo_life_support" : 0,
-		"atmo_shield" : 1
+	"model": "bowfin",
+	"name": "Bowfin",
+	"cockpit": " ",
+	"manufacturer": "kaluri",
+	"ship_class": "medium_fighter",
+	"min_crew": 1,
+	"max_crew": 1,
+	"price": 22177,
+	"hull_mass": 25,
+	"atmospheric_pressure_limit": 6.5,
+	"capacity": 12,
+	"slots": {
+		"cabin": 0,
+		"laser_front": 1,
+		"missile": 24,
+		"cargo": 6
 	},
-	"roles" : {
-		"mercenary" : true,
-		"pirate" : true
+	"roles": {
+		"mercenary": true,
+		"pirate": true
 	},
-	"effective_exhaust_velocity" : 8540000,
-	"thruster_fuel_use" : -1.0,
-	"fuel_tank_mass" : 26,
-	"hyperdrive_class" : 1,
-	"forward_thrust" : 6000000,
-	"reverse_thrust" : 1250000,
-	"up_thrust" : 1300000,
-	"down_thrust" : 1000000,
-	"left_thrust" : 1000000,
-	"right_thrust" : 1000000,
-    "angular_thrust" : 3000000,
-    "atmospheric_pressure_limit" : 10,
-    "front_cross_section" : 33,
-    "side_cross_section" : 27,
-    "top_cross_section" : 50,
-    "lift_coeff" : 0,
-    "aero_stability" : 0.5
+	"effective_exhaust_velocity": 8400000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 26,
+	"hyperdrive_class": 0,
+
+	"forward_thrust": 2000000,
+	"forward_acceleration_cap": 33.354,
+	"reverse_thrust": 1250000,
+	"reverse_acceleration_cap": 39.24,
+	"up_thrust": 1300000,
+	"up_acceleration_cap": 29.43,
+	"down_thrust": 1000000,
+	"down_acceleration_cap": 24.525,
+	"left_thrust": 1000000,
+	"left_acceleration_cap": 24.525,
+	"right_thrust": 1000000,
+	"right_acceleration_cap": 24.525,
+
+	"angular_thrust": 4648782.6507229,
+
+	"front_cross_section": 33,
+	"side_cross_section": 27,
+	"top_cross_section": 50,
+
+	"front_drag_coeff": 0.4,
+	"side_drag_coeff": 0.78,
+	"top_drag_coeff": 0.92,
+
+	"lift_coeff": 0.42,
+	"aero_stability": 0.5
 }

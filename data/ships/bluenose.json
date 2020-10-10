@@ -1,39 +1,54 @@
 {
-   "cockpit" : "",
-   "forward_thrust" : 6900000.0,
-   "reverse_thrust" : 4500000.0,
-   "left_thrust" : 1005000.0,
-   "right_thrust" : 1005000.0,
-   "up_thrust" : 4500000.0,
-   "down_thrust" : 1005000.0,
-   "angular_thrust" : 15500000.0,
-   "effective_exhaust_velocity" : 20000000.0,
-   "thruster_fuel_use" : -1.0,
-   "fuel_tank_mass" : 400,
-   "hull_mass" : 100,
-   "hyperdrive_class" : 3,
-   "manufacturer" : "kaluri",
-   "max_crew" : 3,
-   "min_crew" : 2,
-   "model" : "bluenose",
-   "name" : "Bluenose",
-   "price" : 308000.0,
-   "ship_class" : "light_freighter",
-   "capacity" : 600,
-   "slots" : {
-      "atmo_shield" : 0,
-      "cargo" : 200,
-      "scoop" : 1,
-      "laser_front" : 1,
-      "missile" : 2
-   },
-   "roles" : {
-      "merchant" : true
-   },
-   "atmospheric_pressure_limit" : 5,
-   "front_cross_section" : 80,
-   "side_cross_section" : 337,
-   "top_cross_section" : 580,
-   "lift_coeff" : 0,
-   "aero_stability" : 0.45
+	"model": "bluenose",
+	"name": "Bluenose",
+	"cockpit": " ",
+	"manufacturer": "kaluri",
+	"ship_class": "medium_freighter",
+	"min_crew": 2,
+	"max_crew": 3,
+	"price": 269796,
+	"hull_mass": 100,
+	"atmospheric_pressure_limit": 4.2,
+	"capacity": 600,
+	"slots": {
+		"cabin": 20,
+		"laser_front": 1,
+		"laser_rear": 1,
+		"missile": 2,
+		"cargo": 200
+	},
+	"roles": {
+		"mercenary": true,
+		"pirate": true
+	},
+	"effective_exhaust_velocity": 16900000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 400,
+	"hyperdrive_class": 0,
+
+	"forward_thrust": 21000000,
+	"forward_acceleration_cap": 16.677,
+	"reverse_thrust": 9000000,
+	"reverse_acceleration_cap": 9.81,
+	"up_thrust": 12000000,
+	"up_acceleration_cap": 19.62,
+	"down_thrust": 7000000,
+	"down_acceleration_cap": 15.3036,
+	"left_thrust": 7000000,
+	"left_acceleration_cap": 15.3036,
+	"right_thrust": 7000000,
+	"right_acceleration_cap": 15.3036,
+
+	"angular_thrust": 93869649.6780586,
+
+	"front_cross_section": 80,
+	"side_cross_section": 337,
+	"top_cross_section": 580,
+
+	"front_drag_coeff": 0.87,
+	"side_drag_coeff": 1.1,
+	"top_drag_coeff": 1.3,
+
+	"lift_coeff": 0,
+	"aero_stability": 0.45
 }

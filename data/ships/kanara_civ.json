@@ -1,42 +1,53 @@
 {
-	"model" : "kanara_civ",
-	"name" : "Kanara Interceptor",
-	"cockpit" : "",
-	"manufacturer" : "mandarava_csepel",
-	"ship_class" : "light_fighter",
-	"min_crew" : 1,
-	"max_crew" : 2,
-	"price" : 156000,
-	"hull_mass" : 10,
-	"capacity" : 8,
-	"slots" : {
-		"cargo" : 9,
-		"engine" : 2,
-		"scoop" : 2,
-		"laser_front" : 1,
-		"laser_rear" : 0,
-		"missile" : 4,
-		"atmo_shield" : 1
+	"model": "kanara_civ",
+	"name": "Kanara (Civilian)",
+	"cockpit": " ",
+	"manufacturer": "mandarava_csepel",
+	"ship_class": "light_fighter",
+	"min_crew": 1,
+	"max_crew": 2,
+	"price": 17678,
+	"hull_mass": 10,
+	"atmospheric_pressure_limit": 7,
+	"capacity": 8,
+	"slots": {
+		"cabin": 2,
+		"laser_front": 1,
+		"missile": 4,
+		"cargo": 8
 	},
-	"roles" : {
-		"pirate" : true,
-		"mercenary" : true
+	"roles": {
+		"mercenary": true,
+		"pirate": true
 	},
-	"effective_exhaust_velocity" : 8840000,
-	"thruster_fuel_use" : -1.0,
-	"fuel_tank_mass" : 4,
-	"hyperdrive_class" : 0,
-	"forward_thrust" : 1700000,
-	"reverse_thrust" : 350000,
-	"up_thrust" : 250000,
-	"down_thrust" : 200000,
-	"left_thrust" : 200000,
-	"right_thrust" : 200000,
-	"angular_thrust" : 2000000,
-    "atmospheric_pressure_limit" : 10,
-    "front_cross_section" : 7.5,
-    "side_cross_section" : 38,
-    "top_cross_section" : 16,
-    "lift_coeff" : 0,
-    "aero_stability" : 0.45
+	"effective_exhaust_velocity": 17900000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 4,
+	"hyperdrive_class": 0,
+
+	"forward_thrust": 700000,
+	"forward_acceleration_cap": 36.297,
+	"reverse_thrust": 600000,
+	"reverse_acceleration_cap": 24.525,
+	"up_thrust": 300000,
+	"up_acceleration_cap": 19.62,
+	"down_thrust": 200000,
+	"down_acceleration_cap": 10.0062,
+	"left_thrust": 200000,
+	"left_acceleration_cap": 10.0062,
+	"right_thrust": 200000,
+	"right_acceleration_cap": 10.0062,
+
+	"angular_thrust": 377624,
+
+	"front_cross_section": 7.5,
+	"side_cross_section": 38,
+	"top_cross_section": 16,
+
+	"front_drag_coeff": 1.2,
+	"side_drag_coeff": 1.1,
+	"top_drag_coeff": 1.1,
+
+	"lift_coeff": 0.3,
+	"aero_stability": 1.8
 }

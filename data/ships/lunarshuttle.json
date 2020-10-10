@@ -1,40 +1,52 @@
 {
-   "angular_thrust" : 8600000.0,
-   "capacity" : 30,
-   "cockpit" : "",
-   "down_thrust" : 600000.0,
-   "effective_exhaust_velocity" : 8840000.0,
-   "forward_thrust" : 2500000.0,
-   "fuel_tank_mass" : 25,
-   "hull_mass" : 30,
-   "hyperdrive_class" : 0,
-   "left_thrust" : 600000.0,
-   "manufacturer" : "haber",
-   "max_crew" : 4,
-   "min_crew" : 1,
-   "model" : "lunarshuttle",
-   "name" : "Lunar Shuttle",
-   "price" : 101000.0,
-   "reverse_thrust" : 1100000.0,
-   "right_thrust" : 600000.0,
-   "ship_class" : "light_passenger_shuttle",
-   "slots" : {
-      "cargo" : 30,
-      "scoop" : 1,
-      "engine" : 0,
-      "laser_front" : 1,
-      "missile" : 0,
-      "sensor"  : 0
-   },
-   "roles" : {
-      "merchant" : true
-   },
-   "thruster_fuel_use" : -1.0,
-   "up_thrust" : 1100000.0,
-   "atmospheric_pressure_limit" : 6,
-   "front_cross_section" : 31,
-   "side_cross_section" : 70,
-   "top_cross_section" : 90,
-   "lift_coeff" : 0,
-   "aero_stability" : 0.4
+	"model": "lunarshuttle",
+	"name": "Lunar Shuttle",
+	"cockpit": " ",
+	"manufacturer": "haber",
+	"ship_class": "medium_passenger_shuttle",
+	"min_crew": 1,
+	"max_crew": 4,
+	"price": 16347,
+	"hull_mass": 30,
+	"atmospheric_pressure_limit": 3.5,
+	"capacity": 30,
+	"slots": {
+		"laser_front": 1,
+		"missile": 1,
+		"cargo": 30
+	},
+	"roles": {
+		"mercenary": true,
+		"pirate": true
+	},
+	"effective_exhaust_velocity": 7900000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 25,
+	"hyperdrive_class": 0,
+
+	"forward_thrust": 2000000,
+	"forward_acceleration_cap": 18.5409,
+	"reverse_thrust": 1000000,
+	"reverse_acceleration_cap": 17.658,
+	"up_thrust": 1000000,
+	"up_acceleration_cap": 29.43,
+	"down_thrust": 680000,
+	"down_acceleration_cap": 13.734,
+	"left_thrust": 680000,
+	"left_acceleration_cap": 13.734,
+	"right_thrust": 680000,
+	"right_acceleration_cap": 13.734,
+
+	"angular_thrust": 2553254,
+
+	"front_cross_section": 31,
+	"side_cross_section": 70,
+	"top_cross_section": 90,
+
+	"front_drag_coeff": 0.87,
+	"side_drag_coeff": 0.89,
+	"top_drag_coeff": 0.97,
+
+	"lift_coeff": 0,
+	"aero_stability": 0.4
 }

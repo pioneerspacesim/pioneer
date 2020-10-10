@@ -1,39 +1,54 @@
 {
-   "model" : "lodos",
-   "name" : "Lodos",
-   "cockpit" : "lodos_cockpit",
-   "manufacturer" : "auronox",
-   "ship_class" : "medium_freighter",
-   "min_crew" : 1,
-   "max_crew" : 5,
-   "price" : 2000000.0,
-   "hull_mass" : 650,
-   "capacity" : 1000,
-   "slots" : {
-      "cargo" : 1000,
-      "scoop" : 2,
-      "sensor"  : 8,
-      "laser_front" : 0,
-      "missile" : 0
-   },
-   "roles" : {
-      "merchant" : true
-   },
-   "effective_exhaust_velocity" : 25000000.0,
-   "thruster_fuel_use" : -1.0,
-   "fuel_tank_mass" : 1250,
-   "hyperdrive_class" : 7,
-   "forward_thrust" : 90000000.0,
-   "reverse_thrust" : 40000000.0,
-   "up_thrust" : 55000000.0,
-   "down_thrust" : 55000000.0,
-   "left_thrust" : 30000000.0,
-   "right_thrust" : 30000000.0,
-   "angular_thrust" : 225000000.0,
-   "atmospheric_pressure_limit" : 12,
-   "front_cross_section" : 345,
-   "side_cross_section" : 690,
-   "top_cross_section" : 1430,
-   "lift_coeff" : 0.225,
-   "aero_stability" : 0.6
+	"model": "lodos",
+	"name": "Lodos",
+	"cockpit": " ",
+	"manufacturer": "auronox",
+	"ship_class": "medium_freighter",
+	"min_crew": 1,
+	"max_crew": 5,
+	"price": 1198027,
+	"hull_mass": 650,
+	"atmospheric_pressure_limit": 3.2,
+	"capacity": 1000,
+	"slots": {
+		"cabin": 45,
+		"laser_front": 1,
+		"laser_rear": 1,
+		"missile": 2,
+		"cargo": 1000
+	},
+	"roles": {
+		"mercenary": true,
+		"pirate": true
+	},
+	"effective_exhaust_velocity": 25000000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 1250,
+	"hyperdrive_class": 0,
+
+	"forward_thrust": 39000000,
+	"forward_acceleration_cap": 13.734,
+	"reverse_thrust": 33000000,
+	"reverse_acceleration_cap": 17.658,
+	"up_thrust": 33000000,
+	"up_acceleration_cap": 19.62,
+	"down_thrust": 13000000,
+	"down_acceleration_cap": 17.658,
+	"left_thrust": 13000000,
+	"left_acceleration_cap": 17.658,
+	"right_thrust": 13000000,
+	"right_acceleration_cap": 17.658,
+
+	"angular_thrust": 267305002.416567,
+
+	"front_cross_section": 345,
+	"side_cross_section": 690,
+	"top_cross_section": 1430,
+
+	"front_drag_coeff": 0.32,
+	"side_drag_coeff": 0.69,
+	"top_drag_coeff": 0.83,
+
+	"lift_coeff": 0.225,
+	"aero_stability": 0.6
 }

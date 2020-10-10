@@ -1,40 +1,55 @@
-{
-   "angular_thrust" : 80000000.0,
-   "capacity" : 4700,
-   "cockpit" : "",
-   "down_thrust" : 28000000.0,
-   "effective_exhaust_velocity" : 16600000.0,
-   "forward_thrust" : 70000000.0,
-   "fuel_tank_mass" : 1200,
-   "hull_mass" : 1200,
-   "hyperdrive_class" : 8,
-   "left_thrust" : 28000000.0,
-   "manufacturer" : "haber",
-   "max_crew" : 8,
-   "min_crew" : 5,
-   "model" : "dsminer",
-   "name" : "Deep Space Miner",
-   "price" : 3773900.0,
-   "reverse_thrust" : 28000000.0,
-   "right_thrust" : 28000000.0,
-   "ship_class" : "medium_freighter",
-   "slots" : {
-      "atmo_shield" : 0,
-      "cargo" : 4600,
-      "scoop" : 2,
-      "laser_front" : 1,
-      "missile" : 2,
-      "sensor"  : 4
-   },
-   "roles" : {
-      "merchant" : true
-   },
-   "thruster_fuel_use" : -1.0,
-   "up_thrust" : 28000000.0,
-   "atmospheric_pressure_limit" : 2,
-   "front_cross_section" : 515,
-   "side_cross_section" : 910,
-   "top_cross_section" : 1300,
-   "lift_coeff" : 0,
-   "aero_stability" : 0.15
+	{
+	"model": "dsminer",
+	"name": "DSMiner",
+	"cockpit": " ",
+	"manufacturer": "haber",
+	"ship_class": "heavy_freighter",
+	"min_crew": 5,
+	"max_crew": 8,
+	"price": 2593440,
+	"hull_mass": 1200,
+	"atmospheric_pressure_limit": 2,
+	"capacity": 4700,
+	"slots": {
+		"cabin": 50,
+		"laser_front": 1,
+		"laser_rear": 1,
+		"missile": 4,
+		"atmo_shield": 0,
+		"cargo": 4600
+	},
+	"roles": {
+		"mercenary": true,
+		"pirate": true
+	},
+	"effective_exhaust_velocity": 79900000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 1200,
+	"hyperdrive_class": 0,
+
+	"forward_thrust": 46000000,
+	"forward_acceleration_cap": 9.81,
+	"reverse_thrust": 13000000,
+	"reverse_acceleration_cap": 5.0031,
+	"up_thrust": 13000000,
+	"up_acceleration_cap": 5.0031,
+	"down_thrust": 13000000,
+	"down_acceleration_cap": 5.0031,
+	"left_thrust": 13000000,
+	"left_acceleration_cap": 5.0031,
+	"right_thrust": 13000000,
+	"right_acceleration_cap": 5.0031,
+
+	"angular_thrust": 133652501,
+
+	"front_cross_section": 515,
+	"side_cross_section": 911,
+	"top_cross_section": 1300,
+
+	"front_drag_coeff": 1.1,
+	"side_drag_coeff": 1.1,
+	"top_drag_coeff": 1.1,
+
+	"lift_coeff": 0,
+	"aero_stability": 0.15
 }
