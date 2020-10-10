@@ -39,13 +39,13 @@
     "description": "Time of arrival, used in flight log",
     "message": "Arrival date"
   },
-  "ATMO_PRESS_LIMIT": {
-    "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Atmo. pressure limit"
-  },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
     "message": "Atmospheric shielding"
+  },
+  "ATMO_PRESS_LIMIT": {
+    "description": "Base external pressure limit of a ship (without atmo shield)",
+    "message": "Atmo. pressure limit"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
