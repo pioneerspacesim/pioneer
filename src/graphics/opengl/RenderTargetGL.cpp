@@ -7,34 +7,10 @@
 namespace Graphics {
 	namespace OGL {
 
-		RenderBuffer::RenderBuffer()
-		{
-			glGenRenderbuffers(1, &buffer);
-		}
-
-		RenderBuffer::~RenderBuffer()
-		{
-			glDeleteRenderbuffers(1, &buffer);
-		}
-
-		void RenderBuffer::Bind()
-		{
-			glBindRenderbuffer(GL_RENDERBUFFER, buffer);
-		}
-
-		void RenderBuffer::Unbind()
-		{
-			glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		}
-
-		void RenderBuffer::Attach(GLenum attachment)
-		{
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachment, GL_RENDERBUFFER, buffer);
-		}
-
 		RenderTarget::RenderTarget(const RenderTargetDesc &d) :
 			Graphics::RenderTarget(d),
-			m_active(false)
+			m_active(false),
+			m_depthRenderbuffer(0)
 		{
 			glGenFramebuffers(1, &m_fbo);
 		}
@@ -42,6 +18,7 @@ namespace Graphics {
 		RenderTarget::~RenderTarget()
 		{
 			glDeleteFramebuffers(1, &m_fbo);
+			glDeleteRenderbuffers(1, &m_depthRenderbuffer);
 		}
 
 		Texture *RenderTarget::GetColorTexture() const
@@ -74,7 +51,9 @@ namespace Graphics {
 			//texture format should match the intended fbo format (aka. the one attached first)
 			GLuint texId = 0;
 			if (t) texId = static_cast<TextureGL *>(t)->GetTextureID();
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texId, 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+				GetDesc().numSamples ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D, texId, 0);
+
 			m_colorTexture.Reset(t);
 			if (!bound) Unbind();
 		}
@@ -87,7 +66,8 @@ namespace Graphics {
 			if (!GetDesc().allowDepthTexture) return;
 			GLuint texId = 0;
 			if (t) texId = static_cast<TextureGL *>(t)->GetTextureID();
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texId, 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+				GetDesc().numSamples ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D, texId, 0);
 			m_depthTexture.Reset(t);
 			if (!bound) Unbind();
 		}
@@ -113,11 +93,14 @@ namespace Graphics {
 		{
 			assert(!GetDesc().allowDepthTexture);
 			assert(m_active);
-			m_depthRenderBuffer.Reset(new RenderBuffer());
-			m_depthRenderBuffer->Bind();
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, GetDesc().width, GetDesc().height);
-			m_depthRenderBuffer->Attach(GL_DEPTH_ATTACHMENT);
-			m_depthRenderBuffer->Unbind();
+			assert(m_depthRenderBuffer == 0);
+
+			glGenRenderbuffers(1, &m_depthRenderbuffer);
+			glBindRenderbuffer(GL_RENDERBUFFER, m_depthRenderbuffer);
+			glRenderbufferStorageMultisample(GL_RENDERBUFFER, GetDesc().numSamples, GL_DEPTH_COMPONENT32F, GetDesc().width, GetDesc().height);
+			glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthRenderbuffer);
 		}
 
 	} // namespace OGL

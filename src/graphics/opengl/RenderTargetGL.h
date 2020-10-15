@@ -17,21 +17,6 @@ namespace Graphics {
 
 	namespace OGL {
 
-		class RenderTarget;
-
-		class RenderBuffer : public RefCounted {
-		public:
-			~RenderBuffer();
-			void Bind();
-			void Unbind();
-			void Attach(GLenum attachment);
-
-		protected:
-			friend class RenderTarget;
-			RenderBuffer();
-			GLuint buffer;
-		};
-
 		class RenderTarget : public Graphics::RenderTarget {
 		public:
 			~RenderTarget();
@@ -51,8 +36,8 @@ namespace Graphics {
 
 			bool m_active;
 			GLuint m_fbo;
+			GLuint m_depthRenderbuffer;
 
-			RefCountedPtr<RenderBuffer> m_depthRenderBuffer;
 			RefCountedPtr<Texture> m_colorTexture;
 			RefCountedPtr<Texture> m_depthTexture;
 		};
