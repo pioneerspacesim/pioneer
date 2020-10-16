@@ -15,7 +15,7 @@ namespace Graphics {
 			virtual void Update(const TextureCubeData &data, const vector3f &dataSize, TextureFormat format, const unsigned int numMips) override final;
 			virtual void Update(const vecDataPtr &data, const vector3f &dataSize, const TextureFormat format, const unsigned int numMips) override final;
 
-			TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering);
+			TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering, const Uint16 numSamples = 0);
 			virtual ~TextureGL();
 
 			virtual void Bind() override final;

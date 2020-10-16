@@ -263,6 +263,7 @@ public:
 	virtual void Order(Job *job)
 	{
 		auto x = m_jobs.insert(m_queue->Queue(job, this));
+		(void)x; // suppress unused variable warning
 		assert(x.second);
 	}
 	virtual void RemoveJob(Job::Handle *handle) { m_jobs.erase(*handle); }
