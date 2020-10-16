@@ -157,8 +157,8 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 Space::~Space()
 {
 	UpdateBodies(); // make sure anything waiting to be removed gets removed before we go and kill everything else
-	for (std::list<Body *>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		KillBody(*i);
+	for (Body *body : m_bodies)
+		KillBody(body);
 	UpdateBodies();
 	Frame::DeleteFrames();
 }
@@ -278,7 +278,7 @@ void Space::RemoveBody(Body *b)
 #ifndef NDEBUG
 	assert(!m_processingFinalizationQueue);
 #endif
-	m_removeBodies.push_back(b);
+	m_assignedBodies.emplace_back(b, BodyAssignation::REMOVE);
 }
 
 void Space::KillBody(Body *b)
@@ -296,7 +296,7 @@ void Space::KillBody(Body *b)
 		// it still collides, moves, etc. better to just snapshot its position
 		// elsewhere
 		if (b != Pi::player)
-			m_killBodies.push_back(b);
+			m_assignedBodies.emplace_back(b, BodyAssignation::KILL);
 	}
 }
 
@@ -367,13 +367,13 @@ Body *Space::FindNearestTo(const Body *b, Object::Type t) const
 {
 	Body *nearest = 0;
 	double dist = FLT_MAX;
-	for (std::list<Body *>::const_iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		if ((*i)->IsDead()) continue;
-		if ((*i)->IsType(t)) {
-			double d = (*i)->GetPositionRelTo(b).Length();
+	for (Body *const body : m_bodies) {
+		if (body->IsDead()) continue;
+		if (body->IsType(t)) {
+			double d = body->GetPositionRelTo(b).Length();
 			if (d < dist) {
 				dist = d;
-				nearest = *i;
+				nearest = body;
 			}
 		}
 	}
@@ -1002,23 +1002,26 @@ void Space::UpdateBodies()
 	m_processingFinalizationQueue = true;
 #endif
 
-	for (Body *rmb : m_removeBodies) {
-		rmb->SetFrame(FrameId::Invalid);
-		for (Body *b : m_bodies)
-			b->NotifyRemoved(rmb);
-		if (Pi::GetView()) Pi::game->GetSystemView()->BodyInaccessible(rmb);
-		m_bodies.remove(rmb);
+	// removing or deleting bodies from space
+	for (const auto &b : m_assignedBodies) {
+		auto remove_iterator = m_bodies.end();
+		for (auto it = m_bodies.begin(); it != m_bodies.end(); ++it) {
+			if (*it != b.first)
+				(*it)->NotifyRemoved(b.first);
+			else
+				remove_iterator = it;
+		}
+		if (remove_iterator != m_bodies.end()) {
+			*remove_iterator = m_bodies.back();
+			m_bodies.pop_back();
+			if (b.second == BodyAssignation::KILL)
+				delete b.first;
+			else
+				b.first->SetFrame(FrameId::Invalid);
+		}
 	}
-	m_removeBodies.clear();
 
-	for (Body *killb : m_killBodies) {
-		for (Body *b : m_bodies)
-			b->NotifyRemoved(killb);
-		if (Pi::GetView()) Pi::game->GetSystemView()->BodyInaccessible(killb);
-		m_bodies.remove(killb);
-		delete killb;
-	}
-	m_killBodies.clear();
+	m_assignedBodies.clear();
 
 #ifndef NDEBUG
 	m_processingFinalizationQueue = false;
