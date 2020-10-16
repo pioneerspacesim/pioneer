@@ -1,6 +1,10 @@
 October 2020
    * New Features
      * Ship-specific atmospheric pressure limits (#4958)
+   
+   * Internal Changes
+     * Optimize body list container in Space.cpp (#4957)
+     * Use an offscreen buffer as the primary rendering target (#4974)
 
 September 2020
    * New Features
