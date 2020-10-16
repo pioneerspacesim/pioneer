@@ -102,6 +102,7 @@ namespace Graphics {
 		return true;
 	}
 
+	// Returns a vector3d in the range { 0..1, 0..1, 0..-1 }
 	bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
 	{
 		// see the OpenGL documentation
@@ -131,7 +132,7 @@ namespace Graphics {
 		const double w = vclip[3];
 		out.x = (vclip[0] / w) * 0.5 + 0.5;
 		out.y = (vclip[1] / w) * 0.5 + 0.5;
-		out.z = (vclip[2] / w) * 0.5 + 0.5;
+		out.z = -(vclip[2] / w);
 
 		return true;
 	}

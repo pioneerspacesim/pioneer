@@ -446,11 +446,9 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 		// place the label
 		vector3d systemPos = vector3d((*sys).GetFullPosition() - origin);
 		vector3d screenPos;
-		if (Gui::Screen::Project(systemPos, screenPos)) {
-			// reject back-projected labels
-			if (screenPos.z > 1.0f)
-				continue;
-
+		Gui::Screen::Project(systemPos, screenPos);
+		// reject back-projected labels (negative Z in clipspace is in front of the view plane)
+		if (screenPos.z < 0.0f) {
 			// work out the colour
 			Color labelColor = sys->GetFaction()->AdjustedColour(sys->GetPopulation(), inRange);
 
@@ -487,7 +485,8 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 			if ((m_pos * Sector::SIZE - sys.GetFullPosition()).Length() > (m_zoomClamped / FAR_THRESHOLD) * OUTER_RADIUS) continue;
 
 			vector3d pos;
-			if (Gui::Screen::Project(vector3d(sys.GetFullPosition() - origin), pos)) {
+			Gui::Screen::Project(vector3d(sys.GetFullPosition() - origin), pos);
+			if (pos.z < 0.0f) { // reject back-projected stars
 
 				std::string labelText = sys.GetName() + "\n" + (*it)->name;
 				Color labelColor = (*it)->colour;

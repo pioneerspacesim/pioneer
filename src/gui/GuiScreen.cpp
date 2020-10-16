@@ -96,32 +96,8 @@ namespace Gui {
 	{
 		PROFILE_SCOPED()
 		// implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)
-		/*
-		A perspective projection matrix is structured like so:
-		(using column-major notation)
-
-		V  = [  X  Y  Z  W  ]
-
-		X' = |  X1 0  Z1 0  |
-		Y' = |  0  Y1 Z2 0  |
-		Z' = |  0  0  Z3 W1 |
-		W' = |  0  0  -1 0  |
-
-		See that -1 at M34? That's the W' = -Z term that sets up for the
-		Perspective Divide (X/W, Y/W, Z/W) that handles the actual
-		projection bit later down the pipeline.
-
-		If that's 0, this is actually an orthographic projection matrix,
-		and this code sadly can't handle orthographic projection.
-		*/
-
 		const vector3d vcam = matrix4x4d(modelMatrix) * in;
-
-		// cell 11 in row-major is M34 in column-major order
-		const double w = vcam.z * projMatrix[11];
-		if (is_zero_exact(w)) {
-			return false;
-		}
+		const double w = vcam.z * projMatrix[11] + projMatrix[15];
 
 		// convert view coordinates -> homogeneous coordinates -> NDC
 		// perspective divide is applied last (left-to-right associativity)

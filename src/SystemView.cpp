@@ -1,6 +1,7 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "graphics/Graphics.h"
 #include "pigui/LuaPiGui.h"
 
 #include "SystemView.h"
@@ -337,25 +338,16 @@ void SystemView::PutOrbit(Projectable::bases base, RefType *ref, const Orbit *or
 		}
 	}
 
-	Gui::Screen::EnterOrtho();
-	vector3d pos;
-	if (Gui::Screen::Project(offset + orbit->Perigeum(), pos) && pos.z < 1)
-		AddProjected<RefType>(Projectable::PERIAPSIS, base, ref, pos, offset + orbit->Perigeum());
-	if (Gui::Screen::Project(offset + orbit->Apogeum(), pos) && pos.z < 1)
-		AddProjected<RefType>(Projectable::APOAPSIS, base, ref, pos, offset + orbit->Apogeum());
+	AddProjected<RefType>(Projectable::PERIAPSIS, base, ref, offset + orbit->Perigeum());
+	AddProjected<RefType>(Projectable::APOAPSIS, base, ref, offset + orbit->Apogeum());
 
 	if (showLagrange && m_showL4L5 != LAG_OFF) {
 		const vector3d posL4 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 60.0, tMinust0);
-		if (Gui::Screen::Project(offset + posL4, pos) && pos.z < 1) {
-			AddProjected<RefType>(Projectable::L4, base, ref, pos, offset + posL4);
-		}
+		AddProjected<RefType>(Projectable::L4, base, ref, offset + posL4);
 
 		const vector3d posL5 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 300.0, tMinust0);
-		if (Gui::Screen::Project(offset + posL5, pos) && pos.z < 1) {
-			AddProjected<RefType>(Projectable::L5, base, ref, pos, offset + posL5);
-		}
+		AddProjected<RefType>(Projectable::L5, base, ref, offset + posL5);
 	}
-	Gui::Screen::LeaveOrtho();
 }
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
@@ -385,7 +377,7 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 
 		m_renderer->SetTransform(trans);
 
-		AddNotProjected<const SystemBody>(Projectable::OBJECT, Projectable::SYSTEMBODY, b, offset);
+		AddProjected<const SystemBody>(Projectable::OBJECT, Projectable::SYSTEMBODY, b, offset);
 	}
 
 	Frame *frame = Frame::GetFrame(Pi::player->GetFrame());
@@ -562,7 +554,7 @@ void SystemView::Draw3D()
 		Frame *playerNonRotFrame = Frame::GetFrame(playerNonRotFrameId);
 		SystemBody *playerAround = playerNonRotFrame->GetSystemBody();
 		CalculateShipPositionAtTime(static_cast<Ship *>(Pi::player), playerOrbit, m_time, ppos);
-		AddNotProjected<Body>(Projectable::OBJECT, Projectable::PLAYER, PlayerBody, ppos + pos);
+		AddProjected<Body>(Projectable::OBJECT, Projectable::PLAYER, PlayerBody, ppos + pos);
 
 		vector3d offset(0.0);
 		CalculateFramePositionAtTime(playerNonRotFrameId, m_time, offset);
@@ -577,9 +569,9 @@ void SystemView::Draw3D()
 					playerAround->GetMass());
 				PutOrbit<Body>(Projectable::PLANNER, PlayerBody, &plannedOrbit, offset, svColor[PLANNER_ORBIT], playerAround->GetRadius());
 				if (std::fabs(m_time - m_game->GetTime()) > 1. && (m_time - plannerStartTime) > 0.)
-					AddNotProjected<Body>(Projectable::OBJECT, Projectable::PLANNER, PlayerBody, offset + plannedOrbit.OrbitalPosAtTime(m_time - plannerStartTime));
+					AddProjected<Body>(Projectable::OBJECT, Projectable::PLANNER, PlayerBody, offset + plannedOrbit.OrbitalPosAtTime(m_time - plannerStartTime));
 				else
-					AddNotProjected<Body>(Projectable::OBJECT, Projectable::PLANNER, PlayerBody, offset + m_planner->GetPosition());
+					AddProjected<Body>(Projectable::OBJECT, Projectable::PLANNER, PlayerBody, offset + m_planner->GetPosition());
 			}
 		}
 	}
@@ -668,7 +660,7 @@ void SystemView::DrawShips(const double t, const vector3d &offset)
 		pos = pos + offset;
 		//draw highlighted orbit for selected ship
 		const bool isSelected = m_selectedObject.type == Projectable::OBJECT && m_selectedObject.base != Projectable::SYSTEMBODY && m_selectedObject.ref.body == (*s).first;
-		AddNotProjected<Body>(Projectable::OBJECT, Projectable::SHIP, static_cast<Body *>((*s).first), pos);
+		AddProjected<Body>(Projectable::OBJECT, Projectable::SHIP, static_cast<Body *>((*s).first), pos);
 		if (m_shipDrawing == ORBITS && (*s).first->GetFlightState() == Ship::FlightState::FLYING) {
 			vector3d framepos(0.0);
 			CalculateFramePositionAtTime(Frame::GetFrame((*s).first->GetFrame())->GetNonRotFrame(), m_time, framepos);
@@ -714,26 +706,14 @@ void SystemView::DrawGrid()
 }
 
 template <typename T>
-void SystemView::AddNotProjected(Projectable::types type, Projectable::bases base, T *ref, const vector3d &worldpos)
+void SystemView::AddProjected(Projectable::types type, Projectable::bases base, T *ref, const vector3d &worldpos)
 {
-	//project and add
-	Gui::Screen::EnterOrtho();
-	vector3d screenpos;
-	if (Gui::Screen::Project(worldpos, screenpos) && screenpos.z < 1)
-		AddProjected<T>(type, base, ref, screenpos, worldpos);
-	Gui::Screen::LeaveOrtho();
-}
+	vector3d pos = Graphics::ProjectToScreen(m_renderer, worldpos);
+	if (pos.z > 0.0) return; // reject back-projected objects
+	pos.y = m_renderer->GetViewport().h - pos.y;
 
-template <typename T>
-void SystemView::AddProjected(Projectable::types type, Projectable::bases base, T *ref, vector3d &pos, const vector3d &worldpos)
-{
-	if (pos.z > 0.0) return;
-	float scale[2];
-	Gui::Screen::GetCoords2Pixels(scale);
 	Projectable p(type, base, ref);
-	p.screenpos.x = pos.x / scale[0];
-	p.screenpos.y = pos.y / scale[1];
-	p.screenpos.z = pos.z;
+	p.screenpos = pos;
 	p.worldpos = worldpos;
 	m_projected.push_back(p);
 }
