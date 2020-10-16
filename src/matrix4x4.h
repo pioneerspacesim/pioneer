@@ -185,6 +185,25 @@ public:
 		m[15] = 1;
 		return m;
 	}
+
+	///////////////////////////////////////////////////////////////////////////////
+	// Matrix Construction Functions
+	// NOTE: all matrix functions here are optimized for reverse-Z depth buffers.
+	// Compared to "standard" DirectX or OpenGL matricies they invert the Z value
+	// so it ranges from 1.0 at the near plane to 0.0 at the far plane.
+	///////////////////////////////////////////////////////////////////////////////
+
+	// Construct a perspective projection matrix based on arbitrary left/right/top/bottom
+	// plane positions.
+	// This method is slower than the others, but supports view frustrums that are not
+	// aligned with the Z-axis. Unless you know what you're doing, you shouldn't use this.
+	//
+	// @param left - the minimum x-value of the view volume at the near plane
+	// @param right - the maxiumum x-value of the view volume at the near plane
+	// @param bottom - the maxiumum y-value of the view volume at the near plane
+	// @param top - the maxiumum y-value of the view volume at the near plane
+	// @param znear - the near clipping plane
+	// @param zfar - the far clipping plane
 	static matrix4x4 FrustumMatrix(T left, T right, T bottom, T top, T znear, T zfar)
 	{
 		assert((znear > T(0)) && (zfar > T(0)));
@@ -193,27 +212,86 @@ public:
 		const T sy = (T(2) * znear) / (top - bottom);
 		const T A = (right + left) / (right - left);
 		const T B = (top + bottom) / (top - bottom);
-		const T C = -(zfar + znear) / (zfar - znear);
-		const T D = -(T(2) * zfar * znear) / (zfar - znear);
+		const T C = -(zfar) / (zfar - znear);
+		const T D = -(zfar * znear) / (zfar - znear);
 		matrix4x4 m;
-		m[0] = sx;
-		m[4] = 0;
-		m[8] = A;
-		m[12] = 0;
-		m[1] = 0;
-		m[5] = sy;
-		m[9] = B;
-		m[13] = 0;
-		m[2] = 0;
-		m[6] = 0;
-		m[10] = C;
-		m[14] = D;
-		m[3] = 0;
-		m[7] = 0;
-		m[11] = -1;
-		m[15] = 0;
-		return m;
+
+		// http://glprogramming.com/red/appendixf.html
+		// OpenGL 'Red Book' on Perspective Projection
+		// Presented here in row-major notation (because that's what matrix4x4f uses internally)
+		T perspective[16] = {
+			sx, 0, 0, 0,
+			0, sy, 0, 0,
+			A, B, C, -1,
+			0, 0, D, 0
+		};
+		return matrix4x4(&perspective[0]);
 	}
+
+	// Construct a perspective projection matrix based field of view and aspect ratio.
+	// This method is the optimized case when you know your screen aspect ratio and
+	// field of view and aren't interested in fancy math. Use this function or
+	// InfinitePerspectiveMatrix if at all possible.
+	//
+	// @param fovR - the camera FOV in radians
+	// @param aspect - the aspect ratio (width / height) of the viewport
+	// @param znear - the near clipping plane
+	// @param zfar - the far clipping plane
+	// @param fovX - whether the field of view is horizontal or vertical (default)
+	static matrix4x4 PerspectiveMatrix(T fovR, T aspect, T znear, T zfar, bool fovX = false)
+	{
+		assert((znear > T(0)) && (zfar > znear));
+
+		const T e = 1 / tan(fovR / T(2));
+		const T x = fovX ? e : e / aspect;
+		const T y = fovX ? e / aspect : e;
+		const T z = (zfar) / (zfar - znear) - 1;
+		const T w = (zfar * znear) / (zfar - znear);
+
+		// Based on: http://www.terathon.com/gdc07_lengyel.pdf
+		// Unlike gluProject / FrustumMatrix, this projection matrix can only be
+		//  symmetric about the Z axis.
+		// This is what you want in 99% of cases, and simplifies the math a good deal.
+		T perspective[16] = {
+			x, 0, 0, 0,
+			0, y, 0, 0,
+			0, 0, z, -1,
+			0, 0, w, 0
+		};
+
+		return matrix4x4(&perspective[0]);
+	}
+
+	// Construct an infinite far-plane perspective projection matrix.
+	// Unless you specifically want to clip objects beyond a specific distance,
+	// this projection will work for any object at any distance.
+	//
+	// @param fovR - the camera FOV in radians
+	// @param aspect - the aspect ratio (width / height) of the viewport
+	// @param znear - the near clipping plane
+	// @param fovX - whether the field of view is horizontal or vertical (default)
+	static matrix4x4 InfinitePerspectiveMatrix(T fovR, T aspect, T znear, bool fovX = false)
+	{
+		assert(znear > T(0));
+
+		const T e = 1 / tan(fovR / T(2));
+		const T x = fovX ? e : e / aspect;
+		const T y = fovX ? e / aspect : e;
+		const T w = znear;
+
+		// Based on: http://dev.theomader.com/depth-precision/
+		// An 'infinite far-plane' projection matrix. There is no concept of a zFar value,
+		// and it can handle everything up to and including homogeneous coordinates with w=0.
+		T perspective[16] = {
+			x, 0, 0, 0,
+			0, y, 0, 0,
+			0, 0, 0, -1,
+			0, 0, w, 0
+		};
+
+		return matrix4x4(&perspective[0]);
+	}
+
 	///////////////////////////////////////////////////////////////////////////////
 	// set a orthographic frustum with 6 params similar to glOrtho()
 	// (left, right, bottom, top, near, far)
@@ -223,17 +301,36 @@ public:
 		assert((znear >= T(-1)) && (zfar > T(0)));
 		T a = T(2) / (right - left);
 		T b = T(2) / (top - bottom);
-		T c = -T(2) / (zfar - znear);
+		T c = T(1) / (zfar - znear) - 1;
 
-		T tx = -(right + left) / (right - left);
-		T ty = -(top + bottom) / (top - bottom);
-		T tz = -(zfar + znear) / (zfar - znear);
+		T tx = (right + left) / (left - right);
+		T ty = (top + bottom) / (bottom - top);
+		T tz = (zfar + znear) / (zfar - znear);
 
 		T ortho[16] = {
 			a, 0, 0, 0,
 			0, b, 0, 0,
 			0, 0, c, 0,
-			tx, ty, tz, T(1)
+			tx, ty, tz, 1
+		};
+		matrix4x4 m(&ortho[0]);
+		return m;
+	}
+
+	static matrix4x4 OrthoMatrix(T width, T height, T znear, T zfar)
+	{
+		assert((znear >= T(-1)) && (zfar > T(0)));
+		T a = T(2) / width;
+		T b = T(2) / height;
+		T c = T(1) / (zfar - znear) - 1;
+
+		T tz = (zfar + znear) / (zfar - znear);
+
+		T ortho[16] = {
+			a, 0, 0, 0,
+			0, b, 0, 0,
+			0, 0, c, 0,
+			0, 0, tz, 1
 		};
 		matrix4x4 m(&ortho[0]);
 		return m;

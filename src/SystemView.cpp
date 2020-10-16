@@ -727,6 +727,7 @@ void SystemView::AddNotProjected(Projectable::types type, Projectable::bases bas
 template <typename T>
 void SystemView::AddProjected(Projectable::types type, Projectable::bases base, T *ref, vector3d &pos, const vector3d &worldpos)
 {
+	if (pos.z > 0.0) return;
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 	Projectable p(type, base, ref);

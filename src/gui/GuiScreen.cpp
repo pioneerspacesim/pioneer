@@ -96,37 +96,48 @@ namespace Gui {
 	{
 		PROFILE_SCOPED()
 		// implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)
-		const float *const M = modelMatrix.Data();
-		const float *const P = projMatrix.Data();
+		/*
+		A perspective projection matrix is structured like so:
+		(using column-major notation)
 
-		const double vcam[4] = { // camera space
-			in.x * M[0] + in.y * M[4] + in.z * M[8] + M[12],
-			in.x * M[1] + in.y * M[5] + in.z * M[9] + M[13],
-			in.x * M[2] + in.y * M[6] + in.z * M[10] + M[14],
-			in.x * M[3] + in.y * M[7] + in.z * M[11] + M[15]
-		};
-		const double vclip[4] = { // clip space
-			vcam[0] * P[0] + vcam[1] * P[4] + vcam[2] * P[8] + vcam[3] * P[12],
-			vcam[0] * P[1] + vcam[1] * P[5] + vcam[2] * P[9] + vcam[3] * P[13],
-			vcam[0] * P[2] + vcam[1] * P[6] + vcam[2] * P[10] + vcam[3] * P[14],
-			vcam[0] * P[3] + vcam[1] * P[7] + vcam[2] * P[11] + vcam[3] * P[15]
-		};
+		V  = [  X  Y  Z  W  ]
 
-		if (is_zero_exact(vclip[3])) {
+		X' = |  X1 0  Z1 0  |
+		Y' = |  0  Y1 Z2 0  |
+		Z' = |  0  0  Z3 W1 |
+		W' = |  0  0  -1 0  |
+
+		See that -1 at M34? That's the W' = -Z term that sets up for the
+		Perspective Divide (X/W, Y/W, Z/W) that handles the actual
+		projection bit later down the pipeline.
+
+		If that's 0, this is actually an orthographic projection matrix,
+		and this code sadly can't handle orthographic projection.
+		*/
+
+		const vector3d vcam = matrix4x4d(modelMatrix) * in;
+
+		// cell 11 in row-major is M34 in column-major order
+		const double w = vcam.z * projMatrix[11];
+		if (is_zero_exact(w)) {
 			return false;
 		}
 
-		const double w = vclip[3];
+		// convert view coordinates -> homogeneous coordinates -> NDC
+		// perspective divide is applied last (left-to-right associativity)
+		const vector3d vNDC = matrix4x4d(projMatrix) * vcam / w;
 
-		const double v[3] = {
-			(vclip[0] / w) * 0.5 + 0.5,
-			(vclip[1] / w) * 0.5 + 0.5,
-			(vclip[2] / w) * 0.5 + 0.5
+		// convert -1..1 NDC to 0..1 viewport coordinates
+		const vector3d vVP = {
+			vNDC.x * 0.5 + 0.5,
+			vNDC.y * 0.5 + 0.5,
+			-vNDC.z // undo reverse-Z coordinate flip
 		};
 
-		out.x = v[0] * viewport.w + viewport.x;
-		out.y = v[1] * viewport.h + viewport.y;
-		out.z = v[2];
+		// viewport coord * size + position
+		out.x = vVP.x * viewport.w + viewport.x;
+		out.y = vVP.y * viewport.h + viewport.y;
+		out.z = vVP.z;
 
 		// map to pixels
 		out.x = out.x * width * invRealWidth;
@@ -144,7 +155,7 @@ namespace Gui {
 		projMatrix = r->GetProjection();
 
 		viewport = r->GetViewport();
-		r->SetOrthographicProjection(0, width, height, 0, -1, 1);
+		r->SetOrthographicProjection(0, width, height, 0, 0, 1);
 		r->SetTransform(matrix4x4f::Identity());
 	}
 
