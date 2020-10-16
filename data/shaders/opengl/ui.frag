@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
-#include "logz.glsl"
 #include "lib.glsl"
 
 uniform sampler2D texture0; //diffuse
@@ -18,6 +17,4 @@ out vec4 frag_color;
 void main(void)
 {
 	frag_color = vertexColor * texture(texture0, texCoord0).x;
-	
-	SetFragDepth();
 }

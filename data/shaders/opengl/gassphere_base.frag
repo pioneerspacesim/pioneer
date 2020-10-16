@@ -1,8 +1,7 @@
-// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
+// Copyright ï¿½ 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
-#include "logz.glsl"
 #include "lib.glsl"
 #include "eclipse.glsl"
 
@@ -51,18 +50,18 @@ void main(void)
 	float fogFactor=0.0;
 	{
 		float atmosDist = (length(eyepos) - atmosStart);
-		
+
 		// a&b scaled so length of 1.0 means planet surface.
 		vec3 a = (atmosStart * eyenorm - geosphereCenter) * geosphereInvRadius;
 		vec3 b = (eyepos - geosphereCenter) * geosphereInvRadius;
 		ldprod = AtmosLengthDensityProduct(a, b, atmosColor.w*geosphereAtmosFogDensity, atmosDist, geosphereAtmosInvScaleHeight);
-		fogFactor = clamp( 1.5 / exp(ldprod),0.0,1.0); 
+		fogFactor = clamp( 1.5 / exp(ldprod),0.0,1.0);
 	}
 
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
 	float atmpower = (diff.r+diff.g+diff.b)/3.0;
 	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
-	
+
 	vec4 texColor = texture(texture0, varyingTexCoord0);
 
 	frag_color =
@@ -71,8 +70,6 @@ void main(void)
 		((scene.ambient * texColor) +
 		(diff * texColor)) +
 		(1.0-fogFactor)*(diff*atmosColor) +
-		  (0.02-clamp(fogFactor,0.0,0.01))*diff*ldprod*sunset +	      //increase fog scatter				
+		  (0.02-clamp(fogFactor,0.0,0.01))*diff*ldprod*sunset +	      //increase fog scatter
 		  (pow((1.0-pow(fogFactor,0.75)),256.0)*0.4*diff*atmosColor)*sunset;  //distant fog.
-
-	SetFragDepth();
 }
