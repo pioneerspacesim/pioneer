@@ -45,7 +45,7 @@
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Atmo. pressure limit"
+    "message": "气压极限"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
