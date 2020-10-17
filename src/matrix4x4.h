@@ -212,8 +212,8 @@ public:
 		const T sy = (T(2) * znear) / (top - bottom);
 		const T A = (right + left) / (right - left);
 		const T B = (top + bottom) / (top - bottom);
-		const T C = -(zfar) / (zfar - znear);
-		const T D = -(zfar * znear) / (zfar - znear);
+		const T C = (zfar) / (zfar - znear) - 1;
+		const T D = (zfar * znear) / (zfar - znear);
 		matrix4x4 m;
 
 		// http://glprogramming.com/red/appendixf.html

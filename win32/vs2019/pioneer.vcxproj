@@ -501,10 +501,7 @@
     <ClCompile Include="..\..\src\pigui\PiGui.cpp" />
     <ClCompile Include="..\..\src\pigui\LuaFace.cpp" />
     <ClCompile Include="..\..\src\pigui\PiGuiSandbox.cpp" />
-    <ClCompile Include="..\..\src\pigui\View.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pigui\</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)pigui\</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="..\..\src\pigui\PiGuiView.cpp" />
     <ClCompile Include="..\..\src\pigui\Widgets.cpp" />
     <ClCompile Include="..\..\src\Plane.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
@@ -705,7 +702,7 @@
     <ClInclude Include="..\..\src\pigui\ModelSpinner.h" />
     <ClInclude Include="..\..\src\pigui\PerfInfo.h" />
     <ClInclude Include="..\..\src\pigui\PiGui.h" />
-    <ClInclude Include="..\..\src\pigui\View.h" />
+    <ClInclude Include="..\..\src\pigui\PiGuiView.h" />
     <ClInclude Include="..\..\src\Plane.h" />
     <ClInclude Include="..\..\src\Planet.h" />
     <ClInclude Include="..\..\src\Player.h" />

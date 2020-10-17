@@ -36,7 +36,7 @@ namespace Graphics {
 
 			bool m_active;
 			GLuint m_fbo;
-			GLuint m_depthRenderbuffer;
+			GLuint m_depthRenderBuffer;
 
 			RefCountedPtr<Texture> m_colorTexture;
 			RefCountedPtr<Texture> m_depthTexture;

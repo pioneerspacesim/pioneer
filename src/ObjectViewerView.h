@@ -7,7 +7,7 @@
 #include "Camera.h"
 #include "gui/Gui.h"
 #include "libs.h"
-#include "pigui/View.h"
+#include "pigui/PiGuiView.h"
 
 class Body;
 class SystemBody;

@@ -576,10 +576,10 @@
     <ClCompile Include="..\..\src\ship\CameraController.cpp">
       <Filter>src\ship</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\pigui\View.cpp">
+    <ClCompile Include="..\..\src\pigui\LuaPiGui.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\pigui\LuaPiGui.cpp">
+    <ClCompile Include="..\..\src\pigui\PiGuiView.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1109,9 +1109,6 @@
     <ClInclude Include="..\..\src\core\GuiApplication.h">
       <Filter>src\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\pigui\View.h">
-      <Filter>src\pigui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\pigui\LuaFlags.h">
       <Filter>src\pigui</Filter>
     </ClInclude>
@@ -1140,6 +1137,9 @@
       <Filter>src\Lua</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\pigui\LuaPiGui.h">
+      <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pigui\PiGuiView.h">
       <Filter>src\pigui</Filter>
     </ClInclude>
   </ItemGroup>

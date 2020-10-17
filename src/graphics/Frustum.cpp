@@ -17,16 +17,7 @@ namespace Graphics {
 
 	Frustum::Frustum(float width, float height, float fovAng, float znear, float zfar)
 	{
-		//http://www.opengl.org/resources/faq/technical/transformations.htm
-		const float fov = tan(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX) / 2.0f));
-
-		const float aspect = width / height;
-		const float top = znear * fov;
-		const float bottom = -top;
-		const float left = bottom * aspect;
-		const float right = top * aspect;
-
-		m_projMatrix = matrix4x4d::FrustumMatrix(left, right, bottom, top, znear, zfar);
+		m_projMatrix = matrix4x4d::PerspectiveMatrix(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX)), width / height, znear, zfar);
 		m_modelMatrix = matrix4x4d::Identity();
 		InitFromMatrix(m_projMatrix);
 
