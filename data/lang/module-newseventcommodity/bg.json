@@ -13,7 +13,7 @@
   },
   "FLAVOUR_10_NEWSBODY": {
     "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-    "message": "Prekall Inc. искат да монополизират въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последния безплатен."
+    "message": "Фирмата Прикал иска да монополизират въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последния безплатен."
   },
   "FLAVOUR_11_HEADLINE": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_23_NEWSBODY": {
     "description": "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-    "message": "Новата фабрика Amissionox в системата {system} ({sectorx}, {sectory}, {sectorz}) вече работи. Тя ще произвежда висококачествени ножове, способни да отрежат космически ботуш, но поради липса на достатъчно материали за направата на остриетата, все още не е достигнала пълния си производствен потенциал."
+    "message": "Новата фабрика Амисионокс в системата {system} ({sectorx}, {sectory}, {sectorz}) вече работи. Тя ще произвежда висококачествени ножове, способни да отрежат космически ботуш, но поради липса на достатъчно материали за направата на остриетата, все още не е достигнала пълния си производствен потенциал."
   },
   "FLAVOUR_2_HEADLINE": {
     "description": "",
@@ -217,59 +217,59 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "The Commonwealth Chronicle"
+    "message": "Обществената Хроника"
   },
   "NEWSPAPER_FED": {
     "description": "",
-    "message": "The Federal Times"
+    "message": "Федералните Времена"
   },
   "NEWSPAPER_IMP": {
     "description": "",
-    "message": "The Imperial Herald"
+    "message": "Имперският Вестител"
   },
   "NEWSPAPER_IND_0": {
     "description": "",
-    "message": "The Pioneer Courier"
+    "message": "Пионерският Куриер"
   },
   "NEWSPAPER_IND_1": {
     "description": "",
-    "message": "The Independent Tribune"
+    "message": "Независимата Трибуна"
   },
   "NEWSPAPER_IND_10": {
     "description": "",
-    "message": "The Orbital Observer"
+    "message": "Орбиталният Наблюдател"
   },
   "NEWSPAPER_IND_2": {
     "description": "",
-    "message": "The Galactic Post"
+    "message": "Галактическата Служба"
   },
   "NEWSPAPER_IND_3": {
     "description": "",
-    "message": "The Universal Sun"
+    "message": "Универсалното Слънце"
   },
   "NEWSPAPER_IND_4": {
     "description": "",
-    "message": "The Planetary Press"
+    "message": "Планетарната Преса"
   },
   "NEWSPAPER_IND_5": {
     "description": "",
-    "message": "The Royal Gazette"
+    "message": "Кралският Вестник"
   },
   "NEWSPAPER_IND_6": {
     "description": "",
-    "message": "The Universal Mail"
+    "message": "Универсалната Поща"
   },
   "NEWSPAPER_IND_7": {
     "description": "",
-    "message": "The Daily Express"
+    "message": "Ежедневникът"
   },
   "NEWSPAPER_IND_8": {
     "description": "",
-    "message": "The Tellurian Telegraph"
+    "message": "Телурският Телеграф"
   },
   "NEWSPAPER_IND_9": {
     "description": "",
-    "message": "The Satellite Journal"
+    "message": "Сателитният Дневник"
   },
   "TITLE_0": {
     "description": "",

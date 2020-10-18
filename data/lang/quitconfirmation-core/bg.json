@@ -41,7 +41,7 @@
   },
   "MSG_19": {
     "description": "Alluding to / inviting the player to contribute content to the game",
-    "message": "Стига тестване, време е за принос към играта?"
+    "message": "Стига тестване, време е да допринесеш с нещо към играта?"
   },
   "MSG_2": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "MSG_22": {
     "description": "alluding to suicide",
-    "message": "Не го прави! По-добре ще става от тук нататък! Ти наистина ли се предаваш?"
+    "message": "Не го прави! По-добре ще става от тук нататък! Ама наистина ли се предаваш?"
   },
   "MSG_3": {
     "description": "",
@@ -73,7 +73,7 @@
   },
   "MSG_6": {
     "description": "",
-    "message": "{no} е само за смелите хора, {yes} е за всички останали."
+    "message": "Избери {no} и покажи истински кураж, избери {yes} и се скрий в твоя гараж."
   },
   "MSG_7": {
     "description": "Doom 1 anyone? Although it said DOS instead of Command line",

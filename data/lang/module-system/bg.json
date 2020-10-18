@@ -25,14 +25,14 @@
   },
   "GETTING_SENSOR_DATA": {
     "description": "Shown when entering an unexplored system",
-    "message": "Събиране и анализиране на системни данни..."
+    "message": "Събиране и анализиране на системните данни..."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",
-    "message": "Вашия резервоар за гориво е почти празен."
+    "message": "Вашият резервоар за гориво е почти празен."
   },
   "YOUR_FUEL_TANK_IS_EMPTY": {
     "description": "",
-    "message": "Вашия резервоар за гориво е празен."
+    "message": "Вашият резервоар за гориво е празен."
   }
 }

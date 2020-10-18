@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "До нас достигна тъжната новина, че {shiplabel} е унищожен. Ще платим половината от уговорената цена за твоите усилия."
+    "message": "До нас достигна тъжната новина, че {shiplabel} е унищожен. Ще платим половината от уговорената цена за Вашите усилия."
   },
   "AU": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "ENTITY_FAMILY_BUSINESS_7": {
     "description": "",
-    "message": "{name} & {name}"
+    "message": "{name} и {name}"
   },
   "ENTITY_FAMILY_BUSINESS_8": {
     "description": "",
@@ -113,11 +113,11 @@
   },
   "ENTITY_GENERAL_8": {
     "description": "",
-    "message": "{locality} iSatellite ООД"
+    "message": "{locality} АзСателитът ООД"
   },
   "ENTITY_GENERAL_9": {
     "description": "",
-    "message": "Корпорация за Покребални Услуги {locality}"
+    "message": "Корпорация за Погребални Услуги {locality}"
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
@@ -161,123 +161,123 @@
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "You are not equipped to handle this mission. {unit} {equipment} required."
+    "message": "Не сте подготвени за тази мисия. Нуждаете се от {unit} {equipment}."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "SHIP CRASH LANDED on {planet}."
+    "message": "КОРАБ СЕ Е РАЗБИЛ на {planet}."
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you are just returning now! How much time has been wasted!"
+    "message": "Не мога да повярвам, че се връщаш чак сега! Изгубихме толкова време!"
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full reimbursement of expenses you have to be back by {due}."
+    "message": "За пълно възстановяване на сумата, трябва да се върнете до {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+    "message": "Диспечерите от {starport} се нуждаят от СПЕШНА помощ, във връзка с {ship} кораб, който се е разбил на {planet}. Не е ясно дали има оцелели от катастрофата. Корабът е застрахован от космодрума {starport} за сумата от {cash} за спешни ситуации."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+    "message": "Последното известно местоположение на този кораб е на {planet}, на следната географска ширина/дължина: {lat} / {long}. Номерът на кораба е {shiplabel}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, this is a great relief! We will transmit the money momentarily."
+    "message": "Благодаря, това е голямо облекчение! Ще преведем парите моментално."
   },
   "FLAVOUR_1_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit} се качи на кораба."
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+    "message": "Корабът има {crew} членен екипаж и {pass} пасажера. Някой трябва да го намери и да върне обратно оцелелите хора, ако има такива."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL en route to {starport}."
+    "message": "КОРАБ ОСТАНА БЕЗ ГОРИВО на път за {starport}."
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you kept me waiting out here this long! Forget about your payment!"
+    "message": "Не мога да повярвам, че ме накара да чакам толкова време! Няма да получиш нищо."
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "To receive full payment you are asked to deliver the fuel by {due}."
+    "message": "За получите пълното си възнаграждение, трябва да доставите горивото до {due}."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+    "message": "Диспечерите от {starport} току-що получиха известие, че пристигащият {shiplabel} е останал без гориво и е извършил аварийно приземяване. Пилотът е готов да плати {cash} за презареждането."
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+    "message": "Корабът се намира на географска ширина {lat} / географска дължина {long} на планетата {planet}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you so much! I have transferred the full reward."
+    "message": "Много Ви благодаря! Преведох пълното възнаграждение по сметката Ви."
   },
   "FLAVOUR_2_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} тон гориво е прехвърлен."
   },
   "FLAVOUR_2_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is requesting {unit} tons of {cargo}."
+    "message": "Пилотът желае {unit} тона {cargo}."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "MEDICAL EMERGENCY on ship close to {starport}."
+    "message": "СПЕШНА НУЖДА ОТ ЛЕКАР, на кораб, близо до {starport}."
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Unacceptable performance! We will update our records accordingly."
+    "message": "Неприемливо представяне! Ще имаме едно наум за в бъдеще."
   },
   "FLAVOUR_3_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The substitute pilot will need to reach the ship by {due}."
+    "message": "Заместник-пилотът трябва да е в кораба до {due}."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+    "message": "Аз съм {name} от диспечерите в {starport}. Моля за помощ, във връзка със спешната нужда от лекар на полет {shiplabel} към {starport}."
   },
   "FLAVOUR_3_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship had to emergency land at the coordinates: {lat} / {long}. "
+    "message": "Корабът е извършил аварийно приземяване на следните координати: {lat} / {long}. "
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, commander! Your help has been duly noted."
+    "message": "Благодаря Ви, командире! Вашата помощ няма да бъде забравена."
   },
   "FLAVOUR_3_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has left the ship."
+    "message": "{unit} напусна кораба."
   },
   "FLAVOUR_3_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+    "message": "Моля, транспортирайте заместник-пилота от {starport} към бедстващия кораб, за да бъде завършен полета до {starport}."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL on {planet}."
+    "message": "КОРАБ ОСТАНА БЕЗ ГОРИВО на {planet}."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "I will send someone else. Don't bother anymore."
+    "message": "Ще изпратя някой друг. Не се занимавай повече."
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full pay the pilot expects you to deliver the fuel by {due}."
+    "message": "За получите пълното си възнаграждение, пилотът очаква да доставите горивото му до {due}."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+    "message": "Диспечерите от {starport} получиха съобщение от полет {shiplabel}, според което техният кораб е останал без гориво и пилотът е готов да плати {cash} на всеки, който може да презареди кораба."
   },
   "FLAVOUR_4_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is stranded on {planet} at coordinates {lat} / {long}."
+    "message": "Корабът е заседнал на следните координати {lat} / {long} на {planet}."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
@@ -285,119 +285,119 @@
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} тон гориво е прехвърлен."
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}."
+    "message": "Пилотът иска {unit} тона {cargo}."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL close to {starport}."
+    "message": "КОРАБ ОСТАНА БЕЗ ГОРИВО близо до {starport}."
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "People are just not dependable anymore."
+    "message": "В днешно време не можеш да имаш доверие на никого."
   },
   "FLAVOUR_5_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Please complete refueling by {due}."
+    "message": "Моля, завършете презареждането до {due}."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+    "message": "Диспечерите от {starport} идентифицираха кораб с номер {shiplabel}, носещ се без гориво в близост до {starport}. Ще бъдат изплатени {cash} на всеки, който може да презареди кораба."
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+    "message": "В момента, целевият кораб, е на {dist} км. от тук. Трябва сами да откриете точното му местоположение."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "We will make record of your timely completion of the task."
+    "message": "Няма да забравим за Вашите бързи и точни действия."
   },
   "FLAVOUR_5_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} тон гориво е прехвърлен."
   },
   "FLAVOUR_5_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We request the delivery of {unit} tons of {cargo} to the ship."
+    "message": "Желаем доставката на {unit} тона {cargo} на кораба."
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "VESSEL UNRESPONSIVE in the {system} system."
+    "message": "ИЗГУБЕН Е КОНТАКТ С КОРАБ в системата {system}."
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "What a disaster! This is the death sentence to our poor colleagues!"
+    "message": "Какво бедствие! Това е смъртна присъда за нашите бедни колеги!"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "You have to be back by {due}."
+    "message": "Трябва да се върнете до {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+    "message": "Аз съм {name} от {entity}. Изгубихме връзка с нашия {ship} {shiplabel}, поради {problem}. Имаме неотложна нужда от помощ и сме готови да платим {cash}."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+    "message": "Последните получени данни са от {planet} в системата {system} [{sectorx},{sectory},{sectorz}], на разстояние от {dist} сг."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! You can't imagine how relieved we are."
+    "message": "Благодарим Ви! Не можете да си представите какво облекчение изпитваме."
   },
   "FLAVOUR_6_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit} се качи на кораба."
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+    "message": "Нуждая се от някой, който да върне веднага нашите колеги в {starport}, ако са все още живи. Корабът има {crew} членен екипаж и {pass} пасажера."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+    "message": "НЕОТЛОЖЕН ТРАНСПОРТ НА ЕКИПАЖ до системата {system}."
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Thank you very much, but you are too late!"
+    "message": "Благодаря Ви много, но вече е прекалено късно!"
   },
   "FLAVOUR_7_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The replacement crew has to reach the ship by {due}."
+    "message": "Новият екипаж трябва да е в кораба до {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+    "message": "Аз съм {name} от {entity}. Единственият ни кораб, {ship} {shiplabel}, се носи безконтролно с {crew} членен екипаж, след {problem}. Имаме неотложна нужда от помощ и сме готови да платим {cash}."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+    "message": "Ще намерите кораба в системата {system} [{sectorx},{sectory},{sectorz}], на разстояние от {dist} сг. Той е в орбита около {planet}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! I have been authorized to transmit the full payment."
+    "message": "Благодаря Ви! Упълномощен съм да Ви предам пълното възнаграждение."
   },
   "FLAVOUR_7_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has transferred to the target ship."
+    "message": "{unit} се прехвърли на целевия кораб."
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+    "message": "Не можем да върнем кораба с толкова малък екипаж. Търся някой, който да транспортира {deliver_crew} заместници, които да запълнят празните места веднага."
   },
   "FULL_CARGO": {
     "description": "",
-    "message": "Ship full. No more room for additional cargo."
+    "message": "Корабът е пълен. Няма повече товарно място."
   },
   "FULL_CREW": {
     "description": "",
-    "message": "Crew roster full. No more space for more crew."
+    "message": "Корабът е пълен. Няма повече места за екипажа."
   },
   "FULL_PASSENGERS": {
     "description": "",
-    "message": "All cabins full. No more space for more passengers."
+    "message": "Корабът е пълен. Няма повече места за пасажерите."
   },
   "HOW_FAR": {
     "description": "",
@@ -409,11 +409,11 @@
   },
   "INTERACTION_ABORTED": {
     "description": "",
-    "message": "Interaction aborted. Please come closer and try again."
+    "message": "Взаимодействието е прекъснато. Моля, приближете се и опитайте отново."
   },
   "INTERACTION_DISTANCE_REACHED": {
     "description": "",
-    "message": "Interaction distance reached."
+    "message": "Достигнато е разстоянието за взаимодействие."
   },
   "IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -441,19 +441,19 @@
   },
   "MISSING_COMM": {
     "description": "",
-    "message": "Cannot complete transfer. {cargotype} missing."
+    "message": "Прехвърлянето не може да бъде завършено. Липсва {cargotype}."
   },
   "MISSING_CREW": {
     "description": "",
-    "message": "Cannot complete transfer. Crew missing."
+    "message": "Прехвърлянето не може да бъде завършено. Екипажът липсва."
   },
   "MISSING_PASS": {
     "description": "",
-    "message": "Cannot complete transfer. Passengers missing."
+    "message": "Прехвърлянето не може да бъде завършено. Пасажерите липсват."
   },
   "MISSING_PASSENGER": {
     "description": "",
-    "message": "Cannot complete transfer. Passenger missing."
+    "message": "Прехвърлянето не може да бъде завършено. Пасажерът липсва."
   },
   "OK_AGREED": {
     "description": "",
@@ -465,7 +465,7 @@
   },
   "PARTIAL": {
     "description": "",
-    "message": "Thank you for your efforts. I hope you will return to complete the task!"
+    "message": "Благодарим Ви за усилията. Надявам се, че ще се върнете за да довършите започнатото."
   },
   "PASSENGERS": {
     "description": "",
@@ -477,163 +477,163 @@
   },
   "PICKUP": {
     "description": "",
-    "message": "PICKUP"
+    "message": "ВЗЕМАНЕ"
   },
   "PLACE_OF_ASSISTANCE": {
     "description": "",
-    "message": "At the place of assistance"
+    "message": "На оказаното място"
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities for destroying the very ship you were sent out to help. A criminal lawsuit will follow."
+    "message": "Чували сме за Вас, капитане! Ще Ви докладваме на властите за това, че унищожихте кораба, на който трябваше да помогнете. Очаква Ви наказателно дело."
   },
   "PLEASE_LAND": {
     "description": "",
-    "message": "Please land ship to allow transfer."
+    "message": "Моля, приземете кораба за да се осъществи прехвърлянето."
   },
   "PROBLEM_CREW_1": {
     "description": "",
-    "message": "a deadly fight among the crew members"
+    "message": "е имало битка до смърт между членовете на екипажа"
   },
   "PROBLEM_CREW_10": {
     "description": "",
-    "message": "a mutiny"
+    "message": "е имало бунт"
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "the crew had to chase a deadly {locality} snake found loose on the ship"
+    "message": "членовете на екипажа е трябвало да изгонят смъртоносна {locality} змия от кораба си"
   },
   "PROBLEM_CREW_3": {
     "description": "",
-    "message": "a {locality} spider killed all the others"
+    "message": "{locality} паяк е убил всички останали"
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "what it seems like a {locality} scorpion got into the crew quarters at night"
+    "message": "нещо като {locality} скорпион е влязъл в жилищната част на екипажа през нощта"
   },
   "PROBLEM_CREW_5": {
     "description": "",
-    "message": "a severe form of {locality} fever killed the others"
+    "message": "тежка форма на {locality} треска е убила останалите"
   },
   "PROBLEM_CREW_6": {
     "description": "",
-    "message": "the other crew members did not return from a space walk"
+    "message": "останалите членове на екипажа не са се върнали от космическата разходка"
   },
   "PROBLEM_CREW_7": {
     "description": "",
-    "message": "a severe form of food poisoning on the ship"
+    "message": "е имало тежка форма на хранително отравяне в кораба"
   },
   "PROBLEM_CREW_8": {
     "description": "",
-    "message": "a terrible accident that lead to the ejection of the others into space"
+    "message": "тежък инцидент е довел до изстрелването на останалите в космоса"
   },
   "PROBLEM_CREW_9": {
     "description": "",
-    "message": "a circumstance that I can't comment on publicly"
+    "message": "има нещо, за което не мога да коментирам публично"
   },
   "PROBLEM_GENERAL_1": {
     "description": "",
-    "message": "a fire in the cargo hold"
+    "message": "е имало пожар в товарното отделение"
   },
   "PROBLEM_GENERAL_10": {
     "description": "",
-    "message": "the receipt of a distress call from within {locality}"
+    "message": "е получен сигнал за бедствие от {locality}"
   },
   "PROBLEM_GENERAL_2": {
     "description": "",
-    "message": "a power failure in the engine core"
+    "message": "е имало късо съединение в ядрото на двигателя"
   },
   "PROBLEM_GENERAL_3": {
     "description": "",
-    "message": "an air leak"
+    "message": "е имало изтичане на въздух"
   },
   "PROBLEM_GENERAL_4": {
     "description": "",
-    "message": "a severe form of food poisoning involving all personnel on board the ship"
+    "message": "всеки в кораба е имал тежка форма на хранително отравяне"
   },
   "PROBLEM_GENERAL_5": {
     "description": "",
-    "message": "a small meteor impact"
+    "message": "е имало малък метеоритен сблъсък"
   },
   "PROBLEM_GENERAL_6": {
     "description": "",
-    "message": "a fight among crew members"
+    "message": "е имало битка между членовете на екипажа"
   },
   "PROBLEM_GENERAL_7": {
     "description": "",
-    "message": "contact with an unidentified flight object"
+    "message": "е имало контакт с НЛО"
   },
   "PROBLEM_GENERAL_8": {
     "description": "",
-    "message": "a dispute with a competitor's vessel"
+    "message": "е имало спор с конкурентен кораб"
   },
   "PROBLEM_GENERAL_9": {
     "description": "",
-    "message": "a reboot of the main computer"
+    "message": "е имало рестартиране на главния компютър"
   },
   "PROBLEM_RESEARCH_1": {
     "description": "",
-    "message": "an unexpected chemical reaction in one of the reaction chambers"
+    "message": "е имало неочаквана химична реакция в една от реакционните камери"
   },
   "PROBLEM_RESEARCH_10": {
     "description": "",
-    "message": "a major discovery at {locality} that I am not at liberty to disclose at this time"
+    "message": "е имало важно откритие в {locality}, за което не мога да коментирам в момента"
   },
   "PROBLEM_RESEARCH_2": {
     "description": "",
-    "message": "an infection of a crew member with a pathogen local to {locality}"
+    "message": "е имало инфекция на член от екипажа с патоген от {locality}"
   },
   "PROBLEM_RESEARCH_3": {
     "description": "",
-    "message": "a leak of experimental pathogens into the main air supply"
+    "message": "е имало теч на експериментални патогени в главното въздушно захранване"
   },
   "PROBLEM_RESEARCH_4": {
     "description": "",
-    "message": "crew exposure to a specimen collected at {locality}"
+    "message": "екипажът е бил подложен на екземпляр от {locality}"
   },
   "PROBLEM_RESEARCH_5": {
     "description": "",
-    "message": "a chemical explosion in one of the on-board fume hoods"
+    "message": "е имало химична експлозия в един от аспираторите на кораба"
   },
   "PROBLEM_RESEARCH_6": {
     "description": "",
-    "message": "an experimental recreation of {locality} atmospheric gases"
+    "message": "е имало експериментално пресъздаване на атмосферни газове от {locality}"
   },
   "PROBLEM_RESEARCH_7": {
     "description": "",
-    "message": "a heated dispute between scientists on board the ship"
+    "message": "е имало разгорещен спор между учените в кораба"
   },
   "PROBLEM_RESEARCH_8": {
     "description": "",
-    "message": "the sudden disappearance of a lead investigator on board the ship"
+    "message": "внезапно изчезва главен следовател от кораба"
   },
   "PROBLEM_RESEARCH_9": {
     "description": "",
-    "message": "the accidental combination of incompatible specimens from {locality}"
+    "message": "е имало случайна комбинация между несъвместими екземпляри от {locality}"
   },
   "RESULT_DELIVERY_COMM": {
     "description": "",
-    "message": "Transferred {done} of {todo} tons of {cargotype} to target ship."
+    "message": "Към целевия кораб са прехвърлени {done} тона {cargotype} от {todo}."
   },
   "RESULT_DELIVERY_CREW": {
     "description": "",
-    "message": "Transferred {done} of {todo} crew members to target ship."
+    "message": "Към целевия кораб са прехвърлени {done} членове на екипажа от {todo}."
   },
   "RESULT_DELIVERY_PASS": {
     "description": "",
-    "message": "Transferred {done} of {todo} passengers to target ship."
+    "message": "Към целевия кораб са прехвърлени {done} пасажера от {todo}."
   },
   "RESULT_PICKUP_COMM": {
     "description": "",
-    "message": "Picked up {done} of {todo} tons of {cargotype} from target ship."
+    "message": "От целевия кораб са качени {done} тона {cargotype} от {todo}."
   },
   "RESULT_PICKUP_CREW": {
     "description": "",
-    "message": "Picked up {done} of {todo} crew members from target ship."
+    "message": "От целевия кораб са качени {done} членове на екипажа от {todo}."
   },
   "RESULT_PICKUP_PASS": {
     "description": "",
-    "message": "Picked up {done} of {todo} passengers from target ship."
+    "message": "От целевия кораб са качени {done} пасажера от {todo}."
   },
   "RETURN_TO": {
     "description": "",
@@ -657,7 +657,7 @@
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
-    "message": "Target ship unresponsive."
+    "message": "Целевият кораб не отговаря."
   },
   "SYSTEM": {
     "description": "",
@@ -665,42 +665,42 @@
   },
   "TARGET_SHIP_ID": {
     "description": "",
-    "message": "Target ship ID:"
+    "message": "Номер на целевия кораб:"
   },
   "THANK_YOU_ACCEPTANCE_TXT": {
     "description": "",
-    "message": "Thank you so much. Your help is greatly appreciated."
+    "message": "Много Ви благодаря. Вашата помощ е високо оценена."
   },
   "TONS_OF_FREE_CARGO_SPACE": {
     "description": "",
-    "message": "tons of free cargo space"
+    "message": "тона свободно товарно пространство"
   },
   "TRANSFER_ABORTED": {
     "description": "",
-    "message": "Transfer has been aborted!"
+    "message": "Прехвърлянето е прекратено!"
   },
   "TRANSFER_COMPLETE": {
     "description": "",
-    "message": "Transfer has been completed!"
+    "message": "Прехвърлянето е завършено!"
   },
   "TRANSFER_PARTIAL": {
     "description": "",
-    "message": "Transfer has been partially completed. Please return to finish transfer."
+    "message": "Прехвърлянето е частично завършено. Моля, свършете си работата докрай."
   },
   "TRANSFER_TIME": {
     "description": "",
-    "message": "Please allow {minutes} minutes for transfer."
+    "message": "Моля, отделете {minutes} минути за прехвърлянето."
   },
   "TYPE_OF_HELP": {
     "description": "",
-    "message": "What type of help is needed?"
+    "message": "Какъв вид помощ е необходима?"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "unoccupied passenger cabins"
+    "message": "незаети пасажерски кабини"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",
-    "message": "Къде да търся целта?"
+    "message": "Къде да намеря целта?"
   }
 }

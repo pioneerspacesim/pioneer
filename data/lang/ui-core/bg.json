@@ -97,7 +97,7 @@
   },
   "CANNOT_SELL_ITEM": {
     "description": "",
-    "message": "This item cannot be sold"
+    "message": "Този артикул не може да бъде продаден"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -141,7 +141,7 @@
   },
   "CHANGE": {
     "description": "Face feature option",
-    "message": "Change:"
+    "message": "Промени:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -397,7 +397,7 @@
   },
   "ENABLE_AUTOSAVE": {
     "description": "Allow the game to autosave when docking",
-    "message": "Enable Autosave"
+    "message": "Включи Автоматично запазване"
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
@@ -453,7 +453,7 @@
   },
   "EXIT_THIS_GAME": {
     "description": "",
-    "message": "Exit this game"
+    "message": "Излез от тази игра"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -613,7 +613,7 @@
   },
   "GIVE_ORDERS_TO_CREW": {
     "description": "",
-    "message": "Give orders to crew"
+    "message": "Дай заповеди на екипажа"
   },
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
@@ -1277,11 +1277,11 @@
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Minor exports"
+    "message": "Незначителен износ"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Minor imports"
+    "message": "Незначителен внос"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1413,15 +1413,15 @@
   },
   "N_OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Occupied Passenger Cabins"
+    "message": "{quantity} Заети Пасажерски Кабини"
   },
   "N_SHIELD_GENERATORS": {
     "description": "",
-    "message": "{quantity} Shield Generators"
+    "message": "{quantity} Генератора на Щитовете"
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Unoccupied Passenger Cabins"
+    "message": "{quantity} Незаети Пасажерски Кабини"
   },
   "OFF": {
     "description": "",
