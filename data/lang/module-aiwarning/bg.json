@@ -17,6 +17,6 @@
   },
   "STARPORT_REFUSED_DOCKING_PERMISSION": {
     "description": "",
-    "message": "Междузвездната станция отказа разрешение за скачване"
+    "message": "Космодрумът отказа разрешение за скачване"
   }
 }

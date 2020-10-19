@@ -13,7 +13,7 @@
   },
   "FLAVOUR_10_NEWSBODY": {
     "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-    "message": "Фирмата Прикал иска да монополизират въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последния безплатен."
+    "message": "Фирмата Прикал иска да монополизира въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последния безплатен."
   },
   "FLAVOUR_11_HEADLINE": {
     "description": "",

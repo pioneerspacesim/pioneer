@@ -65,7 +65,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Ще ти платя {cash}, ако доставиш малък пакет в {starport}, намираща се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Здрасти, аз съм {name}. Ще ти платя {cash}, ако доставиш малък пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, намираща се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, намираща се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, намираща се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Поздрави. Това е автоматично съобщение от Куриерски Услуги Бедфорд и {name}. Плащаме {cash} за доставка до {starport}, намираща се в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Поздрави. Това е автоматично съобщение от Куриерски Услуги Бедфорд и {name}. Плащаме {cash} за доставка до {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
@@ -329,7 +329,7 @@
   },
   "SPACEPORT": {
     "description": "",
-    "message": "Космическа станция:"
+    "message": "Космодрум:"
   },
   "SYSTEM": {
     "description": "",
