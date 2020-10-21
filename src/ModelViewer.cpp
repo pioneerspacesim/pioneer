@@ -67,35 +67,6 @@ namespace {
 	}
 } // namespace
 
-// An adaptor for automagic reverse range-for iteration of containers
-// One might be able to specialize this for raw arrays, but that's beyond the
-// point of its use-case.
-// One might also point out that this is surely more work to code than simply
-// writing an explicit iterator loop, to which I say: bah humbug!
-template <typename T>
-struct reverse_container_t {
-	using iterator = std::reverse_iterator<typename T::iterator>;
-	using const_iterator = std::reverse_iterator<typename T::const_iterator>;
-
-	using value_type = typename std::remove_reference<T>::type;
-
-	reverse_container_t(value_type &ref) :
-		ref(ref) {}
-
-	iterator begin() { return iterator(ref.end()); }
-	const_iterator begin() const { return const_iterator(ref.cend()); }
-
-	iterator end() { return iterator(ref.begin()); }
-	const_iterator end() const { return const_iterator(ref.cbegin()); }
-
-private:
-	value_type &ref;
-};
-
-// Use this function for automatic template parameter deduction
-template <typename T>
-reverse_container_t<T> reverse_container(T &ref) { return reverse_container_t<T>(ref); }
-
 namespace ImGui {
 	bool ColorEdit3(const char *label, Color &color)
 	{

@@ -420,22 +420,6 @@ void Manager::NewFrame()
 	}
 }
 
-template <typename T>
-struct reverse_iter {
-	using iterator = typename T::reverse_iterator;
-	using const_iterator = typename T::const_reverse_iterator;
-	reverse_iter(T &obj) :
-		m_obj(obj) {}
-
-	iterator begin() { return m_obj.rbegin(); }
-	iterator end() { return m_obj.rend(); }
-	const_iterator begin() const { return m_obj.crbegin(); }
-	const_iterator end() const { return m_obj.crend(); }
-
-private:
-	T &m_obj;
-};
-
 void Manager::RebuildInputFrames()
 {
 	// Reset the list of active chords.
@@ -443,7 +427,7 @@ void Manager::RebuildInputFrames()
 	m_activeActions.clear();
 	m_activeAxes.clear();
 
-	for (const auto *frame : reverse_iter<typeof(m_inputFrames)>(m_inputFrames)) {
+	for (const auto *frame : reverse_container(m_inputFrames)) {
 
 		// Push all enabled key chords onto the key chord stack.
 		for (auto *action : frame->actions) {
