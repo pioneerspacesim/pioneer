@@ -21,7 +21,7 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "По-добра версия на Атмосферните Щитове"
+    "message": "Подобрена версия на Атмосферните Щитове."
   },
   "AUTOPILOT": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "AUTOPILOT_DESCRIPTION": {
     "description": "",
-    "message": "Летателен бордови компютър"
+    "message": "Летателен бордови компютър."
   },
   "BEAMLASER_1MW": {
     "description": "",
@@ -57,43 +57,43 @@
   },
   "CARGO_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Разрешава товаренето на стока от космоса."
+    "message": "Позволява товаренето на стока от космоса."
   },
   "DRIVE_CLASS1": {
     "description": "",
-    "message": "Клас 1 Хиперсветлинен Двигател"
+    "message": "Клас 1 Хипердвигател"
   },
   "DRIVE_CLASS2": {
     "description": "",
-    "message": "Клас 2 Хиперсветлинен Двигател"
+    "message": "Клас 2 Хипердвигател"
   },
   "DRIVE_CLASS3": {
     "description": "",
-    "message": "Клас 3 Хиперсветлинен Двигател"
+    "message": "Клас 3 Хипердвигател"
   },
   "DRIVE_CLASS4": {
     "description": "",
-    "message": "Клас 4 Хиперсветлинен Двигател"
+    "message": "Клас 4 Хипердвигател"
   },
   "DRIVE_CLASS5": {
     "description": "",
-    "message": "Клас 5 Хиперсветлинен Двигател"
+    "message": "Клас 5 Хипердвигател"
   },
   "DRIVE_CLASS6": {
     "description": "",
-    "message": "Клас 6 Хиперсветлинен Двигател"
+    "message": "Клас 6 Хипердвигател"
   },
   "DRIVE_CLASS7": {
     "description": "",
-    "message": "Клас 7 Хиперсветлинен Двигател"
+    "message": "Клас 7 Хипердвигател"
   },
   "DRIVE_CLASS8": {
     "description": "",
-    "message": "Клас 8 Хиперсветлинен Двигател"
+    "message": "Клас 8 Хипердвигател"
   },
   "DRIVE_CLASS9": {
     "description": "",
-    "message": "Клас 9 Хиперсветлинен Двигател"
+    "message": "Клас 9 Хипердвигател"
   },
   "DRIVE_MIL1": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "FUEL_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Разрешава събирането на водородно гориво от планетите газови гиганти."
+    "message": "Позволява събирането на водородно гориво от планетите газови гиганти."
   },
   "HULL_AUTOREPAIR": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "MULTI_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Разрешава товаренето на стока и събирането на гориво, но е по-малко ефективен от товарача за гориво"
+    "message": "Позволява товаренето на стока и събирането на гориво, но е по-малко ефективен от товарача за гориво."
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
@@ -225,11 +225,11 @@
   },
   "PLANETSCANNER": {
     "description": "Scans the nearest body for resources",
-    "message": "Сканиране на тяло"
+    "message": "Скенер"
   },
   "PLANETSCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Сканиране на най-близкото тяло за ресурси."
+    "message": "Сканира най-близкото тяло за ресурси."
   },
   "PULSECANNON_10MW": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "RADAR_DESCRIPTION": {
     "description": "",
-    "message": "Осигурява 3Д карта на близките кораби."
+    "message": "Осигурява 3D карта на близките кораби."
   },
   "SCAN_COMPLETED": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "THRUSTERS_BEST": {
     "description": "",
-    "message": "Направени по Поръчка Ускорители"
+    "message": "Поръчкови Ускорители"
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
@@ -337,7 +337,7 @@
   },
   "TRADE_COMPUTER_DESCRIPTION": {
     "description": "",
-    "message": "Показва печелившите стоки за търговия между избраната и сегашната система"
+    "message": "Показва печелившите стоки за търговия между избраната и сегашната система."
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
@@ -345,6 +345,6 @@
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Използва се за превоз на един пасажер"
+    "message": "Използва се за превоз на един пасажер."
   }
 }

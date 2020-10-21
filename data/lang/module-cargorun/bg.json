@@ -25,39 +25,39 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "РАЗНОС. Доставка на товар до системата {system}."
+    "message": "РАЗНОС: Доставка на товар до системата {system}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "ТРЯБВА МИ ТРАНСПОРТ. Нуждая се от транспорт на стоки до системата {system}. Плащам {cash}."
+    "message": "НЕОБХОДИМ Е ТРАНСПОРТ: Транспорт на стоки до системата {system}. Плащам {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "ДОСТАВКА. Ценен товар до системата {system}. {cash} за опитен пилот."
+    "message": "ДОСТАВКА: Ценен товар до системата {system}. {cash} за опитен пилот."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "МЕСТНА ДОСТАВКА. Преместване на стоки до {starport}."
+    "message": "МЕСТНА ДОСТАВКА: Преместване на стоки до {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "ТЪРСИ СЕ ТРАНСПОРТ. Доставка на местен товар до {starport}."
+    "message": "ТЪРСИ СЕ ТРАНСПОРТ: Доставка на местен товар до {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "МЕСТЕН РАЗНОС. Доставка на стоки до {starport}."
+    "message": "МЕСТЕН РАЗНОС: Доставка на стоки до {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "ТОВАРЕН ПРЕНОС. Трябва ми товар от системата {system}."
+    "message": "ТОВАРЕН ПРЕНОС: Товар от системата {system}."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "РЕЛОКАЦИЯ. Трябва да преместя товар от {starport}."
+    "message": "РЕЛОКАЦИЯ: Товар от {starport}."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "ТОВАРНА УСЛУГА. Нуждаем се от доставчик до системата {system}."
+    "message": "ТОВАРНА УСЛУГА: Доставчик до системата {system}."
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
@@ -89,7 +89,7 @@
   },
   "CEASE_FIRE": {
     "description": "",
-    "message": "Прекрати огъня, прекрати огъня! На твоя страна съм!"
+    "message": "Не стреляй, не стреляй! На твоя страна съм!"
   },
   "CLUS": {
     "description": "custom cargo",
@@ -133,7 +133,7 @@
   },
   "DENY_6": {
     "description": "",
-    "message": "Върнете се, когато натрупате повече опит."
+    "message": "Върни се, когато натрупаш повече опит."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -253,7 +253,7 @@
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
-    "message": "Поздрави! Транспортни Услуги {name} искат да доставите {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платим {cash} за безопасна и безаварийна доставка."
+    "message": "Поздрави! Транспортни Услуги {name} искат да доставиш {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платим {cash} за безопасна и безаварийна доставка."
   },
   "INTROTEXT_3": {
     "description": "",
@@ -289,7 +289,7 @@
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
-    "message": "Как сте? Името ми е {name}, трябва ми кораб, който да отиде до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), да натовари {cargoname} и да се върне в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за {cash}. Разстоянието до {system} е {dist} сг."
+    "message": "Как е? Името ми е {name}, трябва ми кораб, който да отиде до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), да натовари {cargoname} и да се върне в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за {cash}. Разстоянието до {system} е {dist} сг."
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Здравейте. Казвам се {name}. Моят работодател е готов да Ви наеме за {cash}, във връзка с релокацията на нашият склад, като преместите {cargoname} от {starport} в нашето ново седалище в {dom_starport}."
+    "message": "Здравейте. Казвам се {name}. Моят работодател е готов да те наеме за {cash}, във връзка с релокацията на нашият склад, като преместиш {cargoname} от {starport} в нашето ново седалище в {dom_starport}."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "I_NEED_HELP": {
     "description": "",
-    "message": "Понасям щети. Нуждая се от помощ."
+    "message": "Напълниха ме с олово. Нуждая се от помощ."
   },
   "LY": {
     "description": "",
@@ -405,19 +405,19 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "Това е ценен товар, отваряйте си очите на четири."
+    "message": "Това е ценен товар, отваряй си очите на четири."
   },
   "RISK_4": {
     "description": "",
-    "message": "Може да е опасно, трябва да сте сигурни, че сте подготвени адекватно."
+    "message": "Може да е опасно, трябва да си сигурен, че си подготвен адекватно."
   },
   "RISK_5": {
     "description": "",
-    "message": "Това може да е много рисковано, най-вероятно ще срещнете силна съпротива."
+    "message": "Това може да е много рисковано, най-вероятно ще срещнеш силна съпротива."
   },
   "RISK_6": {
     "description": "",
-    "message": "Не се надявайте да стигнете невредими."
+    "message": "Не се надявай да стигнеш невредим."
   },
   "RISK_ART_1": {
     "description": "",
@@ -433,7 +433,7 @@
   },
   "RISK_GEMS_1": {
     "description": "",
-    "message": "Възможно е да си имате работа с някой безскрупулен търговец на бижута."
+    "message": "Възможно е да си имаш работа с някой безскрупулен търговец на бижута."
   },
   "RISK_WHOLESALER_1": {
     "description": "",
@@ -453,11 +453,11 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Задайте за навигационна цел"
+    "message": "Задай за навигационна цел"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Задайте маршрут за връщане"
+    "message": "Задай маршрут за връщане"
   },
   "SPACEPORT": {
     "description": "",
@@ -545,7 +545,7 @@
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Заредихме товара на Вашия кораб."
+    "message": "Заредихме товара."
   },
   "WHAT_IS_THIS": {
     "description": "",
@@ -573,7 +573,7 @@
   },
   "WHYSOMUCH_6": {
     "description": "",
-    "message": "Е, ще се радваме да Ви платим по-малко пари."
+    "message": "Е, ще се радваме да ти платим по-малко пари."
   },
   "WHYSOMUCH_CENTRIFUGES_1": {
     "description": "",
@@ -629,10 +629,10 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Нямате достатъчно товарно пространство на Вашия кораб."
+    "message": "Нямаш достатъчно товарно пространство."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Моля, върнете се, когато имате достатъчно товарно пространство."
+    "message": "Моля, върни се, когато имаш достатъчно товарно пространство."
   }
 }

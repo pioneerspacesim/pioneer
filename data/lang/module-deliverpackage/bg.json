@@ -17,11 +17,11 @@
   },
   "DENY_0": {
     "description": "",
-    "message": "Съжалявам, не мога да Ви имам доверие за тази доставка."
+    "message": "Съжалявам, не мога да ти имам доверие за тази доставка."
   },
   "DENY_1": {
     "description": "",
-    "message": "Върнете се, когато натрупате нужния опит."
+    "message": "Върни се, когато натрупаш нужния опит."
   },
   "DENY_2": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "ТЪРСИ СЕ. Доставка на пакет до системата {system}."
+    "message": "ТЪРСИ СЕ: Доставка на пакет до системата {system}."
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "ДОСТАВКА. Документи до системата {system}. {cash} за пилот с опит."
+    "message": "ДОСТАВКА: Документи до системата {system}. {cash} за пилот с опит."
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "ПОЩЕНСКА УСЛУГА. Нуждаем се от доставчик до системата {system}."
+    "message": "ПОЩЕНСКА УСЛУГА: Нуждаем се от доставчик до системата {system}."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -153,11 +153,11 @@
   },
   "FLAVOUR_4_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Ще се радваме да Ви платим по-малко пари."
+    "message": "Ще се радваме да ти платим по-малко пари."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "ПРЕМЕСТВАНЕ. Преместване на железария до {starport} от склада."
+    "message": "ПРЕМЕСТВАНЕ: Преместване на железария до {starport} от склада."
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "КУРИЕР ЗА ЕДИН МИГ. Доставка на малък пакет до {starport}."
+    "message": "КУРИЕР ЗА ЕДИН МИГ: Доставка на малък пакет до {starport}."
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "МЕЖДУПЛАНЕТЕН НОСАЧ. Превоз на локален товар до {starport}."
+    "message": "МЕЖДУПЛАНЕТЕН НОСАЧ: Превоз на локален товар до {starport}."
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
@@ -217,11 +217,11 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "БЛИЗКА ДОСТАВКА. Нуждая се от бърза доставка на артикул до {starport}."
+    "message": "БЛИЗКА ДОСТАВКА: Нуждая се от бърза доставка на артикул до {starport}."
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
-    "message": "Имаш премия за бързата доставка! Отказвам да ти платя."
+    "message": "Трябваше да получиш премия за бърза доставка! Отказвам да ти платя."
   },
   "FLAVOUR_8_INTROTEXT": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "ОСТАВЯНЕ НА ПАКЕТ. Спешно изпращане на нетрайни стоки до {starport}."
+    "message": "ОСТАВЯНЕ НА ПАКЕТ: Спешно изпращане на нетрайни стоки до {starport}."
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Задайте за навигационна цел"
+    "message": "Задай за навигационна цел"
   },
   "SPACEPORT": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
     "description": "",
-    "message": "Това е много рисковано, най-вероятно ще срещнете съпротива."
+    "message": "Това е много рисковано, най-вероятно ще срещнеш съпротива."
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",

@@ -53,27 +53,27 @@
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
-    "message": "Autopilot: Dock with {target}"
+    "message": "Автопилот: Скачване с {target}"
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter high orbit around {target}"
+    "message": "Автопилот: Висока орбита около {target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter low orbit around {target}"
+    "message": "Автопилот: Ниска орбита около {target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter medium orbit around {target}"
+    "message": "Автопилот: Средна орбита около {target}"
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "Autopilot: Fly to vicinity of {target}"
+    "message": "Автопилот: Полет към {target}"
   },
   "AUTOPILOT_ON": {
     "description": "",
-    "message": "Автопилот включен"
+    "message": "Автопилотът е включен"
   },
   "AXIAL_TILT": {
     "description": "",
@@ -137,11 +137,11 @@
   },
   "CANT_SAVE_IN_HYPERSPACE": {
     "description": "",
-    "message": "Can't save game while in hyperspace"
+    "message": "Играта не може да бъде запазена в хиперпространството"
   },
   "CAPITALIST": {
     "description": "",
-    "message": "Capitalist"
+    "message": "Капиталистическа"
   },
   "CARBON_ORE": {
     "description": "",
@@ -177,11 +177,11 @@
   },
   "CLEARANCE_ALREADY_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance already granted. Proceed to docking bay %bay."
+    "message": "Заявката е вече приета. Започнете скачване с %bay."
   },
   "CLEARANCE_DENIED_NO_BAYS": {
     "description": "",
-    "message": "Clearance denied. There are no free docking bays."
+    "message": "Заявката е отхвърлена. Няма безплатен обяд."
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
@@ -189,7 +189,7 @@
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance granted. Proceed to docking bay %bay."
+    "message": "Заявката е приета. Започнете скачване с %bay."
   },
   "CO2_ATMOSPHERE": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "COMMS": {
     "description": "",
-    "message": "Comms"
+    "message": "Съобщения"
   },
   "COMMUNIST": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "DATE_DUE_N": {
     "description": "",
-    "message": "Date due: %date"
+    "message": "Краен срок: %date"
   },
   "DAY_LENGTH": {
     "description": "",
@@ -313,7 +313,7 @@
   },
   "DECREASE_SET_SPEED": {
     "description": "",
-    "message": "Decrease set speed"
+    "message": "Намали зададената скорост"
   },
   "DECREASE_TIME_ACCELERATION": {
     "description": "",
@@ -341,11 +341,11 @@
   },
   "DOCKING": {
     "description": "",
-    "message": "Docking"
+    "message": "Скачване"
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
-    "message": "Docking clearance expired. If you wish to dock you must repeat your request."
+    "message": "Заявката за скачване е просрочена. Ако искате да извършите скачване, трябва да повторите Вашата заявка."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -369,7 +369,7 @@
   },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
-    "message": "Earth Federation Colonial Rule"
+    "message": "Колониално Управление на Земната Федерация"
   },
   "EARTH_FEDERATION_DEMOCRACY": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "FLYBY_VIEW": {
     "description": "camera view setting",
-    "message": "Flyby view"
+    "message": "Прелитащ изглед"
   },
   "FOLLOWING_SELECTION": {
     "description": "",
@@ -453,7 +453,7 @@
   },
   "GAME_LOAD_CANNOT_OPEN": {
     "description": "",
-    "message": "Save file '%filename' could not be found (or the game does not have access to open it)."
+    "message": "Запазената игра '%filename' не може да бъде намерена (или програмата няма достъп до нея)."
   },
   "GAME_LOAD_CORRUPT": {
     "description": "",
@@ -469,7 +469,7 @@
   },
   "GAME_SAVE_CANNOT_WRITE": {
     "description": "",
-    "message": "This saved game file could not be written because of a system error."
+    "message": "Запазената игра не може да бъде записана, поради системна грешка."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
@@ -485,7 +485,7 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
-    "message": "Switch between grid display modes."
+    "message": "Координатна мрежа"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -557,7 +557,7 @@
   },
   "HYPERSPACE": {
     "description": "",
-    "message": "Hyperspace"
+    "message": "Хиперпространство"
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
@@ -573,11 +573,11 @@
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Disengage Hyperdrive"
+    "message": "Изключва Хипердвигателя"
   },
   "HYPERSPACE_JUMP_ABORTED": {
     "description": "",
-    "message": "Hyperspace jump aborted."
+    "message": "Хиперпространственият скок е прекъснат."
   },
   "HYPERSPACE_JUMP_DISABLED": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -585,7 +585,7 @@
   },
   "HYPERSPACE_JUMP_ENGAGE": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Engage Hyperdrive"
+    "message": "Включва Хипердвигателя"
   },
   "HYPERSPACE_JUMP_FORBIDDEN": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -593,7 +593,7 @@
   },
   "HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Hyperspace target"
+    "message": "Хиперпространствена цел"
   },
   "H_ATMOSPHERE": {
     "description": "",
@@ -621,7 +621,7 @@
   },
   "INCREASE_SET_SPEED": {
     "description": "",
-    "message": "Increase set speed"
+    "message": "Увеличи зададената скорост"
   },
   "INCREASE_TIME_ACCELERATION": {
     "description": "",
@@ -657,11 +657,11 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
-    "message": "Switch between Lagrange L4/L5 point display modes."
+    "message": "Точки на Лагранж - L4/L5"
   },
   "LANDED": {
     "description": "",
-    "message": "Landed"
+    "message": "Приземен"
   },
   "LANG_NAME": {
     "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
@@ -749,11 +749,11 @@
   },
   "MANUAL_CONTROL_MODE": {
     "description": "",
-    "message": "Manual control mode"
+    "message": "Ръчен контролен режим"
   },
   "MAP_LOCK_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Lock Hyperspace Target"
+    "message": "Заключи Хиперпространствената Цел"
   },
   "MAP_TOGGLE_INFO_PANEL": {
     "description": "",
@@ -961,11 +961,11 @@
   },
   "NAVIGATION_STAR_MAPS": {
     "description": "",
-    "message": "Navigation and star maps"
+    "message": "Навигация и звездни карти"
   },
   "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
     "description": "",
-    "message": "Navigation targets in this system"
+    "message": "Навигационни цели в тази система"
   },
   "NERVE_GAS": {
     "description": "",
@@ -977,7 +977,7 @@
   },
   "NOT_FOUND_BEST_MATCH_X": {
     "description": "",
-    "message": "Not found, best match: %system"
+    "message": "Няма резултати. Най-добро съвпадение: %system"
   },
   "NOW": {
     "description": "In System Orbit View",
@@ -989,15 +989,15 @@
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
-    "message": "Autopilot not installed on ship, cannot enable autopilot"
+    "message": "Автопилотът не може да се включи, защото кораба няма автопилот"
   },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",
-    "message": "No central governance"
+    "message": "Няма централно управление"
   },
   "NO_ESTABLISHED_ORDER": {
     "description": "",
-    "message": "No established order"
+    "message": "Няма установен ред"
   },
   "NO_HYPERDRIVE": {
     "description": "",
@@ -1005,11 +1005,11 @@
   },
   "NO_REGISTERED_INHABITANTS": {
     "description": "",
-    "message": "No registered inhabitants"
+    "message": "Няма обитатели"
   },
   "NO_TARGET_SELECTED": {
     "description": "",
-    "message": "Ship Computer: No target selected"
+    "message": "Корабен компютър: Не е избрана цел"
   },
   "NUMBER_DAYS": {
     "description": "",
@@ -1109,11 +1109,11 @@
   },
   "OVER_N_BILLION": {
     "description": "",
-    "message": "Over %population billion"
+    "message": "Над %population млрд."
   },
   "OVER_N_MILLION": {
     "description": "",
-    "message": "Over %population million"
+    "message": "Над %population мил."
   },
   "PASSENGER_CABIN": {
     "description": "",
@@ -1201,11 +1201,11 @@
   },
   "PRESSURE_N_ATMOSPHERES": {
     "description": "",
-    "message": "P: %pressure{f.2} атм."
+    "message": "Н: %pressure{f.2} атм."
   },
   "QUADRUPLE_SYSTEM": {
     "description": "",
-    "message": "Quadruple system"
+    "message": "Четворна система"
   },
   "RADAR_CONTROL": {
     "description": "",
@@ -1225,7 +1225,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Request docking clearance from {target}"
+    "message": "Заяви скачване с {target}"
   },
   "RESET": {
     "description": "",
@@ -1233,7 +1233,7 @@
   },
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
-    "message": "Reset Orientation and Zoom"
+    "message": "Нулирай Ориентацията и Мащабирането"
   },
   "ROBOTS": {
     "description": "",
@@ -1281,11 +1281,11 @@
   },
   "ROTATION_DAMPING_OFF": {
     "description": "",
-    "message": "Rotation damping off"
+    "message": "Плавната ротация е изключена"
   },
   "ROTATION_DAMPING_ON": {
     "description": "",
-    "message": "Rotation damping on"
+    "message": "Плавната ротация е включена"
   },
   "RUBBISH": {
     "description": "",
@@ -1333,19 +1333,19 @@
   },
   "SEMI_MAJOR_AXIS": {
     "description": "",
-    "message": "Semi-major axis"
+    "message": "Голяма полуос"
   },
   "SET_AS_COMBAT_TARGET": {
     "description": "",
-    "message": "Set as combat target"
+    "message": "Задай за бойна цел"
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Задайте за навигационна цел"
+    "message": "Задай за навигационна цел"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",
-    "message": "Set hyperspace destination to %system"
+    "message": "Задай %system за хиперпространствена дестинация"
   },
   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
     "description": "",
@@ -1357,7 +1357,7 @@
   },
   "SET_NAVTARGET_TO": {
     "description": "",
-    "message": "Set navigation target to: "
+    "message": "Задай навигационната цел на: "
   },
   "SET_SPEED_KM_S": {
     "description": "",
@@ -1369,7 +1369,7 @@
   },
   "SHIELD_INTEGRITY": {
     "description": "",
-    "message": "Shield integrity"
+    "message": "Здравина на щитовете"
   },
   "SHIELD_STRENGTH_N": {
     "description": "",
@@ -1385,7 +1385,7 @@
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Switch between ship display modes."
+    "message": "Космически кораби"
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1413,7 +1413,7 @@
   },
   "SIDEREAL_VIEW": {
     "description": "camera view setting",
-    "message": "Sidereal view"
+    "message": "Звезден изглед"
   },
   "SLAVES": {
     "description": "",
@@ -1457,7 +1457,7 @@
   },
   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
     "description": "",
-    "message": "Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}"
+    "message": "Стабилна система с %bodycount големи %{body(s)} и %portcount %{starport(s)}"
   },
   "STARPORT": {
     "description": "",
@@ -1609,15 +1609,15 @@
   },
   "SWAP_SELECTED_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Swap selected and hyperjump target"
+    "message": "Размени целта за хисперскок и избраната цел"
   },
   "SWITCHED_TO_PARENT": {
     "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-    "message": "Switched heading display to system-wide coordinates."
+    "message": "Използване на системните координати"
   },
   "SWITCHED_TO_ROTATIONAL": {
     "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-    "message": "Switched heading display to planetary coordinates."
+    "message": "Използване на планетарните координати"
   },
   "SYSTEM": {
     "description": "star system",
@@ -1625,7 +1625,7 @@
   },
   "SYSTEM_NUMBER": {
     "description": "",
-    "message": "System number:"
+    "message": "Системен номер:"
   },
   "SYSTEM_ORBIT_VIEW": {
     "description": "",
@@ -1645,7 +1645,7 @@
   },
   "TARGET_OBJECT_IN_SIGHTS": {
     "description": "",
-    "message": "Target object in cross-hairs"
+    "message": "Целта е в прицела"
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
@@ -1681,7 +1681,7 @@
   },
   "THRUSTER_RETRO": {
     "description": "",
-    "message": "Thrust backwards"
+    "message": "Тяга назад"
   },
   "THRUSTER_STARBOARD": {
     "description": "",
@@ -1693,7 +1693,7 @@
   },
   "TIME_POINT": {
     "description": "",
-    "message": "Time point:"
+    "message": "Час и дата: "
   },
   "TINY": {
     "description": "",
@@ -1737,7 +1737,7 @@
   },
   "UNDOCKING": {
     "description": "Flight state of ship when leaving station",
-    "message": "Undocking"
+    "message": "Откачване"
   },
   "UNEXPLORED_SYSTEM_NO_DATA": {
     "description": "",
@@ -1745,11 +1745,11 @@
   },
   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
     "description": "",
-    "message": "Unexplored system. System view unavailable."
+    "message": "Неизследвана система. Системният изглед не е наличен."
   },
   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
     "description": "",
-    "message": "Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available."
+    "message": "Неизследвана система. Информацията за звездите е взета от отдалечен телескоп, но информацията за планетите не е налична."
   },
   "UNIT_AU": {
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
@@ -1813,7 +1813,7 @@
   },
   "UNSET_NAVTARGET": {
     "description": "",
-    "message": "Unset navigation target."
+    "message": "Премахни навигационна цел."
   },
   "USE_LOW_THRUST": {
     "description": "",
@@ -1901,7 +1901,7 @@
   },
   "ZOOM_IN": {
     "description": "",
-    "message": "Увеличи"
+    "message": "Приближи"
   },
   "ZOOM_OUT": {
     "description": "",

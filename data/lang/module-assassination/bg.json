@@ -193,11 +193,11 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Задайте като навигационна цел"
+    "message": "Задай като навигационна цел"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Задайте маршрут за връщане"
+    "message": "Задай маршрут за връщане"
   },
   "SHIP": {
     "description": "",
