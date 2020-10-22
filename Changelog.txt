@@ -5,6 +5,7 @@ October 2020
    * Internal Changes
      * Optimize body list container in Space.cpp (#4957)
      * Use an offscreen buffer as the primary rendering target (#4974)
+     * Use Reverse-Z depth buffer, drop logZ hack (#4975)
 
 September 2020
    * New Features
