@@ -2443,6 +2443,20 @@ static int l_pigui_vsliderfloat(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_color_edit(lua_State *l)
+{
+	const char *lbl = LuaPull<const char *>(l, 1);
+	Color4f color = LuaPull<Color>(l, 2).ToColor4f();
+	bool hasAlpha = LuaPull<bool>(l, 3, true);
+
+	const auto flags = ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_NoDragDrop;
+	bool ok = ImGui::ColorEdit4(lbl, &color.r, flags | (hasAlpha ? ImGuiColorEditFlags_None : ImGuiColorEditFlags_NoAlpha));
+	LuaPush(l, ok);
+	LuaPush(l, Color(color));
+
+	return 2;
+}
+
 static int l_pigui_is_key_released(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2781,6 +2795,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "SliderFloat", l_pigui_slider_float },
 		{ "VSliderFloat", l_pigui_vsliderfloat },
 		{ "VSliderInt", l_pigui_vsliderint },
+		{ "ColorEdit", l_pigui_color_edit },
 		{ "GetMouseClickedPos", l_pigui_get_mouse_clicked_pos },
 		{ "AddConvexPolyFilled", l_pigui_add_convex_poly_filled },
 		{ "IsKeyReleased", l_pigui_is_key_released },

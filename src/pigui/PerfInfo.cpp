@@ -221,13 +221,6 @@ void PerfInfo::DrawPerfWindow()
 				DrawWorldViewStats();
 				ImGui::EndTabItem();
 			}
-
-			if (Pi::game->GetGalaxy() && ImGui::BeginTabItem("Galaxy Stats")) {
-				auto &stats = Pi::game->GetGalaxy()->GetStats();
-				stats.FlushFrame();
-				DrawStatList(stats.GetFrameStats());
-				ImGui::EndTabItem();
-			}
 		}
 
 		PiGui::RunHandler(Pi::GetFrameTime(), "debug-tabs");

@@ -91,6 +91,7 @@ ui.isItemClicked = pigui.IsItemClicked
 ui.isWindowHovered = pigui.IsWindowHovered
 ui.vSliderInt = pigui.VSliderInt
 ui.sliderInt = pigui.SliderInt
+ui.colorEdit = pigui.ColorEdit
 ui.nextItemWidth = pigui.NextItemWidth
 ui.pushItemWidth = pigui.PushItemWidth
 ui.popItemWidth = pigui.PopItemWidth
