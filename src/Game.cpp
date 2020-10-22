@@ -31,7 +31,7 @@
 #include "UIView.h"
 #include "WorldView.h"
 #include "galaxy/GalaxyGenerator.h"
-#include "pigui/View.h"
+#include "pigui/PiGuiView.h"
 #include "ship/PlayerShipController.h"
 
 static const int s_saveVersion = 86;

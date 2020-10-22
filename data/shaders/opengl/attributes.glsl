@@ -35,6 +35,16 @@ layout (location = 4) in vec4 a_uv1;
 layout (location = 5) in vec3 a_tangent;
 layout (location = 6) in mat4 a_transform;
 // a_transform @ 6 shadows (uses) 7, 8, and 9
-// next available is layout (location = 10) 
+// next available is layout (location = 10)
+
+// shorthand to abstract away instancing
+vec4 matrixTransform()
+{
+#ifdef USE_INSTANCING
+	return uViewProjectionMatrix * a_transform * a_vertex;
+#else
+	return uViewProjectionMatrix * a_vertex;
+#endif
+}
 
 #endif // VERTEX_SHADER

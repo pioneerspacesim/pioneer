@@ -62,6 +62,37 @@ namespace Graphics {
 		return g_fovFactor;
 	}
 
+	vector3d ProjectToScreen(const Renderer *r, const vector3d &in)
+	{
+		// implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)
+		// this implementation is tailored to understand Reverse-Z and our data structures.
+		const vector3d vcam = matrix4x4d(r->GetTransform()) * in;
+		const matrix4x4d proj = matrix4x4d(r->GetProjection());
+
+		// compute the effective W component for perspective divide.
+		// This code assumes that it's being passed a 'standard' perspective or ortho matrix.
+		const double w = vcam.z * proj[11] + proj[15];
+
+		// convert view coordinates -> homogeneous coordinates -> NDC
+		// perspective divide is applied last (left-to-right associativity)
+		const vector3d vNDC = proj * vcam / w;
+
+		// convert -1..1 NDC to 0..1 viewport coordinates
+		const vector3d vVP = {
+			vNDC.x * 0.5 + 0.5,
+			vNDC.y * 0.5 + 0.5,
+			-vNDC.z // undo reverse-Z coordinate flip
+		};
+
+		// viewport coord * size + position
+		const Viewport &vp = r->GetViewport();
+		return vector3d{
+			vVP.x * vp.w + vp.x,
+			vVP.y * vp.h + vp.y,
+			vVP.z
+		};
+	}
+
 	Renderer *Init(Settings vs)
 	{
 		assert(!initted);

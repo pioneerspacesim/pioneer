@@ -201,8 +201,10 @@ namespace Graphics {
 		glFrontFace(GL_CCW);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
+		// use floating-point reverse-Z depth buffer to remove the need for depth buffer hacks
+		glDepthFunc(GL_GREATER);
 		glDepthRange(0.0, 1.0);
+		glClipControl(GL_LOWER_LEFT, GL_ZERO_TO_ONE);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
@@ -212,6 +214,7 @@ namespace Graphics {
 		glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
 		glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);
 
+		glClearDepth(0.0); // clear to 0.0 for use with reverse-Z
 		SetClearColor(Color4f(0.f, 0.f, 0.f, 0.f));
 		SetViewport(Viewport(0, 0, m_width, m_height));
 
@@ -567,7 +570,8 @@ namespace Graphics {
 
 	bool RendererOGL::SetDepthRange(double znear, double zfar)
 	{
-		glDepthRange(znear, zfar);
+		// XXX since we're using reverse-Z, flip the inputs to this function to avoid breaking old code.
+		glDepthRange(1.0 - zfar, 1.0 - znear);
 		return true;
 	}
 
@@ -631,14 +635,7 @@ namespace Graphics {
 		m_invLogZfarPlus1 = 1.0f / (log1p(far_) / log(2.0f));
 
 		Graphics::SetFov(fov);
-
-		float ymax = near_ * tan(fov * M_PI / 360.0);
-		float ymin = -ymax;
-		float xmin = ymin * aspect;
-		float xmax = ymax * aspect;
-
-		const matrix4x4f frustrumMat = matrix4x4f::FrustumMatrix(xmin, xmax, ymin, ymax, near_, far_);
-		SetProjection(frustrumMat);
+		SetProjection(matrix4x4f::PerspectiveMatrix(DEG2RAD(fov), aspect, near_, far_));
 		return true;
 	}
 

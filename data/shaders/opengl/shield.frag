@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
-#include "logz.glsl"
 #include "lib.glsl"
 
 in vec3 varyingEyepos;
@@ -32,7 +31,7 @@ float calcIntensity(int shieldIndex)
 	float life = radii[shieldIndex];
 	float radius = 50.0 * life;
 	vec3 dif = varyingVertex - current_position;
-	
+
 	float sqrDist = dot(dif,dif);
 
 	return clamp(1.0/sqrDist*radius, 0.0, 0.9) * (1.0 - life);
@@ -43,26 +42,24 @@ void main(void)
 	//vec4 color = material.diffuse;
 	vec4 color = mix(red, blue, shieldStrength);
 	vec4 fillColour = color * 0.15;
-	
+
 	vec3 eyenorm = normalize(-varyingEyepos);
 
 	float fresnel = 1.0 - abs(dot(eyenorm, varyingNormal)); // Calculate fresnel.
 	fresnel = pow(fresnel, 10.0);
 	fresnel += 0.05 * (1.0 - fresnel);
-	
+
 	float sumIntensity = 0.0;
 	for ( int hit=0; hit<numHits; hit++ )
 	{
 		sumIntensity += calcIntensity(hit);
 	}
 	float clampedInt = clamp(sumIntensity, 0.0, 1.0);
-	
+
 	// combine a base colour with the (clamped) fresnel value and fade it out according to the cooldown period.
 	color.a = (fillColour.a + clamp(fresnel * 0.5, 0.0, 1.0)) * shieldCooldown;
 	// add on our hit effect colour
 	color = color + (hitColour * clampedInt);
-	
-	frag_color = color;
 
-	SetFragDepth();
+	frag_color = color;
 }

@@ -10,7 +10,7 @@ namespace Graphics {
 		RenderTarget::RenderTarget(const RenderTargetDesc &d) :
 			Graphics::RenderTarget(d),
 			m_active(false),
-			m_depthRenderbuffer(0)
+			m_depthRenderBuffer(0)
 		{
 			glGenFramebuffers(1, &m_fbo);
 		}
@@ -18,7 +18,7 @@ namespace Graphics {
 		RenderTarget::~RenderTarget()
 		{
 			glDeleteFramebuffers(1, &m_fbo);
-			glDeleteRenderbuffers(1, &m_depthRenderbuffer);
+			glDeleteRenderbuffers(1, &m_depthRenderBuffer);
 		}
 
 		Texture *RenderTarget::GetColorTexture() const
@@ -95,12 +95,12 @@ namespace Graphics {
 			assert(m_active);
 			assert(m_depthRenderBuffer == 0);
 
-			glGenRenderbuffers(1, &m_depthRenderbuffer);
-			glBindRenderbuffer(GL_RENDERBUFFER, m_depthRenderbuffer);
+			glGenRenderbuffers(1, &m_depthRenderBuffer);
+			glBindRenderbuffer(GL_RENDERBUFFER, m_depthRenderBuffer);
 			glRenderbufferStorageMultisample(GL_RENDERBUFFER, GetDesc().numSamples, GL_DEPTH_COMPONENT32F, GetDesc().width, GetDesc().height);
 			glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthRenderbuffer);
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthRenderBuffer);
 		}
 
 	} // namespace OGL

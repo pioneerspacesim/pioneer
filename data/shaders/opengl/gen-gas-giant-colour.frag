@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
-#include "logz.glsl"
 #include "noise.glsl"
 
 uniform sampler2D texture2; // ???
@@ -64,7 +63,7 @@ vec4 HueShift(in vec4 color)
 
 #ifdef GEN_JUPITER_ESQUE
 vec4 GetColour(in vec3 p)
-{	
+{
 	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
 	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
 	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
@@ -112,7 +111,7 @@ vec4 GetColour(in vec3 p)
 }
 #endif
 
-#ifdef GEN_URANUS_ESQUE 
+#ifdef GEN_URANUS_ESQUE
 vec4 GetColour(in vec3 p)
 {
 	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
@@ -132,10 +131,8 @@ void main(void)
 {
 	float xfrac = (uv.x-0.5) * fracStep;
 	float yfrac = (uv.y-0.5) * fracStep;
-	
+
 	// call the GetColour function implemented for this shader type
 	// Hue Shift the colour and store the final result
 	frag_color = HueShift(GetColour(GetSpherePoint(xfrac, yfrac)));
-	
-	SetFragDepth();
 }

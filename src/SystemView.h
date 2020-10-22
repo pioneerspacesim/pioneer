@@ -5,6 +5,7 @@
 #define _SYSTEMVIEW_H
 
 #include "Color.h"
+#include "DeleteEmitter.h"
 #include "UIView.h"
 #include "graphics/Drawables.h"
 #include "matrix4x4.h"
@@ -168,10 +169,10 @@ private:
 	void RefreshShips(void);
 	void DrawShips(const double t, const vector3d &offset);
 	void DrawGrid();
+
+	// Project a position in the current renderer project to screenspace and add it to the list of projected objects
 	template <typename T>
-	void AddProjected(Projectable::types type, Projectable::bases base, T *ref, vector3d &pos, const vector3d &worldpos);
-	template <typename T>
-	void AddNotProjected(Projectable::types type, Projectable::bases base, T *ref, const vector3d &worldpos);
+	void AddProjected(Projectable::types type, Projectable::bases base, T *ref, const vector3d &worldpos);
 	void CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos);
 	void CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos);
 	double GetOrbitTime(double t, const SystemBody* b);

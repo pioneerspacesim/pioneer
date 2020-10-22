@@ -1,4 +1,4 @@
--- Copyright � 2008-2020 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -118,7 +118,7 @@ local function alarm ()
 				ui.playSfx("impact_chime", 1.0, 1.0)
 				alreadyAlertedImpact = true
 			end
-			
+
 		--with the following formula, alert triggers if
 		--player ship's acceleration rate would not allow them to avoid a collision by simply accelerating sideways
 		--exact calculations require complex integrals, this alert is accurate enough but just a tiny bit on the pessimistic side for extra safety measures
@@ -135,4 +135,3 @@ end
 ui.registerModule("game", alarm)
 
 return {}
-
