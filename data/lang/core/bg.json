@@ -101,7 +101,7 @@
   },
   "BROWN_DWARF": {
     "description": "",
-    "message": "Brown dwarf sub-stellar object"
+    "message": "Кафяво джудже"
   },
   "BUTTON": {
     "description": "",
@@ -589,7 +589,7 @@
   },
   "HYPERSPACE_JUMP_FORBIDDEN": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Hyperdrive forbidden zone"
+    "message": "Забранена зона за хипердвигатели"
   },
   "HYPERSPACE_TARGET": {
     "description": "",
@@ -613,7 +613,7 @@
   },
   "IMPERIAL_RULE": {
     "description": "",
-    "message": "Imperial Rule"
+    "message": "Имперска Власт"
   },
   "INCREASE_RADAR_RANGE": {
     "description": "",
@@ -1001,7 +1001,7 @@
   },
   "NO_HYPERDRIVE": {
     "description": "",
-    "message": "No hyperdrive"
+    "message": "Няма хипердвигател"
   },
   "NO_REGISTERED_INHABITANTS": {
     "description": "",
@@ -1125,7 +1125,7 @@
   },
   "PAY_FINE_REMOTELY": {
     "description": "",
-    "message": "Pay fine by remote transfer (%amount)"
+    "message": "Плати глобата с паричен превод (%amount)"
   },
   "PERIAPSIS_DISTANCE": {
     "description": "",
@@ -1473,15 +1473,15 @@
   },
   "STAR_AF_GIANT": {
     "description": "",
-    "message": "White giant star"
+    "message": "Бял гигант"
   },
   "STAR_AF_HYPER_GIANT": {
     "description": "",
-    "message": "White hyper giant star"
+    "message": "Бял хипергигант"
   },
   "STAR_AF_SUPER_GIANT": {
     "description": "",
-    "message": "White super giant star"
+    "message": "Бял супергигант"
   },
   "STAR_B": {
     "description": "",
@@ -1489,19 +1489,19 @@
   },
   "STAR_B_GIANT": {
     "description": "",
-    "message": "Blue giant star"
+    "message": "Син гигант"
   },
   "STAR_B_HYPER_GIANT": {
     "description": "",
-    "message": "Blue hyper giant star"
+    "message": "Син хипергигант"
   },
   "STAR_B_SUPER_GIANT": {
     "description": "",
-    "message": "Blue super giant star"
+    "message": "Син супергигант"
   },
   "STAR_B_WF": {
     "description": "",
-    "message": "Wolf-Rayet star - Risk of collapse"
+    "message": "Звезда на Волф-Райе - Риск от разпадане"
   },
   "STAR_F": {
     "description": "",
@@ -1513,19 +1513,19 @@
   },
   "STAR_G_GIANT": {
     "description": "",
-    "message": "Yellow giant star - Unstable"
+    "message": "Жълт гигант - Нестабилен"
   },
   "STAR_G_HYPER_GIANT": {
     "description": "",
-    "message": "Yellow hyper giant star - Unstable"
+    "message": "Жълт хипергигант - Нестабилен"
   },
   "STAR_G_SUPER_GIANT": {
     "description": "",
-    "message": "Yellow super giant star"
+    "message": "Жълт супергигант"
   },
   "STAR_IM_BH": {
     "description": "",
-    "message": "An intermediate-mass black hole"
+    "message": "Черна дупка с междинна маса"
   },
   "STAR_K": {
     "description": "",
@@ -1533,15 +1533,15 @@
   },
   "STAR_K_GIANT": {
     "description": "",
-    "message": "Orange giant star - Unstable"
+    "message": "Оранжев гигант - Нестабилен"
   },
   "STAR_K_HYPER_GIANT": {
     "description": "",
-    "message": "Orange hyper giant star - Unstable"
+    "message": "Оранжев хипергигант - Нестабилен"
   },
   "STAR_K_SUPER_GIANT": {
     "description": "",
-    "message": "Orange super giant star"
+    "message": "Оранжев супергигант"
   },
   "STAR_M": {
     "description": "",
@@ -1549,19 +1549,19 @@
   },
   "STAR_M_GIANT": {
     "description": "",
-    "message": "Red giant star"
+    "message": "Червен гигант"
   },
   "STAR_M_HYPER_GIANT": {
     "description": "",
-    "message": "Red hyper giant star"
+    "message": "Червен хипергигант"
   },
   "STAR_M_SUPER_GIANT": {
     "description": "",
-    "message": "Red super giant star"
+    "message": "Червен супергигант"
   },
   "STAR_M_WF": {
     "description": "",
-    "message": "Wolf-Rayet star - Unstable"
+    "message": "Звезда на Волф-Райе - Нестабилна"
   },
   "STAR_O": {
     "description": "",
@@ -1569,19 +1569,19 @@
   },
   "STAR_O_GIANT": {
     "description": "",
-    "message": "Hot Blue giant star"
+    "message": "Горещ син гигант"
   },
   "STAR_O_HYPER_GIANT": {
     "description": "",
-    "message": "Hot Blue hyper giant star"
+    "message": "Горещ син хипергигант"
   },
   "STAR_O_SUPER_GIANT": {
     "description": "",
-    "message": "Hot Blue super giant star"
+    "message": "Горещ син супергигант"
   },
   "STAR_O_WF": {
     "description": "",
-    "message": "Wolf-Rayet star - Imminent collapse"
+    "message": "Звезда на Волф-Райе - Предстоящо разпадане"
   },
   "STAR_SM_BH": {
     "description": "",
@@ -1593,7 +1593,7 @@
   },
   "STAR_S_BH": {
     "description": "",
-    "message": "A stellar black hole"
+    "message": "Звездна черна дупка"
   },
   "SUGGESTED_RESPONSES": {
     "description": "",
@@ -1861,7 +1861,7 @@
   },
   "WHITE_DWARF": {
     "description": "",
-    "message": "White dwarf stellar remnant"
+    "message": "Бяло джудже"
   },
   "WITH_A": {
     "description": "",
