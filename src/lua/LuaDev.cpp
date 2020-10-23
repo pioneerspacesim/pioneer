@@ -32,6 +32,7 @@
  *       CountSystems
  *       CountSystemNames
  *       CountPopulation
+ *       PlanetsGravity
  *
  * Availability:
  *
@@ -121,6 +122,73 @@ static int l_dev_galaxy_stats(lua_State *l)
 		}
 	} CountPopulation;
 
+	class : public Processor {
+		RefCountedPtr<Galaxy> galaxy = Pi::game->GetGalaxy();
+		struct planet {
+			std::string name;
+			std::string systemname;
+			double gravity;
+			SystemPath path;
+			planet(const std::string &n, const std::string &sn, double g, const SystemPath &p) :
+				name(n), systemname(sn), gravity(g), path(p) {}
+		};
+		std::vector<planet> Planets;
+
+	public:
+		void ProcessSystem(const Sector::System &system) override
+		{
+			RefCountedPtr<StarSystem> starsystem = galaxy->GetStarSystem(system.GetPath());
+			for (const auto b : starsystem->GetBodies()) {
+				auto children = b->GetChildren();
+				if (std::find_if(children.cbegin(), children.cend(), [](const SystemBody *kid) {
+						return kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE;
+					}) != children.cend())
+					// the radius and the mass of the planet is returned in the radii and the mass of the earth
+					// therefore the result is obtained in g
+					Planets.emplace_back(b->GetName(), system.GetName(), b->GetMassAsFixed().ToDouble() / b->GetRadiusAsFixed().ToDouble() / b->GetRadiusAsFixed().ToDouble(), b->GetPath());
+			}
+		}
+		std::string Report() override
+		{
+			std::sort(Planets.begin(), Planets.end(), [](const planet &p1, const planet &p2) {
+				return p1.gravity > p2.gravity;
+			});
+			const double step = 0.1;
+			const double from = std::floor(Planets.back().gravity / step) * step;
+			const double to = std::floor(Planets.front().gravity / step) * step + step * 0.5; // this is the middle of the last range
+			uint32_t top_amount = 20;														  // number of planets for the best / worst chart
+			if (top_amount > Planets.size() / 2) top_amount = Planets.size() / 2;
+			std::stringstream result;
+			result.precision(3);
+			result << "Total number of planets with star ports: " << Planets.size();
+			result << "\nNumber of planets by gravity on the surface:";
+			for (double i = from; i < to; i += step) {
+				uint32_t amount = 0;
+				for (const auto &p : Planets)
+					if (p.gravity > i && p.gravity <= i + step) amount++;
+				result << "\n"
+					   << std::fixed << i << "g .. " << std::fixed << i + step << "g: " << amount / static_cast<float>(Planets.size()) * 100 << "% (" << amount << " planets)";
+			}
+			result << "\n------------------------------";
+			result << "\nTop " << top_amount << " planets with max gravity:";
+			for (uint32_t i = 0; i < top_amount; ++i) {
+				result << "\n"
+					   << i + 1 << ". " << Planets[i].name << " : " << Planets[i].gravity << "g ";
+				result << "(" << Planets[i].systemname;
+				result << " " << Planets[i].path.sectorX << ", " << Planets[i].path.sectorY << ", " << Planets[i].path.sectorZ << ")";
+			}
+			result << "\n------------------------------";
+			result << "\nBottom " << top_amount << " planets with min gravity:";
+			for (uint32_t i = Planets.size() - top_amount; i < Planets.size(); ++i) {
+				result << "\n"
+					   << i + 1 << ". " << Planets[i].name << " : " << Planets[i].gravity << "g ";
+				result << "(" << Planets[i].systemname;
+				result << " " << Planets[i].path.sectorX << ", " << Planets[i].path.sectorY << ", " << Planets[i].path.sectorZ << ")";
+			}
+			return result.str() + "\n";
+		}
+	} PlanetsGravity;
+
 	// lua args
 	int centerX = LuaPull<int>(l, 1);
 	int centerY = LuaPull<int>(l, 2);
@@ -136,7 +204,8 @@ static int l_dev_galaxy_stats(lua_State *l)
 	// map strings into processors
 	std::map<const std::string, Processor *> processors = { { "CountSystemNames", &CountSystemNames },
 		{ "CountPopulation", &CountPopulation },
-		{ "CountSystems", &CountSystems } };
+		{ "CountSystems", &CountSystems },
+		{ "PlanetsGravity", &PlanetsGravity } };
 	std::vector<Processor *> P;
 	for (auto &option : options)
 		if (processors.find(option) != processors.end())
