@@ -1,11 +1,18 @@
 October 2020
    * New Features
      * Ship-specific atmospheric pressure limits (#4958)
+     * Make thruster upgrades availabile based on tech level (#4956)
    
    * Internal Changes
      * Optimize body list container in Space.cpp (#4957)
      * Use an offscreen buffer as the primary rendering target (#4974)
      * Use Reverse-Z depth buffer, drop logZ hack (#4975)
+     * Add PlanetsGravity processor for GalaxyStats tool (#4971)
+     * Add theme color display/editor to debug menu (#4979)
+   
+   * Fixes
+     * Fix Flight Log crashes (#4973)
+     * Update MSVC CMake configuration and instructions (#4980)
 
 September 2020
    * New Features
