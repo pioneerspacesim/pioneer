@@ -120,15 +120,14 @@ questions are welcome anytime.
 
 3. Go to File->Open->CMake and select pioneer/CMakeLists.txt
 
-4. If a Release build is desired, select 'Manage Configurations' under the build type,
-   which will default to x64-Debug and add x64-Release.
+4. Select the appropriate build type (x64-Debug or x64-Release) under the configuration
+   drop down on the main toolbar, located next to the run button. 
 
-5. Select the appropriate build type.
+5. Build the project (Build->Build All).
 
-6. Buid the project (Build->Build All).
-
-7. Pioneer can be run and debugged by selecting 'pioneer.exe' on the 
-   'Select Startup Item' toolbar button, and then clicking run.
+6. Pioneer can be run and debugged by selecting 'pioneer.exe' on the 
+   'Select Startup Item' menu (click the small down arrow on the run button), and then clicking run.
+   Be sure to select 'pioneer.exe' and not 'pioneer.exe (install)'.
 
 
 1.5 OS X - Homebrew
