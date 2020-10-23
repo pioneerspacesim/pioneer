@@ -11,6 +11,7 @@
 	"atmospheric_pressure_limit": 4,
 	"capacity": 17,
 	"slots": {
+		"engine": 2,
 		"cabin": 3,
 		"laser_front": 1,
 		"missile": 4,
@@ -18,6 +19,7 @@
 	},
 	"roles": {
 		"mercenary": true,
+		"merchant": true,
 		"pirate": true
 	},
 	"effective_exhaust_velocity": 42300000,

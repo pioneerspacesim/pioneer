@@ -11,6 +11,7 @@
 	"atmospheric_pressure_limit": 3.8,
 	"capacity": 950,
 	"slots": {
+		"engine": 5,
 		"cabin": 60,
 		"laser_front": 1,
 		"laser_rear": 1,
@@ -19,19 +20,20 @@
 	},
 	"roles": {
 		"mercenary": true,
+		"merchant": true,
 		"pirate": true
 	},
 	"effective_exhaust_velocity": 39900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 273,
-	"hyperdrive_class": 0,
+	"hyperdrive_class": 5,
 
 	"forward_thrust": 36000000,
-	"forward_acceleration_cap": 14.715,
+	"forward_acceleration_cap": 21.582,
 	"reverse_thrust": 20000000,
 	"reverse_acceleration_cap": 21.582,
-	"up_thrust": 26000000,
-	"up_acceleration_cap": 19.62,
+	"up_thrust": 32000000,
+	"up_acceleration_cap": 21.582,
 	"down_thrust": 13000000,
 	"down_acceleration_cap": 16.677,
 	"left_thrust": 13000000,
@@ -39,7 +41,7 @@
 	"right_thrust": 13000000,
 	"right_acceleration_cap": 16.677,
 
-	"angular_thrust": 76704914,
+	"angular_thrust": 76704913.7369279,
 
 	"front_cross_section": 165,
 	"side_cross_section": 300,

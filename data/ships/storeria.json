@@ -3,7 +3,7 @@
 	"name": "Storeria",
 	"cockpit": " ",
 	"manufacturer": "opli",
-	"ship_class": "medium_fighter",
+	"ship_class": "medium_freighter",
 	"min_crew": 1,
 	"max_crew": 5,
 	"price": 1037916,
@@ -11,6 +11,7 @@
 	"atmospheric_pressure_limit": 3.2,
 	"capacity": 1550,
 	"slots": {
+		"engine": 5,
 		"cabin": 30,
 		"laser_front": 1,
 		"laser_rear": 1,
@@ -19,12 +20,13 @@
 	},
 	"roles": {
 		"mercenary": true,
+		"merchant": true,
 		"pirate": true
 	},
 	"effective_exhaust_velocity": 26900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 1000,
-	"hyperdrive_class": 0,
+	"hyperdrive_class": 6,
 
 	"forward_thrust": 45000000,
 	"forward_acceleration_cap": 16.677,

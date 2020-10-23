@@ -11,18 +11,20 @@
 	"atmospheric_pressure_limit": 4,
 	"capacity": 5,
 	"slots": {
+		"engine": 1,
 		"cabin": 0,
 		"laser_front": 1,
 		"cargo": 5
 	},
 	"roles": {
 		"mercenary": true,
+		"merchant": false,
 		"pirate": true
 	},
 	"effective_exhaust_velocity": 38900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 2,
-	"hyperdrive_class": 0,
+	"hyperdrive_class": 1,
 
 	"forward_thrust": 200000,
 	"forward_acceleration_cap": 39.24,

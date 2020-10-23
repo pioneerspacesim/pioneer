@@ -11,6 +11,7 @@
 	"atmospheric_pressure_limit": 3.1,
 	"capacity": 38,
 	"slots": {
+		"engine": 2,
 		"cabin": 2,
 		"laser_front": 1,
 		"missile": 2,
@@ -18,6 +19,7 @@
 	},
 	"roles": {
 		"mercenary": true,
+		"merchant": true,
 		"pirate": true
 	},
 	"effective_exhaust_velocity": 6900000,
@@ -38,7 +40,7 @@
 	"right_thrust": 920000,
 	"right_acceleration_cap": 11.4777,
 
-	"angular_thrust": 3799843,
+	"angular_thrust": 3799843.41896781,
 
 	"front_cross_section": 16.2,
 	"side_cross_section": 39,

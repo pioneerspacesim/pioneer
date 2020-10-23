@@ -1,4 +1,4 @@
-	{
+{
 	"model": "dsminer",
 	"name": "DSMiner",
 	"cockpit": " ",
@@ -11,6 +11,7 @@
 	"atmospheric_pressure_limit": 2,
 	"capacity": 4700,
 	"slots": {
+		"engine": 8,
 		"cabin": 50,
 		"laser_front": 1,
 		"laser_rear": 1,
@@ -20,12 +21,13 @@
 	},
 	"roles": {
 		"mercenary": true,
+		"merchant": true,
 		"pirate": true
 	},
 	"effective_exhaust_velocity": 79900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 1200,
-	"hyperdrive_class": 0,
+	"hyperdrive_class": 8,
 
 	"forward_thrust": 46000000,
 	"forward_acceleration_cap": 9.81,
@@ -40,7 +42,7 @@
 	"right_thrust": 13000000,
 	"right_acceleration_cap": 5.0031,
 
-	"angular_thrust": 133652501,
+	"angular_thrust": 133652501.208283,
 
 	"front_cross_section": 515,
 	"side_cross_section": 911,

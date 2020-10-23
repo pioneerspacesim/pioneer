@@ -1,6 +1,6 @@
 {
 	"model": "wave",
-	"name": "Wave Hypersonic Fighter",
+	"name": "Wave",
 	"cockpit": " ",
 	"manufacturer": "auronox",
 	"ship_class": "medium_fighter",
@@ -11,6 +11,7 @@
 	"atmospheric_pressure_limit": 14,
 	"capacity": 30,
 	"slots": {
+		"engine": 1,
 		"cabin": 0,
 		"scoop": 2,
 		"laser_front": 1,
@@ -20,12 +21,13 @@
 	},
 	"roles": {
 		"mercenary": true,
+		"merchant": false,
 		"pirate": true
 	},
 	"effective_exhaust_velocity": 16900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 22,
-	"hyperdrive_class": 0,
+	"hyperdrive_class": 1,
 
 	"forward_thrust": 2800000,
 	"forward_acceleration_cap": 44.145,
@@ -40,7 +42,7 @@
 	"right_thrust": 800000,
 	"right_acceleration_cap": 19.62,
 
-	"angular_thrust": 4505743,
+	"angular_thrust": 4505743.18454681,
 
 	"front_cross_section": 35.2,
 	"side_cross_section": 46,
