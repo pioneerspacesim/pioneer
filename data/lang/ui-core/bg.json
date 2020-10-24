@@ -9,7 +9,7 @@
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Add Jump"
+    "message": "Добави Хиперскок"
   },
   "AFTER_TRADE_IN": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Центрирай върху Системата"
   },
   "CHANGE": {
     "description": "Face feature option",
@@ -145,7 +145,7 @@
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
-    "message": "Change Binding"
+    "message": "Промени Контролите"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "CIRCULAR_ORBIT_SPEED": {
     "description": "",
-    "message": "Circular orbit speed"
+    "message": "Скорост при кръгова орбита"
   },
   "CITY_DETAIL_LEVEL": {
     "description": "Game graphics option",
@@ -297,11 +297,11 @@
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
-    "message": "Departure date"
+    "message": "Дата на отпътуване"
   },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
-    "message": "Descent-to-ground speed:"
+    "message": "Скорост на спускане към повърхността:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -389,7 +389,7 @@
   },
   "EMPLOYMENT": {
     "description": "",
-    "message": "Employment"
+    "message": "Заетост"
   },
   "ENABLE_ANISOTROPIC_FILTERING": {
     "description": "Use Anisotropic Filtering",
@@ -417,7 +417,7 @@
   },
   "END_GAME": {
     "description": "",
-    "message": "End Game"
+    "message": "Край на Играта"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
@@ -425,7 +425,7 @@
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
-    "message": "Entry"
+    "message": "Записка"
   },
   "EQUIPMENT": {
     "description": "",
@@ -449,7 +449,7 @@
   },
   "ESCAPE_SPEED": {
     "description": "",
-    "message": "Escape speed:"
+    "message": "Втора космическа скорост:"
   },
   "EXIT_THIS_GAME": {
     "description": "",
@@ -533,11 +533,11 @@
   },
   "FLIGHTLOG_JUMPING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "Hyper jumping towards {primary_info}"
+    "message": "Хиперотскок към {primary_info}"
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+    "message": "Приземен на {primary_info}, координати ({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
@@ -553,7 +553,7 @@
   },
   "FLIGHT_LOG": {
     "description": "Title for flight log screen, in info view",
-    "message": "Flight Log"
+    "message": "Летателен Дневник"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -577,7 +577,7 @@
   },
   "FRACTAL_DETAIL": {
     "description": "",
-    "message": "Fractal detail"
+    "message": "Фрактален детайл"
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
@@ -609,7 +609,7 @@
   },
   "GENERAL_CREW": {
     "description": "",
-    "message": "General crew"
+    "message": "Основен екипаж"
   },
   "GIVE_ORDERS_TO_CREW": {
     "description": "",
@@ -677,7 +677,7 @@
   },
   "HUD_BACKWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Backward Gun Temperature.",
-    "message": "Backward Gun Temperature"
+    "message": "Температура на Задното Оръжие"
   },
   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
     "description": "Tooltip: The braking distance using the main thrusters.",
@@ -773,11 +773,11 @@
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
     "description": "Tooltip: Rotation damping is off",
-    "message": "Rotation damping is off"
+    "message": "Плавната ротация е изключена"
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
-    "message": "Rotation damping is on"
+    "message": "Плавната ротация е включена"
   },
   "HUD_BUTTON_SCANNER": {
     "description": "Tooltip: Scanner",
@@ -813,7 +813,7 @@
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
     "description": "Tooltip: Switch to system overview",
-    "message": "Преглед на системата"
+    "message": "Общ преглед на системата"
   },
   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
     "description": "Tooltip: Switch to world view",
@@ -881,15 +881,15 @@
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
-    "message": "Forward Gun Temperature"
+    "message": "Температура на Предното Оръжие"
   },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
-    "message": "Hull Strength"
+    "message": "Издръжливост на Корпуса"
   },
   "HUD_HULL_TEMPERATURE": {
     "description": "Tooltip: Hull Temperature.",
-    "message": "Hull Temperature"
+    "message": "Температура на Корпуса"
   },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
@@ -929,11 +929,11 @@
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
-    "message": "In transit to {system} [{x},{y},{z}]"
+    "message": "На път за {system} [{x},{y},{z}]"
   },
   "HUD_JUMP_COMPLETE": {
     "description": "",
-    "message": "Jump complete: {percent}%"
+    "message": "Изпълнение на хиперскок: {percent}%"
   },
   "HUD_MASS": {
     "description": "Mass",
@@ -941,7 +941,7 @@
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
-    "message": "Active radar distance"
+    "message": "Активно радарно разстояние"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
@@ -949,7 +949,7 @@
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
-    "message": "Shield Strength"
+    "message": "Издръжливост на Щитовете"
   },
   "HUD_SHOW_COMBAT_TARGET": {
     "description": "Tooltip: Show the current combat target.",
@@ -985,11 +985,11 @@
   },
   "HUD_WARNING_IMPACT": {
     "description": "Alert tooltip",
-    "message": "Impact warning"
+    "message": "Опасност от сблъсък"
   },
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
-    "message": "Impact imminent"
+    "message": "Предстои сблъсък"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -1073,7 +1073,7 @@
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
-    "message": "In system"
+    "message": "В системата"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -1089,7 +1089,7 @@
   },
   "JUMPING": {
     "description": "Flight State",
-    "message": "Jumping"
+    "message": "Хиперотскок"
   },
   "KILLS": {
     "description": "",
@@ -1169,19 +1169,19 @@
   },
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
-    "message": "Custom Log"
+    "message": "Персонализиран Дневник"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
-    "message": "New Entry"
+    "message": "Нова Записка"
   },
   "LOG_STATION": {
     "description": "Label tab for showing logged station events",
-    "message": "Station Log"
+    "message": "Дневник на Станцията"
   },
   "LOG_SYSTEM": {
     "description": "Label tab for showing logged system events",
-    "message": "System Log"
+    "message": "Дневник на Системата"
   },
   "LOW": {
     "description": "",
@@ -1305,11 +1305,11 @@
   },
   "MOVE_DOWN": {
     "description": "move selection down in list",
-    "message": "Move Down"
+    "message": "Премести Надолу"
   },
   "MOVE_UP": {
     "description": "move selection up in list",
-    "message": "Move Up"
+    "message": "Премести Нагоре"
   },
   "MULTISAMPLING": {
     "description": "",
@@ -1445,7 +1445,7 @@
   },
   "ORBITAL_ANALYSIS": {
     "description": "",
-    "message": "Orbital Analysis"
+    "message": "Орбитален Анализ"
   },
   "ORBITAL_ANALYSIS_NOTES": {
     "description": "",
@@ -1553,7 +1553,7 @@
   },
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
-    "message": "Quit confirmation"
+    "message": "Потвърждение за изход"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
@@ -1593,11 +1593,11 @@
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
-    "message": "Remove Jump"
+    "message": "Премахни Хиперскок"
   },
   "REMOVE_WHEN_COMPLETED": {
     "description": "For UI hyperjump planner, referring to jump target system",
-    "message": "Remove jump when completed"
+    "message": "Премахни хиперскока, след завършването му"
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
@@ -1665,7 +1665,7 @@
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-    "message": "Загребващи монтировки"
+    "message": "Събирачни монтировки"
   },
   "SCUTUM_CENTAURUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1805,7 +1805,7 @@
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
-    "message": "Station"
+    "message": "Станция"
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
@@ -1817,11 +1817,11 @@
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
-    "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+    "message": "Ние сме в {orbit_period} дневен орбитален период около {parent_body}."
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
-    "message": "Station tech level too low to sell this item"
+    "message": "Технологичното ниво на станцията е твърде ниско за продажбата на този артикул"
   },
   "STATUS": {
     "description": "",
@@ -1861,15 +1861,15 @@
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
-    "message": "Мъж/Жена"
+    "message": "Превключи мъж/жена"
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Toggle showing moons in the overview"
+    "message": "Превключи показването на луните в общия преглед"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",
-    "message": "Toggle showing stations in the overview"
+    "message": "Превключи показването на станциите в общия преглед"
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
@@ -1877,7 +1877,7 @@
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
+    "message": "Превключи прозореца за общия преглед"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",

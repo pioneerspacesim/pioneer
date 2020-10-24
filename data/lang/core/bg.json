@@ -5,7 +5,7 @@
   },
   "ALERT_CANCELLED": {
     "description": "",
-    "message": "Alert cancelled."
+    "message": "Сигналът за тревога е отменен."
   },
   "ALLEGIANCE": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "CARGO_BAY_LIFE_SUPPORT_LOST": {
     "description": "",
-    "message": "Sensors report critical cargo bay life-support conditions."
+    "message": "Сензорите отчитат критични нива на животоподдържащите системи в товарния отсек."
   },
   "CARGO_N": {
     "description": "",
@@ -161,11 +161,11 @@
   },
   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
     "description": "",
-    "message": "Cargo scoop active. Collected 1 tonne of %item."
+    "message": "Товаросъбирачът е активен. Събран е 1 тон %item."
   },
   "CARGO_SCOOP_ATTEMPTED": {
     "description": "",
-    "message": "Cargo scoop attempted. Not enough room in cargo hold."
+    "message": "Товаросъбирачът не е активен. Корабът е пълен."
   },
   "CENTER": {
     "description": "",
@@ -217,7 +217,7 @@
   },
   "COMMUNIST": {
     "description": "",
-    "message": "Communist"
+    "message": "Комунизъм"
   },
   "COMPASS_E": {
     "description": "Abbreviation for compass direction: East",
@@ -257,11 +257,11 @@
   },
   "COMPUTER_HEADING_CONTROL": {
     "description": "",
-    "message": "Computer heading control"
+    "message": "Компютърно управление на посоката"
   },
   "COMPUTER_SPEED_CONTROL": {
     "description": "",
-    "message": "Computer speed control"
+    "message": "Компютърно управление на скоростта"
   },
   "CONSUMER_GOODS": {
     "description": "",
@@ -349,7 +349,7 @@
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
-    "message": "No fire detected for 60 seconds, downgrading alert status."
+    "message": "В последните 60 секунди не е открит огън, степента на тревога е понижена."
   },
   "DRAW_OUT_RANGE_LABELS": {
     "description": "",
@@ -417,7 +417,7 @@
   },
   "FIRE_LASER": {
     "description": "",
-    "message": "Fire weapon"
+    "message": "Открий огън"
   },
   "FIRE_MISSILE": {
     "description": "",
@@ -441,7 +441,7 @@
   },
   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
     "description": "",
-    "message": "Fuel scoop active. You now have %quantity tonnes of hydrogen."
+    "message": "Горивосъбирачът е активен. Събрани са %quantity тона водород."
   },
   "GALACTIC_VIEW": {
     "description": "view galactic map",
@@ -493,7 +493,7 @@
   },
   "HARD_CAPITALIST": {
     "description": "",
-    "message": "Entirely Capitalist - no government welfare provision"
+    "message": "Изцяло капиталистическа - без намеса от правителството"
   },
   "HAT": {
     "description": "Hat switch: Is the top button on a joystick",
@@ -501,15 +501,15 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Hold {target} anti-normal"
+    "message": "Задръж {target} анти-нормално"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Hold {target} retrograde"
+    "message": "Задръж {target} ретроградно"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Hold {target} prograde"
+    "message": "Задръж {target} проградно"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -517,15 +517,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Hold {target} normal"
+    "message": "Задръж {target} нормално"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "Hold {target} radially in"
+    "message": "Задръж {target} в радиала"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "Hold {target} radially out"
+    "message": "Задръж {target} извън радиала"
   },
   "HEAVY_INDUSTRY": {
     "description": "",
@@ -677,7 +677,7 @@
   },
   "LASER_FIRE_DETECTED": {
     "description": "",
-    "message": "Weapons fire detected."
+    "message": "Открит е огън."
   },
   "LATITUDE": {
     "description": "Short for latitude",
@@ -805,15 +805,15 @@
   },
   "MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "",
-    "message": "Warp to Current System"
+    "message": "Хипервръзка със Сегашната Система"
   },
   "MAP_WARP_TO_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Warp to Hyperspace Target"
+    "message": "Хипервръзка с Целта"
   },
   "MAP_WARP_TO_SELECTED_SYSTEM": {
     "description": "",
-    "message": "Warp to Selected System"
+    "message": "Хипервръзка с Избраната Система"
   },
   "MASS": {
     "description": "",
@@ -985,7 +985,7 @@
   },
   "NO_ALERT": {
     "description": "",
-    "message": "No alert"
+    "message": "Няма сигнал за тревога"
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
@@ -1189,7 +1189,7 @@
   },
   "PLUTOCRATIC_DICTATORSHIP": {
     "description": "",
-    "message": "Plutocratic dictatorship"
+    "message": "Плутократична диктатура"
   },
   "POPULATION": {
     "description": "",
@@ -1281,11 +1281,11 @@
   },
   "ROTATION_DAMPING_OFF": {
     "description": "",
-    "message": "Плавната ротация е изключена"
+    "message": "Изключи плавната ротация"
   },
   "ROTATION_DAMPING_ON": {
     "description": "",
-    "message": "Плавната ротация е включена"
+    "message": "Включи плавната ротация"
   },
   "RUBBISH": {
     "description": "",
@@ -1293,7 +1293,7 @@
   },
   "SCOOP": {
     "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-    "message": "Scoop"
+    "message": "Събирачи"
   },
   "SCREENSHOT_FILENAME_TEMPLATE": {
     "description": "",
@@ -1389,7 +1389,7 @@
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
-    "message": "Ship detected nearby."
+    "message": "Наблизо е открит кораб."
   },
   "SHIP_INFORMATION": {
     "description": "",
@@ -1401,7 +1401,7 @@
   },
   "SHIP_NEARBY": {
     "description": "",
-    "message": "Ship nearby"
+    "message": "Наблизо има кораб"
   },
   "SHIP_ORIENTATION": {
     "description": "",
@@ -1585,7 +1585,7 @@
   },
   "STAR_SM_BH": {
     "description": "",
-    "message": "Our galactic anchor"
+    "message": "Галактичен център"
   },
   "STAR_SYSTEM_INFORMATION": {
     "description": "",
@@ -1709,7 +1709,7 @@
   },
   "TOGGLE_LUA_CONSOLE": {
     "description": "",
-    "message": "Включи Lua конзола"
+    "message": "Превключи конзолата на Lua"
   },
   "TOGGLE_RADAR_MODE": {
     "description": "",
@@ -1717,11 +1717,11 @@
   },
   "TOGGLE_RADAR_VIEW": {
     "description": "Tooltip for the Radar View button",
-    "message": "Radar View"
+    "message": "Радарен Изглед"
   },
   "TOGGLE_ROTATION_DAMPING": {
     "description": "",
-    "message": "Включи плавна ротация"
+    "message": "Превключи плавната ротация"
   },
   "TOMBSTONE_EPITAPH": {
     "description": "shown on tombstone when player dies",
@@ -1837,7 +1837,7 @@
   },
   "VIOLENT_ANARCHY": {
     "description": "",
-    "message": "Disorder - Overall governance contested by armed factions"
+    "message": "Анархия - контролът се оспорва от въоръжени групировки"
   },
   "WATER": {
     "description": "",
@@ -1849,7 +1849,7 @@
   },
   "WEAPON_TEMP": {
     "description": "",
-    "message": "Weapon temp"
+    "message": "Температура на оръжията"
   },
   "WHEELS_ARE_DOWN": {
     "description": "",
