@@ -81,6 +81,11 @@ namespace Graphics {
 	void SetFov(float);
 	float GetFovFactor(); //cached 2*tan(fov/2) for LOD
 
+	// Project a point in the renderer's current coordinate system to screenspace
+	// as defined by Renderer::GetViewport.
+	// TODO: find a better place to hang this off of; this is too useful to be tied to a renderer object
+	vector3d ProjectToScreen(const Renderer *r, const vector3d &in);
+
 	// does SDL video init, constructs appropriate Renderer
 	Renderer *Init(Settings);
 	void Uninit();

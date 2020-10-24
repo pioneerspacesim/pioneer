@@ -1,17 +1,17 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Lang = import 'Lang'
-local Game = import 'Game'
-local Format = import 'Format'
-local ShipDef = import 'ShipDef'
-local Equipment = import 'Equipment'
-local StationView = import 'pigui/views/station-view'
-local Table = import 'pigui/libs/table.lua'
-local PiImage = import 'ui/PiImage'
-local ModelSpinner = import 'PiGui.Modules.ModelSpinner'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Format = require 'Format'
+local ShipDef = require 'ShipDef'
+local Equipment = require 'Equipment'
+local StationView = require 'pigui.views.station-view'
+local Table = require 'pigui.libs.table'
+local PiImage = require 'ui/PiImage'
+local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 
-local ui = import 'pigui/pigui.lua'
+local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("ui-core")
@@ -307,6 +307,15 @@ local tradeMenu = function()
 						ui.nextColumn()
 						ui.text(string.format("%d km/s", deltav_m / 1000))
 						ui.nextColumn()
+						ui.text(l.ATMO_PRESS_LIMIT)
+						ui.nextColumn()
+						if def.equipSlotCapacity["atmo_shield"] > 0 then
+							ui.text(string.format("%d(+%d/+%d) atm", def.atmosphericPressureLimit, def.atmosphericPressureLimit * (Equipment.misc.atmospheric_shielding.capabilities.atmo_shield - 1), def.atmosphericPressureLimit * (Equipment.misc.heavy_atmospheric_shielding.capabilities.atmo_shield - 1) ))
+						else
+							ui.text(string.format("%d atm", def.atmosphericPressureLimit))
+						end
+						ui.nextColumn()
+
 						ui.text(l.SCOOP_MOUNTS)
 						ui.nextColumn()
 						ui.text(def.equipSlotCapacity["scoop"])

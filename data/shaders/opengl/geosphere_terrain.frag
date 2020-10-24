@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
-#include "logz.glsl"
 #include "lib.glsl"
 #include "eclipse.glsl"
 
@@ -217,6 +216,4 @@ void main(void)
 		varyingEmission +
 #endif
 		final_color;
-
-	SetFragDepth();
 }

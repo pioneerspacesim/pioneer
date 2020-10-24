@@ -344,30 +344,39 @@ FlightLog = {
 		text = text or ""
 		local location = ""
 		local state = Game.player:GetFlightState()
+		local path = ""
 
 		if state == "DOCKED" then
 			local station = Game.player:GetDockedWith()
 			local parent_body = station.path:GetSystemBody().parent.name
 			location = {station.type, station.label, parent_body}
+			path = Game.system.path
 		elseif state == "DOCKING" or state == "UNDOCKING" then
 			location = {state, Game.player:FindNearestTo("SPACESTATION").label}
+			path = Game.system.path
 		elseif state == "FLYING" then
-			location = {state, Game.player.frameBody.label}
+			if Game.player.frameBody then
+				location = {state, Game.player.frameBody.label}
+			else
+				location = {state, Game.system.name} -- if orbiting a system barycenter, there will be no frame object
+			end
+			path = Game.system.path
 		elseif state == "LANDED" then
+			path = Game.system.path
 			local alt, vspd, lat, long = Game.player:GetGPS()
 			if not (lat and long) then
 				lat, long = "nil", "nil"
 			end
 			location = {state, Game.player:FindNearestTo("PLANET").label, lat, long}
 		elseif state == "JUMPING" or state == "HYPERSPACE" then
-			-- bug: if in hyperspace, there's no Game.system (!)
-			-- local spath, sysname = Game.player:GetHyperspaceDestination()
-			sysname = ""
+			--if in hyperspace, there's no Game.system
+			local spath, sysname = Game.player:GetHyperspaceDestination()
+			path = spath
 			location = {state, sysname}
 		end
 
 		table.insert(FlightLogCustom,1,
-			{Game.system.path, Game.time, Game.player:GetMoney(), location, text})
+			{path, Game.time, Game.player:GetMoney(), location, text})
 	end,
 
 --

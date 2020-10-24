@@ -6,7 +6,6 @@
 #include "Game.h"
 #include "LuaConstants.h"
 #include "LuaObject.h"
-#include "LuaPiGui.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "Pi.h"

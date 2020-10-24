@@ -1,10 +1,11 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "PiGuiLua.h"
+#include "LuaPiGui.h"
 #include "Face.h"
 #include "Image.h"
 #include "ModelSpinner.h"
+#include "lua/LuaPiGuiInternal.h"
 #include "lua/LuaTable.h"
 
 static std::vector<std::pair<std::string, int>> m_keycodes = {
@@ -29,9 +30,10 @@ static std::vector<std::pair<std::string, int>> m_keycodes = {
 };
 
 static LuaRef m_handlers;
+static LuaRef m_themes;
 static LuaRef m_keys;
 
-namespace PiGUI {
+namespace PiGui {
 
 	namespace Lua {
 
@@ -44,21 +46,25 @@ namespace PiGUI {
 			m_handlers = LuaRef(l, -1);
 
 			lua_newtable(l);
+			m_themes = LuaRef(l, -1);
+
+			lua_newtable(l);
 			m_keys = LuaRef(l, -1);
 			LuaTable keys(l, -1);
 			for (auto p : m_keycodes) {
 				keys.Set(p.first, p.second);
 			}
 
-			LuaObject<PiGUI::Image>::RegisterClass();
-			LuaObject<PiGUI::Face>::RegisterClass();
-			LuaObject<PiGUI::ModelSpinner>::RegisterClass();
+			LuaObject<PiGui::Image>::RegisterClass();
+			LuaObject<PiGui::Face>::RegisterClass();
+			LuaObject<PiGui::ModelSpinner>::RegisterClass();
 			RegisterSandbox();
 		}
 
 		void Uninit()
 		{
 			m_handlers.Unref();
+			m_themes.Unref();
 			m_keys.Unref();
 		}
 
@@ -66,4 +72,38 @@ namespace PiGUI {
 
 	LuaRef GetHandlers() { return m_handlers; }
 	LuaRef GetKeys() { return m_keys; }
-} // namespace PiGUI
+	LuaRef GetThemes() { return m_themes; }
+
+	void RunHandler(double delta, std::string handler)
+	{
+		PROFILE_SCOPED()
+		ScopedTable t(GetHandlers());
+		if (t.Get<bool>(handler)) {
+			t.Call<bool>(handler, delta);
+			Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
+		}
+	}
+
+	void LoadTheme(ImGuiStyle &style, std::string theme)
+	{
+		PROFILE_SCOPED();
+		ScopedTable t(GetThemes());
+		if (t.Get<bool>(theme)) {
+			ScopedTable theme_tab = t.Sub(theme);
+			load_theme_from_table(theme_tab, style);
+		} else {
+			Output("Unable to load theme %s from lua!\n", theme.c_str());
+		}
+	}
+
+	void LoadThemeFromDisk(std::string theme)
+	{
+		PROFILE_SCOPED();
+		GetThemes().PushCopyToStack();
+
+		pi_lua_import(GetThemes().GetLua(), "pigui.themes." + theme);
+		lua_setfield(GetThemes().GetLua(), -2, theme.c_str());
+
+		lua_pop(GetThemes().GetLua(), 1);
+	}
+} // namespace PiGui

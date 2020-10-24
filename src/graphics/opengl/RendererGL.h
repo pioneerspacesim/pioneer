@@ -149,6 +149,7 @@ namespace Graphics {
 		std::unordered_map<Uint32, OGL::RenderState *> m_renderStates;
 		float m_invLogZfarPlus1;
 		OGL::RenderTarget *m_activeRenderTarget;
+		OGL::RenderTarget *m_windowRenderTarget;
 		RenderState *m_activeRenderState;
 
 		matrix4x4f m_modelViewMat;

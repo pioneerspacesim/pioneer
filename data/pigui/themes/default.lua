@@ -79,6 +79,11 @@ theme.colors = {
 	unknown = Color(255,0,255)
 }
 
+-- ImGui global theming styles
+theme.styles = {
+	WindowBorderSize = 0.0,
+}
+
 theme.icons = {
 	-- first row
 	prograde = 0,
@@ -309,12 +314,6 @@ theme.icons = {
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly
 	mouse_move_direction = 14
-}
-
--- TODO: apply these styles at startup.
-theme.styles = {
-	WindowBorderSize = 0.0,
-	FrameBorderSize = 0.0
 }
 
 return theme

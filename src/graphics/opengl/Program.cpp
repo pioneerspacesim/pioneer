@@ -112,7 +112,7 @@ namespace Graphics {
 						strCode.replace(found, (endFilename + 1) - found, incCode->GetData(), incCode->GetSize());
 						found = strCode.find("#include");
 					} else {
-						Error("Could not load %s", incPathBuffer.c_str());
+						Error("Could not load shader #include %s for shader %s\n", incPathBuffer.c_str(), filename.c_str());
 					}
 				}
 				// Store the modified text with the included files (if any)

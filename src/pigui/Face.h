@@ -10,7 +10,7 @@
 #include "graphics/Drawables.h"
 #include "graphics/Texture.h"
 
-namespace PiGUI {
+namespace PiGui {
 
 	class Face : public RefCounted {
 	public:
@@ -19,7 +19,7 @@ namespace PiGUI {
 		Uint32 GetTextureId();
 		vector2f GetTextureSize();
 
-		enum Flags { // <enum scope='PiGUI::Face' name=PiGUIFaceFlags public>
+		enum Flags { // <enum scope='PiGui::Face' name=PiGuiFaceFlags public>
 			RAND = 0,
 			MALE = (1 << 0),
 			FEMALE = (1 << 1),
@@ -37,6 +37,6 @@ namespace PiGUI {
 		std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 	};
 
-} // namespace PiGUI
+} // namespace PiGui
 
 #endif

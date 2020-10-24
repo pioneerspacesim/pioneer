@@ -1,14 +1,14 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Lang = import 'Lang'
-local Game = import 'Game'
-local Format = import 'Format'
-local Equipment = import 'Equipment'
-local StationView = import 'pigui/views/station-view'
-local EquipMarket = import 'pigui/libs/equipment-market.lua'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Format = require 'Format'
+local Equipment = require 'Equipment'
+local StationView = require 'pigui.views.station-view'
+local EquipMarket = require 'pigui.libs.equipment-market'
 
-local ui = import 'pigui/pigui.lua'
+local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local l = Lang.GetResource("ui-core")
 

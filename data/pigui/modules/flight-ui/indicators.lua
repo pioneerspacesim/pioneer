@@ -32,7 +32,7 @@ local function displayDirectionalMarkers()
 	local function displayDirectionalMarker(ship_space, icon, showDirection, angle)
 		local screen = Engine.ShipSpaceToScreenSpace(ship_space)
 		local coord = Vector2(screen.x, screen.y)
-		if screen.z <= 1 then
+		if screen.z <= 0 then
 			ui.addIcon(coord, icon, colors.reticuleCircle, Vector2(32, 32), ui.anchor.center, ui.anchor.center, nil, angle)
 		end
 		return showDirection and (coord - center):length() > reticuleCircleRadius

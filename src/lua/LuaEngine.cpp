@@ -14,7 +14,7 @@
 #include "LuaColor.h"
 #include "LuaConstants.h"
 #include "LuaObject.h"
-#include "LuaPiGui.h"
+#include "LuaPiGuiInternal.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "LuaVector2.h"
@@ -821,7 +821,7 @@ static int l_engine_world_space_to_screen_space(lua_State *l)
 {
 	vector3d pos = LuaPull<vector3d>(l, 1);
 
-	PiGUI::TScreenSpace res = PiGUI::lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
+	PiGui::TScreenSpace res = PiGui::lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
 
 	LuaPush<bool>(l, res._onScreen);
 	LuaPush<vector2d>(l, res._screenPosition);
@@ -833,7 +833,7 @@ static int l_engine_rel_space_to_screen_space(lua_State *l)
 {
 	vector3d pos = LuaPull<vector3d>(l, 1);
 
-	PiGUI::TScreenSpace res = PiGUI::lua_rel_space_to_screen_space(pos); // defined in LuaPiGui.cpp
+	PiGui::TScreenSpace res = PiGui::lua_rel_space_to_screen_space(pos); // defined in LuaPiGui.cpp
 
 	LuaPush<bool>(l, res._onScreen);
 	LuaPush<vector2d>(l, res._screenPosition);

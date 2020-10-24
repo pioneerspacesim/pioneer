@@ -82,6 +82,12 @@ local function shipStats()
 	local bwd_acc = player:GetAcceleration("reverse")
 	local up_acc = player:GetAcceleration("up")
 
+	local atmo_shield = table.unpack(player:GetEquip("atmo_shield")) or nil
+	local atmo_shield_cap = 1
+	if atmo_shield then
+		atmo_shield_cap = atmo_shield.capabilities.atmo_shield
+	end
+
 	textTable.draw {
 		{ l.REGISTRATION_NUMBER..":",	shipLabel},
 		{ l.HYPERDRIVE..":",			hyperdrive and hyperdrive:GetName() or l.NONE },
@@ -113,8 +119,10 @@ local function shipStats()
 		{ l.CREW_CABINS..":",  shipDef.maxCrew },
 		false,
 		{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
-		{ l.ATMOSPHERIC_SHIELDING..":",     shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO },
 		{ l.SCOOP_MOUNTS..":",              shipDef.equipSlotCapacity.scoop},
+		false,
+		{ l.ATMOSPHERIC_SHIELDING..":",     shipDef.equipSlotCapacity.atmo_shield > 0 and l.YES or l.NO },
+		{ l.ATMO_PRESS_LIMIT..":", string.format("%d atm", shipDef.atmosphericPressureLimit * atmo_shield_cap) },
 	}
 end
 

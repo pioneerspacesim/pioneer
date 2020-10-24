@@ -238,12 +238,6 @@ void Instance::RefreshFontsTexture()
 	ImGui_ImplOpenGL3_CreateDeviceObjects();
 }
 
-void PiDefaultStyle(ImGuiStyle &style)
-{
-	PROFILE_SCOPED()
-	style.WindowBorderSize = 0.0f; // Thickness of border around windows. Generally set to 0.0f or 1.0f. Other values not well tested.
-}
-
 // TODO: this isn't very RAII friendly, are we sure we need to call Init() seperately from creating the instance?
 void Instance::Init(Graphics::Renderer *renderer)
 {
@@ -274,10 +268,6 @@ void Instance::Init(Graphics::Renderer *renderer)
 	ImGuiIO &io = ImGui::GetIO();
 	// Apply the base style
 	ImGui::StyleColorsDark();
-
-	// Apply Pioneer's style.
-	// TODO: load this from Lua.
-	PiDefaultStyle(ImGui::GetStyle());
 
 	std::string imguiIni = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini");
 	// this will be leaked, not sure how to deal with it properly in imgui...

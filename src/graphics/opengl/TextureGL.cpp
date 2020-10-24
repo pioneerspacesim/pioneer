@@ -82,13 +82,14 @@ namespace Graphics {
 			return (format == TEXTURE_DXT1 || format == TEXTURE_DXT5);
 		}
 
-		TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering) :
+		TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering, const Uint16 numSamples) :
 			Texture(descriptor),
 			m_allocSize(0),
 			m_useAnisoFiltering(useAnisoFiltering && descriptor.useAnisotropicFiltering)
 		{
 			PROFILE_SCOPED()
-			m_target = GLTextureType(descriptor.type);
+			// this is kind of a hack, but it limits the amount of things that need to care about multisample textures.
+			m_target = numSamples ? GL_TEXTURE_2D_MULTISAMPLE : GLTextureType(descriptor.type);
 
 			glGenTextures(1, &m_texture);
 			glBindTexture(m_target, m_texture);
@@ -99,6 +100,14 @@ namespace Graphics {
 			const bool compressTexture = useCompressed && descriptor.allowCompression;
 
 			switch (m_target) {
+			// XXX(sturnclaw): multisample assumes an uncompressed, un-mipmapped 2d texture descriptor.
+			case GL_TEXTURE_2D_MULTISAMPLE: {
+				glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, 0);
+				glTexImage2DMultisample(
+					m_target, numSamples, GLInternalFormat(descriptor.format),
+					descriptor.dataSize.x, descriptor.dataSize.y, true); // must use fixedsamplelocations when mixed with renderbuffer
+				CHECKERRORS();
+			} break;
 			case GL_TEXTURE_2D:
 				if (!IsCompressed(descriptor.format)) {
 					if (!descriptor.generateMipmaps)
@@ -269,10 +278,13 @@ namespace Graphics {
 				break;
 			}
 
-			glTexParameteri(m_target, GL_TEXTURE_WRAP_S, wrapS);
-			glTexParameteri(m_target, GL_TEXTURE_WRAP_T, wrapS);
-			glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
-			glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
+			// multisample textures don't support wrap or filter operations.
+			if (!numSamples) {
+				glTexParameteri(m_target, GL_TEXTURE_WRAP_S, wrapS);
+				glTexParameteri(m_target, GL_TEXTURE_WRAP_T, wrapS);
+				glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
+				glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
+			}
 
 			// Anisotropic texture filtering
 			if (m_useAnisoFiltering) {

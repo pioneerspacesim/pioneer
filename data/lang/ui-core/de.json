@@ -43,6 +43,10 @@
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
     "message": "Atmosphärische Abschirmung"
   },
+  "ATMO_PRESS_LIMIT": {
+    "description": "Base external pressure limit of a ship (without atmo shield)",
+    "message": "Atmo. pressure limit"
+  },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
     "message": "Versuchen, den Rumpf zu reparieren"

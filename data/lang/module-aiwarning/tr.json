@@ -1,4 +1,8 @@
 {
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "Atmosfer basıncı gemi sınırlarının üstünde"
+  },
   "AUTOPILOT": {
     "description": "",
     "message": "Otomatik pilot"

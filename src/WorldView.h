@@ -5,7 +5,7 @@
 #define _WORLDVIEW_H
 
 #include "gui/GuiWidget.h"
-#include "pigui/View.h"
+#include "pigui/PiGuiView.h"
 #include "ship/ShipViewController.h"
 
 class Body;

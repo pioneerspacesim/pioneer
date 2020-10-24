@@ -32,6 +32,8 @@
    "thruster_fuel_use" : -1.0,
    "up_thrust" : 40000000.0,
 
+   "atmospheric_pressure_limit" : 12,
+
    "front_cross_section" : 60,
    "side_cross_section" : 225,
    "top_cross_section" : 712,

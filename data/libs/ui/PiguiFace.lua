@@ -66,7 +66,7 @@ function PiGuiFace:render ()
 	if(self.style.showCharInfo) then
 		local lastPos = ui.getCursorPos()
 		ui.setCursorPos(lastPos - Vector2(0.0, self.style.charInfoHeight + self.style.itemSpacing.y))
-		ui.withStyleColorsAndVars({ChildWindowBg = self.style.charInfoBgColor}, {WindowPadding = self.style.charInfoPadding, ItemSpacing = self.style.itemSpacing}, function ()
+		ui.withStyleColorsAndVars({ChildBg = self.style.charInfoBgColor}, {WindowPadding = self.style.charInfoPadding, ItemSpacing = self.style.itemSpacing}, function ()
 			ui.child("PlayerInfoDetails", Vector2(self.style.size.x, self.style.charInfoHeight), charInfoFlags, function ()
 				ui.withFont(self.style.nameFont.name, self.style.nameFont.size, function()
 					ui.text(self.character.name)

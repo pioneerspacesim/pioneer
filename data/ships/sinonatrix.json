@@ -23,13 +23,14 @@
       "scoop" : 2,
       "laser_front" : 1,
       "missile" : 2,
-      "sensor"  : 8
+      "sensor" : 8
    },
    "roles" : {
       "merchant" : true,
       "pirate" : true
    },
    "thruster_fuel_use" : -1.0,
+   "atmospheric_pressure_limit" : 10,
    "up_thrust" : 1500000.0,
    "front_cross_section" : 26,
    "side_cross_section" : 40,

@@ -6,7 +6,7 @@
 #include "lua/LuaVector2.h"
 #include "pigui/ModelSpinner.h"
 
-namespace PiGUI {
+namespace PiGui {
 	namespace LuaPiguiModelSpinner {
 		static int l_model_new(lua_State *l)
 		{
@@ -60,15 +60,15 @@ namespace PiGUI {
 			return 0;
 		}
 	} // namespace LuaPiguiModelSpinner
-} // namespace PiGUI
+} // namespace PiGui
 
-using namespace PiGUI::LuaPiguiModelSpinner;
-
-template <>
-const char *LuaObject<PiGUI::ModelSpinner>::s_type = "PiGui.Modules.ModelSpinner";
+using namespace PiGui::LuaPiguiModelSpinner;
 
 template <>
-void LuaObject<PiGUI::ModelSpinner>::RegisterClass()
+const char *LuaObject<PiGui::ModelSpinner>::s_type = "PiGui.Modules.ModelSpinner";
+
+template <>
+void LuaObject<PiGui::ModelSpinner>::RegisterClass()
 {
 
 	const luaL_Reg l_meta[] = {

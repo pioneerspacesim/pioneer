@@ -11,8 +11,9 @@
 #include "vector3.h"
 
 class Body;
+struct ImGuiStyle;
 
-namespace PiGUI {
+namespace PiGui {
 	bool first_body_is_more_important_than(Body *body, Body *other);
 
 	struct TScreenSpace {
@@ -30,8 +31,7 @@ namespace PiGUI {
 	TScreenSpace lua_rel_space_to_screen_space(const vector3d &pos);
 	TScreenSpace lua_world_space_to_screen_space(const vector3d &pos);
 
-	// Run a lua PiGui handler.
-	void RunHandler(double delta, std::string handler = "GAME");
-} // namespace PiGUI
+	void load_theme_from_table(LuaTable &table, ImGuiStyle &style);
+} // namespace PiGui
 
 #endif

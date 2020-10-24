@@ -43,6 +43,10 @@
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
     "message": "Escudo atmosférico"
   },
+  "ATMO_PRESS_LIMIT": {
+    "description": "Base external pressure limit of a ship (without atmo shield)",
+    "message": "Límite de presión atmo."
+  },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
     "message": "Reparar casco"
@@ -977,15 +981,15 @@
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
-    "message": "DESCENT RATE"
+    "message": "TASA DE DESCENSO"
   },
   "HUD_WARNING_IMPACT": {
     "description": "Alert tooltip",
-    "message": "Impact warning"
+    "message": "Alerta de impacto"
   },
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
-    "message": "Impact imminent"
+    "message": "Impacto inminente"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",

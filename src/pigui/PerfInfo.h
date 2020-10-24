@@ -8,7 +8,7 @@
 #include <array>
 #include <memory>
 
-namespace PiGUI {
+namespace PiGui {
 
 	class PerfInfo {
 	public:
@@ -61,4 +61,4 @@ namespace PiGUI {
 		ImGuiState *m_state;
 	};
 
-} // namespace PiGUI
+} // namespace PiGui

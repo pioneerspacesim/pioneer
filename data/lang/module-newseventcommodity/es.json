@@ -37,15 +37,15 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
+    "message": "Ahora es el hombre contra la máquina en el sistema {system} ({sectorx}, {sectory}, {sectorz}), ya que el \"mal funcionamiento del comportamiento\" hace que los consumidores domésticos pierdan confianza en los servidores robóticos."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
+    "message": "NOTICIAS {date}: Una erupción solar causa el mayor apagón del milenio en el sistema {system}."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
+    "message": "Un corte de energía total causa estragos en el sistema {system} ({sectorx}, {sectory}, {sectorz}). Los consumidores hacen fila para comprar el último \"Trapperware\" para reemplazar sus refrigeradores, ya que el fabricante se ha quedado sin materia prima."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+    "message": "Durante la Gran Feria del Vapor en el sistema {system} ({sectorx}, {sectory}, {sectorz}), un intento por lograr el récord galáctico en el mayor concurso de de tractores terminó en un caos cuando uno de los participantes perdió el control de su artilugio, destruyendo las máquinas de todos los demás participantes. La administración declara que esto podría significar la ruina para los agricultores locales."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
+    "message": "Trabajadores del sistema {system} ({sectorx}, {sectory}, {sectorz}) se han liberado de sus cadenas en plena rebelión al negarse a trabajar en los campos de Loto. La economía se paraliza porque no se puede encontrar mano de obra barata."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -217,7 +217,7 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "The Commonwealth Chronicle"
+    "message": "La Crónica de la Mancomunidad"
   },
   "NEWSPAPER_FED": {
     "description": "",

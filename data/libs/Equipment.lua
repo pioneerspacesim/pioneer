@@ -785,19 +785,19 @@ misc.hull_autorepair = EquipType.New({
 })
 misc.thrusters_basic = EquipType.New({
 	l10n_key="THRUSTERS_BASIC", slots="thruster", price=3000,
-	tech_level=1,
+	tech_level=5,
 	capabilities={mass=0, thruster_power=1}, purchasable=true,
 	icon_name="thrusters_basic"
 })
 misc.thrusters_medium = EquipType.New({
 	l10n_key="THRUSTERS_MEDIUM", slots="thruster", price=6500,
-	tech_level=1,
+	tech_level=8,
 	capabilities={mass=0, thruster_power=2}, purchasable=true,
 	icon_name="thrusters_medium"
 })
 misc.thrusters_best = EquipType.New({
 	l10n_key="THRUSTERS_BEST", slots="thruster", price=14000,
-	tech_level=1,
+	tech_level="MILITARY",
 	capabilities={mass=0, thruster_power=3}, purchasable=true,
 	icon_name="thrusters_best"
 })

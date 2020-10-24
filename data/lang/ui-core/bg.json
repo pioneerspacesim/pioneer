@@ -9,7 +9,7 @@
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Add Jump"
+    "message": "Добави Хиперскок"
   },
   "AFTER_TRADE_IN": {
     "description": "",
@@ -17,11 +17,11 @@
   },
   "ALLEGIANCE": {
     "description": "",
-    "message": "Вярност:"
+    "message": "Преданост:"
   },
   "ALL_UP_WEIGHT": {
     "description": "",
-    "message": "All-up weight"
+    "message": "Цялостно тегло"
   },
   "AMOUNT": {
     "description": "",
@@ -37,19 +37,23 @@
   },
   "ARRIVAL_DATE": {
     "description": "Time of arrival, used in flight log",
-    "message": "Arrival date"
+    "message": "Дата на пристигане"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
     "message": "Атмосферен щит"
   },
+  "ATMO_PRESS_LIMIT": {
+    "description": "Base external pressure limit of a ship (without atmo shield)",
+    "message": "Atmo. pressure limit"
+  },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
-    "message": "Attempt to repair hull"
+    "message": "Опитайте да поправите корпуса"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Auto Route"
+    "message": "Автоматичен Mаршрут"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
@@ -61,7 +65,7 @@
   },
   "BACKWARD_ACCEL": {
     "description": "",
-    "message": "Backward acceleration"
+    "message": "Ускорение назад"
   },
   "BULLETIN_BOARD": {
     "description": "",
@@ -73,7 +77,7 @@
   },
   "BUY_SHIP": {
     "description": "",
-    "message": "Купи Кораба"
+    "message": "Купуване"
   },
   "CABINS": {
     "description": "For passengers",
@@ -93,7 +97,7 @@
   },
   "CANNOT_SELL_ITEM": {
     "description": "",
-    "message": "This item cannot be sold"
+    "message": "Този артикул не може да бъде продаден"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -117,11 +121,11 @@
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
-    "message": "{amount}т свободни"
+    "message": "{amount} т. свободни"
   },
   "CARGO_T_USED": {
     "description": "t for tonne",
-    "message": "{amount}т заети"
+    "message": "{amount} т. заети"
   },
   "CASH": {
     "description": "",
@@ -133,15 +137,15 @@
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Центрирай върху Системата"
   },
   "CHANGE": {
     "description": "Face feature option",
-    "message": "Change:"
+    "message": "Промени:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
-    "message": "Change Binding"
+    "message": "Промени Контролите"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -149,7 +153,7 @@
   },
   "CIRCULAR_ORBIT_SPEED": {
     "description": "",
-    "message": "Circular orbit speed"
+    "message": "Скорост при кръгова орбита"
   },
   "CITY_DETAIL_LEVEL": {
     "description": "Game graphics option",
@@ -185,7 +189,7 @@
   },
   "COMMODITY_MARKET": {
     "description": "",
-    "message": "Стоков Пазар"
+    "message": "Пазар за Стоки"
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
@@ -201,7 +205,7 @@
   },
   "COMPRESS_TEXTURES": {
     "description": "graphics option in game settings menu ",
-    "message": "Compress Textures"
+    "message": "Компресирай Текстурите"
   },
   "CONFIRM_PURCHASE": {
     "description": "",
@@ -213,11 +217,11 @@
   },
   "CONSTABLE": {
     "description": "",
-    "message": "Constable"
+    "message": "Полицай"
   },
   "CONTINUE_GAME": {
     "description": "",
-    "message": "Continue game"
+    "message": "Продължи играта"
   },
   "CONTROLS": {
     "description": "",
@@ -225,7 +229,7 @@
   },
   "CONTROL_OPTIONS": {
     "description": "",
-    "message": "Control Options"
+    "message": "Опции за Управление"
   },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
@@ -241,15 +245,15 @@
   },
   "CREW_CABINS": {
     "description": "",
-    "message": "Crew cabins"
+    "message": "Екипажни кабини"
   },
   "CREW_ROSTER": {
     "description": "",
-    "message": "Crew Roster"
+    "message": "Състав на Екипажа"
   },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
-    "message": "Criminal record"
+    "message": "Криминално досие"
   },
   "CURRENT_FUEL": {
     "description": "For hyperjump planner",
@@ -265,7 +269,7 @@
   },
   "DATE": {
     "description": "Date of an event, used in flight log",
-    "message": "Date"
+    "message": "Дата"
   },
   "DEADLY": {
     "description": "Player combat rating",
@@ -293,15 +297,15 @@
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
-    "message": "Departure date"
+    "message": "Дата на отпътуване"
   },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
-    "message": "Descent-to-ground speed:"
+    "message": "Скорост на спускане към повърхността:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
-    "message": "Destroy enemy ship"
+    "message": "Унищожете вражеския кораб"
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
@@ -329,7 +333,7 @@
   },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
-    "message": "Display nav tunnels"
+    "message": "Покажи навигационните тунели"
   },
   "DISPLAY_NAV_TUNNELS_DESC": {
     "description": "tooltip description in settings menu",
@@ -337,7 +341,7 @@
   },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
-    "message": "Display speed lines"
+    "message": "Покажи скоростните линии"
   },
   "DISPLAY_SPEED_LINES_DESC": {
     "description": "tooltip description in settings menu",
@@ -345,11 +349,11 @@
   },
   "DOCKED_AT": {
     "description": "",
-    "message": "Docked at"
+    "message": "Скачен с"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
-    "message": "Dock at current target"
+    "message": "Скачи се със сегашната цел"
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
@@ -361,7 +365,7 @@
   },
   "DUMPING": {
     "description": "The illegal act of dumping waste",
-    "message": "Dumping"
+    "message": "Изхвърляне"
   },
   "D_DAYS_LEFT": {
     "description": "",
@@ -373,7 +377,7 @@
   },
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
-    "message": "Edit"
+    "message": "Редактирай"
   },
   "EFFECTS": {
     "description": "",
@@ -385,7 +389,7 @@
   },
   "EMPLOYMENT": {
     "description": "",
-    "message": "Employment"
+    "message": "Заетост"
   },
   "ENABLE_ANISOTROPIC_FILTERING": {
     "description": "Use Anisotropic Filtering",
@@ -393,7 +397,7 @@
   },
   "ENABLE_AUTOSAVE": {
     "description": "Allow the game to autosave when docking",
-    "message": "Enable Autosave"
+    "message": "Включи Автоматично запазване"
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
@@ -409,11 +413,11 @@
   },
   "ENABLE_JOYSTICK": {
     "description": "",
-    "message": "Enable joystick"
+    "message": "Активирай джойстик"
   },
   "END_GAME": {
     "description": "",
-    "message": "End Game"
+    "message": "Край на Играта"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
@@ -421,7 +425,7 @@
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
-    "message": "Entry"
+    "message": "Записка"
   },
   "EQUIPMENT": {
     "description": "",
@@ -429,11 +433,11 @@
   },
   "EQUIPMENT_MARKET": {
     "description": "",
-    "message": "Equipment Market"
+    "message": "Пазар за Оборудване"
   },
   "EQUIPPED": {
     "description": "",
-    "message": "Equipped"
+    "message": "Оборудван"
   },
   "ERROR": {
     "description": "",
@@ -441,15 +445,15 @@
   },
   "ERROR_LANDING_GEAR_DOWN": {
     "description": "",
-    "message": "Can not initiate hyperjump; landing gear is not retracted!"
+    "message": "Хиперскокът не може да започне, колесниците не са вдигнати!"
   },
   "ESCAPE_SPEED": {
     "description": "",
-    "message": "Escape speed:"
+    "message": "Втора космическа скорост:"
   },
   "EXIT_THIS_GAME": {
     "description": "",
-    "message": "Exit this game"
+    "message": "Излез от тази игра"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -517,7 +521,7 @@
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Docking at {primary_info}"
+    "message": "Скачване с {primary_info}"
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
@@ -525,31 +529,31 @@
   },
   "FLIGHTLOG_HYPERSPACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "In Hyperspace, enroute to {primary_info}"
+    "message": "В хиперпространството, на път за {primary_info}"
   },
   "FLIGHTLOG_JUMPING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "Hyper jumping towards {primary_info}"
+    "message": "Хиперотскок към {primary_info}"
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+    "message": "Приземен на {primary_info}, координати ({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, in orbit around {secondary_info}"
+    "message": "Скачен с {primary_info} в орбита, около {secondary_info}"
   },
   "FLIGHTLOG_STARPORT_SURFACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, on {secondary_info}"
+    "message": "Скачен с {primary_info} на {secondary_info}"
   },
   "FLIGHTLOG_UNDOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Undocking at {primary_info}"
+    "message": "Откачване от {primary_info}"
   },
   "FLIGHT_LOG": {
     "description": "Title for flight log screen, in info view",
-    "message": "Flight Log"
+    "message": "Летателен Дневник"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -561,23 +565,23 @@
   },
   "FORWARD_ACCEL": {
     "description": "",
-    "message": "Forward acceleration"
+    "message": "Ускорение напред"
   },
   "FORWARD_ACCEL_EMPTY": {
     "description": "",
-    "message": "Forward accel (empty)"
+    "message": "Ускорение >| (празен)"
   },
   "FORWARD_ACCEL_FULL": {
     "description": "",
-    "message": "Forward accel (full)"
+    "message": "Ускорение >| (пълен)"
   },
   "FRACTAL_DETAIL": {
     "description": "",
-    "message": "Fractal detail"
+    "message": "Фрактален детайл"
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
-    "message": "свободни"
+    "message": "Свободни"
   },
   "FRONT_WEAPON": {
     "description": "",
@@ -593,7 +597,7 @@
   },
   "FUEL_WEIGHT": {
     "description": "",
-    "message": "Fuel weight"
+    "message": "Тежест на горивото"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -605,11 +609,11 @@
   },
   "GENERAL_CREW": {
     "description": "",
-    "message": "General crew"
+    "message": "Основен екипаж"
   },
   "GIVE_ORDERS_TO_CREW": {
     "description": "",
-    "message": "Give orders to crew"
+    "message": "Дай заповеди на екипажа"
   },
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
@@ -625,7 +629,7 @@
   },
   "HANG_UP": {
     "description": "",
-    "message": "Hang up."
+    "message": "Затвори"
   },
   "HARMLESS": {
     "description": "Player combat rating",
@@ -633,39 +637,39 @@
   },
   "HEAVY_CARGO_SHUTTLE": {
     "description": "",
-    "message": "Heavy cargo shuttle"
+    "message": "Тежкотоварна совалка"
   },
   "HEAVY_COURIER": {
     "description": "",
-    "message": "Heavy courier"
+    "message": "Тежък куриер"
   },
   "HEAVY_FIGHTER": {
     "description": "",
-    "message": "Heavy fighter"
+    "message": "Тежък изтребител"
   },
   "HEAVY_FREIGHTER": {
     "description": "",
-    "message": "Heavy freighter"
+    "message": "Тежкотоварен кораб"
   },
   "HEAVY_PASSENGER_SHUTTLE": {
     "description": "",
-    "message": "Heavy passenger shuttle"
+    "message": "Тежка пасажерска совалка"
   },
   "HEAVY_PASSENGER_TRANSPORT": {
     "description": "",
-    "message": "Heavy passenger transport"
+    "message": "Тежък пасажерски транспортен кораб"
   },
   "HIGH": {
     "description": "Game settings option: for graphics resolution",
-    "message": "High"
+    "message": "Високо"
   },
   "HUD_2D_RADAR": {
     "description": "Popup text: the name of the azimuthal equidistant projection radar",
-    "message": "2D azimuthal equidistant projection"
+    "message": "2D азимутална равномеждинна проекция"
   },
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
-    "message": "3D planar projection"
+    "message": "3D планарна проекция"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
@@ -673,7 +677,7 @@
   },
   "HUD_BACKWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Backward Gun Temperature.",
-    "message": "Backward Gun Temperature"
+    "message": "Температура на Задното Оръжие"
   },
   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
     "description": "Tooltip: The braking distance using the main thrusters.",
@@ -681,19 +685,19 @@
   },
   "HUD_BUTTON_AUTOPILOT_DOCKING": {
     "description": "Tooltip: Autopilot docking",
-    "message": "Autopilot docking"
+    "message": "Автопилотът извършва скачване"
   },
   "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
     "description": "Tooltip: Autopilot entering orbit",
-    "message": "Autopilot entering orbit"
+    "message": "Автопилотът влиза в орбита"
   },
   "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
     "description": "Tooltip: Autopilot flying to target",
-    "message": "Autopilot flying to target"
+    "message": "Автопилотът лети към целта"
   },
   "HUD_BUTTON_BLASTOFF": {
     "description": "Tooltip: Blastoff",
-    "message": "Blastoff"
+    "message": "Изстрелване"
   },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
@@ -729,19 +733,19 @@
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
-    "message": "Flyby view"
+    "message": "Прелитащ изглед"
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
-    "message": "Hyperdrive disabled"
+    "message": "Хиперсветлинния двигател е изключен"
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
-    "message": "Initiate hyperjump"
+    "message": "Започни хиперскок"
   },
   "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
     "description": "Tooltip: Initiate illegal hyperjump",
-    "message": "Initiate illegal hyperjump"
+    "message": "Започни нелегален хиперскок"
   },
   "HUD_BUTTON_INTERNAL_VIEW": {
     "description": "Tooltip: Internal camera view",
@@ -769,11 +773,11 @@
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
     "description": "Tooltip: Rotation damping is off",
-    "message": "Rotation damping is off"
+    "message": "Плавната ротация е изключена"
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
-    "message": "Rotation damping is on"
+    "message": "Плавната ротация е включена"
   },
   "HUD_BUTTON_SCANNER": {
     "description": "Tooltip: Scanner",
@@ -785,39 +789,39 @@
   },
   "HUD_BUTTON_SHOW_COMMS": {
     "description": "Tooltip: Show comms",
-    "message": "Show comms"
+    "message": "Покажи съобщенията"
   },
   "HUD_BUTTON_SHOW_PERSONAL_INFO": {
     "description": "Tooltip: Show personal info",
-    "message": "Show personal info"
+    "message": "Покажи личната информация"
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
-    "message": "Sidereal view"
+    "message": "Звезден изглед"
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
-    "message": "Switch to galaxy map"
+    "message": "Галактическа карта"
   },
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
-    "message": "Switch to sector map"
+    "message": "Секторна карта"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
-    "message": "Switch to system map"
+    "message": "Системна карта"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
     "description": "Tooltip: Switch to system overview",
-    "message": "Switch to system overview"
+    "message": "Общ преглед на системата"
   },
   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
     "description": "Tooltip: Switch to world view",
-    "message": "Switch to world view"
+    "message": "Мироглед"
   },
   "HUD_BUTTON_UNDOCK": {
     "description": "Tooltip: Undock",
-    "message": "Undock"
+    "message": "Откачи"
   },
   "HUD_CARGO_MASS": {
     "description": "Cargo Mass",
@@ -841,11 +845,11 @@
   },
   "HUD_CURRENT_PITCH": {
     "description": "Tooltip: the current pitch.",
-    "message": "The current pitch"
+    "message": "Сегашното накланяне"
   },
   "HUD_CURRENT_ROLL": {
     "description": "Tooltip: the current roll.",
-    "message": "The current roll"
+    "message": "Сегашното завъртане"
   },
   "HUD_DELTA_V": {
     "description": "Tooltip: The remaining Δv.",
@@ -857,7 +861,7 @@
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "% от максимална Δv"
+    "message": "% от максималнo Δv"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
@@ -877,15 +881,15 @@
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
-    "message": "Forward Gun Temperature"
+    "message": "Температура на Предното Оръжие"
   },
   "HUD_HULL_STRENGTH": {
     "description": "Tooltip: Hull Strength.",
-    "message": "Hull Strength"
+    "message": "Издръжливост на Корпуса"
   },
   "HUD_HULL_TEMPERATURE": {
     "description": "Tooltip: Hull Temperature.",
-    "message": "Hull Temperature"
+    "message": "Температура на Корпуса"
   },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
@@ -925,11 +929,11 @@
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
-    "message": "In transit to {system} [{x},{y},{z}]"
+    "message": "На път за {system} [{x},{y},{z}]"
   },
   "HUD_JUMP_COMPLETE": {
     "description": "",
-    "message": "Jump complete: {percent}%"
+    "message": "Изпълнение на хиперскок: {percent}%"
   },
   "HUD_MASS": {
     "description": "Mass",
@@ -937,15 +941,15 @@
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
-    "message": "Active radar distance"
+    "message": "Активно радарно разстояние"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
-    "message": "Request time acceleration: {time}"
+    "message": "Заяви ускорение на времето: {time}"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
-    "message": "Shield Strength"
+    "message": "Издръжливост на Щитовете"
   },
   "HUD_SHOW_COMBAT_TARGET": {
     "description": "Tooltip: Show the current combat target.",
@@ -965,11 +969,11 @@
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "The speed of approach relative to target"
+    "message": "Скоростта на приближаване, спрямо целта"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
-    "message": "The speed relative to the target"
+    "message": "Скоростта, спрямо целта"
   },
   "HUD_THRUST_INDICATOR": {
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
@@ -981,51 +985,51 @@
   },
   "HUD_WARNING_IMPACT": {
     "description": "Alert tooltip",
-    "message": "Impact warning"
+    "message": "Опасност от сблъсък"
   },
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
-    "message": "Impact imminent"
+    "message": "Предстои сблъсък"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
-    "message": "Hull does not require repair."
+    "message": "Корпусът не се нуждае от поправка."
   },
   "HULL_INTEGRITY": {
     "description": "",
-    "message": "Hull integrity"
+    "message": "Здравина на корпуса"
   },
   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
     "description": "",
-    "message": "Hull repaired by {name}, now at {repairPercent}%"
+    "message": "Корпусът е поправен от {name}, на {repairPercent}%"
   },
   "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
     "description": "",
-    "message": "Hull repair attempt failed. Hull suffered minor damage."
+    "message": "Поправката е неуспешна. Корпусът претърпя незначителни поражения."
   },
   "HYPERDRIVE": {
     "description": "",
-    "message": "Hyperdrive"
+    "message": "Хиперсветлинен двигател"
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
-    "message": "Hyperdrive fitted:"
+    "message": "Монтирани хиперсветлинни двигатели:"
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
-    "message": "HyperJump Route"
+    "message": "Маршрут на Хиперскока"
   },
   "HYPERSPACE_RANGE": {
     "description": "",
-    "message": "Hyperspace range"
+    "message": "Хиперпространствен обхват"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
-    "message": "Reckless hyperjump registered"
+    "message": "Засечен е безразсъден хиперскок"
   },
   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
     "description": "",
-    "message": "I'm tired of working for nothing. Don't you know what a contract is?"
+    "message": "Омръзна ми да работя за нищо. Не знаеш ли значението на думата договор?"
   },
   "INACTIVE": {
     "description": "",
@@ -1045,7 +1049,7 @@
   },
   "INITIATED": {
     "description": "Ship jump status",
-    "message": "Initiated"
+    "message": "Започнат"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
@@ -1057,35 +1061,35 @@
   },
   "INVERT_MOUSE_Y": {
     "description": "",
-    "message": "Invert Mouse Y"
+    "message": "Обърни вертикалната посока на мишката"
   },
   "IN_CARGO_HOLD": {
     "description": "",
-    "message": "In cargo hold"
+    "message": "Натоварени"
   },
   "IN_STOCK": {
     "description": "",
-    "message": "In stock"
+    "message": "Наличност"
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
-    "message": "In system"
+    "message": "В системата"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
-    "message": "This item is out of stock."
+    "message": "Този артикул е изчерпан."
   },
   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
     "description": "",
-    "message": "It's been great working for you. If you need me again, I'll be here a while."
+    "message": "Беше удоволствие да работя за Вас. Ако имате нужда от мен отново, ще може да ме намерите тук."
   },
   "JETTISON": {
     "description": "",
-    "message": "Jettison"
+    "message": "Изхвърли"
   },
   "JUMPING": {
     "description": "Flight State",
-    "message": "Jumping"
+    "message": "Хиперотскок"
   },
   "KILLS": {
     "description": "",
@@ -1101,43 +1105,43 @@
   },
   "LAUNCH_PERMISSION_DENIED_BUSY": {
     "description": "",
-    "message": "Permission to launch denied: docking bay busy."
+    "message": "Разрешението за излитане е отказано: има трафик."
   },
   "LAUNCH_PERMISSION_DENIED_CREW": {
     "description": "",
-    "message": "Permission to launch denied: not enough crew to handle this ship."
+    "message": "Разрешението за излитане е отказано: екипажът на кораба не е достатъчен."
   },
   "LAUNCH_PERMISSION_DENIED_FINED": {
     "description": "",
-    "message": "Permission to launch denied: you have outstanding fines."
+    "message": "Разрешението за излитане е отказано: имате неплатени глоби."
   },
   "LEGAL_STATUS": {
     "description": "",
-    "message": "Legal status"
+    "message": "Правен статут"
   },
   "LIGHT_CARGO_SHUTTLE": {
     "description": "",
-    "message": "Light cargo shuttle"
+    "message": "Лекотоварна совалка"
   },
   "LIGHT_COURIER": {
     "description": "",
-    "message": "Light courier"
+    "message": "Лек куриер"
   },
   "LIGHT_FIGHTER": {
     "description": "",
-    "message": "Light fighter"
+    "message": "Лек изтребител"
   },
   "LIGHT_FREIGHTER": {
     "description": "",
-    "message": "Light freighter"
+    "message": "Лекотоварен кораб"
   },
   "LIGHT_PASSENGER_SHUTTLE": {
     "description": "",
-    "message": "Light passenger shuttle"
+    "message": "Лека пасажерска совалка"
   },
   "LIGHT_PASSENGER_TRANSPORT": {
     "description": "",
-    "message": "Light passenger transport"
+    "message": "Лек пасажерски транспортен кораб"
   },
   "LOAD": {
     "description": "",
@@ -1157,7 +1161,7 @@
   },
   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
     "description": "",
-    "message": "Намира се на {distance}км от центъра на {name}:"
+    "message": "Намира се на {distance} км. от центъра на {name}:"
   },
   "LOCATION": {
     "description": "",
@@ -1165,23 +1169,23 @@
   },
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
-    "message": "Custom Log"
+    "message": "Персонализиран Дневник"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
-    "message": "New Entry"
+    "message": "Нова Записка"
   },
   "LOG_STATION": {
     "description": "Label tab for showing logged station events",
-    "message": "Station Log"
+    "message": "Дневник на Станцията"
   },
   "LOG_SYSTEM": {
     "description": "Label tab for showing logged system events",
-    "message": "System Log"
+    "message": "Дневник на Системата"
   },
   "LOW": {
     "description": "",
-    "message": "Low"
+    "message": "Ниско"
   },
   "LY": {
     "description": "Light year",
@@ -1205,11 +1209,11 @@
   },
   "MARKET_BUYLINE": {
     "description": "",
-    "message": "Buy {amount} units for {price}"
+    "message": "Купи {amount} за {price}"
   },
   "MARKET_SELLINE": {
     "description": "",
-    "message": "Sell {amount} units for {price}"
+    "message": "Продай {amount} за {price}"
   },
   "MASS": {
     "description": "",
@@ -1237,27 +1241,27 @@
   },
   "MEDIUM_CARGO_SHUTTLE": {
     "description": "",
-    "message": "Medium cargo shuttle"
+    "message": "Среднотоварна совалка"
   },
   "MEDIUM_COURIER": {
     "description": "",
-    "message": "Medium courier"
+    "message": "Среден куриер"
   },
   "MEDIUM_FIGHTER": {
     "description": "",
-    "message": "Medium fighter"
+    "message": "Среден изтребител"
   },
   "MEDIUM_FREIGHTER": {
     "description": "",
-    "message": "Medium freighter"
+    "message": "Среднотоварен кораб"
   },
   "MEDIUM_PASSENGER_SHUTTLE": {
     "description": "",
-    "message": "Medium passenger shuttle"
+    "message": "Средна пасажерска совалка"
   },
   "MEDIUM_PASSENGER_TRANSPORT": {
     "description": "",
-    "message": "Medium passenger transport"
+    "message": "Среден пасажерски транспортен кораб"
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -1273,15 +1277,15 @@
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Minor exports"
+    "message": "Незначителен износ"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Minor imports"
+    "message": "Незначителен внос"
   },
   "MISSILE_MOUNTS": {
     "description": "",
-    "message": "Missile mounts"
+    "message": "Ракетни монтировки"
   },
   "MISSIONS": {
     "description": "",
@@ -1293,7 +1297,7 @@
   },
   "MORE_INFO": {
     "description": "",
-    "message": "Повече информация..."
+    "message": "Подробности..."
   },
   "MOSTLY_HARMLESS": {
     "description": "",
@@ -1301,15 +1305,15 @@
   },
   "MOVE_DOWN": {
     "description": "move selection down in list",
-    "message": "Move Down"
+    "message": "Премести Надолу"
   },
   "MOVE_UP": {
     "description": "move selection up in list",
-    "message": "Move Up"
+    "message": "Премести Нагоре"
   },
   "MULTISAMPLING": {
     "description": "",
-    "message": "Multisampling"
+    "message": "Мултисемплиране"
   },
   "MULTISAMPLING_DESC": {
     "description": "",
@@ -1353,7 +1357,7 @@
   },
   "NEXT_PAID": {
     "description": "",
-    "message": "Next paid"
+    "message": "Следващо плащане"
   },
   "NO": {
     "description": "Negative answer to a question",
@@ -1369,7 +1373,7 @@
   },
   "NONE_FOR_SALE_IN_THIS_STATION": {
     "description": "",
-    "message": "None for sale in this station."
+    "message": "Няма за продажба в тази станция."
   },
   "NORMA_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1381,11 +1385,11 @@
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
-    "message": "Not enough {alloy} to attempt a repair"
+    "message": "Няма достатъчно {alloy} за поправката на корпуса"
   },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
-    "message": "{equipment} is not supported on this ship model"
+    "message": "{equipment} не се поддържа на този корабен модел"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
@@ -1393,7 +1397,7 @@
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
-    "message": "Nothing matches that filter"
+    "message": "Нищо не съвпада с този филтър"
   },
   "NO_MISSIONS": {
     "description": "",
@@ -1401,7 +1405,7 @@
   },
   "NO_VALID_ROUTE": {
     "description": "Message in the sector map, issued by the autoroute function.",
-    "message": "No valid route to the selected system."
+    "message": "Няма валиден маршрут до избраната система."
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
@@ -1409,15 +1413,15 @@
   },
   "N_OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Occupied Passenger Cabins"
+    "message": "{quantity} Заети Пасажерски Кабини"
   },
   "N_SHIELD_GENERATORS": {
     "description": "",
-    "message": "{quantity} Shield Generators"
+    "message": "{quantity} Генератора на Щитовете"
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Unoccupied Passenger Cabins"
+    "message": "{quantity} Незаети Пасажерски Кабини"
   },
   "OFF": {
     "description": "",
@@ -1441,7 +1445,7 @@
   },
   "ORBITAL_ANALYSIS": {
     "description": "",
-    "message": "Orbital Analysis"
+    "message": "Орбитален Анализ"
   },
   "ORBITAL_ANALYSIS_NOTES": {
     "description": "",
@@ -1453,7 +1457,7 @@
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
-    "message": "Outstanding fines"
+    "message": "Неплатени глоби"
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
@@ -1493,7 +1497,7 @@
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
-    "message": "Pilot seat is now occupied by {name}"
+    "message": "Новият пилот е {name}"
   },
   "PIRACY": {
     "description": "",
@@ -1501,11 +1505,11 @@
   },
   "PLANET_DETAIL_DISTANCE": {
     "description": "",
-    "message": "Planet detail distance"
+    "message": "Ниво на планетните детайли"
   },
   "PLANET_TEXTURES": {
     "description": "",
-    "message": "Planet textures"
+    "message": "Планетни текстури"
   },
   "POLICE": {
     "description": "",
@@ -1521,7 +1525,7 @@
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
-    "message": "Press a key or controller button or escape to clear"
+    "message": "Натиснете бутон или Esc за изчистване"
   },
   "PREVIOUS_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
@@ -1537,11 +1541,11 @@
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
-    "message": "Pump down"
+    "message": "Източи"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
-    "message": "Qualification scores"
+    "message": "Квалификационни резултати"
   },
   "QUIT": {
     "description": "",
@@ -1549,7 +1553,7 @@
   },
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
-    "message": "Quit confirmation"
+    "message": "Потвърждение за изход"
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
@@ -1569,11 +1573,11 @@
   },
   "REFUEL": {
     "description": "",
-    "message": "Refuel"
+    "message": "Презареди"
   },
   "REFUEL_FULL": {
     "description": "",
-    "message": "Refuel full"
+    "message": "Догоре"
   },
   "REGISTRATION_NUMBER": {
     "description": "",
@@ -1585,19 +1589,19 @@
   },
   "REMOVE": {
     "description": "Remove, e.g. deleting a log entry",
-    "message": "Remove"
+    "message": "Премахни"
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
-    "message": "Remove Jump"
+    "message": "Премахни Хиперскок"
   },
   "REMOVE_WHEN_COMPLETED": {
     "description": "For UI hyperjump planner, referring to jump target system",
-    "message": "Remove jump when completed"
+    "message": "Премахни хиперскока, след завършването му"
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
-    "message": "Repair {damage}% hull damage for {price}"
+    "message": "Поправи {damage}% щети на корпуса за {price}"
   },
   "REPUTATION": {
     "description": "",
@@ -1605,7 +1609,7 @@
   },
   "REQUEST_LAUNCH": {
     "description": "",
-    "message": "Request Launch"
+    "message": "Заяви Излитане"
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
@@ -1617,19 +1621,19 @@
   },
   "RETURN_TO_GAME": {
     "description": "",
-    "message": "Return to game"
+    "message": "Върни се в играта"
   },
   "RETURN_TO_MENU": {
     "description": "",
-    "message": "Return to menu"
+    "message": "Върни се в менюто"
   },
   "REVERSE_ACCEL_EMPTY": {
     "description": "",
-    "message": "Reverse accel (empty)"
+    "message": "Ускорение |< (празен)"
   },
   "REVERSE_ACCEL_FULL": {
     "description": "",
-    "message": "Reverse accel (full)"
+    "message": "Ускорение |< (пълен)"
   },
   "REWARD": {
     "description": "",
@@ -1637,15 +1641,15 @@
   },
   "ROTATE_VIEW": {
     "description": "",
-    "message": "Rotate view"
+    "message": "Завърти изгледа"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
-    "message": "Route Info"
+    "message": "Информация за Маршрута"
   },
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
-    "message": "Route Jumps"
+    "message": "Скокове в Маршрута"
   },
   "SAFETY_LOCKOUT": {
     "description": "Ship jump status",
@@ -1661,7 +1665,7 @@
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-    "message": "Scoop mounts"
+    "message": "Събирачни монтировки"
   },
   "SCUTUM_CENTAURUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1693,7 +1697,7 @@
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",
-    "message": "Sensors and defence"
+    "message": "Сензори и защита"
   },
   "SETTINGS": {
     "description": "UI option",
@@ -1701,7 +1705,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set destination as navigation target."
+    "message": "Задай дестинацията като навигационна цел."
   },
   "SHIP": {
     "description": "",
@@ -1709,7 +1713,7 @@
   },
   "SHIPS_ENGINEER": {
     "description": "",
-    "message": "Ship's Engineer"
+    "message": "Корабен Инженер"
   },
   "SHIP_INFORMATION": {
     "description": "",
@@ -1717,23 +1721,23 @@
   },
   "SHIP_IS_ALREADY_FULLY_REPAIRED": {
     "description": "",
-    "message": "Your ship is in perfect working condition."
+    "message": "Вашият кораб е в перфектно техническо състояние."
   },
   "SHIP_IS_FULLY_EQUIPPED": {
     "description": "",
-    "message": "Your ship is fully equipped."
+    "message": "Вашият кораб е напълно оборудван."
   },
   "SHIP_IS_FULLY_LADEN": {
     "description": "",
-    "message": "Your ship is fully laden."
+    "message": "Вашият кораб е напълно натоварен."
   },
   "SHIP_MARKET": {
     "description": "",
-    "message": "Ship Market"
+    "message": "Пазар за Кораби"
   },
   "SHIP_REPAIRS": {
     "description": "",
-    "message": "Ship Repairs"
+    "message": "Ремонт на Кораби"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -1741,7 +1745,7 @@
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",
-    "message": "The ship you were viewing has been sold"
+    "message": "Корабът, който разглеждахте, беше продаден"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -1757,7 +1761,7 @@
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "This is a difficult start from the System Administration Resting prison station."
+    "message": "Това е труден старт от космическия затвор Почивната База на Системната Администрация"
   },
   "START_AT_EARTH": {
     "description": "",
@@ -1765,7 +1769,7 @@
   },
   "START_AT_EARTH_DESC": {
     "description": "",
-    "message": "This is an easy start from London on Earth in the Sol system."
+    "message": "Това е лесен старт от Лондон на Земята в Слънчевата система."
   },
   "START_AT_MARS": {
     "description": "",
@@ -1773,7 +1777,7 @@
   },
   "START_AT_MARS_DESC": {
     "description": "",
-    "message": "This is an easy start from Cydonia on Mars in the Sol system."
+    "message": "Това е лесен старт от Сидония на Марс в Слънчевата система."
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
@@ -1781,7 +1785,7 @@
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
-    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+    "message": "Това е умерен старт от Ицалиян на Нова Надежда в системата Епсилон Еридани."
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -1797,27 +1801,27 @@
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
-    "message": "Density of Star field"
+    "message": "Гъстота на звездите"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
-    "message": "Station"
+    "message": "Станция"
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
-    "message": "Our total capacity is {total_docking_pads} docking pads."
+    "message": "Нашият максимален капацитет е {total_docking_pads} площадки за скачване."
   },
   "STATION_MANAGER": {
     "description": "",
-    "message": "Station manager"
+    "message": "Управител на станцията"
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
-    "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+    "message": "Ние сме в {orbit_period} дневен орбитален период около {parent_body}."
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
-    "message": "Station tech level too low to sell this item"
+    "message": "Технологичното ниво на станцията е твърде ниско за продажбата на този артикул"
   },
   "STATUS": {
     "description": "",
@@ -1825,7 +1829,7 @@
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
-    "message": "This station holds a level {tech_level} technology certificate."
+    "message": "Тази станция има технологичен сертификат от ниво {tech_level}."
   },
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
@@ -1837,55 +1841,55 @@
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",
-    "message": "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+    "message": "Благодарим Ви за покупката. Не забравяйте да монтирате оборудването си и да си купите гориво, преди тръгване."
   },
   "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
     "description": "",
-    "message": "There is nobody else on board able to fly this ship."
+    "message": "На борда няма друг, който е способен да управлява кораба."
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
-    "message": "The ship is under station control, Commander."
+    "message": "Командире, корабът е под управлението на станцията."
   },
   "THIS_IS_FACTION_POLICE": {
     "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
-    "message": "This is the {faction_police} of the {faction}"
+    "message": "Това е {faction_police} от {faction}"
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
-    "message": "Ръкав 3kpc"
+    "message": "Ръкав 3-кпс"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
-    "message": "Toggle male/female"
+    "message": "Превключи мъж/жена"
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Toggle showing moons in the overview"
+    "message": "Превключи показването на луните в общия преглед"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",
-    "message": "Toggle showing stations in the overview"
+    "message": "Превключи показването на станциите в общия преглед"
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
-    "message": "Switch between sorting by distance from player and distance from system center"
+    "message": "Разстояние от играча или от центъра на системата"
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
+    "message": "Превключи прозореца за общия преглед"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",
-    "message": "Ship is too small for the current crew."
+    "message": "Корабът е твърде малък за сегашния екипаж."
   },
   "TOO_SMALL_TO_TRANSSHIP": {
     "description": "Ship market error message",
-    "message": "New ship lacks capacity for current cargo and hyperdrive."
+    "message": "Новият кораб няма капацитет за сегашния товар и хипердвигател."
   },
   "TOTAL": {
     "description": "",
-    "message": "Общо:"
+    "message": "Общо: "
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
@@ -1921,11 +1925,11 @@
   },
   "UP_ACCEL": {
     "description": "",
-    "message": "Up acceleration"
+    "message": "Ускорение нагоре"
   },
   "USED": {
     "description": "",
-    "message": "Used"
+    "message": "Използвани"
   },
   "VERY_HIGH": {
     "description": "Game settings option: graphic resolution",
@@ -1933,11 +1937,11 @@
   },
   "VERY_LOW": {
     "description": "Game settings option: graphic resolution",
-    "message": "Very low"
+    "message": "Много ниско"
   },
   "VICINITY_OF": {
     "description": "",
-    "message": "In vicinity of"
+    "message": "В близост до"
   },
   "VIDEO": {
     "description": "",
@@ -1969,23 +1973,23 @@
   },
   "WEIGHT_EMPTY": {
     "description": "",
-    "message": "Weight empty"
+    "message": "Нетна тежест"
   },
   "WEIGHT_FULLY_LOADED": {
     "description": "",
-    "message": "Weight fully loaded"
+    "message": "Брутно тегло"
   },
   "WE_ARE_IN_HYPERSPACE_COMMANDER": {
     "description": "",
-    "message": "We are in hyperspace, Commander."
+    "message": "Командире, ние сме в хиперпространството."
   },
   "WE_HAVE_NO_BUSINESS_WITH_YOU": {
     "description": "Said by the police to law abiding player",
-    "message": "We have no business with you at the moment."
+    "message": "В момента нямаме работа с теб."
   },
   "X_CANNOT_BE_TOLERATED_HERE": {
     "description": "Message to be sent over comms by police when crime is committed by player",
-    "message": "{crime} cannot be tolerated here!"
+    "message": "Тук не се толерира {crime}!"
   },
   "YES": {
     "description": "Positive answer to a question",
@@ -1997,11 +2001,11 @@
   },
   "YOUR_HULL_IS_AT_X_INTEGRITY": {
     "description": "",
-    "message": "Your hull is at {value}% integrity."
+    "message": "Вашият корпус е с здравина от {value}%."
   },
   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
     "description": "",
-    "message": "You don't have enough money for that option."
+    "message": "Нямате достатъчно пари за тази опция."
   },
   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
     "description": "",
@@ -2009,23 +2013,23 @@
   },
   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
     "description": "",
-    "message": "You must first select a combat target, Commander."
+    "message": "Командире, първо трябва да изберете бойна цел."
   },
   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
     "description": "",
-    "message": "You must first select a suitable navigation target, Commander."
+    "message": "Командире, първо трябва да изберете подходяща навигационна цел."
   },
   "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
     "description": "",
-    "message": "You must launch first, Commander."
+    "message": "Командире, първо трябва да излетите."
   },
   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
     "description": "",
-    "message": "You must request launch clearance first, Commander."
+    "message": "Командире, първо трябва да заявите излитане."
   },
   "YOU_NOT_ENOUGH_MONEY": {
     "description": "",
-    "message": "You do not have enough money"
+    "message": "Нямате достатъчно пари"
   },
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",

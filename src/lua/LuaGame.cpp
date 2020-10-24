@@ -9,7 +9,6 @@
 #include "GameSaveError.h"
 #include "Lang.h"
 #include "LuaObject.h"
-#include "LuaPiGui.h"
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "Player.h"
@@ -22,6 +21,7 @@
 #include "WorldView.h"
 #include "core/GZipFormat.h"
 #include "galaxy/Galaxy.h"
+#include "pigui/LuaPiGui.h"
 
 /*
  * Interface: Game

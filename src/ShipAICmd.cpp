@@ -6,6 +6,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "Pi.h"
+#include "Planet.h"
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
@@ -444,7 +445,7 @@ bool AICmdKill::TimeStepUpdate()
 		vector3d targav = m_target->GetAngVelocity();
 
 		if (skillEvade < 1.6 && targhead.z < 0.0) { // smart chase
-			vector3d objvel = targvel * rot; // obj space targvel
+			vector3d objvel = targvel * rot;		// obj space targvel
 			if ((objvel.x * objvel.x + objvel.y * objvel.y) < 10000) {
 				evadethrust.x = objvel.x > 0.0 ? 1.0 : -1.0;
 				evadethrust.y = objvel.y > 0.0 ? 1.0 : -1.0;
@@ -762,7 +763,7 @@ static int CheckCollision(DynamicBody *dBody, const vector3d &pathdir, double pa
 	vector3d perpdir = (tanlen * pathdir + spos).Normalized();
 	double perpspeed = dBody->GetVelocity().Dot(perpdir);
 	double parspeed = dBody->GetVelocity().Dot(pathdir);
-	if (parspeed < 0) parspeed = 0; // shouldn't break any important case
+	if (parspeed < 0) parspeed = 0;	  // shouldn't break any important case
 	if (perpspeed > 0) perpspeed = 0; // prevent attempts to speculatively fly through planets
 
 	// find time that dBody will pass through that point
@@ -787,7 +788,7 @@ static bool ParentSafetyAdjust(DynamicBody *dBody, FrameId targframeId, vector3d
 	while (frame) {
 		Frame *bFrame = Frame::GetFrame(dBody->GetFrame());
 		if (bFrame->GetNonRotFrame() == frameId) break; // ship in frame, stop
-		if (frame->GetBody()) body = frame->GetBody(); // ignore grav points?
+		if (frame->GetBody()) body = frame->GetBody();	// ignore grav points?
 
 		double sdist = dBody->GetPositionRelTo(frameId).Length();
 		if (sdist < frame->GetRadius()) break; // ship inside frame, stop
@@ -995,7 +996,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 			m_child.reset();
 		}
 		if (m_tangent && m_frameId.valid()) return true; // regen tangent on frame switch
-		m_reldir = reldir; // for +vel termination condition
+		m_reldir = reldir;								 // for +vel termination condition
 		m_frameId = m_dBody->GetFrame();
 	}
 
@@ -1024,7 +1025,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 		}
 	}
 	if (m_state < 0 && m_state > -6 && m_tangent) return true; // bail out
-	if (m_state < 0) m_state = targdist > 10000000.0 ? 1 : 0; // still lame
+	if (m_state < 0) m_state = targdist > 10000000.0 ? 1 : 0;  // still lame
 
 	double maxdecel = m_state ? m_prop->GetAccelFwd() : m_prop->GetAccelRev();
 	double gravdir = -reldir.Dot(m_dBody->GetPosition().Normalized());
@@ -1171,6 +1172,21 @@ AICmdDock::AICmdDock(DynamicBody *dBody, SpaceStation *target) :
 
 	m_prop.Reset(ship->GetPropulsion());
 	assert(m_prop != nullptr);
+
+	if (target->IsGroundStation()) {
+		Frame *frame = Frame::GetFrame(target->GetFrame());
+		Body *stationPlanet = frame->GetBody();
+		Planet *p = static_cast<Planet *>(stationPlanet);
+
+		double pressure, density;
+		p->GetAtmosphericState(target->GetPositionRelTo(stationPlanet).Length(), &pressure, &density);
+
+		if (pressure > static_cast<Ship *>(dBody)->GetAtmosphericPressureLimit()) {
+			m_dBody->AIMessage(Ship::AIERROR_PRESS_TOO_HIGH);
+			m_target = nullptr; // bail out on next timestep call
+			return;
+		}
+	}
 
 	double grav = GetGravityAtPos(m_target->GetFrame(), m_target->GetPosition());
 	if (m_prop->GetAccelUp() < grav) {

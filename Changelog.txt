@@ -1,3 +1,19 @@
+October 2020
+   * New Features
+     * Ship-specific atmospheric pressure limits (#4958)
+     * Make thruster upgrades availabile based on tech level (#4956)
+   
+   * Internal Changes
+     * Optimize body list container in Space.cpp (#4957)
+     * Use an offscreen buffer as the primary rendering target (#4974)
+     * Use Reverse-Z depth buffer, drop logZ hack (#4975)
+     * Add PlanetsGravity processor for GalaxyStats tool (#4971)
+     * Add theme color display/editor to debug menu (#4979)
+   
+   * Fixes
+     * Fix Flight Log crashes (#4973)
+     * Update MSVC CMake configuration and instructions (#4980)
+
 September 2020
    * New Features
      * Add external camera interpolation and spring (#4955)
@@ -6,6 +22,8 @@ September 2020
    * Internal Changes
      * Cleanup Renderer API to Remove Fixed-Function State (#4947)
      * Add pigui handlers for PiGuiViews (#4952)
+     * Collapse PiGui namespaces, load pigui theme from Lua (#4963)
+     * Clean up Lua PiGui code, split into multiple modules (#4964)
 
    * Fixes
      * Show the ship's translated name in savegame stats (#4953)

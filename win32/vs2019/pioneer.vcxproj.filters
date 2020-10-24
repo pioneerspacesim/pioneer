@@ -228,9 +228,6 @@
     <ClCompile Include="..\..\src\SpaceStationType.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\CameraController.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\EnumStrings.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -361,9 +358,6 @@
       <Filter>src\pigui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\pigui\LuaFace.cpp">
-      <Filter>src\pigui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\pigui\PiGuiLua.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ship\Propulsion.cpp">
@@ -578,6 +572,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\core\LZ4Format.cpp">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ship\CameraController.cpp">
+      <Filter>src\ship</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pigui\LuaPiGui.cpp">
+      <Filter>src\pigui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pigui\PiGuiView.cpp">
+      <Filter>src\pigui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -803,9 +806,6 @@
     <ClInclude Include="..\..\src\SpaceStationType.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\CameraController.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\EnumStrings.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -953,9 +953,6 @@
     <ClInclude Include="..\..\src\sound\SoundMusic.h">
       <Filter>src\sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ship\InteractionController.h">
-      <Filter>src\ship</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ship\PlayerShipController.h">
       <Filter>src\ship</Filter>
     </ClInclude>
@@ -966,9 +963,6 @@
       <Filter>src\ship</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\pigui\Face.h">
-      <Filter>src\pigui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\pigui\PiGuiLua.h">
       <Filter>src\pigui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ship\Propulsion.h">
@@ -1058,9 +1052,6 @@
     <ClInclude Include="..\..\src\lua\LuaObject.h">
       <Filter>src\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\lua\LuaPiGui.h">
-      <Filter>src\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\lua\LuaPushPull.h">
       <Filter>src\Lua</Filter>
     </ClInclude>
@@ -1118,9 +1109,6 @@
     <ClInclude Include="..\..\src\core\GuiApplication.h">
       <Filter>src\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\pigui\View.h">
-      <Filter>src\pigui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\pigui\LuaFlags.h">
       <Filter>src\pigui</Filter>
     </ClInclude>
@@ -1138,6 +1126,21 @@
     </ClInclude>
     <ClInclude Include="..\..\src\core\LZ4Format.h">
       <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ship\CameraController.h">
+      <Filter>src\ship</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ViewController.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lua\LuaPiGuiInternal.h">
+      <Filter>src\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pigui\LuaPiGui.h">
+      <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pigui\PiGuiView.h">
+      <Filter>src\pigui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

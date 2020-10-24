@@ -30,6 +30,7 @@
       "pirate" : true
    },
    "thruster_fuel_use" : -1.0,
+   "atmospheric_pressure_limit" : 6,
    "up_thrust" : 1000000.0,
    "front_cross_section" : 16.2,
    "side_cross_section" : 39,

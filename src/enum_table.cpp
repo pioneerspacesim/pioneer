@@ -34,6 +34,7 @@
 const struct EnumItem ENUM_ShipAIError[] = {
 	{ "NONE", int(Ship::AIERROR_NONE) },
 	{ "GRAV_TOO_HIGH", int(Ship::AIERROR_GRAV_TOO_HIGH) },
+	{ "PRESS_TOO_HIGH", int(Ship::AIERROR_PRESS_TOO_HIGH) },
 	{ "REFUSED_PERM", int(Ship::AIERROR_REFUSED_PERM) },
 	{ "ORBIT_IMPOSSIBLE", int(Ship::AIERROR_ORBIT_IMPOSSIBLE) },
 	{ 0, 0 },
@@ -289,11 +290,11 @@ const struct EnumItem ENUM_FileSystemRoot[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_PiGUIFaceFlags[] = {
-	{ "RAND", int(PiGUI::Face::RAND) },
-	{ "MALE", int(PiGUI::Face::MALE) },
-	{ "FEMALE", int(PiGUI::Face::FEMALE) },
-	{ "ARMOUR", int(PiGUI::Face::ARMOUR) },
+const struct EnumItem ENUM_PiGuiFaceFlags[] = {
+	{ "RAND", int(PiGui::Face::RAND) },
+	{ "MALE", int(PiGui::Face::MALE) },
+	{ "FEMALE", int(PiGui::Face::FEMALE) },
+	{ "ARMOUR", int(PiGui::Face::ARMOUR) },
 	{ 0, 0 },
 };
 
@@ -540,7 +541,7 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
 	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
-	{ "PiGUIFaceFlags", ENUM_PiGUIFaceFlags },
+	{ "PiGuiFaceFlags", ENUM_PiGuiFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
 	{ "PropulsionFuelStatus", ENUM_PropulsionFuelStatus },
@@ -588,7 +589,7 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
 	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
-	{ "PiGUIFaceFlags", ENUM_PiGUIFaceFlags },
+	{ "PiGuiFaceFlags", ENUM_PiGuiFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
 	{ "PropulsionFuelStatus", ENUM_PropulsionFuelStatus },

@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
-#include "logz.glsl"
 #include "noise.glsl"
 
 uniform sampler2D texture2; // ???
@@ -79,10 +78,8 @@ void main(void)
 {
 	float xfrac = (uv.x-0.5) * fracStep;
 	float yfrac = (uv.y-0.5) * fracStep;
-	
+
 	// call the GetColour function implemented for this shader type
 	// Hue Shift the colour and store the final result
 	frag_color = HueShift(GetColour(GetSpherePoint(xfrac, yfrac)));
-	
-	SetFragDepth();
 }

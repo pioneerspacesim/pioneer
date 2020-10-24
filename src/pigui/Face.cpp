@@ -6,7 +6,7 @@
 #include "SDLWrappers.h"
 #include "graphics/TextureBuilder.h"
 
-namespace PiGUI {
+namespace PiGui {
 
 	RefCountedPtr<Graphics::Material> Face::s_material;
 
@@ -41,4 +41,4 @@ namespace PiGUI {
 		return m_texture->GetDescriptor().texSize;
 	}
 
-} // namespace PiGUI
+} // namespace PiGui

@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
-#include "logz.glsl"
 #include "lib.glsl"
 #include "eclipse.glsl"
 
@@ -49,16 +48,16 @@ void main(void)
 	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, varyingEyepos.xyz, geosphereRadius * geosphereAtmosTopRad);
 	float atmosDist = (skyFar - skyNear);
 	float ldprod=0.0;
-	
+
 	// a&b scaled so length of 1.0 means planet surface.
 	vec3 a = (skyNear * eyenorm - geosphereCenter) * geosphereInvRadius;
 	vec3 b = (skyFar * eyenorm - geosphereCenter) * geosphereInvRadius;
 	ldprod = AtmosLengthDensityProduct(a, b, atmosColor.a * geosphereAtmosFogDensity, atmosDist, geosphereAtmosInvScaleHeight);
-	
+
 	float fogFactor = 1.0 / exp(ldprod);
 	vec4 atmosDiffuse = vec4(0.0);
 
-#if (NUM_LIGHTS > 0)	
+#if (NUM_LIGHTS > 0)
 	vec3 surfaceNorm = normalize(skyNear * eyenorm - geosphereCenter);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 
@@ -71,9 +70,9 @@ void main(void)
 		atmosDiffuse +=  uLight[i].diffuse * uneclipsed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0) * INV_NUM_LIGHTS);
 
 		//Calculate Specular Highlight
-		vec3 L = normalize(uLight[i].position.xyz - varyingEyepos.xyz); 
+		vec3 L = normalize(uLight[i].position.xyz - varyingEyepos.xyz);
 		vec3 E = normalize(-varyingEyepos.xyz);
-		vec3 R = normalize(-reflect(L,vec3(0.0))); 
+		vec3 R = normalize(-reflect(L,vec3(0.0)));
 		specularHighlight += pow(max(dot(R,E),0.0),64.0) * uneclipsed * INV_NUM_LIGHTS;
 
 	}
@@ -88,6 +87,4 @@ void main(void)
 		vec4(atmosColor.rgb, 1.0)) +
 		(0.02-clamp(fogFactor,0.0,0.01))*atmosDiffuse*ldprod*sunset +     //increase light on lower atmosphere.
 		atmosColor*specularHighlight*(1.0-fogFactor)*sunset;		  //add light from specularHighlight.
-
-	SetFragDepth();
 }

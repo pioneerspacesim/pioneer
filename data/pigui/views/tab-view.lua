@@ -1,8 +1,9 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Game = import 'Game'
-local ui = import 'pigui/pigui.lua'
+local Game = require 'Game'
+local ui = require 'pigui'
+
 local orbiteer = ui.fonts.orbiteer
 
 local colors = ui.theme.colors

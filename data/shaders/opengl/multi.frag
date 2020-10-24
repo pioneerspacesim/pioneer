@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
-#include "logz.glsl"
 #include "lib.glsl"
 
 #ifdef TEXTURE0
@@ -130,5 +129,4 @@ void main(void)
 #else
 	frag_color = color;
 #endif
-	SetFragDepth();
 }

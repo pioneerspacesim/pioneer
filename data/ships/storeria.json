@@ -32,6 +32,7 @@
    "left_thrust" : 8000000.0,
    "right_thrust" : 8000000.0,
    "angular_thrust" : 183000000.0,
+   "atmospheric_pressure_limit" : 4,
    "front_cross_section" : 125,
    "side_cross_section" : 240,
    "top_cross_section" : 865,

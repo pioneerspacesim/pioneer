@@ -358,6 +358,14 @@ float Ship::GetPercentShields() const
 		return 100.0f * (m_stats.shield_mass_left / m_stats.shield_mass);
 }
 
+float Ship::GetAtmosphericPressureLimit() const
+{
+	int atmo_shield_cap = 0;
+	const_cast<Ship *>(this)->Properties().Get("atmo_shield_cap", atmo_shield_cap);
+	atmo_shield_cap = std::max(atmo_shield_cap, 1); //default to base limit if no shield installed
+	return m_type->atmosphericPressureLimit * atmo_shield_cap;
+}
+
 void Ship::SetPercentHull(float p)
 {
 	m_stats.hull_mass_left = 0.01f * Clamp(p, 0.0f, 100.0f) * float(m_type->hullMass);

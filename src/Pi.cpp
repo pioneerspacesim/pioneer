@@ -27,10 +27,10 @@
 #include "core/Log.h"
 #include "core/OS.h"
 #include "graphics/opengl/RendererGL.h"
+#include "imgui/imgui.h"
 #include "lua/Lua.h"
 #include "lua/LuaConsole.h"
 #include "lua/LuaEvent.h"
-#include "lua/LuaPiGui.h"
 #include "lua/LuaTimer.h"
 #include "profiler/Profiler.h"
 #include "sound/AmbientSounds.h"
@@ -58,9 +58,9 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "gameui/Lua.h"
 #include "libs.h"
+#include "pigui/LuaPiGui.h"
 #include "pigui/PerfInfo.h"
 #include "pigui/PiGui.h"
-#include "pigui/PiGuiLua.h"
 #include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"
 #include "sound/Sound.h"
@@ -182,7 +182,7 @@ protected:
 // FIXME: this is a hack, this class should have its lifecycle managed elsewhere
 // Ideally an application framework class handles this (as well as the rest of the main loop)
 // but for now this is the best we have.
-std::unique_ptr<PiGUI::PerfInfo> perfInfoDisplay;
+std::unique_ptr<PiGui::PerfInfo> perfInfoDisplay;
 
 class MainMenu : public Application::Lifecycle {
 public:
@@ -455,7 +455,7 @@ void Pi::App::Shutdown()
 	FaceParts::Uninit();
 	Graphics::Uninit();
 
-	PiGUI::Lua::Uninit();
+	PiGui::Lua::Uninit();
 	ShutdownPiGui();
 	Pi::pigui = nullptr;
 	Pi::ui.Reset(0);
@@ -513,11 +513,14 @@ void LoadStep::Start()
 	// Investigate using a pigui-only Lua state that we can initialize without depending on
 	// normal init flow, or drawing the init screen in C++ instead?
 	// Loads just the PiGui class and PiGui-related modules
-	PiGUI::Lua::Init();
+	PiGui::Lua::Init();
+	// FIXME: this just exists to load the theme out-of-order from Lua::InitModules. Needs a better solution
+	PiGui::LoadThemeFromDisk("default");
+	PiGui::LoadTheme(ImGui::GetStyle(), "default");
 
 	// Don't render the first frame, just make sure all of our fonts are loaded
 	Pi::pigui->NewFrame();
-	PiGUI::RunHandler(0.01, "init");
+	PiGui::RunHandler(0.01, "init");
 	Pi::pigui->EndFrame();
 
 	AddStep("UI::AddContext", []() {
@@ -611,7 +614,7 @@ void LoadStep::Start()
 
 		Pi::planner = new TransferPlanner();
 
-		perfInfoDisplay.reset(new PiGUI::PerfInfo());
+		perfInfoDisplay.reset(new PiGui::PerfInfo());
 	});
 }
 
@@ -634,7 +637,7 @@ void LoadStep::Update(float deltaTime)
 			loader.name.c_str(), timer.milliseconds());
 
 		Pi::pigui->NewFrame();
-		PiGUI::RunHandler(progress, "init");
+		PiGui::RunHandler(progress, "init");
 		Pi::pigui->Render();
 
 	} else {
@@ -675,7 +678,7 @@ void MainMenu::Update(float deltaTime)
 	Pi::intro->Draw(deltaTime);
 
 	Pi::pigui->NewFrame();
-	PiGUI::RunHandler(deltaTime, "mainMenu");
+	PiGui::RunHandler(deltaTime, "mainMenu");
 
 	perfInfoDisplay->Update(deltaTime * 1e3, 0.0);
 	if (Pi::showDebugInfo) {
@@ -1122,7 +1125,7 @@ void GameLoop::Update(float deltaTime)
 	if (Pi::game && !Pi::player->IsDead()) {
 		// FIXME: major hack to work around the fact that the console is in newUI and not pigui
 		if (!Pi::IsConsoleActive())
-			PiGUI::RunHandler(deltaTime, "game");
+			PiGui::RunHandler(deltaTime, "game");
 
 		Pi::GetView()->DrawPiGui();
 	}

@@ -17,16 +17,7 @@ namespace Graphics {
 
 	Frustum::Frustum(float width, float height, float fovAng, float znear, float zfar)
 	{
-		//http://www.opengl.org/resources/faq/technical/transformations.htm
-		const float fov = tan(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX) / 2.0f));
-
-		const float aspect = width / height;
-		const float top = znear * fov;
-		const float bottom = -top;
-		const float left = bottom * aspect;
-		const float right = top * aspect;
-
-		m_projMatrix = matrix4x4d::FrustumMatrix(left, right, bottom, top, znear, zfar);
+		m_projMatrix = matrix4x4d::PerspectiveMatrix(DEG2RAD(Clamp(fovAng, FOV_MIN, FOV_MAX)), width / height, znear, zfar);
 		m_modelMatrix = matrix4x4d::Identity();
 		InitFromMatrix(m_projMatrix);
 
@@ -102,6 +93,7 @@ namespace Graphics {
 		return true;
 	}
 
+	// Returns a vector3d in the range { 0..1, 0..1, 0..-1 }
 	bool Frustum::ProjectPoint(const vector3d &in, vector3d &out) const
 	{
 		// see the OpenGL documentation
@@ -131,7 +123,7 @@ namespace Graphics {
 		const double w = vclip[3];
 		out.x = (vclip[0] / w) * 0.5 + 0.5;
 		out.y = (vclip[1] / w) * 0.5 + 0.5;
-		out.z = (vclip[2] / w) * 0.5 + 0.5;
+		out.z = -(vclip[2] / w);
 
 		return true;
 	}
