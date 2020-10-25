@@ -125,15 +125,15 @@
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
-    "message": "Включи HUD Режим"
+    "message": "Превключи HUD Режим"
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
-    "message": "Включи Плавна Ротация"
+    "message": "Превключи Плавна Ротация"
   },
   "BIND_TOGGLE_SET_SPEED": {
     "description": "Descriptive name for the ToggleSetSpeed action.",
-    "message": "Включи Режим на Скоростта"
+    "message": "Превключи Режим на Скоростта"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",

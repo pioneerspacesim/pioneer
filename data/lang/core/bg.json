@@ -5,7 +5,7 @@
   },
   "ALERT_CANCELLED": {
     "description": "",
-    "message": "Сигналът за тревога е отменен."
+    "message": "Предупреждението е анулирано."
   },
   "ALLEGIANCE": {
     "description": "",
@@ -185,7 +185,7 @@
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
+    "message": "Заявката е отхвърлена. Вашият кораб е твърде далеч и не може да бъде разпознат."
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
@@ -349,7 +349,7 @@
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
-    "message": "В последните 60 секунди не е открит огън, степента на тревога е понижена."
+    "message": "В последните 60 секунди не е открит огън, степента на предупреждаване е понижена."
   },
   "DRAW_OUT_RANGE_LABELS": {
     "description": "",
@@ -529,7 +529,7 @@
   },
   "HEAVY_INDUSTRY": {
     "description": "",
-    "message": "Heavy industry."
+    "message": "Тежка индустрия."
   },
   "HE_ATMOSPHERE": {
     "description": "",
@@ -637,7 +637,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Промишлено оборудване"
+    "message": "Индустриално оборудване"
   },
   "INTERNAL_VIEW": {
     "description": "",
@@ -761,7 +761,7 @@
   },
   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
     "description": "",
-    "message": "Toggle Selection Following View"
+    "message": "Превключи Изборът да Следва Изгледа"
   },
   "MAP_VIEW_ROTATE_DOWN": {
     "description": "",
@@ -985,7 +985,7 @@
   },
   "NO_ALERT": {
     "description": "",
-    "message": "Няма сигнал за тревога"
+    "message": "Няма предупреждение"
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
@@ -1165,23 +1165,23 @@
   },
   "PLANNER_RESET_FACTOR": {
     "description": "For system orbit view",
-    "message": "Rate of increase of delta-v values. Click to reset to default."
+    "message": "Скорост на нарастване на стойностите на Δ-v. Натисни за нулиране."
   },
   "PLANNER_RESET_NORMAL": {
     "description": "For system orbit view",
-    "message": "Normal delta-v. Click to reset to zero."
+    "message": "Нормална Δ-v. Натисни за нулиране."
   },
   "PLANNER_RESET_PROGRADE": {
     "description": "For system orbit view",
-    "message": "Prograde delta-v. Click to reset to zero."
+    "message": "Проградна Δ-v. Натисни за нулиране."
   },
   "PLANNER_RESET_RADIAL": {
     "description": "For system orbit view",
-    "message": "Radial delta-v. Click to reset to zero."
+    "message": "Радиална Δ-v. Натисни за нулиране."
   },
   "PLANNER_RESET_START": {
     "description": "For system orbit view",
-    "message": "Maneuver start. Click to reset to default."
+    "message": "Стартиране на маневрата. Натисни за нулиране."
   },
   "PLASTICS": {
     "description": "",
@@ -1209,7 +1209,7 @@
   },
   "RADAR_CONTROL": {
     "description": "",
-    "message": "Radar control"
+    "message": "Радарен контрол"
   },
   "RADIOACTIVES": {
     "description": "",
@@ -1329,7 +1329,7 @@
   },
   "SELECT_LOW_THRUST_POWER_LEVEL": {
     "description": "",
-    "message": "Select low thrust power level"
+    "message": "Избери ниво на ниска мощност на тягата"
   },
   "SEMI_MAJOR_AXIS": {
     "description": "",
@@ -1353,7 +1353,7 @@
   },
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
-    "message": "Set low thrust power level to %power%%"
+    "message": "Задай нивото на ниска мощност на тягата на %power%%"
   },
   "SET_NAVTARGET_TO": {
     "description": "",
@@ -1453,7 +1453,7 @@
   },
   "SPEED_CONTROL_MODE": {
     "description": "",
-    "message": "Speed control mode"
+    "message": "Контролен режим на скоростта"
   },
   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
     "description": "",
@@ -1597,7 +1597,7 @@
   },
   "SUGGESTED_RESPONSES": {
     "description": "",
-    "message": "Suggested responses:"
+    "message": "Предложени отговори:"
   },
   "SURFACE_GRAVITY": {
     "description": "",
@@ -1737,7 +1737,7 @@
   },
   "UNDOCKING": {
     "description": "Flight state of ship when leaving station",
-    "message": "Откачване"
+    "message": "Излитане"
   },
   "UNEXPLORED_SYSTEM_NO_DATA": {
     "description": "",
@@ -1817,7 +1817,7 @@
   },
   "USE_LOW_THRUST": {
     "description": "",
-    "message": "Use low thrust"
+    "message": "Използвай ниска тяга"
   },
   "VAST_STRIP_MINE": {
     "description": "",
