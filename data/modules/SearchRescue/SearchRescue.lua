@@ -1986,7 +1986,7 @@ local onCreateBB = function (station)
 	for _ = 1,num do
 		-- makeAdvert(station, 1, closestplanets)
 		-- makeAdvert(station, 2, closestplanets)
-		-- makeAdvert(station, 3, closestplanets)
+	   -- makeAdvert(station, 3, closestplanets)
 		-- makeAdvert(station, 4, closestplanets)
 		-- makeAdvert(station, 5, closestplanets)
 		-- makeAdvert(station, 6, closestplanets)
@@ -2286,12 +2286,13 @@ end
 local onShipDestroyed = function (ship, attacker)
 	for _,mission in pairs(missions) do
 		if mission.target and ship == mission.target then
-			mission.target = nil
-			if attacker:IsPlayer() then
-				mission.target_destroyed = "BY_PLAYER"
-			else
-				mission.target_destroyed = "BY_ACCIDENT"
-			end
+		   mission.target = nil
+		   mission.target_destroyed = "BY_ACCIDENT"
+		   if attacker:IsDynamic() then
+		      if attacker:IsPlayer() then
+			 mission.target_destroyed = "BY_ACCIDENT"
+		      end
+		   end
 		end
 	end
 
