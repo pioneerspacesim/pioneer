@@ -11,6 +11,7 @@ local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Character = require 'Character'
 local Comms = require 'Comms'
+local Space = require 'Space'
 
 local InfoFace = require 'ui.PiguiFace'
 local PiImage = require 'ui.PiImage'
@@ -62,6 +63,7 @@ end)
 local requestLaunch = function ()
 	local crimes, fine = Game.player:GetCrimeOutstanding()
 	local station = Game.player:GetDockedWith()
+	local nearbyTraffic = #Space.GetBodies(function (body) return body.type == nil and body:DistanceTo(station) < 20000 end) -- dynamic objects within 20km of station
 
 	if not Game.player:HasCorrectCrew() then
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_CREW, station.label)
@@ -75,7 +77,14 @@ local requestLaunch = function ()
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_BUSY, station.label)
 		popupMsg = l.LAUNCH_PERMISSION_DENIED_BUSY
 		popup:open()
+	elseif nearbyTraffic - (station.numShipsDocked + 1) > 0 then -- station radar picking up stuff nearby
+		Comms.Message(l.LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC, station.label)
+		Game.SwitchView()
+	elseif station.numDocks - (station.numShipsDocked + 1) < station.numShipsDocked * 0.2 then -- busy station, pads almost full
+		Comms.Message(l.LAUNCH_PERMISSION_GRANTED_DEPART_QUICK, station.label)
+		Game.SwitchView()
 	else
+		Comms.Message(l.LAUNCH_PERMISSION_GRANTED, station.label)
 		Game.SwitchView()
 	end
 end
