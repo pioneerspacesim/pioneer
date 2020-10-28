@@ -363,7 +363,8 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 				p->GetAtmosphericState(this->GetPositionRelTo(stationPlanet).Length(), &pressure, &density);
 
 				double rsqr = GetPositionRelTo(stationPlanet).LengthSqr();
-				double gravity = G * stationPlanet->GetMass() / rsqr;
+				// use g instead of m/(s^2) because it is easier to compare with ship info during gameplay
+				double gravity = (G * stationPlanet->GetMass() / rsqr) / 9.80;
 
 				outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N_GRAV_PRESS, formatarg("bay", i + 1), formatarg("grav", gravity), formatarg("press", pressure));
 			} else {
