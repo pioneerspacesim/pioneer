@@ -354,7 +354,21 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 			// Note: maxOffset is squared
 			sd.maxOffset = std::max((pPort->maxShipSize / 2 - bboxRad), float(pPort->maxShipSize / 5.0));
 			sd.maxOffset *= sd.maxOffset;
-			outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i + 1));
+			if (this->IsGroundStation()) {
+				Frame *frame = Frame::GetFrame(this->GetFrame());
+				Body *stationPlanet = frame->GetBody();
+				Planet *p = static_cast<Planet *>(stationPlanet);
+
+				double pressure, density;
+				p->GetAtmosphericState(this->GetPositionRelTo(stationPlanet).Length(), &pressure, &density);
+
+				double rsqr = GetPositionRelTo(stationPlanet).LengthSqr();
+				double gravity = G * stationPlanet->GetMass() / rsqr;
+
+				outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N_GRAV_PRESS, formatarg("bay", i + 1), formatarg("grav", gravity), formatarg("press", pressure));
+			} else {
+				outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i + 1));
+			}
 			return true;
 		}
 	}
