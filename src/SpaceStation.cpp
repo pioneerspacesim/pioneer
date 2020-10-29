@@ -317,6 +317,18 @@ bool SpaceStation::LaunchShip(Ship *ship, const int port)
 	return true;
 }
 
+// gets number of undocked ships within a given radius from the station
+int SpaceStation::GetNearbyTraffic(double radius)
+{
+	int shipsNearby = 0;
+	Space::BodyNearList traffic = Pi::game->GetSpace()->GetBodiesMaybeNear(this, radius);
+	for (Body *body : traffic) {
+		if (!body->IsType(Object::SHIP)) continue;
+		shipsNearby++;
+	}
+	return shipsNearby - NumShipsDocked();
+}
+
 bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 {
 	assert(m_shipDocking.size() == m_type->NumDockingPorts());
@@ -369,6 +381,9 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 				outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N_GRAV_PRESS, formatarg("bay", i + 1), formatarg("grav", gravity, "f.2"), formatarg("press", pressure, "f.2"));
 			} else {
 				outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i + 1));
+			}
+			if (GetNearbyTraffic(50000) > 0) { //50km
+				outMsg += " " + stringf(Lang::WATCH_FOR_TRAFFIC_ON_APPROACH);
 			}
 			return true;
 		}

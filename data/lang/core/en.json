@@ -1755,6 +1755,10 @@
     "description": "",
     "message": "Disorder - Overall governance contested by armed factions"
   },
+  "WATCH_FOR_TRAFFIC_ON_APPROACH": {
+    "description": "",
+    "message": "Please watch for traffic on your approach."
+  },
   "WATER": {
     "description": "",
     "message": "Water"

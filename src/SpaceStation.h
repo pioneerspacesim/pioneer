@@ -57,6 +57,8 @@ public:
 	void SetDocked(Ship *ship, const int port);
 	void SwapDockedShipsPort(const int oldPort, const int newPort);
 
+	int GetNearbyTraffic(double radius);
+
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	int GetDockingPortCount() const { return m_type->NumDockingPorts(); }
 	int GetFreeDockingPort(const Ship *s) const; // returns -1 if none free
