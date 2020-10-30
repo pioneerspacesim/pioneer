@@ -61,7 +61,7 @@ extern "C" int main(int argc, char **argv)
 		return 1;
 	}
 
-	fputs(rootNode.dump(2).c_str(), outFile);
+	fputs(rootNode.dump().c_str(), outFile);
 	fclose(outFile);
 
 	return 0;
