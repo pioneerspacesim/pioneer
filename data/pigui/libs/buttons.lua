@@ -11,7 +11,7 @@ local pigui = Engine.pigui
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -20,7 +20,7 @@ local pigui = Engine.pigui
 --   frame_padding - number
 --   bg_color      - Color, for background
 --   fg_color      - Color, for forground
---   tint_color    - Color, 
+--   tint_color    - Color,
 --   tooltip       - string, mouseover text, will be used as ID, must be unique, append "##uniqueID" if needed
 --
 -- Returns:
@@ -30,7 +30,7 @@ local pigui = Engine.pigui
 function ui.imageButton(icon, size, frame_padding, bg_color, tint_color, tooltip)
 	local uv0, uv1 = get_icon_tex_coords(icon)
 	ui.withID(tooltip, function()
-		local res = pigui.ImageButton(ui.icons_texture, size, uv0, uv1, frame_padding, bg_color, tint_color)
+		local res = pigui.ImageButton(ui.get_icons_texture(size), size, uv0, uv1, frame_padding, bg_color, tint_color)
 	end)
 	return res
 end
@@ -43,7 +43,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -52,7 +52,7 @@ end
 --   is_selected - boolean,
 --   bg_color    - Color, for background
 --   fg_color    - Color, for forground
---   tint_color  - Color, 
+--   tint_color  - Color,
 --   tooltip     - string, mouseover text, will be used as ID, must be unique, append "##uniqueID" if needed
 --
 -- Returns:
@@ -128,7 +128,7 @@ ui.coloredSelectedIconButton = function(icon, thesize, is_selected, frame_paddin
 	end
 	local uv0,uv1 = ui.get_icon_tex_coords(icon)
 	pigui.PushID(tooltipID)
-	local res = pigui.ButtonImageSized(ui.icons_texture, thesize, img_size or Vector2(0,0), uv0, uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
+	local res = pigui.ButtonImageSized(ui.get_icons_texture(thesize), thesize, img_size or Vector2(0,0), uv0, uv1, frame_padding, ui.theme.colors.lightBlueBackground, fg_color)
 	pigui.PopID()
 	pigui.PopStyleColor(3)
 	local pos = tooltipID:find("##") -- get position for id tag start

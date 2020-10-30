@@ -12,6 +12,7 @@ local lc = Lang.GetResource("core")
 local shouldShowRadialMenu = false
 local radialMenuPos = Vector2(0,0)
 local radialMenuSize = 10
+local radialMenuIconSize = Vector2(radialMenuSize)
 local radialMenuTarget = nil
 local radialMenuMouseButton = 1
 local radialMenuActions = {}
@@ -27,7 +28,7 @@ local radialMenuMousePos = nil
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -154,7 +155,7 @@ function ui.radialMenu(id)
 	local tooltips = {}
 	for _,action in pairs(radialMenuActions) do
 		local uv0, uv1 = ui.get_icon_tex_coords(action.icon)
-		table.insert(icons, { id = ui.icons_texture, uv0 = uv0, uv1 = uv1 })
+		table.insert(icons, { id = ui.get_icons_texture(radialMenuIconSize), uv0 = uv0, uv1 = uv1 })
 		-- TODO: don't just assume that radialMenuTarget is a Body
 		table.insert(tooltips, string.interp(action.tooltip, { target = radialMenuTarget and radialMenuTarget.label or "UNKNOWN" }))
 	end

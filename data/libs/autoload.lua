@@ -6,6 +6,10 @@
 
 require 'SpaceStation'
 
+math.round = function(v)
+	return (math.modf(v + (v < 0.0 and -.5 or .5)))
+end
+
 math.clamp = function(v, min, max)
 	return math.min(max, math.max(v,min))
 end

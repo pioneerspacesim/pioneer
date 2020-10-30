@@ -33,15 +33,15 @@ static Color4ub parse_color_hex(const std::string &str)
 		uint8_t r = char_to_nibble(str[0]), g = char_to_nibble(str[1]), b = char_to_nibble(str[2]);
 		return Color4ub(r | (r << 4), g | (g << 4), b | (b << 4), 255);
 	} else if (str.size() == 6) {
-		uint8_t r = char_to_nibble(str[0]) | (char_to_nibble(str[1]) << 4);
-		uint8_t g = char_to_nibble(str[2]) | (char_to_nibble(str[3]) << 4);
-		uint8_t b = char_to_nibble(str[4]) | (char_to_nibble(str[5]) << 4);
+		uint8_t r = (char_to_nibble(str[0]) << 4) | char_to_nibble(str[1]);
+		uint8_t g = (char_to_nibble(str[2]) << 4) | char_to_nibble(str[3]);
+		uint8_t b = (char_to_nibble(str[4]) << 4) | char_to_nibble(str[5]);
 		return Color4ub(r, g, b, 255);
 	} else if (str.size() == 8) {
-		uint8_t r = char_to_nibble(str[0]) | (char_to_nibble(str[1]) << 4);
-		uint8_t g = char_to_nibble(str[2]) | (char_to_nibble(str[3]) << 4);
-		uint8_t b = char_to_nibble(str[4]) | (char_to_nibble(str[5]) << 4);
-		uint8_t a = char_to_nibble(str[6]) | (char_to_nibble(str[7]) << 4);
+		uint8_t r = (char_to_nibble(str[0]) << 4) | char_to_nibble(str[1]);
+		uint8_t g = (char_to_nibble(str[2]) << 4) | char_to_nibble(str[3]);
+		uint8_t b = (char_to_nibble(str[4]) << 4) | char_to_nibble(str[5]);
+		uint8_t a = (char_to_nibble(str[6]) << 4) | char_to_nibble(str[7]);
 		return Color4ub(r, g, b, a);
 	}
 
@@ -54,7 +54,7 @@ static int l_color_new(lua_State *L)
 	if (lua_type(L, 1) == LUA_TSTRING) {
 		std::string str = lua_tostring(L, 1);
 		if (str.find_first_not_of("0123456789ABCDEFabcdef") != std::string::npos) {
-			return luaL_error(L, "Color string '%s' cannot contain non-hexadecimal characters!");
+			return luaL_error(L, "Color string '%s' cannot contain non-hexadecimal characters!", str.c_str());
 		}
 
 		LuaColor::PushToLua(L, parse_color_hex(str));
@@ -76,7 +76,7 @@ static int l_color_call(lua_State *L)
 	if (lua_type(L, 2) == LUA_TSTRING) {
 		std::string str = lua_tostring(L, 2);
 		if (str.find_first_not_of("0123456789ABCDEFabcdef") != std::string::npos) {
-			return luaL_error(L, "Color string '%s' cannot contain non-hexadecimal characters!");
+			return luaL_error(L, "Color string '%s' cannot contain non-hexadecimal characters!", str.c_str());
 		}
 
 		LuaColor::PushToLua(L, parse_color_hex(str));
@@ -212,6 +212,14 @@ static int l_color_tint(lua_State *L)
 	return 1;
 }
 
+static int l_color_opacity(lua_State *L)
+{
+	const Color4ub *c = LuaColor::CheckFromLua(L, 1);
+	float factor = luaL_checknumber(L, 2);
+	LuaColor::PushToLua(L, Color4ub(c->r, c->g, c->b, (factor <= 1.0 ? factor * 255 : uint8_t(factor))));
+	return 1;
+}
+
 // Set a Color's values without allocating new memory.
 // c = Color(1, 2, 3, 4); c(120, 140, 255, 255)
 static int l_color_set(lua_State *L)
@@ -222,7 +230,7 @@ static int l_color_set(lua_State *L)
 	if (lua_type(L, 2) == LUA_TSTRING) {
 		std::string str = lua_tostring(L, 2);
 		if (str.find_first_not_of("0123456789ABCDEFabcdef") != std::string::npos) {
-			return luaL_error(L, "Color string '%s' cannot contain non-hexadecimal characters!");
+			return luaL_error(L, "Color string '%s' cannot contain non-hexadecimal characters!", str.c_str());
 		}
 
 		*col = parse_color_hex(str);
@@ -255,6 +263,7 @@ static luaL_Reg l_color_meta[] = {
 	{ "__call", &l_color_set },
 	{ "shade", &l_color_shade },
 	{ "tint", &l_color_tint },
+	{ "opacity", &l_color_opacity },
 	{ 0, 0 }
 };
 
