@@ -4,14 +4,26 @@ local Engine = require 'Engine'
 local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 
-ui.icons_texture = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 64, 16 * 64)
-
 local function get_wide_icon_tex_coords(icon)
 	assert(icon, "no icon given")
 	local count = 16.0 -- icons per row/column
 	local rem = math.floor(icon % count)
 	local quot = math.floor(icon / count)
 	return Vector2(rem / count, quot/count), Vector2((rem+2) / count, (quot+1)/count)
+end
+
+local icons_texture_small = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 24, 16 * 24)
+local icons_texture_med = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 32, 16 * 32)
+local icons_texture_large = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 64, 16 * 64)
+
+function ui.get_icons_texture(size)
+	if size.x > 32.0 or size.y > 32.0 then
+		return icons_texture_large
+	elseif size.x <= 24.0 or size.y <= 24.0 then
+		return icons_texture_small
+	else
+		return icons_texture_med
+	end
 end
 
 --
@@ -25,7 +37,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -57,9 +69,9 @@ function ui.addIcon(position, icon, color, size, anchor_horizontal, anchor_verti
 		local up_right = up_left:right()
 		local down_left = up_left:left()
 		local down_right = -up_left
-		pigui.AddImageQuad(ui.icons_texture, center + up_left, center + up_right, center + down_right, center + down_left, uv0, Vector2(uv1.x, uv0.y), uv1, Vector2(uv0.x, uv1.y), color)
+		pigui.AddImageQuad(ui.get_icons_texture(size), center + up_left, center + up_right, center + down_right, center + down_left, uv0, Vector2(uv1.x, uv0.y), uv1, Vector2(uv0.x, uv1.y), color)
 	else
-		pigui.AddImage(ui.icons_texture, pos, pos + size, uv0, uv1, color)
+		pigui.AddImage(ui.get_icons_texture(size), pos, pos + size, uv0, uv1, color)
 	end
 	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 		if pigui.IsMouseHoveringRect(pos, pos + size, true) then
@@ -80,7 +92,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -112,9 +124,9 @@ function ui.addWideIcon(position, icon, color, size, anchor_horizontal, anchor_v
 		local up_right = up_left:right()
 		local down_left = up_left:left()
 		local down_right = -up_left
-		pigui.AddImageQuad(ui.icons_texture, center + up_left, center + up_right, center + down_right, center + down_left, uv0, Vector2(uv1.x, uv0.y), uv1, Vector2(uv0.x, uv1.y), color)
+		pigui.AddImageQuad(ui.get_icons_texture(size), center + up_left, center + up_right, center + down_right, center + down_left, uv0, Vector2(uv1.x, uv0.y), uv1, Vector2(uv0.x, uv1.y), color)
 	else
-		pigui.AddImage(ui.icons_texture, pos, pos + size, uv0, uv1, color)
+		pigui.AddImage(ui.get_icons_texture(size), pos, pos + size, uv0, uv1, color)
 	end
 	if tooltip and (ui.isMouseHoveringWindow() or not is.isAnyWindowHovered()) and tooltip ~= "" then
 		if pigui.IsMouseHoveringRect(pos, pos + size, true) then
@@ -126,16 +138,16 @@ function ui.addWideIcon(position, icon, color, size, anchor_horizontal, anchor_v
 end
 
 --
--- Function: ui.addWideIcon
+-- Function: ui.icon
 --
--- ui.addWideIcon(icon, size, color, tooltip)
+-- ui.icon(icon, size, color, tooltip)
 --
 -- Display an icon
 --
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -150,7 +162,7 @@ end
 --
 function ui.icon(icon, size, color, tooltip)
 	local uv0, uv1 = ui.get_icon_tex_coords(icon)
-	pigui.Image(ui.icons_texture, size, uv0, uv1, color)
+	pigui.Image(ui.get_icons_texture(size), size, uv0, uv1, color)
 	if tooltip and ui.isItemHovered() then
 		ui.setTooltip(tooltip)
 	end
