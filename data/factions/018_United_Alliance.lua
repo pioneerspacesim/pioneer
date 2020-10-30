@@ -17,10 +17,8 @@ f:govtype_weight('MILDICT2',		76)
 f:govtype_weight('LIBDEM',		57)
 f:govtype_weight('DISORDER',		57)
 
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NARCOTICS',		78)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('narcotics',		78)
 
 f:add_to_factions('United Alliance')
-
-

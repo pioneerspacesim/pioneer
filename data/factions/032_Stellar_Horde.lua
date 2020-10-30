@@ -17,12 +17,10 @@ f:govtype_weight('LIBDEM',		47)
 f:govtype_weight('MILDICT1',		22)
 f:govtype_weight('SOCDEM',		22)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		73)
-f:illegal_goods_probability('SLAVES',		63)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		61)
-f:illegal_goods_probability('NERVE_GAS',		41)
+f:illegal_goods_probability('live_animals',		73)
+f:illegal_goods_probability('slaves',		63)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		61)
+f:illegal_goods_probability('nerve_gas',		41)
 
 f:add_to_factions('Stellar Horde')
-
-

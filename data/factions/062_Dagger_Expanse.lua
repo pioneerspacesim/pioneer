@@ -19,10 +19,8 @@ f:govtype_weight('COMMUNIST',		58)
 f:govtype_weight('MILDICT1',		44)
 f:govtype_weight('MILDICT2',		44)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		59)
-f:illegal_goods_probability('SLAVES',		92)
-f:illegal_goods_probability('NERVE_GAS',		70)
+f:illegal_goods_probability('live_animals',		59)
+f:illegal_goods_probability('slaves',		92)
+f:illegal_goods_probability('nerve_gas',		70)
 
 f:add_to_factions('Dagger Expanse')
-
-

@@ -19,9 +19,7 @@ f:govtype_weight('COMMUNIST',		7)
 f:govtype_weight('MILDICT1',		1)
 f:govtype_weight('MILDICT2',		1)
 
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('NARCOTICS',		60)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('narcotics',		60)
 
 f:add_to_factions('Provisional Empire')
-
-

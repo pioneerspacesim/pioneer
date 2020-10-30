@@ -17,12 +17,10 @@ f:govtype_weight('COMMUNIST',		58)
 f:govtype_weight('CORPORATE',		33)
 f:govtype_weight('MILDICT2',		33)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('ROBOTS',		39)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('robots',		39)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('True Systems')
-
-

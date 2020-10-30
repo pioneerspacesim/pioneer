@@ -19,13 +19,11 @@ f:govtype_weight('COMMUNIST',		1)
 f:govtype_weight('MILDICT1',		0)
 f:govtype_weight('MILDICT2',		0)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('SLAVES',		62)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		35)
-f:illegal_goods_probability('NARCOTICS',		92)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('slaves',		62)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		35)
+f:illegal_goods_probability('narcotics',		92)
 
 f:add_to_factions('True Council')
-
-

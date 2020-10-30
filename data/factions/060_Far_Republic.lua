@@ -15,12 +15,10 @@ f:govtype_weight('MILDICT1',		100)
 f:govtype_weight('DISORDER',		4)
 f:govtype_weight('PLUTOCRATIC',		4)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		75)
-f:illegal_goods_probability('ROBOTS',		70)
-f:illegal_goods_probability('SLAVES',		35)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('live_animals',		75)
+f:illegal_goods_probability('robots',		70)
+f:illegal_goods_probability('slaves',		35)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Far Republic')
-
-

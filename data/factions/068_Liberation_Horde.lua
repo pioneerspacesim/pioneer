@@ -19,12 +19,10 @@ f:govtype_weight('SOCDEM',		2)
 f:govtype_weight('DISORDER',		0)
 f:govtype_weight('COMMUNIST',		0)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		99)
-f:illegal_goods_probability('ROBOTS',		80)
-f:illegal_goods_probability('BATTLE_WEAPONS',		37)
-f:illegal_goods_probability('NERVE_GAS',		80)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('animal_meat',		99)
+f:illegal_goods_probability('robots',		80)
+f:illegal_goods_probability('battle_weapons',		37)
+f:illegal_goods_probability('nerve_gas',		80)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Liberation Horde')
-
-

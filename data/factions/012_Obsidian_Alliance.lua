@@ -17,11 +17,9 @@ f:govtype_weight('DISORDER',		47)
 f:govtype_weight('SOCDEM',		22)
 f:govtype_weight('LIBDEM',		10)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		52)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('NERVE_GAS',		58)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('animal_meat',		52)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('nerve_gas',		58)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Obsidian Alliance')
-
-

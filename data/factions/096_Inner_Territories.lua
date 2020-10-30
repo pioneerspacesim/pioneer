@@ -15,12 +15,10 @@ f:govtype_weight('MILDICT1',		100)
 f:govtype_weight('DISORDER',		64)
 f:govtype_weight('PLUTOCRATIC',		64)
 
-f:illegal_goods_probability('ROBOTS',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		46)
-f:illegal_goods_probability('BATTLE_WEAPONS',		67)
-f:illegal_goods_probability('NERVE_GAS',		41)
-f:illegal_goods_probability('NARCOTICS',		77)
+f:illegal_goods_probability('robots',		100)
+f:illegal_goods_probability('hand_weapons',		46)
+f:illegal_goods_probability('battle_weapons',		67)
+f:illegal_goods_probability('nerve_gas',		41)
+f:illegal_goods_probability('narcotics',		77)
 
 f:add_to_factions('Inner Territories')
-
-

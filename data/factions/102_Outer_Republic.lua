@@ -17,13 +17,11 @@ f:govtype_weight('PLUTOCRATIC',		20)
 f:govtype_weight('CORPORATE',		4)
 f:govtype_weight('LIBDEM',		0)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		63)
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('SLAVES',		49)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		88)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('live_animals',		63)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('slaves',		49)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		88)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Outer Republic')
-
-

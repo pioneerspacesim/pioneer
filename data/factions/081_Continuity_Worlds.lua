@@ -17,13 +17,11 @@ f:govtype_weight('SOCDEM',		79)
 f:govtype_weight('PLUTOCRATIC',		62)
 f:govtype_weight('COMMUNIST',		62)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		57)
-f:illegal_goods_probability('ROBOTS',		46)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		51)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('live_animals',		57)
+f:illegal_goods_probability('robots',		46)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		51)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Continuity Worlds')
-
-

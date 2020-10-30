@@ -14,12 +14,10 @@ local f = Faction:new('Rim Alliance')
 f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT2',		28)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('LIQUOR',		70)
-f:illegal_goods_probability('SLAVES',		98)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		70)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('liquor',		70)
+f:illegal_goods_probability('slaves',		98)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		70)
 
 f:add_to_factions('Rim Alliance')
-
-

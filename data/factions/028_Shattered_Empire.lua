@@ -17,12 +17,10 @@ f:govtype_weight('SOCDEM',		10)
 f:govtype_weight('PLUTOCRATIC',		1)
 f:govtype_weight('COMMUNIST',		1)
 
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		54)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		93)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		54)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		93)
 
 f:add_to_factions('Shattered Empire')
-
-

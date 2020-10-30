@@ -15,12 +15,10 @@ f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT2',		38)
 f:govtype_weight('COMMUNIST',		14)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		65)
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
+f:illegal_goods_probability('live_animals',		65)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		100)
 
 f:add_to_factions('Free Horde')
-
-

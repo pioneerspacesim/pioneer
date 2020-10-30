@@ -19,11 +19,9 @@ f:govtype_weight('SOCDEM',		44)
 f:govtype_weight('DISORDER',		29)
 f:govtype_weight('COMMUNIST',		29)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIVE_ANIMALS',		86)
-f:illegal_goods_probability('BATTLE_WEAPONS',		98)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('live_animals',		86)
+f:illegal_goods_probability('battle_weapons',		98)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Blood Council')
-
-

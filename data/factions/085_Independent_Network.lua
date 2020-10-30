@@ -15,12 +15,10 @@ f:govtype_weight('PLUTOCRATIC',		100)
 f:govtype_weight('MILDICT1',		12)
 f:govtype_weight('CORPORATE',		12)
 
-f:illegal_goods_probability('LIQUOR',		59)
-f:illegal_goods_probability('SLAVES',		51)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		80)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('liquor',		59)
+f:illegal_goods_probability('slaves',		51)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		80)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Independent Network')
-
-

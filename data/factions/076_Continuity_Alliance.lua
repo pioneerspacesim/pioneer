@@ -16,12 +16,10 @@ f:govtype_weight('DISORDER',		50)
 f:govtype_weight('PLUTOCRATIC',		50)
 f:govtype_weight('CORPORATE',		25)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('ROBOTS',		73)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		52)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('robots',		73)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		52)
+f:illegal_goods_probability('battle_weapons',		100)
 
 f:add_to_factions('Continuity Alliance')
-
-

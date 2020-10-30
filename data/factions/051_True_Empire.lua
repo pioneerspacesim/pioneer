@@ -14,14 +14,12 @@ local f = Faction:new('True Empire')
 f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT2',		40)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('ROBOTS',		70)
-f:illegal_goods_probability('SLAVES',		90)
-f:illegal_goods_probability('HAND_WEAPONS',		52)
-f:illegal_goods_probability('NERVE_GAS',		65)
-f:illegal_goods_probability('NARCOTICS',		53)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('robots',		70)
+f:illegal_goods_probability('slaves',		90)
+f:illegal_goods_probability('hand_weapons',		52)
+f:illegal_goods_probability('nerve_gas',		65)
+f:illegal_goods_probability('narcotics',		53)
 
 f:add_to_factions('True Empire')
-
-

@@ -15,12 +15,10 @@ f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT2',		28)
 f:govtype_weight('COMMUNIST',		7)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		47)
-f:illegal_goods_probability('NERVE_GAS',		49)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		47)
+f:illegal_goods_probability('nerve_gas',		49)
 
 f:add_to_factions('Stellar Republic')
-
-

@@ -216,6 +216,11 @@ static int l_fac_illegal_goods_probability(lua_State *L)
 		return 0;
 	}
 
+	if (e == GalacticEconomy::InvalidCommodityId) {
+		pi_lua_warn(L, "Faction[%s]: Invalid commodity name %s passed to IllegalGoodsProbability.",
+			fac->name.c_str(), typeName.c_str());
+	}
+
 	fac->commodity_legality[e] = probability;
 	lua_settop(L, 1);
 

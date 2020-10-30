@@ -18,13 +18,11 @@ f:govtype_weight('DISORDER',		9)
 f:govtype_weight('LIBDEM',		9)
 f:govtype_weight('SOCDEM',		2)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		66)
-f:illegal_goods_probability('NARCOTICS',		72)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		66)
+f:illegal_goods_probability('narcotics',		72)
 
 f:add_to_factions('Provisional Faction')
-
-

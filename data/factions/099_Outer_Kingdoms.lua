@@ -16,11 +16,9 @@ f:govtype_weight('COMMUNIST',		53)
 f:govtype_weight('DISORDER',		53)
 f:govtype_weight('SOCDEM',		28)
 
-f:illegal_goods_probability('HAND_WEAPONS',		89)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		56)
+f:illegal_goods_probability('hand_weapons',		89)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		56)
 
 f:add_to_factions('Outer Kingdoms')
-
-

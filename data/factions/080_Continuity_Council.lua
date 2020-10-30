@@ -19,11 +19,9 @@ f:govtype_weight('COMMUNIST',		1)
 f:govtype_weight('MILDICT1',		0)
 f:govtype_weight('MILDICT2',		0)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		44)
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('ROBOTS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		69)
+f:illegal_goods_probability('animal_meat',		44)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('robots',		100)
+f:illegal_goods_probability('battle_weapons',		69)
 
 f:add_to_factions('Continuity Council')
-
-

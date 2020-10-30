@@ -16,13 +16,11 @@ f:govtype_weight('MILDICT2',		49)
 f:govtype_weight('COMMUNIST',		24)
 f:govtype_weight('SOCDEM',		11)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIQUOR',		76)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		79)
-f:illegal_goods_probability('BATTLE_WEAPONS',		33)
-f:illegal_goods_probability('NARCOTICS',		53)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('liquor',		76)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		79)
+f:illegal_goods_probability('battle_weapons',		33)
+f:illegal_goods_probability('narcotics',		53)
 
 f:add_to_factions('Dagger Union')
-
-
