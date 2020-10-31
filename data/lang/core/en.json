@@ -187,9 +187,13 @@
     "description": "",
     "message": "Clearance granted. Proceed to docking bay %bay."
   },
-  "CLEARANCE_GRANTED_BAY_N_GRAV_PRESS": {
+  "STATION_GRAV": {
     "description": "",
-    "message": "Clearance granted. Proceed to docking bay %bay. Local gravity is %grav g, pressure is %press atm."
+    "message": "Local gravity is %grav g."
+  },
+  "STATION_GRAV_PRESS": {
+    "description": "",
+    "message": "Local gravity is %grav g, pressure is %press atm."
   },
   "CO2_ATMOSPHERE": {
     "description": "",

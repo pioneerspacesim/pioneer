@@ -366,6 +366,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 			// Note: maxOffset is squared
 			sd.maxOffset = std::max((pPort->maxShipSize / 2 - bboxRad), float(pPort->maxShipSize / 5.0));
 			sd.maxOffset *= sd.maxOffset;
+			outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i + 1));
 			if (this->IsGroundStation()) {
 				Frame *frame = Frame::GetFrame(this->GetFrame());
 				Body *stationPlanet = frame->GetBody();
@@ -378,9 +379,11 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 				// use g instead of m/(s^2) because it is easier to compare with ship info during gameplay
 				double gravity = (G * stationPlanet->GetMass() / rsqr) / 9.80;
 
-				outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N_GRAV_PRESS, formatarg("bay", i + 1), formatarg("grav", gravity, "f.2"), formatarg("press", pressure, "f.2"));
-			} else {
-				outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i + 1));
+				if (pressure > 0.01) {
+					outMsg += " " + stringf(Lang::STATION_GRAV_PRESS, formatarg("grav", gravity, "f.2"), formatarg("press", pressure, "f.2"));
+				} else {
+					outMsg += " " + stringf(Lang::STATION_GRAV, formatarg("grav", gravity, "f.2"));
+				}
 			}
 			if (GetNearbyTraffic(50000) > 0) { //50km
 				outMsg += " " + stringf(Lang::WATCH_FOR_TRAFFIC_ON_APPROACH);
