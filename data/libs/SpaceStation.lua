@@ -326,7 +326,7 @@ end
 -- Attribute: lawEnforcedRange
 --
 --   The distance, in meters, at which a station upholds the law,
---   (is 100 km for all at the moment)
+--   (is 50 km for all at the moment)
 --
 -- Availability:
 --
@@ -336,7 +336,7 @@ end
 --
 --   experimental
 --
-SpaceStation.lawEnforcedRange = 100000
+SpaceStation.lawEnforcedRange = 50000
 
 
 local police = {}
