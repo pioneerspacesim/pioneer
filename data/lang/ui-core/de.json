@@ -37,7 +37,7 @@
   },
   "ARRIVAL_DATE": {
     "description": "Time of arrival, used in flight log",
-    "message": "Arrival date"
+    "message": "Ankunftsdatum"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
@@ -45,7 +45,7 @@
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Atmo. pressure limit"
+    "message": "Obergrenze atmo. Druck"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -269,7 +269,7 @@
   },
   "DATE": {
     "description": "Date of an event, used in flight log",
-    "message": "Date"
+    "message": "Datum"
   },
   "DEADLY": {
     "description": "Player combat rating",
@@ -297,7 +297,7 @@
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
-    "message": "Departure date"
+    "message": "Abflugdatum"
   },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
@@ -377,7 +377,7 @@
   },
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
-    "message": "Edit"
+    "message": "Bearbeiten"
   },
   "EFFECTS": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
-    "message": "Entry"
+    "message": "Eintrag"
   },
   "EQUIPMENT": {
     "description": "",
@@ -521,39 +521,39 @@
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Docking at {primary_info}"
+    "message": "Angedockt an {primary_info}"
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
-    "message": "Flying in space, relative {primary_info}"
+    "message": "Im Weltall, relativ zu {primary_info}"
   },
   "FLIGHTLOG_HYPERSPACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "In Hyperspace, enroute to {primary_info}"
+    "message": "Im Hyperraum, auf dem weg nach {primary_info}"
   },
   "FLIGHTLOG_JUMPING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "Hyper jumping towards {primary_info}"
+    "message": "Im Hypersprung in Richtung {primary_info}"
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+    "message": "Gelandet auf {primary_info}, position ({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, in orbit around {secondary_info}"
+    "message": "Angedockt an {primary_info}, in der Umlaufbahn um {secondary_info}"
   },
   "FLIGHTLOG_STARPORT_SURFACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, on {secondary_info}"
+    "message": "Angedockt an {primary_info}, auf {secondary_info}"
   },
   "FLIGHTLOG_UNDOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Undocking at {primary_info}"
+    "message": "Ausdocken aus {primary_info}"
   },
   "FLIGHT_LOG": {
     "description": "Title for flight log screen, in info view",
-    "message": "Flight Log"
+    "message": "Fluglogbuch"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -981,15 +981,15 @@
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
-    "message": "DESCENT RATE"
+    "message": "SINKGESCHWINDIGKEIT"
   },
   "HUD_WARNING_IMPACT": {
     "description": "Alert tooltip",
-    "message": "Impact warning"
+    "message": "Kollisionswarnung"
   },
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
-    "message": "Impact imminent"
+    "message": "Kollision steht bevor"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -1073,7 +1073,7 @@
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
-    "message": "In system"
+    "message": "In System"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -1169,19 +1169,19 @@
   },
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
-    "message": "Custom Log"
+    "message": "Benutzerdefiniertes Logbuch"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
-    "message": "New Entry"
+    "message": "Neuer Eintrag"
   },
   "LOG_STATION": {
     "description": "Label tab for showing logged station events",
-    "message": "Station Log"
+    "message": "Stationslogbuch"
   },
   "LOG_SYSTEM": {
     "description": "Label tab for showing logged system events",
-    "message": "System Log"
+    "message": "Systemlogbuch"
   },
   "LOW": {
     "description": "",
@@ -1405,7 +1405,7 @@
   },
   "NO_VALID_ROUTE": {
     "description": "Message in the sector map, issued by the autoroute function.",
-    "message": "No valid route to the selected system."
+    "message": "Keine gültige Route zum gewählten System."
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",

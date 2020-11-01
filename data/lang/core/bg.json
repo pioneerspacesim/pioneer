@@ -449,7 +449,7 @@
   },
   "GALAXY_SECTOR_VIEW": {
     "description": "",
-    "message": "Galaxy sector view"
+    "message": "Галактически изглед на сектора"
   },
   "GAME_LOAD_CANNOT_OPEN": {
     "description": "",
@@ -561,15 +561,15 @@
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
-    "message": "Hyperspace arrival cloud"
+    "message": "Хиперпространствен облак на пристигане"
   },
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
-    "message": "Hyperspace arrival cloud remnant"
+    "message": "Останки от хиперпространствен облак на пристигане"
   },
   "HYPERSPACE_DEPARTURE_CLOUD": {
     "description": "",
-    "message": "Hyperspace departure cloud"
+    "message": "Хиперпространствен облак на тръгване"
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -1101,7 +1101,7 @@
   },
   "ORBIT_PLANNER": {
     "description": "",
-    "message": "Orbit planner"
+    "message": "Орбитален планер"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",

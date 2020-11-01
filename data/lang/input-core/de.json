@@ -73,23 +73,23 @@
   },
   "BIND_MAP_VIEW_MOVE_FORWARD": {
     "description": "Axis binding",
-    "message": "Shift Map Longitudinally"
+    "message": "Karte longitudinal verschieben"
   },
   "BIND_MAP_VIEW_MOVE_LEFT": {
     "description": "Axis binding",
-    "message": "Shift Map Horizontally"
+    "message": "Karte horizontal verschieben"
   },
   "BIND_MAP_VIEW_MOVE_UP": {
     "description": "Axis binding",
-    "message": "Shift Map Vertically"
+    "message": "Karte vertikal verschieben"
   },
   "BIND_MAP_VIEW_PITCH": {
     "description": "Axis binding",
-    "message": "Map Pitch"
+    "message": "Kartenrotation - Nicken"
   },
   "BIND_MAP_VIEW_YAW": {
     "description": "Axis binding",
-    "message": "Map Yaw"
+    "message": "Kartenrotation - Gieren"
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
@@ -156,7 +156,7 @@
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
-    "message": "Sector Map View Controls"
+    "message": "Steuerung der Kartenansicht"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
@@ -176,7 +176,7 @@
   },
   "PAGE_MAP_CONTROLS": {
     "description": "Header for the MapControls input page.",
-    "message": "Map Controls"
+    "message": "Kartensteuerung"
   },
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",
