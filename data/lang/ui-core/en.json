@@ -1851,6 +1851,14 @@
     "description": "Information shown in the station lobby, for total number of docking pads",
     "message": "Our total capacity is {total_docking_pads} docking pads."
   },
+  "STATION_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "Local gravity here is %.2f g."
+  },
+  "STATION_LOCAL_GRAVITY_PRESSURE": {
+    "description": "",
+    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
+  },
   "STATION_MANAGER": {
     "description": "",
     "message": "Station manager"

@@ -243,6 +243,16 @@ local function drawPlayerInfo()
 
 	local orbit_period = station.path:GetSystemBody().orbitPeriod
 
+	local station_frameBody = Space.GetBody(station.path:GetSystemBody().parent.index)
+	local local_gravity_pressure = ""
+	if station.type == "STARPORT_SURFACE" then
+		if station.path:GetSystemBody().parent.hasAtmosphere then
+			local_gravity_pressure = string.format(l.STATION_LOCAL_GRAVITY_PRESSURE, (station.path:GetSystemBody().parent.gravity/9.8), station_frameBody:GetAtmosphericState(station))
+		else
+			local_gravity_pressure = string.format(l.STATION_LOCAL_GRAVITY, (station.path:GetSystemBody().parent.gravity/9.8))
+		end
+	end
+
 	local station_orbit_info = ""
 	if station.type == "STARPORT_ORBITAL" then
 		station_orbit_info =
@@ -264,6 +274,7 @@ local function drawPlayerInfo()
 						{ tech_certified, "" },
 						{ station_docks, "" },
 						{ station_orbit_info, "" },
+						{ local_gravity_pressure, ""},
 					})
 
 					if not lobbyMenuAtBottom then
