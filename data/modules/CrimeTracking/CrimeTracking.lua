@@ -34,7 +34,10 @@ end
 
 -- check if we should dispatch police, or call them back
 local function doLawAndOrder ()
-	if Game.player.flightState == "HYPERSPACE" then return end
+	if Game.player.flightState == "HYPERSPACE" then
+		playerInControlledSpace = false
+		return
+	end
 
 	local crimes, fine = Game.player:GetCrimeOutstanding()
 	if not policeDispatched then
@@ -76,10 +79,6 @@ local function doLawAndOrder ()
 				end
 			end
 		end
-	end
-
-	if Game.player.flightState == "HYPERSPACE" then
-		playerInControlledSpace = false
 	end
 
 end
