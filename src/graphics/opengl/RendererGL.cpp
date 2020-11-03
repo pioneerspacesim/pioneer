@@ -177,9 +177,18 @@ namespace Graphics {
 			}
 		}
 
-		if (!glewIsSupported("GL_ARB_clip_control")) {
+		// use floating-point reverse-Z depth buffer to remove the need for depth buffer hacks
+		m_useNVDepthRanged = false;
+		if (glewIsSupported("GL_ARB_clip_control")) {
+			glDepthRange(0.0, 1.0);
+			glClipControl(GL_LOWER_LEFT, GL_ZERO_TO_ONE);
+		} else if (glewIsSupported("GL_NV_depth_buffer_float")) {
+			m_useNVDepthRanged = true;
+			glDepthRangedNV(-1, 1);
+		} else {
 			Error(
-				"OpenGL extension GL_ARB_clip_control is not supported by your graphics card or graphics driver version.\n"
+				"Pioneer requires the GL_ARB_clip_control or GL_NV_depth_buffer_float OpenGL extensions.\n"
+				"These extensions are not supported by your graphics card or graphics driver version.\n"
 				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly.");
 		}
 
@@ -203,8 +212,6 @@ namespace Graphics {
 		glEnable(GL_DEPTH_TEST);
 		// use floating-point reverse-Z depth buffer to remove the need for depth buffer hacks
 		glDepthFunc(GL_GREATER);
-		glDepthRange(0.0, 1.0);
-		glClipControl(GL_LOWER_LEFT, GL_ZERO_TO_ONE);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
@@ -572,6 +579,16 @@ namespace Graphics {
 	{
 		// XXX since we're using reverse-Z, flip the inputs to this function to avoid breaking old code.
 		glDepthRange(1.0 - zfar, 1.0 - znear);
+		return true;
+	}
+
+	bool RendererOGL::ResetDepthRange()
+	{
+		if (m_useNVDepthRanged)
+			glDepthRangedNV(-1.0, 1.0);
+		else
+			glDepthRange(0.0, 1.0);
+
 		return true;
 	}
 

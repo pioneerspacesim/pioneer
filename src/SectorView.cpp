@@ -331,6 +331,7 @@ void SectorView::Draw3D()
 	m_renderer->SetDepthRange(0.2, 1.0);
 	m_disk->SetColor(Color(0, 0, 204));
 	m_disk->Draw(m_renderer);
+	m_renderer->ResetDepthRange();
 
 	UIView::Draw3D();
 }
