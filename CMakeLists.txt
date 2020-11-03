@@ -253,6 +253,9 @@ include_directories(
 	${GLEW_INCLUDE_DIRS}
 )
 
+# We don't want/need the GLU dependency
+add_definitions(-DGLEW_NO_GLU)
+
 if (NOT USE_SYSTEM_LIBGLEW)
 	add_subdirectory(contrib/glew)
 	add_library(GLEW::GLEW ALIAS glew)
