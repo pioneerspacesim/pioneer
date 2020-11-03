@@ -1953,7 +1953,7 @@
   },
   "VIDEO_RESOLUTION": {
     "description": "",
-    "message": "视频分辨率"
+    "message": "屏幕分辨率"
   },
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",

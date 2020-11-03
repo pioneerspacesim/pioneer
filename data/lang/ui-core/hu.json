@@ -45,7 +45,7 @@
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Atmo. pressure limit"
+    "message": "Légköri nyomás tűrés"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -981,15 +981,15 @@
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
-    "message": "DESCENT RATE"
+    "message": "ERESZKEDÉSI RÁTA"
   },
   "HUD_WARNING_IMPACT": {
     "description": "Alert tooltip",
-    "message": "Impact warning"
+    "message": "Figyelem! Becsapódás"
   },
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
-    "message": "Impact imminent"
+    "message": "Becsapódás fenyeget!"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
