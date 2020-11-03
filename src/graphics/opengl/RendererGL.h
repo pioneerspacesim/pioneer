@@ -150,9 +150,9 @@ namespace Graphics {
 		std::unordered_map<Uint32, OGL::RenderState *> m_renderStates;
 		bool m_useNVDepthRanged;
 		float m_invLogZfarPlus1;
-		OGL::RenderTarget *m_activeRenderTarget;
-		OGL::RenderTarget *m_windowRenderTarget;
-		RenderState *m_activeRenderState;
+		OGL::RenderTarget *m_activeRenderTarget = nullptr;
+		OGL::RenderTarget *m_windowRenderTarget = nullptr;
+		RenderState *m_activeRenderState = nullptr;
 
 		matrix4x4f m_modelViewMat;
 		matrix4x4f m_projectionMat;
