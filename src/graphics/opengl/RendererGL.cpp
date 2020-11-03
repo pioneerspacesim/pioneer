@@ -1172,6 +1172,14 @@ namespace Graphics {
 		rt->CheckStatus();
 		rt->Unbind();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
+
+		// Rebind the active render target
+		if (m_activeRenderTarget)
+			m_activeRenderTarget->Bind();
+		// we can't assume the window render target exists yet because we might be creating it
+		else if (m_windowRenderTarget)
+			m_windowRenderTarget->Bind();
+
 		return rt;
 	}
 
