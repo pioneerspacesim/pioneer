@@ -70,6 +70,7 @@ namespace Graphics {
 		virtual bool SetRenderTarget(RenderTarget *) override final;
 
 		virtual bool SetDepthRange(double znear, double zfar) override final;
+		virtual bool ResetDepthRange() override final;
 
 		virtual bool ClearScreen() override final;
 		virtual bool ClearDepthBuffer() override final;
@@ -147,6 +148,7 @@ namespace Graphics {
 		friend class OGL::BillboardMaterial;
 		std::vector<std::pair<MaterialDescriptor, OGL::Program *>> m_programs;
 		std::unordered_map<Uint32, OGL::RenderState *> m_renderStates;
+		bool m_useNVDepthRanged;
 		float m_invLogZfarPlus1;
 		OGL::RenderTarget *m_activeRenderTarget;
 		OGL::RenderTarget *m_windowRenderTarget;
