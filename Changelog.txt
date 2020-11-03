@@ -1,10 +1,16 @@
 November 2020
+   * New Features
+     * New unified color theme and new icons (#4993)
+     
    * Internal Changes
      * Decrease the maximum background star size to 0.3 (#4991)
      * CMake: Avoid libGLU dependency (#4994)
+     * Improved icon renderering at small sizes (#4993)
    
    * Fixes
      * Fix SAR crash where IsPlayer() is falsely called by non-ship body (#4985)
+     * Fix tradeships inflating save files with 1000s of duplicate cargo items (#4993)
+     * Fix some old hardware not being compatible with the Reverse-Z implementation (#4993)
 
 October 2020
    * New Features
