@@ -70,7 +70,8 @@ function EquipSet:Serialize()
 
 	serialize.slots.cargo = {
 		__limit = self.slots.cargo.__limit,
-		__occupied = self.slots.cargo.__occupied
+		__occupied = self.slots.cargo.__occupied,
+		__version = 2
 	}
 
 	-- count the number of cargo items in the bay
@@ -91,17 +92,20 @@ end
 
 function EquipSet.Unserialize(data)
 	local cargo = data.slots.cargo
-	local newCargo = {
-		__limit = cargo.__limit,
-		__occupied = cargo.__occupied
-	}
 
-	-- unpack collapsed cargo items
-	for _, v in ipairs(cargo) do
-		for i = 1, v.count do table.insert(newCargo, v.item) end
+	if (cargo.__version or 0) >= 2 then
+		local newCargo = {
+			__limit = cargo.__limit,
+			__occupied = cargo.__occupied
+		}
+
+		-- unpack collapsed cargo items
+		for _, v in ipairs(cargo) do
+			for i = 1, v.count do table.insert(newCargo, v.item) end
+		end
+
+		data.slots.cargo = newCargo
 	end
-
-	data.slots.cargo = newCargo
 
 	setmetatable(data, EquipSet.meta)
 	return data
