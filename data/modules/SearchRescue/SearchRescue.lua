@@ -2287,10 +2287,9 @@ local onShipDestroyed = function (ship, attacker)
 	for _,mission in pairs(missions) do
 		if mission.target and ship == mission.target then
 			mission.target = nil
-			if attacker:IsPlayer() then
+			mission.target_destroyed = "BY_ACCIDENT"
+			if attacker:IsDynamic() and attacker:IsPlayer() then
 				mission.target_destroyed = "BY_PLAYER"
-			else
-				mission.target_destroyed = "BY_ACCIDENT"
 			end
 		end
 	end
