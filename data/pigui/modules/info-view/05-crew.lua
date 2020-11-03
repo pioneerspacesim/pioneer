@@ -11,7 +11,7 @@ local l = Lang.GetResource("ui-core")
 InfoView:registerView({
     id = "crew",
     name = l.CREW_ROSTER,
-    icon = ui.theme.icons.rooster,
+    icon = ui.theme.icons.roster,
     showView = false,
     draw = function() end,
     refresh = function() end,

@@ -74,7 +74,7 @@ local function showInfo()
 		local total_duration = 0
 		local total_distance = 0
 
-		textIcon(icons.display_navtarget, lui.CURRENT_SYSTEM)
+		textIcon(icons.navtarget, lui.CURRENT_SYSTEM)
 		ui.sameLine()
 		-- we can only have the current path in normal space
 		if current_path then

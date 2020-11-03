@@ -56,8 +56,8 @@ local styleColors = {
 	success_700		= Color "469E07",
 	success_900		= Color "102502",
 
-	warning_100		= Color "FFCFA3",
-	warning_300		= Color "FFAE43",
+	warning_100		= Color "FFD391",
+	warning_300		= Color "FFA431",
 	warning_500		= Color "FF8000",
 	warning_700		= Color "894400",
 	warning_900		= Color "401F00",
@@ -76,8 +76,8 @@ theme.colors = {
 	reticuleCircleDark		= styleColors.gray_400,
 	frame					= styleColors.gray_300,
 	frameDark				= styleColors.gray_500,
-	navTarget				= styleColors.warning_300,
-	navTargetDark			= styleColors.warning_500,
+	navTarget				= styleColors.warning_100,
+	navTargetDark			= styleColors.warning_300,
 	combatTarget			= styleColors.danger_300,
 	combatTargetDark		= styleColors.danger_500,
 
@@ -93,13 +93,13 @@ theme.colors = {
 	brakeOvershoot			= styleColors.danger_500,
 	maneuver				= styleColors.accent_300,
 	maneuverDark			= styleColors.accent_500,
-	mouseMovementDirection	= styleColors.accent_300,
+	mouseMovementDirection	= styleColors.accent_100,
 	-- FIXME: this color is primarily used to tint buttons by rendering over top of the frame color.
 	-- This is atrocious for obvious reasons. Refactor button / frame rendering to draw an independent frame border.
-	lightBlueBackground		= styleColors.accent_700:opacity(0.10),
+	lightBlueBackground		= styleColors.primary_700:opacity(0.10),
 	lightBlackBackground	= styleColors.black:opacity(0.40),
 	blueBackground			= styleColors.primary_900,
-	blueFrame				= styleColors.accent_100,
+	blueFrame				= styleColors.accent_100:shade(0.50),
 	commsWindowBackground	= styleColors.primary_800:opacity(0.75),
 	buttonBlue				= styleColors.primary_300,
 	buttonInk				= styleColors.white,
@@ -116,8 +116,8 @@ theme.colors = {
 	alertRed				= styleColors.danger_500,
 	hyperspaceInfo			= styleColors.success_300,
 
-	gaugeBackground			= styleColors.primary_700,
-	gaugePressure			= styleColors.primary_500,
+	gaugeBackground			= styleColors.gray_800:opacity(0.85),
+	gaugePressure			= styleColors.primary_600,
 	gaugeTemperature		= styleColors.danger_500,
 	gaugeShield				= styleColors.primary_300,
 	gaugeHull				= styleColors.gray_200,
@@ -126,7 +126,7 @@ theme.colors = {
 	gaugeVelocityDark		= styleColors.gray_800,
 	gaugeThrustLight		= styleColors.gray_500,
 	gaugeThrustDark			= styleColors.gray_900,
-	gaugeEquipmentMarket	= styleColors.primary_500,
+	gaugeEquipmentMarket	= styleColors.primary_600,
 
 	radarCargo				= styleColors.primary_200,
 	radarCloud				= styleColors.primary_200,
@@ -194,7 +194,7 @@ theme.icons = {
 	heavy_fighter = 32,
 	medium_fighter = 33,
 	light_fighter = 34,
-	sun = 35,
+	-- EMPTY = 35,
 	asteroid_hollow = 36,
 	current_height = 37,
 	current_periapsis = 38,
@@ -212,7 +212,7 @@ theme.icons = {
 	medium_courier = 49,
 	light_courier = 50,
 	rocky_planet = 51,
-	ship = 52, -- useless?
+	ship = 52,
 	landing_gear_up = 53,
 	landing_gear_down = 54,
 	ecm = 55,
@@ -227,7 +227,7 @@ theme.icons = {
 	heavy_passenger_shuttle = 64,
 	medium_passenger_shuttle = 65,
 	light_passenger_shuttle = 66,
-	moon = 67,
+	-- EMPTY = 67,
 	autopilot_set_speed = 68,
 	autopilot_manual = 69,
 	autopilot_fly_to = 70,
@@ -282,9 +282,9 @@ theme.icons = {
 	warning_1 = 116,
 	warning_2 = 117,
 	warning_3 = 118,
-	display_frame = 119,
-	display_combattarget = 120,
-	display_navtarget = 121,
+	moon = 119,
+	combattarget = 120,
+	navtarget = 121,
 	alert1 = 122,
 	alert2 = 123,
 	ecm_advanced = 124,
@@ -303,7 +303,7 @@ theme.icons = {
 	info = 136,
 	personal_info = 137,
 	personal = 138,
-	rooster = 139,
+	roster = 139,
 	map = 140,
 	sector_map = 141,
 	system_map = 142,
@@ -330,6 +330,7 @@ theme.icons = {
 	bookmarks = 161,
 	unlocked = 162,
 	locked = 163,
+	-- EMPTY = 164,
 	label = 165,
 	broadcast = 166,
 	shield_other = 167,
@@ -342,6 +343,23 @@ theme.icons = {
 	orbit_normal = 174,
 	orbit_radial = 175,
 	-- twelfth row
+	-- BBS replacement icons
+	-- TODO: mission display needs to be converted to use these instead of loading individual icons from disk
+	-- mission_default = 176,
+	-- mission_searchrescue = 177,
+	-- fuel_radioactive = 178,
+	-- assassination = 179,
+	-- money = 180,
+	-- news = 181,
+	-- crew = 182, -- duplicate of 138
+	-- taxi = 183,
+	-- taxi_urgent = 184,
+	-- haul = 185,
+	-- haul_urgent = 186,
+	-- delivery = 187,
+	-- delivery_urgent = 188,
+	-- goodstrader = 189, -- duplicate of 132
+	-- servicing_repair = 190,
 	view_flyby = 191,
 	-- thirteenth row
 	cog = 192,
@@ -356,8 +374,8 @@ theme.icons = {
 	apoapsis = 201,
 	reset_view = 202,
 	toggle_grid = 203,
-	--EMPTY
-	--EMPTY
+	plus = 204,
+	-- EMPTY = 205
 	decrease = 206,
 	increase = 207,
 	-- fourteenth row, wide icons
@@ -376,8 +394,8 @@ theme.icons = {
 	-- fifteenth row
 	chart = 224,
 	binder = 225,
-	navtarget = 226,
-	ships_no_orbits = 227,
+	-- navtarget = 226,		-- duplicate of 121
+	ships_no_orbits = 227,	-- duplicate of 52
 	ships_with_orbits = 228,
 	lagrange_no_text = 229,
 	lagrange_with_text = 230,
@@ -385,9 +403,29 @@ theme.icons = {
 	route_destination = 232,
 	route_dist = 233,
 	impact_warning = 234,
+	econ_major_import = 235,
+	econ_minor_import = 236,
+	econ_major_export = 237,
+	econ_minor_export = 238,
+	cargo_crate = 239,
+	-- sixteenth row
+	econ_profit = 240,
+	econ_loss = 241,
+	surface_spaceport = 242,
+	outpost_tiny = 243,
+	outpost_small = 244,
+	outpost_medium = 245,
+	outpost_large = 246,
+	station_orbital_large = 247,
+	station_orbital_small = 248,
+	station_observatory = 249,
+	cargo_crate_illegal = 255,
+
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly
-	mouse_move_direction = 14
+	mouse_move_direction = 14,
+	-- transitional, aliased to the unused galaxymap icon
+	sun = 144,
 }
 
 return theme
