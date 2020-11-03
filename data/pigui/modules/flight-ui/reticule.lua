@@ -279,7 +279,7 @@ local function displayDetailButtons(radius, navTarget, combatTarget)
 	local size = 24
 	if combatTarget or navTarget then
 		local color = reticuleTarget == "frame" and colors.reticuleCircle or colors.reticuleCircleDark
-		ui.addIcon(uiPos, icons.display_frame, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_FRAME)
+		ui.addIcon(uiPos, icons.moon, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_FRAME)
 		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):length() < size/2 then
 			reticuleTarget = "frame"
 		end
@@ -287,7 +287,7 @@ local function displayDetailButtons(radius, navTarget, combatTarget)
 	end
 	if navTarget then
 		local color = reticuleTarget == "navTarget" and colors.reticuleCircle or colors.reticuleCircleDark
-		ui.addIcon(uiPos, icons.display_navtarget, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_NAV_TARGET)
+		ui.addIcon(uiPos, icons.navtarget, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_NAV_TARGET)
 		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):length() < size/2 then
 			reticuleTarget = "navTarget"
 		end
@@ -295,7 +295,7 @@ local function displayDetailButtons(radius, navTarget, combatTarget)
 	end
 	if combatTarget then
 		local color = reticuleTarget == "combatTarget" and colors.reticuleCircle or colors.reticuleCircleDark
-		ui.addIcon(uiPos, icons.display_combattarget, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_COMBAT_TARGET)
+		ui.addIcon(uiPos, icons.combattarget, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_COMBAT_TARGET)
 		if ui.isMouseClicked(0) and (mouse_position - (uiPos + Vector2(size/2, -size/2))):length() < size/2 then
 			reticuleTarget = "combatTarget"
 		end

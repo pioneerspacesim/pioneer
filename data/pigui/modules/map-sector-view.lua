@@ -326,7 +326,7 @@ end
 function Windows.current.Show()
 	local path = sectorView:GetCurrentSystemPath()
 	local starsystem = path:GetStarSystem()
-	textIcon(icons.display_navtarget)
+	textIcon(icons.navtarget)
 	ui.sameLine()
 	if ui.selectable(' ' .. starsystem.name .. " (" .. path.sectorX .. ", " .. path.sectorY .. ", " .. path.sectorZ .. ")") then
 		sectorView:SwitchToPath(path)
