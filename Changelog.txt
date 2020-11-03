@@ -1,3 +1,11 @@
+November 2020
+   * Internal Changes
+     * Decrease the maximum background star size to 0.3 (#4991)
+     * CMake: Avoid libGLU dependency (#4994)
+   
+   * Fixes
+     * Fix SAR crash where IsPlayer() is falsely called by non-ship body (#4985)
+
 October 2020
    * New Features
      * Ship-specific atmospheric pressure limits (#4958)
