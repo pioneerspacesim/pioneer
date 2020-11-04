@@ -465,7 +465,7 @@ vector3d Ship::CalcAtmoTorque() const
 	return fAtmoTorque;
 }
 
-bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData)
+bool Ship::OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData)
 {
 	if (m_invulnerable) {
 		Sound::BodyMakeNoise(this, "Hull_hit_Small", 0.5f);
@@ -497,8 +497,8 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact &co
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
 		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 		if (m_stats.hull_mass_left < 0) {
-			if (attacker && attacker->IsType(Object::BODY)) {
-				LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<Body *>(attacker));
+			if (attacker) {
+				LuaEvent::Queue("onShipDestroyed", this, attacker);
 			}
 
 			Explode();
@@ -519,7 +519,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact &co
 	return true;
 }
 
-bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
+bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 {
 	// Collision with SpaceStation docking surface is
 	// completely handled by SpaceStations, you only
@@ -533,10 +533,10 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	// hitting cargo scoop surface shouldn't do damage
 	int cargoscoop_cap = 0;
 	Properties().Get("cargo_scoop_cap", cargoscoop_cap);
-	if (cargoscoop_cap > 0 && b->IsType(Object::CARGOBODY) && !dynamic_cast<Body *>(b)->IsDead()) {
-		LuaRef item = dynamic_cast<CargoBody *>(b)->GetCargoType();
+	if (cargoscoop_cap > 0 && b->IsType(Object::CARGOBODY) && !b->IsDead()) {
+		LuaRef item = static_cast<CargoBody *>(b)->GetCargoType();
 		if (LuaObject<Ship>::CallMethod<int>(this, "AddEquip", item) > 0) { // try to add it to the ship cargo.
-			Pi::game->GetSpace()->KillBody(dynamic_cast<Body *>(b));
+			Pi::game->GetSpace()->KillBody(b);
 			if (this->IsType(Object::PLAYER))
 				Pi::game->log->Add(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", ScopedTable(item).CallMethod<std::string>("GetName"))));
 			// XXX SfxManager::Add(this, TYPE_SCOOP);
@@ -565,7 +565,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		b->IsType(Object::PLANET) ||
 		b->IsType(Object::STAR) ||
 		b->IsType(Object::CARGOBODY)) {
-		LuaEvent::Queue("onShipCollided", this, dynamic_cast<Body *>(b));
+		LuaEvent::Queue("onShipCollided", this, b);
 	}
 
 	return DynamicBody::OnCollision(b, flags, relVel);

@@ -798,13 +798,11 @@ void Space::GenBody(const double at_time, SystemBody *sbody, FrameId fId, std::v
 	}
 }
 
-static bool OnCollision(Object *o1, Object *o2, CollisionContact *c, double relativeVel)
+static bool OnCollision(Body *o1, Body *o2, CollisionContact *c, double relativeVel)
 {
-	Body *pb1 = static_cast<Body *>(o1);
-	Body *pb2 = static_cast<Body *>(o2);
 	/* XXX: if you create a new class inheriting from Object instead of Body, this code must be updated */
-	if (pb1 && !pb1->OnCollision(o2, c->geomFlag, relativeVel)) return false;
-	if (pb2 && !pb2->OnCollision(o1, c->geomFlag, relativeVel)) return false;
+	if (o1 && !o1->OnCollision(o2, c->geomFlag, relativeVel)) return false;
+	if (o2 && !o2->OnCollision(o1, c->geomFlag, relativeVel)) return false;
 	return true;
 }
 
@@ -812,8 +810,8 @@ static void hitCallback(CollisionContact *c)
 {
 	//Output("OUCH! %x (depth %f)\n", SDL_GetTicks(), c->depth);
 
-	Object *po1 = static_cast<Object *>(c->userData1);
-	Object *po2 = static_cast<Object *>(c->userData2);
+	Body *po1 = static_cast<Body *>(c->userData1);
+	Body *po2 = static_cast<Body *>(c->userData2);
 
 	const bool po1_isDynBody = po1->IsType(Object::DYNAMICBODY);
 	const bool po2_isDynBody = po2->IsType(Object::DYNAMICBODY);

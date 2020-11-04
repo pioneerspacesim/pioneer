@@ -108,8 +108,8 @@ public:
 	bool IsDecelerating() const { return m_decelerating; }
 
 	virtual void NotifyRemoved(const Body *const removedBody) override;
-	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
-	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData) override;
+	virtual bool OnCollision(Body *o, Uint32 flags, double relVel) override;
+	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,		   // open flight (includes autopilot)

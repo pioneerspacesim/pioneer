@@ -156,7 +156,7 @@ void Missile::TimeStepUpdate(const float timeStep)
 	}
 }
 
-bool Missile::OnCollision(Object *o, Uint32 flags, double relVel)
+bool Missile::OnCollision(Body *o, Uint32 flags, double relVel)
 {
 	if (!IsDead()) {
 		Explode();
@@ -164,7 +164,7 @@ bool Missile::OnCollision(Object *o, Uint32 flags, double relVel)
 	return true;
 }
 
-bool Missile::OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData)
+bool Missile::OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData)
 {
 	if (!IsDead()) {
 		Explode();

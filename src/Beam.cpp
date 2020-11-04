@@ -262,16 +262,12 @@ void Beam::StaticUpdate(const float timeStep)
 	frame->GetCollisionSpace()->TraceRay(GetPosition(), m_dir.Normalized(), m_length, &c, static_cast<ModelBody *>(m_parent)->GetGeom());
 
 	if (c.userData1) {
-		Object *o = static_cast<Object *>(c.userData1);
-
-		if (o->IsType(Object::BODY)) {
-			Body *hit = static_cast<Body *>(o);
-			if (hit != m_parent) {
-				hit->OnDamage(m_parent, GetDamage(), c);
-				m_active = false;
-				if (hit->IsType(Object::SHIP))
-					LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
-			}
+		Body *hit = static_cast<Body *>(c.userData1);
+		if (hit != m_parent) {
+			hit->OnDamage(m_parent, GetDamage(), c);
+			m_active = false;
+			if (hit->IsType(Object::SHIP))
+				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
 		}
 	}
 

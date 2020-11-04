@@ -4,13 +4,9 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
-#include "DeleteEmitter.h"
-
-class Object : public DeleteEmitter {
-public:
+struct Object {
 	// only creating enum strings for types that are exposed to Lua
 	enum Type { // <enum scope='Object' name=PhysicsObjectType public>
-		OBJECT, // <enum skip>
 		BODY,
 		MODELBODY,
 		DYNAMICBODY, // <enum skip>
@@ -25,16 +21,16 @@ public:
 		MISSILE,
 		HYPERSPACECLOUD // <enum skip>
 	};
-	virtual Type GetType() const { return OBJECT; }
-	virtual bool IsType(Type c) const { return GetType() == c; }
 };
+
 #define OBJDEF(__thisClass, __parentClass, __TYPE)                           \
 	virtual Object::Type GetType() const override { return Object::__TYPE; } \
-	virtual bool IsType(Type c) const override                               \
+	virtual bool IsType(Object::Type c) const override                       \
 	{                                                                        \
 		if (__thisClass::GetType() == (c))                                   \
 			return true;                                                     \
 		else                                                                 \
 			return __parentClass::IsType(c);                                 \
 	}
+
 #endif /* _OBJECT_H */

@@ -120,7 +120,7 @@ bool Player::DoDamage(float kgDamage)
 }
 
 //XXX perhaps remove this, the sound is very annoying
-bool Player::OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData)
+bool Player::OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData)
 {
 	bool r = Ship::OnDamage(attacker, kgDamage, contactData);
 	if (!IsDead() && (GetPercentHull() < 25.0f)) {

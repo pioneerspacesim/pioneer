@@ -362,7 +362,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 	return false;
 }
 
-bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
+bool SpaceStation::OnCollision(Body *b, Uint32 flags, double relVel)
 {
 	if ((flags & 0x10) && (b->IsType(Object::SHIP))) {
 		Ship *s = static_cast<Ship *>(b);

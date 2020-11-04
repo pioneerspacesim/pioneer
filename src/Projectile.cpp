@@ -263,16 +263,12 @@ void Projectile::StaticUpdate(const float timeStep)
 	frame->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c);
 
 	if (c.userData1) {
-		Object *o = static_cast<Object *>(c.userData1);
-
-		if (o->IsType(Object::BODY)) {
-			Body *hit = static_cast<Body *>(o);
-			if (hit != m_parent) {
-				hit->OnDamage(m_parent, GetDamage(), c);
-				Pi::game->GetSpace()->KillBody(this);
-				if (hit->IsType(Object::SHIP))
-					LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
-			}
+		Body *hit = static_cast<Body *>(c.userData1);
+		if (hit != m_parent) {
+			hit->OnDamage(m_parent, GetDamage(), c);
+			Pi::game->GetSpace()->KillBody(this);
+			if (hit->IsType(Object::SHIP))
+				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
 		}
 	}
 	if (m_mining) // mining lasers can break off chunks of terrain

@@ -4,6 +4,7 @@
 #ifndef _BODY_H
 #define _BODY_H
 
+#include "DeleteEmitter.h"
 #include "FrameId.h"
 #include "Object.h"
 #include "lua/PropertiedObject.h"
@@ -21,9 +22,11 @@ namespace Graphics {
 }
 struct CollisionContact;
 
-class Body : public Object, public PropertiedObject {
+class Body : public DeleteEmitter, public PropertiedObject {
 public:
-	OBJDEF(Body, Object, BODY);
+	virtual Object::Type GetType() const { return Object::BODY; }
+	virtual bool IsType(Object::Type c) const { return GetType() == c; }
+
 	Body();
 	Body(const Json &jsonObj, Space *space);
 	virtual ~Body();
@@ -49,9 +52,9 @@ public:
 	}
 
 	// return true if to do collision response and apply damage
-	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) { return false; }
+	virtual bool OnCollision(Body *o, Uint32 flags, double relVel) { return false; }
 	// Attacker may be null
-	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData) { return false; }
+	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) { return false; }
 	// Override to clear any pointers you hold to the body
 	virtual void NotifyRemoved(const Body *const removedBody) {}
 
