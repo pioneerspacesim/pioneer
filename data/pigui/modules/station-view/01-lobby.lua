@@ -63,7 +63,7 @@ end)
 local requestLaunch = function ()
 	local crimes, fine = Game.player:GetCrimeOutstanding()
 	local station = Game.player:GetDockedWith()
-	local nearbyTraffic = #Space.GetBodies(function (body) return body.type == nil and body:DistanceTo(station) < 20000 end) -- dynamic objects within 20km of station
+	local nearbyTraffic = #Space.GetBodies(function (body) return body.type == nil and body:DistanceTo(station) < 50000 end) -- dynamic objects within 20km of station
 
 	if not Game.player:HasCorrectCrew() then
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_CREW, station.label)

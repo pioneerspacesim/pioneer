@@ -1,7 +1,7 @@
 {
   "YOU_ARE_ENTERING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel} you are entering {station} space. Please follow the regulations."
+    "message": "{playerShipLabel} you are entering {station} space. Please follow local regulations."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_2": {
     "description": "",
@@ -17,7 +17,7 @@
   },
   "YOU_ARE_ENTERING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, welcome to {station}. Please keep in mind that regulations apply as you are flying through controlled space."
+    "message": "{playerShipLabel}, welcome to {station}. Please keep in mind that regulations apply as you are flying through our jurisdiction."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_6": {
     "description": "",
@@ -33,7 +33,7 @@
   },
   "YOU_ARE_LEAVING_STATION_SPACE_3": {
     "description": "",
-    "message": "{playerShipLabel}, you have cleared {station} controlled space. Restrictions raised."
+    "message": "{playerShipLabel}, you have cleared {station} controlled space. Restrictions withdrawn."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_4": {
     "description": "",
