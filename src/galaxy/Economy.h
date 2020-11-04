@@ -46,6 +46,9 @@ namespace GalacticEconomy {
 		// (used in trade balance calculations)
 		std::array<Input, MAX_ECON_INPUTS> inputs;
 		float price;
+
+		// The chance this commodity is legal in a random system, expressed as chance[0] / chance[1]
+		fixed default_legality;
 	};
 
 	// Information about a particular economy type.
@@ -80,13 +83,6 @@ namespace GalacticEconomy {
 		fixed locally_produced_min;
 	};
 
-	struct IllegalInfo {
-		// The id of the potentially illegal commodity
-		CommodityId id;
-		// The chance this commodity is legal in a random system, expressed as chance[0] / chance[1]
-		std::array<uint32_t, 2> chance;
-	};
-
 	// A list of all defined commodities
 	const std::vector<CommodityInfo> &Commodities();
 
@@ -95,9 +91,6 @@ namespace GalacticEconomy {
 
 	// Commodities consumed by populated stations / worlds
 	const std::map<CommodityId, ConsumableInfo> &Consumables();
-
-	// Potentially-illegal commodities in civilized systems
-	const std::map<CommodityId, IllegalInfo> &IllegalCommodities();
 
 	// Returns a reference to a null CommodityInfo structure if passed InvalidCommodityId
 	const CommodityInfo &GetCommodityById(CommodityId Id);

@@ -25,7 +25,8 @@ namespace GalacticEconomy {
 		"NULL_COMMODITY",
 		"NULL_COMMODITY",
 		{},
-		0.0
+		0.0,
+		fixed(1, 1)
 	};
 
 	const char *null_economy_name = "NULL_ECONOMY";
@@ -46,8 +47,6 @@ namespace GalacticEconomy {
 	/* clang-format on */
 
 	std::map<CommodityId, ConsumableInfo> m_consumables;
-
-	std::map<CommodityId, IllegalInfo> m_illegalCommodities;
 
 	// map commodity names to commodity ids for loading/saving
 	// references to set/map contents are never invalidated except when pointing to deleted elements
@@ -106,6 +105,13 @@ namespace GalacticEconomy {
 			Log::Warning("Commodity {} has invalid producing economy {}\n", out.name, economy_key.c_str());
 
 		out.price = j["price"];
+
+		const Json &legality = j["default_legality"];
+		if (legality.is_array()) {
+			out.default_legality = fixed(legality[0].get<uint64_t>(), legality[1].get<uint64_t>());
+		} else {
+			out.default_legality = fixed(1, 1);
+		}
 	}
 
 	void from_json(const Json &j, EconomyInfo &out)
@@ -182,10 +188,11 @@ namespace GalacticEconomy {
 					CommodityInfo &value = m_commodities[id - 1];
 					from_json(t.value(), value);
 
-					Log::Debug("Commodity {} ({}) loaded (producer: {}, price: {:.1f}, inputs: {}:{:.1f}, {}:{:.1f})\n",
+					Log::Debug("Commodity {} ({}) loaded (producer: {}, price: {:.1f}, inputs: {}:{:.1f}, {}:{:.1f}, legality: {:.0f}%)\n",
 						value.name, value.id, value.producer, value.price,
 						value.inputs[0].first, value.inputs[0].second.ToDouble(),
-						value.inputs[1].first, value.inputs[1].second.ToDouble());
+						value.inputs[1].first, value.inputs[1].second.ToDouble(),
+						value.default_legality.ToDouble() * 100.0);
 				}
 			}
 
@@ -220,38 +227,6 @@ namespace GalacticEconomy {
 				pair.key().c_str(), id,
 				value.random_consumption[0], value.random_consumption[1],
 				value.locally_produced_min.ToDouble());
-		}
-	}
-
-	void LoadIllegalCommodityData()
-	{
-		PROFILE_SCOPED()
-		Json file = JsonUtils::LoadJsonDataFile("economy/illegal.json");
-		const Json &commodities = file["commodities"];
-
-		if (!commodities.is_object()) {
-			Log::Warning("Could not load illegal commodities list from file economy/illegal.json\n");
-			return;
-		}
-
-		for (const auto &pair : commodities.items()) {
-			CommodityId id = GetCommodityByName(pair.key());
-			if (id == InvalidCommodityId) {
-				Log::Warning("Commodity {} does not exist (referenced by illegals file)\n", pair.key().c_str());
-				continue;
-			}
-
-			IllegalInfo value;
-			value.id = id;
-			const Json &chance = pair.value()["chance"];
-			if (!chance.is_array())
-				value.chance = { 1, 2 };
-			else
-				value.chance = { chance[0].get<uint32_t>(), chance[1].get<uint32_t>() };
-
-			m_illegalCommodities.emplace(id, value);
-			Log::Debug("Loaded illegal data for commodity {} ({}) ({} in {})\n",
-				pair.key().c_str(), id, value.chance[0], value.chance[1]);
 		}
 	}
 
@@ -293,7 +268,6 @@ namespace GalacticEconomy {
 			LoadEconomyData();
 			LoadCommodityData();
 			LoadConsumableData();
-			LoadIllegalCommodityData();
 		} catch (std::runtime_error &e) {
 			Log::Fatal("Error loading commodity data: {}", e.what());
 		}
@@ -340,11 +314,6 @@ namespace GalacticEconomy {
 	const std::map<CommodityId, ConsumableInfo> &Consumables()
 	{
 		return m_consumables;
-	}
-
-	const std::map<CommodityId, IllegalInfo> &IllegalCommodities()
-	{
-		return m_illegalCommodities;
 	}
 
 	const CommodityInfo &GetCommodityById(CommodityId Id)

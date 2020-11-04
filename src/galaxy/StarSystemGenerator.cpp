@@ -1700,13 +1700,8 @@ void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem:
 	if (system->GetFaction()->idx != Faction::BAD_FACTION_IDX) {
 		for (const std::pair<const GalacticEconomy::CommodityId, Uint32> &legality : system->GetFaction()->commodity_legality)
 			system->SetCommodityLegal(legality.first, (rand.Int32(100) >= legality.second));
-	} else {
-		// this is a non-faction system - use the default illegality table
-		for (const auto &pair : GalacticEconomy::IllegalCommodities()) {
-			const GalacticEconomy::IllegalInfo &info = pair.second;
-			system->SetCommodityLegal(info.id, (rand.Int32(info.chance[1]) < info.chance[0]));
-		}
 	}
+	// if this system doesn't have a faction, something's wrong and we assume it's an independent anarchy
 }
 
 void PopulateStarSystemGenerator::SetEconType(RefCountedPtr<StarSystem::GeneratorAPI> system)

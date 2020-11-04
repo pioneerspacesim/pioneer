@@ -46,13 +46,15 @@
 			"l10n_key": "HAND_WEAPONS",
 			"inputs": [ "metal_alloys", "computers" ],
 			"producer": "industrial",
-			"price": 251
+			"price": 251,
+			"default_legality": [ 1, 2 ]
 		},
 		"narcotics": {
 			"l10n_key": "NARCOTICS",
 			"inputs": [ ],
 			"producer": "industrial",
-			"price": 632
+			"price": 632,
+			"default_legality": [ 1, 2 ]
 		},
 		"military_fuel": {
 			"l10n_key": "MILITARY_FUEL",

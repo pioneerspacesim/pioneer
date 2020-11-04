@@ -35,7 +35,8 @@
 			"l10n_key": "SLAVES",
 			"inputs": [ ],
 			"producer": "agricultural",
-			"price": 1011
+			"price": 1011,
+			"default_legality": [ 1, 16 ]
 		}
 	}
 }

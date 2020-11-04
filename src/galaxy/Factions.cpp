@@ -354,6 +354,17 @@ static int l_fac_add_to_factions(lua_State *L)
 		}
 		*/
 
+		// if we haven't defined any commodity legality information,
+		// load default legality from GalacticEconomy commodity data
+		if (!facbld->fac->commodity_legality.size()) {
+			for (const auto &commodity : GalacticEconomy::Commodities()) {
+				if (commodity.default_legality < fixed(1, 1)) {
+					fixed legal_percent = (fixed(1, 1) - commodity.default_legality) * fixed(100, 1);
+					facbld->fac->commodity_legality[commodity.id] = legal_percent.ToDouble();
+				}
+			}
+		}
+
 		// add the faction to the various faction data structures
 		s_activeFactionsDatabase->AddFaction(facbld->fac);
 		facbld->registered = true;
