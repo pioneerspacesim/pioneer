@@ -173,7 +173,6 @@ void Sensors::PopulateStaticContacts()
 		switch (b->GetType()) {
 		case Object::STAR:
 		case Object::PLANET:
-		case Object::CITYONPLANET:
 		case Object::SPACESTATION:
 			break;
 		default:

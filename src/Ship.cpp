@@ -4,7 +4,6 @@
 #include "Ship.h"
 
 #include "CargoBody.h"
-#include "CityOnPlanet.h"
 #include "EnumStrings.h"
 #include "Frame.h"
 #include "Game.h"
@@ -498,11 +497,8 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact &co
 		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
 		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 		if (m_stats.hull_mass_left < 0) {
-			if (attacker) {
-				if (attacker->IsType(Object::BODY))
-					LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<Body *>(attacker));
-				else if (attacker->IsType(Object::CITYONPLANET))
-					LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<CityOnPlanet *>(attacker)->GetPlanet());
+			if (attacker && attacker->IsType(Object::BODY)) {
+				LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<Body *>(attacker));
 			}
 
 			Explode();
@@ -563,15 +559,13 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		}
 	}
 
-	if (b->IsType(Object::CITYONPLANET) ||
-		b->IsType(Object::SHIP) ||
+	if (b->IsType(Object::SHIP) ||
 		b->IsType(Object::PLAYER) ||
 		b->IsType(Object::SPACESTATION) ||
 		b->IsType(Object::PLANET) ||
 		b->IsType(Object::STAR) ||
 		b->IsType(Object::CARGOBODY)) {
-		LuaEvent::Queue("onShipCollided", this,
-			b->IsType(Object::CITYONPLANET) ? dynamic_cast<CityOnPlanet *>(b)->GetPlanet() : dynamic_cast<Body *>(b));
+		LuaEvent::Queue("onShipCollided", this, dynamic_cast<Body *>(b));
 	}
 
 	return DynamicBody::OnCollision(b, flags, relVel);

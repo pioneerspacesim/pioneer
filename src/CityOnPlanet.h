@@ -6,7 +6,6 @@
 
 #include "CollMesh.h"
 #include "FrameId.h"
-#include "Object.h"
 #include "Random.h"
 
 #include <set>
@@ -26,11 +25,8 @@ namespace SceneGraph {
 	class Animation;
 } // namespace SceneGraph
 
-#define CITY_ON_PLANET_RADIUS 5000.0
-
-class CityOnPlanet : public Object {
+class CityOnPlanet {
 public:
-	OBJDEF(CityOnPlanet, Object, CITYONPLANET);
 	CityOnPlanet() = delete;
 	CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed);
 	virtual ~CityOnPlanet();
@@ -40,6 +36,8 @@ public:
 	static void Init();
 	static void Uninit();
 	static void SetCityModelPatterns(const SystemPath &path);
+
+	static constexpr double RADIUS = 5000.0;
 
 private:
 	void AddStaticGeomsToCollisionSpace();

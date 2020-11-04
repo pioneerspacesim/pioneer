@@ -201,7 +201,7 @@ void SpaceStation::InitStation()
 	m_navLights.reset(new NavLights(model, 2.2f));
 	m_navLights->SetEnabled(true);
 
-	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS); // overrides setmodel
+	if (ground) SetClipRadius(CityOnPlanet::RADIUS); // overrides setmodel
 
 	m_doorAnimation = model->FindAnimation("doors");
 

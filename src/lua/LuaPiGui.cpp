@@ -1746,14 +1746,10 @@ bool PiGui::first_body_is_more_important_than(Body *body, Body *other)
 	// a non-moon is smaller than any moon
 	else if (b_moon)
 		result = false;
-	// spacestation > city > ship > hyperspace cloud > cargo body > missile > projectile
+	// spacestation > ship > hyperspace cloud > cargo body > missile > projectile
 	else if (a == Object::Type::SPACESTATION)
 		result = true;
 	else if (b == Object::Type::SPACESTATION)
-		result = false;
-	else if (a == Object::Type::CITYONPLANET)
-		result = true;
-	else if (b == Object::Type::CITYONPLANET)
 		result = false;
 	else if (a == Object::Type::SHIP)
 		result = true;

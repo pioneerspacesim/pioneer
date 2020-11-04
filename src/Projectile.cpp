@@ -48,8 +48,8 @@ void Projectile::BuildModel()
 	//+z forwards (or projectile direction)
 	const float w = 0.5f;
 
-	vector3f one(0.f, -w, 0.f); //top left
-	vector3f two(0.f, w, 0.f); //top right
+	vector3f one(0.f, -w, 0.f);	  //top left
+	vector3f two(0.f, w, 0.f);	  //top right
 	vector3f three(0.f, w, -1.f); //bottom right
 	vector3f four(0.f, -w, -1.f); //bottom left
 
@@ -265,9 +265,7 @@ void Projectile::StaticUpdate(const float timeStep)
 	if (c.userData1) {
 		Object *o = static_cast<Object *>(c.userData1);
 
-		if (o->IsType(Object::CITYONPLANET)) {
-			Pi::game->GetSpace()->KillBody(this);
-		} else if (o->IsType(Object::BODY)) {
+		if (o->IsType(Object::BODY)) {
 			Body *hit = static_cast<Body *>(o);
 			if (hit != m_parent) {
 				hit->OnDamage(m_parent, GetDamage(), c);
