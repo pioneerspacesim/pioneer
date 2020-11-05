@@ -1,11 +1,13 @@
 November 2020
    * New Features
      * New unified color theme and new icons (#4993)
+     * Commodities and Economies are now defined in JSON (#4944)
      
    * Internal Changes
      * Decrease the maximum background star size to 0.3 (#4991)
      * CMake: Avoid libGLU dependency (#4994)
      * Improved icon renderering at small sizes (#4993)
+     * Update NanoSVG (#4996)
    
    * Fixes
      * Fix SAR crash where IsPlayer() is falsely called by non-ship body (#4985)
