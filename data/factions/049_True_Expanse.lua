@@ -17,10 +17,8 @@ f:govtype_weight('CORPORATE',		1)
 f:govtype_weight('DISORDER',		0)
 f:govtype_weight('LIBDEM',		0)
 
-f:illegal_goods_probability('SLAVES',		61)
-f:illegal_goods_probability('NERVE_GAS',		41)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('slaves',		61)
+f:illegal_goods_probability('nerve_gas',		41)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('True Expanse')
-
-

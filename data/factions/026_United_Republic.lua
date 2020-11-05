@@ -15,11 +15,9 @@ f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT2',		71)
 f:govtype_weight('COMMUNIST',		50)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		89)
-f:illegal_goods_probability('SLAVES',		77)
-f:illegal_goods_probability('BATTLE_WEAPONS',		56)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('live_animals',		89)
+f:illegal_goods_probability('slaves',		77)
+f:illegal_goods_probability('battle_weapons',		56)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('United Republic')
-
-

@@ -53,7 +53,7 @@ local styleColors = {
 	success_100		= Color "CAF8A8",
 	success_300		= Color "77EE21",
 	success_500		= Color "5ACC0A",
-	success_700		= Color "469E07",
+	success_700		= Color "317005",
 	success_900		= Color "102502",
 
 	warning_100		= Color "FFD391",
@@ -115,6 +115,14 @@ theme.colors = {
 	alertYellow				= styleColors.warning_300,
 	alertRed				= styleColors.danger_500,
 	hyperspaceInfo			= styleColors.success_300,
+
+	econProfit				= styleColors.success_500,
+	econLoss				= styleColors.danger_500,
+	econMajorExport			= styleColors.success_300,
+	econMinorExport			= styleColors.success_500,
+	econMajorImport			= styleColors.accent_300,
+	econMinorImport			= styleColors.accent_500,
+	econIllegalCommodity	= styleColors.danger_300,
 
 	gaugeBackground			= styleColors.gray_800:opacity(0.85),
 	gaugePressure			= styleColors.primary_600,
@@ -346,10 +354,10 @@ theme.icons = {
 	-- BBS replacement icons
 	-- TODO: mission display needs to be converted to use these instead of loading individual icons from disk
 	-- mission_default = 176,
-	-- mission_searchrescue = 177,
+	alert_generic = 177,
 	-- fuel_radioactive = 178,
 	-- assassination = 179,
-	-- money = 180,
+	money = 180,
 	-- news = 181,
 	-- crew = 182, -- duplicate of 138
 	-- taxi = 183,

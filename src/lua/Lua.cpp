@@ -9,6 +9,7 @@
 #include "LuaConsole.h"
 #include "LuaConstants.h"
 #include "LuaDev.h"
+#include "LuaEconomy.h"
 #include "LuaEngine.h"
 #include "LuaEvent.h"
 #include "LuaFileSystem.h"
@@ -101,6 +102,7 @@ namespace Lua {
 		LuaConstants::Register(Lua::manager->GetLuaState());
 		LuaLang::Register();
 		LuaEngine::Register();
+		LuaEconomy::Register();
 		LuaInput::Register();
 		LuaFileSystem::Register();
 		LuaJson::Register();

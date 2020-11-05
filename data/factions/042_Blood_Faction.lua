@@ -18,9 +18,7 @@ f:govtype_weight('LIBDEM',		3)
 f:govtype_weight('DISORDER',		3)
 f:govtype_weight('CORPORATE',		0)
 
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		78)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		78)
 
 f:add_to_factions('Blood Faction')
-
-

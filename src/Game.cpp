@@ -14,6 +14,7 @@
 #include "MathUtil.h"
 #include "Object.h"
 #include "core/GZipFormat.h"
+#include "galaxy/Economy.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaSerializer.h"
 #if WITH_OBJECTVIEWER
@@ -136,6 +137,8 @@ Game::Game(const Json &jsonObj) :
 	// Preparing the Lua stuff
 	Pi::luaSerializer->InitTableRefs();
 
+	GalacticEconomy::LoadFromJson(jsonObj);
+
 	// galaxy generator
 	m_galaxy = Galaxy::LoadFromJson(jsonObj);
 
@@ -190,6 +193,8 @@ void Game::ToJson(Json &jsonObj)
 
 	// galaxy generator
 	m_galaxy->ToJson(jsonObj);
+
+	GalacticEconomy::SaveToJson(jsonObj);
 
 	// game state
 	jsonObj["time"] = m_time;

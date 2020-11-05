@@ -13,4 +13,5 @@ Regular tasks
 - data/libs/NameGen.lua: Add new authors to name generator
 
 One-time tasks
-- 
+- Remove old-equipment compat functions from Ship.lua; we are many versions past the new equipment system,
+  and they will be obsoleted when cargo becomes separated from equipment anyways.

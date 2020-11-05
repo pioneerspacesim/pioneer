@@ -17,14 +17,12 @@ f:govtype_weight('PLUTOCRATIC',		33)
 f:govtype_weight('CORPORATE',		11)
 f:govtype_weight('LIBDEM',		3)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		55)
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('ROBOTS',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		64)
-f:illegal_goods_probability('BATTLE_WEAPONS',		82)
-f:illegal_goods_probability('NERVE_GAS',		52)
+f:illegal_goods_probability('live_animals',		55)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('robots',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		64)
+f:illegal_goods_probability('battle_weapons',		82)
+f:illegal_goods_probability('nerve_gas',		52)
 
 f:add_to_factions('United Council')
-
-

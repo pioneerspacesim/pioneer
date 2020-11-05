@@ -5,8 +5,10 @@ local Engine = require 'Engine'
 local Game = require 'Game'
 local utils = require 'utils'
 local Event = require 'Event'
+local Format = require 'Format'
 local SystemPath = require 'SystemPath'
 local hyperJumpPlanner = require 'pigui.modules.hyperjump-planner'
+local systemEconView = require 'pigui.modules.system-econ-view'
 
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
@@ -23,9 +25,9 @@ local mainButtonSize = ui.rescaleUI(Vector2(32,32), Vector2(1600, 900))
 local mainButtonFramePadding = 3
 
 local font = ui.fonts.pionillium.medlarge
+local smallfont = ui.fonts.pionillium.medium
 local MAX_SEARCH_STRINGS_VISIBLE = 15
-local textIconSize = nil
-local edgePadding = nil
+local edgePadding = Vector2(font.size)
 
 local function setAlpha(c, a)
 	return Color(c.r, c.g, c.b, a)
@@ -57,7 +59,7 @@ local function mainMenuButton(icon, tooltip)
 end
 
 local function textIcon(icon, tooltip)
-	ui.icon(icon, textIconSize, svColor.FONT, tooltip)
+	ui.icon(icon, Vector2(ui.getTextLineHeight()), svColor.FONT, tooltip)
 end
 
 local sectorView
@@ -74,6 +76,24 @@ local onGameStart = function ()
 	sectorView:SetDrawVerticalLines(draw_vertical_lines)
 end
 
+local hyperspaceDetailsCache = {}
+
+local function clearHyperspaceCache(ship)
+	if ship and ship == player then
+		hyperspaceDetailsCache = {}
+	end
+end
+
+local function getHyperspaceDetails(path)
+	local p = path.sectorX .. "/" .. path.sectorY .. "/" .. path.sectorZ .. "/" .. path.systemIndex
+	local it = hyperspaceDetailsCache[p]
+	if not it then
+		local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(path)
+		it = { jumpStatus = jumpStatus, distance = distance, fuelRequired = fuelRequired, duration = duration, path = path }
+		hyperspaceDetailsCache[p] = it
+	end
+	return it
+end
 
 local function newWindow(name)
 	return {
@@ -82,7 +102,7 @@ local function newWindow(name)
 		visible = true,
 		name = name,
 		style_colors = {["WindowBg"] = svColor.WINDOW_BG},
-		params = {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
+		params = ui.WindowFlags {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
 	}
 end
 
@@ -95,6 +115,30 @@ local Windows = {
 	edgeButtons = newWindow("SectorMapEdgeButtons"),
 	factions = newWindow("SectorMapFactions")
 }
+
+local statusIcons = {
+	OK = { icon = icons.route_destination },
+	CURRENT_SYSTEM = { icon = icons.navtarget },
+	INSUFFICIENT_FUEL = { icon = icons.fuel },
+	OUT_OF_RANGE = { icon = icons.alert_generic },
+	NO_DRIVE = { icon = icons.hyperspace_off }
+}
+
+local function draw_jump_status(item)
+	textIcon(statusIcons[item.jumpStatus].icon, lui[item.jumpStatus])
+	ui.sameLine()
+	ui.text(string.format("%.2f%s %d%s %s",
+		item.distance, lc.UNIT_LY, item.fuelRequired, lc.UNIT_TONNES, ui.Format.Duration(item.duration, 2)))
+end
+
+local function calc_star_dist(star)
+	local dist = 0.0
+	while star do
+		dist = dist + (star.apoapsis or 0 + star.periapsis or 0) / 2
+		star = star.parent
+	end
+	return dist
+end
 
 function Windows.systemInfo.Show()
 	local label = lc.SELECTED_SYSTEM
@@ -111,40 +155,45 @@ function Windows.systemInfo.Show()
 			if not sectorView:IsCenteredOn(systempath) then
 				-- add button to center on the object
 				ui.sameLine()
-				if ui.coloredSelectedIconButton(icons.maneuver, textIconSize, false, 0, svColor.WINDOW_BG, svColor.FONT, lui.CENTER_ON_SYSTEM) then
+				if ui.coloredSelectedIconButton(icons.maneuver, Vector2(ui.getTextLineHeight()), false, 0, svColor.WINDOW_BG, svColor.FONT, lui.CENTER_ON_SYSTEM) then
 					sectorView:GotoSystemPath(systempath)
 				end
 			end
-			-- selected system alternative labels
-			if next(starsystem.other_names) ~= nil then
-				ui.pushTextWrapPos(ui.getContentRegion().x)
-				ui.textWrapped(table.concat(starsystem.other_names, ", "))
-				ui.popTextWrapPos()
-			end
-			-- jump data
-			if not current_systempath:IsSameSystem(systempath) then
-			ui.separator()
-				local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(current_systempath, systempath)
-				ui.text(jumpStatus .. "  " .. string.format("%.2f", distance) .. lc.UNIT_LY .. "  " .. fuelRequired .. lc.UNIT_TONNES .. "  " .. ui.Format.Duration(duration, 2))
-			end
-			-- description
-			ui.pushTextWrapPos(ui.getContentRegion().x)
-			ui.textWrapped(starsystem.shortDescription)
-			ui.popTextWrapPos()
-			ui.separator()
+
 			-- number of stars
-			local numstars = starsystem.numberOfStars
-			local numstarstext = ""
-			if numstars == 4 then
-				numstarstext = lc.QUADRUPLE_SYSTEM
-			elseif numstars == 3 then
-				numstarstext = lc.TRIPLE_SYSTEM
-			elseif numstars == 2 then
-				numstarstext = lc.BINARY_SYSTEM
-			else
-				numstarstext = starsystem.rootSystemBody.astroDescription
-			end
-			ui.text(numstarstext)
+			local numstarsText = {
+				-- don't ask for the astro description of a gravpoint
+				starsystem.numberOfStars == 1 and starsystem.rootSystemBody.astroDescription or "",
+				lc.BINARY_SYSTEM,
+				lc.TRIPLE_SYSTEM,
+				lc.QUADRUPLE_SYSTEM
+			}
+
+			-- description
+			ui.withFont(smallfont, function()
+				-- jump data
+				if not current_systempath:IsSameSystem(systempath) then
+					draw_jump_status(getHyperspaceDetails(systempath))
+				end
+				ui.spacing()
+
+				-- selected system alternative labels
+				if next(starsystem.other_names) ~= nil then
+					ui.pushTextWrapPos(ui.getContentRegion().x)
+					ui.textWrapped(table.concat(starsystem.other_names, ", "))
+					ui.popTextWrapPos()
+				end
+
+				-- system description
+				ui.pushTextWrapPos(ui.getContentRegion().x)
+				ui.textWrapped(starsystem.shortDescription)
+				ui.popTextWrapPos()
+				ui.separator()
+				ui.spacing()
+				ui.text(numstarsText[starsystem.numberOfStars])
+				ui.spacing()
+			end)
+
 			-- star list
 			local stars = starsystem:GetJumpable()
 			for _,star in pairs(stars) do
@@ -152,10 +201,17 @@ function Windows.systemInfo.Show()
 				if ui.selectable("## " .. star.name, star.path == systempath, {}) then
 					clicked = star.path
 				end
-				ui.setCursorPos(pos)
+				ui.sameLine(0, 0)
 				textIcon(icons.sun)
 				ui.sameLine()
 				ui.text(star.name)
+				-- distance from system center
+				local dist = calc_star_dist(star)
+				if dist > 1 then
+					local dist_text = Format.Distance(dist)
+					ui.sameLine(ui.getColumnWidth() - ui.calcTextSize(dist_text).x)
+					ui.text(dist_text)
+				end
 			end
 			if clicked then
 				sectorView:SwitchToPath(clicked)
@@ -252,68 +308,83 @@ function Windows.edgeButtons.Show()
 	end
 end
 
-local hyperspaceDetailsCache = {}
+local function drawSearchResults(systempaths)
+	local data = {}
+	for _,path in pairs(systempaths) do table.insert(data, getHyperspaceDetails(path)) end
 
-local function clearHyperspaceCache(ship)
-	if ship and ship == player then
-		hyperspaceDetailsCache = {}
-	end
+	ui.child("search_results", function ()
+		table.sort(data, function(a,b)
+			return a.path ~= b.path and (not a.path:IsSameSystem(b.path)) and a.distance < b.distance
+		end)
+		for _,item in pairs(data) do
+			local system = item.path:GetStarSystem()
+			if ui.selectable(system.name, false, {}) then
+				sectorView:SwitchToPath(item.path)
+			end
+			ui.sameLine()
+			ui.withFont(smallfont, function() draw_jump_status(item) end)
+		end
+	end)
 end
 
-Event.Register("onShipEquipmentChanged", clearHyperspaceCache)
-Event.Register("onShipTypeChanged", clearHyperspaceCache)
+local searchString, systemPaths = "", nil
+local leftBarMode = "SEARCH"
 
-local function getHyperspaceDetails(path)
-	local p = path.sectorX .. "/" .. path.sectorY .. "/" .. path.sectorZ .. "/" .. path.systemIndex
-	local it = hyperspaceDetailsCache[p]
-	if not it then
-		local jumpStatus, distance, fuelRequired, duration = player:GetHyperspaceDetails(path)
-		it = { jumpStatus = jumpStatus, distance = distance, fuelRequired = fuelRequired, duration = duration }
-		hyperspaceDetailsCache[p] = it
-	end
-	return it.jumpStatus, it.distance, it.fuelRequired, it.duration
-end
+function Windows.searchBar:Show()
+	if mainMenuButton(icons.search_lens, lc.SEARCH) then leftBarMode = "SEARCH" end
+	ui.sameLine()
+	if mainMenuButton(icons.money, lui.ECONOMY_TRADE) then leftBarMode = "ECON" end
 
-function Windows.searchBar.Show()
-	ui.text(lc.SEARCH)
-	search_text, changed = ui.inputText("", search_text, {})
-	if search_text ~= "" then
-		local parsedSystem = changed and SystemPath.ParseString(search_text)
+	ui.spacing()
+
+	if leftBarMode == "SEARCH" then
+		ui.text(lc.SEARCH)
+		search_text, changed = ui.inputText("", search_text, {})
+		ui.spacing()
+		local parsedSystem = changed and search_text ~= "" and SystemPath.ParseString(search_text)
 		if parsedSystem and parsedSystem ~= nil then
 			sectorView:GotoSectorPath(parsedSystem)
-		else
-			local systempaths = sectorView:SearchNearbyStarSystemsByName(search_text)
-			if #systempaths == 0 then
-				ui.text(lc.NOT_FOUND)
-			else
-				local data = {}
-				for _,path in pairs(systempaths) do
-					local jumpStatus, distance, fuelRequired, duration = getHyperspaceDetails(path)
-					table.insert(data, { jumpStatus = jumpStatus, distance = distance, fuelRequired = fuelRequired, duration = duration, path = path })
-				end
-				ui.child("search_results", function ()
-					table.sort(data, function(a,b)
-						if a.path == b.path or a.path:IsSameSystem(b.path) then
-							return false
-						end
-						return a.distance < b.distance
-					end)
-					for _,item in pairs(data) do
-						local system = item.path:GetStarSystem()
-						local label = system.name
-						label = label .. '  (' .. lui[item.jumpStatus] .. "), " .. string.format("%.2f", item.distance) .. lc.UNIT_LY .. ", " .. item.fuelRequired .. lc.UNIT_TONNES .. ", " .. ui.Format.Duration(item.duration, 2)
-						if ui.selectable(label, false, {}) then
-							sectorView:SwitchToPath(item.path)
-						end
-					end
-				end)
-			end
-			-- calulating window size for next frame to fit some search results
-			Windows.searchBar.size.y = Windows.searchBar.emptyHeight + math.min(#systempaths, MAX_SEARCH_STRINGS_VISIBLE) * ui.calcTextSize("ONE LINE").y
 		end
-	else
-		-- calulating window size for the next frame for no search results
-		Windows.searchBar.size.y = Windows.searchBar.emptyHeight
+
+		if search_text ~= searchString then
+			systemPaths = search_text ~= "" and sectorView:SearchNearbyStarSystemsByName(search_text)
+			searchString = search_text
+		end
+
+		if not systemPaths or #systemPaths == 0 then
+			ui.text(lc.NOT_FOUND)
+		else
+			drawSearchResults(systemPaths)
+		end
+	elseif leftBarMode == "ECON" then
+		local selectedPath = sectorView:GetSelectedSystemPath()
+		local currentPath = sectorView:GetCurrentSystemPath()
+
+		local currentSys = currentPath:GetStarSystem()
+		local selectedSys = selectedPath and selectedPath:GetStarSystem()
+		local showComparison = selectedSys.population > 0
+			and not currentPath:IsSameSystem(selectedPath)
+			and (Game.player.trade_computer_cap or 0) > 0
+
+		ui.withFont(smallfont, function() ui.text(lui.COMMODITY_TRADE_ANALYSIS) end)
+		ui.spacing()
+		if showComparison then
+			ui.text(currentSys.name)
+			ui.sameLine(ui.getColumnWidth() - ui.calcTextSize(selectedSys.name).x)
+		end
+		ui.text(selectedSys.name)
+
+		ui.spacing()
+		ui.separator()
+		ui.spacing()
+
+		ui.withFont(smallfont, function()
+			if showComparison then
+				systemEconView.draw(currentSys, selectedSys)
+			else
+				systemEconView.draw(selectedSys)
+			end
+		end)
 	end
 end
 
@@ -355,7 +426,7 @@ Windows.hjPlanner.Dummy = hyperJumpPlanner.Dummy
 local function showWindow(w)
 	ui.setNextWindowSize(w.size, "Always")
 	ui.setNextWindowPos(w.pos, "Always")
-	ui.withStyleColors(w.style_colors, function() ui.window(w.name, w.params, w.Show) end)
+	ui.withStyleColors(w.style_colors, function() ui.window(w.name, w.params, function() w:Show() end) end)
 end
 
 local dummyFrames = 3
@@ -364,16 +435,6 @@ local function displaySectorViewWindow()
 	player = Game.player
 	if Game.CurrentView() == "sector" then
 		if dummyFrames > 0 then -- do it a few frames, because imgui need a few frames to make the correct window size
-
-			-- first, doing some one-time actions here
-			-- calculating in-text icon size for used font size
-			if not textIconSize then
-				ui.withFont(font, function()
-					textIconSize = ui.calcTextSize("H")
-					textIconSize.x = textIconSize.y -- make square
-				end)
-				edgePadding = textIconSize
-			end
 
 			-- measuring windows (or dummies)
 			ui.withFont(font, function()
@@ -398,7 +459,7 @@ local function displaySectorViewWindow()
 				Windows.systemInfo.pos = Windows.hjPlanner.pos - Vector2(0, Windows.systemInfo.size.y)
 				Windows.systemInfo.size = Vector2(Windows.hjPlanner.size.x, 0) -- adaptive height
 				Windows.searchBar.pos = Windows.current.pos + Windows.current.size
-				Windows.searchBar.emptyHeight = Windows.searchBar.size.y
+				Windows.searchBar.size = Vector2(0, ui.screenHeight - Windows.searchBar.pos.y - edgePadding.y - ui.timeWindowSize.y)
 				Windows.edgeButtons.pos = Vector2(ui.screenWidth - Windows.edgeButtons.size.x, ui.screenHeight / 2 - Windows.edgeButtons.size.y / 2) -- center-right
 				Windows.factions.pos = Vector2(Windows.systemInfo.pos.x, Windows.current.pos.y)
 				Windows.factions.size = Vector2(ui.screenWidth - Windows.factions.pos.x - edgePadding.x, 0.0)
@@ -425,9 +486,20 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onLeaveSystem", function()
 	hyperspaceDetailsCache = {}
 end)
+
+-- reset cached data
+Event.Register("onGameEnd", function()
+	searchString = ""
+	systemPaths = nil
+	leftBarMode = "SEARCH"
+end)
+
 -- events moved from hyperJumpPlanner
 Event.Register("onGameEnd", hyperJumpPlanner.onGameEnd)
 Event.Register("onEnterSystem", hyperJumpPlanner.onEnterSystem)
 Event.Register("onShipEquipmentChanged", hyperJumpPlanner.onShipEquipmentChanged)
+
+Event.Register("onShipEquipmentChanged", clearHyperspaceCache)
+Event.Register("onShipTypeChanged", clearHyperspaceCache)
 
 return {}

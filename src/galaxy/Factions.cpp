@@ -3,6 +3,7 @@
 
 #include "Factions.h"
 #include "galaxy/CustomSystem.h"
+#include "galaxy/Economy.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
@@ -170,7 +171,7 @@ static int l_fac_homeworld(lua_State *L)
 	return 1;
 }
 
-LFAC_FIELD_SETTER_FLOAT(foundingDate, foundingDate) // date faction came into existence
+LFAC_FIELD_SETTER_FLOAT(foundingDate, foundingDate)	  // date faction came into existence
 LFAC_FIELD_SETTER_FLOAT(expansionRate, expansionRate) // lightyears per year that the volume expands.
 
 static int l_fac_military_name(lua_State *L)
@@ -204,16 +205,20 @@ static int l_fac_police_ship(lua_State *L)
 static int l_fac_illegal_goods_probability(lua_State *L)
 {
 	Faction *fac = l_fac_check(L, 1);
-	const char *typeName = luaL_checkstring(L, 2);
-	const GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(
-		LuaConstants::GetConstant(L, "CommodityType", typeName));
+	std::string typeName = luaL_checkstring(L, 2);
+	const GalacticEconomy::CommodityId e = GalacticEconomy::GetCommodityByName(typeName);
 	const Uint32 probability = luaL_checkunsigned(L, 3);
 
 	if (probability > 100) {
 		pi_lua_warn(L,
 			"argument (probability 0-100) out of range: Faction{%s}:IllegalGoodsProbability('%s', %d)",
-			fac->name.c_str(), typeName, probability);
+			fac->name.c_str(), typeName.c_str(), probability);
 		return 0;
+	}
+
+	if (e == GalacticEconomy::InvalidCommodityId) {
+		pi_lua_warn(L, "Faction[%s]: Invalid commodity name %s passed to IllegalGoodsProbability.",
+			fac->name.c_str(), typeName.c_str());
 	}
 
 	fac->commodity_legality[e] = probability;
@@ -293,12 +298,8 @@ static void ExportFactionToLua(const Faction *fac, const size_t index)
 	outstr << std::endl;
 
 	for (auto m : fac->commodity_legality) {
-		const GalacticEconomy::Commodity gec = m.first;
-		for (Uint32 j = 0; ENUM_CommodityType[j].name != 0; j++) {
-			if (ENUM_CommodityType[j].value == int(gec)) {
-				outstr << "f:illegal_goods_probability('" << ENUM_CommodityType[j].name << "',\t\t" << m.second << ")" << std::endl;
-			}
-		}
+		const GalacticEconomy::CommodityId gec = m.first;
+		outstr << "f:illegal_goods_probability('" << GalacticEconomy::GetCommodityById(gec).name << "',\t\t" << m.second << ")" << std::endl;
 	}
 	outstr << std::endl;
 
@@ -352,6 +353,17 @@ static int l_fac_add_to_factions(lua_State *L)
 			Output("l_fac_add_to_factions: added '%s' [%s]\n", fac->name.c_str(), factionName.c_str());
 		}
 		*/
+
+		// if we haven't defined any commodity legality information,
+		// load default legality from GalacticEconomy commodity data
+		if (!facbld->fac->commodity_legality.size()) {
+			for (const auto &commodity : GalacticEconomy::Commodities()) {
+				if (commodity.default_legality < fixed(1, 1)) {
+					fixed legal_percent = (fixed(1, 1) - commodity.default_legality) * fixed(100, 1);
+					facbld->fac->commodity_legality[commodity.id] = legal_percent.ToDouble();
+				}
+			}
+		}
 
 		// add the faction to the various faction data structures
 		s_activeFactionsDatabase->AddFaction(facbld->fac);

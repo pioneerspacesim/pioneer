@@ -15,10 +15,8 @@ f:govtype_weight('MILDICT2',		100)
 f:govtype_weight('COMMUNIST',		7)
 f:govtype_weight('DISORDER',		7)
 
-f:illegal_goods_probability('HAND_WEAPONS',		87)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		100)
+f:illegal_goods_probability('hand_weapons',		87)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		100)
 
 f:add_to_factions('Obsidian Worlds')
-
-

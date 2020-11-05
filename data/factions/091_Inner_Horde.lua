@@ -18,15 +18,13 @@ f:govtype_weight('DISORDER',		6)
 f:govtype_weight('LIBDEM',		6)
 f:govtype_weight('SOCDEM',		1)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('ROBOTS',		100)
-f:illegal_goods_probability('SLAVES',		48)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		89)
-f:illegal_goods_probability('NERVE_GAS',		36)
-f:illegal_goods_probability('NARCOTICS',		54)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('robots',		100)
+f:illegal_goods_probability('slaves',		48)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		89)
+f:illegal_goods_probability('nerve_gas',		36)
+f:illegal_goods_probability('narcotics',		54)
 
 f:add_to_factions('Inner Horde')
-
-

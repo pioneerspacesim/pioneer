@@ -397,6 +397,9 @@ void Pi::App::Startup()
 
 	EnumStrings::Init();
 
+	// Can be initialized directly after FileSystem::Init, but put it here for convenience
+	GalacticEconomy::Init();
+
 	Profiler::Clock threadTimer;
 	threadTimer.Start();
 

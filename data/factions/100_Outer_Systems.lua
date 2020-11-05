@@ -19,13 +19,11 @@ f:govtype_weight('COMMUNIST',		49)
 f:govtype_weight('MILDICT1',		34)
 f:govtype_weight('MILDICT2',		34)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		37)
-f:illegal_goods_probability('LIVE_ANIMALS',		44)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		49)
-f:illegal_goods_probability('NERVE_GAS',		76)
+f:illegal_goods_probability('animal_meat',		37)
+f:illegal_goods_probability('live_animals',		44)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		49)
+f:illegal_goods_probability('nerve_gas',		76)
 
 f:add_to_factions('Outer Systems')
-
-

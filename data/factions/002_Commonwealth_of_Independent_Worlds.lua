@@ -15,14 +15,12 @@ local f = Faction:new('Commonwealth of Independent Worlds')
 f:govtype_weight('CISSOCDEM',		80)
 f:govtype_weight('CISLIBDEM',		20)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		75)
-f:illegal_goods_probability('LIVE_ANIMALS',		75)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		25)
-f:illegal_goods_probability('BATTLE_WEAPONS',		50)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		86)
+f:illegal_goods_probability('animal_meat',		75)
+f:illegal_goods_probability('live_animals',		75)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		25)
+f:illegal_goods_probability('battle_weapons',		50)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		86)
 
 f:add_to_factions('Commonwealth of Independent Worlds')
-
-

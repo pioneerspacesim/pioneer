@@ -17,11 +17,9 @@ f:govtype_weight('PLUTOCRATIC',		8)
 f:govtype_weight('CORPORATE',		0)
 f:govtype_weight('LIBDEM',		0)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		78)
-f:illegal_goods_probability('LIQUOR',		47)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('NERVE_GAS',		100)
+f:illegal_goods_probability('live_animals',		78)
+f:illegal_goods_probability('liquor',		47)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('nerve_gas',		100)
 
 f:add_to_factions('Blood Territories')
-
-

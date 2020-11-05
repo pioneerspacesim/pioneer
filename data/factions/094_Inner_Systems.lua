@@ -17,11 +17,9 @@ f:govtype_weight('COMMUNIST',		4)
 f:govtype_weight('CORPORATE',		0)
 f:govtype_weight('MILDICT2',		0)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		43)
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('animal_meat',		43)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Inner Systems')
-
-

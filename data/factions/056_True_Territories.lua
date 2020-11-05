@@ -19,10 +19,8 @@ f:govtype_weight('COMMUNIST',		37)
 f:govtype_weight('MILDICT1',		22)
 f:govtype_weight('MILDICT2',		22)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		60)
-f:illegal_goods_probability('BATTLE_WEAPONS',		88)
-f:illegal_goods_probability('NARCOTICS',		83)
+f:illegal_goods_probability('animal_meat',		60)
+f:illegal_goods_probability('battle_weapons',		88)
+f:illegal_goods_probability('narcotics',		83)
 
 f:add_to_factions('True Territories')
-
-

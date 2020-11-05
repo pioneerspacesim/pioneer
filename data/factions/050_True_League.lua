@@ -17,11 +17,9 @@ f:govtype_weight('LIBDEM',		71)
 f:govtype_weight('MILDICT1',		50)
 f:govtype_weight('SOCDEM',		50)
 
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		88)
-f:illegal_goods_probability('NARCOTICS',		35)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		88)
+f:illegal_goods_probability('narcotics',		35)
 
 f:add_to_factions('True League')
-
-

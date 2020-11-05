@@ -16,15 +16,13 @@ f:govtype_weight('COMMUNIST',		70)
 f:govtype_weight('DISORDER',		70)
 f:govtype_weight('SOCDEM',		49)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		66)
-f:illegal_goods_probability('LIVE_ANIMALS',		68)
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		27)
-f:illegal_goods_probability('NERVE_GAS',		49)
-f:illegal_goods_probability('NARCOTICS',		86)
+f:illegal_goods_probability('animal_meat',		66)
+f:illegal_goods_probability('live_animals',		68)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		27)
+f:illegal_goods_probability('nerve_gas',		49)
+f:illegal_goods_probability('narcotics',		86)
 
 f:add_to_factions('Rim Systems')
-
-

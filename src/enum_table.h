@@ -27,8 +27,6 @@ extern const struct EnumItem ENUM_ShipTypeTag[];
 extern const struct EnumItem ENUM_ProjectableTypes[];
 extern const struct EnumItem ENUM_ProjectableBases[];
 extern const struct EnumItem ENUM_SystemViewColorIndex[];
-extern const struct EnumItem ENUM_EconType[];
-extern const struct EnumItem ENUM_CommodityType[];
 extern const struct EnumItem ENUM_PolitEcon[];
 extern const struct EnumItem ENUM_PolitGovType[];
 extern const struct EnumItem ENUM_BodyType[];

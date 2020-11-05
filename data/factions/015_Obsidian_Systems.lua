@@ -17,11 +17,9 @@ f:govtype_weight('SOCDEM',		47)
 f:govtype_weight('PLUTOCRATIC',		22)
 f:govtype_weight('COMMUNIST',		22)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('ROBOTS',		31)
-f:illegal_goods_probability('SLAVES',		78)
-f:illegal_goods_probability('NERVE_GAS',		71)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('robots',		31)
+f:illegal_goods_probability('slaves',		78)
+f:illegal_goods_probability('nerve_gas',		71)
 
 f:add_to_factions('Obsidian Systems')
-
-

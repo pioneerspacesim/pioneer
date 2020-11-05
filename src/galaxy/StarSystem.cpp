@@ -13,6 +13,7 @@
 #include "Orbit.h"
 #include "StringF.h"
 #include "enum_table.h"
+#include "galaxy/Economy.h"
 #include "lua/LuaEvent.h"
 #include "utils.h"
 #include <SDL_stdinc.h>
@@ -34,72 +35,72 @@ namespace {
 
 // indexed by enum type turd
 const Color StarSystem::starColors[] = {
-	{ 0, 0, 0 }, // gravpoint
-	{ 128, 0, 0 }, // brown dwarf
+	{ 0, 0, 0 },	   // gravpoint
+	{ 128, 0, 0 },	   // brown dwarf
 	{ 102, 102, 204 }, // white dwarf
-	{ 255, 51, 0 }, // M
-	{ 255, 153, 26 }, // K
+	{ 255, 51, 0 },	   // M
+	{ 255, 153, 26 },  // K
 	{ 255, 255, 102 }, // G
 	{ 255, 255, 204 }, // F
 	{ 255, 255, 255 }, // A
 	{ 178, 178, 255 }, // B
 	{ 255, 178, 255 }, // O
-	{ 255, 51, 0 }, // M Giant
-	{ 255, 153, 26 }, // K Giant
+	{ 255, 51, 0 },	   // M Giant
+	{ 255, 153, 26 },  // K Giant
 	{ 255, 255, 102 }, // G Giant
 	{ 255, 255, 204 }, // F Giant
 	{ 255, 255, 255 }, // A Giant
 	{ 178, 178, 255 }, // B Giant
 	{ 255, 178, 255 }, // O Giant
-	{ 255, 51, 0 }, // M Super Giant
-	{ 255, 153, 26 }, // K Super Giant
+	{ 255, 51, 0 },	   // M Super Giant
+	{ 255, 153, 26 },  // K Super Giant
 	{ 255, 255, 102 }, // G Super Giant
 	{ 255, 255, 204 }, // F Super Giant
 	{ 255, 255, 255 }, // A Super Giant
 	{ 178, 178, 255 }, // B Super Giant
 	{ 255, 178, 255 }, // O Super Giant
-	{ 255, 51, 0 }, // M Hyper Giant
-	{ 255, 153, 26 }, // K Hyper Giant
+	{ 255, 51, 0 },	   // M Hyper Giant
+	{ 255, 153, 26 },  // K Hyper Giant
 	{ 255, 255, 102 }, // G Hyper Giant
 	{ 255, 255, 204 }, // F Hyper Giant
 	{ 255, 255, 255 }, // A Hyper Giant
 	{ 178, 178, 255 }, // B Hyper Giant
 	{ 255, 178, 255 }, // O Hyper Giant
-	{ 255, 51, 0 }, // Red/M Wolf Rayet Star
+	{ 255, 51, 0 },	   // Red/M Wolf Rayet Star
 	{ 178, 178, 255 }, // Blue/B Wolf Rayet Star
 	{ 255, 178, 255 }, // Purple-Blue/O Wolf Rayet Star
-	{ 76, 178, 76 }, // Stellar Blackhole
-	{ 51, 230, 51 }, // Intermediate mass Black-hole
-	{ 0, 255, 0 } // Super massive black hole
+	{ 76, 178, 76 },   // Stellar Blackhole
+	{ 51, 230, 51 },   // Intermediate mass Black-hole
+	{ 0, 255, 0 }	   // Super massive black hole
 };
 
 // indexed by enum type turd
 const Color StarSystem::starRealColors[] = {
-	{ 0, 0, 0 }, // gravpoint
-	{ 128, 0, 0 }, // brown dwarf
+	{ 0, 0, 0 },	   // gravpoint
+	{ 128, 0, 0 },	   // brown dwarf
 	{ 255, 255, 255 }, // white dwarf
-	{ 255, 128, 51 }, // M
+	{ 255, 128, 51 },  // M
 	{ 255, 255, 102 }, // K
 	{ 255, 255, 242 }, // G
 	{ 255, 255, 255 }, // F
 	{ 255, 255, 255 }, // A
 	{ 204, 204, 255 }, // B
 	{ 255, 204, 255 }, // O
-	{ 255, 128, 51 }, // M Giant
+	{ 255, 128, 51 },  // M Giant
 	{ 255, 255, 102 }, // K Giant
 	{ 255, 255, 242 }, // G Giant
 	{ 255, 255, 255 }, // F Giant
 	{ 255, 255, 255 }, // A Giant
 	{ 204, 204, 255 }, // B Giant
 	{ 255, 204, 255 }, // O Giant
-	{ 255, 128, 51 }, // M Super Giant
+	{ 255, 128, 51 },  // M Super Giant
 	{ 255, 255, 102 }, // K Super Giant
 	{ 255, 255, 242 }, // G Super Giant
 	{ 255, 255, 255 }, // F Super Giant
 	{ 255, 255, 255 }, // A Super Giant
 	{ 204, 204, 255 }, // B Super Giant
 	{ 255, 204, 255 }, // O Super Giant
-	{ 255, 128, 51 }, // M Hyper Giant
+	{ 255, 128, 51 },  // M Hyper Giant
 	{ 255, 255, 102 }, // K Hyper Giant
 	{ 255, 255, 242 }, // G Hyper Giant
 	{ 255, 255, 255 }, // F Hyper Giant
@@ -109,35 +110,35 @@ const Color StarSystem::starRealColors[] = {
 	{ 255, 153, 153 }, // M WF
 	{ 204, 204, 255 }, // B WF
 	{ 255, 204, 255 }, // O WF
-	{ 22, 0, 24 }, // small Black hole
-	{ 16, 0, 20 }, // med BH
-	{ 10, 0, 16 } // massive BH
+	{ 22, 0, 24 },	   // small Black hole
+	{ 16, 0, 20 },	   // med BH
+	{ 10, 0, 16 }	   // massive BH
 };
 
 const double StarSystem::starLuminosities[] = {
 	0,
-	0.0003, // brown dwarf
-	0.1, // white dwarf
-	0.08, // M0
-	0.38, // K0
-	1.2, // G0
-	5.1, // F0
-	24.0, // A0
-	100.0, // B0
-	200.0, // O5
-	1000.0, // M0 Giant
-	2000.0, // K0 Giant
-	4000.0, // G0 Giant
-	6000.0, // F0 Giant
-	8000.0, // A0 Giant
-	9000.0, // B0 Giant
-	12000.0, // O5 Giant
-	12000.0, // M0 Super Giant
-	14000.0, // K0 Super Giant
-	18000.0, // G0 Super Giant
-	24000.0, // F0 Super Giant
-	30000.0, // A0 Super Giant
-	50000.0, // B0 Super Giant
+	0.0003,	  // brown dwarf
+	0.1,	  // white dwarf
+	0.08,	  // M0
+	0.38,	  // K0
+	1.2,	  // G0
+	5.1,	  // F0
+	24.0,	  // A0
+	100.0,	  // B0
+	200.0,	  // O5
+	1000.0,	  // M0 Giant
+	2000.0,	  // K0 Giant
+	4000.0,	  // G0 Giant
+	6000.0,	  // F0 Giant
+	8000.0,	  // A0 Giant
+	9000.0,	  // B0 Giant
+	12000.0,  // O5 Giant
+	12000.0,  // M0 Super Giant
+	14000.0,  // K0 Super Giant
+	18000.0,  // G0 Super Giant
+	24000.0,  // F0 Super Giant
+	30000.0,  // A0 Super Giant
+	50000.0,  // B0 Super Giant
 	100000.0, // O5 Super Giant
 	125000.0, // M0 Hyper Giant
 	150000.0, // K0 Hyper Giant
@@ -146,11 +147,11 @@ const double StarSystem::starLuminosities[] = {
 	200000.0, // A0 Hyper Giant
 	200000.0, // B0 Hyper Giant
 	200000.0, // O5 Hyper Giant
-	50000.0, // M WF
+	50000.0,  // M WF
 	100000.0, // B WF
 	200000.0, // O WF
-	0.0003, // Stellar Black hole
-	0.00003, // IM Black hole
+	0.0003,	  // Stellar Black hole
+	0.00003,  // IM Black hole
 	0.000003, // Supermassive Black hole
 };
 
@@ -192,7 +193,7 @@ const float StarSystem::starScale[] = {
 	1.6f, // O WF
 	1.0f, // Black hole
 	2.5f, // Intermediate-mass blackhole
-	4.0f // Supermassive blackhole
+	4.0f  // Supermassive blackhole
 };
 
 SystemBody *StarSystem::GetBodyByPath(const SystemPath &path) const
@@ -224,13 +225,12 @@ StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, Sta
 	m_faction(nullptr),
 	m_explored(eEXPLORED_AT_START),
 	m_exploredTime(0.0),
-	m_econType(GalacticEconomy::ECON_MINING),
+	m_econType(GalacticEconomy::InvalidEconomyId),
 	m_seed(0),
-	m_commodityLegal(unsigned(GalacticEconomy::Commodity::COMMODITY_COUNT), true),
+	m_tradeLevel(GalacticEconomy::Commodities().size() + 1, 0),
+	m_commodityLegal(GalacticEconomy::Commodities().size() + 1, true),
 	m_cache(cache)
 {
-	PROFILE_SCOPED()
-	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 }
 
 StarSystem::GeneratorAPI::GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand) :
@@ -307,29 +307,17 @@ void StarSystem::MakeShortDescription()
 	else if (GetTotalPop() == 0) {
 		SetShortDesc(Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS);
 	} else if (GetTotalPop() < fixed(1, 10)) {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::SMALL_INDUSTRIAL_OUTPOST); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::SOME_ESTABLISHED_MINING); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::YOUNG_FARMING_COLONY); break;
-		}
+		SetShortDesc(Lang::GetCore().Get(
+			GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.small));
 	} else if (GetTotalPop() < fixed(1, 2)) {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_COLONY); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::MINING_COLONY); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::OUTDOOR_AGRICULTURAL_WORLD); break;
-		}
+		SetShortDesc(Lang::GetCore().Get(
+			GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.medium));
 	} else if (GetTotalPop() < fixed(5, 1)) {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::HEAVY_INDUSTRY); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::EXTENSIVE_MINING); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::THRIVING_OUTDOOR_WORLD); break;
-		}
+		SetShortDesc(Lang::GetCore().Get(
+			GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.large));
 	} else {
-		switch (GetEconType()) {
-		case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_HUB_SYSTEM); break;
-		case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::VAST_STRIP_MINE); break;
-		case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::HIGH_POPULATION_OUTDOOR_WORLD); break;
-		}
+		SetShortDesc(Lang::GetCore().Get(
+			GalacticEconomy::GetEconomyById(GetEconType()).l10n_key.huge));
 	}
 }
 
@@ -550,14 +538,14 @@ void StarSystem::Dump(FILE *file, const char *indent, bool suppressSectorData) c
 	fprintf(file, "%s\tpopulation %.0f\n", indent, m_totalPop.ToDouble() * 1e9);
 	fprintf(file, "%s\tgovernment %s/%s, lawlessness %.2f\n", indent, m_polit.GetGovernmentDesc(), m_polit.GetEconomicDesc(),
 		m_polit.lawlessness.ToDouble() * 100.0);
-	fprintf(file, "%s\teconomy type%s%s%s\n", indent, m_econType == 0 ? " NONE" : m_econType & GalacticEconomy::ECON_AGRICULTURE ? " AGRICULTURE" : "",
-		m_econType & GalacticEconomy::ECON_INDUSTRY ? " INDUSTRY" : "", m_econType & GalacticEconomy::ECON_MINING ? " MINING" : "");
+	const char *econ_name = !m_econType ? "NONE" : GalacticEconomy::GetEconomyById(m_econType).name;
+	fprintf(file, "%s\teconomy type %s\n", indent, econ_name);
 	fprintf(file, "%s\thumanProx %.2f\n", indent, m_humanProx.ToDouble() * 100.0);
 	fprintf(file, "%s\tmetallicity %.2f, industrial %.2f, agricultural %.2f\n", indent, m_metallicity.ToDouble() * 100.0,
 		m_industrial.ToDouble() * 100.0, m_agricultural.ToDouble() * 100.0);
 	fprintf(file, "%s\ttrade levels {\n", indent);
-	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; ++i) {
-		fprintf(file, "%s\t\t%s = %d\n", indent, EnumStrings::GetString("CommodityType", i), m_tradeLevel[i]);
+	for (const auto &commodity : GalacticEconomy::Commodities()) {
+		fprintf(file, "%s\t\t%s = %d\n", indent, commodity.name, m_tradeLevel[commodity.id - 1]);
 	}
 	fprintf(file, "%s\t}\n", indent);
 	if (m_rootBody) {

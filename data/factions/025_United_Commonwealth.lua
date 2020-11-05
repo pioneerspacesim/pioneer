@@ -14,11 +14,9 @@ local f = Faction:new('United Commonwealth')
 f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT1',		71)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		33)
-f:illegal_goods_probability('SLAVES',		73)
-f:illegal_goods_probability('NERVE_GAS',		80)
-f:illegal_goods_probability('NARCOTICS',		70)
+f:illegal_goods_probability('animal_meat',		33)
+f:illegal_goods_probability('slaves',		73)
+f:illegal_goods_probability('nerve_gas',		80)
+f:illegal_goods_probability('narcotics',		70)
 
 f:add_to_factions('United Commonwealth')
-
-

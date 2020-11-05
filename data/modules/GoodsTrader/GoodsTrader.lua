@@ -110,8 +110,8 @@ end
 
 local onCreateBB = function (station)
 	local has_illegal_goods = false
-	for i,e in pairs(Equipment.cargo) do
-		if not Game.system:IsCommodityLegal(e) then
+	for key in pairs(Equipment.cargo) do
+		if not Game.system:IsCommodityLegal(key) then
 			has_illegal_goods = true
 		end
 	end
@@ -152,8 +152,8 @@ local onCreateBB = function (station)
 
 			ad.stock = {}
 			ad.price = {}
-			for _,e in pairs(Equipment.cargo) do
-				if not Game.system:IsCommodityLegal(e) then
+			for key, e in pairs(Equipment.cargo) do
+				if not Game.system:IsCommodityLegal(key) then
 					ad.stock[e] = Engine.rand:Integer(1,50)
 					-- going rate on the black market will be twice normal
 					ad.price[e] = ad.station:GetEquipmentPrice(e) * 2

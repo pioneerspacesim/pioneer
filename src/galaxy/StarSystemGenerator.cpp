@@ -10,8 +10,11 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "Sector.h"
+#include "galaxy/Economy.h"
 #include "lua/LuaNameGen.h"
 #include "utils.h"
+
+#include <functional>
 
 static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998, 1); // XXX Duplication from StarSystem.cpp
 // if binary stars have separation s, planets can have stable
@@ -20,50 +23,50 @@ static const fixed SAFE_DIST_FROM_BINARY = fixed(5, 1);
 // very crudely
 static const fixed AU_SOL_RADIUS = fixed(305, 65536);
 static const fixed AU_EARTH_RADIUS = fixed(3, 65536); // XXX Duplication from StarSystem.cpp
-static const fixed FIXED_PI = fixed(103993, 33102); // XXX Duplication from StarSystem.cpp
+static const fixed FIXED_PI = fixed(103993, 33102);	  // XXX Duplication from StarSystem.cpp
 static const double CELSIUS = 273.15;
 
 static const Uint32 POLIT_SEED = 0x1234abcd;
 static const Uint32 POLIT_SALT = 0x8732abdf;
 
 const fixed StarSystemLegacyGeneratorBase::starMetallicities[] = {
-	fixed(1, 1), // GRAVPOINT - for planets that orbit them
-	fixed(9, 10), // brown dwarf
-	fixed(5, 10), // white dwarf
-	fixed(7, 10), // M0
-	fixed(6, 10), // K0
-	fixed(5, 10), // G0
-	fixed(4, 10), // F0
-	fixed(3, 10), // A0
-	fixed(2, 10), // B0
-	fixed(1, 10), // O5
-	fixed(8, 10), // M0 Giant
+	fixed(1, 1),	// GRAVPOINT - for planets that orbit them
+	fixed(9, 10),	// brown dwarf
+	fixed(5, 10),	// white dwarf
+	fixed(7, 10),	// M0
+	fixed(6, 10),	// K0
+	fixed(5, 10),	// G0
+	fixed(4, 10),	// F0
+	fixed(3, 10),	// A0
+	fixed(2, 10),	// B0
+	fixed(1, 10),	// O5
+	fixed(8, 10),	// M0 Giant
 	fixed(65, 100), // K0 Giant
 	fixed(55, 100), // G0 Giant
-	fixed(4, 10), // F0 Giant
-	fixed(3, 10), // A0 Giant
-	fixed(2, 10), // B0 Giant
-	fixed(1, 10), // O5 Giant
-	fixed(9, 10), // M0 Super Giant
-	fixed(7, 10), // K0 Super Giant
-	fixed(6, 10), // G0 Super Giant
-	fixed(4, 10), // F0 Super Giant
-	fixed(3, 10), // A0 Super Giant
-	fixed(2, 10), // B0 Super Giant
-	fixed(1, 10), // O5 Super Giant
-	fixed(1, 1), // M0 Hyper Giant
-	fixed(7, 10), // K0 Hyper Giant
-	fixed(6, 10), // G0 Hyper Giant
-	fixed(4, 10), // F0 Hyper Giant
-	fixed(3, 10), // A0 Hyper Giant
-	fixed(2, 10), // B0 Hyper Giant
-	fixed(1, 10), // O5 Hyper Giant
-	fixed(1, 1), // M WF
-	fixed(8, 10), // B WF
-	fixed(6, 10), // O WF
-	fixed(1, 1), //  S BH	Blackholes, give them high metallicity,
-	fixed(1, 1), // IM BH	so any rocks that happen to be there
-	fixed(1, 1) // SM BH	may be mining hotspots. FUN :)
+	fixed(4, 10),	// F0 Giant
+	fixed(3, 10),	// A0 Giant
+	fixed(2, 10),	// B0 Giant
+	fixed(1, 10),	// O5 Giant
+	fixed(9, 10),	// M0 Super Giant
+	fixed(7, 10),	// K0 Super Giant
+	fixed(6, 10),	// G0 Super Giant
+	fixed(4, 10),	// F0 Super Giant
+	fixed(3, 10),	// A0 Super Giant
+	fixed(2, 10),	// B0 Super Giant
+	fixed(1, 10),	// O5 Super Giant
+	fixed(1, 1),	// M0 Hyper Giant
+	fixed(7, 10),	// K0 Hyper Giant
+	fixed(6, 10),	// G0 Hyper Giant
+	fixed(4, 10),	// F0 Hyper Giant
+	fixed(3, 10),	// A0 Hyper Giant
+	fixed(2, 10),	// B0 Hyper Giant
+	fixed(1, 10),	// O5 Hyper Giant
+	fixed(1, 1),	// M WF
+	fixed(8, 10),	// B WF
+	fixed(6, 10),	// O WF
+	fixed(1, 1),	//  S BH	Blackholes, give them high metallicity,
+	fixed(1, 1),	// IM BH	so any rocks that happen to be there
+	fixed(1, 1)		// SM BH	may be mining hotspots. FUN :)
 };
 
 const StarSystemLegacyGeneratorBase::StarTypeInfo StarSystemLegacyGeneratorBase::starTypeInfo[] = {
@@ -168,7 +171,7 @@ const StarSystemLegacyGeneratorBase::StarTypeInfo StarSystemLegacyGeneratorBase:
 	{ // O WF
 		{ 2000, 10000 }, { 2500, 5000 },
 		45000, 60000 },
-	{ // S BH
+	{							// S BH
 		{ 20, 2000 }, { 0, 0 }, // XXX black holes are < 1 Sol radii big; this is clamped to a non-zero value later
 		10, 24 },
 	{ // IM BH
@@ -281,11 +284,11 @@ void StarSystemLegacyGeneratorBase::PickAtmosphere(SystemBody *sbody)
 }
 
 static const unsigned char RANDOM_RING_COLORS[][4] = {
-	{ 156, 122, 98, 217 }, // jupiter-like
-	{ 156, 122, 98, 217 }, // saturn-like
+	{ 156, 122, 98, 217 },	// jupiter-like
+	{ 156, 122, 98, 217 },	// saturn-like
 	{ 181, 173, 174, 217 }, // neptune-like
-	{ 130, 122, 98, 217 }, // uranus-like
-	{ 207, 122, 98, 217 } // brown dwarf-like
+	{ 130, 122, 98, 217 },	// uranus-like
+	{ 207, 122, 98, 217 }	// brown dwarf-like
 };
 
 void StarSystemLegacyGeneratorBase::PickRings(SystemBody *sbody, bool forceRings)
@@ -601,7 +604,7 @@ int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed 
 	fixed energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->m_radius, primary->m_averageTemp, distToPrimary);
 	fixed dist;
 	// find the other stars which aren't our parent star
-	for (auto s : primary->GetStarSystem()->GetStars()) {
+	for (auto *s : primary->GetStarSystem()->GetStars()) {
 		if (s != primary) {
 			//get branches from body and star to system root
 			std::vector<const SystemBody *> first_to_root;
@@ -610,19 +613,19 @@ int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed 
 			getPathToRoot(&(*s), second_to_root);
 			std::vector<const SystemBody *>::reverse_iterator fit = first_to_root.rbegin();
 			std::vector<const SystemBody *>::reverse_iterator sit = second_to_root.rbegin();
-			while (sit != second_to_root.rend() && fit != first_to_root.rend() && (*sit) == (*fit)) //keep tracing both branches from system's root
-			{ //until they diverge
+			// keep tracing both branches from system's root until they diverge
+			while (sit != second_to_root.rend() && fit != first_to_root.rend() && (*sit) == (*fit)) {
 				++sit;
 				++fit;
 			}
 			if (sit == second_to_root.rend()) --sit;
 			if (fit == first_to_root.rend()) --fit; //oops! one of the branches ends at lca, backtrack
 
-			if ((*fit)->IsCoOrbitalWith(*sit)) //planet is around one part of coorbiting pair, star is another.
-			{
+			//planet is around one part of coorbiting pair, star is another.
+			if ((*fit)->IsCoOrbitalWith(*sit)) {
 				dist = ((*fit)->GetOrbMaxAsFixed() + (*fit)->GetOrbMinAsFixed()) >> 1; //binaries don't have fully initialized smaxes
-			} else if ((*sit)->IsCoOrbital()) //star is part of binary around which planet is (possibly indirectly) orbiting
-			{
+			} else if ((*sit)->IsCoOrbital()) {
+				//star is part of binary around which planet is (possibly indirectly) orbiting
 				bool inverted_ancestry = false;
 				for (const SystemBody *body = (*sit); body; body = body->GetParent())
 					if (body == (*fit)) {
@@ -637,12 +640,12 @@ int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed 
 				}
 			} else if ((*fit)->IsCoOrbital()) //planet is around one part of coorbiting pair, star isn't coorbiting with it
 			{
-				dist = ((*sit)->GetOrbMaxAsFixed() + (*sit)->GetOrbMinAsFixed()) >> 1; //simplified to star orbiting stationary planet
-			} else //neither is part of any binaries - hooray!
-			{
-				dist = (((*sit)->GetSemiMajorAxisAsFixed() - (*fit)->GetSemiMajorAxisAsFixed()).Abs() //avg of conjunction and opposition dist
-						   + ((*sit)->GetSemiMajorAxisAsFixed() + (*fit)->GetSemiMajorAxisAsFixed())) >>
-					1;
+				//simplified to star orbiting stationary planet. neither is part of any binaries - hooray!
+				dist = ((*sit)->GetOrbMaxAsFixed() + (*sit)->GetOrbMinAsFixed()) >> 1;
+			} else {
+				//avg of conjunction and opposition dist
+				dist = (((*sit)->GetSemiMajorAxisAsFixed() - (*fit)->GetSemiMajorAxisAsFixed()).Abs() + ((*sit)->GetSemiMajorAxisAsFixed() + (*fit)->GetSemiMajorAxisAsFixed()));
+				dist >>= 1;
 			}
 		}
 		energy_per_meter2 += calcEnergyPerUnitAreaAtDist(s->m_radius, s->m_averageTemp, dist);
@@ -793,14 +796,18 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 			int maxTemp = CalcSurfaceTemp(star, minDistToStar, albedo, greenhouse);
 
 			if ((minTemp > CELSIUS - 10) && (minTemp < CELSIUS + 90) && //removed explicit checks for star type (also BD and WD seem to have slight chance of having life around them)
-				(maxTemp > CELSIUS - 10) && (maxTemp < CELSIUS + 90)) //TODO: ceiling based on actual boiling point on the planet, not in 1atm
+				(maxTemp > CELSIUS - 10) && (maxTemp < CELSIUS + 90))	//TODO: ceiling based on actual boiling point on the planet, not in 1atm
 			{
 				fixed maxMass, lifeMult, allowedMass(1, 2);
 				allowedMass += 2;
-				for (auto s : sbody->GetStarSystem()->GetStars()) { //find the most massive star, mass is tied to lifespan
-					maxMass = maxMass < s->GetMassAsFixed() ? s->GetMassAsFixed() : maxMass; //this automagically eliminates O, B and so on from consideration
-				} //handy calculator: http://www.asc-csa.gc.ca/eng/educators/resources/astronomy/module2/calculator.asp
-				if (maxMass < allowedMass) { //system could have existed long enough for life to form (based on Sol)
+				//find the most massive star, mass is tied to lifespan
+				//this automagically eliminates O, B and so on from consideration
+				//handy calculator: http://www.asc-csa.gc.ca/eng/educators/resources/astronomy/module2/calculator.asp
+				//system could have existed long enough for life to form (based on Sol)
+				for (auto *s : sbody->GetStarSystem()->GetStars()) {
+					maxMass = maxMass < s->GetMassAsFixed() ? s->GetMassAsFixed() : maxMass;
+				}
+				if (maxMass < allowedMass) {
 					lifeMult = allowedMass - maxMass;
 				}
 				sbody->m_life = lifeMult * rand.Fixed();
@@ -997,7 +1004,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 			planet->m_orbit.SetShapeAroundPrimary(semiMajorAxis.ToDouble() * AU, primary->GetMass(), e);
 
 		double r1 = rand.Double(2 * M_PI); // function parameter evaluation order is implementation-dependent
-		double r2 = rand.NDouble(5); // can't put two rands in the same expression
+		double r2 = rand.NDouble(5);	   // can't put two rands in the same expression
 		planet->m_orbit.SetPlane(matrix3x3d::RotateY(r1) * matrix3x3d::RotateX(-0.5 * M_PI + r2 * M_PI / 2.0));
 		planet->m_orbit.SetPhase(rand.Double(2 * M_PI));
 
@@ -1265,11 +1272,11 @@ bool StarSystemRandomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 	system->SetMetallicity(starMetallicities[system->GetRootBody()->GetType()]);
 
 	// store all of the stars first ...
-	for (unsigned i = 0; i < system->GetNumStars(); i++) {
+	for (uint32_t i = 0; i < system->GetNumStars(); i++) {
 		system->AddStar(star[i]);
 	}
 	// ... because we need them when making planets to calculate surface temperatures
-	for (auto s : system->GetStars()) {
+	for (auto *s : system->GetStars()) {
 		MakePlanetsAround(system, s, rng);
 	}
 
@@ -1320,7 +1327,7 @@ void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody *sbody, 
 	// store latitude and longitude to equivalent orbital parameters to
 	// be accessible easier
 	sbody->m_inclination = fixed(r1 * 10000, 10000) + FIXED_PI / 2; // latitide
-	sbody->m_orbitalOffset = FIXED_PI / 2; // longitude
+	sbody->m_orbitalOffset = FIXED_PI / 2;							// longitude
 }
 
 /*
@@ -1329,7 +1336,7 @@ void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody *sbody, 
 void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::GeneratorAPI *system, fixed &outTotalPop)
 {
 	PROFILE_SCOPED()
-	for (auto child : sbody->GetChildren()) {
+	for (auto *child : sbody->GetChildren()) {
 		PopulateStage1(child, system, outTotalPop);
 	}
 
@@ -1388,73 +1395,83 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 			sbody->GetMetallicityAsFixed() < (fixed(1, 1) - system->GetHumanProx())) return;
 	}
 
-	const int NUM_CONSUMABLES = 10;
-	const GalacticEconomy::Commodity consumables[NUM_CONSUMABLES] = {
-		GalacticEconomy::Commodity::AIR_PROCESSORS,
-		GalacticEconomy::Commodity::GRAIN,
-		GalacticEconomy::Commodity::FRUIT_AND_VEG,
-		GalacticEconomy::Commodity::ANIMAL_MEAT,
-		GalacticEconomy::Commodity::LIQUOR,
-		GalacticEconomy::Commodity::CONSUMER_GOODS,
-		GalacticEconomy::Commodity::MEDICINES,
-		GalacticEconomy::Commodity::HAND_WEAPONS,
-		GalacticEconomy::Commodity::NARCOTICS,
-		GalacticEconomy::Commodity::LIQUID_OXYGEN
-	};
-
 	/* Commodities we produce (mining and agriculture) */
 
-	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
-		const GalacticEconomy::CommodityInfo &info = GalacticEconomy::COMMODITY_DATA[i];
+	fixed workforce = fixed();
+	for (const auto &commodity : GalacticEconomy::Commodities()) {
+		const GalacticEconomy::EconomyInfo &economy = GalacticEconomy::GetEconomyById(commodity.producer);
 
-		fixed affinity = fixed(1, 1);
-		if (info.econType & GalacticEconomy::ECON_AGRICULTURE) {
-			affinity *= 2 * sbody->GetAgriculturalAsFixed();
+		fixed affinity = fixed();
+		int numFactors = 0;
+		// TODO(sturnclaw): this is a horrible way of determining commodity production
+		// Find something better to replace it that actually makes sense.
+		if (economy.affinity.agricultural > 0) {
+			affinity += economy.affinity.agricultural * sbody->GetAgriculturalAsFixed();
+			numFactors++;
 		}
-		if (info.econType & GalacticEconomy::ECON_INDUSTRY) affinity *= system->GetIndustrial();
-		// make industry after we see if agriculture and mining are viable
-		if (info.econType & GalacticEconomy::ECON_MINING) {
-			affinity *= sbody->GetMetallicityAsFixed();
+		if (economy.affinity.metallicity > 0) {
+			affinity += economy.affinity.metallicity * sbody->GetMetallicityAsFixed();
+			numFactors++;
 		}
+		if (economy.affinity.industrial > 0) {
+			affinity += economy.affinity.industrial * system->GetIndustrial();
+			numFactors++;
+		}
+
+		if (numFactors)
+			affinity /= numFactors;
+		else
+			affinity = fixed(1, 1);
+
 		affinity *= rand.Fixed();
-		// producing consumables is wise
-		for (int j = 0; j < NUM_CONSUMABLES; j++) {
-			if (GalacticEconomy::Commodity(i) == consumables[j]) {
-				affinity *= 2;
-				break;
-			}
+
+		if (GalacticEconomy::Consumables().count(commodity.id)) {
+			affinity *= 2;
 		}
-		assert(affinity >= 0);
+
 		/* workforce... */
-		sbody->m_population += affinity * system->GetHumanProx();
+		workforce += affinity * system->GetHumanProx();
 
-		int howmuch = (affinity * 256).ToInt32();
+		// TODO(sturnclaw): this is also a horrible way of determining commodity production.
+		// Commodity consumption / production should be based on actual numbers rather than
+		// arbitrary percentage price reduction.
+		fixed howmuch = affinity * 256;
 
-		system->AddTradeLevel(GalacticEconomy::Commodity(i), -2 * howmuch);
-		for (int j = 0; j < GalacticEconomy::CommodityInfo::MAX_ECON_INPUTS; ++j) {
-			if (info.inputs[j] == GalacticEconomy::Commodity::NONE) continue;
-			system->AddTradeLevel(GalacticEconomy::Commodity(info.inputs[j]), howmuch);
+		if (howmuch.ToInt32() == 0)
+			continue;
+
+		// Produce X amount of this commodity
+		system->AddTradeLevel(commodity.id, -2 * howmuch.ToInt32());
+		// Output("System %s.%s adding commodity %s (%d) -> %d\n",
+		// 	system->GetName(), sbody->GetName(), commodity.name, -2 * howmuch.ToInt32(), system->GetTradeLevel(commodity.id));
+		for (const auto &input : commodity.inputs) {
+			// Consume Y amount of the input commodities
+			system->AddTradeLevel(input.first, (input.second * howmuch).ToInt32());
 		}
 	}
+
+	sbody->m_population += workforce;
 
 	if (!system->HasCustomBodies() && sbody->GetPopulationAsFixed() > 0)
 		sbody->m_name = Pi::luaNameGen->BodyName(sbody, namerand);
 
 	// Add a bunch of things people consume
-	for (int i = 0; i < NUM_CONSUMABLES; i++) {
-		GalacticEconomy::Commodity t = consumables[i];
-		if (sbody->GetLifeAsFixed() > fixed(1, 2)) {
-			// life planets can make this jizz probably
-			if ((t == GalacticEconomy::Commodity::AIR_PROCESSORS) ||
-				(t == GalacticEconomy::Commodity::LIQUID_OXYGEN) ||
-				(t == GalacticEconomy::Commodity::GRAIN) ||
-				(t == GalacticEconomy::Commodity::FRUIT_AND_VEG) ||
-				(t == GalacticEconomy::Commodity::ANIMAL_MEAT)) {
-				continue;
-			}
-		}
-		system->AddTradeLevel(GalacticEconomy::Commodity(t), rand.Int32(32, 128));
+	for (const auto &pair : GalacticEconomy::Consumables()) {
+		const GalacticEconomy::ConsumableInfo &consumable = pair.second;
+
+		// Some consumables are assumed to be produced locally if the planet is suitably populated.
+		if (sbody->GetLifeAsFixed() > consumable.locally_produced_min)
+			continue;
+
+		const auto &consume_bounds = consumable.random_consumption;
+		uint32_t consumption = rand.Int32(consume_bounds[0], consume_bounds[1]);
+		system->AddTradeLevel(pair.first, consumption);
+
+		// auto &commodity = GalacticEconomy::GetCommodityById(t.first);
+		// Output("System %s.%s adding consumable %s (%d) -> %d\n",
+		// 	system->GetName(), sbody->GetName(), commodity.name, consumption, system->GetTradeLevel(commodity.id));
 	}
+
 	// well, outdoor worlds should have way more people
 	sbody->m_population = fixed(1, 10) * sbody->m_population + sbody->m_population * sbody->GetAgriculturalAsFixed();
 
@@ -1488,7 +1505,7 @@ static std::string gen_unique_station_name(SystemBody *sp, const StarSystem *sys
 void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSystem::GeneratorAPI *system)
 {
 	PROFILE_SCOPED()
-	for (auto child : sbody->GetChildren())
+	for (auto *child : sbody->GetChildren())
 		PopulateAddStations(child, system);
 
 	Uint32 _init[6] = { system->GetPath().systemIndex, Uint32(system->GetPath().sectorX),
@@ -1541,9 +1558,9 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 			static const Uint32 MAX_ORBIT_SHELLS = 3;
 			fixed shells[MAX_ORBIT_SHELLS];
 			if (innerOrbit != orbMaxS) {
-				shells[0] = innerOrbit; // low
+				shells[0] = innerOrbit;											 // low
 				shells[1] = innerOrbit + ((orbMaxS - innerOrbit) * fixed(1, 2)); // med
-				shells[2] = orbMaxS; // high
+				shells[2] = orbMaxS;											 // high
 			} else {
 				shells[0] = shells[1] = shells[2] = innerOrbit;
 			}
@@ -1681,27 +1698,33 @@ void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem:
 	if (a == Polit::GOV_NONE) return;
 
 	if (system->GetFaction()->idx != Faction::BAD_FACTION_IDX) {
-		for (const std::pair<const GalacticEconomy::Commodity, Uint32> &legality : system->GetFaction()->commodity_legality)
+		for (const std::pair<const GalacticEconomy::CommodityId, Uint32> &legality : system->GetFaction()->commodity_legality)
 			system->SetCommodityLegal(legality.first, (rand.Int32(100) >= legality.second));
-	} else {
-		// this is a non-faction system - do some hardcoded test
-		system->SetCommodityLegal(GalacticEconomy::Commodity::HAND_WEAPONS, (rand.Int32(2) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::BATTLE_WEAPONS, (rand.Int32(3) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::NERVE_GAS, (rand.Int32(10) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::NARCOTICS, (rand.Int32(2) == 0));
-		system->SetCommodityLegal(GalacticEconomy::Commodity::SLAVES, (rand.Int32(16) == 0));
 	}
+	// if this system doesn't have a faction, something's wrong and we assume it's an independent anarchy
 }
 
 void PopulateStarSystemGenerator::SetEconType(RefCountedPtr<StarSystem::GeneratorAPI> system)
 {
-	if ((system->GetIndustrial() > system->GetMetallicity()) && (system->GetIndustrial() > system->GetAgricultural())) {
-		system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
-	} else if (system->GetMetallicity() > system->GetAgricultural()) {
-		system->SetEconType(GalacticEconomy::ECON_MINING);
-	} else {
-		system->SetEconType(GalacticEconomy::ECON_AGRICULTURE);
+	PROFILE_SCOPED()
+	// stack allocated instead of std::vector for cache performance concerns.
+	std::vector<std::pair<fixed, GalacticEconomy::EconomyId>> economies(GalacticEconomy::Economies().size());
+	uint32_t idx = 0;
+
+	// Score each economy typ according to this system's parameters.
+	for (const auto &econ : GalacticEconomy::Economies()) {
+		fixed score;
+
+		score += system->GetAgricultural() * econ.generation.agricultural;
+		score += system->GetIndustrial() * econ.generation.industrial;
+		score += system->GetMetallicity() * econ.generation.metallicity;
+
+		economies[idx++] = { score, econ.id };
 	}
+
+	// highest-scoring economy ID is at the end of the array.
+	std::sort(economies.begin(), economies.end());
+	system->SetEconType(economies.back().second);
 }
 
 /* percent */
@@ -1720,7 +1743,6 @@ bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galax
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
 	system->SetHumanProx(galaxy->GetFactions()->IsHomeSystem(system->GetPath()) ? fixed(2, 3) : fixed(3, 1) / isqrt(9 + 10 * (system->GetPath().sectorX * system->GetPath().sectorX + system->GetPath().sectorY * system->GetPath().sectorY + system->GetPath().sectorZ * system->GetPath().sectorZ)));
-	system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
 	system->SetIndustrial(rand.Fixed());
 	system->SetAgricultural(0);
 
@@ -1734,13 +1756,13 @@ bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galax
 	// Lets use black magic to turn these into percentage base price
 	// alterations
 	int maximum = 0;
-	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
-		maximum = std::max(abs(system->GetTradeLevel()[i]), maximum);
+	for (const auto &commodity : GalacticEconomy::Commodities()) {
+		maximum = std::max(abs(system->GetTradeLevel(commodity.id)), maximum);
 	}
 	if (maximum)
-		for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
-			system->SetTradeLevel(GalacticEconomy::Commodity(i), (system->GetTradeLevel()[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum);
-			system->AddTradeLevel(GalacticEconomy::Commodity(i), rand.Int32(-5, 5));
+		for (const auto &commodity : GalacticEconomy::Commodities()) {
+			system->SetTradeLevel(commodity.id, (system->GetTradeLevel(commodity.id) * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum);
+			system->AddTradeLevel(commodity.id, rand.Int32(-5, 5));
 		}
 
 	// Unused?

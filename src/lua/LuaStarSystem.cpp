@@ -20,6 +20,7 @@
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
+#include "src/lua.h"
 
 /*
  * Class: StarSystem
@@ -118,19 +119,20 @@ static int l_starsystem_get_body_paths(lua_State *l)
 /*
  * Method: GetCommodityBasePriceAlterations
  *
- * Get the price alterations for cargo items bought and sold in this system
+ * Get the price alterations for commodities bought and sold in this system
  *
- * > alteration = system:GetCommodityBasePriceAlterations(cargo_item)
+ * > alteration = system:GetCommodityBasePriceAlterations(commodity)
  *
  * Parameters:
  *
- *   cargo_item - The cargo item for which one wants to know the alteration
+ *   commodity	- The commodity name to look up. Should be a valid name returned
+ *                by Economy.GetCommodities()
  * Return:
  *
- *   percentage -  percentage change to the cargo base price. Loosely,
- *                 positive values make the commodity more expensive,
- *                 indicating it is in demand, while negative values make the
- *                 commodity cheaper, indicating a surplus.
+ *   percentage	- percentage change to the cargo base price. Loosely,
+ *                positive values make the commodity more expensive,
+ *                indicating it is in demand, while negative values make the
+ *                commodity cheaper, indicating a surplus.
  *
  * Availability:
  *
@@ -146,24 +148,13 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
-	if (!lua_istable(l, 2)) {
-		return luaL_error(l, "GetCommodityBasePriceAlterations takes a cargo object as and argument.");
-	}
-	LuaTable equip(l, 2);
+	std::string commodityName = luaL_checkstring(l, 2);
 
-	if (!equip.CallMethod<bool>("IsValidSlot", "cargo")) {
-		luaL_error(l, "GetCommodityBasePriceAlterations takes a valid cargo item as argument.");
-		return 0;
-	}
-	equip.PushValueToStack("l10n_key"); // For now let's just use this poor man's hack.
-	int commId;
-	if (!LuaConstants::CheckConstantFromArg(l, "CommodityType", -1, &commId)) {
-		lua_pop(l, 1);
-		lua_pushnumber(l, 0);
+	GalacticEconomy::CommodityId commId = GalacticEconomy::GetCommodityByName(commodityName);
+	if (commId != GalacticEconomy::InvalidCommodityId) {
+		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(commId));
 	} else {
-		GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(commId);
-		lua_pop(l, 1);
-		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
+		lua_pushnumber(l, 0);
 	}
 
 	LUA_DEBUG_END(l, 1);
@@ -173,17 +164,18 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 /*
  * Method: IsCommodityLegal
  *
- * Determine if a given cargo item is legal for trade in this system
+ * Determine if a given commodity is legal for trade in this system
  *
- * > is_legal = system:IsCommodityLegal(cargo)
+ * > is_legal = system:IsCommodityLegal(commodity)
  *
  * Parameters:
  *
- *   cargo - the wanted commodity (for instance, Equipment.cargo.hydrogen)
+ *   commodity - the wanted commodity; should be a commodity name returned by Economy.GetCommodities()
+ *               (for instance, "hydrogen")
  *
  * Return:
  *
- *   is_legal - true if the commodity is legal, otherwise false
+ *   is_legal  - true if the commodity is legal, otherwise false
  *
  * Availability:
  *
@@ -197,16 +189,14 @@ static int l_starsystem_is_commodity_legal(lua_State *l)
 {
 	PROFILE_SCOPED()
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
-	// XXX: Don't use the l10n_key hack, this is just UGLY!!
-	luaL_checktype(l, 2, LUA_TTABLE);
-	LuaTable(l, 2).PushValueToStack("l10n_key");
-	int commId;
-	if (!LuaConstants::CheckConstantFromArg(l, "CommodityType", -1, &commId))
+	std::string commName = luaL_checkstring(l, 2);
+
+	GalacticEconomy::CommodityId commId = GalacticEconomy::GetCommodityByName(commName);
+	if (commId != GalacticEconomy::InvalidCommodityId)
+		lua_pushboolean(l, s->IsCommodityLegal(commId));
+	else
 		lua_pushboolean(l, true);
-	else {
-		GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(commId);
-		lua_pushboolean(l, s->IsCommodityLegal(e));
-	}
+
 	return 1;
 }
 

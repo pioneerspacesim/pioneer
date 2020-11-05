@@ -17,12 +17,10 @@ f:govtype_weight('COMMUNIST',		60)
 f:govtype_weight('CORPORATE',		36)
 f:govtype_weight('MILDICT2',		36)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		51)
-f:illegal_goods_probability('ROBOTS',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		100)
+f:illegal_goods_probability('animal_meat',		51)
+f:illegal_goods_probability('robots',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		100)
 
 f:add_to_factions('Far Horde')
-
-

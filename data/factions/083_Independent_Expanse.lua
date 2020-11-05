@@ -19,13 +19,11 @@ f:govtype_weight('SOCDEM',		0)
 f:govtype_weight('DISORDER',		0)
 f:govtype_weight('COMMUNIST',		0)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('ROBOTS',		36)
-f:illegal_goods_probability('SLAVES',		98)
-f:illegal_goods_probability('BATTLE_WEAPONS',		58)
-f:illegal_goods_probability('NERVE_GAS',		92)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('robots',		36)
+f:illegal_goods_probability('slaves',		98)
+f:illegal_goods_probability('battle_weapons',		58)
+f:illegal_goods_probability('nerve_gas',		92)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Independent Expanse')
-
-

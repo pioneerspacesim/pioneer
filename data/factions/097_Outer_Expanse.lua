@@ -15,11 +15,9 @@ f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT2',		23)
 f:govtype_weight('COMMUNIST',		5)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		37)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		37)
 
 f:add_to_factions('Outer Expanse')
-
-

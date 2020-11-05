@@ -19,13 +19,11 @@ f:govtype_weight('COMMUNIST',		48)
 f:govtype_weight('MILDICT1',		33)
 f:govtype_weight('MILDICT2',		33)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		52)
-f:illegal_goods_probability('ROBOTS',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		57)
-f:illegal_goods_probability('NERVE_GAS',		40)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('live_animals',		52)
+f:illegal_goods_probability('robots',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		57)
+f:illegal_goods_probability('nerve_gas',		40)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Dagger Kingdoms')
-
-

@@ -15,10 +15,8 @@ f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT1',		48)
 f:govtype_weight('PLUTOCRATIC',		23)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		47)
-f:illegal_goods_probability('HAND_WEAPONS',		62)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('live_animals',		47)
+f:illegal_goods_probability('hand_weapons',		62)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Continuity Empire')
-
-

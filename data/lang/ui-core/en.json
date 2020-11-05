@@ -191,6 +191,10 @@
     "description": "",
     "message": "Commodity Market"
   },
+  "COMMODITY_TRADE_ANALYSIS": {
+    "description": "",
+    "message": "Commodity trade analysis of:"
+  },
   "COMPACT_RADAR": {
     "description": "Game settings option",
     "message": "Compact radar"
@@ -1027,6 +1031,10 @@
     "description": "A finable crime",
     "message": "Reckless hyperjump registered"
   },
+  "ILLEGAL_IN_SYSTEM": {
+	"description": "An illegal action or commodity",
+    "message": "Illegal in System"
+  },
   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
     "description": "",
     "message": "I'm tired of working for nothing. Don't you know what a contract is?"
@@ -1274,6 +1282,22 @@
   "MINIMUM_CREW": {
     "description": "",
     "message": "Minimum crew"
+  },
+  "MINOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Minor Export"
+  },
+  "MINOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Minor Import"
+  },
+  "MAJOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Major Export"
+  },
+  "MAJOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Major Import"
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",

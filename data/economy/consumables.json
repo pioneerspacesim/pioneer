@@ -1,0 +1,39 @@
+{
+	"consumables": {
+		"air_processors": {
+			"random": [ 32, 128 ],
+			"locally_produced_min": 0.5
+		},
+		"grain": {
+			"random": [ 32, 128 ],
+			"locally_produced_min": 0.5
+		},
+		"fruit_and_veg": {
+			"random": [ 32, 128 ],
+			"locally_produced_min": 0.5
+		},
+		"animal_meat": {
+			"random": [ 32, 128 ],
+			"locally_produced_min": 0.5
+		},
+		"liquid_oxygen": {
+			"random": [ 32, 128 ],
+			"locally_produced_min": 0.5
+		},
+		"liquor": {
+			"random": [ 32, 128 ]
+		},
+		"consumer_goods": {
+			"random": [ 32, 128 ]
+		},
+		"medicines": {
+			"random": [ 32, 128 ]
+		},
+		"hand_weapons": {
+			"random": [ 32, 128 ]
+		},
+		"narcotics": {
+			"random": [ 32, 128 ]
+		}
+	}
+}

@@ -19,11 +19,9 @@ f:govtype_weight('SOCDEM',		8)
 f:govtype_weight('DISORDER',		2)
 f:govtype_weight('COMMUNIST',		2)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		36)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		87)
-f:illegal_goods_probability('NARCOTICS',		95)
+f:illegal_goods_probability('live_animals',		36)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		87)
+f:illegal_goods_probability('narcotics',		95)
 
 f:add_to_factions('Continuity Horde')
-
-

@@ -16,11 +16,9 @@ f:govtype_weight('COMMUNIST',		64)
 f:govtype_weight('DISORDER',		64)
 f:govtype_weight('SOCDEM',		41)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIQUOR',		43)
-f:illegal_goods_probability('SLAVES',		74)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('liquor',		43)
+f:illegal_goods_probability('slaves',		74)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Independent Union')
-
-

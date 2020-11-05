@@ -15,14 +15,12 @@ f:govtype_weight('CORPORATE',		100)
 f:govtype_weight('PLUTOCRATIC',		30)
 f:govtype_weight('LIBDEM',		30)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('SLAVES',		27)
-f:illegal_goods_probability('HAND_WEAPONS',		44)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		37)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('slaves',		27)
+f:illegal_goods_probability('hand_weapons',		44)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		37)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Independent Faction')
-
-
