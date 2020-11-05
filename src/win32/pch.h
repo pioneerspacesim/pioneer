@@ -19,7 +19,6 @@
 #include "GeoPatch.h"
 #include "GeoPatchContext.h"
 #include "GeoSphere.h"
-#include "Object.h"
 #include "ObjectViewerView.h"
 #include "Pi.h"
 #include "Planet.h"

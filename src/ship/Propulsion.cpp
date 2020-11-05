@@ -5,7 +5,6 @@
 
 #include "Game.h"
 #include "GameSaveError.h"
-#include "Object.h" // <- here only for comment in AIFaceDirection (line 320)
 #include "Pi.h"
 #include "Player.h"
 #include "PlayerShipController.h"
@@ -437,7 +436,7 @@ double Propulsion::AIFaceDirection(const vector3d &dir, double av)
 	// baseclass version in Ship would always be 0. the version in Player
 	// would be constructed from user input. that adjustment could then be
 	// considered by this method when computing the required change
-	if (m_dBody->IsType(Object::PLAYER)) {
+	if (m_dBody->IsType(ObjectType::PLAYER)) {
 		auto *playerController = static_cast<const Player *>(m_dBody)->GetPlayerController();
 		if (playerController->InputBindings.roll->IsActive())
 			diff.z = GetAngThrusterState().z;

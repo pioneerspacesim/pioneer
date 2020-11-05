@@ -64,6 +64,14 @@ ShipCpanel::~ShipCpanel()
 	delete m_radar;
 }
 
+void ShipCpanel::SetRadarVisible(bool visible)
+{
+	if (visible)
+		m_radar->Show();
+	else
+		m_radar->Hide();
+}
+
 void ShipCpanel::Update()
 {
 	PROFILE_SCOPED()

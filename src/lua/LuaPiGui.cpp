@@ -1697,13 +1697,13 @@ PiGui::TScreenSpace lua_world_space_to_screen_space(const Body *body)
 bool PiGui::first_body_is_more_important_than(Body *body, Body *other)
 {
 
-	Object::Type a = body->GetType();
+	ObjectType a = body->GetType();
 	const SystemBody *sb_a = body->GetSystemBody();
 	bool a_gas_giant = sb_a && sb_a->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
 	bool a_planet = sb_a && sb_a->IsPlanet();
 	bool a_moon = sb_a && sb_a->IsMoon();
 
-	Object::Type b = other->GetType();
+	ObjectType b = other->GetType();
 	const SystemBody *sb_b = other->GetSystemBody();
 	bool b_gas_giant = sb_b && sb_b->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
 	bool b_planet = sb_b && sb_b->IsPlanet();
@@ -1714,12 +1714,12 @@ bool PiGui::first_body_is_more_important_than(Body *body, Body *other)
 	// if type is the same, just sort alphabetically
 	// planets are different, because moons are
 	// less important (but don't have their own type)
-	if (a == b && a != Object::Type::PLANET) result = body->GetLabel() < other->GetLabel();
+	if (a == b && a != ObjectType::PLANET) result = body->GetLabel() < other->GetLabel();
 	// a star is larger than any other object
-	else if (a == Object::Type::STAR)
+	else if (a == ObjectType::STAR)
 		result = true;
 	// any (non-star) object is smaller than a star
-	else if (b == Object::Type::STAR)
+	else if (b == ObjectType::STAR)
 		result = false;
 	// a gas giant is larger than anything but a star,
 	// but remember to keep total order in mind: if both are
@@ -1747,29 +1747,29 @@ bool PiGui::first_body_is_more_important_than(Body *body, Body *other)
 	else if (b_moon)
 		result = false;
 	// spacestation > ship > hyperspace cloud > cargo body > missile > projectile
-	else if (a == Object::Type::SPACESTATION)
+	else if (a == ObjectType::SPACESTATION)
 		result = true;
-	else if (b == Object::Type::SPACESTATION)
+	else if (b == ObjectType::SPACESTATION)
 		result = false;
-	else if (a == Object::Type::SHIP)
+	else if (a == ObjectType::SHIP)
 		result = true;
-	else if (b == Object::Type::SHIP)
+	else if (b == ObjectType::SHIP)
 		result = false;
-	else if (a == Object::Type::HYPERSPACECLOUD)
+	else if (a == ObjectType::HYPERSPACECLOUD)
 		result = true;
-	else if (b == Object::Type::HYPERSPACECLOUD)
+	else if (b == ObjectType::HYPERSPACECLOUD)
 		result = false;
-	else if (a == Object::Type::CARGOBODY)
+	else if (a == ObjectType::CARGOBODY)
 		result = true;
-	else if (b == Object::Type::CARGOBODY)
+	else if (b == ObjectType::CARGOBODY)
 		result = false;
-	else if (a == Object::Type::MISSILE)
+	else if (a == ObjectType::MISSILE)
 		result = true;
-	else if (b == Object::Type::MISSILE)
+	else if (b == ObjectType::MISSILE)
 		result = false;
-	else if (a == Object::Type::PROJECTILE)
+	else if (a == ObjectType::PROJECTILE)
 		result = true;
-	else if (b == Object::Type::PROJECTILE)
+	else if (b == ObjectType::PROJECTILE)
 		result = false;
 	else
 		Error("don't know how to compare %i and %i\n", a, b);
@@ -1825,8 +1825,8 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 
 	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
 		if (body == Pi::game->GetPlayer()) continue;
-		if (body->GetType() == Object::PROJECTILE) continue;
-		if (body->GetType() == Object::SHIP &&
+		if (body->GetType() == ObjectType::PROJECTILE) continue;
+		if (body->GetType() == ObjectType::SHIP &&
 			body->GetPositionRelTo(Pi::player).Length() > ship_max_distance) continue;
 		const PiGui::TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
 		if (!res._onScreen) continue;
@@ -1930,7 +1930,7 @@ static int l_pigui_get_projected_bodies(lua_State *l)
 	filtered.reserve(Pi::game->GetSpace()->GetNumBodies());
 	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
 		if (body == Pi::game->GetPlayer()) continue;
-		if (body->GetType() == Object::PROJECTILE) continue;
+		if (body->GetType() == ObjectType::PROJECTILE) continue;
 		const PiGui::TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
 		if (!res._onScreen) continue;
 		filtered.emplace_back(res);
@@ -1962,7 +1962,7 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 	filtered.reserve(nearby.size());
 	for (Body *body : nearby) {
 		if (body == Pi::player) continue;
-		if (body->GetType() == Object::PROJECTILE) continue;
+		if (body->GetType() == ObjectType::PROJECTILE) continue;
 		filtered.push_back(body);
 	};
 

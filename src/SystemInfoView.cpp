@@ -429,9 +429,9 @@ void SystemInfoView::UpdateIconSelections()
 			//navtarget can be only set in current system
 			Body *navtarget = Pi::player->GetNavTarget();
 			if (navtarget &&
-				(navtarget->IsType(Object::STAR) ||
-					navtarget->IsType(Object::PLANET) ||
-					navtarget->IsType(Object::SPACESTATION))) {
+				(navtarget->IsType(ObjectType::STAR) ||
+					navtarget->IsType(ObjectType::PLANET) ||
+					navtarget->IsType(ObjectType::SPACESTATION))) {
 				const SystemPath &navpath = navtarget->GetSystemBody()->GetPath();
 				if (bodyIcon.first == navpath.bodyIndex) {
 					bodyIcon.second->SetSelectColor(Color(0, 255, 0, 255));

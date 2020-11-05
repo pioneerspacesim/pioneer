@@ -86,7 +86,7 @@ void Ship::AIFlyTo(Body *target)
 	AIClearInstructions();
 	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
 
-	if (target->IsType(Object::SHIP)) { // test code
+	if (target->IsType(ObjectType::SHIP)) { // test code
 		vector3d posoff(-1000.0, 0.0, 1000.0);
 		m_curAICmd = new AICmdFormation(this, static_cast<Ship *>(target), posoff);
 	} else

@@ -7,7 +7,6 @@
 #include "Background.h"
 #include "FrameId.h"
 #include "IterationProxy.h"
-#include "Object.h"
 #include "RefCounted.h"
 #include "galaxy/StarSystem.h"
 #include "vector3.h"
@@ -15,6 +14,7 @@
 class Body;
 class Frame;
 class Game;
+enum class ObjectType;
 
 class Space {
 public:
@@ -62,7 +62,7 @@ public:
 		return GetHyperspaceExitPoint(source, m_starSystem->GetPath());
 	}
 
-	Body *FindNearestTo(const Body *b, Object::Type t) const;
+	Body *FindNearestTo(const Body *b, ObjectType t) const;
 	Body *FindBodyForPath(const SystemPath *path) const;
 
 	Uint32 GetNumBodies() const { return static_cast<Uint32>(m_bodies.size()); }

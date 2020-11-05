@@ -109,7 +109,7 @@ bool CargoBody::OnDamage(Body *attacker, float kgDamage, const CollisionContact 
 bool CargoBody::OnCollision(Body *b, Uint32 flags, double relVel)
 {
 	// ignore collision if its about to be scooped
-	if (b->IsType(Object::SHIP)) {
+	if (b->IsType(ObjectType::SHIP)) {
 		int cargoscoop_cap = 0;
 		static_cast<Ship *>(b)->Properties().Get("cargo_scoop_cap", cargoscoop_cap);
 		if (cargoscoop_cap > 0)

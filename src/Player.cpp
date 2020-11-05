@@ -12,7 +12,6 @@
 #include "Pi.h"
 #include "SectorView.h"
 #include "Sfx.h"
-#include "ShipCpanel.h"
 #include "SpaceStation.h"
 #include "StringF.h"
 #include "SystemView.h" // for the transfer planner
@@ -195,7 +194,7 @@ void Player::NotifyRemoved(const Body *const removedBody)
 	if (GetCombatTarget() == removedBody) {
 		SetCombatTarget(0);
 
-		if (!GetNavTarget() && removedBody->IsType(Object::SHIP))
+		if (!GetNavTarget() && removedBody->IsType(ObjectType::SHIP))
 			SetNavTarget(static_cast<const Ship *>(removedBody)->GetHyperspaceCloud());
 	}
 

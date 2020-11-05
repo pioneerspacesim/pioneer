@@ -526,28 +526,28 @@ bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 	// need to return a "true" value in order to trigger
 	// a bounce in Space::OnCollision
 	// NOTE: 0x10 is a special flag set on docking surfaces
-	if (b->IsType(Object::SPACESTATION) && (flags & 0x10)) {
+	if (b->IsType(ObjectType::SPACESTATION) && (flags & 0x10)) {
 		return true;
 	}
 
 	// hitting cargo scoop surface shouldn't do damage
 	int cargoscoop_cap = 0;
 	Properties().Get("cargo_scoop_cap", cargoscoop_cap);
-	if (cargoscoop_cap > 0 && b->IsType(Object::CARGOBODY) && !b->IsDead()) {
+	if (cargoscoop_cap > 0 && b->IsType(ObjectType::CARGOBODY) && !b->IsDead()) {
 		LuaRef item = static_cast<CargoBody *>(b)->GetCargoType();
 		if (LuaObject<Ship>::CallMethod<int>(this, "AddEquip", item) > 0) { // try to add it to the ship cargo.
 			Pi::game->GetSpace()->KillBody(b);
-			if (this->IsType(Object::PLAYER))
+			if (this->IsType(ObjectType::PLAYER))
 				Pi::game->log->Add(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", ScopedTable(item).CallMethod<std::string>("GetName"))));
 			// XXX SfxManager::Add(this, TYPE_SCOOP);
 			UpdateEquipStats();
 			return true;
 		}
-		if (this->IsType(Object::PLAYER))
+		if (this->IsType(ObjectType::PLAYER))
 			Pi::game->log->Add(Lang::CARGO_SCOOP_ATTEMPTED);
 	}
 
-	if (b->IsType(Object::PLANET)) {
+	if (b->IsType(ObjectType::PLANET)) {
 		// geoms still enabled when landed
 		if (m_flightState != FLYING)
 			return false;
@@ -559,12 +559,12 @@ bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 		}
 	}
 
-	if (b->IsType(Object::SHIP) ||
-		b->IsType(Object::PLAYER) ||
-		b->IsType(Object::SPACESTATION) ||
-		b->IsType(Object::PLANET) ||
-		b->IsType(Object::STAR) ||
-		b->IsType(Object::CARGOBODY)) {
+	if (b->IsType(ObjectType::SHIP) ||
+		b->IsType(ObjectType::PLAYER) ||
+		b->IsType(ObjectType::SPACESTATION) ||
+		b->IsType(ObjectType::PLANET) ||
+		b->IsType(ObjectType::STAR) ||
+		b->IsType(ObjectType::CARGOBODY)) {
 		LuaEvent::Queue("onShipCollided", this, b);
 	}
 
@@ -796,7 +796,7 @@ Ship::ECMResult Ship::UseECM()
 		Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, ECM_RADIUS);
 		for (Body *body : nearby) {
 			if (body->GetFrame() != GetFrame()) continue;
-			if (!body->IsType(Object::MISSILE)) continue;
+			if (!body->IsType(ObjectType::MISSILE)) continue;
 
 			double dist = (body->GetPosition() - GetPosition()).Length();
 			if (dist < ECM_RADIUS) {
@@ -903,7 +903,7 @@ void Ship::Blastoff()
 
 	Frame *f = Frame::GetFrame(GetFrame());
 
-	assert(f->GetBody()->IsType(Object::PLANET));
+	assert(f->GetBody()->IsType(ObjectType::PLANET));
 
 	const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
 	SetVelocity(vector3d(0, 0, 0));
@@ -924,7 +924,7 @@ void Ship::TestLanded()
 
 	Frame *f = Frame::GetFrame(GetFrame());
 
-	if (f->GetBody()->IsType(Object::PLANET)) {
+	if (f->GetBody()->IsType(ObjectType::PLANET)) {
 		double speed = GetVelocity().Length();
 		vector3d up = GetPosition().Normalized();
 		const double planetRadius = static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
@@ -1043,7 +1043,7 @@ void Ship::TimeAccelAdjust(const float timeStep)
 {
 	if (!AIIsActive()) return;
 #ifdef DEBUG_AUTOPILOT
-	if (this->IsType(Object::PLAYER))
+	if (this->IsType(ObjectType::PLAYER))
 		Output("Time accel adjustment, step = %.1f, decel = %s\n", double(timeStep),
 			m_decelerating ? "true" : "false");
 #endif
@@ -1107,7 +1107,7 @@ void Ship::UpdateAlertState()
 		for (auto i : nearbyBodies) {
 			if ((i) == this) continue;
 
-			if ((i)->IsType(Object::SHIP)) {
+			if ((i)->IsType(ObjectType::SHIP)) {
 				// TODO: Here there were a const on Ship*, now it cannot remain because of ship->firing and so, this open a breach...
 				// A solution is to put a member on ship: true if is firing, false if is not
 				Ship *ship = static_cast<Ship *>(i);
@@ -1124,7 +1124,7 @@ void Ship::UpdateAlertState()
 						break;
 					}
 				}
-			} else if ((i)->IsType(Object::MISSILE)) {
+			} else if ((i)->IsType(ObjectType::MISSILE)) {
 				Missile *missile = static_cast<Missile *>(i);
 
 				if (missile->GetOwner() != this) {
@@ -1211,7 +1211,7 @@ void Ship::UpdateFuel(const float timeStep)
 void Ship::StaticUpdate(const float timeStep)
 {
 	// do player sounds before dead check, so they also turn off
-	if (IsType(Object::PLAYER)) DoThrusterSounds();
+	if (IsType(ObjectType::PLAYER)) DoThrusterSounds();
 
 	if (IsDead()) return;
 
@@ -1225,7 +1225,7 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_flightState == FLYING) {
 		Frame *frame = Frame::GetFrame(GetFrame());
 		Body *astro = frame->GetBody();
-		if (astro && astro->IsType(Object::PLANET)) {
+		if (astro && astro->IsType(ObjectType::PLANET)) {
 			Planet *p = static_cast<Planet *>(astro);
 			double dist = GetPosition().Length();
 			double pressure, density;
@@ -1249,7 +1249,7 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_flightState == FLYING && capacity > 0) {
 		Frame *frame = Frame::GetFrame(GetFrame());
 		Body *astro = frame->GetBody();
-		if (astro && astro->IsType(Object::PLANET)) {
+		if (astro && astro->IsType(ObjectType::PLANET)) {
 			Planet *p = static_cast<Planet *>(astro);
 			if (p->GetSystemBody()->IsScoopable()) {
 				const double dist = GetPosition().Length();
@@ -1268,7 +1268,7 @@ void Ship::StaticUpdate(const float timeStep)
 						LuaTable hydrogen = LuaTable(l, -1).Sub("cargo").Sub("hydrogen");
 						LuaObject<Ship>::CallMethod(this, "AddEquip", hydrogen);
 						UpdateEquipStats();
-						if (this->IsType(Object::PLAYER)) {
+						if (this->IsType(ObjectType::PLAYER)) {
 							Pi::game->log->Add(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
 								formatarg("quantity", LuaObject<Ship>::CallMethod<int>(this, "CountEquip", hydrogen))));
 						}
@@ -1295,7 +1295,7 @@ void Ship::StaticUpdate(const float timeStep)
 			LuaTable cargo = LuaTable(l, -1).Sub("cargo");
 			if (LuaObject<Ship>::CallMethod<int>(this, "RemoveEquip", cargo.Sub(t))) {
 				LuaObject<Ship>::CallMethod<int>(this, "AddEquip", cargo.Sub("fertilizer"));
-				if (this->IsType(Object::PLAYER)) {
+				if (this->IsType(ObjectType::PLAYER)) {
 					Pi::game->log->Add(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
 				}
 				lua_pop(l, 4);
@@ -1410,7 +1410,7 @@ void Ship::StaticUpdate(const float timeStep)
 				// after the whole physics update, which means the flight state on next
 				// step would be HYPERSPACE, thus breaking quite a few things.
 				LuaEvent::Queue("onLeaveSystem", this);
-			} else if (!(is_equal_exact(m_wheelState, 0.0f)) && this->IsType(Object::PLAYER)) {
+			} else if (!(is_equal_exact(m_wheelState, 0.0f)) && this->IsType(ObjectType::PLAYER)) {
 				AbortHyperjump();
 				Sound::BodyMakeNoise(this, "Missile_Inbound", 1.0f);
 			}
@@ -1589,7 +1589,7 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	m_skin.Apply(GetModel());
 	Init();
 	onFlavourChanged.emit();
-	if (IsType(Object::PLAYER))
+	if (IsType(ObjectType::PLAYER))
 		Pi::game->GetWorldView()->shipView->GetCameraController()->Reset();
 	InitEquipSet();
 

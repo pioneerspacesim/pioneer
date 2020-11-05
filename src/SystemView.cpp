@@ -430,7 +430,7 @@ void SystemView::GetTransformTo(Projectable &p, vector3d &pos)
 	pos = vector3d(0., 0., 0.);
 	if (p.base == Projectable::SYSTEMBODY)
 		GetTransformTo(p.ref.sbody, pos);
-	else if (p.ref.body->GetType() == Object::Type::SHIP || p.ref.body->GetType() == Object::Type::PLAYER) {
+	else if (p.ref.body->GetType() == ObjectType::SHIP || p.ref.body->GetType() == ObjectType::PLAYER) {
 		const Ship *s = static_cast<const Ship *>(p.ref.body);
 		CalculateShipPositionAtTime(s, s->ComputeOrbit(), m_time, pos);
 		pos = -pos;
@@ -653,7 +653,7 @@ void SystemView::RefreshShips(void)
 	auto bs = m_game->GetSpace()->GetBodies();
 	for (auto s = bs.begin(); s != bs.end(); s++) {
 		if ((*s) != Pi::player &&
-			(*s)->GetType() == Object::SHIP) {
+			(*s)->GetType() == ObjectType::SHIP) {
 
 			const auto c = static_cast<Ship *>(*s);
 			m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));

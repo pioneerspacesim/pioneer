@@ -208,7 +208,7 @@ void RadarWidget::Update()
 
 		switch (body->GetType()) {
 
-		case Object::MISSILE:
+		case ObjectType::MISSILE:
 			// player's own missiles are ignored for range calc but still shown
 			if (static_cast<const Missile *>(body)->GetOwner() == Pi::player) {
 				c.isSpecial = true;
@@ -217,7 +217,7 @@ void RadarWidget::Update()
 
 			// else fall through
 
-		case Object::SHIP: {
+		case ObjectType::SHIP: {
 			const Ship *s = static_cast<const Ship *>(body);
 			if (s->GetFlightState() != Ship::FLYING && s->GetFlightState() != Ship::LANDED)
 				continue;
@@ -236,9 +236,9 @@ void RadarWidget::Update()
 			break;
 		}
 
-		case Object::SPACESTATION:
-		case Object::CARGOBODY:
-		case Object::HYPERSPACECLOUD:
+		case ObjectType::SPACESTATION:
+		case ObjectType::CARGOBODY:
+		case ObjectType::HYPERSPACECLOUD:
 
 			if ((body) == Pi::player->GetNavTarget()) c.isSpecial = true;
 
@@ -321,35 +321,35 @@ void RadarWidget::DrawBlobs(bool below)
 		const Color *color = 0;
 
 		switch (i->type) {
-		case Object::SHIP:
+		case ObjectType::SHIP:
 			if (i->isSpecial)
 				color = &radarCombatTargetColour;
 			else
 				color = &radarShipColour;
 			break;
 
-		case Object::MISSILE:
+		case ObjectType::MISSILE:
 			if (i->isSpecial)
 				color = &radarPlayerMissileColour;
 			else
 				color = &radarMissileColour;
 			break;
 
-		case Object::SPACESTATION:
+		case ObjectType::SPACESTATION:
 			if (i->isSpecial)
 				color = &radarNavTargetColour;
 			else
 				color = &radarStationColour;
 			break;
 
-		case Object::CARGOBODY:
+		case ObjectType::CARGOBODY:
 			if (i->isSpecial)
 				color = &radarNavTargetColour;
 			else
 				color = &radarCargoColour;
 			break;
 
-		case Object::HYPERSPACECLOUD:
+		case ObjectType::HYPERSPACECLOUD:
 			if (i->isSpecial)
 				color = &radarNavTargetColour;
 			else

@@ -187,7 +187,7 @@ void Missile::Explode()
 		if (dist < damageRadius) {
 			// linear damage decay with distance
 			body->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius, dummy);
-			if (body->IsType(Object::SHIP))
+			if (body->IsType(ObjectType::SHIP))
 				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(body), m_owner);
 		}
 	}

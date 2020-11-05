@@ -266,14 +266,14 @@ void Beam::StaticUpdate(const float timeStep)
 		if (hit != m_parent) {
 			hit->OnDamage(m_parent, GetDamage(), c);
 			m_active = false;
-			if (hit->IsType(Object::SHIP))
+			if (hit->IsType(ObjectType::SHIP))
 				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
 		}
 	}
 
 	if (m_mining) {
 		// need to test for terrain hit
-		if (frame->GetBody() && frame->GetBody()->IsType(Object::PLANET)) {
+		if (frame->GetBody() && frame->GetBody()->IsType(ObjectType::PLANET)) {
 			Planet *const planet = static_cast<Planet *>(frame->GetBody());
 			const SystemBody *b = planet->GetSystemBody();
 			vector3d pos = GetPosition();

@@ -300,7 +300,7 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	ambient = minAmbient;
 	direct = 1.0;
 	Body *astro = Frame::GetFrame(GetFrame())->GetBody();
-	if (!(astro && astro->IsType(Object::PLANET)))
+	if (!(astro && astro->IsType(ObjectType::PLANET)))
 		return;
 
 	Planet *planet = static_cast<Planet *>(astro);

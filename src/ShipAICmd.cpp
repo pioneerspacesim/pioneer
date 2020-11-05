@@ -265,7 +265,7 @@ bool AICmdKamikaze::TimeStepUpdate()
 {
 	if (!m_target || m_target->IsDead()) return true;
 
-	if (m_dBody->IsType(Object::SHIP)) {
+	if (m_dBody->IsType(ObjectType::SHIP)) {
 		// "Standard" checks for a ship...
 		Ship *ship = static_cast<Ship *>(m_dBody);
 		assert(ship != nullptr);
@@ -365,7 +365,7 @@ void AICmdKill::PostLoadFixup(Space *space)
 
 bool AICmdKill::TimeStepUpdate()
 {
-	if (m_dBody->IsType(Object::SHIP)) {
+	if (m_dBody->IsType(ObjectType::SHIP)) {
 		Ship *ship = static_cast<Ship *>(m_dBody);
 		assert(ship != nullptr);
 		if (ship->GetFlightState() == Ship::JUMPING) return false;
@@ -658,8 +658,8 @@ static double MaxFeatureRad(Body *body)
 static double MaxEffectRad(Body *body, Propulsion *prop)
 {
 	if (!body) return 0.0;
-	if (!body->IsType(Object::TERRAINBODY)) {
-		if (!body->IsType(Object::SPACESTATION)) return body->GetPhysRadius() + 1000.0;
+	if (!body->IsType(ObjectType::TERRAINBODY)) {
+		if (!body->IsType(ObjectType::SPACESTATION)) return body->GetPhysRadius() + 1000.0;
 		return static_cast<SpaceStation *>(body)->GetStationType()->ParkingDistance() + 1000.0;
 	}
 	return std::max(body->GetPhysRadius(), sqrt(G * body->GetMass() / prop->GetAccelUp()));
@@ -670,7 +670,7 @@ static double GetGravityAtPos(FrameId targframeId, const vector3d &posoff)
 {
 	Frame *targframe = Frame::GetFrame(targframeId);
 	Body *body = targframe->GetBody();
-	if (!body || body->IsType(Object::SPACESTATION)) return 0;
+	if (!body || body->IsType(ObjectType::SPACESTATION)) return 0;
 	double rsqr = posoff.LengthSqr();
 	return G * body->GetMass() / rsqr;
 	// inverse is: sqrt(G * m1m2 / thrust)
@@ -824,7 +824,7 @@ static bool CheckSuicide(DynamicBody *dBody, const vector3d &tandir)
 	if (dBody->Have(DynamicBody::PROPULSION)) return false;
 	Propulsion *prop = dBody->GetPropulsion();
 	assert(prop != nullptr);
-	if (!body || !body->IsType(Object::TERRAINBODY)) return false;
+	if (!body || !body->IsType(ObjectType::TERRAINBODY)) return false;
 
 	double vel = dBody->GetVelocity().Dot(tandir); // vel towards is negative
 	double dist = dBody->GetPosition().Length() - MaxFeatureRad(body);
@@ -876,12 +876,12 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) :
 	m_endvel = 0;
 	m_tangent = false;
 	m_is_flyto = true;
-	if (!target->IsType(Object::TERRAINBODY))
+	if (!target->IsType(ObjectType::TERRAINBODY))
 		m_dist = VICINITY_MIN;
 	else
 		m_dist = VICINITY_MUL * MaxEffectRad(target, m_prop.Get());
 
-	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
+	if (target->IsType(ObjectType::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
 		m_posoff = target->GetPosition() + VICINITY_MIN * target->GetOrient().VectorY();
 		//		m_posoff += 500.0 * target->GetOrient().VectorX();
 		m_targframeId = target->GetFrame();
@@ -949,7 +949,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	 * wheels, launch and flightstate, so
 	 * it is better to split them in a module
 	*/
-	if (m_dBody->IsType(Object::SHIP)) {
+	if (m_dBody->IsType(ObjectType::SHIP)) {
 		Ship *ship = static_cast<Ship *>(m_dBody);
 		assert(ship != nullptr);
 		if (ship->GetFlightState() == Ship::JUMPING) return false;
@@ -985,7 +985,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	double targdist = relpos.Length();
 
 #ifdef DEBUG_AUTOPILOT
-	if (m_ship->IsType(Object::PLAYER))
+	if (m_ship->IsType(ObjectType::PLAYER))
 		Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 			targdist, relvel.Length(), m_ship->GetLinThrusterState().z, m_state);
 #endif
@@ -1037,7 +1037,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	}
 
 	// target ship acceleration adjustment
-	if (m_target && m_target->IsType(Object::SHIP)) {
+	if (m_target && m_target->IsType(ObjectType::SHIP)) {
 		Ship *targship = static_cast<Ship *>(m_target);
 		matrix3x3d orient = Frame::GetFrame(m_target->GetFrame())->GetOrientRelTo(m_frameId);
 		vector3d targaccel = orient * targship->GetLastForce() / m_target->GetMass();
@@ -1072,7 +1072,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 	// cap target speed according to spare fuel remaining
 	double fuelspeed = m_prop->GetSpeedReachedWithFuel();
-	if (m_target && m_target->IsType(Object::SHIP)) fuelspeed -=
+	if (m_target && m_target->IsType(ObjectType::SHIP)) fuelspeed -=
 		m_dBody->GetVelocityRelTo(Pi::game->GetSpace()->GetRootFrame()).Length();
 	if (ispeed > curspeed && curspeed > 0.9 * fuelspeed) ispeed = curspeed;
 
@@ -1125,7 +1125,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 		return true;
 	} else
 		m_prop->AIFaceDirection(head);
-	if (body && body->IsType(Object::PLANET) && m_dBody->GetPosition().LengthSqr() < 2 * erad * erad)
+	if (body && body->IsType(ObjectType::PLANET) && m_dBody->GetPosition().LengthSqr() < 2 * erad * erad)
 		m_prop->AIFaceUpdir(m_dBody->GetPosition()); // turn bottom thruster towards planet
 
 	// termination conditions: check
@@ -1166,7 +1166,7 @@ AICmdDock::AICmdDock(DynamicBody *dBody, SpaceStation *target) :
 	m_state(eDockGetDataStart)
 {
 	Ship *ship = nullptr;
-	if (!dBody->IsType(Object::SHIP)) return;
+	if (!dBody->IsType(ObjectType::SHIP)) return;
 	ship = static_cast<Ship *>(dBody);
 	assert(ship != nullptr);
 
@@ -1234,7 +1234,7 @@ bool AICmdDock::TimeStepUpdate()
 	if (!ProcessChild()) return false;
 	if (!m_target) return true;
 
-	if (!m_dBody->IsType(Object::SHIP)) return false;
+	if (!m_dBody->IsType(ObjectType::SHIP)) return false;
 	ship = static_cast<Ship *>(m_dBody);
 	assert(ship != nullptr);
 
@@ -1414,7 +1414,7 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 
 	// generate suitable velocity if none provided
 	double minacc = (mode == 2) ? 0 : m_prop->GetAccelMin();
-	double mass = obstructor->IsType(Object::TERRAINBODY) ? obstructor->GetMass() : 0;
+	double mass = obstructor->IsType(ObjectType::TERRAINBODY) ? obstructor->GetMass() : 0;
 	if (vel < 1e-30) m_vel = sqrt(m_alt * 0.8 * minacc + mass * G / m_alt);
 }
 
@@ -1482,7 +1482,7 @@ double AICmdFlyAround::MaxVel(double targdist, double targalt)
 
 bool AICmdFlyAround::TimeStepUpdate()
 {
-	if (m_dBody->IsType(Object::SHIP)) {
+	if (m_dBody->IsType(ObjectType::SHIP)) {
 		Ship *ship = nullptr;
 		ship = static_cast<Ship *>(m_dBody);
 		assert(ship != 0);
@@ -1629,7 +1629,7 @@ void AICmdFormation::PostLoadFixup(Space *space)
 
 bool AICmdFormation::TimeStepUpdate()
 {
-	if (m_dBody->IsType(Object::SHIP)) {
+	if (m_dBody->IsType(ObjectType::SHIP)) {
 		Ship *ship = static_cast<Ship *>(m_dBody);
 		assert(ship != 0);
 
@@ -1669,7 +1669,7 @@ bool AICmdFormation::TimeStepUpdate()
 	double ispeed = calc_ivel(targdist, 0.0, maxdecel);
 	vector3d vdiff = ispeed * reldir - relvel;
 	m_prop->AIChangeVelDir(vdiff * m_dBody->GetOrient());
-	if (m_target->IsType(Object::SHIP)) {
+	if (m_target->IsType(ObjectType::SHIP)) {
 		Ship *target_ship = static_cast<Ship *>(m_target);
 		if (target_ship->IsDecelerating()) m_dBody->SetDecelerating(true);
 	} else {

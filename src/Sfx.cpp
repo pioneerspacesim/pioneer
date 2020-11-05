@@ -180,7 +180,7 @@ void SfxManager::AddExplosion(Body *b)
 	if (!sfxman) return;
 
 	float speed = 200.0f;
-	if (b->IsType(Object::SHIP)) {
+	if (b->IsType(ObjectType::SHIP)) {
 		ModelBody *mb = static_cast<ModelBody *>(b);
 		speed = mb->GetAabb().radius * 8.0;
 	}

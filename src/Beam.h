@@ -8,7 +8,6 @@
 
 #include "Body.h"
 #include "Color.h"
-#include "Object.h"
 #include "matrix4x4.h"
 #include "vector3.h"
 

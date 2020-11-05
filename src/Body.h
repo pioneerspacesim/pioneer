@@ -6,7 +6,6 @@
 
 #include "DeleteEmitter.h"
 #include "FrameId.h"
-#include "Object.h"
 #include "lua/PropertiedObject.h"
 #include "matrix3x3.h"
 #include "vector3.h"
@@ -22,10 +21,40 @@ namespace Graphics {
 }
 struct CollisionContact;
 
+// ObjectType is used as a form of RTTI for Body and its children.
+// Think carefully before adding more entries; we'd like to switch
+// to a composition-based system instead.
+enum class ObjectType { // <enum name=PhysicsObjectType scope='ObjectType' public>
+	// only creating enum strings for types that are exposed to Lua
+	BODY,
+	MODELBODY,
+	DYNAMICBODY, // <enum skip>
+	SHIP,
+	PLAYER,
+	SPACESTATION,
+	TERRAINBODY, // <enum skip>
+	PLANET,
+	STAR,
+	CARGOBODY,
+	PROJECTILE, // <enum skip>
+	MISSILE,
+	HYPERSPACECLOUD // <enum skip>
+};
+
+#define OBJDEF(__thisClass, __parentClass, __TYPE)                             \
+	virtual ObjectType GetType() const override { return ObjectType::__TYPE; } \
+	virtual bool IsType(ObjectType c) const override                           \
+	{                                                                          \
+		if (__thisClass::GetType() == (c))                                     \
+			return true;                                                       \
+		else                                                                   \
+			return __parentClass::IsType(c);                                   \
+	}
+
 class Body : public DeleteEmitter, public PropertiedObject {
 public:
-	virtual Object::Type GetType() const { return Object::BODY; }
-	virtual bool IsType(Object::Type c) const { return GetType() == c; }
+	virtual ObjectType GetType() const { return ObjectType::BODY; }
+	virtual bool IsType(ObjectType c) const { return GetType() == c; }
 
 	Body();
 	Body(const Json &jsonObj, Space *space);

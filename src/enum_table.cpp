@@ -6,7 +6,6 @@
 
 #include "enum_table.h"
 #include "DynamicBody.h"
-#include "Object.h"
 #include "Ship.h"
 #include "ShipAICmd.h"
 #include "ShipType.h"
@@ -40,15 +39,15 @@ const struct EnumItem ENUM_ShipAIError[] = {
 };
 
 const struct EnumItem ENUM_PhysicsObjectType[] = {
-	{ "BODY", int(Object::BODY) },
-	{ "MODELBODY", int(Object::MODELBODY) },
-	{ "SHIP", int(Object::SHIP) },
-	{ "PLAYER", int(Object::PLAYER) },
-	{ "SPACESTATION", int(Object::SPACESTATION) },
-	{ "PLANET", int(Object::PLANET) },
-	{ "STAR", int(Object::STAR) },
-	{ "CARGOBODY", int(Object::CARGOBODY) },
-	{ "MISSILE", int(Object::MISSILE) },
+	{ "BODY", int(ObjectType::BODY) },
+	{ "MODELBODY", int(ObjectType::MODELBODY) },
+	{ "SHIP", int(ObjectType::SHIP) },
+	{ "PLAYER", int(ObjectType::PLAYER) },
+	{ "SPACESTATION", int(ObjectType::SPACESTATION) },
+	{ "PLANET", int(ObjectType::PLANET) },
+	{ "STAR", int(ObjectType::STAR) },
+	{ "CARGOBODY", int(ObjectType::CARGOBODY) },
+	{ "MISSILE", int(ObjectType::MISSILE) },
 	{ 0, 0 },
 };
 

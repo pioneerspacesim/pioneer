@@ -267,7 +267,7 @@ void Projectile::StaticUpdate(const float timeStep)
 		if (hit != m_parent) {
 			hit->OnDamage(m_parent, GetDamage(), c);
 			Pi::game->GetSpace()->KillBody(this);
-			if (hit->IsType(Object::SHIP))
+			if (hit->IsType(ObjectType::SHIP))
 				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
 		}
 	}
@@ -275,7 +275,7 @@ void Projectile::StaticUpdate(const float timeStep)
 	{
 		// need to test for terrain hit
 		Planet *const planet = static_cast<Planet *>(frame->GetBody()); // cache the value even for the if statement
-		if (planet && planet->IsType(Object::PLANET)) {
+		if (planet && planet->IsType(ObjectType::PLANET)) {
 			vector3d pos = GetPosition();
 			double terrainHeight = planet->GetTerrainHeight(pos.Normalized());
 			if (terrainHeight > pos.Length()) {
