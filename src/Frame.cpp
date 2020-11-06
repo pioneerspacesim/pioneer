@@ -288,6 +288,8 @@ void Frame::PostUnserializeFixup(FrameId fId, Space *space)
 	Frame *f = Frame::GetFrame(fId);
 	f->UpdateRootRelativeVars();
 	f->m_astroBody = space->GetBodyByIndex(f->m_astroBodyIndex);
+	// build the object trees once after loading so they're initialized while paused.
+	f->GetCollisionSpace()->RebuildObjectTrees();
 	for (FrameId kid : f->GetChildren())
 		PostUnserializeFixup(kid, space);
 }

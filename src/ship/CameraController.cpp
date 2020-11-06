@@ -219,7 +219,7 @@ void ExternalCameraController::Update()
 
 	// de-penetrate the camera from any world objects it might be clipping into
 	double max_dist = m_distTo;
-	CollisionSpace *cspace = Frame::GetFrame(ship->GetFrame())->GetCollisionSpace();
+	CollisionSpace *cspace = ship->IsInSpace() ? Frame::GetFrame(ship->GetFrame())->GetCollisionSpace() : nullptr;
 	if (cspace) {
 		// to check if we will end up inside an object, trace from the camera's target position towards
 		// the ship - if the first thing we hit is a normal that's facing away from us; we're inside an object
