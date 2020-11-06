@@ -34,7 +34,12 @@ extern "C" int main(int argc, char **argv)
 	const auto compressed_data = file->AsByteRange();
 	Json rootNode;
 	try {
-		const std::string plain_data = gzip::DecompressDeflateOrGZip(reinterpret_cast<const unsigned char *>(compressed_data.begin), compressed_data.Size());
+		std::string plain_data;
+		if (gzip::IsGZipFormat(reinterpret_cast<const uint8_t *>(compressed_data.begin), compressed_data.Size()))
+			plain_data = gzip::DecompressDeflateOrGZip(reinterpret_cast<const uint8_t *>(compressed_data.begin), compressed_data.Size());
+		else
+			plain_data = std::string(compressed_data.begin, compressed_data.Size());
+
 		try {
 			// Allow loading files in JSON format as well as CBOR
 			if (plain_data[0] == '{')
