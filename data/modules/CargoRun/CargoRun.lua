@@ -354,8 +354,8 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmuch)
 
 	elseif option == 3 then
-		if (not ad.pickup and Game.player.freeCapacity < ad.amount) or
-			(ad.pickup and Game.player.totalCargo < ad.amount) then
+		if not ad.pickup and (Game.player.totalCargo - Game.player.usedCargo) < ad.amount or
+			Game.player.totalCargo < ad.amount then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP)
 			form:RemoveNavButton()
 			return
@@ -827,7 +827,7 @@ local onShipDocked = function (player, station)
 	-- Now we have space pick up cargo as well
 	for ref,mission in pairs(missions) do
 		if mission.location == station.path and mission.pickup and not mission.cargo_picked_up then
-			if Game.player.freeCapacity < mission.amount then
+			if (player.totalCargo - player.usedCargo) < mission.amount then
 				Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
 			else
 				Game.player:AddEquip(mission.cargotype, mission.amount, "cargo")
