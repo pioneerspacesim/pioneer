@@ -66,7 +66,7 @@ void ShipViewController::LoadFromJson(const Json &jsonObj)
 	if (!jsonObj["cam_type"].is_number_integer())
 		throw SavedGameCorruptException();
 
-	m_camType = jsonObj["cam_type"];
+	SetCamType(jsonObj["cam_type"]);
 
 	m_internalCameraController->LoadFromJson(jsonObj);
 	m_externalCameraController->LoadFromJson(jsonObj);

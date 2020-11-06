@@ -31,14 +31,15 @@ local next_cam_type = { ["internal"] = "external", ["external"] = "sidereal", ["
 local cam_tooltip = { ["internal"] = lui.HUD_BUTTON_INTERNAL_VIEW, ["external"] = lui.HUD_BUTTON_EXTERNAL_VIEW, ["sidereal"] = lui.HUD_BUTTON_SIDEREAL_VIEW, ["flyby"] = lui.HUD_BUTTON_FLYBY_VIEW }
 local function button_world(current_view)
 	ui.sameLine()
+	local camtype = Game.GetWorldCamType()
+	local view_icon = camtype and "view_" .. camtype or "view_internal"
 	if current_view ~= "world" then
-		if mainMenuButton(icons.view_internal, false, lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
+		if mainMenuButton(icons[view_icon], false, lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
 			Game.SetView("world")
 			ui.playBoinkNoise()
 		end
 	else
-		local camtype = Game.GetWorldCamType()
-		if mainMenuButton(icons["view_" .. camtype], true, cam_tooltip[camtype]) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
+		if mainMenuButton(icons[view_icon], true, cam_tooltip[camtype]) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
 			Game.SetWorldCamType(next_cam_type[camtype])
 			ui.playBoinkNoise()
 		end
