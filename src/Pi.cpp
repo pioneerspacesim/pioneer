@@ -727,14 +727,6 @@ void Pi::StartGame(Game *game)
 
 void Pi::HandleKeyDown(SDL_Keysym *key)
 {
-	if (key->sym == SDLK_ESCAPE) {
-		if (Pi::game) {
-			// only accessible once game started
-			HandleEscKey();
-		}
-		return;
-	}
-
 	const bool CTRL = input->KeyState(SDLK_LCTRL) || input->KeyState(SDLK_RCTRL);
 	if (!CTRL) {
 		return;
@@ -822,31 +814,6 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 	}
 	default:
 		break; // This does nothing but it stops the compiler warnings
-	}
-}
-
-void Pi::HandleEscKey()
-{
-	if (currentView == 0)
-		return;
-
-	if (currentView == Pi::game->GetSectorView()) {
-		SetView(Pi::game->GetWorldView());
-	} else if ((currentView == Pi::game->GetSystemView()) || (currentView == Pi::game->GetSystemInfoView())) {
-		SetView(Pi::game->GetSectorView());
-	} else {
-		UIView *view = dynamic_cast<UIView *>(currentView);
-		if (view) {
-			// checks the template name
-			const char *tname = view->GetTemplateName();
-			if (tname) {
-				if (!strcmp(tname, "GalacticView")) {
-					SetView(Pi::game->GetSectorView());
-				} else if (!strcmp(tname, "InfoView") || !strcmp(tname, "StationView")) {
-					SetView(Pi::game->GetWorldView());
-				}
-			}
-		}
 	}
 }
 

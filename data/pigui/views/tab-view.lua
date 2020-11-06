@@ -31,7 +31,8 @@ function PiGuiTabView.New(viewName, legacyTabView)
         name = viewName,
         legacyTabView = legacyTabView,
         currentTab = 0,
-        viewCount = 0,
+		viewCount = 0,
+		isActive = false,
         tabs = {},
     }
 
@@ -80,7 +81,8 @@ function PiGuiTabView:SwitchTo(id)
 end
 
 function PiGuiTabView.renderTabView(self)
-    if Game.CurrentView() ~= self.name then
+	self.isActive = Game.CurrentView() == self.name
+    if not self.isActive then
         self.currentTab = 1
         self.tabs[1].refresh()
         return
