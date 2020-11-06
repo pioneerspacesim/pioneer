@@ -1,5 +1,6 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local Lang = require 'Lang'
 local Game = require 'Game'
 local Format = require 'Format'
@@ -62,7 +63,12 @@ if not stationView then
 		end)
 	end
 
-	ui.registerModule("game", function() stationView:renderTabView() end)
+	ui.registerModule("game", function()
+		stationView:renderTabView()
+		if stationView.isActive and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
+			Game.SetView("world")
+		end
+	end)
 end
 
 return stationView

@@ -618,6 +618,10 @@ local function displaySystemViewUI()
 			end
 			displayOnScreenObjects()
 		end
+
+		if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
+			Game.SetView("sector")
+		end
 	end
 end
 

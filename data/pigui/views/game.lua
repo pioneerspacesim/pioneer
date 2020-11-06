@@ -270,6 +270,10 @@ ui.registerHandler('game', function(delta_t)
 		gameView.player = player
 		colors = ui.theme.colors -- if the theme changes
 		icons = ui.theme.icons -- if the theme changes
+		-- keep a copy of the current view so modules can react to the escape key and change the view
+		-- without triggering the options dialog
+		local currentView = Game.CurrentView()
+
 		ui.setNextWindowPos(Vector2(0, 0), "Always")
 		ui.setNextWindowSize(Vector2(ui.screenWidth, ui.screenHeight), "Always")
 		ui.withStyleColors({ ["WindowBg"] = colors.transparent }, function()
@@ -290,7 +294,7 @@ ui.registerHandler('game', function(delta_t)
 			end)
 		end)
 
-		if Game.CurrentView() == "world" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
+		if currentView == "world" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
 			if not ui.optionsWindow.isOpen then
 				Game.SetTimeAcceleration("paused")
 				ui.optionsWindow:open()

@@ -478,6 +478,10 @@ local function displaySectorViewWindow()
 				end)
 			end
 		end
+
+		if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
+			Game.SetView("world")
+		end
 	end
 end
 

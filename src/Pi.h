@@ -229,7 +229,6 @@ public:
 
 private:
 	static void HandleKeyDown(SDL_Keysym *key);
-	static void HandleEscKey();
 
 	// private members
 	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
