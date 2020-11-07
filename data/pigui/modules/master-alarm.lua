@@ -1,8 +1,8 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = require 'Engine'
 local Game = require 'Game'
+local gameView = require 'pigui.views.game'
 
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
@@ -66,7 +66,7 @@ local function alarm ()
 
 		local reticuleCircleRadius = math.min(ui.screenWidth, ui.screenHeight) / 8 -- required for icon placement
 		local uiTextPos = Vector2(ui.screenWidth / 2, ui.screenHeight / 3 - 10) --sits just above HUD circle
-		local uiPos = ui.pointOnClock(center, reticuleCircleRadius * 1.2 , 10) --left side of the reticule, above frame info
+		local uiPos = ui.pointOnClock(gameView.center, reticuleCircleRadius * 1.2 , 10) --left side of the reticule, above frame info
 		local iconSize = Vector2(24, 24)
 
 		local max_accel = Game.player:GetAcceleration("forward") --max acceleration axis of the ship, which is always forward with all Pioneer ships

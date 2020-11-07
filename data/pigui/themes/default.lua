@@ -283,7 +283,7 @@ theme.icons = {
 	filter_stations = 108,
 	filter_ships = 109,
 	lagrange_marker = 110,
-	system_overview = 111,
+	system_overview_vertical = 111,
 	-- eighth row
 	heavy_freighter = 112,
 	medium_freighter = 113,

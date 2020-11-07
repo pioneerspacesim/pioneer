@@ -7,7 +7,7 @@ local Event = require 'Event'
 local Lang = require 'Lang'
 local ui = require 'pigui'
 local Format = require 'Format'
-local Input = require 'Input'
+local Constants = _G.Constants
 
 local Vector2 = _G.Vector2
 local lc = Lang.GetResource("core")
@@ -181,7 +181,7 @@ local Windows = {
 
 function Windows.edgeButtons.Show()
 	-- view control buttons
-	if ui.coloredSelectedIconButton(icons.reset_view, mainButtonSize, showShips, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, lc.RESET_ORIENTATION_AND_ZOOM) then
+	if ui.coloredSelectedIconButton(icons.reset_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, lc.RESET_ORIENTATION_AND_ZOOM) then
 		systemView:SetVisibility("RESET_VIEW")
 	end
 	ui.coloredSelectedIconButton(icons.rotate_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.ROTATE_VIEW)
@@ -190,24 +190,24 @@ function Windows.edgeButtons.Show()
 	systemView:SetZoomMode(ui.isItemActive())
 	ui.text("")
 	-- visibility control buttons
-	if ui.coloredSelectedIconButton(buttonState[ship_drawing].icon, mainButtonSize, showShips, mainButtonFramePadding, buttonState[ship_drawing].color, svColor.BUTTON_INK, lc.SHIPS_DISPLAY_MODE_TOGGLE) then
+	if ui.coloredSelectedIconButton(buttonState[ship_drawing].icon, mainButtonSize, false, mainButtonFramePadding, buttonState[ship_drawing].color, svColor.BUTTON_INK, lc.SHIPS_DISPLAY_MODE_TOGGLE) then
 		ship_drawing = nextShipDrawings[ship_drawing]
 		systemView:SetVisibility(ship_drawing)
 	end
-	if ui.coloredSelectedIconButton(buttonState[show_lagrange].icon, mainButtonSize, showLagrangePoints, mainButtonFramePadding, buttonState[show_lagrange].color, svColor.BUTTON_INK, lc.L4L5_DISPLAY_MODE_TOGGLE) then
+	if ui.coloredSelectedIconButton(buttonState[show_lagrange].icon, mainButtonSize, false, mainButtonFramePadding, buttonState[show_lagrange].color, svColor.BUTTON_INK, lc.L4L5_DISPLAY_MODE_TOGGLE) then
 		show_lagrange = nextShowLagrange[show_lagrange]
 		systemView:SetVisibility(show_lagrange)
 	end
-	if ui.coloredSelectedIconButton(buttonState[show_grid].icon, mainButtonSize, showShips, mainButtonFramePadding, buttonState[show_grid].color, svColor.BUTTON_INK, lc.GRID_DISPLAY_MODE_TOGGLE) then
+	if ui.coloredSelectedIconButton(buttonState[show_grid].icon, mainButtonSize, false, mainButtonFramePadding, buttonState[show_grid].color, svColor.BUTTON_INK, lc.GRID_DISPLAY_MODE_TOGGLE) then
 		show_grid = nextShowGrid[show_grid]
 		systemView:SetVisibility(show_grid)
 	end
 	ui.text("")
 	-- windows control buttons
-	if ui.coloredSelectedIconButton(icons.info, mainButtonSize, showShips, mainButtonFramePadding, buttonState[Windows.objectInfo.visible].color, svColor.BUTTON_INK, lc.OBJECT_INFO) then
+	if ui.coloredSelectedIconButton(icons.info, mainButtonSize, false, mainButtonFramePadding, buttonState[Windows.objectInfo.visible].color, svColor.BUTTON_INK, lc.OBJECT_INFO) then
 		Windows.objectInfo.visible = not Windows.objectInfo.visible
 	end
-	if ui.coloredSelectedIconButton(icons.semi_major_axis, mainButtonSize, showShips, mainButtonFramePadding, buttonState[Windows.orbitPlanner.visible].color, svColor.BUTTON_INK, lc.ORBIT_PLANNER) then
+	if ui.coloredSelectedIconButton(icons.semi_major_axis, mainButtonSize, false, mainButtonFramePadding, buttonState[Windows.orbitPlanner.visible].color, svColor.BUTTON_INK, lc.ORBIT_PLANNER) then
 		Windows.orbitPlanner.visible = not Windows.orbitPlanner.visible
 	end
 end
@@ -309,6 +309,7 @@ local function getBodyIcon(obj)
 		elseif body:IsCargoContainer() then
 			return icons.rocky_planet -- TODO: better icon
 		else
+			local t, st = body.type, body.superType
 			print("system-view-ui.lua: getBodyIcon not sure how to process body, supertype: " .. (st and st or "nil") .. ", type: " .. (t and t or "nil"))
 			--utils.print_r(body)
 			return icons.ship
@@ -486,7 +487,7 @@ function Windows.objectInfo.Show()
 	ui.sameLine()
 	ui.text(lc.OBJECT_INFO)
 	ui.separator()
-	obj = systemView:GetSelectedObject()
+	local obj = systemView:GetSelectedObject()
 	if obj.type ~= Projectable.OBJECT or obj.base ~= Projectable.SHIP and obj.base ~= Projectable.SYSTEMBODY then return end
 	local data
 	-- system body

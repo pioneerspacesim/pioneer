@@ -1,14 +1,14 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Equipment = import("Equipment")
-local ShipDef = import("ShipDef")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Equipment = require 'Equipment'
+local ShipDef = require 'ShipDef'
 
-local SmallLabeledButton = import("ui/SmallLabeledButton")
-local InfoGauge = import("ui/InfoGauge")
+local SmallLabeledButton = require 'ui.SmallLabeledButton'
+local InfoGauge = require 'ui.InfoGauge'
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
@@ -30,7 +30,7 @@ local econTrade = function ()
 	-- Make a cargo list widget that we can revisit and update
 	local cargoListWidget = ui:Margin(0)
 
-	function updateCargoListWidget ()
+	local function updateCargoListWidget ()
 
 		local cargoNameColumn = {}
 		local cargoQuantityColumn = {}

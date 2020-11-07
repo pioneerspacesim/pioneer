@@ -16,8 +16,8 @@ local Ship = require 'Ship'
 local eq = require 'Equipment'
 local utils = require 'utils'
 
-local InfoFace = import("ui/InfoFace")
-local NavButton = import("ui/NavButton")
+local InfoFace = require 'ui.InfoFace'
+local NavButton = require 'ui.NavButton'
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")

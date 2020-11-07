@@ -18,8 +18,8 @@ local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local utils = require 'utils'
 
-local InfoFace = import("ui/InfoFace")
-local NavButton = import("ui/NavButton")
+local InfoFace = require 'ui.InfoFace'
+local NavButton = require 'ui.NavButton'
 
 local l = Lang.GetResource("module-assassination")
 

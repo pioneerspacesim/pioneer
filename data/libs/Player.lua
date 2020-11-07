@@ -75,7 +75,7 @@ end
 
 
 function CrimeRecord.Unserialize(data)
-	obj = CrimeRecord.Super().Unserialize(data)
+	local obj = CrimeRecord.Super().Unserialize(data)
 	setmetatable(obj, CrimeRecord.meta)
 	return obj
 end

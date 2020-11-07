@@ -1,19 +1,19 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Event = import("Event")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Event = require 'Event'
 
-local TabView = import("ui/TabView")
+local TabView = require 'ui.TabView'
 
-local shipInfo        = import("ui/InfoView/ShipInfo")
-local econTrade       = import("ui/InfoView/EconTrade")
-local missions        = import("ui/InfoView/Missions")
-local crewRoster      = import("ui/InfoView/CrewRoster")
-local orbitalAnalysis = import("ui/InfoView/OrbitalAnalysis")
+local shipInfo        = require 'ui.InfoView.ShipInfo'
+local econTrade       = require 'ui.InfoView.EconTrade'
+local missions        = require 'ui.InfoView.Missions'
+local crewRoster      = require 'ui.InfoView.CrewRoster'
+local orbitalAnalysis = require 'ui.InfoView.OrbitalAnalysis'
 
-local piInfoView = import("pigui/views/info-view")
+local piInfoView = require 'pigui.views.info-view'
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");

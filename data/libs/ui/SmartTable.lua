@@ -7,10 +7,10 @@ local utils = require 'utils'
 local ui = Engine.ui
 
 local _DefaultSort = function (self, cmp)
+	local col = self.sortCol
 	if not cmp then
 		cmp = function (a,b) return a.data[col] <= b.data[col] end
 	end
-	col = self.sortCol
 	self.table = utils.stable_sort(self.table, cmp)
 end
 

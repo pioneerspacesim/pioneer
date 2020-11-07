@@ -1,14 +1,14 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Format = import("Format")
-local Character = import("Character")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Format = require 'Format'
+local Character = require 'Character'
 
-local SmallLabeledButton = import("ui/SmallLabeledButton")
-local SmartTable = import("ui/SmartTable")
+local SmallLabeledButton = require 'ui.SmallLabeledButton'
+local SmartTable = require 'ui.SmartTable'
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
