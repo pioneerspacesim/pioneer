@@ -14,13 +14,7 @@ local maximum_fee = 6
 
 local calculateFee = function ()
 	local fee = math.ceil(Game.system.population * 3)
-	if fee < minimum_fee then
-		return minimum_fee
-	elseif fee > maximum_fee then
-		return maximum_fee
-	else
-		return fee
-	end
+	return math.clamp(fee, minimum_fee, maximum_fee)
 end
 
 
@@ -29,6 +23,13 @@ local onShipDocked = function (ship, station)
 		ship:SetFuelPercent() -- refuel NPCs for free.
 		return
 	end
+	-- On spawning, we shouldn't deduct a fee.
+	-- This is a horrible hack but fixing in C++ side would be far more complicated.
+	if ship:hasprop("is_first_spawn") then
+		ship:unsetprop("is_first_spawn")
+		return
+	end
+
 	local fee = calculateFee()
 	if ship:GetMoney() < fee then
 		Comms.Message(l.THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH:interp({station = station.label,fee = Format.Money(fee)}))

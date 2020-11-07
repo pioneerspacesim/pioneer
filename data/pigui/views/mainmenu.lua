@@ -162,6 +162,8 @@ local function startAtLocation(location)
 	for _,equip in pairs(location.equipment) do
 		Game.player:AddEquip(equip[1],equip[2])
 	end
+	-- XXX horrible hack here to avoid paying a spawn-in docking fee
+	Game.player:setprop("is_first_spawn", true)
 	FlightLog.MakeCustomEntry(location.logmsg)
 end
 
@@ -171,6 +173,8 @@ local function callModules(mode)
 	end
 end
 
+local overlayWindowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "AlwaysAutoResize"}
+local mainMenuFlags = ui.WindowFlags{"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}
 local function showMainMenu()
 	local showContinue = canContinue()
 	local buttons = 4
@@ -179,7 +183,7 @@ local function showMainMenu()
 
 	ui.setNextWindowPos(Vector2(110,65),'Always')
 	ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
-		ui.window("headingWindow", {"NoTitleBar","NoResize","NoFocusOnAppearing","NoBringToFrontOnFocus","AlwaysAutoResize"}, function()
+		ui.window("headingWindow", overlayWindowFlags, function()
 			ui.withFont("orbiteer",36 * (ui.screenHeight/1200),function() ui.text("Pioneer") end)
 		end)
 	end)
@@ -187,7 +191,7 @@ local function showMainMenu()
 		ui.setNextWindowPos(Vector2(0,0),'Always')
 		ui.setNextWindowSize(Vector2(ui.screenWidth, ui.screenHeight), 'Always')
 		ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
-			ui.window("shipinfoWindow", {"NoTitleBar","NoResize","NoFocusOnAppearing","NoBringToFrontOnFocus","AlwaysAutoResize"}, function()
+			ui.window("shipinfoWindow", overlayWindowFlags, function()
 				local mn = Engine.GetIntroCurrentModelName()
 				if mn then
 					local sd = ShipDef[mn]
@@ -201,20 +205,19 @@ local function showMainMenu()
 	end
 	local build_text = Engine.version
 	ui.withFont("orbiteer", 16 * (ui.screenHeight/1200),
-							function()
-								ui.setNextWindowPos(Vector2(ui.screenWidth - ui.calcTextSize(build_text).x * 1.2,ui.screenHeight - 50), 'Always')
-								ui.withStyleColors({["WindowBg"] = colors.transparent}, function()
-										ui.window("buildLabel", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "AlwaysAutoResize"},
-															function()
-																ui.text(build_text)
-										end)
-								end)
+		function()
+			ui.setNextWindowPos(Vector2(ui.screenWidth - ui.calcTextSize(build_text).x * 1.2,ui.screenHeight - 50), 'Always')
+			ui.withStyleColors({["WindowBg"] = colors.transparent}, function()
+				ui.window("buildLabel", overlayWindowFlags, function()
+					ui.text(build_text)
+				end)
+			end)
 	end)
 
 	ui.setNextWindowPos(winPos,'Always')
 	ui.setNextWindowSize(Vector2(0,0), 'Always')
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
-		ui.window("MainMenuButtons", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}, function()
+		ui.window("MainMenuButtons", mainMenuFlags, function()
 			mainTextButton(lui.CONTINUE_GAME, nil, showContinue, continueGame)
 
 			for _,loc in pairs(startLocations) do
