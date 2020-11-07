@@ -72,7 +72,7 @@ local getRepairMessage = function (damage, price)
 end
 
 
-function round(num, numDecimalPlaces)
+local function round(num, numDecimalPlaces)
 	local mult = 10^(numDecimalPlaces or 0)
 	return math.floor(num * mult + 0.5) / mult
 end
@@ -81,6 +81,7 @@ end
 local function drawShipRepair()
 	local hullPercent = round(Game.player:GetHullPercent())
 	local damage = 100 - hullPercent
+	local shipDef = ShipDef[Game.player.shipId]
 
 	local intro = string.interp(l.YOUR_HULL_IS_AT_X_INTEGRITY, {value = string.format('%.1f', hullPercent)})
 

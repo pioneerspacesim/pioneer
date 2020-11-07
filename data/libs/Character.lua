@@ -751,7 +751,7 @@ Character = {
 		if type(modifier) ~= 'number' then error('SafeRoll(): modifier must be numeric') end
 		if self.dead then return false end -- dead characters fail all tests
 		if self[attribute] and (type(self[attribute])=='number') then
-			local result = Self.DiceRoll()
+			local result = self.DiceRoll()
 			return (result < (self[attribute] + modifier) and result)
 		else
 			return false

@@ -134,7 +134,7 @@ function utils.stable_sort(values, cmp)
 	   return result
 	end
 
-	function merge_sort (values)
+	local function merge_sort (values)
 	   if #values > 1 then
 		  local a, b = split(values)
 		  a = merge_sort(a)

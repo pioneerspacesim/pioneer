@@ -189,7 +189,7 @@ local function getFlightHistory()
 			-- input field for custom log:
 			headerText(l.LOG_NEW, "")
 			ui.sameLine()
-			text, changed = ui.inputText("##inputfield", "", {"EnterReturnsTrue"})
+			local text, changed = ui.inputText("##inputfield", "", {"EnterReturnsTrue"})
 			if changed then
 				FlightLog.MakeCustomEntry(text)
 			end

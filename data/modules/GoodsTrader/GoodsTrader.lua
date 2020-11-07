@@ -131,12 +131,10 @@ local onCreateBB = function (station)
 
 		-- if too many fake police, don't place the ad
 		if not ispolice or numPolice < maxPolice then
+			local r = ispolice and rand_police or rand
 
 			if ispolice then
 				numPolice = numPolice + 1
-				r = rand_police
-			else
-				r = rand
 			end
 
 			local flavour = string.interp(l["GOODS_TRADER_"..r:Integer(1, num_names)-1], {name = NameGen.Surname(r)})

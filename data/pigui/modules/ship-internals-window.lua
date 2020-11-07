@@ -50,7 +50,7 @@ local function button_lowThrustPower()
                 ui.window("ThrustSliderWindow", {"NoTitleBar", "NoResize"},
                     function()
                         ui.withStyleColors({["SliderGrab"] =colors.white, ["SliderGrabActive"]=colors.buttonBlue},function()
-                            new_thrust = ui.vSliderInt('###ThrustLowPowerSlider',Vector2(mainButtonSize.x + 1 + 2 * mainButtonFramePadding,100), thrust*100,0,100)
+                            local new_thrust = ui.vSliderInt('###ThrustLowPowerSlider',Vector2(mainButtonSize.x + 1 + 2 * mainButtonFramePadding,100), thrust*100,0,100)
                             player:SetLowThrustPower(new_thrust/100)
                         end)
                 end)

@@ -28,9 +28,10 @@ local pigui = Engine.pigui
 --   boolean - true if button was clicked
 --
 function ui.imageButton(icon, size, frame_padding, bg_color, tint_color, tooltip)
-	local uv0, uv1 = get_icon_tex_coords(icon)
+	local uv0, uv1 = ui.get_icon_tex_coords(icon)
+	local res = nil
 	ui.withID(tooltip, function()
-		local res = pigui.ImageButton(ui.get_icons_texture(size), size, uv0, uv1, frame_padding, bg_color, tint_color)
+		res = pigui.ImageButton(ui.get_icons_texture(size), size, uv0, uv1, frame_padding, bg_color, tint_color)
 	end)
 	return res
 end

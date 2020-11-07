@@ -1,17 +1,17 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Format = import("Format")
-local ShipDef = import("ShipDef")
-local Comms = import("Comms")
-local Equipment = import("Equipment")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Format = require 'Format'
+local ShipDef = require 'ShipDef'
+local Comms = require 'Comms'
+local Equipment = require 'Equipment'
 
 
-local InfoFace = import("ui/InfoFace")
-local SmallLabeledButton = import("ui/SmallLabeledButton")
+local InfoFace = require 'ui.InfoFace'
+local SmallLabeledButton = require 'ui.SmallLabeledButton'
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
@@ -65,7 +65,7 @@ local crewRoster = function ()
 				local hullMassLeft = Game.player.hullMassLeft
 				local hullDamage = hullMass - hullMassLeft
 				if hullDamage > 0 then
-					if Game.player:CountEquip(Equipment.cargo.metal_alloys, cargo) <= 0 then
+					if Game.player:CountEquip(Equipment.cargo.metal_alloys, "cargo") <= 0 then
 						feedback:SetText(l.NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR:interp({alloy = l.METAL_ALLOYS}))
 						return
 					end
@@ -74,7 +74,7 @@ local crewRoster = function ()
 						local repair = math.min(
 							-- Need metal alloys for repair. Check amount.
 							math.ceil(hullDamage/(64 - result)), -- 65 > result > 3
-							Game.player:CountEquip(Equipment.cargo.metal_alloys, cargo)
+							Game.player:CountEquip(Equipment.cargo.metal_alloys, "cargo")
 						)
 						Game.player:RemoveEquip(Equipment.cargo.metal_alloys, repair) -- These will now be part of the hull.
 						local repairPercent = math.min(math.ceil(100 * (repair + hullMassLeft) / hullMass), 100) -- Get new hull percentage...

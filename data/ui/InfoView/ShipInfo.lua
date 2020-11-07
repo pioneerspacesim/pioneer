@@ -1,11 +1,11 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Equipment = import("Equipment")
-local ShipDef = import("ShipDef")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Equipment = require 'Equipment'
+local ShipDef = require 'ShipDef'
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");

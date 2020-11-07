@@ -128,7 +128,7 @@ function ui.addWideIcon(position, icon, color, size, anchor_horizontal, anchor_v
 	else
 		pigui.AddImage(ui.get_icons_texture(size), pos, pos + size, uv0, uv1, color)
 	end
-	if tooltip and (ui.isMouseHoveringWindow() or not is.isAnyWindowHovered()) and tooltip ~= "" then
+	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 		if pigui.IsMouseHoveringRect(pos, pos + size, true) then
 			ui.maybeSetTooltip(tooltip)
 		end

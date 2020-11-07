@@ -75,7 +75,7 @@ function systemEconView.drawEconList(commList, illegalList, showOther)
 	local currSysPos = width - (showOther and iconWidth * 2 or iconWidth)
 	ui.child("CommodityList", Vector2(0, 0), ui.WindowFlags{"NoScrollbar"}, function()
 		for _, info in ipairs(commList) do
-			ui.text(rawget(lcomm, info[1]) or '[NO_JSON]'..info[1])
+			ui.text(rawget(lcomm, info[1]) or ('[NO_JSON]'..info[1]))
 			if showOther and math.abs(info[3] - info[2]) > major_import then
 				ui.sameLine(width - iconWidth * 3)
 				local profit = info[3] - info[2] > 0.0
@@ -101,7 +101,7 @@ function systemEconView.drawEconList(commList, illegalList, showOther)
 		ui.spacing()
 
 		for _, info in ipairs(illegalList) do
-			ui.text(rawget(lcomm, info[1]) or '[NO_JSON]'..info[1])
+			ui.text(rawget(lcomm, info[1]) or ('[NO_JSON]'..info[1]))
 
 			-- only display illegal icon if the commodity is actually legal in the other system
 			if showOther and info[2] or info[3] then

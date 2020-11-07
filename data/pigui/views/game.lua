@@ -250,7 +250,7 @@ local function displayScreenshotInfo()
 	end
 end
 
-local function drawGameModules()
+local function drawGameModules(delta_t)
 	for i, module in ipairs(gameView.modules) do
 		local shouldDraw = not Game.InHyperspace() or module.showInHyperspace
 		if (not module.disabled) and shouldDraw then
@@ -281,7 +281,7 @@ ui.registerHandler('game', function(delta_t)
 				gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
 				if ui.shouldDrawUI() then
 					if Game.CurrentView() == "world" then
-						drawGameModules(gameView.modules)
+						drawGameModules(delta_t)
 						ui.radialMenu("worldloopworld")
 					else
 						ui.radialMenu("worldloopnotworld")

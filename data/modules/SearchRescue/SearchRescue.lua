@@ -46,8 +46,8 @@ local Rand = require 'Rand'
 local ModelSkin = require 'SceneGraph.ModelSkin'
 local l = Lang.GetResource("module-searchrescue")
 
-local InfoFace = import("ui/InfoFace")
-local NavButton = import("ui/NavButton")
+local InfoFace = require 'ui.InfoFace'
+local NavButton = require 'ui.NavButton'
 
 -- Get the UI class
 local ui = Engine.ui
@@ -436,7 +436,7 @@ end
 
 local cargoPresent = function (ship, item)
 	-- Check if this cargo item is present on the ship.
-	cargotype = verifyCommodity(item)  -- necessary for some users
+	local cargotype = verifyCommodity(item)  -- necessary for some users
 	if ship:CountEquip(cargotype) > 0 then
 		return true
 	else
@@ -492,14 +492,14 @@ end
 local addCargo = function (ship, item)
 	-- Add a ton of the supplied cargo item to the ship.
 	if not cargoSpace(ship) then return end
-	cargotype = verifyCommodity(item)  -- necessary for some users
+	local cargotype = verifyCommodity(item)  -- necessary for some users
 	ship:AddEquip(cargotype, 1)
 end
 
 local removeCargo = function (ship, item)
 	-- Remove a ton of the supplied cargo item from the ship.
 	if not cargoPresent(ship, item) then return end
-	cargotype = verifyCommodity(item)  -- necessary for some users
+	local cargotype = verifyCommodity(item)  -- necessary for some users
 	ship:RemoveEquip(cargotype, 1)
 end
 
@@ -772,12 +772,7 @@ local createTargetShip = function (mission)
 	end
 
 	-- load a laser
-	local max_laser_size
-	if default_drive then
-		max_laser_size = shipdef.capacity - default_drive.capabilities.mass
-	else
-		max_laser_size = shipdef.capacity
-	end
+	local max_laser_size = shipdef.capacity - (drive and drive.capabilities.mass or 0)
 	local laserdefs = utils.build_array(utils.filter(function (_,laser) return laser:IsValidSlot('laser_front')
 				                                    and laser.capabilities.mass <= max_laser_size
 			                                    and laser.l10n_key:find("PULSECANNON") end, pairs(Equipment.laser)))
@@ -1072,7 +1067,7 @@ local findClosestPlanets = function ()
 
 	-- pick closest planets to stations
 	for _,planet in pairs(rockyplanets) do
-		nearest_station = planet:FindNearestTo("SPACESTATION")
+		local nearest_station = planet:FindNearestTo("SPACESTATION")
 		table.insert(closestplanets[nearest_station], planet.path)
 	end
 
@@ -1269,7 +1264,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 	deliver_comm = copyTable(flavour.deliver_comm)
 
 	-- set target ship parameters and determine pickup and delivery of personnel based on mission flavour
-	local shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew, shipseed = createTargetShipParameters(flavour, deliver_crew, pickup_crew, pickup_pass)
+	local shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew, shipseed = createTargetShipParameters(flavour)
 
 	-- adjust fuel to deliver based on selected ship and mission flavour
 	local needed_fuel
@@ -1979,7 +1974,7 @@ local onCreateBB = function (station)
 	-- Initial creation of banter boards for current system.
 
 	-- more efficient to determine closest planets per station once per banter board creation
-	closestplanets = findClosestPlanets()
+	local closestplanets = findClosestPlanets()
 
 	-- force ad creation for debugging
 	local num = 3

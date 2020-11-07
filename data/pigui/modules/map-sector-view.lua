@@ -64,6 +64,7 @@ end
 
 local sectorView
 local hyperspaceDetailsCache = {}
+local prevSystemPath = nil
 
 local onGameStart = function ()
 	-- connect to class SectorView
@@ -129,7 +130,7 @@ end
 local function calc_star_dist(star)
 	local dist = 0.0
 	while star do
-		dist = dist + (star.apoapsis or 0 + star.periapsis or 0) / 2
+		dist = dist + ((star.apoapsis or 0) + (star.periapsis or 0)) / 2
 		star = star.parent
 	end
 	return dist
@@ -250,8 +251,6 @@ function Windows.systemInfo.Dummy()
 	ui.sameLine()
 end
 
-local prevSystemPath = nil
-
 local search_text = ""
 
 local function showSettings()
@@ -334,7 +333,7 @@ function Windows.searchBar:Show()
 
 	if leftBarMode == "SEARCH" then
 		ui.text(lc.SEARCH)
-		search_text, changed = ui.inputText("", search_text, {})
+		local search_text, changed = ui.inputText("", search_text, {})
 		ui.spacing()
 		local parsedSystem = changed and search_text ~= "" and SystemPath.ParseString(search_text)
 		if parsedSystem and parsedSystem ~= nil then
