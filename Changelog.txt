@@ -2,6 +2,8 @@ November 2020
    * New Features
      * New unified color theme and new icons (#4993)
      * Commodities and Economies are now defined in JSON (#4944)
+     * Skipjack Courier from OKB Kaluri (#4871)
+     * Add a new model for escape pods (#4877)
      
    * Internal Changes
      * Decrease the maximum background star size to 0.3 (#4991)
