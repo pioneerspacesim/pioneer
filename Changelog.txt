@@ -13,6 +13,7 @@ November 2020
      * Fix SAR crash where IsPlayer() is falsely called by non-ship body (#4985)
      * Fix tradeships inflating save files with 1000s of duplicate cargo items (#4993)
      * Fix some old hardware not being compatible with the Reverse-Z implementation (#4993)
+     * Minor bugfixes for cargo mission (#4998)
 
 October 2020
    * New Features
