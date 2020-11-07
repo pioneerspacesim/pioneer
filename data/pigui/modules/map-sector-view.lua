@@ -63,25 +63,20 @@ local function textIcon(icon, tooltip)
 end
 
 local sectorView
+local hyperspaceDetailsCache = {}
 
 local onGameStart = function ()
 	-- connect to class SectorView
 	sectorView = Game.sectorView
 	-- connect hyper jump planner to class SectorView
 	hyperJumpPlanner.setSectorView(sectorView)
+	-- reset hyperspace details cache on new game
+	hyperspaceDetailsCache = {}
 	-- update visibility states
 	sectorView:SetAutomaticSystemSelection(automatic_system_selection)
 	sectorView:SetDrawOutRangeLabels(draw_out_range_labels)
 	sectorView:SetDrawUninhabitedLabels(draw_uninhabited_labels)
 	sectorView:SetDrawVerticalLines(draw_vertical_lines)
-end
-
-local hyperspaceDetailsCache = {}
-
-local function clearHyperspaceCache(ship)
-	if ship and ship == player then
-		hyperspaceDetailsCache = {}
-	end
 end
 
 local function getHyperspaceDetails(path)
@@ -502,6 +497,10 @@ end)
 Event.Register("onGameEnd", hyperJumpPlanner.onGameEnd)
 Event.Register("onEnterSystem", hyperJumpPlanner.onEnterSystem)
 Event.Register("onShipEquipmentChanged", hyperJumpPlanner.onShipEquipmentChanged)
+
+local function clearHyperspaceCache(ship)
+	if ship and ship == player then hyperspaceDetailsCache = {} end
+end
 
 Event.Register("onShipEquipmentChanged", clearHyperspaceCache)
 Event.Register("onShipTypeChanged", clearHyperspaceCache)
