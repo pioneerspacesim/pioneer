@@ -1,15 +1,16 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local ui = require 'pigui'
-local InfoView = require 'pigui.views.info-view'
-local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
-local Lang = require 'Lang'
-local Game = require 'Game'
-local ShipDef = require 'ShipDef'
 local Equipment = require 'Equipment'
+local Event = require 'Event'
+local Game = require 'Game'
+local Lang = require 'Lang'
+local ShipDef = require 'ShipDef'
+local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
+local InfoView = require 'pigui.views.info-view'
 local Vector2 = _G.Vector2
 
+local ui = require 'pigui'
 local l = Lang.GetResource("ui-core")
 
 local fonts = ui.fonts
@@ -19,23 +20,21 @@ local textTable = require 'pigui.libs.text-table'
 -- use the old InfoView style layout instead of the new sidebar layout.
 local _OLD_LAYOUT = true
 
-local modelSpinner = ModelSpinner()
-local cachedShip = nil
-local cachedPattern = nil
+local modelSpinner
+
+local function resetModelSpinner()
+	modelSpinner = ModelSpinner()
+	local player = Game.player
+	local shipDef = ShipDef[player.shipId]
+	modelSpinner:setModel(shipDef.modelName, player:GetSkin(), player.model.pattern)
+end
 
 local function shipSpinner()
-	local spinnerWidth = _OLD_LAYOUT and ui.getColumnWidth() or ui.getContentRegion().x
+	local spinnerWidth = ui.getColumnWidth()
 	modelSpinner:setSize(Vector2(spinnerWidth, spinnerWidth / 1.5))
 
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
-
-	if shipDef.modelName ~= cachedShip or player.model.pattern ~= cachedPattern then
-		cachedShip = shipDef.modelName
-		cachedPattern = player.model.pattern
-		modelSpinner:setModel(cachedShip, player:GetSkin(), cachedPattern)
-	end
-
 	ui.group(function ()
 		local font = ui.fonts.orbiteer.large
 		ui.withFont(font.name, font.size, function()
@@ -190,3 +189,8 @@ InfoView:registerView({
 	end,
 	refresh = function() end,
 })
+
+Event.Register("onGameStart", resetModelSpinner)
+Event.Register("onShipTypeChanged", function(ship)
+	if ship == Game.player then resetModelSpinner() end
+end)

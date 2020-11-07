@@ -64,6 +64,13 @@ local shipClassString = {
 	unknown                    = "",
 }
 
+local function refreshModelSpinner()
+	if not selectedItem then return end
+	cachedShip = selectedItem.def.modelName
+	cachedPattern = selectedItem.pattern
+	modelSpinner:setModel(cachedShip, selectedItem.skin, cachedPattern)
+end
+
 local function refreshShipMarket()
 	widgetSizes.rowVerticalSpacing = Vector2(0, (widgetSizes.iconSize.y + widgetSizes.itemSpacing.y - pionillium.large.size)/2)
 
@@ -201,12 +208,6 @@ local tradeMenu = function()
 
 				local spinnerWidth = ui.getContentRegion().x
 				modelSpinner:setSize(Vector2(spinnerWidth, spinnerWidth / 2.5))
-				if selectedItem.def.modelName ~= cachedShip then
-					cachedShip = selectedItem.def.modelName
-					cachedPattern = selectedItem.pattern
-					modelSpinner:setModel(cachedShip, selectedItem.skin, cachedPattern)
-				end
-
 				modelSpinner:draw()
 
 				local hyperdrive_str = selectedItem.def.hyperdriveClass > 0 and
@@ -357,7 +358,10 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			icons[item.def.shipClass] = PiImage.New("icons/shipclass/".. item.def.shipClass ..".png")
 			currentIconSize = icons[item.def.shipClass].texture.size
 		end
-		if not selectedItem then selectedItem = item end
+		if not selectedItem then
+			selectedItem = item
+			refreshModelSpinner()
+		end
 		icons[item.def.shipClass]:Draw(widgetSizes.iconSize)
 		ui.nextColumn()
 		ui.withStyleVars({ItemSpacing = vZero}, function()
@@ -374,6 +378,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 	end,
 	onClickItem = function(s,e)
 		selectedItem = e
+		refreshModelSpinner()
 	end,
 	sortingFunction = function(s1,s2) return s1.def.name < s2.def.name end
 })
