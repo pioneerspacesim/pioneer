@@ -131,12 +131,12 @@ local function displayRadar()
 			end
 		end
 		ui.popup("radarselector", function()
-							 if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
-								 Event.Queue('changeMFD', 'radar')
-							 end
-							 if ui.selectable(lui.HUD_3D_RADAR, not shouldDisplay2DRadar, {}) then
-								 Event.Queue('changeMFD', 'scanner')
-							 end
+			if ui.selectable(lui.HUD_2D_RADAR, shouldDisplay2DRadar, {}) then
+				Event.Queue('changeMFD', 'radar')
+			end
+			if ui.selectable(lui.HUD_3D_RADAR, not shouldDisplay2DRadar, {}) then
+				Event.Queue('changeMFD', 'scanner')
+			end
 		end)
 		if shouldDisplay2DRadar then
 			display2DRadar(cntr, size)
@@ -171,7 +171,9 @@ end)
 Event.Register("onGameEnd", function() shouldDisplay2DRadar = false end)
 
 -- save/load preference
-require 'Serializer':Register("PiguiRadar", function () return shouldDisplay2DRadar end, function (data) shouldDisplay2DRadar = data end)
+require 'Serializer':Register("PiguiRadar",
+	function () return { shouldDisplay2DRadar = shouldDisplay2DRadar } end,
+	function (data) shouldDisplay2DRadar = data.shouldDisplay2DRadar end)
 
 ui.registerModule("game", displayRadar)
 
