@@ -923,7 +923,7 @@ end
 --   experimental
 --
 Ship.CrewNumber = function (self)
-	return #CrewRoster[self]
+	return CrewRoster[self] and #CrewRoster[self] or 0
 end
 
 --
