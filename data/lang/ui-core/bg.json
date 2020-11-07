@@ -45,7 +45,7 @@
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Atmo. pressure limit"
+    "message": "Максимално атмосферно налягане"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -193,7 +193,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Commodity trade analysis of:"
+    "message": "Анализ на стоковата търговия в:"
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
@@ -1201,7 +1201,7 @@
   },
   "MAJOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Export"
+    "message": "Основен Износ"
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
@@ -1209,7 +1209,7 @@
   },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Import"
+    "message": "Основен Внос"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
@@ -1293,7 +1293,7 @@
   },
   "MINOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Export"
+    "message": "Незначителен Износ"
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
@@ -1301,7 +1301,7 @@
   },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Import"
+    "message": "Незначителен Внос"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
