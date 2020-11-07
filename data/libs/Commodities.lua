@@ -2,12 +2,12 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Economy = require 'Economy'
+local EquipType = require 'EquipType'
 
 local commodities = Economy.GetCommodities()
 local economies = Economy.GetEconomies()
 
-local EquipType = _G.EquipType
-local cargo = {}
+local cargo = EquipType.cargo
 
 local CARGOLANGRESOURCE = "commodity"
 
@@ -47,11 +47,11 @@ local icon_names = {
 	industrial_machinery = "Industrial_machinery"
 }
 
--- TODO: don't create a separate EquipType for each commoditity,
+-- TODO: don't create a separate EquipType instance for each commoditity,
 -- instead store cargo separately from ship equipment
 for name, commodity in pairs(commodities) do
 	local econ = commodity.producer > 0 and economies[commodity.producer] or {}
-	cargo[commodity.name] = EquipType.New({
+	cargo[commodity.name] = EquipType.EquipType.New({
 		name=commodity.name, slots="cargo",
 		l10n_key=commodity.l10n_key, l10n_resource=CARGOLANGRESOURCE,
 		price=commodity.price, capabilities={mass=1}, economy_type=econ.name,
