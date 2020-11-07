@@ -4,6 +4,8 @@
 local ui = require 'pigui'
 local ModalWindow = require 'pigui.libs.modal-win'
 
+local theme = ui.theme
+
 local defaultFuncs = {
 
     initTable = function(self)
@@ -55,7 +57,8 @@ function TableWidget.New(id, title, config)
             itemSpacing = config.itemSpacing or defaultSizes.itemSpacing,
             size = config.size or Vector2(ui.screenWidth / 2,0),
             titleFont = config.titleFont or ui.fonts.orbiteer.xlarge,
-            highlightColor = config.highlightColor or Color(0,63,112),
+            highlightColor = config.highlightColor or theme.colors.tableHighlight,
+            selectionColor = config.selectionColor or theme.colors.tableSelection,
         },
         funcs = {
             initTable = config.initTable or defaultFuncs.initTable,
@@ -92,6 +95,7 @@ function TableWidget:render()
 
             -- If highlightStart is set, the mouse hovered over an item in the previous frame, so draw a rectangle underneath for highlighting
             if self.highlightStart then ui.addRectFilled(self.highlightStart, self.highlightEnd, self.style.highlightColor, 0, 0) end
+            if self.selectionStart then ui.addRectFilled(self.selectionStart, self.selectionEnd, self.style.selectionColor, 0, 0) end
 
             -- We're using self.columnCount+1 to help with calculating the bounds of the highling rect
             -- ui.getCursorPos() always returns the top-left corner of a column, so to get the max x-coordninate of
@@ -114,15 +118,17 @@ function TableWidget:render()
             self.highlightEnd = nil
 
             for key, item in pairs(self.items) do
-                startPos = ui.getCursorScreenPos()
+				startPos = ui.getCursorScreenPos() - Vector2(4, selOffset)
 
-                self.funcs.renderItem(self, item, key)
+				self.funcs.renderItem(self, item, key)
 
                 endPos = ui.getCursorScreenPos()
 
                 ui.nextColumn()
 
-                endPos.y = ui.getCursorScreenPos().y
+				-- center the selection
+				-- endPos.y points to the beginning of the new row so to center the selection we also move it a bit higher
+                endPos.y = ui.getCursorScreenPos().y - selOffset
 
                 if ui.isWindowHovered() and ui.isMouseHoveringRect(startPos, endPos, false) then
                     self.funcs.onMouseOverItem(self, item, key)
@@ -132,12 +138,12 @@ function TableWidget:render()
 
                     self.highlightStart = startPos
                     self.highlightEnd = endPos
+				end
 
-                    -- center the selection
-                    self.highlightStart.x = self.highlightStart.x - 4
-                    self.highlightStart.y = self.highlightStart.y - selOffset
-                    self.highlightEnd.y = self.highlightEnd.y - selOffset -- highlightEnd.y points to the beginning of the new row so to center the selection we also move it a bit higher
-                end
+				if self.selectedItem == item then
+					self.selectionStart = startPos
+					self.selectionEnd = endPos
+				end
             end
 
             ui.columns(1, "", false)

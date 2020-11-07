@@ -77,6 +77,7 @@ local function refreshShipMarket()
 	local station = Game.player:GetDockedWith()
 	shipMarket.items = station:GetShipsOnSale()
 	selectedItem = nil
+	shipMarket.selectedItem = nil
 end
 
 local function manufacturerIcon (manufacturer)
@@ -360,6 +361,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		end
 		if not selectedItem then
 			selectedItem = item
+			shipMarket.selectedItem = item
 			refreshModelSpinner()
 		end
 		icons[item.def.shipClass]:Draw(widgetSizes.iconSize)
@@ -378,6 +380,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 	end,
 	onClickItem = function(s,e)
 		selectedItem = e
+		shipMarket.selectedItem = e
 		refreshModelSpinner()
 	end,
 	sortingFunction = function(s1,s2) return s1.def.name < s2.def.name end
