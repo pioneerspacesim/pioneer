@@ -105,7 +105,7 @@ local function displayFrameIndicators(frame, navTarget)
 		displayIndicator(onscreen, position, direction, icons.retrograde, colors.frame, false, lui.HUD_INDICATOR_FRAME_RETROGRADE)
 	end
 
-	local awayFromFrame = player:GetPositionRelTo(frame) * 1.01
+	local awayFromFrame = -frame:GetPositionRelTo(player)
 	local onscreen,position,direction = Engine.RelSpaceToScreenSpace(awayFromFrame)
 	displayIndicator(onscreen, position, direction, icons.frame_away, colors.frame, false, lui.HUD_INDICATOR_AWAY_FROM_FRAME)
 end
