@@ -35,7 +35,7 @@
 #include "pigui/PiGuiView.h"
 #include "ship/PlayerShipController.h"
 
-static const int s_saveVersion = 86;
+static const int s_saveVersion = 87;
 
 Game::Game(const SystemPath &path, const double startDateTime) :
 	m_galaxy(GalaxyGenerator::Create()),
