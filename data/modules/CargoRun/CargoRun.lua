@@ -43,126 +43,147 @@ local max_price = 300
 
 -- the custom cargo
 local aluminium_tubes = Equipment.EquipType.New({
+	name = "aluminium_tubes",
 	l10n_key = 'ALUMINIUM_TUBES', slots="cargo", price=50,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local art_objects = Equipment.EquipType.New({
+	name = "art_objects",
 	l10n_key = 'ART_OBJECTS', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local clus = Equipment.EquipType.New({
+	name = "clus",
 	l10n_key = 'CLUS', slots="cargo", price=20,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local diamonds = Equipment.EquipType.New({
+	name = "diamonds",
 	l10n_key = 'DIAMONDS', slots="cargo", price=300,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local digesters = Equipment.EquipType.New({
+	name = "digesters",
 	l10n_key = 'DIGESTERS', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local electrical_appliances = Equipment.EquipType.New({
+	name = "electrical_appliances",
 	l10n_key = 'ELECTRICAL_APPLIANCES', slots="cargo", price=150,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local explosives = Equipment.EquipType.New({
+	name = "explosives",
 	l10n_key = 'EXPLOSIVES', slots="cargo", price=50,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local furniture = Equipment.EquipType.New({
+	name = "furniture",
 	l10n_key = 'FURNITURE', slots="cargo", price=15,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local greenhouses = Equipment.EquipType.New({
+	name = "greenhouses",
 	l10n_key = 'GREENHOUSES', slots="cargo", price=20,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local hazardous_substances = Equipment.EquipType.New({
+	name = "hazardous_substances",
 	l10n_key = 'HAZARDOUS_SUBSTANCES', slots="cargo", price=100,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local machine_tools = Equipment.EquipType.New({
+	name = "machine_tools",
 	l10n_key = 'MACHINE_TOOLS', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local neptunium = Equipment.EquipType.New({
+	name = "neptunium",
 	l10n_key = 'NEPTUNIUM', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local plutonium = Equipment.EquipType.New({
+	name = "plutonium",
 	l10n_key = 'PLUTONIUM', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local semi_finished_products = Equipment.EquipType.New({
+	name = "semi_finished_products",
 	l10n_key = 'SEMI_FINISHED_PRODUCTS', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local spaceship_parts = Equipment.EquipType.New({
+	name = "spaceship_parts",
 	l10n_key = 'SPACESHIP_PARTS', slots="cargo", price=250,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local titanium = Equipment.EquipType.New({
+	name = "titanium",
 	l10n_key = 'TITANIUM', slots="cargo", price=150,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local tungsten = Equipment.EquipType.New({
+	name = "tungsten",
 	l10n_key = 'TUNGSTEN', slots="cargo", price=125,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local uranium = Equipment.EquipType.New({
+	name = "uranium",
 	l10n_key = 'URANIUM', slots="cargo", price=175,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local quibbles = Equipment.EquipType.New({
+	name = "quibbles",
 	l10n_key = 'QUIBBLES', slots="cargo", price=1,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local wedding_dresses = Equipment.EquipType.New({
+	name = "wedding_dresses",
 	l10n_key = 'WEDDING_DRESSES', slots="cargo", price=15,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 local stem_bolts = Equipment.EquipType.New({
+	name = "stem_bolts",
 	l10n_key = 'STEM_BOLTS', slots="cargo", price=143,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
@@ -354,8 +375,8 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmuch)
 
 	elseif option == 3 then
-		if (not ad.pickup and Game.player.freeCapacity < ad.amount) or
-			(ad.pickup and Game.player.totalCargo < ad.amount) then
+		if not ad.pickup and (Game.player.totalCargo - Game.player.usedCargo) < ad.amount or
+			Game.player.totalCargo < ad.amount then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP)
 			form:RemoveNavButton()
 			return
@@ -827,7 +848,7 @@ local onShipDocked = function (player, station)
 	-- Now we have space pick up cargo as well
 	for ref,mission in pairs(missions) do
 		if mission.location == station.path and mission.pickup and not mission.cargo_picked_up then
-			if Game.player.freeCapacity < mission.amount then
+			if (player.totalCargo - player.usedCargo) < mission.amount then
 				Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
 			else
 				Game.player:AddEquip(mission.cargotype, mission.amount, "cargo")
