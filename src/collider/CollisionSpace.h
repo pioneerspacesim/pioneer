@@ -22,6 +22,8 @@ class BvhTree;
 /*
  * Collision spaces have a bunch of geoms and at most one sphere (for a planet).
  */
+// FIXME: CollisionSpace is NOT MOVE/COPY CONSTRUCTIBLE once RebuildObjectTrees
+// has been called. It will cause a double-free due to owning pointers being moved-by-copy.
 class CollisionSpace {
 public:
 	CollisionSpace();
