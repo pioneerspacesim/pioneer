@@ -427,7 +427,7 @@ local onEnterSystem = function (player)
 			if mission.complete or Game.time > mission.due then
 				local shipdefs = utils.build_array(utils.filter(
 					function (k,def)
-						return def.tag == "SHIP" and def.hyperdriveClass > 1 and (def.shipClass == "medium_fighter" or def.shipClass == "medium_courier" or def.shipClass == "light_freighter")
+						return def.tag == "SHIP" and def.hyperdriveClass > 0
 					end,
 					pairs(ShipDef)))
 				local shipdef = shipdefs[Engine.rand:Integer(1, #shipdefs)]
@@ -435,9 +435,6 @@ local onEnterSystem = function (player)
 				local ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
 				ship:SetLabel(Ship.MakeRandomLabel())
 				ship:AddEquip(Equipment.hyperspace["hyperdrive_" .. tostring(shipdef.hyperdriveClass)])
-				ship:AddEquip(Equipment.cargo.hydrogen, 5)
-				ship:AddEquip(Equipment.laser.pulsecannon_2mw)
-				ship:AddEquip(Equipment.misc.shield_generator)
 
 				local path = mission.location:GetStarSystem().path
 				finishMission(ref, mission)
