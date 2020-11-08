@@ -13,6 +13,7 @@
 #include "HyperspaceCloud.h"
 #include "MathUtil.h"
 #include "Object.h"
+#include "collider/CollisionSpace.h"
 #include "core/GZipFormat.h"
 #include "galaxy/Economy.h"
 #include "lua/LuaEvent.h"
@@ -622,6 +623,10 @@ void Game::SwitchToNormalSpace()
 	m_hyperspaceClouds.clear();
 
 	m_space->GetBackground()->SetDrawFlags(Background::Container::DRAW_SKYBOX | Background::Container::DRAW_STARS);
+
+	// HACK: we call RebuildObjectTrees to make the internal state of CollisionSpace valid
+	// This is absolutely not our job and CollisionSpace should be redesigned to fix this.
+	Frame::GetFrame(m_player->GetFrame())->GetCollisionSpace()->RebuildObjectTrees();
 
 	m_state = State::NORMAL;
 }

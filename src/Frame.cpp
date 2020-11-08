@@ -34,6 +34,10 @@ Frame::Frame(const Dummy &d, FrameId parent, const char *label, unsigned int fla
 
 	s_collisionSpaces.emplace_back();
 	m_collisionSpace = s_collisionSpaces.size() - 1;
+	// TODO: this hacks around TraceRay being called on an uninitialized collision space and crashing
+	// Need to further evaluate the impact of this and whether it should be called in the CollisionSpace constructor instead
+	// FIXME: this causes a crash when resizing the collisionSpace array because a collision space double-frees when move constructing
+	// s_collisionSpaces.back().RebuildObjectTrees();
 
 	if (m_parent.valid())
 		Frame::GetFrame(m_parent)->AddChild(m_thisId);
