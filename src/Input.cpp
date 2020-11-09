@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Input.h"
+#include "AnimationCurves.h"
 #include "GameConfig.h"
 #include "InputBindings.h"
 #include "Pi.h"
@@ -11,6 +12,7 @@
 #include "ui/Context.h"
 
 #include <array>
+#include <regex>
 #include <sstream>
 #include <type_traits>
 
@@ -49,7 +51,7 @@ namespace Input {
 
 std::string Input::JoystickName(int joystick)
 {
-	return std::string(SDL_JoystickName(m_joysticks[joystick].joystick));
+	return m_joysticks[joystick].name;
 }
 
 std::string Input::JoystickGUIDString(int joystick)
@@ -92,12 +94,30 @@ SDL_JoystickGUID Input::JoystickGUID(int joystick)
 	return m_joysticks[joystick].guid;
 }
 
-void Input::InitJoysticks()
+static std::string saveAxisConfig(const Input::JoystickInfo::Axis &axis)
+{
+	return fmt::format("DZ{:.1f} CV{:.1f}{}", axis.deadzone, axis.curve, (axis.zeroToOne ? " Half" : ""));
+}
+
+static void loadAxisConfig(const std::string &str, Input::JoystickInfo::Axis &outAxis)
+{
+	std::regex matcher("DZ([\\d\\.]+)\\s*(?:CV(-?[\\d\\.]+))?\\s*(Half)?", std::regex::icase);
+	std::smatch match_results;
+	if (std::regex_search(str, match_results, matcher)) {
+		outAxis.deadzone = std::stof(match_results[1].str());
+		outAxis.curve = match_results[2].matched ? std::stof(match_results[2].str()) : 1.0;
+		outAxis.zeroToOne = match_results[3].matched;
+	}
+	outAxis.value = 0;
+}
+
+void Input::InitJoysticks(IniConfig *config)
 {
 	SDL_Init(SDL_INIT_JOYSTICK);
 
 	int joy_count = SDL_NumJoysticks();
 	Output("Initializing joystick subsystem.\n");
+
 	for (int n = 0; n < joy_count; n++) {
 		JoystickInfo state;
 
@@ -107,6 +127,7 @@ void Input::InitJoysticks()
 			continue;
 		}
 
+		state.name = SDL_JoystickName(state.joystick);
 		state.guid = SDL_JoystickGetGUID(state.joystick);
 		state.axes.resize(SDL_JoystickNumAxes(state.joystick));
 		state.buttons.resize(SDL_JoystickNumButtons(state.joystick));
@@ -117,9 +138,26 @@ void Input::InitJoysticks()
 		Output("Found joystick '%s' (GUID: %s)\n", SDL_JoystickName(state.joystick), joystickGUIDName.data());
 		Output("  - %ld axes, %ld buttons, %ld hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
 
+		std::string joystickName = "Joystick." + std::string(joystickGUIDName.data());
+		config->SetString(joystickName, "Name", state.name);
+
+		for (size_t i = 0; i < state.axes.size(); i++) {
+			std::string axisName = "Axis" + std::to_string(i);
+			if (!config->HasEntry(joystickName, axisName)) {
+				config->SetString(joystickName, axisName, saveAxisConfig(state.axes[i]));
+				continue;
+			}
+
+			loadAxisConfig(config->String(joystickName, axisName, ""), state.axes[i]);
+			Output("  - axis %ld: deadzone %.2f, curve: %.2f, half-axis mode: %b\n",
+				i, state.axes[i].deadzone, state.axes[i].curve, state.axes[i].zeroToOne);
+		}
+
 		SDL_JoystickID joyID = SDL_JoystickInstanceID(state.joystick);
 		m_joysticks[joyID] = state;
 	}
+
+	config->Save();
 }
 
 std::map<SDL_JoystickID, JoystickInfo> &Input::GetJoysticks()
@@ -146,7 +184,7 @@ Manager::Manager(IniConfig *config) :
 	joystickEnabled = (m_config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (m_config->Int("InvertMouseY")) ? true : false;
 
-	Input::InitJoysticks();
+	Input::InitJoysticks(m_config);
 }
 
 void Manager::InitGame()
@@ -164,7 +202,9 @@ void Manager::InitGame()
 		JoystickInfo &state = pair.second;
 		std::fill(state.buttons.begin(), state.buttons.end(), false);
 		std::fill(state.hats.begin(), state.hats.end(), 0);
-		std::fill(state.axes.begin(), state.axes.end(), JoystickInfo::Axis{ 0.0f, 0.0f });
+		for (auto &ax : state.axes) {
+			ax.value = 0.0;
+		}
 	}
 }
 
@@ -477,6 +517,16 @@ static int8_t keys_in_chord(InputBindings::KeyChord *chord)
 	return chord->activator.Enabled() + chord->modifier1.Enabled() + chord->modifier2.Enabled();
 }
 
+static float applyDeadzoneAndCurve(const JoystickInfo::Axis &axis, float value)
+{
+	float absVal = std::fabs(value);
+	float sign = value < 0.0 ? 1.0 : -1.0;
+	if (absVal < axis.deadzone) return 0.0f;
+	// renormalize value to 0..1 after deadzone
+	absVal = (absVal - axis.deadzone) * (1.0 / (1.0 - axis.deadzone));
+	return AnimationCurves::SmoothEasing(absVal, axis.curve) * sign;
+}
+
 void Manager::HandleSDLEvent(SDL_Event &event)
 {
 	using namespace InputBindings;
@@ -516,14 +566,16 @@ void Manager::HandleSDLEvent(SDL_Event &event)
 		mouseMotion[0] += event.motion.xrel;
 		mouseMotion[1] += event.motion.yrel;
 		break;
-	case SDL_JOYAXISMOTION:
+	case SDL_JOYAXISMOTION: {
 		if (!GetJoysticks()[event.jaxis.which].joystick)
 			break;
-		if (event.jaxis.value == -32768)
-			GetJoysticks()[event.jaxis.which].axes[event.jaxis.axis].value = 1.f;
+		auto &axis = GetJoysticks()[event.jaxis.which].axes[event.jaxis.axis];
+		if (axis.zeroToOne)
+			// assume -32768 == 0.0 in half-axis mode (this is true for most controllers)
+			axis.value = applyDeadzoneAndCurve(axis, (event.jaxis.value + 32768) / 65535.f);
 		else
-			GetJoysticks()[event.jaxis.which].axes[event.jaxis.axis].value = -event.jaxis.value / 32767.f;
-		break;
+			axis.value = applyDeadzoneAndCurve(axis, (event.jaxis.value == -32768 ? -1.f : event.jaxis.value / 32767.f));
+	} break;
 	case SDL_JOYBUTTONUP:
 	case SDL_JOYBUTTONDOWN:
 		if (!GetJoysticks()[event.jaxis.which].joystick)

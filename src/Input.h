@@ -74,12 +74,15 @@ namespace Input {
 
 	struct JoystickInfo {
 		struct Axis {
-			float value;
-			float deadzone;
+			float value = 0.0;
+			float deadzone = 0.0;
+			float curve = 1.0;
+			bool zeroToOne = false;
 		};
 
 		SDL_Joystick *joystick;
 		SDL_JoystickGUID guid;
+		std::string name;
 
 		std::vector<bool> buttons;
 		std::vector<int> hats;
@@ -87,7 +90,7 @@ namespace Input {
 		std::vector<Axis> axes;
 	};
 
-	void InitJoysticks();
+	void InitJoysticks(IniConfig *config);
 	std::map<SDL_JoystickID, JoystickInfo> &GetJoysticks();
 
 	// User display name for the joystick from the API/OS.
