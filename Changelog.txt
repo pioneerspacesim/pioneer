@@ -12,6 +12,7 @@ November 2020
      * Update NanoSVG (#4996)
      * Moved ESC key handling to PiGui (#4999)
      * Add a selection highlight to the ship market list (#4999)
+     * Removed old Ship.lua compatibility code (#5000)
    
    * Fixes
      * Fix SAR crash where IsPlayer() is falsely called by non-ship body (#4985)
@@ -25,6 +26,7 @@ November 2020
      * Fix jump range being improperly persisted across games (#4999)
      * Fix ship displays not properly updating between games / selections (#4999)
      * Fix zenith indicator not pointing away from the planet (#4999)
+     * Fix starting a new game charging a docking fee (#5000)
 
 October 2020
    * New Features
