@@ -582,6 +582,9 @@
     <ClCompile Include="..\..\src\pigui\PiGuiView.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\lua\LuaEconomy.cpp">
+      <Filter>src\Lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -1141,6 +1144,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\pigui\PiGuiView.h">
       <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lua\LuaEconomy.h">
+      <Filter>src\Lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
