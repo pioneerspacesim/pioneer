@@ -428,6 +428,7 @@
     <ClCompile Include="..\..\src\lua\LuaConsole.cpp" />
     <ClCompile Include="..\..\src\lua\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\lua\LuaDev.cpp" />
+    <ClCompile Include="..\..\src\lua\LuaEconomy.cpp" />
     <ClCompile Include="..\..\src\lua\LuaEngine.cpp" />
     <ClCompile Include="..\..\src\lua\LuaEvent.cpp" />
     <ClCompile Include="..\..\src\lua\LuaFaction.cpp" />
@@ -649,6 +650,7 @@
     <ClInclude Include="..\..\src\lua\LuaConsole.h" />
     <ClInclude Include="..\..\src\lua\LuaConstants.h" />
     <ClInclude Include="..\..\src\lua\LuaDev.h" />
+    <ClInclude Include="..\..\src\lua\LuaEconomy.h" />
     <ClInclude Include="..\..\src\lua\LuaEngine.h" />
     <ClInclude Include="..\..\src\lua\LuaEvent.h" />
     <ClInclude Include="..\..\src\lua\LuaFileSystem.h" />
