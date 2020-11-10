@@ -13,6 +13,7 @@ November 2020
      * Moved ESC key handling to PiGui (#4999)
      * Add a selection highlight to the ship market list (#4999)
      * Removed old Ship.lua compatibility code (#5000)
+     * Allow all ships with hyperdrives to be selected for rendezvous missions (#5002)
    
    * Fixes
      * Fix SAR crash where IsPlayer() is falsely called by non-ship body (#4985)
