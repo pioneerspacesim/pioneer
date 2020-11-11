@@ -103,10 +103,6 @@
     "description": "",
     "message": "Smeđi patuljak pod-zvijezdani objekt"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Tipka \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Bottom camera"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Cilj"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Smjer \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Udaljenost: %distance{f.2} sg"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Potpuni kapitalizam - bez vladinih socijalnih davanja"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Reset"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Reset Orientation and Zoom"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Roboti"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" sa beznačajnom atmosferom\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Skretanje"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Mlada poljoprivredna kolonija."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

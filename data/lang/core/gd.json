@@ -103,10 +103,6 @@
     "description": "",
     "message": "Troich dhonn - nì fo-reultach"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Putan \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Camara a' bhuinn"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Ceann-uidhe"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\"Comhair\""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Astar: %distance{f.2} bl-shol"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Calpach gu tur - gun riaghaltas no sochair"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Ad\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Ath-shuidhich"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Ath-shuidhich a' chomhair agus an sùm"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Robotairean"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" gun àile ceart\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Claonadh"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Tuineachadh àiteachais òg."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

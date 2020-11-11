@@ -103,10 +103,6 @@
     "description": "",
     "message": "Abhac donn (rinn fo-réaltach)"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Cnaipe \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Ceamara íochtarach"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Ceann scríbe"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Treo \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Fad: %distance{f.2} sbh"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Caipitlíoch amach is amach - gan aon chóras leasa shóisialaigh"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hata\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Athshocraigh"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Athshocraigh an Treoshuíomh agus an Zúmáil"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Róbait"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" gan atmaisféar arbh fhiú trácht air\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Luascáil"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Coilíneacht óg feirmeoireachta."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

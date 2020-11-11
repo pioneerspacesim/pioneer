@@ -103,10 +103,6 @@
     "description": "",
     "message": "Brown dwarf sub-stellar object"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Button \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Bottom camera"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Destination"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Dir \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Distance: %distance{f.2} ly"
@@ -495,10 +487,6 @@
     "description": "",
     "message": "Entirely Capitalist - no government welfare provision"
   },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
-  },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
     "message": "Hold {target} anti-normal"
@@ -651,10 +639,6 @@
     "description": "",
     "message": "Joystick input"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname %axis Axis"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Switch between Lagrange L4/L5 point display modes."
@@ -750,70 +734,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Manual control mode"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Lock Hyperspace Target"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Toggle Info Panel"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Toggle Selection Following View"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Rotate View Down"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Rotate View Left"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Rotate View Right"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Rotate View Up"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Shift View Backwards"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Shift View Down"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Shift View Forwards"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Shift View Left"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Shift View Right"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Shift View Up"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Warp to Current System"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Warp to Hyperspace Target"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Warp to Selected System"
   },
   "MASS": {
     "description": "",
@@ -1230,10 +1150,6 @@
   "RESET": {
     "description": "",
     "message": "Reset"
-  },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Reset Orientation and Zoom"
   },
   "ROBOTS": {
     "description": "",
@@ -1707,10 +1623,6 @@
     "description": "",
     "message": "Toggle HUD mode"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Toggle Lua console"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Toggle radar mode"
@@ -1871,14 +1783,6 @@
     "description": "",
     "message": "\" with no significant atmosphere\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Yaw"
@@ -1894,10 +1798,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Young farming colony."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

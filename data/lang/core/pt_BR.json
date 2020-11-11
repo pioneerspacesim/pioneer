@@ -103,10 +103,6 @@
     "description": "",
     "message": "Objeto sub-estelar anã marrom"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Botão \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Câmera inferior"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Destino"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Dir \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Distância: %distance{f.2} al"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Completamente Capitalista - governo não faz provisões para o bem-estar"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Chapéu\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Reset"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Reiniciar Orientação e Zoom"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Robôs"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" sem atmosfera significativa\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Guinada"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Jovem colônia agricultora."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

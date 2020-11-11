@@ -276,7 +276,7 @@ end
 
 function Windows.edgeButtons.Show()
 	-- view control buttons
-	if mainMenuButton(icons.reset_view, lc.RESET_ORIENTATION_AND_ZOOM) then
+	if mainMenuButton(icons.reset_view, lui.RESET_ORIENTATION_AND_ZOOM) then
 		sectorView:ResetView()
 	end
 	mainMenuButton(icons.rotate_view, lui.ROTATE_VIEW)

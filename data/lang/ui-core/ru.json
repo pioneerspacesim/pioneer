@@ -1643,6 +1643,10 @@
     "description": "",
     "message": "Сброс"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Камера по умолчанию"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Вернуться к игре"

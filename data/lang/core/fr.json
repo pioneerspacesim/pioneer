@@ -103,10 +103,6 @@
     "description": "",
     "message": "Naine brune sous-stellaire."
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\"bouton\""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Vue Inférieure"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Destination"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Doc \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Distance: %distance{f.2} al"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Entièrement capitaliste - pas de gouvernement réel"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\"Couv\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Reset"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Réinitialise l'orientation et le zoom"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Robots"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" sans atmosphère significative\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Lacets"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Jeune colonie agricole."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

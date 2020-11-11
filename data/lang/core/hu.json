@@ -103,10 +103,6 @@
     "description": "",
     "message": "Barna törpe objektum"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Gomb \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Alsó kamera"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Célállomás"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Irány \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Távolság: %distance{f.2} fényév"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Teljesen kapitalista - kormányintézkedések nélkül"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Alaphelyzet"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Nézet alaphelyzetbe"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Robotok"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" számottevő atmoszféra nélkül\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Kitér"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Fiatal farmkolónia"
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

@@ -103,10 +103,6 @@
     "description": "",
     "message": "Brauner Zwerg (substellares Objekt)"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\"-Taste \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Untere Ansicht"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Reiseziel"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\"-Richtung \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Entfernung: %distance{f.2} Lj"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Rein kapitalistisch – kein staatliches Sozialsystem"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\"-Hat\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Zurücksetzen"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Ansicht und Zoom zurücksetzen"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Roboter"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" ohne signifikante Atmosphäre\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Gieren"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Neu gegründete landwirtschaftliche Kolonie."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

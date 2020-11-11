@@ -1643,6 +1643,10 @@
     "description": "",
     "message": "重置"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "重置方向和缩放"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "返回游戏"

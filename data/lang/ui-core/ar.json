@@ -1643,6 +1643,10 @@
     "description": "",
     "message": "اعادة"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "اعادة التوجية و التكبير"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Return to game"

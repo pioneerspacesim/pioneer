@@ -1643,6 +1643,10 @@
     "description": "",
     "message": "Reset"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Reset orientace a zoomu"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Návrat do hry"

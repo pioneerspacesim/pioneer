@@ -103,10 +103,6 @@
     "description": "",
     "message": "Brun dværg sub-stjerneobjekt"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Knap \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Underkamera"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Destinatio"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Retning \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Afstand: %distance{f.2} ly"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Ren kapitalisme - ingen offentlige velfærdsydelser"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Nulstil"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Nulstil Synspunkt og Zoom"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Robotter"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" uden nogen betydningsfuld atmosfære\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Sideror"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Ung landbrugskoloni."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

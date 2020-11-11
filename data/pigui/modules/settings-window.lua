@@ -21,25 +21,24 @@ end
 
 -- convert an axis binding style ID to a translation resource identifier
 local function localize_binding_id(str)
-	-- TODO: avoid reading lines from the "Core" resource (lc)
-	-- it's here to reuse old strings (keyboard bindings for maps in KeyBindings.inc.h)
 	local jsonIndex = str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
-	return rawget(linput, jsonIndex) or rawget(lc, jsonIndex) or '[NO_JSON] '..jsonIndex
+	return rawget(linput, jsonIndex) or '[NO_JSON] '..jsonIndex
 end
 
 local function get_binding_desc(bind)
 	if not bind then return end
-	local axis_names = { lc.X, lc.Y, lc.Z }
+	local axis_names = { linput.X, linput.Y, linput.Z }
+	local mouse_names = { linput.MOUSE_LMB, linput.MOUSE_MMB, linput.MOUSE_RMB }
 	if bind.key then
 		return Input.GetKeyName(bind.key)
 	elseif bind.joystick and bind.hat then
-		return Input.GetJoystickName(bind.joystick) .. lc.HAT .. bind.hat .. lc.DIRECTION .. bind.direction
+		return Input.GetJoystickName(bind.joystick) .. linput.HAT .. bind.hat .. linput.DIRECTION .. bind.dir
 	elseif bind.joystick and bind.button then
-		return Input.GetJoystickName(bind.joystick) .. lc.BUTTON .. bind.button
+		return Input.GetJoystickName(bind.joystick) .. linput.BUTTON .. bind.button
 	elseif bind.joystick and bind.axis then
-		return (bind.direction < 0 and "-" or "") .. Input.GetJoystickName(bind.joystick) .. ' AXIS ' .. (axis_names[bind.axis + 1] or tostring(bind.axis))
+		return (bind.direction < 0 and "-" or "") .. Input.GetJoystickName(bind.joystick) .. linput.AXIS .. (axis_names[bind.axis + 1] or tostring(bind.axis))
 	elseif bind.mouse then
-		return "MOUSE" .. bind.mouse -- FIXME
+		return linput.MOUSE .. (mouse_names[bind.mouse + 1] or tostring(bind.mouse))
 	end
 end
 
@@ -493,8 +492,10 @@ local function showControlsOptions()
 			ui.text(localize_binding_id("Page" .. page.id))
 		end)
 		ui.separator()
+		Engine.pigui.PushID(page.id)
 		for _,group in ipairs(page) do
 			if group.id then
+				Engine.pigui.PushID(group.id)
 				if _ > 1 then ui.text '' end
 				ui.withFont(pionillium.medium.name, bindingGroupFontSize, function()
 					ui.text(localize_binding_id("Group" .. group.id))
@@ -507,8 +508,10 @@ local function showControlsOptions()
 						axisBinding(binding)
 					end
 				end
+				Engine.pigui.PopID()
 			end
 		end
+		Engine.pigui.PopID()
 	end
 end
 

@@ -1643,6 +1643,10 @@
     "description": "",
     "message": "Återställ"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Återställ orientering och zoom"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Återgå till spelet"
