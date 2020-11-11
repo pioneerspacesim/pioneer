@@ -297,8 +297,8 @@ link_directories(
 )
 
 add_executable(${PROJECT_NAME} WIN32 src/main.cpp ${RESOURCES})
-add_executable(modelcompiler WIN32 src/modelcompiler.cpp)
-add_executable(savegamedump WIN32
+add_executable(modelcompiler src/modelcompiler.cpp)
+add_executable(savegamedump
 	src/savegamedump.cpp
 	src/JsonUtils.cpp
 	src/FileSystem.cpp
@@ -400,10 +400,13 @@ install(DIRECTORY data/models/
 
 if (WIN32)
 	configure_file(pioneer.iss.cmakein pioneer.iss @ONLY)
-
-	install(CODE "include(BundleUtilities)
-	fixup_bundle(\"$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/pioneer.exe\" \"\" \"${CMAKE_PROGRAM_PATH}\")"
-	COMPONENT Runtime)
+	configure_file(CI/appveyor/msvc/publish.cmd.cmakein publish.cmd @ONLY)
+	file(GLOB win_libs ../pioneer-thirdparty/win32/bin/x64/vs2017/*.dll)
+	install(FILES ${win_libs} DESTINATION ${CMAKE_INSTALL_PREFIX})
+	if(NOT ISCC)
+		set(ISCC "C:/Program Files (x86)/Inno Setup 6/ISCC.exe")
+	endif(NOT ISCC)
+	add_custom_target(win-installer COMMAND ${ISCC} pioneer.iss)
 endif (WIN32)
 
 if (UNIX)

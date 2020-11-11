@@ -12,13 +12,13 @@ AppSupportURL="{#AppUrl}"
 AppUpdatesURL="{#AppUrl}"
 AppCopyright="Copyright 2008-@BUILD_YEAR@ {#AppName} developers"
 CreateAppDir=yes
-LicenseFile="C:\projects\pioneer\licenses\GPL-3.txt"
-OutputBaseFilename=pioneer-setup
-OutputDir="C:\projects\pioneer"
+LicenseFile="@PROJECT_SOURCE_DIR@\licenses\GPL-3.txt"
+OutputBaseFilename=pioneer-@PROJECT_VERSION@-win
+OutputDir="@PROJECT_SOURCE_DIR@"
 Compression=lzma
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
-DefaultDirName="@CMAKE_INSTALL_PREFIX@"
+DefaultDirName={autopf}\Pioneer
 DefaultGroupName=Pioneer
 
 [Languages]
