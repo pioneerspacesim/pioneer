@@ -16,6 +16,7 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "ship/PlayerShipController.h"
+#include "src/lua.h"
 
 /*
  * Class: Ship
@@ -499,16 +500,6 @@ static int l_ship_get_docked_with(lua_State *l)
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	if (s->GetFlightState() != Ship::DOCKED) return 0;
 	LuaObject<SpaceStation>::PushToLua(s->GetDockedWith());
-	return 1;
-}
-
-static int l_ship_request_docking_clearance(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	SpaceStation *ss = static_cast<SpaceStation *>(LuaObject<Body>::CheckFromLua(2));
-	std::string msg;
-	ss->GetDockingClearance(s, msg);
-	lua_pushstring(l, msg.c_str());
 	return 1;
 }
 
@@ -1568,7 +1559,6 @@ void LuaObject<Ship>::RegisterClass()
 		{ "IsECMReady", l_ship_is_ecm_ready },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
-		{ "RequestDockingClearance", l_ship_request_docking_clearance },
 		{ "Undock", l_ship_undock },
 		{ "BlastOff", l_ship_blast_off },
 

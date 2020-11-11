@@ -5,6 +5,7 @@
 
 #include "Camera.h"
 #include "CityOnPlanet.h"
+#include "EnumStrings.h"
 #include "Frame.h"
 #include "Game.h"
 #include "GameLog.h"
@@ -329,12 +330,13 @@ int SpaceStation::GetNearbyTraffic(double radius)
 	return shipsNearby - NumShipsDocked();
 }
 
-bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
+bool SpaceStation::GetDockingClearance(Ship *s)
 {
 	assert(m_shipDocking.size() == m_type->NumDockingPorts());
 	for (Uint32 i = 0; i < m_shipDocking.size(); i++) {
 		if (m_shipDocking[i].ship == s) {
-			outMsg = stringf(Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, formatarg("bay", i + 1));
+			LuaEvent::Queue("onDockingClearanceDenied", this, s,
+				EnumStrings::GetString("DockingRefusedReason", int(DockingRefusedReason::ClearanceAlreadyGranted)));
 			return (m_shipDocking[i].stage > 0); // grant docking only if the ship is not already docked/undocking
 		}
 	}
@@ -354,7 +356,8 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		const double shipDist = s->GetPositionRelTo(this).Length();
 		double requestDist = 100000.0; //100km
 		if (s->IsType(ObjectType::PLAYER) && shipDist > requestDist) {
-			outMsg = Lang::CLEARANCE_DENIED_TOO_FAR;
+			LuaEvent::Queue("onDockingClearanceDenied", this, s,
+				EnumStrings::GetString("DockingRefusedReason", int(DockingRefusedReason::TooFarFromStation)));
 			return false;
 		}
 
@@ -366,32 +369,13 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 			// Note: maxOffset is squared
 			sd.maxOffset = std::max((pPort->maxShipSize / 2 - bboxRad), float(pPort->maxShipSize / 5.0));
 			sd.maxOffset *= sd.maxOffset;
-			outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i + 1));
-			if (this->IsGroundStation()) {
-				Frame *frame = Frame::GetFrame(this->GetFrame());
-				Body *stationPlanet = frame->GetBody();
-				Planet *p = static_cast<Planet *>(stationPlanet);
-
-				double pressure, density;
-				p->GetAtmosphericState(this->GetPositionRelTo(stationPlanet).Length(), &pressure, &density);
-
-				double rsqr = GetPositionRelTo(stationPlanet).LengthSqr();
-				// use g instead of m/(s^2) because it is easier to compare with ship info during gameplay
-				double gravity = (G * stationPlanet->GetMass() / rsqr) / 9.80;
-
-				if (pressure > 0.01) {
-					outMsg += " " + stringf(Lang::STATION_GRAV_PRESS, formatarg("grav", gravity, "f.2"), formatarg("press", pressure, "f.2"));
-				} else {
-					outMsg += " " + stringf(Lang::STATION_GRAV, formatarg("grav", gravity, "f.2"));
-				}
-			}
-			if (GetNearbyTraffic(50000) > 0) { //50km
-				outMsg += " " + stringf(Lang::WATCH_FOR_TRAFFIC_ON_APPROACH);
-			}
+			LuaEvent::Queue("onDockingClearanceGranted", this, s);
 			return true;
 		}
 	}
-	outMsg = Lang::CLEARANCE_DENIED_NO_BAYS;
+
+	LuaEvent::Queue("onDockingClearanceDenied", this, s,
+		EnumStrings::GetString("DockingRefusedReason", int(DockingRefusedReason::NoBaysAvailable)));
 	return false;
 }
 
@@ -555,8 +539,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			m_doorAnimationStep = 0.3; // open door
 
 			if (dt.stagePos >= 1.0) {
-				if (dt.ship == Pi::player)
-					Pi::game->log->Add(GetLabel(), Lang::DOCKING_CLEARANCE_EXPIRED, GameLog::PRIORITY_IMPORTANT);
+				LuaEvent::Queue("onDockingClearanceExpired", this, dt.ship);
 				dt.ship = 0;
 				dt.stage = 0;
 				m_doorAnimationStep = -0.3; // close door

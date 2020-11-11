@@ -32,6 +32,12 @@ public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	static void Init();
 
+	enum class DockingRefusedReason { // <enum scope='SpaceStation::DockingRefusedReason' name='DockingRefusedReason' public>
+		ClearanceAlreadyGranted,
+		TooFarFromStation,
+		NoBaysAvailable
+	};
+
 	SpaceStation() = delete;
 	// Should point to SystemBody in Pi::currentSystem
 	SpaceStation(const SystemBody *);
@@ -59,7 +65,7 @@ public:
 
 	int GetNearbyTraffic(double radius);
 
-	bool GetDockingClearance(Ship *s, std::string &outMsg);
+	bool GetDockingClearance(Ship *s);
 	int GetDockingPortCount() const { return m_type->NumDockingPorts(); }
 	int GetFreeDockingPort(const Ship *s) const; // returns -1 if none free
 	int GetMyDockingPort(const Ship *s) const;
