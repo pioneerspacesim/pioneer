@@ -435,7 +435,7 @@ theme.icons = {
 	-- dummy, until actually defined correctly
 	mouse_move_direction = 14,
 	-- transitional, aliased to the unused galaxymap icon
-	sun = 144,
+	sun = 35,
 }
 
 return theme
