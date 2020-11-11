@@ -3,6 +3,7 @@
 
 #include "LuaObject.h"
 #include "Json.h"
+#include "LuaMetaType.h"
 #include "LuaUtils.h"
 #include "PropertiedObject.h"
 #include "PropertyMap.h"

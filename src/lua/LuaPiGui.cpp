@@ -1,12 +1,14 @@
 // Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "Input.h"
 #include "LuaPiGuiInternal.h"
 
 #include "EnumStrings.h"
 #include "Game.h"
 #include "LuaColor.h"
 #include "LuaConstants.h"
+#include "LuaInput.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "LuaVector2.h"
@@ -1026,59 +1028,92 @@ static int l_pigui_text_colored(lua_State *l)
 static int l_pigui_get_axisbinding(lua_State *l)
 {
 	PROFILE_SCOPED()
-	std::string binding = "";
 	if (!Pi::input->IsJoystickEnabled()) {
 		lua_pushnil(l);
 		return 1;
 	}
 
-	ImGuiIO io = ImGui::GetIO();
-
 	// Escape is used to clear an existing binding
 	// io.KeysDown uses scancodes, but we want to use keycodes.
-	if (io.KeysDown[SDL_GetScancodeFromKey(SDLK_ESCAPE)]) {
-		binding = "disabled";
-		LuaPush<std::string>(l, binding);
-		return 1;
+	if (ImGui::GetIO().KeysDown[SDL_GetScancodeFromKey(SDLK_ESCAPE)]) {
+		LuaPush(l, true);
+		lua_pushnil(l);
+		return 2;
 	}
 
 	// otherwise actually check the joystick
+	const auto &joysticks = Input::GetJoysticks();
+	InputBindings::JoyAxis binding = {};
 
-#if 0 // FIXME implement lua joystick binding
-	auto joysticks = Pi::input->GetJoysticksState();
+	for (const auto &js : joysticks) {
+		const auto &axes = js.second.axes;
+		for (size_t axis_num = 0; axis_num < axes.size(); axis_num++) {
+			float val = axes[axis_num].value;
+			if (std::abs(val) > 0.25) {
+				binding.axis = axis_num;
+				binding.joystickId = js.first;
+				binding.direction = val > 0.0 ? 1 : -1;
+			}
+		}
+		if (binding.Enabled())
+			break;
+	}
 
-	for (auto js : joysticks) {
-		std::vector<float> axes = js.second.axes;
-		for (size_t a = 0; a < axes.size(); a++) {
-			if (axes[a] > 0.25 || axes[a] < -0.25) {
-				binding = "Joy" + Pi::input->JoystickGUIDString(js.first) + "/Axis" + std::to_string(a);
+	if (!binding.Enabled()) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	LuaPush(l, true);
+	LuaPush(l, binding);
+	return 2;
+}
+
+// FIXME: at the moment this just grabs the first button that is pressed
+static InputBindings::KeyBinding get_joy_button()
+{
+	auto &joysticks = Input::GetJoysticks();
+
+	for (const auto &js : joysticks) {
+		const auto &buttons = js.second.buttons;
+		const auto &hats = js.second.hats;
+		for (size_t b = 0; b < buttons.size(); b++) {
+			if (buttons[b])
+				return InputBindings::KeyBinding::JoystickButton(js.first, b);
+		}
+		for (size_t h = 0; h < hats.size(); h++) {
+			if (hats[h]) {
+				int hatDir = hats[h];
+				switch (hatDir) {
+				case SDL_HAT_LEFT:
+				case SDL_HAT_RIGHT:
+				case SDL_HAT_UP:
+				case SDL_HAT_DOWN:
+					return InputBindings::KeyBinding::JoystickHat(js.first, h, hatDir);
+				default:
+					continue;
+				}
 				break;
 			}
 		}
-		if (binding.compare("")) break;
 	}
-#endif
 
-	if (!binding.compare(""))
-		lua_pushnil(l);
-	else
-		LuaPush<std::string>(l, binding);
-	return 1;
+	return InputBindings::KeyBinding{};
 }
 
+// FIXME: implement an "input binding mode" which listens to events from Pi::input to build input chords
 static int l_pigui_get_keybinding(lua_State *l)
 {
 	PROFILE_SCOPED()
-	ImGuiIO io = ImGui::GetIO();
+
+	InputBindings::KeyChord binding;
 	int key = 0;
-	int mod = 0;
 
-	std::string binding;
-
+	// FIXME: support key chording instead of scanning the list of currently held keys!
 	// pick the first key that's currently held down
 	// should there be a priority?
 	for (int i = 0; i < 512; i++) {
-		if (io.KeysDown[i]) {
+		if (ImGui::GetIO().KeysDown[i]) {
 			// io.KeysDown uses scancodes, but we need keycodes.
 			key = SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(i));
 			break;
@@ -1087,63 +1122,26 @@ static int l_pigui_get_keybinding(lua_State *l)
 
 	// Escape is used to clear an existing binding
 	if (key == SDLK_ESCAPE) {
-		binding = "disabled";
-		LuaPush<std::string>(l, binding);
+		LuaPush(l, true);
+		lua_pushnil(l);
+		return 2;
+	}
+
+	// Check joysticks if no keys are held down
+	if (Pi::input->IsJoystickEnabled() && (key == 0 || (key >= SDLK_LCTRL && key <= SDLK_RGUI))) {
+		binding.activator = get_joy_button();
+	} else if (key != 0) {
+		binding.activator = InputBindings::KeyBinding(key);
+	}
+
+	if (!binding.Enabled()) {
+		lua_pushnil(l);
 		return 1;
 	}
 
-	// No modifier if the key is a modifier
-	// These are all in a continous range
-	if (!(key >= SDLK_LCTRL && key <= SDLK_RGUI)) {
-		if (io.KeyAlt) mod |= KMOD_ALT;
-		if (io.KeyShift) mod |= KMOD_SHIFT;
-		if (io.KeyCtrl) mod |= KMOD_CTRL;
-		if (io.KeySuper) mod |= KMOD_GUI;
-	}
-
-#if 0 // FIXME: actually implement axis binding
-	// Check joysticks if no keys are held down
-	if (Pi::input->IsJoystickEnabled() && (key == 0 || (key >= SDLK_LCTRL && key <= SDLK_RGUI))) {
-		auto joysticks = Pi::input->GetJoysticksState();
-
-		for (auto js : joysticks) {
-			std::vector<bool> buttons = js.second.buttons;
-			for (size_t b = 0; b < buttons.size(); b++) {
-				if (buttons[b]) {
-					binding = "Joy" + Pi::input->JoystickGUIDString(js.first) + "/Button" + std::to_string(b);
-					break;
-				}
-			}
-			for (size_t h = 0; h < js.second.hats.size(); h++) {
-				if (js.second.hats[h]) {
-					int hatDir = js.second.hats[h];
-					switch (hatDir) {
-					case SDL_HAT_LEFT:
-					case SDL_HAT_RIGHT:
-					case SDL_HAT_UP:
-					case SDL_HAT_DOWN:
-						binding = "Joy" + Pi::input->JoystickGUIDString(js.first) + "/Hat" + std::to_string(h) + "Dir" + std::to_string(js.second.hats[h]);
-						break;
-					default:
-						continue;
-					}
-					break;
-				}
-			}
-			if (binding.compare("")) break;
-		}
-	} else if (key != 0) {
-		// hard coding is bad, but is instantiating a keybinding every frame worse?
-		binding = "Key" + std::to_string(key);
-		if (mod > 0) binding += "Mod" + std::to_string(mod);
-	}
-#endif
-
-	if (!binding.compare(""))
-		lua_pushnil(l);
-	else
-		LuaPush<std::string>(l, binding);
-	return 1;
+	LuaPush(l, true);
+	LuaPush(l, binding);
+	return 2;
 }
 
 static int l_pigui_add_text(lua_State *l)

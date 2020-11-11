@@ -6,7 +6,6 @@
 
 #include "DeleteEmitter.h"
 #include "Lua.h"
-#include "LuaMetaType.h"
 #include "LuaPushPull.h"
 #include "LuaRef.h"
 #include "LuaUtils.h"
@@ -100,6 +99,7 @@ struct SerializerPair {
 };
 
 class PropertyMap;
+class LuaMetaTypeBase;
 
 // wrapper baseclass, and extra bits for getting at certain parts of the
 // LuaObject layer
@@ -269,7 +269,6 @@ private:
 	// initial lua type string. defined in a specialisation in the appropriate
 	// .cpp file
 	static const char *s_type;
-	static LuaMetaType<T> s_metaType;
 };
 
 // wrapper for a "core" object - one owned by c++ (eg Body).

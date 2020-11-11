@@ -15,12 +15,46 @@ local linput = Lang.GetResource("input-core")
 local ui = require 'pigui'
 local ModalWindow = require 'pigui.libs.modal-win'
 
+local function l18n_key_from_id(str)
+	return str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
+end
+
 -- convert an axis binding style ID to a translation resource identifier
 local function localize_binding_id(str)
 	-- TODO: avoid reading lines from the "Core" resource (lc)
 	-- it's here to reuse old strings (keyboard bindings for maps in KeyBindings.inc.h)
 	local jsonIndex = str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
-	return rawget(linput, jsonIndex) or rawget(lc, jsonIndex) or error("NO_JSON: " .. jsonIndex)
+	return rawget(linput, jsonIndex) or rawget(lc, jsonIndex) or '[NO_JSON] '..jsonIndex
+end
+
+local function get_binding_desc(bind)
+	if not bind then return end
+	local axis_names = { lc.X, lc.Y, lc.Z }
+	if bind.key then
+		return Input.GetKeyName(bind.key)
+	elseif bind.joystick and bind.hat then
+		return Input.GetJoystickName(bind.joystick) .. lc.HAT .. bind.hat .. lc.DIRECTION .. bind.direction
+	elseif bind.joystick and bind.button then
+		return Input.GetJoystickName(bind.joystick) .. lc.BUTTON .. bind.button
+	elseif bind.joystick and bind.axis then
+		return (bind.direction < 0 and "-" or "") .. Input.GetJoystickName(bind.joystick) .. ' AXIS ' .. (axis_names[bind.axis + 1] or tostring(bind.axis))
+	elseif bind.mouse then
+		return "MOUSE" .. bind.mouse -- FIXME
+	end
+end
+
+-- Get a localized name for a key chord to display on a binding
+local function get_chord_desc(chord)
+	if not chord.enabled then return "" end
+
+	local str = get_binding_desc(chord.activator)
+	local mod1 = chord.modifier1
+	local mod2 = chord.modifier2
+
+	if mod1 then str = str .. " + " .. get_binding_desc(mod1) end
+	if mod2 then str = str .. " + " .. get_binding_desc(mod2) end
+
+	return str
 end
 
 local player = nil
@@ -41,7 +75,7 @@ local optionsWinSize = Vector2(ui.screenWidth * 0.4, ui.screenHeight * 0.6)
 local showTab = 'video'
 
 local binding_pages
-local keyCaptureId
+local keyCaptureBind
 local keyCaptureNum
 
 local function combo(label, selected, items, tooltip)
@@ -278,66 +312,46 @@ end
 
 local captureBindingWindow
 captureBindingWindow = ModalWindow.New("CaptureBinding", function()
-	local info
-
-	for _,page in pairs(binding_pages) do
-		for _,group in pairs(page) do
-			if group.id then
-				for _,i in pairs(group) do
-					if i.id == keyCaptureId then
-						info = i
-					end
-				end
-			end
-		end
-	end
+	local info = keyCaptureBind
 
 	ui.text(localize_binding_id(info.id))
 	ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
 
-	if info.type == 'action' then
-		local desc
-		if keyCaptureNum == 1 then desc = info.bindingDescription1
-		else desc = info.bindingDescription2 end
-		desc = desc or '<None>'
-		ui.text(desc)
+	if info.type == 'Action' then
+		local desc = keyCaptureNum == 1 and info.binding or info.binding2
+		ui.text(desc.enabled and get_chord_desc(desc) or '<None>')
 
-		local bindingKey = Engine.pigui.GetKeyBinding()
-		local setBinding = false
-		if(bindingKey and keyCaptureNum==1 and bindingKey~=info.binding1) or (bindingKey and keyCaptureNum==2 and bindingKey~=info.binding2) then setBinding = true end
-
-		if setBinding and  keyCaptureNum == 1 then Input.SetActionBinding(info.id, bindingKey, info.binding2)
-		elseif setBinding and keyCaptureNum==2 then Input.SetActionBinding(info.id, info.binding1, bindingKey)
+		local set, bindingKey = Engine.pigui.GetKeyBinding()
+		if set then
+			if keyCaptureNum == 1 then info.binding = bindingKey
+			else info.binding2 = bindingKey end
 		end
-	elseif info.type == 'axis' then
+	elseif info.type == 'Axis' then
 		local desc
-		if keyCaptureNum == 1 then desc = info.axisDescription
-		elseif keyCaptureNum == 2 then desc = info.positiveDescription
-		else desc = info.negativeDescription end
-		desc = desc or '<None>'
+		if keyCaptureNum == 1 then
+			desc = get_binding_desc(info.axis) or '<None>'
+		else
+			desc = keyCaptureNum == 2 and info.positive or info.negative
+			desc = desc.enabled and get_chord_desc(desc) or '<None>'
+		end
 		ui.text(desc)
 
 		if keyCaptureNum == 1 then
-			local bindingAxis = Engine.pigui.GetAxisBinding()
-
-			if bindingAxis and bindingAxis~=info.axis then
-				Input.SetAxisBinding(info.id, bindingAxis, info.positive, info.negative)
-			end
+			local set, bindingAxis = Engine.pigui.GetAxisBinding()
+			if set then info.axis = bindingAxis end
 		elseif keyCaptureNum == 2 then
-			local bindingKey = Engine.pigui.GetKeyBinding()
-
-			if bindingKey and bindingKey ~= info.positive then
-				Input.SetAxisBinding(info.id, info.axis, bindingKey, info.negative)
-			end
+			local set, bindingKey = Engine.pigui.GetKeyBinding()
+			if set then info.positive = bindingKey end
 		else
-			local bindingKey = Engine.pigui.GetKeyBinding()
-			if bindingKey and bindingKey ~= info.negative then
-				Input.SetAxisBinding(info.id, info.axis, info.positive, bindingKey)
-			end
+			local set, bindingKey = Engine.pigui.GetKeyBinding()
+			if set then info.negative = bindingKey end
 		end
 	end
 
-	optionTextButton(lui.OK, nil, true, function() captureBindingWindow:close() end)
+	optionTextButton(lui.OK, nil, true, function()
+		Input.SaveBinding(info)
+		captureBindingWindow:close()
+	end)
 end, function (self, drawPopupFn)
 	ui.setNextWindowPosCenter('Always')
 	ui.withStyleColorsAndVars({["PopupBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
@@ -394,22 +408,24 @@ local function showLanguageOptions()
 end
 
 local function actionBinding(info)
-	local bindings = { info.binding1, info.binding2 }
-	local descs = { info.bindingDescription1, info.bindingDescription2 }
+	local descs = {
+		get_chord_desc(info.binding),
+		get_chord_desc(info.binding2)
+	}
 
 	if (ui.collapsingHeader(localize_binding_id(info.id), {})) then
 		ui.columns(3,"##bindings",false)
 		ui.nextColumn()
 		ui.text(linput.TEXT_BINDING)
 		bindingTextButton((descs[1] or '')..'##'..info.id..'1', (descs[1] or ''), true, function()
-			keyCaptureId = info.id
+			keyCaptureBind = info
 			keyCaptureNum = 1
 			captureBindingWindow:open()
 		end)
 		ui.nextColumn()
 		ui.text(linput.TEXT_ALT_BINDING)
 		bindingTextButton((descs[2] or '')..'##'..info.id..'2', (descs[2] or ''), true, function()
-			keyCaptureId = info.id
+			keyCaptureBind = info
 			keyCaptureNum = 2
 			captureBindingWindow:open()
 		end)
@@ -418,51 +434,38 @@ local function actionBinding(info)
 end
 
 local function axisBinding(info)
-	local bindings = { info.axis, info.positive, info.negative }
-	local descs = { info.axisDescription, info.positiveDescription, info.negativeDescription }
+	local axis, positive, negative = info.axis, info.positive, info.negative
+	local descs = { get_binding_desc(axis), get_chord_desc(positive), get_chord_desc(negative) }
+
 	if (ui.collapsingHeader(localize_binding_id(info.id), {})) then
 		ui.columns(3,"##axisjoybindings",false)
 		ui.text("Axis:")
 		ui.nextColumn()
 		bindingTextButton((descs[1] or '')..'##'..info.id..'axis', (descs[1] or ''), true, function()
-			keyCaptureId = info.id
+			keyCaptureBind = info
 			keyCaptureNum = 1
 			captureBindingWindow:open()
 		end)
 		ui.nextColumn()
-		if info.axis then
-			local c, inverted, deadzone, sensitivity = nil, info.axis:sub(1,1) == "-",
-				tonumber(info.axis:match"/DZ(%d+%.%d*)" or 0) * 100,
-				tonumber(info.axis:match"/E(%d+%.%d*)" or 1) * 100
-			local axis = info.axis:match("Joy[0-9a-f]+/Axis%d+")
-			local function set_axis()
-				local _ax = (inverted and "-" or "") .. axis .. "/DZ" .. deadzone / 100.0 .. "/E" .. sensitivity / 100.0
-				Input.SetAxisBinding(info.id, _ax, info.positive, info.negative)
-			end
+		if axis then
+			local c, inverted = nil, axis.direction < 0
 			c,inverted = ui.checkbox("Inverted##"..info.id, inverted, linput.TEXT_INVERT_AXIS)
-			set_axis()
-			ui.nextColumn()
-			ui.nextColumn()
-			c, deadzone = slider("Deadzone##"..info.id, deadzone, 0, 100, linput.TEXT_AXIS_DEADZONE)
-			set_axis()
-			ui.nextColumn()
-			c, sensitivity = slider("Sensitivity##"..info.id, sensitivity, 0, 100, linput.TEXT_AXIS_SENSITIVITY)
-			set_axis()
+			if c then axis.direction = inverted and -1 or 1; info.axis = axis end
 		end
+		-- new row
 		ui.nextColumn()
-		ui.columns(3,"##axiskeybindings",false)
 		ui.text(linput.TEXT_KEY_BINDINGS)
 		ui.nextColumn()
 		ui.text(linput.TEXT_KEY_POSITIVE)
 		bindingTextButton((descs[2] or '')..'##'..info.id..'positive', (descs[2] or ''), true, function()
-			keyCaptureId = info.id
+			keyCaptureBind = info
 			keyCaptureNum = 2
 			captureBindingWindow:open()
 		end)
 		ui.nextColumn()
 		ui.text(linput.TEXT_KEY_NEGATIVE)
 		bindingTextButton((descs[3] or '')..'##'..info.id..'negative', (descs[3] or ''), true, function()
-			keyCaptureId = info.id
+			keyCaptureBind = info
 			keyCaptureNum = 3
 			captureBindingWindow:open()
 		end)
@@ -475,7 +478,7 @@ local function showControlsOptions()
 
 	local mouseYInvert = Input.GetMouseYInverted()
 	local joystickEnabled = Input.GetJoystickEnabled()
-	binding_pages = Input.GetBindings()
+	binding_pages = Input.GetBindingPages()
 	local c
 
 	c,mouseYInvert = checkbox(lui.INVERT_MOUSE_Y, mouseYInvert)
@@ -497,11 +500,11 @@ local function showControlsOptions()
 					ui.text(localize_binding_id("Group" .. group.id))
 				end)
 				ui.separator()
-				for _,info in ipairs(group) do
-					if info.type == 'action' then
-						actionBinding(info)
-					elseif info.type == 'axis' then
-						axisBinding(info)
+				for _,binding in ipairs(group) do
+					if binding.type == 'Action' then
+						actionBinding(binding)
+					elseif binding.type == 'Axis' then
+						axisBinding(binding)
 					end
 				end
 			end

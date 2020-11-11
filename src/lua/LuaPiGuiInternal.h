@@ -6,6 +6,7 @@
 
 #include "LuaObject.h"
 #include "LuaPushPull.h"
+#include "LuaTable.h"
 
 #include "vector2.h"
 #include "vector3.h"

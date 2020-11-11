@@ -119,7 +119,7 @@ protected:
 		return getter(L, ptr);
 	}
 
-	template <typename T, typename Dt>
+	template <typename T, typename Dt, typename Dt2>
 	static int getter_member_fn_wrapper_(lua_State *L)
 	{
 		T *ptr = LuaPull<T *>(L, 1);
@@ -133,7 +133,7 @@ protected:
 			return luaL_error(L, "Invalid number of arguments for property getter/setter %s", name);
 
 		if (lua_gettop(L) > 1) {
-			auto &setter = PullPointerToMember<member_function<T, void, Dt>>(L, lua_upvalueindex(3));
+			auto &setter = PullPointerToMember<member_function<T, void, Dt2>>(L, lua_upvalueindex(3));
 			if (setter != nullptr) {
 				pi_lua_multiple_call(L, 1, ptr, setter);
 				return 0;
@@ -366,16 +366,16 @@ public:
 
 	// Magic to allow binding a const function to Lua. Take care to ensure that you do not
 	// push a const object to lua, or this code will become undefined behavior.
-	template <typename Dt>
-	LuaMetaType &AddMember(const char *name, const_member_function<T, Dt> getter, member_function<T, void, Dt> setter = nullptr)
+	template <typename Dt, typename Dt2 = Dt>
+	LuaMetaType &AddMember(const char *name, const_member_function<T, Dt> getter, member_function<T, void, Dt2> setter = nullptr)
 	{
 		return AddMember(name, reinterpret_cast<member_function<T, Dt>>(getter), setter);
 	}
 
 	// Bind a pseudo-member to Lua via a member-function getter and setter.
 	// The parameter will automatically be pulled from Lua and passed to the setter.
-	template <typename Dt>
-	LuaMetaType &AddMember(const char *name, member_function<T, Dt> getter, member_function<T, void, Dt> setter = nullptr)
+	template <typename Dt, typename Dt2 = Dt>
+	LuaMetaType &AddMember(const char *name, member_function<T, Dt> getter, member_function<T, void, Dt2> setter = nullptr)
 	{
 		lua_State *L = m_lua;
 		GetAttrTable(L, m_index);
@@ -383,7 +383,7 @@ public:
 		lua_pushstring(L, (m_typeName + "." + name).c_str());
 		PushPointerToMember(L, getter);
 		PushPointerToMember(L, setter);
-		lua_pushcclosure(L, &getter_member_fn_wrapper_<T, Dt>, 3);
+		lua_pushcclosure(L, &getter_member_fn_wrapper_<T, Dt, Dt2>, 3);
 		if (m_protected)
 			lua_pushcclosure(L, &secure_trampoline, 1);
 
