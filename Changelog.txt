@@ -28,6 +28,7 @@ November 2020
      * Fix ship displays not properly updating between games / selections (#4999)
      * Fix zenith indicator not pointing away from the planet (#4999)
      * Fix starting a new game charging a docking fee (#5000)
+     * Herding back the Sun and Moon icons who went astray during the latest iconoclast raid. (#5003)
 
 October 2020
    * New Features
