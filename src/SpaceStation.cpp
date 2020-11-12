@@ -324,7 +324,7 @@ int SpaceStation::GetNearbyTraffic(double radius)
 	int shipsNearby = 0;
 	Space::BodyNearList traffic = Pi::game->GetSpace()->GetBodiesMaybeNear(this, radius);
 	for (Body *body : traffic) {
-		if (!body->IsType(Object::SHIP)) continue;
+		if (!body->IsType(ObjectType::SHIP)) continue;
 		shipsNearby++;
 	}
 	return shipsNearby - NumShipsDocked();
