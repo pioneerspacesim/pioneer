@@ -60,7 +60,7 @@ local function getAtmoState(station)
 	local parent_systemBody = station.path:GetSystemBody().parent
 	local parent_frameBody = Space.GetBody(parent_systemBody.index)
 	local gravity, pressure = parent_systemBody.gravity, parent_systemBody.hasAtmosphere and parent_frameBody:GetAtmosphericState(station)
-	return gravity, parent_systemBody.hasAtmosphere, pressure
+	return gravity / 9.8, parent_systemBody.hasAtmosphere, pressure
 end
 
 local function onDockingClearanceGranted(station, ship)
