@@ -4,6 +4,7 @@
 #ifndef _LUACONSOLE_H
 #define _LUACONSOLE_H
 
+#include "Input.h"
 #include "LuaManager.h"
 #include "RefCounted.h"
 #include "ui/Widget.h"
@@ -20,6 +21,7 @@ public:
 	LuaConsole();
 	virtual ~LuaConsole();
 
+	void SetupBindings();
 	void Toggle();
 
 	bool IsActive() const { return m_active; }
@@ -51,6 +53,8 @@ private:
 #endif
 
 	bool m_active;
+	Input::InputFrame m_inputFrame;
+	InputBindings::Action *toggleLuaConsole;
 
 	RefCountedPtr<UI::Widget> m_container;
 	UI::MultiLineText *m_output;

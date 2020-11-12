@@ -298,7 +298,7 @@ ui.registerHandler('game', function(delta_t)
 			if not ui.optionsWindow.isOpen then
 				Game.SetTimeAcceleration("paused")
 				ui.optionsWindow:open()
-				Input.DisableBindings()
+				Input.EnableBindings(false)
 			else
 				ui.optionsWindow:close()
 				if not ui.optionsWindow.isOpen then

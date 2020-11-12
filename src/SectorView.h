@@ -4,6 +4,7 @@
 #ifndef _SECTORVIEW_H
 #define _SECTORVIEW_H
 
+#include "Input.h"
 #include "UIView.h"
 #include "Input.h"
 #include "galaxy/Sector.h"
@@ -76,9 +77,12 @@ public:
 	const std::string AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const;
 	void SetDrawRouteLines(bool value) { m_drawRouteLines = value; }
 
-	static struct InputBinding : public Input::InputFrame {
-		using Action = KeyBindings::ActionBinding;
-		using Axis = KeyBindings::AxisBinding;
+protected:
+	void OnSwitchTo() override;
+	void OnSwitchFrom() override;
+
+	struct InputBinding : public Input::InputFrame {
+		using InputFrame::InputFrame;
 
 		Action *mapToggleSelectionFollowView;
 		Action *mapWarpToCurrent;
@@ -91,12 +95,9 @@ public:
 		Axis *mapViewYaw;
 		Axis *mapViewPitch;
 		Axis *mapViewZoom;
+		
 		void RegisterBindings() override;
 	} InputBindings;
-
-protected:
-	void OnSwitchTo() override;
-	void OnSwitchFrom() override;
 
 private:
 	void InitDefaults();
@@ -135,7 +136,6 @@ private:
 	void SetSelected(const SystemPath &path);
 
 	void MouseWheel(bool up);
-	void OnKeyPressed(SDL_Keysym *keysym);
 
 	RefCountedPtr<Galaxy> m_galaxy;
 

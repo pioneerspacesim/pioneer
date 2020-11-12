@@ -49,6 +49,7 @@ if (APPLE)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu")
 endif(APPLE)
 
+option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)
 if (CMAKE_COMPILER_IS_GNUCXX)
     if (NOT IS_TRAVIS)
         add_compile_options(
@@ -63,6 +64,9 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 		-Wno-implicit-fallthrough
 	)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
+	if (USE_LLD_LINKER)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=lld")
+	endif(USE_LLD_LINKER)
 	set(CMAKE_CXX_FLAGS_DEBUG "-g -Og")
 endif (CMAKE_COMPILER_IS_GNUCXX)
 

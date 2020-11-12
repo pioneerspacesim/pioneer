@@ -9,7 +9,6 @@
 #include "Game.h"
 #include "GameConfig.h"
 #include "Intro.h"
-#include "KeyBindings.h"
 #include "Lang.h"
 #include "LuaColor.h"
 #include "LuaConstants.h"

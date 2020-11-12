@@ -103,10 +103,6 @@
     "description": "",
     "message": "Rudasis nykštukas - subžvaigždinis objektas"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Mygtukas \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Kamera iš apačios"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Paskirties vieta"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Katalogas \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Atstumas: %distance{f.2} šviesm."
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Visiškai kapitalistinė - nėra valstybinės socialinės paramos"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Kepurė \""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Perkrauti"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Atitaisyti kryptį ir priartinimą"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Robotai"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" neturi reikšmingos atmosferos\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Nuokrypis"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Jauna žemės ūkio kolonija."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

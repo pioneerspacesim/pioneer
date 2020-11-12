@@ -103,10 +103,6 @@
     "description": "",
     "message": "Nana Bruna (oggetto substellare)"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Pulsante \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Camera inferiore"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Destinazione"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Dir \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Distanza: %distance{f.2} AL"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Capitalismo perfetto - nessun intervento dello Stato in economia"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Azzera Zoom"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Reimposta Orientamento e Zoom"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Robot"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" con atmosfera insignificante\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Imbardata"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Giovane colonia agricola."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

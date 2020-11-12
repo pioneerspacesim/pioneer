@@ -106,8 +106,8 @@ namespace GalacticEconomy {
 
 		out.price = j["price"];
 
-		const Json &legality = j["default_legality"];
-		if (legality.is_array()) {
+		if (j.count("default_legality") && j["default_legality"].is_array()) {
+			const Json &legality = j["default_legality"];
 			out.default_legality = fixed(legality[0].get<uint64_t>(), legality[1].get<uint64_t>());
 		} else {
 			out.default_legality = fixed(1, 1);

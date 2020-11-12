@@ -30,9 +30,9 @@ void IniConfig::SetString(const std::string &section, const std::string &key, co
 
 int IniConfig::Int(const std::string &section, const std::string &key, int defval) const
 {
-	SectionMapType::const_iterator secIt = m_map.find(section);
+	const auto secIt = m_map.find(section);
 	if (secIt == m_map.end()) return defval;
-	MapType::const_iterator it = secIt->second.find(key);
+	const auto it = secIt->second.find(key);
 	if (it == secIt->second.end()) return defval;
 
 	const StringRange val = StringRange(it->second.c_str(), it->second.size()).StripSpace();
@@ -45,9 +45,9 @@ int IniConfig::Int(const std::string &section, const std::string &key, int defva
 
 float IniConfig::Float(const std::string &section, const std::string &key, float defval) const
 {
-	SectionMapType::const_iterator secIt = m_map.find(section);
+	const auto secIt = m_map.find(section);
 	if (secIt == m_map.end()) return defval;
-	MapType::const_iterator it = secIt->second.find(key);
+	const auto it = secIt->second.find(key);
 	if (it == secIt->second.end()) return defval;
 
 	const StringRange val = StringRange(it->second.c_str(), it->second.size()).StripSpace();
@@ -60,17 +60,32 @@ float IniConfig::Float(const std::string &section, const std::string &key, float
 
 std::string IniConfig::String(const std::string &section, const std::string &key, const std::string &defval) const
 {
-	SectionMapType::const_iterator secIt = m_map.find(section);
+	const auto secIt = m_map.find(section);
 	if (secIt == m_map.end()) return defval;
-	MapType::const_iterator it = secIt->second.find(key);
+	const auto it = secIt->second.find(key);
 	if (it == secIt->second.end()) return defval;
 	return it->second;
 }
 
 void IniConfig::Read(FileSystem::FileSource &fs, const std::string &path)
 {
+	// FIXME: add a mechanism to determine if a FileSource is suitable for writing
+	// We use dynamic_cast here as a very simple hack because IniConfig::Read isn't
+	// intended to be called very often.
+	auto *sourceFs = dynamic_cast<FileSystem::FileSourceFS *>(&fs);
+	if (sourceFs != nullptr) {
+		m_fs = sourceFs;
+		m_path = path;
+	} else {
+		m_fs = nullptr;
+		m_path.clear();
+	}
+
 	RefCountedPtr<FileSystem::FileData> data = fs.ReadFile(path);
-	if (data) Read(*data);
+	if (!data)
+		return;
+
+	Read(*data);
 }
 
 void IniConfig::Read(const FileSystem::FileData &data)
@@ -123,7 +138,7 @@ bool IniConfig::Write(FileSystem::FileSourceFS &fs, const std::string &path)
 		Output("Could not write config file '%s'\n", FileSystem::JoinPath(fs.GetRoot(), path).c_str());
 		return false;
 	}
-	for (SectionMapType::const_iterator secIt = m_map.begin(); secIt != m_map.end(); ++secIt) {
+	for (auto secIt = m_map.cbegin(); secIt != m_map.cend(); ++secIt) {
 		const MapType &map = secIt->second;
 		if (map.empty())
 			continue;
@@ -139,4 +154,14 @@ bool IniConfig::Write(FileSystem::FileSourceFS &fs, const std::string &path)
 	}
 	fclose(f);
 	return true;
+}
+
+bool IniConfig::Save()
+{
+	if (!m_fs || m_path.empty()) {
+		Output("Attempted to write uninitialized IniConfig. Did you forget to Read() first?");
+		return false;
+	}
+
+	return Write(*m_fs, m_path);
 }

@@ -103,10 +103,6 @@
     "description": "",
     "message": "Кафяво джудже"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Бутон \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Долна камера"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Дестинация"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Пос \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Разстояние: %distance{f.2} сг"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Изцяло капиталистическа - без намеса от правителството"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Нулиране"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Нулирай Ориентацията и Мащабирането"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Роботи"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" незначителна атмосфера\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Отклонение"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Млада фермерска колония."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

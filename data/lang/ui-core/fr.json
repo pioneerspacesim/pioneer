@@ -1643,6 +1643,10 @@
     "description": "",
     "message": "Reset"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Réinitialise l'orientation et le zoom"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Reprendre la partie"

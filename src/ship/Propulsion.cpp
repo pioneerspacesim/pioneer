@@ -7,6 +7,7 @@
 #include "GameSaveError.h"
 #include "Object.h" // <- here only for comment in AIFaceDirection (line 320)
 #include "Pi.h"
+#include "Player.h"
 #include "PlayerShipController.h"
 
 void Propulsion::SaveToJson(Json &jsonObj, Space *space)
@@ -364,7 +365,7 @@ vector3d Propulsion::AIChangeVelDir(const vector3d &reqdiffvel)
 	if (fabs(diffvel.y) > maxFA.y) diffvel *= maxFA.y / fabs(diffvel.y);
 	if (fabs(diffvel.z) > maxFA.z) diffvel *= maxFA.z / fabs(diffvel.z);
 
-	AIChangeVelBy(diffvel); // should always return true because it's already capped?
+	AIChangeVelBy(diffvel);								  // should always return true because it's already capped?
 	return m_dBody->GetOrient() * (reqdiffvel - diffvel); // should be remaining diffvel to correct
 }
 
@@ -385,19 +386,19 @@ double Propulsion::AIFaceUpdir(const vector3d &updir, double av)
 	double frameAccel = maxAccel * Pi::game->GetTimeStep();
 
 	vector3d uphead = updir * m_dBody->GetOrient(); // create desired object-space updir
-	if (uphead.z > 0.99999) return 0; // bail out if facing updir
+	if (uphead.z > 0.99999) return 0;				// bail out if facing updir
 	uphead.z = 0;
 	uphead = uphead.Normalized(); // only care about roll axis
 
 	double ang = 0.0, dav = 0.0;
 	if (uphead.y < 0.99999999) {
-		ang = acos(Clamp(uphead.y, -1.0, 1.0)); // scalar angle from head to curhead
+		ang = acos(Clamp(uphead.y, -1.0, 1.0));					 // scalar angle from head to curhead
 		double iangvel = av + calc_ivel_pos(ang, 0.0, maxAccel); // ideal angvel at current time
 
 		dav = uphead.x > 0 ? -iangvel : iangvel;
 	}
 	double cav = (m_dBody->GetAngVelocity() * m_dBody->GetOrient()).z; // current obj-rel angvel
-	double diff = (dav - cav) / frameAccel; // find diff between current & desired angvel
+	double diff = (dav - cav) / frameAccel;							   // find diff between current & desired angvel
 
 	SetAngThrusterState(2, diff);
 	return ang;
@@ -413,11 +414,11 @@ double Propulsion::AIFaceDirection(const vector3d &dir, double av)
 	double maxAccel = m_angThrust / m_dBody->GetAngularInertia(); // should probably be in stats anyway
 
 	vector3d head = (dir * m_dBody->GetOrient()).Normalized(); // create desired object-space heading
-	vector3d dav(0.0, 0.0, 0.0); // desired angular velocity
+	vector3d dav(0.0, 0.0, 0.0);							   // desired angular velocity
 
 	double ang = 0.0;
 	if (head.z > -0.99999999) {
-		ang = acos(Clamp(-head.z, -1.0, 1.0)); // scalar angle from head to curhead
+		ang = acos(Clamp(-head.z, -1.0, 1.0));					 // scalar angle from head to curhead
 		double iangvel = av + calc_ivel_pos(ang, 0.0, maxAccel); // ideal angvel at current time
 
 		// Normalize (head.x, head.y) to give desired angvel direction
@@ -431,13 +432,17 @@ double Propulsion::AIFaceDirection(const vector3d &dir, double av)
 	vector3d diff = is_zero_exact(frameAccel) ? vector3d(0.0) : (dav - cav) / frameAccel; // find diff between current & desired angvel
 
 	// If the player is pressing a roll key, don't override roll.
-	// XXX this really shouldn't be here. a better way would be to have a
+	// HACK this really shouldn't be here. a better way would be to have a
 	// field in Ship describing the wanted angvel adjustment from input. the
 	// baseclass version in Ship would always be 0. the version in Player
 	// would be constructed from user input. that adjustment could then be
 	// considered by this method when computing the required change
-	if (m_dBody->IsType(Object::PLAYER) && (PlayerShipController::InputBindings.roll->IsActive()))
-		diff.z = GetAngThrusterState().z;
+	if (m_dBody->IsType(Object::PLAYER)) {
+		auto *playerController = static_cast<const Player *>(m_dBody)->GetPlayerController();
+		if (playerController->InputBindings.roll->IsActive())
+			diff.z = GetAngThrusterState().z;
+	}
+
 	SetAngThrusterState(diff);
 	return ang;
 }

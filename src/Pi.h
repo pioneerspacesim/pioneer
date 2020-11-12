@@ -16,6 +16,10 @@
 #include <string>
 #include <vector>
 
+namespace Input {
+	class Manager;
+} //namespace Input
+
 namespace PiGui {
 	class Instance;
 } //namespace PiGui
@@ -23,7 +27,6 @@ namespace PiGui {
 class Game;
 
 class GameConfig;
-class Input;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
@@ -207,7 +210,7 @@ public:
 
 	static void RequestProfileFrame(const std::string &profilePath = "");
 
-	static Input *input;
+	static Input::Manager *input;
 	static Player *player;
 	static TransferPlanner *planner;
 	static LuaConsole *luaConsole;

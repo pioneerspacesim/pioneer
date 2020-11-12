@@ -20,14 +20,14 @@ public:
 	UIView() :
 		m_templateName(0) {}
 
-	virtual void Update() {}
-	virtual void Draw3D() {}
+	virtual void Update() override {}
+	virtual void Draw3D() override {}
 	const char *GetTemplateName() { return m_templateName; }
 
 protected:
 	virtual void BuildUI(UI::Single *container);
-	virtual void OnSwitchTo();
-	virtual void OnSwitchFrom();
+	virtual void OnSwitchTo() override;
+	virtual void OnSwitchFrom() override;
 
 	UI::Widget *BuildTemplateUI();
 

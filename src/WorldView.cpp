@@ -35,16 +35,35 @@ namespace {
 	static const Color red(255, 0, 0, 128);
 } // namespace
 
+REGISTER_INPUT_BINDING(WorldView)
+{
+	using namespace InputBindings;
+	Input::BindingGroup *group = input->GetBindingPage("General")->GetBindingGroup("Miscellaneous");
+
+	input->AddActionBinding("BindToggleHudMode", group, Action({ SDLK_TAB }));
+	input->AddActionBinding("BindIncreaseTimeAcceleration", group, Action({ SDLK_PAGEUP }));
+	input->AddActionBinding("BindDecreaseTimeAcceleration", group, Action({ SDLK_PAGEDOWN }));
+}
+
+void WorldView::InputBinding::RegisterBindings()
+{
+	toggleHudMode = AddAction("BindToggleHudMode");
+	increaseTimeAcceleration = AddAction("BindIncreaseTimeAcceleration");
+	decreaseTimeAcceleration = AddAction("BindDecreaseTimeAcceleration");
+}
+
 WorldView::WorldView(Game *game) :
 	PiGuiView("WorldView"),
-	m_game(game)
+	m_game(game),
+	InputBindings(Pi::input)
 {
 	InitObject();
 }
 
 WorldView::WorldView(const Json &jsonObj, Game *game) :
 	PiGuiView("WorldView"),
-	m_game(game)
+	m_game(game),
+	InputBindings(Pi::input)
 {
 	if (!jsonObj["world_view"].is_object()) throw SavedGameCorruptException();
 	Json worldViewObj = jsonObj["world_view"];
@@ -52,26 +71,6 @@ WorldView::WorldView(const Json &jsonObj, Game *game) :
 	InitObject();
 
 	shipView->LoadFromJson(worldViewObj);
-}
-
-WorldView::InputBinding WorldView::InputBindings;
-
-void WorldView::RegisterInputBindings()
-{
-	using namespace KeyBindings;
-	Input::BindingPage *page = Pi::input->GetBindingPage("General");
-	Input::BindingGroup *group;
-
-#define BINDING_GROUP(n) group = page->GetBindingGroup(#n);
-#define KEY_BINDING(n, id, k1, k2) InputBindings.n = Pi::input->AddActionBinding(id, group, \
-									   ActionBinding(k1, k2));
-#define AXIS_BINDING(n, id, k1, k2) InputBindings.n = Pi::input->AddAxisBinding(id, group, \
-										AxisBinding(k1, k2));
-
-	BINDING_GROUP(Miscellaneous)
-	KEY_BINDING(toggleHudMode, "BindToggleHudMode", SDLK_TAB, 0)
-	KEY_BINDING(increaseTimeAcceleration, "BindIncreaseTimeAcceleration", SDLK_PAGEUP, 0)
-	KEY_BINDING(decreaseTimeAcceleration, "BindDecreaseTimeAcceleration", SDLK_PAGEDOWN, 0)
 }
 
 void WorldView::InitObject()
@@ -104,13 +103,14 @@ void WorldView::InitObject()
 	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
 	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 
+	InputBindings.RegisterBindings();
 	shipView.reset(new ShipViewController(this));
 	shipView->Init();
 	SetViewController(shipView.get());
 
-	m_onToggleHudModeCon = InputBindings.toggleHudMode->onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
-	m_onIncTimeAccelCon = InputBindings.increaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
-	m_onDecTimeAccelCon = InputBindings.decreaseTimeAcceleration->onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
+	m_onToggleHudModeCon = InputBindings.toggleHudMode->onPressed.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
+	m_onIncTimeAccelCon = InputBindings.increaseTimeAcceleration->onPressed.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
+	m_onDecTimeAccelCon = InputBindings.decreaseTimeAcceleration->onPressed.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
 }
 
 WorldView::~WorldView()
@@ -239,12 +239,14 @@ void WorldView::OnSwitchTo()
 {
 	if (m_viewController)
 		m_viewController->Activated();
+	Pi::input->PushInputFrame(&InputBindings);
 }
 
 void WorldView::OnSwitchFrom()
 {
 	if (m_viewController)
 		m_viewController->Deactivated();
+	Pi::input->RemoveInputFrame(&InputBindings);
 	Pi::DrawGUI = true;
 }
 
@@ -748,11 +750,4 @@ vector3d WorldView::GetTargetIndicatorScreenPosition(const Body *body) const
 	vector3d pos = body->GetInterpPositionRelTo(m_cameraContext->GetCameraFrame());
 	pos += body->GetInterpOrientRelTo(m_cameraContext->GetCameraFrame()) * body->GetTargetIndicatorPosition();
 	return WorldSpaceToScreenSpace(pos);
-}
-
-void WorldView::HandleSDLEvent(SDL_Event &event)
-{
-	InputBindings.toggleHudMode->CheckSDLEventAndDispatch(&event);
-	InputBindings.increaseTimeAcceleration->CheckSDLEventAndDispatch(&event);
-	InputBindings.decreaseTimeAcceleration->CheckSDLEventAndDispatch(&event);
 }

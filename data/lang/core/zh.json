@@ -103,10 +103,6 @@
     "description": "",
     "message": "褐矮星亚恒星体"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\"按钮\""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "底部摄像机"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "目的地"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\"目录\""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "距离: %distance{f.2} 光年"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "完全资本主义 - 政府不提供福利"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\"帽子\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "重置"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "重置方向和缩放"
-  },
   "ROBOTS": {
     "description": "",
     "message": "机器人"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\"没有明显大气\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "偏航"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "新兴的农业殖民地."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

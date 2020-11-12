@@ -1643,6 +1643,10 @@
     "description": "",
     "message": "Resetare"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Resetează Orientare și Focalizare"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Întoarcere în joc"

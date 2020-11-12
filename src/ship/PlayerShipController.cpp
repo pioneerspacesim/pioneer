@@ -6,7 +6,7 @@
 #include "Game.h"
 #include "GameConfig.h"
 #include "GameSaveError.h"
-#include "KeyBindings.h"
+#include "Input.h"
 #include "Pi.h"
 #include "Player.h"
 #include "Ship.h"
@@ -17,8 +17,37 @@
 
 #include <algorithm>
 
+REGISTER_INPUT_BINDING(PlayerShipController)
+{
+	using namespace InputBindings;
+	auto controlsPage = Pi::input->GetBindingPage("ShipControls");
+
+	auto weaponsGroup = controlsPage->GetBindingGroup("Weapons");
+	input->AddActionBinding("BindTargetObject", weaponsGroup, Action({ SDLK_y }));
+	input->AddActionBinding("BindPrimaryFire", weaponsGroup, Action({ SDLK_SPACE }));
+	input->AddActionBinding("BindSecondaryFire", weaponsGroup, Action({ SDLK_m }));
+
+	auto flightGroup = controlsPage->GetBindingGroup("ShipOrient");
+	input->AddAxisBinding("BindAxisPitch", flightGroup, Axis({}, { SDLK_k }, { SDLK_i }));
+	input->AddAxisBinding("BindAxisYaw", flightGroup, Axis({}, { SDLK_j }, { SDLK_l }));
+	input->AddAxisBinding("BindAxisRoll", flightGroup, Axis({}, { SDLK_u }, { SDLK_o }));
+	input->AddActionBinding("BindKillRot", flightGroup, Action({ SDLK_p }, { SDLK_x }));
+	input->AddActionBinding("BindToggleRotationDamping", flightGroup, Action({ SDLK_v }));
+
+	auto thrustGroup = controlsPage->GetBindingGroup("ManualControl");
+	input->AddAxisBinding("BindAxisThrustForward", thrustGroup, Axis({}, { SDLK_w }, { SDLK_s }));
+	input->AddAxisBinding("BindAxisThrustUp", thrustGroup, Axis({}, { SDLK_r }, { SDLK_f }));
+	input->AddAxisBinding("BindAxisThrustLeft", thrustGroup, Axis({}, { SDLK_a }, { SDLK_d }));
+	input->AddActionBinding("BindThrustLowPower", thrustGroup, Action({ SDLK_LSHIFT }));
+
+	auto speedGroup = controlsPage->GetBindingGroup("SpeedControl");
+	input->AddAxisBinding("BindSpeedControl", speedGroup, Axis({}, { SDLK_RETURN }, { SDLK_RSHIFT }));
+	input->AddActionBinding("BindToggleSetSpeed", speedGroup, Action({ SDLK_v }));
+}
+
 PlayerShipController::PlayerShipController() :
 	ShipController(),
+	InputBindings(Pi::input),
 	m_combatTarget(0),
 	m_navTarget(0),
 	m_setSpeedTarget(0),
@@ -44,48 +73,44 @@ PlayerShipController::PlayerShipController() :
 			  "You must call PlayerShipController::RegisterInputBindings before initializing a PlayerShipController");
 	}
 
-	m_connRotationDampingToggleKey = InputBindings.toggleRotationDamping->onPress.connect(
+	InputBindings.RegisterBindings();
+	Pi::input->PushInputFrame(&InputBindings);
+
+	m_connRotationDampingToggleKey = InputBindings.toggleRotationDamping->onPressed.connect(
 		sigc::mem_fun(this, &PlayerShipController::ToggleRotationDamping));
 
-	m_fireMissileKey = InputBindings.secondaryFire->onPress.connect(
+	m_fireMissileKey = InputBindings.secondaryFire->onPressed.connect(
 		sigc::mem_fun(this, &PlayerShipController::FireMissile));
 
-	m_setSpeedMode = InputBindings.toggleSetSpeed->onPress.connect(
+	m_setSpeedMode = InputBindings.toggleSetSpeed->onPressed.connect(
 		sigc::mem_fun(this, &PlayerShipController::ToggleSetSpeedMode));
 }
 
-PlayerShipController::InputBinding PlayerShipController::InputBindings;
-
-void PlayerShipController::RegisterInputBindings()
+void PlayerShipController::InputBinding::RegisterBindings()
 {
-	using namespace KeyBindings;
-	auto controlsPage = Pi::input->GetBindingPage("ShipControls");
+	targetObject = AddAction("BindTargetObject");
+	primaryFire = AddAction("BindPrimaryFire");
+	secondaryFire = AddAction("BindSecondaryFire");
 
-	auto weaponsGroup = controlsPage->GetBindingGroup("Weapons");
-	InputBindings.targetObject = Pi::input->AddActionBinding("BindTargetObject", weaponsGroup, ActionBinding(SDLK_y));
-	InputBindings.primaryFire = Pi::input->AddActionBinding("BindPrimaryFire", weaponsGroup, ActionBinding(SDLK_SPACE));
-	InputBindings.secondaryFire = Pi::input->AddActionBinding("BindSecondaryFire", weaponsGroup, ActionBinding(SDLK_m));
+	pitch = AddAxis("BindAxisPitch");
+	yaw = AddAxis("BindAxisYaw");
+	roll = AddAxis("BindAxisRoll");
 
-	auto flightGroup = controlsPage->GetBindingGroup("ShipOrient");
-	InputBindings.pitch = Pi::input->AddAxisBinding("BindAxisPitch", flightGroup, AxisBinding(SDLK_k, SDLK_i));
-	InputBindings.yaw = Pi::input->AddAxisBinding("BindAxisYaw", flightGroup, AxisBinding(SDLK_j, SDLK_l));
-	InputBindings.roll = Pi::input->AddAxisBinding("BindAxisRoll", flightGroup, AxisBinding(SDLK_u, SDLK_o));
-	InputBindings.killRot = Pi::input->AddActionBinding("BindKillRot", flightGroup, ActionBinding(SDLK_p, SDLK_x));
-	InputBindings.toggleRotationDamping = Pi::input->AddActionBinding("BindToggleRotationDamping", flightGroup, ActionBinding(SDLK_v));
+	killRot = AddAction("BindKillRot");
+	toggleRotationDamping = AddAction("BindToggleRotationDamping");
 
-	auto thrustGroup = controlsPage->GetBindingGroup("ManualControl");
-	InputBindings.thrustForward = Pi::input->AddAxisBinding("BindAxisThrustForward", thrustGroup, AxisBinding(SDLK_w, SDLK_s));
-	InputBindings.thrustUp = Pi::input->AddAxisBinding("BindAxisThrustUp", thrustGroup, AxisBinding(SDLK_r, SDLK_f));
-	InputBindings.thrustLeft = Pi::input->AddAxisBinding("BindAxisThrustLeft", thrustGroup, AxisBinding(SDLK_a, SDLK_d));
-	InputBindings.thrustLowPower = Pi::input->AddActionBinding("BindThrustLowPower", thrustGroup, ActionBinding(SDLK_LSHIFT));
+	thrustForward = AddAxis("BindAxisThrustForward");
+	thrustLeft = AddAxis("BindAxisThrustLeft");
+	thrustUp = AddAxis("BindAxisThrustUp");
+	thrustLowPower = AddAction("BindThrustLowPower");
 
-	auto speedGroup = controlsPage->GetBindingGroup("SpeedControl");
-	InputBindings.speedControl = Pi::input->AddAxisBinding("BindSpeedControl", speedGroup, AxisBinding(SDLK_RETURN, SDLK_RSHIFT));
-	InputBindings.toggleSetSpeed = Pi::input->AddActionBinding("BindToggleSetSpeed", speedGroup, ActionBinding(SDLK_v));
+	speedControl = AddAxis("BindAxisSpeedControl");
+	toggleSetSpeed = AddAction("BindToggleSetSpeed");
 }
 
 PlayerShipController::~PlayerShipController()
 {
+	Pi::input->RemoveInputFrame(&InputBindings);
 	m_connRotationDampingToggleKey.disconnect();
 	m_fireMissileKey.disconnect();
 }

@@ -226,8 +226,16 @@ vector3d TransferPlanner::GetPosition() const { return m_position; }
 
 void TransferPlanner::SetPosition(const vector3d &position) { m_position = position; }
 
+void SystemView::InputBindings::RegisterBindings()
+{
+	mapViewPitch = AddAxis("BindMapViewPitch");
+	mapViewYaw = AddAxis("BindMapViewYaw");
+	mapViewZoom = AddAxis("BindMapViewZoom");
+}
+
 SystemView::SystemView(Game *game) :
 	UIView(),
+	m_input(Pi::input),
 	m_game(game),
 	m_showL4L5(LAG_OFF),
 	m_shipDrawing(OFF),
@@ -239,6 +247,8 @@ SystemView::SystemView(Game *game) :
 	m_rot_x = 50;
 	m_zoom = 1.0f / float(AU);
 	SetTransparency(true);
+
+	m_input.RegisterBindings();
 
 	Graphics::RenderStateDesc rsd;
 	m_lineState = Pi::renderer->CreateRenderState(rsd); //m_renderer not set yet
@@ -615,12 +625,12 @@ void SystemView::Update()
 	}
 
 	// camera control signals from devices, sent to the SectorView
-	if (SectorView::InputBindings.mapViewZoom->IsActive())
-		m_zoomTo *= pow(ZOOM_IN_SPEED * 0.006 + 1, SectorView::InputBindings.mapViewZoom->GetValue());
-	if (SectorView::InputBindings.mapViewYaw->IsActive())
-		m_rot_y_to += SectorView::InputBindings.mapViewYaw->GetValue() * ft * 60;
-	if (SectorView::InputBindings.mapViewPitch->IsActive())
-		m_rot_x_to += SectorView::InputBindings.mapViewPitch->GetValue() * ft * 60;
+	if (m_input.mapViewZoom->IsActive())
+		m_zoomTo *= pow(ZOOM_IN_SPEED * 0.006 + 1, m_input.mapViewZoom->GetValue());
+	if (m_input.mapViewYaw->IsActive())
+		m_rot_y_to += m_input.mapViewYaw->GetValue() * ft * 60;
+	if (m_input.mapViewPitch->IsActive())
+		m_rot_x_to += m_input.mapViewPitch->GetValue() * ft * 60;
 
 	m_rot_x_to = Clamp(m_rot_x_to, -80.0f, 80.0f);
 

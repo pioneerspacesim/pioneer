@@ -1643,6 +1643,10 @@
     "description": "",
     "message": "Yeniden başlat"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Yönelim ve Yakınlaştırmayı Sıfırla"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Oyuna dön"

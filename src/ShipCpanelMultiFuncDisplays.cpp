@@ -5,7 +5,6 @@
 #include "Game.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
-#include "KeyBindings.h"
 #include "Lang.h"
 #include "Missile.h"
 #include "Pi.h"
@@ -73,7 +72,10 @@ void RadarWidget::InitObject()
 {
 	InitScaling();
 
+#if 0 // TODO: KeyBindings has been removed, reimplement this when switching to PiGui.
 	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &RadarWidget::ToggleMode));
+#endif
+
 	m_lastRange = RADAR_RANGE_MAX * 100.0f; // force regen
 
 	GenerateBaseGeometry();
@@ -99,6 +101,7 @@ void RadarWidget::GetSizeRequested(float size[2])
 	size[1] = 62;
 }
 
+#if 0 // See previous notice
 void RadarWidget::ToggleMode()
 {
 	if (IsVisible() && Pi::game->GetTimeAccel() != Game::TIMEACCEL_PAUSED) {
@@ -108,6 +111,7 @@ void RadarWidget::ToggleMode()
 			m_mode = RADAR_MODE_AUTO;
 	}
 }
+#endif
 
 void RadarWidget::Draw()
 {
@@ -256,6 +260,7 @@ void RadarWidget::Update()
 		m_contacts.push_back(c);
 	}
 
+#if 0 // TODO: KeyBindings has been removed, translate this into PiGui and the new InputBindings system.
 	if (KeyBindings::increaseScanRange.IsActive()) {
 		if (m_mode == RADAR_MODE_AUTO) {
 			m_manualRange = m_targetRange;
@@ -271,6 +276,7 @@ void RadarWidget::Update()
 			m_manualRange = m_currentRange;
 		m_manualRange = Clamp(m_manualRange * 0.95f, RADAR_RANGE_MIN, RADAR_RANGE_MAX);
 	}
+#endif
 
 	if (m_mode == RADAR_MODE_AUTO) {
 		switch (range_type) {

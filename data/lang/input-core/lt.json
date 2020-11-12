@@ -143,6 +143,14 @@
     "description": "Descriptive name for the View Zoom axis",
     "message": "View Zoom"
   },
+  "BUTTON": {
+    "description": "",
+    "message": "\" Mygtukas \""
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\" Katalogas \""
+  },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
     "message": "Bendras Vaizdo Valdymas"
@@ -169,6 +177,10 @@
   "GROUP_WEAPONS": {
     "description": "Header for the Weapons input group.",
     "message": "Ginklai"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\" Kepurė \""
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
@@ -217,5 +229,17 @@
   "TEXT_KEY_POSITIVE": {
     "description": "Indicates the positive half of a key-binding pair.",
     "message": "Positive:"
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
   }
 }

@@ -181,7 +181,7 @@ local Windows = {
 
 function Windows.edgeButtons.Show()
 	-- view control buttons
-	if ui.coloredSelectedIconButton(icons.reset_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, lc.RESET_ORIENTATION_AND_ZOOM) then
+	if ui.coloredSelectedIconButton(icons.reset_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.RESET_ORIENTATION_AND_ZOOM) then
 		systemView:SetVisibility("RESET_VIEW")
 	end
 	ui.coloredSelectedIconButton(icons.rotate_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.ROTATE_VIEW)

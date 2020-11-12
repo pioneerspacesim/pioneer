@@ -3,7 +3,6 @@
 
 #include "GameConfig.h"
 #include "FileSystem.h"
-#include "KeyBindings.h"
 
 GameConfig::GameConfig(const map_string &override_)
 {
@@ -13,8 +12,8 @@ GameConfig::GameConfig(const map_string &override_)
 	map["AMD_MESA_HACKS"] = "0";
 	map["DisableSound"] = "0";
 	map["StartFullscreen"] = "0";
-	map["ScrWidth"] = "800";
-	map["ScrHeight"] = "600";
+	map["ScrWidth"] = "1280";
+	map["ScrHeight"] = "720";
 	map["UIScaleFactor"] = "1";
 	map["DetailCities"] = "1";
 	map["DetailPlanets"] = "1";
@@ -51,21 +50,11 @@ GameConfig::GameConfig(const map_string &override_)
 	map["EnableGPUJobs"] = "1";
 	map["GL3ForwardCompatible"] = "1";
 
-	Load();
+	Read(FileSystem::userFiles, "config.ini");
 
 	for (auto i = override_.begin(); i != override_.end(); ++i) {
 		const std::string &key = (*i).first;
 		const std::string &val = (*i).second;
 		map[key] = val;
 	}
-}
-
-void GameConfig::Load()
-{
-	Read(FileSystem::userFiles, "config.ini");
-}
-
-bool GameConfig::Save()
-{
-	return Write(FileSystem::userFiles, "config.ini");
 }

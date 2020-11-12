@@ -58,6 +58,33 @@ namespace AnimationCurves {
 		return 0.5 * (1.0 - std::cos(p * M_PI));
 	}
 
+	// Based on http://blog.moagrius.com/actionscript/jsas-understanding-easing/
+	// and observations from Godot Engine and Star Citizen
+	// This supports four different easing functions encoded in a single float:
+	// e == 1.0|-1.0: linear easing, returns p
+	// e  >  1.0: in-quadratic, in-cubic etc. for e = 2.0, e = 3.0 ...
+	// e  <  1.0: out-quadratic, out-cubic etc. for e = 0.5, e = 0.33_ ...
+	// e ==  0.0: returns zero
+	// e  > -1.0: reverse inout-quadratic, inout-cubic for e = -0.5, e = -0.33_ ...
+	// e  < -1.0: inout-quadratic, inout-cubic etc. for e = -2.0, e = -3.0 ...
+	inline float SmoothEasing(double p, double e)
+	{
+		// e > 0.0 = ease in or out / e < 0.0 = ease in-out
+		if (e > 0.0) {
+			// e < 1.0 = ease out / e > 1.0 = ease in
+			return e < 1.0 ? (1.0 - pow(1.0 - p, 1.0 / e)) : (pow(p, e));
+		} else if (e < 0) {
+			// Ease in-out at arbirary exponents (the e term is negated to get positive exponent)
+			float m = (p - 0.5) * 2.0;
+			float t = p * 2.0;
+			if (t < 1)
+				return pow(t, -e) * 0.5;
+			else
+				return (1.0 - pow(1.0 - m, -e)) * 0.5 + 0.5;
+		} else // completely flat at 0.0
+			return 0.0;
+	}
+
 } // namespace AnimationCurves
 
 #endif

@@ -1643,6 +1643,10 @@
     "description": "",
     "message": "Perkrauti"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Atitaisyti kryptį ir priartinimą"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Grįžti į žaidimą"

@@ -2,14 +2,15 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaMetaType.h"
+#include "SDL_keycode.h"
 #include "buildopts.h"
 
 #include "FileSystem.h"
-#include "KeyBindings.h"
 #include "LuaConsole.h"
 #include "LuaManager.h"
 #include "LuaUtils.h"
 #include "Pi.h"
+#include "sigc++/functors/mem_fun.h"
 #include "text/TextSupport.h"
 #include "text/TextureFont.h"
 #include "ui/Context.h"
@@ -42,6 +43,7 @@ static const char CONSOLE_CHUNK_NAME[] = "console";
 
 LuaConsole::LuaConsole() :
 	m_active(false),
+	m_inputFrame(Pi::input),
 	m_precompletionStatement(),
 	m_completionList()
 #ifdef REMOTE_LUA_REPL
@@ -69,14 +71,31 @@ LuaConsole::LuaConsole() :
 	RegisterAutoexec();
 }
 
+REGISTER_INPUT_BINDING(LuaConsole)
+{
+	auto *group = Pi::input->GetBindingPage("General")->GetBindingGroup("Miscellaneous");
+	input->AddActionBinding("BindToggleLuaConsole", group, InputBindings::Action({ SDLK_BACKQUOTE }));
+}
+
+void LuaConsole::SetupBindings()
+{
+	toggleLuaConsole = m_inputFrame.AddAction("BindToggleLuaConsole");
+	toggleLuaConsole->onPressed.connect(sigc::mem_fun(this, &LuaConsole::Toggle));
+	Pi::input->PushInputFrame(&m_inputFrame);
+}
+
 void LuaConsole::Toggle()
 {
-	if (m_active)
+	Pi::input->RemoveInputFrame(&m_inputFrame);
+	if (m_active) {
 		Pi::ui->DropLayer();
-	else {
+		m_inputFrame.modal = false;
+	} else {
 		Pi::ui->NewLayer()->SetInnerWidget(m_container.Get());
 		Pi::ui->SelectWidget(m_entry);
+		m_inputFrame.modal = true;
 	}
+	Pi::input->PushInputFrame(&m_inputFrame);
 	m_active = !m_active;
 }
 
@@ -133,11 +152,11 @@ static int console_autoexec(lua_State *l)
 	}
 
 	// set the chunk's _ENV (globals) var
-	lua_insert(l, -2); // _ENV, code
+	lua_insert(l, -2);		  // _ENV, code
 	lua_setupvalue(l, -2, 1); // code
 
 	lua_pushcfunction(l, &capture_traceback); // traceback, code
-	lua_insert(l, -2); // code, traceback
+	lua_insert(l, -2);						  // code, traceback
 
 	ret = lua_pcall(l, 0, 0, -2);
 	if (ret != LUA_OK) {
@@ -162,11 +181,11 @@ void LuaConsole::RegisterAutoexec()
 		Output("console.lua:\nProblem when registering the autoexec script.\n");
 		return;
 	}
-	lua_getfield(L, -1, "Register"); // Register, Event
-	lua_pushstring(L, "onGameStart"); // "onGameStart", Register, Event
-	lua_pushlightuserdata(L, this); // console, "onGameStart", Register, Event
+	lua_getfield(L, -1, "Register");		  // Register, Event
+	lua_pushstring(L, "onGameStart");		  // "onGameStart", Register, Event
+	lua_pushlightuserdata(L, this);			  // console, "onGameStart", Register, Event
 	lua_pushcclosure(L, console_autoexec, 1); // autoexec, "onGameStart", Register, Event
-	lua_call(L, 2, 0); // Event
+	lua_call(L, 2, 0);						  // Event
 	lua_pop(L, 1);
 
 	LUA_DEBUG_END(L, 0);
@@ -180,7 +199,7 @@ bool LuaConsole::OnKeyDown(const UI::KeyboardEvent &event)
 	switch (event.keysym.sym) {
 	case SDLK_ESCAPE: {
 		// pressing the ESC key will drop our layer, but we still have to make sure we are marked as not active anymore
-		m_active = false;
+		Toggle();
 		break;
 	}
 	case SDLK_UP:
@@ -284,14 +303,14 @@ void LuaConsole::UpdateCompletion(const std::string &statement)
 		} else if (expect_symbolname) // Wrong syntax.
 			return;
 		if (*r_str_it != '.' && (!chunks.empty() || *r_str_it != ':')) { // We are out of the expression.
-			current_begin = r_str_it.base(); // Flag the symbol marking the beginning of the expression.
+			current_begin = r_str_it.base();							 // Flag the symbol marking the beginning of the expression.
 			break;
 		}
 
 		expect_symbolname = true; // We hit a separator, there should be a symbol name before it.
 		chunks.push(std::string(r_str_it.base(), current_end));
-		if (*r_str_it == ':') // If it is a colon, we know chunks is empty so it is incomplete.
-			method = true; // it must mean that we want to call a method.
+		if (*r_str_it == ':')				 // If it is a colon, we know chunks is empty so it is incomplete.
+			method = true;					 // it must mean that we want to call a method.
 		current_end = (r_str_it + 1).base(); // +1 in order to point on the CURRENT character.
 	}
 	if (expect_symbolname) // Again, a symbol was expected when we broke out of the loop.
@@ -315,7 +334,7 @@ void LuaConsole::UpdateCompletion(const std::string &statement)
 		lua_gettable(l, -2);
 		chunks.pop();
 	}
-	
+
 	LuaMetaTypeBase::GetNames(m_completionList, chunks.top(), method);
 	if (!m_completionList.empty()) {
 		std::sort(m_completionList.begin(), m_completionList.end());

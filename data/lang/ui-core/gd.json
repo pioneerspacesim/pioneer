@@ -1643,6 +1643,10 @@
     "description": "",
     "message": "Ath-shuidhich"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Ath-shuidhich a' chomhair agus an sùm"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Till dhan gheama"

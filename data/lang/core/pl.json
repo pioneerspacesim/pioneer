@@ -103,10 +103,6 @@
     "description": "",
     "message": "Brązowy karzeł"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" przycisk \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Dolna kamera"
@@ -327,10 +323,6 @@
     "description": "",
     "message": "Punkt docelowy"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Dir \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Dystans: %distance{f.2} lś"
@@ -494,10 +486,6 @@
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Całkowity Kapitalizm - bez opieki społecznej"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -1231,10 +1219,6 @@
     "description": "",
     "message": "Reset"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Reset orientacji i zbliżenia"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Roboty"
@@ -1871,14 +1855,6 @@
     "description": "",
     "message": "\" bez znaczącej atmosfery\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Odchylenie poziome"
@@ -1894,10 +1870,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Młoda kolonia rolnicza."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",
