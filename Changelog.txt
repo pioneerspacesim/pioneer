@@ -5,6 +5,7 @@ November 2020
      * Skipjack Courier from OKB Kaluri (#4871)
      * Add a new model for escape pods (#4877)
 	 * Improved missile damage calculations, slightly boosted damage (#4927)
+     * More lively station traffic control communications (#4987)
 
    * Internal Changes
      * Decrease the maximum background star size to 0.3 (#4991)
