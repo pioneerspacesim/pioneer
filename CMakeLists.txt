@@ -410,7 +410,7 @@ if (WIN32)
 	if(NOT ISCC)
 		set(ISCC "C:/Program Files (x86)/Inno Setup 6/ISCC.exe")
 	endif(NOT ISCC)
-	add_custom_target(win-installer COMMAND ${ISCC} pioneer.iss)
+	add_custom_target(win-installer COMMAND ${ISCC} /Q pioneer.iss)
 endif (WIN32)
 
 if (UNIX)
