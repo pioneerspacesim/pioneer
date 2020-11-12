@@ -113,7 +113,7 @@ double Propulsion::ClampLinThrusterState(int axis, double level) const
 		thruster = (level > 0) ? THRUSTER_REVERSE : THRUSTER_FORWARD;
 	}
 
-	return level * GetThrust(thruster) / m_linThrust[thruster];
+	return m_linThrust[thruster] > 0.0 ? level * GetThrust(thruster) / m_linThrust[thruster] : 0.0;
 }
 
 vector3d Propulsion::ClampLinThrusterState(const vector3d &levels) const

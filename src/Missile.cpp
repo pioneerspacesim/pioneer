@@ -11,6 +11,7 @@
 #include "ShipAICmd.h"
 #include "Space.h"
 #include "collider/CollisionContact.h"
+#include "core/Log.h"
 #include "lua/LuaEvent.h"
 
 Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
@@ -172,24 +173,52 @@ bool Missile::OnDamage(Body *attacker, float kgDamage, const CollisionContact &c
 	return true;
 }
 
+double calcAreaSphere(const double r)
+{
+	return 4.0 * M_PI * r * r;
+}
+
+double calcAreaCircle(const double r)
+{
+	return M_PI * r * r;
+}
+
 void Missile::Explode()
 {
 	Pi::game->GetSpace()->KillBody(this);
 
-	const double damageRadius = 200.0;
-	const double kgDamage = 10000.0;
+	// how much energy was converted in the explosion?
+	double mjYield = 4.184 * 200; // defaults to 200kg of TNT
+	Properties().Get("missile_yield_cap", mjYield);
+
+	double queryRadius = 2000.0; // defaults to 2 km, this is sufficient for most explosions
+	Properties().Get("missile_explosion_radius_cap", queryRadius);
 
 	CollisionContact dummy;
-	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, damageRadius);
+	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, queryRadius);
 	for (Body *body : nearby) {
-		if (body->GetFrame() != GetFrame()) continue;
-		double dist = (body->GetPosition() - GetPosition()).Length();
-		if (dist < damageRadius) {
-			// linear damage decay with distance
-			body->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius, dummy);
-			if (body->IsType(ObjectType::SHIP))
-				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(body), m_owner);
-		}
+		const double distSqr = (body->GetPosition() - GetPosition()).LengthSqr();
+		if (body->GetFrame() != GetFrame() || body == this || distSqr >= queryRadius * queryRadius)
+			continue;
+		const double dist = (body->GetPosition() - GetPosition()).Length(); // distance from explosion in meter
+		const double targetRadius = body->GetPhysRadius();					// radius of the hit target in meter
+
+		const double areaSphere = calcAreaSphere(std::max(0.0, dist - targetRadius));
+		const double crossSectionTarget = calcAreaCircle(targetRadius);
+		double ratioArea = crossSectionTarget / areaSphere; // compute ratio of areas to know how much energy was transfered to target
+		ratioArea = std::min(ratioArea, 1.0);				// we must limit received energy to finite amount
+
+		const double mjReceivedEnergy = ratioArea * mjYield; // compute received energy by blast
+
+		double kgDamage = mjReceivedEnergy * 16.18033; // received energy back to damage in pioneer "kg" unit, using Phi*10 because we can
+		if (kgDamage < 5.0)
+			continue; // early-out if we're dealing a negligable amount of damage
+		// Log::Info("Missile impact on {}\n\ttarget.radius={} dist={} sphereArea={} crossSection={} (ratio={}) => received energy {}mj={}kgD\n",
+		// 	body->GetLabel(), targetRadius, dist, areaSphere, crossSectionTarget, ratioArea, mjReceivedEnergy, kgDamage);
+
+		body->OnDamage(m_owner, kgDamage, dummy);
+		if (body->IsType(ObjectType::SHIP))
+			LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(body), m_owner);
 	}
 
 	SfxManager::Add(this, TYPE_EXPLOSION);
