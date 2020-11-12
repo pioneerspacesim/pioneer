@@ -51,8 +51,8 @@ void Beam::BuildModel()
 	//+z forwards (or projectile direction)
 	const float w = 0.5f;
 
-	vector3f one(0.f, -w, 0.f); //top left
-	vector3f two(0.f, w, 0.f); //top right
+	vector3f one(0.f, -w, 0.f);	  //top left
+	vector3f two(0.f, w, 0.f);	  //top right
 	vector3f three(0.f, w, -1.f); //bottom right
 	vector3f four(0.f, -w, -1.f); //bottom left
 
@@ -262,24 +262,18 @@ void Beam::StaticUpdate(const float timeStep)
 	frame->GetCollisionSpace()->TraceRay(GetPosition(), m_dir.Normalized(), m_length, &c, static_cast<ModelBody *>(m_parent)->GetGeom());
 
 	if (c.userData1) {
-		Object *o = static_cast<Object *>(c.userData1);
-
-		if (o->IsType(Object::CITYONPLANET)) {
-			Pi::game->GetSpace()->KillBody(this);
-		} else if (o->IsType(Object::BODY)) {
-			Body *hit = static_cast<Body *>(o);
-			if (hit != m_parent) {
-				hit->OnDamage(m_parent, GetDamage(), c);
-				m_active = false;
-				if (hit->IsType(Object::SHIP))
-					LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
-			}
+		Body *hit = static_cast<Body *>(c.userData1);
+		if (hit != m_parent) {
+			hit->OnDamage(m_parent, GetDamage(), c);
+			m_active = false;
+			if (hit->IsType(ObjectType::SHIP))
+				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
 		}
 	}
 
 	if (m_mining) {
 		// need to test for terrain hit
-		if (frame->GetBody() && frame->GetBody()->IsType(Object::PLANET)) {
+		if (frame->GetBody() && frame->GetBody()->IsType(ObjectType::PLANET)) {
 			Planet *const planet = static_cast<Planet *>(frame->GetBody());
 			const SystemBody *b = planet->GetSystemBody();
 			vector3d pos = GetPosition();

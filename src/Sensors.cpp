@@ -66,7 +66,7 @@ bool Sensors::ChooseTarget(TargetingCriteria crit)
 	for (auto it = m_radarContacts.begin(); it != m_radarContacts.end(); ++it) {
 		//match object type
 		//match iff
-		if (it->body->IsType(Object::SHIP)) {
+		if (it->body->IsType(ObjectType::SHIP)) {
 			//if (it->iff != IFF_HOSTILE) continue;
 			//should move the target to ship after all (from PlayerShipController)
 			//targeting inputs stay in PSC
@@ -83,7 +83,7 @@ Sensors::IFF Sensors::CheckIFF(Body *other)
 {
 	PROFILE_SCOPED();
 	//complicated relationship check goes here
-	if (other->IsType(Object::SHIP)) {
+	if (other->IsType(ObjectType::SHIP)) {
 		Uint8 rel = m_owner->GetRelations(other);
 		if (rel == 0)
 			return IFF_HOSTILE;
@@ -106,7 +106,7 @@ void Sensors::Update(float time)
 	//contacts, worldview labels too.
 	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(m_owner, 100000.0f);
 	for (Body *body : nearby) {
-		if (body == m_owner || !body->IsType(Object::SHIP)) continue;
+		if (body == m_owner || !body->IsType(ObjectType::SHIP)) continue;
 		if (body->IsDead()) continue;
 
 		auto cit = m_radarContacts.begin();
@@ -171,10 +171,9 @@ void Sensors::PopulateStaticContacts()
 
 	for (Body *b : Pi::game->GetSpace()->GetBodies()) {
 		switch (b->GetType()) {
-		case Object::STAR:
-		case Object::PLANET:
-		case Object::CITYONPLANET:
-		case Object::SPACESTATION:
+		case ObjectType::STAR:
+		case ObjectType::PLANET:
+		case ObjectType::SPACESTATION:
 			break;
 		default:
 			continue;

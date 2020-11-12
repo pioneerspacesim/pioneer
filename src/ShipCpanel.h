@@ -6,7 +6,6 @@
 
 #include "Game.h"
 #include "Ship.h"
-#include "ShipCpanelMultiFuncDisplays.h"
 #include "WorldView.h"
 #include "gui/Gui.h"
 #include "libs.h"
@@ -17,6 +16,7 @@ namespace Graphics {
 	class Renderer;
 }
 
+class RadarWidget;
 class ShipCpanel : public Gui::Fixed {
 public:
 	ShipCpanel(Graphics::Renderer *r, Game *game);
@@ -29,13 +29,7 @@ public:
 
 	void SaveToJson(Json &jsonObj);
 
-	void SetRadarVisible(bool visible)
-	{
-		if (visible)
-			m_radar->Show();
-		else
-			m_radar->Hide();
-	}
+	void SetRadarVisible(bool visible);
 
 private:
 	void InitObject();

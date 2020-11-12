@@ -12,7 +12,6 @@
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
 #include "MathUtil.h"
-#include "Object.h"
 #include "collider/CollisionSpace.h"
 #include "core/GZipFormat.h"
 #include "galaxy/Economy.h"
@@ -76,7 +75,7 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 
 	m_player->SetFrame(b->GetFrame());
 
-	if (b->GetType() == Object::SPACESTATION) {
+	if (b->GetType() == ObjectType::SPACESTATION) {
 		m_player->SetDockedWith(static_cast<SpaceStation *>(b), 0);
 	} else {
 		const SystemBody *sbody = b->GetSystemBody();
@@ -358,7 +357,7 @@ bool Game::UpdateTimeAccel()
 			else {
 				for (const Body *b : m_space->GetBodies()) {
 					if (b == m_player.get()) continue;
-					if (b->IsType(Object::HYPERSPACECLOUD)) continue;
+					if (b->IsType(ObjectType::HYPERSPACECLOUD)) continue;
 
 					vector3d toBody = m_player->GetPosition() - b->GetPositionRelTo(m_player->GetFrame());
 					double dist = toBody.Length();
@@ -433,7 +432,7 @@ void Game::SwitchToHyperspace()
 	m_hyperspaceClouds.clear();
 	for (Body *b : m_space->GetBodies()) {
 
-		if (!b->IsType(Object::HYPERSPACECLOUD)) continue;
+		if (!b->IsType(ObjectType::HYPERSPACECLOUD)) continue;
 
 		// only want departure clouds with ships in them
 		HyperspaceCloud *cloud = static_cast<HyperspaceCloud *>(b);
@@ -664,7 +663,7 @@ void Game::SetTimeAccel(TimeAccel t)
 	// Give all ships a half-step acceleration to stop autopilot overshoot
 	if (t < m_timeAccel)
 		for (Body *b : m_space->GetBodies())
-			if (b->IsType(Object::SHIP))
+			if (b->IsType(ObjectType::SHIP))
 				(static_cast<Ship *>(b))->TimeAccelAdjust(0.5f * GetTimeStep());
 
 	bool emitPaused = (t == TIMEACCEL_PAUSED && t != m_timeAccel);

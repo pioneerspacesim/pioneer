@@ -96,7 +96,7 @@ void CargoBody::TimeStepUpdate(const float timeStep)
 	DynamicBody::TimeStepUpdate(timeStep);
 }
 
-bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData)
+bool CargoBody::OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData)
 {
 	m_hitpoints -= kgDamage * 0.001f;
 	if (m_hitpoints < 0) {
@@ -106,10 +106,10 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContac
 	return true;
 }
 
-bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
+bool CargoBody::OnCollision(Body *b, Uint32 flags, double relVel)
 {
 	// ignore collision if its about to be scooped
-	if (b->IsType(Object::SHIP)) {
+	if (b->IsType(ObjectType::SHIP)) {
 		int cargoscoop_cap = 0;
 		static_cast<Ship *>(b)->Properties().Get("cargo_scoop_cap", cargoscoop_cap);
 		if (cargoscoop_cap > 0)

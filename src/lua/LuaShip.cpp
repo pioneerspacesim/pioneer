@@ -937,7 +937,7 @@ static int l_ship_get_set_speed_target(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	Body *t = s->GetController()->GetSetSpeedTarget();
-	if (s->GetType() == Object::Type::PLAYER && t == nullptr) {
+	if (s->GetType() == ObjectType::PLAYER && t == nullptr) {
 		FrameId fId = s->GetFrame();
 		Frame *f = Frame::GetFrame(fId);
 		if (f)
@@ -1401,7 +1401,7 @@ static int l_ship_ai_enter_low_orbit(lua_State *l)
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:AIEnterLowOrbit() cannot be called on a ship in hyperspace");
 	Body *target = LuaObject<Body>::CheckFromLua(2);
-	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
+	if (!target->IsType(ObjectType::PLANET) && !target->IsType(ObjectType::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
 	s->AIOrbit(target, 1.2);
 	return 0;
@@ -1432,7 +1432,7 @@ static int l_ship_ai_enter_medium_orbit(lua_State *l)
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:AIEnterMediumOrbit() cannot be called on a ship in hyperspace");
 	Body *target = LuaObject<Body>::CheckFromLua(2);
-	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
+	if (!target->IsType(ObjectType::PLANET) && !target->IsType(ObjectType::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
 	s->AIOrbit(target, 1.6);
 	return 0;
@@ -1463,7 +1463,7 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:AIEnterHighOrbit() cannot be called on a ship in hyperspace");
 	Body *target = LuaObject<Body>::CheckFromLua(2);
-	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
+	if (!target->IsType(ObjectType::PLANET) && !target->IsType(ObjectType::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
 	s->AIOrbit(target, 3.5);
 	return 0;

@@ -246,7 +246,7 @@ void Space::RebuildBodyIndex()
 		// also index ships inside clouds
 		// XXX we should not have to know about this. move indexing grunt work
 		// down into the bodies?
-		if (b->IsType(Object::HYPERSPACECLOUD)) {
+		if (b->IsType(ObjectType::HYPERSPACECLOUD)) {
 			Ship *s = static_cast<HyperspaceCloud *>(b)->GetShip();
 			if (s) m_bodyIndex.push_back(s);
 		}
@@ -363,7 +363,7 @@ void Space::GetHyperspaceExitParams(const SystemPath &source, const SystemPath &
 	pos += primary->GetPositionRelTo(GetRootFrame());
 }
 
-Body *Space::FindNearestTo(const Body *b, Object::Type t) const
+Body *Space::FindNearestTo(const Body *b, ObjectType t) const
 {
 	Body *nearest = 0;
 	double dist = FLT_MAX;
@@ -752,7 +752,7 @@ static FrameId MakeFramesFor(const double at_time, SystemBody *sbody, Body *b, F
 
 		Frame *rotFrame = Frame::GetFrame(rotFrameId);
 		assert(rotFrame->IsRotFrame());
-		assert(rotFrame->GetBody()->IsType(Object::PLANET));
+		assert(rotFrame->GetBody()->IsType(ObjectType::PLANET));
 		matrix3x3d rot;
 		vector3d pos;
 		Planet *planet = static_cast<Planet *>(rotFrame->GetBody());
@@ -798,17 +798,11 @@ void Space::GenBody(const double at_time, SystemBody *sbody, FrameId fId, std::v
 	}
 }
 
-static bool OnCollision(Object *o1, Object *o2, CollisionContact *c, double relativeVel)
+static bool OnCollision(Body *o1, Body *o2, CollisionContact *c, double relativeVel)
 {
-	Body *pb1 = static_cast<Body *>(o1);
-	Body *pb2 = static_cast<Body *>(o2);
-	/* Not always a Body (could be CityOnPlanet, which is a nasty exception I should eradicate) */
-	if (o1->IsType(Object::BODY)) {
-		if (pb1 && !pb1->OnCollision(o2, c->geomFlag, relativeVel)) return false;
-	}
-	if (o2->IsType(Object::BODY)) {
-		if (pb2 && !pb2->OnCollision(o1, c->geomFlag, relativeVel)) return false;
-	}
+	/* XXX: if you create a new class inheriting from Object instead of Body, this code must be updated */
+	if (o1 && !o1->OnCollision(o2, c->geomFlag, relativeVel)) return false;
+	if (o2 && !o2->OnCollision(o1, c->geomFlag, relativeVel)) return false;
 	return true;
 }
 
@@ -816,11 +810,11 @@ static void hitCallback(CollisionContact *c)
 {
 	//Output("OUCH! %x (depth %f)\n", SDL_GetTicks(), c->depth);
 
-	Object *po1 = static_cast<Object *>(c->userData1);
-	Object *po2 = static_cast<Object *>(c->userData2);
+	Body *po1 = static_cast<Body *>(c->userData1);
+	Body *po2 = static_cast<Body *>(c->userData2);
 
-	const bool po1_isDynBody = po1->IsType(Object::DYNAMICBODY);
-	const bool po2_isDynBody = po2->IsType(Object::DYNAMICBODY);
+	const bool po1_isDynBody = po1->IsType(ObjectType::DYNAMICBODY);
+	const bool po2_isDynBody = po2->IsType(ObjectType::DYNAMICBODY);
 	// collision response
 	assert(po1_isDynBody || po2_isDynBody);
 
@@ -935,7 +929,7 @@ static void hitCallback(CollisionContact *c)
 // temporary one-point version
 static void CollideWithTerrain(Body *body, float timeStep)
 {
-	if (!body->IsType(Object::DYNAMICBODY))
+	if (!body->IsType(ObjectType::DYNAMICBODY))
 		return;
 	DynamicBody *dynBody = static_cast<DynamicBody *>(body);
 	if (!dynBody->IsMoving())
@@ -944,7 +938,7 @@ static void CollideWithTerrain(Body *body, float timeStep)
 	Frame *f = Frame::GetFrame(body->GetFrame());
 	if (!f || !f->GetBody() || f->GetId() != f->GetBody()->GetFrame())
 		return;
-	if (!f->GetBody()->IsType(Object::TERRAINBODY))
+	if (!f->GetBody()->IsType(ObjectType::TERRAINBODY))
 		return;
 	TerrainBody *terrain = static_cast<TerrainBody *>(f->GetBody());
 

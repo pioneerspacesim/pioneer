@@ -166,7 +166,7 @@ void Camera::Update()
 		const float pixSize = Graphics::GetScreenHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
 
 		// terrain objects are visible from distance but might not have any discernable features
-		if (b->IsType(Object::TERRAINBODY)) {
+		if (b->IsType(ObjectType::TERRAINBODY)) {
 			if (pixSize < BILLBOARD_PIXEL_THRESHOLD) {
 				attrs.billboard = true;
 
@@ -177,9 +177,9 @@ void Camera::Update()
 
 				// limit the minimum billboard size for planets so they're always a little visible
 				attrs.billboardSize = std::max(1.0f, pixSize);
-				if (b->IsType(Object::STAR)) {
+				if (b->IsType(ObjectType::STAR)) {
 					attrs.billboardColor = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
-				} else if (b->IsType(Object::PLANET)) {
+				} else if (b->IsType(ObjectType::PLANET)) {
 					// XXX this should incorporate some lighting effect
 					// (ie, colour of the illuminating star(s))
 					attrs.billboardColor = b->GetSystemBody()->GetAlbedo();
@@ -188,7 +188,7 @@ void Camera::Update()
 				}
 
 				// this should always be the main star in the system - except for the star itself!
-				if (!m_lightSources.empty() && !b->IsType(Object::STAR)) {
+				if (!m_lightSources.empty() && !b->IsType(ObjectType::STAR)) {
 					const Graphics::Light &light = m_lightSources[0].GetLight();
 					attrs.billboardColor *= light.GetDiffuse(); // colour the billboard a little with the Starlight
 				}
@@ -239,7 +239,7 @@ void Camera::Draw(const Body *excludeBody)
 	if (camParent && camParent->IsRotFrame()) {
 		//check if camera is near a planet
 		Body *camParentBody = camParent->GetBody();
-		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
+		if (camParentBody && camParentBody->IsType(ObjectType::PLANET)) {
 			Planet *planet = static_cast<Planet *>(camParentBody);
 			const vector3f relpos(planet->GetInterpPositionRelTo(camFrameId));
 			double altitude(relpos.Length());
@@ -305,14 +305,14 @@ void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> 
 	const vector3d lightDir = bLightPos.Normalized();
 
 	double bRadius;
-	if (b->IsType(Object::TERRAINBODY))
+	if (b->IsType(ObjectType::TERRAINBODY))
 		bRadius = b->GetSystemBody()->GetRadius();
 	else
 		bRadius = b->GetPhysRadius();
 
 	// Look for eclipsing third bodies:
 	for (const Body *b2 : Pi::game->GetSpace()->GetBodies()) {
-		if (b2 == b || b2 == lightBody || !(b2->IsType(Object::PLANET) || b2->IsType(Object::STAR)))
+		if (b2 == b || b2 == lightBody || !(b2->IsType(ObjectType::PLANET) || b2->IsType(ObjectType::STAR)))
 			continue;
 
 		double b2Radius = b2->GetSystemBody()->GetRadius();

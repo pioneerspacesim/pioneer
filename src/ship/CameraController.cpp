@@ -196,7 +196,7 @@ void ExternalCameraController::Update()
 	// when landed don't let external view look from below
 	// XXX shouldn't be limited to player
 	const Ship *ship = GetShip();
-	if (ship->IsType(Object::PLAYER)) {
+	if (ship->IsType(ObjectType::PLAYER)) {
 		if (ship->GetFlightState() == Ship::LANDED ||
 			ship->GetFlightState() == Ship::DOCKED) {
 			m_rotX = Clamp(m_rotX, DEG2RAD(-170.0), DEG2RAD(-5.0));

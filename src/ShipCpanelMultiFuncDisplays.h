@@ -5,9 +5,9 @@
 #define _SHIPCPANELMULTIFUNCDISPLAYS_H
 
 #include "JsonFwd.h"
-#include "Object.h"
 #include "gui/Gui.h"
 
+enum class ObjectType;
 class Body;
 namespace Graphics {
 	class Renderer;
@@ -52,7 +52,7 @@ private:
 	sigc::connection m_toggleScanModeConnection;
 
 	struct Contact {
-		Object::Type type;
+		ObjectType type;
 		vector3d pos;
 		bool isSpecial;
 	};

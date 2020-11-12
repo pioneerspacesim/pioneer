@@ -201,7 +201,7 @@ void SpaceStation::InitStation()
 	m_navLights.reset(new NavLights(model, 2.2f));
 	m_navLights->SetEnabled(true);
 
-	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS); // overrides setmodel
+	if (ground) SetClipRadius(CityOnPlanet::RADIUS); // overrides setmodel
 
 	m_doorAnimation = model->FindAnimation("doors");
 
@@ -341,7 +341,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		// distance-to-station check
 		const double shipDist = s->GetPositionRelTo(this).Length();
 		double requestDist = 100000.0; //100km
-		if (s->IsType(Object::PLAYER) && shipDist > requestDist) {
+		if (s->IsType(ObjectType::PLAYER) && shipDist > requestDist) {
 			outMsg = Lang::CLEARANCE_DENIED_TOO_FAR;
 			return false;
 		}
@@ -362,9 +362,9 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 	return false;
 }
 
-bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
+bool SpaceStation::OnCollision(Body *b, Uint32 flags, double relVel)
 {
-	if ((flags & 0x10) && (b->IsType(Object::SHIP))) {
+	if ((flags & 0x10) && (b->IsType(ObjectType::SHIP))) {
 		Ship *s = static_cast<Ship *>(b);
 
 		int port = -1;
@@ -724,7 +724,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 	Body *b = Frame::GetFrame(GetFrame())->GetBody();
 	assert(b);
 
-	if (!b->IsType(Object::PLANET)) {
+	if (!b->IsType(ObjectType::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
 		RenderModel(r, camera, viewCoords, viewTransform);
 		m_navLights->Render(r);

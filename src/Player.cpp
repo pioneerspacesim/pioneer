@@ -12,7 +12,6 @@
 #include "Pi.h"
 #include "SectorView.h"
 #include "Sfx.h"
-#include "ShipCpanel.h"
 #include "SpaceStation.h"
 #include "StringF.h"
 #include "SystemView.h" // for the transfer planner
@@ -120,7 +119,7 @@ bool Player::DoDamage(float kgDamage)
 }
 
 //XXX perhaps remove this, the sound is very annoying
-bool Player::OnDamage(Object *attacker, float kgDamage, const CollisionContact &contactData)
+bool Player::OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData)
 {
 	bool r = Ship::OnDamage(attacker, kgDamage, contactData);
 	if (!IsDead() && (GetPercentHull() < 25.0f)) {
@@ -195,7 +194,7 @@ void Player::NotifyRemoved(const Body *const removedBody)
 	if (GetCombatTarget() == removedBody) {
 		SetCombatTarget(0);
 
-		if (!GetNavTarget() && removedBody->IsType(Object::SHIP))
+		if (!GetNavTarget() && removedBody->IsType(ObjectType::SHIP))
 			SetNavTarget(static_cast<const Ship *>(removedBody)->GetHyperspaceCloud());
 	}
 

@@ -48,8 +48,8 @@ void Projectile::BuildModel()
 	//+z forwards (or projectile direction)
 	const float w = 0.5f;
 
-	vector3f one(0.f, -w, 0.f); //top left
-	vector3f two(0.f, w, 0.f); //top right
+	vector3f one(0.f, -w, 0.f);	  //top left
+	vector3f two(0.f, w, 0.f);	  //top right
 	vector3f three(0.f, w, -1.f); //bottom right
 	vector3f four(0.f, -w, -1.f); //bottom left
 
@@ -263,25 +263,19 @@ void Projectile::StaticUpdate(const float timeStep)
 	frame->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c);
 
 	if (c.userData1) {
-		Object *o = static_cast<Object *>(c.userData1);
-
-		if (o->IsType(Object::CITYONPLANET)) {
+		Body *hit = static_cast<Body *>(c.userData1);
+		if (hit != m_parent) {
+			hit->OnDamage(m_parent, GetDamage(), c);
 			Pi::game->GetSpace()->KillBody(this);
-		} else if (o->IsType(Object::BODY)) {
-			Body *hit = static_cast<Body *>(o);
-			if (hit != m_parent) {
-				hit->OnDamage(m_parent, GetDamage(), c);
-				Pi::game->GetSpace()->KillBody(this);
-				if (hit->IsType(Object::SHIP))
-					LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
-			}
+			if (hit->IsType(ObjectType::SHIP))
+				LuaEvent::Queue("onShipHit", dynamic_cast<Ship *>(hit), dynamic_cast<Body *>(m_parent));
 		}
 	}
 	if (m_mining) // mining lasers can break off chunks of terrain
 	{
 		// need to test for terrain hit
 		Planet *const planet = static_cast<Planet *>(frame->GetBody()); // cache the value even for the if statement
-		if (planet && planet->IsType(Object::PLANET)) {
+		if (planet && planet->IsType(ObjectType::PLANET)) {
 			vector3d pos = GetPosition();
 			double terrainHeight = planet->GetTerrainHeight(pos.Normalized());
 			if (terrainHeight > pos.Length()) {

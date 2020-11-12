@@ -28,7 +28,7 @@ public:
 	virtual void SetFrame(FrameId fId) override;
 	vector3d GetAngVelocity() const;
 	void SetAngVelocity(const vector3d &v);
-	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
+	virtual bool OnCollision(Body *o, Uint32 flags, double relVel) override;
 	vector3d GetAngularMomentum() const;
 	double GetAngularInertia() const { return m_angInertia; }
 	void SetMassDistributionFromModel();

@@ -101,7 +101,7 @@ void DynamicBody::GetCurrentAtmosphericState(double &pressure, double &density) 
 {
 	Frame *f = Frame::GetFrame(GetFrame());
 	Body *body = f->GetBody();
-	if (!body || !f->IsRotFrame() || !body->IsType(Object::PLANET)) {
+	if (!body || !f->IsRotFrame() || !body->IsType(ObjectType::PLANET)) {
 		pressure = density = 0;
 		return;
 	}
@@ -224,7 +224,7 @@ void DynamicBody::CalcExternalForce()
 	Frame *f = Frame::GetFrame(GetFrame());
 	if (!f) return; // no external force if not in a frame
 	Body *body = f->GetBody();
-	if (body && !body->IsType(Object::SPACESTATION)) { // they ought to have mass though...
+	if (body && !body->IsType(ObjectType::SPACESTATION)) { // they ought to have mass though...
 		vector3d b1b2 = GetPosition();
 		double m1m2 = GetMass() * body->GetMass();
 		double invrsqr = 1.0 / b1b2.LengthSqr();
@@ -235,7 +235,7 @@ void DynamicBody::CalcExternalForce()
 	m_gravityForce = m_externalForce;
 
 	// atmospheric drag
-	if (body && f->IsRotFrame() && body->IsType(Object::PLANET)) {
+	if (body && f->IsRotFrame() && body->IsType(ObjectType::PLANET)) {
 		vector3d fAtmoForce = CalcAtmosphericForce();
 
 		// make this a bit less daft at high time accel
@@ -278,7 +278,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 
 		SetPosition(GetPosition() + m_vel * double(timeStep));
 
-		//if (this->IsType(Object::PLAYER))
+		//if (this->IsType(ObjectType::PLAYER))
 		//Output("pos = %.1f,%.1f,%.1f, vel = %.1f,%.1f,%.1f, force = %.1f,%.1f,%.1f, external = %.1f,%.1f,%.1f\n",
 		//	pos.x, pos.y, pos.z, m_vel.x, m_vel.y, m_vel.z, m_force.x, m_force.y, m_force.z,
 		//	m_externalForce.x, m_externalForce.y, m_externalForce.z);
@@ -342,15 +342,15 @@ void DynamicBody::SetAngVelocity(const vector3d &v)
 	m_angVel = v;
 }
 
-bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
+bool DynamicBody::OnCollision(Body *o, Uint32 flags, double relVel)
 {
 	// don't bother doing collision damage from a missile that will now explode, or may have already
 	// also avoids an occasional race condition where destruction event of this could be queued twice
 	// returning true to ensure that the missile can react to the collision
-	if (o->IsType(Object::MISSILE)) return true;
+	if (o->IsType(ObjectType::MISSILE)) return true;
 
 	double kineticEnergy = 0;
-	if (o->IsType(Object::DYNAMICBODY)) {
+	if (o->IsType(ObjectType::DYNAMICBODY)) {
 		kineticEnergy = KINETIC_ENERGY_MULT * static_cast<DynamicBody *>(o)->GetMass() * relVel * relVel;
 	} else {
 		kineticEnergy = KINETIC_ENERGY_MULT * m_mass * relVel * relVel;
@@ -359,7 +359,7 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 	// damage (kineticEnergy is being passed as a damage value) is measured in kilograms
 	// ignore damage less than a gram except for cargo, which is very fragile.
 	CollisionContact dummy;
-	if (this->IsType(Object::CARGOBODY)) {
+	if (this->IsType(ObjectType::CARGOBODY)) {
 		OnDamage(o, float(kineticEnergy), dummy);
 	} else if (kineticEnergy > 1e-3) {
 		OnDamage(o, float(kineticEnergy), dummy);
