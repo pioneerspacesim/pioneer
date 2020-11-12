@@ -59,8 +59,8 @@ end
 local radial_menu_actions_station = {
 	{icon=ui.theme.icons.comms, tooltip=lc.REQUEST_DOCKING_CLEARANCE,
 		action=function(target)
-			local msg = Game.player:RequestDockingClearance(target)
-		 	Game.AddCommsLogLine(msg, target.label)
+			local clearanceGranted = target:RequestDockingClearance(Game.player)
+			-- TODO: play a negative sound if clearance is refused
 			Game.player:SetNavTarget(target)
 			ui.playSfx("OK")
 		end},

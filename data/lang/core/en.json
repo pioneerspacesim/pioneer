@@ -171,22 +171,6 @@
     "description": "",
     "message": "\" Methane atmosphere\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Clearance already granted. Proceed to docking bay %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Clearance denied. There are no free docking bays."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Clearance granted. Proceed to docking bay %bay."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\" Carbon Dioxide atmosphere\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Docking"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Docking clearance expired. If you wish to dock you must repeat your request."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -1675,6 +1655,10 @@
     "description": "Duration unit: one 60-minute hour",
     "message": "h"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_KILOMETERS": {
     "description": "Distance unit: one kilometer",
     "message": "km"
@@ -1706,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "m"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",

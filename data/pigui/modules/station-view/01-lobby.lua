@@ -11,6 +11,7 @@ local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Character = require 'Character'
 local Comms = require 'Comms'
+local Space = require 'Space'
 
 local InfoFace = require 'ui.PiguiFace'
 local PiImage = require 'ui.PiImage'
@@ -62,6 +63,7 @@ end)
 local requestLaunch = function ()
 	local crimes, fine = Game.player:GetCrimeOutstanding()
 	local station = Game.player:GetDockedWith()
+	local nearbyTraffic = station:GetNearbyTraffic(50000) -- ships within 50km of station
 
 	if not Game.player:HasCorrectCrew() then
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_CREW, station.label)
@@ -75,7 +77,14 @@ local requestLaunch = function ()
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_BUSY, station.label)
 		popupMsg = l.LAUNCH_PERMISSION_DENIED_BUSY
 		popup:open()
+	elseif nearbyTraffic - (station.numShipsDocked) > 0 then -- station radar picking up stuff nearby
+		Comms.Message(l.LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC, station.label)
+		Game.SwitchView()
+	elseif station.numDocks - (station.numShipsDocked + 1) < station.numShipsDocked * 0.2 then -- busy station, pads almost full
+		Comms.Message(l.LAUNCH_PERMISSION_GRANTED_DEPART_QUICK, station.label)
+		Game.SwitchView()
 	else
+		Comms.Message(l.LAUNCH_PERMISSION_GRANTED, station.label)
 		Game.SwitchView()
 	end
 end
@@ -234,6 +243,16 @@ local function drawPlayerInfo()
 
 	local orbit_period = station.path:GetSystemBody().orbitPeriod
 
+	local station_frameBody = Space.GetBody(station.path:GetSystemBody().parent.index)
+	local local_gravity_pressure = ""
+	if station.type == "STARPORT_SURFACE" then
+		if station.path:GetSystemBody().parent.hasAtmosphere then
+			local_gravity_pressure = string.format(l.STATION_LOCAL_GRAVITY_PRESSURE, (station.path:GetSystemBody().parent.gravity/9.8), station_frameBody:GetAtmosphericState(station))
+		else
+			local_gravity_pressure = string.format(l.STATION_LOCAL_GRAVITY, (station.path:GetSystemBody().parent.gravity/9.8))
+		end
+	end
+
 	local station_orbit_info = ""
 	if station.type == "STARPORT_ORBITAL" then
 		station_orbit_info =
@@ -255,6 +274,7 @@ local function drawPlayerInfo()
 						{ tech_certified, "" },
 						{ station_docks, "" },
 						{ station_orbit_info, "" },
+						{ local_gravity_pressure, ""},
 					})
 
 					if not lobbyMenuAtBottom then

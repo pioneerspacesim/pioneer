@@ -7,6 +7,7 @@
 #include "DeleteEmitter.h"
 #include "Lua.h"
 #include "LuaObject.h"
+#include "LuaPushPull.h"
 #include "Pi.h"
 
 namespace LuaEvent {
@@ -15,95 +16,84 @@ namespace LuaEvent {
 	public:
 		virtual ~ArgsBase() {}
 
-		virtual void PrepareStack() const = 0;
+		virtual void PrepareStack(lua_State *l) const = 0;
 	};
 
-	template <typename T0 = void, typename T1 = void>
-	class Args : public ArgsBase {
+	class EmptyArgs : public ArgsBase {
 	public:
-		Args(T0 *_arg0, T1 *_arg1) :
+		inline void PrepareStack(lua_State *l) const {}
+	};
+
+	template <typename...> class Args;
+
+	template <typename T0, typename T1, typename T2>
+	class Args<T0, T1, T2> : public ArgsBase {
+	public:
+		Args(T0 _arg0, T1 _arg1, T2 _arg2) :
+			arg0(_arg0),
+			arg1(_arg1),
+			arg2(_arg2) {}
+		virtual ~Args() {}
+
+		T0 arg0;
+		T1 arg1;
+		T2 arg2;
+
+		inline void PrepareStack(lua_State *l) const
+		{
+			LuaPush<T0>(l, arg0);
+			LuaPush<T1>(l, arg1);
+			LuaPush<T2>(l, arg2);
+		}
+	};
+
+	template <typename T0, typename T1>
+	class Args<T0, T1> : public ArgsBase {
+	public:
+		Args(T0 _arg0, T1 _arg1) :
 			arg0(_arg0),
 			arg1(_arg1) {}
 		virtual ~Args() {}
 
-		T0 *arg0;
-		T1 *arg1;
+		T0 arg0;
+		T1 arg1;
 
-		inline void PrepareStack() const
+		inline void PrepareStack(lua_State *l) const
 		{
-			LuaObject<T0>::PushToLua(arg0);
-			LuaObject<T1>::PushToLua(arg1);
+			LuaPush<T0>(l, arg0);
+			LuaPush<T1>(l, arg1);
 		}
 	};
 
 	template <typename T0>
-	class Args<T0, void> : public ArgsBase {
+	class Args<T0> : public ArgsBase {
 	public:
-		Args(T0 *_arg0) :
+		Args(T0 _arg0) :
 			arg0(_arg0) {}
 		virtual ~Args() {}
 
-		T0 *arg0;
+		T0 arg0;
 
-		inline void PrepareStack() const
+		inline void PrepareStack(lua_State *l) const
 		{
-			LuaObject<T0>::PushToLua(arg0);
+			LuaPush<T0>(l, arg0);
 		}
-	};
-
-	template <typename T0>
-	class Args<T0, const char *> : public ArgsBase {
-	public:
-		Args(T0 *_arg0, const char *_arg1) :
-			arg0(_arg0),
-			arg1(_arg1) {}
-		virtual ~Args() {}
-
-		T0 *arg0;
-		const char *arg1;
-
-		inline void PrepareStack() const
-		{
-			LuaObject<T0>::PushToLua(arg0);
-			lua_pushstring(Lua::manager->GetLuaState(), arg1);
-		}
-	};
-
-	template <>
-	class Args<void, void> : public ArgsBase {
-	public:
-		Args() {}
-		virtual ~Args() {}
-
-		inline void PrepareStack() const {}
 	};
 
 	void Clear();
 	void Emit();
 
-	void Queue(const char *event, const ArgsBase &args);
+	void QueueInternal(const char *event, const ArgsBase &args);
 
-	template <typename T0, typename T1>
-	void Queue(const char *event, T0 *arg0, T1 *arg1)
+	template <typename... TArgs>
+	inline void Queue(const char *event, TArgs... args)
 	{
-		Queue(event, Args<T0, T1>(arg0, arg1));
-	}
-
-	template <typename T0>
-	void Queue(const char *event, T0 *arg0, const char *arg1)
-	{
-		Queue(event, Args<T0, const char *>(arg0, arg1));
-	}
-
-	template <typename T0>
-	void Queue(const char *event, T0 *arg0)
-	{
-		Queue(event, Args<T0>(arg0));
+		QueueInternal(event, Args<TArgs...>(args...));
 	}
 
 	inline void Queue(const char *event)
 	{
-		Queue(event, Args<>());
+		QueueInternal(event, EmptyArgs());
 	}
 } // namespace LuaEvent
 

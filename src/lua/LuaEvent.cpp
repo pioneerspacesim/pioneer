@@ -53,7 +53,7 @@ namespace LuaEvent {
 		LUA_DEBUG_END(l, 0);
 	}
 
-	void Queue(const char *event, const ArgsBase &args)
+	void QueueInternal(const char *event, const ArgsBase &args)
 	{
 		lua_State *l = Lua::manager->GetLuaState();
 
@@ -62,7 +62,7 @@ namespace LuaEvent {
 
 		int top = lua_gettop(l);
 		lua_pushstring(l, event);
-		args.PrepareStack();
+		args.PrepareStack(l);
 		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
 
 		LUA_DEBUG_END(l, 0);

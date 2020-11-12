@@ -161,6 +161,12 @@ ui.Format = {
 	Datetime = function(date)
 		local second, minute, hour, day, month, year = Game.GetPartsFromDateTime(date)
 		return string.format("%4i-%02i-%02i %02i:%02i:%02i", year, month, day, hour, minute, second)
+	end,
+	Gravity = function(grav)
+		return string.format("%0.2f", grav) .. lc.UNIT_EARTH_GRAVITY
+	end,
+	Pressure = function(pres)
+		return string.format("%0.2f", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
 	end
 }
 

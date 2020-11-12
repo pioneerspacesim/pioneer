@@ -9,6 +9,7 @@
 #include "Ship.h"
 #include "ShipAICmd.h"
 #include "ShipType.h"
+#include "SpaceStation.h"
 #include "SystemView.h"
 #include "galaxy/Polit.h"
 #include "galaxy/SystemBody.h"
@@ -32,8 +33,8 @@
 const struct EnumItem ENUM_ShipAIError[] = {
 	{ "NONE", int(Ship::AIERROR_NONE) },
 	{ "GRAV_TOO_HIGH", int(Ship::AIERROR_GRAV_TOO_HIGH) },
-	{ "PRESS_TOO_HIGH", int(Ship::AIERROR_PRESS_TOO_HIGH) },
 	{ "REFUSED_PERM", int(Ship::AIERROR_REFUSED_PERM) },
+	{ "PRESS_TOO_HIGH", int(Ship::AIERROR_PRESS_TOO_HIGH) },
 	{ "ORBIT_IMPOSSIBLE", int(Ship::AIERROR_ORBIT_IMPOSSIBLE) },
 	{ 0, 0 },
 };
@@ -105,6 +106,13 @@ const struct EnumItem ENUM_ShipTypeTag[] = {
 	{ "SHIP", int(ShipType::TAG_SHIP) },
 	{ "STATIC_SHIP", int(ShipType::TAG_STATIC_SHIP) },
 	{ "MISSILE", int(ShipType::TAG_MISSILE) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_DockingRefusedReason[] = {
+	{ "ClearanceAlreadyGranted", int(SpaceStation::DockingRefusedReason::ClearanceAlreadyGranted) },
+	{ "TooFarFromStation", int(SpaceStation::DockingRefusedReason::TooFarFromStation) },
+	{ "NoBaysAvailable", int(SpaceStation::DockingRefusedReason::NoBaysAvailable) },
 	{ 0, 0 },
 };
 
@@ -485,6 +493,7 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "ShipAICmdName", ENUM_ShipAICmdName },
 	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
 	{ "ShipTypeTag", ENUM_ShipTypeTag },
+	{ "DockingRefusedReason", ENUM_DockingRefusedReason },
 	{ "ProjectableTypes", ENUM_ProjectableTypes },
 	{ "ProjectableBases", ENUM_ProjectableBases },
 	{ "SystemViewColorIndex", ENUM_SystemViewColorIndex },
@@ -531,6 +540,7 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "ShipAICmdName", ENUM_ShipAICmdName },
 	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
 	{ "ShipTypeTag", ENUM_ShipTypeTag },
+	{ "DockingRefusedReason", ENUM_DockingRefusedReason },
 	{ "ProjectableTypes", ENUM_ProjectableTypes },
 	{ "ProjectableBases", ENUM_ProjectableBases },
 	{ "SystemViewColorIndex", ENUM_SystemViewColorIndex },

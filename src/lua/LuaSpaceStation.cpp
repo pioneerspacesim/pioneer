@@ -4,6 +4,7 @@
 #include "LuaConstants.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "Ship.h"
 #include "SpaceStation.h"
 
 /*
@@ -55,6 +56,100 @@ static int l_spacestation_get_ground_position(lua_State *l)
 }
 
 /*
+ * Method: RequestDockingClearance
+ *
+ * Request docking clearance for a specific ship.
+ *
+ * > clearanceGranted = station:RequestDockingClearance(ship)
+ *
+ * NOTE: This method will queue an `onDockingClearanceGranted` or
+ * `onDockingClearanceDenied` event on success/failure, as the expectation is
+ * that requesting docking clearance will eventually be an asynchronous
+ * operation.
+ *
+ * Returns:
+ *   clearanceGranted - a boolean indicating whether the ship has been
+ *                      approved by ATC to land at this station.
+ *
+ * Availability:
+ *
+ *   Nov 2020
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_spacestation_request_docking_clearance(lua_State *l)
+{
+	SpaceStation *ss = static_cast<SpaceStation *>(LuaObject<Body>::CheckFromLua(1));
+	Ship *s = LuaObject<Ship>::CheckFromLua(2);
+	bool ok = ss->GetDockingClearance(s);
+	lua_pushboolean(l, ok);
+	return 1;
+}
+
+/*
+ * Method: GetAssignedBayNumber
+ *
+ * Get the assigned docking bay or landing pad for this ship, if any.
+ *
+ * > bayNumber = station:GetAssignedBayNumber(ship)
+ *
+ * Returns:
+ *   bayNumber - the zero-based index of the landing pad or docking bay this
+ *               ship is cleared to land at, or nil if this ship has not
+ *               requested docking permission.
+ *
+ * Examples:
+ * > -- Get our current bay number and print it
+ * > local num = station:GetAssignedBayNumber(Game.player)
+ * > Game.AddCommsLogLine(string.interp("Please proceed to dock at bay {}, thank you!", num + 1), station)
+ *
+ * Availability:
+ *
+ *   Nov 2020
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_spacestation_get_assigned_bay_number(lua_State *l)
+{
+	SpaceStation *ss = static_cast<SpaceStation *>(LuaObject<Body>::CheckFromLua(1));
+	Ship *s = LuaObject<Ship>::CheckFromLua(2);
+	int number = ss->GetMyDockingPort(s);
+	lua_pushnumber(l, number);
+	return 1;
+}
+
+/*
+ * Method: GetNearbyTraffic
+ *
+ * Gets the number of ships within a specified radius in meters of this station.
+ *
+ * > nearby = station:GetNearbyTraffic(50000) -- meters
+ *
+ * Returns:
+ *   nearby - the number of ships within the specified radius of the station.
+ *
+ * Availability:
+ *
+ *   Nov 2020
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_spacestation_get_nearby_traffic(lua_State *l)
+{
+	SpaceStation *ss = static_cast<SpaceStation *>(LuaObject<Body>::CheckFromLua(1));
+	double radius = LuaPull<double>(l, 2);
+	int nearby = ss->GetNearbyTraffic(radius);
+	lua_pushnumber(l, nearby);
+	return 1;
+}
+
+/*
  * Attribute: numDocks
  *
  * The number of docking ports a spacestation has.
@@ -65,7 +160,7 @@ static int l_spacestation_get_ground_position(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 static int l_spacestation_attr_num_docks(lua_State *l)
 {
@@ -85,7 +180,7 @@ static int l_spacestation_attr_num_docks(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 static int l_spacestation_attr_num_ships_docked(lua_State *l)
 {
@@ -105,7 +200,7 @@ static int l_spacestation_attr_num_ships_docked(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 static int l_spacestation_attr_is_ground_station(lua_State *l)
 {
@@ -124,6 +219,9 @@ void LuaObject<SpaceStation>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "GetGroundPosition", l_spacestation_get_ground_position },
+		{ "RequestDockingClearance", l_spacestation_request_docking_clearance },
+		{ "GetAssignedBayNumber", l_spacestation_get_assigned_bay_number },
+		{ "GetNearbyTraffic", l_spacestation_get_nearby_traffic },
 
 		{ 0, 0 }
 	};
