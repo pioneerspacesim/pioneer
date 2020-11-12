@@ -75,6 +75,10 @@
     "description": "Descriptive name for the Freelook Yaw axis.",
     "message": "Freelook Yaw"
   },
+  "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "Descriptive name for the MapToggleSelectionFollowView action.",
+    "message": "Toggle Selection Following View"
+  },
   "BIND_MAP_VIEW_MOVE_FORWARD": {
     "description": "Axis binding",
     "message": "Shift Map Longitudinally"
@@ -102,10 +106,6 @@
   "BIND_MAP_WARP_TO_SELECTED_SYSTEM": {
     "description": "Descriptive name for the MapWarpToSelectedSystem action.",
     "message": "Warp to Selected System"
-  },
-  "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "Descriptive name for the MapToggleSelectionFollowView action.",
-    "message": "Toggle Selection Following View"
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
