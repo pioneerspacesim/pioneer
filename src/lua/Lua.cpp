@@ -5,7 +5,6 @@
 #include "Pi.h"
 
 #include "LuaColor.h"
-#include "LuaComms.h"
 #include "LuaConsole.h"
 #include "LuaConstants.h"
 #include "LuaDev.h"
@@ -110,7 +109,6 @@ namespace Lua {
 		LuaServerAgent::Register();
 #endif
 		LuaGame::Register();
-		LuaComms::Register();
 		LuaFormat::Register();
 		LuaSpace::Register();
 		LuaShipDef::Register();
