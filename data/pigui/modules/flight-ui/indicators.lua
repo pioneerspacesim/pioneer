@@ -39,7 +39,7 @@ local function displayDirectionalMarkers()
 	end
 	local function angle(forward, adjust)
 		local aux2 = Vector2(forward.x, forward.y)
-		if forward.z >= 1 then
+		if forward.z >= 0 then
 			return aux2:angle() + adjust - ui.pi
 		else
 			return aux2:angle() + adjust

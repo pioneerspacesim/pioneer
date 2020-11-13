@@ -696,8 +696,17 @@ static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraCo
 	if (!frustum.ProjectPoint(pos, proj)) {
 		return vector3d(w / 2, h / 2, 0);
 	}
+	// convert NDC to top-left screen coordinates
 	proj.x *= w;
 	proj.y = h - proj.y * h;
+
+	// linearize depth coordinate
+	// see https://thxforthefish.com/posts/reverse_z/
+	float znear;
+	float zfar;
+	Pi::renderer->GetNearFarRange(znear, zfar);
+	proj.z = -((zfar * znear) / (proj.z * (zfar - znear) + znear));
+
 	// set z to -1 if in front of camera, 1 else
 	if (adjustZ)
 		proj.z = pos.z < 0 ? -1 : 1;
