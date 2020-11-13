@@ -1123,6 +1123,18 @@
     "description": "",
     "message": "Geen toestemming om te lanceren: u heeft onbetaalde boetes."
   },
+  "LAUNCH_PERMISSION_GRANTED": {
+    "description": "",
+    "message": "Launch permission granted."
+  },
+  "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
+    "description": "",
+    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+  },
+  "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
+    "description": "",
+    "message": "Permission granted. Watch for traffic on your departure."
+  },
   "LEGAL_STATUS": {
     "description": "",
     "message": "Juridische status"
@@ -1838,6 +1850,14 @@
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
     "message": "Our total capacity is {total_docking_pads} docking pads."
+  },
+  "STATION_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "Local gravity here is %.2f g."
+  },
+  "STATION_LOCAL_GRAVITY_PRESSURE": {
+    "description": "",
+    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",

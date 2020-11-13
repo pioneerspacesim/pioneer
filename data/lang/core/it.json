@@ -171,22 +171,6 @@
     "description": "",
     "message": "\" atmosfera a prevalenza di metano\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Autorizzazione già concessa. Procedere al ponte %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Autorizzazione negata. Non ci sono attracchi liberi."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Autorizzazione negata. La vostra nave è troppo lontana per poter verificare l'ID."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Autorizzazione concessa. Procedere al ponte %bay."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\" atmosfera a prevalenza di anidride carbonica\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Ancoraggio"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Autorizzazione all'attracco scaduta. Se desidera ancora attraccare deve ripetere la richiesta."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -639,10 +619,6 @@
     "description": "",
     "message": "Joystick"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname Asse %axis"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Commuta frai modi di visualizzazione dei punti di Lagrange L4/L5."
@@ -738,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Modalità controllo manuale"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Blocca Destinazione Iperspaziale"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Mostra/nascondi Pannello Informazioni"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Attiva/disattiva Visuale Centrata sulla Selezione"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Ruota Visuale in Giù"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Ruota Visuale a Sinistra"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Ruota Visuale a Destra"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Ruota Visuale in Su"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Scorri Visuale Indietro"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Scorri Visuale in Giù"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Scorri Visuale in Avanti"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Scorri Visuale a Sinistra"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Scorri Visuale a Destra"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Scorri Visuale in Su"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Salta al Sistema Corrente"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Salta alla Destinazione Iperspaziale"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Salta al Sistema Selezionato"
   },
   "MASS": {
     "description": "",
@@ -1691,10 +1603,6 @@
     "description": "",
     "message": "Modalità HUD"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "(Dis)Attiva Console LUA"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Cambia modalità radar"
@@ -1743,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "g"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "o"
@@ -1778,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "m"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",

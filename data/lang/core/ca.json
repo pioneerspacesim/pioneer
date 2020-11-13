@@ -171,22 +171,6 @@
     "description": "",
     "message": "\" atmosfera de metà\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Permís ja concedit, pesat. Dirigiu-vos al moll %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Permís denegat: no hi ha cap moll lliure."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Petició denegada. La vostra nau és massa lluny per verificar-ne l'identitat."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Permís concedit. Dirigiu-vos al moll %bay."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\" atmosfera de diòxid de carboni\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Amarrant"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Ha caducat la petició d'amarratge. Si voleu amarrar repetiu la petició."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -639,10 +619,6 @@
     "description": "",
     "message": "Palanca de control"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "Eix %{sign}%joyname %axis"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Alternar modes de pantalla del punt Lagrange L4/L5."
@@ -738,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Control manual"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Establir objectiu hiperespacial"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Commutar panell d'informació"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Vista de seguiment de selecció"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Girar vista avall"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Girar vista a l'esquerra"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Girar vista a la dreta"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Girar vista amunt"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Desplaçar vista enrere"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Desplaçar vista avall"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Desplaçar vista endavant"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Desplaçar vista a l'esquerra"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Desplaçar vista a la dreta"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Desplaçar vista amunt"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Centrar al sistema actual"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Centrar a l'objectiu hiperespacial"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Centrar al sistema seleccionat"
   },
   "MASS": {
     "description": "",
@@ -1691,10 +1603,6 @@
     "description": "",
     "message": "Canviar mode del HUD"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Commutar consola Lua"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Mode de radar"
@@ -1743,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "d"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "h"
@@ -1778,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "m"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",

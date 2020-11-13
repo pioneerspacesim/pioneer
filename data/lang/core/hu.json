@@ -171,22 +171,6 @@
     "description": "",
     "message": "\" metán\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Engedély már megadva. Haladj a(z) %bay leszállóöböl felé."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Kérés elutasítva. Nincs szabad leszállóhelyünk."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Engedély megtagadva. Hajó túl távol van az azonosításhoz."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Engedély megadva. Haladj a(z) %bay leszállóöböl felé."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\" szén-dioxid\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Dokkol"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Dokkolási engedély lejárt. Ha dokkolni akarsz, újra engedélyt kell kérned."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -639,10 +619,6 @@
     "description": "",
     "message": "Joystick bevitel"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname %axis tengely"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "L4/L5 Lagrange pont megjelenítése."
@@ -738,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Manuális irányítás"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Hiperűr cél rögzítése"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Info panel "
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Kijelölés követi a nézetet"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Nézet forgatása le"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Nézet forgatása balra"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Nézet forgatása jobbra"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Nézet forgatása fel"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Hátsó nézet"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Le nézet"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Előre nézet"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Bal nézet"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Jobb nézet"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Fel nézet"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Ugrás a jelenlegi rendszerbe"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Ugrás hiperűr célponthoz"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Ugrás a kiválasztott rendszerbe"
   },
   "MASS": {
     "description": "",
@@ -1691,10 +1603,6 @@
     "description": "",
     "message": "HUD mód váltás"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Lua konzol"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Radar mód"
@@ -1743,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "n"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "ó"
@@ -1778,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "p"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",

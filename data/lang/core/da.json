@@ -171,22 +171,6 @@
     "description": "",
     "message": "\" Methanatmosfære\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Tilkoblingstilladelse allerede tildelt. Fortsæt til tilkoblingssted %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Tilkoblingstilladelse ikke givet. Der er ingen ledige tilkoblingssteder."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Tilkoblingstilladelse tildelt. Fortsæt til tilkoblingssted %bay."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\" Kuldioxidatmosfære\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Tilkobling"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Tilkoblingstilladelse er udløbet. Hvis du vil sammenkoble, skal du gentage din anmodning."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -639,10 +619,6 @@
     "description": "",
     "message": "Joystick input"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname %axis Axis"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Switch between Lagrange L4/L5 point display modes."
@@ -738,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Manuel kontroltilstand"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Lås hyperrum mål"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Aktivér Info-panel"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Aktivér Følging af markéring"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Rotér Synspunkt Ned"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Rotér Synspunkt Venstre"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Rotér Synspunkt Højre"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Rotér Synspunkt Op"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Flyt Synspunkt Baglæns"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Flyt Synspunkt Ned"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Flyt Synspunkt Fremad"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Flyt Synspunkt Venstre"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Flyt Synspunkt Højre"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Flyt Synspunkt Op"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Hop til Nuværende System"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Hop til Hyperrum mål"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Hop til det Valgte System"
   },
   "MASS": {
     "description": "",
@@ -1691,10 +1603,6 @@
     "description": "",
     "message": "Skift HUD-tilstand"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Aktivér Lua-konsol"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Toggle radar mode"
@@ -1743,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "d"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "h"
@@ -1778,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "m"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",

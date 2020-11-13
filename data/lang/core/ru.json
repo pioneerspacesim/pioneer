@@ -171,22 +171,6 @@
     "description": "",
     "message": "\" метановой атмосферой\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Ваше разрешение на посадку всё ещё действительно. Ваша площадка номер %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Посадка запрещена. Нет свободных парковочных площадок."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Разрешение отклонено. Ваш корабль слишком далеко для проверки личности."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Разрешение на посадку предоставлено. Парковочная площадка номер %bay."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\" углекислотной атмосферой\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Парковочная зона"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Время разрешения на стыковку истекло. Повторите запрос."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -639,10 +619,6 @@
     "description": "",
     "message": "Настройки джойстика:"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname %axis Ось"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Переключение между режимами отображения точек Лагранжа L4/L5."
@@ -738,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Ручное управление"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Зафиксировать цель гиперпрыжка"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Переключение панели информации"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Переключение экрана слежения за целью"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Вращение камеры вниз"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Вращение камеры влево"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Вращение камеры вправо"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Вращение камеры вверх"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Отдалить камеру"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Смещение камеры вниз"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Приблизить камеру"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Смещение камеры влево"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Смещение камеры вправо"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Смещение камеры вверх"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Гиперпрыжок к текущей системе"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Гиперпрыжок к цели в гиперпространстве"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Гиперпрыжок в выбранную систему"
   },
   "MASS": {
     "description": "",
@@ -1691,10 +1603,6 @@
     "description": "",
     "message": "Переключение режима ИЛС"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Переключение Lua-консоли"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Переключение режима радара"
@@ -1743,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "дн"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "ч"
@@ -1778,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "м"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",

@@ -171,22 +171,6 @@
     "description": "",
     "message": "\" Atmaisféar meatáin\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Tá cead agat cheana. Lean ar aghaidh go dtí bá nasctha %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Diúltaíodh cead. Níl aon bhá nasctha saor."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Tugadh cead duit. Lean ar aghaidh go dtí bá nasctha %bay."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\" Atmaisféar dé-ocsaíde carbóin\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Glasáil"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Chuaigh an cead glasála in éag. Más mian leat teacht chun glais, caithfidh tú cead a iarraidh arís."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -639,10 +619,6 @@
     "description": "",
     "message": "Ionchur ón luamhán stiúrtha"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname %axis Ais"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Athraigh mód taispeána na bpointí Lagrange L4/L5."
@@ -738,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Mód rialaithe láimhe"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Dírigh ar Sprioc Hipearspáis"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Scoránaigh an Painéal Eolais"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Scoránaigh Radharc Leanúint an Roghnúcháin"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Rothlaigh an Radharc síos"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Rothlaigh an Radharc ar clé"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Rothlaigh an Radharc ar dheis"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Rothlaigh an Radharc suas"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Aistrigh an Radharc ar gcúl"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Aistrigh an Radharc síos"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Aistrigh an Radharc ar aghaidh"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Aistrigh an Radharc ar clé"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Aistrigh an Radharc ar dheis"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Aistrigh an Radharc suas"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Freangadh go dtí an Réaltchóras Reatha"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Freangadh go dtí an Sprioc Hipearspáis"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Freangadh go dtí Réaltchóras Roghnaithe"
   },
   "MASS": {
     "description": "",
@@ -1691,10 +1603,6 @@
     "description": "",
     "message": "Scoránaigh an mód HUD"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Scoránaigh an consól Lua"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Scoránaigh an mód radair"
@@ -1743,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "l"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "u"
@@ -1778,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "n"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",

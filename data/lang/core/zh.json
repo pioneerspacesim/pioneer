@@ -171,22 +171,6 @@
     "description": "",
     "message": "\"甲烷大气\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "请求已经接受.前往停靠口 %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "请求驳回.没有空闲的停靠口了."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "拒绝放行。您的船太远，无法验证身份。"
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "请求已接受. 前往停靠口 %bay."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\"二氧化碳大气\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "停靠"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "停靠请求已过期.如果仍要停靠必须复述停靠请求."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -639,10 +619,6 @@
     "description": "",
     "message": "摇杆输入"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}Joy%joynum %axis 轴"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "在拉格朗日点L4/L5显示模式间切换. "
@@ -738,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "手动控制模式"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "锁定超空间跳跃目标"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "切换信息面板"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "切换选项视图"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "向下旋转视角"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "向左旋转视角"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "向右旋转视角"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "向上旋转视角"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "向后平移视角"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "向下平移视角"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "向前平移视角"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "向左平移视角"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "向右平移视角"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "向上平移视角"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "移动到当前星系"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "移动到超空间跳跃目标"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "移动到选择的星系"
   },
   "MASS": {
     "description": "",
@@ -1691,10 +1603,6 @@
     "description": "",
     "message": "切换 HUD 模式"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "切换 Lua 控制台"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "切换雷达模式"
@@ -1743,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "日"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "时"
@@ -1778,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "分"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",

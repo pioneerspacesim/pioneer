@@ -1123,6 +1123,18 @@
     "description": "",
     "message": "Kalkış izni reddedildi: ödenmemiş borcunuz var."
   },
+  "LAUNCH_PERMISSION_GRANTED": {
+    "description": "",
+    "message": "Kalkış izni verildi."
+  },
+  "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
+    "description": "",
+    "message": "İzin verildi. Lütfen iniş alanında yoğunluk oluşturmayın ve hızlıca ayrılın."
+  },
+  "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
+    "description": "",
+    "message": "İzin verildi. Lütfen ayrılırken trafiğe dikkat edin."
+  },
   "LEGAL_STATUS": {
     "description": "",
     "message": "Yasal durum"
@@ -1838,6 +1850,14 @@
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
     "message": "Toplam kapasitemiz {total_docking_pads} kenetlenme platformudur."
+  },
+  "STATION_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "Burada yerel çekim kuvveti %.2f g."
+  },
+  "STATION_LOCAL_GRAVITY_PRESSURE": {
+    "description": "",
+    "message": "Burada yerel çekim kuvveti %.2f g, atmosfer basıncı %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",

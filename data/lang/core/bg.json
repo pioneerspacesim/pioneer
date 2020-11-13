@@ -171,22 +171,6 @@
     "description": "",
     "message": "\" атмосфера от метан\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Заявката е вече приета. Започнете скачване с %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Заявката е отхвърлена. Няма безплатен обяд."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Заявката е отхвърлена. Вашият кораб е твърде далеч и не може да бъде разпознат."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Заявката е приета. Започнете скачване с %bay."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\" атмосфера от въглероден двуоксид\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Скачване"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Заявката за скачване е просрочена. Ако искате да извършите скачване, трябва да повторите Вашата заявка."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -529,7 +509,7 @@
   },
   "HIGH_POPULATION_OUTDOOR_WORLD": {
     "description": "",
-    "message": "High population outdoor world."
+    "message": "Пренаселен свят на открито."
   },
   "HULL_INTEGRITY": {
     "description": "",
@@ -621,7 +601,7 @@
   },
   "INDUSTRIAL_HUB_SYSTEM": {
     "description": "",
-    "message": "Industrial hub system."
+    "message": "Индустриална система."
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -637,11 +617,7 @@
   },
   "JOYSTICK_INPUT": {
     "description": "",
-    "message": "Joystick input"
-  },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname %axis Ос"
+    "message": "Контрол с джойстик"
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
@@ -738,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Ръчен контролен режим"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Заключи Хиперпространствената Цел"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Toggle Info Panel"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Превключи Изборът да Следва Изгледа"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Завърти Изгледа Надолу"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Завърти Изгледа Наляво"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Завърти Изгледа Надясно"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Завърти Изгледа Нагоре"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Премести Изгледа Назад"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Премести Изгледа Надолу"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Премести Изгледа Напред"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Премести Изгледа Наляво"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Премести Изгледа Надясно"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Премести Изгледа Нагоре"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Хипервръзка със Сегашната Система"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Хипервръзка с Целта"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Хипервръзка с Избраната Система"
   },
   "MASS": {
     "description": "",
@@ -1093,7 +1005,7 @@
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
-    "message": "Outdoor agricultural world."
+    "message": "Селскостопански свят на открито."
   },
   "OVER_N_BILLION": {
     "description": "",
@@ -1417,7 +1329,7 @@
   },
   "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
     "description": "",
-    "message": "Small-scale prospecting. No registered settlements."
+    "message": "Няма достатъчно информация. Липсват населени места."
   },
   "SOCIAL_DEMOCRACY": {
     "description": "",
@@ -1429,7 +1341,7 @@
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",
-    "message": "Some established mining."
+    "message": "Има установено минно дело."
   },
   "SOURCE": {
     "description": "tell source system of hyperjump entry cloud",
@@ -1649,7 +1561,7 @@
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
-    "message": "Thriving outdoor world."
+    "message": "Процъфтяващ свят на открито."
   },
   "THRUSTER_DORSAL": {
     "description": "",
@@ -1691,10 +1603,6 @@
     "description": "",
     "message": "Toggle HUD mode"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Превключи конзолата на Lua"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Toggle radar mode"
@@ -1713,7 +1621,7 @@
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Trading illegal goods"
+    "message": "Търговия с нелегални стоки"
   },
   "TRIPLE_SYSTEM": {
     "description": "",
@@ -1742,6 +1650,10 @@
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
     "message": "д"
+  },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1779,6 +1691,10 @@
     "description": "Duration unit: one 60-second minute",
     "message": "м"
   },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "атм"
+  },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
     "message": "с"
@@ -1805,7 +1721,7 @@
   },
   "VAST_STRIP_MINE": {
     "description": "",
-    "message": "Vast strip-mining colony."
+    "message": "Колония с обширен повърхностен минодобив."
   },
   "VERY_DENSE": {
     "description": "",

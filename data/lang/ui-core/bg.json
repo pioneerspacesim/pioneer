@@ -1123,6 +1123,18 @@
     "description": "",
     "message": "Разрешението за излитане е отказано: имате неплатени глоби."
   },
+  "LAUNCH_PERMISSION_GRANTED": {
+    "description": "",
+    "message": "Launch permission granted."
+  },
+  "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
+    "description": "",
+    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+  },
+  "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
+    "description": "",
+    "message": "Permission granted. Watch for traffic on your departure."
+  },
   "LEGAL_STATUS": {
     "description": "",
     "message": "Правен статут"
@@ -1839,6 +1851,14 @@
     "description": "Information shown in the station lobby, for total number of docking pads",
     "message": "Нашият максимален капацитет е {total_docking_pads} площадки за скачване."
   },
+  "STATION_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "Местната гравитация е %.2f g."
+  },
+  "STATION_LOCAL_GRAVITY_PRESSURE": {
+    "description": "",
+    "message": "Местната гравитация е %.2f g и атмосферното налягане е %.2f атм."
+  },
   "STATION_MANAGER": {
     "description": "",
     "message": "Управител на станцията"
@@ -1933,7 +1953,7 @@
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Trading illegal goods"
+    "message": "Търговия с нелегални стоки"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

@@ -171,22 +171,6 @@
     "description": "",
     "message": "\" Metan atmosfer\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "İzin zaten verildi. %bay nolu sabitlenme bölmesine devam edin."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "İzin reddedildi. Boş sabitlenme bölmesi yok."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "İzin reddedildi. Geminiz kimlik doğrulaması için çok uzakta."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "İzin verildi. %bay nolu kenetlenme bölmesine ilerleyin."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\" Karbondioksit atmosfer\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Kenetleniyor"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Kenetlenme izin süresi doldu. Eğer kenetlenmek istiyorsanız isteğinizi tekrarlayın."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -639,10 +619,6 @@
     "description": "",
     "message": "Joystick"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname %axis Ekseni"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Lagrange noktaları L4/L5 gösterim şeklini değiştir."
@@ -738,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Elle kontrol"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Üstuzay Hedefini Kilitle"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Bilgi panelini aç/kapa"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Seçim Takip Görünümü Aç/Kapa"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Görünümü Aşağı Döndür"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Görünümü Sola Döndür"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Görünümü Sağa Döndür"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Görünümü Yukarı Döndür"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Görünümü Geriye Kaydır"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Görünümü Aşağı Kaydır"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Görünümü İleri Kaydır"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Görünümü Sola Kaydır"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Görünümü Sağa Kaydır"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Görünümü Yukarı Kaydır"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Mevcut Sisteme Sıçra"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Üstuzay Hedefine Sıçra"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Seçilen Sisteme Sıçra"
   },
   "MASS": {
     "description": "",
@@ -1691,10 +1603,6 @@
     "description": "",
     "message": "HUD biçimini değiştir"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Lua konsolunu aç/kapa"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Radar modunu değiştir"
@@ -1743,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "g"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "s"
@@ -1778,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "dk"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",

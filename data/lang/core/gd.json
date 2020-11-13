@@ -171,22 +171,6 @@
     "description": "",
     "message": "\" àile meatain\""
   },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Chaidh an cead a thoirt dhut mar-thà. Lean air adhart gun bhàgh docaidh %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Chaidh an cead a dhiùltadh. Chan eil bàgh docaidh saor ann."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Chaidh an cead a dhiùltadh. Tha ur soitheach cho fad air falbh ach an gabhadh aithneachadh."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Chaidh an cead a thoirt dhuibh. Leanaibh air adhart gu bàgh docaidh %bay."
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "\" àile dà-ogsaid carboin\""
@@ -334,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Docadh"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Dh'fhalbh an ùine air a' chead laighe agaibh. Ma tha sibh airson docadh, feumaidh sibh iarrtas ùr a chur a-steach."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -639,10 +619,6 @@
     "description": "",
     "message": "Ion-chur a' joystick"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname aiseal %axis"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Gearr leum eadar modhan sealltainn puing Lagrange L4/L5."
@@ -738,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Modh stiùireadh a làimh"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Glais an ceann-uidhe os-fhànais"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Toglaich am panail-fhiosrachaidh"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Toglaich sealladh leantainneach an taghaidh"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Cuairtich an sealladh sìos"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Cuairtich an sealladh gu clì"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Cuairtich an sealladh gu deas"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Cuairtich an sealladh suas"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Càraich an sealladh an comhair a' chùil"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Càraich an sealladh sìos"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Càraich an sealladh air adhart"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Càraich an sealladh gu clì"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Càraich an sealladh gu deas"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Càraich an sealladh suas"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Lùb dhan t-siostam làithreach"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Lùb dhan cheann-uidhe os-fhànais"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Lùb dhan t-siostam air a thaghadh"
   },
   "MASS": {
     "description": "",
@@ -1691,10 +1603,6 @@
     "description": "",
     "message": "Toglaich modh an t-seallaidh fiosrachaidh"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Toglaich a' chonsoil Lua"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Toglaich modh  an rèideir"
@@ -1743,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "l"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "u"
@@ -1778,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "m"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
