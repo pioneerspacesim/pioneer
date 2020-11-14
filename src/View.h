@@ -33,7 +33,6 @@ public:
 	virtual void DrawPiGui(){};
 	virtual void SaveToJson(Json &jsonObj) {}
 	virtual void LoadFromJson(const Json &jsonObj) {}
-	virtual void HandleSDLEvent(SDL_Event &event) {}
 
 	void Attach();
 	void Detach();

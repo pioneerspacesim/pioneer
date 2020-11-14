@@ -203,7 +203,7 @@ nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, KeyBind
 
 // Serialize a KeyBinding into the output stream.
 // Writes nothing if the binding is disabled
-std::ostream &InputBindings::operator<<(std::ostream &str, KeyBinding &in)
+std::ostream &InputBindings::operator<<(std::ostream &str, const KeyBinding &in)
 {
 	switch (in.type) {
 	case KeyBinding::Type::KeyboardKey:
@@ -248,7 +248,7 @@ nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, JoyAxis
 }
 
 // [-]JoyGUID/A4
-std::ostream &InputBindings::operator<<(std::ostream &str, JoyAxis &in)
+std::ostream &InputBindings::operator<<(std::ostream &str, const JoyAxis &in)
 {
 	if (!in.Enabled())
 		return str << "disabled";
@@ -308,7 +308,7 @@ nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, KeyChor
 }
 
 // KeyChord(Key54 + JoyGUID/B4 + JoyGUID/H1/3)
-std::ostream &InputBindings::operator<<(std::ostream &str, KeyChord &in)
+std::ostream &InputBindings::operator<<(std::ostream &str, const KeyChord &in)
 {
 	if (!in.Enabled())
 		return str << "disabled";
@@ -349,7 +349,7 @@ nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, Axis &o
 
 // InputAxis(-JoyGUID/A3, KeyChord(Key32), KeyChord(Mouse5 + JoyGUID/H1/1))
 // InputAxis(disabled, disabled, disabled)
-std::ostream &InputBindings::operator<<(std::ostream &str, Axis &in)
+std::ostream &InputBindings::operator<<(std::ostream &str, const Axis &in)
 {
 	return str << "InputAxis(" << in.axis << ", " << in.negative << ", " << in.positive << ")";
 }
@@ -374,7 +374,7 @@ nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, Action 
 
 // InputAction(KeyChord(Key53 + Mouse4), KeyChord(Mouse5 + JoyGUID/H1/1))
 // InputAction(disabled, disabled)
-std::ostream &InputBindings::operator<<(std::ostream &str, Action &in)
+std::ostream &InputBindings::operator<<(std::ostream &str, const Action &in)
 {
 	return str << "InputAction(" << in.binding << ", " << in.binding2 << ")";
 }

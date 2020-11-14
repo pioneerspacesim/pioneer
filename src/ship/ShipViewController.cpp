@@ -107,7 +107,7 @@ void ShipViewController::Init()
 
 void ShipViewController::Activated()
 {
-	Pi::input->PushInputFrame(&InputBindings);
+	Pi::input->AddInputFrame(&InputBindings);
 
 	m_onMouseWheelCon =
 		Pi::input->onMouseWheel.connect(sigc::mem_fun(this, &ShipViewController::MouseWheel));

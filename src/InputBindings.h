@@ -81,7 +81,7 @@ namespace InputBindings {
 
 		// serialization
 		friend nonstd::string_view &operator>>(nonstd::string_view &, KeyBinding &);
-		friend std::ostream &operator<<(std::ostream &, KeyBinding &);
+		friend std::ostream &operator<<(std::ostream &, const KeyBinding &);
 	};
 
 	struct JoyAxis {
@@ -101,7 +101,7 @@ namespace InputBindings {
 
 		// serialization
 		friend nonstd::string_view &operator>>(nonstd::string_view &, JoyAxis &);
-		friend std::ostream &operator<<(std::ostream &, JoyAxis &);
+		friend std::ostream &operator<<(std::ostream &, const JoyAxis &);
 	};
 
 	struct KeyChord {
@@ -136,7 +136,7 @@ namespace InputBindings {
 
 		// serialization
 		friend nonstd::string_view &operator>>(nonstd::string_view &, KeyChord &);
-		friend std::ostream &operator<<(std::ostream &, KeyChord &);
+		friend std::ostream &operator<<(std::ostream &, const KeyChord &);
 	};
 
 	struct Action : public DeleteEmitter {
@@ -162,7 +162,7 @@ namespace InputBindings {
 
 		// serialization
 		friend nonstd::string_view &operator>>(nonstd::string_view &, Action &);
-		friend std::ostream &operator<<(std::ostream &, Action &);
+		friend std::ostream &operator<<(std::ostream &, const Action &);
 	};
 
 	struct Axis : public DeleteEmitter {
@@ -196,21 +196,21 @@ namespace InputBindings {
 
 		// serialization
 		friend nonstd::string_view &operator>>(nonstd::string_view &, Axis &);
-		friend std::ostream &operator<<(std::ostream &, Axis &);
+		friend std::ostream &operator<<(std::ostream &, const Axis &);
 	};
 
 	nonstd::string_view &operator>>(nonstd::string_view &, KeyBinding &);
-	std::ostream &operator<<(std::ostream &, KeyBinding &);
+	std::ostream &operator<<(std::ostream &, const KeyBinding &);
 
 	nonstd::string_view &operator>>(nonstd::string_view &, JoyAxis &);
-	std::ostream &operator<<(std::ostream &, JoyAxis &);
+	std::ostream &operator<<(std::ostream &, const JoyAxis &);
 
 	nonstd::string_view &operator>>(nonstd::string_view &, KeyChord &);
-	std::ostream &operator<<(std::ostream &, KeyChord &);
+	std::ostream &operator<<(std::ostream &, const KeyChord &);
 
 	nonstd::string_view &operator>>(nonstd::string_view &, Action &);
-	std::ostream &operator<<(std::ostream &, Action &);
+	std::ostream &operator<<(std::ostream &, const Action &);
 
 	nonstd::string_view &operator>>(nonstd::string_view &, Axis &);
-	std::ostream &operator<<(std::ostream &, Axis &);
+	std::ostream &operator<<(std::ostream &, const Axis &);
 }; // namespace InputBindings

@@ -39,6 +39,7 @@ namespace PiGui {
 		void DrawRendererStats();
 		void DrawWorldViewStats();
 		void DrawImGuiStats();
+		void DrawInputDebug();
 		void DrawStatList(const Perf::Stats::FrameInfo &fi);
 
 		static const int NUM_FRAMES = 60;

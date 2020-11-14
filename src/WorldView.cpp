@@ -239,7 +239,7 @@ void WorldView::OnSwitchTo()
 {
 	if (m_viewController)
 		m_viewController->Activated();
-	Pi::input->PushInputFrame(&InputBindings);
+	Pi::input->AddInputFrame(&InputBindings);
 }
 
 void WorldView::OnSwitchFrom()

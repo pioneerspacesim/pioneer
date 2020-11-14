@@ -617,7 +617,7 @@ void ModelViewer::SetupAxes()
 #undef AXIS
 #undef ACTION
 
-	m_input->PushInputFrame(&m_bindings);
+	m_input->AddInputFrame(&m_bindings);
 }
 
 void ModelViewer::HandleInput()
