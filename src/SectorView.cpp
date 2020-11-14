@@ -1094,7 +1094,7 @@ void SectorView::BuildFarSector(RefCountedPtr<Sector> sec, const vector3f &origi
 void SectorView::OnSwitchTo()
 {
 	m_renderer->SetViewport({ 0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight() });
-	Pi::input->PushInputFrame(&InputBindings);
+	Pi::input->AddInputFrame(&InputBindings);
 	UIView::OnSwitchTo();
 	Update();
 }

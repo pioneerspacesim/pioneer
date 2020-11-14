@@ -136,10 +136,7 @@ public:
 	std::map<std::string, BindingPage> GetBindingPages() { return bindingPages; }
 
 	// Pushes an InputFrame onto the input stack.
-	bool PushInputFrame(InputFrame *frame);
-
-	// Pops the most-recently pushed InputFrame from the stack.
-	InputFrame *PopInputFrame();
+	bool AddInputFrame(InputFrame *frame);
 
 	// Get a read-only list of input frames.
 	const std::vector<InputFrame *> &GetInputFrames() { return m_inputFrames; }

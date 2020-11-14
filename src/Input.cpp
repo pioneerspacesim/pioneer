@@ -234,10 +234,11 @@ InputBindings::Axis *InputFrame::AddAxis(std::string id)
 	return axis;
 }
 
-bool Manager::PushInputFrame(InputFrame *frame)
+bool Manager::AddInputFrame(InputFrame *frame)
 {
-	if (HasInputFrame(frame)) {
-		return false;
+	auto iter = std::find(m_inputFrames.begin(), m_inputFrames.end(), frame);
+	if (iter != m_inputFrames.end()) {
+		m_inputFrames.erase(iter);
 	}
 
 	m_inputFrames.push_back(frame);
@@ -246,21 +247,6 @@ bool Manager::PushInputFrame(InputFrame *frame)
 	m_frameListChanged = true;
 
 	return true;
-}
-
-InputFrame *Manager::PopInputFrame()
-{
-	if (m_inputFrames.size() > 0) {
-		auto frame = m_inputFrames.back();
-		m_inputFrames.pop_back();
-		frame->active = false;
-		frame->onFrameRemoved.emit(frame);
-		m_frameListChanged = true;
-
-		return frame;
-	}
-
-	return nullptr;
 }
 
 void Manager::RemoveInputFrame(InputFrame *frame)
@@ -273,6 +259,8 @@ void Manager::RemoveInputFrame(InputFrame *frame)
 		for (auto *action : frame->actions) {
 			if (action->m_active) {
 				action->m_active = false;
+				action->binding.m_active = false;
+				action->binding2.m_active = false;
 				action->onReleased.emit();
 			}
 		}
@@ -280,6 +268,8 @@ void Manager::RemoveInputFrame(InputFrame *frame)
 		for (auto *axis : frame->axes) {
 			if (axis->m_value != 0.0) {
 				axis->m_value = 0.0;
+				axis->negative.m_active = false;
+				axis->positive.m_active = false;
 				axis->onAxisValue.emit(0.0);
 			}
 		}
@@ -467,7 +457,15 @@ void Manager::RebuildInputFrames()
 	m_activeActions.clear();
 	m_activeAxes.clear();
 
-	for (const auto *frame : reverse_container(m_inputFrames)) {
+	bool hasModal = false;
+	for (auto *frame : reverse_container(m_inputFrames)) {
+		// Disable all frames that are masked by a modal frame
+		// TODO: currently setting a modal frame causes pressed bindings in lower frames to get in an "orphaned" state,
+		// not losing their pressed status until the modal frame has been removed and the key has been pressed and released again.
+		// This is obviously extremely suboptimal, but will require a bit more thought to solve in a clean and non-hacky fashion
+		frame->active = !hasModal;
+		if (hasModal)
+			continue;
 
 		// Push all enabled key chords onto the key chord stack.
 		for (auto *action : frame->actions) {
@@ -497,7 +495,7 @@ void Manager::RebuildInputFrames()
 
 		// If we have a modal frame, it prevents input from passing through it to frames below
 		if (frame->modal) { // modal frame blocks all inputs below it
-			break;
+			hasModal = true;
 		}
 	}
 
@@ -507,8 +505,10 @@ void Manager::RebuildInputFrames()
 	// Reinitialize the modifier list, preserving key state.
 	m_modifiers.clear();
 	for (auto *chord : m_chords) {
-		m_modifiers.emplace(chord->modifier1, GetBindingState(chord->modifier1));
-		m_modifiers.emplace(chord->modifier2, GetBindingState(chord->modifier2));
+		if (chord->modifier1.Enabled())
+			m_modifiers.emplace(chord->modifier1, GetBindingState(chord->modifier1));
+		if (chord->modifier2.Enabled())
+			m_modifiers.emplace(chord->modifier2, GetBindingState(chord->modifier2));
 	}
 }
 
@@ -661,7 +661,8 @@ void Manager::DispatchEvents()
 		uint8_t queued = action->binding.m_queuedEvents | action->binding2.m_queuedEvents;
 		if (queued) {
 			bool wasActive = action->m_active;
-			action->m_active = action->binding.IsActive() || action->binding2.IsActive();
+			bool nowActive = action->binding.IsActive() || action->binding2.IsActive();
+			action->m_active = nowActive;
 
 			// if at least one of the bindings was pressed this frame and the action was not
 			// previously active, call the pressed event
@@ -670,7 +671,7 @@ void Manager::DispatchEvents()
 
 			// if at least one of the bindings was released this frame but are not pressed currently,
 			// call the released event
-			if (queued & 2 && !action->m_active)
+			if (queued & 2 && !nowActive)
 				action->onReleased.emit();
 
 			// clear queued events

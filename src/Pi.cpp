@@ -821,26 +821,8 @@ bool Pi::App::HandleEvent(SDL_Event &event)
 	// swallow the TEXTINPUT event this hack must remain until we have a
 	// unified input system
 	// This is safely able to be removed once GUI and newUI are gone
-	static bool skipTextInput = false;
-
-	if (skipTextInput && event.type == SDL_TEXTINPUT) {
-		skipTextInput = false;
-		return true;
-	}
 
 	if (ui->DispatchSDLEvent(event))
-		return true;
-
-	bool consoleActive = Pi::IsConsoleActive();
-	if (!consoleActive && currentView)
-		currentView->HandleSDLEvent(event);
-
-	if (consoleActive != Pi::IsConsoleActive()) {
-		skipTextInput = true;
-		return true;
-	}
-
-	if (Pi::IsConsoleActive())
 		return true;
 
 	Gui::HandleSDLEvent(&event);

@@ -81,12 +81,15 @@ void LuaConsole::SetupBindings()
 {
 	toggleLuaConsole = m_inputFrame.AddAction("BindToggleLuaConsole");
 	toggleLuaConsole->onPressed.connect(sigc::mem_fun(this, &LuaConsole::Toggle));
-	Pi::input->PushInputFrame(&m_inputFrame);
+	Pi::input->AddInputFrame(&m_inputFrame);
 }
 
 void LuaConsole::Toggle()
 {
-	Pi::input->RemoveInputFrame(&m_inputFrame);
+	// Don't activate the console if we're at the menu
+	if (!Pi::game)
+		return;
+
 	if (m_active) {
 		Pi::ui->DropLayer();
 		m_inputFrame.modal = false;
@@ -95,7 +98,8 @@ void LuaConsole::Toggle()
 		Pi::ui->SelectWidget(m_entry);
 		m_inputFrame.modal = true;
 	}
-	Pi::input->PushInputFrame(&m_inputFrame);
+	// Force our input frame to the top by re-adding it
+	Pi::input->AddInputFrame(&m_inputFrame);
 	m_active = !m_active;
 }
 

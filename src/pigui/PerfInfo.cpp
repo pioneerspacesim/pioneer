@@ -21,6 +21,7 @@
 #include <cstddef>
 #include <fstream>
 #include <functional>
+#include <sstream>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -216,6 +217,11 @@ void PerfInfo::DrawPerfWindow()
 			ImGui::EndTabItem();
 		}
 
+		if (false && ImGui::BeginTabItem("Input")) {
+			DrawInputDebug();
+			ImGui::EndTabItem();
+		}
+
 		if (Pi::game) {
 			if (Pi::player->GetFlightState() != Ship::HYPERSPACE && ImGui::BeginTabItem("WorldView")) {
 				DrawWorldViewStats();
@@ -344,6 +350,59 @@ void PerfInfo::DrawWorldViewStats()
 		Pi::player->GetModel()->SetDebugFlags(m_state->playerModelDebugFlags);
 	}
 	/* clang-format on */
+}
+
+void PerfInfo::DrawInputDebug()
+{
+	std::ostringstream output;
+	auto frameList = Pi::input->GetInputFrames();
+	uint32_t index = 0;
+	for (const auto *frame : frameList) {
+		ImGui::Text("InputFrame %d: modal=%d", index, frame->modal);
+		ImGui::Indent();
+		uint32_t actionNum = 0;
+		for (const auto *action : frame->actions) {
+			ImGui::Text("Action %d: active=%d (%d, %d)", actionNum, action->m_active, action->binding.m_active, action->binding2.m_active);
+			if (action->binding.Enabled()) {
+				output << action->binding;
+				ImGui::TextUnformatted(output.str().c_str());
+				output.str("");
+			}
+			if (action->binding2.Enabled()) {
+				output << action->binding2;
+				ImGui::TextUnformatted(output.str().c_str());
+				output.str("");
+			}
+
+			ImGui::Separator();
+			actionNum++;
+		}
+
+		ImGui::Spacing();
+
+		actionNum = 0;
+		for (const auto *axis : frame->axes) {
+			ImGui::Text("Axis %d: value=%.2f (%d, %d)", actionNum, axis->m_value, axis->positive.m_active, axis->negative.m_active);
+			if (axis->positive.Enabled()) {
+				output << axis->positive;
+				ImGui::TextUnformatted(output.str().c_str());
+				output.str("");
+			}
+
+			if (axis->negative.Enabled()) {
+				output << axis->negative;
+				ImGui::TextUnformatted(output.str().c_str());
+				output.str("");
+			}
+
+			ImGui::Separator();
+			actionNum++;
+		}
+		ImGui::Unindent();
+
+		ImGui::Spacing();
+		index++;
+	}
 }
 
 void PerfInfo::DrawImGuiStats()
