@@ -20,11 +20,11 @@
     "message": "Docking clearance expired. If you wish to dock you must repeat your request."
   },
   "STATION_GRAV": {
-    "description": "",
+    "description": "Like an airline pilot announcing local weather conditions",
     "message": "Local gravity is {grav}."
   },
   "STATION_GRAV_PRESS": {
-    "description": "",
+    "description": "Like an airline pilot announcing local weather conditions",
     "message": "Local gravity is {grav}, pressure is {press}."
   },
   "WATCH_FOR_TRAFFIC_ON_APPROACH": {
@@ -40,7 +40,7 @@
     "message": "{playerShipLabel}, we have you on the radar. You are in {station} controlled space."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_3": {
-    "description": "",
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
     "message": "{playerShipLabel}, this is {station} STC. You are entering our controlled space."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_4": {
@@ -52,7 +52,7 @@
     "message": "{playerShipLabel}, welcome to {station}. Please keep in mind that regulations apply as you are flying through our jurisdiction."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_6": {
-    "description": "",
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
     "message": "{playerShipLabel}, this is {station} STC speaking. You are entering controlled space, and I would appreciate it if you didn't make me fill out any paperwork today."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_1": {
@@ -76,7 +76,7 @@
     "message": "{playerShipLabel}, you are leaving {station} space. Have a pleasant journey."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_6": {
-    "description": "",
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
     "message": "{playerShipLabel}, this is {station} STC. I see you exiting our controlled space, be safe out there."
   }
 }
