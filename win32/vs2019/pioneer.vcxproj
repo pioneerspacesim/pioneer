@@ -413,10 +413,10 @@
     <ClCompile Include="..\..\src\HudTrail.cpp" />
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\Input.cpp" />
+    <ClCompile Include="..\..\src\InputBindings.cpp" />
     <ClCompile Include="..\..\src\Intro.cpp" />
     <ClCompile Include="..\..\src\JobQueue.cpp" />
     <ClCompile Include="..\..\src\JsonUtils.cpp" />
-    <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\lua\core\Import.cpp" />
     <ClCompile Include="..\..\src\lua\core\Sandbox.cpp" />
@@ -424,7 +424,6 @@
     <ClCompile Include="..\..\src\lua\LuaBody.cpp" />
     <ClCompile Include="..\..\src\lua\LuaCargoBody.cpp" />
     <ClCompile Include="..\..\src\lua\LuaColor.cpp" />
-    <ClCompile Include="..\..\src\lua\LuaComms.cpp" />
     <ClCompile Include="..\..\src\lua\LuaConsole.cpp" />
     <ClCompile Include="..\..\src\lua\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\lua\LuaDev.cpp" />
@@ -638,15 +637,14 @@
     <ClInclude Include="..\..\src\HudTrail.h" />
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
     <ClInclude Include="..\..\src\Input.h" />
+    <ClInclude Include="..\..\src\InputBindings.h" />
     <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\JobQueue.h" />
     <ClInclude Include="..\..\src\JsonUtils.h" />
-    <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\lua\core\CoreFwdDecl.h" />
     <ClInclude Include="..\..\src\lua\Lua.h" />
     <ClInclude Include="..\..\src\lua\LuaColor.h" />
-    <ClInclude Include="..\..\src\lua\LuaComms.h" />
     <ClInclude Include="..\..\src\lua\LuaConsole.h" />
     <ClInclude Include="..\..\src\lua\LuaConstants.h" />
     <ClInclude Include="..\..\src\lua\LuaDev.h" />

@@ -66,9 +66,6 @@
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\KeyBindings.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -402,9 +399,6 @@
     <ClCompile Include="..\..\src\lua\LuaColor.cpp">
       <Filter>src\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\lua\LuaComms.cpp">
-      <Filter>src\Lua</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\lua\LuaConsole.cpp">
       <Filter>src\Lua</Filter>
     </ClCompile>
@@ -585,6 +579,9 @@
     <ClCompile Include="..\..\src\lua\LuaEconomy.cpp">
       <Filter>src\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\InputBindings.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -627,9 +624,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\HyperspaceCloud.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\KeyBindings.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\libs.h">
@@ -1001,9 +995,6 @@
     <ClInclude Include="..\..\src\lua\LuaColor.h">
       <Filter>src\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\lua\LuaComms.h">
-      <Filter>src\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\lua\LuaConsole.h">
       <Filter>src\Lua</Filter>
     </ClInclude>
@@ -1147,6 +1138,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\lua\LuaEconomy.h">
       <Filter>src\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\InputBindings.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
