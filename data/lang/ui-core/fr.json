@@ -1125,15 +1125,15 @@
   },
   "LAUNCH_PERMISSION_GRANTED": {
     "description": "",
-    "message": "Launch permission granted."
+    "message": "Permission de lancement accordée."
   },
   "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
     "description": "",
-    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+    "message": "Permission accordée. Décollez rapidement afin de ne pas encombrer pas la zone d'atterrissage, s'il vous plait."
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
-    "message": "Permission granted. Watch for traffic on your departure."
+    "message": "Permission accordée. Faites attention au traffic lors de votre départ."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1853,11 +1853,11 @@
   },
   "STATION_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Local gravity here is %.2f g."
+    "message": "La gravité locale est de %.2f g."
   },
   "STATION_LOCAL_GRAVITY_PRESSURE": {
     "description": "",
-    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
+    "message": "La gravité locale est de %.2f g, et la pression atmosphérique est de %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",
