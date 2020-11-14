@@ -5,6 +5,7 @@
 #define _COLOR_H
 
 #include <SDL_stdinc.h>
+#include <SDL_pixels.h>
 
 struct lua_State;
 
@@ -41,6 +42,8 @@ struct Color4f {
 		return *this;
 	}
 	friend Color4f operator*(const Color4f &c, const float v) { return Color4f(c.r * v, c.g * v, c.b * v, c.a * v); }
+	friend Color4f operator*(const float v, const Color4f &c) { return Color4f(c.r * v, c.g * v, c.b * v, c.a * v); }
+	friend Color4f operator+(const Color4f &lhs, const Color4f &rhs) { return Color4f(lhs.r + rhs.r, lhs.g + rhs.g, lhs.b + rhs.b, lhs.a + rhs.a); }
 
 	void ToLuaTable(lua_State *l);
 	static Color4f FromLuaTable(lua_State *l, int idx);
@@ -91,6 +94,11 @@ struct Color4ub {
 		g((rgba >> 16) & 0xff),
 		b((rgba >> 8) & 0xff),
 		a(rgba & 0xff) {}
+	Color4ub(const SDL_Color &c) :
+		r(c.r),
+		g(c.g),
+		b(c.b),
+		a(c.a) {}
 
 	operator unsigned char *() { return &r; }
 	operator const unsigned char *() const { return &r; }

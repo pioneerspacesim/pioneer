@@ -766,6 +766,11 @@ namespace Graphics {
 				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT2;
 				++attribIdx;
 			}
+			if (v->HasAttrib(ATTRIB_UV1)) {
+				vbd.attrib[attribIdx].semantic = ATTRIB_UV1;
+				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT2;
+				++attribIdx;
+			}
 			if (v->HasAttrib(ATTRIB_TANGENT)) {
 				vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
 				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;

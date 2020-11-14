@@ -300,4 +300,12 @@ reverse_container_t<T> reverse_container(T &ref) { return reverse_container_t<T>
 
 void hexdump(const unsigned char *buf, int bufsz);
 
+inline Color4f ColourFromNormal(const vector3d &n)
+{
+	return Color4f(
+		(n.x + 1.0f) * 0.5f,
+		(n.y + 1.0f) * 0.5f,
+		(n.z + 1.0f) * 0.5f);
+}
+
 #endif /* _UTILS_H */

@@ -71,6 +71,8 @@ namespace Graphics {
 				ss << "#define TERRAIN_WITH_WATER\n";
 			if (desc.quality & HAS_ECLIPSES)
 				ss << "#define ECLIPSE\n";
+			if (desc.textures > 0)
+				ss << "#define TEXTURE0\n";
 
 			ss << stringf("#define NUM_SHADOWS %0{u}\n", m_curNumShadows);
 
@@ -120,6 +122,8 @@ namespace Graphics {
 			if (this->texture0) {
 				p->texture0.Set(this->texture0, 0);
 				p->texture1.Set(this->texture1, 1);
+				p->texture2.Set(this->texture2, 2);
+				p->texture3.Set(this->texture3, 3);
 
 				const float fDetailFrequency = pow(2.0f, float(params.maxPatchDepth) - float(params.patchDepth));
 

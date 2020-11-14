@@ -29,6 +29,25 @@ namespace Graphics {
 	{
 	}
 
+	void VertexArray::Reserve(const int size)
+	{
+		if (size > 0) {
+			//would be rather weird without positions!
+			if (m_attribs & ATTRIB_POSITION)
+				position.reserve(size);
+			if (m_attribs & ATTRIB_DIFFUSE)
+				diffuse.reserve(size);
+			if (m_attribs & ATTRIB_NORMAL)
+				normal.reserve(size);
+			if (m_attribs & ATTRIB_UV0)
+				uv0.reserve(size);
+			if (m_attribs & ATTRIB_UV1)
+				uv1.reserve(size);
+			if (m_attribs & ATTRIB_TANGENT)
+				tangent.reserve(size);
+		}
+	}
+
 	void VertexArray::Clear()
 	{
 		position.clear();

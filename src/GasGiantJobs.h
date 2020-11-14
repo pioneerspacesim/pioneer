@@ -21,8 +21,6 @@ namespace Graphics {
 }
 
 namespace GasGiantJobs {
-	//#define DUMP_PARAMS 1
-
 	// generate root face patches of the cube/sphere
 	static const vector3d p1 = (vector3d(1, 1, 1)).Normalized();
 	static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
@@ -33,11 +31,12 @@ namespace GasGiantJobs {
 	static const vector3d p7 = (vector3d(-1, -1, -1)).Normalized();
 	static const vector3d p8 = (vector3d(1, -1, -1)).Normalized();
 
-	const vector3d &GetPatchFaces(const Uint32 patch, const Uint32 face);
+	//const vector3d &GetPatchFaces(const Uint32 patch, const Uint32 face);
+	void InstantTextureGenerator(const double fracStep, const Terrain *pTerrain, const Uint32 GGQuality, const float hueAdjust, Graphics::Texture *texOut);
 
 	class STextureFaceRequest {
 	public:
-		STextureFaceRequest(const vector3d *v_, const SystemPath &sysPath_, const Sint32 face_, const Sint32 uvDIMs_, Terrain *pTerrain_);
+		STextureFaceRequest(const SystemPath &sysPath_, const Sint32 face_, const Sint32 uvDIMs_, const Terrain *pTerrain_, const Uint32 GGQuality, const float hueAdjust_);
 
 		// RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		// Use only data local to this object
@@ -54,12 +53,6 @@ namespace GasGiantJobs {
 
 		inline Sint32 NumTexels() const { return uvDIMs * uvDIMs; }
 
-		// in patch surface coords, [0,1]
-		inline vector3d GetSpherePoint(const double x, const double y) const
-		{
-			return (corners[0] + x * (1.0 - y) * (corners[1] - corners[0]) + x * y * (corners[2] - corners[0]) + (1.0 - x) * y * (corners[3] - corners[0])).Normalized();
-		}
-
 		// these are created with the request and are given to the resulting patches
 		Color *colors;
 
@@ -67,7 +60,9 @@ namespace GasGiantJobs {
 		const SystemPath sysPath;
 		const Sint32 face;
 		const Sint32 uvDIMs;
-		RefCountedPtr<Terrain> pTerrain;
+		RefCountedPtr<const Terrain> pTerrain;
+		const Graphics::OGL::GasGiantQuality ggQuality;
+		const float hueAdjust;
 	};
 
 	class STextureFaceResult {
@@ -186,7 +181,6 @@ namespace GasGiantJobs {
 	class SGPUGenResult {
 	public:
 		struct SGPUGenData {
-			SGPUGenData() {}
 			SGPUGenData(Graphics::Texture *t_, Sint32 uvDims_) :
 				texture(t_),
 				uvDims(uvDims_) {}
@@ -194,9 +188,7 @@ namespace GasGiantJobs {
 			Sint32 uvDims;
 		};
 
-		SGPUGenResult() {}
-
-		void addResult(Graphics::Texture *t_, Sint32 uvDims_);
+		SGPUGenResult(Graphics::Texture *t_, Sint32 uvDims_);
 
 		inline const SGPUGenData &data() const { return mData; }
 
@@ -222,7 +214,7 @@ namespace GasGiantJobs {
 		virtual void OnCancel() {}
 
 	private:
-		SingleGPUGenJob() {}
+		SingleGPUGenJob() = delete;
 		// deliberately prevent copy constructor access
 		SingleGPUGenJob(const SingleGPUGenJob &r) = delete;
 
