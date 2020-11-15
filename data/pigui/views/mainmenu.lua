@@ -232,12 +232,7 @@ local function showMainMenu()
 				desc = desc .. lui.HYPERDRIVE .. ": " .. (loc.hyperdrive and lui.YES or lui.NO) .. "\n"
 				desc = desc .. lui.EQUIPMENT .. ":\n"
 				for _,eq in pairs(loc.equipment) do
-				local equipname
-					if pcall(function() local t = elc[eq[1].l10n_key] end) then
-						equipname = elc[eq[1].l10n_key]
-					elseif pcall(function() local t= clc[eq[1].l10n_key] end) then
-						equipname = clc[eq[1].l10n_key]
-					end
+					local equipname = rawget(elc, eq[1].l10n_key) or rawget(clc, eq[1].l10n_key)
 					desc = desc .. "  - " .. equipname
 					if eq[2] > 1 then
 						desc = desc .. " x" .. eq[2] .. "\n"

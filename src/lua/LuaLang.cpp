@@ -7,20 +7,30 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
+#include "core/Log.h"
 #include <algorithm>
 
+// Generate an error message when an access is made to a translation that isn't in the table.
+// This function is provided with two upvalues:
+// - (1) resourceName
+// - (2) langCode
 static int _resource_index(lua_State *l)
 {
 	const char *token = lua_tostring(l, 2);
-	lua_pushstring(l, "resourceName");
-	lua_gettable(l, -3);
-	const char *resourceName = lua_tostring(l, -1);
-	lua_pop(l, 1);
-	lua_pushstring(l, "langCode");
-	lua_gettable(l, -3);
-	const char *langCode = lua_tostring(l, -1);
-	lua_pop(l, 1);
-	return luaL_error(l, "missing translation token: `%s' in resource `%s', language code `%s'.", token, resourceName, langCode);
+	const char *resourceName = lua_tostring(l, lua_upvalueindex(1));
+	const char *langCode = lua_tostring(l, lua_upvalueindex(2));
+
+	std::string tempStr = fmt::format("[NO_JSON]{}", token);
+	lua_pushlstring(l, tempStr.c_str(), tempStr.size());
+
+	// store the copy of the placeholder string in the translation table to speed up further access
+	lua_pushvalue(l, 2);
+	lua_pushvalue(l, -2);
+	lua_rawset(l, 1);
+
+	Log::Warning("Missing translation token '{}' in resource '{}/{}.json'.", token, resourceName, langCode);
+
+	return 1;
 }
 
 static int _resource_newindex(lua_State *l)
@@ -43,56 +53,44 @@ static int l_lang_get_resource(lua_State *l)
 
 	const std::string key = resourceName + "_" + langCode;
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "LangCache");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_REGISTRYINDEX, "LangCache");
-	}
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LangCache");
 
 	// find it in the cache
 	lua_getfield(l, -1, key.c_str());
 	if (!lua_isnil(l, -1)) {
 		lua_remove(l, -2);
+
+		LUA_DEBUG_END(l, 1);
 		return 1;
 	}
 	lua_pop(l, 1);
 
+	lua_newtable(l);
 	Lang::Resource res(resourceName, langCode);
-	if (!res.Load()) {
-		std::string msg = std::string("Translation of '") + resourceName + std::string("' into language '") + langCode + std::string("' not found! This should be in 'data/lang/") + resourceName + std::string("/") + langCode + std::string(".json'.");
-		lua_pushstring(l, msg.c_str());
-		lua_error(l);
+	if (res.Load()) {
+		for (auto i : res.GetStrings()) {
+			const std::string token(i.first);
+			const std::string text(i.second.empty() ? token : i.second);
+			lua_pushlstring(l, text.c_str(), text.size());
+			lua_setfield(l, -2, token.c_str());
+		}
+	} else {
+		Log::Warning("Translation of {0} into lang {1} not found! This should be in data/lang/{0}/{1}.json. Falling back to English language.\n",
+			resourceName, langCode);
 	}
 
-	lua_newtable(l);
-	lua_pushstring(l, "langCode");
-	lua_pushstring(l, langCode.c_str());
-	lua_settable(l, -3);
-	lua_pushstring(l, "resourceName");
-	lua_pushstring(l, resourceName.c_str());
-	lua_settable(l, -3);
-
-	for (auto i : res.GetStrings()) {
-		const std::string token(i.first);
-		const std::string text(i.second.empty() ? token : i.second);
-		lua_pushlstring(l, token.c_str(), token.size());
-		lua_pushlstring(l, text.c_str(), text.size());
-		lua_rawset(l, -3);
-	}
-
-	lua_pushstring(l, "get");
 	lua_pushcfunction(l, _get);
-	lua_rawset(l, -3);
+	lua_setfield(l, -2, "get");
 
 	lua_newtable(l);
-	lua_pushstring(l, "__index");
-	lua_pushcfunction(l, _resource_index);
-	lua_rawset(l, -3);
-	lua_pushstring(l, "__newindex");
+	// push the error message function
+	lua_pushstring(l, resourceName.c_str());
+	lua_pushstring(l, langCode.c_str());
+	lua_pushcclosure(l, _resource_index, 2);
+	lua_setfield(l, -2, "__index");
+
 	lua_pushcfunction(l, _resource_newindex);
-	lua_rawset(l, -3);
+	lua_setfield(l, -2, "__newindex");
 	lua_setmetatable(l, -2);
 
 	// insert into cache

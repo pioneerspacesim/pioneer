@@ -48,7 +48,7 @@ local function displayTimeWindow()
 			time = lc.PAUSED
 		end
 		local tooltip = string.interp(lui.HUD_REQUEST_TIME_ACCEL, { time = time })
-		if ui.coloredSelectedIconButton(icons['time_accel_' .. name], button_size, current == name, frame_padding, color, fg_color, tooltip)
+		if ui.coloredSelectedIconButton(icons['time_accel_' .. name], button_size, current == name, frame_padding, color, fg_color, tooltip .. "##time_accel_"..name)
 		or (ui.shiftHeld() and ui.isKeyReleased(key)) then
 			Game.SetTimeAcceleration(name, ui.ctrlHeld() or ui.isMouseDown(1))
 		end
