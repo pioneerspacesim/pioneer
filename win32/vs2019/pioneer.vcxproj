@@ -190,13 +190,13 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static_vc2015_debug.lib;libvorbis_static_v140_debug.lib;libvorbisfile_static_v140_debug.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2017;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2019;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x86\vs2017\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
+      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x86\vs2019\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
       <Message>copy the dlls into the directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -211,13 +211,13 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2017;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2019;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x64\vs2017\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
+      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x64\vs2019\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
       <Message>copy the dlls into the directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -225,8 +225,8 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static_vc2015_debug.lib;libvorbis_static_v140_debug.lib;libvorbisfile_static_v140_debug.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2017;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2019;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <LargeAddressAware>true</LargeAddressAware>
@@ -238,7 +238,7 @@
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x86\vs2017\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
+      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x86\vs2019\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
       <Message>copy the dlls into the directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -246,8 +246,8 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2017;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2019;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <LargeAddressAware>true</LargeAddressAware>
@@ -260,7 +260,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x64\vs2017\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
+      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x64\vs2019\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
       <Message>copy the dlls into the directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -268,8 +268,8 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2017;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2019;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <ClCompile />
@@ -284,7 +284,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x86\vs2017\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
+      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x86\vs2019\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
       <Message>copy the dlls into the directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -292,8 +292,8 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2017;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2019;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <ClCompile />
@@ -309,7 +309,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x64\vs2017\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
+      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x64\vs2019\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
       <Message>copy the dlls into the directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -317,8 +317,8 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2015_release.lib;libvorbis_static_v140_release.lib;libvorbisfile_static_v140_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2017;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x86/vs2019;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
@@ -333,7 +333,7 @@
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x86\vs2017\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
+      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x86\vs2019\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
       <Message>copy the dlls into the directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -341,8 +341,8 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc141-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static.lib;libvorbis_static.lib;libvorbisfile_static.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype271MT.lib;sigcpp.lib; text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2017;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2019;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
@@ -358,7 +358,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x64\vs2017\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
+      <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\x64\vs2019\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
       <Message>copy the dlls into the directory</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
