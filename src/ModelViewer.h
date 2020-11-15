@@ -80,14 +80,10 @@ private:
 	void UpdateLights();
 
 	void ReloadModel();
-	void SetAnimation(SceneGraph::Animation *anim);
 	void SetDecals(const std::string &file);
 
 	void OnModelChanged();
 
-	void ToggleCollMesh();
-	void ToggleShowShields();
-	void ToggleGrid();
 	void ToggleGuns();
 	void HitIt();
 
@@ -104,6 +100,8 @@ private:
 
 	void DrawModelSelector();
 	void DrawModelOptions();
+	void DrawModelTags();
+	void DrawTagNames();
 	void DrawShipControls();
 	void DrawLog();
 	void DrawPiGui();
@@ -168,6 +166,8 @@ private:
 	std::unique_ptr<SceneGraph::Model> m_model;
 	bool m_modelIsShip = false;
 
+	SceneGraph::MatrixTransform *m_selectedTag = nullptr;
+
 	std::vector<SceneGraph::Animation *> m_animations;
 	SceneGraph::Animation *m_currentAnimation = nullptr;
 
@@ -190,6 +190,7 @@ private:
 	float m_shieldHitPan;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;
+	matrix4x4f m_modelViewMat;
 	vector3f m_viewPos;
 	matrix3x3f m_viewRot;
 	float m_rotX, m_rotY, m_zoom;
