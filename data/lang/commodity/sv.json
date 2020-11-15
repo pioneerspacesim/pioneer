@@ -181,7 +181,7 @@
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+    "message": "Eftersom dess främsta användningsområde är som ett massförstöreslevapen, så undviks det till och med av de flesta systems militär, och är således olagligt i de flesta stjärnsystem"
   },
   "PLASTICS": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+    "message": "Biprodukt från civilisationen, bestående av olika sorters industriafall, hushållssopor, trasiga maskiner, och nedslitna verktyg. Det mesta avfallet återvinns eller är transporteras till långväga världar. Att dumpa avfall i bebodda system är fördet mesta olagligt. De flesta marknader erbjuder pengar för transport av avfall, och tar betalt för att de skall handha det."
   },
   "SLAVES": {
     "description": "",

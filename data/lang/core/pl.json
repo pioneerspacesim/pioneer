@@ -165,7 +165,7 @@
   },
   "CENTER": {
     "description": "",
-    "message": "Center"
+    "message": "Środek"
   },
   "CH4_ATMOSPHERE": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
-    "message": "Switch between grid display modes."
+    "message": "Przełącz pomiędzy trybami wyświetlania siatki."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -793,7 +793,7 @@
   },
   "MISSILE_DETECTED": {
     "description": "",
-    "message": "Missile launch detected."
+    "message": "Wykryto odpalenie rakiety."
   },
   "MIXED_ECONOMY": {
     "description": "",
@@ -985,7 +985,7 @@
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
-    "message": "Object info"
+    "message": "Informacje o obiekcie"
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1001,7 +1001,7 @@
   },
   "ORBIT_PLANNER": {
     "description": "",
-    "message": "Orbit planner"
+    "message": "Planista orbity"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
@@ -1233,7 +1233,7 @@
   },
   "SET_AS_COMBAT_TARGET": {
     "description": "",
-    "message": "Set as combat target"
+    "message": "Ustaw jako cel bojowy"
   },
   "SET_AS_TARGET": {
     "description": "",

@@ -193,7 +193,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Commodity trade analysis of:"
+    "message": "Kereskedelmi elemzés: "
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
@@ -1029,7 +1029,7 @@
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
-    "message": "Illegal in System"
+    "message": "Illegális a rendszerben"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
@@ -1125,15 +1125,15 @@
   },
   "LAUNCH_PERMISSION_GRANTED": {
     "description": "",
-    "message": "Launch permission granted."
+    "message": "Indítási engedélyt megadom"
   },
   "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
     "description": "",
-    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+    "message": "Engedély megadva. Kérem távozzon minél gyorsabban, ne akadályozza a forgalmat!"
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
-    "message": "Permission granted. Watch for traffic on your departure."
+    "message": "Engedélyt megadom. Távozáskor figyeljen a forgalomra!"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1213,7 +1213,7 @@
   },
   "MAJOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Export"
+    "message": "Fő export"
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
@@ -1221,7 +1221,7 @@
   },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Import"
+    "message": "Fő import"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
@@ -1305,7 +1305,7 @@
   },
   "MINOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Export"
+    "message": "Egyéb export"
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
@@ -1313,7 +1313,7 @@
   },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Import"
+    "message": "Egyéb import"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
@@ -1853,11 +1853,11 @@
   },
   "STATION_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Local gravity here is %.2f g."
+    "message": "A helyi gravitáció %.2f g."
   },
   "STATION_LOCAL_GRAVITY_PRESSURE": {
     "description": "",
-    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
+    "message": "Helyi gravitáció %.2f g, légnyomás %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",

@@ -713,7 +713,7 @@
   },
   "MANUAL_CONTROL_MODE": {
     "description": "",
-    "message": "Elle kontrol"
+    "message": "Elle kontrol modu"
   },
   "MASS": {
     "description": "",
@@ -1349,7 +1349,7 @@
   },
   "SPEED_CONTROL_MODE": {
     "description": "",
-    "message": "Hız kontrol"
+    "message": "Hız kontrol modu"
   },
   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
     "description": "",

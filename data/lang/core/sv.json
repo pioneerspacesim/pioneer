@@ -53,23 +53,23 @@
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
-    "message": "Autopilot: Dock with {target}"
+    "message": "Autopilot: Docka med {target}"
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter high orbit around {target}"
+    "message": "Autopilot: Kretsa i högt omlopp runt {target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter low orbit around {target}"
+    "message": "Autopilot: Kretsa i lågt omlopp kring {target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter medium orbit around {target}"
+    "message": "Autopilot: Kretsa i medel-högt omlopp kring {target}"
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "Autopilot: Fly to vicinity of {target}"
+    "message": "Autopilot: Flyg till närheten av {target}"
   },
   "AUTOPILOT_ON": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "CENTER": {
     "description": "",
-    "message": "Center"
+    "message": "Centrera"
   },
   "CH4_ATMOSPHERE": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
-    "message": "Switch between grid display modes."
+    "message": "Byt mellan rutvisningslägen"
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -793,7 +793,7 @@
   },
   "MISSILE_DETECTED": {
     "description": "",
-    "message": "Missile launch detected."
+    "message": "Upptäckt missilavfyrning."
   },
   "MIXED_ECONOMY": {
     "description": "",
@@ -889,7 +889,7 @@
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
-    "message": "Autopilot not installed on ship, cannot enable autopilot"
+    "message": "Autopilot inte monterad, kan inte initiera autopilot"
   },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",
@@ -985,7 +985,7 @@
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
-    "message": "Object info"
+    "message": "Objektinfo"
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1001,7 +1001,7 @@
   },
   "ORBIT_PLANNER": {
     "description": "",
-    "message": "Orbit planner"
+    "message": "Omloppsplanerare"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
@@ -1125,7 +1125,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Request docking clearance from {target}"
+    "message": "Begär dockningstillstånd från {target}"
   },
   "RESET": {
     "description": "",
@@ -1233,7 +1233,7 @@
   },
   "SET_AS_COMBAT_TARGET": {
     "description": "",
-    "message": "Set as combat target"
+    "message": "Välj som stridsmål"
   },
   "SET_AS_TARGET": {
     "description": "",

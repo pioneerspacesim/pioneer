@@ -193,7 +193,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Commodity trade analysis of:"
+    "message": "Handelsanalyse von:"
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
@@ -1029,7 +1029,7 @@
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
-    "message": "Illegal in System"
+    "message": "Illegal im System"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
@@ -1125,15 +1125,15 @@
   },
   "LAUNCH_PERMISSION_GRANTED": {
     "description": "",
-    "message": "Launch permission granted."
+    "message": "Starterlaubnis erteilt."
   },
   "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
     "description": "",
-    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+    "message": "Erlaubnis erteilt. Bitte verlassen Sie die Landefläche so schnell wie möglich. Wir danken Ihnen für Ihren Beitrag zu einem flüssigen Betriebsablauf."
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
-    "message": "Permission granted. Watch for traffic on your departure."
+    "message": "Erlaubnis erteilt. Bitte achten Sie beim Abflug auf den Luftverkehr."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1213,7 +1213,7 @@
   },
   "MAJOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Export"
+    "message": "Wichtiger Export"
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
@@ -1221,7 +1221,7 @@
   },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Import"
+    "message": "Wichtiger Import"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
@@ -1305,7 +1305,7 @@
   },
   "MINOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Export"
+    "message": "Sonstiger Export"
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
@@ -1313,7 +1313,7 @@
   },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Import"
+    "message": "Sonstiger Import"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
@@ -1829,15 +1829,15 @@
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
-    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+    "message": "Leider hat mein Onkel mir vor seinem Tod nie gezeigt, wie man diese alte Mühle fliegt. Zumindest die Logbuchfunktion habe ich schon mal gefunden. Es ist seltsam… Es fühlt sich so an als wäre er immer noch da, als würde er in den Wänden dieses Schiffes weiterleben. Vielleicht kann er mein Copilot sein und zusammen können wir unserem Schicksal in den unendlichen Weiten entgegentreten. Aber zuerst muss ich Wasserstoff für das Sprungtriebwerk kaufen, einen Kurs zu lukrativen Handelszielen berechnen und beten, dass die Flugsicherung einem Grünschnabel wie mich abheben lässt. Dann werden wir sehen, was diese Mühle draufhat. Zeit mir einen Ruf zu verdienen!"
   },
   "START_LOG_ENTRY_2": {
     "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
-    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+    "message": "Meine Stiefel sind noch nass vom Regen der letzten Nacht. Es fühlt sich jetzt an wie ein anderes Leben. Die Straßen waren überflutet und die Reflektionen der auf die Straße herabscheinenden Neonlichter erleuchteten den Himmel über der Stadt in unwirklichen Farben. Aber ich habe mich durch den Regen gekämpft, habe mein Zuhause hinter mir gelassen und habe den Flug angetreten, um mein neues Schiff in Empfang zu nehmen. Als ich sagte, dass ich ein Schiff abholen möchte, musterte mich die Sicherheitsoffizierin des Raumhafens kritisch. Offensichtlich sehe ich nicht wie ein typischer Raumfahrer aus. Ich habe alles verkauft um mir diese Rostlaube zu kaufen. Schließlich wurde ich aber zu meinem Schiff durchgelassen. Jetzt steht meine Zukunft in den Sternen. Ich muss nur noch den Zündschlüssel finden."
   },
   "START_LOG_ENTRY_3": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
-    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+    "message": "Nach einem langen, bürokratischen Verfahren habe ich endlich mein Schiff aus dem Polizeilager zurück, aber sie haben praktisch die gesamte Ausrüstung ausgebaut um die \"Schuld\" zu zahlen, die laut ich ihnen habe. Diese Mistkerle haben mir nicht nur meine geliebte Kaffeemaschine genommen sondern auch noch meinen Hyperraumantrieb aus dem Schiff gerissen. Jetzt stecke ich also in diesem System fest, wenn ich nicht die verbliebene Ausrüstung verkaufen möchte um einen neuen Antrieb zu kaufen. Aber wenn dir das Leben Zitronen gibt, mach Saft draus. Positiv denken! Das ist kein Rückschlag sondern eine Chance, ein Neuanfang. Ohne Kaffee. Ach, vergiss den Kaffee! Wenn ich zurücklasse wer ich bin, kann ich werden wer ich sein werde. Die Welt lässt die durch, die wissen wohin sie wollen. Und ich will zu den Sternen."
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
@@ -1853,11 +1853,11 @@
   },
   "STATION_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Local gravity here is %.2f g."
+    "message": "Die lokale Schwerkraft ist %.2f g."
   },
   "STATION_LOCAL_GRAVITY_PRESSURE": {
     "description": "",
-    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
+    "message": "Die lokale Schwerkaft ist %.2f g und der athmosphärische Druck ist %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",

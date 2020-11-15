@@ -285,7 +285,7 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
+    "message": "To ważne, aby zakończyć misję przed {date}, ponieważ nadciągają kolejne wrogie statki."
   },
   "POLICE_LAND_THERE": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
-    "message": "Sorry, I don't think you can handle this without a radar."
+    "message": "Przykro mi, ale nie sądzę, abyś sobie z tym poradził bez radaru."
   },
   "RISK_1": {
     "description": "",
