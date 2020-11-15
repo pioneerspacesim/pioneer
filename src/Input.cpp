@@ -249,31 +249,43 @@ bool Manager::AddInputFrame(InputFrame *frame)
 	return true;
 }
 
+// When an input frame is removed or masked by a modal frame,
+// its actions and axes are no longer active and bindings need
+// to be cleared to avoid orphaned state.
+void ClearInputFrameState(InputFrame *frame)
+{
+	for (auto *action : frame->actions) {
+		action->binding.m_active = false;
+		action->binding.m_queuedEvents = 0;
+		action->binding2.m_active = false;
+		action->binding2.m_queuedEvents = 0;
+
+		if (action->m_active) {
+			action->m_active = false;
+			action->onReleased.emit();
+		}
+	}
+
+	for (auto *axis : frame->axes) {
+		axis->negative.m_active = false;
+		axis->negative.m_queuedEvents = false;
+		axis->positive.m_active = false;
+		axis->positive.m_queuedEvents = false;
+
+		if (axis->m_value != 0.0) {
+			axis->m_value = 0.0;
+			axis->onAxisValue.emit(0.0);
+		}
+	}
+}
+
 void Manager::RemoveInputFrame(InputFrame *frame)
 {
 	auto it = std::find(m_inputFrames.begin(), m_inputFrames.end(), frame);
 	if (it != m_inputFrames.end()) {
 		m_inputFrames.erase(it);
 
-		// When an input frame is removed, its actions and axes are no longer active.
-		for (auto *action : frame->actions) {
-			if (action->m_active) {
-				action->m_active = false;
-				action->binding.m_active = false;
-				action->binding2.m_active = false;
-				action->onReleased.emit();
-			}
-		}
-
-		for (auto *axis : frame->axes) {
-			if (axis->m_value != 0.0) {
-				axis->m_value = 0.0;
-				axis->negative.m_active = false;
-				axis->positive.m_active = false;
-				axis->onAxisValue.emit(0.0);
-			}
-		}
-
+		ClearInputFrameState(frame);
 		frame->active = false;
 		frame->onFrameRemoved.emit(frame);
 		m_frameListChanged = true;
@@ -460,12 +472,14 @@ void Manager::RebuildInputFrames()
 	bool hasModal = false;
 	for (auto *frame : reverse_container(m_inputFrames)) {
 		// Disable all frames that are masked by a modal frame
-		// TODO: currently setting a modal frame causes pressed bindings in lower frames to get in an "orphaned" state,
-		// not losing their pressed status until the modal frame has been removed and the key has been pressed and released again.
-		// This is obviously extremely suboptimal, but will require a bit more thought to solve in a clean and non-hacky fashion
+		// We reset all binding state here, because otherwise state is orphaned when events come in
+		// while the modal is active and binding state no longer matches the actual hardware state
+		// TODO: track when a frame is activated / deactivated and update state there?
 		frame->active = !hasModal;
-		if (hasModal)
+		if (hasModal) {
+			ClearInputFrameState(frame);
 			continue;
+		}
 
 		// Push all enabled key chords onto the key chord stack.
 		for (auto *action : frame->actions) {
