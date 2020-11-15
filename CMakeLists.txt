@@ -40,8 +40,11 @@ if (MSVC)
 	# Use M_PI/M_E macros from math.h
 	add_definitions(-D_USE_MATH_DEFINES -DHAVE_M_PI)
 
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+    # Disable warning C4506 so that src/lua/LuaObject.h: template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o);
+    # doesn't spew multiple warnings
+
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /wd4506")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /wd4506")
 endif (MSVC)
 
 if (APPLE)

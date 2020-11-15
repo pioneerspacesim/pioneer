@@ -8,6 +8,7 @@ cmake -G Ninja^
  -DCMAKE_INSTALL_PREFIX="C:/Program Files/Pioneer"^
  -DPIONEER_DATA_DIR="C:/Program Files/Pioneer/data"^
  -DCMAKE_BUILD_TYPE:STRING=Release^
+ -DCMAKE_INSTALL_MESSAGE=NEVER^
  -DGIT_EXECUTABLE="c:/Program Files/Git/cmd/git.exe"^
  c:\projects\pioneer || goto error
 
