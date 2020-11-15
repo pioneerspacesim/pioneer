@@ -62,6 +62,7 @@ namespace Graphics {
 		return g_fovFactor;
 	}
 
+	vector3f ProjectToScreen(const Renderer *r, const vector3f &in) { return vector3f(ProjectToScreen(r, vector3d(in))); }
 	vector3d ProjectToScreen(const Renderer *r, const vector3d &in)
 	{
 		// implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)

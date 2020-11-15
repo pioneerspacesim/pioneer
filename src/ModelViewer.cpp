@@ -83,6 +83,8 @@ void ModelViewerApp::Startup()
 	Log::GetLog()->SetLogFile("output.txt");
 
 	std::unique_ptr<GameConfig> config(new GameConfig);
+	config->SetInt("ScrWidth", 1600);
+	config->SetInt("ScrHeight", 900);
 
 	Lua::Init();
 
@@ -184,33 +186,6 @@ void ModelViewer::ReloadModel()
 	//tweaking materials
 	SetModel(m_modelName);
 	m_resetLogScroll = true;
-}
-
-void ModelViewer::ToggleCollMesh()
-{
-	m_options.showDockingLocators = !m_options.showDockingLocators;
-	m_options.showCollMesh = !m_options.showCollMesh;
-	m_options.showAabb = m_options.showCollMesh;
-}
-
-void ModelViewer::ToggleShowShields()
-{
-	m_options.showShields = !m_options.showShields;
-}
-
-void ModelViewer::ToggleGrid()
-{
-	if (!m_options.showGrid) {
-		m_options.showGrid = true;
-		m_options.gridInterval = 1.0f;
-	} else {
-		m_options.gridInterval = powf(10, ceilf(log10f(m_options.gridInterval)) + 1);
-		if (m_options.gridInterval >= 10000.0f) {
-			m_options.showGrid = false;
-			m_options.gridInterval = 0.0f;
-		}
-	}
-	AddLog(m_options.showGrid ? stringf("Grid: %0{d}", int(m_options.gridInterval)) : "Grid: off");
 }
 
 void ModelViewer::ToggleGuns()
@@ -350,6 +325,7 @@ void ModelViewer::ClearModel()
 {
 	m_model.reset();
 
+	m_selectedTag = nullptr;
 	m_animations.clear();
 	m_currentAnimation = nullptr;
 	m_patterns.clear();
@@ -382,7 +358,7 @@ void ModelViewer::CreateTestResources()
 
 void ModelViewer::DrawBackground()
 {
-	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, -1.f, 1.f);
+	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, 0.f, 1.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
 	if (!m_bgBuffer.Valid()) {
@@ -512,10 +488,9 @@ void ModelViewer::Update(float deltaTime)
 		m_renderer->SetTransform(matrix4x4f::Identity());
 
 		// calc camera info
-		matrix4x4f mv;
 		float zd = 0;
 		if (m_options.mouselookEnabled) {
-			mv = m_viewRot.Transpose() * matrix4x4f::Translation(-m_viewPos);
+			m_modelViewMat = m_viewRot.Transpose() * matrix4x4f::Translation(-m_viewPos);
 		} else {
 			m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
 			matrix4x4f rot = matrix4x4f::Identity();
@@ -525,20 +500,20 @@ void ModelViewer::Update(float deltaTime)
 				zd = -m_baseDistance;
 			else
 				zd = -zoom_distance(m_baseDistance, m_zoom);
-			mv = matrix4x4f::Translation(0.0f, 0.0f, zd) * rot;
+			m_modelViewMat = matrix4x4f::Translation(0.0f, 0.0f, zd) * rot;
 		}
 
 		// draw the model itself
-		DrawModel(mv);
+		DrawModel(m_modelViewMat);
 
 		// helper rendering
 		if (m_options.showLandingPad) {
 			if (!m_scaleModel) CreateTestResources();
-			m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, m_landingMinOffset, 0.f));
+			m_scaleModel->Render(m_modelViewMat * matrix4x4f::Translation(0.f, m_landingMinOffset, 0.f));
 		}
 
 		if (m_options.showGrid) {
-			DrawGrid(mv, m_model->GetDrawClipRadius());
+			DrawGrid(m_modelViewMat, m_model->GetDrawClipRadius());
 		}
 	}
 
@@ -662,9 +637,6 @@ void ModelViewer::HandleInput()
 	if (m_input->IsKeyPressed(SDLK_PRINTSCREEN))
 		m_screenshotQueued = true;
 
-	if (m_input->IsKeyPressed(SDLK_g))
-		ToggleGrid();
-
 	if (m_input->IsKeyPressed(SDLK_o))
 		m_options.orthoView = !m_options.orthoView;
 
@@ -783,11 +755,6 @@ void ModelViewer::SaveModelToBinary()
 	}
 }
 
-void ModelViewer::SetAnimation(SceneGraph::Animation *anim)
-{
-	m_currentAnimation = anim;
-}
-
 void ModelViewer::SetModel(const std::string &filename)
 {
 	AddLog(stringf("Loading model %0...", filename));
@@ -864,7 +831,7 @@ void ModelViewer::OnModelChanged()
 	m_modelHasShields = m_shields.get() && m_shields->GetFirstShieldMesh();
 
 	m_animations = m_model->GetAnimations();
-	m_currentAnimation = nullptr;
+	m_currentAnimation = m_animations.size() ? m_animations.front() : nullptr;
 
 	m_patterns.clear();
 	m_currentPattern = 0;
@@ -886,12 +853,18 @@ void ModelViewer::DrawModelSelector()
 	auto flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
 	bool b_open = true; // Use the window close button to quit the modelviewer
 	if (ImGui::Begin("Select Model", &b_open, flags)) {
-		if (ImGui::BeginChild("FileList", ImVec2(0.0, -ImGui::GetFrameHeightWithSpacing()))) {
+		if (ImGui::BeginChild("FileList", ImVec2(0.0, -ImGui::GetFrameHeightWithSpacing() * 10.0f))) {
 			for (const auto &name : m_fileNames) {
 				if (ImGui::Selectable(name.c_str())) {
 					m_requestedModelName = name;
 				}
 			}
+		}
+		ImGui::EndChild();
+		ImGui::Spacing();
+		ImGui::Text("Log:");
+		if (ImGui::BeginChild("Log")) {
+			DrawLog();
 		}
 		ImGui::EndChild();
 	}
@@ -902,19 +875,49 @@ void ModelViewer::DrawModelSelector()
 	}
 }
 
+void ModelViewer::DrawModelTags()
+{
+	ImGui::TextUnformatted("Model Tags:");
+	ImGui::Spacing();
+
+	const uint32_t numTags = m_model->GetNumTags();
+	if (!numTags) return;
+
+	for (uint32_t i = 0; i < numTags; i++) {
+		auto *tag = m_model->GetTagByIndex(i);
+		if (ImGui::Selectable(tag->GetName().c_str(), tag == m_selectedTag)) {
+			m_selectedTag = tag;
+		}
+	}
+}
+
+void ModelViewer::DrawTagNames()
+{
+	if (!m_selectedTag) return;
+	auto size = ImGui::GetWindowSize();
+	m_renderer->SetTransform(matrix4x4f::Identity());
+
+	vector3f point = m_modelViewMat * m_selectedTag->GetTransform().GetTranslate();
+	point = Graphics::ProjectToScreen(m_renderer, point);
+	ImGui::SetCursorPos({ point.x + 8.0f, size.y - point.y });
+	ImGui::TextUnformatted(m_selectedTag->GetName().c_str());
+
+	// ImGui::SetCursorPos({ 0.5f * size.x, 0.5f * size.y });
+	// ImGui::Text("%f %f %f", point.x, point.y, point.z);
+}
+
 void ModelViewer::DrawShipControls()
 {
+	bool valuesChanged = false;
 	if (m_modelIsShip) {
-		ImGui::Columns(3, nullptr, false);
 		ImGui::TextUnformatted("Linear Thrust");
 		ImGui::Spacing();
 
-		bool valuesChanged = false;
 		valuesChanged |= ImGui::SliderFloat("X", &m_linearThrust.x, -1.0, 1.0);
 		valuesChanged |= ImGui::SliderFloat("Y", &m_linearThrust.y, -1.0, 1.0);
 		valuesChanged |= ImGui::SliderFloat("Z", &m_linearThrust.z, -1.0, 1.0);
 
-		ImGui::NextColumn();
+		ImGui::Spacing();
 		ImGui::TextUnformatted("Angular Thrust");
 		ImGui::Spacing();
 
@@ -925,55 +928,72 @@ void ModelViewer::DrawShipControls()
 		if (valuesChanged)
 			m_model->SetThrust(m_linearThrust, m_angularThrust);
 
-		ImGui::NextColumn();
-		ImGui::TextUnformatted("Pattern Colors");
 		ImGui::Spacing();
-
-		valuesChanged = false;
-		valuesChanged |= ImGui::ColorEdit3("Color 1", m_colors[0]);
-		valuesChanged |= ImGui::ColorEdit3("Color 2", m_colors[1]);
-		valuesChanged |= ImGui::ColorEdit3("Color 3", m_colors[2]);
-
-		if (valuesChanged)
-			m_model->SetColors(m_colors);
-
-		ImGui::Columns(1);
 	}
+
+	ImGui::TextUnformatted("Pattern Colors");
+	ImGui::Spacing();
+
+	if (ImGui::Button("Set Random Colors", ImVec2(-1.f, 0.f)))
+		SetRandomColor();
+
+	valuesChanged = false;
+	valuesChanged |= ImGui::ColorEdit3("Color 1", m_colors[0]);
+	valuesChanged |= ImGui::ColorEdit3("Color 2", m_colors[1]);
+	valuesChanged |= ImGui::ColorEdit3("Color 3", m_colors[2]);
+
+	if (valuesChanged)
+		m_model->SetColors(m_colors);
 
 	if (m_currentAnimation) {
 		ImGui::Spacing();
+		ImGui::TextUnformatted("Animation Progress");
 		float progress = m_currentAnimation->GetProgress();
-		bool changed = ImGui::SliderFloat("Animation Progress", &progress, 0.0, m_currentAnimation->GetDuration());
-		if (changed) {
+		ImGui::SetNextItemWidth(-1.0f);
+		if (ImGui::SliderFloat("##anim-progress", &progress, 0.0, 1.0))
 			m_currentAnimation->SetProgress(progress);
-		}
 	}
 }
 
 void ModelViewer::DrawModelOptions()
 {
-	ImGui::TextUnformatted(m_modelName.c_str());
+	float itmWidth = ImGui::CalcItemWidth();
 
+	ImGui::TextUnformatted(m_modelName.c_str());
+	ImGui::SameLine();
 	if (ImGui::Button("Reload Model"))
 		ReloadModel();
 
-	ImGui::NewLine();
+	ImGui::Checkbox("Show Collision Mesh", &m_options.showCollMesh);
+	m_options.showAabb = m_options.showCollMesh;
+	ImGui::Checkbox("Show Tags", &m_options.showTags);
+	m_options.showDockingLocators = m_options.showTags;
 
-	if (ImGui::Button("Show Collision Mesh"))
-		ToggleCollMesh();
+	ImGui::Checkbox("##ToggleGrid", &m_options.showGrid);
+	ImGui::SameLine(0.0, 4.0f);
+	ImGui::SetNextItemWidth(itmWidth - 4.0f - ImGui::GetFrameHeight());
 
-	if (ImGui::Button("Toggle Grid Mode"))
-		ToggleGrid();
+	std::string currentGridMode = std::to_string(int(m_options.gridInterval)) + "x";
+	if (ImGui::BeginCombo("Grid Mode", currentGridMode.c_str())) {
+		if (ImGui::Selectable("1x"))
+			m_options.gridInterval = 1.0f;
 
-	if (ImGui::Button("Set Random Colors"))
-		SetRandomColor();
+		if (ImGui::Selectable("10x"))
+			m_options.gridInterval = 10.0f;
+
+		if (ImGui::Selectable("100x"))
+			m_options.gridInterval = 100.0f;
+
+		if (ImGui::Selectable("1000x"))
+			m_options.gridInterval = 1000.0f;
+
+		ImGui::EndCombo();
+	}
 
 	if (m_modelHasShields) {
-		ImGui::NewLine();
+		ImGui::Spacing();
 
-		if (ImGui::Button("Show Shields"))
-			ToggleShowShields();
-
+		ImGui::Checkbox("Show Shields", &m_options.showShields);
 		if (ImGui::Button("Test Shield Hit"))
 			HitIt();
 	}
@@ -983,7 +1003,7 @@ void ModelViewer::DrawModelOptions()
 			ToggleGuns();
 	}
 
-	ImGui::NewLine();
+	ImGui::Spacing();
 
 	if (m_modelSupportsPatterns) {
 		const char *preview_name = m_patterns[m_currentPattern].c_str();
@@ -1015,22 +1035,18 @@ void ModelViewer::DrawModelOptions()
 		}
 	}
 
-	const char *anim_name = m_currentAnimation ? m_currentAnimation->GetName().c_str() : "None";
-	if (ImGui::BeginCombo("Animation", anim_name)) {
-		for (const auto anim : m_animations) {
-			const bool selected = m_currentAnimation == anim;
-			if (ImGui::Selectable(anim->GetName().c_str(), selected) && !selected) {
-				// selected a new animation entry
-				SetAnimation(anim);
+	if (!m_animations.empty()) {
+		if (ImGui::BeginCombo("Animation", m_currentAnimation->GetName().c_str())) {
+			for (const auto anim : m_animations) {
+				const bool selected = m_currentAnimation == anim;
+				if (ImGui::Selectable(anim->GetName().c_str(), selected) && !selected) {
+					// selected a new animation entry
+					m_currentAnimation = anim;
+				}
 			}
-		}
 
-		if (ImGui::Selectable("None", !m_currentAnimation) && m_currentAnimation) {
-			// Changed to no animation
-			SetAnimation(nullptr);
+			ImGui::EndCombo();
 		}
-
-		ImGui::EndCombo();
 	}
 
 	static std::vector<std::string> lightSetups = {
@@ -1052,59 +1068,70 @@ void ModelViewer::DrawModelOptions()
 
 void ModelViewer::DrawLog()
 {
-	ImGui::SetNextWindowPos(ImVec2(m_windowSize.x - m_logWindowSize.x, m_windowSize.y - m_logWindowSize.y));
-	ImGui::SetNextWindowSize(ImVec2(m_logWindowSize.x, m_logWindowSize.y));
-	const auto flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings;
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0);
-	if (ImGui::Begin("LogWindow", nullptr, flags)) {
-		if (ImGui::BeginChild("ScrollArea")) {
-			for (const auto &message : m_log) {
-				ImGui::TextUnformatted(message.c_str());
-			}
-
-			if (m_resetLogScroll || ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) {
-				ImGui::SetScrollHereY(1.0f);
-				m_resetLogScroll = false;
-			}
+	if (ImGui::BeginChild("ScrollArea")) {
+		for (const auto &message : m_log) {
+			ImGui::TextWrapped("%s", message.c_str());
 		}
-		ImGui::EndChild();
+
+		if (m_resetLogScroll || ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) {
+			ImGui::SetScrollHereY(1.0f);
+			m_resetLogScroll = false;
+		}
 	}
-	ImGui::End();
-	ImGui::PopStyleVar(1);
+	ImGui::EndChild();
 }
+
+constexpr ImGuiWindowFlags fullscreenFlags = ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoBringToFrontOnFocus;
+constexpr ImGuiWindowFlags tabWindowFlags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings;
 
 void ModelViewer::DrawPiGui()
 {
 	m_windowSize = vector2f(Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+	float leftWidth = m_windowSize.x / 5.0;
+	float rightWidth = m_windowSize.x / 5.0;
+	float leftDiv = m_windowSize.y / 1.8;
+	float rightDiv = m_windowSize.y / 1.6;
 
-	if (m_model) {
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0);
-		{
-			const auto flags = ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
-			ImGui::SetNextWindowPos({ 0, 0 });
-			ImGui::SetNextWindowSize({ m_windowSize.x / 4.0f, m_windowSize.y - m_animWindowSize.y });
-			if (ImGui::Begin("Model Options", nullptr, flags)) {
-				DrawModelOptions();
-			}
-			ImGui::End();
-		}
-
-		if (m_modelIsShip) {
-			const auto flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
-			ImGui::SetNextWindowPos({ 0, m_windowSize.y - m_animWindowSize.y });
-			ImGui::SetNextWindowSize({ m_windowSize.x - m_logWindowSize.x, m_animWindowSize.y });
-			if (ImGui::Begin("Model Controls", nullptr, flags)) {
-				DrawShipControls();
-			}
-			ImGui::End();
-		}
-		ImGui::PopStyleVar(1);
-
-	} else {
+	if (!m_model) {
 		DrawModelSelector();
+		return;
 	}
 
-	DrawLog();
+	ImGui::SetNextWindowPos({ 0, 0 });
+	ImGui::SetNextWindowSize({ m_windowSize.x, m_windowSize.y });
+	ImGui::Begin("##background-display", nullptr, fullscreenFlags);
+	DrawTagNames();
+	ImGui::End();
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0);
+	ImGui::SetNextWindowPos({ 0, 0 });
+	ImGui::SetNextWindowSize({ leftWidth, leftDiv });
+	if (ImGui::Begin("##window-topleft", nullptr, tabWindowFlags)) {
+		DrawModelOptions();
+	}
+	ImGui::End();
+
+	ImGui::SetNextWindowPos({ 0, leftDiv });
+	ImGui::SetNextWindowSize({ leftWidth, m_windowSize.y - leftDiv });
+	if (ImGui::Begin("##window-bottomleft", nullptr, tabWindowFlags)) {
+		DrawShipControls();
+	}
+	ImGui::End();
+
+	ImGui::SetNextWindowPos({ m_windowSize.x - rightWidth, 0 });
+	ImGui::SetNextWindowSize({ rightWidth, rightDiv });
+	if (ImGui::Begin("##window-topright", nullptr, tabWindowFlags)) {
+		DrawModelTags();
+	}
+	ImGui::End();
+
+	ImGui::SetNextWindowPos({ m_windowSize.x - rightWidth, rightDiv });
+	ImGui::SetNextWindowSize({ rightWidth, m_windowSize.y - rightDiv });
+	if (ImGui::Begin("##window-bottomright", nullptr, tabWindowFlags)) {
+		DrawLog();
+	}
+	ImGui::End();
+	ImGui::PopStyleVar(1);
 }
 
 void ModelViewer::UpdateCamera(float deltaTime)

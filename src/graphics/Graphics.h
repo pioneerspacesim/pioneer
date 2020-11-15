@@ -85,6 +85,7 @@ namespace Graphics {
 	// as defined by Renderer::GetViewport.
 	// TODO: find a better place to hang this off of; this is too useful to be tied to a renderer object
 	vector3d ProjectToScreen(const Renderer *r, const vector3d &in);
+	vector3f ProjectToScreen(const Renderer *r, const vector3f &in);
 
 	// does SDL video init, constructs appropriate Renderer
 	Renderer *Init(Settings);

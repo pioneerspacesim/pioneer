@@ -1,4 +1,4 @@
-material Escape_capsule
+material Escape_pod
 tex_diff escape_pod_DIFF.dds
 tex_glow escape_pod_GLOW.dds
 tex_spec escape_pod_SPEC.dds
