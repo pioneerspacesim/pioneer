@@ -68,11 +68,6 @@ PlayerShipController::PlayerShipController() :
 	m_fovY = Pi::config->Float("FOVVertical");
 	m_lowThrustPower = Pi::config->Float("DefaultLowThrustPower");
 
-	if (!InputBindings.primaryFire) {
-		Error("PlayerShipController was not properly initialized!\n"
-			  "You must call PlayerShipController::RegisterInputBindings before initializing a PlayerShipController");
-	}
-
 	InputBindings.RegisterBindings();
 	Pi::input->AddInputFrame(&InputBindings);
 
