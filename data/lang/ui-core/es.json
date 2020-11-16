@@ -193,7 +193,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Commodity trade analysis of:"
+    "message": "Análisis de comercio de productos básicos de:"
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
@@ -1029,7 +1029,7 @@
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
-    "message": "Illegal in System"
+    "message": "Ilegal en el Sistema"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
@@ -1125,15 +1125,15 @@
   },
   "LAUNCH_PERMISSION_GRANTED": {
     "description": "",
-    "message": "Launch permission granted."
+    "message": "Permiso de lanzamiento concedido"
   },
   "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
     "description": "",
-    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+    "message": "Permiso concedido. Por favor, no abarrote el área de aterrizaje y salga rápidamente."
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
-    "message": "Permission granted. Watch for traffic on your departure."
+    "message": "Permiso concedido. Esté atento al tráfico durante su salida."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1213,7 +1213,7 @@
   },
   "MAJOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Export"
+    "message": "Exportación Principal"
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
@@ -1221,7 +1221,7 @@
   },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Import"
+    "message": "Importación Principal"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
@@ -1305,7 +1305,7 @@
   },
   "MINOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Export"
+    "message": "Exportación Menor"
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
@@ -1313,7 +1313,7 @@
   },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Import"
+    "message": "Importación Menor"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
@@ -1853,11 +1853,11 @@
   },
   "STATION_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Local gravity here is %.2f g."
+    "message": "La gravedad local aquí es de %.2f g."
   },
   "STATION_LOCAL_GRAVITY_PRESSURE": {
     "description": "",
-    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
+    "message": "La gravedad local aquí es de %.2f g, y la presión atmosférica es de %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",

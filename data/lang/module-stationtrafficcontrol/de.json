@@ -1,0 +1,82 @@
+{
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Andockerlaubnis wurde bereits gewährt. Fliegen Sie zu Dock {bay}."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Andockerlaubnis verweigert. Alle Andockbuchten sind momentan belegt."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Erlaubnis verweigert. Ihr Schiff ist zu weit weg für die ID-Verifikation."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Andockerlaubnis gewährt. Fliegen Sie zu Dock {bay}."
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Ihre Andockerlaubnis ist abgelaufen. Für eine neue Erlaubnis müssen Sie Ihre Anfrage wiederholen."
+  },
+  "STATION_GRAV": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "Die lokale Schwerkraft ist {grav}."
+  },
+  "STATION_GRAV_PRESS": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "Die lokale Schwerkraft ist {grav}, der atmosphärische Druck ist {press}."
+  },
+  "WATCH_FOR_TRAFFIC_ON_APPROACH": {
+    "description": "",
+    "message": "Bitte achten Sie während des Anflugs auf den Luftverkehr."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, Sie fliegen in den Luftraum von {station} ein. Bitte folgen Sie den hier geltenden Vorschriften."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_2": {
+    "description": "",
+    "message": "{playerShipLabel}, wir haben Sie auf dem Radar. Sie sind im kontrollierten Luftraum von {station}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_3": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, hier ist {station} STC. Sie fliegen in unseren kontrollierten Luftraum ein."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Wir registrieren Ihren Einflug in den kontrollierten Luftraum von {station}, {playerShipLabel}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, die Station {station} heißt Sie wilkommen. Bitte denken Sie daran, dass Sie sich während ihres Durchflugs an die in diesem Bezirk geltenden Vorschriften halten müssen."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, hier spricht {station} STC. Sie sind jetzt in kontrolliertem Luftraum und ich würde es begrüßen, wenn Sie heute keinen unnötigen Papierkram für mich erzeugen."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, Sie verlassen nun den kontrollierten Luftraum von {station}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_2": {
+    "description": "",
+    "message": "Sie haben den Luftraum von {station} verlassen, {playerShipLabel}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_3": {
+    "description": "",
+    "message": "{playerShipLabel}, Sie haben den kontrollierten Luftraum von {station} verlassen. Sie sind nun außerhalb unserer Zuständigkeit."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Sie verlassen den Luftraum von {station}, {playerShipLabel}. Abmeldung aus dem System erfolgt."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, Sie verlassen nun den Luftraum von {station}. Wir wünschen Ihnen eine angenehme Weiterreise."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, hier ist {station} STC. Ich sehe, dass sie unseren kontrollierten Luftraum verlassen. Geben Sie auf sich acht."
+  }
+}

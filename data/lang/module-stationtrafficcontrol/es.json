@@ -1,0 +1,82 @@
+{
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Ya tiene luz libre. Proceda a la bahía de acoplamiento {bay}."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Permiso denegado. Todos los muelles de atraque ocupados."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Autorización denegada. Su nave se encuentra demasiado alejada para la verificación ID."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Autorización concedida. Proceda a la bahía de acoplamiento {bay}."
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Permiso de atraque expirado. Si desea atracar deberá repetir la solicitud."
+  },
+  "STATION_GRAV": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "La gravedad local es de {grav}."
+  },
+  "STATION_GRAV_PRESS": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "La gravedad local es de {grav}, la presión es de {press}."
+  },
+  "WATCH_FOR_TRAFFIC_ON_APPROACH": {
+    "description": "",
+    "message": "Esté atento al tráfico durante su aproximación."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel} está entrando en el espacio de {station}. Por favor, siga las normativas locales."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_2": {
+    "description": "",
+    "message": "{playerShipLabel}, le tenemos en el radar. Está dentro del espacio controlado de {station}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_3": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, aquí Control de Tráfico Espacial de {station}. En estos momentos está entrando en nuestro espacio controlado."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Le detectamos volando dentro del espacio controlado de {station}, {playerShipLabel}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, bienvenido a la estación {station}. Tenga en cuenta que se aplicará la normativa mientras viaja por nuestra jurisdicción."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, al habla Control de Tráfico Espacial de {station}. En estos momentos está entrando en espacio controlado, y le agradecería que hoy no me hiciera rellenar papeleo."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, está libre del espacio controlado de {station}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_2": {
+    "description": "",
+    "message": "Ha abandonado el espacio de {station}, {playerShipLabel}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_3": {
+    "description": "",
+    "message": "{playerShipLabel}, espacio controlado de {station} despejado. Se retiraron las restricciones."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Está volando fuera del espacio de {station}, {playerShipLabel}. Corto."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, está abandonando el espacio de {station}. Que tenga buen viaje."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, aquí Control de Tráfico Espacial de {station}. Le veo saliendo de nuestro espacio controlado, tenga cuidado ahí fuera."
+  }
+}
