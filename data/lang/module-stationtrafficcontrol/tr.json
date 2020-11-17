@@ -25,7 +25,7 @@
   },
   "STATION_GRAV_PRESS": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Yerel kütleçekim kuvveti {grav}, basınç {press}."
+    "message": "Yerel kütleçekimi {grav}, basınç {press}."
   },
   "WATCH_FOR_TRAFFIC_ON_APPROACH": {
     "description": "",

@@ -1,7 +1,7 @@
 {
   "CLEARANCE_ALREADY_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance already granted. Proceed to docking bay {bay}."
+    "message": "Autorizzazione già concessa. Procedere al ponte {bay}."
   },
   "CLEARANCE_DENIED_NO_BAYS": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance granted. Proceed to docking bay {bay}."
+    "message": "Autorizzazione concessa. Procedere al ponte {bay}."
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
@@ -21,62 +21,62 @@
   },
   "STATION_GRAV": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}."
+    "message": "La gravità locale è di {grav}."
   },
   "STATION_GRAV_PRESS": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}, pressure is {press}."
+    "message": "La gravità locale è di {grav}, la pressione {press}."
   },
   "WATCH_FOR_TRAFFIC_ON_APPROACH": {
     "description": "",
-    "message": "Please watch for traffic on your approach."
+    "message": "Prestare attenzione al traffico durante l'approccio."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel} you are entering {station} space. Please follow local regulations."
+    "message": "{playerShipLabel} sta entrando nello spazio di {station}. È pregato di seguire le direttive locali."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_2": {
     "description": "",
-    "message": "{playerShipLabel}, we have you on the radar. You are in {station} controlled space."
+    "message": "{playerShipLabel}, abbiamo la sua nave sul radar. È nello spazio controllato da {station}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_3": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. You are entering our controlled space."
+    "message": "{playerShipLabel}, questa è {station} CTS. Sta entrando nel nostro spazio controllato."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_4": {
     "description": "",
-    "message": "We have you flying into {station} controlled space, {playerShipLabel}."
+    "message": "La rileviamo volare verso lo spazio controllato di {station}, {playerShipLabel}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, welcome to {station}. Please keep in mind that regulations apply as you are flying through our jurisdiction."
+    "message": "{playerShipLabel}, benvenuto a {station}. È pregato di ricordare che volando nella nostra giurisdizione si applicano le direttive locali."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC speaking. You are entering controlled space, and I would appreciate it if you didn't make me fill out any paperwork today."
+    "message": "{playerShipLabel}, qui parla {station} CTS. Sta entrando nel nostro spazio controllato ed apprezzerei che non mi costringesse a compilare alcuna scartoffia per oggi."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel}, you are clear of {station} controlled space."
+    "message": "{playerShipLabel}, è uscito dallo spazio controllato da {station}."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_2": {
     "description": "",
-    "message": "You have left {station} space, {playerShipLabel}."
+    "message": "Ha lasciato lo spazio di {station}, {playerShipLabel}."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_3": {
     "description": "",
-    "message": "{playerShipLabel}, you have cleared {station} controlled space. Restrictions withdrawn."
+    "message": "{playerShipLabel}, ha lasciato lo spazio controllato da {station}. Restrizioni ritirate."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_4": {
     "description": "",
-    "message": "You are flying out of {station} space, {playerShipLabel}. Logging you out."
+    "message": "{playerShipLabel}, sta volando via dallo spazio di {station}. Passo e chiudo."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, you are leaving {station} space. Have a pleasant journey."
+    "message": "{playerShipLabel}, sta lasciando la stazione {station}. Le auguriamo buon viaggio."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. I see you exiting our controlled space, be safe out there."
+    "message": "{playerShipLabel}, qui CTS {station}. La vediamo lasciare il nostro spazio controllato, sia prudente la fuori."
   }
 }
