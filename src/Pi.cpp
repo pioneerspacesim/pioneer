@@ -1295,6 +1295,7 @@ static void SetVideoRecording(bool enabled)
 }
 #endif
 
+#if 0
 void printShipStats()
 {
 	// test code to produce list of ship stats
@@ -1338,3 +1339,4 @@ void printShipStats()
 		fclose(pStatFile);
 	}
 }
+#endif

@@ -19,16 +19,16 @@
 using namespace Input;
 
 namespace Input {
-	std::vector<sigc::slot<void(Input::Manager *)>> *m_registrations;
+	std::vector<sigc::slot<void, Input::Manager *>> *m_registrations;
 
-	std::vector<sigc::slot<void(Input::Manager *)>> &GetBindingRegistration()
+	std::vector<sigc::slot<void, Input::Manager *>> &GetBindingRegistration()
 	{
 		return *m_registrations;
 	}
 
-	bool AddBindingRegistrar(sigc::slot<void(Input::Manager *)> &&fn)
+	bool AddBindingRegistrar(sigc::slot<void, Input::Manager *> &&fn)
 	{
-		static std::vector<sigc::slot<void(Input::Manager *)>> registrations;
+		static std::vector<sigc::slot<void, Input::Manager *>> registrations;
 		m_registrations = &registrations;
 
 		registrations.push_back(fn);

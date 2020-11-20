@@ -192,7 +192,7 @@ namespace InputBindings {
 
 		float m_value;
 
-		sigc::signal<void(float)> onAxisValue;
+		sigc::signal<void, float> onAxisValue;
 
 		// serialization
 		friend nonstd::string_view &operator>>(nonstd::string_view &, Axis &);

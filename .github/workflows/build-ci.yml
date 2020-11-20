@@ -1,0 +1,79 @@
+# Test all pull requests to ensure they build
+
+name: Build Pioneer
+
+# Controls when the action will run.
+on:
+  pull_request:
+    paths:
+    - 'src/**.cpp'
+    - 'src/**.h'
+
+env:
+  packages: >
+    mesa-common-dev
+    libfreeimage-dev
+    libglew-dev
+    libsigc++-2.0-dev
+    libvorbis-dev
+    libassimp-dev
+    libsdl2-dev
+    libsdl2-image-dev
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-gcc:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-16.04]
+
+    steps:
+    # Checkout the repository as $GITHUB_WORKSPACE
+    - uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-fast install -y ${{ env.packages }}
+
+    - name: Build GCC
+      run: ./bootstrap cmake && make -C build
+
+    - name: Build Pioneer Data
+      run: make -C build build-data
+
+    - name: Build Release
+      run: ./scripts/build-travis.sh
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Linux-Artifacts
+        path: release/zip/*.tar.gz
+
+  build-clang:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-16.04]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+    # Checkout the repository as $GITHUB_WORKSPACE
+    - uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-fast install -y clang-8 ${{ env.packages }}
+
+    - name: Build Clang
+      run: |
+        export CC=clang CXX=clang++
+        ./bootstrap cmake && make -C build
+
+    - name: Build Pioneer Data
+      run: make -C build build-data
+
+    - name: Build Release
+      run: ./scripts/build-travis.sh
