@@ -21,9 +21,8 @@ deploy:
     description: 'New Pioneer release'
     provider: GitHub
     auth_token:
-        secure: 2946896aec8b7d658a3788e588f1c95369373034
+        secure: smikwozIgIcE3OfE/LMdzXnJY6CyX3i1k34OkPLk3/MF0mBeHyX4uQNbbb9Ucaip
     artifact: /.*\.exe
     draft: true
     on:
-        branch: master
         APPVEYOR_REPO_TAG: true
