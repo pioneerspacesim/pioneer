@@ -54,10 +54,11 @@ mkdir -p release/zip
 
 echo "Bundling output..."
 
+TAG_NAME=$(git describe HEAD)
 if [ "$BUILD_TYPE" == "mxe" ]; then
-    zip -r "release/zip/pioneer-$TRAVIS_TAG-mxe.zip" release/* -x *release/zip*
+    zip -r "release/zip/pioneer-$TAG_NAME-mxe.zip" release/* -x *release/zip*
 else
-    tar -czf "release/zip/pioneer-$TRAVIS_TAG.tar.gz" --exclude=release/zip release/*
+    tar -czf "release/zip/pioneer-$TAG_NAME.tar.gz" --exclude=release/zip release/*
 fi
 
 echo "Release finished successfully!"

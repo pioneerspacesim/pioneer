@@ -63,10 +63,10 @@ namespace Input {
 		virtual void RegisterBindings(){};
 
 		// Called when the frame is added to the stack.
-		sigc::signal<void(InputFrame *)> onFrameAdded;
+		sigc::signal<void, InputFrame *> onFrameAdded;
 
 		// Called when the frame is removed from the stack.
-		sigc::signal<void(InputFrame *)> onFrameRemoved;
+		sigc::signal<void, InputFrame *> onFrameRemoved;
 
 		Action *AddAction(std::string id);
 		Axis *AddAxis(std::string id);
@@ -111,8 +111,8 @@ namespace Input {
 	// The functions registered via AddBindingRegistrar should be thread-safe and
 	// should not depend on anything but the manager object being passed in.
 	// The registrars are guaranteed to be called after static initialization has finished.
-	std::vector<sigc::slot<void(Input::Manager *)>> &GetBindingRegistration();
-	bool AddBindingRegistrar(sigc::slot<void(Input::Manager *)> &&fn);
+	std::vector<sigc::slot<void, Input::Manager *>> &GetBindingRegistration();
+	bool AddBindingRegistrar(sigc::slot<void, Input::Manager *> &&fn);
 } // namespace Input
 
 class Input::Manager {
