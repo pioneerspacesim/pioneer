@@ -16,7 +16,8 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "ship/PlayerShipController.h"
-#include "src/lua.h"
+
+#include <lua.h>
 
 /*
  * Class: Ship
