@@ -10,12 +10,6 @@ if(POLICY CMP0072)
 	cmake_policy(SET CMP0072 NEW)
 endif()
 
-set(IS_TRAVIS $ENV{TRAVIS})
-
-if (IS_TRAVIS)
-    set(CMAKE_COLOR_MAKEFILE false)
-endif()
-
 include(GNUInstallDirs)
 
 if (MINGW)
@@ -54,12 +48,8 @@ endif(APPLE)
 
 option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)
 if (CMAKE_COMPILER_IS_GNUCXX)
-    if (NOT IS_TRAVIS)
-        add_compile_options(
-			-fdiagnostics-color
-		)
-	endif()
 	add_compile_options(
+		-fdiagnostics-color
 		-Wall
 		-Wextra
 		-Wno-unused-parameter
@@ -180,15 +170,14 @@ endif (WIN32)
 configure_file(buildopts.h.cmakein buildopts.h @ONLY)
 
 LIST(APPEND PIONEER_CXX_FILES ${FILESYSTEM_CXX_FILES})
-if (MSVC)
-	option(USE_PIONEER_THIRDPARTY "Use pioneer's thirdparty library repository." ON)
-	if (USE_PIONEER_THIRDPARTY)
-		list(APPEND CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr)
-		include_directories(${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr/include)
-		link_directories(${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr/lib)
-		find_package(Threads)
-	endif()
-endif (MSVC)
+
+option(USE_PIONEER_THIRDPARTY "Use pioneer's thirdparty library repository." OFF)
+if (USE_PIONEER_THIRDPARTY)
+	list(APPEND CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr)
+	include_directories(${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr/include)
+	link_directories(${CMAKE_SOURCE_DIR}/pioneer-thirdparty/usr/lib)
+	find_package(Threads)
+endif()
 
 if (USE_SYSTEM_LIBGLEW)
 	add_library(GLEW::GLEW INTERFACE IMPORTED)
