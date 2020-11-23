@@ -8,7 +8,7 @@
 #include "DeleteEmitter.h"
 #include "Frame.h"
 #include "Input.h"
-#include "UIView.h"
+#include "pigui/PiGuiView.h"
 #include "graphics/Drawables.h"
 #include "matrix4x4.h"
 #include "vector3.h"
@@ -112,13 +112,13 @@ struct Projectable
 	Projectable() : type(NONE) {}
 };
 
-class SystemView : public UIView, public DeleteEmitter {
+class SystemView : public PiGuiView, public DeleteEmitter {
 public:
 	SystemView(Game *game);
 	virtual ~SystemView();
 	virtual void Update();
 	virtual void Draw3D();
-	virtual void OnSwitchTo() { Update(); Draw3D(); }
+	// virtual void OnSwitchTo() { Update(); Draw3D(); }
 
 	Projectable* GetSelectedObject();
 	void SetSelectedObject(Projectable::types type, Projectable::bases base, SystemBody *sb);

@@ -4,11 +4,10 @@
 #pragma once
 
 #include "../View.h"
-#include "PiGui.h"
 
-// replacement for UIView. Currently a shim, this class should be able to
-// dispatch to lua-registered handler functions and call them during the Draw3D
-// method.
+// Replacement for UIView. This class dispatches to lua-registered pigui draw
+// functions when DrawPiGui() is called.
+// TODO: support rendering to a debug window during the Update() and Draw3D() methods.
 class PiGuiView : public View {
 public:
 	PiGuiView(std::string name) :

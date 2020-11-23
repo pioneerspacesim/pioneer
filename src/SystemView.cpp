@@ -234,7 +234,7 @@ void SystemView::InputBindings::RegisterBindings()
 }
 
 SystemView::SystemView(Game *game) :
-	UIView(),
+	PiGuiView("system-view"),
 	m_input(Pi::input),
 	m_game(game),
 	m_showL4L5(LAG_OFF),
@@ -589,8 +589,6 @@ void SystemView::Draw3D()
 	if (m_gridDrawing != GridDrawing::OFF) {
 		DrawGrid();
 	}
-
-	UIView::Draw3D();
 }
 
 void SystemView::Update()
@@ -633,8 +631,6 @@ void SystemView::Update()
 		m_rot_x_to += m_input.mapViewPitch->GetValue() * ft * 60;
 
 	m_rot_x_to = Clamp(m_rot_x_to, -80.0f, 80.0f);
-
-	UIView::Update();
 }
 
 void SystemView::MouseWheel(bool up)
