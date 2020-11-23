@@ -8,7 +8,7 @@
 #include "galaxy/SystemPath.h"
 #include "gui/GuiImageRadioButton.h"
 
-#include "UIView.h"
+#include "pigui/PiGuiView.h"
 #include <vector>
 
 class Game;
@@ -18,14 +18,13 @@ class SystemBody;
 namespace Graphics {
 	class Renderer;
 	class RenderState;
-}
+} // namespace Graphics
 
-class SystemInfoView : public UIView {
+class SystemInfoView : public PiGuiView {
 public:
 	SystemInfoView(Game *game);
 	virtual void Update();
 	virtual void Draw3D();
-	void NextPage();
 
 protected:
 	virtual void OnSwitchTo();

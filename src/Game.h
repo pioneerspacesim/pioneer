@@ -122,7 +122,7 @@ public:
 	WorldView *GetWorldView() const { return m_gameViews->m_worldView; }
 	DeathView *GetDeathView() const { return m_gameViews->m_deathView; }
 	View *GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
-	UIView *GetInfoView() const { return m_gameViews->m_infoView; }
+	View *GetInfoView() const { return m_gameViews->m_infoView; }
 	ShipCpanel *GetCpan() const { return m_gameViews->m_cpan; }
 
 	/* Only use #if WITH_OBJECTVIEWER */
@@ -146,7 +146,7 @@ private:
 		WorldView *m_worldView;
 		DeathView *m_deathView;
 		View *m_spaceStationView;
-		UIView *m_infoView;
+		View *m_infoView;
 		ShipCpanel *m_cpan;
 
 		/* Only use #if WITH_OBJECTVIEWER */

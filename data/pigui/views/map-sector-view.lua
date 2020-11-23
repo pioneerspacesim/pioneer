@@ -60,6 +60,7 @@ end
 
 local function textIcon(icon, tooltip)
 	ui.icon(icon, Vector2(ui.getTextLineHeight()), svColor.FONT, tooltip)
+	ui.sameLine()
 end
 
 local sectorView
@@ -122,7 +123,6 @@ local statusIcons = {
 
 local function draw_jump_status(item)
 	textIcon(statusIcons[item.jumpStatus].icon, lui[item.jumpStatus])
-	ui.sameLine()
 	ui.text(string.format("%.2f%s %d%s %s",
 		item.distance, lc.UNIT_LY, item.fuelRequired, lc.UNIT_TONNES, ui.Format.Duration(item.duration, 2)))
 end
@@ -136,119 +136,125 @@ local function calc_star_dist(star)
 	return dist
 end
 
-function Windows.systemInfo.Show()
+function Windows.systemInfo:Show()
 	local label = lc.SELECTED_SYSTEM
 	local current_systempath = sectorView:GetCurrentSystemPath()
 	local systempath = sectorView:GetSelectedSystemPath()
-	if systempath then
-		local starsystem = systempath:GetStarSystem()
-		local clicked = false
-		ui.withID(label, function()
-			-- selected system label
-			textIcon(icons.info)
+	if not systempath then return end
+	local starsystem = systempath:GetStarSystem()
+	local clicked = false
+	ui.withID(label, function()
+		-- selected system label
+		textIcon(icons.info)
+		ui.text(starsystem.name .. string.interp(" ({sectorX}, {sectorY}, {sectorZ} : {systemIndex})", systempath))
+		if not sectorView:IsCenteredOn(systempath) then
+			-- add button to center on the object
 			ui.sameLine()
-			ui.text(starsystem.name .. " (" .. math.floor(systempath.sectorX) .. ", " .. math.floor(systempath.sectorY) .. ", " .. math.floor(systempath.sectorZ) .. ")")
-			if not sectorView:IsCenteredOn(systempath) then
-				-- add button to center on the object
-				ui.sameLine()
-				if ui.coloredSelectedIconButton(icons.maneuver, Vector2(ui.getTextLineHeight()), false, 0, svColor.WINDOW_BG, svColor.FONT, lui.CENTER_ON_SYSTEM) then
-					sectorView:GotoSystemPath(systempath)
-				end
+			if ui.coloredSelectedIconButton(icons.maneuver, Vector2(ui.getTextLineHeight()), false, 0, svColor.WINDOW_BG, svColor.FONT, lui.CENTER_ON_SYSTEM) then
+				sectorView:GotoSystemPath(systempath)
+			end
+		end
+
+		-- number of stars
+		local numstarsText = {
+			-- don't ask for the astro description of a gravpoint
+			starsystem.numberOfStars == 1 and starsystem.rootSystemBody.astroDescription or "",
+			lc.BINARY_SYSTEM,
+			lc.TRIPLE_SYSTEM,
+			lc.QUADRUPLE_SYSTEM
+		}
+
+		-- description
+		ui.withFont(smallfont, function()
+			-- jump data
+			if not current_systempath:IsSameSystem(systempath) then
+				draw_jump_status(getHyperspaceDetails(systempath))
+			end
+			ui.spacing()
+
+			-- selected system alternative labels
+			if next(starsystem.other_names) ~= nil then
+				ui.pushTextWrapPos(ui.getContentRegion().x)
+				ui.textWrapped(table.concat(starsystem.other_names, ", "))
+				ui.popTextWrapPos()
 			end
 
-			-- number of stars
-			local numstarsText = {
-				-- don't ask for the astro description of a gravpoint
-				starsystem.numberOfStars == 1 and starsystem.rootSystemBody.astroDescription or "",
-				lc.BINARY_SYSTEM,
-				lc.TRIPLE_SYSTEM,
-				lc.QUADRUPLE_SYSTEM
-			}
+			-- system description
+			ui.textWrapped(starsystem.shortDescription)
 
-			-- description
-			ui.withFont(smallfont, function()
-				-- jump data
-				if not current_systempath:IsSameSystem(systempath) then
-					draw_jump_status(getHyperspaceDetails(systempath))
-				end
-				ui.spacing()
-
-				-- selected system alternative labels
-				if next(starsystem.other_names) ~= nil then
-					ui.pushTextWrapPos(ui.getContentRegion().x)
-					ui.textWrapped(table.concat(starsystem.other_names, ", "))
-					ui.popTextWrapPos()
-				end
-
-				-- system description
-				ui.pushTextWrapPos(ui.getContentRegion().x)
-				ui.textWrapped(starsystem.shortDescription)
-				ui.popTextWrapPos()
-				ui.separator()
-				ui.spacing()
-				ui.text(numstarsText[starsystem.numberOfStars])
-				ui.spacing()
+			ui.spacing()
+			ui.withTooltip(lc.GOVERNMENT_TYPE, function()
+				textIcon(icons.language)
+				ui.textWrapped(starsystem.govDescription)
 			end)
 
-			-- star list
-			local stars = starsystem:GetJumpable()
-			for _,star in pairs(stars) do
-				local pos = ui.getCursorPos() + Vector2(0, 1) -- add vertical alignment, not quite necessary
-				if ui.selectable("## " .. star.name, star.path == systempath, {}) then
-					clicked = star.path
-				end
-				ui.sameLine(0, 0)
-				textIcon(icons.sun)
-				ui.sameLine()
-				ui.text(star.name)
-				-- distance from system center
-				local dist = calc_star_dist(star)
-				if dist > 1 then
-					local dist_text = Format.Distance(dist)
-					ui.sameLine(ui.getColumnWidth() - ui.calcTextSize(dist_text).x)
-					ui.text(dist_text)
-				end
-			end
-			if clicked then
-				sectorView:SwitchToPath(clicked)
+			ui.withTooltip(lc.ECONOMY_TYPE, function()
+				textIcon(icons.money)
+				ui.textWrapped(starsystem.econDescription)
+			end)
+
+			local pop = starsystem.population -- population in billion
+			local popText
+			if pop == 0.0 then
+				popText = lc.NO_REGISTERED_INHABITANTS
+			elseif pop < 1 / 1000.0 then
+				popText = lc.A_FEW_THOUSAND
+			else
+				popText = ui.Format.Number(pop * 1e9)
 			end
 
-			-- check if the selected star has changed
-			if systempath ~= prevSystemPath then
-				-- if so, check the route, and update there if necessary
-				hyperJumpPlanner.updateInRoute(systempath)
-				prevSystemPath = systempath
-			end
+			ui.withTooltip(lc.POPULATION, function()
+				textIcon(icons.personal)
+				ui.text(popText)
+			end)
+
+			ui.separator()
+			ui.spacing()
+			ui.text(numstarsText[starsystem.numberOfStars])
+			ui.spacing()
 		end)
-	end
+
+		-- star list
+		local stars = starsystem:GetJumpable()
+		for _,star in pairs(stars) do
+			local pos = ui.getCursorPos() + Vector2(0, 1) -- add vertical alignment, not quite necessary
+			if ui.selectable("## " .. star.name, star.path == systempath, {}) then
+				clicked = star.path
+			end
+			ui.sameLine(0, 0)
+			textIcon(icons.sun)
+			ui.text(star.name)
+			-- distance from system center
+			local dist = calc_star_dist(star)
+			if dist > 1 then
+				local dist_text = Format.Distance(dist)
+				ui.sameLine(ui.getColumnWidth() - ui.calcTextSize(dist_text).x)
+				ui.text(dist_text)
+			end
+		end
+		if clicked then
+			sectorView:SwitchToPath(clicked)
+		end
+
+		-- check if the selected star has changed
+		if systempath ~= prevSystemPath then
+			-- if so, check the route, and update there if necessary
+			hyperJumpPlanner.updateInRoute(systempath)
+			prevSystemPath = systempath
+		end
+	end)
 end
 
 function Windows.systemInfo.Dummy()
-	textIcon(icons.sun)
-	ui.sameLine()
 	ui.text("Selected system")
+	ui.text("Distance")
 	ui.separator()
+	ui.dummy(Vector2(0, ui.getFrameHeightWithSpacing() * 4))
 	ui.text("Distance")
 	ui.selectable("Star 1", false, {})
 	ui.selectable("Star 2", false, {})
 	ui.selectable("Star 3", false, {})
 	ui.selectable("Star 4", false, {})
-	ui.text("Three\nline\ndescription")
-	-- let's count a row of 6 buttons so that it is as in the system map
-	mainMenuButton(icons.reset_view, "DUMMY")
-	ui.sameLine()
-	mainMenuButton(icons.reset_view, "DUMMY")
-	ui.sameLine()
-	mainMenuButton(icons.reset_view, "DUMMY")
-	ui.sameLine()
-	mainMenuButton(icons.reset_view, "DUMMY")
-	ui.sameLine()
-	mainMenuButton(icons.reset_view, "DUMMY")
-	ui.sameLine()
-	mainMenuButton(icons.reset_view, "DUMMY")
-	ui.sameLine()
-	mainMenuButton(icons.reset_view, "DUMMY")
-	ui.sameLine()
 end
 
 local search_text = ""
@@ -327,13 +333,13 @@ local leftBarMode = "SEARCH"
 function Windows.searchBar:Show()
 	if mainMenuButton(icons.search_lens, lc.SEARCH) then leftBarMode = "SEARCH" end
 	ui.sameLine()
-	if mainMenuButton(icons.money, lui.ECONOMY_TRADE) then leftBarMode = "ECON" end
+	if mainMenuButton(icons.money, lui.ECONOMY_TRADE) then leftBarMode = "ECONOMY" end
 
 	ui.spacing()
 
 	if leftBarMode == "SEARCH" then
 		ui.text(lc.SEARCH)
-		local search_text, changed = ui.inputText("", search_text, {})
+		local search_text, changed = ui.inputText("", searchString, {})
 		ui.spacing()
 		local parsedSystem = changed and search_text ~= "" and SystemPath.ParseString(search_text)
 		if parsedSystem and parsedSystem ~= nil then
@@ -350,7 +356,7 @@ function Windows.searchBar:Show()
 		else
 			drawSearchResults(systemPaths)
 		end
-	elseif leftBarMode == "ECON" then
+	elseif leftBarMode == "ECONOMY" then
 		local selectedPath = sectorView:GetSelectedSystemPath()
 		local currentPath = sectorView:GetCurrentSystemPath()
 
@@ -373,7 +379,10 @@ function Windows.searchBar:Show()
 		ui.spacing()
 
 		ui.withFont(smallfont, function()
-			if showComparison then
+			if selectedSys.population <= 0 then
+				textIcon(icons.alert_generic)
+				ui.text(lc.NO_REGISTERED_INHABITANTS)
+			elseif showComparison then
 				systemEconView.draw(currentSys, selectedSys)
 			else
 				systemEconView.draw(selectedSys)
@@ -392,7 +401,6 @@ function Windows.current.Show()
 	local path = sectorView:GetCurrentSystemPath()
 	local starsystem = path:GetStarSystem()
 	textIcon(icons.navtarget)
-	ui.sameLine()
 	if ui.selectable(' ' .. starsystem.name .. " (" .. path.sectorX .. ", " .. path.sectorY .. ", " .. path.sectorZ .. ")") then
 		sectorView:SwitchToPath(path)
 	end
@@ -400,7 +408,6 @@ end
 
 function Windows.factions.Show()
 	textIcon(icons.shield)
-	ui.sameLine()
 	ui.text("Factions")
 	local factions = sectorView:GetFactions()
 	for _,f in pairs(factions) do
@@ -451,9 +458,9 @@ local function displaySectorViewWindow()
 				Windows.hjPlanner.size.x = math.max(Windows.hjPlanner.size.x, Windows.systemInfo.size.x - Windows.edgeButtons.size.x)
 				Windows.hjPlanner.pos = Vector2(ui.screenWidth - Windows.edgeButtons.size.x, ui.screenHeight - edgePadding.y) - Windows.hjPlanner.size
 				Windows.systemInfo.pos = Windows.hjPlanner.pos - Vector2(0, Windows.systemInfo.size.y)
-				Windows.systemInfo.size = Vector2(Windows.hjPlanner.size.x, 0) -- adaptive height
+				Windows.systemInfo.size.x = Windows.hjPlanner.size.x
 				Windows.searchBar.pos = Windows.current.pos + Windows.current.size
-				Windows.searchBar.size = Vector2(0, ui.screenHeight - Windows.searchBar.pos.y - edgePadding.y - ui.timeWindowSize.y)
+				Windows.searchBar.size.y = ui.screenHeight - Windows.searchBar.pos.y - edgePadding.y - ui.timeWindowSize.y
 				Windows.edgeButtons.pos = Vector2(ui.screenWidth - Windows.edgeButtons.size.x, ui.screenHeight / 2 - Windows.edgeButtons.size.y / 2) -- center-right
 				Windows.factions.pos = Vector2(Windows.systemInfo.pos.x, Windows.current.pos.y)
 				Windows.factions.size = Vector2(ui.screenWidth - Windows.factions.pos.x - edgePadding.x, 0.0)

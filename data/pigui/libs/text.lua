@@ -167,6 +167,16 @@ ui.Format = {
 	end,
 	Pressure = function(pres)
 		return string.format("%0.2f", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
+	end,
+	Number = function(number, places)
+		local s = number < 0.0 and "-" or ""
+		number = math.abs(number)
+		local fmt = "%." .. (places or '2') .. "f%s"
+		if number < 1e3 then return s .. number
+		elseif number < 1e6 then return s .. math.floor(number / 1e3) .. "," .. number % 1e3
+		elseif number < 1e9 then return s .. fmt:format(number / 1e6, "mil")
+		elseif number < 1e12 then return s .. fmt:format(number / 1e9, "bil")
+		else return s .. fmt:format(number / 1e12, "trn") end
 	end
 }
 

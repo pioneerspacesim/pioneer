@@ -2222,13 +2222,6 @@ static int l_pigui_is_window_hovered(lua_State *l)
 	return 1;
 }
 
-static int l_pigui_system_info_view_next_page(lua_State *l)
-{
-	PROFILE_SCOPED()
-	Pi::game->GetSystemInfoView()->NextPage();
-	return 0;
-}
-
 static int l_pigui_begin_tab_bar(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2821,7 +2814,6 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetProjectedBodiesGrouped", l_pigui_get_projected_bodies_grouped },
 		{ "CalcTextAlignment", l_pigui_calc_text_alignment },
 		{ "ShouldShowLabels", l_pigui_should_show_labels },
-		{ "SystemInfoViewNextPage", l_pigui_system_info_view_next_page }, // deprecated
 		{ "LowThrustButton", l_pigui_low_thrust_button },
 		{ "ThrustIndicator", l_pigui_thrust_indicator },
 		{ "PlaySfx", l_pigui_play_sfx },

@@ -67,12 +67,12 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
 --   fun -
---   ... - 
+--   ... -
 --
 -- Returns:
 --
@@ -95,7 +95,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -149,7 +149,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -175,7 +175,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -204,7 +204,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -268,7 +268,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -282,14 +282,11 @@ end
 --
 function ui.withTooltip(tooltip, fun)
 	local startPos = pigui.GetCursorPos()
+	pigui.BeginGroup()
 	fun()
-	if string.len(tooltip) > 0 then
-		local endPos = pigui.GetCursorPos()
-		local offset = pigui.GetWindowPos()
-		offset.y = offset.y - pigui.GetScrollY()
-		if pigui.IsMouseHoveringRect(offset + startPos, offset + endPos, false) then
-			pigui.SetTooltip(tooltip)
-		end
+	pigui.EndGroup()
+	if string.len(tooltip) > 0 and pigui.IsItemHovered() then
+		pigui.SetTooltip(tooltip)
 	end
 end
 
@@ -322,7 +319,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -343,7 +340,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -364,7 +361,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -382,7 +379,7 @@ function ui.ctrlHeld() return pigui.key_ctrl end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -400,7 +397,7 @@ function ui.altHeld() return pigui.key_alt end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -418,7 +415,7 @@ function ui.shiftHeld() return pigui.key_shift end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -436,7 +433,7 @@ function ui.noModifierHeld() return pigui.key_none end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --   id    - String, unique id to identify the group of tabs by
@@ -472,7 +469,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --   name    - Table|String, a table defining the font name and size or
@@ -507,7 +504,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --   styles - table, table of style elements with the desired colors:
@@ -545,7 +542,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --   vars - table, table of style elements with the desired values:
@@ -578,7 +575,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --   styles - table, table of style elements with the desired colors (see ui.withStyleColors)
@@ -611,7 +608,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --
@@ -632,7 +629,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --   cond - table, condition flags: Always, Once, FirstUseEver, Appearing
@@ -654,7 +651,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --   pos_x     - (Optional) number, X position for next draw command, default 0
@@ -679,7 +676,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --   id  - string, the desired ID
@@ -704,7 +701,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --   filename - string, svg path
@@ -728,7 +725,7 @@ end
 --
 -- Example:
 --
--- > 
+-- >
 --
 -- Parameters:
 --   filename - string, texture file path

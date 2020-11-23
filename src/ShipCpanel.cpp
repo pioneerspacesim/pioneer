@@ -7,13 +7,8 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "Player.h"
-#include "SectorView.h"
 #include "ShipCpanelMultiFuncDisplays.h"
-#include "SpaceStation.h"
-#include "SystemInfoView.h"
-#include "SystemView.h"
 #include "UIView.h"
-#include "WorldView.h"
 #include "libs.h"
 
 // XXX duplicated in WorldView. should probably be a theme variable
