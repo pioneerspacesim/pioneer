@@ -26,6 +26,7 @@ namespace Graphics {
 	struct Settings {
 		RendererType rendererType;
 		bool fullscreen;
+		bool borderless;
 		bool hidden;
 		bool useTextureCompression;
 		bool useAnisotropicFiltering;

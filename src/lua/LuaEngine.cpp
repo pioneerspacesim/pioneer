@@ -283,6 +283,23 @@ static int l_engine_set_video_resolution(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_borderless(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("BorderlessWindow") != 0);
+	return 1;
+}
+
+static int l_engine_set_borderless(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetBorderless takes one boolean argument");
+	const bool borderless = lua_toboolean(l, 1);
+	Pi::config->SetInt("BorderlessWindow", (borderless ? 1 : 0));
+	Pi::config->Save();
+
+	return 0;
+}
+
 /*
  * Method: GetFullscreen
  *
@@ -902,6 +919,8 @@ void LuaEngine::Register()
 		{ "SetVideoResolution", l_engine_set_video_resolution },
 		{ "GetFullscreen", l_engine_get_fullscreen },
 		{ "SetFullscreen", l_engine_set_fullscreen },
+		{ "GetBorderless", l_engine_get_borderless },
+		{ "SetBorderless", l_engine_set_borderless },
 		{ "GetDisableScreenshotInfo", l_engine_get_disable_screenshot_info },
 		{ "SetDisableScreenshotInfo", l_engine_set_disable_screenshot_info },
 		{ "GetVSyncEnabled", l_engine_get_vsync_enabled },

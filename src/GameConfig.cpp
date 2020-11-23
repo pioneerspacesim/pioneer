@@ -12,6 +12,7 @@ GameConfig::GameConfig(const map_string &override_)
 	map["AMD_MESA_HACKS"] = "0";
 	map["DisableSound"] = "0";
 	map["StartFullscreen"] = "0";
+	map["BorderlessWindow"] = "0";
 	map["ScrWidth"] = "1280";
 	map["ScrHeight"] = "720";
 	map["UIScaleFactor"] = "1";

@@ -196,6 +196,7 @@ local function showVideoOptions()
 	local selectedDetail = keyOf(detailLabels,keyOf(detailLevels, Engine.GetPlanetDetailLevel()))-1
 
 	local fullscreen = Engine.GetFullscreen()
+	local borderless = Engine.GetBorderless()
 	local vsync = Engine.GetVSyncEnabled()
 	local anisoFilter = Engine.GetAnisoFiltering()
 
@@ -210,6 +211,12 @@ local function showVideoOptions()
 	local enableCockpit = Engine.GetCockpitEnabled()
 	local enableAutoSave = Engine.GetAutosaveEnabled()
 	local starDensity = Engine.GetAmountStars() * 100
+
+	local selectedFullscreenWindow
+
+	if Engine.GetFullscreen() then selectedFullscreenWindow = 0
+	elseif Engine.GetBorderless() then selectedFullscreenWindow = 2
+	else selectedFullscreenWindow = 1 end
 
 	local c
 	ui.text(lui.VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY)
@@ -226,12 +233,21 @@ local function showVideoOptions()
 		Engine.SetMultisampling(aa)
 	end
 
-	ui.columns(2,"video_checkboxes",false)
-	c,fullscreen = checkbox(lui.FULL_SCREEN, fullscreen)
+	c,selectedFullscreenWindow = combo("FULLSCREEN_MODE", selectedFullscreenWindow, {"Fullscreen", "Window", "Fullscreen Window"})
 	if c then
-		Engine.SetFullscreen(fullscreen)
+		if selectedFullscreenWindow == 0 then
+			Engine.SetFullscreen(true)
+			Engine.SetBorderless(false)
+		elseif selectedFullscreenWindow == 1 then
+			Engine.SetFullscreen(false)
+			Engine.SetBorderless(false)
+		elseif selectedFullscreenWindow == 2 then
+			Engine.SetFullscreen(false)
+			Engine.SetBorderless(true)
+		end
 	end
-	ui.nextColumn()
+
+	ui.columns(2,"video_checkboxes",false)
 	c,vsync = checkbox(lui.VSYNC, vsync, lui.VSYNC_DESC)
 	if c then
 		Engine.SetVSyncEnabled(vsync)

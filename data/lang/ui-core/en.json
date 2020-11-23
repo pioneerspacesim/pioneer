@@ -67,6 +67,10 @@
     "description": "",
     "message": "Backward acceleration"
   },
+  "BORDERLESS": {
+    "description": "Option to enable a borderless window",
+    "message": "Borderless Window"
+  },
   "BULLETIN_BOARD": {
     "description": "",
     "message": "Bulletin Board"

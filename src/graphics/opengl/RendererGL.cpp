@@ -42,6 +42,8 @@ namespace Graphics {
 	static bool CreateWindowAndContext(const char *name, const Graphics::Settings &vs, SDL_Window *&window, SDL_GLContext &context)
 	{
 		Uint32 winFlags = 0;
+		int w = vs.width;
+		int h = vs.height;
 
 		winFlags |= SDL_WINDOW_OPENGL;
 		// We'd like a context that implements OpenGL 3.2 to allow creation of multisampled textures
@@ -78,8 +80,16 @@ namespace Graphics {
 		winFlags |= (vs.hidden ? SDL_WINDOW_HIDDEN : SDL_WINDOW_SHOWN);
 		if (!vs.hidden && vs.fullscreen) // TODO: support for borderless fullscreen and changing window size
 			winFlags |= SDL_WINDOW_FULLSCREEN;
+		if (!vs.hidden && !vs.fullscreen && vs.borderless) {
+			// if fullscreen and borderless use the 'current' resolution (make the borderless window fullscreen)
+			winFlags |= SDL_WINDOW_BORDERLESS;
+			SDL_DisplayMode dm;
+			SDL_GetDesktopDisplayMode(0, &dm);
+			w = dm.w;
+			h = dm.h;
+		}
 
-		window = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, vs.width, vs.height, winFlags);
+		window = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, winFlags);
 		if (!window)
 			return false;
 
@@ -149,6 +159,11 @@ namespace Graphics {
 		m_activeRenderState(nullptr),
 		m_glContext(glContext)
 	{
+		SDL_DisplayMode dm;
+		SDL_GetCurrentDisplayMode(0, &dm);
+		m_height = dm.h;
+		m_width = dm.w;
+
 		glewExperimental = true;
 		GLenum glew_err;
 		if ((glew_err = glewInit()) != GLEW_OK)
@@ -223,7 +238,8 @@ namespace Graphics {
 
 		glClearDepth(0.0); // clear to 0.0 for use with reverse-Z
 		SetClearColor(Color4f(0.f, 0.f, 0.f, 0.f));
-		SetViewport(Viewport(0, 0, m_width, m_height));
+		SetViewport(Viewport(0, 0, GetWindowWidth(), GetWindowHeight()));
+		//SetViewport(Viewport(0, 0, m_width, m_height));
 
 		if (vs.enableDebugMessages)
 			GLDebug::Enable();
