@@ -95,7 +95,7 @@ void SectorView::InputBinding::RegisterBindings()
 }
 
 SectorView::SectorView(Game *game) :
-	UIView(),
+	PiGuiView("sector-view"),
 	InputBindings(Pi::input),
 	m_galaxy(game->GetGalaxy())
 {
@@ -128,7 +128,7 @@ SectorView::SectorView(Game *game) :
 }
 
 SectorView::SectorView(const Json &jsonObj, Game *game) :
-	UIView(),
+	PiGuiView("sector-view"),
 	InputBindings(Pi::input),
 	m_galaxy(game->GetGalaxy())
 {
@@ -383,8 +383,6 @@ void SectorView::Draw3D()
 	m_disk->SetColor(Color(0, 0, 204));
 	m_disk->Draw(m_renderer);
 	m_renderer->ResetDepthRange();
-
-	UIView::Draw3D();
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -1095,7 +1093,6 @@ void SectorView::OnSwitchTo()
 {
 	m_renderer->SetViewport({ 0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight() });
 	Pi::input->AddInputFrame(&InputBindings);
-	UIView::OnSwitchTo();
 	Update();
 }
 
@@ -1241,8 +1238,6 @@ void SectorView::Update()
 		m_fresnelMat->diffuse = Color::WHITE;
 		m_jumpSphere.reset(new Graphics::Drawables::Sphere3D(m_renderer, m_fresnelMat, m_jumpSphereState, 4, 1.0f));
 	}
-
-	UIView::Update();
 }
 
 void SectorView::ShowAll()
