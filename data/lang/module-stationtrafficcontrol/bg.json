@@ -17,7 +17,7 @@
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
-    "message": "Заявката за скачване е просрочена. Ако искате да извършите скачване, трябва да повторите Вашата заявка."
+    "message": "Заявката е просрочена. Ако искате да извършите скачване, трябва да повторите Вашата заявка."
   },
   "STATION_GRAV": {
     "description": "Like an airline pilot announcing local weather conditions",
@@ -29,54 +29,54 @@
   },
   "WATCH_FOR_TRAFFIC_ON_APPROACH": {
     "description": "",
-    "message": "Please watch for traffic on your approach."
+    "message": "Моля, оглеждайте се за трафик, по време на Вашия подход за скачване."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel} you are entering {station} space. Please follow local regulations."
+    "message": "{playerShipLabel}, навлизате в обхвата на {station}. Моля, спазвайте местните разпоредби."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_2": {
     "description": "",
-    "message": "{playerShipLabel}, we have you on the radar. You are in {station} controlled space."
+    "message": "{playerShipLabel}, установихме радарен контакт с Вашия кораб. Намирате се в космическото пространство на {station}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_3": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. You are entering our controlled space."
+    "message": "{playerShipLabel}, ние сме от ККД на {station}. Навлизате в космическото ни пространство."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_4": {
     "description": "",
-    "message": "We have you flying into {station} controlled space, {playerShipLabel}."
+    "message": "Намирате се в космическото пространство на {station}, {playerShipLabel}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, welcome to {station}. Please keep in mind that regulations apply as you are flying through our jurisdiction."
+    "message": "{playerShipLabel}, добре дошли в {station}. Моля, спазвайте нашите разпоредби."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC speaking. You are entering controlled space, and I would appreciate it if you didn't make me fill out any paperwork today."
+    "message": "{playerShipLabel}, говори ККД на {station}. Навлизате в космическото ни пространство, моля, не създавайте неприятности."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel}, you are clear of {station} controlled space."
+    "message": "{playerShipLabel}, излязохте от космическото пространство на {station}."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_2": {
     "description": "",
-    "message": "You have left {station} space, {playerShipLabel}."
+    "message": "Напуснахте обхвата на {station}, {playerShipLabel}."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_3": {
     "description": "",
-    "message": "{playerShipLabel}, you have cleared {station} controlled space. Restrictions withdrawn."
+    "message": "{playerShipLabel}, излязохте от космическото пространство на {station}. Ограниченията са оттеглени."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_4": {
     "description": "",
-    "message": "You are flying out of {station} space, {playerShipLabel}. Logging you out."
+    "message": "Напускате обхвата на {station}, {playerShipLabel}. Вашите данни са отписани."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, you are leaving {station} space. Have a pleasant journey."
+    "message": "{playerShipLabel}, излизате от обхвата на {station}. Приятно пътуване."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. I see you exiting our controlled space, be safe out there."
+    "message": "{playerShipLabel}, ние сме от ККД на {station}. пожелаваме Ви безаварийно пътуване."
   }
 }

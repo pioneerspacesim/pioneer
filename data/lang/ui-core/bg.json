@@ -13,7 +13,7 @@
   },
   "AFTER_TRADE_IN": {
     "description": "",
-    "message": "After trade-in"
+    "message": "След покупка"
   },
   "ALLEGIANCE": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "COMPLETED": {
     "description": "",
-    "message": "Completed"
+    "message": "Завършени"
   },
   "COMPRESS_TEXTURES": {
     "description": "graphics option in game settings menu ",
@@ -365,7 +365,7 @@
   },
   "DUE": {
     "description": "mission deadline date",
-    "message": "Due"
+    "message": "Краен срок"
   },
   "DUMPING": {
     "description": "The illegal act of dumping waste",
@@ -829,7 +829,7 @@
   },
   "HUD_CARGO_MASS": {
     "description": "Cargo Mass",
-    "message": "Cargo Mass"
+    "message": "Товарна Маса"
   },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
@@ -1125,15 +1125,15 @@
   },
   "LAUNCH_PERMISSION_GRANTED": {
     "description": "",
-    "message": "Launch permission granted."
+    "message": "Имате разрешение за излитане."
   },
   "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
     "description": "",
-    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+    "message": "Имате разрешение. Моля, излетете възможно по-бързо."
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
-    "message": "Permission granted. Watch for traffic on your departure."
+    "message": "Имате разрешение. Оглеждайте се за трафик, по време на Вашето излитане."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1965,7 +1965,7 @@
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
-    "message": "Unlawful weapons discharge"
+    "message": "Незаконна стрелба с оръжие"
   },
   "UNRELIABLE": {
     "description": "",
