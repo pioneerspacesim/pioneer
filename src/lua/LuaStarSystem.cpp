@@ -598,6 +598,46 @@ static int l_starsystem_attr_short_description(lua_State *l)
 }
 
 /*
+* Attribute: govDescription
+*
+* The translated description of the system's government type.
+*
+* Availability:
+*
+*   November 2020
+*
+* Status:
+*
+*   experimental
+*/
+static int l_starsystem_attr_gov_description(lua_State *l)
+{
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	LuaPush(l, s->GetSysPolit().GetGovernmentDesc());
+	return 1;
+}
+
+/*
+* Attribute: econDescription
+*
+* The translated description of the system's economy type.
+*
+* Availability:
+*
+*   November 2020
+*
+* Status:
+*
+*   experimental
+*/
+static int l_starsystem_attr_econ_description(lua_State *l)
+{
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	LuaPush(l, s->GetSysPolit().GetEconomicDesc());
+	return 1;
+}
+
+/*
 * Attribute: govtype
 *
 * The government type used in the system
@@ -680,6 +720,8 @@ void LuaObject<StarSystem>::RegisterClass()
 		{ "numberOfStars", l_starsystem_attr_number_of_stars },
 		{ "rootSystemBody", l_starsystem_attr_root_system_body },
 		{ "shortDescription", l_starsystem_attr_short_description },
+		{ "govDescription", l_starsystem_attr_gov_description },
+		{ "econDescription", l_starsystem_attr_econ_description },
 		{ 0, 0 }
 	};
 

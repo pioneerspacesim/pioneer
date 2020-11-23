@@ -79,9 +79,7 @@ local function buttons_map(current_view)
 	ui.sameLine()
 	active = current_view == "system_info"
 	if mainMenuButton(icons.system_overview, active, active and lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW or lui.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f7)) then
-		if active then
-			ui.systemInfoViewNextPage()
-		else
+		if not active then
 			Game.SetView("system_info")
 			current_map_view = "system_info"
 		end

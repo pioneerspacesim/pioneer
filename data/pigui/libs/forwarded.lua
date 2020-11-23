@@ -6,7 +6,7 @@
 local Engine = require 'Engine'
 local pigui = Engine.pigui
 
-local ui = {} 
+local ui = {}
 
 ui.calcTextAlignment = pigui.CalcTextAlignment
 ui.lineOnClock = pigui.lineOnClock
@@ -33,6 +33,7 @@ ui.setScrollHere = pigui.SetScrollHere
 ui.selectable = pigui.Selectable
 ui.progressBar = pigui.ProgressBar
 ui.plotHistogram = pigui.PlotHistogram
+ui.setTooltip = pigui.SetTooltip
 ui.calcTextSize = pigui.CalcTextSize
 ui.addCircle = pigui.AddCircle
 ui.addCircleFilled = pigui.AddCircleFilled
@@ -82,7 +83,6 @@ ui.getColumnWidth = pigui.GetColumnWidth
 ui.setColumnWidth = pigui.SetColumnWidth
 ui.getScrollY = pigui.GetScrollY
 ui.keys = pigui.keys
-ui.systemInfoViewNextPage = pigui.SystemInfoViewNextPage -- deprecated
 ui.isKeyReleased = pigui.IsKeyReleased
 ui.playSfx = pigui.PlaySfx
 ui.isItemHovered = pigui.IsItemHovered
