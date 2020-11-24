@@ -428,6 +428,7 @@ namespace Graphics {
 
 	bool RendererOGL::EndFrame()
 	{
+		PROFILE_SCOPED()
 		uint32_t used_tex2d = 0;
 		uint32_t used_texCube = 0;
 		uint32_t used_texArray2d = 0;

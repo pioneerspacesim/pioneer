@@ -13,6 +13,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
 #include "pigui/PiGui.h"
+#include "profiler/Profiler.h"
 #include "utils.h"
 #include "versioningInfo.h"
 
@@ -21,6 +22,7 @@
 
 void GuiApplication::BeginFrame()
 {
+	PROFILE_SCOPED()
 #if RTT
 	m_renderer->SetRenderTarget(m_renderTarget);
 #endif
@@ -61,6 +63,7 @@ void GuiApplication::DrawRenderTarget()
 
 void GuiApplication::EndFrame()
 {
+	PROFILE_SCOPED()
 #if RTT
 	DrawRenderTarget();
 #endif
