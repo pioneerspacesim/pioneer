@@ -41,7 +41,7 @@ Legal.CrimeType["MURDER"] = {basefine = 1.5e6, name = l.MURDER}
 Legal.CrimeType["PIRACY"] = {basefine = 1e5, name = l.PIRACY}
 Legal.CrimeType["TRADING_ILLEGAL_GOODS"] = {basefine = 5e3, name = l.TRADING_ILLEGAL_GOODS}
 Legal.CrimeType["WEAPONS_DISCHARGE"] = {basefine = 5e2, name = l.UNLAWFUL_WEAPONS_DISCHARGE}
-
+Legal.CrimeType["CONTRACT_FRAUD"] = {basefine = 5e2, name = l.CONTRACT_FRAUD}
 
 function Legal:notifyOfCrime (ship, crime)
 	if not ship:IsPlayer() then return end
