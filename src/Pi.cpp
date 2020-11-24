@@ -860,6 +860,7 @@ void Pi::App::HandleRequests()
 
 void Pi::App::PreUpdate()
 {
+	PROFILE_SCOPED()
 	Pi::frameTime = DeltaTime();
 
 	GuiApplication::PreUpdate();
@@ -867,6 +868,7 @@ void Pi::App::PreUpdate()
 
 void Pi::App::PostUpdate()
 {
+	PROFILE_SCOPED()
 	GuiApplication::PostUpdate();
 
 	HandleRequests();
