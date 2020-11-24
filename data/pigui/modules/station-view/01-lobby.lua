@@ -13,7 +13,7 @@ local Character = require 'Character'
 local Comms = require 'Comms'
 local Space = require 'Space'
 
-local PiGuiFace = require 'ui.PiguiFace'
+local PiGuiFace = require 'pigui.libs.face'
 local PiImage = require 'ui.PiImage'
 local textTable = require 'pigui.libs.text-table'
 local ModalWindow = require 'pigui.libs.modal-win'

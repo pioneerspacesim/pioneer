@@ -6,7 +6,7 @@ local InfoView = require 'pigui.views.info-view'
 local Lang = require 'Lang'
 local Engine = require 'Engine'
 local Character = require 'Character'
-local PiGuiFace = require 'libs.ui.PiguiFace'
+local PiGuiFace = require 'pigui.libs.face'
 local Event = require 'Event'
 local pigui = Engine.pigui
 
