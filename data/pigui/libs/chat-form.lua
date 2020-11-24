@@ -7,7 +7,7 @@ local Game = require 'Game'
 local Space = require 'Space'
 
 local CommodityWidget = require 'pigui.libs.commodity-market'
-local Face = require 'ui.PiguiFace'
+local Face = require 'pigui.libs.face'
 
 local ui = require 'pigui'
 local colors = ui.theme.colors

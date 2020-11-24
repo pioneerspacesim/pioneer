@@ -6,7 +6,7 @@ local Game		= require 'Game'
 local Lang		= require 'Lang'
 local ShipDef	= require 'ShipDef'
 local InfoView	= require 'pigui.views.info-view'
-local PiGuiFace = require 'libs.ui.PiguiFace'
+local PiGuiFace = require 'pigui.libs.face'
 
 local ui = require 'pigui'
 local textTable = require 'pigui.libs.text-table'
