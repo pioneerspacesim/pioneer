@@ -204,35 +204,32 @@ void PerfInfo::DrawPerfWindow()
 			ImGui::Text("%.1f MB process memory usage (%.1f MB peak)", (process_mem.currentMemSize * 1e-3), (process_mem.peakMemSize * 1e-3));
 		ImGui::Text("%.3f MB Lua memory usage", double(lua_mem) / scale_MB);
 		ImGui::Spacing();
-	}
 
-	if (ImGui::BeginTabBar("PerfInfoTabs")) {
-		if (ImGui::BeginTabItem("ImGui")) {
-			DrawImGuiStats();
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("Renderer")) {
-			DrawRendererStats();
-			ImGui::EndTabItem();
-		}
-
-		if (false && ImGui::BeginTabItem("Input")) {
-			DrawInputDebug();
-			ImGui::EndTabItem();
-		}
-
-		if (Pi::game) {
-			if (Pi::player->GetFlightState() != Ship::HYPERSPACE && ImGui::BeginTabItem("WorldView")) {
-				DrawWorldViewStats();
+		if (ImGui::BeginTabBar("PerfInfoTabs")) {
+			if (ImGui::BeginTabItem("Renderer")) {
+				DrawRendererStats();
+				DrawImGuiStats();
 				ImGui::EndTabItem();
 			}
+
+			if (false && ImGui::BeginTabItem("Input")) {
+				DrawInputDebug();
+				ImGui::EndTabItem();
+			}
+
+			if (Pi::game) {
+				if (Pi::player->GetFlightState() != Ship::HYPERSPACE && ImGui::BeginTabItem("WorldView")) {
+					DrawWorldViewStats();
+					ImGui::EndTabItem();
+				}
+			}
+
+			PiGui::RunHandler(Pi::GetFrameTime(), "debug-tabs");
+
+			ImGui::EndTabBar();
 		}
-
-		PiGui::RunHandler(Pi::GetFrameTime(), "debug-tabs");
-
-		ImGui::EndTabBar();
 	}
+
 	ImGui::End();
 
 	PiGui::RunHandler(Pi::GetFrameTime(), "debug");
@@ -407,6 +404,7 @@ void PerfInfo::DrawInputDebug()
 
 void PerfInfo::DrawImGuiStats()
 {
+	ImGui::NewLine();
 	auto &io = ImGui::GetIO();
 	ImGui::Text("ImGui stats:");
 	ImGui::Text("%d verts, %d tris", io.MetricsRenderVertices, io.MetricsRenderIndices / 3);
