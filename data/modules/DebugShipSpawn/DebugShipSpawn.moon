@@ -21,7 +21,7 @@ update_ship_def_table = ->
 update_ship_def_table!
 print #ship_defs
 
-selected_ship_type = 0
+selected_ship_type = 1
 draw_ship_types = ->
     for i, ship in ipairs ship_defs
         if ui.selectable ship, selected_ship_type == i
@@ -109,17 +109,29 @@ ship_equip = {
 	Equipment.misc.atmospheric_shielding
 }
 
+set_player_ship_type = (shipType) ->
+	item_types = { Equipment.misc, Equipment.laser, Equipment.hyperspace }
+	equip = [item for type in *item_types for _, item in pairs(type) for i=1, Game.player\CountEquip item]
+
+	with Game.player
+		\SetShipType shipType
+		\AddEquip item for item in *equip
+		\UpdateEquipStats!
+
 ship_spawn_debug_window = ->
     ui.child 'ship_list', Vector2(150, 0), draw_ship_types
 
     ship_name = ship_defs[selected_ship_type]
-    ship = ShipDef[ship_name] if ship_name
+	ship = ShipDef[ship_name] if ship_name
+	return unless ship
 
     ui.sameLine!
-	if ship then ui.group ->
-		spawner_group_height = ui.getFrameHeight! * 2 + ui.getFrameHeightWithSpacing!
+	ui.group ->
+		spawner_group_height = ui.getFrameHeightWithSpacing! * 3 + ui.getTextLineHeightWithSpacing!
         ui.child 'ship_info', Vector2(0, -spawner_group_height), ->
 			draw_ship_info ship
+			if ui.button "Set Player Ship Type", Vector2(0, 0)
+				set_player_ship_type ship_name
 
 			ui.spacing!
 			ui.separator!

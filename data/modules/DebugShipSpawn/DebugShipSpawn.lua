@@ -19,7 +19,7 @@ update_ship_def_table = function()
 end
 update_ship_def_table()
 print(#ship_defs)
-local selected_ship_type = 0
+local selected_ship_type = 1
 local draw_ship_types
 draw_ship_types = function()
   for i, ship in ipairs(ship_defs) do
@@ -126,6 +126,39 @@ local ship_equip = {
   Equipment.misc.laser_cooling_booster,
   Equipment.misc.atmospheric_shielding
 }
+local set_player_ship_type
+set_player_ship_type = function(shipType)
+  local item_types = {
+    Equipment.misc,
+    Equipment.laser,
+    Equipment.hyperspace
+  }
+  local equip
+  do
+    local _accum_0 = { }
+    local _len_0 = 1
+    for _index_0 = 1, #item_types do
+      local type = item_types[_index_0]
+      for _, item in pairs(type) do
+        for i = 1, Game.player:CountEquip(item) do
+          _accum_0[_len_0] = item
+          _len_0 = _len_0 + 1
+        end
+      end
+    end
+    equip = _accum_0
+  end
+  do
+    local _with_0 = Game.player
+    _with_0:SetShipType(shipType)
+    for _index_0 = 1, #equip do
+      local item = equip[_index_0]
+      _with_0:AddEquip(item)
+    end
+    _with_0:UpdateEquipStats()
+    return _with_0
+  end
+end
 local ship_spawn_debug_window
 ship_spawn_debug_window = function()
   ui.child('ship_list', Vector2(150, 0), draw_ship_types)
@@ -134,41 +167,45 @@ ship_spawn_debug_window = function()
   if ship_name then
     ship = ShipDef[ship_name]
   end
-  ui.sameLine()
-  if ship then
-    return ui.group(function()
-      local spawner_group_height = ui.getFrameHeight() * 2 + ui.getFrameHeightWithSpacing()
-      ui.child('ship_info', Vector2(0, -spawner_group_height), function()
-        draw_ship_info(ship)
-        ui.spacing()
-        ui.separator()
-        ui.spacing()
-        return draw_ai_info()
-      end)
-      if ui.button("Spawn Ship", Vector2(0, 0)) then
-        spawn_ship_free(ship_name, ai_options[ai_opt_selected], ship_equip)
-      end
-      local nav_target = Game.player:GetNavTarget()
-      if nav_target and nav_target:isa("SpaceStation") then
-        ui.sameLine()
-        if ui.button("Spawn Docked", Vector2(0, 0)) then
-          spawn_ship_docked(ship_name, ai_options[ai_opt_selected], ship_equip)
-        end
-      end
-      if Game.player:GetCombatTarget() then
-        ui.sameLine()
-        if ui.button("Spawn Missile", Vector2(0, 0)) then
-          do_spawn_missile(missile_types[missile_selected + 1])
-        end
-      end
-      ui.nextItemWidth(-1.0)
-      local _
-      _, missile_selected = ui.combo("##missile_type", missile_selected, missile_names)
-      ui.text("Spawn Distance:")
-      ui.nextItemWidth(-1.0)
-      spawn_distance = ui.sliderFloat("##spawn_distance", spawn_distance, 0.5, 20, "%.1fkm")
-    end)
+  if not (ship) then
+    return 
   end
+  ui.sameLine()
+  return ui.group(function()
+    local spawner_group_height = ui.getFrameHeightWithSpacing() * 3 + ui.getTextLineHeightWithSpacing()
+    ui.child('ship_info', Vector2(0, -spawner_group_height), function()
+      draw_ship_info(ship)
+      if ui.button("Set Player Ship Type", Vector2(0, 0)) then
+        set_player_ship_type(ship_name)
+      end
+      ui.spacing()
+      ui.separator()
+      ui.spacing()
+      return draw_ai_info()
+    end)
+    if ui.button("Spawn Ship", Vector2(0, 0)) then
+      spawn_ship_free(ship_name, ai_options[ai_opt_selected], ship_equip)
+    end
+    local nav_target = Game.player:GetNavTarget()
+    if nav_target and nav_target:isa("SpaceStation") then
+      ui.sameLine()
+      if ui.button("Spawn Docked", Vector2(0, 0)) then
+        spawn_ship_docked(ship_name, ai_options[ai_opt_selected], ship_equip)
+      end
+    end
+    if Game.player:GetCombatTarget() then
+      if ui.button("Spawn##Missile", Vector2(0, 0)) then
+        do_spawn_missile(missile_types[missile_selected + 1])
+      end
+      ui.sameLine(0, 2)
+    end
+    ui.nextItemWidth(-1.0)
+    local _
+    _, missile_selected = ui.combo("##missile_type", missile_selected, missile_names)
+    ui.text("Spawn Distance:")
+    ui.nextItemWidth(-1.0)
+    spawn_distance = ui.sliderFloat("##spawn_distance", spawn_distance, 0.5, 20, "%.1fkm")
+  end)
 end
 debug_ui.registerTab("Ship Spawner", function()
   if not (Game.player and Game.CurrentView() == "world") then
