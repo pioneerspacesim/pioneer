@@ -4,12 +4,12 @@
 local Game = require 'Game'
 local Lang = require 'Lang'
 local Format = require 'Format'
-local PiImage = require 'ui.PiImage'
 local Equipment = require 'Equipment'
 
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
+local PiImage = require 'pigui.libs.image'
 local MarketWidget = require 'pigui.libs.equipment-market'
 
 local l = Lang.GetResource("ui-core")
