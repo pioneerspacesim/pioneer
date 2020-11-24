@@ -14,7 +14,6 @@ local mainButtonWindowPadding = Vector2(math.ceil(6 * (ui.screenHeight / 1200)),
 local mainButtonItemSpacing = Vector2(math.ceil(6 * (ui.screenHeight / 1200)), math.ceil(6 * (ui.screenHeight / 1200)))
 local bottomUiMargin = math.ceil(160 * (ui.screenHeight / 1200))
 local buttonWindowPos = Vector2(0, 0)
-local tabViewPadding = Vector2(0,0)
 local viewWindowPadding = Vector2(4, 8)
 
 local PiGuiTabView = {}
@@ -33,7 +32,8 @@ function PiGuiTabView.New(viewName, legacyTabView)
         currentTab = 0,
 		viewCount = 0,
 		isActive = false,
-        tabs = {},
+		tabs = {},
+		windowPadding = Vector2(0)
     }
 
     setmetatable(self, {
@@ -99,7 +99,7 @@ function PiGuiTabView.renderTabView(self)
             ui.withStyleVars({
                 WindowRounding = 0,
                 WindowBorderSize = 1.0,
-                WindowPadding = tabViewPadding,
+                WindowPadding = self.windowPadding,
             }, function()
                 ui.setNextWindowPos(self.viewWindowPos, "Always")
                 ui.setNextWindowSize(self.viewWindowSize, "Always")

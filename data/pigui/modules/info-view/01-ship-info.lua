@@ -166,25 +166,21 @@ InfoView:registerView({
 	icon = ui.theme.icons.info,
 	showView = true,
 	draw = function()
-		ui.withStyleVars({ WindowPadding = Vector2(24, 24) }, function()
-			ui.child("", Vector2(0, 0), ui.WindowFlags {"AlwaysUseWindowPadding"}, function()
-				ui.withFont(fonts.pionillium.medium, function()
-					if _OLD_LAYOUT then
-						ui.columns(2, "shipInfo")
+		ui.withFont(fonts.pionillium.medium, function()
+			if _OLD_LAYOUT then
+				ui.columns(2, "shipInfo")
 
-						shipStats()
-						equipmentList()
-						ui.nextColumn()
+				shipStats()
+				equipmentList()
+				ui.nextColumn()
 
-						shipSpinner()
-						ui.columns(1, "")
-					else
-						shipSpinner()
-						shipStats()
-						equipmentList()
-					end
-				end)
-			end)
+				shipSpinner()
+				ui.columns(1, "")
+			else
+				shipSpinner()
+				shipStats()
+				equipmentList()
+			end
 		end)
 	end,
 	refresh = function() end,

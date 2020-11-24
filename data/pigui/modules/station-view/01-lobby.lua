@@ -13,7 +13,7 @@ local Character = require 'Character'
 local Comms = require 'Comms'
 local Space = require 'Space'
 
-local InfoFace = require 'ui.PiguiFace'
+local PiGuiFace = require 'ui.PiguiFace'
 local PiImage = require 'ui.PiImage'
 local textTable = require 'pigui.libs.text-table'
 local ModalWindow = require 'pigui.libs.modal-win'
@@ -264,10 +264,10 @@ local function drawPlayerInfo()
 		ui.withStyleVars({WindowPadding = widgetSizes.windowPadding, ItemSpacing = widgetSizes.itemSpacing}, function()
 			local conReg = ui.getContentRegion()
 			local infoColumnWidth = conReg.x - widgetSizes.faceSize.x - widgetSizes.windowPadding.x*3
-			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*3 + widgetSizes.itemSpacing.y*2
+			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*3 + widgetSizes.itemSpacing.y*3 + widgetSizes.windowPadding.y*2
 			local lobbyMenuAtBottom = (conReg.y - widgetSizes.faceSize.y > lobbyMenuHeight + widgetSizes.windowPadding.x*2)
 
-			ui.child("Wrapper", Vector2(0, widgetSizes.faceSize.y + widgetSizes.windowPadding.y*2 + widgetSizes.itemSpacing.y), {}, function()
+			ui.child("Wrapper", Vector2(0, lobbyMenuAtBottom and -lobbyMenuHeight or 0), {}, function()
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), {"AlwaysUseWindowPadding"}, function()
 					local curPos = ui.getCursorPos()
 					textTable.withHeading(station.label, orbiteer.xlarge, {
@@ -278,7 +278,7 @@ local function drawPlayerInfo()
 					})
 
 					if not lobbyMenuAtBottom then
-						lobbyMenu(Vector2(curPos.x, curPos.y + widgetSizes.faceSize.y - lobbyMenuHeight))
+						lobbyMenu(Vector2(curPos.x, conReg.y - lobbyMenuHeight))
 					end
 				end)
 
@@ -318,7 +318,7 @@ StationView:registerView({
 			if (stationSeed ~= station.seed) then
 				stationSeed = station.seed
 				local rand = Rand.New(station.seed)
-				face = InfoFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {windowPadding = widgetSizes.windowPadding, itemSpacing = widgetSizes.itemSpacing, size = widgetSizes.faceSize})
+				face = PiGuiFace.New(Character.New({ title = l.STATION_MANAGER }, rand), {itemSpacing = widgetSizes.itemSpacing})
 			end
 			hyperdrive = table.unpack(Game.player:GetEquip("engine")) or nil
 			hyperdrive_fuel = hyperdrive and hyperdrive.fuel or Equipment.cargo.hydrogen
