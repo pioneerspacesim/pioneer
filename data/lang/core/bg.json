@@ -153,7 +153,7 @@
   },
   "CARGO_N": {
     "description": "",
-    "message": "Товар: %{mass}т"
+    "message": "Товар: %{mass} т."
   },
   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
     "description": "",
@@ -953,7 +953,7 @@
   },
   "N_CELSIUS": {
     "description": "",
-    "message": "%temperature Ц"
+    "message": "%temperature °C"
   },
   "N_DAYS": {
     "description": "",
@@ -973,7 +973,7 @@
   },
   "N_WHATEVER_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %units радиуса (%radkm{f.0} км)"
+    "message": "%radius{f.3} %units радиуса (%radkm{f.0} км.)"
   },
   "N_YEARS": {
     "description": "",
@@ -1293,7 +1293,7 @@
   },
   "SHIP_MASS_N_TONNES": {
     "description": "",
-    "message": "Корабна маса: %{mass}т"
+    "message": "Корабна маса: %{mass} т."
   },
   "SHIP_NEARBY": {
     "description": "",

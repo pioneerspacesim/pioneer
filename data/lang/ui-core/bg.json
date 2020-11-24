@@ -469,7 +469,7 @@
   },
   "FAILED": {
     "description": "When failed mission",
-    "message": "Провал"
+    "message": "Неуспешна"
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
@@ -529,7 +529,7 @@
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
-    "message": "Flying in space, relative {primary_info}"
+    "message": "Летене в космоса, спрямо {primary_info}"
   },
   "FLIGHTLOG_HYPERSPACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
@@ -565,7 +565,7 @@
   },
   "FLYING": {
     "description": "",
-    "message": "Flying"
+    "message": "Летене"
   },
   "FORWARD_ACCEL": {
     "description": "",
@@ -1257,7 +1257,7 @@
   },
   "MAX": {
     "description": "",
-    "message": "макс"
+    "message": "макс."
   },
   "MAXIMUM_CREW": {
     "description": "",
@@ -1445,7 +1445,7 @@
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
-    "message": "{range} светлинни години ({maxRange} макс)"
+    "message": "{range} светлинни години ({maxRange} макс.)"
   },
   "N_OCCUPIED_PASSENGER_CABINS": {
     "description": "",
@@ -1797,7 +1797,7 @@
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
-    "message": "Стартирай на Бърнардовата Звезда"
+    "message": "Стартирай на Барнардовата Звезда"
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
@@ -1965,7 +1965,7 @@
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
-    "message": "Незаконна стрелба с оръжие"
+    "message": "Незаконно използване на оръжие"
   },
   "UNRELIABLE": {
     "description": "",
@@ -2009,11 +2009,11 @@
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
-    "message": "VSync"
+    "message": "Верт. Синхр."
   },
   "VSYNC_DESC": {
     "description": "",
-    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+    "message": "Вертикалната синхронизация може да премахне визуалните неточности и забавянето при въвеждане."
   },
   "WAGE": {
     "description": "Salary of crew shown in crew roster",
@@ -2057,7 +2057,7 @@
   },
   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
     "description": "",
-    "message": "You have {units} units in your cargohold"
+    "message": "Имате {units} единици във Вашия товарен трюм"
   },
   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
     "description": "",
