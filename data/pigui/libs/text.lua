@@ -1,6 +1,7 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Engine = require 'Engine'
+local Format = require 'Format'
 local Lang = require 'Lang'
 local Game = require 'Game'
 local ui = require 'pigui.baseui'
@@ -158,6 +159,8 @@ ui.Format = {
 		return string.format("%0.2f", distance / 1000 / 1000), lc.UNIT_MILLION_METERS_PER_SECOND
 		-- no need for au/s
 	end,
+	Money = Format.Money,
+	Date = Format.Date,
 	Datetime = function(date)
 		local second, minute, hour, day, month, year = Game.GetPartsFromDateTime(date)
 		return string.format("%4i-%02i-%02i %02i:%02i:%02i", year, month, day, hour, minute, second)
