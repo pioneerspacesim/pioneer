@@ -5,17 +5,14 @@ local Game = require 'Game'
 local ui = require 'pigui'
 local TabView = require 'pigui.views.tab-view'
 
-local infoView
+local infoView = TabView.New("info")
+infoView.windowPadding = ui.rescaleUI(Vector2(24, 24), Vector2(1920, 1200))
 
-if not infoView then
-	infoView = TabView.New("info")
-
-	ui.registerModule("game", function()
-		infoView:renderTabView()
-		if infoView.isActive and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
-			Game.SetView("world")
-		end
-	end)
-end
+ui.registerModule("game", function()
+	infoView:renderTabView()
+	if infoView.isActive and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
+		Game.SetView("world")
+	end
+end)
 
 return infoView

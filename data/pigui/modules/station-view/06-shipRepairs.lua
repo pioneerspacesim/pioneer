@@ -6,7 +6,7 @@ local StationView = require 'pigui.views.station-view'
 local ShipDef = require "ShipDef"
 local Game = require "Game"
 local Rand = require "Rand"
-local InfoFace = require 'ui/PiguiFace'
+local PiGuiFace = require 'ui/PiguiFace'
 local Format = require "Format"
 local Character = require "Character"
 local ModalWindow = require 'pigui.libs.modal-win'
@@ -150,8 +150,8 @@ StationView:registerView({
 			if (stationSeed ~= station.seed) then
 				stationSeed = station.seed
 				local rand = Rand.New(station.seed .. '-repair-guy')
-				face = InfoFace.New(Character.New({ title = l.CHIEF_MECHANIC }, rand),
-							{windowPadding = widgetSizes.windowPadding, itemSpacing = widgetSizes.itemSpacing, size = widgetSizes.faceSize})
+				face = PiGuiFace.New(Character.New({ title = l.CHIEF_MECHANIC }, rand),
+							{itemSpacing = widgetSizes.itemSpacing})
 			end
 		end
 	end,
