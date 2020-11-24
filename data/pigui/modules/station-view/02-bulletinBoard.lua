@@ -9,7 +9,7 @@ local StationView = require 'pigui.views.station-view'
 local Table = require 'pigui.libs.table'
 local ChatForm = require 'pigui.libs.chat-form'
 local ModalWindow = require 'pigui.libs.modal-win'
-local PiImage = require 'ui.PiImage'
+local PiImage = require 'pigui.libs.image'
 
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium

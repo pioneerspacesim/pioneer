@@ -8,7 +8,7 @@ local ShipDef = require 'ShipDef'
 local Equipment = require 'Equipment'
 local StationView = require 'pigui.views.station-view'
 local Table = require 'pigui.libs.table'
-local PiImage = require 'ui/PiImage'
+local PiImage = require 'pigui.libs.image'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 
 local ui = require 'pigui'
