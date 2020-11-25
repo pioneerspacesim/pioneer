@@ -8,11 +8,11 @@
 #include "DeleteEmitter.h"
 #include "Frame.h"
 #include "Input.h"
-#include "pigui/PiGuiView.h"
+#include "enum_table.h"
 #include "graphics/Drawables.h"
 #include "matrix4x4.h"
+#include "pigui/PiGuiView.h"
 #include "vector3.h"
-#include "enum_table.h"
 
 class StarSystem;
 class SystemBody;
@@ -45,7 +45,6 @@ enum ShowLagrange {
 	LAG_OFF
 };
 
-
 class TransferPlanner {
 public:
 	TransferPlanner();
@@ -70,46 +69,48 @@ private:
 	double m_dvPrograde;
 	double m_dvNormal;
 	double m_dvRadial;
-	double m_factor; // dv multiplier
+	double m_factor;				   // dv multiplier
 	const double m_factorFactor = 5.0; // m_factor multiplier
 	vector3d m_position;
 	vector3d m_velocity;
 	double m_startTime;
 };
 
-struct Projectable
-{
-	enum types { // <enum name=ProjectableTypes scope='Projectable' public>
-		NONE = 0, // empty projectable, don't try to get members
+struct Projectable {
+	enum types {	// <enum name=ProjectableTypes scope='Projectable' public>
+		NONE = 0,	// empty projectable, don't try to get members
 		OBJECT = 1, // clickable space object, may be without phys.body (other starsystem)
 		L4 = 2,
 		L5 = 3,
 		APOAPSIS = 4,
 		PERIAPSIS = 5
 	} type;
-	enum bases { // <enum name=ProjectableBases scope='Projectable' public>
+	enum bases {		// <enum name=ProjectableBases scope='Projectable' public>
 		SYSTEMBODY = 0, // ref class SystemBody, may not have a physical body
-		BODY = 1, // generic body
+		BODY = 1,		// generic body
 		SHIP = 2,
 		PLAYER = 3, // player's ship
 		PLANNER = 4 // player's ship planned by transfer planner, refers to player's object
 	} base;
-	union{
-		const Body* body;
-		const SystemBody* sbody;
+	union {
+		const Body *body;
+		const SystemBody *sbody;
 	} ref;
 	vector3d screenpos; // x,y - screen coordinate, z - in NDC
 	vector3d worldpos;
 
-	Projectable(const types t, const bases b, const Body* obj) : type(t), base(b)
+	Projectable(const types t, const bases b, const Body *obj) :
+		type(t), base(b)
 	{
 		ref.body = obj;
 	}
-	Projectable(const types t, const bases b, const SystemBody* obj) : type(t), base(b)
+	Projectable(const types t, const bases b, const SystemBody *obj) :
+		type(t), base(b)
 	{
 		ref.sbody = obj;
 	}
-	Projectable() : type(NONE) {}
+	Projectable() :
+		type(NONE) {}
 };
 
 class SystemView : public PiGuiView, public DeleteEmitter {
@@ -120,10 +121,10 @@ public:
 	virtual void Draw3D();
 	// virtual void OnSwitchTo() { Update(); Draw3D(); }
 
-	Projectable* GetSelectedObject();
+	Projectable *GetSelectedObject();
 	void SetSelectedObject(Projectable::types type, Projectable::bases base, SystemBody *sb);
 	void SetSelectedObject(Projectable::types type, Projectable::bases base, Body *b);
-	TransferPlanner* GetTransferPlanner() const { return m_planner; }
+	TransferPlanner *GetTransferPlanner() const { return m_planner; }
 	double GetOrbitPlannerStartTime() const { return m_planner->GetStartTime(); }
 	double GetOrbitPlannerTime() const { return m_time; }
 	void AccelerateTime(float step);
@@ -148,7 +149,7 @@ public:
 	};
 
 	Color svColor[8];
-	void SetColor(ColorIndex color_index, Color* color_value) { svColor[color_index] = *color_value; }
+	void SetColor(ColorIndex color_index, Color *color_value) { svColor[color_index] = *color_value; }
 
 private:
 	struct InputBindings : public Input::InputFrame {
@@ -185,8 +186,8 @@ private:
 	void AddProjected(Projectable::types type, Projectable::bases base, T *ref, const vector3d &worldpos);
 	void CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos);
 	void CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos);
-	double GetOrbitTime(double t, const SystemBody* b);
-	double GetOrbitTime(double t, const Body* b);
+	double GetOrbitTime(double t, const SystemBody *b);
+	double GetOrbitTime(double t, const Body *b);
 
 	Game *m_game;
 	RefCountedPtr<StarSystem> m_system;
