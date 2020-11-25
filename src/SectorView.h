@@ -94,7 +94,7 @@ protected:
 		Axis *mapViewYaw;
 		Axis *mapViewPitch;
 		Axis *mapViewZoom;
-		
+
 		void RegisterBindings() override;
 	} InputBindings;
 
@@ -225,7 +225,6 @@ private:
 	Graphics::Drawables::Lines m_lines;
 	Graphics::Drawables::Lines m_sectorlines;
 	Graphics::Drawables::Points m_farstarsPoints;
-
 };
 
 #endif /* _SECTORVIEW_H */
