@@ -1,7 +1,7 @@
 {
   "CLEARANCE_ALREADY_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance already granted. Proceed to docking bay {bay}."
+    "message": "请求已经接受.前往停靠口 {bay}."
   },
   "CLEARANCE_DENIED_NO_BAYS": {
     "description": "",
@@ -9,11 +9,11 @@
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
-    "message": "拒绝放行。您的船太远，无法验证身份。"
+    "message": "拒绝放行。您的飞船太远，无法验证身份。"
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance granted. Proceed to docking bay {bay}."
+    "message": "请求已接受. 前往停靠口 {bay}."
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
@@ -21,62 +21,62 @@
   },
   "STATION_GRAV": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}."
+    "message": "局部重力{grav}."
   },
   "STATION_GRAV_PRESS": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}, pressure is {press}."
+    "message": "局部重力{grav},压力{press}."
   },
   "WATCH_FOR_TRAFFIC_ON_APPROACH": {
     "description": "",
-    "message": "Please watch for traffic on your approach."
+    "message": "请注意靠近的飞船."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel} you are entering {station} space. Please follow local regulations."
+    "message": "{playerShipLabel}您正在进入{station}空间.请遵守当地法规."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_2": {
     "description": "",
-    "message": "{playerShipLabel}, we have you on the radar. You are in {station} controlled space."
+    "message": "{playerShipLabel}我们注意到你了。你在{station}领空。"
   },
   "YOU_ARE_ENTERING_STATION_SPACE_3": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. You are entering our controlled space."
+    "message": "{playerShipLabel}，这是{station}STC。你进入了我们领空。"
   },
   "YOU_ARE_ENTERING_STATION_SPACE_4": {
     "description": "",
-    "message": "We have you flying into {station} controlled space, {playerShipLabel}."
+    "message": "我们让你飞到{station}领空，{playerShipLabel}。"
   },
   "YOU_ARE_ENTERING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, welcome to {station}. Please keep in mind that regulations apply as you are flying through our jurisdiction."
+    "message": "{playerShipLabel}，欢迎来到{station}。请记住，当您飞越我们的领空时，遵守规定"
   },
   "YOU_ARE_ENTERING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC speaking. You are entering controlled space, and I would appreciate it if you didn't make me fill out any paperwork today."
+    "message": "{playerShipLabel}，我是{station}STC。你正在进入我们领空，如果你今天不让我填写任何文件，我将不胜感激。"
   },
   "YOU_ARE_LEAVING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel}, you are clear of {station} controlled space."
+    "message": "{playerShipLabel}，你不能进入{station}领空"
   },
   "YOU_ARE_LEAVING_STATION_SPACE_2": {
     "description": "",
-    "message": "You have left {station} space, {playerShipLabel}."
+    "message": "您已经离开了{station}领空，{playerShipLabel}."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_3": {
     "description": "",
-    "message": "{playerShipLabel}, you have cleared {station} controlled space. Restrictions withdrawn."
+    "message": "{playerShipLabel}，您已经清除了{station}领空,取消限制."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_4": {
     "description": "",
-    "message": "You are flying out of {station} space, {playerShipLabel}. Logging you out."
+    "message": "你正在飞离{station}空间站，{playershipbalel}让你登出。"
   },
   "YOU_ARE_LEAVING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, you are leaving {station} space. Have a pleasant journey."
+    "message": "{playerShipLabel}，您正在离开{station}空间站。旅途愉快。"
   },
   "YOU_ARE_LEAVING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. I see you exiting our controlled space, be safe out there."
+    "message": "{playerShipLabel}，这是{station}STC。我看到你离开我们的领空，在外面注意安全。"
   }
 }
