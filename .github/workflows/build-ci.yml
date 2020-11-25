@@ -34,6 +34,7 @@ jobs:
 
     - name: Install Dependencies
       run: |
+        sudo apt-fast update
         sudo apt-fast install -y ${{ env.packages }}
 
     - name: Build GCC
@@ -65,6 +66,7 @@ jobs:
 
     - name: Install Dependencies
       run: |
+        sudo apt-fast update
         sudo apt-fast install -y clang-8 ${{ env.packages }}
 
     - name: Build Clang
