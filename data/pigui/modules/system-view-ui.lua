@@ -353,8 +353,7 @@ end
 
 function Windows.systemName.Show()
 	local path = Game.sectorView:GetSelectedSystemPath()
-	local starsystem = path:GetStarSystem()
-	ui.text(starsystem.name .. " (" .. path.sectorX .. ", " .. path.sectorY .. ", " .. path.sectorZ .. ")")
+	ui.text(ui.Format.SystemPath(path))
 end
 
 -- forked from data/pigui/views/game.lua

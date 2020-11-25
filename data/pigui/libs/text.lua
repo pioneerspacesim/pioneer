@@ -180,6 +180,9 @@ ui.Format = {
 		elseif number < 1e9 then return s .. fmt:format(number / 1e6, "mil")
 		elseif number < 1e12 then return s .. fmt:format(number / 1e9, "bil")
 		else return s .. fmt:format(number / 1e12, "trn") end
+	end,
+	SystemPath = function(path)
+		return path:GetStarSystem().name.." ("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
 	end
 }
 

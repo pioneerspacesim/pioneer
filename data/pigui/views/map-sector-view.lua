@@ -146,7 +146,7 @@ function Windows.systemInfo:Show()
 	ui.withID(label, function()
 		-- selected system label
 		textIcon(icons.info)
-		ui.text(starsystem.name .. string.interp(" ({sectorX}, {sectorY}, {sectorZ} : {systemIndex})", systempath))
+		ui.text(ui.Format.SystemPath(systempath))
 		if not sectorView:IsCenteredOn(systempath) then
 			-- add button to center on the object
 			ui.sameLine()
@@ -399,9 +399,8 @@ end
 
 function Windows.current.Show()
 	local path = sectorView:GetCurrentSystemPath()
-	local starsystem = path:GetStarSystem()
 	textIcon(icons.navtarget)
-	if ui.selectable(' ' .. starsystem.name .. " (" .. path.sectorX .. ", " .. path.sectorY .. ", " .. path.sectorZ .. ")") then
+	if ui.selectable(' ' .. ui.Format.SystemPath(path)) then
 		sectorView:SwitchToPath(path)
 	end
 end

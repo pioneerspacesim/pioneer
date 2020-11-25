@@ -240,10 +240,9 @@ local function displayScreenshotInfo()
 	if not Engine.GetDisableScreenshotInfo() then
 		local current_system = Game.system
 		if current_system then
-			local current_path = current_system.path
 			local frame = player.frameBody
 			if frame then
-				local info = frame.label .. ", " .. current_system.name .. " (" .. current_path.sectorX .. ", " .. current_path.sectorY .. ", " .. current_path.sectorZ .. ")"
+				local info = frame.label .. ", " .. ui.Format.SystemPath(current_system.path)
 				ui.addStyledText(Vector2(20, 20), ui.anchor.left, ui.anchor.top, info , colors.white, pionillium.large)
 			end
 		end

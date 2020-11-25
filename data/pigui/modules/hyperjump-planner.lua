@@ -90,7 +90,7 @@ local function showInfo()
 				start = jump.path
 			end
 
-			if ui.selectable(current_system.name .. " (" .. current_path.sectorX .. ", " .. current_path.sectorY .. ", " .. current_path.sectorZ ..")") then
+			if ui.selectable(ui.Format.SystemPath(current_path)) then
 				sectorView:SwitchToPath(current_path)
 			end
 		else -- no current path => we are hyperjumping => no current system
@@ -101,9 +101,8 @@ local function showInfo()
 
 		if route_jumps > 0 then
 			local final_path = hyperjump_route[route_jumps].path
-			local final_sys = final_path:GetStarSystem()
 			ui.sameLine()
-			if ui.selectable(final_sys.name .. " (" .. final_path.sectorX .. ", " .. final_path.sectorY .. ", " .. final_path.sectorZ .. ")", false, {}) then
+			if ui.selectable(ui.Format.SystemPath(final_path), false, {}) then
 				sectorView:SwitchToPath(final_path)
 			end
 		else
