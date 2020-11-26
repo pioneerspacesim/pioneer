@@ -7,6 +7,8 @@ November 2020
 	 * Improved missile damage calculations, slightly boosted damage (#4927)
      * More lively station traffic control communications (#4987)
      * Add tag display to ModelViewer (#5010)
+     * Port Crew Roster to PiGui (#5022)
+     * Port Active Missions display to PiGui (#5025)
 
    * Internal Changes
      * Decrease the maximum background star size to 0.3 (#4991)
