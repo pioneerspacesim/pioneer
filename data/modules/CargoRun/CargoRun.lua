@@ -307,6 +307,17 @@ local getNumberOfFlavours = function (str)
 	return num - 1
 end
 
+local getRiskMsg = function (mission)
+	if mission.localdelivery then
+		return l.RISK_1 -- very low risk -> no specific text to give no confusing answer
+	else
+		local branch
+		if mission.wholesaler then branch = "WHOLESALER" else branch = mission.branch end
+		return l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1)
+			or l["RISK_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK") - 1)) + 1]
+	end
+end
+
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -420,13 +431,7 @@ local onChat = function (form, ref, option)
 			or l["URGENCY_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY") - 1)) + 1], { date = Format.Date(ad.due) }))
 
 	elseif option == 5 then
-		if ad.localdelivery then -- very low risk -> no specific text to give no confusing answer
-			form:SetMessage(l.RISK_1)
-		else
-			local branch
-			if ad.wholesaler then branch = "WHOLESALER" else branch = ad.branch end
-			form:SetMessage(l:get("RISK_" .. branch .. "_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1) or l["RISK_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK") - 1)) + 1])
-		end
+		form:SetMessage(getRiskMsg(ad))
 	end
 
 	form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
@@ -899,17 +904,73 @@ local onGameEnd = function ()
 	escort_ships = {}
 end
 
-local onClick = function (mission)
-	local danger
+local buildMissionDescription = function(mission)
+	local ui = require 'pigui'
+	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	if mission.localdelivery then
-		danger = l.RISK_1
+	local danger = getRiskMsg(mission)
+
+	desc.description = mission.introtext:interp({
+		name = mission.client.name,
+		cargoname = mission.cargotype:GetName(),
+		starport = mission.location:GetSystemBody().name,
+		system = mission.location:GetStarSystem().name,
+		sectorx = mission.location.sectorX,
+		sectory = mission.location.sectorY,
+		sectorz = mission.location.sectorZ,
+		dom_starport = mission.domicile:GetSystemBody().name,
+		dom_system = mission.domicile:GetStarSystem().name,
+		dom_sectorx = mission.domicile.sectorX,
+		dom_sectory = mission.domicile.sectorY,
+		dom_sectorz = mission.domicile.sectorZ,
+		cash = ui.Format.Money(mission.reward,false),
+		dist = dist
+	})
+
+	desc.location = mission.location
+	desc.client = mission.client
+
+	if not mission.pickup then
+		desc.details = {
+			l.DELIVER_TO,
+			{ l.SPACEPORT,	mission.location:GetSystemBody().name },
+			{ l.SYSTEM,		ui.Format.SystemPath(mission.location) },
+			{ l.DISTANCE,	dist.." "..l.LY },
+			false,
+			{ l.DEADLINE,	ui.Format.Date(mission.due) },
+			{ l.CARGO,		mission.cargotype:GetName() },
+			{ l.AMOUNT,		mission.amount.."t " },
+			{ l.DANGER,		danger },
+		}
 	else
-		local branch
-		if mission.wholesaler then branch = "WHOLESALER" else branch = mission.branch end
-		danger = (l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1)
-			or l["RISK_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK") - 1)) + 1])
+		local domicileDist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???"
+		local is_cargo_loaded = mission.cargo_picked_up and l.CARGO_IS_LOADED or l.CARGO_IS_NOT_LOADED
+
+		desc.details = {
+			l.PICKUP_FROM,
+			{ l.SPACEPORT,	mission.location:GetSystemBody().name },
+			{ l.SYSTEM,		ui.Format.SystemPath(mission.location) },
+			{ l.DISTANCE,	dist.." "..l.LY },
+			l.DELIVER_TO,
+			{ l.SPACEPORT,	mission.domicile:GetSystemBody().name },
+			{ l.SYSTEM,		ui.Format.SystemPath(mission.domicile) },
+			{ l.DISTANCE,	domicileDist.. " " .. l.LY },
+			false,
+			{ l.DEADLINE,	ui.Format.Date(mission.due) },
+			{ l.CARGO,		mission.cargotype:GetName() },
+			{ l.AMOUNT,		mission.amount.."t "..is_cargo_loaded },
+			{ l.DANGER,		danger },
+		}
+
+		desc.returnLocation = mission.domicile
 	end
+
+	return desc
+end
+
+local onClick = function (mission)
+	local danger = getRiskMsg(mission)
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 
 	if not mission.pickup then return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.introtext):interp({name = mission.client.name,
@@ -1178,6 +1239,6 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('CargoRun',l.CARGORUN,onClick)
+Mission.RegisterType('CargoRun',l.CARGORUN,onClick, buildMissionDescription)
 
 Serializer:Register("CargoRun", serialize, unserialize)

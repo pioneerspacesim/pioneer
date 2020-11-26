@@ -14,14 +14,18 @@ function textTable.draw(t)
 	for _, entry in ipairs(t) do
 		if type(entry) == "table" then
 			ui.text(entry[1])
-			ui.sameLine(ui.getContentRegion().x - ui.calcTextSize(entry[2]).x)
-			ui.text(entry[2])
+			local width, textWidth = ui.getContentRegion().x, ui.calcTextSize(entry[2]).x
+			-- FIXME: add support for ui.getStyleVar("ItemSpacing"). Hardcoding to 8 for now
+			ui.sameLine(math.max(width - textWidth, width / 2 + 8))
+			ui.textWrapped(entry[2])
 		elseif type(entry) == "string" then
 			ui.spacing()
 			ui.text(entry)
 			ui.separator()
 		elseif entry == false then
 			ui.spacing()
+		elseif type(entry) == "function" then
+			entry()
 		end
 	end
 end
@@ -84,7 +88,10 @@ function textTable.drawTable(nCols, widths, t)
 	local font = t.font and pigui:PushFont(t.font.name, t.font.size)
 	local color = t.color and pigui.PushStyleColor('Text', t.color)
 
-	for k, v in ipairs(t) do drawRow(v, nCols) end
+	for k, v in ipairs(t) do
+		drawRow(v, nCols)
+		if t.separated and k >= 1 then ui.separator() end
+	end
 
 	-- pop font/color
 	if font then pigui:PopFont() end

@@ -2143,6 +2143,93 @@ local onGameStart = function ()
 	end
 end
 
+local buildMissionDescription = function(mission)
+	local ui = require 'pigui'
+	local textTable = require 'pigui.libs.text-table'
+
+	local desc = {}
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.system_target:GetStarSystem())) or "???"
+	if mission.flavour.loctype ~= "FAR_SPACE" and Game.system then
+		dist = ui.Format.Distance(mission.dist)
+	else
+		dist = dist .." ".. l.LY
+	end
+
+	desc.client = mission.client
+	desc.location = mission.location
+
+	-- default to place-of-assistance reward
+	local paymentAddress = l.PLACE_OF_ASSISTANCE
+	local paymentLocation = mission.system_target
+
+	if not mission.flavour.reward_immediate then
+		paymentAddress = mission.station_local:GetSystemBody().name
+		paymentLocation = mission.system_local
+		desc.returnLocation = mission.station_local
+	end
+
+	local targetLocation
+	if mission.lat == 0 and mission.long == 0 then
+		targetLocation = mission.planet_target:GetSystemBody().name..": "..l.ORBIT
+	else
+		targetLocation = mission.planet_target:GetSystemBody().name..": "..
+			l.LAT.." "..decToDegMinSec(math.rad2deg(mission.lat)).." / "..
+			l.LON.." "..decToDegMinSec(math.rad2deg(mission.long))
+	end
+
+	desc.details = {
+		{ l.TARGET_SHIP_ID, mission.shipdef_name.." <"..mission.shiplabel..">" },
+		{ l.LAST_KNOWN_LOCATION, targetLocation },
+		{ l.SYSTEM, ui.Format.SystemPath(mission.system_target) },
+		{ l.DISTANCE, dist },
+		false,
+		{ l.REWARD, ui.Format.Money(mission.reward) },
+		{ l.PAYMENT_LOCATION, paymentAddress },
+		{ l.SYSTEM, ui.Format.SystemPath(paymentLocation) },
+		{ l.DEADLINE, ui.Format.Date(mission.due) },
+	}
+
+	local pickup_comm_text = 0
+	local count = 0
+	for commodity, amount in pairs(mission.pickup_comm) do
+		if count == 0 then
+			pickup_comm_text = commodity:GetName().." ("..amount..")"
+		else
+			pickup_comm_text = pickup_comm_text.."\n"..commodity:GetName().." ("..amount..")"
+		end
+	end
+
+	local deliver_comm_text = 0
+	local count = 0
+	for commodity, amount in pairs(mission.deliver_comm) do
+		if count == 0 then
+			deliver_comm_text = commodity:GetName().." ("..amount..")"
+		else
+			deliver_comm_text = deliver_comm_text.."\n"..commodity:GetName().." ("..amount..")"
+		end
+	end
+
+	local pickupTable = {
+		{ l.CREW, l.PASSENGERS, l.COMMODITIES },
+		{ mission.pickup_crew, mission.pickup_pass, pickup_comm_text },
+	}
+
+	local deliverTable = {
+		{ l.CREW, l.PASSENGERS, l.COMMODITIES },
+		{ mission.deliver_crew, mission.deliver_pass, deliver_comm_text },
+	}
+
+	desc.customDetails = function()
+		ui.text(l.PICKUP)
+		textTable.drawTable(3, nil, pickupTable)
+		ui.newLine()
+		ui.text(l.DELIVERY)
+		textTable.drawTable(3, nil, deliverTable)
+	end
+
+	return desc
+end
+
 local onClick = function (mission)
 	-- Show mission details on the mission info screen once accepted.
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.system_target:GetStarSystem())) or "???"
@@ -2318,6 +2405,6 @@ Event.Register("onShipUndocked", onShipUndocked)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onShipDestroyed", onShipDestroyed)
 
-Mission.RegisterType("searchrescue",l.SEARCH_RESCUE,onClick)
+Mission.RegisterType("searchrescue",l.SEARCH_RESCUE,onClick, buildMissionDescription)
 
 Serializer:Register("searchrescue", serialize, unserialize)

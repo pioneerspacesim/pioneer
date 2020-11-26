@@ -507,6 +507,45 @@ local onGameEnd = function ()
 	end
 end
 
+local buildMissionDescription = function(mission)
+	local ui = require 'pigui'
+
+	local desc = {}
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+	local type = l["MISSION_TYPE_" .. math.ceil(mission.dedication * NUMSUBTYPES)]
+
+	desc.description = mission.introtext:interp({
+		name    = mission.client.name,
+		org     = mission.org,
+		cash    = Format.Money(mission.reward, false),
+		area    = mission.location:GetSystemBody().name,
+		system  = mission.location:GetStarSystem().name,
+		sectorx = mission.location.sectorX,
+		sectory = mission.location.sectorY,
+		sectorz = mission.location.sectorZ,
+		mission = type,
+		dist    = dist
+	})
+
+	desc.client = mission.client
+	desc.location = mission.location
+
+	local paymentLoc = mission.rendezvous and ui.Format.SystemPath(mission.rendezvous)
+		or string.interp(l[mission.flavour.id .. "_LAND_THERE"], { org = mission.org })
+
+	desc.details = {
+		{ l.MISSION, type },
+		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
+		{ l.AREA, mission.location:GetSystemBody().name },
+		{ l.DISTANCE, dist.." "..l.LY },
+		{ l.TIME_LIMIT, ui.Format.Date(mission.due) },
+		{ l.DANGER, l["RISK_" .. math.ceil(mission.risk * (getNumberOfFlavours("RISK")))] },
+		{ l.PAYMENT_LOCATION, paymentLoc }
+	}
+
+	return desc
+end
+
 local onClick = function (mission)
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	local type = l["MISSION_TYPE_" .. math.ceil(mission.dedication * NUMSUBTYPES)]
@@ -634,6 +673,6 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType("Combat",l.COMBAT,onClick)
+Mission.RegisterType("Combat",l.COMBAT,onClick, buildMissionDescription)
 
 Serializer:Register("Combat", serialize, unserialize)

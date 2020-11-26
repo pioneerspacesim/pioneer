@@ -478,6 +478,37 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
+local function buildMissionDescription(mission)
+	local ui = require 'pigui'
+	local desc = {}
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+
+	desc.description = flavours[mission.flavour].introtext:interp({
+		name   = mission.client.name,
+		target = mission.target,
+		system = mission.location:GetStarSystem().name,
+		cash   = ui.Format.Money(mission.reward,false),
+		dist  = dist
+	})
+
+	desc.details = {
+		{ l.TARGET_NAME, mission.target },
+		{ l.SPACEPORT, mission.location:GetSystemBody().name },
+		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
+		{ l.DISTANCE, dist.." "..l.LY },
+		false,
+		{ l.SHIP, mission.shipname },
+		{ l.SHIP_ID, mission.shipregid },
+		{ l.TARGET_WILL_BE_LEAVING_SPACEPORT_AT, ui.Format.Date(mission.due) }
+	}
+
+	desc.location = mission.location
+	desc.returnLocation = mission.backstation
+	desc.client = mission.client
+
+	return desc
+end
+
 local onClick = function (mission)
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	return ui:Grid(2,1)
@@ -604,6 +635,6 @@ Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Assassination',l.ASSASSINATION,onClick)
+Mission.RegisterType('Assassination',l.ASSASSINATION,onClick, buildMissionDescription)
 
 Serializer:Register("Assassination", serialize, unserialize)

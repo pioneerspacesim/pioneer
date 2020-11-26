@@ -159,7 +159,7 @@ Mission = {
 --    experimental
 --
 
-	RegisterType = function (typeid, display, onClick)
+	RegisterType = function (typeid, display, onClick, buildPiGui)
 		if not typeid or (type(typeid)~='string') then
 			error('typeid: String expected')
 		end
@@ -174,6 +174,7 @@ Mission = {
 			error('onClick: function expected')
 		else
 			missiontype.onClick = onClick -- Might be nil; that's fine
+			missiontype.buildPiGui = buildPiGui
 		end
 		MissionRegister[typeid] = missiontype
 	end,
@@ -306,8 +307,9 @@ Mission = {
 -- experimental
 --
 	GetClick = function (self)
-		return (MissionRegister[self.type] and MissionRegister[self.type].onClick)
-				or function (ref) return Engine.ui:Label(l.NOT_FOUND) end -- XXX don't translate things in libs
+		return MissionRegister[self.type].onClick, MissionRegister[self.type].buildPiGui
+		-- return (MissionRegister[self.type] and MissionRegister[self.type].onClick)
+		-- 		or function (ref) return Engine.ui:Label(l.NOT_FOUND) end -- XXX don't translate things in libs
 	end,
 
 --

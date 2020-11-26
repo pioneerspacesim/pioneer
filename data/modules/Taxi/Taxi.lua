@@ -470,6 +470,37 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
+local buildMissionDescription = function(mission)
+	local ui = require 'pigui'
+
+	local desc = {}
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+
+	desc.description = flavours[mission.flavour].introtext:interp({
+		name   = mission.client.name,
+		system = mission.location:GetStarSystem().name,
+		sectorx = mission.location.sectorX,
+		sectory = mission.location.sectorY,
+		sectorz = mission.location.sectorZ,
+		cash   = Format.Money(mission.reward,false),
+		dist  = dist
+	})
+
+	desc.client = mission.client
+	desc.location = mission.location
+
+	desc.details = {
+		{ l.FROM, ui.Format.SystemPath(mission.start) },
+		{ l.TO, ui.Format.SystemPath(mission.location) },
+		{ l.GROUP_DETAILS, string.interp(flavours[mission.flavour].howmany, {group = mission.group}) },
+		{ l.DEADLINE, ui.Format.Date(mission.due) },
+		{ l.DANGER, flavours[mission.flavour].danger },
+		{ l.DISTANCE, dist.." "..l.LY }
+	}
+
+	return desc
+end
+
 local onClick = function (mission)
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	return ui:Grid(2,1)
@@ -576,6 +607,6 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Taxi',l.TAXI,onClick)
+Mission.RegisterType('Taxi',l.TAXI,onClick, buildMissionDescription)
 
 Serializer:Register("Taxi", serialize, unserialize)
