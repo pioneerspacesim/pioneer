@@ -15,7 +15,6 @@
 #include "lua/LuaManager.h"
 #include "pigui/PiGui.h"
 #include "scenegraph/SceneGraph.h"
-#include "ui/Context.h"
 
 #include <memory>
 

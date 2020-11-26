@@ -47,12 +47,6 @@ local ModelSkin = require 'SceneGraph.ModelSkin'
 local l = Lang.GetResource("module-searchrescue")
 local lc = Lang.GetResource 'core'
 
-local InfoFace = require 'ui.InfoFace'
-local NavButton = require 'ui.NavButton'
-
--- Get the UI class
-local ui = Engine.ui
-
 -- basic variables for mission creation
 local max_mission_dist = 30          -- max distance for long distance mission target location [ly]
 local max_close_dist = 5000          -- max distance for "CLOSE_PLANET" target location [km]
@@ -2231,137 +2225,6 @@ local buildMissionDescription = function(mission)
 	return desc
 end
 
-local onClick = function (mission)
-	-- Show mission details on the mission info screen once accepted.
-	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.system_target:GetStarSystem())) or "???"
-
-	local dist_for_text
-	if mission.flavour.loctype ~= "FAR_SPACE" then
-		local au = mToAU(mission.dist)
-		if au > 0.01 then
-			dist_for_text = string.format("%.2f", au).." "..l.AU
-		else
-			dist_for_text = string.format("%.0f", mission.dist/1000).." "..l.KM
-		end
-	else
-		dist_for_text = dist.." "..lc.UNIT_LY
-	end
-
-	local location_for_text
-	if mission.lat == 0 and mission.long == 0 then
-		location_for_text = mission.planet_target:GetSystemBody().name.."\n"..l.ORBIT
-	else
-		location_for_text = mission.planet_target:GetSystemBody().name.."\n"..
-			l.LAT.." "..decToDegMinSec(math.rad2deg(mission.lat)).." / "..
-			l.LON.." "..decToDegMinSec(math.rad2deg(mission.long))
-	end
-
-	local payment_address, payment_system, navbutton
-	if mission.flavour.reward_immediate == true then
-		payment_address = l.PLACE_OF_ASSISTANCE
-		payment_system = mission.system_target:GetStarSystem().name
-		navbutton = ui:Margin(0)
-	else
-		payment_address = mission.station_local:GetSystemBody().name
-		payment_system = mission.system_local:GetStarSystem().name
-		navbutton = NavButton.New(l.SET_RETURN_ROUTE, mission.station_local)
-	end
-
-	-- navbutton target (system if out-of-system jump, target ship if in system)
-	local navbutton_target
-	if not Game.system or mission.planet_target:IsSameSystem(Game.system.path) and mission.target then
-		navbutton_target = mission.target
-	else
-		navbutton_target = mission.planet_target
-	end
-
-	local pickup_comm_text = 0
-	local count = 0
-	for commodity, amount in pairs(mission.pickup_comm) do
-		if count == 0 then
-			pickup_comm_text = commodity:GetName().." ("..amount..")"
-		else
-			pickup_comm_text = pickup_comm_text.."\n"..commodity:GetName().." ("..amount..")"
-		end
-	end
-
-	local deliver_comm_text = 0
-	local count = 0
-	for commodity, amount in pairs(mission.deliver_comm) do
-		if count == 0 then
-			deliver_comm_text = commodity:GetName().." ("..amount..")"
-		else
-			deliver_comm_text = deliver_comm_text.."\n"..commodity:GetName().." ("..amount..")"
-		end
-	end
-
-	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox():PackEnd({
-				              ui:Margin(10),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.TARGET_SHIP_ID)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.shipdef_name.." <"..mission.shiplabel..">")})}),
-				              ui:Margin(10),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.LAST_KNOWN_LOCATION)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(location_for_text)})}),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.SYSTEM)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
-						                                                mission.system_target:GetStarSystem().name.." ("
-							                                                ..mission.system_target.sectorX..","
-							                                                ..mission.system_target.sectorY..","
-							                                                ..mission.system_target.sectorZ..")")})}),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DISTANCE)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(dist_for_text)})}),
-				              ui:Margin(5),
-				              NavButton.New(l.SET_AS_TARGET, navbutton_target),
-				              ui:Margin(10),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.REWARD)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Money(mission.reward))})}),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.PAYMENT_LOCATION)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(payment_address)})}),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.SYSTEM)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
-						                                                payment_system.." ("
-							                                                ..mission.system_local.sectorX..","
-							                                                ..mission.system_local.sectorY..","
-							                                                ..mission.system_local.sectorZ..")")})}),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DEADLINE)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Date(mission.due))})}),
-				              ui:Margin(5),
-				              navbutton,
-				              ui:Margin(10),
-				              ui:Grid(1,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.PICKUP)})}),
-				              ui:Grid(3,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.CREW)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(l.PASSENGERS)})})
-					              :SetColumn(2, {ui:VBox():PackEnd({ui:Label(l.COMMODITIES)})}),
-				              ui:Grid(3,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:MultiLineText(mission.pickup_crew)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.pickup_pass)})})
-					              :SetColumn(2, {ui:VBox():PackEnd({ui:MultiLineText(pickup_comm_text)})}),
-				              ui:Margin(5),
-				              ui:Grid(1,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DELIVERY)})}),
-				              ui:Grid(3,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.CREW)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(l.PASSENGERS)})})
-					              :SetColumn(2, {ui:VBox():PackEnd({ui:Label(l.COMMODITIES)})}),
-				              ui:Grid(3,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:MultiLineText(mission.deliver_crew)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.deliver_pass)})})
-					              :SetColumn(2, {ui:VBox():PackEnd({ui:MultiLineText(deliver_comm_text)})})
-		          })})
-		:SetColumn(1, {ui:VBox(10):PackEnd(InfoFace.New(mission.client))})
-end
-
 local onGameEnd = function ()
 	-- Currently just placeholder.
 end
@@ -2406,6 +2269,6 @@ Event.Register("onShipUndocked", onShipUndocked)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onShipDestroyed", onShipDestroyed)
 
-Mission.RegisterType("searchrescue",l.SEARCH_RESCUE,onClick, buildMissionDescription)
+Mission.RegisterType("searchrescue",l.SEARCH_RESCUE, buildMissionDescription)
 
 Serializer:Register("searchrescue", serialize, unserialize)

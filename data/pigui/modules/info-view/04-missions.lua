@@ -112,7 +112,7 @@ local function makeMissionRows()
 			ui.Format.Money(mission.reward),
 		}
 
-		local _, makeForm = mission:GetClick()
+		local makeForm = mission:GetClick()
 		if makeForm then
 			row[6] = function()
 				ui.text(mission.status and l[mission.status] or l.INACTIVE)

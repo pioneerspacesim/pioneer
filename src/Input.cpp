@@ -9,7 +9,6 @@
 #include "SDL.h"
 #include "SDL_events.h"
 #include "SDL_joystick.h"
-#include "ui/Context.h"
 
 #include <array>
 #include <regex>

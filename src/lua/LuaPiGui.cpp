@@ -24,7 +24,6 @@
 #include "pigui/PiGui.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
-#include "ui/Context.h"
 
 #include <iterator>
 #include <numeric>
@@ -2059,13 +2058,6 @@ static int l_pigui_set_mouse_button_state(lua_State *l)
 	int button = LuaPull<int>(l, 1);
 	bool state = LuaPull<bool>(l, 2);
 	Pi::input->SetMouseButtonState(button, state);
-	if (state == false) {
-		// new UI caches which widget should receive the mouse up event
-		// after a mouse down. This function exists exactly because the mouse-up event
-		// never gets delivered after imgui uses it. So reset that context as well.
-		// This can go away when everything is moved to imgui.
-		Pi::ui->ResetMouseActiveReceiver();
-	}
 	return 0;
 }
 

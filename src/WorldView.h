@@ -30,12 +30,6 @@ namespace Gui {
 	class TexturedQuad;
 }
 
-namespace UI {
-	class Widget;
-	class Single;
-	class Label;
-} // namespace UI
-
 class WorldView : public PiGuiView {
 public:
 	static void RegisterInputBindings();

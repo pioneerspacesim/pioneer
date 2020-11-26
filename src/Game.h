@@ -30,7 +30,6 @@ struct InvalidGameStartLocation {
 
 class View;
 class SectorView;
-class UIView;
 class SystemInfoView;
 class SystemView;
 class WorldView;

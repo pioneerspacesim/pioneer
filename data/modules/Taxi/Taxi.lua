@@ -16,15 +16,9 @@ local Ship = require 'Ship'
 local eq = require 'Equipment'
 local utils = require 'utils'
 
-local InfoFace = require 'ui.InfoFace'
-local NavButton = require 'ui.NavButton'
-
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")
 local lc = Lang.GetResource 'core'
-
--- Get the UI class
-local ui = Engine.ui
 
 -- don't produce missions for further than this many light years away
 local max_taxi_dist = 40
@@ -502,94 +496,6 @@ local buildMissionDescription = function(mission)
 	return desc
 end
 
-local onClick = function (mission)
-	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((flavours[mission.flavour].introtext):interp({
-														name   = mission.client.name,
-														system = mission.location:GetStarSystem().name,
-														sectorx = mission.location.sectorX,
-														sectory = mission.location.sectorY,
-														sectorz = mission.location.sectorZ,
-														cash   = Format.Money(mission.reward,false),
-														dist  = dist})
-										),
-										ui:Margin(10),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.FROM)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.start:GetStarSystem().name.." ("..mission.start.sectorX..","..mission.start.sectorY..","..mission.start.sectorZ..")")
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.TO)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.GROUP_DETAILS)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(string.interp(flavours[mission.flavour].howmany, {group = mission.group}))
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DEADLINE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(Format.Date(mission.due))
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DANGER)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(flavours[mission.flavour].danger)
-												})
-											}),
-										ui:Margin(5),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DISTANCE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(dist.." "..lc.UNIT_LY)
-												})
-											}),
-										ui:Margin(5),
-										NavButton.New(l.SET_AS_TARGET, mission.location),
-		})})
-		:SetColumn(1, {
-			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
-		})
-end
-
 local serialize = function ()
 	return { ads = ads, missions = missions, passengers = passengers }
 end
@@ -608,6 +514,6 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Taxi',l.TAXI,onClick, buildMissionDescription)
+Mission.RegisterType('Taxi',l.TAXI, buildMissionDescription)
 
 Serializer:Register("Taxi", serialize, unserialize)

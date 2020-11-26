@@ -16,14 +16,8 @@ local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local utils = require 'utils'
 
-local InfoFace = require 'ui.InfoFace'
-local NavButton = require 'ui.NavButton'
-
 local l = Lang.GetResource("module-deliverpackage")
 local lc = Lang.GetResource 'core'
-
--- Get the UI class
-local ui = Engine.ui
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
@@ -513,87 +507,6 @@ local buildMissionDescription = function(mission)
 	return desc;
 end
 
-
-local onClick = function (mission)
-	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	local danger = getRiskMsg(mission.risk)
-
-	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((flavours[mission.flavour].introtext):interp({
-														name   = mission.client.name,
-														starport = mission.location:GetSystemBody().name,
-														system = mission.location:GetStarSystem().name,
-														sectorx = mission.location.sectorX,
-														sectory = mission.location.sectorY,
-														sectorz = mission.location.sectorZ,
-														cash   = Format.Money(mission.reward,false),
-														dist  = dist})
-										),
-										ui:Margin(10),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SPACEPORT)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetSystemBody().name)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SYSTEM)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DEADLINE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(Format.Date(mission.due))
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DANGER)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(danger)
-												})
-											}),
-										ui:Margin(5),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DISTANCE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(dist.." "..lc.UNIT_LY)
-												})
-											}),
-										ui:Margin(5),
-										NavButton.New(l.SET_AS_TARGET, mission.location),
-		})})
-		:SetColumn(1, {
-			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
-		})
-end
-
 local onGameEnd = function ()
 	nearbysystems = nil
 end
@@ -615,6 +528,6 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Delivery', l.DELIVERY, onClick, buildMissionDescription)
+Mission.RegisterType('Delivery', l.DELIVERY, buildMissionDescription)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)

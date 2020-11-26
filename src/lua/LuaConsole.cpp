@@ -13,8 +13,6 @@
 #include "sigc++/functors/mem_fun.h"
 #include "text/TextSupport.h"
 #include "text/TextureFont.h"
-#include "ui/Context.h"
-#include "ui/Margin.h"
 #include <algorithm>
 #include <sstream>
 #include <stack>
@@ -32,6 +30,8 @@
 #include <unistd.h>
 // end networking
 #endif
+
+#if 0
 
 #define TRUSTED_CONSOLE 1
 
@@ -692,4 +692,6 @@ void LuaConsole::BroadcastToDebuggers(const std::string &message)
 		};
 	}
 }
+#endif
+
 #endif

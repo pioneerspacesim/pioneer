@@ -7,8 +7,9 @@
 #include "Input.h"
 #include "LuaManager.h"
 #include "RefCounted.h"
-#include "ui/Widget.h"
 #include <deque>
+
+#if 0
 
 namespace UI {
 	class TextEntry;
@@ -75,5 +76,7 @@ private:
 	std::vector<int> m_debugConnections;
 #endif
 };
+
+#endif
 
 #endif /* _LUACONSOLE_H */

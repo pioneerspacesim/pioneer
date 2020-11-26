@@ -118,7 +118,6 @@ list(APPEND SRC_FOLDERS
 	src/
 	src/collider
 	src/galaxy
-	src/gameui
 	src/graphics
 	src/graphics/dummy
 	src/graphics/opengl
@@ -129,7 +128,6 @@ list(APPEND SRC_FOLDERS
 	src/sound
 	src/terrain
 	src/text
-	src/ui
 )
 
 macro(add_source_folders TARGET SRC_FOLDERS)

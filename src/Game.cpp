@@ -29,7 +29,6 @@
 #include "SpaceStation.h"
 #include "SystemInfoView.h"
 #include "SystemView.h"
-#include "UIView.h"
 #include "WorldView.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "pigui/PiGuiView.h"
@@ -776,7 +775,7 @@ void Game::Views::Init(Game *game)
 	m_systemView = new SystemView(game);
 	m_systemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new PiGuiView("StationView");
-	m_infoView = new UIView("InfoView");
+	m_infoView = new PiGuiView("InfoView");
 	m_deathView = new DeathView(game);
 
 #if WITH_OBJECTVIEWER
@@ -795,7 +794,7 @@ void Game::Views::LoadFromJson(const Json &jsonObj, Game *game)
 	m_systemView = new SystemView(game);
 	m_systemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new PiGuiView("StationView");
-	m_infoView = new UIView("InfoView");
+	m_infoView = new PiGuiView("InfoView");
 	m_deathView = new DeathView(game);
 
 #if WITH_OBJECTVIEWER
