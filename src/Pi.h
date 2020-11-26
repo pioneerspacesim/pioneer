@@ -62,10 +62,6 @@ namespace Sound {
 	class MusicPlayer;
 }
 
-namespace UI {
-	class Context;
-}
-
 class DetailLevel {
 public:
 	DetailLevel() :
@@ -175,7 +171,6 @@ public:
 	static ServerAgent *serverAgent;
 #endif
 
-	static RefCountedPtr<UI::Context> ui;
 	static PiGui::Instance *pigui;
 
 	static Random rng;

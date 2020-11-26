@@ -28,7 +28,6 @@
 #include "scenegraph/Model.h"
 #include "sound/Sound.h"
 #include "sound/SoundMusic.h"
-#include "ui/Context.h"
 #include "utils.h"
 /*
  * Interface: Engine
@@ -77,26 +76,6 @@ static int l_engine_attr_rand(lua_State *l)
 static int l_engine_attr_ticks(lua_State *l)
 {
 	lua_pushinteger(l, SDL_GetTicks());
-	return 1;
-}
-
-/*
- * Attribute: ui
- *
- * The global <UI.Context> object. New UI widgets are created through this
- * object.
- *
- * Availability:
- *
- *   alpha 25
- *
- * Status:
- *
- *   experimental
- */
-static int l_engine_attr_ui(lua_State *l)
-{
-	LuaObject<UI::Context>::PushToLua(Pi::ui.Get());
 	return 1;
 }
 
@@ -976,7 +955,6 @@ void LuaEngine::Register()
 	static const luaL_Reg l_attrs[] = {
 		{ "rand", l_engine_attr_rand },
 		{ "ticks", l_engine_attr_ticks },
-		{ "ui", l_engine_attr_ui },
 		{ "pigui", l_engine_attr_pigui },
 		{ "version", l_engine_attr_version },
 		{ 0, 0 }

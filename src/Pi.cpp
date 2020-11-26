@@ -53,10 +53,8 @@
 #include "SystemInfoView.h"
 #include "SystemView.h"
 #include "Tombstone.h"
-#include "UIView.h"
 #include "WorldView.h"
 #include "galaxy/GalaxyGenerator.h"
-#include "gameui/Lua.h"
 #include "libs.h"
 #include "pigui/LuaPiGui.h"
 #include "pigui/PerfInfo.h"
@@ -110,7 +108,7 @@ Input::Manager *Pi::input;
 Player *Pi::player;
 View *Pi::currentView;
 TransferPlanner *Pi::planner;
-LuaConsole *Pi::luaConsole;
+// LuaConsole *Pi::luaConsole;
 Game *Pi::game;
 Random Pi::rng;
 float Pi::frameTime;
@@ -133,7 +131,6 @@ bool Pi::bRefreshBackgroundStars = true;
 float Pi::amountOfBackgroundStarsDisplayed = 1.0f;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
-RefCountedPtr<UI::Context> Pi::ui;
 PiGui::Instance *Pi::pigui = nullptr;
 ModelCache *Pi::modelCache;
 Intro *Pi::intro;
@@ -437,7 +434,7 @@ void Pi::App::Shutdown()
 	Projectile::FreeModel();
 	Beam::FreeModel();
 	delete Pi::intro;
-	delete Pi::luaConsole;
+	// delete Pi::luaConsole;
 	NavLights::Uninit();
 	Shields::Uninit();
 	SfxManager::Uninit();
@@ -450,7 +447,6 @@ void Pi::App::Shutdown()
 	PiGui::Lua::Uninit();
 	ShutdownPiGui();
 	Pi::pigui = nullptr;
-	Pi::ui.Reset(0);
 	Lua::UninitModules();
 	Lua::Uninit();
 	Gui::Uninit();
@@ -514,20 +510,6 @@ void LoadStep::Start()
 	Pi::pigui->NewFrame();
 	PiGui::RunHandler(0.01, "init");
 	Pi::pigui->EndFrame();
-
-	AddStep("UI::AddContext", []() {
-		float ui_scale = Pi::config->Float("UIScaleFactor", 1.0f);
-		if (Graphics::GetScreenHeight() < 768) {
-			ui_scale = float(Graphics::GetScreenHeight()) / 768.0f;
-		}
-
-		Pi::ui.Reset(new UI::Context(
-			Lua::manager,
-			Pi::renderer,
-			Graphics::GetScreenWidth(),
-			Graphics::GetScreenHeight(),
-			ui_scale));
-	});
 
 #ifdef ENABLE_SERVER_AGENT
 	AddStep("Initialize ServerAgent", []() {
@@ -601,8 +583,8 @@ void LoadStep::Start()
 	});
 
 	AddStep("PostLoad", []() {
-		Pi::luaConsole = new LuaConsole();
-		Pi::luaConsole->SetupBindings();
+		// Pi::luaConsole = new LuaConsole();
+		// Pi::luaConsole->SetupBindings();
 
 		Pi::planner = new TransferPlanner();
 
@@ -822,9 +804,6 @@ bool Pi::App::HandleEvent(SDL_Event &event)
 	// unified input system
 	// This is safely able to be removed once GUI and newUI are gone
 
-	if (ui->DispatchSDLEvent(event))
-		return true;
-
 	Gui::HandleSDLEvent(&event);
 
 	return false;
@@ -918,7 +897,7 @@ void GameLoop::Start()
 #ifndef REMOTE_LUA_REPL_PORT
 #define REMOTE_LUA_REPL_PORT 12345
 #endif
-	luaConsole->OpenTCPDebugConnection(REMOTE_LUA_REPL_PORT);
+	// luaConsole->OpenTCPDebugConnection(REMOTE_LUA_REPL_PORT);
 #endif
 
 	// fire event before the first frame
@@ -1027,7 +1006,7 @@ void GameLoop::Update(float deltaTime)
 	Pi::GetApp()->HandleEvents();
 
 #ifdef REMOTE_LUA_REPL
-	Pi::luaConsole->HandleTCPDebugConnections();
+	// Pi::luaConsole->HandleTCPDebugConnections();
 #endif
 
 	// Reset the depth buffer so our UI can get drawn right overtop
@@ -1036,17 +1015,6 @@ void GameLoop::Update(float deltaTime)
 	// FIXME: GUI must die!
 	if (Pi::DrawGUI) {
 		Gui::Draw();
-	}
-
-	// FIXME: newUI must die!
-	// ...also we need better handling of death states
-	// XXX don't draw the UI during death obviously a hack, and still
-	// wrong, because we shouldn't this when the HUD is disabled, but
-	// probably sure draw it if they switch to eg infoview while the HUD is
-	// disabled so we need much smarter control for all this rubbish
-	if ((!Pi::game || Pi::GetView() != Pi::game->GetDeathView()) && Pi::DrawGUI) {
-		Pi::ui->Update();
-		Pi::ui->Draw();
 	}
 
 	// Ask ImGui to hide OS cursor if we're capturing it for input:
@@ -1219,7 +1187,8 @@ void Pi::RequestQuit()
 
 bool Pi::IsConsoleActive()
 {
-	return luaConsole && luaConsole->IsActive();
+	// FIXME: port console to pigui
+	return false; // luaConsole && luaConsole->IsActive();
 }
 
 void Pi::SetView(View *v)
@@ -1252,11 +1221,9 @@ void Pi::SetMouseGrab(bool on)
 {
 	if (!doingMouseGrab && on) {
 		Pi::input->SetCapturingMouse(true);
-		Pi::ui->SetMousePointerEnabled(false);
 		doingMouseGrab = true;
 	} else if (doingMouseGrab && !on) {
 		Pi::input->SetCapturingMouse(false);
-		Pi::ui->SetMousePointerEnabled(true);
 		doingMouseGrab = false;
 	}
 }

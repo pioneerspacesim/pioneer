@@ -8,7 +8,6 @@
 #include "Pi.h"
 #include "Player.h"
 #include "ShipCpanelMultiFuncDisplays.h"
-#include "UIView.h"
 #include "libs.h"
 
 // XXX duplicated in WorldView. should probably be a theme variable

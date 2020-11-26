@@ -35,10 +35,8 @@
 #include "SystemView.h"
 
 #include "galaxy/StarSystem.h"
-#include "gameui/Lua.h"
 #include "pigui/LuaPiGui.h"
 #include "scenegraph/Lua.h"
-#include "ui/Lua.h"
 
 namespace Lua {
 
@@ -114,18 +112,14 @@ namespace Lua {
 		LuaShipDef::Register();
 		LuaMusic::Register();
 		LuaDev::Register();
-		LuaConsole::Register();
+		// LuaConsole::Register();
 
 		// XXX sigh
-		UI::Lua::Init();
-		GameUI::Lua::Init();
 		SceneGraph::Lua::Init();
 
 		// XXX load everything. for now, just modules
 		pi_lua_dofile(l, "libs/autoload.lua");
 		lua_pop(l, 1);
-
-		pi_lua_import_recursive(l, "ui");
 
 		pi_lua_import(l, "pigui", true);
 

@@ -24,7 +24,6 @@
 #include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"
 #include "sound/Sound.h"
-#include "ui/Widget.h"
 
 namespace {
 	static const Color s_hudTextColor(0, 255, 0, 230);

@@ -18,14 +18,8 @@ local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local utils = require 'utils'
 
-local InfoFace = require 'ui.InfoFace'
-local NavButton = require 'ui.NavButton'
-
 local l = Lang.GetResource("module-combat")
 local lc = Lang.GetResource 'core'
-
--- Get the UI class
-local ui = Engine.ui
 
 -- typical time for travel to a planet in a system 1ly away and back
 local typical_hyperspace_time = 2 * 24 * 60 * 60
@@ -547,114 +541,6 @@ local buildMissionDescription = function(mission)
 	return desc
 end
 
-local onClick = function (mission)
-	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	local type = l["MISSION_TYPE_" .. math.ceil(mission.dedication * NUMSUBTYPES)]
-
-	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.introtext):interp({
-														name    = mission.client.name,
-														org     = mission.org,
-														cash    = Format.Money(mission.reward, false),
-														area    = mission.location:GetSystemBody().name,
-														system  = mission.location:GetStarSystem().name,
-														sectorx = mission.location.sectorX,
-														sectory = mission.location.sectorY,
-														sectorz = mission.location.sectorZ,
-														mission = type,
-														dist    = dist})
-										),
-										ui:Margin(10),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.MISSION)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(type)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SYSTEM)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.AREA)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetSystemBody().name)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DISTANCE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(dist.." "..lc.UNIT_LY)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.TIME_LIMIT)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(Format.Date(mission.due))
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DANGER)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(l:get("RISK_" .. math.ceil(mission.risk * (getNumberOfFlavours("RISK")))))
-												})
-											}),
-										NavButton.New(l.SET_AS_TARGET, mission.location),
-										ui:Margin(5),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.PAYMENT_LOCATION)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													mission.rendezvous and ui:MultiLineText(mission.rendezvous:GetStarSystem().name.." ("..mission.rendezvous.sectorX..","..mission.rendezvous.sectorY..","..mission.rendezvous.sectorZ..")")
-													or ui:MultiLineText(string.interp(l[mission.flavour.id .. "_LAND_THERE"], { org = mission.org }))
-												})
-											}),
-										mission.rendezvous and NavButton.New(l.SET_AS_TARGET, mission.rendezvous),
-		})})
-		:SetColumn(1, {
-			ui:VBox(10):PackEnd({
-				InfoFace.New(mission.client),
-				ui:Label(mission.org),
-			})
-		})
-end
-
 local serialize = function ()
 	return { ads = ads, missions = missions }
 end
@@ -674,6 +560,6 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType("Combat",l.COMBAT,onClick, buildMissionDescription)
+Mission.RegisterType("Combat",l.COMBAT, buildMissionDescription)
 
 Serializer:Register("Combat", serialize, unserialize)

@@ -140,14 +140,17 @@ Mission = {
 --   display - a (translatable) string to be shown in the missions list
 --   onClick - (optional) a function which is executed when the details button is
 --             clicked. The mission instance is passed to onClick, which
---             must return an Engine.ui instance to be displayed on the
+--             must return a mission description table to be displayed on the
 --             missions screen.
 --
 -- Example:
 --
 -- > RegisterType('racing_mission_XC14','Race',function (mission)
 -- >   local race = races[mission] -- Assuming some local table of race missions for example
--- >   return Engine.UI:Label(string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos}))
+-- >   return {
+-- >       client = mission.client,
+-- >       description = string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos})
+-- >   }
 -- > end)
 --
 -- Availability:
@@ -159,7 +162,7 @@ Mission = {
 --    experimental
 --
 
-	RegisterType = function (typeid, display, onClick, buildPiGui)
+	RegisterType = function (typeid, display, onClick)
 		if not typeid or (type(typeid)~='string') then
 			error('typeid: String expected')
 		end
@@ -174,7 +177,6 @@ Mission = {
 			error('onClick: function expected')
 		else
 			missiontype.onClick = onClick -- Might be nil; that's fine
-			missiontype.buildPiGui = buildPiGui
 		end
 		MissionRegister[typeid] = missiontype
 	end,
@@ -307,7 +309,7 @@ Mission = {
 -- experimental
 --
 	GetClick = function (self)
-		return MissionRegister[self.type].onClick, MissionRegister[self.type].buildPiGui
+		return MissionRegister[self.type].onClick
 		-- return (MissionRegister[self.type] and MissionRegister[self.type].onClick)
 		-- 		or function (ref) return Engine.ui:Label(l.NOT_FOUND) end -- XXX don't translate things in libs
 	end,
