@@ -58,9 +58,20 @@ function PiGuiTabView.resize(self)
             self.buttonWindowSize.y + viewWindowPadding.y)
 end
 
-function PiGuiTabView.registerView(self, view)
+function PiGuiTabView.registerView(self, id, view)
+	if view then
+		local idx = self.tabs[id]
+		if idx then
+			self.tabs[idx] = view; return
+		else
+			self.tabs[id] = #self.tabs + 1
+		end
+	else
+		id, view = view, id
+	end
+
     table.insert(self.tabs, view)
-    self.viewCount = self.viewCount + 1
+	self.viewCount = self.viewCount + 1
     self:resize()
 end
 
@@ -103,7 +114,10 @@ function PiGuiTabView.renderTabView(self)
             }, function()
                 ui.setNextWindowPos(self.viewWindowPos, "Always")
                 ui.setNextWindowSize(self.viewWindowSize, "Always")
-                ui.window("StationView", {"NoResize", "NoTitleBar"}, tab.draw)
+				ui.window("StationView", {"NoResize", "NoTitleBar"}, function()
+					local ok, err = ui.pcall(tab.draw, tab)
+					if not ok then logWarning(err); tab.showView = false end
+				end)
             end)
         end)
     end
@@ -139,7 +153,11 @@ function PiGuiTabView.renderTabView(self)
                 ui.sameLine()
             end
         end)
-    end)
+	end)
+
+	if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) and tab.debugReload then
+		tab:debugReload()
+	end
 end
 
 return PiGuiTabView

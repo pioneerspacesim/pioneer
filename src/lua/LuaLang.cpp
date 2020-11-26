@@ -28,7 +28,7 @@ static int _resource_index(lua_State *l)
 	lua_pushvalue(l, -2);
 	lua_rawset(l, 1);
 
-	Log::Warning("Missing translation token '{}' in resource '{}/{}.json'.", token, resourceName, langCode);
+	Log::Warning("Missing translation token '{}' in resource '{}/{}.json'.\n", token, resourceName, langCode);
 
 	return 1;
 }
