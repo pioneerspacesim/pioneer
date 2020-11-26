@@ -21,6 +21,7 @@ local NavButton = require 'ui.NavButton'
 
 local l = Lang.GetResource("module-cargorun")
 local l_ui_core = Lang.GetResource("ui-core")
+local lc = Lang.GetResource 'core'
 
 -- Get the UI class
 local ui = Engine.ui
@@ -935,7 +936,7 @@ local buildMissionDescription = function(mission)
 			l.DELIVER_TO,
 			{ l.SPACEPORT,	mission.location:GetSystemBody().name },
 			{ l.SYSTEM,		ui.Format.SystemPath(mission.location) },
-			{ l.DISTANCE,	dist.." "..l.LY },
+			{ l.DISTANCE,	dist.." "..lc.UNIT_LY },
 			false,
 			{ l.DEADLINE,	ui.Format.Date(mission.due) },
 			{ l.CARGO,		mission.cargotype:GetName() },
@@ -950,11 +951,11 @@ local buildMissionDescription = function(mission)
 			l.PICKUP_FROM,
 			{ l.SPACEPORT,	mission.location:GetSystemBody().name },
 			{ l.SYSTEM,		ui.Format.SystemPath(mission.location) },
-			{ l.DISTANCE,	dist.." "..l.LY },
+			{ l.DISTANCE,	dist.." "..lc.UNIT_LY },
 			l.DELIVER_TO,
 			{ l.SPACEPORT,	mission.domicile:GetSystemBody().name },
 			{ l.SYSTEM,		ui.Format.SystemPath(mission.domicile) },
-			{ l.DISTANCE,	domicileDist.. " " .. l.LY },
+			{ l.DISTANCE,	domicileDist.. " " .. lc.UNIT_LY },
 			false,
 			{ l.DEADLINE,	ui.Format.Date(mission.due) },
 			{ l.CARGO,		mission.cargotype:GetName() },
@@ -1014,7 +1015,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
+													ui:Label(dist.." "..lc.UNIT_LY)
 												})
 											}),
 										NavButton.New(l.SET_AS_TARGET, mission.location),
@@ -1125,7 +1126,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
+													ui:Label(dist.." "..lc.UNIT_LY)
 												})
 											}),
 										NavButton.New(l.SET_AS_TARGET, mission.location),
@@ -1163,7 +1164,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label((string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???") .. " " .. l.LY)
+													ui:Label((string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???") .. " " .. lc.UNIT_LY)
 												})
 											}),
 										NavButton.New(l.SET_RETURN_ROUTE, mission.domicile),

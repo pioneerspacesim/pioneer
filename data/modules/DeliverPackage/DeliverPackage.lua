@@ -20,6 +20,7 @@ local InfoFace = require 'ui.InfoFace'
 local NavButton = require 'ui.NavButton'
 
 local l = Lang.GetResource("module-deliverpackage")
+local lc = Lang.GetResource 'core'
 
 -- Get the UI class
 local ui = Engine.ui
@@ -503,7 +504,7 @@ local buildMissionDescription = function(mission)
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
 		{ l.DEADLINE, ui.Format.Date(mission.due) },
 		{ l.DANGER, getRiskMsg(mission.risk) },
-		{ l.DISTANCE, dist.." "..l.LY }
+		{ l.DISTANCE, dist.." "..lc.UNIT_LY }
 	}
 
 	desc.location = mission.location
@@ -582,7 +583,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
+													ui:Label(dist.." "..lc.UNIT_LY)
 												})
 											}),
 										ui:Margin(5),

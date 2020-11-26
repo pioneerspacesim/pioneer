@@ -21,6 +21,7 @@ local NavButton = require 'ui.NavButton'
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")
+local lc = Lang.GetResource 'core'
 
 -- Get the UI class
 local ui = Engine.ui
@@ -495,7 +496,7 @@ local buildMissionDescription = function(mission)
 		{ l.GROUP_DETAILS, string.interp(flavours[mission.flavour].howmany, {group = mission.group}) },
 		{ l.DEADLINE, ui.Format.Date(mission.due) },
 		{ l.DANGER, flavours[mission.flavour].danger },
-		{ l.DISTANCE, dist.." "..l.LY }
+		{ l.DISTANCE, dist.." "..lc.UNIT_LY }
 	}
 
 	return desc
@@ -578,7 +579,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
+													ui:Label(dist.." "..lc.UNIT_LY)
 												})
 											}),
 										ui:Margin(5),

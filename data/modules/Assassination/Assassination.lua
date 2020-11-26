@@ -21,6 +21,7 @@ local utils = require 'utils'
 local InfoFace = require 'ui.InfoFace'
 local NavButton = require 'ui.NavButton'
 
+local lc = Lang.GetResource 'core'
 local l = Lang.GetResource("module-assassination")
 
 -- Get the UI class
@@ -495,7 +496,7 @@ local function buildMissionDescription(mission)
 		{ l.TARGET_NAME, mission.target },
 		{ l.SPACEPORT, mission.location:GetSystemBody().name },
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
-		{ l.DISTANCE, dist.." "..l.LY },
+		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
 		false,
 		{ l.SHIP, mission.shipname },
 		{ l.SHIP_ID, mission.shipregid },
@@ -597,7 +598,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
+													ui:Label(dist.." "..lc.UNIT_LY)
 												})
 											}),
 		})})
