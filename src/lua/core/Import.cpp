@@ -3,6 +3,7 @@
 
 #include "CoreFwdDecl.h"
 #include "FileSystem.h"
+#include "src/lua.h"
 #include <algorithm>
 #include <deque>
 #include <string>
@@ -90,15 +91,22 @@ static std::string get_caller(lua_State *L)
 		int start = 0;
 		int end = strlen(ar.source);
 
+		// strip the trusted annotation if present
 		if ((ar.source[start] != '@') && (end > 5))
 			start = 4;
 
+		// if we have an @, this is a file name. Strip it and return the file name
 		if (ar.source[start] == '@') {
 			start++;
 
-			return std::string(&ar.source[start], end - start + 1);
+			caller = std::string(&ar.source[start], end - start);
 		}
 	}
+
+	// auto endTrimPos = caller.find_last_not_of(" \t\r\n\0");
+	// if (endTrimPos != std::string::npos) {
+	// 	caller.erase(endTrimPos + 1);
+	// }
 
 	LUA_DEBUG_END(L, 0);
 	return caller;
@@ -424,7 +432,7 @@ static std::string make_module_name(lua_State *L, int idx)
 	// Names starting with '.' inherit the module name of their source directory
 	std::string name = luaL_checkstring(L, idx);
 	if (name[0] == '.') {
-		auto caller = get_caller(L);
+		std::string caller = get_caller(L);
 		name = path_to_module(caller) + name;
 	}
 
@@ -437,9 +445,19 @@ static std::string make_module_name(lua_State *L, int idx)
 	return name;
 }
 
+static std::string get_caller_module_name(lua_State *L)
+{
+	std::string caller = get_caller(L);
+	nonstd::string_view sv(caller);
+	if (sv.ends_with(".lua"))
+		sv.remove_suffix(4);
+
+	return path_to_module(sv.to_string() + "/");
+}
+
 static int l_reimport_package(lua_State *L)
 {
-	std::string name = make_module_name(L, 1);
+	std::string name = lua_gettop(L) ? make_module_name(L, 1) : get_caller_module_name(L);
 
 	// Get the module name -> file path mapping
 	std::string path = get_path_cache(L, name);
@@ -454,7 +472,17 @@ static int l_reimport_package(lua_State *L)
 
 	if (lua_import_module(L, name))
 		return 1;
-	return lua_error(L);
+	else {
+		lua_pushnil(L);
+		lua_insert(L, lua_gettop(L) - 2);
+		return 2;
+	}
+}
+
+static int l_get_module_name(lua_State *L)
+{
+	lua_pushstring(L, get_caller_module_name(L).c_str());
+	return 1;
 }
 
 static int l_require_package(lua_State *L)
@@ -525,6 +553,9 @@ int luaopen_import(lua_State *L)
 
 	lua_pushcfunction(L, l_reimport_package);
 	lua_setfield(L, package_table, "reimport");
+
+	lua_pushcfunction(L, l_get_module_name);
+	lua_setfield(L, package_table, "thisModule");
 
 	LUA_DEBUG_END(L, 1);
 	return 1;

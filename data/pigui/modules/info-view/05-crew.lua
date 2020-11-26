@@ -3,6 +3,7 @@
 
 local Comms		= require 'Comms'
 local Game		= require 'Game'
+local Equipment = require 'Equipment'
 local Lang		= require 'Lang'
 local ShipDef	= require 'ShipDef'
 local InfoView	= require 'pigui.views.info-view'
@@ -235,7 +236,7 @@ local function drawCrewInfo(crew)
 	end
 
 	local spacing = InfoView.windowPadding.x * 2.0
-	info_column_width = (ui.getColumnWidth() - spacing) / 2
+	local info_column_width = (ui.getColumnWidth() - spacing) / 2
 	ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), function()
 		ui.withFont(orbiteer.xlarge, function() ui.text(crew.name) end)
 
@@ -290,7 +291,7 @@ InfoView:registerView({
     showView = true,
 	draw = function()
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
-			ui.withFont(pionillium.large, function()
+			ui.withFont(pionillium.medlarge, function()
 				if inspectingCrewMember then
 					drawCrewInfo(inspectingCrewMember)
 				else
@@ -305,4 +306,7 @@ InfoView:registerView({
 		inspectingCrewMember = nil
 		lastTaskResult = ""
 	end,
+	debugReload = function()
+		package.reimport()
+	end
 })

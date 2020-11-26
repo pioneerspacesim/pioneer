@@ -3,6 +3,7 @@
 
 #include "CoreFwdDecl.h"
 #include "FileSystem.h"
+#include "core/Log.h"
 #include "libs.h"
 
 static int l_d_null_userdata(lua_State *L)
@@ -29,6 +30,13 @@ static int l_d_mode_enabled(lua_State *L)
 {
 	lua_getfield(L, LUA_REGISTRYINDEX, "debug_enabled");
 	return 1;
+}
+
+static int l_log_warning(lua_State *L)
+{
+	std::string str = lua_tostring(L, 1);
+	Log::GetLog()->LogLevel(Log::Severity::Warning, str);
+	return 0;
 }
 
 static const luaL_Reg STANDARD_LIBS[] = {
@@ -84,6 +92,9 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setglobal(L, "load");
 	lua_pushnil(L);
 	lua_setglobal(L, "loadstring");
+
+	lua_pushcfunction(L, l_log_warning);
+	lua_setglobal(L, "logWarning");
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
