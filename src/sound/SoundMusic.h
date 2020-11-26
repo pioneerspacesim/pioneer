@@ -6,6 +6,7 @@
 
 #include "Sound.h"
 #include <SDL.h>
+#include <sigc++/sigc++.h>
 #include <string>
 #include <vector>
 
@@ -32,6 +33,8 @@ namespace Sound {
 		const std::vector<std::string> GetSongList() const;
 		bool IsPlaying() const;
 		void SetEnabled(bool);
+
+		sigc::signal<void> onSongFinished;
 
 	private:
 		float m_volume;

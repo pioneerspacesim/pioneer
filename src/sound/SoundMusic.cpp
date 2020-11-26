@@ -4,7 +4,6 @@
 #include "SoundMusic.h"
 #include "Pi.h"
 #include "libs.h" //for clamp
-#include "lua/LuaEvent.h"
 #include <map>
 
 namespace Sound {
@@ -98,7 +97,7 @@ namespace Sound {
 		if (m_playing) { //expecting report
 			if ((m_eventOnePlaying && !m_eventOne.IsPlaying()) || (!m_eventOnePlaying && !m_eventTwo.IsPlaying())) {
 				m_playing = false;
-				LuaEvent::Queue("onSongFinished");
+				onSongFinished.emit();
 			}
 		}
 	}

@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaMusic.h"
+#include "LuaEvent.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
@@ -254,6 +255,10 @@ void LuaMusic::Register()
 	LuaObjectBase::CreateObject(l_methods, 0, 0);
 	lua_setfield(l, -2, "Music");
 	lua_pop(l, 1);
+
+	Pi::GetMusicPlayer().onSongFinished.connect([]() {
+		LuaEvent::Queue("onSongFinished");
+	});
 
 	LUA_DEBUG_END(l, 0);
 }
