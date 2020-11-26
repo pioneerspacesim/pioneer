@@ -227,6 +227,10 @@
     "description": "",
     "message": "Lean air a' gheama"
   },
+  "CONTRACT_FRAUD": {
+    "description": "Crime committed by intentionally breaking a contract",
+    "message": "Contract fraud"
+  },
   "CONTROLS": {
     "description": "",
     "message": "Uidheaman-smachd"

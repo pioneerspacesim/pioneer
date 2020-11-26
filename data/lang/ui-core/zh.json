@@ -227,6 +227,10 @@
     "description": "",
     "message": "继续游戏"
   },
+  "CONTRACT_FRAUD": {
+    "description": "Crime committed by intentionally breaking a contract",
+    "message": "Contract fraud"
+  },
   "CONTROLS": {
     "description": "",
     "message": "控制"
