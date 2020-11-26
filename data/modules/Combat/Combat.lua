@@ -22,6 +22,7 @@ local InfoFace = require 'ui.InfoFace'
 local NavButton = require 'ui.NavButton'
 
 local l = Lang.GetResource("module-combat")
+local lc = Lang.GetResource 'core'
 
 -- Get the UI class
 local ui = Engine.ui
@@ -537,7 +538,7 @@ local buildMissionDescription = function(mission)
 		{ l.MISSION, type },
 		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
 		{ l.AREA, mission.location:GetSystemBody().name },
-		{ l.DISTANCE, dist.." "..l.LY },
+		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
 		{ l.TIME_LIMIT, ui.Format.Date(mission.due) },
 		{ l.DANGER, l["RISK_" .. math.ceil(mission.risk * (getNumberOfFlavours("RISK")))] },
 		{ l.PAYMENT_LOCATION, paymentLoc }
@@ -605,7 +606,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
+													ui:Label(dist.." "..lc.UNIT_LY)
 												})
 											}),
 										ui:Grid(2,1)

@@ -45,6 +45,7 @@ local Timer = require 'Timer'
 local Rand = require 'Rand'
 local ModelSkin = require 'SceneGraph.ModelSkin'
 local l = Lang.GetResource("module-searchrescue")
+local lc = Lang.GetResource 'core'
 
 local InfoFace = require 'ui.InfoFace'
 local NavButton = require 'ui.NavButton'
@@ -2152,7 +2153,7 @@ local buildMissionDescription = function(mission)
 	if mission.flavour.loctype ~= "FAR_SPACE" and Game.system then
 		dist = ui.Format.Distance(mission.dist)
 	else
-		dist = dist .." ".. l.LY
+		dist = dist .." ".. lc.UNIT_LY
 	end
 
 	desc.client = mission.client
@@ -2243,7 +2244,7 @@ local onClick = function (mission)
 			dist_for_text = string.format("%.0f", mission.dist/1000).." "..l.KM
 		end
 	else
-		dist_for_text = dist.." "..l.LY
+		dist_for_text = dist.." "..lc.UNIT_LY
 	end
 
 	local location_for_text
