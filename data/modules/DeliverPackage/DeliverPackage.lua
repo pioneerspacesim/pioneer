@@ -117,6 +117,20 @@ for i = 1,#flavours do
 	end
 end
 
+local getRiskMsg = function(risk)
+	if risk <= 0.1 then
+		return l.I_HIGHLY_DOUBT_IT
+	elseif risk > 0.1 and risk <= 0.3 then
+		return l.NOT_ANY_MORE_THAN_USUAL
+	elseif risk > 0.3 and risk <= 0.6 then
+		return l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN
+	elseif risk > 0.6 and risk <= 0.8 then
+		return l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED
+	elseif risk > 0.8 and risk <= 1 then
+		return l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE
+	end
+end
+
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -163,17 +177,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(l.IT_MUST_BE_DELIVERED_BY..Format.Date(ad.due))
 
 	elseif option == 4 then
-		if ad.risk <= 0.1 then
-			form:SetMessage(l.I_HIGHLY_DOUBT_IT)
-		elseif ad.risk > 0.1 and ad.risk <= 0.3 then
-			form:SetMessage(l.NOT_ANY_MORE_THAN_USUAL)
-		elseif ad.risk > 0.3 and ad.risk <= 0.6 then
-			form:SetMessage(l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN)
-		elseif ad.risk > 0.6 and ad.risk <= 0.8 then
-			form:SetMessage(l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED)
-		elseif ad.risk > 0.8 and ad.risk <= 1 then
-			form:SetMessage(l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE)
-		end
+		form:SetMessage(getRiskMsg(ad.risk))
 
 	elseif option == 3 then
 		form:RemoveAdvertOnClose()
@@ -478,20 +482,40 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
+local buildMissionDescription = function(mission)
+	local ui = require 'pigui'
+	local desc = {}
+
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+
+	desc.description = (flavours[mission.flavour].introtext):interp({
+		name		= mission.client.name,
+		starport	= mission.location:GetSystemBody().name,
+		system		= mission.location:GetStarSystem().name,
+		sectorx		= mission.location.sectorX,
+		sectory		= mission.location.sectorY,
+		sectorz		= mission.location.sectorZ,
+		cash		= ui.Format.Money(mission.reward,false),
+		dist		= dist})
+
+	desc.details = {
+		{ l.SPACEPORT, mission.location:GetSystemBody().name },
+		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
+		{ l.DEADLINE, ui.Format.Date(mission.due) },
+		{ l.DANGER, getRiskMsg(mission.risk) },
+		{ l.DISTANCE, dist.." "..l.LY }
+	}
+
+	desc.location = mission.location
+	desc.client = mission.client
+
+	return desc;
+end
+
+
 local onClick = function (mission)
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	local danger
-	if mission.risk <= 0.1 then
-		danger = (l.I_HIGHLY_DOUBT_IT)
-	elseif mission.risk > 0.1 and mission.risk <= 0.3 then
-		danger = (l.NOT_ANY_MORE_THAN_USUAL)
-	elseif mission.risk > 0.3 and mission.risk <= 0.6 then
-		danger = (l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN)
-	elseif mission.risk > 0.6 and mission.risk <= 0.8 then
-		danger = (l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED)
-	elseif mission.risk > 0.8 and mission.risk <= 1 then
-		danger = (l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE)
-	end
+	local danger = getRiskMsg(mission.risk)
 
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((flavours[mission.flavour].introtext):interp({
@@ -590,6 +614,6 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Delivery',l.DELIVERY,onClick)
+Mission.RegisterType('Delivery', l.DELIVERY, onClick, buildMissionDescription)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)
