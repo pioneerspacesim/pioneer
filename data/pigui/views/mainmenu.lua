@@ -8,7 +8,7 @@ local ShipDef = require 'ShipDef'
 local SystemPath = require 'SystemPath'
 local Equipment = require 'Equipment'
 local Format = require 'Format'
-local Event = require 'Event'
+local MusicPlayer = require 'modules.MusicPlayer'
 local Lang = require 'Lang'
 local FlightLog = require ("FlightLog")
 
@@ -173,9 +173,17 @@ local function callModules(mode)
 	end
 end
 
+local hasMusicList = false
+
 local overlayWindowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "AlwaysAutoResize"}
 local mainMenuFlags = ui.WindowFlags{"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}
 local function showMainMenu()
+	if not hasMusicList then
+		hasMusicList = true
+		MusicPlayer.rebuildSongList()
+		MusicPlayer.playRandomSongFromCategory("menu", true)
+	end
+
 	local showContinue = canContinue()
 	local buttons = 4
 
