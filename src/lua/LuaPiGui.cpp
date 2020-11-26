@@ -716,7 +716,8 @@ static int l_pigui_push_style_color(lua_State *l)
 	int style = LuaPull<ImGuiCol_>(l, 1);
 	ImColor color = LuaPull<ImColor>(l, 2);
 	ImGui::PushStyleColor(style, static_cast<ImVec4>(color));
-	return 0;
+	lua_pushboolean(l, true);
+	return 1;
 }
 
 static int l_pigui_pop_style_color(lua_State *l)
@@ -740,7 +741,8 @@ static int l_pigui_push_style_var(lua_State *l)
 		ImGui::PushStyleVar(style, val);
 	}
 
-	return 0;
+	lua_pushboolean(l, true);
+	return 1;
 }
 
 static int l_pigui_pop_style_var(lua_State *l)

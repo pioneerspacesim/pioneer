@@ -19,7 +19,7 @@ local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local itemSpacing = ui.rescaleUI(Vector2(6, 12), Vector2(1920, 1200))
+local itemSpacing = ui.rescaleUI(Vector2(6, 12), Vector2(1600, 900))
 
 -- Anti-abuse feature - this locks out the piloting commands based on a timer.
 -- It knows when the crew were last checked for a piloting skill, and prevents
@@ -166,7 +166,10 @@ end
 
 -- Function that creates the crew list
 local function makeCrewList()
-	local t = {}
+	local t = {
+		separated = true, headerOnly = true,
+		{ l.NAME_PERSON, l.POSITION, l.WAGE, l.OWED, l.NEXT_PAID, "", font = orbiteer.xlarge }
+	}
 
 	local wageTotal = 0
 	local owedTotal = 0
@@ -181,43 +184,31 @@ local function makeCrewList()
 		table.insert(t, {
 			crewMember.name,
 			crewMember.title or l.GENERAL_CREW,
-			ui.Format.Money(crewWage),
-			ui.Format.Money(crewOwed),
+			{ ui.Format.Money(crewWage), color = colors.econProfit },
+			{ ui.Format.Money(crewOwed), color = colors.econLoss },
 			crewMember.contract and ui.Format.Date(crewMember.contract.payday) or "",
-			crewMember = crewMember
+			function()
+				if ui.button(l.MORE_INFO .. '##' .. crewMember.name, Vector2(-1, 0)) then
+					inspectingCrewMember = crewMember
+				end
+			end
 		})
 	end
 
-	t.wageTotal = ui.Format.Money(wageTotal)
-	t.owedTotal = ui.Format.Money(owedTotal)
+	table.insert(t, {
+		false,
+		{ l.TOTAL,						color = colors.alertYellow },
+		{ ui.Format.Money(wageTotal),	color = colors.econProfit },
+		{ ui.Format.Money(owedTotal),	color = colors.econLoss },
+		false,
+		false
+	})
 
 	return t
 end
 
-local function drawCrewRow(row)
-	ui.text(row[1]); ui.nextColumn()
-	ui.text(row[2]); ui.nextColumn()
-	ui.textColored(colors.econProfit, row[3]); ui.nextColumn()
-	ui.textColored(colors.econLoss, row[4]); ui.nextColumn()
-	ui.text(row[5]); ui.nextColumn()
-	if row.crewMember then
-		if ui.button(l.MORE_INFO .. '##' .. row.crewMember.name, Vector2(-1, 0)) then inspectingCrewMember = row.crewMember end
-		ui.nextColumn()
-	end
-end
-
 local function drawCrewList(crewList)
-	ui.columns(6)
-	ui.withFont(orbiteer.xlarge, function()
-		for _, v in ipairs({l.NAME_PERSON, l.POSITION, l.WAGE, l.OWED, l.NEXT_PAID, ""}) do
-			ui.text(v); ui.nextColumn()
-		end
-	end)
-	for _, v in ipairs(crewList) do drawCrewRow(v) end
-	ui.nextColumn(); ui.textColored(colors.alertYellow, l.TOTAL)
-	ui.nextColumn(); ui.textColored(colors.econProfit, crewList.wageTotal)
-	ui.nextColumn(); ui.textColored(colors.econLoss, crewList.owedTotal)
-	ui.columns(1)
+	textTable.drawTable(6, nil, crewList)
 
 	ui.newLine()
 	ui.withFont(orbiteer.xlarge, function() ui.text(l.GIVE_ORDERS_TO_CREW .. ":") end)
@@ -240,14 +231,14 @@ local function drawCrewInfo(crew)
 	ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), function()
 		ui.withFont(orbiteer.xlarge, function() ui.text(crew.name) end)
 
-		textTable.withHeading(l.QUALIFICATION_SCORES, orbiteer.xlarge, {
+		textTable.withHeading(l.QUALIFICATION_SCORES, orbiteer.large, {
 			{ l.ENGINEERING,	crew.engineering },
 			{ l.PILOTING,		crew.piloting },
 			{ l.NAVIGATION,		crew.navigation },
 			{ l.SENSORS,		crew.sensors },
 		})
 		ui.newLine()
-		textTable.withHeading(l.REPUTATION, orbiteer.xlarge, {
+		textTable.withHeading(l.REPUTATION, orbiteer.large, {
 			{ l.RATING,			l[crew:GetCombatRating()] },
 			{ l.KILLS,			ui.Format.Number(crew.killcount) },
 			{ l.REPUTATION..":",l[crew:GetReputationRating()] },
@@ -284,7 +275,7 @@ require 'Event'.Register('onGameEnd', function()
 	lastTaskResult = ""
 end)
 
-InfoView:registerView({
+InfoView:registerView("crew", {
     id = "crew",
     name = l.CREW_ROSTER,
     icon = ui.theme.icons.roster,
