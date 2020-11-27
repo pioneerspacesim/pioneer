@@ -349,7 +349,7 @@ set_cxx11_properties(${PROJECT_NAME} modelcompiler savegamedump)
 
 if(MSVC)
 	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-		COMMAND xcopy ..\\pioneer-thirdparty\\win32\\bin\\x64\\vs2017\\*.dll ${TargetDir}*.dll /Y /C
+		COMMAND xcopy ..\\pioneer-thirdparty\\win32\\bin\\${MSVC_ARCH}\\vs2019\\*.dll ${TargetDir}*.dll /Y /C
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		COMMENT "copy the dlls into the directory"
 		VERBATIM
