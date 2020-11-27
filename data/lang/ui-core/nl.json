@@ -627,6 +627,10 @@
     "description": "",
     "message": "Ook fijn dat ik van jou af ben."
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Ga terug"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "GPU jobs"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Stel bestemming als navigatiedoel in"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Stel route terugweg in"
   },
   "SHIP": {
     "description": "",

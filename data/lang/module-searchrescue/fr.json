@@ -435,10 +435,6 @@
     "description": "",
     "message": "Lon:"
   },
-  "LY": {
-    "description": "",
-    "message": "al"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Impossible de finir le transfert. {cargotype} manquant."

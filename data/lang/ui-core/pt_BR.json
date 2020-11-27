@@ -627,6 +627,10 @@
     "description": "",
     "message": "Já vai tarde, também."
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Volte"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "GPU Jobs"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Definir destino como alvo de navegação"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Definir rota de retorno"
   },
   "SHIP": {
     "description": "",

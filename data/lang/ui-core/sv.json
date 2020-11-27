@@ -627,6 +627,10 @@
     "description": "",
     "message": "Hejdå till dig också."
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Tillbaka"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "GPU Jobs"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Använd destination som navigationsmål"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Sätt som returmål"
   },
   "SHIP": {
     "description": "",

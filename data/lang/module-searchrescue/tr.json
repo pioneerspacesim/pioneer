@@ -435,10 +435,6 @@
     "description": "",
     "message": "Boy:"
   },
-  "LY": {
-    "description": "",
-    "message": "ıy"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Aktarım tamamlanamıyor. {cargotype} eksik."

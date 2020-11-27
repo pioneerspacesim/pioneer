@@ -327,10 +327,6 @@
     "description": "",
     "message": "Меня подбили. Нужна помощь."
   },
-  "LY": {
-    "description": "",
-    "message": "св.лет"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Металлорежущие станки"

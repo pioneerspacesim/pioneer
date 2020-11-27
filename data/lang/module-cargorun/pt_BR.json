@@ -327,10 +327,6 @@
     "description": "",
     "message": "Estou sofrendo danos. Preciso de ajuda."
   },
-  "LY": {
-    "description": "",
-    "message": "Ano-luz"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Ferramentas de máquina"

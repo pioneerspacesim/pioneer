@@ -627,6 +627,10 @@
     "description": "",
     "message": "Скатертью дорожка!"
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "[Назад]"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "GPU Jobs"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Установить пункт назначения как цель для навигации."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Задать маршрут возвращения"
   },
   "SHIP": {
     "description": "",

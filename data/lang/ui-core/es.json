@@ -627,6 +627,10 @@
     "description": "",
     "message": "Buen viaje también para usted."
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Atrás"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "Tareas de la GPU"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Establecer destino como objetivo de navegación."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Establecer ruta de retorno"
   },
   "SHIP": {
     "description": "",

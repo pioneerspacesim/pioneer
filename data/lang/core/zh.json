@@ -69,7 +69,7 @@
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "自动驾驶:飞向{target}附近"
+    "message": "自动驾驶:飞向{target}"
   },
   "AUTOPILOT_ON": {
     "description": "",

@@ -627,6 +627,10 @@
     "description": "",
     "message": "Dobrze by było tobie też się zwolnić."
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Powrót"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "Zadania GPU"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Ustaw jako cel nawigacyjny."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Ustaw drogę powrotną."
   },
   "SHIP": {
     "description": "",

@@ -327,10 +327,6 @@
     "description": "",
     "message": "I'm taking damage. I need help."
   },
-  "LY": {
-    "description": "",
-    "message": "ly"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Machine tools"

@@ -435,10 +435,6 @@
     "description": "",
     "message": "伦敦:"
   },
-  "LY": {
-    "description": "",
-    "message": "光年"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "{cargotype}缺失，无法完成传输。"

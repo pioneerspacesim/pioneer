@@ -627,6 +627,10 @@
     "description": "",
     "message": "Bon viatge a tu també."
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Anar enrere"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "GPU Jobs"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Set destination as navigation target."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Establir ruta de tornada"
   },
   "SHIP": {
     "description": "",

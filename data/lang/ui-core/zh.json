@@ -229,7 +229,7 @@
   },
   "CONTRACT_FRAUD": {
     "description": "Crime committed by intentionally breaking a contract",
-    "message": "Contract fraud"
+    "message": "合同欺诈"
   },
   "CONTROLS": {
     "description": "",
@@ -626,6 +626,10 @@
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
     "message": "也祝你好运."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "返回"
   },
   "GPU_JOBS": {
     "description": "",
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "将目的地设置为导航目标. "
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "设置返程航线"
   },
   "SHIP": {
     "description": "",

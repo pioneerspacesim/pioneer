@@ -179,10 +179,6 @@
     "description": "",
     "message": "Trebuie s-o faci după ce pleacă {target} din {spaceport}. Nu rata această șansă."
   },
-  "LY": {
-    "description": "",
-    "message": "al"
-  },
   "OK_AGREED": {
     "description": "",
     "message": "Ok, de acord."

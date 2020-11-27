@@ -627,6 +627,10 @@
     "description": "",
     "message": "Прав ти път."
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Назад"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "GPU Задачи"
@@ -745,7 +749,7 @@
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
-    "message": "Хиперсветлинния двигател е изключен"
+    "message": "Хипердвигателят е изключен"
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
@@ -1017,11 +1021,11 @@
   },
   "HYPERDRIVE": {
     "description": "",
-    "message": "Хиперсветлинен двигател"
+    "message": "Хипердвигател"
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
-    "message": "Монтирани хиперсветлинни двигатели:"
+    "message": "Монтирани хипердвигатели:"
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
@@ -1751,6 +1755,10 @@
     "description": "",
     "message": "Задай дестинацията като навигационна цел."
   },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Задай маршрут за връщане"
+  },
   "SHIP": {
     "description": "",
     "message": "Кораб"
@@ -1937,7 +1945,7 @@
   },
   "TOO_SMALL_TO_TRANSSHIP": {
     "description": "Ship market error message",
-    "message": "Новият кораб няма капацитет за сегашния товар и хипердвигател."
+    "message": "Новият кораб няма достатъчен капацитет за сегашния товар и хипердвигател."
   },
   "TOTAL": {
     "description": "",

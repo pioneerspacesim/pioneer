@@ -627,6 +627,10 @@
     "description": "",
     "message": "Bliain mhaith i do dhiaidhse!"
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Téigh ar ais"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "Jabanna GPU"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Roghnaigh ceann scríbe mar sprioc loingseoireachta."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Socraigh an turas fillte"
   },
   "SHIP": {
     "description": "",

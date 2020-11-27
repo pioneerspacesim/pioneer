@@ -627,6 +627,10 @@
     "description": "",
     "message": "Ihnen auch auf Nimmerwiedersehen!"
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Zurück"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "GPU-Aufgaben"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Ziel als Navigationsziel setzen."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Rückkehrroute setzen"
   },
   "SHIP": {
     "description": "",

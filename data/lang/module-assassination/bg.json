@@ -179,10 +179,6 @@
     "description": "",
     "message": "Трябва да се направи след като {target} напусне {spaceport}. Не изпускай тази възможност."
   },
-  "LY": {
-    "description": "",
-    "message": "сг"
-  },
   "OK_AGREED": {
     "description": "",
     "message": "ОК, съгласен."

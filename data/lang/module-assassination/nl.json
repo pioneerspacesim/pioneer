@@ -179,10 +179,6 @@
     "description": "",
     "message": "Het moet gebeurd zijn wanneer {target} de {spaceport} verlaat. Mis deze kans niet."
   },
-  "LY": {
-    "description": "",
-    "message": "lj"
-  },
   "OK_AGREED": {
     "description": "",
     "message": "Ok, akkoord."

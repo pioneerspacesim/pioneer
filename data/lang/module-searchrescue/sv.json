@@ -435,10 +435,6 @@
     "description": "",
     "message": "Long:"
   },
-  "LY": {
-    "description": "",
-    "message": "ly"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Kan inte slutföra transaktion. {cargotype} saknas."

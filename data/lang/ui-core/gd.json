@@ -627,6 +627,10 @@
     "description": "",
     "message": "'S math cuidhteas fhaighinn dhutsa cuideachd."
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Till"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "Obraichean GPU"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Suidhich an ceann-uidhe mar cheann-uidhe na seòladaireachd."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Suidhich cùrsa tillidh"
   },
   "SHIP": {
     "description": "",

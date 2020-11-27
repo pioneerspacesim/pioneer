@@ -229,7 +229,7 @@
   },
   "CONTRACT_FRAUD": {
     "description": "Crime committed by intentionally breaking a contract",
-    "message": "Contract fraud"
+    "message": "Sözleşme dolandırıcılığı"
   },
   "CONTROLS": {
     "description": "",
@@ -626,6 +626,10 @@
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
     "message": "Sana da iyi şanslar."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Geri"
   },
   "GPU_JOBS": {
     "description": "",
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Varış noktasını navigasyon hedefi olarak seç."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Dönüş yolunu seç"
   },
   "SHIP": {
     "description": "",

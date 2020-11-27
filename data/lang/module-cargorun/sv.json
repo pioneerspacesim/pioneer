@@ -327,10 +327,6 @@
     "description": "",
     "message": "Jag är skadad. Jag behöver hjälp."
   },
-  "LY": {
-    "description": "",
-    "message": "ly"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Maskinverktyg"

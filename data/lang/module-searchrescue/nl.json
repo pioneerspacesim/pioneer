@@ -435,10 +435,6 @@
     "description": "",
     "message": "LEN"
   },
-  "LY": {
-    "description": "",
-    "message": "lj"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Kan het transport niet voltooien. {cargotype} mist."

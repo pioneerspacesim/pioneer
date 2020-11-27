@@ -327,10 +327,6 @@
     "description": "",
     "message": "Je suis attaqué et subis des dégâts. J'ai besoin d'aide."
   },
-  "LY": {
-    "description": "",
-    "message": "al"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "machines-outils"

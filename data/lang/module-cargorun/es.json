@@ -327,10 +327,6 @@
     "description": "",
     "message": "Estoy sufriendo daños. Necesito ayuda."
   },
-  "LY": {
-    "description": "",
-    "message": "AL"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Herramientas de maquinaria"

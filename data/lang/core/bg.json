@@ -549,7 +549,7 @@
   },
   "HYPERSPACE_JUMP_DISABLED": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Хиперсветлинния двигател е изключен"
+    "message": "Хипердвигателят е изключен"
   },
   "HYPERSPACE_JUMP_ENGAGE": {
     "description": "Mouse over text for hyperdrive button on ship control panel",

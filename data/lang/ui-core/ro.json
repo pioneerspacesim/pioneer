@@ -627,6 +627,10 @@
     "description": "",
     "message": "Asemenea bucuros, că am scăpat de tine."
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Înapoi"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "GPU Jobs"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Setează destinaţia ca ţinta navigării."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Setați ruta de retur"
   },
   "SHIP": {
     "description": "",

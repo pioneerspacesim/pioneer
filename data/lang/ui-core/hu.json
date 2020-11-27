@@ -627,6 +627,10 @@
     "description": "",
     "message": "Jó szerencsét neked is!"
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Vissza"
+  },
   "GPU_JOBS": {
     "description": "",
     "message": "GPU feladatok"
@@ -1750,6 +1754,10 @@
   "SET_AS_TARGET": {
     "description": "",
     "message": "Cél megjelőlése uticélnak."
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Visszaút"
   },
   "SHIP": {
     "description": "",

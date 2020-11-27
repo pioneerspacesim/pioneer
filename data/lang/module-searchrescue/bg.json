@@ -435,10 +435,6 @@
     "description": "",
     "message": "Дълж:"
   },
-  "LY": {
-    "description": "",
-    "message": "сг"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Прехвърлянето не може да бъде завършено. Липсва {cargotype}."

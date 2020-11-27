@@ -435,10 +435,6 @@
     "description": "",
     "message": "L.:"
   },
-  "LY": {
-    "description": "",
-    "message": "Lj"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Umladung kann nicht fertiggestellt werden. {cargotype} fehlt."

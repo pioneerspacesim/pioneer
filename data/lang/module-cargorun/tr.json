@@ -327,10 +327,6 @@
     "description": "",
     "message": "Hasar alıyorum, yardıma ihtiyacım var."
   },
-  "LY": {
-    "description": "",
-    "message": "ıy"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Makine"

@@ -435,10 +435,6 @@
     "description": "",
     "message": "Dług.:"
   },
-  "LY": {
-    "description": "",
-    "message": "lś"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Nie mogę ukończyć załadunku. Brakuje {cargotype}."

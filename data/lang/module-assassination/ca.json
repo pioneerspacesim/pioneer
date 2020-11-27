@@ -179,10 +179,6 @@
     "description": "",
     "message": "Ha de fer-se després que el {target} abandoni {spaceport}. No perdeu aquesta oportunitat."
   },
-  "LY": {
-    "description": "",
-    "message": "al"
-  },
   "OK_AGREED": {
     "description": "",
     "message": "Molt bé, d'acord."

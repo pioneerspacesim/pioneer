@@ -179,10 +179,6 @@
     "description": "",
     "message": "Es muss passieren, nachdem {target} {spaceport} verlässt. Lassen Sie sich diese Chance nicht entgehen!"
   },
-  "LY": {
-    "description": "",
-    "message": "Lj"
-  },
   "OK_AGREED": {
     "description": "",
     "message": "Okay, ich mache das."

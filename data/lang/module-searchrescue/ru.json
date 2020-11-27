@@ -435,10 +435,6 @@
     "description": "",
     "message": "Дол:"
   },
-  "LY": {
-    "description": "",
-    "message": "св. лет"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Невозможно завершить передачу. Отсутствует {cargotype}."

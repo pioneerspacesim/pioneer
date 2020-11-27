@@ -435,10 +435,6 @@
     "description": "",
     "message": "Hossz:"
   },
-  "LY": {
-    "description": "",
-    "message": "fé"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Nem lehet átrakodni. {cargotype} hiányzik."

@@ -327,10 +327,6 @@
     "description": "",
     "message": "我受伤了，我需要帮助。"
   },
-  "LY": {
-    "description": "",
-    "message": "光年"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "机床"

@@ -13,7 +13,7 @@
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "驾驭黑市交易"
+    "message": "掌控黑市"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
-    "message": "低价买入, 高价卖出. "
+    "message": "低买 高卖. "
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "对你的船好点儿! "
+    "message": "对你的船好点儿"
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",

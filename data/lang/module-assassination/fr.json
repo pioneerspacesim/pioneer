@@ -179,10 +179,6 @@
     "description": "",
     "message": "Ce doit etre fait dès que {target} quitteras {spaceport}. Ne loupez pas cette opportunitée."
   },
-  "LY": {
-    "description": "",
-    "message": "al"
-  },
   "OK_AGREED": {
     "description": "",
     "message": "Ok, je suis d'accord."

@@ -179,10 +179,6 @@
     "description": "",
     "message": "Úkol musí být splněn až po té, co {target} opustí {spaceport}. Nezmeškej tuto příležitost!"
   },
-  "LY": {
-    "description": "",
-    "message": "ly"
-  },
   "OK_AGREED": {
     "description": "",
     "message": "OK, souhlasím."
