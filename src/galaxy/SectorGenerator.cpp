@@ -57,7 +57,17 @@ namespace HybridNames {
 		"orn", "il", "iel", "im",
 		"uk", "ium", "ia", "eon",
 		"ob", "ak", "arg", "ber",
-		"ane", "esh", "ad", "un"
+		"ane", "esh", "ad", "un",
+
+		//WKFO
+		"ank", "bur", "ist", "iz",
+		"erz", "tra", "shir", "gu",
+		"ant", "kon", "ya", "us",
+		"esk", "ig", "kah", "zon",
+		"tay", "ash", "mar", "van",
+		"sus", "tar", "run", "isk",
+		"hir", "gaz", "sun", "gat",
+		"pi", "cis", "ele", "ova"
 	};
 	static const unsigned int SYS_NAME_FRAGS = ((unsigned int)(sizeof(sys_names) / sizeof(char *)));
 
