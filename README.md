@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pioneerspacesim/pioneer.svg?branch=master)](https://travis-ci.org/pioneerspacesim/pioneer)
+[![Build](https://github.com/pioneerspacesim/pioneer/workflows/Build%20Pioneer/badge.svg)](https://github.com/pioneerspacesim/pioneer/actions)
 [![Build status](https://ci.appveyor.com/api/projects/status/b2n2fe1vv3wr6n56/branch/master?svg=true)](https://ci.appveyor.com/project/pioneerspacesim/pioneer/branch/master)
 [![License GPLv3](https://img.shields.io/badge/license-GPL_v3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
 [![#pioneer on Freenode](https://img.shields.io/badge/Freenode-%23pioneer-brightgreen.svg)](https://kiwiirc.com/client/irc.freenode.net/pioneer)
