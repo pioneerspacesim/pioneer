@@ -10,9 +10,12 @@
 #include "LuaManager.h"
 #include "LuaUtils.h"
 #include "Pi.h"
+#include "core/Log.h"
+#include "graphics/Graphics.h"
 #include "sigc++/functors/mem_fun.h"
 #include "text/TextSupport.h"
 #include "text/TextureFont.h"
+#include <imgui/imgui.h>
 #include <algorithm>
 #include <sstream>
 #include <stack>
@@ -31,8 +34,6 @@
 // end networking
 #endif
 
-#if 0
-
 #define TRUSTED_CONSOLE 1
 
 #if TRUSTED_CONSOLE
@@ -41,9 +42,12 @@ static const char CONSOLE_CHUNK_NAME[] = "[T] console";
 static const char CONSOLE_CHUNK_NAME[] = "console";
 #endif
 
+static constexpr int EDIT_BUFFER_LENGTH = 1024;
+
 LuaConsole::LuaConsole() :
 	m_active(false),
 	m_inputFrame(Pi::input),
+	m_historyPosition(-1),
 	m_precompletionStatement(),
 	m_completionList()
 #ifdef REMOTE_LUA_REPL
@@ -51,24 +55,15 @@ LuaConsole::LuaConsole() :
 	m_debugSocket(0)
 #endif
 {
-
-	m_output = Pi::ui->MultiLineText("");
-	m_entry = Pi::ui->TextEntry();
-
-	m_scroller = Pi::ui->Scroller()->SetInnerWidget(m_output);
-
-	// temporary until LuaConsole is moved to lua: move up to clear imgui time window
-	m_container.Reset(Pi::ui->Margin(80, UI::Margin::Direction::BOTTOM)->SetInnerWidget(Pi::ui->Margin(10)->SetInnerWidget(Pi::ui->ColorBackground(Color(0, 0, 0, 0xc0))->SetInnerWidget(Pi::ui->VBox()->PackEnd(UI::WidgetSet(Pi::ui->Expand()->SetInnerWidget(m_scroller), m_entry))))));
-
-	m_container->SetFont(UI::Widget::FONT_MONO_NORMAL);
-
-	m_entry->onKeyDown.connect(sigc::mem_fun(this, &LuaConsole::OnKeyDown));
-	m_entry->onChange.connect(sigc::mem_fun(this, &LuaConsole::OnChange));
-	m_entry->onEnter.connect(sigc::mem_fun(this, &LuaConsole::OnEnter));
-
-	m_historyPosition = -1;
-
 	RegisterAutoexec();
+	m_logCallbackConn = Log::GetLog()->printCallback.connect(sigc::mem_fun(this, &LuaConsole::LogCallback));
+	m_editBuffer.reset(new char[EDIT_BUFFER_LENGTH]);
+	std::fill_n(m_editBuffer.get(), EDIT_BUFFER_LENGTH, '\0');
+}
+
+LuaConsole::~LuaConsole()
+{
+	m_logCallbackConn.disconnect();
 }
 
 REGISTER_INPUT_BINDING(LuaConsole)
@@ -90,17 +85,10 @@ void LuaConsole::Toggle()
 	if (!Pi::game)
 		return;
 
-	if (m_active) {
-		Pi::ui->DropLayer();
-		m_inputFrame.modal = false;
-	} else {
-		Pi::ui->NewLayer()->SetInnerWidget(m_container.Get());
-		Pi::ui->SelectWidget(m_entry);
-		m_inputFrame.modal = true;
-	}
 	// Force our input frame to the top by re-adding it
-	Pi::input->AddInputFrame(&m_inputFrame);
+	m_inputFrame.modal = !m_active;
 	m_active = !m_active;
+	Pi::input->AddInputFrame(&m_inputFrame);
 }
 
 static int capture_traceback(lua_State *L)
@@ -195,99 +183,128 @@ void LuaConsole::RegisterAutoexec()
 	LUA_DEBUG_END(L, 0);
 }
 
-LuaConsole::~LuaConsole() {}
-
-bool LuaConsole::OnKeyDown(const UI::KeyboardEvent &event)
+void LuaConsole::LogCallback(Time::DateTime time, Log::Severity sev, nonstd::string_view message)
 {
+	if (sev <= Log::Severity::Debug)
+		m_outputLines.push_back(message.to_string());
+}
 
-	switch (event.keysym.sym) {
-	case SDLK_ESCAPE: {
-		// pressing the ESC key will drop our layer, but we still have to make sure we are marked as not active anymore
-		Toggle();
-		break;
-	}
-	case SDLK_UP:
-	case SDLK_DOWN: {
-		if (m_historyPosition == -1) {
-			if (event.keysym.sym == SDLK_UP) {
-				m_historyPosition = (m_statementHistory.size() - 1);
-				if (m_historyPosition != -1) {
-					m_stashedStatement = m_entry->GetText();
-					m_entry->SetText(m_statementHistory[m_historyPosition]);
-				}
+static int callback(ImGuiInputTextCallbackData *data)
+{
+	static_cast<LuaConsole *>(data->UserData)->HandleCallback(data);
+	return 0;
+}
+
+void LuaConsole::Draw()
+{
+	ImGui::SetNextWindowPos({ 0, 0 });
+	ImGui::SetNextWindowSize({ float(Graphics::GetScreenWidth()), float(Graphics::GetScreenHeight()) });
+	if (ImGui::Begin("Lua Console", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings)) {
+		if (ImGui::BeginChild("##TextWindow", ImVec2(0.f, -ImGui::GetFrameHeightWithSpacing() - ImGui::GetStyle().ItemSpacing.y))) {
+			for (const auto &str : m_outputLines) {
+				ImGui::TextUnformatted(str.c_str());
 			}
+
+			if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+				ImGui::SetScrollHereY(1.0f);
+		}
+		ImGui::EndChild();
+		ImGui::Separator();
+
+		if (ImGui::IsKeyPressed(SDL_GetScancodeFromKey(SDLK_ESCAPE)))
+			Toggle();
+
+		ImGui::SetNextItemWidth(ImGui::GetColumnWidth());
+		const auto inputFlags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
+		if (ImGui::InputText("##Console", m_editBuffer.get(), EDIT_BUFFER_LENGTH, inputFlags, callback, (void *)this)) {
+			m_activeStr = std::string(m_editBuffer.get(), strlen(m_editBuffer.get()));
+			if (!m_activeStr.empty()) {
+				bool changed = ExecOrContinue(m_activeStr);
+				if (changed)
+					strncpy(m_editBuffer.get(), m_activeStr.c_str(), EDIT_BUFFER_LENGTH);
+				ImGui::SetKeyboardFocusHere(-1);
+			}
+			m_completionList.clear();
+		}
+		if (ImGui::IsWindowAppearing())
+			ImGui::SetKeyboardFocusHere(-1);
+	}
+	ImGui::End();
+}
+
+void LuaConsole::HandleCallback(ImGuiInputTextCallbackData *data)
+{
+	bool hasUpdate = false;
+
+	if (data->EventFlag == ImGuiInputTextFlags_CallbackCompletion) {
+		m_activeStr = std::string(data->Buf, data->BufTextLen);
+		hasUpdate = OnCompletion(ImGui::GetIO().KeyShift);
+	} else if (data->EventFlag == ImGuiInputTextFlags_CallbackHistory) {
+		m_activeStr = std::string(data->Buf, data->BufTextLen);
+		if (data->EventKey == ImGuiKey_UpArrow)
+			hasUpdate = OnHistory(true);
+		else if (data->EventKey == ImGuiKey_DownArrow)
+			hasUpdate = OnHistory(false);
+	}
+
+	if (hasUpdate) {
+		data->DeleteChars(0, data->BufTextLen);
+		data->InsertChars(0, m_activeStr.c_str());
+	}
+}
+
+bool LuaConsole::OnCompletion(bool backward)
+{
+	UpdateCompletion(m_activeStr);
+
+	if (!m_completionList.empty()) { // We still need to test whether it failed or not.
+		if (backward) {
+			if (m_currentCompletion == 0)
+				m_currentCompletion = m_completionList.size();
+			m_currentCompletion--;
 		} else {
-			if (event.keysym.sym == SDLK_DOWN) {
-				++m_historyPosition;
-				if (m_historyPosition >= int(m_statementHistory.size())) {
-					m_historyPosition = -1;
-					m_entry->SetText(m_stashedStatement);
-					m_stashedStatement.clear();
-				} else {
-					m_entry->SetText(m_statementHistory[m_historyPosition]);
-				}
-			} else {
-				if (m_historyPosition > 0) {
-					--m_historyPosition;
-					m_entry->SetText(m_statementHistory[m_historyPosition]);
-				}
-			}
+			m_currentCompletion++;
+			if (m_currentCompletion == m_completionList.size())
+				m_currentCompletion = 0;
 		}
 
-		return true;
-	}
-
-	case SDLK_u:
-	case SDLK_w:
-		if (event.keysym.mod & KMOD_CTRL) {
-			// TextEntry already cleared the input, we must cleanup the history
-			m_stashedStatement.clear();
-			m_historyPosition = -1;
-			return true;
-		}
-		break;
-
-	case SDLK_l:
-		if (event.keysym.mod & KMOD_CTRL) {
-			m_output->SetText("");
-			return true;
-		}
-		break;
-
-	case SDLK_TAB:
-		if (m_completionList.empty()) {
-			UpdateCompletion(m_entry->GetText());
-		}
-		if (!m_completionList.empty()) { // We still need to test whether it failed or not.
-			if (event.keysym.mod & KMOD_SHIFT) {
-				if (m_currentCompletion == 0)
-					m_currentCompletion = m_completionList.size();
-				m_currentCompletion--;
-			} else {
-				m_currentCompletion++;
-				if (m_currentCompletion == m_completionList.size())
-					m_currentCompletion = 0;
-			}
-			m_entry->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
-		}
+		m_activeStr = m_precompletionStatement + m_completionList[m_currentCompletion];
 		return true;
 	}
 
 	return false;
 }
 
-void LuaConsole::OnChange(const std::string &text)
+bool LuaConsole::OnHistory(bool upArrow)
 {
-	m_completionList.clear();
-}
+	if (!m_statementHistory.size())
+		return false;
 
-void LuaConsole::OnEnter(const std::string &text)
-{
-	if (!text.empty())
-		ExecOrContinue(text);
-	m_completionList.clear();
-	Pi::ui->SelectWidget(m_entry);
-	m_scroller->SetScrollPosition(1.0f);
+	if (upArrow) {
+		if (m_historyPosition == -1) {
+			m_stashedStatement = m_activeStr;
+			m_historyPosition = m_statementHistory.size() - 1;
+		} else
+			--m_historyPosition;
+	} else {
+		if (m_historyPosition == -1) {
+			m_stashedStatement = m_activeStr;
+		}
+
+		++m_historyPosition;
+		if (m_historyPosition >= int(m_statementHistory.size())) {
+			m_historyPosition = -1;
+		}
+	}
+
+	if (m_historyPosition == -1) {
+		m_activeStr = m_stashedStatement;
+		m_stashedStatement.clear();
+	} else {
+		m_activeStr = m_statementHistory[m_historyPosition];
+	}
+
+	return true;
 }
 
 void LuaConsole::UpdateCompletion(const std::string &statement)
@@ -354,14 +371,15 @@ void LuaConsole::UpdateCompletion(const std::string &statement)
 
 void LuaConsole::AddOutput(const std::string &line)
 {
-	std::string actualLine = line + "\n";
-	m_output->AppendText(actualLine);
+	m_outputLines.push_back(line);
 #ifdef REMOTE_LUA_REPL
-	BroadcastToDebuggers(actualLine);
+	BroadcastToDebuggers(line.back() == '\n' ? line : line + '\n');
 #endif
 }
 
-void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement)
+// Returns true if it has modified the active string, false if the current string
+// should continue to be edited
+bool LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement)
 {
 	int result;
 	lua_State *L = Lua::manager->GetLuaState();
@@ -381,9 +399,9 @@ void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement)
 			const char *tail = msg + msglen - (sizeof(eofstring) - 1);
 			if (strcmp(tail, eofstring) == 0) {
 				// statement is incomplete -- allow the user to continue on the next line
-				m_entry->SetText(stmt + "\n");
+				m_activeStr.push_back('\n');
 				lua_pop(L, 1);
-				return;
+				return true;
 			}
 		}
 	}
@@ -393,14 +411,14 @@ void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement)
 		const char *msg = lua_tolstring(L, -1, &msglen);
 		AddOutput(std::string(msg, msglen));
 		lua_pop(L, 1);
-		return;
+		return false;
 	}
 
 	if (result == LUA_ERRMEM) {
 		// this will probably fail too, since we've apparently
 		// just had a memory allocation failure...
 		AddOutput("memory allocation failure");
-		return;
+		return false;
 	}
 
 	// set the global table
@@ -469,8 +487,11 @@ void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement)
 	// pop all return values
 	lua_settop(L, top);
 
-	// update the history list
+	// always forget the history position and clear the stashed command
+	m_historyPosition = -1;
+	m_stashedStatement.clear();
 
+	// update the history list
 	if (!result) {
 		// command succeeded... add it to the history unless it's just
 		// an exact repeat of the immediate last command
@@ -478,12 +499,11 @@ void LuaConsole::ExecOrContinue(const std::string &stmt, bool repeatStatement)
 			m_statementHistory.push_back(stmt);
 
 		// clear the entry box
-		m_entry->SetText("");
-	}
+		m_activeStr.clear();
+		return true;
+	};
 
-	// always forget the history position and clear the stashed command
-	m_historyPosition = -1;
-	m_stashedStatement.clear();
+	return false;
 }
 
 /*
@@ -692,6 +712,4 @@ void LuaConsole::BroadcastToDebuggers(const std::string &message)
 		};
 	}
 }
-#endif
-
 #endif

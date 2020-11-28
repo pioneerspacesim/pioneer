@@ -108,7 +108,7 @@ Input::Manager *Pi::input;
 Player *Pi::player;
 View *Pi::currentView;
 TransferPlanner *Pi::planner;
-// LuaConsole *Pi::luaConsole;
+std::unique_ptr<LuaConsole> Pi::luaConsole;
 Game *Pi::game;
 Random Pi::rng;
 float Pi::frameTime;
@@ -434,7 +434,7 @@ void Pi::App::Shutdown()
 	Projectile::FreeModel();
 	Beam::FreeModel();
 	delete Pi::intro;
-	// delete Pi::luaConsole;
+	Pi::luaConsole.reset();
 	NavLights::Uninit();
 	Shields::Uninit();
 	SfxManager::Uninit();
@@ -583,8 +583,8 @@ void LoadStep::Start()
 	});
 
 	AddStep("PostLoad", []() {
-		// Pi::luaConsole = new LuaConsole();
-		// Pi::luaConsole->SetupBindings();
+		Pi::luaConsole.reset(new LuaConsole());
+		Pi::luaConsole->SetupBindings();
 
 		Pi::planner = new TransferPlanner();
 
@@ -897,7 +897,7 @@ void GameLoop::Start()
 #ifndef REMOTE_LUA_REPL_PORT
 #define REMOTE_LUA_REPL_PORT 12345
 #endif
-	// luaConsole->OpenTCPDebugConnection(REMOTE_LUA_REPL_PORT);
+	luaConsole->OpenTCPDebugConnection(REMOTE_LUA_REPL_PORT);
 #endif
 
 	// fire event before the first frame
@@ -1006,7 +1006,7 @@ void GameLoop::Update(float deltaTime)
 	Pi::GetApp()->HandleEvents();
 
 #ifdef REMOTE_LUA_REPL
-	// Pi::luaConsole->HandleTCPDebugConnections();
+	Pi::luaConsole->HandleTCPDebugConnections();
 #endif
 
 	// Reset the depth buffer so our UI can get drawn right overtop
@@ -1029,8 +1029,10 @@ void GameLoop::Update(float deltaTime)
 	Pi::pigui->NewFrame();
 
 	if (Pi::game && !Pi::player->IsDead()) {
-		// FIXME: major hack to work around the fact that the console is in newUI and not pigui
-		if (!Pi::IsConsoleActive())
+		// TODO: this mechanism still isn't perfect, but it gets us out of newUI
+		if (Pi::luaConsole->IsActive())
+			Pi::luaConsole->Draw();
+		else
 			PiGui::RunHandler(deltaTime, "game");
 
 		Pi::GetView()->DrawPiGui();
@@ -1184,12 +1186,6 @@ void Pi::RequestQuit()
 /*
 	GARBAGE THAT ESPECIALLY SHOULD NOT BE HERE
 */
-
-bool Pi::IsConsoleActive()
-{
-	// FIXME: port console to pigui
-	return false; // luaConsole && luaConsole->IsActive();
-}
 
 void Pi::SetView(View *v)
 {

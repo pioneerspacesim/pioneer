@@ -178,8 +178,7 @@ void ShipViewController::Update()
 	auto *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
 	auto frameTime = Pi::GetFrameTime();
 
-	// XXX ugly hack checking for console here
-	if (!InputBindings.active || Pi::IsConsoleActive()) return;
+	if (!InputBindings.active) return;
 
 	if (GetCamType() == CAM_INTERNAL) {
 		if (InputBindings.frontCamera->IsActive())

@@ -1120,25 +1120,21 @@ void SectorView::Update()
 	rot.RotateX(DEG2RAD(-m_rotX));
 	rot.RotateZ(DEG2RAD(-m_rotZ));
 
-	// don't check raw keypresses if the search box is active
-	// XXX ugly hack checking for Lua console here
-	if (!Pi::IsConsoleActive()) {
-		matrix3x3f shiftRot = matrix3x3f::Rotate(DEG2RAD(m_rotZ), { 0, 0, 1 });
+	matrix3x3f shiftRot = matrix3x3f::Rotate(DEG2RAD(m_rotZ), { 0, 0, 1 });
 
-		const float moveSpeed = Pi::GetMoveSpeedShiftModifier();
-		float move = moveSpeed * frameTime * m_zoomClamped;
-		vector3f shift(0.0f);
-		if (InputBindings.mapViewMoveLeft->IsActive()) shift.x -= move * InputBindings.mapViewMoveLeft->GetValue();
-		if (InputBindings.mapViewMoveForward->IsActive()) shift.y += move * InputBindings.mapViewMoveForward->GetValue();
-		if (InputBindings.mapViewMoveUp->IsActive()) shift.z += move * InputBindings.mapViewMoveUp->GetValue();
-		m_posMovingTo += shift * shiftRot;
+	const float moveSpeed = Pi::GetMoveSpeedShiftModifier();
+	float move = moveSpeed * frameTime * m_zoomClamped;
+	vector3f shift(0.0f);
+	if (InputBindings.mapViewMoveLeft->IsActive()) shift.x -= move * InputBindings.mapViewMoveLeft->GetValue();
+	if (InputBindings.mapViewMoveForward->IsActive()) shift.y += move * InputBindings.mapViewMoveForward->GetValue();
+	if (InputBindings.mapViewMoveUp->IsActive()) shift.z += move * InputBindings.mapViewMoveUp->GetValue();
+	m_posMovingTo += shift * shiftRot;
 
-		if (InputBindings.mapViewZoom->IsActive()) m_zoomMovingTo -= move * InputBindings.mapViewZoom->GetValue();
-		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, FAR_MAX);
+	if (InputBindings.mapViewZoom->IsActive()) m_zoomMovingTo -= move * InputBindings.mapViewZoom->GetValue();
+	m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, FAR_MAX);
 
-		if (InputBindings.mapViewYaw->IsActive()) m_rotZMovingTo += 0.5f * moveSpeed * InputBindings.mapViewYaw->GetValue();
-		if (InputBindings.mapViewPitch->IsActive()) m_rotXMovingTo += 0.5f * moveSpeed * InputBindings.mapViewPitch->GetValue();
-	}
+	if (InputBindings.mapViewYaw->IsActive()) m_rotZMovingTo += 0.5f * moveSpeed * InputBindings.mapViewYaw->GetValue();
+	if (InputBindings.mapViewPitch->IsActive()) m_rotXMovingTo += 0.5f * moveSpeed * InputBindings.mapViewPitch->GetValue();
 
 	// to capture mouse when button was pressed and release when released
 	if (Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
