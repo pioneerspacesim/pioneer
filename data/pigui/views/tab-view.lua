@@ -58,20 +58,13 @@ function PiGuiTabView.resize(self)
             self.buttonWindowSize.y + viewWindowPadding.y)
 end
 
-function PiGuiTabView.registerView(self, id, view)
-	if view then
-		local idx = self.tabs[id]
-		if idx then
-			self.tabs[idx] = view; return
-		else
-			self.tabs[id] = #self.tabs + 1
-		end
-	else
-		id, view = view, id
-	end
+function PiGuiTabView.registerView(self, view)
+	local idx = self.tabs[view.id]
+	if idx then self.tabs[idx] = view; return end
 
     table.insert(self.tabs, view)
 	self.viewCount = self.viewCount + 1
+	self.tabs[view.id] = self.viewCount
     self:resize()
 end
 
@@ -155,8 +148,10 @@ function PiGuiTabView.renderTabView(self)
         end)
 	end)
 
-	if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) and tab.debugReload then
-		tab:debugReload()
+	if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+		if tab.debugReload then tab:debugReload() end
+		-- refresh the (possibly) new tab
+		self.tabs[self.currentTab]:refresh()
 	end
 end
 

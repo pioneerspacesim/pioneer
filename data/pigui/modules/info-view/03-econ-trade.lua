@@ -232,7 +232,7 @@ InfoView:registerView({
 	draw = function()
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
 			ui.withFont(pionillium.medlarge, function()
-				local sizex = ui.screenWidth / 2
+				local sizex = (ui.getColumnWidth() - itemSpacing.x) / 2
 				local sizey = ui.getContentRegion().y - StationView.style.height
 				ui.child("leftpanel", Vector2(sizex, sizey), function()
 					drawEconTrade()

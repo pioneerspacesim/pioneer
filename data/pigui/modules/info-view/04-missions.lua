@@ -127,7 +127,7 @@ local function makeMissionRows()
 	end
 end
 
-InfoView:registerView("missions", {
+InfoView:registerView({
     id = "missions",
     name = l.MISSIONS,
     icon = ui.theme.icons.star,

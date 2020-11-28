@@ -28,7 +28,7 @@ static int CleanupWindowStack(SavedImguiStackInfo *stackInfo)
 
 	// While it shouldn't be possible to get a window stack of less than the last time it was updated,
 	// we want to check for it anyways to avoid causing issues down the line.
-	if (numUnfinishedWindows <= 1 || !stackInfo->windowStackSize)
+	if (numUnfinishedWindows <= 0 || !stackInfo->windowStackSize)
 		return 0;
 
 	for (int n = numUnfinishedWindows; n > 0; n--) {
