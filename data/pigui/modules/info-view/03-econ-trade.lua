@@ -18,6 +18,9 @@ local gray = colors.grey
 
 local iconSize = Vector2(28, 28) * (ui.screenHeight / 1200)
 local buttonSpaceSize = iconSize
+-- FIXME: need to manually set itemSpacing to be able to properly size columns
+-- Need a style-var query system for best effect
+local itemSpacing = ui.rescaleUI(Vector2(6, 12), Vector2(1600, 900))
 
 local shipDef
 local hyperdrive
@@ -31,29 +34,37 @@ local jettison = function (item)
 	local button = ui.coloredSelectedIconButton(icons.cargo_crate_illegal, buttonSpaceSize, false, 0, colors.buttonBlue, colors.white, tooltip, iconSize)
 
 	if button and enabled then
-		print("Jettison:", item:GetName(), size)
 		Game.player:Jettison(item)
 	end
 
 	return button
 end
 
-local function cargolist ()
+local cachedCargoList = nil
+local maxCargoWidth = 0
+local function rebuildCargoList()
 	local count = {}
+	local maxCargoCount = 0
 	for k, et in pairs(Game.player:GetEquip("cargo")) do
 		if not count[et] then count[et] = 0 end
 		count[et] = count[et]+1
+		maxCargoCount = math.max(count[et], maxCargoCount)
 	end
 
-	local max_width = ui.calcTextSize("12t")
+	cachedCargoList = count
+	maxCargoWidth = ui.calcTextSize(maxCargoCount.."t").x + itemSpacing.x * 2
+	return count
+end
+
+local function cargolist ()
+	local count = cachedCargoList or rebuildCargoList()
+
 	ui.columns(3, "cargoTable")
 
-	ui.setColumnWidth(0, max_width.x)
+	ui.setColumnWidth(0, maxCargoWidth)
 	for et, nb in pairs(count) do
 		-- count
 		local text = nb .. "t"
-		local width = ui.calcTextSize(text)
-		max_width = max_width.x < width.x and width or max_width
 		ui.text(text)
 		ui.nextColumn()
 
@@ -92,8 +103,7 @@ local pumpDown = function (fuel)
 
 	-- Set internal thruster fuel tank state
 	-- (player.fuel is percentage, between 0-100)
- 	player:SetFuelPercent(math.clamp(player.fuel - drainedFuel * 100 / fuelTankMass, 0, 100))
-	print("Game.player.fuel", player.fuel)
+	player:SetFuelPercent(math.clamp(player.fuel - drainedFuel * 100 / fuelTankMass, 0, 100))
 end
 
 -- wrapper around gaugees, for consistent size, and vertical spacing
@@ -134,8 +144,8 @@ end
 -- Gauge bar for used/free cargo space
 local function gauge_cargo()
 	local player = Game.player
-	gauge_bar(player.usedCapacity, string.format('%%it %s / %it %s', l.USED, player.freeCapacity, l.FREE),
-			  0, player.usedCapacity + player.freeCapacity, icons.market)
+	gauge_bar(player.usedCargo, string.format('%%it %s / %it %s', l.USED, player.totalCargo - player.usedCargo, l.FREE),
+			  0, player.totalCargo, icons.market)
 end
 
 -- Gauge bar for used/free cabins
@@ -187,7 +197,7 @@ local function drawEconTrade()
 		ui.text(l.PUMP_DOWN)
 		ui.sameLine(width)
 		for k, v in ipairs(options) do
-			fuel = -1*v
+			local fuel = -1*v
 			if ui.button(fuel .. "##pump", Vector2(100, 0)) then
 				pumpDown(fuel)
 			end
@@ -219,30 +229,36 @@ InfoView:registerView({
     name = l.ECONOMY_TRADE,
     icon = ui.theme.icons.cargo_manifest,
     showView = true,
-    draw = function()
-		ui.withStyleVars({ WindowPadding = Vector2(24, 24) }, function()
-			ui.child("", Vector2(0, 0), ui.WindowFlags {"AlwaysUseWindowPadding"}, function()
-            	ui.withFont(pionillium.medlarge, function()
-					local sizex = ui.screenWidth / 2
-					local sizey = ui.getContentRegion().y - StationView.style.height
-					ui.child("leftpanel", Vector2(sizex, sizey), function()
-						drawEconTrade() end)
+	draw = function()
+		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
+			ui.withFont(pionillium.medlarge, function()
+				local sizex = ui.screenWidth / 2
+				local sizey = ui.getContentRegion().y - StationView.style.height
+				ui.child("leftpanel", Vector2(sizex, sizey), function()
+					drawEconTrade()
+				end)
 
-					ui.sameLine()
+				ui.sameLine()
 
-					ui.child("rightpanel", Vector2(sizex, sizey), function()
-						if ui.collapsingHeader(l.CARGO, {"DefaultOpen"}) then
-							gauge_cargo()
-							cargolist()
-						end
-					end)
+				ui.child("rightpanel", Vector2(sizex, sizey), function()
+					if ui.collapsingHeader(l.CARGO, {"DefaultOpen"}) then
+						gauge_cargo()
+						cargolist()
+					end
 				end)
 			end)
 		end)
 	end,
 	refresh = function()
+		Game.player.equipSet:AddListener(function (slot)
+			if slot == "cargo" then cachedCargoList = nil end
+		end)
+		cachedCargoList = nil
 		shipDef = ShipDef[Game.player.shipId]
 		hyperdrive = table.unpack(Game.player:GetEquip("engine")) or nil
 		hyperdrive_fuel = hyperdrive and hyperdrive.fuel or Equipment.cargo.hydrogen
 	end,
+	debugReload = function()
+		package.reimport()
+	end
 })

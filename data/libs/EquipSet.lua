@@ -51,9 +51,9 @@ function EquipSet:AddListener(listener)
 	listeners[self] = listener
 end
 
-function EquipSet:CallListener()
+function EquipSet:CallListener(slot)
 	if listeners[self] then
-		listeners[self]()
+		listeners[self](slot)
 	end
 end
 
@@ -213,7 +213,7 @@ function EquipSet:__TriggerCallbacks(ship, slot)
 	else
 		ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, self.slots.cargo.__occupied+ship.freeCapacity))
 	end
-	self:CallListener()
+	self:CallListener(slot)
 end
 
 -- Method: __Remove_NoCheck (PRIVATE)
