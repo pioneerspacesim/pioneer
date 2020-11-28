@@ -10,6 +10,7 @@ November 2020
      * Port Crew Roster to PiGui (#5022)
      * Port Active Missions display to PiGui (#5025)
      * Move Economy & Trade -view to pigui (#4967)
+     * Add menu and ingame music from franzopow (#5027)
 
    * Internal Changes
      * Decrease the maximum background star size to 0.3 (#4991)
