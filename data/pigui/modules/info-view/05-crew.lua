@@ -275,7 +275,7 @@ require 'Event'.Register('onGameEnd', function()
 	lastTaskResult = ""
 end)
 
-InfoView:registerView("crew", {
+InfoView:registerView({
     id = "crew",
     name = l.CREW_ROSTER,
     icon = ui.theme.icons.roster,
