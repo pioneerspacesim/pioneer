@@ -368,12 +368,12 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 bool PlayerShipController::IsAnyAngularThrusterKeyDown()
 {
-	return !Pi::IsConsoleActive() && (InputBindings.pitch->IsActive() || InputBindings.yaw->IsActive() || InputBindings.roll->IsActive());
+	return InputBindings.pitch->IsActive() || InputBindings.yaw->IsActive() || InputBindings.roll->IsActive();
 }
 
 bool PlayerShipController::IsAnyLinearThrusterKeyDown()
 {
-	return !Pi::IsConsoleActive() && (InputBindings.thrustForward->IsActive() || InputBindings.thrustLeft->IsActive() || InputBindings.thrustUp->IsActive());
+	return InputBindings.thrustForward->IsActive() || InputBindings.thrustLeft->IsActive() || InputBindings.thrustUp->IsActive();
 }
 
 void PlayerShipController::SetFlightControlState(FlightControlState s)

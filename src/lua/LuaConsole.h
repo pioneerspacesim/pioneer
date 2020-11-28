@@ -7,20 +7,15 @@
 #include "Input.h"
 #include "LuaManager.h"
 #include "RefCounted.h"
+#include "sigc++/connection.h"
 #include <deque>
 
-#if 0
-
-namespace UI {
-	class TextEntry;
-	class MultiLineText;
-	class Scroller;
-} // namespace UI
+struct ImGuiInputTextCallbackData;
 
 class LuaConsole {
 public:
 	LuaConsole();
-	virtual ~LuaConsole();
+	~LuaConsole();
 
 	void SetupBindings();
 	void Toggle();
@@ -34,16 +29,15 @@ public:
 #endif
 
 	static void Register();
+	void HandleCallback(ImGuiInputTextCallbackData *data);
+	void Draw();
 
 private:
-	bool OnKeyDown(const UI::KeyboardEvent &event);
-	void OnChange(const std::string &text);
-	void OnEnter(const std::string &text);
+	bool OnCompletion(bool backward);
+	bool OnHistory(bool upArrow);
+	void LogCallback(Time::DateTime, Log::Severity, nonstd::string_view);
 
-	void ExecOrContinue(const std::string &stmt, bool repeatStatement = true);
-
-	void OnKeyPressed(const SDL_Keysym *);
-	void OnTextChanged();
+	bool ExecOrContinue(const std::string &stmt, bool repeatStatement = true);
 	void UpdateCompletion(const std::string &statement);
 	void RegisterAutoexec();
 
@@ -56,17 +50,19 @@ private:
 	bool m_active;
 	Input::InputFrame m_inputFrame;
 	InputBindings::Action *toggleLuaConsole;
+	sigc::connection m_logCallbackConn;
 
-	RefCountedPtr<UI::Widget> m_container;
-	UI::MultiLineText *m_output;
-	UI::TextEntry *m_entry;
-	UI::Scroller *m_scroller;
+	// Output log
+	std::vector<std::string> m_outputLines;
 
+	// statement history
 	std::deque<std::string> m_statementHistory;
 	std::string m_stashedStatement;
+	std::string m_activeStr;
+	std::unique_ptr<char[]> m_editBuffer;
 	int m_historyPosition;
-	int m_nextOutputLine;
 
+	// autocompletion
 	std::string m_precompletionStatement;
 	std::vector<std::string> m_completionList;
 	unsigned int m_currentCompletion;
@@ -76,7 +72,5 @@ private:
 	std::vector<int> m_debugConnections;
 #endif
 };
-
-#endif
 
 #endif /* _LUACONSOLE_H */

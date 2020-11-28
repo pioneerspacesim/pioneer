@@ -141,8 +141,6 @@ public:
 	// FIXME: hacked-in singleton pattern, find a better way to locate the application
 	static App *GetApp() { return m_instance; }
 
-	static bool IsConsoleActive();
-
 	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
 	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
 	static bool AreSpeedLinesDisplayed() { return speedLinesDisplayed; }
@@ -208,7 +206,7 @@ public:
 	static Input::Manager *input;
 	static Player *player;
 	static TransferPlanner *planner;
-	static LuaConsole *luaConsole;
+	static std::unique_ptr<LuaConsole> luaConsole;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 	static Graphics::Renderer *renderer;
 	static ModelCache *modelCache;
