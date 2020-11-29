@@ -9,7 +9,7 @@
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
-    "message": "Атмосферни Щитове"
+    "message": "Атмосферни щитове"
   },
   "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
     "description": "",
@@ -17,11 +17,11 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
-    "message": "Големи Атмосферни Щитове"
+    "message": "Големи атмосферни щитове"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "Подобрена версия на Атмосферните Щитове."
+    "message": "Подобрена версия на атмосферните щитове."
   },
   "AUTOPILOT": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
-    "message": "Животоподдържаща Система в Товарното Отделение"
+    "message": "Животоподдържаща система в товарното отделение"
   },
   "CARGO_LIFE_SUPPORT_DESCRIPTION": {
     "description": "",
@@ -97,39 +97,39 @@
   },
   "DRIVE_MIL1": {
     "description": "",
-    "message": "Клас 1 Военен Двигател"
+    "message": "Клас 1 Военен двигател"
   },
   "DRIVE_MIL2": {
     "description": "",
-    "message": "Клас 2 Военен Двигател"
+    "message": "Клас 2 Военен двигател"
   },
   "DRIVE_MIL3": {
     "description": "",
-    "message": "Клас 3 Военен Двигател"
+    "message": "Клас 3 Военен двигател"
   },
   "DRIVE_MIL4": {
     "description": "",
-    "message": "Клас 4 Военен Двигател"
+    "message": "Клас 4 Военен двигател"
   },
   "DRIVE_MIL5": {
     "description": "",
-    "message": "Клас 5 Военен Двигател"
+    "message": "Клас 5 Военен двигател"
   },
   "DRIVE_MIL6": {
     "description": "",
-    "message": "Клас 6 Военен Двигател"
+    "message": "Клас 6 Военен двигател"
   },
   "DRIVE_MIL7": {
     "description": "",
-    "message": "Клас 7 Военен Двигател"
+    "message": "Клас 7 Военен двигател"
   },
   "DRIVE_MIL8": {
     "description": "",
-    "message": "Клас 8 Военен Двигател"
+    "message": "Клас 8 Военен двигател"
   },
   "DRIVE_MIL9": {
     "description": "",
-    "message": "Клас 9 Военен Двигател"
+    "message": "Клас 9 Военен двигател"
   },
   "ECM_ADVANCED": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "FUEL_SCOOP": {
     "description": "",
-    "message": "Товарач за Гориво"
+    "message": "Товарач за гориво"
   },
   "FUEL_SCOOP_DESCRIPTION": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "HULL_AUTOREPAIR": {
     "description": "",
-    "message": "Система за Автоматичен Ремонт на Корпуса"
+    "message": "Система за автоматичен ремонт на корпуса"
   },
   "HULL_AUTOREPAIR_DESCRIPTION": {
     "description": "",
@@ -165,19 +165,19 @@
   },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
-    "message": "Анализатор на Хипер Облаци"
+    "message": "Анализатор на хипер облаци"
   },
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
-    "message": "Анализира облаците в хипер пространството за да определи дестинацията и времето на пристигане или тръгване."
+    "message": "Анализира облаците в хиперпространството за да определи дестинацията и времето на пристигане или тръгване."
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
-    "message": "Голям плазмен ускорител"
+    "message": "Голям плазмен катализатор"
   },
   "LASER_COOLING_BOOSTER": {
     "description": "",
-    "message": "Лазерен Охладителен Бустер"
+    "message": "Лазерен охладителен усилвател"
   },
   "LASER_COOLING_BOOSTER_DESCRIPTION": {
     "description": "",
@@ -193,23 +193,23 @@
   },
   "MISSILE_GUIDED": {
     "description": "",
-    "message": "Управляема Ракета"
+    "message": "Управляема ракета"
   },
   "MISSILE_NAVAL": {
     "description": "",
-    "message": "Военноморска Ракета"
+    "message": "Военноморска ракета"
   },
   "MISSILE_SMART": {
     "description": "",
-    "message": "Умна Ракета"
+    "message": "Умна ракета"
   },
   "MISSILE_UNGUIDED": {
     "description": "",
-    "message": "R40 Самостоятелна Ракета"
+    "message": "R40 Самостоятелна ракета"
   },
   "MULTI_SCOOP": {
     "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
-    "message": "Комбиниран Товарач"
+    "message": "Комбиниран товарач"
   },
   "MULTI_SCOOP_DESCRIPTION": {
     "description": "",
@@ -269,15 +269,15 @@
   },
   "SCAN_COMPLETED": {
     "description": "",
-    "message": "Сканирането завършено"
+    "message": "Сканирането е завършено"
   },
   "SCAN_RESUMED": {
     "description": "",
-    "message": "Сканирането възобновено"
+    "message": "Сканирането е възобновено"
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
-    "message": "Енергиен Бустер на Щитовете"
+    "message": "Енергиен усилвател на щитовете"
   },
   "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "SHIELD_GENERATOR": {
     "description": "",
-    "message": "Генератор на Щитовете"
+    "message": "Генератор на щитовете"
   },
   "SHIELD_GENERATOR_DESCRIPTION": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
-    "message": "Целеви Скенер"
+    "message": "Целеви скенер"
   },
   "TARGET_SCANNER_DESCRIPTION": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "THRUSTERS_BASIC": {
     "description": "",
-    "message": "Модифицирани Ускорители"
+    "message": "Модифицирани ускорители"
   },
   "THRUSTERS_BASIC_DESCRIPTION": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "THRUSTERS_BEST": {
     "description": "",
-    "message": "Поръчкови Ускорители"
+    "message": "Поръчкови ускорители"
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "THRUSTERS_MEDIUM": {
     "description": "",
-    "message": "Оптимизирани Ускорители"
+    "message": "Оптимизирани ускорители"
   },
   "THRUSTERS_MEDIUM_DESCRIPTION": {
     "description": "",
@@ -333,7 +333,7 @@
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
-    "message": "Търговски Компютър"
+    "message": "Търговски компютър"
   },
   "TRADE_COMPUTER_DESCRIPTION": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
-    "message": "Допълнителна Пасажерска Кабина"
+    "message": "Допълнителна пасажерска кабина"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",

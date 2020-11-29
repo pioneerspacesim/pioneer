@@ -527,6 +527,10 @@
     "description": "Hyperjump planner, referring to star system target",
     "message": "Końcowy cel:"
   },
+  "FINANCE": {
+    "description": "Financial statement of player, e.g. cash",
+    "message": "Finance"
+  },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
     "message": "Dokowanie na {primary_info}"

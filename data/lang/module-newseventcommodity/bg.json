@@ -141,7 +141,7 @@
   },
   "FLAVOUR_3_NEWSBODY": {
     "description": "Imply high demand of FRUIT_AND_VEG.",
-    "message": "Администрацията в системата {system} ({sectorx}, {sectory}, {sectorz}) търси начин да увеличи вноса на зелените продукти за да задоволи търсенето им."
+    "message": "Администрацията в системата {system} ({sectorx}, {sectory}, {sectorz}) търси начин да увеличи вноса на зелени продукти за да задоволи увеличеното търсене."
   },
   "FLAVOUR_4_HEADLINE": {
     "description": "About mob rivals competing for selling drugs",
