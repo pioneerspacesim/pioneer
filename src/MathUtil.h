@@ -24,6 +24,11 @@ namespace MathUtil {
 	{
 		return t * v2 + (F(1.0) - t) * v1;
 	}
+	template <class T, class F>
+	inline T Lerp(const T& v1, const T& v2, const F t)
+	{
+		return mix(v1, v2, t);
+	}
 
 	inline float Dot(const vector3f &a, const vector3f &b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
 
