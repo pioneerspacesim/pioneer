@@ -697,14 +697,24 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 	const ScopedTable hyperdrive = ScopedTable(try_hdrive);
 	// Cache max range so it doesn't get recalculated every time we call GetDuration
 	const float max_range = hyperdrive.CallMethod<float>("GetMaximumRange", Pi::player);
+	const float max_range_sqr = max_range * max_range;
 
-	const float dist = Sector::DistanceBetween(start_sec, start.systemIndex, target_sec, target.systemIndex);
+	// use the square of the distance to avoid doing a sqrt for each sector
+	const float distSqr = Sector::DistanceBetweenSqr(start_sec, start.systemIndex, target_sec, target.systemIndex) * 1.10;
 
 	// the maximum distance that anything can be from the direct line between the start and target systems
 	const float max_dist_from_straight_line = (Sector::SIZE * 3);
 
 	// nodes[0] is always start
 	std::vector<SystemPath> nodes;
+	{
+		// calculate an approximate initial number of nodes
+		const float dist = sqrt(distSqr);
+		// +2 for the sectors near start and target, *9 for the sectors immediately around the path... might want to be bigger but seems to work
+		const size_t num_sectors_covered = (size_t(dist / Sector::SIZE) + 2) * 9;
+		const size_t num_systems_per_sector = 6; // total guess
+		nodes.reserve(num_sectors_covered * num_systems_per_sector);
+	}
 	nodes.push_back(start);
 
 	const Sint32 minX = std::min(start.sectorX, target.sectorX) - 2, maxX = std::max(start.sectorX, target.sectorX) + 2;
@@ -738,8 +748,8 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 
 					const float lineDist = MathUtil::DistanceFromLine(start_pos, target_pos, sec->m_systems[s].GetFullPosition());
 
-					if (Sector::DistanceBetween(start_sec, start.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
-						Sector::DistanceBetween(target_sec, target.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
+					if (Sector::DistanceBetweenSqr(start_sec, start.systemIndex, sec, sec->m_systems[s].idx) <= distSqr &&
+						Sector::DistanceBetweenSqr(target_sec, target.systemIndex, sec, sec->m_systems[s].idx) <= distSqr &&
 						lineDist < max_dist_from_straight_line) {
 						nodes.push_back(sec->m_systems[s].GetPath());
 					}
@@ -792,7 +802,7 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 		for (auto it : unvisited) {
 			const SystemPath &v = nodes[it];
 			// everything is a neighbor isn't quite true as the ship has a max_range for each jump!
-			if ((SystemPath::SectorDistance(closest, v) * Sector::SIZE) > max_range) {
+			if ((SystemPath::SectorDistanceSqr(closest, v) * Sector::SIZE) > max_range_sqr) {
 				++totalSkipped;
 				continue;
 			}
