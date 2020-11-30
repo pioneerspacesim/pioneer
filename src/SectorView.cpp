@@ -700,6 +700,9 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 
 	const float dist = Sector::DistanceBetween(start_sec, start.systemIndex, target_sec, target.systemIndex);
 
+	// the maximum distance that anything can be from the direct line between the start and target systems
+	const float max_dist_from_straight_line = (Sector::SIZE * 3);
+
 	// nodes[0] is always start
 	std::vector<SystemPath> nodes;
 	nodes.push_back(start);
@@ -712,10 +715,22 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 
 	// go sector by sector for the minimum cube of sectors and add systems
 	// if they are within 110% of dist of both start and target
+	size_t secLineToFar = 0u;
 	for (Sint32 sx = minX; sx <= maxX; sx++) {
 		for (Sint32 sy = minY; sy <= maxY; sy++) {
 			for (Sint32 sz = minZ; sz < maxZ; sz++) {
 				const SystemPath sec_path = SystemPath(sx, sy, sz);
+
+				// early out here if the sector is too far from the direct line
+				vector3f sec_centre(Sector::SIZE * vector3f(float(sx) + 0.5f, float(sy) + 0.5f, float(sz) + 0.5f));
+				const float secLineDist = MathUtil::DistanceFromLine(start_pos, target_pos, sec_centre);
+				// this test is deliberately conservative to over include sectors, a better test might use the nearest corner of an AABB to the line - Math hard, Andy tired
+				if ((secLineDist - Sector::SIZE) > max_dist_from_straight_line) {
+					++secLineToFar;
+					continue;
+				}
+
+				// GetSector is very expensive if it's not in the cache
 				RefCountedPtr<const Sector> sec = m_galaxy->GetSector(sec_path);
 				for (std::vector<Sector::System>::size_type s = 0; s < sec->m_systems.size(); s++) {
 					if (start.IsSameSystem(sec->m_systems[s].GetPath()))
@@ -725,19 +740,24 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 
 					if (Sector::DistanceBetween(start_sec, start.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
 						Sector::DistanceBetween(target_sec, target.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
-						lineDist < (Sector::SIZE * 3)) {
+						lineDist < max_dist_from_straight_line) {
 						nodes.push_back(sec->m_systems[s].GetPath());
 					}
 				}
 			}
 		}
 	}
-	Output("SectorView::AutoRoute, nodes to search = %lu\n", nodes.size());
+	Output("SectorView::AutoRoute, nodes to search = %lu, earlied out sector distance from line: %lu times.\n", nodes.size(), secLineToFar);
 
 	// setup inital values and set everything as unvisited
-	std::vector<float> path_dist;							   // distance from source to node
-	std::vector<std::vector<SystemPath>::size_type> path_prev; // previous node in optimal path
+	std::vector<float> path_dist;										// distance from source to node
+	std::vector<std::vector<SystemPath>::size_type> path_prev;			// previous node in optimal path
 	std::unordered_set<std::vector<SystemPath>::size_type> unvisited;
+	// we know how big these need to be, to reserve space up front
+	path_dist.reserve(nodes.size());
+	path_prev.reserve(nodes.size());
+	unvisited.reserve(nodes.size());
+	// initialise them
 	for (std::vector<SystemPath>::size_type i = 0; i < nodes.size(); i++) {
 		path_dist.push_back(INFINITY);
 		path_prev.push_back(0);
@@ -860,7 +880,7 @@ void SectorView::SetupRouteLines(const vector3f &playerAbsPos)
 	m_routeLines.SetData(verts->GetNumVerts(), &verts->position[0], &verts->diffuse[0]);
 }
 
-void SectorView::GetPlayerPosAndStarSize(vector3f& playerPosOut, float& currentStarSizeOut)
+void SectorView::GetPlayerPosAndStarSize(vector3f &playerPosOut, float &currentStarSizeOut)
 {
 	// calculate the player's location (it will be interpolated between systems during a hyperjump)
 	const Sector::System currentSystem = GetCached(m_current)->m_systems[m_current.systemIndex];
