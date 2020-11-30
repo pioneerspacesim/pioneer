@@ -1,7 +1,7 @@
 {
   "ABOVE_AVERAGE": {
     "description": "",
-    "message": "Над Средното"
+    "message": "Над средното"
   },
   "ACTIVE": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
-    "message": "Промени Контролите"
+    "message": "Промяна на контролите"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "COMPRESS_TEXTURES": {
     "description": "graphics option in game settings menu ",
-    "message": "Компресирай Текстурите"
+    "message": "Компресиране на текстурите"
   },
   "CONFIRM_PURCHASE": {
     "description": "",
@@ -233,15 +233,15 @@
   },
   "CONTROLS": {
     "description": "",
-    "message": "Контроли"
+    "message": "Управление"
   },
   "CONTROL_OPTIONS": {
     "description": "",
-    "message": "Опции за Управление"
+    "message": "Опции за управление"
   },
   "COULD_NOT_LOAD_GAME": {
     "description": "",
-    "message": "Играта не може да се зареди: "
+    "message": "Играта не може да бъде заредена: "
   },
   "CREDIBLE": {
     "description": "For player reputation",
@@ -257,7 +257,7 @@
   },
   "CREW_ROSTER": {
     "description": "",
-    "message": "Състав на Екипажа"
+    "message": "Състав на екипажа"
   },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
@@ -313,7 +313,7 @@
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
-    "message": "Унищожете вражеския кораб"
+    "message": "Унищожаване на вражеския кораб"
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
@@ -329,7 +329,7 @@
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
-    "message": "Отхвърли"
+    "message": "Отхвърляне"
   },
   "DISPLAY_HUD_TRAILS": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
-    "message": "Покажи навигационните тунели"
+    "message": "Показване на навигационните тунели"
   },
   "DISPLAY_NAV_TUNNELS_DESC": {
     "description": "tooltip description in settings menu",
@@ -361,7 +361,7 @@
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
-    "message": "Скачи се със сегашната цел"
+    "message": "Скачване със сегашната цел"
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
@@ -381,7 +381,7 @@
   },
   "ECONOMY_TRADE": {
     "description": "",
-    "message": "Икономика и Търговия"
+    "message": "Икономика и търговия"
   },
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
@@ -421,7 +421,7 @@
   },
   "ENABLE_JOYSTICK": {
     "description": "",
-    "message": "Активирай джойстик"
+    "message": "Включване на джойстик"
   },
   "END_GAME": {
     "description": "",
@@ -461,7 +461,7 @@
   },
   "EXIT_THIS_GAME": {
     "description": "",
-    "message": "Излез от тази игра"
+    "message": "Излезте от тази игра"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -605,7 +605,7 @@
   },
   "FUEL_TANK_FULL": {
     "description": "",
-    "message": "Резервоара е пълен."
+    "message": "Резервоарът е пълен."
   },
   "FUEL_WEIGHT": {
     "description": "",
@@ -625,7 +625,7 @@
   },
   "GIVE_ORDERS_TO_CREW": {
     "description": "",
-    "message": "Дай заповеди на екипажа"
+    "message": "Дайте заповеди на екипажа"
   },
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
@@ -1105,7 +1105,7 @@
   },
   "JETTISON": {
     "description": "",
-    "message": "Изхвърли"
+    "message": "Изхвърляне"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1121,7 +1121,7 @@
   },
   "LANGUAGE_RESTART_GAME_TO_APPLY": {
     "description": "",
-    "message": "Език (рестартирай играта за прилагане)"
+    "message": "Език (рестартирайте играта за прилагане)"
   },
   "LAUNCH_PERMISSION_DENIED_BUSY": {
     "description": "",
@@ -1177,11 +1177,11 @@
   },
   "LOAD": {
     "description": "",
-    "message": "Зареди"
+    "message": "Зареждане"
   },
   "LOAD_GAME": {
     "description": "",
-    "message": "Зареди игра"
+    "message": "Зареждане на игра"
   },
   "LOBBY": {
     "description": "",
@@ -1241,7 +1241,7 @@
   },
   "MAKE_NEW_FACE": {
     "description": "",
-    "message": "Направи ново лице"
+    "message": "Направете ново лице"
   },
   "MALE": {
     "description": "",
@@ -1461,15 +1461,15 @@
   },
   "N_OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Заети Пасажерски Кабини"
+    "message": "{quantity} заети пасажерски кабини"
   },
   "N_SHIELD_GENERATORS": {
     "description": "",
-    "message": "{quantity} Генератора на Щитовете"
+    "message": "{quantity} генератор/а на щитовете"
   },
   "N_UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "{quantity} Незаети Пасажерски Кабини"
+    "message": "{quantity} незаети пасажерски кабини"
   },
   "OFF": {
     "description": "",
@@ -1493,11 +1493,11 @@
   },
   "ORBITAL_ANALYSIS": {
     "description": "",
-    "message": "Орбитален Анализ"
+    "message": "Орбитален анализ"
   },
   "ORBITAL_ANALYSIS_NOTES": {
     "description": "",
-    "message": "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
+    "message": "Скоростта при кръгова орбита е представена като тангенционална скорост. Корабът трябва да се движи в посока от 90°, спрямо неговата {name} ос.\n\nСкоростта на спускане е абсолютния минимум и също е тангенционална. При по-ниска скорост или по-малък ъгъл ще се стигне до сблъсък с {name}.\n\nВтората космическа скорост ще има ефект във всяка посока на движение, стига да не се стигне до сблъсък с {name} .\n\t\t"
   },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1533,7 +1533,7 @@
   },
   "PERSONAL_INFORMATION": {
     "description": "",
-    "message": "Лична Информация"
+    "message": "Лична информация"
   },
   "PILOT": {
     "description": "",
@@ -1613,7 +1613,7 @@
   },
   "RATING": {
     "description": "",
-    "message": "Рейтинг:"
+    "message": "Оценка:"
   },
   "REAR_WEAPON": {
     "description": "",
@@ -1621,7 +1621,7 @@
   },
   "REFUEL": {
     "description": "",
-    "message": "Презареди"
+    "message": "Презареждане"
   },
   "REFUEL_FULL": {
     "description": "",
@@ -1677,7 +1677,7 @@
   },
   "RETURN_TO_MENU": {
     "description": "",
-    "message": "Върни се в менюто"
+    "message": "Връщане в менюто"
   },
   "REVERSE_ACCEL_EMPTY": {
     "description": "",
@@ -1713,7 +1713,7 @@
   },
   "SAVE": {
     "description": "",
-    "message": "Запази"
+    "message": "Запазване"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
@@ -1725,11 +1725,11 @@
   },
   "SELECT": {
     "description": "",
-    "message": "Избери"
+    "message": "Избиране"
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
-    "message": "Избери файл за запазване или въведи новото име на файла"
+    "message": "Изберете съществуващ файл за да го запазите или въведете ново име"
   },
   "SELECT_FILE": {
     "description": "",
@@ -1737,7 +1737,7 @@
   },
   "SELECT_GAME_TO_LOAD": {
     "description": "",
-    "message": "Избери игра за зареждане..."
+    "message": "Изберете игра за зареждане..."
   },
   "SELL": {
     "description": "Commodities and equipment prices",
@@ -1773,7 +1773,7 @@
   },
   "SHIP_INFORMATION": {
     "description": "",
-    "message": "Информация за Кораба"
+    "message": "Информация за кораба"
   },
   "SHIP_IS_ALREADY_FULLY_REPAIRED": {
     "description": "",
@@ -1837,7 +1837,7 @@
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
-    "message": "Стартирай на Нова Надежда"
+    "message": "Стартиране на Нова Надежда"
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
@@ -1925,7 +1925,7 @@
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
-    "message": "Превключи мъж/жена"
+    "message": "Превключване между мъж/жена"
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
@@ -2013,7 +2013,7 @@
   },
   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
     "description": "",
-    "message": "Видео конфигурация (рестартирай играта за прилагане)"
+    "message": "Видео конфигурация (рестартирайте играта за прилагане)"
   },
   "VIDEO_RESOLUTION": {
     "description": "",
@@ -2045,7 +2045,7 @@
   },
   "WE_ARE_IN_HYPERSPACE_COMMANDER": {
     "description": "",
-    "message": "Командире, ние сме в хиперпространството."
+    "message": "Командире, намираме се в хиперпространството."
   },
   "WE_HAVE_NO_BUSINESS_WITH_YOU": {
     "description": "Said by the police to law abiding player",
