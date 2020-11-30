@@ -22,6 +22,7 @@ namespace Graphics {
 		public:
 			Uniform();
 			void Init(const char *name, GLuint program);
+			void InitBlock(const char *name, GLuint program, GLint binding);
 			void Set(int);
 			void Set(float);
 			void Set(const vector3f &);
@@ -34,6 +35,7 @@ namespace Graphics {
 			void Set(const matrix4x4f &);
 			void Set(Texture *t, unsigned int unit);
 			bool IsValid() const { return (m_location != -1); }
+			GLint Location() const { return m_location; }
 
 		private:
 			GLint m_location;

@@ -3,8 +3,8 @@
 
 #include "MultiMaterial.h"
 
-#include "RendererGL.h"
 #include "HeatGradientPar.h"
+#include "RendererGL.h"
 #include "StringF.h"
 #include "TextureGL.h"
 #include "graphics/Graphics.h"
@@ -28,7 +28,8 @@ namespace Graphics {
 				ss << "#define ALPHA_TEST\n";
 			//using only one light
 			if (desc.lighting && numLights > 0)
-				ss << stringf("#define NUM_LIGHTS %0{d}\n", numLights);
+				ss << stringf("#define NUM_LIGHTS %0{d}\n", numLights)
+				   << "#define UNIFORM_BUFFERS\n";
 			else
 				ss << "#define NUM_LIGHTS 0\n";
 			if (desc.normalMap && desc.lighting && numLights > 0)
@@ -51,6 +52,7 @@ namespace Graphics {
 
 			LoadShaders(m_name, m_defines);
 			InitUniforms();
+			materialBlock.InitBlock("Material", m_program, 0);
 		}
 
 		LitMultiMaterial::LitMultiMaterial() :
@@ -105,6 +107,14 @@ namespace Graphics {
 			}
 		}
 
+		struct MaterialBlock {
+			Color4f diffuse;
+			Color4f specular;
+			Color4f emission;
+			float shininess;
+		};
+		static_assert(sizeof(MaterialBlock) == 52);
+
 		void LitMultiMaterial::Apply()
 		{
 			//request a new light variation
@@ -120,9 +130,16 @@ namespace Graphics {
 			MultiMaterial::Apply();
 
 			MultiProgram *p = static_cast<MultiProgram *>(m_program);
-			p->emission.Set(this->emissive);
-			p->specular.Set(this->specular);
-			p->shininess.Set(float(this->shininess));
+
+			auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(MaterialBlock));
+			{
+				auto materialBlock = buffer->Allocate<MaterialBlock>(0);
+				materialBlock->diffuse = this->diffuse.ToColor4f();
+				materialBlock->specular = this->specular.ToColor4f();
+				materialBlock->emission = this->emissive.ToColor4f();
+				materialBlock->shininess = this->shininess;
+			}
+
 			p->sceneAmbient.Set(m_renderer->GetAmbientColor());
 
 			//Light uniform parameters

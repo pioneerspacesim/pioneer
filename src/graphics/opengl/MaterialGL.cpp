@@ -11,7 +11,6 @@ namespace Graphics {
 		void Material::Apply()
 		{
 			m_program->Use();
-			m_program->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 		}
 
 		void Material::Unapply()

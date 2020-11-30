@@ -33,102 +33,102 @@ in vec3 normal;
 #endif // (NUM_LIGHTS > 0)
 
 uniform Scene scene;
+#ifndef UNIFORM_BUFFERS
 uniform Material material;
+#endif
 
 out vec4 frag_color;
 
-#if (NUM_LIGHTS > 0)
-//ambient, diffuse, specular
-//would be a good idea to make specular optional
-void ads(in int lightNum, in vec3 pos, in vec3 n, inout vec4 light, inout vec4 specular)
-{
-	vec3 s = normalize(vec3(uLight[lightNum].position)); //directional light
-	vec3 v = normalize(vec3(-pos));
-	vec3 h = normalize(v + s);
-	light += uLight[lightNum].diffuse * material.diffuse * max(dot(s, n), 0.0);
-#ifdef MAP_SPECULAR
-	specular += texture(texture1, texCoord0) * material.specular * uLight[lightNum].specular * pow(max(dot(h, n), 0.0), material.shininess);
-#else
-	specular += material.specular * uLight[lightNum].specular * pow(max(dot(h, n), 0.0), material.shininess);
-#endif
-	specular.a = 0.0;
-	light.a = 1.0;
-}
-#endif
-
-void main(void)
+void getSurface(inout Surface surf)
 {
 #ifdef VERTEXCOLOR
-	vec4 color = vertexColor;
+	surf.color = vertexColor;
 #else
-	vec4 color = material.diffuse;
+	surf.color = material.diffuse;
 #endif
 #ifdef TEXTURE0
-	color *= texture(texture0, texCoord0);
+	surf.color *= texture(texture0, texCoord0);
 #endif
-//patterns - simple lookup
+
+	//patterns - simple lookup
 #ifdef MAP_COLOR
 	vec4 pat = texture(texture4, texCoord0);
 	vec4 mapColor = texture(texture5, vec2(pat.r, 0.0));
 	vec4 tint = mix(vec4(1.0),mapColor,pat.a);
-	color *= tint;
+	surf.color *= tint;
 #endif
 
+	surf.specular = material.specular.xyz;
+#ifdef MAP_SPECULAR
+	surf.specular *= texture(texture1, texCoord0).xyz;
+#endif
+	surf.shininess = material.shininess;
+
+#if (NUM_LIGHTS > 0)
+//directional lighting
+#ifdef MAP_NORMAL
+	vec3 bump = (texture(texture6, texCoord0).xyz * 2.0) - vec3(1.0);
+	mat3 tangentFrame = mat3(tangent, bitangent, normal);
+	surf.normal = tangentFrame * bump;
+#else
+	surf.normal = normal;
+#endif
+#else
+	// pointing directly at the viewer
+	surf.normal = vec3(0, 0, 1);
+#endif
+
+	// this is crude "baked ambient occulsion" - basically multiply everything by the ambient texture
+	// scaling whatever we've decided the lighting contribution is by 0.0 to 1.0 to account for sheltered/hidden surfaces
+#ifdef MAP_AMBIENT
+	surf.ambientOcclusion = texture(texture3, texCoord0).r;
+#else
+	surf.ambientOcclusion = 1.0;
+#endif
+
+	//emissive only make sense with lighting
+#ifdef MAP_EMISSIVE
+	// HACK emissive maps are authored weirdly, mostly under the assumption that they will be multiplied by diffuse
+	// We mix a litle towards white to make the emissives pop more
+	surf.emissive = mix(surf.color.xyz, vec3(1.0), 0.4) * texture(texture2, texCoord0).xyz; //glow map
+#else
+	surf.emissive = material.emission.xyz; //just emissive parameter
+#endif
+}
+
+void main(void)
+{
+	Surface surface;
+	getSurface(surface);
+
 #ifdef ALPHA_TEST
-	if (color.a < 0.5)
+	if (surface.color.a < 0.5)
 		discard;
 #endif
 
 //directional lighting
 #if (NUM_LIGHTS > 0)
-#ifdef MAP_NORMAL
-	vec3 bump = (texture(texture6, texCoord0).xyz * 2.0) - vec3(1.0);
-	mat3 tangentFrame = mat3(tangent, bitangent, normal);
-	vec3 vNormal = tangentFrame * bump;
-#else
-	vec3 vNormal = normal;
-#endif
-	vNormal = normalize(vNormal);
-
 	//ambient only make sense with lighting
-	vec4 light = scene.ambient;
-	vec4 specular = vec4(0.0);
+	vec3 diffuse = scene.ambient.xyz * surface.color.xyz;
+	vec3 specular = vec3(0.0);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
-		ads(i, eyePos, vNormal, light, specular);
+		BlinnPhongDirectionalLight(uLight[i], surface, eyePos, diffuse, specular);
 	}
 
-#ifdef MAP_AMBIENT
-	// this is crude "baked ambient occulsion" - basically multiply everything by the ambient texture
-	// scaling whatever we've decided the lighting contribution is by 0.0 to 1.0 to account for sheltered/hidden surfaces
-	light *= texture(texture3, texCoord0);
-#endif
+	vec3 final_color = diffuse * surface.ambientOcclusion + surface.emissive + specular;
+	frag_color = vec4(final_color, surface.color.w);
 
-	//emissive only make sense with lighting
-#ifdef MAP_EMISSIVE
-	light += texture(texture2, texCoord0); //glow map
-#else
-	light += material.emission; //just emissive parameter
-#endif
-#endif //NUM_LIGHTS
+#ifdef HEAT_COLOURING
+	if (heatingAmount > 0.0)
+	{
+		float dphNn = clamp(dot(heatingDir, surface.normal), 0.0, 1.0);
+		float heatDot = heatingAmount * (dphNn * dphNn * dphNn);
+		vec4 heatColour = texture(heatGradient, vec2(heatDot, 0.5)); //heat gradient blend
+		frag_color.rgb = frag_color.rgb + heatColour.rgb; // override surface color based on heat color
+	}
+#endif // HEAT_COLOURING
 
-#if (NUM_LIGHTS > 0)
-	#ifdef HEAT_COLOURING
-		if (heatingAmount > 0.0)
-		{
-			float dphNn = clamp(dot(heatingDir, vNormal), 0.0, 1.0);
-			float heatDot = heatingAmount * (dphNn * dphNn * dphNn);
-			vec4 heatColour = texture(heatGradient, vec2(heatDot, 0.5)); //heat gradient blend
-			frag_color = color * light + specular;
-			frag_color.rgb = frag_color.rgb + heatColour.rgb;
-		}
-		else
-		{
-			frag_color = color * light + specular;
-		}
-	#else
-		frag_color = color * light + specular;
-	#endif // HEAT_COLOURING
 #else
-	frag_color = color;
+	frag_color = surface.color;
 #endif
 }

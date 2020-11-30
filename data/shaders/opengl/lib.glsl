@@ -7,6 +7,26 @@ struct Scene {
 	vec4 ambient;
 };
 
+struct Surface {
+	vec4 color;
+	vec3 specular;
+	float shininess;
+	vec3 normal;
+	vec3 emissive;
+	float ambientOcclusion;
+};
+
+// Currently used by: hopefully everything
+void BlinnPhongDirectionalLight(in Light light, in Surface surf, in vec3 fragPos, inout vec3 diffuse, inout vec3 specular)
+{
+	// This code calculates directional lights
+	vec3 L = normalize(light.position.xyz); // surface->light vector
+	vec3 V = normalize(-fragPos); // surface->eye vector
+	vec3 H = normalize(L + V); // halfway vector
+	diffuse += surf.color.xyz * light.diffuse.xyz * max(dot(L, surf.normal), 0.0);
+	specular += surf.specular * light.specular.xyz * pow(max(dot(H, V), 0.0), surf.shininess);
+}
+
 //Currently used by: planet ring shader, geosphere shaders
 float findSphereEyeRayEntryDistance(in vec3 sphereCenter, in vec3 eyeTo, in float radius)
 {

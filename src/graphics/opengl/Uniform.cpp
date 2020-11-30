@@ -17,6 +17,13 @@ namespace Graphics {
 			m_location = glGetUniformLocation(program, name);
 		}
 
+		void Uniform::InitBlock(const char *name, GLuint program, GLint binding)
+		{
+			m_location = glGetUniformBlockIndex(program, name);
+			if (IsValid())
+				glUniformBlockBinding(program, m_location, binding);
+		}
+
 		void Uniform::Set(int i)
 		{
 			if (m_location != -1)
@@ -74,6 +81,12 @@ namespace Graphics {
 
 		void Uniform::Set(const matrix4x4f &m)
 		{
+			// Note for those who might be confused about the GL_FALSE:
+			// a row-major matrix stored in row-major order and a column-major
+			// matrix stored in column-major order have exactly the same memory
+			// layout. X = 0..3, Y = 4..7, Z = 8..11, T = 12..15. Thus, our
+			// row-major matricies are perfectly interpreted as OpenGL
+			// column-major matricies without any problems.
 			if (m_location != -1)
 				glUniformMatrix4fv(m_location, 1, GL_FALSE, &m[0]);
 		}

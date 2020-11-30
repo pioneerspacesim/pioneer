@@ -10,6 +10,7 @@
  */
 #include "MaterialGL.h"
 #include "Program.h"
+#include "Uniform.h"
 
 namespace Graphics {
 
@@ -17,6 +18,7 @@ namespace Graphics {
 		class MultiProgram : public Program {
 		public:
 			MultiProgram(const MaterialDescriptor &, int numLights = 0);
+			Uniform materialBlock;
 		};
 
 		class MultiMaterial : public Material { //unlit

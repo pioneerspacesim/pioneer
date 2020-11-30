@@ -31,6 +31,7 @@
 #include "StarfieldMaterial.h"
 #include "UIMaterial.h"
 #include "VtxColorMaterial.h"
+#include "graphics/opengl/UniformBuffer.h"
 
 #include <cstddef> //for offsetof
 #include <iterator>
@@ -148,7 +149,6 @@ namespace Graphics {
 		m_minZNear(0.001f),
 		m_maxZFar(100000000.0f),
 		m_useCompressedTextures(false),
-		m_invLogZfarPlus1(0.f),
 		m_activeRenderTarget(0),
 		m_activeRenderState(nullptr),
 		m_glContext(glContext)
@@ -260,6 +260,9 @@ namespace Graphics {
 		}
 
 		SetRenderTarget(nullptr);
+
+		m_drawUniformBuffers.reserve(8);
+		GetDrawUniformBuffer(0);
 	}
 
 	RendererOGL::~RendererOGL()
@@ -494,6 +497,15 @@ namespace Graphics {
 		stat.SetStatCount(Stats::STAT_NUM_TEXTURECUBE, num_texCube);
 		stat.SetStatCount(Stats::STAT_MEM_TEXTURECUBE, used_texCube);
 
+		uint32_t numAllocs = 0;
+		for (auto &buffer : m_drawUniformBuffers) {
+			numAllocs += buffer->NumAllocs();
+			buffer->Reset();
+		}
+
+		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE, uint32_t(m_drawUniformBuffers.size()));
+		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS, numAllocs);
+
 		return true;
 	}
 
@@ -675,9 +687,6 @@ namespace Graphics {
 	bool RendererOGL::SetPerspectiveProjection(float fov, float aspect, float near_, float far_)
 	{
 		PROFILE_SCOPED()
-
-		// update values for log-z hack
-		m_invLogZfarPlus1 = 1.0f / (log1p(far_) / log(2.0f));
 
 		Graphics::SetFov(fov);
 		SetProjection(matrix4x4f::PerspectiveMatrix(DEG2RAD(fov), aspect, near_, far_));
@@ -1225,6 +1234,16 @@ namespace Graphics {
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 		return new OGL::InstanceBuffer(size, usage);
+	}
+
+	OGL::UniformLinearBuffer *RendererOGL::GetDrawUniformBuffer(Uint32 size)
+	{
+		if (m_drawUniformBuffers.empty() || m_drawUniformBuffers.back()->FreeSize() < size) {
+			// Create a 1MiB buffer for draw uniform data
+			m_drawUniformBuffers.emplace_back(new OGL::UniformLinearBuffer(1 << 20));
+		}
+
+		return m_drawUniformBuffers.back().get();
 	}
 
 	// XXX very heavy. in the future when all GL calls are made through the

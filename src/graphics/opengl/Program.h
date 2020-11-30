@@ -37,7 +37,6 @@ namespace Graphics {
 			Uniform uViewProjectionMatrix;
 			Uniform uNormalMatrix;
 
-			Uniform invLogZfarPlus1;
 			Uniform diffuse;
 			Uniform emission;
 			Uniform specular;

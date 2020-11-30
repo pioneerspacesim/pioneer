@@ -17,6 +17,17 @@ struct Light {
 };
 uniform Light uLight[4];
 
+#ifdef UNIFORM_BUFFERS
+
+layout(std140) uniform Material {
+	vec4 diffuse;
+	vec4 specular;
+	vec4 emission;
+	float shininess;
+} material;
+
+#else
+
 struct Material {
 	vec4 emission;
 	vec4 ambient;
@@ -24,6 +35,8 @@ struct Material {
 	vec4 specular;
 	float shininess;
 };
+
+#endif
 
 #ifdef VERTEX_SHADER
 

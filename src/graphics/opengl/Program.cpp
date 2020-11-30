@@ -296,7 +296,6 @@ namespace Graphics {
 				lights[i].position.Init((strLight + ".position").c_str(), m_program);
 			}
 
-			invLogZfarPlus1.Init("invLogZfarPlus1", m_program);
 			diffuse.Init("material.diffuse", m_program);
 			emission.Init("material.emission", m_program);
 			specular.Init("material.specular", m_program);
