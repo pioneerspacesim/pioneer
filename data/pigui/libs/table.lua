@@ -91,7 +91,9 @@ function TableWidget:render()
                 ui.withFont(self.style.titleFont.name, self.style.titleFont.size, function()
                     ui.text(self.title)
                 end)
-            end
+			end
+
+			if not self.selectedItem then self.selectionStart = nil end
 
             -- If highlightStart is set, the mouse hovered over an item in the previous frame, so draw a rectangle underneath for highlighting
             if self.highlightStart then ui.addRectFilled(self.highlightStart, self.highlightEnd, self.style.highlightColor, 0, 0) end

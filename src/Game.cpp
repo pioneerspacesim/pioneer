@@ -939,6 +939,7 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		jsonData = Json::to_cbor(rootNode); // Convert the JSON data to CBOR.
 	}
 
+	FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME);
 	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!f) throw CouldNotOpenFileException();
 
