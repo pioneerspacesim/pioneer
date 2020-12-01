@@ -9,6 +9,55 @@ using namespace Graphics::OGL;
 // From OpenGL, the minimum alignment of a buffer range binding
 static constexpr int MIN_BUFFER_ALIGNMENT_MASK = 256 - 1;
 
+UniformBuffer::UniformBuffer(uint32_t size, BufferUsage usage) :
+	Mappable(size)
+{
+	glGenBuffers(1, &m_buffer);
+	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer);
+	glBufferData(GL_UNIFORM_BUFFER, size, nullptr, (usage == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+UniformBuffer::~UniformBuffer()
+{
+	assert(m_mapMode == BUFFER_MAP_NONE);
+	glDeleteBuffers(1, &m_buffer);
+}
+
+void UniformBuffer::Unmap()
+{
+	assert(m_mapMode != BUFFER_MAP_NONE);
+	glUnmapBuffer(GL_UNIFORM_BUFFER);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void UniformBuffer::BufferData(const size_t size, void *data)
+{
+	assert(m_mapMode == BUFFER_MAP_NONE);
+	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer);
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, size, data);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void UniformBuffer::Bind(uint32_t binding)
+{
+	glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_buffer);
+}
+
+void UniformBuffer::Release()
+{
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void *UniformBuffer::MapInternal(BufferMapMode mode)
+{
+	assert(m_mapMode == BUFFER_MAP_NONE);
+	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer);
+	void *data = glMapBuffer(GL_UNIFORM_BUFFER, (mode == BUFFER_MAP_READ) ? GL_READ_ONLY : GL_WRITE_ONLY);
+	m_mapMode = mode;
+	return data;
+}
+
 UniformLinearBuffer::UniformLinearBuffer(uint32_t size) :
 	Mappable(size),
 	m_numAllocs(0)
@@ -21,7 +70,7 @@ UniformLinearBuffer::UniformLinearBuffer(uint32_t size) :
 
 UniformLinearBuffer::~UniformLinearBuffer()
 {
-	assert(m_mapMode == BUFFER_MAP_WRITE);
+	assert(m_mapMode == BUFFER_MAP_NONE);
 	glDeleteBuffers(1, &m_buffer);
 }
 void UniformLinearBuffer::Reset()

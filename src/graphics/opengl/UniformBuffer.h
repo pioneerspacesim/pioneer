@@ -24,10 +24,43 @@ namespace Graphics {
 			}
 
 			T *operator->() { return m_data; }
+			T *data() { return m_data; }
+			operator bool() const { return isValid(); }
+			bool isValid() const { return m_data != nullptr; }
 
 		protected:
 			T *m_data;
 			Mappable *m_map;
+		};
+
+		class UniformBuffer : public Mappable, GLBufferBase {
+		public:
+			UniformBuffer(uint32_t size, BufferUsage usage);
+			~UniformBuffer();
+
+			void Unmap() override;
+
+			template <typename T>
+			ScopedMapping<T> Map(BufferMapMode mode)
+			{
+				return ScopedMapping<T>(reinterpret_cast<T *>(MapInternal(mode)), this);
+			}
+
+			// copies the contents of the passed object into the buffer
+			template <typename T>
+			void BufferData(const T &obj)
+			{
+				return BufferData(sizeof(T), (void *)&obj);
+			}
+
+			// change the buffer data without mapping
+			void BufferData(const size_t, void *);
+
+			void Bind(uint32_t binding);
+			void Release();
+
+		protected:
+			void *MapInternal(BufferMapMode mode);
 		};
 
 		/*

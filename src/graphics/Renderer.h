@@ -100,6 +100,7 @@ namespace Graphics {
 
 		virtual bool SetWireFrameMode(bool enabled) = 0;
 
+		virtual bool SetLightIntensity(Uint32 numlights, const float *intensity) = 0;
 		virtual bool SetLights(Uint32 numlights, const Light *l) = 0;
 		const Light &GetLight(const Uint32 idx) const
 		{

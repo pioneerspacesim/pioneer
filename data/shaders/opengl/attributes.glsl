@@ -15,18 +15,36 @@ struct Light {
 	vec4 specular;
 	vec4 position;
 };
-uniform Light uLight[4];
 
 #ifdef UNIFORM_BUFFERS
 
-layout(std140) uniform Material {
+struct Material {
 	vec4 diffuse;
-	vec4 specular;
-	vec4 emission;
+	vec3 specular;
 	float shininess;
-} material;
+	vec4 emission;
+};
+
+struct Scene {
+	vec4 lightIntensity;
+	vec4 ambient;
+};
+
+layout(std140) uniform LightData {
+	Light uLight[4];
+};
+
+layout(std140) uniform DrawData {
+	Material material;
+	Scene scene;
+};
 
 #else
+
+//scene uniform parameters
+struct Scene {
+	vec4 ambient;
+};
 
 struct Material {
 	vec4 emission;
@@ -35,6 +53,8 @@ struct Material {
 	vec4 specular;
 	float shininess;
 };
+
+uniform Light uLight[4];
 
 #endif
 

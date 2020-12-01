@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "RefCounted.h"
 #include "graphics/opengl/UniformBuffer.h"
 #ifndef _RENDERER_OGL_H
 #define _RENDERER_OGL_H
@@ -90,6 +91,7 @@ namespace Graphics {
 
 		virtual bool SetWireFrameMode(bool enabled) override final;
 
+		virtual bool SetLightIntensity(Uint32 numlights, const float *intensity) override final;
 		virtual bool SetLights(Uint32 numlights, const Light *l) override final;
 		virtual Uint32 GetNumLights() const override final { return m_numLights; }
 		virtual bool SetAmbientColor(const Color &c) override final;
@@ -111,6 +113,8 @@ namespace Graphics {
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) override final;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override final;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override final;
+
+		OGL::UniformBuffer *GetLightUniformBuffer();
 		OGL::UniformLinearBuffer *GetDrawUniformBuffer(Uint32 size);
 
 		virtual bool ReloadShaders() override final;
@@ -151,6 +155,7 @@ namespace Graphics {
 		std::vector<std::pair<MaterialDescriptor, OGL::Program *>> m_programs;
 		std::unordered_map<Uint32, OGL::RenderState *> m_renderStates;
 		std::vector<std::unique_ptr<OGL::UniformLinearBuffer>> m_drawUniformBuffers;
+		RefCountedPtr<OGL::UniformBuffer> m_lightUniformBuffer;
 		bool m_useNVDepthRanged;
 		OGL::RenderTarget *m_activeRenderTarget = nullptr;
 		OGL::RenderTarget *m_windowRenderTarget = nullptr;

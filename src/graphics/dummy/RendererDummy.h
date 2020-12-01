@@ -56,6 +56,7 @@ namespace Graphics {
 
 		virtual bool SetWireFrameMode(bool enabled) override final { return true; }
 
+		virtual bool SetLightIntensity(Uint32, const float *) override final { return true; }
 		virtual bool SetLights(Uint32 numlights, const Light *l) override final { return true; }
 		virtual Uint32 GetNumLights() const override final { return 1; }
 		virtual bool SetAmbientColor(const Color &c) override final { return true; }

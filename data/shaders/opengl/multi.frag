@@ -32,8 +32,8 @@ in vec3 normal;
 #endif // HEAT_COLOURING
 #endif // (NUM_LIGHTS > 0)
 
-uniform Scene scene;
 #ifndef UNIFORM_BUFFERS
+uniform Scene scene;
 uniform Material material;
 #endif
 
@@ -111,8 +111,15 @@ void main(void)
 	//ambient only make sense with lighting
 	vec3 diffuse = scene.ambient.xyz * surface.color.xyz;
 	vec3 specular = vec3(0.0);
+	float intensity[4] = float[](
+		scene.lightIntensity.x,
+		scene.lightIntensity.y,
+		scene.lightIntensity.z,
+		scene.lightIntensity.w
+	);
+
 	for (int i=0; i<NUM_LIGHTS; ++i) {
-		BlinnPhongDirectionalLight(uLight[i], surface, eyePos, diffuse, specular);
+		BlinnPhongDirectionalLight(uLight[i], intensity[i], surface, eyePos, diffuse, specular);
 	}
 
 	vec3 final_color = diffuse * surface.ambientOcclusion + surface.emissive + specular;

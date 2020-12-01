@@ -751,9 +751,9 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		if (viewCoords.LengthSqr() >= SQRMAXCITYDIST) {
 			return;
 		}
-		std::vector<Graphics::Light> oldLights;
+		std::vector<float> oldIntensity;
 		Color oldAmbient;
-		SetLighting(r, camera, oldLights, oldAmbient);
+		SetLighting(r, camera, oldIntensity, oldAmbient);
 
 		if (!m_adjacentCity) {
 			m_adjacentCity = new CityOnPlanet(static_cast<Planet *>(b), this, m_sbody->GetSeed());
@@ -763,7 +763,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		RenderModel(r, camera, viewCoords, viewTransform, false);
 		m_navLights->Render(r);
 
-		ResetLighting(r, oldLights, oldAmbient);
+		ResetLighting(r, oldIntensity, oldAmbient);
 
 		r->GetStats().AddToStatCount(Graphics::Stats::STAT_GROUNDSTATIONS, 1);
 	}

@@ -2,10 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifdef FRAGMENT_SHADER
-//scene uniform parameters
-struct Scene {
-	vec4 ambient;
-};
 
 struct Surface {
 	vec4 color;
@@ -17,14 +13,17 @@ struct Surface {
 };
 
 // Currently used by: hopefully everything
-void BlinnPhongDirectionalLight(in Light light, in Surface surf, in vec3 fragPos, inout vec3 diffuse, inout vec3 specular)
+// Evaluates a standard blinn-phong diffuse+specular, with the addition of a
+// light intensity term to scale the lighting contribution based on (pre-calculated)
+// global occlusion
+void BlinnPhongDirectionalLight(in Light light, in float intensity, in Surface surf, in vec3 fragPos, inout vec3 diffuse, inout vec3 specular)
 {
 	// This code calculates directional lights
 	vec3 L = normalize(light.position.xyz); // surface->light vector
 	vec3 V = normalize(-fragPos); // surface->eye vector
 	vec3 H = normalize(L + V); // halfway vector
-	diffuse += surf.color.xyz * light.diffuse.xyz * max(dot(L, surf.normal), 0.0);
-	specular += surf.specular * light.specular.xyz * pow(max(dot(H, V), 0.0), surf.shininess);
+	diffuse += surf.color.xyz * light.diffuse.xyz * intensity * max(dot(L, surf.normal), 0.0);
+	specular += surf.specular * light.specular.xyz * intensity * pow(max(dot(H, V), 0.0), surf.shininess);
 }
 
 //Currently used by: planet ring shader, geosphere shaders

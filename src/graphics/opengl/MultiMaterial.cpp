@@ -52,7 +52,9 @@ namespace Graphics {
 
 			LoadShaders(m_name, m_defines);
 			InitUniforms();
-			materialBlock.InitBlock("Material", m_program, 0);
+
+			materialBlock.InitBlock("LightData", m_program, 0);
+			materialBlock.InitBlock("DrawData", m_program, 1);
 		}
 
 		LitMultiMaterial::LitMultiMaterial() :
@@ -107,13 +109,17 @@ namespace Graphics {
 			}
 		}
 
-		struct MaterialBlock {
+		struct DrawDataBlock {
+			// Material Struct
 			Color4f diffuse;
 			Color4f specular;
 			Color4f emission;
-			float shininess;
+
+			// Scene struct
+			float lightIntensity[4];
+			Color4f ambient;
 		};
-		static_assert(sizeof(MaterialBlock) == 52);
+		static_assert(sizeof(DrawDataBlock) == 80);
 
 		void LitMultiMaterial::Apply()
 		{
@@ -129,26 +135,19 @@ namespace Graphics {
 
 			MultiMaterial::Apply();
 
-			MultiProgram *p = static_cast<MultiProgram *>(m_program);
+			m_renderer->GetLightUniformBuffer()->Bind(0);
 
-			auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(MaterialBlock));
+			auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(DrawDataBlock));
 			{
-				auto materialBlock = buffer->Allocate<MaterialBlock>(0);
-				materialBlock->diffuse = this->diffuse.ToColor4f();
-				materialBlock->specular = this->specular.ToColor4f();
-				materialBlock->emission = this->emissive.ToColor4f();
-				materialBlock->shininess = this->shininess;
-			}
-
-			p->sceneAmbient.Set(m_renderer->GetAmbientColor());
-
-			//Light uniform parameters
-			for (Uint32 i = 0; i < m_renderer->GetNumLights(); i++) {
-				const Light &Light = m_renderer->GetLight(i);
-				p->lights[i].diffuse.Set(Light.GetDiffuse());
-				p->lights[i].specular.Set(Light.GetSpecular());
-				const vector3f pos = Light.GetPosition();
-				p->lights[i].position.Set(pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
+				auto dataBlock = buffer->Allocate<DrawDataBlock>(1);
+				dataBlock->diffuse = this->diffuse.ToColor4f();
+				dataBlock->specular = this->specular.ToColor4f();
+				dataBlock->specular.a = this->shininess;
+				dataBlock->emission = this->emissive.ToColor4f();
+				dataBlock->ambient = m_renderer->GetAmbientColor().ToColor4f();
+				for (uint32_t i = 0; i < m_renderer->GetNumLights(); i++) {
+					dataBlock->lightIntensity[i] = m_renderer->GetLight(i).GetIntensity();
+				}
 			}
 			CHECKERRORS();
 		}

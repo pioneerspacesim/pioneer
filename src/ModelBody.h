@@ -51,8 +51,8 @@ public:
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
 
-	void SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> &oldLights, Color &oldAmbient);
-	void ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient);
+	void SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<float> &oldIntensity, Color &oldAmbient);
+	void ResetLighting(Graphics::Renderer *r, const std::vector<float> &oldIntensity, const Color &oldAmbient);
 
 	Shields *GetShields() const { return m_shields.get(); }
 
