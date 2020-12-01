@@ -19,11 +19,6 @@ out vec3 normal;
 	out vec3 tangent;
 	out vec3 bitangent;
 #endif
-#ifdef HEAT_COLOURING
-	uniform mat3 heatingMatrix;
-	uniform vec3 heatingNormal; // normalised
-	out vec3 heatingDir;
-#endif // HEAT_COLOURING
 #endif
 
 void main(void)
@@ -52,8 +47,5 @@ void main(void)
 	#endif
 #endif
 
-#ifdef HEAT_COLOURING
-	heatingDir = normalize(heatingMatrix * heatingNormal);
-#endif
 #endif
 }

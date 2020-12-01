@@ -49,7 +49,6 @@ namespace Graphics {
 			Uniform texture5;
 			Uniform texture6;
 			Uniform heatGradient;
-			Uniform heatingMatrix;
 			Uniform heatingNormal;
 			Uniform heatingAmount;
 

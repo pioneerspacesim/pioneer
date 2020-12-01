@@ -27,8 +27,8 @@ in vec3 normal;
 #endif
 #ifdef HEAT_COLOURING
 	uniform sampler2D heatGradient;
+	uniform vec3 heatingNormal; // normalised in viewspace
 	uniform float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
-	in vec3 heatingDir;
 #endif // HEAT_COLOURING
 #endif // (NUM_LIGHTS > 0)
 
@@ -128,7 +128,7 @@ void main(void)
 #ifdef HEAT_COLOURING
 	if (heatingAmount > 0.0)
 	{
-		float dphNn = clamp(dot(heatingDir, surface.normal), 0.0, 1.0);
+		float dphNn = clamp(dot(heatingNormal, surface.normal), 0.0, 1.0);
 		float heatDot = heatingAmount * (dphNn * dphNn * dphNn);
 		vec4 heatColour = texture(heatGradient, vec2(heatDot, 0.5)); //heat gradient blend
 		frag_color.rgb = frag_color.rgb + heatColour.rgb; // override surface color based on heat color

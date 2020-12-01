@@ -1488,9 +1488,11 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	GetPropulsion()->Render(renderer, camera, viewCoords, viewTransform);
 
-	s_heatGradientParams.heatingMatrix = matrix3x3f(viewTransform.Inverse().GetOrient());
-	s_heatGradientParams.heatingNormal = vector3f(GetVelocity().Normalized());
-	s_heatGradientParams.heatingAmount = Clamp(GetHullTemperature(), 0.0, 1.0);
+	// transpose the interpolated orient to convert velocity into shipspace, then into view space
+	// FIXME: this produces a vector oriented to the top of the ship when velocity is forward.
+	vector3d heatingNormalView = viewTransform.GetOrient() * (GetVelocity() * GetInterpOrient());
+	s_heatGradientParams.heatingNormal = vector3f(heatingNormalView.Normalized());
+	s_heatGradientParams.heatingAmount = Clamp(/* FIXME Disabled for now */ 0.0 * GetHullTemperature(), 0.0, 1.0);
 
 	// This has to be done per-model with a shield and just before it's rendered
 	const bool shieldsVisible = m_shieldCooldown > 0.01f && m_stats.shield_mass_left > (m_stats.shield_mass / 100.0f);

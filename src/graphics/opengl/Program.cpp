@@ -308,7 +308,6 @@ namespace Graphics {
 			texture5.Init("texture5", m_program);
 			texture6.Init("texture6", m_program);
 			heatGradient.Init("heatGradient", m_program);
-			heatingMatrix.Init("heatingMatrix", m_program);
 			heatingNormal.Init("heatingNormal", m_program);
 			heatingAmount.Init("heatingAmount", m_program);
 			sceneAmbient.Init("scene.ambient", m_program);
