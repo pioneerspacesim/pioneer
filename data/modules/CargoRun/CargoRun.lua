@@ -28,6 +28,8 @@ local typical_travel_time = (2.5 * max_delivery_dist + 8) * 24 * 60 * 60
 local typical_reward = 35 * max_delivery_dist
 -- typical reward for local delivery
 local typical_reward_local = 35
+-- Minimum amount paid for very close deliveries
+local min_local_dist_pay = 10
 -- max cargo per trip
 local max_cargo = 10
 local max_cargo_wholesaler = 100
@@ -445,12 +447,12 @@ local isEnabled = function (ref)
 	return ads[ref] ~= nil and isQualifiedFor(Character.persistent.player.reputation, ads[ref])
 end
 
-local findNearbyStations = function (station, minDist)
+local findNearbyStations = function (station, minDist, maxDist)
 	local nearbystations = {}
 	for _,s in ipairs(Game.system:GetStationPaths()) do
 		if s ~= station.path then
 			local dist = station:DistanceTo(Space.GetBody(s.bodyIndex))
-			if dist >= minDist then
+			if dist >= minDist and dist <= maxDist then
 				table.insert(nearbystations, { s, dist })
 			end
 		end
@@ -485,14 +487,15 @@ local makeAdvert = function (station)
 	branch, cargotype = randomCargo()
 	if localdelivery then
 		nearbysystem = Game.system
-		nearbystations = findNearbyStations(station, 1000)
+		-- discard stations closer than 1000m and further than 20AU
+		nearbystations = findNearbyStations(station, 1000, 1.4960e11 * 20)
 		if #nearbystations == 0 then return nil end
 		amount = Engine.rand:Integer(1, max_cargo)
 		risk = 0 -- no risk for local delivery
 		wholesaler = false -- no local wholesaler delivery
 		pickup = Engine.rand:Number(0, 1) > 0.75 and true or false
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
-		reward = typical_reward_local + (math.sqrt(dist) / 15000) * (1+urgency) * (1+amount/max_cargo)
+		reward = typical_reward_local + math.max(math.sqrt(dist) / 15000, min_local_dist_pay) * (1.5+urgency) * (1+amount/max_cargo)
 		due = (4*24*60*60) + (24*60*60 * (dist / (1.49*10^11))) * (1.5 - urgency)
 		if pickup then
 			missiontype = "PICKUP_LOCAL"
