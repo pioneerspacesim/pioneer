@@ -332,6 +332,13 @@ laser.pulsecannon_20mw = LaserType.New({
 		width=5, beam=0, dual=0, mining=0, rgba_r = 0.1, rgba_g = 51, rgba_b = 255, rgba_a = 255
 	}, purchasable=true, tech_level="MILITARY"
 })
+laser.miningcannon_5mw = LaserType.New({
+	l10n_key="MININGCANNON_5MW", price=3700, capabilities={mass=6},
+	slots = {"laser_front", "laser_rear"}, laser_stats = {
+		lifespan=8, speed=1000, damage=5000, rechargeTime=1.5, length=30,
+		width=5, beam=0, dual=0, mining=1, rgba_r = 51, rgba_g = 127, rgba_b = 0, rgba_a = 255
+	}, purchasable=true, tech_level=5
+})
 laser.miningcannon_17mw = LaserType.New({
 	l10n_key="MININGCANNON_17MW", price=10600, capabilities={mass=10},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
