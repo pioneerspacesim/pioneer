@@ -566,16 +566,26 @@ namespace SceneGraph {
 	public:
 		LoadVisitorJson(const Json &jsonObj) :
 			m_jsonArray(jsonObj),
-			m_arrayIndex(0) {}
+			m_arrayIndex(0),
+			hadError(false) {}
 
 		void ApplyMatrixTransform(MatrixTransform &node)
 		{
+			// do nothing if the model has corruption issues
+			if (m_arrayIndex >= m_jsonArray.size()) {
+				hadError = true;
+				return;
+			}
+
 			node.SetTransform(m_jsonArray[m_arrayIndex++]["m"]);
 		}
+
+		bool success() const { return !hadError; }
 
 	private:
 		const Json &m_jsonArray;
 		unsigned int m_arrayIndex;
+		bool hadError;
 	};
 
 	void Model::LoadFromJson(const Json &jsonObj)
@@ -586,12 +596,18 @@ namespace SceneGraph {
 			Json visitorArray = modelObj["visitor"].get<Json::array_t>();
 			LoadVisitorJson lv(visitorArray);
 			m_root->Accept(lv);
+			if (!lv.success()) {
+				Log::Info("Error(s) occurred while loading saved data for model '{}'. The model file may have changed on disk.\n", m_name);
+			}
 
 			Json animationArray = modelObj["animations"].get<Json::array_t>();
-			assert(m_animations.size() == animationArray.size());
-			unsigned int arrayIndex = 0;
-			for (auto i : m_animations)
-				i->SetProgress(animationArray[arrayIndex++]);
+			if (m_animations.size() == animationArray.size()) {
+				unsigned int arrayIndex = 0;
+				for (auto i : m_animations)
+					i->SetProgress(animationArray[arrayIndex++]);
+			} else {
+				Log::Info("Saved model '{}' has invalid animation data. The model file may have changed on disk.\n", m_name);
+			}
 			UpdateAnimations();
 
 			SetPattern(modelObj["cur_pattern_index"]);
