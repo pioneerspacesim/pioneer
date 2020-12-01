@@ -24,26 +24,32 @@ public:
 	virtual ~FixedGuns();
 	void Init(DynamicBody *b);
 	void InitGuns(SceneGraph::Model *m);
+
+	virtual void SaveToJson(Json &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json &jsonObj, Space *space);
+
 	void UpdateGuns(float timeStep);
-	bool Fire(const int num, Body *b);
+	void UpdateLead(float timeStep, int num, Body *ship, Body *target);
+	bool Fire(int num, Body *ship);
+	void SetGunFiringState(int idx, int s);
+	void SetShouldUseLeadCalc(bool enable) { m_shouldUseLeadCalc = enable; }
+
 	bool IsFiring();
 	bool IsFiring(const int num);
 	bool IsBeam(const int num);
-	float GetGunTemperature(int idx) const;
 	inline void IsDual(int idx, bool dual) { m_gun[idx].dual = dual; };
+
 	void MountGun(const int num, const float recharge, const float lifespan, const float damage, const float length,
 		const float width, const bool mining, const Color &color, const float speed, const bool beam, const float heatrate, const float coolrate);
 	void UnMountGun(int num);
-	inline float GetGunRange(int idx) { return m_gun[idx].projData.speed * m_gun[idx].projData.lifespan; };
-	inline float GetProjSpeed(int idx) { return m_gun[idx].projData.speed; };
+
+	float GetGunTemperature(int idx) const;
+	inline bool IsGunMounted(int idx) const { return m_gun_present[idx]; }
+	inline float GetGunRange(int idx) const { return m_gun[idx].projData.speed * m_gun[idx].projData.lifespan; };
+	inline float GetProjSpeed(int idx) const { return m_gun[idx].projData.speed; };
+	inline const vector3d &GetTargetLeadPos() const { return m_targetLeadPos; }
+	inline const vector3d &GetCurrentLeadDir() const { return m_currentLeadDir; }
 	inline void SetCoolingBoost(float cooler) { m_cooler_boost = cooler; };
-	inline void SetGunFiringState(int idx, int s)
-	{
-		if (m_gun_present[idx])
-			m_is_firing[idx] = s;
-	};
-	virtual void SaveToJson(Json &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json &jsonObj, Space *space);
 
 private:
 	struct GunData {
@@ -66,6 +72,9 @@ private:
 	bool m_gun_present[Guns::GUNMOUNT_MAX];
 	GunData m_gun[Guns::GUNMOUNT_MAX];
 	float m_cooler_boost;
+	bool m_shouldUseLeadCalc = false;
+	vector3d m_targetLeadPos;
+	vector3d m_currentLeadDir;
 };
 
 #endif // FIXEDGUNS_H

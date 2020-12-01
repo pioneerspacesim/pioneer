@@ -12,6 +12,7 @@
 template <typename T>
 class Quaternion {
 	using other_float_t = typename std::conditional<std::is_same<T, float>::value, double, float>::type;
+
 public:
 	T w, x, y, z;
 
@@ -20,19 +21,36 @@ public:
 	Quaternion();
 	Quaternion(T w, T x, T y, T z);
 	// from angle and axis
-	Quaternion(T ang, vector3<T> axis);
+	Quaternion(T ang, vector3<T> axis)
+	{
+		const T halfAng = ang * T(0.5);
+		const T sinHalfAng = sin(halfAng);
+		w = cos(halfAng);
+		x = axis.x * sinHalfAng;
+		y = axis.y * sinHalfAng;
+		z = axis.z * sinHalfAng;
+	}
+	// from axis, assume angle == PI
+	// optimized fast path using sin(PI/2) = 1
+	Quaternion(vector3<T> axis)
+	{
+		w = 0;
+		x = axis.x;
+		y = axis.y;
+		z = axis.z;
+	}
 	Quaternion(const Quaternion<other_float_t> &o) :
 		w(o.w),
 		x(o.x),
 		y(o.y),
 		z(o.z) {}
 
-	void GetAxisAngle(T &angle, vector3<T> &axis) const
+	void GetAxisAngle(T &angle, vector3<T> &axis)
 	{
 		if (w > 1.0) *this = Normalized(); // if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
 		angle = 2.0 * acos(w);
 		double s = sqrt(1.0 - w * w); // assuming quaternion normalised then w is less than 1, so term always positive.
-		if (s < 0.001) { // test to avoid divide by zero, s is always positive due to sqrt
+		if (s < 0.001) {			  // test to avoid divide by zero, s is always positive due to sqrt
 			// if s close to zero then direction of axis not important
 			axis.x = x; // if it is important that axis is normalised then replace with x=1; y=z=0;
 			axis.y = y;
@@ -231,27 +249,6 @@ inline Quaternion<double>::Quaternion(double w_, double x_, double y_, double z_
 	x(x_),
 	y(y_),
 	z(z_) {}
-
-template <>
-inline Quaternion<float>::Quaternion(float ang, vector3<float> axis)
-{
-	const float halfAng = ang * 0.5f;
-	const float sinHalfAng = sin(halfAng);
-	w = cos(halfAng);
-	x = axis.x * sinHalfAng;
-	y = axis.y * sinHalfAng;
-	z = axis.z * sinHalfAng;
-}
-template <>
-inline Quaternion<double>::Quaternion(double ang, vector3<double> axis)
-{
-	const double halfAng = ang * 0.5;
-	const double sinHalfAng = sin(halfAng);
-	w = cos(halfAng);
-	x = axis.x * sinHalfAng;
-	y = axis.y * sinHalfAng;
-	z = axis.z * sinHalfAng;
-}
 
 typedef Quaternion<float> Quaternionf;
 typedef Quaternion<double> Quaterniond;
