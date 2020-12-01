@@ -302,7 +302,7 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 void WorldView::UpdateProjectedObjects()
 {
 	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetTempFrame());
-	matrix3x3d cam_rot = cam_frame->GetOrient();
+	matrix3x3d cam_rot = cam_frame->GetOrient().Inverse() * Pi::player->GetOrient();
 
 	// later we might want non-ship enemies (e.g., for assaults on military bases)
 	assert(!Pi::player->GetCombatTarget() || Pi::player->GetCombatTarget()->IsType(ObjectType::SHIP));
@@ -310,14 +310,12 @@ void WorldView::UpdateProjectedObjects()
 	// update combat HUD
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
 	if (enemy) {
-		const vector3d targpos = enemy->GetInterpPositionRelTo(Pi::player) * cam_rot;
 		const vector3d targScreenPos = enemy->GetInterpPositionRelTo(cam_frame->GetId());
 
 		UpdateIndicator(m_combatTargetIndicator, targScreenPos);
 
 		// calculate firing solution and relative velocity along our z axis
 		int laser = -1;
-		double projspeed = 0;
 		if (shipView->GetCamType() == ShipViewController::CAM_INTERNAL) {
 			switch (shipView->m_internalCameraController->GetMode()) {
 			case InternalCameraController::MODE_FRONT: laser = 0; break;
@@ -326,20 +324,14 @@ void WorldView::UpdateProjectedObjects()
 			}
 		}
 
-		if (laser >= 0) {
-			Pi::player->Properties().Get(laser ? "laser_rear_speed" : "laser_front_speed", projspeed);
-		}
-		if (projspeed > 0) { // only display target lead position on views with lasers
-			const vector3d targvel = enemy->GetVelocityRelTo(Pi::player) * cam_rot;
-			vector3d leadpos = targpos + targvel * (targpos.Length() / projspeed);
-			leadpos = targpos + targvel * (leadpos.Length() / projspeed); // second order approx
-
-			UpdateIndicator(m_targetLeadIndicator, leadpos);
-
+		if (laser >= 0 && Pi::player->GetFixedGuns()->IsGunMounted(laser)) {
+			Pi::player->GetFixedGuns()->UpdateLead(Pi::GetFrameTime(), laser, Pi::player, enemy);
+			UpdateIndicator(m_targetLeadIndicator, cam_rot * Pi::player->GetFixedGuns()->GetTargetLeadPos());
 			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
 				HideIndicator(m_targetLeadIndicator);
-		} else
+		} else {
 			HideIndicator(m_targetLeadIndicator);
+		}
 	} else {
 		HideIndicator(m_combatTargetIndicator);
 		HideIndicator(m_targetLeadIndicator);
@@ -741,7 +733,7 @@ vector3d WorldView::ShipSpaceToScreenSpace(const vector3d &pos) const
 // convert a position in body-relative coordinates (frame-oriented, player-origin) to screen-space
 vector3d WorldView::RelSpaceToScreenSpace(const vector3d &pos) const
 {
-	return projectToScreenSpace(pos * m_cameraContext->GetCameraOrient(), m_cameraContext);
+	return WorldSpaceToScreenSpace(pos + Pi::player->GetInterpPosition());
 }
 
 vector3d WorldView::CameraSpaceToScreenSpace(const vector3d &pos) const

@@ -50,6 +50,7 @@ Player::Player(const ShipType::Id &shipId) :
 {
 	SetController(new PlayerShipController());
 	InitCockpit();
+	GetFixedGuns()->SetShouldUseLeadCalc(true);
 	registerEquipChangeListener(this);
 }
 
@@ -57,6 +58,7 @@ Player::Player(const Json &jsonObj, Space *space) :
 	Ship(jsonObj, space)
 {
 	InitCockpit();
+	GetFixedGuns()->SetShouldUseLeadCalc(true);
 	registerEquipChangeListener(this);
 }
 

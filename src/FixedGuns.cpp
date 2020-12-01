@@ -6,8 +6,11 @@
 #include "DynamicBody.h"
 #include "GameSaveError.h"
 #include "Projectile.h"
+#include "Quaternion.h"
 #include "StringF.h"
+#include "libs.h"
 #include "scenegraph/MatrixTransform.h"
+#include "vector3.h"
 
 FixedGuns::FixedGuns()
 {
@@ -168,7 +171,13 @@ void FixedGuns::UnMountGun(int num)
 	m_gun_present[num] = false;
 }
 
-bool FixedGuns::Fire(const int num, Body *b)
+void FixedGuns::SetGunFiringState(int idx, int s)
+{
+	if (m_gun_present[idx])
+		m_is_firing[idx] = s;
+}
+
+bool FixedGuns::Fire(int num, Body *b)
 {
 	if (!m_gun_present[num]) return false;
 	if (!m_is_firing[num]) return false;
@@ -182,10 +191,12 @@ bool FixedGuns::Fire(const int num, Body *b)
 	m_temperature_stat[num] += m_gun[num].temp_heat_rate;
 	m_recharge_stat[num] = m_gun[num].recharge;
 
+	const matrix3x3d leadRot = m_shouldUseLeadCalc ? Quaterniond(m_currentLeadDir).ToMatrix3x3<double>() : matrix3x3d::Identity();
+
 	const int maxBarrels = std::min(size_t(m_gun[num].dual ? 2 : 1), m_gun[num].locs.size());
 
 	for (int iBarrel = 0; iBarrel < maxBarrels; iBarrel++) {
-		const vector3d dir = (b->GetOrient() * vector3d(m_gun[num].locs[iBarrel].dir)).Normalized();
+		const vector3d dir = (b->GetOrient() * leadRot * vector3d(m_gun[num].locs[iBarrel].dir)).Normalized();
 		const vector3d pos = b->GetOrient() * vector3d(m_gun[num].locs[iBarrel].pos) + b->GetPosition();
 
 		if (m_gun[num].projData.beam) {
@@ -220,6 +231,41 @@ void FixedGuns::UpdateGuns(float timeStep)
 			m_recharge_stat[i] = 0;
 	}
 }
+
+static constexpr double MAX_LEAD_ANGLE = DEG2RAD(1.5);
+
+void FixedGuns::UpdateLead(float timeStep, int num, Body *ship, Body *target)
+{
+	assert(num < GUNMOUNT_MAX);
+	const vector3d forwardVector = num == GUN_REAR ? vector3d(0, 0, 1) : vector3d(0, 0, -1);
+	m_targetLeadPos = forwardVector;
+
+	if (target) {
+		const vector3d targpos = target->GetPositionRelTo(ship) * ship->GetOrient();
+
+		// calculate firing solution and relative velocity along our z axis
+		double projspeed = m_gun[num].projData.speed;
+
+		// don't calculate lead if there's no gun there
+		if (m_gun_present[num] && projspeed > 0) {
+			const vector3d targvel = target->GetVelocityRelTo(ship) * ship->GetOrient();
+			vector3d leadpos = targpos + targvel * (targpos.Length() / projspeed);
+			leadpos = targpos + targvel * (leadpos.Length() / projspeed); // second order approx
+
+			m_targetLeadPos = leadpos;
+		}
+	}
+
+	const vector3d targetDir = m_targetLeadPos.Normalized();
+	const vector3d gunLeadTarget = (targetDir.Dot(forwardVector) >= cos(MAX_LEAD_ANGLE)) ? targetDir : forwardVector;
+	// FIXME: for some unearthly reason, pointing directly at the lead target causes projectiles to overshoot by 2x
+	// So we just interpolate by exactly half and it works perfectly. This is a pretty benign hack, all considered.
+	Quaterniond interpTarget = Quaterniond::Slerp(Quaterniond(gunLeadTarget), Quaterniond(forwardVector), 0.5);
+
+	double angle;
+	interpTarget.GetAxisAngle(angle, m_currentLeadDir);
+}
+
 float FixedGuns::GetGunTemperature(int idx) const
 {
 	if (m_gun_present[idx])
