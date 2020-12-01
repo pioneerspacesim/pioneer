@@ -40,34 +40,6 @@ local function textIcon(icon, tooltip)
 	ui.icon(icon, textIconSize, colors.font, tooltip)
 end
 
-local function showJumpData(start, target, status, distance, fuel, duration, short)
-	local color = colors.font
-	if short then
-		ui.withStyleColors({["Text"] = color}, function()
-
-			ui.text(target:GetStarSystem().name)
-			ui.sameLine()
-			ui.text("("..fuel .. lc.UNIT_TONNES..")")
-		end)
-	else
-		ui.withStyleColors({["Text"] = color}, function()
-			ui.text(start:GetStarSystem().name)
-			ui.sameLine()
-			ui.text("->")
-			ui.sameLine()
-			ui.text(target:GetStarSystem().name)
-			ui.sameLine()
-			ui.text(":")
-			ui.sameLine()
-			ui.text(string.format("%.2f", distance) .. lc.UNIT_LY)
-			ui.sameLine()
-			ui.text(fuel .. lc.UNIT_TONNES)
-			ui.sameLine()
-			ui.text(ui.Format.Duration(duration, 2))
-		end)
-	end
-end -- showJumpData
-
 local function showInfo()
 	if ui.collapsingHeader(lui.ROUTE_INFO,{"DefaultOpen"}) then
 		local total_fuel = 0

@@ -487,7 +487,7 @@ end
 
 ui.registerModule("game", displaySectorViewWindow)
 Event.Register("onGameStart", onGameStart)
-Event.Register("onLeaveSystem", function()
+Event.Register("onEnterSystem", function()
 	hyperspaceDetailsCache = {}
 end)
 

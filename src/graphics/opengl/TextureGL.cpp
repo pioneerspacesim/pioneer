@@ -132,8 +132,8 @@ namespace Graphics {
 						if (!Width || !Height)
 							break;
 
-						Width /= 2;
-						Height /= 2;
+						Width = std::max<size_t>(Width / 2, 1ul);
+						Height = std::max<size_t>(Height / 2, 1ul);
 						m_allocSize += bufSize;
 					}
 					glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
@@ -192,8 +192,8 @@ namespace Graphics {
 						glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 						glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 						glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
-						Width /= 2;
-						Height /= 2;
+						Width = std::max<size_t>(Width / 2, 1ul);
+						Height = std::max<size_t>(Height / 2, 1ul);
 						m_allocSize += bufSize * 6;
 
 						if (!Width || !Height)
@@ -232,8 +232,8 @@ namespace Graphics {
 						glCompressedTexImage3D(GL_TEXTURE_2D_ARRAY, i, GLInternalFormat(descriptor.format), Width, Height, Layers, 0, bufSize * Layers, nullptr);
 						RendererOGL::CheckErrors();
 
-						Width /= 2;
-						Height /= 2;
+						Width = std::max<size_t>(Width / 2, 1ul);
+						Height = std::max<size_t>(Height / 2, 1ul);
 						m_allocSize += bufSize * Layers;
 
 						if (!Width || !Height)
@@ -324,8 +324,8 @@ namespace Graphics {
 						glCompressedTexSubImage2D(m_target, i, pos.x, pos.y, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
 
 						Offset += bufSize;
-						Width /= 2;
-						Height /= 2;
+						Width = std::max<size_t>(Width / 2, 1ul);
+						Height = std::max<size_t>(Height / 2, 1ul);
 
 						if (!Width || !Height)
 							break;
@@ -381,8 +381,8 @@ namespace Graphics {
 						glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_nz[Offset]);
 
 						Offset += bufSize;
-						Width /= 2;
-						Height /= 2;
+						Width = std::max<size_t>(Width / 2, 1ul);
+						Height = std::max<size_t>(Height / 2, 1ul);
 						if (!Width || !Height)
 							break;
 					}
@@ -448,8 +448,8 @@ namespace Graphics {
 							bufSize,		   //	GLsizei  		imageSize,
 							&pData[Offset]);   //	const GLvoid *  data);
 						Offset += bufSize;
-						Width /= 2;
-						Height /= 2;
+						Width = std::max<size_t>(Width / 2, 1ul);
+						Height = std::max<size_t>(Height / 2, 1ul);
 
 						if (!Width || !Height)
 							break;
