@@ -26,6 +26,10 @@ local max_delivery_dist = 30
 local typical_travel_time = (1.6 * max_delivery_dist + 4) * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 25 * max_delivery_dist
+-- typical reward for delivery to a local port
+local typical_reward_local = 25
+-- Minimum amount paid for very close deliveries
+local min_local_dist_pay = 8
 
 local num_pirate_taunts = 10
 local num_deny = 8
@@ -213,12 +217,12 @@ end
 
 local nearbysystems
 
-local findNearbyStations = function (station, minDist)
+local findNearbyStations = function (station, minDist, maxDist)
 	local nearbystations = {}
 	for _,s in ipairs(Game.system:GetStationPaths()) do
 		if s ~= station.path then
 			local dist = station:DistanceTo(Space.GetBody(s.bodyIndex))
-			if dist >= minDist then
+			if dist >= minDist and dist <= maxDist then
 				table.insert(nearbystations, { s, dist })
 			end
 		end
@@ -241,11 +245,12 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 	if flavours[flavour].localdelivery then
 		nearbysystem = Game.system
 		if nearbystations == nil then
-			nearbystations = findNearbyStations(station, 1000)
+			-- discard stations closer than 1000m and further than 20AU
+			nearbystations = findNearbyStations(station, 1000, 1.4960e11 * 20)
 		end
 		if #nearbystations == 0 then return nil end
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
-		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
+		reward = typical_reward_local + math.max(math.sqrt(dist) / 15000, min_local_dist_pay) * (1.5+urgency)
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
 	else
 		if nearbysystems == nil then
@@ -299,7 +304,7 @@ local onCreateBB = function (station)
 	if nearbysystems == nil then
 		nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
 	end
-	local nearbystations = findNearbyStations(station, 1000)
+	local nearbystations = findNearbyStations(station, 1000, 1.4960e11 * 20)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
 	local numAchievableJobs = 0
 	local reputation = Character.persistent.player.reputation
