@@ -64,7 +64,7 @@ gauges.registerGauge(0, {
 		else return nil end
 	end,
 	icon = icons.forward, color = colors.gaugeWeapon,
-	tooltop = lui.HUD_FORWARD_GUN_TEMPERATURE
+	tooltip = lui.HUD_FORWARD_GUN_TEMPERATURE
 })
 
 gauges.registerGauge(1, {
