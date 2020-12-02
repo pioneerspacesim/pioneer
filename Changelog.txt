@@ -12,6 +12,8 @@ November 2020
      * Move Economy & Trade -view to pigui (#4967)
      * Add menu and ingame music from franzopow (#5027)
      * NewUI is dead, long live PiGui! (#5032)
+     * Improve combat targeting by adding aim assist for player weapons (#5037)
+     * Added lower-cost 5MW mining laser (#5037)
 
    * Internal Changes
      * Decrease the maximum background star size to 0.3 (#4991)
@@ -24,6 +26,7 @@ November 2020
      * Allow all ships with hyperdrives to be selected for rendezvous missions (#5002)
      * Fall back to an empty resource if it hasn't been translated (#5011)
      * MSVC CMake Updates (#5012)
+     * Buffed local delivery mission payouts, reduced fuel costs (#5037)
 
    * Fixes
      * Fix SAR crash where IsPlayer() is falsely called by non-ship body (#4985)
