@@ -4,7 +4,7 @@
 			"l10n_key": "HYDROGEN",
 			"inputs": [ ],
 			"producer": "mining",
-			"price": 10
+			"price": 5
 		},
 		"liquid_oxygen": {
 			"l10n_key": "LIQUID_OXYGEN",
