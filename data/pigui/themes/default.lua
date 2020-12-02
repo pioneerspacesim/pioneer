@@ -119,7 +119,7 @@ theme.colors = {
 	hyperspaceInfo			= styleColors.success_300,
 
 	econProfit				= styleColors.success_500,
-	econLoss				= styleColors.danger_500,
+	econLoss				= styleColors.danger_300,
 	econMajorExport			= styleColors.success_300,
 	econMinorExport			= styleColors.success_500,
 	econMajorImport			= styleColors.accent_300,

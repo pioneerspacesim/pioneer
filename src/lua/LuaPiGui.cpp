@@ -1569,6 +1569,20 @@ static int l_pigui_set_tooltip(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_begin_tooltip(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGui::BeginTooltip();
+	return 0;
+}
+
+static int l_pigui_end_tooltip(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGui::EndTooltip();
+	return 0;
+}
+
 static int l_pigui_checkbox(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2785,6 +2799,8 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "PopFont", l_pigui_pop_font },
 		{ "CalcTextSize", l_pigui_calc_text_size },
 		{ "SetTooltip", l_pigui_set_tooltip },
+		{ "BeginTooltip", l_pigui_begin_tooltip },
+		{ "EndTooltip", l_pigui_end_tooltip },
 		{ "Checkbox", l_pigui_checkbox },
 		{ "GetMousePos", l_pigui_get_mouse_pos },
 		{ "GetMouseWheel", l_pigui_get_mouse_wheel },

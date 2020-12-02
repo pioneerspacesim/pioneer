@@ -195,6 +195,32 @@ function ui.popup(name, fun)
 end
 
 --
+-- Function: ui.customTooltip
+--
+-- ui.customTooltip(fun)
+--
+-- Display a tooltip window
+--
+--
+-- Example:
+--
+-- >
+--
+-- Parameters:
+--
+--   fun  - Function, a function that is called to define the tooltip contents
+--
+-- Returns:
+--
+--   nil
+--
+function ui.customTooltip(fun)
+	pigui.BeginTooltip()
+	fun()
+	pigui.EndTooltip()
+end
+
+--
 -- Function: ui.child
 --
 -- ui.child(id, size, flags, fun)
