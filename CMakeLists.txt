@@ -367,7 +367,8 @@ if (MODELCOMPILER)
 	# This really shouldn't be done inside the source tree...
 	if (NOT MSVC)
 		add_custom_target(build-models
-			COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy ${MODELCOMPILER} -b inplace
+			COMMAND ${CMAKE_COMMAND} -E env SDL_VIDEODRIVER=dummy PIONEER_LOCAL_DATA_ONLY=1
+			${MODELCOMPILER} -b inplace
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 			COMMENT "Optimizing models" VERBATIM
 		)
