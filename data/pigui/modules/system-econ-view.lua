@@ -8,6 +8,7 @@ local lcomm = require 'Lang'.GetResource('commodity')
 
 local icons = ui.theme.icons
 local colors = ui.theme.colors
+local pionillium = ui.fonts.pionillium
 
 local systemEconView = {}
 
@@ -47,7 +48,7 @@ local major_export = -10
 local minor_import = 4
 local major_import = 10
 
-local function drawPriceIcon(price, size, tradeComp)
+local function getExportInfo(price)
 	local icon, color, tooltip = nil
 
 	if not price then
@@ -62,31 +63,88 @@ local function drawPriceIcon(price, size, tradeComp)
 		icon = price < major_export and icons.econ_major_export or icons.econ_minor_export
 		color = price < major_export and colors.econMajorExport or colors.econMinorExport
 		tooltip = price < major_export and lui.MAJOR_EXPORT or lui.MINOR_EXPORT
+	else
+		color = colors.font
+		tooltip = lui.MINIMAL_TRADE
 	end
 
-	if icon then ui.icon(icon, size, color, tooltip) else ui.dummy(size) end
+	return icon, color, tooltip
 end
 
-function systemEconView.drawEconList(commList, illegalList, showOther)
+local function getProfitabilityInfo(priceA, priceB)
+	local icon, color, tooltip = nil
+	local priceDiff = (priceA and priceB) and priceB - priceA
+
+	if priceDiff and math.abs(priceDiff) > major_import then
+		icon = priceDiff > 0.0 and icons.econ_profit or icons.econ_loss
+		color = priceDiff > 0.0 and colors.econProfit or colors.econLoss
+		tooltip = priceDiff > 0.0 and lui.PROFITABLE_TRADE or lui.UNPROFITABLE_TRADE
+	end
+
+	return icon, color, tooltip
+end
+
+local function drawPriceIcon(price, size)
+	local icon, color = getExportInfo(price)
+	if icon then ui.icon(icon, size, color) else ui.dummy(size) end
+end
+
+local function drawCommodityTooltip(info, thisSystem, otherSystem)
+	ui.customTooltip(function()
+		ui.withFont(pionillium.medlarge, function() ui.text(lcomm[info[1]]) end)
+		local color, tooltip = select(2, getProfitabilityInfo(info[2], info[3]))
+		if otherSystem and tooltip then
+			ui.textColored(color, tooltip)
+		end
+
+		ui.spacing()
+
+		ui.text(lui.TRADING_FROM:interp({system = thisSystem.name}))
+		color, tooltip = select(2, getExportInfo(info[2]))
+		if tooltip then
+			ui.sameLine()
+			ui.textColored(color, tooltip)
+		end
+
+		if otherSystem then
+			ui.text(lui.TRADING_TO:interp({system = otherSystem.name}))
+			color, tooltip = select(2, getExportInfo(info[3]))
+			if tooltip then
+				ui.sameLine()
+				ui.textColored(color, tooltip)
+			end
+		end
+	end)
+end
+
+function systemEconView.drawEconList(commList, illegalList, thisSystem, otherSystem)
 	local width = ui.getColumnWidth()
 	local iconWidth = ui.getTextLineHeight() + 4
 	local iconSize = Vector2(iconWidth, iconWidth)
 
-	local currSysPos = width - (showOther and iconWidth * 2 or iconWidth)
+	local currSysPos = width - (otherSystem and iconWidth * 2 or iconWidth)
 	ui.child("CommodityList", Vector2(0, 0), ui.WindowFlags{"NoScrollbar"}, function()
 		for _, info in ipairs(commList) do
-			ui.text(rawget(lcomm, info[1]) or ('[NO_JSON]'..info[1]))
-			if showOther and math.abs(info[3] - info[2]) > major_import then
+			ui.group(function()
+				ui.text(lcomm[info[1]])
 				ui.sameLine(width - iconWidth * 3)
-				local profit = info[3] - info[2] > 0.0
-				ui.icon(profit and icons.econ_profit or icons.econ_loss, iconSize, profit and colors.econProfit or colors.econLoss)
-			end
-			ui.sameLine(currSysPos)
 
-			drawPriceIcon(info[2], iconSize)
-			if showOther then
-				ui.sameLine(width - iconWidth)
-				drawPriceIcon(info[3], iconSize)
+				local icon, color = getProfitabilityInfo(info[2], info[3])
+				if otherSystem and icon then ui.icon(icon, iconSize, color) else ui.dummy(iconSize) end
+
+				if otherSystem then
+					ui.sameLine(0, 0)
+					drawPriceIcon(info[2], iconSize)
+					ui.sameLine(0, 0)
+					drawPriceIcon(info[3], iconSize)
+				else
+					ui.sameLine(0, iconWidth)
+					drawPriceIcon(info[2], iconSize)
+				end
+			end)
+
+			if ui.isItemHovered() then
+				drawCommodityTooltip(info, thisSystem, otherSystem)
 			end
 		end
 
@@ -101,14 +159,20 @@ function systemEconView.drawEconList(commList, illegalList, showOther)
 		ui.spacing()
 
 		for _, info in ipairs(illegalList) do
-			ui.text(rawget(lcomm, info[1]) or ('[NO_JSON]'..info[1]))
+			ui.group(function()
+				ui.text(lcomm[info[1]])
+				ui.sameLine(width - iconWidth * 2, 0)
 
-			-- only display illegal icon if the commodity is actually legal in the other system
-			if showOther and info[2] or info[3] then
-				ui.sameLine(currSysPos)
-				drawPriceIcon(info[2], iconSize)
-				ui.sameLine(width - iconWidth)
-				drawPriceIcon(info[3], iconSize)
+				-- only display illegal icon if the commodity is actually legal in the other system
+				if otherSystem and (info[2] or info[3]) then
+					drawPriceIcon(info[2], iconSize)
+					ui.sameLine(0, 0)
+					drawPriceIcon(info[3], iconSize)
+				end
+			end)
+
+			if ui.isItemHovered() then
+				drawCommodityTooltip(info, thisSystem, otherSystem)
 			end
 		end
 	end)
@@ -116,7 +180,7 @@ end
 
 function systemEconView.draw(current, other)
 	local commList, illegalList = systemEconView.buildCommodityList(current, other)
-	systemEconView.drawEconList(commList, illegalList, other)
+	systemEconView.drawEconList(commList, illegalList, current, other)
 end
 
 return systemEconView
