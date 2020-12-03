@@ -169,8 +169,12 @@ public:
 		// iterate over each index list and optimize it
 		Uint32 tri_count = GetIndices(pl_short);
 		VertexCacheOptimizerUInt vco;
+#ifndef NDEBUG
 		VertexCacheOptimizerUInt::Result res = vco.Optimize(&pl_short[0], tri_count);
 		assert(0 == res);
+#else
+		vco.Optimize(&pl_short[0], tri_count);
+#endif
 
 		//create buffer & copy
 		indexBuffer.Reset(Pi::renderer->CreateIndexBuffer(pl_short.size(), Graphics::BUFFER_USAGE_STATIC));
@@ -477,8 +481,10 @@ bool GasGiant::AddGPUGenResult(GasGiantJobs::SGPUGenResult *res)
 	assert(res);
 	m_hasGpuJobRequest = false;
 	assert(!m_gpuJob.HasJob());
+#ifndef NDEBUG
 	const Sint32 uvDims = res->data().uvDims;
 	assert(uvDims > 0 && uvDims <= 4096);
+#endif
 
 #if DUMP_TO_TEXTURE
 	for (int iFace = 0; iFace < NUM_PATCHES; iFace++) {

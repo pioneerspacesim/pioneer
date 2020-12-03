@@ -102,7 +102,6 @@ size_t DDSImage::Read(const char* pData, const size_t dataSize)
 		return 0;
 
 	const long headerSize=128;
-	const size_t DDSStructSize = sizeof(DDS::DDSStruct)+4;
 	// proceed with allocating memory and reading the file
 	imgdata_.imgData = new byte[imgdata_.size];
 

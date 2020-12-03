@@ -126,7 +126,9 @@ void SpaceStationType::OnSetupComplete()
 		PiVerify(bay > 0 && portId > 0);
 
 		// find the port and setup the rest of it's information
+#ifndef NDEBUG
 		bool bFoundPort = false;
+#endif
 		matrix4x4f approach1(0.0);
 		matrix4x4f approach2(0.0);
 		for (auto &rPort : m_ports) {
@@ -134,7 +136,9 @@ void SpaceStationType::OnSetupComplete()
 				rPort.minShipSize = std::min(minSize, rPort.minShipSize);
 				rPort.maxShipSize = std::max(maxSize, rPort.maxShipSize);
 				rPort.bayIDs.push_back(std::make_pair(bay - 1, padname));
+#ifndef NDEBUG
 				bFoundPort = true;
+#endif
 				approach1 = rPort.m_approach[1];
 				approach2 = rPort.m_approach[2];
 				break;
