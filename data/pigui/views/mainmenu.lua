@@ -151,7 +151,9 @@ local function canContinue()
 	return Game.CanLoadGame('_exit') or Game.CanLoadGame('_quicksave')
 end
 
+local hasMusicList = false -- required false at init, see showMainMenu() for usage
 local function startAtLocation(location)
+	hasMusicList = false -- set false so that player restarts music
 	Game.StartGame(location.location)
 	Game.player:SetShipType(location.shipType)
 	Game.player:SetLabel(Ship.MakeRandomLabel())
@@ -172,8 +174,6 @@ local function callModules(mode)
 		v.fun()
 	end
 end
-
-local hasMusicList = false
 
 local overlayWindowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "AlwaysAutoResize"}
 local mainMenuFlags = ui.WindowFlags{"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}
