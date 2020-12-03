@@ -347,6 +347,11 @@ void PerfInfo::DrawWorldViewStats()
 		Pi::player->GetModel()->SetDebugFlags(m_state->playerModelDebugFlags);
 	}
 	/* clang-format on */
+
+	if (Pi::player->GetNavTarget() && Pi::player->GetNavTarget()->GetSystemBody()) {
+		const auto *sbody = Pi::player->GetNavTarget()->GetSystemBody();
+		ImGui::TextUnformatted(fmt::format("Name: {}, Population: {}", sbody->GetName(), sbody->GetPopulation() * 1e9).c_str());
+	}
 }
 
 void PerfInfo::DrawInputDebug()

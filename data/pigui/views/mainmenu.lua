@@ -170,8 +170,8 @@ local function startAtLocation(location)
 end
 
 local function callModules(mode)
-	for k,v in pairs(ui.getModules(mode)) do
-		v.fun()
+	for k,v in ipairs(ui.getModules(mode)) do
+		v.draw()
 	end
 end
 

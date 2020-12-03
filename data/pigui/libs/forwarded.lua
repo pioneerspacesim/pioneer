@@ -9,6 +9,8 @@ local pigui = Engine.pigui
 local ui = {}
 
 ui.calcTextAlignment = pigui.CalcTextAlignment
+ui.alignTextToLineHeight = pigui.AlignTextToLineHeight
+ui.alignTextToFramePadding = pigui.AlignTextToFramePadding
 ui.lineOnClock = pigui.lineOnClock
 ui.pointOnClock = pigui.pointOnClock
 ui.screenWidth = pigui.screen_width

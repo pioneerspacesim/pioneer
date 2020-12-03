@@ -1371,10 +1371,12 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 
 		// orbital starports should carry a small amount of population
 		if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
-			sbody->m_population = fixed(1, 100000) + fixed(1, 1000000 + starportPopRand.Int32(-10000, 10000));
+			// give starports a population between 9000 and 30000
+			sbody->m_population = fixed(1, 100000) + fixed(starportPopRand.Int32(-1000, 20000), 1000000000);
 			outTotalPop += sbody->m_population;
 		} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
-			sbody->m_population = fixed(1, 10000) + fixed(1, 100000 + starportPopRand.Int32(-100, 100));
+			// give surface spaceports a population between 80000 and 250000
+			sbody->m_population = fixed(1, 10000) + fixed(starportPopRand.Int32(-2000, 15000), 100000000);
 			outTotalPop += sbody->m_population;
 		}
 

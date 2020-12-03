@@ -19,6 +19,7 @@
 #include "WorldView.h"
 #include "graphics/Graphics.h"
 #include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
 #include "pigui/LuaFlags.h"
 #include "pigui/LuaPiGui.h"
 #include "pigui/PiGui.h"
@@ -31,6 +32,19 @@
 // Windows defines RegisterClass as a macro, but we don't need that here.
 // undef it, to avoid including yet another header that undefs it
 #undef RegisterClass
+
+namespace ImGui {
+	void AlignTextToLineHeight(float lineHeight = -1.0f)
+	{
+		ImGuiWindow *window = ImGui::GetCurrentWindow();
+		if (window->SkipItems)
+			return;
+
+		ImGuiContext &g = *GetCurrentContext();
+		window->DC.CurrLineSize.y = ImMax(window->DC.CurrLineSize.y, ImMax(lineHeight, g.FontSize));
+		window->DC.CurrLineTextBaseOffset = ImMax(window->DC.CurrLineTextBaseOffset, (window->DC.CurrLineSize.y - g.FontSize) / 2.0f);
+	}
+} // namespace ImGui
 
 template <typename Type>
 static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTable)
@@ -892,6 +906,7 @@ static int l_pigui_path_stroke(lua_State *l)
  *   text - string, text
  *   is_selectable - boolean, wheater or not a text field is highlighted by mouse over
  *   flag - optional, selectable flag
+ *   size - optional size hint argument
  *
  * Return:
  *
@@ -904,8 +919,9 @@ static int l_pigui_selectable(lua_State *l)
 	std::string label = LuaPull<std::string>(l, 1);
 	bool selected = LuaPull<bool>(l, 2);
 	ImGuiSelectableFlags flags = LuaPull<ImGuiSelectableFlags_>(l, 3, ImGuiSelectableFlags_None);
+	ImVec2 size = LuaPull<ImVec2>(l, 4, ImVec2(0, 0));
 	// TODO: parameter size
-	bool res = ImGui::Selectable(label.c_str(), selected, flags);
+	bool res = ImGui::Selectable(label.c_str(), selected, flags, size);
 	LuaPush<bool>(l, res);
 	return 1;
 }
@@ -1325,6 +1341,19 @@ static int l_pigui_same_line(lua_State *l)
 	double pos_x = LuaPull<double>(l, 1);
 	double spacing_w = LuaPull<double>(l, 2);
 	ImGui::SameLine(pos_x, spacing_w);
+	return 0;
+}
+
+static int l_pigui_align_to_frame_padding(lua_State *l)
+{
+	ImGui::AlignTextToFramePadding();
+	return 0;
+}
+
+static int l_pigui_align_to_line_height(lua_State *l)
+{
+	double lineHeight = LuaPull<double>(l, 1, -1.0f);
+	ImGui::AlignTextToLineHeight(lineHeight);
 	return 0;
 }
 
@@ -2756,6 +2785,8 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "AddImage", l_pigui_add_image },
 		{ "AddImageQuad", l_pigui_add_image_quad },
 		{ "AddBezierCurve", l_pigui_add_bezier_curve },
+		{ "AlignTextToFramePadding", l_pigui_align_to_frame_padding },
+		{ "AlignTextToLineHeight", l_pigui_align_to_line_height },
 		{ "SetNextWindowPos", l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize", l_pigui_set_next_window_size },
 		{ "SetNextWindowSizeConstraints", l_pigui_set_next_window_size_constraints },
