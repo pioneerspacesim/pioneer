@@ -204,7 +204,7 @@ theme.icons = {
 	heavy_fighter = 32,
 	medium_fighter = 33,
 	light_fighter = 34,
-	-- EMPTY = 35,
+	sun = 35,
 	asteroid_hollow = 36,
 	current_height = 37,
 	current_periapsis = 38,
@@ -237,7 +237,7 @@ theme.icons = {
 	heavy_passenger_shuttle = 64,
 	medium_passenger_shuttle = 65,
 	light_passenger_shuttle = 66,
-	-- EMPTY = 67,
+	moon = 67,
 	autopilot_set_speed = 68,
 	autopilot_manual = 69,
 	autopilot_fly_to = 70,
@@ -292,7 +292,7 @@ theme.icons = {
 	warning_1 = 116,
 	warning_2 = 117,
 	warning_3 = 118,
-	moon = 119,
+	-- moon = 119, -- smaller duplicate of 67
 	combattarget = 120,
 	navtarget = 121,
 	alert1 = 122,
@@ -421,7 +421,7 @@ theme.icons = {
 	-- sixteenth row
 	econ_profit = 240,
 	econ_loss = 241,
-	surface_spaceport = 242,
+	starport_surface = 242,
 	outpost_tiny = 243,
 	outpost_small = 244,
 	outpost_medium = 245,
@@ -434,8 +434,6 @@ theme.icons = {
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly
 	mouse_move_direction = 14,
-	-- transitional, aliased to the unused galaxymap icon
-	sun = 35,
 }
 
 return theme

@@ -48,11 +48,32 @@ end
 
 local modules = {}
 
+-- Function: ui.registerModule
+--
+-- Register a modular widget for display in a specific view mode
+--
+-- Example:
+--   > ui.registerModule('game', function() ... end)
+--
+-- Parameters:
+--   mode - string, the UI binding point you want to register this module to
+--   fun - a function (or table) that is responsible for drawing your custom UI.
+--         If `fun` is a table, it should have a `draw` function. The `enabled`
+--         key in the table is reserved for use by the module system.
 function ui.registerModule(mode, fun)
 	if not modules[mode] then
 		modules[mode] = {}
 	end
-	table.insert(modules[mode], { fun = fun, enabled = true })
+	if type(fun) == 'function' then fun = { draw = fun } end
+	fun.enabled = true
+
+	if fun.id and modules[mode][fun.id] then
+		local idx = modules[mode][fun.id]
+		modules[mode][idx] = fun
+	else
+		table.insert(modules[mode], fun)
+		if fun.id then modules[mode][fun.id] = #modules[mode] end
+	end
 end
 
 function ui.getModules(mode)
