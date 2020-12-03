@@ -9,7 +9,7 @@
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Добави Хиперскок"
+    "message": "Добави хиперскок"
   },
   "AFTER_TRADE_IN": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-    "message": "Атмосферен щит"
+    "message": "Атмосферно предпазване"
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
@@ -53,7 +53,7 @@
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Автоматичен Mаршрут"
+    "message": "Автоматичен маршрут"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
@@ -1311,6 +1311,10 @@
     "description": "",
     "message": "Военен"
   },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "Minimal Trade"
+  },
   "MINIMUM_CREW": {
     "description": "",
     "message": "Минимален екипаж"
@@ -1586,6 +1590,10 @@
   "PROFESSIONAL": {
     "description": "For player reputation",
     "message": "Професионалист"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "Profitable Trade"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1967,9 +1975,17 @@
     "description": "",
     "message": "Обща маса"
   },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "От {system}:"
+  },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
     "message": "Търговия с нелегални стоки"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "Към {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -1982,6 +1998,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Незаконно използване на оръжие"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "Unprofitable Trade"
   },
   "UNRELIABLE": {
     "description": "",

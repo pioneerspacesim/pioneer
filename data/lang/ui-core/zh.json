@@ -529,7 +529,7 @@
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
-    "message": "Finance"
+    "message": "财务"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
@@ -1311,6 +1311,10 @@
     "description": "",
     "message": "军事"
   },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "最小贸易额"
+  },
   "MINIMUM_CREW": {
     "description": "",
     "message": "最小成员数"
@@ -1586,6 +1590,10 @@
   "PROFESSIONAL": {
     "description": "For player reputation",
     "message": "专家"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "赢利贸易"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1967,9 +1975,17 @@
     "description": "",
     "message": "总质量"
   },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "来自{system}:"
+  },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
     "message": "交易非法货物"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "去{system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -1982,6 +1998,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "武器违法射击"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "无利润贸易"
   },
   "UNRELIABLE": {
     "description": "",

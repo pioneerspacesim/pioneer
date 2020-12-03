@@ -191,6 +191,14 @@
     "description": "",
     "message": "用爆破地雷对富矿小行星采矿."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5兆瓦采矿冲击炮"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "用爆破地雷对富矿小行星采矿."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "制导导弹"

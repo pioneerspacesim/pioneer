@@ -191,6 +191,14 @@
     "description": "",
     "message": "Úsáidtear é seo chun mianadóireacht a dhéanamh ar astaróidigh atá lán de mhianraí."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Úsáidtear é seo chun mianadóireacht a dhéanamh ar astaróidigh atá lán de mhianraí."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Diúracán Treoraithe"
@@ -208,7 +216,7 @@
     "message": "Roicéad Neamhthreoraithe R40"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Ilscúp"
   },
   "MULTI_SCOOP_DESCRIPTION": {

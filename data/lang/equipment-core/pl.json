@@ -191,6 +191,14 @@
     "description": "",
     "message": "Służy do kruszenia planetoid bogatych w minerały."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Służy do kruszenia planetoid bogatych w minerały."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Pocisk Kierowany"
@@ -208,7 +216,7 @@
     "message": "Pocisk Niekierowany R40"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Czerpak wielofunkcyjny"
   },
   "MULTI_SCOOP_DESCRIPTION": {

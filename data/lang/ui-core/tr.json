@@ -1311,6 +1311,10 @@
     "description": "",
     "message": "Askeri"
   },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "Minimal Ticaret"
+  },
   "MINIMUM_CREW": {
     "description": "",
     "message": "En az mürettebat"
@@ -1586,6 +1590,10 @@
   "PROFESSIONAL": {
     "description": "For player reputation",
     "message": "Profesyonel"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "Kazançlı Ticaret"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1967,9 +1975,17 @@
     "description": "",
     "message": "Toplam kütle"
   },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "Alış: {system}:"
+  },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
     "message": "Kanun dışı mal ticareti"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "Satış: {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -1982,6 +1998,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Kanun dışı silah kullanımı"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "Kazançsız Ticaret"
   },
   "UNRELIABLE": {
     "description": "",

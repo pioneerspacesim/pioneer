@@ -1311,6 +1311,10 @@
     "description": "",
     "message": "Militanza"
   },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "Commercio Debole"
+  },
   "MINIMUM_CREW": {
     "description": "",
     "message": "Equipaggio minimo"
@@ -1586,6 +1590,10 @@
   "PROFESSIONAL": {
     "description": "For player reputation",
     "message": "Professionista"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "Commercio Redditizio"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1967,9 +1975,17 @@
     "description": "",
     "message": "Massa totale"
   },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "Da  {system}:"
+  },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
     "message": "Commercio di merci Illegali"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "A {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -1982,6 +1998,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Scaricare illecitamente le proprie armi"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "Commercio Non Redditizio"
   },
   "UNRELIABLE": {
     "description": "",

@@ -229,7 +229,7 @@
   },
   "CONTRACT_FRAUD": {
     "description": "Crime committed by intentionally breaking a contract",
-    "message": "Contract fraud"
+    "message": "Incumplimiento de contrato"
   },
   "CONTROLS": {
     "description": "",
@@ -529,7 +529,7 @@
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
-    "message": "Finance"
+    "message": "Finanzas"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
@@ -1311,6 +1311,10 @@
     "description": "",
     "message": "Estatus Militar"
   },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "Comercio Mínimo"
+  },
   "MINIMUM_CREW": {
     "description": "",
     "message": "Tripulación mínima"
@@ -1586,6 +1590,10 @@
   "PROFESSIONAL": {
     "description": "For player reputation",
     "message": "Profesional"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "Comercio Rentable"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1967,9 +1975,17 @@
     "description": "",
     "message": "Masa Total"
   },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "Desde {system}:"
+  },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
     "message": "Comerciar con productos ilegales"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "A {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -1982,6 +1998,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Disparo de armas ilegal"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "Comercio no Rentable"
   },
   "UNRELIABLE": {
     "description": "",

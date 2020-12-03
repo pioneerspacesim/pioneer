@@ -191,6 +191,14 @@
     "description": "",
     "message": "Zengin asteroitlerden minerali patlatarak çıkarmak için kullanılır."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW madencilik topu"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Zengin asteroitlerden minerali patlatarak çıkarmak için kullanılır."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Güdümlü füze"
@@ -208,7 +216,7 @@
     "message": "R40 Güdümsüz Roket"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Çoklu Toplayıcı"
   },
   "MULTI_SCOOP_DESCRIPTION": {

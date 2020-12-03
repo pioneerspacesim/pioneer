@@ -191,6 +191,14 @@
     "description": "",
     "message": "Используется для добычи минералов из астероидов."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Используется для добычи минералов из астероидов."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Управляемая ракета"
@@ -208,7 +216,7 @@
     "message": "Неуправляемая ракета R40"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Мультисборник"
   },
   "MULTI_SCOOP_DESCRIPTION": {

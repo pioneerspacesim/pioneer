@@ -183,19 +183,19 @@
     "description": "",
     "message": "An improved cooling system for your weapons."
   },
-  "MININGCANNON_5MW": {
-    "description": "",
-    "message": "5MW blast-mining cannon"
-  },
-  "MININGCANNON_5MW_DESCRIPTION": {
-    "description": "",
-    "message": "Used to blast-mine mineral rich asteroids."
-  },
   "MININGCANNON_17MW": {
     "description": "",
     "message": "17MW blast-mining cannon"
   },
   "MININGCANNON_17MW_DESCRIPTION": {
+    "description": "",
+    "message": "Used to blast-mine mineral rich asteroids."
+  },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
     "description": "",
     "message": "Used to blast-mine mineral rich asteroids."
   },

@@ -191,6 +191,14 @@
     "description": "",
     "message": "Används för att spränga sönder mineralrika asteroider."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Används för att spränga sönder mineralrika asteroider."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Guidad missil"
@@ -208,7 +216,7 @@
     "message": "R40 ostyrd raket"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Multiskopa"
   },
   "MULTI_SCOOP_DESCRIPTION": {

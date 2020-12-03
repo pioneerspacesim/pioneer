@@ -191,6 +191,14 @@
     "description": "",
     "message": "Използва се за взривно миниране на астероиди, богати на минерали."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5 MW оръдие за взривно миниране"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Използва се за взривно миниране на астероиди, богати на минерали."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Управляема ракета"
