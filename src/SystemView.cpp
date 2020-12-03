@@ -553,7 +553,6 @@ void SystemView::Draw3D()
 	if (m_game->IsNormalSpace() && m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(m_game->GetSectorView()->GetSelected())) {
 		// draw ships
 		if (m_shipDrawing != OFF) {
-			RefreshShips();
 			DrawShips(m_time, pos);
 		}
 		// draw player and planner
@@ -631,6 +630,16 @@ void SystemView::Update()
 		m_rot_x_to += m_input.mapViewPitch->GetValue() * ft * 60;
 
 	m_rot_x_to = Clamp(m_rot_x_to, -80.0f, 80.0f);
+
+	if (m_shipDrawing != OFF) {
+		RefreshShips();
+		// if we are attached to the ship, check if we not deleted it in the previous frame
+		if (m_selectedObject.type != Projectable::NONE && m_selectedObject.base == Projectable::SHIP) {
+			auto bs = m_game->GetSpace()->GetBodies();
+			if (std::find(bs.begin(), bs.end(), m_selectedObject.ref.body) == bs.end())
+				ResetViewpoint();
+		}
+	}
 }
 
 void SystemView::MouseWheel(bool up)
@@ -724,13 +733,6 @@ void SystemView::AddProjected(Projectable::types type, Projectable::bases base, 
 	m_projected.push_back(p);
 }
 
-// SystemBody can't be inaccessible
-void SystemView::BodyInaccessible(Body *b)
-{
-	if (m_selectedObject.type == Projectable::OBJECT && m_selectedObject.base != Projectable::SYSTEMBODY && m_selectedObject.ref.body == b)
-		ResetViewpoint();
-}
-
 void SystemView::SetVisibility(std::string param)
 {
 	if (param == "RESET_VIEW")
@@ -747,9 +749,12 @@ void SystemView::SetVisibility(std::string param)
 		m_showL4L5 = LAG_ICON;
 	else if (param == "LAG_ICONTEXT")
 		m_showL4L5 = LAG_ICONTEXT;
-	else if (param == "SHIPS_OFF")
+	else if (param == "SHIPS_OFF") {
 		m_shipDrawing = OFF;
-	else if (param == "SHIPS_ON")
+		// if we are attached to the ship, reset view, since the ship was hidden
+		if (m_selectedObject.type != Projectable::NONE && m_selectedObject.base == Projectable::SHIP)
+			ResetViewpoint();
+	} else if (param == "SHIPS_ON")
 		m_shipDrawing = BOXES;
 	else if (param == "SHIPS_ORBITS")
 		m_shipDrawing = ORBITS;

@@ -171,7 +171,8 @@ function ChatForm:AddNavButton (target)
 					ui.playSfx("OK")
 				end
 			elseif not Game.InHyperspace() then
-				Game.sectorView:SwitchToPath(target:GetStarSystem().path)
+				-- if a specific systembody is given, set the sector map to the correct star (if the system is multiple)
+				Game.sectorView:SwitchToPath(target:IsBodyPath() and target:GetSystemBody().nearestJumpable.path or target:GetStarSystem().path)
 				ui.playBoinkNoise()
 			end
 		end

@@ -656,6 +656,12 @@ static int l_sbody_attr_children(lua_State *l)
 	return 1;
 }
 
+static int l_sbody_attr_nearest_jumpable(lua_State *l)
+{
+	LuaObject<SystemBody>::PushToLua(LuaObject<SystemBody>::CheckFromLua(1)->GetNearestJumpable());
+	return 1;
+}
+
 static int l_sbody_attr_is_moon(lua_State *l)
 {
 	LuaPush<bool>(l, LuaObject<SystemBody>::CheckFromLua(1)->IsMoon());
@@ -716,6 +722,7 @@ void LuaObject<SystemBody>::RegisterClass()
 		{ "path", l_sbody_attr_path },
 		{ "body", l_sbody_attr_body },
 		{ "children", l_sbody_attr_children },
+		{ "nearestJumpable", l_sbody_attr_nearest_jumpable },
 		{ "isMoon", l_sbody_attr_is_moon },
 		{ "physicsBody", l_sbody_attr_physics_body },
 		{ 0, 0 }

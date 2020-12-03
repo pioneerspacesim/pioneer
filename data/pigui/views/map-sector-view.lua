@@ -333,7 +333,10 @@ local leftBarMode = "SEARCH"
 function Windows.searchBar:Show()
 	if mainMenuButton(icons.search_lens, lc.SEARCH) then leftBarMode = "SEARCH" end
 	ui.sameLine()
-	if mainMenuButton(icons.money, lui.ECONOMY_TRADE) then leftBarMode = "ECONOMY" end
+	if mainMenuButton(icons.money, lui.ECONOMY_TRADE) then
+		leftBarMode = "ECONOMY"
+		self.size.y = self.fullHeight
+	end
 
 	ui.spacing()
 
@@ -353,9 +356,12 @@ function Windows.searchBar:Show()
 
 		if not systemPaths or #systemPaths == 0 then
 			ui.text(lc.NOT_FOUND)
+			self.size.y = self.collapsedHeight
 		else
 			drawSearchResults(systemPaths)
+			self.size.y = self.fullHeight
 		end
+
 	elseif leftBarMode == "ECONOMY" then
 		local selectedPath = sectorView:GetSelectedSystemPath()
 		local currentPath = sectorView:GetCurrentSystemPath()
@@ -392,8 +398,11 @@ function Windows.searchBar:Show()
 end
 
 function Windows.searchBar.Dummy()
+	mainMenuButton(icons.search_lens, lc.SEARCH)
+	ui.spacing()
 	ui.text("***************")
 	ui.inputText("", "", {})
+	ui.spacing()
 	ui.text("***************")
 end
 
@@ -459,7 +468,9 @@ local function displaySectorViewWindow()
 				Windows.systemInfo.pos = Windows.hjPlanner.pos - Vector2(0, Windows.systemInfo.size.y)
 				Windows.systemInfo.size.x = Windows.hjPlanner.size.x
 				Windows.searchBar.pos = Windows.current.pos + Windows.current.size
+				Windows.searchBar.collapsedHeight = Windows.searchBar.size.y
 				Windows.searchBar.size.y = ui.screenHeight - Windows.searchBar.pos.y - edgePadding.y - ui.timeWindowSize.y
+				Windows.searchBar.fullHeight = Windows.searchBar.size.y
 				Windows.edgeButtons.pos = Vector2(ui.screenWidth - Windows.edgeButtons.size.x, ui.screenHeight / 2 - Windows.edgeButtons.size.y / 2) -- center-right
 				Windows.factions.pos = Vector2(Windows.systemInfo.pos.x, Windows.current.pos.y)
 				Windows.factions.size = Vector2(ui.screenWidth - Windows.factions.pos.x - edgePadding.x, 0.0)

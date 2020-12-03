@@ -32,7 +32,8 @@ local function setLocationAsTarget(location)
 			ui.playSfx("OK")
 		end
 	elseif not Game.InHyperspace() then
-		Game.sectorView:SwitchToPath(location:GetStarSystem().path)
+		-- if a specific systembody is given, set the sector map to the correct star (if the system is multiple)
+		Game.sectorView:SwitchToPath(location:IsBodyPath() and location:GetSystemBody().nearestJumpable.path or location:GetStarSystem().path)
 		ui.playBoinkNoise()
 	end
 end

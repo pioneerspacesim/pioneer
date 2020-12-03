@@ -1125,9 +1125,19 @@ void SectorView::Update()
 	const float moveSpeed = Pi::GetMoveSpeedShiftModifier();
 	float move = moveSpeed * frameTime * m_zoomClamped;
 	vector3f shift(0.0f);
-	if (InputBindings.mapViewMoveLeft->IsActive()) shift.x -= move * InputBindings.mapViewMoveLeft->GetValue();
-	if (InputBindings.mapViewMoveForward->IsActive()) shift.y += move * InputBindings.mapViewMoveForward->GetValue();
-	if (InputBindings.mapViewMoveUp->IsActive()) shift.z += move * InputBindings.mapViewMoveUp->GetValue();
+	bool manual_move = false; // used so that when you click on a system and move there, passing systems are not selected
+	if (InputBindings.mapViewMoveLeft->IsActive()) {
+		shift.x -= move * InputBindings.mapViewMoveLeft->GetValue();
+		manual_move = true;
+	}
+	if (InputBindings.mapViewMoveForward->IsActive()) {
+		shift.y += move * InputBindings.mapViewMoveForward->GetValue();
+		manual_move = true;
+	}
+	if (InputBindings.mapViewMoveUp->IsActive()) {
+		shift.z += move * InputBindings.mapViewMoveUp->GetValue();
+		manual_move = true;
+	}
 	m_posMovingTo += shift * shiftRot;
 
 	if (InputBindings.mapViewZoom->IsActive()) m_zoomMovingTo -= move * InputBindings.mapViewZoom->GetValue();
@@ -1187,7 +1197,7 @@ void SectorView::Update()
 		m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
 	}
 
-	if (m_automaticSystemSelection) {
+	if (m_automaticSystemSelection && manual_move) {
 		SystemPath new_selected = SystemPath(int(floor(m_pos.x)), int(floor(m_pos.y)), int(floor(m_pos.z)), 0);
 
 		RefCountedPtr<Sector> ps = GetCached(new_selected);
