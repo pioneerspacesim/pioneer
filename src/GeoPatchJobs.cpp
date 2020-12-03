@@ -28,7 +28,9 @@ inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vec
 void SSingleSplitRequest::GenerateMesh() const
 {
 	const int borderedEdgeLen = edgeLen + (BORDER_SIZE * 2);
+#ifndef NDEBUG
 	const int numBorderedVerts = borderedEdgeLen * borderedEdgeLen;
+#endif
 
 	// generate heights plus a 1 unit border
 	double *bhts = borderHeights.get();
@@ -183,7 +185,9 @@ QuadPatchJob::~QuadPatchJob()
 void SQuadSplitRequest::GenerateBorderedData() const
 {
 	const int borderedEdgeLen = (edgeLen * 2) + (BORDER_SIZE * 2) - 1;
+#ifndef NDEBUG
 	const int numBorderedVerts = borderedEdgeLen * borderedEdgeLen;
+#endif
 
 	// generate heights plus a N=BORDER_SIZE unit border
 	double *bhts = borderHeights.get();
