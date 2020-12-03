@@ -58,6 +58,11 @@ end
 
 -- handle separate planet/station-specific ambient music
 local playAmbient = function ()
+	local current_song = Music.GetSongName()
+	local current_category = MusicPlayer.getCategoryForSong(current_song)
+	if current_category == "menu" then
+		Music.FadeOut(0.5)
+	end
 	local category
 
 	local sol = SystemPath.New(0, 0, 0, 0, 0)
