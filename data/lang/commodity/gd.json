@@ -41,7 +41,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Bathar caitheimh"
+    "message": "Batharan caitheimh"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -113,7 +113,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Deoch làidir"
+    "message": "Deochan làidir"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -129,7 +129,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Leigheas"
+    "message": "Leigheasan"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -161,7 +161,7 @@
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Acainn mèinnearachd"
+    "message": "Acainnean mèinnearachd"
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

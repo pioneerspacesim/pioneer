@@ -61,39 +61,39 @@
   },
   "DRIVE_CLASS1": {
     "description": "",
-    "message": "Os-fhànais clas 1"
+    "message": "Draibh os-fhànais clas 1"
   },
   "DRIVE_CLASS2": {
     "description": "",
-    "message": "Os-fhànais clas 2"
+    "message": "Draibh os-fhànais clas 2"
   },
   "DRIVE_CLASS3": {
     "description": "",
-    "message": "Os-fhànais clas 3"
+    "message": "Draibh os-fhànais clas 3"
   },
   "DRIVE_CLASS4": {
     "description": "",
-    "message": "Os-fhànais clas 4"
+    "message": "Draibh os-fhànais clas 4"
   },
   "DRIVE_CLASS5": {
     "description": "",
-    "message": "Os-fhànais clas 5"
+    "message": "Draibh os-fhànais clas 5"
   },
   "DRIVE_CLASS6": {
     "description": "",
-    "message": "Os-fhànais clas 6"
+    "message": "Draibh os-fhànais clas 6"
   },
   "DRIVE_CLASS7": {
     "description": "",
-    "message": "Os-fhànais clas 7"
+    "message": "Draibh os-fhànais clas 7"
   },
   "DRIVE_CLASS8": {
     "description": "",
-    "message": "Os-fhànais clas 8"
+    "message": "Draibh os-fhànais clas 8"
   },
   "DRIVE_CLASS9": {
     "description": "",
-    "message": "Os-fhànais clas 9"
+    "message": "Draibh os-fhànais clas 9"
   },
   "DRIVE_MIL1": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "LASER_COOLING_BOOSTER": {
     "description": "",
-    "message": "Neartachadh air fuarachadh nan leusair"
+    "message": "Inneal-fuarachaidh leusair"
   },
   "LASER_COOLING_BOOSTER_DESCRIPTION": {
     "description": "",
@@ -189,11 +189,11 @@
   },
   "MININGCANNON_17MW_DESCRIPTION": {
     "description": "",
-    "message": "Losgaidh tu air dreagan beartach leis a chum mèinnearachd."
+    "message": "Losgaidh tu air dreagan beartach leis a chùm mèinnearachd."
   },
   "MININGCANNON_5MW": {
     "description": "",
-    "message": "5MW blast-mining cannon"
+    "message": "Canan mèinnearachd 5MW"
   },
   "MININGCANNON_5MW_DESCRIPTION": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
-    "message": "Neartachadh air lùths nan sgiath"
+    "message": "Inneal-lùiths sgèithe"
   },
   "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
     "description": "",
@@ -329,7 +329,7 @@
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
-    "message": "Putairean gnàthaichte a bheir a' chumhachd as fhearr dhut."
+    "message": "Putairean gnàthaichte a bheir a' chumhachd as fheàrr dhut."
   },
   "THRUSTERS_MEDIUM": {
     "description": "",

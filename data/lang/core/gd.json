@@ -161,11 +161,11 @@
   },
   "CARGO_SCOOP_ATTEMPTED": {
     "description": "",
-    "message": "Fheuch thu ri sgobadh carago. Chan eil rum gu leòr agad san roinn carago."
+    "message": "Fheuch thu ri sgobadh carago. Chan eil rùm gu leòr agad san roinn carago."
   },
   "CENTER": {
     "description": "",
-    "message": "Center"
+    "message": "Meadhan"
   },
   "CH4_ATMOSPHERE": {
     "description": "",
@@ -245,7 +245,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Bathar caitheimh"
+    "message": "Batharan caitheimh"
   },
   "CONTROLS": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
-    "message": "Switch between grid display modes."
+    "message": "Geàrr leum eadar modhan seallaidh a' ghrioda."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -469,15 +469,15 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Cum {target} gu h-an àbhaisteach"
+    "message": "Cùm {target} gu h-an àbhaisteach"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Cum {target} ceum air ais"
+    "message": "Cùm {target} ceum air ais"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Cum {target} ceum air adhart"
+    "message": "Cùm {target} ceum air adhart"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -485,15 +485,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Cum {target} gu h-àbhaisteach"
+    "message": "Cùm {target} gu h-àbhaisteach"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "Cum {target} rèideal a-steach"
+    "message": "Cùm {target} rèideal a-steach"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "Cum {target} rèideal a-mach"
+    "message": "Cùm {target} rèideal a-mach"
   },
   "HEAVY_INDUSTRY": {
     "description": "",
@@ -577,7 +577,7 @@
   },
   "ILLEGAL_GOODS": {
     "description": "",
-    "message": "Bathar mì-laghail:"
+    "message": "Batharan mì-laghail:"
   },
   "IMPERIAL_RULE": {
     "description": "",
@@ -621,7 +621,7 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
-    "message": "Gearr leum eadar modhan sealltainn puing Lagrange L4/L5."
+    "message": "Geàrr leum eadar modhan sealltainn puing Lagrange L4/L5."
   },
   "LANDED": {
     "description": "",
@@ -669,7 +669,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Deoch làidir"
+    "message": "Deochan làidir"
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -693,19 +693,19 @@
   },
   "MAJOR_EXPORTS": {
     "description": "",
-    "message": "Prìomh às-phortadh:"
+    "message": "Prìomh às-mhalairt:"
   },
   "MAJOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Prìomh às-phortadh (far a bheil thu):"
+    "message": "Prìomh às-mhalairt (far a bheil thu):"
   },
   "MAJOR_IMPORTS": {
     "description": "",
-    "message": "Prìomh ion-phortadh:"
+    "message": "Prìomh mhalairt:"
   },
   "MAJOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Prìomh ion-phortadh (far a bheil thu):"
+    "message": "Prìomh ion-mhalairt (far a bheil thu):"
   },
   "MANUAL_CONTROL": {
     "description": "",
@@ -729,7 +729,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Leigheas"
+    "message": "Leigheasan"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -765,23 +765,23 @@
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Acainn mèinnearachd"
+    "message": "Acainnean mèinnearachd"
   },
   "MINOR_EXPORTS": {
     "description": "",
-    "message": "Beagan às-phortaidh:"
+    "message": "Beagan às-mhalairt:"
   },
   "MINOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Beagan às-phortaidh (far a bheil thu):"
+    "message": "Beagan às-mhalairt (far a bheil thu):"
   },
   "MINOR_IMPORTS": {
     "description": "",
-    "message": "Beagan ion-phortaidh:"
+    "message": "Beagan ion-mhalairt:"
   },
   "MINOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Beagan ion-phortaidh (far a bheil thu):"
+    "message": "Beagan ion-mhalairt (far a bheil thu):"
   },
   "MISCELLANEOUS": {
     "description": "",
@@ -793,7 +793,7 @@
   },
   "MISSILE_DETECTED": {
     "description": "",
-    "message": "Missile launch detected."
+    "message": "Chaidh astas a losgadh."
   },
   "MIXED_ECONOMY": {
     "description": "",
@@ -813,7 +813,7 @@
   },
   "MONTH_FEB": {
     "description": "",
-    "message": "Gearr"
+    "message": "Geàrr"
   },
   "MONTH_JAN": {
     "description": "",
@@ -877,7 +877,7 @@
   },
   "NOT_FOUND_BEST_MATCH_X": {
     "description": "",
-    "message": "Cha deach a lorg, am maids as fearr: %system"
+    "message": "Cha deach a lorg, am maids as fheàrr: %system"
   },
   "NOW": {
     "description": "In System Orbit View",
@@ -985,7 +985,7 @@
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
-    "message": "Object info"
+    "message": "Fiosrachadh mun chuspair"
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1001,7 +1001,7 @@
   },
   "ORBIT_PLANNER": {
     "description": "",
-    "message": "Orbit planner"
+    "message": "Plana reul-chuairte"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
@@ -1065,7 +1065,7 @@
   },
   "PLANNER_RESET_FACTOR": {
     "description": "For system orbit view",
-    "message": "Reat meudachaidh nan luachan delta-v. Brig gus a shuidheachadh air a' bhun-roghainn."
+    "message": "Reat meudachaidh nan luachan delta-v. Briog gus a shuidheachadh air a' bhun-roghainn."
   },
   "PLANNER_RESET_NORMAL": {
     "description": "For system orbit view",
@@ -1233,7 +1233,7 @@
   },
   "SET_AS_COMBAT_TARGET": {
     "description": "",
-    "message": "Set as combat target"
+    "message": "Suidhich 'na amas còmhraige"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -1281,7 +1281,7 @@
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Gearr leum eadar modhan sealltainn an t-soithich."
+    "message": "Geàrr leum eadar modhan sealltainn an t-soithich."
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",

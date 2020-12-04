@@ -185,7 +185,7 @@
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Listen, we were clear about the deadline. You can forget about getting paid."
+    "message": "Nise, bha sinn gu math soilleir mun cheann-latha. Chan fhaigh thu pàigheadh idir."
   },
   "FAILUREMSG_4": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
-    "message": "Shin thu. Tha Companaidh Mèinearrachd {name} airson {cargoname} a lìbhrigeadh gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) ach an tog iad mèinn ùr, tha seo {dist} bliadhna-sholais a dh'astar. Thèid {cash} a phàigheadh."
+    "message": "Shin thu. Tha Companaidh Mèinnearachd {name} airson {cargoname} a lìbhrigeadh gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) ach an tog iad mèinn ùr, tha seo {dist} bliadhna-sholais a dh'astar. Thèid {cash} a phàigheadh."
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "Dè do chor? Is mise {name}. Tha cliant agam airson {cargoname} ion-phortadh o {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar. Pàighidh e {cash} airson a' ghiùlain. Till an-seo gu {dom_starport} ann an siostam {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) gus an carago a dhì-luchdadh."
+    "message": "Dè do chor? Is mise {name}. Tha cliant agam airson {cargoname} ion-mhalairt o {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar. Pàighidh e {cash} airson a' ghiùlain. Till an-seo gu {dom_starport} ann an siostam {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) gus an carago a dhì-luchdadh."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -445,7 +445,7 @@
   },
   "SEMI_FINISHED_PRODUCTS": {
     "description": "custom cargo",
-    "message": "Bathar leth-dhèanta"
+    "message": "Batharan leth-dhèanta"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -465,7 +465,7 @@
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Self-sealing stem bolts"
+    "message": "Boltaichean fèin-sheulaidh gun staim orra"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -557,7 +557,7 @@
   },
   "WHYSOMUCH_3": {
     "description": "",
-    "message": "Cha mheas a h-uile duine \"torr\" air an aon dòigh."
+    "message": "Cha mheas a h-uile duine \"tòrr\" air an aon dòigh."
   },
   "WHYSOMUCH_4": {
     "description": "",
@@ -589,7 +589,7 @@
   },
   "WHYSOMUCH_FLUFFY_1": {
     "description": "",
-    "message": "Tha {cargoname} 'ga reic tu luath dan ràith seo. Bu chòir dhut inbheisteadh ann an earrannan {cargoname} ma tha thu airson torr airgid a bhuain."
+    "message": "Tha {cargoname} 'ga reic tu luath dan ràith seo. Bu chòir dhut inbheisteadh ann an earrannan {cargoname} ma tha thu airson tòrr airgid a bhuain."
   },
   "WHYSOMUCH_INFRASTRUCTURE_1": {
     "description": "",
@@ -601,7 +601,7 @@
   },
   "WHYSOMUCH_URGENT_1": {
     "description": "",
-    "message": "Tha am paidhleat as fhearr leam tinn agus chan eil mòran ùine agam."
+    "message": "Tha am paidhleat as fheàrr leam tinn agus chan eil mòran ùine agam."
   },
   "WHYSOMUCH_URGENT_2": {
     "description": "",
@@ -617,7 +617,7 @@
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Carson a gheibh mi torr airgid?"
+    "message": "Carson a gheibh mi tòrr airgid?"
   },
   "WILL_I_BE_IN_ANY_DANGER": {
     "description": "",
@@ -625,10 +625,10 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Chan eil rum carago gu leòr san t-soitheach agad."
+    "message": "Chan eil rùm carago gu leòr san t-soitheach agad."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Till nuair a bhios rum carago gu leòr agad."
+    "message": "Till nuair a bhios rùm carago gu leòr agad."
   }
 }

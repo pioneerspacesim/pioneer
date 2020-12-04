@@ -61,7 +61,7 @@
   },
   "DENY_0": {
     "description": "",
-    "message": "Tha mi duilich ach chan eil mi an earbsa gun cum thu slàn sàbhailte mi."
+    "message": "Tha mi duilich ach chan eil mi an earbsa gun cùm thu slàn sàbhailte mi."
   },
   "DENY_1": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "FLAVOUR_10_WHYSOMUCH": {
     "description": "",
-    "message": "B' fheairrde mi nach rachadh mo lorg."
+    "message": "B' fheàirrde mi nach rachadh mo lorg."
   },
   "FLAVOUR_11_ADTEXT": {
     "description": "",
@@ -577,7 +577,7 @@
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Carson a gheibh mi torr airgid?"
+    "message": "Carson a gheibh mi tòrr airgid?"
   },
   "WILL_I_BE_IN_ANY_DANGER": {
     "description": "",
@@ -589,6 +589,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Chan eil rum gu leòr sna cèibinnean san t-soitheach agad."
+    "message": "Chan eil rùm gu leòr sna cèibinnean san t-soitheach agad."
   }
 }

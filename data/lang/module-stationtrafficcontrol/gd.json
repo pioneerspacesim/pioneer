@@ -1,7 +1,7 @@
 {
   "CLEARANCE_ALREADY_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance already granted. Proceed to docking bay {bay}."
+    "message": "Chaidh an cead a thoirt dhut mar-thà. Lean air adhart gun bhàgh docaidh {bay}."
   },
   "CLEARANCE_DENIED_NO_BAYS": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance granted. Proceed to docking bay {bay}."
+    "message": "Chaidh an cead a thoirt dhuibh. Leanaibh air adhart gu bàgh docaidh {bay}."
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
@@ -21,62 +21,62 @@
   },
   "STATION_GRAV": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}."
+    "message": "Is {grav} an iom-tharraing ionadail."
   },
   "STATION_GRAV_PRESS": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}, pressure is {press}."
+    "message": "Is  {grav} an iom-tharraing agus {press} am brùthadh-àile ionadail."
   },
   "WATCH_FOR_TRAFFIC_ON_APPROACH": {
     "description": "",
-    "message": "Please watch for traffic on your approach."
+    "message": "Thoiribh sùil a-mach air an trafaig nuair a dhlùthas sibh."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel} you are entering {station} space. Please follow local regulations."
+    "message": "{playerShipLabel} , tha sibh a' tighinn a-steach gu sgìre {station}. Gèillibh ris na riaghailtean ionadail."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_2": {
     "description": "",
-    "message": "{playerShipLabel}, we have you on the radar. You are in {station} controlled space."
+    "message": "{playerShipLabel}, chì sinn air an rèidear sibh. Tha sibh ann an sgìre fo smachd {station}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_3": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. You are entering our controlled space."
+    "message": "{playerShipLabel}, seo stiùireadh trafaige {station}. Tha sibh a' tighinn gu sgìre fo ar smachd."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_4": {
     "description": "",
-    "message": "We have you flying into {station} controlled space, {playerShipLabel}."
+    "message": "Tha sibh ag itealadh gu sgìre fo smachd {station}, {playerShipLabel}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, welcome to {station}. Please keep in mind that regulations apply as you are flying through our jurisdiction."
+    "message": "{playerShipLabel}, fàilte gu {station}. Thoiribh an aire gum bi riaghailtean an sàs fhad 's a bhios sibh ag itealadh tron sgìre againn."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC speaking. You are entering controlled space, and I would appreciate it if you didn't make me fill out any paperwork today."
+    "message": "{playerShipLabel}, seo stiùireadh trafaige {station} a' bruidhinn ribh. Tha sibh a' tighinn a-steach gu sgìre fo ar smachd agus b' fheàrr leam nach dèiliginn ri pàipearachd an-diugh."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel}, you are clear of {station} controlled space."
+    "message": "{playerShipLabel}, tha sibh air an sgìre fo smachd {station} fhàgail."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_2": {
     "description": "",
-    "message": "You have left {station} space, {playerShipLabel}."
+    "message": "Dh'fhàg sibh an sgìre fo smachd {station}, {playerShipLabel}."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_3": {
     "description": "",
-    "message": "{playerShipLabel}, you have cleared {station} controlled space. Restrictions withdrawn."
+    "message": "{playerShipLabel}, tha sibh air an sgìre fo smachd {station} fhàgail. Chan eil ar riaghailtean oirbh tuilleadh."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_4": {
     "description": "",
-    "message": "You are flying out of {station} space, {playerShipLabel}. Logging you out."
+    "message": "Tha sibh a' fàgail sgìre {station}, {playerShipLabel}. 'Gur clàradh a-mach."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, you are leaving {station} space. Have a pleasant journey."
+    "message": "{playerShipLabel}, tha sibh a' fàgail sgìre {station}. Gabhaibh air ur socair!"
   },
   "YOU_ARE_LEAVING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. I see you exiting our controlled space, be safe out there."
+    "message": "{playerShipLabel}, seo stiùireadh trafaige {station}. Tha mi a' faicinn gu bheil sibh a' fàgail an sgìre againn. Turas slàn sàbhailte dhuibh!"
   }
 }

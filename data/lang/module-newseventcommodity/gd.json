@@ -37,15 +37,15 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
+    "message": "Tha daoine a' strì an aghaidh nan innealan ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) fhad 's a tha \" mearachd-giùlain\" air adhbharachadh gun do chaill an luchd-ceannach an earbsa ann an robotairean seirbheiseach."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
+    "message": "NAIDHEACHD {date}: Lasan-grèine ag adhbharachadh an dubh-sgàil as motha ar linne ann an siostam {system}."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
+    "message": "Dh'adhbhraich call cumhachd air feadh siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh mòr. Tha an luchd-ceannachd a' feitheamh gus an Trapperware as ùire a cheannach gus a chur an àite nam fridsichean aca on a tha an stuth amh air a ruith air an dèanadair."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+    "message": "Dh'adhbharaich feuchainn air clàr curaidh an reul-chriosa ann an co-fharpais tarraing tractair as motha rè Fèill Smùide Mhòr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh nuair an do chaill fear dhe na co-fharpaisich a smachd air an tionnsgal aige, a' milleadh innealan nan co-fharpaiseach eile uile. 'S eagal leis an rianachd gun daoraich seo na tuathanaich ionadail."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_20_NEWSBODY": {
     "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-    "message": "On a tha {system} ({sectorx}, {sectory}, {sectorz}) air tamall a ruigsinn a bhios fàbharach dhan bhuidhe-fheamainn ann an àile an fhuamhair gasa ionadail, bha a' bhuain nas fhearr nas àbhaist airson companaidh todhair Soylent Yellow earr."
+    "message": "On a tha {system} ({sectorx}, {sectory}, {sectorz}) air tamall a ruigsinn a bhios fàbharach dhan bhuidhe-fheamainn ann an àile an fhuamhair gasa ionadail, bha a' bhuain nas fheàrr nas àbhaist airson companaidh todhair Soylent Yellow earr."
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_22_NEWSBODY": {
     "description": "Imply high demand of HAND_WEAPONS.",
-    "message": "A chum fianais a thogail an aghaidh dìth luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha am poileas a' diùltadh a bhith ag obair. San eadar-àm, tha saoranaich air buidhnean fèin-dhìona a stèidheachadh is air gobhlagan is gunnachan a thogail an aghaidh na thig orra."
+    "message": "A chùm fianais a thogail an aghaidh dìth luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha am poileas a' diùltadh a bhith ag obair. San eadar-àm, tha saoranaich air buidhnean fèin-dhìona a stèidheachadh is air gobhlagan is gunnachan a thogail an aghaidh na thig orra."
   },
   "FLAVOUR_23_HEADLINE": {
     "description": "",
@@ -129,11 +129,11 @@
   },
   "FLAVOUR_2_HEADLINE": {
     "description": "",
-    "message": "NAIDHEACHD {date}: Tart ann an siostam {system}. Chaidh am barr a mhilleadh."
+    "message": "NAIDHEACHD {date}: Tart ann an siostam {system}. Chaidh am bàrr a mhilleadh."
   },
   "FLAVOUR_2_NEWSBODY": {
     "description": "Hint there will be high demand of GRAIN.",
-    "message": "Tha mòr-thart air a' bharr a mhilleadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Thathar fo chunnart goirt air feadh an t-siostaim."
+    "message": "Tha mòr-thart air a' bhàrr a mhilleadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Thathar fo chunnart goirt air feadh an t-siostaim."
   },
   "FLAVOUR_3_HEADLINE": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "FLAVOUR_3_NEWSBODY": {
     "description": "Imply high demand of FRUIT_AND_VEG.",
-    "message": "Tha an rianachd ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) ag amas barrachd glasraich ion-phortadh gus an t-iarrtas mòr a choileanadh."
+    "message": "Tha an rianachd ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) ag amas barrachd glasraich ion-mhalairt gus an t-iarrtas mòr a choileanadh."
   },
   "FLAVOUR_4_HEADLINE": {
     "description": "About mob rivals competing for selling drugs",
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
+    "message": "Shaor an luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) iad fhèin o na slabhraidhean 's iad a' diùltadh ri obair ann an achaidhean lòtais. Thug seo stad air an eaconamaidh o nach eil luchd-obrach saor ri fhaighinn."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -217,7 +217,7 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "The Commonwealth Chronicle"
+    "message": "Croinic a' Cho-fhlaitheis"
   },
   "NEWSPAPER_FED": {
     "description": "",

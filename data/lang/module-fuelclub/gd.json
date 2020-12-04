@@ -33,11 +33,11 @@
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "The Commonwealth Fuel Union"
+    "message": "Aonad Connaidh a' Cho-fhlaitheis"
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
-    "message": "Air feadh fànais aibhsich Co-fhlaidheas nan Saoghal Neo-eisimeileach saor, 's e {clubname} a tha san t-solaraiche as fhearr dhut airson seirbheisean connaidh is stiùiridh sgudail saora. Seo na nì sinn airson ar ball:"
+    "message": "Air feadh fànais aibhsich Co-fhlaitheas nan Saoghal Neo-eisimeileach saor, 's e {clubname} a tha san t-solaraiche as fheàrr dhut airson seirbheisean connaidh is stiùiridh sgudail saora. Seo na nì sinn airson ar ball:"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",

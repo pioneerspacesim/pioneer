@@ -1877,11 +1877,11 @@
   },
   "STATION_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Burada yerel çekim kuvveti %.2f g."
+    "message": "Burada yerel kütleçekimi %.2f g."
   },
   "STATION_LOCAL_GRAVITY_PRESSURE": {
     "description": "",
-    "message": "Burada yerel çekim kuvveti %.2f g, atmosfer basıncı %.2f atm."
+    "message": "Burada yerel kütleçekimi %.2f g, atmosfer basıncı %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",
