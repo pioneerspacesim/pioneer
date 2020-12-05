@@ -137,11 +137,11 @@
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "系统中心"
+    "message": "星系中心"
   },
   "CHANGE": {
     "description": "Face feature option",
-    "message": "更改"
+    "message": "更换形象:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -369,7 +369,7 @@
   },
   "DUE": {
     "description": "mission deadline date",
-    "message": "应有"
+    "message": "到期"
   },
   "DUMPING": {
     "description": "The illegal act of dumping waste",
@@ -533,15 +533,15 @@
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "停靠于{primary_info}"
+    "message": "停靠在{primary_info}"
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
-    "message": "在太空飞行，相对{primary_info}"
+    "message": "在{primary_info}外太空飞行"
   },
   "FLIGHTLOG_HYPERSPACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "在超空间中，前往 {primary_info}"
+    "message": "从超空间，去 {primary_info}"
   },
   "FLIGHTLOG_JUMPING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
@@ -549,7 +549,7 @@
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "登陆到{primary}，位置（{secondary}，{teriory}info}）"
+    "message": "登陆到{primary},位于({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
@@ -1825,7 +1825,7 @@
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "这是一个艰难的开始，从系统管理休息监狱站。"
+    "message": "这是一个艰难的开始，从星系管理休息监狱站。"
   },
   "START_AT_EARTH": {
     "description": "",

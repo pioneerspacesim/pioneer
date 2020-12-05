@@ -433,7 +433,7 @@
   },
   "LON": {
     "description": "",
-    "message": "伦敦:"
+    "message": "经度:"
   },
   "MISSING_COMM": {
     "description": "",
