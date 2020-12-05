@@ -271,4 +271,15 @@ utils.reverse = function(t)
 	end
 	return res
 end
+
+--
+-- round: Round x to closest multiple of N, but never lower than N
+--
+-- value = round(unsorted_table, 25)
+--
+utils.round = function(x, n)
+	local step = n or 1
+	x = math.round(x/n)*n
+	return x < n and n or x
+end
 return utils
