@@ -2584,6 +2584,20 @@ static int l_pigui_drag_int_4(lua_State *l)
 	return 5;
 }
 
+static int l_pigui_increment_drag(lua_State *l)
+{
+	std::string label = LuaPull<std::string>(l, 1);
+	int v = LuaPull<int>(l, 2);
+	int v_min = LuaPull<int>(l, 3);
+	int v_max = LuaPull<int>(l, 4);
+	std::string format = LuaPull<std::string>(l, 5);
+
+	PiGui::IncrementDrag(label, v, v_min, v_max, format);
+
+	LuaPush<int>(l, v);
+	return 1;
+}
+
 static int l_pigui_add_convex_poly_filled(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2870,6 +2884,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "AddConvexPolyFilled", l_pigui_add_convex_poly_filled },
 		{ "IsKeyReleased", l_pigui_is_key_released },
 		{ "DragInt4", l_pigui_drag_int_4 },
+		{ "IncrementDrag", l_pigui_increment_drag },
 		{ "GetWindowPos", l_pigui_get_window_pos },
 		{ "GetWindowSize", l_pigui_get_window_size },
 		{ "GetContentRegion", l_pigui_get_content_region },
