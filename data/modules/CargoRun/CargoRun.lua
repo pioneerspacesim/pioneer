@@ -538,7 +538,7 @@ local makeAdvert = function (station)
 			due = due + Game.time
 		end
 	end
-	reward = math.ceil(reward)
+	reward = utils.round(reward, 25)
 
 	local n = getNumberOfFlavours("INTROTEXT_" .. missiontype)
 	local introtext

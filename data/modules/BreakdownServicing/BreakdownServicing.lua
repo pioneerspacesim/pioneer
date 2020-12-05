@@ -12,6 +12,7 @@ local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Equipment = require 'Equipment'
 local Character = require 'Character'
+local utils = require 'utils'
 
 local l = Lang.GetResource("module-breakdownservicing")
 local lui = Lang.GetResource("ui-core")
@@ -107,7 +108,7 @@ local onChat = function (form, ref, option)
 	})[hyperdrive.l10n_key] or 10)) or 0
 
 	-- Now make it bigger (-:
-	price = price * 10
+	price = utils.round(price * 10, 5)
 
 	-- Replace those tokens into ad's intro text that can change during play
 	local pricesuggestion = string.interp(ad.price, {
