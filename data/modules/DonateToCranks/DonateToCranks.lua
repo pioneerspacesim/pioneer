@@ -101,6 +101,11 @@ end
 local onCreateBB = function (station)
 	local n = Engine.rand:Integer(1, #flavours)
 
+	-- FOSS is rare, (kind of an easter egg), skip advert
+	if n == 6 and Engine.rand:Integer(0, 5) > 1 then
+		return
+	end
+
 	local ad = {
 		modifier = n == 6 and 1.5 or 1.0, -- donating to FOSS is twice as good
 		title    = flavours[n].title,
