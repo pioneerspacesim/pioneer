@@ -130,6 +130,8 @@ namespace PiGui {
 
 	void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
 
+	void IncrementDrag(const std::string &label, int &v, const int v_min, const int v_max, const std::string &format);
+
 	inline bool WantCaptureMouse()
 	{
 		return ImGui::GetIO().WantCaptureMouse;
