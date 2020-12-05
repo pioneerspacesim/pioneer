@@ -10,6 +10,7 @@ local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Equipment = require 'Equipment'
 local Character = require 'Character'
+local utils = require 'utils'
 
 local l = Lang.GetResource("module-secondhand")
 local l2 = Lang.GetResource("ui-core")
@@ -135,7 +136,7 @@ local makeAdvert = function (station)
 	-- buy back price in equipment market is 0.8, so make sure the value is higher
 	local reduction = Engine.rand:Number(0.8,0.9)
 
-    local price = math.ceil(station:GetEquipmentPrice(equipment) * reduction)
+    local price = utils.round(station:GetEquipmentPrice(equipment) * reduction, 2)
 
     local ad = {
         character = character,

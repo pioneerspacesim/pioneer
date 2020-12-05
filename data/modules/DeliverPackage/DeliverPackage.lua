@@ -264,7 +264,7 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 		reward = ((dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * Engine.rand:Number(0.8,1.2))
 		due = Game.time + ((dist / max_delivery_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
 	end
-	reward = math.ceil(reward)
+	reward = utils.round(reward, 5)
 
 	local ad = {
 		station		= station,

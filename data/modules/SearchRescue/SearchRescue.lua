@@ -1326,6 +1326,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 
 	-- calculate the reward
 	local reward = calcReward(flavour, pickup_crew, pickup_pass, pickup_comm, deliver_crew, deliver_pass, deliver_comm)
+	reward = utils.round(reward, 100)
 
 	local ad = {
 		location       = location,

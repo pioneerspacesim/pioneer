@@ -217,6 +217,7 @@ local makeAdvert = function (station)
 	location = flavour.planets[Engine.rand:Integer(1, #flavour.planets)]
 	dist = location:DistanceTo(Game.system)
 	reward = math.ceil(dist * typical_reward * (1 + dedication)^2 * (1 + risk) * (1 + urgency) * Engine.rand:Number(0.8, 1.2))
+	reward = utils.round(reward, 100)
 	due = Game.time + typical_travel_time * Engine.rand:Number(0.9, 1.1) + dist * typical_hyperspace_time * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1)
 
 	if Engine.rand:Number(1) > 0.5 then
