@@ -1181,7 +1181,7 @@
   },
   "ROTATION_DAMPING_ON": {
     "description": "",
-    "message": "Включване на плавната ротация"
+    "message": "Включване на плавното завъртане"
   },
   "RUBBISH": {
     "description": "",
@@ -1613,7 +1613,7 @@
   },
   "TOGGLE_ROTATION_DAMPING": {
     "description": "",
-    "message": "Плавна ротация"
+    "message": "Плавно завъртане"
   },
   "TOMBSTONE_EPITAPH": {
     "description": "shown on tombstone when player dies",
