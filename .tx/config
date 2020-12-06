@@ -111,6 +111,11 @@ file_filter = data/lang/module-secondhand/<lang>.json
 source_file = data/lang/module-secondhand/en.json
 source_lang = en
 
+[pioneer.module-soldout]
+file_filter = data/lang/module-soldout/<lang>.json
+source_file = data/lang/module-soldout/en.json
+source_lang = en
+
 [pioneer.module-stationrefuelling]
 file_filter = data/lang/module-stationrefuelling/<lang>.json
 source_file = data/lang/module-stationrefuelling/en.json
