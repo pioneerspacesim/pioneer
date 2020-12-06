@@ -335,10 +335,6 @@
     "description": "",
     "message": "Draw vertical lines"
   },
-  "EARTH": {
-    "description": "",
-    "message": "Earth"
-  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Earth Federation Colonial Rule"
@@ -965,7 +961,7 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} earth days"
+    "message": "%days{f.1} Earth days"
   },
   "N_EARTH_MASSES": {
     "description": "",
@@ -973,7 +969,7 @@
   },
   "N_SOLAR_MASSES": {
     "description": "",
-    "message": "%mass{f.3} solar masses"
+    "message": "%mass{f.3} Solar masses"
   },
   "N_EARTH_RADII": {
     "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
@@ -1342,10 +1338,6 @@
   "SOCIAL_DEMOCRACY": {
     "description": "",
     "message": "Social democracy"
-  },
-  "SOLAR": {
-    "description": "",
-    "message": "Solar"
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",
