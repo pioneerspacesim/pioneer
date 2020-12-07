@@ -49,7 +49,7 @@
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
-    "message": "A' feuchainn ris an t-slige a chàradh"
+    "message": "Feuchaibh ris an t-slige a chàradh"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -313,7 +313,7 @@
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
-    "message": "Mill soitheach an nàmhaid"
+    "message": "Millibh soitheach an nàmhaid"
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
@@ -361,7 +361,7 @@
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
-    "message": "Docaich aig an targaid làithreach"
+    "message": "Docaichibh aig an targaid làithreach"
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
@@ -805,11 +805,11 @@
   },
   "HUD_BUTTON_SHOW_COMMS": {
     "description": "Tooltip: Show comms",
-    "message": "Seall an conaltradh"
+    "message": "Conaltradh"
   },
   "HUD_BUTTON_SHOW_PERSONAL_INFO": {
     "description": "Tooltip: Show personal info",
-    "message": "Seall am fiosrachadh pearsanta"
+    "message": "Soitheach ⁊ sgioba"
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
@@ -817,23 +817,23 @@
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
-    "message": "Atharraich gu mapa a’ reul-chriosa"
+    "message": "Mapa a’ reul-chriosa"
   },
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
-    "message": "Atharraich gu mapa na h-earrainn"
+    "message": "Mapa na roinne"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
-    "message": "Atharraich gu mapa an t-siostaim"
+    "message": "Mapa an t-siostaim"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
     "description": "Tooltip: Switch to system overview",
-    "message": "Atharraich gu foir-shealladh an t-siostaim"
+    "message": "Foir-shealladh an t-siostaim"
   },
   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
     "description": "Tooltip: Switch to world view",
-    "message": "Atharraich gu sealladh na cruinne"
+    "message": "Sealladh an t-saoghail"
   },
   "HUD_BUTTON_UNDOCK": {
     "description": "Tooltip: Undock",
@@ -1201,7 +1201,7 @@
   },
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
-    "message": "Loga gnàthaichte"
+    "message": "Loga pearsanta"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",

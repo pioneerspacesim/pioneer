@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Usato come carburante nei più avanzati propulsori militari. Questi propulsori producono scorie nucleari che necessitano di smaltimento. A causa della propria natura sintetica, il carburante militare è più costoso e meno comune dell'idrogeno, e non lo si può trovare accidentalmente in natura."
+    "message": "Used as fuel in the more advanced military drives. These drives produce radioactive waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Creati da reattori nucleari ed iper-propulsori militari, le scorie nucleari sono la merce più difficile e pericolosa da trasportare e smaltire. Per questa ragione, la maggior parte degli spazioporti pagano per sbarazzarsi delle scorte in eccesso. Abbandonare scorie nucleari è considerato un reato grave. "
+    "message": "Created by nuclear reactors, and military hyperdrives, radioactive waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping radioactive waste is a severe offence."
   },
   "ROBOTS": {
     "description": "",

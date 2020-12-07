@@ -181,7 +181,7 @@
   },
   "FLAVOUR_8_NEWSBODY": {
     "description": "Imply high demand of MINING_MACHINERY.",
-    "message": "Thuit mèinn ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) agus chaidh ceudan dhen luchd-obrach a mharbhadh is innleadaireachd cudromach a mhilleadh a tha èiginneach airson an eaconamaidh."
+    "message": "Thuit mèinn ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) agus chaidh ceudan dhen luchd-obrach a mharbhadh is uidheaman cudromach a mhilleadh a tha èiginneach airson an eaconamaidh."
   },
   "FLAVOUR_9_HEADLINE": {
     "description": "",

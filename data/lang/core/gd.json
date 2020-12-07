@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Pròiseasaran adhair"
+    "message": "Pròiseasaran àile"
   },
   "ALERT_CANCELLED": {
     "description": "",
@@ -381,7 +381,7 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Acainnean tuathanais"
+    "message": "Uidheaman tuathanais"
   },
   "FERTILIZER": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "GALAXY_SECTOR_VIEW": {
     "description": "",
-    "message": "Sealladh earrann an reul-chriosa"
+    "message": "Sealladh roinn an reul-chriosa"
   },
   "GAME_LOAD_CANNOT_OPEN": {
     "description": "",
@@ -605,7 +605,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Innealan gnìomhachail"
+    "message": "Uidheaman gnìomhachail"
   },
   "INTERNAL_VIEW": {
     "description": "",
@@ -765,7 +765,7 @@
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Acainnean mèinnearachd"
+    "message": "Uidheaman mèinnearachd"
   },
   "MINOR_EXPORTS": {
     "description": "",
@@ -1049,7 +1049,7 @@
   },
   "PLANETARY_INFO": {
     "description": "",
-    "message": "Fiosrachadh na planaid"
+    "message": "Fiosrachadh nam planaid"
   },
   "PLANET_CONTAINING_LIQUID_WATER": {
     "description": "",
@@ -1113,7 +1113,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Sgudal rèidio-beò"
+    "message": "Sgudal niùclasach"
   },
   "RADIUS": {
     "description": "",
@@ -1205,15 +1205,15 @@
   },
   "SECTOR_COORDINATES": {
     "description": "",
-    "message": "Co-chomharran na h-earrainn:"
+    "message": "Co-chomharran na roinne:"
   },
   "SECTOR_MAP_VIEW": {
     "description": "",
-    "message": "Sealladh mapa na h-earrainn"
+    "message": "Sealladh mapa na roinne"
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Earrann: %x,%y,%z"
+    "message": "Roinn: %x,%y,%z"
   },
   "SELECTED_SYSTEM": {
     "description": "",

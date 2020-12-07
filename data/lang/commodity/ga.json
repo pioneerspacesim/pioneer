@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Úsáidte mar bhreosla i dtiomáintí míleata níos cumhachtaí. Táirgeann na tiomáintí seo dramhaíl núicléach nach foláir a dhiúscairt. Ós rud é gur ábhar sintéiseach é, tá breosla míleata níos costasaí agus níos annaimhe ná hidrigin, agus níl aon fháil air go nádúrtha."
+    "message": "Used as fuel in the more advanced military drives. These drives produce radioactive waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Táirgeann imoibreoirí núicléacha agus hipirthiomáintí míleata dramhaíl núicléach, ábhar atá an-deacair agus an-chontúirteach a iompar agus a dhiúscairt. Dá bharr seo, tabharfaidh go leor spásphort airgead duit as fáil réidh lena ndramhaíl bhreise. Tá sé in aghaidh an dlí dramhaíl núicléach a dhumpáil."
+    "message": "Created by nuclear reactors, and military hyperdrives, radioactive waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping radioactive waste is a severe offence."
   },
   "ROBOTS": {
     "description": "",

@@ -188,7 +188,7 @@
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
-    "message": "Stiùireadh air sealladh mapa na h-earrainn"
+    "message": "Stiùireadh air sealladh mapa na roinne"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",

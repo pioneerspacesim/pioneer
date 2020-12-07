@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Gelişmiş askeri hipersürücüler için yakıt olarak kullanılır. Bu sürücüler kullanıldıkları zaman atılmalarını gerektiren nükleer atıklar üretirler. Sentetik yapısından dolayı askeri yakıt daha pahalıdır ve hidrojenden daha az bulunur."
+    "message": "Used as fuel in the more advanced military drives. These drives produce radioactive waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Nükleer reaktörler tarafından üretilen bu atıklar, taşınması ve atılması en zor ve en tehlikeli maddelerdir. Bu sebepten dolayı çoğu uzay istasyonu bunlardan kurtulmak için para öderler. Nükleer atıkların atılması ciddi bir suçtur."
+    "message": "Created by nuclear reactors, and military hyperdrives, radioactive waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping radioactive waste is a severe offence."
   },
   "ROBOTS": {
     "description": "",
