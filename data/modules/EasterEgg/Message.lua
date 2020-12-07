@@ -9,7 +9,7 @@ local Event = require 'Event'
 local Serializer = require 'Serializer'
 
 local l = Lang.GetResource("module-easteregg-message")
-local max_flavour_index = 1
+local max_flavour_index = 2
 
 local flavours = {}
 for i = 0,max_flavour_index do
