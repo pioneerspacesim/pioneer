@@ -360,6 +360,26 @@ void SystemView::PutOrbit(Projectable::bases base, RefType *ref, const Orbit *or
 	}
 }
 
+// returns the position of the ground spaceport relative to the center of the planet at the specified time
+static vector3d position_of_surface_starport_relative_to_parent(const SystemBody *starport, double time)
+{
+	const SystemBody *parent = starport->GetParent();
+	// planet axis tilt
+	return matrix3x3d::RotateX(parent->GetAxialTilt()) *
+		// the angle the planet has turned since the beginning of time
+		matrix3x3d::RotateY(-2 * M_PI / parent->GetRotationPeriod() * time + parent->GetRotationPhaseAtStart()) *
+		// the original coordinates of the starport are saved as a 3x3 matrix,
+		starport->GetOrbit().GetPlane() *
+		// to get the direction to the station, you need to multiply them by 0.0, 1.0, 0.0
+		vector3d(0.0, 1.0, 0.0) *
+		// we need the distance to the center of the planet
+		(Pi::game->IsNormalSpace() && Pi::game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(Pi::game->GetSectorView()->GetSelected()) ?
+				// if we look at the current system, the relief is known, we take the height from the physical body
+				Pi::game->GetSpace()->FindBodyForPath(&(starport->GetPath()))->GetPosition().Length() :
+				// if the remote system - take the radius of the planet
+				parent->GetRadius());
+}
+
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
 {
 	if (b->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
@@ -390,15 +410,15 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		AddProjected<const SystemBody>(Projectable::OBJECT, Projectable::SYSTEMBODY, b, offset);
 	}
 
-	Frame *frame = Frame::GetFrame(Pi::player->GetFrame());
-	if (frame->IsRotFrame())
-		frame = Frame::GetFrame(frame->GetNonRotFrame());
-
 	// display all child bodies and their orbits
 	if (b->HasChildren()) {
 		for (const SystemBody *kid : b->GetChildren()) {
-			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis()))
+			if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+				AddProjected<const SystemBody>(Projectable::OBJECT, Projectable::SYSTEMBODY, kid, position_of_surface_starport_relative_to_parent(kid, m_time) + offset);
 				continue;
+			}
+
+			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis())) continue;
 
 			const double axisZoom = kid->GetOrbit().GetSemiMajorAxis();
 			//semimajor axis radius should be at least 1% of screen width to show the orbit
@@ -417,9 +437,13 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 
 void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 {
-	if (b->GetParent()) {
-		GetTransformTo(b->GetParent(), pos);
-		pos -= b->GetOrbit().OrbitalPosAtTime(m_time);
+	const SystemBody *parent = b->GetParent();
+	if (parent) {
+		GetTransformTo(parent, pos);
+		if (b->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
+			pos -= position_of_surface_starport_relative_to_parent(b, m_time);
+		else
+			pos -= b->GetOrbit().OrbitalPosAtTime(m_time);
 	}
 }
 
