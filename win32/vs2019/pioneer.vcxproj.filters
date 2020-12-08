@@ -216,9 +216,6 @@
     <ClCompile Include="..\..\src\ModelCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\UIView.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\ModelViewer.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -786,9 +783,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\PngWriter.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\UIView.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\PngWriter.h">
