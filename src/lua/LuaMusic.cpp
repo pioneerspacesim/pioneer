@@ -57,7 +57,7 @@ static int l_music_get_song(lua_State *l)
 /*
  * Method: Play
  *
- * Starts playing a song instantly, on repeat by default.
+ * Starts playing a song instantly.
  *
  * Example:
  *
@@ -66,7 +66,7 @@ static int l_music_get_song(lua_State *l)
  * Parameters:
  *
  *   name - song file name, without data/music/ or file extension
- *   repeat - true or false, default true
+ *   repeat - true or false, default false
  *
  * Availability:
  *
@@ -79,9 +79,7 @@ static int l_music_get_song(lua_State *l)
 static int l_music_play(lua_State *l)
 {
 	const std::string song(luaL_checkstring(l, 1));
-	bool repeat = true;
-	if (lua_isboolean(l, 2))
-		repeat = lua_toboolean(l, 2) != 0;
+	bool repeat = LuaPull<bool>(l, 2, false);
 	Pi::GetMusicPlayer().Play(song, repeat);
 	return 0;
 }
@@ -122,7 +120,7 @@ static int l_music_stop(lua_State *l)
  *
  *   name - song file name, without data/music/ or file extension
  *   fade factor - 0.1 = slow fade, 1.0 = instant. The fade factor of our sound system does not represent any natural unit. Sorry.
- *   repeat - true or false, default true
+ *   repeat - true or false, default false
  *
  * Availability:
  *
@@ -136,9 +134,7 @@ static int l_music_fade_in(lua_State *l)
 {
 	const std::string song(luaL_checkstring(l, 1));
 	const float fadedelta = luaL_checknumber(l, 2);
-	bool repeat = true;
-	if (lua_isboolean(l, 3))
-		repeat = lua_toboolean(l, 3) != 0;
+	bool repeat = LuaPull<bool>(l, 3, false);
 	Pi::GetMusicPlayer().Play(song, repeat, fadedelta);
 	return 0;
 }
