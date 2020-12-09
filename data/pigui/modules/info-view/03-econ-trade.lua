@@ -174,7 +174,9 @@ local function drawEconTrade()
 
 		local width1 = ui.calcTextSize(l.PUMP_DOWN)
 		local width2 = ui.calcTextSize(l.REFUEL)
-		local width = width2.x and width1.x < width2.x or width1.x
+
+		local width
+		if width2.x > width1.x then width = width2.x else width = width1.x end
 		width = width * 1.2
 
 		-- to-do: maybe show disabled version of button if fuel==100 or hydrogen==0
