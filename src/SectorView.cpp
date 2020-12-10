@@ -345,30 +345,18 @@ void SectorView::Draw3D()
 	trans.Translate(-(m_pos.x) * Sector::SIZE, -(m_pos.y) * Sector::SIZE, -(m_pos.z) * Sector::SIZE);
 
 	// calculate the player's location (it will be interpolated between systems during a hyperjump)
-	const Sector::System currentSystem = GetCached(m_current)->m_systems[m_current.systemIndex];
-	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + currentSystem.GetPosition();
-	float currentStarSize = StarSystem::starScale[currentSystem.GetStarType(0)];
-	if (!m_inSystem) {
-		// we are in hyperspace, interpolate
-		// m_current has been set to the destination path
-		// destination system data:
-		const SystemPath dstPath = Pi::game->GetHyperspaceDest();
-		const Sector::System dstSystem = GetCached(dstPath)->m_systems[dstPath.systemIndex];
-		const vector3f dstPos = Sector::SIZE * vector3f(float(dstPath.sectorX), float(dstPath.sectorY), float(dstPath.sectorZ)) + dstSystem.GetPosition();
-		// jumpProcess: 0.0f (at source) .. 1.0f (at destination)
-		// smoothing speed at the ends with cubic interpolation
-		const float jumpProcess = AnimationCurves::InOutCubicEasing(Pi::game->GetHyperspaceProgress() / Pi::game->GetHyperspaceDuration());
-		// player location indicator's size of the star, on which it is drawn
-		// so we interpolate it too
-		const float dstStarSize = StarSystem::starScale[dstSystem.GetStarType(0)];
-		// interpolating player location indicator's position and size
-		playerPos = playerPos.Lerp(dstPos, jumpProcess);
-		currentStarSize = currentStarSize + (dstStarSize - currentStarSize) * jumpProcess;
-	}
+	vector3f playerPos;
+	float currentStarSize;
+	GetPlayerPosAndStarSize(playerPos, currentStarSize);
 
 	// the next function assumes that m_renderer->(matrix4x4f::Identity()),
 	// so we run this function before we touch m_renderer again
-	DrawRouteLines(playerPos, trans);
+	if (m_drawRouteLines && !m_route.empty()) {
+		if (m_setupRouteLines) {
+			SetupRouteLines(playerPos);
+		}
+		DrawRouteLines(trans);
+	}
 
 	// player location indicator
 	// starting with the "trans" matrix, see above, adding translation to playerPos
@@ -649,6 +637,7 @@ bool SectorView::MoveRouteItemUp(const std::vector<SystemPath>::size_type elemen
 
 	std::swap(m_route[element - 1], m_route[element]);
 
+	m_setupRouteLines = true;
 	return true;
 }
 
@@ -658,23 +647,27 @@ bool SectorView::MoveRouteItemDown(const std::vector<SystemPath>::size_type elem
 
 	std::swap(m_route[element + 1], m_route[element]);
 
+	m_setupRouteLines = true;
 	return true;
 }
 
 void SectorView::UpdateRouteItem(const std::vector<SystemPath>::size_type element, const SystemPath &path)
 {
 	m_route[element] = path;
+	m_setupRouteLines = true;
 }
 
 void SectorView::AddToRoute(const SystemPath &path)
 {
 	m_route.push_back(path);
+	m_setupRouteLines = true;
 }
 
 bool SectorView::RemoveRouteItem(const std::vector<SystemPath>::size_type element)
 {
 	if (element < m_route.size()) {
 		m_route.erase(m_route.begin() + element);
+		m_setupRouteLines = true;
 		return true;
 	} else {
 		return false;
@@ -684,6 +677,7 @@ bool SectorView::RemoveRouteItem(const std::vector<SystemPath>::size_type elemen
 void SectorView::ClearRoute()
 {
 	m_route.clear();
+	m_setupRouteLines = true;
 }
 
 std::vector<SystemPath> SectorView::GetRoute()
@@ -703,11 +697,24 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 	const ScopedTable hyperdrive = ScopedTable(try_hdrive);
 	// Cache max range so it doesn't get recalculated every time we call GetDuration
 	const float max_range = hyperdrive.CallMethod<float>("GetMaximumRange", Pi::player);
+	const float max_range_sqr = max_range * max_range;
 
-	const float dist = Sector::DistanceBetween(start_sec, start.systemIndex, target_sec, target.systemIndex);
+	// use the square of the distance to avoid doing a sqrt for each sector
+	const float distSqr = Sector::DistanceBetweenSqr(start_sec, start.systemIndex, target_sec, target.systemIndex) * 1.10;
+
+	// the maximum distance that anything can be from the direct line between the start and target systems
+	const float max_dist_from_straight_line = (Sector::SIZE * 3);
 
 	// nodes[0] is always start
 	std::vector<SystemPath> nodes;
+	{
+		// calculate an approximate initial number of nodes
+		const float dist = sqrt(distSqr);
+		// +2 for the sectors near start and target, *9 for the sectors immediately around the path... might want to be bigger but seems to work
+		const size_t num_sectors_covered = (size_t(dist / Sector::SIZE) + 2) * 9;
+		const size_t num_systems_per_sector = 6; // total guess
+		nodes.reserve(num_sectors_covered * num_systems_per_sector);
+	}
 	nodes.push_back(start);
 
 	const Sint32 minX = std::min(start.sectorX, target.sectorX) - 2, maxX = std::max(start.sectorX, target.sectorX) + 2;
@@ -718,10 +725,22 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 
 	// go sector by sector for the minimum cube of sectors and add systems
 	// if they are within 110% of dist of both start and target
+	size_t secLineToFar = 0u;
 	for (Sint32 sx = minX; sx <= maxX; sx++) {
 		for (Sint32 sy = minY; sy <= maxY; sy++) {
 			for (Sint32 sz = minZ; sz < maxZ; sz++) {
 				const SystemPath sec_path = SystemPath(sx, sy, sz);
+
+				// early out here if the sector is too far from the direct line
+				vector3f sec_centre(Sector::SIZE * vector3f(float(sx) + 0.5f, float(sy) + 0.5f, float(sz) + 0.5f));
+				const float secLineDist = MathUtil::DistanceFromLine(start_pos, target_pos, sec_centre);
+				// this test is deliberately conservative to over include sectors, a better test might use the nearest corner of an AABB to the line - Math hard, Andy tired
+				if ((secLineDist - Sector::SIZE) > max_dist_from_straight_line) {
+					++secLineToFar;
+					continue;
+				}
+
+				// GetSector is very expensive if it's not in the cache
 				RefCountedPtr<const Sector> sec = m_galaxy->GetSector(sec_path);
 				for (std::vector<Sector::System>::size_type s = 0; s < sec->m_systems.size(); s++) {
 					if (start.IsSameSystem(sec->m_systems[s].GetPath()))
@@ -729,21 +748,26 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 
 					const float lineDist = MathUtil::DistanceFromLine(start_pos, target_pos, sec->m_systems[s].GetFullPosition());
 
-					if (Sector::DistanceBetween(start_sec, start.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
-						Sector::DistanceBetween(target_sec, target.systemIndex, sec, sec->m_systems[s].idx) <= dist * 1.10 &&
-						lineDist < (Sector::SIZE * 3)) {
+					if (Sector::DistanceBetweenSqr(start_sec, start.systemIndex, sec, sec->m_systems[s].idx) <= distSqr &&
+						Sector::DistanceBetweenSqr(target_sec, target.systemIndex, sec, sec->m_systems[s].idx) <= distSqr &&
+						lineDist < max_dist_from_straight_line) {
 						nodes.push_back(sec->m_systems[s].GetPath());
 					}
 				}
 			}
 		}
 	}
-	Output("SectorView::AutoRoute, nodes to search = %lu\n", nodes.size());
+	Output("SectorView::AutoRoute, nodes to search = %lu, earlied out sector distance from line: %lu times.\n", nodes.size(), secLineToFar);
 
 	// setup inital values and set everything as unvisited
-	std::vector<float> path_dist;							   // distance from source to node
-	std::vector<std::vector<SystemPath>::size_type> path_prev; // previous node in optimal path
+	std::vector<float> path_dist;										// distance from source to node
+	std::vector<std::vector<SystemPath>::size_type> path_prev;			// previous node in optimal path
 	std::unordered_set<std::vector<SystemPath>::size_type> unvisited;
+	// we know how big these need to be, to reserve space up front
+	path_dist.reserve(nodes.size());
+	path_prev.reserve(nodes.size());
+	unvisited.reserve(nodes.size());
+	// initialise them
 	for (std::vector<SystemPath>::size_type i = 0; i < nodes.size(); i++) {
 		path_dist.push_back(INFINITY);
 		path_prev.push_back(0);
@@ -778,7 +802,7 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 		for (auto it : unvisited) {
 			const SystemPath &v = nodes[it];
 			// everything is a neighbor isn't quite true as the ship has a max_range for each jump!
-			if ((SystemPath::SectorDistance(closest, v) * Sector::SIZE) > max_range) {
+			if ((SystemPath::SectorDistanceSqr(closest, v) * Sector::SIZE) > max_range_sqr) {
 				++totalSkipped;
 				continue;
 			}
@@ -827,35 +851,67 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 	return "NO_VALID_ROUTE";
 }
 
-void SectorView::DrawRouteLines(const vector3f &playerAbsPos, const matrix4x4f &trans)
+void SectorView::DrawRouteLines(const matrix4x4f &trans)
 {
+	if (m_route.empty())
+		return;
+
+	m_renderer->SetTransform(trans);
+	m_routeLines.Draw(m_renderer, m_alphaBlendState);
+}
+
+void SectorView::SetupRouteLines(const vector3f &playerAbsPos)
+{
+	assert(!m_route.empty());
+	assert(m_setupRouteLines);
+	m_setupRouteLines = false;
+
+	std::unique_ptr<Graphics::VertexArray> verts;
+	verts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, m_route.size() * 2));
+	verts->Clear();
+
+	vector3f startPos = playerAbsPos;
 	for (std::vector<SystemPath>::size_type i = 0; i < m_route.size(); ++i) {
 		RefCountedPtr<const Sector> jumpSec = m_galaxy->GetSector(m_route[i]);
 		const Sector::System &jumpSecSys = jumpSec->m_systems[m_route[i].systemIndex];
 		const vector3f jumpAbsPos = Sector::SIZE * vector3f(float(jumpSec->sx), float(jumpSec->sy), float(jumpSec->sz)) + jumpSecSys.GetPosition();
 
-		vector3f startPos;
-		if (i == 0) {
-			startPos = playerAbsPos;
-		} else {
+		if (i > 0) {
 			RefCountedPtr<const Sector> prevSec = m_galaxy->GetSector(m_route[i - 1]);
 			const Sector::System &prevSecSys = prevSec->m_systems[m_route[i - 1].systemIndex];
 			const vector3f prevAbsPos = Sector::SIZE * vector3f(float(prevSec->sx), float(prevSec->sy), float(prevSec->sz)) + prevSecSys.GetPosition();
 			startPos = prevAbsPos;
 		}
-		std::unique_ptr<Graphics::VertexArray> verts;
-		Graphics::Drawables::Lines lines;
-		verts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
-		verts->Clear();
 
-		verts->position.reserve(2);
-		verts->diffuse.reserve(2);
+		verts->Add(startPos, Color(20, 20, 0, 127));
+		verts->Add(jumpAbsPos, Color(255, 255, 0, 255));
+	}
 
-		verts->Add(trans * startPos, Color(20, 20, 0, 127));
-		verts->Add(trans * jumpAbsPos, Color(255, 255, 0, 255));
+	m_routeLines.SetData(verts->GetNumVerts(), &verts->position[0], &verts->diffuse[0]);
+}
 
-		lines.SetData(verts->GetNumVerts(), &verts->position[0], &verts->diffuse[0]);
-		lines.Draw(m_renderer, m_alphaBlendState);
+void SectorView::GetPlayerPosAndStarSize(vector3f &playerPosOut, float &currentStarSizeOut)
+{
+	// calculate the player's location (it will be interpolated between systems during a hyperjump)
+	const Sector::System currentSystem = GetCached(m_current)->m_systems[m_current.systemIndex];
+	playerPosOut = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + currentSystem.GetPosition();
+	currentStarSizeOut = StarSystem::starScale[currentSystem.GetStarType(0)];
+	if (!m_inSystem) {
+		// we are in hyperspace, interpolate
+		// m_current has been set to the destination path
+		// destination system data:
+		const SystemPath dstPath = Pi::game->GetHyperspaceDest();
+		const Sector::System dstSystem = GetCached(dstPath)->m_systems[dstPath.systemIndex];
+		const vector3f dstPos = Sector::SIZE * vector3f(float(dstPath.sectorX), float(dstPath.sectorY), float(dstPath.sectorZ)) + dstSystem.GetPosition();
+		// jumpProcess: 0.0f (at source) .. 1.0f (at destination)
+		// smoothing speed at the ends with cubic interpolation
+		const float jumpProcess = AnimationCurves::InOutCubicEasing(Pi::game->GetHyperspaceProgress() / Pi::game->GetHyperspaceDuration());
+		// player location indicator's size of the star, on which it is drawn
+		// so we interpolate it too
+		const float dstStarSize = StarSystem::starScale[dstSystem.GetStarType(0)];
+		// interpolating player location indicator's position and size
+		playerPosOut = playerPosOut.Lerp(dstPos, jumpProcess);
+		currentStarSizeOut = MathUtil::Lerp(currentStarSizeOut, dstStarSize, jumpProcess);
 	}
 }
 

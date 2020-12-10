@@ -193,8 +193,12 @@ private:
 
 	// HyperJump Route Planner Stuff
 	std::vector<SystemPath> m_route;
+	Graphics::Drawables::Lines m_routeLines;
 	bool m_drawRouteLines;
-	void DrawRouteLines(const vector3f &playerAbsPos, const matrix4x4f &trans);
+	bool m_setupRouteLines;
+	void DrawRouteLines(const matrix4x4f &trans);
+	void SetupRouteLines(const vector3f &playerAbsPos);
+	void GetPlayerPosAndStarSize(vector3f &playerPosOut, float &currentStarSizeOut);
 
 	Graphics::RenderState *m_solidState;
 	Graphics::RenderState *m_alphaBlendState;

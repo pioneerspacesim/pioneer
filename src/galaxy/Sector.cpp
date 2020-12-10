@@ -35,6 +35,14 @@ float Sector::DistanceBetween(RefCountedPtr<const Sector> a, int sysIdxA, RefCou
 	return dv.Length();
 }
 
+float Sector::DistanceBetweenSqr(const RefCountedPtr<const Sector> a, const int sysIdxA, const RefCountedPtr<const Sector> b, const int sysIdxB)
+{
+	PROFILE_SCOPED()
+	vector3f dv = a->m_systems[sysIdxA].GetPosition() - b->m_systems[sysIdxB].GetPosition();
+	dv += Sector::SIZE * vector3f(float(a->sx - b->sx), float(a->sy - b->sy), float(a->sz - b->sz));
+	return dv.LengthSqr();
+}
+
 bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const
 {
 	PROFILE_SCOPED()
