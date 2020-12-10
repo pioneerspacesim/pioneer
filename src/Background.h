@@ -108,6 +108,7 @@ namespace Background {
 
 		void SetIntensity(float intensity);
 		void SetDrawFlags(const Uint32 flags);
+		Uint32 GetDrawFlags() const { return m_drawFlags; }
 
 	private:
 		Graphics::Renderer *m_renderer;
