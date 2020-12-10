@@ -7,6 +7,7 @@
 #include "SystemView.h"
 
 #include "AnimationCurves.h"
+#include "Background.h"
 #include "Game.h"
 #include "GameLog.h"
 #include "Input.h"
@@ -295,12 +296,8 @@ void SystemView::CalculateFramePositionAtTime(FrameId frameId, double t, vector3
 void SystemView::Draw3D()
 {
 	PROFILE_SCOPED()
-	// We need to adjust the "far" cutoff plane, so that at high magnifications you can see
-	// distant objects in the background.
-	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1000.f * m_zoom * float(AU) + DEFAULT_VIEW_DISTANCE * 2);
 	m_renderer->ClearScreen();
 	m_projected.clear();
-	//TODO add reserve
 
 	SystemPath path = m_game->GetSectorView()->GetSelected().SystemOnly();
 	if (m_system) {
@@ -321,6 +318,31 @@ void SystemView::Draw3D()
 		m_system = m_game->GetGalaxy()->GetStarSystem(path);
 		m_unexplored = m_system->GetUnexplored();
 	}
+
+	// Set up the perspective projection for the background stars
+	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1500.f);
+
+	matrix4x4d trans2bg = matrix4x4d::Identity();
+	trans2bg.RotateX(DEG2RAD(-m_rot_x));
+	trans2bg.RotateY(DEG2RAD(-m_rot_y));
+	auto *background = m_game->GetSpace()->GetBackground();
+	// Background is rotated around (0,0,0) and drawn
+	background->SetIntensity(0.6);
+	if (!m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(path)) {
+		Uint32 cachedFlags = background->GetDrawFlags();
+		background->SetDrawFlags(Background::Container::DRAW_SKYBOX);
+		background->Draw(trans2bg);
+		background->SetDrawFlags(cachedFlags);
+	} else {
+		background->Draw(trans2bg);
+	}
+
+	m_renderer->ClearDepthBuffer();
+
+	// We need to adjust the "far" cutoff plane, so that at high magnifications you can see
+	// distant objects in the background.
+	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1000.f * m_zoom * float(AU) + DEFAULT_VIEW_DISTANCE * 2);
+	//TODO add reserve
 
 	// The matrix is shifted from the (0,0,0) by DEFAULT_VIEW_DISTANCE
 	// and then rotated (around 0,0,0) and scaled by m_zoom, shift doesn't scale.
