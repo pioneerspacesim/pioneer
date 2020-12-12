@@ -4,7 +4,6 @@
 local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
-local Comms = require 'Comms'
 local Character = require 'Character'
 local Event = require 'Event'
 local Serializer = require 'Serializer'
@@ -39,39 +38,34 @@ end
 
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
+	form:Clear()
 
-	if option == 0 then
-		form:Clear()
-
-		form:SetTitle(ad.title)
-		form:SetFace(ad.charcter)
-		form:SetMessage(ad.message)
-
-		form:AddOption(Format.Money(1,false), 1)
-		form:AddOption(Format.Money(10,false), 10)
-		form:AddOption(Format.Money(100,false), 100)
-		form:AddOption(Format.Money(1000,false), 1000)
-		form:AddOption(Format.Money(10000,false), 10000)
-		form:AddOption(Format.Money(100000,false), 100000)
-
-		return
-	end
+	form:SetTitle(ad.title)
+	form:SetFace(ad.charcter)
 
 	if option == -1 then
 		form:Close()
 		return
 	end
 
-	if Game.player:GetMoney() < option then
-		Comms.Message(l.YOU_DO_NOT_HAVE_ENOUGH_MONEY)
+	if option == 0 then
+		form:SetMessage(ad.message)
+	elseif Game.player:GetMoney() < option then
+		form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_MONEY)
 	else
 		if option >= 10000 then
-			Comms.Message(l.WOW_THAT_WAS_VERY_GENEROUS)
+			form:SetMessage(l.WOW_THAT_WAS_VERY_GENEROUS)
 		else
-			Comms.Message(l.THANK_YOU_ALL_DONATIONS_ARE_WELCOME)
+			form:SetMessage(l.THANK_YOU_ALL_DONATIONS_ARE_WELCOME)
 		end
 		Game.player:AddMoney(-option)
 		addReputation(option * ad.modifier)
+	end
+
+	-- Draw buttons donation button options
+	for i=0,5,1 do
+		donate = math.floor(10^i)
+		form:AddOption(Format.Money(donate, false), donate)
 	end
 end
 
