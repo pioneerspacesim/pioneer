@@ -22,8 +22,10 @@ end
 local ads = {}
 
 
-local addReputation = function (money)
-	local curRep = Character.persistent.player.reputation
+local addReputation = function (money, character)
+	local test = istest or false
+	local char = character or Character.persistent.player
+	local curRep = char.reputation
 	local newRep
 
 	if curRep >= 1 then
@@ -32,7 +34,28 @@ local addReputation = function (money)
 	else
 		newRep = curRep + 2^(math.log(money)/math.log(10))
 	end
-	Character.persistent.player.reputation = newRep
+	char.reputation = newRep
+	return newRep
+end
+
+
+local computeReputation = function (ad)
+	-- compute money to get to next level of reputation
+
+	local current_reputation = 	Character.persistent.player:GetReputationRating()
+	print("\n\nCURRENT:", current_reputation)
+
+	for i=0,5,1 do
+		local donate = math.floor(10^i)
+		local clone = Character.persistent.player:Clone()
+		addReputation(donate * ad.modifier, clone)
+		local new_reputation = clone:GetReputationRating()
+		if new_reputation ~= current_reputation then
+			return donate
+		end
+	end
+	-- aught not come here unless player has maxed out reputation
+	return 0
 end
 
 
@@ -41,7 +64,7 @@ local onChat = function (form, ref, option)
 	form:Clear()
 
 	form:SetTitle(ad.title)
-	form:SetFace(ad.charcter)
+	form:SetFace(ad.character)
 
 	if option == -1 then
 		form:Close()
@@ -49,7 +72,9 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetMessage(ad.message)
+		form:SetMessage(ad.message .. "\n\n" .. string.interp(
+			l.SALES_PITCH, {cash = Format.Money(computeReputation(ad), false)}))
+
 	elseif Game.player:GetMoney() < option then
 		form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_MONEY)
 	else
@@ -81,7 +106,7 @@ local onCreateBB = function (station)
 		title    = flavours[n].title,
 		message  = flavours[n].message,
 		station  = station,
-		charcter = Character.New({armour=false}),
+		character = Character.New({armour=false}),
 	}
 
 	local ref = station:AddAdvert({
