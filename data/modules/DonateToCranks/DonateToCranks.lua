@@ -44,7 +44,7 @@ local onChat = function (form, ref, option)
 		form:Clear()
 
 		form:SetTitle(ad.title)
-		form:SetFace({ seed = ad.faceseed })
+		form:SetFace(ad.charcter)
 		form:SetMessage(ad.message)
 
 		form:AddOption(Format.Money(1,false), 1)
@@ -87,7 +87,7 @@ local onCreateBB = function (station)
 		title    = flavours[n].title,
 		message  = flavours[n].message,
 		station  = station,
-		faceseed = Engine.rand:Integer()
+		charcter = Character.New({armour=false}),
 	}
 
 	local ref = station:AddAdvert({
