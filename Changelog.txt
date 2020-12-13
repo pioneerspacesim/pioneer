@@ -1,3 +1,26 @@
+December 2020
+   * New Features
+     * Show background stars in system view (#5068)
+     * Show surface starports in system view (#5060)
+     * Use new icons in Worldview (#5042)
+     * Move economy & trade to pigui (#4067)
+
+   * Internal Changes
+     * Clarify tooltip for rotate button (#5070)
+     * Optimize route rendering (#5033)
+     * CMake: Fix modelcompiler not compiling anything (#5039)
+     * Add MSVC build to github-actions CI builds (#5036)
+     * Add incremental drag widget to pigui (#5031)
+     * Fix unused variables in release build (#5043)
+
+   * Fixes
+     * Fix buy/sell of station stock updating inverted (#5072)
+     * Fix ambient music looping (#5061)
+     * Fix grammar in translation string for Earth/Sol radius (#5053)
+     * Be consistent with use of nuclear vs radioactive (#5057)
+     * Fix menu music issues (#5047)
+     * Several map fixes and small tweaks (#5048)
+
 November 2020
    * New Features
      * New unified color theme and new icons (#4993)
@@ -27,6 +50,7 @@ November 2020
      * Fall back to an empty resource if it hasn't been translated (#5011)
      * MSVC CMake Updates (#5012)
      * Buffed local delivery mission payouts, reduced fuel costs (#5037)
+     * Move comms to entirely in lua (#5008)
 
    * Fixes
      * Fix SAR crash where IsPlayer() is falsely called by non-ship body (#4985)
