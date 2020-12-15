@@ -526,31 +526,9 @@ namespace SceneGraph {
 		}
 	}
 
-	class SaveVisitorJson : public NodeVisitor {
-	public:
-		SaveVisitorJson(Json &jsonObj) :
-			m_jsonArray(jsonObj) {}
-
-		void ApplyMatrixTransform(MatrixTransform &node)
-		{
-			const matrix4x4f &m = node.GetTransform();
-			Json matrixTransformObj({}); // Create JSON object to contain matrix transform data.
-			matrixTransformObj["m"] = m;
-			m_jsonArray.push_back(matrixTransformObj); // Append matrix transform object to array.
-		}
-
-	private:
-		Json &m_jsonArray;
-	};
-
 	void Model::SaveToJson(Json &jsonObj) const
 	{
 		Json modelObj({}); // Create JSON object to contain model data.
-
-		Json visitorArray = Json::array(); // Create JSON array to contain visitor data.
-		SaveVisitorJson sv(visitorArray);
-		m_root->Accept(sv);
-		modelObj["visitor"] = visitorArray; // Add visitor array to model object.
 
 		Json animationArray = Json::array(); // Create JSON array to contain animation data.
 		for (auto i : m_animations)
@@ -562,43 +540,10 @@ namespace SceneGraph {
 		jsonObj["model"] = modelObj; // Add model object to supplied object.
 	}
 
-	class LoadVisitorJson : public NodeVisitor {
-	public:
-		LoadVisitorJson(const Json &jsonObj) :
-			m_jsonArray(jsonObj),
-			m_arrayIndex(0),
-			hadError(false) {}
-
-		void ApplyMatrixTransform(MatrixTransform &node)
-		{
-			// do nothing if the model has corruption issues
-			if (m_arrayIndex >= m_jsonArray.size()) {
-				hadError = true;
-				return;
-			}
-
-			node.SetTransform(m_jsonArray[m_arrayIndex++]["m"]);
-		}
-
-		bool success() const { return !hadError; }
-
-	private:
-		const Json &m_jsonArray;
-		unsigned int m_arrayIndex;
-		bool hadError;
-	};
-
 	void Model::LoadFromJson(const Json &jsonObj)
 	{
 		try {
 			Json modelObj = jsonObj["model"];
-
-			Json visitorArray = modelObj["visitor"].get<Json::array_t>();
-			LoadVisitorJson lv(visitorArray);
-			m_root->Accept(lv);
-			if (!lv.success()) {
-				Log::Info("Error(s) occurred while loading saved data for model '{}'. The model file may have changed on disk.\n", m_name);
-			}
 
 			Json animationArray = modelObj["animations"].get<Json::array_t>();
 			if (m_animations.size() == animationArray.size()) {
