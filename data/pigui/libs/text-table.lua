@@ -18,7 +18,7 @@ function textTable.draw(t)
 			local width, textWidth = ui.getColumnWidth(), ui.calcTextSize(entry[2]).x + 1
 			-- FIXME: add support for ui.getStyleVar("ItemSpacing"). Hardcoding to 8 for now
 			ui.sameLine(math.max(width - textWidth, width / 2 + 8), 0)
-			ui.text(entry[2])
+			ui.textWrapped(entry[2])
 		elseif type(entry) == "string" then
 			ui.spacing()
 			ui.text(entry)
