@@ -95,7 +95,7 @@ local orionisd = CustomSystemBody:new('Neart', 'PLANET_TERRESTRIAL') --Means "st
 	:ice_cover(f(5,1000))
 	:life(f(0,1))
 
-local orionisf = CustomSystemBody:new('Ì', 'PLANET_GAS_GIANT') --Real scottish island
+local orionisf = CustomSystemBody:new('Hiort', 'PLANET_GAS_GIANT') --Real scottish island
 	:radius(f(33959,10000))
 	:mass(f(115321,10000))
 	:temp(249)
