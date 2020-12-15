@@ -1,7 +1,7 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local s = CustomSystem:new('Noril',{'STAR_M'}) --Alt name for Wolf 1061
+local s = CustomSystem:new('Noril',{'STAR_M'}):other_names({"Wolf 1061"})
 	:faction('Solar Federation')
 	:govtype('EARTHDEMOC')
 	:lawlessness(f(15,100)) -- 1/100th from a peaceful eden
@@ -17,9 +17,9 @@ Furthermore, several Mill towns have turned into successful cities. Travellers a
 --Bodies' names are inspired by USSR factory-cities : Norilsk, Kisselevsk and Seversk.
 --Uninhabited planets keep their generic names, as the Federal bureaucracy didn't bother to name them
 --Cities are named after fictional companies. Their names are generated with http://www.businessnamegenerators.com/. A quick search lets think there is no actual company  with those names.
- 
 
-local noril = CustomSystemBody:new('Noril-Wolf 1061', 'STAR_M') --Remove the "Wolf 1061" once the alt name feature is built.
+
+local noril = CustomSystemBody:new('Noril', 'STAR_M')
 	:radius(f(48,100))
 	:mass(f(44,100))
 	:temp(2863)
