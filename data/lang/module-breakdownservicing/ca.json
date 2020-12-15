@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_INTRO": {
     "description": "",
-    "message": "Eviteu els inconvenients d'un hiperimpulsor averiat. Reviseu el vostre avui mateix, amb el Servei Oficial dels Tallers {name}.\n"
+    "message": "Avoid the inconvenience of a broken-down hyperspace engine. Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n"
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
-    "message": "Salutacions.  A {proprietor} i Cia. responem de la nostra feina amb la nostra reputació.\nPodem afinar el vostre hiperimpulsor, tot garantint 12 mesos de funcionament sense problemes."
+    "message": "Hi there. We at {proprietor} & Co stake our reputation on our work.\nWe can tune your ship's hyperdrive, ensuring 12 months of trouble-free operation. "
   },
   "FLAVOUR_2_PRICE": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
-    "message": "Manteniment completat. Gràcies pel vostre encàrrec."
+    "message": "Service complete. Thanks for your custom."
   },
   "FLAVOUR_2_TITLE": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
-    "message": "Benvingut a Manteniment SuperServei. Hora de la revisió bianual? Deixeu-la en mans de SuperServei!"
+    "message": "Welcome SuperFix Maintenance. Time for your biannual maintenance? Let us SuperFix your hyperdrive!"
   },
   "FLAVOUR_3_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nPodem afinar el vostre {drive} per tan sols {price}.  No hi ha ningú més barat!"
+    "message": "\n\n{lasttime}\nWe can tune your {drive} for just {price}. There's nobody cheaper!"
   },
   "FLAVOUR_3_RESPONSE": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
-    "message": "\n{lasttime}\nEl manteniment del vostre {drive} costarà {price}.  Hi voleu procedir?"
+    "message": "\n{lasttime}\nServicing your {drive} will cost {price}. Would you like to proceed?"
   },
   "FLAVOUR_4_RESPONSE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
-    "message": "Eviteu els inconvenients d'un hiperimpulsor averiat. Reviseu el vostre avui mateix.\n"
+    "message": "Avoid the inconvenience of a broken-down hyperspace engine. Get yours serviced today.\n"
   },
   "FLAVOUR_5_PRICE": {
     "description": "",

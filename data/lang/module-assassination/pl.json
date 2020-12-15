@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "Jest godne ubolewania że {target} wciąż żyje i ma się dobrze. Nie otrzymasz żadnej zapłaty za złamanie umowy."
+    "message": "To godne pożałowania, że {target} jest wciąż żywy i zdrowy. Nie wypełniłeś kontraktu, więc nie otrzymasz zapłaty."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Pytasz o pieniądze za prace wykonaną przez kogoś innego? Spadaj."
+    "message": "Chcesz pieniędzy za robotę zrobioną przez kogoś innego? Niedoczekanie."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
@@ -178,10 +178,6 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "Zrób to po tym jak {target} opuści {spaceport}. Nie przegap tej okazji."
-  },
-  "LY": {
-    "description": "",
-    "message": "lś"
   },
   "OK_AGREED": {
     "description": "",

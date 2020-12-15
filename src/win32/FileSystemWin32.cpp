@@ -1,14 +1,14 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Win32Setup.h"
 
-#include "libs.h"
 #include "FileSystem.h"
 #include "TextUtils.h"
+#include "libs.h"
 #include "utils.h"
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include <cerrno>
 
 #define WIN32_LEAN_AND_MEAN
@@ -22,9 +22,10 @@
 
 namespace FileSystem {
 
-	static std::string absolute_path(const std::string &path) {
+	static std::string absolute_path(const std::string &path)
+	{
 		std::wstring wpath = transcode_utf8_to_utf16(path);
-		wchar_t buf[MAX_PATH+1];
+		wchar_t buf[MAX_PATH + 1];
 		DWORD len = GetFullPathNameW(wpath.c_str(), MAX_PATH, buf, 0);
 		buf[len] = L'\0';
 		return transcode_utf16_to_utf8(buf, len);
@@ -54,15 +55,23 @@ namespace FileSystem {
 
 	static std::string FindDataDir()
 	{
-		HMODULE exemodule = GetModuleHandleW(0);
-		wchar_t buf[MAX_PATH+1];
-		DWORD nchars = GetModuleFileNameW(exemodule, buf, MAX_PATH);
+		static const DWORD BUFSIZE = MAX_PATH + 1;
+		wchar_t buf[BUFSIZE];
+		memset(buf, L'\0', sizeof(wchar_t) * BUFSIZE); // clear the buffer
+		DWORD dwRet = GetCurrentDirectoryW(BUFSIZE, buf);
+		if (dwRet == 0) {
+			printf("GetCurrentDirectory failed (%d)\n", GetLastError());
+			abort();
+		}
+		if (dwRet > BUFSIZE) {
+			printf("Buffer too small; need %d characters\n", dwRet);
+			// I gave you MAX_PATH, what more do you want!?
+			abort();
+		}
 		if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
 			// I gave you MAX_PATH, what more do you want!?
 			abort();
 		}
-		buf[nchars] = L'\0';
-		PathRemoveFileSpecW(buf);
 		PathAppendW(buf, L"data");
 		return transcode_utf16_to_utf8(buf, wcslen(buf));
 	}
@@ -79,7 +88,7 @@ namespace FileSystem {
 		return data_path;
 	}
 
-	FileSourceFS::FileSourceFS(const std::string &root, bool trusted):
+	FileSourceFS::FileSourceFS(const std::string &root, bool trusted) :
 		FileSource((root == "/") ? "" : absolute_path(root), trusted) {}
 
 	FileSourceFS::~FileSourceFS() {}
@@ -101,7 +110,8 @@ namespace FileSystem {
 		return ty;
 	}
 
-	static Time::DateTime datetime_for_filetime(FILETIME filetime) {
+	static Time::DateTime datetime_for_filetime(FILETIME filetime)
+	{
 		Time::DateTime dt;
 
 		SYSTEMTIME systime, localtime;
@@ -115,7 +125,8 @@ namespace FileSystem {
 		return dt;
 	}
 
-	static Time::DateTime file_modtime_for_handle(HANDLE hfile) {
+	static Time::DateTime file_modtime_for_handle(HANDLE hfile)
+	{
 		assert(hfile != INVALID_HANDLE_VALUE);
 
 		Time::DateTime modtime;
@@ -161,7 +172,7 @@ namespace FileSystem {
 			}
 			size_t size = size_t(large_size.QuadPart);
 
-			char *data = static_cast<char*>(std::malloc(size));
+			char *data = static_cast<char *>(std::malloc(size));
 			if (!data) {
 				// XXX handling memory allocation failure gracefully is too hard right now
 				Output("failed when allocating buffer for '%s'\n", fullpath.c_str());
@@ -215,7 +226,7 @@ namespace FileSystem {
 				output.push_back(MakeFileInfo(JoinPath(dirpath, fname), ty, modtime));
 			}
 
-			if (! FindNextFileW(dirhandle, &findinfo)) {
+			if (!FindNextFileW(dirhandle, &findinfo)) {
 				err = GetLastError();
 			} else
 				err = ERROR_SUCCESS;
@@ -262,21 +273,21 @@ namespace FileSystem {
 		return make_directory_raw(wfullpath);
 	}
 
-	static FILE* open_file_raw(const std::string &fullpath, const wchar_t *mode)
+	static FILE *open_file_raw(const std::string &fullpath, const wchar_t *mode)
 	{
 		const std::wstring wfullpath = transcode_utf8_to_utf16(fullpath);
 		return _wfopen(wfullpath.c_str(), mode);
 	}
 
-	FILE* FileSourceFS::OpenReadStream(const std::string &path)
+	FILE *FileSourceFS::OpenReadStream(const std::string &path)
 	{
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		return open_file_raw(fullpath, L"rb");
 	}
 
-	FILE* FileSourceFS::OpenWriteStream(const std::string &path, int flags)
+	FILE *FileSourceFS::OpenWriteStream(const std::string &path, int flags)
 	{
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		return open_file_raw(fullpath, (flags & WRITE_TEXT) ? L"w" : L"wb");
 	}
-}
+} // namespace FileSystem

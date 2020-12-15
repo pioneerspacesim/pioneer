@@ -185,7 +185,7 @@
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Escuche. Fuimos muy claros con la fecha de entrega. Puede olvidarse de cobrar."
+    "message": "Escuche, fuimos muy claros sobre la fecha de entrega, puede ir olvidándose de sus honorarios."
   },
   "FAILUREMSG_4": {
     "description": "",
@@ -327,10 +327,6 @@
     "description": "",
     "message": "Estoy sufriendo daños. Necesito ayuda."
   },
-  "LY": {
-    "description": "",
-    "message": "AL"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Herramientas de maquinaria"
@@ -466,6 +462,10 @@
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
     "message": "Repuestos de naves espaciales"
+  },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "Pernos autosellantes"
   },
   "SUCCESSMSG_1": {
     "description": "",

@@ -539,10 +539,6 @@
     "description": "",
     "message": "Musím tam dorazit do "
   },
-  "LY": {
-    "description": "",
-    "message": "ly"
-  },
   "OK_AGREED": {
     "description": "",
     "message": "OK, souhlasím."
@@ -565,7 +561,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Nastavit jako cíl navigace"
   },
   "TAXI": {
     "description": "",

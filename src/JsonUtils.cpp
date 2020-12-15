@@ -1,29 +1,25 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _USE_MATH_DEFINES
 #define _USE_MATH_DEFINES
 #endif
 
-#include <cmath>
 #include "JsonUtils.h"
-#include "utils.h"
-#include "base64/base64.hpp"
 #include "FileSystem.h"
-#include "GZipFormat.h"
+#include "base64/base64.hpp"
+#include "core/GZipFormat.h"
+#include "utils.h"
+#include <cmath>
 
 extern "C" {
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wattributes"
-#endif
 #include "miniz/miniz.h"
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
 }
 
 namespace {
+	// XXX currently unused, uncomment if/when needed again.
+	// also has some endianness issues,
+	/*
 	uint32_t pack4char(const uint8_t a, const uint8_t b, const uint8_t c, const uint8_t d)
 	{
 		return ((a << 24) | (b << 16) | (c << 8) | d);
@@ -36,15 +32,17 @@ namespace {
 		c = ((packed >> 8) & 0xff);
 		d = (packed & 0xff);
 	}
+*/
 
 	static const vector3f zeroVector3f(0.0f);
 	static const vector3d zeroVector3d(0.0);
 	static const Quaternionf identityQuaternionf(1.0f, 0.0f, 0.0f, 0.0f);
 	static const Quaterniond identityQuaterniond(1.0, 0.0, 0.0, 0.0);
-}
+} // namespace
 
 namespace JsonUtils {
-	Json LoadJson(RefCountedPtr<FileSystem::FileData> fd) {
+	Json LoadJson(RefCountedPtr<FileSystem::FileData> fd)
+	{
 		if (!fd) return Json();
 
 		Json out;
@@ -94,8 +92,10 @@ namespace JsonUtils {
 			Json rootNode;
 			try {
 				// Allow loading files in JSON format as well as CBOR
-				if (plain_data[0] == '{') return Json::parse(plain_data);
-				else return Json::from_cbor(plain_data);
+				if (plain_data[0] == '{')
+					return Json::parse(plain_data);
+				else
+					return Json::from_cbor(plain_data);
 			} catch (Json::parse_error &e) {
 				Output("error in JSON file '%s': %s\n", file->GetInfo().GetPath().c_str(), e.what());
 				return nullptr;
@@ -104,8 +104,7 @@ namespace JsonUtils {
 			return nullptr;
 		}
 	}
-}
-
+} // namespace JsonUtils
 
 #define USE_STRING_VERSIONS
 
@@ -167,11 +166,9 @@ void MatrixToJson(Json &jsonObj, const matrix3x3f &mat)
 	Matrix3x3fToStr(mat, str, 512);
 	jsonObj = str;
 #else
-	jsonObj = Json::array({
-		mat[0], mat[1], mat[2],
+	jsonObj = Json::array({ mat[0], mat[1], mat[2],
 		mat[3], mat[4], mat[5],
-		mat[6], mat[7], mat[8]
-	});
+		mat[6], mat[7], mat[8] });
 #endif
 }
 
@@ -184,11 +181,9 @@ void MatrixToJson(Json &jsonObj, const matrix3x3d &mat)
 	Matrix3x3dToStr(mat, str, 512);
 	jsonObj = str;
 #else
-	jsonObj = Json::array({
-		mat[0], mat[1], mat[2],
+	jsonObj = Json::array({ mat[0], mat[1], mat[2],
 		mat[3], mat[4], mat[5],
-		mat[6], mat[7], mat[8]
-	});
+		mat[6], mat[7], mat[8] });
 #endif
 }
 
@@ -202,10 +197,22 @@ void MatrixToJson(Json &jsonObj, const matrix4x4f &mat)
 	jsonObj = str;
 #else
 	jsonObj = Json::array({
-		mat[0], mat[1], mat[2], mat[3],
-		mat[4], mat[5], mat[6], mat[7],
-		mat[8], mat[9], mat[10], mat[11],
-		mat[12], mat[13], mat[14], mat[15],
+		mat[0],
+		mat[1],
+		mat[2],
+		mat[3],
+		mat[4],
+		mat[5],
+		mat[6],
+		mat[7],
+		mat[8],
+		mat[9],
+		mat[10],
+		mat[11],
+		mat[12],
+		mat[13],
+		mat[14],
+		mat[15],
 	});
 #endif
 }
@@ -220,10 +227,22 @@ void MatrixToJson(Json &jsonObj, const matrix4x4d &mat)
 	jsonObj = str;
 #else
 	jsonObj = Json::array({
-		mat[0], mat[1], mat[2], mat[3],
-		mat[4], mat[5], mat[6], mat[7],
-		mat[8], mat[9], mat[10], mat[11],
-		mat[12], mat[13], mat[14], mat[15],
+		mat[0],
+		mat[1],
+		mat[2],
+		mat[3],
+		mat[4],
+		mat[5],
+		mat[6],
+		mat[7],
+		mat[8],
+		mat[9],
+		mat[10],
+		mat[11],
+		mat[12],
+		mat[13],
+		mat[14],
+		mat[15],
 	});
 #endif
 }
@@ -357,24 +376,24 @@ void JsonToMatrix(matrix3x3f *pMat, const Json &jsonObj)
 void JsonToMatrix(matrix3x3d *pMat, const Json &jsonObj)
 {
 	PROFILE_SCOPED()
-	#ifdef USE_STRING_VERSIONS
-		if (!jsonObj.is_string()) {
-			*pMat = matrix3x3dIdentity;
-			return;
-		}
-		std::string matStr = jsonObj;
-		StrToMatrix3x3d(matStr.c_str(), *pMat);
-	#else
-		(*pMat)[0] = jsonObj[0];
-		(*pMat)[1] = jsonObj[1];
-		(*pMat)[2] = jsonObj[2];
-		(*pMat)[3] = jsonObj[3];
-		(*pMat)[4] = jsonObj[4];
-		(*pMat)[5] = jsonObj[5];
-		(*pMat)[6] = jsonObj[6];
-		(*pMat)[7] = jsonObj[7];
-		(*pMat)[8] = jsonObj[8];
-	#endif
+#ifdef USE_STRING_VERSIONS
+	if (!jsonObj.is_string()) {
+		*pMat = matrix3x3dIdentity;
+		return;
+	}
+	std::string matStr = jsonObj;
+	StrToMatrix3x3d(matStr.c_str(), *pMat);
+#else
+	(*pMat)[0] = jsonObj[0];
+	(*pMat)[1] = jsonObj[1];
+	(*pMat)[2] = jsonObj[2];
+	(*pMat)[3] = jsonObj[3];
+	(*pMat)[4] = jsonObj[4];
+	(*pMat)[5] = jsonObj[5];
+	(*pMat)[6] = jsonObj[6];
+	(*pMat)[7] = jsonObj[7];
+	(*pMat)[8] = jsonObj[8];
+#endif
 }
 
 void JsonToMatrix(matrix4x4f *pMat, const Json &jsonObj)
@@ -474,4 +493,40 @@ std::string JsonToBinStr(const Json &jsonObj)
 	}
 
 	return binStr;
+}
+
+void to_json(Json &obj, const fixed &f)
+{
+	// produces e.g. "f53/100"
+	obj = std::string("f") + std::to_string((f.v & ~f.MASK) >> f.FRAC) + "/" + std::to_string(f.v & f.MASK);
+}
+
+void from_json(const Json &obj, fixed &f)
+{
+	if (obj.is_number_integer())
+		f = fixed(obj.get<int64_t>(), 1);
+
+	else if (obj.is_number_float())
+		f = fixed::FromDouble(obj.get<double>());
+
+	else {
+		std::string str = obj;
+		// must have at least f1/1, though can be f1234567/135758548 etc.
+		if (str.size() < 4 || obj[0] != 'f')
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+
+		char *next_str = const_cast<char *>(str.c_str()) + 1;
+		int64_t numerator = std::strtol(next_str, &next_str, 10);
+
+		// handle cases: f/34, f1356, f14+4
+		if (numerator == 0 || next_str == nullptr || size_t(next_str - str.c_str()) >= str.size() || *next_str++ != '/')
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+
+		int64_t denominator = std::strtol(next_str, &next_str, 10);
+		// handle cases f1345/7684gfrty; fixed numbers should not have any garbage data involved
+		if (next_str != str.c_str() + str.size())
+			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
+
+		f = fixed(numerator, denominator);
+	}
 }

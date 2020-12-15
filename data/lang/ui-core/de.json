@@ -35,9 +35,17 @@
     "description": "",
     "message": "Es ist ein Fehler aufgetreten"
   },
+  "ARRIVAL_DATE": {
+    "description": "Time of arrival, used in flight log",
+    "message": "Ankunftsdatum"
+  },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
     "message": "Atmosphärische Abschirmung"
+  },
+  "ATMO_PRESS_LIMIT": {
+    "description": "Base external pressure limit of a ship (without atmo shield)",
+    "message": "Obergrenze atmo. Druck"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -87,6 +95,10 @@
     "description": "",
     "message": "Abbrechen"
   },
+  "CANNOT_SELL_ITEM": {
+    "description": "",
+    "message": "Dieser Artikel kann nicht verkauft werden."
+  },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
     "message": "Kapazität"
@@ -127,9 +139,13 @@
     "description": "Center on selected star system",
     "message": "Auf System zentrieren"
   },
+  "CHANGE": {
+    "description": "Face feature option",
+    "message": "Ändern:"
+  },
   "CHANGE_BINDING": {
     "description": "Key binding option",
-    "message": "Anbindung ändern"
+    "message": "Zuweisung ändern"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -175,6 +191,10 @@
     "description": "",
     "message": "Warenbörse"
   },
+  "COMMODITY_TRADE_ANALYSIS": {
+    "description": "",
+    "message": "Handelsanalyse von:"
+  },
   "COMPACT_RADAR": {
     "description": "Game settings option",
     "message": "Kompaktes Radar"
@@ -206,6 +226,10 @@
   "CONTINUE_GAME": {
     "description": "",
     "message": "Spiel fortsetzen"
+  },
+  "CONTRACT_FRAUD": {
+    "description": "Crime committed by intentionally breaking a contract",
+    "message": "Contract fraud"
   },
   "CONTROLS": {
     "description": "",
@@ -251,9 +275,17 @@
     "description": "Player combat rating",
     "message": "Gefährlich"
   },
+  "DATE": {
+    "description": "Date of an event, used in flight log",
+    "message": "Datum"
+  },
   "DEADLY": {
     "description": "Player combat rating",
     "message": "Tödlich"
+  },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Abnahme"
   },
   "DELTA_V": {
     "description": "",
@@ -271,6 +303,10 @@
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Delta-v (max.)"
   },
+  "DEPARTURE_DATE": {
+    "description": "Time of departure, used in flight log",
+    "message": "Abflugdatum"
+  },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
     "message": "Landegeschwindigkeit:"
@@ -282,6 +318,14 @@
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
     "message": "Niedriger gibt eine bessere Performanz auf Kosten der Grafikqualität"
+  },
+  "DISABLE_SCREENSHOT_INFO": {
+    "description": "",
+    "message": "Screenshot-Info ausblenden"
+  },
+  "DISABLE_SCREENSHOT_INFO_DESC": {
+    "description": "",
+    "message": "Blende alle Infotexte und HUDs im Screenshot-Modus aus, inklusive der Anzeige der Systemkoordinaten."
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -319,6 +363,10 @@
     "description": "",
     "message": "An aktuelles Ziel andocken"
   },
+  "DRIVE_ACTIVE": {
+    "description": "Ship jump status",
+    "message": "Antrieb aktiviert"
+  },
   "DUE": {
     "description": "mission deadline date",
     "message": "Fällig"
@@ -334,6 +382,10 @@
   "ECONOMY_TRADE": {
     "description": "",
     "message": "Wirtschaft und Handel"
+  },
+  "EDIT": {
+    "description": "Tooltip, to edit a flight log entry",
+    "message": "Bearbeiten"
   },
   "EFFECTS": {
     "description": "",
@@ -379,6 +431,10 @@
     "description": "Engineering skills of crew",
     "message": "Technik:"
   },
+  "ENTRY": {
+    "description": "A note/entry/record into the flight log",
+    "message": "Eintrag"
+  },
   "EQUIPMENT": {
     "description": "",
     "message": "Ausrüstung"
@@ -419,6 +475,50 @@
     "description": "When failed mission",
     "message": "Gescheitert"
   },
+  "FEATURE_ACCESSORIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Accessoires"
+  },
+  "FEATURE_ARMOUR": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Panzerung"
+  },
+  "FEATURE_CLOTHES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Kleider"
+  },
+  "FEATURE_EYES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Augen"
+  },
+  "FEATURE_GENDER": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Gender"
+  },
+  "FEATURE_HAIRSTYLE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Frisur"
+  },
+  "FEATURE_HEAD": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Kopfform"
+  },
+  "FEATURE_MOUTH": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Mund"
+  },
+  "FEATURE_NOSE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Nase"
+  },
+  "FEATURE_RACE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Ethnie"
+  },
+  "FEATURE_SPECIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Spezies"
+  },
   "FEMALE": {
     "description": "",
     "message": "Weiblich"
@@ -426,6 +526,46 @@
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
     "message": "Endgültiges Ziel:"
+  },
+  "FINANCE": {
+    "description": "Financial statement of player, e.g. cash",
+    "message": "Finance"
+  },
+  "FLIGHTLOG_DOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "Angedockt an {primary_info}"
+  },
+  "FLIGHTLOG_FLYING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
+    "message": "Im Weltall, relativ zu {primary_info}"
+  },
+  "FLIGHTLOG_HYPERSPACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "Im Hyperraum, auf dem weg nach {primary_info}"
+  },
+  "FLIGHTLOG_JUMPING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "Im Hypersprung in Richtung {primary_info}"
+  },
+  "FLIGHTLOG_LANDED": {
+    "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
+    "message": "Gelandet auf {primary_info}, position ({secondary_info}, {tertiary_info})"
+  },
+  "FLIGHTLOG_STARPORT_ORBITAL": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "Angedockt an {primary_info}, in der Umlaufbahn um {secondary_info}"
+  },
+  "FLIGHTLOG_STARPORT_SURFACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "Angedockt an {primary_info}, auf {secondary_info}"
+  },
+  "FLIGHTLOG_UNDOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "Ausdocken aus {primary_info}"
+  },
+  "FLIGHT_LOG": {
+    "description": "Title for flight log screen, in info view",
+    "message": "Fluglogbuch"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -490,6 +630,10 @@
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
     "message": "Ihnen auch auf Nimmerwiedersehen!"
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Zurück"
   },
   "GPU_JOBS": {
     "description": "",
@@ -733,7 +877,7 @@
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "Verbleibendes Δv"
+    "message": "% von Δv-Maximum"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
@@ -851,6 +995,18 @@
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
     "message": "Momentane Geschwindigkeit für jede Richtung (dünne Linien) und jeden Schub (dicker Hintergrund) zeigen"
   },
+  "HUD_WARNING_DESCENT_RATE": {
+    "description": "Shown on HUD as a warning flasher",
+    "message": "SINKGESCHWINDIGKEIT"
+  },
+  "HUD_WARNING_IMPACT": {
+    "description": "Alert tooltip",
+    "message": "Kollisionswarnung"
+  },
+  "HUD_WARNING_IMPACT_IMMINENT": {
+    "description": "Alert tooltip",
+    "message": "Kollision steht bevor"
+  },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
     "message": "Schiffsrumpf benötigt keine Reparatur"
@@ -883,6 +1039,10 @@
     "description": "",
     "message": "Hyperraum-Reichweite"
   },
+  "ILLEGAL_IN_SYSTEM": {
+    "description": "An illegal action or commodity",
+    "message": "Illegal im System"
+  },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
     "message": "Grob fahrlässiger Hyperraumsprung erfasst"
@@ -899,9 +1059,21 @@
     "description": "For player reputation",
     "message": "Inkompetent"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Erhöhung"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Unerfahren"
+  },
+  "INITIATED": {
+    "description": "Ship jump status",
+    "message": "Initiert"
+  },
+  "INSUFFICIENT_FUEL": {
+    "description": "Ship jump status",
+    "message": "zu wenig Treibstoff"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
@@ -918,6 +1090,10 @@
   "IN_STOCK": {
     "description": "",
     "message": "Auf Lager"
+  },
+  "IN_SYSTEM": {
+    "description": "Used in flight log, show which star system we are/were in",
+    "message": "In System"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -958,6 +1134,18 @@
   "LAUNCH_PERMISSION_DENIED_FINED": {
     "description": "",
     "message": "Starterlaubnis verweigert: Sie haben noch ausstehende Strafzahlungen."
+  },
+  "LAUNCH_PERMISSION_GRANTED": {
+    "description": "",
+    "message": "Starterlaubnis erteilt."
+  },
+  "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
+    "description": "",
+    "message": "Erlaubnis erteilt. Bitte verlassen Sie die Landefläche so schnell wie möglich. Wir danken Ihnen für Ihren Beitrag zu einem flüssigen Betriebsablauf."
+  },
+  "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
+    "description": "",
+    "message": "Erlaubnis erteilt. Bitte achten Sie beim Abflug auf den Luftverkehr."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1011,6 +1199,22 @@
     "description": "",
     "message": "Ort"
   },
+  "LOG_CUSTOM": {
+    "description": "Label tab for showing custom logged events",
+    "message": "Benutzerdefiniertes Logbuch"
+  },
+  "LOG_NEW": {
+    "description": "Indicate to make an entry into flight log system",
+    "message": "Neuer Eintrag"
+  },
+  "LOG_STATION": {
+    "description": "Label tab for showing logged station events",
+    "message": "Stationslogbuch"
+  },
+  "LOG_SYSTEM": {
+    "description": "Label tab for showing logged system events",
+    "message": "Systemlogbuch"
+  },
   "LOW": {
     "description": "",
     "message": "Niedrig"
@@ -1019,9 +1223,17 @@
     "description": "Light year",
     "message": "Lj"
   },
+  "MAJOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Wichtiger Export"
+  },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
     "message": "Wichtige Exporte"
+  },
+  "MAJOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Wichtiger Import"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
@@ -1099,13 +1311,25 @@
     "description": "",
     "message": "Militärisch"
   },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "Minimal Trade"
+  },
   "MINIMUM_CREW": {
     "description": "",
     "message": "Minimalbesatzung"
   },
+  "MINOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Sonstiger Export"
+  },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
     "message": "Sonstige Exporte"
+  },
+  "MINOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Sonstiger Import"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
@@ -1179,6 +1403,10 @@
     "description": "",
     "message": "Verhandeln"
   },
+  "NEXT_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Nächstes"
+  },
   "NEXT_PAID": {
     "description": "",
     "message": "Nächster Zahltermin"
@@ -1215,6 +1443,10 @@
     "description": "",
     "message": "{equipment} wird von diesem Schiff nicht unterstützt."
   },
+  "NO_DRIVE": {
+    "description": "Ship jump status",
+    "message": "Kein Antrieb"
+  },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
     "message": "Nichts passt auf diesen Filter"
@@ -1222,6 +1454,10 @@
   "NO_MISSIONS": {
     "description": "",
     "message": "Keine Missionen."
+  },
+  "NO_VALID_ROUTE": {
+    "description": "Message in the sector map, issued by the autoroute function.",
+    "message": "Keine gültige Route zum gewählten System."
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
@@ -1275,6 +1511,10 @@
     "description": "Unpaid fines for crimes committed",
     "message": "Unbezahlte Strafen"
   },
+  "OUT_OF_RANGE": {
+    "description": "Ship jump status",
+    "message": "Außer Reichweite"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Übersichtsfenstereinträge nach Namen filtern"
@@ -1282,6 +1522,10 @@
   "OWED": {
     "description": "Player owing money to crew members",
     "message": "Schuld"
+  },
+  "PAY": {
+    "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
+    "message": "Zahlen"
   },
   "PAY_FINE_OF_N": {
     "description": "",
@@ -1335,6 +1579,10 @@
     "description": "",
     "message": "Drücken sie eine Taste oder einen Knopf des Controllers, oder Escape zum Löschen"
   },
+  "PREVIOUS_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Vorheriges"
+  },
   "PRICE": {
     "description": "",
     "message": "Preis"
@@ -1342,6 +1590,10 @@
   "PROFESSIONAL": {
     "description": "For player reputation",
     "message": "Profi"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "Profitable Trade"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1358,6 +1610,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "Beenden bestätigen"
+  },
+  "RANDOM_FACE": {
+    "description": "Generate random face",
+    "message": "Zufällig"
   },
   "RANK": {
     "description": "",
@@ -1387,6 +1643,10 @@
     "description": "For player reputation",
     "message": "Zuverlässig"
   },
+  "REMOVE": {
+    "description": "Remove, e.g. deleting a log entry",
+    "message": "Entf."
+  },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
     "message": "Sprung löschen"
@@ -1415,6 +1675,10 @@
     "description": "",
     "message": "Zurücksetzen"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Ansicht und Zoom zurücksetzen"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Zurück zum Spiel"
@@ -1435,6 +1699,10 @@
     "description": "",
     "message": "Belohnung"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Ansicht schwenken"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Routeninformation"
@@ -1442,6 +1710,10 @@
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
     "message": "Sprünge der Route"
+  },
+  "SAFETY_LOCKOUT": {
+    "description": "Ship jump status",
+    "message": "Sicherheits Verriegelung"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1495,6 +1767,10 @@
     "description": "",
     "message": "Ziel als Navigationsziel setzen."
   },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Rückkehrroute setzen"
+  },
   "SHIP": {
     "description": "",
     "message": "Schiff"
@@ -1526,6 +1802,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Reparaturservice"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Schiffstyp"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",
@@ -1571,9 +1851,37 @@
     "description": "",
     "message": "Das ist ein ausgewogener Start von Itzalean auf New Hope im System Epsilon Eridani."
   },
+  "START_LOG_ENTRY_1": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
+    "message": "Leider hat mein Onkel mir vor seinem Tod nie gezeigt, wie man diese alte Mühle fliegt. Zumindest die Logbuchfunktion habe ich schon mal gefunden. Es ist seltsam… Es fühlt sich so an als wäre er immer noch da, als würde er in den Wänden dieses Schiffes weiterleben. Vielleicht kann er mein Copilot sein und zusammen können wir unserem Schicksal in den unendlichen Weiten entgegentreten. Aber zuerst muss ich Wasserstoff für das Sprungtriebwerk kaufen, einen Kurs zu lukrativen Handelszielen berechnen und beten, dass die Flugsicherung einem Grünschnabel wie mich abheben lässt. Dann werden wir sehen, was diese Mühle draufhat. Zeit mir einen Ruf zu verdienen!"
+  },
+  "START_LOG_ENTRY_2": {
+    "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
+    "message": "Meine Stiefel sind noch nass vom Regen der letzten Nacht. Es fühlt sich jetzt an wie ein anderes Leben. Die Straßen waren überflutet und die Reflektionen der auf die Straße herabscheinenden Neonlichter erleuchteten den Himmel über der Stadt in unwirklichen Farben. Aber ich habe mich durch den Regen gekämpft, habe mein Zuhause hinter mir gelassen und habe den Flug angetreten, um mein neues Schiff in Empfang zu nehmen. Als ich sagte, dass ich ein Schiff abholen möchte, musterte mich die Sicherheitsoffizierin des Raumhafens kritisch. Offensichtlich sehe ich nicht wie ein typischer Raumfahrer aus. Ich habe alles verkauft um mir diese Rostlaube zu kaufen. Schließlich wurde ich aber zu meinem Schiff durchgelassen. Jetzt steht meine Zukunft in den Sternen. Ich muss nur noch den Zündschlüssel finden."
+  },
+  "START_LOG_ENTRY_3": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
+    "message": "Nach einem langen, bürokratischen Verfahren habe ich endlich mein Schiff aus dem Polizeilager zurück, aber sie haben praktisch die gesamte Ausrüstung ausgebaut um die \"Schuld\" zu zahlen, die laut ich ihnen habe. Diese Mistkerle haben mir nicht nur meine geliebte Kaffeemaschine genommen sondern auch noch meinen Hyperraumantrieb aus dem Schiff gerissen. Jetzt stecke ich also in diesem System fest, wenn ich nicht die verbliebene Ausrüstung verkaufen möchte um einen neuen Antrieb zu kaufen. Aber wenn dir das Leben Zitronen gibt, mach Saft draus. Positiv denken! Das ist kein Rückschlag sondern eine Chance, ein Neuanfang. Ohne Kaffee. Ach, vergiss den Kaffee! Wenn ich zurücklasse wer ich bin, kann ich werden wer ich sein werde. Die Welt lässt die durch, die wissen wohin sie wollen. Und ich will zu den Sternen."
+  },
   "STAR_FIELD_DENSITY": {
     "description": "",
     "message": "Ziel des Sternenfeldes"
+  },
+  "STATION": {
+    "description": "Flight log info, will refer to a station by name",
+    "message": "Station"
+  },
+  "STATION_DOCKS": {
+    "description": "Information shown in the station lobby, for total number of docking pads",
+    "message": "Unsere Gesamtkapazität ist {total_docking_pads} Andockstützen."
+  },
+  "STATION_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "Die lokale Schwerkraft ist %.2f g."
+  },
+  "STATION_LOCAL_GRAVITY_PRESSURE": {
+    "description": "",
+    "message": "Die lokale Schwerkaft ist %.2f g und der athmosphärische Druck ist %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",
@@ -1582,6 +1890,10 @@
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
     "message": "Wir sind im Orbit um {parent_body} mit einer Umlaufzeit von {orbit_period} Tagen. "
+  },
+  "STATION_TECH_TOO_LOW": {
+    "description": "",
+    "message": "Die Technologiestufe dieser Station ist zu niedrig, um diesen Artikel zu verkaufen."
   },
   "STATUS": {
     "description": "",
@@ -1610,6 +1922,10 @@
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
     "message": "Das Schiff ist unter Kontrolle der Station, Kommandant."
+  },
+  "THIS_IS_FACTION_POLICE": {
+    "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
+    "message": "Das ist die {faction_police} der {faction}."
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1659,9 +1975,17 @@
     "description": "",
     "message": "Gesamtgewicht"
   },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "From {system}:"
+  },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
     "message": "Handel mit illegalen Waren"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "To {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -1674,6 +1998,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Illegales Waffenfeuer"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "Unprofitable Trade"
   },
   "UNRELIABLE": {
     "description": "",

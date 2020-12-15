@@ -1,11 +1,11 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Game = import("Game")
-local Serializer = import("Serializer")
-local Character = import("Character")
-local Lang = import("Lang")
-local Engine = import("Engine")
+local Game = require 'Game'
+local Serializer = require 'Serializer'
+local Character = require 'Character'
+local Lang = require 'Lang'
+local Engine = require 'Engine'
 
 local l = Lang.GetResource("ui-core")
 
@@ -140,14 +140,17 @@ Mission = {
 --   display - a (translatable) string to be shown in the missions list
 --   onClick - (optional) a function which is executed when the details button is
 --             clicked. The mission instance is passed to onClick, which
---             must return an Engine.ui instance to be displayed on the
+--             must return a mission description table to be displayed on the
 --             missions screen.
 --
 -- Example:
 --
 -- > RegisterType('racing_mission_XC14','Race',function (mission)
 -- >   local race = races[mission] -- Assuming some local table of race missions for example
--- >   return Engine.UI:Label(string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos}))
+-- >   return {
+-- >       client = mission.client,
+-- >       description = string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos})
+-- >   }
 -- > end)
 --
 -- Availability:
@@ -306,8 +309,9 @@ Mission = {
 -- experimental
 --
 	GetClick = function (self)
-		return (MissionRegister[self.type] and MissionRegister[self.type].onClick)
-				or function (ref) return Engine.ui:Label(l.NOT_FOUND) end -- XXX don't translate things in libs
+		return MissionRegister[self.type].onClick
+		-- return (MissionRegister[self.type] and MissionRegister[self.type].onClick)
+		-- 		or function (ref) return Engine.ui:Label(l.NOT_FOUND) end -- XXX don't translate things in libs
 	end,
 
 --

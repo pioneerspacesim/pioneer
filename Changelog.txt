@@ -1,9 +1,469 @@
+December 2020
+   * New Features
+     * Show background stars in system view (#5068)
+     * Show surface starports in system view (#5060)
+     * Use new icons in Worldview (#5042)
+     * Move economy & trade to pigui (#4067)
+
+   * Internal Changes
+     * Clarify tooltip for rotate button (#5070)
+     * Optimize route rendering (#5033)
+     * CMake: Fix modelcompiler not compiling anything (#5039)
+     * Add MSVC build to github-actions CI builds (#5036)
+     * Add incremental drag widget to pigui (#5031)
+     * Fix unused variables in release build (#5043)
+
+   * Fixes
+     * Fix buy/sell of station stock updating inverted (#5072)
+     * Fix ambient music looping (#5061)
+     * Fix grammar in translation string for Earth/Sol radius (#5053)
+     * Be consistent with use of nuclear vs radioactive (#5057)
+     * Fix menu music issues (#5047)
+     * Several map fixes and small tweaks (#5048)
+
+November 2020
+   * New Features
+     * New unified color theme and new icons (#4993)
+     * Commodities and Economies are now defined in JSON (#4944)
+     * Skipjack Courier from OKB Kaluri (#4871)
+     * Add a new model for escape pods (#4877)
+     * Improved missile damage calculations, slightly boosted damage (#4927)
+     * More lively station traffic control communications (#4987)
+     * Add tag display to ModelViewer (#5010)
+     * Port Crew Roster to PiGui (#5022)
+     * Port Active Missions display to PiGui (#5025)
+     * Move Economy & Trade -view to pigui (#4967)
+     * Add menu and ingame music from franzopow (#5027)
+     * NewUI is dead, long live PiGui! (#5032)
+     * Improve combat targeting by adding aim assist for player weapons (#5037)
+     * Added lower-cost 5MW mining laser (#5037)
+
+   * Internal Changes
+     * Decrease the maximum background star size to 0.3 (#4991)
+     * CMake: Avoid libGLU dependency (#4994)
+     * Improved icon renderering at small sizes (#4993)
+     * Update NanoSVG (#4996)
+     * Moved ESC key handling to PiGui (#4999)
+     * Add a selection highlight to the ship market list (#4999)
+     * Removed old Ship.lua compatibility code (#5000)
+     * Allow all ships with hyperdrives to be selected for rendezvous missions (#5002)
+     * Fall back to an empty resource if it hasn't been translated (#5011)
+     * MSVC CMake Updates (#5012)
+     * Buffed local delivery mission payouts, reduced fuel costs (#5037)
+     * Move comms to entirely in lua (#5008)
+
+   * Fixes
+     * Fix SAR crash where IsPlayer() is falsely called by non-ship body (#4985)
+     * Fix tradeships inflating save files with 1000s of duplicate cargo items (#4993)
+     * Fix some old hardware not being compatible with the Reverse-Z implementation (#4993)
+     * Minor bugfixes for cargo mission (#4998)
+     * Fix external camera causing segfaults/crashes under some circumstances (#4999)
+     * Set the timeaccel to 1x when clicking the undock/blastoff button. (#4999)
+     * Fix saved games in external camera resetting to internal camera on load (#4999)
+     * Fix radar display state being incorrectly saved (#4999)
+     * Fix jump range being improperly persisted across games (#4999)
+     * Fix ship displays not properly updating between games / selections (#4999)
+     * Fix zenith indicator not pointing away from the planet (#4999)
+     * Fix starting a new game charging a docking fee (#5000)
+     * Herding back the Sun and Moon icons who went astray during the latest iconoclast raid. (#5003)
+
+October 2020
+   * New Features
+     * Ship-specific atmospheric pressure limits (#4958)
+     * Make thruster upgrades availabile based on tech level (#4956)
+
+   * Internal Changes
+     * Optimize body list container in Space.cpp (#4957)
+     * Use an offscreen buffer as the primary rendering target (#4974)
+     * Use Reverse-Z depth buffer, drop logZ hack (#4975)
+     * Add PlanetsGravity processor for GalaxyStats tool (#4971)
+     * Add theme color display/editor to debug menu (#4979)
+
+   * Fixes
+     * Fix Flight Log crashes (#4973)
+     * Update MSVC CMake configuration and instructions (#4980)
+
+September 2020
+   * New Features
+     * Add external camera interpolation and spring (#4955)
+     * Port ObjectViewer to pigui (#4952)
+
+   * Internal Changes
+     * Cleanup Renderer API to Remove Fixed-Function State (#4947)
+     * Add pigui handlers for PiGuiViews (#4952)
+     * Collapse PiGui namespaces, load pigui theme from Lua (#4963)
+     * Clean up Lua PiGui code, split into multiple modules (#4964)
+
+   * Fixes
+     * Show the ship's translated name in savegame stats (#4953)
+     * Clear starports array if system has no population (#4950)
+	 * No more crashes when hyperjumping (#4907)
+
+August 2020
+   * New Features
+     * Debug ship spawner tool now integrated with Ctrl+I debug menu (#4941)
+     * Add surface impact alerts #4891
+     * Recon/combat missions require radar #4916
+
+   * Internal Changes
+     * Refactor WorldView to no longer use newUI (#4941)
+     * Add WorldView debug info to PerfInfo tool (#4941)
+     * Cleanup Win32 build for VS2019 (#4911)
+     * Add icons to profiler reports, implement directory copying for FileSystem (#4932)
+     * Extend LuaMetaType system to "function library" objects (#4945)
+     * Add function GalaxyStats to LuaDev (#4938)
+
+   * Fixes
+     * Fix ship directional indicators not pointing in the correct direction (#4941)
+     * Fix requring a camera frame when drawing PiGui (#4941)
+     * Fix being able to load invalid save versions (#4945)
+     * Fix compilation on i686 builds (#4945)
+     * Fix atmospheric flight calculations (#4946)
+
+July 2020
+   * New Features
+     * Captains log added to info-view (#4795)
+     * Plentiful tweaks to sector map (#4906)
+
+   Internal Changes
+     * Make size of load/save dialogue window sane (#4912)
+
+   * Fixes
+     * Fix buying commodities not subtracting station stock (#4909)
+     * Fix hyperdrive last service date being wrong (#4910)
+     * Fix the build with USE_SYSTEM_LIBLUA (#4940)
+
+June 2020
+   * New Features
+     * Redesign System and Sector Map View layouts (#4852)
+
+   * Internal Changes
+     * Add support for IMGUI tabs in pigui (#4893)
+
+   * Fixes
+     * Fix LuaMetaType issues (#4883)
+     * Update MSVS2019 Project (#4887)
+     * Update SIZET_FMT and catch fmt::system_error exception (#4890)
+     * Fix player sometimes exiting hyperspace inside a star (#4905)
+
+May 2020
+   * New Features
+     * Add Star's End system on the other side of the galaxy (#4873)
+     * Merge 36 Ophiuchi & Gliese 664 into a single star system (#4874)
+     * Performance Information widget is available in all builds (#4881)
+
+   * Fixes
+     * Correctly restart mission timer when loading saves (#4870)
+     * Remove price reduction when selling commodities (#4876)
+     * Clear SetSpeedTarget when jumping (#4880)
+     * Commodity name clean-up (#4875)
+     * Prevent unwanted font face changes (#4882)
+
+   * Internal Changes
+     * Remove many warnings (#4864)
+     * Add LuaMetaType mechanism, refactor LuaObject to v2.0 (#4878)
+     * Move more code to core/ module, add several helper libraries (#4881)
+     * Added better logging system, obsoleted OS::RedirectStdio (#4881)
+
+April 2020
+   * New Features
+     * Move the System Map to PiGUI (#4821)
+     * Reduce hydrogen price back to 1 credit (#4859)
+
+   * Fixes
+     * Fix increase / decrease buttons in SystemView being linked (#4868)
+
+   * Internal Changes
+     * Refactor the ModelViewer to use PiGui (#4849)
+     * Fix UB related to allocation/free mismatch (#4867)
+
+March 2020
+   * New Features
+     * Stars that are brighter are now bigger and have a brighter colour on the Starfield (#4833)
+     * Texture Cache Visualizer and Memory Usage Tracker (#4835)
+     * Complete overhaul of commodity prices, to be similar to Frontier (#4831)
+
+   * Fixes
+     * Prevent change of Pioneer's mouse pointer when hiding HUD (#4827)
+     * Fix body grouping and setspeed target behaviour in flightUI (#4794)
+     * Fix starfield not taking player's location into account (#4838)
+     * Improve Mouse Capture Handling, fix UI deadlock (#4842)
+
+   * Internal Changes
+     * Perf counter Windows memory info (#4820)
+     * Remove unused newUI code, remove old StationView code (#4819)
+     * Exposed plotHistogram to pigui code (#4828)
+     * Fix compilation error with operator= ambiguity (#4840)
+     * Move clang-format to Github Actions (#4841)
+     * Cleanup Modal Window manager registration (#4843)
+     * Fix Commodity Market Message Lag (#4844)
+     * Refactor Main Loop, add Application abstraction (#4845)
+     * Cleaned up GPU flags for AMD (#4846)
+
+February 2020
+   * New Features
+     * Convert Police screen to pigui (#4790)
+     * Move ShipRepair screen to pigui (#4791)
+     * Move Bulletin Board view to pigui (#4775)
+     * Make police non-persistent in Goodstrader (#4796)
+     * Update advice for Goodstrader, reflecting new behaviour (#4824)
+     * Move ship jump state strings to translation system (#4814)
+     * Add new icons (#4822)
+
+   * Fixes
+     * Fix on-demand glyph loading (#4779)
+     * Fix unused/free cabins shown in station footer being wrong (#4808)
+     * Re-introduce support for remote Lua console (#4799)
+
+   * Internal Changes
+     * Small additional improvements to orbit calculation (#4784)
+     * Improve System Map rendering and interaction (#4787)
+     * Make continue button load _quicksave if autosave not active (#4758)
+     * Add PiGui docstrings and fix ui.columns (#4792)
+     * Deprecate import() and replace with require() (#4786)
+     * Add rewinding to fix ImGui stack when catching an error (#4776)
+     * Draw performance information with ImGui, new performance counter backend (#4813)
+     * Add a sponsor-button to pioneer's github (#4816)
+
+January 2020
+   * New Features
+     * Move Ship Market to pigui (#4774)
+     * Improve usability of in-space body indicators (#4764)
+
+   * Fixes
+     * Fix scrollbars appearing at different resolutions (#4771)
+     * Fix mission screen obscuring buttons (#4770)
+     * Fix / improve orbit calculations (#4777)
+
+   * Internal Changes
+     * CMake profiler build option: support older versions of cmake (#4772)
+     * Modal Window PiGui class that allows nesting (#4767)
+     * Ship warning system also detects missiles (#4746)
+
+December 2019
+   * Fixes
+     * Fix possible CameraFrame duplication / memory leak when saving (#4754)
+     * Fix calculation of latitude and longitude for PlanetaryInfo (#4757)
+     * Restore feature: maximum display distance for ship indicators (#4761)
+
+   * Internal Changes
+     * Restore lost feature to show/don't show icon / label (#4753)
+     * Upgrade bundled ImGui to v1.74 (#4752)
+     * VS2019 make Debug usable for testing (#4756)
+
+November 2019
+   * New Features
+     * More station names (#4726)
+     * Use system time at start (#4735)
+
+   * Fixes
+     * Make windows installer remove old install (#4748)
+     * Fix segmentation fault & cleanup (#4745)
+     * Modal save/load windows, fixes UI crash (#4743)
+
+   * Internal Changes
+     * Little improvements (#4669)
+     * Fix OSX Travis deployment (#4737)
+     * ASAN/valgrind fixes (#4739)
+     * Add a maximum distance to the hyperspace exit calculation (#4660)
+
+October 2019
+   * New Features
+     * Music upgrade (#4678)
+
+   * Fixes
+     * Fix for medical emergency mission (#4682)
+     * Fix midhyperjump game crash (#4709)
+     * Hang up chat on visibility change (#4710)
+     * Clarify HUD Delta-v tooltip text message (#4723)
+
+   * Internal Changes
+     * cmake: Don't install .gitignore files (#4683)
+     * travis: Install libsigc++@2 instead of libsigc++ (#4694)
+     * Use AudioDevices instead of legacy SDL 1.2 code (#4692)
+     * Update vs2019 and profiling (#4711)
+     * Optimise sector view and docked face generation (#4722)
+     * Fix cmake/bootstrap not running properly (#4724)
+     * Decouple (#4717)
+
+September 2019
+   * New Features
+     * Move lobby, commodity- & equipment market to pigui (#4663)
+
+   * Fixes
+     * Hyperspace range (#4545)
+     * Spelling (#4666)
+
+August 2019
+   * Internal Changes
+     * CMake: Fix indentation (#4656)
+     * Use an equation in order to calculate HullTemperature (#4653)
+     * Object Viewer tweaks (#4659)
+     * Use a unique function to display Hyperspace range (#4650)
+     * Remove old vs2015 & 17 projects (#4661)
+     * Fix ModelNameComparator illegal const conversion (#4665)
+
+   * Fixes
+     * Remove rings around Venus and Ariel (#4655)
+     * CMake Ship Debian's FindGLEW.cmake script (#4664)
+
+July 2019
+   * New Features
+     * Custom Wolf 359 system added (#4596)
+
+   * Internal Changes
+     * Remove leftover autotools files (#4635)
+     * Support VS2017 through CMake (#4634)
+     * Speed up start up time (#4626)
+     * Remove unused virtualization of Space and emplace_back elements (#4643)
+     * Autodetect availability of FPE ops (#4646)
+     * Consider thruster upgrade (#4644)
+     * Update pioneer wrapper script to use CMake (#4639)
+     * Fix VS CMake (#4649)
+
+   * Fixes
+     * Fix transparency on menu items (#4640)
+     * Fixes loading old SGM models (#4647)
+
+June 2019
+   * Internal Changes
+     * Further Input and WorldView improvements (#4607)
+     * Remove Color from Lua instead use LuaColor as a userdata (#4595)
+     * Refactor game UI, refactor flag handling, move InfoView to pigui (#4576)
+     * Refactor landing lights, rework the NavLights class (#4608)
+     * Cleanup LuaVector and LuaColor implementations (#4615)
+     * Star rendering optimisation (#4617)
+     * Move Shipinfo view to PiGui (#4614)
+     * Police patrol will treat first ship to shoot is a pirate (#4619)
+
+   * Fixes
+     * Fix pad collision, no noise if speed < 1/ms (#4605)
+     * Basic Atmospheric heating re-enabled (#4606)
+     * Use Equatorial Radius when making the frame for a star (#4616)
+     * Fix hiding/showing new tab-view (#4620)
+     * Bug fix LuaFlags initialisation problem (#4622)
+
+May 2019
+   * New Features
+     * Start move of InfovIew to PiGui (#4573)
+     * Pigui personal view (#4584)
+
+   * Internal Changes
+     * Speedup pilua (#4548)
+     * Gracefully handle destroyed target ships in SAR missions (#4569)
+     * Consider hyperdrive fuel type in the hyperjump-planer (#4582)
+     * Remove unused and decouple (#4585)
+     * Remove the (unmaintained) Autotools build method (#4511)
+     * Fix build with WITH_DEVKEYS=OFF (#4591)
+     * Decouple and warnings (#4592)
+     * Friction and sinking (#4588)
+     * Fixup naming and update the visual studio project files (#4593)
+     * Decouple terrain and related file (#4598)
+     * Start moving station-view to PiGui (#4597)
+
+   * Fixes
+     * Fix crash on main menu (#4578)
+     * Replace leftover lua Vectors with Vector2 (#4581)
+     * Initialize variables to be integers (#4579)
+     * Fix flight UI direction and vector indicators (#4583)
+     * Adjusted position of the overview window button (#4589)
+
+April 2019
+   * New Features
+     * Input/settings system now available in translation system (#4568)
+     * Manual player face generator (#4571)
+     * Atmospheric flight (#4556)
+
+   * Fixes
+     * Autofit main menu (#4572)
+
+March 2019
+   * Internal Changes
+     * PiGui profiling changes (#4549)
+     * Terrain Cleanup (#4550)
+     * Avoid reallocation of vector using a list of nearby bodies (#4546)
+     * Modified asserts to be correct now (#4553)
+     * Add instructions on building pioneer with CMake and MSYS2 (#4535)
+     * Refactor sound code to it's own folder (#4557)
+     * Fix build under OSX (#4563)
+
+   * Fixes
+     * Fix game load crash with unattached hyperspace clouds (#4555)
+     * Fix middle mouse not working in paused mode (#3032)
+     * Fix game load crash typo (#4561)
+     * Fix an error preventing keybinding when joysticks are disabled (#4566)
+
+February 2019
+   * New Features
+     * New setting option for less UI in screenshots (#4528)
+     * Show ship name in main menu ship spinner (#4529)
+     * Allow multiple names for star systems (#4531)
+     * Show name and class of ship in intro ship spinner (#4534)
+
+   * Internal Changes
+     * Close default ctors and use a Ctor for load (#4527)
+     * Make modelcompiler handle custom data dir (#4523)
+     * Another decouple (#4538)
+     * Improve clang format tools (#4539)
+     * Improve OSX Travis build script (#4540)
+
+January 2019
+   * New Features
+     * Non-instant system exploration (#4517)
+
+   * Internal Changes
+     * Fix cmake error (#4505)
+     * Use dummy video driver for modelcompiler (#4509)
+     * clang-format the entire c++ code base (#4508)
+     * FindDataDir uses working directory (#4519)
+     * Faster build after commit (#4514)
+     * Update the clang-format hook, add an auto-apply script (#4516)
+     * Install metadata (#4512)
+     * Fix VS2017 buildopts (#4521)
+     * Include decouple (#4520)
+
+   * Fixes
+     * Fix crash on exit (#4503)
+     * Fix compilation crash in modelcompiler (#4510)
+     * Modelcompiler fixes, no video init, clean shutdown (#4518)
+     * Removing parenting to fix Lodos camera issue (#4524)
+
+December 2018
+   * Internal Changes
+     * Don't show military allegiance info for player (#4499)
+     * Adjust hyperspace exit calculations (#4495)
+     * metadata: Add version number to release in AppData (#4500)
+     * Generate an installer for Windows in the cloud with AppVeyor CI (#4427)
+     * Fixup Travis build script for CMake support (#4501)
+
+November 2018
+   * New Features
+     * Two new systems: Bathlight and Delta Pavonis (#4490)
+     * Added 6 new music tracks (#4491)
+
+   * Internal Changes
+     * Switch travis to CMake (#4465)
+
+   * Fixes
+     * Fix alert status not changing to red (#4492)
+
 October 2018
    * New Features
      * Adds two custom systems (#4462)
+     * Move Hyperspace exit locations into the heart of systems (#4444)
+     * Partial Real Starfield Rendering (#4471)
+     * Remove option -skipmenu, add option -startat (#4476)
+     * Bring smooth transitions to system view (#4480)
 
    * Internal Changes
      * Update JSON to a better library, save games in CBOR (#4459)
+     * Fix the unused variable warnings (#4474)
+     * Support module.submodlue syntax in Lua (#4478)
+
+   * Fixes
+     * Fix dual fire weapon origin problems (#4417)
+     * Improve main menu styling (#4477)
+     * Restore 3 action bindings to event dispatch sequence (#4485)
 
 September 2018
    * New Features

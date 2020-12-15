@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _DELETEEMITTER_H
@@ -11,12 +11,13 @@
 // including sigc++ directly so we don't get circular dependencies
 #include <sigc++/sigc++.h>
 
-#include "LuaWrappable.h"
+#include "lua/LuaWrappable.h"
 
 class DeleteEmitter : public LuaWrappable {
 public:
 	DeleteEmitter() {}
-	virtual ~DeleteEmitter() {
+	virtual ~DeleteEmitter()
+	{
 		onDelete.emit();
 	}
 
@@ -26,8 +27,8 @@ public:
 	mutable sigc::signal<void> onDelete;
 
 private:
-    // sigc++ signals cannot be copied, but long-standing design flaw means
-    // they don't have a private copy constructor. we protect them ourselves
+	// sigc++ signals cannot be copied, but long-standing design flaw means
+	// they don't have a private copy constructor. we protect them ourselves
 	DeleteEmitter(const DeleteEmitter &) {}
 };
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_BINARYCONVERTER_H
@@ -12,44 +12,52 @@
  */
 
 #include "BaseLoader.h"
+#include "Billboard.h"
+#include "CollisionGeometry.h"
+#include "FileSystem.h"
 #include "LOD.h"
 #include "StaticGeometry.h"
-#include "CollisionGeometry.h"
 #include "Thruster.h"
-#include "Billboard.h"
 #include <functional>
 
-namespace SceneGraph
-{
-class BinaryConverter : public BaseLoader
-{
-public:
-	BinaryConverter(Graphics::Renderer*);
-	void Save(const std::string& filename, Model* m);
-	void Save(const std::string& filename, const std::string& savepath, Model* m, const bool bInPlace);
-	Model *Load(const std::string &filename);
-	Model *Load(const std::string &filename, const std::string &path);
+namespace Serializer {
+	class Reader;
+	class Writer;
+} // namespace Serializer
 
-	//if you implement any new node types, you must also register a loader function
-	//before calling Load.
-	void RegisterLoader(const std::string &typeName, std::function<Node*(NodeDatabase&)>);
+namespace SceneGraph {
+	class Label3D;
+	class Model;
 
-private:
-	Model *CreateModel(const std::string& filename, Serializer::Reader&);
-	void SaveMaterials(Serializer::Writer&, Model* m);
-	void LoadMaterials(Serializer::Reader&);
-	void SaveAnimations(Serializer::Writer&, Model* m);
-	void LoadAnimations(Serializer::Reader&);
-	ModelDefinition FindModelDefinition(const std::string&);
+	class BinaryConverter : public BaseLoader {
+	public:
+		BinaryConverter(Graphics::Renderer *);
+		void Save(const std::string &filename, Model *m);
+		void Save(const std::string &filename, const std::string &savepath, Model *m, const bool bInPlace);
+		Model *Load(const std::string &filename);
+		Model *Load(const std::string &filename, const std::string &path);
+		Model *Load(const std::string &filename, RefCountedPtr<FileSystem::FileData> binfile);
 
-	Node* LoadNode(Serializer::Reader&);
-	void LoadChildren(Serializer::Reader&, Group* parent);
-	//this is a very simple loader so it's implemented here
-	static Label3D *LoadLabel3D(NodeDatabase&);
+		//if you implement any new node types, you must also register a loader function
+		//before calling Load.
+		void RegisterLoader(const std::string &typeName, std::function<Node *(NodeDatabase &)>);
 
-	bool m_patternsUsed;
-	std::map<std::string, std::function<Node*(NodeDatabase&)> > m_loaders;
-};
-}
+	private:
+		Model *CreateModel(const std::string &filename, Serializer::Reader &);
+		void SaveMaterials(Serializer::Writer &, Model *m);
+		void LoadMaterials(Serializer::Reader &);
+		void SaveAnimations(Serializer::Writer &, Model *m);
+		void LoadAnimations(Serializer::Reader &);
+		ModelDefinition FindModelDefinition(const std::string &);
+
+		Node *LoadNode(Serializer::Reader &);
+		void LoadChildren(Serializer::Reader &, Group *parent);
+		//this is a very simple loader so it's implemented here
+		static Label3D *LoadLabel3D(NodeDatabase &);
+
+		bool m_patternsUsed;
+		std::map<std::string, std::function<Node *(NodeDatabase &)>> m_loaders;
+	};
+} // namespace SceneGraph
 
 #endif

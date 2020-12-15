@@ -1,12 +1,18 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Player = import_core("Player")
-local Serializer = import("Serializer")
-local Event = import("Event")
-local Game = import("Game")
-local utils = import("utils")
-local Legal = import("Legal")
+--
+-- Interface: Player
+--
+-- Functions for interacting with the Player.
+--
+
+local Player = package.core["Player"]
+local Serializer = require 'Serializer'
+local Event = require 'Event'
+local Game = require 'Game'
+local utils = require 'utils'
+local Legal = require 'Legal'
 
 Player.record = {}
 Player.record_old = {}
@@ -69,7 +75,7 @@ end
 
 
 function CrimeRecord.Unserialize(data)
-	obj = CrimeRecord.Super().Unserialize(data)
+	local obj = CrimeRecord.Super().Unserialize(data)
 	setmetatable(obj, CrimeRecord.meta)
 	return obj
 end

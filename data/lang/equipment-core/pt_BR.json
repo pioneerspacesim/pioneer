@@ -191,6 +191,14 @@
     "description": "",
     "message": "Usado para explodir minas de asteroides minerais ricos."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Usado para explodir minas de asteroides minerais ricos."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Míssil Guiado"
@@ -208,7 +216,7 @@
     "message": "R40 Foguete Desgovernado"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Multi-Coletor"
   },
   "MULTI_SCOOP_DESCRIPTION": {

@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OGL_MULTIMATERIAL_H
@@ -16,7 +16,7 @@ namespace Graphics {
 	namespace OGL {
 		class MultiProgram : public Program {
 		public:
-			MultiProgram(const MaterialDescriptor &, int numLights=0);
+			MultiProgram(const MaterialDescriptor &, int numLights = 0);
 		};
 
 		class MultiMaterial : public Material { //unlit
@@ -38,10 +38,10 @@ namespace Graphics {
 			virtual void Apply() override;
 
 		private:
-			Program* m_programs[5];
+			Program *m_programs[5];
 			Uint32 m_curNumLights;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 
 #endif

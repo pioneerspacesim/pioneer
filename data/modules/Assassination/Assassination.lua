@@ -1,30 +1,25 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Space = import("Space")
-local Comms = import("Comms")
-local Timer = import("Timer")
-local Event = import("Event")
-local Mission = import("Mission")
-local NameGen = import("NameGen")
-local Character = import("Character")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Equipment = import("Equipment")
-local ShipDef = import("ShipDef")
-local Ship = import("Ship")
-local utils = import("utils")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Space = require 'Space'
+local Comms = require 'Comms'
+local Timer = require 'Timer'
+local Event = require 'Event'
+local Mission = require 'Mission'
+local NameGen = require 'NameGen'
+local Character = require 'Character'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
+local ShipDef = require 'ShipDef'
+local Ship = require 'Ship'
+local utils = require 'utils'
 
-local InfoFace = import("ui/InfoFace")
-local NavButton = import("ui/NavButton")
-
+local lc = Lang.GetResource 'core'
 local l = Lang.GetResource("module-assassination")
-
--- Get the UI class
-local ui = Engine.ui
 
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
@@ -58,7 +53,7 @@ local onDelete = function (ref)
 end
 
 local isEnabled = function (ref)
-	return isQualifiedFor(Character.persistent.player.reputation, Character.persistent.player.killcount, ads[ref])
+	return ads[ref] ~= nil and isQualifiedFor(Character.persistent.player.reputation, Character.persistent.player.killcount, ads[ref])
 end
 
 local onChat = function (form, ref, option)
@@ -478,101 +473,35 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
-local onClick = function (mission)
+local function buildMissionDescription(mission)
+	local ui = require 'pigui'
+	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((flavours[mission.flavour].introtext):interp({
-														name   = mission.client.name,
-														target = mission.target,
-														system = mission.location:GetStarSystem().name,
-														cash   = Format.Money(mission.reward,false),
-														dist  = dist})
-										),
-										ui:Margin(10),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.TARGET_NAME)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.target)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SPACEPORT)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetSystemBody().name)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SYSTEM)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
-												})
-											}),
-										NavButton.New(l.SET_AS_TARGET, mission.location),
-										NavButton.New(l.SET_RETURN_ROUTE, mission.backstation),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SHIP)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.shipname)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SHIP_ID)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(mission.shipregid),
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(l.TARGET_WILL_BE_LEAVING_SPACEPORT_AT)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(Format.Date(mission.due))
-												})
-											}),
-										ui:Margin(5),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DISTANCE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
-												})
-											}),
-		})})
-		:SetColumn(1, {
-			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
-		})
+
+	desc.description = flavours[mission.flavour].introtext:interp({
+		name   = mission.client.name,
+		target = mission.target,
+		system = mission.location:GetStarSystem().name,
+		cash   = ui.Format.Money(mission.reward,false),
+		dist  = dist
+	})
+
+	desc.details = {
+		{ l.TARGET_NAME, mission.target },
+		{ l.SPACEPORT, mission.location:GetSystemBody().name },
+		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
+		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
+		false,
+		{ l.SHIP, mission.shipname },
+		{ l.SHIP_ID, mission.shipregid },
+		{ l.TARGET_WILL_BE_LEAVING_SPACEPORT_AT, ui.Format.Date(mission.due) }
+	}
+
+	desc.location = mission.location
+	desc.returnLocation = mission.backstation
+	desc.client = mission.client
+
+	return desc
 end
 
 local serialize = function ()
@@ -604,6 +533,6 @@ Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Assassination',l.ASSASSINATION,onClick)
+Mission.RegisterType('Assassination',l.ASSASSINATION, buildMissionDescription)
 
 Serializer:Register("Assassination", serialize, unserialize)

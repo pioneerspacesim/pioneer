@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Wird in hochwertigen militärischen Antrieben genutzt. Diese Antriebe produzieren nukleare Abfälle, die sicher entsorgt werden müssen. Wegen seiner synthetischen Natur ist er teurer und weniger verbreitet als Wasserstoff und kommt nicht frei in der Umwelt vor."
+    "message": "Used as fuel in the more advanced military drives. These drives produce radioactive waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Radioaktives Gefahrgut"
+    "message": "Radioaktive Abfälle"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Nuklearer Abfall wird von nuklearen Reaktoren und militärischen Hyperraumantrieben erzeugt und ist die vermutlich die gefährlichste und am schwierigsten zu entsorgende Fracht. Viele Raumhäfen zahlen gut, um ihre Abfälle loszuwerden. Nukleare Abfälle einfach auszulassen ist ein schweres Vergehen."
+    "message": "Created by nuclear reactors, and military hyperdrives, radioactive waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping radioactive waste is a severe offence."
   },
   "ROBOTS": {
     "description": "",

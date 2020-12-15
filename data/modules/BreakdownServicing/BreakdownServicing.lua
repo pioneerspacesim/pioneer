@@ -1,21 +1,22 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Comms = import("Comms")
-local Event = import("Event")
-local Rand = import("Rand")
-local NameGen = import("NameGen")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Equipment = import("Equipment")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Comms = require 'Comms'
+local Event = require 'Event'
+local Rand = require 'Rand'
+local NameGen = require 'NameGen'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
+local Character = require 'Character'
 
 local l = Lang.GetResource("module-breakdownservicing")
 local lui = Lang.GetResource("ui-core")
 
-local pigui = import('pigui/pigui.lua')
+local pigui = require 'pigui'
 
 -- Default numeric values --
 ----------------------------
@@ -129,7 +130,7 @@ local onChat = function (form, ref, option)
 	if option == 0 then
 		-- Initial proposal
 		form:SetTitle(ad.title)
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
+		form:SetFace(Character.New({ female = ad.isfemale, seed = ad.faceseed, name = ad.name }))
 		-- Replace token with details of last service (which might have
 		-- been seconds ago)
 		form:SetMessage(string.interp(message, {
@@ -149,7 +150,7 @@ local onChat = function (form, ref, option)
 		-- Yes please, service my engine
 		form:Clear()
 		form:SetTitle(ad.title)
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
+		form:SetFace(Character.New({ female = ad.isfemale, seed = ad.faceseed, name = ad.name }))
 		if Game.player:GetMoney() >= price then -- We did check earlier, but...
 			-- Say thanks
 			form:SetMessage(ad.response)
@@ -224,7 +225,7 @@ local onGameStart = function ()
 
 	if not loaded_data then
 		service_history = {
-			lastdate = 0, -- Default will be overwritten on game start
+			lastdate = Game.time,
 			company = nil, -- Name of company that did the last service
 			service_period = oneyear, -- default
 			jumpcount = 0, -- Number of jumps made after the service_period

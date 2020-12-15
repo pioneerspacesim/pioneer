@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils
@@ -134,7 +134,7 @@ function utils.stable_sort(values, cmp)
 	   return result
 	end
 
-	function merge_sort (values)
+	local function merge_sort (values)
 	   if #values > 1 then
 		  local a, b = split(values)
 		  a = merge_sort(a)

@@ -1,16 +1,13 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIPTYPE_H
 #define _SHIPTYPE_H
 
-#include "libs.h"
-#include "vector3.h"
-#include <vector>
+#include "ship/Propulsion.h"
 #include <map>
 #include <string>
-#include "Propulsion.h"
-#include "FixedGuns.h"
+#include <vector>
 
 struct ShipType {
 	enum DualLaserOrientation { // <enum scope='ShipType' name='DualLaserOrientation' prefix='DUAL_LASERS_' public>
@@ -26,7 +23,7 @@ struct ShipType {
 	};
 	typedef std::string Id;
 
-	ShipType() {};
+	ShipType(){};
 	ShipType(const Id &id, const std::string &path);
 
 	////////
@@ -53,6 +50,17 @@ struct ShipType {
 	float effectiveExhaustVelocity; // velocity at which the propellant escapes the engines
 	int fuelTankMass; //full fuel tank mass, on top of hullMass
 
+	//values for atmospheric flight
+	double topCrossSection;
+	double sideCrossSection;
+	double frontCrossSection;
+	double topDragCoeff;
+	double sideDragCoeff;
+	double frontDragCoeff;
+
+	double shipLiftCoefficient;
+	double atmoStability;
+
 	// storing money as a double is weird, but the value is a double on the Lua side anyway,
 	// so we don't lose anything by storing it as a double here too
 	double baseprice;
@@ -76,10 +84,13 @@ struct ShipType {
 	static std::vector<Id> missile_ships;
 
 	static void Init();
-	static const ShipType *Get(const char *name) {
+	static const ShipType *Get(const char *name)
+	{
 		std::map<Id, const ShipType>::iterator t = types.find(name);
-		if (t == types.end()) return 0;
-		else return &(*t).second;
+		if (t == types.end())
+			return 0;
+		else
+			return &(*t).second;
 	}
 };
 

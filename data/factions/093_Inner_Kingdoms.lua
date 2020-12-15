@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Inner Kingdoms')
@@ -17,11 +17,9 @@ f:govtype_weight('SOCDEM',		6)
 f:govtype_weight('PLUTOCRATIC',		0)
 f:govtype_weight('COMMUNIST',		0)
 
-f:illegal_goods_probability('SLAVES',		53)
-f:illegal_goods_probability('HAND_WEAPONS',		96)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		93)
+f:illegal_goods_probability('slaves',		53)
+f:illegal_goods_probability('hand_weapons',		96)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		93)
 
 f:add_to_factions('Inner Kingdoms')
-
-

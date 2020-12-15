@@ -1,12 +1,15 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GEOMTREE_H
 #define _GEOMTREE_H
 
 #include "libs.h"
-#include "CollisionContact.h"
-#include "Serializer.h"
+
+namespace Serializer {
+	class Reader;
+	class Writer;
+} // namespace Serializer
 
 struct isect_t {
 	// triIdx = -1 if no intersection
@@ -21,6 +24,8 @@ class GeomTree {
 public:
 	GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const Uint32 *indices, const Uint32 *triflags);
 	GeomTree(Serializer::Reader &rd);
+	void Save(Serializer::Writer &wr) const;
+
 	~GeomTree();
 
 	const Aabb &GetAabb() const { return m_aabb; }
@@ -32,6 +37,8 @@ public:
 	vector3f GetTriNormal(int triIdx) const;
 	Uint32 GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
 	double GetRadius() const { return m_radius; }
+
+#pragma pack(4)
 	struct Edge {
 		int v1i, v2i;
 		float len;
@@ -39,39 +46,23 @@ public:
 		// edge triFlag can be weird since edges may get merged and
 		// intended flag lost
 		int triFlag;
-
-		void Save(Serializer::Writer &wr) const
-		{
-			PROFILE_SCOPED()
-			wr.Int32(v1i);
-			wr.Int32(v2i);
-			wr.Float(len);
-			wr.Vector3f(dir);
-			wr.Int32(triFlag);
-		}
-		void Load(Serializer::Reader &rd)
-		{
-			PROFILE_SCOPED()
-			v1i = rd.Int32();
-			v2i = rd.Int32();
-			len = rd.Float();
-			dir = rd.Vector3f();
-			triFlag = rd.Int32();
-		}
 	};
-	const Edge *GetEdges() const { return &m_edges[0]; }
+#pragma pack()
+
+	const Edge *GetEdges() const
+	{
+		return &m_edges[0];
+	}
 	int GetNumEdges() const { return m_numEdges; }
 
-	BVHTree* GetTriTree() const { return m_triTree.get(); }
-	BVHTree* GetEdgeTree() const { return m_edgeTree.get(); }
+	BVHTree *GetTriTree() const { return m_triTree.get(); }
+	BVHTree *GetEdgeTree() const { return m_edgeTree.get(); }
 
-	const std::vector<vector3f>& GetVertices() const { return m_vertices; }
+	const std::vector<vector3f> &GetVertices() const { return m_vertices; }
 	const Uint32 *GetIndices() const { return &m_indices[0]; }
 	const Uint32 *GetTriFlags() const { return &m_triFlags[0]; }
 	int GetNumVertices() const { return m_numVertices; }
 	int GetNumTris() const { return m_numTris; }
-
-	void Save(Serializer::Writer &wr) const;
 
 private:
 	void RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const;

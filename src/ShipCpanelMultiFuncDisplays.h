@@ -1,15 +1,17 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIPCPANELMULTIFUNCDISPLAYS_H
 #define _SHIPCPANELMULTIFUNCDISPLAYS_H
 
-#include "gui/Gui.h"
-#include "Object.h"
 #include "JsonFwd.h"
+#include "gui/Gui.h"
 
+enum class ObjectType;
 class Body;
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+}
 
 enum multifuncfunc_t {
 	MFUNC_RADAR,
@@ -24,7 +26,7 @@ public:
 	virtual void Update() = 0;
 };
 
-class RadarWidget: public IMultiFunc, public Gui::Widget {
+class RadarWidget : public IMultiFunc, public Gui::Widget {
 public:
 	RadarWidget(Graphics::Renderer *r);
 	RadarWidget(Graphics::Renderer *r, const Json &jsonObj);
@@ -50,7 +52,7 @@ private:
 	sigc::connection m_toggleScanModeConnection;
 
 	struct Contact {
-		Object::Type type;
+		ObjectType type;
 		vector3d pos;
 		bool isSpecial;
 	};
@@ -58,7 +60,8 @@ private:
 	Graphics::Drawables::Lines m_contactLines;
 	Graphics::Drawables::Points m_contactBlobs;
 
-	enum RadarMode { RADAR_MODE_AUTO, RADAR_MODE_MANUAL };
+	enum RadarMode { RADAR_MODE_AUTO,
+		RADAR_MODE_MANUAL };
 	RadarMode m_mode;
 
 	float m_currentRange, m_manualRange, m_targetRange;

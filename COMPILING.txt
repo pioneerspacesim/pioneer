@@ -1,15 +1,12 @@
 Table of Contents
 =================
 1 How to compile Pioneer
-  1.1 Linux
-    1.1.a Autotools
-    1.1.b CMake
+  1.1 Linux - CMake
   1.2 Windows - MSVC
-  1.3 Windows - Autotools (Linux cross-compile)
-  1.4 OS X - Autotools
+  1.3 Windows - CMake and MSYS2 (and MinGW-w64)
+  1.4 Windows - CMake and MSVC
   1.5 OS X - Homebrew
   1.6 OS X - CMake and XCode
-  1.7 Nix - Autotools
 2 pioneer-thirdparty
   2.1 Linux - Autotools
   2.2 Windows - MSVC
@@ -27,27 +24,22 @@ Table of Contents
 
 Pioneer is known to build on the following platforms and build systems:
 
-Linux: GNU Autotools with GCC or Clang
-       CMake with GCC or Clang
-Windows: Microsoft Visual C++ 2015 (Community or Pro)
-         Microsoft Visual C++ 2017 (Community or Pro)
-Windows: GNU Autotools with MXE (MinGW GCC) (cross-compile on Linux)
-OS X: XCode 4 or Homebrew or GNU Autotools
-
-The Autotools build system is usually the most up-to-date, and is what is used
-to produce the Linux and Windows builds. The others typically lag behind,
-depending on the motivation of those using them to keep them up too date with
-source file changes.
+Linux: CMake with GCC 4.9+ or Clang 6+
+Windows: Microsoft Visual C++ 2019 (Community or Pro)
+         CMake with MSYS2 (and MinGW-w64)
+OS X: XCode 4 or Homebrew or CMake
 
 There is an additional repository called pioneer-thirdparty that contains
-various files that may assist with building. If the instructions for your
-platforms indicates you may need it, then read the section below for details.
+various files that may assist with building. This is intended for Windows
+builds and is otherwise not actively maintained. Read the section below for
+details on using it for your platform.
 
 If you're having trouble compiling, please ask in #pioneer on
-irc.freenode.net.
+irc.freenode.net. Most users are available to answer during CET daytime, but
+questions are welcome anytime.
 
 
-1.1 Linux
+1.1 Linux - CMake
 ---------
 
 1. Install the following libraries (with development headers) for your system.
@@ -56,47 +48,30 @@ irc.freenode.net.
     Debian/Ubuntu
     -------------
     g++
-    automake
-    pkg-config
-    libcurl-dev
-    libsigc++-dev
+    cmake
+    mesa-common-dev
+    libfreeimage-dev
+    libglew-dev
+    libfreetype6-dev
+    libsigc++-2.0
     libsigc++-2.0-dev
+    libvorbis-dev
+    libassimp-dev >= 3.2
     libsdl2-dev
     libsdl2-image-dev
-    libfreetype6-dev
-    libvorbis-dev
-    libpng-dev
-    libassimp-dev >= 3.2
-    mesa-common-dev
-
-   If you are building with CMake instead of Autotools, you'll need to install
-   the cmake package instead of the automake package.
 
    If your platform doesn't have assimp 3.2, you'll need to build it from
    source. It's available in pioneer-thirdparty, see below.
 
-1.1.a Linux - Autotools
------------------------
+2. Run './bootstrap' to generate CMake build files in the 'build' folder.
+   For advanced users, this command passes any additional arguments to the
+   CMake process.
 
-1. Run ./bootstrap to generate your 'configure' file
+3. Run 'make -C build -jX', where X is the number of CPU cores you have. If in
+   doubt, 4 is a good default. This will compile the pioneer executable.
 
-2. Run ./configure to configure the build. If you're using the
-   pioneer-thirdparty repository, pass
-   --with-thirdparty=/path/to/pioneer-thirdparty to configure.
+4. Run `./pioneer` to start the game!
 
-3. Run make to build everything
-
-1.1.b Linux - CMake
--------------------
-
-1. Run './bootstrap cmake' to generate CMake build files in the 'build' folder.
-
-2. Either run 'cd build; make -jX' or 'cmake --build ./build -j X', where X is
-   the number of CPU cores you have. If in doubt, 4 is a good default.
-
-3. To run pioneer, you will need to use the invocation './build/pioneer' from
-   the project root. Just running ./pioneer will invoke the autotools build
-   process.
 
 1.2 Windows - MSVC
 ------------------
@@ -105,75 +80,55 @@ irc.freenode.net.
    in a directory side by side. Don't rename pioneer-thirdparty because the
    relative path to it is included in the project files.
 
-2. Open the pioneer solution from /win32/vc2015/pioneer.sln
-   or /win32/vc2017/pioneer.sln according to your MSVC version.
+2. Open the pioneer solution from /win32/vc2019/pioneer.sln.
 
 3. Build and run the project or solution. Note: the default is to build debug
    version, which is what you want if developing, but release gives an executable
    optimized for performance.
 
 
-1.3 Windows - Autotools (Linux cross-compile)
+1.3 Windows - CMake and MSYS2 (and MinGW-w64)
 ---------------------------------------------
 
-1. First you need a cross-compiling environment. We use MXE (http://mxe.cc).
+1. Install MSYS2 (https://www.msys2.org).
 
-     git clone git://github.com/mxe/mxe.git
+2. Install MinGW-w64 from MSYS2. Use the mingw64 shell.
 
-   Now compile GCC and the dependencies needed for Pioneer:
+3. Install the dependencies (similar to dependencies of Linux) using the
+   'pacman' command. Note: you should install the dependencies from the
+   MinGW-w64 repository.
 
-     make gcc freetype sdl2 sdl2_image vorbis libsigc++ assimp curl
+4. Additionally, install GLEW.
 
-2. Now you can build Pioneer. Run ./bootstrap to generate your 'configure'
-   file.
+5. Goto the root directory of Pioneer, run 'mkdir build; cd build'. Then run
+   'cmake .. -G "MinGW Makefiles" -DCMAKE_SH="CMAKE_SH-NOTFOUND" -DUSE_SYSTEM_LIBGLEW=ON'
+   Alternatively, these command can be run using the ./bootstrap file with
+   additional arguments.
 
-4. Run configure to configure the build:
+6. Compile Pioneer by running 'mingw32-make.exe'.
 
-     ./configure --with-mxe=/path/to/mxe
+7. Now, you can go back to the root directory of Pioneer and do './build/pioneer.exe'
+   to play the game.
 
-5. Run make to build everything
+1.4 Windows - CMake and MSVC
+----------------------------
 
+1. Get both the pioneer and the pioneer-thirdparty repositories and keep them
+   in a directory side by side. Don't rename pioneer-thirdparty because the
+   relative path to it is included in the project files.
 
-1.4 OS X - Autotools
---------------------
+2. Open Visual Sudio 2019 and do not open a solution or project ('Continue without code').
 
-1. Install XCode (free download from apple). This will install the required
-   compilers and other commandline tools.
+3. Go to File->Open->CMake and select pioneer/CMakeLists.txt
 
-2. You will need the following libraries installed. The best method I found
-   was to install macports (http://www.macports.org/) and install the
-   following ports (sudo port install xxxx):
+4. Select the appropriate build type (x64-Debug or x64-Release) under the configuration
+   drop down on the main toolbar, located next to the run button. 
 
-     assimp
-     pkgconfig
-     freetype
-     libsdl2
-     libsdl2_image
-     libsdl2_sound
-     libsigcxx2
-     libvorbis
-     autoconf
-     automake
+5. Build the project (Build->Build All).
 
-3. Run ./bootstrap to generate your 'configure' file
-
-4. By default the OpenGL frameworks don't seem to be visible to 'automake'
-   way so I did a few tricks to get it working:
-
-   Create a symlink from the OpenGL framework to your /usr/local/include
-   directory
-
-     sudo ln -s /System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/ /usr/local/include/GL
-
-5. Instead of running ./configure run it with this command line:
-
-     LDFLAGS="-L/System/Library/Frameworks/OpenGL.framework/Libraries -L/System/Library/Frameworks/GLUT.framework" ./configure
-
-6. Now you can run make as per normal. :)
-
-Note: Compiling from source this way isn't recommended as it doesn't allow you
-      to 'install' the application into a different location (pioneer.app
-      bundle). It also isn't the 'Apple way', To do that you need to use XCode.
+6. Pioneer can be run and debugged by selecting 'pioneer.exe' on the 
+   'Select Startup Item' menu (click the small down arrow on the run button), and then clicking run.
+   Be sure to select 'pioneer.exe' and not 'pioneer.exe (install)'.
 
 
 1.5 OS X - Homebrew
@@ -183,11 +138,6 @@ Note: Compiling from source this way isn't recommended as it doesn't allow you
 
 2. Build and install pioneer. Required dependencies will be installed together.
 
-     brew install homebrew/games/pioneer
-
-   Or you may want to tap homebrew-games first and then install.
-
-     brew tap homebrew/games
      brew install pioneer
 
    If you want master branch from GitHub, add '--HEAD' option.
@@ -212,26 +162,6 @@ THESE INSTRUCTIONS ARE APPROXIMATE AND ARE UNTESTED; PLEASE SUBMIT CORRECTIONS!
 
 5. Open the project in XCode and build 'pioneer'.
 
-1.7 Nix - Autotools
--------------------
-
-1. Install nix-shell.
-
-2. Install and load the development environment using the included expressions.
-
-    nix-shell nix/env.nix             # build, install and load the environment
-
-3. Run ./bootstrap to generate your 'configure' file.
-
-4. Run ./configure to configure the build.
-
-5. Run make to build everything
-
-6. Exit the development environment by exiting the shell.
-
-Executing ./pioneer requires the development environment to be loaded,
-executing ./src/pioneer does not.
-
 
 2 pioneer-thirdparty
 ====================
@@ -243,15 +173,22 @@ The pioneer-thirdparty repository contains:
 To get it, clone git://github.com/pioneerspacesim/pioneer-thirdparty.git.
 
 
-2.1 Linux - Autotools
+2.1 Linux - Autotools and CMake
 ---------------------
 
-1. After cloning the repo, run autoconf to generate 'configure'.
+1. Clone the thirdparty repo to './pioneer-thirdparty' inside the pioneer
+   repository and 'cd' into it.
 
-2. Run ./configure to configure the build
+2. Run 'autoconf' to generate configuration files, then run './configure' to
+   configure the build.
 
 3. Run make <package> to compile and prepare the named package for use with
-   Pioneer, or just run make alone to build everything.
+   Pioneer, or just run make without a target to build everything.
+
+4. From the pioneer directory, run `./bootstrap thirdparty` to generate a CMake
+   configuration that builds with the thirdparty libraries.
+
+5. Build pioneer as described in section 1.1.
 
 
 2.2 Windows - MSVC
@@ -294,9 +231,9 @@ modules such as missions and BBS interaction. See the pioneer wiki for further
 details. For up-to-date documentation one can build it locally from the
 pioneer source
 
-0. Install dependencies: naturaldocs
+0. Install dependencies: naturaldocs (v 1.x)
 
-1. Run make codedoc
+1. Run make -C build codedoc
 
 2. The html documentation can be found in the codedoc/ folder
 
@@ -320,11 +257,12 @@ visualizing inheritance as graphs. To enable LaTeX output, set GENERATE_LATEX
 4 Faster startup
 ================
 
+
 4.1 Precompile model files
 --------------------------
 
 Long startup times for pioneer this can be alleviated by precompiling all
-models into *.sgm files. This uses the modelcompiler located in src/. From the
-pioneer root directory the following will batch compile all models
+models into *.sgm files. This uses the modelcompiler, invoked through CMake.
+From the pioneer root directory the following will batch compile all models:
 
-1. ./src/modelcompiler -b inplace
+1. make -C build/ build-data

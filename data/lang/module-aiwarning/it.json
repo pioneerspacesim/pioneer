@@ -1,4 +1,8 @@
 {
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "Pressione atmosferica superiore ai limiti del vascello"
+  },
   "AUTOPILOT": {
     "description": "",
     "message": "Pilota Automatico"

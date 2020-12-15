@@ -1,13 +1,12 @@
-﻿// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+﻿// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RandomColor.h"
 #include "libs.h"
-#include <algorithm>
 #include "utils.h"
+#include <algorithm>
 
-namespace RandomColorGenerator
-{
+namespace RandomColorGenerator {
 	//static
 	std::map<ColorScheme, RandomColor::DefinedColor> RandomColor::ColorDictionary;
 	static Random *pRNG = nullptr;
@@ -49,8 +48,7 @@ namespace RandomColorGenerator
 		pRNG = &rand;
 		std::vector<Color> ret;
 		ret.resize(count);
-		for ( int i = 0; i < count; i++ )
-		{
+		for (int i = 0; i < count; i++) {
 			ret[i] = GetColor(scheme, luminosity);
 		}
 		pRNG = nullptr;
@@ -65,7 +63,7 @@ namespace RandomColorGenerator
 
 		// Instead of storing red as two separate ranges,
 		// we group them, using negative numbers
-		if ( hue < 0 ) hue = 360 + hue;
+		if (hue < 0) hue = 360 + hue;
 
 		return hue;
 	}
@@ -73,13 +71,11 @@ namespace RandomColorGenerator
 	//static
 	int RandomColor::PickSaturation(int hue, Luminosity luminosity, ColorScheme scheme)
 	{
-		if ( luminosity == Luminosity::LUMINOSITY_RANDOM )
-		{
+		if (luminosity == Luminosity::LUMINOSITY_RANDOM) {
 			return RandomWithin(0, 100);
 		}
 
-		if ( scheme == ColorScheme::SCHEME_MONOCHROME )
-		{
+		if (scheme == ColorScheme::SCHEME_MONOCHROME) {
 			return 0;
 		}
 
@@ -88,8 +84,7 @@ namespace RandomColorGenerator
 		int sMin = saturationRange.Lower;
 		int sMax = saturationRange.Upper;
 
-		switch ( luminosity )
-		{
+		switch (luminosity) {
 		case Luminosity::LUMINOSITY_BRIGHT:
 			sMin = 55;
 			break;
@@ -116,8 +111,7 @@ namespace RandomColorGenerator
 		auto bMin = GetMinimumBrightness(H, S);
 		auto bMax = 100;
 
-		switch ( luminosity )
-		{
+		switch (luminosity) {
 		case Luminosity::LUMINOSITY_DARK:
 			bMax = bMin + 20;
 			break;
@@ -144,16 +138,14 @@ namespace RandomColorGenerator
 	{
 		auto lowerBounds = GetColorInfo(H).LowerBounds;
 
-		for ( size_t i = 0; i < std::min(lowerBounds.size(), lowerBounds.size() - 1U); i++ )
-		{
+		for (size_t i = 0; i < std::min(lowerBounds.size(), lowerBounds.size() - 1U); i++) {
 			auto s1 = lowerBounds[i].x;
 			auto v1 = lowerBounds[i].y;
 
 			auto s2 = lowerBounds[i + 1].x;
 			auto v2 = lowerBounds[i + 1].y;
 
-			if ( S >= s1 && S <= s2 )
-			{
+			if (S >= s1 && S <= s2) {
 				auto m = (v2 - v1) / (s2 - s1);
 				auto b = v1 - m * s1;
 
@@ -168,8 +160,7 @@ namespace RandomColorGenerator
 	Range RandomColor::GetHueRange(ColorScheme colorInput)
 	{
 		std::map<ColorScheme, DefinedColor>::iterator out = ColorDictionary.find(colorInput);
-		if ( out != ColorDictionary.end() )
-		{
+		if (out != ColorDictionary.end()) {
 			return out->second.HueRange;
 		}
 
@@ -180,13 +171,12 @@ namespace RandomColorGenerator
 	RandomColor::DefinedColor RandomColor::GetColorInfo(int hue)
 	{
 		// Maps red colors to make picking hue easier
-		if ( hue >= 334 && hue <= 360 )
-		{
+		if (hue >= 334 && hue <= 360) {
 			hue -= 360;
 		}
 
-		for ( auto c : ColorDictionary ) {
-			if ( hue >= c.second.HueRange[0] && hue <= c.second.HueRange[1] ) {
+		for (auto c : ColorDictionary) {
+			if (hue >= c.second.HueRange[0] && hue <= c.second.HueRange[1]) {
 				return c.second;
 			}
 		}
@@ -216,7 +206,7 @@ namespace RandomColorGenerator
 
 		DefinedColor defCol;
 		defCol.HueRange = Range(hueRange.x, hueRange.y);
-		for ( size_t lb = 0; lb < lbCount; lb++ ) {
+		for (size_t lb = 0; lb < lbCount; lb++) {
 			defCol.LowerBounds.push_back(lowerBounds[lb]);
 		}
 		defCol.SaturationRange = Range(sMin, sMax);
@@ -233,64 +223,56 @@ namespace RandomColorGenerator
 			ColorScheme::SCHEME_MONOCHROME,
 			Point(0, 360),
 			mono,
-			COUNTOF(mono)
-			);
+			COUNTOF(mono));
 
 		Point red[] = { { 20, 100 }, { 30, 92 }, { 40, 89 }, { 50, 85 }, { 60, 78 }, { 70, 70 }, { 80, 60 }, { 90, 55 }, { 100, 50 } };
 		DefineColor(
 			ColorScheme::SCHEME_RED,
 			Point(-26, 18),
 			red,
-			COUNTOF(red)
-			);
+			COUNTOF(red));
 
 		Point orange[] = { { 20, 100 }, { 30, 93 }, { 40, 88 }, { 50, 86 }, { 60, 85 }, { 70, 70 }, { 100, 70 } };
 		DefineColor(
 			ColorScheme::SCHEME_ORANGE,
 			Point(19, 46),
 			orange,
-			COUNTOF(orange)
-			);
+			COUNTOF(orange));
 
 		Point yellow[] = { { 25, 100 }, { 40, 94 }, { 50, 89 }, { 60, 86 }, { 70, 84 }, { 80, 82 }, { 90, 80 }, { 100, 75 } };
 		DefineColor(
 			ColorScheme::SCHEME_YELLOW,
 			Point(47, 62),
 			yellow,
-			COUNTOF(yellow)
-			);
+			COUNTOF(yellow));
 
 		Point green[] = { { 30, 100 }, { 40, 90 }, { 50, 85 }, { 60, 81 }, { 70, 74 }, { 80, 64 }, { 90, 50 }, { 100, 40 } };
 		DefineColor(
 			ColorScheme::SCHEME_GREEN,
 			Point(63, 178),
 			green,
-			COUNTOF(green)
-			);
+			COUNTOF(green));
 
 		Point blue[] = { { 20, 100 }, { 30, 86 }, { 40, 80 }, { 50, 74 }, { 60, 60 }, { 70, 52 }, { 80, 44 }, { 90, 39 }, { 100, 35 } };
 		DefineColor(
 			ColorScheme::SCHEME_BLUE,
 			Point(179, 257),
 			blue,
-			COUNTOF(blue)
-			);
+			COUNTOF(blue));
 
 		Point purple[] = { { 20, 100 }, { 30, 87 }, { 40, 79 }, { 50, 70 }, { 60, 65 }, { 70, 59 }, { 80, 52 }, { 90, 45 }, { 100, 42 } };
 		DefineColor(
 			ColorScheme::SCHEME_PURPLE,
 			Point(258, 282),
 			purple,
-			COUNTOF(purple)
-			);
+			COUNTOF(purple));
 
 		Point pink[] = { { 20, 100 }, { 30, 90 }, { 40, 86 }, { 60, 84 }, { 80, 80 }, { 90, 75 }, { 100, 73 } };
 		DefineColor(
 			ColorScheme::SCHEME_PINK,
 			Point(283, 334),
 			pink,
-			COUNTOF(pink)
-			);
+			COUNTOF(pink));
 	}
 
 	/// Converts hue, saturation, and lightness to a color.
@@ -300,12 +282,10 @@ namespace RandomColorGenerator
 		// this doesn't work for the values of 0 and 360
 		// here's the hacky fix
 		auto h = double(hue);
-		if ( is_equal_exact(h, 0.0) )
-		{
+		if (is_equal_exact(h, 0.0)) {
 			h = 1.0;
 		}
-		if ( is_equal_exact(h, 360.0) )
-		{
+		if (is_equal_exact(h, 360.0)) {
 			h = 359.0;
 		}
 
@@ -323,20 +303,43 @@ namespace RandomColorGenerator
 		auto g = 256.0;
 		auto b = 256.0;
 
-		switch ( hInt )
-		{
-		case 0: r = v; g = t; b = p; break;
-		case 1: r = q; g = v; b = p; break;
-		case 2: r = p; g = v; b = t; break;
-		case 3: r = p; g = q; b = v; break;
-		case 4: r = t; g = p; b = v; break;
-		case 5: r = v; g = p; b = q; break;
+		switch (hInt) {
+		case 0:
+			r = v;
+			g = t;
+			b = p;
+			break;
+		case 1:
+			r = q;
+			g = v;
+			b = p;
+			break;
+		case 2:
+			r = p;
+			g = v;
+			b = t;
+			break;
+		case 3:
+			r = p;
+			g = q;
+			b = v;
+			break;
+		case 4:
+			r = t;
+			g = p;
+			b = v;
+			break;
+		case 5:
+			r = v;
+			g = p;
+			b = q;
+			break;
 		}
 		auto c = Color(static_cast<Uint8>(floor(r * 255.0)),
-									 static_cast<Uint8>(floor(g * 255.0)),
-									 static_cast<Uint8>(floor(b * 255.0)),
-									 255);
+			static_cast<Uint8>(floor(g * 255.0)),
+			static_cast<Uint8>(floor(b * 255.0)),
+			255);
 
 		return c;
 	}
-};
+} // namespace RandomColorGenerator

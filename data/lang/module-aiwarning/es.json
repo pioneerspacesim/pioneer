@@ -1,4 +1,8 @@
 {
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "Presión atmosférica sobre los límites de la nave"
+  },
   "AUTOPILOT": {
     "description": "",
     "message": "Piloto automático"

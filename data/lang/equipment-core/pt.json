@@ -137,7 +137,7 @@
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "Um sistema de contra-medida electrónica de defesa míssil, capaz de destruir os mais avançados tipos de mísseis teleguiados."
+    "message": "Um sistema de contra-medida eletrónica de defesa míssil, capaz de destruir os mais avançados tipos de mísseis teleguiados."
   },
   "ECM_BASIC": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "ECM_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "Um sistema de contra-medida electrónica de defesa míssil, capaz de destruir mísseis teleguiados."
+    "message": "Um sistema de contra-medida eletrónica de defesa míssil, capaz de destruir mísseis teleguiados."
   },
   "FUEL_SCOOP": {
     "description": "",
@@ -191,6 +191,14 @@
     "description": "",
     "message": "Usado para explodir asteróides ricos em minerais."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Usado para explodir asteróides ricos em minerais."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Míssil Guiado"
@@ -208,7 +216,7 @@
     "message": "Roquete não guiado R40"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Escavador Múltiplo"
   },
   "MULTI_SCOOP_DESCRIPTION": {
@@ -305,7 +313,7 @@
   },
   "TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Usado para inspeccionar equipamento, mercadoria e estado de outras naves remotamente."
+    "message": "Usado para inspecionar equipamento, mercadoria e estado de outras naves remotamente."
   },
   "THRUSTERS_BASIC": {
     "description": "",

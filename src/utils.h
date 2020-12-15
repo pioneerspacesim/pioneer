@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _UTILS_H
@@ -8,11 +8,13 @@
 #define NOMINMAX
 #endif
 
+#include "core/Log.h"
+#include "libs.h"
+#include <fmt/printf.h>
+#include <stdarg.h>
+#include <stdio.h>
 #include <string>
 #include <vector>
-#include <stdio.h>
-#include <stdarg.h>
-#include "libs.h"
 
 #ifndef __GNUC__
 #define __attribute(x)
@@ -28,45 +30,43 @@
 #endif
 
 // align x to a. taken from the Linux kernel
-#define ALIGN(x,a)              __ALIGN_MASK(x,(a-1))
-#define __ALIGN_MASK(x,mask)    (((x)+(mask))&~(mask))
+#define ALIGN(x, a) __ALIGN_MASK(x, (a - 1))
+#define __ALIGN_MASK(x, mask) (((x) + (mask)) & ~(mask))
 
-void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
-void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
-void Output(const char *format, ...)  __attribute((format(printf,1,2)));
-void OpenGLDebugMsg(const char *format, ...)  __attribute((format(printf,1,2)));
+// void Error(const char *format, ...) __attribute((format(printf, 1, 2))) __attribute((noreturn));
+// void Warning(const char *format, ...) __attribute((format(printf, 1, 2)));
+// void Output(const char *format, ...) __attribute((format(printf, 1, 2)));
 
-/**
-* Works like Output, but adds indent before message.
-* Call IndentIncrease and IndentDecrease to control indent level.
-*/
-void IndentedOutput(const char *format, ...) __attribute((format(printf,1,2)));
-void IndentIncrease();
-void IndentDecrease();
+template <typename... Args>
+inline void Output(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Info, fmt::sprintf(message, args...));
+}
 
-// Helper for timing functions with multiple stages
-// Used on a branch to help time loading.
-struct MsgTimer {
-	MsgTimer() { mTimer.Start(); }
-	~MsgTimer() {}
+template <typename... Args>
+inline void Warning(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Warning, fmt::sprintf(message, args...));
+}
 
-	void Mark(const char *identifier) {
-		mTimer.SoftStop();
-		const double lastTiming = mTimer.avgms();
-		mTimer.SoftReset();
-		Output("(%lf) avgms in %s\n", lastTiming, identifier);
-	}
-protected:
-	Profiler::Timer mTimer;
-};
+template <typename... Args>
+[[noreturn]] inline void Error(const char *message, Args... args)
+{
+	Log::LogFatalOld(fmt::sprintf(message, args...));
+}
+
+template <typename... Args>
+inline void DebugMsg(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Debug, fmt::sprintf(message, args...));
+}
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist, int precision = 2);
-std::string format_money(double cents, bool showCents=true);
+std::string format_money(double cents, bool showCents = true);
 std::string format_duration(double seconds);
-
 
 static inline Sint64 isqrt(Sint64 a)
 {
@@ -76,78 +76,86 @@ static inline Sint64 isqrt(Sint64 a)
 
 static inline Sint64 isqrt(fixed v)
 {
-	Sint64 ret=0;
+	Sint64 ret = 0;
 	Sint64 s;
 	Sint64 ret_sq = -v.v - 1;
-	for(s=62; s>=0; s-=2){
+	for (s = 62; s >= 0; s -= 2) {
 		Sint64 b;
-		ret+= ret;
-		b=ret_sq + ((2*ret+1)<<s);
-		if(b<0){
-			ret_sq=b;
+		ret += ret;
+		b = ret_sq + ((2 * ret + 1) << s);
+		if (b < 0) {
+			ret_sq = b;
 			ret++;
 		}
 	}
 	return ret;
-}  
-
-namespace Graphics {
-    struct ScreendumpState;
 }
-
-void write_screenshot(const Graphics::ScreendumpState &sd, const char* destFile);
 
 // find string in bigger string, ignoring case
 const char *pi_strcasestr(const char *haystack, const char *needle);
 
-inline bool starts_with(const char *s, const char *t) {
+inline bool starts_with(const char *s, const char *t)
+{
 	assert(s && t);
-	while ((*s == *t) && *t) { ++s; ++t; }
+	while ((*s == *t) && *t) {
+		++s;
+		++t;
+	}
 	return (*t == '\0');
 }
 
-inline bool starts_with(const std::string &s, const char *t) {
+inline bool starts_with(const std::string &s, const char *t)
+{
 	assert(t);
 	return starts_with(s.c_str(), t);
 }
 
-inline bool starts_with(const std::string &s, const std::string &t) {
+inline bool starts_with(const std::string &s, const std::string &t)
+{
 	return starts_with(s.c_str(), t.c_str());
 }
 
-inline bool ends_with(const char *s, size_t ns, const char *t, size_t nt) {
-	return (ns >= nt) && (memcmp(s+(ns-nt), t, nt) == 0);
+inline bool ends_with(const char *s, size_t ns, const char *t, size_t nt)
+{
+	return (ns >= nt) && (memcmp(s + (ns - nt), t, nt) == 0);
 }
 
-inline bool ends_with(const char *s, const char *t) {
+inline bool ends_with(const char *s, const char *t)
+{
 	return ends_with(s, strlen(s), t, strlen(t));
 }
 
-inline bool ends_with(const std::string &s, const char *t) {
+inline bool ends_with(const std::string &s, const char *t)
+{
 	return ends_with(s.c_str(), s.size(), t, strlen(t));
 }
 
-inline bool ends_with(const std::string &s, const std::string &t) {
+inline bool ends_with(const std::string &s, const std::string &t)
+{
 	return ends_with(s.c_str(), s.size(), t.c_str(), t.size());
 }
 
-inline bool ends_with_ci(const char *s, size_t ns, const char *t, size_t nt) {
-	if (ns<nt) return false;
-	s += (ns-nt);
-	for (size_t i=0; i<nt; i++)
-		if(tolower(*s++)!=tolower(*t++)) return false;
+inline bool ends_with_ci(const char *s, size_t ns, const char *t, size_t nt)
+{
+	if (ns < nt) return false;
+	s += (ns - nt);
+	for (size_t i = 0; i < nt; i++)
+		if (tolower(*s++) != tolower(*t++)) return false;
 	return true;
 }
 
-inline bool ends_with_ci(const char *s, const char *t) {
+inline bool ends_with_ci(const char *s, const char *t)
+{
 	return ends_with_ci(s, strlen(s), t, strlen(t));
 }
 
-inline bool ends_with_ci(const std::string &s, const char *t) {
+inline bool ends_with_ci(const std::string &s, const char *t)
+{
 	return ends_with_ci(s.c_str(), s.size(), t, strlen(t));
 }
 
-inline bool ends_with_ci(const std::string &s, const std::string &t) {
+inline bool ends_with_ci(const std::string &s, const std::string &t)
+{
 	return ends_with_ci(s.c_str(), s.size(), t.c_str(), t.size());
 }
 
@@ -197,7 +205,7 @@ static inline size_t SplitSpec(const std::string &spec, std::vector<float> &outp
 	return i;
 }
 
-std::vector<std::string> SplitString(const std::string& source, const std::string& delim);
+std::vector<std::string> SplitString(const std::string &source, const std::string &delim);
 
 // 'Numeric type' to string conversions.
 std::string FloatToStr(float val);
@@ -240,12 +248,12 @@ std::string DecimalToDegMinSec(float dec);
 // round & roundf. taken from http://cgit.freedesktop.org/mesa/mesa/tree/src/gallium/auxiliary/util/u_math.h
 static inline double round(double x)
 {
-   return x >= 0.0 ? floor(x + 0.5) : ceil(x - 0.5);
+	return x >= 0.0 ? floor(x + 0.5) : ceil(x - 0.5);
 }
 
 static inline float roundf(float x)
 {
-   return x >= 0.0f ? floorf(x + 0.5f) : ceilf(x - 0.5f);
+	return x >= 0.0f ? floorf(x + 0.5f) : ceilf(x - 0.5f);
 }
 #endif /* _MSC_VER < 1800 */
 
@@ -260,6 +268,35 @@ static inline Uint32 ceil_pow2(Uint32 v)
 	v++;
 	return v;
 }
+
+// An adaptor for automagic reverse range-for iteration of containers
+// One might be able to specialize this for raw arrays, but that's beyond the
+// point of its use-case.
+// One might also point out that this is surely more work to code than simply
+// writing an explicit iterator loop, to which I say: bah humbug!
+template <typename T>
+struct reverse_container_t {
+	using iterator = typename T::reverse_iterator;
+	using const_iterator = typename T::const_reverse_iterator;
+
+	using value_type = typename std::remove_reference<T>::type;
+
+	reverse_container_t(value_type &ref) :
+		ref(ref) {}
+
+	iterator begin() { return ref.rbegin(); }
+	const_iterator begin() const { return ref.crbegin(); }
+
+	iterator end() { return ref.rend(); }
+	const_iterator end() const { return ref.crend(); }
+
+private:
+	value_type &ref;
+};
+
+// Use this function for automatic template parameter deduction
+template <typename T>
+reverse_container_t<T> reverse_container(T &ref) { return reverse_container_t<T>(ref); }
 
 void hexdump(const unsigned char *buf, int bufsz);
 

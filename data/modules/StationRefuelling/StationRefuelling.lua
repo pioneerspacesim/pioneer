@@ -1,11 +1,11 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Lang = import("Lang")
-local Game = import("Game")
-local Comms = import("Comms")
-local Event = import("Event")
-local Format = import("Format")
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Comms = require 'Comms'
+local Event = require 'Event'
+local Format = require 'Format'
 
 local l = Lang.GetResource("module-stationrefuelling")
 
@@ -14,13 +14,7 @@ local maximum_fee = 6
 
 local calculateFee = function ()
 	local fee = math.ceil(Game.system.population * 3)
-	if fee < minimum_fee then
-		return minimum_fee
-	elseif fee > maximum_fee then
-		return maximum_fee
-	else
-		return fee
-	end
+	return math.clamp(fee, minimum_fee, maximum_fee)
 end
 
 
@@ -29,6 +23,13 @@ local onShipDocked = function (ship, station)
 		ship:SetFuelPercent() -- refuel NPCs for free.
 		return
 	end
+	-- On spawning, we shouldn't deduct a fee.
+	-- This is a horrible hack but fixing in C++ side would be far more complicated.
+	if ship:hasprop("is_first_spawn") then
+		ship:unsetprop("is_first_spawn")
+		return
+	end
+
 	local fee = calculateFee()
 	if ship:GetMoney() < fee then
 		Comms.Message(l.THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH:interp({station = station.label,fee = Format.Money(fee)}))

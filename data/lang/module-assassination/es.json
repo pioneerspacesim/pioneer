@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "Es muy lamentable que {target} aun está vivito y coleando. No recibirá pago alguno puesto que el contrato no ha sido cumplido."
+    "message": "Es muy lamentable que {target} siga vivo y coleando. No recibirá ningún pago ya que no ha completado su contrato."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "¿Estas pidiendo dinero por un trabajo que ha hecho otro? Piérdete."
+    "message": "¿Está pidiendo dinero por un trabajo cumplido por otro? Piérdase."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
@@ -178,10 +178,6 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "Se debe actuar cuando {target} parta de {spaceport}. No pierda esta oportunidad."
-  },
-  "LY": {
-    "description": "",
-    "message": "AL"
   },
   "OK_AGREED": {
     "description": "",

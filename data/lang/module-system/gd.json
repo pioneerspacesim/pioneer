@@ -19,9 +19,13 @@
     "description": "",
     "message": "Lorg thu {portcount} {bases} f(h)alaichte!"
   },
-  "EXPLORING_SYSTEM": {
+  "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "A' rùrachadh siostam le {bodycount} {bodies} mòra."
+    "message": "Siostam air rùrachadh le {bodycount} {bodies} mòra."
+  },
+  "GETTING_SENSOR_DATA": {
+    "description": "Shown when entering an unexplored system",
+    "message": "A' cruinneachadh dàta mun t-siostam 's 'ga sgrùdadh..."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",

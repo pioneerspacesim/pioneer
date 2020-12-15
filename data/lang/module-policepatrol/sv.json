@@ -54,5 +54,21 @@
   "TAKE_A_HIKE": {
     "description": "",
     "message": "OK, du får en andra chans. Avvik!"
+  },
+  "TARGET_DESTROYED_1": {
+    "description": "",
+    "message": "Målet bekämpat!"
+  },
+  "TARGET_DESTROYED_2": {
+    "description": "",
+    "message": "Hurra!"
+  },
+  "TARGET_DESTROYED_3": {
+    "description": "",
+    "message": "Vila i frid!"
+  },
+  "TARGET_DESTROYED_4": {
+    "description": "",
+    "message": "Ännu en biter gräset!"
   }
 }

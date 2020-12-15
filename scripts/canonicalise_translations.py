@@ -15,8 +15,8 @@ def write_translation_file(path, data):
     with open(path, 'w', encoding='utf-8') as fl:
         json.dump(data, fl,
                   ensure_ascii=False,
-                  indent=3,
-                  separators=(',',' : '),
+                  indent=2,
+                  separators=(',',': '),
                   sort_keys=True)
         fl.write('\n')
 

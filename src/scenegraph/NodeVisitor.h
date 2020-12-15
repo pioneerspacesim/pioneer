@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _NODEVISITOR_H
@@ -13,30 +13,29 @@
 
 namespace SceneGraph {
 
-class Billboard;
-class CollisionGeometry;
-class Group;
-class Label3D;
-class LOD;
-class MatrixTransform;
-class Node;
-class StaticGeometry;
-class Thruster;
+	class Billboard;
+	class CollisionGeometry;
+	class Group;
+	class Label3D;
+	class LOD;
+	class MatrixTransform;
+	class Node;
+	class StaticGeometry;
+	class Thruster;
 
-class NodeVisitor
-{
-public:
-	virtual ~NodeVisitor() { }
-	virtual void ApplyNode(Node&);
-	virtual void ApplyGroup(Group&);
-	virtual void ApplyStaticGeometry(StaticGeometry&);
-	virtual void ApplyLabel(Label3D&);
-	virtual void ApplyMatrixTransform(MatrixTransform&);
-	virtual void ApplyBillboard(Billboard&);
-	virtual void ApplyThruster(Thruster&);
-	virtual void ApplyLOD(LOD&);
-	virtual void ApplyCollisionGeometry(CollisionGeometry&);
-};
+	class NodeVisitor {
+	public:
+		virtual ~NodeVisitor() {}
+		virtual void ApplyNode(Node &);
+		virtual void ApplyGroup(Group &);
+		virtual void ApplyStaticGeometry(StaticGeometry &);
+		virtual void ApplyLabel(Label3D &);
+		virtual void ApplyMatrixTransform(MatrixTransform &);
+		virtual void ApplyBillboard(Billboard &);
+		virtual void ApplyThruster(Thruster &);
+		virtual void ApplyLOD(LOD &);
+		virtual void ApplyCollisionGeometry(CollisionGeometry &);
+	};
 
-}
+} // namespace SceneGraph
 #endif

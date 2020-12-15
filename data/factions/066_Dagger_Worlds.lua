@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Dagger Worlds')
@@ -16,12 +16,10 @@ f:govtype_weight('MILDICT1',		23)
 f:govtype_weight('PLUTOCRATIC',		5)
 f:govtype_weight('CORPORATE',		1)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		99)
-f:illegal_goods_probability('LIQUOR',		44)
-f:illegal_goods_probability('SLAVES',		43)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		80)
+f:illegal_goods_probability('live_animals',		99)
+f:illegal_goods_probability('liquor',		44)
+f:illegal_goods_probability('slaves',		43)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		80)
 
 f:add_to_factions('Dagger Worlds')
-
-

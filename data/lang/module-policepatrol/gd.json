@@ -54,5 +54,21 @@
   "TAKE_A_HIKE": {
     "description": "",
     "message": "Fhuair thu às leis. Tog ort ma-thà!"
+  },
+  "TARGET_DESTROYED_1": {
+    "description": "",
+    "message": "Chaidh an t-amas a mhilleadh!"
+  },
+  "TARGET_DESTROYED_2": {
+    "description": "",
+    "message": "Gabh seo!"
+  },
+  "TARGET_DESTROYED_3": {
+    "description": "",
+    "message": "Seo beagan fois dhomh agus fois sìorraidh dhaibh-san!"
+  },
+  "TARGET_DESTROYED_4": {
+    "description": "",
+    "message": "Beul sìos orra!"
   }
 }

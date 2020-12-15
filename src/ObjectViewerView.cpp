@@ -1,22 +1,35 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ObjectViewerView.h"
-#include "WorldView.h"
-#include "Pi.h"
 #include "Frame.h"
+#include "GameConfig.h"
+#include "Pi.h"
+#include "Planet.h"
 #include "Player.h"
 #include "Space.h"
-#include "terrain/Terrain.h"
-#include "Planet.h"
+#include "SpaceStation.h"
+#include "WorldView.h"
+
+#include "buildopts.h"
+#include "graphics/Drawables.h"
+#include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
-#include "StringF.h"
-#include <sstream>
+#include "imgui/imgui.h"
+#include "pigui/LuaPiGui.h"
+#include "terrain/Terrain.h"
+#include "utils.h"
+
+#include <limits>
 
 #if WITH_OBJECTVIEWER
 
-ObjectViewerView::ObjectViewerView(): UIView()
+ObjectViewerView::ObjectViewerView() :
+	PiGuiView("ObjectViewerView"),
+	m_targetBody(nullptr),
+	m_systemBody(nullptr),
+	m_state{}
 {
 	SetTransparency(true);
 	viewingDist = 1000.0f;
@@ -32,74 +45,12 @@ ObjectViewerView::ObjectViewerView(): UIView()
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-    m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
-    m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
+	m_cameraContext.Reset(new CameraContext(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
+	m_camera.reset(new Camera(m_cameraContext, Pi::renderer));
 
-	m_cameraContext->SetFrame(Pi::player->GetFrame());
-	m_cameraContext->SetPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
-	m_cameraContext->SetOrient(matrix3x3d::Identity());
-
-	m_infoLabel = new Gui::Label("");
-	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-66-Gui::Screen::GetFontHeight());
-
-	m_vbox = new Gui::VBox();
-	Add(m_vbox, 580, 2);
-
-	m_vbox->PackEnd(new Gui::Label("Mass (earths):"));
-	m_sbodyMass = new Gui::TextEntry();
-	m_vbox->PackEnd(m_sbodyMass);
-
-	m_vbox->PackEnd(new Gui::Label("Radius (earths):"));
-	m_sbodyRadius = new Gui::TextEntry();
-	m_vbox->PackEnd(m_sbodyRadius);
-
-	m_vbox->PackEnd(new Gui::Label("Integer seed:"));
-	m_sbodySeed = new Gui::TextEntry();
-	m_vbox->PackEnd(m_sbodySeed);
-
-	m_vbox->PackEnd(new Gui::Label("Volatile gases (>= 0):"));
-	m_sbodyVolatileGas = new Gui::TextEntry();
-	m_vbox->PackEnd(m_sbodyVolatileGas);
-
-	m_vbox->PackEnd(new Gui::Label("Volatile liquid (0-1):"));
-	m_sbodyVolatileLiquid = new Gui::TextEntry();
-	m_vbox->PackEnd(m_sbodyVolatileLiquid);
-
-	m_vbox->PackEnd(new Gui::Label("Volatile ices (0-1):"));
-	m_sbodyVolatileIces = new Gui::TextEntry();
-	m_vbox->PackEnd(m_sbodyVolatileIces);
-
-	m_vbox->PackEnd(new Gui::Label("Life (0-1):"));
-	m_sbodyLife = new Gui::TextEntry();
-	m_vbox->PackEnd(m_sbodyLife);
-
-	m_vbox->PackEnd(new Gui::Label("Volcanicity (0-1):"));
-	m_sbodyVolcanicity = new Gui::TextEntry();
-	m_vbox->PackEnd(m_sbodyVolcanicity);
-
-	m_vbox->PackEnd(new Gui::Label("Crust metallicity (0-1):"));
-	m_sbodyMetallicity = new Gui::TextEntry();
-	m_vbox->PackEnd(m_sbodyMetallicity);
-
-	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label("Change planet terrain type"));
-	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeTerrain));
-	m_vbox->PackEnd(b);
-
-	Gui::HBox *hbox = new Gui::HBox();
-
-	b = new Gui::LabelButton(new Gui::Label("Prev Seed"));
-	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnPrevSeed));
-	hbox->PackEnd(b);
-
-	b = new Gui::LabelButton(new Gui::Label("Random Seed"));
-	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnRandomSeed));
-	hbox->PackEnd(b);
-
-	b = new Gui::LabelButton(new Gui::Label("Next Seed"));
-	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnNextSeed));
-	hbox->PackEnd(b);
-
-	m_vbox->PackEnd(hbox);
+	m_cameraContext->SetCameraFrame(Pi::player->GetFrame());
+	m_cameraContext->SetCameraPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
+	m_cameraContext->SetCameraOrient(matrix3x3d::Identity());
 }
 
 void ObjectViewerView::Draw3D()
@@ -114,30 +65,33 @@ void ObjectViewerView::Draw3D()
 	Graphics::Light light;
 	light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
 
-	const int btnState = Pi::input.MouseButtonState(SDL_BUTTON_RIGHT);
+	const int btnState = Pi::input->MouseButtonState(SDL_BUTTON_RIGHT);
 	if (btnState) {
 		int m[2];
-		Pi::input.GetMouseMotion(m);
-		m_camRot = matrix4x4d::RotateXMatrix(-0.002*m[1]) *
-				matrix4x4d::RotateYMatrix(-0.002*m[0]) * m_camRot;
-		m_cameraContext->SetPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
+		Pi::input->GetMouseMotion(m);
+		m_camRot = matrix4x4d::RotateXMatrix(-0.002 * m[1]) *
+			matrix4x4d::RotateYMatrix(-0.002 * m[0]) * m_camRot;
+		m_cameraContext->SetCameraPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, viewingDist));
 		m_cameraContext->BeginFrame();
 		m_camera->Update();
 	}
 
-	Body *body = Pi::player->GetNavTarget();
-	if (body) {
-		if (body->IsType(Object::STAR))
+	if (m_targetBody) {
+		if (m_targetBody->IsType(ObjectType::STAR))
 			light.SetPosition(vector3f(0.f));
 		else {
 			light.SetPosition(vector3f(0.577f));
 		}
 		m_renderer->SetLights(1, &light);
 
-		body->Render(m_renderer, m_camera.get(), vector3d(0,0,-viewingDist), m_camRot);
+		m_targetBody->Render(m_renderer, m_camera.get(), vector3d(0, 0, -viewingDist), m_camRot);
+
+		// industry-standard red/green/blue XYZ axis indiactor
+		matrix4x4d trans = matrix4x4d::Translation(vector3d(0, 0, -viewingDist)) * m_camRot * matrix4x4d::ScaleMatrix(m_targetBody->GetClipRadius() * 2.0);
+		m_renderer->SetTransform(matrix4x4f(trans));
+		Graphics::Drawables::GetAxes3DDrawable(m_renderer)->Draw(m_renderer);
 	}
 
-	UIView::Draw3D();
 	if (btnState) {
 		m_cameraContext->EndFrame();
 	}
@@ -145,111 +99,194 @@ void ObjectViewerView::Draw3D()
 
 void ObjectViewerView::OnSwitchTo()
 {
-	m_camRot = matrix4x4d::Identity();
-	UIView::OnSwitchTo();
+	// rotate X is vertical
+	// rotate Y is horizontal
+	m_camRot = matrix4x4d::RotateXMatrix(DEG2RAD(-30.0)) * matrix4x4d::RotateYMatrix(DEG2RAD(-15.0));
+}
+
+void ObjectViewerView::ReloadState()
+{
+	if (m_targetBody->IsType(ObjectType::SPACESTATION)) {
+		m_systemBody = static_cast<SpaceStation *>(m_targetBody)->GetSystemBody();
+	} else if (m_targetBody->IsType(ObjectType::TERRAINBODY)) {
+		m_systemBody = static_cast<TerrainBody *>(m_targetBody)->GetSystemBody();
+		m_isTerrainBody = m_systemBody != nullptr;
+	}
+
+	if (!m_isTerrainBody)
+		return;
+
+	m_state.seed = m_systemBody->GetSeed();
+	m_state.mass = m_systemBody->GetMassAsFixed().ToDouble();
+	m_state.radius = m_systemBody->GetRadiusAsFixed().ToDouble();
+	m_state.life = m_systemBody->GetLife();
+	m_state.volatileGas = m_systemBody->GetVolatileGas();
+	m_state.volatileIces = m_systemBody->GetVolatileIces();
+	m_state.volatileLiquid = m_systemBody->GetVolatileLiquid();
+	m_state.metallicity = m_systemBody->GetMetallicity();
+	m_state.volcanicity = m_systemBody->GetVolcanicity();
 }
 
 void ObjectViewerView::Update()
 {
-	if (Pi::input.KeyState(SDLK_EQUALS)) viewingDist *= 0.99f;
-	if (Pi::input.KeyState(SDLK_MINUS)) viewingDist *= 1.01f;
+	if (Pi::input->KeyState(SDLK_EQUALS)) viewingDist *= 0.99f;
+	if (Pi::input->KeyState(SDLK_MINUS)) viewingDist *= 1.01f;
 	viewingDist = Clamp(viewingDist, 10.0f, 1e12f);
 
-	char buf[128];
 	Body *body = Pi::player->GetNavTarget();
-	if(body && (body != lastTarget)) {
-		// Reset view distance for new target.
-		viewingDist = body->GetClipRadius() * 2.0f;
-		lastTarget = body;
+	if (body != m_targetBody) {
+		m_targetBody = body;
+		m_isTerrainBody = false;
+		m_systemBody = nullptr;
 
-		if (body->IsType(Object::TERRAINBODY)) {
-			TerrainBody *tbody = static_cast<TerrainBody*>(body);
-			const SystemBody *sbody = tbody->GetSystemBody();
-			m_sbodyVolatileGas->SetText(stringf("%0{f.3}", sbody->GetVolatileGas()));
-			m_sbodyVolatileLiquid->SetText(stringf("%0{f.3}", sbody->GetVolatileLiquid()));
-			m_sbodyVolatileIces->SetText(stringf("%0{f.3}", sbody->GetVolatileIces()));
-			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->GetLife()));
-			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->GetVolcanicity()));
-			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->GetMetallicity()));
-			m_sbodySeed->SetText(stringf("%0{i}", int(sbody->GetSeed())));
-			m_sbodyMass->SetText(stringf("%0{f}", sbody->GetMassAsFixed().ToFloat()));
-			m_sbodyRadius->SetText(stringf("%0{f}", sbody->GetRadiusAsFixed().ToFloat()));
+		if (body) {
+			ReloadState();
+
+			// Reset view distance for new target.
+			viewingDist = body->GetClipRadius() * 2.0f;
 		}
 	}
+}
 
-	std::ostringstream pathStr;
-	if(body)
+void ObjectViewerView::DrawInfoWindow()
+{
+	std::string infoLabel = fmt::format("View dist: {} Object: {}",
+		format_distance(viewingDist), m_targetBody->GetLabel());
+
+	float xpos = ImGui::GetStyle().WindowPadding.x * 2;
+	float ypos = Graphics::GetScreenHeight() - (ImGui::GetTextLineHeightWithSpacing() * 5 + ImGui::GetFrameHeightWithSpacing());
+
+	ImGui::SetNextWindowPos({ xpos, ypos });
+	ImGui::SetNextWindowSize({ Graphics::GetScreenWidth() - xpos, Graphics::GetScreenHeight() - ypos });
+	ImGui::Begin("ObjectViewerView#Info", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
+
+	ImGui::TextUnformatted(infoLabel.c_str());
+
+	if (m_systemBody)
+		ImGui::TextUnformatted(fmt::format("SystemPath: {} {}", m_systemBody->GetName(), to_string(m_systemBody->GetPath())).c_str());
+
+	// TODO: any more information about the current object here
+
+	ImGui::End();
+}
+
+namespace ImGui {
+	bool DragDouble(const char *label, double *v, double v_speed = 1.0f, double v_min = 0.0f, double v_max = 0.0f, const char *format = "%.3f", double power = 1.0f)
 	{
-		// fill in pathStr from sp values and sys->GetName()
-		static const std::string comma(", ");
-		const SystemBody *psb = body->GetSystemBody();
-		if(psb) {
-			const SystemPath sp = psb->GetPath();
-			pathStr << body->GetSystemBody()->GetName() << " (" << sp.sectorX << comma << sp.sectorY << comma << sp.sectorZ << comma << sp.systemIndex << comma << sp.bodyIndex << ")";
-		} else {
-			pathStr << "<unknown>";
-		}
+		return DragScalar(label, ImGuiDataType_Double, v, v_speed, &v_min, &v_max, format, power);
+	}
+} // namespace ImGui
+
+void ObjectViewerView::DrawControlsWindow()
+{
+	float xpos = Graphics::GetScreenWidth() - Graphics::GetScreenWidth() / 5.0;
+	float ypos = ImGui::GetStyle().WindowPadding.y;
+
+	ImGui::SetNextWindowPos({ xpos, ypos });
+	ImGui::SetNextWindowSize({ Graphics::GetScreenWidth() - xpos, Graphics::GetScreenHeight() - ypos });
+	ImGui::Begin("ObjectViewerView#Controls", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
+
+	if (m_isTerrainBody) {
+		bool didChange = false;
+		uint32_t prevSeed = m_state.seed;
+
+		ImGui::TextUnformatted("Seed");
+		int *seed = reinterpret_cast<int32_t *>(&m_state.seed);
+		didChange |= ImGui::DragInt("##seed", seed);
+
+		// Seed control buttons
+		if (ImGui::Button("<"))
+			m_state.seed--;
+		ImGui::SameLine();
+		if (ImGui::Button("Random Seed"))
+			m_state.seed = Pi::rng.Int32();
+		ImGui::SameLine();
+		if (ImGui::Button(">"))
+			m_state.seed++;
+
+		if (m_state.seed != prevSeed)
+			didChange = true;
+
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		ImGui::TextUnformatted("Mass (earths):");
+		didChange |= ImGui::DragDouble("##mass", &m_state.mass, 0.1, 0.01, std::numeric_limits<uint32_t>::max());
+
+		ImGui::TextUnformatted("Radius (earths):");
+		didChange |= ImGui::DragDouble("##radius", &m_state.radius, 0.1, 0.01, 10000.0);
+
+		ImGui::TextUnformatted("Volatile gases (>= 0)");
+		didChange |= ImGui::DragDouble("##volatile-gas", &m_state.volatileGas, 0.01, 0.0, 1000.0);
+
+		ImGui::TextUnformatted("Volatile liquid (0-1)");
+		didChange |= ImGui::DragDouble("##volatile-liquid", &m_state.volatileLiquid, 0.01, 0.0, 1.0);
+
+		ImGui::TextUnformatted("Volatile ices (0-1)");
+		didChange |= ImGui::DragDouble("##volatile-ices", &m_state.volatileIces, 0.01, 0.0, 1.0);
+
+		ImGui::TextUnformatted("Life (0-1)");
+		didChange |= ImGui::DragDouble("##life", &m_state.life, 0.01, 0.0, 1.0);
+
+		ImGui::TextUnformatted("Volcanicity (0-1)");
+		didChange |= ImGui::DragDouble("##volcanicity", &m_state.volcanicity, 0.01, 0.0, 1.0);
+
+		ImGui::TextUnformatted("Crust metallicity (0-1)");
+		didChange |= ImGui::DragDouble("##metallicity", &m_state.metallicity, 0.01, 0.0, 1.0);
+
+		if (ImGui::Button("Change Planet Terrain Type"))
+			didChange = true;
+
+		if (didChange)
+			OnChangeTerrain();
 	}
 
-	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s\nSystemPath: %s",
-		format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"),
-		pathStr.str().c_str());
-	m_infoLabel->SetText(buf);
+	PiGui::RunHandler(Pi::GetFrameTime(), GetViewName() + ".Controls");
 
-	if (body && body->IsType(Object::TERRAINBODY)) m_vbox->ShowAll();
-	else m_vbox->HideAll();
+	ImGui::End();
+}
 
-	UIView::Update();
+void ObjectViewerView::DrawPiGui()
+{
+	if (m_targetBody) {
+		DrawInfoWindow();
+
+		DrawControlsWindow();
+	}
+
+	PiGuiView::DrawPiGui();
+}
+
+static constexpr fixed dtofixed(double val, uint32_t denom = 1 << 16)
+{
+	return fixed(denom * val, denom);
 }
 
 void ObjectViewerView::OnChangeTerrain()
 {
-	const fixed volatileGas = fixed(65536.0*atof(m_sbodyVolatileGas->GetText().c_str()), 65536);
-	const fixed volatileLiquid = fixed(65536.0*atof(m_sbodyVolatileLiquid->GetText().c_str()), 65536);
-	const fixed volatileIces = fixed(65536.0*atof(m_sbodyVolatileIces->GetText().c_str()), 65536);
-	const fixed life = fixed(65536.0*atof(m_sbodyLife->GetText().c_str()), 65536);
-	const fixed volcanicity = fixed(65536.0*atof(m_sbodyVolcanicity->GetText().c_str()), 65536);
-	const fixed metallicity = fixed(65536.0*atof(m_sbodyMetallicity->GetText().c_str()), 65536);
-	const fixed mass = fixed(65536.0*atof(m_sbodyMass->GetText().c_str()), 65536);
-	const fixed radius = fixed(65536.0*atof(m_sbodyRadius->GetText().c_str()), 65536);
+	if (!m_isTerrainBody)
+		return;
 
 	// XXX this is horrendous, but probably safe for the moment. all bodies,
 	// terrain, whatever else holds a const pointer to the same toplevel
 	// sbody. one day objectviewer should be far more contained and not
 	// actually modify the space
-	Body *body = Pi::player->GetNavTarget();
-	SystemBody *sbody = const_cast<SystemBody*>(body->GetSystemBody());
+	SystemBody *sbody = const_cast<SystemBody *>(m_systemBody);
 
-	sbody->m_seed = atoi(m_sbodySeed->GetText().c_str());
-	sbody->m_radius = radius;
-	sbody->m_mass = mass;
-	sbody->m_metallicity = metallicity;
-	sbody->m_volatileGas = volatileGas;
-	sbody->m_volatileLiquid = volatileLiquid;
-	sbody->m_volatileIces = volatileIces;
-	sbody->m_volcanicity = volcanicity;
-	sbody->m_life = life;
+	sbody->m_seed = m_state.seed;
+	sbody->m_radius = dtofixed(std::abs(Clamp(m_state.radius, 0.1, 10000.0)));
+	sbody->m_mass = dtofixed(std::abs(m_state.mass));
+	sbody->m_metallicity = dtofixed(std::abs(m_state.metallicity));
+	sbody->m_volatileGas = dtofixed(std::abs(m_state.volatileGas));
+	sbody->m_volatileLiquid = dtofixed(std::abs(m_state.volatileLiquid));
+	sbody->m_volatileIces = dtofixed(std::abs(m_state.volatileIces));
+	sbody->m_volcanicity = dtofixed(std::abs(m_state.volcanicity));
+	sbody->m_life = dtofixed(std::abs(m_state.life));
 
 	// force reload
 	TerrainBody::OnChangeDetailLevel();
-}
-
-void ObjectViewerView::OnRandomSeed()
-{
-	m_sbodySeed->SetText(stringf("%0{i}", int(Pi::rng.Int32())));
-	OnChangeTerrain();
-}
-
-void ObjectViewerView::OnNextSeed()
-{
-	m_sbodySeed->SetText(stringf("%0{i}", atoi(m_sbodySeed->GetText().c_str()) + 1));
-	OnChangeTerrain();
-}
-
-void ObjectViewerView::OnPrevSeed()
-{
-	m_sbodySeed->SetText(stringf("%0{i}", atoi(m_sbodySeed->GetText().c_str()) - 1));
-	OnChangeTerrain();
+	ReloadState();
 }
 
 #endif

@@ -1,22 +1,22 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
-local Color = import('Color')
-local Lang = import("Lang")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local utils = require 'utils'
+local Event = require 'Event'
+
+local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
-local utils = import("utils")
-local Event = import("Event")
+
+local ui = require 'pigui'
 
 local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local mainButtonSize = Vector(32,32) * (ui.screenHeight / 1200)
+local mainButtonSize = Vector2(32,32) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 
 local function mainMenuButton(icon, selected, tooltip, color)
@@ -70,11 +70,13 @@ local function button_undock()
 	if player:IsLanded() then
 		ui.sameLine()
 		if mainMenuButton(icons.autopilot_blastoff, false, lui.HUD_BUTTON_BLASTOFF) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
+			Game.SetTimeAcceleration("1x")
 			player:BlastOff()
 		end
 	elseif player:IsDocked() then
 		ui.sameLine()
 		if mainMenuButton(icons.autopilot_undock, false, lui.HUD_BUTTON_UNDOCK) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
+			Game.SetTimeAcceleration("1x")
 			player:Undock()
 		end
 	end
@@ -128,7 +130,14 @@ local function button_flight_control()
 		end
   end
 	if mainMenuButton(icon, false, tooltip) or (flightstate == "FLYING" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
-		Game.ChangeFlightState()
+		local newState = "CONTROL_MANUAL"
+		if ui.ctrlHeld() and flightcontrolstate == "CONTROL_FIXSPEED" then
+			newState = "CONTROL_FIXHEADING_FORWARD"
+		elseif flightcontrolstate == "CONTROL_MANUAL" then
+			newState = "CONTROL_FIXSPEED"
+		end
+		Game.player:SetFlightControlState(newState)
+		ui.playBoinkNoise()
 	end
 	if ui.isItemHovered() and flightcontrolstate == "CONTROL_FIXSPEED" then
 		local wheel = ui.getMouseWheel()
@@ -144,12 +153,11 @@ local function button_flight_control()
 end
 
 local function displayAutoPilotWindow()
-	if ui.showOptionsWindow then return end
+	if ui.optionsWindow.isOpen then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	ui.setNextWindowSize(Vector(mainButtonSize.x * 6, mainButtonSize.y * 2), "Always")
-	ui.setNextWindowPos(Vector(ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3, ui.screenHeight - mainButtonSize.y * 1.5 - 8) , "Always")
-	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+	ui.setNextWindowPos(Vector2(ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3, ui.screenHeight - mainButtonSize.y * 1.5 - 8) , "Always")
+	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
 						function()
 							if current_view == "world" then
 								button_hyperspace()

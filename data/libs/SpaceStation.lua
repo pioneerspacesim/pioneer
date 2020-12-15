@@ -1,22 +1,22 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local SpaceStation = import_core("SpaceStation")
-local Event = import("Event")
-local Rand = import("Rand")
-local Space = import("Space")
-local utils = import("utils")
-local ShipDef = import("ShipDef")
-local Engine = import("Engine")
-local Timer = import("Timer")
-local Game = import("Game")
-local Ship = import("Ship")
-local Model = import("SceneGraph.Model")
-local ModelSkin = import("SceneGraph.ModelSkin")
-local Serializer = import("Serializer")
-local Equipment = import("Equipment")
-local Faction = import("Faction")
-local Lang = import("Lang")
+local SpaceStation = package.core['SpaceStation']
+local Event = require 'Event'
+local Rand = require 'Rand'
+local Space = require 'Space'
+local utils = require 'utils'
+local ShipDef = require 'ShipDef'
+local Engine = require 'Engine'
+local Timer = require 'Timer'
+local Game = require 'Game'
+local Ship = require 'Ship'
+local Model = require 'SceneGraph.Model'
+local ModelSkin = require 'SceneGraph.ModelSkin'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
+local Faction = require 'Faction'
+local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
 
 --
@@ -42,22 +42,22 @@ local function updateEquipmentStock (station)
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
 	local hydrogen = Equipment.cargo.hydrogen
-	for _,e in pairs(Equipment.cargo) do
+	for key, e in pairs(Equipment.cargo) do
 		if e.purchasable then
 			local rn = 100000 / math.abs(e.price) --have about 100,000 worth of stock, per commodity
 			if e == hydrogen then
 				equipmentStock[station][e] = math.floor(rn/2 + Engine.rand:Integer(0,rn)) --always stock hydrogen
 			else
-				local pricemod = Game.system:GetCommodityBasePriceAlterations(e)
+				local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
 				local stock =  (Engine.rand:Integer(0,rn) + Engine.rand:Integer(0,rn)) / 2 -- normal 0-100% stock
-				if pricemod > 10 then --major import, very low stock
-					stock = stock - (rn*0.6) -- 0-40% stock
+				if pricemod > 10 then --major import, low stock
+					stock = stock - (rn*0.10)     -- shifting .10 = 2% chance of 0 stock
 				elseif pricemod > 2 then --minor import
-					stock = stock - (rn*0.3) -- 0-70% stock
+					stock = stock - (rn*0.07)     -- shifting .07 = 1% chance of 0 stock
 				elseif pricemod < -10 then --major export
-					stock = stock + (rn*0.8) -- 80-180% stock
+					stock = stock + (rn*0.8)
 				elseif pricemod < -2 then --minor export
-					stock = stock + (rn*0.3) -- 30-130% stock
+					stock = stock + (rn*0.3)
 				end
 				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
 			end
@@ -104,7 +104,7 @@ function SpaceStation:GetEquipmentPrice (e)
 	if equipmentPrice[self][e] then
 		return equipmentPrice[self][e]
 	end
-	local mul = e:IsValidSlot("cargo") and ((100 + Game.system:GetCommodityBasePriceAlterations(e)) / 100) or 1
+	local mul = e:IsValidSlot("cargo") and ((100 + Game.system:GetCommodityBasePriceAlterations(e.name)) / 100) or 1
 	return mul * e.price
 end
 
@@ -326,7 +326,7 @@ end
 -- Attribute: lawEnforcedRange
 --
 --   The distance, in meters, at which a station upholds the law,
---   (is 100 km for all at the moment)
+--   (is 50 km for all at the moment)
 --
 -- Availability:
 --
@@ -336,7 +336,7 @@ end
 --
 --   experimental
 --
-SpaceStation.lawEnforcedRange = 100000
+SpaceStation.lawEnforcedRange = 50000
 
 
 local police = {}

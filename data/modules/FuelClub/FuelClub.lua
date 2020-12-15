@@ -1,17 +1,32 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Rand = import("Rand")
-local Event = import("Event")
-local Character = import("Character")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Equipment = import("Equipment")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Rand = require 'Rand'
+local Event = require 'Event'
+local Character = require 'Character'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
+local ModalWindow = require 'pigui.libs.modal-win'
+local ui = require 'pigui'
 
-local MessageBox = import("ui/MessageBox")
+local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
+local popupSpacer = Vector2(0,0)
+local popupButtonSize = Vector2(0,0)
+local popupMsg = ''
+local popup = ModalWindow.New('goodsTraderPopup', function(self)
+	popupSpacer((ui.getContentRegion().x - 100*rescaleVector.x) / 2, 0)
+	popupButtonSize(100 * rescaleVector.x, 0)
+	ui.text(popupMsg)
+	ui.dummy(popupSpacer)
+	ui.sameLine()
+	if ui.button("OK", popupButtonSize) then
+		self:close()
+	end
+end)
 
 ---------------
 -- Fuel Club --
@@ -109,6 +124,13 @@ onChat = function (form, ref, option)
 					[Equipment.cargo.radioactives] = true
 				})[commodity]
 			end,
+			canDisplayItem = function (ref, commodity)
+				return ({
+					[Equipment.cargo.hydrogen] = true,
+					[Equipment.cargo.military_fuel] = true,
+					[Equipment.cargo.radioactives] = true
+				})[commodity]
+			end,
 			getStock = function (ref, commodity)
 				local prev = ad.stock[commodity]
 				if prev then
@@ -142,26 +164,42 @@ onChat = function (form, ref, option)
 			onClickBuy = function (ref, commodity)
 				return membership.joined + membership.expiry > Game.time
 			end,
-			onClickSell = function (ref, commodity)
-				if (commodity == Equipment.cargo.radioactives and membership.milrads < 1) then
-					MessageBox.Message(string.interp(l.YOU_MUST_BUY, {
+			onClickSell = function (ref, commodity, market)
+				local count = 1
+				if market.tradeAmount ~= nil then
+					count = market.tradeAmount
+				end
+
+				if (commodity == Equipment.cargo.radioactives and membership.milrads < count) then
+					popupMsg = string.interp(l.YOU_MUST_BUY, {
 						military_fuel = Equipment.cargo.military_fuel:GetName(),
 						radioactives = Equipment.cargo.radioactives:GetName(),
-					}))
+					})
+					popup:open()
 					return false
 				end
 				return	membership.joined + membership.expiry > Game.time
 			end,
-			bought = function (ref, commodity)
-				ad.stock[commodity] = ad.stock[commodity] + 1
+			bought = function (ref, commodity, market)
+				local count = 1
+				if market.tradeAmount ~= nil then
+					count = market.tradeAmount
+				end
+
+				ad.stock[commodity] = ad.stock[commodity] - count
 				if commodity == Equipment.cargo.radioactives or commodity == Equipment.cargo.military_fuel then
-					membership.milrads = membership.milrads -1
+					membership.milrads = membership.milrads + count
 				end
 			end,
-			sold = function (ref, commodity)
-				ad.stock[commodity] = ad.stock[commodity] - 1
+			sold = function (ref, commodity, market)
+				local count = 1
+				if market.tradeAmount ~= nil then
+					count = market.tradeAmount
+				end
+
+				ad.stock[commodity] = ad.stock[commodity] + count
 				if commodity == Equipment.cargo.radioactives or commodity == Equipment.cargo.military_fuel then
-					membership.milrads = membership.milrads +1
+					membership.milrads = membership.milrads - count
 				end
 			end,
 		})

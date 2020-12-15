@@ -1,22 +1,22 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
-local Color = import('Color')
-local Lang = import("Lang")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local utils = require 'utils'
+local Event = require 'Event'
+
+local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
-local utils = import("utils")
-local Event = import("Event")
+
+local ui = require 'pigui'
 
 local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local mainButtonSize = Vector(32,32) * (ui.screenHeight / 1200)
+local mainButtonSize = Vector2(32,32) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 local function mainMenuButton(icon, selected, tooltip, color)
 	if color == nil then
@@ -31,24 +31,28 @@ local next_cam_type = { ["internal"] = "external", ["external"] = "sidereal", ["
 local cam_tooltip = { ["internal"] = lui.HUD_BUTTON_INTERNAL_VIEW, ["external"] = lui.HUD_BUTTON_EXTERNAL_VIEW, ["sidereal"] = lui.HUD_BUTTON_SIDEREAL_VIEW, ["flyby"] = lui.HUD_BUTTON_FLYBY_VIEW }
 local function button_world(current_view)
 	ui.sameLine()
+	local camtype = Game.GetWorldCamType()
+	local view_icon = camtype and "view_" .. camtype or "view_internal"
 	if current_view ~= "world" then
-		if mainMenuButton(icons.view_internal, false, lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
+		if mainMenuButton(icons[view_icon], false, lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
 			Game.SetView("world")
+			ui.playBoinkNoise()
 		end
 	else
-		local camtype = Game.GetWorldCamType()
-		if mainMenuButton(icons["view_" .. camtype], true, cam_tooltip[camtype]) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
+		if mainMenuButton(icons[view_icon], true, cam_tooltip[camtype]) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f1)) then
 			Game.SetWorldCamType(next_cam_type[camtype])
+			ui.playBoinkNoise()
 		end
 		if (ui.altHeld() and ui.isKeyReleased(ui.keys.f1)) then
 			Game.SetWorldCamType("flyby")
+			ui.playBoinkNoise()
 		end
 	end
 end
 
 local current_map_view = "sector"
 local function buttons_map(current_view)
-	local onmap = current_view == "sector" or current_view == "system" or current_view == "system_info" or current_view == "galaxy"
+	local onmap = current_view == "sector" or current_view == "system" or current_view == "system_info"
 
 	ui.sameLine()
 	local active = current_view == "sector"
@@ -75,23 +79,9 @@ local function buttons_map(current_view)
 	ui.sameLine()
 	active = current_view == "system_info"
 	if mainMenuButton(icons.system_overview, active, active and lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW or lui.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f7)) then
-		if active then
-			ui.systemInfoViewNextPage()
-		else
+		if not active then
 			Game.SetView("system_info")
 			current_map_view = "system_info"
-		end
-	end
-	if onmap then
-		ui.sameLine()
-		active = current_view == "galaxy"
-		if mainMenuButton(icons.galaxy_map, active, active and lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW or lui.HUD_BUTTON_SWITCH_TO_GALAXY_MAP) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8)) then
-			if active then
-				Game.SetView("world")
-			else
-				Game.SetView("galaxy")
-				current_map_view = "galaxy"
-			end
 		end
 	end
 	if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f2) then
@@ -115,29 +105,27 @@ local function button_info(current_view)
 end
 
 local function button_comms(current_view)
-	ui.sameLine()
-	if mainMenuButton(icons.comms, current_view == "space_station", lui.HUD_BUTTON_SHOW_COMMS) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f4)) then
-		if player:IsDocked() then
+	if player:IsDocked() then
+		ui.sameLine()
+		if mainMenuButton(icons.comms, current_view == "space_station", lui.HUD_BUTTON_SHOW_COMMS) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f4)) then
 			if current_view == "space_station" then
 				Game.SetView("world")
 			else
 				Game.SetView("space_station")
-			end
-		else
-			if ui.toggleSystemTargets then
-				ui.toggleSystemTargets()
 			end
 		end
 	end
 end
 
 local function displayFxWindow()
-	if ui.showOptionsWindow then return end
+	if ui.optionsWindow.isOpen then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	ui.setNextWindowSize(Vector((mainButtonSize.x + mainButtonFramePadding * 2) * 10, (mainButtonSize.y + mainButtonFramePadding * 2) * 1.5), "Always")
-	ui.setNextWindowPos(Vector(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * 7.5/2, 0) , "Always")
-	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+	local aux = Vector2((mainButtonSize.x + mainButtonFramePadding * 2) * 10, (mainButtonSize.y + mainButtonFramePadding * 2) * 1.5)
+	ui.setNextWindowSize(aux, "Always")
+	aux = Vector2(ui.screenWidth/2 - (mainButtonSize.x + 4 * mainButtonFramePadding) * 7.5/2, 0)
+	ui.setNextWindowPos(aux , "Always")
+	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"},
 						function()
 							button_world(current_view)
 

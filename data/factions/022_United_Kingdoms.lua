@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('United Kingdoms')
@@ -15,12 +15,10 @@ f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT1',		6)
 f:govtype_weight('PLUTOCRATIC',		0)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		35)
-f:illegal_goods_probability('ROBOTS',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('NERVE_GAS',		65)
-f:illegal_goods_probability('NARCOTICS',		60)
+f:illegal_goods_probability('live_animals',		35)
+f:illegal_goods_probability('robots',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('nerve_gas',		65)
+f:illegal_goods_probability('narcotics',		60)
 
 f:add_to_factions('United Kingdoms')
-
-

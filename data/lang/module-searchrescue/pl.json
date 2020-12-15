@@ -1,4 +1,8 @@
 {
+  "ACCIDENT_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Doszły nas smutne wieści, że {shiplabel} został zniszczony. Zapłacimy połowę umówionej ceny za fatygę."
+  },
   "AU": {
     "description": "",
     "message": "JA"
@@ -431,10 +435,6 @@
     "description": "",
     "message": "Dług.:"
   },
-  "LY": {
-    "description": "",
-    "message": "lś"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Nie mogę ukończyć załadunku. Brakuje {cargotype}."
@@ -478,6 +478,10 @@
   "PLACE_OF_ASSISTANCE": {
     "description": "",
     "message": "W miejscu ratunku"
+  },
+  "PLAYER_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Słyszeliśmy o twoich czynach, kapitanie! Bądź pewien, że doniesiemy o tobie lokalnym władzom za zniszczenie statku, któremu miałeś pomóc. A potem będzie pozew karny."
   },
   "PLEASE_LAND": {
     "description": "",

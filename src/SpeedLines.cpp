@@ -1,23 +1,26 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpeedLines.h"
-#include "Ship.h"
-#include "graphics/RenderState.h"
-#include "Pi.h"
-#include "IniConfig.h"
+
 #include "FileSystem.h"
+#include "Frame.h"
+#include "Pi.h"
+#include "Ship.h"
+#include "core/IniConfig.h"
+#include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 
 // default values
-float SpeedLines::BOUNDS     = 2000.f;
-int   SpeedLines::DEPTH      = 9;
-float SpeedLines::SPACING    = 750.f;
-float SpeedLines::MAX_VEL    = 100.f;
+float SpeedLines::BOUNDS = 2000.f;
+int SpeedLines::DEPTH = 9;
+float SpeedLines::SPACING = 750.f;
+float SpeedLines::MAX_VEL = 100.f;
 
-SpeedLines::SpeedLines(Ship *s)
-: m_ship(s)
-, m_visible(false)
-, m_dir(0.f)
+SpeedLines::SpeedLines(Ship *s) :
+	m_ship(s),
+	m_visible(false),
+	m_dir(0.f)
 {
 	PROFILE_SCOPED();
 
@@ -25,9 +28,9 @@ SpeedLines::SpeedLines(Ship *s)
 	SpeedLines::Init();
 
 	m_points.reserve(DEPTH * DEPTH * DEPTH);
-	for (int x = -DEPTH/2; x < DEPTH/2; x++) {
-		for (int y = -DEPTH/2; y < DEPTH/2; y++) {
-			for (int z = -DEPTH/2; z < DEPTH/2; z++) {
+	for (int x = -DEPTH / 2; x < DEPTH / 2; x++) {
+		for (int y = -DEPTH / 2; y < DEPTH / 2; y++) {
+			for (int z = -DEPTH / 2; z < DEPTH / 2; z++) {
 				m_points.push_back(vector3f(x * SPACING, y * SPACING, z * SPACING));
 			}
 		}
@@ -35,7 +38,7 @@ SpeedLines::SpeedLines(Ship *s)
 
 	const Uint32 doubleNumPoints = static_cast<Uint32>(m_points.size()) * 2;
 	m_varray.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, doubleNumPoints));
-	for( Uint32 i = 0; i < doubleNumPoints; i++ )
+	for (Uint32 i = 0; i < doubleNumPoints; i++)
 		m_varray->Add(vector3f(0.0f), Color::BLACK);
 
 	Graphics::RenderStateDesc rsd;
@@ -43,7 +46,7 @@ SpeedLines::SpeedLines(Ship *s)
 	rsd.depthWrite = false;
 	m_renderState = Pi::renderer->CreateRenderState(rsd);
 
-	CreateVertexBuffer( Pi::renderer, doubleNumPoints );
+	CreateVertexBuffer(Pi::renderer, doubleNumPoints);
 }
 
 void SpeedLines::Update(float time)
@@ -55,7 +58,7 @@ void SpeedLines::Update(float time)
 	// don't show if
 	//   vel < 100m/s
 	//   in rotating frame (near station or planet surface)
-	if (absVel < 100.f || m_ship->GetFrame()->IsRotFrame()) {
+	if (absVel < 100.f || Frame::GetFrame(m_ship->GetFrame())->IsRotFrame()) {
 		m_visible = false;
 		return;
 	}
@@ -117,17 +120,17 @@ void SpeedLines::Render(Graphics::Renderer *r)
 	//distance fade
 	Color col(Color::GRAY);
 	for (auto it = m_points.begin(); it != m_points.end(); ++it) {
-		col.a = Clamp((1.f - it->Length() / BOUNDS),0.f,1.f) * 255;
+		col.a = Clamp((1.f - it->Length() / BOUNDS), 0.f, 1.f) * 255;
 
 		m_varray->Set(vtx, *it - dir, col);
-		m_varray->Set(vtx+1,*it + dir, col);
+		m_varray->Set(vtx + 1, *it + dir, col);
 
 		vtx += 2;
 	}
 
-	m_vbuffer->Populate( *m_varray );
+	m_vbuffer->Populate(*m_varray);
 
-	r->SetTransform(m_transform);
+	r->SetTransform(matrix4x4f(m_transform));
 	r->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get(), Graphics::LINE_SINGLE);
 }
 
@@ -154,8 +157,8 @@ void SpeedLines::Init()
 	cfg.Read(FileSystem::gameDataFiles, "configs/SpeedLines.ini");
 
 	// NB: limit the ranges of all values loaded from the file
-	BOUNDS     = Clamp(cfg.Float("bounds", 2000.0f), 100.0f, 4000.0f);
-	DEPTH      = Clamp(cfg.Int("depth", 9), 1, 32);
-	SPACING    = Clamp(cfg.Float("spacing", 750.0f), 250.0f, 2000.0f);
-	MAX_VEL    = Clamp(cfg.Float("max_vel", 100.0f), 50.0f, 200.0f);
+	BOUNDS = Clamp(cfg.Float("bounds", 2000.0f), 100.0f, 4000.0f);
+	DEPTH = Clamp(cfg.Int("depth", 9), 1, 32);
+	SPACING = Clamp(cfg.Float("spacing", 750.0f), 250.0f, 2000.0f);
+	MAX_VEL = Clamp(cfg.Float("max_vel", 100.0f), 50.0f, 200.0f);
 }

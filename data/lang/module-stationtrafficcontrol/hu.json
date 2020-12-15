@@ -1,0 +1,82 @@
+{
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Engedélyt már korábban megkapta. Folytassa a {bay}. dokk megközelítését."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Kérés elutasítva. Nincs szabad leszállóhelyünk."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Engedély megtagadva. Hajó túl távol van az azonosításhoz."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Engedély megadva, a {bay}. dokkba."
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Dokkolási engedély lejárt. Ha dokkolni akarsz, újra engedélyt kell kérned."
+  },
+  "STATION_GRAV": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "A helyi gravitáció {grav}."
+  },
+  "STATION_GRAV_PRESS": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "A helyi gravitáció {grav}, légnyomás {press}."
+  },
+  "WATCH_FOR_TRAFFIC_ON_APPROACH": {
+    "description": "",
+    "message": "Kérem figyeljen a forgalomra leszállás közben."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel} belépett {station} körzetbe. Kérem kövesse a helyi előírásokat."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_2": {
+    "description": "",
+    "message": "{playerShipLabel}, Látjuk a radaron.  A körzet {station} ellenőrzése alatt áll."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_3": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, itt {station} repülésirányítás. Beléptettem a körzetünkbe."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Átvesszük {station} körzet repülésirányításhoz, {playerShipLabel}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, üdvözöljük {station} állomáson. Kérem tartsa magát a repülési előírásokhoz, míg a körzetünkben tartózkodik"
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, itt {station} STC. Ellenőrzött körzetbe lépett. Értékelném, ha nem csinálna nekem fölösleges papírmunkát a mai napon."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, elhagyta {station} ellenőrzési körzetét"
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_2": {
+    "description": "",
+    "message": "Elhagyta {station} körzetét, {playerShipLabel}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_3": {
+    "description": "",
+    "message": "{playerShipLabel}, elhagyta {station} által ellenőrzött körzetet. Korlátozások feloldva."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Elhagyja {station} körzetét, {playerShipLabel}. Kiléptetem."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, elhagyja {station} körzetét. Jó szerencsét kívánok!"
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, itt {station} STC. Észleltük, hogy elhagyta az ellenőrzött körzetünket. Repüljön óvatosan."
+  }
+}

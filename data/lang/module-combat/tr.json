@@ -175,10 +175,6 @@
     "description": "",
     "message": "Süre kısıtlaması var mı?"
   },
-  "LY": {
-    "description": "",
-    "message": "ıy"
-  },
   "MANAGER": {
     "description": "",
     "message": "Yönetici"
@@ -285,11 +281,15 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Görevin {date} tarihine kadar tamamlanması önemli, çünkü daha fazla düşman gemisi takviye gelecek."
+    "message": "Görevin {date} tarihinden önce tamamlanması önemli, çünkü yolda daha çok düşman gemisi var."
   },
   "POLICE_LAND_THERE": {
     "description": "",
     "message": "{org} ofisi olan bir istasyona inmeniz yeterli."
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Üzgünüm, ancak bir radarınız olmadan bunun üstesinden gelebileceğinizi düşünmüyorum."
   },
   "RISK_1": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "Düşman iyi donanımlı ve en son teknolojiye erişimi var. Dikkatli ol!"
+    "message": "Düşman iyi donanımlı ve en son teknolojiye sahip. Dikkatli ol! "
   },
   "SET_AS_TARGET": {
     "description": "",

@@ -175,10 +175,6 @@
     "description": "",
     "message": "Gibt es ein Zeitlimit?"
   },
-  "LY": {
-    "description": "",
-    "message": "Lj"
-  },
   "MANAGER": {
     "description": "",
     "message": "Manager"
@@ -291,6 +287,10 @@
     "description": "",
     "message": "Landen Sie einfach auf einer Station mit einer {org}-Außenstelle."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Tut mir leid, ich denke nicht, dass Sie das ohne Radar schaffen."
+  },
   "RISK_1": {
     "description": "",
     "message": "Der Konkurrent hat nur begrenzte Ressourcen. Also nichts, was Sie nicht handhaben könnten."
@@ -305,7 +305,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "Der Feind ist sehr gut ausgerüstet und hat Zugriff auf die neuesten Technologien. Seien Sie vorsichtig!"
+    "message": "Der Feind ist sehr gut ausgerüstet und hat Zugang zur neuesten Technologie. Vorsicht ist geboten!"
   },
   "SET_AS_TARGET": {
     "description": "",

@@ -1,4 +1,8 @@
 {
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "Légköri nyomás tűréshatár fölött"
+  },
   "AUTOPILOT": {
     "description": "",
     "message": "Robotpilóta"

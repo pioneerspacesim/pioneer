@@ -1,21 +1,23 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CUTSCENE_H
 #define _CUTSCENE_H
 
-#include "libs.h"
-#include "graphics/Renderer.h"
 #include "graphics/Light.h"
+#include "graphics/Renderer.h"
+#include "libs.h"
 
-namespace SceneGraph { class Model; }
+namespace SceneGraph {
+	class Model;
+}
 class Shields;
 
 class Cutscene {
 public:
-	Cutscene(Graphics::Renderer *r, int width, int height)
-	: m_aspectRatio(float(width)/float(height))
-	, m_renderer(r)
+	Cutscene(Graphics::Renderer *r, int width, int height) :
+		m_aspectRatio(float(width) / float(height)),
+		m_renderer(r)
 	{
 	}
 	virtual ~Cutscene() {}

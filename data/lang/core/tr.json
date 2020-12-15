@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Hava işlemciler"
+    "message": "Hava işlemcileri"
   },
   "ALERT_CANCELLED": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
-    "message": "Sadece bir kaç bin"
+    "message": "Sadece birkaç bin"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -102,10 +102,6 @@
   "BROWN_DWARF": {
     "description": "",
     "message": "Kahverengi cüce alt-yıldız cismi"
-  },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Düğme \""
   },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
@@ -167,25 +163,13 @@
     "description": "",
     "message": "Kargo toplama denendi. Kargo bölümünde yeterli yer yok."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Merkez"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" Metan atmosfer\""
-  },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "İzin zaten verildi. %bay nolu sabitlenme bölmesine devam edin."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "İzin reddedildi. Boş sabitlenme bölmesi yok."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "İzin reddedildi. Geminiz kimlik doğrulaması için çok uzakta."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "İzin verildi. %bay nolu kenetlenme bölmesine ilerleyin."
   },
   "CO2_ATMOSPHERE": {
     "description": "",
@@ -323,10 +307,6 @@
     "description": "",
     "message": "Hedef"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Yön \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Uzaklık: %distance{f.2} Iy"
@@ -338,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Kenetleniyor"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Kenetlenme izin süresi doldu. Eğer kenetlenmek istiyorsanız isteğinizi tekrarlayın."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -465,7 +441,7 @@
   },
   "GAME_SAVE_CANNOT_WRITE": {
     "description": "",
-    "message": "Kaydedilen bu oyun dosyası bir sistem hatası nedeniyle yazılamadı."
+    "message": "Bu oyun kayıt dosyası bir sistem hatası nedeniyle yazılamadı."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
@@ -479,17 +455,17 @@
     "description": "like wheat or barley",
     "message": "Tahıl"
   },
+  "GRID_DISPLAY_MODE_TOGGLE": {
+    "description": "Switch show no grid",
+    "message": "Izgara görüntüleme modları arasında geçiş yap"
+  },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "El Silahları"
+    "message": "Küçük silahlar"
   },
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Tamamen Kapitalist - yönetim mal varlığını düzenlemiyor"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Üst düğme\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -643,10 +619,6 @@
     "description": "",
     "message": "Joystick"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname %axis Ekseni"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Lagrange noktaları L4/L5 gösterim şeklini değiştir."
@@ -741,71 +713,7 @@
   },
   "MANUAL_CONTROL_MODE": {
     "description": "",
-    "message": "Elle kontrol"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Üstuzay Hedefini Kilitle"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Bilgi panelini aç/kapa"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Seçim Takip Görünümü Aç/Kapa"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Görünümü Aşağı Döndür"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Görünümü Sola Döndür"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Görünümü Sağa Döndür"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Görünümü Yukarı Döndür"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Görünümü Geriye Kaydır"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Görünümü Aşağı Kaydır"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Görünümü İleri Kaydır"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Görünümü Sola Kaydır"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Görünümü Sağa Kaydır"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Görünümü Yukarı Kaydır"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Mevcut Sisteme Sıçra"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Üstuzay Hedefine Sıçra"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Seçilen Sisteme Sıçra"
+    "message": "Elle kontrol modu"
   },
   "MASS": {
     "description": "",
@@ -882,6 +790,10 @@
   "MISSILE": {
     "description": "",
     "message": "füze"
+  },
+  "MISSILE_DETECTED": {
+    "description": "",
+    "message": "Füze fırlatması tespit edildi."
   },
   "MIXED_ECONOMY": {
     "description": "",
@@ -1071,6 +983,10 @@
     "description": "",
     "message": "\" Oksijen atmosfer\""
   },
+  "OBJECT_INFO": {
+    "description": "Originally for use as a window title and a button tooltip in the system map",
+    "message": "Cisim bilgisi"
+  },
   "OCEANICWORLD": {
     "description": "",
     "message": "\" okyanus dünyası\""
@@ -1082,6 +998,10 @@
   "ORBITAL_STARPORT": {
     "description": "",
     "message": "Yörünge yıldız limanı"
+  },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Yörünge planlayıcısı"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
@@ -1211,10 +1131,6 @@
     "description": "",
     "message": "Yeniden başlat"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Yönelim ve Yakınlaştırmayı Sıfırla"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Robotlar"
@@ -1314,6 +1230,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Semi-majör eksen"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Savaş hedefi olarak seç"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigasyon hedefi olarak seç"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",
@@ -1425,7 +1349,7 @@
   },
   "SPEED_CONTROL_MODE": {
     "description": "",
-    "message": "Hız kontrol"
+    "message": "Hız kontrol modu"
   },
   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
     "description": "",
@@ -1679,10 +1603,6 @@
     "description": "",
     "message": "HUD biçimini değiştir"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Lua konsolunu aç/kapa"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Radar modunu değiştir"
@@ -1731,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "g"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "s"
@@ -1766,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "dk"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
@@ -1843,14 +1771,6 @@
     "description": "",
     "message": "\" belli bir atmosferi yok\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Sapma"
@@ -1866,10 +1786,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Genç tarım kolonisi."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

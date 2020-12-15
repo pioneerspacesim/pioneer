@@ -1,0 +1,64 @@
+{
+	"agricultural": {
+		"description": {
+			"small": "YOUNG_FARMING_COLONY",
+			"medium": "OUTDOOR_AGRICULTURAL_WORLD",
+			"large": "THRIVING_OUTDOOR_WORLD",
+			"huge": "HIGH_POPULATION_OUTDOOR_WORLD"
+		},
+		"affinity": {
+			"//INFO": "affinity determines the per-system quantity of commodities produced by this economy.",
+			"agricultural": 2.0,
+			"industrial": 0.0,
+			"metallicity": 0.0
+		},
+		"generation": {
+			"//INFO": "these scalars control the economy that is selected for a system.",
+			"agricultural": 1.0,
+			"industrial": 0.0,
+			"metallicity": 0.0,
+			"population": 1.0,
+			"random": 0.0
+		}
+	},
+	"industrial": {
+		"description": {
+			"small": "SMALL_INDUSTRIAL_OUTPOST",
+			"medium": "INDUSTRIAL_COLONY",
+			"large": "HEAVY_INDUSTRY",
+			"huge": "INDUSTRIAL_HUB_SYSTEM"
+		},
+		"affinity": {
+			"agricultural": 0.0,
+			"industrial": 1.0,
+			"metallicity": 0.0
+		},
+		"generation": {
+			"agricultural": 0.0,
+			"industrial": 1.0,
+			"metallicity": 0.0,
+			"population": 1.0,
+			"random": 0.0
+		}
+	},
+	"mining": {
+		"description": {
+			"small": "SOME_ESTABLISHED_MINING",
+			"medium": "MINING_COLONY",
+			"large": "EXTENSIVE_MINING",
+			"huge": "VAST_STRIP_MINE"
+		},
+		"affinity": {
+			"agricultural": 0.0,
+			"industrial": 0.0,
+			"metallicity": 1.0
+		},
+		"generation": {
+			"agricultural": 0.0,
+			"industrial": 0.0,
+			"metallicity": 1.0,
+			"population": 1.0,
+			"random": 0.0
+		}
+	}
+}

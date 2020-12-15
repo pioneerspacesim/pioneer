@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('True Commonwealth')
@@ -15,14 +15,12 @@ f:govtype_weight('CORPORATE',		100)
 f:govtype_weight('PLUTOCRATIC',		74)
 f:govtype_weight('LIBDEM',		74)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIVE_ANIMALS',		55)
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		33)
-f:illegal_goods_probability('NARCOTICS',		57)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('live_animals',		55)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		33)
+f:illegal_goods_probability('narcotics',		57)
 
 f:add_to_factions('True Commonwealth')
-
-

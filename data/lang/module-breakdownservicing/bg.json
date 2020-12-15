@@ -1,0 +1,150 @@
+{
+  "FLAVOUR_0_INTRO": {
+    "description": "",
+    "message": "Избегнете неудобството от повреден хиперпространствен двигател. Обслужете своя днес при лицензираната {name} Двигателна Обслужваща Компания.\n"
+  },
+  "FLAVOUR_0_PRICE": {
+    "description": "",
+    "message": "\nДвигател: {drive}\nОбслужване: {price}\nГаранция: 18 месеца\n{lasttime}"
+  },
+  "FLAVOUR_0_RESPONSE": {
+    "description": "",
+    "message": "Вашия двигател беше обслужен."
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "",
+    "message": "{name} Двигателна Обслужваща Компания"
+  },
+  "FLAVOUR_0_YESPLEASE": {
+    "description": "",
+    "message": "Обслужи хиперпространствен двигател"
+  },
+  "FLAVOUR_1_INTRO": {
+    "description": "",
+    "message": "Аз съм {proprietor}. Мога да обслужа Вашия хипердвигател и Ви гарантирам поне година безпроблемна работа."
+  },
+  "FLAVOUR_1_PRICE": {
+    "description": "",
+    "message": "Цената за обслужването на {drive} ще бъде {price}\n{lasttime}"
+  },
+  "FLAVOUR_1_RESPONSE": {
+    "description": "",
+    "message": "Обслужих Вашия хипердвигател."
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "",
+    "message": "{proprietor}: Специалист по поддръжката на хипердвигатели"
+  },
+  "FLAVOUR_1_YESPLEASE": {
+    "description": "",
+    "message": "Обслужи моя двигател"
+  },
+  "FLAVOUR_2_INTRO": {
+    "description": "",
+    "message": "Ехо. Ние от {proprietor} & Ко залагаме репутацията си на труда си.\nМожем да регулираме Вашия хипердвигател, като гарантираме 12 месеца безпроблемна работа."
+  },
+  "FLAVOUR_2_PRICE": {
+    "description": "",
+    "message": "\n\n{lasttime}\nАз ще отговарям за качественото изпълнение на работата по Вашия {drive} за сумата от {price}."
+  },
+  "FLAVOUR_2_RESPONSE": {
+    "description": "",
+    "message": "Обслужването е завършено. Благодаря, че избрахте нас."
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "",
+    "message": "{proprietor} & Ко ХиперМеханика"
+  },
+  "FLAVOUR_2_YESPLEASE": {
+    "description": "",
+    "message": "Моля, регулирайте моя хипердвигател на посочената цена"
+  },
+  "FLAVOUR_3_INTRO": {
+    "description": "",
+    "message": "Добре дошли при Поддръжка СуперФикс. Време е за поддръжка? Ние ще СуперФиксираме вашия хиперпространствен двигател!"
+  },
+  "FLAVOUR_3_PRICE": {
+    "description": "",
+    "message": "\n\n{lasttime}\nНие ще регулираме Вашия {drive} само за {price}. Супер изгодно!"
+  },
+  "FLAVOUR_3_RESPONSE": {
+    "description": "",
+    "message": "Вашето СуперФикс обслужване е завършено със СуперФикс гаранция!"
+  },
+  "FLAVOUR_3_TITLE": {
+    "description": "",
+    "message": "СуперФикс Поддръжка (клон {name})"
+  },
+  "FLAVOUR_3_YESPLEASE": {
+    "description": "",
+    "message": "СуперФиксирай ме!"
+  },
+  "FLAVOUR_4_INTRO": {
+    "description": "",
+    "message": "Добре дошли във Време и Пространство.\n\nНие се занимаваме с междузвездни двигатели. Предлагаме гаранция за срок от две години."
+  },
+  "FLAVOUR_4_PRICE": {
+    "description": "",
+    "message": "\n{lasttime}\nОбслужването на на {drive} ще струва {price}. Искате ли да продължите?"
+  },
+  "FLAVOUR_4_RESPONSE": {
+    "description": "",
+    "message": "Завършихме работата по Вашия хиперпространствен двигател."
+  },
+  "FLAVOUR_4_TITLE": {
+    "description": "",
+    "message": "Двигатели Време и Пространство АД"
+  },
+  "FLAVOUR_4_YESPLEASE": {
+    "description": "",
+    "message": "Да, моля, продължете"
+  },
+  "FLAVOUR_5_INTRO": {
+    "description": "",
+    "message": "Избегнете неудобството от повреден хиперпространствен двигател. Обслужете своя днес.\n"
+  },
+  "FLAVOUR_5_PRICE": {
+    "description": "",
+    "message": "\nДвигател: {drive}\nОбслужване: {price}\n{lasttime}"
+  },
+  "FLAVOUR_5_RESPONSE": {
+    "description": "",
+    "message": "Вашия двигател беше обслужен."
+  },
+  "FLAVOUR_5_TITLE": {
+    "description": "",
+    "message": "{proprietor} Двигателна Обслужваща Компания"
+  },
+  "FLAVOUR_5_YESPLEASE": {
+    "description": "",
+    "message": "Обслужи хиперпространствен двигател"
+  },
+  "I_DONT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Нямам достатъчно пари"
+  },
+  "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
+    "description": "",
+    "message": "Поправих хипердвигателя преди да се повреди."
+  },
+  "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
+    "description": "",
+    "message": "Хипердвигателя на кораба се разруши, поради неизправност."
+  },
+  "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
+    "description": "",
+    "message": "Вашия двигател не е бил обслужван от датата на монтирането му {date}"
+  },
+  "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
+    "description": "",
+    "message": "Вашия двигател е бил последно обслужван на {date} от {company}"
+  },
+  "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
+    "description": "",
+    "message": "Не е намерен двигател за обслужване!"
+  },
+  "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
+    "description": "",
+    "message": "Вие поправихте хипердвигателя преди да се повреди."
+  }
+}

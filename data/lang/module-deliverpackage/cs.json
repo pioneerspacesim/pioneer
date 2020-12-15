@@ -271,10 +271,6 @@
     "description": "",
     "message": "O tom vážně pochybuji."
   },
-  "LY": {
-    "description": "",
-    "message": "ly"
-  },
   "NOT_ANY_MORE_THAN_USUAL": {
     "description": "",
     "message": "Ne víc než normálně."
@@ -325,7 +321,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Nastavit jako cíl navigace"
   },
   "SPACEPORT": {
     "description": "",

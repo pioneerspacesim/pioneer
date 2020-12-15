@@ -1,17 +1,17 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Game = import("Game")
-local Space = import("Space")
-local Event = import("Event")
-local Comms = import("Comms")
-local Timer = import("Timer")
-local Lang = import("Lang")
+local Game = require 'Game'
+local Space = require 'Space'
+local Event = require 'Event'
+local Comms = require 'Comms'
+local Timer = require 'Timer'
+local Lang = require 'Lang'
 
 local l = Lang.GetResource("module-system")
 
 local exploreSystem = function (system)
-	system:Explore()
+	Comms.Message(l.GETTING_SENSOR_DATA)
 	local starports = #Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	local major_bodies = #Space.GetBodies(function (body) return body.superType and body.superType ~= 'STARPORT' and body.superType ~= 'NONE' end)
 	local bodies
@@ -20,7 +20,10 @@ local exploreSystem = function (system)
 	else
 		bodies = l.BODIES
 	end
-	Comms.Message(l.EXPLORING_SYSTEM:interp({bodycount=major_bodies, bodies=bodies}))
+	Timer:CallAt(Game.time+major_bodies, function ()
+		system:Explore()
+		Comms.Message(l.EXPLORED_SYSTEM:interp({bodycount=major_bodies, bodies=bodies}))
+	end)
 	if starports > 0 then
 		local bases
 		if starports == 1 then
@@ -28,7 +31,7 @@ local exploreSystem = function (system)
 		else
 			bases = l.BASES
 		end
-		Timer:CallAt(Game.time+5, function ()
+		Timer:CallAt(Game.time+major_bodies+starports, function ()
 				Comms.ImportantMessage(l.DISCOVERED_HIDDEN_BASES:interp({portcount=starports, bases=bases}))
 			end)
 	end

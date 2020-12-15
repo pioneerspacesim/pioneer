@@ -1,0 +1,285 @@
+{
+  "AXIS": {
+    "description": "Cardinal name used to compose Joystick <X> Button <Y>",
+    "message": "轴"
+  },
+  "BIND_AXIS_PITCH": {
+    "description": "Descriptive name for the Pitch axis.",
+    "message": "俯仰"
+  },
+  "BIND_AXIS_ROLL": {
+    "description": "Descriptive name for the Roll axis",
+    "message": "滚转"
+  },
+  "BIND_AXIS_THRUST_FORWARD": {
+    "description": "Descriptive name for the ThrustForward axis",
+    "message": "向前/向后"
+  },
+  "BIND_AXIS_THRUST_LEFT": {
+    "description": "Descriptive name for the ThrustLeft axis",
+    "message": "向左/向右"
+  },
+  "BIND_AXIS_THRUST_UP": {
+    "description": "Descriptive name for the ThrustUp axis",
+    "message": "向上/向下"
+  },
+  "BIND_AXIS_YAW": {
+    "description": "Descriptive name for the Yaw axis.",
+    "message": "偏航"
+  },
+  "BIND_BOTTOM_CAMERA": {
+    "description": "Descriptive name for the BottomCamera action.",
+    "message": "切换到底部相机"
+  },
+  "BIND_CAMERA_PITCH": {
+    "description": "Descriptive name for the Camera Pitch axis.",
+    "message": "相机间距"
+  },
+  "BIND_CAMERA_ROLL": {
+    "description": "Descriptive name for the Camera Roll axis",
+    "message": "旋转摄像机"
+  },
+  "BIND_CAMERA_YAW": {
+    "description": "Descriptive name for the Camera Yaw axis.",
+    "message": "摄像机偏航"
+  },
+  "BIND_CYCLE_CAMERA_MODE": {
+    "description": "Descriptive name for the CycleCameraMode action.",
+    "message": "循环照相机模式"
+  },
+  "BIND_DECREASE_TIME_ACCELERATION": {
+    "description": "Descriptive name for the DecreaseTimeAcceleration action.",
+    "message": "减缓时间流逝"
+  },
+  "BIND_FRONT_CAMERA": {
+    "description": "Descriptive name for the FrontCamera action.",
+    "message": "切换到前摄像头"
+  },
+  "BIND_INCREASE_TIME_ACCELERATION": {
+    "description": "Descriptive name for the IncreaseTimeAcceleration action.",
+    "message": "加快时间流逝"
+  },
+  "BIND_KILL_ROT": {
+    "description": "Descriptive name for the KillRot action.",
+    "message": "杀伤旋转"
+  },
+  "BIND_LEFT_CAMERA": {
+    "description": "Descriptive name for the LeftCamera action.",
+    "message": "切换到左相机"
+  },
+  "BIND_LOOK_PITCH": {
+    "description": "Descriptive name for the Freelook Pitch axis.",
+    "message": "区域视角"
+  },
+  "BIND_LOOK_YAW": {
+    "description": "Descriptive name for the Freelook Yaw axis.",
+    "message": "偏航视角"
+  },
+  "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "Descriptive name for the MapToggleSelectionFollowView action.",
+    "message": "切换选项视图"
+  },
+  "BIND_MAP_VIEW_MOVE_FORWARD": {
+    "description": "Axis binding",
+    "message": "纵向移动地图"
+  },
+  "BIND_MAP_VIEW_MOVE_LEFT": {
+    "description": "Axis binding",
+    "message": "水平移动地图"
+  },
+  "BIND_MAP_VIEW_MOVE_UP": {
+    "description": "Axis binding",
+    "message": "垂直移动地图"
+  },
+  "BIND_MAP_VIEW_PITCH": {
+    "description": "Axis binding",
+    "message": "地图间距"
+  },
+  "BIND_MAP_VIEW_YAW": {
+    "description": "Axis binding",
+    "message": "地图偏航"
+  },
+  "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToCurrentSystem action.",
+    "message": "移动到当前星系"
+  },
+  "BIND_MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToSelectedSystem action.",
+    "message": "移动到选择的星系"
+  },
+  "BIND_PRIMARY_FIRE": {
+    "description": "Descriptive name for the PrimaryFire action.",
+    "message": "初级火力"
+  },
+  "BIND_REAR_CAMERA": {
+    "description": "Descriptive name for the RearCamera action.",
+    "message": "切换到后摄像机"
+  },
+  "BIND_RESET_CAMERA": {
+    "description": "Descriptive name for the ResetCamera action.",
+    "message": "重置相机视图"
+  },
+  "BIND_RESET_ORIENTATION_AND_ZOOM": {
+    "description": "Descriptive name for the ResetOrientationAndZoom action.",
+    "message": "重置方向和缩放"
+  },
+  "BIND_RIGHT_CAMERA": {
+    "description": "Descriptive name for the RightCamera action.",
+    "message": "切换到右侧摄像机"
+  },
+  "BIND_SECONDARY_FIRE": {
+    "description": "Descriptive name for the SecondaryFire action.",
+    "message": "次要火力"
+  },
+  "BIND_SPEED_CONTROL": {
+    "description": "Descriptive name for the SpeedControl axis.",
+    "message": "设定目标速度"
+  },
+  "BIND_TARGET_OBJECT": {
+    "description": "Descriptive name for the TargetObject action.",
+    "message": "目标物体"
+  },
+  "BIND_THRUST_LOW_POWER": {
+    "description": "Descriptive name for the ThrustLowPower action.",
+    "message": "低功率推力模式（保持）"
+  },
+  "BIND_TOGGLE_HUD_MODE": {
+    "description": "Descriptive name for the ToggleHudMode action.",
+    "message": "切换平视显示器模式"
+  },
+  "BIND_TOGGLE_LUA_CONSOLE": {
+    "description": "Descriptive name for the ToggleLuaConsole action.",
+    "message": "切换 Lua 控制台"
+  },
+  "BIND_TOGGLE_ROTATION_DAMPING": {
+    "description": "Descriptive name for the ToggleRotationDamping action.",
+    "message": "切换旋转消除"
+  },
+  "BIND_TOGGLE_SET_SPEED": {
+    "description": "Descriptive name for the ToggleSetSpeed action.",
+    "message": "切换速度控制模式"
+  },
+  "BIND_TOP_CAMERA": {
+    "description": "Descriptive name for the TopCamera action.",
+    "message": "切换到前摄像头"
+  },
+  "BIND_VIEW_ZOOM": {
+    "description": "Descriptive name for the View Zoom axis",
+    "message": "视图缩放"
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\"按钮\""
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\"目录\""
+  },
+  "GROUP_GENERAL_VIEW_CONTROLS": {
+    "description": "Header for the GeneralViewControls input group.",
+    "message": "通用视角控制"
+  },
+  "GROUP_MANUAL_CONTROL": {
+    "description": "Header for the ManualControl input group.",
+    "message": "手动控制推力"
+  },
+  "GROUP_MISCELLANEOUS": {
+    "message": "杂项"
+  },
+  "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
+    "description": "Header for the SectorMapViewControls input group.",
+    "message": "地图视图控制"
+  },
+  "GROUP_SHIP_ORIENT": {
+    "description": "Header for the ShipOrient input group.",
+    "message": "飞船朝向"
+  },
+  "GROUP_SPEED_CONTROL": {
+    "description": "Header for the SpeedControl input group.",
+    "message": "设定推力控制"
+  },
+  "GROUP_WEAPONS": {
+    "description": "Header for the Weapons input group.",
+    "message": "武器"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\"帽子\""
+  },
+  "MOUSE": {
+    "description": "A computer mouse, used to create the name for a mouse button binding",
+    "message": "鼠标"
+  },
+  "MOUSE_LMB": {
+    "description": "An acronym for the left mouse button",
+    "message": "鼠标左键"
+  },
+  "MOUSE_MMB": {
+    "description": "An acronym for the middle mouse button",
+    "message": "鼠标中键"
+  },
+  "MOUSE_RMB": {
+    "description": "An acronym for the right mouse button",
+    "message": "鼠标右键"
+  },
+  "PAGE_GENERAL": {
+    "description": "Header for the General input page.",
+    "message": "常规控制"
+  },
+  "PAGE_MAP_CONTROLS": {
+    "description": "Header for the MapControls input page.",
+    "message": "地图控制"
+  },
+  "PAGE_SHIP_CONTROLS": {
+    "description": "Header for the ShipControls input page.",
+    "message": "飞船控制"
+  },
+  "PAGE_SHIP_VIEW": {
+    "description": "Header for the ShipView input page.",
+    "message": "飞船视图"
+  },
+  "TEXT_ALT_BINDING": {
+    "description": "",
+    "message": "备选绑定:"
+  },
+  "TEXT_AXIS_DEADZONE": {
+    "description": "Message shown for the axis deadzone slider.",
+    "message": "轴死区"
+  },
+  "TEXT_AXIS_SENSITIVITY": {
+    "description": "Message shown for the axis sensitivity slider.",
+    "message": "轴灵敏度"
+  },
+  "TEXT_BINDING": {
+    "description": "",
+    "message": "绑定:"
+  },
+  "TEXT_INVERT_AXIS": {
+    "description": "Message shown for the invert axis checkbox.",
+    "message": "反转轴"
+  },
+  "TEXT_KEY_BINDINGS": {
+    "description": "Section header for an axis or action's key bindings.",
+    "message": "按键绑定:"
+  },
+  "TEXT_KEY_NEGATIVE": {
+    "description": "Indicates the negative half of a key-binding pair.",
+    "message": "负面"
+  },
+  "TEXT_KEY_POSITIVE": {
+    "description": "Indicates the positive half of a key-binding pair.",
+    "message": "正面"
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  }
+}

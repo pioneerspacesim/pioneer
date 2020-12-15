@@ -1,10 +1,14 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- this is the only library automatically loaded at startup
 -- its the right place to extend core Lua tables
 
-import("SpaceStation")
+require 'SpaceStation'
+
+math.round = function(v)
+	return (math.modf(v + (v < 0.0 and -.5 or .5)))
+end
 
 math.clamp = function(v, min, max)
 	return math.min(max, math.max(v,min))

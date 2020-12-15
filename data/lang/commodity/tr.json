@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Gelişmiş askeri hipersürücüler için yakıt olarak kullanılır. Bu sürücüler kullanıldıkları zaman atılmalarını gerektiren nükleer atıklar üretirler. Sentetik yapısından dolayı askeri yakıt daha pahalıdır ve hidrojenden daha az bulunur."
+    "message": "Gelişmiş askeri hipersürücüler için yakıt olarak kullanılır. Bu sürücüler kullanıldıkları zaman atılmalarını gerektiren radyoaktif atıklar üretirler. Sentetik yapısından dolayı askeri yakıt hidrojenden  daha pahalıdır ve daha az bulunur, aynı zamanda hidrojenin aksine doğada kendiliğinden bulunmaz."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Radyoaktifler"
+    "message": "Radyoaktif Atık"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Nükleer reaktörler tarafından üretilen bu atıklar, taşınması ve atılması en zor ve en tehlikeli maddelerdir. Bu sebepten dolayı çoğu uzay istasyonu bunlardan kurtulmak için para öderler. Nükleer atıkların atılması ciddi bir suçtur."
+    "message": "Nükleer reaktörler tarafından üretilen bu atıklar, taşınması ve atılması en zor ve en tehlikeli maddelerdir. Bu sebepten dolayı çoğu uzay istasyonu bunlardan kurtulmak için para öderler. Nükleer atıkların rastgele atılması ciddi bir suçtur."
   },
   "ROBOTS": {
     "description": "",

@@ -41,7 +41,7 @@
   },
   "DISTANCE": {
     "description": "",
-    "message": "Distance:"
+    "message": "المسافة:"
   },
   "EXCELLENT": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract."
+    "message": "It is most regrettable that {target} is still alive and well. You will receive no payment as you did not complete your contract."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Are you asking money for job done by someone else? Get lost."
+    "message": "Are you asking money for a job done by someone else? Get lost."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
@@ -173,15 +173,11 @@
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
-    "message": "How will I be paid?"
+    "message": "كيف سيتم الدفع لي؟"
   },
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "It must be done after {target} leaves {spaceport}. Do not miss this opportunity."
-  },
-  "LY": {
-    "description": "",
-    "message": "ly"
   },
   "OK_AGREED": {
     "description": "",
@@ -193,7 +189,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "ضعها كوجهة للملاحة"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -213,7 +209,7 @@
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "النظام:"
   },
   "TARGET_NAME": {
     "description": "",

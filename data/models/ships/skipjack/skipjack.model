@@ -1,0 +1,21 @@
+material fuselage-material
+diffuse 1.0 1.0 1.0
+specular 0.8 0.8 0.8
+use_patterns
+tex_norm skipjack_norm.png
+tex_diff skipjack_diff.dds
+tex_spec skipjack_spec.dds
+
+lod 300
+mesh skipjack_hi.dae
+mesh skipjack_shield.dae
+
+lod 100
+mesh skipjack_med.dae
+
+lod 50
+mesh skipjack_low.dae
+
+anim gear_down 1 121
+
+collision skipjack_collision.dae

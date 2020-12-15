@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Rim Territories')
@@ -15,14 +15,12 @@ f:govtype_weight('SOCDEM',		100)
 f:govtype_weight('LIBDEM',		25)
 f:govtype_weight('COMMUNIST',		25)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		40)
-f:illegal_goods_probability('ROBOTS',		100)
-f:illegal_goods_probability('SLAVES',		98)
-f:illegal_goods_probability('HAND_WEAPONS',		59)
-f:illegal_goods_probability('BATTLE_WEAPONS',		62)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('live_animals',		40)
+f:illegal_goods_probability('robots',		100)
+f:illegal_goods_probability('slaves',		98)
+f:illegal_goods_probability('hand_weapons',		59)
+f:illegal_goods_probability('battle_weapons',		62)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('Rim Territories')
-
-

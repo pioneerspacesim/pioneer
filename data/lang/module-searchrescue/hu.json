@@ -1,4 +1,8 @@
 {
+  "ACCIDENT_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Értesültünk a szomorú hírről, hogy megsemmisült a hajó, {shiplabel}. Erőfeszítéseiért a jutalom felét kifizetjük."
+  },
   "AU": {
     "description": "",
     "message": "AU"
@@ -431,10 +435,6 @@
     "description": "",
     "message": "Hossz:"
   },
-  "LY": {
-    "description": "",
-    "message": "fé"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Nem lehet átrakodni. {cargotype} hiányzik."
@@ -478,6 +478,10 @@
   "PLACE_OF_ASSISTANCE": {
     "description": "",
     "message": "a helyszínen"
+  },
+  "PLAYER_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Hallottunk róla, mit tett, kapitány! Biztosra veheti, hogy jelenteni fogjuk a helyi hatóságoknak, hogy elpusztította a hajót, aminek a megmentésére küldtük. Törvény elé fogjuk vinni."
   },
   "PLEASE_LAND": {
     "description": "",

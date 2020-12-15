@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Stellar Territories')
@@ -16,11 +16,9 @@ f:govtype_weight('MILDICT2',		36)
 f:govtype_weight('COMMUNIST',		13)
 f:govtype_weight('SOCDEM',		4)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		100)
 
 f:add_to_factions('Stellar Territories')
-
-

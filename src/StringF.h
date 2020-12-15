@@ -1,12 +1,12 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STRINGF_H
 #define _STRINGF_H
 
 #include "libs.h"
-#include <string>
 #include <SDL_stdinc.h>
+#include <string>
 
 //   provides (for integer types, floating point types, const char* and std::string):
 //
@@ -92,78 +92,83 @@
 class FormatSpec {
 public:
 	FormatSpec();
-	FormatSpec(const char* format);
-	FormatSpec(const char* format, int formatlen);
+	FormatSpec(const char *format);
+	FormatSpec(const char *format, int formatlen);
 
 	bool empty() const;
 
 	// access to components of the formatspec
-	bool specifierIs(const char* specifier) const;
+	bool specifierIs(const char *specifier) const;
 	int paramCount() const;
 	std::string param(int idx) const;
-	void paramPtr(int idx, const char*& begin, const char*& end) const;
+	void paramPtr(int idx, const char *&begin, const char *&end) const;
 
 private:
 	static const int MAX_PARAMS = 3;
 
 	void parseFormat(int length);
 
-	const char * const format;
+	const char *const format;
 	// each entry in the params array specifies the index within format[]
 	// of the first byte in the parameter
-	uint16_t params[MAX_PARAMS+1];
+	uint16_t params[MAX_PARAMS + 1];
 };
 
-std::string to_string(int8_t value, const FormatSpec& fmt);
-std::string to_string(int16_t value, const FormatSpec& fmt);
-std::string to_string(int32_t value, const FormatSpec& fmt);
-std::string to_string(int64_t value, const FormatSpec& fmt);
-std::string to_string(uint8_t value, const FormatSpec& fmt);
-std::string to_string(uint16_t value, const FormatSpec& fmt);
-std::string to_string(uint32_t value, const FormatSpec& fmt);
-std::string to_string(uint64_t value, const FormatSpec& fmt);
-std::string to_string(float value, const FormatSpec& fmt);
-std::string to_string(double value, const FormatSpec& fmt);
-std::string to_string(fixed value, const FormatSpec& fmt);
-std::string to_string(const char* value, const FormatSpec& fmt);
-std::string to_string(const std::string& value, const FormatSpec& fmt);
+std::string to_string(int8_t value, const FormatSpec &fmt);
+std::string to_string(int16_t value, const FormatSpec &fmt);
+std::string to_string(int32_t value, const FormatSpec &fmt);
+std::string to_string(int64_t value, const FormatSpec &fmt);
+std::string to_string(uint8_t value, const FormatSpec &fmt);
+std::string to_string(uint16_t value, const FormatSpec &fmt);
+std::string to_string(uint32_t value, const FormatSpec &fmt);
+std::string to_string(uint64_t value, const FormatSpec &fmt);
+std::string to_string(float value, const FormatSpec &fmt);
+std::string to_string(double value, const FormatSpec &fmt);
+std::string to_string(fixed value, const FormatSpec &fmt);
+std::string to_string(const char *value, const FormatSpec &fmt);
+std::string to_string(const std::string &value, const FormatSpec &fmt);
 
-inline std::string to_string(int8_t value, const FormatSpec& fmt) { return to_string(int64_t(value), fmt); }
-inline std::string to_string(int16_t value, const FormatSpec& fmt) { return to_string(int64_t(value), fmt); }
-inline std::string to_string(int32_t value, const FormatSpec& fmt) { return to_string(int64_t(value), fmt); }
-inline std::string to_string(uint8_t value, const FormatSpec& fmt) { return to_string(uint64_t(value), fmt); }
-inline std::string to_string(uint16_t value, const FormatSpec& fmt) { return to_string(uint64_t(value), fmt); }
-inline std::string to_string(uint32_t value, const FormatSpec& fmt) { return to_string(uint64_t(value), fmt); }
+inline std::string to_string(int8_t value, const FormatSpec &fmt) { return to_string(int64_t(value), fmt); }
+inline std::string to_string(int16_t value, const FormatSpec &fmt) { return to_string(int64_t(value), fmt); }
+inline std::string to_string(int32_t value, const FormatSpec &fmt) { return to_string(int64_t(value), fmt); }
+inline std::string to_string(uint8_t value, const FormatSpec &fmt) { return to_string(uint64_t(value), fmt); }
+inline std::string to_string(uint16_t value, const FormatSpec &fmt) { return to_string(uint64_t(value), fmt); }
+inline std::string to_string(uint32_t value, const FormatSpec &fmt) { return to_string(uint64_t(value), fmt); }
 
-inline std::string to_string(float value, const FormatSpec& fmt) { return to_string(double(value), fmt); }
+inline std::string to_string(float value, const FormatSpec &fmt) { return to_string(double(value), fmt); }
 
-inline std::string to_string(fixed value, const FormatSpec& fmt) {
+inline std::string to_string(fixed value, const FormatSpec &fmt)
+{
 	return to_string(value.ToDouble(), fmt);
 }
 
 template <typename T>
-inline std::string to_string(const T& value) {
+inline std::string to_string(const T &value)
+{
 	return to_string(value, FormatSpec());
 }
 
 class FormatArg {
 public:
-	explicit FormatArg(const char* name_ = 0, const char* defaultformat_ = 0):
-		name(name_), defaultformat(defaultformat_) {}
+	explicit FormatArg(const char *name_ = 0, const char *defaultformat_ = 0) :
+		name(name_),
+		defaultformat(defaultformat_) {}
 
-	char const * const name;
-	char const * const defaultformat;
+	char const *const name;
+	char const *const defaultformat;
 
-	virtual std::string format(const FormatSpec& spec) const = 0;
+	virtual std::string format(const FormatSpec &spec) const = 0;
 };
 
 template <typename T>
 class FormatArgT : public FormatArg {
 public:
-	FormatArgT(const char* name_, const T& value_, const char* defaultformat_):
-		FormatArg(name_, defaultformat_), value(value_) {}
+	FormatArgT(const char *name_, const T &value_, const char *defaultformat_) :
+		FormatArg(name_, defaultformat_),
+		value(value_) {}
 
-	virtual std::string format(const FormatSpec& spec) const {
+	virtual std::string format(const FormatSpec &spec) const
+	{
 		return to_string(value, spec);
 	}
 
@@ -173,30 +178,42 @@ private:
 
 // ---------------------------------------------------------------------------
 
-template <typename T> struct FormatArgWrapper;
+template <typename T>
+struct FormatArgWrapper;
 
-template <typename T> struct FormatArgWrapper {
+template <typename T>
+struct FormatArgWrapper {
 	typedef FormatArgT<T> type;
-	static type wrap(const T& arg, const char* name = 0, const char* defaultformat = 0)
-	{ return FormatArgT<T>(name, arg, defaultformat); }
+	static type wrap(const T &arg, const char *name = 0, const char *defaultformat = 0)
+	{
+		return FormatArgT<T>(name, arg, defaultformat);
+	}
 };
-template <int N> struct FormatArgWrapper<char[N]> {
-	typedef FormatArgT<const char*> type;
-	static type wrap(const char (&arg)[N], const char* name = 0, const char* defaultformat = 0)
-	{ return FormatArgT<const char*>(name, arg, defaultformat); }
+template <int N>
+struct FormatArgWrapper<char[N]> {
+	typedef FormatArgT<const char *> type;
+	static type wrap(const char (&arg)[N], const char *name = 0, const char *defaultformat = 0)
+	{
+		return FormatArgT<const char *>(name, arg, defaultformat);
+	}
 };
-template <> struct FormatArgWrapper<char[]> {
-	typedef FormatArgT<const char*> type;
-	static type wrap(const char *arg, const char* name = 0, const char* defaultformat = 0)
-	{ return FormatArgT<const char*>(name, arg, defaultformat); }
+template <>
+struct FormatArgWrapper<char[]> {
+	typedef FormatArgT<const char *> type;
+	static type wrap(const char *arg, const char *name = 0, const char *defaultformat = 0)
+	{
+		return FormatArgT<const char *>(name, arg, defaultformat);
+	}
 };
-template <> struct FormatArgWrapper<FormatArg> {
+template <>
+struct FormatArgWrapper<FormatArg> {
 	typedef FormatArg type;
-	static const type& wrap(const FormatArg& arg) { return arg; }
+	static const type &wrap(const FormatArg &arg) { return arg; }
 };
-template <typename T> struct FormatArgWrapper< FormatArgT<T> > {
+template <typename T>
+struct FormatArgWrapper<FormatArgT<T>> {
 	typedef FormatArgT<T> type;
-	static const type& wrap(const FormatArgT<T>& arg) { return arg; }
+	static const type &wrap(const FormatArgT<T> &arg) { return arg; }
 };
 
 // ---------------------------------------------------------------------------
@@ -211,89 +228,98 @@ FormatArgT<std::string> formatarg(const char* name, const char* value) {
 
 template <typename T>
 inline typename FormatArgWrapper<T>::type
-formatarg(const char* name, const T& value, const char* defaultformat = 0) {
+formatarg(const char *name, const T &value, const char *defaultformat = 0)
+{
 	return FormatArgWrapper<T>::wrap(value, name, defaultformat);
 }
 
 // underlying formatting function
 
-std::string string_format(const char* fmt, int numargs, FormatArg const * const args[]);
+std::string string_format(const char *fmt, int numargs, FormatArg const *const args[]);
 
 // ---------------------------------------------------------------------------
 
 // ---- stringf(format, args...) for 0 to 7 arguments ----
 
-inline std::string stringf(const char* fmt) {
+inline std::string stringf(const char *fmt)
+{
 	return string_format(fmt, 0, 0);
 }
 
 template <typename T0>
-inline std::string stringf(const char* fmt, const T0& p0) {
-	const typename FormatArgWrapper<T0>::type& arg0 = FormatArgWrapper<T0>::wrap(p0);
-	FormatArg const * const args[] = { &arg0 };
+inline std::string stringf(const char *fmt, const T0 &p0)
+{
+	const typename FormatArgWrapper<T0>::type &arg0 = FormatArgWrapper<T0>::wrap(p0);
+	FormatArg const *const args[] = { &arg0 };
 	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1>
-inline std::string stringf(const char* fmt, const T0& p0, const T1& p1) {
-	const typename FormatArgWrapper<T0>::type& arg0 = FormatArgWrapper<T0>::wrap(p0);
-	const typename FormatArgWrapper<T1>::type& arg1 = FormatArgWrapper<T1>::wrap(p1);
-	FormatArg const * const args[] = { &arg0, &arg1 };
+inline std::string stringf(const char *fmt, const T0 &p0, const T1 &p1)
+{
+	const typename FormatArgWrapper<T0>::type &arg0 = FormatArgWrapper<T0>::wrap(p0);
+	const typename FormatArgWrapper<T1>::type &arg1 = FormatArgWrapper<T1>::wrap(p1);
+	FormatArg const *const args[] = { &arg0, &arg1 };
 	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1, typename T2>
-inline std::string stringf(const char* fmt, const T0& p0, const T1& p1, const T2& p2) {
-	const typename FormatArgWrapper<T0>::type& arg0 = FormatArgWrapper<T0>::wrap(p0);
-	const typename FormatArgWrapper<T1>::type& arg1 = FormatArgWrapper<T1>::wrap(p1);
-	const typename FormatArgWrapper<T2>::type& arg2 = FormatArgWrapper<T2>::wrap(p2);
-	FormatArg const * const args[] = { &arg0, &arg1, &arg2 };
+inline std::string stringf(const char *fmt, const T0 &p0, const T1 &p1, const T2 &p2)
+{
+	const typename FormatArgWrapper<T0>::type &arg0 = FormatArgWrapper<T0>::wrap(p0);
+	const typename FormatArgWrapper<T1>::type &arg1 = FormatArgWrapper<T1>::wrap(p1);
+	const typename FormatArgWrapper<T2>::type &arg2 = FormatArgWrapper<T2>::wrap(p2);
+	FormatArg const *const args[] = { &arg0, &arg1, &arg2 };
 	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1, typename T2, typename T3>
-inline std::string stringf(const char* fmt, const T0& p0, const T1& p1, const T2& p2, const T3& p3) {
-	const typename FormatArgWrapper<T0>::type& arg0 = FormatArgWrapper<T0>::wrap(p0);
-	const typename FormatArgWrapper<T1>::type& arg1 = FormatArgWrapper<T1>::wrap(p1);
-	const typename FormatArgWrapper<T2>::type& arg2 = FormatArgWrapper<T2>::wrap(p2);
-	const typename FormatArgWrapper<T3>::type& arg3 = FormatArgWrapper<T3>::wrap(p3);
-	FormatArg const * const args[] = { &arg0, &arg1, &arg2, &arg3 };
+inline std::string stringf(const char *fmt, const T0 &p0, const T1 &p1, const T2 &p2, const T3 &p3)
+{
+	const typename FormatArgWrapper<T0>::type &arg0 = FormatArgWrapper<T0>::wrap(p0);
+	const typename FormatArgWrapper<T1>::type &arg1 = FormatArgWrapper<T1>::wrap(p1);
+	const typename FormatArgWrapper<T2>::type &arg2 = FormatArgWrapper<T2>::wrap(p2);
+	const typename FormatArgWrapper<T3>::type &arg3 = FormatArgWrapper<T3>::wrap(p3);
+	FormatArg const *const args[] = { &arg0, &arg1, &arg2, &arg3 };
 	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1, typename T2, typename T3, typename T4>
-inline std::string stringf(const char* fmt, const T0& p0, const T1& p1, const T2& p2, const T3& p3, const T4& p4) {
-	const typename FormatArgWrapper<T0>::type& arg0 = FormatArgWrapper<T0>::wrap(p0);
-	const typename FormatArgWrapper<T1>::type& arg1 = FormatArgWrapper<T1>::wrap(p1);
-	const typename FormatArgWrapper<T2>::type& arg2 = FormatArgWrapper<T2>::wrap(p2);
-	const typename FormatArgWrapper<T3>::type& arg3 = FormatArgWrapper<T3>::wrap(p3);
-	const typename FormatArgWrapper<T4>::type& arg4 = FormatArgWrapper<T4>::wrap(p4);
-	FormatArg const * const args[] = { &arg0, &arg1, &arg2, &arg3, &arg4 };
+inline std::string stringf(const char *fmt, const T0 &p0, const T1 &p1, const T2 &p2, const T3 &p3, const T4 &p4)
+{
+	const typename FormatArgWrapper<T0>::type &arg0 = FormatArgWrapper<T0>::wrap(p0);
+	const typename FormatArgWrapper<T1>::type &arg1 = FormatArgWrapper<T1>::wrap(p1);
+	const typename FormatArgWrapper<T2>::type &arg2 = FormatArgWrapper<T2>::wrap(p2);
+	const typename FormatArgWrapper<T3>::type &arg3 = FormatArgWrapper<T3>::wrap(p3);
+	const typename FormatArgWrapper<T4>::type &arg4 = FormatArgWrapper<T4>::wrap(p4);
+	FormatArg const *const args[] = { &arg0, &arg1, &arg2, &arg3, &arg4 };
 	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1, typename T2, typename T3, typename T4, typename T5>
-inline std::string stringf(const char* fmt, const T0& p0, const T1& p1, const T2& p2, const T3& p3, const T4& p4, const T5& p5) {
-	const typename FormatArgWrapper<T0>::type& arg0 = FormatArgWrapper<T0>::wrap(p0);
-	const typename FormatArgWrapper<T1>::type& arg1 = FormatArgWrapper<T1>::wrap(p1);
-	const typename FormatArgWrapper<T2>::type& arg2 = FormatArgWrapper<T2>::wrap(p2);
-	const typename FormatArgWrapper<T3>::type& arg3 = FormatArgWrapper<T3>::wrap(p3);
-	const typename FormatArgWrapper<T4>::type& arg4 = FormatArgWrapper<T4>::wrap(p4);
-	const typename FormatArgWrapper<T5>::type& arg5 = FormatArgWrapper<T5>::wrap(p5);
-	FormatArg const * const args[] = { &arg0, &arg1, &arg2, &arg3, &arg4, &arg5 };
+inline std::string stringf(const char *fmt, const T0 &p0, const T1 &p1, const T2 &p2, const T3 &p3, const T4 &p4, const T5 &p5)
+{
+	const typename FormatArgWrapper<T0>::type &arg0 = FormatArgWrapper<T0>::wrap(p0);
+	const typename FormatArgWrapper<T1>::type &arg1 = FormatArgWrapper<T1>::wrap(p1);
+	const typename FormatArgWrapper<T2>::type &arg2 = FormatArgWrapper<T2>::wrap(p2);
+	const typename FormatArgWrapper<T3>::type &arg3 = FormatArgWrapper<T3>::wrap(p3);
+	const typename FormatArgWrapper<T4>::type &arg4 = FormatArgWrapper<T4>::wrap(p4);
+	const typename FormatArgWrapper<T5>::type &arg5 = FormatArgWrapper<T5>::wrap(p5);
+	FormatArg const *const args[] = { &arg0, &arg1, &arg2, &arg3, &arg4, &arg5 };
 	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
-inline std::string stringf(const char* fmt, const T0& p0, const T1& p1, const T2& p2, const T3& p3, const T4& p4, const T5& p5, const T6& p6) {
-	const typename FormatArgWrapper<T0>::type& arg0 = FormatArgWrapper<T0>::wrap(p0);
-	const typename FormatArgWrapper<T1>::type& arg1 = FormatArgWrapper<T1>::wrap(p1);
-	const typename FormatArgWrapper<T2>::type& arg2 = FormatArgWrapper<T2>::wrap(p2);
-	const typename FormatArgWrapper<T3>::type& arg3 = FormatArgWrapper<T3>::wrap(p3);
-	const typename FormatArgWrapper<T4>::type& arg4 = FormatArgWrapper<T4>::wrap(p4);
-	const typename FormatArgWrapper<T5>::type& arg5 = FormatArgWrapper<T5>::wrap(p5);
-	const typename FormatArgWrapper<T6>::type& arg6 = FormatArgWrapper<T6>::wrap(p6);
-	FormatArg const * const args[] = { &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6 };
+inline std::string stringf(const char *fmt, const T0 &p0, const T1 &p1, const T2 &p2, const T3 &p3, const T4 &p4, const T5 &p5, const T6 &p6)
+{
+	const typename FormatArgWrapper<T0>::type &arg0 = FormatArgWrapper<T0>::wrap(p0);
+	const typename FormatArgWrapper<T1>::type &arg1 = FormatArgWrapper<T1>::wrap(p1);
+	const typename FormatArgWrapper<T2>::type &arg2 = FormatArgWrapper<T2>::wrap(p2);
+	const typename FormatArgWrapper<T3>::type &arg3 = FormatArgWrapper<T3>::wrap(p3);
+	const typename FormatArgWrapper<T4>::type &arg4 = FormatArgWrapper<T4>::wrap(p4);
+	const typename FormatArgWrapper<T5>::type &arg5 = FormatArgWrapper<T5>::wrap(p5);
+	const typename FormatArgWrapper<T6>::type &arg6 = FormatArgWrapper<T6>::wrap(p6);
+	FormatArg const *const args[] = { &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6 };
 	return string_format(fmt, COUNTOF(args), args);
 }
 

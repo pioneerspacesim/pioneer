@@ -1,16 +1,16 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TerrainBody.h"
+
+#include "Frame.h"
+#include "GameSaveError.h"
 #include "GasGiant.h"
 #include "GeoSphere.h"
-#include "Pi.h"
-#include "WorldView.h"
-#include "Frame.h"
-#include "Game.h"
-#include "graphics/Graphics.h"
+#include "Json.h"
+#include "Space.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Renderer.h"
-#include "GameSaveError.h"
 
 TerrainBody::TerrainBody(SystemBody *sbody) :
 	Body(),
@@ -18,13 +18,6 @@ TerrainBody::TerrainBody(SystemBody *sbody) :
 	m_mass(0)
 {
 	InitTerrainBody();
-}
-
-TerrainBody::TerrainBody() :
-	Body(),
-	m_sbody(0),
-	m_mass(0)
-{
 }
 
 TerrainBody::~TerrainBody()
@@ -37,7 +30,7 @@ void TerrainBody::InitTerrainBody()
 	assert(m_sbody);
 	m_mass = m_sbody->GetMass();
 	if (!m_baseSphere) {
-		if ( SystemBody::SUPERTYPE_GAS_GIANT==m_sbody->GetSuperType() ) {
+		if (SystemBody::SUPERTYPE_GAS_GIANT == m_sbody->GetSuperType()) {
 			m_baseSphere.reset(new GasGiant(m_sbody));
 		} else {
 			m_baseSphere.reset(new GeoSphere(m_sbody));
@@ -57,15 +50,15 @@ void TerrainBody::SaveToJson(Json &jsonObj, Space *space)
 	jsonObj["terrain_body"] = terrainBodyObj; // Add terrain body object to supplied object.
 }
 
-void TerrainBody::LoadFromJson(const Json &jsonObj, Space *space)
+TerrainBody::TerrainBody(const Json &jsonObj, Space *space) :
+	Body(jsonObj, space)
 {
-	Body::LoadFromJson(jsonObj, space);
 
 	try {
 		Json terrainBodyObj = jsonObj["terrain_body"];
 
 		m_sbody = space->GetSystemBodyByIndex(terrainBodyObj["index_for_system_body"]);
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 
@@ -84,21 +77,20 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	//stars very far away are downscaled, because they cannot be
 	//accurately drawn using actual distances
 	int shrink = 0;
-	if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR)
-	{
+	if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 		double len = fpos.Length();
 		double dist_to_horizon;
 		for (;;) {
 			if (len < rad) // player inside radius case
 				break;
 
-			dist_to_horizon = sqrt(len*len - rad * rad);
+			dist_to_horizon = sqrt(len * len - rad * rad);
 
-			if (dist_to_horizon < zfar*0.5)
+			if (dist_to_horizon < zfar * 0.5)
 				break;
 
 			rad *= 0.25;
-			fpos = 0.25*fpos;
+			fpos = 0.25 * fpos;
 			len *= 0.25;
 			++shrink;
 		}
@@ -106,14 +98,14 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 
 	vector3d campos = fpos;
 	ftran.ClearToRotOnly();
-	campos = ftran.Inverse() * campos;
+	campos = campos * ftran;
 
-	campos = campos * (1.0/rad);		// position of camera relative to planet "model"
+	campos = campos * (1.0 / rad); // position of camera relative to planet "model"
 
 	std::vector<Camera::Shadow> shadows;
-	if( camera ) {
+	if (camera) {
 		camera->PrincipalShadows(this, 3, shadows);
-		for (std::vector<Camera::Shadow>::iterator it = shadows.begin(), itEnd=shadows.end(); it!=itEnd; ++it) {
+		for (std::vector<Camera::Shadow>::iterator it = shadows.begin(), itEnd = shadows.end(); it != itEnd; ++it) {
 			it->centre = ftran * it->centre;
 		}
 	}
@@ -131,14 +123,18 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		renderer->ClearDepthBuffer();
 }
 
-void TerrainBody::SetFrame(Frame *f)
+void TerrainBody::SetFrame(FrameId fId)
 {
-	if (GetFrame()) {
-		GetFrame()->SetPlanetGeom(0, 0);
-	}
-	Body::SetFrame(f);
+	Frame *f = Frame::GetFrame(GetFrame());
+
 	if (f) {
-		GetFrame()->SetPlanetGeom(0, 0);
+		f->SetPlanetGeom(0, nullptr);
+	}
+	Body::SetFrame(fId);
+
+	f = Frame::GetFrame(fId);
+	if (f) {
+		f->SetPlanetGeom(0, nullptr);
 	}
 }
 
@@ -151,12 +147,6 @@ double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 		assert(0);
 		return radius;
 	}
-}
-
-bool TerrainBody::IsSuperType(SystemBody::BodySuperType t) const
-{
-	if (!m_sbody) return false;
-	else return m_sbody->GetSuperType() == t;
 }
 
 //static

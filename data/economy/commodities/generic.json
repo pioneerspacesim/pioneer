@@ -1,0 +1,10 @@
+{
+	"commodities": {
+		"rubbish": {
+			"l10n_key": "RUBBISH",
+			"inputs": [],
+			"producer": "ALL",
+			"price": -0.7
+		}
+	}
+}

@@ -103,10 +103,6 @@
     "description": "",
     "message": "Brown dwarf sub-stellar object"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Button \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Bottom camera"
@@ -167,25 +163,13 @@
     "description": "",
     "message": "Cargo scoop attempted. Not enough room in cargo hold."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" Methane atmosphere\""
-  },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Clearance already granted. Proceed to docking bay %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Clearance denied. There are no free docking bays."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Clearance granted. Proceed to docking bay %bay."
   },
   "CO2_ATMOSPHERE": {
     "description": "",
@@ -323,10 +307,6 @@
     "description": "",
     "message": "Destination"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Dir \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Distance: %distance{f.2} ly"
@@ -338,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Docking"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Docking clearance expired. If you wish to dock you must repeat your request."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -358,10 +334,6 @@
   "DRAW_VERTICAL_LINES": {
     "description": "",
     "message": "Draw vertical lines"
-  },
-  "EARTH": {
-    "description": "",
-    "message": "Earth"
   },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
@@ -479,17 +451,17 @@
     "description": "like wheat or barley",
     "message": "Grain"
   },
+  "GRID_DISPLAY_MODE_TOGGLE": {
+    "description": "Switch show no grid",
+    "message": "Switch between grid display modes."
+  },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Hand weapons"
+    "message": "Small arms"
   },
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Entirely Capitalist - no government welfare provision"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -643,10 +615,6 @@
     "description": "",
     "message": "Joystick input"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname %axis Axis"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Switch between Lagrange L4/L5 point display modes."
@@ -743,70 +711,6 @@
     "description": "",
     "message": "Manual control mode"
   },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Lock Hyperspace Target"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Toggle Info Panel"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Toggle Selection Following View"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Rotate View Down"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Rotate View Left"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Rotate View Right"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Rotate View Up"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Shift View Backwards"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Shift View Down"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Shift View Forwards"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Shift View Left"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Shift View Right"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Shift View Up"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Warp to Current System"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Warp to Hyperspace Target"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Warp to Selected System"
-  },
   "MASS": {
     "description": "",
     "message": "Mass"
@@ -882,6 +786,10 @@
   "MISSILE": {
     "description": "",
     "message": "missile"
+  },
+  "MISSILE_DETECTED": {
+    "description": "",
+    "message": "Missile launch detected."
   },
   "MIXED_ECONOMY": {
     "description": "",
@@ -1053,15 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} earth days"
+    "message": "%days{f.1} Earth days"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} %units masses"
+    "message": "%mass{f.3} Earth masses"
   },
-  "N_WHATEVER_RADII": {
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Solar masses"
+  },
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} Earth radii (%radkm{f.0} km)"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %units radii (%radkm{f.0} km)"
+    "message": "%radius{f.3} Solar radii (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -1070,6 +986,10 @@
   "O2_ATMOSPHERE": {
     "description": "",
     "message": "\" Oxygen atmosphere\""
+  },
+  "OBJECT_INFO": {
+    "description": "Originally for use as a window title and a button tooltip in the system map",
+    "message": "Object info"
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1082,6 +1002,10 @@
   "ORBITAL_STARPORT": {
     "description": "",
     "message": "Orbital starport"
+  },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
@@ -1211,10 +1135,6 @@
     "description": "",
     "message": "Reset"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Reset Orientation and Zoom"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Robots"
@@ -1315,6 +1235,14 @@
     "description": "",
     "message": "Semi-major axis"
   },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Set as navigation target"
+  },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",
     "message": "Set hyperspace destination to %system"
@@ -1410,10 +1338,6 @@
   "SOCIAL_DEMOCRACY": {
     "description": "",
     "message": "Social democracy"
-  },
-  "SOLAR": {
-    "description": "",
-    "message": "Solar"
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",
@@ -1679,10 +1603,6 @@
     "description": "",
     "message": "Toggle HUD mode"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Toggle Lua console"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Toggle radar mode"
@@ -1731,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "d"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "h"
@@ -1766,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "m"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
@@ -1843,14 +1771,6 @@
     "description": "",
     "message": "\" with no significant atmosphere\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Yaw"
@@ -1866,10 +1786,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Young farming colony."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

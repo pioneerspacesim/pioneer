@@ -1,50 +1,50 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SECTORVIEW_H
 #define _SECTORVIEW_H
 
-#include "libs.h"
-#include "gui/Gui.h"
-#include "UIView.h"
-#include <vector>
-#include <set>
-#include <string>
-#include "View.h"
+#include "DeleteEmitter.h"
+#include "Input.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
-#include "graphics/RenderState.h"
+#include "gui/Gui.h"
+#include "pigui/PiGuiView.h"
 #include <set>
+#include <string>
+#include <vector>
 
 class Game;
 class Galaxy;
 
-class SectorView: public UIView {
-public:
-	SectorView(Game* game);
-	SectorView(const Json &jsonObj, Game* game);
-	virtual ~SectorView();
+namespace Graphics {
+	class RenderState;
+}
 
-	virtual void Update();
-	virtual void ShowAll();
-	virtual void Draw3D();
+class SectorView : public PiGuiView, public DeleteEmitter {
+public:
+	SectorView(Game *game);
+	SectorView(const Json &jsonObj, Game *game);
+	~SectorView() override;
+
+	void Update() override;
+	void ShowAll() override;
+	void Draw3D() override;
 	vector3f GetPosition() const { return m_pos; }
 	SystemPath GetCurrent() const { return m_current; }
 	SystemPath GetSelected() const { return m_selected; }
-	void SetSelected(const SystemPath &path);
+	void SwitchToPath(const SystemPath &path);
 	SystemPath GetHyperspaceTarget() const { return m_hyperspaceTarget; }
 	void SetHyperspaceTarget(const SystemPath &path);
-	void FloatHyperspaceTarget();
-	void LockHyperspaceTarget(bool lock);
 	void ResetHyperspaceTarget();
 	void GotoSector(const SystemPath &path);
 	void GotoSystem(const SystemPath &path);
 	void GotoCurrentSystem() { GotoSystem(m_current); }
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
-	void SwapSelectedHyperspaceTarget();
-	virtual void SaveToJson(Json &jsonObj);
+	bool IsCenteredOn(const SystemPath &path);
+	void SaveToJson(Json &jsonObj) override;
 
 	sigc::signal<void> onHyperspaceTargetChanged;
 
@@ -61,20 +61,42 @@ public:
 	const std::set<const Faction *> &GetVisibleFactions() { return m_visibleFactions; }
 	const std::set<const Faction *> &GetHiddenFactions() { return m_hiddenFactions; }
 	void SetFactionVisible(const Faction *faction, bool visible);
+	void SetZoomMode(bool enable);
+	void SetRotateMode(bool enable);
+	void ResetView();
 
 	// HyperJump Route Planner
 	bool MoveRouteItemUp(const std::vector<SystemPath>::size_type element);
 	bool MoveRouteItemDown(const std::vector<SystemPath>::size_type element);
+	void UpdateRouteItem(const std::vector<SystemPath>::size_type element, const SystemPath &path);
 	void AddToRoute(const SystemPath &path);
 	bool RemoveRouteItem(const std::vector<SystemPath>::size_type element);
 	void ClearRoute();
 	std::vector<SystemPath> GetRoute();
-	void AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const;
+	const std::string AutoRoute(const SystemPath &start, const SystemPath &target, std::vector<SystemPath> &outRoute) const;
 	void SetDrawRouteLines(bool value) { m_drawRouteLines = value; }
 
-
 protected:
-	virtual void OnSwitchTo();
+	void OnSwitchTo() override;
+	void OnSwitchFrom() override;
+
+	struct InputBinding : public Input::InputFrame {
+		using InputFrame::InputFrame;
+
+		Action *mapToggleSelectionFollowView;
+		Action *mapWarpToCurrent;
+		Action *mapWarpToSelected;
+		Action *mapViewReset;
+
+		Axis *mapViewMoveForward;
+		Axis *mapViewMoveLeft;
+		Axis *mapViewMoveUp;
+		Axis *mapViewYaw;
+		Axis *mapViewPitch;
+		Axis *mapViewZoom;
+
+		void RegisterBindings() override;
+	} InputBindings;
 
 private:
 	void InitDefaults();
@@ -96,22 +118,23 @@ private:
 		Gui::Label *shortDesc;
 	};
 
-	void DrawNearSectors(const matrix4x4f& modelview);
-	void DrawNearSector(const int sx, const int sy, const int sz, const vector3f &playerAbsPos, const matrix4x4f &trans);
+	void DrawNearSectors(const matrix4x4f &modelview);
+	void DrawNearSector(const int sx, const int sy, const int sz, const matrix4x4f &trans);
 	void PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &origin, int drawRadius);
 
-	void DrawFarSectors(const matrix4x4f& modelview);
+	void DrawFarSectors(const matrix4x4f &modelview);
 	void BuildFarSector(RefCountedPtr<Sector> sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors);
 	void PutFactionLabels(const vector3f &secPos);
 	void AddStarBillboard(const matrix4x4f &modelview, const vector3f &pos, const Color &col, float size);
 
 	void OnClickSystem(const SystemPath &path);
+	const SystemPath &CheckPathInRoute(const SystemPath &path);
 
-	RefCountedPtr<Sector> GetCached(const SystemPath& loc) { return m_sectorCache->GetCached(loc); }
+	RefCountedPtr<Sector> GetCached(const SystemPath &loc) { return m_sectorCache->GetCached(loc); }
 	void ShrinkCache();
+	void SetSelected(const SystemPath &path);
 
 	void MouseWheel(bool up);
-	void OnKeyPressed(SDL_Keysym *keysym);
 
 	RefCountedPtr<Galaxy> m_galaxy;
 
@@ -132,8 +155,11 @@ private:
 	float m_zoomClamped;
 	float m_zoomMovingTo;
 
+	bool m_rotateWithMouseButton = false;
+	bool m_rotateView = false;
+	bool m_zoomView = false;
+
 	SystemPath m_hyperspaceTarget;
-	bool m_matchTargetToSelection;
 	bool m_automaticSystemSelection;
 
 	bool m_drawUninhabitedLabels;
@@ -144,15 +170,18 @@ private:
 
 	Gui::LabelSet *m_clickableLabels;
 
-	std::set<const Faction*>        m_visibleFactions;
-	std::set<const Faction*>        m_hiddenFactions;
+	std::set<const Faction *> m_visibleFactions;
+	std::set<const Faction *> m_hiddenFactions;
 
 	Uint8 m_detailBoxVisible;
 
-	void OnToggleFaction(Gui::ToggleButton* button, bool pressed, const Faction* faction);
+	void OnToggleFaction(Gui::ToggleButton *button, bool pressed, const Faction *faction);
 
 	sigc::connection m_onMouseWheelCon;
-	sigc::connection m_onKeyPressConnection;
+	sigc::connection m_onToggleSelectionFollowView;
+	sigc::connection m_onWarpToCurrent;
+	sigc::connection m_onWarpToSelected;
+	sigc::connection m_onViewReset;
 
 	RefCountedPtr<SectorCache::Slave> m_sectorCache;
 	std::string m_previousSearch;
@@ -164,8 +193,12 @@ private:
 
 	// HyperJump Route Planner Stuff
 	std::vector<SystemPath> m_route;
+	Graphics::Drawables::Lines m_routeLines;
 	bool m_drawRouteLines;
-	void DrawRouteLines(const vector3f &playerAbsPos, const matrix4x4f &trans);
+	bool m_setupRouteLines;
+	void DrawRouteLines(const matrix4x4f &trans);
+	void SetupRouteLines(const vector3f &playerAbsPos);
+	void GetPlayerPosAndStarSize(vector3f &playerPosOut, float &currentStarSizeOut);
 
 	Graphics::RenderState *m_solidState;
 	Graphics::RenderState *m_alphaBlendState;
@@ -174,11 +207,11 @@ private:
 	RefCountedPtr<Graphics::Material> m_starMaterial;
 
 	std::vector<vector3f> m_farstars;
-	std::vector<Color>    m_farstarsColor;
+	std::vector<Color> m_farstarsColor;
 
 	vector3f m_secPosFar;
-	int      m_radiusFar;
-	bool     m_toggledFaction;
+	int m_radiusFar;
+	bool m_toggledFaction;
 
 	int m_cacheXMin;
 	int m_cacheXMax;

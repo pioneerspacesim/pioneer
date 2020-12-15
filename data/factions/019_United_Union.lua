@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('United Union')
@@ -15,14 +15,12 @@ f:govtype_weight('COMMUNIST',		100)
 f:govtype_weight('SOCDEM',		66)
 f:govtype_weight('MILDICT2',		66)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIVE_ANIMALS',		33)
-f:illegal_goods_probability('LIQUOR',		87)
-f:illegal_goods_probability('ROBOTS',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		70)
-f:illegal_goods_probability('NARCOTICS',		100)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('live_animals',		33)
+f:illegal_goods_probability('liquor',		87)
+f:illegal_goods_probability('robots',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		70)
+f:illegal_goods_probability('narcotics',		100)
 
 f:add_to_factions('United Union')
-
-

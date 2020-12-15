@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUIRADIOGROUP_H
@@ -10,14 +10,15 @@
 namespace Gui {
 	class RadioGroup {
 	public:
-		RadioGroup() {};
-		virtual ~RadioGroup() {};
+		RadioGroup(){};
+		virtual ~RadioGroup(){};
 		void Add(ISelectable *b);
 		void SetSelected(int member_idx);
+
 	private:
 		void OnSelected(ISelectable *b);
-		std::list<ISelectable*> m_members;
+		std::list<ISelectable *> m_members;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUIRADIOGROUP_H */

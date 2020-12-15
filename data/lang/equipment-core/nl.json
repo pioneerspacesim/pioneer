@@ -191,6 +191,14 @@
     "description": "",
     "message": "Wordt gebruikt om mineraal-rijke asteroïden te mijnen."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Wordt gebruikt om mineraal-rijke asteroïden te mijnen."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Geleide Raket"
@@ -208,7 +216,7 @@
     "message": "R40 Ongeleide Raket"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Multi-inlaat"
   },
   "MULTI_SCOOP_DESCRIPTION": {

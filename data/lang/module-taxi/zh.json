@@ -13,7 +13,7 @@
   },
   "CORPORATIONS_11": {
     "description": "",
-    "message": "Arment 空气动力"
+    "message": "阿姆特空气动力"
   },
   "CORPORATIONS_2": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "CORPORATIONS_3": {
     "description": "",
-    "message": "Taranis"
+    "message": "塔拉尼斯"
   },
   "CORPORATIONS_4": {
     "description": "",
@@ -29,19 +29,19 @@
   },
   "CORPORATIONS_5": {
     "description": "",
-    "message": "Rockforth"
+    "message": "罗克福思"
   },
   "CORPORATIONS_6": {
     "description": "",
-    "message": "Amaliel"
+    "message": "阿玛列"
   },
   "CORPORATIONS_7": {
     "description": "",
-    "message": "Marett Space"
+    "message": "马雷特空间"
   },
   "CORPORATIONS_8": {
     "description": "",
-    "message": "Vega Line"
+    "message": "织女星线"
   },
   "CORPORATIONS_9": {
     "description": "",
@@ -538,10 +538,6 @@
   "I_MUST_BE_THERE_BEFORE": {
     "description": "",
     "message": "最晚"
-  },
-  "LY": {
-    "description": "",
-    "message": "ly"
   },
   "OK_AGREED": {
     "description": "",

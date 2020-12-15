@@ -1,0 +1,82 @@
+{
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "İzin zaten verildi. {bay} nolu kenetlenme bölmesine devam edin."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "İzin reddedildi. Boş sabitlenme bölmesi yok."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "İzin reddedildi. Geminiz kimlik doğrulaması için çok uzakta."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "İzin verildi. {bay} nolu kenetlenme bölmesine devam edin."
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Kenetlenme izin süresi doldu. Eğer kenetlenmek istiyorsanız isteğinizi tekrarlayın."
+  },
+  "STATION_GRAV": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "Yerel kütleçekimi {grav}."
+  },
+  "STATION_GRAV_PRESS": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "Yerel kütleçekimi {grav}, basınç {press}."
+  },
+  "WATCH_FOR_TRAFFIC_ON_APPROACH": {
+    "description": "",
+    "message": "Lütfen yaklaşırken trafiğe dikkat edin."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, {station} uzayına giriyorsunuz. Lütfen yerel düzenlemelere uyun."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_2": {
+    "description": "",
+    "message": "{playerShipLabel}, sizi radarımızda görüyoruz. {station} kontrollü uzay sahası içindesiniz."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_3": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, burası {station} UTK. Kontrollü uzay sahamıza giriyorsunuz."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_4": {
+    "description": "",
+    "message": "{station} kontrollü uzay sahasına giriyorsunuz, {playerShipLabel}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, {station} istasyonuna hoşgeldiniz. Lütfen yetki alanımızda uçarken belli kurallar olduğunu unutmayın."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, {station} UTK konuşuyor. Kontrollü uzay sahamıza giriyorsunuz, ve bugün bana kaza-kırım evrağı doldurtmazsanız minnettar olacağım."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, {station} kontrollü uzay sahasından ayrıldınız."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_2": {
+    "description": "",
+    "message": "{station} uzayından çıktınız, {playerShipLabel}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_3": {
+    "description": "",
+    "message": "{playerShipLabel}, {station} kontrollü uzay sahasından ayrıldınız. Kısıtlamalar kaldırıldı."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_4": {
+    "description": "",
+    "message": "{station} kontrollü uzay sahasının dışına çıkıyorsunuz, {playerShipLabel}. Ayrılışınızı kayda geçirdik."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, {station} uzayından ayrılıyorsunuz. İyi yolculuklar dileriz."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, burası {station} UTK. Kontrollü uzay sahamızdan çıktığınızı görüyorum, sağlıcakla kalın."
+  }
+}

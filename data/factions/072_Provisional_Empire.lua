@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Provisional Empire')
@@ -19,9 +19,7 @@ f:govtype_weight('COMMUNIST',		7)
 f:govtype_weight('MILDICT1',		1)
 f:govtype_weight('MILDICT2',		1)
 
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('NARCOTICS',		60)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('narcotics',		60)
 
 f:add_to_factions('Provisional Empire')
-
-

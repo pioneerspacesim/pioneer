@@ -1,15 +1,15 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUISTACK_H
 #define _GUISTACK_H
 
-#include "GuiWidget.h"
 #include "GuiContainer.h"
+#include "GuiWidget.h"
 #include <stack>
 
 namespace Gui {
-	class Stack: public Container {
+	class Stack : public Container {
 	public:
 		Stack();
 		virtual ~Stack();
@@ -27,8 +27,8 @@ namespace Gui {
 		virtual void JumpTo(Widget *w);
 
 	private:
-		std::stack<Widget*> m_widgets;
+		std::stack<Widget *> m_widgets;
 	};
-}
+} // namespace Gui
 
 #endif

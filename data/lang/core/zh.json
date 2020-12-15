@@ -53,27 +53,27 @@
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
-    "message": "Autopilot: Dock with {target}"
+    "message": "自动驾驶：停靠 {target}"
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter high orbit around {target}"
+    "message": "自动驾驶:进入高轨道环绕{target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter low orbit around {target}"
+    "message": "自动驾驶:进入低轨道环绕{target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter medium orbit around {target}"
+    "message": "自动驾驶:进入中轨道环绕{target}"
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "Autopilot: Fly to vicinity of {target}"
+    "message": "自动驾驶:飞向{target}"
   },
   "AUTOPILOT_ON": {
     "description": "",
-    "message": "自动飞行已打开"
+    "message": "启动自动驾驶"
   },
   "AXIAL_TILT": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "BODIES": {
     "description": "space bodies",
-    "message": "体"
+    "message": "身体"
   },
   "BODY": {
     "description": "",
@@ -102,10 +102,6 @@
   "BROWN_DWARF": {
     "description": "",
     "message": "褐矮星亚恒星体"
-  },
-  "BUTTON": {
-    "description": "",
-    "message": "\"按钮\""
   },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
@@ -157,7 +153,7 @@
   },
   "CARGO_N": {
     "description": "",
-    "message": "货仓: %{mass}t"
+    "message": "货仓: %{mass}吨"
   },
   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
     "description": "",
@@ -167,25 +163,13 @@
     "description": "",
     "message": "货物收集器启动. 货仓空间不足."
   },
+  "CENTER": {
+    "description": "",
+    "message": "中间"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\"甲烷大气\""
-  },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "请求已经接受.前往停靠口 %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "请求驳回.没有空闲的停靠口了."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "请求已接受. 前往停靠口 %bay."
   },
   "CO2_ATMOSPHERE": {
     "description": "",
@@ -261,7 +245,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "消费者货物"
+    "message": "消费品"
   },
   "CONTROLS": {
     "description": "",
@@ -297,7 +281,7 @@
   },
   "DATE_DUE_N": {
     "description": "",
-    "message": "日期: %date"
+    "message": "期限: %date"
   },
   "DAY_LENGTH": {
     "description": "",
@@ -323,10 +307,6 @@
     "description": "",
     "message": "目的地"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Dir\""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "距离: %distance{f.2} 光年"
@@ -338,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "停靠"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "停靠请求已过期.如果仍要停靠必须复述停靠请求."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -413,7 +389,7 @@
   },
   "FIRE_LASER": {
     "description": "",
-    "message": "Fire weapon"
+    "message": "火器"
   },
   "FIRE_MISSILE": {
     "description": "",
@@ -421,7 +397,7 @@
   },
   "FLYBY_VIEW": {
     "description": "camera view setting",
-    "message": "Flyby view"
+    "message": "飞越视图"
   },
   "FOLLOWING_SELECTION": {
     "description": "",
@@ -449,7 +425,7 @@
   },
   "GAME_LOAD_CANNOT_OPEN": {
     "description": "",
-    "message": "文件 '%filename' 无法被找到 (或游戏没有打开它的权限)"
+    "message": "存档 '%filename' 无法被找到 (或游戏没有打开它的权限)"
   },
   "GAME_LOAD_CORRUPT": {
     "description": "",
@@ -479,29 +455,29 @@
     "description": "like wheat or barley",
     "message": "粮食"
   },
+  "GRID_DISPLAY_MODE_TOGGLE": {
+    "description": "Switch show no grid",
+    "message": "在网格显示模式之间切换。"
+  },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "手持武器"
+    "message": "小型武器"
   },
   "HARD_CAPITALIST": {
     "description": "",
     "message": "完全资本主义 - 政府不提供福利"
   },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
-  },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Hold {target} anti-normal"
+    "message": "保持{target}反法线"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Hold {target} retrograde"
+    "message": "持续远离{target}"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Hold {target} prograde"
+    "message": "保持靠近{target}"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -509,15 +485,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Hold {target} normal"
+    "message": "保持{target}正常"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "Hold {target} radially in"
+    "message": "持续螺旋接近{target}"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "Hold {target} radially out"
+    "message": "持续螺旋远离{target}"
   },
   "HEAVY_INDUSTRY": {
     "description": "",
@@ -643,10 +619,6 @@
     "description": "",
     "message": "摇杆输入"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}Joy%joynum %axis 轴"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "在拉格朗日点L4/L5显示模式间切换. "
@@ -669,7 +641,7 @@
   },
   "LASER_FIRE_DETECTED": {
     "description": "",
-    "message": "Weapons fire detected."
+    "message": "火器检测"
   },
   "LATITUDE": {
     "description": "Short for latitude",
@@ -743,70 +715,6 @@
     "description": "",
     "message": "手动控制模式"
   },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "锁定超空间跳跃目标"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "切换信息面板"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "切换选项视图"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "向下旋转视角"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "向左旋转视角"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "向右旋转视角"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "向上旋转视角"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "向后平移视角"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "向下平移视角"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "向前平移视角"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "向左平移视角"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "向右平移视角"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "向上平移视角"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "移动到当前星系"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "移动到超空间跳跃目标"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "移动到选择的星系"
-  },
   "MASS": {
     "description": "",
     "message": "质量"
@@ -817,7 +725,7 @@
   },
   "MASS_N_TONNES": {
     "description": "",
-    "message": "质量: %{mass} t"
+    "message": "质量: %{mass}吨"
   },
   "MEDICINES": {
     "description": "",
@@ -833,7 +741,7 @@
   },
   "META": {
     "description": "'Meta' key on keyboard",
-    "message": "Meta"
+    "message": "单元"
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -882,6 +790,10 @@
   "MISSILE": {
     "description": "",
     "message": "导弹"
+  },
+  "MISSILE_DETECTED": {
+    "description": "",
+    "message": "探测到导弹发射."
   },
   "MIXED_ECONOMY": {
     "description": "",
@@ -977,7 +889,7 @@
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
-    "message": "Autopilot not installed on ship, cannot enable autopilot"
+    "message": "自动驾驶仪未安装在船上，不能启用自动驾驶仪"
   },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",
@@ -1071,6 +983,10 @@
     "description": "",
     "message": "\"氧气大气\""
   },
+  "OBJECT_INFO": {
+    "description": "Originally for use as a window title and a button tooltip in the system map",
+    "message": "对象信息"
+  },
   "OCEANICWORLD": {
     "description": "",
     "message": "\"海洋世界\""
@@ -1083,17 +999,21 @@
     "description": "",
     "message": "轨道星港"
   },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "轨道规划器"
+  },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
     "message": "可在户外活动的农业星球."
   },
   "OVER_N_BILLION": {
     "description": "",
-    "message": "超过 %population 000000000"
+    "message": "超过 %population 十亿"
   },
   "OVER_N_MILLION": {
     "description": "",
-    "message": "超过 %population 000000"
+    "message": "超过 %population 兆"
   },
   "PASSENGER_CABIN": {
     "description": "",
@@ -1205,15 +1125,11 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Request docking clearance from {target}"
+    "message": "请求 {target}进坞许可"
   },
   "RESET": {
     "description": "",
     "message": "重置"
-  },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "重置方向和缩放"
   },
   "ROBOTS": {
     "description": "",
@@ -1314,6 +1230,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "半长轴"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "设定为作战目标"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "设置为导航目标"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",
@@ -1679,10 +1603,6 @@
     "description": "",
     "message": "切换 HUD 模式"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "切换 Lua 控制台"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "切换雷达模式"
@@ -1731,17 +1651,21 @@
     "description": "Duration unit: one 24-hour day",
     "message": "日"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "时"
   },
   "UNIT_KILOMETERS": {
     "description": "Distance unit: one kilometer",
-    "message": "千米"
+    "message": "公里"
   },
   "UNIT_KILOMETERS_PER_SECOND": {
     "description": "Speed unit: one kilometer per second",
-    "message": "千米/秒"
+    "message": "公里/秒"
   },
   "UNIT_LY": {
     "description": "Distance unit: a light year",
@@ -1767,13 +1691,17 @@
     "description": "Duration unit: one 60-second minute",
     "message": "分"
   },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "兆帕"
+  },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
     "message": "秒"
   },
   "UNIT_TONNES": {
     "description": "Mass unit: one tonne (t)",
-    "message": "t"
+    "message": "吨"
   },
   "UNIT_WEEKS": {
     "description": "Duration unit: one 7-day week",
@@ -1843,14 +1771,6 @@
     "description": "",
     "message": "\"没有明显大气\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "偏航"
@@ -1866,10 +1786,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "新兴的农业殖民地."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

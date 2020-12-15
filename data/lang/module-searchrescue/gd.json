@@ -1,4 +1,8 @@
 {
+  "ACCIDENT_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Fhuair sinn an naidheachd bhrònach gun deach {shiplabel} a mhilleadh. Pàighidh sinn an dàrna leth dhen phrìs a dh'aontaich sinn airson ur n-oidhirp."
+  },
   "AU": {
     "description": "",
     "message": "AU"
@@ -9,7 +13,7 @@
   },
   "COMMODITIES": {
     "description": "",
-    "message": "Bathar-àmh"
+    "message": "Batharan-àmh"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -385,15 +389,15 @@
   },
   "FULL_CARGO": {
     "description": "",
-    "message": "Tha an soitheach làn. Chan eil rum ann airson barrachd carago."
+    "message": "Tha an soitheach làn. Chan eil rùm ann airson barrachd carago."
   },
   "FULL_CREW": {
     "description": "",
-    "message": "Tha clàr an sgioba làn. Chan eil barrachd rum airson buill dhen sgioba ann."
+    "message": "Tha clàr an sgioba làn. Chan eil barrachd rùm airson buill dhen sgioba ann."
   },
   "FULL_PASSENGERS": {
     "description": "",
-    "message": "Tha a h-uile cèibinn làn. Chan eil barrachd rum airson taistealaich ann."
+    "message": "Tha a h-uile cèibinn làn. Chan eil barrachd rùm airson taistealaich ann."
   },
   "HOW_FAR": {
     "description": "",
@@ -430,10 +434,6 @@
   "LON": {
     "description": "",
     "message": "D-fhad:"
-  },
-  "LY": {
-    "description": "",
-    "message": "bl-shol"
   },
   "MISSING_COMM": {
     "description": "",
@@ -478,6 +478,10 @@
   "PLACE_OF_ASSISTANCE": {
     "description": "",
     "message": "Aig ionad na cobharach"
+  },
+  "PLAYER_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Chuala sinn mu na bha sibh ris, a sgiobair! Thig latha a' chunntais oirbh fhathast is cuiridh sinn aithris dhan ùghdarras ionadail gun do mhill sibh an dearbh shoitheach a bu chòir dhuibh a shàbhaladh. Thig cùis-lagha eucoir an cois ur droch-ghnìomha."
   },
   "PLEASE_LAND": {
     "description": "",
@@ -665,7 +669,7 @@
   },
   "TONS_OF_FREE_CARGO_SPACE": {
     "description": "",
-    "message": "tunna(ichean) a rum airson carago"
+    "message": "tunna(ichean) a rùm airson carago"
   },
   "TRANSFER_ABORTED": {
     "description": "",

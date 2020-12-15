@@ -1,17 +1,17 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Game = import("Game")
-local Space = import("Space")
-local Comms = import("Comms")
-local Timer = import("Timer")
-local Event = import("Event")
-local Serializer = import("Serializer")
-local ShipDef = import("ShipDef")
-local Ship = import("Ship")
-local utils = import("utils")
-local e = import ("Equipment")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local Space = require 'Space'
+local Comms = require 'Comms'
+local Timer = require 'Timer'
+local Event = require 'Event'
+local Serializer = require 'Serializer'
+local ShipDef = require 'ShipDef'
+local Ship = require 'Ship'
+local utils = require 'utils'
+local e = require 'Equipment'
 
 --[[
 	trade_ships
@@ -166,7 +166,7 @@ local addShipCargo = function (ship, direction)
 			end
 
 			-- amount based on price and size of ship
-			local num = math.abs(Game.system:GetCommodityBasePriceAlterations(cargo_type)) * size_factor
+			local num = math.abs(Game.system:GetCommodityBasePriceAlterations(cargo_type.name)) * size_factor
 			num = Engine.rand:Integer(num, num * 2)
 
 			local added = ship:AddEquip(cargo_type, num)
@@ -257,7 +257,7 @@ local getSystem = function (ship)
 		if #next_system:GetStationPaths() > 0 then
 			local next_prices = 0
 			for cargo, count in pairs(trade_ships[ship]['cargo']) do
-				next_prices = next_prices + (next_system:GetCommodityBasePriceAlterations(cargo) * count)
+				next_prices = next_prices + (next_system:GetCommodityBasePriceAlterations(cargo.name) * count)
 			end
 			if next_prices > best_prices then
 				target_system, best_prices = next_system, next_prices
@@ -348,7 +348,10 @@ local spawnInitialShips = function (game_start)
 	-- quicker checks first
 	-- dont spawn tradeships in unpopulated systems
 	local population = Game.system.population
-	if population == 0 then return nil end
+	if population == 0 then
+		starports = {}
+		return nil
+	end
 
 	-- check if the current system can be traded in
 	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
@@ -356,7 +359,7 @@ local spawnInitialShips = function (game_start)
 	vacuum_starports = Space.GetBodies(function (body)
 		return body.superType == 'STARPORT' and (body.type == 'STARPORT_ORBITAL' or (not body.path:GetSystemBody().parent.hasAtmosphere))
 	end)
-	
+
 	-- get ships listed as tradeships, if none - give up
 	local ship_names = getAcceptableShips()
 	if #ship_names == 0 then return nil end
@@ -365,8 +368,8 @@ local spawnInitialShips = function (game_start)
 	local import_score, export_score = 0, 0
 	imports, exports = {}, {}
 	for key, equip in pairs(e.cargo) do
-		local v = Game.system:GetCommodityBasePriceAlterations(equip)
-		if key ~= "rubbish" and key ~= "radioactives" and Game.system:IsCommodityLegal(equip) then
+		local v = Game.system:GetCommodityBasePriceAlterations(key)
+		if key ~= "rubbish" and key ~= "radioactives" and Game.system:IsCommodityLegal(key) then
 			-- values from SystemInfoView::UpdateEconomyTab
 
 			if v > 2 then
@@ -571,7 +574,7 @@ local onEnterSystem = function (ship)
 	if Game.system.explored == false then
 		return
 	end
-	
+
 	-- if the player is following a ship through hyperspace that ship may enter first
 	-- so update the system when the first ship enters (see Space::DoHyperspaceTo)
 	if not system_updated then
@@ -908,8 +911,8 @@ local onGameStart = function ()
 			return
 		else
 			for key,equip in pairs(e.cargo) do
-				local v = Game.system:GetCommodityBasePriceAlterations(equip)
-				if key ~= 'rubbish' and key ~= 'radioactives' and Game.system:IsCommodityLegal(equip) then
+				local v = Game.system:GetCommodityBasePriceAlterations(key)
+				if key ~= 'rubbish' and key ~= 'radioactives' and Game.system:IsCommodityLegal(key) then
 					if v > 2 then
 						table.insert(imports, equip)
 					elseif v < -2 then

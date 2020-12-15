@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "Ahora es el hombre contra la máquina en el sistema {system} ({sectorx}, {sectory}, {sectorz}), ya que un \"mal funcionamiento conductual\" provoca que los consumidores caseros pierdan la fe en los sirvientes robóticos."
+    "message": "Ahora es el hombre contra la máquina en el sistema {system} ({sectorx}, {sectory}, {sectorz}), ya que el \"mal funcionamiento del comportamiento\" hace que los consumidores domésticos pierdan confianza en los servidores robóticos."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NOTICIAS {date}: Una tormenta solar causa el apagón del milenio en el sistema {system}."
+    "message": "NOTICIAS {date}: Una erupción solar causa el mayor apagón del milenio en el sistema {system}."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "El apagón en el sistema de energía central causa estragos en el sistema {system} ({sectorx}, {sectory}, {sectorz}). Los consumidores hacen cola para hacerse con el último envase de plástico \"Trapperware\" a fin de reemplazar sus frigoríficos puesto que los productores se ha quedado sin materia prima."
+    "message": "Un corte de energía total causa estragos en el sistema {system} ({sectorx}, {sectory}, {sectorz}). Los consumidores hacen fila para comprar el último \"Trapperware\" para reemplazar sus refrigeradores, ya que el fabricante se ha quedado sin materia prima."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "NOTICIAS {date}: Redada de la policía contra el sisndicato del crimen en el sistema {system}, los cabecillas han sido arrestados."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "La administración del sistema {system} ({sectorx}, {sectory}, {sectorz}) tiene esperanzas en que el crimen disminuirá debido a la falta de narcóticos en el mercado desde que se arrestó a ciertos gángsters."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "Durante la Feria del Gran Vapor en el sistema {system} ({sectorx}, {sectory}, {sectorz}) una tentativa de batir el record galáctico en tractores de arrastre acabó en un alboroto cuando uno de los participantes perdió el control de su artilugio y destruyó los vehículos de los demás. La administración dice que esto podría significar la perdición para los granjeros locales."
+    "message": "Durante la Gran Feria del Vapor en el sistema {system} ({sectorx}, {sectory}, {sectorz}), un intento por lograr el récord galáctico en el mayor concurso de de tractores terminó en un caos cuando uno de los participantes perdió el control de su artilugio, destruyendo las máquinas de todos los demás participantes. La administración declara que esto podría significar la ruina para los agricultores locales."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "NOTICIAS {date}: Escalada de conflictos en el sistema {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "El conflicto de larga duración en el sistema {system} ({sectorx}, {sectory}, {sectorz}) se intensifica cuando los ejércitos entran en combate abierto."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Obreros del sistema {system} ({sectorx}, {sectory}, {sectorz}) han roto sus cadenas en rebelión ya que se niegan a trabajar en los campos de Loto. La economía se paraliza al no encontrarse mano de obra barata."
+    "message": "Trabajadores del sistema {system} ({sectorx}, {sectory}, {sectorz}) se han liberado de sus cadenas en plena rebelión al negarse a trabajar en los campos de Loto. La economía se paraliza porque no se puede encontrar mano de obra barata."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -217,7 +217,7 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "The Confederate Chronicle"
+    "message": "La Crónica de la Mancomunidad"
   },
   "NEWSPAPER_FED": {
     "description": "",

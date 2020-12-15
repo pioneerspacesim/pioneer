@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Blood Territories')
@@ -17,11 +17,9 @@ f:govtype_weight('PLUTOCRATIC',		8)
 f:govtype_weight('CORPORATE',		0)
 f:govtype_weight('LIBDEM',		0)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		78)
-f:illegal_goods_probability('LIQUOR',		47)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('NERVE_GAS',		100)
+f:illegal_goods_probability('live_animals',		78)
+f:illegal_goods_probability('liquor',		47)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('nerve_gas',		100)
 
 f:add_to_factions('Blood Territories')
-
-

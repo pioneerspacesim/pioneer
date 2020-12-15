@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Dagger Systems')
@@ -16,10 +16,8 @@ f:govtype_weight('COMMUNIST',		33)
 f:govtype_weight('DISORDER',		33)
 f:govtype_weight('SOCDEM',		10)
 
-f:illegal_goods_probability('HAND_WEAPONS',		60)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		85)
+f:illegal_goods_probability('hand_weapons',		60)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		85)
 
 f:add_to_factions('Dagger Systems')
-
-

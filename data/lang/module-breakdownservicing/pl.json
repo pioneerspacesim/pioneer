@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_INTRO": {
     "description": "",
-    "message": "Uniknij problemów związanych z awarią hipernapędu. Zrób przegląd już dzisiaj, u oficjalnie zatwierdzonego pracownika Engine Servicing Company, {name}.\n"
+    "message": "Uniknij niewygód przez awarie hipernapędu. Już dziś poddaj go serwisowi przez oficjalnie zatwierdzonego pracownika z Engine Servicing Company, {name}.\n"
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
-    "message": "Witaj. My, ludzie z {proprietor} & Co, stawiamy naszą reputację za naszą pracę.\nMożemy podrasować hipernapęd twojego statku, zapewniając 12 miesięcy bezproblemowego działania."
+    "message": "Witaj. My z {proprietor} & Co ryzykujemy reputacją, wykonując naszą pracę.\nMożemy usprawnić hipernapęd Twojego statku, gwarantując 12 miesięcy bezawaryjnej pracy."
   },
   "FLAVOUR_2_PRICE": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
-    "message": "Zrobione.  Dziękujemy za zaufanie"
+    "message": "Usługa gotowa. Dziękujemy za wybór."
   },
   "FLAVOUR_2_TITLE": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
-    "message": "Witamy w SuperFix Maintance. Czas na twoj co półroczny przegląd? Pozwól nam przejrzeć swój hipernapęd!"
+    "message": "Witamy w SuperFix Maintance. Czas na twoj co półroczny przegląd? Pozwól nam naprawić swój hipernapęd!"
   },
   "FLAVOUR_3_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nMożemy podrasować twój {drive} za zaledwie {price}. Nie ma nikogo tańszego!"
+    "message": "\n\n{lasttime}\nMożemy podkręcić Twój {drive} za jedyne {price}. Nie ma nikogo tańszego!"
   },
   "FLAVOUR_3_RESPONSE": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
-    "message": "\n{lasttime}\nSerwisowanie twojego {drive} wyniesie {price}. Kontynuować?"
+    "message": "\n{lasttime}\nSerwisowanie twojego {drive} będzie kosztować {price}. Czy chcesz kontynuować?"
   },
   "FLAVOUR_4_RESPONSE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
-    "message": "Uniknij problemów związanych z awarią hipernapędu. Już dzisiaj poddaj go serwisowi.\n"
+    "message": "Uniknij kłopotów przez awarie hipernapędu. Już dziś poddaj go serwisowi.\n"
   },
   "FLAVOUR_5_PRICE": {
     "description": "",

@@ -1,26 +1,28 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Game = import("Game")
-local Music = import("Music")
-local Event = import("Event")
-local SystemPath = import("SystemPath")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local Music = require 'Music'
+local Event = require 'Event'
+local SystemPath = require 'SystemPath'
+
+local MusicPlayer = {}
 
 local music = {}
 
-local getCategoryForSong = function (name)
+function MusicPlayer.getCategoryForSong(name)
 	if not name then return "" end
 	local _, _, category = string.find(name, "^music/core/([%l-]+)/")
 	return category
 end
 
-local playRandomSongFromCategory = function (category)
+function MusicPlayer.playRandomSongFromCategory(category, loop)
 	-- if there's no song in the wanted category then do nothing
 	if not music[category] then return end
 
 	local current_song = Music.GetSongName()
-	local current_category = getCategoryForSong(current_song)
+	local current_category = MusicPlayer.getCategoryForSong(current_song)
 
 	if Music.IsPlaying() then
 		-- no category means some other script is playing something and we
@@ -48,14 +50,19 @@ local playRandomSongFromCategory = function (category)
 	end
 
 	if Music.IsPlaying() then
-		Music.FadeIn(song, 0.5, false)
+		Music.FadeIn(song, 0.5, loop)
 	else
-		Music.Play(song, false)
+		Music.Play(song, loop)
 	end
 end
 
 -- handle separate planet/station-specific ambient music
 local playAmbient = function ()
+	local current_song = Music.GetSongName()
+	local current_category = MusicPlayer.getCategoryForSong(current_song)
+	if current_category == "menu" then
+		Music.FadeOut(0.5)
+	end
 	local category
 
 	local sol = SystemPath.New(0, 0, 0, 0, 0)
@@ -79,45 +86,48 @@ local playAmbient = function ()
 	if not category then
 		if Game.system then
 			if Game.system:DistanceTo(sol) > unexplored_distance then
-				playRandomSongFromCategory("unexplored")
+				MusicPlayer.playRandomSongFromCategory("unexplored")
 			else
-				playRandomSongFromCategory("space")
+				MusicPlayer.playRandomSongFromCategory("space")
 			end
 		else
-			playRandomSongFromCategory("unexplored")
+			MusicPlayer.playRandomSongFromCategory("unexplored")
 		end
 		return
 	end
 
 	-- switch to the specific music. if the music doesn't start (ie we don't
 	-- have any specific music) then fall back to normal space music
-	playRandomSongFromCategory(category)
+	MusicPlayer.playRandomSongFromCategory(category)
 	if not Music.IsPlaying() then
 		if Game.system then
 			if Game.system:DistanceTo(sol) > unexplored_distance then
-				playRandomSongFromCategory("unexplored")
+				MusicPlayer.playRandomSongFromCategory("unexplored")
 			else
-				playRandomSongFromCategory("space")
+				MusicPlayer.playRandomSongFromCategory("space")
 			end
 		else
-			playRandomSongFromCategory("unexplored")
+			MusicPlayer.playRandomSongFromCategory("unexplored")
 		end
 	end
 end
 
-Event.Register("onGameStart", function ()
+function MusicPlayer.rebuildSongList()
 	music = {}
 
 	-- get all the interesting songs by category
 	local songs = Music.GetSongList()
 	for n,key in pairs(songs) do
-		local category = getCategoryForSong(key)
+		local category = MusicPlayer.getCategoryForSong(key)
 		if category then
 			if not music[category] then music[category] = {} end
 			table.insert(music[category], key)
 		end
 	end
+end
 
+Event.Register("onGameStart", function ()
+	MusicPlayer.rebuildSongList()
 	playAmbient()
 end)
 
@@ -126,39 +136,59 @@ Event.Register("onSongFinished", function ()
 	playAmbient()
 end)
 
--- start some ambient music when first arriving in system
+-- play discovery music if player enters an interesting system
+-- otherwise, start some ambient music
 Event.Register("onEnterSystem", function ()
-	playAmbient()
+	local player_body = Game.player.frameBody
+	if player_body and not Game.system.explored then
+		if player_body.type == 'STAR_SM_BH' then
+			MusicPlayer.playRandomSongFromCategory("discovery")
+		elseif player_body.type == 'STAR_IM_BH' then
+			MusicPlayer.playRandomSongFromCategory("discovery")
+		elseif player_body.type == 'STAR_S_BH' then
+			MusicPlayer.playRandomSongFromCategory("discovery")
+		elseif player_body.type == 'STAR_O_WF' then
+			MusicPlayer.playRandomSongFromCategory("discovery")
+		elseif player_body.type == 'STAR_B_WF' then
+			MusicPlayer.playRandomSongFromCategory("discovery")
+		elseif player_body.type == 'STAR_M_WF' then
+			MusicPlayer.playRandomSongFromCategory("discovery")
+		else
+			playAmbient()
+		end
+	else
+		playAmbient()
+	end
 end)
 
 -- ship or player destruction (aka game over)
 Event.Register("onShipDestroyed", function (ship, attacker)
 	if ship:IsPlayer() then
-		playRandomSongFromCategory("player-destroyed")
+		MusicPlayer.playRandomSongFromCategory("player-destroyed")
 	elseif attacker:isa("Ship") and attacker:IsPlayer() then
-		playRandomSongFromCategory("ship-destroyed")
+		MusicPlayer.playRandomSongFromCategory("ship-destroyed")
 	end
 end)
 
 -- player docked
 Event.Register("onShipDocked", function (ship, station)
 	if not ship:IsPlayer() then return end
-	playRandomSongFromCategory("docked")
+	MusicPlayer.playRandomSongFromCategory("docked")
 end)
 
 -- player undocked
 Event.Register("onShipUndocked", function (ship, station)
 	if not ship:IsPlayer() then return end
-	playRandomSongFromCategory("undocked")
+	MusicPlayer.playRandomSongFromCategory("undocked")
 end)
 
 -- ship near the player
 Event.Register("onShipAlertChanged", function (ship, alert)
 	if not ship:IsPlayer() then return end
-	if alert == "SHIP_NEARBY" then
-		playRandomSongFromCategory("ship-nearby")
+	if alert == "SHIP_NEARBY" and not ship:IsDocked() then
+		MusicPlayer.playRandomSongFromCategory("ship-nearby")
 	elseif alert == "SHIP_FIRING" then
-		playRandomSongFromCategory("ship-firing")
+		MusicPlayer.playRandomSongFromCategory("ship-firing")
 	end
 end)
 
@@ -169,3 +199,5 @@ Event.Register("onFrameChanged", function (body)
 
 	playAmbient()
 end)
+
+return MusicPlayer

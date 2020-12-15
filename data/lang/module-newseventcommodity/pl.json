@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "Człowiek przeciwko maszynie w systemie {system}({sectorx},{sectory},{sectorz}), tutaj \"behawioralna usterka\" spowodowała że konsumenci utracili nadzieję w domową służbę robotów."
+    "message": "Człowiek przeciwko maszynie w systemie {system}({sectorx},{sectory},{sectorz}). \"Behawioralna usterka\" spowodowała, że konsumenci stracili wiarę w robotycznych słóg."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "AKTUALNOŚCI {date}: Rozbłysk słoneczny spowodował potężne, tysiącletnie zaciemnienie w systemie {system}."
+    "message": "AKTUALNOŚCI {date}: Rozbłysk słoneczny spowodował największy w tym tysiącleciu blackout w systemie {system}."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "W całym systemie {system}({sectorx},{sectory},{sectorz}) awaria zasilania sieje spustoszenie. Tworzą się kolejki konsumentów wykupujących ostatnie pojemniki na żywność w zastępstwie lodówek. A producentom brakuje już na nie materiału."
+    "message": "W całym systemie {system}({sectorx},{sectory},{sectorz}) sieje spustoszenie awaria zasilania. Tworzą się kolejki konsumentów wykupujących ostatnie pojemniki na żywność zamiast lodówek. A producentom brakuje już na nie materiału."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "AKTUALNOŚCI {date}: Nalot policji na zbrodniczy syndykat w systemie {system}, aresztowano kluczowych liderów."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "Administracja systemu {system} ({sectorx},{sectory},{sectorz}) liczy na zmniejszenie przestępczości gdy ograniczy się dostęp do narkotyków, aresztowano kilku gangsterów."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "W trakcie Wielkich Targów Ciągników Parowych w systemie {system}({sectorx},{sectory},{sectorz}) próba pobicia galaktycznego rekordu przeciągania wielkiego traktora zakończyła się tragicznie. Gdy jeden z zawodników utracił kontrolą nad swoją maszyną, zniszczył pozostałe maszyny swoich oponentów. Administracja donosi że może to oznaczać zagładę wśród miejscowych rolników."
+    "message": "W trakcie Wielkich Targów Ciągników Parowych w systemie {system}({sectorx},{sectory},{sectorz}) próba pobicia galaktycznego rekordu przeciągania największego traktora zakończyła się tragicznie. Gdy jeden z zawodników utracił kontrolą nad swoją maszyną, zniszczył pozostałe maszyny swoich oponentów. Administracja donosi że może to oznaczać zagładę wśród miejscowych rolników."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "AKTUALNOŚCI {date}: Eskalacja konfliktu w systemie {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "Długotrwały konflikt w systemie {system}({sectorx},{sectory},{sectorz}) przeobraził się w bezpośrednie i otwarte starcie wojsk."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Pracownicy systemu {system}({sectorx},{sectory},{sectorz}) buntują się by zrzucić łańcuchy, odmawiają pracy na plantacjach lotosu. Gospodarka wciąż wyhamowuje, aż do momentu sprowadzenia taniej siły roboczej."
+    "message": "Pracownicy systemu {system}({sectorx},{sectory},{sectorz}) buntują się by zrzucić łańcuchy, odmawiają pracy na plantacjach lotosu. Gospodarka wyhamowuje z braku taniej siły roboczej."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -217,7 +217,7 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "The Confederate Chronicle"
+    "message": "Kronika Wspólnotowa"
   },
   "NEWSPAPER_FED": {
     "description": "",

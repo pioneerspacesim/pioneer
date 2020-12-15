@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MODELCACHE_H
@@ -10,21 +10,26 @@
 #include "libs.h"
 #include <stdexcept>
 
-namespace Graphics { class Renderer; }
-namespace SceneGraph { class Model; }
+namespace Graphics {
+	class Renderer;
+}
+namespace SceneGraph {
+	class Model;
+}
 
 class ModelCache {
 public:
 	struct ModelNotFoundException : public std::runtime_error {
-		ModelNotFoundException() : std::runtime_error("Could not find model") { }
+		ModelNotFoundException() :
+			std::runtime_error("Could not find model") {}
 	};
-	ModelCache(Graphics::Renderer*);
+	ModelCache(Graphics::Renderer *);
 	~ModelCache();
-	SceneGraph::Model *FindModel(const std::string&);
+	SceneGraph::Model *FindModel(const std::string &);
 	void Flush();
 
 private:
-	typedef std::map<std::string, SceneGraph::Model*> ModelMap;
+	typedef std::map<std::string, SceneGraph::Model *> ModelMap;
 	ModelMap m_models;
 	Graphics::Renderer *m_renderer;
 };

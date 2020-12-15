@@ -1,31 +1,32 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include "libs.h"
-#include <list>
-#include "HyperspaceCloud.h"
 #include "Ship.h"
-#include "ShipController.h"
 #include "ShipCockpit.h"
-#include "galaxy/StarSystem.h"
 
-namespace Graphics { class Renderer; }
+class PlayerShipController;
 
-class Player: public Ship {
+namespace Graphics {
+	class Renderer;
+}
+
+class Player : public Ship {
 public:
 	OBJDEF(Player, Ship, PLAYER);
+	Player() = delete;
+	Player(const Json &jsonObj, Space *space);
 	Player(const ShipType::Id &shipId);
-	Player() {}; //default constructor used before Load
+
 	virtual void SetDockedWith(SpaceStation *, int port) override;
-	virtual bool DoCrushDamage(float kgDamage) override final; // overloaded to add "crush" audio
-	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData) override;
+	virtual bool DoDamage(float kgDamage) override final; // overloaded to add "crush" audio
+	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
 	virtual bool SetWheelState(bool down) override; // returns success of state change, NOT state itself
-	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1) override;
+	virtual Missile *SpawnMissile(ShipType::Id missile_type, int power = -1) override;
 	virtual void SetAlertState(Ship::AlertState as) override;
-	virtual void NotifyRemoved(const Body* const removedBody) override;
+	virtual void NotifyRemoved(const Body *const removedBody) override;
 
 	virtual void SetShipType(const ShipType::Id &shipId) override;
 
@@ -34,9 +35,9 @@ public:
 	Body *GetCombatTarget() const;
 	Body *GetNavTarget() const;
 	Body *GetSetSpeedTarget() const;
-	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
-	void SetNavTarget(Body* const target, bool setSpeedTo = false);
-	void SetSetSpeedTarget(Body* const target);
+	void SetCombatTarget(Body *const target, bool setSpeedTo = false);
+	void SetNavTarget(Body *const target);
+	void SetSetSpeedTarget(Body *const target);
 	void ChangeSetSpeed(double delta);
 
 	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) override;
@@ -44,7 +45,7 @@ public:
 
 	// XXX cockpit is here for now because it has a physics component
 	void InitCockpit();
-	ShipCockpit* GetCockpit() const {return m_cockpit.get();}
+	ShipCockpit *GetCockpit() const { return m_cockpit.get(); }
 	void OnCockpitActivated();
 
 	virtual void StaticUpdate(const float timeStep) override;
@@ -54,7 +55,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 	virtual void OnEnterSystem() override;
 	virtual void OnEnterHyperspace() override;

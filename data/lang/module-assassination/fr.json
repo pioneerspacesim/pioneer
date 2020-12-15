@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "Il est très regrettable que {target} soie encore en vie et bien portant. Vous ne recevrez aucun payement puisque vous n'avez pas rempli votre contrat."
+    "message": "Il est très regrettable que la cible {target} soit toujours vivante et en bonne santé. Vous ne recevrez aucun paiement puisque vous n'avez pas respecté votre contrat."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Vous reclamez de l'argent pour un travail fait par un autre ? Allez vous faire voir !"
+    "message": "Vous êtes vraiment en train de demander de l'argent pour un travail accompli par quelqu'un d'autre? Allez vous faire voir."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
@@ -178,10 +178,6 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "Ce doit etre fait dès que {target} quitteras {spaceport}. Ne loupez pas cette opportunitée."
-  },
-  "LY": {
-    "description": "",
-    "message": "al"
   },
   "OK_AGREED": {
     "description": "",

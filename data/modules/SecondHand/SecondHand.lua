@@ -1,15 +1,15 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local utils = import("utils")
-local Lang = import("Lang")
-local Game = import("Game")
-local Event = import("Event")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Equipment = import ("Equipment")
-local Character = import("Character")
+local Engine = require 'Engine'
+local utils = require 'utils'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Event = require 'Event'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
+local Character = require 'Character'
 
 local l = Lang.GetResource("module-secondhand")
 local l2 = Lang.GetResource("ui-core")

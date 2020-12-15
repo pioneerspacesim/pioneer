@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUIFIXED_H
@@ -7,11 +7,11 @@
  * Fixed position widget container.
  */
 
-#include "GuiWidget.h"
 #include "GuiContainer.h"
+#include "GuiWidget.h"
 
 namespace Gui {
-	class Fixed: public Container {
+	class Fixed : public Container {
 	public:
 		Fixed(float w, float h);
 		Fixed();
@@ -23,11 +23,11 @@ namespace Gui {
 		virtual void UpdateAllChildSizes();
 		void SetSizeRequest(float x, float y);
 		void SetSizeRequest(float size[2]);
+
 	private:
 		void _Init();
 		float m_userWantedSize[2];
 	};
-}
+} // namespace Gui
 
 #endif /* _GUIFIXED_H */
-

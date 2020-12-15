@@ -1,4 +1,8 @@
 {
+  "ACCIDENT_DESTROYED_TARGET": {
+    "description": "",
+    "message": "{shiplabel} gemisinin yok olduğuna dair üzücü bir haber bize ulaştı. Emekleriniz için size anlaştığımız ücretin yarısını ödeyeceğiz."
+  },
   "AU": {
     "description": "",
     "message": "AB"
@@ -431,10 +435,6 @@
     "description": "",
     "message": "Boy:"
   },
-  "LY": {
-    "description": "",
-    "message": "ıy"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Aktarım tamamlanamıyor. {cargotype} eksik."
@@ -478,6 +478,10 @@
   "PLACE_OF_ASSISTANCE": {
     "description": "",
     "message": "Yardım yerinde"
+  },
+  "PLAYER_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Yaptıklarınızı duyduk, kaptan! Sizi yardım etmeye yolladığımız gemiyi yok ettiğiniz için yerel idareye bildireceğimizden emin olabilirsiniz. Devamında bir dava açılacak."
   },
   "PLEASE_LAND": {
     "description": "",

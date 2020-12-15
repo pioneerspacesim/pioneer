@@ -1,14 +1,16 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VIEW_H
 #define _VIEW_H
 
-#include "libs.h"
-#include "gui/Gui.h"
 #include "JsonFwd.h"
+#include "gui/Gui.h"
+#include "libs.h"
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+}
 
 class ShipCpanel;
 
@@ -19,7 +21,7 @@ class ShipCpanel;
  *  system map
  *  sector map
  */
-class View: public Gui::Fixed {
+class View : public Gui::Fixed {
 public:
 	View();
 	virtual ~View();
@@ -27,6 +29,8 @@ public:
 	virtual void Draw3D() = 0;
 	// for checking key states, mouse crud
 	virtual void Update() = 0;
+	// Called during the pigui frame to draw UI
+	virtual void DrawPiGui(){};
 	virtual void SaveToJson(Json &jsonObj) {}
 	virtual void LoadFromJson(const Json &jsonObj) {}
 
@@ -35,7 +39,7 @@ public:
 
 	void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
 
-	static void SetCpanel(ShipCpanel* cpan) { s_cpan = cpan; }
+	static void SetCpanel(ShipCpanel *cpan) { s_cpan = cpan; }
 
 protected:
 	virtual void OnSwitchTo() = 0;
@@ -47,7 +51,7 @@ protected:
 	Gui::Fixed *m_rightRegion2;
 	Graphics::Renderer *m_renderer;
 
-	static ShipCpanel* s_cpan;
+	static ShipCpanel *s_cpan;
 };
 
 #endif /* _VIEW_H */

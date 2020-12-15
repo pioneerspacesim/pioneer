@@ -1,13 +1,16 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "NavLights.h"
+
+#include "FileSystem.h"
+#include "GameSaveError.h"
+#include "Json.h"
+#include "core/IniConfig.h"
+#include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
-#include "IniConfig.h"
-#include "FileSystem.h"
-#include "GameSaveError.h"
 #include "utils.h"
 
 const float BILLBOARD_SIZE = 2.5f;
@@ -16,14 +19,13 @@ static RefCountedPtr<Graphics::Texture> texHalos4x4;
 static RefCountedPtr<Graphics::Material> matHalos4x4;
 
 static bool g_initted = false;
-static vector2f m_lightColorsUVoffsets[(NavLights::NAVLIGHT_YELLOW+1)] = {
-	vector2f(0.0f,0.0f),
-	vector2f(0.5f,0.0f),
-	vector2f(0.0f,0.5f),
-	vector2f(0.5f,0.5f)
+static vector2f m_lightColorsUVoffsets[(NavLights::NAVLIGHT_YELLOW + 1)] = {
+	vector2f(0.0f, 0.0f),
+	vector2f(0.5f, 0.0f),
+	vector2f(0.0f, 0.5f),
+	vector2f(0.5f, 0.5f)
 };
 
-typedef std::vector<NavLights::LightBulb>::iterator LightIterator;
 static vector2f get_color(Uint8 c)
 {
 	return m_lightColorsUVoffsets[c];
@@ -36,16 +38,17 @@ static inline vector2f LoadLightColorUVoffset(const std::string &spec)
 	return vector2f(v[0], v[1]);
 }
 
-NavLights::LightBulb::LightBulb(Uint8 _group, Uint8 _mask, Uint8 _color, SceneGraph::Billboard *_bb)
-: group(_group)
-, mask(_mask)
-, color(_color)
-, billboard(_bb)
+NavLights::LightBulb::LightBulb(Uint8 _group, Uint8 _mask, Uint8 _color, SceneGraph::Billboard *_bb) :
+	group(_group),
+	mask(_mask),
+	color(_color),
+	billboard(_bb)
 {
 }
 
 void NavLights::Init(Graphics::Renderer *renderer)
 {
+	PROFILE_SCOPED()
 	assert(!g_initted);
 
 	IniConfig cfg;
@@ -57,9 +60,9 @@ void NavLights::Init(Graphics::Renderer *renderer)
 	// load
 	cfg.Read(FileSystem::gameDataFiles, "textures/NavLights.ini");
 
-	m_lightColorsUVoffsets[NAVLIGHT_RED   ] = LoadLightColorUVoffset(cfg.String("LeftOrOccupiedUVOffset"));
-	m_lightColorsUVoffsets[NAVLIGHT_GREEN ] = LoadLightColorUVoffset(cfg.String("RightOrFreeUVOffset"));
-	m_lightColorsUVoffsets[NAVLIGHT_BLUE  ] = LoadLightColorUVoffset(cfg.String("StaticUVOffset"));
+	m_lightColorsUVoffsets[NAVLIGHT_RED] = LoadLightColorUVoffset(cfg.String("LeftOrOccupiedUVOffset"));
+	m_lightColorsUVoffsets[NAVLIGHT_GREEN] = LoadLightColorUVoffset(cfg.String("RightOrFreeUVOffset"));
+	m_lightColorsUVoffsets[NAVLIGHT_BLUE] = LoadLightColorUVoffset(cfg.String("StaticUVOffset"));
 	m_lightColorsUVoffsets[NAVLIGHT_YELLOW] = LoadLightColorUVoffset(cfg.String("DockingUVOffset"));
 
 	g_initted = true;
@@ -72,62 +75,53 @@ void NavLights::Uninit()
 	g_initted = false;
 }
 
-NavLights::NavLights(SceneGraph::Model *model, float period)
-: m_time(0.f)
-, m_period(period)
-, m_enabled(false)
-, m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL)
-, m_billboardRS(nullptr)
+NavLights::NavLights(SceneGraph::Model *model, float period) :
+	m_time(0.f),
+	m_period(period),
+	m_enabled(false),
+	m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL),
+	m_billboardRS(nullptr)
 {
 	PROFILE_SCOPED();
 	assert(g_initted);
 
 	Graphics::Renderer *renderer = model->GetRenderer();
 
-	using SceneGraph::Node;
-	using SceneGraph::MatrixTransform;
 	using SceneGraph::Billboard;
+	using SceneGraph::MatrixTransform;
+	using SceneGraph::Node;
 
 	//This will find all matrix transforms meant for navlights.
 	SceneGraph::FindNodeVisitor lightFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_STARTSWITH, "navlight_");
 	model->GetRoot()->Accept(lightFinder);
-	const std::vector<Node*> &results = lightFinder.GetResults();
+	const std::vector<Node *> &results = lightFinder.GetResults();
 
 	//attach light billboards
-	for (unsigned int i=0; i < results.size(); i++)
-	{
-		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
+	for (unsigned int i = 0; i < results.size(); i++) {
+		MatrixTransform *mt = dynamic_cast<MatrixTransform *>(results.at(i));
 		assert(mt);
 		Billboard *bblight = new Billboard(m_billboardTris, renderer, BILLBOARD_SIZE);
 		Uint32 group = 0;
-		Uint8 mask  = 0xff; //always on
+		Uint8 mask = 0xff; //always on
 		Uint8 color = NAVLIGHT_BLUE;
 
 		if (mt->GetName().substr(9, 3) == "red") {
-			mask  = 0x0f;
+			mask = 0x0f;
 			color = NAVLIGHT_RED;
 		} else if (mt->GetName().substr(9, 5) == "green") {
-			mask  = 0xf0;
+			mask = 0xf0;
 			color = NAVLIGHT_GREEN;
 		} else if (mt->GetName().substr(9, 3) == "pad") {
 			//group by pad number
 			// due to this problem: http://stackoverflow.com/questions/15825254/why-is-scanfhhu-char-overwriting-other-variables-when-they-are-local
 			// where MSVC is still using a C89 compiler the format identifer %hhu is not recognised. Therefore I've switched to Uint32 for group.
 			PiVerify(1 == sscanf(mt->GetName().c_str(), "navlight_pad%u", &group));
-			mask  = 0xf0;
+			mask = 0xf8;
 		}
 		bblight->SetColorUVoffset(get_color(color));
 
-		GroupLightsVecIter glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
-		if(glit == m_groupLights.end()) {
-			// didn't find group, create a new one
-			m_groupLights.push_back(TGroupLights(group));
-			// now use it
-			glit = (m_groupLights.end() - 1);
-		}
-
-		assert(glit != m_groupLights.end());
-		glit->m_lights.push_back(LightBulb(group, mask, color, bblight));
+		// automagically create a new group if one doesn't exist.
+		m_groupLights[group].push_back(LightBulb(group, mask, color, bblight));
 		mt->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 		mt->AddChild(bblight);
 	}
@@ -154,7 +148,7 @@ void NavLights::LoadFromJson(const Json &jsonObj)
 
 		m_time = navLightsObj["time"];
 		m_enabled = navLightsObj["enabled"];
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
@@ -163,9 +157,9 @@ void NavLights::Update(float time)
 {
 	PROFILE_SCOPED();
 	if (!m_enabled) {
-		for(auto glit : m_groupLights)
-			for (LightIterator it = glit.m_lights.begin(), itEnd = glit.m_lights.end(); it != itEnd; ++it)
-				it->billboard->SetNodeMask(0x0);
+		for (const auto &group : m_groupLights)
+			for (const LightBulb &light : group.second)
+				light.billboard->SetNodeMask(0x0);
 		return;
 	}
 
@@ -174,19 +168,19 @@ void NavLights::Update(float time)
 	const int phase((fmod(m_time, m_period) / m_period) * 8);
 	const Uint8 mask = 1 << phase;
 
-	for(auto glit : m_groupLights) {
-		for (LightIterator it = glit.m_lights.begin(), itEnd = glit.m_lights.end(); it != itEnd; ++it) {
-			if (it->mask & mask)
-				it->billboard->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+	for (const auto &pair : m_groupLights) {
+		for (const LightBulb &light : pair.second) {
+			if (light.mask & mask && light.color != LightColor::NAVLIGHT_OFF)
+				light.billboard->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 			else
-				it->billboard->SetNodeMask(0x0);
+				light.billboard->SetNodeMask(0x0);
 		}
 	}
 }
 
 void NavLights::Render(Graphics::Renderer *renderer)
 {
-	if(!m_billboardRS) {
+	if (!m_billboardRS) {
 		Graphics::MaterialDescriptor desc;
 		desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
 		desc.textures = 1;
@@ -203,23 +197,21 @@ void NavLights::Render(Graphics::Renderer *renderer)
 	const bool isVBValid = m_billboardVB.Valid();
 	const bool hasVerts = !m_billboardTris.IsEmpty();
 	const bool isVertCountEnough = isVBValid && (m_billboardTris.GetNumVerts() <= m_billboardVB->GetCapacity());
-	if( hasVerts && (!isVBValid || !isVertCountEnough) )
-	{
+	if (hasVerts && (!isVBValid || !isVertCountEnough)) {
 		//create buffer
 		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
 		Graphics::VertexBufferDesc vbd;
 		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 		vbd.numVertices = m_billboardTris.GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
-		m_billboardVB.Reset( renderer->CreateVertexBuffer(vbd) );
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC; // we could be updating this per-frame
+		m_billboardVB.Reset(renderer->CreateVertexBuffer(vbd));
 	}
 
-	if(m_billboardVB.Valid())
-	{
-		if(hasVerts) {
+	if (m_billboardVB.Valid()) {
+		if (hasVerts) {
 			m_billboardVB->Populate(m_billboardTris);
 			renderer->SetTransform(matrix4x4f::Identity());
 			renderer->DrawBuffer(m_billboardVB.Get(), m_billboardRS, matHalos4x4.Get(), Graphics::POINTS);
@@ -232,12 +224,21 @@ void NavLights::Render(Graphics::Renderer *renderer)
 void NavLights::SetColor(unsigned int group, LightColor c)
 {
 	PROFILE_SCOPED();
-	GroupLightsVecIter glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
-	if(glit != m_groupLights.end()) {
-		for (LightIterator it = glit->m_lights.begin(), itEnd = glit->m_lights.end(); it != itEnd; ++it) {
-			if (it->group != group || it->color == c) continue;
-			it->billboard->SetColorUVoffset(get_color(c));
-			it->color = c;
-		}
+	if (!m_groupLights.count(group)) return;
+	for (LightBulb &light : m_groupLights[group]) {
+		if (light.group != group || light.color == c) continue;
+		if (c != LightColor::NAVLIGHT_OFF)
+			light.billboard->SetColorUVoffset(get_color(c));
+
+		light.color = c;
+	}
+}
+
+void NavLights::SetMask(unsigned int group, uint8_t mask)
+{
+	PROFILE_SCOPED()
+	if (!m_groupLights.count(group)) return;
+	for (LightBulb &light : m_groupLights[group]) {
+		light.mask = mask;
 	}
 }

@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local system = CustomSystem:new('Fomalhaut', { 'STAR_A', 'BROWN_DWARF',  })
@@ -32,6 +32,8 @@ local fomalhauta = CustomSystemBody:new("Fomalhaut a", 'BROWN_DWARF')
 	:eccentricity(f(3080,10000))
 	:rotation_period(f(33038,10000))
 
+-- TODO: Fomalhaut B exploded some time before 2000AD, is no longer visible.
+-- Possible solution: asteroid cluster or gas cloud for mining?
 local fomalhautb = CustomSystemBody:new("Fomalhaut b", 'PLANET_GAS_GIANT')
 	:radius(f(114243,10000))
 	:mass(f(1305142,10000))

@@ -175,10 +175,6 @@
     "description": "",
     "message": "Is er een tijdslimiet?"
   },
-  "LY": {
-    "description": "",
-    "message": "lj"
-  },
   "MANAGER": {
     "description": "",
     "message": "Manager"
@@ -285,11 +281,15 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Het is belangrijk dat de missie voltooid is op {date}, want er zijn meer vijandige schepen onderweg."
+    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
   },
   "POLICE_LAND_THERE": {
     "description": "",
     "message": "Land gewoon bij een station met een {org}-kantoor."
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
   },
   "RISK_1": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "De vijand is zeer goed uitgerust en heeft toegang tot de nieuwste technologie. Wees voorzichtig!"
+    "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
   },
   "SET_AS_TARGET": {
     "description": "",

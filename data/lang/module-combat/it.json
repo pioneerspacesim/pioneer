@@ -175,10 +175,6 @@
     "description": "",
     "message": "C'è un limite di tempo?"
   },
-  "LY": {
-    "description": "",
-    "message": "AL"
-  },
   "MANAGER": {
     "description": "",
     "message": "Direttore"
@@ -285,11 +281,15 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "È importante che la missione venga completata entro il giorno {date}, perché ci sono altre navi ostili in arrivo."
+    "message": "Stanno arrivando altre navi ostili, quindi è importante che la missione venga completata entro il giorno {date}."
   },
   "POLICE_LAND_THERE": {
     "description": "",
     "message": "È sufficiente atterrare ad una stazione in cui vi sia un ufficio {org}."
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Spiacente, ma dubito che possa farcela senza un radar."
   },
   "RISK_1": {
     "description": "",

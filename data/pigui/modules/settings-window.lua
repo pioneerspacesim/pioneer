@@ -1,39 +1,80 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Input = import('Input')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
-local Event = import('Event')
-local Lang = import("Lang")
-local Color = import("Color")
+local Engine = require 'Engine'
+local Input = require 'Input'
+local Game = require 'Game'
+local Event = require 'Event'
+local Lang = require 'Lang'
+local utils = require 'utils'
+
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
+local linput = Lang.GetResource("input-core")
 
-local utils = import("utils")
+local ui = require 'pigui'
+local ModalWindow = require 'pigui.libs.modal-win'
+
+local function l18n_key_from_id(str)
+	return str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
+end
+
+-- convert an axis binding style ID to a translation resource identifier
+local function localize_binding_id(str)
+	local jsonIndex = str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
+	return rawget(linput, jsonIndex) or '[NO_JSON] '..jsonIndex
+end
+
+local function get_binding_desc(bind)
+	if not bind then return end
+	local axis_names = { linput.X, linput.Y, linput.Z }
+	local mouse_names = { linput.MOUSE_LMB, linput.MOUSE_MMB, linput.MOUSE_RMB }
+	if bind.key then
+		return Input.GetKeyName(bind.key)
+	elseif bind.joystick and bind.hat then
+		return Input.GetJoystickName(bind.joystick) .. linput.HAT .. bind.hat .. linput.DIRECTION .. bind.dir
+	elseif bind.joystick and bind.button then
+		return Input.GetJoystickName(bind.joystick) .. linput.BUTTON .. bind.button
+	elseif bind.joystick and bind.axis then
+		return (bind.direction < 0 and "-" or "") .. Input.GetJoystickName(bind.joystick) .. linput.AXIS .. (axis_names[bind.axis + 1] or tostring(bind.axis))
+	elseif bind.mouse then
+		return linput.MOUSE .. (mouse_names[bind.mouse + 1] or tostring(bind.mouse))
+	end
+end
+
+-- Get a localized name for a key chord to display on a binding
+local function get_chord_desc(chord)
+	if not chord.enabled then return "" end
+
+	local str = get_binding_desc(chord.activator)
+	local mod1 = chord.modifier1
+	local mod2 = chord.modifier2
+
+	if mod1 then str = str .. " + " .. get_binding_desc(mod1) end
+	if mod2 then str = str .. " + " .. get_binding_desc(mod2) end
+
+	return str
+end
 
 local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
 
-local mainButtonSize = Vector(40,40) * (ui.screenHeight / 1200)
-local optionButtonSize = Vector(125,40) * (ui.screenHeight / 1200)
-local bindingButtonSize = Vector(177,25) * (ui.screenHeight / 1200)
+local mainButtonSize = Vector2(40,40) * (ui.screenHeight / 1200)
+local optionButtonSize = Vector2(125,40) * (ui.screenHeight / 1200)
+local bindingButtonSize = Vector2(177,25) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 
 local bindingPageFontSize = 36 * (ui.screenHeight / 1200)
 local bindingGroupFontSize = 26 * (ui.screenHeight / 1200)
 
-local optionsWinSize = Vector(ui.screenWidth * 0.4, ui.screenHeight * 0.6)
+local optionsWinSize = Vector2(ui.screenWidth * 0.4, ui.screenHeight * 0.6)
 
 local showTab = 'video'
 
 local binding_pages
-local showKeyCapture
-local keyCaptureId
+local keyCaptureBind
 local keyCaptureNum
 
 local function combo(label, selected, items, tooltip)
@@ -84,7 +125,7 @@ local function bindingTextButton(label, tooltip, enabled, callback)
 	local bgcolor = enabled and colors.buttonBlue or colors.grey
 
 	local button
-	ui.withFont(pionillium.medium.name, pionillium.medium.size, function()
+	ui.withFont(pionillium.small.name, pionillium.small.size, function()
 		button = ui.coloredSelectedButton(label, bindingButtonSize, false, bgcolor, tooltip, enabled)
 	end)
 	if button then
@@ -157,12 +198,11 @@ local function showVideoOptions()
 	local fullscreen = Engine.GetFullscreen()
 	local vsync = Engine.GetVSyncEnabled()
 	local anisoFilter = Engine.GetAnisoFiltering()
-	local planetTextures = Engine.GetPlanetFractalColourEnabled()
 
 	local textCompress = Engine.GetTextureCompressionEnabled()
 	local gpuJobs = Engine.GetGpuJobsEnabled()
+	local disableScreenshotInfo = Engine.GetDisableScreenshotInfo()
 
-	local fractalDetail = keyOf(detailLabels,keyOf(detailLevels, Engine.GetFractalDetailLevel()))-1
 	local cityDetail = keyOf(detailLabels,keyOf(detailLevels, Engine.GetCityDetailLevel()))-1
 	local displayNavTunnels = Engine.GetDisplayNavTunnels()
 	local displaySpeedLines = Engine.GetDisplaySpeedLines()
@@ -211,6 +251,11 @@ local function showVideoOptions()
 	if c then
 		Engine.SetGpuJobsEnabled(gpuJobs)
 	end
+	ui.nextColumn()
+	c,disableScreenshotInfo = checkbox(lui.DISABLE_SCREENSHOT_INFO, disableScreenshotInfo, lui.DISABLE_SCREENSHOT_INFO_DESC)
+	if c then
+		Engine.SetDisableScreenshotInfo(disableScreenshotInfo)
+	end
 	ui.columns(1,"",false)
 
 
@@ -219,17 +264,6 @@ local function showVideoOptions()
 	if c then
 		local detail = detailLevels[detailLabels[selectedDetail+1]]
 		Engine.SetPlanetDetailLevel(detail)
-	end
-
-	c,planetTextures = checkbox(lui.PLANET_TEXTURES, planetTextures, lui.TEXTURE_COMPRESSION)
-	if c then
-		Engine.SetPlanetFractalColourEnabled(planetTextures)
-	end
-
-	c,fractalDetail = combo(lui.FRACTAL_DETAIL, fractalDetail, detailLabels, lui.DETAIL_DESC)
-	if c then
-		local detail = detailLevels[detailLabels[fractalDetail+1]]
-		Engine.SetFractalDetailLevel(detail)
 	end
 
 	c,cityDetail = combo(lui.CITY_DETAIL_LEVEL, cityDetail, detailLabels, lui.DETAIL_DESC)
@@ -267,78 +301,60 @@ local function showVideoOptions()
 	if c then
 		Engine.SetAmountStars(starDensity/100)
 	end
+
+	ui.separator()
+	optionTextButton("Debug Info", nil, true, function()
+		Engine.SetShowDebugInfo()
+		ui.optionsWindow:close()
+	end)
 end
 
-local function captureBinding(id,num)
+local captureBindingWindow
+captureBindingWindow = ModalWindow.New("CaptureBinding", function()
+	local info = keyCaptureBind
 
-	local info
+	ui.text(localize_binding_id(info.id))
+	ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
 
-	for _,page in pairs(binding_pages) do
-		for _,group in pairs(page) do
-			if group.id then
-				for _,i in pairs(group) do
-					if i.id == id then
-						info = i
-					end
-				end
-			end
+	if info.type == 'Action' then
+		local desc = keyCaptureNum == 1 and info.binding or info.binding2
+		ui.text(desc.enabled and get_chord_desc(desc) or '<None>')
+
+		local set, bindingKey = Engine.pigui.GetKeyBinding()
+		if set then
+			if keyCaptureNum == 1 then info.binding = bindingKey
+			else info.binding2 = bindingKey end
+		end
+	elseif info.type == 'Axis' then
+		local desc
+		if keyCaptureNum == 1 then
+			desc = get_binding_desc(info.axis) or '<None>'
+		else
+			desc = keyCaptureNum == 2 and info.positive or info.negative
+			desc = desc.enabled and get_chord_desc(desc) or '<None>'
+		end
+		ui.text(desc)
+
+		if keyCaptureNum == 1 then
+			local set, bindingAxis = Engine.pigui.GetAxisBinding()
+			if set then info.axis = bindingAxis end
+		elseif keyCaptureNum == 2 then
+			local set, bindingKey = Engine.pigui.GetKeyBinding()
+			if set then info.positive = bindingKey end
+		else
+			local set, bindingKey = Engine.pigui.GetKeyBinding()
+			if set then info.negative = bindingKey end
 		end
 	end
 
-	ui.setNextWindowPosCenter('Always')
-	ui.withStyleColors({["WindowBg"] = Color(20, 20, 80, 230)}, function()
-		-- TODO: this window should be ShowBorders
-		ui.window("captureBinding", {"NoTitleBar", "NoResize"}, function()
-			-- TODO: localizations for binding IDs
-			ui.text(info.id)
-			ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
-
-			if info.type == 'action' then
-				local desc
-				if num == 1 then desc = info.bindingDescription1
-				else desc = info.bindingDescription2 end
-				desc = desc or '<None>'
-				ui.text(desc)
-
-				local bindingKey = Engine.pigui.GetKeyBinding()
-				local setBinding = false
-				if(bindingKey and num==1 and bindingKey~=info.binding1) or (bindingKey and num==2 and bindingKey~=info.binding2) then setBinding = true end
-
-				if setBinding and  num == 1 then Input.SetActionBinding(info.id, bindingKey, info.binding2)
-				elseif setBinding and num==2 then Input.SetActionBinding(info.id, info.binding1, bindingKey)
-				end
-			elseif info.type == 'axis' then
-				local desc
-				if num == 1 then desc = info.axisDescription
-				elseif num == 2 then desc = info.positiveDescription
-				else desc = info.negativeDescription end
-				desc = desc or '<None>'
-				ui.text(desc)
-
-				if num == 1 then
-					local bindingAxis = Engine.pigui.GetAxisBinding()
-
-					if bindingAxis and bindingAxis~=info.axis then
-						Input.SetAxisBinding(info.id, bindingAxis, info.positive, info.negative)
-					end
-				elseif num == 2 then
-					local bindingKey = Engine.pigui.GetKeyBinding()
-
-					if bindingKey and bindingKey ~= info.positive then
-						Input.SetAxisBinding(info.id, info.axis, bindingKey, info.negative)
-					end
-				else
-					local bindingKey = Engine.pigui.GetKeyBinding()
-					if bindingKey and bindingKey ~= info.negative then
-						Input.SetAxisBinding(info.id, info.axis, info.positive, bindingKey)
-					end
-				end
-			end
-
-			optionTextButton(lui.OK, nil, true, function() showKeyCapture = false end)
-		end)
+	optionTextButton(lui.OK, nil, true, function()
+		Input.SaveBinding(info)
+		captureBindingWindow:close()
 	end)
-end
+end, function (self, drawPopupFn)
+	ui.setNextWindowPosCenter('Always')
+	ui.withStyleColorsAndVars({["PopupBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
+end)
 
 local function showSoundOptions()
 	local masterMuted = Engine.GetMasterMuted()
@@ -391,85 +407,66 @@ local function showLanguageOptions()
 end
 
 local function actionBinding(info)
-	local bindings = { info.binding1, info.binding2 }
-	local descs = { info.bindingDescription1, info.bindingDescription2 }
+	local descs = {
+		get_chord_desc(info.binding),
+		get_chord_desc(info.binding2)
+	}
 
-	-- TODO: localizations for binding IDs
-	if (ui.collapsingHeader(info.id, {})) then
+	if (ui.collapsingHeader(localize_binding_id(info.id), {})) then
 		ui.columns(3,"##bindings",false)
 		ui.nextColumn()
-		ui.text("Binding")
+		ui.text(linput.TEXT_BINDING)
 		bindingTextButton((descs[1] or '')..'##'..info.id..'1', (descs[1] or ''), true, function()
-			showKeyCapture = true
-			keyCaptureId = info.id
+			keyCaptureBind = info
 			keyCaptureNum = 1
+			captureBindingWindow:open()
 		end)
 		ui.nextColumn()
-		ui.text("Alt. Binding")
+		ui.text(linput.TEXT_ALT_BINDING)
 		bindingTextButton((descs[2] or '')..'##'..info.id..'2', (descs[2] or ''), true, function()
-			showKeyCapture = true
-			keyCaptureId = info.id
+			keyCaptureBind = info
 			keyCaptureNum = 2
+			captureBindingWindow:open()
 		end)
 		ui.columns(1,"",false)
 	end
 end
 
 local function axisBinding(info)
-	local bindings = { info.axis, info.positive, info.negative }
-	local descs = { info.axisDescription, info.positiveDescription, info.negativeDescription }
-	-- TODO: localizations for binding IDs
-	if (ui.collapsingHeader(info.id, {})) then
+	local axis, positive, negative = info.axis, info.positive, info.negative
+	local descs = { get_binding_desc(axis), get_chord_desc(positive), get_chord_desc(negative) }
+
+	if (ui.collapsingHeader(localize_binding_id(info.id), {})) then
 		ui.columns(3,"##axisjoybindings",false)
 		ui.text("Axis:")
 		ui.nextColumn()
 		bindingTextButton((descs[1] or '')..'##'..info.id..'axis', (descs[1] or ''), true, function()
-			showKeyCapture = true
-			keyCaptureId = info.id
+			keyCaptureBind = info
 			keyCaptureNum = 1
+			captureBindingWindow:open()
 		end)
 		ui.nextColumn()
-		if info.axis then
-			local c, inverted, deadzone, sensitivity = nil, info.axis:sub(1,1) == "-",
-				tonumber(info.axis:match"/DZ(%d+%.%d*)" or 0) * 100,
-				tonumber(info.axis:match"/E(%d+%.%d*)" or 1) * 100
-			local axis = info.axis:match("Joy[0-9a-f]+/Axis%d+")
-			local function set_axis()
-				local _ax = (inverted and "-" or "") .. axis .. "/DZ" .. deadzone / 100.0 .. "/E" .. sensitivity / 100.0
-				Input.SetAxisBinding(info.id, _ax, info.positive, info.negative)
-			end
-			-- TODO: localize this and find a better way to handle it.
-			c,inverted = ui.checkbox("Inverted##"..info.id, inverted, "Invert Axis")
-			set_axis()
-			ui.nextColumn()
-			ui.nextColumn()
-			-- ui.columns(3, "##axisinfo", false)
-			-- TODO: localize all of these
-			-- ui.text("Options:")
-			-- ui.nextColumn()
-			c, deadzone = slider("Deadzone##"..info.id, deadzone, 0, 100, "Axis Deadzone")
-			set_axis()
-			ui.nextColumn()
-			c,sensitivity = slider("Sensitivity##"..info.id, sensitivity, 0, 100, "Axis Sensitivity")
-			set_axis()
+		if axis then
+			local c, inverted = nil, axis.direction < 0
+			c,inverted = ui.checkbox("Inverted##"..info.id, inverted, linput.TEXT_INVERT_AXIS)
+			if c then axis.direction = inverted and -1 or 1; info.axis = axis end
 		end
+		-- new row
 		ui.nextColumn()
-		ui.columns(3,"##axiskeybindings",false)
-		-- TODO: translate this string
-		ui.text("Key Bindings:")
+		ui.text(linput.TEXT_KEY_BINDINGS)
 		ui.nextColumn()
-		ui.text("Positive:")
+		ui.text(linput.TEXT_KEY_POSITIVE)
 		bindingTextButton((descs[2] or '')..'##'..info.id..'positive', (descs[2] or ''), true, function()
-			showKeyCapture = true
-			keyCaptureId = info.id
+			keyCaptureBind = info
 			keyCaptureNum = 2
+			captureBindingWindow:open()
 		end)
 		ui.nextColumn()
-		ui.text("Negative:")
+		ui.text(linput.TEXT_KEY_NEGATIVE)
 		bindingTextButton((descs[3] or '')..'##'..info.id..'negative', (descs[3] or ''), true, function()
-			showKeyCapture = true
-			keyCaptureId = info.id
+			keyCaptureBind = info
 			keyCaptureNum = 3
+			captureBindingWindow:open()
 		end)
 		ui.columns(1,"",false)
 	end
@@ -480,7 +477,7 @@ local function showControlsOptions()
 
 	local mouseYInvert = Input.GetMouseYInverted()
 	local joystickEnabled = Input.GetJoystickEnabled()
-	binding_pages = Input.GetBindings()
+	binding_pages = Input.GetBindingPages()
 	local c
 
 	c,mouseYInvert = checkbox(lui.INVERT_MOUSE_Y, mouseYInvert)
@@ -490,23 +487,31 @@ local function showControlsOptions()
 	if c then Input.SetJoystickEnabled(joystickEnabled) end
 
 	for _,page in ipairs(binding_pages) do
+		ui.text ''
+		ui.withFont(pionillium.medium.name, bindingPageFontSize, function()
+			ui.text(localize_binding_id("Page" .. page.id))
+		end)
 		ui.separator()
-		-- TODO: localizations for page IDs
-		ui.withFont(pionillium.medium.name, bindingPageFontSize, function() ui.text(page.id) end)
+		Engine.pigui.PushID(page.id)
 		for _,group in ipairs(page) do
 			if group.id then
+				Engine.pigui.PushID(group.id)
+				if _ > 1 then ui.text '' end
+				ui.withFont(pionillium.medium.name, bindingGroupFontSize, function()
+					ui.text(localize_binding_id("Group" .. group.id))
+				end)
 				ui.separator()
-				-- TODO: localizations for group IDs
-				ui.withFont(pionillium.medium.name, bindingGroupFontSize, function() ui.text(group.id) end)
-				for _,info in ipairs(group) do
-					if info.type == 'action' then
-						actionBinding(info)
-					elseif info.type == 'axis' then
-						axisBinding(info)
+				for _,binding in ipairs(group) do
+					if binding.type == 'Action' then
+						actionBinding(binding)
+					elseif binding.type == 'Axis' then
+						axisBinding(binding)
 					end
 				end
+				Engine.pigui.PopID()
 			end
 		end
+		Engine.pigui.PopID()
 	end
 end
 
@@ -517,69 +522,62 @@ local optionsTabs = {
 	["controls"]=showControlsOptions
 }
 
-local function optionsWindow()
-	if ui.showOptionsWindow then
-		ui.setNextWindowSize(optionsWinSize, 'Always')
-		ui.setNextWindowPosCenter('Always')
-		ui.withStyleColors({["WindowBg"] = Color(20, 20, 80, 230)}, function()
-			-- TODO: this window should be ShowBorders
-			ui.window("Options", {"NoTitleBar", "NoResize"}, function()
-				mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
-					showTab = 'video'
-				end)
-				ui.sameLine()
-				mainButton(icons.sound, lui.SOUND, showTab=='sound', function()
-					showTab = 'sound'
-				end)
-				ui.sameLine()
-				mainButton(icons.language, lui.LANGUAGE, showTab=='language', function()
-					showTab = 'language'
-				end)
-				ui.sameLine()
-				mainButton(icons.controls, lui.CONTROLS, showTab=='controls', function()
-					showTab = 'controls'
-				end)
+ui.optionsWindow = ModalWindow.New("Options", function()
+	mainButton(icons.view_sidereal, lui.VIDEO, showTab=='video', function()
+		showTab = 'video'
+	end)
+	ui.sameLine()
+	mainButton(icons.sound, lui.SOUND, showTab=='sound', function()
+		showTab = 'sound'
+	end)
+	ui.sameLine()
+	mainButton(icons.language, lui.LANGUAGE, showTab=='language', function()
+		showTab = 'language'
+	end)
+	ui.sameLine()
+	mainButton(icons.controls, lui.CONTROLS, showTab=='controls', function()
+		showTab = 'controls'
+	end)
 
-				ui.separator()
+	ui.separator()
 
-				ui.child("options_tab", Vector(-1, optionsWinSize.y - mainButtonSize.y*3 - 4), function()
-					optionsTabs[showTab]()
-				end)
+	ui.child("options_tab", Vector2(-1, optionsWinSize.y - mainButtonSize.y*3 - 4), function()
+		optionsTabs[showTab]()
+	end)
 
-				ui.separator()
-				optionTextButton(lui.OPEN_USER_FOLDER, nil, Engine.CanBrowseUserFolder, function()
-					Engine.OpenBrowseUserFolder()
-				end)
+	ui.separator()
+	optionTextButton(lui.OPEN_USER_FOLDER, nil, Engine.CanBrowseUserFolder, function()
+		Engine.OpenBrowseUserFolder()
+	end)
 
-				ui.sameLine()
-				optionTextButton(lui.CLOSE, nil, true, function()
-					ui.showOptionsWindow = false
-					if Game.player then
-						Game.SetTimeAcceleration("1x")
-						Input.EnableBindings();
-					end
-				end)
-
-				if Game.player then
-					ui.sameLine()
-					optionTextButton(lui.SAVE, nil, true, function() ui.showSavedGameWindow = "SAVE" end)
-
-					ui.sameLine()
-					optionTextButton(lui.END_GAME, nil, true, function()
-						ui.showOptionsWindow = false
-						Input.EnableBindings();
-						Game.EndGame()
-					end)
-				end
-			end)
-		end)
-		if showKeyCapture then
-			captureBinding(keyCaptureId, keyCaptureNum)
+	ui.sameLine()
+	optionTextButton(lui.CLOSE, nil, true, function()
+		ui.optionsWindow:close()
+		if Game.player then
+			Game.SetTimeAcceleration("1x")
+			Input.EnableBindings();
 		end
-	end
-end
+	end)
 
-ui.registerModule("game", optionsWindow)
-ui.registerModule("mainMenu", optionsWindow)
+	if Game.player then
+		ui.sameLine()
+		optionTextButton(lui.SAVE, nil, true, function()
+			ui.saveLoadWindow.mode = "SAVE"
+			ui.saveLoadWindow:open()
+		end)
+
+		ui.sameLine()
+		optionTextButton(lui.END_GAME, nil, true, function()
+			ui.optionsWindow:close()
+			Input.EnableBindings();
+			Game.EndGame()
+		end)
+	end
+end, function (self, drawPopupFn)
+	ui.setNextWindowSize(optionsWinSize, 'Always')
+	ui.setNextWindowPosCenter('Always')
+	ui.withStyleColorsAndVars({["PopupBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
+end)
+
 
 return {}

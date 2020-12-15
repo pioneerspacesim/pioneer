@@ -5,19 +5,19 @@
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "Glè mhath!"
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "Glè mhath. Tha sinn cinnteach asaibh!"
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED: Pay {cash}."
+    "message": "PAIDHLEAT EARBSACH 'GA IARRAIDH: Pàighidh sinn {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "CHALLENGE: Ship and crew wanted for a combat mission in the {system} system."
+    "message": "DÙBHLAN: Tha soitheach is criutha 'gan iarraidh airson sabaid ann an siostam {system}."
   },
   "ADTEXT_3": {
     "description": "",
@@ -45,15 +45,15 @@
   },
   "BONUS_2": {
     "description": "",
-    "message": "You have served us well! I pay you a bonus of {cash}."
+    "message": "Fhuair sinn deagh fhrithealadh uaibh! Pàighidh mi {cash} a bharrachd dhuibh."
   },
   "BONUS_3": {
     "description": "",
-    "message": "Very impressive! I'm authorized to pay you a bonus of {cash}."
+    "message": "Cianail fhèin math! Fhuair mi cead {cash} a bharrachd a phàigheadh dhuibh."
   },
   "BONUS_4": {
     "description": "",
-    "message": "I'm very pleased of your performance! I have transferred additional {cash} credits."
+    "message": "Tha mi glè thoilichte le ur cuid obrach! Chuir mi {cash} a bharrachd dhan chunntas agaibh."
   },
   "COMBAT": {
     "description": "Name of mission type",
@@ -73,11 +73,11 @@
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
-    "message": "Galactic Explorer Corporation"
+    "message": "Corporaid taisgealaichean an reul-chriosa"
   },
   "CORPORATION_5": {
     "description": "Name of a corporation",
-    "message": "Haber Corporation"
+    "message": "Corporaid Haber"
   },
   "CORPORATION_6": {
     "description": "Name of a corporation",
@@ -101,7 +101,7 @@
   },
   "DENY_2": {
     "description": "",
-    "message": "Excuse me sir. I need a real professional."
+    "message": "Gabhaibh mo leisgeul ach tha mi feumach air cuideigin ionnsaichte."
   },
   "DETECTIVE": {
     "description": "Police Detective",
@@ -137,7 +137,7 @@
   },
   "GREETING_3": {
     "description": "",
-    "message": "How are you. I'm {name}."
+    "message": "Ciamar a tha sibh? Is mise {name}."
   },
   "GREETING_4": {
     "description": "",
@@ -175,17 +175,13 @@
     "description": "",
     "message": "Is there a time limit?"
   },
-  "LY": {
-    "description": "",
-    "message": "bl-shol"
-  },
   "MANAGER": {
     "description": "",
     "message": "Manager"
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Meet me in the {rendezvous} system to finish the job!"
+    "message": "Coinnichibh rium ann an siostam {rendezvous} airson crìoch a chur air an obair!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -241,7 +237,7 @@
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Armed Reconnaissance"
+    "message": "Sgrùdadh ionnsaighe"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
@@ -257,7 +253,7 @@
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Clear the area around {area}. Break any resistance."
+    "message": "Cuiribh crìoch air an aramach san sgìre mu {area}."
   },
   "OK_AGREED": {
     "description": "",
@@ -273,7 +269,7 @@
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Police detectives have discovered that a group of pirates try to establish a stronghold on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. This must not happen. The local authorities pay {cash} for a mission to {area} as preparation of a police operation."
+    "message": "Mhothaich am poileas do spùinneadairean a tha a' feuchainn ri {area} a ghabhail os làimh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar. Feumaidh sinn stad a chur orra. Pàighidh an t-ùghdarras ionadail {cash} airson misean gu {area} mar ullachadh air gnìomh a' phoileis."
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
@@ -285,11 +281,15 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on there way."
+    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Just land at a station with a {org} office."
+    "message": "Rach gu stèisean sa bheil oifis {org}."
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
   },
   "RISK_1": {
     "description": "",
@@ -301,11 +301,11 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "The competitor is well equipped. Please keep your eyes open!"
+    "message": "Tha deagh uidheamachd aig a' cho-fharpaisiche. Thoir an aire!"
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equiped and has access to the latest technology. Be careful!"
+    "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -333,14 +333,14 @@
   },
   "TIME_LIMIT": {
     "description": "",
-    "message": "Time limit:"
+    "message": "Crìoch ùine:"
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "What are the mission objectives?"
+    "message": "Dè na h-amasan aig a’ mhisean?"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "An èirich tàire ’na lùib dhomh?"
   }
 }

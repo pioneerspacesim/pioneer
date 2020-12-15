@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -47,11 +47,11 @@
 -- and counted with the # operator.  The player's sheet is stored as
 -- Character.persistent.player, and is the special case.
 
-local Engine = import("Engine")
-local Game = import("Game")
-local Event = import("Event")
-local NameGen = import("NameGen")
-local Serializer = import("Serializer")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local Event = require 'Event'
+local NameGen = require 'NameGen'
+local Serializer = require 'Serializer'
 
 local Character;
 Character = {
@@ -751,7 +751,7 @@ Character = {
 		if type(modifier) ~= 'number' then error('SafeRoll(): modifier must be numeric') end
 		if self.dead then return false end -- dead characters fail all tests
 		if self[attribute] and (type(self[attribute])=='number') then
-			local result = Self.DiceRoll()
+			local result = self.DiceRoll()
 			return (result < (self[attribute] + modifier) and result)
 		else
 			return false

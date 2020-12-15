@@ -1,9 +1,9 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
-local Comms = import("Comms")
-local Game = import("Game")
+local Comms = require 'Comms'
+local Game = require 'Game'
 
-local Lang = import("Lang")
+local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
 
 
@@ -41,7 +41,7 @@ Legal.CrimeType["MURDER"] = {basefine = 1.5e6, name = l.MURDER}
 Legal.CrimeType["PIRACY"] = {basefine = 1e5, name = l.PIRACY}
 Legal.CrimeType["TRADING_ILLEGAL_GOODS"] = {basefine = 5e3, name = l.TRADING_ILLEGAL_GOODS}
 Legal.CrimeType["WEAPONS_DISCHARGE"] = {basefine = 5e2, name = l.UNLAWFUL_WEAPONS_DISCHARGE}
-
+Legal.CrimeType["CONTRACT_FRAUD"] = {basefine = 5e2, name = l.CONTRACT_FRAUD}
 
 function Legal:notifyOfCrime (ship, crime)
 	if not ship:IsPlayer() then return end

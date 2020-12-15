@@ -1,0 +1,82 @@
+{
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Zgoda już udzielona. Kontynuuj na stanowisko {bay}."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Brak zgody. Brak wolnych miejsc w dokach."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Odmowa przyjęcia. Twój statek jest za daleko na weryfikację ID."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Zgoda udzielona. Kontynuuj na stanowisko {bay}."
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Pozwolenie na lądowanie wygasło. jeśli chcesz dokować musisz ponowić prośbę."
+  },
+  "STATION_GRAV": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "Lokalna grawitacja wynosi {grav}."
+  },
+  "STATION_GRAV_PRESS": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "Lokalna grawitacja wynosi {grav}, ciśnienie wynosi {press}."
+  },
+  "WATCH_FOR_TRAFFIC_ON_APPROACH": {
+    "description": "",
+    "message": "Proszę uważać na ruch przy podejściu."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, wkraczasz w przestrzeń stacji {station}. Proszę stosować się do lokalnych przepisów."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_2": {
+    "description": "",
+    "message": "{playerShipLabel}, mamy Cię na radarze. Jesteś w przestrzeni kontrolowanej przez {station}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_3": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, tu {station} STC. Wkraczasz w obszar kontrolowany."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Widzimy, że wlatujesz w obszar kontrolowany przez {station}, {playerShipLabel}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, witamy w {station}. Proszę pamiętać o przepisach, obowiązujących podczas lotów pod naszą jurysdykcją."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, mówi {station} STC. Wkraczasz w obszar kontrolowany i byłbym wdzięczny, gdybyś nie dostarczył mi dziś żadnej dodatkowej papierkowej roboty."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, opuściłeś obszar kontrolowany przez {station}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_2": {
+    "description": "",
+    "message": "Opuściłeś obszar {station}, {playerShipLabel}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_3": {
+    "description": "",
+    "message": "{playerShipLabel}, opuściłeś obszar kontrolowany przez {station}. Restrykcje już nie obowiązują."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Wylatujesz z przestrzeni stacji {station}, {playerShipLabel}. Wylogowujemy Cię."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, opuszczasz przestrzeń {station}. Miłej podróży."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, tu {station} STC. Widzimy, że opuszczasz kontrolowany przez nas obszar. Bądź bezpieczny."
+  }
+}

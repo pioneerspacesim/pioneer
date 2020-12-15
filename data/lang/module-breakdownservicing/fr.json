@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_INTRO": {
     "description": "",
-    "message": "Évitez les problèmes d'une hyper-proplusion cassée. Venez réparer la vôtre aujourd'hui, par la très officielle compagnie de réparation de moteurs {name}.\n"
+    "message": "Évitez l'inconvénience d'une hyperpropulsion cassée. Faites une révision aujourd'hui, par la compagnie de maintenance moteur officiellement approuvée {name}.\n"
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
-    "message": "Bonjour. Nous à {proprietor} & Co misons notre réputation sur notre travail.\nNous pouvons régler l'hyperpropulsion de votre vaisseau, garantie 12 mois sans problèmes de fonctionnement."
+    "message": "Bien le bonjour. Ici à {proprietor} & Co, nous engageons notre réputation sur notre travail. Nous pouvons régler votre hyperpropulsion afin qu'elle opère sans problème pendant 12 mois."
   },
   "FLAVOUR_2_PRICE": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
-    "message": "Révision terminée. Merci de votre confiance."
+    "message": "Service complété. Merci de votre confiance."
   },
   "FLAVOUR_2_TITLE": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
-    "message": "Bienvenu à SuperRéparateur. Il est grand temps pour une maintenace biennale ? Amenez votre hyperpulsion à SuperRéparateur !"
+    "message": "Bienvenue à SuperFix Maintenance. Il est l'heure de votre maintenance bi-annuelle ? Laissez nous SuperFixer votre hyperpropulsion!"
   },
   "FLAVOUR_3_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nNous pouvons réparer votre {drive} pour seulement {price}. Il n'y a personne de moins cher !"
+    "message": "\n\n{lasttime}\nNous pouvons régler votre moteur {drive} pour seulement {price}. Il n'y a personne de moins cher !"
   },
   "FLAVOUR_3_RESPONSE": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
-    "message": "\n{lasttime}\nRéparer votre {drive} coûtera {price}. Voulez-vous continuer?"
+    "message": "\n{lasttime}\nLa maintenance de votre moteur {drive} vous coûtera {price}. Voulez-vous continuer?"
   },
   "FLAVOUR_4_RESPONSE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
-    "message": "Évitez les inconvénients d'un moteur hyper-espace cassé. Réparez le votre aujourd'hui.\n"
+    "message": "Évitez l'inconvénience d'une hyperpropulsion cassée. Faite une révision aujourd'hui.\n"
   },
   "FLAVOUR_5_PRICE": {
     "description": "",

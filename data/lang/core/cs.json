@@ -49,7 +49,7 @@
   },
   "AUTOPILOT_CONTROL": {
     "description": "Indicating that ship is flying under autopilot control",
-    "message": "Autopilot control"
+    "message": "Ovládání autopilota"
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
@@ -102,10 +102,6 @@
   "BROWN_DWARF": {
     "description": "",
     "message": "Hnědý trpaslík (podhvězda)"
-  },
-  "BUTTON": {
-    "description": "",
-    "message": "\" klávesa \""
   },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
@@ -167,25 +163,13 @@
     "description": "",
     "message": "Sezbírání nákladu selhalo. V nákladovém prostoru není dostatek místa."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Center"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" metanovou atmosférou\""
-  },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Povolení již bylo uděleno. Pokračujte do doku %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Povolení zamítnuto. Všechny doky jsou obsazeny."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Povolení uděleno. Pokračujte do doku %bay."
   },
   "CO2_ATMOSPHERE": {
     "description": "",
@@ -313,7 +297,7 @@
   },
   "DECREASE_TIME_ACCELERATION": {
     "description": "",
-    "message": "Decrease Time Acceleration"
+    "message": "Zpomalit urychlení času"
   },
   "DEMOGRAPHICS": {
     "description": "",
@@ -322,10 +306,6 @@
   "DESTINATION": {
     "description": "",
     "message": "Destinace"
-  },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" směr \""
   },
   "DISTANCE_LY": {
     "description": "",
@@ -338,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Docking"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Povolení k přistání vypršelo. Pokud chcete přistát zopakujte svůj požadavek."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -413,7 +389,7 @@
   },
   "FIRE_LASER": {
     "description": "",
-    "message": "Fire weapon"
+    "message": "Vystřelit ze zbraně"
   },
   "FIRE_MISSILE": {
     "description": "",
@@ -479,17 +455,17 @@
     "description": "like wheat or barley",
     "message": "Obilí"
   },
+  "GRID_DISPLAY_MODE_TOGGLE": {
+    "description": "Switch show no grid",
+    "message": "Switch between grid display modes."
+  },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Ruční zbraně"
+    "message": "Small arms"
   },
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Naprostý kapitalismus - žádný státní sociální systém"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" klobouk\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -617,7 +593,7 @@
   },
   "INCREASE_TIME_ACCELERATION": {
     "description": "",
-    "message": "Increase Time Acceleration"
+    "message": "Zrychlit urychlení času"
   },
   "INDUSTRIAL_COLONY": {
     "description": "",
@@ -643,10 +619,6 @@
     "description": "",
     "message": "Ovládání joystickem"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname osa %axis"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Switch between Lagrange L4/L5 point display modes."
@@ -669,7 +641,7 @@
   },
   "LASER_FIRE_DETECTED": {
     "description": "",
-    "message": "Weapons fire detected."
+    "message": "Zjištěna střelba."
   },
   "LATITUDE": {
     "description": "Short for latitude",
@@ -742,70 +714,6 @@
   "MANUAL_CONTROL_MODE": {
     "description": "",
     "message": "Manuální ovládání"
-  },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Zaměřit hyperprostorový cíl"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Info panel"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Výběr následuje pohled"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Otáčet pohled dolů"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Otáčet pohled doleva"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Otáčet pohled doprava"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Otáčet pohled nahoru"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Posouvat pohled vzad"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Posouvat pohled dolů"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Posouvat pohled vpřed"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Posouvat pohled doleva"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Posouvat pohled doprava"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Posouvat pohled nahoru"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Warp do aktuálního systému"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Warp do hyperprostorového cíle"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Warp do zvoleného systému"
   },
   "MASS": {
     "description": "",
@@ -882,6 +790,10 @@
   "MISSILE": {
     "description": "",
     "message": "Střela"
+  },
+  "MISSILE_DETECTED": {
+    "description": "",
+    "message": "Missile launch detected."
   },
   "MIXED_ECONOMY": {
     "description": "",
@@ -969,7 +881,7 @@
   },
   "NOW": {
     "description": "In System Orbit View",
-    "message": "Now"
+    "message": "Nyní"
   },
   "NO_ALERT": {
     "description": "",
@@ -1071,6 +983,10 @@
     "description": "",
     "message": "\" kyslíkovou atmosférou\""
   },
+  "OBJECT_INFO": {
+    "description": "Originally for use as a window title and a button tooltip in the system map",
+    "message": "Object info"
+  },
   "OCEANICWORLD": {
     "description": "",
     "message": "\" vodní planeta\""
@@ -1082,6 +998,10 @@
   "ORBITAL_STARPORT": {
     "description": "",
     "message": "Orbitální stanice"
+  },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Orbit planner"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
@@ -1205,15 +1125,11 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Request docking clearance from {target}"
+    "message": "Vyžádat uvolnění z přístavu {target}"
   },
   "RESET": {
     "description": "",
     "message": "Reset"
-  },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Reset orientace a zoomu"
   },
   "ROBOTS": {
     "description": "",
@@ -1315,6 +1231,14 @@
     "description": "",
     "message": "Velká poloosa dráhy"
   },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Set as combat target"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Nastavit jako cíl navigace"
+  },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",
     "message": "Nastavit cíl hyperskoku na %system"
@@ -1357,7 +1281,7 @@
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Either show no ships, show ships, or show ships + their orbits",
-    "message": "Switch between ship display modes."
+    "message": "Přepnout mezi režimy zobrazení lodí."
   },
   "SHIP_DETECTED_NEARBY": {
     "description": "",
@@ -1679,10 +1603,6 @@
     "description": "",
     "message": "HUD mód"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "Lua konzole"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Toggle radar mode"
@@ -1731,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "d"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "h"
@@ -1767,6 +1691,10 @@
     "description": "Duration unit: one 60-second minute",
     "message": "m"
   },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
+  },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
     "message": "s"
@@ -1785,7 +1713,7 @@
   },
   "UNSET_NAVTARGET": {
     "description": "",
-    "message": "Unset navigation target."
+    "message": "Zrušit nastavení cíle navigace."
   },
   "USE_LOW_THRUST": {
     "description": "",
@@ -1843,14 +1771,6 @@
     "description": "",
     "message": "\" bez výrazné atmosféry\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Zatáčení"
@@ -1866,10 +1786,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Nová zemědělská kolonie."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

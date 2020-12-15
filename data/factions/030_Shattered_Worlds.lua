@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Shattered Worlds')
@@ -17,11 +17,9 @@ f:govtype_weight('SOCDEM',		70)
 f:govtype_weight('PLUTOCRATIC',		49)
 f:govtype_weight('COMMUNIST',		49)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		45)
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('SLAVES',		46)
-f:illegal_goods_probability('NERVE_GAS',		100)
+f:illegal_goods_probability('animal_meat',		45)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('slaves',		46)
+f:illegal_goods_probability('nerve_gas',		100)
 
 f:add_to_factions('Shattered Worlds')
-
-

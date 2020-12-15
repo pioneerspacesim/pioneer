@@ -175,10 +175,6 @@
     "description": "",
     "message": "Czy jest jakiś limit czasowy?"
   },
-  "LY": {
-    "description": "",
-    "message": "lś"
-  },
   "MANAGER": {
     "description": "",
     "message": "Menadżer"
@@ -285,11 +281,15 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Ważne aby misja została ukończona przed {date}, ponieważ przybywają kolejne siły wroga."
+    "message": "To ważne, aby zakończyć misję przed {date}, ponieważ nadciągają kolejne wrogie statki."
   },
   "POLICE_LAND_THERE": {
     "description": "",
     "message": "Po prostu wyląduj na stacji z biurem {org}."
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Przykro mi, ale nie sądzę, abyś sobie z tym poradził bez radaru."
   },
   "RISK_1": {
     "description": "",

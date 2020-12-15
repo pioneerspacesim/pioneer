@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _HYPERSPACECLOUD_H
@@ -8,18 +8,20 @@
 
 class Frame;
 class Ship;
+
 namespace Graphics {
 	class Material;
 	class Renderer;
 	class VertexArray;
 	class RenderState;
-}
+} // namespace Graphics
 
-class HyperspaceCloud: public Body {
+class HyperspaceCloud : public Body {
 public:
 	OBJDEF(HyperspaceCloud, Body, HYPERSPACECLOUD);
+	HyperspaceCloud() = delete;
 	HyperspaceCloud(Ship *, double dateDue, bool isArrival);
-	HyperspaceCloud();
+	HyperspaceCloud(const Json &jsonObj, Space *space);
 	virtual ~HyperspaceCloud();
 	virtual void SetVelocity(const vector3d &v) override { m_vel = v; }
 	virtual vector3d GetVelocity() const override { return m_vel; }
@@ -32,9 +34,9 @@ public:
 	void SetIsArrival(bool isArrival);
 	bool IsArrival() const { return m_isArrival; }
 	virtual void UpdateInterpTransform(double alpha) override;
+
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 private:
 	void InitGraphics();

@@ -1,7 +1,10 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CollMesh.h"
+
+#include "scenegraph/Serializer.h"
+#include "collider/GeomTree.h"
 
 //This simply stores the collision GeomTrees
 //and AABB.
@@ -39,4 +42,31 @@ void CollMesh::Load(Serializer::Reader &rd)
 	}
 
 	m_totalTris = rd.Int32();
+}
+
+CollMesh::~CollMesh()
+{
+	for (auto it = m_dynGeomTrees.begin(); it != m_dynGeomTrees.end(); ++it)
+		delete *it;
+	delete m_geomTree;
+}
+
+const std::vector<vector3f> &CollMesh::GetGeomTreeVertices() const
+{
+	return m_geomTree->GetVertices();
+}
+
+const Uint32 *CollMesh::GetGeomTreeIndices() const
+{
+	return m_geomTree->GetIndices();
+}
+
+const unsigned int *CollMesh::GetGeomTreeTriFlags() const
+{
+	return m_geomTree->GetTriFlags();
+}
+
+unsigned int CollMesh::GetGeomTreeNumTris() const
+{
+	return m_geomTree->GetNumTris();
 }

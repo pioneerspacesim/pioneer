@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('True League')
@@ -17,11 +17,9 @@ f:govtype_weight('LIBDEM',		71)
 f:govtype_weight('MILDICT1',		50)
 f:govtype_weight('SOCDEM',		50)
 
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		88)
-f:illegal_goods_probability('NARCOTICS',		35)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('hand_weapons',		88)
+f:illegal_goods_probability('narcotics',		35)
 
 f:add_to_factions('True League')
-
-

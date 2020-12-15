@@ -37,7 +37,7 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde insanlarla robotlar karşı karşıya. Robotlarda oluşan bir \"davranışsal bozukluk\", robot hizmetçilerin efendilerine itaatsizliği ile sonuçlanıyor."
+    "message": "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde insanlarla robotlar karşı karşıya. Robotlarda oluşan bir \"davranışsal bozukluk\"; kullanıcıların, robot hizmetçilerine güvenmemesine sebep oluyor."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
@@ -52,7 +52,7 @@
     "message": "HABERLER {date}: {system} sisteminde polis suç çetesine baskın yaptı, kilit yöneticiler tutuklandı. "
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "{system} ({sectorx}, {sectory}, {sectorz}) sisteminin idari birimleri, uyuşturucu satıcılarının tutuklanmaları dolayısıyla artık sistemde uyuşturucu bulunmadığı için suç oranlarının düşmesini umuyor."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -92,7 +92,7 @@
     "message": "HABERLER {date}: {system} sisteminde çatışmalar şiddetlendi."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "{system} ({sectorx}, {sectory}, {sectorz}) sisteminde ezelden beridir süren çatışma orduların apaçık bir savaşa girmesiyle büyüdü."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "{system} ({sectorx}, {sectory}, {sectorz}) sistemindeki işçiler isyan ederek zincirlerini kırdı ve Ltus tarlalarında çalışmayı bıraktı. Ucuz işçi bulunamadığı için ekonomi durma noktasında."
+    "message": "{system} ({sectorx}, {sectory}, {sectorz}) sistemindeki işçiler isyan ederek zincirlerini kırdı ve Lotus tarlalarında çalışmayı bıraktı. Ucuz işçi bulunamadığı için ekonomi durma noktasında."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -217,7 +217,7 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "Confederate Chronicle"
+    "message": "Topluluk Kronikleri"
   },
   "NEWSPAPER_FED": {
     "description": "",

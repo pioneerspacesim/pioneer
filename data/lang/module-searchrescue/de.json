@@ -1,4 +1,8 @@
 {
+  "ACCIDENT_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Die traurige Nachricht hat uns erreicht, dass {shiplabel} zerstört wurde. Wir werden Ihnen die Hälfte des Preises für Ihre Bemühungen zahlen."
+  },
   "AU": {
     "description": "",
     "message": "AE"
@@ -431,10 +435,6 @@
     "description": "",
     "message": "L.:"
   },
-  "LY": {
-    "description": "",
-    "message": "Lj"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "Umladung kann nicht fertiggestellt werden. {cargotype} fehlt."
@@ -478,6 +478,10 @@
   "PLACE_OF_ASSISTANCE": {
     "description": "",
     "message": "Am Ort der Unterstützung"
+  },
+  "PLAYER_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Wir haben von Ihren Taten erfahren, Captain. Wir werden Sie bei den örtlichen Behörden für die Zerstörung des Schiffes melden, dem sie helfen sollten. Wir sehen uns vor Gericht."
   },
   "PLEASE_LAND": {
     "description": "",

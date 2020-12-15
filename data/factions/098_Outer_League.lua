@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Outer League')
@@ -14,10 +14,8 @@ local f = Faction:new('Outer League')
 f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT2',		77)
 
-f:illegal_goods_probability('SLAVES',		78)
-f:illegal_goods_probability('BATTLE_WEAPONS',		30)
-f:illegal_goods_probability('NERVE_GAS',		100)
+f:illegal_goods_probability('slaves',		78)
+f:illegal_goods_probability('battle_weapons',		30)
+f:illegal_goods_probability('nerve_gas',		100)
 
 f:add_to_factions('Outer League')
-
-

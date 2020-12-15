@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Utilisé comme carburant pour les moteurs militaires de pointe. Ces moteurs produisent des déchets nucléaires pendant leur fonctionnement, dont il faut se débarasser. De part leur nature synthétique, le carburant militaire est plus cher et moins courant que l'hydrogène et ne peut pas être trouvé dans la nature."
+    "message": "Utilisé comme carburant pour les moteurs militaires les plus avancés. Ces moteurs produisent des déchets radioactifs lors de leur fonctionnement, lesquels doivent être éliminés. De par sa nature synthétique, le carburant militaire est plus cher et moins courant que l'hydrogène et n'existe pas dans la nature."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Produits radioactifs"
+    "message": "Déchets radioactifs"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Crées par les réacteurs nucléaires et les moteurs à hyperpropulsion militaires, les déchets nucléaires sont les marchandises les dangeureuses à transporter et à les plus difficiles à se débarrasser. Pour cette raison, la plupart des spatioports paient pour se débarasser de ce type de déchets. Déverser n'importe où des déchets nucléaire est un délit grave."
+    "message": "Crée par des réacteurs nucléaires et des hyper-propulsions militaires, les déchets radioactifs sont la denrée la plus dure à se débarrasser et la plus dangereuse à transporter. Pour cette raison, la plupart des spatioports paieront pour se débarrasser de leur stocks. Déverser des déchets radioactifs est une infraction grave."
   },
   "ROBOTS": {
     "description": "",

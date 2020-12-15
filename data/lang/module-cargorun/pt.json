@@ -185,7 +185,7 @@
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Listen, we were clear about the deadline. You can forget about getting payed."
+    "message": "Listen, we were clear about the deadline. You can forget about getting paid."
   },
   "FAILUREMSG_4": {
     "description": "",
@@ -327,10 +327,6 @@
     "description": "",
     "message": "I'm taking damage. I need help."
   },
-  "LY": {
-    "description": "",
-    "message": "ly"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Machine tools"
@@ -453,7 +449,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Definir como destino de navegação"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -466,6 +462,10 @@
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
     "message": "Spaceship parts"
+  },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "Self-sealing stem bolts"
   },
   "SUCCESSMSG_1": {
     "description": "",

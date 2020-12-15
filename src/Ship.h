@@ -1,47 +1,45 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIP_H
 #define _SHIP_H
 
-#include "libs.h"
-#include "Camera.h"
-#include "DynamicBody.h"
-#include "galaxy/SystemPath.h"
-#include "NavLights.h"
-#include "Planet.h"
-#include "Sensors.h"
-#include "ShipType.h"
-#include "Space.h"
-#include "scenegraph/SceneGraph.h"
-#include "scenegraph/ModelSkin.h"
-#include "Sound.h"
-#include "LuaTable.h"
-#include <list>
 #include <unordered_map>
 
-#include "Propulsion.h"
-#include "FixedGuns.h"
+#include "DynamicBody.h"
+#include "ShipType.h"
+#include "galaxy/SystemPath.h"
+#include "lua/LuaRef.h"
+#include "scenegraph/ModelSkin.h"
+#include "sound/Sound.h"
 
+#include "FixedGuns.h"
+#include "ship/Propulsion.h"
+
+class AICommand;
+class Camera;
+class CargoBody;
 class SpaceStation;
 class HyperspaceCloud;
-class AICommand;
-class ShipController;
-class CargoBody;
 class Missile;
-namespace Graphics { class Renderer; }
+class NavLights;
+class Planet;
+class Sensors;
+class ShipController;
+class Space;
 
-struct HeatGradientParameters_t {
-	matrix3x3f heatingMatrix;
-	vector3f heatingNormal; // normalised
-	float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
-};
+struct CollisionContact;
+struct HeatGradientParameters_t;
+
+namespace Graphics {
+	class Renderer;
+}
 
 struct shipstats_t {
 	int used_capacity;
 	int used_cargo;
 	int free_capacity;
-	int static_mass; // cargo, equipment + hull
+	int static_mass;	  // cargo, equipment + hull
 	float hull_mass_left; // effectively hitpoints
 	float hyperspace_range;
 	float hyperspace_range_max;
@@ -56,16 +54,18 @@ struct HyperdriveSoundsTable {
 	std::string abort_sound;
 };
 
-class Ship: public DynamicBody {
+class Ship : public DynamicBody {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
+
 public:
 	OBJDEF(Ship, DynamicBody, SHIP);
+	Ship() = delete;
+	Ship(const Json &jsonObj, Space *space);
 	Ship(const ShipType::Id &shipId);
-	Ship() {} //default constructor used before Load
 	virtual ~Ship();
 
-	virtual void SetFrame(Frame *f) override;
+	virtual void SetFrame(FrameId fId) override;
 
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
@@ -81,7 +81,8 @@ public:
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
-	inline void ClearThrusterState() {
+	inline void ClearThrusterState()
+	{
 		ClearAngThrusterState();
 		if (m_launchLockTimeout <= 0.0f) ClearLinThrusterState();
 	}
@@ -92,7 +93,7 @@ public:
 	const shipstats_t &GetStats() const { return m_stats; }
 
 	void Explode();
-	virtual bool DoCrushDamage(float kgDamage); // can be overloaded in Player to add "crush" audio
+	virtual bool DoDamage(float kgDamage); // can be overloaded in Player to add audio
 	void SetGunState(int idx, int state);
 	float GetGunTemperature(int idx) const { return GetFixedGuns()->GetGunTemperature(idx); }
 	void UpdateMass();
@@ -106,25 +107,28 @@ public:
 
 	bool IsDecelerating() const { return m_decelerating; }
 
-	virtual void NotifyRemoved(const Body* const removedBody) override;
-	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
-	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData) override;
+	virtual void NotifyRemoved(const Body *const removedBody) override;
+	virtual bool OnCollision(Body *o, Uint32 flags, double relVel) override;
+	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
-		FLYING,     // open flight (includes autopilot)
-		DOCKING,    // in docking animation
-		UNDOCKING,  // in docking animation
-		DOCKED,     // docked with station
-		LANDED,     // rough landed (not docked)
-		JUMPING,    // between space and hyperspace ;)
-		HYPERSPACE, // in hyperspace
+		FLYING,		   // open flight (includes autopilot)
+		DOCKING,	   // in docking animation
+		UNDOCKING,	   // in docking animation
+		DOCKED,		   // docked with station
+		LANDED,		   // rough landed (not docked)
+		JUMPING,	   // between space and hyperspace ;)
+		HYPERSPACE,	   // in hyperspace
 	};
+
+	// vector3d CalcAtmoPassiveControl() const;
+	vector3d CalcAtmoTorque() const;
 
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	int GetWheelTransition() const { return m_wheelTransition; }
-	bool SpawnCargo(CargoBody * c_body) const;
+	bool SpawnCargo(CargoBody *c_body) const;
 
 	LuaRef GetEquipSet() const { return m_equipSet; }
 
@@ -154,8 +158,6 @@ public:
 
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
-	// Calculate temperature we would have with wheels down
-	double ExtrapolateHullTemperature() const;
 
 	enum ECMResult {
 		ECM_NOT_INSTALLED,
@@ -165,12 +167,13 @@ public:
 
 	ECMResult UseECM();
 
-	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
+	virtual Missile *SpawnMissile(ShipType::Id missile_type, int power = -1);
 
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_ public>
 		ALERT_NONE,
 		ALERT_SHIP_NEARBY,
 		ALERT_SHIP_FIRING,
+		ALERT_MISSILE_DETECTED,
 	};
 	AlertState GetAlertState() { return m_alertState; }
 
@@ -179,14 +182,14 @@ public:
 	void AIGetStatusText(char *str); // Note: defined in Ship-AI.cpp
 
 	void AIKamikaze(Body *target); // Note: defined in Ship-AI.cpp
-	void AIKill(Ship *target); // Note: defined in Ship-AI.cpp
+	void AIKill(Ship *target);	   // Note: defined in Ship-AI.cpp
 	//void AIJourney(SystemBodyPath &dest);
-	void AIDock(SpaceStation *target); // Note: defined in Ship-AI.cpp
-	void AIFlyTo(Body *target); // Note: defined in Ship-AI.cpp
+	void AIDock(SpaceStation *target);		// Note: defined in Ship-AI.cpp
+	void AIFlyTo(Body *target);				// Note: defined in Ship-AI.cpp
 	void AIOrbit(Body *target, double alt); // Note: defined in Ship-AI.cpp
-	void AIHoldPosition(); // Note: defined in Ship-AI.cpp
+	void AIHoldPosition();					// Note: defined in Ship-AI.cpp
 
-	void AIBodyDeleted(const Body* const body) {}; // Note: defined in Ship-AI.cpp // todo: signals
+	void AIBodyDeleted(const Body *const body){}; // Note: defined in Ship-AI.cpp // todo: signals
 
 	const AICommand *GetAICommand() const { return m_curAICmd; }
 
@@ -203,6 +206,7 @@ public:
 	void SetLabel(const std::string &label) override;
 	void SetShipName(const std::string &shipName);
 
+	float GetAtmosphericPressureLimit() const;
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
@@ -211,7 +215,7 @@ public:
 
 	HyperspaceCloud *GetHyperspaceCloud() const { return m_hyperspaceCloud; }
 
-	sigc::signal<void> onDock;				// JJ: check what these are for
+	sigc::signal<void> onDock; // JJ: check what these are for
 	sigc::signal<void> onUndock;
 	sigc::signal<void> onLanded;
 
@@ -230,8 +234,9 @@ public:
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
 
 protected:
+	vector3d CalcAtmosphericForce() const override;
+
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override;
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 
@@ -273,6 +278,8 @@ private:
 
 	bool m_invulnerable;
 
+	static const double DEFAULT_LIFT_TO_DRAG_RATIO;
+
 	static const float DEFAULT_SHIELD_COOLDOWN_TIME;
 	float m_shieldCooldown;
 	shipstats_t m_stats;
@@ -292,13 +299,13 @@ private:
 	double m_lastFiringAlert;
 	bool m_shipNear;
 	bool m_shipFiring;
-	Space::BodyNearList m_nearbyBodies;
+	bool m_missileDetected;
 
 	HyperspaceCloud *m_hyperspaceCloud;
 
 	AICommand *m_curAICmd;
 
-	double m_landingMinOffset;	// offset from the centre of the ship used during docking
+	double m_landingMinOffset; // offset from the centre of the ship used during docking
 
 	int m_dockedWithIndex; // deserialisation
 
@@ -308,9 +315,10 @@ private:
 	static HeatGradientParameters_t s_heatGradientParams;
 
 	std::unique_ptr<Sensors> m_sensors;
-	std::unordered_map<Body*, Uint8> m_relationsMap;
+	std::unordered_map<Body *, Uint8> m_relationsMap;
 
 	std::string m_shipName;
+
 public:
 	void ClearAngThrusterState() { GetPropulsion()->ClearAngThrusterState(); }
 	void ClearLinThrusterState() { GetPropulsion()->ClearLinThrusterState(); }
@@ -322,12 +330,10 @@ public:
 	void SetFuelReserve(const double f) { GetPropulsion()->SetFuelReserve(f); }
 
 	bool AIMatchVel(const vector3d &vel) { return GetPropulsion()->AIMatchVel(vel); }
-	double AIFaceDirection(const vector3d &dir, double av=0) { return GetPropulsion()->AIFaceDirection(dir, av); }
+	double AIFaceDirection(const vector3d &dir, double av = 0) { return GetPropulsion()->AIFaceDirection(dir, av); }
 	void AIMatchAngVelObjSpace(const vector3d &angvel) { return GetPropulsion()->AIMatchAngVelObjSpace(angvel); }
 	void SetThrusterState(int axis, double level) { return GetPropulsion()->SetLinThrusterState(axis, level); }
 	void AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness) { return GetPropulsion()->AIModelCoordsMatchAngVel(desiredAngVel, softness); }
 };
-
-
 
 #endif /* _SHIP_H */

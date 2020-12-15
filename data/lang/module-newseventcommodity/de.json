@@ -41,7 +41,7 @@
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "SCHLAGZEILE ({date}): Jahrtausend-Blackout durch Sonnensturm im »{system}«-System."
+    "message": "EILMELDUNG ({date}): Jahrtausend-Blackout durch Sonnensturm im »{system}«-System."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
@@ -52,7 +52,7 @@
     "message": "SCHLAGZEILE ({date}): Schwerer Schlag der Polizei gegen Verbrecher-Syndikat im »{system}«-System, führende Köpfe verhaftet."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "Die Regierung des »{system}«-Systems ({sectorx}, {sectory}, {sectorz}) hofft auf einen Rückgang der Kriminalität, weil seit der Festnahme mehrerer Dealer keine Drogen mehr am Markt sind."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -92,7 +92,7 @@
     "message": "SCHLAGZEILE ({date}): Konflikt eskaliert im System {system}. "
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "Der lang schwielende Konflikt im System {system} ({sectorx}, {sectory}, {sectorz}) eskaliert, als die Armee in voller Stärke den Kampf aufnimmt."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -217,7 +217,7 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "Konföderationsnachrichten"
+    "message": "Die Commonwealth-Chronik"
   },
   "NEWSPAPER_FED": {
     "description": "",

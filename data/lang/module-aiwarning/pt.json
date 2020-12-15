@@ -1,11 +1,15 @@
 {
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "Atmospheric pressure above ship limits"
+  },
   "AUTOPILOT": {
     "description": "",
     "message": "Piloto automático"
   },
   "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Impossível compensar a gravidade local"
+    "message": "Impossível contrariar gravidade local"
   },
   "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
     "description": "",

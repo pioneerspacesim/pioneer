@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifdef ENABLE_SERVER_AGENT
@@ -6,17 +6,17 @@
 #define SERVERAGENT_H
 
 #include "libs.h"
+#include <curl/curl.h>
+#include <json/json.h>
 #include <map>
 #include <queue>
-#include <json/json.h>
-#include <curl/curl.h>
 
 class ServerAgent {
 public:
 	virtual ~ServerAgent() {}
 
-	typedef sigc::slot<void,const Json &,void *> SuccessCallback;
-	typedef sigc::slot<void,const std::string &,void *> FailCallback;
+	typedef sigc::slot<void, const Json &, void *> SuccessCallback;
+	typedef sigc::slot<void, const std::string &, void *> FailCallback;
 
 	virtual void Call(const std::string &method, const Json &data, SuccessCallback onSuccess, FailCallback onFail, void *userdata) = 0;
 
@@ -27,7 +27,6 @@ protected:
 	static void IgnoreFailCallback(const std::string &error) {}
 };
 
-
 class NullServerAgent : public ServerAgent {
 public:
 	virtual void Call(const std::string &method, const Json &data, ServerAgent::SuccessCallback onSuccess = sigc::ptr_fun(&ServerAgent::IgnoreSuccessCallback), ServerAgent::FailCallback onFail = sigc::ptr_fun(&ServerAgent::IgnoreFailCallback), void *userdata = 0);
@@ -35,11 +34,11 @@ public:
 	virtual void ProcessResponses();
 
 private:
-
 	struct Response {
 		Response(FailCallback _onFail, void *_userdata) :
-			onFail(_onFail), userdata(_userdata)
-			{}
+			onFail(_onFail),
+			userdata(_userdata)
+		{}
 
 		FailCallback onFail;
 		void *userdata;
@@ -47,7 +46,6 @@ private:
 
 	std::queue<Response> m_queue;
 };
-
 
 class HTTPServerAgent : public ServerAgent {
 public:
@@ -59,10 +57,13 @@ public:
 	virtual void ProcessResponses();
 
 private:
-
 	struct Request {
 		Request(const std::string &_method, const Json &_data, SuccessCallback _onSuccess, FailCallback _onFail, void *_userdata) :
-			method(_method), data(_data), onSuccess(_onSuccess), onFail(_onFail), userdata(_userdata) {}
+			method(_method),
+			data(_data),
+			onSuccess(_onSuccess),
+			onFail(_onFail),
+			userdata(_userdata) {}
 
 		const std::string method;
 		const Json data;
@@ -77,7 +78,10 @@ private:
 
 	struct Response {
 		Response(SuccessCallback _onSuccess, FailCallback _onFail, void *_userdata) :
-			success(false), onSuccess(_onSuccess), onFail(_onFail), userdata(_userdata) {}
+			success(false),
+			onSuccess(_onSuccess),
+			onFail(_onFail),
+			userdata(_userdata) {}
 
 		bool success;
 

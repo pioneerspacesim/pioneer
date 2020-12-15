@@ -1,4 +1,8 @@
 {
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "Atmosfäriskt tryck överstiger skeppets specifikation"
+  },
   "AUTOPILOT": {
     "description": "",
     "message": "Autopilot"

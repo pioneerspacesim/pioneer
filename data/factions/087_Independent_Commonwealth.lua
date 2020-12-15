@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Independent Commonwealth')
@@ -19,12 +19,10 @@ f:govtype_weight('SOCDEM',		59)
 f:govtype_weight('DISORDER',		45)
 f:govtype_weight('COMMUNIST',		45)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		73)
-f:illegal_goods_probability('ROBOTS',		73)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		100)
+f:illegal_goods_probability('animal_meat',		73)
+f:illegal_goods_probability('robots',		73)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		100)
 
 f:add_to_factions('Independent Commonwealth')
-
-

@@ -1,22 +1,25 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sector.h"
-#include "StarSystem.h"
 #include "CustomSystem.h"
 #include "Galaxy.h"
+#include "StarSystem.h"
 
-#include "Factions.h"
-#include "Pi.h"
-#include "utils.h"
 #include "EnumStrings.h"
+#include "Factions.h"
+#include "utils.h"
 
 const float Sector::SIZE = 8.f;
 
 //////////////////////// Sector
 
-Sector::Sector(RefCountedPtr<Galaxy> galaxy, const SystemPath& path, SectorCache* cache)
-	: sx(path.sectorX), sy(path.sectorY), sz(path.sectorZ), m_galaxy(galaxy), m_cache(cache) { }
+Sector::Sector(RefCountedPtr<Galaxy> galaxy, const SystemPath &path, SectorCache *cache) :
+	sx(path.sectorX),
+	sy(path.sectorY),
+	sz(path.sectorZ),
+	m_galaxy(galaxy),
+	m_cache(cache) {}
 
 Sector::~Sector()
 {
@@ -28,15 +31,24 @@ float Sector::DistanceBetween(RefCountedPtr<const Sector> a, int sysIdxA, RefCou
 {
 	PROFILE_SCOPED()
 	vector3f dv = a->m_systems[sysIdxA].GetPosition() - b->m_systems[sysIdxB].GetPosition();
-	dv += Sector::SIZE*vector3f(float(a->sx - b->sx), float(a->sy - b->sy), float(a->sz - b->sz));
+	dv += Sector::SIZE * vector3f(float(a->sx - b->sx), float(a->sy - b->sy), float(a->sz - b->sz));
 	return dv.Length();
 }
 
-bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const {
+float Sector::DistanceBetweenSqr(const RefCountedPtr<const Sector> a, const int sysIdxA, const RefCountedPtr<const Sector> b, const int sysIdxB)
+{
 	PROFILE_SCOPED()
-	if(sx >= Xmin && sx <= Xmax) {
-		if(sy >= Ymin && sy <= Ymax) {
-			if(sz >= Zmin && sz <= Zmax) {
+	vector3f dv = a->m_systems[sysIdxA].GetPosition() - b->m_systems[sysIdxB].GetPosition();
+	dv += Sector::SIZE * vector3f(float(a->sx - b->sx), float(a->sy - b->sy), float(a->sz - b->sz));
+	return dv.LengthSqr();
+}
+
+bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const
+{
+	PROFILE_SCOPED()
+	if (sx >= Xmin && sx <= Xmax) {
+		if (sy >= Ymin && sy <= Ymax) {
+			if (sz >= Zmin && sz <= Zmax) {
 				return true;
 			}
 		}
@@ -64,13 +76,12 @@ void Sector::System::SetExplored(StarSystem::ExplorationState e, double time)
 	}
 }
 
-void Sector::Dump(FILE* file, const char* indent) const
+void Sector::Dump(FILE *file, const char *indent) const
 {
 	fprintf(file, "Sector(%d,%d,%d) {\n", sx, sy, sz);
 	fprintf(file, "\t" SIZET_FMT " systems\n", m_systems.size());
-	for (const Sector::System& sys : m_systems) {
+	for (const Sector::System &sys : m_systems) {
 		assert(sx == sys.sx && sy == sys.sy && sz == sys.sz);
-		assert(sys.idx >= 0);
 		fprintf(file, "\tSystem(%d,%d,%d,%u) {\n", sys.sx, sys.sy, sys.sz, sys.idx);
 		fprintf(file, "\t\t\"%s\"\n", sys.GetName().c_str());
 		fprintf(file, "\t\t%sEXPLORED%s\n", sys.IsExplored() ? "" : "UN", sys.GetCustomSystem() != nullptr ? ", CUSTOM" : "");
@@ -98,11 +109,11 @@ void Sector::Dump(FILE* file, const char* indent) const
 	fprintf(file, "}\n\n");
 }
 
-float Sector::System::DistanceBetween(const System* a, const System* b)
+float Sector::System::DistanceBetween(const System *a, const System *b)
 {
 	PROFILE_SCOPED()
 	vector3f dv = a->GetPosition() - b->GetPosition();
-	dv += Sector::SIZE*vector3f(float(a->sx - b->sx), float(a->sy - b->sy), float(a->sz - b->sz));
+	dv += Sector::SIZE * vector3f(float(a->sx - b->sx), float(a->sy - b->sy), float(a->sz - b->sz));
 	return dv.Length();
 }
 

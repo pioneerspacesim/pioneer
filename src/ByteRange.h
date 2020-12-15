@@ -1,25 +1,28 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BYTERANGE_H
 #define _BYTERANGE_H
 
+#include <algorithm>
 #include <cassert>
 #include <cctype>
 #include <cstring>
-#include <algorithm>
 
-struct ByteRange
-{
-	ByteRange(): begin(0), end(0) {}
-	ByteRange(const char *begin_, const char *end_)
-		: begin(begin_), end(end_)
+struct ByteRange {
+	ByteRange() :
+		begin(0),
+		end(0) {}
+	ByteRange(const char *begin_, const char *end_) :
+		begin(begin_),
+		end(end_)
 	{
 		assert(begin_ && end_);
 		assert((end_ - begin_) >= 0);
 	}
-	ByteRange(const char *begin_, size_t size)
-		: begin(begin_), end(begin_ + size)
+	ByteRange(const char *begin_, size_t size) :
+		begin(begin_),
+		end(begin_ + size)
 	{
 		assert(begin_);
 	}

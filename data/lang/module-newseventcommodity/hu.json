@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "\"Viselkedési rendellenességek\" csökkenti a bizalmat gépek és emberek között  {system} rendszerben. ({sectorx}, {sectory}, {sectorz}). Csökken a kereslet a háztartási robotok iránt."
+    "message": "Ember gép ellen {system} rendszerben  ({sectorx}, {sectory}, {sectorz}), miután ismétlődő \"viselkedési zavarok\" miatt a felhasználók elvesztették hitüket a robot szolgálókban."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "HÍREK {date}: Napkitörés okozta az évszázad áramszünetét {system} rendszerben."
+    "message": "HÍREK {date}: {system} történetének legnagyobb áramszünetét okozta egy váratlan heves napkitörés. "
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Rendszerszintű áramszünet söpört végig {system rendszeren ({sectorx}, {sectory}, {sectorz}). Hosszú sorok kígyóznak a Trapperware szaküzletek előtt, melyek nem képesek tartani a lépést hűtőgépek meghibásodása miatt a tárolóedények iránt megnövekedett kereslettel. A nyersanyaghiány egyre nagyobb problémákat okoz a piacon."
+    "message": "Áramszünet söpört végig az egész  {system} redszeren ({sectorx}, {sectory}, {sectorz}). Az emberek hosszú sorokban állnak az utolsó Trapperware edényekért, hogy megmenthessék működésképtelen hűtőikben olvadozó ételeiket. A gyártó nyersanyaghiánnyal küzd."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "HÍREK {date}: Rendőrségi rajtaütés {system} szervezett bűnözői csoportjain. Több vezetőt letartóztattak."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "A hatóságok a drogkartellek vezéreinek letartóztatásától azt remélik, hogy {system} rendszerben ({sectorx}, {sectory}, {sectorz}) jelentősen csökkenni fog a bűnözés."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "Az idei {system}-i Nagy Mezőgazdasági Seregszemlén a Traktoros kötélhúzás galaktikus rekordkísérlete hatalmas rombolásba torkollott. Az egyik résztvevő elvesztette az uralmat a járműve felett és a keletkező káoszban az összes résztvevő gépe tönkrement. A hatóságok a mezőgazdaság súlyos visszaesésétől tartanak."
+    "message": "A  {system} rendszer ({sectorx}, {sectory}, {sectorz}) éves Óriási Gőzfesztiváljának keretében megkísérelték megdönteni a \"Legnagyobb Traktorhúzó Verseny\" galaktikus rekordját. A verseny pusztító véget ért, miután az egyik résztvevő tákolmánya elszabadult, elpusztítva a többi gazda munkagépeit. A minisztérium szerint veszélybe került a helyi gazdálkodók megélhetése."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "HÍREK: {date}: Eszkalálódó konfliktus {system} rendszerben."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "Régóta tartó feszült helyzet mérgesedett nyílt fegyveres konfliktussá {system} rendszerben ({sectorx}, {sectory}, {sectorz})."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "{system} ({sectorx}, {sectory}, {sectorz}) rabszolgái megtagadták a munkát a földeken, szervezett lázadásba kezdtek. A gazdaság az olcsó munkaerő hiányában megbénult."
+    "message": "Munkások a  {system} rendszerben ({sectorx}, {sectory}, {sectorz}) ledobták láncaikat, és beszüntették a munkát a Lótuszföldeken. A gazdaság teljese megtorpant az olcsó munkaerő hiányától."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -217,7 +217,7 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "A Szövetségi Kurír"
+    "message": "A Nemzetközösségi Krónika"
   },
   "NEWSPAPER_FED": {
     "description": "",
@@ -225,11 +225,11 @@
   },
   "NEWSPAPER_IMP": {
     "description": "",
-    "message": "A Nemzetközösségi Hírmondó"
+    "message": "A Birodalmi Hírmondó"
   },
   "NEWSPAPER_IND_0": {
     "description": "",
-    "message": "Az Úttörő Újság"
+    "message": "Az Úttörő Kurír"
   },
   "NEWSPAPER_IND_1": {
     "description": "",
@@ -253,11 +253,11 @@
   },
   "NEWSPAPER_IND_5": {
     "description": "",
-    "message": "A Heti Csillag Gazdaság"
+    "message": "A Királyi Közlöny"
   },
   "NEWSPAPER_IND_6": {
     "description": "",
-    "message": "Az Univerzális lap"
+    "message": "Az Univerzális Hírlap"
   },
   "NEWSPAPER_IND_7": {
     "description": "",

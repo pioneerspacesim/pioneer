@@ -1,6 +1,6 @@
-local Player = import_core("Player")
-local Engine = import("Engine")
-local Equipment = import("Equipment")
+local Player = package.core["Player"]
+local Engine = require 'Engine'
+local Equipment = require 'Equipment'
 
 function Player:SpawnMiningContainer(body)
 	-- this function is called from C++ when a mining laser shot hits the surface of an asteroid body and chips off a peice

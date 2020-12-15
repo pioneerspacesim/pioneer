@@ -35,9 +35,17 @@
     "description": "",
     "message": "Bir hata oluştu"
   },
+  "ARRIVAL_DATE": {
+    "description": "Time of arrival, used in flight log",
+    "message": "Varış tarihi"
+  },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
     "message": "Atmosfer kalkanı"
+  },
+  "ATMO_PRESS_LIMIT": {
+    "description": "Base external pressure limit of a ship (without atmo shield)",
+    "message": "Atmo. basınç limiti"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -87,6 +95,10 @@
     "description": "",
     "message": "Vazgeç"
   },
+  "CANNOT_SELL_ITEM": {
+    "description": "",
+    "message": "Bu öge satılamıyor"
+  },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
     "message": "Kapasite"
@@ -126,6 +138,10 @@
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
     "message": "Sistemi Ortala"
+  },
+  "CHANGE": {
+    "description": "Face feature option",
+    "message": "Değiştir:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -175,6 +191,10 @@
     "description": "",
     "message": "Ticari Mal Pazarı"
   },
+  "COMMODITY_TRADE_ANALYSIS": {
+    "description": "",
+    "message": "Malın ticari analizi:"
+  },
   "COMPACT_RADAR": {
     "description": "Game settings option",
     "message": "Sıkıştırılmış radar"
@@ -206,6 +226,10 @@
   "CONTINUE_GAME": {
     "description": "",
     "message": "Oyuna devam et"
+  },
+  "CONTRACT_FRAUD": {
+    "description": "Crime committed by intentionally breaking a contract",
+    "message": "Sözleşme dolandırıcılığı"
   },
   "CONTROLS": {
     "description": "",
@@ -251,9 +275,17 @@
     "description": "Player combat rating",
     "message": "Tehlikeli"
   },
+  "DATE": {
+    "description": "Date of an event, used in flight log",
+    "message": "Tarih"
+  },
   "DEADLY": {
     "description": "Player combat rating",
     "message": "Ölümcül"
+  },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Azalt"
   },
   "DELTA_V": {
     "description": "",
@@ -271,6 +303,10 @@
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Delta-v (en çok)"
   },
+  "DEPARTURE_DATE": {
+    "description": "Time of departure, used in flight log",
+    "message": "Ayrılış tarihi"
+  },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
     "message": "Yere-alçalma hızı"
@@ -282,6 +318,14 @@
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
     "message": "Düşük ayarlar, görsel estetiği azaltıp performansı arttırır."
+  },
+  "DISABLE_SCREENSHOT_INFO": {
+    "description": "",
+    "message": "Ekran Görüntüsü Bilgisini Gösterme"
+  },
+  "DISABLE_SCREENSHOT_INFO_DESC": {
+    "description": "",
+    "message": "Ekran görüntüsü modunda (HUD modu kapatıldığında), sistem koordinatları da dahil bütün gösterilen bilgiyi gizle."
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -319,6 +363,10 @@
     "description": "",
     "message": "Mevcut hedefe kenetlen"
   },
+  "DRIVE_ACTIVE": {
+    "description": "Ship jump status",
+    "message": "Sürücü aktif"
+  },
   "DUE": {
     "description": "mission deadline date",
     "message": "Süresi gelen"
@@ -334,6 +382,10 @@
   "ECONOMY_TRADE": {
     "description": "",
     "message": "Ekonomi ve Ticaret"
+  },
+  "EDIT": {
+    "description": "Tooltip, to edit a flight log entry",
+    "message": "Düzenle"
   },
   "EFFECTS": {
     "description": "",
@@ -379,6 +431,10 @@
     "description": "Engineering skills of crew",
     "message": "Mühendislik:"
   },
+  "ENTRY": {
+    "description": "A note/entry/record into the flight log",
+    "message": "Girdi"
+  },
   "EQUIPMENT": {
     "description": "",
     "message": "Ekipman"
@@ -419,6 +475,50 @@
     "description": "When failed mission",
     "message": "Başarısız oldu"
   },
+  "FEATURE_ACCESSORIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Aksesuarlar"
+  },
+  "FEATURE_ARMOUR": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Zırh"
+  },
+  "FEATURE_CLOTHES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Giysiler"
+  },
+  "FEATURE_EYES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Gözler"
+  },
+  "FEATURE_GENDER": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Cinsiyet"
+  },
+  "FEATURE_HAIRSTYLE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Saç Şekli"
+  },
+  "FEATURE_HEAD": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Baş"
+  },
+  "FEATURE_MOUTH": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Ağız"
+  },
+  "FEATURE_NOSE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Burun"
+  },
+  "FEATURE_RACE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Irk"
+  },
+  "FEATURE_SPECIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Tür"
+  },
   "FEMALE": {
     "description": "",
     "message": "Kadın"
@@ -426,6 +526,46 @@
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
     "message": "Son Hedef:"
+  },
+  "FINANCE": {
+    "description": "Financial statement of player, e.g. cash",
+    "message": "Finans"
+  },
+  "FLIGHTLOG_DOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "{primary_info} ile kenetlenirken"
+  },
+  "FLIGHTLOG_FLYING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
+    "message": "Uzay uçuşunda, {primary_info}'a göre"
+  },
+  "FLIGHTLOG_HYPERSPACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "Hiperuzayda, {primary_info} yönünde yolculukta"
+  },
+  "FLIGHTLOG_JUMPING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "{primary_info} doğrultusunda hipersıçrama yaparken"
+  },
+  "FLIGHTLOG_LANDED": {
+    "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
+    "message": "{primary_info}, pozisyon ({secondary_info}, {tertiary_info}) inildi."
+  },
+  "FLIGHTLOG_STARPORT_ORBITAL": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "{secondary_info} yörüngesindeki {primary_info} ile kenetli."
+  },
+  "FLIGHTLOG_STARPORT_SURFACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "{secondary_info} üzerindeki {primary_info} istasyonuna inildi."
+  },
+  "FLIGHTLOG_UNDOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "{primary_info}'dan ayrılırken"
+  },
+  "FLIGHT_LOG": {
+    "description": "Title for flight log screen, in info view",
+    "message": "Uçuş Günlüğü"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -490,6 +630,10 @@
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
     "message": "Sana da iyi şanslar."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Geri"
   },
   "GPU_JOBS": {
     "description": "",
@@ -733,7 +877,7 @@
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "Kalan Δv"
+    "message": "Kalan Δv'nin yüzdesi"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
@@ -851,6 +995,18 @@
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
     "message": "Bütün yönler için anık hızı (ince çizgiler) ve itiş gücünü (kalın arkaplan) göster."
   },
+  "HUD_WARNING_DESCENT_RATE": {
+    "description": "Shown on HUD as a warning flasher",
+    "message": "ALÇALMA HIZI"
+  },
+  "HUD_WARNING_IMPACT": {
+    "description": "Alert tooltip",
+    "message": "Çarpışma uyarısı"
+  },
+  "HUD_WARNING_IMPACT_IMMINENT": {
+    "description": "Alert tooltip",
+    "message": "Yüksek çarpışma riski"
+  },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
     "message": "Gövde tamir gerektirmiyor."
@@ -883,6 +1039,10 @@
     "description": "",
     "message": "Üstuzay menzili"
   },
+  "ILLEGAL_IN_SYSTEM": {
+    "description": "An illegal action or commodity",
+    "message": "Sistemde Yasadışı"
+  },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
     "message": "Ahlaksız üstuzay atlayışı"
@@ -899,9 +1059,21 @@
     "description": "For player reputation",
     "message": "Yetersiz"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Arttır"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Deneyimsiz"
+  },
+  "INITIATED": {
+    "description": "Ship jump status",
+    "message": "Başlatıldı"
+  },
+  "INSUFFICIENT_FUEL": {
+    "description": "Ship jump status",
+    "message": "Yetersiz yakıt"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
@@ -918,6 +1090,10 @@
   "IN_STOCK": {
     "description": "",
     "message": "Stok"
+  },
+  "IN_SYSTEM": {
+    "description": "Used in flight log, show which star system we are/were in",
+    "message": "Sistem:"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -958,6 +1134,18 @@
   "LAUNCH_PERMISSION_DENIED_FINED": {
     "description": "",
     "message": "Kalkış izni reddedildi: ödenmemiş borcunuz var."
+  },
+  "LAUNCH_PERMISSION_GRANTED": {
+    "description": "",
+    "message": "Kalkış izni verildi."
+  },
+  "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
+    "description": "",
+    "message": "İzin verildi. Lütfen iniş alanında yoğunluk oluşturmayın ve hızlıca ayrılın."
+  },
+  "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
+    "description": "",
+    "message": "İzin verildi. Lütfen ayrılırken trafiğe dikkat edin."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1011,6 +1199,22 @@
     "description": "",
     "message": "Konum"
   },
+  "LOG_CUSTOM": {
+    "description": "Label tab for showing custom logged events",
+    "message": "Özel Günlük"
+  },
+  "LOG_NEW": {
+    "description": "Indicate to make an entry into flight log system",
+    "message": "Yeni Girdi"
+  },
+  "LOG_STATION": {
+    "description": "Label tab for showing logged station events",
+    "message": "İstasyon Günlüğü"
+  },
+  "LOG_SYSTEM": {
+    "description": "Label tab for showing logged system events",
+    "message": "Sistem Günlüğü"
+  },
   "LOW": {
     "description": "",
     "message": "Düşük"
@@ -1019,9 +1223,17 @@
     "description": "Light year",
     "message": "ıy"
   },
+  "MAJOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Ana İhracat"
+  },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
     "message": "Ana ihracatlar"
+  },
+  "MAJOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Ana İthalat"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
@@ -1099,13 +1311,25 @@
     "description": "",
     "message": "Askeri"
   },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "Minimal Ticaret"
+  },
   "MINIMUM_CREW": {
     "description": "",
     "message": "En az mürettebat"
   },
+  "MINOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "İkincil İhracat"
+  },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
     "message": "Yan ihracatlar"
+  },
+  "MINOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "İkincil İthalat"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
@@ -1179,6 +1403,10 @@
     "description": "",
     "message": "Uzlaş"
   },
+  "NEXT_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Sonraki"
+  },
   "NEXT_PAID": {
     "description": "",
     "message": "Sonraki ödeme"
@@ -1215,6 +1443,10 @@
     "description": "",
     "message": "{equipment} bu gemi modelini tarafından desteklenmiyor"
   },
+  "NO_DRIVE": {
+    "description": "Ship jump status",
+    "message": "Sürücü yok"
+  },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
     "message": "Hiçbir şey bu filtreye uymuyor"
@@ -1222,6 +1454,10 @@
   "NO_MISSIONS": {
     "description": "",
     "message": "Görev yok."
+  },
+  "NO_VALID_ROUTE": {
+    "description": "Message in the sector map, issued by the autoroute function.",
+    "message": "Seçili sisteme geçerli bir rota yok."
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
@@ -1275,6 +1511,10 @@
     "description": "Unpaid fines for crimes committed",
     "message": "Cezalar"
   },
+  "OUT_OF_RANGE": {
+    "description": "Ship jump status",
+    "message": "Menzil dışı"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Genel bakış penceresini isme göre filtrele"
@@ -1282,6 +1522,10 @@
   "OWED": {
     "description": "Player owing money to crew members",
     "message": "Borç"
+  },
+  "PAY": {
+    "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
+    "message": "Öde"
   },
   "PAY_FINE_OF_N": {
     "description": "",
@@ -1335,6 +1579,10 @@
     "description": "",
     "message": "Temizlemek için bir tuşa veya escape'e basın"
   },
+  "PREVIOUS_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Önceki"
+  },
   "PRICE": {
     "description": "",
     "message": "Fiyat"
@@ -1342,6 +1590,10 @@
   "PROFESSIONAL": {
     "description": "For player reputation",
     "message": "Profesyonel"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "Kazançlı Ticaret"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1358,6 +1610,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "Çıkış Doğrulaması"
+  },
+  "RANDOM_FACE": {
+    "description": "Generate random face",
+    "message": "Rasgele"
   },
   "RANK": {
     "description": "",
@@ -1387,6 +1643,10 @@
     "description": "For player reputation",
     "message": "Güvenilir"
   },
+  "REMOVE": {
+    "description": "Remove, e.g. deleting a log entry",
+    "message": "Kaldır"
+  },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
     "message": "Sıçramayı Kaldır"
@@ -1415,6 +1675,10 @@
     "description": "",
     "message": "Yeniden başlat"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Yönelim ve Yakınlaştırmayı Sıfırla"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Oyuna dön"
@@ -1435,6 +1699,10 @@
     "description": "",
     "message": "Ödül"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Görünümü döndür"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Rota Bilgisi"
@@ -1442,6 +1710,10 @@
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
     "message": "Rota Sıçramaları"
+  },
+  "SAFETY_LOCKOUT": {
+    "description": "Ship jump status",
+    "message": "Güvenlik kısıtlaması"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1495,6 +1767,10 @@
     "description": "",
     "message": "Varış noktasını navigasyon hedefi olarak seç."
   },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Dönüş yolunu seç"
+  },
   "SHIP": {
     "description": "",
     "message": "Gemi"
@@ -1526,6 +1802,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Gemi Tamiri"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Gemi Tipi"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",
@@ -1571,9 +1851,37 @@
     "description": "",
     "message": "Bu, Epsilon Eridani sistemindeki New Hope'ta bulunan Itzaelan'dan yapılan orta zorluktaki başlangıç."
   },
+  "START_LOG_ENTRY_1": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
+    "message": "Ne yazık ki amcam hayattayken bana bu yaşlı teknenin nasıl kullanılacağını öğretmedi, ama sanıyorum ki şu an geminin günlüğüne giriş yapıyorum. Çok tuhaf, onu hâlâ hissedebiliyorum, sanki bu geminin duvarlarındaymış gibi. Belki benim yardımcı pilotum olur ve devasa boşlukta kaderimizi buluruz. Ama ilk olarak sıçrama sürücüsü için hidrojen almam, ticaret fırsatlarına bir rota çizmem ve trafik kontrolün benim gibi tecrübesiz bir pilota kalış izni vermesi için dua etmem lazım; sonra bu bebeğin neler yapabildiğini görürüz. Kendime isim yapma zamanı!"
+  },
+  "START_LOG_ENTRY_2": {
+    "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
+    "message": "Botlarım geçen gece eve giderken başlayan sağanak yağmurdan dolayı hala ıslak. Kaldırım öyle ıslanmış ki - sanki intikam almak istercesine - sokağın üstünde parlayan neon ışıkları yansıtarak gece göğünü ışığa boğmuş. Ancak yine de, yağmura rağmen, beni yeni gemimin beklediği yıldız limanına götürecek aktarma uçuşunu yakaladım. Gemime gitmek istediğimi söylediğimde istasyondaki güvenlik görevlisi bana ters bir bakış attı. Sanırım her şeyimi bu paslı teneke için harcadığımdan tipik bir uzay pilotuna benzemiyordum, böyle ıslak botlarla falan. Ancak hissedebiliyorum ki, şu andan itibaren geleceğim yıldızlarda yazılacak. Yapmam gereken tek şey başlatma tuşunu bulmak."
+  },
+  "START_LOG_ENTRY_3": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
+    "message": "Uzun bir bürokratik süreçten sonra gemimi nihayet hacizden kurtardım, ama sözde borcumu ödemek için iskeletine kadar her şeyi sökmüşler. En sevdiğim kahve makinem bir yana, bu adiler hipersürücüyü de götürmüşler, o yüzden şimdilik bu sistemde sıkışıp kaldım. Eh, belki gemide kalan son şeyleri satıp bir hipersürücü alabilirim... Ama ne derler bilirsiniz; krizi fırsata çevirmeli; şu an en başa dönmüş de olsam, bu gerilemeyi yeni bir başlangıç olarak göreceğim. Kahvesiz bir başlangıç. Kim olduğumu geride bırakıp kim olacağıma odaklanacağım. Dünya önümden çekilip yolumu açacak, yolunu bilen herkese yaptığı gibi - ve ben yıldızlara gidiyorum."
+  },
   "STAR_FIELD_DENSITY": {
     "description": "",
     "message": "Yıldız Yoğunluğu"
+  },
+  "STATION": {
+    "description": "Flight log info, will refer to a station by name",
+    "message": "İstasyon"
+  },
+  "STATION_DOCKS": {
+    "description": "Information shown in the station lobby, for total number of docking pads",
+    "message": "Toplam kapasitemiz {total_docking_pads} kenetlenme platformudur."
+  },
+  "STATION_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "Burada yerel kütleçekimi %.2f g."
+  },
+  "STATION_LOCAL_GRAVITY_PRESSURE": {
+    "description": "",
+    "message": "Burada yerel kütleçekimi %.2f g, atmosfer basıncı %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",
@@ -1582,6 +1890,10 @@
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
     "message": "Şu an {parent_body} etrafında {orbit_period} günlük bir yörüngedeyiz."
+  },
+  "STATION_TECH_TOO_LOW": {
+    "description": "",
+    "message": "İstasyon teknoloji seviyesi bu ögeyi satmak için çok düşük"
   },
   "STATUS": {
     "description": "",
@@ -1610,6 +1922,10 @@
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
     "message": "Komutanım, gemi istasyon kontrolünde."
+  },
+  "THIS_IS_FACTION_POLICE": {
+    "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
+    "message": "Bu, {faction} hizmetindeki {faction_police}"
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1659,9 +1975,17 @@
     "description": "",
     "message": "Toplam kütle"
   },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "Alış: {system}:"
+  },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
     "message": "Kanun dışı mal ticareti"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "Satış: {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -1674,6 +1998,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Kanun dışı silah kullanımı"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "Kazançsız Ticaret"
   },
   "UNRELIABLE": {
     "description": "",

@@ -54,5 +54,21 @@
   "TAKE_A_HIKE": {
     "description": "",
     "message": "Peki, sana ikinci bir şans veriyoruz. Toz ol."
+  },
+  "TARGET_DESTROYED_1": {
+    "description": "",
+    "message": "Hedef yok edildi!"
+  },
+  "TARGET_DESTROYED_2": {
+    "description": "",
+    "message": "Evet!"
+  },
+  "TARGET_DESTROYED_3": {
+    "description": "",
+    "message": "Hüzün içinde yat! Haha."
+  },
+  "TARGET_DESTROYED_4": {
+    "description": "",
+    "message": "Birileri celalleniyor!"
   }
 }

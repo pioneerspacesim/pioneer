@@ -1,18 +1,44 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "Ship.h"
 #include "CargoBody.h"
+
 #include "Game.h"
+#include "GameSaveError.h"
 #include "Pi.h"
 #include "Sfx.h"
+#include "Ship.h"
 #include "Space.h"
-#include "EnumStrings.h"
-#include "LuaTable.h"
-#include "collider/collider.h"
-#include "scenegraph/SceneGraph.h"
-#include "scenegraph/ModelSkin.h"
-#include "GameSaveError.h"
+
+CargoBody::CargoBody(const LuaRef &cargo, float selfdestructTimer) :
+	m_cargo(cargo)
+{
+	SetModel("cargo");
+	Init();
+	SetMass(1.0);
+	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
+
+	if (is_zero_exact(selfdestructTimer)) // turn off self destruct
+		m_hasSelfdestruct = false;
+}
+
+CargoBody::CargoBody(const Json &jsonObj, Space *space) :
+	DynamicBody(jsonObj, space)
+{
+	GetModel()->SetLabel(GetLabel());
+
+	try {
+		Json cargoBodyObj = jsonObj["cargo_body"];
+
+		m_cargo.LoadFromJson(cargoBodyObj);
+		Init();
+		m_hitpoints = cargoBodyObj["hit_points"];
+		m_selfdestructTimer = cargoBodyObj["self_destruct_timer"];
+		m_hasSelfdestruct = cargoBodyObj["has_self_destruct"];
+	} catch (Json::type_error &) {
+		throw SavedGameCorruptException();
+	}
+}
 
 void CargoBody::SaveToJson(Json &jsonObj, Space *space)
 {
@@ -26,24 +52,6 @@ void CargoBody::SaveToJson(Json &jsonObj, Space *space)
 	cargoBodyObj["has_self_destruct"] = m_hasSelfdestruct;
 
 	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
-}
-
-void CargoBody::LoadFromJson(const Json &jsonObj, Space *space)
-{
-	DynamicBody::LoadFromJson(jsonObj, space);
-	GetModel()->SetLabel(GetLabel());
-
-	try {
-		Json cargoBodyObj = jsonObj["cargo_body"];
-
-		m_cargo.LoadFromJson(cargoBodyObj);
-		Init();
-		m_hitpoints = cargoBodyObj["hit_points"];
-		m_selfdestructTimer = cargoBodyObj["self_destruct_timer"];
-		m_hasSelfdestruct = cargoBodyObj["has_self_destruct"];
-	} catch (Json::type_error &e) {
-		throw SavedGameCorruptException();
-	}
 }
 
 void CargoBody::Init()
@@ -69,17 +77,6 @@ void CargoBody::Init()
 	Properties().Set("type", cargoname);
 }
 
-CargoBody::CargoBody(const LuaRef& cargo, float selfdestructTimer): m_cargo(cargo)
-{
-	SetModel("cargo");
-	Init();
-	SetMass(1.0);
-	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
-
-	if (is_zero_exact(selfdestructTimer)) // turn off self destruct
-		m_hasSelfdestruct = false;
-}
-
 void CargoBody::TimeStepUpdate(const float timeStep)
 {
 
@@ -91,7 +88,7 @@ void CargoBody::TimeStepUpdate(const float timeStep)
 
 	if (m_hasSelfdestruct) {
 		m_selfdestructTimer -= timeStep;
-		if (m_selfdestructTimer <= 0){
+		if (m_selfdestructTimer <= 0) {
 			Pi::game->GetSpace()->KillBody(this);
 			SfxManager::Add(this, TYPE_EXPLOSION);
 		}
@@ -99,9 +96,9 @@ void CargoBody::TimeStepUpdate(const float timeStep)
 	DynamicBody::TimeStepUpdate(timeStep);
 }
 
-bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
+bool CargoBody::OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData)
 {
-	m_hitpoints -= kgDamage*0.001f;
+	m_hitpoints -= kgDamage * 0.001f;
 	if (m_hitpoints < 0) {
 		Pi::game->GetSpace()->KillBody(this);
 		SfxManager::Add(this, TYPE_EXPLOSION);
@@ -109,12 +106,12 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContac
 	return true;
 }
 
-bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
+bool CargoBody::OnCollision(Body *b, Uint32 flags, double relVel)
 {
 	// ignore collision if its about to be scooped
-	if (b->IsType(Object::SHIP)) {
+	if (b->IsType(ObjectType::SHIP)) {
 		int cargoscoop_cap = 0;
-		static_cast<Ship*>(b)->Properties().Get("cargo_scoop_cap", cargoscoop_cap);
+		static_cast<Ship *>(b)->Properties().Get("cargo_scoop_cap", cargoscoop_cap);
 		if (cargoscoop_cap > 0)
 			return true;
 	}

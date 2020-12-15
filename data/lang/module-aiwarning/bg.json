@@ -1,0 +1,22 @@
+{
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "Атмосферното налягане е над допустимото за кораба"
+  },
+  "AUTOPILOT": {
+    "description": "",
+    "message": "Автопилот"
+  },
+  "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "Не може да се направи компенсация за местната гравитация"
+  },
+  "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
+    "description": "",
+    "message": "Не може да се изчислят орбиталните параметри"
+  },
+  "STARPORT_REFUSED_DOCKING_PERMISSION": {
+    "description": "",
+    "message": "Космодрумът отказа разрешение за скачване"
+  }
+}

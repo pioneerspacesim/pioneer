@@ -185,7 +185,7 @@
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Senti, eravamo stati chiari a proposito della scadenza. Puoi scordarti di venire pagato."
+    "message": "Senti, eravamo stati chiari a proposito della scadenza. Te lo scordi di venire pagato."
   },
   "FAILUREMSG_4": {
     "description": "",
@@ -327,10 +327,6 @@
     "description": "",
     "message": "Sto subendo danni. Ho bisogno di aiuto."
   },
-  "LY": {
-    "description": "",
-    "message": "AL"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Macchine utensili"
@@ -466,6 +462,10 @@
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
     "message": "Parti di astronave"
+  },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "Bulloni auto sigillanti"
   },
   "SUCCESSMSG_1": {
     "description": "",

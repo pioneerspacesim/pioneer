@@ -1,17 +1,20 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUISCREEN_H
 #define _GUISCREEN_H
 
-#include "Gui.h"
 #include "FontCache.h"
-#include "text/TextureFont.h"
+#include "Gui.h"
+#include "graphics/Graphics.h"
 #include "graphics/RenderState.h"
+#include "text/TextureFont.h"
 #include <list>
 #include <stack>
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+}
 
 namespace Gui {
 	class Screen {
@@ -35,14 +38,16 @@ namespace Gui {
 		friend void Widget::SetShortcut(SDL_Keycode key, SDL_Keymod mod);
 		friend Widget::~Widget();
 		static bool IsBaseWidget(const Widget *);
-		static void GetCoords2Pixels(float scale[2]) {
+		static void GetCoords2Pixels(float scale[2])
+		{
 			scale[0] = fontScale[0];
 			scale[1] = fontScale[1];
 		}
-		static const float* GetCoords2Pixels() { return fontScale; }
+		static const float *GetCoords2Pixels() { return fontScale; }
 		static void SetFocused(Widget *w, bool enableKeyRepeat = false);
 		static void ClearFocus();
-		static bool IsFocused(Widget *w) {
+		static bool IsFocused(Widget *w)
+		{
 			return w == focusedWidget;
 		}
 
@@ -64,7 +69,7 @@ namespace Gui {
 		static Graphics::Renderer *GetRenderer() { return s_renderer; }
 
 		static Graphics::RenderState *alphaBlendState;
-		static Graphics::Material* flatColorMaterial;
+		static Graphics::Material *flatColorMaterial;
 
 	private:
 		static void AddShortcutWidget(Widget *w);
@@ -75,22 +80,22 @@ namespace Gui {
 		static int width, height;
 		static int realWidth, realHeight;
 		static float invRealWidth, invRealHeight;
-		static std::list<Widget*> kbshortcut_widgets;
-		static std::list<Widget*> mouseHoveredWidgets;
+		static std::list<Widget *> kbshortcut_widgets;
+		static std::list<Widget *> mouseHoveredWidgets;
 		static float fontScale[2];
 		static Gui::Fixed *baseContainer;
 		static Gui::Widget *focusedWidget;
 		static void OnDeleteFocusedWidget();
 		static matrix4x4f modelMatrix;
 		static matrix4x4f projMatrix;
-		static Sint32 viewport[4];
+		static Graphics::Viewport viewport;
 
 		static FontCache s_fontCache;
-		static std::stack< RefCountedPtr<Text::TextureFont> > s_fontStack;
+		static std::stack<RefCountedPtr<Text::TextureFont>> s_fontStack;
 		static RefCountedPtr<Text::TextureFont> s_defaultFont;
 
 		static Graphics::Renderer *s_renderer;
 	};
-}
+} // namespace Gui
 
 #endif /* _GUISCREEN_H */

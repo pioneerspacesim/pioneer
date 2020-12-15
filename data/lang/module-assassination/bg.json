@@ -1,0 +1,330 @@
+{
+  "ASSASSINATION": {
+    "description": "",
+    "message": "Убийство"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Може ли да повторите Вашата заявка?"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Съжалявам, нямам Ви доверие. "
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Върнете се, когато имате нужните квалификации."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Не мисля, че ти си човека, който ми трябва."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Не приличаш на пилот, способен да свърши тази работа."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Със сигурност не ставаш за тази работа."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Неопитен си, няма да се справиш с толкова важна мисия."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Не съм чувал нищо за теб. Нуждая се от опитен пилот за тази мисия."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "Няма да подложа на риск тази мисия с неопитен пилот като теб."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Разстояние:"
+  },
+  "EXCELLENT": {
+    "description": "",
+    "message": "Отлично."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "ТЪРСИ СЕ: Отстраняване на {target} от системата {system}."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Огорчен съм да разбера, че {target} е все още жив. Излишно е да казвам, че няма да получиш заплащане."
+  },
+  "FLAVOUR_0_FAILUREMSG2": {
+    "description": "",
+    "message": "Някой друг видя сметката на {target}. Няма заплащане този път."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Здрасти, аз съм {name}. Ще платя {cash} за елиминирането на {target}."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "С радост получих новините за пенсионирането на {target}. Браво, Платих Ви договорената сума."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "ТЪРСИ СЕ: Някой да убие {target} от системата {system}."
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Чух, че {target} е в добро здраве. Наранява ме да го чуя."
+  },
+  "FLAVOUR_1_FAILUREMSG2": {
+    "description": "",
+    "message": "Смъртта на {target} не беше причинена от теб, така че не ме питай за заплащане."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Трябва да разкарам {target}. Ще ти платя {cash} за услугата."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "С огромна тъга разбрах за смъртта на {target}. Получихте договорената сума."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "ОТСТРАНЯВАНЕ: {target} вече не е желан в системата {system}."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "За жалост, {target} е все още жив и здрав. За несвършената работа ще си тръгнеш с празни ръце."
+  },
+  "FLAVOUR_2_FAILUREMSG2": {
+    "description": "",
+    "message": "Изпревариха те. Действай по-бързо следващия път!"
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Аз съм {name} и ще платя {cash} за унищожението на {target}."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Получихте договорената сума за изпълнението на тази мисия."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "УНИЩОЖЕНИЕ: Някой да елиминира {target}."
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Ще си платиш за излагацията с {target}!"
+  },
+  "FLAVOUR_3_FAILUREMSG2": {
+    "description": "",
+    "message": "Искаш пари за нещо, което е свършил някой друг? Изчезвай."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "{target} трябва да стане на космически прах. Ще ти платя {cash} за тази цел."
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "{target} е мъртъв. Това е за Вас."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "ОЧИСТВАНЕ: Някой да очисти {target}."
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "{target} още диша, което означава, че няма да ти платя."
+  },
+  "FLAVOUR_4_FAILUREMSG2": {
+    "description": "",
+    "message": "Някой друг очисти {target}."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "За {cash} желаем да пенсионираме {target} посмъртно."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "С възхищение получих новините за очистването на {target}. Ето заплащането Ви."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "БИОГРАФИЧНО: Почитатели искат смъртта на {target}."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Установихме, че въпреки всичко, {target} все още мърда. Това ни натъжава."
+  },
+  "FLAVOUR_5_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} беше неутрализиран от някой друг."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Искаме да пенсионираме {target} подобаващо в системата {system} за {cash}."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Получих честитка за смъртта на {target}. Тези {cash} са за Вас."
+  },
+  "HOW_SOON_MUST_IT_BE_DONE": {
+    "description": "",
+    "message": "Кога трябва да се направи?"
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "Как ще ми платите?"
+  },
+  "IT_MUST_BE_DONE_AFTER": {
+    "description": "",
+    "message": "Трябва да се направи след като {target} напусне {spaceport}. Не изпускай тази възможност."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "ОК, съгласен."
+  },
+  "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
+    "description": "",
+    "message": "Върни се тук след приключването на мисията и ще ти се плати."
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Задай като навигационна цел"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Задай маршрут за връщане"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Кораб:"
+  },
+  "SHIP_ID": {
+    "description": "",
+    "message": "Корабен Номер:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Космодрум:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Система:"
+  },
+  "TARGET_NAME": {
+    "description": "",
+    "message": "Име на целта:"
+  },
+  "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
+    "description": "",
+    "message": "Целта ще напусне космодрума в:"
+  },
+  "TITLE_0": {
+    "description": "",
+    "message": "Адмирал"
+  },
+  "TITLE_1": {
+    "description": "",
+    "message": "Посланик"
+  },
+  "TITLE_10": {
+    "description": "",
+    "message": "Значка"
+  },
+  "TITLE_11": {
+    "description": "",
+    "message": "Генерал"
+  },
+  "TITLE_12": {
+    "description": "",
+    "message": "Съдия"
+  },
+  "TITLE_13": {
+    "description": "",
+    "message": "Юрист"
+  },
+  "TITLE_14": {
+    "description": "",
+    "message": "Лейтенант"
+  },
+  "TITLE_15": {
+    "description": "",
+    "message": "Маршал"
+  },
+  "TITLE_16": {
+    "description": "",
+    "message": "Търговец"
+  },
+  "TITLE_17": {
+    "description": "",
+    "message": "Офицер"
+  },
+  "TITLE_18": {
+    "description": "",
+    "message": "Редник"
+  },
+  "TITLE_19": {
+    "description": "",
+    "message": "Професор"
+  },
+  "TITLE_2": {
+    "description": "",
+    "message": "Бригадир"
+  },
+  "TITLE_20": {
+    "description": "",
+    "message": "Прокурор"
+  },
+  "TITLE_21": {
+    "description": "",
+    "message": "Ректор"
+  },
+  "TITLE_22": {
+    "description": "",
+    "message": "Моряк"
+  },
+  "TITLE_23": {
+    "description": "",
+    "message": "Сенатор"
+  },
+  "TITLE_24": {
+    "description": "",
+    "message": "Сержант"
+  },
+  "TITLE_3": {
+    "description": "",
+    "message": "Кадет"
+  },
+  "TITLE_4": {
+    "description": "",
+    "message": "Капитан"
+  },
+  "TITLE_5": {
+    "description": "",
+    "message": "Кардинал"
+  },
+  "TITLE_6": {
+    "description": "",
+    "message": "Полковник"
+  },
+  "TITLE_7": {
+    "description": "",
+    "message": "Комендант"
+  },
+  "TITLE_8": {
+    "description": "",
+    "message": "Командир"
+  },
+  "TITLE_9": {
+    "description": "",
+    "message": "Ефрейтор"
+  },
+  "WHERE_CAN_I_FIND_X": {
+    "description": "",
+    "message": "Къде мога да намеря {target}?"
+  },
+  "X_WILL_BE_LEAVING": {
+    "description": "",
+    "message": "{target} ще напусне {spaceport} в системата {system} ({sectorX}, {sectorY}, {sectorZ}), на разстояние от {dist} сг, на {date}. Корабът е {shipname} с регистрационен номер {shipregid}."
+  }
+}

@@ -2,12 +2,20 @@
 # Executable wrapper script
 # Ensures the program is up-to-date, then hands over
 
-PROGRAM_NAME=$(basename $0)
+set -e
+cd "$(dirname "$0")"
+PROGRAM_NAME="$(basename "$0")"
 
-EXEC_BIN=src/$PROGRAM_NAME
-START_DIR=$(pwd)
-WORK_DIR=$(dirname $0)
+# Create build directory
+[ -d build ] || mkdir build
 
-cd $WORK_DIR
-make && exec $EXEC_BIN $*
-cd $START_DIR
+# Generate build files
+[ -f build/CMakeCache.txt ] || ./bootstrap
+
+# Generate binaries
+# Users of GNU Make can enable parallel builds on N cores by setting
+# MAKEFLAGS=-jN when calling this script.
+cmake --build build
+
+# Run main binary
+exec build/$PROGRAM_NAME "$@"

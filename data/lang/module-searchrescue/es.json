@@ -1,4 +1,8 @@
 {
+  "ACCIDENT_DESTROYED_TARGET": {
+    "description": "",
+    "message": "Nos ha llegado la triste noticia de que {shiplabel} ha sido destruido. Le pagaremos la mitad del precio acordado por sus esfuerzos. "
+  },
   "AU": {
     "description": "",
     "message": "AU"
@@ -431,10 +435,6 @@
     "description": "",
     "message": "Lon:"
   },
-  "LY": {
-    "description": "",
-    "message": "AL"
-  },
   "MISSING_COMM": {
     "description": "",
     "message": "No se puede terminar la transferencia. Falta {cargotype}."
@@ -478,6 +478,10 @@
   "PLACE_OF_ASSISTANCE": {
     "description": "",
     "message": "En el lugar de la asistencia"
+  },
+  "PLAYER_DESTROYED_TARGET": {
+    "description": "",
+    "message": "¡Hemos oído de sus andanzas, capitán! Tenga por seguro de que informaremos de usted a las autoridades locales por destruir la misma nave que fue enviado a a proteger. Seguirá una demanda criminal."
   },
   "PLEASE_LAND": {
     "description": "",

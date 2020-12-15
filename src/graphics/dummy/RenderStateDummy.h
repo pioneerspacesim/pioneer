@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _DUMMY_RENDERSTATE_H
@@ -7,14 +7,15 @@
 #include "graphics/RenderState.h"
 
 namespace Graphics {
-namespace Dummy {
+	namespace Dummy {
 
-class RenderState : public Graphics::RenderState {
-public:
-	RenderState(const RenderStateDesc &d) : Graphics::RenderState(d) {}
-	void Apply() {}
-};
+		class RenderState : public Graphics::RenderState {
+		public:
+			RenderState(const RenderStateDesc &d) :
+				Graphics::RenderState(d) {}
+			void Apply() {}
+		};
 
-}
-}
+	} // namespace Dummy
+} // namespace Graphics
 #endif

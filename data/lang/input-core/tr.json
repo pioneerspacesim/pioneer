@@ -1,0 +1,285 @@
+{
+  "AXIS": {
+    "description": "Cardinal name used to compose Joystick <X> Button <Y>",
+    "message": "Eksen"
+  },
+  "BIND_AXIS_PITCH": {
+    "description": "Descriptive name for the Pitch axis.",
+    "message": "Eğim"
+  },
+  "BIND_AXIS_ROLL": {
+    "description": "Descriptive name for the Roll axis",
+    "message": "Yuvarlanma"
+  },
+  "BIND_AXIS_THRUST_FORWARD": {
+    "description": "Descriptive name for the ThrustForward axis",
+    "message": "İleri / Geri İtiş"
+  },
+  "BIND_AXIS_THRUST_LEFT": {
+    "description": "Descriptive name for the ThrustLeft axis",
+    "message": "Sağ / Sol İtiş"
+  },
+  "BIND_AXIS_THRUST_UP": {
+    "description": "Descriptive name for the ThrustUp axis",
+    "message": "Aşağı / Yukarı İtiş"
+  },
+  "BIND_AXIS_YAW": {
+    "description": "Descriptive name for the Yaw axis.",
+    "message": "Sapma"
+  },
+  "BIND_BOTTOM_CAMERA": {
+    "description": "Descriptive name for the BottomCamera action.",
+    "message": "Alt Kameraya Geç"
+  },
+  "BIND_CAMERA_PITCH": {
+    "description": "Descriptive name for the Camera Pitch axis.",
+    "message": "Kamera Dikey Hareket"
+  },
+  "BIND_CAMERA_ROLL": {
+    "description": "Descriptive name for the Camera Roll axis",
+    "message": "Kamera Yuvarlama"
+  },
+  "BIND_CAMERA_YAW": {
+    "description": "Descriptive name for the Camera Yaw axis.",
+    "message": "Kamera Yanal Hareket"
+  },
+  "BIND_CYCLE_CAMERA_MODE": {
+    "description": "Descriptive name for the CycleCameraMode action.",
+    "message": "Kamera Modları Arası Geçiş"
+  },
+  "BIND_DECREASE_TIME_ACCELERATION": {
+    "description": "Descriptive name for the DecreaseTimeAcceleration action.",
+    "message": "Zamanı Yavaşlat"
+  },
+  "BIND_FRONT_CAMERA": {
+    "description": "Descriptive name for the FrontCamera action.",
+    "message": "Ön Kameraya Geç"
+  },
+  "BIND_INCREASE_TIME_ACCELERATION": {
+    "description": "Descriptive name for the IncreaseTimeAcceleration action.",
+    "message": "Zamanı Hızlandır"
+  },
+  "BIND_KILL_ROT": {
+    "description": "Descriptive name for the KillRot action.",
+    "message": "Dönüşü Sabitle"
+  },
+  "BIND_LEFT_CAMERA": {
+    "description": "Descriptive name for the LeftCamera action.",
+    "message": "Sol Kameraya Geç"
+  },
+  "BIND_LOOK_PITCH": {
+    "description": "Descriptive name for the Freelook Pitch axis.",
+    "message": "Serbest Bakış Dikey Eksen"
+  },
+  "BIND_LOOK_YAW": {
+    "description": "Descriptive name for the Freelook Yaw axis.",
+    "message": "Serbest Bakış Yanal Eksen"
+  },
+  "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "Descriptive name for the MapToggleSelectionFollowView action.",
+    "message": "Seçim Takip Görünümü Aç/Kapa"
+  },
+  "BIND_MAP_VIEW_MOVE_FORWARD": {
+    "description": "Axis binding",
+    "message": "Haritayı Boylamsal Kaydır"
+  },
+  "BIND_MAP_VIEW_MOVE_LEFT": {
+    "description": "Axis binding",
+    "message": "Haritayı Yatay Kaydır"
+  },
+  "BIND_MAP_VIEW_MOVE_UP": {
+    "description": "Axis binding",
+    "message": "Haritayı Dikey Kaydır"
+  },
+  "BIND_MAP_VIEW_PITCH": {
+    "description": "Axis binding",
+    "message": "Harita Dikey Dönüş"
+  },
+  "BIND_MAP_VIEW_YAW": {
+    "description": "Axis binding",
+    "message": "Harita Yatay Dönüş"
+  },
+  "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToCurrentSystem action.",
+    "message": "Mevcut Sisteme Sıçra"
+  },
+  "BIND_MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToSelectedSystem action.",
+    "message": "Seçilen Sisteme Sıçra"
+  },
+  "BIND_PRIMARY_FIRE": {
+    "description": "Descriptive name for the PrimaryFire action.",
+    "message": "Birincil Atış"
+  },
+  "BIND_REAR_CAMERA": {
+    "description": "Descriptive name for the RearCamera action.",
+    "message": "Arka Kameraya Geç"
+  },
+  "BIND_RESET_CAMERA": {
+    "description": "Descriptive name for the ResetCamera action.",
+    "message": "Varsayılan Kamera Görüntüsüne Dön"
+  },
+  "BIND_RESET_ORIENTATION_AND_ZOOM": {
+    "description": "Descriptive name for the ResetOrientationAndZoom action.",
+    "message": "Yönelim ve Yakınlaştırmayı Sıfırla"
+  },
+  "BIND_RIGHT_CAMERA": {
+    "description": "Descriptive name for the RightCamera action.",
+    "message": "Sağ Kameraya Geç"
+  },
+  "BIND_SECONDARY_FIRE": {
+    "description": "Descriptive name for the SecondaryFire action.",
+    "message": "İkincil Atış"
+  },
+  "BIND_SPEED_CONTROL": {
+    "description": "Descriptive name for the SpeedControl axis.",
+    "message": "Hedef Hızı Ayarla"
+  },
+  "BIND_TARGET_OBJECT": {
+    "description": "Descriptive name for the TargetObject action.",
+    "message": "Hedef Cisim"
+  },
+  "BIND_THRUST_LOW_POWER": {
+    "description": "Descriptive name for the ThrustLowPower action.",
+    "message": "Düşük İtiş Gücü Modu (basılı tut)"
+  },
+  "BIND_TOGGLE_HUD_MODE": {
+    "description": "Descriptive name for the ToggleHudMode action.",
+    "message": "HUD Modunu Değiştir"
+  },
+  "BIND_TOGGLE_LUA_CONSOLE": {
+    "description": "Descriptive name for the ToggleLuaConsole action.",
+    "message": "Lua konsolunu aç/kapa"
+  },
+  "BIND_TOGGLE_ROTATION_DAMPING": {
+    "description": "Descriptive name for the ToggleRotationDamping action.",
+    "message": "Dönüş Sabitleme"
+  },
+  "BIND_TOGGLE_SET_SPEED": {
+    "description": "Descriptive name for the ToggleSetSpeed action.",
+    "message": "Hız Kontrol Modunu Değiştir"
+  },
+  "BIND_TOP_CAMERA": {
+    "description": "Descriptive name for the TopCamera action.",
+    "message": "Üst Kameraya Geç"
+  },
+  "BIND_VIEW_ZOOM": {
+    "description": "Descriptive name for the View Zoom axis",
+    "message": "Görüntü Yakınlaştırma"
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\" Düğme \""
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\" Yön \""
+  },
+  "GROUP_GENERAL_VIEW_CONTROLS": {
+    "description": "Header for the GeneralViewControls input group.",
+    "message": "Genel Görünüm Kontrolleri"
+  },
+  "GROUP_MANUAL_CONTROL": {
+    "description": "Header for the ManualControl input group.",
+    "message": "Elle İtici Kontrolü"
+  },
+  "GROUP_MISCELLANEOUS": {
+    "message": "Çeşitli"
+  },
+  "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
+    "description": "Header for the SectorMapViewControls input group.",
+    "message": "Harita Görünüm Kontrolleri"
+  },
+  "GROUP_SHIP_ORIENT": {
+    "description": "Header for the ShipOrient input group.",
+    "message": "Gemi Yönü"
+  },
+  "GROUP_SPEED_CONTROL": {
+    "description": "Header for the SpeedControl input group.",
+    "message": "Hız-Ayarlama İtiş Kontrolü"
+  },
+  "GROUP_WEAPONS": {
+    "description": "Header for the Weapons input group.",
+    "message": "Silahlar"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\" Üst düğme\""
+  },
+  "MOUSE": {
+    "description": "A computer mouse, used to create the name for a mouse button binding",
+    "message": "Fare"
+  },
+  "MOUSE_LMB": {
+    "description": "An acronym for the left mouse button",
+    "message": "Sol Tık."
+  },
+  "MOUSE_MMB": {
+    "description": "An acronym for the middle mouse button",
+    "message": "Orta Tık."
+  },
+  "MOUSE_RMB": {
+    "description": "An acronym for the right mouse button",
+    "message": "Sağ Tık."
+  },
+  "PAGE_GENERAL": {
+    "description": "Header for the General input page.",
+    "message": "Genel Kontroller"
+  },
+  "PAGE_MAP_CONTROLS": {
+    "description": "Header for the MapControls input page.",
+    "message": "Harita Kontrolleri"
+  },
+  "PAGE_SHIP_CONTROLS": {
+    "description": "Header for the ShipControls input page.",
+    "message": "Gemi - Kontoller"
+  },
+  "PAGE_SHIP_VIEW": {
+    "description": "Header for the ShipView input page.",
+    "message": "Gemi - Görüntü"
+  },
+  "TEXT_ALT_BINDING": {
+    "description": "",
+    "message": "Alt. Tuş:"
+  },
+  "TEXT_AXIS_DEADZONE": {
+    "description": "Message shown for the axis deadzone slider.",
+    "message": "Eksen Ölü Bölgesi"
+  },
+  "TEXT_AXIS_SENSITIVITY": {
+    "description": "Message shown for the axis sensitivity slider.",
+    "message": "Eksen Duyarlılığı"
+  },
+  "TEXT_BINDING": {
+    "description": "",
+    "message": "Tuş:"
+  },
+  "TEXT_INVERT_AXIS": {
+    "description": "Message shown for the invert axis checkbox.",
+    "message": "Ekseni Ters Çevir"
+  },
+  "TEXT_KEY_BINDINGS": {
+    "description": "Section header for an axis or action's key bindings.",
+    "message": "Tuşlar:"
+  },
+  "TEXT_KEY_NEGATIVE": {
+    "description": "Indicates the negative half of a key-binding pair.",
+    "message": "Negatif:"
+  },
+  "TEXT_KEY_POSITIVE": {
+    "description": "Indicates the positive half of a key-binding pair.",
+    "message": "Pozitif:"
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  }
+}

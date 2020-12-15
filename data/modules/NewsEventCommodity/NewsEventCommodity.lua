@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Create a news event on the BBS (to do: place it on
@@ -23,14 +23,14 @@ local copyTable = function(T)
 	return t2
 end
 
-local Comms = import("Comms")
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Event = import("Event")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Equipment = import ("Equipment")
+local Comms = require 'Comms'
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Event = require 'Event'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Equipment = require 'Equipment'
 
 local l = Lang.GetResource("module-newseventcommodity")
 
@@ -209,7 +209,7 @@ local createNewsEvent = function (timeInHyper)
 			local index = Engine.rand:Integer(1, #candidateSystems)
 			system = candidateSystems[index]
 
-			if system:IsCommodityLegal(cargo) then
+			if system:IsCommodityLegal(cargo.name) then
 				--print("cargo,", cargo:GetName(), "is legal in:", system.name)
 			else
 				--print("cargo,", cargo:GetName(), "is legal in:", system.name)

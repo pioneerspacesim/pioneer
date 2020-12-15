@@ -17,7 +17,7 @@
   },
   "MSG_13": {
     "description": "\"Seeing\" as in having an affair / being unfaithful",
-    "message": "Cha bhruidhinn sinn tuilleadh. A bheil leannan eile agad?"
+    "message": "Cha bhruidhinn sinn tuilleadh. An ann gu bheil leannan eile agad?"
   },
   "MSG_14": {
     "description": "",
@@ -46,6 +46,18 @@
   "MSG_2": {
     "description": "",
     "message": "Na falbh an-dràsta, tha spùinneadair a' feitheamh ort sa phrògram eile."
+  },
+  "MSG_20": {
+    "description": "",
+    "message": "An èiginn dhut falbh?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Cridhe na circe annad, an e?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Na fàg! Thèid cùisean am feabhas le cinnt! A bheil thu airson gèilleadh co-dhiù?"
   },
   "MSG_3": {
     "description": "",
@@ -77,7 +89,7 @@
   },
   "NO": {
     "description": "No, don't quit program",
-    "message": "Chan eil"
+    "message": "Chan fhàg mi"
   },
   "QUIT": {
     "description": "Quit game, as a question",
@@ -85,6 +97,6 @@
   },
   "YES": {
     "description": "Yes, quit program",
-    "message": "Tha"
+    "message": "Fàgaidh mi"
   }
 }

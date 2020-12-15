@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OGL_MATERIAL_H
@@ -25,7 +25,7 @@ namespace Graphics {
 
 		class Material : public Graphics::Material {
 		public:
-			Material() { }
+			Material() {}
 			// Create an appropriate program for this material.
 			virtual Program *CreateProgram(const MaterialDescriptor &) = 0;
 			// bind textures, set uniforms
@@ -33,13 +33,13 @@ namespace Graphics {
 			virtual void Unapply() override;
 			virtual bool IsProgramLoaded() const override final;
 			virtual void SetProgram(Program *p) { m_program = p; }
-			virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj) override;
+			virtual void SetCommonUniforms(const matrix4x4f &mv, const matrix4x4f &proj) override;
 
 		protected:
 			friend class Graphics::RendererOGL;
 			Program *m_program;
 			RendererOGL *m_renderer;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 #endif

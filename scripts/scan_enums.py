@@ -360,7 +360,7 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
         return None
 
 def write_license_header(fl):
-    fl.write('/* Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details */\n')
+    fl.write('/* Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details */\n')
     fl.write('/* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */\n')
     fl.write('\n')
 
@@ -373,8 +373,8 @@ def write_header(enums, fl):
     fl.write('#ifndef HX_GEN_ENUM_TABLES\n')
     fl.write('#define HX_GEN_ENUM_TABLES\n\n')
     write_generation_header(fl)
-    fl.write('struct EnumItem { const char *name; int value; };\n')
-    fl.write('struct EnumTable { const char *name; const EnumItem *first; };\n\n')
+    fl.write('struct EnumItem {\n\tconst char *name;\n\tint value;\n};\n')
+    fl.write('struct EnumTable {\n\tconst char *name;\n\tconst EnumItem *first;\n};\n\n')
     for e in enums:
         e.write_c_header(fl)
     fl.write('\n')

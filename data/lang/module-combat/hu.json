@@ -1,11 +1,11 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "Rendben. Sok szerencsét!"
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "Remek!"
   },
   "ACCEPTED_3": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED: Pay {cash}."
+    "message": "MEGBÍZHATÓ PILÓTÁT KERESEK: Díj: {cash}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -21,27 +21,27 @@
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "COMBAT: Need qualified mercenary with well-equipped ship."
+    "message": "HARC: Képzett, jól felszerelt zsoldost keresek."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED: Pay {cash} for a mission to the {system} system."
+    "message": "RETTENTHETETLEN ZSOLDOST KERESÜNK: megbízás {cash} - ért a {system} rendszerben."
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Salary {cash}."
+    "message": "{mission} küldetés: Fizetés {cash}."
   },
   "AGENT": {
     "description": "Secret Service Agent",
-    "message": "Agent"
+    "message": "Ügynök"
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "Terület:"
   },
   "BONUS_1": {
     "description": "",
-    "message": "My supervisor was impressed about your performance and has allotted a bonus of {cash} for this mission."
+    "message": "A megbízómra jó benyomást tettél, ezért átutalt {cash} jutalmat a küldetésért."
   },
   "BONUS_2": {
     "description": "",
@@ -61,15 +61,15 @@
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
-    "message": "Precious Goods Foundation"
+    "message": "Nagyértékű Árualap"
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",
-    "message": "Omega Mining Company"
+    "message": "Omega Kitermelő Vállalat"
   },
   "CORPORATION_3": {
     "description": "Name of a corporation",
-    "message": "United Ore Mines Syndicate"
+    "message": "Egyesült Ércbányász Szindikátus"
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
@@ -77,19 +77,19 @@
   },
   "CORPORATION_5": {
     "description": "Name of a corporation",
-    "message": "Haber Corporation"
+    "message": "Haber Vállalat"
   },
   "CORPORATION_6": {
     "description": "Name of a corporation",
-    "message": "Precious Metal Prospectors LLC"
+    "message": "Nemesfém Kutató Kft."
   },
   "CORPORATION_7": {
     "description": "Name of a corporation",
-    "message": "{name} Ore Seeker PLC"
+    "message": "{name} Érckutató Rt."
   },
   "CORPORATION_8": {
     "description": "Name of a corporation",
-    "message": "{name} LLC"
+    "message": "{name} Kft."
   },
   "DANGER": {
     "description": "The risk level",
@@ -97,15 +97,15 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Sorry, I need a pilot who has more combat experience."
+    "message": "Sajnálom, de harcedzettebb pilótát keresek."
   },
   "DENY_2": {
     "description": "",
-    "message": "Excuse me sir. I need a real professional."
+    "message": "Bocsásson meg. Profit keresek."
   },
   "DETECTIVE": {
     "description": "Police Detective",
-    "message": "Detective"
+    "message": "Nyomozó"
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
@@ -113,27 +113,27 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "Szégyelheti magát. Tűnjön a szemem elől."
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! You have caused great losses. You will not be paid!"
+    "message": "Késtél! Nagy veszteséget okoztál. Nem kapsz fizetséget!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "You're a disgrace to all pilots. I cannot pay you!"
+    "message": "Pilóták szégyene! Nem fizethetlek ki!"
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "You failed! I will not pay you!"
+    "message": "Elbuktad a küldetést! Nem fizetünk!"
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "Üdv, a nevem {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "Helló. A nevem {name}."
   },
   "GREETING_3": {
     "description": "",
@@ -141,31 +141,31 @@
   },
   "GREETING_4": {
     "description": "",
-    "message": "Greetings! Call me {name}."
+    "message": "Üdv! Hívjon csak {name} néven."
   },
   "GREETING_5": {
     "description": "",
-    "message": "Good day. My name is {name}."
+    "message": "Jó napot. A nevem {name}."
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "Az {org} {cash}-ben fizet egy {mission} küldetésért a {system} rendszerben ({sectorx}, {sectory}, {sectorz}). Jó okunk van feltételezni, hogy egy könyörtelen versenytárs a felelős a szállítóhajóink eltűnéséért az {area}-ban. Az úticél távolsága {dist} fényév."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our market competitor is seriously claiming he has ownership of {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The {org} totally disagree and is willing to pay {cash} for a combat mission at {area}. {area} is in a distance of {dist} ly."
+    "message": "Piaci versenytársunk komolyan állítja, hogy a  {system} rendszer {area} szektora ({sectorx}, {sectory}, {sectorz}) az ő fennhatóságuk alatt van. Az {org} nem ért ezzel egyet, és hajlandó {cash} összeget áldozni egy harci küldetésért a {area} szektorban. {area} távolsága innen {dist} fényév."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Please help! We received a distress call from one of our freighters orbiting {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The call was interrupted, so we fear the worst. Distance to {system} is {dist} ly. The pay is {cash}."
+    "message": "Segítségre van szükségünk! Kétségbeesett hívást kaptunk egy teherhajónkról, {area} körzet, {system} rendszerben, ({sectorx}, {sectory}, {sectorz}). A hívás megszakadt, úgyhogy a legrosszabbtól félünk. A {system} távolsága {dist} fényév. Fizetés: {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+    "message": "Fontos, hogy a küldetés {date}-ig sikeres legyen. Diszkréciót kérünk a küldetéssel kapcsolatban."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+    "message": "Minden közeli csillagrendszerben van kereskedőnk. Landoláskor majd kapcsolatba lép Önnel."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -173,15 +173,11 @@
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
-  },
-  "LY": {
-    "description": "",
-    "message": "fé"
+    "message": "Van valamilyen időkorlát?"
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "Menedzser"
   },
   "MEET_ME_THERE": {
     "description": "",
@@ -189,75 +185,75 @@
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Military intelligence believe that a hostile faction has set up a secret listening outpost on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The government can not tolerate this and have approved a series of operations to wipe out this facility. The enemy tries to disguise its origin by using only civilian spacecraft types. We do it like this too! So we are willing to hire a mercenary for {cash}. {area} is located {dist} ly from here."
+    "message": "Katonai felderítésünk szerint ellenséges szervezetek titkos kémbázist helyeztek üzembe {system} rendszer {area} körzetben ({sectorx}, {sectory}, {sectorz}). A kormány nem hagyhatja ezt, ezért elfogadott egy műveletsorozatot mely kiiktatná a létesítményt. Az ellenség rejtegetni próbálja ez eredetét úgy, hogy csak civil űrhajótípusokat használ. Ezzel sem értünk egyet! Hajlandók vagyunk zsoldosokat fogadni {cash} fizetséggel. {area} távolsága innen {dist} fényév."
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "In response to a case of piracy in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly, the local authorities pay {cash} for a combat mission at {area}."
+    "message": "Kalóz tevékenységre válaszként a helyi hatóságok {cash} összeget fizetnek harci küldetésért az {area} körzetben, {system} rendszerben ({sectorx}, {sectory}, {sectorz})."
   },
   "MILITARY_3": {
     "description": "",
-    "message": "The counter intelligence corps needs a civil pilot who asks no questions for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+    "message": "A kémelhárítás pilótát keres,  {mission} feladat elvégzésére, aki nem kérdezősködik. Helyszín: [system] rendszer ({sectorx}, sectory}, {sectorz}), {dist} fényévre. Fizetség: {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A task force will be assembled to regain control of {area}. It's important that the mission is successfully completed by {date}."
+    "message": "Egy különítmény fogja átvenni a terület ellenőrzését. Ezért különösen fontos a küldetés sikeres végrehajtása {date}-ig."
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visit a station in the territory protected by the {org}!"
+    "message": "Meg kell látogatnia egy {org} felségterületén lévő állomást."
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} is in a dispute with a rival company about {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To push through our claims we need a reliable and combat experienced mercenary. We offer {cash} for the expenses. Distance to {system} is {dist} ly."
+    "message": "{org} területi vitában áll egy konkurensével {area} területen, {system} rendszerben ({sectorx}, {sectory}, {sectorz}, {dist} fé). Érdekein érvényesítéséhez egy megbízható, harcedzett zsoldosra van szükségünk. {cash} ellentételezést ajánlunk a feladathoz."
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "I'm a manager of the {org}. We need additional help in a longtime legal dispute with a competitor about the mining rights in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. We lost patience and would like to speed things up outside of the courtroom. Your mission would be to jump to {area} for {cash}."
+    "message": "{org} igazgatója vagyok. Segítségre van szükségünk egy konkurens folytatott, régóta húzódó jogi vitában, {system} rendszer bányászati jogaival kapcsolatban. ( ({sectorx}, {sectory}, {sectorz}, {dist} fé). Elfogyott a türelmünk, szeretnénk peren kívül megoldani a problémát. A feladata, hogy elmenjen a rendszer {area} régiójába, {cash} fizetségért. "
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for a {mission} mission. Distance to {area} is {dist} ly."
+    "message": "{org} alkalmazottja vagyok. Teherhajóink fognak hamarosan áthajózni {area} régiión a {system} rendszerben  ({sectorx}, {sectory}, {sectorz}, {dist} fé).  Alkalmazottjaink és felszerelésünk biztonságának szavatolása érdekében hajlandóak vagyunk {cash} ellentételezést felajánlani egy {mission} küldetés teljesítésére."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A convoy is enroute to {area}. It is essential that the mission is completed by {date}."
+    "message": "A konvoj úton van {area} felé. Elengedhetetlen, hogy a küldetést sikeresen teljesítse {date}-ig."
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "We have employees in every nearby star system. Just visit the nearest station and get in contact with the local office there."
+    "message": "Az össze környékbeli rendszerben található irodánk. Bármelyik kikötőben fel tudja venni velünk a kapcsolatot."
   },
   "MISSION": {
     "description": "",
-    "message": "Mission:"
+    "message": "Küldetés:"
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
-    "message": "Primary mission objective complete"
+    "message": "Elsődleges feladat végrehajtva"
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Reconnaissance"
+    "message": "Felderítés"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Armed Reconnaissance"
+    "message": "Harci felderítés"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "Area Sweep"
+    "message": "Terület megtisztítása"
   },
   "OBJECTIVE_1": {
     "description": "",
-    "message": "It's not necessary to attack the enemy. We want data about the defence capability and response time."
+    "message": "Nem szükséges harcba bocsátkoznia. Az ellenfél védelmi képességeiről és válaszidejéről van szükségünk adatokra. "
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Weaken the enemy's strength as much as possible and then jump to safety."
+    "message": "Gyengítse meg az ellenség védelmét amennyire csak lehet, majd ugorjon ki a rendszerből."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Clear the area around {area}. Break any resistance."
+    "message": "Tisztítsa meg {area} környékét. Pusztítson el minden ellenállást."
   },
   "OK_AGREED": {
     "description": "",
@@ -269,35 +265,39 @@
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",
-    "message": "Please repeat the mission details!"
+    "message": "Kérem ismételje meg a feladat részleteit!"
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Police detectives have discovered that a group of pirates try to establish a stronghold on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. This must not happen. The local authorities pay {cash} for a mission to {area} as preparation of a police operation."
+    "message": "Nyomozók felfedeztek egy kalóz csoportot, akik támaszpontot próbálnak létesíteni {system} rendszer {area} régiójában. ( ({sectorx}, {sectory}, {sectorz}, {dist} fé). Meg kell akadályoznunk. A helyi hatóságok {cash} díjat fizetnek annak, aki végrehajtja a rendőrségi rajtaütést előkészítő küldetést."
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a combat mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We are short on pilots and ships. So this will be an opportunity for a loyal citizen to make money. The target is a small pirate base on {area}. You need hyperdrive propellant for {dist} ly and additional fuel for the return route."
+    "message": "{org} {cash} díjat ajánl egy harci feladat elvégzéséért {system} rendszerben  ({sectorx}, {sectory}, {sectorz}, {dist} fé). Hajó és pilóta hiányban szenvedünk, így a feladatot szabadúszó pilótára bízzuk. A célpont egy kisebb kalóz bázis {area} régióban. Szüksége lesz üzemanyagra a {dist} fényéves ugráshoz és a visszaúthoz."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our markets were flooded by contraband. The source has been traced back to a hidden base at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). Only a distance of {dist} ly. Because of the reduced police budget the local authorities would like to outsource this mission and have allotted {cash} credits for this operation."
+    "message": "Piacainkat elárasztotta a csempászárú, melynek forrása egy {area} régióban található rejtett támaszpont a {system} rendszerben  ({sectorx}, {sectory}, {sectorz}), {dist} fé távolságra. A költségvetés szűkössége miatt a  hatóságok alvállalkozót keresnek, aki {cash} díjért vállalja a művelet végrehajtását."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on there way."
+    "message": "Fontos, hogy a feladatot {date} határidőre elvégezze, mert további ellenséges hajók megjelenése várható."
   },
   "POLICE_LAND_THERE": {
     "description": "",
     "message": "Elég, ha egy olyan helyen landolsz, ahol van {org} iroda."
   },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sajnálom, de nem hinném, hogy radar nélkül meg tudnád oldani a feladatot."
+  },
   "RISK_1": {
     "description": "",
-    "message": "The competitor has only limited resources. Nothing you can't handle."
+    "message": "A konkurenciának korlátozott források állnak rendelkezésére. Nincs mitől tartania."
   },
   "RISK_2": {
     "description": "",
-    "message": "The competitor has only minor resources. But he will defend his position if necessary."
+    "message": "A konkurensnek csekélyek a forrásai, de megvédi magát, ha szükséges."
   },
   "RISK_3": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equiped and has access to the latest technology. Be careful!"
+    "message": "Az ellenfél jól felszerelt, a legkorszerűbb eszközökkel rendelkezik. Legyen óvatos! "
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -313,19 +313,19 @@
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "I knew you were the right person for such a mission. Here is your payment."
+    "message": "Tudtam, hogy ön a megfelelő ember egy ilyen feladatra. Átutalom a fizetségét."
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Thank you for making it. I have transferred the money."
+    "message": "Köszönjük, hogy elvégezte a feladatot. Átutaltam a pénzt."
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "I hope you had no big trouble. I just paid you."
+    "message": "Remélem nem adódott nagy probléma. Ki is fizettem."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Very well done. I have paid the bill."
+    "message": "Remek munka. Átutaltam az összeget."
   },
   "SYSTEM": {
     "description": "",
@@ -333,14 +333,14 @@
   },
   "TIME_LIMIT": {
     "description": "",
-    "message": "Time limit:"
+    "message": "Időkorlát:"
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "What are the mission objectives?"
+    "message": "Mi a feladat?"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "Számíthatok veszélyre?"
   }
 }

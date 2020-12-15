@@ -175,10 +175,6 @@
     "description": "",
     "message": "Y a-t-il un temps limite ?"
   },
-  "LY": {
-    "description": "",
-    "message": "al"
-  },
   "MANAGER": {
     "description": "",
     "message": "Directeur"
@@ -285,11 +281,15 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Il est important que cette mission soit complétée pour le  {date}, car des renforts vont arriver."
+    "message": "Il est important que la mission soit complétée pour le {date}, car d'autres vaisseaux hostiles sont en chemin."
   },
   "POLICE_LAND_THERE": {
     "description": "",
     "message": "Atterrissez simplement sur une station possédant un bureau de {org}."
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Désolé, je ne pense pas que vous puissiez vous occuper de ça sans un radar."
   },
   "RISK_1": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "L'ennemi est très bien équipé, et a accès aux toutes dernières technologies. Soyez prudent !"
+    "message": "L'ennemi est très bien équipé et a accès aux dernières technologies. Soyez prudent!"
   },
   "SET_AS_TARGET": {
     "description": "",

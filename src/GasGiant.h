@@ -1,32 +1,33 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GASGIANT_H
 #define _GASGIANT_H
 
-#include <SDL_stdinc.h>
-
-#include "vector3.h"
-#include "Random.h"
-#include "Camera.h"
-#include "graphics/Drawables.h"
-#include "graphics/Material.h"
-#include "terrain/Terrain.h"
 #include "BaseSphere.h"
-#include "JobQueue.h"
 #include "GasGiantJobs.h"
+#include "JobQueue.h"
+#include "vector3.h"
 
 #include <deque>
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+	class RenderState;
+	class RenderTarget;
+	class Texture;
+}
+
 class SystemBody;
 class GasGiant;
 class GasPatch;
 class GasPatchContext;
+class Camera;
+
 namespace {
 	class STextureFaceResult;
 	class SGPUGenResult;
-}
+} // namespace
 
 #define NUM_PATCHES 6
 
@@ -53,7 +54,7 @@ public:
 	static void OnChangeDetailLevel();
 
 	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
-	static void SetRenderTargetCubemap(const Uint32, Graphics::Texture*, const bool unBind = true);
+	static void SetRenderTargetCubemap(const Uint32, Graphics::Texture *, const bool unBind = true);
 	static void BeginRenderTarget();
 	static void EndRenderTarget();
 

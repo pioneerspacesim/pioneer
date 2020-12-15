@@ -1,78 +1,145 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PI_H
 #define _PI_H
 
-#include "utils.h"
-#include "gui/Gui.h"
-#include "Input.h"
-#include "Random.h"
-#include "gameconsts.h"
-#include "GameConfig.h"
-#include "LuaSerializer.h"
-#include "LuaTimer.h"
-#include "CargoBody.h"
-#include "Space.h"
 #include "JobQueue.h"
-#include "galaxy/Galaxy.h"
+#include "Random.h"
+#include "core/GuiApplication.h"
+#include "gameconsts.h"
+#include "libs.h"
+
+#include "SDL_keyboard.h"
+#include <sigc++/sigc++.h>
 #include <map>
 #include <string>
 #include <vector>
 
+namespace Input {
+	class Manager;
+} //namespace Input
+
+namespace PiGui {
+	class Instance;
+} //namespace PiGui
+
+class Game;
+
+class GameConfig;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
+class LuaTimer;
 class ModelCache;
-class PiGui;
+class ObjectViewerView;
 class Player;
-class Ship;
-class SpaceStation;
-class StarSystem;
+class SystemPath;
 class TransferPlanner;
-class UIView;
 class View;
 class SDLGraphics;
+class LuaSerializer;
+
 #if ENABLE_SERVER_AGENT
 class ServerAgent;
 #endif
-namespace Graphics { class Renderer; }
-namespace SceneGraph { class Model; }
-namespace Sound { class MusicPlayer; }
-namespace UI { class Context; }
 
-#if WITH_OBJECTVIEWER
-class ObjectViewerView;
-#endif
+namespace Graphics {
+	class Renderer;
+	class Texture;
+	class RenderState;
+	class RenderTarget;
+	namespace Drawables {
+		class TexturedQuad;
+	}
+} // namespace Graphics
+
+namespace SceneGraph {
+	class Model;
+}
+
+namespace Sound {
+	class MusicPlayer;
+}
 
 class DetailLevel {
 public:
-	DetailLevel() : planets(0), textures(0), fracmult(0), cities(0) {}
+	DetailLevel() :
+		planets(0),
+		cities(0) {}
 	int planets;
-	int textures;
-	int fracmult;
 	int cities;
 };
 
-class Frame;
-class Game;
-
 class Pi {
 public:
-	static void Init(const std::map<std::string,std::string> &options, bool no_gui = false);
-	static void InitGame();
-	static void StartGame();
+	Pi() = delete;
+
+	class App final : public GuiApplication {
+	public:
+		// TODO: headless mode should be part of a different, process-wide inter
+		bool HeadlessMode() { return m_noGui; }
+
+		void SetStartPath(const SystemPath &startPath);
+
+	protected:
+		// for compatibility, while we're moving Pi's internals into App
+		friend class Pi;
+
+		// Pi-internal lifecycle classes
+		friend class MainMenu;
+		friend class GameLoop;
+		friend class TombstoneLoop;
+
+		App() :
+			GuiApplication("Pioneer") {}
+
+		void Startup() override;
+		void Shutdown() override;
+
+		void PreUpdate() override;
+		void PostUpdate() override;
+
+		void RunJobs();
+
+		void HandleRequests();
+		bool HandleEvent(SDL_Event &ev) override;
+
+	private:
+		// msgs/requests that can be posted which the game processes at the end of a game loop in HandleRequests
+		enum class InternalRequests {
+			END_GAME = 0,
+			QUIT_GAME,
+		};
+
+		std::vector<InternalRequests> internalRequests;
+
+		bool m_noGui;
+
+		std::shared_ptr<Lifecycle> m_loader;
+		std::shared_ptr<Lifecycle> m_mainMenu;
+		std::shared_ptr<Lifecycle> m_gameLoop;
+	};
+
+public:
+	static void Init(const std::map<std::string, std::string> &options, bool no_gui = false);
+
+	static void StartGame(Game *game);
+
 	static void RequestEndGame(); // request that the game is ended as soon as safely possible
-	static void EndGame();
-	static void Start(const int& startPlanet);
-	static void MainLoop();
-	static void TombStoneLoop();
+	static void RequestQuit();
+
 	static void OnChangeDetailLevel();
-	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
+	// for internal use, don't modify unless you know what you're doing
+	static void SetGameTickAlpha(float alpha) { gameTickAlpha = alpha; }
 
-	static bool IsConsoleActive();
+	static void SetShowDebugInfo(bool enabled) { showDebugInfo = enabled; };
+	static void ToggleShowDebugInfo() { showDebugInfo = !showDebugInfo; };
+
+	// FIXME: hacked-in singleton pattern, find a better way to locate the application
+	static App *GetApp() { return m_instance; }
 
 	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
 	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
@@ -84,23 +151,14 @@ public:
 	static void SetMouseGrab(bool on);
 	static bool DoingMouseGrab() { return doingMouseGrab; }
 
-    // Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
+	// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
 	// This is a default value only, centralized here to promote uniform user expericience.
 	static float GetMoveSpeedShiftModifier();
 
-	static void BoinkNoise();
 	static std::string GetSaveDir();
-	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
-
-	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
-	static void DrawRenderTarget();
-	static void BeginRenderTarget();
-	static void EndRenderTarget();
+	static SceneGraph::Model *FindModel(const std::string &, bool allowPlaceholder = true);
 
 	static const char SAVE_DIR_NAME[];
-
-	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
-	static sigc::signal<void> onPlayerChangeFlightControlState;
 
 	static LuaSerializer *luaSerializer;
 	static LuaTimer *luaTimer;
@@ -111,38 +169,44 @@ public:
 	static ServerAgent *serverAgent;
 #endif
 
-	static RefCountedPtr<UI::Context> ui;
-	static RefCountedPtr<PiGui> pigui;
+	static PiGui::Instance *pigui;
 
 	static Random rng;
 	static int statSceneTris;
 	static int statNumPatches;
 
-	static void DrawPiGui(double delta, std::string handler);
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 
-	static void SetAmountBackgroundStars(const float pc) { amountOfBackgroundStarsDisplayed = Clamp(pc, 0.01f, 1.0f); bRefreshBackgroundStars = true; }
+	static void SetAmountBackgroundStars(const float pc)
+	{
+		amountOfBackgroundStarsDisplayed = Clamp(pc, 0.01f, 1.0f);
+		bRefreshBackgroundStars = true;
+	}
 	static float GetAmountBackgroundStars() { return amountOfBackgroundStarsDisplayed; }
-	static bool MustRefreshBackgroundClearFlag() {
+	static bool MustRefreshBackgroundClearFlag()
+	{
 		const bool bRet = bRefreshBackgroundStars;
 		bRefreshBackgroundStars = false;
 		return bRet;
 	}
 
-#if WITH_DEVKEYS
+	/* Only use #if WITH_DEVKEYS */
 	static bool showDebugInfo;
-#endif
+
 #if PIONEER_PROFILER
 	static std::string profilerPath;
+	static std::string profileOnePath;
 	static bool doProfileSlow;
 	static bool doProfileOne;
 #endif
 
-	static Input input;
+	static void RequestProfileFrame(const std::string &profilePath = "");
+
+	static Input::Manager *input;
 	static Player *player;
 	static TransferPlanner *planner;
-	static LuaConsole *luaConsole;
+	static std::unique_ptr<LuaConsole> luaConsole;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 	static Graphics::Renderer *renderer;
 	static ModelCache *modelCache;
@@ -154,16 +218,15 @@ public:
 	static DetailLevel detail;
 	static GameConfig *config;
 
-	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
-	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get();}
+	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get(); }
+	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get(); }
 
 	static bool DrawGUI;
 
 private:
 	static void HandleKeyDown(SDL_Keysym *key);
-	static void HandleEvents();
-	// Handler for ESC key press
-	static void HandleEscKey();
+
+	// private members
 	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
 	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 	static std::unique_ptr<SyncJobQueue> syncJobQueue;
@@ -193,10 +256,15 @@ private:
 	static Graphics::RenderState *quadRenderState;
 
 	static bool doingMouseGrab;
-	static bool bRequestEndGame;
 
 	static bool isRecordingVideo;
 	static FILE *ffmpegFile;
+
+private:
+	// for compatibility, while we're moving Pi's internals into App
+	friend class App;
+
+	static App *m_instance;
 };
 
 #endif /* _PI_H */

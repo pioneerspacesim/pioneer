@@ -1,15 +1,16 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Shields.h"
+
+#include "GameSaveError.h"
+#include "JsonUtils.h"
+#include "Ship.h"
+#include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
+#include "scenegraph/CollisionGeometry.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
-#include "scenegraph/CollisionGeometry.h"
-#include "Ship.h"
-#include "Pi.h"
-#include "JsonUtils.h"
-#include "GameSaveError.h"
 #include <sstream>
 
 namespace {
@@ -22,19 +23,20 @@ namespace {
 	{
 		return s_matShield;
 	}
-}
+} // namespace
 
 //used to find the accumulated transform of a MatrixTransform
 class MatrixAccumVisitor : public SceneGraph::NodeVisitor {
 public:
-	MatrixAccumVisitor(const std::string &name_)
-		: outMat(matrix4x4f::Identity())
-		, m_accumMat(matrix4x4f::Identity())
-		, m_name(name_)
+	MatrixAccumVisitor(const std::string &name_) :
+		outMat(matrix4x4f::Identity()),
+		m_accumMat(matrix4x4f::Identity()),
+		m_name(name_)
 	{
 	}
 
-	virtual void ApplyMatrixTransform(SceneGraph::MatrixTransform &mt) override {
+	virtual void ApplyMatrixTransform(SceneGraph::MatrixTransform &mt) override
+	{
 		if (mt.GetName() == m_name) {
 			outMat = m_accumMat * mt.GetTransform();
 		} else {
@@ -57,16 +59,21 @@ typedef std::vector<Shields::Shield>::iterator ShieldIterator;
 //static
 bool Shields::s_initialised = false;
 
-Shields::Shield::Shield(const Color3ub &_colour, const matrix4x4f &matrix, SceneGraph::StaticGeometry *_sg)
-	: m_colour(_colour), m_matrix(matrix), m_mesh(_sg)
-{ }
+Shields::Shield::Shield(const Color3ub &_colour, const matrix4x4f &matrix, SceneGraph::StaticGeometry *_sg) :
+	m_colour(_colour),
+	m_matrix(matrix),
+	m_mesh(_sg)
+{}
 
-Shields::Hits::Hits(const vector3d& _pos, const Uint32 _start, const Uint32 _end)
-	: pos(_pos), start(_start), end(_end)
-{ }
+Shields::Hits::Hits(const vector3d &_pos, const Uint32 _start, const Uint32 _end) :
+	pos(_pos),
+	start(_start),
+	end(_end)
+{}
 
 void Shields::Init(Graphics::Renderer *renderer)
 {
+	PROFILE_SCOPED()
 	assert(!s_initialised);
 
 	// create our global shield material
@@ -81,41 +88,39 @@ void Shields::Init(Graphics::Renderer *renderer)
 	s_initialised = true;
 }
 
-void Shields::ReparentShieldNodes(SceneGraph::Model* model)
+void Shields::ReparentShieldNodes(SceneGraph::Model *model)
 {
 	assert(s_initialised);
 
 	Graphics::Renderer *renderer = model->GetRenderer();
 
-	using SceneGraph::Node;
 	using SceneGraph::Group;
 	using SceneGraph::MatrixTransform;
+	using SceneGraph::Node;
 	using SceneGraph::StaticGeometry;
 
 	//This will find all matrix transforms meant for navlights.
 	SceneGraph::FindNodeVisitor shieldFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_ENDSWITH, "_shield");
 	model->GetRoot()->Accept(shieldFinder);
-	const std::vector<Node*> &results = shieldFinder.GetResults();
+	const std::vector<Node *> &results = shieldFinder.GetResults();
 
 	//Move shield geometry to same level as the LODs
 	for (unsigned int i = 0; i < results.size(); i++) {
-		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
+		MatrixTransform *mt = dynamic_cast<MatrixTransform *>(results.at(i));
 		assert(mt);
 
 		const Uint32 NumChildren = mt->GetNumChildren();
-		if (NumChildren>0)
-		{
+		if (NumChildren > 0) {
 			// Group to contain all of the shields we might find
 			Group *shieldGroup = new Group(renderer);
 			shieldGroup->SetName(s_shieldGroupName);
 
 			// go through all of this MatrixTransforms children to extract all of the shield meshes
 			for (Uint32 iChild = 0; iChild < NumChildren; ++iChild) {
-				Node* node = mt->GetChildAt(iChild);
+				Node *node = mt->GetChildAt(iChild);
 				assert(node);
-				if (node)
-				{
-					RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry*>(node));
+				if (node) {
+					RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry *>(node));
 					assert(sg.Valid());
 					sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 
@@ -168,32 +173,30 @@ void Shields::Uninit()
 	s_initialised = false;
 }
 
-Shields::Shields(SceneGraph::Model *model)
-	: m_enabled(false)
+Shields::Shields(SceneGraph::Model *model) :
+	m_enabled(false)
 {
 	assert(s_initialised);
 
-	using SceneGraph::Node;
-	using SceneGraph::MatrixTransform;
-	using SceneGraph::StaticGeometry;
 	using SceneGraph::CollisionGeometry;
+	using SceneGraph::MatrixTransform;
+	using SceneGraph::Node;
+	using SceneGraph::StaticGeometry;
 
 	//This will find all matrix transforms meant for shields.
 	SceneGraph::FindNodeVisitor shieldFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_ENDSWITH, s_matrixTransformName);
 	model->GetRoot()->Accept(shieldFinder);
-	const std::vector<Node*> &results = shieldFinder.GetResults();
+	const std::vector<Node *> &results = shieldFinder.GetResults();
 
 	//Store pointer to the shields for later.
-	for (unsigned int i=0; i < results.size(); i++) {
-		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
+	for (unsigned int i = 0; i < results.size(); i++) {
+		MatrixTransform *mt = dynamic_cast<MatrixTransform *>(results.at(i));
 		assert(mt);
 
-
-		for(Uint32 iChild=0 ; iChild<mt->GetNumChildren() ; ++iChild) {
-			Node* node = mt->GetChildAt(iChild);
-			if (node)
-			{
-				RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry*>(node));
+		for (Uint32 iChild = 0; iChild < mt->GetNumChildren(); ++iChild) {
+			Node *node = mt->GetChildAt(iChild);
+			if (node) {
+				RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry *>(node));
 				assert(sg.Valid());
 				sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 
@@ -226,8 +229,7 @@ void Shields::SaveToJson(Json &jsonObj)
 	shieldsObj["num_shields"] = m_shields.size();
 
 	Json shieldArray = Json::array(); // Create JSON array to contain shield data.
-	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it)
-	{
+	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
 		Json shieldArrayEl({}); // Create JSON object to contain shield.
 		shieldArrayEl["color"] = it->m_colour;
 		shieldArrayEl["mesh_name"] = it->m_mesh->GetName();
@@ -248,19 +250,16 @@ void Shields::LoadFromJson(const Json &jsonObj)
 
 		Json shieldArray = shieldsObj["shield_array"].get<Json::array_t>();
 
-		for (unsigned int i = 0; i < shieldArray.size(); ++i)
-		{
+		for (unsigned int i = 0; i < shieldArray.size(); ++i) {
 			Json shieldArrayEl = shieldArray[i];
-			for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it)
-			{
-				if (shieldArrayEl["mesh_name"] == it->m_mesh->GetName())
-				{
+			for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
+				if (shieldArrayEl["mesh_name"] == it->m_mesh->GetName()) {
 					it->m_colour = shieldArrayEl["color"];
 					break;
 				}
 			}
 		}
-	} catch (Json::type_error &e) {
+	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 }
@@ -271,9 +270,9 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	const Uint32 tickTime = SDL_GetTicks();
 	{
 		HitIterator it = m_hits.begin();
-		while(it != m_hits.end()) {
-			if (tickTime > it->end ) {
-				it = m_hits.erase( it );
+		while (it != m_hits.end()) {
+			if (tickTime > it->end) {
+				it = m_hits.erase(it);
 			} else {
 				++it;
 			}
@@ -288,20 +287,20 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	}
 
 	// setup the render params
-	if (shieldStrength>0.0f) {
+	if (shieldStrength > 0.0f) {
 		s_renderParams.strength = shieldStrength;
 		s_renderParams.coolDown = coolDown;
 
 		Uint32 numHits = m_hits.size();
-		for (Uint32 i = 0; i<numHits && i<ShieldRenderParameters::MAX_SHIELD_HITS;  ++i) {
-			const  Hits &hit = m_hits[i];
+		for (Uint32 i = 0; i < numHits && i < ShieldRenderParameters::MAX_SHIELD_HITS; ++i) {
+			const Hits &hit = m_hits[i];
 			s_renderParams.hitPos[i] = vector3f(hit.pos.x, hit.pos.y, hit.pos.z);
 
 			//Calculate the impact's radius dependant on time
 			Uint32 dif1 = hit.end - hit.start;
 			Uint32 dif2 = tickTime - hit.start;
 			//Range from start (0.0) to end (1.0)
-			float dif = float(dif2/(dif1*1.0f));
+			float dif = float(dif2 / (dif1 * 1.0f));
 
 			s_renderParams.radii[i] = dif;
 		}
@@ -310,7 +309,7 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 
 	// update the shield visibility
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-		if (shieldStrength>0.0f) {
+		if (shieldStrength > 0.0f) {
 			it->m_mesh->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 
 			GetGlobalShieldMaterial()->specialParameter0 = &s_renderParams;
@@ -327,16 +326,16 @@ void Shields::SetColor(const Color3ub &inCol)
 	}
 }
 
-void Shields::AddHit(const vector3d& hitPos)
+void Shields::AddHit(const vector3d &hitPos)
 {
 	Uint32 tickTime = SDL_GetTicks();
-	m_hits.push_back( Hits(hitPos, tickTime, tickTime+1000) );
+	m_hits.push_back(Hits(hitPos, tickTime, tickTime + 1000));
 }
 
-SceneGraph::StaticGeometry* Shields::GetFirstShieldMesh()
+SceneGraph::StaticGeometry *Shields::GetFirstShieldMesh()
 {
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-		if( it->m_mesh ) {
+		if (it->m_mesh) {
 			return it->m_mesh.Get();
 		}
 	}

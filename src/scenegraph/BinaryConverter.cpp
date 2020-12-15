@@ -1,39 +1,44 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 #include "BinaryConverter.h"
+#include "FileSystem.h"
+#include "GameSaveError.h"
 #include "NodeVisitor.h"
 #include "Parser.h"
-#include "FileSystem.h"
 #include "StringF.h"
+#include "core/LZ4Format.h"
+#include "scenegraph/Animation.h"
+#include "scenegraph/Label3D.h"
+#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Serializer.h"
 #include "utils.h"
-#include "GameSaveError.h"
 
 extern "C" {
-#include "miniz/miniz.h"
+#include <miniz/miniz.h>
 }
 
 using namespace SceneGraph;
 
 // Attempt at version history:
-// 1: prototype
-// 2: converted StaticMesh to VertexBuffer
-// 3: store processed collision mesh
-// 4: compressed SGM files and instancing support
-// 5: normal mapping
-// 6: 32-bit indicies
+// 1:	prototype
+// 2:	converted StaticMesh to VertexBuffer
+// 3:	store processed collision mesh
+// 4:	compressed SGM files and instancing support
+// 5:	normal mapping
+// 6:	32-bit indicies
+// 6.1:	rewrote serialization, use lz4 compression instead of INFLATE/DEFLATE. Still compatible.
 const Uint32 SGM_VERSION = 6;
-union SGM_STRING_VALUE{
+union SGM_STRING_VALUE {
 	char name[4];
 	Uint32 value;
 };
-const SGM_STRING_VALUE SGM_STRING_ID = { {'s', 'g', 'm', SGM_VERSION} };
+const SGM_STRING_VALUE SGM_STRING_ID = { { 's', 'g', 'm', SGM_VERSION } };
 const std::string SGM_EXTENSION = ".sgm";
 const std::string SAVE_TARGET_DIR = "binarymodels";
 
-class SaveHelperVisitor : public NodeVisitor
-{
+class SaveHelperVisitor : public NodeVisitor {
 public:
-	SaveHelperVisitor(Serializer::Writer* wr, Model *m)
+	SaveHelperVisitor(Serializer::Writer *wr, Model *m)
 	{
 		db.wr = wr;
 		db.rd = nullptr;
@@ -47,7 +52,7 @@ public:
 
 	virtual void ApplyGroup(Group &g) override
 	{
-		ApplyNode(static_cast<Node&>(g));
+		ApplyNode(static_cast<Node &>(g));
 		db.wr->Int32(g.GetNumChildren());
 		g.Traverse(*this);
 	}
@@ -55,9 +60,9 @@ public:
 	NodeDatabase db;
 };
 
-BinaryConverter::BinaryConverter(Graphics::Renderer *r)
-	: BaseLoader(r)
-	, m_patternsUsed(false)
+BinaryConverter::BinaryConverter(Graphics::Renderer *r) :
+	BaseLoader(r),
+	m_patternsUsed(false)
 {
 	//register core loaders
 	RegisterLoader("Group", &Group::Load);
@@ -69,19 +74,19 @@ BinaryConverter::BinaryConverter(Graphics::Renderer *r)
 	RegisterLoader("Label3D", &LoadLabel3D);
 }
 
-void BinaryConverter::RegisterLoader(const std::string &typeName, std::function<Node*(NodeDatabase&)> func)
+void BinaryConverter::RegisterLoader(const std::string &typeName, std::function<Node *(NodeDatabase &)> func)
 {
 	m_loaders[typeName] = func;
 }
 
-void BinaryConverter::Save(const std::string& filename, Model* m)
+void BinaryConverter::Save(const std::string &filename, Model *m)
 {
 	PROFILE_SCOPED()
 	static const std::string s_EmptyString;
 	Save(filename, s_EmptyString, m, false);
 }
 
-void BinaryConverter::Save(const std::string& filename, const std::string& savepath, Model* m, const bool bInPlace)
+void BinaryConverter::Save(const std::string &filename, const std::string &savepath, Model *m, const bool bInPlace)
 {
 	PROFILE_SCOPED()
 	printf("Saving file (%s)\n", filename.c_str());
@@ -91,14 +96,14 @@ void BinaryConverter::Save(const std::string& filename, const std::string& savep
 		if (!FileSystem::userFiles.MakeDirectory(SAVE_TARGET_DIR))
 			throw CouldNotOpenFileException();
 
-		std::string newpath = savepath.substr(0, savepath.size()-filename.size());
+		std::string newpath = savepath.substr(0, savepath.size() - filename.size());
 		size_t pos = newpath.find_first_of("/", 0);
-		while(pos<savepath.size()-filename.size()) {
+		while (pos < savepath.size() - filename.size()) {
 			newpath = savepath.substr(0, pos);
-			pos = savepath.find_first_of("/", pos+1);
-			if (!FileSystem::userFiles.MakeDirectory(FileSystem::JoinPathBelow(SAVE_TARGET_DIR,newpath)))
+			pos = savepath.find_first_of("/", pos + 1);
+			if (!FileSystem::userFiles.MakeDirectory(FileSystem::JoinPathBelow(SAVE_TARGET_DIR, newpath)))
 				throw CouldNotOpenFileException();
-			printf("Made directory (%s)\n", FileSystem::JoinPathBelow(SAVE_TARGET_DIR,newpath).c_str());
+			printf("Made directory (%s)\n", FileSystem::JoinPathBelow(SAVE_TARGET_DIR, newpath).c_str());
 		}
 
 		f = FileSystem::userFiles.OpenWriteStream(
@@ -135,16 +140,17 @@ void BinaryConverter::Save(const std::string& filename, const std::string& savep
 
 	// compress in memory, write to open file
 	size_t outSize = 0;
-	size_t nwritten = 0;
-	const std::string& data = wr.GetData();
-	void *pCompressedData = tdefl_compress_mem_to_heap(data.data(), data.length(), &outSize, 128);
-	if (pCompressedData) {
-		nwritten = fwrite(pCompressedData, outSize, 1, f);
-		mz_free(pCompressedData);
+	const std::string &data = wr.GetData();
+	try {
+		std::string compressedData = lz4::CompressLZ4(data, 6);
+		outSize = compressedData.size();
+		Output("Compressed model (%s): %.2f KB -> %.2f KB\n", filename.c_str(), data.size() / 1024.f, outSize / 1024.f);
+		fwrite(compressedData.data(), outSize, 1, f);
+		fclose(f);
+	} catch (std::runtime_error &e) {
+		Warning("Error saving SGM model: %s\n", e.what());
+		throw CouldNotWriteToFileException();
 	}
-	fclose(f);
-
-	if (nwritten != 1) throw CouldNotWriteToFileException();
 }
 
 Model *BinaryConverter::Load(const std::string &filename)
@@ -152,6 +158,42 @@ Model *BinaryConverter::Load(const std::string &filename)
 	PROFILE_SCOPED()
 	Model *m = Load(filename, "models");
 	return m;
+}
+
+Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::FileData> binfile)
+{
+	PROFILE_SCOPED()
+	Model *model(nullptr);
+	// decompress the loaded ByteRange in memory
+	const ByteRange bin = binfile->AsByteRange();
+	if (lz4::IsLZ4Format(bin.begin, bin.Size())) {
+		try {
+			std::string decompressedData = lz4::DecompressLZ4({ bin.begin, bin.Size() });
+			// Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, decompressedData.size() / 1024.f);
+			Serializer::Reader rd(ByteRange(decompressedData.data(), decompressedData.size()));
+			model = CreateModel(name, rd);
+		} catch (std::runtime_error &e) {
+			Warning("Error loading SGM model: %s\n", e.what());
+		}
+	} else {
+		void *pDecompressedData;
+		size_t outSize(0);
+		{
+			PROFILE_SCOPED_DESC("tinfl_decompress_mem_to_heap")
+			pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
+		}
+		// Output("decompressed model file %s (%.2f KB) -> %.2f KB\n", name.c_str(), binfile->GetSize() / 1024.f, outSize / 1024.f);
+		if (pDecompressedData) {
+			// now parse in-memory representation as new ByteRange.
+			Serializer::Reader rd(ByteRange(static_cast<char *>(pDecompressedData), outSize));
+			model = CreateModel(name, rd);
+			mz_free(pDecompressedData);
+		} else {
+			Error("BinaryConverter failed to load old-style SGM called: %s", name.c_str());
+		}
+	}
+
+	return model;
 }
 
 Model *BinaryConverter::Load(const std::string &shortname, const std::string &basepath)
@@ -172,33 +214,20 @@ Model *BinaryConverter::Load(const std::string &shortname, const std::string &ba
 				//possibly other data files for this model.
 				//Strip trailing slash
 				m_curPath = info.GetDir();
-				if (m_curPath[m_curPath.length()-1] == '/')
-					m_curPath = m_curPath.substr(0, m_curPath.length()-1);
+				if (m_curPath[m_curPath.length() - 1] == '/')
+					m_curPath = m_curPath.substr(0, m_curPath.length() - 1);
 
 				RefCountedPtr<FileSystem::FileData> binfile = info.Read();
-				if (binfile.Valid()) {
-					Model* model(nullptr);
-					size_t outSize(0);
-					// decompress the loaded ByteRange in memory
-					const ByteRange bin = binfile->AsByteRange();
-					void *pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
-					if (pDecompressedData) {
-						// now parse in-memory representation as new ByteRange.
-						Serializer::Reader rd(ByteRange(static_cast<char*>(pDecompressedData), outSize));
-						model = CreateModel(name, rd);
-						mz_free(pDecompressedData);
-					}
-					return model;
-				}
+				if (binfile.Valid()) return Load(name, binfile);
 			}
 		}
 	}
 
-	throw (LoadingError("File not found"));
+	throw(LoadingError("File not found"));
 	return nullptr;
 }
 
-Model *BinaryConverter::CreateModel(const std::string& filename, Serializer::Reader &rd)
+Model *BinaryConverter::CreateModel(const std::string &filename, Serializer::Reader &rd)
 {
 	PROFILE_SCOPED()
 	//verify signature
@@ -221,7 +250,7 @@ Model *BinaryConverter::CreateModel(const std::string& filename, Serializer::Rea
 	m_patternsUsed = false;
 	LoadMaterials(rd);
 
-	Group* root = dynamic_cast<Group*>(LoadNode(rd));
+	Group *root = dynamic_cast<Group *>(LoadNode(rd));
 	if (!root) throw LoadingError("Expected root");
 	m_model->m_root.Reset(root);
 
@@ -239,7 +268,7 @@ Model *BinaryConverter::CreateModel(const std::string& filename, Serializer::Rea
 	return m_model;
 }
 
-void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* model)
+void BinaryConverter::SaveMaterials(Serializer::Writer &wr, Model *model)
 {
 	PROFILE_SCOPED()
 	//Look for the .model definition and parse it
@@ -248,7 +277,7 @@ void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* model)
 
 	wr.Int32(modelDef.matDefs.size());
 
-	for (const auto& m : modelDef.matDefs) {
+	for (const auto &m : modelDef.matDefs) {
 		wr.String(m.name);
 		wr.String(m.tex_diff);
 		wr.String(m.tex_spec);
@@ -297,9 +326,9 @@ void BinaryConverter::LoadMaterials(Serializer::Reader &rd)
 void BinaryConverter::SaveAnimations(Serializer::Writer &wr, Model *m)
 {
 	PROFILE_SCOPED()
-	const auto& anims = m->GetAnimations();
+	const auto &anims = m->GetAnimations();
 	wr.Int32(anims.size());
-	for (const auto& anim : anims) {
+	for (const auto &anim : anims) {
 		wr.String(anim->GetName());
 		wr.Double(anim->GetDuration());
 		wr.Int32(anim->GetChannels().size());
@@ -337,9 +366,9 @@ void BinaryConverter::LoadAnimations(Serializer::Reader &rd)
 		const Uint32 numChans = rd.Int32();
 		for (Uint32 j = 0; j < numChans; j++) {
 			const std::string tgtName = rd.String();
-			MatrixTransform* tgtNode = dynamic_cast<MatrixTransform*>(m_model->m_root->FindNode(tgtName));
+			MatrixTransform *tgtNode = dynamic_cast<MatrixTransform *>(m_model->m_root->FindNode(tgtName));
 			anim->m_channels.push_back(AnimationChannel(tgtNode));
-			auto& chan = anim->m_channels.back();
+			auto &chan = anim->m_channels.back();
 			for (Uint32 numKeys = rd.Int32(); numKeys > 0; numKeys--) {
 				const double ktime = rd.Double();
 				const vector3f kpos = rd.Vector3f();
@@ -375,7 +404,7 @@ ModelDefinition BinaryConverter::FindModelDefinition(const std::string &shortnam
 			//check it's the wanted name & load it
 			const std::string name = info.GetName();
 
-			if (shortname == name.substr(0, name.length()-6)) {
+			if (shortname == name.substr(0, name.length() - 6)) {
 				ModelDefinition modelDefinition;
 				try {
 					//curPath is used to find textures, patterns,
@@ -383,8 +412,8 @@ ModelDefinition BinaryConverter::FindModelDefinition(const std::string &shortnam
 					//Strip trailing slash
 					m_curPath = info.GetDir();
 					assert(!m_curPath.empty());
-					if (m_curPath[m_curPath.length()-1] == '/')
-						m_curPath = m_curPath.substr(0, m_curPath.length()-1);
+					if (m_curPath[m_curPath.length() - 1] == '/')
+						m_curPath = m_curPath.substr(0, m_curPath.length() - 1);
 
 					Parser p(fileSource, fpath, m_curPath);
 					p.Parse(&modelDefinition);
@@ -396,10 +425,10 @@ ModelDefinition BinaryConverter::FindModelDefinition(const std::string &shortnam
 			}
 		}
 	}
-	throw (LoadingError("File not found"));
+	throw(LoadingError("File not found"));
 }
 
-Node* BinaryConverter::LoadNode(Serializer::Reader &rd)
+Node *BinaryConverter::LoadNode(Serializer::Reader &rd)
 {
 	PROFILE_SCOPED()
 	const std::string ntype = rd.String();
@@ -407,7 +436,7 @@ Node* BinaryConverter::LoadNode(Serializer::Reader &rd)
 	//Output("Loading: %s %s\n", ntype.c_str(), nname.c_str());
 	const Uint32 nmask = rd.Int32();
 	const Uint32 nflags = rd.Int32();
-	Node* node = nullptr;
+	Node *node = nullptr;
 
 	NodeDatabase db;
 	db.loader = this;
@@ -421,13 +450,13 @@ Node* BinaryConverter::LoadNode(Serializer::Reader &rd)
 	}
 
 	node = loadFuncIt->second(db);
-	Group *grp = dynamic_cast<Group*>(node);
+	Group *grp = dynamic_cast<Group *>(node);
 	if (grp)
 		LoadChildren(rd, grp);
 
 	//register tag nodes
 	if (nflags & NODE_TAG)
-		m_model->m_tags.push_back(static_cast<MatrixTransform*>(node));
+		m_model->m_tags.push_back(static_cast<MatrixTransform *>(node));
 
 	node->SetName(nname);
 	node->SetNodeMask(nmask);
@@ -446,7 +475,7 @@ void BinaryConverter::LoadChildren(Serializer::Reader &rd, Group *parent)
 Label3D *BinaryConverter::LoadLabel3D(NodeDatabase &db)
 {
 	PROFILE_SCOPED()
-	Label3D* lbl = new Label3D(db.loader->GetRenderer(), db.loader->GetLabel3DFont());
+	Label3D *lbl = new Label3D(db.loader->GetRenderer(), db.loader->GetLabel3DFont());
 	lbl->SetText("NCC-1982");
 	return lbl;
 }

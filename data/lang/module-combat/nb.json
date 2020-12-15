@@ -175,10 +175,6 @@
     "description": "",
     "message": "Is there a time limit?"
   },
-  "LY": {
-    "description": "",
-    "message": "lysår"
-  },
   "MANAGER": {
     "description": "",
     "message": "Manager"
@@ -285,11 +281,15 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on there way."
+    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
   },
   "POLICE_LAND_THERE": {
     "description": "",
     "message": "Just land at a station with a {org} office."
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
   },
   "RISK_1": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equiped and has access to the latest technology. Be careful!"
+    "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
   },
   "SET_AS_TARGET": {
     "description": "",

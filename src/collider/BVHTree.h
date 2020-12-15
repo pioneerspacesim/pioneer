@@ -1,14 +1,14 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BVHTREE_H
 #define _BVHTREE_H
 
-#include <assert.h>
-#include <vector>
-#include "../vector3.h"
 #include "../Aabb.h"
 #include "../utils.h"
+#include "../vector3.h"
+#include <assert.h>
+#include <vector>
 
 struct BVHNode {
 	Aabb aabb;
@@ -20,11 +20,15 @@ struct BVHNode {
 
 	BVHNode *kids[2];
 
-	BVHNode() : numTris(0), triIndicesStart(nullptr) {
+	BVHNode() :
+		numTris(0),
+		triIndicesStart(nullptr)
+	{
 		kids[0] = nullptr;
 		kids[1] = nullptr;
 	}
-	bool IsLeaf() const {
+	bool IsLeaf() const
+	{
 		return triIndicesStart != nullptr;
 	}
 };
@@ -33,18 +37,21 @@ class BVHTree {
 public:
 	typedef int objPtr_t;
 	BVHTree(const int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs);
-	~BVHTree() {
-		delete [] m_objPtrAlloc;
-		delete [] m_bvhNodes;
+	~BVHTree()
+	{
+		delete[] m_objPtrAlloc;
+		delete[] m_bvhNodes;
 	}
 	BVHNode *GetRoot() { return m_root; }
+
 private:
 	void BuildNode(BVHNode *node,
-			const objPtr_t *objPtrs,
-			const Aabb *objAabbs,
-			std::vector<objPtr_t> &activeObjIdxs);
+		const objPtr_t *objPtrs,
+		const Aabb *objAabbs,
+		std::vector<objPtr_t> &activeObjIdxs);
 	void MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs);
-	BVHNode *AllocNode() {
+	BVHNode *AllocNode()
+	{
 		if (m_nodeAllocPos >= m_nodeAllocMax) Error("Out of space in m_bvhNodes.");
 		return &m_bvhNodes[m_nodeAllocPos++];
 	}

@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Inner Council')
@@ -17,11 +17,9 @@ f:govtype_weight('LIBDEM',		21)
 f:govtype_weight('MILDICT1',		4)
 f:govtype_weight('SOCDEM',		4)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		81)
-f:illegal_goods_probability('LIQUOR',		68)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		97)
+f:illegal_goods_probability('animal_meat',		81)
+f:illegal_goods_probability('liquor',		68)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		97)
 
 f:add_to_factions('Inner Council')
-
-

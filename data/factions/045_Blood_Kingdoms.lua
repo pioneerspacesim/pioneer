@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Blood Kingdoms')
@@ -17,13 +17,11 @@ f:govtype_weight('COMMUNIST',		13)
 f:govtype_weight('CORPORATE',		1)
 f:govtype_weight('MILDICT2',		1)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		53)
-f:illegal_goods_probability('LIVE_ANIMALS',		50)
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		100)
-f:illegal_goods_probability('NERVE_GAS',		100)
+f:illegal_goods_probability('animal_meat',		53)
+f:illegal_goods_probability('live_animals',		50)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('battle_weapons',		100)
+f:illegal_goods_probability('nerve_gas',		100)
 
 f:add_to_factions('Blood Kingdoms')
-
-

@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OGL_FresnelColourMaterial_H
@@ -24,7 +24,7 @@ namespace Graphics {
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
 			virtual void Apply() override;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 
 #endif

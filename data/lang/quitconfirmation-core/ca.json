@@ -47,6 +47,18 @@
     "description": "",
     "message": "No hi vagis ara, a l'altre programa hi ha un pirata esperant-te."
   },
+  "MSG_20": {
+    "description": "",
+    "message": "Do you really have to go?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Taking the cowards way out?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Don't do it! It can only get better from here! Still want to give up?"
+  },
   "MSG_3": {
     "description": "",
     "message": "Segur que vols abandonar aquest fantàstic joc que t'ha sortit gratis?"

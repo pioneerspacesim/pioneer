@@ -1,14 +1,13 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelCache.h"
-#include "scenegraph/SceneGraph.h"
 #include "Shields.h"
+#include "scenegraph/SceneGraph.h"
 
-ModelCache::ModelCache(Graphics::Renderer *r)
-: m_renderer(r)
+ModelCache::ModelCache(Graphics::Renderer *r) :
+	m_renderer(r)
 {
-
 }
 
 ModelCache::~ModelCache()
@@ -36,7 +35,7 @@ SceneGraph::Model *ModelCache::FindModel(const std::string &name)
 
 void ModelCache::Flush()
 {
-	for(ModelMap::iterator it = m_models.begin(); it != m_models.end(); ++it) {
+	for (ModelMap::iterator it = m_models.begin(); it != m_models.end(); ++it) {
 		delete it->second;
 	}
 	m_models.clear();

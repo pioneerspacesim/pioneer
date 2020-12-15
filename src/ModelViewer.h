@@ -1,68 +1,111 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef MODELVIEWER_H
 #define MODELVIEWER_H
-#include "libs.h"
-#include "LuaManager.h"
+
+#include "Input.h"
 #include "NavLights.h"
 #include "Shields.h"
+#include "core/GuiApplication.h"
+#include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
-#include "graphics/Drawables.h"
+#include "libs.h"
+#include "lua/LuaManager.h"
+#include "pigui/PiGui.h"
 #include "scenegraph/SceneGraph.h"
-#include "ui/Context.h"
 
-class ModelViewer {
+#include <memory>
+
+class ModelViewer;
+
+class ModelViewerApp : public GuiApplication {
 public:
-	ModelViewer(Graphics::Renderer *r, LuaManager *l);
-	~ModelViewer();
+	ModelViewerApp() :
+		GuiApplication("Model Viewer")
+	{}
 
-	static void Run(const std::string &modelName);
+	void SetInitialModel(std::string &modelName) { m_modelName = modelName; }
+	std::string &GetModelName() { return m_modelName; }
+
+protected:
+	void Startup() override;
+	void Shutdown() override;
+
+	void PreUpdate() override;
+	void PostUpdate() override;
+
+	friend class ModelViewer;
 
 private:
-	bool OnPickModel(UI::List*);
-	bool OnQuit();
-	bool OnReloadModel(UI::Widget*);
-	bool OnToggleCollMesh(UI::CheckBox*);
-	bool OnToggleShowShields(UI::CheckBox*);
-	bool OnToggleGrid(UI::Widget*);
-	bool OnToggleGuns(UI::CheckBox*);
-	bool OnRandomColor(UI::Widget*);
-	void UpdateShield();
-	bool OnHitIt(UI::Widget*);
-	void HitImpl();
+	std::string m_modelName;
+	std::shared_ptr<ModelViewer> m_modelViewer;
+};
+
+class ModelViewer : public Application::Lifecycle {
+public:
+	enum class CameraPreset : uint8_t {
+		Front,
+		Back,
+		Left,
+		Right,
+		Top,
+		Bottom
+	};
+
+	ModelViewer(ModelViewerApp *app, LuaManager *l);
+
+	void SetModel(const std::string &modelName);
+	bool SetRandomColor();
+	void ResetCamera();
+	void ChangeCameraPreset(CameraPreset preset);
+
+protected:
+	void Start() override;
+	void Update(float deltaTime) override;
+	void End() override;
+	void SetupAxes();
+	void HandleInput();
+
+private:
 	void AddLog(const std::string &line);
-	void ChangeCameraPreset(SDL_Keycode, SDL_Keymod);
+
+	void UpdateModelList();
+	void UpdateDecalList();
+	void UpdateShield();
+
+	void UpdateCamera(float deltaTime);
+	void UpdateLights();
+
+	void ReloadModel();
+	void SetDecals(const std::string &file);
+
+	void OnModelChanged();
+
+	void ToggleGuns();
+	void HitIt();
+
 	void ToggleViewControlMode();
-	void ClearLog();
 	void ClearModel();
 	void CreateTestResources();
 	void DrawBackground();
 	void DrawGrid(const matrix4x4f &trans, float radius);
 	void DrawModel(const matrix4x4f &mv);
-	void MainLoop();
-	void OnAnimChanged(unsigned int, const std::string&);
-	void OnAnimSliderChanged(float);
-	void OnDecalChanged(unsigned int, const std::string&);
-	void OnLightPresetChanged(unsigned int index, const std::string &);
-	void OnModelColorsChanged(float);
-	void OnPatternChanged(unsigned int, const std::string&);
-	void OnThrustChanged(float);
-	void PollEvents();
-	void PopulateFilePicker();
-	void ResetCamera();
+
 	void ResetThrusters();
 	void Screenshot();
 	void SaveModelToBinary();
-	void SetModel(const std::string& name);
-	void SetupFilePicker();
-	void SetupUI();
-	void UpdateAnimList();
-	void UpdateCamera();
-	void UpdateLights();
-	void UpdatePatternList();
 
+	void DrawModelSelector();
+	void DrawModelOptions();
+	void DrawModelTags();
+	void DrawTagNames();
+	void DrawShipControls();
+	void DrawLog();
+	void DrawPiGui();
+
+private:
 	//toggleable options
 	struct Options {
 		bool attachGuns;
@@ -77,58 +120,87 @@ private:
 		bool wireframe;
 		bool mouselookEnabled;
 		float gridInterval;
-		int lightPreset;
+		uint32_t lightPreset;
 		bool orthoView;
 
 		Options();
 	};
-	bool m_done;
+
+private:
+	Input::Manager *m_input;
+	PiGui::Instance *m_pigui;
+
+	struct Inputs : Input::InputFrame {
+		using InputFrame::InputFrame;
+
+		Axis *moveForward;
+		Axis *moveLeft;
+		Axis *moveUp;
+		Axis *zoomAxis;
+
+		Axis *rotateViewLeft;
+		Axis *rotateViewUp;
+
+		Action *viewTop;
+		Action *viewLeft;
+		Action *viewFront;
+	} m_bindings;
+
+	vector2f m_windowSize;
+	vector2f m_logWindowSize;
+	vector2f m_animWindowSize;
+	std::vector<std::string> m_log;
+	bool m_resetLogScroll = false;
+
+	vector3f m_linearThrust = {};
+	vector3f m_angularThrust = {};
+
+	// Model pattern colors
+	std::vector<Color> m_colors;
+
+	std::vector<std::string> m_fileNames;
+	std::string m_modelName;
+	std::string m_requestedModelName;
+
+	std::unique_ptr<SceneGraph::Model> m_model;
+	bool m_modelIsShip = false;
+
+	SceneGraph::MatrixTransform *m_selectedTag = nullptr;
+
+	std::vector<SceneGraph::Animation *> m_animations;
+	SceneGraph::Animation *m_currentAnimation = nullptr;
+
+	bool m_modelSupportsPatterns = false;
+	std::vector<std::string> m_patterns;
+	uint32_t m_currentPattern = 0;
+
+	bool m_modelSupportsDecals = false;
+	std::vector<std::string> m_decals;
+	uint32_t m_currentDecal = 0;
+
+	bool m_modelHasShields = false;
+	std::unique_ptr<Shields> m_shields;
+	std::unique_ptr<NavLights> m_navLights;
+	std::unique_ptr<SceneGraph::Model> m_gunModel;
+	std::unique_ptr<SceneGraph::Model> m_scaleModel;
+
 	bool m_screenshotQueued;
 	bool m_shieldIsHit;
-	bool m_settingColourSliders;
 	float m_shieldHitPan;
-	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;
+	matrix4x4f m_modelViewMat;
 	vector3f m_viewPos;
 	matrix3x3f m_viewRot;
 	float m_rotX, m_rotY, m_zoom;
 	float m_baseDistance;
 	Random m_rng;
-	SceneGraph::Animation *m_currentAnimation;
-	SceneGraph::Model *m_model;
+
 	Options m_options;
 	float m_landingMinOffset;
-	std::unique_ptr<NavLights> m_navLights;
-	std::unique_ptr<Shields> m_shields;
-	std::unique_ptr<SceneGraph::Model> m_gunModel;
-	std::unique_ptr<SceneGraph::Model> m_scaleModel;
-	std::string m_modelName;
-	std::string m_requestedModelName;
-	RefCountedPtr<UI::Context> m_ui;
+
 	Graphics::RenderState *m_bgState;
 	RefCountedPtr<Graphics::VertexBuffer> m_bgBuffer;
-
-	//undecided on this input stuff
-	//updating the states of all inputs during PollEvents
-	std::map<SDL_Keycode,bool> m_keyStates;
-	bool m_mouseButton[SDL_BUTTON_RIGHT + 1]; //buttons start at 1
-	int m_mouseMotion[2];
-	bool m_mouseWheelUp, m_mouseWheelDown;
-
-	//interface stuff that needs to be accessed later (unorganized)
-	UI::MultiLineText *m_log;
-	RefCountedPtr<UI::Scroller> m_logScroller;
-
-	UI::List *m_fileList;
-	UI::DropDown *animSelector;
-	UI::DropDown *patternSelector;
-	UI::DropDown *decalSelector;
-	UI::Label *nameLabel;
-	UI::Slider *animSlider;
-	UI::Label *animValue;
-	UI::Slider *colorSliders[9];
-	UI::Slider *thrustSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
 
 	sigc::signal<void> onModelChanged;
 

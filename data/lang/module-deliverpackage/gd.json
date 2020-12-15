@@ -173,7 +173,7 @@
   },
   "FLAVOUR_5_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Torr, an e? Bu chòir dhomh beachdachadh air an tairgse agam a-rithist!"
+    "message": "Tòrr, an e? Bu chòir dhomh beachdachadh air an tairgse agam a-rithist!"
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
@@ -271,10 +271,6 @@
     "description": "",
     "message": "Cha chreid mi gum bi idir."
   },
-  "LY": {
-    "description": "",
-    "message": "bl-shol"
-  },
   "NOT_ANY_MORE_THAN_USUAL": {
     "description": "",
     "message": "Cha bhi ach mar as àbhaist."
@@ -345,7 +341,7 @@
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Carson a gheibh mi torr airgid?"
+    "message": "Carson a gheibh mi tòrr airgid?"
   },
   "WILL_I_BE_IN_ANY_DANGER": {
     "description": "",

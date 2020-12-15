@@ -1,4 +1,8 @@
 {
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "Ciśnienie atmosferyczne przekracza limit statku"
+  },
   "AUTOPILOT": {
     "description": "",
     "message": "Autopilot"

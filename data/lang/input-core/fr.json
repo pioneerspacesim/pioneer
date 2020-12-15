@@ -1,0 +1,285 @@
+{
+  "AXIS": {
+    "description": "Cardinal name used to compose Joystick <X> Button <Y>",
+    "message": "Axes"
+  },
+  "BIND_AXIS_PITCH": {
+    "description": "Descriptive name for the Pitch axis.",
+    "message": "Tangage"
+  },
+  "BIND_AXIS_ROLL": {
+    "description": "Descriptive name for the Roll axis",
+    "message": "Roulis"
+  },
+  "BIND_AXIS_THRUST_FORWARD": {
+    "description": "Descriptive name for the ThrustForward axis",
+    "message": "Poussée avant/arrière"
+  },
+  "BIND_AXIS_THRUST_LEFT": {
+    "description": "Descriptive name for the ThrustLeft axis",
+    "message": "Poussée gauche/droite "
+  },
+  "BIND_AXIS_THRUST_UP": {
+    "description": "Descriptive name for the ThrustUp axis",
+    "message": "Poussée haut/bas"
+  },
+  "BIND_AXIS_YAW": {
+    "description": "Descriptive name for the Yaw axis.",
+    "message": "Lacet"
+  },
+  "BIND_BOTTOM_CAMERA": {
+    "description": "Descriptive name for the BottomCamera action.",
+    "message": "Basculer sur la caméra du dessous"
+  },
+  "BIND_CAMERA_PITCH": {
+    "description": "Descriptive name for the Camera Pitch axis.",
+    "message": "Tangage caméra"
+  },
+  "BIND_CAMERA_ROLL": {
+    "description": "Descriptive name for the Camera Roll axis",
+    "message": "Roulis caméra"
+  },
+  "BIND_CAMERA_YAW": {
+    "description": "Descriptive name for the Camera Yaw axis.",
+    "message": "Lacet caméra"
+  },
+  "BIND_CYCLE_CAMERA_MODE": {
+    "description": "Descriptive name for the CycleCameraMode action.",
+    "message": "Basculer entre les modes de caméra"
+  },
+  "BIND_DECREASE_TIME_ACCELERATION": {
+    "description": "Descriptive name for the DecreaseTimeAcceleration action.",
+    "message": "Diminuer l'accélération du temps"
+  },
+  "BIND_FRONT_CAMERA": {
+    "description": "Descriptive name for the FrontCamera action.",
+    "message": "Basculer sur la caméra avant"
+  },
+  "BIND_INCREASE_TIME_ACCELERATION": {
+    "description": "Descriptive name for the IncreaseTimeAcceleration action.",
+    "message": "Augmenter l'accélération du temps"
+  },
+  "BIND_KILL_ROT": {
+    "description": "Descriptive name for the KillRot action.",
+    "message": "Stop rotation"
+  },
+  "BIND_LEFT_CAMERA": {
+    "description": "Descriptive name for the LeftCamera action.",
+    "message": "Basculer sur la caméra de gauche"
+  },
+  "BIND_LOOK_PITCH": {
+    "description": "Descriptive name for the Freelook Pitch axis.",
+    "message": "Tangage vision libre"
+  },
+  "BIND_LOOK_YAW": {
+    "description": "Descriptive name for the Freelook Yaw axis.",
+    "message": "Lacet vision libre"
+  },
+  "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "Descriptive name for the MapToggleSelectionFollowView action.",
+    "message": "Bascule vers la vue de sélection"
+  },
+  "BIND_MAP_VIEW_MOVE_FORWARD": {
+    "description": "Axis binding",
+    "message": "Déplacement carte longitudinal"
+  },
+  "BIND_MAP_VIEW_MOVE_LEFT": {
+    "description": "Axis binding",
+    "message": "Déplacement carte horizontal"
+  },
+  "BIND_MAP_VIEW_MOVE_UP": {
+    "description": "Axis binding",
+    "message": "Déplacement carte vertical"
+  },
+  "BIND_MAP_VIEW_PITCH": {
+    "description": "Axis binding",
+    "message": "Rotation carte horizontal (tangage)"
+  },
+  "BIND_MAP_VIEW_YAW": {
+    "description": "Axis binding",
+    "message": "Rotation carte vertical (lacet)"
+  },
+  "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToCurrentSystem action.",
+    "message": "Saute au système en cours"
+  },
+  "BIND_MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToSelectedSystem action.",
+    "message": "Saute vers le système sélectionné"
+  },
+  "BIND_PRIMARY_FIRE": {
+    "description": "Descriptive name for the PrimaryFire action.",
+    "message": "Tir principal"
+  },
+  "BIND_REAR_CAMERA": {
+    "description": "Descriptive name for the RearCamera action.",
+    "message": "Basculer sur la caméra arrière"
+  },
+  "BIND_RESET_CAMERA": {
+    "description": "Descriptive name for the ResetCamera action.",
+    "message": "Réinitialiser la vue caméra vers sa value par défaut"
+  },
+  "BIND_RESET_ORIENTATION_AND_ZOOM": {
+    "description": "Descriptive name for the ResetOrientationAndZoom action.",
+    "message": "Réinitialise l'orientation et le zoom"
+  },
+  "BIND_RIGHT_CAMERA": {
+    "description": "Descriptive name for the RightCamera action.",
+    "message": "Basculer sur la caméra de droite"
+  },
+  "BIND_SECONDARY_FIRE": {
+    "description": "Descriptive name for the SecondaryFire action.",
+    "message": "Tir secondaire"
+  },
+  "BIND_SPEED_CONTROL": {
+    "description": "Descriptive name for the SpeedControl axis.",
+    "message": "Ajuster la vitesse à celle de la cible"
+  },
+  "BIND_TARGET_OBJECT": {
+    "description": "Descriptive name for the TargetObject action.",
+    "message": "Objet ciblé"
+  },
+  "BIND_THRUST_LOW_POWER": {
+    "description": "Descriptive name for the ThrustLowPower action.",
+    "message": "Mode poussée basse consommation (maintenir)"
+  },
+  "BIND_TOGGLE_HUD_MODE": {
+    "description": "Descriptive name for the ToggleHudMode action.",
+    "message": "Commuter le mode Affichage Tête Haute (ou HUD)"
+  },
+  "BIND_TOGGLE_LUA_CONSOLE": {
+    "description": "Descriptive name for the ToggleLuaConsole action.",
+    "message": "Console LUA on/off"
+  },
+  "BIND_TOGGLE_ROTATION_DAMPING": {
+    "description": "Descriptive name for the ToggleRotationDamping action.",
+    "message": "Commuter l'amortisseur de rotation"
+  },
+  "BIND_TOGGLE_SET_SPEED": {
+    "description": "Descriptive name for the ToggleSetSpeed action.",
+    "message": "Commuter le mode contrôle de vitesse"
+  },
+  "BIND_TOP_CAMERA": {
+    "description": "Descriptive name for the TopCamera action.",
+    "message": "Basculer sur la caméra du dessus"
+  },
+  "BIND_VIEW_ZOOM": {
+    "description": "Descriptive name for the View Zoom axis",
+    "message": "Zoom vue"
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\"bouton\""
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\" Doc \""
+  },
+  "GROUP_GENERAL_VIEW_CONTROLS": {
+    "description": "Header for the GeneralViewControls input group.",
+    "message": "Contrôles de vue généraux"
+  },
+  "GROUP_MANUAL_CONTROL": {
+    "description": "Header for the ManualControl input group.",
+    "message": "Contrôle manuel de la poussée"
+  },
+  "GROUP_MISCELLANEOUS": {
+    "message": "Divers"
+  },
+  "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
+    "description": "Header for the SectorMapViewControls input group.",
+    "message": "Contrôles de vue de la carte secteur"
+  },
+  "GROUP_SHIP_ORIENT": {
+    "description": "Header for the ShipOrient input group.",
+    "message": "Orientation du vaisseau"
+  },
+  "GROUP_SPEED_CONTROL": {
+    "description": "Header for the SpeedControl input group.",
+    "message": "Contrôle par régulateur de vitesse"
+  },
+  "GROUP_WEAPONS": {
+    "description": "Header for the Weapons input group.",
+    "message": "Armes"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\"Couv\""
+  },
+  "MOUSE": {
+    "description": "A computer mouse, used to create the name for a mouse button binding",
+    "message": "Souris"
+  },
+  "MOUSE_LMB": {
+    "description": "An acronym for the left mouse button",
+    "message": "BSG"
+  },
+  "MOUSE_MMB": {
+    "description": "An acronym for the middle mouse button",
+    "message": "BSM"
+  },
+  "MOUSE_RMB": {
+    "description": "An acronym for the right mouse button",
+    "message": "BSD"
+  },
+  "PAGE_GENERAL": {
+    "description": "Header for the General input page.",
+    "message": "Contrôles généraux"
+  },
+  "PAGE_MAP_CONTROLS": {
+    "description": "Header for the MapControls input page.",
+    "message": "Contrôles de carte"
+  },
+  "PAGE_SHIP_CONTROLS": {
+    "description": "Header for the ShipControls input page.",
+    "message": "Vaisseau - Contrôles"
+  },
+  "PAGE_SHIP_VIEW": {
+    "description": "Header for the ShipView input page.",
+    "message": "Vaisseau - Vue"
+  },
+  "TEXT_ALT_BINDING": {
+    "description": "",
+    "message": "Mappage secondaire:"
+  },
+  "TEXT_AXIS_DEADZONE": {
+    "description": "Message shown for the axis deadzone slider.",
+    "message": "Zone morte de l'axe"
+  },
+  "TEXT_AXIS_SENSITIVITY": {
+    "description": "Message shown for the axis sensitivity slider.",
+    "message": "Sensibilité de l'axe"
+  },
+  "TEXT_BINDING": {
+    "description": "",
+    "message": "Mappage:"
+  },
+  "TEXT_INVERT_AXIS": {
+    "description": "Message shown for the invert axis checkbox.",
+    "message": "Inverser les axes"
+  },
+  "TEXT_KEY_BINDINGS": {
+    "description": "Section header for an axis or action's key bindings.",
+    "message": "Mappage touches:"
+  },
+  "TEXT_KEY_NEGATIVE": {
+    "description": "Indicates the negative half of a key-binding pair.",
+    "message": "Négatif:"
+  },
+  "TEXT_KEY_POSITIVE": {
+    "description": "Indicates the positive half of a key-binding pair.",
+    "message": "Positif:"
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  }
+}

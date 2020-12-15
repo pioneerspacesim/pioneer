@@ -52,7 +52,7 @@
     "message": "NOTIZIA {date}: Retata della polizia al clan della malavita nel sistema {system}, leader arrestati."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "L'amministrazione del sistema {system} ({sectorx}, {sectory}, {sectorz}) spera che i crimini diminuiscano, ora che le droghe non sono più reperibili in seguito all'arresto di vari malviventi."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "Durante la grande Fiera del Vapore nel sistema {system} ({sectorx}, {sectory}, {sectorz}), un tentativo di battere il record galattico di traino con trattore è finito in un disastro quando uno dei candidati ha perso il controllo del proprio attrezzo, distruggento le macchine di tutti gli altri partecipanti. L'amministrazione afferma che questo potrebbe essere la rovina per gli agricoltori locali. "
+    "message": "Durante la grande Fiera del Vapore nel sistema {system} ({sectorx}, {sectory}, {sectorz}), un tentativo di battere il record galattico di traino con trattore è finito in un disastro quando uno dei candidati ha perso il controllo del proprio attrezzo, distruggendo le macchine di tutti gli altri partecipanti. L'amministrazione afferma che questo potrebbe essere la rovina per gli agricoltori locali. "
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "NOTIZIA {date}: Si aggrava il conflitto nel sistema {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "Il conflitto di lunga data nel sistema {system} ({sectorx}, {sectory}, {sectorz}) si aggrava con gli eserciti impegnati in una lotta aperta."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "I lavoratori del sistema {system} ({sectorx}, {sectory}, {sectorz}) hanno strappato le proprie catene ribellandosi e rifiutandosi di lavorare nei campi di Loto. L'economia è arrivata ad uno stallo a causa dell'irreperibiltà di lavoratori a basso prezzo."
+    "message": "I lavoratori del sistema {system} ({sectorx}, {sectory}, {sectorz}) hanno strappato le proprie catene ribellandosi e rifiutandosi di lavorare nei campi di Loto. L'economia è arrivata ad uno stallo a causa dell'irreperibilità di lavoratori a basso prezzo."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -217,7 +217,7 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "Croncaca Confederata"
+    "message": "Cronache Confederate"
   },
   "NEWSPAPER_FED": {
     "description": "",

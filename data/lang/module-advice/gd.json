@@ -1,15 +1,15 @@
 {
   "ADVICE_10_BODYTEXT": {
     "description": "",
-    "message": "'S dòcha gum b' feairrde thu imrich gu buidheann eile nuair a bhios tu ann an staing leis an ùghdarras ionadail."
+    "message": "'S dòcha gum b' feàirrde thu imrich gu buidheann eile nuair a bhios tu ann an staing leis an ùghdarras ionadail."
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
     "message": "Thoir am fireach ort ri àm"
   },
   "ADVICE_1_BODYTEXT": {
-    "description": "",
-    "message": "Cuimhnich cò na gnìomhachasan ionadail a tha earbsach nuair a nì thu gnothaichean taobh a-muigh an lagha."
+    "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
+    "message": "Nuair a thilleas tu gu stèisean, bi air d' fhaiceall mu ionadan malairt neònach nach aithnich thu is cha bhi thu ann an staing leis an lagh."
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Cum air falbh o dha thrioblaid aig an aon àm"
+    "message": "Cùm air falbh o dha thrioblaid aig an aon àm"
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",

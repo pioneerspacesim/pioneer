@@ -1,12 +1,16 @@
-#! /bin/sh
+#! /bin/bash
 
-if [ -z "$1" ] || [ "$1" == "automake" ]; then
-    autoreconf -fvi
-elif [ "$1" == "cmake" ]; then
-    shift 1
-    mkdir -p build; cd build
-    cmake .. "$@"
-else
-    echo "Unknown build method $1"
-    echo "Available options are 'automake' (default) or 'cmake'"
+CMAKE_OPTS=("-DCMAKE_EXPORT_COMPILE_COMMANDS=1")
+
+if [ "$1" = "thirdparty" ]; then
+	shift 1
+	cd pioneer-thirdparty/ && autoconf && ./configure && make assimp && make sdl2 && make sdl2_image && cd ../
+	CMAKE_OPTS+=("-DUSE_PIONEER_THIRDPARTY=1")
+elif [ "$1" = "cmake" ]; then
+	shift 1
 fi
+
+CMAKE_OPTS+=("$@")
+
+mkdir -p build; cd build
+cmake .. "${CMAKE_OPTS[@]}"

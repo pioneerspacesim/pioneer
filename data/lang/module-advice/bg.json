@@ -1,0 +1,102 @@
+{
+  "ADVICE_10_BODYTEXT": {
+    "description": "",
+    "message": "Преместването в друга фракция може да е добра идея, ако имате проблеми с местните власти."
+  },
+  "ADVICE_10_HEADLINE": {
+    "description": "",
+    "message": "Знайте кога да напуснете града"
+  },
+  "ADVICE_1_BODYTEXT": {
+    "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
+    "message": "Имайте едно наум за местата, от които купувате стока и няма да имате проблеми с закона."
+  },
+  "ADVICE_1_HEADLINE": {
+    "description": "",
+    "message": "Опитомете Черния Пазар"
+  },
+  "ADVICE_2_BODYTEXT": {
+    "description": "",
+    "message": "Повече малки разстояния са по-бързи, отколкото всички накуп."
+  },
+  "ADVICE_2_HEADLINE": {
+    "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
+    "message": "The Road Faster Taken"
+  },
+  "ADVICE_3_BODYTEXT": {
+    "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
+    "message": "Преценявайте дали горивото ще Ви стигне, защото не навсякъде има опция за презареждане."
+  },
+  "ADVICE_3_HEADLINE": {
+    "description": "",
+    "message": "Не се изгубвайте: планирайте пътуването си предварително"
+  },
+  "ADVICE_4_BODYTEXT": {
+    "description": "",
+    "message": "Помислете си за начин на ориентиране. Особено когато искате да поддържате скоростта и курса на движеща се цел."
+  },
+  "ADVICE_4_HEADLINE": {
+    "description": "",
+    "message": "Всичко е относително"
+  },
+  "ADVICE_5_BODYTEXT": {
+    "description": "",
+    "message": "Купувайте евтино и продавайте скъпо"
+  },
+  "ADVICE_5_HEADLINE": {
+    "description": "",
+    "message": "Никога не губете пари"
+  },
+  "ADVICE_6_BODYTEXT": {
+    "description": "",
+    "message": "Обръщайте внимание на новините, понякога информацията засяга цените на пазара."
+  },
+  "ADVICE_6_HEADLINE": {
+    "description": "",
+    "message": "Бъдете нащрек"
+  },
+  "ADVICE_7_BODYTEXT": {
+    "description": "",
+    "message": "Даренията Ви правят добър в очите на обществото, но не всяко дарение ще Ви повиши репутацията."
+  },
+  "ADVICE_7_HEADLINE": {
+    "description": "",
+    "message": "Бъдете щедри"
+  },
+  "ADVICE_8_BODYTEXT": {
+    "description": "",
+    "message": "Когато пътувате до системи с две звезди първо се уверете, че Вашата цел е правилната звезда."
+  },
+  "ADVICE_8_HEADLINE": {
+    "description": "",
+    "message": "Избягвайте двойни неприятности"
+  },
+  "ADVICE_9_BODYTEXT": {
+    "description": "",
+    "message": "Поддържайте Вашите двигатели, но запомнете: получавате това, за което плащате."
+  },
+  "ADVICE_9_HEADLINE": {
+    "description": "",
+    "message": "Грижете се добре за кораба си"
+  },
+  "RUMOUR": {
+    "description": "Headline starts with this pre-headline",
+    "message": "КЛЮКИ"
+  },
+  "TALE_1_BODYTEXT": {
+    "description": "",
+    "message": "Не пропускайте красивото затъмнение на Нова Надежда, когато Хадес блокира светлината от Епсилон Еридани."
+  },
+  "TALE_1_HEADLINE": {
+    "description": "Blade runner?",
+    "message": "\"Виждал съм неща, на които Вие хората няма да повярвате\""
+  },
+  "TRAVELLERS_ADVICE": {
+    "description": "Headline starts with this pre-headline",
+    "message": "СЪВЕТ ЗА ПЪТЕШЕСТВЕНИЦИ"
+  },
+  "TRAVELLERS_TALE": {
+    "description": "Headline starts with this pre-headline",
+    "message": "ПРИКАЗКА ЗА ПЪТЕШЕСТВЕНИЦИ"
+  }
+}

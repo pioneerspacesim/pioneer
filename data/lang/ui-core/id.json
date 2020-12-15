@@ -35,9 +35,17 @@
     "description": "",
     "message": "An error has occurred"
   },
+  "ARRIVAL_DATE": {
+    "description": "Time of arrival, used in flight log",
+    "message": "Arrival date"
+  },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
     "message": "Atmospheric shielding"
+  },
+  "ATMO_PRESS_LIMIT": {
+    "description": "Base external pressure limit of a ship (without atmo shield)",
+    "message": "Atmo. pressure limit"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -87,6 +95,10 @@
     "description": "",
     "message": "Cancel"
   },
+  "CANNOT_SELL_ITEM": {
+    "description": "",
+    "message": "This item cannot be sold"
+  },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
     "message": "Capacity"
@@ -126,6 +138,10 @@
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
     "message": "Center on System"
+  },
+  "CHANGE": {
+    "description": "Face feature option",
+    "message": "Change:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -175,6 +191,10 @@
     "description": "",
     "message": "Commodity Market"
   },
+  "COMMODITY_TRADE_ANALYSIS": {
+    "description": "",
+    "message": "Commodity trade analysis of:"
+  },
   "COMPACT_RADAR": {
     "description": "Game settings option",
     "message": "Compact radar"
@@ -206,6 +226,10 @@
   "CONTINUE_GAME": {
     "description": "",
     "message": "Continue game"
+  },
+  "CONTRACT_FRAUD": {
+    "description": "Crime committed by intentionally breaking a contract",
+    "message": "Contract fraud"
   },
   "CONTROLS": {
     "description": "",
@@ -251,9 +275,17 @@
     "description": "Player combat rating",
     "message": "Dangerous"
   },
+  "DATE": {
+    "description": "Date of an event, used in flight log",
+    "message": "Date"
+  },
   "DEADLY": {
     "description": "Player combat rating",
     "message": "Deadly"
+  },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Decrease"
   },
   "DELTA_V": {
     "description": "",
@@ -271,6 +303,10 @@
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Delta-v (max)"
   },
+  "DEPARTURE_DATE": {
+    "description": "Time of departure, used in flight log",
+    "message": "Departure date"
+  },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
     "message": "Descent-to-ground speed:"
@@ -282,6 +318,14 @@
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
     "message": "Lower gives better performance, at cost of visual aesthetics"
+  },
+  "DISABLE_SCREENSHOT_INFO": {
+    "description": "",
+    "message": "Disable Screenshot Info"
+  },
+  "DISABLE_SCREENSHOT_INFO_DESC": {
+    "description": "",
+    "message": "Hide all displayed info, including system coordinates, when in screenshot mode (toggle HUD mode)."
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -319,6 +363,10 @@
     "description": "",
     "message": "Dock at current target"
   },
+  "DRIVE_ACTIVE": {
+    "description": "Ship jump status",
+    "message": "Drive active"
+  },
   "DUE": {
     "description": "mission deadline date",
     "message": "Due"
@@ -334,6 +382,10 @@
   "ECONOMY_TRADE": {
     "description": "",
     "message": "Economy & Trade"
+  },
+  "EDIT": {
+    "description": "Tooltip, to edit a flight log entry",
+    "message": "Edit"
   },
   "EFFECTS": {
     "description": "",
@@ -379,6 +431,10 @@
     "description": "Engineering skills of crew",
     "message": "Engineering:"
   },
+  "ENTRY": {
+    "description": "A note/entry/record into the flight log",
+    "message": "Entry"
+  },
   "EQUIPMENT": {
     "description": "",
     "message": "Equipment"
@@ -419,6 +475,50 @@
     "description": "When failed mission",
     "message": "Failed"
   },
+  "FEATURE_ACCESSORIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Accessories"
+  },
+  "FEATURE_ARMOUR": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Armour"
+  },
+  "FEATURE_CLOTHES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Clothes"
+  },
+  "FEATURE_EYES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Eyes"
+  },
+  "FEATURE_GENDER": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Gender"
+  },
+  "FEATURE_HAIRSTYLE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Hairstyle"
+  },
+  "FEATURE_HEAD": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Head"
+  },
+  "FEATURE_MOUTH": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Mouth"
+  },
+  "FEATURE_NOSE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Nose"
+  },
+  "FEATURE_RACE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Race"
+  },
+  "FEATURE_SPECIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Species"
+  },
   "FEMALE": {
     "description": "",
     "message": "Female"
@@ -426,6 +526,46 @@
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
     "message": "Final Target:"
+  },
+  "FINANCE": {
+    "description": "Financial statement of player, e.g. cash",
+    "message": "Finance"
+  },
+  "FLIGHTLOG_DOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "Docking at {primary_info}"
+  },
+  "FLIGHTLOG_FLYING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
+    "message": "Flying in space, relative {primary_info}"
+  },
+  "FLIGHTLOG_HYPERSPACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "In Hyperspace, enroute to {primary_info}"
+  },
+  "FLIGHTLOG_JUMPING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "Hyper jumping towards {primary_info}"
+  },
+  "FLIGHTLOG_LANDED": {
+    "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
+    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+  },
+  "FLIGHTLOG_STARPORT_ORBITAL": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "Docked at {primary_info}, in orbit around {secondary_info}"
+  },
+  "FLIGHTLOG_STARPORT_SURFACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "Docked at {primary_info}, on {secondary_info}"
+  },
+  "FLIGHTLOG_UNDOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "Undocking at {primary_info}"
+  },
+  "FLIGHT_LOG": {
+    "description": "Title for flight log screen, in info view",
+    "message": "Flight Log"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -490,6 +630,10 @@
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
     "message": "Good riddance to you, too."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Go back"
   },
   "GPU_JOBS": {
     "description": "",
@@ -733,7 +877,7 @@
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "Remaining Δv"
+    "message": "% of max Δv"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
@@ -851,6 +995,18 @@
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
     "message": "Show current velocity for each direction (thin lines) and thrust (thick background)"
   },
+  "HUD_WARNING_DESCENT_RATE": {
+    "description": "Shown on HUD as a warning flasher",
+    "message": "DESCENT RATE"
+  },
+  "HUD_WARNING_IMPACT": {
+    "description": "Alert tooltip",
+    "message": "Impact warning"
+  },
+  "HUD_WARNING_IMPACT_IMMINENT": {
+    "description": "Alert tooltip",
+    "message": "Impact imminent"
+  },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
     "message": "Hull does not require repair."
@@ -883,6 +1039,10 @@
     "description": "",
     "message": "Hyperspace range"
   },
+  "ILLEGAL_IN_SYSTEM": {
+    "description": "An illegal action or commodity",
+    "message": "Illegal in System"
+  },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
     "message": "Reckless hyperjump registered"
@@ -899,9 +1059,21 @@
     "description": "For player reputation",
     "message": "Incompetent"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Increase"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Inexperienced"
+  },
+  "INITIATED": {
+    "description": "Ship jump status",
+    "message": "Initiated"
+  },
+  "INSUFFICIENT_FUEL": {
+    "description": "Ship jump status",
+    "message": "Insufficient fuel"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
@@ -918,6 +1090,10 @@
   "IN_STOCK": {
     "description": "",
     "message": "In stock"
+  },
+  "IN_SYSTEM": {
+    "description": "Used in flight log, show which star system we are/were in",
+    "message": "In system"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -958,6 +1134,18 @@
   "LAUNCH_PERMISSION_DENIED_FINED": {
     "description": "",
     "message": "Permission to launch denied: you have outstanding fines."
+  },
+  "LAUNCH_PERMISSION_GRANTED": {
+    "description": "",
+    "message": "Launch permission granted."
+  },
+  "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
+    "description": "",
+    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+  },
+  "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
+    "description": "",
+    "message": "Permission granted. Watch for traffic on your departure."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1011,6 +1199,22 @@
     "description": "",
     "message": "Location"
   },
+  "LOG_CUSTOM": {
+    "description": "Label tab for showing custom logged events",
+    "message": "Custom Log"
+  },
+  "LOG_NEW": {
+    "description": "Indicate to make an entry into flight log system",
+    "message": "New Entry"
+  },
+  "LOG_STATION": {
+    "description": "Label tab for showing logged station events",
+    "message": "Station Log"
+  },
+  "LOG_SYSTEM": {
+    "description": "Label tab for showing logged system events",
+    "message": "System Log"
+  },
   "LOW": {
     "description": "",
     "message": "Low"
@@ -1019,9 +1223,17 @@
     "description": "Light year",
     "message": "ly"
   },
+  "MAJOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Major Export"
+  },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
     "message": "Major exports"
+  },
+  "MAJOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Major Import"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
@@ -1099,13 +1311,25 @@
     "description": "",
     "message": "Military"
   },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "Minimal Trade"
+  },
   "MINIMUM_CREW": {
     "description": "",
     "message": "Minimum crew"
   },
+  "MINOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Minor Export"
+  },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
     "message": "Minor exports"
+  },
+  "MINOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Minor Import"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
@@ -1179,6 +1403,10 @@
     "description": "",
     "message": "Negotiate"
   },
+  "NEXT_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Next"
+  },
   "NEXT_PAID": {
     "description": "",
     "message": "Next paid"
@@ -1215,6 +1443,10 @@
     "description": "",
     "message": "{equipment} is not supported on this ship model"
   },
+  "NO_DRIVE": {
+    "description": "Ship jump status",
+    "message": "No drive"
+  },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
     "message": "Nothing matches that filter"
@@ -1222,6 +1454,10 @@
   "NO_MISSIONS": {
     "description": "",
     "message": "No missions."
+  },
+  "NO_VALID_ROUTE": {
+    "description": "Message in the sector map, issued by the autoroute function.",
+    "message": "No valid route to the selected system."
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
@@ -1275,6 +1511,10 @@
     "description": "Unpaid fines for crimes committed",
     "message": "Outstanding fines"
   },
+  "OUT_OF_RANGE": {
+    "description": "Ship jump status",
+    "message": "Out of range"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Filter overview window entries by name"
@@ -1282,6 +1522,10 @@
   "OWED": {
     "description": "Player owing money to crew members",
     "message": "Owed"
+  },
+  "PAY": {
+    "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
+    "message": "Pay"
   },
   "PAY_FINE_OF_N": {
     "description": "",
@@ -1335,6 +1579,10 @@
     "description": "",
     "message": "Press a key or controller button or escape to clear"
   },
+  "PREVIOUS_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Previous"
+  },
   "PRICE": {
     "description": "",
     "message": "Price"
@@ -1342,6 +1590,10 @@
   "PROFESSIONAL": {
     "description": "For player reputation",
     "message": "Professional"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "Profitable Trade"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1358,6 +1610,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "Quit confirmation"
+  },
+  "RANDOM_FACE": {
+    "description": "Generate random face",
+    "message": "Random"
   },
   "RANK": {
     "description": "",
@@ -1387,6 +1643,10 @@
     "description": "For player reputation",
     "message": "Reliable"
   },
+  "REMOVE": {
+    "description": "Remove, e.g. deleting a log entry",
+    "message": "Remove"
+  },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
     "message": "Remove Jump"
@@ -1415,6 +1675,10 @@
     "description": "",
     "message": "Reset"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Reset Orientation and Zoom"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Return to game"
@@ -1435,6 +1699,10 @@
     "description": "",
     "message": "Reward"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Rotate view"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Route Info"
@@ -1442,6 +1710,10 @@
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
     "message": "Route Jumps"
+  },
+  "SAFETY_LOCKOUT": {
+    "description": "Ship jump status",
+    "message": "Safety lockout"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1495,6 +1767,10 @@
     "description": "",
     "message": "Set destination as navigation target."
   },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Set return route"
+  },
   "SHIP": {
     "description": "",
     "message": "Kapal"
@@ -1526,6 +1802,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Ship Repairs"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Ship Type"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",
@@ -1571,9 +1851,37 @@
     "description": "",
     "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
   },
+  "START_LOG_ENTRY_1": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
+    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+  },
+  "START_LOG_ENTRY_2": {
+    "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
+    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+  },
+  "START_LOG_ENTRY_3": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
+    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+  },
   "STAR_FIELD_DENSITY": {
     "description": "",
     "message": "Density of Star field"
+  },
+  "STATION": {
+    "description": "Flight log info, will refer to a station by name",
+    "message": "Station"
+  },
+  "STATION_DOCKS": {
+    "description": "Information shown in the station lobby, for total number of docking pads",
+    "message": "Our total capacity is {total_docking_pads} docking pads."
+  },
+  "STATION_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "Local gravity here is %.2f g."
+  },
+  "STATION_LOCAL_GRAVITY_PRESSURE": {
+    "description": "",
+    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",
@@ -1582,6 +1890,10 @@
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
     "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+  },
+  "STATION_TECH_TOO_LOW": {
+    "description": "",
+    "message": "Station tech level too low to sell this item"
   },
   "STATUS": {
     "description": "",
@@ -1610,6 +1922,10 @@
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
     "message": "The ship is under station control, Commander."
+  },
+  "THIS_IS_FACTION_POLICE": {
+    "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
+    "message": "This is the {faction_police} of the {faction}"
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1659,9 +1975,17 @@
     "description": "",
     "message": "Total mass"
   },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "From {system}:"
+  },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
     "message": "Berdagang barang ilegal"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "To {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -1674,6 +1998,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Unlawful weapons discharge"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "Unprofitable Trade"
   },
   "UNRELIABLE": {
     "description": "",

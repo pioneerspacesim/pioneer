@@ -57,7 +57,7 @@ namespace Graphics {
 			virtual void Apply() override final;
 			virtual void Unapply() override final;
 		};
-	}
-}
+	} // namespace OGL
+} // namespace Graphics
 
 #endif

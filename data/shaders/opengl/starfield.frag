@@ -1,8 +1,7 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
-#include "logz.glsl"
 #include "lib.glsl"
 
 uniform sampler2D texture0;
@@ -16,4 +15,3 @@ void main(void)
 {
 	frag_color = (texture(texture0, gl_PointCoord) * v_color) * material.emission;
 }
-

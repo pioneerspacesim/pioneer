@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GRAPHICS_OGLPROGRAM_H
@@ -16,9 +16,9 @@ namespace Graphics {
 
 	namespace OGL {
 
-		struct ShaderException { };
+		struct ShaderException {};
 
-		struct ProgramException { };
+		struct ProgramException {};
 
 		class Program {
 		public:
@@ -67,7 +67,7 @@ namespace Graphics {
 		protected:
 			static GLuint s_curProgram;
 
-			void LoadShaders(const std::string&, const std::string &defines);
+			void LoadShaders(const std::string &, const std::string &defines);
 			virtual void InitUniforms();
 			std::string m_name;
 			std::string m_defines;
@@ -75,7 +75,7 @@ namespace Graphics {
 			bool success;
 		};
 
-	}
+	} // namespace OGL
 
-}
+} // namespace Graphics
 #endif

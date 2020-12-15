@@ -79,3 +79,10 @@ result
 *.exp
 *.VC.db
 /release
+# Core dumps shouldn't be tracked by git.
+.[0-9][0-9]*
+# Don't track C++ language server cache files.
+.ccls-cache
+.clangd/
+.vscode/
+*.code-workspace

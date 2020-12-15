@@ -1,12 +1,12 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef ORBIT_H
 #define ORBIT_H
 
 #include "libs.h"
-#include "vector3.h"
 #include "matrix3x3.h"
+#include "vector3.h"
 
 class Orbit {
 public:
@@ -17,7 +17,7 @@ public:
 	// note: the resulting Orbit is at the given position at t=0
 	static Orbit FromBodyState(const vector3d &position, const vector3d &velocity, double central_mass);
 
-	Orbit():
+	Orbit() :
 		m_eccentricity(0.0),
 		m_semiMajorAxis(0.0),
 		m_orbitalPhaseAtStart(0.0),
@@ -27,7 +27,8 @@ public:
 
 	void SetShapeAroundBarycentre(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity);
 	void SetShapeAroundPrimary(double semiMajorAxis, double totalMass, double eccentricity);
-	void SetPlane(const matrix3x3d &orient) {
+	void SetPlane(const matrix3x3d &orient)
+	{
 		m_orient = orient;
 		assert(!std::isnan(m_orient[0]) && !std::isnan(m_orient[1]) && !std::isnan(m_orient[2]));
 		assert(!std::isnan(m_orient[3]) && !std::isnan(m_orient[4]) && !std::isnan(m_orient[5]));
@@ -36,7 +37,7 @@ public:
 	void SetPhase(double orbitalPhaseAtStart) { m_orbitalPhaseAtStart = orbitalPhaseAtStart; }
 
 	vector3d OrbitalPosAtTime(double t) const;
-	double OrbitalTimeAtPos(const vector3d& pos, double centralMass) const;
+	double OrbitalTimeAtPos(const vector3d &pos, double centralMass) const;
 	vector3d OrbitalVelocityAtTime(double totalMass, double t) const;
 
 	// 0.0 <= t <= 1.0. Not for finding orbital pos

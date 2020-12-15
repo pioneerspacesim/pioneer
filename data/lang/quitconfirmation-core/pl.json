@@ -47,6 +47,18 @@
     "description": "",
     "message": "Nie odchodź teraz. W innych programach czeka na Ciebie pirat."
   },
+  "MSG_20": {
+    "description": "",
+    "message": "Na prawdę musisz już iść?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Wybierasz tchórzliwą ucieczkę?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Nie rób tego! Dalej może być tylko lepiej! Dalej chcesz się poddać?"
+  },
   "MSG_3": {
     "description": "",
     "message": "Czy na pewno chcesz wyjść z tej wspaniałej gry, która Cię nic nie kosztowała?"

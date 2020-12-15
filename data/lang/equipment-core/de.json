@@ -191,6 +191,14 @@
     "description": "",
     "message": "Dient zum Abbau mineralienreicher Asteroiden mittels Sprengung."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Dient zum Abbau mineralienreicher Asteroiden mittels Sprengung."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Lenkrakete"
@@ -208,7 +216,7 @@
     "message": "Ungelenkte R40-Rakete"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Mehrzweckschöpfer"
   },
   "MULTI_SCOOP_DESCRIPTION": {
@@ -325,11 +333,11 @@
   },
   "THRUSTERS_MEDIUM": {
     "description": "",
-    "message": "Optimisierte Schubdüsen"
+    "message": "Optimierte Schubdüsen"
   },
   "THRUSTERS_MEDIUM_DESCRIPTION": {
     "description": "",
-    "message": "Schubdüsen die in Hinblick auf Effizienz und Schubkraft optimisiert wurden."
+    "message": "Schubdüsen die in Hinblick auf Effizienz und Schubkraft optimiert wurden."
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",

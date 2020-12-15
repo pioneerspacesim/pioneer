@@ -1,0 +1,82 @@
+{
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Landningstillstånd redan erhållet. Fortsätt till docka {bay}."
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "Landningstillstånd nekat: Det finns inga lediga dockor."
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "Landningstillstånd nekas. Ditt skepp är för avlägset för ID-verifikation."
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "Landningstillstånd givet. Fortsätt till docka {bay}."
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "Landningstillståndet har gått ut. Om du vill landa måste du upprepa din begäran."
+  },
+  "STATION_GRAV": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "Lokal gravitation är {grav}."
+  },
+  "STATION_GRAV_PRESS": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "Lokal gravitation är {grav}, tryck är {press}."
+  },
+  "WATCH_FOR_TRAFFIC_ON_APPROACH": {
+    "description": "",
+    "message": "Se upp för trafik under inflygningen"
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel} du är nu i {station} område. Vänligen följ lokala föreskrifter."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_2": {
+    "description": "",
+    "message": "{playerShipLabel} vi ser dig på vår radar. Du är nu område som kontrolleras av {station}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_3": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playedrShipLabel}, detta är station {station} rymdfartskontroll. Du är nu i vårt reglerade område."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Du är nu i {station} reglerat område, {playerShipLabel}."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, välkommen till {station}. Vänligen håll i åtanke att lokala föreskrifter gäller när du vistas i vårt område."
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, detta är {station} rymdfartskontroll. Du är i reglerat område, vi hade uppskattat om du inte tvingar oss till pappers-exercis idag."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}, du är klarerad från område kontrollerat av {station}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_2": {
+    "description": "",
+    "message": "Du har lämnat {station} område, {playerShipLabel}."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_3": {
+    "description": "",
+    "message": "{playerShipLabel}, du är ute ur {station} reglerat område. Lokala föreskrifter upphävs."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_4": {
+    "description": "",
+    "message": "Du flyger ut från {station} område, {playerShipLabel}, vi loggar av dig."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}, du lämnar nu {station} område. Ha en god resa."
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}, detta är {station} rymdfartskontroll. Jag ser att du lämnar vårt reglerade område, flyg försiktigt."
+  }
+}

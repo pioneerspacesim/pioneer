@@ -47,6 +47,18 @@
     "description": "",
     "message": "Non andartene ora, in quell'altro programma c'è un pirata in agguato."
   },
+  "MSG_20": {
+    "description": "",
+    "message": "Devi andare via davvero?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Scegli la facile via della fuga?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Non farlo! Può solo andare meglio! Vuoi davvero rinunciare?"
+  },
   "MSG_3": {
     "description": "",
     "message": "Sei sicuro di voler abbandonare questo fantastico gioco che non ti costa nulla?"

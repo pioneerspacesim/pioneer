@@ -1,30 +1,25 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Space = import("Space")
-local Comms = import("Comms")
-local Event = import("Event")
-local Timer = import("Timer")
-local Mission = import("Mission")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Character = import("Character")
-local NameGen = import("NameGen")
-local Equipment = import("Equipment")
-local ShipDef = import("ShipDef")
-local Ship = import("Ship")
-local utils = import("utils")
-
-local InfoFace = import("ui/InfoFace")
-local NavButton = import("ui/NavButton")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Space = require 'Space'
+local Comms = require 'Comms'
+local Event = require 'Event'
+local Timer = require 'Timer'
+local Mission = require 'Mission'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Character = require 'Character'
+local NameGen = require 'NameGen'
+local Equipment = require 'Equipment'
+local ShipDef = require 'ShipDef'
+local Ship = require 'Ship'
+local utils = require 'utils'
 
 local l = Lang.GetResource("module-combat")
-
--- Get the UI class
-local ui = Engine.ui
+local lc = Lang.GetResource 'core'
 
 -- typical time for travel to a planet in a system 1ly away and back
 local typical_hyperspace_time = 2 * 24 * 60 * 60
@@ -140,6 +135,11 @@ local onChat = function (form, ref, option)
 		end
 
 	elseif option == 5 then
+		if not Game.player:GetEquip('radar', 1) then
+			form:SetMessage(l.RADAR_NOT_INSTALLED)
+			form:RemoveNavButton()
+			return
+		end
 		form:RemoveAdvertOnClose()
 		ads[ref] = nil
 		local mission = {
@@ -163,7 +163,6 @@ local onChat = function (form, ref, option)
 		table.insert(missions,Mission.New(mission))
 		form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
 		return
-
 	end
 
 	form:AddOption(l.WHAT_ARE_THE_MISSION_OBJECTIVES, 1)
@@ -179,7 +178,7 @@ local onDelete = function (ref)
 end
 
 local isEnabled = function (ref)
-	return isQualifiedFor(Character.persistent.player.reputation, Character.persistent.player.killcount, ads[ref])
+	return ads[ref] ~= nil and isQualifiedFor(Character.persistent.player.reputation, Character.persistent.player.killcount, ads[ref])
 end
 
 local findPlanets = function (dist, type, fac)
@@ -284,6 +283,7 @@ local onShipDestroyed = function (ship, attacker)
 				table.remove(mission.mercenaries, i)
 				if not mission.complete and (#mission.mercenaries == 0 or mission.dedication <= ARMEDRECON) then
 					mission.complete = true
+					mission.status = "COMPLETED"
 					Comms.ImportantMessage(l.MISSION_COMPLETE)
 				end
 				if attacker and attacker:isa("Ship") and attacker:IsPlayer() then
@@ -293,6 +293,18 @@ local onShipDestroyed = function (ship, attacker)
 			end
 		end
 	end
+end
+
+local missionTimer = function (mission)
+	Timer:CallEvery(mission.duration, function ()
+		if mission.complete then return true end -- already complete
+		if Game.player.frameBody and Game.player.frameBody.path == mission.location then
+			mission.complete = true
+			mission.status = "COMPLETED"
+			Comms.ImportantMessage(l.MISSION_COMPLETE)
+			return true
+		end
+	end)
 end
 
 local onFrameChanged = function (player)
@@ -366,14 +378,8 @@ local onFrameChanged = function (player)
 
 			if mission.dedication <= RECON or #mission.mercenaries == 0 then
 				-- prevent a too quick fly-by
-				Timer:CallEvery(player.frameBody:GetPhysicalRadius()/1000, function ()
-					if mission.complete then return true end -- already complete
-					if player.frameBody and player.frameBody.path == mission.location then
-						mission.complete = true
-						Comms.ImportantMessage(l.MISSION_COMPLETE)
-						return true
-					end
-				end)
+				mission.duration = player.frameBody:GetPhysicalRadius()/1000
+				missionTimer(mission)
 			end
 		end
 		if mission.status == "ACTIVE" and Game.time > mission.due then
@@ -416,7 +422,7 @@ local onEnterSystem = function (player)
 			if mission.complete or Game.time > mission.due then
 				local shipdefs = utils.build_array(utils.filter(
 					function (k,def)
-						return def.tag == "SHIP" and def.hyperdriveClass > 1 and (def.shipClass == "medium_fighter" or def.shipClass == "medium_courier" or def.shipClass == "light_freighter")
+						return def.tag == "SHIP" and def.hyperdriveClass > 0
 					end,
 					pairs(ShipDef)))
 				local shipdef = shipdefs[Engine.rand:Integer(1, #shipdefs)]
@@ -424,9 +430,6 @@ local onEnterSystem = function (player)
 				local ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
 				ship:SetLabel(Ship.MakeRandomLabel())
 				ship:AddEquip(Equipment.hyperspace["hyperdrive_" .. tostring(shipdef.hyperdriveClass)])
-				ship:AddEquip(Equipment.cargo.hydrogen, 5)
-				ship:AddEquip(Equipment.laser.pulsecannon_2mw)
-				ship:AddEquip(Equipment.misc.shield_generator)
 
 				local path = mission.location:GetStarSystem().path
 				finishMission(ref, mission)
@@ -469,10 +472,10 @@ end
 local loaded_data
 
 local onGameStart = function ()
-	if loaded_data and loaded_data.ads then
-		ads = {}
-		missions = {}
+	ads = {}
+	missions = {}
 
+	if loaded_data and loaded_data.ads then
 		for k, ad in pairs(loaded_data.ads) do
 			local ref = ad.station:AddAdvert({
 				description = ad.desc,
@@ -484,6 +487,12 @@ local onGameStart = function ()
 		end
 		missions = loaded_data.missions
 		loaded_data = nil
+
+		for _, mission in pairs(missions) do
+			if mission.duration then
+				missionTimer(mission)
+			end
+		end
 	end
 end
 
@@ -493,112 +502,43 @@ local onGameEnd = function ()
 	end
 end
 
-local onClick = function (mission)
+local buildMissionDescription = function(mission)
+	local ui = require 'pigui'
+
+	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	local type = l["MISSION_TYPE_" .. math.ceil(mission.dedication * NUMSUBTYPES)]
 
-	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.introtext):interp({
-														name    = mission.client.name,
-														org     = mission.org,
-														cash    = Format.Money(mission.reward, false),
-														area    = mission.location:GetSystemBody().name,
-														system  = mission.location:GetStarSystem().name,
-														sectorx = mission.location.sectorX,
-														sectory = mission.location.sectorY,
-														sectorz = mission.location.sectorZ,
-														mission = type,
-														dist    = dist})
-										),
-										ui:Margin(10),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.MISSION)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(type)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SYSTEM)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.AREA)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetSystemBody().name)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DISTANCE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.TIME_LIMIT)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(Format.Date(mission.due))
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DANGER)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(l:get("RISK_" .. math.ceil(mission.risk * (getNumberOfFlavours("RISK")))))
-												})
-											}),
-										NavButton.New(l.SET_AS_TARGET, mission.location),
-										ui:Margin(5),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.PAYMENT_LOCATION)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													mission.rendezvous and ui:MultiLineText(mission.rendezvous:GetStarSystem().name.." ("..mission.rendezvous.sectorX..","..mission.rendezvous.sectorY..","..mission.rendezvous.sectorZ..")")
-													or ui:MultiLineText(string.interp(l[mission.flavour.id .. "_LAND_THERE"], { org = mission.org }))
-												})
-											}),
-										mission.rendezvous and NavButton.New(l.SET_AS_TARGET, mission.rendezvous),
-		})})
-		:SetColumn(1, {
-			ui:VBox(10):PackEnd({
-				InfoFace.New(mission.client),
-				ui:Label(mission.org),
-			})
-		})
+	desc.description = mission.introtext:interp({
+		name    = mission.client.name,
+		org     = mission.org,
+		cash    = Format.Money(mission.reward, false),
+		area    = mission.location:GetSystemBody().name,
+		system  = mission.location:GetStarSystem().name,
+		sectorx = mission.location.sectorX,
+		sectory = mission.location.sectorY,
+		sectorz = mission.location.sectorZ,
+		mission = type,
+		dist    = dist
+	})
+
+	desc.client = mission.client
+	desc.location = mission.location
+
+	local paymentLoc = mission.rendezvous and ui.Format.SystemPath(mission.rendezvous)
+		or string.interp(l[mission.flavour.id .. "_LAND_THERE"], { org = mission.org })
+
+	desc.details = {
+		{ l.MISSION, type },
+		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
+		{ l.AREA, mission.location:GetSystemBody().name },
+		{ l.DISTANCE, dist.." "..lc.UNIT_LY },
+		{ l.TIME_LIMIT, ui.Format.Date(mission.due) },
+		{ l.DANGER, l["RISK_" .. math.ceil(mission.risk * (getNumberOfFlavours("RISK")))] },
+		{ l.PAYMENT_LOCATION, paymentLoc }
+	}
+
+	return desc
 end
 
 local serialize = function ()
@@ -620,6 +560,6 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType("Combat",l.COMBAT,onClick)
+Mission.RegisterType("Combat",l.COMBAT, buildMissionDescription)
 
 Serializer:Register("Combat", serialize, unserialize)

@@ -1,30 +1,30 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "VtxColorMaterial.h"
-#include "graphics/Material.h"
-#include "graphics/Graphics.h"
-#include "TextureGL.h"
 #include "RendererGL.h"
-#include <sstream>
 #include "StringF.h"
+#include "TextureGL.h"
+#include "graphics/Graphics.h"
+#include "graphics/Material.h"
+#include <sstream>
 
 namespace Graphics {
-namespace OGL {
+	namespace OGL {
 
-VtxColorProgram::VtxColorProgram(const MaterialDescriptor &desc)
-{
-	m_name = "vtxColor";
-	CHECKERRORS();
+		VtxColorProgram::VtxColorProgram(const MaterialDescriptor &desc)
+		{
+			m_name = "vtxColor";
+			CHECKERRORS();
 
-	LoadShaders(m_name, m_defines);
-	InitUniforms();
-}
+			LoadShaders(m_name, m_defines);
+			InitUniforms();
+		}
 
-Program *VtxColorMaterial::CreateProgram(const MaterialDescriptor &desc)
-{
-	return new VtxColorProgram(desc);
-}
+		Program *VtxColorMaterial::CreateProgram(const MaterialDescriptor &desc)
+		{
+			return new VtxColorProgram(desc);
+		}
 
-}
-}
+	} // namespace OGL
+} // namespace Graphics

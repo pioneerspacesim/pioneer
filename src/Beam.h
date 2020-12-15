@@ -6,30 +6,37 @@
 #ifndef _BEAM_H
 #define _BEAM_H
 
-#include "libs.h"
 #include "Body.h"
-#include "graphics/Material.h"
-#include "graphics/RenderState.h"
+#include "Color.h"
+#include "matrix4x4.h"
+#include "vector3.h"
 
-class Frame;
+class Camera;
+class Space;
+
 namespace Graphics {
+	class Material;
 	class Renderer;
+	class RenderState;
 	class VertexArray;
-}
+} // namespace Graphics
+
 struct ProjectileData;
 
-class Beam: public Body {
+class Beam : public Body {
 public:
 	OBJDEF(Beam, Body, PROJECTILE);
 
-	static void Add(Body *parent, const ProjectileData& prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir);
+	static void Add(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir);
 
-	Beam();
+	Beam() = delete;
+	Beam(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir);
+	Beam(const Json &jsonObj, Space *space);
 	virtual ~Beam();
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override final;
 	void TimeStepUpdate(const float timeStep) override final;
 	void StaticUpdate(const float timeStep) override final;
-	virtual void NotifyRemoved(const Body* const removedBody) override final;
+	virtual void NotifyRemoved(const Body *const removedBody) override final;
 	virtual void PostLoadFixup(Space *space) override final;
 	virtual void UpdateInterpTransform(double alpha) override final;
 
@@ -37,7 +44,6 @@ public:
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override final;
-	virtual void LoadFromJson(const Json &jsonObj, Space *space) override final;
 
 private:
 	float GetDamage() const;

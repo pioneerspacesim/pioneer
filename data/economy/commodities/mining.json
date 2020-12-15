@@ -1,0 +1,40 @@
+{
+	"commodities": {
+		"hydrogen": {
+			"l10n_key": "HYDROGEN",
+			"inputs": [ ],
+			"producer": "mining",
+			"price": 5
+		},
+		"liquid_oxygen": {
+			"l10n_key": "LIQUID_OXYGEN",
+			"inputs": [ "water", "industrial_machinery" ],
+			"producer": "mining",
+			"price": 9.8
+		},
+		"water": {
+			"l10n_key": "WATER",
+			"inputs": [ "mining_machinery" ],
+			"producer": "mining",
+			"price": 1.2
+		},
+		"carbon_ore": {
+			"l10n_key": "CARBON_ORE",
+			"inputs": [ "mining_machinery" ],
+			"producer": "mining",
+			"price": 7
+		},
+		"metal_ore": {
+			"l10n_key": "METAL_ORE",
+			"inputs": [ "mining_machinery" ],
+			"producer": "mining",
+			"price": 43
+		},
+		"precious_metals": {
+			"l10n_key": "PRECIOUS_METALS",
+			"inputs": [ "mining_machinery" ],
+			"producer": "mining",
+			"price": 2180
+		}
+	}
+}

@@ -1,0 +1,250 @@
+{
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "Въздухопречистватели"
+  },
+  "AIR_PROCESSORS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Чистият въздух се приема за даденост, само когато е в изобилие. Вярва се, че техниката за пречистване на въздуха е с марсиански произход. Много фирми произвеждат въздухопречистватели, които са способни да превърнат дори най-враждебната атмосфера в приятна за живеене среда, също така е важно да се отбележи, че правителствата не толелират монопола върху производството на въздух."
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "Животинско месо"
+  },
+  "ANIMAL_MEAT_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Болезнената тема за веганите, месото е плътта на животните. Благодарение на синтетичните протеини, много хора вече са на мнение, че животните не трябва да се убиват. Месото е нелегално в повечето развити системи, но в традиционните то си остава важна част от живота на хората."
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "Бойни оръжия"
+  },
+  "BATTLE_WEAPONS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Големи оръжия за военни цели, като танкове на въздушна възглавница и ракети земя-космос. Търговията с тях обикновено е монополизирана от правителствата. На черния пазар, обаче, от тях може да се изкарат много пари."
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "Въглеродна руда"
+  },
+  "CARBON_ORE_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Въглеродът е един от най-универсалните елементи, които познаваме. Използва се в производството на всякакви материали, той е евтин продукт и е важен като стока. Почти всички индустриални средища внасят въглеродна руда."
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "Компютри"
+  },
+  "COMPUTERS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "От преди повече от хиляда години, като започнем с Абакуса, ПДП-11 и чипа Моторола 68К, и стигнем до съвременните ХАЛ 9001 и серията Мултивак, компютрите бележат зората на информационната епоха. Важни са както за космическите пътувания, така и за споделянето на видео и файлове през мрежата УниНет."
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "Потребителски стоки"
+  },
+  "CONSUMER_GOODS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Това са крайните продукти, готови за употреба от потребителите. Всичко от четки за зъби и кухненски уреди до летящи коли."
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "Селскостопанско оборудване"
+  },
+  "FARM_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Макар и рядко, все още е възможно да се намери някой заблуден фермер с волски плуг. Реалността е, че почти навсякъде където има селски стопанства, се използват машини за обработването на земята."
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "Тор"
+  },
+  "FERTILIZER_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Торовете са от ключово значение за отглеждането на големи количества реколта за кратко време и позволяват извличането на по-големи дивиденти от крайния резултат. Прекомерното наторяване, обаче, може да причини повече проблеми, отколкото ползи."
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "Плодове и зеленчуци"
+  },
+  "FRUIT_AND_VEG_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Въпреки че има доста синтетични алтернативи, истинските плодове и зеленчуци все още са важна част от начина ни на хранене. Те се отглеждат в  селскостопанските светове и се изнасят към системи, в които отглеждането им не е възможно."
+  },
+  "GRAIN": {
+    "description": "",
+    "message": "Жито"
+  },
+  "GRAIN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "То е в основата на всекидневното меню на много хора. Използва се в земеделието, за прехрана на животни и за добавка към синтетичните храни. Също така, житото се използва и в направата на други хранителни продукти като овесена каша и печени изделия. Повечето междузвездни общества отглеждат жито, което адаптират към климата на тяхното местообитание."
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "Малки оръжия"
+  },
+  "HAND_WEAPONS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Осигурявайки допълнителна сигурност, извън дългата ръка на закона, тези оръжия са неизменна част от арсенала на космическите търговци в отдалечените системи. Обаче, много правителства третират малките оръжия като опасна стока, затова тяхната търговия и притежание е под строг контрол."
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "Водород"
+  },
+  "HYDROGEN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Използван като гориво за хиперсветлинните двигатели и космическите кораби, водородът е изключително важен химичен елемент. За щастие е често срещан във Вселената, въпреки че съхранението му не е детска игра. Обикновено е една от най-евтините стоки на пазара. Космодрумите разполагат с големи запаси от водород по всяко време."
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "Промишлено оборудване"
+  },
+  "INDUSTRIAL_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Нужни са за поточните линии, рефинериите, металургията и за изработката на механизации, които от своя страна ще произвеждат други стоки. Нужни са големи умения за производството на тези машини."
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "Течен кислород"
+  },
+  "LIQUID_OXYGEN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Течния кислород има много предназначения, главно в медицината и индустрията, и понякога в обработката на отпадъци. На достъпна цена е, защото е лесно да се извлече от водата."
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "Алкохол"
+  },
+  "LIQUOR_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Алкохолът се среща в различни разновидности, като някои са удрят повече в главата, отколкото други. На места е забранен продукт, поради споменатите по-горе ефекти. Въпреки закона, една чашка винаги може да се пийне на черния пазар срещу заплащане, разбира се."
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "Живи животни"
+  },
+  "LIVE_ANIMALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Поради човешки, икономични и екологични причини, отглеждането на животни, както и тяхната търговия е стриктно регламентирана или забранена в много от слънчевите системи. Като цяло, добитъкът винаги е бил важна част от живота на хората и това трудно може да се промени. Екзотичните зоологически градини и резервати за диви животни допринасят за търговията с животни в галактиката, но всичко това се случва със строг контрол, за да се попречи на нелегалните ловджийски хайки."
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "Лекарства"
+  },
+  "MEDICINES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Извличани от естествени или синтетични източници, лекарствата са нужни навсякъде където има хора. От лечение на настинка до лекуване на ефектите от дългите космически пътувания, лекарствата са важна част за просперитета на човешката междузвездна цивилизация. Лекарствата подлежат на строг контрол, понеже не е трудно наркотиците да бъдат представени като лечебни средства."
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "Метални сплави"
+  },
+  "METAL_ALLOYS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "След извличане, металната руда се обработва и се превръща в различни сплави. Те са съвкупност от метали, комбинирани в точно определени пропорции за придобиване на специфични характристики. Следователно, повечето метални продукти са сплави."
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "Метална руда"
+  },
+  "METAL_ORE_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Много колонии извличат желязна руда за износ, която след това се обработва и използва в производството. Използва се във направата на малки играчки до космически кораби, желязото е съществена част от съвременната цивилизация."
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "Военно гориво"
+  },
+  "MILITARY_FUEL_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Използва се като гориво за по-модерните военни двигатели. В резултат на използването му се отделят радиоактивни отпадъци, които в последствие трябва да се унищожат. Поради химичните си качества, военното гориво е по-скъпо от водорода и не се среща в естественото си състояние."
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "Минно оборудване"
+  },
+  "MINING_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Традиционната черна работа на миньорите се свързва с използването на машини, които служат за откриването и добива на различни видове руда, както и нейното транспортиране до най-близките съоръжения за преработка на руда."
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "Наркотици"
+  },
+  "NARCOTICS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Естествена или синтетична субстанция, която засяга разума и тялото. Въпреки, че използването на наркотици за лечебна цел съществува от древни времена, преноса и търговията им са забранени от закона. "
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "Нервнопаралитичен газ"
+  },
+  "NERVE_GAS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Прието е, че това е оръжие за масово унищожение, дори военните избягват неговото използване в повечето слънчево състеми и е обявено за нелегално."
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "Пластмаси"
+  },
+  "PLASTICS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Синтетични и полусинтетични материали се използват в направата на всичко от всекидневните потребности до космическите кораби. Лесни са за употреба в производството, евтини са за изработка и са важна част от човешката цивилизация."
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "Скъпоценни метали"
+  },
+  "PRECIOUS_METALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Ценните метали, както името подсказва, са по-редки и по-трудни за добив, което води до тяхната висока икономическа стойност. Те често включват злато, сребро, платина и други редки метали. Някои от тях са съществено важни за направата на компютри и друга електроника."
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "Радиоактивни отпадъци"
+  },
+  "RADIOACTIVES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Радиоактивните отпадъци са резултат от използването на ядрените реактори и военните хиперсветлинни двигатели, те са една от на-опасните и трудни за транспорт и пласиране стоки. Поради тази причинина, повечето космодруми ще предложат заплащане за да се отърват от тях. Изхвърлянето на ядрен отпадък е сериозно престъпление."
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "Роботи"
+  },
+  "ROBOTS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Роботите са основен внос в индустриалните и минни системи, поради факта, че са роботи и не се оплакват, за разлика от хората. Също така, има случаи, когато роботи са ставали политици и адвокати."
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "Боклуци"
+  },
+  "RUBBISH_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Боклуците са вторичния продукт на цивилизацията, състоят се от индустриални отпадъци, битови отпадъци и остаряла техника. Повечето боклуци се рециклират или се изпращат към космодрумите за извозване извън обитаемата система. Изхвърлянето на боклук в необитаемите системи е почти винаги нелегално. Космодрумите обикновено вземат такса за рециклиране, но с удоволствие ще Ви платят, ако искате да им извозите боклуците."
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "Роби"
+  },
+  "SLAVES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "В днешно време, робския труд се извършва от машините, в резултат на което робството е забранено и се счита за неморално. Въпреки всички хуманитарни усилия в тази насока, то все още съществува, дори в развитите светове."
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "Текстилни изделия"
+  },
+  "TEXTILES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Текстилът е обикновена материя, изработена от синтетични, растителни или животински влакна. Обикновено се произвежда от роботи в големи предприятия, но все още се намират места, където може да видите тъкачи."
+  },
+  "WATER": {
+    "description": "",
+    "message": "Вода"
+  },
+  "WATER_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "Водата е един от най-ценните ресурси във Вселената и е нужна навсякъде, където има хора. Голяма част от колониите, които са далече от Земята, внасят вода от комети или планети, подобни на Земята. Водата се използва в големи мащаби за производството на водород и кислород."
+  }
+}

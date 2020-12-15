@@ -1,10 +1,12 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TERRAINFEATURE_H
 #define _TERRAINFEATURE_H
 
-#include "Terrain.h"
+#include "../vector3.h"
+
+struct fracdef_t;
 
 namespace TerrainFeature {
 
@@ -26,6 +28,6 @@ namespace TerrainFeature {
 	double megavolcano_function(const fracdef_t &def, const vector3d &p);
 	double river_function(const fracdef_t &def, const vector3d &p, int style = 0);
 
-}
+} // namespace TerrainFeature
 
 #endif

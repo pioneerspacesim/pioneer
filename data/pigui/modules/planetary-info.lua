@@ -1,16 +1,16 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
-local Color = import('Color')
-local Lang = import("Lang")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local utils = require 'utils'
+local Event = require 'Event'
+
+local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
-local utils = import("utils")
-local Event = import("Event")
+
+local ui = require 'pigui'
 
 local player = nil
 local pionillium = ui.fonts.pionillium
@@ -18,7 +18,7 @@ local pionicons = ui.fonts.pionicons
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local iconSize = Vector(16,16)
+local iconSize = Vector2(16,16)
 
 local font = pionillium.medium
 local width = 120 + 120 * (ui.screenWidth / 1200)
@@ -30,8 +30,8 @@ local function displayPlanetaryInfo()
 	if current_view == "world" then
 		local alt, vspd, latitude, longitude = player:GetGPS()
 		if latitude and longitude and alt and vspd then
-			ui.setNextWindowSize(Vector(width, height), "Always")
-			ui.setNextWindowPos(Vector(ui.screenWidth - width, ui.screenHeight - height), "Always")
+			ui.setNextWindowSize(Vector2(width, height), "Always")
+			ui.setNextWindowPos(Vector2(ui.screenWidth - width, ui.screenHeight - height), "Always")
 			ui.window("PlanetaryInfo", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 								function()
 									ui.withFont(font.name, font.size, function()

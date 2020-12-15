@@ -5,15 +5,15 @@
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "Отлично!"
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "Хорошо. Мы рассчитываем на вас!"
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED: Pay {cash}."
+    "message": "НАДЕЖНЫЙ ПИЛОТ ХОТЕЛ: Оплатить {cash}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -33,11 +33,11 @@
   },
   "AGENT": {
     "description": "Secret Service Agent",
-    "message": "Agent"
+    "message": "Агент"
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "Область:"
   },
   "BONUS_1": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
-    "message": "Precious Goods Foundation"
+    "message": "Фонд драгоценных товаров"
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",
@@ -175,10 +175,6 @@
     "description": "",
     "message": "Is there a time limit?"
   },
-  "LY": {
-    "description": "",
-    "message": "св. лет"
-  },
   "MANAGER": {
     "description": "",
     "message": "Manager"
@@ -285,11 +281,15 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on there way."
+    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
   },
   "POLICE_LAND_THERE": {
     "description": "",
     "message": "Just land at a station with a {org} office."
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
   },
   "RISK_1": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equiped and has access to the latest technology. Be careful!"
+    "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
   },
   "SET_AS_TARGET": {
     "description": "",

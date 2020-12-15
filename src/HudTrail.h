@@ -1,30 +1,38 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _HUDTRAIL_H
 #define _HUDTRAIL_H
 
-// trail drawn after an object to track motion
-
-#include "libs.h"
-#include "Body.h"
-#include "graphics/Renderer.h"
+#include "Color.h"
+#include "FrameId.h"
+#include "matrix4x4.h"
 #include "graphics/Drawables.h"
 
-class HudTrail
-{
+#include <deque>
+// trail drawn after an object to track motion
+
+namespace Graphics {
+	class Renderer;
+	class RenderState;
+} // namespace Graphics
+
+class Body;
+class Frame;
+
+class HudTrail {
 public:
-	HudTrail(Body *b, const Color&);
+	HudTrail(Body *b, const Color &);
 	void Update(float time);
 	void Render(Graphics::Renderer *r);
-	void Reset(const Frame *newFrame);
+	void Reset(const FrameId newFrame);
 
 	void SetColor(const Color &c) { m_color = c; }
 	void SetTransform(const matrix4x4d &t) { m_transform = t; }
 
 private:
 	Body *m_body;
-	const Frame *m_currentFrame;
+	FrameId m_currentFrame;
 	float m_updateTime;
 	Color m_color;
 	matrix4x4d m_transform;

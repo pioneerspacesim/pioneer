@@ -1,14 +1,15 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CUSTOMSYSTEM_H
 #define _CUSTOMSYSTEM_H
 
-#include "galaxy/StarSystem.h"
-#include "Polit.h"
-#include "vector3.h"
-#include "fixed.h"
 #include "Color.h"
+#include "Polit.h"
+#include "galaxy/SystemBody.h"
+
+#include "fixed.h"
+#include "vector3.h"
 
 class Faction;
 class Galaxy;
@@ -18,25 +19,25 @@ public:
 	CustomSystemBody();
 	~CustomSystemBody();
 
-	std::string            name;
-	SystemBody::BodyType   type;
-	fixed                  radius; // in earth radii for planets, sol radii for stars (equatorial radius)
-	fixed                  aspectRatio; // the ratio between equatorial radius and polar radius for bodies flattened due to equatorial bulge (1.0 to infinity)
-	fixed                  mass; // earth masses or sol masses
-	int                    averageTemp; // kelvin
-	fixed                  semiMajorAxis; // in AUs
-	fixed                  eccentricity;
-	fixed                  orbitalOffset;
-	fixed                  orbitalPhaseAtStart; // mean anomaly at start 0 to 2 pi
-	bool                   want_rand_offset;
+	std::string name;
+	SystemBody::BodyType type;
+	fixed radius; // in earth radii for planets, sol radii for stars (equatorial radius)
+	fixed aspectRatio; // the ratio between equatorial radius and polar radius for bodies flattened due to equatorial bulge (1.0 to infinity)
+	fixed mass; // earth masses or sol masses
+	int averageTemp; // kelvin
+	fixed semiMajorAxis; // in AUs
+	fixed eccentricity;
+	fixed orbitalOffset;
+	fixed orbitalPhaseAtStart; // mean anomaly at start 0 to 2 pi
+	bool want_rand_offset;
 	// for orbiting things, latitude = inclination
-	float                  latitude, longitude; // radians
-	fixed                  rotationPeriod; // in days
-	fixed                  rotationalPhaseAtStart; // 0 to 2 pi
-	fixed                  axialTilt; // in radians
-	std::string            heightMapFilename;
-	int                    heightMapFractal;
-	std::vector<CustomSystemBody*> children;
+	float latitude, longitude; // radians
+	fixed rotationPeriod; // in days
+	fixed rotationalPhaseAtStart; // 0 to 2 pi
+	fixed axialTilt; // in radians
+	std::string heightMapFilename;
+	int heightMapFractal;
+	std::vector<CustomSystemBody *> children;
 
 	/* composition */
 	fixed metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
@@ -60,8 +61,11 @@ public:
 	Color ringColor;
 
 	Uint32 seed;
-	bool   want_rand_seed;
+	bool want_rand_seed;
 	std::string spaceStationType;
+
+	void SanityChecks();
+
 };
 
 class CustomSystem {
@@ -70,46 +74,50 @@ public:
 	CustomSystem();
 	~CustomSystem();
 
-	std::string            name;
+	std::string name;
 	std::vector<std::string> other_names;
-    CustomSystemBody*      sBody;
-	SystemBody::BodyType   primaryType[4];
-	unsigned               numStars;
-	int                    sectorX, sectorY, sectorZ;
-	vector3f               pos;
-	Uint32                 seed;
-	bool                   want_rand_explored;
-	bool                   explored;
-	const Faction*         faction;
-	Polit::GovType         govType;
-	bool                   want_rand_lawlessness;
-	fixed                  lawlessness; // 0.0 = lawful, 1.0 = totally lawless
-	std::string            shortDesc;
-	std::string            longDesc;
+	CustomSystemBody *sBody;
+	SystemBody::BodyType primaryType[4];
+	unsigned numStars;
+	int sectorX, sectorY, sectorZ;
+	vector3f pos;
+	Uint32 seed;
+	bool want_rand_explored;
+	bool explored;
+	const Faction *faction;
+	Polit::GovType govType;
+	bool want_rand_lawlessness;
+	fixed lawlessness; // 0.0 = lawful, 1.0 = totally lawless
+	std::string shortDesc;
+	std::string longDesc;
+
+	void SanityChecks();
 
 	bool IsRandom() const { return !sBody; }
 };
 
 class CustomSystemsDatabase {
 public:
-	CustomSystemsDatabase(Galaxy* galaxy, const std::string& customSysDir) : m_galaxy(galaxy), m_customSysDirectory(customSysDir) { }
+	CustomSystemsDatabase(Galaxy *galaxy, const std::string &customSysDir) :
+		m_galaxy(galaxy),
+		m_customSysDirectory(customSysDir) {}
 	~CustomSystemsDatabase();
 
-	void Init();
+	void Load();
 
-	typedef std::vector<const CustomSystem*> SystemList;
+	typedef std::vector<const CustomSystem *> SystemList;
 	// XXX this is not as const-safe as it should be
 	const SystemList &GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ) const;
-	void AddCustomSystem(const SystemPath& path, CustomSystem* csys);
-	Galaxy* GetGalaxy() const { return m_galaxy; }
+	void AddCustomSystem(const SystemPath &path, CustomSystem *csys);
+	Galaxy *GetGalaxy() const { return m_galaxy; }
 
 private:
-	typedef std::map<SystemPath, CustomSystemsDatabase::SystemList> SectorMap;
+	typedef std::map<SystemPath, SystemList> SectorMap;
 
-	Galaxy* const m_galaxy;
+	Galaxy *const m_galaxy;
 	const std::string m_customSysDirectory;
 	SectorMap m_sectorMap;
-	static const CustomSystemsDatabase::SystemList s_emptySystemList; // see: Null Object pattern
+	static const SystemList s_emptySystemList; // see: Null Object pattern
 };
 
 #endif /* _CUSTOMSYSTEM_H */

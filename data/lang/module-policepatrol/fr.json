@@ -54,5 +54,21 @@
   "TAKE_A_HIKE": {
     "description": "",
     "message": "Ok, je vous laisse une seconde chance. Disparaissez !"
+  },
+  "TARGET_DESTROYED_1": {
+    "description": "",
+    "message": "Cible détruite!"
+  },
+  "TARGET_DESTROYED_2": {
+    "description": "",
+    "message": "Ouais!"
+  },
+  "TARGET_DESTROYED_3": {
+    "description": "",
+    "message": "Repose en pièces! Haha."
+  },
+  "TARGET_DESTROYED_4": {
+    "description": "",
+    "message": "Encore un qui mord la poussière!"
   }
 }

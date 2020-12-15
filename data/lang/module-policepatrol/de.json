@@ -54,5 +54,21 @@
   "TAKE_A_HIKE": {
     "description": "",
     "message": "Okay, Sie kriegen eine zweite Chance. Verschwinden Sie!"
+  },
+  "TARGET_DESTROYED_1": {
+    "description": "",
+    "message": "Ziel zerstört!"
+  },
+  "TARGET_DESTROYED_2": {
+    "description": "",
+    "message": "Yeah!"
+  },
+  "TARGET_DESTROYED_3": {
+    "description": "",
+    "message": "Hasta la vista, baby! Haha."
+  },
+  "TARGET_DESTROYED_4": {
+    "description": "",
+    "message": "Treffer... und versenkt!"
   }
 }

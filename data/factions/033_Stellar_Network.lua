@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Stellar Network')
@@ -17,11 +17,9 @@ f:govtype_weight('LIBDEM',		77)
 f:govtype_weight('MILDICT1',		59)
 f:govtype_weight('SOCDEM',		59)
 
-f:illegal_goods_probability('LIQUOR',		49)
-f:illegal_goods_probability('SLAVES',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		64)
-f:illegal_goods_probability('NERVE_GAS',		100)
+f:illegal_goods_probability('liquor',		49)
+f:illegal_goods_probability('slaves',		100)
+f:illegal_goods_probability('battle_weapons',		64)
+f:illegal_goods_probability('nerve_gas',		100)
 
 f:add_to_factions('Stellar Network')
-
-

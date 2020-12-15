@@ -81,11 +81,11 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "loaded"
+    "message": "нагруженный"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "not loaded"
+    "message": "не загружен"
   },
   "CEASE_FIRE": {
     "description": "",
@@ -185,7 +185,7 @@
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Послушайте, мы договаривались, что доставка будет в срок. Так что забудьте об оплате."
+    "message": "Listen, we were clear about the deadline. You can forget about getting paid."
   },
   "FAILUREMSG_4": {
     "description": "",
@@ -327,10 +327,6 @@
     "description": "",
     "message": "Меня подбили. Нужна помощь."
   },
-  "LY": {
-    "description": "",
-    "message": "св.лет"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Металлорежущие станки"
@@ -466,6 +462,10 @@
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
     "message": "Части космических кораблей"
+  },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "Self-sealing stem bolts"
   },
   "SUCCESSMSG_1": {
     "description": "",

@@ -1,53 +1,56 @@
-dist: trusty
+dist: xenial
 language: minimal
+compiler: gcc
+os: linux
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-    packages: &packages
-      - gcc-4.9
-      - g++-4.9
+    packages:
       - mesa-common-dev
-      - libfreetype6-dev
       - libfreeimage-dev
       - libglew-dev
       - libsigc++-2.0-dev
       - libvorbis-dev
+      - libassimp-dev
+      - libsdl2-dev
+      - libsdl2-image-dev
+  homebrew:
+    packages:
+      - gcc
+      - freetype
+      - freeimage
+      - glew
+      - libsigc++@2
+      - libvorbis
+      - libpng
+      - assimp
+      - sdl2
+      - sdl2_image
+      - libogg
+    update: true
+
 matrix:
   include:
-    - name: Static Checks
-      env: STATIC_CHECKS=yes
-      deploy: false
-      before_install: skip
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
-          packages:
-            - clang-format-6.0
-            - libstdc++6 # >= 4.9 needed for clang-format-6.0
-      script: sh ./scripts/clang-format.sh
+    - name: Build GCC
 
-    - name: build-gcc
-      # >= 4.9 needed for C++11 support
-      compiler: gcc
-      env: CC=gcc-4.9 CXX=g++-4.9
-      script:
-        - ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty LIBS="-ldl -lrt -lpthread" && make
+    - name: Build Clang
+      env: CC=clang CXX=clang++
 
-before_install:
-  - git clone --depth 1 git://github.com/pioneerspacesim/pioneer-thirdparty.git pioneer-thirdparty
-  - cd pioneer-thirdparty/ && autoconf && ./configure "$CONFIGURE_OPTS" && make assimp && make sdl2 && make sdl2_image && cd ../
+    - name: Build OSX
+      os: osx
+
+script:
+  - ./bootstrap cmake && make -C build
 
 before_deploy:
-  - make sgm
+  - env SDL_VIDEODRIVER=dummy ./build/modelcompiler -b inplace
   - ./scripts/build-travis.sh
 
 deploy:
   provider: releases
   api_key:
-    secure: # ENCRYPTED API KEY HERE
+    secure: "Ajn9CykEp1CHKvIFmqYhP617A6cvZbsgHLw4VeDXeYob1aatUCAQXrjF9gUhbo4jwi2vtGFQyuK5TPHHHjSvk9EksW6c++qADqviAGvid6EAcG6AKuV76Nhx/IkCW0nUHk4ET2Zms3S2MON+rxUzihi4uCzuOlHUfG+5XntvL5Y="
   skip_cleanup: true
   file_glob: true
   file: release/zip/*

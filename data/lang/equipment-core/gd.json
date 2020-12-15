@@ -17,11 +17,11 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
-    "message": "Heavy Atmospheric Shielding"
+    "message": "Sgiath àile throm"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "A more capable version of Atmospheric Shields"
+    "message": "Sgiath àile nas comasaiche"
   },
   "AUTOPILOT": {
     "description": "",
@@ -33,15 +33,15 @@
   },
   "BEAMLASER_1MW": {
     "description": "",
-    "message": "1MW beam laser"
+    "message": "leusair gatha 1MW"
   },
   "BEAMLASER_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire beam laser"
+    "message": "leusair gatha 1MW dà-losgaidh"
   },
   "BEAMLASER_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire beam laser"
+    "message": "leusair gatha 2MW losgaidh luaithe"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
@@ -61,39 +61,39 @@
   },
   "DRIVE_CLASS1": {
     "description": "",
-    "message": "Os-fhànais clas 1"
+    "message": "Draibh os-fhànais clas 1"
   },
   "DRIVE_CLASS2": {
     "description": "",
-    "message": "Os-fhànais clas 2"
+    "message": "Draibh os-fhànais clas 2"
   },
   "DRIVE_CLASS3": {
     "description": "",
-    "message": "Os-fhànais clas 3"
+    "message": "Draibh os-fhànais clas 3"
   },
   "DRIVE_CLASS4": {
     "description": "",
-    "message": "Os-fhànais clas 4"
+    "message": "Draibh os-fhànais clas 4"
   },
   "DRIVE_CLASS5": {
     "description": "",
-    "message": "Os-fhànais clas 5"
+    "message": "Draibh os-fhànais clas 5"
   },
   "DRIVE_CLASS6": {
     "description": "",
-    "message": "Os-fhànais clas 6"
+    "message": "Draibh os-fhànais clas 6"
   },
   "DRIVE_CLASS7": {
     "description": "",
-    "message": "Os-fhànais clas 7"
+    "message": "Draibh os-fhànais clas 7"
   },
   "DRIVE_CLASS8": {
     "description": "",
-    "message": "Os-fhànais clas 8"
+    "message": "Draibh os-fhànais clas 8"
   },
   "DRIVE_CLASS9": {
     "description": "",
-    "message": "Os-fhànais clas 9"
+    "message": "Draibh os-fhànais clas 9"
   },
   "DRIVE_MIL1": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "LASER_COOLING_BOOSTER": {
     "description": "",
-    "message": "Neartachadh air fuarachadh nan leusair"
+    "message": "Inneal-fuarachaidh leusair"
   },
   "LASER_COOLING_BOOSTER_DESCRIPTION": {
     "description": "",
@@ -188,6 +188,14 @@
     "message": "Canan mèinnearachd 17MW"
   },
   "MININGCANNON_17MW_DESCRIPTION": {
+    "description": "",
+    "message": "Losgaidh tu air dreagan beartach leis a chùm mèinnearachd."
+  },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "Canan mèinnearachd 5MW"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
     "description": "",
     "message": "Losgaidh tu air dreagan beartach leis a chum mèinnearachd."
   },
@@ -208,7 +216,7 @@
     "message": "Rocaid R40 gun stiùireadh"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Iomadh sgiob"
   },
   "MULTI_SCOOP_DESCRIPTION": {
@@ -277,7 +285,7 @@
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
-    "message": "Neartachadh air lùths nan sgiath"
+    "message": "Inneal-lùiths sgèithe"
   },
   "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
     "description": "",
@@ -321,7 +329,7 @@
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
-    "message": "Putairean gnàthaichte a bheir a' chumhachd as fhearr dhut."
+    "message": "Putairean gnàthaichte a bheir a' chumhachd as fheàrr dhut."
   },
   "THRUSTERS_MEDIUM": {
     "description": "",

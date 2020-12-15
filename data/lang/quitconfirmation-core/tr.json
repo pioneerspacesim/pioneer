@@ -47,6 +47,18 @@
     "description": "",
     "message": "Şimdi gitme, diğer programda senin için bekleyen bir korsan var."
   },
+  "MSG_20": {
+    "description": "",
+    "message": "Gerçekten gitmen mi gerekiyor?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Bir korkak gibi kaçıyor musun?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Sakın yapma! Her şey iyiye gidecek! Hala vazgeçmek mi istiyorsun?"
+  },
   "MSG_3": {
     "description": "",
     "message": "Size hiçbir maliyeti olmayan bu güzel oyundan çıkmak istediğinize emin misin?"

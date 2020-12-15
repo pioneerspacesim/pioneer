@@ -17,11 +17,11 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
-    "message": "Heavy Atmospheric Shielding"
+    "message": "Kraftig atmosfärsköld"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "A more capable version of Atmospheric Shields"
+    "message": "En mer kapabel version av atmosfärisk sköld."
   },
   "AUTOPILOT": {
     "description": "",
@@ -33,15 +33,15 @@
   },
   "BEAMLASER_1MW": {
     "description": "",
-    "message": "1MW beam laser"
+    "message": "1MW strållaser"
   },
   "BEAMLASER_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire beam laser"
+    "message": "1MW tvilling-strållaser"
   },
   "BEAMLASER_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire beam laser"
+    "message": "2MW höghastighetsstrållaser"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
@@ -191,6 +191,14 @@
     "description": "",
     "message": "Används för att spränga sönder mineralrika asteroider."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Används för att spränga sönder mineralrika asteroider."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Guidad missil"
@@ -208,7 +216,7 @@
     "message": "R40 ostyrd raket"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Multiskopa"
   },
   "MULTI_SCOOP_DESCRIPTION": {

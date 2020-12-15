@@ -1,12 +1,12 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Rand = import("Rand")
-local Lang = import("Lang")
-local Game = import("Game")
-local Event = import("Event")
-local Serializer = import("Serializer")
+local Engine = require 'Engine'
+local Rand = require 'Rand'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Event = require 'Event'
+local Serializer = require 'Serializer'
 
 local l = Lang.GetResource("module-easteregg-message")
 local max_flavour_index = 1

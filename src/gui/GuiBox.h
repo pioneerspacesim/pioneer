@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUIBOX_H
@@ -7,8 +7,8 @@
  * Box oriented packing widget container.
  */
 
-#include "GuiWidget.h"
 #include "GuiContainer.h"
+#include "GuiWidget.h"
 
 namespace Gui {
 	enum BoxOrientation {
@@ -16,7 +16,7 @@ namespace Gui {
 		BOX_VERTICAL = 1
 	};
 
-	class Box: public Container {
+	class Box : public Container {
 	public:
 		Box(BoxOrientation orient);
 		void PackStart(Widget *child);
@@ -30,6 +30,7 @@ namespace Gui {
 		void SetSizeRequest(float size[2]);
 		void SetSizeRequest(float x, float y);
 		void SetSpacing(float spacing) { m_spacing = spacing; }
+
 	private:
 		void _Init();
 		void GetSizeRequestedOrMinimum(float size[2], bool minimum);
@@ -38,16 +39,17 @@ namespace Gui {
 		enum BoxOrientation m_orient;
 	};
 
-	class VBox: public Box {
+	class VBox : public Box {
 	public:
-		VBox(): Box(BOX_VERTICAL) {}
+		VBox() :
+			Box(BOX_VERTICAL) {}
 	};
 
-	class HBox: public Box {
+	class HBox : public Box {
 	public:
-		HBox(): Box(BOX_HORIZONTAL) {}
+		HBox() :
+			Box(BOX_HORIZONTAL) {}
 	};
-}
+} // namespace Gui
 
 #endif /* _GUIBOX_H */
-

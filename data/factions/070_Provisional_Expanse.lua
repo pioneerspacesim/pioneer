@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Provisional Expanse')
@@ -17,14 +17,12 @@ f:govtype_weight('COMMUNIST',		24)
 f:govtype_weight('CORPORATE',		5)
 f:govtype_weight('MILDICT2',		5)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('LIQUOR',		42)
-f:illegal_goods_probability('ROBOTS',		100)
-f:illegal_goods_probability('HAND_WEAPONS',		100)
-f:illegal_goods_probability('BATTLE_WEAPONS',		60)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		28)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('liquor',		42)
+f:illegal_goods_probability('robots',		100)
+f:illegal_goods_probability('hand_weapons',		100)
+f:illegal_goods_probability('battle_weapons',		60)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		28)
 
 f:add_to_factions('Provisional Expanse')
-
-

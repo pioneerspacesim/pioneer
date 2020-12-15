@@ -47,6 +47,18 @@
     "description": "",
     "message": "No te vayas ahora, te espera un pirata en el otro programa."
   },
+  "MSG_20": {
+    "description": "",
+    "message": "¿ De verdad tienes que marcharte?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "¿Tomando la senda de los cobardes?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "¡No lo hagas! ¡Ahora las cosas solo pueden ir a mejor! ¿Todavía quieres rendirte?"
+  },
   "MSG_3": {
     "description": "",
     "message": "¿Estas seguro que quieres salir de este gran juego que no te cuesta nada?"

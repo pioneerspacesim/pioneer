@@ -1,0 +1,350 @@
+{
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Може ли да повторите Вашата заявка?"
+  },
+  "DANGER": {
+    "description": "",
+    "message": "Опасност:"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Краен срок:"
+  },
+  "DELIVERY": {
+    "description": "",
+    "message": "Доставка"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "Съжалявам, не мога да ти имам доверие за тази доставка."
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Върни се, когато натрупаш нужния опит."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Не мисля, че ти си пилота, който ми трябва."
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "Не приличаш на пилот, заслужаващ доверие за тази доставка."
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "Ти не си пилота, който ми трябва."
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "Неопитен си, няма да се справиш с толкова важна задача."
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "Не съм чувал нищо за теб. Нуждая се от опитен пилот за тази доставка."
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "Няма да подложа на риск тази доставка с неопитен пилот като теб."
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Разстояние:"
+  },
+  "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
+    "description": "",
+    "message": "Отлично. Ще информирам получателя, че си на път."
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "ОТИВАШ КЪМ системата {system}? Платено е за доставката на малък пакет."
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "Няма начин! Мина цяла вечност за тази доставка. Нищо няма да ти платя."
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "Здрасти, аз съм {name}. Ще ти платя {cash}, ако доставиш малък пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "Благодаря Ви за доставката. Получихте договорената сума."
+  },
+  "FLAVOUR_0_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Когато една приятелка ме посети, тя си забрави някакви дрехи и стари книги. Искам да ѝ ги върнеш."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "ТЪРСИ СЕ: Доставка на пакет до системата {system}."
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "Разочарован съм от забавената доставка на моя пакет и затова отказвам да ти платя."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Пакетът е получен и договорената сума е платена."
+  },
+  "FLAVOUR_1_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Не е нищо особено."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "СПЕШНО. Нужен е бърз кораб за доставка на пакет до системата {system}."
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "Бях достатъчно ясен за крайния срок и съм много разочарован от забавената доставка. Няма да получиш заплащане."
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Получихте договорената сума за доставката. Благодаря Ви."
+  },
+  "FLAVOUR_2_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Това е научно изследване и трябва да се достави навреме или няма да получим финансирането."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "ДОСТАВКА: Документи до системата {system}. {cash} за пилот с опит."
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Безполезно! Никога повече няма да разчитам на теб! Едва ли е нужно да казвам, че няма да ти платя."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "Здрасти, аз съм {name}. Склонен съм да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Вашите навременни и дискретни действия са високо оценени. Получихте договорената сума."
+  },
+  "FLAVOUR_3_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Намерих някакви изключително ценни документи и имам причина да вярвам, че са открити улики, които водят към мен."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "ПОЩЕНСКА УСЛУГА: Нуждаем се от доставчик до системата {system}."
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "Запомнихме те, вече няма да те търсим за нищо."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "Поздрави. Това е автоматично съобщение от Куриерски Услуги Бедфорд и {name}. Плащаме {cash} за доставка до {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Вашите навременни и дискретни действия са високо оценени. Получихте договорената сума."
+  },
+  "FLAVOUR_4_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Ще се радваме да ти платим по-малко пари."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "ПРЕМЕСТВАНЕ: Преместване на железария до {starport} от склада."
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "Какво е това? Чакай, сетих се, но ти толкова се забави, че дори забравих за това!"
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "Приятно ми е да се запознаем. Аз съм {name} и съм склонен да платя {cash} за пилот, който да ми помогне да си преместя вещите до {starport}. Нямам бърза работа, повечето вече ги преместих."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Чудесно. Започвам разтоварването веднага. Благодаря Ви отново."
+  },
+  "FLAVOUR_5_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Много ли е? Да преосмисля ли офертата си!"
+  },
+  "FLAVOUR_6_ADTEXT": {
+    "description": "",
+    "message": "КУРИЕР ЗА ЕДИН МИГ: Доставка на малък пакет до {starport}."
+  },
+  "FLAVOUR_6_FAILUREMSG": {
+    "description": "",
+    "message": "Сам можех да го доставя по-бързо. От мен пари няма да видиш."
+  },
+  "FLAVOUR_6_INTROTEXT": {
+    "description": "",
+    "message": "Здрасти. Аз съм {name} и ще платя {cash} за доставката на този пакет до {starport}."
+  },
+  "FLAVOUR_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Благодаря за пакета, платих Ви договорената сума."
+  },
+  "FLAVOUR_6_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Не мисля, че е много."
+  },
+  "FLAVOUR_7_ADTEXT": {
+    "description": "",
+    "message": "МЕЖДУПЛАНЕТЕН НОСАЧ: Превоз на локален товар до {starport}."
+  },
+  "FLAVOUR_7_FAILUREMSG": {
+    "description": "",
+    "message": "Нашите клиенти няма да са доволни от това. Не очаквай заплащане."
+  },
+  "FLAVOUR_7_INTROTEXT": {
+    "description": "",
+    "message": "Здравейте. Трябва да доставим тези щайги до {starport} възможно най-бързо. Стандартното заплащане е {cash}."
+  },
+  "FLAVOUR_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Отлично, преведохме парите във Вашата сметка."
+  },
+  "FLAVOUR_7_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Стандартни валутни курсове."
+  },
+  "FLAVOUR_8_ADTEXT": {
+    "description": "",
+    "message": "БЛИЗКА ДОСТАВКА: Нуждая се от бърза доставка на артикул до {starport}."
+  },
+  "FLAVOUR_8_FAILUREMSG": {
+    "description": "",
+    "message": "Трябваше да получиш премия за бърза доставка! Отказвам да ти платя."
+  },
+  "FLAVOUR_8_INTROTEXT": {
+    "description": "",
+    "message": "Името ми е {name} и този артикул трябва да се достави веднага на мой приятел в {starport}. Ще преведа {cash} по сметката ти, ако го доставиш навреме."
+  },
+  "FLAVOUR_8_SUCCESSMSG": {
+    "description": "",
+    "message": "Оценявам бързината Ви, парите са преведени във Вашата сметка."
+  },
+  "FLAVOUR_8_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Наистина е спешно."
+  },
+  "FLAVOUR_9_ADTEXT": {
+    "description": "",
+    "message": "ОСТАВЯНЕ НА ПАКЕТ: Спешно изпращане на нетрайни стоки до {starport}."
+  },
+  "FLAVOUR_9_FAILUREMSG": {
+    "description": "",
+    "message": "Всичко е развалено и не става за нищо! Не можем и няма да ти платим."
+  },
+  "FLAVOUR_9_INTROTEXT": {
+    "description": "",
+    "message": "Поздрави, изоставаме от графика с една пратка, която трябва спешно да се достави до {starport}. Ще ти платим {cash}."
+  },
+  "FLAVOUR_9_SUCCESSMSG": {
+    "description": "",
+    "message": "Велико! Ще започнем разтоварването веднага. Незабавно ще преведа парите по сметката Ви."
+  },
+  "FLAVOUR_9_WHYSOMUCHTEXT": {
+    "description": "",
+    "message": "Нашата прехрана зависи от това."
+  },
+  "HOW_SOON_MUST_IT_BE_DELIVERED": {
+    "description": "",
+    "message": "Кога трябва да се достави?"
+  },
+  "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
+    "description": "",
+    "message": "Може да е опасно, трябва да сте сигурни, че сте подготвени адекватно."
+  },
+  "IT_MUST_BE_DELIVERED_BY": {
+    "description": "",
+    "message": "Трябва да се достави преди "
+  },
+  "I_HIGHLY_DOUBT_IT": {
+    "description": "",
+    "message": "Силно се съмнявам."
+  },
+  "NOT_ANY_MORE_THAN_USUAL": {
+    "description": "",
+    "message": "Не повече от обичайното."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "ОК, съгласен."
+  },
+  "PIRATE_TAUNTS_0": {
+    "description": "",
+    "message": "Ще съжалваш, че се занимаваш с {client}"
+  },
+  "PIRATE_TAUNTS_1": {
+    "description": "",
+    "message": "Изглежда, че надника ми пристигна!"
+  },
+  "PIRATE_TAUNTS_2": {
+    "description": "",
+    "message": "Работиш за {client}? Лоша идея."
+  },
+  "PIRATE_TAUNTS_3": {
+    "description": "",
+    "message": "Ще те очистя, заедно с товара ти!"
+  },
+  "PIRATE_TAUNTS_4": {
+    "description": "",
+    "message": "Сигурен съм, че това струва доста пари на пазара"
+  },
+  "PIRATE_TAUNTS_5": {
+    "description": "",
+    "message": "Днес нямаш късмет! Кажи си молитвите."
+  },
+  "PIRATE_TAUNTS_6": {
+    "description": "",
+    "message": "Кажи на моя стар приятел {client}, че ще се видим в ада!"
+  },
+  "PIRATE_TAUNTS_7": {
+    "description": "",
+    "message": "Днес този пакет няма да бъде доставен."
+  },
+  "PIRATE_TAUNTS_8": {
+    "description": "",
+    "message": "Днес няма да стигнеш до {location}!"
+  },
+  "PIRATE_TAUNTS_9": {
+    "description": "",
+    "message": "Ще платиш за този товар с живота си."
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Задай за навигационна цел"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Космодрум:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "Система:"
+  },
+  "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
+    "description": "",
+    "message": "Това е ценен пакет, отваряйте си очите на четири."
+  },
+  "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
+    "description": "",
+    "message": "Това е много рисковано, най-вероятно ще срещнеш съпротива."
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "Защо толкова много пари?"
+  },
+  "WILL_I_BE_IN_ANY_DANGER": {
+    "description": "",
+    "message": "Ще бъда ли в опасност?"
+  }
+}

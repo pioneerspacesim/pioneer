@@ -1,4 +1,8 @@
 {
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "Atmosphärischer Druck überschreitet die Obergrenze"
+  },
   "AUTOPILOT": {
     "description": "",
     "message": "Autopilot"

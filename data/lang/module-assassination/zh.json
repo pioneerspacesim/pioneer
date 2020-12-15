@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "{target} 现在居然还是安然无恙. 你没有履行我们的约定所以你也不会收到我们的钱."
+    "message": "最遗憾的是{target}还活着。你不会收到任何报酬，因为你没有完成你的合同。"
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "你在向我要由别人完成的任务的工钱? 给我滚."
+    "message": "你为别人的工作找我要钱？滚开。"
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
@@ -179,13 +179,9 @@
     "description": "",
     "message": "在 {target} 离开 {spaceport} 的时候就动手. 别错过了这机会."
   },
-  "LY": {
-    "description": "",
-    "message": "ly"
-  },
   "OK_AGREED": {
     "description": "",
-    "message": "OK, 我同意."
+    "message": "好的, 我同意."
   },
   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
     "description": "",

@@ -47,6 +47,18 @@
     "description": "",
     "message": "Don't go now, there's a pirate waiting for you in the other program."
   },
+  "MSG_20": {
+    "description": "",
+    "message": "Do you really have to go?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Taking the cowards way out?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Don't do it! It can only get better from here! Still want to give up?"
+  },
   "MSG_3": {
     "description": "",
     "message": "Are you sure you want to quit this great game that cost you nothing?"

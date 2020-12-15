@@ -17,11 +17,11 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
-    "message": "Heavy Atmospheric Shielding"
+    "message": "Тяжелая атмосферная защита"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "A more capable version of Atmospheric Shields"
+    "message": "Более мощная версия атмосферных щитов"
   },
   "AUTOPILOT": {
     "description": "",
@@ -33,15 +33,15 @@
   },
   "BEAMLASER_1MW": {
     "description": "",
-    "message": "1MW beam laser"
+    "message": "Лазерный луч 1 МВт"
   },
   "BEAMLASER_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire beam laser"
+    "message": "Спаренный лазерный луч 1 МВт"
   },
   "BEAMLASER_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire beam laser"
+    "message": "Скорострельный лазерный луч 2 МВт"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
@@ -191,6 +191,14 @@
     "description": "",
     "message": "Используется для добычи минералов из астероидов."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Используется для добычи минералов из астероидов."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Управляемая ракета"
@@ -208,7 +216,7 @@
     "message": "Неуправляемая ракета R40"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Мультисборник"
   },
   "MULTI_SCOOP_DESCRIPTION": {

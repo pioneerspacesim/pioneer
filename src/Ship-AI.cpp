@@ -1,20 +1,20 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "libs.h"
-#include "Ship.h"
-#include "Propulsion.h"
-#include "ShipAICmd.h"
-#include "Pi.h"
-#include "Player.h"
-#include "perlin.h"
-#include "Frame.h"
-#include "Planet.h"
-#include "SpaceStation.h"
-#include "Space.h"
-#include "LuaConstants.h"
-#include "LuaEvent.h"
 #include "EnumStrings.h"
+#include "Frame.h"
+#include "Pi.h"
+#include "Planet.h"
+#include "Player.h"
+#include "Ship.h"
+#include "ShipAICmd.h"
+#include "Space.h"
+#include "SpaceStation.h"
+#include "libs.h"
+#include "lua/LuaConstants.h"
+#include "lua/LuaEvent.h"
+#include "perlin.h"
+#include "ship/Propulsion.h"
 
 // returns true if command is complete
 bool Ship::AITimeStep(float timeStep)
@@ -28,33 +28,35 @@ bool Ship::AITimeStep(float timeStep)
 
 		// just in case the AI left it on
 		ClearThrusterState();
-		for (int i=0; i<Guns::GUNMOUNT_MAX; i++)
-			SetGunState(i,0);
+		for (int i = 0; i < Guns::GUNMOUNT_MAX; i++)
+			SetGunState(i, 0);
 		return true;
 	}
 
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
-//		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
+		//		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
 		LuaEvent::Queue("onAICompleted", this, EnumStrings::GetString("ShipAIError", AIMessage()));
 		return true;
-	}
-	else return false;
+	} else
+		return false;
 }
 
 void Ship::AIClearInstructions()
 {
 	if (!m_curAICmd) return;
 
-	delete m_curAICmd;		// rely on destructor to kill children
+	delete m_curAICmd; // rely on destructor to kill children
 	m_curAICmd = 0;
-	m_decelerating = false;		// don't adjust unless AI is running
+	m_decelerating = false; // don't adjust unless AI is running
 }
 
 void Ship::AIGetStatusText(char *str)
 {
-	if (!m_curAICmd) strcpy(str, "AI inactive");
-	else m_curAICmd->GetStatusText(str);
+	if (!m_curAICmd)
+		strcpy(str, "AI inactive");
+	else
+		m_curAICmd->GetStatusText(str);
 }
 
 void Ship::AIKamikaze(Body *target)
@@ -84,11 +86,11 @@ void Ship::AIFlyTo(Body *target)
 	AIClearInstructions();
 	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
 
-	if (target->IsType(Object::SHIP)) {		// test code
+	if (target->IsType(ObjectType::SHIP)) { // test code
 		vector3d posoff(-1000.0, 0.0, 1000.0);
-		m_curAICmd = new AICmdFormation(this, static_cast<Ship*>(target), posoff);
-	}
-	else m_curAICmd = new AICmdFlyTo(this, target);
+		m_curAICmd = new AICmdFormation(this, static_cast<Ship *>(target), posoff);
+	} else
+		m_curAICmd = new AICmdFlyTo(this, target);
 }
 
 void Ship::AIDock(SpaceStation *target)

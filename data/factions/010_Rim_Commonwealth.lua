@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Rim Commonwealth')
@@ -18,10 +18,8 @@ f:govtype_weight('DISORDER',		28)
 f:govtype_weight('LIBDEM',		28)
 f:govtype_weight('SOCDEM',		14)
 
-f:illegal_goods_probability('LIQUOR',		58)
-f:illegal_goods_probability('SLAVES',		53)
-f:illegal_goods_probability('NERVE_GAS',		100)
+f:illegal_goods_probability('liquor',		58)
+f:illegal_goods_probability('slaves',		53)
+f:illegal_goods_probability('nerve_gas',		100)
 
 f:add_to_factions('Rim Commonwealth')
-
-

@@ -1,28 +1,23 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Space = import("Space")
-local Comms = import("Comms")
-local Event = import("Event")
-local Mission = import("Mission")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Character = import("Character")
-local Equipment = import("Equipment")
-local ShipDef = import("ShipDef")
-local Ship = import("Ship")
-local utils = import("utils")
-
-local InfoFace = import("ui/InfoFace")
-local NavButton = import("ui/NavButton")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Space = require 'Space'
+local Comms = require 'Comms'
+local Event = require 'Event'
+local Mission = require 'Mission'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Character = require 'Character'
+local Equipment = require 'Equipment'
+local ShipDef = require 'ShipDef'
+local Ship = require 'Ship'
+local utils = require 'utils'
 
 local l = Lang.GetResource("module-deliverpackage")
-
--- Get the UI class
-local ui = Engine.ui
+local lc = Lang.GetResource 'core'
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
@@ -31,6 +26,10 @@ local max_delivery_dist = 30
 local typical_travel_time = (1.6 * max_delivery_dist + 4) * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 25 * max_delivery_dist
+-- typical reward for delivery to a local port
+local typical_reward_local = 25
+-- Minimum amount paid for very close deliveries
+local min_local_dist_pay = 8
 
 local num_pirate_taunts = 10
 local num_deny = 8
@@ -117,6 +116,20 @@ for i = 1,#flavours do
 	end
 end
 
+local getRiskMsg = function(risk)
+	if risk <= 0.1 then
+		return l.I_HIGHLY_DOUBT_IT
+	elseif risk > 0.1 and risk <= 0.3 then
+		return l.NOT_ANY_MORE_THAN_USUAL
+	elseif risk > 0.3 and risk <= 0.6 then
+		return l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN
+	elseif risk > 0.6 and risk <= 0.8 then
+		return l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED
+	elseif risk > 0.8 and risk <= 1 then
+		return l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE
+	end
+end
+
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -163,17 +176,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(l.IT_MUST_BE_DELIVERED_BY..Format.Date(ad.due))
 
 	elseif option == 4 then
-		if ad.risk <= 0.1 then
-			form:SetMessage(l.I_HIGHLY_DOUBT_IT)
-		elseif ad.risk > 0.1 and ad.risk <= 0.3 then
-			form:SetMessage(l.NOT_ANY_MORE_THAN_USUAL)
-		elseif ad.risk > 0.3 and ad.risk <= 0.6 then
-			form:SetMessage(l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN)
-		elseif ad.risk > 0.6 and ad.risk <= 0.8 then
-			form:SetMessage(l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED)
-		elseif ad.risk > 0.8 and ad.risk <= 1 then
-			form:SetMessage(l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE)
-		end
+		form:SetMessage(getRiskMsg(ad.risk))
 
 	elseif option == 3 then
 		form:RemoveAdvertOnClose()
@@ -209,17 +212,17 @@ local onDelete = function (ref)
 end
 
 local isEnabled = function (ref)
-	return isQualifiedFor(Character.persistent.player.reputation, ads[ref])
+	return ads[ref] ~= nil and isQualifiedFor(Character.persistent.player.reputation, ads[ref])
 end
 
 local nearbysystems
 
-local findNearbyStations = function (station, minDist)
+local findNearbyStations = function (station, minDist, maxDist)
 	local nearbystations = {}
 	for _,s in ipairs(Game.system:GetStationPaths()) do
 		if s ~= station.path then
 			local dist = station:DistanceTo(Space.GetBody(s.bodyIndex))
-			if dist >= minDist then
+			if dist >= minDist and dist <= maxDist then
 				table.insert(nearbystations, { s, dist })
 			end
 		end
@@ -242,11 +245,12 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 	if flavours[flavour].localdelivery then
 		nearbysystem = Game.system
 		if nearbystations == nil then
-			nearbystations = findNearbyStations(station, 1000)
+			-- discard stations closer than 1000m and further than 20AU
+			nearbystations = findNearbyStations(station, 1000, 1.4960e11 * 20)
 		end
 		if #nearbystations == 0 then return nil end
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
-		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
+		reward = typical_reward_local + math.max(math.sqrt(dist) / 15000, min_local_dist_pay) * (1.5+urgency)
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
 	else
 		if nearbysystems == nil then
@@ -300,7 +304,7 @@ local onCreateBB = function (station)
 	if nearbysystems == nil then
 		nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
 	end
-	local nearbystations = findNearbyStations(station, 1000)
+	local nearbystations = findNearbyStations(station, 1000, 1.4960e11 * 20)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
 	local numAchievableJobs = 0
 	local reputation = Character.persistent.player.reputation
@@ -478,95 +482,34 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
-local onClick = function (mission)
-	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	local danger
-	if mission.risk <= 0.1 then
-		danger = (l.I_HIGHLY_DOUBT_IT)
-	elseif mission.risk > 0.1 and mission.risk <= 0.3 then
-		danger = (l.NOT_ANY_MORE_THAN_USUAL)
-	elseif mission.risk > 0.3 and mission.risk <= 0.6 then
-		danger = (l.THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN)
-	elseif mission.risk > 0.6 and mission.risk <= 0.8 then
-		danger = (l.IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED)
-	elseif mission.risk > 0.8 and mission.risk <= 1 then
-		danger = (l.THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE)
-	end
+local buildMissionDescription = function(mission)
+	local ui = require 'pigui'
+	local desc = {}
 
-	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((flavours[mission.flavour].introtext):interp({
-														name   = mission.client.name,
-														starport = mission.location:GetSystemBody().name,
-														system = mission.location:GetStarSystem().name,
-														sectorx = mission.location.sectorX,
-														sectory = mission.location.sectorY,
-														sectorz = mission.location.sectorZ,
-														cash   = Format.Money(mission.reward,false),
-														dist  = dist})
-										),
-										ui:Margin(10),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SPACEPORT)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetSystemBody().name)
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.SYSTEM)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DEADLINE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(Format.Date(mission.due))
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DANGER)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(danger)
-												})
-											}),
-										ui:Margin(5),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DISTANCE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
-												})
-											}),
-										ui:Margin(5),
-										NavButton.New(l.SET_AS_TARGET, mission.location),
-		})})
-		:SetColumn(1, {
-			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
-		})
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+
+	desc.description = (flavours[mission.flavour].introtext):interp({
+		name		= mission.client.name,
+		starport	= mission.location:GetSystemBody().name,
+		system		= mission.location:GetStarSystem().name,
+		sectorx		= mission.location.sectorX,
+		sectory		= mission.location.sectorY,
+		sectorz		= mission.location.sectorZ,
+		cash		= ui.Format.Money(mission.reward,false),
+		dist		= dist})
+
+	desc.details = {
+		{ l.SPACEPORT, mission.location:GetSystemBody().name },
+		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
+		{ l.DEADLINE, ui.Format.Date(mission.due) },
+		{ l.DANGER, getRiskMsg(mission.risk) },
+		{ l.DISTANCE, dist.." "..lc.UNIT_LY }
+	}
+
+	desc.location = mission.location
+	desc.client = mission.client
+
+	return desc;
 end
 
 local onGameEnd = function ()
@@ -590,6 +533,6 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Delivery',l.DELIVERY,onClick)
+Mission.RegisterType('Delivery', l.DELIVERY, buildMissionDescription)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)

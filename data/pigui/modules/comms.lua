@@ -1,23 +1,23 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import('Engine')
-local Game = import('Game')
-local ui = import('pigui/pigui.lua')
-local Vector = import('Vector')
-local Color = import('Color')
-local Lang = import("Lang")
+local Engine = require 'Engine'
+local Game = require 'Game'
+local utils = require 'utils'
+local Event = require 'Event'
+
+local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
-local utils = import("utils")
-local Event = import("Event")
+
+local ui = require 'pigui'
 
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 local commsLogRetainTime = 60 -- how long messages are shown
 local commsLinesToShow = 5 -- how many messages are shown
 
-local mainButtonSize = Vector(32,32) * (ui.screenHeight / 1200)
+local mainButtonSize = Vector2(32,32) * (ui.screenHeight / 1200)
 local mainButtonFramePadding = 3
 local fullComms
 
@@ -33,10 +33,11 @@ local function showItem(item)
 end
 
 local function displayCommsLog()
+	local aux = Vector2(0, 0)
 	local current_view = Game.CurrentView()
 	if current_view == "world" then
-		ui.setNextWindowPos(Vector(10, 10) , "Always")
-		ui.window("CommsLogButton", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+		ui.setNextWindowPos(Vector2(10, 10) , "Always")
+		ui.window("CommsLogButton", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
 							function()
 								if ui.coloredSelectedIconButton(icons.comms, mainButtonSize, nil, mainButtonFramePadding, colors.buttonBlue, colors.white, 'Toggle full comms window') then
 									fullComms = not fullComms
@@ -44,8 +45,10 @@ local function displayCommsLog()
 		end)
 		ui.withFont(ui.fonts.pionillium.medium.name, ui.fonts.pionillium.medium.size, function()
 									if not fullComms then -- not fullComms, show small window
-										ui.setNextWindowSize(Vector(ui.screenWidth / 4, ui.screenHeight / 8) , "Always")
-										ui.setNextWindowPos(Vector(mainButtonSize.x + 2 * mainButtonFramePadding + 15, 10) , "Always")
+										aux = Vector2(ui.screenWidth / 4, ui.screenHeight / 8)
+										ui.setNextWindowSize(aux , "Always")
+										aux = Vector2(mainButtonSize.x + 2 * mainButtonFramePadding + 15, 10)
+										ui.setNextWindowPos(aux , "Always")
 										ui.window("ShortCommsLog", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
 															function()
 																local last = nil
@@ -78,8 +81,10 @@ local function displayCommsLog()
 																ui.popTextWrapPos()
 										end)
 									else  -- fullComms, show large window
-										ui.setNextWindowSize(Vector(ui.screenWidth / 3, ui.screenHeight / 4) , "Always")
-										ui.setNextWindowPos(Vector(mainButtonSize.x + 2 * mainButtonFramePadding + 25, 20) , "Always")
+										aux = Vector2(ui.screenWidth / 3, ui.screenHeight / 4)
+										ui.setNextWindowSize(aux , "Always")
+										aux = Vector2(mainButtonSize.x + 2 * mainButtonFramePadding + 25, 20)
+										ui.setNextWindowPos(aux , "Always")
 										ui.withStyleColors({ ["WindowBg"] = colors.commsWindowBackground }, function()
 												ui.withStyleVars({ ["WindowRounding"] = 0.0 }, function()
 														ui.window("CommsLog", {"NoResize"},

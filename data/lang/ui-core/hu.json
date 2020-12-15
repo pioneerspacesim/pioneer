@@ -35,9 +35,17 @@
     "description": "",
     "message": "Hiba történt"
   },
+  "ARRIVAL_DATE": {
+    "description": "Time of arrival, used in flight log",
+    "message": "Érkezés dátima"
+  },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
     "message": "Atmoszférapajzs"
+  },
+  "ATMO_PRESS_LIMIT": {
+    "description": "Base external pressure limit of a ship (without atmo shield)",
+    "message": "Légköri nyomás tűrés"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -87,6 +95,10 @@
     "description": "",
     "message": "Mégse"
   },
+  "CANNOT_SELL_ITEM": {
+    "description": "",
+    "message": "Nem eladható"
+  },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
     "message": "Kapacitás"
@@ -126,6 +138,10 @@
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
     "message": "Rendszert középre"
+  },
+  "CHANGE": {
+    "description": "Face feature option",
+    "message": "Rész:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -175,6 +191,10 @@
     "description": "",
     "message": "Árupiac"
   },
+  "COMMODITY_TRADE_ANALYSIS": {
+    "description": "",
+    "message": "Kereskedelmi elemzés: "
+  },
   "COMPACT_RADAR": {
     "description": "Game settings option",
     "message": "Kompakt radar"
@@ -206,6 +226,10 @@
   "CONTINUE_GAME": {
     "description": "",
     "message": "Játék folytatása"
+  },
+  "CONTRACT_FRAUD": {
+    "description": "Crime committed by intentionally breaking a contract",
+    "message": "Csalás, szerződésszegés"
   },
   "CONTROLS": {
     "description": "",
@@ -251,9 +275,17 @@
     "description": "Player combat rating",
     "message": "Veszélyes"
   },
+  "DATE": {
+    "description": "Date of an event, used in flight log",
+    "message": "Dátum"
+  },
   "DEADLY": {
     "description": "Player combat rating",
     "message": "Halálos"
+  },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "Csökkent"
   },
   "DELTA_V": {
     "description": "",
@@ -271,6 +303,10 @@
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Delta-v (max)"
   },
+  "DEPARTURE_DATE": {
+    "description": "Time of departure, used in flight log",
+    "message": "Távozás dátuma"
+  },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
     "message": "Sebesség ereszkedéshez:"
@@ -282,6 +318,14 @@
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
     "message": "Alacsonyabb beállítással kevésbe lassul a játék, a látvány minőségének rovására"
+  },
+  "DISABLE_SCREENSHOT_INFO": {
+    "description": "",
+    "message": "Képernyőkép információ "
+  },
+  "DISABLE_SCREENSHOT_INFO_DESC": {
+    "description": "",
+    "message": "Kikapcsolt HUD-on megjelenő információk (rendszer neve és koordinátái)"
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -319,6 +363,10 @@
     "description": "",
     "message": "Dokkolj a célponttal."
   },
+  "DRIVE_ACTIVE": {
+    "description": "Ship jump status",
+    "message": "Hiperhajtómű aktív"
+  },
   "DUE": {
     "description": "mission deadline date",
     "message": "Lejár"
@@ -334,6 +382,10 @@
   "ECONOMY_TRADE": {
     "description": "",
     "message": "Leltár"
+  },
+  "EDIT": {
+    "description": "Tooltip, to edit a flight log entry",
+    "message": "Szerkesztés"
   },
   "EFFECTS": {
     "description": "",
@@ -379,6 +431,10 @@
     "description": "Engineering skills of crew",
     "message": "Gépészet:"
   },
+  "ENTRY": {
+    "description": "A note/entry/record into the flight log",
+    "message": "Bejegyzés"
+  },
   "EQUIPMENT": {
     "description": "",
     "message": "Felszerelés"
@@ -419,6 +475,50 @@
     "description": "When failed mission",
     "message": "Sikertelen"
   },
+  "FEATURE_ACCESSORIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Kiegészítő"
+  },
+  "FEATURE_ARMOUR": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Páncél"
+  },
+  "FEATURE_CLOTHES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Ruha"
+  },
+  "FEATURE_EYES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Szem"
+  },
+  "FEATURE_GENDER": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Nem"
+  },
+  "FEATURE_HAIRSTYLE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Haj"
+  },
+  "FEATURE_HEAD": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Fej"
+  },
+  "FEATURE_MOUTH": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Száj"
+  },
+  "FEATURE_NOSE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Orr"
+  },
+  "FEATURE_RACE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Rassz"
+  },
+  "FEATURE_SPECIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "Faj"
+  },
   "FEMALE": {
     "description": "",
     "message": "Nő"
@@ -426,6 +526,46 @@
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
     "message": "Végső cél:"
+  },
+  "FINANCE": {
+    "description": "Financial statement of player, e.g. cash",
+    "message": "Pénzügy"
+  },
+  "FLIGHTLOG_DOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "Dokkolva: "
+  },
+  "FLIGHTLOG_FLYING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
+    "message": "{primary_info} környékén"
+  },
+  "FLIGHTLOG_HYPERSPACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "Hyperűrben, úti cél: {primary_info}"
+  },
+  "FLIGHTLOG_JUMPING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "Ugrás {primary_info} felé"
+  },
+  "FLIGHTLOG_LANDED": {
+    "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
+    "message": "Landolva: {primary_info}, {secondary_info}, {tertiary_info} koordinátákon"
+  },
+  "FLIGHTLOG_STARPORT_ORBITAL": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "Dokkolva: {primary_info} űrállomáson, {secondary_info} körüli pályán"
+  },
+  "FLIGHTLOG_STARPORT_SURFACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "Dokkolva: {primary_info}, űrkikötőben. {secondary_info} felszínén"
+  },
+  "FLIGHTLOG_UNDOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "Indulás: {primary_info}"
+  },
+  "FLIGHT_LOG": {
+    "description": "Title for flight log screen, in info view",
+    "message": "Hajónapló"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -490,6 +630,10 @@
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
     "message": "Jó szerencsét neked is!"
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "Vissza"
   },
   "GPU_JOBS": {
     "description": "",
@@ -733,7 +877,7 @@
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "Δv tartalék"
+    "message": "max Δv %-a"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
@@ -851,6 +995,18 @@
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
     "message": "Mutatja a sebesség arányát mindhárom tengelyen (vékony vonat) és a tolóerőt (vastag háttér)."
   },
+  "HUD_WARNING_DESCENT_RATE": {
+    "description": "Shown on HUD as a warning flasher",
+    "message": "ERESZKEDÉSI RÁTA"
+  },
+  "HUD_WARNING_IMPACT": {
+    "description": "Alert tooltip",
+    "message": "Figyelem! Becsapódás"
+  },
+  "HUD_WARNING_IMPACT_IMMINENT": {
+    "description": "Alert tooltip",
+    "message": "Becsapódás fenyeget!"
+  },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
     "message": "A hajótest nem javítása nem szükséges."
@@ -883,6 +1039,10 @@
     "description": "",
     "message": "Hiperűr hatótáv"
   },
+  "ILLEGAL_IN_SYSTEM": {
+    "description": "An illegal action or commodity",
+    "message": "Illegális a rendszerben"
+  },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
     "message": "Felelőtlen hiperugrást regisztráltunk."
@@ -899,9 +1059,21 @@
     "description": "For player reputation",
     "message": "Alkalmatlan"
   },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Növel"
+  },
   "INEXPERIENCED": {
     "description": "For player reputation",
     "message": "Tapasztalatlan"
+  },
+  "INITIATED": {
+    "description": "Ship jump status",
+    "message": "Elindítva"
+  },
+  "INSUFFICIENT_FUEL": {
+    "description": "Ship jump status",
+    "message": "Elégtelen üzemanyag"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
@@ -918,6 +1090,10 @@
   "IN_STOCK": {
     "description": "",
     "message": "Készlet"
+  },
+  "IN_SYSTEM": {
+    "description": "Used in flight log, show which star system we are/were in",
+    "message": "Rendszerben"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -958,6 +1134,18 @@
   "LAUNCH_PERMISSION_DENIED_FINED": {
     "description": "",
     "message": "Kifizetetlen bírságai vannak, a felszállási engedélyt nem adom meg."
+  },
+  "LAUNCH_PERMISSION_GRANTED": {
+    "description": "",
+    "message": "Indítási engedélyt megadom"
+  },
+  "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
+    "description": "",
+    "message": "Engedély megadva. Kérem távozzon minél gyorsabban, ne akadályozza a forgalmat!"
+  },
+  "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
+    "description": "",
+    "message": "Engedélyt megadom. Távozáskor figyeljen a forgalomra!"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1011,6 +1199,22 @@
     "description": "",
     "message": "Helyzet"
   },
+  "LOG_CUSTOM": {
+    "description": "Label tab for showing custom logged events",
+    "message": "Saját bejegyzés"
+  },
+  "LOG_NEW": {
+    "description": "Indicate to make an entry into flight log system",
+    "message": "Új bejegyzés"
+  },
+  "LOG_STATION": {
+    "description": "Label tab for showing logged station events",
+    "message": "Állomás napló"
+  },
+  "LOG_SYSTEM": {
+    "description": "Label tab for showing logged system events",
+    "message": "Rendszer napló"
+  },
   "LOW": {
     "description": "",
     "message": "Alacsony"
@@ -1019,9 +1223,17 @@
     "description": "Light year",
     "message": "fé"
   },
+  "MAJOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Fő export"
+  },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
     "message": "Főbb export"
+  },
+  "MAJOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Fő import"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
@@ -1099,13 +1311,25 @@
     "description": "",
     "message": "Hadi"
   },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "Minimális kereskedelem"
+  },
   "MINIMUM_CREW": {
     "description": "",
     "message": "Minimális legénység"
   },
+  "MINOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "Egyéb export"
+  },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
     "message": "További export"
+  },
+  "MINOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "Egyéb import"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
@@ -1179,6 +1403,10 @@
     "description": "",
     "message": "Alku"
   },
+  "NEXT_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Következő"
+  },
   "NEXT_PAID": {
     "description": "",
     "message": "Következő kifizetés"
@@ -1215,6 +1443,10 @@
     "description": "",
     "message": "Ezen a típuson nincs {equipment} foglalat."
   },
+  "NO_DRIVE": {
+    "description": "Ship jump status",
+    "message": "Nincs hiperhajtómű"
+  },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
     "message": "Nincs találat"
@@ -1222,6 +1454,10 @@
   "NO_MISSIONS": {
     "description": "",
     "message": "Nincs küldetés."
+  },
+  "NO_VALID_ROUTE": {
+    "description": "Message in the sector map, issued by the autoroute function.",
+    "message": "Nem található útvonal a kiválasztott rendszerbe."
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
@@ -1275,6 +1511,10 @@
     "description": "Unpaid fines for crimes committed",
     "message": "Kiszabott bírságok"
   },
+  "OUT_OF_RANGE": {
+    "description": "Ship jump status",
+    "message": "Hatótávon kívül"
+  },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
     "message": "Név szerinti szűrés"
@@ -1282,6 +1522,10 @@
   "OWED": {
     "description": "Player owing money to crew members",
     "message": "Tartozás"
+  },
+  "PAY": {
+    "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
+    "message": "Fizetés"
   },
   "PAY_FINE_OF_N": {
     "description": "",
@@ -1335,6 +1579,10 @@
     "description": "",
     "message": "Nyomj meg egy gombot, vagy ESC-et a törléshez"
   },
+  "PREVIOUS_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "Előző"
+  },
   "PRICE": {
     "description": "",
     "message": "Ár"
@@ -1342,6 +1590,10 @@
   "PROFESSIONAL": {
     "description": "For player reputation",
     "message": "Szakértő"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "Nyereséges"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1358,6 +1610,10 @@
   "QUIT_CONFIRMATION": {
     "description": "For the checkbox in settings window",
     "message": "Kilépés megerősítése"
+  },
+  "RANDOM_FACE": {
+    "description": "Generate random face",
+    "message": "Véletlen"
   },
   "RANK": {
     "description": "",
@@ -1387,6 +1643,10 @@
     "description": "For player reputation",
     "message": "Megbízható"
   },
+  "REMOVE": {
+    "description": "Remove, e.g. deleting a log entry",
+    "message": "Le"
+  },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
     "message": "Ugrás eltávolítása"
@@ -1415,6 +1675,10 @@
     "description": "",
     "message": "Alaphelyzet"
   },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "Nézet alaphelyzetbe"
+  },
   "RETURN_TO_GAME": {
     "description": "",
     "message": "Vissza"
@@ -1435,6 +1699,10 @@
     "description": "",
     "message": "Jutalom"
   },
+  "ROTATE_VIEW": {
+    "description": "",
+    "message": "Nézet forgatása"
+  },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
     "message": "Útvonal info:"
@@ -1442,6 +1710,10 @@
   "ROUTE_JUMPS": {
     "description": "For hyperjump planner",
     "message": "Ugrások száma"
+  },
+  "SAFETY_LOCKOUT": {
+    "description": "Ship jump status",
+    "message": "Biztonsági zár"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1495,6 +1767,10 @@
     "description": "",
     "message": "Cél megjelőlése uticélnak."
   },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Visszaút"
+  },
   "SHIP": {
     "description": "",
     "message": "Hajó"
@@ -1526,6 +1802,10 @@
   "SHIP_REPAIRS": {
     "description": "",
     "message": "Űrhajó szervíz"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "Hajó típus"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",
@@ -1571,9 +1851,37 @@
     "description": "",
     "message": "Közepes nehézségű kezdés, Iztalean-on, New Hope-on az Epsilon Eridani rendszerben."
   },
+  "START_LOG_ENTRY_1": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
+    "message": "Sajnos a nagybátyám sosem mutatta meg, hogy kell vezetni ezt a vén bárkát, amíg még életben volt. Azt hiszem épp a hajónaplóba írok. Fura, még mindíg érzem a jelenlétét itt a hajóban. Tán ő lesz a másodpilótám a túlvilágról, és együtt beteljesíthetjük végzetünket a nagy ürességben. De előbb vennem kell némi Hidrogént,  a hiperhajtóműhöz, találnom egy jövedelmező kereskedelmi útvonalat, és imádkoznom a mennyeknek, hogy a repülésirányítás felszállási engedélyt fog adni egy ilyen tapasztalatlan pilótának. Aztán meglátjuk mire képes a kicsike. Ideje megalapoznom a hírnevemet!"
+  },
+  "START_LOG_ENTRY_2": {
+    "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
+    "message": "A bakancsom még mindig vizes a tegnap esti vihartól. Az vizes út -mintegy bosszúból- beragyogta az  éjszakai eget ahogy visszaverte az utcáira letekintő neon hirdetések fényeit. Végül sikerült elérnem a csatlakozásomat az űrkikötőbe, ahol az új hajóm várt rám. A biztonságiak elég furán néztek rám, amikor csuromvizesen közöltem velük, hogy egy űrhajóért jöttem. Gyanítom nem épp úgy festettem, mint egy tipikus űrhajós. Eladtam mindenemet, és ebbe a rozsdás vén vödörbe fektettem. Úgy érzem ettől a perctől a jövőm a csillagokba van írva. Már csak az indító gombot kellene megtalálnom."
+  },
+  "START_LOG_ENTRY_3": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
+    "message": "Beletelt némi hivatali hadakozásba, de végre sikerült visszaszereznem a lefoglalt hajómat. Hajótestig csupaszították, hogy fedezzék amivel szerintük 'tartoztam'. Nem elég, hogy azt a csodálatos kávégéped, de még a hiperhajtóművet is kiszerelték, úgyhogy ebben a rendszerben ragadtam. Talán ha eladom ami alkatrészt meghagytak ezek a keselyűk, akkor tudok venni új hiperművet. Ahogy mindani szokás: ha az élet citromot ad, csinálj limonádét. Úgyhogy ha vissza is kellett lépnem a kezdő mezőre, lehetőségnek, második esélynek tekintem, nem visszalépésnek. Kávé nélkül. Ha elengedem ami vagyok, azzá válhatok, ami lehetek. A világ félreáll és utamra enged, ahogy azoknak, akik tudják merre tartanak. Én pedig a csillagokba tartok."
+  },
   "STAR_FIELD_DENSITY": {
     "description": "",
     "message": "Csillagos ég sűrűsége"
+  },
+  "STATION": {
+    "description": "Flight log info, will refer to a station by name",
+    "message": "Állomás"
+  },
+  "STATION_DOCKS": {
+    "description": "Information shown in the station lobby, for total number of docking pads",
+    "message": "Kapacitásunk {total_docking_pads} dokk."
+  },
+  "STATION_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "A helyi gravitáció %.2f g."
+  },
+  "STATION_LOCAL_GRAVITY_PRESSURE": {
+    "description": "",
+    "message": "Helyi gravitáció %.2f g, légnyomás %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",
@@ -1582,6 +1890,10 @@
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
     "message": " {orbit_period} napos periódusú pályán keringünk  orbit {parent_body} körül."
+  },
+  "STATION_TECH_TOO_LOW": {
+    "description": "",
+    "message": "Az állomás technikai szintje túl alacsony, nem tudja átvenni."
   },
   "STATUS": {
     "description": "",
@@ -1610,6 +1922,10 @@
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
     "message": "Vezérlést átvette az állomás, parancsnok."
+  },
+  "THIS_IS_FACTION_POLICE": {
+    "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
+    "message": " {faction} {faction_police} "
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1659,9 +1975,17 @@
     "description": "",
     "message": "Teljes tömeg"
   },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "{system} rendszerből:"
+  },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
     "message": "Illegális termékek kereskedelme"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "{system} rendszerbe:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -1674,6 +1998,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Törvénytelen fegyverhasználat"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "Veszteséges"
   },
   "UNRELIABLE": {
     "description": "",

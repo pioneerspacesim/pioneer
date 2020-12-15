@@ -175,10 +175,6 @@
     "description": "",
     "message": "¿Hay límite de tiempo?"
   },
-  "LY": {
-    "description": "",
-    "message": "AL"
-  },
   "MANAGER": {
     "description": "",
     "message": "Gerente"
@@ -277,7 +273,7 @@
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "{org} pagará {cash} por una misión de combate en el sistema {system} ({sectorx}, {sectory}, {sectorz}). Andamos cortos de pilotos y naves. Por eso esto será una oportunidad de hacer dinero para un ciudadano leal. El objetivo es una pequeña base pirata en {area}. Necesitarás  propelente de hipermotor para {dist} ly y fuel adicional para la ruta de regreso."
+    "message": "{org} pagará {cash} por una misión de combate en el sistema {system} ({sectorx}, {sectory}, {sectorz}). Andamos cortos de pilotos y naves. Por eso esto será una oportunidad de hacer dinero para un ciudadano leal. El objetivo es una pequeña base pirata en {area}. Necesitarás  propelente de hiperimpulsor para {dist} ly y fuel adicional para la ruta de regreso."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
@@ -285,11 +281,15 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Es importante que la misión se complete para el {date}, porque están en camino más naves hostiles."
+    "message": "Es importante que la misión se complete para el {date}, porque hay más naves hostiles en camino."
   },
   "POLICE_LAND_THERE": {
     "description": "",
     "message": "Símplemente atraca en una estación con una oficina de {org} "
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Lo siento, no creo que pueda hacer eso sin un radar."
   },
   "RISK_1": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "El enemigo está muy bien equipado y tiene acceso a la última tecnología. ¡Ve con cuidado!"
+    "message": "El enemigo está muy bien equipado y tiene acceso a la última tecnología. ¡Vaya con cuidado!"
   },
   "SET_AS_TARGET": {
     "description": "",

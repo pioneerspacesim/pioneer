@@ -1,8 +1,8 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local utils = import("utils")
-local Serializer = import("Serializer")
+local utils = require 'utils'
+local Serializer = require 'Serializer'
 --
 -- Class: EquipSet
 --
@@ -51,10 +51,64 @@ function EquipSet:AddListener(listener)
 	listeners[self] = listener
 end
 
-function EquipSet:CallListener()
+function EquipSet:CallListener(slot)
 	if listeners[self] then
-		listeners[self]()
+		listeners[self](slot)
 	end
+end
+
+-- XXX(sturnclaw): to fix massive save-file inflation, we manually coalesce cargo items
+-- This is suboptimal; cargo should be logically different from ship equipment
+function EquipSet:Serialize()
+	local serialize = {
+		slots = {}
+	}
+
+	for k, v in pairs(self.slots) do
+		serialize.slots[k] = v
+	end
+
+	serialize.slots.cargo = {
+		__limit = self.slots.cargo.__limit,
+		__occupied = self.slots.cargo.__occupied,
+		__version = 2
+	}
+
+	-- count the number of cargo items in the bay
+	local occupancy = {}
+	for _, v in pairs(self.slots.cargo) do
+		if type (_) == "number" and type(v) == "table" then
+			occupancy[v] = (occupancy[v] or 0) + 1
+		end
+	end
+
+	-- Collapse instances of the same cargo item into one
+	for k, v in pairs(occupancy) do
+		table.insert(serialize.slots.cargo, { item = k, count = v })
+	end
+
+	return serialize
+end
+
+function EquipSet.Unserialize(data)
+	local cargo = data.slots.cargo
+
+	if (cargo.__version or 0) >= 2 then
+		local newCargo = {
+			__limit = cargo.__limit,
+			__occupied = cargo.__occupied
+		}
+
+		-- unpack collapsed cargo items
+		for _, v in ipairs(cargo) do
+			for i = 1, v.count do table.insert(newCargo, v.item) end
+		end
+
+		data.slots.cargo = newCargo
+	end
+
+	setmetatable(data, EquipSet.meta)
+	return data
 end
 
 --
@@ -159,7 +213,7 @@ function EquipSet:__TriggerCallbacks(ship, slot)
 	else
 		ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, self.slots.cargo.__occupied+ship.freeCapacity))
 	end
-	self:CallListener()
+	self:CallListener(slot)
 end
 
 -- Method: __Remove_NoCheck (PRIVATE)

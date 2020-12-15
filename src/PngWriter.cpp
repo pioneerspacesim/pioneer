@@ -1,8 +1,9 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "PngWriter.h"
 #include "FileSystem.h"
+#include "graphics/Graphics.h"
 #include "utils.h"
 
 void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint8 *bytes, int width, int height, int stride, int bytes_per_pixel)
@@ -30,18 +31,16 @@ void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint
 	int srcy = height - 1;
 	for (int y = 0; y < height; y++)
 	{
-		for (int x = 0; x < stride; x++)
-		{
+		for (int x = 0; x < stride; x++) {
 			const int src_index = (srcy * stride) + x;
 			const int dst_index = (y * stride) + x;
-			for (int channel = 0; channel < bytes_per_pixel; channel++)
-			{
-				(static_cast<Uint8*>(surface->pixels))[dst_index + channel] = bytes[src_index + channel];
+			for (int channel = 0; channel < bytes_per_pixel; channel++) {
+				(static_cast<Uint8 *>(surface->pixels))[dst_index + channel] = bytes[src_index + channel];
 			}
 		}
 		srcy--;
 	}
-	
+
 	// do the actual saving
 	const std::string fname = FileSystem::JoinPathBelow(fs.GetRoot(), path);
 	IMG_SavePNG(surface, fname.c_str());
@@ -49,4 +48,15 @@ void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint
 	//cleanup after ourselves
 	SDL_FreeSurface(surface);
 	surface = nullptr;
+}
+
+void write_screenshot(const Graphics::ScreendumpState &sd, const char *destFile)
+{
+	const std::string dir = "screenshots";
+	FileSystem::userFiles.MakeDirectory(dir);
+	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
+
+	write_png(FileSystem::userFiles, fname, sd.pixels.get(), sd.width, sd.height, sd.stride, sd.bpp);
+
+	Output("Screenshot %s saved\n", fname.c_str());
 }

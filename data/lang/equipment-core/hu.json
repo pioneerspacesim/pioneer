@@ -191,6 +191,14 @@
     "description": "",
     "message": "Ásványokban gazdag aszteroidák bányászatához."
   },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW robbantó bányászágyú"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "Ásványokban gazdag aszteroidák bányászatához."
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Irányított rakéta"
@@ -208,7 +216,7 @@
     "message": "R40 nemirányított rakéta"
   },
   "MULTI_SCOOP": {
-    "description": "A ship equipment: a cargo scoop and fuel scoop combined to one",
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
     "message": "Kombinált szívó"
   },
   "MULTI_SCOOP_DESCRIPTION": {

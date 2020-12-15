@@ -103,10 +103,6 @@
     "description": "",
     "message": "Nana Bruna (oggetto substellare)"
   },
-  "BUTTON": {
-    "description": "",
-    "message": "\" Pulsante \""
-  },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
     "message": "Camera inferiore"
@@ -167,25 +163,13 @@
     "description": "",
     "message": "Raccolta di cargo non riuscita. La stiva è piena."
   },
+  "CENTER": {
+    "description": "",
+    "message": "Centro"
+  },
   "CH4_ATMOSPHERE": {
     "description": "",
     "message": "\" atmosfera a prevalenza di metano\""
-  },
-  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Autorizzazione già concessa. Procedere al ponte %bay."
-  },
-  "CLEARANCE_DENIED_NO_BAYS": {
-    "description": "",
-    "message": "Autorizzazione negata. Non ci sono attracchi liberi."
-  },
-  "CLEARANCE_DENIED_TOO_FAR": {
-    "description": "Shown if player requests docking too far away from station",
-    "message": "Autorizzazione negata. La vostra nave è troppo lontana per poter verificare l'ID."
-  },
-  "CLEARANCE_GRANTED_BAY_N": {
-    "description": "",
-    "message": "Autorizzazione concessa. Procedere al ponte %bay."
   },
   "CO2_ATMOSPHERE": {
     "description": "",
@@ -323,10 +307,6 @@
     "description": "",
     "message": "Destinazione"
   },
-  "DIRECTION": {
-    "description": "Direction",
-    "message": "\" Dir \""
-  },
   "DISTANCE_LY": {
     "description": "",
     "message": "Distanza: %distance{f.2} AL"
@@ -338,10 +318,6 @@
   "DOCKING": {
     "description": "",
     "message": "Ancoraggio"
-  },
-  "DOCKING_CLEARANCE_EXPIRED": {
-    "description": "",
-    "message": "Autorizzazione all'attracco scaduta. Se desidera ancora attraccare deve ripetere la richiesta."
   },
   "DOWNGRADING_ALERT_STATUS": {
     "description": "",
@@ -479,17 +455,17 @@
     "description": "like wheat or barley",
     "message": "Grano e altri cereali"
   },
+  "GRID_DISPLAY_MODE_TOGGLE": {
+    "description": "Switch show no grid",
+    "message": "Commuta tra le visualizzazioni della griglia."
+  },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Armi a mano"
+    "message": "Armi leggere"
   },
   "HARD_CAPITALIST": {
     "description": "",
     "message": "Capitalismo perfetto - nessun intervento dello Stato in economia"
-  },
-  "HAT": {
-    "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -643,10 +619,6 @@
     "description": "",
     "message": "Joystick"
   },
-  "JOY_AXIS": {
-    "description": "Regarding joystick",
-    "message": "%{sign}%joyname Asse %axis"
-  },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
     "message": "Commuta frai modi di visualizzazione dei punti di Lagrange L4/L5."
@@ -743,70 +715,6 @@
     "description": "",
     "message": "Modalità controllo manuale"
   },
-  "MAP_LOCK_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Blocca Destinazione Iperspaziale"
-  },
-  "MAP_TOGGLE_INFO_PANEL": {
-    "description": "",
-    "message": "Mostra/nascondi Pannello Informazioni"
-  },
-  "MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
-    "description": "",
-    "message": "Attiva/disattiva Visuale Centrata sulla Selezione"
-  },
-  "MAP_VIEW_ROTATE_DOWN": {
-    "description": "",
-    "message": "Ruota Visuale in Giù"
-  },
-  "MAP_VIEW_ROTATE_LEFT": {
-    "description": "",
-    "message": "Ruota Visuale a Sinistra"
-  },
-  "MAP_VIEW_ROTATE_RIGHT": {
-    "description": "",
-    "message": "Ruota Visuale a Destra"
-  },
-  "MAP_VIEW_ROTATE_UP": {
-    "description": "",
-    "message": "Ruota Visuale in Su"
-  },
-  "MAP_VIEW_SHIFT_BACKWARD": {
-    "description": "",
-    "message": "Scorri Visuale Indietro"
-  },
-  "MAP_VIEW_SHIFT_DOWN": {
-    "description": "",
-    "message": "Scorri Visuale in Giù"
-  },
-  "MAP_VIEW_SHIFT_FORWARD": {
-    "description": "",
-    "message": "Scorri Visuale in Avanti"
-  },
-  "MAP_VIEW_SHIFT_LEFT": {
-    "description": "",
-    "message": "Scorri Visuale a Sinistra"
-  },
-  "MAP_VIEW_SHIFT_RIGHT": {
-    "description": "",
-    "message": "Scorri Visuale a Destra"
-  },
-  "MAP_VIEW_SHIFT_UP": {
-    "description": "",
-    "message": "Scorri Visuale in Su"
-  },
-  "MAP_WARP_TO_CURRENT_SYSTEM": {
-    "description": "",
-    "message": "Salta al Sistema Corrente"
-  },
-  "MAP_WARP_TO_HYPERSPACE_TARGET": {
-    "description": "",
-    "message": "Salta alla Destinazione Iperspaziale"
-  },
-  "MAP_WARP_TO_SELECTED_SYSTEM": {
-    "description": "",
-    "message": "Salta al Sistema Selezionato"
-  },
   "MASS": {
     "description": "",
     "message": "Massa"
@@ -882,6 +790,10 @@
   "MISSILE": {
     "description": "",
     "message": "missile"
+  },
+  "MISSILE_DETECTED": {
+    "description": "",
+    "message": "Rilevato lancio di missili."
   },
   "MIXED_ECONOMY": {
     "description": "",
@@ -1071,6 +983,10 @@
     "description": "",
     "message": "\" atmosfera a prevalenza di ossigeno\""
   },
+  "OBJECT_INFO": {
+    "description": "Originally for use as a window title and a button tooltip in the system map",
+    "message": "Informazioni Oggetto"
+  },
   "OCEANICWORLD": {
     "description": "",
     "message": "\" pianeta oceanico\""
@@ -1082,6 +998,10 @@
   "ORBITAL_STARPORT": {
     "description": "",
     "message": "Stazione orbitale"
+  },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "Programmatore Orbitale"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
@@ -1211,10 +1131,6 @@
     "description": "",
     "message": "Azzera Zoom"
   },
-  "RESET_ORIENTATION_AND_ZOOM": {
-    "description": "",
-    "message": "Reimposta Orientamento e Zoom"
-  },
   "ROBOTS": {
     "description": "",
     "message": "Robot"
@@ -1314,6 +1230,14 @@
   "SEMI_MAJOR_AXIS": {
     "description": "",
     "message": "Semiasse maggiore"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "Imposta come bersaglio"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Imposta come destinazione di navigazione"
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",
@@ -1679,10 +1603,6 @@
     "description": "",
     "message": "Modalità HUD"
   },
-  "TOGGLE_LUA_CONSOLE": {
-    "description": "",
-    "message": "(Dis)Attiva Console LUA"
-  },
   "TOGGLE_RADAR_MODE": {
     "description": "",
     "message": "Cambia modalità radar"
@@ -1731,6 +1651,10 @@
     "description": "Duration unit: one 24-hour day",
     "message": "g"
   },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "o"
@@ -1766,6 +1690,10 @@
   "UNIT_MINUTES": {
     "description": "Duration unit: one 60-second minute",
     "message": "m"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
@@ -1843,14 +1771,6 @@
     "description": "",
     "message": "\" con atmosfera insignificante\""
   },
-  "X": {
-    "description": "keybinding: x axis",
-    "message": "X"
-  },
-  "Y": {
-    "description": "keybinding: y axis",
-    "message": "Y"
-  },
   "YAW": {
     "description": "",
     "message": "Imbardata"
@@ -1866,10 +1786,6 @@
   "YOUNG_FARMING_COLONY": {
     "description": "",
     "message": "Giovane colonia agricola."
-  },
-  "Z": {
-    "description": "keybinding: z axis",
-    "message": "Z"
   },
   "ZOOM_IN": {
     "description": "",

@@ -1,27 +1,33 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CITYONPLANET_H
 #define _CITYONPLANET_H
 
-#include "libs.h"
-#include "Random.h"
-#include "Object.h"
 #include "CollMesh.h"
-#include "collider/Geom.h"
-#include "galaxy/StarSystem.h"
+#include "FrameId.h"
+#include "Random.h"
 
+#include <set>
+
+class Geom;
 class Planet;
 class SpaceStation;
 class Frame;
-namespace Graphics { class Renderer; class Frustum; }
-namespace SceneGraph { class Model; class Animation; }
+class SystemPath;
 
-#define CITY_ON_PLANET_RADIUS 5000.0
+namespace Graphics {
+	class Renderer;
+	class Frustum;
+} // namespace Graphics
+namespace SceneGraph {
+	class Model;
+	class Animation;
+} // namespace SceneGraph
 
-class CityOnPlanet: public Object {
+class CityOnPlanet {
 public:
-	OBJDEF(CityOnPlanet, Object, CITYONPLANET);
+	CityOnPlanet() = delete;
 	CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 seed);
 	virtual ~CityOnPlanet();
 	void Render(Graphics::Renderer *r, const Graphics::Frustum &camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
@@ -30,6 +36,9 @@ public:
 	static void Init();
 	static void Uninit();
 	static void SetCityModelPatterns(const SystemPath &path);
+
+	static constexpr double RADIUS = 5000.0;
+
 private:
 	void AddStaticGeomsToCollisionSpace();
 	void RemoveStaticGeomsFromCollisionSpace();
@@ -43,7 +52,7 @@ private:
 	};
 
 	Planet *m_planet;
-	Frame *m_frame;
+	FrameId m_frame;
 	std::vector<BuildingDef> m_buildings;
 	std::vector<BuildingDef> m_enabledBuildings;
 	std::vector<Uint32> m_buildingCounts;

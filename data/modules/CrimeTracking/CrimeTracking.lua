@@ -1,12 +1,12 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Event = import("Event")
-local Game = import("Game")
-local Engine = import("Engine")
-local Timer = import("Timer")
-local Serializer = import("Serializer")
-local Legal = import("Legal")
+local Event = require 'Event'
+local Game = require 'Game'
+local Engine = require 'Engine'
+local Timer = require 'Timer'
+local Serializer = require 'Serializer'
+local Legal = require 'Legal'
 
 -- Fine at which police will launch and hunt donwn outlaw player
 local maxFineTolerated = 300
@@ -72,7 +72,7 @@ end
 
 local onJettison = function(ship, cargo)
 	if ship:IsPlayer() then
-		if cargo.price <= 0 or not Game.system:IsCommodityLegal(cargo) then
+		if cargo.price <= 0 or not Game.system:IsCommodityLegal(cargo.name) then
 			Legal:notifyOfCrime(ship,"DUMPING")
 		end
 	end

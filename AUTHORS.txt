@@ -27,11 +27,13 @@ The Pioneer Developers are:
 * Chris Collins
 * Chris Dennett
 * Christian Koch
+* Christian Wyss
 * Claudius Mueller
 * Clinton Mead
 * ColdSpirit
 * Connor Findlay
 * Craig Thomson
+* CylonicRaider
 * Dan Bennett
 * Darren Salt
 * Denis Volk
@@ -43,6 +45,7 @@ The Pioneer Developers are:
 * Enric Morales
 * Florian Schmidt
 * Fran Morton
+* Francesco Corrado
 * Frank Klippenberg
 * Gareth Allnutt
 * Gaz Davidson
@@ -50,10 +53,12 @@ The Pioneer Developers are:
 * HeadHunter
 * Jan Olsina
 * jmf
+* Jeremy List
 * John Bartholomew
 * John Jordan
 * Jon Jenkins
 * Joshua Mathews
+* Jost Triller
 * Karl Fogelmark
 * Kimmo Kotajärvi
 * Konrad Mruk
@@ -107,6 +112,7 @@ The Pioneer Developers are:
 * Torham2234
 * Ulf Pettersson
 * Uncle Bob
+* Vakhoir
 * Vincent Teerling
 * Vladimir Rutsky
 * Wayne Ashworth
@@ -116,7 +122,7 @@ The Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2018 Pioneer Developers
+Copyright © 2008-2020 Pioneer Developers
 Portions copyright © 2013-2014 Meteoric Games Ltd.
 
 Pioneer's core code and extension modules are licensed under the terms of the
@@ -130,7 +136,7 @@ Pioneer includes the following third-party software:
 
   Lua 5.2.1 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
   Copyright (C) 1994-2012 Lua.org, PUC-Rio
-  Licensed under the MIT licence (see contrib/lua/lua.h)
+  Licensed under the MIT licence (see contrib/lua/src/lua.h)
 
   GLEW: The OpenGL Extension Wrangler
   Copyright (C) 2002-2008, Milan Ikits <milan ikits[]ieee org>
@@ -138,8 +144,21 @@ Pioneer includes the following third-party software:
   Copyright (C) 2002, Lev Povalahev
   Licensed under the Modified BSD licence (see licenses/GLEW.txt)
 
+  argh
+  Copyright (C) 2016, Adi Shavit
+  Licensed under the BSD 3-clause license (see licenses/BSD-3-Clause.txt)
+
+  string-view lite, a C++17-like string_view for C++98 and later.
+  https://github.com/martinmoene/string-view-lite
+  Copyright 2017-2019 by Martin Moene
+  Distributed under the Boost Software License, Version 1.0. (see licenses/Boost-1.0.txt)
+
   miniz by Rich Geldreich, April 2012
   Public domain (see contrib/miniz/miniz.h)
+
+  LZ4 Library
+  Copyright (c) 2011-2016, Yann Collet
+  Licensed under the BSD 2-Clause license (see licenses/LZ4.txt)
 
   lookup3.c, by Bob Jenkins, May 2006,
   Public domain (see contrib/jenkins/lookup3.c)
@@ -163,6 +182,10 @@ Pioneer includes the following third-party software:
   Base64 Encode / Decode
   Copyright © 2013 Tomas Kislan, Adam Rudd
   Licensed under the MIT License (see contrib/base64/base64.hpp)
+
+  fmt - open-source formatting library for C++
+  Copyright (c) 2012 - present, Victor Zverovich
+  Licensed under the MIT license
 
   High Performance C++ Profiler
   https://code.google.com/p/high-performance-cplusplus-profiler/

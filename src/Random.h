@@ -1,4 +1,4 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 // A deterministic random number generator for use by the rest of the
@@ -13,8 +13,8 @@
 #include <assert.h>
 #include <cmath>
 
-#include "fixed.h"
 #include "RefCounted.h"
+#include "fixed.h"
 
 extern "C" {
 #include "jenkins/lookup3.h"
@@ -24,8 +24,7 @@ extern "C" {
 #include "pcg-cpp/pcg_random.hpp"
 
 // A deterministic random number generator
-class Random : public RefCounted
-{
+class Random : public RefCounted {
 	pcg32 mPCG;
 
 	// For storing second rand from Normal
@@ -33,7 +32,6 @@ class Random : public RefCounted
 	double z1;
 
 public:
-
 	//
 	// Constructors
 	//
@@ -45,16 +43,16 @@ public:
 	}
 
 	// Construct a new generator given an array of 32-bit seeds.
-	Random(const Uint32* const seeds, size_t length)
+	Random(const Uint32 *const seeds, size_t length)
 	{
 		seed(seeds, length);
 	}
 
 	// Construct a new random generator from an array of 64-bit
 	// seeds.
-	Random(const Uint64* const seeds, size_t length)
+	Random(const Uint64 *const seeds, size_t length)
 	{
-		seed(reinterpret_cast<const Uint32* const>(seeds), length * 2);
+		seed(reinterpret_cast<const Uint32 *>(seeds), length * 2);
 	}
 
 	//
@@ -62,7 +60,7 @@ public:
 	//
 
 	// Seed the RNG using the hash of the given array of seeds.
-	void seed(const Uint32* const seeds, size_t length)
+	void seed(const Uint32 *const seeds, size_t length)
 	{
 		const Uint32 hash = lookup3_hashword(seeds, length, 0);
 		mPCG.seed(hash);
@@ -70,9 +68,9 @@ public:
 	}
 
 	// Seed using an array of 64-bit integers
-	void seed(const Uint64* const seeds, size_t length)
+	void seed(const Uint64 *const seeds, size_t length)
 	{
-		seed(reinterpret_cast<const Uint32* const>(seeds), length * 2);
+		seed(reinterpret_cast<const Uint32 *>(seeds), length * 2);
 	}
 
 	// Seed using a single 32-bit integer
@@ -145,14 +143,14 @@ public:
 	// Pick a number in the half-open interval [0, limit)
 	inline double Double(double limit)
 	{
-		return limit*Double();
+		return limit * Double();
 	}
 
 	// Pick a number between 0 and max inclusive
 	// interval [0, max]
 	inline double Double_closed(double max)
 	{
-		return max*Double_closed();
+		return max * Double_closed();
 	}
 
 	// Pick a number between min and max inclusive
@@ -189,26 +187,23 @@ public:
 		//https://en.wikipedia.org/wiki/Box-Muller_transform#Polar_form
 		double u, v, s, z0;
 
-		if (cached)
-		{
+		if (cached) {
 			z0 = z1;
 			cached = false;
-		}
-		else
-		{
-			do{
+		} else {
+			do {
 				u = Double_closed(-1, 1);
 				v = Double_closed(-1, 1);
-				s = u*u + v*v;
-			}while (s >= 1.0);
+				s = u * u + v * v;
+			} while (s >= 1.0);
 
-			s = sqrt((-2.0 * log(s))/s);
+			s = sqrt((-2.0 * log(s)) / s);
 			z0 = u * s;
 			z1 = v * s;
 			cached = true;
 		}
 
-		return  mean + z0 * stddev;
+		return mean + z0 * stddev;
 	}
 
 	inline int Poisson(const double lambda)
@@ -216,8 +211,7 @@ public:
 		int k = 0;
 		double p = Double();
 		const double target = exp(-lambda);
-		while (p > target)
-		{
+		while (p > target) {
 			k += 1;
 			p *= Double();
 		}
@@ -240,9 +234,10 @@ public:
 	}
 
 	const pcg32 &GetPCG() const { return mPCG; }
+
 private:
-	Random(const Random&); // copy constructor not defined
-	void operator=(const Random&); // assignment operator not defined
+	Random(const Random &); // copy constructor not defined
+	void operator=(const Random &); // assignment operator not defined
 };
 
 #endif // RAND_H

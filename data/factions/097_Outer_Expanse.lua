@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Outer Expanse')
@@ -15,11 +15,9 @@ f:govtype_weight('DISORDER',		100)
 f:govtype_weight('MILDICT2',		23)
 f:govtype_weight('COMMUNIST',		5)
 
-f:illegal_goods_probability('ANIMAL_MEAT',		100)
-f:illegal_goods_probability('LIQUOR',		100)
-f:illegal_goods_probability('NERVE_GAS',		100)
-f:illegal_goods_probability('NARCOTICS',		37)
+f:illegal_goods_probability('animal_meat',		100)
+f:illegal_goods_probability('liquor',		100)
+f:illegal_goods_probability('nerve_gas',		100)
+f:illegal_goods_probability('narcotics',		37)
 
 f:add_to_factions('Outer Expanse')
-
-

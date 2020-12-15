@@ -357,7 +357,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "SE BUSCA: Pasaje al Sistema {system}. Se paga {cash}."
+    "message": "SE BUSCA: Pasaje al Sistema {system}. Se pagará {cash}."
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
@@ -538,10 +538,6 @@
   "I_MUST_BE_THERE_BEFORE": {
     "description": "",
     "message": "Debo estar allí antes de "
-  },
-  "LY": {
-    "description": "",
-    "message": "AL"
   },
   "OK_AGREED": {
     "description": "",

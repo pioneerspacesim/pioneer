@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- This module is a substitute for not having a propper "bar" /
@@ -6,10 +6,10 @@
 -- advice from more experienced pilots. Instead, we just put them on
 -- the BBS for now.
 
-local Lang = import("Lang")
-local Event = import("Event")
-local Rand = import("Rand")
-local Serializer = import("Serializer")
+local Lang = require 'Lang'
+local Event = require 'Event'
+local Rand = require 'Rand'
+local Serializer = require 'Serializer'
 
 local l = Lang.GetResource("module-advice")
 

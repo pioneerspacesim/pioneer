@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Obsidian Systems')
@@ -17,11 +17,9 @@ f:govtype_weight('SOCDEM',		47)
 f:govtype_weight('PLUTOCRATIC',		22)
 f:govtype_weight('COMMUNIST',		22)
 
-f:illegal_goods_probability('LIVE_ANIMALS',		100)
-f:illegal_goods_probability('ROBOTS',		31)
-f:illegal_goods_probability('SLAVES',		78)
-f:illegal_goods_probability('NERVE_GAS',		71)
+f:illegal_goods_probability('live_animals',		100)
+f:illegal_goods_probability('robots',		31)
+f:illegal_goods_probability('slaves',		78)
+f:illegal_goods_probability('nerve_gas',		71)
 
 f:add_to_factions('Obsidian Systems')
-
-

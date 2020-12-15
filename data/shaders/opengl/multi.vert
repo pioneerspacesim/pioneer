@@ -1,10 +1,9 @@
-// Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 // #extension GL_ARB_gpu_shader5 : enable
 
 #include "attributes.glsl"
-#include "logz.glsl"
 #include "lib.glsl"
 
 #ifdef TEXTURE0
@@ -29,7 +28,7 @@ out vec3 normal;
 
 void main(void)
 {
-	gl_Position = logarithmicTransform();
+	gl_Position = matrixTransform();
 #ifdef VERTEXCOLOR
 	vertexColor = a_color;
 #endif

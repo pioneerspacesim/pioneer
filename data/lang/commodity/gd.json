@@ -1,15 +1,15 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Pròiseasaran adhair"
+    "message": "Pròiseasaran àile"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+    "message": "Cha gabhar àile glan gu nàdarrach ach nuair a bhios e pailt. Thathar ag ràdh gu bheil teicneolas glanadh àile stèidhichte air buill-acainn cèine a chaidh a lorg air a' Chorg. Nì iomadh companaidh diofar seòrsaichean de phròiseasaran àile a nì àrainneachd freagarrach de dh'àile cunnartach agus chan fhulang na riaghaltasan aon-mhargadh air dèanamh àile."
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Animal meat"
+    "message": "Feòil bheathaichean"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -21,7 +21,7 @@
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+    "message": "Seo airm throma, can tancaichean armaichte agus astasan uachdar-gu-fànais. Chan fhaod ach an riaghaltas fhèin na h-airm seo a mhalart mar as trice. Thèid an ceannachd air tòrr airgead sa mhargadh dubh co-dhiù."
   },
   "CARBON_ORE": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+    "message": "'S e tè dhe na h-eileamaidean as sùbailte a tha sa charbon. Thèid a cleachdadh ann an iomadh rud, can plastaig, co-mheatailt no solar cumhachd. 'S e bathar saor ach cudromach a tha sa chlach-charboin agus bidh a' mhòrchuid a thuineachaidhean gnìomhachail feumach oirre."
   },
   "COMPUTERS": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+    "message": "O linntean mòra, on abacas, PDP-11 is sgealb Motorola 68k dhan HAL 9001 is loidhne Multivac ùr-nodha, 's ann leis na coimpiutairean a tòisich linn an fiosrachaidh. Tha iad a cheart cho cudromach airson dol dhan os-fhànais 's a tha iad airson co-roinneadh videothan le ceistean beaga faoine air an DomhanLìon."
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Bathar caitheimh"
+    "message": "Batharan caitheimh"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -49,7 +49,7 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Acainnean tuathanais"
+    "message": "Uidheaman tuathanais"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -61,15 +61,15 @@
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+    "message": "Tha todhar riatanach airson bàrr a chur aig ìre ghnìomhachais agus aon-àiteachas a stèidheachadh on a gheibh thu barrachd às an talamh na an àbhaist. Ceannaichidh tu seo gu daor le buaidh air an àrainneachd co-dhiù."
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Fruit & vegetables"
+    "message": "Measan ⁊ glasraich"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+    "message": "Ged a tha na roghainnean fuadain pailt, tha measan is glasraich cheart fhathast cudromach dhan chòcaireachd is beathachadh. Fàsaidh iad air saoghalan àiteachais no mar pàirt dhen taic-bheatha aig àrainnean agus às-phortadh gu siostaman far nach fàs lus."
   },
   "GRAIN": {
     "description": "",
@@ -77,11 +77,11 @@
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+    "message": "Seo bun-stèidh bìdh do dh'iomadh duine. Thèid a chleachdadh san àiteachas, 'na bhiadh bheathaichean agus mar leasachadh bìdh fhuadain. Thèid gràn a chleachdadh ann an iomadh biadh eile, can min-choirce no aran. Fàsaidh is ithidh a mhòrchuid a chultaran bàidsireachd-fhànais gràinean a chaidh a leasachadh a chùm gnàth-shìde na h- àrainn aca."
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Airm bheaga"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -97,23 +97,23 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Innealan gnìomhachail"
+    "message": "Uidheaman gnìomhachail"
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+    "message": "Feumaidh loidhnichean co-shaothrachaidh, fìneadairean, leaghadairean agus saothraichean uidheaman iad airson bathar eile a dhèanamh leotha. Tha feum air sgilean àrda gus na h-uidheaman adhartach seo a dhèanamh."
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Liquid oxygen"
+    "message": "Ogsaidean leannach"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+    "message": "Tha ogsaidean leannach feumail air iomadh adhbhar, mas as trice ann gnìomhan leigheis no gnìomhachail agus tha e 'ga chleachdadh ann an giullachd sgudail cuideachd. Chan eil e daor idir on a gheibhear on uisge e gun duilgheadas."
   },
   "LIQUOR": {
     "description": "",
-    "message": "Deoch làidir"
+    "message": "Deochan làidir"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,15 +121,15 @@
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Live animals"
+    "message": "Beathaichean beòtha"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+    "message": "Air adhbharan iochdail, eaconomach is dìon an nàdair, tha togail agus malairt bheathaichean fo riaghailtean cumhang agus fiù mì-laghail ann an cuid a shiostaman. Fhad 's a bhios daoine a' sgaoileadh mun chruinne-chè, bi beathaichean cudromach dhan bhith-bheò, an dà chuid mar bhiadh agus ainmhidh uallaich. Cuiridh sùthan cian-annasach agus tèarmainn nàdair ri malairt bheathaichean thar a' reul-chriosa fo riaghailtean teann na stàite mas as trice airson  dol an aghaidh ionadan sealg mì-laghail."
   },
   "MEDICINES": {
     "description": "",
-    "message": "Leigheas"
+    "message": "Leigheasan"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -157,15 +157,15 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel in the more advanced military drives. These drives produce nuclear waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+    "message": "Used as fuel in the more advanced military drives. These drives produce radioactive waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Acainn mèinnearachd"
+    "message": "Uidheaman mèinnearachd"
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
+    "message": "Gheibh mèinnearan faochadh on obair chruaidh aca nuair a bhios acainnean aca a lorgas is a thogas clach-mhèinnir 's a bheir dhan fhactaraidh giullachd iad."
   },
   "NARCOTICS": {
     "description": "",
@@ -173,11 +173,11 @@
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+    "message": "Seo stuth nàdarra no fuadain a tha sna drugaichean a dh'atharraicheas cor d' inntinn no do bhodhaig. Ged a chleachdte a-riamh iad an dà chuid gu cleasachail  no 'nan leigheas, tha an giùlan no reic mì-laghail mar as trice."
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Nerve gas"
+    "message": "Nearbh-ghas"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -189,7 +189,7 @@
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+    "message": "Seo stuth fuadain no leth-fhuadain a cleachdar air iomadh dòigh o acainnean na beatha làitheil gu togail soithichean-fànais. Tha an cleachdadh furasta 's iol-chomasach agus chan eil iad cosgail. Mar sin, tha iad glè chudromach dhan t-sìobhaltas againn."
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -197,15 +197,15 @@
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+    "message": "Tha meatailtean uasail nas seasmhaiche mas as trice ach tha am mèinnearachd nas dorra cuideachd agus iad nas ainneimhe. Tha luamh mhòr annta ri linn sin. Mar as trice, seo òr, airgead, platinum is ùir ainneamh. Tha cuid a dh'eileamaidean riatanach airson togail choimpiutairean is nithean eleactronach eile, can òr, sileacon no ùir ainneamh."
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Radioactives"
+    "message": "Sgudal niùclasach"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Created by nuclear reactors, and military hyperdrives, nuclear waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping nuclear waste is a severe offence."
+    "message": "Created by nuclear reactors, and military hyperdrives, radioactive waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping radioactive waste is a severe offence."
   },
   "ROBOTS": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+    "message": "Bidh siostaman gnìomhachail is mèinnearachd feumach air robotairean on a nì iad obair gun duilgheadas a bhiodh ro dhoirbh, ràsanach no cunnartach do dhaoine. Frithealaidh iad 'nan luchd-poileataigs is luchd-lagha cuideachd."
   },
   "RUBBISH": {
     "description": "",
@@ -229,15 +229,15 @@
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+    "message": "On a ghabh uidheaman àite nan tràillean mar taic sìobhaltais, tha a' mhòrchuid dhen bheachd gu bheil an tràilleachd mì-mhoralta agus tha briseadh an toirmisg seo fon pheanas as àirde. Gidheadh, a dh'aindeoin gach spàirn na h-aghaidh, tha an tràilleachd cumanta fhathast fiù 's ann an saoghalan leasaichte."
   },
   "TEXTILES": {
     "description": "",
-    "message": "Obair-aodaich"
+    "message": "Clò"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+    "message": "Thèid clò fhighe à snàth fuadain, lusa no beathaich. Thèid a dhèanamh le robotairean ann am factaraidhean mòra mar as trice ach nì cuid le beart aca fhèin e fhathast."
   },
   "WATER": {
     "description": "",

@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "És molt lamentable que el {target} encara es trobi sa i estalvi. No rebreu cap pagament, doncs no heu completat l'encàrrec."
+    "message": "It is most regrettable that {target} is still alive and well. You will receive no payment as you did not complete your contract."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Em demaneu diners per la feina que ha fet un altre? Fora d'aquí!"
+    "message": "Are you asking money for a job done by someone else? Get lost."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
@@ -178,10 +178,6 @@
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
     "message": "Ha de fer-se després que el {target} abandoni {spaceport}. No perdeu aquesta oportunitat."
-  },
-  "LY": {
-    "description": "",
-    "message": "al"
   },
   "OK_AGREED": {
     "description": "",

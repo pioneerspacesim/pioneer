@@ -327,10 +327,6 @@
     "description": "",
     "message": "Ich nehme Schaden. Ich brauche Hilfe."
   },
-  "LY": {
-    "description": "",
-    "message": "Lj"
-  },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Maschinenwerkzeuge"
@@ -466,6 +462,10 @@
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
     "message": "Raumschiffteile"
+  },
+  "STEM_BOLTS": {
+    "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
+    "message": "Selbstversiegelnder Bolzen"
   },
   "SUCCESSMSG_1": {
     "description": "",

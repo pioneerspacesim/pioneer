@@ -1,4 +1,8 @@
 {
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "大气压力高于飞船极限"
+  },
   "AUTOPILOT": {
     "description": "",
     "message": "自动驾驶"

@@ -47,6 +47,18 @@
     "description": "",
     "message": "Lämna inte redan, det en pirat väntar på dig i det andra programmet.  "
   },
+  "MSG_20": {
+    "description": "",
+    "message": "Måste du verkligen gå?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Tar du veklingens flykt?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Gör det inte! Det kan bara bli bättre. Vill du fortfarande ge upp?"
+  },
   "MSG_3": {
     "description": "",
     "message": "Vill du verkligen avsluta detta fantastiska spel, som inte kostat dig något?"

@@ -1,29 +1,24 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Space = import("Space")
-local Comms = import("Comms")
-local Event = import("Event")
-local Mission = import("Mission")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Character = import("Character")
-local ShipDef = import("ShipDef")
-local Ship = import("Ship")
-local eq = import("Equipment")
-local utils = import("utils")
-
-local InfoFace = import("ui/InfoFace")
-local NavButton = import("ui/NavButton")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Space = require 'Space'
+local Comms = require 'Comms'
+local Event = require 'Event'
+local Mission = require 'Mission'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Character = require 'Character'
+local ShipDef = require 'ShipDef'
+local Ship = require 'Ship'
+local eq = require 'Equipment'
+local utils = require 'utils'
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")
-
--- Get the UI class
-local ui = Engine.ui
+local lc = Lang.GetResource 'core'
 
 -- don't produce missions for further than this many light years away
 local max_taxi_dist = 40
@@ -238,7 +233,7 @@ local onDelete = function (ref)
 end
 
 local isEnabled = function (ref)
-	return isQualifiedFor(Character.persistent.player.reputation, ads[ref])
+	return ads[ref] ~= nil and isQualifiedFor(Character.persistent.player.reputation, ads[ref])
 end
 
 local nearbysystems
@@ -470,92 +465,35 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
-local onClick = function (mission)
+local buildMissionDescription = function(mission)
+	local ui = require 'pigui'
+
+	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((flavours[mission.flavour].introtext):interp({
-														name   = mission.client.name,
-														system = mission.location:GetStarSystem().name,
-														sectorx = mission.location.sectorX,
-														sectory = mission.location.sectorY,
-														sectorz = mission.location.sectorZ,
-														cash   = Format.Money(mission.reward,false),
-														dist  = dist})
-										),
-										ui:Margin(10),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.FROM)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.start:GetStarSystem().name.." ("..mission.start.sectorX..","..mission.start.sectorY..","..mission.start.sectorZ..")")
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.TO)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.GROUP_DETAILS)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(string.interp(flavours[mission.flavour].howmany, {group = mission.group}))
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DEADLINE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(Format.Date(mission.due))
-												})
-											}),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DANGER)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:MultiLineText(flavours[mission.flavour].danger)
-												})
-											}),
-										ui:Margin(5),
-										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DISTANCE)
-												})
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(dist.." "..l.LY)
-												})
-											}),
-										ui:Margin(5),
-										NavButton.New(l.SET_AS_TARGET, mission.location),
-		})})
-		:SetColumn(1, {
-			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
-		})
+
+	desc.description = flavours[mission.flavour].introtext:interp({
+		name   = mission.client.name,
+		system = mission.location:GetStarSystem().name,
+		sectorx = mission.location.sectorX,
+		sectory = mission.location.sectorY,
+		sectorz = mission.location.sectorZ,
+		cash   = Format.Money(mission.reward,false),
+		dist  = dist
+	})
+
+	desc.client = mission.client
+	desc.location = mission.location
+
+	desc.details = {
+		{ l.FROM, ui.Format.SystemPath(mission.start) },
+		{ l.TO, ui.Format.SystemPath(mission.location) },
+		{ l.GROUP_DETAILS, string.interp(flavours[mission.flavour].howmany, {group = mission.group}) },
+		{ l.DEADLINE, ui.Format.Date(mission.due) },
+		{ l.DANGER, flavours[mission.flavour].danger },
+		{ l.DISTANCE, dist.." "..lc.UNIT_LY }
+	}
+
+	return desc
 end
 
 local serialize = function ()
@@ -576,6 +514,6 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType('Taxi',l.TAXI,onClick)
+Mission.RegisterType('Taxi',l.TAXI, buildMissionDescription)
 
 Serializer:Register("Taxi", serialize, unserialize)

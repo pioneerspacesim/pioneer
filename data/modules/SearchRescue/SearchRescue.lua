@@ -1,4 +1,4 @@
--- Copyright © 2008-2018 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 
@@ -27,29 +27,25 @@
 -- - "COMPLETE" = finished task
 
 
-local Engine = import("Engine")
-local Lang = import("Lang")
-local Game = import("Game")
-local Space = import("Space")
-local Comms = import("Comms")
-local Event = import("Event")
-local Mission = import("Mission")
-local Format = import("Format")
-local Serializer = import("Serializer")
-local Character = import("Character")
-local Equipment = import("Equipment")
-local ShipDef = import("ShipDef")
-local Ship = import("Ship")
-local utils = import("utils")
-local Timer = import("Timer")
-local InfoFace = import("ui/InfoFace")
-local NavButton = import("ui/NavButton")
-local Rand = import("Rand")
-local ModelSkin = import("SceneGraph.ModelSkin")
+local Engine = require 'Engine'
+local Lang = require 'Lang'
+local Game = require 'Game'
+local Space = require 'Space'
+local Comms = require 'Comms'
+local Event = require 'Event'
+local Mission = require 'Mission'
+local Format = require 'Format'
+local Serializer = require 'Serializer'
+local Character = require 'Character'
+local Equipment = require 'Equipment'
+local ShipDef = require 'ShipDef'
+local Ship = require 'Ship'
+local utils = require 'utils'
+local Timer = require 'Timer'
+local Rand = require 'Rand'
+local ModelSkin = require 'SceneGraph.ModelSkin'
 local l = Lang.GetResource("module-searchrescue")
-
--- Get the UI class
-local ui = Engine.ui
+local lc = Lang.GetResource 'core'
 
 -- basic variables for mission creation
 local max_mission_dist = 30          -- max distance for long distance mission target location [ly]
@@ -435,7 +431,7 @@ end
 
 local cargoPresent = function (ship, item)
 	-- Check if this cargo item is present on the ship.
-	cargotype = verifyCommodity(item)  -- necessary for some users
+	local cargotype = verifyCommodity(item)  -- necessary for some users
 	if ship:CountEquip(cargotype) > 0 then
 		return true
 	else
@@ -491,14 +487,14 @@ end
 local addCargo = function (ship, item)
 	-- Add a ton of the supplied cargo item to the ship.
 	if not cargoSpace(ship) then return end
-	cargotype = verifyCommodity(item)  -- necessary for some users
+	local cargotype = verifyCommodity(item)  -- necessary for some users
 	ship:AddEquip(cargotype, 1)
 end
 
 local removeCargo = function (ship, item)
 	-- Remove a ton of the supplied cargo item from the ship.
 	if not cargoPresent(ship, item) then return end
-	cargotype = verifyCommodity(item)  -- necessary for some users
+	local cargotype = verifyCommodity(item)  -- necessary for some users
 	ship:RemoveEquip(cargotype, 1)
 end
 
@@ -600,7 +596,7 @@ local createTargetShipParameters = function (flavour)
 		end
 	elseif flavour.deliver_crew > 0 then
 		for i,shipdef in pairs(shipdefs) do
-			if shipdef.maxCrew <= flavour.deliver_crew+1 then shipdefs[i] = nil end
+			if shipdef.maxCrew < flavour.deliver_crew+1 then shipdefs[i] = nil end
 		end
 	end
 	----> crew quarters for crew pickup missions
@@ -648,7 +644,9 @@ local createTargetShipParameters = function (flavour)
 	local shipdef = shipdefs[rand:Integer(1,#shipdefs)]
 
 	-- number of crew
-	local crew_num, pickup_crew, deliver_crew
+	local crew_num=0
+	local pickup_crew=0
+	local deliver_crew=0
 	if flavour.id == 1 or flavour.id == 6 then
 		crew_num = rand:Integer(shipdef.minCrew,shipdef.maxCrew)
 		pickup_crew = crew_num
@@ -661,11 +659,15 @@ local createTargetShipParameters = function (flavour)
 		end
 		pickup_crew = flavour.pickup_crew
 		deliver_crew = shipdef.minCrew - crew_num
+	elseif flavour.deliver_crew > 0 then
+		crew_num = rand:Integer(flavour.deliver_crew+1,shipdef.maxCrew)
+		crew_num = crew_num - flavour.deliver_crew
+		deliver_crew = flavour.deliver_crew
 	elseif flavour.pickup_crew > 0 then
-		crew_num = pickup_crew
+		crew_num = flavour.pickup_crew
+		pickup_crew = flavour.pickup_crew
 	else
 		crew_num = rand:Integer(shipdef.minCrew,shipdef.maxCrew)
-		crew_num = crew_num - flavour.deliver_crew
 		pickup_crew = flavour.pickup_crew
 		deliver_crew = flavour.deliver_crew
 	end
@@ -765,12 +767,7 @@ local createTargetShip = function (mission)
 	end
 
 	-- load a laser
-	local max_laser_size
-	if default_drive then
-		max_laser_size = shipdef.capacity - default_drive.capabilities.mass
-	else
-		max_laser_size = shipdef.capacity
-	end
+	local max_laser_size = shipdef.capacity - (drive and drive.capabilities.mass or 0)
 	local laserdefs = utils.build_array(utils.filter(function (_,laser) return laser:IsValidSlot('laser_front')
 				                                    and laser.capabilities.mass <= max_laser_size
 			                                    and laser.l10n_key:find("PULSECANNON") end, pairs(Equipment.laser)))
@@ -944,6 +941,7 @@ local onChat = function (form, ref, option)
 			deliver_crew_check = "NOT",
 			deliver_pass_check = "NOT",
 			deliver_comm_check = {},
+			target_destroyed   = "NOT",
 			cargo_pass         = {},
 			cargo_comm         = {},
 			searching          = false    -- makes sure only one search is active for this mission (function "searchForTarget")
@@ -1064,7 +1062,7 @@ local findClosestPlanets = function ()
 
 	-- pick closest planets to stations
 	for _,planet in pairs(rockyplanets) do
-		nearest_station = planet:FindNearestTo("SPACESTATION")
+		local nearest_station = planet:FindNearestTo("SPACESTATION")
 		table.insert(closestplanets[nearest_station], planet.path)
 	end
 
@@ -1261,7 +1259,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 	deliver_comm = copyTable(flavour.deliver_comm)
 
 	-- set target ship parameters and determine pickup and delivery of personnel based on mission flavour
-	local shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew, shipseed = createTargetShipParameters(flavour, deliver_crew, pickup_crew, pickup_pass)
+	local shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew, shipseed = createTargetShipParameters(flavour)
 
 	-- adjust fuel to deliver based on selected ship and mission flavour
 	local needed_fuel
@@ -1382,6 +1380,9 @@ end
 local missionStatus = function (mission)
 	-- Return the completion status of the mission.
 	local status = "NOT"
+	if mission.target_destroyed ~= "NOT" then
+		status = "ABORT"
+	end
 	if mission.pickup_crew_check == "COMPLETE" or mission.pickup_pass_check == "COMPLETE" or
 	mission.deliver_crew_check == "COMPLETE" or mission.pickup_pass_check == "COMPLETE" then
 		status = "COMPLETE"
@@ -1452,7 +1453,24 @@ local closeMission = function (mission)
 		            Character.persistent.player.reputation, Character.persistent.player.killcount)
 		removeMission(mission)
 
-		-- if mission is still on time
+	-- if mission is still on time
+	-- if mission was aborted (target destroyed)
+	elseif missionStatus(mission) == "ABORT" then
+		if mission.target_destroyed == "BY_PLAYER" then
+			Comms.ImportantMessage(l.PLAYER_DESTROYED_TARGET)
+			Character.persistent.player.reputation = Character.persistent.player.reputation - 2*delta_reputation
+			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+			            Character.persistent.player.reputation, Character.persistent.player.killcount)
+			removeMission(mission)
+		else
+			local destroyedtxt = string.interp(l.ACCIDENT_DESTROYED_TARGET, {shiplabel = mission.shiplabel})
+			Comms.ImportantMessage(destroyedtxt)
+			Game.player:AddMoney(mission.reward/2)
+			Character.persistent.player.reputation = Character.persistent.player.reputation + delta_reputation
+			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+			            Character.persistent.player.reputation, Character.persistent.player.killcount)
+			removeMission(mission)
+		end
 	else
 		-- mission has been completed
 		if missionStatus(mission) == "COMPLETE" then
@@ -1929,7 +1947,7 @@ local onFrameChanged = function (body)
 	-- Start a new search for target every time the reference frame for player changes.
 	if not body:isa("Ship") or not body:IsPlayer() then return end
 	for _,mission in pairs(missions) do
-		if Game.system == mission.system_target:GetStarSystem() then
+		if Game.system == mission.system_target:GetStarSystem() and mission.target then
 			if body.frameBody == mission.target.frameBody then
 				searchForTarget(mission)
 			end
@@ -1951,19 +1969,19 @@ local onCreateBB = function (station)
 	-- Initial creation of banter boards for current system.
 
 	-- more efficient to determine closest planets per station once per banter board creation
-	closestplanets = findClosestPlanets()
+	local closestplanets = findClosestPlanets()
 
 	-- force ad creation for debugging
-	-- local num = 3
-	-- for _ = 1,num do
-	-- 	makeAdvert(station, 1, closestplanets)
-	--	makeAdvert(station, 2, closestplanets)
-	-- 	makeAdvert(station, 3, closestplanets)
-	-- 	makeAdvert(station, 4, closestplanets)
-	-- 	makeAdvert(station, 5, closestplanets)
-	-- 	makeAdvert(station, 6, closestplanets)
-	-- 	makeAdvert(station, 7, closestplanets)
-	-- end
+	local num = 3
+	for _ = 1,num do
+		-- makeAdvert(station, 1, closestplanets)
+		-- makeAdvert(station, 2, closestplanets)
+		-- makeAdvert(station, 3, closestplanets)
+		-- makeAdvert(station, 4, closestplanets)
+		-- makeAdvert(station, 5, closestplanets)
+		-- makeAdvert(station, 6, closestplanets)
+		-- makeAdvert(station, 7, closestplanets)
+	end
 
 	if triggerAdCreation() then makeAdvert(station, nil, closestplanets) end
 end
@@ -1997,8 +2015,8 @@ local onUpdateBB = function (station)
 	-- force ad creation for debugging
 	-- local num = 3
 	-- for _ = 1,num do
-	--	makeAdvert(station, 1, closestplanets)
-	--	makeAdvert(station, 2, closestplanets)
+	-- 	makeAdvert(station, 1, closestplanets)
+	-- 	makeAdvert(station, 2, closestplanets)
 	-- 	makeAdvert(station, 3, closestplanets)
 	-- 	makeAdvert(station, 4, closestplanets)
 	-- 	makeAdvert(station, 5, closestplanets)
@@ -2018,7 +2036,7 @@ local onEnterSystem = function (player)
 
 	-- spawn mission target ships in this system
 	for _,mission in pairs(missions) do
-		if mission.system_target:IsSameSystem(syspath) then
+		if mission.system_target:IsSameSystem(syspath) and mission.target_destroyed == "NOT" then
 			mission.target = createTargetShip(mission)
 		end
 	end
@@ -2120,49 +2138,51 @@ local onGameStart = function ()
 	end
 end
 
-local onClick = function (mission)
-	-- Show mission details on the mission info screen once accepted.
-	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.system_target:GetStarSystem())) or "???"
+local buildMissionDescription = function(mission)
+	local ui = require 'pigui'
+	local textTable = require 'pigui.libs.text-table'
 
-	local dist_for_text
-	if mission.flavour.loctype ~= "FAR_SPACE" then
-		local au = mToAU(mission.dist)
-		if au > 0.01 then
-			dist_for_text = string.format("%.2f", au).." "..l.AU
-		else
-			dist_for_text = string.format("%.0f", mission.dist/1000).." "..l.KM
-		end
+	local desc = {}
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.system_target:GetStarSystem())) or "???"
+	if mission.flavour.loctype ~= "FAR_SPACE" and Game.system then
+		dist = ui.Format.Distance(mission.dist)
 	else
-		dist_for_text = dist.." "..l.LY
+		dist = dist .." ".. lc.UNIT_LY
 	end
 
-	local location_for_text
+	desc.client = mission.client
+	desc.location = mission.location
+
+	-- default to place-of-assistance reward
+	local paymentAddress = l.PLACE_OF_ASSISTANCE
+	local paymentLocation = mission.system_target
+
+	if not mission.flavour.reward_immediate then
+		paymentAddress = mission.station_local:GetSystemBody().name
+		paymentLocation = mission.system_local
+		desc.returnLocation = mission.station_local
+	end
+
+	local targetLocation
 	if mission.lat == 0 and mission.long == 0 then
-		location_for_text = mission.planet_target:GetSystemBody().name.."\n"..l.ORBIT
+		targetLocation = mission.planet_target:GetSystemBody().name..": "..l.ORBIT
 	else
-		location_for_text = mission.planet_target:GetSystemBody().name.."\n"..
+		targetLocation = mission.planet_target:GetSystemBody().name..": "..
 			l.LAT.." "..decToDegMinSec(math.rad2deg(mission.lat)).." / "..
 			l.LON.." "..decToDegMinSec(math.rad2deg(mission.long))
 	end
 
-	local payment_address, payment_system, navbutton
-	if mission.flavour.reward_immediate == true then
-		payment_address = l.PLACE_OF_ASSISTANCE
-		payment_system = mission.system_target:GetStarSystem().name
-		navbutton = ui:Margin(0)
-	else
-		payment_address = mission.station_local:GetSystemBody().name
-		payment_system = mission.system_local:GetStarSystem().name
-		navbutton = NavButton.New(l.SET_RETURN_ROUTE, mission.station_local)
-	end
-
-	-- navbutton target (system if out-of-system jump, target ship if in system)
-	local navbutton_target
-	if not Game.system or mission.planet_target:IsSameSystem(Game.system.path) then
-		navbutton_target = mission.target
-	else
-		navbutton_target = mission.planet_target
-	end
+	desc.details = {
+		{ l.TARGET_SHIP_ID, mission.shipdef_name.." <"..mission.shiplabel..">" },
+		{ l.LAST_KNOWN_LOCATION, targetLocation },
+		{ l.SYSTEM, ui.Format.SystemPath(mission.system_target) },
+		{ l.DISTANCE, dist },
+		false,
+		{ l.REWARD, ui.Format.Money(mission.reward) },
+		{ l.PAYMENT_LOCATION, paymentAddress },
+		{ l.SYSTEM, ui.Format.SystemPath(paymentLocation) },
+		{ l.DEADLINE, ui.Format.Date(mission.due) },
+	}
 
 	local pickup_comm_text = 0
 	local count = 0
@@ -2184,71 +2204,25 @@ local onClick = function (mission)
 		end
 	end
 
-	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox():PackEnd({
-				              ui:Margin(10),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.TARGET_SHIP_ID)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.shipdef_name.." <"..mission.shiplabel..">")})}),
-				              ui:Margin(10),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.LAST_KNOWN_LOCATION)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(location_for_text)})}),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.SYSTEM)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
-						                                                mission.system_target:GetStarSystem().name.." ("
-							                                                ..mission.system_target.sectorX..","
-							                                                ..mission.system_target.sectorY..","
-							                                                ..mission.system_target.sectorZ..")")})}),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DISTANCE)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(dist_for_text)})}),
-				              ui:Margin(5),
-				              NavButton.New(l.SET_AS_TARGET, navbutton_target),
-				              ui:Margin(10),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.REWARD)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Money(mission.reward))})}),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.PAYMENT_LOCATION)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(payment_address)})}),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.SYSTEM)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
-						                                                payment_system.." ("
-							                                                ..mission.system_local.sectorX..","
-							                                                ..mission.system_local.sectorY..","
-							                                                ..mission.system_local.sectorZ..")")})}),
-				              ui:Grid(2,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DEADLINE)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Date(mission.due))})}),
-				              ui:Margin(5),
-				              navbutton,
-				              ui:Margin(10),
-				              ui:Grid(1,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.PICKUP)})}),
-				              ui:Grid(3,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.CREW)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(l.PASSENGERS)})})
-					              :SetColumn(2, {ui:VBox():PackEnd({ui:Label(l.COMMODITIES)})}),
-				              ui:Grid(3,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:MultiLineText(mission.pickup_crew)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.pickup_pass)})})
-					              :SetColumn(2, {ui:VBox():PackEnd({ui:MultiLineText(pickup_comm_text)})}),
-				              ui:Margin(5),
-				              ui:Grid(1,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DELIVERY)})}),
-				              ui:Grid(3,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.CREW)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(l.PASSENGERS)})})
-					              :SetColumn(2, {ui:VBox():PackEnd({ui:Label(l.COMMODITIES)})}),
-				              ui:Grid(3,1)
-					              :SetColumn(0, {ui:VBox():PackEnd({ui:MultiLineText(mission.deliver_crew)})})
-					              :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.deliver_pass)})})
-					              :SetColumn(2, {ui:VBox():PackEnd({ui:MultiLineText(deliver_comm_text)})})
-		          })})
-		:SetColumn(1, {ui:VBox(10):PackEnd(InfoFace.New(mission.client))})
+	local pickupTable = {
+		{ l.CREW, l.PASSENGERS, l.COMMODITIES },
+		{ mission.pickup_crew, mission.pickup_pass, pickup_comm_text },
+	}
+
+	local deliverTable = {
+		{ l.CREW, l.PASSENGERS, l.COMMODITIES },
+		{ mission.deliver_crew, mission.deliver_pass, deliver_comm_text },
+	}
+
+	desc.customDetails = function()
+		ui.text(l.PICKUP)
+		textTable.drawTable(3, nil, pickupTable)
+		ui.newLine()
+		ui.text(l.DELIVERY)
+		textTable.drawTable(3, nil, deliverTable)
+	end
+
+	return desc
 end
 
 local onGameEnd = function ()
@@ -2257,8 +2231,12 @@ end
 
 local onShipDestroyed = function (ship, attacker)
 	for _,mission in pairs(missions) do
-		if ship == mission.target then
+		if mission.target and ship == mission.target then
 			mission.target = nil
+			mission.target_destroyed = "BY_ACCIDENT"
+			if attacker:IsDynamic() and attacker:IsPlayer() then
+				mission.target_destroyed = "BY_PLAYER"
+			end
 		end
 	end
 
@@ -2291,6 +2269,6 @@ Event.Register("onShipUndocked", onShipUndocked)
 Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onShipDestroyed", onShipDestroyed)
 
-Mission.RegisterType("searchrescue",l.SEARCH_RESCUE,onClick)
+Mission.RegisterType("searchrescue",l.SEARCH_RESCUE, buildMissionDescription)
 
 Serializer:Register("searchrescue", serialize, unserialize)

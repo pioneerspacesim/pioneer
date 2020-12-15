@@ -175,10 +175,6 @@
     "description": "",
     "message": "Hi ha un límit de temps?"
   },
-  "LY": {
-    "description": "",
-    "message": "al"
-  },
   "MANAGER": {
     "description": "",
     "message": "Gerent"
@@ -285,11 +281,15 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "És important que la missió s'hagi completat el {date}, perquè més naus hostils venen de camí."
+    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
   },
   "POLICE_LAND_THERE": {
     "description": "",
     "message": "Simplement amarreu a una estació amb delegació de {org}."
+  },
+  "RADAR_NOT_INSTALLED": {
+    "description": "",
+    "message": "Sorry, I don't think you can handle this without a radar."
   },
   "RISK_1": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "L'enemic està molt ben equipat i té accés a l'última tecnologia. Aneu amb compte!"
+    "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
   },
   "SET_AS_TARGET": {
     "description": "",

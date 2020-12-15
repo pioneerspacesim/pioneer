@@ -47,6 +47,18 @@
     "description": "",
     "message": "Don't go now, there's a pirate waiting for you in the other program."
   },
+  "MSG_20": {
+    "description": "",
+    "message": "Devez-vous vraiment vous en aller ?"
+  },
+  "MSG_21": {
+    "description": "alluding to suicide",
+    "message": "Prendre l'échappatoire du lâche ?"
+  },
+  "MSG_22": {
+    "description": "alluding to suicide",
+    "message": "Ne faites pas ça! Cela ne peut que s'arranger! Désirez-vous toujours abandonner?"
+  },
   "MSG_3": {
     "description": "",
     "message": "Êtes-vous sûre de vouloir quitter ce jeux génial qui ne vous coûte rien ?"

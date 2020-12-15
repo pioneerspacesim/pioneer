@@ -37,22 +37,22 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "În sistemul {system} ({sectorx}, {sectory}, {sectorz}) este o luptă între om și mașină pentru că o \"defecțiune de comportament\" cauzează persoanele fizice să nu mai aibă încredere în roboții casnici."
+    "message": "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to lose faith in robot servants."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "ȘTIRI {date}: O explozie solară cauzează cea mai mare pană de curent din ultimul mileniu în sistemul {system} ."
+    "message": "NEWS {date}: Solar flare causes biggest blackout in a millennium in the {system} system."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Pana de curent care a cuprins întregul sistem {system} ({sectorx}, {sectory}, {sectorz}) provoacă ravagii. Consumatorii stau la coadă să cumpere ultimul Trapperware ca să-și înlocuiască frigiderele întrucât producătorul a rămas fără materiale prime."
+    "message": "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as the producer has run out of raw material."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
     "message": "ȘTIRI {date}: Poliția a făcut razie sindicatului crimei din sistemul {system}. Au fost arestați șefi importanți."
   },
   "FLAVOUR_15_NEWSBODY": {
-    "description": "imply high demand of NARCOTICS.",
+    "description": "Imply high demand of NARCOTICS.",
     "message": "Administrația sistemului {system} ({sectorx}, {sectory}, {sectorz}) speră să scadă criminalitatea mulțumită faptului că drogurile nu mai sunt disponibile pe piață din momentul arestării mai multori mafioți."
   },
   "FLAVOUR_16_HEADLINE": {
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "În timpul Marelui Târg al Mașinilor cu Abur din sistemul {system} ({sectorx}, {sectory}, {sectorz}) o încercare în depașirea recordului galactic al tracțiunii la tractoare s-a terminat cu un masacru din cauză că unul din contestanți a pierdut controlul mașinăriei sale, distrugând toate mașinăriile celorlalți participanți. Administrația spune că soarta fermierilor locali stă în cumpănă."
+    "message": "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in the biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -92,7 +92,7 @@
     "message": "ȘTIRI {date}: Conflict escaladează în sistemul {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
-    "description": "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+    "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
     "message": "Conflictul de lungă durată din sistemul {system} ({sectorx}, {sectory}, {sectorz}) a escaladat în lupte deschise între armate."
   },
   "FLAVOUR_20_HEADLINE": {
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Muncitori din sistemul {system} ({sectorx}, {sectory}, {sectorz}) au rupt lanțurile în rebeliune și refuză să mai lucreze câmpurile Lotus. Economia a ajuns într-un impas deoarece nu se pot găsi muncitori ieftini."
+    "message": "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a standstill as no cheap workers can be found."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -217,7 +217,7 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "The Confederate Chronicle"
+    "message": "The Commonwealth Chronicle"
   },
   "NEWSPAPER_FED": {
     "description": "",
