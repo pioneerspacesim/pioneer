@@ -55,7 +55,7 @@ local collapsingHeaderFlags = ui.TreeNodeFlags { "DefaultOpen" }
 
 local function shipStats()
 	local closed = ui.withFont(fonts.pionillium.medlarge, function()
-		return not ui.collapsingHeader("Ship Information", collapsingHeaderFlags)
+		return not ui.collapsingHeader(l.SHIP_INFORMATION, collapsingHeaderFlags)
 	end)
 
 	-- TODO: draw info ontop of the header
@@ -127,7 +127,7 @@ end
 
 local function equipmentList()
 	local closed = ui.withFont(fonts.pionillium.medlarge, function()
-		return not ui.collapsingHeader("Equipment", collapsingHeaderFlags)
+		return not ui.collapsingHeader(l.EQUIPMENT, collapsingHeaderFlags)
 	end)
 
 	if closed then return end
