@@ -9,11 +9,11 @@ local s = CustomSystem:new('1 Orionis',{ 'STAR_F' }) --Alt name will be "Cluaran
 	:govtype('CISLIBDEM')
 	:lawlessness(f(5,100)) -- 1/100th from a peaceful eden
 	:short_desc('A proudly independent hisoric colony')
-	:long_desc([["Proud World for Proud People".
-1 Orionis' motto can be traced back to year 2325, as the "Evergreen" -one of the legacy colony ships launched before the era of hyperspace travel- landed on planet Saorsa. Its founding fathers vowed to never live again under Terran oppression,
-This heritage still shapes the system’s values to this day : independence, pride, and freedom.
-1 Orionis acively took part in the War of Hope (2723-2725), as its volunteer forces fought alongside Epsilon Eridani against Sol’s attempt of hegemony. The system is a founding member of the Commonwealth of Independent Worlds and remains politically influent to this day.
-In present day, the systems boasts a strong industry and is the birthplace of many an elite pilot of the Confederation Fleet.
+	:long_desc([["Proud World for Proud People". ]] ..
+[[1 Orionis' motto can be traced back to year 2325, as the "Evergreen" -one of the legacy colony ships launched before the era of hyperspace travel- landed on planet Saorsa. Its founding fathers vowed to never live again under Terran oppression,
+This heritage still shapes the system’s values to this day : independence, pride, and freedom. ]] ..
+[[1 Orionis acively took part in the War of Hope (2723-2725), as its volunteer forces fought alongside Epsilon Eridani against Sol’s attempt of hegemony. The system is a founding member of the Commonwealth of Independent Worlds and remains politically influent to this day. ]] ..
+[[In present day, the systems boasts a strong industry and is the birthplace of many an elite pilot of the Confederation Fleet.
 Travellers will also find the citizens are a proud lot : be it of their tradition, their chilly climate, their language, their gas giants...]])
 
 local orionis = CustomSystemBody:new('1 Orionis', 'STAR_F') --Alt name will be "Cluaran", means "thisle" in scottish
