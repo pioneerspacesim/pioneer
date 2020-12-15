@@ -80,10 +80,10 @@ struct Projectable {
 class SystemView : public PiGuiView, public DeleteEmitter {
 public:
 	SystemView(Game *game);
-	virtual ~SystemView();
-	virtual void Update();
-	virtual void Draw3D();
-	// virtual void OnSwitchTo() { Update(); Draw3D(); }
+	~SystemView() override;
+	void Update() override;
+	void Draw3D() override;
+	void OnSwitchFrom() override;
 
 	Projectable *GetSelectedObject();
 	void SetSelectedObject(Projectable::types type, Projectable::bases base, SystemBody *sb);

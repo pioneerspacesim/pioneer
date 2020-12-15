@@ -670,3 +670,4 @@ double SystemView::ProjectedSize(double size, vector3d pos)
 
 double SystemView::GetOrbitTime(double t, const SystemBody *b) { return t; }
 double SystemView::GetOrbitTime(double t, const Body *b) { return t - m_game->GetTime(); }
+void SystemView::OnSwitchFrom() { m_projected.clear(); } // because ships from the previous system may remain after last update
