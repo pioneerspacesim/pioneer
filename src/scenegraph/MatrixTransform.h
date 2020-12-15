@@ -3,16 +3,24 @@
 
 #ifndef _MATRIXTRANSFORM_H
 #define _MATRIXTRANSFORM_H
-/*
- * Applies a matrix transform to child nodes
- */
+
 #include "Group.h"
 #include "matrix4x4.h"
+
 namespace Graphics {
 	class Renderer;
 }
 
 namespace SceneGraph {
+
+	/*
+	* Applies a matrix transform to child nodes
+	*
+	* Note: transforms are not automatically serialized when saving to disk;
+	* they are derived from the original model and animations.
+	* If you have programmatically positioned a MatrixTransform, it is your
+	* responsibility to ensure the new position is properly serialized.
+	*/
 	class MatrixTransform : public Group {
 	public:
 		MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m);

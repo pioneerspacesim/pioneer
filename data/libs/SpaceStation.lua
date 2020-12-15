@@ -41,6 +41,7 @@ local function updateEquipmentStock (station)
 	assert(station and station:exists())
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
+
 	local hydrogen = Equipment.cargo.hydrogen
 	for key, e in pairs(Equipment.cargo) do
 		if e.purchasable then
@@ -65,6 +66,7 @@ local function updateEquipmentStock (station)
 			equipmentStock[station][e] = 0 -- commodity that cant be bought
 		end
 	end
+
 	for _,slot in pairs{"laser", "hyperspace", "misc"} do
 		for key, e in pairs(Equipment[slot]) do
 			equipmentStock[station][e] = Engine.rand:Integer(0,100)
@@ -287,13 +289,6 @@ local function addRandomShipAdvert(station, num)
 			label   = Ship.MakeRandomLabel(),
 		})
 	end
-end
-
-local function createShipMarket (station)
-	shipsOnSale[station] = {}
-
-	local shipAdsToSpawn = Engine.rand:Poisson(N_equilibrium(station))
-	addRandomShipAdvert(station, shipAdsToSpawn)
 end
 
 local function updateShipsOnSale (station)
@@ -612,11 +607,8 @@ function SpaceStation:LockAdvert (ref)
 end
 
 local function updateAdverts (station)
-	-- XXX this should really just be a single event
-	-- XXX don't create for stations we haven't visited
 	if not SpaceStation.adverts[station] then
-		SpaceStation.adverts[station] = {}
-		Event.Queue("onCreateBB", station)
+		logWarning("SpaceStation.lua: updateAdverts called for station that hasn't been visited")
 	else
 		Event.Queue("onUpdateBB", station)
 	end
@@ -662,18 +654,23 @@ end
 
 local function updateSystem ()
 	local stations = Space.GetBodies(function (b) return b.superType == "STARPORT" end)
-	for i=1,#stations do
-		updateEquipmentStock(stations[i])
-		updateShipsOnSale(stations[i])
-		updateAdverts(stations[i])
+	for i, station in ipairs(stations) do
+		if SpaceStation.adverts[station] then
+			updateEquipmentStock(station)
+			updateShipsOnSale(station)
+			updateAdverts(station)
+		end
 	end
 end
 
-local function createSystem()
-	local stations = Space.GetBodies(function (b) return b.superType == "STARPORT" end)
-	for i=1,#stations do
-		createShipMarket(stations[i])
-	end
+local function createStationMarket (station)
+	SpaceStation.adverts[station] = {}
+	shipsOnSale[station] = {}
+
+	updateEquipmentStock(station)
+	local shipAdsToSpawn = Engine.rand:Poisson(N_equilibrium(station))
+	addRandomShipAdvert(station, shipAdsToSpawn)
+	Event.Queue("onCreateBB", station)
 end
 
 local function destroySystem ()
@@ -717,14 +714,12 @@ Event.Register("onGameStart", function ()
 		loaded_data = nil
 	end
 
-	createSystem()
-	updateSystem()
 	Timer:CallEvery(3600, updateSystem)
 end)
-Event.Register("onEnterSystem", function (ship)
+
+Event.Register("onShipDocked", function (ship, station)
 	if ship ~= Game.player then return end
-	createSystem()
-	updateSystem()
+	createStationMarket(station)
 end)
 
 Event.Register("onLeaveSystem", function (ship)

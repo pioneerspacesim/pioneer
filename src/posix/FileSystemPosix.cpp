@@ -82,8 +82,6 @@ namespace FileSystem {
 		CFRelease(resourcesURL);
 		return path;
 #else
-		printf("Init!\n");
-
 		if (!getenv("PIONEER_LOCAL_DATA_ONLY")) {
 			/* PIONEER_DATA_DIR should point to ${prefix}/share/pioneer/data.
 			 * If this directory does not exist, try to use the "data" folder

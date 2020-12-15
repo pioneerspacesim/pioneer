@@ -103,15 +103,14 @@ namespace SceneGraph {
 			Json colorsArray = modelSkinObj["colors"].get<Json::array_t>();
 			if (colorsArray.size() != 3) throw SavedGameCorruptException();
 			for (unsigned int i = 0; i < 3; i++) {
-				Json arrayElem = colorsArray[i];
-				m_colors[i] = arrayElem["color"];
+				if (colorsArray[i].is_array())
+					m_colors[i] = colorsArray[i];
 			}
 
 			Json decalsArray = modelSkinObj["decals"].get<Json::array_t>();
-			if (decalsArray.size() != MAX_DECAL_MATERIALS) throw SavedGameCorruptException();
 			for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++) {
-				Json arrayElem = decalsArray[i];
-				m_decals[i] = arrayElem["decal"].get<std::string>();
+				if (decalsArray.size() > i && decalsArray[i].is_string())
+					m_decals[i] = decalsArray[i].get<std::string>();
 			}
 
 			m_label = modelSkinObj["label"].get<std::string>();
@@ -138,18 +137,14 @@ namespace SceneGraph {
 
 		Json colorsArray = Json::array(); // Create JSON array to contain colors data.
 		for (unsigned int i = 0; i < 3; i++) {
-			Json arrayElem({});
-			arrayElem["color"] = m_colors[i];
-			colorsArray.push_back(arrayElem);
+			colorsArray.push_back(m_colors[i]);
 		}
 
 		modelSkinObj["colors"] = colorsArray; // Add colors array to model skin object.
 
 		Json decalsArray = Json::array(); // Create JSON array to contain decals data.
 		for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++) {
-			Json arrayElem({});
-			arrayElem["decal"] = m_decals[i];
-			decalsArray.push_back(arrayElem);
+			decalsArray.push_back(m_decals[i]);
 		}
 
 		modelSkinObj["decals"] = decalsArray; // Add decals array to model skin object.
