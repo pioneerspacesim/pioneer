@@ -1,7 +1,7 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local s = CustomSystem:new('61 Cygni',{ 'STAR_K' }) --Alt name will be Cennet (Azeri for "paradise")
+local s = CustomSystem:new('Cennet',{ 'STAR_K' }):other_names({"61 Cygni"}) --(Azeri name means "paradise")
 	:faction('Solar Federation')
 	:govtype('EARTHDEMOC')
 	:lawlessness(f(1,100)) -- 1/100th from a peaceful eden
@@ -17,7 +17,8 @@ Nowadays, the system is a hotspot for gene-fashionistas (green skin and horns ar
 --Other starports are named after the vocabulary of genetics : https://www.genome.gov/glossary/ 
  
 
-local cygni = CustomSystemBody:new('61 Cygni', 'STAR_K') --Alt name will be Cennet (Azeri for "paradise")
+
+local cygni = CustomSystemBody:new('Cennet', 'STAR_K')
 	:radius(f(90,100))
 	:mass(f(51,100))
 	:temp(3508)

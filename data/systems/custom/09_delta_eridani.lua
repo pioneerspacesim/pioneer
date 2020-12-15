@@ -1,7 +1,7 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local s = CustomSystem:new('Delta Eridani',{'STAR_K_GIANT'}) --Alt name will be Svartalfheim
+local s = CustomSystem:new('Delta Eridani',{'STAR_K_GIANT'}):other_names({"Svartalfheim"})
 	:faction('Commonwealth of Independent Worlds')
 	:govtype('CISSOCDEM')
 	:lawlessness(f(15,100)) -- 1/100th from a peaceful eden

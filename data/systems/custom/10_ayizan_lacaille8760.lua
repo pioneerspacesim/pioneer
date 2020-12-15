@@ -1,7 +1,7 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local s = CustomSystem:new('Ayizan',{'STAR_M'}) --Alt name for Lacaille 8760
+local s = CustomSystem:new('Ayizan',{'STAR_M'}):other_names({"Lacaille 8760"})
 	:faction('Solar Federation')
 	:govtype('EARTHCOLONIAL')
 	:lawlessness(f(40,100)) -- More than the usual Earth Colonial system, because fo the guerilla
@@ -16,9 +16,9 @@ While Sol loosened its rule a few decades ago as a side effect of the detente be
 --Names do not infringe any copyright
 --Bodies are named after Haitian Voodoo Loas (spirits)
 --Cities and orbital stations are named after Haitian personalities or locations
- 
 
-local ayizan = CustomSystemBody:new('Ayizan-Lacaille 8760', 'STAR_M') --Remove the "Lacaille 8760" once the alt name feature is built.
+
+local ayizan = CustomSystemBody:new('Ayizan', 'STAR_M')
 	:radius(f(51,100))
 	:mass(f(41,100))
 	:temp(3445)
