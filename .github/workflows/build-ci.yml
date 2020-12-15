@@ -4,6 +4,9 @@ name: Build Pioneer
 
 # Controls when the action will run.
 on:
+  push:
+    branches:
+    - master
   pull_request:
     paths:
     - 'src/**.cpp'
