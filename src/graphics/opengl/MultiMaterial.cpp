@@ -116,10 +116,15 @@ namespace Graphics {
 			// Scene struct
 			float lightIntensity[4];
 			Color4f ambient;
-		};
-		static_assert(sizeof(DrawDataBlock) == 80);
 
-		void LitMultiMaterial::Apply()
+			// matrix data
+			matrix4x4f uViewMatrix;
+			matrix4x4f uViewMatrixInverse;
+			matrix4x4f uViewProjectionMatrix;
+		};
+		static_assert(sizeof(DrawDataBlock) == 272, "");
+
+		void LitMultiMaterial::Apply(RendererOGL *r)
 		{
 			//request a new light variation
 			if (m_curNumLights != m_renderer->m_numDirLights) {
@@ -146,6 +151,13 @@ namespace Graphics {
 				for (uint32_t i = 0; i < m_renderer->GetNumLights(); i++) {
 					dataBlock->lightIntensity[i] = m_renderer->GetLight(i).GetIntensity();
 				}
+
+				const matrix4x4f &mv = r->GetTransform();
+				const matrix4x4f &proj = r->GetProjection();
+				dataBlock->uViewMatrix = mv;
+				dataBlock->uViewMatrixInverse = mv.Inverse();
+				dataBlock->uViewProjectionMatrix = proj * mv;
+				// We handle the normal matrix by transposing the orientation part of the inverse view matrix in the shader
 			}
 			CHECKERRORS();
 		}

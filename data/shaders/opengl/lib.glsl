@@ -23,7 +23,7 @@ void BlinnPhongDirectionalLight(in Light light, in float intensity, in Surface s
 	vec3 V = normalize(-fragPos); // surface->eye vector
 	vec3 H = normalize(L + V); // halfway vector
 	diffuse += surf.color.xyz * light.diffuse.xyz * intensity * max(dot(L, surf.normal), 0.0);
-	specular += surf.specular * light.specular.xyz * intensity * pow(max(dot(H, V), 0.0), surf.shininess);
+	specular += surf.specular * light.specular.xyz * intensity * pow(max(dot(H, surf.normal), 0.0), surf.shininess);
 }
 
 //Currently used by: planet ring shader, geosphere shaders

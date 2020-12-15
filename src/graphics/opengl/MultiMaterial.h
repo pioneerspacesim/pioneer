@@ -37,7 +37,7 @@ namespace Graphics {
 			LitMultiMaterial();
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
 			virtual void SetProgram(Program *p) override;
-			virtual void Apply() override;
+			virtual void Apply(RendererOGL *r) override;
 
 		private:
 			Program *m_programs[5];

@@ -3,12 +3,6 @@
 
 #extension GL_ARB_explicit_attrib_location : enable
 
-uniform mat4 uProjectionMatrix;
-uniform mat4 uViewMatrix;
-uniform mat4 uViewMatrixInverse;
-uniform mat4 uViewProjectionMatrix;
-uniform mat3 uNormalMatrix;
-
 //Light uniform parameters
 struct Light {
 	vec4 diffuse;
@@ -37,9 +31,18 @@ layout(std140) uniform LightData {
 layout(std140) uniform DrawData {
 	Material material;
 	Scene scene;
+
+	mat4 uViewMatrix;
+	mat4 uViewMatrixInverse;
+	mat4 uViewProjectionMatrix;
 };
 
 #else
+
+uniform mat4 uViewMatrix;
+uniform mat4 uViewMatrixInverse;
+uniform mat4 uViewProjectionMatrix;
+uniform mat3 uNormalMatrix;
 
 //scene uniform parameters
 struct Scene {

@@ -28,7 +28,6 @@ namespace Graphics {
 			const matrix3x3f orient(mv.GetOrient());
 			const matrix3x3f NormalMatrix(orient.Inverse());
 
-			m_program->uProjectionMatrix.Set(proj);
 			m_program->uViewMatrix.Set(mv);
 			m_program->uViewMatrixInverse.Set(mv.Inverse());
 			m_program->uViewProjectionMatrix.Set(ViewProjection);

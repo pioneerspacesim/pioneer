@@ -280,7 +280,6 @@ namespace Graphics {
 		{
 			PROFILE_SCOPED()
 			//Init generic uniforms, like matrices
-			uProjectionMatrix.Init("uProjectionMatrix", m_program);
 			uViewMatrix.Init("uViewMatrix", m_program);
 			uViewMatrixInverse.Init("uViewMatrixInverse", m_program);
 			uViewProjectionMatrix.Init("uViewProjectionMatrix", m_program);

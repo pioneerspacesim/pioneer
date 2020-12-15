@@ -31,7 +31,6 @@ namespace Graphics {
 			bool Loaded() const { return success; }
 
 			// Uniforms.
-			Uniform uProjectionMatrix;
 			Uniform uViewMatrix;
 			Uniform uViewMatrixInverse;
 			Uniform uViewProjectionMatrix;

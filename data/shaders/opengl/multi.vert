@@ -30,7 +30,9 @@ void main(void)
 #ifdef TEXTURE0
 	texCoord0 = a_uv0.xy;
 #endif
+
 #if (NUM_LIGHTS > 0)
+	mat3 uNormalMatrix = transpose(mat3(uViewMatrixInverse));
 #ifdef USE_INSTANCING
 	eyePos = vec3(uViewMatrix * (a_transform * a_vertex));
 	normal = normalize(uNormalMatrix * (mat3(a_transform) * a_normal));
