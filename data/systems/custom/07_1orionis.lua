@@ -131,7 +131,7 @@ local saorsa = {
 		:ice_cover(f(467,1000))
 		:life(f(45,100)),
 	{
-		CustomSystemBody:new('New Edinburgh', 'STARPORT_SURFACE') -- Real Scottish town (Scotch/English)
+		CustomSystemBody:new('Luirg', 'STARPORT_SURFACE') -- Real Scottish town (Gaelic)
 			:latitude(math.deg2rad(13.1308))
 			:longitude(math.deg2rad(-80.1142)),
 		CustomSystemBody:new('Tealamainn', 'STARPORT_SURFACE') -- Real Scottish town (Gaelic)
@@ -238,7 +238,7 @@ local orionish_moons = {
 		:life(f(0,10))
 	}
 
-local orionisi = CustomSystemBody:new('Lanrik', 'PLANET_GAS_GIANT') -- Real Scottish town (Scots)
+local orionisi = CustomSystemBody:new('New Edinburgh', 'PLANET_GAS_GIANT') -- Real Scottish town (Scots/English)
 	:seed(-1200031656)
 	:radius(f(83255,10000))
 	:mass(f(693151,10000))
@@ -257,7 +257,7 @@ local orionisi = CustomSystemBody:new('Lanrik', 'PLANET_GAS_GIANT') -- Real Scot
 	:life(f(0,1))
 
 local orionisi_moons = {
-	CustomSystemBody:new('Tweid', 'PLANET_TERRESTRIAL') -- Real Scottish river (Scots)
+	CustomSystemBody:new('Lanrik', 'PLANET_TERRESTRIAL') -- Real Scottish town (Scots)
 		:seed(247130418)
 		:radius(f(1231,10000))
 		:mass(f(1866,1000000))
