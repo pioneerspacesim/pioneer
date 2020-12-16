@@ -30,17 +30,11 @@ in vec3 normal;
 #endif // HEAT_COLOURING
 #endif // (NUM_LIGHTS > 0)
 
-#ifndef UNIFORM_BUFFERS
-
-uniform Scene scene;
-uniform Material material;
-
-#ifdef HEAT_COLOURING
-	uniform vec3 heatingNormal; // normalised in viewspace
-	uniform float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
-#endif // HEAT_COLOURING
-
-#endif
+layout(std140) uniform MultiMaterialData {
+	vec4 lightIntensity;
+	vec3 heatingNormal;
+	float heatingAmount;
+};
 
 out vec4 frag_color;
 
@@ -117,10 +111,10 @@ void main(void)
 	vec3 diffuse = scene.ambient.xyz * surface.color.xyz;
 	vec3 specular = vec3(0.0);
 	float intensity[4] = float[](
-		scene.lightIntensity.x,
-		scene.lightIntensity.y,
-		scene.lightIntensity.z,
-		scene.lightIntensity.w
+		lightIntensity.x,
+		lightIntensity.y,
+		lightIntensity.z,
+		lightIntensity.w
 	);
 
 	for (int i=0; i<NUM_LIGHTS; ++i) {

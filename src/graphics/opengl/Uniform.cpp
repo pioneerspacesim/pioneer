@@ -20,7 +20,7 @@ namespace Graphics {
 		void Uniform::InitBlock(const char *name, GLuint program, GLint binding)
 		{
 			m_location = glGetUniformBlockIndex(program, name);
-			if (IsValid())
+			if (IsValid() && GLuint(m_location) != GL_INVALID_INDEX)
 				glUniformBlockBinding(program, m_location, binding);
 		}
 

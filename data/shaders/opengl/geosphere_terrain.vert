@@ -3,20 +3,17 @@
 
 #include "attributes.glsl"
 #include "lib.glsl"
+#include "geosphere_uniforms.glsl"
 
 out vec3 varyingEyepos;
 out vec3 varyingNormal;
 out vec4 vertexColor;
-
-uniform vec3 geosphereCenter;
-uniform float geosphereRadius;
 
 out vec2 texCoord0;
 out float dist;
 
 #ifdef TERRAIN_WITH_LAVA
 out vec4 varyingEmission;
-uniform Material material;
 #endif
 
 void main(void)
@@ -24,7 +21,7 @@ void main(void)
 	gl_Position = matrixTransform();
 	vertexColor = a_color;
 	varyingEyepos = vec3(uViewMatrix * a_vertex);
-	varyingNormal = normalize(uNormalMatrix * a_normal);
+	varyingNormal = normalize(normalMatrix() * a_normal);
 
 	texCoord0 = a_uv0.xy;
 	dist = abs(varyingEyepos.z);

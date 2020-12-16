@@ -32,8 +32,6 @@ namespace Graphics {
 
 			UIProgram *p = static_cast<UIProgram *>(m_program);
 
-			p->diffuse.Set(this->diffuse);
-
 			p->texture0.Set(this->texture0, 0);
 			p->texture1.Set(this->texture1, 1);
 		}

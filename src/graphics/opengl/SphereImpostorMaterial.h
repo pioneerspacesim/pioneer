@@ -20,12 +20,6 @@ namespace Graphics {
 			{
 				return new Program("billboard_sphereimpostor", "");
 			}
-
-			virtual void Apply() override
-			{
-				OGL::Material::Apply();
-				m_program->sceneAmbient.Set(m_renderer->GetAmbientColor());
-			}
 		};
 	} // namespace OGL
 } // namespace Graphics

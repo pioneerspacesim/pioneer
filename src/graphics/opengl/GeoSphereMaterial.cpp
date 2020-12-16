@@ -20,28 +20,7 @@ namespace Graphics {
 			m_defines = defines;
 			LoadShaders(filename, defines);
 			InitUniforms();
-		}
-
-		void GeoSphereProgram::InitUniforms()
-		{
-			Program::InitUniforms();
-			atmosColor.Init("atmosColor", m_program);
-			geosphereAtmosFogDensity.Init("geosphereAtmosFogDensity", m_program);
-			geosphereAtmosInvScaleHeight.Init("geosphereAtmosInvScaleHeight", m_program);
-			geosphereAtmosTopRad.Init("geosphereAtmosTopRad", m_program);
-			geosphereCenter.Init("geosphereCenter", m_program);
-			geosphereRadius.Init("geosphereRadius", m_program);
-			geosphereInvRadius.Init("geosphereInvRadius", m_program);
-
-			detailScaleHi.Init("detailScaleHi", m_program);
-			detailScaleLo.Init("detailScaleLo", m_program);
-
-			shadowCentreX.Init("shadowCentreX", m_program);
-			shadowCentreY.Init("shadowCentreY", m_program);
-			shadowCentreZ.Init("shadowCentreZ", m_program);
-			srad.Init("srad", m_program);
-			lrad.Init("lrad", m_program);
-			sdivlrad.Init("sdivlrad", m_program);
+			materialDataBlock.InitBlock("GeoSphereData", m_program, 2);
 		}
 
 		GeoSphereSurfaceMaterial::GeoSphereSurfaceMaterial() :
@@ -97,6 +76,31 @@ namespace Graphics {
 			}
 		}
 
+		struct GeoSphereDataBlock {
+			vector3f geosphereCenter;
+			float geosphereRadius;
+			float geosphereInvRadius;
+			float geosphereAtmosTopRad;
+			float geosphereAtmosFogDensity;
+			float geosphereAtmosInvScaleHeight;
+			Color4f atmosColor;
+
+			// Eclipse struct data
+			alignas(16) vector3f shadowCentreX;
+			alignas(16) vector3f shadowCentreY;
+			alignas(16) vector3f shadowCentreZ;
+			alignas(16) vector3f srad;
+			alignas(16) vector3f lrad;
+			alignas(16) vector3f sdivlrad;
+			float __padding;
+
+			// Texturing detail
+			float detailScaleHi;
+			float detailScaleLo;
+		};
+		static_assert(sizeof(GeoSphereDataBlock) == 160, "");
+		static_assert(offsetof(GeoSphereDataBlock, detailScaleHi) == 144, "");
+
 		static const float hiScale = 4.0f;
 		static const float loScale = 0.5f;
 		void GeoSphereSurfaceMaterial::SetGSUniforms()
@@ -107,15 +111,15 @@ namespace Graphics {
 			const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters *>(this->specialParameter0);
 			const AtmosphereParameters ap = params.atmosphere;
 
-			p->emission.Set(this->emissive);
-			p->sceneAmbient.Set(m_renderer->GetAmbientColor());
-			p->atmosColor.Set(ap.atmosCol);
-			p->geosphereAtmosFogDensity.Set(ap.atmosDensity);
-			p->geosphereAtmosInvScaleHeight.Set(ap.atmosInvScaleHeight);
-			p->geosphereAtmosTopRad.Set(ap.atmosRadius);
-			p->geosphereCenter.Set(ap.center);
-			p->geosphereRadius.Set(ap.planetRadius);
-			p->geosphereInvRadius.Set(1.0f / ap.planetRadius);
+			auto dataBlock = m_renderer->GetDrawUniformBuffer(sizeof(GeoSphereDataBlock))->Allocate<GeoSphereDataBlock>(2);
+
+			dataBlock->atmosColor = ap.atmosCol.ToColor4f();
+			dataBlock->geosphereAtmosFogDensity = ap.atmosDensity;
+			dataBlock->geosphereAtmosInvScaleHeight = ap.atmosInvScaleHeight;
+			dataBlock->geosphereAtmosTopRad = ap.atmosRadius;
+			dataBlock->geosphereCenter = vector3f(ap.center);
+			dataBlock->geosphereRadius = ap.planetRadius;
+			dataBlock->geosphereInvRadius = 1.0f / ap.planetRadius;
 
 			if (this->texture0) {
 				p->texture0.Set(this->texture0, 0);
@@ -123,8 +127,11 @@ namespace Graphics {
 
 				const float fDetailFrequency = pow(2.0f, float(params.maxPatchDepth) - float(params.patchDepth));
 
-				p->detailScaleHi.Set(hiScale * fDetailFrequency);
-				p->detailScaleLo.Set(loScale * fDetailFrequency);
+				dataBlock->detailScaleHi = hiScale * fDetailFrequency;
+				dataBlock->detailScaleLo = loScale * fDetailFrequency;
+			} else {
+				dataBlock->detailScaleHi = 0.f;
+				dataBlock->detailScaleLo = 0.f;
 			}
 
 			// we handle up to three shadows at a time
@@ -146,12 +153,12 @@ namespace Graphics {
 				++it;
 				++j;
 			}
-			p->shadowCentreX.Set(shadowCentreX);
-			p->shadowCentreY.Set(shadowCentreY);
-			p->shadowCentreZ.Set(shadowCentreZ);
-			p->srad.Set(srad);
-			p->lrad.Set(lrad);
-			p->sdivlrad.Set(sdivlrad);
+			dataBlock->shadowCentreX = shadowCentreX;
+			dataBlock->shadowCentreY = shadowCentreY;
+			dataBlock->shadowCentreZ = shadowCentreZ;
+			dataBlock->srad = srad;
+			dataBlock->lrad = lrad;
+			dataBlock->sdivlrad = sdivlrad;
 		}
 
 		void GeoSphereSurfaceMaterial::SwitchShadowVariant()
@@ -193,12 +200,6 @@ namespace Graphics {
 			return new Graphics::OGL::GeoSphereProgram("geosphere_sky", ss.str());
 		}
 
-		void GeoSphereSkyMaterial::Apply()
-		{
-			SwitchShadowVariant();
-			SetGSUniforms();
-		}
-
 		Program *GeoSphereStarMaterial::CreateProgram(const MaterialDescriptor &desc)
 		{
 			assert((desc.effect == EFFECT_GEOSPHERE_STAR));
@@ -206,12 +207,12 @@ namespace Graphics {
 			std::stringstream ss;
 			ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
 
-			return new Graphics::OGL::GeoSphereProgram("geosphere_star", ss.str());
+			return new Graphics::OGL::Program("geosphere_star", ss.str());
 		}
 
 		void GeoSphereStarMaterial::Apply()
 		{
-			SetGSUniforms();
+			OGL::Material::Apply();
 		}
 
 		void GeoSphereStarMaterial::Unapply()
@@ -220,15 +221,6 @@ namespace Graphics {
 				static_cast<TextureGL *>(texture1)->Unbind();
 				static_cast<TextureGL *>(texture0)->Unbind();
 			}
-		}
-
-		void GeoSphereStarMaterial::SetGSUniforms()
-		{
-			OGL::Material::Apply();
-
-			GeoSphereProgram *p = static_cast<GeoSphereProgram *>(m_program);
-
-			p->emission.Set(this->emissive);
 		}
 
 	} // namespace OGL

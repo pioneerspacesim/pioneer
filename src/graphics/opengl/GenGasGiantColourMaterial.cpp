@@ -105,8 +105,6 @@ namespace Graphics {
 			p->frequency.Set(params.frequency);
 			p->hueAdjust.Set(params.hueAdjust);
 
-			p->diffuse.Set(this->diffuse);
-
 			if (this->texture2) {
 				p->texture2.Set(this->texture2, 2);
 			}

@@ -19,14 +19,7 @@ namespace Graphics {
 		class ShieldProgram : public Program {
 		public:
 			ShieldProgram(const MaterialDescriptor &);
-			Uniform shieldStrength;
-			Uniform shieldCooldown;
-			Uniform hitPos[MAX_SHIELD_HITS];
-			Uniform radii[MAX_SHIELD_HITS];
-			Uniform numHits;
-
-		protected:
-			virtual void InitUniforms() override;
+			Uniform hitInfoBlock;
 		};
 
 		class ShieldMaterial : public Material { //unlit

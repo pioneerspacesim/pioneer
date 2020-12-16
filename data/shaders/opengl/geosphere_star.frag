@@ -4,8 +4,6 @@
 #include "attributes.glsl"
 #include "lib.glsl"
 
-uniform Material material;
-
 in vec4 vertexColor;
 
 out vec4 frag_color;

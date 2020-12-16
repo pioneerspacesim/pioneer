@@ -31,15 +31,6 @@ namespace Graphics {
 			bool Loaded() const { return success; }
 
 			// Uniforms.
-			Uniform uViewMatrix;
-			Uniform uViewMatrixInverse;
-			Uniform uViewProjectionMatrix;
-			Uniform uNormalMatrix;
-
-			Uniform diffuse;
-			Uniform emission;
-			Uniform specular;
-			Uniform shininess;
 			Uniform texture0;
 			Uniform texture1;
 			Uniform texture2;
@@ -48,13 +39,10 @@ namespace Graphics {
 			Uniform texture5;
 			Uniform texture6;
 			Uniform heatGradient;
-			Uniform heatingNormal;
-			Uniform heatingAmount;
-
-			Uniform sceneAmbient;
 
 			//Light uniform parameters
 			Uniform lightDataBlock;
+			Uniform drawDataBlock;
 
 		protected:
 			static GLuint s_curProgram;

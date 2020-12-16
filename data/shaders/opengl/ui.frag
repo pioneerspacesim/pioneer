@@ -9,9 +9,6 @@ in vec2 texCoord0;
 
 in vec4 vertexColor;
 
-uniform Scene scene;
-uniform Material material;
-
 out vec4 frag_color;
 
 void main(void)

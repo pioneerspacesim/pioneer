@@ -4,17 +4,12 @@
 #include "attributes.glsl"
 #include "lib.glsl"
 
-uniform vec4 u_viewPosition;
-uniform Material material;
-
 out vec3 v_texCoord;
 out float v_skyboxFactor;
 
 void main( void )
 {
-    vec3 position = a_vertex.xyz;
-    position += u_viewPosition.xyz;
-    gl_Position = uViewProjectionMatrix * vec4(position, 1.0);
+    gl_Position = uViewProjectionMatrix * vec4(a_vertex.xyz, 1.0);
     v_texCoord    = a_vertex.xyz;
 	v_skyboxFactor = material.shininess;
 }

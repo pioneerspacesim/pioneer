@@ -95,7 +95,7 @@ namespace Graphics {
 		Color diffuse;
 		Color specular;
 		Color emissive;
-		int shininess; //specular power 0-128
+		float shininess; //specular power 0-128
 
 		virtual void Apply() {}
 		virtual void Unapply() {}

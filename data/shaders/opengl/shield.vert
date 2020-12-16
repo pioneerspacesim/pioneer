@@ -13,6 +13,6 @@ void main(void)
 	gl_Position = matrixTransform();
 
 	varyingEyepos = vec3(uViewMatrix * a_vertex);
-	varyingNormal = normalize(uNormalMatrix * a_normal);
+	varyingNormal = normalize(normalMatrix() * a_normal);
 	varyingVertex = a_vertex.xyz;
 }

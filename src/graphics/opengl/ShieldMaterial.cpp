@@ -17,31 +17,14 @@ namespace Graphics {
 		{
 			//build some defines
 			std::stringstream ss;
+			ss << stringf("#define MAX_SHIELD_HITS %0{d}\n", MAX_SHIELD_HITS);
 
 			m_name = "shield";
 			m_defines = ss.str();
 
 			LoadShaders(m_name, m_defines);
 			InitUniforms();
-		}
-
-		void ShieldProgram::InitUniforms()
-		{
-			Program::InitUniforms();
-
-			shieldStrength.Init("shieldStrength", m_program);
-			shieldCooldown.Init("shieldCooldown", m_program);
-
-			char whatsInAName[256];
-			for (Sint32 i = 0; i < MAX_SHIELD_HITS; i++) {
-				sprintf(whatsInAName, "hitPos[%d]", i);
-				hitPos[i].Init(whatsInAName, m_program);
-			}
-			for (Sint32 i = 0; i < MAX_SHIELD_HITS; i++) {
-				sprintf(whatsInAName, "radii[%d]", i);
-				radii[i].Init(whatsInAName, m_program);
-			}
-			numHits.Init("numHits", m_program);
+			hitInfoBlock.InitBlock("ShieldData", m_program, 2);
 		}
 
 		Program *ShieldMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -49,30 +32,49 @@ namespace Graphics {
 			return new ShieldProgram(desc);
 		}
 
+		struct ShieldData {
+			struct ShieldHitInfo {
+				vector3f hitPos;
+				float radii;
+			} hits[MAX_SHIELD_HITS];
+
+			alignas(16)
+			float shieldStrength;
+			float shieldCooldown;
+			int numHits;
+		};
+
 		void ShieldMaterial::Apply()
 		{
 			OGL::Material::Apply();
 
 			ShieldProgram *p = static_cast<ShieldProgram *>(m_program);
 
-			p->diffuse.Set(this->diffuse);
+			auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(ShieldData));
+			{
+				auto dataBlock = buffer->Allocate<ShieldData>(p->hitInfoBlock.Location());
+				if (this->specialParameter0) {
+					const ShieldRenderParameters srp = *static_cast<ShieldRenderParameters *>(this->specialParameter0);
+					dataBlock->shieldStrength = srp.strength;
+					dataBlock->shieldCooldown = srp.coolDown;
+					dataBlock->numHits = srp.numHits;
+					for (Sint32 i = 0; i < srp.numHits && i < MAX_SHIELD_HITS; i++) {
+						dataBlock->hits[i].hitPos = srp.hitPos[i];
+						dataBlock->hits[i].radii = srp.radii[i];
+					}
+				} else {
+					dataBlock->shieldStrength = 0.f;
+					dataBlock->shieldCooldown = 0.f;
+					dataBlock->numHits = 0.f;
 
-			if (this->specialParameter0) {
-				const ShieldRenderParameters srp = *static_cast<ShieldRenderParameters *>(this->specialParameter0);
-				p->shieldStrength.Set(srp.strength);
-				p->shieldCooldown.Set(srp.coolDown);
-				for (Sint32 i = 0; i < srp.numHits && i < MAX_SHIELD_HITS; i++) {
-					p->hitPos[i].Set(srp.hitPos[i]);
+					for (Sint32 i = 0; i < MAX_SHIELD_HITS; i++) {
+						dataBlock->hits[i].hitPos = vector3f();
+						dataBlock->hits[i].radii = 0.f;
+					}
 				}
-				for (Sint32 i = 0; i < srp.numHits && i < MAX_SHIELD_HITS; i++) {
-					p->radii[i].Set(srp.radii[i]);
-				}
-				p->numHits.Set(int(std::min(srp.numHits, MAX_SHIELD_HITS)));
-			} else {
-				p->shieldStrength.Set(0.0f);
-				p->shieldCooldown.Set(0.0f);
-				p->numHits.Set(0);
 			}
+
+
 		}
 
 	} // namespace OGL

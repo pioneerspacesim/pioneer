@@ -5,7 +5,6 @@
 #include "lib.glsl"
 
 uniform sampler2D texture0;
-uniform Material material;
 
 in vec4 v_color;
 

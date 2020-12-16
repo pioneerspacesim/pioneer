@@ -29,12 +29,5 @@ namespace Graphics {
 			return new FresnelColourProgram(desc);
 		}
 
-		void FresnelColourMaterial::Apply()
-		{
-			OGL::Material::Apply();
-			FresnelColourProgram *p = static_cast<FresnelColourProgram *>(m_program);
-			p->diffuse.Set(this->diffuse);
-		}
-
 	} // namespace OGL
 } // namespace Graphics

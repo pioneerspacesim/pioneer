@@ -7,6 +7,7 @@
 #include "RefCounted.h"
 #include "RenderStateGL.h"
 #include "RenderTargetGL.h"
+#include "SDL_video.h"
 #include "StringF.h"
 #include "TextureGL.h"
 #include "VertexBufferGL.h"
@@ -57,6 +58,7 @@ namespace Graphics {
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 		// OSX doesn't care about forward-compatible flag, but it's good practice.
 		if (vs.gl3ForwardCompatible) SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+		if (vs.enableDebugMessages) SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 
 		// Don't request a depth/stencil/multisample buffer.
 		// We'll render to an offscreen buffer supporting these features and blit to the OS window from there.
@@ -131,7 +133,7 @@ namespace Graphics {
 		vector3f position;
 		float w;
 	};
-	static_assert(sizeof(LightData) == 48);
+	static_assert(sizeof(LightData) == 48, "LightData glsl struct has incorrect size/alignment in C++");
 
 	// static method instantiations
 	void RendererOGL::RegisterRenderer()

@@ -59,13 +59,14 @@ void *UniformBuffer::MapInternal(BufferMapMode mode)
 }
 
 UniformLinearBuffer::UniformLinearBuffer(uint32_t size) :
-	Mappable(size),
+	Mappable(0),
 	m_numAllocs(0)
 {
 	glGenBuffers(1, &m_buffer);
 	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer);
 	glBufferData(GL_UNIFORM_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	m_capacity = size;
 }
 
 UniformLinearBuffer::~UniformLinearBuffer()

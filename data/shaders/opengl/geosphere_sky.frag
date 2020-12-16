@@ -3,17 +3,7 @@
 
 #include "attributes.glsl"
 #include "lib.glsl"
-#include "eclipse.glsl"
-
-uniform vec4 atmosColor;
-// to keep distances sane we do a nearer, smaller scam. this is how many times
-// smaller the geosphere has been made
-uniform float geosphereRadius;
-uniform float geosphereInvRadius;
-uniform float geosphereAtmosTopRad;
-uniform vec3 geosphereCenter;
-uniform float geosphereAtmosFogDensity;
-uniform float geosphereAtmosInvScaleHeight;
+#include "geosphere_uniforms.glsl"
 
 in vec4 varyingEyepos;
 
@@ -63,7 +53,7 @@ void main(void)
 
 		vec3 lightDir = normalize(vec3(uLight[i].position));
 
-		float uneclipsed = clamp(calcUneclipsedSky(i, a, b, lightDir), 0.0, 1.0);
+		float uneclipsed = clamp(calcUneclipsedSky(eclipse, i, a, b, lightDir), 0.0, 1.0);
 
 		float nDotVP =  max(0.0, dot(surfaceNorm, lightDir));
 		float nnDotVP = max(0.0, dot(surfaceNorm, -lightDir));  //need backlight to increase horizon

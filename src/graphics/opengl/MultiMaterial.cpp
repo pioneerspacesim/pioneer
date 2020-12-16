@@ -20,7 +20,6 @@ namespace Graphics {
 
 			//build some defines
 			std::stringstream ss;
-			ss << "#define UNIFORM_BUFFERS\n";
 
 			if (desc.textures > 0)
 				ss << "#define TEXTURE0\n";
@@ -54,7 +53,7 @@ namespace Graphics {
 			LoadShaders(m_name, m_defines);
 			InitUniforms();
 
-			materialBlock.InitBlock("DrawData", m_program, 1);
+			materialBlock.InitBlock("MultiMaterialData", m_program, 2);
 		}
 
 		LitMultiMaterial::LitMultiMaterial() :
@@ -80,33 +79,18 @@ namespace Graphics {
 			m_program = p;
 		}
 
-		struct DrawDataBlock {
-			// Material Struct
-			Color4f diffuse;
-			Color4f specular;
-			Color4f emission;
-
-			// Scene struct
+		struct MultiMaterialDataBlock {
 			float lightIntensity[4];
-			Color4f ambient;
-
-			// matrix data
-			matrix4x4f uViewMatrix;
-			matrix4x4f uViewMatrixInverse;
-			matrix4x4f uViewProjectionMatrix;
-
 			vector3f heatingNormal;
 			float heatingAmount;
 		};
-		static_assert(sizeof(DrawDataBlock) == 288, "");
+		static_assert(sizeof(MultiMaterialDataBlock) == 32, "");
 
 		void MultiMaterial::Apply()
 		{
 			OGL::Material::Apply();
 
 			MultiProgram *p = static_cast<MultiProgram *>(m_program);
-
-			p->diffuse.Set(this->diffuse);
 
 			p->texture0.Set(this->texture0, 0);
 			p->texture1.Set(this->texture1, 1);
@@ -118,25 +102,12 @@ namespace Graphics {
 
 			p->heatGradient.Set(this->heatGradient, 7);
 
-			auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(DrawDataBlock));
+			auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(MultiMaterialDataBlock));
 			{
-				auto dataBlock = buffer->Allocate<DrawDataBlock>(1);
-				dataBlock->diffuse = this->diffuse.ToColor4f();
-				dataBlock->specular = this->specular.ToColor4f();
-				dataBlock->specular.a = this->shininess;
-				dataBlock->emission = this->emissive.ToColor4f();
-				dataBlock->ambient = m_renderer->GetAmbientColor().ToColor4f();
+				auto dataBlock = buffer->Allocate<MultiMaterialDataBlock>(2);
 				for (uint32_t i = 0; i < m_renderer->GetNumLights(); i++) {
 					dataBlock->lightIntensity[i] = m_renderer->GetLight(i).GetIntensity();
 				}
-
-				const matrix4x4f &mv = m_renderer->GetTransform();
-				const matrix4x4f &proj = m_renderer->GetProjection();
-				dataBlock->uViewMatrix = mv;
-				dataBlock->uViewMatrixInverse = mv.Inverse();
-				dataBlock->uViewProjectionMatrix = proj * mv;
-				// We handle the normal matrix by transposing the orientation part of the inverse view matrix in the shader
-
 				if (GetDescriptor().quality & MaterialQuality::HAS_HEAT_GRADIENT) {
 					if (nullptr != specialParameter0) {
 						HeatGradientParameters_t *pMGP = static_cast<HeatGradientParameters_t *>(specialParameter0);

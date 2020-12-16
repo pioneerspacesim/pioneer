@@ -16,8 +16,6 @@ layout(std140) uniform LightData {
 };
 #endif
 
-#ifdef UNIFORM_BUFFERS
-
 struct Material {
 	vec4 diffuse;
 	vec3 specular;
@@ -26,43 +24,19 @@ struct Material {
 };
 
 struct Scene {
-	vec4 lightIntensity;
 	vec4 ambient;
 };
 
+// Carefully packed to fit in 256 bytes (the alignment requirement of UBO bindings)
+// If you need custom data for your shader, add a new uniform buffer binding instead
 layout(std140) uniform DrawData {
-	Material material;
-	Scene scene;
-
 	mat4 uViewMatrix;
 	mat4 uViewMatrixInverse;
 	mat4 uViewProjectionMatrix;
 
-	vec3 heatingNormal; // normalised in viewspace
-	float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
+	Material material;
+	Scene scene;
 };
-
-#else
-
-uniform mat4 uViewMatrix;
-uniform mat4 uViewMatrixInverse;
-uniform mat4 uViewProjectionMatrix;
-uniform mat3 uNormalMatrix;
-
-//scene uniform parameters
-struct Scene {
-	vec4 ambient;
-};
-
-struct Material {
-	vec4 emission;
-	vec4 ambient;
-	vec4 diffuse;
-	vec4 specular;
-	float shininess;
-};
-
-#endif
 
 #ifdef VERTEX_SHADER
 
@@ -84,6 +58,12 @@ vec4 matrixTransform()
 #else
 	return uViewProjectionMatrix * a_vertex;
 #endif
+}
+
+// Extract the normal matrix from the inverse model-view matrix
+mat3 normalMatrix()
+{
+	return transpose(mat3(uViewMatrixInverse));
 }
 
 #endif // VERTEX_SHADER

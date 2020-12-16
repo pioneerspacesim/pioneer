@@ -3,12 +3,14 @@
 
 #ifdef ECLIPSE
 
-uniform vec3 shadowCentreX;
-uniform vec3 shadowCentreY;
-uniform vec3 shadowCentreZ;
-uniform vec3 srad;
-uniform vec3 lrad;
-uniform vec3 sdivlrad;
+struct Eclipse {
+	vec3 shadowCentreX;
+	vec3 shadowCentreY;
+	vec3 shadowCentreZ;
+	vec3 srad;
+	vec3 lrad;
+	vec3 sdivlrad;
+};
 
 #define PI 3.141592653589793
 
@@ -48,28 +50,28 @@ float shadowInt(const in float t1, const in float t2, const in float dsq, const 
 	return m*(t2-t1) - (t2*s2 - t1*s1 + dsq*( log(max(0.000001, s2+t2)) - log(max(0.000001, s1+t1)))) * 0.5;
 }
 
-float calcUneclipsed(const in int i, const in vec3 v, const in vec3 lightDir) 
+float calcUneclipsed(const in Eclipse params, const in int i, const in vec3 v, const in vec3 lightDir)
 {
 	float uneclipsed = 1.0;
-	for (int j=0; j<NUM_SHADOWS; j++) 
+	for (int j=0; j<NUM_SHADOWS; j++)
 	{
-		vec3 centre = vec3( shadowCentreX[j], shadowCentreY[j], shadowCentreZ[j] );
-		
+		vec3 centre = vec3( params.shadowCentreX[j], params.shadowCentreY[j], params.shadowCentreZ[j] );
+
 		// Apply eclipse:
 		vec3 projectedPoint = v - dot(lightDir,v)*lightDir;
 		// By our assumptions, the proportion of light blocked at this point by
 		// this sphere is the proportion of the disc of radius lrad around
 		// projectedPoint covered by the disc of radius srad around shadowCentre.
 		float dist = length(projectedPoint - centre);
-		uneclipsed *= 1.0 - discCovered(dist/lrad[j], sdivlrad[j]);
+		uneclipsed *= 1.0 - discCovered(dist/params.lrad[j], params.sdivlrad[j]);
 	}
 	return uneclipsed;
 }
 
-float calcUneclipsedSky(const in int i, const in vec3 a, const in vec3 b, const in vec3 lightDir) 
+float calcUneclipsedSky(const in Eclipse params, const in int i, const in vec3 a, const in vec3 b, const in vec3 lightDir)
 {
 	float uneclipsed = 1.0;
-	for (int j=0; j<NUM_SHADOWS; j++) 
+	for (int j=0; j<NUM_SHADOWS; j++)
 	{
 		// Eclipse handling:
 		// Calculate proportion of the in-atmosphere eyeline which is shadowed,
@@ -77,7 +79,7 @@ float calcUneclipsedSky(const in int i, const in vec3 a, const in vec3 b, const 
 		// This ignores variation in atmosphere density, and ignores outscatter along
 		// the eyeline, so is not very accurate. But it gives decent results.
 
-		vec3 centre = vec3( shadowCentreX[j], shadowCentreY[j], shadowCentreZ[j] );
+		vec3 centre = vec3( params.shadowCentreX[j], params.shadowCentreY[j], params.shadowCentreZ[j] );
 
 		vec3 ap = a - dot(a,lightDir)*lightDir - centre;
 		vec3 bp = b - dot(b,lightDir)*lightDir - centre;
@@ -94,8 +96,8 @@ float calcUneclipsedSky(const in int i, const in vec3 a, const in vec3 b, const 
 		// we estimate the light intensity to drop off linearly with radius between
 		// maximal occlusion and none.
 
-		float minr = srad[j]-lrad[j];
-		float maxr = srad[j]+lrad[j];
+		float minr = params.srad[j]-params.lrad[j];
+		float maxr = params.srad[j]+params.lrad[j];
 		float maxd = sqrt( max(0.0, maxr*maxr - perpsq) );
 		float mind = sqrt( max(0.0, minr*minr - perpsq) );
 
@@ -103,7 +105,7 @@ float calcUneclipsedSky(const in int i, const in vec3 a, const in vec3 b, const 
 			+ shadowInt(clamp(ad, mind, maxd), clamp(bd, mind, maxd), perpsq, maxr) )
 			/ (maxr-minr) + (clamp(bd, -mind, mind) - clamp(ad, -mind, mind));
 
-		float maxOcclusion = min(1.0, (sdivlrad[j])*(sdivlrad[j]));
+		float maxOcclusion = min(1.0, (params.sdivlrad[j])*(params.sdivlrad[j]));
 
 		uneclipsed -= maxOcclusion * shadow / (bd-ad);
 	}
@@ -112,7 +114,7 @@ float calcUneclipsedSky(const in int i, const in vec3 a, const in vec3 b, const 
 
 #else
 
-#define calcUneclipsed(a,b,c) 1.0
-#define calcUneclipsedSky(a,b,c,d) 1.0
+#define calcUneclipsed(p,a,b,c) 1.0
+#define calcUneclipsedSky(p,a,b,c,d) 1.0
 
 #endif // ECLIPSE

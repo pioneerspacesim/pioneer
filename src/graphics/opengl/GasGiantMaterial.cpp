@@ -18,27 +18,10 @@ namespace Graphics {
 		{
 			m_name = filename;
 			m_defines = defines;
+
 			LoadShaders(filename, defines);
 			InitUniforms();
-		}
-
-		void GasGiantProgram::InitUniforms()
-		{
-			Program::InitUniforms();
-			atmosColor.Init("atmosColor", m_program);
-			geosphereAtmosFogDensity.Init("geosphereAtmosFogDensity", m_program);
-			geosphereAtmosInvScaleHeight.Init("geosphereAtmosInvScaleHeight", m_program);
-			geosphereAtmosTopRad.Init("geosphereAtmosTopRad", m_program);
-			geosphereCenter.Init("geosphereCenter", m_program);
-			geosphereRadius.Init("geosphereRadius", m_program);
-			geosphereInvRadius.Init("geosphereInvRadius", m_program);
-
-			shadowCentreX.Init("shadowCentreX", m_program);
-			shadowCentreY.Init("shadowCentreY", m_program);
-			shadowCentreZ.Init("shadowCentreZ", m_program);
-			srad.Init("srad", m_program);
-			lrad.Init("lrad", m_program);
-			sdivlrad.Init("sdivlrad", m_program);
+			materialDataBlock.InitBlock("GasSphereData", m_program, 2);
 		}
 
 		// GasGiantSurfaceMaterial -----------------------------------
@@ -83,6 +66,25 @@ namespace Graphics {
 			SetGSUniforms();
 		}
 
+		struct GasSphereDataBlock {
+			vector3f geosphereCenter;
+			float geosphereRadius;
+			float geosphereInvRadius;
+			float geosphereAtmosTopRad;
+			float geosphereAtmosFogDensity;
+			float geosphereAtmosInvScaleHeight;
+			Color4f atmosColor;
+
+			// Eclipse struct data
+			alignas(16) vector3f shadowCentreX;
+			alignas(16) vector3f shadowCentreY;
+			alignas(16) vector3f shadowCentreZ;
+			alignas(16) vector3f srad;
+			alignas(16) vector3f lrad;
+			alignas(16) vector3f sdivlrad;
+		};
+		static_assert(sizeof(GasSphereDataBlock) == 144, "");
+
 		void GasGiantSurfaceMaterial::SetGSUniforms()
 		{
 			OGL::Material::Apply();
@@ -91,17 +93,16 @@ namespace Graphics {
 			const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters *>(this->specialParameter0);
 			const AtmosphereParameters ap = params.atmosphere;
 
-			p->emission.Set(this->emissive);
-			p->sceneAmbient.Set(m_renderer->GetAmbientColor());
-			p->atmosColor.Set(ap.atmosCol);
-			p->geosphereAtmosFogDensity.Set(ap.atmosDensity);
-			p->geosphereAtmosInvScaleHeight.Set(ap.atmosInvScaleHeight);
-			p->geosphereAtmosTopRad.Set(ap.atmosRadius);
-			p->geosphereCenter.Set(ap.center);
-			p->geosphereRadius.Set(ap.planetRadius);
-			p->geosphereInvRadius.Set(1.0f / ap.planetRadius);
+			auto dataBlock = m_renderer->GetDrawUniformBuffer(sizeof(GasSphereDataBlock))->Allocate<GasSphereDataBlock>(2);
 
-			p->diffuse.Set(this->diffuse);
+			dataBlock->atmosColor = ap.atmosCol.ToColor4f();
+			dataBlock->geosphereAtmosFogDensity = ap.atmosDensity;
+			dataBlock->geosphereAtmosInvScaleHeight = ap.atmosInvScaleHeight;
+			dataBlock->geosphereAtmosTopRad = ap.atmosRadius;
+			dataBlock->geosphereCenter = vector3f(ap.center);
+			dataBlock->geosphereRadius = ap.planetRadius;
+			dataBlock->geosphereInvRadius = 1.0f / ap.planetRadius;
+
 			p->texture0.Set(this->texture0, 0);
 
 			// we handle up to three shadows at a time
@@ -123,12 +124,13 @@ namespace Graphics {
 				++it;
 				++j;
 			}
-			p->shadowCentreX.Set(shadowCentreX);
-			p->shadowCentreY.Set(shadowCentreY);
-			p->shadowCentreZ.Set(shadowCentreZ);
-			p->srad.Set(srad);
-			p->lrad.Set(lrad);
-			p->sdivlrad.Set(sdivlrad);
+
+			dataBlock->shadowCentreX = shadowCentreX;
+			dataBlock->shadowCentreY = shadowCentreY;
+			dataBlock->shadowCentreZ = shadowCentreZ;
+			dataBlock->srad = srad;
+			dataBlock->lrad = lrad;
+			dataBlock->sdivlrad = sdivlrad;
 		}
 
 		void GasGiantSurfaceMaterial::SwitchShadowVariant()

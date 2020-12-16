@@ -15,24 +15,7 @@ namespace Graphics {
 		class GasGiantProgram : public Program {
 		public:
 			GasGiantProgram(const std::string &filename, const std::string &defines);
-
-			Uniform atmosColor;
-			Uniform geosphereAtmosFogDensity;
-			Uniform geosphereAtmosInvScaleHeight;
-			Uniform geosphereAtmosTopRad; // in planet radii
-			Uniform geosphereCenter;
-			Uniform geosphereRadius; // planet radius
-			Uniform geosphereInvRadius; // 1.0 / (planet radius)
-
-			Uniform shadowCentreX;
-			Uniform shadowCentreY;
-			Uniform shadowCentreZ;
-			Uniform srad;
-			Uniform lrad;
-			Uniform sdivlrad;
-
-		protected:
-			virtual void InitUniforms();
+			Uniform materialDataBlock;
 		};
 
 		class GasGiantSurfaceMaterial : public Material {

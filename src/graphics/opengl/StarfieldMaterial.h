@@ -10,7 +10,8 @@
  */
 #include "OpenGLLibs.h"
 #include "Program.h"
-#include "graphics/Material.h"
+#include "MaterialGL.h"
+#include "TextureGL.h"
 
 namespace Graphics {
 	namespace OGL {
@@ -23,12 +24,12 @@ namespace Graphics {
 
 			virtual void Apply() override
 			{
-				OGL::Material::Apply();
 				glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 				assert(this->texture0);
+
+				OGL::Material::Apply();
 				m_program->Use();
 				m_program->texture0.Set(this->texture0, 0);
-				m_program->emission.Set(this->emissive);
 			}
 
 			virtual void Unapply() override

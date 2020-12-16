@@ -16,26 +16,7 @@ namespace Graphics {
 		public:
 			GeoSphereProgram(const std::string &filename, const std::string &defines);
 
-			Uniform atmosColor;
-			Uniform geosphereAtmosFogDensity;
-			Uniform geosphereAtmosInvScaleHeight;
-			Uniform geosphereAtmosTopRad; // in planet radii
-			Uniform geosphereCenter;
-			Uniform geosphereRadius; // (planet radius)
-			Uniform geosphereInvRadius; // 1.0 / (planet radius)
-
-			Uniform detailScaleHi;
-			Uniform detailScaleLo;
-
-			Uniform shadowCentreX;
-			Uniform shadowCentreY;
-			Uniform shadowCentreZ;
-			Uniform srad;
-			Uniform lrad;
-			Uniform sdivlrad;
-
-		protected:
-			virtual void InitUniforms();
+			Uniform materialDataBlock;
 		};
 
 		class GeoSphereSurfaceMaterial : public Material {
@@ -59,7 +40,6 @@ namespace Graphics {
 		public:
 			GeoSphereSkyMaterial();
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
-			virtual void Apply() override;
 		};
 
 		class GeoSphereStarMaterial : public Material {
@@ -67,9 +47,6 @@ namespace Graphics {
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
 			virtual void Apply() override;
 			virtual void Unapply() override;
-
-		protected:
-			void SetGSUniforms();
 		};
 
 	} // namespace OGL

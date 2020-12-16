@@ -15,7 +15,7 @@ namespace Graphics {
 		template <typename T>
 		struct ScopedMapping {
 			ScopedMapping(void *data, Mappable *map) :
-				m_data(data), m_map(map)
+				m_data(reinterpret_cast<T *>(data)), m_map(map)
 			{}
 			~ScopedMapping()
 			{

@@ -17,7 +17,7 @@ namespace Graphics {
 		diffuse(Color::WHITE),
 		specular(Color::BLACK),
 		emissive(Color::BLACK),
-		shininess(100), //somewhat sharp
+		shininess(100.f), //somewhat sharp
 		specialParameter0(nullptr)
 	{
 	}

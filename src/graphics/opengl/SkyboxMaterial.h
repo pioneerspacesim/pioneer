@@ -9,6 +9,7 @@
  */
 #include "OpenGLLibs.h"
 #include "Program.h"
+#include "MaterialGL.h"
 
 namespace Graphics {
 	namespace OGL {
@@ -28,12 +29,13 @@ namespace Graphics {
 
 			virtual void Apply() override
 			{
-				m_program->Use();
+				const float em = (float(emissive.r) * 0.003921568627451f);
+				shininess = fSkyboxFactor * em;
+
+				OGL::Material::Apply();
 				if (texture0) {
 					m_program->texture0.Set(texture0, 0);
 				}
-				const float em = (float(emissive.r) * 0.003921568627451f);
-				m_program->shininess.Set(fSkyboxFactor * em);
 			}
 
 			// Skybox multiplier

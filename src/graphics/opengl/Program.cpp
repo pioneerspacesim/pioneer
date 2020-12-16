@@ -279,19 +279,11 @@ namespace Graphics {
 		void Program::InitUniforms()
 		{
 			PROFILE_SCOPED()
-			//Init generic uniforms, like matrices
-			uViewMatrix.Init("uViewMatrix", m_program);
-			uViewMatrixInverse.Init("uViewMatrixInverse", m_program);
-			uViewProjectionMatrix.Init("uViewProjectionMatrix", m_program);
-			uNormalMatrix.Init("uNormalMatrix", m_program);
-
 			//Light uniform parameters
 			lightDataBlock.InitBlock("LightData", m_program, 0);
+			//Init per-draw uniforms, like matrices
+			drawDataBlock.InitBlock("DrawData", m_program, 1);
 
-			diffuse.Init("material.diffuse", m_program);
-			emission.Init("material.emission", m_program);
-			specular.Init("material.specular", m_program);
-			shininess.Init("material.shininess", m_program);
 			texture0.Init("texture0", m_program);
 			texture1.Init("texture1", m_program);
 			texture2.Init("texture2", m_program);
@@ -300,9 +292,6 @@ namespace Graphics {
 			texture5.Init("texture5", m_program);
 			texture6.Init("texture6", m_program);
 			heatGradient.Init("heatGradient", m_program);
-			heatingNormal.Init("heatingNormal", m_program);
-			heatingAmount.Init("heatingAmount", m_program);
-			sceneAmbient.Init("scene.ambient", m_program);
 		}
 
 	} // namespace OGL

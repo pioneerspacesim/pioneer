@@ -3,28 +3,13 @@
 
 #include "attributes.glsl"
 #include "lib.glsl"
-#include "eclipse.glsl"
-
-uniform vec4 atmosColor;
-// to keep distances sane we do a nearer, smaller scam. this is how many times
-// smaller the geosphere has been made
-uniform float geosphereRadius;
-uniform float geosphereInvRadius;
-uniform float geosphereAtmosTopRad;
-uniform vec3 geosphereCenter;
-uniform float geosphereAtmosFogDensity;
-uniform float geosphereAtmosInvScaleHeight;
+#include "geosphere_uniforms.glsl"
 
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 in vec2 texCoord0;
 
 in float dist;
-uniform float detailScaleHi;
-uniform float detailScaleLo;
-
-uniform Material material;
-uniform Scene scene;
 
 in vec3 varyingEyepos;
 in vec3 varyingNormal;
@@ -63,7 +48,7 @@ void main(void)
 	vec3 v = (eyepos - geosphereCenter) * geosphereInvRadius;
 	float lenInvSq = 1.0/(dot(v,v));
 	for (int i=0; i<NUM_LIGHTS; ++i) {
-		float uneclipsed = clamp(calcUneclipsed(i, v, normalize(vec3(uLight[i].position))), 0.0, 1.0);
+		float uneclipsed = clamp(calcUneclipsed(eclipse, i, v, normalize(vec3(uLight[i].position))), 0.0, 1.0);
 		nDotVP  = max(0.0, dot(tnorm, normalize(vec3(uLight[i].position))));
 		nnDotVP = max(0.0, dot(tnorm, normalize(-vec3(uLight[i].position)))); //need backlight to increase horizon
 		diff += uLight[i].diffuse * uneclipsed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0) * INV_NUM_LIGHTS);
