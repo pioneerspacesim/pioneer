@@ -8,13 +8,13 @@ local s = CustomSystem:new('1 Orionis',{ 'STAR_F' }) --Alt name will be "Cluaran
 	:faction('Commonwealth of Independent Worlds')
 	:govtype('CISLIBDEM')
 	:lawlessness(f(5,100)) -- 1/100th from a peaceful eden
-	:short_desc('A proudly independent hisoric colony')
-	:long_desc([["Proud World for Proud People". ]] ..
-[[1 Orionis' motto can be traced back to year 2325, as the "Evergreen" -one of the legacy colony ships launched before the era of hyperspace travel- landed on planet Saorsa. Its founding fathers vowed to never live again under Terran oppression,
-This heritage still shapes the system’s values to this day : independence, pride, and freedom. ]] ..
-[[1 Orionis acively took part in the War of Hope (2723-2725), as its volunteer forces fought alongside Epsilon Eridani against Sol’s attempt of hegemony. The system is a founding member of the Commonwealth of Independent Worlds and remains politically influent to this day. ]] ..
-[[In present day, the systems boasts a strong industry and is the birthplace of many an elite pilot of the Confederation Fleet.
-Travellers will also find the citizens are a proud lot : be it of their tradition, their chilly climate, their language, their gas giants...]])
+	:short_desc('A proudly independent historic colony')
+	:long_desc([[“A Proud World for Proud People”. ]] ..
+[[1 Orionis’ motto can be traced back to the year 2325, as the “Evergreen”—one of the legacy colony ships launched before the era of hyperspace travel—landed on planet Saorsa. Its founding fathers vowed to never live again under Terran oppression.
+This heritage still shapes the system’s values to this day: cultural self-determination, and community. ]] ..
+[[1 Orionis actively took part in the War of Hope (2723-2725), as its volunteer forces fought alongside Epsilon Eridani against Sol’s attempt at hegemony. The system is a founding member of the Commonwealth of Independent Worlds and remains politically influential to this day. ]] ..
+[[The system now boasts a strong industry and is the birthplace of many an elite pilot of the Confederation Fleet.
+Travelers will also find the citizens are a proud lot: be it of their tradition, their chilly climate, their languages, their gas giants…]])
 
 local orionis = CustomSystemBody:new('1 Orionis', 'STAR_F') --Alt name will be "Cluaran", means "thisle" in scottish
 	:radius(f(113,100))
@@ -55,7 +55,7 @@ local orionisb = CustomSystemBody:new('Gearrloch', 'PLANET_TERRESTRIAL') --Real 
 	:ice_cover(f(0,1))
 	:life(f(0,1))
 
-local orionisc = CustomSystemBody:new('Dòrnach', 'PLANET_TERRESTRIAL') --Real scottish town
+local orionisc = CustomSystemBody:new('Leirvik', 'PLANET_TERRESTRIAL') --Real scottish town
 	:radius(f(7154,10000))
 	:mass(f(3661,10000))
 	:temp(639)
@@ -131,13 +131,13 @@ local saorsa = {
 		:ice_cover(f(467,1000))
 		:life(f(45,100)),
 	{
-		CustomSystemBody:new('Dùn Éideann Ùr', 'STARPORT_SURFACE')
+		CustomSystemBody:new('New Edinburgh', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(13.1308))
 			:longitude(math.deg2rad(-80.1142)),
-		CustomSystemBody:new('Talmine', 'STARPORT_SURFACE') --Real Scottish town
+		CustomSystemBody:new('Tealamainn', 'STARPORT_SURFACE') --Real Scottish town
 			:latitude(math.deg2rad(77.0921))
 			:longitude(math.deg2rad(-57.0348)),
-		CustomSystemBody:new('Dun Adhar', 'STARPORT_ORBITAL') -- Made up, should mean "Sky city"
+		CustomSystemBody:new('Dun Adhair', 'STARPORT_ORBITAL') -- Made up, should mean "Sky city"
 			:semi_major_axis(f(15068,100000000))
 			:rotation_period(f(11,24)),
 	},
@@ -293,7 +293,7 @@ local orionisi_moons = {
 		:ice_cover(f(0,1000))
 		:life(f(0,10)),
 
-	CustomSystemBody:new('Errol', 'PLANET_TERRESTRIAL') --Real scottish hill
+	CustomSystemBody:new('Haaick', 'PLANET_TERRESTRIAL') -- Real scottish town
 		:seed(-1350635343)
 		:radius(f(2947,10000))
 		:mass(f(2559,100000))
