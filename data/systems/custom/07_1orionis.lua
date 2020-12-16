@@ -55,7 +55,7 @@ local orionisb = CustomSystemBody:new('Gearrloch', 'PLANET_TERRESTRIAL') -- Real
 	:ice_cover(f(0,1))
 	:life(f(0,1))
 
-local orionisc = CustomSystemBody:new('Leirvik', 'PLANET_TERRESTRIAL') -- Real Scottish town (Norn)
+local orionisc = CustomSystemBody:new('Hjaltland', 'PLANET_TERRESTRIAL') -- Real Scottish islands (Norn for "Shetland")
 	:radius(f(7154,10000))
 	:mass(f(3661,10000))
 	:temp(639)
@@ -73,7 +73,7 @@ local orionisc = CustomSystemBody:new('Leirvik', 'PLANET_TERRESTRIAL') -- Real S
 	:life(f(0,1))
 
 local orionisc_starport =	{
-		CustomSystemBody:new('Àird Fheàrna', 'STARPORT_ORBITAL') -- Real Scottish town (Gaelic)
+		CustomSystemBody:new('Leirvik', 'STARPORT_ORBITAL') -- Real Scottish town (Norn)
 			:semi_major_axis(f(8068,100000000))
 			:rotation_period(f(11,24))
 	}
@@ -238,7 +238,7 @@ local orionish_moons = {
 		:life(f(0,10))
 	}
 
-local orionisi = CustomSystemBody:new('Beàrnaraigh Mòr', 'PLANET_GAS_GIANT') -- Real Scottish island (Gaelic)
+local orionisi = CustomSystemBody:new('Lanrik', 'PLANET_GAS_GIANT') -- Real Scottish town (Scots)
 	:seed(-1200031656)
 	:radius(f(83255,10000))
 	:mass(f(693151,10000))
@@ -257,7 +257,7 @@ local orionisi = CustomSystemBody:new('Beàrnaraigh Mòr', 'PLANET_GAS_GIANT') -
 	:life(f(0,1))
 
 local orionisi_moons = {
-	CustomSystemBody:new('Luirg', 'PLANET_TERRESTRIAL') -- Real Scottish town (Gaelic)
+	CustomSystemBody:new('Tweid', 'PLANET_TERRESTRIAL') -- Real Scottish river (Scots)
 		:seed(247130418)
 		:radius(f(1231,10000))
 		:mass(f(1866,1000000))
@@ -275,7 +275,7 @@ local orionisi_moons = {
 		:ice_cover(f(0,1000))
 		:life(f(0,10)),
 
-	CustomSystemBody:new('An Càrn Mòr', 'PLANET_TERRESTRIAL') -- Real Scottish hill (Gaelic)
+	CustomSystemBody:new('Dunse', 'PLANET_TERRESTRIAL') -- Real Scottish town (Scots)
 		:seed(-679328091)
 		:radius(f(2116,10000))
 		:mass(f(948,100000))
