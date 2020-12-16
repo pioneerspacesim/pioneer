@@ -11,6 +11,8 @@ namespace Graphics {
 		void Material::Apply()
 		{
 			m_program->Use();
+			if (GetDescriptor().lighting)
+				m_renderer->GetLightUniformBuffer()->Bind(0);
 		}
 
 		void Material::Unapply()

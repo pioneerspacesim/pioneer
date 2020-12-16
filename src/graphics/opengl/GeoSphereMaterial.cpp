@@ -127,15 +127,6 @@ namespace Graphics {
 				p->detailScaleLo.Set(loScale * fDetailFrequency);
 			}
 
-			//Light uniform parameters
-			for (Uint32 i = 0; i < m_renderer->GetNumLights(); i++) {
-				const Light &Light = m_renderer->GetLight(i);
-				p->lights[i].diffuse.Set(Light.GetDiffuse());
-				p->lights[i].specular.Set(Light.GetSpecular());
-				const vector3f &pos = Light.GetPosition();
-				p->lights[i].position.Set(pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
-			}
-
 			// we handle up to three shadows at a time
 			vector3f shadowCentreX;
 			vector3f shadowCentreY;

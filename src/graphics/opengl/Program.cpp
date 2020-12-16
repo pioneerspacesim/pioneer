@@ -286,14 +286,7 @@ namespace Graphics {
 			uNormalMatrix.Init("uNormalMatrix", m_program);
 
 			//Light uniform parameters
-			char cLight[64];
-			for (int i = 0; i < 4; i++) {
-				snprintf(cLight, 64, "uLight[%d]", i);
-				const std::string strLight(cLight);
-				lights[i].diffuse.Init((strLight + ".diffuse").c_str(), m_program);
-				lights[i].specular.Init((strLight + ".specular").c_str(), m_program);
-				lights[i].position.Init((strLight + ".position").c_str(), m_program);
-			}
+			lightDataBlock.InitBlock("LightData", m_program, 0);
 
 			diffuse.Init("material.diffuse", m_program);
 			emission.Init("material.emission", m_program);

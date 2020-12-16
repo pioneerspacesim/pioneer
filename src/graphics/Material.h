@@ -97,10 +97,6 @@ namespace Graphics {
 		Color emissive;
 		int shininess; //specular power 0-128
 
-		// XXX move all materials to use this overload
-		virtual void Apply(RendererOGL *r) { Apply(); }
-		virtual void Unapply(RendererOGL *r) { Apply(); }
-
 		virtual void Apply() {}
 		virtual void Unapply() {}
 		virtual bool IsProgramLoaded() const = 0;

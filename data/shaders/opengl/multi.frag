@@ -27,14 +27,19 @@ in vec3 normal;
 #endif
 #ifdef HEAT_COLOURING
 	uniform sampler2D heatGradient;
-	uniform vec3 heatingNormal; // normalised in viewspace
-	uniform float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
 #endif // HEAT_COLOURING
 #endif // (NUM_LIGHTS > 0)
 
 #ifndef UNIFORM_BUFFERS
+
 uniform Scene scene;
 uniform Material material;
+
+#ifdef HEAT_COLOURING
+	uniform vec3 heatingNormal; // normalised in viewspace
+	uniform float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
+#endif // HEAT_COLOURING
+
 #endif
 
 out vec4 frag_color;

@@ -20,6 +20,8 @@ namespace Graphics {
 
 			//build some defines
 			std::stringstream ss;
+			ss << "#define UNIFORM_BUFFERS\n";
+
 			if (desc.textures > 0)
 				ss << "#define TEXTURE0\n";
 			if (desc.vertexColors)
@@ -28,8 +30,7 @@ namespace Graphics {
 				ss << "#define ALPHA_TEST\n";
 			//using only one light
 			if (desc.lighting && numLights > 0)
-				ss << stringf("#define NUM_LIGHTS %0{d}\n", numLights)
-				   << "#define UNIFORM_BUFFERS\n";
+				ss << stringf("#define NUM_LIGHTS %0{d}\n", numLights);
 			else
 				ss << "#define NUM_LIGHTS 0\n";
 			if (desc.normalMap && desc.lighting && numLights > 0)
@@ -53,7 +54,6 @@ namespace Graphics {
 			LoadShaders(m_name, m_defines);
 			InitUniforms();
 
-			materialBlock.InitBlock("LightData", m_program, 0);
 			materialBlock.InitBlock("DrawData", m_program, 1);
 		}
 
@@ -80,6 +80,26 @@ namespace Graphics {
 			m_program = p;
 		}
 
+		struct DrawDataBlock {
+			// Material Struct
+			Color4f diffuse;
+			Color4f specular;
+			Color4f emission;
+
+			// Scene struct
+			float lightIntensity[4];
+			Color4f ambient;
+
+			// matrix data
+			matrix4x4f uViewMatrix;
+			matrix4x4f uViewMatrixInverse;
+			matrix4x4f uViewProjectionMatrix;
+
+			vector3f heatingNormal;
+			float heatingAmount;
+		};
+		static_assert(sizeof(DrawDataBlock) == 288, "");
+
 		void MultiMaterial::Apply()
 		{
 			OGL::Material::Apply();
@@ -97,48 +117,6 @@ namespace Graphics {
 			p->texture6.Set(this->texture6, 6);
 
 			p->heatGradient.Set(this->heatGradient, 7);
-			if (nullptr != specialParameter0) {
-				HeatGradientParameters_t *pMGP = static_cast<HeatGradientParameters_t *>(specialParameter0);
-				p->heatingNormal.Set(pMGP->heatingNormal);
-				p->heatingAmount.Set(pMGP->heatingAmount);
-			} else {
-				p->heatingNormal.Set(vector3f(0.0f, -1.0f, 0.0f));
-				p->heatingAmount.Set(0.0f);
-			}
-		}
-
-		struct DrawDataBlock {
-			// Material Struct
-			Color4f diffuse;
-			Color4f specular;
-			Color4f emission;
-
-			// Scene struct
-			float lightIntensity[4];
-			Color4f ambient;
-
-			// matrix data
-			matrix4x4f uViewMatrix;
-			matrix4x4f uViewMatrixInverse;
-			matrix4x4f uViewProjectionMatrix;
-		};
-		static_assert(sizeof(DrawDataBlock) == 272, "");
-
-		void LitMultiMaterial::Apply(RendererOGL *r)
-		{
-			//request a new light variation
-			if (m_curNumLights != m_renderer->m_numDirLights) {
-				m_curNumLights = m_renderer->m_numDirLights;
-				if (m_programs[m_curNumLights] == 0) {
-					m_descriptor.dirLights = m_curNumLights; //hax
-					m_programs[m_curNumLights] = m_renderer->GetOrCreateProgram(this);
-				}
-				m_program = m_programs[m_curNumLights];
-			}
-
-			MultiMaterial::Apply();
-
-			m_renderer->GetLightUniformBuffer()->Bind(0);
 
 			auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(DrawDataBlock));
 			{
@@ -152,13 +130,40 @@ namespace Graphics {
 					dataBlock->lightIntensity[i] = m_renderer->GetLight(i).GetIntensity();
 				}
 
-				const matrix4x4f &mv = r->GetTransform();
-				const matrix4x4f &proj = r->GetProjection();
+				const matrix4x4f &mv = m_renderer->GetTransform();
+				const matrix4x4f &proj = m_renderer->GetProjection();
 				dataBlock->uViewMatrix = mv;
 				dataBlock->uViewMatrixInverse = mv.Inverse();
 				dataBlock->uViewProjectionMatrix = proj * mv;
 				// We handle the normal matrix by transposing the orientation part of the inverse view matrix in the shader
+
+				if (GetDescriptor().quality & MaterialQuality::HAS_HEAT_GRADIENT) {
+					if (nullptr != specialParameter0) {
+						HeatGradientParameters_t *pMGP = static_cast<HeatGradientParameters_t *>(specialParameter0);
+						dataBlock->heatingNormal = pMGP->heatingNormal;
+						dataBlock->heatingAmount = pMGP->heatingAmount;
+					} else {
+						dataBlock->heatingNormal = vector3f(0.f, -1.f, 0.f);
+						dataBlock->heatingAmount = 0.f;
+					}
+				}
 			}
+		}
+
+		void LitMultiMaterial::Apply()
+		{
+			//request a new light variation
+			if (m_curNumLights != m_renderer->m_numDirLights) {
+				m_curNumLights = m_renderer->m_numDirLights;
+				if (m_programs[m_curNumLights] == 0) {
+					m_descriptor.dirLights = m_curNumLights; //hax
+					m_programs[m_curNumLights] = m_renderer->GetOrCreateProgram(this);
+				}
+				m_program = m_programs[m_curNumLights];
+			}
+
+			MultiMaterial::Apply();
+
 			CHECKERRORS();
 		}
 

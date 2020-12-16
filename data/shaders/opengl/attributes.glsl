@@ -10,6 +10,12 @@ struct Light {
 	vec4 position;
 };
 
+#if (NUM_LIGHTS > 0)
+layout(std140) uniform LightData {
+	Light uLight[4];
+};
+#endif
+
 #ifdef UNIFORM_BUFFERS
 
 struct Material {
@@ -24,10 +30,6 @@ struct Scene {
 	vec4 ambient;
 };
 
-layout(std140) uniform LightData {
-	Light uLight[4];
-};
-
 layout(std140) uniform DrawData {
 	Material material;
 	Scene scene;
@@ -35,6 +37,9 @@ layout(std140) uniform DrawData {
 	mat4 uViewMatrix;
 	mat4 uViewMatrixInverse;
 	mat4 uViewProjectionMatrix;
+
+	vec3 heatingNormal; // normalised in viewspace
+	float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
 };
 
 #else
@@ -56,8 +61,6 @@ struct Material {
 	vec4 specular;
 	float shininess;
 };
-
-uniform Light uLight[4];
 
 #endif
 
