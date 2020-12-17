@@ -403,7 +403,7 @@ local function displayManeuverData(radius)
 	local maneuverVelocity = player:GetManeuverVelocity()
 	local maneuverSpeed = maneuverVelocity:length()
 	if maneuverSpeed > 0 and not (player:IsDocked() or player:IsLanded()) then
-		local onscreen,position,direction = Engine.RelSpaceToScreenSpace(maneuverVelocity)
+		local onscreen,position,direction = Engine.ProjectRelDirection(maneuverVelocity)
 		gameView.displayIndicator(onscreen, position, direction, icons.bullseye, colors.maneuver, true, lui.HUD_INDICATOR_MANEUVER_PROGRADE)
 		local uiPos = ui.pointOnClock(center, radius, 6)
 		local speed, speed_unit = ui.Format.Speed(maneuverSpeed)

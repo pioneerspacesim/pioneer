@@ -56,8 +56,7 @@ public:
 
 	vector3d WorldSpaceToScreenSpace(const Body *body) const;
 	vector3d WorldSpaceToScreenSpace(const vector3d &position) const;
-	vector3d RelSpaceToScreenSpace(const vector3d &position) const;
-	vector3d ShipSpaceToScreenSpace(const vector3d &position) const;
+	vector3d WorldDirToScreenSpace(const vector3d &direction) const;
 	vector3d GetTargetIndicatorScreenPosition(const Body *body) const;
 	vector3d CameraSpaceToScreenSpace(const vector3d &pos) const;
 
