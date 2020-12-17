@@ -79,8 +79,6 @@ void WorldView::InitObject()
 	rsd.depthWrite = false;
 	rsd.depthTest = false;
 	m_blendState = Pi::renderer->CreateRenderState(rsd); //XXX m_renderer not set yet
-	m_navTunnel = new NavTunnelWidget(this, m_blendState);
-	Add(m_navTunnel, 0, 0);
 
 	/*
 	  NEW UI
@@ -427,16 +425,6 @@ void WorldView::HideIndicator(Indicator &indicator)
 	indicator.pos = vector2f(0.0f, 0.0f);
 }
 
-double getSquareDistance(double initialDist, double scalingFactor, int num)
-{
-	return pow(scalingFactor, num - 1) * num * initialDist;
-}
-
-double getSquareHeight(double distance, double angle)
-{
-	return distance * tan(angle);
-}
-
 void WorldView::Draw()
 {
 	assert(m_game);
@@ -522,104 +510,6 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 	m_edgeMarker.SetStart(vector3f(marker.pos, 0.0f));
 	m_edgeMarker.SetEnd(vector3f(marker.pos + dir, 0.0f));
 	m_edgeMarker.Draw(m_renderer, m_blendState);
-}
-
-NavTunnelWidget::NavTunnelWidget(WorldView *worldview, Graphics::RenderState *rs) :
-	Widget(),
-	m_worldView(worldview),
-	m_renderState(rs)
-{
-}
-
-void NavTunnelWidget::Draw()
-{
-	if (!Pi::IsNavTunnelDisplayed()) return;
-
-	Body *navtarget = Pi::player->GetNavTarget();
-	if (navtarget) {
-		const vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
-		const matrix3x3d &rotmat = Pi::player->GetOrient();
-		const vector3d eyevec = rotmat * m_worldView->shipView->GetCameraController()->GetOrient().VectorZ();
-		if (eyevec.Dot(navpos) >= 0.0) return;
-
-		const double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
-
-		const int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;
-		const double angle = atan(maxSquareHeight / distToDest);
-		// ECRAVEN: TODO not the ideal way to handle Begin/EndCameraFrame here :-/
-		// m_worldView->BeginCameraFrame();
-		const vector3d nav_screen = m_worldView->WorldSpaceToScreenSpace(navtarget);
-		// m_worldView->EndCameraFrame();
-		const vector2f tpos(vector2f(nav_screen.x / Graphics::GetScreenWidth() * Gui::Screen::GetWidth(), nav_screen.y / Graphics::GetScreenHeight() * Gui::Screen::GetHeight()));
-		const vector2f distDiff(tpos - vector2f(Gui::Screen::GetWidth() / 2.0f, Gui::Screen::GetHeight() / 2.0f));
-
-		double dist = 0.0;
-		const double scalingFactor = 1.6; // scales distance between squares: closer to 1.0, more squares
-		for (int squareNum = 1;; squareNum++) {
-			dist = getSquareDistance(10.0, scalingFactor, squareNum);
-			if (dist > distToDest)
-				break;
-
-			const double sqh = getSquareHeight(dist, angle);
-			if (sqh >= 10) {
-				const vector2f off = distDiff * (dist / distToDest);
-				const vector2f sqpos(tpos - off);
-				DrawTargetGuideSquare(sqpos, sqh, green);
-			}
-		}
-	}
-}
-
-void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c)
-{
-	const float x1 = pos.x - size;
-	const float x2 = pos.x + size;
-	const float y1 = pos.y - size;
-	const float y2 = pos.y + size;
-
-	Color black(c);
-	black.a = c.a / 6;
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 8);
-	va.Add(vector3f(x1, y1, 0.f), c);
-	va.Add(vector3f(pos.x, y1, 0.f), black);
-	va.Add(vector3f(x2, y1, 0.f), c);
-	va.Add(vector3f(x2, pos.y, 0.f), black);
-	va.Add(vector3f(x2, y2, 0.f), c);
-	va.Add(vector3f(pos.x, y2, 0.f), black);
-	va.Add(vector3f(x1, y2, 0.f), c);
-	va.Add(vector3f(x1, pos.y, 0.f), black);
-
-	if (!m_vbuffer.get()) {
-		CreateVertexBuffer(8);
-	}
-
-	m_vbuffer->Populate(va);
-
-	m_worldView->m_renderer->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get(), Graphics::LINE_LOOP);
-}
-
-void NavTunnelWidget::GetSizeRequested(float size[2])
-{
-	size[0] = Gui::Screen::GetWidth();
-	size[1] = Gui::Screen::GetHeight();
-}
-
-void NavTunnelWidget::CreateVertexBuffer(const Uint32 size)
-{
-	Graphics::Renderer *r = m_worldView->m_renderer;
-
-	Graphics::MaterialDescriptor desc;
-	desc.vertexColors = true;
-	m_material.Reset(r->CreateMaterial(desc));
-
-	Graphics::VertexBufferDesc vbd;
-	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
-	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
-	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
-	vbd.numVertices = size;
-	m_vbuffer.reset(r->CreateVertexBuffer(vbd));
 }
 
 // project vector vec onto plane (normal must be normalized)

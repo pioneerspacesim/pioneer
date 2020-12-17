@@ -110,7 +110,6 @@ private:
 	Game *m_game;
 	ViewController *m_viewController;
 
-	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;
 
 	bool m_labelsOn;

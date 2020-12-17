@@ -102,14 +102,16 @@ int PiGui::pushOnScreenPositionDirection(lua_State *l, vector3d position)
 	vector3d direction = (position - vector3d(width / 2, height / 2, 0)).Normalized();
 	if (vector3d(0, 0, 0) == position || position.x < 0 || position.y < 0 || position.x > width || position.y > height || position.z > 0) {
 		LuaPush<bool>(l, false);
-		LuaPush<vector2d>(l, vector2d(0, 0));
+		LuaPush<vector2d>(l, vector2d(position.x, position.y));
 		LuaPush<vector3d>(l, direction * (position.z > 0 ? -1 : 1)); // reverse direction if behind camera
+		LuaPush<bool>(l, position.z > 0.0);
 	} else {
 		LuaPush<bool>(l, true);
 		LuaPush<vector2d>(l, vector2d(position.x, position.y));
 		LuaPush<vector3d>(l, direction);
+		LuaPush<bool>(l, false);
 	}
-	return 3;
+	return 4;
 }
 
 static LuaFlags<ImGuiSelectableFlags_> imguiSelectableFlagsTable = {

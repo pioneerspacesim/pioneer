@@ -123,6 +123,42 @@ local function displayNavTargetIndicator(navTarget)
 	end
 end
 
+-- Returns the minimum distance (in meters) from the target that the given navtunnel frame should display at
+local function squareDist(scalingFactor, num)
+	return math.pow(scalingFactor, num - 1) * num * 10.0 -- first square at ten meters
+end
+
+-- Given a navtunnel frame's distance from the target and the distance of the target from the camera,
+-- return the screen height of the corresponding navtunnel frame
+local function squareHeight(distance, distToDest)
+	return distance * (ui.screenHeight / distToDest)
+end
+
+local function displayNavTunnels(navTarget)
+	local _, position, _, behindCamera = Engine.GetTargetIndicatorScreenPosition(navTarget)
+	if behindCamera then return end
+
+	local targetDist = player:GetPositionRelTo(navTarget):length()
+	local screenDiff = position - Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
+
+	-- exponential distribution of navtunnel frames
+	-- the closer to 1.0, the more frames are drawn for a large distance
+	local scalingFactor = 1.6
+	local size = Vector2(0.9, ui.screenHeight / ui.screenWidth)
+	-- TODO: a lot of iterations are wasted on very tiny frames, could be improved
+	for i = 1, 100 do
+		local dist = squareDist(scalingFactor, i)
+		if (dist > targetDist) then break end
+
+		local scrHeight = squareHeight(dist, targetDist)
+		if scrHeight > 10.0 then
+			-- as the frame gets further away from the target, bring it closer to the center of the screen
+			local rectCenter = position - screenDiff * (dist / targetDist)
+			ui.addRect(rectCenter - size * scrHeight, rectCenter + size * scrHeight, colors.navTargetDark, 0, 0, 1.0)
+		end
+	end
+end
+
 -- display the new direction indicator if the player is actively moving the ship with the mouse (RMB)
 local function displayMouseMoveIndicator()
 	-- if mouse is held, show new direction indicator
@@ -148,6 +184,9 @@ gameView.registerModule("indicators", {
 
 		if navTarget then
 			displayNavTargetIndicator(navTarget)
+			if Engine.GetDisplayNavTunnels() then
+				displayNavTunnels(navTarget)
+			end
 		end
 		if combatTarget then
 			displayCombatTargetIndicator(combatTarget)
