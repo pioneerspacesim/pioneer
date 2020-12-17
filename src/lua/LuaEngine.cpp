@@ -720,9 +720,38 @@ static int l_engine_get_intro_current_model_name(lua_State *l)
 }
 
 /*
+ * Method: WorldSpaceToShipSpace
+ *
+ * Convert a direction Vector from world space to screen space
+ *
+ * > screen_space = Engine.WorldSpaceToShipSpace(world_space)
+ *
+ * Parameters:
+ *
+ *   camera_space - a Vector in camera space
+ *
+ * Availability:
+ *
+ *   2017-04
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_engine_world_space_to_ship_space(lua_State *l)
+{
+	vector3d vec = LuaPull<vector3d>(l, 1);
+	auto res = vec * Pi::game->GetPlayer()->GetOrient();
+
+	LuaPush<vector3d>(l, res);
+	return 1;
+}
+
+/*
  * Method: ShipSpaceToScreenSpace
  *
- * Convert a Vector from ship space to screen space
+ * Convert a direction Vector from ship space to screen space
  *
  * > screen_space = Engine.ShipSpaceToScreenSpace(ship_space)
  *
@@ -742,7 +771,7 @@ static int l_engine_get_intro_current_model_name(lua_State *l)
 static int l_engine_ship_space_to_screen_space(lua_State *l)
 {
 	vector3d pos = LuaPull<vector3d>(l, 1);
-	vector3d cam = Pi::game->GetWorldView()->ShipSpaceToScreenSpace(pos);
+	vector3d cam = Pi::game->GetWorldView()->WorldDirToScreenSpace(Pi::player->GetInterpOrient() * pos);
 	LuaPush<vector3d>(l, cam);
 	return 1;
 }
@@ -750,7 +779,7 @@ static int l_engine_ship_space_to_screen_space(lua_State *l)
 /*
  * Method: CameraSpaceToScreenSpace
  *
- * Convert a Vector from camera space to screen space
+ * Convert a direction Vector from camera space to screen space
  *
  * > screen_space = Engine.CameraSpaceToScreenSpace(camera_space)
  *
@@ -776,56 +805,124 @@ static int l_engine_camera_space_to_screen_space(lua_State *l)
 }
 
 /*
- * Method: WorldSpaceToScreenSpace
+ * Method: ProjectRelPosition
  *
- * Convert a Vector from world space to screen space
+ * Project a player-relative position onto the screen
  *
- * > screen_space = Engine.WorldSpaceToScreenSpace(world_space)
+ * > visible, position, direction = Engine.ProjectRelativePosition(rel_space)
  *
  * Parameters:
  *
- *   world_space - a Vector in world space
- *
+ *   rel_space - a position Vector in player-relative space
+ *               (e.g. `body:GetPositionRelTo(player)`)*
  * Availability:
  *
- *   2017-04
+ *   2020-12
  *
  * Status:
  *
  *   stable
  */
 
-static int l_engine_world_space_to_screen_space(lua_State *l)
+static int l_engine_project_rel_position(lua_State *l)
 {
 	vector3d pos = LuaPull<vector3d>(l, 1);
 
-	PiGui::TScreenSpace res = PiGui::lua_world_space_to_screen_space(pos); // defined in LuaPiGui.cpp
-
-	LuaPush<bool>(l, res._onScreen);
-	LuaPush<vector2d>(l, res._screenPosition);
-	LuaPush<vector3d>(l, res._direction);
-	return 3;
+	pos = Pi::game->GetWorldView()->WorldSpaceToScreenSpace(pos + Pi::player->GetInterpPosition());
+	return PiGui::pushOnScreenPositionDirection(l, pos);
 }
 
-static int l_engine_rel_space_to_screen_space(lua_State *l)
+/*
+ * Method: ProjectRelDirection
+ *
+ * Project a direction relative to the player ship onto the screen
+ *
+ * > visible, position, direction = Engine.ProjectRelativeDirection(rel_space)
+ *
+ * Parameters:
+ *
+ *   rel_space - a direction Vector in player-relative space
+ *               (e.g. `body:GetVelocityRelTo(player)`)
+ *
+ * Availability:
+ *
+ *   2020-12
+ *
+ * Status:
+ *
+ *   stable
+ */
+
+static int l_engine_project_rel_direction(lua_State *l)
 {
 	vector3d pos = LuaPull<vector3d>(l, 1);
 
-	PiGui::TScreenSpace res = PiGui::lua_rel_space_to_screen_space(pos); // defined in LuaPiGui.cpp
-
-	LuaPush<bool>(l, res._onScreen);
-	LuaPush<vector2d>(l, res._screenPosition);
-	LuaPush<vector3d>(l, res._direction);
-	return 3;
+	pos = Pi::game->GetWorldView()->WorldDirToScreenSpace(pos.NormalizedSafe());
+	return PiGui::pushOnScreenPositionDirection(l, pos);
 }
 
-static int l_engine_world_space_to_ship_space(lua_State *l)
-{
-	vector3d vec = LuaPull<vector3d>(l, 1);
-	auto res = vec * Pi::game->GetPlayer()->GetOrient();
+/*
+ * Function: GetBodyProjectedScreenPosition
+ *
+ * Get the body's position projected to screen space as a Vector
+ *
+ * > Engine.GetBodyProjectedScreenPosition(body)
+ *
+ * Parameters:
+ *   body - a <Body> to project onto the screen.
+ *
+ * Returns:
+ *   onscreen - a boolean indicating if the body's position is visible.
+ *   position - the screen-space position of the body if onscreen.
+ *   direction - the screen-space direction from the center of the screen
+ *               to the body if offscreen.
+ *
+ * Availability:
+ *
+ *   2020-12
+ *
+ * Status:
+ *
+ *   experimental
+ */
 
-	LuaPush<vector3d>(l, res);
-	return 1;
+static int l_engine_get_projected_screen_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	vector3d p = Pi::game->GetWorldView()->WorldSpaceToScreenSpace(b);
+	return PiGui::pushOnScreenPositionDirection(l, p);
+}
+
+/*
+ * Function: GetTargetIndicatorScreenPosition
+ *
+ * Get a body's nav-target indicator override projected to screen space as a Vector
+ *
+ * > Engine.GetTargetIndicatorScreenPosition(body)
+ *
+ * Parameters:
+ *   body - a <Body> to project onto the screen.
+ *
+ * Returns:
+ *   onscreen - a boolean indicating if the body's position is visible.
+ *   position - the screen-space position of the body if onscreen.
+ *   direction - the screen-space direction from the center of the screen
+ *               to the body if offscreen.
+ *
+ * Availability:
+ *
+ *   2020-12
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_engine_get_target_indicator_screen_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	vector3d p = Pi::game->GetWorldView()->GetTargetIndicatorScreenPosition(b);
+	return PiGui::pushOnScreenPositionDirection(l, p);
 }
 
 static int l_engine_get_confirm_quit(lua_State *l)
@@ -943,11 +1040,13 @@ void LuaEngine::Register()
 		{ "IsIntroZooming", l_engine_is_intro_zooming },
 		{ "GetIntroCurrentModelName", l_engine_get_intro_current_model_name },
 
+		{ "WorldSpaceToShipSpace", l_engine_world_space_to_ship_space },
 		{ "ShipSpaceToScreenSpace", l_engine_ship_space_to_screen_space },
 		{ "CameraSpaceToScreenSpace", l_engine_camera_space_to_screen_space },
-		{ "WorldSpaceToScreenSpace", l_engine_world_space_to_screen_space },
-		{ "RelSpaceToScreenSpace", l_engine_rel_space_to_screen_space },
-		{ "WorldSpaceToShipSpace", l_engine_world_space_to_ship_space },
+		{ "ProjectRelPosition", l_engine_project_rel_position },
+		{ "ProjectRelDirection", l_engine_project_rel_direction },
+		{ "GetBodyProjectedScreenPosition", l_engine_get_projected_screen_position },
+		{ "GetTargetIndicatorScreenPosition", l_engine_get_target_indicator_screen_position },
 		{ "GetEnumValue", l_engine_get_enum_value },
 		{ 0, 0 }
 	};

@@ -1730,41 +1730,10 @@ static int l_pigui_get_mouse_clicked_pos(lua_State *l)
 	return 1;
 }
 
-PiGui::TScreenSpace PiGui::lua_rel_space_to_screen_space(const vector3d &pos)
-{
-	PROFILE_SCOPED()
-	const WorldView *wv = Pi::game->GetWorldView();
-	const vector3d p = wv->RelSpaceToScreenSpace(pos);
-	const int width = Graphics::GetScreenWidth();
-	const int height = Graphics::GetScreenHeight();
-	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
-	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		return PiGui::TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
-	} else {
-		return PiGui::TScreenSpace(true, vector2d(p.x, p.y), direction);
-	}
-}
-
-PiGui::TScreenSpace PiGui::lua_world_space_to_screen_space(const vector3d &pos)
-{
-	PROFILE_SCOPED()
-	const WorldView *wv = Pi::game->GetWorldView();
-	const vector3d p = wv->WorldSpaceToScreenSpace(pos);
-	const int width = Graphics::GetScreenWidth();
-	const int height = Graphics::GetScreenHeight();
-	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
-	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
-		return PiGui::TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
-	} else {
-		return PiGui::TScreenSpace(true, vector2d(p.x, p.y), direction);
-	}
-}
-
 PiGui::TScreenSpace lua_world_space_to_screen_space(const Body *body)
 {
 	PROFILE_SCOPED()
-	const WorldView *wv = Pi::game->GetWorldView();
-	const vector3d p = wv->WorldSpaceToScreenSpace(body);
+	const vector3d p = Pi::game->GetWorldView()->WorldSpaceToScreenSpace(body);
 	const int width = Graphics::GetScreenWidth();
 	const int height = Graphics::GetScreenHeight();
 	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();

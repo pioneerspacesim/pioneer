@@ -26,11 +26,8 @@
 #include "sound/Sound.h"
 
 namespace {
-	static const Color s_hudTextColor(0, 255, 0, 230);
 	static const float HUD_CROSSHAIR_SIZE = 8.0f;
-	static const Color white(255, 255, 255, 204);
 	static const Color green(0, 255, 0, 204);
-	static const Color yellow(230, 230, 77, 255);
 	static const Color red(255, 0, 0, 128);
 } // namespace
 
@@ -722,18 +719,11 @@ vector3d WorldView::WorldSpaceToScreenSpace(const vector3d &position) const
 	return projectToScreenSpace(pos, m_cameraContext);
 }
 
-// convert a position in ship-local coordinates to screen-space coordinates
-vector3d WorldView::ShipSpaceToScreenSpace(const vector3d &pos) const
+// convert a direction in world-space coordinates to a position in screen-space coordinates
+vector3d WorldView::WorldDirToScreenSpace(const vector3d &pos) const
 {
-	// rotate ship-local coordinates into the camera frame orientation
-	vector3d camspace = Pi::player->GetInterpOrient() * pos * m_cameraContext->GetCameraOrient();
-	return projectToScreenSpace(camspace, m_cameraContext, false);
-}
-
-// convert a position in body-relative coordinates (frame-oriented, player-origin) to screen-space
-vector3d WorldView::RelSpaceToScreenSpace(const vector3d &pos) const
-{
-	return WorldSpaceToScreenSpace(pos + Pi::player->GetInterpPosition());
+	// rotate world-space coordinates into the camera frame orientation
+	return projectToScreenSpace(pos * m_cameraContext->GetCameraOrient(), m_cameraContext, false);
 }
 
 vector3d WorldView::CameraSpaceToScreenSpace(const vector3d &pos) const

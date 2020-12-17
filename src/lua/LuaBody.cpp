@@ -633,30 +633,6 @@ static int l_body_get_phys_radius(lua_State *l)
 	return 1;
 }
 
-/*
- * Method: GetProjectedScreenPosition
- *
- * Get the body's position projected to screen space as a Vector
- *
- * > body:GetProjectedScreenPosition()
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
- */
-
-static int l_body_get_projected_screen_position(lua_State *l)
-{
-	Body *b = LuaObject<Body>::CheckFromLua(1);
-	WorldView *wv = Pi::game->GetWorldView();
-	vector3d p = wv->WorldSpaceToScreenSpace(b);
-	return PiGui::pushOnScreenPositionDirection(l, p);
-}
-
 static int l_body_get_atmospheric_state(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -679,14 +655,6 @@ static int l_body_get_label(lua_State *l)
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	LuaPush(l, b->GetLabel());
 	return 1;
-}
-
-static int l_body_get_target_indicator_screen_position(lua_State *l)
-{
-	Body *b = LuaObject<Body>::CheckFromLua(1);
-	WorldView *wv = Pi::game->GetWorldView();
-	vector3d p = wv->GetTargetIndicatorScreenPosition(b);
-	return PiGui::pushOnScreenPositionDirection(l, p);
 }
 
 static bool push_body_to_lua(Body *body)
@@ -776,8 +744,6 @@ void LuaObject<Body>::RegisterClass()
 		{ "GetVelocityRelTo", l_body_get_velocity_rel_to },
 		{ "GetPositionRelTo", l_body_get_position_rel_to },
 		{ "GetAltitudeRelTo", l_body_get_altitude_rel_to },
-		{ "GetProjectedScreenPosition", l_body_get_projected_screen_position },
-		{ "GetTargetIndicatorScreenPosition", l_body_get_target_indicator_screen_position },
 		{ "GetPhysicalRadius", l_body_get_phys_radius },
 		{ "GetAtmosphericState", l_body_get_atmospheric_state },
 		{ "GetLabel", l_body_get_label },
