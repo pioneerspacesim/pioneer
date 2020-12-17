@@ -74,6 +74,25 @@ namespace Graphics {
 			std::unique_ptr<matrix4x4f> m_data;
 		};
 
+		class MeshObject final : public Graphics::MeshObject {
+		public:
+			MeshObject(VertexBuffer *v, IndexBuffer *i) :
+				m_vtxBuffer(v),
+				m_idxBuffer(i)
+			{}
+			virtual ~MeshObject(){}
+
+			virtual Graphics::VertexBuffer *GetVertexBuffer() const override final { return m_vtxBuffer.Get(); }
+			virtual Graphics::IndexBuffer *GetIndexBuffer() const override final { return m_idxBuffer.Get(); }
+
+			virtual void Bind() override final {}
+			virtual void Release() override final {}
+
+		protected:
+			RefCountedPtr<VertexBuffer> m_vtxBuffer;
+			RefCountedPtr<IndexBuffer> m_idxBuffer;
+		};
+
 	} // namespace Dummy
 } // namespace Graphics
 

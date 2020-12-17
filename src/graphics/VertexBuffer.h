@@ -151,5 +151,22 @@ namespace Graphics {
 		BufferUsage m_usage;
 	};
 
+	/*
+     * Wraps a vertex buffer and optional index buffer into a single mesh.
+	 *
+	 * This class maps to OpenGL's vertex array objects, and is used to coalesce primitive
+	 * data for drawing commands in one place.
+	 */
+	class MeshObject : public RefCounted {
+	public:
+		virtual ~MeshObject() = 0;
+
+		virtual void Bind() = 0;
+		virtual void Release() = 0;
+
+		virtual VertexBuffer *GetVertexBuffer() const = 0;
+		virtual IndexBuffer *GetIndexBuffer() const = 0;
+	};
+
 } // namespace Graphics
 #endif // GRAPHICS_VERTEXBUFFER_H

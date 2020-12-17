@@ -30,6 +30,7 @@ namespace Graphics {
 	class VertexBuffer;
 	class IndexBuffer;
 	class InstanceBuffer;
+	class MeshObject;
 	struct VertexBufferDesc;
 	struct RenderStateDesc;
 	struct RenderTargetDesc;
@@ -121,11 +122,16 @@ namespace Graphics {
 		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) = 0;
 		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) = 0;
 		//complex unchanging geometry that is worthwhile to store in VBOs etc.
-		virtual bool DrawBuffer(VertexBuffer *, RenderState *, Material *, PrimitiveType type = TRIANGLES) = 0;
-		virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType = TRIANGLES) = 0;
+		[[deprecated]] virtual bool DrawBuffer(VertexBuffer *, RenderState *, Material *, PrimitiveType type = TRIANGLES) = 0;
+		[[deprecated]] virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType = TRIANGLES) = 0;
 		// instanced variations of the above
-		virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) = 0;
-		virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) = 0;
+		[[deprecated]] virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) = 0;
+		[[deprecated]] virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) = 0;
+
+		// Draw a mesh object with the given render state and material.
+		virtual bool DrawMesh(MeshObject *, RenderState *, Material *, PrimitiveType = TRIANGLES) = 0;
+		// Draw multiple instances of a mesh object with the given render state and material
+		virtual bool DrawMeshInstanced(MeshObject *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) = 0;
 
 		//creates a unique material based on the descriptor. It will not be deleted automatically.
 		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
@@ -136,6 +142,7 @@ namespace Graphics {
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) = 0;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) = 0;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
+		virtual MeshObject *CreateMeshObject(VertexBuffer *vertexBuffer, IndexBuffer *indexBuffer = nullptr) = 0;
 
 		Texture *GetCachedTexture(const std::string &type, const std::string &name);
 		void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);

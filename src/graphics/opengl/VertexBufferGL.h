@@ -7,6 +7,8 @@
 #include "graphics/VertexBuffer.h"
 
 namespace Graphics {
+	class RendererOGL;
+
 	namespace OGL {
 
 		class GLBufferBase {
@@ -40,7 +42,6 @@ namespace Graphics {
 			virtual Uint8 *MapInternal(BufferMapMode) override final;
 
 		private:
-			GLuint m_vao;
 			Uint8 *m_data;
 		};
 
@@ -81,6 +82,23 @@ namespace Graphics {
 				INSTOFFS_MAT3 = 9
 			};
 			std::unique_ptr<matrix4x4f[]> m_data;
+		};
+
+		class MeshObject final : public Graphics::MeshObject {
+		public:
+			MeshObject(RefCountedPtr<VertexBuffer> v, RefCountedPtr<IndexBuffer> i);
+			~MeshObject() override;
+
+			void Bind() override;
+			void Release() override;
+
+			Graphics::VertexBuffer *GetVertexBuffer() const override { return m_vtxBuffer.Get(); };
+			Graphics::IndexBuffer *GetIndexBuffer() const override { return m_idxBuffer.Get(); };
+
+		protected:
+			GLuint m_vao;
+			RefCountedPtr<VertexBuffer> m_vtxBuffer;
+			RefCountedPtr<IndexBuffer> m_idxBuffer;
 		};
 
 	} // namespace OGL

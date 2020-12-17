@@ -63,55 +63,14 @@ namespace Graphics {
 
 			//SetVertexCount(m_desc.numVertices);
 
-			glGenVertexArrays(1, &m_vao);
-			glBindVertexArray(m_vao);
-
-			glGenBuffers(1, &m_buffer);
-
 			//Allocate GL buffer with undefined contents
 			//Critical optimisation for some architectures in cases where buffer is created and written in the same frame
+			glGenBuffers(1, &m_buffer);
 			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 			const Uint32 dataSize = m_desc.numVertices * m_desc.stride;
 			const GLenum usage = (m_desc.usage == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 			glBufferData(GL_ARRAY_BUFFER, dataSize, 0, usage);
-
-			//Setup the VAO pointers
-			for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
-				const auto &attr = m_desc.attrib[i];
-				if (attr.semantic == ATTRIB_NONE)
-					break;
-
-				// Tell OpenGL what the array contains
-				const auto offset = reinterpret_cast<const GLvoid *>(attr.offset);
-				switch (attr.semantic) {
-				case ATTRIB_POSITION:
-					glEnableVertexAttribArray(0); // Enable the attribute at that location
-					glVertexAttribPointer(0, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
-					break;
-				case ATTRIB_NORMAL:
-					glEnableVertexAttribArray(1); // Enable the attribute at that location
-					glVertexAttribPointer(1, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
-					break;
-				case ATTRIB_DIFFUSE:
-					glEnableVertexAttribArray(2); // Enable the attribute at that location
-					glVertexAttribPointer(2, get_num_components(attr.format), get_component_type(attr.format), GL_TRUE, m_desc.stride, offset); // only normalise the colours
-					break;
-				case ATTRIB_UV0:
-					glEnableVertexAttribArray(3); // Enable the attribute at that location
-					glVertexAttribPointer(3, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
-					break;
-				case ATTRIB_TANGENT:
-					glEnableVertexAttribArray(4); // Enable the attribute at that location
-					glVertexAttribPointer(4, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
-					break;
-				case ATTRIB_NONE:
-				default:
-					break;
-				}
-			}
-
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindVertexArray(0);
 
 			// Allocate client data store for dynamic buffers
 			if (GetDesc().usage != BUFFER_USAGE_STATIC) {
@@ -124,7 +83,6 @@ namespace Graphics {
 		VertexBuffer::~VertexBuffer()
 		{
 			glDeleteBuffers(1, &m_buffer);
-			glDeleteVertexArrays(1, &m_vao);
 			delete[] m_data;
 		}
 
@@ -135,7 +93,6 @@ namespace Graphics {
 			assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 			m_mapMode = mode;
 			if (GetDesc().usage == BUFFER_USAGE_STATIC) {
-				glBindVertexArray(m_vao);
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 				if (mode == BUFFER_MAP_READ)
 					return reinterpret_cast<Uint8 *>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY));
@@ -334,7 +291,6 @@ namespace Graphics {
 			PROFILE_SCOPED()
 			assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 			if (GetDesc().usage == BUFFER_USAGE_DYNAMIC) {
-				glBindVertexArray(m_vao);
 				glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 				glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(size), static_cast<GLvoid *>(data), GL_DYNAMIC_DRAW);
 			}
@@ -343,12 +299,12 @@ namespace Graphics {
 		void VertexBuffer::Bind()
 		{
 			assert(m_written);
-			glBindVertexArray(m_vao);
+			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 		}
 
 		void VertexBuffer::Release()
 		{
-			glBindVertexArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 
 		// ------------------------------------------------------------
@@ -523,6 +479,79 @@ namespace Graphics {
 			glDisableVertexAttribArray(INSTOFFS_MAT3);
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+
+
+		MeshObject::MeshObject(RefCountedPtr<VertexBuffer> vtxBuffer, RefCountedPtr<IndexBuffer> idxBuffer) :
+			m_vtxBuffer(std::move(vtxBuffer)),
+			m_idxBuffer(std::move(idxBuffer))
+		{
+			assert(m_vtxBuffer.Valid());
+
+			// Create the VAOs
+			glGenVertexArrays(1, &m_vao);
+			glBindVertexArray(m_vao);
+			m_vtxBuffer->Bind();
+
+			auto &desc = m_vtxBuffer->GetDesc();
+
+			//Setup the VAO pointers
+			for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
+				const auto &attr = desc.attrib[i];
+				if (attr.semantic == ATTRIB_NONE)
+					break;
+
+				// Tell OpenGL what the array contains
+				const auto offset = reinterpret_cast<const GLvoid *>(attr.offset);
+				switch (attr.semantic) {
+				case ATTRIB_POSITION:
+					glEnableVertexAttribArray(0); // Enable the attribute at that location
+					glVertexAttribPointer(0, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, desc.stride, offset);
+					break;
+				case ATTRIB_NORMAL:
+					glEnableVertexAttribArray(1); // Enable the attribute at that location
+					glVertexAttribPointer(1, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, desc.stride, offset);
+					break;
+				case ATTRIB_DIFFUSE:
+					glEnableVertexAttribArray(2); // Enable the attribute at that location
+					glVertexAttribPointer(2, get_num_components(attr.format), get_component_type(attr.format), GL_TRUE, desc.stride, offset); // only normalise the colours
+					break;
+				case ATTRIB_UV0:
+					glEnableVertexAttribArray(3); // Enable the attribute at that location
+					glVertexAttribPointer(3, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, desc.stride, offset);
+					break;
+				case ATTRIB_TANGENT:
+					glEnableVertexAttribArray(4); // Enable the attribute at that location
+					glVertexAttribPointer(4, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, desc.stride, offset);
+					break;
+				case ATTRIB_NONE:
+				default:
+					break;
+				}
+			}
+
+			if (m_idxBuffer)
+				m_idxBuffer->Bind();
+
+			// Unbinding the VAO implicitly unbinds the index buffer (as it's part of the VAO state)
+			// The vertex buffer however is *not* part of VAO state.
+			m_vtxBuffer->Release();
+			glBindVertexArray(0);
+		}
+
+		MeshObject::~MeshObject()
+		{
+			glDeleteVertexArrays(1, &m_vao);
+		}
+
+		void MeshObject::Bind()
+		{
+			glBindVertexArray(m_vao);
+		}
+
+		void MeshObject::Release()
+		{
+			glBindVertexArray(0);
 		}
 
 	} //namespace OGL

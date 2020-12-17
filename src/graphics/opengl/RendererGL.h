@@ -105,6 +105,8 @@ namespace Graphics {
 		virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType) override final;
 		virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) override final;
 		virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) override final;
+		virtual bool DrawMesh(MeshObject *, RenderState *, Material *, PrimitiveType = TRIANGLES) override final;
+		virtual bool DrawMeshInstanced(MeshObject *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) override final;
 
 		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) override final;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override final;
@@ -113,6 +115,7 @@ namespace Graphics {
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) override final;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override final;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override final;
+		virtual MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) override final;
 
 		OGL::UniformBuffer *GetLightUniformBuffer();
 		OGL::UniformLinearBuffer *GetDrawUniformBuffer(Uint32 size);

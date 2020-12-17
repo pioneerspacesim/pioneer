@@ -18,6 +18,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 
 #include "BillboardMaterial.h"
 #include "FresnelColourMaterial.h"
@@ -33,7 +34,7 @@
 #include "StarfieldMaterial.h"
 #include "UIMaterial.h"
 #include "VtxColorMaterial.h"
-#include "graphics/opengl/UniformBuffer.h"
+#include "UniformBuffer.h"
 
 #include <cstddef> //for offsetof
 #include <iterator>
@@ -1059,6 +1060,53 @@ namespace Graphics {
 		return true;
 	}
 
+	bool RendererOGL::DrawMesh(MeshObject *mesh, RenderState *state, Material *mat, PrimitiveType pt)
+	{
+		PROFILE_SCOPED()
+		SetRenderState(state);
+		mat->Apply();
+
+		SetMaterialShaderTransforms(mat);
+
+		int numElems = mesh->GetIndexBuffer() ? mesh->GetIndexBuffer()->GetIndexCount() : mesh->GetVertexBuffer()->GetSize();
+
+		mesh->Bind();
+		if (mesh->GetIndexBuffer())
+			glDrawElements(pt, numElems, GL_UNSIGNED_INT, nullptr);
+		else
+			glDrawArrays(pt, 0, numElems);
+
+		mesh->Release();
+		CheckRenderErrors(__FUNCTION__, __LINE__);
+
+		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+		return true;
+	}
+
+	bool RendererOGL::DrawMeshInstanced(MeshObject *mesh, RenderState *state, Material *mat, InstanceBuffer *inst, PrimitiveType pt)
+	{
+		PROFILE_SCOPED()
+		SetRenderState(state);
+		mat->Apply();
+
+		SetMaterialShaderTransforms(mat);
+
+		int numElems = mesh->GetIndexBuffer() ? mesh->GetIndexBuffer()->GetIndexCount() : mesh->GetVertexBuffer()->GetSize();
+
+		mesh->Bind();
+		inst->Bind();
+		if (mesh->GetIndexBuffer())
+			glDrawElementsInstanced(pt, numElems, GL_UNSIGNED_INT, nullptr, inst->GetInstanceCount());
+		else
+			glDrawArraysInstanced(pt, 0, numElems, inst->GetInstanceCount());
+		inst->Release();
+		mesh->Release();
+		CheckRenderErrors(__FUNCTION__, __LINE__);
+
+		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+		return true;
+	}
+
 	Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 	{
 		PROFILE_SCOPED()
@@ -1273,6 +1321,14 @@ namespace Graphics {
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 		return new OGL::InstanceBuffer(size, usage);
+	}
+
+	MeshObject *RendererOGL::CreateMeshObject(VertexBuffer *v, IndexBuffer *i)
+	{
+		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
+		return new OGL::MeshObject(
+			RefCountedPtr<OGL::VertexBuffer>(static_cast<OGL::VertexBuffer *>(v)),
+			RefCountedPtr<OGL::IndexBuffer>(static_cast<OGL::IndexBuffer *>(i)));
 	}
 
 	OGL::UniformBuffer *RendererOGL::GetLightUniformBuffer()
