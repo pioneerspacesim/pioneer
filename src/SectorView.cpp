@@ -366,11 +366,10 @@ void SectorView::Draw3D()
 	pTrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
 	// corretion to the size of the current star, and hardcoded "3", the size of the player's indicator
 	pTrans.Scale(currentStarSize * 3.);
-	m_renderer->SetTransform(pTrans);
-	m_renderer->SetDepthRange(0.2, 1.0);
+	// move this disk 0.03 light years further so that it does not overlap the star, and selected indicator and hyperspace target indicator
+	m_renderer->SetTransform(matrix4x4f::Translation((pTrans * vector3f(.0f)).NormalizedSafe() * 0.03) * pTrans);
 	m_disk->SetColor(Color(0, 0, 204));
 	m_disk->Draw(m_renderer);
-	m_renderer->ResetDepthRange();
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -508,7 +507,6 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 {
 	PROFILE_SCOPED()
 
-	m_renderer->SetDepthRange(0, 1);
 	Gui::Screen::EnterOrtho();
 
 	if (!m_material)
@@ -619,7 +617,6 @@ void SectorView::DrawNearSectors(const matrix4x4f &modelview)
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
 
 	m_renderer->SetTransform(modelview);
-	m_renderer->SetDepthRange(0, 1);
 	Gui::Screen::EnterOrtho();
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
@@ -760,8 +757,8 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 	Output("SectorView::AutoRoute, nodes to search = %lu, earlied out sector distance from line: %lu times.\n", nodes.size(), secLineToFar);
 
 	// setup inital values and set everything as unvisited
-	std::vector<float> path_dist;										// distance from source to node
-	std::vector<std::vector<SystemPath>::size_type> path_prev;			// previous node in optimal path
+	std::vector<float> path_dist;							   // distance from source to node
+	std::vector<std::vector<SystemPath>::size_type> path_prev; // previous node in optimal path
 	std::unordered_set<std::vector<SystemPath>::size_type> unvisited;
 	// we know how big these need to be, to reserve space up front
 	path_dist.reserve(nodes.size());
@@ -1057,16 +1054,16 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 
 		// selected indicator
 		if (i->IsSameSystem(m_selected)) {
-			m_renderer->SetDepthRange(0.1, 1.0);
 			m_disk->SetColor(Color(0, 204, 0));
-			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
+			// move this disk 0.01 light years further so that it does not overlap the star
+			m_renderer->SetTransform(matrix4x4f::Translation((systrans * vector3f(.0f)).NormalizedSafe() * 0.01) * systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (i->IsSameSystem(m_hyperspaceTarget) && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
-			m_renderer->SetDepthRange(0.1, 1.0);
 			m_disk->SetColor(Color(77, 77, 77));
-			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
+			// move this disk 0.02 light years further so that it does not overlap the star, and selected indicator
+			m_renderer->SetTransform(matrix4x4f::Translation((systrans * vector3f(.0f)).NormalizedSafe() * 0.02) * systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
 		// hyperspace range sphere
