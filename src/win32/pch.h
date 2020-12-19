@@ -27,7 +27,6 @@
 #include "SectorView.h"
 #include "Sfx.h"
 #include "Ship.h"
-#include "ShipCpanel.h"
 #include "ShipType.h"
 #include "SmartPtr.h"
 #include "Space.h"

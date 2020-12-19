@@ -44,7 +44,6 @@
 #include "SectorView.h"
 #include "Sfx.h"
 #include "Shields.h"
-#include "ShipCpanel.h"
 #include "ShipType.h"
 #include "Space.h"
 #include "SpaceStation.h"
@@ -889,7 +888,6 @@ void GameLoop::Start()
 	Pi::player->onDock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->onLanded.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
-	Pi::game->GetCpan()->ShowAll();
 	Pi::DrawGUI = true;
 	Pi::SetView(Pi::game->GetWorldView());
 
@@ -1055,9 +1053,6 @@ void GameLoop::Update(float deltaTime)
 	}
 
 	Pi::GetMusicPlayer().Update();
-
-	// FIXME: oldUI must DIEEEEE!
-	Pi::game->GetCpan()->Update();
 
 	Pi::GetApp()->RunJobs();
 
