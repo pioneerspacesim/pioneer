@@ -496,12 +496,14 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)pigui\</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">$(IntDir)pigui\</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="..\..\src\pigui\LuaRadar.cpp" />
     <ClCompile Include="..\..\src\pigui\ModelSpinner.cpp" />
     <ClCompile Include="..\..\src\pigui\PerfInfo.cpp" />
     <ClCompile Include="..\..\src\pigui\PiGui.cpp" />
     <ClCompile Include="..\..\src\pigui\LuaFace.cpp" />
     <ClCompile Include="..\..\src\pigui\PiGuiSandbox.cpp" />
     <ClCompile Include="..\..\src\pigui\PiGuiView.cpp" />
+    <ClCompile Include="..\..\src\pigui\Radar.cpp" />
     <ClCompile Include="..\..\src\pigui\Widgets.cpp" />
     <ClCompile Include="..\..\src\Plane.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
@@ -539,8 +541,6 @@
     <ClCompile Include="..\..\src\Ship.cpp" />
     <ClCompile Include="..\..\src\ShipAICmd.cpp" />
     <ClCompile Include="..\..\src\ShipCockpit.cpp" />
-    <ClCompile Include="..\..\src\ShipCpanel.cpp" />
-    <ClCompile Include="..\..\src\ShipCpanelMultiFuncDisplays.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\ship\CameraController.cpp" />
     <ClCompile Include="..\..\src\ship\PlayerShipController.cpp" />
@@ -561,6 +561,7 @@
     <ClCompile Include="..\..\src\SystemView.cpp" />
     <ClCompile Include="..\..\src\TerrainBody.cpp" />
     <ClCompile Include="..\..\src\Tombstone.cpp" />
+    <ClCompile Include="..\..\src\TransferPlanner.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\versioningInfo.cpp" />
     <ClCompile Include="..\..\src\View.cpp" />
@@ -702,6 +703,7 @@
     <ClInclude Include="..\..\src\pigui\PerfInfo.h" />
     <ClInclude Include="..\..\src\pigui\PiGui.h" />
     <ClInclude Include="..\..\src\pigui\PiGuiView.h" />
+    <ClInclude Include="..\..\src\pigui\Radar.h" />
     <ClInclude Include="..\..\src\Plane.h" />
     <ClInclude Include="..\..\src\Planet.h" />
     <ClInclude Include="..\..\src\Player.h" />
@@ -721,8 +723,6 @@
     <ClInclude Include="..\..\src\Ship.h" />
     <ClInclude Include="..\..\src\ShipAICmd.h" />
     <ClInclude Include="..\..\src\ShipCockpit.h" />
-    <ClInclude Include="..\..\src\ShipCpanel.h" />
-    <ClInclude Include="..\..\src\ShipCpanelMultiFuncDisplays.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\ship\CameraController.h" />
     <ClInclude Include="..\..\src\ship\PlayerShipController.h" />
@@ -745,6 +745,7 @@
     <ClInclude Include="..\..\src\SystemView.h" />
     <ClInclude Include="..\..\src\TerrainBody.h" />
     <ClInclude Include="..\..\src\Tombstone.h" />
+    <ClInclude Include="..\..\src\TransferPlanner.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
