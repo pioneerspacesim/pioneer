@@ -295,6 +295,16 @@ function CommodityMarketWidget:TradeMenu()
 				ui.columns(1, "", false)
 				ui.text('')
 
+				local pricemod = Game.system:GetCommodityBasePriceAlterations(self.selectedItem.name)
+				if pricemod > 10 then
+					ui.text(l.MAJOR_IMPORT)
+				elseif pricemod > 4 then
+					ui.text(l.MINOR_IMPORT)
+				elseif pricemod < -10 then
+					ui.text(l.MAJOR_EXPORT)
+				elseif pricemod < -4 then
+					ui.text(l.MINOR_EXPORT)
+				end
 				ui.textWrapped(self.selectedItem:GetDescription())
 
 				ui.setCursorPos(bottomHalf)
