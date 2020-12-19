@@ -108,12 +108,6 @@
     <ClCompile Include="..\..\src\ShipAICmd.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ShipCpanel.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ShipCpanelMultiFuncDisplays.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\ShipType.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -579,6 +573,15 @@
     <ClCompile Include="..\..\src\InputBindings.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\pigui\LuaRadar.cpp">
+      <Filter>src\pigui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\pigui\Radar.cpp">
+      <Filter>src\pigui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TransferPlanner.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -672,12 +675,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ShipAICmd.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ShipCpanel.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ShipCpanelMultiFuncDisplays.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ShipType.h">
@@ -1134,6 +1131,12 @@
       <Filter>src\Lua</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\InputBindings.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\pigui\Radar.h">
+      <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\TransferPlanner.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
