@@ -25,6 +25,27 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  build-vs-solution:
+    runs-on: windows-2019
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: pioneer
+
+      - name: Checkout pioneer-thirdparty
+        uses: actions/checkout@v2
+        with:
+          repository: pioneerspacesim/pioneer-thirdparty
+          path: pioneer-thirdparty
+
+      - name: Build VS Solution
+        shell: cmd
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          cd pioneer
+          msbuild win32\vs2019\pioneer.sln /property:Configuration=Release
+
   build-msvc:
     runs-on: windows-2019
 
