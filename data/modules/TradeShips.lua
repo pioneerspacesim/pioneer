@@ -372,12 +372,12 @@ local spawnInitialShips = function (game_start)
 		if key ~= "rubbish" and key ~= "radioactives" and Game.system:IsCommodityLegal(key) then
 			-- values from SystemInfoView::UpdateEconomyTab
 
-			if v > 2 then
+			if v > 4 then
 				import_score = import_score + (v > 10 and 2 or 1) -- lua is crazy
 				table.insert(imports, equip)
 			end
 
-			if v < -2 then
+			if v < -4 then
 				export_score = export_score + (v < -10 and 2 or 1)
 				table.insert(exports, equip)
 			end
@@ -913,9 +913,9 @@ local onGameStart = function ()
 			for key,equip in pairs(e.cargo) do
 				local v = Game.system:GetCommodityBasePriceAlterations(key)
 				if key ~= 'rubbish' and key ~= 'radioactives' and Game.system:IsCommodityLegal(key) then
-					if v > 2 then
+					if v > 4 then
 						table.insert(imports, equip)
-					elseif v < -2 then
+					elseif v < -4 then
 						table.insert(exports, equip)
 					end
 				end

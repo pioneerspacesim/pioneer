@@ -52,11 +52,11 @@ local function updateEquipmentStock (station)
 				local stock =  (Engine.rand:Integer(0,rn) + Engine.rand:Integer(0,rn)) / 2 -- normal 0-100% stock
 				if pricemod > 10 then --major import, low stock
 					stock = stock - (rn*0.10)     -- shifting .10 = 2% chance of 0 stock
-				elseif pricemod > 2 then --minor import
+				elseif pricemod > 4 then --minor import
 					stock = stock - (rn*0.07)     -- shifting .07 = 1% chance of 0 stock
 				elseif pricemod < -10 then --major export
 					stock = stock + (rn*0.8)
-				elseif pricemod < -2 then --minor export
+				elseif pricemod < -4 then --minor export
 					stock = stock + (rn*0.3)
 				end
 				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
