@@ -13,6 +13,12 @@
 
 class Body;
 struct ImGuiStyle;
+struct ImVec2;
+struct ImColor;
+
+void pi_lua_generic_push(lua_State *l, const ImVec2 &vec);
+void pi_lua_generic_pull(lua_State *l, int index, ImVec2 &vec);
+void pi_lua_generic_pull(lua_State *l, int index, ImColor &color);
 
 namespace PiGui {
 	bool first_body_is_more_important_than(Body *body, Body *other);

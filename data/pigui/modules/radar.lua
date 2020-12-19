@@ -22,6 +22,7 @@ local MIN_RADAR_SIZE = 1000
 
 local shouldDisplay2DRadar
 local current_radar_size = 10000
+local blobSize = 6.0
 
 local function getColorFor(item)
 	local body = item.body
@@ -100,6 +101,74 @@ local function display2DRadar(cntr, size)
 	local textsize = ui.addStyledText(textcenter, ui.anchor.left, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 end
 
+local function drawTarget(target, scale, center, color)
+	local pos = target.rel_position
+	local basePos = Vector2(pos.x * scale.x + center.x, pos.z * scale.y + center.y)
+	local blobPos = Vector2(basePos.x, basePos.y - pos.y * scale.y);
+	local blobHalfSize = Vector2(blobSize / 2)
+
+	ui.addLine(basePos, blobPos, color:shade(0.1), 2)
+	ui.addRectFilled(blobPos - blobHalfSize, blobPos + blobHalfSize, color, 0, 0)
+end
+
+local radar = require 'PiGui.Modules.RadarWidget'()
+local currentZoomDist = MIN_RADAR_SIZE
+radar.minZoom = MIN_RADAR_SIZE
+radar.maxZoom = MAX_RADAR_SIZE
+
+local function display3DRadar(center, size)
+	local targets = ui.getTargetsNearby(MAX_RADAR_SIZE)
+
+	local combatTarget = player:GetCombatTarget()
+	local navTarget = player:GetNavTarget()
+	local maxBodyDist = 0.0
+	local maxShipDist = 0.0
+
+	radar.size = size
+	radar.zoom = currentZoomDist
+	local radius = radar.radius
+	local scale = radar.radius / currentZoomDist
+	ui.setCursorPos(center - size / 2.0)
+
+	-- draw targets below the plane
+	for k, v in pairs(targets) do
+		-- collect some values for zoom updates later
+		maxBodyDist = math.max(maxBodyDist, v.distance)
+		-- only snap to ships if they're less than 50km away (arbitrary constant based on crime range)
+		if v.body:IsShip() and v.distance < 50000 then maxShipDist = math.max(maxShipDist, v.distance) end
+
+		if v.distance < currentZoomDist and v.rel_position.y < 0.0 then
+			local color = (v.body == navTarget and colors.navTarget) or (v.body == combatTarget and colors.combatTarget) or getColorFor(v)
+			drawTarget(v, scale, center, color)
+		end
+	end
+
+	-- draw the radar plane itself
+	radar:Draw()
+
+	-- draw targets above the plane
+	for k, v in pairs(targets) do
+		if v.distance < currentZoomDist and v.rel_position.y >= 0.0 then
+			local color = (v.body == navTarget and colors.navTarget) or (v.body == combatTarget and colors.combatTarget) or getColorFor(v)
+			drawTarget(v, scale, center, color)
+		end
+	end
+
+	-- handle automatic radar zoom based on player surroundings
+	local maxDist = maxBodyDist
+	if combatTarget then
+		maxDist = combatTarget:GetPositionRelTo(player):length() * 1.4
+	elseif maxShipDist > 0 then
+		maxDist = maxShipDist * 1.4
+	elseif navTarget then
+		local dist = navTarget:GetPositionRelTo(player):length()
+		maxDist = dist > MAX_RADAR_SIZE and maxBodyDist or dist * 1.4
+	end
+
+	currentZoomDist = math.clamp(currentZoomDist + (maxDist - currentZoomDist) * 0.03,
+		MIN_RADAR_SIZE, MAX_RADAR_SIZE)
+end
+
 local click_on_radar = false
 -- display either the 3D or the 2D radar, show a popup on right click to select
 local function displayRadar()
@@ -110,7 +179,7 @@ local function displayRadar()
 	if #radar > 0 then
 
 		local size = ui.reticuleCircleRadius * 0.66
-		local cntr = Vector2(ui.screenWidth / 2, ui.screenHeight - size - 15)
+		local cntr = Vector2(ui.screenWidth / 2, ui.screenHeight - size - 4)
 
 		local mp = ui.getMousePos()
 		if (mp - cntr):length() > size then
@@ -140,6 +209,8 @@ local function displayRadar()
 		end)
 		if shouldDisplay2DRadar then
 			display2DRadar(cntr, size)
+		else
+			display3DRadar(cntr, Vector2(ui.reticuleCircleRadius * 1.8, size * 2))
 		end
 	end
 end

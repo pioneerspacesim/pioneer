@@ -5,6 +5,7 @@
 #include "Face.h"
 #include "Image.h"
 #include "ModelSpinner.h"
+#include "Radar.h"
 #include "lua/LuaPiGuiInternal.h"
 #include "lua/LuaTable.h"
 
@@ -59,6 +60,7 @@ namespace PiGui {
 			LuaObject<PiGui::Image>::RegisterClass();
 			LuaObject<PiGui::Face>::RegisterClass();
 			LuaObject<PiGui::ModelSpinner>::RegisterClass();
+			LuaObject<PiGui::RadarWidget>::RegisterClass();
 			RegisterSandbox();
 		}
 

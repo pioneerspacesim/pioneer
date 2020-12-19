@@ -94,6 +94,12 @@ void pi_lua_generic_pull(lua_State *l, int index, ImVec2 &vec)
 	vec = ImVec2(tr.x, tr.y);
 }
 
+void pi_lua_generic_push(lua_State *l, const ImVec2 &vec)
+{
+	PROFILE_SCOPED()
+	LuaPush(l, vector2d(vec.x, vec.y));
+}
+
 int PiGui::pushOnScreenPositionDirection(lua_State *l, vector3d position)
 {
 	PROFILE_SCOPED()
@@ -2042,6 +2048,7 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 
 		object.Set("distance", distance);
 		object.Set("label", body->GetLabel());
+		object.Set("rel_position", shipSpacePosition);
 
 		//		object.Set("type", EnumStrings::GetString("PhysicsObjectType", (*i)->GetType()));
 		//		object.Set("position", position);
