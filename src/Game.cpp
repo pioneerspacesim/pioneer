@@ -24,7 +24,6 @@
 #include "Player.h"
 #include "SectorView.h"
 #include "Sfx.h"
-#include "ShipCpanel.h"
 #include "Space.h"
 #include "SpaceStation.h"
 #include "SystemInfoView.h"
@@ -222,7 +221,6 @@ void Game::ToJson(Json &jsonObj)
 	jsonObj["hyperspace_clouds"] = hyperspaceCloudArray; // Add hyperspace cloud array to supplied object.
 
 	// views. must be saved in init order
-	m_gameViews->m_cpan->SaveToJson(jsonObj);
 	m_gameViews->m_sectorView->SaveToJson(jsonObj);
 	m_gameViews->m_worldView->SaveToJson(jsonObj);
 
@@ -285,8 +283,6 @@ void Game::TimeStep(float step)
 
 	m_space->TimeStep(step);
 
-	// XXX ui updates, not sure if they belong here
-	m_gameViews->m_cpan->TimeStepUpdate(step);
 	SfxManager::TimeStepAll(step, m_space->GetRootFrame());
 
 	if (m_state == State::HYPERSPACE) {
@@ -748,8 +744,7 @@ Game::Views::Views() :
 	m_worldView(nullptr),
 	m_deathView(nullptr),
 	m_spaceStationView(nullptr),
-	m_infoView(nullptr),
-	m_cpan(nullptr)
+	m_infoView(nullptr)
 {}
 
 void Game::Views::SetRenderer(Graphics::Renderer *r)
@@ -769,7 +764,6 @@ void Game::Views::SetRenderer(Graphics::Renderer *r)
 
 void Game::Views::Init(Game *game)
 {
-	m_cpan = new ShipCpanel(Pi::renderer, game);
 	m_sectorView = new SectorView(game);
 	m_worldView = new WorldView(game);
 	m_systemView = new SystemView(game);
@@ -787,7 +781,6 @@ void Game::Views::Init(Game *game)
 
 void Game::Views::LoadFromJson(const Json &jsonObj, Game *game)
 {
-	m_cpan = new ShipCpanel(jsonObj, Pi::renderer, game);
 	m_sectorView = new SectorView(jsonObj, game);
 	m_worldView = new WorldView(jsonObj, game);
 
@@ -817,7 +810,6 @@ Game::Views::~Views()
 	delete m_systemView;
 	delete m_worldView;
 	delete m_sectorView;
-	delete m_cpan;
 }
 
 // XXX this should be in some kind of central UI management class that

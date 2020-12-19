@@ -34,7 +34,6 @@ class SystemInfoView;
 class SystemView;
 class WorldView;
 class DeathView;
-class ShipCpanel;
 class ObjectViewerView;
 
 class Game {
@@ -122,7 +121,6 @@ public:
 	DeathView *GetDeathView() const { return m_gameViews->m_deathView; }
 	View *GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
 	View *GetInfoView() const { return m_gameViews->m_infoView; }
-	ShipCpanel *GetCpan() const { return m_gameViews->m_cpan; }
 
 	/* Only use #if WITH_OBJECTVIEWER */
 	ObjectViewerView *GetObjectViewerView() const;
@@ -146,7 +144,6 @@ private:
 		DeathView *m_deathView;
 		View *m_spaceStationView;
 		View *m_infoView;
-		ShipCpanel *m_cpan;
 
 		/* Only use #if WITH_OBJECTVIEWER */
 		ObjectViewerView *m_objectViewerView;

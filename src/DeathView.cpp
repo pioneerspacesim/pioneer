@@ -8,7 +8,6 @@
 #include "GameConfig.h"
 #include "Pi.h"
 #include "Player.h"
-#include "ShipCpanel.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 
@@ -42,7 +41,6 @@ void DeathView::Init()
 
 void DeathView::OnSwitchTo()
 {
-	m_game->GetCpan()->HideAll();
 }
 
 void DeathView::Update()

@@ -13,7 +13,6 @@
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
-#include "ShipCpanel.h"
 #include "Space.h"
 #include "StringF.h"
 #include "SystemInfoView.h"
@@ -451,29 +450,6 @@ static int l_game_in_hyperspace(lua_State *l)
 }
 
 /*
- * Function: SetRadarVisible
- *
- * Show or hide the traditional radar in ShipCPanel
- *
- * > Game.SetRadarVisible(true)
- *
- * Availability:
- *
- *   2017-04
- *
- * Status:
- *
- *   stable
- */
-
-static int l_game_set_radar_visible(lua_State *l)
-{
-	bool visible = LuaPull<bool>(l, 1);
-	Pi::game->GetCpan()->SetRadarVisible(visible);
-	return 0;
-}
-
-/*
  * Function: CurrentView
  *
  * Return the currently active game view
@@ -684,7 +660,6 @@ void LuaGame::Register()
 		{ "SaveGame", l_game_save_game },
 		{ "EndGame", l_game_end_game },
 		{ "InHyperspace", l_game_in_hyperspace },
-		{ "SetRadarVisible", l_game_set_radar_visible },
 		{ "SaveGameStats", l_game_savegame_stats },
 
 		{ "SwitchView", l_game_switch_view },
