@@ -4,6 +4,7 @@ December 2020
      * Show surface starports in system view (#5060)
      * Use new icons in Worldview (#5042)
      * Move economy & trade to pigui (#4067)
+     * New BBS advert for soldout commodity (#5059)
 
    * Internal Changes
      * Clarify tooltip for rotate button (#5070)
