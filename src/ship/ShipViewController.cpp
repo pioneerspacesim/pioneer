@@ -178,7 +178,16 @@ void ShipViewController::Update()
 	auto *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
 	auto frameTime = Pi::GetFrameTime();
 
-	if (!InputBindings.active) return;
+	if (!InputBindings.active) {
+		m_activeCameraController->Update();
+
+		if (m_mouseActive) {
+			m_mouseActive = false;
+			Pi::input->SetCapturingMouse(false);
+		}
+
+		return;
+	}
 
 	if (GetCamType() == CAM_INTERNAL) {
 		if (InputBindings.frontCamera->IsActive())
