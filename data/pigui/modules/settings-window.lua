@@ -449,7 +449,10 @@ local function axisBinding(info)
 		if axis then
 			local c, inverted = nil, axis.direction < 0
 			c,inverted = ui.checkbox("Inverted##"..info.id, inverted, linput.TEXT_INVERT_AXIS)
-			if c then axis.direction = inverted and -1 or 1; info.axis = axis end
+			if c then
+				axis.direction = inverted and -1 or 1
+				info.axis = axis; Input.SaveBinding(info)
+			end
 		end
 		-- new row
 		ui.nextColumn()
