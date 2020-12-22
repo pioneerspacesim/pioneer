@@ -953,6 +953,7 @@ static void hitCallback(CollisionContact *c)
 // temporary one-point version
 static void CollideWithTerrain(Body *body, float timeStep)
 {
+	PROFILE_SCOPED()
 	if (!body->IsType(ObjectType::DYNAMICBODY))
 		return;
 	DynamicBody *dynBody = static_cast<DynamicBody *>(body);
@@ -1016,6 +1017,7 @@ void Space::TimeStep(float step)
 
 void Space::UpdateBodies()
 {
+	PROFILE_SCOPED()
 #ifndef NDEBUG
 	m_processingFinalizationQueue = true;
 #endif

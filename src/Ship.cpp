@@ -229,6 +229,10 @@ void Ship::Init()
 	m_hyperspaceCloud = 0;
 
 	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
+	// TODO: this causes the landing gear animation to be ticked for all ships regardless of whether it actually needs to be.
+	// Need smarter control regarding landing gear transitions.
+	if (m_landingGearAnimation)
+		GetModel()->SetAnimationActive(GetModel()->FindAnimationIndex(m_landingGearAnimation), true);
 
 	GetFixedGuns()->InitGuns(GetModel());
 
@@ -979,6 +983,7 @@ void Ship::SetFrame(FrameId fId)
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
+	PROFILE_SCOPED()
 	// If docked, station is responsible for updating position/orient of ship
 	// but we call this crap anyway and hope it doesn't do anything bad
 
@@ -1210,6 +1215,7 @@ void Ship::UpdateFuel(const float timeStep)
 
 void Ship::StaticUpdate(const float timeStep)
 {
+	PROFILE_SCOPED()
 	// do player sounds before dead check, so they also turn off
 	if (IsType(ObjectType::PLAYER)) DoThrusterSounds();
 

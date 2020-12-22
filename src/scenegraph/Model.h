@@ -107,7 +107,7 @@ namespace SceneGraph {
 		float GetDrawClipRadius() const { return m_boundingRadius; }
 		void SetDrawClipRadius(float clipRadius) { m_boundingRadius = clipRadius; }
 
-		void Render(const matrix4x4f &trans, const RenderData *rd = 0); //ModelNode can override RD
+		void Render(const matrix4x4f &trans, const RenderData *rd = 0);				 //ModelNode can override RD
 		void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd = 0); //ModelNode can override RD
 
 		RefCountedPtr<CollMesh> CreateCollisionMesh();
@@ -142,8 +142,18 @@ namespace SceneGraph {
 		bool SupportsDecals();
 		bool SupportsPatterns();
 
-		Animation *FindAnimation(const std::string &) const; //0 if not found
+		// update all animations once to ensure all transforms are correctly positioned
+		void InitAnimations();
+		// Get an animation matching the given name or return nullptr.
+		Animation *FindAnimation(const std::string &) const;
+		// Get the index of an animation in this container. If there is no such animation, returns UINT32_MAX.
+		uint32_t FindAnimationIndex(Animation *) const;
+		// Return a reference to all animations defined on this model.
 		const std::vector<Animation *> GetAnimations() const { return m_animations; }
+		// Mark an animation as actively updating. A maximum of 64 active animations are supported.
+		void SetAnimationActive(uint32_t index, bool active);
+		bool GetAnimationActive(uint32_t index) const;
+		// Update all active animations.
 		void UpdateAnimations();
 
 		Graphics::Renderer *GetRenderer() const { return m_renderer; }
@@ -185,7 +195,8 @@ namespace SceneGraph {
 		Graphics::Renderer *m_renderer;
 		std::string m_name;
 		std::vector<Animation *> m_animations;
-		TagContainer m_tags; //named attachment points
+		uint64_t m_activeAnimations; // bitmask of actively ticking animations
+		TagContainer m_tags;		 //named attachment points
 		RenderData m_renderData;
 
 		//per-instance flavour data

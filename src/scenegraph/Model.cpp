@@ -457,14 +457,45 @@ namespace SceneGraph {
 		for (AnimationContainer::const_iterator anim = m_animations.begin(); anim != m_animations.end(); ++anim) {
 			if ((*anim)->GetName() == name) return (*anim);
 		}
-		return 0;
+		return nullptr;
+	}
+
+	void Model::InitAnimations()
+	{
+		for (AnimationContainer::iterator anim = m_animations.begin(); anim != m_animations.end(); ++anim)
+			(*anim)->Interpolate();
 	}
 
 	void Model::UpdateAnimations()
 	{
-		// XXX WIP. Assuming animations are controlled manually by SetProgress.
-		for (AnimationContainer::iterator anim = m_animations.begin(); anim != m_animations.end(); ++anim)
-			(*anim)->Interpolate();
+		for (size_t i = 0; i < m_animations.size(); i++) {
+			if (m_activeAnimations & (1 << i))
+				m_animations[i]->Interpolate();
+		}
+	}
+
+	uint32_t Model::FindAnimationIndex(Animation *anim) const
+	{
+		for (size_t i = 0; i < m_animations.size(); i++) {
+			if (anim == m_animations[i]) return uint32_t(i);
+		}
+
+		return UINT32_MAX;
+	}
+
+	void Model::SetAnimationActive(uint32_t index, bool active)
+	{
+		if (index >= m_animations.size()) return;
+		if (active)
+			m_activeAnimations |= (1 << index);
+		else
+			m_activeAnimations &= ~(1 << index);
+	}
+
+	bool Model::GetAnimationActive(uint32_t index) const
+	{
+		if (index >= m_animations.size()) return false;
+		return m_activeAnimations & (1 << index);
 	}
 
 	void Model::SetThrust(const vector3f &lin, const vector3f &ang)
@@ -531,9 +562,13 @@ namespace SceneGraph {
 		Json modelObj({}); // Create JSON object to contain model data.
 
 		Json animationArray = Json::array(); // Create JSON array to contain animation data.
-		for (auto i : m_animations)
-			animationArray.push_back(i->GetProgress());
+		Json activeArray = Json::array();	 // Create JSON array to contain animation data.
+		for (size_t i = 0; i < m_animations.size(); i++) {
+			animationArray.push_back(m_animations[i]->GetProgress());
+			activeArray.push_back(GetAnimationActive(i));
+		}
 		modelObj["animations"] = animationArray; // Add animation array to model object.
+		modelObj["activeAnimations"] = animationArray;
 
 		modelObj["cur_pattern_index"] = m_curPatternIndex;
 
@@ -546,14 +581,20 @@ namespace SceneGraph {
 			Json modelObj = jsonObj["model"];
 
 			Json animationArray = modelObj["animations"].get<Json::array_t>();
+			Json activeArray = modelObj["activeAnimations"];
 			if (m_animations.size() == animationArray.size()) {
 				unsigned int arrayIndex = 0;
-				for (auto i : m_animations)
-					i->SetProgress(animationArray[arrayIndex++]);
+				bool hasActive = activeArray.is_array();
+				for (auto i : m_animations) {
+					i->SetProgress(animationArray[arrayIndex]);
+					SetAnimationActive(arrayIndex, hasActive ? activeArray[arrayIndex].get<bool>() : true);
+					++arrayIndex;
+				}
+
 			} else {
 				Log::Info("Saved model '{}' has invalid animation data. The model file may have changed on disk.\n", m_name);
 			}
-			UpdateAnimations();
+			InitAnimations();
 
 			SetPattern(modelObj["cur_pattern_index"]);
 		} catch (Json::type_error &) {

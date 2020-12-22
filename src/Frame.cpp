@@ -479,6 +479,7 @@ void Frame::ClearMovement()
 
 void Frame::UpdateOrbitRails(double time, double timestep)
 {
+	PROFILE_SCOPED()
 	std::for_each(begin(s_frames), end(s_frames), [&time, &timestep](Frame &frame) {
 		frame.m_oldPos = frame.m_pos;
 		frame.m_oldAngDisplacement = frame.m_angSpeed * timestep;

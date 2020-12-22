@@ -261,7 +261,7 @@ Model *BinaryConverter::CreateModel(const std::string &filename, Serializer::Rea
 
 	LoadAnimations(rd);
 
-	m_model->UpdateAnimations();
+	m_model->InitAnimations();
 	//m_model->CreateCollisionMesh();
 	if (m_patternsUsed) SetUpPatterns();
 
