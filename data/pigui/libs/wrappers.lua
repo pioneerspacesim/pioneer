@@ -452,6 +452,25 @@ function ui.shiftHeld() return pigui.key_shift end
 function ui.noModifierHeld() return pigui.key_none end
 
 --
+-- Function: ui.escapeKeyReleased
+--
+-- Performs some sanity checks and returns true if the user has pressed escape
+-- and the escape key is not currently being consumed.
+--
+--
+-- Parameters:
+--
+--   ignorePopup - if true, skip checking for open popups.
+--
+-- Returns:
+--
+--   boolean - true if the escape key is pressed and not being consumed
+--
+function ui.escapeKeyReleased(ignorePopup)
+	return (ignorePopup or not ui.isAnyPopupOpen()) and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape)
+end
+
+--
 -- Function: ui.tabBar
 --
 -- ui.tabBar(id, items)

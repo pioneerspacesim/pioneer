@@ -8,7 +8,7 @@ local ui = require 'pigui'
 
 ui.registerModule("game", function()
 	if Game.CurrentView() == "system_info" then
-		if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
+		if ui.escapeKeyReleased() then
 			Game.SetView("sector")
 		end
 	end

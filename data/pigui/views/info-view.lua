@@ -10,7 +10,7 @@ infoView.windowPadding = ui.rescaleUI(Vector2(24, 24), Vector2(1920, 1200))
 
 ui.registerModule("game", function()
 	infoView:renderTabView()
-	if infoView.isActive and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
+	if infoView.isActive and ui.escapeKeyReleased() then
 		Game.SetView("world")
 	end
 end)

@@ -1461,6 +1461,13 @@ static int l_pigui_close_current_popup(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_is_any_popup_open(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush<bool>(l, !ImGui::GetCurrentContext()->OpenPopupStack.empty());
+	return 1;
+}
+
 static int l_pigui_end_popup(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2839,6 +2846,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "EndPopup", l_pigui_end_popup },
 		{ "OpenPopup", l_pigui_open_popup },
 		{ "CloseCurrentPopup", l_pigui_close_current_popup },
+		{ "IsAnyPopupOpen", l_pigui_is_any_popup_open },
 		{ "PushID", l_pigui_push_id },
 		{ "PopID", l_pigui_pop_id },
 		{ "IsMouseReleased", l_pigui_is_mouse_released },
