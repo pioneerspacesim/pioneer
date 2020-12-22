@@ -10,6 +10,7 @@ December 2020
      * New BBS advert for soldout commodity (#5059)
 
    * Internal Changes
+     * Reduce probability for imported goods to be sold out (#5074)
      * Show commodity import/export information in market (#5082)
      * Update several system's names to use alternate name feature (#5083)
      * Clarify tooltip for rotate button (#5070)
@@ -19,6 +20,8 @@ December 2020
      * Add MSVC build to github-actions CI builds (#5036)
      * Add incremental drag widget to pigui (#5031)
      * Fix unused variables in release build (#5043)
+     * Donate to crank improvements (#5073)
+     * Remove SetDepthRange (#5080)
 
    * Fixes
      * Fix crash when switching to system map after hyperjumping (#5077)
@@ -28,6 +31,9 @@ December 2020
      * Be consistent with use of nuclear vs radioactive (#5057)
      * Fix menu music issues (#5047)
      * Several map fixes and small tweaks (#5048)
+     * Small UI fixes (#5085)
+     * Localize header string on ship info screen (#5063)
+     * Scottish place name revision (#5052)
 
 November 2020
    * New Features
@@ -74,6 +80,8 @@ November 2020
      * Fix zenith indicator not pointing away from the planet (#4999)
      * Fix starting a new game charging a docking fee (#5000)
      * Herding back the Sun and Moon icons who went astray during the latest iconoclast raid. (#5003)
+     * Same font size for ship info as other screens (#5024)
+     * Fix inpus system bugs (#5009)
 
 October 2020
    * New Features
