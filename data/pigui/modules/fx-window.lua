@@ -56,10 +56,8 @@ local function buttons_map(current_view)
 
 	ui.sameLine()
 	local active = current_view == "sector"
-	if mainMenuButton(icons.sector_map, active, active and lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW or lui.HUD_BUTTON_SWITCH_TO_SECTOR_MAP) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
-		if active then
-			Game.SetView("world")
-		else
+	if mainMenuButton(icons.sector_map, active, lui.HUD_BUTTON_SWITCH_TO_SECTOR_MAP) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
+		if not active then
 			Game.SetView("sector")
 			current_map_view = "sector"
 		end
@@ -67,10 +65,8 @@ local function buttons_map(current_view)
 
 	ui.sameLine()
 	active = current_view == "system"
-	if mainMenuButton(icons.system_map, active, active and lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW or lui.HUD_BUTTON_SWITCH_TO_SYSTEM_MAP) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f6)) then
-		if active then
-			Game.SetView("world")
-		else
+	if mainMenuButton(icons.system_map, active, lui.HUD_BUTTON_SWITCH_TO_SYSTEM_MAP) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f6)) then
+		if not active then
 			Game.SetView("system")
 			current_map_view = "system"
 		end
@@ -78,7 +74,7 @@ local function buttons_map(current_view)
 
 	ui.sameLine()
 	active = current_view == "system_info"
-	if mainMenuButton(icons.system_overview, active, active and lui.HUD_BUTTON_SWITCH_TO_WORLD_VIEW or lui.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f7)) then
+	if mainMenuButton(icons.system_overview, active, lui.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f7)) then
 		if not active then
 			Game.SetView("system_info")
 			current_map_view = "system_info"
@@ -95,11 +91,10 @@ end
 
 local function button_info(current_view)
 	ui.sameLine()
-	if (mainMenuButton(icons.personal_info, current_view == "info", lui.HUD_BUTTON_SHOW_PERSONAL_INFO) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f3))) then
-		if current_view ~= "info" then
+	active = current_view == "info"
+	if mainMenuButton(icons.personal_info, active, lui.HUD_BUTTON_SHOW_PERSONAL_INFO) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f3)) then
+		if not active then
 			Game.SetView("info")
-		else
-			Game.SetView("world")
 		end
 	end
 end
@@ -107,10 +102,9 @@ end
 local function button_comms(current_view)
 	if player:IsDocked() then
 		ui.sameLine()
-		if mainMenuButton(icons.comms, current_view == "space_station", lui.HUD_BUTTON_SHOW_COMMS) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f4)) then
-			if current_view == "space_station" then
-				Game.SetView("world")
-			else
+		active = current_view == "space_station"
+		if mainMenuButton(icons.comms, active, lui.HUD_BUTTON_SHOW_COMMS) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f4)) then
+			if not active then
 				Game.SetView("space_station")
 			end
 		end
