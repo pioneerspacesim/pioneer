@@ -13,6 +13,7 @@ December 2020
      * Show commodity import/export information in market (#5082)
      * Update several system's names to use alternate name feature (#5083)
      * Clarify tooltip for rotate button (#5070)
+     * Adjust mission payouts to more natural numbers (#5050)
      * Optimize route rendering (#5033)
      * CMake: Fix modelcompiler not compiling anything (#5039)
      * Add MSVC build to github-actions CI builds (#5036)
