@@ -77,6 +77,7 @@ ui.beginPopupModal = pigui.BeginPopupModal
 ui.endPopup = pigui.EndPopup
 ui.openPopup = pigui.OpenPopup
 ui.closeCurrentPopup = pigui.CloseCurrentPopup
+ui.isAnyPopupOpen = pigui.IsAnyPopupOpen
 ui.shouldShowLabels = pigui.ShouldShowLabels
 ui.columns = pigui.Columns
 ui.nextColumn = pigui.NextColumn

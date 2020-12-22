@@ -105,7 +105,9 @@ function ChatForm:render ()
 
 		self.navButton()
 
-		if ui.coloredSelectedButton(l.HANG_UP, self.style.buttonSize, false, colors.buttonBlue, nil, true) then self:Close() end
+		if ui.coloredSelectedButton(l.HANG_UP, self.style.buttonSize, false, colors.buttonBlue, nil, true) or ui.escapeKeyReleased(true) then
+			self:Close()
+		end
 	end)
 end
 

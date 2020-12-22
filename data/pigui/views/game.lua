@@ -245,7 +245,7 @@ ui.registerHandler('game', function(delta_t)
 			end)
 		end)
 
-		if currentView == "world" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
+		if currentView == "world" and ui.escapeKeyReleased() then
 			if not ui.optionsWindow.isOpen then
 				Game.SetTimeAcceleration("paused")
 				ui.optionsWindow:open()

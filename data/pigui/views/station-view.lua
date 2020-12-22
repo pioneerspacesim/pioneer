@@ -65,7 +65,7 @@ if not stationView then
 
 	ui.registerModule("game", function()
 		stationView:renderTabView()
-		if stationView.isActive and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.escape) then
+		if stationView.isActive and ui.escapeKeyReleased() then
 			Game.SetView("world")
 		end
 	end)
