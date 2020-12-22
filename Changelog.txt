@@ -1,5 +1,8 @@
 December 2020
    * New Features
+     * Move planar radar widget to pigui (#5081)
+     * Overhaul body names in the 1 Orionis system (#5042)
+     * Significantly reduce savefile sizes (#5075)
      * Show background stars in system view (#5068)
      * Show surface starports in system view (#5060)
      * Use new icons in Worldview (#5042)
@@ -7,6 +10,8 @@ December 2020
      * New BBS advert for soldout commodity (#5059)
 
    * Internal Changes
+     * Show commodity import/export information in market (#5082)
+     * Update several system's names to use alternate name feature (#5083)
      * Clarify tooltip for rotate button (#5070)
      * Optimize route rendering (#5033)
      * CMake: Fix modelcompiler not compiling anything (#5039)
@@ -15,6 +20,7 @@ December 2020
      * Fix unused variables in release build (#5043)
 
    * Fixes
+     * Fix crash when switching to system map after hyperjumping (#5077)
      * Fix buy/sell of station stock updating inverted (#5072)
      * Fix ambient music looping (#5061)
      * Fix grammar in translation string for Earth/Sol radius (#5053)
