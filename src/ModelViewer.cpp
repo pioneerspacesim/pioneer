@@ -843,6 +843,8 @@ void ModelViewer::OnModelChanged()
 
 	m_animations = m_model->GetAnimations();
 	m_currentAnimation = m_animations.size() ? m_animations.front() : nullptr;
+	if (m_currentAnimation)
+		m_model->SetAnimationActive(0, true);
 
 	m_patterns.clear();
 	m_currentPattern = 0;
@@ -1056,6 +1058,8 @@ void ModelViewer::DrawModelOptions()
 				const bool selected = m_currentAnimation == anim;
 				if (ImGui::Selectable(anim->GetName().c_str(), selected) && !selected) {
 					// selected a new animation entry
+					m_model->SetAnimationActive(m_model->FindAnimationIndex(m_currentAnimation), false);
+					m_model->SetAnimationActive(m_model->FindAnimationIndex(anim), true);
 					m_currentAnimation = anim;
 				}
 			}
