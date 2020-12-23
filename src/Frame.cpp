@@ -247,13 +247,12 @@ void Frame::DeleteFrames()
 Frame *Frame::GetFrame(FrameId fId)
 {
 	PROFILE_SCOPED()
-
-	if (fId && fId.id() < s_frames.size())
-		return &s_frames[fId];
-	else if (fId)
+#ifndef NDEBUG
+	if (fId && fId >= s_frames.size())
 		Error("In '%s': fId is valid but out of range (%zu)...\n", __func__, fId.id());
+#endif
 
-	return nullptr;
+	return fId.valid() ? &s_frames[fId] : nullptr;
 }
 
 FrameId Frame::CreateCameraFrame(FrameId parent)

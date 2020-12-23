@@ -155,6 +155,7 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Planet *planet, vecto
 
 void Space::BodyNearFinder::Prepare()
 {
+	PROFILE_SCOPED()
 	m_bodyDist.clear();
 
 	for (Body *b : m_space->GetBodies())
