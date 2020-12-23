@@ -19,6 +19,7 @@
 // returns true if command is complete
 bool Ship::AITimeStep(float timeStep)
 {
+	PROFILE_SCOPED()
 	// allow the launch thruster thing to happen
 	if (m_launchLockTimeout > 0.0) return false;
 
