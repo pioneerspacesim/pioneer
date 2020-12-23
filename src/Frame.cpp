@@ -246,7 +246,6 @@ void Frame::DeleteFrames()
 
 Frame *Frame::GetFrame(FrameId fId)
 {
-	PROFILE_SCOPED()
 #ifndef NDEBUG
 	if (fId && fId >= s_frames.size())
 		Error("In '%s': fId is valid but out of range (%zu)...\n", __func__, fId.id());

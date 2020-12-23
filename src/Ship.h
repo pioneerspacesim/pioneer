@@ -297,6 +297,7 @@ private:
 
 	FlightState m_flightState;
 	bool m_testLanded;
+	bool m_forceWheelUpdate;
 	float m_launchLockTimeout;
 	float m_wheelState;
 	int m_wheelTransition;
