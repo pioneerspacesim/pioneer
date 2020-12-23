@@ -568,7 +568,7 @@ namespace SceneGraph {
 			activeArray.push_back(GetAnimationActive(i));
 		}
 		modelObj["animations"] = animationArray; // Add animation array to model object.
-		modelObj["activeAnimations"] = animationArray;
+		modelObj["activeAnimations"] = activeArray;
 
 		modelObj["cur_pattern_index"] = m_curPatternIndex;
 

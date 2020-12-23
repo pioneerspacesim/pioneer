@@ -65,6 +65,7 @@ Ship::Ship(const ShipType::Id &shipId) :
 	m_launchLockTimeout = 0;
 	m_wheelTransition = 0;
 	m_wheelState = 0;
+	m_forceWheelUpdate = false;
 	m_dockedWith = nullptr;
 	m_dockedWithPort = 0;
 	SetShipId(shipId);
@@ -129,6 +130,7 @@ Ship::Ship(const Json &jsonObj, Space *space) :
 		// needs fixups
 		m_wheelTransition = shipObj["wheel_transition"];
 		m_wheelState = shipObj["wheel_state"];
+		m_forceWheelUpdate = true;
 		m_launchLockTimeout = shipObj["launch_lock_timeout"];
 		m_testLanded = shipObj["test_landed"];
 		m_flightState = shipObj["flight_state"];
@@ -229,10 +231,7 @@ void Ship::Init()
 	m_hyperspaceCloud = 0;
 
 	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
-	// TODO: this causes the landing gear animation to be ticked for all ships regardless of whether it actually needs to be.
-	// Need smarter control regarding landing gear transitions.
-	if (m_landingGearAnimation)
-		GetModel()->SetAnimationActive(GetModel()->FindAnimationIndex(m_landingGearAnimation), true);
+	m_forceWheelUpdate = true;
 
 	GetFixedGuns()->InitGuns(GetModel());
 
@@ -964,6 +963,7 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 {
 	m_wheelTransition = 0;
 	m_wheelState = 1.0f;
+	m_forceWheelUpdate = true;
 	Frame *f_non_rot = Frame::GetFrame(p->GetFrame());
 	SetFrame(f_non_rot->GetRotFrame());
 
@@ -999,8 +999,14 @@ void Ship::TimeStepUpdate(const float timeStep)
 	//apply extra atmospheric flight forces
 	AddTorque(CalcAtmoTorque());
 
-	if (m_landingGearAnimation)
+	if (m_landingGearAnimation) {
 		m_landingGearAnimation->SetProgress(m_wheelState);
+		if (m_forceWheelUpdate) {
+			m_landingGearAnimation->Interpolate();
+			m_forceWheelUpdate = false;
+		}
+	}
+
 	m_dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * (1.0 + 0.25 * m_wheelState);
 	DynamicBody::TimeStepUpdate(timeStep);
 
@@ -1366,8 +1372,13 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_wheelTransition) {
 		m_wheelState += m_wheelTransition * 0.3f * timeStep;
 		m_wheelState = Clamp(m_wheelState, 0.0f, 1.0f);
-		if (is_equal_exact(m_wheelState, 0.0f) || is_equal_exact(m_wheelState, 1.0f))
+		if (is_equal_exact(m_wheelState, 0.0f) || is_equal_exact(m_wheelState, 1.0f)) {
 			m_wheelTransition = 0;
+			// TODO: this really needs to be driven by the animation; work around it by forcing an update for the last frame of the animation
+			m_forceWheelUpdate = true;
+			if (m_landingGearAnimation)
+				GetModel()->SetAnimationActive(GetModel()->FindAnimationIndex(m_landingGearAnimation), false);
+		}
 	}
 
 	if (m_testLanded) TestLanded();
@@ -1437,6 +1448,7 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		m_dockedWithPort = port;
 		m_wheelTransition = 0;
 		m_wheelState = 1.0f;
+		m_forceWheelUpdate = true;
 		// hand position/state responsibility over to station
 		m_dockedWith->SetDocked(this, port);
 		onDock.emit();
@@ -1460,6 +1472,8 @@ bool Ship::SetWheelState(bool down)
 	int newWheelTransition = (down ? 1 : -1);
 	if (newWheelTransition == m_wheelTransition) return false;
 	m_wheelTransition = newWheelTransition;
+	if (m_landingGearAnimation)
+		GetModel()->SetAnimationActive(GetModel()->FindAnimationIndex(m_landingGearAnimation), true);
 	return true;
 }
 
