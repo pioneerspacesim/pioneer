@@ -133,7 +133,7 @@ local onGameStart = function ()
 
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
-			description = l.TITLE,
+			description = string.interp(l.TITLE, {commodity = ad.commodity:GetName(), price = Format.Money(ad.price)}),
 			icon        = "donate_to_cranks",
 			onChat      = onChat,
 			onDelete    = onDelete})
