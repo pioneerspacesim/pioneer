@@ -1187,6 +1187,7 @@ void Pi::SetView(View *v)
 	if (currentView) currentView->Detach();
 	currentView = v;
 	if (currentView) currentView->Attach();
+	LuaEvent::Queue("onViewChanged");
 }
 
 void Pi::OnChangeDetailLevel()
