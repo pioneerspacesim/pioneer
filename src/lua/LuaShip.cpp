@@ -675,7 +675,7 @@ static int l_ship_is_ecm_ready(lua_State *l)
  *   path - a <SystemPath> for the destination system
  *
  *   warmup - the time, in seconds, needed for the engines to warm up.
- *            Minimum time is one second, for saftey reasons.
+ *            Minimum time is one second, for safety reasons.
  *
  *   duration - travel time, in seconds.
  *
@@ -1245,7 +1245,7 @@ static int l_ship_get_thruster_state(lua_State *l)
  *
  * Note the combat AI currently will fly the ship and fire the lasers as
  * necessary, but it will not activate any other equipment (missiles, ECM,
- * etc). It is the responsbility of the script to take those additional
+ * etc). It is the responsibility of the script to take those additional
  * actions if desired.
  *
  * Parameters:

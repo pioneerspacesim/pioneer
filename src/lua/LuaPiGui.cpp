@@ -606,7 +606,7 @@ static int l_pigui_get_scroll_y(lua_State *l)
  *
  *   label - string, text on button
  *   data - table of values
- *   display_count - optional, to limit number of pionts to plot
+ *   display_count - optional, to limit number of points to plot
  *   offset - optional x-axis offset, default: 0
  *   overlay_text - optional title string, to put on histogram
  *   y_min - optional float, setting min y-value displayed
@@ -899,7 +899,7 @@ static int l_pigui_path_stroke(lua_State *l)
 /*
  * Function: selectable
  *
- * Determine if a text was slected or not
+ * Determine if a text was selected or not
  *
  * > clicked = ui.selectable(text, is_selectable, flag)
  *
@@ -912,7 +912,7 @@ static int l_pigui_path_stroke(lua_State *l)
  * Parameters:
  *
  *   text - string, text
- *   is_selectable - boolean, wheater or not a text field is highlighted by mouse over
+ *   is_selectable - boolean, whether or not a text field is highlighted by mouse over
  *   flag - optional, selectable flag
  *   size - optional size hint argument
  *
@@ -1847,7 +1847,7 @@ bool PiGui::first_body_is_more_important_than(Body *body, Body *other)
  *
  * Returns all bodies visible on screen, grouped into clusters of bodies
  * which are close together on screen. The current combat target is always
- * kept in its own seperate group.
+ * kept in its own separate group.
  *
  * > groups = Engine.pigui.GetProjectedBodiesGrouped(cluster_size, ship_max_distance)
  *
