@@ -282,6 +282,35 @@ function Player:ClearCrimeRecordHistory (faction)
 end
 
 --
+-- Method: GetLegalStatus
+--
+-- > local legal_status = Game.player:GetLegalStatus(faction)
+--
+-- Parameters:
+--
+--   faction - optional argument, defaults to the faction player is in.
+--
+--   legal_status - one of strings "CLEAN", "OFFENDER", "CRIMINAL", "OUTLAW",
+--	                or "FUGITIVE", mapping to translated strings in lang/ui-core
+--
+function Player:GetLegalStatus (faction)
+	local crimes, fine = self:GetCrimeOutstanding()
+	self:setprop("fine", fine)
+
+	if fine < 1 then
+		return('CLEAN')
+	elseif fine < 5500 then
+		return('OFFENDER')
+	elseif fine < 20000 then
+		return('CRIMINAL')
+	elseif fine < 100000 then
+		return('OUTLAW')
+	else
+		return('FUGITIVE')
+	end
+end
+
+--
 -- Method: GetMoney
 --
 -- Get the player's current money
