@@ -34,6 +34,8 @@ December 2020
      * Small UI fixes (#5085)
      * Localize header string on ship info screen (#5063)
      * Scottish place name revision (#5052)
+     * Fix soldout BBS advert title template after load (#5092)
+     * Fix soldout advert crashing the game when saving (#5097)
 
 November 2020
    * New Features
@@ -81,7 +83,7 @@ November 2020
      * Fix starting a new game charging a docking fee (#5000)
      * Herding back the Sun and Moon icons who went astray during the latest iconoclast raid. (#5003)
      * Same font size for ship info as other screens (#5024)
-     * Fix inpus system bugs (#5009)
+     * Fix input system bugs (#5009)
 
 October 2020
    * New Features
