@@ -48,6 +48,9 @@ function Legal:notifyOfCrime (ship, crime)
 	if not ship:IsPlayer() then return end
 	-- TODO: can this be called in hyperspace?
 
+	-- if lawless, anything goes
+	if Game.system.lawlessness >= 1 then return end
+
 	-- find closest law enforcing station
 	local station = Game.player:FindNearestTo("SPACESTATION")
 

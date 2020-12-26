@@ -555,7 +555,8 @@ local police = {}
 --
 -- Method: LaunchPolice
 --
--- Launch station police
+-- Launch station police. Number to launch depends on lawlessness of system.
+-- If lawlessness >= 1, no police is launched.
 --
 -- > station:LaunchPolice(targetShip)
 --

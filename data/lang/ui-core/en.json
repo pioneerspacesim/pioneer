@@ -1911,6 +1911,10 @@
     "description": "Arm of the Milky Way galaxy",
     "message": "Outer arm"
   },
+  "OUT_OF_SERVICE": {
+    "description": "Service not offered / closed",
+    "message": "Out of service"
+  },
   "OUTLAW": {
     "description": "Legal status of player",
     "message": "Outlaw"
