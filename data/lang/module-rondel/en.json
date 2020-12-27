@@ -1,0 +1,26 @@
+{
+    "DEFENSE_CRAFT_ELIMINATED": {
+        "description": "",
+        "message": "System defense craft eliminated. Incident has been logged."
+    },
+    "INTERCEPTION_SUCCESSFUL": {
+        "description": "",
+        "message": "Interception successful. Hostile craft destroyed."
+    },
+    "WEAPONS_EVASIVE_ACTION": {
+        "description": "",
+        "message": "Weapons discharge detected. Take evasive action!"
+    },
+    "JETTISON_DEFENSIVE_PRECAUTION": {
+        "description": "",
+        "message": "Jettison detected. Apply defensive precautions!"
+    },
+    "RONDEL_RESTRICTED_ZONE": {
+        "description": "",
+        "message": "{playerShipLabel}, this star system is a restricted zone. You must leave within {seconds} seconds. Should you fail to comply, you will be assumed hostile and defensive precautions will be taken."
+    },
+    "HOSTILE_ACTION_REPORTED": {
+        "description": "",
+        "message": "Hostile action reported. Intercept and destroy!"
+    }
+}
