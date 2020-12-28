@@ -92,10 +92,10 @@ local onEnterSystem = function (player)
 
 	Game.SetTimeAcceleration("1x")
 	Timer:CallAt(Game.time + 2, function ()
-		Comms.ImportantMessage(string.interp(l_rondel.RONDEL_RESTRICTED_ZONE, {seconds = tostring(120*tolerance), playerShipLabel = Game.player:GetLabel()}), ship.label)
+		Comms.ImportantMessage(string.interp(l_rondel.RONDEL_RESTRICTED_ZONE, {seconds = tostring(600*tolerance), playerShipLabel = Game.player:GetLabel()}), ship.label)
 	end)
 
-	Timer:CallAt(Game.time + 120*tolerance, function()
+	Timer:CallAt(Game.time + 600*tolerance, function()
 		attackShip(player)
 		Comms.ImportantMessage(l_rondel.HOSTILE_ACTION_REPORTED, ship.label)
 	end)
