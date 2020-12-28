@@ -60,9 +60,14 @@ local onChat = function (form, ref, option)
 	-- Buyer has bought all they want?
 	if ad.amount == 0 then
 		form:RemoveAdvertOnClose()
+		ads[ref] = nil
 	end
 
 	return
+end
+
+local onDelete = function (ref)
+	ads[ref] = nil
 end
 
 -- Numbers that span orders of magnitude are best modelled by
@@ -99,10 +104,6 @@ local makeAdvert = function(station, commodity)
 		onChat      = onChat,
 		onDelete    = onDelete})
 	ads[ref] = ad
-end
-
-local onDelete = function (ref)
-	ads[ref] = nil
 end
 
 local onCreateBB = function (station)
