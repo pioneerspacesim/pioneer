@@ -62,7 +62,7 @@ end
 
 local onJettison = function (ship, cargo)
 	if Game.system.name ~= "Rondel" then return end
-	if not jetissionedCargo then
+	if not jetissionedCargo and #patrol > 1 then
 		Comms.ImportantMessage(l_rondel.JETTISON_DEFENSIVE_PRECAUTION, patrol[1].label)
 		jetissionedCargo = true
 	end
@@ -96,8 +96,10 @@ local onEnterSystem = function (player)
 	end)
 
 	Timer:CallAt(Game.time + 600*tolerance, function()
-		attackShip(player)
-		Comms.ImportantMessage(l_rondel.HOSTILE_ACTION_REPORTED, ship.label)
+		if #patrol > 1 then
+			attackShip(player)
+			Comms.ImportantMessage(l_rondel.HOSTILE_ACTION_REPORTED, ship.label)
+		end
 	end)
 end
 
