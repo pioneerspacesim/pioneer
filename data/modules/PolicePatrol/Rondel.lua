@@ -85,7 +85,7 @@ local onEnterSystem = function (player)
 	local shipdef = ShipDef[system.faction.policeShip]
 	for i = 1, 7 do
 		ship = Space.SpawnShipNear(shipdef.id, player, 50, 100)
-		ship:SetLabel(l_ui_core.POLICE)
+		ship:SetLabel(l_rondel.HABER_DEFENSE_CRAFT)
 		ship:AddEquip(Equipment.laser.pulsecannon_2mw)
 		table.insert(patrol, ship)
 	end

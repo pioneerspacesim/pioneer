@@ -22,5 +22,9 @@
     "HOSTILE_ACTION_REPORTED": {
         "description": "",
         "message": "Hostile action reported. Intercept and destroy!"
+    },
+    "HABER_DEFENSE_CRAFT": {
+        "description": "",
+        "message": "Haber Defense Craft"
     }
 }
