@@ -1,6 +1,10 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+-- Interface: pigui
+
+-- Group: Core API
+
 -- Convenience wrappers for the C++ UI functions and general functions
 local Engine = require 'Engine'
 local Game = require 'Game'
@@ -9,7 +13,7 @@ local pigui = Engine.pigui
 local ui = require 'pigui.libs.forwarded'
 
 --
--- Function: ui.rescaleUI
+-- Function: rescaleUI
 --
 -- ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution)
 --
@@ -58,7 +62,7 @@ function ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResoluti
 end
 
 --
--- Function: ui.pcall
+-- Function: pcall
 --
 -- ui.pcall(fun, ...)
 --
@@ -86,7 +90,7 @@ function ui.pcall(fun, ...)
 end
 
 --
--- Function: ui.window
+-- Function: window
 --
 -- ui.window(name, params, fun)
 --
@@ -140,7 +144,7 @@ function ui.window(name, params, fun)
 end
 
 --
--- Function: ui.group
+-- Function: group
 --
 -- ui.group(fun)
 --
@@ -166,7 +170,7 @@ function ui.group(fun)
 end
 
 --
--- Function: ui.popup
+-- Function: popup
 --
 -- ui.popup(name, params, fun)
 --
@@ -195,7 +199,7 @@ function ui.popup(name, fun)
 end
 
 --
--- Function: ui.customTooltip
+-- Function: customTooltip
 --
 -- ui.customTooltip(fun)
 --
@@ -221,7 +225,7 @@ function ui.customTooltip(fun)
 end
 
 --
--- Function: ui.child
+-- Function: child
 --
 -- ui.child(id, size, flags, fun)
 --
@@ -285,7 +289,7 @@ function ui.child(id, size, flags, fun)
 end
 
 --
--- Function: ui.withTooltip
+-- Function: withTooltip
 --
 -- ui.withTooltip(tooltip, fun)
 --
@@ -317,7 +321,7 @@ function ui.withTooltip(tooltip, fun)
 end
 
 --
--- Function: ui.playBoinkNoise
+-- Function: playBoinkNoise
 --
 -- ui.playBoinkNoise()
 --
@@ -338,7 +342,7 @@ function ui.playBoinkNoise()
 end
 
 --
--- Function: ui.isMouseHoveringWindow
+-- Function: isMouseHoveringWindow
 --
 -- ui.isMouseHoveringWindow()
 --
@@ -359,7 +363,7 @@ function ui.isMouseHoveringWindow()
 end
 
 --
--- Function: ui.isAnyWindowHovered
+-- Function: isAnyWindowHovered
 --
 -- ui.isAnyWindowHovered()
 --
@@ -380,7 +384,7 @@ function ui.isAnyWindowHovered()
 end
 
 --
--- Function: ui.ctrlHeld
+-- Function: ctrlHeld
 --
 -- ui.ctrlHeld()
 --
@@ -398,7 +402,7 @@ end
 function ui.ctrlHeld() return pigui.key_ctrl end
 
 --
--- Function: ui.altHeld
+-- Function: altHeld
 --
 -- ui.altHeld()
 --
@@ -416,7 +420,7 @@ function ui.ctrlHeld() return pigui.key_ctrl end
 function ui.altHeld() return pigui.key_alt end
 
 --
--- Function: ui.shiftHeld
+-- Function: shiftHeld
 --
 -- ui.shiftHeld()
 --
@@ -434,7 +438,7 @@ function ui.altHeld() return pigui.key_alt end
 function ui.shiftHeld() return pigui.key_shift end
 
 --
--- Function: ui.noModifierHeld
+-- Function: noModifierHeld
 --
 -- ui.noModifierHeld()
 --
@@ -452,7 +456,7 @@ function ui.shiftHeld() return pigui.key_shift end
 function ui.noModifierHeld() return pigui.key_none end
 
 --
--- Function: ui.escapeKeyReleased
+-- Function: escapeKeyReleased
 --
 -- Performs some sanity checks and returns true if the user has pressed escape
 -- and the escape key is not currently being consumed.
@@ -471,7 +475,7 @@ function ui.escapeKeyReleased(ignorePopup)
 end
 
 --
--- Function: ui.tabBar
+-- Function: tabBar
 --
 -- ui.tabBar(id, items)
 --
@@ -507,7 +511,7 @@ function ui.tabBar(id, items)
 end
 
 --
--- Function: ui.withFont
+-- Function: withFont
 --
 -- ui.withFont(name, size, fun)
 --
@@ -541,7 +545,7 @@ function ui.withFont(name, size, fun)
 end
 
 --
--- Function: ui.withStyleColors
+-- Function: withStyleColors
 --
 -- ui.withStyleColors(styles, fun)
 --
@@ -579,7 +583,7 @@ function ui.withStyleColors(styles, fun)
 end
 
 --
--- Function: ui.withStyleVars
+-- Function: withStyleVars
 --
 -- ui.withStyleVars(styles, fun)
 --
@@ -612,7 +616,7 @@ function ui.withStyleVars(vars, fun)
 end
 
 --
--- Function: ui.withStyleColorsAndVars
+-- Function: withStyleColorsAndVars
 --
 -- ui.withStyleColorsAndVars(styles, vars, fun)
 --
@@ -645,7 +649,7 @@ function ui.withStyleColorsAndVars(styles, vars, fun)
 end
 
 --
--- Function: ui.screenSize
+-- Function: screenSize
 --
 -- ui.screenSize()
 --
@@ -666,7 +670,7 @@ function ui.screenSize()
 end
 
 --
--- Function: ui.setNextWindowPosCenter
+-- Function: setNextWindowPosCenter
 --
 -- ui.setNextWindowPosCenter(cond)
 --
@@ -688,7 +692,7 @@ function ui.setNextWindowPosCenter(cond)
 end
 
 --
--- Function: ui.sameLine
+-- Function: sameLine
 --
 -- ui.sameLine(pos_x, spacing_w)
 --
@@ -713,7 +717,7 @@ function ui.sameLine(pos_x, spacing_w)
 end
 
 --
--- Function: ui.withID
+-- Function: withID
 --
 -- ui.withID(id, fun)
 --
@@ -738,7 +742,7 @@ function ui.withID(id, fun)
 end
 
 --
--- Function: ui.loadTextureFromSVG
+-- Function: loadTextureFromSVG
 --
 -- ui.loadTextureFromSVG(filename, width, height)
 --
@@ -762,7 +766,7 @@ function ui.loadTextureFromSVG(filename, width, height)
 end
 
 --
--- Function: ui.loadTexture
+-- Function: loadTexture
 --
 -- ui.loadTexture(filename)
 --

@@ -437,13 +437,9 @@ static int l_pigui_lineOnClock(lua_State *l)
 }
 
 /*
- * Interface: PiGui
+ * Class: pigui
  *
- * Various functions for the imgui UI. The below documentation are for the method names as implemented in the 'pigui' module
- *
- * Example:
- *
- * > local ui = import 'pigui/pigui.lua'
+ * Group: Core API
  *
  */
 

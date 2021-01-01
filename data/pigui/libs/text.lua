@@ -13,6 +13,10 @@ local font_factor = ui.rescaleUI(1, Vector2(1920, 1200))
 
 local textBackgroundMarginPixels = 2
 
+-- Class: pigui
+
+-- Group: Text and Fonts
+
 -- apply a subtle bias to prevent fonts from becoming overly tiny at small resolutions
 local function fontScale(size)
 	return math.round(size * (font_factor * 0.9 + 0.1))
@@ -45,6 +49,7 @@ ui.fonts = {
 }
 
 ui.Format = {
+	-- Function: Format.Latitude
 	Latitude = function(decimal_degrees)
 		local prefix = lc.LATITUDE_NORTH_ABBREV
 		if decimal_degrees < 0 then
@@ -56,6 +61,7 @@ ui.Format = {
 		local sec = (min - math.floor(min)) * 60
 		return string.format('%s %03i°%02i\'%02i"', prefix, deg, min, sec)
 	end,
+	-- Function: Format.Longitude
 	Longitude = function(decimal_degrees)
 		local prefix = lc.LONGITUDE_EAST_ABBREV
 		if decimal_degrees < 0 then
@@ -67,6 +73,7 @@ ui.Format = {
 		local sec = (min - math.floor(min)) * 60
 		return string.format('%s %03i°%02i\'%02i"', prefix, deg, min, sec)
 	end,
+	-- Function: Format.Duration
 	Duration = function(duration, elements)
 		-- shown elements items (2 -> wd or dh, 3 -> dhm or hms)
 		local negative = false
@@ -135,6 +142,7 @@ ui.Format = {
 		end
 		return result
 	end,
+	-- Function: Format.Distance
 	Distance = function(distance)
 		local d = math.abs(distance)
 		if d < 1000 then
@@ -148,6 +156,7 @@ ui.Format = {
 		end
 		return string.format("%0.2f", distance / 1.4960e11), lc.UNIT_AU
 	end,
+	-- Function: Format.Speed
 	Speed = function(distance)
 		local d = math.abs(distance)
 		if d < 1000 then
@@ -159,18 +168,24 @@ ui.Format = {
 		return string.format("%0.2f", distance / 1000 / 1000), lc.UNIT_MILLION_METERS_PER_SECOND
 		-- no need for au/s
 	end,
+	-- Function: Format.Money
 	Money = Format.Money,
+	-- Function: Format.Date
 	Date = Format.Date,
+	-- Function: Format.Datetime
 	Datetime = function(date)
 		local second, minute, hour, day, month, year = Game.GetPartsFromDateTime(date)
 		return string.format("%4i-%02i-%02i %02i:%02i:%02i", year, month, day, hour, minute, second)
 	end,
+	-- Function: Format.Gravity
 	Gravity = function(grav)
 		return string.format("%0.2f", grav) .. lc.UNIT_EARTH_GRAVITY
 	end,
+	-- Function: Format.Pressure
 	Pressure = function(pres)
 		return string.format("%0.2f", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
 	end,
+	-- Function: Format.Number
 	Number = function(number, places)
 		local s = number < 0.0 and "-" or ""
 		number = math.abs(number)
@@ -181,11 +196,13 @@ ui.Format = {
 		elseif number < 1e12 then return s .. fmt:format(number / 1e9, "bil")
 		else return s .. fmt:format(number / 1e12, "trn") end
 	end,
+	-- Function: Format.SystemPath
 	SystemPath = function(path)
 		return path:GetStarSystem().name.." ("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
 	end
 }
 
+-- Function: addFancyText
 ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, bg_color)
 	-- always align texts at baseline
 	local spacing = 2
@@ -246,6 +263,7 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 	return size
 end
 
+-- Function: addStyledText
 ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, color, font, tooltip, bg_color)
 	-- addStyledText aligns to upper left
 	local size = Vector2(0, 0)

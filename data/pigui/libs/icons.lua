@@ -4,6 +4,10 @@ local Engine = require 'Engine'
 local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 
+-- Class: pigui
+
+-- Group: Icons
+
 local function get_wide_icon_tex_coords(icon)
 	assert(icon, "no icon given")
 	local count = 16.0 -- icons per row/column
@@ -27,7 +31,7 @@ function ui.get_icons_texture(size)
 end
 
 --
--- Function: ui.addIcon
+-- Function: addIcon
 --
 -- ui.addIcon(position, icon, color, size, anchor_horizontal,
 --            anchor_vertical, tooltip, angle_rad)
@@ -82,7 +86,7 @@ function ui.addIcon(position, icon, color, size, anchor_horizontal, anchor_verti
 end
 
 --
--- Function: ui.addWideIcon
+-- Function: addWideIcon
 --
 -- ui.addWideIcon(position, icon, color, size, anchor_horizontal,
 --                anchor_vertical, tooltip, angle_rad)
@@ -138,7 +142,7 @@ function ui.addWideIcon(position, icon, color, size, anchor_horizontal, anchor_v
 end
 
 --
--- Function: ui.icon
+-- Function: icon
 --
 -- ui.icon(icon, size, color, tooltip)
 --

@@ -4,8 +4,12 @@ local Engine = require 'Engine'
 local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 
+-- Class: pigui
+
+-- Group: Buttons
+
 --
--- Function: ui.imageButton
+-- Function: imageButton
 --
 -- ui.imageButton(icon, size, frame_padding, bg_color, fg_color, tint_color, tooltip)
 --
@@ -38,7 +42,7 @@ end
 
 
 --
--- Function: ui.coloredSelectedButton
+-- Function: coloredSelectedButton
 --
 -- > clicked = ui.coloredSelectedIconButton(label, button_size, is_selected,
 -- >               bg_color, tooltip, enabled)
@@ -93,7 +97,7 @@ function ui.coloredSelectedButton(label, thesize, is_selected, bg_color, tooltip
 end
 
 --
--- Function: ui.coloredSelectedIconButton
+-- Function: coloredSelectedIconButton
 --
 -- > clicked = ui.coloredSelectedIconButton(icon, thesize, is_selected,
 -- >               frame_padding, bg_color, fg_color, tooltip, img_size)

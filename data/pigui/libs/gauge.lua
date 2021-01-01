@@ -3,21 +3,26 @@
 
 local ui = require 'pigui.baseui'
 
+
 local gauge_show_percent = true
+
+-- Class: pigui
+
+-- Group: Gauges
 ui.gauge_height = ui.rescaleUI(25, Vector2(1600, 900))
 ui.gauge_width = ui.rescaleUI(275, Vector2(1600, 900))
 
 --
--- Function: ui.gauge
+-- Function: gauge
 --
 -- ui.gauge(position, value, unit, format, minimum, maximum, icon,
 --          color, tooltip, width, height, formatFont, percentFont)
 --
 -- Display a gauge at the given screen position.
 --
--- +-----+------+-----------------------------+
--- | XX% | Icon |[Format unit     *bar*]      |
--- +-----+------+-----------------------------+
+-- > +-----+------+-----------------------------+
+-- > | XX% | Icon |[Format unit     *bar*]      |
+-- > +-----+------+-----------------------------+
 --
 --
 -- Example:

@@ -1,0 +1,56 @@
+name: Build Pioneer Lua Documentation
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - 'src/lua/**.cpp'
+    - 'data/libs/**.lua'
+    - 'data/pigui/**.lua'
+    
+jobs:
+  build-lua-docs:
+    runs-on: ubuntu-20.04
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: master
+        fetch-depth: 0
+        
+    - name: Setup git identity
+      run: |
+        git config --local user.name "Commander Jameson"
+        git config --local user.email "CmdrJameson@pioneerspacesim.net"
+        
+    - name: Merge master into gh-pages
+      run: |
+        git checkout gh-pages
+        git pull --no-rebase origin master
+     
+    - name: Download Natural Docs 2.1
+      run: |
+        wget https://www.naturaldocs.org/download/natural_docs/2.1/Natural_Docs_2.1.zip
+        unzip Natural_Docs_2.1.zip
+        mv Natural\ Docs NaturalDocs
+      
+    - name: Generate Lua comments for C++ modules
+      run: |
+        mkdir gen
+        /bin/bash scripts/gen_cpp_lua.sh       
+        
+    - name: Generate Lua Documentation
+      run: |
+        mkdir -p docs/lua
+        rm -rf docs/lua/*
+        mono NaturalDocs/NaturalDocs.exe ./nd -o html docs/lua
+        
+    - name: Commit and push changes
+      run: |
+        MSG=`git log --oneline -1 --pretty=format:%B master`
+        git add docs/lua
+        git commit -m "Update Lua Docs (${MSG})"
+        git push -u origin gh-pages
+        

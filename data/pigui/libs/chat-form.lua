@@ -1,6 +1,9 @@
 -- Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+-- Class: ChatForm
+
+
 local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
@@ -23,6 +26,8 @@ ChatForm.meta = {
 	class = "ChatForm",
 }
 
+
+-- Function: New
 function ChatForm.New (chatFunc, removeFunc, closeFunc, resizeFunc, ref, tabGroup, style)
 	style = style or {}
 	style.face = style.face or {}
@@ -57,6 +62,7 @@ function ChatForm.New (chatFunc, removeFunc, closeFunc, resizeFunc, ref, tabGrou
 	return form
 end
 
+-- Function: render
 function ChatForm:render ()
 	ui.withFont(self.style.font.name, self.style.font.size, function()
 		if not self.style.contentWidth then
@@ -111,10 +117,12 @@ function ChatForm:render ()
 	end)
 end
 
+-- Function: SetTitle
 function ChatForm:SetTitle (title)
 	self.title = title
 end
 
+-- Function: SetFace
 function ChatForm:SetFace (character)
 	self.face = Face.New(character, self.style.face)
 end

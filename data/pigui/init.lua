@@ -2,6 +2,18 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 
+--
+-- Class: pigui
+--
+-- The core Pioneer GUI (PiGUI) Lua API. The functions here should be used when
+-- creating new UI screens or elements.
+--
+-- Most modules will use this as follows:
+-- > local ui = require 'pigui'
+--
+
+
+
 -- for some reason, this is required or the functions on Game.Player
 -- aren't available later...
 local Player = require 'Player'

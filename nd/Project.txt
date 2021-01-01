@@ -1,0 +1,151 @@
+Format: 2.1
+
+# This is the file you use to provide information about your project.  It can
+# also be used to specify input and output settings so you don't have to
+# include them on the command line.
+
+
+# Project Information
+# ------------------------------------------------------------------------
+
+Title: Pioneer
+Subtitle: Lua API
+
+Timestamp: year-mm-dd
+#    m     - Single digit month, when possible.  January is "1".
+#    mm    - Always double digit month.  January is "01".
+#    mon   - Short month word.  January is "Jan".
+#    month - Long month word.  January is "January".
+#    d     - Single digit day, when possible.  1 is "1".
+#    dd    - Always double digit day.  1 is "01".
+#    day   - Day with text extension.  1 is "1st".
+#    yy    - Double digit year.  2020 is "20".
+#    yyyy  - Four digit year.  2020 is "2020".
+#    year  - Four digit year.  2020 is "2020".
+
+
+# This is where you specify general information about your project.
+#
+# Copyright: [text]
+#    The copyright notice for your project.  (C) will be converted to the
+#    copyright symbol.
+#
+# Style: [style]
+#    The style to apply to the generated documentation.  It can be the name of
+#    a CSS file in the project configuration folder or a subfolder that
+#    contains Style.txt.  Do not include ".css" if using a CSS file.
+
+
+# Source Code
+# ------------------------------------------------------------------------
+
+Source Folder: ..\gen
+   Name: C++ Lua Modules
+
+Source Folder 2: ..\data\pigui
+   Name: PiGUI Lua API
+
+Source Folder 3: ..\data\libs
+   Name: Lua Libs
+
+
+# This is where you specify what files and folders Natural Docs should be
+# scanning.  If you use any of these options on the command line, this entire
+# section is ignored except for names and numbers.
+#
+# All paths are relative to the project configuration folder, which lets this
+# file remain portable across computers and not cause problems in version
+# control systems.  You can enter absolute paths and they will be converted
+# automatically.
+#
+# Source Folder: [path]
+#    Name: [name]
+#
+#    Specifies a folder which will be searched for source files.  If you have
+#    more than one, add the Name property to set how it will show up in the
+#    menu.
+
+
+# Source Filtering
+# ------------------------------------------------------------------------
+
+# If there are any subfolders in the source code that you would like Natural
+# Docs to ignore, they can be specified here.  If you use any of these options
+# on the command line, this entire section is ignored.
+#
+# Ignore Source Folder: [path]
+#    Tells Natural Docs to skip this folder when scanning files.
+#
+# Ignore Source Folder Pattern: [pattern]
+#    Tells Natural Docs to skip all folder names which match this pattern when
+#    scanning files.  ? matches a single character, * matches zero or more
+#    characters.  It applies to the entire folder name, so "cli" will not
+#    match "client", although "cli*" will.
+#
+#    The data folders of common version control systems (.git, .svn, .cvs, .hg)
+#    are ignored automatically.  You do not have to specify them here.
+
+
+# Images
+# ------------------------------------------------------------------------
+
+# This is where you specify additional folders Natural Docs should look for
+# images in.  When you put something like (see diagram.jpg) in a comment
+# Natural Docs looks for it relative to the source file.  If you put
+# additional folders here it will also check them for the image.
+#
+# If you use any of these options on the command line, this entire section is
+# ignored except for numbers.
+#
+# All paths are relative to the project configuration folder, which lets this
+# file remain portable across computers and not cause problems in version
+# control systems.  You can enter absolute paths and they will be converted
+# automatically.
+#
+# Image Folder: [path]
+#    Specifies a folder which will be searched for image files.  They can be
+#    referenced in comments with (see filename.jpg).
+
+
+# Generated Documentation
+# ------------------------------------------------------------------------
+
+HTML Output Folder: ..\docs\lua
+
+
+# This is where you specify what kind of documentation you want Natural Docs
+# to build and where it should be put.  If you use any of these options on the
+# command line, this entire section is ignored except for secondary settings.
+#
+# All paths are relative to the project configuration folder, which lets this
+# file remain portable across computers and not cause problems in version
+# control systems.  You can enter absolute paths and they will be converted
+# automatically.
+#
+# You can override any of the project information settings under each entry,
+# so if you have multiple output folders you can give them each different
+# styles or subtitles.
+#
+# HTML Output Folder: [path]
+#    [Project Information]
+#
+#    Generates HTML documentation in the specified folder.
+
+
+# Global Settings
+# ------------------------------------------------------------------------
+
+# Other settings that apply to your entire project.  Settings specified on the
+# command line override the settings here.
+#
+# Tab Width: [width]
+#    The number of spaces tabs should be expanded to.
+#
+# Documented Only: [yes|no]
+#    Whether only documented code elements should appear in the output.
+#    Defaults to no.
+#
+# Auto Group: [yes|no]
+#    Whether groups should automatically apply to you code.  Defaults to yes.
+
+
