@@ -26,5 +26,41 @@
     "HABER_DEFENSE_CRAFT": {
         "description": "",
         "message": "Haber Defense Craft"
+    },
+    "SOLFED_INTEL": {
+        "description": "",
+        "message": "Solar Federation Intelligence"
+    },
+    "SOLFED_INTEL_INTRO": {
+        "description": "",
+        "message": "Keep your voice down, pilot. I'm an undercover agent working for Solar Federation Intelligence. Your ship's computer memory has some data we are interested in."
+    },
+    "PERFECT": {
+        "description": "",
+        "message": "Perfect. If anyone asks... Surely no one will ask, but if anyone asks, please remember that we were just haggling over a second hand shield generator."
+    },
+    "YOU_SHALL_HAVE_THE_DATA": {
+        "description": "",
+        "message": "You shall have the data."
+    },
+    "WHAT_IS_THIS_ABOUT": {
+        "description": "",
+        "message": "What data? What is this all about?"
+    },
+    "YOU_VISITED_STAR_SYSTEM": {
+        "description": "",
+        "message": "You may or may not have visited some star system we would like to know more about."
+    },
+    "NOT_INTERESTED": {
+        "description": "",
+        "message": "What if I'm not interested?"
+    },
+    "CREDITS_PROMISE": {
+        "description": "",
+        "message": "250,000 in cash. Right now. I would find that interesting."
+    },
+    "HEY_OVER_HERE": {
+        "description": "",
+        "message": "Hey, over here."
     }
 }
