@@ -3,6 +3,7 @@
 
 #include "Player.h"
 
+#include "FixedGuns.h"
 #include "Frame.h"
 #include "Game.h"
 #include "GameConfig.h"
@@ -294,6 +295,10 @@ void Player::OnCockpitActivated()
 void Player::StaticUpdate(const float timeStep)
 {
 	Ship::StaticUpdate(timeStep);
+
+	for (size_t i = 0; i < GUNMOUNT_MAX; i++)
+		if (GetFixedGuns()->IsGunMounted(i))
+			GetFixedGuns()->UpdateLead(timeStep, i, this, GetCombatTarget());
 
 	// XXX even when not on screen. hacky, but really cockpit shouldn't be here
 	// anyway so this will do for now
