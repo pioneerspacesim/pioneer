@@ -14,12 +14,73 @@ local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Timer = require 'Timer'
 
+--local Character = require 'Character'
+
 local l_rondel = Lang.GetResource("module-rondel")
 local l_ui_core = Lang.GetResource("ui-core")
 
 local patrol = {}
 local shipFiring = false
 local jetissionedCargo = false
+
+local rondel_victory = false -- has the player defeated all Rondel guards once in their career?
+local rondel_prize = false -- whether the player has been rewarded or not
+
+local ads = {}
+
+local onChat = function (form, ref, option)
+	local ad = ads[ref]
+	form:Clear()
+
+	form:SetTitle(l_rondel.SOLFED_INTEL)
+
+	if option == -1 then
+		form:Close()
+		return
+	end
+
+	form:SetMessage(l_rondel.SOLFED_INTEL_INTRO)
+
+	if option == 1 then
+		ads[ref] = nil
+		form:RemoveAdvertOnClose()
+		form:SetMessage(l_rondel.PERFECT)
+		Game.player:AddMoney(250000)
+		rondel_prize = true
+		return
+	elseif option == 2 then
+		form:SetMessage(l_rondel.YOU_VISITED_STAR_SYSTEM)
+	elseif option == 3 then
+		form:SetMessage(l_rondel.CREDITS_PROMISE)
+	end
+
+	form:AddOption(l_rondel.YOU_SHALL_HAVE_THE_DATA, 1)
+	form:AddOption(l_rondel.WHAT_IS_THIS_ABOUT, 2)
+	form:AddOption(l_rondel.NOT_INTERESTED, 3)
+
+end
+
+local onDelete = function (ref)
+	ads[ref] = nil
+end
+
+local onCreateBB = function (station)
+	if rondel_prize or not rondel_victory then return end
+
+	local ad = {
+		title    = l_rondel.HEY_OVER_HERE,
+		--message  = "",
+		station  = station,
+		--character = Character.New({armour=false}),
+	}
+
+	local ref = station:AddAdvert({
+		description = ad.title,
+		--icon        = "",
+		onChat      = onChat,
+		onDelete    = onDelete})
+	ads[ref] = ad
+end
 
 local attackShip = function (ship)
 	for i = 1, #patrol do
@@ -35,6 +96,8 @@ local onShipDestroyed = function (ship, attacker)
 			table.remove(patrol, i)
 			if #patrol > 1 then
 				Comms.ImportantMessage(l_rondel.DEFENSE_CRAFT_ELIMINATED, patrol[1].label)
+			elseif #patrol == 0 then
+				rondel_victory = true
 			end
 			break
 		elseif patrol[i] == attacker then
@@ -93,14 +156,14 @@ local onEnterSystem = function (player)
 	Game.SetTimeAcceleration("1x")
 	Timer:CallAt(Game.time + 2, function ()
 		Comms.ImportantMessage(string.interp(l_rondel.RONDEL_RESTRICTED_ZONE, {seconds = tostring(600*tolerance), playerShipLabel = Game.player:GetLabel()}), ship.label)
+		Timer:CallAt(Game.time + 600*tolerance, function()
+			if #patrol > 1 then
+				attackShip(player)
+				Comms.ImportantMessage(l_rondel.HOSTILE_ACTION_REPORTED, ship.label)
+			end
+		end)
 	end)
 
-	Timer:CallAt(Game.time + 600*tolerance, function()
-		if #patrol > 1 then
-			attackShip(player)
-			Comms.ImportantMessage(l_rondel.HOSTILE_ACTION_REPORTED, ship.label)
-		end
-	end)
 end
 
 local onLeaveSystem = function (ship)
@@ -118,6 +181,18 @@ local onGameStart = function ()
 	jetissionedCargo = false
 	if loaded_data then
 		patrol = loaded_data.patrol
+		rondel_prize = loaded_data.rondel_prize
+		rondel_victory = loaded_data.rondel_victory
+		if loaded_data.ads then
+			for k,ad in pairs(loaded_data.ads) do
+			local ref = ad.station:AddAdvert({
+				description = ad.title,
+				--icon        = "",
+				onChat      = onChat,
+				onDelete    = onDelete})
+			ads[ref] = ad
+		end
+	end
 		loaded_data = nil
 	end
 end
@@ -125,17 +200,20 @@ end
 local onGameEnd = function ()
 	shipFiring = false
 	jetissionedCargo = false
+	rondel_prize = false
+	rondel_victory = false
 	patrol = {}
 end
 
 local serialize = function ()
-	return { patrol = patrol }
+	return { patrol = patrol, ads = ads, rondel_prize = rondel_prize, rondel_victory = rondel_victory }
 end
 
 local unserialize = function (data)
 	loaded_data = data
 end
 
+Event.Register("onCreateBB", onCreateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
