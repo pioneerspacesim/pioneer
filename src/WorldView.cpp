@@ -1,4 +1,4 @@
-// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "WorldView.h"
@@ -320,7 +320,6 @@ void WorldView::UpdateProjectedObjects()
 		}
 
 		if (laser >= 0 && Pi::player->GetFixedGuns()->IsGunMounted(laser)) {
-			Pi::player->GetFixedGuns()->UpdateLead(Pi::GetFrameTime(), laser, Pi::player, enemy);
 			UpdateIndicator(m_targetLeadIndicator, cam_rot * Pi::player->GetFixedGuns()->GetTargetLeadPos());
 			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
 				HideIndicator(m_targetLeadIndicator);

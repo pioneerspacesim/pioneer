@@ -1,4 +1,4 @@
-// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FixedGuns.h"
@@ -240,20 +240,23 @@ void FixedGuns::UpdateLead(float timeStep, int num, Body *ship, Body *target)
 	const vector3d forwardVector = num == GUN_REAR ? vector3d(0, 0, 1) : vector3d(0, 0, -1);
 	m_targetLeadPos = forwardVector;
 
-	if (target) {
-		const vector3d targpos = target->GetPositionRelTo(ship) * ship->GetOrient();
+	if (!target) {
+		m_currentLeadDir = forwardVector;
+		return;
+	}
 
-		// calculate firing solution and relative velocity along our z axis
-		double projspeed = m_gun[num].projData.speed;
+	const vector3d targpos = target->GetPositionRelTo(ship) * ship->GetOrient();
 
-		// don't calculate lead if there's no gun there
-		if (m_gun_present[num] && projspeed > 0) {
-			const vector3d targvel = target->GetVelocityRelTo(ship) * ship->GetOrient();
-			vector3d leadpos = targpos + targvel * (targpos.Length() / projspeed);
-			leadpos = targpos + targvel * (leadpos.Length() / projspeed); // second order approx
+	// calculate firing solution and relative velocity along our z axis
+	double projspeed = m_gun[num].projData.speed;
 
-			m_targetLeadPos = leadpos;
-		}
+	// don't calculate lead if there's no gun there
+	if (m_gun_present[num] && projspeed > 0) {
+		const vector3d targvel = target->GetVelocityRelTo(ship) * ship->GetOrient();
+		vector3d leadpos = targpos + targvel * (targpos.Length() / projspeed);
+		leadpos = targpos + targvel * (leadpos.Length() / projspeed); // second order approx
+
+		m_targetLeadPos = leadpos;
 	}
 
 	const vector3d targetDir = m_targetLeadPos.Normalized();

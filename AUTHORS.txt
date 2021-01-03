@@ -122,7 +122,7 @@ The Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2020 Pioneer Developers
+Copyright © 2008-2021 Pioneer Developers
 Portions copyright © 2013-2014 Meteoric Games Ltd.
 
 Pioneer's core code and extension modules are licensed under the terms of the

@@ -1,8 +1,9 @@
-// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Player.h"
 
+#include "FixedGuns.h"
 #include "Frame.h"
 #include "Game.h"
 #include "GameConfig.h"
@@ -294,6 +295,10 @@ void Player::OnCockpitActivated()
 void Player::StaticUpdate(const float timeStep)
 {
 	Ship::StaticUpdate(timeStep);
+
+	for (size_t i = 0; i < GUNMOUNT_MAX; i++)
+		if (GetFixedGuns()->IsGunMounted(i))
+			GetFixedGuns()->UpdateLead(timeStep, i, this, GetCombatTarget());
 
 	// XXX even when not on screen. hacky, but really cockpit shouldn't be here
 	// anyway so this will do for now

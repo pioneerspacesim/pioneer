@@ -1,4 +1,4 @@
-// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelViewer.h"
@@ -83,9 +83,11 @@ void ModelViewerApp::Startup()
 	Application::Startup();
 	Log::GetLog()->SetLogFile("output.txt");
 
-	std::unique_ptr<GameConfig> config(new GameConfig);
+	std::unique_ptr<IniConfig> config(new IniConfig);
 	config->SetInt("ScrWidth", 1600);
 	config->SetInt("ScrHeight", 900);
+	config->SetInt("VSync", 1);
+	config->SetInt("AntiAliasingMode", 4);
 
 	Lua::Init();
 
