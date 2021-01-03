@@ -10,6 +10,10 @@ math.round = function(v)
 	return (math.modf(v + (v < 0.0 and -.5 or .5)))
 end
 
+math.sign = function(v)
+	return (v > 0 and 1) or (v == 0 and 0) or -1
+end
+
 math.clamp = function(v, min, max)
 	return math.min(max, math.max(v,min))
 end
