@@ -1,5 +1,7 @@
 #!/bin/bash
 
+clang-format --version
+
 CLANG_FORMAT=$(which clang-format)
 
 # if PATCH_MODE is set to 0, then set it to the empty string so $PATCH_MODE continues to work
