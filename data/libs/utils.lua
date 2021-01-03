@@ -273,13 +273,16 @@ utils.reverse = function(t)
 end
 
 --
--- round: Round x to closest multiple of N, but never lower than N
+-- round: Round any real number, x, to closest multiple of magnitude |N|,
+-- but never lower. N defaults to 1, if omitted.
 --
--- value = round(unsorted_table, 25)
+-- x_steps_of_N = round(x, N)
 --
 utils.round = function(x, n)
-	local step = n or 1
-	x = math.round(x/n)*n
-	return x < n and n or x
+	local s = math.sign(x)
+	n = n or 1
+	n = math.abs(n)
+	x = math.round(math.abs(x)/n)*n
+	return x < n and n*s or x*s
 end
 return utils
