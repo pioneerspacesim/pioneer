@@ -85,9 +85,7 @@ public:
 	bool IsMoon() const { return GetSuperType() == SUPERTYPE_ROCKY_PLANET && !IsPlanet(); }
 	// We allow hyperjump to any star of the system
 	bool IsJumpable() const { return GetSuperType() == SUPERTYPE_STAR; }
-
-	// Climb the hierarchy until we find a jumpable. Guaranteed that every systembody has a jumpable parent.
-	SystemBody *GetNearestJumpable() { return IsJumpable() ? this : GetParent()->GetNearestJumpable(); }
+	SystemBody *GetNearestJumpable();
 
 	bool HasChildren() const { return !m_children.empty(); }
 	Uint32 GetNumChildren() const { return static_cast<Uint32>(m_children.size()); }

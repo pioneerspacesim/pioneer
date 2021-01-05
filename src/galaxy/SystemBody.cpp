@@ -3,9 +3,11 @@
 
 #include "SystemBody.h"
 
-#include "Lang.h"
-#include "EnumStrings.h"
 #include "AtmosphereParameters.h"
+#include "EnumStrings.h"
+#include "Game.h"
+#include "Lang.h"
+#include "Pi.h"
 #include "enum_table.h"
 #include "utils.h"
 
@@ -467,7 +469,7 @@ bool SystemBody::IsPlanet() const
 	}
 }
 
-void CollectSystemBodies(SystemBody *sb, std::vector<SystemBody*> &sb_vector)
+void CollectSystemBodies(SystemBody *sb, std::vector<SystemBody *> &sb_vector)
 {
 	for (SystemBody *body : sb->GetChildren()) {
 		sb_vector.push_back(body);
@@ -477,7 +479,7 @@ void CollectSystemBodies(SystemBody *sb, std::vector<SystemBody*> &sb_vector)
 
 const std::vector<SystemBody *> SystemBody::CollectAllChildren()
 {
-	std::vector<SystemBody*> sb_vector;
+	std::vector<SystemBody *> sb_vector;
 	// At least avoid initial reallocations
 	sb_vector.reserve(m_children.size());
 
@@ -574,4 +576,55 @@ void SystemBody::ClearParentAndChildPointers()
 		(*i)->ClearParentAndChildPointers();
 	m_parent = 0;
 	m_children.clear();
+}
+
+SystemBody *SystemBody::GetNearestJumpable()
+{
+	if (IsJumpable()) return this;
+	// trying to find a jumpable parent
+	SystemBody *result = this;
+	while (result->GetParent()) { // we need to remember the last non-null pointer - this is the root systembody
+		result = result->GetParent();
+		if (result->IsJumpable()) return result;
+	}
+
+	//  Now we climbed to the very top of the hierarchy and did not find a jumpable
+	//  parent - we will have to search purely geometrically
+	//  we go through all the bodies of the system, determining the coordinates
+	//  of jumpable objects, and also remember the coordinates of the current
+	//  object
+	//  the result variable now contains the root systembody
+	std::vector<std::pair<SystemBody *, vector3d>> jumpables;
+	vector3d this_position(0.0);
+	std::function<void(SystemBody *, vector3d)> collect_positions = [&](SystemBody *s, vector3d pos) {
+		if (s->IsJumpable() || s->HasChildren() || s == this) {
+			// if the body has a zero orbit or it is a surface port - we assume that
+			// it is at the same point with the parent, just don't touch pos
+			if (!is_zero_general(s->GetOrbit().GetSemiMajorAxis()) && s->GetType() != SystemBody::TYPE_STARPORT_SURFACE)
+				pos += s->GetOrbit().OrbitalPosAtTime(Pi::game->GetTime());
+			if (s->IsJumpable())
+				jumpables.emplace_back(s, pos);
+			else if (s == this) // the current body is definitely not jumpable, otherwise we would not be here
+				this_position = pos;
+			if (s->HasChildren())
+				for (auto kid : s->GetChildren())
+					collect_positions(kid, pos);
+		}
+	};
+	collect_positions(result, vector3d(0.0));
+	// there can be no systems without jumpable systembodies!
+	assert(jumpables.size());
+	// looking for the closest jumpable to given systembody
+	result = jumpables[0].first;
+	double best_dist_sqr = (this_position - jumpables[0].second).LengthSqr();
+	size_t i = 1;
+	while (i < jumpables.size()) {
+		double dist_sqr = (this_position - jumpables[i].second).LengthSqr();
+		if (dist_sqr < best_dist_sqr) {
+			best_dist_sqr = dist_sqr;
+			result = jumpables[i].first;
+		}
+		++i;
+	}
+	return result;
 }
