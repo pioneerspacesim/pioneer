@@ -148,7 +148,7 @@ void AmbientSounds::Update()
 			}
 		}
 	} else if (s_planetSurfaceNoise.IsPlaying()) {
-		// s_planetSurfaceNoise.IsPlaying() - if we are out of the atmosphere then stop playing
+		// s_planetSurfaceNoise.IsPlaying() - if player is no longer on the ground then stop playing
 		Frame *playerFrame = Frame::GetFrame(Pi::player->GetFrame());
 		if (playerFrame->IsRotFrame()) {
 			const Body *astro = playerFrame->GetBody();
@@ -156,8 +156,8 @@ void AmbientSounds::Update()
 				const double dist = Pi::player->GetPosition().Length();
 				double pressure, density;
 				static_cast<const Planet *>(astro)->GetAtmosphericState(dist, &pressure, &density);
-				if (pressure < 0.001) {
-					// Stop playing surface noise once out of the atmosphere
+				if (Pi::player->GetFlightState() != Ship::LANDED) {
+					// Stop playing surface noise once the ship is off the ground
 					s_planetSurfaceNoise.Stop();
 				}
 			}
