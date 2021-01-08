@@ -4,7 +4,7 @@ specular 0.8 0.8 0.8
 shininess 100
 tex_diff fuselage_diff_police.dds
 tex_spec fuselage_spec.dds
-tex_norm fuselage_norm.dds
+tex_norm fuselage_norm.png
 tex_glow fuselage_glow.dds
 
 material Canopy
@@ -14,7 +14,7 @@ shininess 120
 opacity 30
 tex_diff fuselage_diff.dds
 tex_spec fuselage_spec.dds
-tex_norm fuselage_norm.dds
+tex_norm fuselage_norm.png
 tex_glow fuselage_glow.dds
 
 material Engine
@@ -23,7 +23,7 @@ specular 0.4 0.4 0.4
 shininess 80
 tex_diff engine_diff.dds
 tex_spec engine_spec.dds
-tex_norm engine_norm.dds
+tex_norm engine_norm.png
 tex_glow engine_glow.dds
 
 lod 300
