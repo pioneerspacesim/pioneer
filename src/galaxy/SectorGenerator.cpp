@@ -112,44 +112,61 @@ namespace Doomdark {
 } // namespace Doomdark
 
 namespace Katakana {
-	static const char *KatakanaFragments[] = {
-		"a", "i", "u", "e", "o",
-		"ka", "ki", "ku", "ke", "ko",
-		"ga", "gi", "gu", "ge", "go",
-		"sa", "shi", "su", "se", "so",
-		"za", "ji", "zu", "ze", "zo",
-		"ta", "chi", "tsu", "te", "to",
-		"da", "ji", "zu", "de", "do",
-		"na", "ni", "nu", "ne", "no",
-		"ha", "hi", "fu", "he", "ho",
-		"ba", "bi", "bu", "be", "bo",
-		"pa", "pi", "pu", "pe", "po",
-		"ma", "mi", "mu", "me", "mo",
-		"ya", "yu", "yo",
-		"ra", "ri", "ru", "re", "ro",
-		"wa", "wo",
-		"kya", "kyu", "kyo",
-		"gya", "gyu", "gyo",
-		"sha", "shu", "sho",
-		"ja", "ju", "jo",
-		"cha", "chu", "cho",
-		"nya", "nyu", "nyo",
-		"hya", "hyu", "hyo",
-		"bya", "byu", "byo",
-		"pya", "pyu", "pyo",
-		"mya", "myu", "myo",
-		"rya", "ryu", "ryo"
+	static const char* StartFragments[] = {
+		"kyo","gyo","shu","sho","chu","cho","hyu","myo",
+		"ryu","chi","tsu","shi","ka","ki","ku","ke",
+		"ko","ga","gi","gu","ge","go","sa","su",
+		"se","so","za","zu","ze","ta","te","to",
+		"da","na","ni","nu","ne","no","ha","hi",
+		"fu","he","ho","ba","bi","bu","be","ma",
+		"mi","mu","me","mo","ya","yu","yo","ri",
+		"ru","wa","jo","a","i","u","e","o",
+		
 	};
-	static const unsigned int KATAKANA_FRAGS = ((unsigned int)(sizeof(KatakanaFragments) / sizeof(char *)));
+	static const char* MiddleFragments[] = {
+		"sshi","ppo","tto","mbo","kka","kyu","sho","chu",
+		"chi","tsu","shi","ka","ki","ku","ke","ko",
+		"ga","gi","gu","ge","go","sa","su","se",
+		"so","za","ji","zu","ze","ta","te","to",
+		"da","de","do","na","ni","nu","ne","no",
+		"ha","hi","fu","ho","ba","bi","bu","be",
+		"bo","ma","mi","mu","me","mo","ya","yo",
+		"ra","ri","ru","re","ro","wa","ju","jo",
+		"a","i","u","e","o","n",
+	};
+	static const char* EndFragments[] = {
+		"ttsu","ppu","ssa","tto","tte","noh","mba","kko",
+		"kyo","shu","chu","nyu","nyo","ryu","chi","tsu",
+		"shi","ka","ki","ku","ke","ko","ga","gi",
+		"gu","go","sa","su","se","so","za","ji",
+		"zu","ze","zo","ta","te","to","da","de",
+		"do","na","ni","ne","no","ha","hi","fu",
+		"he","ho","ba","bi","bu","be","bo","ma",
+		"mi","mu","me","mo","ya","yo","ra","ri",
+		"ru","re","ro","wa","ja","jo","i","e",
+		"o","n",
+	};
+
+	static const unsigned int NUM_START_FRAGS = ((unsigned int)(sizeof(StartFragments) / sizeof(char*)));
+	static const unsigned int NUM_MIDDLE_FRAGS = ((unsigned int)(sizeof(MiddleFragments) / sizeof(char*)));
+	static const unsigned int NUM_END_FRAGS = ((unsigned int)(sizeof(EndFragments) / sizeof(char*))); 
 
 	void GetName(std::string &name, Random &rng)
 	{
-		// add fragments to build a name
-		int len = rng.Int32(2, 4);
-		for (int i = 0; i < len; i++) {
-			name += KatakanaFragments[rng.Int32(0, KATAKANA_FRAGS - 1)];
+		// beginning
+		name += StartFragments[rng.Int32(0, NUM_START_FRAGS - 1)];
+
+		// middle
+		size_t count = rng.Int32(0, 2);
+		for (size_t i = 0; i < count; i++)
+		{
+			name += MiddleFragments[rng.Int32(0, NUM_MIDDLE_FRAGS - 1)];
 		}
 
+		// end
+		name += EndFragments[rng.Int32(0, NUM_END_FRAGS - 1)];
+
+		// Capitalisation
 		name[0] = toupper(name[0]);
 	}
 } // namespace Katakana
