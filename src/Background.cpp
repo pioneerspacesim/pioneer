@@ -6,6 +6,7 @@
 #include "FileSystem.h"
 #include "Game.h"
 #include "GameConfig.h"
+#include "MathUtil.h"
 #include "Pi.h"
 #include "Player.h"
 #include "Space.h"
@@ -27,6 +28,8 @@ using namespace Graphics;
 namespace {
 	static const Uint32 BG_STAR_MAX = 500000;
 	static const Uint32 BG_STAR_MIN = 50000;
+	static const float BG_STAR_RADIUS_MIN = 8.0f;
+	static const float BG_STAR_RADIUS_MAX = 500.0f;
 	static RefCountedPtr<Graphics::Texture> s_defaultCubeMap;
 
 	static Uint32 GetNumSkyboxes()
@@ -233,7 +236,7 @@ namespace Background {
 	void Starfield::Fill(Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy)
 	{
 		PROFILE_SCOPED()
-		const Uint32 NUM_BG_STARS = Clamp(Uint32(Pi::GetAmountBackgroundStars() * BG_STAR_MAX), BG_STAR_MIN, BG_STAR_MAX);
+		const Uint32 NUM_BG_STARS = MathUtil::mix(BG_STAR_MIN, BG_STAR_MAX, Pi::GetAmountBackgroundStars());
 		m_hyperVtx.reset(new vector3f[BG_STAR_MAX * 3]);
 		m_hyperCol.reset(new Color[BG_STAR_MAX * 3]);
 
@@ -262,7 +265,7 @@ namespace Background {
 			const SystemPath current = space->GetStarSystem()->GetPath();
 
 			const double size = 1.0;
-			const Sint32 visibleRadius = m_visibleRadiusLy; // lyrs
+			const Sint32 visibleRadius = MathUtil::mix(BG_STAR_RADIUS_MIN, Clamp(m_visibleRadiusLy, BG_STAR_RADIUS_MIN, BG_STAR_RADIUS_MAX), Pi::GetAmountBackgroundStars()); // lyrs
 			const Sint32 visibleRadiusSqr = (visibleRadius * visibleRadius);
 			const Sint32 sectorMin = -(visibleRadius / Sector::SIZE); // lyrs_radius / sector_size_in_lyrs
 			const Sint32 sectorMax = visibleRadius / Sector::SIZE;	  // lyrs_radius / sector_size_in_lyrs
