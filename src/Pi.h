@@ -180,7 +180,7 @@ public:
 
 	static void SetAmountBackgroundStars(const float pc)
 	{
-		amountOfBackgroundStarsDisplayed = Clamp(pc, 0.01f, 1.0f);
+		amountOfBackgroundStarsDisplayed = Clamp(pc, 0.0f, 1.0f);
 		bRefreshBackgroundStars = true;
 	}
 	static float GetAmountBackgroundStars() { return amountOfBackgroundStarsDisplayed; }
