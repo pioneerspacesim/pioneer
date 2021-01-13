@@ -1,9 +1,12 @@
 January 2021
    * Internal Changes
      * Happy new year (#5105)
+     * Update buildscripts to use Ubuntu 20.04 (#5109)
 
    * Fixes
      * Fix surface sounds playing after leaving surface (#5115)
+     * Fix segfault when setting destination to binary star (#5114)
+     * Fix background display issues when changing star density slider (#5116)
 
 December 2020
    * New Features
