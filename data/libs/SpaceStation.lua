@@ -718,7 +718,7 @@ Event.Register("onGameStart", function ()
 end)
 
 Event.Register("onShipDocked", function (ship, station)
-	if ship ~= Game.player then return end
+	if ship ~= Game.player or SpaceStation.adverts[station] then return end
 	createStationMarket(station)
 end)
 
