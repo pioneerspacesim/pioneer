@@ -352,7 +352,7 @@ void SystemView::Draw3D()
 	auto *background = m_game->GetSpace()->GetBackground();
 	// Background is rotated around (0,0,0) and drawn
 	background->SetIntensity(0.6);
-	if (!m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(path)) {
+	if (!m_game->IsNormalSpace() || !m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(path)) {
 		Uint32 cachedFlags = background->GetDrawFlags();
 		background->SetDrawFlags(Background::Container::DRAW_SKYBOX);
 		background->Draw(trans2bg);
