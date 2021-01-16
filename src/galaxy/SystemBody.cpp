@@ -225,6 +225,8 @@ std::string SystemBody::GetAstroDescription() const
 			s = Lang::TINY;
 		else if (m_mass < fixed(1, 5))
 			s = Lang::SMALL;
+		else
+			s = Lang::MEDIUM;
 
 		if (m_volcanicity > fixed(7, 10)) {
 			if (s.size())

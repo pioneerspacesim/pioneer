@@ -79,6 +79,11 @@ struct Projectable {
 
 class SystemView : public PiGuiView, public DeleteEmitter {
 public:
+	enum class Mode { // <enum name=SystemViewMode scope='SystemView::Mode' public>
+		Orrery = 0,
+		Atlas = 1
+	};
+
 	SystemView(Game *game);
 	~SystemView() override;
 	void Update() override;
@@ -98,6 +103,9 @@ public:
 	void SetZoomMode(bool enable);
 	void SetRotateMode(bool enable);
 	double ProjectedSize(double size, vector3d pos);
+
+	Mode GetDisplayMode() { return m_displayMode; }
+	void SetDisplayMode(Mode displayMode) { m_displayMode = displayMode; }
 
 	// all used colors. defined in system-view-ui.lua
 	enum ColorIndex { // <enum name=SystemViewColorIndex scope='SystemView' public>
@@ -124,15 +132,9 @@ private:
 		Axis *mapViewZoom;
 	} m_input;
 
-	bool m_rotateWithMouseButton = false;
-	bool m_rotateView = false;
-	bool m_zoomView = false;
-	std::vector<Projectable> m_projected;
-	static const double PICK_OBJECT_RECT_SIZE;
-	static const Uint16 N_VERTICES_MAX;
-	const float CAMERA_FOV = 50.f;
-	const float CAMERA_FOV_RADIANS = CAMERA_FOV / 57.295779f;
-	matrix4x4f m_cameraSpace;
+	void DrawOrreryView();
+	void DrawAtlasView();
+
 	template <typename RefType>
 	void PutOrbit(Projectable::bases base, RefType *ref, const Orbit *orb, const vector3d &offset, const Color &color, const double planetRadius = 0.0, const bool showLagrange = false);
 	void PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans);
@@ -153,25 +155,40 @@ private:
 	double GetOrbitTime(double t, const Body *b);
 
 	Game *m_game;
+
 	RefCountedPtr<StarSystem> m_system;
 	Projectable m_selectedObject;
+	std::vector<Projectable> m_projected;
 	std::vector<SystemBody *> m_displayed_sbody;
 	bool m_unexplored;
+	bool m_viewingCurrentSystem;
+	std::list<std::pair<Ship *, Orbit>> m_contacts;
+
+	Mode m_displayMode;
 	ShowLagrange m_showL4L5;
 	TransferPlanner *m_planner;
-	std::list<std::pair<Ship *, Orbit>> m_contacts;
 	ShipDrawing m_shipDrawing;
 	GridDrawing m_gridDrawing;
+
+	bool m_rotateWithMouseButton = false;
+	bool m_rotateView = false;
+	bool m_zoomView = false;
+	const float CAMERA_FOV = 50.f;
+	const float CAMERA_FOV_RADIANS = CAMERA_FOV / 57.295779f;
+	matrix4x4f m_cameraSpace;
+
 	int m_grid_lines;
 	float m_rot_x, m_rot_y;
 	float m_rot_x_to, m_rot_y_to;
 	float m_zoom, m_zoomTo;
+	float m_atlasPosX, m_atlasPosY;
 	int m_animateTransition;
 	vector3d m_trans;
 	vector3d m_transTo;
 	double m_time;
 	bool m_realtime;
 	double m_timeStep;
+
 	sigc::connection m_onMouseWheelCon;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;

@@ -333,6 +333,21 @@ static int l_systemview_set_zoom_mode(lua_State *l)
 	return 0;
 }
 
+static int l_systemview_get_display_mode(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	LuaPush(l, EnumStrings::GetString("SystemViewMode", int(sv->GetDisplayMode())));
+	return 1;
+}
+
+static int l_systemview_set_display_mode(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	int mode = EnumStrings::GetValue("SystemViewMode", LuaPull<const char *>(l, 2));
+	sv->SetDisplayMode(SystemView::Mode(mode));
+	return 1;
+}
+
 static int l_systemview_transfer_planner_get(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
@@ -423,6 +438,8 @@ void LuaObject<SystemView>::RegisterClass()
 		{ "SetColor", l_systemview_set_color },
 		{ "SetRotateMode", l_systemview_set_rotate_mode },
 		{ "SetZoomMode", l_systemview_set_zoom_mode },
+		{ "GetDisplayMode", l_systemview_get_display_mode },
+		{ "SetDisplayMode", l_systemview_set_display_mode },
 
 		{ "TransferPlannerAdd", l_systemview_transfer_planner_add },
 		{ "TransferPlannerGet", l_systemview_transfer_planner_get },

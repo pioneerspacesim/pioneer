@@ -8,6 +8,7 @@
 #include "vector3.h"
 #include <math.h>
 #include <stdio.h>
+#include <cassert>
 #include <type_traits>
 
 template <typename T>
