@@ -7,7 +7,6 @@
 #include "lua/LuaMetaType.h"
 #include "lua/LuaPiGuiInternal.h"
 #include "lua/LuaVector2.h"
-#include "src/lua.h"
 
 using RadarWidget = PiGui::RadarWidget;
 
