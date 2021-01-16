@@ -3,7 +3,6 @@
 
 #include "CoreFwdDecl.h"
 #include "FileSystem.h"
-#include "src/lua.h"
 #include <algorithm>
 #include <deque>
 #include <string>

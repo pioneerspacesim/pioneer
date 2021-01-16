@@ -20,7 +20,6 @@
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
-#include "src/lua.h"
 
 /*
  * Class: StarSystem
