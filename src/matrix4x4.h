@@ -245,7 +245,7 @@ public:
 		const T e = 1 / tan(fovR / T(2));
 		const T x = fovX ? e : e / aspect;
 		const T y = fovX ? e / aspect : e;
-		const T z = (zfar) / (zfar - znear) - 1;
+		const T z = (znear) / (zfar - znear);
 		const T w = (zfar * znear) / (zfar - znear);
 
 		// Based on: http://www.terathon.com/gdc07_lengyel.pdf
@@ -295,17 +295,27 @@ public:
 	///////////////////////////////////////////////////////////////////////////////
 	// set a orthographic frustum with 6 params similar to glOrtho()
 	// (left, right, bottom, top, near, far)
+	//
+	// Derived from:
+	// [1] https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixorthorh
+	// [2] https://thxforthefish.com/posts/reverse_z/
+	//
+	// Specifically, the `tz` and `c` terms are based on a right-handed DirectX-style
+	// (Z=0..1) matrix [1], multiplied by the given reversing matrix [2].
+	// If looking at the sources, keep in mind that [1] is presented in row-major order
+	// and [2] is presented in column-major order, and thus multiplication occurs in
+	// column-column fashion.
 	///////////////////////////////////////////////////////////////////////////////
 	static matrix4x4 OrthoFrustum(T left, T right, T bottom, T top, T znear, T zfar)
 	{
 		assert((znear >= T(-1)) && (zfar > T(0)));
 		T a = T(2) / (right - left);
 		T b = T(2) / (top - bottom);
-		T c = T(1) / (zfar - znear) - 1;
+		T c = T(1) / (zfar - znear);
 
 		T tx = (right + left) / (left - right);
 		T ty = (top + bottom) / (bottom - top);
-		T tz = (zfar + znear) / (zfar - znear);
+		T tz = (zfar) / (zfar - znear);
 
 		T ortho[16] = {
 			a, 0, 0, 0,
@@ -317,14 +327,15 @@ public:
 		return m;
 	}
 
+	// Optimized form that takes width/height and near/far planes
 	static matrix4x4 OrthoMatrix(T width, T height, T znear, T zfar)
 	{
 		assert((znear >= T(-1)) && (zfar > T(0)));
 		T a = T(2) / width;
 		T b = T(2) / height;
-		T c = T(1) / (zfar - znear) - 1;
+		T c = T(1) / (zfar - znear);
 
-		T tz = (zfar + znear) / (zfar - znear);
+		T tz = (zfar) / (zfar - znear);
 
 		T ortho[16] = {
 			a, 0, 0, 0,

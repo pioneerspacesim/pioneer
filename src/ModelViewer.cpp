@@ -483,8 +483,7 @@ void ModelViewer::Update(float deltaTime)
 			if (m_zoom <= 0.0) m_zoom = 0.01;
 			float screenW = Graphics::GetScreenWidth() * m_zoom / 10;
 			float screenH = Graphics::GetScreenHeight() * m_zoom / 10;
-			matrix4x4f orthoMat = matrix4x4f::OrthoFrustum(-screenW, screenW, -screenH, screenH, 0.1f, 100000.0f);
-			orthoMat.ClearToRotOnly();
+			matrix4x4f orthoMat = matrix4x4f::OrthoMatrix(screenW, screenH, 0.1f, 100000.0f);
 			m_renderer->SetProjection(orthoMat);
 		}
 
