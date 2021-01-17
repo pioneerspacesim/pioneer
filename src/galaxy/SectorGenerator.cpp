@@ -112,7 +112,8 @@ namespace Doomdark {
 } // namespace Doomdark
 
 namespace Katakana {
-	static const char* StartFragments[] = {
+	// clang-format off
+	static const char *StartFragments[] = {
 		"kyo","gyo","shu","sho","chu","cho","hyu","myo",
 		"ryu","chi","tsu","shi","ka","ki","ku","ke",
 		"ko","ga","gi","gu","ge","go","sa","su",
@@ -123,7 +124,7 @@ namespace Katakana {
 		"ru","wa","jo","a","i","u","e","o",
 		
 	};
-	static const char* MiddleFragments[] = {
+	static const char *MiddleFragments[] = {
 		"sshi","ppo","tto","mbo","kka","kyu","sho","chu",
 		"chi","tsu","shi","ka","ki","ku","ke","ko",
 		"ga","gi","gu","ge","go","sa","su","se",
@@ -134,7 +135,7 @@ namespace Katakana {
 		"ra","ri","ru","re","ro","wa","ju","jo",
 		"a","i","u","e","o","n",
 	};
-	static const char* EndFragments[] = {
+	static const char *EndFragments[] = {
 		"ttsu","ppu","ssa","tto","tte","noh","mba","kko",
 		"kyo","shu","chu","nyu","nyo","ryu","chi","tsu",
 		"shi","ka","ki","ku","ke","ko","ga","gi",
@@ -146,10 +147,11 @@ namespace Katakana {
 		"ru","re","ro","wa","ja","jo","i","e",
 		"o","n",
 	};
+	// clang-format on
 
-	static const unsigned int NUM_START_FRAGS = ((unsigned int)(sizeof(StartFragments) / sizeof(char*)));
-	static const unsigned int NUM_MIDDLE_FRAGS = ((unsigned int)(sizeof(MiddleFragments) / sizeof(char*)));
-	static const unsigned int NUM_END_FRAGS = ((unsigned int)(sizeof(EndFragments) / sizeof(char*))); 
+	static const unsigned int NUM_START_FRAGS = COUNTOF(StartFragments);
+	static const unsigned int NUM_MIDDLE_FRAGS = COUNTOF(MiddleFragments);
+	static const unsigned int NUM_END_FRAGS = COUNTOF(EndFragments);
 
 	void GetName(std::string &name, Random &rng)
 	{
@@ -158,8 +160,7 @@ namespace Katakana {
 
 		// middle
 		size_t count = rng.Int32(0, 2);
-		for (size_t i = 0; i < count; i++)
-		{
+		for (size_t i = 0; i < count; i++) {
 			name += MiddleFragments[rng.Int32(0, NUM_MIDDLE_FRAGS - 1)];
 		}
 
@@ -270,7 +271,7 @@ const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> ga
 		case 2: Doomdark::GetName(name, rng); break;
 		case 3: Katakana::GetName(name, rng); break;
 		default:
-			FrontierNames::GetName(name, rng); 
+			FrontierNames::GetName(name, rng);
 			break;
 		}
 		return name;
