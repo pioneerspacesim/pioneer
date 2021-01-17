@@ -9,11 +9,24 @@
 #include "Sfx.h"
 #include "Ship.h"
 #include "Space.h"
+#include "lua/LuaEvent.h"
 
 CargoBody::CargoBody(const LuaRef &cargo, float selfdestructTimer) :
 	m_cargo(cargo)
 {
 	SetModel("cargo");
+	Init();
+	SetMass(1.0);
+	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
+
+	if (is_zero_exact(selfdestructTimer)) // turn off self destruct
+		m_hasSelfdestruct = false;
+}
+
+CargoBody::CargoBody(const char *modelName, const LuaRef &cargo, float selfdestructTimer) :
+	m_cargo(cargo)
+{
+	SetModel(modelName);
 	Init();
 	SetMass(1.0);
 	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
@@ -89,6 +102,7 @@ void CargoBody::TimeStepUpdate(const float timeStep)
 	if (m_hasSelfdestruct) {
 		m_selfdestructTimer -= timeStep;
 		if (m_selfdestructTimer <= 0) {
+			LuaEvent::Queue("onCargoDestroyed", this);
 			Pi::game->GetSpace()->KillBody(this);
 			SfxManager::Add(this, TYPE_EXPLOSION);
 		}
@@ -100,6 +114,10 @@ bool CargoBody::OnDamage(Body *attacker, float kgDamage, const CollisionContact 
 {
 	m_hitpoints -= kgDamage * 0.001f;
 	if (m_hitpoints < 0) {
+		if (attacker && attacker->IsType(ObjectType::BODY))
+			LuaEvent::Queue("onCargoDestroyed", this, dynamic_cast<Body *>(attacker));
+		else
+			LuaEvent::Queue("onCargoDestroyed", this);
 		Pi::game->GetSpace()->KillBody(this);
 		SfxManager::Add(this, TYPE_EXPLOSION);
 	}
@@ -112,8 +130,10 @@ bool CargoBody::OnCollision(Body *b, Uint32 flags, double relVel)
 	if (b->IsType(ObjectType::SHIP)) {
 		int cargoscoop_cap = 0;
 		static_cast<Ship *>(b)->Properties().Get("cargo_scoop_cap", cargoscoop_cap);
-		if (cargoscoop_cap > 0)
+		if (cargoscoop_cap > 0) {
+			LuaEvent::Queue("onCargoDestroyed", this);
 			return true;
+		}
 	}
 
 	return DynamicBody::OnCollision(b, flags, relVel);

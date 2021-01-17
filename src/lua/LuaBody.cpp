@@ -728,6 +728,20 @@ static bool _body_from_json(const Json &obj)
 	return push_body_to_lua(body);
 }
 
+static int l_body_get_velocity(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	LuaPush<vector3d>(l, b->GetVelocity());
+	return 1;
+}
+
+static int l_body_set_velocity(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	b->SetVelocity(LuaPull<vector3d>(l, 2));
+	return 0;
+}
+
 template <>
 const char *LuaObject<Body>::s_type = "Body";
 
@@ -758,6 +772,8 @@ void LuaObject<Body>::RegisterClass()
 		{ "IsGroundStation", l_body_is_ground_station },
 		{ "IsCargoContainer", l_body_is_cargo_container },
 		{ "GetSystemBody", l_body_get_system_body },
+		{ "GetVelocity", l_body_get_velocity },
+		{ "SetVelocity", l_body_set_velocity },
 		{ 0, 0 }
 	};
 

@@ -462,12 +462,19 @@ static int l_ship_spawn_cargo(lua_State *l)
 	}
 
 	CargoBody *c_body;
+	const char *model;
+
+	lua_getfield(l, 2, "model_name");
+	if (lua_isstring(l, -1))
+		model = lua_tostring(l, -1);
+	else
+		model = "cargo";
 
 	if (lua_gettop(l) >= 3) {
 		float lifeTime = lua_tonumber(l, 3);
-		c_body = new CargoBody(LuaRef(l, 2), lifeTime);
+		c_body = new CargoBody(model, LuaRef(l, 2), lifeTime);
 	} else
-		c_body = new CargoBody(LuaRef(l, 2));
+		c_body = new CargoBody(model, LuaRef(l, 2));
 
 	lua_pushboolean(l, s->SpawnCargo(c_body));
 

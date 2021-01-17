@@ -1,13 +1,19 @@
 January 2021
+   * New Features
+     * New scoop mission (#4860)
+
    * Internal Changes
      * Happy new year (#5105)
      * Update buildscripts to use Ubuntu 20.04 (#5109)
+     * Fix build with system lua (#5121)
 
    * Fixes
      * Fix surface sounds playing after leaving surface (#5115)
      * Fix segfault when setting destination to binary star (#5114)
      * Fix background display issues when changing star density slider (#5116)
      * Fix crash triggered by spacestation when removing advert (#5118)
+     * Fix empty landing pad being occupied by a skipjack ship (#5086)
+     * Fix game crash when selecting system map in hyperspace (#5120)
 
 December 2020
    * New Features
