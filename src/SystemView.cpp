@@ -107,6 +107,7 @@ void SystemView::ResetViewpoint()
 	m_zoomTo = 1.0f / float(AU);
 	m_timeStep = 1.0f;
 	m_time = m_game->GetTime();
+	m_transTo *= 0.0;
 	m_animateTransition = MAX_TRANSITION_FRAMES;
 }
 
@@ -263,6 +264,11 @@ void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 
 void SystemView::GetTransformTo(Projectable &p, vector3d &pos)
 {
+	if (m_selectedObject.type == Projectable::NONE) {
+		// notning selected
+		pos *= 0.0;
+		return;
+	}
 	// accept only real objects (no orbit icons or lagrange points)
 	assert(p.type == Projectable::OBJECT);
 	pos = vector3d(0., 0., 0.);
@@ -285,16 +291,15 @@ void SystemView::CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, v
 	pos = vector3d(0., 0., 0.);
 	FrameId shipFrameId = s->GetFrame();
 	FrameId shipNonRotFrameId = Frame::GetFrame(shipFrameId)->GetNonRotFrame();
-	if (s->GetFlightState() != Ship::FlightState::FLYING) {
+	// if the ship is in a rotating frame, we will rotate it with the frame
+	if (Frame::GetFrame(shipFrameId)->IsRotFrame()) {
 		vector3d rpos(0.0);
-		if (Frame::GetFrame(shipFrameId)->IsRotFrame()) {
-			Frame *rotframe = Frame::GetFrame(shipFrameId);
-			if (t == m_game->GetTime()) {
-				pos = s->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
-				return;
-			} else
-				rpos = s->GetPositionRelTo(shipNonRotFrameId) * rotframe->GetOrient() * matrix3x3d::RotateY(rotframe->GetAngSpeed() * (t - m_game->GetTime())) * rotframe->GetOrient().Transpose();
-		}
+		Frame *rotframe = Frame::GetFrame(shipFrameId);
+		if (t == m_game->GetTime()) {
+			pos = s->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
+			return;
+		} else
+			rpos = s->GetPositionRelTo(shipNonRotFrameId) * rotframe->GetOrient() * matrix3x3d::RotateY(rotframe->GetAngSpeed() * (t - m_game->GetTime())) * rotframe->GetOrient().Transpose();
 		vector3d fpos(0.0);
 		CalculateFramePositionAtTime(shipNonRotFrameId, t, fpos);
 		pos += fpos + rpos;
@@ -388,16 +393,21 @@ void SystemView::Draw3D()
 	m_renderer->SetTransform(m_cameraSpace);
 
 	// smooth transition animation
-	m_transTo *= 0.0;
-	if (m_selectedObject.type != Projectable::NONE) GetTransformTo(m_selectedObject, m_transTo);
 	if (m_animateTransition) {
+		// since the object being approached can move, we need to compensate for its movement
+		// making an imprint of the old value (from previous frame)
+		m_trans -= m_transTo;
+		// calculate the new value
+		GetTransformTo(m_selectedObject, m_transTo);
+		// now the difference between the new and the old value is added to m_trans
+		m_trans += m_transTo;
 		const float ft = Pi::GetFrameTime();
 		m_animateTransition--;
 		AnimationCurves::Approach(m_trans.x, m_transTo.x, ft);
 		AnimationCurves::Approach(m_trans.y, m_transTo.y, ft);
 		AnimationCurves::Approach(m_trans.z, m_transTo.z, ft);
 	} else {
-		m_trans = m_transTo;
+		GetTransformTo(m_selectedObject, m_trans);
 	}
 
 	vector3d pos = m_trans;
@@ -537,7 +547,7 @@ void SystemView::DrawShips(const double t, const vector3d &offset)
 		AddProjected<Body>(Projectable::OBJECT, Projectable::SHIP, static_cast<Body *>((*s).first), pos);
 		if (m_shipDrawing == ORBITS && (*s).first->GetFlightState() == Ship::FlightState::FLYING) {
 			vector3d framepos(0.0);
-			CalculateFramePositionAtTime(Frame::GetFrame((*s).first->GetFrame())->GetNonRotFrame(), m_time, framepos);
+			CalculateFramePositionAtTime((*s).first->GetFrame(), m_time, framepos);
 			PutOrbit<Body>(Projectable::SHIP, static_cast<Body *>((*s).first), &(*s).second, offset + framepos, isSelected ? svColor[SELECTED_SHIP_ORBIT] : svColor[SHIP_ORBIT], 0);
 		}
 	}
@@ -649,6 +659,10 @@ void SystemView::SetSelectedObject(Projectable::types type, Projectable::bases b
 	m_selectedObject.type = type;
 	m_selectedObject.base = base;
 	m_selectedObject.ref.sbody = sb;
+	// we will immediately determine the coordinates of the selected body so that
+	// there is a correct starting point of the transition animation, otherwise
+	// there may be an unwanted shift in the next frame
+	GetTransformTo(m_selectedObject, m_transTo);
 	m_animateTransition = MAX_TRANSITION_FRAMES;
 }
 
@@ -657,6 +671,10 @@ void SystemView::SetSelectedObject(Projectable::types type, Projectable::bases b
 	m_selectedObject.type = type;
 	m_selectedObject.base = base;
 	m_selectedObject.ref.body = b;
+	// we will immediately determine the coordinates of the selected body so that
+	// there is a correct starting point of the transition animation, otherwise
+	// there may be an unwanted shift in the next frame
+	GetTransformTo(m_selectedObject, m_transTo);
 	m_animateTransition = MAX_TRANSITION_FRAMES;
 }
 

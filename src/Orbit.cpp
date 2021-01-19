@@ -166,6 +166,7 @@ double Orbit::MeanAnomalyAtTime(double time) const
 
 vector3d Orbit::OrbitalPosAtTime(double t) const
 {
+	if (is_zero_general(m_semiMajorAxis)) return m_positionForStaticBody;
 	double cos_v, sin_v, r;
 	calc_position_from_mean_anomaly(MeanAnomalyAtTime(t), m_eccentricity, m_semiMajorAxis, cos_v, sin_v, &r);
 	return m_orient * vector3d(-cos_v * r, sin_v * r, 0);
@@ -298,31 +299,44 @@ void Orbit::SetShapeAroundPrimary(double semiMajorAxis, double centralMass, doub
 	m_velocityAreaPerSecond = calc_velocity_area_per_sec(semiMajorAxis, centralMass, eccentricity);
 }
 
-Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double centralMass)
+Orbit Orbit::ForStaticBody(const vector3d &position)
 {
 	Orbit ret;
+	// just remember the current position of the body, and we will return it, for any t
+	ret.m_positionForStaticBody = position;
+	return ret;
+}
 
-	const double r_now = pos.Length() + 1e-12;
-	const double v_now = vel.Length() + 1e-12;
+Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel_raw, double centralMass)
+{
+	Orbit ret;
 
 	// standard gravitational parameter
 	const double u = centralMass * G;
 
+	// maybe we will adjust the speed a little now
+	vector3d vel = vel_raw;
 	// angular momentum
-	const vector3d ang = pos.Cross(vel);
+	vector3d ang = pos.Cross(vel);
+	// quite a rare case - the speed is directed strictly to the star or away from the star
+	// let's make a small disturbance to the velocity, so as not to calculate the radial orbit
+	if (is_zero_general(ang.LengthSqr()) && !is_zero_general(centralMass)) {
+		if (is_zero_general(pos.x) && is_zero_general(pos.y)) // even rarer case, the body lies strictly on the z-axis
+			vel.x += 0.001;
+		else
+			vel.z += 0.001;
+		ang = pos.Cross(vel); // recalculate angular momentum
+	}
+
+	const double r_now = pos.Length();
+
 	const double LLSqr = ang.LengthSqr();
 
 	// total energy
 	const double EE = vel.LengthSqr() / 2.0 - u / r_now;
 
-	if (is_zero_general(centralMass) || is_zero_general(r_now) || is_zero_general(v_now) || is_zero_general(EE) || (ang.z * ang.z / LLSqr > 1.0)) {
-		ret.m_eccentricity = 0.0;
-		ret.m_semiMajorAxis = 0.0;
-		ret.m_velocityAreaPerSecond = 0.0;
-		ret.m_orbitalPhaseAtStart = 0.0;
-		ret.m_orient = matrix3x3d::Identity();
-		return ret;
-	}
+	if (is_zero_general(centralMass) || is_zero_general(EE) || (ang.z * ang.z / LLSqr > 1.0))
+		return Orbit::ForStaticBody(pos);
 
 	// http://en.wikipedia.org/wiki/Orbital_eccentricity
 	ret.m_eccentricity = 1 + 2 * EE * LLSqr / (u * u);

@@ -371,7 +371,12 @@ bool DynamicBody::OnCollision(Body *o, Uint32 flags, double relVel)
 // return parameters for orbit of any body, gives both elliptic and hyperbolic trajectories
 Orbit DynamicBody::ComputeOrbit() const
 {
-	FrameId nrFrameId = Frame::GetFrame(GetFrame())->GetNonRotFrame();
+	auto f = Frame::GetFrame(GetFrame());
+	// if we are in a rotating frame, then dynamic body currently under the
+	// influence of a rotational frame, therefore getting the orbital parameters
+	// is not appropriate, return the orbit as a fixed point
+	if (f->IsRotFrame()) return Orbit::ForStaticBody(GetPosition());
+	FrameId nrFrameId = f->GetId();
 	const Frame *nrFrame = Frame::GetFrame(nrFrameId);
 	const double mass = nrFrame->GetSystemBody()->GetMass();
 
