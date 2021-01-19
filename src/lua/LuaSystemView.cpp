@@ -218,7 +218,7 @@ static int l_systemview_get_projected_grouped(lua_State *l)
 					touchedGroups.push_back(&group);
 			//now select the nearest group (if have)
 			if (touchedGroups.size()) {
-				GroupInfo *nearest;
+				GroupInfo *nearest = nullptr;
 				double min_length = 1e64;
 				for (GroupInfo *&g : touchedGroups) {
 					double this_length = (g->m_mainObject.screenpos - special_object[object_type]->screenpos).Length();

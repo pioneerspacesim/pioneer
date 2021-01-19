@@ -16,6 +16,7 @@ public:
 
 	// note: the resulting Orbit is at the given position at t=0
 	static Orbit FromBodyState(const vector3d &position, const vector3d &velocity, double central_mass);
+	static Orbit ForStaticBody(const vector3d &position);
 
 	Orbit() :
 		m_eccentricity(0.0),
@@ -58,6 +59,7 @@ private:
 	double MeanAnomalyFromTrueAnomaly(double trueAnomaly) const;
 	double MeanAnomalyAtTime(double time) const;
 
+	vector3d m_positionForStaticBody;
 	double m_eccentricity;
 	double m_semiMajorAxis;
 	double m_orbitalPhaseAtStart; // 0 to 2 pi radians
