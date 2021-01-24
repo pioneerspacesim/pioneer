@@ -23,7 +23,7 @@ static void checkError(std::size_t errorCode)
 	}
 }
 
-std::string lz4::DecompressLZ4(const string_view data)
+std::string lz4::DecompressLZ4(const std::string_view data)
 {
 	PROFILE_SCOPED()
 	LZ4F_dctx *_tmp;
@@ -68,7 +68,7 @@ std::string lz4::DecompressLZ4(const string_view data)
 	return out;
 }
 
-std::string lz4::CompressLZ4(const string_view data, const int lz4_preset)
+std::string lz4::CompressLZ4(const std::string_view data, const int lz4_preset)
 {
 	PROFILE_SCOPED()
 	LZ4F_preferences_t pref = LZ4F_INIT_PREFERENCES;

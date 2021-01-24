@@ -198,9 +198,9 @@ if (WIN32)
 	add_definitions(-DPSAPI_VERSION=1)
 endif (WIN32)
 
-macro(set_cxx11_properties)
+macro(set_cxx_properties)
 	set_target_properties(${ARGN} PROPERTIES
-		CXX_STANDARD 11
+		CXX_STANDARD 17
 		CXX_STANDARD_REQUIRED ON
 		CXX_EXTENSIONS ON
 	)
@@ -208,7 +208,7 @@ endmacro()
 
 macro(define_pioneer_library library_name _src _header)
 	add_library(${library_name} STATIC ${${_src}} ${${_header}})
-	set_cxx11_properties(${library_name})
+	set_cxx_properties(${library_name})
 endmacro()
 
 if (MSVC)
@@ -343,7 +343,7 @@ target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(savegamedump LINK_PRIVATE pioneer-core ${SDL2_IMAGE_LIBRARIES} ${winLibs})
 
-set_cxx11_properties(${PROJECT_NAME} modelcompiler savegamedump)
+set_cxx_properties(${PROJECT_NAME} modelcompiler savegamedump)
 
 if(MSVC)
 	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

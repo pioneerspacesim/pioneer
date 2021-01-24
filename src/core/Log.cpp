@@ -5,11 +5,11 @@
 #include "DateTime.h"
 #include "FileSystem.h"
 #include "SDL_messagebox.h"
-#include "nonstd/string_view.hpp"
 #include <SDL.h>
 #include <chrono>
 #include <cstdio>
 #include <map>
+#include <string_view>
 
 #include <fmt/core.h>
 #include <fmt/format.h>
@@ -52,12 +52,12 @@ bool Log::Logger::SetLogFile(std::string filename)
 
 void Log::Logger::LogLevel(Severity sv, const char *message)
 {
-	LogLevel(sv, nonstd::string_view(message, strlen(message)));
+	LogLevel(sv, std::string_view(message, strlen(message)));
 }
 
 void Log::Logger::LogLevel(Severity sv, std::string &message)
 {
-	LogLevel(sv, nonstd::string_view(message));
+	LogLevel(sv, std::string_view(message));
 }
 
 inline bool is_space(char c)
@@ -65,7 +65,7 @@ inline bool is_space(char c)
 	return c == ' ' || c == '\n' || c == '\t' || c == '\r';
 }
 
-void Log::Logger::LogLevel(Severity sv, nonstd::string_view message)
+void Log::Logger::LogLevel(Severity sv, std::string_view message)
 {
 	// Convert std::chrono::system_clock (epoch functionally guaranteed to be 1970/1/1-00:00:00)
 	// to our DateTime class (epoch defined as 2001/1/1-00:00:00)
@@ -81,7 +81,7 @@ void Log::Logger::LogLevel(Severity sv, nonstd::string_view message)
 	WriteLog(time, sv, message);
 }
 
-void Log::Logger::WriteLog(Time::DateTime time, Severity sv, nonstd::string_view msg)
+void Log::Logger::WriteLog(Time::DateTime time, Severity sv, std::string_view msg)
 {
 	std::string &svName = s_severityNames.at(sv);
 

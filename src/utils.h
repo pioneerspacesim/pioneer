@@ -94,69 +94,42 @@ static inline Sint64 isqrt(fixed v)
 // find string in bigger string, ignoring case
 const char *pi_strcasestr(const char *haystack, const char *needle);
 
-inline bool starts_with(const char *s, const char *t)
+inline bool starts_with(const std::string_view s, const std::string_view t)
 {
-	assert(s && t);
-	while ((*s == *t) && *t) {
-		++s;
-		++t;
-	}
-	return (*t == '\0');
+	if (s.size() < t.size())
+		return false;
+	return memcmp(s.begin(), t.begin(), t.size()) == 0;
 }
 
-inline bool starts_with(const std::string &s, const char *t)
+inline bool ends_with(const std::string_view s, const std::string_view t)
 {
-	assert(t);
-	return starts_with(s.c_str(), t);
+	if (s.size() < t.size())
+		return false;
+	return memcmp(s.end() - t.size(), t.begin(), t.size()) == 0;
 }
 
-inline bool starts_with(const std::string &s, const std::string &t)
+inline bool starts_with_ci(const std::string_view s, const std::string_view t)
 {
-	return starts_with(s.c_str(), t.c_str());
-}
+	if (s.size() < t.size())
+		return false;
 
-inline bool ends_with(const char *s, size_t ns, const char *t, size_t nt)
-{
-	return (ns >= nt) && (memcmp(s + (ns - nt), t, nt) == 0);
-}
+	for (size_t i = 0; i < t.size(); i++)
+		if (tolower(s.data()[i]) != tolower(t.data()[i]))
+			return false;
 
-inline bool ends_with(const char *s, const char *t)
-{
-	return ends_with(s, strlen(s), t, strlen(t));
-}
-
-inline bool ends_with(const std::string &s, const char *t)
-{
-	return ends_with(s.c_str(), s.size(), t, strlen(t));
-}
-
-inline bool ends_with(const std::string &s, const std::string &t)
-{
-	return ends_with(s.c_str(), s.size(), t.c_str(), t.size());
-}
-
-inline bool ends_with_ci(const char *s, size_t ns, const char *t, size_t nt)
-{
-	if (ns < nt) return false;
-	s += (ns - nt);
-	for (size_t i = 0; i < nt; i++)
-		if (tolower(*s++) != tolower(*t++)) return false;
 	return true;
 }
 
-inline bool ends_with_ci(const char *s, const char *t)
+inline bool ends_with_ci(const std::string_view s, const std::string_view t)
 {
-	return ends_with_ci(s, strlen(s), t, strlen(t));
-}
+	if (s.size() < t.size())
+		return false;
 
-inline bool ends_with_ci(const std::string &s, const char *t)
-{
-	return ends_with_ci(s.c_str(), s.size(), t, strlen(t));
-}
+	for (size_t i = t.size(); i > 0; i--)
+		if (tolower(s.end()[-i]) != tolower(t.end()[-i]))
+			return false;
 
-inline bool ends_with_ci(const std::string &s, const std::string &t)
-{
-	return ends_with_ci(s.c_str(), s.size(), t.c_str(), t.size());
+	return true;
 }
 
 static inline size_t SplitSpec(const std::string &spec, std::vector<int> &output)

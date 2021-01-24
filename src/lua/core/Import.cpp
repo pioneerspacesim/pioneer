@@ -447,11 +447,11 @@ static std::string make_module_name(lua_State *L, int idx)
 static std::string get_caller_module_name(lua_State *L)
 {
 	std::string caller = get_caller(L);
-	nonstd::string_view sv(caller);
-	if (sv.ends_with(".lua"))
+	std::string_view sv(caller);
+	if (ends_with(sv, ".lua"))
 		sv.remove_suffix(4);
 
-	return path_to_module(sv.to_string() + "/");
+	return path_to_module(std::string(sv) + "/");
 }
 
 static int l_reimport_package(lua_State *L)

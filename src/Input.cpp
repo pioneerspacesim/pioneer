@@ -302,7 +302,7 @@ InputBindings::Action *Manager::AddActionBinding(std::string id, BindingGroup *g
 	// Load from the config
 	std::string config_str = m_config->String(id.c_str());
 	if (!config_str.empty()) {
-		nonstd::string_view str(config_str);
+		std::string_view str(config_str);
 		str >> binding;
 	}
 
@@ -320,7 +320,7 @@ InputBindings::Axis *Manager::AddAxisBinding(std::string id, BindingGroup *group
 	// Load from the config
 	std::string config_str = m_config->String(id.c_str());
 	if (!config_str.empty()) {
-		nonstd::string_view str(config_str);
+		std::string_view str(config_str);
 		str >> binding;
 	}
 
