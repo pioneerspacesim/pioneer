@@ -183,10 +183,10 @@ void LuaConsole::RegisterAutoexec()
 	LUA_DEBUG_END(L, 0);
 }
 
-void LuaConsole::LogCallback(Time::DateTime time, Log::Severity sev, nonstd::string_view message)
+void LuaConsole::LogCallback(Time::DateTime time, Log::Severity sev, std::string_view message)
 {
 	if (sev <= Log::Severity::Debug)
-		m_outputLines.push_back(message.to_string());
+		m_outputLines.push_back(std::string(message));
 }
 
 static int callback(ImGuiInputTextCallbackData *data)

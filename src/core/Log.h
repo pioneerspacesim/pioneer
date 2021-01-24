@@ -4,9 +4,9 @@
 #pragma once
 
 #include "DateTime.h"
-#include "nonstd/string_view.hpp"
 #include <fmt/format.h>
 #include <sigc++/signal.h>
+#include <string_view>
 
 namespace Log {
 	enum class Severity : int8_t {
@@ -24,7 +24,7 @@ namespace Log {
 		// Handle formatting, indentation, etc.
 		// Prefer the Verbose, Info, Warning, etc. functions instead of directly using this one
 		void LogLevel(Severity sv, std::string &message);
-		void LogLevel(Severity sv, nonstd::string_view message);
+		void LogLevel(Severity sv, std::string_view message);
 		void LogLevel(Severity sv, const char *message);
 
 		bool SetLogFile(std::string filename);
@@ -42,10 +42,10 @@ namespace Log {
 			if (current_indent) current_indent -= 1;
 		}
 
-		sigc::signal<void, Time::DateTime, Severity, nonstd::string_view> printCallback;
+		sigc::signal<void, Time::DateTime, Severity, std::string_view> printCallback;
 
 	private:
-		void WriteLog(Time::DateTime t, Severity sv, nonstd::string_view msg);
+		void WriteLog(Time::DateTime t, Severity sv, std::string_view msg);
 
 		FILE *file;
 		Severity m_maxSeverity = Severity::Info;

@@ -35,7 +35,7 @@ public:
 private:
 	bool OnCompletion(bool backward);
 	bool OnHistory(bool upArrow);
-	void LogCallback(Time::DateTime, Log::Severity, nonstd::string_view);
+	void LogCallback(Time::DateTime, Log::Severity, std::string_view);
 
 	bool ExecOrContinue(const std::string &stmt, bool repeatStatement = true);
 	void UpdateCompletion(const std::string &statement);

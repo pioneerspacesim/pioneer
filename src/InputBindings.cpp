@@ -139,11 +139,11 @@ Axis &Axis::operator=(const Axis &rhs)
 //
 // ============================================================================
 
-using smatch = std::match_results<nonstd::string_view::const_iterator>;
+using smatch = std::match_results<std::string_view::const_iterator>;
 static std::regex disabled_matcher("^disabled", std::regex::icase);
 
 // Handle the fiddly bits of matching a regex and advancing the beginning of a string
-bool consumeMatch(nonstd::string_view &str, smatch &match_results, std::regex &reg)
+bool consumeMatch(std::string_view &str, smatch &match_results, std::regex &reg)
 {
 	if (!std::regex_search(str.cbegin(), str.cend(), match_results, reg))
 		return false;
@@ -156,7 +156,7 @@ bool consumeMatch(nonstd::string_view &str, smatch &match_results, std::regex &r
 // Less awful than iostreams, but still not elegant. That's C++ for you.
 // TODO: save joystick id->GUID mapping separately in the config file and
 // don't write them here to save space
-nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, KeyBinding &out)
+std::string_view &InputBindings::operator>>(std::string_view &str, KeyBinding &out)
 {
 	static std::regex key_matcher("^Key(\\d+)");
 	static std::regex joystick_matcher("^Joy([^/]{32})");
@@ -222,7 +222,7 @@ std::ostream &InputBindings::operator<<(std::ostream &str, const KeyBinding &in)
 }
 
 // Match [-]JoyGUID/A4
-nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, JoyAxis &out)
+std::string_view &InputBindings::operator>>(std::string_view &str, JoyAxis &out)
 {
 	static std::regex joy_matcher("^Joy([^/]{32})/A(\\d+)");
 	auto begin = str.cbegin();
@@ -260,7 +260,7 @@ std::ostream &InputBindings::operator<<(std::ostream &str, const JoyAxis &in)
 
 // find a close paren, copy str into ret str, and return retstr
 // (for one-line failure case returns)
-nonstd::string_view &findCloseParen(nonstd::string_view &str, nonstd::string_view &retstr, smatch &match_results)
+std::string_view &findCloseParen(std::string_view &str, std::string_view &retstr, smatch &match_results)
 {
 	if (std::regex_search(str.cbegin(), str.cend(), match_results, std::regex("\\)")))
 		str.remove_prefix(std::distance(str.cbegin(), match_results[0].second));
@@ -270,7 +270,7 @@ nonstd::string_view &findCloseParen(nonstd::string_view &str, nonstd::string_vie
 }
 
 // Parse KeyChord(Key53 + JoyGUID/B3 + Mouse1) | KeyChord(Mouse5)
-nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, KeyChord &out)
+std::string_view &InputBindings::operator>>(std::string_view &str, KeyChord &out)
 {
 	static std::regex key_chord("^KeyChord\\(\\s*");
 	static std::regex plus_sign("^\\s*\\+\\s*");
@@ -281,7 +281,7 @@ nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, KeyChor
 		return str;
 
 	// make a copy of the string view so we can nondestructively consume matches.
-	nonstd::string_view iterstr = str;
+	std::string_view iterstr = str;
 
 	// ensure we read the KeyChord( opening
 	if (!consumeMatch(iterstr, match_results, key_chord))
@@ -324,7 +324,7 @@ std::ostream &InputBindings::operator<<(std::ostream &str, const KeyChord &in)
 	return str;
 }
 
-nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, Axis &out)
+std::string_view &InputBindings::operator>>(std::string_view &str, Axis &out)
 {
 	static std::regex input_axis("^InputAxis\\(\\s*");
 	static std::regex comma_sep("^\\s*,\\s*");
@@ -354,7 +354,7 @@ std::ostream &InputBindings::operator<<(std::ostream &str, const Axis &in)
 	return str << "InputAxis(" << in.axis << ", " << in.negative << ", " << in.positive << ")";
 }
 
-nonstd::string_view &InputBindings::operator>>(nonstd::string_view &str, Action &out)
+std::string_view &InputBindings::operator>>(std::string_view &str, Action &out)
 {
 	static std::regex input_action("^InputAction\\(\\s*");
 	static std::regex comma_sep("^\\s*,\\s*");
