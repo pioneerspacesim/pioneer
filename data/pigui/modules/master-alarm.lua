@@ -46,7 +46,7 @@ local function alarm ()
 	--check atmospheric pressure
 	local frame = Game.player.frameBody
 	if frame then
-		local pressure = frame:GetAtmosphericState()
+		local pressure = frame:GetAtmosphericState(Game.player)
 		if pressure and pressure > 9 and not alreadyAlertedPres then
 			ui.playSfx("alarm_generic1", 1.0, 1.0)
 			alreadyAlertedPres = true

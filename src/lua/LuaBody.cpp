@@ -635,13 +635,14 @@ static int l_body_get_phys_radius(lua_State *l)
 
 static int l_body_get_atmospheric_state(lua_State *l)
 {
-	Body *b = LuaObject<Body>::CheckFromLua(1);
+	Body *planetBody = LuaObject<Body>::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(2);
 	//	const SystemBody *sb = b->GetSystemBody();
-	vector3d pos = Pi::player->GetPosition();
+	vector3d pos = b->GetPositionRelTo(planetBody);
 	double center_dist = pos.Length();
-	if (b->IsType(ObjectType::PLANET)) {
+	if (planetBody->IsType(ObjectType::PLANET)) {
 		double pressure, density;
-		static_cast<Planet *>(b)->GetAtmosphericState(center_dist, &pressure, &density);
+		static_cast<Planet *>(planetBody)->GetAtmosphericState(center_dist, &pressure, &density);
 		lua_pushnumber(l, pressure);
 		lua_pushnumber(l, density);
 		return 2;

@@ -81,7 +81,7 @@ gauges.registerGauge(2, {
 	value = function ()
 		local frame = Game.player.frameBody
 		if frame then
-			local pressure, density = frame:GetAtmosphericState()
+			local pressure, density = frame:GetAtmosphericState(Game.player)
 			return pressure
 		else return nil end
 	end,
