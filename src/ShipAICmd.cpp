@@ -1390,6 +1390,10 @@ bool AICmdDock::TimeStepUpdate()
 		if (m_state != eDockGetDataEnd) {
 			m_dockpos = dockpos.pos;
 		}
+		// we are already near the station, what could go wrong?
+		// set the fuel reserve to 0, since the fuel could become lower than the
+		// current reserve during the flight, and the ship will not fly anywhere
+		m_prop->SetFuelReserve(0.0);
 
 		m_dockdir = dockpos.zaxis.Normalized();
 		m_dockupdir = dockpos.yaxis.Normalized(); // don't trust these enough
