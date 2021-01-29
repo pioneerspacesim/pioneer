@@ -1,6 +1,7 @@
 January 2021
    * New Features
      * New scoop mission (#4860)
+	 * Add alternative naming schemes (#4933)
 
    * Internal Changes
      * Happy new year (#5105)
