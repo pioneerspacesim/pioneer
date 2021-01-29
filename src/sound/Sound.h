@@ -67,6 +67,7 @@ namespace Sound {
 	 * Silence all active sound events.
 	 */
 	void DestroyAllEvents();
+	void DestroyAllEventsExceptMusic();
 	void Pause(int on);
 	eventid PlaySfx(const char *fx, const float volume_left, const float volume_right, const Op op);
 	eventid PlayMusic(const char *fx, const float volume_left, const float volume_right, const Op op);
