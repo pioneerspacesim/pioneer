@@ -101,6 +101,11 @@ file_filter = data/lang/module-policepatrol/<lang>.json
 source_file = data/lang/module-policepatrol/en.json
 source_lang = en
 
+[pioneer.module-scoop]
+file_filter = data/lang/module-scoop/<lang>.json
+source_file = data/lang/module-scoop/en.json
+source_lang = en
+
 [pioneer.module-searchrescue]
 file_filter = data/lang/module-searchrescue/<lang>.json
 source_file = data/lang/module-searchrescue/en.json
