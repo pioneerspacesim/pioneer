@@ -1089,9 +1089,6 @@ void GameLoop::End()
 
 	Pi::SetMouseGrab(false);
 
-	Pi::GetMusicPlayer().Stop();
-	Sound::DestroyAllEvents();
-
 	// final event
 	LuaEvent::Queue("onGameEnd");
 	LuaEvent::Emit();
@@ -1101,7 +1098,7 @@ void GameLoop::End()
 	Lua::manager->CollectGarbage();
 
 	if (!Pi::config->Int("DisableSound")) AmbientSounds::Uninit();
-	Sound::DestroyAllEvents();
+	Sound::DestroyAllEventsExceptMusic();
 
 	assert(Pi::game);
 	delete Pi::game;
@@ -1131,8 +1128,11 @@ void TombstoneLoop::Update(float deltaTime)
 
 	bool hasInput = Pi::input->MouseButtonState(SDL_BUTTON_LEFT) || Pi::input->MouseButtonState(SDL_BUTTON_RIGHT) || Pi::input->KeyState(SDLK_SPACE);
 
-	if ((accumTime > 2.0 && hasInput) || accumTime > 8.0)
+	if ((accumTime > 2.0 && hasInput) || accumTime > 8.0) {
 		RequestEndLifecycle();
+		Pi::GetMusicPlayer().Stop();
+		Sound::DestroyAllEvents();
+	}
 }
 
 /*

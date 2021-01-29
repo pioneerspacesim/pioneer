@@ -468,6 +468,17 @@ namespace Sound {
 		SDL_UnlockAudioDevice(m_audioDevice);
 	}
 
+	void DestroyAllEventsExceptMusic()
+	{
+		/* silence any sound events EXCEPT music
+		   which are on wavstream[0] and [1] */
+		SDL_LockAudioDevice(m_audioDevice);
+		for (unsigned int idx = 2; idx < MAX_WAVSTREAMS; idx++) {
+			DestroyEvent(&wavstream[idx]);
+		}
+		SDL_UnlockAudioDevice(m_audioDevice);
+	}
+
 	static void load_sound(const std::string &basename, const std::string &path, bool is_music)
 	{
 		PROFILE_SCOPED()
