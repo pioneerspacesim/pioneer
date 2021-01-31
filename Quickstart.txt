@@ -3,16 +3,15 @@ Getting started with Pioneer
 
 The principles of the game are largely the same as those of Frontier: Elite 2.
 
-You can buy and sell on the commodities market, take missions on the bulletin
-board, buy and upgrade ships in the shipyard, when docked. Do all of this with
-the mouse.
-
-The eight main console buttons are activated by the F1-F8 keys or the mouse.
+You can buy and sell on the commodities market, take missions or interact with
+people on the bulletin board, buy new ships in the ship market, install or
+remove equipment on the equipment market, repair your ship or contact local
+law enforcement when docked. Do all of this with the mouse.
 
 F1: Change view mode (cockpit/external/sidereal)
 F2: Use the map system.
 F3: Look at your own information.
-F4: Select targets, operate autopilot and communicate.
+F4: Switch to station screen. (when docked)
 
 The view direction can be controlled, with keys:
 KP 8: Front Camera / Rotate External/Sidereal Up
@@ -30,8 +29,8 @@ Home: Reset zoom (sidereal view only)
 (NOTE: If you do not have a numeric keypad, please rebind the view direction
 controls from the View tab in the Settings screen)
 
-The next four buttons change function depending on the first four. Hover the
-mouse over them to see what they do.
+You can hold your mouse over various buttons for tooltips to appear, in order
+to see what they do.
 
 F5 turns off the autopilot, and changes between manual flight and set speed
 flight.
@@ -66,21 +65,26 @@ button.
 Use the cursor keys to move the camera in external and sidereal view. In
 sidereal view, use ',' (comma) and '.' (period) to roll the camera in place.
 
-To jump to another system, use the map (F2) and click on another system. Systems
-with ports are labelled in blue. You need enough Hydrogen to get there, and it
-must be close enough for your ship. F7 will start the hyperdrive.
+To jump to another system, use the map (F2) and click on another system. The
+map will provide you with info about the system, such as population, faction
+and economy. You need enough hydrogen to get there, so it must be close enough 
+for your ship and hyperdrive. F7 will start the jump sequence. You can press
+F7 again to abort the jump while the countdown is running.
 
-To fly to a station, press F4, and select one from the right. You can turn on
-the autopilot with the buttons on the left.
+To use the autopilot to reach a station, expand the overview window on top right 
+corner of the flight view. Right click on your destination to see the radial 
+menu,  from which you can instruct your autopilot to "fly to vicinity" or "dock 
+with target". 
 
-Trade is hard. Deliveries are fun, but can be hard.
+If you wish to fly manually, you should see the following wiki page: 
+https://pioneerwiki.com/wiki/How_to_fly_without_autopilot
 
 Press Escape while in-game (not the main menu) to open the settings screen.
 Here you can change screen res/fullscreen mode, language, controls and other
 things. Many options require you to restart Pioneer before they will take
 effect.
 
-Pioneer is alpha-quality software. Saved games are not guaranteed to load in
-different versions of Pioneer.  The universe might not be the same in the next
-version of Pioneer. Anything can change. The game is not finished, and we would
+Pioneer is continuously under development. Saved games are not guaranteed to load 
+in different versions of Pioneer.  The universe might not be the same in the next
+version of Pioneer. Anything can change. The game is never finished, and we would
 like feedback. See README.txt to find out how to do that.
