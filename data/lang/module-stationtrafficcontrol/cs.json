@@ -1,7 +1,7 @@
 {
   "CLEARANCE_ALREADY_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance already granted. Proceed to docking bay {bay}."
+    "message": "Povolení již bylo uděleno. Pokračujte do dokovacího oddílu {bay}."
   },
   "CLEARANCE_DENIED_NO_BAYS": {
     "description": "",
@@ -9,11 +9,11 @@
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
+    "message": "Povolení odepřeno. Vaše loď je příliš daleko na ověření ID."
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance granted. Proceed to docking bay {bay}."
+    "message": "Přistání povoleno. Pokračujte do dokovacíh oddílu {bay}."
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
@@ -21,31 +21,31 @@
   },
   "STATION_GRAV": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}."
+    "message": "Místní gravitace je {grav}."
   },
   "STATION_GRAV_PRESS": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}, pressure is {press}."
+    "message": "Místní gravitace je {grav} a tlak {press}."
   },
   "WATCH_FOR_TRAFFIC_ON_APPROACH": {
     "description": "",
-    "message": "Please watch for traffic on your approach."
+    "message": "Dávejte pozor na provoz při vašem příblížení."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel} you are entering {station} space. Please follow local regulations."
+    "message": "{playerShipLabel} vstupujete do prostoru stanice {station}. Dodržujte místní předpisy."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_2": {
     "description": "",
-    "message": "{playerShipLabel}, we have you on the radar. You are in {station} controlled space."
+    "message": "{playerShipLabel}, máme vás na radaru. Nacházíte se v kontrolovaném prostoru stanice {station}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_3": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. You are entering our controlled space."
+    "message": "{playerShipLabel}, toto je {station} STC. Vstupujete do našeho kontrolovaného prostoru."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_4": {
     "description": "",
-    "message": "We have you flying into {station} controlled space, {playerShipLabel}."
+    "message": "Letíte do kontrolovaného prostoru {station}, {playerShipLabel}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_5": {
     "description": "",

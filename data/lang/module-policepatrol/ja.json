@@ -1,0 +1,74 @@
+{
+  "ILLEGAL_GOODS_DETECTED": {
+    "description": "",
+    "message": "非合法品が検出された。"
+  },
+  "INITIATE_CARGO_SCAN_1": {
+    "description": "",
+    "message": "貨物スキャンを開始。"
+  },
+  "INITIATE_CARGO_SCAN_2": {
+    "description": "",
+    "message": "貨物スキャンのために速度と進路を維持せよ。"
+  },
+  "INITIATE_CARGO_SCAN_3": {
+    "description": "",
+    "message": "禁制品の捜索を開始。"
+  },
+  "NOTHING_DETECTED": {
+    "description": "",
+    "message": "非合法貨物は見当たらなかった。行ってよし。"
+  },
+  "OUTLAW_DETECTED_1": {
+    "description": "",
+    "message": "{ship_label}はよく知られた無法者のしるしだ。攻撃して破壊せよ!"
+  },
+  "OUTLAW_DETECTED_2": {
+    "description": "",
+    "message": "無法者め、お前の人生はあとわずかだ!"
+  },
+  "OUTLAW_DETECTED_3": {
+    "description": "",
+    "message": "ハッ、捕まえた! お前はこの星系を生きて出られないぞ!"
+  },
+  "POLICE_TAUNT_1": {
+    "description": "",
+    "message": "おい、これは悪い考えだったな!"
+  },
+  "POLICE_TAUNT_2": {
+    "description": "",
+    "message": "密輸船、お前は最大の対価を払うことになるぞ!"
+  },
+  "POLICE_TAUNT_3": {
+    "description": "",
+    "message": "ばかめ、犯罪は利益にならないぞ!"
+  },
+  "RESPECT_THE_LAW_1": {
+    "description": "",
+    "message": "法を順守したまえ! 犯罪は{system}星系では利益にならないぞ!"
+  },
+  "RESPECT_THE_LAW_2": {
+    "description": "",
+    "message": "あなたは{system}星系に進入した。法を順守するんだな!"
+  },
+  "TAKE_A_HIKE": {
+    "description": "",
+    "message": "OK、お前には二度目のチャンスをやる。出て行け!"
+  },
+  "TARGET_DESTROYED_1": {
+    "description": "",
+    "message": "目標を破壊した!"
+  },
+  "TARGET_DESTROYED_2": {
+    "description": "",
+    "message": "やった！"
+  },
+  "TARGET_DESTROYED_3": {
+    "description": "",
+    "message": "安らかに眠れよ! ハッハ。"
+  },
+  "TARGET_DESTROYED_4": {
+    "description": "",
+    "message": "地獄へ道連れだ!"
+  }
+}

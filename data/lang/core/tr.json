@@ -335,10 +335,6 @@
     "description": "",
     "message": "Dikey çizgiler çek"
   },
-  "EARTH": {
-    "description": "",
-    "message": "Dünya"
-  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Dünya Federasyon Kolonisi"
@@ -965,15 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} dünya günü"
+    "message": "%days{f.1} Dünya günü"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} %units kütle"
+    "message": "%mass{f.3} Dünya kütlesi"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} Dünya yarıçapı (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Güneş kütlesi"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %units yarıçap (%radkm{f.0} km)"
+    "message": "%radius{f.3} Güneş yarıçapı (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -1334,10 +1338,6 @@
   "SOCIAL_DEMOCRACY": {
     "description": "",
     "message": "Sosyal demokrasi"
-  },
-  "SOLAR": {
-    "description": "",
-    "message": "Güneş"
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",

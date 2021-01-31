@@ -49,7 +49,7 @@
   },
   "AUTOPILOT_CONTROL": {
     "description": "Indicating that ship is flying under autopilot control",
-    "message": "Autopilot control"
+    "message": "Pilote automatique"
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "CONTROLS": {
     "description": "",
-    "message": "Controles"
+    "message": "Contrôles"
   },
   "CORPORATE_SYSTEM": {
     "description": "",
@@ -334,10 +334,6 @@
   "DRAW_VERTICAL_LINES": {
     "description": "",
     "message": "Montrer les tiges verticales"
-  },
-  "EARTH": {
-    "description": "",
-    "message": "Terriennes"
   },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
@@ -433,7 +429,7 @@
   },
   "GAME_LOAD_WRONG_VERSION": {
     "description": "",
-    "message": "Cette sauvegarde ne peut etre chargée : elle vient d'une autre  version de Pioneer"
+    "message": "Cette sauvegarde ne peut être chargée : elle vient d'une autre  version de Pioneer"
   },
   "GAME_SAVED_TO": {
     "description": "",
@@ -967,13 +963,21 @@
     "description": "",
     "message": "%days{f.1} jours terrestres"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} masses %units"
+    "message": "%mass{f.3} masses terrestres"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} rayon terrestre (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} masses solaires"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %unités radiale (%radkm{f.0} km)"
+    "message": "%radius{f.3} rayon solaire (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -1334,10 +1338,6 @@
   "SOCIAL_DEMOCRACY": {
     "description": "",
     "message": "Démocratie sociale"
-  },
-  "SOLAR": {
-    "description": "",
-    "message": "Solaires"
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",

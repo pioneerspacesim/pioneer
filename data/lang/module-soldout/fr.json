@@ -1,0 +1,30 @@
+{
+  "AMOUNT": {
+    "description": "The amount (for now in tonne) of goods person wants to buy",
+    "message": "J'achète tout votre stock, tant que je n'ai pas atteint mon besoin de {amount}t."
+  },
+  "MESSAGE": {
+    "description": "",
+    "message": "Je m'appelle {name}. J'ai un besoin urgent de {commodity} et je paierais deux fois le prix du marché ({price})."
+  },
+  "NOT_IN_STOCK": {
+    "description": "Regarding selling more than the player has",
+    "message": "Pas assez de {commodity} en stock."
+  },
+  "SELL_1": {
+    "description": "Sell one single unit (probably tonne)",
+    "message": "Vends 1"
+  },
+  "SELL_ALL": {
+    "description": "Sell everything player has of the good/commodity",
+    "message": "Voir tout"
+  },
+  "SELL_N": {
+    "description": "Sell several units (probably in tonne), i.e. N > 1",
+    "message": "Vends {N}"
+  },
+  "TITLE": {
+    "description": "",
+    "message": "ACHÈTE: {commodity}. Prix {price} par tonne."
+  }
+}

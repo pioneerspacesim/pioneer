@@ -1,7 +1,7 @@
 {
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Dè an t-iarrtas a bh' agaibh a-rithist?"
+    "message": "Dè an t-iarrtas a bh’ agaibh a-rithist?"
   },
   "DANGER": {
     "description": "",
@@ -33,7 +33,7 @@
   },
   "DENY_4": {
     "description": "",
-    "message": "Cha tusa an seòrsa de phaidhleat a tha mi a' sireadh."
+    "message": "Cha tusa an seòrsa de phaidhleat a tha mi a’ sireadh."
   },
   "DENY_5": {
     "description": "",
@@ -53,19 +53,19 @@
   },
   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY": {
     "description": "",
-    "message": "Glè mhath, innsidh mi dhan fhaightear gum bi e 'n dùil oirbh."
+    "message": "Glè mhath, innsidh mi dhan fhaightear gum bi e ’n dùil oirbh."
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "A' DOL gu siostam {system}? Pàighidh sinn airson lìbhrigeadh pacaide bige."
+    "message": "A’ DOL gu siostam {system}? Pàighidh sinn airson lìbhrigeadh pacaide bige."
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "Cha dèan seo a' chùis! Thug sibh fada ro fhada gus a lìbhrigeadh. Cha doir mi airgead dhuibh."
+    "message": "Cha dèan seo a’ chùis! Thug sibh fada ro fhada gus a lìbhrigeadh. Cha doir mi airgead dhuibh."
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Haoigh, 's mise {name}. Pàighidh mi {cash} dhut ma bheir thu pacaid bheag gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+    "message": "Haoigh, ’s mise {name}. Pàighidh mi {cash} dhut ma bheir thu pacaid bheag gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "FLAVOUR_0_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Dh'fhàg caraid aodach is seann-leabhraichean pàipeir leam às dèidh a tadhal orm. Bu toigh leam an tilleadh dhi."
+    "message": "Dh’fhàg caraid aodach is seann-leabhraichean pàipeir leam às dèidh a tadhal orm. Bu toigh leam an tilleadh dhi."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "'GA IARRAIDH. Lìbhrigeadh pacaide gu siostam {system}."
+    "message": "’GA IARRAIDH. Lìbhrigeadh pacaide gu siostam {system}."
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -85,15 +85,15 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+    "message": "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Fhuaradh a' phacaid 's fhuair thu pàigheadh slàn."
+    "message": "Fhuaradh a’ phacaid ’s fhuair thu pàigheadh slàn."
   },
   "FLAVOUR_1_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Chan e dad sònraichte a th' ann."
+    "message": "Chan e dad sònraichte a th’ ann."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
@@ -101,11 +101,11 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "Thuirt mi dhut gu soilleir dè an ceann-latha is 's e briseadh-dùil mòr a th' anns an lìbhrigeadh anmoch. Cha dèid do phàigheadh."
+    "message": "Thuirt mi dhut gu soilleir dè an ceann-latha is ’s e briseadh-dùil mòr a th’ anns an lìbhrigeadh anmoch. Cha dèid do phàigheadh."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+    "message": "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "FLAVOUR_2_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "'S e tagradh rannsachaidh a th' ann agus feumaidh sinn a lìbhrigeadh ron cheann-latha ach am faigh sinn maoin."
+    "message": "’S e tagradh rannsachaidh a th’ ann agus feumaidh sinn a lìbhrigeadh ron cheann-latha ach am faigh sinn maoin."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
@@ -121,15 +121,15 @@
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "'S tusa gun fheum! Cha bhi mi an eisimeil dhut a-rithist gu bràth tuilleadh! Tuigidh tu nach faigh thu pàigheadh airson seo idir."
+    "message": "’S tusa gun fheum! Cha bhi mi an eisimeil dhut a-rithist gu bràth tuilleadh! Tuigidh tu nach faigh thu pàigheadh airson seo idir."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+    "message": "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Tha sinn taingeil gun dug thu dhuinn e gu luath 's gu h-os ìosal. Fhuair thu pàigheadh slàn."
+    "message": "Tha sinn taingeil gun dug thu dhuinn e gu luath ’s gu h-os ìosal. Fhuair thu pàigheadh slàn."
   },
   "FLAVOUR_3_WHYSOMUCHTEXT": {
     "description": "",
@@ -145,15 +145,15 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Fàilte. Seo teachdaireachd fhèin-obrachail o Seirbheisean Teachdaire Àth na Beithe agus {name}. Pàighidh sinn {cash} airson ruith gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+    "message": "Fàilte. Seo teachdaireachd fhèin-obrachail o Seirbheisean Teachdaire Àth na Beithe agus {name}. Pàighidh sinn {cash} airson ruith gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Tha sinn taingeil gun dug thu dhuinn e gu luath 's gu h-os ìosal. Fhuair thu pàigheadh slàn."
+    "message": "Tha sinn taingeil gun dug thu dhuinn e gu luath ’s gu h-os ìosal. Fhuair thu pàigheadh slàn."
   },
   "FLAVOUR_4_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Bhitheamaid toilichte nan gabhadh tu ri nas lugha de dh'airgead."
+    "message": "Bhitheamaid toilichte nan gabhadh tu ri nas lugha de dh’airgead."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "'S math do choinneachadh. Is mise {name} is tha mi dèidheil {cash} a phàigheadh do chuideigin aig a bheil soitheach 's a chuidicheas mi gus mo shealbhan pearsanta a thoirt gu {starport}. Chan eil cabhag ann, chan e ach na tha air fhàgail o ghluasad gu taigh ùr a th' annta."
+    "message": "’S math do choinneachadh. Is mise {name} is tha mi dèidheil {cash} a phàigheadh do chuideigin aig a bheil soitheach ’s a chuidicheas mi gus mo shealbhan pearsanta a thoirt gu {starport}. Chan eil cabhag ann, chan e ach na tha air fhàgail o ghluasad gu taigh ùr a th’ annta."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
@@ -185,7 +185,7 @@
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "Haoigh. 'S mise {name} is pàighidh mi {cash} do shoitheach a lìbhrigeas a' phacaid seo gu {starport}."
+    "message": "Haoigh. ’S mise {name} is pàighidh mi {cash} do shoitheach a lìbhrigeas a’ phacaid seo gu {starport}."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "Shin thu. Tha na creataichean seo feumach air lìbhrigeadh gu {starport} cho luath 's a ghabhas. 'S e {cash} am pàigheadh àbhaisteach airson na lìbhrigidh seo."
+    "message": "Shin thu. Tha na creataichean seo feumach air lìbhrigeadh gu {starport} cho luath ’s a ghabhas. ’S e {cash} am pàigheadh àbhaisteach airson na lìbhrigidh seo."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "FLAVOUR_7_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Reitichean àbhaisteach, tha sinn ag obair leis a' mhargadh."
+    "message": "Reitichean àbhaisteach, tha sinn ag obair leis a’ mhargadh."
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "FLAVOUR_8_INTROTEXT": {
     "description": "",
-    "message": "Is mise {name} is feumaidh mi an nì seo a thoirt do charaid ann an {starport} sa bhad, pàighidh mi {cash} creideis dhut ma bheir tu an-siud e cho luath 's a tha iomchaidh."
+    "message": "Is mise {name} is feumaidh mi an nì seo a thoirt do charaid ann an {starport} sa bhad, pàighidh mi {cash} creideis dhut ma bheir tu an-siud e cho luath ’s a tha iomchaidh."
   },
   "FLAVOUR_8_SUCCESSMSG": {
     "description": "",
@@ -241,15 +241,15 @@
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",
-    "message": "Tha e lobhte gu lèir 's gun fheum sam bith a-nis! Chan urrainn dhuinn do phàigheadh is cha phàigh."
+    "message": "Tha e lobhte gu lèir ’s gun fheum sam bith a-nis! Chan urrainn dhuinn do phàigheadh is cha phàigh."
   },
   "FLAVOUR_9_INTROTEXT": {
     "description": "",
-    "message": "Latha math, tha sinn air dheireadh le lìbhrigeadh an toraidh againn is feumaidh sinn a thoirt gu {starport} cho luath 's a ghabhas. Pàighidh sinn {cash} airson do thrioblaid."
+    "message": "Latha math, tha sinn air dheireadh le lìbhrigeadh an toraidh againn is feumaidh sinn a thoirt gu {starport} cho luath ’s a ghabhas. Pàighidh sinn {cash} airson do thrioblaid."
   },
   "FLAVOUR_9_SUCCESSMSG": {
     "description": "",
-    "message": "Glan! Tòisichidh sinn air a' phacaid a thoirt a-mach sa bhad. Ùraichidh mi an cunntas gad an ceartuair."
+    "message": "Glan! Tòisichidh sinn air a’ phacaid a thoirt a-mach sa bhad. Ùraichidh mi an cunntas gad an ceartuair."
   },
   "FLAVOUR_9_WHYSOMUCHTEXT": {
     "description": "",
@@ -257,11 +257,11 @@
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
-    "message": "Cuine a dh'fheumas e bhith ann?"
+    "message": "Cuine a dh’fheumas e bhith ann?"
   },
   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
     "description": "",
-    "message": "B' urrainn dha bhith cunnartach, dèan cinnteach gu bheil thu ullamh."
+    "message": "B’ urrainn dha bhith cunnartach, dèan cinnteach gu bheil thu ullamh."
   },
   "IT_MUST_BE_DELIVERED_BY": {
     "description": "",
@@ -285,19 +285,19 @@
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "Tha coltas gun d' fhuair mi m' airgead!"
+    "message": "Tha coltas gun d’ fhuair mi m’ airgead!"
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "'Eil thu ag obair airson {client}? Seo droch-fhortan dhut."
+    "message": "’Eil thu ag obair airson {client}? Seo droch-fhortan dhut."
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
-    "message": "Do charago 's do bheatha, a phaidhleit!"
+    "message": "Do charago ’s do bheatha, a phaidhleit!"
   },
   "PIRATE_TAUNTS_4": {
     "description": "",
-    "message": "Tha mi 'n dùil gum faigh sinn deagh airgead air a' mhargadh às"
+    "message": "Tha mi ’n dùil gum faigh sinn deagh airgead air a’ mhargadh às"
   },
   "PIRATE_TAUNTS_5": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
-    "message": "Cha ruig a' phacaid seo a cheann-uidhe an-diugh."
+    "message": "Cha ruig a’ phacaid seo a cheann-uidhe an-diugh."
   },
   "PIRATE_TAUNTS_8": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "PIRATE_TAUNTS_9": {
     "description": "",
-    "message": "Pàighidh tu airson a' charago seo le do bheatha."
+    "message": "Pàighidh tu airson a’ charago seo le do bheatha."
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -333,11 +333,11 @@
   },
   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
     "description": "",
-    "message": "Seo pacaid phrìseil 's glèidh do shùil fosgailte."
+    "message": "Seo pacaid phrìseil ’s glèidh do shùil fosgailte."
   },
   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
     "description": "",
-    "message": "Tha cunnart mòr ann 's bidh strì romhad gun teagamh."
+    "message": "Tha cunnart mòr ann ’s bidh strì romhad gun teagamh."
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",

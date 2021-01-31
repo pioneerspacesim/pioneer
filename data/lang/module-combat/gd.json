@@ -1,7 +1,7 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "Glè mhath. Gura math a thèid leibh!"
   },
   "ACCEPTED_2": {
     "description": "",
@@ -13,35 +13,35 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "PAIDHLEAT EARBSACH 'GA IARRAIDH: Pàighidh sinn {cash}."
+    "message": "PAIDHLEAT EARBSACH ’GA IARRAIDH: Pàighidh sinn {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "DÙBHLAN: Tha soitheach is criutha 'gan iarraidh airson sabaid ann an siostam {system}."
+    "message": "DÙBHLAN: Tha soitheach is criutha ’gan iarraidh airson sabaid ann an siostam {system}."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "COMBAT: Need qualified mercenary with well-equipped ship."
+    "message": "CÒMHRADH: Feum air saighdearan-duais le soitheach uidheamaichte."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED: Pay {cash} for a mission to the {system} system."
+    "message": "SAIGHDEAR-DUAISE NEO-SGÀTHACH ’ga IARRAIDH: Pàighidh sinn {cash} air misean dhan t-siostam {system}."
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Salary {cash}."
+    "message": "Misean {mission}: {cash} a thuarastal."
   },
   "AGENT": {
     "description": "Secret Service Agent",
-    "message": "Agent"
+    "message": "Àidseant"
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "Raon:"
   },
   "BONUS_1": {
     "description": "",
-    "message": "My supervisor was impressed about your performance and has allotted a bonus of {cash} for this mission."
+    "message": "Dhrùidh ur n-obair air a’ mharasgal agus dh’iomruin e {cash} a bharrachd air dhan mhisean seo."
   },
   "BONUS_2": {
     "description": "",
@@ -61,15 +61,15 @@
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
-    "message": "Precious Goods Foundation"
+    "message": "Fonndas nam Batharan Luachmhor"
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",
-    "message": "Omega Mining Company"
+    "message": "Companaidh Mèinnearachd Omega"
   },
   "CORPORATION_3": {
     "description": "Name of a corporation",
-    "message": "United Ore Mines Syndicate"
+    "message": "Siondacaid Mhèinnearachd Aonaichte"
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
@@ -81,15 +81,15 @@
   },
   "CORPORATION_6": {
     "description": "Name of a corporation",
-    "message": "Precious Metal Prospectors LLC"
+    "message": "Tochladh Meatailt Uasail Earr."
   },
   "CORPORATION_7": {
     "description": "Name of a corporation",
-    "message": "{name} Ore Seeker PLC"
+    "message": "Sireadair Chlachan-mhèinnir {name} Earr."
   },
   "CORPORATION_8": {
     "description": "Name of a corporation",
-    "message": "{name} LLC"
+    "message": "{name} Earr."
   },
   "DANGER": {
     "description": "The risk level",
@@ -97,7 +97,7 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Sorry, I need a pilot who has more combat experience."
+    "message": "Tha mi duilich ach tha mi feumach air paidhleat le barrachd eòlas air còmhrag. "
   },
   "DENY_2": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "DETECTIVE": {
     "description": "Police Detective",
-    "message": "Detective"
+    "message": "Lorg-phoileas"
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
@@ -113,27 +113,27 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "Nàire ’s thoiribh às m’ fhianais oirbh!"
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! You have caused great losses. You will not be paid!"
+    "message": "Tha sibh ro anmoch! Dh’adhbharaich sibh call mòr. Cha dèid ur pàigheadh!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "You're a disgrace to all pilots. I cannot pay you!"
+    "message": "Tha sibh air cliù nam paidhleatan a mhaslachadh. Chan urrainn dhomh ur pàigheadh!"
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "You failed! I will not pay you!"
+    "message": "Dh’fhàillig leibh! Cha phàigh mi sibh!"
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "Sin sibh, is mise {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "Sin sibh. ’S e {name} an t-ainm a th’ orm."
   },
   "GREETING_3": {
     "description": "",
@@ -141,31 +141,31 @@
   },
   "GREETING_4": {
     "description": "",
-    "message": "Greetings! Call me {name}."
+    "message": "Fàilte! ’S e {name} a th’ orm."
   },
   "GREETING_5": {
     "description": "",
-    "message": "Good day. My name is {name}."
+    "message": "Sin sibh, is mise {name}."
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "Pàighidh {org} {cash} air misean {mission} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Saoilidh sinn gu bheil co-fharpaisiche cruadalach as coireach gun deach na soitheachan-bathair againn a-mach à sealladh aig {area}. Tha an raon-amais {dist} bl-shol air falbh."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our market competitor is seriously claiming he has ownership of {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The {org} totally disagree and is willing to pay {cash} for a combat mission at {area}. {area} is in a distance of {dist} ly."
+    "message": "Tha co-fharpaisiche a’ tagairt gur ann leis-san a tha {area} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Chan eil {org} ag aontachadh agus deònach {cash} a phàigheadh air misean còmhraige aig {area}. Tha {area} {dist} bl-shol air falbh."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Please help! We received a distress call from one of our freighters orbiting {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The call was interrupted, so we fear the worst. Distance to {system} is {dist} ly. The pay is {cash}."
+    "message": "Cuidichibh leinn! Fhuair sinn gairm-èiginn o fhear dhe na soithichean-bathair againn air reul-chuairt mu {area} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Chaidh a’ ghairm a bhriseadh ’s an t-eagal oirnn gun do dh’èirich am mòr-bheud dhaibh. Tha {system} {dist} bl-shol air falbh. Pàighidh sinn {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+    "message": "Tha e cudromach gum bi am misean coileanta ro {date}. Na canaibh smid mun ghnìomh seo."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+    "message": "Tha neach-reic againn anns gach siostam rèile am fagas. Tachraidh an neach sin ribh nuair a bhios sibh air laighe."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -173,11 +173,11 @@
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
+    "message": "A bheil crìoch-ama ann?"
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "Manaidsear"
   },
   "MEET_ME_THERE": {
     "description": "",
@@ -185,55 +185,55 @@
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Military intelligence believe that a hostile faction has set up a secret listening outpost on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The government can not tolerate this and have approved a series of operations to wipe out this facility. The enemy tries to disguise its origin by using only civilian spacecraft types. We do it like this too! So we are willing to hire a mercenary for {cash}. {area} is located {dist} ly from here."
+    "message": "Tha rabhas an airm den bheachd gu bheil buidheann nàimhdeil air ionad-èisteachd dìomhair a stèidheachadh air {area} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Chan fhulaing an riaghaltas seo agus dh’aontaich e ri sreath de ghnìomhan airson an t-ionad sin a mhilleadh. Tha an nàmhaid a’ feuchainn ri fhalach le cleachdadh shoithichean-fànais sìobhalta a-mhàin. Seo mar a nì sinn fhèin e! Nise, tha sinn ag amas saighdear-duaise fhastadh air {cash}. Tha {area} {dist} bl-shol air falbh uainn."
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "In response to a case of piracy in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly, the local authorities pay {cash} for a combat mission at {area}."
+    "message": "Ri linn spùinneadaireachd ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), {dist} bl-shol, pàighidh an t-ùghdarras ionadail {cash} air misean còmhraige ann an raon {area}."
   },
   "MILITARY_3": {
     "description": "",
-    "message": "The counter intelligence corps needs a civil pilot who asks no questions for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+    "message": "Tha aonad frith-rabhais feumach air paidhleat sìobhalta neo-cheasnachail airson misean {mission} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), {dist} bl-shol. Pàighidh sinn {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A task force will be assembled to regain control of {area}. It's important that the mission is successfully completed by {date}."
+    "message": "Tha buidheann-gnìomha ’ga thional airson smachd fhaighinn air {area} a-rithist. Tha e cudromach gum bi am misean coileanta {date}."
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visit a station in the territory protected by the {org}!"
+    "message": "Tadhail air stèisean san ranntair fo dhìon {org}!"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} is in a dispute with a rival company about {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To push through our claims we need a reliable and combat experienced mercenary. We offer {cash} for the expenses. Distance to {system} is {dist} ly."
+    "message": "Tha còmhstri eadar {org} is companaidh a thaobh {area} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Tha sinn feumach air saighdear-duaise eòlach earbsach ach an soirbhich leis an tagradh againn. Pàighidh sinn {cash} airson ur cosgaisean. Tha {system} {dist} bl-shol air falbh."
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "I'm a manager of the {org}. We need additional help in a longtime legal dispute with a competitor about the mining rights in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. We lost patience and would like to speed things up outside of the courtroom. Your mission would be to jump to {area} for {cash}."
+    "message": "Is mise manaidsear {org}. Tha sinn feumach air taic le strì-lagha fhada an aghaidh co-fharpaisiche mu chòraichean mèinnearachd ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), {dist} bl-shol. Tha sinn seachd searbh shgìth dheth agus bu toigh leinn greas a cur air a’ chùis taobh a-muigh na cùirte. ’S e am misean a bhiodh agaibh leum gu {area} air {cash}."
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for a {mission} mission. Distance to {area} is {dist} ly."
+    "message": "Tha mi ag obair aig {org}. Ruigidh soithichean-carago againn {area} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) a dh’aithghearr. Airson na cosnaichean ’s an uidheamachd againn a dhìon, pàighidh sinn {cash} air misean {mission}. Tha {area} {dist} bl-shol air falbh."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A convoy is enroute to {area}. It is essential that the mission is completed by {date}."
+    "message": "Tha comhailteach air slighe {area}. Tha e riatanach gum bi am misean deiseil ro {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "We have employees in every nearby star system. Just visit the nearest station and get in contact with the local office there."
+    "message": "Tha cosnaichean againn anns gach siostam rèile am fagas. Cha leig sibh a leas ach tadhail air an stèisean as fhaisge agus bruidhinn ris an oifis ionadail."
   },
   "MISSION": {
     "description": "",
-    "message": "Mission:"
+    "message": "Misean:"
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
-    "message": "Primary mission objective complete"
+    "message": "Tha prìomh-amas a’ mhisein coileanta"
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Reconnaissance"
+    "message": "Rabhas"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
@@ -241,19 +241,19 @@
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "Area Sweep"
+    "message": "Sguabadh raoin"
   },
   "OBJECTIVE_1": {
     "description": "",
-    "message": "It's not necessary to attack the enemy. We want data about the defence capability and response time."
+    "message": "Cha leig sibh a leas ionnsaigh a thoirt air an nàmhaid. Tha sinn ag iarraidh dàta mu na comasan dìona is luaths na freagairte aige."
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Weaken the enemy's strength as much as possible and then jump to safety."
+    "message": "Lagaichibh an nàmhaid cho mòr ’s as urrainn dhuibh is leumaibh air falbh gu badeigin sàbhailte an uairsin."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Cuiribh crìoch air an aramach san sgìre mu {area}."
+    "message": "Cuiribh crìoch air an aramach san raon mu {area}."
   },
   "OK_AGREED": {
     "description": "",
@@ -261,27 +261,27 @@
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Ionad a' phàighidh:"
+    "message": "Ionad a’ phàighidh:"
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",
-    "message": "Please repeat the mission details!"
+    "message": "An innis sibh am fiosrachadh mun mhisean a-rithist?"
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Mhothaich am poileas do spùinneadairean a tha a' feuchainn ri {area} a ghabhail os làimh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar. Feumaidh sinn stad a chur orra. Pàighidh an t-ùghdarras ionadail {cash} airson misean gu {area} mar ullachadh air gnìomh a' phoileis."
+    "message": "Mhothaich am poileas do spùinneadairean a tha a’ feuchainn ri {area} a ghabhail os làimh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar. Feumaidh sinn stad a chur orra. Pàighidh an t-ùghdarras ionadail {cash} airson misean gu {area} mar ullachadh air gnìomh a’ phoileis."
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a combat mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We are short on pilots and ships. So this will be an opportunity for a loyal citizen to make money. The target is a small pirate base on {area}. You need hyperdrive propellant for {dist} ly and additional fuel for the return route."
+    "message": "Pàighidh {org} {cash} air misean còmhraige ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Tha gainnead phaidhleatan is shoithichean oirnn. Mar sin dheth, seo cothrom cosnaidh do shaoranach dìleas. ’S e bunait bheag spùinneadairean air {area} a tha san amas. Feumaidh sibh connadh os-dhraibh airson {dist} bl-shol agus barrachd connaidh airson tilleadh."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our markets were flooded by contraband. The source has been traced back to a hidden base at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). Only a distance of {dist} ly. Because of the reduced police budget the local authorities would like to outsource this mission and have allotted {cash} credits for this operation."
+    "message": "Ràinig tòrr bhatharan mì-laghail na margaidhean againn. Lorg sinn an tùs ann am bunait fhalaichte aig {area} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Chan eil i ach {dist} bl-shol air falbh. Ri linn buidseat gann a’ phoileis, bu toigh leis an ùghdarras ionadail am misean seo fhar-thobrachadh agus tha {cash} ri fhaotainn air a’ ghnìomh seo."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
+    "message": "Tha e cudromach gu bi am misean deiseil ro {date} on a tha barrachd shoithichean nàimhdeil gu bhith tighinn."
   },
   "POLICE_LAND_THERE": {
     "description": "",
@@ -289,23 +289,23 @@
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
-    "message": "Sorry, I don't think you can handle this without a radar."
+    "message": "Tha sinn duilich ach cha chreid sinn gun dèan sibh a’ chùis air às aonais rèideir."
   },
   "RISK_1": {
     "description": "",
-    "message": "The competitor has only limited resources. Nothing you can't handle."
+    "message": "Tha goireasan a’ cho-fharpaise gann. Nì sibh a’ chùis air gun trioblaid."
   },
   "RISK_2": {
     "description": "",
-    "message": "The competitor has only minor resources. But he will defend his position if necessary."
+    "message": "Chan eil mòran ghoireasan aig a’ cho-fharpaisiche ach dìonaidh e a shealbhan ma dh’fheumas e."
   },
   "RISK_3": {
     "description": "",
-    "message": "Tha deagh uidheamachd aig a' cho-fharpaisiche. Thoir an aire!"
+    "message": "Tha deagh uidheamachd aig a’ cho-fharpaisiche. Thoir an aire!"
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
+    "message": "Tha an nàmhaid glè uidheamaichte agus an teicneolas as ùire aige. Thoiribh an aire!"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -313,19 +313,19 @@
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "I knew you were the right person for such a mission. Here is your payment."
+    "message": "Bha mi cinnteach gur sibhse an neach ceart airson misean mar sin. Seo ur pàigheadh."
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Thank you for making it. I have transferred the money."
+    "message": "Mòran taing airson ur cuideachadh. Chuir mi an t-airgead thugaibh."
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "I hope you had no big trouble. I just paid you."
+    "message": "Tha mi ’n dòchas nach robh cus trioblaid agaibh. Tha mi air ur pàigheadh."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Very well done. I have paid the bill."
+    "message": "Glè mhath! Phàigh mi am fàirdeal agaibh."
   },
   "SYSTEM": {
     "description": "",

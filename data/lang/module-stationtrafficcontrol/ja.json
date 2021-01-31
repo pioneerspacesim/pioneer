@@ -1,0 +1,82 @@
+{
+  "CLEARANCE_ALREADY_GRANTED_BAY_N": {
+    "description": "",
+    "message": "進入許可承認済み。ドッキングベイ{bay}へ進行せよ。"
+  },
+  "CLEARANCE_DENIED_NO_BAYS": {
+    "description": "",
+    "message": "進入は許可できない。空いているドッキングベイがない。"
+  },
+  "CLEARANCE_DENIED_TOO_FAR": {
+    "description": "Shown if player requests docking too far away from station",
+    "message": "進入は許可できない。あなたの船は遠すぎてID確認ができない。"
+  },
+  "CLEARANCE_GRANTED_BAY_N": {
+    "description": "",
+    "message": "進入を許可。ドッキングベイ{bay}へ進入せよ。"
+  },
+  "DOCKING_CLEARANCE_EXPIRED": {
+    "description": "",
+    "message": "ドッキング許可失効。ドッキングしたいならば要請をもう一度出さなければならない。"
+  },
+  "STATION_GRAV": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "局所重力は{grav}です。"
+  },
+  "STATION_GRAV_PRESS": {
+    "description": "Like an airline pilot announcing local weather conditions",
+    "message": "局所重力は {grav}、気圧は{press}。"
+  },
+  "WATCH_FOR_TRAFFIC_ON_APPROACH": {
+    "description": "",
+    "message": "アプローチ時に交通に注意してください。"
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}、あなたは{station} 宙域に入りました。当宙域の規則に従ってください。"
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_2": {
+    "description": "",
+    "message": "{playerShipLabel}、我々はそちらをレーダーでとらえた。あなたは{station}の管制宙域にいる。"
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_3": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}、こちらは{station} STC。あなたは東方の管制する宙域に進入しました。"
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_4": {
+    "description": "",
+    "message": "我々はあなたが{station}管制宙域に飛行するのをとらえた。{playerShipLabel}"
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}、ようこそ{station}へ。我々の管轄領域を飛行中は規則が適用されることに注意してください。"
+  },
+  "YOU_ARE_ENTERING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}、こちら{station} STCと交信中。あなたは管制宙域に進入した。今日あなたが私に書類仕事を発生させないならありがたく思うよ。"
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_1": {
+    "description": "",
+    "message": "{playerShipLabel}、あなたは{station}管制宙域を抜けました。"
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_2": {
+    "description": "",
+    "message": "あなたは{station}宙域を離脱した。{playerShipLabel}"
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_3": {
+    "description": "",
+    "message": "{playerShipLabel}、あなたは{station}の管制を解かれました。制限は解除されます。"
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_4": {
+    "description": "",
+    "message": "あなたは{station}宙域を飛び去りました、{playerShipLabel}。あなたは記録外です。"
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_5": {
+    "description": "",
+    "message": "{playerShipLabel}、あなたは{station}宙域を離脱しました。良い旅を!"
+  },
+  "YOU_ARE_LEAVING_STATION_SPACE_6": {
+    "description": "STC = Space Traffic Control, (analogy of ATC)",
+    "message": "{playerShipLabel}、こちらは{station} STC。あなたは我々の管制宙域から抜けました。お気をつけて。"
+  }
+}

@@ -47,6 +47,10 @@
     "description": "",
     "message": "STØT FRIHED! Stop uretfærdigheden i proprietær software, der styrer dit skib."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Tak. Alle donationer er velkomne."

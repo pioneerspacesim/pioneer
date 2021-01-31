@@ -93,7 +93,7 @@
   },
   "QUIT": {
     "description": "Quit game, as a question",
-    "message": "Quit?"
+    "message": "Opustit?"
   },
   "YES": {
     "description": "Yes, quit program",

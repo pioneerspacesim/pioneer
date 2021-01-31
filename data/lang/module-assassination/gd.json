@@ -5,7 +5,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Dè an t-iarrtas a bh' agaibh a-rithist?"
+    "message": "Dè an t-iarrtas a bh’ agaibh a-rithist?"
   },
   "DENY_0": {
     "description": "",
@@ -21,11 +21,11 @@
   },
   "DENY_3": {
     "description": "",
-    "message": "Chan eil coltas ort gu bheil comas agad na dh'fheumas a dhèanamh."
+    "message": "Chan eil coltas ort gu bheil comas agad na dh’fheumas a dhèanamh."
   },
   "DENY_4": {
     "description": "",
-    "message": "'S follaiseach nach tusa an neach ceart airson na h-obrach seo."
+    "message": "’S follaiseach nach tusa an neach ceart airson na h-obrach seo."
   },
   "DENY_5": {
     "description": "",
@@ -33,11 +33,11 @@
   },
   "DENY_6": {
     "description": "",
-    "message": "Chan eil sgot agam cò thusa. Tha feum agam air seann-phaidhleat airson a' chùmhnaint seo."
+    "message": "Chan eil sgot agam cò thusa. Tha feum agam air seann-phaidhleat airson a’ chùmhnaint seo."
   },
   "DENY_7": {
     "description": "",
-    "message": "Cha chuir mi an cùmhnant seo fo chunnart 's cha doir mi do chuideigin aig nach eil teisteanas sam bith e."
+    "message": "Cha chuir mi an cùmhnant seo fo chunnart ’s cha doir mi do chuideigin aig nach eil teisteanas sam bith e."
   },
   "DISTANCE": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "'GA IARRAIDH: Toirt air falbh {target} o shiostam {system}."
+    "message": "’GA IARRAIDH: Toirt air falbh {target} o shiostam {system}."
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -57,11 +57,11 @@
   },
   "FLAVOUR_0_FAILUREMSG2": {
     "description": "",
-    "message": "Cha tusa a dh'fhaisg {target}. Chan fhaigh tu pàigheadh an turas seo."
+    "message": "Cha tusa a dh’fhaisg {target}. Chan fhaigh tu pàigheadh an turas seo."
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Haoigh, 's mise {name}. Pàighidh mi {cash} dhut gus cuidhteas fhaighinn dhe {target}."
+    "message": "Haoigh, ’s mise {name}. Pàighidh mi {cash} dhut gus cuidhteas fhaighinn dhe {target}."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -69,11 +69,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "'GA IARRAIDH: Cuideigin a mharbhas {target} à siostam {system}."
+    "message": "’GA IARRAIDH: Cuideigin a mharbhas {target} à siostam {system}."
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "Chuala mi gu bheil deagh-shlàinte air {target}. 'S duilich leam."
+    "message": "Chuala mi gu bheil deagh-shlàinte air {target}. ’S duilich leam."
   },
   "FLAVOUR_1_FAILUREMSG2": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "'S mise {name} is pàighidh mi {cash} dhut gus crìoch a chur air {target}."
+    "message": "’S mise {name} is pàighidh mi {cash} dhut gus crìoch a chur air {target}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Pàighidh tu airson gun a bhith a' cur crìoch air {target}!"
+    "message": "Pàighidh tu airson gun a bhith a’ cur crìoch air {target}!"
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "Tha {target} a' togail anail fhathast agus cha doir mi airgead dhut."
+    "message": "Tha {target} a’ togail anail fhathast agus cha doir mi airgead dhut."
   },
   "FLAVOUR_4_FAILUREMSG2": {
     "description": "",
@@ -165,11 +165,11 @@
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "Tha sinn toilichte gun d' fhuair sinn an naidheachd gun do leig {target} dheth a dhreuchd. Seo {cash} dhut."
+    "message": "Tha sinn toilichte gun d’ fhuair sinn an naidheachd gun do leig {target} dheth a dhreuchd. Seo {cash} dhut."
   },
   "HOW_SOON_MUST_IT_BE_DONE": {
     "description": "",
-    "message": "Dè cho luath 's a dh'fheumas mi a dhèanamh?"
+    "message": "Dè cho luath ’s a dh’fheumas mi a dhèanamh?"
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -325,6 +325,6 @@
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "Bidh {target} a' fàgail {spaceport} ann an siostam {system} ({sectorX}, {sectorY}, {sectorZ}), {dist} bliadhna-sholais a dh'astar {date}. Is {shipname} an soitheach agus is {shipregid} an t-aithnichear clàraidh a tha air."
+    "message": "Bidh {target} a’ fàgail {spaceport} ann an siostam {system} ({sectorX}, {sectorY}, {sectorZ}), {dist} bliadhna-sholais a dh’astar {date}. Is {shipname} an soitheach agus is {shipregid} an t-aithnichear clàraidh a tha air."
   }
 }

@@ -1,0 +1,2122 @@
+{
+  "ABOVE_AVERAGE": {
+    "description": "",
+    "message": "平均以上"
+  },
+  "ACTIVE": {
+    "description": "",
+    "message": "Active"
+  },
+  "ADD_JUMP": {
+    "description": "UI-button: Add hyper jump to list of planned jumps",
+    "message": "ジャンプを追加"
+  },
+  "AFTER_TRADE_IN": {
+    "description": "",
+    "message": "After trade-in"
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "アライアンス:"
+  },
+  "ALL_UP_WEIGHT": {
+    "description": "",
+    "message": "All-up weight"
+  },
+  "AMOUNT": {
+    "description": "",
+    "message": "Amount"
+  },
+  "ANISOTROPIC_FILTERING_DESC": {
+    "description": "",
+    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+  },
+  "AN_ERROR_HAS_OCCURRED": {
+    "description": "",
+    "message": "エラーが発生"
+  },
+  "ARRIVAL_DATE": {
+    "description": "Time of arrival, used in flight log",
+    "message": "到着日"
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+    "message": "大気シールド"
+  },
+  "ATMO_PRESS_LIMIT": {
+    "description": "Base external pressure limit of a ship (without atmo shield)",
+    "message": "船体大気圧限界"
+  },
+  "ATTEMPT_TO_REPAIR_HULL": {
+    "description": "",
+    "message": "船体修理を試みる"
+  },
+  "AUTO_ROUTE": {
+    "description": "Automatically find shortest jump route (measured in time) in star map",
+    "message": "自動ルート"
+  },
+  "AVAILABLE_FOR_PURCHASE": {
+    "description": "",
+    "message": "Available for purchase"
+  },
+  "AVERAGE": {
+    "description": "",
+    "message": "平均"
+  },
+  "BACKWARD_ACCEL": {
+    "description": "",
+    "message": "後進加速度"
+  },
+  "BULLETIN_BOARD": {
+    "description": "",
+    "message": "掲示板"
+  },
+  "BUY": {
+    "description": "Commodities and equipment prices",
+    "message": "買う"
+  },
+  "BUY_SHIP": {
+    "description": "",
+    "message": "船を買う"
+  },
+  "CABINS": {
+    "description": "For passengers",
+    "message": "客室"
+  },
+  "CABIN_FREE": {
+    "description": "Free capacity for passengers",
+    "message": "{amount}人の空き"
+  },
+  "CABIN_USED": {
+    "description": "Passengers using cabins",
+    "message": "{amount}人乗船中"
+  },
+  "CANCEL": {
+    "description": "",
+    "message": "キャンセル"
+  },
+  "CANNOT_SELL_ITEM": {
+    "description": "",
+    "message": "このアイテムは販売できない"
+  },
+  "CAPACITY": {
+    "description": "Capacity of ship to fit more equipment",
+    "message": "装備容量"
+  },
+  "CAPACITY_USED": {
+    "description": "",
+    "message": "使われている装備容量"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "貨物"
+  },
+  "CARGO_SPACE": {
+    "description": "",
+    "message": "貨物容量"
+  },
+  "CARGO_SPACE_USED": {
+    "description": "",
+    "message": "使われている貨物容量"
+  },
+  "CARGO_T_FREE": {
+    "description": "t for tonne",
+    "message": "{amount}tの空き"
+  },
+  "CARGO_T_USED": {
+    "description": "t for tonne",
+    "message": "{amount}t使用中"
+  },
+  "CASH": {
+    "description": "",
+    "message": "キャッシュ"
+  },
+  "CASH_N": {
+    "description": "",
+    "message": "キャッシュ: {money}"
+  },
+  "CENTER_ON_SYSTEM": {
+    "description": "Center on selected star system",
+    "message": "Center on System"
+  },
+  "CHANGE": {
+    "description": "Face feature option",
+    "message": "Change:"
+  },
+  "CHANGE_BINDING": {
+    "description": "Key binding option",
+    "message": "キーバインドを変更"
+  },
+  "CHIEF_MECHANIC": {
+    "description": "",
+    "message": "機関長"
+  },
+  "CIRCULAR_ORBIT_SPEED": {
+    "description": "",
+    "message": "円軌道速度"
+  },
+  "CITY_DETAIL_LEVEL": {
+    "description": "Game graphics option",
+    "message": "市街地詳細レベル"
+  },
+  "CLEAN": {
+    "description": "Legal status of player",
+    "message": "Clean"
+  },
+  "CLEAR": {
+    "description": "Clear an option in game settings/options menu",
+    "message": "Clear"
+  },
+  "CLEAR_ROUTE": {
+    "description": "Clear a planned route of hyperjumps",
+    "message": "ルート取り消し"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Client"
+  },
+  "CLOSE": {
+    "description": "",
+    "message": "閉じる"
+  },
+  "COMBAT": {
+    "description": "Headline for kills and combat rating",
+    "message": "Combat"
+  },
+  "COMMANDER": {
+    "description": "",
+    "message": "コマンダー"
+  },
+  "COMMODITY_MARKET": {
+    "description": "",
+    "message": "商品市場"
+  },
+  "COMMODITY_TRADE_ANALYSIS": {
+    "description": "",
+    "message": "Commodity trade analysis of:"
+  },
+  "COMPACT_RADAR": {
+    "description": "Game settings option",
+    "message": "コンパクトレーダー"
+  },
+  "COMPETENT": {
+    "description": "Combat rating",
+    "message": "Competent"
+  },
+  "COMPLETED": {
+    "description": "",
+    "message": "Completed"
+  },
+  "COMPRESS_TEXTURES": {
+    "description": "graphics option in game settings menu ",
+    "message": "テクスチャ圧縮"
+  },
+  "CONFIRM_PURCHASE": {
+    "description": "",
+    "message": "購入を了承"
+  },
+  "CONFIRM_SALE": {
+    "description": "",
+    "message": "売却を了承"
+  },
+  "CONSTABLE": {
+    "description": "",
+    "message": "Constable"
+  },
+  "CONTINUE_GAME": {
+    "description": "",
+    "message": "ゲームを続ける"
+  },
+  "CONTRACT_FRAUD": {
+    "description": "Crime committed by intentionally breaking a contract",
+    "message": "契約詐欺"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "コントロール"
+  },
+  "CONTROL_OPTIONS": {
+    "description": "",
+    "message": "コントロールオプション"
+  },
+  "COULD_NOT_LOAD_GAME": {
+    "description": "",
+    "message": "ゲームをロードできません:"
+  },
+  "CREDIBLE": {
+    "description": "For player reputation",
+    "message": "信用のある"
+  },
+  "CREDITS": {
+    "description": "in game currency",
+    "message": "クレジット"
+  },
+  "CREW_CABINS": {
+    "description": "",
+    "message": "クルーキャビン"
+  },
+  "CREW_ROSTER": {
+    "description": "",
+    "message": "クルー勤務表"
+  },
+  "CRIMINAL_RECORD": {
+    "description": "Past crimes / crime history of character",
+    "message": "犯罪歴"
+  },
+  "CURRENT_FUEL": {
+    "description": "For hyperjump planner",
+    "message": "現在の燃料:"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "For hyperjump planner",
+    "message": "現在の星系"
+  },
+  "DANGEROUS": {
+    "description": "Player combat rating",
+    "message": "Dangerous"
+  },
+  "DATE": {
+    "description": "Date of an event, used in flight log",
+    "message": "日付"
+  },
+  "DEADLY": {
+    "description": "Player combat rating",
+    "message": "Deadly"
+  },
+  "DECREASE": {
+    "description": "Decrease something.",
+    "message": "減少"
+  },
+  "DELTA_V": {
+    "description": "",
+    "message": "デルタv"
+  },
+  "DELTA_V_EMPTY": {
+    "description": "Delta-v capacity of a ship with no cargo or upgrades",
+    "message": "デルタv (空虚重量)"
+  },
+  "DELTA_V_FULL": {
+    "description": "Delta-v capacity of a ship with maximum cargo",
+    "message": "デルタv (貨物満載)"
+  },
+  "DELTA_V_MAX": {
+    "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+    "message": "デルタv (貨物及び燃料満載)"
+  },
+  "DEPARTURE_DATE": {
+    "description": "Time of departure, used in flight log",
+    "message": "出発日"
+  },
+  "DESCENT_TO_GROUND_SPEED": {
+    "description": "",
+    "message": "対地降下速度:"
+  },
+  "DESTROY_ENEMY_SHIP": {
+    "description": "",
+    "message": "敵船を破壊"
+  },
+  "DETAIL_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "低いほど、見た目の美しさと引き換えにパフォーマンスをよくします"
+  },
+  "DISABLE_SCREENSHOT_INFO": {
+    "description": "",
+    "message": "スクリーンショット情報を無効"
+  },
+  "DISABLE_SCREENSHOT_INFO_DESC": {
+    "description": "",
+    "message": "スクリーンショットモード時に星系座標を含むすべての表示されている情報を隠す。(HUDモードを切り替え)"
+  },
+  "DISMISS": {
+    "description": "Terminate crew memeber's contract",
+    "message": "解雇する"
+  },
+  "DISPLAY_HUD_TRAILS": {
+    "description": "",
+    "message": "Display HUD trails"
+  },
+  "DISPLAY_HUD_TRAILS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+  },
+  "DISPLAY_NAV_TUNNELS": {
+    "description": "Settings option: hyperspace tunnel effect",
+    "message": "ナビトンネルを表示"
+  },
+  "DISPLAY_NAV_TUNNELS_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "HUD上に現在の選択された目標への仮想トンネルを表示する。"
+  },
+  "DISPLAY_SPEED_LINES": {
+    "description": "Settings option: effect when travelling in space",
+    "message": "スピードラインを表示"
+  },
+  "DISPLAY_SPEED_LINES_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "宇宙において移動方向の感覚を補助する。"
+  },
+  "DOCKED_AT": {
+    "description": "",
+    "message": "Docked at"
+  },
+  "DOCK_AT_CURRENT_TARGET": {
+    "description": "",
+    "message": "現在のターゲットにドッキング"
+  },
+  "DRIVE_ACTIVE": {
+    "description": "Ship jump status",
+    "message": "ドライブ有効"
+  },
+  "DUE": {
+    "description": "mission deadline date",
+    "message": "Due"
+  },
+  "DUMPING": {
+    "description": "The illegal act of dumping waste",
+    "message": "廃棄する"
+  },
+  "D_DAYS_LEFT": {
+    "description": "",
+    "message": "残り日数: %d"
+  },
+  "ECONOMY_TRADE": {
+    "description": "",
+    "message": "経済と貿易"
+  },
+  "EDIT": {
+    "description": "Tooltip, to edit a flight log entry",
+    "message": "編集"
+  },
+  "EFFECTS": {
+    "description": "",
+    "message": "Effects:"
+  },
+  "ELITE": {
+    "description": "Player combat rating",
+    "message": "ELITE"
+  },
+  "EMPLOYMENT": {
+    "description": "",
+    "message": "Employment"
+  },
+  "ENABLE_ANISOTROPIC_FILTERING": {
+    "description": "Use Anisotropic Filtering",
+    "message": "異方向性フィルタリング"
+  },
+  "ENABLE_AUTOSAVE": {
+    "description": "Allow the game to autosave when docking",
+    "message": "オートセーブを有効"
+  },
+  "ENABLE_AUTOSAVE_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "ドッキング時に状態を保存する。ディスクアクセス時間によりいくらかのラグが発生する可能性がある。"
+  },
+  "ENABLE_COCKPIT": {
+    "description": "Game settings option: to use a cockpit 3D model",
+    "message": "コックピットを有効化(実験的)"
+  },
+  "ENABLE_COCKPIT_DESC": {
+    "description": "tooltip description in settings menu",
+    "message": "コクピットの3Dモデルを表示する。(現在掲示板は代替品です)"
+  },
+  "ENABLE_JOYSTICK": {
+    "description": "",
+    "message": "ジョイスティックを有効"
+  },
+  "END_GAME": {
+    "description": "",
+    "message": "ゲームを終了"
+  },
+  "ENGINEERING": {
+    "description": "Engineering skills of crew",
+    "message": "エンジニア:"
+  },
+  "ENTRY": {
+    "description": "A note/entry/record into the flight log",
+    "message": "Entry"
+  },
+  "EQUIPMENT": {
+    "description": "",
+    "message": "装備"
+  },
+  "EQUIPMENT_MARKET": {
+    "description": "",
+    "message": "装備品マーケット"
+  },
+  "EQUIPPED": {
+    "description": "",
+    "message": "Equipped"
+  },
+  "ERROR": {
+    "description": "",
+    "message": "エラー"
+  },
+  "ERROR_LANDING_GEAR_DOWN": {
+    "description": "",
+    "message": "ハイパージャンプを起動できません。ランディングギアを格納してください!"
+  },
+  "ESCAPE_SPEED": {
+    "description": "",
+    "message": "脱出速度:"
+  },
+  "EXIT_THIS_GAME": {
+    "description": "",
+    "message": "ゲームを終了する"
+  },
+  "EXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Experienced"
+  },
+  "EXPERT": {
+    "description": "For player reputation",
+    "message": "Expert"
+  },
+  "FAILED": {
+    "description": "When failed mission",
+    "message": "Failed"
+  },
+  "FEATURE_ACCESSORIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "アクセサリー"
+  },
+  "FEATURE_ARMOUR": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "アーマー"
+  },
+  "FEATURE_CLOTHES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "衣服"
+  },
+  "FEATURE_EYES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "目"
+  },
+  "FEATURE_GENDER": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "性別"
+  },
+  "FEATURE_HAIRSTYLE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "ヘアスタイル"
+  },
+  "FEATURE_HEAD": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "頭"
+  },
+  "FEATURE_MOUTH": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "口"
+  },
+  "FEATURE_NOSE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "鼻"
+  },
+  "FEATURE_RACE": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "人種"
+  },
+  "FEATURE_SPECIES": {
+    "description": "Face feature for FaceGenerator in the PersonalInfo view",
+    "message": "種族"
+  },
+  "FEMALE": {
+    "description": "",
+    "message": "女性"
+  },
+  "FINAL_TARGET": {
+    "description": "Hyperjump planner, referring to star system target",
+    "message": "最終目標:"
+  },
+  "FINANCE": {
+    "description": "Financial statement of player, e.g. cash",
+    "message": "Finance"
+  },
+  "FLIGHTLOG_DOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "{primary_info}にドッキング"
+  },
+  "FLIGHTLOG_FLYING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
+    "message": "{primary_info}に関係のある宙域を航行"
+  },
+  "FLIGHTLOG_HYPERSPACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "ハイパースペース中、{primary_info}に移動"
+  },
+  "FLIGHTLOG_JUMPING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
+    "message": "{primary_info}に向けてハイパージャンプ中"
+  },
+  "FLIGHTLOG_LANDED": {
+    "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
+    "message": "{primary_info}に着陸、位置 ({secondary_info}, {tertiary_info})"
+  },
+  "FLIGHTLOG_STARPORT_ORBITAL": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "{secondary_info}軌道上にある{primary_info}にドッキング"
+  },
+  "FLIGHTLOG_STARPORT_SURFACE": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
+    "message": "{secondary_info}の{primary_info}にドッキング"
+  },
+  "FLIGHTLOG_UNDOCKING": {
+    "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
+    "message": "{primary_info}のドッキングを解除"
+  },
+  "FLIGHT_LOG": {
+    "description": "Title for flight log screen, in info view",
+    "message": "フライトログ"
+  },
+  "FLIGHT_STATE": {
+    "description": "",
+    "message": "飛行状態"
+  },
+  "FLYING": {
+    "description": "",
+    "message": "飛行中"
+  },
+  "FORWARD_ACCEL": {
+    "description": "",
+    "message": "前進加速度"
+  },
+  "FORWARD_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Forward accel (empty)"
+  },
+  "FORWARD_ACCEL_FULL": {
+    "description": "",
+    "message": "Forward accel (full)"
+  },
+  "FRACTAL_DETAIL": {
+    "description": "",
+    "message": "Fractal detail"
+  },
+  "FREE": {
+    "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
+    "message": "空き"
+  },
+  "FRONT_WEAPON": {
+    "description": "",
+    "message": "前方武器"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "燃料"
+  },
+  "FUEL_TANK_FULL": {
+    "description": "",
+    "message": "燃料タンク満タン。"
+  },
+  "FUEL_WEIGHT": {
+    "description": "",
+    "message": "燃料重量"
+  },
+  "FULL_SCREEN": {
+    "description": "",
+    "message": "フルスクリーン"
+  },
+  "GAME_TIME": {
+    "description": "",
+    "message": "Game time"
+  },
+  "GENERAL_CREW": {
+    "description": "",
+    "message": "General crew"
+  },
+  "GIVE_ORDERS_TO_CREW": {
+    "description": "",
+    "message": "クルーに命令を出す"
+  },
+  "GOOD_RIDDANCE_TO_YOU_TOO": {
+    "description": "",
+    "message": "Good riddance to you, too."
+  },
+  "GO_BACK": {
+    "description": "",
+    "message": "戻る"
+  },
+  "GPU_JOBS": {
+    "description": "",
+    "message": "GPU Jobs"
+  },
+  "GPU_JOBS_DESC": {
+    "description": "",
+    "message": "特定の動作にGPUを利用する。パフォーマンスが向上する可能性がある。"
+  },
+  "HANG_UP": {
+    "description": "",
+    "message": "通信を切る。"
+  },
+  "HARMLESS": {
+    "description": "Player combat rating",
+    "message": "Harmless"
+  },
+  "HEAVY_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "大型貨物シャトル"
+  },
+  "HEAVY_COURIER": {
+    "description": "",
+    "message": "大型クーリエ"
+  },
+  "HEAVY_FIGHTER": {
+    "description": "",
+    "message": "重戦闘機"
+  },
+  "HEAVY_FREIGHTER": {
+    "description": "",
+    "message": "大型貨物船"
+  },
+  "HEAVY_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "大型旅客シャトル"
+  },
+  "HEAVY_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "大型旅客輸送船"
+  },
+  "HIGH": {
+    "description": "Game settings option: for graphics resolution",
+    "message": "高"
+  },
+  "HUD_2D_RADAR": {
+    "description": "Popup text: the name of the azimuthal equidistant projection radar",
+    "message": "2D正距方位図法"
+  },
+  "HUD_3D_RADAR": {
+    "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
+    "message": "3D平面投影"
+  },
+  "HUD_ATMOSPHERIC_PRESSURE": {
+    "description": "Tooltip: Atmospheric Pressure.",
+    "message": "大気圧"
+  },
+  "HUD_BACKWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Backward Gun Temperature.",
+    "message": "後方武器温度"
+  },
+  "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
+    "description": "Tooltip: The braking distance using the main thrusters.",
+    "message": "メインスラスターを用いた制動距離"
+  },
+  "HUD_BUTTON_AUTOPILOT_DOCKING": {
+    "description": "Tooltip: Autopilot docking",
+    "message": "自動操縦ードッキング"
+  },
+  "HUD_BUTTON_AUTOPILOT_ENTERING_ORBIT": {
+    "description": "Tooltip: Autopilot entering orbit",
+    "message": "自動操縦ー軌道に乗る"
+  },
+  "HUD_BUTTON_AUTOPILOT_FLYING_TO_TARGET": {
+    "description": "Tooltip: Autopilot flying to target",
+    "message": "自動操縦ー目標に飛行"
+  },
+  "HUD_BUTTON_BLASTOFF": {
+    "description": "Tooltip: Blastoff",
+    "message": "発射"
+  },
+  "HUD_BUTTON_EQUIPMENT": {
+    "description": "Tooltip: Equipment",
+    "message": "装備"
+  },
+  "HUD_BUTTON_EXTERNAL_VIEW": {
+    "description": "Tooltip: External camera view",
+    "message": "外部視点"
+  },
+  "HUD_BUTTON_FIX_ANTINORMAL": {
+    "description": "Tooltip: fix heading antinormal",
+    "message": "機首をアンチノーマル方向へ固定"
+  },
+  "HUD_BUTTON_FIX_NORMAL": {
+    "description": "Tooltip: fix heading normal",
+    "message": "機首をノーマル方向へ固定"
+  },
+  "HUD_BUTTON_FIX_PROGRADE": {
+    "description": "Tooltip: fix heading prograde",
+    "message": "機首を順行方向へ固定"
+  },
+  "HUD_BUTTON_FIX_RADIAL_IN": {
+    "description": "Tooltip: fix heading radially inward",
+    "message": "機首をラジアルイン方向へ固定"
+  },
+  "HUD_BUTTON_FIX_RADIAL_OUT": {
+    "description": "Tooltip: fix heading radially outward",
+    "message": "機首をラジアルアウト方向へ固定"
+  },
+  "HUD_BUTTON_FIX_RETROGRADE": {
+    "description": "Tooltip: fix heading retrograde",
+    "message": "機首を逆行方向へ固定"
+  },
+  "HUD_BUTTON_FLYBY_VIEW": {
+    "description": "Tooltip: Flyby camera view",
+    "message": "フライバイ視点"
+  },
+  "HUD_BUTTON_HYPERDRIVE_DISABLED": {
+    "description": "Tooltip: Hyperdrive disabled (docked or landed)",
+    "message": "ハイパードライブ無効"
+  },
+  "HUD_BUTTON_INITIATE_HYPERJUMP": {
+    "description": "Tooltip: Initiate legal hyperjump",
+    "message": "ハイパージャンプ開始"
+  },
+  "HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP": {
+    "description": "Tooltip: Initiate illegal hyperjump",
+    "message": "違法ハイパージャンプ開始"
+  },
+  "HUD_BUTTON_INTERNAL_VIEW": {
+    "description": "Tooltip: Internal camera view",
+    "message": "内部視点"
+  },
+  "HUD_BUTTON_KILL_ROTATION": {
+    "description": "Tooltip: kill rotation",
+    "message": "Kill rotation"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
+    "description": "Tooltip: Landing gear is down",
+    "message": "ランディングギア展開状態"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_MOVING": {
+    "description": "Tooltip: Landing gear is moving",
+    "message": "ランディングギア動作中"
+  },
+  "HUD_BUTTON_LANDING_GEAR_IS_UP": {
+    "description": "Tooltip: Landing gear is up",
+    "message": "ランディングギア格納状態"
+  },
+  "HUD_BUTTON_MANUAL_CONTROL": {
+    "description": "Tooltip: Manual control",
+    "message": "手動コントロール"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
+    "description": "Tooltip: Rotation damping is off",
+    "message": "回転減衰機能オフ"
+  },
+  "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
+    "description": "Tooltip: Rotation damping is on",
+    "message": "回転減衰機能オン"
+  },
+  "HUD_BUTTON_SCANNER": {
+    "description": "Tooltip: Scanner",
+    "message": "スキャナー"
+  },
+  "HUD_BUTTON_SET_SPEED": {
+    "description": "Tooltip: set speed",
+    "message": "速度を設定"
+  },
+  "HUD_BUTTON_SHOW_COMMS": {
+    "description": "Tooltip: Show comms",
+    "message": "通信を表示"
+  },
+  "HUD_BUTTON_SHOW_PERSONAL_INFO": {
+    "description": "Tooltip: Show personal info",
+    "message": "個人情報を表示"
+  },
+  "HUD_BUTTON_SIDEREAL_VIEW": {
+    "description": "Tooltip: Sidereal camera view",
+    "message": "恒星視点"
+  },
+  "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
+    "description": "Tooltip: Switch to galaxy map",
+    "message": "銀河マップに切り替え"
+  },
+  "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
+    "description": "Tooltip: Switch to sector map",
+    "message": "セクターマップに切り替え"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
+    "description": "Tooltip: Switch to system map",
+    "message": "星系マップに切り替え"
+  },
+  "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
+    "description": "Tooltip: Switch to system overview",
+    "message": "星系概要に切り替え"
+  },
+  "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
+    "description": "Tooltip: Switch to world view",
+    "message": "ワールドビューに切り替え"
+  },
+  "HUD_BUTTON_UNDOCK": {
+    "description": "Tooltip: Undock",
+    "message": "ドッキング解除"
+  },
+  "HUD_CARGO_MASS": {
+    "description": "Cargo Mass",
+    "message": "貨物室量"
+  },
+  "HUD_CURRENT_COMBAT_TARGET": {
+    "description": "Tooltip: The current combat target.",
+    "message": "現在の戦闘ターゲット"
+  },
+  "HUD_CURRENT_FRAME": {
+    "description": "Tooltip: The current frame of reference.",
+    "message": "現在の基準系"
+  },
+  "HUD_CURRENT_HEADING": {
+    "description": "Tooltip: the current heading.",
+    "message": "現在の機首方位"
+  },
+  "HUD_CURRENT_NAV_TARGET": {
+    "description": "Tooltip: The current navigational target.",
+    "message": "現在のナビゲーションターゲット"
+  },
+  "HUD_CURRENT_PITCH": {
+    "description": "Tooltip: the current pitch.",
+    "message": "現在のピッチ"
+  },
+  "HUD_CURRENT_ROLL": {
+    "description": "Tooltip: the current roll.",
+    "message": "現在のロール"
+  },
+  "HUD_DELTA_V": {
+    "description": "Tooltip: The remaining Δv.",
+    "message": "残りΔv"
+  },
+  "HUD_DELTA_V_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The Δv for the maneuver burn.",
+    "message": "軌道噴射に必要なΔv"
+  },
+  "HUD_DELTA_V_PERCENT": {
+    "description": "Tooltip: The remaining Δv in percent.",
+    "message": "最大Δvに対する%"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
+    "description": "Tooltip: Distance to the surface of the frame of reference.",
+    "message": "基準系の表面への距離"
+  },
+  "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
+    "description": "Tooltip: Distance to the surface of the target.",
+    "message": "目標の表面への距離"
+  },
+  "HUD_DURATION_OF_MANEUVER_BURN": {
+    "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
+    "message": "メインスラスターを用いた軌道噴射のおおよその時間"
+  },
+  "HUD_DURATION_UNTIL_MANEUVER_BURN": {
+    "description": "Tooltip: The duration until the middle of the maneuver burn.",
+    "message": "軌道噴射の中央までの時間"
+  },
+  "HUD_FORWARD_GUN_TEMPERATURE": {
+    "description": "Tooltip: Forward Gun Temperature.",
+    "message": "前方武器温度"
+  },
+  "HUD_HULL_STRENGTH": {
+    "description": "Tooltip: Hull Strength.",
+    "message": "船体強度"
+  },
+  "HUD_HULL_TEMPERATURE": {
+    "description": "Tooltip: Hull Temperature.",
+    "message": "船体温度"
+  },
+  "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
+    "description": "",
+    "message": "{countdown} 秒で{destination}に向けてハイパースペースします。"
+  },
+  "HUD_INDICATOR_AWAY_FROM_FRAME": {
+    "description": "Indicator: Away from the current frame.",
+    "message": "現在の系からの離脱"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current combat target.",
+    "message": "現在の戦闘ターゲットに対する順行方向"
+  },
+  "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current combat target.",
+    "message": "現在の戦闘ターゲットに対する逆行方向"
+  },
+  "HUD_INDICATOR_FRAME_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current frame.",
+    "message": "現在の基準系に対する順行方向"
+  },
+  "HUD_INDICATOR_FRAME_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current frame.",
+    "message": "現在の基準系に対する逆行方向"
+  },
+  "HUD_INDICATOR_MANEUVER_PROGRADE": {
+    "description": "Indicator: The prograde direction for the maneuver burn.",
+    "message": "軌道噴射のための順行方向"
+  },
+  "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
+    "description": "Indicator: Prograde direction relative to the current navigational target.",
+    "message": "現在のナビゲーション目標に対する順行方向"
+  },
+  "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
+    "description": "Indicator: Retrograde direction relative to the current navigational target.",
+    "message": "現在のナビゲーション目標に対する逆行方向"
+  },
+  "HUD_IN_TRANSIT_TO_N_X_X_X": {
+    "description": "",
+    "message": "{system} [{x},{y},{z}]に移動中"
+  },
+  "HUD_JUMP_COMPLETE": {
+    "description": "",
+    "message": "ジャンプ完了率: {percent}%"
+  },
+  "HUD_MASS": {
+    "description": "Mass",
+    "message": "質量"
+  },
+  "HUD_RADAR_DISTANCE": {
+    "description": "Tooltip: Current distance of the radar.",
+    "message": "有効レーダー距離"
+  },
+  "HUD_REQUEST_TIME_ACCEL": {
+    "description": "Tooltip: Request time acceleration {time}",
+    "message": "時間を加速する: {time}"
+  },
+  "HUD_SHIELD_STRENGTH": {
+    "description": "Tooltip: Shield Strength.",
+    "message": "シールド強度"
+  },
+  "HUD_SHOW_COMBAT_TARGET": {
+    "description": "Tooltip: Show the current combat target.",
+    "message": "現在の戦闘ターゲットを示す"
+  },
+  "HUD_SHOW_FRAME": {
+    "description": "Tooltip: Show the current frame of reference.",
+    "message": "現在の基準系を見る"
+  },
+  "HUD_SHOW_NAV_TARGET": {
+    "description": "Tooltip: Show current navigational target.",
+    "message": "現在のナビゲーションターゲットを見る"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_FRAME": {
+    "description": "Tooltip: The speed of approach towards the frame of reference.",
+    "message": "基準系に向けた接近速度"
+  },
+  "HUD_SPEED_OF_APPROACH_TO_TARGET": {
+    "description": "Tooltip: The speed of approach relative to target.",
+    "message": "ターゲットに対する接近速度"
+  },
+  "HUD_SPEED_RELATIVE_TO_TARGET": {
+    "description": "Tooltip: The speed relative to the target.",
+    "message": "ターゲットに対する速度"
+  },
+  "HUD_THRUST_INDICATOR": {
+    "description": "Tooltip: describe what the thrust/velocity indicator shows",
+    "message": "それぞれの方向への現在の速度(細い線)と推力(太い背景)を示す"
+  },
+  "HUD_WARNING_DESCENT_RATE": {
+    "description": "Shown on HUD as a warning flasher",
+    "message": "降下率"
+  },
+  "HUD_WARNING_IMPACT": {
+    "description": "Alert tooltip",
+    "message": "Impact warning"
+  },
+  "HUD_WARNING_IMPACT_IMMINENT": {
+    "description": "Alert tooltip",
+    "message": "Impact imminent"
+  },
+  "HULL_DOES_NOT_REQUIRE_REPAIR": {
+    "description": "",
+    "message": "船体は修理を必要としていない。"
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "船体"
+  },
+  "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
+    "description": "",
+    "message": "船体は{name}に修理され、現在{repairPercent}%です。"
+  },
+  "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE": {
+    "description": "",
+    "message": "船体修理の試みは失敗しました。船体に軽微な損傷を受けました。"
+  },
+  "HYPERDRIVE": {
+    "description": "",
+    "message": "ハイパードライブ"
+  },
+  "HYPERDRIVE_FITTED": {
+    "description": "",
+    "message": "Hyperdrive fitted:"
+  },
+  "HYPERJUMP_ROUTE": {
+    "description": "",
+    "message": "ハイパージャンプルート"
+  },
+  "HYPERSPACE_RANGE": {
+    "description": "",
+    "message": "ハイパースペース可能距離"
+  },
+  "ILLEGAL_IN_SYSTEM": {
+    "description": "An illegal action or commodity",
+    "message": "星系で違法"
+  },
+  "ILLEGAL_JUMP": {
+    "description": "A finable crime",
+    "message": "無謀なハイパージャンプが記録されました"
+  },
+  "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
+    "description": "",
+    "message": "I'm tired of working for nothing. Don't you know what a contract is?"
+  },
+  "INACTIVE": {
+    "description": "",
+    "message": "Inactive"
+  },
+  "INCOMPETENT": {
+    "description": "For player reputation",
+    "message": "Incompetent"
+  },
+  "INCREASE": {
+    "description": "Increase something.",
+    "message": "Increase"
+  },
+  "INEXPERIENCED": {
+    "description": "For player reputation",
+    "message": "Inexperienced"
+  },
+  "INITIATED": {
+    "description": "Ship jump status",
+    "message": "Initiated"
+  },
+  "INSUFFICIENT_FUEL": {
+    "description": "Ship jump status",
+    "message": "燃料不足"
+  },
+  "INSUFFICIENT_FUNDS": {
+    "description": "",
+    "message": "資金不足"
+  },
+  "INVERT_MOUSE_Y": {
+    "description": "",
+    "message": "マウスのY軸を反転"
+  },
+  "IN_CARGO_HOLD": {
+    "description": "",
+    "message": "In cargo hold"
+  },
+  "IN_STOCK": {
+    "description": "",
+    "message": "In stock"
+  },
+  "IN_SYSTEM": {
+    "description": "Used in flight log, show which star system we are/were in",
+    "message": "In system"
+  },
+  "ITEM_IS_OUT_OF_STOCK": {
+    "description": "",
+    "message": "この商品は在庫切れです。"
+  },
+  "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
+    "description": "",
+    "message": "It's been great working for you. If you need me again, I'll be here a while."
+  },
+  "JETTISON": {
+    "description": "",
+    "message": "貨物投棄"
+  },
+  "JUMPING": {
+    "description": "Flight State",
+    "message": "Jumping"
+  },
+  "KILLS": {
+    "description": "",
+    "message": "Kills:"
+  },
+  "LANGUAGE": {
+    "description": "",
+    "message": "言語"
+  },
+  "LANGUAGE_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "言語 (適応するには再起動してください)"
+  },
+  "LAUNCH_PERMISSION_DENIED_BUSY": {
+    "description": "",
+    "message": "発進が拒否されました。:ドッキングベイが混雑しています。"
+  },
+  "LAUNCH_PERMISSION_DENIED_CREW": {
+    "description": "",
+    "message": "発進が拒否されました。:この船を操縦するのに十分なクルーがいません。"
+  },
+  "LAUNCH_PERMISSION_DENIED_FINED": {
+    "description": "",
+    "message": "発進が拒否されました。:未払いの罰金があります。"
+  },
+  "LAUNCH_PERMISSION_GRANTED": {
+    "description": "",
+    "message": "発進が許可されました。"
+  },
+  "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
+    "description": "",
+    "message": "発進が許可されました。着陸エリアを混雑させず、すぐに出発してください。"
+  },
+  "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
+    "description": "",
+    "message": "許可が下りました。出発時に交通に注意してください。"
+  },
+  "LEGAL_STATUS": {
+    "description": "",
+    "message": "Legal status"
+  },
+  "LIGHT_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "小型貨物シャトル"
+  },
+  "LIGHT_COURIER": {
+    "description": "",
+    "message": "小型クーリエ"
+  },
+  "LIGHT_FIGHTER": {
+    "description": "",
+    "message": "軽戦闘機"
+  },
+  "LIGHT_FREIGHTER": {
+    "description": "",
+    "message": "小型貨物船"
+  },
+  "LIGHT_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "小型旅客シャトル"
+  },
+  "LIGHT_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "小型旅客輸送船"
+  },
+  "LOAD": {
+    "description": "",
+    "message": "ロード"
+  },
+  "LOAD_GAME": {
+    "description": "",
+    "message": "ゲームをロード"
+  },
+  "LOBBY": {
+    "description": "",
+    "message": "ロビー"
+  },
+  "LOCAL_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Local arm"
+  },
+  "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
+    "description": "",
+    "message": "{name}の中心から{distance}kmに位置する"
+  },
+  "LOCATION": {
+    "description": "",
+    "message": "Location"
+  },
+  "LOG_CUSTOM": {
+    "description": "Label tab for showing custom logged events",
+    "message": "カスタムログ"
+  },
+  "LOG_NEW": {
+    "description": "Indicate to make an entry into flight log system",
+    "message": "新しいエントリー"
+  },
+  "LOG_STATION": {
+    "description": "Label tab for showing logged station events",
+    "message": "ステーションログ"
+  },
+  "LOG_SYSTEM": {
+    "description": "Label tab for showing logged system events",
+    "message": "星系ログ"
+  },
+  "LOW": {
+    "description": "",
+    "message": "Low"
+  },
+  "LY": {
+    "description": "Light year",
+    "message": "光年"
+  },
+  "MAJOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "主要輸出品"
+  },
+  "MAJOR_EXPORTS_ITEM": {
+    "description": "",
+    "message": "主要輸出品"
+  },
+  "MAJOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "主要輸入品"
+  },
+  "MAJOR_IMPORTS_ITEM": {
+    "description": "",
+    "message": "主要輸入品"
+  },
+  "MAKE_NEW_FACE": {
+    "description": "",
+    "message": "新しい顔を作る"
+  },
+  "MALE": {
+    "description": "",
+    "message": "男性"
+  },
+  "MARKET_BUYLINE": {
+    "description": "",
+    "message": "{price}で{amount}個買う"
+  },
+  "MARKET_SELLINE": {
+    "description": "",
+    "message": "{price}で{amount}売る"
+  },
+  "MASS": {
+    "description": "",
+    "message": "質量"
+  },
+  "MASTER": {
+    "description": "For player reputation",
+    "message": "Master"
+  },
+  "MASTER_VOL": {
+    "description": "Master sound in settings option",
+    "message": "マスター:"
+  },
+  "MAX": {
+    "description": "",
+    "message": "最大"
+  },
+  "MAXIMUM_CREW": {
+    "description": "",
+    "message": "最大クルー"
+  },
+  "MEDIUM": {
+    "description": "Game settings option: graphics resolution",
+    "message": "ミディアム"
+  },
+  "MEDIUM_CARGO_SHUTTLE": {
+    "description": "",
+    "message": "中型貨物シャトル"
+  },
+  "MEDIUM_COURIER": {
+    "description": "",
+    "message": "中型クーリエ"
+  },
+  "MEDIUM_FIGHTER": {
+    "description": "",
+    "message": "中戦闘機"
+  },
+  "MEDIUM_FREIGHTER": {
+    "description": "",
+    "message": "中型貨物船"
+  },
+  "MEDIUM_PASSENGER_SHUTTLE": {
+    "description": "",
+    "message": "中型旅客シャトル"
+  },
+  "MEDIUM_PASSENGER_TRANSPORT": {
+    "description": "",
+    "message": "中型旅客輸送船"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "金属合金"
+  },
+  "MILITARY": {
+    "description": "",
+    "message": "Military"
+  },
+  "MINIMAL_TRADE": {
+    "description": "Indicates a system does not have a significant amount of trade in a commodity.",
+    "message": "Minimal Trade"
+  },
+  "MINIMUM_CREW": {
+    "description": "",
+    "message": "最小クルー"
+  },
+  "MINOR_EXPORT": {
+    "description": "For displaying commodity information",
+    "message": "小規模輸出品"
+  },
+  "MINOR_EXPORTS_ITEM": {
+    "description": "",
+    "message": "小規模輸出品"
+  },
+  "MINOR_IMPORT": {
+    "description": "For displaying commodity information",
+    "message": "小規模輸入品"
+  },
+  "MINOR_IMPORTS_ITEM": {
+    "description": "",
+    "message": "小規模輸入品"
+  },
+  "MISSILE_MOUNTS": {
+    "description": "",
+    "message": "ミサイル搭載数"
+  },
+  "MISSIONS": {
+    "description": "",
+    "message": "ミッション"
+  },
+  "MISSION_DETAILS": {
+    "description": "",
+    "message": "ミッション詳細"
+  },
+  "MORE_INFO": {
+    "description": "",
+    "message": "詳細情報"
+  },
+  "MOSTLY_HARMLESS": {
+    "description": "",
+    "message": "Mostly Harmless"
+  },
+  "MOVE_DOWN": {
+    "description": "move selection down in list",
+    "message": "下に移動"
+  },
+  "MOVE_UP": {
+    "description": "move selection up in list",
+    "message": "上に移動"
+  },
+  "MULTISAMPLING": {
+    "description": "",
+    "message": "マルチサンプリング"
+  },
+  "MULTISAMPLING_DESC": {
+    "description": "",
+    "message": "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+  },
+  "MURDER": {
+    "description": "",
+    "message": "Murder"
+  },
+  "MUSIC": {
+    "description": "",
+    "message": "音楽:"
+  },
+  "MUTE": {
+    "description": "",
+    "message": "ミュート"
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "名前"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "名前"
+  },
+  "NAVIGATION": {
+    "description": "",
+    "message": "ナビゲーション:"
+  },
+  "NAVIGATOR": {
+    "description": "",
+    "message": "Navigator"
+  },
+  "NEGOTIATE": {
+    "description": "",
+    "message": "Negotiate"
+  },
+  "NEXT_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "次"
+  },
+  "NEXT_PAID": {
+    "description": "",
+    "message": "Next paid"
+  },
+  "NO": {
+    "description": "Negative answer to a question",
+    "message": "No"
+  },
+  "NOBODY": {
+    "description": "For player reputation",
+    "message": "Nobody"
+  },
+  "NONE": {
+    "description": "",
+    "message": "なし"
+  },
+  "NONE_FOR_SALE_IN_THIS_STATION": {
+    "description": "",
+    "message": "None for sale in this station."
+  },
+  "NORMA_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "じょうぎ腕"
+  },
+  "NOTES": {
+    "description": "",
+    "message": "Notes:"
+  },
+  "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
+    "description": "",
+    "message": "修理を試みるのに十分な{alloy}がない"
+  },
+  "NOT_SUPPORTED_ON_THIS_SHIP": {
+    "description": "",
+    "message": "{equipment}はこの船のモデルではサポートされていない"
+  },
+  "NO_DRIVE": {
+    "description": "Ship jump status",
+    "message": "No drive"
+  },
+  "NO_FILTER_MATCHES": {
+    "description": "No matches to this filter.",
+    "message": "該当なし"
+  },
+  "NO_MISSIONS": {
+    "description": "",
+    "message": "No missions."
+  },
+  "NO_VALID_ROUTE": {
+    "description": "Message in the sector map, issued by the autoroute function.",
+    "message": "選択した星系への有効なルートがありません。"
+  },
+  "N_LIGHT_YEARS_N_MAX": {
+    "description": "",
+    "message": "{range}光年 (最大{maxRange})"
+  },
+  "N_OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "客室を{quantity}人が利用中"
+  },
+  "N_SHIELD_GENERATORS": {
+    "description": "",
+    "message": "{quantity} Shield Generators"
+  },
+  "N_UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "客室は{quantity}人の空きがある"
+  },
+  "OFF": {
+    "description": "",
+    "message": "オフ"
+  },
+  "OK": {
+    "description": "",
+    "message": "Ok"
+  },
+  "OPEN_USER_FOLDER": {
+    "description": "",
+    "message": "User Folder"
+  },
+  "OPTIONS": {
+    "description": "",
+    "message": "オプション"
+  },
+  "ORBIT": {
+    "description": "",
+    "message": "軌道"
+  },
+  "ORBITAL_ANALYSIS": {
+    "description": "",
+    "message": "軌道解析"
+  },
+  "ORBITAL_ANALYSIS_NOTES": {
+    "description": "",
+    "message": "円軌道速度は接線速度として与えられる。ship/{name} 軸に対して90°の方向に移動する。\n\n降下速度はその最小値で、接線方向である。より遅い速度または低い角度では{name}の表面と交わることになる。\n\n脱出速度は理論上どの方向でも、船が{name}に衝突しない限り離脱するだろう。"
+  },
+  "OUTER_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Outer arm"
+  },
+  "OUTSTANDING_FINES": {
+    "description": "Unpaid fines for crimes committed",
+    "message": "Outstanding fines"
+  },
+  "OUT_OF_RANGE": {
+    "description": "Ship jump status",
+    "message": "範囲外"
+  },
+  "OVERVIEW_NAME_FILTER": {
+    "description": "Filter overview window entries by name",
+    "message": "名前で概要ウィンドウのエントリーをフィルターする"
+  },
+  "OWED": {
+    "description": "Player owing money to crew members",
+    "message": "Owed"
+  },
+  "PAY": {
+    "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
+    "message": "支払う"
+  },
+  "PAY_FINE_OF_N": {
+    "description": "",
+    "message": "Pay fine of {amount}"
+  },
+  "PERSEUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "ペルセウス腕"
+  },
+  "PERSONAL_INFORMATION": {
+    "description": "",
+    "message": "個人情報"
+  },
+  "PILOT": {
+    "description": "",
+    "message": "パイロット"
+  },
+  "PILOTING": {
+    "description": "",
+    "message": "Piloting:"
+  },
+  "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
+    "description": "",
+    "message": "操縦席には今{name}がいる"
+  },
+  "PIRACY": {
+    "description": "",
+    "message": "Piracy"
+  },
+  "PLANET_DETAIL_DISTANCE": {
+    "description": "",
+    "message": "惑星詳細距離"
+  },
+  "PLANET_TEXTURES": {
+    "description": "",
+    "message": "惑星テクスチャ"
+  },
+  "POLICE": {
+    "description": "",
+    "message": "警察"
+  },
+  "POOR": {
+    "description": "Player combat rating",
+    "message": "Poor"
+  },
+  "POSITION": {
+    "description": "The job title/position of crew memeber",
+    "message": "役職"
+  },
+  "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
+    "description": "",
+    "message": "Press a key or controller button or escape to clear"
+  },
+  "PREVIOUS_FACE_FEATURE": {
+    "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
+    "message": "前"
+  },
+  "PRICE": {
+    "description": "",
+    "message": "Price"
+  },
+  "PROFESSIONAL": {
+    "description": "For player reputation",
+    "message": "Professional"
+  },
+  "PROFITABLE_TRADE": {
+    "description": "Indicates a profitable trade route.",
+    "message": "Profitable Trade"
+  },
+  "PUMP_DOWN": {
+    "description": "Drain the fuel tank",
+    "message": "燃料取り出し"
+  },
+  "QUALIFICATION_SCORES": {
+    "description": "",
+    "message": "Qualification scores"
+  },
+  "QUIT": {
+    "description": "",
+    "message": "終了"
+  },
+  "QUIT_CONFIRMATION": {
+    "description": "For the checkbox in settings window",
+    "message": "終了を確認する"
+  },
+  "RANDOM_FACE": {
+    "description": "Generate random face",
+    "message": "ランダム"
+  },
+  "RANK": {
+    "description": "",
+    "message": "Rank:"
+  },
+  "RATING": {
+    "description": "",
+    "message": "Rating:"
+  },
+  "REAR_WEAPON": {
+    "description": "",
+    "message": "後部武器"
+  },
+  "REFUEL": {
+    "description": "",
+    "message": "燃料補給"
+  },
+  "REFUEL_FULL": {
+    "description": "",
+    "message": "燃料を満タンまで補給"
+  },
+  "REGISTRATION_NUMBER": {
+    "description": "",
+    "message": "登録番号"
+  },
+  "RELIABLE": {
+    "description": "For player reputation",
+    "message": "Reliable"
+  },
+  "REMOVE": {
+    "description": "Remove, e.g. deleting a log entry",
+    "message": "削除"
+  },
+  "REMOVE_JUMP": {
+    "description": "UI-button: remove hyper jump from list of planned jumps",
+    "message": "ジャンプを取り除く"
+  },
+  "REMOVE_WHEN_COMPLETED": {
+    "description": "For UI hyperjump planner, referring to jump target system",
+    "message": "完了したらジャンプを取り除く"
+  },
+  "REPAIR_X_HULL_DAMAGE_FOR_X": {
+    "description": "",
+    "message": "{price}で{damage}%の船体ダメージを修理する"
+  },
+  "REPUTATION": {
+    "description": "",
+    "message": "評判"
+  },
+  "REQUEST_LAUNCH": {
+    "description": "",
+    "message": "発進を要請"
+  },
+  "REQUIRED_FUEL": {
+    "description": "Fuel usage for traveling to star system",
+    "message": "必要な燃料:"
+  },
+  "RESET": {
+    "description": "",
+    "message": "リセット"
+  },
+  "RESET_ORIENTATION_AND_ZOOM": {
+    "description": "",
+    "message": "姿勢とズームをリセット"
+  },
+  "RETURN_TO_GAME": {
+    "description": "",
+    "message": "ゲームに戻る"
+  },
+  "RETURN_TO_MENU": {
+    "description": "",
+    "message": "メニューに戻る"
+  },
+  "REVERSE_ACCEL_EMPTY": {
+    "description": "",
+    "message": "Reverse accel (empty)"
+  },
+  "REVERSE_ACCEL_FULL": {
+    "description": "",
+    "message": "Reverse accel (full)"
+  },
+  "REWARD": {
+    "description": "",
+    "message": "報酬"
+  },
+  "ROTATE_VIEW": {
+    "description": "Indicates that the button must be kept pressed down, to rotate camera view with mouse",
+    "message": "視点を開店するには押し続けます"
+  },
+  "ROUTE_INFO": {
+    "description": "For hyperjump planner",
+    "message": "経路情報"
+  },
+  "ROUTE_JUMPS": {
+    "description": "For hyperjump planner",
+    "message": "ジャンプのルート"
+  },
+  "SAFETY_LOCKOUT": {
+    "description": "Ship jump status",
+    "message": "Safety lockout"
+  },
+  "SAGITTARIUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "サジタリウス腕"
+  },
+  "SAVE": {
+    "description": "",
+    "message": "セーブ"
+  },
+  "SCOOP_MOUNTS": {
+    "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+    "message": "スクープ搭載可能数"
+  },
+  "SCUTUM_CENTAURUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "たて・ケンタウルス腕"
+  },
+  "SELECT": {
+    "description": "",
+    "message": "選択"
+  },
+  "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
+    "description": "",
+    "message": "セーブするファイルを選択するか当たらしいファイル名を入力してください"
+  },
+  "SELECT_FILE": {
+    "description": "",
+    "message": "ファイルを選択..."
+  },
+  "SELECT_GAME_TO_LOAD": {
+    "description": "",
+    "message": "Select game to load..."
+  },
+  "SELL": {
+    "description": "Commodities and equipment prices",
+    "message": "売る"
+  },
+  "SENSORS": {
+    "description": "",
+    "message": "センサー:"
+  },
+  "SENSORS_AND_DEFENCE": {
+    "description": "",
+    "message": "Sensors and defence"
+  },
+  "SETTINGS": {
+    "description": "UI option",
+    "message": "設定"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "ナビゲーションターゲットとして目的地を設定。"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "Set return route"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "船"
+  },
+  "SHIPS_ENGINEER": {
+    "description": "",
+    "message": "船の機関士"
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "宇宙船情報"
+  },
+  "SHIP_IS_ALREADY_FULLY_REPAIRED": {
+    "description": "",
+    "message": "あなたの船は完全に動く状態にある。"
+  },
+  "SHIP_IS_FULLY_EQUIPPED": {
+    "description": "",
+    "message": "あなたの船はすでに装備がいっぱいです。"
+  },
+  "SHIP_IS_FULLY_LADEN": {
+    "description": "",
+    "message": "あなたの船はすでにいっぱいに積み込んでいます。"
+  },
+  "SHIP_MARKET": {
+    "description": "",
+    "message": "宇宙船販売所"
+  },
+  "SHIP_REPAIRS": {
+    "description": "",
+    "message": "船を修理"
+  },
+  "SHIP_TYPE": {
+    "description": "",
+    "message": "船種"
+  },
+  "SHIP_VIEWING_WAS_SOLD": {
+    "description": "",
+    "message": "あなたが見ていた船は売り切れです"
+  },
+  "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
+    "description": "",
+    "message": "宇宙の進化をシミュレーション中:{age}0億年 ;-)"
+  },
+  "SOUND": {
+    "description": "",
+    "message": "サウンド"
+  },
+  "START_AT_BARNARDS_STAR": {
+    "description": "",
+    "message": "バーナード星系でスタート"
+  },
+  "START_AT_BARNARDS_STAR_DESC": {
+    "description": "",
+    "message": "これはSystem Administration Resting prison stationからの難しいスタートです。"
+  },
+  "START_AT_EARTH": {
+    "description": "",
+    "message": "地球でスタート"
+  },
+  "START_AT_EARTH_DESC": {
+    "description": "",
+    "message": "太陽系の地球にあるロンドンからの簡単なスタートです。"
+  },
+  "START_AT_MARS": {
+    "description": "",
+    "message": "火星でスタート"
+  },
+  "START_AT_MARS_DESC": {
+    "description": "",
+    "message": "これは太陽系の火星にあるCydoniaからの簡単なスタートです。"
+  },
+  "START_AT_NEW_HOPE": {
+    "description": "New Hope is an in game location",
+    "message": "New Hopeでスタート"
+  },
+  "START_AT_NEW_HOPE_DESC": {
+    "description": "",
+    "message": "これはエリダヌス座イプシロン星系のNew HopeにあるItzaleanからの中難易度のスタートです。"
+  },
+  "START_LOG_ENTRY_1": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
+    "message": "残念なことに、叔父は生きている間にこのおんぼろ船をどうやって操縦するのか私に教えなかった。しかし、私は今航海日誌を記入していると思う。おかしなことに、私はまだ彼を感じることができる。まるでこの船の壁のに彼がいるかのようだ。ひょっとすると彼は私の副操縦士となって、一緒にグレート・ボイドで私たちの運命を明らかにするのかもしれない。だがまず初めにジャンプドライブのためにいくらかの水素を買わなければならないし、儲かる貿易の機会に向けて進路を定めて、交通管制が私のような未熟なパイロットが離陸を許可してくれることを天国に祈り、それからこの船がそれができることを見届けなければ。私の名声を打ち立てる時が来た!"
+  },
+  "START_LOG_ENTRY_2": {
+    "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
+    "message": "私のブーツは昨晩私が家に帰った時の激しい雨でまだ濡れている。道路はとても濡れていて、ネオンサインからの反射光で濡れた通りを見下ろす夜空 をあふれさせており、まるで仕返ししているようだった。しかし私は雨を通り抜け、私の新しい船が待つ星系港への接続便に間に合ったのだ。星系港の警備員は 、私が船を取りに来ていると彼に言うと怪訝な顔をした。私が彼の前に立っていたとき、このさびついたおんぼろバケツにつぎこまなければならなかった全ての物、濡れたブーツやらなにやらを売ってしまったので、おそらく私がスペーサーのように見えなかったのだろう。しかし私は、今この時から私の将来は星に刻まれるだろうと確信している。いま私は始動キーを見つける必要があるだけだ。"
+  },
+  "START_LOG_ENTRY_3": {
+    "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
+    "message": "長い官僚的な手続きの後に、最終的に私は自分の船を取り戻した。しかし彼らが主張する、私が負っていた「負債」を支払うために彼女を地金にまではぎ取っていました。私のお気に入りのコーヒーメーカーのみならず、ろくでなしどもはハイパードライブをもまた取り外していました。そのため私は、新しいドライブを調達するために船に残されたどんな物も売ることなしにはこの星系で立ち往生です。しかしことわざにも言うように「人生があなたにレモンを与えるのなら、それでレモネードを作れ」と、まさに私が出発点に戻ったのなら、後退したのでなくよい機会である、再挑戦の機会であると考えていこう。コーヒーは無しで。今の私を手放すことで、私がなりうるものになる。世界は遠ざかり、それらがどこへ行くのか知っている誰かにするように私を通す。そして私は星々へと向かっているのだ。"
+  },
+  "STAR_FIELD_DENSITY": {
+    "description": "",
+    "message": "Density of Star field"
+  },
+  "STATION": {
+    "description": "Flight log info, will refer to a station by name",
+    "message": "Station"
+  },
+  "STATION_DOCKS": {
+    "description": "Information shown in the station lobby, for total number of docking pads",
+    "message": "我々は合計で{total_docking_pads}のドッキングパッド容量がある。"
+  },
+  "STATION_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "ここでの局所重力は%.2f gだ。"
+  },
+  "STATION_LOCAL_GRAVITY_PRESSURE": {
+    "description": "",
+    "message": "ここでの局所重力は%.2f gで、大気圧は%.2f atmだ。"
+  },
+  "STATION_MANAGER": {
+    "description": "",
+    "message": "ステーション管理者"
+  },
+  "STATION_ORBIT": {
+    "description": "Information shown in the station loby",
+    "message": "私たちは{parent_body}の周囲を{orbit_period}日周期の軌道で回っている。"
+  },
+  "STATION_TECH_TOO_LOW": {
+    "description": "",
+    "message": "このアイテムを売るのにはステーションの技術レベルが低すぎます"
+  },
+  "STATUS": {
+    "description": "",
+    "message": "Status"
+  },
+  "TECH_CERTIFIED": {
+    "description": "Lobby screen shows the tech level (an integer number) of the station",
+    "message": "このステーションはレベル{tech_level}テクノロジー証明を受けています。"
+  },
+  "TECH_CERTIFIED_MILITARY": {
+    "description": "Lobby screen shows the tech level of the station",
+    "message": "この設備は軍事技術の認可を保持しています。"
+  },
+  "TEXTURE_COMPRESSION": {
+    "description": "",
+    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+  },
+  "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
+    "description": "",
+    "message": "ご購入いただきありがとうございます。出発の前に装備の取り付けと燃料の購入を忘れずに。"
+  },
+  "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP": {
+    "description": "",
+    "message": "There is nobody else on board able to fly this ship."
+  },
+  "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
+    "description": "",
+    "message": "この船はステーションの管理下にあります、コマンダー。"
+  },
+  "THIS_IS_FACTION_POLICE": {
+    "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
+    "message": "こちらは{faction}の{faction_police}だ。"
+  },
+  "THREE_KPC_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "3キロパーセク渦状腕"
+  },
+  "TOGGLE_MALE_FEMALE": {
+    "description": "player gender",
+    "message": "男女を切り替え"
+  },
+  "TOGGLE_OVERVIEW_SHOW_MOONS": {
+    "description": "toggle whether the overview window shows moons or not",
+    "message": "概要に月の表示を切り替え"
+  },
+  "TOGGLE_OVERVIEW_SHOW_STATIONS": {
+    "description": "toggle whether the overview window shows stations or not",
+    "message": "概要にステーションの表示を切り替え"
+  },
+  "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
+    "description": "toggle whether the overview window sorts by distance from the player or from the system center",
+    "message": "プレイヤーからの距離か、星系中心からの距離で並び替えるかを切り替え"
+  },
+  "TOGGLE_OVERVIEW_WINDOW": {
+    "description": "show/hide the overview window / navigation window",
+    "message": "概要の表示切替"
+  },
+  "TOO_SMALL_FOR_CURRENT_CREW": {
+    "description": "",
+    "message": "現在のクルーには船が小さすぎます。"
+  },
+  "TOO_SMALL_TO_TRANSSHIP": {
+    "description": "Ship market error message",
+    "message": "現在の貨物とハイパードライブでは新しい船は容量が足りません。"
+  },
+  "TOTAL": {
+    "description": "",
+    "message": "合計:"
+  },
+  "TOTAL_DISTANCE": {
+    "description": "Total distance of a (possibly series) of hyper jump(s)",
+    "message": "合計距離:"
+  },
+  "TOTAL_DURATION": {
+    "description": "Total duration of a (possibly series) of hyper jump(s)",
+    "message": "合計時間:"
+  },
+  "TOTAL_MASS": {
+    "description": "",
+    "message": "Total mass"
+  },
+  "TRADING_FROM": {
+    "description": "Indicates the source system of a commodity trade.",
+    "message": "From {system}:"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "非合法品を取引する"
+  },
+  "TRADING_TO": {
+    "description": "Indicates the destination system of a commodity trade.",
+    "message": "To {system}:"
+  },
+  "TRUSTWORTHY": {
+    "description": "For player reputation",
+    "message": "Trustworthy"
+  },
+  "TYPE": {
+    "description": "",
+    "message": "Type"
+  },
+  "UNLAWFUL_WEAPONS_DISCHARGE": {
+    "description": "",
+    "message": "違法な武器の発射"
+  },
+  "UNPROFITABLE_TRADE": {
+    "description": "Indicates an unprofitable trade route.",
+    "message": "儲からない取引"
+  },
+  "UNRELIABLE": {
+    "description": "",
+    "message": "Unreliable"
+  },
+  "UP_ACCEL": {
+    "description": "",
+    "message": "上昇加速度"
+  },
+  "USED": {
+    "description": "",
+    "message": "Used"
+  },
+  "VERY_HIGH": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Very high"
+  },
+  "VERY_LOW": {
+    "description": "Game settings option: graphic resolution",
+    "message": "Very low"
+  },
+  "VICINITY_OF": {
+    "description": "",
+    "message": "In vicinity of"
+  },
+  "VIDEO": {
+    "description": "",
+    "message": "ビデオ"
+  },
+  "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
+    "description": "",
+    "message": "ビデオ設定(適応にはゲームの再起動が必要)"
+  },
+  "VIDEO_RESOLUTION": {
+    "description": "",
+    "message": "解像度"
+  },
+  "VIDEO_RESOLUTION_DESC": {
+    "description": "Tooltip for video mode/resultion setting",
+    "message": "高い解像度は小さなものよりも多くの情報を表示しますがパフォーマンスが低下します。"
+  },
+  "VSYNC": {
+    "description": "For the checkbox in settings window",
+    "message": "VSync"
+  },
+  "VSYNC_DESC": {
+    "description": "",
+    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+  },
+  "WAGE": {
+    "description": "Salary of crew shown in crew roster",
+    "message": "賃金"
+  },
+  "WEIGHT_EMPTY": {
+    "description": "",
+    "message": "Weight empty"
+  },
+  "WEIGHT_FULLY_LOADED": {
+    "description": "",
+    "message": "Weight fully loaded"
+  },
+  "WE_ARE_IN_HYPERSPACE_COMMANDER": {
+    "description": "",
+    "message": "我々はハイパースペースにいます、コマンダー。"
+  },
+  "WE_HAVE_NO_BUSINESS_WITH_YOU": {
+    "description": "Said by the police to law abiding player",
+    "message": "We have no business with you at the moment."
+  },
+  "X_CANNOT_BE_TOLERATED_HERE": {
+    "description": "Message to be sent over comms by police when crime is committed by player",
+    "message": "ここでは{crime}は許されないぞ!"
+  },
+  "YES": {
+    "description": "Positive answer to a question",
+    "message": "Yes"
+  },
+  "YOURE_GOING_TO_REGRET_SACKING_ME": {
+    "description": "",
+    "message": "私をクビにしたことを後悔するだろう!"
+  },
+  "YOUR_HULL_IS_AT_X_INTEGRITY": {
+    "description": "",
+    "message": "あなたの船体は{value}%の強度です。"
+  },
+  "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
+    "description": "",
+    "message": "その選択をするのに十分なお金がありません。"
+  },
+  "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
+    "description": "",
+    "message": "あなたは貨物室に{units}単位持っています。"
+  },
+  "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
+    "description": "",
+    "message": "最初に戦闘ターゲットを選ばなければなりません、コマンダー。"
+  },
+  "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
+    "description": "",
+    "message": "最初に適切なナビゲーション目標を選択しなければなりません、コマンダー。"
+  },
+  "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
+    "description": "",
+    "message": "最初に発進する必要がります、コマンダー。"
+  },
+  "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
+    "description": "",
+    "message": "最初に発進許可を要請する必要があります、コマンダー。"
+  },
+  "YOU_NOT_ENOUGH_MONEY": {
+    "description": "",
+    "message": "十分なお金を持っていません。"
+  },
+  "ZOOM": {
+    "description": "Label for a zoom (magnification) control bar.",
+    "message": "ズーム"
+  }
+}

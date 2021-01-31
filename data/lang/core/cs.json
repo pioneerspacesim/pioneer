@@ -185,7 +185,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS_COMPARE": {
     "description": "",
-    "message": "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+    "message": "Analýza obchodu s komoditami mezi #ff0%selected_system#fff (vybrané) a #ff0%current_system#fff (aktuální):"
   },
   "COMMODITY_TRADE_ANALYSIS_SELF": {
     "description": "",
@@ -313,7 +313,7 @@
   },
   "DOCKED": {
     "description": "",
-    "message": "Docked"
+    "message": "Zadokován"
   },
   "DOCKING": {
     "description": "",
@@ -334,10 +334,6 @@
   "DRAW_VERTICAL_LINES": {
     "description": "",
     "message": "Zobrazit svislé čáry"
-  },
-  "EARTH": {
-    "description": "",
-    "message": "Zemí"
   },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
@@ -461,7 +457,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Ruční zbraně"
   },
   "HARD_CAPITALIST": {
     "description": "",
@@ -965,15 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} pozemských dnů"
+    "message": "%days{f.1} Pozemských dní"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} %units"
+    "message": "%mass{f.3} Earth masses"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} Earth radii (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Solar masses"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %units"
+    "message": "%radius{f.3} Solar radii (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -1334,10 +1338,6 @@
   "SOCIAL_DEMOCRACY": {
     "description": "",
     "message": "Sociální demokracie"
-  },
-  "SOLAR": {
-    "description": "",
-    "message": "Sluncí"
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",

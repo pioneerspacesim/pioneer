@@ -47,6 +47,10 @@
     "description": "",
     "message": "UNTERSTÜTZE FREIHEIT! Nieder mit der proprietären Software, die dein Schiff kontrolliert."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Ihre Reputation könnte von einer Spende von {cash} für unsere Sache profitieren, aber natürlich hilft jedes bisschen."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Danke. Alle Spenden sind wilkommen."

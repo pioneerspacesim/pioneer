@@ -335,10 +335,6 @@
     "description": "",
     "message": "Vertikale Linien ziehen"
   },
-  "EARTH": {
-    "description": "",
-    "message": "Erd"
-  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Kolonialherrschaft durch die Erd-Föderation"
@@ -769,7 +765,7 @@
   },
   "MINOR_EXPORTS": {
     "description": "",
-    "message": "Sonstige Exporte:"
+    "message": "Geringfügige Exporte:"
   },
   "MINOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
@@ -777,7 +773,7 @@
   },
   "MINOR_IMPORTS": {
     "description": "",
-    "message": "Sonstige Importe:"
+    "message": "Geringfügige Importe:"
   },
   "MINOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
@@ -967,13 +963,21 @@
     "description": "",
     "message": "%days{f.1} Erdentage"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} %{units}massen"
+    "message": "%mass{f.3} Erdenmassen"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} Erdradien (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Sonnenmassen"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %{units}radien (%radkm{f.0} km)"
+    "message": "%radius{f.3} Sonnenradien (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -1334,10 +1338,6 @@
   "SOCIAL_DEMOCRACY": {
     "description": "",
     "message": "Sozialdemokratie"
-  },
-  "SOLAR": {
-    "description": "",
-    "message": "Sonnen"
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",

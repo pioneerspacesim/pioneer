@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "It is most regrettable that {target} is still alive and well. You will receive no payment as you did not complete your contract."
+    "message": "Det är beklagligt att {target} fortfarande är vid god vigör. Du får ingen betaling eftersom du inte uppfyllde ditt kontrakt."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Are you asking money for a job done by someone else? Get lost."
+    "message": "Kräver du pengar för ett jobb någon annan gjort? Försvinn."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",

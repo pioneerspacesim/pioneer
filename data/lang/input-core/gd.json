@@ -13,7 +13,7 @@
   },
   "BIND_AXIS_THRUST_FORWARD": {
     "description": "Descriptive name for the ThrustForward axis",
-    "message": "Put an comhair a' bheòil / chùil"
+    "message": "Put an comhair a’ bheòil / chùil"
   },
   "BIND_AXIS_THRUST_LEFT": {
     "description": "Descriptive name for the ThrustLeft axis",
@@ -29,23 +29,23 @@
   },
   "BIND_BOTTOM_CAMERA": {
     "description": "Descriptive name for the BottomCamera action.",
-    "message": "Geàrr leum gu camara a' bhuinn"
+    "message": "Geàrr leum gu camara a’ bhuinn"
   },
   "BIND_CAMERA_PITCH": {
     "description": "Descriptive name for the Camera Pitch axis.",
-    "message": "Pids a' chamara"
+    "message": "Pids a’ chamara"
   },
   "BIND_CAMERA_ROLL": {
     "description": "Descriptive name for the Camera Roll axis",
-    "message": "Roiligeadh a' chamara"
+    "message": "Roiligeadh a’ chamara"
   },
   "BIND_CAMERA_YAW": {
     "description": "Descriptive name for the Camera Yaw axis.",
-    "message": "Claonadh a' chamara"
+    "message": "Claonadh a’ chamara"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
-    "message": "Cuairtich modh a' chamara"
+    "message": "Cuairtich modh a’ chamara"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
@@ -53,7 +53,7 @@
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
-    "message": "Geàrr leum gu camara a' bheulaibh"
+    "message": "Geàrr leum gu camara a’ bheulaibh"
   },
   "BIND_INCREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the IncreaseTimeAcceleration action.",
@@ -85,7 +85,7 @@
   },
   "BIND_MAP_VIEW_MOVE_LEFT": {
     "description": "Axis binding",
-    "message": "Gluais am mapa air a' chòmhnard"
+    "message": "Gluais am mapa air a’ chòmhnard"
   },
   "BIND_MAP_VIEW_MOVE_UP": {
     "description": "Axis binding",
@@ -93,11 +93,11 @@
   },
   "BIND_MAP_VIEW_PITCH": {
     "description": "Axis binding",
-    "message": "Pids a' mhapa"
+    "message": "Pids a’ mhapa"
   },
   "BIND_MAP_VIEW_YAW": {
     "description": "Axis binding",
-    "message": "Claonadh a' mhapa"
+    "message": "Claonadh a’ mhapa"
   },
   "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "Descriptive name for the MapWarpToCurrentSystem action.",
@@ -113,15 +113,15 @@
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
-    "message": "Geàrr leum gu camara a' chùlaibh"
+    "message": "Geàrr leum gu camara a’ chùlaibh"
   },
   "BIND_RESET_CAMERA": {
     "description": "Descriptive name for the ResetCamera action.",
-    "message": "Ath-shuidhich sealladh tùsail a' chamara"
+    "message": "Ath-shuidhich sealladh tùsail a’ chamara"
   },
   "BIND_RESET_ORIENTATION_AND_ZOOM": {
     "description": "Descriptive name for the ResetOrientationAndZoom action.",
-    "message": "Ath-shuidhich a' chomhair agus an sùm"
+    "message": "Ath-shuidhich a’ chomhair agus an sùm"
   },
   "BIND_RIGHT_CAMERA": {
     "description": "Descriptive name for the RightCamera action.",
@@ -141,7 +141,7 @@
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
-    "message": "Modh lùths ìosal a' phutaidh (cùm)"
+    "message": "Modh lùths ìosal a’ phutaidh (cùm)"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
@@ -149,11 +149,11 @@
   },
   "BIND_TOGGLE_LUA_CONSOLE": {
     "description": "Descriptive name for the ToggleLuaConsole action.",
-    "message": "Toglaich a' chonsoil Lua"
+    "message": "Toglaich a’ chonsoil Lua"
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
-    "message": "Toglaich lasachadh a' chuairteachaidh"
+    "message": "Toglaich lasachadh a’ chuairteachaidh"
   },
   "BIND_TOGGLE_SET_SPEED": {
     "description": "Descriptive name for the ToggleSetSpeed action.",
@@ -161,7 +161,7 @@
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
-    "message": "Geàrr leum gu camara a' bharra"
+    "message": "Geàrr leum gu camara a’ bharra"
   },
   "BIND_VIEW_ZOOM": {
     "description": "Descriptive name for the View Zoom axis",
@@ -181,7 +181,7 @@
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
-    "message": "Stiùireadh a' phutaidh a làimh"
+    "message": "Stiùireadh a’ phutaidh a làimh"
   },
   "GROUP_MISCELLANEOUS": {
     "message": "Measgaichte"
@@ -196,7 +196,7 @@
   },
   "GROUP_SPEED_CONTROL": {
     "description": "Header for the SpeedControl input group.",
-    "message": "Suidhich stiùireadh a' phutaidh"
+    "message": "Suidhich stiùireadh a’ phutaidh"
   },
   "GROUP_WEAPONS": {
     "description": "Header for the Weapons input group.",
@@ -228,7 +228,7 @@
   },
   "PAGE_MAP_CONTROLS": {
     "description": "Header for the MapControls input page.",
-    "message": "Stiùireadh a' mhapa"
+    "message": "Stiùireadh a’ mhapa"
   },
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",

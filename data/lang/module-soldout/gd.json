@@ -1,0 +1,30 @@
+{
+  "AMOUNT": {
+    "description": "The amount (for now in tonne) of goods person wants to buy",
+    "message": "Ceannaichidh mi na th’ agaibh gu ruige {amount}t."
+  },
+  "MESSAGE": {
+    "description": "",
+    "message": "Is mise {name}. Tha mi feumach air {commodity} gu h-èiginneach is pàighidh mi dà uiread dhen phrìs àbhaisteach ({price})."
+  },
+  "NOT_IN_STOCK": {
+    "description": "Regarding selling more than the player has",
+    "message": "Chan eil {commodity} gu leòr san stòras."
+  },
+  "SELL_1": {
+    "description": "Sell one single unit (probably tonne)",
+    "message": "Reic 1"
+  },
+  "SELL_ALL": {
+    "description": "Sell everything player has of the good/commodity",
+    "message": "Reic gu lèir"
+  },
+  "SELL_N": {
+    "description": "Sell several units (probably in tonne), i.e. N > 1",
+    "message": "Reic {N}"
+  },
+  "TITLE": {
+    "description": "",
+    "message": "’GA IARRAIDH: {commodity}. Pàighidh mi {price} air gach tunna"
+  }
+}

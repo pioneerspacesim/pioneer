@@ -1,0 +1,30 @@
+{
+  "AMOUNT": {
+    "description": "The amount (for now in tonne) of goods person wants to buy",
+    "message": "{amount}t kadar ihtiyacım var, ne kadarını satarsanız alırım."
+  },
+  "MESSAGE": {
+    "description": "",
+    "message": "Ben {name}. Acilen {commodity} gerekiyor, market fiyatının iki katını ({price}) ödeyeceğim."
+  },
+  "NOT_IN_STOCK": {
+    "description": "Regarding selling more than the player has",
+    "message": "Stokta yeterince {commodity} yok."
+  },
+  "SELL_1": {
+    "description": "Sell one single unit (probably tonne)",
+    "message": "1 adet sat"
+  },
+  "SELL_ALL": {
+    "description": "Sell everything player has of the good/commodity",
+    "message": "Hepsini sat"
+  },
+  "SELL_N": {
+    "description": "Sell several units (probably in tonne), i.e. N > 1",
+    "message": "{N} adet sat"
+  },
+  "TITLE": {
+    "description": "",
+    "message": "TALEP: {commodity}. Ton başına {price} ödenecek."
+  }
+}

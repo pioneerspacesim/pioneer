@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "Fhuair sinn an naidheachd bhrònach gun deach {shiplabel} a mhilleadh. Pàighidh sinn an dàrna leth dhen phrìs a dh'aontaich sinn airson ur n-oidhirp."
+    "message": "Fhuair sinn an naidheachd bhrònach gun deach {shiplabel} a mhilleadh. Pàighidh sinn an dàrna leth dhen phrìs a dh’aontaich sinn airson ur n-oidhirp."
   },
   "AU": {
     "description": "",
@@ -17,7 +17,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Dè an t-iarrtas a bh' agaibh a-rithist?"
+    "message": "Dè an t-iarrtas a bh’ agaibh a-rithist?"
   },
   "CREW": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "ENTITY_FAMILY_BUSINESS_1": {
     "description": "",
-    "message": "{name} 's a Mhic"
+    "message": "{name} ’s a Mhic"
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",
-    "message": "{name} 's a Nigheannan"
+    "message": "{name} ’s a Nigheannan"
   },
   "ENTITY_FAMILY_BUSINESS_3": {
     "description": "",
@@ -177,11 +177,11 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Tha stiùireadh trafaige aig {starport} feumach air do thaic SA BHAD gus cobhair a thoirt dha shoitheach-fànais dhen t-seòrsa {ship} a dh'fhulaing tubaist air {planet}. Chan eil fios againn an obraich na siostaman taice-beatha fhathast. Tha àrachas aig an t-soitheach le àrachas reul-phort {starport} agus còmhdachadh dhe {cash} aige airson ath-phàigheadh cobharach èiginnich."
+    "message": "Tha stiùireadh trafaige aig {starport} feumach air do thaic SA BHAD gus cobhair a thoirt dha shoitheach-fànais dhen t-seòrsa {ship} a dh’fhulaing tubaist air {planet}. Chan eil fios againn an obraich na siostaman taice-beatha fhathast. Tha àrachas aig an t-soitheach le àrachas reul-phort {starport} agus còmhdachadh dhe {cash} aige airson ath-phàigheadh cobharach èiginnich."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
-    "message": "'S e {planet} aig co-chomharran domhan-leud/domhan-fhaid: {lat} / {long} a tha san t-ionad mu dheireadh aig an t-soitheach seo air a bheil sinn eòlach. 'S e {shiplabel} a th' ann an ID an t-soithich."
+    "message": "’S e {planet} aig co-chomharran domhan-leud/domhan-fhaid: {lat} / {long} a tha san t-ionad mu dheireadh aig an t-soitheach seo air a bheil sinn eòlach. ’S e {shiplabel} a th’ ann an ID an t-soithich."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -193,11 +193,11 @@
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Chaidh aithris gu bheil sgioba dhe {crew} agus {pass} luchd-taisteil air bòrd an t-soithich. Tha sinn feumach air cuideigin a lorgas an soitheach 's a thogas an luchd-tarrsainn on làrach 's a bheir an-seo iad sa bhad."
+    "message": "Chaidh aithris gu bheil sgioba dhe {crew} agus {pass} luchd-taisteil air bòrd an t-soithich. Tha sinn feumach air cuideigin a lorgas an soitheach ’s a thogas an luchd-tarrsainn on làrach ’s a bheir an-seo iad sa bhad."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "DH'FHALBH AN CONNADH AIR SOITHEACH air slighe {starport}."
+    "message": "DH’FHALBH AN CONNADH AIR SOITHEACH air slighe {starport}."
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -209,15 +209,15 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Fhuair stiùireadh trafaige aig {starport} brath gun do dh'fhalbh an connadh air iteal a-steach {shiplabel} agus gun robh aca ri tìr a bhualadh gu h-èiginneach. Tha am paidhleat deònach {cash} a phàigheadh airson seirbheis connachaidh."
+    "message": "Fhuair stiùireadh trafaige aig {starport} brath gun do dh’fhalbh an connadh air iteal a-steach {shiplabel} agus gun robh aca ri tìr a bhualadh gu h-èiginneach. Tha am paidhleat deònach {cash} a phàigheadh airson seirbheis connachaidh."
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
-    "message": "Tha an soitheach a' feitheamh aig domhan-leud {lat} / domhan-fhad {long} air planaid {planet}."
+    "message": "Tha an soitheach a’ feitheamh aig domhan-leud {lat} / domhan-fhad {long} air planaid {planet}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Tha sinn fada 'nad chomain! Chuir sinn pàigheadh slàn thugad."
+    "message": "Tha sinn fada ’nad chomain! Chuir sinn pàigheadh slàn thugad."
   },
   "FLAVOUR_2_TRANSFERMSG": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "'S ann sgriosail a bha seo! Ùraichidh sinn na clàran agad mar as iomchaidh."
+    "message": "’S ann sgriosail a bha seo! Ùraichidh sinn na clàran agad mar as iomchaidh."
   },
   "FLAVOUR_3_HOWMUCHTIMETEXT": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Is mise {name} o stiùireadh trafaige aig {starport}. Tha mi ag iarraidh cobhair a thaobh èiginn mheadaigeach a' gabhail a-steach paidhleat iteil {shiplabel} air slighe {starport}."
+    "message": "Is mise {name} o stiùireadh trafaige aig {starport}. Tha mi ag iarraidh cobhair a thaobh èiginn mheadaigeach a’ gabhail a-steach paidhleat iteil {shiplabel} air slighe {starport}."
   },
   "FLAVOUR_3_LOCATIONTEXT": {
     "description": "",
@@ -253,7 +253,7 @@
   },
   "FLAVOUR_3_TRANSFERMSG": {
     "description": "",
-    "message": "Dh'fhàg {unit} an soitheach."
+    "message": "Dh’fhàg {unit} an soitheach."
   },
   "FLAVOUR_3_TYPEOFHELPTEXT": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "DH'FHALBH AN CONNADH AIR SOITHEACH air {planet}."
+    "message": "DH’FHALBH AN CONNADH AIR SOITHEACH air {planet}."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -269,7 +269,7 @@
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Tha am paidhleat an dùil gum bi thu air a' chonnadh a lìbhrigeadh {due} air neo chan fhaigh thu pàigheadh slàn."
+    "message": "Tha am paidhleat an dùil gum bi thu air a’ chonnadh a lìbhrigeadh {due} air neo chan fhaigh thu pàigheadh slàn."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
@@ -289,11 +289,11 @@
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Dh'fhaighnich am paidhleat am faigh e {unit} tunna(ichean) dhe {cargo}."
+    "message": "Dh’fhaighnich am paidhleat am faigh e {unit} tunna(ichean) dhe {cargo}."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "DH'FHALBH AN CONNADH AIR SOITHEACH faisg air {starport}."
+    "message": "DH’FHALBH AN CONNADH AIR SOITHEACH faisg air {starport}."
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Dh'aithnich stiùireadh trafaige {starport} soitheach-fànais air a bheil an t-aithnichear {shiplabel} am fagas 's an connadh air a ruith air. Pàighidh sinn {cash} do dhuine sam bith a bheir connadh dhan t-soitheach ud ach an urrainn dhaibh fochair {starport} fhàgail."
+    "message": "Dh’aithnich stiùireadh trafaige {starport} soitheach-fànais air a bheil an t-aithnichear {shiplabel} am fagas ’s an connadh air a ruith air. Pàighidh sinn {cash} do dhuine sam bith a bheir connadh dhan t-soitheach ud ach an urrainn dhaibh fochair {starport} fhàgail."
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "'S ann faisg air {planet} ann an siotam {system} [{sectorx},{sectory},{sectorz}] a bha iad an turas mu dheireadh a bhruidhinn sinn riutha, {dist} ly air falbh on a sheo."
+    "message": "’S ann faisg air {planet} ann an siotam {system} [{sectorx},{sectory},{sectorz}] a bha iad an turas mu dheireadh a bhruidhinn sinn riutha, {dist} ly air falbh on a sheo."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
@@ -353,11 +353,11 @@
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Tha mi feumach air cuideigin a dh'fhalbhas sa bhad agus a thilleas na co-obraichean agad gu {starport} ma tha iad fhathast beò. Bha {crew} san sgioba agus {pass} dhe thaistealaich air bhòrd."
+    "message": "Tha mi feumach air cuideigin a dh’fhalbhas sa bhad agus a thilleas na co-obraichean agad gu {starport} ma tha iad fhathast beò. Bha {crew} san sgioba agus {pass} dhe thaistealaich air bhòrd."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "GIÙLAN SGIOBA DA BHAD dhan t-siostam {system} 'ga iarraidh."
+    "message": "GIÙLAN SGIOBA DA BHAD dhan t-siostam {system} ’ga iarraidh."
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
@@ -373,11 +373,11 @@
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "Lorgaidh tu an soitheach ann an siostam {system} [{sectorx},{sectory},{sectorz}], {dist} ly air falbh uainn. Tha e a' cuairteachadh timcheall air {planet}."
+    "message": "Lorgaidh tu an soitheach ann an siostam {system} [{sectorx},{sectory},{sectorz}], {dist} ly air falbh uainn. Tha e a’ cuairteachadh timcheall air {planet}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Mòran taing! Chaidh m' ùghdarrachadh gus am pàigheadh slàn a thoirt dhut."
+    "message": "Mòran taing! Chaidh m’ ùghdarrachadh gus am pàigheadh slàn a thoirt dhut."
   },
   "FLAVOUR_7_TRANSFERMSG": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Chan urrainn dhuinn an soitheach a thilleadh gun an sgioba riatanach a bhith ann. Tha mi a' lorg cuideigin a bhios deònach sgioba ionaid dhe {deliver_crew} a thoirt a-null dhan t-soitheach-fhànais againn sa bhad."
+    "message": "Chan urrainn dhuinn an soitheach a thilleadh gun an sgioba riatanach a bhith ann. Tha mi a’ lorg cuideigin a bhios deònach sgioba ionaid dhe {deliver_crew} a thoirt a-null dhan t-soitheach-fhànais againn sa bhad."
   },
   "FULL_CARGO": {
     "description": "",
@@ -401,7 +401,7 @@
   },
   "HOW_FAR": {
     "description": "",
-    "message": "Dè cho fad air falbh 's a tha an t-amas?"
+    "message": "Dè cho fad air falbh ’s a tha an t-amas?"
   },
   "HOW_MUCH_TIME": {
     "description": "",
@@ -461,7 +461,7 @@
   },
   "PARTIAL": {
     "description": "",
-    "message": "Mòran taing airson d' oidhirp. Tha mi 'n dòchas gun till thu gus an t-saothair a choileanadh!"
+    "message": "Mòran taing airson d’ oidhirp. Tha mi ’n dòchas gun till thu gus an t-saothair a choileanadh!"
   },
   "PASSENGERS": {
     "description": "",
@@ -469,7 +469,7 @@
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Ionad a' phàighidh:"
+    "message": "Ionad a’ phàighidh:"
   },
   "PICKUP": {
     "description": "",
@@ -481,7 +481,7 @@
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "Chuala sinn mu na bha sibh ris, a sgiobair! Thig latha a' chunntais oirbh fhathast is cuiridh sinn aithris dhan ùghdarras ionadail gun do mhill sibh an dearbh shoitheach a bu chòir dhuibh a shàbhaladh. Thig cùis-lagha eucoir an cois ur droch-ghnìomha."
+    "message": "Chuala sinn mu na bha sibh ris, a sgiobair! Thig latha a’ chunntais oirbh fhathast is cuiridh sinn aithris dhan ùghdarras ionadail gun do mhill sibh an dearbh shoitheach a bu chòir dhuibh a shàbhaladh. Thig cùis-lagha eucoir an cois ur droch-ghnìomha."
   },
   "PLEASE_LAND": {
     "description": "",
@@ -497,7 +497,7 @@
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "an sgioba a' dol an toir air nathair {locality} mharbhtach mu sgaoil san t-soitheach"
+    "message": "an sgioba a’ dol an toir air nathair {locality} mharbhtach mu sgaoil san t-soitheach"
   },
   "PROBLEM_CREW_3": {
     "description": "",
@@ -505,7 +505,7 @@
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "beathach le coltas sgairp {locality} a thighinn a-steach dha dh'fhàrdach an sgioba rè an oidhche"
+    "message": "beathach le coltas sgairp {locality} a thighinn a-steach dha dh’fhàrdach an sgioba rè an oidhche"
   },
   "PROBLEM_CREW_5": {
     "description": "",
@@ -537,11 +537,11 @@
   },
   "PROBLEM_GENERAL_2": {
     "description": "",
-    "message": "a' chumhachd fhàilligeadh ann an eitean an einnsein"
+    "message": "a’ chumhachd fhàilligeadh ann an eitean an einnsein"
   },
   "PROBLEM_GENERAL_3": {
     "description": "",
-    "message": "adhar 'ga leigeil air èalaidh"
+    "message": "adhar ’ga leigeil air èalaidh"
   },
   "PROBLEM_GENERAL_4": {
     "description": "",
@@ -557,7 +557,7 @@
   },
   "PROBLEM_GENERAL_7": {
     "description": "",
-    "message": "tighinn faisg air oibseact itealaidh nach b' aithne dhuinn"
+    "message": "tighinn faisg air oibseact itealaidh nach b’ aithne dhuinn"
   },
   "PROBLEM_GENERAL_8": {
     "description": "",
@@ -653,7 +653,7 @@
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
-    "message": "Chan eil an soitheach-amais a' freagairt."
+    "message": "Chan eil an soitheach-amais a’ freagairt."
   },
   "SYSTEM": {
     "description": "",
@@ -665,7 +665,7 @@
   },
   "THANK_YOU_ACCEPTANCE_TXT": {
     "description": "",
-    "message": "Mòran taing! Tha sinn fada 'nad chomain."
+    "message": "Mòran taing! Tha sinn fada ’nad chomain."
   },
   "TONS_OF_FREE_CARGO_SPACE": {
     "description": "",

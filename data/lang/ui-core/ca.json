@@ -1700,8 +1700,8 @@
     "message": "Recompensa"
   },
   "ROTATE_VIEW": {
-    "description": "",
-    "message": "Rotate view"
+    "description": "Indicates that the button must be kept pressed down, to rotate camera view with mouse",
+    "message": "Hold down to Rotate view"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",

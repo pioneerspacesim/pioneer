@@ -9,7 +9,7 @@
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Ceart ma-thà. Tha mi 'n dòchas gu bheil thu earbsach."
+    "message": "Ceart ma-thà. Tha mi ’n dòchas gu bheil thu earbsach."
   },
   "ACCEPTED_4": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "CEASE_FIRE": {
     "description": "",
-    "message": "Stad an losgaidh, stad an losgaidh! 'S ann air do thaobh-sa a tha mi!"
+    "message": "Stad an losgaidh, stad an losgaidh! ’S ann air do thaobh-sa a tha mi!"
   },
   "CLUS": {
     "description": "custom cargo",
@@ -97,7 +97,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Dè an t-iarrtas a bh' agaibh a-rithist?"
+    "message": "Dè an t-iarrtas a bh’ agaibh a-rithist?"
   },
   "DANGER": {
     "description": "the risk level",
@@ -117,11 +117,11 @@
   },
   "DENY_2": {
     "description": "",
-    "message": "Chan eil sgot agam cò thusa. Chan eil mi eòlach ort 's chan eil earbsa agam annad."
+    "message": "Chan eil sgot agam cò thusa. Chan eil mi eòlach ort ’s chan eil earbsa agam annad."
   },
   "DENY_3": {
     "description": "",
-    "message": "Tha mi duilich ach tha mi a' sireadh seann-phaidhleat."
+    "message": "Tha mi duilich ach tha mi a’ sireadh seann-phaidhleat."
   },
   "DENY_4": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "DENY_5": {
     "description": "",
-    "message": "Na cosg m' ùine! Thig nòs do mhàthar às do shròin."
+    "message": "Na cosg m’ ùine! Thig nòs do mhàthar às do shròin."
   },
   "DENY_6": {
     "description": "",
@@ -157,11 +157,11 @@
   },
   "ESCORT_CHATTER_2": {
     "description": "",
-    "message": "Glan. 'S e a' chiad duine a mharbhas mi a bhios san spùinneadair ud."
+    "message": "Glan. ’S e a’ chiad duine a mharbhas mi a bhios san spùinneadair ud."
   },
   "ESCORT_CHATTER_3": {
     "description": "",
-    "message": "Chì sinn nàmhaid. A' tòiseachadh air an ionnsaigh."
+    "message": "Chì sinn nàmhaid. A’ tòiseachadh air an ionnsaigh."
   },
   "ESCORT_CHATTER_4": {
     "description": "",
@@ -169,7 +169,7 @@
   },
   "ESCORT_CHATTER_5": {
     "description": "",
-    "message": "Hò hò 's beiridh mi air."
+    "message": "Hò hò ’s beiridh mi air."
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
@@ -177,11 +177,11 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "'S e briseadh-dùil mòr a th' anns an lìbhrigeadh anmoch. Cha dèid do phàigheadh."
+    "message": "’S e briseadh-dùil mòr a th’ anns an lìbhrigeadh anmoch. Cha dèid do phàigheadh."
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "'S ann gu bheil thu ro anmoch! Dè nì mi le seo a-nis, tha e gun fheum dhomh!"
+    "message": "’S ann gu bheil thu ro anmoch! Dè nì mi le seo a-nis, tha e gun fheum dhomh!"
   },
   "FAILUREMSG_3": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "'S e {amount}t a tha san tomad."
+    "message": "’S e {amount}t a tha san tomad."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
@@ -229,7 +229,7 @@
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric tons (singular)",
-    "message": "Chan e ach {amount}t a th' ann."
+    "message": "Chan e ach {amount}t a th’ ann."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
@@ -245,15 +245,15 @@
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
-    "message": "Cuine a dh'fheumas e bhith ann?"
+    "message": "Cuine a dh’fheumas e bhith ann?"
   },
   "INTROTEXT_1": {
     "description": "",
-    "message": "Haoigh, 's mise {name}. Pàighidh mi {cash} dhut ma bheir thu {cargoname} gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+    "message": "Haoigh, ’s mise {name}. Pàighidh mi {cash} dhut ma bheir thu {cargoname} gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar."
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
-    "message": "Latha math! Tha Seirbheisean Giùlain {name} feumach ort ach an lìbhrig thu {cargoname} gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar. Pàighidh sinn {cash} airson lìbhrigeadh slàn sàbhailte."
+    "message": "Latha math! Tha Seirbheisean Giùlain {name} feumach ort ach an lìbhrig thu {cargoname} gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar. Pàighidh sinn {cash} airson lìbhrigeadh slàn sàbhailte."
   },
   "INTROTEXT_3": {
     "description": "",
@@ -261,71 +261,71 @@
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Shin thu. Tha sinn feumach air eòlaiche airson turas gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) a dh'fhaodas a bhith cunnartach. Pàighidh sinn {cash}. Tha e {dist} bliadhna-sholais a dh'astar."
+    "message": "Shin thu. Tha sinn feumach air eòlaiche airson turas gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) a dh’fhaodas a bhith cunnartach. Pàighidh sinn {cash}. Tha e {dist} bliadhna-sholais a dh’astar."
   },
   "INTROTEXT_FLUFFY_1": {
     "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-    "message": "Haoigh, is mise {name}. Tha carago clòimheach dhe {cargoname} agam gus a thoirt gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Tha seo {dist} bliadhna-sholais a dh'astar. Pàighidh mi {cash} airson na lìbhrigidh seo."
+    "message": "Haoigh, is mise {name}. Tha carago clòimheach dhe {cargoname} agam gus a thoirt gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Tha seo {dist} bliadhna-sholais a dh’astar. Pàighidh mi {cash} airson na lìbhrigidh seo."
   },
   "INTROTEXT_INFRASTRUCTURE_1": {
     "description": "",
-    "message": "Fàilte ort. Is mise {name}. Tha riaghaltas {system} airson {cargoname} a lìbhrigeadh gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Thèid {cash} a phàigheadh. Tha {system} {dist} bliadhna-sholais a dh'astar."
+    "message": "Fàilte ort. Is mise {name}. Tha riaghaltas {system} airson {cargoname} a lìbhrigeadh gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Thèid {cash} a phàigheadh. Tha {system} {dist} bliadhna-sholais a dh’astar."
   },
   "INTROTEXT_LOCAL_1": {
     "description": "",
-    "message": "'S math do choinneachadh. 'S mise {name} 's tha mi ag obair airson rianachd {starport}. Pàighidh sinn {cash} do chuideigin aig a bhios comas {cargoname} a ghluasad gu {starport}."
+    "message": "’S math do choinneachadh. ’S mise {name} ’s tha mi ag obair airson rianachd {starport}. Pàighidh sinn {cash} do chuideigin aig a bhios comas {cargoname} a ghluasad gu {starport}."
   },
   "INTROTEXT_LOCAL_2": {
     "description": "",
-    "message": "Haoigh. 'S mise {name} 's pàighidh mi {cash} airson lìbhrigeadh dlùth dhe  {cargoname} gu {starport}."
+    "message": "Haoigh. ’S mise {name} ’s pàighidh mi {cash} airson lìbhrigeadh dlùth dhe  {cargoname} gu {starport}."
   },
   "INTROTEXT_LOCAL_3": {
     "description": "",
-    "message": "'S mise {name} is feumaidh mi gun lìbhrigear {cargoname} gu cliant ann an {starport}. Pàighidh mi {cash} airson seo."
+    "message": "’S mise {name} is feumaidh mi gun lìbhrigear {cargoname} gu cliant ann an {starport}. Pàighidh mi {cash} airson seo."
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
-    "message": "Shin thu. Tha Companaidh Mèinnearachd {name} airson {cargoname} a lìbhrigeadh gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) ach an tog iad mèinn ùr, tha seo {dist} bliadhna-sholais a dh'astar. Thèid {cash} a phàigheadh."
+    "message": "Shin thu. Tha Companaidh Mèinnearachd {name} airson {cargoname} a lìbhrigeadh gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) ach an tog iad mèinn ùr, tha seo {dist} bliadhna-sholais a dh’astar. Thèid {cash} a phàigheadh."
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
-    "message": "Ciamar a tha thu? Is mise {name} is tha mi feumach air soitheach a tha comasach air dol gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) gus {cargoname} a thogail 's a thilleadh gu {dom_starport} ann an siostam {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) air {cash}. Tha {system} {dist} bliadhna-sholais a dh'astar."
+    "message": "Ciamar a tha thu? Is mise {name} is tha mi feumach air soitheach a tha comasach air dol gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) gus {cargoname} a thogail ’s a thilleadh gu {dom_starport} ann an siostam {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) air {cash}. Tha {system} {dist} bliadhna-sholais a dh’astar."
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "Dè do chor? Is mise {name}. Tha cliant agam airson {cargoname} ion-mhalairt o {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar. Pàighidh e {cash} airson a' ghiùlain. Till an-seo gu {dom_starport} ann an siostam {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) gus an carago a dhì-luchdadh."
+    "message": "Dè do chor? Is mise {name}. Tha cliant agam airson {cargoname} ion-mhalairt o {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar. Pàighidh e {cash} airson a’ ghiùlain. Till an-seo gu {dom_starport} ann an siostam {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) gus an carago a dhì-luchdadh."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Fàilte ort. 'S mise {name}. Pàighidh mi {cash} do chuideigin a bheir {cargoname} o {starport} gu {dom_starport}."
+    "message": "Fàilte ort. ’S mise {name}. Pàighidh mi {cash} do chuideigin a bheir {cargoname} o {starport} gu {dom_starport}."
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Halò. 'S mise {name}. Tha am fastaiche agam deònach d' fhastadh air {cash} ach an cuidich thu gus an taigh-stòrais agad imrich 's tu a' toirt {cargoname} o {starport} dhan taigh ùr againn ann an  {dom_starport}."
+    "message": "Halò. ’S mise {name}. Tha am fastaiche agam deònach d’ fhastadh air {cash} ach an cuidich thu gus an taigh-stòrais agad imrich ’s tu a’ toirt {cargoname} o {starport} dhan taigh ùr againn ann an  {dom_starport}."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
-    "message": "Fàilte ort. An cuala tu mu ràith nam bainnsean aig {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz})? Tha sinn airson {cargoname} a thoirt a-null. Tha e {dist} a dh'astar. Thèid {cash} a phàigheadh. A bheil thu dèidheil air?"
+    "message": "Fàilte ort. An cuala tu mu ràith nam bainnsean aig {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz})? Tha sinn airson {cargoname} a thoirt a-null. Tha e {dist} a dh’astar. Thèid {cash} a phàigheadh. A bheil thu dèidheil air?"
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Shin thu, 's mise {name} agus nì mi mòr-reic ann an siostam {system}. Pàighidh mi {cash} airson dol gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+    "message": "Shin thu, ’s mise {name} agus nì mi mòr-reic ann an siostam {system}. Pàighidh mi {cash} airson dol gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar."
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
-    "message": "Shin thu, is mise {name} 's tha mi ag obair airson Corp. Haber. Pàighidh sinn {cash} airson dol gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
+    "message": "Shin thu, is mise {name} ’s tha mi ag obair airson Corp. Haber. Pàighidh sinn {cash} airson dol gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh’astar."
   },
   "I_AM_ON_MY_WAY": {
     "description": "",
-    "message": "Tha na mothaichearan a' sealltainn gu bheil thu a' fulang dochann. Thig mi thugad."
+    "message": "Tha na mothaichearan a’ sealltainn gu bheil thu a’ fulang dochann. Thig mi thugad."
   },
   "I_HAVE_DEBITED_YOUR_ACCOUNT": {
     "description": "",
-    "message": "Thog mi an t-airgead a bh' agam ort às a chunntas agad airson a' bhathair a tha a dhìth."
+    "message": "Thog mi an t-airgead a bh’ agam ort às a chunntas agad airson a’ bhathair a tha a dhìth."
   },
   "I_NEED_HELP": {
     "description": "",
-    "message": "Tha mi a' fulang dochann. Feumaidh mi cobhair."
+    "message": "Tha mi a’ fulang dochann. Feumaidh mi cobhair."
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
@@ -361,7 +361,7 @@
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "'Eil thu ag obair airson {client}? Cuiridh sinn crìoch ort!"
+    "message": "’Eil thu ag obair airson {client}? Cuiridh sinn crìoch ort!"
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
@@ -377,7 +377,7 @@
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
-    "message": "Tha coltas gu bheil thu a' giùlan barrachd nas urrainn dhut làimhseachadh. Cuidichim thu leis."
+    "message": "Tha coltas gu bheil thu a’ giùlan barrachd nas urrainn dhut làimhseachadh. Cuidichim thu leis."
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "RISK_1": {
     "description": "",
-    "message": "Chan eil mi 'n dùil air trioblaid."
+    "message": "Chan eil mi ’n dùil air trioblaid."
   },
   "RISK_2": {
     "description": "",
@@ -401,15 +401,15 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "Seo carago prìseil 's glèidh do shùil fosgailte."
+    "message": "Seo carago prìseil ’s glèidh do shùil fosgailte."
   },
   "RISK_4": {
     "description": "",
-    "message": "B' urrainn dha bhith cunnartach, dèan cinnteach gum bi thu ullamh."
+    "message": "B’ urrainn dha bhith cunnartach, dèan cinnteach gum bi thu ullamh."
   },
   "RISK_5": {
     "description": "",
-    "message": "Dh'fhaoidte gum bi cunnart mòr ann 's gum bi strì romhad."
+    "message": "Dh’fhaoidte gum bi cunnart mòr ann ’s gum bi strì romhad."
   },
   "RISK_6": {
     "description": "",
@@ -417,7 +417,7 @@
   },
   "RISK_ART_1": {
     "description": "",
-    "message": "Tha gràdhaichean-ealain glè dhèidheil air a' bhathar seo."
+    "message": "Tha gràdhaichean-ealain glè dhèidheil air a’ bhathar seo."
   },
   "RISK_EXPENSIVE_1": {
     "description": "",
@@ -425,19 +425,19 @@
   },
   "RISK_EXPENSIVE_2": {
     "description": "",
-    "message": "Dh'innis am poileas dhuinn gu bheil bhuidheann de spùinneadairean nach aithne dhaibh ag obair san t-siostam seo."
+    "message": "Dh’innis am poileas dhuinn gu bheil bhuidheann de spùinneadairean nach aithne dhaibh ag obair san t-siostam seo."
   },
   "RISK_GEMS_1": {
     "description": "",
-    "message": "Dh'fhaoidte gum feuch marsanta sheudan gun tròcair ri grèim fhaighinn air a' charago."
+    "message": "Dh’fhaoidte gum feuch marsanta sheudan gun tròcair ri grèim fhaighinn air a’ charago."
   },
   "RISK_WHOLESALER_1": {
     "description": "",
-    "message": "Air do shocair. Bidh cuairteachan a' phoileis ullamh ma bhios trioblaid ag èirigh."
+    "message": "Air do shocair. Bidh cuairteachan a’ phoileis ullamh ma bhios trioblaid ag èirigh."
   },
   "RISK_WHOLESALER_2": {
     "description": "",
-    "message": "'S dòcha gu bheil cunnart 'na lùib. Gheall am poileas dhuinn gun cuir iad cuairteachain dhan sgìre ge-tà."
+    "message": "’S dòcha gu bheil cunnart ’na lùib. Gheall am poileas dhuinn gun cuir iad cuairteachain dhan raon ge-tà."
   },
   "RISK_WHOLESALER_3": {
     "description": "",
@@ -477,7 +477,7 @@
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "Glan, tha mi toilichte gun do dh'obraich mi còmhla riut. Phàigh mi an cunntas."
+    "message": "Glan, tha mi toilichte gun do dh’obraich mi còmhla riut. Phàigh mi an cunntas."
   },
   "SUCCESSMSG_4": {
     "description": "",
@@ -517,11 +517,11 @@
   },
   "URGENCY_3": {
     "description": "",
-    "message": "Feumaidh e bhith ann gu ruige {date} air sàilleibh a' chlàir-ama theinne."
+    "message": "Feumaidh e bhith ann gu ruige {date} air sàilleibh a’ chlàir-ama theinne."
   },
   "URGENCY_4": {
     "description": "",
-    "message": "Tha a' chabhag oirnn is feumaidh e bhith ann gu ruige {date}."
+    "message": "Tha a’ chabhag oirnn is feumaidh e bhith ann gu ruige {date}."
   },
   "URGENCY_5": {
     "description": "",
@@ -529,7 +529,7 @@
   },
   "URGENCY_FLUFFY_1": {
     "description": "",
-    "message": "Air sgàth ginidh luaith nam beathaichean beaga 's nach eil biadh gun chrìoch sa bhogsa, feumaidh an lìbhrigeadh a bhith coileanta ro {date}."
+    "message": "Air sgàth ginidh luaith nam beathaichean beaga ’s nach eil biadh gun chrìoch sa bhogsa, feumaidh an lìbhrigeadh a bhith coileanta ro {date}."
   },
   "URGENCY_RADIOACTIVE_1": {
     "description": "",
@@ -545,7 +545,7 @@
   },
   "WHAT_IS_THIS": {
     "description": "",
-    "message": "Dè tha seo? Na thilg thu an carago agam a-mach? 'Eil thu às do rian`?"
+    "message": "Dè tha seo? Na thilg thu an carago agam a-mach? ’Eil thu às do rian`?"
   },
   "WHYSOMUCH_1": {
     "description": "",
@@ -557,7 +557,7 @@
   },
   "WHYSOMUCH_3": {
     "description": "",
-    "message": "Cha mheas a h-uile duine \"tòrr\" air an aon dòigh."
+    "message": "Cha mheas a h-uile duine “tòrr” air an aon dòigh."
   },
   "WHYSOMUCH_4": {
     "description": "",
@@ -569,7 +569,7 @@
   },
   "WHYSOMUCH_6": {
     "description": "",
-    "message": "Uill, bhitheamaid toilichte nan gabhadh tu ri nas lugha de dh'airgead."
+    "message": "Uill, bhitheamaid toilichte nan gabhadh tu ri nas lugha de dh’airgead."
   },
   "WHYSOMUCH_CENTRIFUGES_1": {
     "description": "",
@@ -577,7 +577,7 @@
   },
   "WHYSOMUCH_CHEMICAL_1": {
     "description": "",
-    "message": "Tha saothrachadh san fhactaraidh cheimigeach an eisimeil air a' bhathar seo agus chan fhaod stad a thighinn air. Chan fhaod an t-inneal stad."
+    "message": "Tha saothrachadh san fhactaraidh cheimigeach an eisimeil air a’ bhathar seo agus chan fhaod stad a thighinn air. Chan fhaod an t-inneal stad."
   },
   "WHYSOMUCH_EXPENSIVE_1": {
     "description": "",
@@ -585,11 +585,11 @@
   },
   "WHYSOMUCH_EXPENSIVE_2": {
     "description": "",
-    "message": "Air sgàth 's gu bheil am bathar seo caran prìseil."
+    "message": "Air sgàth ’s gu bheil am bathar seo caran prìseil."
   },
   "WHYSOMUCH_FLUFFY_1": {
     "description": "",
-    "message": "Tha {cargoname} 'ga reic tu luath dan ràith seo. Bu chòir dhut inbheisteadh ann an earrannan {cargoname} ma tha thu airson tòrr airgid a bhuain."
+    "message": "Tha {cargoname} ’ga reic tu luath dan ràith seo. Bu chòir dhut inbheisteadh ann an earrannan {cargoname} ma tha thu airson tòrr airgid a bhuain."
   },
   "WHYSOMUCH_INFRASTRUCTURE_1": {
     "description": "",
@@ -605,11 +605,11 @@
   },
   "WHYSOMUCH_URGENT_2": {
     "description": "",
-    "message": "Thig stad air a' phròiseact mura lìbhrig sinn am bathar ri àm."
+    "message": "Thig stad air a’ phròiseact mura lìbhrig sinn am bathar ri àm."
   },
   "WHYSOMUCH_URGENT_3": {
     "description": "",
-    "message": "Tha feum èiginneach air a' bhathar seo."
+    "message": "Tha feum èiginneach air a’ bhathar seo."
   },
   "WHYSOMUCH_WEDDING_1": {
     "description": "",

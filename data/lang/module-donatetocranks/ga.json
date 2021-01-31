@@ -47,6 +47,10 @@
     "description": "",
     "message": "TACAIGH LEIS AN tSAOIRSE! Is éagóir chruthanta é bogearraí dílsithe a úsáid chun do long a rialú."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Go raibh maith agat. Fearaimid fáilte roimh aon síntiús deonach."

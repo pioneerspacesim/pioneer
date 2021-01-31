@@ -1,0 +1,30 @@
+{
+  "AMOUNT": {
+    "description": "The amount (for now in tonne) of goods person wants to buy",
+    "message": "我会买你所有的东西， 只要不超过{amount}吨。"
+  },
+  "MESSAGE": {
+    "description": "",
+    "message": "我叫{name}。急需{commodity}，可以支付两倍市价。"
+  },
+  "NOT_IN_STOCK": {
+    "description": "Regarding selling more than the player has",
+    "message": "没有足够的{commodity}库存。"
+  },
+  "SELL_1": {
+    "description": "Sell one single unit (probably tonne)",
+    "message": "卖1"
+  },
+  "SELL_ALL": {
+    "description": "Sell everything player has of the good/commodity",
+    "message": "卖全部"
+  },
+  "SELL_N": {
+    "description": "Sell several units (probably in tonne), i.e. N > 1",
+    "message": "卖{N}"
+  },
+  "TITLE": {
+    "description": "",
+    "message": "需要：{commodity}。将支付每吨{price}"
+  }
+}

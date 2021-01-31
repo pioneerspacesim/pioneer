@@ -17,7 +17,7 @@
   },
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
-    "message": "Tha {clubname} 'na bhuidheann neo-eisimeileach a tha ag amas connadh soithich-fhànais saor a thoirt dha bhuill. Tha meuran againn air feadh an reul-chriosa. Seo na buannachdan a gheibh thu ma ghabhas tu ballrachd:"
+    "message": "Tha {clubname} ’na bhuidheann neo-eisimeileach a tha ag amas connadh soithich-fhànais saor a thoirt dha bhuill. Tha meuran againn air feadh an reul-chriosa. Seo na buannachdan a gheibh thu ma ghabhas tu ballrachd:"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -29,15 +29,15 @@
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
-    "message": "Tha {clubname} 'na phrìomh-sholaraiche airson connadh saor dha shoithichean-fànais a bhall ann an Caidreachas na Grèine. Seo na gheibh sibh às a' bhallrachd:"
+    "message": "Tha {clubname} ’na phrìomh-sholaraiche airson connadh saor dha shoithichean-fànais a bhall ann an Caidreachas na Grèine. Seo na gheibh sibh às a’ bhallrachd:"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "Aonad Connaidh a' Cho-fhlaitheis"
+    "message": "Aonad Connaidh a’ Cho-fhlaitheis"
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
-    "message": "Air feadh fànais aibhsich Co-fhlaitheas nan Saoghal Neo-eisimeileach saor, 's e {clubname} a tha san t-solaraiche as fheàrr dhut airson seirbheisean connaidh is stiùiridh sgudail saora. Seo na nì sinn airson ar ball:"
+    "message": "Air feadh fànais aibhsich Co-fhlaitheas nan Saoghal Neo-eisimeileach saor, ’s e {clubname} a tha san t-solaraiche as fheàrr dhut airson seirbheisean connaidh is stiùiridh sgudail saora. Seo na nì sinn airson ar ball:"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_3_NONMEMBER_INTRO": {
     "description": "for the Haber faction",
-    "message": "Fàilte, a' phaidhleit. Seo Roinn Stutha-iomain is Meathach Haber agus tha sinn an urra ri sgaoileadh a' chonnaidh air feadh fànas muinntir Thàbair."
+    "message": "Fàilte, a’ phaidhleit. Seo Roinn Stutha-iomain is Meathach Haber agus tha sinn an urra ri sgaoileadh a’ chonnaidh air feadh fànas muinntir Thàbair."
   },
   "GO_BACK": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "LIST_BENEFITS_FUEL_INTRO": {
     "description": "",
-    "message": "Stòrasan connaidh againn fhèin nach eil an eisimeil air a' mhargadh choitcheann"
+    "message": "Stòrasan connaidh againn fhèin nach eil an eisimeil air a’ mhargadh choitcheann"
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "YOU_ARE_NOW_A_MEMBER": {
     "description": "",
-    "message": "Tha thu 'nad bhall a-nis. Falbhaidh an ùine air do bhallrachd {expiry_date}."
+    "message": "Tha thu ’nad bhall a-nis. Falbhaidh an ùine air do bhallrachd {expiry_date}."
   },
   "YOU_MUST_BUY": {
     "description": "",

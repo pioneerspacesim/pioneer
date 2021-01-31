@@ -1,0 +1,30 @@
+{
+  "AMOUNT": {
+    "description": "The amount (for now in tonne) of goods person wants to buy",
+    "message": "{amount]-ra van szükségem, legfeljebb ennyit veszek meg."
+  },
+  "MESSAGE": {
+    "description": "",
+    "message": "{name} vagyok. {commodity}-t keresek, sürgősen szükségem van rá. Megduplázom a piaci árat ({price})."
+  },
+  "NOT_IN_STOCK": {
+    "description": "Regarding selling more than the player has",
+    "message": "Nincs elegendő {commodity} készlet."
+  },
+  "SELL_1": {
+    "description": "Sell one single unit (probably tonne)",
+    "message": "1 eladása"
+  },
+  "SELL_ALL": {
+    "description": "Sell everything player has of the good/commodity",
+    "message": "Összes eladása"
+  },
+  "SELL_N": {
+    "description": "Sell several units (probably in tonne), i.e. N > 1",
+    "message": "{N} eladása"
+  },
+  "TITLE": {
+    "description": "",
+    "message": "KERES: {commodity}. {price} per tonna."
+  }
+}

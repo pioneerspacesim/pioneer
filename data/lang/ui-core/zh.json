@@ -1700,8 +1700,8 @@
     "message": "报酬"
   },
   "ROTATE_VIEW": {
-    "description": "",
-    "message": "旋转视图"
+    "description": "Indicates that the button must be kept pressed down, to rotate camera view with mouse",
+    "message": "按住可旋转视图"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",

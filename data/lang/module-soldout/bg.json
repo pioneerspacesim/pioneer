@@ -1,0 +1,30 @@
+{
+  "AMOUNT": {
+    "description": "The amount (for now in tonne) of goods person wants to buy",
+    "message": "Трябва да запълня {amount} т. със стоки, ще купя всичко до изчерпване на този капацитет."
+  },
+  "MESSAGE": {
+    "description": "",
+    "message": "Аз съм {name}. Нуждая се спешно от {commodity} и ще платя двойно пазарната цена ({price})."
+  },
+  "NOT_IN_STOCK": {
+    "description": "Regarding selling more than the player has",
+    "message": "Няма достатъчно {commodity} в наличност."
+  },
+  "SELL_1": {
+    "description": "Sell one single unit (probably tonne)",
+    "message": "Продаване на 1"
+  },
+  "SELL_ALL": {
+    "description": "Sell everything player has of the good/commodity",
+    "message": "Продаване на всичко"
+  },
+  "SELL_N": {
+    "description": "Sell several units (probably in tonne), i.e. N > 1",
+    "message": "Продаване на {N}"
+  },
+  "TITLE": {
+    "description": "",
+    "message": "ТЪРСИ СЕ: {commodity}. Ще платя {price} на тон."
+  }
+}

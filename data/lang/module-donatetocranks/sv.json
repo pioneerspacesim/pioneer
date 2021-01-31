@@ -47,6 +47,10 @@
     "description": "",
     "message": "STÖD FRIHET! Stoppa den stora orättvisan av ägd programvara som kontrollerar ditt skepp."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Ditt rykte hade gynnats av att donera {cash} till vår välgörenhet, men alla donationer välkommnas."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Tack. Alla donationer är välkomna."

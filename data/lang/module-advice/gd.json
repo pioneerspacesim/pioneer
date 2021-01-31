@@ -1,7 +1,7 @@
 {
   "ADVICE_10_BODYTEXT": {
     "description": "",
-    "message": "'S dòcha gum b' feàirrde thu imrich gu buidheann eile nuair a bhios tu ann an staing leis an ùghdarras ionadail."
+    "message": "’S dòcha gum b’ feàirrde thu imrich gu buidheann eile nuair a bhios tu ann an staing leis an ùghdarras ionadail."
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
@@ -9,7 +9,7 @@
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
-    "message": "Nuair a thilleas tu gu stèisean, bi air d' fhaiceall mu ionadan malairt neònach nach aithnich thu is cha bhi thu ann an staing leis an lagh."
+    "message": "Nuair a thilleas tu gu stèisean, bi air d’ fhaiceall mu ionadan malairt neònach nach aithnich thu is cha bhi thu ann an staing leis an lagh."
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
@@ -17,7 +17,7 @@
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Dh'fhaoidte gun ruig thu an t-amas nas luaithe ma shiubhlas tu iomadh astar beag."
+    "message": "Dh’fhaoidte gun ruig thu an t-amas nas luaithe ma shiubhlas tu iomadh astar beag."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
@@ -29,7 +29,7 @@
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Na biodh d' earball san deigh: planaig sreath nan leuman agad ro làimh"
+    "message": "Na biodh d’ earball san deigh: planaig sreath nan leuman agad ro làimh"
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Thoir an aire air gach naidheachd a chluinneas tu on a bhios buaidh air prìsean a' mhargaidh."
+    "message": "Thoir an aire air gach naidheachd a chluinneas tu on a bhios buaidh air prìsean a’ mhargaidh."
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
-    "message": "Nuair a thèid thu gu siostam bìnearaidh, dèan cinnteach gum bi d' amas air an reul cheart."
+    "message": "Nuair a thèid thu gu siostam bìnearaidh, dèan cinnteach gum bi d’ amas air an reul cheart."
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
@@ -85,11 +85,11 @@
   },
   "TALE_1_BODYTEXT": {
     "description": "",
-    "message": "Na caill dubhradh drùidhteach na grèine air Dòchas Ùr fhad 's a bhacas Hades an solar o Epsilon Eridani."
+    "message": "Na caill dubhradh drùidhteach na grèine air Dòchas Ùr fhad ’s a bhacas Hades an solar o Epsilon Eridani."
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"Chunnaic mi iomadh rud nach creideadh tu\""
+    "message": "“’S iomadh rud a chunnaic mi...”"
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",

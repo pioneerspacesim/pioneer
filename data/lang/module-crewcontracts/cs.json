@@ -41,7 +41,7 @@
   },
   "NO_CREW_AVAILABLE": {
     "description": "",
-    "message": "Sorry, no candidates are currently seeking employment at {station}"
+    "message": "Omlouváme se, ale žádní kandidáti momentálně nehledají zaměstnání na {station}"
   },
   "NO_EXPERIENCE": {
     "description": "",

@@ -335,10 +335,6 @@
     "description": "",
     "message": "Начертаване на вертикални линии"
   },
-  "EARTH": {
-    "description": "",
-    "message": "земни"
-  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Колониално Управление на Земната Федерация"
@@ -933,7 +929,7 @@
   },
   "NUMBER_GROUP_SEP": {
     "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-    "message": "'"
+    "message": " "
   },
   "NUMBER_HOURS": {
     "description": "",
@@ -967,13 +963,21 @@
     "description": "",
     "message": "%days{f.1} земни дни"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} %units маси"
+    "message": "%mass{f.3} земни маси"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} земни радиуса (%radkm{f.0} км.)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} слънчеви маси"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %units радиуса (%radkm{f.0} км.)"
+    "message": "%radius{f.3} слънчеви радиуса (%radkm{f.0} км.)"
   },
   "N_YEARS": {
     "description": "",
@@ -1025,7 +1029,7 @@
   },
   "PAY_FINE_REMOTELY": {
     "description": "",
-    "message": "Изплащане на глобата с паричен превод (%amount)"
+    "message": "Заплащане на глобата с паричен превод (%amount)"
   },
   "PERIAPSIS_DISTANCE": {
     "description": "",
@@ -1335,10 +1339,6 @@
     "description": "",
     "message": "Социална демокрация"
   },
-  "SOLAR": {
-    "description": "",
-    "message": "Слънчеви"
-  },
   "SOME_ESTABLISHED_MINING": {
     "description": "",
     "message": "Има установено минно дело."
@@ -1609,7 +1609,7 @@
   },
   "TOGGLE_RADAR_VIEW": {
     "description": "Tooltip for the Radar View button",
-    "message": "Радарен Изглед"
+    "message": "Радарен изглед"
   },
   "TOGGLE_ROTATION_DAMPING": {
     "description": "",

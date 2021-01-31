@@ -1,0 +1,198 @@
+{
+  "ACCEPTED_ARMS_DEALER": {
+    "description": "",
+    "message": "Harika! Teşekkür ederim."
+  },
+  "ACCEPTED_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Teşekkürler. Pişman olmayacaksın!"
+  },
+  "ACCEPTED_LEGAL_GOODS": {
+    "description": "",
+    "message": "Teşekkür ederim. İyi bir teklif gördüğün zaman anlıyorsun!"
+  },
+  "ACCEPTED_RESCUE": {
+    "description": "",
+    "message": "Çok teşekkür ederim. Mürettebat buna minnettar kalacak."
+  },
+  "ADTEXT_ARMS_DEALER": {
+    "description": "",
+    "message": "TOPLAMA: Başıboş bir konteynerın hızla kurtarılması gerekiyor."
+  },
+  "ADTEXT_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "KOLAY PARA: Değerli satılık istihbarat."
+  },
+  "ADTEXT_LEGAL_GOODS": {
+    "description": "",
+    "message": "SATILIK İSTİHBARAT: Değerli kargo barındıran bir enkaz alanının konumu."
+  },
+  "ADTEXT_RESCUE": {
+    "description": "",
+    "message": "YARDIM GEREKİYOR: Acil kaçış kapsülü kurtarma operasyonu."
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Müşteri:"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Tehlike:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Bitiş:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Affedersiniz, ama bu görev için vasıflı olduğunuzu düşünmüyorum."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Üzgünüm, bu görevin pilotluk becerinizin üzerinde olduğunu düşünüyorum."
+  },
+  "DETONATORS": {
+    "description": "",
+    "message": "Ateşleyiciler"
+  },
+  "DOCKING_INSTRUCTION": {
+    "description": "",
+    "message": "Tanıştığımıza sevindim. Lütfen kargo aktarımını tamamlamak için 100m'den daha yakın durun."
+  },
+  "FAILURE_MSG_ARMS_DEALER": {
+    "description": "",
+    "message": "Seni aptal. Müşterim bunu hiç beğenmeyecek!"
+  },
+  "FAILURE_MSG_RESCUE": {
+    "description": "",
+    "message": "Güvenilmezliğin bize çok zarar verdi. Defol git gözümün önünden!"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Ne kadar zamanım var?"
+  },
+  "HOW_MUCH_TIME_ARMS_DEALER": {
+    "description": "",
+    "message": "İş ortağım tespit edilmemek için {star} yörüngesinde bekliyor. Ona {date} tarihinden önce ulaşırsanız çok iyi olur."
+  },
+  "HOW_MUCH_TIME_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Zaman harcama. Erken kalkan yol alır."
+  },
+  "HOW_MUCH_TIME_LEGAL_GOODS": {
+    "description": "",
+    "message": "Bilmiyorum. Ama sen olsam hızlı davranırdım."
+  },
+  "HOW_MUCH_TIME_RESCUE": {
+    "description": "",
+    "message": "Oraya {date} tarihinden önce ulaşsanız iyi olur."
+  },
+  "INTROTEXT_ARMS_DEALER": {
+    "description": "",
+    "message": "Merhaba komutan. Benim adım {client}. Bana yardım edebilsen çok iyi olurdu. Güvenilmez bir kargo gemisi kaptanı kargomu {planet} yakınına bıraktı ve o günden beri görünürlerde yok. Senden istediğim bir konteynerı alman ve onu {star} yörüngesinde bekleyen {shipid} kimlikli gemiye teslim etmen. Sana {cash} öderim."
+  },
+  "INTROTEXT_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Selam kardeş, yasadışı mallarla dolu bir enkaz alanı biliyorum. Polis {planet} yakınında bir kaçakçıyı yakalamış, ama alanı temizlemek için daha zamanları olmamış. Hızlı olursan kolay para elde edebilirsin! Koordinatları sana verebilirim. Ücreti ise sadece {cash}. Bu fırsatı kaçırma derim."
+  },
+  "INTROTEXT_LEGAL_GOODS": {
+    "description": "",
+    "message": "Merhaba arkadaşım. Ben {client}. Kötü bakım yüzünden {planet} yakınında başı sıkışan bir kargo taşıyıcısı olduğunu duydum. Millet uzay lisansını manavdan alıyor herhalde! Her neyse, bu gemi büyük bir miktar kargoyu atmak zorunda kalmış. Eğer hızlı davranırsan kargoyu kolayca ele geçirebilirsin! Haber daha yeni. Sana koordinatları {cash}'e satarım. Ne diyorsun?"
+  },
+  "INTROTEXT_RESCUE": {
+    "description": "",
+    "message": "Merhabalar, benim adım {client}. Bir kazadan sonra bir kargo gemisinin mürettebatı gemilerini terk etmek zorunda kaldı. Geminin sahibi gizli bir kurtarma operasyonu için {cash} ödüyor. Kaza alanı {planet} yakınlarında. Lütfen mürettebatı al ve onları bir istasyona götür!"
+  },
+  "NUCLEAR_MISSILE": {
+    "description": "A cargo item",
+    "message": "Nükleer füze"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Tamam, kabul."
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "Lütfen isteğinizi tekrarlar mısınız?"
+  },
+  "RESCUE_CAPSULE": {
+    "description": "",
+    "message": "Kurtarma kapsülü"
+  },
+  "ROCKET_LAUNCHERS": {
+    "description": "",
+    "message": "Roket fırlatıcıları"
+  },
+  "SCOOP": {
+    "description": "Name of mission type",
+    "message": "Toplayıcı"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigasyon hedefi olarak seç"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Gemi:"
+  },
+  "SHIP_DESTROYED": {
+    "description": "",
+    "message": "Olamaz, {shipid} yok edildi. Kargoyu hemen {station} istasyonuna getir!"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Yıldız Limanı:"
+  },
+  "SPOILED_FOOD": {
+    "description": "cargo item",
+    "message": "Bozuk gıda"
+  },
+  "SUCCESS_MSG_ARMS_DEALER": {
+    "description": "",
+    "message": "Hey be usta, iyi uçuş! Paran aktarıldı."
+  },
+  "SUCCESS_MSG_RESCUE": {
+    "description": "",
+    "message": "Çok teşekkür ederim! Mürettebat da teşekkürlerini iletmek istiyor."
+  },
+  "TOXIC_WASTE": {
+    "description": "cargo item",
+    "message": "Zehirli atık"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Bilinmeyen"
+  },
+  "WARNING": {
+    "description": "",
+    "message": "Hey! Ne yapmaya çalışıyorsun? Anlaşmamızı riske attın! Hemen onu geri al!"
+  },
+  "WHY_NOT_YOURSELF": {
+    "description": "",
+    "message": "Neden kendin yapmıyorsun?"
+  },
+  "WHY_NOT_YOURSELF_ARMS_DEALER": {
+    "description": "",
+    "message": "Yetkililer tarafından izleniyorum! Birkaç hafta düşük bir profilde kalmalıyım."
+  },
+  "WHY_NOT_YOURSELF_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Ben sadece bir memurum. Gemim yok."
+  },
+  "WHY_NOT_YOURSELF_LEGAL_GOODS": {
+    "description": "",
+    "message": "Uzay gemim yok."
+  },
+  "WHY_NOT_YOURSELF_RESCUE": {
+    "description": "",
+    "message": "Şu an uygun hiçbir gemim yok."
+  },
+  "YOU_DO_NOT_HAVE_A_SCOOP": {
+    "description": "",
+    "message": "Üzgünüm, bir kargo toplayıcınız yok."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Yeterli paranız yok."
+  }
+}

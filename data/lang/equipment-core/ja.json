@@ -1,0 +1,358 @@
+{
+  "ADVANCED_TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "発展型ターゲットスキャナ"
+  },
+  "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "Long range target scanner with system wide coverage."
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "",
+    "message": "大気シールド"
+  },
+  "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
+    "description": "",
+    "message": "シールドは大気圏再突入の熱から宇宙船を守る。"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY": {
+    "description": "Will withstand higher pressures than normal Atmospheric Shielding",
+    "message": "ヘビー大気シールド"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
+    "description": "",
+    "message": "大気シールドのより大きな容量のバージョン"
+  },
+  "AUTOPILOT": {
+    "description": "",
+    "message": "自動操縦"
+  },
+  "AUTOPILOT_DESCRIPTION": {
+    "description": "",
+    "message": "An on-board flight computer."
+  },
+  "BEAMLASER_1MW": {
+    "description": "",
+    "message": "1MWビームレーザー"
+  },
+  "BEAMLASER_DUAL_1MW": {
+    "description": "",
+    "message": "1MW dual-fire beam laser"
+  },
+  "BEAMLASER_RAPID_2MW": {
+    "description": "",
+    "message": "2MW速射ビームレーザー"
+  },
+  "CARGO_LIFE_SUPPORT": {
+    "description": "",
+    "message": "貨物室生命維持装置"
+  },
+  "CARGO_LIFE_SUPPORT_DESCRIPTION": {
+    "description": "",
+    "message": "生物貨物の輸送を可能にする。"
+  },
+  "CARGO_SCOOP": {
+    "description": "",
+    "message": "貨物スクープ"
+  },
+  "CARGO_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "宇宙を漂う貨物ポッドの回収ができるようになる。"
+  },
+  "DRIVE_CLASS1": {
+    "description": "",
+    "message": "クラス1ハイパードライブ"
+  },
+  "DRIVE_CLASS2": {
+    "description": "",
+    "message": "クラス2ハイパードライブ"
+  },
+  "DRIVE_CLASS3": {
+    "description": "",
+    "message": "クラス3ハイパードライブ"
+  },
+  "DRIVE_CLASS4": {
+    "description": "",
+    "message": "クラス4ハイパードライブ"
+  },
+  "DRIVE_CLASS5": {
+    "description": "",
+    "message": "クラス5ハイパードライブ"
+  },
+  "DRIVE_CLASS6": {
+    "description": "",
+    "message": "クラス6ハイパードライブ"
+  },
+  "DRIVE_CLASS7": {
+    "description": "",
+    "message": "クラス7ハイパードライブ"
+  },
+  "DRIVE_CLASS8": {
+    "description": "",
+    "message": "クラス8ハイパードライブ"
+  },
+  "DRIVE_CLASS9": {
+    "description": "",
+    "message": "クラス9ハイパードライブ"
+  },
+  "DRIVE_MIL1": {
+    "description": "",
+    "message": "クラス1ミリタリードライブ"
+  },
+  "DRIVE_MIL2": {
+    "description": "",
+    "message": "クラス2ミリタリードライブ"
+  },
+  "DRIVE_MIL3": {
+    "description": "",
+    "message": "クラス3ミリタリードライブ"
+  },
+  "DRIVE_MIL4": {
+    "description": "",
+    "message": "クラス4ミリタリードライブ"
+  },
+  "DRIVE_MIL5": {
+    "description": "",
+    "message": "クラス5ミリタリードライブ"
+  },
+  "DRIVE_MIL6": {
+    "description": "",
+    "message": "クラス6ミリタリードライブ"
+  },
+  "DRIVE_MIL7": {
+    "description": "",
+    "message": "クラス7ミリタリードライブ"
+  },
+  "DRIVE_MIL8": {
+    "description": "",
+    "message": "クラス8ミリタリードライブ"
+  },
+  "DRIVE_MIL9": {
+    "description": "",
+    "message": "クラス9ミリタリードライブ"
+  },
+  "ECM_ADVANCED": {
+    "description": "",
+    "message": "発展型ECMシステム"
+  },
+  "ECM_ADVANCED_DESCRIPTION": {
+    "description": "",
+    "message": "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
+  },
+  "ECM_BASIC": {
+    "description": "",
+    "message": "ECMシステム"
+  },
+  "ECM_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
+  },
+  "FUEL_SCOOP": {
+    "description": "",
+    "message": "燃料スクープ"
+  },
+  "FUEL_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "ガスジャイアントの惑星で水素燃料を集めることができるようになる。"
+  },
+  "HULL_AUTOREPAIR": {
+    "description": "",
+    "message": "船体自動修復装置"
+  },
+  "HULL_AUTOREPAIR_DESCRIPTION": {
+    "description": "",
+    "message": "ダメージが発生した場合、船体を自動的に修復する。"
+  },
+  "HYPERCLOUD_ANALYZER": {
+    "description": "",
+    "message": "ハイパークラウド分析器"
+  },
+  "HYPERCLOUD_ANALYZER_DESCRIPTION": {
+    "description": "",
+    "message": "ハイパースペース雲を分析し、いつ到着または出発するのかとその目的地を明らかにする。"
+  },
+  "LARGE_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Large plasma accelerator"
+  },
+  "LASER_COOLING_BOOSTER": {
+    "description": "",
+    "message": "レーザー冷却ブースター"
+  },
+  "LASER_COOLING_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "武器の冷却システムを改善する。"
+  },
+  "MININGCANNON_17MW": {
+    "description": "",
+    "message": "17MW発破採掘キャノン"
+  },
+  "MININGCANNON_17MW_DESCRIPTION": {
+    "description": "",
+    "message": "無機物の豊富な小惑星の発破採掘に用いられる。"
+  },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW発破採掘キャノン"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "無機物の豊富な小惑星の発破採掘に用いられる。"
+  },
+  "MISSILE_GUIDED": {
+    "description": "",
+    "message": "誘導ミサイル"
+  },
+  "MISSILE_NAVAL": {
+    "description": "",
+    "message": "Naval Missile"
+  },
+  "MISSILE_SMART": {
+    "description": "",
+    "message": "スマートミサイル"
+  },
+  "MISSILE_UNGUIDED": {
+    "description": "",
+    "message": "R40無誘導ロケット"
+  },
+  "MULTI_SCOOP": {
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
+    "message": "Multi Scoop"
+  },
+  "MULTI_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+  },
+  "OUT_OF_SCANRANGE": {
+    "description": "",
+    "message": "Max scan range exceeded:"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "客室"
+  },
+  "PLANETSCANNER": {
+    "description": "Scans the nearest body for resources",
+    "message": "天体スキャナ"
+  },
+  "PLANETSCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "近くの天体の資源をスキャンする。"
+  },
+  "PULSECANNON_10MW": {
+    "description": "",
+    "message": "10MWパルスキャノン"
+  },
+  "PULSECANNON_1MW": {
+    "description": "",
+    "message": "1MWパルスキャノン"
+  },
+  "PULSECANNON_20MW": {
+    "description": "",
+    "message": "20MWパルスキャノン"
+  },
+  "PULSECANNON_2MW": {
+    "description": "",
+    "message": "2MWパルスキャノン"
+  },
+  "PULSECANNON_4MW": {
+    "description": "",
+    "message": "4MWパルスキャノン"
+  },
+  "PULSECANNON_DUAL_1MW": {
+    "description": "",
+    "message": "1MW dual-fire pulse cannon"
+  },
+  "PULSECANNON_RAPID_2MW": {
+    "description": "",
+    "message": "2MW rapid-fire pulse cannon"
+  },
+  "RADAR": {
+    "description": "",
+    "message": "レーダー"
+  },
+  "RADAR_DESCRIPTION": {
+    "description": "",
+    "message": "近くの船の3Dマップを提供する。"
+  },
+  "SCAN_COMPLETED": {
+    "description": "",
+    "message": "スキャン完了"
+  },
+  "SCAN_RESUMED": {
+    "description": "",
+    "message": "Scanning resumed"
+  },
+  "SHIELD_ENERGY_BOOSTER": {
+    "description": "",
+    "message": "シールドエネルギーブースター"
+  },
+  "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "シールドリチャージの速度を増加させる。"
+  },
+  "SHIELD_GENERATOR": {
+    "description": "",
+    "message": "シールドジェネレーター"
+  },
+  "SHIELD_GENERATOR_DESCRIPTION": {
+    "description": "",
+    "message": "それぞれのユニットに装備される追加の船体防御を供給する。"
+  },
+  "SMALL_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Small plasma accelerator"
+  },
+  "STARTING_SCAN": {
+    "description": "",
+    "message": "スキャン開始。目標距離は"
+  },
+  "TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "ターゲットスキャナ"
+  },
+  "TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "他の船の装備や貨物、状態を遠隔調査するのに用いられる。"
+  },
+  "THRUSTERS_BASIC": {
+    "description": "",
+    "message": "Modified Thrusters"
+  },
+  "THRUSTERS_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "A modified type of thrusters approved for your ship."
+  },
+  "THRUSTERS_BEST": {
+    "description": "",
+    "message": "Bespoke Thrusters"
+  },
+  "THRUSTERS_BEST_DESCRIPTION": {
+    "description": "",
+    "message": "Custom made thrusters that provide the best possible output."
+  },
+  "THRUSTERS_MEDIUM": {
+    "description": "",
+    "message": "Optimised Thrusters"
+  },
+  "THRUSTERS_MEDIUM_DESCRIPTION": {
+    "description": "",
+    "message": "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+  },
+  "TRADE_COMPUTER": {
+    "description": "Ship equipment computing profitable commodities to trade between two systems",
+    "message": "貿易コンピューター"
+  },
+  "TRADE_COMPUTER_DESCRIPTION": {
+    "description": "",
+    "message": "Shows profitable commodities to trade between selected and current system"
+  },
+  "UNOCCUPIED_CABIN": {
+    "description": "",
+    "message": "追加客室"
+  },
+  "UNOCCUPIED_CABIN_DESCRIPTION": {
+    "description": "",
+    "message": "一人の旅客を輸送するのに必要。"
+  }
+}

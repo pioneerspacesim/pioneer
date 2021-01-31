@@ -1,15 +1,15 @@
 {
   "ADVICE_10_BODYTEXT": {
     "description": "",
-    "message": "Relocating to another faction might be a good idea when in trouble with local authorities."
+    "message": "Pokud máte potíže s místními úřady, tak může být dobrým nápadem přestěhovat se do jiné frakce."
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Know when to leave town"
+    "message": "Víte, kdy opustit město"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
-    "message": "As you return to a station, be wary of those alternative market places you do not recognize, and you will stay out of trouble with the law."
+    "message": "Když se přistanete na stanici, tak si dejte pozor na alternativní tržiště, která neznáte. Tím se vyhnete problémům se zákonem."
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
@@ -25,31 +25,31 @@
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "Avoid jumping into uninhabited systems without the means to leave."
+    "message": "Vyvarujte se skákání do neobydlených systémů bez prostředků k jejich opuštění."
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Avoid getting stranded: plan your jump sequence ahead"
+    "message": "Vyvarujte se uvíznutí: naplánujte si sekvenci skoků dopředu"
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+    "message": "Vyberte si referenční rámec. Zvláště když se chcete přizpůsobit rychlosti a kurzu pohybujícího se cíle."
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
-    "message": "It's all relative"
+    "message": "Všechno je relativní"
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
-    "message": "Buy low and sell high."
+    "message": "Nakupte levně a draze prodejte."
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
-    "message": "Never lose money"
+    "message": "Nikdy nepřijdete o peníze"
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Pay close attention to any news reported, as information can affect market prices."
+    "message": "Věnujte zvláštní pozornost vydaným zprávám, protože tyto informace mohou ovlivnit tržní ceny."
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
@@ -57,27 +57,27 @@
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
-    "message": "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+    "message": "Dary vám mohou získat dobré postavení ve společnosti, ale ne všechny charitativní organizace vám získají pověst."
   },
   "ADVICE_7_HEADLINE": {
     "description": "",
-    "message": "Be generous"
+    "message": "Buďte velkorysí"
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
-    "message": "When journeying to binary systems, make sure to target the right star."
+    "message": "Když cestujete do binárních systémů, zaměřte se na správnou hvězdu."
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Stay out of double trouble"
+    "message": "Vyhněte se dvojím potížím"
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
-    "message": "Regularly maintain your engines, but remember: you get what you pay for."
+    "message": "Pravidelně udržujte své motory, ale pamatujte: dostanete jen to, za co zaplatíte."
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "Treat your ship well"
+    "message": "Zacházejte se svou lodí dobře"
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",
@@ -89,7 +89,7 @@
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"I've seen things you people wouldn't believe\""
+    "message": "„Viděl jsem věci, kterým by lidé nevěřili“"
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",

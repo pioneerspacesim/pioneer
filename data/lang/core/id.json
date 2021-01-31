@@ -141,7 +141,7 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Carbon ore"
+    "message": "Bijih karbon"
   },
   "CARGO": {
     "description": "",
@@ -297,7 +297,7 @@
   },
   "DECREASE_TIME_ACCELERATION": {
     "description": "",
-    "message": "Decrease Time Acceleration"
+    "message": "Kurangi Percepatan Waktu"
   },
   "DEMOGRAPHICS": {
     "description": "",
@@ -334,10 +334,6 @@
   "DRAW_VERTICAL_LINES": {
     "description": "",
     "message": "Draw vertical lines"
-  },
-  "EARTH": {
-    "description": "",
-    "message": "Bumi"
   },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
@@ -385,7 +381,7 @@
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Fertilizer"
+    "message": "Pupuk"
   },
   "FIRE_LASER": {
     "description": "",
@@ -445,7 +441,7 @@
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
-    "message": "General View Controls"
+    "message": "Kontrol Tampilan Umum"
   },
   "GOVERNMENT_TYPE": {
     "description": "",
@@ -453,7 +449,7 @@
   },
   "GRAIN": {
     "description": "like wheat or barley",
-    "message": "Grain"
+    "message": "Gandum"
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
@@ -461,7 +457,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Senjata ringan"
   },
   "HARD_CAPITALIST": {
     "description": "",
@@ -593,7 +589,7 @@
   },
   "INCREASE_TIME_ACCELERATION": {
     "description": "",
-    "message": "Increase Time Acceleration"
+    "message": "Tingkatkan Percepatan Waktu"
   },
   "INDUSTRIAL_COLONY": {
     "description": "",
@@ -669,7 +665,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Liquor"
+    "message": "Minuman keras"
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -729,7 +725,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Medicines"
+    "message": "Obat"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -749,7 +745,7 @@
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Metal ore"
+    "message": "Bijih besi"
   },
   "MILITARY_DICTATORSHIP": {
     "description": "",
@@ -965,15 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} earth days"
+    "message": "%days{f.1} Earth days"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} %units masses"
+    "message": "%mass{f.3} Earth masses"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} Earth radii (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Solar masses"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %units radii (%radkm{f.0} km)"
+    "message": "%radius{f.3} Solar radii (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -1334,10 +1338,6 @@
   "SOCIAL_DEMOCRACY": {
     "description": "",
     "message": "Demokrasi sosial"
-  },
-  "SOLAR": {
-    "description": "",
-    "message": "Solar"
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",

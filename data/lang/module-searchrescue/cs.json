@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
+    "message": " Dorazila k nám smutná zpráva, že {shiplabel} byla zničena. Za vaše úsilí zaplatíme polovinu dohodnuté ceny."
   },
   "AU": {
     "description": "",
@@ -9,11 +9,11 @@
   },
   "BOARDED_PASSENGER": {
     "description": "",
-    "message": "{name} has boarded the ship."
+    "message": "{name} nastoupil/a na loď."
   },
   "COMMODITIES": {
     "description": "",
-    "message": "Commodities"
+    "message": "Komodity"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "CREW": {
     "description": "",
-    "message": "Crew"
+    "message": "Posádka"
   },
   "DEADLINE": {
     "description": "",
@@ -29,11 +29,11 @@
   },
   "DELIVERED_PASSENGER": {
     "description": "",
-    "message": "{name} has left the ship."
+    "message": "{name} opustil/a loď."
   },
   "DELIVERY": {
     "description": "",
-    "message": "DELIVERY"
+    "message": "DODÁVKA"
   },
   "DISTANCE": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "ENTITY_FAMILY_BUSINESS_1": {
     "description": "",
-    "message": "{name} and Sons"
+    "message": "{name} a synové"
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
@@ -49,11 +49,11 @@
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",
-    "message": "{name} and Daughters"
+    "message": "{name} a dcery"
   },
   "ENTITY_FAMILY_BUSINESS_3": {
     "description": "",
-    "message": "{name} Flowers of {locality}"
+    "message": "{name} Květiny z {locality}"
   },
   "ENTITY_FAMILY_BUSINESS_4": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "You are not equipped to handle this mission. {unit} {equipment} required."
+    "message": "Nejste vybaveni pro zvládnutí této mise. Je požadováno {unit} {equipment}."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
@@ -169,7 +169,7 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you are just returning now! How much time has been wasted!"
+    "message": "Nemůžu uvěřit, že se vracíte! Kolik času bylo promarněno!"
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
@@ -177,127 +177,127 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+    "message": "Řízení letového provozu společnosti {starport} potřebuje, abyste OKAMŽITĚ pomohli reagovat na nouzové přistání hvězdné lodi typu {ship} na planetě {planet}. Stav systémů podpory života není znám. Loď byla pojištěna {starport} starportovým pojištěním a je kryta částkou {cash}."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+    "message": "Poslední známá pozice této lodi byla {planet} na souřadnicích zeměpisné šířky a délky: {lat} / {long}. ID zásilky je {shiplabel}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, this is a great relief! We will transmit the money momentarily."
+    "message": "Děkuji, je to velká úleva! Peníze převedeme okamžitě."
   },
   "FLAVOUR_1_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit} bylo naloženo."
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+    "message": "Na palubě lodi je údajně {crew} členů posádky a  {pass} cestujících. Potřebujeme někoho, aby lokalizoval loď, vyzvedl všechny přeživší a okamžitě je přivezl sem."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL en route to {starport}."
+    "message": "DOPRAVA PALIVA na cestu do {starport}."
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you kept me waiting out here this long! Forget about your payment!"
+    "message": "Nemůžu uvěřit, že jsi mě tu nechal čekat tak dlouho! Zapomeň na nějaké peníze!"
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "To receive full payment you are asked to deliver the fuel by {due}."
+    "message": "Chceš-li obdržet plnou platbu, musíš dodat palivo do {due}."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+    "message": "Řízení letového provozu {starport} právě obdrželo oznámení od společnosti, že letu {shiplabel} došlo palivo a musel nouzově přistát. Pilot je ochoten zaplatit za hotovostní služby {cash}."
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+    "message": "Loď v současné době čeká na zeměpisné šířce {lat} / zeměpisné délce {long} na planetě {planet}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you so much! I have transferred the full reward."
+    "message": "Děkuji mnohokrát! Převedl jsem celou odměnu."
   },
   "FLAVOUR_2_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} tun paliva bylo přečerpáno."
   },
   "FLAVOUR_2_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is requesting {unit} tons of {cargo}."
+    "message": "Pilot požaduje {unit} tun {cargo}."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "MEDICAL EMERGENCY on ship close to {starport}."
+    "message": "LÉKAŘSKÁ POHOTOVOST na lodi blízko {starport}."
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Unacceptable performance! We will update our records accordingly."
+    "message": "Nepřijatelný výkon! Podle toho budeme aktualizovat své záznamy."
   },
   "FLAVOUR_3_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The substitute pilot will need to reach the ship by {due}."
+    "message": "Náhradní pilot bude muset dorazit na loď do {due}."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+    "message": "Jmenuji se {name} z {starport} řízení letového provozu. Žádám o pomoc v reakci na stav nouze pilota letu {shiplabel} směřujícího na {starport}."
   },
   "FLAVOUR_3_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship had to emergency land at the coordinates: {lat} / {long}. "
+    "message": "Loď musela nouzově přistát na souřadnicích: {lat} / {long}."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, commander! Your help has been duly noted."
+    "message": "Děkuji, veliteli! Vaše pomoc byla náležitě zaznamenána."
   },
   "FLAVOUR_3_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has left the ship."
+    "message": "{unit} bylo vyloženo."
   },
   "FLAVOUR_3_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+    "message": "Přepravte náhradního pilota na loď z {starport}, aby mohla letět zpět do {starport}."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL on {planet}."
+    "message": "DOPRAVA PALIVA na {planet}."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "I will send someone else. Don't bother anymore."
+    "message": "Pošlu někoho jiného. Už se neobtěžuj."
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full pay the pilot expects you to deliver the fuel by {due}."
+    "message": "Chceš-li obdržet plnou platbu, musíš dodat palivo do {due}."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+    "message": "Řízení letu {starport} bylo kontaktováno pilotem letu {shiplabel}. Uvízli s prázdnou palivovou nádrží a slíbili, že zaplatí {cash} komukoli, kdo doplní palivo jejich lodě."
   },
   "FLAVOUR_4_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is stranded on {planet} at coordinates {lat} / {long}."
+    "message": "Loď uvízla na {planet} na souřadnicích {lat} / {long}."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Very good. We will recommend you for future assignments."
+    "message": "Velmi dobře. Doporučíme vás pro budoucí úkoly."
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} tun paliva bylo přečerpáno."
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}."
+    "message": "Pilot žádá {unit} tun {cargo}."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL close to {starport}."
+    "message": "DOPRAVA PALIVA do blízkosti {starport}."
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "People are just not dependable anymore."
+    "message": "Lidé už nejsou spolehliví."
   },
   "FLAVOUR_5_HOWMUCHTIMETEXT": {
     "description": "",
@@ -305,23 +305,23 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+    "message": "Řízení letového provozu společnosti {starport} identifikovalo loď s ID {shiplabel} plující bez paliva v blízkosti. Zaplatíme {cash} každému, kdo natankuje loď, aby mohl opustit {starport}."
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+    "message": "Cílová loď se aktuálně nachází odtud přibližně ve vzdálenosti {dist} km. Přesné umístění budete muset vypátrat sami."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "We will make record of your timely completion of the task."
+    "message": "Zaznamenáme vaše včasné dokončení úkolu."
   },
   "FLAVOUR_5_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} tun paliva bylo přečerpáno."
   },
   "FLAVOUR_5_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We request the delivery of {unit} tons of {cargo} to the ship."
+    "message": "Požadujeme dodávku {unit} tun {cargo} na loď."
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
@@ -329,39 +329,39 @@
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "What a disaster! This is the death sentence to our poor colleagues!"
+    "message": "Jaká neštěstí! Toto je rozsudek smrti pro naše ubohé kolegy!"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "You have to be back by {due}."
+    "message": "Musíte se vrátit do {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+    "message": "Jmenuji se {name} z {entity}. Po {problem} jsme ztratili kontakt s naší {ship} {shiplabel}. Jsme ochotni zaplatit {cash} za okamžitou pomoc."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+    "message": "Poslední známá poloha byla blízkost {planet} v systému {system} [{sectorx}, {sectory}, {sectorz}], {dist} odsud."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! You can't imagine how relieved we are."
+    "message": "Děkuji! Nedokážete si představit, jak se nám ulevilo."
   },
   "FLAVOUR_6_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit} bylo naloženo."
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+    "message": "Potřebuji někoho ochotného okamžitě odletět a přivést naše kolegy zpět na {starport}, pokud budou naživu. Na palubě bylo {crew} členů posádky a {pass} cestujících."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+    "message": "OKAMŽITÁ PŘEPRAVA POSÁDKY do systému {system}."
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Thank you very much, but you are too late!"
+    "message": "Moc děkuji, ale jste tu příliš pozdě!"
   },
   "FLAVOUR_7_HOWMUCHTIMETEXT": {
     "description": "",
@@ -369,47 +369,47 @@
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+    "message": "Jmenuji se {name} z {entity}. Naše jediná loď, {ship} {shiplabel}, se po {problem} vznáší s posádkou {crew}. Jsem ochoten zaplatit {cash} za okamžitou pomoc."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+    "message": "Loď najdete v systému {system} [{sectorx}, {sectory}, {sectorz}], {dist} odtud. Je na oběžné dráze kolem planety {planet}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! I have been authorized to transmit the full payment."
+    "message": "Děkuji! Jsem oprávněný předat celou platbu."
   },
   "FLAVOUR_7_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has transferred to the target ship."
+    "message": "{unit} bylo přeloženo na cílovou loď."
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+    "message": "Naše loď se nemůže vrátit bez minimální posádky. Hledám někoho ochotného okamžitě přepravit náhradní posádku {deliver_crew} k naší lodi."
   },
   "FULL_CARGO": {
     "description": "",
-    "message": "Ship full. No more room for additional cargo."
+    "message": "Loď je plná. Již není žádný prostor pro další náklad."
   },
   "FULL_CREW": {
     "description": "",
-    "message": "Crew roster full. No more space for more crew."
+    "message": "Plný stav posádky. Na loď se již další nevejde."
   },
   "FULL_PASSENGERS": {
     "description": "",
-    "message": "All cabins full. No more space for more passengers."
+    "message": "Kabiny jsou plné. Není prostor pro další cestující."
   },
   "HOW_FAR": {
     "description": "",
-    "message": "How far away is the target?"
+    "message": "Jak daleko je cíl?"
   },
   "HOW_MUCH_TIME": {
     "description": "",
-    "message": "How much time do I have?"
+    "message": "Kolik mám času?"
   },
   "INTERACTION_ABORTED": {
     "description": "",
-    "message": "Interaction aborted. Please come closer and try again."
+    "message": "Interakce byla přerušena. Přibližte se a zkuste to znovu."
   },
   "INTERACTION_DISTANCE_REACHED": {
     "description": "",
@@ -417,7 +417,7 @@
   },
   "IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It must be completed by "
+    "message": "Musí být dokončeno do"
   },
   "KM": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "LAST_KNOWN_LOCATION": {
     "description": "",
-    "message": "Last known location:"
+    "message": "Poslední známé umístění:"
   },
   "LAT": {
     "description": "",
@@ -437,15 +437,15 @@
   },
   "MISSING_COMM": {
     "description": "",
-    "message": "Cannot complete transfer. {cargotype} missing."
+    "message": "Přesun nelze dokončit. {cargotype} chybí."
   },
   "MISSING_CREW": {
     "description": "",
-    "message": "Cannot complete transfer. Crew missing."
+    "message": "Přesun nelze dokončit. Chybí posádka."
   },
   "MISSING_PASS": {
     "description": "",
-    "message": "Cannot complete transfer. Passengers missing."
+    "message": "Přesun nelze dokončit. Nejsou cestující."
   },
   "MISSING_PASSENGER": {
     "description": "",
@@ -461,23 +461,23 @@
   },
   "PARTIAL": {
     "description": "",
-    "message": "Thank you for your efforts. I hope you will return to complete the task!"
+    "message": "Děkuji za vaši snahu. Doufám, že se k dokončení úkolu vrátíte!"
   },
   "PASSENGERS": {
     "description": "",
-    "message": "Passengers"
+    "message": "Cestující"
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Payment location:"
+    "message": "Místo platby:"
   },
   "PICKUP": {
     "description": "",
-    "message": "PICKUP"
+    "message": "VYZVEDNOUT"
   },
   "PLACE_OF_ASSISTANCE": {
     "description": "",
-    "message": "At the place of assistance"
+    "message": "V místě pomoci"
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
@@ -489,31 +489,31 @@
   },
   "PROBLEM_CREW_1": {
     "description": "",
-    "message": "a deadly fight among the crew members"
+    "message": "smrtící boj mezi členy posádky"
   },
   "PROBLEM_CREW_10": {
     "description": "",
-    "message": "a mutiny"
+    "message": "vzpoura"
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "the crew had to chase a deadly {locality} snake found loose on the ship"
+    "message": "posádka musela pronásledovat smrtícího hada nalezeného na lodi"
   },
   "PROBLEM_CREW_3": {
     "description": "",
-    "message": "a {locality} spider killed all the others"
+    "message": "pavouk {locality} zabil všechny ostatní"
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "what it seems like a {locality} scorpion got into the crew quarters at night"
+    "message": "zdá se, že škorpión z {locality} se v noci dostal do kajuty posádky"
   },
   "PROBLEM_CREW_5": {
     "description": "",
-    "message": "a severe form of {locality} fever killed the others"
+    "message": "těžká forma horečky z {locality} všechny zabila"
   },
   "PROBLEM_CREW_6": {
     "description": "",
-    "message": "the other crew members did not return from a space walk"
+    "message": "zbývající členové posádky se nevrátili z vesmírného výstupu"
   },
   "PROBLEM_CREW_7": {
     "description": "",
@@ -597,15 +597,15 @@
   },
   "PROBLEM_RESEARCH_7": {
     "description": "",
-    "message": "a heated dispute between scientists on board the ship"
+    "message": "vášnivý spor mezi vědci na palubě lodi"
   },
   "PROBLEM_RESEARCH_8": {
     "description": "",
-    "message": "the sudden disappearance of a lead investigator on board the ship"
+    "message": "náhlé zmizení vedoucího vyšetřovatele na palubě lodi"
   },
   "PROBLEM_RESEARCH_9": {
     "description": "",
-    "message": "the accidental combination of incompatible specimens from {locality}"
+    "message": "náhodná kombinace nekompatibilních vzorků z {locality}"
   },
   "RESULT_DELIVERY_COMM": {
     "description": "",
@@ -633,11 +633,11 @@
   },
   "RETURN_TO": {
     "description": "",
-    "message": "Return To:"
+    "message": "Návrat do:"
   },
   "REWARD": {
     "description": "",
-    "message": "Reward:"
+    "message": "Odměna:"
   },
   "SEARCH_RESCUE": {
     "description": "",
@@ -649,11 +649,11 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Nastavit zpáteční trasu"
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
-    "message": "Target ship unresponsive."
+    "message": "Cílová loď nereaguje."
   },
   "SYSTEM": {
     "description": "",
@@ -661,42 +661,42 @@
   },
   "TARGET_SHIP_ID": {
     "description": "",
-    "message": "Target ship ID:"
+    "message": "ID zaměřené lodě"
   },
   "THANK_YOU_ACCEPTANCE_TXT": {
     "description": "",
-    "message": "Thank you so much. Your help is greatly appreciated."
+    "message": "Děkuji mnohokrát. Jsem vděčný za vaší pomoc."
   },
   "TONS_OF_FREE_CARGO_SPACE": {
     "description": "",
-    "message": "tons of free cargo space"
+    "message": "tun volného nákladního prostoru"
   },
   "TRANSFER_ABORTED": {
     "description": "",
-    "message": "Transfer has been aborted!"
+    "message": "Překládka byla přerušena!"
   },
   "TRANSFER_COMPLETE": {
     "description": "",
-    "message": "Transfer has been completed!"
+    "message": "Překládka byla dokončena!"
   },
   "TRANSFER_PARTIAL": {
     "description": "",
-    "message": "Transfer has been partially completed. Please return to finish transfer."
+    "message": "Překládka nebyla celá dokončena. Vraťte se a dokončete ji."
   },
   "TRANSFER_TIME": {
     "description": "",
-    "message": "Please allow {minutes} minutes for transfer."
+    "message": "Počkejte prosím {minutes} minut na přenos."
   },
   "TYPE_OF_HELP": {
     "description": "",
-    "message": "What type of help is needed?"
+    "message": "Jakou potřebujete pomoc?"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "unoccupied passenger cabins"
+    "message": "neobsazené kabiny pro cestující"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",
-    "message": "Where do I find the target?"
+    "message": "Kde najdu cíl?"
   }
 }

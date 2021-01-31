@@ -1,0 +1,102 @@
+{
+  "ADVICE_10_BODYTEXT": {
+    "description": "",
+    "message": "地方当局とトラブルになった時、他の派閥への転換は良い考えです。　"
+  },
+  "ADVICE_10_HEADLINE": {
+    "description": "",
+    "message": "Know when to leave town"
+  },
+  "ADVICE_1_BODYTEXT": {
+    "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
+    "message": "ステーションに戻った時は、見覚えのない市場に注意してください。そうすれば警察の厄介にならずに済むでしょう。"
+  },
+  "ADVICE_1_HEADLINE": {
+    "description": "",
+    "message": "ブラックマーケットをうまく利用しろ"
+  },
+  "ADVICE_2_BODYTEXT": {
+    "description": "",
+    "message": "小距離を多く移動すれば、一気に移動するよりも早く移動できる。"
+  },
+  "ADVICE_2_HEADLINE": {
+    "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
+    "message": "The Road Faster Taken"
+  },
+  "ADVICE_3_BODYTEXT": {
+    "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
+    "message": "帰るのに必要な燃料なしに無人の星系にジャンプするのは避けろ。"
+  },
+  "ADVICE_3_HEADLINE": {
+    "description": "",
+    "message": "立ち往生するべきではない。前もってジャンプの順番を計画しなさい。"
+  },
+  "ADVICE_4_BODYTEXT": {
+    "description": "",
+    "message": "基準系を選択してください。特に、速度とコースを動いている目標に合わせたい時はです。"
+  },
+  "ADVICE_4_HEADLINE": {
+    "description": "",
+    "message": "全ては人それぞれだ"
+  },
+  "ADVICE_5_BODYTEXT": {
+    "description": "",
+    "message": "安く買って高く売れ。"
+  },
+  "ADVICE_5_HEADLINE": {
+    "description": "",
+    "message": "決してお金を失うな"
+  },
+  "ADVICE_6_BODYTEXT": {
+    "description": "",
+    "message": "情報は市場価格に影響を与えるので、どんなニュースレポートにも細心の注意を払え"
+  },
+  "ADVICE_6_HEADLINE": {
+    "description": "",
+    "message": "世の中の動きに注意を傾けろ。"
+  },
+  "ADVICE_7_BODYTEXT": {
+    "description": "",
+    "message": "寄付は社会でのあなたの立ち位置をよくする。しかし、全ての慈善行為があなたの評判をよくするわけではない。"
+  },
+  "ADVICE_7_HEADLINE": {
+    "description": "",
+    "message": "寛大であれ"
+  },
+  "ADVICE_8_BODYTEXT": {
+    "description": "",
+    "message": "連星系に旅行するときは、忘れずに正しい目標を設定しろ。"
+  },
+  "ADVICE_8_HEADLINE": {
+    "description": "",
+    "message": "面倒ごとには関わるな"
+  },
+  "ADVICE_9_BODYTEXT": {
+    "description": "",
+    "message": "定期的にエンジンをメンテナンスしろ。しかし、支払い相応の物を手に入れるということを覚えておきなさい。"
+  },
+  "ADVICE_9_HEADLINE": {
+    "description": "",
+    "message": "自分の船をよく手入れしろ"
+  },
+  "RUMOUR": {
+    "description": "Headline starts with this pre-headline",
+    "message": "噂"
+  },
+  "TALE_1_BODYTEXT": {
+    "description": "",
+    "message": "HadesがEpsilon Eridaniからの光を遮ることで起こるNew Hopeでの美しい日食を見逃すべきではない。"
+  },
+  "TALE_1_HEADLINE": {
+    "description": "Blade runner?",
+    "message": "\"私は人が信じないような物事を見てきました。\""
+  },
+  "TRAVELLERS_ADVICE": {
+    "description": "Headline starts with this pre-headline",
+    "message": "トラベラーのアドバイス"
+  },
+  "TRAVELLERS_TALE": {
+    "description": "Headline starts with this pre-headline",
+    "message": "トラベラーの話"
+  }
+}

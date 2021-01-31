@@ -335,10 +335,6 @@
     "description": "",
     "message": "Rita vertikala linjer"
   },
-  "EARTH": {
-    "description": "",
-    "message": "Jorden"
-  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Jordfederatiskt kolonialstyre"
@@ -965,15 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} jorddagar"
+    "message": "%days{f.1} Earth days"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} %units massor"
+    "message": "%mass{f.3} Earth masses"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} Earth radii (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Solar masses"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %units radie (%radkm{f.0} km)"
+    "message": "%radius{f.3} Solar radii (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -1334,10 +1338,6 @@
   "SOCIAL_DEMOCRACY": {
     "description": "",
     "message": "Socialdemokrati"
-  },
-  "SOLAR": {
-    "description": "",
-    "message": "Sol"
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",

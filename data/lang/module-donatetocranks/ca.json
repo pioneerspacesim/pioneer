@@ -47,6 +47,10 @@
     "description": "",
     "message": "RECOLZEU LA LLIBERTAT! No permeteu que el programari de propietat controli la vostra nau."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Gràcies. Tots els donatius són benvinguts."

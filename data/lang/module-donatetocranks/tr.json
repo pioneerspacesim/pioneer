@@ -47,6 +47,10 @@
     "description": "",
     "message": "ÖZGÜRLÜĞÜ DESTEKLEYİN! Geminizi kontrol eden ticari yazılımların büyük adaletsizliğine son verin."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Bize {cash} bağışlamanız itibarınızı arttırabilir, ama her türlü yardıma açığız."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Teşekkür ederiz. Tüm bağışlar takdir edilir."

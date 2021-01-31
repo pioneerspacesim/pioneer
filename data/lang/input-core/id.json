@@ -1,4 +1,8 @@
 {
+  "AXIS": {
+    "description": "Cardinal name used to compose Joystick <X> Button <Y>",
+    "message": "Axis"
+  },
   "BIND_AXIS_PITCH": {
     "description": "Descriptive name for the Pitch axis.",
     "message": "Pitch"
@@ -9,15 +13,15 @@
   },
   "BIND_AXIS_THRUST_FORWARD": {
     "description": "Descriptive name for the ThrustForward axis",
-    "message": "Thrust Forward / Backwards"
+    "message": "Thrust Maju / Mundur"
   },
   "BIND_AXIS_THRUST_LEFT": {
     "description": "Descriptive name for the ThrustLeft axis",
-    "message": "Thrust Left / Right"
+    "message": "Thrust Kiri / Kanan"
   },
   "BIND_AXIS_THRUST_UP": {
     "description": "Descriptive name for the ThrustUp axis",
-    "message": "Thrust Up / Down"
+    "message": "Thrust Atas / Bawah"
   },
   "BIND_AXIS_YAW": {
     "description": "Descriptive name for the Yaw axis.",
@@ -25,11 +29,11 @@
   },
   "BIND_BOTTOM_CAMERA": {
     "description": "Descriptive name for the BottomCamera action.",
-    "message": "Switch to Bottom Camera"
+    "message": "Beralih ke Kamera Bawah"
   },
   "BIND_CAMERA_PITCH": {
     "description": "Descriptive name for the Camera Pitch axis.",
-    "message": "Camera Pitch"
+    "message": "Pitch Kamera"
   },
   "BIND_CAMERA_ROLL": {
     "description": "Descriptive name for the Camera Roll axis",
@@ -41,27 +45,27 @@
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
-    "message": "Cycle Camera Mode"
+    "message": "Siklus Mode Kamera"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
-    "message": "Decrease Time Acceleration"
+    "message": "Kurangi Percepatan Waktu"
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
-    "message": "Switch to Front Camera"
+    "message": "Beralih ke Kamera Depan"
   },
   "BIND_INCREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the IncreaseTimeAcceleration action.",
-    "message": "Increase Time Acceleration"
+    "message": "Tingkatkan Percepatan Waktu"
   },
   "BIND_KILL_ROT": {
     "description": "Descriptive name for the KillRot action.",
-    "message": "Kill Rotation"
+    "message": "Kill rotation"
   },
   "BIND_LEFT_CAMERA": {
     "description": "Descriptive name for the LeftCamera action.",
-    "message": "Switch to Left Camera"
+    "message": "Beralih ke Kamera Kiri"
   },
   "BIND_LOOK_PITCH": {
     "description": "Descriptive name for the Freelook Pitch axis.",
@@ -71,81 +75,101 @@
     "description": "Descriptive name for the Freelook Yaw axis.",
     "message": "Freelook Yaw"
   },
+  "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "Descriptive name for the MapToggleSelectionFollowView action.",
+    "message": "Alihkan Pilihan Tampilan Mengikuti"
+  },
   "BIND_MAP_VIEW_MOVE_FORWARD": {
     "description": "Axis binding",
-    "message": "Shift Map Longitudinally"
+    "message": "Geser Peta Secara Longitudinal"
   },
   "BIND_MAP_VIEW_MOVE_LEFT": {
     "description": "Axis binding",
-    "message": "Shift Map Horizontally"
+    "message": "Geser Peta Secara Horizontal"
   },
   "BIND_MAP_VIEW_MOVE_UP": {
     "description": "Axis binding",
-    "message": "Shift Map Vertically"
+    "message": "Geser Peta Secara Vertikal"
   },
   "BIND_MAP_VIEW_PITCH": {
     "description": "Axis binding",
-    "message": "Map Pitch"
+    "message": "Pitch Peta"
   },
   "BIND_MAP_VIEW_YAW": {
     "description": "Axis binding",
-    "message": "Map Yaw"
+    "message": "Yaw Peta"
+  },
+  "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToCurrentSystem action.",
+    "message": "Warp ke Sistem Saat Ini"
+  },
+  "BIND_MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToSelectedSystem action.",
+    "message": "Warp ke Sistem yang Dipilih"
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
-    "message": "Primary Fire"
+    "message": "Tembakan Utama"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
-    "message": "Switch to Rear Camera"
+    "message": "Beralih ke Kamera Belakang"
   },
   "BIND_RESET_CAMERA": {
     "description": "Descriptive name for the ResetCamera action.",
-    "message": "Reset Camera View to Default"
+    "message": "Setel Ulang Tampilan Kamera ke Default"
+  },
+  "BIND_RESET_ORIENTATION_AND_ZOOM": {
+    "description": "Descriptive name for the ResetOrientationAndZoom action.",
+    "message": "Atur Ulang Orientasi dan Zoom"
   },
   "BIND_RIGHT_CAMERA": {
     "description": "Descriptive name for the RightCamera action.",
-    "message": "Switch to Right Camera"
+    "message": "Beralih ke Kamera Kanan"
   },
   "BIND_SECONDARY_FIRE": {
     "description": "Descriptive name for the SecondaryFire action.",
-    "message": "Secondary Fire"
+    "message": "Tembakan Sekunder"
   },
   "BIND_SPEED_CONTROL": {
     "description": "Descriptive name for the SpeedControl axis.",
-    "message": "Set Target Speed"
+    "message": "Tetapkan Kecepatan Target"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
-    "message": "Target Object"
+    "message": "Objek Target"
   },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
-    "message": "Low Power Thrust Mode (hold)"
+    "message": "Mode Thrust Daya Rendah (tahan)"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
-    "message": "Toggle HUD Mode"
+    "message": "Beralih Mode HUD"
+  },
+  "BIND_TOGGLE_LUA_CONSOLE": {
+    "description": "Descriptive name for the ToggleLuaConsole action.",
+    "message": "Munculkan atau hilangkan konsol LUA"
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
-    "message": "Toggle Rotation Damping"
+    "message": "Beralih Peredaman Rotasi"
   },
   "BIND_TOGGLE_SET_SPEED": {
     "description": "Descriptive name for the ToggleSetSpeed action.",
-    "message": "Toggle Speed Control Mode"
+    "message": "Beralih Mode Kontrol Kecepatan"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
-    "message": "Switch to Top Camera"
+    "message": "Beralih ke Kamera Atas"
   },
   "BIND_VIEW_ZOOM": {
     "description": "Descriptive name for the View Zoom axis",
-    "message": "View Zoom"
+    "message": "Zoom"
   },
   "BUTTON": {
     "description": "",
-    "message": "\" Button \""
+    "message": "\" Tombol \""
   },
   "DIRECTION": {
     "description": "Direction",
@@ -153,26 +177,26 @@
   },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
-    "message": "General View Controls"
+    "message": "Kontrol Tampilan Umum"
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
-    "message": "Manual Thrust Control"
+    "message": "Kontrol Thrust Manual"
   },
   "GROUP_MISCELLANEOUS": {
     "message": "Lain-lain"
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
-    "message": "Sector Map View Controls"
+    "message": "Kontrol Tampilan Peta Sektor"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
-    "message": "Ship Orientation"
+    "message": "Orientasi Kapal"
   },
   "GROUP_SPEED_CONTROL": {
     "description": "Header for the SpeedControl input group.",
-    "message": "Set-Speed Thrust Control"
+    "message": "Set Kontrol Kecepatan Thrust"
   },
   "GROUP_WEAPONS": {
     "description": "Header for the Weapons input group.",
@@ -181,6 +205,22 @@
   "HAT": {
     "description": "Hat switch: Is the top button on a joystick",
     "message": "\" Hat\""
+  },
+  "MOUSE": {
+    "description": "A computer mouse, used to create the name for a mouse button binding",
+    "message": "Mouse "
+  },
+  "MOUSE_LMB": {
+    "description": "An acronym for the left mouse button",
+    "message": "LMB"
+  },
+  "MOUSE_MMB": {
+    "description": "An acronym for the middle mouse button",
+    "message": "MMB"
+  },
+  "MOUSE_RMB": {
+    "description": "An acronym for the right mouse button",
+    "message": "RMB"
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",

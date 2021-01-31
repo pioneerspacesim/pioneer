@@ -165,7 +165,7 @@
   },
   "CENTER": {
     "description": "",
-    "message": "Center"
+    "message": "Centro"
   },
   "CH4_ATMOSPHERE": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "COUNT_STARPORTS": {
     "description": "",
-    "message": "starports"
+    "message": "porto estelar"
   },
   "CO_ATMOSPHERE": {
     "description": "",
@@ -334,10 +334,6 @@
   "DRAW_VERTICAL_LINES": {
     "description": "",
     "message": "Desenhar linhas verticais"
-  },
-  "EARTH": {
-    "description": "",
-    "message": "Terra"
   },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
@@ -461,7 +457,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Armas pequenas"
   },
   "HARD_CAPITALIST": {
     "description": "",
@@ -881,7 +877,7 @@
   },
   "NOW": {
     "description": "In System Orbit View",
-    "message": "Now"
+    "message": "Agora"
   },
   "NO_ALERT": {
     "description": "",
@@ -965,15 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} earth days"
+    "message": "%days{f.1} Earth days"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} %units massas"
+    "message": "%mass{f.3} Earth masses"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} Earth radii (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Solar masses"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %units radii (%radkm{f.0} km)"
+    "message": "%radius{f.3} Solar radii (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -1335,10 +1339,6 @@
     "description": "",
     "message": "Democracia social"
   },
-  "SOLAR": {
-    "description": "",
-    "message": "Solar"
-  },
   "SOME_ESTABLISHED_MINING": {
     "description": "",
     "message": "Alguma mineração estabelecida."
@@ -1357,11 +1357,11 @@
   },
   "STARPORT": {
     "description": "",
-    "message": "Starport"
+    "message": "Porto estelar"
   },
   "STARPORTS": {
     "description": "",
-    "message": "Starports"
+    "message": "Portos estelares"
   },
   "STAR_A": {
     "description": "",
@@ -1645,7 +1645,7 @@
   },
   "UNIT_AU": {
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
-    "message": "AU"
+    "message": "UA"
   },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
@@ -1705,7 +1705,7 @@
   },
   "UNIT_WEEKS": {
     "description": "Duration unit: one 7-day week",
-    "message": "w"
+    "message": "sem"
   },
   "UNKNOWN": {
     "description": "",

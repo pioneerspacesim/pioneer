@@ -1,0 +1,198 @@
+{
+  "ACCEPTED_ARMS_DEALER": {
+    "description": "",
+    "message": "Strålande! Tack!"
+  },
+  "ACCEPTED_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Tack. Du kommer inte ångra det!"
+  },
+  "ACCEPTED_LEGAL_GOODS": {
+    "description": "",
+    "message": "Thank you. You know a good deal when you see one!"
+  },
+  "ACCEPTED_RESCUE": {
+    "description": "",
+    "message": "Thank you very much. The crew will appreciate that."
+  },
+  "ADTEXT_ARMS_DEALER": {
+    "description": "",
+    "message": "PICK UP: Prompt recovery of drifting container required."
+  },
+  "ADTEXT_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "ENKLA PENGAR: Värdefull information till salu."
+  },
+  "ADTEXT_LEGAL_GOODS": {
+    "description": "",
+    "message": "INFORMATION SÄLJES: Koordinater till värdefullt rymdskrot"
+  },
+  "ADTEXT_RESCUE": {
+    "description": "",
+    "message": "HJÄLP EFTERFRÅGAS: Brådskande operation för räddning av livkapsel"
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Klient:"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Varning:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Deadline:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Excuse me, sir? I don't think your current qualification is sufficient."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Sorry, I think this task is beyond your ability as a pilot."
+  },
+  "DETONATORS": {
+    "description": "",
+    "message": "Detonatorer"
+  },
+  "DOCKING_INSTRUCTION": {
+    "description": "",
+    "message": "Nice to meet you. Please approach to within 100m to complete the cargo transfer!"
+  },
+  "FAILURE_MSG_ARMS_DEALER": {
+    "description": "",
+    "message": "Din imbicil. Klienten kommer inte gilla detta!"
+  },
+  "FAILURE_MSG_RESCUE": {
+    "description": "",
+    "message": "Your unreliability has caused great harm. Get out of my sight!"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Hur mycket tid har jag på mig?"
+  },
+  "HOW_MUCH_TIME_ARMS_DEALER": {
+    "description": "",
+    "message": "My business partner is in orbit around {star} to avoid detection. It would be great if you could reach him before {date}."
+  },
+  "HOW_MUCH_TIME_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Don't waste time. Only the early bird catches the worm!"
+  },
+  "HOW_MUCH_TIME_LEGAL_GOODS": {
+    "description": "",
+    "message": "I don't know. But if I were you, I would be quick!"
+  },
+  "HOW_MUCH_TIME_RESCUE": {
+    "description": "",
+    "message": "It would be good if you could reach the location before {date}."
+  },
+  "INTROTEXT_ARMS_DEALER": {
+    "description": "",
+    "message": "Hello Commander. My name is {client}. It would be great if you could help me out. An unreliable freighter captain dropped my cargo near {planet} and has disappeared since. Your task would be to pick up one container and deliver it to ship {shipid} in orbit around {star}. I would pay you {cash}."
+  },
+  "INTROTEXT_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Hey buddy, I know about a debris field with illegal goods. The police caught a smuggler close to {planet}. They haven't had time to clean up the area yet. If you are quick, you can make easy money! I can give you the coordinates. It only costs you {cash}. Don't let the chance slip by!"
+  },
+  "INTROTEXT_LEGAL_GOODS": {
+    "description": "",
+    "message": "Hello my friend. I'm {client}. I heard about a cargo hauler that got into trouble near {planet} because of bad ship maintenance. Amazing who gets to fly a spaceship these days, isn't it? Anyway, they had to dump a lot of the cargo. If you're quick, you can grab the cargo very easily! This info is as good as new! I'll sell you the coordinates for lousy {cash}. What do you say?"
+  },
+  "INTROTEXT_RESCUE": {
+    "description": "",
+    "message": "Hi, my name is {client}. The crew of a freighter had to abandon their ship after an incident. The ship owner is willing to pay {cash} for a discreet rescue mission. The accident site is near {planet}. Please pick up the crew and bring them to a station!"
+  },
+  "NUCLEAR_MISSILE": {
+    "description": "A cargo item",
+    "message": "Kärnvapenmissil"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "OK, överenskommet."
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "Could you please repeat the request?"
+  },
+  "RESCUE_CAPSULE": {
+    "description": "",
+    "message": "Livkapsel"
+  },
+  "ROCKET_LAUNCHERS": {
+    "description": "",
+    "message": "Raketkastare"
+  },
+  "SCOOP": {
+    "description": "Name of mission type",
+    "message": "Skopa"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Använd destination som navigationsmål"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Skepp:"
+  },
+  "SHIP_DESTROYED": {
+    "description": "",
+    "message": "Oh no. {shipid} has been destroyed. Deliver the cargo to {station} now!"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Rymdstation:"
+  },
+  "SPOILED_FOOD": {
+    "description": "cargo item",
+    "message": "Förstörd mat"
+  },
+  "SUCCESS_MSG_ARMS_DEALER": {
+    "description": "",
+    "message": "Hey Ace, nice flying! Money has been transferred."
+  },
+  "SUCCESS_MSG_RESCUE": {
+    "description": "",
+    "message": "Thank you very much! The crew would also like to express their thanks."
+  },
+  "TOXIC_WASTE": {
+    "description": "cargo item",
+    "message": "Giftigt avfall"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Okänd"
+  },
+  "WARNING": {
+    "description": "",
+    "message": "Hey! What are you trying to do? Our contract is at risk! Please pick that up again!"
+  },
+  "WHY_NOT_YOURSELF": {
+    "description": "",
+    "message": "Varför gör du det inte själv?"
+  },
+  "WHY_NOT_YOURSELF_ARMS_DEALER": {
+    "description": "",
+    "message": "The local authorities are watching me! I have to keep a low profile for a few weeks."
+  },
+  "WHY_NOT_YOURSELF_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Jag är bara en pappersvändare, jag äger inget skepp."
+  },
+  "WHY_NOT_YOURSELF_LEGAL_GOODS": {
+    "description": "",
+    "message": "Jag har inget skepp."
+  },
+  "WHY_NOT_YOURSELF_RESCUE": {
+    "description": "",
+    "message": "Jag har inget skepp tillgängligt just nu."
+  },
+  "YOU_DO_NOT_HAVE_A_SCOOP": {
+    "description": "",
+    "message": "Sorry, you do not have a cargo scoop."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Du har inte tillräckligt med pengar."
+  }
+}

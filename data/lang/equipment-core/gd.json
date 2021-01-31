@@ -97,39 +97,39 @@
   },
   "DRIVE_MIL1": {
     "description": "",
-    "message": "Draibh an airm clas 1"
+    "message": "Draibh-airm clas 1"
   },
   "DRIVE_MIL2": {
     "description": "",
-    "message": "Draibh an airm clas 2"
+    "message": "Draibh-airm clas 2"
   },
   "DRIVE_MIL3": {
     "description": "",
-    "message": "Draibh an airm clas 3"
+    "message": "Draibh-airm clas 3"
   },
   "DRIVE_MIL4": {
     "description": "",
-    "message": "Draibh an airm clas 4"
+    "message": "Draibh-airm clas 4"
   },
   "DRIVE_MIL5": {
     "description": "",
-    "message": "Draibh an airm clas 5"
+    "message": "Draibh-airm clas 5"
   },
   "DRIVE_MIL6": {
     "description": "",
-    "message": "Draibh an airm clas 6"
+    "message": "Draibh-airm clas 6"
   },
   "DRIVE_MIL7": {
     "description": "",
-    "message": "Draibh an airm clas 7"
+    "message": "Draibh-airm clas 7"
   },
   "DRIVE_MIL8": {
     "description": "",
-    "message": "Draibh an airm clas 8"
+    "message": "Draibh-airm clas 8"
   },
   "DRIVE_MIL9": {
     "description": "",
-    "message": "Draibh an airm clas 9"
+    "message": "Draibh-airm clas 9"
   },
   "ECM_ADVANCED": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "Siostam dìon astasan-bacaidh leatronach aig a bheil comas seòrsaichean nas adhartaiche de dh'astasan-iùil a sgrios."
+    "message": "Siostam dìon astasan-bacaidh leatronach aig a bheil comas seòrsaichean nas adhartaiche de dh’astasan-iùil a sgrios."
   },
   "ECM_BASIC": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "ECM_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "Siostam dìona dealanach an aghaidh astasan a nì milleadh air cuid a dh'astasan le fèin-stiùireadh."
+    "message": "Siostam dìona dealanach an aghaidh astasan a nì milleadh air cuid a dh’astasan le fèin-stiùireadh."
   },
   "FUEL_SCOOP": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "MULTI_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Ged nach eil e cho èifeachdach 's a tha sgiob connaidh, 's urrainn dhut an dà chuid carago is connadh a sgobadh leis."
+    "message": "Ged nach eil e cho èifeachdach ’s a tha sgiob connaidh, ’s urrainn dhut an dà chuid carago is connadh a sgobadh leis."
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "PLANETSCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Sganaich a' bhodhaig as faisge airson stòrasan."
+    "message": "Sganaich a’ bhodhaig as faisge airson stòrasan."
   },
   "PULSECANNON_10MW": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "STARTING_SCAN": {
     "description": "",
-    "message": "A' tòiseachadh air an sganadh, astar amais:"
+    "message": "A’ tòiseachadh air an sganadh, astar amais:"
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
@@ -329,7 +329,7 @@
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
-    "message": "Putairean gnàthaichte a bheir a' chumhachd as fheàrr dhut."
+    "message": "Putairean gnàthaichte a bheir a’ chumhachd as fheàrr dhut."
   },
   "THRUSTERS_MEDIUM": {
     "description": "",
@@ -337,7 +337,7 @@
   },
   "THRUSTERS_MEDIUM_DESCRIPTION": {
     "description": "",
-    "message": "Putairean a chaidh a phiseachadh ach am bi iad nas èifeachdaiche agus a' putadh le barrachd cumhachd."
+    "message": "Putairean a chaidh a phiseachadh ach am bi iad nas èifeachdaiche agus a’ putadh le barrachd cumhachd."
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",

@@ -9,7 +9,7 @@
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Animal meat"
+    "message": "Zvířecí maso"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -29,7 +29,7 @@
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+    "message": "Uhlík je jedním z nejrozmanitějších prvků, o kterých víme. Uhlík, který se používá téměř ve všem od plastů po slitiny a někdy i na výrobu energie, je levnou, ale důležitou komoditou. Proto téměř všechna průmyslová sídla dovážejí uhlíkovou rudu."
   },
   "COMPUTERS": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Ruční zbraně"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +105,7 @@
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Liquid oxygen"
+    "message": "Kapalný kyslík"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -121,7 +121,7 @@
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Live animals"
+    "message": "Živá zvířata"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -149,7 +149,7 @@
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+    "message": "Mnoho kolonií těží kovové rudy pro export, které mají být rafinovány a použity v průmyslové výrobě. Kov používaný ve všech formách, od malých hraček až po kosmické lodě, je pro moderní civilizaci nezbytný."
   },
   "MILITARY_FUEL": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Nerve gas"
+    "message": "Nervový plyn"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -213,7 +213,7 @@
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+    "message": "Roboty se často dovážejí do průmyslových a těžebních systémů kvůli jejich schopnosti snadno plnit úkoly, které by byly pro lidské pracovníky příliš obtížné, zdlouhavé nebo nebezpečné. Mohou také sloužit jako politici a právníci."
   },
   "RUBBISH": {
     "description": "",

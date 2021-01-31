@@ -47,6 +47,10 @@
     "description": "",
     "message": "STØTT FRIHET! Stopp den store urettferdigheten med proprietær programvare som kontrollerer skipet ditt."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Tusen takk. Alle donasjoner er hjertelig mottatt."

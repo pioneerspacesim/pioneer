@@ -47,6 +47,10 @@
     "description": "",
     "message": "ПОДДЕРЖИ СВОБОДУ! Скажи стоп платным программам контролирующие ваш корабль!"
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Спасибо! Мы ценим любую помощь."

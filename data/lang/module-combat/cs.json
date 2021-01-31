@@ -1,19 +1,19 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "Velmi dobře. Hodně štěstí!"
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "Excelentní!"
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "Výborně. Spoléháme na vás!"
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED: Pay {cash}."
+    "message": "HLEDÁM SPOLEHLIVÉHO PILOTA: Zaplatím {cash}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -21,15 +21,15 @@
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "COMBAT: Need qualified mercenary with well-equipped ship."
+    "message": "BOJ: Potřebujete kvalifikovaného žoldáka s dobře vybavenou lodí."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED: Pay {cash} for a mission to the {system} system."
+    "message": "HLEDÁME ODVÁŽNÉHO ŽOLDÁKA: Zaplatíme {cash} za misi v systému {system}."
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Salary {cash}."
+    "message": "Mise {mission}: Plat {cash}."
   },
   "AGENT": {
     "description": "Secret Service Agent",
@@ -41,19 +41,19 @@
   },
   "BONUS_1": {
     "description": "",
-    "message": "My supervisor was impressed about your performance and has allotted a bonus of {cash} for this mission."
+    "message": "Můj nadřízený byl váším výkonem ohromen a za tuto misi přidělil bonus {cash}."
   },
   "BONUS_2": {
     "description": "",
-    "message": "You have served us well! I pay you a bonus of {cash}."
+    "message": "Za skvělou práci vám vyplatím bonus ve výši {cash}!"
   },
   "BONUS_3": {
     "description": "",
-    "message": "Very impressive! I'm authorized to pay you a bonus of {cash}."
+    "message": "Velmi působivé! Jsem oprávněný vám vyplatit bonus ve výši {cash}."
   },
   "BONUS_4": {
     "description": "",
-    "message": "I'm very pleased of your performance! I have transferred additional {cash} credits."
+    "message": "Jsem velmi potěšen vaším výkonem! Převedl jsem dodatečně {cash} na váš účet."
   },
   "COMBAT": {
     "description": "Name of mission type",
@@ -97,15 +97,15 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Sorry, I need a pilot who has more combat experience."
+    "message": "Promiň, potřebuji pilota, který má více bojových zkušeností."
   },
   "DENY_2": {
     "description": "",
-    "message": "Excuse me sir. I need a real professional."
+    "message": "Promiňte, pane. Potřebuji skutečného profesionála."
   },
   "DETECTIVE": {
     "description": "Police Detective",
-    "message": "Detective"
+    "message": "Detektiv"
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
@@ -113,59 +113,59 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "Styď se. Zmiz mi z očí."
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! You have caused great losses. You will not be paid!"
+    "message": "Jdeš pozdě! Způsobil jsi mi velké ztráty. Za to platit nebudu!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "You're a disgrace to all pilots. I cannot pay you!"
+    "message": "Jsi ostudou všech pilotů. Nemůžu ti zaplatit!"
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "You failed! I will not pay you!"
+    "message": "To se ti nepovedlo! Platit ti nebudu!"
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "Zdar, jsem {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "Ahoj. Jmenuji se {name}."
   },
   "GREETING_3": {
     "description": "",
-    "message": "How are you. I'm {name}."
+    "message": "Jak se máte? Jmenuji se {name}."
   },
   "GREETING_4": {
     "description": "",
-    "message": "Greetings! Call me {name}."
+    "message": "Zdravím! Říkej mi {name}."
   },
   "GREETING_5": {
     "description": "",
-    "message": "Good day. My name is {name}."
+    "message": "Dobrý den. Jmenuji se {name}."
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "Organizace {org} zaplatí {cash} za misi {mission} v systému {system} ({sectorx}, {sectory}, {sectorz}). Máme důvod se domnívat, že za zmizením našich nákladních lodí v {area} je odpovědný bezohledný konkurent na trhu. Vzdálenost k cílové oblasti je {dist} ly."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our market competitor is seriously claiming he has ownership of {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The {org} totally disagree and is willing to pay {cash} for a combat mission at {area}. {area} is in a distance of {dist} ly."
+    "message": "Náš konkurent na trhu vážně prohlašuje, že vlastní {area} v systému {system} ({sectorx}, {sectory}, {sectorz}). Organizace {org} zcela nesouhlasí a je ochotna zaplatit {cash} za bojovou misi v {area}. {area} je ve vzdálenosti {dist} ly."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Please help! We received a distress call from one of our freighters orbiting {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The call was interrupted, so we fear the worst. Distance to {system} is {dist} ly. The pay is {cash}."
+    "message": "Prosím pomozte! Obdrželi jsme tísňové volání od jedné z našich nákladních lodí obíhajících kolem {area} v systému {system} ({sectorx}, {sectory}, {sectorz}). Hovor byl však přerušen, a tak se bojíme toho nejhoršího. Vzdálenost od {system} je {dist} ly. Zaplatíme {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+    "message": "Je důležité, aby byla mise dokončena do {date}. O této operaci prosím pomlčte."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+    "message": "V každém blízkém hvězdném systému máme prodejce. Po přistání se s vámi tato osoba setká."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -173,15 +173,15 @@
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
+    "message": "Existuje časový limit?"
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "Manažer"
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Meet me in the {rendezvous} system to finish the job!"
+    "message": "Až dokončíte práci, tak se setkáme v systému {rendezvous}."
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -189,47 +189,47 @@
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "In response to a case of piracy in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly, the local authorities pay {cash} for a combat mission at {area}."
+    "message": "V reakci na případ pirátství v systému {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly, místní úřady zaplatí {cash} za bojovou misi v {area}."
   },
   "MILITARY_3": {
     "description": "",
-    "message": "The counter intelligence corps needs a civil pilot who asks no questions for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+    "message": "Kontinentální zpravodajský sbor potřebuje civilního pilota na misi {mission} v systému {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly, který se na nic neptá a koná. Odměna je {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A task force will be assembled to regain control of {area}. It's important that the mission is successfully completed by {date}."
+    "message": "Bude sestavena pracovní skupina, která získá kontrolu nad oblastí {area}. Je důležité, aby mise byla úspěšně dokončena do {date}."
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visit a station in the territory protected by the {org}!"
+    "message": "Navštivte stanici na území chráněném organizací {org}!"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} is in a dispute with a rival company about {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To push through our claims we need a reliable and combat experienced mercenary. We offer {cash} for the expenses. Distance to {system} is {dist} ly."
+    "message": "Organizace {org} je ve sporu s konkurenční společností o {area} v systému {system} ({sectorx}, {sectory}, {sectorz}). Abychom prosadili naše požadavky, potřebujeme spolehlivého a bojově zkušeného žoldáka. Za nabízíme {cash}. Vzdálenost od {system} je {dist} ly."
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "I'm a manager of the {org}. We need additional help in a longtime legal dispute with a competitor about the mining rights in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. We lost patience and would like to speed things up outside of the courtroom. Your mission would be to jump to {area} for {cash}."
+    "message": "Jsem manažerem organizace {org}. Potřebujeme pomoc v dlouhodobém právním sporu s konkurencí o těžební práva v systému {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Ztratili jsme trpělivost a chtěli bychom věci urychlit mimo soudní síň. Vaším úkolem by bylo zaletět za {cash} do {area}."
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for a {mission} mission. Distance to {area} is {dist} ly."
+    "message": "Pracuji pro {org}. Některé naše nákladní lodě brzy dorazí do {area} v systému {system} ({sectorx}, {sectory}, {sectorz}). Za účelem zvýšení bezpečnosti našich zaměstnanců a ochrany vybavení jsme ochotni zaplatit {cash} za misi {mission}. Vzdálenost do {area} je {dist} ly."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A convoy is enroute to {area}. It is essential that the mission is completed by {date}."
+    "message": "Konvoj směřuje do oblasti {area}. Je nezbytné, aby byla mise dokončena do {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "We have employees in every nearby star system. Just visit the nearest station and get in contact with the local office there."
+    "message": "V každém blízkém hvězdném systému máme zaměstnance. Jednoduše navštivte nejbližší stanici a kontaktujte místní úřad."
   },
   "MISSION": {
     "description": "",
-    "message": "Mission:"
+    "message": "Mise:"
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
-    "message": "Primary mission objective complete"
+    "message": "Primární cíl mise je dokončen"
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
@@ -237,7 +237,7 @@
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Armed Reconnaissance"
+    "message": "Ozbrojený průzkum"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
@@ -245,67 +245,67 @@
   },
   "OBJECTIVE_1": {
     "description": "",
-    "message": "It's not necessary to attack the enemy. We want data about the defence capability and response time."
+    "message": "Není nutné zaútočit na nepřítele. Chceme jen údaje o obranných schopnostech a době odezvy."
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Weaken the enemy's strength as much as possible and then jump to safety."
+    "message": "Oslabte co nejvíce nepřítele a poté se vraťte do bezpečí."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Clear the area around {area}. Break any resistance."
+    "message": "Vyčistěte oblast kolem {area}. Zlomte jakýkoli odpor."
   },
   "OK_AGREED": {
     "description": "",
-    "message": "OK, agreed."
+    "message": "Já to teda beru, šéfe."
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Payment location:"
+    "message": "Místo platby:"
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",
-    "message": "Please repeat the mission details!"
+    "message": "Zopakujete mi prosím podrobnosti mise!"
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Police detectives have discovered that a group of pirates try to establish a stronghold on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. This must not happen. The local authorities pay {cash} for a mission to {area} as preparation of a police operation."
+    "message": "Policejní detektivové zjistili, že se skupina pirátů pokouší založit pevnost v oblasti {area} v systému {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. To nesmíme dopustit. Místní úřady zaplatí {cash} za misi do {area}. "
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a combat mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We are short on pilots and ships. So this will be an opportunity for a loyal citizen to make money. The target is a small pirate base on {area}. You need hyperdrive propellant for {dist} ly and additional fuel for the return route."
+    "message": "Organizace {org} zaplatí {cash} za bojovou misi v systému {system} ({sectorx}, {sectory}, {sectorz}). Máme nedostatek pilotů a lodí. Pro slušného občana to bude příležitost vydělat si peníze. Terčem je malá pirátská základna v {area}. Jeho loď musí vzládnout vzdálenost {dist} ly a zpět bez dodatečného tankování."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our markets were flooded by contraband. The source has been traced back to a hidden base at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). Only a distance of {dist} ly. Because of the reduced police budget the local authorities would like to outsource this mission and have allotted {cash} credits for this operation."
+    "message": "Naše trhy byly zaplaveny pašováným zbožím. Zdroj byl vysledován do skryté základny v oblasti {area} v systému {system} ({sectorx}, {sectory}, {sectorz}). Vzdálené pouze {dist} ly. Kvůli sníženému rozpočtu policie, by místní úřady chtěly tuto misi zadávat externě a na tuto operaci vyčlenily {cash}."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
+    "message": "Je důležité, aby mise byla dokončena do {date}, protože na cestě jsou nepřátelské lodě."
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Just land at a station with a {org} office."
+    "message": "Stačí přistát na stanici s kanceláří {org}."
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
-    "message": "Sorry, I don't think you can handle this without a radar."
+    "message": "Promiň, ale nemyslím si, že to bez radaru zvládneš."
   },
   "RISK_1": {
     "description": "",
-    "message": "The competitor has only limited resources. Nothing you can't handle."
+    "message": "Konkurent má pouze omezené zdroje. Nic, co nezvládneš."
   },
   "RISK_2": {
     "description": "",
-    "message": "The competitor has only minor resources. But he will defend his position if necessary."
+    "message": "Konkurent má jen malé zdroje. V případě potřeby se však bude bránit."
   },
   "RISK_3": {
     "description": "",
-    "message": "The competitor is well equipped. Please keep your eyes open!"
+    "message": "Konkurence je dobře vybavena. Mějte prosím oči otevřené!"
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
+    "message": "Nepřítel je velmi dobře vybaven a má přístup k nejnovějším technologiím. Buď opatrný!"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -313,19 +313,19 @@
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "I knew you were the right person for such a mission. Here is your payment."
+    "message": "Věděl jsem, že jsi ten pravý pro takovou misi. Tady jsou tvoje peníze."
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Thank you for making it. I have transferred the money."
+    "message": "Děkuji, že jste to zvládl. Převedl jsem peníze."
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "I hope you had no big trouble. I just paid you."
+    "message": "Doufám, že jste neměli žádné velké potíže. Právě jsem zaplatil."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Very well done. I have paid the bill."
+    "message": "Velmi dobře. Zaplatil jsem účet."
   },
   "SYSTEM": {
     "description": "",
@@ -333,7 +333,7 @@
   },
   "TIME_LIMIT": {
     "description": "",
-    "message": "Time limit:"
+    "message": "Lhůta:"
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
@@ -341,6 +341,6 @@
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "Mám očekávat nějaké potíže?"
   }
 }

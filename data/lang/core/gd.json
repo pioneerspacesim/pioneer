@@ -105,11 +105,11 @@
   },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
-    "message": "Camara a' bhuinn"
+    "message": "Camara a’ bhuinn"
   },
   "CAMERA_FRONT_VIEW": {
     "description": "",
-    "message": "Camara a' bheulaibh"
+    "message": "Camara a’ bheulaibh"
   },
   "CAMERA_LEFT_VIEW": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "CAMERA_REAR_VIEW": {
     "description": "",
-    "message": "Camara a' chùlaibh"
+    "message": "Camara a’ chùlaibh"
   },
   "CAMERA_RIGHT_VIEW": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "CAMERA_TOP_VIEW": {
     "description": "",
-    "message": "Camara a' bharra"
+    "message": "Camara a’ bharra"
   },
   "CANT_SAVE_DEAD_PLAYER": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "CANT_SAVE_IN_HYPERSPACE": {
     "description": "",
-    "message": "Chan urrainn dhut an geama a shàbhaladh fhad 's a bhios tu san os-fhànais"
+    "message": "Chan urrainn dhut an geama a shàbhaladh fhad ’s a bhios tu san os-fhànais"
   },
   "CAPITALIST": {
     "description": "",
@@ -185,11 +185,11 @@
   },
   "COMMODITY_TRADE_ANALYSIS_COMPARE": {
     "description": "",
-    "message": "Sgrùdadh air malart bathair-amh ann an #ff0%selected_system#fff (air a thaghadh) an coimeas ri #ff0%current_system#fff (far a bheil thu):"
+    "message": "Sgrùdadh air malart bhatharan ann an #ff0%selected_system#fff (air a thaghadh) an coimeas ri #ff0%current_system#fff (far a bheil thu):"
   },
   "COMMODITY_TRADE_ANALYSIS_SELF": {
     "description": "",
-    "message": "Sgrùdadh air malart bathair-amh ann an #fff%system#fff"
+    "message": "Sgrùdadh air malart bhatharan ann an #fff%system#fff"
   },
   "COMMS": {
     "description": "",
@@ -237,11 +237,11 @@
   },
   "COMPUTER_HEADING_CONTROL": {
     "description": "",
-    "message": "Smachd a' choimpiutair air a' chomhair"
+    "message": "Smachd a’ choimpiutair air a’ chomhair"
   },
   "COMPUTER_SPEED_CONTROL": {
     "description": "",
-    "message": "Smachd a' choimpiutair air an luaths"
+    "message": "Smachd a’ choimpiutair air an luaths"
   },
   "CONSUMER_GOODS": {
     "description": "",
@@ -257,7 +257,7 @@
   },
   "COULD_NOT_OPEN_FILENAME": {
     "description": "",
-    "message": "Cha b' urrainn dhuinn %path fhosgladh"
+    "message": "Cha b’ urrainn dhuinn %path fhosgladh"
   },
   "COUNT_ON_SURFACE": {
     "description": "",
@@ -335,13 +335,9 @@
     "description": "",
     "message": "Tarraing loidhnichean inghearach"
   },
-  "EARTH": {
-    "description": "",
-    "message": "An Talamh"
-  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
-    "message": "'Na choileanaidh fo riaghladh Co-nasgadh na Talmhainn"
+    "message": "’Na choileanaidh fo riaghladh Co-nasgadh na Talmhainn"
   },
   "EARTH_FEDERATION_DEMOCRACY": {
     "description": "",
@@ -361,7 +357,7 @@
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
-    "message": "Co-rèir an rèideas meadhan-chriosach 's pòlarach"
+    "message": "Co-rèir an rèideas meadhan-chriosach ’s pòlarach"
   },
   "EXACT_MATCH_X": {
     "description": "",
@@ -381,7 +377,7 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Uidheaman tuathanais"
+    "message": "Beart-innealan àiteachais"
   },
   "FERTILIZER": {
     "description": "",
@@ -405,7 +401,7 @@
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Measan 's glasraich"
+    "message": "Measan ’s glasraich"
   },
   "FUEL": {
     "description": "",
@@ -413,7 +409,7 @@
   },
   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
     "description": "",
-    "message": "Tha sgiob a' chonnaidh gnìomhach. Tha %quantity tunna a hàidhdreaidean agad a-nis."
+    "message": "Tha sgiob a’ chonnaidh gnìomhach. Tha %quantity tunna a hàidhdreaidean agad a-nis."
   },
   "GALACTIC_VIEW": {
     "description": "view galactic map",
@@ -425,11 +421,11 @@
   },
   "GAME_LOAD_CANNOT_OPEN": {
     "description": "",
-    "message": "Cha do lorg sinn am faidhle air a shàbhaladh \"%filename\" (no chan eil inntrigeadh aig a' gheama dha gus fhosgladh)."
+    "message": "Cha do lorg sinn am faidhle air a shàbhaladh “%filename” (no chan eil inntrigeadh aig a’ gheama dha gus fhosgladh)."
   },
   "GAME_LOAD_CORRUPT": {
     "description": "",
-    "message": "Cha ghabh an geama air a shàbhaladh luchdadh ri linn mearachd a tha 'na bhroinn."
+    "message": "Cha ghabh an geama air a shàbhaladh luchdadh ri linn mearachd a tha ’na bhroinn."
   },
   "GAME_LOAD_WRONG_VERSION": {
     "description": "",
@@ -441,7 +437,7 @@
   },
   "GAME_SAVE_CANNOT_WRITE": {
     "description": "",
-    "message": "Cha b' urrainn dhuinn am faidhle a sgrìobhadh ri linn mearachd an t-siostaim."
+    "message": "Cha b’ urrainn dhuinn am faidhle a sgrìobhadh ri linn mearachd an t-siostaim."
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
@@ -457,11 +453,11 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
-    "message": "Geàrr leum eadar modhan seallaidh a' ghrioda."
+    "message": "Geàrr leum eadar modhan seallaidh a’ ghrioda."
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Airm bheaga"
+    "message": "Airm-làimhe"
   },
   "HARD_CAPITALIST": {
     "description": "",
@@ -509,7 +505,7 @@
   },
   "HIGH_POPULATION_OUTDOOR_WORLD": {
     "description": "",
-    "message": "Saoghal le sluagh mòr a' fuireach a-muigh."
+    "message": "Saoghal le sluagh mòr a’ fuireach a-muigh."
   },
   "HULL_INTEGRITY": {
     "description": "",
@@ -605,7 +601,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Uidheaman gnìomhachail"
+    "message": "Beart-innealan gnìomhachail"
   },
   "INTERNAL_VIEW": {
     "description": "",
@@ -617,7 +613,7 @@
   },
   "JOYSTICK_INPUT": {
     "description": "",
-    "message": "Ion-chur a' joystick"
+    "message": "Ion-chur a’ joystick"
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
@@ -753,11 +749,11 @@
   },
   "MILITARY_DICTATORSHIP": {
     "description": "",
-    "message": "Ceannsalachd an airm"
+    "message": "Ceannsalachd-airm"
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "Connadh an airm"
+    "message": "Connadh-airm"
   },
   "MINING_COLONY": {
     "description": "",
@@ -765,7 +761,7 @@
   },
   "MINING_MACHINERY": {
     "description": "",
-    "message": "Uidheaman mèinnearachd"
+    "message": "Beart-innealan mèinnearachd"
   },
   "MINOR_EXPORTS": {
     "description": "",
@@ -861,7 +857,7 @@
   },
   "NAVIGATION_STAR_MAPS": {
     "description": "",
-    "message": "Seòladaireachd 's mapaichean-reul"
+    "message": "Seòladaireachd ’s mapaichean-reul"
   },
   "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
     "description": "",
@@ -869,7 +865,7 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Nearbh-ghas"
+    "message": "Gas-nearbha"
   },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
@@ -965,15 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} làithean talmhainn"
+    "message": "%days{f.1} de làithean na Talmhainn"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} %units tomadan"
+    "message": "%mass{f.3} de thomad na Talmhainn"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} de rèideas na Talmhainn (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} de thomad na Grèine"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %units rèideas (%radkm{f.0} km)"
+    "message": "%radius{f.3} de rèideas na Grèine (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -1005,7 +1009,7 @@
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
-    "message": "Saoghal àiteachais le sluagh a' fuireach a-muigh."
+    "message": "Saoghal àiteachais le sluagh a’ fuireach a-muigh."
   },
   "OVER_N_BILLION": {
     "description": "",
@@ -1021,15 +1025,15 @@
   },
   "PAUSED": {
     "description": "",
-    "message": "'NA STAD"
+    "message": "’NA STAD"
   },
   "PAY_FINE_REMOTELY": {
     "description": "",
-    "message": "Pàigh a' chìs le tar-chur cèin (%amount)"
+    "message": "Pàigh a’ chìs le tar-chur cèin (%amount)"
   },
   "PERIAPSIS_DISTANCE": {
     "description": "",
-    "message": "Astar a' pheriapsis"
+    "message": "Astar a’ pheriapsis"
   },
   "PIONEER": {
     "description": "",
@@ -1065,7 +1069,7 @@
   },
   "PLANNER_RESET_FACTOR": {
     "description": "For system orbit view",
-    "message": "Reat meudachaidh nan luachan delta-v. Briog gus a shuidheachadh air a' bhun-roghainn."
+    "message": "Reat meudachaidh nan luachan delta-v. Briog gus a shuidheachadh air a’ bhun-roghainn."
   },
   "PLANNER_RESET_NORMAL": {
     "description": "For system orbit view",
@@ -1081,7 +1085,7 @@
   },
   "PLANNER_RESET_START": {
     "description": "For system orbit view",
-    "message": "Toiseach an obrachaidh. Briog gus a shuidheachadh air a' bhun-roghainn."
+    "message": "Toiseach an obrachaidh. Briog gus a shuidheachadh air a’ bhun-roghainn."
   },
   "PLASTICS": {
     "description": "",
@@ -1113,7 +1117,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Sgudal niùclasach"
+    "message": "Sgudal rèidio-beò"
   },
   "RADIUS": {
     "description": "",
@@ -1177,11 +1181,11 @@
   },
   "ROTATION_DAMPING_OFF": {
     "description": "",
-    "message": "Lasachadh a' chuairteachaidh dheth"
+    "message": "Lasachadh a’ chuairteachaidh dheth"
   },
   "ROTATION_DAMPING_ON": {
     "description": "",
-    "message": "Lasachadh a' chuairteachaidh air"
+    "message": "Lasachadh a’ chuairteachaidh air"
   },
   "RUBBISH": {
     "description": "",
@@ -1201,7 +1205,7 @@
   },
   "SEARCH_MAP": {
     "description": "",
-    "message": "Lorg air a' mhapa"
+    "message": "Lorg air a’ mhapa"
   },
   "SECTOR_COORDINATES": {
     "description": "",
@@ -1225,7 +1229,7 @@
   },
   "SELECT_LOW_THRUST_POWER_LEVEL": {
     "description": "",
-    "message": "Tagh lùths ìosal a' phutaidh"
+    "message": "Tagh lùths ìosal a’ phutaidh"
   },
   "SEMI_MAJOR_AXIS": {
     "description": "",
@@ -1233,7 +1237,7 @@
   },
   "SET_AS_COMBAT_TARGET": {
     "description": "",
-    "message": "Suidhich 'na amas còmhraige"
+    "message": "Suidhich ’na amas còmhraige"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -1249,7 +1253,7 @@
   },
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
-    "message": "Suidhidh lùths ìosal a' phutaidh air %power%%"
+    "message": "Suidhidh lùths ìosal a’ phutaidh air %power%%"
   },
   "SET_NAVTARGET_TO": {
     "description": "",
@@ -1335,10 +1339,6 @@
     "description": "",
     "message": "Deamocrasaidh sòisealta"
   },
-  "SOLAR": {
-    "description": "",
-    "message": "Grianail"
-  },
   "SOME_ESTABLISHED_MINING": {
     "description": "",
     "message": "Beagan mèinnearachd seasmhaich."
@@ -1365,7 +1365,7 @@
   },
   "STAR_A": {
     "description": "",
-    "message": "Reul theth bhàn seòrsa \"A\""
+    "message": "Reul theth bhàn seòrsa “A”"
   },
   "STAR_AF_GIANT": {
     "description": "",
@@ -1381,7 +1381,7 @@
   },
   "STAR_B": {
     "description": "",
-    "message": "Reul shoilleir ghorm seòrsa \"B\""
+    "message": "Reul shoilleir ghorm seòrsa “B”"
   },
   "STAR_B_GIANT": {
     "description": "",
@@ -1401,11 +1401,11 @@
   },
   "STAR_F": {
     "description": "",
-    "message": "Reul bhàn seòrsa \"F\""
+    "message": "Reul bhàn seòrsa “F”"
   },
   "STAR_G": {
     "description": "",
-    "message": "Reul bhuidhe seòrsa \"G\""
+    "message": "Reul bhuidhe seòrsa “G”"
   },
   "STAR_G_GIANT": {
     "description": "",
@@ -1425,7 +1425,7 @@
   },
   "STAR_K": {
     "description": "",
-    "message": "Reul orains seòrsa \"K\""
+    "message": "Reul orains seòrsa “K”"
   },
   "STAR_K_GIANT": {
     "description": "",
@@ -1441,7 +1441,7 @@
   },
   "STAR_M": {
     "description": "",
-    "message": "Reul dhearg seòrsa \"M\""
+    "message": "Reul dhearg seòrsa “M”"
   },
   "STAR_M_GIANT": {
     "description": "",
@@ -1461,7 +1461,7 @@
   },
   "STAR_O": {
     "description": "",
-    "message": "Reul thomadach theth seòrsa \"O\""
+    "message": "Reul thomadach theth seòrsa “O”"
   },
   "STAR_O_GIANT": {
     "description": "",
@@ -1561,7 +1561,7 @@
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
-    "message": "Saoghal soirbheachail le sluagh a' fuireach a-muigh."
+    "message": "Saoghal soirbheachail le sluagh a’ fuireach a-muigh."
   },
   "THRUSTER_DORSAL": {
     "description": "",
@@ -1577,7 +1577,7 @@
   },
   "THRUSTER_RETRO": {
     "description": "",
-    "message": "Put an comhair a' chùil"
+    "message": "Put an comhair a’ chùil"
   },
   "THRUSTER_STARBOARD": {
     "description": "",
@@ -1613,7 +1613,7 @@
   },
   "TOGGLE_ROTATION_DAMPING": {
     "description": "",
-    "message": "Toglaich lasachadh a' chuairteachaidh"
+    "message": "Toglaich lasachadh a’ chuairteachaidh"
   },
   "TOMBSTONE_EPITAPH": {
     "description": "shown on tombstone when player dies",
@@ -1629,7 +1629,7 @@
   },
   "UNDOCKING": {
     "description": "Flight state of ship when leaving station",
-    "message": "A' neo-dhocachadh"
+    "message": "A’ neo-dhocachadh"
   },
   "UNEXPLORED_SYSTEM_NO_DATA": {
     "description": "",

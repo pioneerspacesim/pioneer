@@ -5,7 +5,7 @@
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Un air pur est souvent considéré comme allant de soi lorsqu'il est disponible en abondance. La technique derrière la purification de l'air est réputé venir d'objets extra-terrestre trouvés sur Mars. De nombreuses compagnies produisent de multiples types de traitements de l'air, capable de transformer même la plus hostile des atmosphères en un environement respirable. Les gouvernements ne tolèrent pas le monopole sur la production de l'air."
+    "message": "Un air pur est souvent considéré comme allant de soi lorsqu'il est disponible en abondance. La technique derrière la purification de l'air est réputée venir d'objets extra-terrestres trouvés sur Mars. De nombreuses compagnies produisent de multiples types de traitements de l'air, capables de transformer même la plus hostile des atmosphères en un environnement respirable. Les gouvernements ne tolèrent pas le monopole sur la production de l'air."
   },
   "ANIMAL_MEAT": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "La viande est la chair des animaux et est un point de controverse majeur. Avec des protéines synthétiques aisément disponibles, la plupart des gens pensent que les animaux ne devraient pas être tués. Bien que la viande soit illégale dans la plupart des systèmes centraux, les animaux vivants et leur viande est une part importante de la vie des gens sur des mondes plus traditionels."
+    "message": "La viande est la chair des animaux et est un point de controverse majeur. Avec des protéines synthétiques aisément disponibles, la plupart des gens pensent que les animaux ne devraient pas être tués. Bien que la viande soit illégale dans la plupart des systèmes centraux, les animaux vivants et leur viande sont une part importante de la vie des gens sur des mondes plus traditionnels."
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Les produits finis, prêt pour la consommation publique, sans necessiter le recours à un quelconque raffinement. Produits allant de la brosse à dents aux voitures à lévitation, en passant par les ustensiles de cuisine."
+    "message": "Les produits finis, prêts pour la consommation publique, sans nécessiter le recours à un quelconque raffinement. Produits allant de la brosse à dents aux voitures à lévitation, en passant par les ustensiles de cuisine."
   },
   "FARM_MACHINERY": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Bien qu'il y ait beaucoup d'alternatives synthétiques, les fruits et légumes réels sont toujours une part importante de notre cuisine et de notre nuitrition. Ils sont cultivés sur des mondes agriculturaux ou bien dans les modules de support vitaux des habitats et sont exportés vers les systèmes pour lesquels la culture des plantes n'est pas possible."
+    "message": "Bien qu'il y ait beaucoup d'alternatives synthétiques, les fruits et légumes réels sont toujours une part importante de notre cuisine et de notre nuitrition. Ils sont cultivés sur des mondes agricoles ou bien dans les modules de support vitaux des habitats et sont exportés vers les systèmes dans lesquels la culture des plantes n'est pas possible."
   },
   "GRAIN": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Les céréales sont l'épine dorsale du régime de beaucoup de personnes. Elles sont utilisés dans les fermes pour nourrir les animaux et comme supplément aux nourritures synthétiques. Elles sont aussi utilisées dans beaucoup d'autre aliments, comme le gruau et les patisseries. La plupart des cultures spatiales cultivent et consomment au moins quelques céréales, celles qui ont pu s'adapter au climat de leur habitat."
+    "message": "Les céréales sont l'épine dorsale du régime de beaucoup de personnes. Elles sont utilisées dans les fermes pour nourrir les animaux et comme supplément aux nourritures synthétiques. Elles sont aussi utilisées dans beaucoup d'autres aliments, comme le gruau et les patisseries. La plupart des cultures spatiales cultivent et consomment au moins quelques céréales, celles qui ont pu s'adapter au climat de leur habitat."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Utilisé en tant que carburant pour les vaisseaux à hyperpropulsion, l'hydrogène est un élément extrèmement important. Heureusement, il est également l'élément le plus répandu dans l'univers, bien que son stockage ne soit pas aisé. Il est habituellement l'une des commodités les moins chères sur le marché. Les spatiaux ports sont toujours bien fournies en hydrogène."
+    "message": "Utilisé en tant que carburant pour les vaisseaux à hyperpropulsion, l'hydrogène est un élément extrèmement important. Heureusement, il est également l'élément le plus répandu dans l'univers, bien que son stockage ne soit pas aisé. Il est habituellement l'une des commodités les moins chères sur le marché. Les spatiaux ports sont toujours bien fournis en hydrogène."
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Utilisées dans les lignes d'assemblages, les raffineries, les fonderies et la production d'autre machines qui à leur tour fabriqueront d'autre produits. De hautes compétences sont requises pour produire ces machines de pointe."
+    "message": "Utilisées dans les lignes d'assemblages, les raffineries, les fonderies et la production d'autres machines qui, à leur tour, fabriqueront d'autres produits. De hautes compétences sont requises pour produire ces machines de pointe."
   },
   "LIQUID_OXYGEN": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Pour des raisons humanistiques, économiques et écologiques, l'élevage et le commerce d'animaux est strictement régulé et même illégal dans certains systèmes centraux. En s'éloignant du centre, le bétail représente une partie plus importante de la vie des populations, à la fois comme source de nutrition et comme bêtes de somme. Des zoos éxotiques et des réserves d'animaux sauvages contribuent aux commerce d'animaux à travers la galaxie, habituellement sous de strictes régulations d'états, afin de combattre le braconnage."
+    "message": "Pour des raisons humanistes, économiques et écologiques, l'élevage et le commerce d'animaux est strictement régulé et même illégal dans certains systèmes centraux. En s'éloignant du centre, le bétail représente une partie plus importante de la vie des populations, à la fois comme source de nutrition et comme bêtes de somme. Des zoos éxotiques et des réserves d'animaux sauvages contribuent aux commerce d'animaux à travers la galaxie, habituellement sous de strictes régulations d'états, afin de combattre le braconnage."
   },
   "MEDICINES": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Extraits de sources naturelles ou bien synthétisés, les médicaments sont nécessaire partout où l'humain s'aventure. Du médicament contre le rhume, au combat contre les effets indésirables du voyage spatial prolongé, les médicaments sont essentiels à la prospérité de l'humanité interstellaire. Les médicaments sont surveillé soigneusement par les douaniers, car il n'est pas rare que des narcotiques soient camouflés sous la forme de médicaments banals."
+    "message": "Extraits de sources naturelles ou bien synthétisés, les médicaments sont nécessaires partout où l'humain s'aventure. Du médicament contre le rhume, au combat contre les effets indésirables du voyage spatial prolongé, les médicaments sont essentiels à la prospérité de l'humanité interstellaire. Les médicaments sont surveillés soigneusement par les douaniers, car il n'est pas rare que des narcotiques soient camouflés sous la forme de médicaments banals."
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Après que le minérai de métal est extrait et raffiné, il est traité et termine dans de nombreux alliages. Un alliage est un amalgame de métaux, combiné dans des propotions précises afin de gagner certains traits désirables. La plupart des métaux à destination de la consommation sont des alliages."
+    "message": "Après que le minérai de métal est extrait et raffiné, il est traité et termine dans de nombreux alliages. Un alliage est un amalgame de métaux, combinés dans des propotions précises afin de leur donner certaines caractéristiques. La plupart des métaux à destination de la consommation sont des alliages."
   },
   "METAL_ORE": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Beaucoup de colonies minent les minérais de métaux pour l'export. Ces minerais sont alors rafinés et employés en tant que matières première dans des usines industrielles. Utilisé aussi bien dans de petits jouets que dans les vaisseaux spatiaux, le métal sous toutes ses formes est essentiel à la civilisation moderne."
+    "message": "Beaucoup de colonies exploitent les minérais de métaux pour l'export. Ces minerais sont alors rafinés et employés en tant que matières premières dans des usines industrielles. Utilisé aussi bien dans de petits jouets que dans les vaisseaux spatiaux, le métal sous toutes ses formes est essentiel à la civilisation moderne."
   },
   "MILITARY_FUEL": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Substances naturelles ou synthétiques qui altèrent l'état d'esprit et le corps. Bien que l'usage de narcotique, médical ou récréatif, est aussi vieux que l'humanité, le transport et le commerce de ces substances est couramment interdit."
+    "message": "Substances naturelles ou synthétiques qui altèrent l'état d'esprit et le corps. Bien que l'usage de narcotiques, médical ou récréatif, est aussi vieux que l'humanité, le transport et le commerce de ces substances est la plupart du temps interdit."
   },
   "NERVE_GAS": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Les gaz neurotoxiques sont généralement considérés comme des armes de destruction massive, très souvent boudé même par les militaires, ils ont donc illégaux dans la plupart des systèmes."
+    "message": "Les gaz neurotoxiques sont généralement considérés comme des armes de destruction massive, très souvent boudés même par les militaires, ils sont donc illégaux dans la plupart des systèmes."
   },
   "PLASTICS": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Matériaux synthétiques et semi-synthétiques utilisés dans presque tout, des objets du quotidien à la construction de vaisseaux spatiaux. Même s'ils sont relativement facile et peu cher à fabriquer, les plastiques sont extrèment polyvalent, et tiennent une place très importante dans la civilisation humaine."
+    "message": "Matériaux synthétiques et semi-synthétiques utilisés dans presque tout, des objets du quotidien à la construction de vaisseaux spatiaux. Même s'ils sont relativement facile et peu cher à fabriquer, les plastiques sont extrèment polyvalents, et tiennent une place très importante dans la civilisation humaine."
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Crée par des réacteurs nucléaires et des hyper-propulsions militaires, les déchets radioactifs sont la denrée la plus dure à se débarrasser et la plus dangereuse à transporter. Pour cette raison, la plupart des spatioports paieront pour se débarrasser de leur stocks. Déverser des déchets radioactifs est une infraction grave."
+    "message": "Créé par des réacteurs nucléaires et des hyper-propulsions militaires, les déchets radioactifs sont la denrée la plus dure à se débarrasser et la plus dangereuse à transporter. Pour cette raison, la plupart des spatioports paieront pour se débarrasser de leur stocks. Déverser des déchets radioactifs est une infraction grave."
   },
   "ROBOTS": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Lest robots sont souvent importés dans les systèmes industriels et miniers de part leur capacité à accomplir des tâches qui auraient été trop difficile, ennuyeuse ou risqués pour les travailleur humains. Ils peuvent aussi servir comme politiciens ou avocats."
+    "message": "Lest robots sont souvent importés dans les systèmes industriels et miniers de part leur capacité à accomplir des tâches qui auraient été trop difficile, ennuyeuse ou risquées pour les travailleur humains. Ils peuvent aussi servir comme politiciens ou avocats."
   },
   "RUBBISH": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Sous-produit de la civilisation, consistant en déchéts industriels, ordures ménagères et équipements usagés. La plupart des déchets est reconditionné, recyclé ou envoyé vers des ports spatiaux pour transport vers d'autres mondes. Déposer des ordures sur des systèmes habités est presque systématiquement illégal. Les ports spatiaux font habituellement payer tout dépôt de déchets, mais vous payeront si vous décidiez de les enlever."
+    "message": "Sous-produit de la civilisation, consistant en déchéts industriels, ordures ménagères et équipements usagés. La plupart des déchets sont reconditionnés, recyclés ou envoyés vers des ports spatiaux pour transport vers d'autres mondes. Déposer des ordures sur des systèmes habités est presque systématiquement illégal. Les ports spatiaux font habituellement payer tout dépôt de déchets, mais vous payeront si vous décidiez de les enlever."
   },
   "SLAVES": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Depuis que les machines ont remplacés les esclaves au coeur du moteur alimentant la civilisation, l'esclavage est maintenant considéré universellement comme immoral. Transgresser une interdiction d'esclavage entraine une punision sévère. Cependant, malgré le meilleur effort des humanistes, l'esclavage existe toujours, même sur certains mondes développés."
+    "message": "Depuis que les machines ont remplacés les esclaves au coeur du moteur alimentant la civilisation, l'esclavage est maintenant considéré universellement comme immoral. Transgresser une interdiction d'esclavage entraine une punision sévère. Cependant, malgré tous les efforts des humanistes, l'esclavage existe toujours, même sur certains mondes développés."
   },
   "TEXTILES": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Les textiles sont des étoffes tissés à partir de fils synthétiques, animals ou végétals. Traditionnellement produite par des robots dans des grandes usines, il est encore possible de trouver des tisserands fabriquant leur propre tissus."
+    "message": "Les textiles sont des étoffes tissées à partir de fils synthétiques, animaux ou végétaux. Traditionnellement produits par des robots dans de grandes usines, il est encore possible de trouver des tisserands fabriquant leur propre tissus."
   },
   "WATER": {
     "description": "",
@@ -245,6 +245,6 @@
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Essentielle pour la vie telle que nous la connaissons, l'eau est une ressource souvent négligé, bien qu'indispensable partout où l'humanité s'aventure. C'est pourquoi la plupart des colonies spatiales importent de l'eau de comètes ou bien de planètes similaires à la Terre. L'eau est utilisé à une échelle massive pour la production d'hydrogène et d'oxygène."
+    "message": "Essentielle pour la vie telle que nous la connaissons, l'eau est une ressource souvent négligée, bien qu'indispensable partout où l'humanité s'aventure. C'est pourquoi la plupart des colonies spatiales importent de l'eau de comètes ou bien de planètes similaires à la Terre. L'eau est utilisée à une échelle massive pour la production d'hydrogène et d'oxygène."
   }
 }

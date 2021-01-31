@@ -1,0 +1,198 @@
+{
+  "ACCEPTED_ARMS_DEALER": {
+    "description": "",
+    "message": "Nagyszerű! Köszönöm."
+  },
+  "ACCEPTED_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Köszi! Nem fogja megbánni!"
+  },
+  "ACCEPTED_LEGAL_GOODS": {
+    "description": "",
+    "message": "Köszönöm. Öröm önnel üzletelni."
+  },
+  "ACCEPTED_RESCUE": {
+    "description": "",
+    "message": "Köszönöm szépen. A legénység nagyon hálás lesz."
+  },
+  "ADTEXT_ARMS_DEALER": {
+    "description": "",
+    "message": "BEGYŰJTÉS: Sodródó konténerek gyors begyűjtésére keresünk vállalkozót."
+  },
+  "ADTEXT_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "KÖNNYŰ PÉNZ: Értékes információ eladó."
+  },
+  "ADTEXT_LEGAL_GOODS": {
+    "description": "",
+    "message": "ELADÓ INFORMÁCIÓ: Értékes konténereket tartalmazó törmelékmező koordinátái."
+  },
+  "ADTEXT_RESCUE": {
+    "description": "",
+    "message": "SEGÍTSÉG: Sürgős mentőkabin mentő művelet."
+  },
+  "CLIENT": {
+    "description": "",
+    "message": "Kliens:"
+  },
+  "DANGER": {
+    "description": "The risk level",
+    "message": "Veszély:"
+  },
+  "DEADLINE": {
+    "description": "Must be delivered by",
+    "message": "Határidő:"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "Megbocsásson, de nem hinném, hogy megfelelően kvalifikált lenne a feladatra."
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "Bocsánat, de úgy gondolom a feladat meghaladja a képességeit, pilóta."
+  },
+  "DETONATORS": {
+    "description": "",
+    "message": "Detonátorok"
+  },
+  "DOCKING_INSTRUCTION": {
+    "description": "",
+    "message": "Örvendek. Kérem közelítsen 100m-re a rakomány átrakodásához!"
+  },
+  "FAILURE_MSG_ARMS_DEALER": {
+    "description": "",
+    "message": "Ostoba! A megrendelő nem fog örülni!"
+  },
+  "FAILURE_MSG_RESCUE": {
+    "description": "",
+    "message": "Megbízhatatlanságával nagy kárt okozott. Tűnjön a szemem elől!"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "Mennyi időm van?"
+  },
+  "HOW_MUCH_TIME_ARMS_DEALER": {
+    "description": "",
+    "message": "Az üzleti partnerem {star} körül kering, hogy ne tudják bemérni. Nagyszerű lenne, ha {date} előtt odaérne hozzá."
+  },
+  "HOW_MUCH_TIME_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Ne pocsélkolja az időt! Ki korán kel..."
+  },
+  "HOW_MUCH_TIME_LEGAL_GOODS": {
+    "description": "",
+    "message": "Nem tudom, de a helyében sietnék!"
+  },
+  "HOW_MUCH_TIME_RESCUE": {
+    "description": "",
+    "message": "Jó lenne, ha még {date} előtt odaérne."
+  },
+  "INTROTEXT_ARMS_DEALER": {
+    "description": "",
+    "message": "Üdv, Parancsnok. A nevem {client}. Nagyszerű lenne, ha ki tudna segíteni. Egy megbízhatatlan szállító-kapitány kiszórta a rakományomat {planet} körül, és azóta hírét se hallottam. Az ön feladata az lenne, hogy az egyik konténert begyűjti, és elszállítja társam {shipid} hajójára mely {star} körül várja önt. {cash}-t fizetek a munkáért."
+  },
+  "INTROTEXT_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Helló haver! Tudok egy törmelékfelhőről, melyben lebeg némi illegális áru. A rendőrség rajtaütött egy csempészen {planet} körül. Nem volt idejük feltakarítani a területet. Könnyű haszon, ha gyors vagy! {cash}-ért oda tudom adni a koordinátákat. Ne szalaszd el a lehetőséget!"
+  },
+  "INTROTEXT_LEGAL_GOODS": {
+    "description": "",
+    "message": "Üdvözlöm, barátom. {client} vagyok. Hallottam, hogy egy teherhajó bajba került {planet} közelében. Spóroltak a karbantartáson. Elképesztő, kik nem repülhetnek manapság, igaz? Akárhogy is, a rakomány jó részétől meg kellett szabadulniuk. Ha gyorsan cselekszik, könnyedén begyűjtheti! Az információ friss és ropogós! Nem nagy ár érte, {cash}-ért meg is kaphatja a koordinátákat! Mit gondol?"
+  },
+  "INTROTEXT_RESCUE": {
+    "description": "",
+    "message": "Szia, {client} vagyok. Egy szállító legénységének egy incidens miatt el kellett hagynia a hajót. A tulajdonos hajlandó {cash}-t fizetni egy diszkrét mentőakcióért. A baleset {planet} körül történt. Kérem, szedje fel a legénységet és vigye őket egy kikötőbe!"
+  },
+  "NUCLEAR_MISSILE": {
+    "description": "A cargo item",
+    "message": "Nukleáris rakéta"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "OK, rendben."
+  },
+  "REPEAT_THE_REQUEST": {
+    "description": "",
+    "message": "Megismételné az eredeti kérést?"
+  },
+  "RESCUE_CAPSULE": {
+    "description": "",
+    "message": "Mentőkabin"
+  },
+  "ROCKET_LAUNCHERS": {
+    "description": "",
+    "message": "Rakétakilövő"
+  },
+  "SCOOP": {
+    "description": "Name of mission type",
+    "message": "Szívó"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "Navigációs célnak beállít."
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Hajó:"
+  },
+  "SHIP_DESTROYED": {
+    "description": "",
+    "message": "Ne! {shipid} megsemmisült! Azonnal vigye a rakományt {station} kikötőjébe!"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "Kikötő:"
+  },
+  "SPOILED_FOOD": {
+    "description": "cargo item",
+    "message": "Romlott élelmiszer"
+  },
+  "SUCCESS_MSG_ARMS_DEALER": {
+    "description": "",
+    "message": "Hé Ász! Nagyszerűen repültél! Átküldtem a fizettséged."
+  },
+  "SUCCESS_MSG_RESCUE": {
+    "description": "",
+    "message": "Nagyon szépen köszönöm! A legénység háláját is szeretném tolmácsolni."
+  },
+  "TOXIC_WASTE": {
+    "description": "cargo item",
+    "message": "Mérgező hulladék"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "Ismeretlen"
+  },
+  "WARNING": {
+    "description": "",
+    "message": "Hé! Mit csinál? Veszélyezteti a szerződésünk! Kérem gyűjtse be újra!"
+  },
+  "WHY_NOT_YOURSELF": {
+    "description": "",
+    "message": "Miért nem gyűjti meg maga?"
+  },
+  "WHY_NOT_YOURSELF_ARMS_DEALER": {
+    "description": "",
+    "message": "A helyi hatóságok figyelnek! Meg kell húznom magam néhány hétre."
+  },
+  "WHY_NOT_YOURSELF_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "Irodista vagyok. Nincs űrhajóm."
+  },
+  "WHY_NOT_YOURSELF_LEGAL_GOODS": {
+    "description": "",
+    "message": "Nincs űrhajóm."
+  },
+  "WHY_NOT_YOURSELF_RESCUE": {
+    "description": "",
+    "message": "Nem áll rendelkezésemre egy hajó sem jelenleg. "
+  },
+  "YOU_DO_NOT_HAVE_A_SCOOP": {
+    "description": "",
+    "message": "Sajnálom, de nincs rakományszívója."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "Nincs elég pénzed."
+  }
+}

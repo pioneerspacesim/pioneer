@@ -967,13 +967,13 @@
     "description": "",
     "message": "%mass{f.3} Earth masses"
   },
-  "N_SOLAR_MASSES": {
-    "description": "",
-    "message": "%mass{f.3} Solar masses"
-  },
   "N_EARTH_RADII": {
     "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
     "message": "%radius{f.3} Earth radii (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Solar masses"
   },
   "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",

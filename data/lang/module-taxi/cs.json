@@ -181,7 +181,7 @@
   },
   "FLAVOUR_11_INTROTEXT": {
     "description": "",
-    "message": "Jmenuji se {name}. Potřebuji rychlý odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}."
+    "message": "Jmenuji se {name}. Potřebuji rychlý odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}) , vzdáleném {dist} ly. Zaplatím {cash}."
   },
   "FLAVOUR_11_SUCCESSMSG": {
     "description": "",
@@ -585,7 +585,7 @@
   },
   "WRONG_SYSTEM": {
     "description": "Shown if system name is right, but coordinates are wrong",
-    "message": "The system name is right, but not the coordinates."
+    "message": "Název systému je správný, ale ne souřadnice."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP": {
     "description": "",

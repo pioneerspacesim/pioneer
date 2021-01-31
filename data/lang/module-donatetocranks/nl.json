@@ -47,6 +47,10 @@
     "description": "",
     "message": "STEUN VRIJHEID! Stop het grote onrecht van gesloten software die uw schip bestuurt."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Thank you. All donations are welcome."

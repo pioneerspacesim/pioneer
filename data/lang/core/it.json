@@ -335,10 +335,6 @@
     "description": "",
     "message": "Disegna linee verticali"
   },
-  "EARTH": {
-    "description": "",
-    "message": "Terrestre"
-  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Colonia della Federazione Terrestre"
@@ -965,15 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} giorni terrestri"
+    "message": "%days{f.1} Giorni Terrestri"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} volte la massa %units"
+    "message": "%mass{f.3} Massa Terrestre"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} Raggo Terrestre (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} Massa solare"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} volte il raggio %units (%radkm{f.0} km)"
+    "message": "%radius{f.3} Raggio Solare (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -1334,10 +1338,6 @@
   "SOCIAL_DEMOCRACY": {
     "description": "",
     "message": "Social-Democrazia"
-  },
-  "SOLAR": {
-    "description": "",
-    "message": "solare"
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",

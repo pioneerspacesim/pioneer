@@ -25,7 +25,7 @@
   },
   "GETTING_SENSOR_DATA": {
     "description": "Shown when entering an unexplored system",
-    "message": "A' cruinneachadh dàta mun t-siostam 's 'ga sgrùdadh..."
+    "message": "A’ cruinneachadh dàta mun t-siostam ’s ’ga sgrùdadh…"
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",

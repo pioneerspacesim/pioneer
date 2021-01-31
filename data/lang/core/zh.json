@@ -335,10 +335,6 @@
     "description": "",
     "message": "绘制垂直线"
   },
-  "EARTH": {
-    "description": "",
-    "message": "地球"
-  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "地球联邦殖民法"
@@ -967,13 +963,21 @@
     "description": "",
     "message": "%days{f.1} 地球日"
   },
-  "N_WHATEVER_MASSES": {
+  "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} %units 质量"
+    "message": "%mass{f.3} 地球质量"
   },
-  "N_WHATEVER_RADII": {
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "%radius{f.3} 地球半径 (%radkm{f.0} 公里)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "%mass{f.3} 太阳质量"
+  },
+  "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} %units 半径 (%radkm{f.0} km)"
+    "message": "%radius{f.3} 太阳半径 (%radkm{f.0} 公里)"
   },
   "N_YEARS": {
     "description": "",
@@ -1334,10 +1338,6 @@
   "SOCIAL_DEMOCRACY": {
     "description": "",
     "message": "社会主义"
-  },
-  "SOLAR": {
-    "description": "",
-    "message": "太阳"
   },
   "SOME_ESTABLISHED_MINING": {
     "description": "",

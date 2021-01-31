@@ -47,6 +47,10 @@
     "description": "",
     "message": "为了自由! 抵制流氓软件控制你的飞船!"
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "向我们的事业捐赠{现金}将有助于你的声誉，任何捐赠都会有所帮助。"
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "谢谢你. 任何金额的捐献都是受欢迎的."

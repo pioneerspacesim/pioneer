@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_HEADLINE": {
     "description": "",
-    "message": "NAIDHEACHD {date}: Tha siostam {system} air fad a' fulang fo phlàigh. Tha reat-bhàsan a' meudachadh."
+    "message": "NAIDHEACHD {date}: Tha siostam {system} air fad a’ fulang fo phlàigh. Tha reat-bhàsan a’ meudachadh."
   },
   "FLAVOUR_0_NEWSBODY": {
     "description": "Imply high demand for MEDICINE commodity.",
-    "message": "Tha plàigh ag adhbharachadh bàs ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Tha na h-ùghdarrasan a' sireadh cobhair mheadaigeach gu h-èiginneach."
+    "message": "Tha plàigh ag adhbharachadh bàs ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Tha na h-ùghdarrasan a’ sireadh cobhair mheadaigeach gu h-èiginneach."
   },
   "FLAVOUR_10_HEADLINE": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "FLAVOUR_10_NEWSBODY": {
     "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-    "message": "Tha Prekall earr. a' feuchainn ri lèir-shealbhachd a ghabhail air an adhar fhèin air feadh siostam {system} ({sectorx}, {sectory}, {sectorz}). Gabh anail dhomhainn, dh'fhaoidte gur e sin an tè mu dheireadh nach bi air airgead."
+    "message": "Tha Prekall earr. a’ feuchainn ri lèir-shealbhachd a ghabhail air an adhar fhèin air feadh siostam {system} ({sectorx}, {sectory}, {sectorz}). Gabh anail dhomhainn, dh’fhaoidte gur e sin an tè mu dheireadh nach bi air airgead."
   },
   "FLAVOUR_11_HEADLINE": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
-    "message": "Mar an robh làmh an t-seilbh ris, bha na sabhalan falamh nuair an do dhùisg na tuathanaich ann an siostam {system} system ({sectorx}, {sectory}, {sectorz}). Dh'aithris am poileas gum b'e sin \"A' chreach as motha o Thàin Bò Chuailgne\"."
+    "message": "Mar an robh làmh an t-seilbh ris, bha na sabhalan falamh nuair an do dhùisg na tuathanaich ann an siostam {system} system ({sectorx}, {sectory}, {sectorz}). Dh’aithris am poileas gum b’e sin “A’ chreach as motha o Thàin Bò Chuailgne”."
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "Tha daoine a' strì an aghaidh nan innealan ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) fhad 's a tha \" mearachd-giùlain\" air adhbharachadh gun do chaill an luchd-ceannach an earbsa ann an robotairean seirbheiseach."
+    "message": "Tha daoine a’ strì an aghaidh nan innealan ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) fhad ’s a tha “mearachd-giùlain” air adhbharachadh gun do chaill an luchd-ceannach an earbsa ann an robotairean seirbheiseach."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Dh'adhbhraich call cumhachd air feadh siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh mòr. Tha an luchd-ceannachd a' feitheamh gus an Trapperware as ùire a cheannach gus a chur an àite nam fridsichean aca on a tha an stuth amh air a ruith air an dèanadair."
+    "message": "Dh’adhbhraich call cumhachd air feadh siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh mòr. Tha an luchd-ceannachd a’ feitheamh gus an Trapperware as ùire a cheannach gus a chur an àite nam fridsichean aca on a tha an stuth amh air a ruith air an dèanadair."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_15_NEWSBODY": {
     "description": "Imply high demand of NARCOTICS.",
-    "message": "Tha rianachd siostam {system} ({sectorx}, {sectory}, {sectorz}) an dòchas gun lùghdaich na h-eucoirean air sgàth 's nach eil drugaichean ri am faighinn tuilleadh às dèidh cur an làimh cheannardan siondacaid eucoirich."
+    "message": "Tha rianachd siostam {system} ({sectorx}, {sectory}, {sectorz}) an dòchas gun lùghdaich na h-eucoirean air sgàth ’s nach eil drugaichean ri am faighinn tuilleadh às dèidh cur an làimh cheannardan siondacaid eucoirich."
   },
   "FLAVOUR_16_HEADLINE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "Dh'adhbharaich feuchainn air clàr curaidh an reul-chriosa ann an co-fharpais tarraing tractair as motha rè Fèill Smùide Mhòr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh nuair an do chaill fear dhe na co-fharpaisich a smachd air an tionnsgal aige, a' milleadh innealan nan co-fharpaiseach eile uile. 'S eagal leis an rianachd gun daoraich seo na tuathanaich ionadail."
+    "message": "Dh’adhbharaich feuchainn air clàr curaidh an reul-chriosa ann an co-fharpais tarraing tractair as motha rè Fèill Smùide Mhòr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh nuair an do chaill fear dhe na co-fharpaisich a smachd air an tionnsgal aige, a’ milleadh innealan nan co-fharpaiseach eile uile. ’S eagal leis an rianachd gun daoraich seo na tuathanaich ionadail."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "FLAVOUR_18_HEADLINE": {
     "description": "",
-    "message": "NAIDHEACHD {date}: Ath-leasachadh an eaconamaidh ann an siostam {system} 'na phiseach mòr."
+    "message": "NAIDHEACHD {date}: Ath-leasachadh an eaconamaidh ann an siostam {system} ’na phiseach mòr."
   },
   "FLAVOUR_18_NEWSBODY": {
     "description": "Imply vast demand of CONSUMER_GOODS.",
-    "message": "Tha na cuibhlean a' dol mun cuairt ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) fiù 's nas luaithe a-nis on a tha barrachd airgead aig an luchd-ceannach gus a chosg."
+    "message": "Tha na cuibhlean a’ dol mun cuairt ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) fiù ’s nas luaithe a-nis on a tha barrachd airgead aig an luchd-ceannach gus a chosg."
   },
   "FLAVOUR_19_HEADLINE": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_19_NEWSBODY": {
     "description": "Imply vast abundance of PRECIOUS_METALS.",
-    "message": "Fhuair duine ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) nuadh-innleachd o bhràthair-athar mar dhìleab a leigeas leis òr 's platinum a dhèanamh de theann-stuth sam bith. Tha an luchd-eaconamaidh dhen bheachd gun tuislich an eaconamaidh san t-siostam mura bris an t-inneal a dh'aithghearr."
+    "message": "Fhuair duine ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) nuadh-innleachd o bhràthair-athar mar dhìleab a leigeas leis òr ’s platinum a dhèanamh de theann-stuth sam bith. Tha an luchd-eaconamaidh dhen bheachd gun tuislich an eaconamaidh san t-siostam mura bris an t-inneal a dh’aithghearr."
   },
   "FLAVOUR_1_HEADLINE": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "FLAVOUR_1_NEWSBODY": {
     "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
-    "message": "Tha a' chòmhstri fhada ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air dol am miosad leis na feachdan ag èirigh gu cath a-nis."
+    "message": "Tha a’ chòmhstri fhada ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air dol am miosad leis na feachdan ag èirigh gu cath a-nis."
   },
   "FLAVOUR_20_HEADLINE": {
     "description": "",
@@ -101,23 +101,23 @@
   },
   "FLAVOUR_20_NEWSBODY": {
     "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-    "message": "On a tha {system} ({sectorx}, {sectory}, {sectorz}) air tamall a ruigsinn a bhios fàbharach dhan bhuidhe-fheamainn ann an àile an fhuamhair gasa ionadail, bha a' bhuain nas fheàrr nas àbhaist airson companaidh todhair Soylent Yellow earr."
+    "message": "On a tha {system} ({sectorx}, {sectory}, {sectorz}) air tamall a ruigsinn a bhios fàbharach dhan bhuidhe-fheamainn ann an àile an fhuamhair gasa ionadail, bha a’ bhuain nas fheàrr nas àbhaist airson companaidh todhair Soylent Yellow earr."
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
-    "message": "NAIDHEACHD {date}: Chaidh cùmhnant a rèiteachadh ann an siostam {system} airson cogadh nas \"daonndaiche\"."
+    "message": "NAIDHEACHD {date}: Chaidh cùmhnant a rèiteachadh ann an siostam {system} airson cogadh nas “daonndaiche”."
   },
   "FLAVOUR_21_NEWSBODY": {
     "description": "Imply vast abundance of NERVE_GAS.",
-    "message": "Ged nach do chuir na buidhnean a tha ann an còmhstri ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) an làmhan ri fois-losgaidh oifigeil, dh'aontaich iad nach cleachd iad airm cheimigeach tuilleadh."
+    "message": "Ged nach do chuir na buidhnean a tha ann an còmhstri ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) an làmhan ri fois-losgaidh oifigeil, dh’aontaich iad nach cleachd iad airm cheimigeach tuilleadh."
   },
   "FLAVOUR_22_HEADLINE": {
     "description": "",
-    "message": "NAIDHEACHD {date}: Ghairm am poileas stailc ann an siostam {system}. Feumaidh na saoranaich 'gan dìon fhèin."
+    "message": "NAIDHEACHD {date}: Ghairm am poileas stailc ann an siostam {system}. Feumaidh na saoranaich ’gan dìon fhèin."
   },
   "FLAVOUR_22_NEWSBODY": {
     "description": "Imply high demand of HAND_WEAPONS.",
-    "message": "A chùm fianais a thogail an aghaidh dìth luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha am poileas a' diùltadh a bhith ag obair. San eadar-àm, tha saoranaich air buidhnean fèin-dhìona a stèidheachadh is air gobhlagan is gunnachan a thogail an aghaidh na thig orra."
+    "message": "A chùm fianais a thogail an aghaidh dìth luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha am poileas a’ diùltadh a bhith ag obair. San eadar-àm, tha saoranaich air buidhnean fèin-dhìona a stèidheachadh is air gobhlagan is gunnachan a thogail an aghaidh na thig orra."
   },
   "FLAVOUR_23_HEADLINE": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_23_NEWSBODY": {
     "description": "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-    "message": "Thòisich factaraidh Amissionox ùr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air a h-obair a-nis. Nì i sgianan as àirde càileachd a bhios comasach air bòtanan-fànais a ghearradh. Co-dhiù, o nach eil iad a' faighinn stòras gu leòr airson nan lannan, chan eil iad a' dèanamh an t-uiread a b' urrainn dhaibh fhathast."
+    "message": "Thòisich factaraidh Amissionox ùr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air a h-obair a-nis. Nì i sgianan as àirde càileachd a bhios comasach air bòtanan-fànais a ghearradh. Co-dhiù, o nach eil iad a’ faighinn stòras gu leòr airson nan lannan, chan eil iad a’ dèanamh an t-uiread a b’ urrainn dhaibh fhathast."
   },
   "FLAVOUR_2_HEADLINE": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "FLAVOUR_2_NEWSBODY": {
     "description": "Hint there will be high demand of GRAIN.",
-    "message": "Tha mòr-thart air a' bhàrr a mhilleadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Thathar fo chunnart goirt air feadh an t-siostaim."
+    "message": "Tha mòr-thart air a’ bhàrr a mhilleadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Thathar fo chunnart goirt air feadh an t-siostaim."
   },
   "FLAVOUR_3_HEADLINE": {
     "description": "",
@@ -145,11 +145,11 @@
   },
   "FLAVOUR_4_HEADLINE": {
     "description": "About mob rivals competing for selling drugs",
-    "message": "NAIDHEACHD {date}: Cogadh dhrugaichean ann an siostam {system}. Tha am poileas a' strì gus làmh an uachdair fhaighinn air ais."
+    "message": "NAIDHEACHD {date}: Cogadh dhrugaichean ann an siostam {system}. Tha am poileas a’ strì gus làmh an uachdair fhaighinn air ais."
   },
   "FLAVOUR_4_NEWSBODY": {
     "description": "Imply high abundance of NARCOTICS.",
-    "message": "Tha am margadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air a lìonadh le drugaichean saora fhad 's a tha tighearnan dhrugaichean ann an còmhstri airson an cumhachd a mheudachadh."
+    "message": "Tha am margadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air a lìonadh le drugaichean saora fhad ’s a tha tighearnan dhrugaichean ann an còmhstri airson an cumhachd a mheudachadh."
   },
   "FLAVOUR_5_HEADLINE": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Shaor an luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) iad fhèin o na slabhraidhean 's iad a' diùltadh ri obair ann an achaidhean lòtais. Thug seo stad air an eaconamaidh o nach eil luchd-obrach saor ri fhaighinn."
+    "message": "Shaor an luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) iad fhèin o na slabhraidhean ’s iad a’ diùltadh ri obair ann an achaidhean lòtais. Thug seo stad air an eaconamaidh o nach eil luchd-obrach saor ri fhaighinn."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -165,15 +165,15 @@
   },
   "FLAVOUR_6_NEWSBODY": {
     "description": "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-    "message": "Tha subhachas raoiteach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) a' dol air adhart fhathast dhad 's a thathar a' toirt urram air na creutairean beaga clòimheach."
+    "message": "Tha subhachas raoiteach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) a’ dol air adhart fhathast dhad ’s a thathar a’ toirt urram air na creutairean beaga clòimheach."
   },
   "FLAVOUR_7_HEADLINE": {
     "description": "",
-    "message": "NAIDHEACHD {date}: Thàinig stad air a' ghnìomhachas ann an siostam {system}."
+    "message": "NAIDHEACHD {date}: Thàinig stad air a’ ghnìomhachas ann an siostam {system}."
   },
   "FLAVOUR_7_NEWSBODY": {
     "description": "Imply demand of INDUSTRIAL_MACHINERY.",
-    "message": "Tha mòr-dhearmad nan innealan ag adhbharachadh stad a' ghnìomhachais ann an siostam {system} ({sectorx}, {sectory}, {sectorz})."
+    "message": "Tha mòr-dhearmad nan innealan ag adhbharachadh stad a’ ghnìomhachais ann an siostam {system} ({sectorx}, {sectory}, {sectorz})."
   },
   "FLAVOUR_8_HEADLINE": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "FLAVOUR_8_NEWSBODY": {
     "description": "Imply high demand of MINING_MACHINERY.",
-    "message": "Thuit mèinn ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) agus chaidh ceudan dhen luchd-obrach a mharbhadh is uidheaman cudromach a mhilleadh a tha èiginneach airson an eaconamaidh."
+    "message": "Thuit mèinn ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) agus chaidh ceudan dhen luchd-obrach a mharbhadh is beart-innealan cudromach a mhilleadh a tha èiginneach airson an eaconamaidh."
   },
   "FLAVOUR_9_HEADLINE": {
     "description": "",
@@ -189,11 +189,11 @@
   },
   "FLAVOUR_9_NEWSBODY": {
     "description": "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-    "message": "A-rèir treand ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) 's e fìor-pheataichean beòtha a tha san fhasan as ùire."
+    "message": "A-rèir treand ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) ’s e fìor-pheataichean beòtha a tha san fhasan as ùire."
   },
   "GRATEFUL_GREETING_0": {
     "description": "",
-    "message": "Fàilte, a reiceadair! Bheir sinn deagh-phrìs dhut airson na th' agad dhe {cargo}."
+    "message": "Fàilte, a reiceadair! Bheir sinn deagh-phrìs dhut airson na th’ agad dhe {cargo}."
   },
   "GRATEFUL_GREETING_1": {
     "description": "",
@@ -213,11 +213,11 @@
   },
   "GRATEFUL_GREETING_5": {
     "description": "",
-    "message": "Fàilte! Reicidh tu na th' agad dhe {cargo} gu luath an-seo."
+    "message": "Fàilte! Reicidh tu na th’ agad dhe {cargo} gu luath an-seo."
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "Croinic a' Cho-fhlaitheis"
+    "message": "Croinic a’ Cho-fhlaitheis"
   },
   "NEWSPAPER_FED": {
     "description": "",

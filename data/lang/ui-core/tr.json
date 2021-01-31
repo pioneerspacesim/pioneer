@@ -1700,8 +1700,8 @@
     "message": "Ödül"
   },
   "ROTATE_VIEW": {
-    "description": "",
-    "message": "Görünümü döndür"
+    "description": "Indicates that the button must be kept pressed down, to rotate camera view with mouse",
+    "message": "Görünümü döndürmek için basılı tutun"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",

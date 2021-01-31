@@ -47,6 +47,10 @@
     "description": "",
     "message": "¡APOYE LA LIBERTAD! Acabe con la gran injusticia de que software propietario controle su nave."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Su reputación se beneficiaría al donar {cash} a nuestra causa, pero cualquier donación ayudaría."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Gracias. Cualquier donación es bienvenida."

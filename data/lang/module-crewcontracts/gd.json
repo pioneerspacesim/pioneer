@@ -41,7 +41,7 @@
   },
   "NO_CREW_AVAILABLE": {
     "description": "",
-    "message": "Duilich ach chan eil duine a' sireadh fastadh aig {station}:"
+    "message": "Duilich ach chan eil duine a’ sireadh fastadh aig {station}:"
   },
   "NO_EXPERIENCE": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
-    "message": "Clàraich daoine a' sireadh fastadh mar sgioba aig {station}:"
+    "message": "Clàraich daoine a’ sireadh fastadh mar sgioba aig {station}:"
   },
   "SIMULATOR_TRAINING_ONLY": {
     "description": "",
@@ -73,7 +73,7 @@
   },
   "THATS_EXTREMELY_GENEROUS_OF_YOU": {
     "description": "",
-    "message": "Nach tus' a tha fialaidh!"
+    "message": "Nach tus’ a tha fialaidh!"
   },
   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
     "description": "",

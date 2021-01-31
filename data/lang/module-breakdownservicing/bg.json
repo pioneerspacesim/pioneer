@@ -13,7 +13,7 @@
   },
   "FLAVOUR_0_TITLE": {
     "description": "",
-    "message": "{name} Двигателна Обслужваща Компания"
+    "message": "Двигателно Обслужваща Компания {name}"
   },
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "FLAVOUR_5_TITLE": {
     "description": "",
-    "message": "{proprietor} Двигателна Обслужваща Компания"
+    "message": "Двигателно Обслужваща Компания {proprietor}"
   },
   "FLAVOUR_5_YESPLEASE": {
     "description": "",

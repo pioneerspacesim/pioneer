@@ -1,0 +1,30 @@
+{
+  "AMOUNT": {
+    "description": "The amount (for now in tonne) of goods person wants to buy",
+    "message": "Jag köper gärna vadhelst du har, upp till {amount}t som jag behöver."
+  },
+  "MESSAGE": {
+    "description": "",
+    "message": "Jag heter {name}. Jag behöver {commodity} brådskande; jag är villig att betala det dubbla marknadspriset ({price})."
+  },
+  "NOT_IN_STOCK": {
+    "description": "Regarding selling more than the player has",
+    "message": "Inte tillräckligt {commodity} tillgängligt."
+  },
+  "SELL_1": {
+    "description": "Sell one single unit (probably tonne)",
+    "message": "Sälj 1"
+  },
+  "SELL_ALL": {
+    "description": "Sell everything player has of the good/commodity",
+    "message": "Sälj allt"
+  },
+  "SELL_N": {
+    "description": "Sell several units (probably in tonne), i.e. N > 1",
+    "message": "Sälj {N}"
+  },
+  "TITLE": {
+    "description": "",
+    "message": "ÖNSKAS: {commodity}. Betalar {price} per ton"
+  }
+}

@@ -21,7 +21,7 @@
   },
   "FLAVOUR_2_TITLE": {
     "description": "",
-    "message": "'EIL DO MHIANN AIR FIAL? Tha Cobhair Dìlleachdan Cogaidh feumach air taic uat gus an obair chudromach aice a chumail a' dol."
+    "message": "’EIL DO MHIANN AIR FIAL? Tha Cobhair Dìlleachdan Cogaidh feumach air taic uat gus an obair chudromach aice a chumail a’ dol."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "FLAVOUR_3_TITLE": {
     "description": "",
-    "message": "TABHAIR. Tha iomairt \"Toirmeasg draibhean an airm\" aig Caraidean an Reul-chriosa feumach air d' airgead."
+    "message": "TABHAIR. Tha iomairt “Toirmeasg draibhean an airm” aig Caraidean an Reul-chriosa feumach air d’ airgead."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
@@ -45,7 +45,11 @@
   },
   "FLAVOUR_5_TITLE": {
     "description": "",
-    "message": "TAIC DON SAORSA! Cuir stad air ana-cheartas mòr a' bhathair-bhog fo sheilbh a tha a' cumail smachd air an t-soitheach agad."
+    "message": "TAIC DON SAORSA! Cuir stad air ana-cheartas mòr a’ bhathair-bhog fo sheilbh a tha a’ cumail smachd air an t-soitheach agad."
+  },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Choisinneadh sibh deagh chliù le tìodhlac dhe {cash} dhan adhbhar againn ach chuidicheadh tìodhlac sam bith."
   },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",

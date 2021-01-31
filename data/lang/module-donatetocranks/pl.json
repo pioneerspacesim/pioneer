@@ -47,6 +47,10 @@
     "description": "",
     "message": "WSPOMÓŻ WOLNOŚĆ! Stop wielkim niesprawiedliwościom od oprogramowania nadzorującego sterowanie twoim statkiem."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Dziękuję. Cenimy każde wsparcie."

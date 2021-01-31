@@ -47,6 +47,10 @@
     "description": "",
     "message": "TÁMOGATSD A SZABADSÁGOT! Vess véget a hajódat vezérlő zárt szoftverek igazságtalan elnyomásának!"
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Segítene a megítéléseden {cash}-nyi adomány, de természetesen bármilyen összeg nagy segítség."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Köszönjük. Minden felajánlást szívesen fogadunk."

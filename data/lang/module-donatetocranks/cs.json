@@ -47,6 +47,10 @@
     "description": "",
     "message": "PODPORUJTE SVOBODU! Zastavte nespravedlnost proprietárního softwaru ovládajícího vaši loď."
   },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."
+  },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
     "message": "Děkujeme. Všechny příspěvky jsou vítány."

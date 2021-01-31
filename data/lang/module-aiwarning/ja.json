@@ -1,0 +1,22 @@
+{
+  "ATMO_PRESSURE_OVER_LIMIT": {
+    "description": "",
+    "message": "大気圧が船体限界を超えています"
+  },
+  "AUTOPILOT": {
+    "description": "",
+    "message": "自動操縦"
+  },
+  "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY": {
+    "description": "",
+    "message": "局所重力を補正できません"
+  },
+  "CANNOT_COMPUTE_ORBIT_PARAMETERS": {
+    "description": "",
+    "message": "起動パラメーターを計算できません"
+  },
+  "STARPORT_REFUSED_DOCKING_PERMISSION": {
+    "description": "",
+    "message": "星系港はドッキング許可を却下しました"
+  }
+}

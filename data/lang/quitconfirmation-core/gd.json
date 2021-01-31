@@ -1,19 +1,19 @@
 {
   "MSG_1": {
     "description": "",
-    "message": "Tagh \"{yes}\" gus falbh 's tilleadh dha na prògraman dòrainneach agad."
+    "message": "Tagh “{yes}” gus falbh ’s tilleadh dha na prògraman dòrainneach agad."
   },
   "MSG_10": {
     "description": "",
-    "message": "Nach tagh thu \"{no}\" gus barrachd àm a chaitheamh gun chiall?"
+    "message": "Nach tagh thu “{no}” gus barrachd àm a chaitheamh gun chiall?"
   },
   "MSG_11": {
     "description": "",
-    "message": "Cha ghèill taisgealaiche ach lean air adhart is briog air \"{yes}\" mur e taisgealaiche a th' annad."
+    "message": "Cha ghèill taisgealaiche ach lean air adhart is briog air “{yes}” mur e taisgealaiche a th’ annad."
   },
   "MSG_12": {
     "description": "",
-    "message": "Tagh \"{no}\" ma tha thu tapaidh 's an tòir air tasgal. Mur eil, briog air \"{yes}\" gu cùramach."
+    "message": "Tagh “{no}” ma tha thu tapaidh ’s an tòir air tasgal. Mur eil, briog air “{yes}” gu cùramach."
   },
   "MSG_13": {
     "description": "\"Seeing\" as in having an affair / being unfaithful",
@@ -25,7 +25,7 @@
   },
   "MSG_15": {
     "description": "",
-    "message": "A bheil thu a' gèilleadh mar-thà?"
+    "message": "A bheil thu a’ gèilleadh mar-thà?"
   },
   "MSG_16": {
     "description": "A little homage to the movie 2001 A Space Odyssey",
@@ -45,7 +45,7 @@
   },
   "MSG_2": {
     "description": "",
-    "message": "Na falbh an-dràsta, tha spùinneadair a' feitheamh ort sa phrògram eile."
+    "message": "Na falbh an-dràsta, tha spùinneadair a’ feitheamh ort sa phrògram eile."
   },
   "MSG_20": {
     "description": "",
@@ -65,15 +65,15 @@
   },
   "MSG_4": {
     "description": "",
-    "message": "A bheil a' chabhag ort?"
+    "message": "A bheil a’ chabhag ort?"
   },
   "MSG_5": {
     "description": "(Inspired by Wolfenstein 3D)",
-    "message": "Tagh \"{no}\" airson gunnaichean 's glòir, \"{yes}\" airson obair 's dragh."
+    "message": "Tagh “{no}” airson gunnaichean ’s glòir, “{yes}” airson obair ’s dragh."
   },
   "MSG_6": {
     "description": "",
-    "message": "Briog air \"{no}\" ma tha thu dàna no air \"{yes}\" 's nàire ort."
+    "message": "Briog air “{no}” ma tha thu dàna no air “{yes}” ’s nàire ort."
   },
   "MSG_7": {
     "description": "Doom 1 anyone? Although it said DOS instead of Command line",
@@ -81,11 +81,11 @@
   },
   "MSG_8": {
     "description": "",
-    "message": "Saoilidh mi gu bheil thu airson briogadh air \"{no}\" gus barrachd a chluich. Siuthad ma-thà."
+    "message": "Saoilidh mi gu bheil thu airson briogadh air “{no}” gus barrachd a chluich. Siuthad ma-thà."
   },
   "MSG_9": {
     "description": "",
-    "message": "Is ciall dha \"{yes}\" gum feum thu tilleadh dhan obair làithreach agad."
+    "message": "Is ciall dha “{yes}” gum feum thu tilleadh dhan obair làithreach agad."
   },
   "NO": {
     "description": "No, don't quit program",

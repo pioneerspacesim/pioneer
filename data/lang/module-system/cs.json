@@ -17,7 +17,7 @@
   },
   "DISCOVERED_HIDDEN_BASES": {
     "description": "",
-    "message": "You have discovered {portcount} hidden {bases}!"
+    "message": "Objevili jste {portcount} skrytých {základen}!"
   },
   "EXPLORED_SYSTEM": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "GETTING_SENSOR_DATA": {
     "description": "Shown when entering an unexplored system",
-    "message": "System data gathering and analysis in progress..."
+    "message": "Probíhá sběr a analýza systémových dat ..."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",
