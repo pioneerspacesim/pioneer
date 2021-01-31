@@ -1,122 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <asset>
     <contributor>
-      <author>Szilárd Bálint</author>
-      <authoring_tool>Blender 2.74.0 commit date:2015-03-31, commit time:13:39, hash:000dfc0</authoring_tool>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.91.2 commit date:2021-01-19, commit time:16:15, hash:5be9ef417703</authoring_tool>
     </contributor>
-    <created>2015-07-03T13:08:55</created>
-    <modified>2015-07-03T13:08:55</modified>
+    <created>2021-01-31T09:32:23</created>
+    <modified>2021-01-31T09:32:23</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
-  <library_images/>
   <library_effects>
-    <effect id="JoinedMaterial__2-effect">
-      <profile_COMMON>
-        <technique sid="common">
-          <phong>
-            <emission>
-              <color sid="emission">0 0 0 1</color>
-            </emission>
-            <ambient>
-              <color sid="ambient">0 0 0 1</color>
-            </ambient>
-            <diffuse>
-              <color sid="diffuse">0.4096 0.4096 0.4096 1</color>
-            </diffuse>
-            <specular>
-              <color sid="specular">0.125 0.125 0.125 1</color>
-            </specular>
-            <shininess>
-              <float sid="shininess">32</float>
-            </shininess>
-            <index_of_refraction>
-              <float sid="index_of_refraction">1</float>
-            </index_of_refraction>
-          </phong>
-        </technique>
-      </profile_COMMON>
-    </effect>
     <effect id="facade-effect">
       <profile_COMMON>
         <technique sid="common">
-          <phong>
+          <lambert>
             <emission>
               <color sid="emission">0 0 0 1</color>
             </emission>
-            <ambient>
-              <color sid="ambient">0 0 0 1</color>
-            </ambient>
             <diffuse>
               <color sid="diffuse">0.64 0.01314007 0.002662271 1</color>
             </diffuse>
-            <specular>
-              <color sid="specular">0.5 0.5 0.5 1</color>
-            </specular>
-            <shininess>
-              <float sid="shininess">50</float>
-            </shininess>
             <index_of_refraction>
-              <float sid="index_of_refraction">1</float>
+              <float sid="ior">1</float>
             </index_of_refraction>
-          </phong>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="JoinedMaterial__2-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0.4096 0.4096 0.4096 1</color>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1</float>
+            </index_of_refraction>
+          </lambert>
         </technique>
       </profile_COMMON>
     </effect>
   </library_effects>
+  <library_images/>
   <library_materials>
-    <material id="JoinedMaterial__2-material" name="JoinedMaterial__2">
-      <instance_effect url="#JoinedMaterial__2-effect"/>
-    </material>
     <material id="facade-material" name="facade">
       <instance_effect url="#facade-effect"/>
     </material>
+    <material id="JoinedMaterial__2-material" name="JoinedMaterial__2">
+      <instance_effect url="#JoinedMaterial__2-effect"/>
+    </material>
   </library_materials>
   <library_geometries>
-    <geometry id="collision_pad1Mesh-mesh" name="collision_pad1Mesh">
-      <mesh>
-        <source id="collision_pad1Mesh-mesh-positions">
-          <float_array id="collision_pad1Mesh-mesh-positions-array" count="408">0 109.9739 31.7406 0 -2.11419e-5 31.7406 109.9739 -2.11419e-5 31.7406 -109.9739 109.9739 31.7406 -109.9739 -2.11419e-5 31.7406 0 -2.11419e-5 31.7406 0 -2.11419e-5 31.7406 0 109.9739 31.7406 -109.9739 109.9739 31.7406 0 -109.9739 31.7406 0 -2.11419e-5 31.7406 -109.9739 -2.11419e-5 31.7406 0 -2.11419e-5 31.7406 0 -109.9739 31.7406 109.9739 -109.9739 31.7406 109.9739 -109.9739 31.7406 109.9739 -2.11419e-5 31.7406 0 -2.11419e-5 31.7406 109.9739 -2.11419e-5 31.7406 109.9739 109.9739 31.7406 0 109.9739 31.7406 -109.9739 -2.11419e-5 31.7406 -109.9739 -109.9739 31.7406 0 -109.9739 31.7406 0 -2.11419e-5 128.9262 0 109.9739 128.9262 0 -2.11419e-5 128.9262 -109.9739 -2.11419e-5 128.9262 0 -2.11419e-5 128.9262 0 -109.9739 128.9262 109.9739 -2.11419e-5 128.9262 0 -2.11419e-5 128.9262 0 109.9739 75.98657 0 -2.11419e-5 75.98657 109.9739 -2.11419e-5 75.98657 -109.9739 109.9739 75.98657 -109.9739 -2.11419e-5 75.98657 0 -2.11419e-5 75.98657 0 -2.11419e-5 75.98657 0 109.9739 75.98657 -109.9739 109.9739 75.98657 0 -109.9739 75.98657 0 -2.11419e-5 75.98657 -109.9739 -2.11419e-5 75.98657 0 -2.11419e-5 75.98657 0 -109.9739 75.98657 109.9739 -109.9739 75.98657 109.9739 -109.9739 75.98657 109.9739 -2.11419e-5 75.98657 0 -2.11419e-5 75.98657 109.9739 -2.11419e-5 75.98657 109.9739 109.9739 75.98657 0 109.9739 75.98657 -109.9739 -2.11419e-5 75.98657 -109.9739 -109.9739 75.98657 0 -109.9739 75.98657 0 -2.04836e-6 -156.1405 0 81.36854 -156.1405 0 -2.04836e-6 -156.1405 -81.36855 -2.04836e-6 -156.1405 0 -2.04836e-6 -156.1405 0 -81.36855 -156.1405 81.36855 -2.04836e-6 -156.1405 0 -2.04836e-6 -156.1405 54.2457 81.36852 -154.0228 54.2457 -2.56075e-5 -154.0228 -27.12285 -2.56075e-5 -154.0228 -27.12285 81.36852 -154.0228 -27.12285 -2.56075e-5 -154.0228 -108.4914 -2.56075e-5 -154.0228 -54.2457 -2.56075e-5 -154.0228 -54.2457 81.36852 -154.0228 27.12285 81.36852 -154.0228 -54.2457 -81.36857 -154.0228 -54.2457 -2.56075e-5 -154.0228 27.12285 -2.56075e-5 -154.0228 54.2457 -2.56075e-5 -154.0228 54.2457 -81.36857 -154.0228 -27.12285 -81.36857 -154.0228 27.12285 -81.36857 -154.0228 27.12285 -2.56075e-5 -154.0228 108.4914 -2.56075e-5 -154.0228 27.12285 -2.56075e-5 -154.0228 27.12285 81.36852 -154.0228 81.63681 61.22757 -154.0228 -27.12285 -2.56075e-5 -154.0228 -27.12285 -81.36857 -154.0228 -81.63681 -61.22763 -154.0228 73.31592 109.9738 -109.4045 73.31592 -2.92456e-5 -109.4045 -36.65796 -2.92456e-5 -109.4045 -36.65796 109.9738 -109.4045 -36.65796 -2.92456e-5 -109.4045 -146.6318 -2.92456e-5 -109.4045 -73.31592 -2.92456e-5 -109.4045 -73.31592 109.9738 -109.4045 36.65796 109.9738 -109.4045 -73.31592 -109.9739 -109.4045 -73.31592 -2.92456e-5 -109.4045 36.65796 -2.92456e-5 -109.4045 73.31592 -2.92456e-5 -109.4045 73.31592 -109.9739 -109.4045 -36.65796 -109.9739 -109.4045 36.65796 -109.9739 -109.4045 36.65796 -2.92456e-5 -109.4045 146.6318 -2.92456e-5 -109.4045 36.65796 -2.92456e-5 -109.4045 36.65796 109.9738 -109.4045 105.1612 78.87084 -109.4045 -36.65796 -2.92456e-5 -109.4045 -36.65796 -109.9739 -109.4045 -105.1612 -78.87091 -109.4045 0 71.93677 128.9262 0 -1.91071e-5 128.9262 71.93679 -1.91071e-5 128.9262 -71.93679 71.93677 128.9262 -71.93679 -1.91071e-5 128.9262 0 -1.91071e-5 128.9262 0 -1.91071e-5 128.9262 0 71.93677 128.9262 -71.93679 71.93677 128.9262 0 -71.9368 128.9262 0 -1.91071e-5 128.9262 -71.93679 -1.91071e-5 128.9262 0 -1.91071e-5 128.9262 0 -71.9368 128.9262 71.93679 -71.9368 128.9262 71.93679 -71.9368 128.9262 71.93679 -1.91071e-5 128.9262 0 -1.91071e-5 128.9262 71.93679 -1.91071e-5 128.9262 71.93679 71.93677 128.9262 0 71.93677 128.9262 -71.93679 -1.91071e-5 128.9262 -71.93679 -71.9368 128.9262 0 -71.9368 128.9262</float_array>
-          <technique_common>
-            <accessor source="#collision_pad1Mesh-mesh-positions-array" count="136" stride="3">
-              <param name="X" type="float"/>
-              <param name="Y" type="float"/>
-              <param name="Z" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="collision_pad1Mesh-mesh-normals">
-          <float_array id="collision_pad1Mesh-mesh-normals-array" count="144">0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 1 0 0 1 0 0 0 1 0 0 1 0 -1 0 0 -1 0 0 0 1 0 0 1 0 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1</float_array>
-          <technique_common>
-            <accessor source="#collision_pad1Mesh-mesh-normals-array" count="48" stride="3">
-              <param name="X" type="float"/>
-              <param name="Y" type="float"/>
-              <param name="Z" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="collision_pad1Mesh-mesh-map-0">
-          <float_array id="collision_pad1Mesh-mesh-map-0-array" count="288">0.5 0.9999 0.5 0.5 0.9999 0.5 10e-5 0.9999 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 10e-5 0.9999 0.5 10e-5 0.5 0.5 10e-5 0.5 0.5 0.5 0.5 10e-5 0.9999 10e-5 0.9999 10e-5 0.9999 0.5 0.5 0.5 0.9999 0.5 0.9999 0.9999 0.5 0.9999 10e-5 0.5 10e-5 10e-5 0.5 10e-5 0.5 0.9999 0.5 0.5 0.9999 0.5 10e-5 0.9999 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 10e-5 0.9999 0.5 10e-5 0.5 0.5 10e-5 0.5 0.5 0.5 0.5 10e-5 0.9999 10e-5 0.9999 10e-5 0.9999 0.5 0.5 0.5 0.9999 0.5 0.9999 0.9999 0.5 0.9999 10e-5 0.5 10e-5 10e-5 0.5 10e-5 0.5 0.5 0.5 0.9999 0.5 0.9999 0.5 0.9999 0.5 0.5 0.5 0.5 0.5 0.5 10e-5 0.5 10e-5 0.5 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 10e-5 0.5 10e-5 0.5 10e-5 0.5 0.5 0.5 0.5 0.9999 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 0.5 0.9999 0.5 0.5 0.9999 0.5 0.5 0.9999 0.5 10e-5 0.9999 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 10e-5 0.9999 0.5 10e-5 0.5 0.5 10e-5 0.5 0.5 0.5 0.5 10e-5 0.9999 10e-5 0.9999 10e-5 0.9999 0.5 0.5 0.5 0.9999 0.5 0.9999 0.9999 0.5 0.9999 10e-5 0.5 10e-5 10e-5 0.5 10e-5 0.5 0.9999 0.5 0.5 0.9999 0.5 10e-5 0.9999 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 10e-5 0.9999 0.5 10e-5 0.5 0.5 10e-5 0.5 0.5 0.5 0.5 10e-5 0.9999 10e-5 0.9999 10e-5 0.9999 0.5 0.5 0.5 0.9999 0.5 0.9999 0.9999 0.5 0.9999 10e-5 0.5 10e-5 10e-5 0.5 10e-5 0.5 0.9999 0.5 0.5 0.9999 0.5 10e-5 0.9999 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 10e-5 0.9999 0.5 10e-5 0.5 0.5 10e-5 0.5 0.5 0.5 0.5 10e-5 0.9999 10e-5 0.9999 10e-5 0.9999 0.5 0.5 0.5 0.9999 0.5 0.9999 0.9999 0.5 0.9999 10e-5 0.5 10e-5 10e-5 0.5 10e-5</float_array>
-          <technique_common>
-            <accessor source="#collision_pad1Mesh-mesh-map-0-array" count="144" stride="2">
-              <param name="S" type="float"/>
-              <param name="T" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <vertices id="collision_pad1Mesh-mesh-vertices">
-          <input semantic="POSITION" source="#collision_pad1Mesh-mesh-positions"/>
-        </vertices>
-        <polylist material="JoinedMaterial__2-material" count="48">
-          <input semantic="VERTEX" source="#collision_pad1Mesh-mesh-vertices" offset="0"/>
-          <input semantic="NORMAL" source="#collision_pad1Mesh-mesh-normals" offset="1"/>
-          <input semantic="TEXCOORD" source="#collision_pad1Mesh-mesh-map-0" offset="2" set="0"/>
-          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
-          <p>0 0 0 1 0 1 2 0 2 3 1 3 4 1 4 5 1 5 6 2 6 7 2 7 8 2 8 9 3 9 10 3 10 11 3 11 12 4 12 13 4 13 14 4 14 15 5 15 16 5 16 17 5 17 18 6 18 19 6 19 20 6 20 21 7 21 22 7 22 23 7 23 32 8 24 33 8 25 34 8 26 35 9 27 36 9 28 37 9 29 38 10 30 39 10 31 40 10 32 41 11 33 42 11 34 43 11 35 44 12 36 45 12 37 46 12 38 47 13 39 48 13 40 49 13 41 50 14 42 51 14 43 52 14 44 53 15 45 54 15 46 55 15 47 56 16 48 57 16 49 25 16 50 25 17 51 24 17 52 56 17 53 58 18 54 59 18 55 27 18 56 27 19 57 26 19 58 58 19 59 60 20 60 61 20 61 29 20 62 29 21 63 28 21 64 60 21 65 62 22 66 63 22 67 31 22 68 31 23 69 30 23 70 62 23 71 64 24 72 65 24 73 66 24 74 67 25 75 68 25 76 69 25 77 70 26 78 71 26 79 72 26 80 73 27 81 74 27 82 75 27 83 76 28 84 77 28 85 78 28 86 79 29 87 80 29 88 81 29 89 82 30 90 83 30 91 84 30 92 85 31 93 86 31 94 87 31 95 88 32 96 89 32 97 90 32 98 91 33 99 92 33 100 93 33 101 94 34 102 95 34 103 96 34 104 97 35 105 98 35 106 99 35 107 100 36 108 101 36 109 102 36 110 103 37 111 104 37 112 105 37 113 106 38 114 107 38 115 108 38 116 109 39 117 110 39 118 111 39 119 112 40 120 113 40 121 114 40 122 115 41 123 116 41 124 117 41 125 118 42 126 119 42 127 120 42 128 121 43 129 122 43 130 123 43 131 124 44 132 125 44 133 126 44 134 127 45 135 128 45 136 129 45 137 130 46 138 131 46 139 132 46 140 133 47 141 134 47 142 135 47 143</p>
-        </polylist>
-      </mesh>
-    </geometry>
     <geometry id="Cube_014-mesh" name="Cube.014">
       <mesh>
         <source id="Cube_014-mesh-positions">
@@ -130,9 +69,9 @@
           </technique_common>
         </source>
         <source id="Cube_014-mesh-normals">
-          <float_array id="Cube_014-mesh-normals-array" count="36">-1 0 0 0 1 0 1 0 0 0 -1 0 0 0 -1 0 0 1 -1 0 0 0 1 0 1 0 0 0 -1 0 0 0 -1 0 0 1</float_array>
+          <float_array id="Cube_014-mesh-normals-array" count="18">-1 0 0 0 1 0 1 0 0 0 -1 0 0 0 -1 0 0 1</float_array>
           <technique_common>
-            <accessor source="#Cube_014-mesh-normals-array" count="12" stride="3">
+            <accessor source="#Cube_014-mesh-normals-array" count="6" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
@@ -151,112 +90,157 @@
         <vertices id="Cube_014-mesh-vertices">
           <input semantic="POSITION" source="#Cube_014-mesh-positions"/>
         </vertices>
-        <polylist material="facade-material" count="12">
+        <triangles material="facade-material" count="12">
           <input semantic="VERTEX" source="#Cube_014-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Cube_014-mesh-normals" offset="1"/>
           <input semantic="TEXCOORD" source="#Cube_014-mesh-map-0" offset="2" set="0"/>
-          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
-          <p>5 0 0 1 0 1 0 0 2 6 1 3 2 1 4 1 1 5 7 2 6 3 2 7 2 2 8 4 3 9 0 3 10 3 3 11 1 4 12 2 4 13 3 4 14 6 5 15 5 5 16 4 5 17 4 6 18 5 6 19 0 6 20 5 7 21 6 7 22 1 7 23 6 8 24 7 8 25 2 8 26 7 9 27 4 9 28 3 9 29 0 10 30 1 10 31 3 10 32 7 11 33 6 11 34 4 11 35</p>
-        </polylist>
+          <p>5 0 0 1 0 1 0 0 2 6 1 3 2 1 4 1 1 5 7 2 6 3 2 7 2 2 8 4 3 9 0 3 10 3 3 11 1 4 12 2 4 13 3 4 14 6 5 15 5 5 16 4 5 17 4 0 18 5 0 19 0 0 20 5 1 21 6 1 22 1 1 23 6 2 24 7 2 25 2 2 26 7 3 27 4 3 28 3 3 29 0 4 30 1 4 31 3 4 32 7 5 33 6 5 34 4 5 35</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="collision_pad1Mesh-mesh" name="collision_pad1Mesh">
+      <mesh>
+        <source id="collision_pad1Mesh-mesh-positions">
+          <float_array id="collision_pad1Mesh-mesh-positions-array" count="408">0 109.9739 31.7406 0 -2.11419e-5 31.7406 109.9739 -2.11419e-5 31.7406 -109.9739 109.9739 31.7406 -109.9739 -2.11419e-5 31.7406 0 -2.11419e-5 31.7406 0 -2.11419e-5 31.7406 0 109.9739 31.7406 -109.9739 109.9739 31.7406 0 -109.9739 31.7406 0 -2.11419e-5 31.7406 -109.9739 -2.11419e-5 31.7406 0 -2.11419e-5 31.7406 0 -109.9739 31.7406 109.9739 -109.9739 31.7406 109.9739 -109.9739 31.7406 109.9739 -2.11419e-5 31.7406 0 -2.11419e-5 31.7406 109.9739 -2.11419e-5 31.7406 109.9739 109.9739 31.7406 0 109.9739 31.7406 -109.9739 -2.11419e-5 31.7406 -109.9739 -109.9739 31.7406 0 -109.9739 31.7406 0 -2.11419e-5 128.9262 0 109.9739 128.9262 0 -2.11419e-5 128.9262 -109.9739 -2.11419e-5 128.9262 0 -2.11419e-5 128.9262 0 -109.9739 128.9262 109.9739 -2.11419e-5 128.9262 0 -2.11419e-5 128.9262 0 109.9739 75.98657 0 -2.11419e-5 75.98657 109.9739 -2.11419e-5 75.98657 -109.9739 109.9739 75.98657 -109.9739 -2.11419e-5 75.98657 0 -2.11419e-5 75.98657 0 -2.11419e-5 75.98657 0 109.9739 75.98657 -109.9739 109.9739 75.98657 0 -109.9739 75.98657 0 -2.11419e-5 75.98657 -109.9739 -2.11419e-5 75.98657 0 -2.11419e-5 75.98657 0 -109.9739 75.98657 109.9739 -109.9739 75.98657 109.9739 -109.9739 75.98657 109.9739 -2.11419e-5 75.98657 0 -2.11419e-5 75.98657 109.9739 -2.11419e-5 75.98657 109.9739 109.9739 75.98657 0 109.9739 75.98657 -109.9739 -2.11419e-5 75.98657 -109.9739 -109.9739 75.98657 0 -109.9739 75.98657 0 -2.04836e-6 -156.1405 0 81.36854 -156.1405 0 -2.04836e-6 -156.1405 -81.36855 -2.04836e-6 -156.1405 0 -2.04836e-6 -156.1405 0 -81.36855 -156.1405 81.36855 -2.04836e-6 -156.1405 0 -2.04836e-6 -156.1405 54.2457 81.36852 -154.0228 54.2457 -2.56075e-5 -154.0228 -27.12285 -2.56075e-5 -154.0228 -27.12285 81.36852 -154.0228 -27.12285 -2.56075e-5 -154.0228 -108.4914 -2.56075e-5 -154.0228 -54.2457 -2.56075e-5 -154.0228 -54.2457 81.36852 -154.0228 27.12285 81.36852 -154.0228 -54.2457 -81.36857 -154.0228 -54.2457 -2.56075e-5 -154.0228 27.12285 -2.56075e-5 -154.0228 54.2457 -2.56075e-5 -154.0228 54.2457 -81.36857 -154.0228 -27.12285 -81.36857 -154.0228 27.12285 -81.36857 -154.0228 27.12285 -2.56075e-5 -154.0228 108.4914 -2.56075e-5 -154.0228 27.12285 -2.56075e-5 -154.0228 27.12285 81.36852 -154.0228 81.63681 61.22757 -154.0228 -27.12285 -2.56075e-5 -154.0228 -27.12285 -81.36857 -154.0228 -81.63681 -61.22763 -154.0228 73.31592 109.9738 -109.4045 73.31592 -2.92456e-5 -109.4045 -36.65796 -2.92456e-5 -109.4045 -36.65796 109.9738 -109.4045 -36.65796 -2.92456e-5 -109.4045 -146.6318 -2.92456e-5 -109.4045 -73.31592 -2.92456e-5 -109.4045 -73.31592 109.9738 -109.4045 36.65796 109.9738 -109.4045 -73.31592 -109.9739 -109.4045 -73.31592 -2.92456e-5 -109.4045 36.65796 -2.92456e-5 -109.4045 73.31592 -2.92456e-5 -109.4045 73.31592 -109.9739 -109.4045 -36.65796 -109.9739 -109.4045 36.65796 -109.9739 -109.4045 36.65796 -2.92456e-5 -109.4045 146.6318 -2.92456e-5 -109.4045 36.65796 -2.92456e-5 -109.4045 36.65796 109.9738 -109.4045 105.1612 78.87084 -109.4045 -36.65796 -2.92456e-5 -109.4045 -36.65796 -109.9739 -109.4045 -105.1612 -78.87091 -109.4045 0 71.93677 128.9262 0 -1.91071e-5 128.9262 71.93679 -1.91071e-5 128.9262 -71.93679 71.93677 128.9262 -71.93679 -1.91071e-5 128.9262 0 -1.91071e-5 128.9262 0 -1.91071e-5 128.9262 0 71.93677 128.9262 -71.93679 71.93677 128.9262 0 -71.9368 128.9262 0 -1.91071e-5 128.9262 -71.93679 -1.91071e-5 128.9262 0 -1.91071e-5 128.9262 0 -71.9368 128.9262 71.93679 -71.9368 128.9262 71.93679 -71.9368 128.9262 71.93679 -1.91071e-5 128.9262 0 -1.91071e-5 128.9262 71.93679 -1.91071e-5 128.9262 71.93679 71.93677 128.9262 0 71.93677 128.9262 -71.93679 -1.91071e-5 128.9262 -71.93679 -71.9368 128.9262 0 -71.9368 128.9262</float_array>
+          <technique_common>
+            <accessor source="#collision_pad1Mesh-mesh-positions-array" count="136" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="collision_pad1Mesh-mesh-normals">
+          <float_array id="collision_pad1Mesh-mesh-normals-array" count="30">0 0 1 1 0 0 0 1 0 0 1 0 -1 0 0 0 0 -1 -3.30238e-7 0 -1 -4.40317e-7 0 -1 0 0 -1 0 0 -1</float_array>
+          <technique_common>
+            <accessor source="#collision_pad1Mesh-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="collision_pad1Mesh-mesh-map-0">
+          <float_array id="collision_pad1Mesh-mesh-map-0-array" count="288">0.5 0.9999 0.5 0.5 0.9999 0.5 10e-5 0.9999 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 10e-5 0.9999 0.5 10e-5 0.5 0.5 10e-5 0.5 0.5 0.5 0.5 10e-5 0.9999 10e-5 0.9999 10e-5 0.9999 0.5 0.5 0.5 0.9999 0.5 0.9999 0.9999 0.5 0.9999 10e-5 0.5 10e-5 10e-5 0.5 10e-5 0.5 0.9999 0.5 0.5 0.9999 0.5 10e-5 0.9999 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 10e-5 0.9999 0.5 10e-5 0.5 0.5 10e-5 0.5 0.5 0.5 0.5 10e-5 0.9999 10e-5 0.9999 10e-5 0.9999 0.5 0.5 0.5 0.9999 0.5 0.9999 0.9999 0.5 0.9999 10e-5 0.5 10e-5 10e-5 0.5 10e-5 0.5 0.5 0.5 0.9999 0.5 0.9999 0.5 0.9999 0.5 0.5 0.5 0.5 0.5 0.5 10e-5 0.5 10e-5 0.5 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 10e-5 0.5 10e-5 0.5 10e-5 0.5 0.5 0.5 0.5 0.9999 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 0.5 0.9999 0.5 0.5 0.9999 0.5 0.5 0.9999 0.5 10e-5 0.9999 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 10e-5 0.9999 0.5 10e-5 0.5 0.5 10e-5 0.5 0.5 0.5 0.5 10e-5 0.9999 10e-5 0.9999 10e-5 0.9999 0.5 0.5 0.5 0.9999 0.5 0.9999 0.9999 0.5 0.9999 10e-5 0.5 10e-5 10e-5 0.5 10e-5 0.5 0.9999 0.5 0.5 0.9999 0.5 10e-5 0.9999 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 10e-5 0.9999 0.5 10e-5 0.5 0.5 10e-5 0.5 0.5 0.5 0.5 10e-5 0.9999 10e-5 0.9999 10e-5 0.9999 0.5 0.5 0.5 0.9999 0.5 0.9999 0.9999 0.5 0.9999 10e-5 0.5 10e-5 10e-5 0.5 10e-5 0.5 0.9999 0.5 0.5 0.9999 0.5 10e-5 0.9999 10e-5 0.5 0.5 0.5 0.5 0.5 0.5 0.9999 10e-5 0.9999 0.5 10e-5 0.5 0.5 10e-5 0.5 0.5 0.5 0.5 10e-5 0.9999 10e-5 0.9999 10e-5 0.9999 0.5 0.5 0.5 0.9999 0.5 0.9999 0.9999 0.5 0.9999 10e-5 0.5 10e-5 10e-5 0.5 10e-5</float_array>
+          <technique_common>
+            <accessor source="#collision_pad1Mesh-mesh-map-0-array" count="144" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="collision_pad1Mesh-mesh-vertices">
+          <input semantic="POSITION" source="#collision_pad1Mesh-mesh-positions"/>
+        </vertices>
+        <triangles material="JoinedMaterial__2-material" count="48">
+          <input semantic="VERTEX" source="#collision_pad1Mesh-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#collision_pad1Mesh-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#collision_pad1Mesh-mesh-map-0" offset="2" set="0"/>
+          <p>0 0 0 1 0 1 2 0 2 3 0 3 4 0 4 5 0 5 6 0 6 7 0 7 8 0 8 9 0 9 10 0 10 11 0 11 12 0 12 13 0 13 14 0 14 15 0 15 16 0 16 17 0 17 18 0 18 19 0 19 20 0 20 21 0 21 22 0 22 23 0 23 32 0 24 33 0 25 34 0 26 35 0 27 36 0 28 37 0 29 38 0 30 39 0 31 40 0 32 41 0 33 42 0 34 43 0 35 44 0 36 45 0 37 46 0 38 47 0 39 48 0 40 49 0 41 50 0 42 51 0 43 52 0 44 53 0 45 54 0 46 55 0 47 56 1 48 57 1 49 25 1 50 25 1 51 24 1 52 56 1 53 58 2 54 59 2 55 27 2 56 27 3 57 26 3 58 58 3 59 60 4 60 61 4 61 29 4 62 29 4 63 28 4 64 60 4 65 62 3 66 63 3 67 31 3 68 31 3 69 30 3 70 62 3 71 64 5 72 65 5 73 66 5 74 67 5 75 68 5 76 69 5 77 70 5 78 71 5 79 72 5 80 73 5 81 74 5 82 75 5 83 76 5 84 77 5 85 78 5 86 79 5 87 80 5 88 81 5 89 82 6 90 83 6 91 84 6 92 85 7 93 86 7 94 87 7 95 88 5 96 89 5 97 90 5 98 91 5 99 92 5 100 93 5 101 94 5 102 95 5 103 96 5 104 97 5 105 98 5 106 99 5 107 100 5 108 101 5 109 102 5 110 103 5 111 104 5 112 105 5 113 106 8 114 107 8 115 108 8 116 109 9 117 110 9 118 111 9 119 112 0 120 113 0 121 114 0 122 115 0 123 116 0 124 117 0 125 118 0 126 119 0 127 120 0 128 121 0 129 122 0 130 123 0 131 124 0 132 125 0 133 126 0 134 127 0 135 128 0 136 129 0 137 130 0 138 131 0 139 132 0 140 133 0 141 134 0 142 135 0 143</p>
+        </triangles>
       </mesh>
     </geometry>
   </library_geometries>
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
-      <node id="collision_pad1" name="collision_pad1" type="NODE">
-        <matrix sid="transform">1.94707e-7 -1 -1.94707e-7 0 1 1.94707e-7 -7.54979e-8 0 7.54979e-8 -1.94707e-7 1 0 0 0 0 1</matrix>
-        <instance_geometry url="#collision_pad1Mesh-mesh">
+      <node id="dummy" name="dummy" type="NODE">
+        <matrix sid="transform">1 -3.33601e-13 3.01992e-7 5.32373e-5 0 -1 -1.10467e-6 -118.4497 3.01992e-7 1.10467e-6 -1 -41.70762 0 0 0 1</matrix>
+        <instance_geometry url="#Cube_014-mesh" name="dummy">
           <bind_material>
             <technique_common>
-              <instance_material symbol="JoinedMaterial__2-material" target="#JoinedMaterial__2-material"/>
+              <instance_material symbol="facade-material" target="#facade-material">
+                <bind_vertex_input semantic="Cube_014-mesh-map-0" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
             </technique_common>
           </bind_material>
         </instance_geometry>
       </node>
-      <node id="entrance_port01" name="entrance_port01" type="NODE">
-        <matrix sid="transform">1 -6.51683e-7 -2.46961e-13 3.05176e-5 2.6845e-14 -3.37766e-7 1 132.823 -6.51683e-7 -1 -3.37766e-7 -4.94234e-5 0 0 0 1</matrix>
-      </node>
-      <node id="loc_A001_p01_s0_50_b01" name="loc_A001_p01_s0_50_b01" type="NODE">
-        <matrix sid="transform">-0.3835262 -0.92353 7.60765e-7 102.8187 -3.99288e-7 9.89576e-7 1 -43.7991 -0.92353 0.3835262 -7.48283e-7 -42.9735 0 0 0 1</matrix>
-      </node>
-      <node id="loc_A001_p01_s0_50_b02" name="loc_A001_p01_s0_50_b02" type="NODE">
-        <matrix sid="transform">0.3818409 -0.9242281 1.9273e-6 103.0906 -5.85946e-8 2.0611e-6 1 -43.79908 -0.9242281 -0.3818409 7.32857e-7 42.3169 0 0 0 1</matrix>
-      </node>
-      <node id="loc_A001_p01_s0_50_b07" name="loc_A001_p01_s0_50_b07" type="NODE">
-        <matrix sid="transform">-0.9235305 0.3835251 -9.25445e-7 -42.97336 -5.21111e-7 1.15816e-6 1 -43.79911 0.3835251 0.9235305 -8.69734e-7 -102.8186 0 0 0 1</matrix>
-      </node>
-      <node id="loc_A001_p01_s0_50_b08" name="loc_A001_p01_s0_50_b08" type="NODE">
-        <matrix sid="transform">-0.924228 -0.3818411 4.18096e-7 42.31701 -4.59192e-7 2.2064e-6 1 -43.79912 -0.3818411 0.924228 -2.21455e-6 -103.0906 0 0 0 1</matrix>
-      </node>
-      <node id="exit_port01" name="exit_port01" type="NODE">
-        <matrix sid="transform">0.92388 0.3826824 -4.51761e-7 7.62939e-6 3.59772e-7 3.11943e-7 1 -43.29041 0.3826824 -0.92388 1.50519e-7 7.6294e-6 0 0 0 1</matrix>
-      </node>
-      <node id="loc_B001_p02_s0_50_b08" name="loc_B001_p02_s0_50_b08" type="NODE">
-        <matrix sid="transform">-0.9242277 -0.381842 4.18097e-7 42.31699 -4.59192e-7 2.2064e-6 1 45.46565 -0.381842 0.9242277 -2.21455e-6 -103.0906 0 0 0 1</matrix>
-      </node>
-      <node id="loc_B001_p02_s0_50_b07" name="loc_B001_p02_s0_50_b07" type="NODE">
-        <matrix sid="transform">-0.9235305 0.3835251 -9.25445e-7 -42.9734 -5.21111e-7 1.15816e-6 1 45.46563 0.3835251 0.9235305 -8.69734e-7 -102.8187 0 0 0 1</matrix>
-      </node>
-      <node id="loc_B001_p02_s0_50_b02" name="loc_B001_p02_s0_50_b02" type="NODE">
-        <matrix sid="transform">0.3818409 -0.9242281 1.9273e-6 103.0906 -5.85946e-8 2.0611e-6 1 45.46569 -0.9242281 -0.3818409 7.32857e-7 42.31688 0 0 0 1</matrix>
-      </node>
-      <node id="loc_B001_p02_s0_50_b01" name="loc_B001_p02_s0_50_b01" type="NODE">
-        <matrix sid="transform">-0.3835262 -0.92353 7.60765e-7 102.8187 -3.99288e-7 9.89576e-7 1 45.46568 -0.92353 0.3835262 -7.48283e-7 -42.9735 0 0 0 1</matrix>
-      </node>
-      <node id="entrance_port02" name="entrance_port02" type="NODE">
-        <matrix sid="transform">1 -6.51683e-7 -2.46961e-13 3.05176e-5 2.6845e-14 -3.37766e-7 1 132.823 -6.51683e-7 -1 -3.37766e-7 -4.94234e-5 0 0 0 1</matrix>
-      </node>
-      <node id="exit_port02" name="exit_port02" type="NODE">
-        <matrix sid="transform">0.92388 0.3826824 -4.51761e-7 -1.14441e-5 3.59772e-7 3.11943e-7 1 45.58858 0.3826824 -0.92388 1.50519e-7 -1.14441e-5 0 0 0 1</matrix>
-      </node>
-      <node id="entrance_port03" name="entrance_port03" type="NODE">
-        <matrix sid="transform">1 -6.51683e-7 -2.46961e-13 3.05176e-5 2.6845e-14 -3.37766e-7 1 132.823 -6.51683e-7 -1 -3.37766e-7 -4.94234e-5 0 0 0 1</matrix>
-      </node>
-      <node id="exit_port04" name="exit_port04" type="NODE">
-        <matrix sid="transform">1 -1.60536e-6 -9.45521e-13 -1.19209e-7 1.09855e-13 -5.20549e-7 1 0.6729431 -1.60536e-6 -1 -5.20549e-7 -1.19209e-7 0 0 0 1</matrix>
-      </node>
-      <node id="loc_C001_p04_s0_100_b01" name="loc_C001_p04_s0_100_b01" type="NODE">
-        <matrix sid="transform">0.9999996 -9.118e-4 -3.24715e-7 0.3552225 3.25841e-7 1.23551e-6 1 0.5500565 -9.118e-4 -0.9999996 1.2358e-6 111.4373 0 0 0 1</matrix>
-      </node>
-      <node id="entrance_port04" name="entrance_port04" type="NODE">
-        <matrix sid="transform">1 -6.51683e-7 -2.46961e-13 3.05176e-5 2.6845e-14 -3.37766e-7 1 132.823 -6.51683e-7 -1 -3.37766e-7 -4.94234e-5 0 0 0 1</matrix>
-      </node>
-      <node id="exit_port03" name="exit_port03" type="NODE">
-        <matrix sid="transform">1 -1.60536e-6 -9.45521e-13 -1.78801e-7 1.09855e-13 -5.20549e-7 1 0.8328056 -1.60536e-6 -1 -5.20549e-7 -6.1214e-5 0 0 0 1</matrix>
-      </node>
-      <node id="loc_E001_p03_s0_33_b19" name="loc_E001_p03_s0_33_b19" type="NODE">
-        <matrix sid="transform">-0.3914474 0.9202005 -1.79309e-6 -96.36374 2.69982e-7 2.06344e-6 1 -64.64304 0.9202005 0.3914474 -1.05617e-6 -40.71675 0 0 0 1</matrix>
-      </node>
-      <node id="loc_E001_p03_s0_33_b18" name="loc_E001_p03_s0_33_b18" type="NODE">
-        <matrix sid="transform">-0.003212434 0.9999948 -2.00062e-6 -104.6127 4.76333e-7 2.00217e-6 1 -64.64303 0.9999948 0.003212434 -4.82762e-7 -0.08230743 0 0 0 1</matrix>
-      </node>
-      <node id="loc_E001_p03_s0_33_b17" name="loc_E001_p03_s0_33_b17" type="NODE">
-        <matrix sid="transform">0.38755 0.9218487 -1.50694e-6 -96.33852 5.88275e-7 1.38738e-6 1 -64.64301 0.9218487 -0.38755 -4.62149e-9 40.77639 0 0 0 1</matrix>
-      </node>
-      <node id="loc_E001_p03_s0_33_b14" name="loc_E001_p03_s0_33_b14" type="NODE">
-        <matrix sid="transform">0.38755 0.9218487 -1.50694e-6 -96.33853 5.88275e-7 1.38738e-6 1 -3.350815 0.9218487 -0.38755 -4.62149e-9 40.77636 0 0 0 1</matrix>
-      </node>
-      <node id="loc_E001_p03_s0_33_b15" name="loc_E001_p03_s0_33_b15" type="NODE">
-        <matrix sid="transform">-0.003212434 0.9999948 -2.00062e-6 -104.6127 4.76333e-7 2.00217e-6 1 -3.350822 0.9999948 0.003212434 -4.82762e-7 -0.08233795 0 0 0 1</matrix>
-      </node>
-      <node id="loc_E001_p03_s0_33_b16" name="loc_E001_p03_s0_33_b16" type="NODE">
-        <matrix sid="transform">-0.3914474 0.9202005 -1.79309e-6 -96.36375 2.69982e-7 2.06344e-6 1 -3.350845 0.9202005 0.3914474 -1.05617e-6 -40.71674 0 0 0 1</matrix>
-      </node>
-      <node id="loc_E001_p03_s0_33_b13" name="loc_E001_p03_s0_33_b13" type="NODE">
-        <matrix sid="transform">-0.3914474 0.9202005 -1.79309e-6 -96.36375 2.69982e-7 2.06344e-6 1 55.86813 0.9202005 0.3914474 -1.05617e-6 -40.71677 0 0 0 1</matrix>
+      <node id="loc_E001_p03_s0_33_b11" name="loc_E001_p03_s0_33_b11" type="NODE">
+        <matrix sid="transform">0.3875501 0.9218487 -1.34612e-6 -96.33855 3.35716e-7 1.3191e-6 1 55.86819 0.9218487 -0.3875501 2.01739e-7 40.77636 0 0 0 1</matrix>
       </node>
       <node id="loc_E001_p03_s0_33_b12" name="loc_E001_p03_s0_33_b12" type="NODE">
-        <matrix sid="transform">-0.003212434 0.9999948 -2.00062e-6 -104.6127 4.76333e-7 2.00217e-6 1 55.86814 0.9999948 0.003212434 -4.82762e-7 -0.0823532 0 0 0 1</matrix>
+        <matrix sid="transform">-0.00321249 0.9999948 -7.22989e-6 -104.6127 2.99083e-7 7.23089e-6 1 55.86814 0.9999948 0.00321249 -3.22311e-7 -0.0823532 0 0 0 1</matrix>
       </node>
-      <node id="loc_E001_p03_s0_33_b11" name="loc_E001_p03_s0_33_b11" type="NODE">
-        <matrix sid="transform">0.38755 0.9218487 -1.50694e-6 -96.33855 5.88275e-7 1.38738e-6 1 55.86819 0.9218487 -0.38755 -4.62149e-9 40.77636 0 0 0 1</matrix>
+      <node id="loc_E001_p03_s0_33_b13" name="loc_E001_p03_s0_33_b13" type="NODE">
+        <matrix sid="transform">-0.3914474 0.9202005 -1.86376e-6 -96.36375 5.91069e-8 2.05053e-6 1 55.86813 0.9202005 0.3914474 -8.57066e-7 -40.71677 0 0 0 1</matrix>
       </node>
-      <node id="dummy" name="dummy" type="NODE">
-        <matrix sid="transform">1 -3.14403e-13 3.01992e-7 5.32373e-5 0 -1 -1.0411e-6 -118.4497 3.01992e-7 1.0411e-6 -1 -41.70762 0 0 0 1</matrix>
-        <instance_geometry url="#Cube_014-mesh">
+      <node id="loc_E001_p03_s0_33_b16" name="loc_E001_p03_s0_33_b16" type="NODE">
+        <matrix sid="transform">-0.3914474 0.9202005 -1.86376e-6 -96.36375 5.91069e-8 2.05053e-6 1 -3.350845 0.9202005 0.3914474 -8.57066e-7 -40.71674 0 0 0 1</matrix>
+      </node>
+      <node id="loc_E001_p03_s0_33_b15" name="loc_E001_p03_s0_33_b15" type="NODE">
+        <matrix sid="transform">-0.00321249 0.9999948 -7.22989e-6 -104.6127 2.99083e-7 7.23089e-6 1 -3.350822 0.9999948 0.00321249 -3.22311e-7 -0.08233795 0 0 0 1</matrix>
+      </node>
+      <node id="loc_E001_p03_s0_33_b14" name="loc_E001_p03_s0_33_b14" type="NODE">
+        <matrix sid="transform">0.3875501 0.9218487 -1.34612e-6 -96.33852 3.35716e-7 1.3191e-6 1 -3.350815 0.9218487 -0.3875501 2.01739e-7 40.77636 0 0 0 1</matrix>
+      </node>
+      <node id="loc_E001_p03_s0_33_b17" name="loc_E001_p03_s0_33_b17" type="NODE">
+        <matrix sid="transform">0.3875501 0.9218487 -1.34612e-6 -96.33852 3.35716e-7 1.3191e-6 1 -64.64301 0.9218487 -0.3875501 2.01739e-7 40.77639 0 0 0 1</matrix>
+      </node>
+      <node id="loc_E001_p03_s0_33_b18" name="loc_E001_p03_s0_33_b18" type="NODE">
+        <matrix sid="transform">-0.00321249 0.9999948 -7.22989e-6 -104.6127 2.99083e-7 7.23089e-6 1 -64.64303 0.9999948 0.00321249 -3.22311e-7 -0.08230743 0 0 0 1</matrix>
+      </node>
+      <node id="loc_E001_p03_s0_33_b19" name="loc_E001_p03_s0_33_b19" type="NODE">
+        <matrix sid="transform">-0.3914474 0.9202005 -1.86376e-6 -96.36374 5.91069e-8 2.05053e-6 1 -64.64304 0.9202005 0.3914474 -8.57066e-7 -40.71675 0 0 0 1</matrix>
+      </node>
+      <node id="exit_port03" name="exit_port03" type="NODE">
+        <matrix sid="transform">1 -1.60536e-6 6.51682e-7 -1.78801e-7 -6.51683e-7 -5.20548e-7 1 0.8328056 -1.60536e-6 -1 -5.20549e-7 -6.1214e-5 0 0 0 1</matrix>
+      </node>
+      <node id="entrance_port04" name="entrance_port04" type="NODE">
+        <matrix sid="transform">-1 -6.51683e-7 -3.25841e-7 3.05176e-5 3.25841e-7 -3.13916e-7 -1 132.823 6.51683e-7 -1 3.13916e-7 -4.94234e-5 0 0 0 1</matrix>
+      </node>
+      <node id="loc_C001_p04_s0_100_b01" name="loc_C001_p04_s0_100_b01" type="NODE">
+        <matrix sid="transform">0.9999996 -9.118e-4 1.75893e-7 0.3552225 -1.74845e-7 1.14854e-6 1 0.5500565 -9.118e-4 -0.9999996 1.14838e-6 111.4373 0 0 0 1</matrix>
+      </node>
+      <node id="exit_port04" name="exit_port04" type="NODE">
+        <matrix sid="transform">1 -1.60536e-6 6.51682e-7 -1.19209e-7 -6.51683e-7 -5.20548e-7 1 0.6729431 -1.60536e-6 -1 -5.20549e-7 -1.19209e-7 0 0 0 1</matrix>
+      </node>
+      <node id="entrance_port03" name="entrance_port03" type="NODE">
+        <matrix sid="transform">-1 -6.51683e-7 -3.25841e-7 3.05176e-5 3.25841e-7 -3.13916e-7 -1 132.823 6.51683e-7 -1 3.13916e-7 -4.94234e-5 0 0 0 1</matrix>
+      </node>
+      <node id="exit_port02" name="exit_port02" type="NODE">
+        <matrix sid="transform">0.9238799 0.3826825 -3.76503e-7 -1.14441e-5 2.79004e-7 3.10274e-7 1 45.58858 0.3826825 -0.9238799 1.79886e-7 -1.14441e-5 0 0 0 1</matrix>
+      </node>
+      <node id="entrance_port02" name="entrance_port02" type="NODE">
+        <matrix sid="transform">-1 -6.51683e-7 -3.25841e-7 3.05176e-5 3.25841e-7 -3.13916e-7 -1 132.823 6.51683e-7 -1 3.13916e-7 -4.94234e-5 0 0 0 1</matrix>
+      </node>
+      <node id="loc_B001_p02_s0_50_b01" name="loc_B001_p02_s0_50_b01" type="NODE">
+        <matrix sid="transform">-0.3835264 -0.9235299 5.77744e-7 102.8187 -7.65047e-7 9.43294e-7 1 45.46568 -0.9235299 0.3835264 -1.06832e-6 -42.9735 0 0 0 1</matrix>
+      </node>
+      <node id="loc_B001_p02_s0_50_b02" name="loc_B001_p02_s0_50_b02" type="NODE">
+        <matrix sid="transform">0.3818409 -0.9242281 1.96475e-6 103.0906 -3.0288e-7 2.0007e-6 1 45.46569 -0.9242281 -0.3818409 4.84018e-7 42.31688 0 0 0 1</matrix>
+      </node>
+      <node id="loc_B001_p02_s0_50_b07" name="loc_B001_p02_s0_50_b07" type="NODE">
+        <matrix sid="transform">-0.9235305 0.383525 -1.56895e-6 -42.9734 -1.04222e-6 1.5812e-6 1 45.46563 0.383525 0.9235305 -1.06057e-6 -102.8187 0 0 0 1</matrix>
+      </node>
+      <node id="loc_B001_p02_s0_50_b08" name="loc_B001_p02_s0_50_b08" type="NODE">
+        <matrix sid="transform">-0.9242278 -0.3818417 -1.8931e-7 42.31699 -1.04301e-6 2.02877e-6 1 45.46565 -0.3818417 0.9242278 -2.27331e-6 -103.0906 0 0 0 1</matrix>
+      </node>
+      <node id="exit_port01" name="exit_port01" type="NODE">
+        <matrix sid="transform">0.9238799 0.3826825 -3.76503e-7 7.62939e-6 2.79004e-7 3.10274e-7 1 -43.29041 0.3826825 -0.9238799 1.79886e-7 7.6294e-6 0 0 0 1</matrix>
+      </node>
+      <node id="loc_A001_p01_s0_50_b08" name="loc_A001_p01_s0_50_b08" type="NODE">
+        <matrix sid="transform">-0.924228 -0.3818412 -1.43792e-7 42.31701 -1.04301e-6 2.14798e-6 1 -43.79912 -0.3818412 0.924228 -2.38349e-6 -103.0906 0 0 0 1</matrix>
+      </node>
+      <node id="loc_A001_p01_s0_50_b07" name="loc_A001_p01_s0_50_b07" type="NODE">
+        <matrix sid="transform">-0.9235305 0.383525 -1.56895e-6 -42.97336 -1.04222e-6 1.5812e-6 1 -43.79911 0.383525 0.9235305 -1.06057e-6 -102.8186 0 0 0 1</matrix>
+      </node>
+      <node id="loc_A001_p01_s0_50_b02" name="loc_A001_p01_s0_50_b02" type="NODE">
+        <matrix sid="transform">0.3818409 -0.9242281 1.96475e-6 103.0906 -3.0288e-7 2.0007e-6 1 -43.79908 -0.9242281 -0.3818409 4.84018e-7 42.3169 0 0 0 1</matrix>
+      </node>
+      <node id="loc_A001_p01_s0_50_b01" name="loc_A001_p01_s0_50_b01" type="NODE">
+        <matrix sid="transform">-0.3835264 -0.9235299 5.77744e-7 102.8187 -7.65047e-7 9.43294e-7 1 -43.7991 -0.9235299 0.3835264 -1.06832e-6 -42.9735 0 0 0 1</matrix>
+      </node>
+      <node id="entrance_port01" name="entrance_port01" type="NODE">
+        <matrix sid="transform">-1 -6.51683e-7 -3.25841e-7 3.05176e-5 3.25841e-7 -3.13916e-7 -1 132.823 6.51683e-7 -1 3.13916e-7 -4.94234e-5 0 0 0 1</matrix>
+      </node>
+      <node id="collision_pad1" name="collision_pad1" type="NODE">
+        <matrix sid="transform">1.94707e-7 -1 -1.94707e-7 0 1 1.94707e-7 -7.54979e-8 0 7.54979e-8 -1.94707e-7 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#collision_pad1Mesh-mesh" name="collision_pad1">
           <bind_material>
             <technique_common>
-              <instance_material symbol="facade-material" target="#facade-material"/>
+              <instance_material symbol="JoinedMaterial__2-material" target="#JoinedMaterial__2-material">
+                <bind_vertex_input semantic="collision_pad1Mesh-mesh-map-0" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
             </technique_common>
           </bind_material>
         </instance_geometry>
