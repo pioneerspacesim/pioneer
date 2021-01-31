@@ -68,8 +68,10 @@ sidereal view, use ',' (comma) and '.' (period) to roll the camera in place.
 To jump to another system, use the map (F2) and click on another system. The
 map will provide you with info about the system, such as population, faction
 and economy. You need enough hydrogen to get there, so it must be close enough 
-for your ship and hyperdrive. F7 will start the jump sequence. You can press
-F7 again to abort the jump while the countdown is running.
+for your ship and hyperdrive. To jump, you need to add the system to the 
+hyperjump planner on the bottom right of the sector map, by clicking on the + 
+button while the system is selected. F7 will start the jump sequence. You can
+press F7 again to abort the jump while the countdown is running.
 
 To use the autopilot to reach a station, expand the overview window on top right 
 corner of the flight view. Right click on your destination to see the radial 
