@@ -45,7 +45,7 @@ InfoView:registerView({
     showView = true,
 	draw = function()
 		local spacing = InfoView.windowPadding.x * 2.0
-        info_column_width = (ui.getColumnWidth() - spacing) / 2
+        local info_column_width = (ui.getColumnWidth() - spacing) / 2
         ui.withStyleVars({ItemSpacing = itemSpacing}, function()
             ui.withFont(pionillium.large, function()
                 ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), drawPlayerInfo)

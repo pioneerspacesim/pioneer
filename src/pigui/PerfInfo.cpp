@@ -35,6 +35,7 @@ using PerfInfo = PiGui::PerfInfo;
 struct PerfInfo::ImGuiState {
 	bool perfWindowOpen = true;
 	bool updatePause = false;
+	bool metricsWindowOpen = false;
 	uint32_t playerModelDebugFlags = 0;
 
 	bool textureCacheViewerOpen = false;
@@ -188,6 +189,9 @@ void PerfInfo::Draw()
 	if (m_state->hasSelectedTexture &&
 		Pi::renderer->GetCachedTexture(m_state->selectedTexture.first, m_state->selectedTexture.second))
 		DrawTextureInspector();
+
+	if (m_state->metricsWindowOpen)
+		ImGui::ShowMetricsWindow(&m_state->metricsWindowOpen);
 }
 
 void PerfInfo::DrawPerfWindow()
@@ -415,6 +419,10 @@ void PerfInfo::DrawImGuiStats()
 	ImGui::Text("%d verts, %d tris", io.MetricsRenderVertices, io.MetricsRenderIndices / 3);
 	ImGui::Text("%d active windows (%d visible)", io.MetricsActiveWindows, io.MetricsRenderWindows);
 	ImGui::Text("%d current allocations", io.MetricsActiveAllocations);
+
+	if (ImGui::Button("Toggle Metrics Window")) {
+		m_state->metricsWindowOpen = !m_state->metricsWindowOpen;
+	}
 }
 
 void PerfInfo::DrawStatList(const Perf::Stats::FrameInfo &fi)
