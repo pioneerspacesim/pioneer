@@ -21,7 +21,7 @@
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
-    "message": "Новината за изчезването на говедата им беше като гръм от ясно небе за фермерите в системата {system} ({sectorx}, {sectory}, {sectorz}). Полицията докладва, че \"това е говеждата кражба на века\"."
+    "message": "Новината за изчезването на говедата им беше като гръм от ясно небе за фермерите в системата {system} ({sectorx}, {sectory}, {sectorz}). Полицията докладва, че това е „говеждата кражба на века“."
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "FLAVOUR_12_NEWSBODY": {
     "description": "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-    "message": "Гаден вирус причини унищожаване на хард дисковете на компютрите Nachosoft в системата {system} ({sectorx}, {sectory}, {sectorz}). Компютърните специалисти споделиха, че повредените хард дискове стават за фризби."
+    "message": "Гаден вирус причини унищожаване на хард дисковете на компютрите Начософт в системата {system} ({sectorx}, {sectory}, {sectorz}). Компютърните специалисти споделиха, че повредените твърди дискове стават за фризби."
   },
   "FLAVOUR_13_HEADLINE": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
-    "message": "Хората се изправят срещу машините в системата {system} ({sectorx}, {sectory}, {sectorz}), поради \"поведенческа неизправност\", която кара домашните потребители да загубят доверието си в техните роботи."
+    "message": "Хората се изправят срещу машините в системата {system} ({sectorx}, {sectory}, {sectorz}), поради „поведенческа неизправност“, която кара домашните потребители да загубят доверието си в техните роботи."
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
@@ -101,11 +101,11 @@
   },
   "FLAVOUR_20_NEWSBODY": {
     "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-    "message": "{system} ({sectorx}, {sectory}, {sectorz}) навлезе във фаза, благоприятна за жълтите водорасли, които виреят в атмосферата на местния газов гигант, което доведе до добра реколта на компанията за торове Soylent Yellow Inc."
+    "message": "{system} ({sectorx}, {sectory}, {sectorz}) навлезе във фаза, благоприятна за жълтите водорасли, които виреят в атмосферата на местния газов гигант, което доведе до добра реколта на компанията за торове Жълт Сойлент."
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
-    "message": "НОВИНИ {date}: В системата {system} се сключи договор за \"хуманна\" война."
+    "message": "НОВИНИ {date}: В системата {system} се сключи договор за „хуманна“ война."
   },
   "FLAVOUR_21_NEWSBODY": {
     "description": "Imply vast abundance of NERVE_GAS.",
@@ -133,7 +133,7 @@
   },
   "FLAVOUR_2_NEWSBODY": {
     "description": "Hint there will be high demand of GRAIN.",
-    "message": "Голяма суша съсипа реколтата в системата {system} ({sectorx}, {sectory}, {sectorz}). Очаква се масов глад в системата."
+    "message": "Голяма суша съсипа реколтата в системата {system} ({sectorx}, {sectory}, {sectorz}). Очаква се масов глад."
   },
   "FLAVOUR_3_HEADLINE": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Работници в системата {system} ({sectorx}, {sectory}, {sectorz}) изхвърлиха оковите си и дигнаха въстание, понеже не искат да работят на Лотус полетата. Местната икономиката е парализирана, защото не може да се намери нова евтина работна ръка."
+    "message": "Работници в системата {system} ({sectorx}, {sectory}, {sectorz}) изхвърлиха оковите си и дигнаха въстание, понеже не искат да работят на полетата с Лотус. Местната икономиката е парализирана, защото не може да се намери нова евтина работна ръка."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -193,7 +193,7 @@
   },
   "GRATEFUL_GREETING_0": {
     "description": "",
-    "message": "Добре дошъл, търговецо! Ще ти дадем добра цена за твоя {cargo}."
+    "message": "Добре дошъл, търговецо! Ще ти дадем добра цена за {cargo}."
   },
   "GRATEFUL_GREETING_1": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "GRATEFUL_GREETING_2": {
     "description": "",
-    "message": "Поздравяваме Ви за добре дошли! Тук може да продадете Вашата {cargo}."
+    "message": "Поздравяваме Ви за добре дошли! Тук може да продадете {cargo}."
   },
   "GRATEFUL_GREETING_3": {
     "description": "",

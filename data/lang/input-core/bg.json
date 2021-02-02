@@ -169,11 +169,11 @@
   },
   "BUTTON": {
     "description": "",
-    "message": "\" Бутон \""
+    "message": "„ Бутон “"
   },
   "DIRECTION": {
     "description": "Direction",
-    "message": "\" Пос \""
+    "message": "„ Посока “"
   },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
@@ -204,7 +204,7 @@
   },
   "HAT": {
     "description": "Hat switch: Is the top button on a joystick",
-    "message": "\" Hat\""
+    "message": "„ Hat “"
   },
   "MOUSE": {
     "description": "A computer mouse, used to create the name for a mouse button binding",

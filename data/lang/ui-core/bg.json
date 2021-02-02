@@ -409,7 +409,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "Автоматичното запазване по време на скачване може да предизвика забавяне, в зависимост от скоростта на твърдия диск."
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -461,7 +461,7 @@
   },
   "EXIT_THIS_GAME": {
     "description": "",
-    "message": "Излизане от тази игра"
+    "message": "Излизане от играта"
   },
   "EXPERIENCED": {
     "description": "For player reputation",
@@ -697,7 +697,7 @@
   },
   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
     "description": "Tooltip: The braking distance using the main thrusters.",
-    "message": "The braking distance using the main thrusters"
+    "message": "Спирачният път при използване на главните ускорители"
   },
   "HUD_BUTTON_AUTOPILOT_DOCKING": {
     "description": "Tooltip: Autopilot docking",
@@ -725,27 +725,27 @@
   },
   "HUD_BUTTON_FIX_ANTINORMAL": {
     "description": "Tooltip: fix heading antinormal",
-    "message": "Fix heading antinormal"
+    "message": "Задържане на направлението в обратната посока"
   },
   "HUD_BUTTON_FIX_NORMAL": {
     "description": "Tooltip: fix heading normal",
-    "message": "Fix heading normal"
+    "message": "Задържане на направлението в сегашната посока"
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
-    "message": "Fix heading prograde"
+    "message": "Задържане на направлението в проградна посока"
   },
   "HUD_BUTTON_FIX_RADIAL_IN": {
     "description": "Tooltip: fix heading radially inward",
-    "message": "Fix heading radially inward"
+    "message": "Задържане на направлението в радиално вътрешна посока"
   },
   "HUD_BUTTON_FIX_RADIAL_OUT": {
     "description": "Tooltip: fix heading radially outward",
-    "message": "Fix heading radially outward"
+    "message": "Задържане на направлението в радиално външна посока"
   },
   "HUD_BUTTON_FIX_RETROGRADE": {
     "description": "Tooltip: fix heading retrograde",
-    "message": "Fix heading retrograde"
+    "message": "Задържане на направлението в ретроградна посока"
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
@@ -849,7 +849,7 @@
   },
   "HUD_CURRENT_FRAME": {
     "description": "Tooltip: The current frame of reference.",
-    "message": "The current frame of reference"
+    "message": "Сегашната отправна система"
   },
   "HUD_CURRENT_HEADING": {
     "description": "Tooltip: the current heading.",
@@ -873,7 +873,7 @@
   },
   "HUD_DELTA_V_OF_MANEUVER_BURN": {
     "description": "Tooltip: The Δv for the maneuver burn.",
-    "message": "The Δv for the maneuver burn"
+    "message": "Δv на маневрата"
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
@@ -881,7 +881,7 @@
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
-    "message": "Distance to the surface of the frame of reference"
+    "message": "Разстояние до повърхността на отправната система"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_TARGET": {
     "description": "Tooltip: Distance to the surface of the target.",
@@ -889,11 +889,11 @@
   },
   "HUD_DURATION_OF_MANEUVER_BURN": {
     "description": "Tooltip: The approximate duration of the maneuver burn with main thrusters.",
-    "message": "The approximate duration of the maneuver burn with main thrusters"
+    "message": "Приблизителната продължителност на маневрата с главните ускорители"
   },
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
-    "message": "The duration until the middle of the maneuver burn"
+    "message": "Продължителността до средата на маневрата"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -913,35 +913,35 @@
   },
   "HUD_INDICATOR_AWAY_FROM_FRAME": {
     "description": "Indicator: Away from the current frame.",
-    "message": "Away from the current frame"
+    "message": "Отдалечаване от сегашната отправна система"
   },
   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current combat target.",
-    "message": "Prograde relative to current combat target"
+    "message": "Проградна посока, спрямо сегашната бойна цел"
   },
   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current combat target.",
-    "message": "Retrograde relative to current combat target"
+    "message": "Ретроградна посока, спрямо сегашната бойна цел"
   },
   "HUD_INDICATOR_FRAME_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current frame.",
-    "message": "Prograde relative to current frame of reference"
+    "message": "Проградна посока, спрямо сегашната отправна система"
   },
   "HUD_INDICATOR_FRAME_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current frame.",
-    "message": "Retrograde relative to current frame of reference"
+    "message": "Ретроградна посока, спрямо сегашната отправна система"
   },
   "HUD_INDICATOR_MANEUVER_PROGRADE": {
     "description": "Indicator: The prograde direction for the maneuver burn.",
-    "message": "Prograde for maneuver burn"
+    "message": "Проградна посока на маневрата"
   },
   "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current navigational target.",
-    "message": "Prograde relative to current navigational target"
+    "message": "Проградна посока, спрямо сегашната навигационна цел"
   },
   "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current navigational target.",
-    "message": "Retrograde relative to current navigational target"
+    "message": "Ретроградна посока, спрямо сегашната навигационна цел"
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
@@ -973,7 +973,7 @@
   },
   "HUD_SHOW_FRAME": {
     "description": "Tooltip: Show the current frame of reference.",
-    "message": "Show the current frame of reference"
+    "message": "Показване на сегашната отправна система"
   },
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
@@ -981,7 +981,7 @@
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
-    "message": "The speed of approach towards the frame of reference"
+    "message": "Скоростта на приближаване към отправната система"
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
@@ -1517,7 +1517,7 @@
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
-    "message": "Filter overview window entries by name"
+    "message": "Филтриране по наименование на обекта"
   },
   "OWED": {
     "description": "Player owing money to crew members",
@@ -1725,7 +1725,7 @@
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-    "message": "Събирачни монтировки"
+    "message": "Товарни монтировки"
   },
   "SCUTUM_CENTAURUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1905,7 +1905,7 @@
   },
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
-    "message": "This installation holds a military technology clearance."
+    "message": "Това съоръжение има разрешение за изполване на военна технология."
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -1937,7 +1937,7 @@
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Показване на луните в общия преглед"
+    "message": "Показване на спътниците в общия преглед"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",

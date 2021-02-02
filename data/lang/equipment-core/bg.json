@@ -33,19 +33,19 @@
   },
   "BEAMLASER_1MW": {
     "description": "",
-    "message": "1 MW лъчеви лазер"
+    "message": "1 MW лазер"
   },
   "BEAMLASER_DUAL_1MW": {
     "description": "",
-    "message": "1 MW двоен лъчеви лазер"
+    "message": "1 MW двоен лазер"
   },
   "BEAMLASER_RAPID_2MW": {
     "description": "",
-    "message": "2 MW скорострелен лъчеви лазер"
+    "message": "2 MW скорострелен лазер"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
-    "message": "Животоподдържаща система в товарното отделение"
+    "message": "Животоподдържаща система"
   },
   "CARGO_LIFE_SUPPORT_DESCRIPTION": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "FUEL_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Позволява събирането на водородно гориво от планетите газови гиганти."
+    "message": "Позволява товаренето на водородно гориво от планетите газови гиганти."
   },
   "HULL_AUTOREPAIR": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "LASER_COOLING_BOOSTER": {
     "description": "",
-    "message": "Лазерен охладителен усилвател"
+    "message": "Ускорител за лазерно охлаждане"
   },
   "LASER_COOLING_BOOSTER_DESCRIPTION": {
     "description": "",
@@ -185,7 +185,7 @@
   },
   "MININGCANNON_17MW": {
     "description": "",
-    "message": "17 MW оръдие за взривно миниране"
+    "message": "17 MW оръдие за миниране"
   },
   "MININGCANNON_17MW_DESCRIPTION": {
     "description": "",
@@ -193,7 +193,7 @@
   },
   "MININGCANNON_5MW": {
     "description": "",
-    "message": "5 MW оръдие за взривно миниране"
+    "message": "5 MW оръдие за миниране"
   },
   "MININGCANNON_5MW_DESCRIPTION": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "MISSILE_UNGUIDED": {
     "description": "",
-    "message": "R40 Самостоятелна ракета"
+    "message": "Самостоятелна ракета R40"
   },
   "MULTI_SCOOP": {
     "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
@@ -265,7 +265,7 @@
   },
   "PULSECANNON_RAPID_2MW": {
     "description": "",
-    "message": "2 MW скорострелно пулсиращо оръдие"
+    "message": "2 MW бързо пулсиращо оръдие"
   },
   "RADAR": {
     "description": "",

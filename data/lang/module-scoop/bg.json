@@ -1,39 +1,39 @@
 {
   "ACCEPTED_ARMS_DEALER": {
     "description": "",
-    "message": "Great! Thank you."
+    "message": "Страхотно! Благодаря Ви."
   },
   "ACCEPTED_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Thanks. You won't regret it!"
+    "message": "Благодаря. Няма да съжалявате!"
   },
   "ACCEPTED_LEGAL_GOODS": {
     "description": "",
-    "message": "Thank you. You know a good deal when you see one!"
+    "message": "Благодаря Ви. Това е добра сделка!"
   },
   "ACCEPTED_RESCUE": {
     "description": "",
-    "message": "Thank you very much. The crew will appreciate that."
+    "message": "Благодаря Ви много. Екипажът го оценява."
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "PICK UP: Prompt recovery of drifting container required."
+    "message": "ПРЕНОС: Връщане на изгубен контейнер."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "EASY MONEY: Valuable information for sale."
+    "message": "ЛЕСНИ ПАРИ: Продава се ценна информация."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "INFORMATION FOR SALE: Location of a debris field with valuable cargo."
+    "message": "ПРОДАВА СЕ ИНФОРМАЦИЯ: Местоположение на отломки от кораб с ценен товар."
   },
   "ADTEXT_RESCUE": {
     "description": "",
-    "message": "HELP NEEDED: Urgent escape capsule rescue operation."
+    "message": "ТЪРСИ СЕ ПОМОЩ: Спешна операция за възстановяване на спасителна капсула."
   },
   "CLIENT": {
     "description": "",
-    "message": "Client:"
+    "message": "Клиент:"
   },
   "DANGER": {
     "description": "The risk level",
@@ -45,27 +45,27 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Excuse me, sir? I don't think your current qualification is sufficient."
+    "message": "Извинете, господине? Не мисля, че имате достатъчно опит."
   },
   "DENY_2": {
     "description": "",
-    "message": "Sorry, I think this task is beyond your ability as a pilot."
+    "message": "Съжалявам, но тази задача надхвърля твоите възможности като пилот."
   },
   "DETONATORS": {
     "description": "",
-    "message": "Detonators"
+    "message": "Детонатори"
   },
   "DOCKING_INSTRUCTION": {
     "description": "",
-    "message": "Nice to meet you. Please approach to within 100m to complete the cargo transfer!"
+    "message": "Приятно ми е да се запознаем. Моля, приближи се на около 100 метра, за да завършим прехвърлянето на товара!"
   },
   "FAILURE_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "You fool. The client's not gonna like this!"
+    "message": "Глупак. Клиентът няма да хареса това!"
   },
   "FAILURE_MSG_RESCUE": {
     "description": "",
-    "message": "Your unreliability has caused great harm. Get out of my sight!"
+    "message": "Твоята некомпетентност е безгранична. Не искам да те виждам повече!"
   },
   "HOW_MUCH_TIME": {
     "description": "",
@@ -73,39 +73,39 @@
   },
   "HOW_MUCH_TIME_ARMS_DEALER": {
     "description": "",
-    "message": "My business partner is in orbit around {star} to avoid detection. It would be great if you could reach him before {date}."
+    "message": "Моят бизнес партньор е в орбита около {star}, за да остане незабелязан. Би било чудесно, ако можеш да се срещнеш с него до {date}."
   },
   "HOW_MUCH_TIME_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Don't waste time. Only the early bird catches the worm!"
+    "message": "Не се бави. Само най-ранната птица хваща червея!"
   },
   "HOW_MUCH_TIME_LEGAL_GOODS": {
     "description": "",
-    "message": "I don't know. But if I were you, I would be quick!"
+    "message": "Не знам. Ако бях на твоето място, няма да се бавя!"
   },
   "HOW_MUCH_TIME_RESCUE": {
     "description": "",
-    "message": "It would be good if you could reach the location before {date}."
+    "message": "Ще е добре да приключиш до {date}."
   },
   "INTROTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Hello Commander. My name is {client}. It would be great if you could help me out. An unreliable freighter captain dropped my cargo near {planet} and has disappeared since. Your task would be to pick up one container and deliver it to ship {shipid} in orbit around {star}. I would pay you {cash}."
+    "message": "Здравей, командире. Казвам се {client}. Би било чудесно, ако можеш да ми помогнеш. Ненадежден капитан на товарен кораб изхвърли товара ми близо до {planet} и оттогава потъна вдън земя. Задачата ти ще бъде да вземеш един контейнер и да го доставиш на кораба {shipid}, който се намира в орбита около {star}. Ще ти платя {cash}."
   },
   "INTROTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Hey buddy, I know about a debris field with illegal goods. The police caught a smuggler close to {planet}. They haven't had time to clean up the area yet. If you are quick, you can make easy money! I can give you the coordinates. It only costs you {cash}. Don't let the chance slip by!"
+    "message": "Ей, приятел, знам за едни отломки с нелегални стоки. Полицията хвана контрабандист близо до {planet}. Все още не са се занимавали с неговите отломки. Ако си бърз, може да спечелиш лесни пари! Аз ще ти дам координатите. Ще струва само {cash}. Не изпускай тази възможност!"
   },
   "INTROTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Hello my friend. I'm {client}. I heard about a cargo hauler that got into trouble near {planet} because of bad ship maintenance. Amazing who gets to fly a spaceship these days, isn't it? Anyway, they had to dump a lot of the cargo. If you're quick, you can grab the cargo very easily! This info is as good as new! I'll sell you the coordinates for lousy {cash}. What do you say?"
+    "message": "Здрасти, мой човек. Аз съм {client}. Чух за товарен кораб, който е претърпял инцидент близо до {planet}, поради лоша поддръжка на кораба. Удивително е какви хора стават пилоти в днешно време, нали? Както и да е, той трябваше да изхвърли голяма част от товара си. Ако си бърз, може да почистиш след него! Тази информация е съвсем прясна! Ще ти продам координатите само за {cash}. Какво ще кажеш?"
   },
   "INTROTEXT_RESCUE": {
     "description": "",
-    "message": "Hi, my name is {client}. The crew of a freighter had to abandon their ship after an incident. The ship owner is willing to pay {cash} for a discreet rescue mission. The accident site is near {planet}. Please pick up the crew and bring them to a station!"
+    "message": "Здрасти, казвам се {client}. Един товарен кораб претърпя инцидент и екипажът му беше принуден да го напусне. Собственикът на кораба е готов да плати {cash} за извършването на дискретна спасителна мисия. Мястото на инцидента е близо до {planet}. Моля, вземи екипажа и ги заведи до космодрум по твой избор!"
   },
   "NUCLEAR_MISSILE": {
     "description": "A cargo item",
-    "message": "Nuclear missile"
+    "message": "Ядрена ракета"
   },
   "OK_AGREED": {
     "description": "",
@@ -113,15 +113,15 @@
   },
   "REPEAT_THE_REQUEST": {
     "description": "",
-    "message": "Could you please repeat the request?"
+    "message": "Удобно ли е да повторите заявката?"
   },
   "RESCUE_CAPSULE": {
     "description": "",
-    "message": "Rescue capsule"
+    "message": "Спасителна капсула"
   },
   "ROCKET_LAUNCHERS": {
     "description": "",
-    "message": "Rocket launchers"
+    "message": "Ракетни установки"
   },
   "SCOOP": {
     "description": "Name of mission type",
@@ -137,7 +137,7 @@
   },
   "SHIP_DESTROYED": {
     "description": "",
-    "message": "Oh no. {shipid} has been destroyed. Deliver the cargo to {station} now!"
+    "message": "О, не. {shipid} е унищожен. Върни товара в {station} веднага!"
   },
   "SPACEPORT": {
     "description": "",
@@ -145,51 +145,51 @@
   },
   "SPOILED_FOOD": {
     "description": "cargo item",
-    "message": "Spoiled food"
+    "message": "Развалена храна"
   },
   "SUCCESS_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "Hey Ace, nice flying! Money has been transferred."
+    "message": "Ето това е пилот! Парите са преведени по Вашата сметка."
   },
   "SUCCESS_MSG_RESCUE": {
     "description": "",
-    "message": "Thank you very much! The crew would also like to express their thanks."
+    "message": "Благодаря Ви много! Екипажът също Ви благодари."
   },
   "TOXIC_WASTE": {
     "description": "cargo item",
-    "message": "Toxic waste"
+    "message": "Токсични отпадъци"
   },
   "UNKNOWN": {
     "description": "",
-    "message": "Unknown"
+    "message": "Няма информация"
   },
   "WARNING": {
     "description": "",
-    "message": "Hey! What are you trying to do? Our contract is at risk! Please pick that up again!"
+    "message": "Ей! Какво се опитваш да направиш? Ще съсипеш всичко! Моля те, вземи го отново!"
   },
   "WHY_NOT_YOURSELF": {
     "description": "",
-    "message": "Why don't you do it yourself?"
+    "message": "Защо Вие не го направите?"
   },
   "WHY_NOT_YOURSELF_ARMS_DEALER": {
     "description": "",
-    "message": "The local authorities are watching me! I have to keep a low profile for a few weeks."
+    "message": "Местните власти ме следят! Ще трябва да изчезна за няколко седмици."
   },
   "WHY_NOT_YOURSELF_ILLEGAL_GOODS": {
     "description": "",
-    "message": "I'm just an office clerk. I don't own a ship."
+    "message": "Аз съм просто чиновник. Не притежавам кораб."
   },
   "WHY_NOT_YOURSELF_LEGAL_GOODS": {
     "description": "",
-    "message": "I don't have a ship."
+    "message": "Не разполагам с кораб."
   },
   "WHY_NOT_YOURSELF_RESCUE": {
     "description": "",
-    "message": "I have no ship available at this time."
+    "message": "В момента, не разполагам с кораб."
   },
   "YOU_DO_NOT_HAVE_A_SCOOP": {
     "description": "",
-    "message": "Sorry, you do not have a cargo scoop."
+    "message": "Нямате монтирани товарачи."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
     "description": "",

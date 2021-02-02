@@ -1,7 +1,7 @@
 {
   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
     "description": "",
-    "message": "Това е {station}. Нямате достатъчно пари да заплатите таксата за скачване, която е {fee}."
+    "message": "Това е {station}. Нямате достатъчно пари за заплащане на таксата за скачване, която е {fee}."
   },
   "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
     "description": "Station welcome message, docking in orbit",

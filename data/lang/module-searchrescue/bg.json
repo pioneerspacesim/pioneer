@@ -181,7 +181,7 @@
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
-    "message": "Последното известно местоположение на този кораб е на {planet}, на следната географска ширина/дължина: {lat} / {long}. Номерът на кораба е {shiplabel}."
+    "message": "Последното известно местоположение на този кораб е на {planet}, на следната географска ширина / дължина: {lat} / {long}. Номерът на кораба е {shiplabel}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Аз съм {name} от диспечерите в {starport}. Моля за помощ, във връзка със спешната нужда от лекар на полет {shiplabel} към {starport}."
+    "message": "Аз съм {name} от диспечерите в {starport}. Моля за помощ, във връзка със спешната нужда от лекар на {shiplabel} към {starport}."
   },
   "FLAVOUR_3_LOCATIONTEXT": {
     "description": "",
@@ -269,7 +269,7 @@
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "За получите пълното си възнаграждение, пилотът очаква да доставиш горивото му до {due}."
+    "message": "За да получиш пълното си възнаграждение, пилотът очаква да доставиш горивото му до {due}."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "В момента, целевият кораб, е на {dist} км. от тук. Трябва сами да откриеш точното му местоположение."
+    "message": "В момента, целевият кораб, е на {dist} км. от тук. Трябва сам да откриеш точното му местоположение."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Не можем да върнем кораба с толкова малък екипаж. Търся някой, който да транспортира {deliver_crew} заместници, които да запълнят празните места веднага."
+    "message": "Не може да върнем кораба с толкова малък екипаж. Търся някой, който да транспортира {deliver_crew} заместници, които да запълнят празните места веднага."
   },
   "FULL_CARGO": {
     "description": "",
@@ -545,7 +545,7 @@
   },
   "PROBLEM_GENERAL_4": {
     "description": "",
-    "message": "всеки в кораба е имал тежка форма на хранително отравяне"
+    "message": "всички в кораба са имали тежка форма на хранително отравяне"
   },
   "PROBLEM_GENERAL_5": {
     "description": "",
@@ -585,7 +585,7 @@
   },
   "PROBLEM_RESEARCH_4": {
     "description": "",
-    "message": "екипажът е бил подложен на екземпляр от {locality}"
+    "message": "екипажът е имал контакт с екземпляр от {locality}"
   },
   "PROBLEM_RESEARCH_5": {
     "description": "",
@@ -645,11 +645,11 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Задай за навигационна цел"
+    "message": "Задаване за навигационна цел"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Задай маршрут за връщане"
+    "message": "Задаване на маршрут за връщане"
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",

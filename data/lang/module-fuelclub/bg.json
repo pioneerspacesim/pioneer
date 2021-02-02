@@ -1,11 +1,11 @@
 {
   "APPLY_FOR_MEMBERSHIP": {
     "description": "",
-    "message": "Кандидатствайте за членство"
+    "message": "Кандидатстване за членство"
   },
   "BEGIN_TRADE": {
     "description": "",
-    "message": "Започнете търговия"
+    "message": "Започване търговия"
   },
   "FLAVOUR_0_CLUBNAME": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
-    "message": "{clubname} е лидер в осигуряването на евтино гориво, на нейните членове в Слънчевата Федерация. Членството Ви дава правото на:"
+    "message": "{clubname} е лидер в осигуряването на евтино гориво, на нейните членове в Слънчевата Федерация. Членството Ви дава право на:"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
@@ -61,7 +61,7 @@
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
-    "message": "{radioactives}, безплатно унищожение (според условията)"
+    "message": "{radioactives} – безплатно унищожение (според условията)"
   },
   "LIST_BENEFITS_FUEL": {
     "description": "",

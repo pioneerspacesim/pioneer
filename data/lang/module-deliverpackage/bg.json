@@ -73,7 +73,7 @@
   },
   "FLAVOUR_0_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Когато една приятелка ме посети, тя си забрави някакви дрехи и стари книги. Искам да ѝ ги върнеш."
+    "message": "Когато една приятелка ме посети, тя си забрави няколко дрехи и стари книги. Искам да ѝ ги върнеш."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
-    "message": "Трябваше да получиш премия за бърза доставка! Отказвам да ти платя."
+    "message": "Имаше премия за бърза доставка! Отказвам да ти платя."
   },
   "FLAVOUR_8_INTROTEXT": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "PIRATE_TAUNTS_0": {
     "description": "",
-    "message": "Ще съжалваш, че се занимаваш с {client}"
+    "message": "Ще съжаляваш, че се занимаваш с {client}"
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Задай за навигационна цел"
+    "message": "Задаване за навигационна цел"
   },
   "SPACEPORT": {
     "description": "",

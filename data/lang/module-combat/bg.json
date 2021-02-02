@@ -41,15 +41,15 @@
   },
   "BONUS_1": {
     "description": "",
-    "message": "Моят началник беше впечатлен от Вашето представяне и отпусна {cash} бонус за тази мисия."
+    "message": "Моят началник беше впечатлен от Вашето представяне и отпусна {cash} допълнително за тази мисия."
   },
   "BONUS_2": {
     "description": "",
-    "message": "Доволни сме от свършеното! Ще Ви дадем {cash} бонус."
+    "message": "Доволни сме от свършеното! Ще Ви дадем {cash} допълнително."
   },
   "BONUS_3": {
     "description": "",
-    "message": " Много впечатляващо! Упълномощен съм да Ви дам {cash} бонус."
+    "message": " Много впечатляващо! Упълномощен съм да Ви дам {cash} допълнително."
   },
   "BONUS_4": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "GREETING_3": {
     "description": "",
-    "message": "Хей. Аз съм {name}."
+    "message": "Как е? Аз съм {name}."
   },
   "GREETING_4": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Мисията трябва да се изпълни преди {date}. Нека информацията за тази операция да остане в тайна."
+    "message": "Мисията трябва да се изпълни до {date}. Нека информацията за тази операция да остане в тайна."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
@@ -217,7 +217,7 @@
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Има конвой на път за {area}. Мисията трябва да се изпълни преди {date}."
+    "message": "Има конвой на път за {area}. Мисията трябва да се изпълни до {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
@@ -237,11 +237,11 @@
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Въоръжено Разузнаване"
+    "message": "Въоръжено разузнаване"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "Измети Пода"
+    "message": "Измети пода"
   },
   "OBJECTIVE_1": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Мисията трябва да се изпълни преди {date}, защото се задават още вражески кораби."
+    "message": "Мисията трябва да се изпълни до {date}, защото се задават още вражески кораби."
   },
   "POLICE_LAND_THERE": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "Съперника ти е добре оборудван. Дръж си очите отворени!"
+    "message": "Съперникът ти е добре оборудван. Дръж си очите отворени!"
   },
   "RISK_4": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Задай за навигационна цел"
+    "message": "Задаване за навигационна цел"
   },
   "SUCCESSMSG_1": {
     "description": "",

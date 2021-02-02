@@ -13,15 +13,15 @@
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "Опитомете Черния Пазар"
+    "message": "Опитомете Черния пазар"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Повече малки разстояния са по-бързи, отколкото всички накуп."
+    "message": "Повече малки пътувания са по-бързи, отколкото всички накуп."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-    "message": "The Road Faster Taken"
+    "message": "„The Road Faster Taken“"
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
@@ -33,7 +33,7 @@
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Помислете си за начин на ориентиране. Особено когато искате да поддържате скоростта и курса на движеща се цел."
+    "message": "Помислете си за начин на ориентиране. Особено когато искате да поддържате скоростта и курса на движещата се цел."
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
-    "message": "Купувайте евтино и продавайте скъпо"
+    "message": "Купувайте евтино и продавайте скъпо."
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
-    "message": "Когато пътувате до системи с две звезди първо се уверете, че Вашата цел е правилната звезда."
+    "message": "Когато пътувате до системи с две звезди, първо се уверете, че Вашата цел е правилната звезда."
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"Виждал съм неща, на които Вие хората няма да повярвате\""
+    "message": "„Виждал съм неща, на които Вие хората няма да повярвате!“"
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",

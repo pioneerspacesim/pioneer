@@ -193,7 +193,7 @@
   },
   "FAILUREMSG_FLUFFY_1": {
     "description": "",
-    "message": "Чудовище такова! Цяла вечност мина. Моите пухкави домашни любимци умират от глад!"
+    "message": "Чудовище такова! Цяла вечност мина. Моите пухкави домашни любимци умряха от глад!"
   },
   "FURNITURE": {
     "description": "custom cargo",
@@ -301,7 +301,7 @@
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Здравейте. Казвам се {name}. Моят работодател е готов да те наеме за {cash}, във връзка с релокацията на нашият склад, като преместиш {cargoname} от {starport} в нашето ново седалище в {dom_starport}."
+    "message": "Здравейте. Казвам се {name}. Моят работодател е готов да те наеме за {cash}, във връзка с релокацията на нашия склад, като преместиш {cargoname} от {starport} в нашето ново седалище в {dom_starport}."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "I_AM_ON_MY_WAY": {
     "description": "",
-    "message": "Сензорите показват, че имаш щети по кораба. На път съм."
+    "message": "Сензорите показват, че имате щети по кораба. На път съм."
   },
   "I_HAVE_DEBITED_YOUR_ACCOUNT": {
     "description": "",
@@ -357,7 +357,7 @@
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "Това ще е последния ти полет!"
+    "message": "Това ще е последният ти полет!"
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
@@ -449,11 +449,11 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Задай за навигационна цел"
+    "message": "Задаване за навигационна цел"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Задай маршрут за връщане"
+    "message": "Задаване на маршрут за връщане"
   },
   "SPACEPORT": {
     "description": "",
@@ -509,31 +509,31 @@
   },
   "URGENCY_1": {
     "description": "",
-    "message": "Не бързай. Трябва да се достави преди {date}."
+    "message": "Не бързай. Трябва да се достави до {date}."
   },
   "URGENCY_2": {
     "description": "",
-    "message": "Трябва непременно да се достави преди {date}."
+    "message": "Трябва непременно да се достави до {date}."
   },
   "URGENCY_3": {
     "description": "",
-    "message": "Заради краткия срок, трябва да се достави преди {date}."
+    "message": "Заради краткия срок, трябва да се достави до {date}."
   },
   "URGENCY_4": {
     "description": "",
-    "message": "Бързаме, затова трябва да се достави преди {date}."
+    "message": "Бързаме, затова трябва да се достави до {date}."
   },
   "URGENCY_5": {
     "description": "",
-    "message": "Важно е стоките да се доставят преди {date}."
+    "message": "Важно е стоките да се доставят до {date}."
   },
   "URGENCY_FLUFFY_1": {
     "description": "",
-    "message": "Заради размножаването на малките животни и ограниченото количество храна в контейнера, доставката трябва да се изпълни преди {date}."
+    "message": "Заради размножаването на малките животни и ограниченото количество храна в контейнера, доставката трябва да се изпълни до {date}."
   },
   "URGENCY_RADIOACTIVE_1": {
     "description": "",
-    "message": "Заради периода на полуразпад на този изотоп, доставката трябва да се изпълни преди {date}."
+    "message": "Заради периода на полуразпад на този изотоп, доставката трябва да се изпълни до {date}."
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
@@ -557,7 +557,7 @@
   },
   "WHYSOMUCH_3": {
     "description": "",
-    "message": "Това, което се счита за \"много\", е относително."
+    "message": "Това, което се счита за „много“, е относително."
   },
   "WHYSOMUCH_4": {
     "description": "",
@@ -625,7 +625,7 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP": {
     "description": "",
-    "message": "Нямаш достатъчно товарно пространство."
+    "message": "Нямате достатъчно товарно пространство."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",

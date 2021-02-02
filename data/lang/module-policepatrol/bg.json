@@ -9,7 +9,7 @@
   },
   "INITIATE_CARGO_SCAN_2": {
     "description": "",
-    "message": "Поддържайте вашия курс и скорост за успешно сканиране на товара."
+    "message": "Поддържайте Вашия курс и скорост за успешно сканиране на товара."
   },
   "INITIATE_CARGO_SCAN_3": {
     "description": "",
@@ -17,7 +17,7 @@
   },
   "NOTHING_DETECTED": {
     "description": "",
-    "message": "Не е засечен нелегален товар. Можете да продължите."
+    "message": "Не е засечен нелегален товар. Може да продължите."
   },
   "OUTLAW_DETECTED_1": {
     "description": "",

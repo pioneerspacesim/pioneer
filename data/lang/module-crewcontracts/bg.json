@@ -1,7 +1,7 @@
 {
   "ASK_CANDIDATE_TO_SIT_A_TEST": {
     "description": "",
-    "message": "Потърси кандидат за тест"
+    "message": "Извършване на тест с кандидата"
   },
   "CREWDETAILSHEETBB": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
     "description": "",
-    "message": "Предложи нова седмична заплата от {newAmount}"
+    "message": "Предлагане на седмична заплата от {newAmount}"
   },
   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
     "description": "",

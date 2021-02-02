@@ -1,39 +1,39 @@
 {
   "ACCEPTED_ARMS_DEALER": {
     "description": "",
-    "message": "Great! Thank you."
+    "message": "太好了！非常感谢。"
   },
   "ACCEPTED_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Thanks. You won't regret it!"
+    "message": "谢谢。你不会后悔的！"
   },
   "ACCEPTED_LEGAL_GOODS": {
     "description": "",
-    "message": "Thank you. You know a good deal when you see one!"
+    "message": "非常感谢。当你看到一个的时候，你知道很多！"
   },
   "ACCEPTED_RESCUE": {
     "description": "",
-    "message": "Thank you very much. The crew will appreciate that."
+    "message": "非常感谢你。全体船员会很感激的。"
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "PICK UP: Prompt recovery of drifting container required."
+    "message": "提货：要求及时回收漂流集装箱。"
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "EASY MONEY: Valuable information for sale."
+    "message": "轻松赚钱：有价值的信息出售。"
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "INFORMATION FOR SALE: Location of a debris field with valuable cargo."
+    "message": "出售信息：有贵重货物的碎片场的位置。"
   },
   "ADTEXT_RESCUE": {
     "description": "",
-    "message": "HELP NEEDED: Urgent escape capsule rescue operation."
+    "message": "需要帮助：紧急逃生舱救援行动。"
   },
   "CLIENT": {
     "description": "",
-    "message": "Client:"
+    "message": "客户端："
   },
   "DANGER": {
     "description": "The risk level",
@@ -45,27 +45,27 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Excuse me, sir? I don't think your current qualification is sufficient."
+    "message": "抱歉，先生？我认为你目前的资历不够。"
   },
   "DENY_2": {
     "description": "",
-    "message": "Sorry, I think this task is beyond your ability as a pilot."
+    "message": "对不起，我认为这个任务超出了你作为飞行员的能力。"
   },
   "DETONATORS": {
     "description": "",
-    "message": "Detonators"
+    "message": "雷管"
   },
   "DOCKING_INSTRUCTION": {
     "description": "",
-    "message": "Nice to meet you. Please approach to within 100m to complete the cargo transfer!"
+    "message": "很高兴认识你。请在100米内接近完成货物转移！"
   },
   "FAILURE_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "You fool. The client's not gonna like this!"
+    "message": "你这个傻瓜。客户不会喜欢的！"
   },
   "FAILURE_MSG_RESCUE": {
     "description": "",
-    "message": "Your unreliability has caused great harm. Get out of my sight!"
+    "message": "你的不可靠造成了很大的伤害。快离开我的视线！"
   },
   "HOW_MUCH_TIME": {
     "description": "",
@@ -73,39 +73,39 @@
   },
   "HOW_MUCH_TIME_ARMS_DEALER": {
     "description": "",
-    "message": "My business partner is in orbit around {star} to avoid detection. It would be great if you could reach him before {date}."
+    "message": "我的商业伙伴躲在在环绕{star}的轨道。如果你能在{date}之前找到他那就太好了。"
   },
   "HOW_MUCH_TIME_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Don't waste time. Only the early bird catches the worm!"
+    "message": "不要浪费时间。只有早起的鸟儿才会有虫吃！"
   },
   "HOW_MUCH_TIME_LEGAL_GOODS": {
     "description": "",
-    "message": "I don't know. But if I were you, I would be quick!"
+    "message": "我不知道。但如果我是你，我会尽快！"
   },
   "HOW_MUCH_TIME_RESCUE": {
     "description": "",
-    "message": "It would be good if you could reach the location before {date}."
+    "message": "如果你能在{date}之前到达这个地点就好了。"
   },
   "INTROTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Hello Commander. My name is {client}. It would be great if you could help me out. An unreliable freighter captain dropped my cargo near {planet} and has disappeared since. Your task would be to pick up one container and deliver it to ship {shipid} in orbit around {star}. I would pay you {cash}."
+    "message": "你好，指挥官。我叫{client}。如果你能帮我，那就太好了。一个不可靠的货轮船长把我的货物遗失在{星球}附近，从此消失了。你的任务是找到那个集装箱，然后把它送到围绕{star}的轨道上的{shipid}船上。我会付你{cash}"
   },
   "INTROTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Hey buddy, I know about a debris field with illegal goods. The police caught a smuggler close to {planet}. They haven't had time to clean up the area yet. If you are quick, you can make easy money! I can give you the coordinates. It only costs you {cash}. Don't let the chance slip by!"
+    "message": "嘿，伙计，我知道一个有非法物品的垃圾场。警察在{planet}附近抓住了一个走私犯。他们还没来得及清理这个地区。如果你很快，你可以轻松赚钱！我可以给你坐标。你只需要付{cash}。别让机会溜走了！"
   },
   "INTROTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Hello my friend. I'm {client}. I heard about a cargo hauler that got into trouble near {planet} because of bad ship maintenance. Amazing who gets to fly a spaceship these days, isn't it? Anyway, they had to dump a lot of the cargo. If you're quick, you can grab the cargo very easily! This info is as good as new! I'll sell you the coordinates for lousy {cash}. What do you say?"
+    "message": "你好，我的朋友。我是{client}。我听说在{planet}附近有一个货运公司因为船只保养不好而出了问题。现在谁能驾驶宇宙飞船真是太神奇了，不是吗？不管怎样，他们不得不抛弃大量货物。如果你快，你可以很容易地捡到货物！这个信息新鲜出炉！我会把坐标卖给你的。你觉得怎么样？"
   },
   "INTROTEXT_RESCUE": {
     "description": "",
-    "message": "Hi, my name is {client}. The crew of a freighter had to abandon their ship after an incident. The ship owner is willing to pay {cash} for a discreet rescue mission. The accident site is near {planet}. Please pick up the crew and bring them to a station!"
+    "message": "嗨，我叫{client}。一次事故后，一艘货轮的船员不得不弃船。船东愿意为谨慎的营救任务支付{cash}。事故地点在{planet}附近。请把船员带到空间站去！"
   },
   "NUCLEAR_MISSILE": {
     "description": "A cargo item",
-    "message": "Nuclear missile"
+    "message": "核导弹"
   },
   "OK_AGREED": {
     "description": "",
@@ -113,15 +113,15 @@
   },
   "REPEAT_THE_REQUEST": {
     "description": "",
-    "message": "Could you please repeat the request?"
+    "message": "你能重复一下这个要求吗？"
   },
   "RESCUE_CAPSULE": {
     "description": "",
-    "message": "Rescue capsule"
+    "message": "救生舱"
   },
   "ROCKET_LAUNCHERS": {
     "description": "",
-    "message": "Rocket launchers"
+    "message": "火箭发射器"
   },
   "SCOOP": {
     "description": "Name of mission type",
@@ -137,7 +137,7 @@
   },
   "SHIP_DESTROYED": {
     "description": "",
-    "message": "Oh no. {shipid} has been destroyed. Deliver the cargo to {station} now!"
+    "message": "卧槽，{shipid}已经被摧毁了。马上把货送到空间站！"
   },
   "SPACEPORT": {
     "description": "",
@@ -145,51 +145,51 @@
   },
   "SPOILED_FOOD": {
     "description": "cargo item",
-    "message": "Spoiled food"
+    "message": "变质的食物"
   },
   "SUCCESS_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "Hey Ace, nice flying! Money has been transferred."
+    "message": "漂亮，飞得好！钱已经转账过去了。"
   },
   "SUCCESS_MSG_RESCUE": {
     "description": "",
-    "message": "Thank you very much! The crew would also like to express their thanks."
+    "message": "非常感谢你！全体船员还要表示感谢。"
   },
   "TOXIC_WASTE": {
     "description": "cargo item",
-    "message": "Toxic waste"
+    "message": "有毒废物"
   },
   "UNKNOWN": {
     "description": "",
-    "message": "Unknown"
+    "message": "未知"
   },
   "WARNING": {
     "description": "",
-    "message": "Hey! What are you trying to do? Our contract is at risk! Please pick that up again!"
+    "message": "嘿！你想干什么？我们的合同有风险！请再捡起来！"
   },
   "WHY_NOT_YOURSELF": {
     "description": "",
-    "message": "Why don't you do it yourself?"
+    "message": "你为什么不自己做呢？"
   },
   "WHY_NOT_YOURSELF_ARMS_DEALER": {
     "description": "",
-    "message": "The local authorities are watching me! I have to keep a low profile for a few weeks."
+    "message": "地方当局在监视我！我得低调几周。"
   },
   "WHY_NOT_YOURSELF_ILLEGAL_GOODS": {
     "description": "",
-    "message": "I'm just an office clerk. I don't own a ship."
+    "message": "我只是个办公室职员。我没有飞船。"
   },
   "WHY_NOT_YOURSELF_LEGAL_GOODS": {
     "description": "",
-    "message": "I don't have a ship."
+    "message": "我没有飞船。"
   },
   "WHY_NOT_YOURSELF_RESCUE": {
     "description": "",
-    "message": "I have no ship available at this time."
+    "message": "我现在没有飞船。"
   },
   "YOU_DO_NOT_HAVE_A_SCOOP": {
     "description": "",
-    "message": "Sorry, you do not have a cargo scoop."
+    "message": "对不起，你没有货铲。"
   },
   "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
     "description": "",
