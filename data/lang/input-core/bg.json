@@ -13,15 +13,15 @@
   },
   "BIND_AXIS_THRUST_FORWARD": {
     "description": "Descriptive name for the ThrustForward axis",
-    "message": "Тяга напред / назад"
+    "message": "Напред / Назад"
   },
   "BIND_AXIS_THRUST_LEFT": {
     "description": "Descriptive name for the ThrustLeft axis",
-    "message": "Тяга наляво / надясно"
+    "message": "Наляво / Надясно"
   },
   "BIND_AXIS_THRUST_UP": {
     "description": "Descriptive name for the ThrustUp axis",
-    "message": "Тяга нагоре / надолу"
+    "message": "Нагоре / Надолу"
   },
   "BIND_AXIS_YAW": {
     "description": "Descriptive name for the Yaw axis.",
@@ -33,19 +33,19 @@
   },
   "BIND_CAMERA_PITCH": {
     "description": "Descriptive name for the Camera Pitch axis.",
-    "message": "Наклоняване на камерата"
+    "message": "Наклоняване"
   },
   "BIND_CAMERA_ROLL": {
     "description": "Descriptive name for the Camera Roll axis",
-    "message": "Завъртане на камерата"
+    "message": "Завъртане"
   },
   "BIND_CAMERA_YAW": {
     "description": "Descriptive name for the Camera Yaw axis.",
-    "message": "Отклоняване на камерата"
+    "message": "Отклоняване"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
-    "message": "Смяна на камерите"
+    "message": "Смяна"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
@@ -53,7 +53,7 @@
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
-    "message": "Предна камера"
+    "message": "Предна"
   },
   "BIND_INCREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the IncreaseTimeAcceleration action.",
@@ -65,7 +65,7 @@
   },
   "BIND_LEFT_CAMERA": {
     "description": "Descriptive name for the LeftCamera action.",
-    "message": "Лява камера"
+    "message": "Лява"
   },
   "BIND_LOOK_PITCH": {
     "description": "Descriptive name for the Freelook Pitch axis.",
@@ -77,31 +77,31 @@
   },
   "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
     "description": "Descriptive name for the MapToggleSelectionFollowView action.",
-    "message": "Селекцията да следва изгледа"
+    "message": "Изборът да следва изгледа"
   },
   "BIND_MAP_VIEW_MOVE_FORWARD": {
     "description": "Axis binding",
-    "message": "Надлъжно изместване на картата"
+    "message": "Надлъжно изместване"
   },
   "BIND_MAP_VIEW_MOVE_LEFT": {
     "description": "Axis binding",
-    "message": "Хоризонтално изместване на картата"
+    "message": "Хоризонтално изместване"
   },
   "BIND_MAP_VIEW_MOVE_UP": {
     "description": "Axis binding",
-    "message": "Вертикално изместване на картата"
+    "message": "Вертикално изместване"
   },
   "BIND_MAP_VIEW_PITCH": {
     "description": "Axis binding",
-    "message": "Наклоняване на картата"
+    "message": "Наклоняване"
   },
   "BIND_MAP_VIEW_YAW": {
     "description": "Axis binding",
-    "message": "Отклоняване на картата"
+    "message": "Отклоняване"
   },
   "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "Descriptive name for the MapWarpToCurrentSystem action.",
-    "message": "Хипервръзка със сегашната система"
+    "message": "Хипервръзка с текущата система"
   },
   "BIND_MAP_WARP_TO_SELECTED_SYSTEM": {
     "description": "Descriptive name for the MapWarpToSelectedSystem action.",
@@ -109,31 +109,31 @@
   },
   "BIND_PRIMARY_FIRE": {
     "description": "Descriptive name for the PrimaryFire action.",
-    "message": "Основно оръжие"
+    "message": "Основно"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
-    "message": "Задна камера"
+    "message": "Задна"
   },
   "BIND_RESET_CAMERA": {
     "description": "Descriptive name for the ResetCamera action.",
-    "message": "Нулиране на камерата"
+    "message": "Нулиране"
   },
   "BIND_RESET_ORIENTATION_AND_ZOOM": {
     "description": "Descriptive name for the ResetOrientationAndZoom action.",
-    "message": "Нулиране на ориентацията и мащаба"
+    "message": "Нулиране"
   },
   "BIND_RIGHT_CAMERA": {
     "description": "Descriptive name for the RightCamera action.",
-    "message": "Дясна камера"
+    "message": "Дясна"
   },
   "BIND_SECONDARY_FIRE": {
     "description": "Descriptive name for the SecondaryFire action.",
-    "message": "Вторично оръжие"
+    "message": "Вторично"
   },
   "BIND_SPEED_CONTROL": {
     "description": "Descriptive name for the SpeedControl axis.",
-    "message": "Задаване на целева скорост"
+    "message": "Целева скорост"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
@@ -145,7 +145,7 @@
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
-    "message": "HUD режим"
+    "message": "Кабинен режим"
   },
   "BIND_TOGGLE_LUA_CONSOLE": {
     "description": "Descriptive name for the ToggleLuaConsole action.",
@@ -153,7 +153,7 @@
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
-    "message": "Плавна ротация"
+    "message": "Плавно завъртане"
   },
   "BIND_TOGGLE_SET_SPEED": {
     "description": "Descriptive name for the ToggleSetSpeed action.",
@@ -161,11 +161,11 @@
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
-    "message": "Включване на горната камера"
+    "message": "Горна"
   },
   "BIND_VIEW_ZOOM": {
     "description": "Descriptive name for the View Zoom axis",
-    "message": "Мащаб на изгледа"
+    "message": "Мащаб"
   },
   "BUTTON": {
     "description": "",
@@ -177,26 +177,26 @@
   },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
-    "message": "Общо управление на изгледа"
+    "message": "Камера"
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
-    "message": "Ръчно управление на тягата"
+    "message": "Управление на тягата"
   },
   "GROUP_MISCELLANEOUS": {
     "message": "Разни"
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
-    "message": "Управление на секторната карта"
+    "message": "Сектори"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
-    "message": "Корабна ориентация"
+    "message": "Ориентация"
   },
   "GROUP_SPEED_CONTROL": {
     "description": "Header for the SpeedControl input group.",
-    "message": "Задаване на скоростта на тягата"
+    "message": "Скорост на тягата"
   },
   "GROUP_WEAPONS": {
     "description": "Header for the Weapons input group.",
@@ -224,19 +224,19 @@
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
-    "message": "Общо управление"
+    "message": "Основно"
   },
   "PAGE_MAP_CONTROLS": {
     "description": "Header for the MapControls input page.",
-    "message": "Управление на картата"
+    "message": "Карта"
   },
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",
-    "message": "Кораб – Управление"
+    "message": "Космически кораб"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",
-    "message": "Кораб – Изглед"
+    "message": "Космически изглед"
   },
   "TEXT_ALT_BINDING": {
     "description": "",

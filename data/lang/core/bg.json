@@ -157,7 +157,7 @@
   },
   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
     "description": "",
-    "message": "Товарачът за стока е активен. Събран е 1 тон %item."
+    "message": "Товарачът за стока е активен. Натоварен е 1 тон %item."
   },
   "CARGO_SCOOP_ATTEMPTED": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "CENTER": {
     "description": "",
-    "message": "Център"
+    "message": "Центриране"
   },
   "CH4_ATMOSPHERE": {
     "description": "",
@@ -185,7 +185,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS_COMPARE": {
     "description": "",
-    "message": "Анализ на стоковата търговия на #ff0%selected_system#fff (избрана) и #ff0%current_system#fff (сегашна):"
+    "message": "Анализ на стоковата търговия на #ff0%selected_system#fff (избрана система) и #ff0%current_system#fff (текуща система):"
   },
   "COMMODITY_TRADE_ANALYSIS_SELF": {
     "description": "",
@@ -277,7 +277,7 @@
   },
   "CURRENT_SYSTEM": {
     "description": "selected current star system",
-    "message": "Сегашна система"
+    "message": "Текуща система"
   },
   "DATE_DUE_N": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "DAY_LENGTH": {
     "description": "",
-    "message": "Продължителност на деня"
+    "message": "Денонощие"
   },
   "DECREASE_RADAR_RANGE": {
     "description": "",
@@ -325,15 +325,15 @@
   },
   "DRAW_OUT_RANGE_LABELS": {
     "description": "",
-    "message": "Маркиране на далечните системи"
+    "message": "Наименования на далечните системи"
   },
   "DRAW_UNINHABITED_LABELS": {
     "description": "",
-    "message": "Маркиране на необитаемите системи"
+    "message": "Наименования на необитаемите системи"
   },
   "DRAW_VERTICAL_LINES": {
     "description": "",
-    "message": "Начертаване на вертикални линии"
+    "message": "Показване на вертикалните линии"
   },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
@@ -409,7 +409,7 @@
   },
   "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
     "description": "",
-    "message": "Товарачът за гориво е активен. Събрани са %quantity тона водород."
+    "message": "Товарачът за гориво е активен. Натоварени са %quantity тона водород."
   },
   "GALACTIC_VIEW": {
     "description": "view galactic map",
@@ -441,7 +441,7 @@
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
-    "message": "Общо управление на изгледа"
+    "message": "Камера"
   },
   "GOVERNMENT_TYPE": {
     "description": "",
@@ -569,7 +569,7 @@
   },
   "ILLEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-    "message": "Нелегални (сегашна система):"
+    "message": "Нелегални (текуща система):"
   },
   "ILLEGAL_GOODS": {
     "description": "",
@@ -653,7 +653,7 @@
   },
   "LEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-    "message": "Легални (сегашна система):"
+    "message": "Легални (текуща система):"
   },
   "LIBERAL_DEMOCRACY": {
     "description": "",
@@ -693,7 +693,7 @@
   },
   "MAJOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Основен износ (сегашна система)"
+    "message": "Основен износ (текуща система)"
   },
   "MAJOR_IMPORTS": {
     "description": "",
@@ -701,7 +701,7 @@
   },
   "MAJOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Основен внос (сегашна система)"
+    "message": "Основен внос (текуща система)"
   },
   "MANUAL_CONTROL": {
     "description": "",
@@ -769,7 +769,7 @@
   },
   "MINOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Незначителен износ (сегашна система)"
+    "message": "Незначителен износ (текуща система)"
   },
   "MINOR_IMPORTS": {
     "description": "",
@@ -777,7 +777,7 @@
   },
   "MINOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Незначителен внос (сегашна система)"
+    "message": "Незначителен внос (текуща система)"
   },
   "MISCELLANEOUS": {
     "description": "",
@@ -961,23 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} земни дни"
+    "message": "%days{f.1} Земни дни"
   },
   "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} земни маси"
+    "message": "%mass{f.3} Земни маси"
   },
   "N_EARTH_RADII": {
     "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
-    "message": "%radius{f.3} земни радиуса (%radkm{f.0} км.)"
+    "message": "%radius{f.3} Земни радиуса (%radkm{f.0} км.)"
   },
   "N_SOLAR_MASSES": {
     "description": "",
-    "message": "%mass{f.3} слънчеви маси"
+    "message": "%mass{f.3} Слънчеви маси"
   },
   "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} слънчеви радиуса (%radkm{f.0} км.)"
+    "message": "%radius{f.3} Слънчеви радиуса (%radkm{f.0} км.)"
   },
   "N_YEARS": {
     "description": "",
@@ -1005,7 +1005,7 @@
   },
   "ORBIT_PLANNER": {
     "description": "",
-    "message": "Орбитален планер"
+    "message": "Орбитален плановник"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
@@ -1029,7 +1029,7 @@
   },
   "PAY_FINE_REMOTELY": {
     "description": "",
-    "message": "Заплащане на глобата с паричен превод (%amount)"
+    "message": "Заплащане на глобата с паричен превод от (%amount)"
   },
   "PERIAPSIS_DISTANCE": {
     "description": "",
@@ -1309,7 +1309,7 @@
   },
   "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
     "description": "",
-    "message": "Скорост на кораба, спрямо отправен обект"
+    "message": "Скорост на кораба, спрямо отправния обект"
   },
   "SIDEREAL_VIEW": {
     "description": "camera view setting",
@@ -1601,7 +1601,7 @@
   },
   "TOGGLE_HUD_MODE": {
     "description": "",
-    "message": "HUD режим"
+    "message": "Кабинен режим"
   },
   "TOGGLE_RADAR_MODE": {
     "description": "",

@@ -13,7 +13,7 @@
   },
   "MSG_12": {
     "description": "",
-    "message": "Истинските мъже избират {no}, само женчовците избират {yes}."
+    "message": "Истинските играчи избират {no}, само страхливците избират {yes}."
   },
   "MSG_13": {
     "description": "\"Seeing\" as in having an affair / being unfaithful",
@@ -33,11 +33,11 @@
   },
   "MSG_17": {
     "description": "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
-    "message": "Само СТРАХЛИВЦИТЕ си тръгват!"
+    "message": "Бягай, щом искаш!"
   },
   "MSG_18": {
     "description": "Catch phrase of 2016?",
-    "message": "Направи Pioneer велика! Само загубеняците си тръгват, нали не си един от тях?"
+    "message": "Направи Pioneer велика! Само слабаците си тръгват, от тяхната група ли си?"
   },
   "MSG_19": {
     "description": "Alluding to / inviting the player to contribute content to the game",
@@ -61,7 +61,7 @@
   },
   "MSG_3": {
     "description": "",
-    "message": "Наистина ли ще напуснеш тази игра, която не ти коства нищо?"
+    "message": "Наистина ли ще напуснеш тази игра, която не ти коства нищо, освен времето ти?"
   },
   "MSG_4": {
     "description": "",
@@ -69,11 +69,11 @@
   },
   "MSG_5": {
     "description": "(Inspired by Wolfenstein 3D)",
-    "message": "Избери {no} за величие, {yes} за безразличие."
+    "message": "Избери {no} за величие или {yes} за безразличие."
   },
   "MSG_6": {
     "description": "",
-    "message": "Избери {no} и покажи истински кураж, избери {yes} и се скрий в твоя гараж."
+    "message": "Избери {no} и покажи истински кураж, избери {yes} и се разкарай."
   },
   "MSG_7": {
     "description": "Doom 1 anyone? Although it said DOS instead of Command line",
@@ -93,7 +93,7 @@
   },
   "QUIT": {
     "description": "Quit game, as a question",
-    "message": "Изход?"
+    "message": "Изход"
   },
   "YES": {
     "description": "Yes, quit program",

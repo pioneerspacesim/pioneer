@@ -33,7 +33,7 @@
   },
   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
     "description": "",
-    "message": "Направи оферта за позиция в кораба за дадената сума"
+    "message": "Предлагане на оферта за дадената сума"
   },
   "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
     "description": "",
