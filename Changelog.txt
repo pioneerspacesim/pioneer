@@ -1,7 +1,7 @@
 January 2021
    * New Features
      * New scoop mission (#4860)
-	 * Add alternative naming schemes (#4933)
+     * Add alternative naming schemes (#4933)
 
    * Internal Changes
      * Happy new year (#5105)
@@ -133,7 +133,7 @@ September 2020
    * Fixes
      * Show the ship's translated name in savegame stats (#4953)
      * Clear starports array if system has no population (#4950)
-	 * No more crashes when hyperjumping (#4907)
+     * No more crashes when hyperjumping (#4907)
 
 August 2020
    * New Features
