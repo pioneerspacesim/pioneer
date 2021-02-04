@@ -81,11 +81,11 @@
   },
   "CARGO_IS_LOADED": {
     "description": "",
-    "message": "зареден"
+    "message": "натоварено"
   },
   "CARGO_IS_NOT_LOADED": {
     "description": "",
-    "message": "не е зареден"
+    "message": "не е натоварено"
   },
   "CEASE_FIRE": {
     "description": "",
@@ -369,7 +369,7 @@
   },
   "PIRATE_TAUNTS_4": {
     "description": "",
-    "message": "Приятел, няма да достигнеш твоята дестинация."
+    "message": "Командирче, няма да достигнеш твоята дестинация."
   },
   "PIRATE_TAUNTS_5": {
     "description": "",
@@ -377,7 +377,7 @@
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
-    "message": "Изглеждаш доста натоварен. Ей сега ще ти помогна да се разтовариш."
+    "message": "Корабът ти изглежда доста натоварен. Ей сега ще ти помогна да го разтоварим."
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
@@ -389,7 +389,7 @@
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "Quibbles"
+    "message": "Куибъли"
   },
   "RISK_1": {
     "description": "",
@@ -405,7 +405,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "Може да е опасно, трябва да си сигурен, че си подготвен адекватно."
+    "message": "Може да е опасно, трябва да се внимава."
   },
   "RISK_5": {
     "description": "",
@@ -413,7 +413,7 @@
   },
   "RISK_6": {
     "description": "",
-    "message": "Не се надявай да стигнеш невредим."
+    "message": "Не се надявай да стигнеш без драскотина."
   },
   "RISK_ART_1": {
     "description": "",
@@ -565,7 +565,7 @@
   },
   "WHYSOMUCH_5": {
     "description": "",
-    "message": "Това е бонус, за да си държите езика зад зъбите."
+    "message": "Това е бонус, за да си държиш езика зад зъбите."
   },
   "WHYSOMUCH_6": {
     "description": "",
@@ -617,7 +617,7 @@
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Защо толкова много пари?"
+    "message": "Възнаграждението не е ли много голямо?"
   },
   "WILL_I_BE_IN_ANY_DANGER": {
     "description": "",

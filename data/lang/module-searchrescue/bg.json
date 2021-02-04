@@ -161,7 +161,7 @@
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "Не си подготвен за тази мисия. Нуждаеш се от {unit} {equipment}."
+    "message": "Не си ставаш за тази мисия. Нуждаеш се от {unit} {equipment}."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
@@ -637,11 +637,11 @@
   },
   "REWARD": {
     "description": "",
-    "message": "Награда:"
+    "message": "Възнаграждение:"
   },
   "SEARCH_RESCUE": {
     "description": "",
-    "message": "Намери и Спаси"
+    "message": "Намери и спаси"
   },
   "SET_AS_TARGET": {
     "description": "",

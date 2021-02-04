@@ -429,7 +429,7 @@
   },
   "GAME_LOAD_WRONG_VERSION": {
     "description": "",
-    "message": "Тази игра не може да бъде заредена, защото е създадена от друга версия на Pioneer."
+    "message": "Тази игра не може да бъде заредена, защото е създадена от друга версия на „Pioneer“."
   },
   "GAME_SAVED_TO": {
     "description": "",
@@ -1037,7 +1037,7 @@
   },
   "PIONEER": {
     "description": "",
-    "message": "PIONEER"
+    "message": "ПИОНЕР"
   },
   "PITCH": {
     "description": "",
@@ -1617,7 +1617,7 @@
   },
   "TOMBSTONE_EPITAPH": {
     "description": "shown on tombstone when player dies",
-    "message": "ГУШНА БУКЕТА"
+    "message": "RIP OLD BEAN"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",

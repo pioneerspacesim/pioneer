@@ -5,7 +5,7 @@
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Знайте кога да напуснете града"
+    "message": "Знайте кога да напуснете града."
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
@@ -13,7 +13,7 @@
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "Опитомете черния пазар"
+    "message": "Опитомете черния пазар!"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "Преценявайте дали горивото ще Ви стигне, защото не навсякъде има опция за презареждане."
+    "message": "Преценете дали горивото ще Ви стигне, защото не навсякъде има опция за презареждане."
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Не се изгубвайте: планирайте пътуването си предварително"
+    "message": "Не се изгубвайте: планирайте пътуването си предварително!"
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
-    "message": "Всичко е относително"
+    "message": "Всичко е относително..."
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
-    "message": "Никога не губете пари"
+    "message": "Никога не губете пари!"
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
-    "message": "Бъдете нащрек"
+    "message": "Бъдете нащрек."
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "ADVICE_7_HEADLINE": {
     "description": "",
-    "message": "Бъдете щедри"
+    "message": "Бъдете щедри."
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Избягвайте двойни неприятности"
+    "message": "Избягвайте двойните неприятности!"
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
@@ -77,15 +77,15 @@
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "Грижете се добре за кораба си"
+    "message": "Грижете се добре за кораба си."
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",
-    "message": "КЛЮКИ"
+    "message": "КЛЮКА"
   },
   "TALE_1_BODYTEXT": {
     "description": "",
-    "message": "Не пропускайте красивото затъмнение на Нова надежда, когато Хадес блокира светлината от Епсилон Еридани."
+    "message": "Не пропускайте красивото затъмнение на Нова надежда, когато Хадес затъмнява Епсилон Еридани."
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",

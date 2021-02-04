@@ -37,7 +37,7 @@
   },
   "DENY_5": {
     "description": "",
-    "message": "Неопитен си, няма да се справиш с толкова важна задача."
+    "message": "Нямаш опит, няма да се справиш с толкова важна задача."
   },
   "DENY_6": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "FLAVOUR_5_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Много ли е? Да преосмисля ли офертата си!"
+    "message": "Много ли е? Да преосмисля ли офертата си?"
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED": {
     "description": "",
-    "message": "Може да е опасно, трябва да сте сигурни, че сте подготвени адекватно."
+    "message": "Може да е опасно, трябва да се внимава."
   },
   "IT_MUST_BE_DELIVERED_BY": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "Изглежда, че надника ми пристигна!"
+    "message": "Изглежда, че надникът ми пристигна!"
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
@@ -333,7 +333,7 @@
   },
   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
     "description": "",
-    "message": "Това е ценен пакет, отваряйте си очите на четири."
+    "message": "Това е ценен пакет, отваряй си очите на четири."
   },
   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Защо толкова много пари?"
+    "message": "Възнаграждението не е ли много голямо?"
   },
   "WILL_I_BE_IN_ANY_DANGER": {
     "description": "",

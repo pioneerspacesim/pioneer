@@ -45,7 +45,7 @@
   },
   "NO_EXPERIENCE": {
     "description": "",
-    "message": "Без опит"
+    "message": "Няма"
   },
   "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
     "description": "",
@@ -57,11 +57,11 @@
   },
   "SIMULATOR_TRAINING_ONLY": {
     "description": "",
-    "message": "Само тренировка със симулатор"
+    "message": "Тренировка със симулатор"
   },
   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
     "description": "",
-    "message": "Има някакъв опит в контролирани среди"
+    "message": "В контролирана среда"
   },
   "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
     "description": "",

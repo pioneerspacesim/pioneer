@@ -1,39 +1,39 @@
 {
   "ACCEPTED_ARMS_DEALER": {
     "description": "",
-    "message": "Great! Thank you."
+    "message": "Wspaniale! Dziękuję."
   },
   "ACCEPTED_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Thanks. You won't regret it!"
+    "message": "Dzięki. Nie będziesz żałował!"
   },
   "ACCEPTED_LEGAL_GOODS": {
     "description": "",
-    "message": "Thank you. You know a good deal when you see one!"
+    "message": "Dziękuję. Poznasz dobry biznes, kiedy go ubijesz!"
   },
   "ACCEPTED_RESCUE": {
     "description": "",
-    "message": "Thank you very much. The crew will appreciate that."
+    "message": "Bardzo dziękujemy. Załoga to doceni."
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "PICK UP: Prompt recovery of drifting container required."
+    "message": "PRZECHWYCENIE: Wymagane szybkie odzyskanie dryfującego kontenera."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "EASY MONEY: Valuable information for sale."
+    "message": "ŁATWA FORSA: Cenne informacje na sprzedaż."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "INFORMATION FOR SALE: Location of a debris field with valuable cargo."
+    "message": "INFORMACJA NA SPRZEDAŻ: Lokalizacja chmury szczątków z cennym ładunkiem."
   },
   "ADTEXT_RESCUE": {
     "description": "",
-    "message": "HELP NEEDED: Urgent escape capsule rescue operation."
+    "message": "POTRZEBNA POMOC: Pilna operacja odzyskania kapsuły ratunkowej."
   },
   "CLIENT": {
     "description": "",
-    "message": "Client:"
+    "message": "Klient:"
   },
   "DANGER": {
     "description": "The risk level",
@@ -45,27 +45,27 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Excuse me, sir? I don't think your current qualification is sufficient."
+    "message": "Że co? Nie sądzę, żeby twoje obecne kwalifikacje były wystarczające."
   },
   "DENY_2": {
     "description": "",
-    "message": "Sorry, I think this task is beyond your ability as a pilot."
+    "message": "Przykro mi, uważam, że to zadanie przekracza twoje zdolności pilota."
   },
   "DETONATORS": {
     "description": "",
-    "message": "Detonators"
+    "message": "Detonatory"
   },
   "DOCKING_INSTRUCTION": {
     "description": "",
-    "message": "Nice to meet you. Please approach to within 100m to complete the cargo transfer!"
+    "message": "Miło cię poznać. Proszę zbliżyć się na 100m, aby ukończyć transfer ładunku!"
   },
   "FAILURE_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "You fool. The client's not gonna like this!"
+    "message": "Ty głupcze! Klient nie będzie zadowolony!"
   },
   "FAILURE_MSG_RESCUE": {
     "description": "",
-    "message": "Your unreliability has caused great harm. Get out of my sight!"
+    "message": "Twoja nierzetelność spowodowała wielkie straty. Zejdź mi z oczu!"
   },
   "HOW_MUCH_TIME": {
     "description": "",
@@ -73,27 +73,27 @@
   },
   "HOW_MUCH_TIME_ARMS_DEALER": {
     "description": "",
-    "message": "My business partner is in orbit around {star} to avoid detection. It would be great if you could reach him before {date}."
+    "message": "Mój partner biznesowy jest na orbicie wokół {star}, aby uniknąć wykrycia. Byłoby wspaniale, gdybyś dotarł do niego przed {date}."
   },
   "HOW_MUCH_TIME_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Don't waste time. Only the early bird catches the worm!"
+    "message": "Nie trać czasu. Tylko ranne ptaszki łapią robaka!"
   },
   "HOW_MUCH_TIME_LEGAL_GOODS": {
     "description": "",
-    "message": "I don't know. But if I were you, I would be quick!"
+    "message": "Nie wiem. Ale gdybym był tobą, to bym się śpieszył!"
   },
   "HOW_MUCH_TIME_RESCUE": {
     "description": "",
-    "message": "It would be good if you could reach the location before {date}."
+    "message": "Byłoby dobrze, gdybyś dotarł tam przed {date}."
   },
   "INTROTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Hello Commander. My name is {client}. It would be great if you could help me out. An unreliable freighter captain dropped my cargo near {planet} and has disappeared since. Your task would be to pick up one container and deliver it to ship {shipid} in orbit around {star}. I would pay you {cash}."
+    "message": "Witaj, dowódco. Nazywam się {client}. Byłoby wspaniale, gdybyś mógł mi pomóc. Nieodpowiedzialny kapitan frachtowca wyrzucił mój ładunek w pobliżu {planet} i zniknął. Twoim zadaniem będzie podjęcie jednego kontenera i dostarczenie go na {shipid}, orbitujący wokół {star}. Zapłacę {cash}."
   },
   "INTROTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Hey buddy, I know about a debris field with illegal goods. The police caught a smuggler close to {planet}. They haven't had time to clean up the area yet. If you are quick, you can make easy money! I can give you the coordinates. It only costs you {cash}. Don't let the chance slip by!"
+    "message": "Hej stary, wiem o chmurze szczątków z nielegalnymi dobrami. Policja przechwyciła szmuglera w pobliżu {planet}. Nie mieli jeszcze czasu, żeby wyczyścić ten obszar. Jeżeli się pośpieszysz, możesz łatwo zarobić. Mogę dać ci współrzędne za jedyne {cash}. Nie przegap tej szansy!"
   },
   "INTROTEXT_LEGAL_GOODS": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "NUCLEAR_MISSILE": {
     "description": "A cargo item",
-    "message": "Nuclear missile"
+    "message": "Pocisk atomowy"
   },
   "OK_AGREED": {
     "description": "",
@@ -113,15 +113,15 @@
   },
   "REPEAT_THE_REQUEST": {
     "description": "",
-    "message": "Could you please repeat the request?"
+    "message": "Czy można powtórzyć prośbę?"
   },
   "RESCUE_CAPSULE": {
     "description": "",
-    "message": "Rescue capsule"
+    "message": "Kapsuła ratunkowa"
   },
   "ROCKET_LAUNCHERS": {
     "description": "",
-    "message": "Rocket launchers"
+    "message": "Wyrzutnie rakiet"
   },
   "SCOOP": {
     "description": "Name of mission type",

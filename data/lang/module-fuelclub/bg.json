@@ -81,7 +81,7 @@
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",
-    "message": "Ще унищожим само толкова тона {radioactives}, колкото тона {military_fuel} е закупено от нас."
+    "message": "Ще унищожим толкова тона {radioactives}, колкото {military_fuel} е закупено от нас."
   },
   "WHAT_CONDITIONS_APPLY": {
     "description": "",

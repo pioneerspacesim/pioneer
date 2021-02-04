@@ -81,7 +81,7 @@
   },
   "DENY_5": {
     "description": "",
-    "message": "Неопитен си, няма да се справиш с толкова важен превоз."
+    "message": "Нямаш опит, няма да се справиш с толкова важен превоз."
   },
   "DENY_6": {
     "description": "",
@@ -549,7 +549,7 @@
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "Качил си {client} на борда? Лоша идея."
+    "message": "Този на борда {client} ли е? Лоша идея."
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
@@ -577,7 +577,7 @@
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",
-    "message": "Защо толкова много пари?"
+    "message": "Възнаграждението не е ли много голямо?"
   },
   "WILL_I_BE_IN_ANY_DANGER": {
     "description": "",

@@ -17,11 +17,11 @@
   },
   "DISCOVERED_HIDDEN_BASES": {
     "description": "",
-    "message": "Открихте {portcount} скрити {bases}!"
+    "message": "Открити са {portcount} скрити {bases}!"
   },
   "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Проучихте система с {bodycount} големи {bodies}."
+    "message": "Проучена е система с {bodycount} големи {bodies}."
   },
   "GETTING_SENSOR_DATA": {
     "description": "Shown when entering an unexplored system",
