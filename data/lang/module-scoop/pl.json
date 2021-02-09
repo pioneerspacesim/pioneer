@@ -97,11 +97,11 @@
   },
   "INTROTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Hello my friend. I'm {client}. I heard about a cargo hauler that got into trouble near {planet} because of bad ship maintenance. Amazing who gets to fly a spaceship these days, isn't it? Anyway, they had to dump a lot of the cargo. If you're quick, you can grab the cargo very easily! This info is as good as new! I'll sell you the coordinates for lousy {cash}. What do you say?"
+    "message": "Witaj, przyjacielu. Jestem {client}. Słyszałem o przewoźniku towarów, który wpadł w kłopoty w pobliżu {planet} z powodu złego dbania o stanu statku. To niezwykle, kto dzisiaj lata w kosmos, co nie? Tak czy siak, musieli wyrzucić sporo ładunku. Jeśli się pospieszysz, możesz go bardzo łatwo przechwycić! Ta informacja jest tak dobra jak świeża! Sprzedam ci współrzędne za marne {cash}. Co ty na to?"
   },
   "INTROTEXT_RESCUE": {
     "description": "",
-    "message": "Hi, my name is {client}. The crew of a freighter had to abandon their ship after an incident. The ship owner is willing to pay {cash} for a discreet rescue mission. The accident site is near {planet}. Please pick up the crew and bring them to a station!"
+    "message": "Hej, nazywam się {client}. Załoga frachtowca musiała porzucić swój statek na skutek wypadku. Właściciel statku jest skłonny zapłacić {cash} za dyskretną misję ratunkową. Miejsce zdarzenia jest w pobliżu {planet}. Uratuj załogę i dostarcz ją na stację!"
   },
   "NUCLEAR_MISSILE": {
     "description": "A cargo item",
@@ -137,7 +137,7 @@
   },
   "SHIP_DESTROYED": {
     "description": "",
-    "message": "Oh no. {shipid} has been destroyed. Deliver the cargo to {station} now!"
+    "message": "O nie! {shipid} został zniszczony. Dostarcz teraz ładunek na {station}!"
   },
   "SPACEPORT": {
     "description": "",
