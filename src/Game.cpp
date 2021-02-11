@@ -289,14 +289,6 @@ void Game::TimeStep(float step)
 		if (Pi::game->GetTime() >= m_hyperspaceEndTime) {
 			SwitchToNormalSpace();
 			m_player->EnterSystem();
-			// event "onEnterSystem(player)" is in the event queue after p_player->EnterSystem()
-			// in this callback, for example, fuel is reduced
-			// but event handling has already passed, and will only be in the next frame
-			// it turns out that we are already in the system, but the fuel has not yet been reduced
-			// and then the drawing of the views will go, and inconsistencies may occur,
-			// for example, the sphere of the hyperjump range will be too large
-			// so we forcefully call event handling again
-			LuaEvent::Emit();
 			RequestTimeAccel(TIMEACCEL_1X);
 		} else
 			m_hyperspaceProgress += step;

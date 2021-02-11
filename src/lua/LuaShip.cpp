@@ -16,6 +16,8 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "ship/PlayerShipController.h"
+#include "ship/PrecalcPath.h"
+#include "src/lua.h"
 
 /*
  * Class: Ship
@@ -661,6 +663,42 @@ static int l_ship_is_ecm_ready(lua_State *l)
 }
 
 /*
+ * Method: GetDurationForDistance
+ *
+ *   Calculating the duration of the flight of a given ship at a specified distance.
+ *   Assumed that at the beginning and at the end of the travel the speed is 0.
+ *
+ * > duration = ship:GetDurationForDistance(distance)
+ *
+ * Parameters:
+ *
+ *   distance - length, in meters
+ *
+ * Result:
+ *
+ *   duration - travel time, in seconds.
+ *
+ */
+static int l_ship_get_duration_for_distance(lua_State *l)
+{
+	Ship *ship = LuaObject<Ship>::CheckFromLua(1);
+	double distance = LuaPull<double>(l, 2);
+	const ShipType *st = ship->GetShipType();
+	const shipstats_t ss = ship->GetStats();
+	PrecalcPath pp(
+		distance, // distance
+		0.0,	  // velocity at start
+		st->effectiveExhaustVelocity,
+		st->linThrust[THRUSTER_FORWARD],
+		st->linAccelerationCap[THRUSTER_FORWARD],
+		1000 * (ss.static_mass + ss.fuel_tank_mass_left), // 100% mass of the ship
+		1000 * ss.fuel_tank_mass_left * 0.8,			  // multipied to 0.8 have fuel reserve
+		0.85);											  // braking margin
+	LuaPush<double>(l, pp.getFullTime());
+	return 1;
+}
+
+/*
  * Method: InitiateHyperjumpTo
  *
  *   Ready the ship to jump to the given system. This does not perform
@@ -749,6 +787,30 @@ static int l_ship_abort_hyperjump(lua_State *l)
 {
 	LuaObject<Ship>::CheckFromLua(1)->AbortHyperjump();
 	return 0;
+}
+
+/*
+ * Method: Create
+ *
+ *   Create a new ship object by type id (string)
+ *   The ship is not added to space.
+ *   The object is completely controlled by lua.
+ *
+ * > ship = ship:Create(ship_id)
+ *
+ * Parameters:
+ *
+ *   ship_id - The internal id of the ship type.
+ *
+ * Result:
+ *
+ *   ship - new ship object
+ */
+static int l_ship_create(lua_State *l)
+{
+	auto name = LuaPull<std::string>(l, 1);
+	LuaObject<Ship>::CreateInLua(name);
+	return 1;
 }
 
 /*
@@ -1474,7 +1536,8 @@ static int l_ship_get_current_ai_command(lua_State *l)
 		LuaPush(l, EnumStrings::GetString("ShipAICmdName", cmd->GetType()));
 		return 1;
 	} else {
-		return 0;
+		lua_pushnil(l);
+		return 1;
 	}
 }
 
@@ -1563,6 +1626,7 @@ void LuaObject<Ship>::RegisterClass()
 
 		{ "UseECM", l_ship_use_ecm },
 		{ "IsECMReady", l_ship_is_ecm_ready },
+		{ "GetDurationForDistance", l_ship_get_duration_for_distance },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock", l_ship_undock },
@@ -1581,6 +1645,8 @@ void LuaObject<Ship>::RegisterClass()
 
 		{ "InitiateHyperjumpTo", l_ship_initiate_hyperjump_to },
 		{ "AbortHyperjump", l_ship_abort_hyperjump },
+
+		{ "Create", l_ship_create },
 
 		{ "GetInvulnerable", l_ship_get_invulnerable },
 		{ "SetInvulnerable", l_ship_set_invulnerable },
