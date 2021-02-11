@@ -17,6 +17,7 @@
 #include "Ship.h"
 #include "Space.h"
 #include "SpaceStation.h"
+#include "ship/PrecalcPath.h"
 
 /*
  * Interface: Space
@@ -50,9 +51,43 @@ static void _unpack_hyperspace_args(lua_State *l, int index, SystemPath *&path, 
 	LUA_DEBUG_END(l, 0);
 }
 
+// overload for the case when we explicitly want to specify the destination star
+static void _unpack_hyperspace_args(lua_State *l, int index, SystemPath *&source, SystemPath *&dest, double &due)
+{
+	if (lua_isnone(l, index)) return;
+
+	luaL_checktype(l, index, LUA_TTABLE);
+
+	LUA_DEBUG_START(l);
+
+	lua_pushinteger(l, 1);
+	lua_gettable(l, index);
+	if (!(source = LuaObject<SystemPath>::GetFromLua(-1)))
+		luaL_error(l, "bad value for hyperspace source path at position 1 (SystemPath expected, got %s)", luaL_typename(l, -1));
+	lua_pop(l, 1);
+
+	lua_pushinteger(l, 2);
+	lua_gettable(l, index);
+	if (!(dest = LuaObject<SystemPath>::GetFromLua(-1)))
+		luaL_error(l, "bad value for hyperspace dest path at position 2 (SystemPath expected, got %s)", luaL_typename(l, -1));
+	lua_pop(l, 1);
+
+	lua_pushinteger(l, 3);
+	lua_gettable(l, index);
+	if (!(lua_isnumber(l, -1)))
+		luaL_error(l, "bad value for hyperspace exit time at position 3 (%s expected, got %s)", lua_typename(l, LUA_TNUMBER), luaL_typename(l, -1));
+	due = lua_tonumber(l, -1);
+	if (due < 0)
+		luaL_error(l, "bad value for hyperspace exit time at position 3 (must be >= 0)");
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+}
+
 static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double due)
 {
 	if (!path) return ship;
+	if (due <= 0) return ship;
 
 	HyperspaceCloud *cloud = new HyperspaceCloud(ship, due, true);
 	ship->SetHyperspaceDest(path);
@@ -92,11 +127,11 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
  * Examples:
  *
  * > -- spawn a ship 5-6AU from the system centre
- * > local ship = Ship.Spawn("eagle_lrf", 5, 6)
+ * > local ship = Space.SpawnShip("eagle_lrf", 5, 6)
  *
  * > -- spawn a ship in the ~11AU hyperspace area and make it appear that it
  * > -- came from Sol and will arrive in ten minutes
- * > local ship = Ship.Spawn(
+ * > local ship = Space.SpawnShip(
  * >     "flowerfairy", 9, 11,
  * >     { SystemPath:New(0,0,0), Game.time + 600 }
  * > )
@@ -123,23 +158,24 @@ static int l_space_spawn_ship(lua_State *l)
 	float min_dist = luaL_checknumber(l, 2);
 	float max_dist = luaL_checknumber(l, 3);
 
-	SystemPath *path = 0;
+	SystemPath *source = 0;
+	SystemPath *dest = 0;
 	double due = -1;
-	_unpack_hyperspace_args(l, 4, path, due);
+	_unpack_hyperspace_args(l, 4, source, dest, due);
 
 	Ship *ship = new Ship(type);
 	assert(ship);
 
-	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
+	Body *thing = _maybe_wrap_ship_with_cloud(ship, source, due);
 
 	// XXX protect against spawning inside the body
 	thing->SetFrame(Pi::game->GetSpace()->GetRootFrame());
-	if (!path)
+	if (!source)
 		thing->SetPosition(MathUtil::RandomPointOnSphere(min_dist, max_dist) * AU);
 	else
 		// XXX broken. this is ignoring min_dist & max_dist. otoh, what's the
 		// correct behaviour given there's now a fixed hyperspace exit point?
-		thing->SetPosition(Pi::game->GetSpace()->GetHyperspaceExitPoint(*path));
+		thing->SetPosition(Pi::game->GetSpace()->GetHyperspaceExitPoint(*source, *dest));
 	thing->SetVelocity(vector3d(0, 0, 0));
 	Pi::game->GetSpace()->AddBody(thing);
 
@@ -150,12 +186,125 @@ static int l_space_spawn_ship(lua_State *l)
 	return 1;
 }
 
+// functions from ShipAiCmd.cpp
+extern int CheckCollision(DynamicBody *dBody, const vector3d &pathdir, double pathdist, const vector3d &tpos, double endvel, double r);
+extern double MaxEffectRad(const Body *body, Propulsion *prop);
+
+/*
+ * Function: PutShipOnRoute
+ *
+ * The ship rearranged from its current position to a given body in space, for a
+ * given part of the path, as if it were flying in a straight line, consuming
+ * fuel and changing speed. the ship's current speed is ignored and is
+ * considered to be equal to target's.
+ * This function changes the coordinates, the mass of fuel in the tank, and the
+ * speed of the given ship.
+ *
+ * > Space.PutShipOnRoute(ship, targetbody, t_ratio)
+ *
+ * Parameters:
+ *
+ *   ship - a <Ship> object to be moved
+ *
+ *   targetbody - the <Body> - route goal
+ *
+ *   t_ratio - route completion rate, by time: 0.0 (begin) ... 1.0 (end)
+ *
+ * Return:
+ *
+ *   nothing
+ *
+ * Examples:
+ *
+ * > -- move a ship to the middle of the route (by time)
+ * > Space.PutShipOnRoute(ship, some_staport, 0.5)
+ *
+ * Availability:
+ *
+ *   2020
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_space_put_ship_on_route(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+	Ship *ship = LuaObject<Ship>::CheckFromLua(1);
+	const Body *targetbody = LuaObject<Body>::CheckFromLua(2);
+	const double t_ratio = LuaPull<double>(l, 3);
+	const ShipType *st = ship->GetShipType();
+	const shipstats_t ss = ship->GetStats();
+	const vector3d route = targetbody->GetPositionRelTo(ship->GetFrame()) - ship->GetPosition();
+	PrecalcPath pp(
+		route.Length(), // distance
+		0.0,			// velocity at start
+		st->effectiveExhaustVelocity,
+		st->linThrust[THRUSTER_FORWARD],
+		st->linAccelerationCap[THRUSTER_FORWARD],
+		1000 * (ss.static_mass + ss.fuel_tank_mass_left), // 100% mass of the ship
+		1000 * ss.fuel_tank_mass_left * 0.8,			  // multipied to 0.8 have fuel reserve
+		0.85);											  // braking margin
+	// determine the place of the ship on the route
+	pp.setTRatio(t_ratio);
+	ship->SetPosition(ship->GetPosition() + route.Normalized() * pp.getDist());
+	ship->SetVelocity(route.Normalized() * pp.getVel() + targetbody->GetVelocityRelTo(ship->GetFrame()));
+	ship->SetFuel((0.001 * pp.getMass() - ss.static_mass) / st->fuelTankMass);
+
+	ship->UpdateFrame();
+	Frame *shipFrame = Frame::GetFrame(ship->GetFrame());
+	Frame *targFrame = Frame::GetFrame(targetbody->GetFrame());
+
+	// check for collision at spawn position
+	const vector3d shippos = ship->GetPosition();
+	const vector3d targpos = targetbody->GetPositionRelTo(ship->GetFrame());
+	const vector3d relpos = targpos - shippos;
+	const vector3d reldir = relpos.NormalizedSafe();
+	const double targdist = relpos.Length();
+	Body *body = shipFrame->GetBody();
+	const double erad = MaxEffectRad(body, ship->GetPropulsion());
+	const int coll = CheckCollision(ship, reldir, targdist, targpos, 0, erad);
+	if (coll) {
+		// need to correct positon, to avoid collision
+		if (Frame::GetFrame(shipFrame->GetNonRotFrame()) != Frame::GetFrame(targFrame->GetNonRotFrame()) && targpos.Length() > erad) {
+			// the ship is not in the target's frame or target is above the effective radius of obstructor - rotate the ship's position
+			// around the target position, so that the obstructor's "effective radius" does not cross the path
+			// direction obstructor -> target
+			const vector3d z = targpos.Normalized();
+			// the axis around which the position of the ship will rotate
+			const vector3d y = z.Cross(shippos).NormalizedSafe();
+			// just the third axis of this basis
+			const vector3d x = y.Cross(z);
+			// this is the basis in which the position of the ship will rotate
+			const matrix3x3d corrCS = matrix3x3d::FromVectors(x, y, z);
+			const double len = targpos.Length();
+			// two possible positions of the ship, when flying around the obstructor to the right or left
+			// rotate (in the given basis) the direction from the target to the obstructor, so that it passes tangentially to the obstructor
+			const vector3d safe1 = corrCS.Transpose() * (matrix3x3d::RotateY(+asin(erad / len)) * corrCS * -targpos).Normalized() * targdist;
+			const vector3d safe2 = corrCS.Transpose() * (matrix3x3d::RotateY(-asin(erad / len)) * corrCS * -targpos).Normalized() * targdist;
+			// choose the one that is closer to the current position oh the ship
+			if ((safe1 + relpos).Length() < (safe2 + relpos).Length())
+				ship->SetPosition(safe1 + targpos);
+			else
+				ship->SetPosition(safe2 + targpos);
+		} else {
+			// we are in target's frame, and target below the effective radius of planet. Position the ship direct above the target
+			ship->SetPosition(targpos + targpos.Normalized() * targdist);
+		}
+		// update velocity direction
+		ship->SetVelocity((targpos - ship->GetPosition()).Normalized() * pp.getVel() + targetbody->GetVelocityRelTo(ship->GetFrame()));
+	}
+	LUA_DEBUG_END(l, 1);
+	return 0;
+}
+
 /*
  * Function: SpawnShipNear
  *
  * Create a ship and place it in space near the given <Body>.
  *
- * > ship = Space.SpawnShip(type, body, min, max, hyperspace)
+ * > ship = Space.SpawnShipNear(type, body, min, max, hyperspace)
  *
  * Parameters:
  *
@@ -184,10 +333,10 @@ static int l_space_spawn_ship(lua_State *l)
  * Examples:
  *
  * > -- spawn a ship 10km from the player
- * > local ship = Ship.SpawnNear("viper_police_craft", Game.player, 10, 10)
+ * > local ship = Space.SpawnShipNear("viper_police_craft", Game.player, 10, 10)
  *
  * > -- spawn a ship 10km from the player with the players velocity
- * > local ship = Ship.SpawnNear("viper_police_craft", Game.player, 10, 10, nil, Game.player:velocity)
+ * > local ship = Space.SpawnShipNear("viper_police_craft", Game.player, 10, 10, nil, Game.player:velocity)
  *
  * Availability:
  *
@@ -240,7 +389,6 @@ static int l_space_spawn_ship_near(lua_State *l)
 	}
 
 	thing->SetFrame(newframe->GetId());
-	;
 	thing->SetPosition(newPosition);
 	thing->SetVelocity(newVelocity);
 	Pi::game->GetSpace()->AddBody(thing);
@@ -477,7 +625,7 @@ static int l_space_spawn_ship_landed(lua_State *l)
  * Example:
  *
  * > -- spawn a ship 10km from the player
- * > local ship = Ship.SpawnShipLandedNear("viper_police", Game.player, 10, 10)
+ * > local ship = Space.SpawnShipLandedNear("viper_police", Game.player, 10, 10)
  *
  * Availability:
  *
@@ -885,6 +1033,7 @@ void LuaSpace::Register()
 		{ "SpawnShipLandedNear", l_space_spawn_ship_landed_near },
 		{ "SpawnCargoNear", l_space_spawn_cargo_near },
 		{ "SpawnShipOrbit", l_space_spawn_ship_orbit },
+		{ "PutShipOnRoute", l_space_put_ship_on_route },
 
 		{ "GetBody", l_space_get_body },
 		{ "GetBodies", l_space_get_bodies },

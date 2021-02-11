@@ -655,12 +655,12 @@ static double MaxFeatureRad(Body *body)
 		return body->GetPhysRadius();
 }
 
-static double MaxEffectRad(Body *body, Propulsion *prop)
+double MaxEffectRad(const Body *body, Propulsion *prop)
 {
 	if (!body) return 0.0;
 	if (!body->IsType(ObjectType::TERRAINBODY)) {
 		if (!body->IsType(ObjectType::SPACESTATION)) return body->GetPhysRadius() + 1000.0;
-		return static_cast<SpaceStation *>(body)->GetStationType()->ParkingDistance() + 1000.0;
+		return static_cast<const SpaceStation *>(body)->GetStationType()->ParkingDistance() + 1000.0;
 	}
 	return std::max(body->GetPhysRadius(), sqrt(G * body->GetMass() / prop->GetAccelUp()));
 }
@@ -720,7 +720,7 @@ static vector3d GenerateTangent(DynamicBody *dBody, FrameId targframeId, const v
 //2 - unsafe escape from effect radius
 //3 - unsafe entry to effect radius
 //4 - probable path intercept
-static int CheckCollision(DynamicBody *dBody, const vector3d &pathdir, double pathdist, const vector3d &tpos, double endvel, double r)
+int CheckCollision(DynamicBody *dBody, const vector3d &pathdir, double pathdist, const vector3d &tpos, double endvel, double r)
 {
 	if (!dBody->Have(DynamicBody::PROPULSION)) return 0;
 	Propulsion *prop = dBody->GetPropulsion();
