@@ -32,9 +32,14 @@
 //   StarSystem *s = Pi::GetGalaxy()->GetStarSystem(SystemPath(0,0,0,0));
 //   LuaObject<StarSystem>::PushToLua(s);
 //
-//   // Heap-allocated, Lua will get a copy
+//   // Stack-allocated, Lua will get a copy
 //   SystemPath path(0,0,0,0,1);
 //   LuaObject<SystemPath>::PushToLua(path);
+//
+//   // Create an object, fully owned by lua
+//   // WARNING! the lifetime of an object will be determined by the lua garbage
+//   // collector, so a pointer to it should not be stored in any form on the C++ side
+//   LuaObject<Ship>::CreateInLua(ship_id); // constructor arguments are passed
 //
 // Get an object from the Lua stack at index n. Causes a Lua exception if the
 // object doesn't exist or the types don't match.
@@ -208,6 +213,8 @@ public:
 	static inline void PushToLua(DeleteEmitter *o); // LuaCoreObject
 	static inline void PushToLua(RefCounted *o);	// LuaSharedObject
 	static inline void PushToLua(const T &o);		// LuaCopyObject
+	template <typename... Args>
+	static inline void CreateInLua(Args &&... args);
 
 	template <typename Ret, typename Key, typename... Args>
 	static inline Ret CallMethod(T *o, const Key &key, const Args &... args);
@@ -354,6 +361,30 @@ private:
 	LuaRef m_ref;
 };
 
+// wrapper for a "lua-owned" object.
+// the wrapper is deleted by lua gc, and when it is deleted, it also deletes the wrapped object
+template <typename T>
+class LuaOwnObject : public LuaObject<T> {
+public:
+	LuaOwnObject(T *o)
+	{
+		m_object = o;
+	}
+
+	~LuaOwnObject()
+	{
+		delete (m_object);
+	}
+
+	LuaWrappable *GetObject() const
+	{
+		return m_object;
+	}
+
+private:
+	T *m_object;
+};
+
 // push methods, create wrappers if necessary
 // wrappers are allocated from Lua memory
 template <typename T>
@@ -374,6 +405,14 @@ template <typename T>
 inline void LuaObject<T>::PushToLua(const T &o)
 {
 	Register(new (LuaObjectBase::Allocate(sizeof(LuaCopyObject<T>))) LuaCopyObject<T>(o));
+}
+
+template <typename T>
+template <typename... Args>
+inline void LuaObject<T>::CreateInLua(Args &&... args)
+{
+	T *p(new T(std::forward<Args>(args)...));
+	Register(new (LuaObjectBase::Allocate(sizeof(LuaOwnObject<T>))) LuaOwnObject<T>(static_cast<T *>(p)));
 }
 
 template <typename T>

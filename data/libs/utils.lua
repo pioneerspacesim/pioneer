@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils
+local Engine = require 'Engine' -- rand
 utils = {}
 
 --
@@ -244,7 +245,7 @@ end
 -- Count the number of entries in a table
 utils.count = function(t)
 	local i = 0
-	for _,v in pairs(t) do
+	for _,_ in pairs(t) do
 		i = i + 1
 	end
 	return i
@@ -285,4 +286,149 @@ utils.round = function(x, n)
 	x = math.round(math.abs(x)/n)*n
 	return x < n and n*s or x*s
 end
+
+--
+-- Function: utils.deviation
+--
+-- Returns a random value that differs from nominal by no more than nominal * ratio.
+--
+-- value = utils.deviation(nominal, ratio)
+--
+-- Return:
+--
+--   value - number
+--
+-- Parameters:
+--
+--   nominal - number
+--   ratio - number, indicating the relative deviation of the result
+--
+-- Example:
+--
+-- > value = utils.deviation(100, 0.2) -- 80 < value < 120
+--
+utils.deviation = function(nominal, ratio)
+	return nominal * Engine.rand:Number(1 - ratio, 1 + ratio)
+end
+
+--
+-- Function: utils.asymptote
+--
+-- The function is used to limit the value of the argument, but softly.
+-- See the desctription of the arguments.
+--
+-- value = utils.asymptote(x, max_value, equal_to_ratio)
+--
+-- Return:
+--
+--   value - number
+--
+-- Parameters:
+--
+--   x - number
+--   max_value - the return value will never be greater than this number, it
+--               will asymptotically approach it
+--   equal_to_ratio - 0.0 .. 1.0, the ratio between x and max_value up to which x is returned as is
+--
+-- Example:
+--
+-- > value = utils.asymptote(10,    100, 0.5) -- return 10
+-- > value = utils.asymptote(70,    100, 0.5) -- return 64.285
+-- > value = utils.asymptote(700,   100, 0.5) -- return 96.428
+-- > value = utils.asymptote(70000, 100, 0.5) -- return 99.964
+--
+utils.asymptote = function(x, max_value, equal_to_ratio)
+	local equal_to = max_value * equal_to_ratio
+	local equal_from = max_value - equal_to
+	if x < equal_to then
+		return x
+	else
+		return (1 - 1 / ((x - equal_to) / equal_from + 1)) * equal_from + equal_to
+	end
+end
+
+--
+-- Function: utils.normWeights
+--
+-- the input is an array of hashtables with an arbitrary real number in the
+-- weight key. Weights are recalculated so that the sum of the weights in the
+-- entire array equals 1 in fact, now these are the probabilities of selecting
+-- an item in the array
+--
+-- Example:
+--
+-- > utils.normWeights({ {param = 10, weight = 3.4},
+-- >                       {param = 15, weight = 2.1} })
+--
+-- Parameters:
+--
+--   array - an array of similar hashtables with an arbitrary real number in
+--           the weight key
+--
+-- Returns:
+--
+--  nothing
+--
+utils.normWeights = function(array)
+	local sum = 0
+	for _,v in ipairs(array) do
+		sum = sum + v.weight
+	end
+	for _,v in ipairs(array) do
+		v.weight = v.weight / sum
+	end
+end
+
+--
+-- Function: utils.chooseNormalized
+--
+-- Choose random item, considering the weights (probabilities).
+-- Each array[i] should have 'weight' key.
+-- The sum of the weights must be equal to 1.
+--
+-- Example:
+--
+-- > my_param = utils.chooseNormalized({ {param = 10, weight = 0.62},
+-- >                                       {param = 15, weight = 0.38} }).param
+--
+-- Parameters:
+--
+--   array - an array of hashtables with an arbitrary real number in
+--           the weight key
+--
+-- Returns:
+--
+--   a random element of the array, with the probability specified in the weight key
+--
+utils.chooseNormalized = function(array)
+	local choice = Engine.rand:Number(1.0)
+	sum = 0
+	for _, option in ipairs(array) do
+		sum = sum + option.weight
+		if choice <= sum then return option end
+	end
+end
+
+--
+-- Function: utils.chooseEqual
+--
+-- Returns a random element of an array
+--
+-- Example:
+--
+-- > my_param = utils.chooseEqual({ {param = 10},
+-- >                                  {param = 15} }).param
+--
+-- Parameters:
+--
+--   array - an array of hashtables
+--
+-- Returns:
+--
+--   a random element of the array, with the with equal probability for any element
+--
+utils.chooseEqual = function(array)
+	return array[Engine.rand:Integer(1, #array)]
+end
+
 return utils

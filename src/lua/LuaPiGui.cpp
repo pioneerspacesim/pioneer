@@ -1863,7 +1863,7 @@ static int l_pigui_get_projected_bodies_grouped(lua_State *l)
 	for (Body *body : Pi::game->GetSpace()->GetBodies()) {
 		if (body == Pi::game->GetPlayer()) continue;
 		if (body->GetType() == ObjectType::PROJECTILE) continue;
-		if ((body->GetType() == ObjectType::SHIP || body->GetType() == ObjectType::CARGOBODY) &&
+		if ((body->GetType() == ObjectType::SHIP || body->GetType() == ObjectType::CARGOBODY || body->GetType() == ObjectType::HYPERSPACECLOUD) &&
 			body->GetPositionRelTo(Pi::player).Length() > ship_max_distance) continue;
 		const PiGui::TScreenSpace res = lua_world_space_to_screen_space(body); // defined in LuaPiGui.cpp
 		if (!res._onScreen) continue;
@@ -2653,6 +2653,75 @@ static int l_pigui_collapsing_header(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: treeNode
+ *
+ * Start drawing a tree node
+ *
+ * > opened =  ui.treeNode(label, flags)
+ *
+ * Example:
+ *
+ * > if ui.treeNode("things", {"DefaultOpen"}) then
+ * >   ...
+ * >   if ui.treeNode("subthings") then
+ * >     ...
+ * >     ui.treePop()
+ * >   end
+ * >   ...
+ * >   ui.treePop()
+ * > end
+ *
+ * Parameters:
+ *
+ *   label - string, headline
+ *   flag - <TreeNodeFlags>
+ *
+ * Returns:
+ *
+ *   opened - bool, treenode opens when you click no the triangle at the beginning of the line
+ *
+ */
+static int l_pigui_treenode(lua_State *l)
+{
+	PROFILE_SCOPED()
+	std::string label = LuaPull<std::string>(l, 1);
+	ImGuiTreeNodeFlags flags = LuaPull<ImGuiTreeNodeFlags_>(l, 2, ImGuiTreeNodeFlags_None);
+	LuaPush(l, ImGui::TreeNodeEx(label.c_str(), flags));
+	return 1;
+}
+
+/*
+ * Function: treePop
+ *
+ * End drawing a tree node
+ *
+ * > ui.treePop()
+ *
+ * Example:
+ *
+ * > if ui.treeNode("things", {"DefaultOpen"}) then
+ * >   ...
+ * >   if ui.treeNode("subthings") then
+ * >     ...
+ * >     ui.treePop()
+ * >   end
+ * >   ...
+ * >   ui.treePop()
+ * > end
+ *
+ * Returns:
+ *
+ *   nothing
+ *
+ */
+static int l_pigui_treepop(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGui::TreePop();
+	return 0;
+}
+
 static int l_pigui_push_text_wrap_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2831,6 +2900,8 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "Combo", l_pigui_combo },
 		{ "ListBox", l_pigui_listbox },
 		{ "CollapsingHeader", l_pigui_collapsing_header },
+		{ "TreeNode", l_pigui_treenode },
+		{ "TreePop", l_pigui_treepop },
 		{ "CaptureMouseFromApp", l_pigui_capture_mouse_from_app },
 		{ "PlotHistogram", l_pigui_plot_histogram },
 		{ "ProgressBar", l_pigui_progress_bar },

@@ -242,7 +242,7 @@ static double t1_from_S1_mixed(val S1, val V0, val EV, val m, val F, val acap,
 	}
 }
 
-#define PRECALCPATH_TESTMODE
+//#define PRECALCPATH_TESTMODE
 #ifdef PRECALCPATH_TESTMODE
 enum class TestMode {
 	CONSTRUCTOR,

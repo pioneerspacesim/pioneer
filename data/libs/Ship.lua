@@ -292,6 +292,35 @@ Ship.RemoveEquip = function (self, item, count, slot)
 	return ret
 end
 
+--
+-- Method: GetCargo
+--
+-- Build a table that maps the names of stored cargo items to the quantity of
+-- the items stored in the ship.
+--
+-- > cargo = ship:GetCargo()
+--
+-- Return:
+--
+-- The table that maps the names of stored cargo items to the quantity of
+-- the items stored in the ship.
+--
+-- Availability:
+--
+--  2021
+--
+-- Status:
+--
+--  experimental
+--
+function Ship:GetCargo()
+	local count = {}
+	for _, et in pairs(self:GetEquip("cargo")) do
+		if not count[et] then count[et] = 0 end
+		count[et] = count[et]+1
+	end
+	return count
+end
 
 --
 -- Method: IsHyperjumpAllowed

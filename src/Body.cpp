@@ -234,7 +234,7 @@ void Body::UpdateFrame()
 		FrameId parent = frame->GetParent();
 		Frame *newFrame = Frame::GetFrame(parent);
 		if (newFrame) { // don't fall out of root frame
-			Output("%s leaves frame %s\n", GetLabel().c_str(), frame->GetLabel().c_str());
+			Log::Verbose("{} leaves frame{}\n", GetLabel(), frame->GetLabel());
 			SwitchToFrame(parent);
 			return;
 		}
@@ -246,7 +246,7 @@ void Body::UpdateFrame()
 		const vector3d pos = GetPositionRelTo(kid);
 		if (pos.Length() >= kid_frame->GetRadius()) continue;
 		SwitchToFrame(kid);
-		Output("%s enters frame %s\n", GetLabel().c_str(), kid_frame->GetLabel().c_str());
+		Log::Verbose("{} enters frame{}\n", GetLabel(), frame->GetLabel());
 		break;
 	}
 }
