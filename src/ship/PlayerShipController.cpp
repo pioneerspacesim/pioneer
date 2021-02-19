@@ -105,6 +105,10 @@ void PlayerShipController::InputBinding::RegisterBindings()
 
 PlayerShipController::~PlayerShipController()
 {
+	m_setSpeedMode.disconnect();
+	m_fireMissileKey.disconnect();
+	m_connRotationDampingToggleKey.disconnect();
+
 	Pi::input->RemoveInputFrame(&InputBindings);
 	m_connRotationDampingToggleKey.disconnect();
 	m_fireMissileKey.disconnect();
