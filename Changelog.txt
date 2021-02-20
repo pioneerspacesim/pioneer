@@ -1,3 +1,14 @@
+February 2021
+   * Internal Changes
+     * Support PowerPC 64 platform (#5141)
+
+   * Fixes
+     * Fix crash on keypress (#5147)
+     * Move the surface starport's system bodies on loading (#5126)
+     * Updating the orientation of the docking tags. - No more backwards docking (#5131)
+     * Update Quickstart.txt (#5132)
+     * Several small improvements and fixes system map (#5123)
+
 January 2021
    * New Features
      * New scoop mission (#4860)
