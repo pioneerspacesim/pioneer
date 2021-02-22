@@ -409,7 +409,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Guarda el estado al atracar, podría causar cierto retraso dependiendo del tiempo de acceso al disco"
+    "message": "guardar el estado al atracar, podría causar cierto retraso dependiendo del tiempo de acceso al disco"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -1441,7 +1441,7 @@
   },
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
-    "message": "{equipment} no soportado en este modelo de nave."
+    "message": "{equipment} no es compatible con este modelo de nave."
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
@@ -1737,7 +1737,7 @@
   },
   "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME": {
     "description": "",
-    "message": "Seleccione un archivo a guardar o cree un nuevo archivo"
+    "message": "Seleccione un archivo para guardar o cree un nuevo archivo"
   },
   "SELECT_FILE": {
     "description": "",
@@ -1745,7 +1745,7 @@
   },
   "SELECT_GAME_TO_LOAD": {
     "description": "",
-    "message": "Selecciona juego a cargar..."
+    "message": "Selecciona juego para cargar..."
   },
   "SELL": {
     "description": "Commodities and equipment prices",
@@ -1853,7 +1853,7 @@
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
-    "message": "Desafortunadamente, el tío nunca me mostró cómo operar esta vieja barcaza cuando estaba vivo, pero creo que ahora estoy introduciendo una entrada en el registro de la nave. Es extraño, todavía puedo sentirlo, como si estuviera en las paredes de esta nave. Tal vez puede ser mi copiloto, y juntos manifestaremos nuestro destino en el gran vacío. Pero primero, Solo necesito comprar algo de hidrógeno para la unidad de salto, trazar un curso hacia oportunidades comerciales lucrativas y rezar a los cielos para que el control del tráfico permita que un piloto sin experiencia como yo despegue, luego veremos qué puede hacer este bebé. ¡Es hora de hacerme una reputación!"
+    "message": "Desafortunadamente, el tío nunca me mostró cómo operar esta vieja barcaza cuando estaba vivo, pero creo que ahora estoy introduciendo una entrada en el registro de la nave. Es extraño, todavía puedo sentirlo, como si estuviera entre las paredes de esta nave. Tal vez pueda ser mi copiloto, y juntos manifestaremos nuestro destino en el gran vacío. Pero primero, Solo necesito comprar algo de hidrógeno para la unidad de salto, trazar un curso hacia oportunidades comerciales lucrativas y rezar a los cielos para que el control del tráfico permita que un piloto sin experiencia como yo despegue, luego veremos qué puede hacer este bebé. ¡Es hora de labrarme una reputación!"
   },
   "START_LOG_ENTRY_2": {
     "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",

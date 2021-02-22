@@ -133,7 +133,7 @@
   },
   "BIND_SPEED_CONTROL": {
     "description": "Descriptive name for the SpeedControl axis.",
-    "message": "Ajustar Velocidad de Objetivo"
+    "message": "Ajustar Velocidad al Objetivo"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
