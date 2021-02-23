@@ -820,33 +820,7 @@ namespace Graphics {
 		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(attribs, v->position.size()));
 		if (iter == s_AttribBufferMap.end()) {
 			// not found a buffer so create a new one
-			VertexBufferDesc vbd;
-			Uint32 attribIdx = 0;
-			assert(v->HasAttrib(ATTRIB_POSITION));
-			vbd.attrib[attribIdx].semantic = ATTRIB_POSITION;
-			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
-			++attribIdx;
-
-			if (v->HasAttrib(ATTRIB_NORMAL)) {
-				vbd.attrib[attribIdx].semantic = ATTRIB_NORMAL;
-				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
-				++attribIdx;
-			}
-			if (v->HasAttrib(ATTRIB_DIFFUSE)) {
-				vbd.attrib[attribIdx].semantic = ATTRIB_DIFFUSE;
-				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_UBYTE4;
-				++attribIdx;
-			}
-			if (v->HasAttrib(ATTRIB_UV0)) {
-				vbd.attrib[attribIdx].semantic = ATTRIB_UV0;
-				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT2;
-				++attribIdx;
-			}
-			if (v->HasAttrib(ATTRIB_TANGENT)) {
-				vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
-				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
-				++attribIdx;
-			}
+			VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(v->GetAttributeSet());
 			vbd.numVertices = static_cast<Uint32>(v->position.size());
 			vbd.usage = BUFFER_USAGE_DYNAMIC; // dynamic since we'll be reusing these buffers if possible
 
@@ -887,15 +861,12 @@ namespace Graphics {
 		};
 #pragma pack(pop)
 
+		AttributeSet set = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL;
 		RefCountedPtr<VertexBuffer> drawVB;
-		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
+		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(set, count));
 		if (iter == s_AttribBufferMap.end()) {
 			// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
-			Graphics::VertexBufferDesc vbd;
-			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-			vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+			Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(set);
 			vbd.numVertices = count;
 			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC; // we could be updating this per-frame
 
@@ -904,7 +875,7 @@ namespace Graphics {
 			vb.Reset(CreateVertexBuffer(vbd));
 
 			// add to map
-			s_AttribBufferMap[std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count)] = vb;
+			s_AttribBufferMap[std::make_pair(set, count)] = vb;
 			drawVB = vb;
 		} else {
 			drawVB = iter->second;
@@ -940,15 +911,12 @@ namespace Graphics {
 		};
 #pragma pack(pop)
 
+		AttributeSet set = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL;
 		RefCountedPtr<VertexBuffer> drawVB;
-		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
+		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(set, count));
 		if (iter == s_AttribBufferMap.end()) {
 			// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
-			Graphics::VertexBufferDesc vbd;
-			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-			vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+			Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(set);
 			vbd.numVertices = count;
 			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC; // we could be updating this per-frame
 
@@ -957,7 +925,7 @@ namespace Graphics {
 			vb.Reset(CreateVertexBuffer(vbd));
 
 			// add to map
-			s_AttribBufferMap[std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count)] = vb;
+			s_AttribBufferMap[std::make_pair(set, count)] = vb;
 			drawVB = vb;
 		} else {
 			drawVB = iter->second;

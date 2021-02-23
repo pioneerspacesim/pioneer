@@ -37,6 +37,40 @@ namespace Graphics {
 		assert(sizeof(Color4ub) == 4);
 	}
 
+	VertexBufferDesc VertexBufferDesc::FromAttribSet(AttributeSet set)
+	{
+		// Create and fill the list of vertex attribute descriptors
+		VertexBufferDesc vbd;
+		Uint32 attribIdx = 0;
+		assert(set.HasAttrib(ATTRIB_POSITION));
+		vbd.attrib[attribIdx].semantic = ATTRIB_POSITION;
+		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+		++attribIdx;
+
+		if (set.HasAttrib(ATTRIB_NORMAL)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_NORMAL;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+			++attribIdx;
+		}
+		if (set.HasAttrib(ATTRIB_DIFFUSE)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_DIFFUSE;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_UBYTE4;
+			++attribIdx;
+		}
+		if (set.HasAttrib(ATTRIB_UV0)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_UV0;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT2;
+			++attribIdx;
+		}
+		if (set.HasAttrib(ATTRIB_TANGENT)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+			++attribIdx;
+		}
+
+		return vbd;
+	}
+
 	Uint32 VertexBufferDesc::GetOffset(VertexAttrib attr) const
 	{
 		for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {

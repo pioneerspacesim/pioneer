@@ -80,7 +80,7 @@ namespace Graphics {
 				m_vtxBuffer(v),
 				m_idxBuffer(i)
 			{}
-			virtual ~MeshObject(){}
+			virtual ~MeshObject() override final {}
 
 			virtual Graphics::VertexBuffer *GetVertexBuffer() const override final { return m_vtxBuffer.Get(); }
 			virtual Graphics::IndexBuffer *GetIndexBuffer() const override final { return m_idxBuffer.Get(); }

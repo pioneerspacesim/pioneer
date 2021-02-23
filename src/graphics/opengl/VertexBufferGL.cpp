@@ -89,7 +89,7 @@ namespace Graphics {
 		Uint8 *VertexBuffer::MapInternal(BufferMapMode mode)
 		{
 			PROFILE_SCOPED()
-			assert(mode != BUFFER_MAP_NONE); //makes no sense
+			assert(mode != BUFFER_MAP_NONE);	  //makes no sense
 			assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 			m_mapMode = mode;
 			if (GetDesc().usage == BUFFER_USAGE_STATIC) {
@@ -334,7 +334,7 @@ namespace Graphics {
 
 		Uint32 *IndexBuffer::Map(BufferMapMode mode)
 		{
-			assert(mode != BUFFER_MAP_NONE); //makes no sense
+			assert(mode != BUFFER_MAP_NONE);	  //makes no sense
 			assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 			m_mapMode = mode;
 			if (GetUsage() == BUFFER_USAGE_STATIC) {
@@ -414,7 +414,7 @@ namespace Graphics {
 
 		matrix4x4f *InstanceBuffer::Map(BufferMapMode mode)
 		{
-			assert(mode != BUFFER_MAP_NONE); //makes no sense
+			assert(mode != BUFFER_MAP_NONE);	  //makes no sense
 			assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 			m_mapMode = mode;
 			if (GetUsage() == BUFFER_USAGE_STATIC) {
@@ -481,7 +481,6 @@ namespace Graphics {
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 
-
 		MeshObject::MeshObject(RefCountedPtr<VertexBuffer> vtxBuffer, RefCountedPtr<IndexBuffer> idxBuffer) :
 			m_vtxBuffer(std::move(vtxBuffer)),
 			m_idxBuffer(std::move(idxBuffer))
@@ -491,7 +490,7 @@ namespace Graphics {
 			// Create the VAOs
 			glGenVertexArrays(1, &m_vao);
 			glBindVertexArray(m_vao);
-			m_vtxBuffer->Bind();
+			glBindBuffer(GL_ARRAY_BUFFER, m_vtxBuffer->GetBuffer());
 
 			auto &desc = m_vtxBuffer->GetDesc();
 
@@ -513,7 +512,7 @@ namespace Graphics {
 					glVertexAttribPointer(1, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, desc.stride, offset);
 					break;
 				case ATTRIB_DIFFUSE:
-					glEnableVertexAttribArray(2); // Enable the attribute at that location
+					glEnableVertexAttribArray(2);																							  // Enable the attribute at that location
 					glVertexAttribPointer(2, get_num_components(attr.format), get_component_type(attr.format), GL_TRUE, desc.stride, offset); // only normalise the colours
 					break;
 				case ATTRIB_UV0:
@@ -535,7 +534,7 @@ namespace Graphics {
 
 			// Unbinding the VAO implicitly unbinds the index buffer (as it's part of the VAO state)
 			// The vertex buffer however is *not* part of VAO state.
-			m_vtxBuffer->Release();
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindVertexArray(0);
 		}
 

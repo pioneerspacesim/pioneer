@@ -8,8 +8,6 @@
 
 namespace Graphics {
 
-	typedef Uint32 AttributeSet;
-
 	//Vertex attribute semantic
 	enum VertexAttrib {
 		ATTRIB_NONE = 0,
@@ -21,6 +19,28 @@ namespace Graphics {
 		ATTRIB_TANGENT = (1u << 5),
 		//ATTRIB_BITANGENT = (1u << 6)
 		//etc.
+	};
+
+	// typedef Uint32 AttributeSet;
+
+	struct AttributeSet {
+		AttributeSet() :
+			m_attr(0) {}
+		AttributeSet(VertexAttrib attr) :
+			m_attr(attr) {}
+		AttributeSet(uint32_t attr) :
+			m_attr(attr) {}
+		AttributeSet &operator=(uint32_t rhs)
+		{
+			m_attr = rhs;
+			return *this;
+		}
+		operator uint32_t() const { return m_attr; }
+
+		inline bool HasAttrib(uint32_t attr) const { return (m_attr & attr) == attr; }
+
+	private:
+		uint32_t m_attr;
 	};
 
 	enum VertexAttribFormat {

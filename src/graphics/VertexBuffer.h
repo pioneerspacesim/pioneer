@@ -40,6 +40,8 @@ namespace Graphics {
 
 	struct VertexBufferDesc {
 		VertexBufferDesc();
+		static VertexBufferDesc FromAttribSet(AttributeSet set);
+
 		//byte offset of an existing attribute
 		Uint32 GetOffset(VertexAttrib) const;
 
@@ -159,7 +161,7 @@ namespace Graphics {
 	 */
 	class MeshObject : public RefCounted {
 	public:
-		virtual ~MeshObject() = 0;
+		virtual ~MeshObject() {}
 
 		virtual void Bind() = 0;
 		virtual void Release() = 0;

@@ -29,6 +29,7 @@ void UniformBuffer::Unmap()
 	assert(m_mapMode != BUFFER_MAP_NONE);
 	glUnmapBuffer(GL_UNIFORM_BUFFER);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	m_mapMode = BUFFER_MAP_NONE;
 }
 
 void UniformBuffer::BufferData(const size_t size, void *data)
