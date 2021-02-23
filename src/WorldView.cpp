@@ -72,7 +72,6 @@ WorldView::WorldView(const Json &jsonObj, Game *game) :
 void WorldView::InitObject()
 {
 	m_labelsOn = true;
-	SetTransparency(true);
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
@@ -286,14 +285,6 @@ int WorldView::GetActiveWeapon() const
 	}
 }
 
-static inline bool project_to_screen(const vector3d &in, vector3d &out, const Graphics::Frustum &frustum, const int guiSize[2])
-{
-	if (!frustum.ProjectPoint(in, out)) return false;
-	out.x *= guiSize[0];
-	out.y = Gui::Screen::GetHeight() - out.y * guiSize[1];
-	return true;
-}
-
 void WorldView::UpdateProjectedObjects()
 {
 	const Frame *cam_frame = Frame::GetFrame(m_cameraContext->GetTempFrame());
@@ -334,15 +325,14 @@ void WorldView::UpdateProjectedObjects()
 
 void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpacePos)
 {
-	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
 	const Graphics::Frustum frustum = m_cameraContext->GetFrustum();
 
 	const float BORDER = 10.0;
 	const float BORDER_BOTTOM = 90.0;
 	// XXX BORDER_BOTTOM is 10+the control panel height and shouldn't be needed at all
 
-	const float w = Gui::Screen::GetWidth();
-	const float h = Gui::Screen::GetHeight();
+	const float w = Graphics::GetScreenWidth();
+	const float h = Graphics::GetScreenHeight();
 
 	if (cameraSpacePos.LengthSqr() < 1e-6) { // length < 1e-3
 		indicator.pos.x = w / 2.0f;
@@ -352,9 +342,12 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 	}
 
 	vector3d proj;
-	bool success = project_to_screen(cameraSpacePos, proj, frustum, guiSize);
-	if (!success)
+	if (frustum.ProjectPoint(cameraSpacePos, proj)) {
+		proj.x *= w;
+		proj.y = (1.0f - proj.y) * h;
+	} else {
 		proj = vector3d(w / 2.0, h / 2.0, 0.0);
+	}
 
 	indicator.realpos.x = int(proj.x);
 	indicator.realpos.y = int(proj.y);
@@ -501,7 +494,7 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 
 void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 {
-	const vector2f screenCentre(Gui::Screen::GetWidth() / 2.0f, Gui::Screen::GetHeight() / 2.0f);
+	const vector2f screenCentre(Graphics::GetScreenWidth() / 2.0f, Graphics::GetScreenHeight() / 2.0f);
 	vector2f dir = screenCentre - marker.pos;
 	float len = dir.Length();
 	dir *= HUD_CROSSHAIR_SIZE / len;

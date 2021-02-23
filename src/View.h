@@ -5,7 +5,6 @@
 #define _VIEW_H
 
 #include "JsonFwd.h"
-#include "gui/Gui.h"
 #include "libs.h"
 
 namespace Graphics {
@@ -19,10 +18,11 @@ namespace Graphics {
  *  system map
  *  sector map
  */
-class View : public Gui::Fixed {
+class View {
 public:
 	View();
 	virtual ~View();
+	virtual void Draw(){};
 	// called before Gui::Draw will call widget ::Draw methods.
 	virtual void Draw3D() = 0;
 	// for checking key states, mouse crud

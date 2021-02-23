@@ -9,7 +9,6 @@
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
-#include "gui/Gui.h"
 #include "pigui/PiGuiView.h"
 #include <set>
 #include <string>
@@ -29,7 +28,7 @@ public:
 	~SectorView() override;
 
 	void Update() override;
-	void ShowAll() override;
+	// void ShowAll() override;
 	void Draw3D() override;
 	vector3f GetPosition() const { return m_pos; }
 	SystemPath GetCurrent() const { return m_current; }
@@ -102,22 +101,6 @@ private:
 	void InitDefaults();
 	void InitObject();
 
-	struct DistanceIndicator {
-		Gui::Label *label;
-		Graphics::Drawables::Line3D *line;
-		Color okayColor;
-		Color unsuffFuelColor;
-		Color outOfRangeColor;
-	};
-
-	struct SystemLabels {
-		Gui::Label *systemName;
-		Gui::Label *sector;
-		DistanceIndicator distance;
-		Gui::Label *starType;
-		Gui::Label *shortDesc;
-	};
-
 	void DrawNearSectors(const matrix4x4f &modelview);
 	void DrawNearSector(const int sx, const int sy, const int sz, const matrix4x4f &trans);
 	void PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &origin, int drawRadius);
@@ -169,14 +152,12 @@ private:
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_disk;
 
-	Gui::LabelSet *m_clickableLabels;
+	//Gui::LabelSet *m_clickableLabels;
 
 	std::set<const Faction *> m_visibleFactions;
 	std::set<const Faction *> m_hiddenFactions;
 
 	Uint8 m_detailBoxVisible;
-
-	void OnToggleFaction(Gui::ToggleButton *button, bool pressed, const Faction *faction);
 
 	sigc::connection m_onMouseWheelCon;
 	sigc::connection m_onToggleSelectionFollowView;

@@ -4,7 +4,7 @@
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
-#include "gui/GuiWidget.h"
+#include "graphics/Drawables.h"
 #include "pigui/PiGuiView.h"
 #include "ship/ShipViewController.h"
 
@@ -25,10 +25,6 @@ enum PlaneType {
 	ROTATIONAL,
 	PARENT
 };
-
-namespace Gui {
-	class TexturedQuad;
-}
 
 class WorldView : public PiGuiView {
 public:
@@ -138,22 +134,6 @@ private:
 
 		void RegisterBindings() override;
 	} InputBindings;
-};
-
-class NavTunnelWidget : public Gui::Widget {
-public:
-	NavTunnelWidget(WorldView *worldView, Graphics::RenderState *);
-	virtual void Draw();
-	virtual void GetSizeRequested(float size[2]);
-	void DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c);
-
-private:
-	void CreateVertexBuffer(const Uint32 size);
-
-	WorldView *m_worldView;
-	Graphics::RenderState *m_renderState;
-	RefCountedPtr<Graphics::Material> m_material;
-	std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
 };
 
 #endif /* _WORLDVIEW_H */

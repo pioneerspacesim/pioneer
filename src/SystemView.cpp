@@ -60,7 +60,6 @@ SystemView::SystemView(Game *game) :
 	m_rot_y = 0;
 	m_rot_x = 50;
 	m_zoom = 1.0f / float(AU);
-	SetTransparency(true);
 
 	m_input.RegisterBindings();
 

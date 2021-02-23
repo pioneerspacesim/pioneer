@@ -20,7 +20,6 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "gui/Gui.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaObject.h"
 #include "sigc++/functors/mem_fun.h"
@@ -351,20 +350,10 @@ void SectorView::InitObject()
 	m_onMouseWheelCon =
 		Pi::input->onMouseWheel.connect(sigc::mem_fun(this, &SectorView::MouseWheel));
 
-	SetTransparency(true);
-
 	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
 	m_secLineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, 500));
 	m_starVerts.reset(new Graphics::VertexArray(
 		Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0, 500));
-
-	Gui::Screen::PushFont("OverlayFont");
-	m_clickableLabels = new Gui::LabelSet();
-	m_clickableLabels->SetLabelColor(Color(178, 178, 178, 191));
-	Add(m_clickableLabels, 0, 0);
-	Gui::Screen::PopFont();
-
-	Gui::Screen::PushFont("OverlayFont");
 
 	m_renderer = Pi::renderer; //XXX pass cleanly to all views constructors!
 
@@ -428,7 +417,7 @@ void SectorView::Draw3D()
 
 	m_lineVerts->Clear();
 	m_secLineVerts->Clear();
-	m_clickableLabels->Clear();
+	// m_clickableLabels->Clear();
 	m_starVerts->Clear();
 
 	if (m_zoomClamped <= FAR_THRESHOLD)
@@ -616,8 +605,7 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 
 		// place the label
 		vector3d systemPos = vector3d((*sys).GetFullPosition() - origin);
-		vector3d screenPos;
-		Gui::Screen::Project(systemPos, screenPos);
+		vector3d screenPos = Graphics::ProjectToScreen(m_renderer, systemPos);
 		// reject back-projected labels (negative Z in clipspace is in front of the view plane)
 		if (screenPos.z < 0.0f) {
 			// work out the colour
@@ -632,7 +620,8 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 				text = sys->GetName();
 
 			// setup the label;
-			m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
+			// FIXME: send this info to Lua for decoration
+			// m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
 		}
 	}
 }
@@ -640,6 +629,7 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 void SectorView::PutFactionLabels(const vector3f &origin)
 {
 	PROFILE_SCOPED()
+	/* FIXME: replace this with an imgui-based solution (push system data into Lua for decoration?)
 
 	Gui::Screen::EnterOrtho();
 
@@ -701,6 +691,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 		}
 	}
 	Gui::Screen::LeaveOrtho();
+	*/
 }
 
 void SectorView::AddStarBillboard(const matrix4x4f &trans, const vector3f &pos, const Color &col, float size)
@@ -722,17 +713,6 @@ void SectorView::AddStarBillboard(const matrix4x4f &trans, const vector3f &pos, 
 	va.Add(offset + rotv1, col, vector2f(1.f, 1.f)); //bottom right
 }
 
-void SectorView::OnToggleFaction(Gui::ToggleButton *button, bool pressed, const Faction *faction)
-{
-	// hide or show the faction's systems depending on whether the button is pressed
-	if (pressed)
-		m_hiddenFactions.erase(faction);
-	else
-		m_hiddenFactions.insert(faction);
-
-	m_toggledFaction = true;
-}
-
 void SectorView::DrawNearSectors(const matrix4x4f &modelview)
 {
 	PROFILE_SCOPED()
@@ -751,7 +731,6 @@ void SectorView::DrawNearSectors(const matrix4x4f &modelview)
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
 
 	m_renderer->SetTransform(modelview);
-	Gui::Screen::EnterOrtho();
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
@@ -759,7 +738,6 @@ void SectorView::DrawNearSectors(const matrix4x4f &modelview)
 			}
 		}
 	}
-	Gui::Screen::LeaveOrtho();
 }
 
 bool SectorView::MoveRouteItemUp(const std::vector<SystemPath>::size_type element)
@@ -1411,11 +1389,6 @@ void SectorView::Update()
 		m_fresnelMat->diffuse = Color::WHITE;
 		m_jumpSphere.reset(new Graphics::Drawables::Sphere3D(m_renderer, m_fresnelMat, m_jumpSphereState, 4, 1.0f));
 	}
-}
-
-void SectorView::ShowAll()
-{
-	View::ShowAll();
 }
 
 void SectorView::MouseWheel(bool up)

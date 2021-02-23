@@ -15,7 +15,6 @@
 #include "Pi.h"
 #include "Player.h"
 #include "Space.h"
-#include "SystemInfoView.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
 #include "imgui/imgui.h"

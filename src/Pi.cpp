@@ -49,7 +49,6 @@
 #include "SpaceStation.h"
 #include "Star.h"
 #include "StringF.h"
-#include "SystemInfoView.h"
 #include "Tombstone.h"
 #include "TransferPlanner.h"
 #include "WorldView.h"
@@ -439,7 +438,6 @@ void Pi::App::Shutdown()
 	Pi::pigui = nullptr;
 	Lua::UninitModules();
 	Lua::Uninit();
-	Gui::Uninit();
 
 	delete Pi::modelCache;
 
@@ -548,10 +546,6 @@ void StartupScreen::Start()
 
 	// TODO: expose the AddStep interface so Lua::InitModules can granularize its registration
 	AddStep("Lua::InitModules()", &Lua::InitModules);
-
-	AddStep("Gui::Init()", []() {
-		Gui::Init(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 800, 600);
-	});
 
 	AddStep("GalaxyGenerator::Init()", []() {
 		if (Pi::config->HasEntry("GalaxyGenerator"))
@@ -816,18 +810,6 @@ bool Pi::App::HandleEvent(SDL_Event &event)
 {
 	PROFILE_SCOPED()
 
-	// HACK for most keypresses SDL will generate KEYUP/KEYDOWN and TEXTINPUT
-	// events. keybindings run off KEYUP/KEYDOWN. the console is opened/closed
-	// via keybinding. the console TextInput widget uses TEXTINPUT events. thus
-	// after switching the console, the stray TEXTINPUT event causes the
-	// console key (backtick) to appear in the text entry field. we hack around
-	// this by setting this flag if the console was switched. if its set, we
-	// swallow the TEXTINPUT event this hack must remain until we have a
-	// unified input system
-	// This is safely able to be removed once GUI and newUI are gone
-
-	Gui::HandleSDLEvent(&event);
-
 	return false;
 }
 
@@ -863,14 +845,11 @@ void Pi::App::PreUpdate()
 {
 	PROFILE_SCOPED()
 	Pi::frameTime = DeltaTime();
-
-	GuiApplication::PreUpdate();
 }
 
 void Pi::App::PostUpdate()
 {
 	PROFILE_SCOPED()
-	GuiApplication::PostUpdate();
 
 	RunJobs();
 
@@ -1022,11 +1001,6 @@ void GameLoop::Update(float deltaTime)
 	// Reset the depth buffer so our UI can get drawn right overtop
 	Pi::renderer->ClearDepthBuffer();
 
-	// FIXME: GUI must die!
-	if (Pi::DrawGUI) {
-		Gui::Draw();
-	}
-
 	// Ask ImGui to hide OS cursor if we're capturing it for input:
 	// it will do this if GetMouseCursor == ImGuiMouseCursor_None.
 	if (Pi::input->IsCapturingMouse()) {
@@ -1073,7 +1047,6 @@ void GameLoop::Update(float deltaTime)
 		perfInfoDisplay->UpdateFrameInfo(frame_stat, phys_stat);
 		frame_stat = 0;
 		phys_stat = 0;
-		Text::TextureFont::ClearGlyphCount();
 		if (SDL_GetTicks() - last_stats > 1200)
 			last_stats = SDL_GetTicks();
 		else

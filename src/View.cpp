@@ -4,27 +4,20 @@
 #include "View.h"
 #include "Pi.h"
 
-View::View() :
-	Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight() - 64))
+View::View()
 {
 }
 
 View::~View()
 {
-	Gui::Screen::RemoveBaseWidget(this);
 }
 
 void View::Attach()
 {
 	OnSwitchTo();
-
-	Gui::Screen::AddBaseWidget(this, 0, 0);
-
-	ShowAll();
 }
 
 void View::Detach()
 {
-	Gui::Screen::RemoveBaseWidget(this);
 	OnSwitchFrom();
 }

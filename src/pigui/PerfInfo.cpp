@@ -14,7 +14,6 @@
 #include "lua/Lua.h"
 #include "lua/LuaManager.h"
 #include "scenegraph/Model.h"
-#include "text/TextureFont.h"
 
 #include <imgui/imgui.h>
 #include <algorithm>
@@ -268,8 +267,8 @@ void PerfInfo::DrawRendererStats()
 	const Uint32 cachedTextureMemUsage = tex2dMemUsage + texCubeMemUsage + texArray2dMemUsage;
 
 	ImGui::Text("Renderer:");
-	ImGui::Text("%d tris (%.3f M tris/sec), %d GeoPatches, %d glyphs",
-		Pi::statSceneTris, Pi::statSceneTris * framesThisSecond * 1e-6, Pi::statNumPatches, Text::TextureFont::GetGlyphCount());
+	ImGui::Text("%d tris (%.3f M tris/sec), %d GeoPatches",
+		Pi::statSceneTris, Pi::statSceneTris * framesThisSecond * 1e-6, Pi::statNumPatches);
 	ImGui::Text("%u draw calls (%u tris, %u point sprites, %u billboards)",
 		numDrawCalls, numDrawTris, numDrawPointSprites, numDrawBillBoards);
 	ImGui::Text("%u Buildings, %u Cities, %u Gd.Stations, %u Sp.Stations",

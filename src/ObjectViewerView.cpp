@@ -31,14 +31,8 @@ ObjectViewerView::ObjectViewerView() :
 	m_systemBody(nullptr),
 	m_state{}
 {
-	SetTransparency(true);
 	viewingDist = 1000.0f;
 	m_camRot = matrix4x4d::Identity();
-
-	float size[2];
-	GetSizeRequested(size);
-
-	SetTransparency(true);
 
 	float znear;
 	float zfar;
