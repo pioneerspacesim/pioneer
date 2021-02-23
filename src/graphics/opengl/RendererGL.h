@@ -4,6 +4,7 @@
 #pragma once
 
 #include "RefCounted.h"
+#include "graphics/RenderState.h"
 #include "graphics/opengl/UniformBuffer.h"
 #ifndef _RENDERER_OGL_H
 #define _RENDERER_OGL_H
@@ -105,10 +106,11 @@ namespace Graphics {
 		virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType) override final;
 		virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) override final;
 		virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) override final;
-		virtual bool DrawMesh(MeshObject *, RenderState *, Material *, PrimitiveType = TRIANGLES) override final;
-		virtual bool DrawMeshInstanced(MeshObject *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) override final;
+		virtual bool DrawMesh(MeshObject *, Material *) override final;
+		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final;
 
-		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) override final;
+		[[deprecated]] virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) override final;
+		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) override final;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override final;
 		virtual RenderState *CreateRenderState(const RenderStateDesc &) override final;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) override final;
@@ -128,6 +130,8 @@ namespace Graphics {
 	protected:
 		virtual void PushState() override final;
 		virtual void PopState() override final;
+
+		void SetRenderState(const RenderStateDesc &rsd);
 
 		Uint32 m_numLights;
 		Uint32 m_numDirLights;
@@ -163,6 +167,7 @@ namespace Graphics {
 		OGL::RenderTarget *m_activeRenderTarget = nullptr;
 		OGL::RenderTarget *m_windowRenderTarget = nullptr;
 		RenderState *m_activeRenderState = nullptr;
+		uint32_t m_activeRenderStateHash = 0;
 
 		matrix4x4f m_modelViewMat;
 		matrix4x4f m_projectionMat;

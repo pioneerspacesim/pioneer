@@ -93,7 +93,7 @@ namespace Graphics {
 		virtual bool SetProjection(const matrix4x4f &m) = 0;
 		virtual matrix4x4f GetProjection() const = 0;
 
-		virtual bool SetRenderState(RenderState *) = 0;
+		[[deprecated]] virtual bool SetRenderState(RenderState *) = 0;
 
 		// XXX maybe GL-specific. maybe should be part of the render state
 		virtual bool SetDepthRange(double znear, double zfar) = 0;
@@ -129,14 +129,15 @@ namespace Graphics {
 		[[deprecated]] virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) = 0;
 
 		// Draw a mesh object with the given render state and material.
-		virtual bool DrawMesh(MeshObject *, RenderState *, Material *, PrimitiveType = TRIANGLES) = 0;
+		virtual bool DrawMesh(MeshObject *, Material *) = 0;
 		// Draw multiple instances of a mesh object with the given render state and material
-		virtual bool DrawMeshInstanced(MeshObject *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) = 0;
+		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) = 0;
 
 		//creates a unique material based on the descriptor. It will not be deleted automatically.
-		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
+		[[deprecated]] virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
+		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) = 0;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
-		virtual RenderState *CreateRenderState(const RenderStateDesc &) = 0;
+		[[deprecated]] virtual RenderState *CreateRenderState(const RenderStateDesc &) = 0;
 		//returns 0 if unsupported
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0;
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) = 0;

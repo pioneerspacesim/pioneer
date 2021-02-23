@@ -98,14 +98,14 @@ namespace Graphics {
 		public:
 			PointSprites();
 			void SetData(const int count, const vector3f *positions, const Color *colours, const float *sizes, Graphics::Material *pMaterial);
-			void Draw(Renderer *, RenderState *);
+			void Draw(Renderer *);
 
 		private:
 			void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
 
 			bool m_refreshVertexBuffer;
 			RefCountedPtr<Graphics::Material> m_material;
-			RefCountedPtr<VertexBuffer> m_vertexBuffer;
+			RefCountedPtr<Graphics::MeshObject> m_pointData;
 			std::unique_ptr<VertexArray> m_va;
 		};
 		//------------------------------------------------------------

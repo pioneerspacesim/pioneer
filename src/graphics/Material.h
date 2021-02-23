@@ -13,8 +13,9 @@
  * For the OGL renderer, a Material is always accompanied by a Program.
  */
 #include "Color.h"
-#include "matrix4x4.h"
 #include "RefCounted.h"
+#include "graphics/RenderState.h"
+#include "matrix4x4.h"
 
 namespace Graphics {
 
@@ -67,9 +68,9 @@ namespace Graphics {
 		bool usePatterns; //pattern/color system
 		bool vertexColors;
 		bool instanced;
-		Sint32 textures; //texture count
-		Uint32 dirLights; //set by RendererOGL if lighting == true
-		Uint32 quality; // see: Graphics::MaterialQuality
+		Sint32 textures;   //texture count
+		Uint32 dirLights;  //set by RendererOGL if lighting == true
+		Uint32 quality;	   // see: Graphics::MaterialQuality
 		Uint32 numShadows; //use by GeoSphere/GasGiant for eclipse
 
 		friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
@@ -107,9 +108,11 @@ namespace Graphics {
 
 		//XXX may not be necessary. Used by newmodel to check if a material uses patterns
 		const MaterialDescriptor &GetDescriptor() const { return m_descriptor; }
+		const RenderStateDesc &GetStateDescriptor() const { return m_stateDescriptor; }
 
 	protected:
 		MaterialDescriptor m_descriptor;
+		RenderStateDesc m_stateDescriptor;
 
 	private:
 		friend class RendererOGL;

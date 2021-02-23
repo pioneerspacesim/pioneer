@@ -6,6 +6,7 @@
 #include "Texture.h"
 #include "TextureBuilder.h"
 #include "graphics/RenderState.h"
+#include "graphics/VertexBuffer.h"
 
 namespace Graphics {
 
@@ -330,6 +331,7 @@ namespace Graphics {
 				return;
 
 			assert(positions);
+			assert(pMaterial->GetStateDescriptor().primitiveType == Graphics::POINTS);
 
 			m_va.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_DIFFUSE, count));
 
@@ -342,35 +344,29 @@ namespace Graphics {
 			m_material.Reset(pMaterial);
 		}
 
-		void PointSprites::Draw(Renderer *r, RenderState *rs)
+		void PointSprites::Draw(Renderer *r)
 		{
 			PROFILE_SCOPED()
 			if (m_va->GetNumVerts() == 0)
 				return;
 
-			if (!m_vertexBuffer.Valid() || !m_material.Valid()) {
+			if (!m_pointData.Valid() || !m_material.Valid()) {
 				CreateVertexBuffer(r, m_va->GetNumVerts());
 			}
 			if (m_refreshVertexBuffer) {
 				m_refreshVertexBuffer = false;
-				m_vertexBuffer->Populate(*m_va);
+				m_pointData->GetVertexBuffer()->Populate(*m_va);
 			}
-			r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), Graphics::POINTS);
+			r->DrawMesh(m_pointData.Get(), m_material.Get());
 		}
 
 		void PointSprites::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
 		{
 			PROFILE_SCOPED()
-			Graphics::VertexBufferDesc vbd;
-			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-			vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[2].semantic = Graphics::ATTRIB_DIFFUSE;
-			vbd.attrib[2].format = Graphics::ATTRIB_FORMAT_UBYTE4;
+			Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_DIFFUSE);
 			vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 			vbd.numVertices = size;
-			m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
+			m_pointData.Reset(r->CreateMeshObject(r->CreateVertexBuffer(vbd)));
 		}
 
 		//------------------------------------------------------------

@@ -11,13 +11,21 @@ namespace Graphics {
 		RenderStateDesc() :
 			blendMode(BLEND_SOLID),
 			cullMode(CULL_BACK),
+			primitiveType(PrimitiveType::TRIANGLES),
 			depthTest(true),
 			depthWrite(true)
 		{
 		}
 
+		bool operator!=(const RenderStateDesc &rhs) const { return !(*this == rhs); }
+		bool operator==(const RenderStateDesc &rhs) const
+		{
+			return blendMode == rhs.blendMode && cullMode == rhs.cullMode && primitiveType == rhs.primitiveType && depthTest == rhs.depthTest && depthWrite == rhs.depthWrite;
+		}
+
 		BlendMode blendMode;
 		FaceCullMode cullMode;
+		PrimitiveType primitiveType;
 		bool depthTest;
 		bool depthWrite;
 	};

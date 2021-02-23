@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "graphics/RenderState.h"
 #ifndef _RENDERER_DUMMY_H
 #define _RENDERER_DUMMY_H
 
@@ -70,10 +71,11 @@ namespace Graphics {
 		virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType) override final { return true; }
 		virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) override final { return true; }
 		virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) override final { return true; }
-		virtual bool DrawMesh(MeshObject *, RenderState *, Material *, PrimitiveType = TRIANGLES) override final { return true; }
-		virtual bool DrawMeshInstanced(MeshObject *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) override final { return true; }
+		virtual bool DrawMesh(MeshObject *, Material *) override final { return true; }
+		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final { return true; }
 
 		virtual Material *CreateMaterial(const MaterialDescriptor &d) override final { return new Graphics::Dummy::Material(); }
+		virtual Material *CreateMaterial(const MaterialDescriptor &d, const RenderStateDesc &rsd) override final { return new Graphics::Dummy::Material(); }
 		virtual Texture *CreateTexture(const TextureDescriptor &d) override final { return new Graphics::TextureDummy(d); }
 		virtual RenderState *CreateRenderState(const RenderStateDesc &d) override final { return new Graphics::Dummy::RenderState(d); }
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &d) override final { return new Graphics::Dummy::RenderTarget(d); }
