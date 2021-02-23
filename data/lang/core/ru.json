@@ -165,7 +165,7 @@
   },
   "CENTER": {
     "description": "",
-    "message": "Center"
+    "message": "Центр"
   },
   "CH4_ATMOSPHERE": {
     "description": "",
@@ -453,7 +453,7 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
-    "message": "Switch between grid display modes."
+    "message": "Переключение между режимами отображения сетки."
   },
   "HAND_WEAPONS": {
     "description": "",
@@ -789,7 +789,7 @@
   },
   "MISSILE_DETECTED": {
     "description": "",
-    "message": "Missile launch detected."
+    "message": "Обнаружен пуск ракеты."
   },
   "MIXED_ECONOMY": {
     "description": "",
@@ -961,11 +961,11 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} Earth days"
+    "message": "%days{f.1} Земные дни"
   },
   "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} Earth masses"
+    "message": "%mass{f.3} массы Земли"
   },
   "N_EARTH_RADII": {
     "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
@@ -989,7 +989,7 @@
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
-    "message": "Object info"
+    "message": "Информация об объекте"
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1005,7 +1005,7 @@
   },
   "ORBIT_PLANNER": {
     "description": "",
-    "message": "Orbit planner"
+    "message": "Планировщик орбиты"
   },
   "OUTDOOR_AGRICULTURAL_WORLD": {
     "description": "",
@@ -1237,7 +1237,7 @@
   },
   "SET_AS_COMBAT_TARGET": {
     "description": "",
-    "message": "Set as combat target"
+    "message": "Установить в качестве боевой цели"
   },
   "SET_AS_TARGET": {
     "description": "",
