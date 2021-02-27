@@ -21,11 +21,11 @@
   },
   "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Explored system with {bodycount} major {bodies}."
+    "message": "Изучена система с {bodycount} основными {bodies}. "
   },
   "GETTING_SENSOR_DATA": {
     "description": "Shown when entering an unexplored system",
-    "message": "System data gathering and analysis in progress..."
+    "message": "Выполняется сбор и анализ данных о системе..."
   },
   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
     "description": "",

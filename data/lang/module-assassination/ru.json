@@ -93,7 +93,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "It is most regrettable that {target} is still alive and well. You will receive no payment as you did not complete your contract."
+    "message": "Очень прискорбно, что {target} всё ещё жив и здоров. Вы не получите оплаты, так как не выполнили контракт."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Are you asking money for a job done by someone else? Get lost."
+    "message": "Ты просишь деньги за работу, которую выполнил кто-то другой? Убирайся."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",

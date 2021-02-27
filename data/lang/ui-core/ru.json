@@ -29,7 +29,7 @@
   },
   "ANISOTROPIC_FILTERING_DESC": {
     "description": "",
-    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+    "message": "Снижает размытие текстур под малыми углами, но может привести к снижению производительности."
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "ARRIVAL_DATE": {
     "description": "Time of arrival, used in flight log",
-    "message": "Arrival date"
+    "message": "Дата прибытия"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
@@ -45,7 +45,7 @@
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Atmo. pressure limit"
+    "message": "Ограничение давления"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -97,7 +97,7 @@
   },
   "CANNOT_SELL_ITEM": {
     "description": "",
-    "message": "This item cannot be sold"
+    "message": "Этот товар нельзя продать"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -157,7 +157,7 @@
   },
   "CITY_DETAIL_LEVEL": {
     "description": "Game graphics option",
-    "message": "Уровень детализации городов"
+    "message": "Детализация городов"
   },
   "CLEAN": {
     "description": "Legal status of player",
@@ -193,7 +193,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Commodity trade analysis of:"
+    "message": "Анализ торговли товарами:"
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
@@ -229,7 +229,7 @@
   },
   "CONTRACT_FRAUD": {
     "description": "Crime committed by intentionally breaking a contract",
-    "message": "Contract fraud"
+    "message": "Нарушение контракта"
   },
   "CONTROLS": {
     "description": "",
@@ -277,7 +277,7 @@
   },
   "DATE": {
     "description": "Date of an event, used in flight log",
-    "message": "Date"
+    "message": "Дата"
   },
   "DEADLY": {
     "description": "Player combat rating",
@@ -285,7 +285,7 @@
   },
   "DECREASE": {
     "description": "Decrease something.",
-    "message": "Decrease"
+    "message": "Уменьшить"
   },
   "DELTA_V": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
-    "message": "Departure date"
+    "message": "Дата отбытия"
   },
   "DESCENT_TO_GROUND_SPEED": {
     "description": "",
@@ -317,15 +317,15 @@
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Lower gives better performance, at cost of visual aesthetics"
+    "message": "Снижение улучшает производительность за счет визуальной эстетики"
   },
   "DISABLE_SCREENSHOT_INFO": {
     "description": "",
-    "message": "Disable Screenshot Info"
+    "message": "Снимки экрана без информации"
   },
   "DISABLE_SCREENSHOT_INFO_DESC": {
     "description": "",
-    "message": "Hide all displayed info, including system coordinates, when in screenshot mode (toggle HUD mode)."
+    "message": "Скрыть всю отображаемую информацию в режиме скриншота, включая системные координаты (переключить режим HUD). "
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -337,7 +337,7 @@
   },
   "DISPLAY_HUD_TRAILS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+    "message": "Позволяет видеть траекторию кораблей на HUD"
   },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
@@ -345,7 +345,7 @@
   },
   "DISPLAY_NAV_TUNNELS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Shows a virtual tunnel to current selected target on the HUD"
+    "message": "Показывает виртуальный тоннель к текущей выбранной цели на HUD"
   },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
@@ -353,11 +353,11 @@
   },
   "DISPLAY_SPEED_LINES_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Assists the sense of direction of movement in space"
+    "message": "Помогает отслеживать движение в пространстве"
   },
   "DOCKED_AT": {
     "description": "",
-    "message": "Docked at"
+    "message": "Пристыкован к станции"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
-    "message": "Drive active"
+    "message": "Привод активен"
   },
   "DUE": {
     "description": "mission deadline date",
@@ -385,7 +385,7 @@
   },
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
-    "message": "Edit"
+    "message": "Редактировать запись"
   },
   "EFFECTS": {
     "description": "",
@@ -409,7 +409,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "Cохранять игру при стыковке\n(В зависимости от времени доступа к диску может работать с задержками)"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -417,7 +417,7 @@
   },
   "ENABLE_COCKPIT_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
+    "message": "Включить 3D-модель кабины пилота\n(В настоящее время панель управления является заглушкой)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",
@@ -433,7 +433,7 @@
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
-    "message": "Entry"
+    "message": "Запись"
   },
   "EQUIPMENT": {
     "description": "",
@@ -477,47 +477,47 @@
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Accessories"
+    "message": "Аксессуар"
   },
   "FEATURE_ARMOUR": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Armour"
+    "message": "Броня"
   },
   "FEATURE_CLOTHES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Clothes"
+    "message": "Одежда"
   },
   "FEATURE_EYES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Eyes"
+    "message": "Глаза"
   },
   "FEATURE_GENDER": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Gender"
+    "message": "Пол"
   },
   "FEATURE_HAIRSTYLE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Hairstyle"
+    "message": "Причёска"
   },
   "FEATURE_HEAD": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Head"
+    "message": "Голова"
   },
   "FEATURE_MOUTH": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Mouth"
+    "message": "Рот"
   },
   "FEATURE_NOSE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Nose"
+    "message": "Нос"
   },
   "FEATURE_RACE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Race"
+    "message": "Раса"
   },
   "FEATURE_SPECIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Species"
+    "message": "Вид"
   },
   "FEMALE": {
     "description": "",
@@ -529,51 +529,51 @@
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
-    "message": "Finance"
+    "message": "Финансы"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Docking at {primary_info}"
+    "message": "Стыковка в {primary_info}"
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
-    "message": "Flying in space, relative {primary_info}"
+    "message": "Полет в космосе, относительно {primary_info}"
   },
   "FLIGHTLOG_HYPERSPACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "In Hyperspace, enroute to {primary_info}"
+    "message": "В гиперпространстве на пути к {primary_info}"
   },
   "FLIGHTLOG_JUMPING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "Hyper jumping towards {primary_info}"
+    "message": "Гиперпрыжок к {primary_info}"
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+    "message": "Приземлился на {primary_info}, по координатам ({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, in orbit around {secondary_info}"
+    "message": "Пристыкован к станции {primary_info}, на орбите вокруг {secondary_info}"
   },
   "FLIGHTLOG_STARPORT_SURFACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, on {secondary_info}"
+    "message": "Пристыкован к станции {primary_info}, на космическом теле {secondary_info}"
   },
   "FLIGHTLOG_UNDOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Undocking at {primary_info}"
+    "message": "Отстыковка от {primary_info}"
   },
   "FLIGHT_LOG": {
     "description": "Title for flight log screen, in info view",
-    "message": "Flight Log"
+    "message": "Лётный журнал"
   },
   "FLIGHT_STATE": {
     "description": "",
-    "message": "Flight State"
+    "message": "Состояние полета"
   },
   "FLYING": {
     "description": "",
-    "message": "Flying"
+    "message": "Полёт"
   },
   "FORWARD_ACCEL": {
     "description": "",
@@ -637,11 +637,11 @@
   },
   "GPU_JOBS": {
     "description": "",
-    "message": "GPU Jobs"
+    "message": "Использовать GPU"
   },
   "GPU_JOBS_DESC": {
     "description": "",
-    "message": "Utilize GPU for certain actions, possibly improving performance."
+    "message": "Использовать графический процессор (GPU) для улучшения производительности определенных действий."
   },
   "HANG_UP": {
     "description": "",
@@ -685,7 +685,7 @@
   },
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
-    "message": "3D проская проекция"
+    "message": "3D плоская проекция"
   },
   "HUD_ATMOSPHERIC_PRESSURE": {
     "description": "Tooltip: Atmospheric Pressure.",
@@ -693,7 +693,7 @@
   },
   "HUD_BACKWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Backward Gun Temperature.",
-    "message": "Backward Gun Temperature"
+    "message": "Температура заднего оружия"
   },
   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
     "description": "Tooltip: The braking distance using the main thrusters.",
@@ -725,11 +725,11 @@
   },
   "HUD_BUTTON_FIX_ANTINORMAL": {
     "description": "Tooltip: fix heading antinormal",
-    "message": "Fix heading antinormal"
+    "message": "Установить направление противоположное нормальному"
   },
   "HUD_BUTTON_FIX_NORMAL": {
     "description": "Tooltip: fix heading normal",
-    "message": "Fix heading normal"
+    "message": "Установить нормальное направление"
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
@@ -841,7 +841,7 @@
   },
   "HUD_CARGO_MASS": {
     "description": "Cargo Mass",
-    "message": "Cargo Mass"
+    "message": "Масса груза"
   },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
@@ -877,7 +877,7 @@
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "% of max Δv"
+    "message": "% от максимума Δv"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
@@ -985,7 +985,7 @@
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "The speed of approach relative to target"
+    "message": "Скорость приближения к цели"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
@@ -997,15 +997,15 @@
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
-    "message": "DESCENT RATE"
+    "message": "СКОРОСТЬ СНИЖЕНИЯ"
   },
   "HUD_WARNING_IMPACT": {
     "description": "Alert tooltip",
-    "message": "Impact warning"
+    "message": "Предупреждение о столкновении"
   },
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
-    "message": "Impact imminent"
+    "message": "Удар неизбежен"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -1041,7 +1041,7 @@
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
-    "message": "Illegal in System"
+    "message": "Нелегален в системе"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
@@ -1061,7 +1061,7 @@
   },
   "INCREASE": {
     "description": "Increase something.",
-    "message": "Increase"
+    "message": "Увеличить"
   },
   "INEXPERIENCED": {
     "description": "For player reputation",
@@ -1069,11 +1069,11 @@
   },
   "INITIATED": {
     "description": "Ship jump status",
-    "message": "Initiated"
+    "message": "Начат"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
-    "message": "Insufficient fuel"
+    "message": "Недостаточно топлива"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
@@ -1093,7 +1093,7 @@
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
-    "message": "In system"
+    "message": "Система"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -1109,7 +1109,7 @@
   },
   "JUMPING": {
     "description": "Flight State",
-    "message": "Jumping"
+    "message": "Прыжок"
   },
   "KILLS": {
     "description": "",
@@ -1137,15 +1137,15 @@
   },
   "LAUNCH_PERMISSION_GRANTED": {
     "description": "",
-    "message": "Launch permission granted."
+    "message": "Дано разрешение на вылет."
   },
   "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
     "description": "",
-    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+    "message": "Разрешение выдано. Пожалуйста, освободите посадочную станцию."
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
-    "message": "Permission granted. Watch for traffic on your departure."
+    "message": "Разрешение выдано. Следите за трафиком перед вылетом."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1201,19 +1201,19 @@
   },
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
-    "message": "Custom Log"
+    "message": "Пользовательский журнал"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
-    "message": "New Entry"
+    "message": "Новая запись"
   },
   "LOG_STATION": {
     "description": "Label tab for showing logged station events",
-    "message": "Station Log"
+    "message": "Журнал станции"
   },
   "LOG_SYSTEM": {
     "description": "Label tab for showing logged system events",
-    "message": "System Log"
+    "message": "Журнал системы"
   },
   "LOW": {
     "description": "",
@@ -1225,19 +1225,19 @@
   },
   "MAJOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Export"
+    "message": "Основной товар для продажи"
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Major exports"
+    "message": "Основные товары для продажи"
   },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Import"
+    "message": "Основной товар для ввоза"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Major imports"
+    "message": "Основные товары для ввоза"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1313,7 +1313,7 @@
   },
   "MINIMAL_TRADE": {
     "description": "Indicates a system does not have a significant amount of trade in a commodity.",
-    "message": "Minimal Trade"
+    "message": "Минимальная торговля"
   },
   "MINIMUM_CREW": {
     "description": "",
@@ -1321,19 +1321,19 @@
   },
   "MINOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Export"
+    "message": "Второстепенный товар для продажи"
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
-    "message": "Minor exports"
+    "message": "Второстепенные товары для продажи"
   },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Import"
+    "message": "Второстепенный товар для ввоза"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
-    "message": "Minor imports"
+    "message": "Второстепенные товары для ввоза"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1369,7 +1369,7 @@
   },
   "MULTISAMPLING_DESC": {
     "description": "",
-    "message": "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+    "message": "Функция сглаживает неровные, пиксельные контуры. Может сильно нагружать видеокарту."
   },
   "MURDER": {
     "description": "",
@@ -1405,7 +1405,7 @@
   },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
-    "message": "Next"
+    "message": "Дальше"
   },
   "NEXT_PAID": {
     "description": "",
@@ -1417,7 +1417,7 @@
   },
   "NOBODY": {
     "description": "For player reputation",
-    "message": " Пустое место"
+    "message": "Отсутствует"
   },
   "NONE": {
     "description": "",
@@ -1445,11 +1445,11 @@
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
-    "message": "No drive"
+    "message": "Нет привода"
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
-    "message": "Nothing matches that filter"
+    "message": "Нет соответствий этому фильтру"
   },
   "NO_MISSIONS": {
     "description": "",
@@ -1457,7 +1457,7 @@
   },
   "NO_VALID_ROUTE": {
     "description": "Message in the sector map, issued by the autoroute function.",
-    "message": "No valid route to the selected system."
+    "message": "Нет действующего маршрута в выбранную систему."
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
@@ -1485,7 +1485,7 @@
   },
   "OPEN_USER_FOLDER": {
     "description": "",
-    "message": "Папка пользователя"
+    "message": "Файлы\nпрофиля"
   },
   "OPTIONS": {
     "description": "",
@@ -1513,11 +1513,11 @@
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
-    "message": "Out of range"
+    "message": "Вне диапазона"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
-    "message": "Filter overview window entries by name"
+    "message": "Фильтрация записей по имени"
   },
   "OWED": {
     "description": "Player owing money to crew members",
@@ -1525,7 +1525,7 @@
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
-    "message": "Pay"
+    "message": "Оплата"
   },
   "PAY_FINE_OF_N": {
     "description": "",
@@ -1557,7 +1557,7 @@
   },
   "PLANET_DETAIL_DISTANCE": {
     "description": "",
-    "message": "Расстояние детализации планет"
+    "message": "Дальность прорисовки планет"
   },
   "PLANET_TEXTURES": {
     "description": "",
@@ -1577,11 +1577,11 @@
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
-    "message": "Press a key or controller button or escape to clear"
+    "message": "Нажмите клавишу, кнопку контроллера или ESC, чтобы очистить"
   },
   "PREVIOUS_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
-    "message": "Previous"
+    "message": "Назад"
   },
   "PRICE": {
     "description": "",
@@ -1593,7 +1593,7 @@
   },
   "PROFITABLE_TRADE": {
     "description": "Indicates a profitable trade route.",
-    "message": "Profitable Trade"
+    "message": "Прибыльная торговля"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1613,7 +1613,7 @@
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
-    "message": "Random"
+    "message": "Случайно"
   },
   "RANK": {
     "description": "",
@@ -1701,7 +1701,7 @@
   },
   "ROTATE_VIEW": {
     "description": "Indicates that the button must be kept pressed down, to rotate camera view with mouse",
-    "message": "Hold down to Rotate view"
+    "message": "Удерживайте, чтобы повернуть вид"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
@@ -1713,7 +1713,7 @@
   },
   "SAFETY_LOCKOUT": {
     "description": "Ship jump status",
-    "message": "Safety lockout"
+    "message": "Блокировка безопасности"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1805,7 +1805,7 @@
   },
   "SHIP_TYPE": {
     "description": "",
-    "message": "Ship Type"
+    "message": "Тип корабля"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",
@@ -1825,7 +1825,7 @@
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "This is a difficult start from the System Administration Resting prison station."
+    "message": "Трудный старт с тюремной станции System Administration Resting."
   },
   "START_AT_EARTH": {
     "description": "",
@@ -1833,15 +1833,15 @@
   },
   "START_AT_EARTH_DESC": {
     "description": "",
-    "message": "This is an easy start from London on Earth in the Sol system."
+    "message": "Лёгкий старт из Лондона на Земле в Солнечной Системе."
   },
   "START_AT_MARS": {
     "description": "",
-    "message": "Старт на Марсе"
+    "message": "Новый старт: Марс"
   },
   "START_AT_MARS_DESC": {
     "description": "",
-    "message": "This is an easy start from Cydonia on Mars in the Sol system."
+    "message": "Лёгкий старт из Cydonia на Марсе в Солнечной Системе."
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
@@ -1849,19 +1849,19 @@
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
-    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+    "message": "Умеренное начало с Itzalean на New Hope в системе Epsilon Eridani."
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
-    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+    "message": "К сожалению, дядя, пока он ещё был жив, никогда не показывал мне, как управлять этой старой баржей, но я думаю, что сейчас я делаю запись в судовом журнале.\nСтранно, я все еще чувствую его, как будто он внутри этого корабля. Быть может, он станет моим вторым пилотом, и вместе мы выясним нашу судьбу в великой пустоте.\nНо сначала мне просто нужно купить немного водорода для прыжкового двигателя, найти прибыльные торговые пути и молиться небесам, чтобы управление движением станции разрешило неопытному пилоту, как я, взлететь, а затем посмотрим, что этот ребенок сможет сделать. Пора заработать себе репутацию!"
   },
   "START_LOG_ENTRY_2": {
     "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
-    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+    "message": "Мои ботинки всё ещё мокрые из-за проливного дождя прошлой ночью, когда я возвращался домой. Тротуар стал настолько сырым, что - по-видимому, в знак мести - залил ночное небо отраженным светом неоновых вывесок, которые смотрели вниз на мокрую улицу. Но я добрался сквозь дождь до космопорта, где меня ждал мой новый корабль.\nОфицер службы безопасности странно посмотрел на меня, когда я сказал, что пришёл забрать корабль. Думаю, я не был похож на типичного распорядителя, продавший всё, чтобы вложить в это ржавое старое ведро, стоял перед ним, в мокрых ботинках и всё такое. Но я искренне уверен, что отныне моё будущее будет написано в звездах. Теперь мне просто нужно найти ключ запуска."
   },
   "START_LOG_ENTRY_3": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
-    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+    "message": "После долгих бюрократических проволочек я, наконец, вернул свой корабль из конфискации, но они основательно его разобрали, чтобы выплатить «долг», который, по их утверждениям, у меня был. Они не только забрали мою любимую кофеварку, но эти ублюдки ещё и вырвали гиперпривод, поэтому пока что я застрял в этой системе, конечно если только я не продам то, что осталось на корабле, чтобы купить новый привод.\nНо, как говорится: когда жизнь дает лимоны - делай лимонад; так что даже если я вернусь к исходной точке, я буду думать об этом как о возможности, а не как о неудаче, как о втором шансе. Без кофе. Отпустив то, что я есть, я стану тем, чем я мог бы быть.\nМир подвинется и позволит мне пройти, как это происходит с теми, кто знает, куда они идут, а я направляюсь к звездам."
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
@@ -1869,19 +1869,19 @@
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
-    "message": "Station"
+    "message": "Станция"
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
-    "message": "Our total capacity is {total_docking_pads} docking pads."
+    "message": "Наша вместимость {total_docking_pads} посадочных мест."
   },
   "STATION_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Local gravity here is %.2f g."
+    "message": "Местная сила тяжести составляет %.2f g."
   },
   "STATION_LOCAL_GRAVITY_PRESSURE": {
     "description": "",
-    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
+    "message": "Местная гравитация %.2f g, атмосферное давление %.2f атм."
   },
   "STATION_MANAGER": {
     "description": "",
@@ -1889,11 +1889,11 @@
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
-    "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+    "message": "Мы находимся на орбите вокруг {parent_body} с периодом {orbit_period} дней."
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
-    "message": "Station tech level too low to sell this item"
+    "message": "Технический уровень станции слишком мал, чтобы продать этот предмет"
   },
   "STATUS": {
     "description": "",
@@ -1909,7 +1909,7 @@
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
-    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+    "message": "Освобождает больше памяти видеокарты, за счет сжатия текстур во время запуска игры."
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",
@@ -1925,7 +1925,7 @@
   },
   "THIS_IS_FACTION_POLICE": {
     "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
-    "message": "This is the {faction_police} of the {faction}"
+    "message": "Это {faction_police} из {faction}"
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1937,19 +1937,19 @@
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Toggle showing moons in the overview"
+    "message": "Показывать луны"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",
-    "message": "Toggle showing stations in the overview"
+    "message": "Показывать станции"
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
-    "message": "Switch between sorting by distance from player and distance from system center"
+    "message": "Сортировка по удалённости от игрока/центра системы"
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
+    "message": "Окно обзора системы"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",
@@ -1977,7 +1977,7 @@
   },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
-    "message": "From {system}:"
+    "message": "{system}:"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
@@ -1985,7 +1985,7 @@
   },
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
-    "message": "To {system}:"
+    "message": "К {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -2001,7 +2001,7 @@
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
-    "message": "Unprofitable Trade"
+    "message": "Убыточная торговля"
   },
   "UNRELIABLE": {
     "description": "",
@@ -2041,7 +2041,7 @@
   },
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
-    "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+    "message": "Более высокое разрешение отображает больше информации, но снижает производительность."
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
@@ -2049,7 +2049,7 @@
   },
   "VSYNC_DESC": {
     "description": "",
-    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+    "message": "Вертикальная синхронизация может устранить визуальные разрывы или артефакты и задержку ввода."
   },
   "WAGE": {
     "description": "Salary of crew shown in crew roster",
@@ -2065,7 +2065,7 @@
   },
   "WE_ARE_IN_HYPERSPACE_COMMANDER": {
     "description": "",
-    "message": "Мы в гиперпространстве, Командир."
+    "message": "Мы в гиперпространстве, командир."
   },
   "WE_HAVE_NO_BUSINESS_WITH_YOU": {
     "description": "Said by the police to law abiding player",

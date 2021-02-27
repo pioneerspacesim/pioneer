@@ -17,7 +17,7 @@
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "CHALLENGE: Ship and crew wanted for a combat mission in the {system} system."
+    "message": "ЗАДАЧА: Для выполнения боевой задачи в системе {system} разыскивается команда со своим кораблём."
   },
   "ADTEXT_3": {
     "description": "",
@@ -45,15 +45,15 @@
   },
   "BONUS_2": {
     "description": "",
-    "message": "You have served us well! I pay you a bonus of {cash}."
+    "message": "Вы хорошо нам послужили! Я выплачу вам бонус в размере {cash}."
   },
   "BONUS_3": {
     "description": "",
-    "message": "Very impressive! I'm authorized to pay you a bonus of {cash}."
+    "message": "Очень впечатляюще! Я уполномочен выплатить вам бонус в размере {cash}."
   },
   "BONUS_4": {
     "description": "",
-    "message": "I'm very pleased of your performance! I have transferred additional {cash} credits."
+    "message": "Я очень доволен вашим представлением! Я перевел дополнительно {cash} кредитов."
   },
   "COMBAT": {
     "description": "Name of mission type",
@@ -73,7 +73,7 @@
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
-    "message": "Galactic Explorer Corporation"
+    "message": "\"Корпорация галактических исследователей\""
   },
   "CORPORATION_5": {
     "description": "Name of a corporation",
@@ -137,7 +137,7 @@
   },
   "GREETING_3": {
     "description": "",
-    "message": "How are you. I'm {name}."
+    "message": "Как дела? Я {name}."
   },
   "GREETING_4": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Meet me in the {rendezvous} system to finish the job!"
+    "message": "Встретимся в системе {rendezvous}, чтобы закончить работу!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -285,7 +285,7 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Just land at a station with a {org} office."
+    "message": "Просто приземлитесь на станции с офисом {org}."
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "The competitor is well equipped. Please keep your eyes open!"
+    "message": "Соперник хорошо экипирован. Пожалуйста, будьте внимательны!"
   },
   "RISK_4": {
     "description": "",

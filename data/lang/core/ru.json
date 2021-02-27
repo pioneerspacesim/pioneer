@@ -689,19 +689,19 @@
   },
   "MAJOR_EXPORTS": {
     "description": "",
-    "message": "Основной экспорт:"
+    "message": "Основные товары для продажи:"
   },
   "MAJOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Основной экспорт (текущая система)"
+    "message": "Основной товар для продажи (текущая система)"
   },
   "MAJOR_IMPORTS": {
     "description": "",
-    "message": "Основной импорт:"
+    "message": "Основные товары для ввоза:"
   },
   "MAJOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Основной импорт (текущая система)"
+    "message": "Основной товар для ввоза (текущая система)"
   },
   "MANUAL_CONTROL": {
     "description": "",
@@ -765,19 +765,19 @@
   },
   "MINOR_EXPORTS": {
     "description": "",
-    "message": "Вторичный экспорт:"
+    "message": "Второстепенные товары для продажи:"
   },
   "MINOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Вторичный экспорт (текущая система)"
+    "message": "Второстепенный товар для продажи (текущая система)"
   },
   "MINOR_IMPORTS": {
     "description": "",
-    "message": "Вторичный импорт:"
+    "message": "Второстепенные товары для ввоза:"
   },
   "MINOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Вторичный импорт (текущая система)"
+    "message": "Второстепенный товар для ввоза (текущая система)"
   },
   "MISCELLANEOUS": {
     "description": "",
@@ -961,23 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} Земные дни"
+    "message": "%days{f.1} земных дней"
   },
   "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} массы Земли"
+    "message": "%mass{f.3} масс Земли"
   },
   "N_EARTH_RADII": {
     "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
-    "message": "%radius{f.3} Earth radii (%radkm{f.0} km)"
+    "message": "%radius{f.3} радиусов Земли (%radkm{f.0} км)"
   },
   "N_SOLAR_MASSES": {
     "description": "",
-    "message": "%mass{f.3} Solar masses"
+    "message": "%mass{f.3} масс Солнца"
   },
   "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} Solar radii (%radkm{f.0} km)"
+    "message": "%radius{f.3} радиуса Солнца (%radkm{f.0} км)"
   },
   "N_YEARS": {
     "description": "",
@@ -1693,7 +1693,7 @@
   },
   "UNIT_PRESSURE_ATMOSPHERES": {
     "description": "Pressure unit: one earth atmosphere (atm)",
-    "message": "atm"
+    "message": "атм"
   },
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
