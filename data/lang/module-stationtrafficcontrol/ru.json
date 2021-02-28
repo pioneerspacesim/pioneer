@@ -65,7 +65,7 @@
   },
   "YOU_ARE_LEAVING_STATION_SPACE_3": {
     "description": "",
-    "message": "{playerShipLabel}, вы освободили пространство контролируемое {station}. Ограничения сняты."
+    "message": "{playerShipLabel}, вы покинули подконтрольное {station} пространство. Ограничения сняты."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_4": {
     "description": "",

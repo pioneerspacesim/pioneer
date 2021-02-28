@@ -1,7 +1,7 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "Очень хорошо. Удачи!"
   },
   "ACCEPTED_2": {
     "description": "",
@@ -21,15 +21,15 @@
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "COMBAT: Need qualified mercenary with well-equipped ship."
+    "message": "БОЙ: Требуется квалифицированный наёмник с хорошо оснащённым кораблем."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED: Pay {cash} for a mission to the {system} system."
+    "message": "РАЗЫСКИВАЕТСЯ БЕССТРАШНЫЙ НАЁМНИК: Заплатим {cash} за миссию в {system}."
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Salary {cash}."
+    "message": "{mission} миссия: Зарплата {cash}."
   },
   "AGENT": {
     "description": "Secret Service Agent",
@@ -41,7 +41,7 @@
   },
   "BONUS_1": {
     "description": "",
-    "message": "My supervisor was impressed about your performance and has allotted a bonus of {cash} for this mission."
+    "message": "Мой руководитель был впечатлен вашей работой и выделил на эту миссиию бонус в размере {cash}."
   },
   "BONUS_2": {
     "description": "",
@@ -65,11 +65,11 @@
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",
-    "message": "Omega Mining Company"
+    "message": "Горнодобывающая компания Омега"
   },
   "CORPORATION_3": {
     "description": "Name of a corporation",
-    "message": "United Ore Mines Syndicate"
+    "message": "Синдикат объединённых рудокопов"
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
@@ -77,19 +77,19 @@
   },
   "CORPORATION_5": {
     "description": "Name of a corporation",
-    "message": "Haber Corporation"
+    "message": "Корпорация Хабер"
   },
   "CORPORATION_6": {
     "description": "Name of a corporation",
-    "message": "Precious Metal Prospectors LLC"
+    "message": "ООО Добыча драгоценных металлов"
   },
   "CORPORATION_7": {
     "description": "Name of a corporation",
-    "message": "{name} Ore Seeker PLC"
+    "message": "ОАО Искатель руды {name}"
   },
   "CORPORATION_8": {
     "description": "Name of a corporation",
-    "message": "{name} LLC"
+    "message": "ООО {name}"
   },
   "DANGER": {
     "description": "The risk level",
@@ -97,15 +97,15 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Sorry, I need a pilot who has more combat experience."
+    "message": "Извините, мне нужен пилот с большим боевым опытом."
   },
   "DENY_2": {
     "description": "",
-    "message": "Excuse me sir. I need a real professional."
+    "message": "Простите, сэр. Мне нужен настоящий профессионал."
   },
   "DETECTIVE": {
     "description": "Police Detective",
-    "message": "Detective"
+    "message": "Детектив полиции"
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
@@ -113,27 +113,27 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "Как вам не стыдно! Прочь с глаз моих!"
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! You have caused great losses. You will not be paid!"
+    "message": "Вы опоздали! И нанесли большой ущерб. Вам не заплатят!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "You're a disgrace to all pilots. I cannot pay you!"
+    "message": "Ты позор пилотов. Я не могу тебе заплатить!"
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "You failed! I will not pay you!"
+    "message": "Ты провалил задание! Я не буду платить тебе!"
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "Привет, я {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "Приветствую. Меня зовут {name}."
   },
   "GREETING_3": {
     "description": "",
@@ -141,31 +141,31 @@
   },
   "GREETING_4": {
     "description": "",
-    "message": "Greetings! Call me {name}."
+    "message": "Привет! Зови меня {name}."
   },
   "GREETING_5": {
     "description": "",
-    "message": "Good day. My name is {name}."
+    "message": "Добрый день. Моё имя {name}."
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "{Org} заплатит {cash} за {mission} в системе {system} ({sectorx}, {sectory}, {sectorz}). У нас есть основания полагать, что беспощадный рыночный конкурент несет ответственность за исчезновение наших грузовых судов в {area}. Расстояние до целевой области составляет {dist} световых лет."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our market competitor is seriously claiming he has ownership of {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The {org} totally disagree and is willing to pay {cash} for a combat mission at {area}. {area} is in a distance of {dist} ly."
+    "message": "Наш конкурент всерьёз утверждает, что владеет {area} в {system} ({sectorx}, {sectory}, {sectorz}). {Org} полностью не согласны с этим и готовы заплатить {cash} за боевую задачу в {area}. Это в {dist} световых лет отсюда."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Please help! We received a distress call from one of our freighters orbiting {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The call was interrupted, so we fear the worst. Distance to {system} is {dist} ly. The pay is {cash}."
+    "message": "Пожалуйста помоги! Мы получили сигнал бедствия от одного из наших грузовых кораблей, движущихся по орбите {area} в системе {system} ({sectorx}, {sectory}, {sectorz}). Связь оборвалась, поэтому мы опасаемся худшего. Расстояние до туда {dist} световых лет. Оплата {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+    "message": "Важно, чтобы миссия была завершена к {date}. Пожалуйста, никому не рассказывайте об этой операции."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+    "message": "У нас есть продавец в каждой ближайшей звездной системе. Он свяжется с вами после приземления."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -173,11 +173,11 @@
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
+    "message": "Есть ли ограничения по времени?"
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "Управляющий"
   },
   "MEET_ME_THERE": {
     "description": "",
@@ -185,75 +185,75 @@
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Military intelligence believe that a hostile faction has set up a secret listening outpost on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The government can not tolerate this and have approved a series of operations to wipe out this facility. The enemy tries to disguise its origin by using only civilian spacecraft types. We do it like this too! So we are willing to hire a mercenary for {cash}. {area} is located {dist} ly from here."
+    "message": "Военная разведка полагает, что враждебная фракция установила секретный пост прослушивания на {area} в системе {system} ({sectorx}, {sectory}, {sectorz}). Правительство не может этого допустить и одобрило серию операций по уничтожению этого объекта. Противник пытается скрыть истинное назначение объекта, используя только гражданские корабли. Мы тоже так делаем! Итак, мы готовы нанять наемника за {cash}. {area} находится на расстоянии {dist} световых лет."
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "In response to a case of piracy in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly, the local authorities pay {cash} for a combat mission at {area}."
+    "message": "В ответ на случай пиратства в системе {system} ({sectorx}, {sectory}, {sectorz}), в {dist} световых лет отсюда, местные власти платят {cash} за выполнение боевой задачи в {area}."
   },
   "MILITARY_3": {
     "description": "",
-    "message": "The counter intelligence corps needs a civil pilot who asks no questions for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+    "message": "Отделу контрразведки нужен гражданский пилот, который не задает лишних вопросов для миссии {mission} в {system} ({sectorx}, {sectory}, {sectorz}). Удалённость - {dist} световых лет. Оплата {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A task force will be assembled to regain control of {area}. It's important that the mission is successfully completed by {date}."
+    "message": "Для восстановления контроля над {area} будет собрана оперативная группа. Важно, завершить миссия к {date}."
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visit a station in the territory protected by the {org}!"
+    "message": "Посетите станцию на территории, охраняемой {org}!"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} is in a dispute with a rival company about {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To push through our claims we need a reliable and combat experienced mercenary. We offer {cash} for the expenses. Distance to {system} is {dist} ly."
+    "message": "{Org} ведет спор с конкурирующей компанией по поводу {area} в {system} ({sectorx}, {sectory}, {sectorz}). Чтобы реализовать наши претензии, нам нужен надежный и опытный наёмник. Предлагаем {cash} на расходы. Расстояние до  {system} {dist} световых лет."
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "I'm a manager of the {org}. We need additional help in a longtime legal dispute with a competitor about the mining rights in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. We lost patience and would like to speed things up outside of the courtroom. Your mission would be to jump to {area} for {cash}."
+    "message": "Я управляющий {org}. Нам нужна дополнительная помощь в давнем юридическом споре с конкурентом о правах на добычу полезных ископаемых в системе {system} ({sectorx}, {sectory}, в {dist} световых лет отсюда. Мы потеряли терпение и хотели бы ускорить процесс за пределами зала суда. Ваша миссия - за {cash} слетать в {area}."
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for a {mission} mission. Distance to {area} is {dist} ly."
+    "message": "Я работаю в {org}. Некоторые из наших грузовых судов скоро прибудут в {area} в системе {system} ({sectorx}, {sectory}, {sectorz}). Чтобы повысить безопасность наших сотрудников и защитить оборудование, мы готовы платить {cash} за {mission}. Расстояние до {area} - {dist} световых лет."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A convoy is enroute to {area}. It is essential that the mission is completed by {date}."
+    "message": "Конвой направляется в {area}. Очень важно, чтобы миссия была завершена к {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "We have employees in every nearby star system. Just visit the nearest station and get in contact with the local office there."
+    "message": "У нас есть сотрудники во всех соседних звездных системах. Просто посетите ближайшую станцию и свяжитесь с местным офисом."
   },
   "MISSION": {
     "description": "",
-    "message": "Mission:"
+    "message": "Задание:"
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
-    "message": "Primary mission objective complete"
+    "message": "Основная цель миссии выполнена"
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Reconnaissance"
+    "message": "Разведка"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Armed Reconnaissance"
+    "message": "Разведка боем"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "Area Sweep"
+    "message": "Зачистка территории"
   },
   "OBJECTIVE_1": {
     "description": "",
-    "message": "It's not necessary to attack the enemy. We want data about the defence capability and response time."
+    "message": "Атаковать врага не обязательно. Нам нужны данные об оборонительных возможностях и времени реагирования."
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Weaken the enemy's strength as much as possible and then jump to safety."
+    "message": "Максимально ослабьте силы врага, а затем прыгните в безопасное место."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Clear the area around {area}. Break any resistance."
+    "message": "Зачистите область вокруг {area}. Сломите любое сопротивление."
   },
   "OK_AGREED": {
     "description": "",
@@ -265,23 +265,23 @@
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",
-    "message": "Please repeat the mission details!"
+    "message": "Пожалуйста, повторите детали миссии!"
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Police detectives have discovered that a group of pirates try to establish a stronghold on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. This must not happen. The local authorities pay {cash} for a mission to {area} as preparation of a police operation."
+    "message": "Полицейские детективы обнаружили, что группа пиратов пытается устроить базу в {area} в системе {system} ({sectorx}, {sectory}, {sectorz}), в {dist} световых лет отсюда. Этого не должно произойти. Местные власти заплатят {cash} за выезд туда для подготовки к полицейской операции."
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a combat mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We are short on pilots and ships. So this will be an opportunity for a loyal citizen to make money. The target is a small pirate base on {area}. You need hyperdrive propellant for {dist} ly and additional fuel for the return route."
+    "message": "{Org} заплатит {cash} за боевую миссию в системе {system} ({sectorx}, {sectory}, {sectorz}). Нам не хватает пилотов и кораблей. Так что для всех заинтересованных это возможность заработать деньги. Цель - небольшая пиратская база на {area}. Вам понадобится топливо гиперпривода на {dist} световых лет и дополнительное топливо на обратный путь."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our markets were flooded by contraband. The source has been traced back to a hidden base at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). Only a distance of {dist} ly. Because of the reduced police budget the local authorities would like to outsource this mission and have allotted {cash} credits for this operation."
+    "message": "Наши рынки наводнили контрабандой. Источник был прослежен до скрытой базы в {area} в системе {system} ({sectorx}, {sectory}, {sectorz}). Только это на расстоянии {dist} световых лет. Из-за сокращенного бюджета полиции местные власти хотели бы передать эту миссию наёмникам и выделили {cash} кредитов на это."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
+    "message": "Важно, чтобы миссия была завершена к {date}, потому что вражеские корабли уже в пути."
   },
   "POLICE_LAND_THERE": {
     "description": "",
@@ -289,15 +289,15 @@
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
-    "message": "Sorry, I don't think you can handle this without a radar."
+    "message": "Извините, я не думаю, что вы справитесь без радара."
   },
   "RISK_1": {
     "description": "",
-    "message": "The competitor has only limited resources. Nothing you can't handle."
+    "message": "Возможности соперника сильно ограничены. Ничего такого, с чем бы ты не справишься."
   },
   "RISK_2": {
     "description": "",
-    "message": "The competitor has only minor resources. But he will defend his position if necessary."
+    "message": "У соперника мало ресурсы. Но в случае опасности он будет сопротивляться."
   },
   "RISK_3": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
+    "message": "Враг очень хорошо экипирован и имеет доступ к новейшим технологиям. Будь осторожен!"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -313,19 +313,19 @@
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "I knew you were the right person for such a mission. Here is your payment."
+    "message": "Я знал, что ты подходящий человек для такой миссии. Вот твоя оплата."
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Thank you for making it. I have transferred the money."
+    "message": "Спасибо, что сделали это. Я перевел деньги."
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "I hope you had no big trouble. I just paid you."
+    "message": "Надеюсь, не было больших проблем? Я только что оплатил работу."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Very well done. I have paid the bill."
+    "message": "Хороша работа. Я перевёл оплату."
   },
   "SYSTEM": {
     "description": "",
@@ -333,14 +333,14 @@
   },
   "TIME_LIMIT": {
     "description": "",
-    "message": "Time limit:"
+    "message": "Лимит времени:"
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "What are the mission objectives?"
+    "message": "Каковы цели миссии?"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "У меня не возникнет из-за этого проблем?"
   }
 }

@@ -61,75 +61,75 @@
   },
   "DRIVE_CLASS1": {
     "description": "",
-    "message": "Гипердвигатель 1 класса"
+    "message": "Гиперпривод 1 класса"
   },
   "DRIVE_CLASS2": {
     "description": "",
-    "message": "Гипердвигатель 2 класса"
+    "message": "Гиперпривод 2 класса"
   },
   "DRIVE_CLASS3": {
     "description": "",
-    "message": "Гипердвигатель 3 класса"
+    "message": "Гиперпривод 3 класса"
   },
   "DRIVE_CLASS4": {
     "description": "",
-    "message": "Гипердвигатель 4 класса"
+    "message": "Гиперпривод 4 класса"
   },
   "DRIVE_CLASS5": {
     "description": "",
-    "message": "Гипердвигатель 5 класса"
+    "message": "Гиперпривод 5 класса"
   },
   "DRIVE_CLASS6": {
     "description": "",
-    "message": "Гипердвигатель 6 класса"
+    "message": "Гиперпривод 6 класса"
   },
   "DRIVE_CLASS7": {
     "description": "",
-    "message": "Гипердвигатель 7 класса"
+    "message": "Гиперпривод 7 класса"
   },
   "DRIVE_CLASS8": {
     "description": "",
-    "message": "Гипердвигатель 8 класса"
+    "message": "Гиперпривод 8 класса"
   },
   "DRIVE_CLASS9": {
     "description": "",
-    "message": "Гипердвигатель 9 класса"
+    "message": "Гиперпривод 9 класса"
   },
   "DRIVE_MIL1": {
     "description": "",
-    "message": "Военный гипердвигатель 1 кл."
+    "message": "Военный гиперпривод 1 кл."
   },
   "DRIVE_MIL2": {
     "description": "",
-    "message": "Военный гипердвигатель 2 кл."
+    "message": "Военный гиперпривод 2 кл."
   },
   "DRIVE_MIL3": {
     "description": "",
-    "message": "Военный гипердвигатель 3 кл."
+    "message": "Военный гиперпривод 3 кл."
   },
   "DRIVE_MIL4": {
     "description": "",
-    "message": "Военный гипердвигатель 4 кл."
+    "message": "Военный гиперпривод 4 кл."
   },
   "DRIVE_MIL5": {
     "description": "",
-    "message": "Военный гипердвигатель 5 кл."
+    "message": "Военный гиперпривод 5 кл."
   },
   "DRIVE_MIL6": {
     "description": "",
-    "message": "Военный гипердвигатель 6 кл."
+    "message": "Военный гиперпривод 6 кл."
   },
   "DRIVE_MIL7": {
     "description": "",
-    "message": "Военный гипердвигатель 7 кл."
+    "message": "Военный гиперпривод 7 кл."
   },
   "DRIVE_MIL8": {
     "description": "",
-    "message": "Военный гипердвигатель 8 кл."
+    "message": "Военный гиперпривод 8 кл."
   },
   "DRIVE_MIL9": {
     "description": "",
-    "message": "Военный гипердвигатель 9 кл."
+    "message": "Военный гиперпривод 9 кл."
   },
   "ECM_ADVANCED": {
     "description": "",

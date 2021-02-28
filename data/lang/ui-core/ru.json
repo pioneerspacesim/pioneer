@@ -733,7 +733,7 @@
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
-    "message": "Удерживается направление по курсу"
+    "message": "Удержание направления по курсу"
   },
   "HUD_BUTTON_FIX_RADIAL_IN": {
     "description": "Tooltip: fix heading radially inward",
@@ -745,7 +745,7 @@
   },
   "HUD_BUTTON_FIX_RETROGRADE": {
     "description": "Tooltip: fix heading retrograde",
-    "message": "Зафиксировано обратное направление"
+    "message": "Удержание обратного направления"
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
@@ -753,7 +753,7 @@
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
-    "message": "Гипердвигатель выключен"
+    "message": "Гиперпривод выключен"
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
@@ -917,31 +917,31 @@
   },
   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current combat target.",
-    "message": "В  направлении относительно текущей боевой цели"
+    "message": "Направление относительно текущей боевой цели"
   },
   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current combat target.",
-    "message": "В обратном направлении относительно текущей боевой цели"
+    "message": "Обратное направление относительно текущей боевой цели"
   },
   "HUD_INDICATOR_FRAME_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current frame.",
-    "message": "В направлении относительно текущей системы отсчета"
+    "message": "Направление относительно текущей системы отсчета"
   },
   "HUD_INDICATOR_FRAME_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current frame.",
-    "message": "В обратном направлении относительно текущей системы отсчета"
+    "message": "Обратное направление относительно текущей системы отсчета"
   },
   "HUD_INDICATOR_MANEUVER_PROGRADE": {
     "description": "Indicator: The prograde direction for the maneuver burn.",
-    "message": "В направлении маневра"
+    "message": "Направление маневра"
   },
   "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current navigational target.",
-    "message": "В направлении относительно текущей цели навигации"
+    "message": "Направление относительно текущей цели навигации"
   },
   "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current navigational target.",
-    "message": "В обратном направлении относительно текущей цели навигации"
+    "message": "Обратное направление относительно текущей цели навигации"
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
@@ -1025,11 +1025,11 @@
   },
   "HYPERDRIVE": {
     "description": "",
-    "message": "Установленный двигатель"
+    "message": "Гиперпривод"
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
-    "message": "Установленный двигатель:"
+    "message": "Гиперпривод установлен:"
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
@@ -1445,7 +1445,7 @@
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
-    "message": "Нет привода"
+    "message": "Гиперпривод не установлен"
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
@@ -1765,7 +1765,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Установить пункт назначения как цель для навигации."
+    "message": "Задать пункт назначения как цель навигации."
   },
   "SET_RETURN_ROUTE": {
     "description": "",
@@ -1921,7 +1921,7 @@
   },
   "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER": {
     "description": "",
-    "message": "Корабль под контролем станции, Командир."
+    "message": "Корабль под контролем станции, командир."
   },
   "THIS_IS_FACTION_POLICE": {
     "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
@@ -2069,7 +2069,7 @@
   },
   "WE_HAVE_NO_BUSINESS_WITH_YOU": {
     "description": "Said by the police to law abiding player",
-    "message": "Ваш правовой статус чист. Всего доброго, Командир!"
+    "message": "За вами не числится нарушений. Всего доброго, командир!"
   },
   "X_CANNOT_BE_TOLERATED_HERE": {
     "description": "Message to be sent over comms by police when crime is committed by player",
@@ -2097,19 +2097,19 @@
   },
   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
     "description": "",
-    "message": "Сначала вы должны указать боевую цель, Командир."
+    "message": "Сначала укажите боевую цель, командир."
   },
   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
     "description": "",
-    "message": "Сначала вы должны указать навигационную цель, Командир."
+    "message": "Сначала укажите навигационную цель, командир."
   },
   "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
     "description": "",
-    "message": "Сначала вы должны взлететь, Командир."
+    "message": "Сначала нужно взлететь, командир."
   },
   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
     "description": "",
-    "message": "Сначала вы должны запросить разрешение на взлет, Командир."
+    "message": "Сначала нужно запросить разрешение на взлёт, командир."
   },
   "YOU_NOT_ENOUGH_MONEY": {
     "description": "",

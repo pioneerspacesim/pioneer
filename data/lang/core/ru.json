@@ -57,11 +57,11 @@
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "Автопилот: Выйти на орбиту выше {target}"
+    "message": "Автопилот: Выйти на высокую орбиту {target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "Автопилот: Выйти на орбиту ниже {target}"
+    "message": "Автопилот: Выйти на низкую орбиту {target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "Автопилот: Подлететь ближе к {target}"
+    "message": "Автопилот: Подлететь к {target}"
   },
   "AUTOPILOT_ON": {
     "description": "",
@@ -537,7 +537,7 @@
   },
   "HYPERSPACE_JUMP_ABORT": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Деактивировать гипердвигатель"
+    "message": "Отключить гиперпривод"
   },
   "HYPERSPACE_JUMP_ABORTED": {
     "description": "",
@@ -545,11 +545,11 @@
   },
   "HYPERSPACE_JUMP_DISABLED": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Гипердвигатель выключен"
+    "message": "Гиперпривод выключен"
   },
   "HYPERSPACE_JUMP_ENGAGE": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Активировать гипердвигатель"
+    "message": "Включить гиперпривод"
   },
   "HYPERSPACE_JUMP_FORBIDDEN": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -885,7 +885,7 @@
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
-    "message": "Автопилот не установлен на корабле, нельзя включить автопилот"
+    "message": "Автопилот на корабле не установлен, нельзя включить"
   },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",
@@ -897,7 +897,7 @@
   },
   "NO_HYPERDRIVE": {
     "description": "",
-    "message": "Межпланетный двигатель"
+    "message": "Гиперпривод отсутствует"
   },
   "NO_REGISTERED_INHABITANTS": {
     "description": "",
@@ -1105,7 +1105,7 @@
   },
   "PRESSURE_N_ATMOSPHERES": {
     "description": "",
-    "message": "p: %pressure{f.2} атм"
+    "message": "P: %pressure{f.2} атм"
   },
   "QUADRUPLE_SYSTEM": {
     "description": "",
