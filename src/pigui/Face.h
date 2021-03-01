@@ -31,10 +31,7 @@ namespace PiGui {
 	private:
 		Uint32 m_seed;
 
-		static RefCountedPtr<Graphics::Material> s_material;
-
 		RefCountedPtr<Graphics::Texture> m_texture;
-		std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 	};
 
 } // namespace PiGui

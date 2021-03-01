@@ -93,8 +93,6 @@ namespace Graphics {
 		virtual bool SetProjection(const matrix4x4f &m) = 0;
 		virtual matrix4x4f GetProjection() const = 0;
 
-		[[deprecated]] virtual bool SetRenderState(RenderState *) = 0;
-
 		// XXX maybe GL-specific. maybe should be part of the render state
 		virtual bool SetDepthRange(double znear, double zfar) = 0;
 		virtual bool ResetDepthRange() = 0;
@@ -115,23 +113,26 @@ namespace Graphics {
 		virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) = 0;
 
 		//drawing functions
+
+		// Upload and draw the contents of this VertexArray. Should be used for highly dynamic geometry that changes per-frame.
+		virtual bool DrawBuffer(const VertexArray *v, Material *m) = 0;
+		// Draw a single mesh object (vertex+index buffer) using the given material.
+		virtual bool DrawMesh(MeshObject *, Material *) = 0;
+		// Draw multiple instances of a mesh object using the given material.
+		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) = 0;
+
 		//2d drawing is generally understood to be for gui use (unlit, ortho projection)
 		//unindexed triangle draw
-		virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type = TRIANGLES) = 0;
+		[[deprecated]] virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type = TRIANGLES) = 0;
 		//high amount of textured quads for particles etc
-		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) = 0;
-		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) = 0;
+		[[deprecated]] virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) = 0;
+		[[deprecated]] virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) = 0;
 		//complex unchanging geometry that is worthwhile to store in VBOs etc.
 		[[deprecated]] virtual bool DrawBuffer(VertexBuffer *, RenderState *, Material *, PrimitiveType type = TRIANGLES) = 0;
 		[[deprecated]] virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType = TRIANGLES) = 0;
 		// instanced variations of the above
 		[[deprecated]] virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) = 0;
 		[[deprecated]] virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) = 0;
-
-		// Draw a mesh object with the given render state and material.
-		virtual bool DrawMesh(MeshObject *, Material *) = 0;
-		// Draw multiple instances of a mesh object with the given render state and material
-		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) = 0;
 
 		//creates a unique material based on the descriptor. It will not be deleted automatically.
 		[[deprecated]] virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
@@ -143,7 +144,13 @@ namespace Graphics {
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) = 0;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) = 0;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
+		// Create a new mesh object that wraps the given vertex and index buffers.
 		virtual MeshObject *CreateMeshObject(VertexBuffer *vertexBuffer, IndexBuffer *indexBuffer = nullptr) = 0;
+
+		// Create a new mesh object and vertex buffer, and upload data from the given vertex array. Optionally associate the given index buffer.
+		// This is a convenience function to avoid boilerplate needed to set up a vertex buffer and mesh object from a vertex array.
+		// This function is not suitable for transient geometry; prefer DrawBuffer instead.
+		virtual MeshObject *CreateMeshObjectFromArray(const VertexArray *vertexArray, IndexBuffer *indexBuffer = nullptr, BufferUsage usage = BUFFER_USAGE_STATIC) = 0;
 
 		Texture *GetCachedTexture(const std::string &type, const std::string &name);
 		void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);

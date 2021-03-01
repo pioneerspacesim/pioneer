@@ -11,6 +11,9 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
+#include "graphics/Types.h"
+#include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "perlin.h"
 
 #ifdef _MSC_VER
@@ -22,17 +25,13 @@ using namespace Graphics;
 static const Graphics::AttributeSet RING_VERTEX_ATTRIBS = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0;
 
 Planet::Planet(SystemBody *sbody) :
-	TerrainBody(sbody),
-	m_ringVertices(RING_VERTEX_ATTRIBS),
-	m_ringState(nullptr)
+	TerrainBody(sbody)
 {
 	InitParams(sbody);
 }
 
 Planet::Planet(const Json &jsonObj, Space *space) :
-	TerrainBody(jsonObj, space),
-	m_ringVertices(RING_VERTEX_ATTRIBS),
-	m_ringState(nullptr)
+	TerrainBody(jsonObj, space)
 {
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody);
@@ -169,7 +168,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 {
 	const SystemBody *sbody = GetSystemBody();
 
-	m_ringVertices.Clear();
+	Graphics::VertexArray ringVertices(RING_VERTEX_ATTRIBS);
 
 	// generate the ring geometry
 	const float inner = sbody->GetRings().minRadius.ToFloat();
@@ -179,9 +178,12 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		const float a = (2.0f * float(M_PI)) * (float(i) / float(segments));
 		const float ca = cosf(a);
 		const float sa = sinf(a);
-		m_ringVertices.Add(vector3f(inner * sa, 0.0f, inner * ca), vector2f(float(i), 0.0f));
-		m_ringVertices.Add(vector3f(outer * sa, 0.0f, outer * ca), vector2f(float(i), 1.0f));
+		ringVertices.Add(vector3f(inner * sa, 0.0f, inner * ca), vector2f(float(i), 0.0f));
+		ringVertices.Add(vector3f(outer * sa, 0.0f, outer * ca), vector2f(float(i), 1.0f));
 	}
+
+	// Upload vertex data to GPU
+	m_ringMesh.reset(renderer->CreateMeshObjectFromArray(&ringVertices));
 
 	// generate the ring texture
 	// NOTE: texture width must be > 1 to avoid graphical glitches with Intel GMA 900 systems
@@ -240,13 +242,14 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	desc.effect = Graphics::EFFECT_PLANETRING;
 	desc.lighting = true;
 	desc.textures = 1;
-	m_ringMaterial.reset(renderer->CreateMaterial(desc));
-	m_ringMaterial->texture0 = m_ringTexture.Get();
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_PREMULT;
 	rsd.cullMode = Graphics::CULL_NONE;
-	m_ringState = renderer->CreateRenderState(rsd);
+	rsd.primitiveType = Graphics::TRIANGLE_STRIP;
+
+	m_ringMaterial.reset(renderer->CreateMaterial(desc, rsd));
+	m_ringMaterial->texture0 = m_ringTexture.Get();
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer, const matrix4x4d &modelView)
@@ -257,7 +260,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer, const matrix4x4d &modelView)
 		GenerateRings(renderer);
 
 	renderer->SetTransform(matrix4x4f(modelView));
-	renderer->DrawTriangles(&m_ringVertices, m_ringState, m_ringMaterial.get(), TRIANGLE_STRIP);
+	renderer->DrawMesh(m_ringMesh.get(), m_ringMaterial.get());
 }
 
 void Planet::SubRender(Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos)

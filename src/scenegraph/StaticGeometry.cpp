@@ -11,14 +11,14 @@
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
+#include "graphics/Types.h"
+#include "scenegraph/BinaryConverter.h"
 #include "utils.h"
 
 namespace SceneGraph {
 
 	StaticGeometry::StaticGeometry(Graphics::Renderer *r) :
-		Node(r, NODE_SOLID),
-		m_blendMode(Graphics::BLEND_SOLID),
-		m_renderState(nullptr)
+		Node(r, NODE_SOLID)
 	{
 	}
 
@@ -29,9 +29,7 @@ namespace SceneGraph {
 	StaticGeometry::StaticGeometry(const StaticGeometry &sg, NodeCopyCache *cache) :
 		Node(sg, cache),
 		m_boundingBox(sg.m_boundingBox),
-		m_blendMode(sg.m_blendMode),
-		m_meshes(sg.m_meshes),
-		m_renderState(sg.m_renderState)
+		m_meshes(sg.m_meshes)
 	{
 	}
 
@@ -48,11 +46,10 @@ namespace SceneGraph {
 	void StaticGeometry::Render(const matrix4x4f &trans, const RenderData *rd)
 	{
 		PROFILE_SCOPED()
-		SDL_assert(m_renderState);
 		Graphics::Renderer *r = GetRenderer();
 		r->SetTransform(trans);
 		for (auto &it : m_meshes)
-			r->DrawBufferIndexed(it.vertexBuffer.Get(), it.indexBuffer.Get(), m_renderState, it.material.Get());
+			r->DrawMesh(it.meshObject.Get(), it.material.Get());
 
 		//DrawBoundingBox(m_boundingBox);
 	}
@@ -60,7 +57,6 @@ namespace SceneGraph {
 	void StaticGeometry::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	{
 		PROFILE_SCOPED()
-		SDL_assert(m_renderState);
 		Graphics::Renderer *r = GetRenderer();
 
 		const size_t numTrans = trans.size();
@@ -92,7 +88,7 @@ namespace SceneGraph {
 				Graphics::MaterialDescriptor mdesc = it.material->GetDescriptor();
 				mdesc.instanced = true;
 				// create the "new" material with the instanced description
-				RefCountedPtr<Graphics::Material> mat(r->CreateMaterial(mdesc));
+				RefCountedPtr<Graphics::Material> mat(r->CreateMaterial(mdesc, it.material->GetStateDescriptor()));
 				// copy over all of the other details
 				mat->texture0 = it.material->texture0;
 				mat->texture1 = it.material->texture1;
@@ -115,7 +111,7 @@ namespace SceneGraph {
 		int i = 0;
 		for (auto &it : m_meshes) {
 			// finally render using the instance material
-			r->DrawBufferIndexedInstanced(it.vertexBuffer.Get(), it.indexBuffer.Get(), m_renderState, m_instanceMaterials[i].Get(), m_instBuffer.Get());
+			r->DrawMeshInstanced(it.meshObject.Get(), m_instanceMaterials[i].Get(), m_instBuffer.Get());
 			++i;
 		}
 	}
@@ -125,7 +121,8 @@ namespace SceneGraph {
 	{
 		PROFILE_SCOPED()
 		Node::Save(db);
-		db.wr->Int32(m_blendMode);
+		// write obsolete m_blendMode value
+		if (SGM_VERSION == 6) db.wr->Int32(Graphics::BLEND_SOLID);
 		db.wr->Vector3d(m_boundingBox.min);
 		db.wr->Vector3d(m_boundingBox.max);
 
@@ -190,14 +187,9 @@ namespace SceneGraph {
 		StaticGeometry *sg = new StaticGeometry(db.loader->GetRenderer());
 		Serializer::Reader &rd = *db.rd;
 
-		sg->m_blendMode = static_cast<Graphics::BlendMode>(rd.Int32());
+		if (SGM_VERSION == 6) rd.Int32(); // read obsolete m_blendMode value
 		sg->m_boundingBox.min = rd.Vector3d();
 		sg->m_boundingBox.max = rd.Vector3d();
-
-		Graphics::RenderStateDesc rsd;
-		rsd.blendMode = sg->m_blendMode;
-		rsd.depthWrite = rsd.blendMode == Graphics::BLEND_SOLID;
-		sg->SetRenderState(sg->GetRenderer()->CreateRenderState(rsd));
 
 		const Uint32 numMeshes = rd.Int32();
 		for (Uint32 mesh = 0; mesh < numMeshes; mesh++) {
@@ -219,6 +211,7 @@ namespace SceneGraph {
 			const bool hasTangents = (vtxFormat & Graphics::ATTRIB_TANGENT);
 
 			//vertex buffer
+			// XXX evaluate whether we can use VertexBufferDesc::FromAttribSet here
 			Graphics::VertexBufferDesc vbDesc;
 			vbDesc.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 			vbDesc.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
@@ -282,105 +275,13 @@ namespace SceneGraph {
 		m.vertexBuffer = vb;
 		m.indexBuffer = ib;
 		m.material = mat;
+		m.meshObject.Reset(m_renderer->CreateMeshObject(vb.Get(), ib.Get()));
 		m_meshes.push_back(m);
 	}
 
 	StaticGeometry::Mesh &StaticGeometry::GetMeshAt(unsigned int i)
 	{
 		return m_meshes.at(i);
-	}
-
-	void StaticGeometry::DrawBoundingBox(const Aabb &bb)
-	{
-		const vector3f min(bb.min.x, bb.min.y, bb.min.z);
-		const vector3f max(bb.max.x, bb.max.y, bb.max.z);
-		const vector3f fbl(min.x, min.y, min.z); //front bottom left
-		const vector3f fbr(max.x, min.y, min.z); //front bottom right
-		const vector3f ftl(min.x, max.y, min.z); //front top left
-		const vector3f ftr(max.x, max.y, min.z); //front top right
-		const vector3f rtl(min.x, max.y, max.z); //rear top left
-		const vector3f rtr(max.x, max.y, max.z); //rear top right
-		const vector3f rbl(min.x, min.y, max.z); //rear bottom left
-		const vector3f rbr(max.x, min.y, max.z); //rear bottom right
-
-		const Color c(Color::WHITE);
-
-		std::unique_ptr<Graphics::VertexArray> vts(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE));
-
-		//Front face
-		vts->Add(ftr, c); //3
-		vts->Add(fbr, c); //1
-		vts->Add(fbl, c); //0
-
-		vts->Add(fbl, c); //0
-		vts->Add(ftl, c); //2
-		vts->Add(ftr, c); //3
-
-		//Rear face
-		vts->Add(rbr, c); //7
-		vts->Add(rtr, c); //5
-		vts->Add(rbl, c); //6
-
-		vts->Add(rbl, c); //6
-		vts->Add(rtr, c); //5
-		vts->Add(rtl, c); //4
-
-		//Top face
-		vts->Add(rtl, c); //4
-		vts->Add(rtr, c); //5
-		vts->Add(ftr, c); //3
-
-		vts->Add(ftr, c); //3
-		vts->Add(ftl, c); //2
-		vts->Add(rtl, c); //4
-
-		//bottom face
-		vts->Add(fbr, c); //1
-		vts->Add(rbr, c); //7
-		vts->Add(rbl, c); //6
-
-		vts->Add(rbl, c); //6
-		vts->Add(fbl, c); //0
-		vts->Add(fbr, c); //1
-
-		//left face
-		vts->Add(fbl, c); //0
-		vts->Add(rbl, c); //6
-		vts->Add(rtl, c); //4
-
-		vts->Add(rtl, c); //4
-		vts->Add(ftl, c); //2
-		vts->Add(fbl, c); //0
-
-		//right face
-		vts->Add(rtr, c); //5
-		vts->Add(rbr, c); //7
-		vts->Add(fbr, c); //1
-
-		vts->Add(fbr, c); //1
-		vts->Add(ftr, c); //3
-		vts->Add(rtr, c); //5
-
-		Graphics::Renderer *r = GetRenderer();
-
-		Graphics::RenderStateDesc rsd;
-		rsd.cullMode = Graphics::CULL_NONE;
-
-		RefCountedPtr<Graphics::VertexBuffer> vb;
-		//create buffer and upload data
-		Graphics::VertexBufferDesc vbd;
-		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
-		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
-		vbd.numVertices = vts->GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		vb.Reset(m_renderer->CreateVertexBuffer(vbd));
-		vb->Populate(*vts);
-
-		r->SetWireFrameMode(true);
-		r->DrawBuffer(vb.Get(), r->CreateRenderState(rsd), Graphics::vtxColorMaterial);
-		r->SetWireFrameMode(false);
 	}
 
 } // namespace SceneGraph

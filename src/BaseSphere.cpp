@@ -45,7 +45,7 @@ void BaseSphere::OnChangeDetailLevel()
 
 void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	const matrix4x4d &modelView, const vector3d &campos, float rad,
-	Graphics::RenderState *rs, RefCountedPtr<Graphics::Material> mat)
+	RefCountedPtr<Graphics::Material> mat)
 {
 	PROFILE_SCOPED()
 	using namespace Graphics;
@@ -57,7 +57,7 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::ScaleMatrix(rad) * invrot));
 
 	if (!m_atmos)
-		m_atmos.reset(new Drawables::Sphere3D(renderer, mat, rs, 4, 1.0f, ATTRIB_POSITION));
+		m_atmos.reset(new Drawables::Sphere3D(renderer, mat, 4, 1.0f, ATTRIB_POSITION));
 	m_atmos->Draw(renderer);
 
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_ATMOSPHERES, 1);

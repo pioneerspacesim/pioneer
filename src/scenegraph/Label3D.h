@@ -9,13 +9,12 @@
 #include "Node.h"
 #include "graphics/Material.h"
 #include "graphics/VertexBuffer.h"
-#include "graphics/Material.h"
 #include "text/DistanceFieldFont.h"
 
 namespace Graphics {
 	class Renderer;
 	class RenderState;
-}
+} // namespace Graphics
 
 namespace SceneGraph {
 
@@ -32,9 +31,8 @@ namespace SceneGraph {
 	private:
 		RefCountedPtr<Graphics::Material> m_material;
 		std::unique_ptr<Graphics::VertexArray> m_geometry;
-		std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
+		std::unique_ptr<Graphics::MeshObject> m_textMesh;
 		RefCountedPtr<Text::DistanceFieldFont> m_font;
-		Graphics::RenderState *m_renderState;
 	};
 
 } // namespace SceneGraph

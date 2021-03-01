@@ -149,6 +149,7 @@ namespace Graphics {
 	// static member instantiations
 	bool RendererOGL::initted = false;
 	RendererOGL::AttribBufferMap RendererOGL::s_AttribBufferMap;
+	RendererOGL::DynamicBufferMap RendererOGL::s_DynamicDrawBufferMap;
 
 	// typedefs
 	typedef std::vector<std::pair<MaterialDescriptor, OGL::Program *>>::const_iterator ProgramIterator;
@@ -156,6 +157,7 @@ namespace Graphics {
 	// ----------------------------------------------------------------------------
 	RendererOGL::RendererOGL(SDL_Window *window, const Graphics::Settings &vs, SDL_GLContext &glContext) :
 		Renderer(window, vs.width, vs.height),
+		m_frameNum(0),
 		m_numLights(0),
 		m_numDirLights(0)
 		//the range is very large due to a "logarithmic z-buffer" trick used
@@ -479,6 +481,8 @@ namespace Graphics {
 		PROFILE_SCOPED()
 		glClearColor(0, 0, 0, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		m_frameNum++;
 		return true;
 	}
 
@@ -530,6 +534,16 @@ namespace Graphics {
 
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE, uint32_t(m_drawUniformBuffers.size()));
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS, numAllocs);
+
+		// evict temporary vertex buffers if they haven't been used in at least 30 frames
+		for (auto iter = s_DynamicDrawBufferMap.begin(); iter != s_DynamicDrawBufferMap.end();) {
+			if (iter->second.lastFrameUsed < (std::max(m_frameNum, 30UL) - 30))
+				iter = s_DynamicDrawBufferMap.erase(iter);
+			else
+				iter++;
+		}
+
+		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, s_DynamicDrawBufferMap.size());
 
 		return true;
 	}
@@ -878,6 +892,32 @@ namespace Graphics {
 	{
 		m->SetCommonUniforms(m_modelViewMat, m_projectionMat);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
+	}
+
+	bool RendererOGL::DrawBuffer(const VertexArray *v, Material *m)
+	{
+		PROFILE_SCOPED()
+		if (v->IsEmpty()) return false;
+
+		const AttributeSet attrs = v->GetAttributeSet();
+		MeshObject *meshObject;
+
+		// Find a buffer to write into (or create one)
+		auto iter = s_DynamicDrawBufferMap.find(std::make_pair(attrs, v->GetNumVerts()));
+		if (iter == s_DynamicDrawBufferMap.end()) {
+			meshObject = CreateMeshObjectFromArray(v, nullptr, BUFFER_USAGE_DYNAMIC);
+			s_DynamicDrawBufferMap[std::make_pair(attrs, v->GetNumVerts())] = { RefCountedPtr<MeshObject>(meshObject), m_frameNum };
+			GetStats().AddToStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED, 1);
+		} else {
+			meshObject = iter->second.mesh.Get();
+			meshObject->GetVertexBuffer()->Populate(*v);
+			iter->second.lastFrameUsed = m_frameNum;
+		}
+
+		const bool res = DrawMesh(meshObject, m);
+		CheckRenderErrors(__FUNCTION__, __LINE__);
+
+		return res;
 	}
 
 	bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
@@ -1379,6 +1419,18 @@ namespace Graphics {
 		return new OGL::MeshObject(
 			RefCountedPtr<OGL::VertexBuffer>(static_cast<OGL::VertexBuffer *>(v)),
 			RefCountedPtr<OGL::IndexBuffer>(static_cast<OGL::IndexBuffer *>(i)));
+	}
+
+	MeshObject *RendererOGL::CreateMeshObjectFromArray(const VertexArray *vertexArray, IndexBuffer *indexBuffer, BufferUsage usage)
+	{
+		VertexBufferDesc desc = VertexBufferDesc::FromAttribSet(vertexArray->GetAttributeSet());
+		desc.numVertices = vertexArray->GetNumVerts();
+		desc.usage = usage;
+
+		Graphics::VertexBuffer *vertexBuffer = CreateVertexBuffer(desc);
+		vertexBuffer->Populate(*vertexArray);
+
+		return CreateMeshObject(vertexBuffer, indexBuffer);
 	}
 
 	OGL::UniformBuffer *RendererOGL::GetLightUniformBuffer()

@@ -19,8 +19,10 @@ namespace SceneGraph {
 	class StaticGeometry : public Node {
 	public:
 		struct Mesh {
+			// XXX deprecate these fields as they're wrapped in meshObject
 			RefCountedPtr<Graphics::VertexBuffer> vertexBuffer;
 			RefCountedPtr<Graphics::IndexBuffer> indexBuffer;
+			RefCountedPtr<Graphics::MeshObject> meshObject;
 			RefCountedPtr<Graphics::Material> material;
 		};
 		StaticGeometry(Graphics::Renderer *r);
@@ -40,17 +42,12 @@ namespace SceneGraph {
 		unsigned int GetNumMeshes() const { return static_cast<Uint32>(m_meshes.size()); }
 		Mesh &GetMeshAt(unsigned int i);
 
-		void SetRenderState(Graphics::RenderState *s) { m_renderState = s; }
-
 		Aabb m_boundingBox;
-		Graphics::BlendMode m_blendMode;
 
 	protected:
 		~StaticGeometry();
-		void DrawBoundingBox(const Aabb &bb);
 		std::vector<Mesh> m_meshes;
 		std::vector<RefCountedPtr<Graphics::Material>> m_instanceMaterials;
-		Graphics::RenderState *m_renderState;
 		RefCountedPtr<Graphics::InstanceBuffer> m_instBuffer;
 	};
 

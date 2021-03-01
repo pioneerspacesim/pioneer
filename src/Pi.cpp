@@ -26,6 +26,7 @@
 #include "core/GuiApplication.h"
 #include "core/Log.h"
 #include "core/OS.h"
+#include "graphics/RenderState.h"
 #include "graphics/opengl/RendererGL.h"
 #include "imgui/imgui.h"
 #include "lua/Lua.h"
@@ -127,10 +128,6 @@ PiGui::Instance *Pi::pigui = nullptr;
 ModelCache *Pi::modelCache;
 Intro *Pi::intro;
 SDLGraphics *Pi::sdl;
-Graphics::RenderTarget *Pi::renderTarget;
-RefCountedPtr<Graphics::Texture> Pi::renderTexture;
-std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
-Graphics::RenderState *Pi::quadRenderState = nullptr;
 bool Pi::isRecordingVideo = false;
 FILE *Pi::ffmpegFile = nullptr;
 
@@ -280,7 +277,7 @@ void TestGPUJobsSupport()
 			desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
 			desc.quality = (octaves << 16) | i;
 			desc.textures = 3;
-			material.reset(Pi::renderer->CreateMaterial(desc));
+			material.reset(Pi::renderer->CreateMaterial(desc, Graphics::RenderStateDesc()));
 			supportsGPUJobs &= material->IsProgramLoaded();
 		}
 		if (!supportsGPUJobs) {
@@ -297,7 +294,7 @@ void TestGPUJobsSupport()
 				desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
 				desc.quality = (octaves << 16) | i;
 				desc.textures = 3;
-				material.reset(Pi::renderer->CreateMaterial(desc));
+				material.reset(Pi::renderer->CreateMaterial(desc, Graphics::RenderStateDesc()));
 				supportsGPUJobs &= material->IsProgramLoaded();
 			}
 

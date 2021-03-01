@@ -19,6 +19,7 @@
 #include "StringF.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "matrix4x4.h"
 #include "ship/PlayerShipController.h"
@@ -73,11 +74,15 @@ void WorldView::InitObject()
 {
 	m_labelsOn = true;
 
+	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_VTXCOLOR;
+
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	rsd.depthTest = false;
-	m_blendState = Pi::renderer->CreateRenderState(rsd); //XXX m_renderer not set yet
+	rsd.primitiveType = Graphics::LINE_SINGLE;
+	m_indicatorMat.reset(Pi::renderer->CreateMaterial(desc, rsd));
 
 	/*
 	  NEW UI
@@ -486,7 +491,7 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 		} else {
 			m_indicator.SetData(8, vts, c);
 		}
-		m_indicator.Draw(m_renderer, m_blendState);
+		m_indicator.Draw(m_renderer, m_indicatorMat.get());
 	} else {
 		DrawEdgeMarker(target, c);
 	}
@@ -498,10 +503,13 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 	vector2f dir = screenCentre - marker.pos;
 	float len = dir.Length();
 	dir *= HUD_CROSSHAIR_SIZE / len;
-	m_edgeMarker.SetColor(c);
-	m_edgeMarker.SetStart(vector3f(marker.pos, 0.0f));
-	m_edgeMarker.SetEnd(vector3f(marker.pos + dir, 0.0f));
-	m_edgeMarker.Draw(m_renderer, m_blendState);
+
+	const vector3f vts[2] = {
+		vector3f(marker.pos, 0.f),
+		vector3f(marker.pos + dir, 0.f)
+	};
+	m_indicator.SetData(2, vts, c);
+	m_indicator.Draw(m_renderer, m_indicatorMat.get());
 }
 
 // project vector vec onto plane (normal must be normalized)

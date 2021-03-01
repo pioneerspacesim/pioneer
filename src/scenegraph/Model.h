@@ -69,12 +69,6 @@
 #include "graphics/Material.h"
 #include <stdexcept>
 
-namespace Graphics {
-	class Renderer;
-	class RenderState;
-	class VertexBuffer;
-} // namespace Graphics
-
 namespace SceneGraph {
 	class Animation;
 	class BaseLoader;
@@ -177,7 +171,8 @@ namespace SceneGraph {
 			DEBUG_COLLMESH = 0x2,
 			DEBUG_WIREFRAME = 0x4,
 			DEBUG_TAGS = 0x8,
-			DEBUG_DOCKING = 0x10
+			DEBUG_DOCKING = 0x10,
+			DEBUG_GEOMBBOX = 0x20
 		};
 		void SetDebugFlags(Uint32 flags);
 
@@ -204,20 +199,10 @@ namespace SceneGraph {
 		Graphics::Texture *m_curPattern;
 		Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
 
-		// debug support
-		void CreateAabbVB();
-		void DrawAabb();
-		void DrawCollisionMesh();
-		void DrawAxisIndicators(std::vector<Graphics::Drawables::Line3D> &lines);
-		void AddAxisIndicators(const std::vector<MatrixTransform *> &mts, std::vector<Graphics::Drawables::Line3D> &lines);
-
 		Uint32 m_debugFlags;
-		std::vector<Graphics::Drawables::Line3D> m_tagPoints;
-		std::vector<Graphics::Drawables::Line3D> m_dockingPoints;
-		RefCountedPtr<Graphics::VertexBuffer> m_collisionMeshVB;
-		RefCountedPtr<Graphics::VertexBuffer> m_aabbVB;
-		RefCountedPtr<Graphics::Material> m_aabbMat;
-		Graphics::RenderState *m_state;
+
+		std::unique_ptr<Graphics::MeshObject> m_debugMesh;
+		std::unique_ptr<Graphics::Material> m_debugLineMat;
 	};
 
 } // namespace SceneGraph

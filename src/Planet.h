@@ -10,9 +10,9 @@
 
 namespace Graphics {
 	class Renderer;
-	class RenderState;
 	class Texture;
 	class Material;
+	class MeshObject;
 } // namespace Graphics
 
 class Planet : public TerrainBody {
@@ -38,13 +38,8 @@ private:
 	double m_atmosphereRadius;
 	double m_surfaceGravity_g;
 	RefCountedPtr<Graphics::Texture> m_ringTexture;
-	Graphics::VertexArray m_ringVertices;
 	std::unique_ptr<Graphics::Material> m_ringMaterial;
-	Graphics::RenderState *m_ringState;
-
-	// Legacy renderer visuals
-	std::unique_ptr<Graphics::VertexArray> m_atmosphereVertices;
-	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
+	std::unique_ptr<Graphics::MeshObject> m_ringMesh;
 };
 
 #endif /* _PLANET_H */

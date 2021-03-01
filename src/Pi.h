@@ -46,12 +46,6 @@ class ServerAgent;
 
 namespace Graphics {
 	class Renderer;
-	class Texture;
-	class RenderState;
-	class RenderTarget;
-	namespace Drawables {
-		class TexturedQuad;
-	}
 } // namespace Graphics
 
 namespace SceneGraph {
@@ -250,11 +244,6 @@ private:
 	static bool hudTrailsDisplayed;
 	static bool bRefreshBackgroundStars;
 	static float amountOfBackgroundStarsDisplayed;
-
-	static Graphics::RenderTarget *renderTarget;
-	static RefCountedPtr<Graphics::Texture> renderTexture;
-	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;
-	static Graphics::RenderState *quadRenderState;
 
 	static bool doingMouseGrab;
 

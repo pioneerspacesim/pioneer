@@ -11,9 +11,9 @@ class Space;
 class SystemBody;
 
 namespace Graphics {
+	class Material;
+	class MeshObject;
 	class Renderer;
-	class RenderState;
-	class VertexBuffer;
 } // namespace Graphics
 
 class Star : public TerrainBody {
@@ -30,8 +30,8 @@ protected:
 	void InitStar();
 	void BuildHaloBuffer(Graphics::Renderer *renderer, double rad);
 
-	Graphics::RenderState *m_haloState;
-	std::unique_ptr<Graphics::VertexBuffer> m_haloBuffer;
+	std::unique_ptr<Graphics::Material> m_haloMat;
+	std::unique_ptr<Graphics::MeshObject> m_haloMesh;
 };
 
 #endif /* _STAR_H */

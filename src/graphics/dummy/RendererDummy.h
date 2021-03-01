@@ -3,11 +3,13 @@
 
 #pragma once
 
-#include "graphics/RenderState.h"
 #ifndef _RENDERER_DUMMY_H
 #define _RENDERER_DUMMY_H
 
+#include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "graphics/dummy/MaterialDummy.h"
 #include "graphics/dummy/RenderStateDummy.h"
 #include "graphics/dummy/RenderTargetDummy.h"
@@ -35,7 +37,6 @@ namespace Graphics {
 		virtual bool EndFrame() override final { return true; }
 		virtual bool SwapBuffers() override final { return true; }
 
-		virtual bool SetRenderState(RenderState *) override final { return true; }
 		virtual bool SetRenderTarget(RenderTarget *) override final { return true; }
 
 		virtual bool SetDepthRange(double znear, double zfar) override final { return true; }
@@ -64,6 +65,8 @@ namespace Graphics {
 
 		virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) override final { return true; }
 
+		virtual bool DrawBuffer(const VertexArray *, Material *) override final { return true; }
+
 		virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type = TRIANGLES) override final { return true; }
 		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) override final { return true; }
 		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) override final { return true; }
@@ -83,6 +86,12 @@ namespace Graphics {
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage bu) override final { return new Graphics::Dummy::IndexBuffer(size, bu); }
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage bu) override final { return new Graphics::Dummy::InstanceBuffer(size, bu); }
 		virtual MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) override final { return new Graphics::Dummy::MeshObject(static_cast<Dummy::VertexBuffer *>(v), static_cast<Dummy::IndexBuffer *>(i)); }
+		virtual MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage = BUFFER_USAGE_STATIC) override final
+		{
+			auto desc = Graphics::VertexBufferDesc::FromAttribSet(v->GetAttributeSet());
+			desc.numVertices = v->GetNumVerts();
+			return new Graphics::Dummy::MeshObject(static_cast<Dummy::VertexBuffer *>(CreateVertexBuffer(desc)), static_cast<Dummy::IndexBuffer *>(i));
+		}
 
 		virtual bool ReloadShaders() override final { return true; }
 

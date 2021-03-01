@@ -5,8 +5,8 @@
 #define _SFX_H
 
 #include "FrameId.h"
-#include "graphics/Material.h"
 #include "JsonFwd.h"
+#include "graphics/Material.h"
 
 #include <deque>
 
@@ -15,8 +15,7 @@ class Frame;
 
 namespace Graphics {
 	class Renderer;
-	class RenderState;
-}
+} // namespace Graphics
 
 enum SFX_TYPE {
 	TYPE_EXPLOSION = 1,
@@ -25,18 +24,16 @@ enum SFX_TYPE {
 	TYPE_NONE
 };
 
-class Sfx {
-public:
-	friend class SfxManager;
+struct Sfx {
 	Sfx() = delete;
 	Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type);
 	Sfx(const Json &jsonObj);
-	void SetPosition(const vector3d &p);
+
 	const vector3d &GetPosition() const { return m_pos; }
 
 	float AgeBlend() const;
+	void SetPosition(const vector3d &p);
 
-private:
 	void TimeStepUpdate(const float timeStep);
 	void SaveToJson(Json &jsonObj);
 
@@ -49,7 +46,7 @@ private:
 
 class SfxManager {
 public:
-	friend class Sfx;
+	friend struct Sfx;
 
 	static void Add(const Body *, SFX_TYPE);
 	static void AddExplosion(Body *);
@@ -66,15 +63,10 @@ public:
 	static std::unique_ptr<Graphics::Material> ecmParticle;
 	static std::unique_ptr<Graphics::Material> smokeParticle;
 	static std::unique_ptr<Graphics::Material> explosionParticle;
-	static Graphics::RenderState *alphaState;
-	static Graphics::RenderState *additiveAlphaState;
-	static Graphics::RenderState *alphaOneState;
 
 	SfxManager();
 
 	size_t GetNumberInstances(const SFX_TYPE t) const { return m_instances[t].size(); }
-	Sfx &GetInstanceByIndex(const SFX_TYPE t, const size_t i) { return m_instances[t][i]; }
-	void AddInstance(Sfx &inst) { return m_instances[inst.m_type].push_back(inst); }
 	void Cleanup();
 
 private:
@@ -90,6 +82,9 @@ private:
 		int num_imgs_wide;
 		float coord_downscale;
 	};
+
+	Sfx &GetInstanceByIndex(const SFX_TYPE t, const size_t i) { return m_instances[t][i]; }
+	void AddInstance(Sfx &inst) { return m_instances[inst.m_type].push_back(inst); }
 
 	// methods
 	static SfxManager *AllocSfxInFrame(FrameId f);

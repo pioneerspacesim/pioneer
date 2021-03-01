@@ -38,8 +38,7 @@ namespace Graphics {
 				float radii;
 			} hits[MAX_SHIELD_HITS];
 
-			alignas(16)
-			float shieldStrength;
+			alignas(16) float shieldStrength;
 			float shieldCooldown;
 			int numHits;
 		};
@@ -52,7 +51,7 @@ namespace Graphics {
 
 			auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(ShieldData));
 			{
-				auto dataBlock = buffer->Allocate<ShieldData>(p->hitInfoBlock.Location());
+				auto dataBlock = buffer->Allocate<ShieldData>(2);
 				if (this->specialParameter0) {
 					const ShieldRenderParameters srp = *static_cast<ShieldRenderParameters *>(this->specialParameter0);
 					dataBlock->shieldStrength = srp.strength;
@@ -73,8 +72,6 @@ namespace Graphics {
 					}
 				}
 			}
-
-
 		}
 
 	} // namespace OGL

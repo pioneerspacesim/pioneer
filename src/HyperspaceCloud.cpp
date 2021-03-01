@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Ship.h"
 #include "Space.h"
+#include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "perlin.h"
@@ -19,6 +20,11 @@ using namespace Graphics;
 
 /** How long does a hyperspace cloud last for? 2 Days? */
 #define HYPERCLOUD_DURATION (60.0 * 60.0 * 24.0 * 2.0)
+
+// TODO: having these as a static pointer isn't great; find a better way to handle this
+std::unique_ptr<Graphics::Material> HyperspaceCloud::s_cloudMat;
+std::unique_ptr<Graphics::MeshObject> HyperspaceCloud::s_cloudMeshArriving;
+std::unique_ptr<Graphics::MeshObject> HyperspaceCloud::s_cloudMeshLeaving;
 
 HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival) :
 	m_isBeingKilled(false)
@@ -32,7 +38,6 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival) :
 	m_birthdate = Pi::game->GetTime();
 	m_due = dueDate;
 	SetIsArrival(isArrival);
-	InitGraphics();
 }
 
 HyperspaceCloud::HyperspaceCloud(const Json &jsonObj, Space *space) :
@@ -52,7 +57,6 @@ HyperspaceCloud::HyperspaceCloud(const Json &jsonObj, Space *space) :
 			Json shipObj = hyperspaceCloudObj["ship"];
 			m_ship = static_cast<Ship *>(Body::FromJson(shipObj, space));
 		}
-		InitGraphics();
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -155,39 +159,47 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 	if (m_isBeingKilled)
 		return;
 
+	if (!s_cloudMat)
+		InitGraphics(renderer);
+
 	matrix4x4d trans = matrix4x4d::Identity();
 	trans.Translate(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));
-
-	// face the camera dammit
-	vector3d zaxis = viewCoords.NormalizedSafe();
-	vector3d xaxis = vector3d(0, 1, 0).Cross(zaxis).Normalized();
-	vector3d yaxis = zaxis.Cross(xaxis);
-	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).Inverse();
-	renderer->SetTransform(matrix4x4f(trans * rot));
 
 	// precise to the rendered frame (better than PHYSICS_HZ granularity)
 	const double preciseTime = Pi::game->GetTime() + Pi::GetGameTickAlpha() * Pi::game->GetTimeStep();
 
 	// Flickering gradient circle, departure clouds are red and arrival clouds blue
 	// XXX could just alter the scale instead of recreating the model
-	const float radius = 1000.0f + 200.0f * float(noise(vector3d(10.0 * preciseTime, 0, 0)));
-	m_graphic.vertices->Clear();
-	Color outerColor = m_isArrival ? Color::BLUE : Color::RED;
-	outerColor.a = 0;
-	make_circle_thing(*m_graphic.vertices.get(), radius, Color::WHITE, outerColor);
-	renderer->DrawTriangles(m_graphic.vertices.get(), m_graphic.renderState, m_graphic.material.get(), TRIANGLE_FAN);
+	const float scale = 1.0f + 0.2f * float(noise(vector3d(10.0 * preciseTime, 0, 0)));
+
+	// face the camera dammit
+	vector3d zaxis = viewCoords.NormalizedSafe();
+	vector3d xaxis = vector3d(0, 1, 0).Cross(zaxis).Normalized();
+	vector3d yaxis = zaxis.Cross(xaxis);
+	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).Inverse();
+	renderer->SetTransform(matrix4x4f(trans * rot * matrix4x4d::ScaleMatrix(scale)));
+
+	renderer->DrawMesh(m_isArrival ? s_cloudMeshArriving.get() : s_cloudMeshLeaving.get(), s_cloudMat.get());
 }
 
-void HyperspaceCloud::InitGraphics()
+void HyperspaceCloud::InitGraphics(Graphics::Renderer *renderer)
 {
-	m_graphic.vertices.reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
-
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true;
-	m_graphic.material.reset(Pi::renderer->CreateMaterial(desc));
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = BLEND_ALPHA_ONE;
 	rsd.depthWrite = false;
-	m_graphic.renderState = Pi::renderer->CreateRenderState(rsd);
+	rsd.primitiveType = Graphics::TRIANGLE_FAN;
+	s_cloudMat.reset(renderer->CreateMaterial(desc, rsd));
+
+	Graphics::VertexArray vertices(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+
+	make_circle_thing(vertices, 1000.f, Color::WHITE, Color::BLUE);
+	s_cloudMeshArriving.reset(renderer->CreateMeshObjectFromArray(&vertices));
+
+	vertices.Clear();
+
+	make_circle_thing(vertices, 1000.f, Color::WHITE, Color::RED);
+	s_cloudMeshLeaving.reset(renderer->CreateMeshObjectFromArray(&vertices));
 }

@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "graphics/opengl/VertexBufferGL.h"
+#include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "utils.h"
 
@@ -37,6 +38,19 @@ namespace Graphics {
 			}
 		}
 
+		GLenum get_buffer_usage(BufferUsage use)
+		{
+			switch (use) {
+			case BUFFER_USAGE_STATIC:
+				return GL_STATIC_DRAW;
+			case BUFFER_USAGE_DYNAMIC:
+				return GL_DYNAMIC_DRAW;
+			default:
+				assert(false);
+				return 0;
+			}
+		}
+
 		VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
 			Graphics::VertexBuffer(desc)
 		{
@@ -68,8 +82,7 @@ namespace Graphics {
 			glGenBuffers(1, &m_buffer);
 			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 			const Uint32 dataSize = m_desc.numVertices * m_desc.stride;
-			const GLenum usage = (m_desc.usage == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
-			glBufferData(GL_ARRAY_BUFFER, dataSize, 0, usage);
+			glBufferData(GL_ARRAY_BUFFER, dataSize, 0, get_buffer_usage(m_desc.usage));
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			// Allocate client data store for dynamic buffers
@@ -115,12 +128,11 @@ namespace Graphics {
 				if (m_mapMode == BUFFER_MAP_WRITE) {
 					const GLsizei dataSize = m_desc.numVertices * m_desc.stride;
 					glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-					glBufferData(GL_ARRAY_BUFFER, dataSize, 0, GL_DYNAMIC_DRAW);
+					glBufferData(GL_ARRAY_BUFFER, dataSize, 0, get_buffer_usage(m_desc.usage));
 					glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, m_data);
 					glBindBuffer(GL_ARRAY_BUFFER, 0);
 				}
 			}
-			glBindVertexArray(0);
 
 			m_mapMode = BUFFER_MAP_NONE;
 			m_written = true;

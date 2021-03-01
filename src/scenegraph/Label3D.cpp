@@ -3,8 +3,8 @@
 
 #include "Label3D.h"
 #include "NodeVisitor.h"
-#include "graphics/Renderer.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 
@@ -18,23 +18,22 @@ namespace SceneGraph {
 		matdesc.textures = 1;
 		matdesc.alphaTest = true;
 		matdesc.lighting = true;
+
+		Graphics::RenderStateDesc rsd;
+		rsd.depthWrite = false;
+
 		m_geometry.reset(font->CreateVertexArray());
-		m_material.Reset(r->CreateMaterial(matdesc));
+		m_material.Reset(r->CreateMaterial(matdesc, rsd));
 		m_material->texture0 = font->GetTexture();
 		m_material->diffuse = Color::WHITE;
 		m_material->emissive = Color(38, 38, 38);
 		m_material->specular = Color::WHITE;
-
-		Graphics::RenderStateDesc rsd;
-		rsd.depthWrite = false;
-		m_renderState = r->CreateRenderState(rsd);
 	}
 
 	Label3D::Label3D(const Label3D &label, NodeCopyCache *cache) :
 		Node(label, cache),
 		m_material(label.m_material),
-		m_font(label.m_font),
-		m_renderState(label.m_renderState)
+		m_font(label.m_font)
 	{
 		m_geometry.reset(m_font->CreateVertexArray());
 	}
@@ -59,28 +58,17 @@ namespace SceneGraph {
 			}
 
 			//create buffer and upload data
-			Graphics::VertexBufferDesc vbd;
-			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-			vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
-			vbd.attrib[2].format = Graphics::ATTRIB_FORMAT_FLOAT2;
-			vbd.numVertices = m_geometry->GetNumVerts();
-			vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-
-			m_vbuffer.reset(m_renderer->CreateVertexBuffer(vbd));
-			m_vbuffer->Populate(*m_geometry);
+			m_textMesh.reset(m_renderer->CreateMeshObjectFromArray(m_geometry.get()));
 		}
 	}
 
 	void Label3D::Render(const matrix4x4f &trans, const RenderData *rd)
 	{
 		PROFILE_SCOPED()
-		if (m_vbuffer.get()) {
+		if (m_textMesh.get()) {
 			Graphics::Renderer *r = GetRenderer();
 			r->SetTransform(trans);
-			r->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get());
+			r->DrawMesh(m_textMesh.get(), m_material.Get());
 		}
 	}
 

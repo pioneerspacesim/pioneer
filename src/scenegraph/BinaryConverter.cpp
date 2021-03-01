@@ -19,15 +19,6 @@ extern "C" {
 
 using namespace SceneGraph;
 
-// Attempt at version history:
-// 1:	prototype
-// 2:	converted StaticMesh to VertexBuffer
-// 3:	store processed collision mesh
-// 4:	compressed SGM files and instancing support
-// 5:	normal mapping
-// 6:	32-bit indicies
-// 6.1:	rewrote serialization, use lz4 compression instead of INFLATE/DEFLATE. Still compatible.
-const Uint32 SGM_VERSION = 6;
 union SGM_STRING_VALUE {
 	char name[4];
 	Uint32 value;

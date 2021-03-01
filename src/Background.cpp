@@ -414,7 +414,7 @@ namespace Background {
 		}
 		Output("Final stars number: %d\n", num);
 
-		m_pointSprites->SetData(NUM_BG_STARS, stars.get(), colors.get(), sizes.get(), m_material.Get());
+		m_pointSprites->SetData(NUM_BG_STARS, stars.get(), colors.get(), sizes.get());
 	}
 
 	void Starfield::Draw()
@@ -422,7 +422,7 @@ namespace Background {
 		PROFILE_SCOPED()
 		// XXX would be nice to get rid of the Pi:: stuff here
 		if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-			m_pointSprites->Draw(m_renderer);
+			m_pointSprites->Draw(m_renderer, m_material.Get());
 		} else {
 			Graphics::VertexBuffer *buffer = m_animMesh->GetVertexBuffer();
 			assert(sizeof(StarVert) == 16);

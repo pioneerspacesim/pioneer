@@ -6,6 +6,7 @@
 #include "Material.h"
 #include "Renderer.h"
 #include "StringF.h"
+#include "graphics/RenderState.h"
 #include "utils.h"
 #include <iterator>
 #include <sstream>
@@ -153,7 +154,10 @@ namespace Graphics {
 		MaterialDescriptor desc;
 		desc.effect = EFFECT_VTXCOLOR;
 		desc.vertexColors = true;
-		vtxColorMaterial = renderer->CreateMaterial(desc);
+
+		RenderStateDesc rsd;
+		vtxColorMaterial = renderer->CreateMaterial(desc, rsd);
+
 		vtxColorMaterial->IncRefCount();
 
 		return renderer;

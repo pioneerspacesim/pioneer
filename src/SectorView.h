@@ -17,10 +17,6 @@
 class Game;
 class Galaxy;
 
-namespace Graphics {
-	class RenderState;
-}
-
 class SectorView : public PiGuiView, public DeleteEmitter {
 public:
 	SectorView(Game *game);
@@ -150,8 +146,6 @@ private:
 	bool m_drawOutRangeLabels;
 	bool m_drawVerticalLines;
 
-	std::unique_ptr<Graphics::Drawables::Disk> m_disk;
-
 	//Gui::LabelSet *m_clickableLabels;
 
 	std::set<const Faction *> m_visibleFactions;
@@ -169,24 +163,15 @@ private:
 	std::string m_previousSearch;
 
 	float m_playerHyperspaceRange;
-	Graphics::Drawables::Line3D m_selectedLine;
-	Graphics::Drawables::Line3D m_secondLine;
-	Graphics::Drawables::Line3D m_jumpLine;
 
 	// HyperJump Route Planner Stuff
 	std::vector<SystemPath> m_route;
-	Graphics::Drawables::Lines m_routeLines;
+
 	bool m_drawRouteLines;
 	bool m_setupRouteLines;
 	void DrawRouteLines(const matrix4x4f &trans);
 	void SetupRouteLines(const vector3f &playerAbsPos);
 	void GetPlayerPosAndStarSize(vector3f &playerPosOut, float &currentStarSizeOut);
-
-	Graphics::RenderState *m_solidState;
-	Graphics::RenderState *m_alphaBlendState;
-	Graphics::RenderState *m_jumpSphereState;
-	RefCountedPtr<Graphics::Material> m_material; //flat colour
-	RefCountedPtr<Graphics::Material> m_starMaterial;
 
 	std::vector<vector3f> m_farstars;
 	std::vector<Color> m_farstarsColor;
@@ -204,12 +189,19 @@ private:
 
 	std::unique_ptr<Graphics::VertexArray> m_lineVerts;
 	std::unique_ptr<Graphics::VertexArray> m_secLineVerts;
-	RefCountedPtr<Graphics::Material> m_fresnelMat;
-	std::unique_ptr<Graphics::Drawables::Sphere3D> m_jumpSphere;
 	std::unique_ptr<Graphics::VertexArray> m_starVerts;
+
+	[[deprecated]] RefCountedPtr<Graphics::Material> m_material; //flat colour
+	RefCountedPtr<Graphics::Material> m_starMaterial;
+	RefCountedPtr<Graphics::Material> m_fresnelMat;
+	RefCountedPtr<Graphics::Material> m_lineMat;
+	RefCountedPtr<Graphics::Material> m_farStarsMat;
+
+	std::unique_ptr<Graphics::Drawables::Sphere3D> m_jumpSphere;
 
 	Graphics::Drawables::Lines m_lines;
 	Graphics::Drawables::Lines m_sectorlines;
+	Graphics::Drawables::Lines m_routeLines;
 	Graphics::Drawables::Points m_farstarsPoints;
 };
 

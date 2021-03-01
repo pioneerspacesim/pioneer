@@ -22,6 +22,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaUtils.h"
 
@@ -29,19 +30,24 @@ namespace {
 	static float lifetime = 0.1f;
 }
 
-std::unique_ptr<Graphics::VertexArray> Beam::s_sideVerts;
-std::unique_ptr<Graphics::VertexArray> Beam::s_glowVerts;
+std::unique_ptr<Graphics::MeshObject> Beam::s_sideMesh;
+std::unique_ptr<Graphics::MeshObject> Beam::s_glowMesh;
 std::unique_ptr<Graphics::Material> Beam::s_sideMat;
 std::unique_ptr<Graphics::Material> Beam::s_glowMat;
-Graphics::RenderState *Beam::s_renderState = nullptr;
 
 void Beam::BuildModel()
 {
 	//set up materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
-	s_sideMat.reset(Pi::renderer->CreateMaterial(desc));
-	s_glowMat.reset(Pi::renderer->CreateMaterial(desc));
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
+
+	s_sideMat.reset(Pi::renderer->CreateMaterial(desc, rsd));
+	s_glowMat.reset(Pi::renderer->CreateMaterial(desc, rsd));
 	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/beam_l.dds").GetOrCreateTexture(Pi::renderer, "billboard");
 	s_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.dds").GetOrCreateTexture(Pi::renderer, "billboard");
 
@@ -62,18 +68,20 @@ void Beam::BuildModel()
 	const vector2f botLeft(0.f, 0.f);
 	const vector2f botRight(1.f, 0.f);
 
-	s_sideVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0, 24));
-	s_glowVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0, 240));
+	Graphics::AttributeSet vertexAttrs = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0;
+
+	Graphics::VertexArray sideVerts(vertexAttrs, 24);
+	Graphics::VertexArray glowVerts(vertexAttrs, 240);
 
 	//add four intersecting planes to create a volumetric effect
 	for (int i = 0; i < 4; i++) {
-		s_sideVerts->Add(one, topLeft);
-		s_sideVerts->Add(two, topRight);
-		s_sideVerts->Add(three, botRight);
+		sideVerts.Add(one, topLeft);
+		sideVerts.Add(two, topRight);
+		sideVerts.Add(three, botRight);
 
-		s_sideVerts->Add(three, botRight);
-		s_sideVerts->Add(four, botLeft);
-		s_sideVerts->Add(one, topLeft);
+		sideVerts.Add(three, botRight);
+		sideVerts.Add(four, botLeft);
+		sideVerts.Add(one, topLeft);
 
 		one.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
 		two.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
@@ -86,30 +94,27 @@ void Beam::BuildModel()
 	float gz = -0.1f;
 
 	for (int i = 0; i < 40; i++) {
-		s_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
-		s_glowVerts->Add(vector3f(-gw, gw, gz), topRight);
-		s_glowVerts->Add(vector3f(gw, gw, gz), botRight);
+		glowVerts.Add(vector3f(-gw, -gw, gz), topLeft);
+		glowVerts.Add(vector3f(-gw, gw, gz), topRight);
+		glowVerts.Add(vector3f(gw, gw, gz), botRight);
 
-		s_glowVerts->Add(vector3f(gw, gw, gz), botRight);
-		s_glowVerts->Add(vector3f(gw, -gw, gz), botLeft);
-		s_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
+		glowVerts.Add(vector3f(gw, gw, gz), botRight);
+		glowVerts.Add(vector3f(gw, -gw, gz), botLeft);
+		glowVerts.Add(vector3f(-gw, -gw, gz), topLeft);
 
 		gz -= 0.02f; // as they move back
 	}
 
-	Graphics::RenderStateDesc rsd;
-	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
-	rsd.depthWrite = false;
-	rsd.cullMode = Graphics::CULL_NONE;
-	s_renderState = Pi::renderer->CreateRenderState(rsd);
+	s_sideMesh.reset(Pi::renderer->CreateMeshObjectFromArray(&sideVerts));
+	s_glowMesh.reset(Pi::renderer->CreateMeshObjectFromArray(&glowVerts));
 }
 
 void Beam::FreeModel()
 {
 	s_sideMat.reset();
 	s_glowMat.reset();
-	s_sideVerts.reset();
-	s_glowVerts.reset();
+	s_sideMesh.reset();
+	s_glowMesh.reset();
 }
 
 Beam::Beam(Body *parent, const ProjectileData &prData, const vector3d &pos, const vector3d &baseVel, const vector3d &dir) :
@@ -339,7 +344,7 @@ void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	if (color.a > 3) {
 		s_sideMat->diffuse = color;
-		renderer->DrawTriangles(s_sideVerts.get(), s_renderState, s_sideMat.get());
+		renderer->DrawMesh(s_sideMesh.get(), s_sideMat.get());
 	}
 
 	// fade out glow quads when viewing nearly edge on
@@ -349,7 +354,7 @@ void Beam::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	if (color.a > 3) {
 		s_glowMat->diffuse = color;
-		renderer->DrawTriangles(s_glowVerts.get(), s_renderState, s_glowMat.get());
+		renderer->DrawMesh(s_glowMesh.get(), s_glowMat.get());
 	}
 }
 

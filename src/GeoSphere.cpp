@@ -413,7 +413,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 			// show ugly polygonal angles
 			DrawAtmosphereSurface(renderer, trans, campos,
 				m_materialParameters.atmosphere.atmosRadius * 1.01,
-				m_atmosRenderState, m_atmosphereMaterial);
+				m_atmosphereMaterial);
 		}
 	}
 
@@ -456,16 +456,6 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 void GeoSphere::SetUpMaterials()
 {
-	//solid
-	Graphics::RenderStateDesc rsd;
-	m_surfRenderState = Pi::renderer->CreateRenderState(rsd);
-
-	//blended
-	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
-	rsd.cullMode = Graphics::CULL_NONE;
-	rsd.depthWrite = false;
-	m_atmosRenderState = Pi::renderer->CreateRenderState(rsd);
-
 	// Request material for this star or planet, with or without
 	// atmosphere. Separate material for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
@@ -498,8 +488,10 @@ void GeoSphere::SetUpMaterials()
 		}
 	}
 
+	//solid blendmode
+	Graphics::RenderStateDesc rsd;
 	surfDesc.quality |= Graphics::HAS_ECLIPSES;
-	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc, rsd));
 
 	m_texHi.Reset(Graphics::TextureBuilder::Model("textures/high.dds").GetOrCreateTexture(Pi::renderer, "model"));
 	m_texLo.Reset(Graphics::TextureBuilder::Model("textures/low.dds").GetOrCreateTexture(Pi::renderer, "model"));
@@ -507,11 +499,17 @@ void GeoSphere::SetUpMaterials()
 	m_surfaceMaterial->texture1 = m_texLo.Get();
 
 	{
+		Graphics::RenderStateDesc rsd;
+		// atmosphere is blended over the background
+		rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+		rsd.cullMode = Graphics::CULL_NONE;
+		rsd.depthWrite = false;
+
 		Graphics::MaterialDescriptor skyDesc;
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
 		skyDesc.quality |= Graphics::HAS_ECLIPSES;
-		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc, rsd));
 		m_atmosphereMaterial->texture0 = nullptr;
 		m_atmosphereMaterial->texture1 = nullptr;
 	}

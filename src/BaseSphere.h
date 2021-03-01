@@ -5,10 +5,10 @@
 #define _BASESPHERE_H
 
 #include "Camera.h"
-#include "vector3.h"
 #include "galaxy/AtmosphereParameters.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
+#include "vector3.h"
 
 namespace Graphics {
 	class Renderer;
@@ -35,7 +35,7 @@ public:
 
 	void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 		const matrix4x4d &modelView, const vector3d &campos, float rad,
-		Graphics::RenderState *rs, RefCountedPtr<Graphics::Material> mat);
+		RefCountedPtr<Graphics::Material> mat);
 
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const = 0;
@@ -52,7 +52,6 @@ public:
 	const SystemBody *GetSystemBody() const { return m_sbody; }
 	Terrain *GetTerrain() const { return m_terrain.Get(); }
 
-	Graphics::RenderState *GetSurfRenderState() const { return m_surfRenderState; }
 	RefCountedPtr<Graphics::Material> GetSurfaceMaterial() const { return m_surfaceMaterial; }
 	MaterialParameters &GetMaterialParameters() { return m_materialParameters; }
 
@@ -64,8 +63,6 @@ protected:
 
 	virtual void SetUpMaterials() = 0;
 
-	Graphics::RenderState *m_surfRenderState;
-	Graphics::RenderState *m_atmosRenderState;
 	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
 	RefCountedPtr<Graphics::Material> m_atmosphereMaterial;
 

@@ -26,6 +26,7 @@
 #include "WorldView.h"
 #include "collider/CollisionContact.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaObject.h"
 #include "lua/LuaUtils.h"
@@ -1504,14 +1505,17 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_SHIPS, 1);
 
 	if (m_ecmRecharge > 0.0f) {
+		constexpr uint32_t NUM_ECM_PARTICLES = 100;
 		// ECM effect: a cloud of particles for a sparkly effect
-		vector3f v[100];
-		for (int i = 0; i < 100; i++) {
+		Graphics::VertexArray particles(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, NUM_ECM_PARTICLES);
+		for (uint32_t i = 0; i < NUM_ECM_PARTICLES; i++) {
 			const double r1 = Pi::rng.Double() - 0.5;
 			const double r2 = Pi::rng.Double() - 0.5;
 			const double r3 = Pi::rng.Double() - 0.5;
-			v[i] = vector3f(GetPhysRadius() * vector3d(r1, r2, r3).NormalizedSafe());
+			vector3f pos(GetPhysRadius() * vector3d(r1, r2, r3).NormalizedSafe());
+			particles.Add(pos, vector3f(0.f, 0.f, 50.f));
 		}
+
 		Color c(128, 128, 255, 255);
 		float totalRechargeTime = GetECMRechargeTime();
 		if (totalRechargeTime >= 0.0f) {
@@ -1520,16 +1524,11 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 		SfxManager::ecmParticle->diffuse = c;
 
-		matrix4x4f t;
-		for (int i = 0; i < 12; i++)
-			t[i] = float(viewTransform[i]);
-		t[12] = viewCoords.x;
-		t[13] = viewCoords.y;
-		t[14] = viewCoords.z;
-		t[15] = 1.0f;
+		matrix4x4f t(viewTransform);
+		t.SetTranslate(vector3f(viewCoords));
 
 		renderer->SetTransform(t);
-		renderer->DrawPointSprites(100, v, SfxManager::additiveAlphaState, SfxManager::ecmParticle.get(), 50.f);
+		renderer->DrawBuffer(&particles, SfxManager::ecmParticle.get());
 	}
 }
 

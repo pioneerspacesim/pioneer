@@ -29,6 +29,17 @@ namespace SceneGraph {
 	class Label3D;
 	class Model;
 
+	// Attempt at version history:
+	// 1:	prototype
+	// 2:	converted StaticMesh to VertexBuffer
+	// 3:	store processed collision mesh
+	// 4:	compressed SGM files and instancing support
+	// 5:	normal mapping
+	// 6:	32-bit indicies
+	// 6.1:	rewrote serialization, use lz4 compression instead of INFLATE/DEFLATE. Still compatible.
+	// 6.2: ignored StaticGeometry::m_blendMode in files. Still write blank value.
+	constexpr Uint32 SGM_VERSION = 6;
+
 	class BinaryConverter : public BaseLoader {
 	public:
 		BinaryConverter(Graphics::Renderer *);

@@ -6,8 +6,9 @@
 #include "Pi.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/SystemBody.h"
-#include "graphics/RenderState.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 
@@ -38,10 +39,15 @@ void Star::InitStar()
 	const float wf = (sbody->GetType() < SystemBody::TYPE_STAR_S_BH && sbody->GetType() > SystemBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
 	SetClipRadius(sbody->GetRadius() * 8 * wf);
 
+	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_VTXCOLOR;
+	desc.vertexColors = true;
+
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
-	m_haloState = Pi::renderer->CreateRenderState(rsd);
+	rsd.primitiveType = Graphics::TRIANGLE_FAN;
+	m_haloMat.reset(Pi::renderer->CreateMaterial(desc, rsd));
 }
 
 void Star::BuildHaloBuffer(Graphics::Renderer *renderer, double rad)
@@ -59,16 +65,7 @@ void Star::BuildHaloBuffer(Graphics::Renderer *renderer, double rad)
 	va.Add(vector3f(0.f, 1.f, 0.f), dark);
 
 	//create buffer and upload data
-	Graphics::VertexBufferDesc vbd;
-	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
-	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
-	vbd.numVertices = va.GetNumVerts();
-	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-	m_haloBuffer.reset(renderer->CreateVertexBuffer(vbd));
-
-	m_haloBuffer->Populate(va);
+	m_haloMesh.reset(renderer->CreateMeshObjectFromArray(&va));
 }
 
 void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
@@ -93,13 +90,13 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).Inverse();
 
 	// Generate the halo if we don't have one
-	if (!m_haloBuffer) {
+	if (!m_haloMesh) {
 		BuildHaloBuffer(renderer, rad);
 	}
 	// scale the halo by the new radius from it's unit size
 	renderer->SetTransform(matrix4x4f(trans * matrix4x4d::ScaleMatrix(rad) * rot));
 	//render star halo
-	renderer->DrawBuffer(m_haloBuffer.get(), m_haloState, Graphics::vtxColorMaterial, Graphics::TRIANGLE_FAN);
+	renderer->DrawMesh(m_haloMesh.get(), m_haloMat.get());
 
 	// the transform will be reset within TerrainBody::Render or it's subsequent calls
 	TerrainBody::Render(renderer, camera, viewCoords, viewTransform);

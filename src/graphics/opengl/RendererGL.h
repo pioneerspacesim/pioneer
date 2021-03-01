@@ -69,7 +69,6 @@ namespace Graphics {
 		virtual bool EndFrame() override final;
 		virtual bool SwapBuffers() override final;
 
-		virtual bool SetRenderState(RenderState *) override final;
 		virtual bool SetRenderTarget(RenderTarget *) override final;
 
 		virtual bool SetDepthRange(double znear, double zfar) override final;
@@ -99,6 +98,8 @@ namespace Graphics {
 
 		virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) override final;
 
+		virtual bool DrawBuffer(const VertexArray *v, Material *m) override final;
+
 		virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type = TRIANGLES) override final;
 		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) override final;
 		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) override final;
@@ -118,6 +119,7 @@ namespace Graphics {
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override final;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override final;
 		virtual MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) override final;
+		virtual MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) override final;
 
 		OGL::UniformBuffer *GetLightUniformBuffer();
 		OGL::UniformLinearBuffer *GetDrawUniformBuffer(Uint32 size);
@@ -131,7 +133,10 @@ namespace Graphics {
 		virtual void PushState() override final;
 		virtual void PopState() override final;
 
+		bool SetRenderState(RenderState *);
 		void SetRenderState(const RenderStateDesc &rsd);
+
+		size_t m_frameNum;
 
 		Uint32 m_numLights;
 		Uint32 m_numDirLights;
@@ -179,6 +184,14 @@ namespace Graphics {
 		typedef std::map<std::pair<AttributeSet, size_t>, RefCountedPtr<VertexBuffer>> AttribBufferMap;
 		typedef AttribBufferMap::iterator AttribBufferIter;
 		static AttribBufferMap s_AttribBufferMap;
+
+		struct DynamicBufferData {
+			RefCountedPtr<MeshObject> mesh;
+			size_t lastFrameUsed;
+		};
+
+		using DynamicBufferMap = std::map<std::pair<AttributeSet, size_t>, DynamicBufferData>;
+		static DynamicBufferMap s_DynamicDrawBufferMap;
 
 		SDL_GLContext m_glContext;
 	};

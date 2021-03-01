@@ -19,6 +19,9 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
+#include "graphics/VertexArray.h"
+#include "matrix4x4.h"
 
 using namespace Graphics;
 
@@ -30,15 +33,25 @@ namespace {
 		const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.Length(), 0.1f, 50.0f);
 		return (size * Graphics::GetFovFactor()) * pixrad;
 	}
+
+	float GetParticleSpeed(SFX_TYPE t, const vector3f &pos, const Sfx &inst)
+	{
+		switch (t) {
+		case TYPE_NONE: assert(false);
+		case TYPE_EXPLOSION:
+			return SizeToPixels(pos, inst.m_speed);
+		case TYPE_DAMAGE:
+			return SizeToPixels(pos, 20.f);
+		case TYPE_SMOKE:
+			return Clamp(SizeToPixels(pos, (inst.m_speed * inst.m_age)), 0.1f, 50.0f);
+		}
+	}
 } // namespace
 
 std::unique_ptr<Graphics::Material> SfxManager::damageParticle;
 std::unique_ptr<Graphics::Material> SfxManager::ecmParticle;
 std::unique_ptr<Graphics::Material> SfxManager::smokeParticle;
 std::unique_ptr<Graphics::Material> SfxManager::explosionParticle;
-Graphics::RenderState *SfxManager::alphaState = nullptr;
-Graphics::RenderState *SfxManager::additiveAlphaState = nullptr;
-Graphics::RenderState *SfxManager::alphaOneState = nullptr;
 SfxManager::MaterialData SfxManager::m_materialData[TYPE_NONE];
 
 Sfx::Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type) :
@@ -248,48 +261,39 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 			if (!numInstances)
 				continue;
 
-			Graphics::RenderState *rs = nullptr;
 			Graphics::Material *material = nullptr;
-			std::vector<vector3f> positions;
-			positions.reserve(numInstances);
-			std::vector<vector2f> offsets;
-			offsets.reserve(numInstances);
-			std::vector<float> sizes;
-			sizes.reserve(numInstances);
+			switch (t) {
+			case TYPE_NONE: assert(false); break;
+			case TYPE_EXPLOSION:
+				material = explosionParticle.get();
+				break;
+			case TYPE_DAMAGE:
+				material = damageParticle.get();
+				break;
+			case TYPE_SMOKE:
+				material = smokeParticle.get();
+				break;
+			}
+
+			// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
+			Graphics::VertexArray pointArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, numInstances);
+
 			for (size_t i = 0; i < numInstances; i++) {
 				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
 
 				assert(inst.m_type == t);
-				const vector3d dpos = ftran * inst.m_pos;
-				const vector3f pos(dpos);
-				positions.push_back(pos);
 
-				float speed = 0.0f;
-				const vector2f offset(CalculateOffset(SFX_TYPE(t), inst));
-				switch (t) {
-				case TYPE_NONE: assert(false); break;
-				case TYPE_EXPLOSION: {
-					speed = SizeToPixels(pos, inst.m_speed);
-					rs = SfxManager::alphaState;
-					material = explosionParticle.get();
-					break;
-				}
-				case TYPE_DAMAGE:
-					speed = SizeToPixels(pos, 20.f);
-					rs = SfxManager::additiveAlphaState;
-					material = damageParticle.get();
-					break;
-				case TYPE_SMOKE:
-					speed = Clamp(SizeToPixels(pos, (inst.m_speed * inst.m_age)), 0.1f, 50.0f);
-					rs = SfxManager::alphaState;
-					material = smokeParticle.get();
-					break;
-				}
-				sizes.push_back(speed);
-				offsets.push_back(offset);
+				// make the particle position relative to the camera frame
+				const vector3f pos(ftran * inst.m_pos);
+				// pack UV offset and particle size in normal attribute
+				const vector2f offset = CalculateOffset(SFX_TYPE(t), inst);
+				const float speed = GetParticleSpeed(SFX_TYPE(t), pos, inst);
+
+				pointArray.Add(pos, vector3f(offset, Clamp(speed, 0.1f, FLT_MAX)));
 			}
 
-			renderer->DrawPointSprites(numInstances, &positions[0], &offsets[0], &sizes[0], rs, material);
+			renderer->SetTransform(matrix4x4f::Identity());
+			renderer->DrawBuffer(&pointArray, material);
 		}
 	}
 
@@ -374,16 +378,15 @@ void SfxManager::Init(Graphics::Renderer *r)
 	cfg.Read(FileSystem::gameDataFiles, "textures/Sfx.ini");
 
 	// shared render states
-	Graphics::RenderStateDesc rsd;
-	rsd.blendMode = Graphics::BLEND_ALPHA;
-	rsd.depthWrite = false;
-	alphaState = r->CreateRenderState(rsd);
+	Graphics::RenderStateDesc alphaState;
+	alphaState.blendMode = Graphics::BLEND_ALPHA;
+	alphaState.depthWrite = false;
+	alphaState.primitiveType = Graphics::POINTS;
 
-	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
-	additiveAlphaState = r->CreateRenderState(rsd);
-
-	rsd.depthWrite = true;
-	alphaOneState = r->CreateRenderState(rsd);
+	Graphics::RenderStateDesc additiveAlphaState;
+	additiveAlphaState.blendMode = Graphics::BLEND_ALPHA_ONE;
+	additiveAlphaState.depthWrite = false;
+	additiveAlphaState.primitiveType = Graphics::POINTS;
 
 	// materials
 	Graphics::MaterialDescriptor desc;
@@ -391,7 +394,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 
 	// ECM effect is different, not managed by Sfx at all, should it be factored out?
 	desc.effect = Graphics::EFFECT_BILLBOARD;
-	ecmParticle.reset(r->CreateMaterial(desc));
+	ecmParticle.reset(r->CreateMaterial(desc, additiveAlphaState));
 	ecmParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard");
 
 	// load material definition data
@@ -400,19 +403,19 @@ void SfxManager::Init(Graphics::Renderer *r)
 	SplitMaterialData(cfg.String("smokePacking"), m_materialData[TYPE_SMOKE]);
 
 	desc.effect = m_materialData[TYPE_DAMAGE].effect;
-	damageParticle.reset(r->CreateMaterial(desc));
+	damageParticle.reset(r->CreateMaterial(desc, additiveAlphaState));
 	damageParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("damageFile")).GetOrCreateTexture(r, "billboard");
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
 		damageParticle->specialParameter0 = &m_materialData[TYPE_DAMAGE].coord_downscale;
 
 	desc.effect = m_materialData[TYPE_SMOKE].effect;
-	smokeParticle.reset(r->CreateMaterial(desc));
+	smokeParticle.reset(r->CreateMaterial(desc, alphaState));
 	smokeParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("smokeFile")).GetOrCreateTexture(r, "billboard");
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
 		smokeParticle->specialParameter0 = &m_materialData[TYPE_SMOKE].coord_downscale;
 
 	desc.effect = m_materialData[TYPE_EXPLOSION].effect;
-	explosionParticle.reset(r->CreateMaterial(desc));
+	explosionParticle.reset(r->CreateMaterial(desc, alphaState));
 	explosionParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("explosionFile")).GetOrCreateTexture(r, "billboard");
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
 		explosionParticle->specialParameter0 = &m_materialData[TYPE_EXPLOSION].coord_downscale;

@@ -120,9 +120,7 @@ private:
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
 
-	Graphics::RenderState *m_blendState;
-
-	Graphics::Drawables::Line3D m_edgeMarker;
+	std::unique_ptr<Graphics::Material> m_indicatorMat;
 	Graphics::Drawables::Lines m_indicator;
 
 	struct InputBinding : public Input::InputFrame {

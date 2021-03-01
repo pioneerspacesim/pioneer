@@ -175,7 +175,9 @@ private:
 	sigc::connection m_onMouseWheelCon;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
-	Graphics::RenderState *m_lineState;
+	std::unique_ptr<Graphics::Material> m_bodyMat;
+	std::unique_ptr<Graphics::Material> m_lineMat;
+	std::unique_ptr<Graphics::Material> m_gridMat;
 	Graphics::Drawables::Lines m_orbits;
 	Graphics::Drawables::Lines m_selectBox;
 

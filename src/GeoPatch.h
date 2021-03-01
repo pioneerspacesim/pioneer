@@ -27,8 +27,8 @@ namespace Graphics {
 namespace Graphics {
 	class Renderer;
 	class Frustum;
-	class VertexBuffer;
-}
+	class MeshObject;
+} // namespace Graphics
 
 class GeoPatchContext;
 class GeoSphere;
@@ -88,6 +88,7 @@ public:
 	void ReceiveJobHandle(Job::Handle job);
 
 	inline bool HasHeightData() const { return (m_heights.get() != nullptr); }
+
 private:
 	static const int NUM_KIDS = 4;
 
@@ -96,7 +97,7 @@ private:
 	std::unique_ptr<double[]> m_heights;
 	std::unique_ptr<vector3f[]> m_normals;
 	std::unique_ptr<Color3ub[]> m_colors;
-	std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
+	std::unique_ptr<Graphics::MeshObject> m_patchMesh;
 	std::unique_ptr<GeoPatch> m_kids[NUM_KIDS];
 	GeoPatch *m_parent;
 	GeoSphere *m_geosphere;

@@ -199,7 +199,6 @@ void GuiApplication::ShutdownRenderer()
 {
 	PROFILE_SCOPED()
 	m_renderTarget.reset();
-	m_renderState.reset();
 	m_renderer.reset();
 
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);

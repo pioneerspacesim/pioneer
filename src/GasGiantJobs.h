@@ -8,8 +8,8 @@
 
 #include "JobQueue.h"
 #include "graphics/Material.h"
-#include "graphics/opengl/GenGasGiantColourMaterial.h"
 #include "graphics/VertexBuffer.h"
+#include "graphics/opengl/GenGasGiantColourMaterial.h"
 #include "terrain/Terrain.h"
 #include "vector3.h"
 
@@ -17,8 +17,7 @@
 
 namespace Graphics {
 	class Renderer;
-	class RenderState;
-}
+} // namespace Graphics
 
 namespace GasGiantJobs {
 	//#define DUMP_PARAMS 1
@@ -137,7 +136,7 @@ namespace GasGiantJobs {
 	// a quad with reversed winding
 	class GenFaceQuad {
 	public:
-		GenFaceQuad(Graphics::Renderer *r, const vector2f &size, Graphics::RenderState *state, const Uint32 GGQuality);
+		GenFaceQuad(Graphics::Renderer *r, const vector2f &size, const Uint32 GGQuality);
 		virtual void Draw(Graphics::Renderer *r);
 
 		void SetMaterial(Graphics::Material *mat)
@@ -149,8 +148,7 @@ namespace GasGiantJobs {
 
 	private:
 		std::unique_ptr<Graphics::Material> m_material;
-		std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
-		Graphics::RenderState *m_renderState;
+		std::unique_ptr<Graphics::MeshObject> m_quadMesh;
 	};
 
 	// ********************************************************************************

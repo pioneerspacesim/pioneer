@@ -244,6 +244,8 @@ void PerfInfo::DrawRendererStats()
 	const Uint32 numDrawCalls = stats.m_stats[Graphics::Stats::STAT_DRAWCALL];
 	const Uint32 numBuffersCreated = stats.m_stats[Graphics::Stats::STAT_CREATE_BUFFER];
 	const Uint32 numBuffersInUse = stats.m_stats[Graphics::Stats::STAT_BUFFER_INUSE];
+	const Uint32 numDynamicBuffersCreated = stats.m_stats[Graphics::Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED];
+	const Uint32 numDynamicBuffersInUse = stats.m_stats[Graphics::Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE];
 	const Uint32 numDrawBuffers = stats.m_stats[Graphics::Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE];
 	const Uint32 numDrawBufferAllocs = stats.m_stats[Graphics::Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS];
 	const Uint32 numDrawTris = stats.m_stats[Graphics::Stats::STAT_DRAWTRIS];
@@ -278,6 +280,7 @@ void PerfInfo::DrawRendererStats()
 	ImGui::Text("%u Atmospheres, %u Planets, %u Gas Giants, %u Stars, %u Ships",
 		numDrawAtmospheres, numDrawPlanets, numDrawGasGiants, numDrawStars, numDrawShips);
 	ImGui::Text("%u Buffers Created (%u in use)", numBuffersCreated, numBuffersInUse);
+	ImGui::Text("%u Dynamic Draw Buffers Created (%u in use)", numDynamicBuffersCreated, numDynamicBuffersInUse);
 	ImGui::Text("%u Draw Uniform Buffers (%u allocations)", numDrawBuffers, numDrawBufferAllocs);
 	ImGui::Spacing();
 

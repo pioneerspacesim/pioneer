@@ -23,6 +23,8 @@ namespace Graphics {
 			GetOrCreateCounter("Buffers In Use", false),
 			GetOrCreateCounter("Num Uniform Draw Buffers"),
 			GetOrCreateCounter("Num Uniform Draw Buffer Suballocs"),
+			GetOrCreateCounter("Dynamic Draw Buffers In Use"),
+			GetOrCreateCounter("Dynamic Draw Buffers Created", false),
 
 			GetOrCreateCounter("Num Buildings"),
 			GetOrCreateCounter("Num Cities"),

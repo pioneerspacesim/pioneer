@@ -6,15 +6,14 @@
 
 #include "Color.h"
 #include "FrameId.h"
-#include "matrix4x4.h"
 #include "graphics/Drawables.h"
+#include "matrix4x4.h"
 
 #include <deque>
 // trail drawn after an object to track motion
 
 namespace Graphics {
 	class Renderer;
-	class RenderState;
 } // namespace Graphics
 
 class Body;
@@ -37,7 +36,7 @@ private:
 	Color m_color;
 	matrix4x4d m_transform;
 	std::deque<vector3d> m_trailPoints;
-	Graphics::RenderState *m_renderState;
+	std::unique_ptr<Graphics::Material> m_lineMat;
 	Graphics::Drawables::Lines m_lines;
 };
 

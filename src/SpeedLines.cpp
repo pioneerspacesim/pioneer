@@ -41,11 +41,6 @@ SpeedLines::SpeedLines(Ship *s) :
 	for (Uint32 i = 0; i < doubleNumPoints; i++)
 		m_varray->Add(vector3f(0.0f), Color::BLACK);
 
-	Graphics::RenderStateDesc rsd;
-	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
-	rsd.depthWrite = false;
-	m_renderState = Pi::renderer->CreateRenderState(rsd);
-
 	CreateVertexBuffer(Pi::renderer, doubleNumPoints);
 }
 
@@ -128,10 +123,10 @@ void SpeedLines::Render(Graphics::Renderer *r)
 		vtx += 2;
 	}
 
-	m_vbuffer->Populate(*m_varray);
+	m_mesh->GetVertexBuffer()->Populate(*m_varray);
 
 	r->SetTransform(matrix4x4f(m_transform));
-	r->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get(), Graphics::LINE_SINGLE);
+	r->DrawMesh(m_mesh.get(), m_material.Get());
 }
 
 void SpeedLines::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
@@ -139,16 +134,18 @@ void SpeedLines::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
 	PROFILE_SCOPED();
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true;
-	m_material.Reset(r->CreateMaterial(desc));
 
-	Graphics::VertexBufferDesc vbd;
-	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
-	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	rsd.primitiveType = Graphics::LINE_SINGLE;
+
+	m_material.Reset(r->CreateMaterial(desc, rsd));
+
+	auto vbd = Graphics::VertexBufferDesc::FromAttribSet(m_varray->GetAttributeSet());
 	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
 	vbd.numVertices = size;
-	m_vbuffer.reset(r->CreateVertexBuffer(vbd));
+	m_mesh.reset(r->CreateMeshObject(r->CreateVertexBuffer(vbd)));
 }
 
 void SpeedLines::Init()

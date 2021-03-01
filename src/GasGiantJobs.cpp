@@ -106,17 +106,21 @@ namespace GasGiantJobs {
 	}
 
 	// ********************************************************************************
-	GenFaceQuad::GenFaceQuad(Graphics::Renderer *r, const vector2f &size, Graphics::RenderState *state, const Uint32 GGQuality)
+	GenFaceQuad::GenFaceQuad(Graphics::Renderer *r, const vector2f &size, const Uint32 GGQuality)
 	{
 		PROFILE_SCOPED()
-		assert(state);
-		m_renderState = state;
 
 		Graphics::MaterialDescriptor desc;
 		desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
 		desc.quality = GGQuality;
 		desc.textures = 3;
-		m_material.reset(r->CreateMaterial(desc));
+
+		Graphics::RenderStateDesc rsd;
+		rsd.depthTest = false;
+		rsd.depthWrite = false;
+		rsd.blendMode = Graphics::BLEND_ALPHA;
+		rsd.primitiveType = Graphics::TRIANGLE_STRIP;
+		m_material.reset(r->CreateMaterial(desc, rsd));
 
 		// setup noise textures
 		m_material->texture0 = Graphics::TextureBuilder::Raw("textures/permTexture.png").GetOrCreateTexture(Pi::renderer, "noise");
@@ -154,22 +158,14 @@ namespace GasGiantJobs {
 		vertices.Add(vector3f(size.x, 0.0f, 0.0f), vector2f(texSize.x, texSize.y));
 		vertices.Add(vector3f(size.x, size.y, 0.0f), vector2f(texSize.x, 0.0f));
 
-		//Create vtx & index buffers and copy data
-		Graphics::VertexBufferDesc vbd;
-		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
-		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT2;
-		vbd.numVertices = vertices.GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		m_vertexBuffer.reset(r->CreateVertexBuffer(vbd));
-		m_vertexBuffer->Populate(vertices);
+		//Create vtx  buffer and copy data
+		m_quadMesh.reset(r->CreateMeshObjectFromArray(&vertices));
 	}
 
 	void GenFaceQuad::Draw(Graphics::Renderer *r)
 	{
 		PROFILE_SCOPED()
-		r->DrawBuffer(m_vertexBuffer.get(), m_renderState, m_material.get(), Graphics::TRIANGLE_STRIP);
+		r->DrawMesh(m_quadMesh.get(), m_material.get());
 	}
 
 	// ********************************************************************************
@@ -250,13 +246,12 @@ namespace GasGiantJobs {
 		for (Uint32 iFace = 0; iFace < NUM_PATCHES; iFace++) {
 			// render the scene
 			GasGiant::SetRenderTargetCubemap(iFace, mData->Texture());
-			Pi::renderer->BeginFrame();
+			Pi::renderer->ClearScreen();
 
 			// draw to the texture here
 			mData->SetupMaterialParams(iFace);
 			mData->Quad()->Draw(Pi::renderer);
 
-			Pi::renderer->EndFrame();
 			GasGiant::SetRenderTargetCubemap(iFace, nullptr);
 		}
 		GasGiant::EndRenderTarget();

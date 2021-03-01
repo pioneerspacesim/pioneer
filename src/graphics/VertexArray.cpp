@@ -10,32 +10,38 @@ namespace Graphics {
 		PROFILE_SCOPED()
 		m_attribs = attribs;
 
-		if (size > 0) {
-			//would be rather weird without positions!
-			if (attribs & ATTRIB_POSITION)
-				position.reserve(size);
-			if (attribs & ATTRIB_DIFFUSE)
-				diffuse.reserve(size);
-			if (attribs & ATTRIB_NORMAL)
-				normal.reserve(size);
-			if (attribs & ATTRIB_UV0)
-				uv0.reserve(size);
-			if (attribs & ATTRIB_TANGENT)
-				tangent.reserve(size);
-		}
+		if (size > 0)
+			Reserve(size);
 	}
 
 	VertexArray::~VertexArray()
 	{
 	}
 
-	void VertexArray::Clear()
+	void VertexArray::Reserve(uint32_t size)
+	{
+		if (m_attribs & ATTRIB_POSITION)
+			position.reserve(size);
+		if (m_attribs & ATTRIB_DIFFUSE)
+			diffuse.reserve(size);
+		if (m_attribs & ATTRIB_NORMAL)
+			normal.reserve(size);
+		if (m_attribs & ATTRIB_UV0)
+			uv0.reserve(size);
+		if (m_attribs & ATTRIB_TANGENT)
+			tangent.reserve(size);
+	}
+
+	void VertexArray::Clear(uint32_t size)
 	{
 		position.clear();
 		diffuse.clear();
 		normal.clear();
 		uv0.clear();
 		tangent.clear();
+
+		if (size > 0)
+			Reserve(size);
 	}
 
 	void VertexArray::Add(const vector3f &v)

@@ -8,8 +8,6 @@
 
 namespace PiGui {
 
-	RefCountedPtr<Graphics::Material> Face::s_material;
-
 	Face::Face(FaceParts::FaceDescriptor &face, Uint32 seed)
 	{
 		PROFILE_SCOPED()
@@ -23,12 +21,6 @@ namespace PiGui {
 		FaceParts::BuildFaceImage(faceim.Get(), face);
 
 		m_texture.Reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).GetOrCreateTexture(Pi::renderer, std::string("face")));
-
-		if (!s_material) {
-			Graphics::MaterialDescriptor matDesc;
-			matDesc.textures = 1;
-			s_material.Reset(Pi::renderer->CreateMaterial(matDesc));
-		}
 	}
 
 	Uint32 Face::GetTextureId()

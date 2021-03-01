@@ -7,7 +7,6 @@
 #include "GameSaveError.h"
 #include "Json.h"
 #include "core/IniConfig.h"
-#include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
@@ -79,8 +78,8 @@ NavLights::NavLights(SceneGraph::Model *model, float period) :
 	m_time(0.f),
 	m_period(period),
 	m_enabled(false),
-	m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL),
-	m_billboardRS(nullptr)
+	// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
+	m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL)
 {
 	PROFILE_SCOPED();
 	assert(g_initted);
@@ -180,45 +179,39 @@ void NavLights::Update(float time)
 
 void NavLights::Render(Graphics::Renderer *renderer)
 {
-	if (!m_billboardRS) {
+	if (!matHalos4x4) {
 		Graphics::MaterialDescriptor desc;
 		desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
 		desc.textures = 1;
-		matHalos4x4.Reset(renderer->CreateMaterial(desc));
-		texHalos4x4.Reset(Graphics::TextureBuilder::Billboard("textures/halo_4x4.dds").GetOrCreateTexture(renderer, std::string("billboard")));
-		matHalos4x4->texture0 = texHalos4x4.Get();
 
 		Graphics::RenderStateDesc rsd;
 		rsd.blendMode = Graphics::BLEND_ADDITIVE;
 		rsd.depthWrite = false;
-		m_billboardRS = renderer->CreateRenderState(rsd);
+		rsd.primitiveType = Graphics::POINTS;
+
+		matHalos4x4.Reset(renderer->CreateMaterial(desc, rsd));
+		texHalos4x4.Reset(Graphics::TextureBuilder::Billboard("textures/halo_4x4.dds").GetOrCreateTexture(renderer, std::string("billboard")));
+		matHalos4x4->texture0 = texHalos4x4.Get();
 	}
 
-	const bool isVBValid = m_billboardVB.Valid();
+	const bool isMeshValid = m_billboardMesh.Valid();
 	const bool hasVerts = !m_billboardTris.IsEmpty();
-	const bool isVertCountEnough = isVBValid && (m_billboardTris.GetNumVerts() <= m_billboardVB->GetCapacity());
-	if (hasVerts && (!isVBValid || !isVertCountEnough)) {
-		//create buffer
-		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
-		Graphics::VertexBufferDesc vbd;
-		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.numVertices = m_billboardTris.GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC; // we could be updating this per-frame
-		m_billboardVB.Reset(renderer->CreateVertexBuffer(vbd));
-	}
-
-	if (m_billboardVB.Valid()) {
-		if (hasVerts) {
-			m_billboardVB->Populate(m_billboardTris);
-			renderer->SetTransform(matrix4x4f::Identity());
-			renderer->DrawBuffer(m_billboardVB.Get(), m_billboardRS, matHalos4x4.Get(), Graphics::POINTS);
-			renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
+	const bool isVertCountEnough = isMeshValid && (m_billboardTris.GetNumVerts() <= m_billboardMesh->GetVertexBuffer()->GetCapacity());
+	if (hasVerts) {
+		if (isMeshValid && isVertCountEnough) {
+			// If we don't need to resize the vertex buffer, just copy the verts
+			m_billboardMesh->GetVertexBuffer()->Populate(m_billboardTris);
+		} else {
+			// Otherwise, create a new buffer to fit the new count
+			// Use DYNAMIC as we will be updating this per-frame
+			m_billboardMesh.Reset(renderer->CreateMeshObjectFromArray(&m_billboardTris, nullptr, Graphics::BUFFER_USAGE_DYNAMIC));
 		}
-		m_billboardTris.Clear();
+
+		renderer->SetTransform(matrix4x4f::Identity());
+		renderer->DrawMesh(m_billboardMesh.Get(), matHalos4x4.Get());
+		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
 	}
+	m_billboardTris.Clear();
 }
 
 void NavLights::SetColor(unsigned int group, LightColor c)

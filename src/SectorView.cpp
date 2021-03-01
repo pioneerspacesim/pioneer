@@ -19,9 +19,12 @@
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
+#include "graphics/Types.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaObject.h"
+#include "matrix4x4.h"
 #include "sigc++/functors/mem_fun.h"
 #include "utils.h"
 #include <algorithm>
@@ -358,18 +361,24 @@ void SectorView::InitObject()
 	m_renderer = Pi::renderer; //XXX pass cleanly to all views constructors!
 
 	Graphics::RenderStateDesc rsd;
-	m_solidState = m_renderer->CreateRenderState(rsd);
-
 	rsd.blendMode = Graphics::BLEND_ALPHA;
-	rsd.depthWrite = false;
-	rsd.cullMode = CULL_NONE;
-	m_alphaBlendState = m_renderer->CreateRenderState(rsd);
 
 	Graphics::MaterialDescriptor bbMatDesc;
 	bbMatDesc.effect = Graphics::EFFECT_SPHEREIMPOSTOR;
-	m_starMaterial.Reset(m_renderer->CreateMaterial(bbMatDesc));
+	m_starMaterial.Reset(m_renderer->CreateMaterial(bbMatDesc, rsd));
 
-	m_disk.reset(new Graphics::Drawables::Disk(m_renderer, m_solidState, Color::WHITE, 0.2f));
+	rsd.depthWrite = false;
+	rsd.cullMode = CULL_NONE;
+
+	Graphics::MaterialDescriptor starPointDesc;
+	starPointDesc.vertexColors = true;
+	m_farStarsMat.Reset(m_renderer->CreateMaterial(starPointDesc, rsd));
+
+	rsd.primitiveType = Graphics::LINE_SINGLE;
+
+	Graphics::MaterialDescriptor lineDesc;
+	lineDesc.effect = Graphics::EFFECT_VTXCOLOR;
+	m_lineMat.Reset(m_renderer->CreateMaterial(lineDesc, rsd));
 }
 
 SectorView::~SectorView()
@@ -435,42 +444,50 @@ void SectorView::Draw3D()
 	modelview.Translate(0.f, 0.f, -10.f - 10.f * m_zoom); // not zoomClamped, let us zoom out a bit beyond what we're drawing
 	modelview.Rotate(DEG2RAD(m_rotX), 1.f, 0.f, 0.f);
 	modelview.Rotate(DEG2RAD(m_rotZ), 0.f, 0.f, 1.f);
-	modelview.Translate(-FFRAC(m_pos.x) * Sector::SIZE, -FFRAC(m_pos.y) * Sector::SIZE, -FFRAC(m_pos.z) * Sector::SIZE);
-	m_renderer->SetTransform(modelview);
+
+	// sector drawing expects only the fractional part of the position,
+	// and handles sector offset internally
+	matrix4x4f sectorTrans = modelview;
+	sectorTrans.Translate(-FFRAC(m_pos.x) * Sector::SIZE, -FFRAC(m_pos.y) * Sector::SIZE, -FFRAC(m_pos.z) * Sector::SIZE);
+	m_renderer->SetTransform(sectorTrans);
 
 	if (m_zoomClamped <= FAR_THRESHOLD)
-		DrawNearSectors(modelview);
+		DrawNearSectors(sectorTrans);
 	else
-		DrawFarSectors(modelview);
+		DrawFarSectors(sectorTrans);
 
-	m_renderer->SetTransform(matrix4x4f::Identity());
-
-	//draw star billboards in one go
-	m_renderer->SetAmbientColor(Color(30, 30, 30));
-	m_renderer->DrawTriangles(m_starVerts.get(), m_solidState, m_starMaterial.Get());
-
-	//draw sector legs in one go
-	if (!m_lineVerts->IsEmpty()) {
-		m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
-		m_lines.Draw(m_renderer, m_alphaBlendState);
-	}
-
-	if (!m_secLineVerts->IsEmpty()) {
-		m_sectorlines.SetData(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
-		m_sectorlines.Draw(m_renderer, m_alphaBlendState);
-	}
-
-	// not quite the same as modelview
-	matrix4x4f trans = matrix4x4f::Identity();
-	trans.Translate(0.f, 0.f, -10.f - 10.f * m_zoom);
-	trans.Rotate(DEG2RAD(m_rotX), 1.f, 0.f, 0.f);
-	trans.Rotate(DEG2RAD(m_rotZ), 0.f, 0.f, 1.f);
-	trans.Translate(-(m_pos.x) * Sector::SIZE, -(m_pos.y) * Sector::SIZE, -(m_pos.z) * Sector::SIZE);
+	modelview.Translate(-m_pos * Sector::SIZE);
 
 	// calculate the player's location (it will be interpolated between systems during a hyperjump)
 	vector3f playerPos;
 	float currentStarSize;
 	GetPlayerPosAndStarSize(playerPos, currentStarSize);
+
+	// player location indicator
+	// starting with the "modelview" matrix, see above, adding translation to playerPos
+	matrix4x4f pTrans = modelview * matrix4x4f::Translation(playerPos);
+	// prior to modelview transformation, rotate in the opposite direction so that the billboard is always facing the camera
+	pTrans.Rotate(DEG2RAD(-m_rotZ), 0, 0, 1);
+	pTrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
+	// move this disk 0.03 light years further so that it does not overlap the star, and selected indicator and hyperspace target indicator
+	AddStarBillboard(pTrans, vector3f(0.f, 0.f, -0.03f), Color(0, 0, 204), 1.5f);
+
+	m_renderer->SetTransform(matrix4x4f::Identity());
+
+	//draw star billboards in one go
+	m_renderer->SetAmbientColor(Color(30, 30, 30));
+	m_renderer->DrawBuffer(m_starVerts.get(), m_starMaterial.Get());
+
+	//draw sector legs in one go
+	if (!m_lineVerts->IsEmpty()) {
+		m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
+		m_lines.Draw(m_renderer, m_lineMat.Get());
+	}
+
+	if (!m_secLineVerts->IsEmpty()) {
+		m_sectorlines.SetData(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
+		m_sectorlines.Draw(m_renderer, m_lineMat.Get());
+	}
 
 	// the next function assumes that m_renderer->(matrix4x4f::Identity()),
 	// so we run this function before we touch m_renderer again
@@ -478,21 +495,8 @@ void SectorView::Draw3D()
 		if (m_setupRouteLines) {
 			SetupRouteLines(playerPos);
 		}
-		DrawRouteLines(trans);
+		DrawRouteLines(modelview);
 	}
-
-	// player location indicator
-	// starting with the "trans" matrix, see above, adding translation to playerPos
-	matrix4x4f pTrans = trans * matrix4x4f::Translation(playerPos.x, playerPos.y, playerPos.z);
-	// rotate in the opposite direction, so that the disk always looks like a circle
-	pTrans.Rotate(DEG2RAD(-m_rotZ), 0, 0, 1);
-	pTrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
-	// corretion to the size of the current star, and hardcoded "3", the size of the player's indicator
-	pTrans.Scale(currentStarSize * 3.);
-	// move this disk 0.03 light years further so that it does not overlap the star, and selected indicator and hyperspace target indicator
-	m_renderer->SetTransform(matrix4x4f::Translation((pTrans * vector3f(.0f)).NormalizedSafe() * 0.03) * pTrans);
-	m_disk->SetColor(Color(0, 0, 204));
-	m_disk->Draw(m_renderer);
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -966,7 +970,7 @@ void SectorView::DrawRouteLines(const matrix4x4f &trans)
 		return;
 
 	m_renderer->SetTransform(trans);
-	m_routeLines.Draw(m_renderer, m_alphaBlendState);
+	m_routeLines.Draw(m_renderer, m_lineMat.Get());
 }
 
 void SectorView::SetupRouteLines(const vector3f &playerAbsPos)
@@ -1135,9 +1139,9 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			if (m_selected != m_current && !bInRoute) {
 				const vector3f playerAbsPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) +
 					GetCached(m_current)->m_systems[m_current.systemIndex].GetPosition();
-				m_selectedLine.SetStart(vector3f(0.f, 0.f, 0.f));
-				m_selectedLine.SetEnd(playerAbsPos - sysAbsPos);
-				m_selectedLine.Draw(m_renderer, m_solidState);
+
+				m_lineVerts->Add(systrans * vector3f(0.f, 0.f, 0.f), Color::BLANK);
+				m_lineVerts->Add(systrans * (playerAbsPos - sysAbsPos), Color::WHITE);
 			}
 
 			if (m_route.size() > 0) {
@@ -1147,9 +1151,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 					const vector3f hyperAbsPos =
 						Sector::SIZE * vector3f(routeBack.sectorX, routeBack.sectorY, routeBack.sectorZ) + backSec->m_systems[routeBack.systemIndex].GetPosition();
 					if (m_selected != m_current) {
-						m_secondLine.SetStart(vector3f(0.f, 0.f, 0.f));
-						m_secondLine.SetEnd(hyperAbsPos - sysAbsPos);
-						m_secondLine.Draw(m_renderer, m_solidState);
+						m_lineVerts->Add(systrans * vector3f(0.f, 0.f, 0.f), Color::BLANK);
+						m_lineVerts->Add(systrans * (hyperAbsPos - sysAbsPos), Color::WHITE);
 					}
 				}
 			}
@@ -1166,17 +1169,19 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 
 		// selected indicator
 		if (i->IsSameSystem(m_selected)) {
-			m_disk->SetColor(Color(0, 204, 0));
 			// move this disk 0.01 light years further so that it does not overlap the star
-			m_renderer->SetTransform(matrix4x4f::Translation((systrans * vector3f(.0f)).NormalizedSafe() * 0.01) * systrans * matrix4x4f::ScaleMatrix(2.f));
-			m_disk->Draw(m_renderer);
+			AddStarBillboard(systrans, vector3f(0.f, 0.f, -0.01), Color(0, 204, 0), 1.0);
+			// m_disk->SetColor(Color(0, 204, 0));
+			// m_renderer->SetTransform(matrix4x4f::Translation((systrans * vector3f(.0f)).NormalizedSafe() * 0.01) * systrans * matrix4x4f::ScaleMatrix(2.f));
+			// m_disk->Draw(m_renderer);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (i->IsSameSystem(m_hyperspaceTarget) && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
-			m_disk->SetColor(Color(77, 77, 77));
 			// move this disk 0.02 light years further so that it does not overlap the star, and selected indicator
-			m_renderer->SetTransform(matrix4x4f::Translation((systrans * vector3f(.0f)).NormalizedSafe() * 0.02) * systrans * matrix4x4f::ScaleMatrix(2.f));
-			m_disk->Draw(m_renderer);
+			AddStarBillboard(systrans, vector3f(0.f, 0.f, -0.02), Color(77, 77, 77), 1.0);
+			// m_disk->SetColor(Color(77, 77, 77));
+			// m_renderer->SetTransform(matrix4x4f::Translation((systrans * vector3f(.0f)).NormalizedSafe() * 0.02) * systrans * matrix4x4f::ScaleMatrix(2.f));
+			// m_disk->Draw(m_renderer);
 		}
 		// hyperspace range sphere
 		if (bIsCurrentSystem && m_jumpSphere && m_playerHyperspaceRange > 0.0f) {
@@ -1219,7 +1224,7 @@ void SectorView::DrawFarSectors(const matrix4x4f &modelview)
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
 	if (m_farstars.size() > 0) {
 		m_farstarsPoints.SetData(m_renderer, m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], modelview, 0.25f * (Graphics::GetScreenHeight() / 720.f));
-		m_farstarsPoints.Draw(m_renderer, m_alphaBlendState);
+		m_farstarsPoints.Draw(m_renderer, m_farStarsMat.Get());
 	}
 
 	// also add labels for any faction homeworlds among the systems we've drawn
@@ -1381,13 +1386,12 @@ void SectorView::Update()
 		rsd.depthTest = false;
 		rsd.depthWrite = false;
 		rsd.cullMode = Graphics::CULL_NONE;
-		m_jumpSphereState = m_renderer->CreateRenderState(rsd);
 
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
-		m_fresnelMat.Reset(m_renderer->CreateMaterial(matdesc));
+		m_fresnelMat.Reset(m_renderer->CreateMaterial(matdesc, rsd));
 		m_fresnelMat->diffuse = Color::WHITE;
-		m_jumpSphere.reset(new Graphics::Drawables::Sphere3D(m_renderer, m_fresnelMat, m_jumpSphereState, 4, 1.0f));
+		m_jumpSphere.reset(new Graphics::Drawables::Sphere3D(m_renderer, m_fresnelMat, 4, 1.0f));
 	}
 }
 

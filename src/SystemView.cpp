@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "graphics/Graphics.h"
+#include "graphics/Types.h"
 #include "pigui/LuaPiGui.h"
 
 #include "SystemView.h"
@@ -63,8 +64,16 @@ SystemView::SystemView(Game *game) :
 
 	m_input.RegisterBindings();
 
+	Graphics::MaterialDescriptor lineMatDesc;
+	lineMatDesc.effect = Graphics::EFFECT_VTXCOLOR;
+
 	Graphics::RenderStateDesc rsd;
-	m_lineState = Pi::renderer->CreateRenderState(rsd); //m_renderer not set yet
+	rsd.primitiveType = Graphics::LINE_STRIP;
+
+	m_lineMat.reset(Pi::renderer->CreateMaterial(lineMatDesc, rsd)); //m_renderer not set yet
+
+	rsd.primitiveType = Graphics::LINE_SINGLE;
+	m_gridMat.reset(Pi::renderer->CreateMaterial(lineMatDesc, rsd));
 
 	m_realtime = true;
 	m_unexplored = true;
@@ -77,8 +86,8 @@ SystemView::SystemView(Game *game) :
 	RefreshShips();
 	m_planner = Pi::planner;
 
-	m_orbitVts.reset(new vector3f[N_VERTICES_MAX]);
-	m_orbitColors.reset(new Color[N_VERTICES_MAX]);
+	m_orbitVts.reset(new vector3f[N_VERTICES_MAX + 1]);
+	m_orbitColors.reset(new Color[N_VERTICES_MAX + 1]);
 }
 
 SystemView::~SystemView()
@@ -152,14 +161,15 @@ void SystemView::PutOrbit(Projectable::bases base, RefType *ref, const Orbit *or
 	}
 
 	if (num_vertices > 1) {
-		m_orbits.SetData(num_vertices, m_orbitVts.get(), m_orbitColors.get());
-
 		//close the loop for thin ellipses
-		if (maxT < 1. || ecc > 1.0 || ecc < 0.6) {
-			m_orbits.Draw(m_renderer, m_lineState, LINE_STRIP);
-		} else {
-			m_orbits.Draw(m_renderer, m_lineState, LINE_LOOP);
+		if (!(maxT < 1. || ecc > 1.0 || ecc < 0.6)) {
+			m_orbitVts[num_vertices] = m_orbitVts[0];
+			m_orbitColors[num_vertices] = m_orbitColors[0];
+			++num_vertices;
 		}
+
+		m_orbits.SetData(num_vertices, m_orbitVts.get(), m_orbitColors.get());
+		m_orbits.Draw(m_renderer, m_lineMat.get());
 	}
 
 	AddProjected<RefType>(Projectable::PERIAPSIS, base, ref, offset + orbit->Perigeum());
@@ -201,9 +211,12 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 
 	if (b->GetType() != SystemBody::TYPE_GRAVPOINT) {
 		if (!m_bodyIcon) {
+			Graphics::MaterialDescriptor desc;
 			Graphics::RenderStateDesc rsd;
-			auto solidState = m_renderer->CreateRenderState(rsd);
-			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, solidState, svColor[SYSTEMBODY], 1.0f));
+			rsd.primitiveType = Graphics::TRIANGLE_FAN;
+
+			m_bodyMat.reset(m_renderer->CreateMaterial(desc, rsd));
+			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer));
 		}
 
 		const double radius = b->GetRadius();
@@ -216,8 +229,10 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		matrix4x4f bodyTrans = trans;
 		bodyTrans.Translate(vector3f(offset));
 		bodyTrans.Scale(radius);
+
 		m_renderer->SetTransform(bodyTrans * invRot);
-		m_bodyIcon->Draw(m_renderer);
+		m_bodyMat->diffuse = svColor[SYSTEMBODY];
+		m_bodyIcon->Draw(m_renderer, m_bodyMat.get());
 
 		m_renderer->SetTransform(trans);
 
@@ -585,7 +600,7 @@ void SystemView::DrawGrid()
 		}
 
 	m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
-	m_lines.Draw(Pi::renderer, m_lineState);
+	m_lines.Draw(Pi::renderer, m_gridMat.get());
 }
 
 template <typename T>

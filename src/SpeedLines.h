@@ -4,15 +4,14 @@
 #ifndef _SPEEDLINES_H
 #define _SPEEDLINES_H
 
+#include "graphics/Material.h"
+#include "graphics/VertexBuffer.h"
 #include "matrix4x4.h"
 #include "vector3.h"
-#include "graphics/VertexBuffer.h"
-#include "graphics/Material.h"
 
 namespace Graphics {
 	class Renderer;
-	class RenderState;
-}
+} // namespace Graphics
 
 class Ship;
 
@@ -42,10 +41,9 @@ private:
 
 	std::vector<vector3f> m_points;
 
-	Graphics::RenderState *m_renderState;
 	RefCountedPtr<Graphics::Material> m_material;
 	std::unique_ptr<Graphics::VertexArray> m_varray;
-	std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
+	std::unique_ptr<Graphics::MeshObject> m_mesh;
 
 	matrix4x4d m_transform;
 

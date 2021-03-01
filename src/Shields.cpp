@@ -8,6 +8,7 @@
 #include "Ship.h"
 #include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
 #include "scenegraph/CollisionGeometry.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
@@ -82,7 +83,13 @@ void Shields::Init(Graphics::Renderer *renderer)
 	desc.lighting = true;
 	desc.alphaTest = false;
 	desc.effect = Graphics::EffectType::EFFECT_SHIELD;
-	s_matShield.Reset(renderer->CreateMaterial(desc));
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
+
+	s_matShield.Reset(renderer->CreateMaterial(desc, rsd));
 	s_matShield->diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 	s_initialised = true;
@@ -99,7 +106,7 @@ void Shields::ReparentShieldNodes(SceneGraph::Model *model)
 	using SceneGraph::Node;
 	using SceneGraph::StaticGeometry;
 
-	//This will find all matrix transforms meant for navlights.
+	//This will find all matrix transforms meant for shields.
 	SceneGraph::FindNodeVisitor shieldFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_ENDSWITH, "_shield");
 	model->GetRoot()->Accept(shieldFinder);
 	const std::vector<Node *> &results = shieldFinder.GetResults();
@@ -123,19 +130,6 @@ void Shields::ReparentShieldNodes(SceneGraph::Model *model)
 					RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry *>(node));
 					assert(sg.Valid());
 					sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
-
-					// We can early-out if we've already processed this models scenegraph.
-					if (Graphics::BLEND_ALPHA == sg->m_blendMode) {
-						assert(false);
-					}
-
-					// force the blend mode
-					sg->m_blendMode = Graphics::BLEND_ALPHA;
-
-					Graphics::RenderStateDesc rsd;
-					rsd.blendMode = Graphics::BLEND_ALPHA;
-					rsd.depthWrite = false;
-					sg->SetRenderState(renderer->CreateRenderState(rsd));
 
 					for (Uint32 iMesh = 0; iMesh < sg->GetNumMeshes(); ++iMesh) {
 						StaticGeometry::Mesh &rMesh = sg->GetMeshAt(iMesh);
@@ -199,11 +193,6 @@ Shields::Shields(SceneGraph::Model *model) :
 				RefCountedPtr<StaticGeometry> sg(dynamic_cast<StaticGeometry *>(node));
 				assert(sg.Valid());
 				sg->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
-
-				Graphics::RenderStateDesc rsd;
-				rsd.blendMode = Graphics::BLEND_ALPHA;
-				rsd.depthWrite = false;
-				sg->SetRenderState(sg->GetRenderer()->CreateRenderState(rsd));
 
 				// set the material
 				for (Uint32 iMesh = 0; iMesh < sg->GetNumMeshes(); ++iMesh) {

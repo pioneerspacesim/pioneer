@@ -11,8 +11,12 @@
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 
 namespace SceneGraph {
+
+	RefCountedPtr<Graphics::MeshObject> Thruster::s_thrustMesh;
+	RefCountedPtr<Graphics::MeshObject> Thruster::s_glowMesh;
 
 	static const std::string thrusterTextureFilename("textures/thruster.dds");
 	static const std::string thrusterGlowTextureFilename("textures/halo.dds");
@@ -29,25 +33,25 @@ namespace SceneGraph {
 		Graphics::MaterialDescriptor desc;
 		desc.textures = 1;
 
-		m_tMat.Reset(r->CreateMaterial(desc));
-		m_tMat->texture0 = Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(r, "billboard");
-		m_tMat->diffuse = baseColor;
-
-		m_glowMat.Reset(r->CreateMaterial(desc));
-		m_glowMat->texture0 = Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(r, "billboard");
-		m_glowMat->diffuse = baseColor;
-
+		// glow render state
 		Graphics::RenderStateDesc rsd;
 		rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
 		rsd.depthWrite = false;
 		rsd.cullMode = Graphics::CULL_NONE;
-		m_renderState = r->CreateRenderState(rsd);
+
+		m_tMat.Reset(r->CreateMaterial(desc, rsd));
+		m_tMat->texture0 = Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(r, "billboard");
+		m_tMat->diffuse = baseColor;
+
+		m_glowMat.Reset(r->CreateMaterial(desc, rsd));
+		m_glowMat->texture0 = Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(r, "billboard");
+		m_glowMat->diffuse = baseColor;
 	}
 
 	Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache) :
 		Node(thruster, cache),
 		m_tMat(thruster.m_tMat),
-		m_renderState(thruster.m_renderState),
+		m_glowMat(thruster.m_glowMat),
 		linearOnly(thruster.linearOnly),
 		dir(thruster.dir),
 		pos(thruster.pos),
@@ -103,14 +107,12 @@ namespace SceneGraph {
 		m_tMat->diffuse.a = 255 - m_glowMat->diffuse.a;
 
 		Graphics::Renderer *r = GetRenderer();
-		if (!m_tBuffer.Valid()) {
-			m_tBuffer.Reset(CreateThrusterGeometry(r, m_tMat.Get()));
-			m_glowBuffer.Reset(CreateGlowGeometry(r, m_glowMat.Get()));
-		}
+		if (!s_thrustMesh.Valid())
+			CreateThrusterGeometry(r);
 
 		r->SetTransform(trans);
-		r->DrawBuffer(m_tBuffer.Get(), m_renderState, m_tMat.Get());
-		r->DrawBuffer(m_glowBuffer.Get(), m_renderState, m_glowMat.Get());
+		r->DrawMesh(s_thrustMesh.Get(), m_tMat.Get());
+		r->DrawMesh(s_glowMesh.Get(), m_glowMat.Get());
 	}
 
 	void Thruster::Save(NodeDatabase &db)
@@ -130,100 +132,81 @@ namespace SceneGraph {
 		return t;
 	}
 
-	Graphics::VertexBuffer *Thruster::CreateThrusterGeometry(Graphics::Renderer *r, Graphics::Material *mat)
+	void Thruster::CreateThrusterGeometry(Graphics::Renderer *r)
 	{
 		Graphics::VertexArray verts(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+		{
+			// Create volumetric thrust geometry
 
-		//zero at thruster center
-		//+x down
-		//+y right
-		//+z backwards (or thrust direction)
-		const float w = 0.5f;
+			//zero at thruster center
+			//+x down
+			//+y right
+			//+z backwards (or thrust direction)
+			const float w = 0.5f;
 
-		vector3f one(0.f, -w, 0.f); //top left
-		vector3f two(0.f, w, 0.f); //top right
-		vector3f three(0.f, w, 1.f); //bottom right
-		vector3f four(0.f, -w, 1.f); //bottom left
+			vector3f one(0.f, -w, 0.f);	 //top left
+			vector3f two(0.f, w, 0.f);	 //top right
+			vector3f three(0.f, w, 1.f); //bottom right
+			vector3f four(0.f, -w, 1.f); //bottom left
 
-		//uv coords
-		const vector2f topLeft(0.f, 1.f);
-		const vector2f topRight(1.f, 1.f);
-		const vector2f botLeft(0.f, 0.f);
-		const vector2f botRight(1.f, 0.f);
+			//uv coords
+			const vector2f topLeft(0.f, 1.f);
+			const vector2f topRight(1.f, 1.f);
+			const vector2f botLeft(0.f, 0.f);
+			const vector2f botRight(1.f, 0.f);
 
-		//add four intersecting planes to create a volumetric effect
-		for (int i = 0; i < 4; i++) {
-			verts.Add(one, topLeft);
-			verts.Add(two, topRight);
-			verts.Add(three, botRight);
+			//add four intersecting planes to create a volumetric effect
+			for (int i = 0; i < 4; i++) {
+				verts.Add(one, topLeft);
+				verts.Add(two, topRight);
+				verts.Add(three, botRight);
 
-			verts.Add(three, botRight);
-			verts.Add(four, botLeft);
-			verts.Add(one, topLeft);
+				verts.Add(three, botRight);
+				verts.Add(four, botLeft);
+				verts.Add(one, topLeft);
 
-			one.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
-			two.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
-			three.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
-			four.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+				one.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+				two.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+				three.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+				four.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+			}
 		}
 
 		//create buffer and upload data
-		Graphics::VertexBufferDesc vbd;
-		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
-		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT2;
-		vbd.numVertices = verts.GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		Graphics::VertexBuffer *vb = r->CreateVertexBuffer(vbd);
-		vb->Populate(verts);
+		s_thrustMesh.Reset(r->CreateMeshObjectFromArray(&verts));
 
-		return vb;
-	}
+		verts.Clear();
+		{
+			//create glow billboard when looking down the thruster
+			const float w = 0.2;
 
-	Graphics::VertexBuffer *Thruster::CreateGlowGeometry(Graphics::Renderer *r, Graphics::Material *mat)
-	{
-		Graphics::VertexArray verts(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+			vector3f one(-w, -w, 0.f); //top left
+			vector3f two(-w, w, 0.f);  //top right
+			vector3f three(w, w, 0.f); //bottom right
+			vector3f four(w, -w, 0.f); //bottom left
 
-		//create glow billboard for linear thrusters
-		const float w = 0.2;
+			//uv coords
+			const vector2f topLeft(0.f, 1.f);
+			const vector2f topRight(1.f, 1.f);
+			const vector2f botLeft(0.f, 0.f);
+			const vector2f botRight(1.f, 0.f);
 
-		vector3f one(-w, -w, 0.f); //top left
-		vector3f two(-w, w, 0.f); //top right
-		vector3f three(w, w, 0.f); //bottom right
-		vector3f four(w, -w, 0.f); //bottom left
+			for (int i = 0; i < 5; i++) {
+				verts.Add(one, topLeft);
+				verts.Add(two, topRight);
+				verts.Add(three, botRight);
 
-		//uv coords
-		const vector2f topLeft(0.f, 1.f);
-		const vector2f topRight(1.f, 1.f);
-		const vector2f botLeft(0.f, 0.f);
-		const vector2f botRight(1.f, 0.f);
+				verts.Add(three, botRight);
+				verts.Add(four, botLeft);
+				verts.Add(one, topLeft);
 
-		for (int i = 0; i < 5; i++) {
-			verts.Add(one, topLeft);
-			verts.Add(two, topRight);
-			verts.Add(three, botRight);
-
-			verts.Add(three, botRight);
-			verts.Add(four, botLeft);
-			verts.Add(one, topLeft);
-
-			one.z += .1f;
-			two.z = three.z = four.z = one.z;
+				one.z += .1f;
+				two.z = three.z = four.z = one.z;
+			}
 		}
 
 		//create buffer and upload data
-		Graphics::VertexBufferDesc vbd;
-		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
-		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT2;
-		vbd.numVertices = verts.GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		Graphics::VertexBuffer *vb = r->CreateVertexBuffer(vbd);
-		vb->Populate(verts);
-
-		return vb;
+		s_glowMesh.Reset(r->CreateMeshObjectFromArray(&verts));
 	}
 
 } // namespace SceneGraph

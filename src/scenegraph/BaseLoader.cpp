@@ -3,7 +3,9 @@
 
 #include "BaseLoader.h"
 #include "FileSystem.h"
+#include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
 #include "utils.h"
 
 using namespace SceneGraph;
@@ -41,8 +43,16 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	matDesc.normalMap = !normTex.empty();
 	matDesc.quality = Graphics::HAS_HEAT_GRADIENT;
 
+	// FIXME: add render state properties to MaterialDefinition
+	// This is hacky and based off of the code in Loader.cpp
+	Graphics::RenderStateDesc rsd;
+	if (mdef.diffuse.a < 255) {
+		rsd.blendMode = Graphics::BLEND_ALPHA;
+		rsd.depthWrite = false;
+	}
+
 	//Create material and set parameters
-	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(matDesc));
+	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(matDesc, rsd));
 	mat->diffuse = mdef.diffuse;
 	mat->specular = mdef.specular;
 	mat->emissive = mdef.emissive;
@@ -80,7 +90,13 @@ RefCountedPtr<Graphics::Material> BaseLoader::GetDecalMaterial(unsigned int inde
 		Graphics::MaterialDescriptor matDesc;
 		matDesc.textures = 1;
 		matDesc.lighting = true;
-		decMat.Reset(m_renderer->CreateMaterial(matDesc));
+
+		Graphics::RenderStateDesc rsd;
+		rsd.depthWrite = false;
+		rsd.blendMode = Graphics::BLEND_ALPHA;
+
+		// XXX add depth bias to render state parameter
+		decMat.Reset(m_renderer->CreateMaterial(matDesc, rsd));
 		decMat->texture0 = Graphics::TextureBuilder::GetTransparentTexture(m_renderer);
 		decMat->specular = Color::BLACK;
 		decMat->diffuse = Color::WHITE;
