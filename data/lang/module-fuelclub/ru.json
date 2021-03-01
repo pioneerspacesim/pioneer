@@ -37,7 +37,7 @@
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
-    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+    "message": "На огромном пространстве Содружества Независимых Миров вы найдете {clubname} как лучшего поставщика топлива со скидкой и услуг по утилизации отходов. Для наших членов мы делаем:"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
@@ -45,15 +45,15 @@
   },
   "FLAVOUR_3_CLUBNAME": {
     "description": "Fuel club for the Haber faction",
-    "message": "Haber Propellant and Perishables Division"
+    "message": "Подразделение топлива и скоропортящихся продуктов Haber"
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
-    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+    "message": "Привет пилот. Вам предоставляются права на заправку топливом и условную утилизацию побочных продуктов."
   },
   "FLAVOUR_3_NONMEMBER_INTRO": {
     "description": "for the Haber faction",
-    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+    "message": "Привет пилот. Это подразделение топлива и скоропортящихся продуктов Haber. Нам поручено распространять топливо по всем принадлежащим Haber территориям."
   },
   "GO_BACK": {
     "description": "",

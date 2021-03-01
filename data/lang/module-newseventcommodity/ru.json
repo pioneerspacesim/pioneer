@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Обширное распространение чумы в системе {system}. Число погибших растет."
+    "message": "НОВОСТИ: Обширное распространение чумы в системе {system}. Число погибших растет."
   },
   "FLAVOUR_0_NEWSBODY": {
     "description": "Imply high demand for MEDICINE commodity.",
@@ -9,7 +9,7 @@
   },
   "FLAVOUR_10_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Компания подвергает угрозе выживание системы {system}"
+    "message": "НОВОСТИ: Компания подвергает угрозе выживание системы {system}"
   },
   "FLAVOUR_10_NEWSBODY": {
     "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
@@ -17,7 +17,7 @@
   },
   "FLAVOUR_11_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Таинственное исчезновение скота в системе {system}."
+    "message": "НОВОСТИ: Таинственное исчезновение скота в системе {system}."
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
@@ -25,7 +25,7 @@
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: В системе {system} нарушена инфраструктура, по причине сбоя компьютеров."
+    "message": "НОВОСТИ: В системе {system} нарушена инфраструктура, по причине сбоя компьютеров."
   },
   "FLAVOUR_12_NEWSBODY": {
     "description": "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
@@ -33,7 +33,7 @@
   },
   "FLAVOUR_13_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Восстание роботов в системе {system}."
+    "message": "НОВОСТИ: Восстание роботов в системе {system}."
   },
   "FLAVOUR_13_NEWSBODY": {
     "description": "Imply that nobody wants to buy ROBOTS anymore.",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Солнечная вспышка вызовет самое крупное за последнее тысячелетие отключение электроэнергии в системе {system}."
+    "message": "НОВОСТИ: Солнечная вспышка вызовет самое крупное за последнее тысячелетие отключение электроэнергии в системе {system}."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: В результате полицейской облавы в системе {system} арестованы ключевые лидеры преступного синдиката."
+    "message": "НОВОСТИ: В результате полицейской облавы в системе {system} арестованы ключевые лидеры преступного синдиката."
   },
   "FLAVOUR_15_NEWSBODY": {
     "description": "Imply high demand of NARCOTICS.",
@@ -57,7 +57,7 @@
   },
   "FLAVOUR_16_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Серьёзный инцидент в системе {system} на ежегодной \"Большой Паровой Ярмарке\"."
+    "message": "НОВОСТИ: Серьёзный инцидент в системе {system} на ежегодной \"Большой Паровой Ярмарке\"."
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
@@ -65,7 +65,7 @@
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Новые богатства в системе {system}."
+    "message": "НОВОСТИ: Новые богатства в системе {system}."
   },
   "FLAVOUR_17_NEWSBODY": {
     "description": "Imply vast abundance of METAL_ORE.",
@@ -73,7 +73,7 @@
   },
   "FLAVOUR_18_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Потрясающий успех экономической реформы в системе {system}."
+    "message": "НОВОСТИ: Потрясающий успех экономической реформы в системе {system}."
   },
   "FLAVOUR_18_NEWSBODY": {
     "description": "Imply vast demand of CONSUMER_GOODS.",
@@ -81,7 +81,7 @@
   },
   "FLAVOUR_19_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Золотой дождь в системе {system}."
+    "message": "НОВОСТИ: Золотой дождь в системе {system}."
   },
   "FLAVOUR_19_NEWSBODY": {
     "description": "Imply vast abundance of PRECIOUS_METALS.",
@@ -89,7 +89,7 @@
   },
   "FLAVOUR_1_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Конфликт обостряется в системе {system}."
+    "message": "НОВОСТИ: Конфликт обостряется в системе {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
     "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
@@ -97,7 +97,7 @@
   },
   "FLAVOUR_20_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Установлен новый рекорд по сбору водорослей на газовом гиганте в системе {system}."
+    "message": "НОВОСТИ: Установлен новый рекорд по сбору водорослей на газовом гиганте в системе {system}."
   },
   "FLAVOUR_20_NEWSBODY": {
     "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
@@ -105,7 +105,7 @@
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: В системе {system} подписано соглашение о более \"гуманных\" методах ведения боевых действий."
+    "message": "НОВОСТИ: В системе {system} подписано соглашение о более \"гуманных\" методах ведения боевых действий."
   },
   "FLAVOUR_21_NEWSBODY": {
     "description": "Imply vast abundance of NERVE_GAS.",
@@ -113,7 +113,7 @@
   },
   "FLAVOUR_22_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Забастовка полицейских в системе {system}. Граждане брошены на произвол судьбы."
+    "message": "НОВОСТИ: Забастовка полицейских в системе {system}. Граждане брошены на произвол судьбы."
   },
   "FLAVOUR_22_NEWSBODY": {
     "description": "Imply high demand of HAND_WEAPONS.",
@@ -121,7 +121,7 @@
   },
   "FLAVOUR_23_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Торжественное открытие новой фабрики в системе {system}."
+    "message": "НОВОСТИ: Торжественное открытие новой фабрики в системе {system}."
   },
   "FLAVOUR_23_NEWSBODY": {
     "description": "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
@@ -129,7 +129,7 @@
   },
   "FLAVOUR_2_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Засуха в системе {system}. Урожай погиб."
+    "message": "НОВОСТИ: Засуха в системе {system}. Урожай погиб."
   },
   "FLAVOUR_2_NEWSBODY": {
     "description": "Hint there will be high demand of GRAIN.",
@@ -137,7 +137,7 @@
   },
   "FLAVOUR_3_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Веганский образ жизни становится популярен в системе {system}."
+    "message": "НОВОСТИ: Веганский образ жизни становится популярен в системе {system}."
   },
   "FLAVOUR_3_NEWSBODY": {
     "description": "Imply high demand of FRUIT_AND_VEG.",
@@ -145,7 +145,7 @@
   },
   "FLAVOUR_4_HEADLINE": {
     "description": "About mob rivals competing for selling drugs",
-    "message": "НОВОСТИ {date}: Война с наркотиками в системе {system}. Правоохранители бороться за восстановление порядка."
+    "message": "НОВОСТИ: Война с наркотиками в системе {system}. Правоохранители бороться за восстановление порядка."
   },
   "FLAVOUR_4_NEWSBODY": {
     "description": "Imply high abundance of NARCOTICS.",
@@ -153,7 +153,7 @@
   },
   "FLAVOUR_5_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Рабы бунтуют в системе {system}. Агропром на грани развала."
+    "message": "НОВОСТИ: Рабы бунтуют в системе {system}. Агропром на грани развала."
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
@@ -161,7 +161,7 @@
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
-    "message": "НОВОСТИ {date}: Фестиваль каламбура развлечет вас в системе {system}."
+    "message": "НОВОСТИ: Фестиваль каламбура развлечет вас в системе {system}."
   },
   "FLAVOUR_6_NEWSBODY": {
     "description": "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
@@ -169,7 +169,7 @@
   },
   "FLAVOUR_7_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Промышленность в системе {system} переживает не лучшие времена ."
+    "message": "НОВОСТИ: Промышленность в системе {system} переживает не лучшие времена ."
   },
   "FLAVOUR_7_NEWSBODY": {
     "description": "Imply demand of INDUSTRIAL_MACHINERY.",
@@ -177,7 +177,7 @@
   },
   "FLAVOUR_8_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: В системе {system} произошёл несчастный случай при работе в шахтах."
+    "message": "НОВОСТИ: В системе {system} произошёл несчастный случай при работе в шахтах."
   },
   "FLAVOUR_8_NEWSBODY": {
     "description": "Imply high demand of MINING_MACHINERY.",
@@ -185,7 +185,7 @@
   },
   "FLAVOUR_9_HEADLINE": {
     "description": "",
-    "message": "НОВОСТИ {date}: Жители системы {system} помешались на моде."
+    "message": "НОВОСТИ: Жители системы {system} помешались на моде."
   },
   "FLAVOUR_9_NEWSBODY": {
     "description": "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",

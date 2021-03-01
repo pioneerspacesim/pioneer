@@ -69,7 +69,7 @@
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "Автопилот: Подлететь к {target}"
+    "message": "Автопилот: Лететь к {target}"
   },
   "AUTOPILOT_ON": {
     "description": "",

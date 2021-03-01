@@ -213,7 +213,7 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} метротонн."
+    "message": "{amount} тонн."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
@@ -301,7 +301,7 @@
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Здравствуйте. Меня зовут {name}. \nМой работодатель готов нанять вас за {cash} для помощи в переезде нашего склада, путём перевозки {cargoname} из космопорта {starport} на новое место в космопорте {dom_starport}."
+    "message": "Здравствуйте. Меня зовут {name}. \nМой работодатель готов нанять вас за {cash} для помощи в переезде нашего склада, нужно перевезти {cargoname} из космопорта {starport} на новое место в космопорте {dom_starport}."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
