@@ -121,29 +121,14 @@ namespace Graphics {
 		// Draw multiple instances of a mesh object using the given material.
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) = 0;
 
-		//2d drawing is generally understood to be for gui use (unlit, ortho projection)
-		//unindexed triangle draw
-		[[deprecated]] virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type = TRIANGLES) = 0;
-		//high amount of textured quads for particles etc
-		[[deprecated]] virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) = 0;
-		[[deprecated]] virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) = 0;
-		//complex unchanging geometry that is worthwhile to store in VBOs etc.
-		[[deprecated]] virtual bool DrawBuffer(VertexBuffer *, RenderState *, Material *, PrimitiveType type = TRIANGLES) = 0;
-		[[deprecated]] virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType = TRIANGLES) = 0;
-		// instanced variations of the above
-		[[deprecated]] virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) = 0;
-		[[deprecated]] virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) = 0;
-
 		//creates a unique material based on the descriptor. It will not be deleted automatically.
-		[[deprecated]] virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
 		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) = 0;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
-		[[deprecated]] virtual RenderState *CreateRenderState(const RenderStateDesc &) = 0;
-		//returns 0 if unsupported
-		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0;
+		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0; //returns nullptr if unsupported
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) = 0;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) = 0;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
+
 		// Create a new mesh object that wraps the given vertex and index buffers.
 		virtual MeshObject *CreateMeshObject(VertexBuffer *vertexBuffer, IndexBuffer *indexBuffer = nullptr) = 0;
 

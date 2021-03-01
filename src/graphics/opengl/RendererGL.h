@@ -99,21 +99,11 @@ namespace Graphics {
 		virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) override final;
 
 		virtual bool DrawBuffer(const VertexArray *v, Material *m) override final;
-
-		virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type = TRIANGLES) override final;
-		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) override final;
-		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) override final;
-		virtual bool DrawBuffer(VertexBuffer *, RenderState *, Material *, PrimitiveType) override final;
-		virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType) override final;
-		virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) override final;
-		virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) override final;
 		virtual bool DrawMesh(MeshObject *, Material *) override final;
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final;
 
-		[[deprecated]] virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) override final;
 		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) override final;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override final;
-		virtual RenderState *CreateRenderState(const RenderStateDesc &) override final;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) override final;
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) override final;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override final;
@@ -133,7 +123,6 @@ namespace Graphics {
 		virtual void PushState() override final;
 		virtual void PopState() override final;
 
-		bool SetRenderState(RenderState *);
 		void SetRenderState(const RenderStateDesc &rsd);
 
 		size_t m_frameNum;
@@ -164,14 +153,13 @@ namespace Graphics {
 		friend class OGL::FresnelColourMaterial;
 		friend class OGL::ShieldMaterial;
 		friend class OGL::BillboardMaterial;
+
 		std::vector<std::pair<MaterialDescriptor, OGL::Program *>> m_programs;
-		std::unordered_map<Uint32, OGL::RenderState *> m_renderStates;
 		std::vector<std::unique_ptr<OGL::UniformLinearBuffer>> m_drawUniformBuffers;
 		RefCountedPtr<OGL::UniformBuffer> m_lightUniformBuffer;
 		bool m_useNVDepthRanged;
 		OGL::RenderTarget *m_activeRenderTarget = nullptr;
 		OGL::RenderTarget *m_windowRenderTarget = nullptr;
-		RenderState *m_activeRenderState = nullptr;
 		uint32_t m_activeRenderStateHash = 0;
 
 		matrix4x4f m_modelViewMat;

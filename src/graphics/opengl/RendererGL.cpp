@@ -2,15 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererGL.h"
-#include "GLDebug.h"
-#include "Program.h"
 #include "RefCounted.h"
-#include "RenderStateGL.h"
-#include "RenderTargetGL.h"
 #include "SDL_video.h"
 #include "StringF.h"
-#include "TextureGL.h"
-#include "VertexBufferGL.h"
+
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/Material.h"
@@ -21,12 +16,19 @@
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 
+#include "GLDebug.h"
+#include "MaterialGL.h"
+#include "Program.h"
+#include "RenderTargetGL.h"
+#include "TextureGL.h"
+#include "UniformBuffer.h"
+#include "VertexBufferGL.h"
+
 #include "BillboardMaterial.h"
 #include "FresnelColourMaterial.h"
 #include "GasGiantMaterial.h"
 #include "GenGasGiantColourMaterial.h"
 #include "GeoSphereMaterial.h"
-#include "MaterialGL.h"
 #include "MultiMaterial.h"
 #include "RingMaterial.h"
 #include "ShieldMaterial.h"
@@ -34,7 +36,6 @@
 #include "SphereImpostorMaterial.h"
 #include "StarfieldMaterial.h"
 #include "UIMaterial.h"
-#include "UniformBuffer.h"
 #include "VtxColorMaterial.h"
 
 #include "core/Log.h"
@@ -168,7 +169,6 @@ namespace Graphics {
 		m_maxZFar(100000000.0f),
 		m_useCompressedTextures(false),
 		m_activeRenderTarget(0),
-		m_activeRenderState(nullptr),
 		m_activeRenderStateHash(0),
 		m_glContext(glContext)
 	{
@@ -294,10 +294,10 @@ namespace Graphics {
 
 		m_lightUniformBuffer.Reset();
 
+		s_DynamicDrawBufferMap.clear();
+
 		// HACK ANDYC - this crashes when shutting down? They'll be released anyway right?
 		//while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
-		for (auto state : m_renderStates)
-			delete state.second;
 
 		if (m_windowRenderTarget->m_active)
 			m_windowRenderTarget->Unbind();
@@ -622,16 +622,6 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::SetRenderState(RenderState *rs)
-	{
-		if (m_activeRenderState != rs) {
-			static_cast<OGL::RenderState *>(rs)->Apply();
-			m_activeRenderState = rs;
-		}
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-		return true;
-	}
-
 	void ApplyRenderState(const RenderStateDesc &rsd)
 	{
 		switch (rsd.blendMode) {
@@ -739,7 +729,6 @@ namespace Graphics {
 
 	bool RendererOGL::ClearScreen()
 	{
-		m_activeRenderState = nullptr;
 		m_activeRenderStateHash = 0;
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
@@ -751,7 +740,6 @@ namespace Graphics {
 
 	bool RendererOGL::ClearDepthBuffer()
 	{
-		m_activeRenderState = nullptr;
 		m_activeRenderStateHash = 0;
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
@@ -920,226 +908,6 @@ namespace Graphics {
 		return res;
 	}
 
-	bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
-	{
-		PROFILE_SCOPED()
-		if (!v || v->position.size() < 3) return false;
-
-		const AttributeSet attribs = v->GetAttributeSet();
-		RefCountedPtr<VertexBuffer> drawVB;
-
-		// see if we have a buffer to re-use
-		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(attribs, v->position.size()));
-		if (iter == s_AttribBufferMap.end()) {
-			// not found a buffer so create a new one
-			VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(v->GetAttributeSet());
-			vbd.numVertices = static_cast<Uint32>(v->position.size());
-			vbd.usage = BUFFER_USAGE_DYNAMIC; // dynamic since we'll be reusing these buffers if possible
-
-			// VertexBuffer
-			RefCountedPtr<VertexBuffer> vb;
-			vb.Reset(CreateVertexBuffer(vbd));
-			vb->Populate(*v);
-
-			// add to map
-			s_AttribBufferMap[std::make_pair(attribs, v->position.size())] = vb;
-			drawVB = vb;
-		} else {
-			// got a buffer so use it and fill it with newest data
-			drawVB = iter->second;
-			drawVB->Populate(*v);
-		}
-
-		const bool res = DrawBuffer(drawVB.Get(), rs, m, t);
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		m_stats.AddToStatCount(Stats::STAT_DRAWTRIS, 1);
-
-		return res;
-	}
-
-	bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size)
-	{
-		PROFILE_SCOPED()
-		if (count == 0 || !material || !material->texture0)
-			return false;
-
-		size = Clamp(size, 0.1f, FLT_MAX);
-
-#pragma pack(push, 4)
-		struct PosNormVert {
-			vector3f pos;
-			vector3f norm;
-		};
-#pragma pack(pop)
-
-		AttributeSet set = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL;
-		RefCountedPtr<VertexBuffer> drawVB;
-		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(set, count));
-		if (iter == s_AttribBufferMap.end()) {
-			// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
-			Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(set);
-			vbd.numVertices = count;
-			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC; // we could be updating this per-frame
-
-			// VertexBuffer
-			RefCountedPtr<VertexBuffer> vb;
-			vb.Reset(CreateVertexBuffer(vbd));
-
-			// add to map
-			s_AttribBufferMap[std::make_pair(set, count)] = vb;
-			drawVB = vb;
-		} else {
-			drawVB = iter->second;
-		}
-
-		// got a buffer so use it and fill it with newest data
-		PosNormVert *vtxPtr = drawVB->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(drawVB->GetDesc().stride == sizeof(PosNormVert));
-		for (Uint32 i = 0; i < count; i++) {
-			vtxPtr[i].pos = positions[i];
-			vtxPtr[i].norm = vector3f(0.0f, 0.0f, size);
-		}
-		drawVB->Unmap();
-
-		SetTransform(matrix4x4f::Identity());
-		DrawBuffer(drawVB.Get(), rs, material, Graphics::POINTS);
-		GetStats().AddToStatCount(Graphics::Stats::STAT_DRAWPOINTSPRITES, 1);
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		return true;
-	}
-
-	bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material)
-	{
-		PROFILE_SCOPED()
-		if (count == 0 || !material || !material->texture0)
-			return false;
-
-#pragma pack(push, 4)
-		struct PosNormVert {
-			vector3f pos;
-			vector3f norm;
-		};
-#pragma pack(pop)
-
-		AttributeSet set = Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL;
-		RefCountedPtr<VertexBuffer> drawVB;
-		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(set, count));
-		if (iter == s_AttribBufferMap.end()) {
-			// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
-			Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(set);
-			vbd.numVertices = count;
-			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC; // we could be updating this per-frame
-
-			// VertexBuffer
-			RefCountedPtr<VertexBuffer> vb;
-			vb.Reset(CreateVertexBuffer(vbd));
-
-			// add to map
-			s_AttribBufferMap[std::make_pair(set, count)] = vb;
-			drawVB = vb;
-		} else {
-			drawVB = iter->second;
-		}
-
-		// got a buffer so use it and fill it with newest data
-		PosNormVert *vtxPtr = drawVB->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(drawVB->GetDesc().stride == sizeof(PosNormVert));
-		for (Uint32 i = 0; i < count; i++) {
-			vtxPtr[i].pos = positions[i];
-			vtxPtr[i].norm = vector3f(offsets[i], Clamp(sizes[i], 0.1f, FLT_MAX));
-		}
-		drawVB->Unmap();
-
-		SetTransform(matrix4x4f::Identity());
-		DrawBuffer(drawVB.Get(), rs, material, Graphics::POINTS);
-		GetStats().AddToStatCount(Graphics::Stats::STAT_DRAWPOINTSPRITES, 1);
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		return true;
-	}
-
-	bool RendererOGL::DrawBuffer(VertexBuffer *vb, RenderState *state, Material *mat, PrimitiveType pt)
-	{
-		PROFILE_SCOPED()
-		SetRenderState(state);
-		mat->Apply();
-
-		SetMaterialShaderTransforms(mat);
-
-		vb->Bind();
-		glDrawArrays(pt, 0, vb->GetSize());
-		vb->Release();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
-
-		return true;
-	}
-
-	bool RendererOGL::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, PrimitiveType pt)
-	{
-		PROFILE_SCOPED()
-		SetRenderState(state);
-		mat->Apply();
-
-		SetMaterialShaderTransforms(mat);
-
-		vb->Bind();
-		ib->Bind();
-		glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		ib->Release();
-		vb->Release();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
-
-		return true;
-	}
-
-	bool RendererOGL::DrawBufferInstanced(VertexBuffer *vb, RenderState *state, Material *mat, InstanceBuffer *instb, PrimitiveType pt)
-	{
-		PROFILE_SCOPED()
-		SetRenderState(state);
-		mat->Apply();
-
-		SetMaterialShaderTransforms(mat);
-
-		vb->Bind();
-		instb->Bind();
-		glDrawArraysInstanced(pt, 0, vb->GetSize(), instb->GetInstanceCount());
-		instb->Release();
-		vb->Release();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
-
-		return true;
-	}
-
-	bool RendererOGL::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, InstanceBuffer *instb, PrimitiveType pt)
-	{
-		PROFILE_SCOPED()
-		SetRenderState(state);
-		mat->Apply();
-
-		SetMaterialShaderTransforms(mat);
-
-		vb->Bind();
-		ib->Bind();
-		instb->Bind();
-		glDrawElementsInstanced(pt, ib->GetIndexCount(), GL_UNSIGNED_INT, 0, instb->GetInstanceCount());
-		instb->Release();
-		ib->Release();
-		vb->Release();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
-
-		return true;
-	}
-
 	bool RendererOGL::DrawMesh(MeshObject *mesh, Material *mat)
 	{
 		PROFILE_SCOPED()
@@ -1187,12 +955,6 @@ namespace Graphics {
 
 		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 		return true;
-	}
-
-	Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
-	{
-		Graphics::RenderStateDesc stateDesc;
-		return CreateMaterial(d, stateDesc);
 	}
 
 	Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d, const RenderStateDesc &stateDescriptor)
@@ -1328,21 +1090,6 @@ namespace Graphics {
 			desc.depthWrite,
 		};
 		return lookup3_hashword(words, 5, 0);
-	}
-
-	RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
-	{
-		const uint32_t hash = HashRenderStateDesc(desc);
-		auto it = m_renderStates.find(hash);
-		if (it != m_renderStates.end()) {
-			CheckRenderErrors(__FUNCTION__, __LINE__);
-			return it->second;
-		} else {
-			auto *rs = new OGL::RenderState(desc);
-			m_renderStates[hash] = rs;
-			CheckRenderErrors(__FUNCTION__, __LINE__);
-			return rs;
-		}
 	}
 
 	RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)

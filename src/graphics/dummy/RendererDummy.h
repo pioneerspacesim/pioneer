@@ -11,7 +11,6 @@
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 #include "graphics/dummy/MaterialDummy.h"
-#include "graphics/dummy/RenderStateDummy.h"
 #include "graphics/dummy/RenderTargetDummy.h"
 #include "graphics/dummy/TextureDummy.h"
 #include "graphics/dummy/VertexBufferDummy.h"
@@ -66,21 +65,11 @@ namespace Graphics {
 		virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) override final { return true; }
 
 		virtual bool DrawBuffer(const VertexArray *, Material *) override final { return true; }
-
-		virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type = TRIANGLES) override final { return true; }
-		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) override final { return true; }
-		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) override final { return true; }
-		virtual bool DrawBuffer(VertexBuffer *, RenderState *, Material *, PrimitiveType) override final { return true; }
-		virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType) override final { return true; }
-		virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) override final { return true; }
-		virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) override final { return true; }
 		virtual bool DrawMesh(MeshObject *, Material *) override final { return true; }
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final { return true; }
 
-		virtual Material *CreateMaterial(const MaterialDescriptor &d) override final { return new Graphics::Dummy::Material(); }
 		virtual Material *CreateMaterial(const MaterialDescriptor &d, const RenderStateDesc &rsd) override final { return new Graphics::Dummy::Material(); }
 		virtual Texture *CreateTexture(const TextureDescriptor &d) override final { return new Graphics::TextureDummy(d); }
-		virtual RenderState *CreateRenderState(const RenderStateDesc &d) override final { return new Graphics::Dummy::RenderState(d); }
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &d) override final { return new Graphics::Dummy::RenderTarget(d); }
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &d) override final { return new Graphics::Dummy::VertexBuffer(d); }
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage bu) override final { return new Graphics::Dummy::IndexBuffer(size, bu); }

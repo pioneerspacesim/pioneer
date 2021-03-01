@@ -30,18 +30,6 @@ namespace Graphics {
 		bool depthWrite;
 	};
 
-	class RenderState {
-	public:
-		virtual ~RenderState() {}
-
-		const RenderStateDesc &GetDesc() const { return m_desc; }
-
-	protected:
-		RenderState(const RenderStateDesc &d) :
-			m_desc(d) {}
-		RenderStateDesc m_desc;
-	};
-
 } // namespace Graphics
 
 #endif
