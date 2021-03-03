@@ -913,23 +913,23 @@
   },
   "HUD_INDICATOR_AWAY_FROM_FRAME": {
     "description": "Indicator: Away from the current frame.",
-    "message": "Удаляемся от текущей системы отсчета"
+    "message": "Направление от текущей системы отсчёта"
   },
   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current combat target.",
-    "message": "Направление относительно текущей боевой цели"
+    "message": "Направление движения относительно текущей боевой цели"
   },
   "HUD_INDICATOR_COMBAT_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current combat target.",
-    "message": "Обратное направление относительно текущей боевой цели"
+    "message": "Направление обратное движению относительно текущей боевой цели"
   },
   "HUD_INDICATOR_FRAME_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current frame.",
-    "message": "Направление относительно текущей системы отсчета"
+    "message": "Направление движения относительно текущей системы отсчета"
   },
   "HUD_INDICATOR_FRAME_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current frame.",
-    "message": "Обратное направление относительно текущей системы отсчета"
+    "message": "Направление обратное движению относительно текущей системы отсчета"
   },
   "HUD_INDICATOR_MANEUVER_PROGRADE": {
     "description": "Indicator: The prograde direction for the maneuver burn.",
@@ -937,11 +937,11 @@
   },
   "HUD_INDICATOR_NAV_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current navigational target.",
-    "message": "Направление относительно текущей цели навигации"
+    "message": "Направление движения относительно текущей цели навигации"
   },
   "HUD_INDICATOR_NAV_TARGET_RETROGRADE": {
     "description": "Indicator: Retrograde direction relative to the current navigational target.",
-    "message": "Обратное направление относительно текущей цели навигации"
+    "message": "Направление обратное движению относительно текущей цели навигации"
   },
   "HUD_IN_TRANSIT_TO_N_X_X_X": {
     "description": "",
@@ -981,11 +981,11 @@
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
-    "message": "Скорость приближения к системе отсчета"
+    "message": "Скорость сближения с системой отсчёта"
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "Скорость приближения к цели"
+    "message": "Скорость сближения с целью"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
@@ -1349,7 +1349,7 @@
   },
   "MORE_INFO": {
     "description": "",
-    "message": "Доп.информация..."
+    "message": "Подробнее"
   },
   "MOSTLY_HARMLESS": {
     "description": "",
