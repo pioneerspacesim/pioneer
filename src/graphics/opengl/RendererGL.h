@@ -3,21 +3,15 @@
 
 #pragma once
 
-#include "RefCounted.h"
-#include "graphics/RenderState.h"
-#include "graphics/opengl/UniformBuffer.h"
 #ifndef _RENDERER_OGL_H
 #define _RENDERER_OGL_H
-/*
- * OpenGL 2.X renderer (2.0, GLSL 1.10 at the moment)
- *  - no fixed function support (shaders for everything)
- *  The plan is: make this more like GL3/ES2
- *  - try to stick to bufferobjects
- *  - use glvertexattribpointer instead of glvertexpointer etc
- *  - get rid of built-in glMaterial, glMatrix use
- */
+
 #include "OpenGLLibs.h"
+#include "RefCounted.h"
+#include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
+#include "graphics/Types.h"
+#include "graphics/opengl/UniformBuffer.h"
 #include <stack>
 #include <unordered_map>
 
@@ -70,9 +64,6 @@ namespace Graphics {
 		virtual bool SwapBuffers() override final;
 
 		virtual bool SetRenderTarget(RenderTarget *) override final;
-
-		virtual bool SetDepthRange(double znear, double zfar) override final;
-		virtual bool ResetDepthRange() override final;
 
 		virtual bool ClearScreen() override final;
 		virtual bool ClearDepthBuffer() override final;
@@ -169,16 +160,14 @@ namespace Graphics {
 	private:
 		static bool initted;
 
-		typedef std::map<std::pair<AttributeSet, size_t>, RefCountedPtr<VertexBuffer>> AttribBufferMap;
-		typedef AttribBufferMap::iterator AttribBufferIter;
-		static AttribBufferMap s_AttribBufferMap;
-
 		struct DynamicBufferData {
+			AttributeSet attrs;
 			RefCountedPtr<MeshObject> mesh;
 			size_t lastFrameUsed;
+			size_t vertexCount;
 		};
 
-		using DynamicBufferMap = std::map<std::pair<AttributeSet, size_t>, DynamicBufferData>;
+		using DynamicBufferMap = std::vector<DynamicBufferData>;
 		static DynamicBufferMap s_DynamicDrawBufferMap;
 
 		SDL_GLContext m_glContext;

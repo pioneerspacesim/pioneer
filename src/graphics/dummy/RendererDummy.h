@@ -38,9 +38,6 @@ namespace Graphics {
 
 		virtual bool SetRenderTarget(RenderTarget *) override final { return true; }
 
-		virtual bool SetDepthRange(double znear, double zfar) override final { return true; }
-		virtual bool ResetDepthRange() override final { return true; }
-
 		virtual bool ClearScreen() override final { return true; }
 		virtual bool ClearDepthBuffer() override final { return true; }
 		virtual bool SetClearColor(const Color &c) override final { return true; }

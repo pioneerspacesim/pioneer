@@ -93,10 +93,6 @@ namespace Graphics {
 		virtual bool SetProjection(const matrix4x4f &m) = 0;
 		virtual matrix4x4f GetProjection() const = 0;
 
-		// XXX maybe GL-specific. maybe should be part of the render state
-		virtual bool SetDepthRange(double znear, double zfar) = 0;
-		virtual bool ResetDepthRange() = 0;
-
 		virtual bool SetWireFrameMode(bool enabled) = 0;
 
 		virtual bool SetLightIntensity(Uint32 numlights, const float *intensity) = 0;

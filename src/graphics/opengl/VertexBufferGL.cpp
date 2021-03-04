@@ -545,9 +545,9 @@ namespace Graphics {
 				m_idxBuffer->Bind();
 
 			// Unbinding the VAO implicitly unbinds the index buffer (as it's part of the VAO state)
-			// The vertex buffer however is *not* part of VAO state.
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			// The global GL_ARRAY_BUFFER binding however is *not* part of VAO state.
 			glBindVertexArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 
 		MeshObject::~MeshObject()

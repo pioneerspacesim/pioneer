@@ -149,7 +149,6 @@ namespace Graphics {
 
 	// static member instantiations
 	bool RendererOGL::initted = false;
-	RendererOGL::AttribBufferMap RendererOGL::s_AttribBufferMap;
 	RendererOGL::DynamicBufferMap RendererOGL::s_DynamicDrawBufferMap;
 
 	// typedefs
@@ -537,7 +536,7 @@ namespace Graphics {
 
 		// evict temporary vertex buffers if they haven't been used in at least 30 frames
 		for (auto iter = s_DynamicDrawBufferMap.begin(); iter != s_DynamicDrawBufferMap.end();) {
-			if (iter->second.lastFrameUsed < (std::max(m_frameNum, 30UL) - 30))
+			if (iter->lastFrameUsed < (std::max(m_frameNum, 30UL) - 30))
 				iter = s_DynamicDrawBufferMap.erase(iter);
 			else
 				iter++;
@@ -710,23 +709,6 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::SetDepthRange(double znear, double zfar)
-	{
-		// XXX since we're using reverse-Z, flip the inputs to this function to avoid breaking old code.
-		glDepthRange(1.0 - zfar, 1.0 - znear);
-		return true;
-	}
-
-	bool RendererOGL::ResetDepthRange()
-	{
-		if (m_useNVDepthRanged)
-			glDepthRangedNV(-1.0, 1.0);
-		else
-			glDepthRange(0.0, 1.0);
-
-		return true;
-	}
-
 	bool RendererOGL::ClearScreen()
 	{
 		m_activeRenderStateHash = 0;
@@ -885,23 +867,30 @@ namespace Graphics {
 	bool RendererOGL::DrawBuffer(const VertexArray *v, Material *m)
 	{
 		PROFILE_SCOPED()
+		constexpr double BUFFER_WASTE_PROPORTION = 2.0;
+
 		if (v->IsEmpty()) return false;
 
 		const AttributeSet attrs = v->GetAttributeSet();
 		MeshObject *meshObject;
 
-		// Find a buffer to write into (or create one)
-		auto iter = s_DynamicDrawBufferMap.find(std::make_pair(attrs, v->GetNumVerts()));
+		auto iter = std::find_if(s_DynamicDrawBufferMap.begin(), s_DynamicDrawBufferMap.end(), [&](const DynamicBufferData &a) {
+			return a.attrs == attrs && a.vertexCount >= v->GetNumVerts() && a.vertexCount <= v->GetNumVerts() * BUFFER_WASTE_PROPORTION;
+		});
+
 		if (iter == s_DynamicDrawBufferMap.end()) {
-			meshObject = CreateMeshObjectFromArray(v, nullptr, BUFFER_USAGE_DYNAMIC);
-			s_DynamicDrawBufferMap[std::make_pair(attrs, v->GetNumVerts())] = { RefCountedPtr<MeshObject>(meshObject), m_frameNum };
+			auto desc = VertexBufferDesc::FromAttribSet(v->GetAttributeSet());
+			desc.numVertices = v->GetNumVerts() * BUFFER_WASTE_PROPORTION;
+			desc.usage = BUFFER_USAGE_DYNAMIC;
+			meshObject = CreateMeshObject(CreateVertexBuffer(desc), nullptr);
+			s_DynamicDrawBufferMap.push_back(DynamicBufferData{ attrs, RefCountedPtr<MeshObject>(meshObject), m_frameNum, desc.numVertices });
 			GetStats().AddToStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED, 1);
 		} else {
-			meshObject = iter->second.mesh.Get();
-			meshObject->GetVertexBuffer()->Populate(*v);
-			iter->second.lastFrameUsed = m_frameNum;
+			meshObject = iter->mesh.Get();
+			iter->lastFrameUsed = m_frameNum;
 		}
 
+		meshObject->GetVertexBuffer()->Populate(*v);
 		const bool res = DrawMesh(meshObject, m);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
