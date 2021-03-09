@@ -93,7 +93,7 @@
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+    "message": "ハイパードライブの燃料や、宇宙船の推進剤として用いられる水素は極めて重要な元素です。ありがたいことに、水素は宇宙で最も一般的な元素ですが、貯蔵することは容易ではありません。水素は通常在庫市場で最も安い商品です。スターポートはいつでも十分に水素を供給しています。"
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+    "message": "多くのコロニーは輸出のために金属鉱石を採掘し、精製して工業生産に用います。小さなおもちゃから宇宙船にまであらゆるものに用いられる金属は、現代文明にとってあらゆる面で欠かせないものです。"
   },
   "MILITARY_FUEL": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+    "message": "産業廃棄物、家庭ごみ、使い古された装備品からなる文明の副産物。ほとんどの廃棄物は再加工されるか、リサイクルされるか、地球外へ送るためにスターポートに送られる。居住星系に廃棄物を投棄することはほとんどの場合違法である。スターポートは通常廃棄物処理のために料金を要求するが、撤去には支払いをする。"
   },
   "SLAVES": {
     "description": "",
