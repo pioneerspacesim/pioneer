@@ -45,6 +45,11 @@ void UniformBuffer::Bind(uint32_t binding)
 	glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_buffer);
 }
 
+void UniformBuffer::BindRange(uint32_t binding, uint32_t offset, uint32_t size)
+{
+	glBindBufferRange(GL_UNIFORM_BUFFER, binding, m_buffer, offset, size);
+}
+
 void UniformBuffer::Release()
 {
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -60,7 +65,7 @@ void *UniformBuffer::MapInternal(BufferMapMode mode)
 }
 
 UniformLinearBuffer::UniformLinearBuffer(uint32_t size) :
-	Mappable(0),
+	UniformBuffer(size, BUFFER_USAGE_DYNAMIC),
 	m_numAllocs(0)
 {
 	glGenBuffers(1, &m_buffer);
@@ -69,6 +74,10 @@ UniformLinearBuffer::UniformLinearBuffer(uint32_t size) :
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	m_capacity = size;
 }
+
+// ============================================================================
+// Uniform Buffer- Backed Linear Allocator
+//
 
 UniformLinearBuffer::~UniformLinearBuffer()
 {
@@ -81,8 +90,31 @@ void UniformLinearBuffer::Reset()
 	m_numAllocs = 0;
 }
 
+UniformBufferBinding UniformLinearBuffer::Allocate(void *data, size_t size)
+{
+	PROFILE_SCOPED()
+	assert(m_mapMode == BUFFER_MAP_NONE);
+	if (size > FreeSize())
+		assert(0 && "Attempt to allocate beyond UniformLinearBuffer free size!");
+
+	// XXX this is *not* fast - prefer to map the entire buffer, build command lists,
+	// then unmap (and copy) memory all at once before issuing draw commands.
+	// Requires further work.
+	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer);
+	uint32_t offset = m_size;
+	void *bufferData = glMapBufferRange(GL_UNIFORM_BUFFER, offset, size, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+	memcpy(bufferData, data, size);
+	glUnmapBuffer(GL_UNIFORM_BUFFER);
+
+	m_size += (size + MIN_BUFFER_ALIGNMENT_MASK) & ~MIN_BUFFER_ALIGNMENT_MASK;
+	m_numAllocs++;
+
+	return { this, offset, uint32_t(size) };
+}
+
 void *UniformLinearBuffer::AllocInternal(uint32_t binding, size_t size)
 {
+	PROFILE_SCOPED()
 	assert(m_mapMode == BUFFER_MAP_NONE);
 	m_mapMode = BUFFER_MAP_WRITE;
 
@@ -93,7 +125,8 @@ void *UniformLinearBuffer::AllocInternal(uint32_t binding, size_t size)
 	glBindBufferRange(GL_UNIFORM_BUFFER, binding, m_buffer, m_size, size);
 
 	// Map and invalidate the range to (hopefully) avoid implicit synchronization
-	// TODO: see if this needs to happen-before the BindBufferRange call...
+	// XXX this is *not* fast - prefer to map the entire buffer, build command lists,
+	// then unmap (and copy) memory all at once before issuing draw commands.
 	void *data = glMapBufferRange(GL_UNIFORM_BUFFER, m_size, size, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
 
 	// Consume the buffer in increments of aligned size
@@ -101,12 +134,4 @@ void *UniformLinearBuffer::AllocInternal(uint32_t binding, size_t size)
 	m_numAllocs++;
 
 	return data;
-}
-
-void UniformLinearBuffer::Unmap()
-{
-	assert(m_mapMode == BUFFER_MAP_WRITE);
-	glUnmapBuffer(GL_UNIFORM_BUFFER);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	m_mapMode = BUFFER_MAP_NONE;
 }

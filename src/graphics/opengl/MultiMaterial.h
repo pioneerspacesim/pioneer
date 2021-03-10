@@ -15,17 +15,11 @@
 namespace Graphics {
 
 	namespace OGL {
-		class MultiProgram : public Program {
-		public:
-			MultiProgram(const MaterialDescriptor &, int numLights = 0);
-			Uniform materialBlock;
-		};
 
 		class MultiMaterial : public Material { //unlit
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual Shader *CreateShader(const MaterialDescriptor &) override;
 			virtual void Apply() override;
-			virtual void Unapply() override;
 		};
 
 		/*
@@ -35,12 +29,9 @@ namespace Graphics {
 		class LitMultiMaterial : public MultiMaterial {
 		public:
 			LitMultiMaterial();
-			virtual Program *CreateProgram(const MaterialDescriptor &) override;
-			virtual void SetProgram(Program *p) override;
 			virtual void Apply() override;
 
 		private:
-			Program *m_programs[5];
 			Uint32 m_curNumLights;
 		};
 	} // namespace OGL

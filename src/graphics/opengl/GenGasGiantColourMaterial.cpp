@@ -13,6 +13,7 @@
 namespace Graphics {
 	namespace OGL {
 
+		/*
 		GenGasGiantColourProgram::GenGasGiantColourProgram(const MaterialDescriptor &desc)
 		{
 			//build some defines
@@ -134,6 +135,7 @@ namespace Graphics {
 				static_cast<TextureGL *>(texture0)->Unbind();
 			}
 		}
+		*/
 
 	} // namespace OGL
 } // namespace Graphics

@@ -12,20 +12,18 @@
 #include "Program.h"
 
 namespace Graphics {
-
 	namespace OGL {
-		///////////////////////////////////////////////////////////////////////
-		class UIProgram : public Program {
-		public:
-			UIProgram(const MaterialDescriptor &);
-		};
 
 		class UIMaterial : public Material {
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &) override final;
-			virtual void Apply() override final;
-			virtual void Unapply() override final;
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override final
+			{
+				Shader *s = new Shader("ui", desc);
+				s->AddTextureBinding("texture0", TextureType::TEXTURE_2D);
+				return s;
+			}
 		};
+
 	} // namespace OGL
 } // namespace Graphics
 

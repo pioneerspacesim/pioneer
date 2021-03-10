@@ -15,9 +15,22 @@ namespace Graphics {
 
 		class RingMaterial : public Material {
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &) override;
-			virtual void Apply() override;
-			virtual void Unapply() override;
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override
+			{
+				assert(desc.textures == 1);
+				Shader *s = new Shader("planetrings", desc);
+				m_tex0name = s->AddTextureBinding("texture0", TextureType::TEXTURE_2D);
+				return s;
+			}
+
+			virtual void Apply() override
+			{
+				SetTexture(m_tex0name, texture0);
+				Material::Apply();
+			}
+
+		private:
+			size_t m_tex0name;
 		};
 	} // namespace OGL
 } // namespace Graphics

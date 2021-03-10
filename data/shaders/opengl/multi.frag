@@ -30,11 +30,11 @@ in vec3 normal;
 #endif // HEAT_COLOURING
 #endif // (NUM_LIGHTS > 0)
 
-layout(std140) uniform MultiMaterialData {
-	vec4 lightIntensity;
-	vec3 heatingNormal;
-	float heatingAmount;
-};
+// Use raw OpenGL uniforms here similar to push constants,
+// as a payload for small per-draw data that would otherwise
+// have to go in a separate UBO
+uniform vec4 lightIntensity;
+uniform vec4 heatingNormal;
 
 out vec4 frag_color;
 
@@ -125,10 +125,10 @@ void main(void)
 	frag_color = vec4(final_color, surface.color.w);
 
 #ifdef HEAT_COLOURING
-	if (heatingAmount > 0.0)
+	if (heatingNormal.a > 0.0)
 	{
-		float dphNn = clamp(dot(heatingNormal, surface.normal), 0.0, 1.0);
-		float heatDot = heatingAmount * (dphNn * dphNn * dphNn);
+		float dphNn = clamp(dot(heatingNormal.xyz, surface.normal), 0.0, 1.0);
+		float heatDot = heatingNormal.a * (dphNn * dphNn * dphNn);
 		vec4 heatColour = texture(heatGradient, vec2(heatDot, 0.5)); //heat gradient blend
 		frag_color.rgb = frag_color.rgb + heatColour.rgb; // override surface color based on heat color
 	}

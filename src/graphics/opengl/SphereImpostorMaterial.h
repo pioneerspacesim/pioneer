@@ -11,16 +11,16 @@
 #include "libs.h"
 
 namespace Graphics {
-
 	namespace OGL {
 
 		class SphereImpostorMaterial : public Material {
 		public:
-			Program *CreateProgram(const MaterialDescriptor &) override
+			Shader *CreateShader(const MaterialDescriptor &desc) override
 			{
-				return new Program("billboard_sphereimpostor", "");
+				return new Shader("billboard_sphereimpostor", desc);
 			}
 		};
+
 	} // namespace OGL
 } // namespace Graphics
 #endif

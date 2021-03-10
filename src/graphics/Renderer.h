@@ -16,9 +16,9 @@
 namespace Graphics {
 
 	/*
- * Renderer base class. A Renderer draws points, lines, triangles.
- * It is also used to create render states, materials and vertex/index buffers.
- */
+	* Renderer base class. A Renderer draws points, lines, triangles.
+	* It is also used to create render states, materials and vertex/index buffers.
+	*/
 
 	class Material;
 	class MaterialDescriptor;
@@ -206,6 +206,10 @@ namespace Graphics {
 		virtual bool FrameGrab(ScreendumpState &sd) { return false; }
 
 		Stats &GetStats() { return m_stats; }
+
+		// Returns a hashed name for referring to material constant slots and other constant-size string names
+		static size_t GetName(const std::string &s);
+		static size_t GetName(const char *s);
 
 	protected:
 		int m_width;

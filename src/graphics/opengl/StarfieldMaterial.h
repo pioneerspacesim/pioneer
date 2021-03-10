@@ -8,36 +8,24 @@
  * This does nothing very special except toggle POINT_SIZE
  * The Program requires setting intensity using the generic emission parameter
  */
+#include "MaterialGL.h"
 #include "OpenGLLibs.h"
 #include "Program.h"
-#include "MaterialGL.h"
 #include "TextureGL.h"
 
 namespace Graphics {
 	namespace OGL {
+
 		class StarfieldMaterial : public Material {
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &) override
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override
 			{
-				return new Program("starfield", "");
-			}
-
-			virtual void Apply() override
-			{
-				glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
-				assert(this->texture0);
-
-				OGL::Material::Apply();
-				m_program->Use();
-				m_program->texture0.Set(this->texture0, 0);
-			}
-
-			virtual void Unapply() override
-			{
-				static_cast<TextureGL *>(texture0)->Unbind();
-				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
+				Shader *s = new Shader("starfield", desc);
+				s->AddTextureBinding("texture0", TextureType::TEXTURE_2D);
+				return s;
 			}
 		};
+
 	} // namespace OGL
 } // namespace Graphics
 

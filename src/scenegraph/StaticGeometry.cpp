@@ -90,14 +90,7 @@ namespace SceneGraph {
 				// create the "new" material with the instanced description
 				RefCountedPtr<Graphics::Material> mat(r->CreateMaterial(mdesc, it.material->GetStateDescriptor()));
 				// copy over all of the other details
-				mat->texture0 = it.material->texture0;
-				mat->texture1 = it.material->texture1;
-				mat->texture2 = it.material->texture2;
-				mat->texture3 = it.material->texture3;
-				mat->texture4 = it.material->texture4;
-				mat->texture5 = it.material->texture5;
-				mat->texture6 = it.material->texture5;
-				mat->heatGradient = it.material->heatGradient;
+				it.material->Copy(mat.Get());
 				mat->diffuse = it.material->diffuse;
 				mat->specular = it.material->specular;
 				mat->emissive = it.material->emissive;

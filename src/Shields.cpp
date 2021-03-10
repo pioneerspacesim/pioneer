@@ -11,14 +11,28 @@
 #include "graphics/Types.h"
 #include "scenegraph/CollisionGeometry.h"
 #include "scenegraph/FindNodeVisitor.h"
+#include "scenegraph/Node.h"
 #include "scenegraph/SceneGraph.h"
 #include <sstream>
 
 namespace {
+	static constexpr size_t MAX_SHIELD_HITS = 8;
+	struct ShieldData {
+		struct ShieldHitInfo {
+			vector3f hitPos;
+			float radii;
+		} hits[MAX_SHIELD_HITS];
+
+		alignas(16) float shieldStrength;
+		float shieldCooldown;
+		int numHits;
+	};
+
 	static RefCountedPtr<Graphics::Material> s_matShield;
-	static ShieldRenderParameters s_renderParams;
+	static ShieldData s_shieldRenderData;
 	static const std::string s_shieldGroupName("Shields");
 	static const std::string s_matrixTransformName("_accMtx4");
+	static const size_t s_shieldDataName = Graphics::Renderer::GetName("ShieldData");
 
 	static RefCountedPtr<Graphics::Material> GetGlobalShieldMaterial()
 	{
@@ -276,14 +290,16 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	}
 
 	// setup the render params
+	// FIXME: don't use a static variable to hold all of this
 	if (shieldStrength > 0.0f) {
-		s_renderParams.strength = shieldStrength;
-		s_renderParams.coolDown = coolDown;
+		Uint32 numHits = std::min(m_hits.size(), MAX_SHIELD_HITS);
 
-		Uint32 numHits = m_hits.size();
-		for (Uint32 i = 0; i < numHits && i < ShieldRenderParameters::MAX_SHIELD_HITS; ++i) {
+		s_shieldRenderData.numHits = numHits;
+		s_shieldRenderData.shieldStrength = shieldStrength;
+		s_shieldRenderData.shieldCooldown = coolDown;
+
+		for (Uint32 i = 0; i < numHits; ++i) {
 			const Hits &hit = m_hits[i];
-			s_renderParams.hitPos[i] = vector3f(hit.pos.x, hit.pos.y, hit.pos.z);
 
 			//Calculate the impact's radius dependant on time
 			Uint32 dif1 = hit.end - hit.start;
@@ -291,20 +307,20 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 			//Range from start (0.0) to end (1.0)
 			float dif = float(dif2 / (dif1 * 1.0f));
 
-			s_renderParams.radii[i] = dif;
+			s_shieldRenderData.hits[i].hitPos = vector3f(hit.pos.x, hit.pos.y, hit.pos.z);
+			s_shieldRenderData.hits[i].radii = dif;
 		}
-		s_renderParams.numHits = m_hits.size();
+
+		// FIXME: this is marginally doable given that we're immediately drawing and uploading the data
+		// This should really use a better system like a per-model shield material or possibly a
+		// way to bind per-frame buffer uploads in with the draw command
+		GetGlobalShieldMaterial()->SetBuffer(s_shieldDataName,
+			&s_shieldRenderData, Graphics::BUFFER_USAGE_DYNAMIC);
 	}
 
 	// update the shield visibility
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-		if (shieldStrength > 0.0f) {
-			it->m_mesh->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
-
-			GetGlobalShieldMaterial()->specialParameter0 = &s_renderParams;
-		} else {
-			it->m_mesh->SetNodeMask(0x0);
-		}
+		it->m_mesh->SetNodeMask(shieldStrength > 0.0f ? SceneGraph::NODE_TRANSPARENT : 0x0);
 	}
 }
 

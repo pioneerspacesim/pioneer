@@ -14,14 +14,12 @@
 namespace Graphics {
 
 	namespace OGL {
-		class FresnelColourProgram : public Program {
-		public:
-			FresnelColourProgram(const MaterialDescriptor &);
-		};
-
 		class FresnelColourMaterial : public Material { //unlit
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override
+			{
+				return new Shader("FresnelColour", desc);
+			}
 		};
 	} // namespace OGL
 } // namespace Graphics

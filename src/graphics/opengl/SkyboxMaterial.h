@@ -7,40 +7,32 @@
 /*
  * Renders a cube map as a skybox.
  */
+#include "MaterialGL.h"
 #include "OpenGLLibs.h"
 #include "Program.h"
-#include "MaterialGL.h"
 
 namespace Graphics {
 	namespace OGL {
-		class SkyboxMaterial : public Material {
-		private:
-		public:
-			SkyboxMaterial()
-			{
-				texture0 = nullptr;
-				fSkyboxFactor = 0.8f;
-			}
 
-			virtual Program *CreateProgram(const MaterialDescriptor &) override
+		class SkyboxMaterial : public Material {
+		public:
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override
 			{
-				return new Program("skybox", "");
+				Shader *s = new Shader("skybox", desc);
+				s->AddTextureBinding("texture0", TextureType::TEXTURE_CUBE_MAP);
+				return s;
 			}
 
 			virtual void Apply() override
 			{
 				const float em = (float(emissive.r) * 0.003921568627451f);
-				shininess = fSkyboxFactor * em;
+				// Skybox multiplier
+				shininess = 0.8 * em;
 
 				OGL::Material::Apply();
-				if (texture0) {
-					m_program->texture0.Set(texture0, 0);
-				}
 			}
-
-			// Skybox multiplier
-			float fSkyboxFactor;
 		};
+
 	} // namespace OGL
 } // namespace Graphics
 

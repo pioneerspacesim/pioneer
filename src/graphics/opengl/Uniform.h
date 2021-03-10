@@ -21,6 +21,8 @@ namespace Graphics {
 		class Uniform {
 		public:
 			Uniform();
+			Uniform(GLint location) :
+				m_location(location) {}
 			void Init(const char *name, GLuint program);
 			void InitBlock(const char *name, GLuint program, GLint binding);
 			void Set(int);
@@ -28,9 +30,7 @@ namespace Graphics {
 			void Set(const vector3f &);
 			void Set(const vector3d &);
 			void Set(const Color &);
-			void Set(const int v[3]);
-			void Set(const float x, const float y, const float z, const float w);
-			void Set(const float m[9]);
+			void Set(const Color4f &);
 			void Set(const matrix3x3f &);
 			void Set(const matrix4x4f &);
 			void Set(Texture *t, unsigned int unit);

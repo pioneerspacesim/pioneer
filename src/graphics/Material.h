@@ -77,8 +77,8 @@ namespace Graphics {
 	};
 
 	/*
- * A generic material with some generic parameters.
- */
+	 * A generic material with some generic parameters.
+	 */
 	class Material : public RefCounted {
 	public:
 		Material();
@@ -102,13 +102,28 @@ namespace Graphics {
 		virtual void Unapply() {}
 		virtual bool IsProgramLoaded() const = 0;
 
-		virtual void SetCommonUniforms(const matrix4x4f &mv, const matrix4x4f &proj) = 0;
+		virtual void Copy(Material *to) const = 0;
 
 		void *specialParameter0; //this can be whatever. Bit of a hack.
 
 		//XXX may not be necessary. Used by newmodel to check if a material uses patterns
 		const MaterialDescriptor &GetDescriptor() const { return m_descriptor; }
 		const RenderStateDesc &GetStateDescriptor() const { return m_stateDescriptor; }
+
+		virtual bool SetTexture(size_t hash, Texture *tex) = 0;
+		virtual bool SetBuffer(size_t hash, void *buffer, size_t size, BufferUsage usage) = 0;
+
+		// typed overload of SetBuffer
+		template <typename T>
+		bool SetBuffer(size_t hash, T *buffer, BufferUsage usage) { return SetBuffer(hash, buffer, sizeof(T), usage); }
+
+		virtual bool SetPushConstant(size_t hash, int i) = 0;
+		virtual bool SetPushConstant(size_t hash, float f) = 0;
+		virtual bool SetPushConstant(size_t hash, vector3f v3) = 0;
+		virtual bool SetPushConstant(size_t hash, vector3f v4, float f4) = 0;
+		virtual bool SetPushConstant(size_t hash, Color c) = 0;
+		virtual bool SetPushConstant(size_t hash, matrix3x3f mat3) = 0;
+		virtual bool SetPushConstant(size_t hash, matrix4x4f mat4) = 0;
 
 	protected:
 		MaterialDescriptor m_descriptor;

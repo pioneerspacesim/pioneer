@@ -12,17 +12,17 @@
 
 namespace Graphics {
 	namespace OGL {
-		class GasGiantProgram : public Program {
-		public:
-			GasGiantProgram(const std::string &filename, const std::string &defines);
-			Uniform materialDataBlock;
-		};
 
 		class GasGiantSurfaceMaterial : public Material {
 		public:
-			GasGiantSurfaceMaterial();
-			virtual Program *CreateProgram(const MaterialDescriptor &) override;
-			virtual void SetProgram(Program *p) override;
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override
+			{
+				Shader *s = new Shader("gassphere_base", desc);
+				s->AddBufferBinding("GasSphereData");
+				s->AddTextureBinding("texture0", TextureType::TEXTURE_CUBE_MAP);
+				return s;
+			}
+
 			virtual void Apply() override;
 
 		protected:
@@ -30,9 +30,8 @@ namespace Graphics {
 			// We actually have multiple programs at work here, one compiled for each of the number of shadows.
 			// They are chosen/created based on what the current parameters passed in by the specialParameter0 are.
 			void SwitchShadowVariant();
-			Program *m_programs[4]; // 0 to 3 shadows
-			Uint32 m_curNumShadows;
 		};
+
 	} // namespace OGL
 } // namespace Graphics
 #endif

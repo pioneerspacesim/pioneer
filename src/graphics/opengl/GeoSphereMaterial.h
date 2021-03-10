@@ -12,41 +12,48 @@
 
 namespace Graphics {
 	namespace OGL {
-		class GeoSphereProgram : public Program {
-		public:
-			GeoSphereProgram(const std::string &filename, const std::string &defines);
 
-			Uniform materialDataBlock;
-		};
-
-		class GeoSphereSurfaceMaterial : public Material {
+		class GeoSphereBaseMaterial : public Material {
 		public:
-			GeoSphereSurfaceMaterial();
-			virtual Program *CreateProgram(const MaterialDescriptor &) override;
-			virtual void SetProgram(Program *p) override;
 			virtual void Apply() override;
-			virtual void Unapply() override;
 
 		protected:
 			void SetGSUniforms();
 			// We actually have multiple programs at work here, one compiled for each of the number of shadows.
 			// They are chosen/created based on what the current parameters passed in by the specialParameter0 are.
 			void SwitchShadowVariant();
-			Program *m_programs[4]; // 0 to 3 shadows
-			Uint32 m_curNumShadows;
 		};
 
-		class GeoSphereSkyMaterial : public GeoSphereSurfaceMaterial {
+		class GeoSphereSurfaceMaterial : public GeoSphereBaseMaterial {
 		public:
-			GeoSphereSkyMaterial();
-			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override
+			{
+				Shader *s = new Shader("geosphere_terrain", desc);
+				s->AddTextureBinding("texture0", TextureType::TEXTURE_2D);
+				s->AddTextureBinding("texture1", TextureType::TEXTURE_2D);
+				s->AddBufferBinding("GeoSphereData");
+				return s;
+			}
 		};
 
-		class GeoSphereStarMaterial : public Material {
+		class GeoSphereSkyMaterial : public GeoSphereBaseMaterial {
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &) override;
-			virtual void Apply() override;
-			virtual void Unapply() override;
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override
+			{
+				Shader *s = new Shader("geosphere_sky", desc);
+				s->AddBufferBinding("GeoSphereData");
+				return s;
+			}
+		};
+
+		class GeoSphereStarMaterial : public GeoSphereBaseMaterial {
+		public:
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override
+			{
+				Shader *s = new Shader("geosphere_star", desc);
+				s->AddBufferBinding("GeoSphereData");
+				return s;
+			}
 		};
 
 	} // namespace OGL

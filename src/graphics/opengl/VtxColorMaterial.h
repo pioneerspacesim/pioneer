@@ -14,15 +14,15 @@
 namespace Graphics {
 
 	namespace OGL {
-		class VtxColorProgram : public Program {
-		public:
-			VtxColorProgram(const MaterialDescriptor &);
-		};
 
 		class VtxColorMaterial : public Material {
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &) override final;
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override final
+			{
+				return new Shader("vtxColor", desc);
+			}
 		};
+
 	} // namespace OGL
 } // namespace Graphics
 

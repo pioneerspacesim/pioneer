@@ -24,7 +24,19 @@ namespace Graphics {
 			virtual void Unapply() override {}
 			virtual bool IsProgramLoaded() const override final { return false; }
 			virtual void SetProgram(Program *p) {}
-			virtual void SetCommonUniforms(const matrix4x4f &mv, const matrix4x4f &proj) override {}
+
+			virtual void Copy(Graphics::Material *other) const override{};
+
+			virtual bool SetTexture(size_t name, Texture *tex) override { return false; }
+			virtual bool SetBuffer(size_t name, void *buffer, size_t size, BufferUsage usage) override { return false; }
+
+			virtual bool SetPushConstant(size_t name, int i) override { return false; }
+			virtual bool SetPushConstant(size_t name, float f) override { return false; }
+			virtual bool SetPushConstant(size_t name, vector3f v3) override { return false; }
+			virtual bool SetPushConstant(size_t name, vector3f v4, float f4) override { return false; }
+			virtual bool SetPushConstant(size_t name, Color c) override { return false; }
+			virtual bool SetPushConstant(size_t name, matrix3x3f mat3) override { return false; }
+			virtual bool SetPushConstant(size_t name, matrix4x4f mat4) override { return false; }
 		};
 	} // namespace Dummy
 } // namespace Graphics

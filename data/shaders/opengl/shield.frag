@@ -8,16 +8,11 @@ in vec3 varyingEyepos;
 in vec3 varyingNormal;
 in vec3 varyingVertex;
 
-struct ShieldHitInfo {
-	vec3 hitPos;
-	float radii;
-};
-
 layout(std140) uniform ShieldData {
-	ShieldHitInfo hits[MAX_SHIELD_HITS];
 	float shieldStrength;
 	float shieldCooldown;
 	int numHits;
+	vec4 hits[8];
 };
 
 const vec4 red = vec4(1.0, 0.5, 0.5, 0.5);
@@ -26,16 +21,14 @@ const vec4 hitColour = vec4(1.0, 0.5, 0.5, 1.0);
 
 out vec4 frag_color;
 
-float calcIntensity(in ShieldHitInfo hit)
+float calcIntensity(in vec4 hit)
 {
-	vec3 current_position = hit.hitPos;
-	float life = hit.radii;
-	float radius = 50.0 * life;
-	vec3 dif = varyingVertex - current_position;
-
+	// hit is encoded as { <pos>, life }
+	float radius = 50.0 * hit.w;
+	vec3 dif = varyingVertex - hit.xyz;
 	float sqrDist = dot(dif,dif);
 
-	return clamp(1.0/sqrDist*radius, 0.0, 0.9) * (1.0 - life);
+	return clamp(1.0/sqrDist*radius, 0.0, 0.9) * (1.0 - hit.w);
 }
 
 void main(void)

@@ -58,26 +58,43 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	mat->emissive = mdef.emissive;
 	mat->shininess = mdef.shininess;
 
+	const static size_t s_tex0name = Graphics::Renderer::GetName("texture0");
+	const static size_t s_tex1name = Graphics::Renderer::GetName("texture1");
+	const static size_t s_tex2name = Graphics::Renderer::GetName("texture2");
+	const static size_t s_tex3name = Graphics::Renderer::GetName("texture3");
+	const static size_t s_tex6name = Graphics::Renderer::GetName("texture6");
+
 	//semitransparent material
 	//the node must be marked transparent when using this material
 	//and should not be mixed with opaque materials
 	if (mdef.opacity < 100)
 		mat->diffuse.a = (float(mdef.opacity) / 100.f) * 255;
 
+	Graphics::Texture *texture0 = nullptr;
+	Graphics::Texture *texture1 = nullptr;
+	Graphics::Texture *texture2 = nullptr;
+	Graphics::Texture *texture3 = nullptr;
+	Graphics::Texture *texture6 = nullptr;
 	if (!diffTex.empty())
-		mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
+		texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
 	else
-		mat->texture0 = Graphics::TextureBuilder::GetWhiteTexture(m_renderer);
+		texture0 = Graphics::TextureBuilder::GetWhiteTexture(m_renderer);
 	if (!specTex.empty())
-		mat->texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
+		texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
 	if (!glowTex.empty())
-		mat->texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
+		texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
 	if (!ambiTex.empty())
-		mat->texture3 = Graphics::TextureBuilder::Model(ambiTex).GetOrCreateTexture(m_renderer, "model");
+		texture3 = Graphics::TextureBuilder::Model(ambiTex).GetOrCreateTexture(m_renderer, "model");
 	//texture4 is reserved for pattern
 	//texture5 is reserved for color gradient
 	if (!normTex.empty())
-		mat->texture6 = Graphics::TextureBuilder::Normal(normTex).GetOrCreateTexture(m_renderer, "model");
+		texture6 = Graphics::TextureBuilder::Normal(normTex).GetOrCreateTexture(m_renderer, "model");
+
+	mat->SetTexture(s_tex0name, texture0);
+	mat->SetTexture(s_tex1name, texture1);
+	mat->SetTexture(s_tex2name, texture2);
+	mat->SetTexture(s_tex3name, texture3);
+	mat->SetTexture(s_tex6name, texture6);
 
 	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));
 }

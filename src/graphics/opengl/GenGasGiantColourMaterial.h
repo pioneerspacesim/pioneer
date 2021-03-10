@@ -35,6 +35,7 @@ namespace Graphics {
 			GEN_URANUS_TEXTURE
 		};
 
+		/*
 		class GenGasGiantColourProgram : public Program {
 		public:
 			GenGasGiantColourProgram(const MaterialDescriptor &);
@@ -57,6 +58,8 @@ namespace Graphics {
 			virtual void Apply() override final;
 			virtual void Unapply() override final;
 		};
+		*/
+
 	} // namespace OGL
 } // namespace Graphics
 

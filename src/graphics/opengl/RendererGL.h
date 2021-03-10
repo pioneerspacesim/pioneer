@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "graphics/Material.h"
 #ifndef _RENDERER_OGL_H
 #define _RENDERER_OGL_H
 
@@ -29,7 +30,7 @@ namespace Graphics {
 		class Material;
 		class MultiMaterial;
 		class LitMultiMaterial;
-		class Program;
+		class Shader;
 		class RenderState;
 		class RenderTarget;
 		class RingMaterial;
@@ -99,11 +100,14 @@ namespace Graphics {
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) override final;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override final;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override final;
+		OGL::UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage);
 		virtual MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) override final;
 		virtual MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) override final;
 
 		OGL::UniformBuffer *GetLightUniformBuffer();
 		OGL::UniformLinearBuffer *GetDrawUniformBuffer(Uint32 size);
+
+		OGL::Shader *GetCachedShader(EffectType type);
 
 		virtual bool ReloadShaders() override final;
 
@@ -126,12 +130,10 @@ namespace Graphics {
 		bool m_useCompressedTextures;
 		bool m_useAnisotropicFiltering;
 
-		void SetMaterialShaderTransforms(Material *);
-
 		matrix4x4f &GetCurrentTransform() { return m_currentTransform; }
 		matrix4x4f m_currentTransform;
 
-		OGL::Program *GetOrCreateProgram(OGL::Material *);
+		/*
 		friend class OGL::Material;
 		friend class OGL::GasGiantSurfaceMaterial;
 		friend class OGL::GeoSphereSurfaceMaterial;
@@ -144,8 +146,10 @@ namespace Graphics {
 		friend class OGL::FresnelColourMaterial;
 		friend class OGL::ShieldMaterial;
 		friend class OGL::BillboardMaterial;
+		*/
 
-		std::vector<std::pair<MaterialDescriptor, OGL::Program *>> m_programs;
+		// TODO: cache shader filepaths and remove EffectType completely
+		std::vector<std::pair<EffectType, OGL::Shader *>> m_shaders;
 		std::vector<std::unique_ptr<OGL::UniformLinearBuffer>> m_drawUniformBuffers;
 		RefCountedPtr<OGL::UniformBuffer> m_lightUniformBuffer;
 		bool m_useNVDepthRanged;

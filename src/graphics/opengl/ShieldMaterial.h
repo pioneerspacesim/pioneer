@@ -14,18 +14,15 @@
 namespace Graphics {
 
 	namespace OGL {
-		static const Sint32 MAX_SHIELD_HITS = 5; // Also defined in Ship.h
-
-		class ShieldProgram : public Program {
-		public:
-			ShieldProgram(const MaterialDescriptor &);
-			Uniform hitInfoBlock;
-		};
 
 		class ShieldMaterial : public Material { //unlit
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &) override;
-			virtual void Apply() override;
+			virtual Shader *CreateShader(const MaterialDescriptor &desc) override
+			{
+				Shader *s = new Shader("shield", desc);
+				s->AddBufferBinding("ShieldData");
+				return s;
+			}
 		};
 	} // namespace OGL
 } // namespace Graphics

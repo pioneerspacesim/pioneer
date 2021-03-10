@@ -39,6 +39,11 @@ HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 const double Ship::DEFAULT_LIFT_TO_DRAG_RATIO = 0.001;
 
+namespace {
+	size_t s_heatingNormalParam;
+	size_t s_heatGradientTexParam;
+} // namespace
+
 Ship::Ship(const ShipType::Id &shipId) :
 	DynamicBody(),
 	m_controller(0),
@@ -328,12 +333,17 @@ void Ship::InitEquipSet()
 
 void Ship::InitMaterials()
 {
+	s_heatingNormalParam = Graphics::Renderer::GetName("heatingNormal");
+	s_heatGradientTexParam = Graphics::Renderer::GetName("heatGradient");
+
 	SceneGraph::Model *pModel = GetModel();
 	assert(pModel);
+
+	Graphics::Texture *tex = Graphics::TextureBuilder::Decal("textures/heat_gradient.dds").GetOrCreateTexture(Pi::renderer, "model");
 	const Uint32 numMats = pModel->GetNumMaterials();
 	for (Uint32 m = 0; m < numMats; m++) {
 		RefCountedPtr<Graphics::Material> mat = pModel->GetMaterialByIndex(m);
-		mat->heatGradient = Graphics::TextureBuilder::Decal("textures/heat_gradient.dds").GetOrCreateTexture(Pi::renderer, "model");
+		mat->SetTexture(s_heatGradientTexParam, tex);
 		mat->specialParameter0 = &s_heatGradientParams;
 	}
 	s_heatGradientParams.heatingAmount = 0.0f;
@@ -1491,8 +1501,12 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	// transpose the interpolated orient to convert velocity into shipspace, then into view space
 	// FIXME: this produces a vector oriented to the top of the ship when velocity is forward.
-	s_heatGradientParams.heatingNormal = matrix3x3f(viewTransform.GetOrient()).Inverse().Transpose() * vector3f(GetVelocity().Normalized());
-	s_heatGradientParams.heatingAmount = Clamp(GetHullTemperature(), 0.0, 1.0);
+	vector3f heatingNormal = matrix3x3f(viewTransform.GetOrient()).Inverse().Transpose() * vector3f(GetVelocity().Normalized());
+	float heatingAmount = Clamp(GetHullTemperature(), 0.0, 1.0);
+
+	for (Uint32 m = 0; m < GetModel()->GetNumMaterials(); m++) {
+		GetModel()->GetMaterialByIndex(m)->SetPushConstant(s_heatingNormalParam, heatingNormal, heatingAmount);
+	}
 
 	// This has to be done per-model with a shield and just before it's rendered
 	const bool shieldsVisible = m_shieldCooldown > 0.01f && m_stats.shield_mass_left > (m_stats.shield_mass / 100.0f);

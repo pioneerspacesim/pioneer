@@ -33,7 +33,15 @@ namespace Graphics {
 			Mappable *m_map;
 		};
 
-		class UniformBuffer : public Mappable, GLBufferBase {
+		class UniformBuffer;
+
+		struct UniformBufferBinding {
+			UniformBuffer *buffer;
+			uint32_t offset;
+			uint32_t size;
+		};
+
+		class UniformBuffer : public Mappable, public GLBufferBase {
 		public:
 			UniformBuffer(uint32_t size, BufferUsage usage);
 			~UniformBuffer();
@@ -57,6 +65,7 @@ namespace Graphics {
 			void BufferData(const size_t, void *);
 
 			void Bind(uint32_t binding);
+			void BindRange(uint32_t binding, uint32_t offset, uint32_t range);
 			void Release();
 
 		protected:
@@ -68,7 +77,7 @@ namespace Graphics {
 			Call Allocate to reserve and map a subrange of the buffer for code to write into once.
 			All allocations are reset at the start of the next frame.
 		*/
-		class UniformLinearBuffer : public Mappable, GLBufferBase {
+		class UniformLinearBuffer : public UniformBuffer {
 		public:
 			UniformLinearBuffer(uint32_t maxSize);
 			~UniformLinearBuffer();
@@ -80,7 +89,6 @@ namespace Graphics {
 			uint32_t FreeSize() const { return m_capacity - m_size; }
 			uint32_t NumAllocs() const { return m_numAllocs; }
 			void Reset();
-			void Unmap() override;
 
 			template <typename T>
 			ScopedMapping<T> Allocate(uint32_t binding)
@@ -89,7 +97,13 @@ namespace Graphics {
 				return ScopedMapping<T>(AllocInternal(binding, sizeof(T)), this);
 			}
 
+			UniformBufferBinding Allocate(void *data, size_t size);
+
 		protected:
+			// protect some methods we don't want to allow public access to
+			using UniformBuffer::BufferData;
+			using UniformBuffer::Map;
+
 			void *AllocInternal(uint32_t binding, size_t size);
 			uint32_t m_numAllocs;
 		};

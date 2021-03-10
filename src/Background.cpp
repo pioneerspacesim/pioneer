@@ -87,6 +87,7 @@ namespace Background {
 	{
 	}
 
+	static size_t s_texture0Name = Graphics::Renderer::GetName("texture0");
 	void UniverseBox::Init()
 	{
 		// Load default cubemap
@@ -147,7 +148,6 @@ namespace Background {
 		stateDesc.depthTest = false;
 		stateDesc.depthWrite = false;
 		m_material.Reset(m_renderer->CreateMaterial(desc, stateDesc));
-		m_material->texture0 = nullptr;
 
 		//create buffer and upload data
 		Graphics::VertexBufferDesc vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
@@ -172,7 +172,7 @@ namespace Background {
 
 	void UniverseBox::Draw()
 	{
-		if (m_material->texture0)
+		if (m_cubemap.Valid())
 			m_renderer->DrawMesh(m_universeBox.get(), m_material.Get());
 	}
 
@@ -185,13 +185,13 @@ namespace Background {
 				const std::string os = stringf("textures/skybox/ub%0{d}.dds", (new_ubox_index - 1));
 				TextureBuilder texture_builder = TextureBuilder::Cube(os.c_str());
 				m_cubemap.Reset(texture_builder.GetOrCreateTexture(m_renderer, std::string("cube")));
-				m_material->texture0 = m_cubemap.Get();
 			}
 		} else {
 			// use default cubemap
-			m_cubemap.Reset();
-			m_material->texture0 = s_defaultCubeMap.Get();
+			m_cubemap.Reset(s_defaultCubeMap.Get());
 		}
+
+		m_material->SetTexture(s_texture0Name, m_cubemap.Get());
 	}
 
 	Starfield::Starfield(Graphics::Renderer *renderer, Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy)
@@ -210,14 +210,17 @@ namespace Background {
 		desc.effect = Graphics::EFFECT_STARFIELD;
 		desc.textures = 1;
 		desc.vertexColors = true;
+
 		Graphics::RenderStateDesc stateDesc;
 		stateDesc.depthTest = false;
 		stateDesc.depthWrite = false;
 		stateDesc.blendMode = Graphics::BLEND_ALPHA;
 		stateDesc.primitiveType = Graphics::POINTS;
+
 		m_material.Reset(m_renderer->CreateMaterial(desc, stateDesc));
+		Graphics::Texture *texture = Graphics::TextureBuilder::Billboard("textures/star_point_2.png").GetOrCreateTexture(m_renderer, "billboard");
+		m_material->SetTexture(Graphics::Renderer::GetName("texture0"), texture);
 		m_material->emissive = Color::WHITE;
-		m_material->texture0 = Graphics::TextureBuilder::Billboard("textures/star_point_2.png").GetOrCreateTexture(m_renderer, "billboard");
 
 		// Create material to be used with hyperjump 'star streaks'
 		Graphics::MaterialDescriptor descStreaks;
