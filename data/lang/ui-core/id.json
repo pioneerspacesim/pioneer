@@ -409,7 +409,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "menyimpan status saat menggalangkan, mungkin menyebabkan beberapa kelambatan tergantung pada waktu akses disk"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -749,11 +749,11 @@
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
-    "message": "Flyby view"
+    "message": "Tampilan terbang"
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
-    "message": "Hyperdrive disabled"
+    "message": "Hyperdrive dinonaktifkan"
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
@@ -1825,7 +1825,7 @@
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "This is a difficult start from the System Administration Resting prison station."
+    "message": "Ini adalah awal yang sulit dari stasiun penjara Peristirahatan Administrasi Sistem."
   },
   "START_AT_EARTH": {
     "description": "",
@@ -1889,7 +1889,7 @@
   },
   "STATION_ORBIT": {
     "description": "Information shown in the station loby",
-    "message": "We are in a {orbit_period} day period orbit around {parent_body}."
+    "message": "Kami berada dalam periode {orbit_period} hari, mengorbit di sekitar {parent_body}."
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",

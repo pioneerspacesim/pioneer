@@ -85,7 +85,7 @@
   },
   "DENY_6": {
     "description": "",
-    "message": "I have never heard of you. I need someone experienced for this journey."
+    "message": "Saya belum pernah mendengar tentang Anda. Saya membutuhkan seseorang yang berpengalaman untuk perjalanan ini."
   },
   "DENY_7": {
     "description": "",
@@ -357,7 +357,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "WANTED: Passage to {system} system. Will pay {cash}."
+    "message": "DICARI: Perjalanan ke sistem {system}. Akan dibayar {cash}."
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
@@ -561,7 +561,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Tetapkan sebagai target navigasi"
   },
   "TAXI": {
     "description": "",
