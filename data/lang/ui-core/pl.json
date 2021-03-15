@@ -229,7 +229,7 @@
   },
   "CONTRACT_FRAUD": {
     "description": "Crime committed by intentionally breaking a contract",
-    "message": "Contract fraud"
+    "message": "Oszustwo kontraktowe"
   },
   "CONTROLS": {
     "description": "",
@@ -529,7 +529,7 @@
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
-    "message": "Finance"
+    "message": "Finanse"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
@@ -1313,7 +1313,7 @@
   },
   "MINIMAL_TRADE": {
     "description": "Indicates a system does not have a significant amount of trade in a commodity.",
-    "message": "Minimal Trade"
+    "message": "Minimalny handel"
   },
   "MINIMUM_CREW": {
     "description": "",
@@ -1593,7 +1593,7 @@
   },
   "PROFITABLE_TRADE": {
     "description": "Indicates a profitable trade route.",
-    "message": "Profitable Trade"
+    "message": "Opłacalny handel"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1701,7 +1701,7 @@
   },
   "ROTATE_VIEW": {
     "description": "Indicates that the button must be kept pressed down, to rotate camera view with mouse",
-    "message": "Hold down to Rotate view"
+    "message": "Przytrzymaj, aby obrócić widok"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
@@ -1977,7 +1977,7 @@
   },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
-    "message": "From {system}:"
+    "message": "Z {system}:"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
@@ -1985,7 +1985,7 @@
   },
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
-    "message": "To {system}:"
+    "message": "Do {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -2001,7 +2001,7 @@
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
-    "message": "Unprofitable Trade"
+    "message": "Nieopłacalny handel"
   },
   "UNRELIABLE": {
     "description": "",

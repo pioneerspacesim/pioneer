@@ -145,51 +145,51 @@
   },
   "SPOILED_FOOD": {
     "description": "cargo item",
-    "message": "Spoiled food"
+    "message": "Zepsuta żywność"
   },
   "SUCCESS_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "Hey Ace, nice flying! Money has been transferred."
+    "message": "Hej, Asie, nieźle latasz! Pieniądze przelane."
   },
   "SUCCESS_MSG_RESCUE": {
     "description": "",
-    "message": "Thank you very much! The crew would also like to express their thanks."
+    "message": "Wielkie dzięki! Załoga również chciałaby wyrazić wdzięczność."
   },
   "TOXIC_WASTE": {
     "description": "cargo item",
-    "message": "Toxic waste"
+    "message": "Toksyczne odpady"
   },
   "UNKNOWN": {
     "description": "",
-    "message": "Unknown"
+    "message": "Nieznane"
   },
   "WARNING": {
     "description": "",
-    "message": "Hey! What are you trying to do? Our contract is at risk! Please pick that up again!"
+    "message": "Hej! Co próbujesz zrobić? Nasz kontrakt jest zagrożony! Podejmij to z powrotem!"
   },
   "WHY_NOT_YOURSELF": {
     "description": "",
-    "message": "Why don't you do it yourself?"
+    "message": "Dlaczego samemu tego nie zrobisz?"
   },
   "WHY_NOT_YOURSELF_ARMS_DEALER": {
     "description": "",
-    "message": "The local authorities are watching me! I have to keep a low profile for a few weeks."
+    "message": "Lokalne władze mnie obserwują! Przez kilka tygodni muszę nie rzucać się w oczy."
   },
   "WHY_NOT_YOURSELF_ILLEGAL_GOODS": {
     "description": "",
-    "message": "I'm just an office clerk. I don't own a ship."
+    "message": "Jestem tylko urzędnikiem biurowym. Nie mam statku."
   },
   "WHY_NOT_YOURSELF_LEGAL_GOODS": {
     "description": "",
-    "message": "I don't have a ship."
+    "message": "Nie mam statku."
   },
   "WHY_NOT_YOURSELF_RESCUE": {
     "description": "",
-    "message": "I have no ship available at this time."
+    "message": "Nie mam teraz dostępu do statku."
   },
   "YOU_DO_NOT_HAVE_A_SCOOP": {
     "description": "",
-    "message": "Sorry, you do not have a cargo scoop."
+    "message": "Przykro mi, nie masz czerpaka towarowego."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
     "description": "",
