@@ -148,6 +148,7 @@ list(REMOVE_ITEM PIONEER_CXX_FILES
 	src/tests.cpp
 	src/textstress.cpp
 	src/uitest.cpp
+	src/graphics/parsertest.cpp
 )
 
 list(APPEND FILESYSTEM_CXX_FILES)
@@ -292,6 +293,7 @@ link_directories(
 
 add_executable(${PROJECT_NAME} WIN32 src/main.cpp ${RESOURCES})
 add_executable(modelcompiler src/modelcompiler.cpp)
+add_executable(shaderparser src/graphics/parsertest.cpp)
 add_executable(savegamedump
 	src/savegamedump.cpp
 	src/JsonUtils.cpp
@@ -341,9 +343,10 @@ endif (WIN32)
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
+target_link_libraries(shaderparser LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(savegamedump LINK_PRIVATE pioneer-core ${SDL2_IMAGE_LIBRARIES} ${winLibs})
 
-set_cxx_properties(${PROJECT_NAME} modelcompiler savegamedump)
+set_cxx_properties(${PROJECT_NAME} modelcompiler shaderparser savegamedump)
 
 if(MSVC)
 	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

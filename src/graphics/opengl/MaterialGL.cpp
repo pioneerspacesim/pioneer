@@ -4,6 +4,7 @@
 #include "MaterialGL.h"
 #include "Program.h"
 #include "RendererGL.h"
+#include "Shader.h"
 #include "core/Log.h"
 #include "graphics/Material.h"
 

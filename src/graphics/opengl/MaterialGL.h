@@ -29,7 +29,6 @@ namespace Graphics {
 
 		class Shader;
 		class Program;
-		class UniformBuffer;
 
 		class Material : public Graphics::Material {
 		public:

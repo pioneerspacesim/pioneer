@@ -84,5 +84,6 @@ result
 # Don't track C++ language server cache files.
 .ccls-cache
 .clangd/
+.cache/
 .vscode/
 *.code-workspace

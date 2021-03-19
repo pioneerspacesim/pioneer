@@ -8,7 +8,7 @@
  */
 #include "MaterialGL.h"
 #include "OpenGLLibs.h"
-#include "Program.h"
+#include "Shader.h"
 
 namespace Graphics {
 	namespace OGL {

@@ -6,9 +6,8 @@
  * Billboard sphere impostor
  */
 #include "MaterialGL.h"
-#include "Program.h"
 #include "RendererGL.h"
-#include "libs.h"
+#include "Shader.h"
 
 namespace Graphics {
 	namespace OGL {

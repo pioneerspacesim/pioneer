@@ -20,6 +20,7 @@
 #include "MaterialGL.h"
 #include "Program.h"
 #include "RenderTargetGL.h"
+#include "Shader.h"
 #include "TextureGL.h"
 #include "UniformBuffer.h"
 #include "VertexBufferGL.h"

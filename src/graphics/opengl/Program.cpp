@@ -3,6 +3,7 @@
 
 #include "Program.h"
 #include "FileSystem.h"
+#include "Shader.h"
 #include "StringF.h"
 #include "StringRange.h"
 #include "graphics/Graphics.h"
@@ -162,12 +163,12 @@ namespace Graphics {
 #endif
 				shader = glCreateShader(type);
 				if (glIsShader(shader) != GL_TRUE)
-					throw ShaderException();
+					throw ShaderCompileException();
 
 				Compile(shader);
 
 				if (!check_glsl_errors(filename.c_str(), shader))
-					throw ShaderException();
+					throw ShaderCompileException();
 			};
 
 			~ShaderProgram()
@@ -309,250 +310,6 @@ namespace Graphics {
 			}
 
 			Unuse();
-		}
-
-		// ====================================================================
-		// Shader Setup and Creation
-		//
-
-		Shader::Shader() :
-			m_name(""),
-			m_constantStorageSize(0)
-		{}
-
-		Shader::Shader(const std::string &name, const MaterialDescriptor &desc) :
-			m_name(name),
-			m_constantStorageSize(0)
-		{
-			InitUniforms();
-		}
-
-		Shader::~Shader()
-		{
-			while (!m_variants.empty()) {
-				delete m_variants.back().second;
-				m_variants.pop_back();
-			}
-		}
-
-		void Shader::InitUniforms()
-		{
-			PROFILE_SCOPED()
-
-			// The LightData and DrawData bindings will always be in slot 0 and 1
-			AddBufferBinding("LightData");
-			AddBufferBinding("DrawData");
-		}
-
-		Program *Shader::GetProgramForDesc(const MaterialDescriptor &desc)
-		{
-			for (auto &pair : m_variants)
-				if (pair.first == desc)
-					return pair.second;
-
-			Program *program = LoadProgram(desc);
-			if (program->Loaded())
-				m_variants.push_back({ desc, LoadProgram(desc) });
-
-			return program;
-		}
-
-		void Shader::Reload()
-		{
-			// FIXME: reload the shader definition file and regenerate
-			// binding points. This is probably not doable without some
-			// way to also track and reload all materials using this shader
-			// (as they will need to have their data store reallocated as well)
-
-			// For right now, simply reload the underlying shader program
-			// source from disk and recompile; changes to the data interface
-			// will require a program restart
-			for (auto &variant : m_variants) {
-				// TODO: load info from shaderdef file
-				std::string filename = std::string("shaders/opengl/") + m_name;
-				ProgramDef def{
-					m_name,
-					filename + ".vert",
-					filename + ".frag",
-					GetProgramDefines(variant.first)
-				};
-
-				variant.second->Reload(this, def);
-			}
-		}
-
-		Program *Shader::LoadProgram(const MaterialDescriptor &desc)
-		{
-			// TODO: load info from shaderdef file
-			std::string filename = std::string("shaders/opengl/") + m_name;
-			ProgramDef def{
-				m_name,
-				filename + ".vert",
-				filename + ".frag",
-				GetProgramDefines(desc)
-			};
-
-			return new Program(this, def);
-		}
-
-		std::string Shader::GetProgramDefines(const MaterialDescriptor &desc)
-		{
-			//build some defines
-			std::stringstream ss;
-
-			ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
-			ss << stringf("#define NUM_SHADOWS %0{u}\n", desc.numShadows);
-			if (desc.lighting && desc.dirLights > 0)
-				ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", 1.0f / float(desc.dirLights));
-
-			if (desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA)
-				ss << "#define TERRAIN_WITH_LAVA\n";
-			if (desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_WATER)
-				ss << "#define TERRAIN_WITH_WATER\n";
-			if (desc.effect == EFFECT_BILLBOARD_ATLAS)
-				ss << "#define USE_SPRITE_ATLAS\n";
-
-			if (desc.textures > 0)
-				ss << "#define TEXTURE0\n";
-			if (desc.vertexColors)
-				ss << "#define VERTEXCOLOR\n";
-			if (desc.alphaTest)
-				ss << "#define ALPHA_TEST\n";
-
-			if (desc.normalMap && desc.lighting && desc.dirLights > 0)
-				ss << "#define MAP_NORMAL\n";
-			if (desc.specularMap)
-				ss << "#define MAP_SPECULAR\n";
-			if (desc.glowMap)
-				ss << "#define MAP_EMISSIVE\n";
-			if (desc.ambientMap)
-				ss << "#define MAP_AMBIENT\n";
-			if (desc.usePatterns)
-				ss << "#define MAP_COLOR\n";
-
-			if (desc.quality & HAS_ATMOSPHERE)
-				ss << "#define ATMOSPHERE\n";
-			if (desc.quality & HAS_HEAT_GRADIENT)
-				ss << "#define HEAT_COLOURING\n";
-			if (desc.quality & HAS_ECLIPSES)
-				ss << "#define ECLIPSE\n";
-
-			if (desc.instanced)
-				ss << "#define USE_INSTANCING\n";
-
-			return ss.str();
-		}
-
-		// ====================================================================
-		// Shader Reflection Information
-		//
-
-		uint32_t CalcSize(ConstantDataFormat format)
-		{
-			using CD = ConstantDataFormat;
-			switch (format) {
-			case CD::DATA_FORMAT_INT:
-			case CD::DATA_FORMAT_FLOAT:
-				return 4;
-			case CD::DATA_FORMAT_FLOAT3:
-				return 4 * 3;
-			case CD::DATA_FORMAT_FLOAT4:
-				return 4 * 4;
-			case CD::DATA_FORMAT_MAT3:
-				return 4 * 12;
-			case CD::DATA_FORMAT_MAT4:
-				return 4 * 16;
-			default:
-				assert(false);
-				return 0;
-			}
-		}
-
-		uint32_t CalcOffset(uint32_t last, ConstantDataFormat lastFormat, ConstantDataFormat thisFormat)
-		{
-			using CD = ConstantDataFormat;
-			if (thisFormat == CD::DATA_FORMAT_INT || thisFormat == CD::DATA_FORMAT_FLOAT)
-				// float and integer types align to 1n, where n is the size of the underlying type.
-				// Because we're only dealing with increments of 1n, they're already aligned
-				return last + CalcSize(lastFormat);
-			else {
-				// OpenGL requires uniform buffers to align vec and mat elements to increments of 4n,
-				// where n is the size of the underlying type.
-				// To preserve forwards compatibility, follow these alignment rules.
-				constexpr uint32_t ALIGNMENT = 16 - 1;
-				uint32_t offset = last + CalcSize(lastFormat);
-				offset = (offset + ALIGNMENT) & ~ALIGNMENT;
-				return offset;
-			}
-		}
-
-		size_t Shader::AddBufferBinding(const std::string &name)
-		{
-			size_t hash = Renderer::GetName(name);
-			GLuint binding = m_bufferBindingInfo.size();
-			m_bufferBindingInfo.push_back({ hash, binding, 0 });
-			m_nameMap[hash] = name;
-			return hash;
-		}
-
-		size_t Shader::AddTextureBinding(const std::string &name, TextureType type)
-		{
-			size_t hash = Renderer::GetName(name);
-			GLuint binding = m_textureBindingInfo.size();
-			m_textureBindingInfo.push_back({ hash, binding, type });
-			m_nameMap[hash] = name;
-			return hash;
-		}
-
-		size_t Shader::AddConstantBinding(const std::string &name, ConstantDataFormat format)
-		{
-			size_t hash = Renderer::GetName(name);
-			GLuint binding = m_pushConstantInfo.size();
-			GLuint offset = 0;
-			if (m_pushConstantInfo.size()) {
-				auto &lastConstant = m_pushConstantInfo.back();
-				offset = CalcOffset(lastConstant.offset, lastConstant.format, format);
-			}
-			m_pushConstantInfo.push_back({ hash, binding, offset, format });
-			m_constantStorageSize = offset + CalcSize(format);
-			m_nameMap[hash] = name;
-			return hash;
-		}
-
-		// simple linear search significantly outperforms std::map for n <= 32
-		// Luckily, we don't expect more than 32 elems in any of these maps
-		template <typename T>
-		const T *vector_search(const std::vector<T> &vec, size_t name)
-		{
-			for (const T &data : vec)
-				if (data.name == name)
-					return &data;
-
-			return nullptr;
-		}
-
-		TextureBindingData Shader::GetTextureBindingInfo(size_t name) const
-		{
-			auto *data = vector_search(m_textureBindingInfo, name);
-			if (data != nullptr) return *data;
-
-			return { 0, InvalidBinding, TextureType::TEXTURE_2D };
-		}
-
-		PushConstantData Shader::GetPushConstantInfo(size_t name) const
-		{
-			auto *data = vector_search(m_pushConstantInfo, name);
-			if (data != nullptr) return *data;
-
-			return { 0, InvalidBinding, 0, ConstantDataFormat::DATA_FORMAT_NONE };
-		}
-
-		BufferBindingData Shader::GetBufferBindingInfo(size_t name) const
-		{
-			auto *data = vector_search(m_bufferBindingInfo, name);
-			if (data != nullptr) return *data;
-
-			return { 0, InvalidBinding, 0 };
 		}
 
 	} // namespace OGL

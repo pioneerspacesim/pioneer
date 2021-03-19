@@ -4,6 +4,7 @@
 #include "MultiMaterial.h"
 
 #include "HeatGradientPar.h"
+#include "Program.h"
 #include "RendererGL.h"
 #include "StringF.h"
 #include "TextureGL.h"

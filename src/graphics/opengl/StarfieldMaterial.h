@@ -10,7 +10,7 @@
  */
 #include "MaterialGL.h"
 #include "OpenGLLibs.h"
-#include "Program.h"
+#include "Shader.h"
 #include "TextureGL.h"
 
 namespace Graphics {

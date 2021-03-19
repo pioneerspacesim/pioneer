@@ -9,7 +9,7 @@
  *
  */
 #include "MaterialGL.h"
-#include "Program.h"
+#include "Shader.h"
 #include "Uniform.h"
 
 namespace Graphics {
