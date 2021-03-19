@@ -1,9 +1,7 @@
 -- Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = require 'Engine'
 local Game = require 'Game'
-local utils = require 'utils'
 local Event = require 'Event'
 local Format = require 'Format'
 local SystemPath = require 'SystemPath'
@@ -26,7 +24,6 @@ local mainButtonFramePadding = 3
 
 local font = ui.fonts.pionillium.medlarge
 local smallfont = ui.fonts.pionillium.medium
-local MAX_SEARCH_STRINGS_VISIBLE = 15
 local edgePadding = Vector2(font.size)
 
 local function setAlpha(c, a)
@@ -52,7 +49,6 @@ local draw_vertical_lines = false
 local draw_out_range_labels = false
 local draw_uninhabited_labels = true
 local automatic_system_selection = true
-local lock_hyperspace_target = false
 
 local function mainMenuButton(icon, tooltip)
 	return ui.coloredSelectedIconButton(icon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, tooltip)
@@ -115,6 +111,7 @@ local Windows = {
 
 local statusIcons = {
 	OK = { icon = icons.route_destination },
+	DRIVE_ACTIVE = { icon = icons.ship },
 	CURRENT_SYSTEM = { icon = icons.navtarget },
 	INSUFFICIENT_FUEL = { icon = icons.fuel },
 	OUT_OF_RANGE = { icon = icons.alert_generic },

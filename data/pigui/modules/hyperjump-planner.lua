@@ -2,7 +2,6 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
-local Event = require 'Event'
 local Equipment = require 'Equipment'
 
 local Lang = require 'Lang'
@@ -26,14 +25,12 @@ local hyperJumpPlanner = {} -- for export
 -- hyperjump route stuff
 local hyperjump_route = {}
 local route_jumps = 0
-local auto_route_min_jump = 2 -- minimum jump distance when auto routing
 local current_system
 local current_path
 local map_selected_path
 local selected_jump
 local current_fuel
 local remove_first_if_current = true
-local hideHyperJumpPlaner = false
 local textIconSize = nil
 
 local function textIcon(icon, tooltip)
@@ -117,7 +114,8 @@ end --mainButton
 local function buildJumpRouteList()
 	hyperjump_route = {}
 	local player = Game.player
-	local start = Game.system.path
+	-- if we are not in the system, then we are in hyperspace, we start building the route from the jump target
+	local start = Game.system and Game.system.path or player:GetHyperspaceDestination()
 	local drive = table.unpack(player:GetEquip("engine")) or nil
 	local fuel_type = drive and drive.fuel or Equipment.cargo.hydrogen
 	local current_fuel = player:CountEquip(fuel_type,"cargo")
@@ -151,7 +149,8 @@ local function updateHyperspaceTarget()
 	if #hyperjump_route > 0 then
 		-- first waypoint is always the hyperspace target
 		sectorView:SetHyperspaceTarget(hyperjump_route[1].path)
-	else
+	elseif not Game.InHyperspace() then
+		-- we will not reset the hyperjump target while we are in the hyperjump
 		sectorView:ResetHyperspaceTarget()
 		selected_jump = nil
 	end
@@ -169,8 +168,6 @@ local function showJumpRoute()
 
 		mainButton(icons.current_line, lui.REMOVE_JUMP,
 		function()
-			local new_route = {}
-			local new_count = 0
 			if selected_jump then
 				sectorView:RemoveRouteItem(selected_jump)
 			end
