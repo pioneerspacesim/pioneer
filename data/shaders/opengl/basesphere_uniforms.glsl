@@ -16,7 +16,4 @@ layout(std140) uniform BaseSphereData {
 
 	// Eclipse data
 	Eclipse eclipse;
-
-	float detailScaleHi;
-	float detailScaleLo;
 };

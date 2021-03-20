@@ -12,5 +12,5 @@ out vec4 frag_color;
 
 void main( void )
 {
-    frag_color = vec4(texture( texture0, v_texCoord ).xyz * material.diffuse.xyz, 1.0);
+    frag_color = vec4(texture( texture0, v_texCoord ).xyz * material.emission.xyz * vec3(0.8), 1.0);
 }

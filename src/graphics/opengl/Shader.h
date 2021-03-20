@@ -66,7 +66,7 @@ namespace Graphics {
 			static constexpr GLuint InvalidBinding = UINT32_MAX;
 
 			Shader();
-			Shader(const std::string &name, const MaterialDescriptor &desc);
+			Shader(const std::string &name);
 			virtual ~Shader();
 
 			void Reload();

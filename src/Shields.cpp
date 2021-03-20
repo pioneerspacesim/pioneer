@@ -25,7 +25,6 @@ namespace {
 
 		alignas(16) float shieldStrength;
 		float shieldCooldown;
-		int numHits;
 	};
 
 	static RefCountedPtr<Graphics::Material> s_matShield;
@@ -33,6 +32,7 @@ namespace {
 	static const std::string s_shieldGroupName("Shields");
 	static const std::string s_matrixTransformName("_accMtx4");
 	static const size_t s_shieldDataName = Graphics::Renderer::GetName("ShieldData");
+	static const size_t s_numHitsName = Graphics::Renderer::GetName("NumHits");
 
 	static RefCountedPtr<Graphics::Material> GetGlobalShieldMaterial()
 	{
@@ -292,11 +292,6 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	// FIXME: don't use a static variable to hold all of this
 	if (shieldStrength > 0.0f) {
 		Uint32 numHits = std::min(m_hits.size(), MAX_SHIELD_HITS);
-
-		s_shieldRenderData.numHits = numHits;
-		s_shieldRenderData.shieldStrength = shieldStrength;
-		s_shieldRenderData.shieldCooldown = coolDown;
-
 		for (Uint32 i = 0; i < numHits; ++i) {
 			const Hits &hit = m_hits[i];
 
@@ -310,11 +305,15 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 			s_shieldRenderData.hits[i].radii = dif;
 		}
 
+		s_shieldRenderData.shieldStrength = shieldStrength;
+		s_shieldRenderData.shieldCooldown = coolDown;
+
 		// FIXME: this is marginally doable given that we're immediately drawing and uploading the data
 		// This should really use a better system like a per-model shield material or possibly a
 		// way to bind per-frame buffer uploads in with the draw command
 		GetGlobalShieldMaterial()->SetBuffer(s_shieldDataName,
 			&s_shieldRenderData, Graphics::BUFFER_USAGE_DYNAMIC);
+		GetGlobalShieldMaterial()->SetPushConstant(s_numHitsName, int(numHits));
 	}
 
 	// update the shield visibility

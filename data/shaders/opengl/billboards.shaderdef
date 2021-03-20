@@ -7,3 +7,6 @@ Texture sampler2D texture0
 PushConstant float coordDownScale
 
 Buffer DrawData binding=1
+
+Vertex "billboards.vert"
+Fragment "billboards.frag"

@@ -9,11 +9,12 @@ in vec3 varyingNormal;
 in vec3 varyingVertex;
 
 layout(std140) uniform ShieldData {
+	vec4 hits[8];
 	float shieldStrength;
 	float shieldCooldown;
-	int numHits;
-	vec4 hits[8];
 };
+
+uniform int NumHits;
 
 const vec4 red = vec4(1.0, 0.5, 0.5, 0.5);
 const vec4 blue = vec4(0.5, 0.5, 1.0, 1.0);
@@ -43,7 +44,7 @@ void main(void)
 	fresnel += 0.05 * (1.0 - fresnel);
 
 	float sumIntensity = 0.0;
-	for (int idx=0; idx < numHits; idx++)
+	for (int idx=0; idx < NumHits; idx++)
 	{
 		sumIntensity += calcIntensity(hits[idx]);
 	}

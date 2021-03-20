@@ -65,8 +65,6 @@ namespace Graphics {
 				std::fill_n(m_pushConstants.get(), constantStorageSize, '\0');
 			}
 
-			Log::Info("Set material {} shader {} with {} texBindings, {} bufferBindings, {} constantStorageSize.\n",
-				(void *)this, (void *)s, numTextureBindings, numBufferBindings, constantStorageSize);
 			m_lightBinding = s->GetBufferBindingInfo(s_lightDataName).binding;
 			m_perDrawBinding = s->GetBufferBindingInfo(s_drawDataName).binding;
 			m_lightIntensityBinding = s->GetPushConstantInfo(s_lightIntensityName).binding;

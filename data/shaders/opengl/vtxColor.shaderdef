@@ -4,3 +4,6 @@
 Shader vtxColor
 
 Buffer DrawData binding=1
+
+Vertex "vtxColor.vert"
+Fragment "vtxColor.frag"

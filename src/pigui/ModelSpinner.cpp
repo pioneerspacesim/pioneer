@@ -76,6 +76,7 @@ void ModelSpinner::Render()
 	const float dist = m_model->GetDrawClipRadius() / sinf(DEG2RAD(fov * 0.5f));
 	rot[14] = -dist;
 	m_model->Render(rot);
+
 	r->SetRenderTarget(0);
 }
 

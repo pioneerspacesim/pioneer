@@ -26,7 +26,7 @@ Shader::Shader() :
 	m_constantStorageSize(0)
 {}
 
-Shader::Shader(const std::string &name, const MaterialDescriptor &desc) :
+Shader::Shader(const std::string &name) :
 	m_constantStorageSize(0)
 {
 	std::string fileName = name + ".shaderdef";
@@ -75,6 +75,12 @@ Shader::Shader(const std::string &name, const MaterialDescriptor &desc) :
 
 	for (const auto &info : info.pushConstantBindings) {
 		AddConstantBinding(info.name, info.type, info.binding);
+	}
+
+	if (GetBufferBindingInfo(Renderer::GetName("DrawData")).binding == InvalidBinding) {
+		Log::Warning("Shaderdef file {} is missing DrawData buffer assignment! Defaulting to {}.\n",
+			fileInfo.GetName(), info.bufferBindings.back().binding + 1);
+		AddBufferBinding("DrawData", info.bufferBindings.back().binding + 1);
 	}
 }
 

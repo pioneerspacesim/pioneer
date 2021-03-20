@@ -27,14 +27,8 @@ struct BaseSphereDataBlock {
 	alignas(16) vector3f srad;
 	alignas(16) vector3f lrad;
 	alignas(16) vector3f sdivlrad;
-	float __padding;
-
-	// Texturing detail
-	float detailScaleHi;
-	float detailScaleLo;
 };
-static_assert(sizeof(BaseSphereDataBlock) == 160, "");
-static_assert(offsetof(BaseSphereDataBlock, detailScaleHi) == 144, "");
+static_assert(sizeof(BaseSphereDataBlock) == 144, "");
 
 BaseSphere::BaseSphere(const SystemBody *body) :
 	m_sbody(body),
@@ -90,26 +84,19 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_ATMOSPHERES, 1);
 }
 
-static constexpr float hiScale = 4.0f;
-static constexpr float loScale = 0.5f;
 static size_t s_baseSphereData = Graphics::Renderer::GetName("BaseSphereData");
 static size_t s_numShadows = Graphics::Renderer::GetName("NumShadows");
 void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radius, const std::vector<Camera::Shadow> &shadows, const AtmosphereParameters &ap)
 {
-	BaseSphereDataBlock matData;
+	BaseSphereDataBlock matData{};
 
-	matData.atmosColor = ap.atmosCol.ToColor4f();
-	matData.geosphereAtmosFogDensity = ap.atmosDensity;
-	matData.geosphereAtmosInvScaleHeight = ap.atmosInvScaleHeight;
-	matData.geosphereAtmosTopRad = ap.atmosRadius;
 	matData.geosphereCenter = vector3f(trans * vector3d(0.0));
 	matData.geosphereRadius = radius;
-	matData.geosphereRadius = 1.0f / radius;
-
-	const float fDetailFrequency = pow(2.0f, float(m_materialParameters.maxPatchDepth) - float(m_materialParameters.patchDepth));
-
-	matData.detailScaleHi = hiScale * fDetailFrequency;
-	matData.detailScaleLo = loScale * fDetailFrequency;
+	matData.geosphereInvRadius = 1.0f / radius;
+	matData.geosphereAtmosTopRad = ap.atmosRadius;
+	matData.geosphereAtmosFogDensity = ap.atmosDensity;
+	matData.geosphereAtmosInvScaleHeight = ap.atmosInvScaleHeight;
+	matData.atmosColor = ap.atmosCol.ToColor4f();
 
 	// we handle up to three shadows at a time
 	auto it = shadows.cbegin(), itEnd = shadows.cend();

@@ -40,20 +40,12 @@ public:
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const = 0;
 
-	struct MaterialParameters {
-		AtmosphereParameters atmosphere;
-		std::vector<Camera::Shadow> shadows;
-		Sint32 patchDepth;
-		Sint32 maxPatchDepth;
-	};
-
 	virtual void Reset() = 0;
 
 	const SystemBody *GetSystemBody() const { return m_sbody; }
 	Terrain *GetTerrain() const { return m_terrain.Get(); }
 
 	RefCountedPtr<Graphics::Material> GetSurfaceMaterial() const { return m_surfaceMaterial; }
-	MaterialParameters &GetMaterialParameters() { return m_materialParameters; }
 
 protected:
 	const SystemBody *m_sbody;
@@ -66,13 +58,11 @@ protected:
 	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
 	RefCountedPtr<Graphics::Material> m_atmosphereMaterial;
 
+	// set up shader data for this geosphere's atmosphere
 	void SetMaterialParameters(const matrix4x4d &t, const float r, const std::vector<Camera::Shadow> &s, const AtmosphereParameters &ap);
 
 	// atmosphere geometry
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos;
-
-	//special parameters for shaders
-	MaterialParameters m_materialParameters;
 };
 
 #endif /* _GEOSPHERE_H */

@@ -394,7 +394,6 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	//Update material parameters
 	//XXX no need to calculate AP every frame
-	m_materialParameters.maxPatchDepth = GetMaxDepth();
 	auto ap = GetSystemBody()->CalcAtmosphereParams();
 	SetMaterialParameters(trans, radius, shadows, ap);
 	if (ap.atmosDensity > 0.0) {

@@ -11,6 +11,7 @@ Buffer DrawData binding=1
 Buffer BaseSphereData binding=2
 
 PushConstant int NumShadows binding=0
+PushConstant float PatchDetailFrequency binding=1
 
 Vertex "geosphere_terrain.vert"
 Fragment "geosphere_terrain.frag"

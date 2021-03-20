@@ -950,7 +950,7 @@ namespace Graphics {
 		}
 
 		if (!s) {
-			s = new OGL::Shader(shader, desc);
+			s = new OGL::Shader(shader);
 			Log::Info("Created shader {} (address={})\n", shader, (void *)s);
 			CheckRenderErrors(__FUNCTION__, __LINE__);
 

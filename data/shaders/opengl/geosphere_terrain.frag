@@ -23,6 +23,11 @@ in vec4 varyingEmission;
 
 out vec4 frag_color;
 
+uniform float PatchDetailFrequency;
+
+#define detailScaleHi (PatchDetailFrequency * 4.0)
+#define detailScaleLo (PatchDetailFrequency * 0.5)
+
 void main(void)
 {
 	vec4 hidetail = texture(texture0, texCoord0 * detailScaleHi);
