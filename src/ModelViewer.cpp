@@ -173,17 +173,16 @@ ModelViewer::ModelViewer(ModelViewerApp *app, LuaManager *lm) :
 	SetupAxes();
 
 	Graphics::MaterialDescriptor desc;
-	desc.effect = Graphics::EFFECT_VTXCOLOR;
 
 	//for grid, background
 	Graphics::RenderStateDesc rsd;
 	rsd.depthWrite = false;
 	rsd.cullMode = Graphics::CULL_NONE;
 	rsd.primitiveType = Graphics::TRIANGLES;
-	m_bgMaterial.reset(m_renderer->CreateMaterial(desc, rsd));
+	m_bgMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
 
 	rsd.primitiveType = Graphics::LINE_SINGLE;
-	m_gridMaterial.reset(m_renderer->CreateMaterial(desc, rsd));
+	m_gridMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
 }
 
 void ModelViewer::Start()

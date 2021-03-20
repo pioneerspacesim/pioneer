@@ -17,12 +17,12 @@ private:
 
 public:
 	matrix3x3() {}
-	matrix3x3(T val)
+	explicit matrix3x3(T val)
 	{
 		cell[0] = cell[1] = cell[2] = cell[3] = cell[4] = cell[5] = cell[6] =
 			cell[7] = cell[8] = val;
 	}
-	matrix3x3(const T *vals)
+	explicit matrix3x3(const T *vals)
 	{
 		memcpy(cell, vals, sizeof(T) * 9);
 	}

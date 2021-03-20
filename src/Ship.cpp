@@ -35,7 +35,6 @@
 #include "ship/PlayerShipController.h"
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
-HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 const double Ship::DEFAULT_LIFT_TO_DRAG_RATIO = 0.001;
 
@@ -344,10 +343,7 @@ void Ship::InitMaterials()
 	for (Uint32 m = 0; m < numMats; m++) {
 		RefCountedPtr<Graphics::Material> mat = pModel->GetMaterialByIndex(m);
 		mat->SetTexture(s_heatGradientTexParam, tex);
-		mat->specialParameter0 = &s_heatGradientParams;
 	}
-	s_heatGradientParams.heatingAmount = 0.0f;
-	s_heatGradientParams.heatingNormal = vector3f(0.0f, -1.0f, 0.0f);
 }
 
 void Ship::SetController(ShipController *c)

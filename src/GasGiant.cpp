@@ -461,7 +461,8 @@ bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 
 		// change the planet texture for the new higher resolution texture
 		if (m_surfaceMaterial.Get()) {
-			m_surfaceMaterial->texture0 = m_surfaceTexture.Get();
+			m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+				m_surfaceTexture.Get());
 			m_surfaceTextureSmall.Reset();
 		}
 	}
@@ -507,7 +508,8 @@ bool GasGiant::AddGPUGenResult(GasGiantJobs::SGPUGenResult *res)
 
 		// change the planet texture for the new higher resolution texture
 		if (m_surfaceMaterial.Get()) {
-			m_surfaceMaterial->texture0 = m_surfaceTexture.Get();
+			m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+				m_surfaceTexture.Get());
 			m_surfaceTextureSmall.Reset();
 		}
 	}
@@ -529,7 +531,8 @@ void GasGiant::GenerateTexture()
 			return;
 	}
 
-	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
+	// FIXME: add support for more general-purpose compute to the Shader architecture
+	const bool bEnableGPUJobs = false; //(Pi::config->Int("EnableGPUJobs") == 1);
 
 	// scope the small texture generation
 	{
@@ -678,25 +681,18 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	if (!m_surfaceMaterial)
 		SetUpMaterials();
 
-	{
-		//Update material parameters
-		//XXX no need to calculate AP every frame
-		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
-		m_materialParameters.atmosphere.center = trans * vector3d(0.0, 0.0, 0.0);
-		m_materialParameters.atmosphere.planetRadius = radius;
-
-		m_materialParameters.shadows = shadows;
-
-		m_surfaceMaterial->specialParameter0 = &m_materialParameters;
-
-		if (m_materialParameters.atmosphere.atmosDensity > 0.0) {
-			m_atmosphereMaterial->specialParameter0 = &m_materialParameters;
-
-			// make atmosphere sphere slightly bigger than required so
-			// that the edges of the pixel shader atmosphere jizz doesn't
-			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, trans, campos, m_materialParameters.atmosphere.atmosRadius * 1.01, m_atmosphereMaterial);
-		}
+	//Update material parameters
+	//XXX no need to calculate AP every frame
+	m_materialParameters.maxPatchDepth = 0;
+	auto ap = GetSystemBody()->CalcAtmosphereParams();
+	SetMaterialParameters(trans, radius, shadows, ap);
+	if (ap.atmosDensity > 0.0) {
+		// make atmosphere sphere slightly bigger than required so
+		// that the edges of the pixel shader atmosphere jizz doesn't
+		// show ugly polygonal angles
+		DrawAtmosphereSurface(renderer, trans, campos,
+			ap.atmosRadius * 1.01,
+			m_atmosphereMaterial);
 	}
 
 	Color ambient;
@@ -736,37 +732,32 @@ void GasGiant::SetUpMaterials()
 	// Request material for this planet, with atmosphere.
 	// Separate materials for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
-	surfDesc.effect = Graphics::EFFECT_GASSPHERE_TERRAIN;
+	surfDesc.lighting = true;
+	surfDesc.quality = Graphics::HAS_ATMOSPHERE | Graphics::HAS_ECLIPSES;
+	surfDesc.textures = 1;
 
 	//planetoid with atmosphere
 	const AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
-	surfDesc.lighting = true;
 	assert(ap.atmosDensity > 0.0);
-	{
-		surfDesc.quality |= Graphics::HAS_ATMOSPHERE;
-	}
-
-	surfDesc.quality |= Graphics::HAS_ECLIPSES;
-	surfDesc.textures = 1;
 	assert(m_surfaceTextureSmall.Valid() || m_surfaceTexture.Valid());
 
 	// surface material is solid
 	Graphics::RenderStateDesc rsd;
-	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc, rsd));
-	m_surfaceMaterial->texture0 = m_surfaceTexture.Valid() ? m_surfaceTexture.Get() : m_surfaceTextureSmall.Get();
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("gassphere_base", surfDesc, rsd));
+	m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+		m_surfaceTexture.Valid() ? m_surfaceTexture.Get() : m_surfaceTextureSmall.Get());
 
 	{
 		Graphics::MaterialDescriptor skyDesc;
-		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
-		skyDesc.quality |= Graphics::HAS_ECLIPSES;
+		skyDesc.quality = Graphics::HAS_ECLIPSES;
 
 		// atmosphere is blended
 		Graphics::RenderStateDesc rsd;
 		rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
 		rsd.cullMode = Graphics::CULL_NONE;
 		rsd.depthWrite = false;
-		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc, rsd));
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd));
 	}
 }
 

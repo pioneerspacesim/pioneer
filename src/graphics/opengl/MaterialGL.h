@@ -39,9 +39,6 @@ namespace Graphics {
 			virtual void Unapply() override;
 			virtual bool IsProgramLoaded() const override final;
 			virtual void SetShader(Shader *p);
-			virtual Shader *CreateShader(const MaterialDescriptor &desc) = 0;
-
-			virtual void Copy(Graphics::Material *other) const override;
 
 			virtual bool SetTexture(size_t name, Texture *tex) override;
 			virtual bool SetBuffer(size_t name, void *buffer, size_t size, BufferUsage usage) override;
@@ -57,12 +54,16 @@ namespace Graphics {
 
 		protected:
 			friend class Graphics::RendererOGL;
+			void Copy(OGL::Material *to) const;
+			void EvaluateVariant();
+
 			Shader *m_shader;
 			Program *m_activeVariant;
 			RendererOGL *m_renderer;
 
 			uint32_t m_lightBinding;
 			uint32_t m_perDrawBinding;
+			uint32_t m_lightIntensityBinding;
 
 			// TODO: not happy with this structure - makes it far too hard to track
 			// per-frame buffers vs occasionally-updated (set-once?) buffers

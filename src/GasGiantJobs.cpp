@@ -106,9 +106,14 @@ namespace GasGiantJobs {
 	}
 
 	// ********************************************************************************
+	// FIXME: add support for more general-purpose compute to Shader
+	// ********************************************************************************
+
+	// ********************************************************************************
 	GenFaceQuad::GenFaceQuad(Graphics::Renderer *r, const vector2f &size, const Uint32 GGQuality)
 	{
 		PROFILE_SCOPED()
+#if 0
 
 		Graphics::MaterialDescriptor desc;
 		desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
@@ -160,12 +165,15 @@ namespace GasGiantJobs {
 
 		//Create vtx  buffer and copy data
 		m_quadMesh.reset(r->CreateMeshObjectFromArray(&vertices));
+#endif
 	}
 
 	void GenFaceQuad::Draw(Graphics::Renderer *r)
 	{
 		PROFILE_SCOPED()
+#if 0
 		r->DrawMesh(m_quadMesh.get(), m_material.get());
+#endif
 	}
 
 	// ********************************************************************************
@@ -185,6 +193,7 @@ namespace GasGiantJobs {
 	void SGPUGenRequest::SetupMaterialParams(const int face)
 	{
 		PROFILE_SCOPED()
+#if 0
 		m_specialParams.v = &GetPatchFaces(face, 0);
 		m_specialParams.fracStep = 1.0f / float(uvDIMs);
 		m_specialParams.planetRadius = planetRadius;
@@ -197,6 +206,7 @@ namespace GasGiantJobs {
 		m_specialParams.hueAdjust = hueAdjust;
 
 		pQuad->GetMaterial()->specialParameter0 = &m_specialParams;
+#endif
 	}
 
 	// ********************************************************************************
@@ -235,6 +245,7 @@ namespace GasGiantJobs {
 	{
 		PROFILE_SCOPED()
 
+#if 0
 		Graphics::Renderer::StateTicket ticket(Pi::renderer);
 
 		// enter ortho
@@ -262,6 +273,7 @@ namespace GasGiantJobs {
 
 		// store the result
 		mpResults = sr;
+#endif
 
 		// leave ortho when ticket is destroyed
 	}
@@ -269,7 +281,9 @@ namespace GasGiantJobs {
 	void SingleGPUGenJob::OnFinish() // runs in primary thread of the context
 	{
 		PROFILE_SCOPED()
+#if 0
 		GasGiant::OnAddGPUGenResult(mData->SysPath(), mpResults);
 		mpResults = nullptr;
+#endif
 	}
 } // namespace GasGiantJobs

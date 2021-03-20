@@ -364,21 +364,19 @@ void SectorView::InitObject()
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 
 	Graphics::MaterialDescriptor bbMatDesc;
-	bbMatDesc.effect = Graphics::EFFECT_SPHEREIMPOSTOR;
-	m_starMaterial.Reset(m_renderer->CreateMaterial(bbMatDesc, rsd));
+	m_starMaterial.Reset(m_renderer->CreateMaterial("sphereimpostor", bbMatDesc, rsd));
 
 	rsd.depthWrite = false;
 	rsd.cullMode = CULL_NONE;
 
 	Graphics::MaterialDescriptor starPointDesc;
 	starPointDesc.vertexColors = true;
-	m_farStarsMat.Reset(m_renderer->CreateMaterial(starPointDesc, rsd));
+	m_farStarsMat.Reset(m_renderer->CreateMaterial("unlit", starPointDesc, rsd));
 
 	rsd.primitiveType = Graphics::LINE_SINGLE;
 
 	Graphics::MaterialDescriptor lineDesc;
-	lineDesc.effect = Graphics::EFFECT_VTXCOLOR;
-	m_lineMat.Reset(m_renderer->CreateMaterial(lineDesc, rsd));
+	m_lineMat.Reset(m_renderer->CreateMaterial("vtxColor", lineDesc, rsd));
 }
 
 SectorView::~SectorView()
@@ -1388,8 +1386,7 @@ void SectorView::Update()
 		rsd.cullMode = Graphics::CULL_NONE;
 
 		Graphics::MaterialDescriptor matdesc;
-		matdesc.effect = EFFECT_FRESNEL_SPHERE;
-		m_fresnelMat.Reset(m_renderer->CreateMaterial(matdesc, rsd));
+		m_fresnelMat.Reset(m_renderer->CreateMaterial("fresnel_sphere", matdesc, rsd));
 		m_fresnelMat->diffuse = Color::WHITE;
 		m_jumpSphere.reset(new Graphics::Drawables::Sphere3D(m_renderer, m_fresnelMat, 4, 1.0f));
 	}

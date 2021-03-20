@@ -23,8 +23,8 @@ namespace SceneGraph {
 		rsd.depthWrite = false;
 
 		m_geometry.reset(font->CreateVertexArray());
-		m_material.Reset(r->CreateMaterial(matdesc, rsd));
-		m_material->texture0 = font->GetTexture();
+		m_material.Reset(r->CreateMaterial("multi", matdesc, rsd));
+		m_material->SetTexture(Graphics::Renderer::GetName("texture0"), font->GetTexture());
 		m_material->diffuse = Color::WHITE;
 		m_material->emissive = Color(38, 38, 38);
 		m_material->specular = Color::WHITE;

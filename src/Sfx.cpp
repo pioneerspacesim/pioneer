@@ -44,6 +44,8 @@ namespace {
 			return SizeToPixels(pos, 20.f);
 		case TYPE_SMOKE:
 			return Clamp(SizeToPixels(pos, (inst.m_speed * inst.m_age)), 0.1f, 50.0f);
+		default:
+			return 0.f;
 		}
 	}
 } // namespace
@@ -394,8 +396,9 @@ void SfxManager::Init(Graphics::Renderer *r)
 
 	// ECM effect is different, not managed by Sfx at all, should it be factored out?
 	desc.effect = Graphics::EFFECT_BILLBOARD;
-	ecmParticle.reset(r->CreateMaterial(desc, additiveAlphaState));
-	ecmParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard");
+	ecmParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState));
+	ecmParticle->SetTexture(Graphics::Renderer::GetName("texture0"),
+		Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard"));
 
 	// load material definition data
 	SplitMaterialData(cfg.String("explosionPacking"), m_materialData[TYPE_EXPLOSION]);
@@ -403,22 +406,28 @@ void SfxManager::Init(Graphics::Renderer *r)
 	SplitMaterialData(cfg.String("smokePacking"), m_materialData[TYPE_SMOKE]);
 
 	desc.effect = m_materialData[TYPE_DAMAGE].effect;
-	damageParticle.reset(r->CreateMaterial(desc, additiveAlphaState));
-	damageParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("damageFile")).GetOrCreateTexture(r, "billboard");
+	damageParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState));
+	damageParticle->SetTexture(Graphics::Renderer::GetName("texture0"),
+		Graphics::TextureBuilder::Billboard(cfg.String("damageFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
-		damageParticle->specialParameter0 = &m_materialData[TYPE_DAMAGE].coord_downscale;
+		damageParticle->SetPushConstant(Graphics::Renderer::GetName("coordDownScale"),
+			m_materialData[TYPE_DAMAGE].coord_downscale);
 
 	desc.effect = m_materialData[TYPE_SMOKE].effect;
-	smokeParticle.reset(r->CreateMaterial(desc, alphaState));
-	smokeParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("smokeFile")).GetOrCreateTexture(r, "billboard");
+	smokeParticle.reset(r->CreateMaterial("billboards", desc, alphaState));
+	smokeParticle->SetTexture(Graphics::Renderer::GetName("texture0"),
+		Graphics::TextureBuilder::Billboard(cfg.String("smokeFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
-		smokeParticle->specialParameter0 = &m_materialData[TYPE_SMOKE].coord_downscale;
+		smokeParticle->SetPushConstant(Graphics::Renderer::GetName("coordDownScale"),
+			m_materialData[TYPE_SMOKE].coord_downscale);
 
 	desc.effect = m_materialData[TYPE_EXPLOSION].effect;
-	explosionParticle.reset(r->CreateMaterial(desc, alphaState));
-	explosionParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("explosionFile")).GetOrCreateTexture(r, "billboard");
+	explosionParticle.reset(r->CreateMaterial("billboards", desc, alphaState));
+	explosionParticle->SetTexture(Graphics::Renderer::GetName("texture0"),
+		Graphics::TextureBuilder::Billboard(cfg.String("explosionFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
-		explosionParticle->specialParameter0 = &m_materialData[TYPE_EXPLOSION].coord_downscale;
+		explosionParticle->SetPushConstant(Graphics::Renderer::GetName("coordDownScale"),
+			m_materialData[TYPE_EXPLOSION].coord_downscale);
 }
 
 void SfxManager::Uninit()

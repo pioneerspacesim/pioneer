@@ -3,7 +3,7 @@
 
 #include "eclipse.glsl"
 
-layout(std140) uniform GeoSphereData {
+layout(std140) uniform BaseSphereData {
 	// to keep distances sane we do a nearer, smaller scam. this is how many times
 	// smaller the geosphere has been made
 	vec3 geosphereCenter;				// TODO documentation

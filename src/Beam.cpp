@@ -46,10 +46,13 @@ void Beam::BuildModel()
 	rsd.depthWrite = false;
 	rsd.cullMode = Graphics::CULL_NONE;
 
-	s_sideMat.reset(Pi::renderer->CreateMaterial(desc, rsd));
-	s_glowMat.reset(Pi::renderer->CreateMaterial(desc, rsd));
-	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/beam_l.dds").GetOrCreateTexture(Pi::renderer, "billboard");
-	s_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.dds").GetOrCreateTexture(Pi::renderer, "billboard");
+	s_sideMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd));
+	s_sideMat->SetTexture(Graphics::Renderer::GetName("texture0"),
+		Graphics::TextureBuilder::Billboard("textures/beam_l.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
+
+	s_glowMat.reset(Pi::renderer->CreateMaterial("unlit", desc, rsd));
+	s_glowMat->SetTexture(Graphics::Renderer::GetName("texture0"),
+		Graphics::TextureBuilder::Billboard("textures/projectile_w.dds").GetOrCreateTexture(Pi::renderer, "billboard"));
 
 	//zero at projectile position
 	//+x down

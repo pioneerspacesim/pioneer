@@ -268,6 +268,11 @@ void Pi::App::SetStartPath(const SystemPath &startPath)
 void TestGPUJobsSupport()
 {
 	PROFILE_SCOPED()
+
+	// FIXME: add general-purpose compute support to Shader
+	Pi::config->SetInt("EnableGPUJobs", 0); // disable GPU Jobs
+
+#if 0
 	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
 	if (supportsGPUJobs) {
 		Uint32 octaves = 8;
@@ -306,6 +311,7 @@ void TestGPUJobsSupport()
 			}
 		}
 	}
+#endif
 }
 
 void Pi::App::Startup()

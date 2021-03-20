@@ -100,7 +100,6 @@ Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *rendere
 	m_renderer(renderer)
 {
 	Graphics::MaterialDescriptor desc;
-	desc.effect = Graphics::EFFECT_BILLBOARD;
 	desc.textures = 1;
 
 	Graphics::RenderStateDesc rsd;
@@ -108,8 +107,9 @@ Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *rendere
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::POINTS;
 
-	m_billboardMaterial.reset(m_renderer->CreateMaterial(desc, rsd));
-	m_billboardMaterial->texture0 = Graphics::TextureBuilder::Billboard("textures/planet_billboard.dds").GetOrCreateTexture(m_renderer, "billboard");
+	m_billboardMaterial.reset(m_renderer->CreateMaterial("billboards", desc, rsd));
+	m_billboardMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+		Graphics::TextureBuilder::Billboard("textures/planet_billboard.dds").GetOrCreateTexture(m_renderer, "billboard"));
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)

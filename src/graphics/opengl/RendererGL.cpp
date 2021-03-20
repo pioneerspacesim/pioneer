@@ -25,20 +25,6 @@
 #include "UniformBuffer.h"
 #include "VertexBufferGL.h"
 
-#include "BillboardMaterial.h"
-#include "FresnelColourMaterial.h"
-#include "GasGiantMaterial.h"
-#include "GenGasGiantColourMaterial.h"
-#include "GeoSphereMaterial.h"
-#include "MultiMaterial.h"
-#include "RingMaterial.h"
-#include "ShieldMaterial.h"
-#include "SkyboxMaterial.h"
-#include "SphereImpostorMaterial.h"
-#include "StarfieldMaterial.h"
-#include "UIMaterial.h"
-#include "VtxColorMaterial.h"
-
 #include "core/Log.h"
 
 #include <cstddef> //for offsetof
@@ -297,7 +283,6 @@ namespace Graphics {
 		s_DynamicDrawBufferMap.clear();
 
 		// HACK ANDYC - this crashes when shutting down? They'll be released anyway right?
-		//while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
 		while (!m_shaders.empty()) {
 			delete m_shaders.back().second;
 			m_shaders.pop_back();
@@ -943,94 +928,53 @@ namespace Graphics {
 		return true;
 	}
 
-	Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d, const RenderStateDesc &stateDescriptor)
+	Material *RendererOGL::CreateMaterial(const std::string &shader, const MaterialDescriptor &d, const RenderStateDesc &stateDescriptor)
 	{
 		PROFILE_SCOPED()
 		MaterialDescriptor desc = d;
 
-		OGL::Material *mat = 0;
-		OGL::Shader *s = 0;
+		OGL::Material *mat = new OGL::Material;
 
 		if (desc.lighting) {
 			desc.dirLights = m_numDirLights;
-		}
-
-		// Create the material. It will be also used to create the shader,
-		// like a tiny factory
-		// FIXME: don't have separate material / shader classes
-		// FIXME: use filepath to .shaderdef file instead of EffectType
-		// FIXME: in general, please don't hardcode anything like this again
-		switch (desc.effect) {
-		case EFFECT_VTXCOLOR:
-			mat = new OGL::VtxColorMaterial();
-			break;
-		case EFFECT_UI:
-			mat = new OGL::UIMaterial();
-			break;
-		case EFFECT_PLANETRING:
-			mat = new OGL::RingMaterial();
-			break;
-		case EFFECT_STARFIELD:
-			mat = new OGL::StarfieldMaterial();
-			break;
-		case EFFECT_GEOSPHERE_TERRAIN:
-		case EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA:
-		case EFFECT_GEOSPHERE_TERRAIN_WITH_WATER:
-			mat = new OGL::GeoSphereSurfaceMaterial();
-			break;
-		case EFFECT_GEOSPHERE_SKY:
-			mat = new OGL::GeoSphereSkyMaterial();
-			break;
-		case EFFECT_GEOSPHERE_STAR:
-			mat = new OGL::GeoSphereStarMaterial();
-			break;
-		case EFFECT_FRESNEL_SPHERE:
-			mat = new OGL::FresnelColourMaterial();
-			break;
-		case EFFECT_SHIELD:
-			mat = new OGL::ShieldMaterial();
-			break;
-		case EFFECT_SKYBOX:
-			mat = new OGL::SkyboxMaterial();
-			break;
-		case EFFECT_SPHEREIMPOSTOR:
-			mat = new OGL::SphereImpostorMaterial();
-			break;
-		case EFFECT_GASSPHERE_TERRAIN:
-			mat = new OGL::GasGiantSurfaceMaterial();
-			break;
-		/*
-		case EFFECT_GEN_GASGIANT_TEXTURE:
-			mat = new OGL::GenGasGiantColourMaterial();
-			break;
-		*/
-		case EFFECT_BILLBOARD_ATLAS:
-		case EFFECT_BILLBOARD:
-			mat = new OGL::BillboardMaterial();
-			break;
-		default:
-			if (desc.lighting)
-				mat = new OGL::LitMultiMaterial();
-			else
-				mat = new OGL::MultiMaterial();
 		}
 
 		mat->m_renderer = this;
 		mat->m_descriptor = desc;
 		mat->m_stateDescriptor = stateDescriptor;
 
-		s = GetCachedShader(desc.effect);
+		OGL::Shader *s = nullptr;
+		for (auto &pair : m_shaders) {
+			if (pair.first == shader)
+				s = pair.second;
+		}
+
 		if (!s) {
-			s = mat->CreateShader(desc);
-			Log::Info("Created shader {} for material effect {}\n", (void *)s, uint32_t(desc.effect));
+			s = new OGL::Shader(shader, desc);
+			Log::Info("Created shader {} (address={})\n", shader, (void *)s);
 			CheckRenderErrors(__FUNCTION__, __LINE__);
 
-			m_shaders.push_back({ desc.effect, s });
+			m_shaders.push_back({ shader, s });
 		}
 
 		mat->SetShader(s);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 		return mat;
+	}
+
+	Material *RendererOGL::CloneMaterial(const Material *old, const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor)
+	{
+		OGL::Material *newMat = new OGL::Material();
+		newMat->m_renderer = this;
+		newMat->m_descriptor = descriptor;
+		newMat->m_stateDescriptor = stateDescriptor;
+
+		const OGL::Material *material = static_cast<const OGL::Material *>(old);
+		newMat->SetShader(material->m_shader);
+		material->Copy(newMat);
+
+		CheckRenderErrors(__FUNCTION__, __LINE__);
+		return newMat;
 	}
 
 	bool RendererOGL::ReloadShaders()
@@ -1043,15 +987,6 @@ namespace Graphics {
 		Log::Info("Done.\n");
 
 		return true;
-	}
-
-	OGL::Shader *RendererOGL::GetCachedShader(EffectType type)
-	{
-		for (auto &pair : m_shaders)
-			if (pair.first == type)
-				return pair.second;
-
-		return nullptr;
 	}
 
 	Texture *RendererOGL::CreateTexture(const TextureDescriptor &descriptor)

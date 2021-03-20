@@ -118,7 +118,9 @@ namespace Graphics {
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) = 0;
 
 		//creates a unique material based on the descriptor. It will not be deleted automatically.
-		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) = 0;
+		virtual Material *CreateMaterial(const std::string &shader, const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) = 0;
+		// Make a copy of the given material with a possibly new descriptor or render state.
+		virtual Material *CloneMaterial(const Material *mat, const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) = 0;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0; //returns nullptr if unsupported
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) = 0;

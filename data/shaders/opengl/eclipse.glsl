@@ -50,10 +50,10 @@ float shadowInt(const in float t1, const in float t2, const in float dsq, const 
 	return m*(t2-t1) - (t2*s2 - t1*s1 + dsq*( log(max(0.000001, s2+t2)) - log(max(0.000001, s1+t1)))) * 0.5;
 }
 
-float calcUneclipsed(const in Eclipse params, const in int i, const in vec3 v, const in vec3 lightDir)
+float calcUneclipsed(const in Eclipse params, const in int numShadows, const in vec3 v, const in vec3 lightDir)
 {
 	float uneclipsed = 1.0;
-	for (int j=0; j<NUM_SHADOWS; j++)
+	for (int j=0; j<numShadows; j++)
 	{
 		vec3 centre = vec3( params.shadowCentreX[j], params.shadowCentreY[j], params.shadowCentreZ[j] );
 
@@ -68,10 +68,10 @@ float calcUneclipsed(const in Eclipse params, const in int i, const in vec3 v, c
 	return uneclipsed;
 }
 
-float calcUneclipsedSky(const in Eclipse params, const in int i, const in vec3 a, const in vec3 b, const in vec3 lightDir)
+float calcUneclipsedSky(const in Eclipse params, const in int numShadows, const in vec3 a, const in vec3 b, const in vec3 lightDir)
 {
 	float uneclipsed = 1.0;
-	for (int j=0; j<NUM_SHADOWS; j++)
+	for (int j=0; j<numShadows; j++)
 	{
 		// Eclipse handling:
 		// Calculate proportion of the in-atmosphere eyeline which is shadowed,

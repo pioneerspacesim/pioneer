@@ -814,14 +814,12 @@ namespace Graphics {
 			PROFILE_SCOPED()
 
 			Graphics::MaterialDescriptor desc;
-			desc.vertexColors = true;
-			desc.effect = Graphics::EFFECT_VTXCOLOR;
 
 			Graphics::RenderStateDesc rsd;
 			rsd.cullMode = Graphics::CULL_NONE;
 			rsd.depthWrite = false;
 			rsd.primitiveType = Graphics::LINE_SINGLE;
-			m_axesMat.Reset(r->CreateMaterial(desc, rsd));
+			m_axesMat.Reset(r->CreateMaterial("vtxColor", desc, rsd));
 
 			VertexArray vertices(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 

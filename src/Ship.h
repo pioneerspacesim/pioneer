@@ -320,8 +320,6 @@ private:
 	SceneGraph::Animation *m_landingGearAnimation;
 	std::unique_ptr<NavLights> m_navLights;
 
-	static HeatGradientParameters_t s_heatGradientParams;
-
 	std::unique_ptr<Sensors> m_sensors;
 	std::unordered_map<Body *, Uint8> m_relationsMap;
 

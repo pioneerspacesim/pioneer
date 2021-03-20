@@ -65,7 +65,6 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 		const Uint32 numMats = model->GetNumMaterials();
 		for (Uint32 m = 0; m < numMats; m++) {
 			RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(m);
-			mat->specialParameter0 = nullptr;
 		}
 		m_models.push_back(model);
 	}

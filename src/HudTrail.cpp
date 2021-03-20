@@ -22,13 +22,12 @@ HudTrail::HudTrail(Body *b, const Color &c) :
 	m_currentFrame = b->GetFrame();
 
 	Graphics::MaterialDescriptor desc;
-	desc.effect = Graphics::EFFECT_VTXCOLOR;
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::LINE_STRIP;
-	m_lineMat.reset(Pi::renderer->CreateMaterial(desc, rsd));
+	m_lineMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd));
 }
 
 void HudTrail::Update(float time)

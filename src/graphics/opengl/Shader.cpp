@@ -49,6 +49,18 @@ Shader::Shader(const std::string &name, const MaterialDescriptor &desc) :
 		info.name = name;
 	}
 
+	if (info.vertexPath.empty()) {
+		info.vertexPath = name + ".vert";
+		Log::Warning("Shaderdef file {} is missing vertex shader path! Defaulting to {}.\n",
+			fileInfo.GetName(), info.vertexPath);
+	}
+
+	if (info.fragmentPath.empty()) {
+		info.fragmentPath = name + ".frag";
+		Log::Warning("Shaderdef file {} is missing fragment shader path! Defaulting to {}.\n",
+			fileInfo.GetName(), info.fragmentPath);
+	}
+
 	m_programDef.name = info.name;
 	m_programDef.vertexShader = FileSystem::JoinPathBelow("shaders/opengl", info.vertexPath);
 	m_programDef.fragmentShader = FileSystem::JoinPathBelow("shaders/opengl", info.fragmentPath);
@@ -118,7 +130,6 @@ std::string Shader::GetProgramDefines(const MaterialDescriptor &desc)
 	std::stringstream ss;
 
 	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
-	ss << stringf("#define NUM_SHADOWS %0{u}\n", desc.numShadows);
 	if (desc.lighting && desc.dirLights > 0)
 		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", 1.0f / float(desc.dirLights));
 

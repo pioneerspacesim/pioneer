@@ -189,9 +189,9 @@ void NavLights::Render(Graphics::Renderer *renderer)
 		rsd.depthWrite = false;
 		rsd.primitiveType = Graphics::POINTS;
 
-		matHalos4x4.Reset(renderer->CreateMaterial(desc, rsd));
+		matHalos4x4.Reset(renderer->CreateMaterial("billboards", desc, rsd));
 		texHalos4x4.Reset(Graphics::TextureBuilder::Billboard("textures/halo_4x4.dds").GetOrCreateTexture(renderer, std::string("billboard")));
-		matHalos4x4->texture0 = texHalos4x4.Get();
+		matHalos4x4->SetTexture(Graphics::Renderer::GetName("texture0"), texHalos4x4.Get());
 	}
 
 	const bool isMeshValid = m_billboardMesh.Valid();

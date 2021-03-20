@@ -151,13 +151,7 @@ namespace Graphics {
 
 		initted = true;
 
-		MaterialDescriptor desc;
-		desc.effect = EFFECT_VTXCOLOR;
-		desc.vertexColors = true;
-
-		RenderStateDesc rsd;
-		vtxColorMaterial = renderer->CreateMaterial(desc, rsd);
-
+		vtxColorMaterial = renderer->CreateMaterial("vtxColor", MaterialDescriptor(), RenderStateDesc());
 		vtxColorMaterial->IncRefCount();
 
 		return renderer;

@@ -1,0 +1,10 @@
+## Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
+## Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+Shader starfield
+
+Texture sampler2D texture0
+Buffer DrawData binding=1
+
+Vertex "starfield.vert"
+Fragment "starfield.frag"

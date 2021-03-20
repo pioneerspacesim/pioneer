@@ -31,6 +31,10 @@ namespace Graphics {
 		};
 		static_assert(sizeof(DrawDataBlock) == 256, "");
 
+		static size_t s_lightDataName = Renderer::GetName("LightData");
+		static size_t s_drawDataName = Renderer::GetName("DrawData");
+		static size_t s_lightIntensityName = Renderer::GetName("lightIntensity");
+
 		// XXX potential target for allocation optimization
 		// (e.g. use renderer-owned freelist block allocator and align and group all three buffers into one allocation?)
 		void Material::SetShader(Shader *s)
@@ -63,16 +67,37 @@ namespace Graphics {
 
 			Log::Info("Set material {} shader {} with {} texBindings, {} bufferBindings, {} constantStorageSize.\n",
 				(void *)this, (void *)s, numTextureBindings, numBufferBindings, constantStorageSize);
-			m_lightBinding = s->GetBufferBindingInfo(Renderer::GetName("LightData")).binding;
-			m_perDrawBinding = s->GetBufferBindingInfo(Renderer::GetName("DrawData")).binding;
+			m_lightBinding = s->GetBufferBindingInfo(s_lightDataName).binding;
+			m_perDrawBinding = s->GetBufferBindingInfo(s_drawDataName).binding;
+			m_lightIntensityBinding = s->GetPushConstantInfo(s_lightIntensityName).binding;
 		}
 
-		static size_t s_lightDataName = Renderer::GetName("LightData");
-		static size_t s_drawDataName = Renderer::GetName("DrawData");
+		void Material::EvaluateVariant()
+		{
+			MaterialDescriptor desc = GetDescriptor();
+			bool variantChanged = false;
+			uint32_t numLights = m_renderer->GetNumLights();
+
+			// TODO: need a slightly better (and more generic) way to evaluate and generate state variations
+
+			//request a new light variation if the number of lights has changed
+			if (desc.lighting && desc.dirLights != numLights) {
+				desc.dirLights = numLights;
+				variantChanged = true;
+			}
+
+			if (variantChanged) {
+				Program *p = m_shader->GetProgramForDesc(desc);
+				if (p->Loaded())
+					m_activeVariant = p;
+			}
+		}
 
 		void Material::Apply()
 		{
 			PROFILE_SCOPED()
+			EvaluateVariant();
+
 			m_activeVariant->Use();
 
 			if (m_lightBinding != Shader::InvalidBinding)
@@ -94,6 +119,14 @@ namespace Graphics {
 				dataBlock->uViewMatrix = mv;
 				dataBlock->uViewMatrixInverse = mv.Inverse();
 				dataBlock->uViewProjectionMatrix = proj * mv;
+			}
+
+			if (m_lightIntensityBinding != Shader::InvalidBinding) {
+				float intensity[4] = { 0.f, 0.f, 0.f, 0.f };
+				for (uint32_t i = 0; i < m_renderer->GetNumLights(); i++)
+					intensity[i] = m_renderer->GetLight(i).GetIntensity();
+
+				SetPushConstant(s_lightIntensityName, Color4f(intensity[0], intensity[1], intensity[2], intensity[3]));
 			}
 
 			for (auto &info : m_shader->GetBufferBindings()) {
@@ -161,9 +194,13 @@ namespace Graphics {
 		}
 
 		// Copy all material data from this material into another, possibly different one
-		void Material::Copy(Graphics::Material *other) const
+		void Material::Copy(OGL::Material *mat) const
 		{
-			OGL::Material *mat = static_cast<OGL::Material *>(other);
+			mat->diffuse = diffuse;
+			mat->specular = specular;
+			mat->emissive = emissive;
+			mat->shininess = shininess;
+
 			for (auto &texBinding : m_shader->GetTextureBindings()) {
 				mat->SetTexture(texBinding.name, m_textureBindings.get()[texBinding.binding]);
 			}

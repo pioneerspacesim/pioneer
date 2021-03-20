@@ -25,8 +25,6 @@ namespace Graphics {
 			virtual bool IsProgramLoaded() const override final { return false; }
 			virtual void SetProgram(Program *p) {}
 
-			virtual void Copy(Graphics::Material *other) const override{};
-
 			virtual bool SetTexture(size_t name, Texture *tex) override { return false; }
 			virtual bool SetBuffer(size_t name, void *buffer, size_t size, BufferUsage usage) override { return false; }
 

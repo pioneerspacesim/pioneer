@@ -5,11 +5,9 @@
 #include "lib.glsl"
 
 out vec3 v_texCoord;
-out float v_skyboxFactor;
 
 void main( void )
 {
     gl_Position = uViewProjectionMatrix * vec4(a_vertex.xyz, 1.0);
     v_texCoord    = a_vertex.xyz;
-	v_skyboxFactor = material.shininess;
 }

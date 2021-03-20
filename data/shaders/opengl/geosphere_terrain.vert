@@ -3,7 +3,7 @@
 
 #include "attributes.glsl"
 #include "lib.glsl"
-#include "geosphere_uniforms.glsl"
+#include "basesphere_uniforms.glsl"
 
 out vec3 varyingEyepos;
 out vec3 varyingNormal;

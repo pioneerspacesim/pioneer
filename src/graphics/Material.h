@@ -68,10 +68,9 @@ namespace Graphics {
 		bool usePatterns; //pattern/color system
 		bool vertexColors;
 		bool instanced;
-		Sint32 textures;   //texture count
-		Uint32 dirLights;  //set by RendererOGL if lighting == true
-		Uint32 quality;	   // see: Graphics::MaterialQuality
-		Uint32 numShadows; //use by GeoSphere/GasGiant for eclipse
+		Sint32 textures;  //texture count
+		Uint32 dirLights; //set by RendererOGL if lighting == true
+		Uint32 quality;	  // see: Graphics::MaterialQuality
 
 		friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
 	};
@@ -84,15 +83,6 @@ namespace Graphics {
 		Material();
 		virtual ~Material() {}
 
-		Texture *texture0;
-		Texture *texture1;
-		Texture *texture2;
-		Texture *texture3;
-		Texture *texture4;
-		Texture *texture5;
-		Texture *texture6;
-		Texture *heatGradient;
-
 		Color diffuse;
 		Color specular;
 		Color emissive;
@@ -101,10 +91,6 @@ namespace Graphics {
 		virtual void Apply() {}
 		virtual void Unapply() {}
 		virtual bool IsProgramLoaded() const = 0;
-
-		virtual void Copy(Material *to) const = 0;
-
-		void *specialParameter0; //this can be whatever. Bit of a hack.
 
 		//XXX may not be necessary. Used by newmodel to check if a material uses patterns
 		const MaterialDescriptor &GetDescriptor() const { return m_descriptor; }

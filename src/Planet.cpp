@@ -239,7 +239,6 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		Graphics::TEXTURE_RGBA_8888);
 
 	Graphics::MaterialDescriptor desc;
-	desc.effect = Graphics::EFFECT_PLANETRING;
 	desc.lighting = true;
 	desc.textures = 1;
 
@@ -248,8 +247,8 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	rsd.cullMode = Graphics::CULL_NONE;
 	rsd.primitiveType = Graphics::TRIANGLE_STRIP;
 
-	m_ringMaterial.reset(renderer->CreateMaterial(desc, rsd));
-	m_ringMaterial->texture0 = m_ringTexture.Get();
+	m_ringMaterial.reset(renderer->CreateMaterial("planetrings", desc, rsd));
+	m_ringMaterial->SetTexture(Graphics::Renderer::GetName("texture0"), m_ringTexture.Get());
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer, const matrix4x4d &modelView)

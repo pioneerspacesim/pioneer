@@ -88,15 +88,8 @@ namespace SceneGraph {
 				Graphics::MaterialDescriptor mdesc = it.material->GetDescriptor();
 				mdesc.instanced = true;
 				// create the "new" material with the instanced description
-				RefCountedPtr<Graphics::Material> mat(r->CreateMaterial(mdesc, it.material->GetStateDescriptor()));
-				// copy over all of the other details
-				it.material->Copy(mat.Get());
-				mat->diffuse = it.material->diffuse;
-				mat->specular = it.material->specular;
-				mat->emissive = it.material->emissive;
-				mat->shininess = it.material->shininess;
-				mat->specialParameter0 = it.material->specialParameter0;
-				m_instanceMaterials.push_back(mat);
+				RefCountedPtr<Graphics::Material> mat(r->CloneMaterial(it.material.Get(), mdesc, it.material->GetStateDescriptor()));
+				m_instanceMaterials.push_back(std::move(mat));
 			}
 		}
 

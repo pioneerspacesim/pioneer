@@ -52,7 +52,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	}
 
 	//Create material and set parameters
-	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(matDesc, rsd));
+	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial("multi", matDesc, rsd));
 	mat->diffuse = mdef.diffuse;
 	mat->specular = mdef.specular;
 	mat->emissive = mdef.emissive;
@@ -113,8 +113,9 @@ RefCountedPtr<Graphics::Material> BaseLoader::GetDecalMaterial(unsigned int inde
 		rsd.blendMode = Graphics::BLEND_ALPHA;
 
 		// XXX add depth bias to render state parameter
-		decMat.Reset(m_renderer->CreateMaterial(matDesc, rsd));
-		decMat->texture0 = Graphics::TextureBuilder::GetTransparentTexture(m_renderer);
+		decMat.Reset(m_renderer->CreateMaterial("multi", matDesc, rsd));
+		decMat->SetTexture(Graphics::Renderer::GetName("texture0"),
+			Graphics::TextureBuilder::GetTransparentTexture(m_renderer));
 		decMat->specular = Color::BLACK;
 		decMat->diffuse = Color::WHITE;
 	}

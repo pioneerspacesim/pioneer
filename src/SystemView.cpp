@@ -65,15 +65,14 @@ SystemView::SystemView(Game *game) :
 	m_input.RegisterBindings();
 
 	Graphics::MaterialDescriptor lineMatDesc;
-	lineMatDesc.effect = Graphics::EFFECT_VTXCOLOR;
 
 	Graphics::RenderStateDesc rsd;
 	rsd.primitiveType = Graphics::LINE_STRIP;
 
-	m_lineMat.reset(Pi::renderer->CreateMaterial(lineMatDesc, rsd)); //m_renderer not set yet
+	m_lineMat.reset(Pi::renderer->CreateMaterial("vtxColor", lineMatDesc, rsd)); //m_renderer not set yet
 
 	rsd.primitiveType = Graphics::LINE_SINGLE;
-	m_gridMat.reset(Pi::renderer->CreateMaterial(lineMatDesc, rsd));
+	m_gridMat.reset(Pi::renderer->CreateMaterial("vtxColor", lineMatDesc, rsd));
 
 	m_realtime = true;
 	m_unexplored = true;
@@ -215,7 +214,7 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 			Graphics::RenderStateDesc rsd;
 			rsd.primitiveType = Graphics::TRIANGLE_FAN;
 
-			m_bodyMat.reset(m_renderer->CreateMaterial(desc, rsd));
+			m_bodyMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd));
 			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer));
 		}
 

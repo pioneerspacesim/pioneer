@@ -96,14 +96,13 @@ void Shields::Init(Graphics::Renderer *renderer)
 	desc.textures = 0;
 	desc.lighting = true;
 	desc.alphaTest = false;
-	desc.effect = Graphics::EffectType::EFFECT_SHIELD;
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	rsd.cullMode = Graphics::CULL_NONE;
 
-	s_matShield.Reset(renderer->CreateMaterial(desc, rsd));
+	s_matShield.Reset(renderer->CreateMaterial("shield", desc, rsd));
 	s_matShield->diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 	s_initialised = true;

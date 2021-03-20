@@ -1,0 +1,9 @@
+## Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
+## Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+Buffer LightData binding=0
+Buffer DrawData binding=1
+Buffer ShieldData binding=2
+
+Vertex "shield.vert"
+Fragment "shield.frag"

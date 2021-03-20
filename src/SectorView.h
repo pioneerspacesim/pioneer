@@ -191,7 +191,6 @@ private:
 	std::unique_ptr<Graphics::VertexArray> m_secLineVerts;
 	std::unique_ptr<Graphics::VertexArray> m_starVerts;
 
-	[[deprecated]] RefCountedPtr<Graphics::Material> m_material; //flat colour
 	RefCountedPtr<Graphics::Material> m_starMaterial;
 	RefCountedPtr<Graphics::Material> m_fresnelMat;
 	RefCountedPtr<Graphics::Material> m_lineMat;

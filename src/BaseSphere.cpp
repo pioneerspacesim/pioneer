@@ -6,8 +6,35 @@
 #include "GasGiant.h"
 #include "GeoSphere.h"
 
+#include "galaxy/AtmosphereParameters.h"
+#include "galaxy/SystemBody.h"
 #include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
+
+struct BaseSphereDataBlock {
+	vector3f geosphereCenter;
+	float geosphereRadius;
+	float geosphereInvRadius;
+	float geosphereAtmosTopRad;
+	float geosphereAtmosFogDensity;
+	float geosphereAtmosInvScaleHeight;
+	Color4f atmosColor;
+
+	// Eclipse struct data
+	alignas(16) vector3f shadowCentreX;
+	alignas(16) vector3f shadowCentreY;
+	alignas(16) vector3f shadowCentreZ;
+	alignas(16) vector3f srad;
+	alignas(16) vector3f lrad;
+	alignas(16) vector3f sdivlrad;
+	float __padding;
+
+	// Texturing detail
+	float detailScaleHi;
+	float detailScaleLo;
+};
+static_assert(sizeof(BaseSphereDataBlock) == 160, "");
+static_assert(offsetof(BaseSphereDataBlock, detailScaleHi) == 144, "");
 
 BaseSphere::BaseSphere(const SystemBody *body) :
 	m_sbody(body),
@@ -61,4 +88,48 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	m_atmos->Draw(renderer);
 
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_ATMOSPHERES, 1);
+}
+
+static constexpr float hiScale = 4.0f;
+static constexpr float loScale = 0.5f;
+static size_t s_baseSphereData = Graphics::Renderer::GetName("BaseSphereData");
+static size_t s_numShadows = Graphics::Renderer::GetName("NumShadows");
+void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radius, const std::vector<Camera::Shadow> &shadows, const AtmosphereParameters &ap)
+{
+	BaseSphereDataBlock matData;
+
+	matData.atmosColor = ap.atmosCol.ToColor4f();
+	matData.geosphereAtmosFogDensity = ap.atmosDensity;
+	matData.geosphereAtmosInvScaleHeight = ap.atmosInvScaleHeight;
+	matData.geosphereAtmosTopRad = ap.atmosRadius;
+	matData.geosphereCenter = vector3f(trans * vector3d(0.0));
+	matData.geosphereRadius = radius;
+	matData.geosphereRadius = 1.0f / radius;
+
+	const float fDetailFrequency = pow(2.0f, float(m_materialParameters.maxPatchDepth) - float(m_materialParameters.patchDepth));
+
+	matData.detailScaleHi = hiScale * fDetailFrequency;
+	matData.detailScaleLo = loScale * fDetailFrequency;
+
+	// we handle up to three shadows at a time
+	auto it = shadows.cbegin(), itEnd = shadows.cend();
+	int j = 0;
+	while (j < 3 && it != itEnd) {
+		matData.shadowCentreX[j] = it->centre[0];
+		matData.shadowCentreY[j] = it->centre[1];
+		matData.shadowCentreZ[j] = it->centre[2];
+		matData.srad[j] = it->srad;
+		matData.lrad[j] = it->lrad;
+		matData.sdivlrad[j] = it->srad / it->lrad;
+		++it;
+		++j;
+	}
+
+	// FIXME: these two should share the same buffer data instead of making two separate allocs
+	m_surfaceMaterial->SetBuffer(s_baseSphereData, &matData, Graphics::BufferUsage::BUFFER_USAGE_DYNAMIC);
+	m_surfaceMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
+	if (ap.atmosDensity > 0.0) {
+		m_atmosphereMaterial->SetBuffer(s_baseSphereData, &matData, Graphics::BufferUsage::BUFFER_USAGE_DYNAMIC);
+		m_atmosphereMaterial->SetPushConstant(s_numShadows, int(shadows.size()));
+	}
 }

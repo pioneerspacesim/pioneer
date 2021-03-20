@@ -66,6 +66,8 @@ protected:
 	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
 	RefCountedPtr<Graphics::Material> m_atmosphereMaterial;
 
+	void SetMaterialParameters(const matrix4x4d &t, const float r, const std::vector<Camera::Shadow> &s, const AtmosphereParameters &ap);
+
 	// atmosphere geometry
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos;
 

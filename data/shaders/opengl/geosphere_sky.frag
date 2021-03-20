@@ -3,7 +3,9 @@
 
 #include "attributes.glsl"
 #include "lib.glsl"
-#include "geosphere_uniforms.glsl"
+#include "basesphere_uniforms.glsl"
+
+uniform int NumShadows;
 
 in vec4 varyingEyepos;
 
@@ -53,7 +55,7 @@ void main(void)
 
 		vec3 lightDir = normalize(vec3(uLight[i].position));
 
-		float uneclipsed = clamp(calcUneclipsedSky(eclipse, i, a, b, lightDir), 0.0, 1.0);
+		float uneclipsed = clamp(calcUneclipsedSky(eclipse, NumShadows, a, b, lightDir), 0.0, 1.0);
 
 		float nDotVP =  max(0.0, dot(surfaceNorm, lightDir));
 		float nnDotVP = max(0.0, dot(surfaceNorm, -lightDir));  //need backlight to increase horizon

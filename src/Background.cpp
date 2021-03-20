@@ -143,11 +143,12 @@ namespace Background {
 		box->Add(vector3f(-vp, -vp, -vp), vector2f(1.0f, 1.0f));
 
 		Graphics::MaterialDescriptor desc;
-		desc.effect = EFFECT_SKYBOX;
 		Graphics::RenderStateDesc stateDesc;
 		stateDesc.depthTest = false;
 		stateDesc.depthWrite = false;
-		m_material.Reset(m_renderer->CreateMaterial(desc, stateDesc));
+
+		m_material.Reset(m_renderer->CreateMaterial("skybox", desc, stateDesc));
+		m_material->diffuse = Color4f(0.8, 0.8, 0.8, 1.0);
 
 		//create buffer and upload data
 		Graphics::VertexBufferDesc vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
@@ -207,9 +208,6 @@ namespace Background {
 
 		// Create material to be used with starfield points
 		Graphics::MaterialDescriptor desc;
-		desc.effect = Graphics::EFFECT_STARFIELD;
-		desc.textures = 1;
-		desc.vertexColors = true;
 
 		Graphics::RenderStateDesc stateDesc;
 		stateDesc.depthTest = false;
@@ -217,18 +215,16 @@ namespace Background {
 		stateDesc.blendMode = Graphics::BLEND_ALPHA;
 		stateDesc.primitiveType = Graphics::POINTS;
 
-		m_material.Reset(m_renderer->CreateMaterial(desc, stateDesc));
+		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
 		Graphics::Texture *texture = Graphics::TextureBuilder::Billboard("textures/star_point_2.png").GetOrCreateTexture(m_renderer, "billboard");
 		m_material->SetTexture(Graphics::Renderer::GetName("texture0"), texture);
 		m_material->emissive = Color::WHITE;
 
 		// Create material to be used with hyperjump 'star streaks'
 		Graphics::MaterialDescriptor descStreaks;
-		descStreaks.effect = Graphics::EFFECT_VTXCOLOR;
-		descStreaks.vertexColors = true;
 		Graphics::RenderStateDesc stateDescStreaks = stateDesc;
 		stateDescStreaks.primitiveType = Graphics::LINE_SINGLE;
-		m_materialStreaks.Reset(m_renderer->CreateMaterial(descStreaks, stateDescStreaks));
+		m_materialStreaks.Reset(m_renderer->CreateMaterial("vtxColor", descStreaks, stateDescStreaks));
 		m_materialStreaks->emissive = Color::WHITE;
 
 		IniConfig cfg;
@@ -503,13 +499,11 @@ namespace Background {
 			dark);
 
 		Graphics::MaterialDescriptor desc;
-		desc.effect = Graphics::EFFECT_STARFIELD;
-		desc.vertexColors = true;
 		Graphics::RenderStateDesc stateDesc;
 		stateDesc.depthTest = false;
 		stateDesc.depthWrite = false;
 		stateDesc.primitiveType = Graphics::TRIANGLE_STRIP;
-		m_material.Reset(m_renderer->CreateMaterial(desc, stateDesc));
+		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
 		m_material->emissive = Color::WHITE;
 
 		Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);

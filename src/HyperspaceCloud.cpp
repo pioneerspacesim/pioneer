@@ -191,7 +191,7 @@ void HyperspaceCloud::InitGraphics(Graphics::Renderer *renderer)
 	rsd.blendMode = BLEND_ALPHA_ONE;
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::TRIANGLE_FAN;
-	s_cloudMat.reset(renderer->CreateMaterial(desc, rsd));
+	s_cloudMat.reset(renderer->CreateMaterial("unlit", desc, rsd));
 
 	Graphics::VertexArray vertices(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 

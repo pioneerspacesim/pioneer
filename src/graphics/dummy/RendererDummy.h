@@ -65,7 +65,8 @@ namespace Graphics {
 		virtual bool DrawMesh(MeshObject *, Material *) override final { return true; }
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final { return true; }
 
-		virtual Material *CreateMaterial(const MaterialDescriptor &d, const RenderStateDesc &rsd) override final { return new Graphics::Dummy::Material(); }
+		virtual Material *CreateMaterial(const std::string &s, const MaterialDescriptor &d, const RenderStateDesc &rsd) override final { return new Graphics::Dummy::Material(); }
+		virtual Material *CloneMaterial(const Material *m, const MaterialDescriptor &d, const RenderStateDesc &rsd) override final { return new Graphics::Dummy::Material(); }
 		virtual Texture *CreateTexture(const TextureDescriptor &d) override final { return new Graphics::TextureDummy(d); }
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &d) override final { return new Graphics::Dummy::RenderTarget(d); }
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &d) override final { return new Graphics::Dummy::VertexBuffer(d); }

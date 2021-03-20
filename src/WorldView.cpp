@@ -75,14 +75,13 @@ void WorldView::InitObject()
 	m_labelsOn = true;
 
 	Graphics::MaterialDescriptor desc;
-	desc.effect = Graphics::EFFECT_VTXCOLOR;
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	rsd.depthTest = false;
 	rsd.primitiveType = Graphics::LINE_SINGLE;
-	m_indicatorMat.reset(Pi::renderer->CreateMaterial(desc, rsd));
+	m_indicatorMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd));
 
 	/*
 	  NEW UI

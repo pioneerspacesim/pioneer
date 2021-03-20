@@ -3,11 +3,13 @@
 
 #include "attributes.glsl"
 #include "lib.glsl"
-#include "geosphere_uniforms.glsl"
+#include "basesphere_uniforms.glsl"
 
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 in vec2 texCoord0;
+
+uniform int NumShadows;
 
 in float dist;
 
@@ -48,7 +50,7 @@ void main(void)
 	vec3 v = (eyepos - geosphereCenter) * geosphereInvRadius;
 	float lenInvSq = 1.0/(dot(v,v));
 	for (int i=0; i<NUM_LIGHTS; ++i) {
-		float uneclipsed = clamp(calcUneclipsed(eclipse, i, v, normalize(vec3(uLight[i].position))), 0.0, 1.0);
+		float uneclipsed = clamp(calcUneclipsed(eclipse, NumShadows, v, normalize(vec3(uLight[i].position))), 0.0, 1.0);
 		nDotVP  = max(0.0, dot(tnorm, normalize(vec3(uLight[i].position))));
 		nnDotVP = max(0.0, dot(tnorm, normalize(-vec3(uLight[i].position)))); //need backlight to increase horizon
 		diff += uLight[i].diffuse * uneclipsed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0) * INV_NUM_LIGHTS);

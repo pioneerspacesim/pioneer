@@ -22,22 +22,10 @@ namespace Graphics {
 	struct Settings;
 
 	namespace OGL {
-		class GasGiantSurfaceMaterial;
-		class GeoSphereSkyMaterial;
-		class GeoSphereStarMaterial;
-		class GeoSphereSurfaceMaterial;
-		class GenGasGiantColourMaterial;
 		class Material;
-		class MultiMaterial;
-		class LitMultiMaterial;
 		class Shader;
 		class RenderState;
 		class RenderTarget;
-		class RingMaterial;
-		class FresnelColourMaterial;
-		class ShieldMaterial;
-		class UIMaterial;
-		class BillboardMaterial;
 	} // namespace OGL
 
 	class RendererOGL final : public Renderer {
@@ -94,7 +82,8 @@ namespace Graphics {
 		virtual bool DrawMesh(MeshObject *, Material *) override final;
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final;
 
-		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor) override final;
+		virtual Material *CreateMaterial(const std::string &, const MaterialDescriptor &, const RenderStateDesc &) override final;
+		virtual Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &) override final;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override final;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) override final;
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) override final;
@@ -106,8 +95,6 @@ namespace Graphics {
 
 		OGL::UniformBuffer *GetLightUniformBuffer();
 		OGL::UniformLinearBuffer *GetDrawUniformBuffer(Uint32 size);
-
-		OGL::Shader *GetCachedShader(EffectType type);
 
 		virtual bool ReloadShaders() override final;
 
@@ -133,23 +120,8 @@ namespace Graphics {
 		matrix4x4f &GetCurrentTransform() { return m_currentTransform; }
 		matrix4x4f m_currentTransform;
 
-		/*
-		friend class OGL::Material;
-		friend class OGL::GasGiantSurfaceMaterial;
-		friend class OGL::GeoSphereSurfaceMaterial;
-		friend class OGL::GeoSphereSkyMaterial;
-		friend class OGL::GeoSphereStarMaterial;
-		friend class OGL::GenGasGiantColourMaterial;
-		friend class OGL::MultiMaterial;
-		friend class OGL::LitMultiMaterial;
-		friend class OGL::RingMaterial;
-		friend class OGL::FresnelColourMaterial;
-		friend class OGL::ShieldMaterial;
-		friend class OGL::BillboardMaterial;
-		*/
-
 		// TODO: cache shader filepaths and remove EffectType completely
-		std::vector<std::pair<EffectType, OGL::Shader *>> m_shaders;
+		std::vector<std::pair<std::string, OGL::Shader *>> m_shaders;
 		std::vector<std::unique_ptr<OGL::UniformLinearBuffer>> m_drawUniformBuffers;
 		RefCountedPtr<OGL::UniformBuffer> m_lightUniformBuffer;
 		bool m_useNVDepthRanged;

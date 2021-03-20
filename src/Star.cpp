@@ -40,14 +40,13 @@ void Star::InitStar()
 	SetClipRadius(sbody->GetRadius() * 8 * wf);
 
 	Graphics::MaterialDescriptor desc;
-	desc.effect = Graphics::EFFECT_VTXCOLOR;
 	desc.vertexColors = true;
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	rsd.primitiveType = Graphics::TRIANGLE_FAN;
-	m_haloMat.reset(Pi::renderer->CreateMaterial(desc, rsd));
+	m_haloMat.reset(Pi::renderer->CreateMaterial("vtxColor", desc, rsd));
 }
 
 void Star::BuildHaloBuffer(Graphics::Renderer *renderer, double rad)
