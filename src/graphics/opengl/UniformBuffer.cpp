@@ -64,6 +64,10 @@ void *UniformBuffer::MapInternal(BufferMapMode mode)
 	return data;
 }
 
+// ============================================================================
+// Uniform Buffer- Backed Linear Allocator
+//
+
 UniformLinearBuffer::UniformLinearBuffer(uint32_t size) :
 	UniformBuffer(size, BUFFER_USAGE_DYNAMIC),
 	m_numAllocs(0)
@@ -72,12 +76,8 @@ UniformLinearBuffer::UniformLinearBuffer(uint32_t size) :
 	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer);
 	glBufferData(GL_UNIFORM_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	m_capacity = size;
+	m_size = 0;
 }
-
-// ============================================================================
-// Uniform Buffer- Backed Linear Allocator
-//
 
 UniformLinearBuffer::~UniformLinearBuffer()
 {

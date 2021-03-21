@@ -136,6 +136,7 @@ std::string Shader::GetProgramDefines(const MaterialDescriptor &desc)
 	//build some defines
 	std::stringstream ss;
 
+	ss << "#define PI 3.141592653589793\n";
 	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
 	if (desc.lighting && desc.dirLights > 0)
 		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", 1.0f / float(desc.dirLights));

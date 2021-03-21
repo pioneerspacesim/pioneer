@@ -3,6 +3,7 @@
 
 #include "attributes.glsl"
 #include "lib.glsl"
+#include "sgaussian.glsl"
 
 #ifdef TEXTURE0
 uniform sampler2D texture0; //diffuse
@@ -76,6 +77,7 @@ void getSurface(inout Surface surf)
 	// pointing directly at the viewer
 	surf.normal = vec3(0, 0, 1);
 #endif
+	surf.normal = normalize(surf.normal);
 
 	// this is crude "baked ambient occulsion" - basically multiply everything by the ambient texture
 	// scaling whatever we've decided the lighting contribution is by 0.0 to 1.0 to account for sheltered/hidden surfaces
@@ -97,7 +99,8 @@ void getSurface(inout Surface surf)
 
 void main(void)
 {
-	Surface surface;
+	// initialize here to prevent warnings about possibly-unused variables
+	Surface surface = Surface(vec4(1.0), vec3(1.0), 100.0, vec3(0, 0, 1), vec3(0), 1.0);
 	getSurface(surface);
 
 #ifdef ALPHA_TEST
@@ -120,6 +123,26 @@ void main(void)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		BlinnPhongDirectionalLight(uLight[i], intensity[i], surface, eyePos, diffuse, specular);
 	}
+
+#if 0
+	// sturnclaw: toying with spherical gaussian indirect lighting.
+	// Enable the ifdef and change the values below to play with it.
+	SGaussian cosineLobe = CosineLobeSG(surface.normal);
+
+	SGaussian lightingLobe;
+	lightingLobe.Axis = mat3(uViewMatrix) * normalize(vec3(0, 1, 0.5));
+	lightingLobe.Amplitude = vec3(1.0, 0.75, 0.6) / vec3(2.5);
+	lightingLobe.Sharpness = 8.0;
+
+	SGaussian atmosphereLobe;
+	atmosphereLobe.Axis = mat3(uViewMatrix) * normalize(vec3(0, 1, 0.5));
+	atmosphereLobe.Amplitude = vec3(1.0, 1.0, 0.9) / vec3(32.0);
+	atmosphereLobe.Sharpness = 0.5;
+
+	vec3 brdf = vec3(1) / PI;
+	diffuse += brdf * max(SGInnerProduct(lightingLobe, cosineLobe), 0.0);
+	diffuse += brdf * max(SGInnerProduct(atmosphereLobe, cosineLobe), 0.0);
+#endif
 
 	vec3 final_color = diffuse * surface.ambientOcclusion + surface.emissive + specular;
 	frag_color = vec4(final_color, surface.color.w);

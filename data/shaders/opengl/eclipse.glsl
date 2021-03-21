@@ -12,8 +12,6 @@ struct Eclipse {
 	vec3 sdivlrad;
 };
 
-#define PI 3.141592653589793
-
 float discCovered(const in float dist, const in float rad) {
 	// proportion of unit disc covered by a second disc of radius rad placed
 	// dist from centre of first disc.
