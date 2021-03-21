@@ -16,7 +16,6 @@
 #include "graphics/Texture.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
-#include "graphics/opengl/GenGasGiantColourMaterial.h"
 #include "perlin.h"
 #include "utils.h"
 #include "vcacheopt/vcacheopt.h"
@@ -531,8 +530,7 @@ void GasGiant::GenerateTexture()
 			return;
 	}
 
-	// FIXME: add support for more general-purpose compute to the Shader architecture
-	const bool bEnableGPUJobs = false; //(Pi::config->Int("EnableGPUJobs") == 1);
+	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
 
 	// scope the small texture generation
 	{
@@ -606,17 +604,17 @@ void GasGiant::GenerateTexture()
 		const std::string ColorFracName = GetTerrain()->GetColorFractalName();
 		Output("Color Fractal name: %s\n", ColorFracName.c_str());
 
-		Uint32 GasGiantType = Graphics::OGL::GEN_JUPITER_TEXTURE;
+		Uint32 GasGiantType = GasGiantTexture::GEN_JUPITER_TEXTURE;
 		if (ColorFracName == GGSaturn) {
-			GasGiantType = Graphics::OGL::GEN_SATURN_TEXTURE;
+			GasGiantType = GasGiantTexture::GEN_SATURN_TEXTURE;
 		} else if (ColorFracName == GGSaturn2) {
-			GasGiantType = Graphics::OGL::GEN_SATURN2_TEXTURE;
+			GasGiantType = GasGiantTexture::GEN_SATURN2_TEXTURE;
 		} else if (ColorFracName == GGNeptune) {
-			GasGiantType = Graphics::OGL::GEN_NEPTUNE_TEXTURE;
+			GasGiantType = GasGiantTexture::GEN_NEPTUNE_TEXTURE;
 		} else if (ColorFracName == GGNeptune2) {
-			GasGiantType = Graphics::OGL::GEN_NEPTUNE2_TEXTURE;
+			GasGiantType = GasGiantTexture::GEN_NEPTUNE2_TEXTURE;
 		} else if (ColorFracName == GGUranus) {
-			GasGiantType = Graphics::OGL::GEN_URANUS_TEXTURE;
+			GasGiantType = GasGiantTexture::GEN_URANUS_TEXTURE;
 		}
 		const Uint32 octaves = (Pi::config->Int("AMD_MESA_HACKS") == 0) ? s_noiseOctaves[Pi::detail.planets] : std::min(5U, s_noiseOctaves[Pi::detail.planets]);
 		GasGiantType = (octaves << 16) | GasGiantType;
@@ -717,8 +715,6 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	for (int i = 0; i < NUM_PATCHES; i++) {
 		m_patches[i]->Render(renderer, campos, modelView, frustum);
 	}
-
-	m_surfaceMaterial->Unapply();
 
 	renderer->SetAmbientColor(oldAmbient);
 

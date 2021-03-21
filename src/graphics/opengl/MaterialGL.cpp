@@ -65,9 +65,7 @@ namespace Graphics {
 				std::fill_n(m_pushConstants.get(), constantStorageSize, '\0');
 			}
 
-			m_lightBinding = s->GetBufferBindingInfo(s_lightDataName).binding;
 			m_perDrawBinding = s->GetBufferBindingInfo(s_drawDataName).binding;
-			m_lightIntensityBinding = s->GetPushConstantInfo(s_lightIntensityName).binding;
 		}
 
 		void Material::EvaluateVariant()
@@ -91,15 +89,18 @@ namespace Graphics {
 			}
 		}
 
-		void Material::Apply()
+		void Material::UpdateDrawData()
 		{
-			PROFILE_SCOPED()
-			EvaluateVariant();
+			if (m_descriptor.lighting) {
+				UniformBuffer *lightBuffer = m_renderer->GetLightUniformBuffer();
+				SetBuffer(s_lightDataName, lightBuffer, 0, lightBuffer->GetSize());
 
-			m_activeVariant->Use();
+				float intensity[4] = { 0.f, 0.f, 0.f, 0.f };
+				for (uint32_t i = 0; i < m_renderer->GetNumLights(); i++)
+					intensity[i] = m_renderer->GetLight(i).GetIntensity();
 
-			if (m_lightBinding != Shader::InvalidBinding)
-				m_renderer->GetLightUniformBuffer()->Bind(m_lightBinding);
+				SetPushConstant(s_lightIntensityName, Color4f(intensity[0], intensity[1], intensity[2], intensity[3]));
+			}
 
 			// this should always be present, but just in case...
 			if (m_perDrawBinding != Shader::InvalidBinding) {
@@ -118,25 +119,26 @@ namespace Graphics {
 				dataBlock->uViewMatrixInverse = mv.Inverse();
 				dataBlock->uViewProjectionMatrix = proj * mv;
 			}
+		}
 
-			if (m_lightIntensityBinding != Shader::InvalidBinding) {
-				float intensity[4] = { 0.f, 0.f, 0.f, 0.f };
-				for (uint32_t i = 0; i < m_renderer->GetNumLights(); i++)
-					intensity[i] = m_renderer->GetLight(i).GetIntensity();
+		void Material::Apply()
+		{
+			PROFILE_SCOPED()
+			EvaluateVariant();
+			UpdateDrawData();
 
-				SetPushConstant(s_lightIntensityName, Color4f(intensity[0], intensity[1], intensity[2], intensity[3]));
-			}
+			m_activeVariant->Use();
 
 			for (auto &info : m_shader->GetBufferBindings()) {
-				BufferBinding &bind = m_bufferBindings[info.binding];
-				if (bind.buffer && info.name != s_lightDataName && info.name != s_drawDataName)
+				BufferBinding &bind = m_bufferBindings[info.index];
+				if (bind.buffer)
 					bind.buffer->BindRange(info.binding, bind.offset, bind.size);
 			}
 
 			for (auto &info : m_shader->GetTextureBindings()) {
 				glActiveTexture(GL_TEXTURE0 + info.binding);
-				if (m_textureBindings[info.binding])
-					m_textureBindings[info.binding]->Bind();
+				if (m_textureBindings[info.index])
+					m_textureBindings[info.index]->Bind();
 				else
 					glBindTexture(GL_TEXTURE_2D, 0);
 			}
@@ -181,8 +183,10 @@ namespace Graphics {
 			// Unbinding textures is probably also not needed, (and not performant)
 			// but included here to ensure we don't have any state leakage
 			for (auto &info : m_shader->GetTextureBindings()) {
-				glActiveTexture(GL_TEXTURE0 + info.binding);
-				glBindTexture(GL_TEXTURE_2D, 0);
+				if (m_textureBindings[info.index]) {
+					glActiveTexture(GL_TEXTURE0 + info.binding);
+					m_textureBindings[info.index]->Unbind();
+				}
 			}
 		}
 
@@ -200,11 +204,11 @@ namespace Graphics {
 			mat->shininess = shininess;
 
 			for (auto &texBinding : m_shader->GetTextureBindings()) {
-				mat->SetTexture(texBinding.name, m_textureBindings.get()[texBinding.binding]);
+				mat->SetTexture(texBinding.name, m_textureBindings.get()[texBinding.index]);
 			}
 
 			for (auto &bufferBinding : m_shader->GetBufferBindings()) {
-				auto &buffer = m_bufferBindings.get()[bufferBinding.binding];
+				auto &buffer = m_bufferBindings.get()[bufferBinding.index];
 				// clone the buffer reference if present
 				if (buffer.buffer)
 					mat->SetBuffer(bufferBinding.name, buffer.buffer.Get(), buffer.offset, buffer.size);
@@ -243,17 +247,17 @@ namespace Graphics {
 			if (info.binding == Shader::InvalidBinding || (tex && info.format != tex->GetDescriptor().type))
 				return false;
 
-			m_textureBindings.get()[info.binding] = tex;
+			m_textureBindings.get()[info.index] = tex;
 			return true;
 		}
 
 		bool Material::SetBuffer(size_t name, void *buffer, size_t size, BufferUsage usage)
 		{
-			GLuint binding = m_shader->GetBufferBindingInfo(name).binding;
-			if (binding == Shader::InvalidBinding)
+			BufferBindingData info = m_shader->GetBufferBindingInfo(name);
+			if (info.binding == Shader::InvalidBinding)
 				return false;
 
-			auto &bufferSlot = m_bufferBindings[binding];
+			auto &bufferSlot = m_bufferBindings[info.index];
 
 			if (usage == BUFFER_USAGE_DYNAMIC) {
 				auto allocation = m_renderer->GetDrawUniformBuffer(size)->Allocate(buffer, size);
@@ -274,11 +278,11 @@ namespace Graphics {
 
 		bool Material::SetBuffer(size_t name, UniformBuffer *buffer, uint32_t offset, uint32_t size)
 		{
-			GLuint binding = m_shader->GetBufferBindingInfo(name).binding;
-			if (binding == Shader::InvalidBinding)
+			BufferBindingData info = m_shader->GetBufferBindingInfo(name);
+			if (info.binding == Shader::InvalidBinding)
 				return false;
 
-			auto &bufferSlot = m_bufferBindings[binding];
+			auto &bufferSlot = m_bufferBindings[info.index];
 			bufferSlot.buffer.Reset(buffer);
 			bufferSlot.offset = offset;
 			bufferSlot.size = size;

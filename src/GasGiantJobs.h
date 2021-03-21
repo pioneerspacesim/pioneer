@@ -9,7 +9,6 @@
 #include "JobQueue.h"
 #include "graphics/Material.h"
 #include "graphics/VertexBuffer.h"
-#include "graphics/opengl/GenGasGiantColourMaterial.h"
 #include "terrain/Terrain.h"
 #include "vector3.h"
 
@@ -21,6 +20,16 @@ namespace Graphics {
 
 namespace GasGiantJobs {
 	//#define DUMP_PARAMS 1
+
+	enum GasGiantTexture {
+		GEN_JUPITER_TEXTURE = 0,
+		GEN_SATURN_TEXTURE,
+		GEN_SATURN2_TEXTURE,
+		// technically Ice Giants not Gas Giants...
+		GEN_NEPTUNE_TEXTURE,
+		GEN_NEPTUNE2_TEXTURE,
+		GEN_URANUS_TEXTURE
+	};
 
 	// generate root face patches of the cube/sphere
 	static const vector3d p1 = (vector3d(1, 1, 1)).Normalized();
@@ -177,7 +186,6 @@ namespace GasGiantJobs {
 		const float planetRadius;
 		const float hueAdjust;
 		GenFaceQuad *pQuad;
-		Graphics::GenGasGiantColourMaterialParameters m_specialParams;
 	};
 
 	// ********************************************************************************

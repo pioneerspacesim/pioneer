@@ -30,6 +30,7 @@ namespace Graphics {
 
 		struct TextureBindingData {
 			size_t name;
+			uint32_t index;
 			// texture unit location
 			GLuint binding;
 			// Data format of this texture sampler binding (e.g. sampler2d)
@@ -38,6 +39,7 @@ namespace Graphics {
 
 		struct BufferBindingData {
 			size_t name;
+			uint32_t index;
 			// uniform location attribute
 			GLuint binding;
 			// reserved for future implementation (e.g. size / binding set)

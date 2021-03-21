@@ -1,0 +1,14 @@
+## Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
+## Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+Shader gen_gas_giant_colour
+
+Texture sampler2D permTexture
+Texture sampler2D gradTexture
+Texture sampler2D rampTexture
+
+Buffer DrawData binding=1
+Buffer GenColorData binding=2
+
+Vertex "gen-gas-giant-colour.vert"
+Fragment "gen-gas-giant-colour.frag"

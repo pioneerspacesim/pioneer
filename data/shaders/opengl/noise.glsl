@@ -14,7 +14,7 @@
  * Author: Stefan Gustavson ITN-LiTH (stegu@itn.liu.se) 2004-12-05
  * Simplex indexing functions by Bill Licea-Kane, ATI
  */
- 
+
 /*
 This code was irrevocably released into the public domain
 by its original author, Stefan Gustavson, in January 2011.
@@ -69,7 +69,6 @@ THE SOFTWARE.
  */
 uniform sampler2D permTexture;
 uniform sampler2D gradTexture;
-uniform float time; // Used for texture animation
 
 /*
  * Both 2D and 3D texture coordinates are defined, for testing purposes.
@@ -105,7 +104,7 @@ float fade(const in float t) {
 void simplex( const in vec3 P, out vec3 offset1, out vec3 offset2 )
 {
   vec3 offset0;
- 
+
   vec2 isX = step( P.yz, P.xx );         // P.x >= P.y ? 1.0 : 0.0;  P.x >= P.z ? 1.0 : 0.0;
   offset0.x  = dot( isX, vec2( 1.0 ) );  // Accumulate all P.x >= other channels in offset.x
   offset0.yz = 1.0 - isX;                // Accumulate all P.x <  other channels in offset.yz
@@ -113,7 +112,7 @@ void simplex( const in vec3 P, out vec3 offset1, out vec3 offset2 )
   float isY = step( P.z, P.y );          // P.y >= P.z ? 1.0 : 0.0;
   offset0.y += isY;                      // Accumulate P.y >= P.z in offset.y
   offset0.z += 1.0 - isY;                // Accumulate P.y <  P.z in offset.z
- 
+
   // offset0 now contains the unique values 0,1,2 in each channel
   // 2 for the channel greater than other channels
   // 1 for the channel that is less than one but greater than another
@@ -130,7 +129,7 @@ void simplex( const in vec3 P, out vec3 offset1, out vec3 offset2 )
 void simplex( const in vec4 P, out vec4 offset1, out vec4 offset2, out vec4 offset3 )
 {
   vec4 offset0;
- 
+
   vec3 isX = step( P.yzw, P.xxx );        // See comments in 3D simplex function
   offset0.x = dot( isX, vec3( 1.0 ) );
   offset0.yzw = 1.0 - isX;
@@ -138,7 +137,7 @@ void simplex( const in vec4 P, out vec4 offset1, out vec4 offset2, out vec4 offs
   vec2 isY = step( P.zw, P.yy );
   offset0.y += dot( isY, vec2( 1.0 ) );
   offset0.zw += 1.0 - isY;
- 
+
   float isZ = step( P.w, P.z );
   offset0.z += isZ;
   offset0.w += 1.0 - isZ;
@@ -376,7 +375,7 @@ float snoise(const in vec2 P) {
     t1 *= t1;
     n1 = t1 * t1 * dot(grad1, Pf1);
   }
-  
+
   // Noise contribution from last corner
   vec2 Pf2 = Pf0 - vec2(1.0-2.0*G2);
   vec2 grad2 = texture(permTexture, Pi + vec2(ONE, ONE)).rg * 4.0 - 1.0;
@@ -440,7 +439,7 @@ float snoise(const in vec3 P) {
     t1 *= t1;
     n1 = t1 * t1 * dot(grad1, Pf1);
   }
-  
+
   // Noise contribution from third corner
   vec3 Pf2 = Pf0 - o2 + 2.0 * G3;
   float perm2 = texture(permTexture, Pi.xy + o2.xy*ONE).a;
@@ -452,7 +451,7 @@ float snoise(const in vec3 P) {
     t2 *= t2;
     n2 = t2 * t2 * dot(grad2, Pf2);
   }
-  
+
   // Noise contribution from last corner
   vec3 Pf3 = Pf0 - vec3(1.0-3.0*G3);
   float perm3 = texture(permTexture, Pi.xy + vec2(ONE, ONE)).a;
@@ -497,7 +496,7 @@ float snoise(const in vec4 P) {
   vec4 o1;
   vec4 o2;
   vec4 o3;
-  simplex(Pf0, o1, o2, o3);  
+  simplex(Pf0, o1, o2, o3);
 
   // Noise contribution from simplex origin
   float perm0xy = texture(permTexture, Pi.xy).a;
@@ -524,7 +523,7 @@ float snoise(const in vec4 P) {
     t1 *= t1;
     n1 = t1 * t1 * dot(grad1, Pf1);
   }
-  
+
   // Noise contribution from third corner
   vec4 Pf2 = Pf0 - o2 + 2.0 * G4;
   o2 = o2 * ONE;
@@ -538,7 +537,7 @@ float snoise(const in vec4 P) {
     t2 *= t2;
     n2 = t2 * t2 * dot(grad2, Pf2);
   }
-  
+
   // Noise contribution from fourth corner
   vec4 Pf3 = Pf0 - o3 + 3.0 * G4;
   o3 = o3 * ONE;
@@ -552,7 +551,7 @@ float snoise(const in vec4 P) {
     t3 *= t3;
     n3 = t3 * t3 * dot(grad3, Pf3);
   }
-  
+
   // Noise contribution from last corner
   vec4 Pf4 = Pf0 - vec4(1.0-4.0*G4);
   float perm4xy = texture(permTexture, Pi.xy + vec2(ONE, ONE)).a;
@@ -570,7 +569,7 @@ float snoise(const in vec4 P) {
   return 27.0 * (n0 + n1 + n2 + n3 + n4);
 }
 
-float fbm(vec3 position, int octaves, float frequency, float persistence) {
+float fbm(vec3 position, int octaves, float frequency, float persistence, float time) {
 	float total = 0.0;
 	float maxAmplitude = 0.0;
 	float amplitude = 1.0;
@@ -583,7 +582,7 @@ float fbm(vec3 position, int octaves, float frequency, float persistence) {
 	return total / maxAmplitude;
 }
 
-float absNoise(vec3 position, int octaves, float frequency, float persistence) {
+float absNoise(vec3 position, int octaves, float frequency, float persistence, float time) {
 	float total = 0.0;
 	float maxAmplitude = 0.0;
 	float amplitude = 1.0;
@@ -596,7 +595,7 @@ float absNoise(vec3 position, int octaves, float frequency, float persistence) {
 	return total / maxAmplitude;
 }
 
-float ridgedNoise(vec3 position, int octaves, float frequency, float persistence) {
+float ridgedNoise(vec3 position, int octaves, float frequency, float persistence, float time) {
 	float total = 0.0;
 	float maxAmplitude = 0.0;
 	float amplitude = 1.0;
@@ -609,7 +608,7 @@ float ridgedNoise(vec3 position, int octaves, float frequency, float persistence
 	return total / maxAmplitude;
 }
 
-float squaredNoise(vec3 position, int octaves, float frequency, float persistence) {
+float squaredNoise(vec3 position, int octaves, float frequency, float persistence, float time) {
 	float total = 0.0;
 	float maxAmplitude = 0.0;
 	float amplitude = 1.0;
@@ -623,7 +622,7 @@ float squaredNoise(vec3 position, int octaves, float frequency, float persistenc
 	return total / maxAmplitude;
 }
 
-float cubedNoise(vec3 position, int octaves, float frequency, float persistence) {
+float cubedNoise(vec3 position, int octaves, float frequency, float persistence, float time) {
 	float total = 0.0;
 	float maxAmplitude = 0.0;
 	float amplitude = 1.0;

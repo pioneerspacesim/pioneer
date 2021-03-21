@@ -50,7 +50,8 @@ namespace Graphics {
 	enum MaterialQuality {
 		HAS_ATMOSPHERE = 1 << 0,
 		HAS_ECLIPSES = 1 << 1,
-		HAS_HEAT_GRADIENT = 1 << 2
+		HAS_HEAT_GRADIENT = 1 << 2,
+		HAS_OCTAVES = 1 << 15
 	};
 
 	// Renderer creates a material that best matches these requirements.

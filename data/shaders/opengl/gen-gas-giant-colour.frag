@@ -4,15 +4,19 @@
 #include "attributes.glsl"
 #include "noise.glsl"
 
-uniform sampler2D texture2; // ???
+uniform sampler2D rampTexture;
 
-uniform vec3 v0;
-uniform vec3 v1;
-uniform vec3 v2;
-uniform vec3 v3;
-uniform float fracStep;
-uniform vec3 frequency;
-uniform float hueAdjust;
+layout(std140) uniform GenColorData {
+	vec3 v0;
+	vec3 v1;
+	vec3 v2;
+	vec3 v3;
+
+	float frequency;
+	float fracStep;
+	float hueAdjust;
+	float time; // Used for texture animation
+};
 
 #ifndef FBM_OCTAVES
 #define FBM_OCTAVES 8
@@ -27,13 +31,13 @@ out vec4 frag_color;
 // http://stackoverflow.com/questions/9234724/how-to-change-hue-of-a-texture-with-glsl/9234854#9234854
 vec4 HueShift(in vec4 color)
 {
-    const vec4  kRGBToYPrime= vec4 (0.299, 0.587, 0.114, 0.0);
+    const vec4  kRGBToYPrime= vec4 (0.299,  0.587,  0.114, 0.0);
     const vec4  kRGBToI     = vec4 (0.596, -0.275, -0.321, 0.0);
-    const vec4  kRGBToQ     = vec4 (0.212, -0.523, 0.311, 0.0);
+    const vec4  kRGBToQ     = vec4 (0.212, -0.523,  0.311, 0.0);
 
-    const vec4  kYIQToR   = vec4 (1.0, 0.956, 0.621, 0.0);
+    const vec4  kYIQToR   = vec4 (1.0,  0.956,  0.621, 0.0);
     const vec4  kYIQToG   = vec4 (1.0, -0.272, -0.647, 0.0);
-    const vec4  kYIQToB   = vec4 (1.0, -1.107, 1.704, 0.0);
+    const vec4  kYIQToB   = vec4 (1.0, -1.107,  1.704, 0.0);
 
     // Convert to YIQ
     float   YPrime = dot (color, kRGBToYPrime);
@@ -53,73 +57,23 @@ vec4 HueShift(in vec4 color)
 
     // Convert back to RGB
     vec4    yIQ   = vec4 (YPrime, I, Q, 0.0);
-    color.r = dot (yIQ, kYIQToR);
-    color.g = dot (yIQ, kYIQToG);
-    color.b = dot (yIQ, kYIQToB);
+    color.r = clamp (dot (yIQ, kYIQToR), 0.0, 1.0);
+    color.g = clamp (dot (yIQ, kYIQToG), 0.0, 1.0);
+    color.b = clamp (dot (yIQ, kYIQToB), 0.0, 1.0);
 
     // the result
     return color;
 }
 
-#ifdef GEN_JUPITER_ESQUE
 vec4 GetColour(in vec3 p)
 {
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
+	float n = fbm(p * 3.14159, FBM_OCTAVES, frequency, 0.5, time);
+	// the input texture is a vertical color ramp, uniform in the X axis
+	// Convert the -1 .. 1 vertical spherical coordinate to a 0..1 GL texture coordinate and distort with random noise.
+	vec2 uv = vec2(0.5, ((p.y + 1.0) * 0.5) + (n * 0.075));
+	vec4 color = vec4(texture(rampTexture, uv).xyz, 1.0);
 	return color;
 }
-#endif
-
-#ifdef GEN_SATURN_ESQUE
-vec4 GetColour(in vec3 p)
-{
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
-	return color;
-}
-#endif
-
-#ifdef GEN_SATURN2_ESQUE
-vec4 GetColour(in vec3 p)
-{
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
-	return color;
-}
-#endif // GEN_SATURN2_ESQUE
-
-#ifdef GEN_NEPTUNE_ESQUE
-vec4 GetColour(in vec3 p)
-{
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
-	return color;
-}
-#endif
-
-#ifdef GEN_NEPTUNE2_ESQUE
-vec4 GetColour(in vec3 p)
-{
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
-	return color;
-}
-#endif
-
-#ifdef GEN_URANUS_ESQUE
-vec4 GetColour(in vec3 p)
-{
-	float n1 = fbm(p * 4.0, FBM_OCTAVES, frequency.x, 0.5);
-	float n2 = fbm(p * 3.14159, FBM_OCTAVES, frequency.z, 0.5);
-	vec4 color = vec4(texture(texture2, vec2(0.0, (p.y + 1.0) * 0.5) + vec2(n1*0.075,n2*0.075)).xyz, 1.0);
-	return color;
-}
-#endif
 
 // in patch surface coords, [0,1]
 // v[0] to v[3] are the corner vertices

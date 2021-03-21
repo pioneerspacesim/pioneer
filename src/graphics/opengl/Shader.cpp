@@ -7,6 +7,7 @@
 #include "StringF.h"
 #include "StringRange.h"
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/ShaderParser.h"
 #include "graphics/Types.h"
@@ -170,6 +171,11 @@ std::string Shader::GetProgramDefines(const MaterialDescriptor &desc)
 		ss << "#define HEAT_COLOURING\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
+	// HACK: pass the number of FBM noise octaves from the high sixteen bits as a compile-time constant to the shader
+	// This (and the entire function) is a hack in need of a more generic decoupled system to generate shader variants.
+	// 95% of these defines are only used by one or two specific shaders, and even then rarely.
+	if (desc.quality & HAS_OCTAVES)
+		ss << stringf("#define FBM_OCTAVES %0{u}\n", (desc.quality >> 16) & 0xFFFF);
 
 	if (desc.instanced)
 		ss << "#define USE_INSTANCING\n";
@@ -223,7 +229,7 @@ uint32_t CalcOffset(uint32_t last, ConstantDataFormat lastFormat, ConstantDataFo
 size_t Shader::AddBufferBinding(const std::string &name, uint32_t binding)
 {
 	size_t hash = Renderer::GetName(name);
-	m_bufferBindingInfo.push_back({ hash, binding, 0 });
+	m_bufferBindingInfo.push_back({ hash, uint32_t(m_bufferBindingInfo.size()), binding, 0 });
 	m_nameMap[hash] = name;
 	return hash;
 }
@@ -231,7 +237,7 @@ size_t Shader::AddBufferBinding(const std::string &name, uint32_t binding)
 size_t Shader::AddTextureBinding(const std::string &name, TextureType type, uint32_t binding)
 {
 	size_t hash = Renderer::GetName(name);
-	m_textureBindingInfo.push_back({ hash, binding, type });
+	m_textureBindingInfo.push_back({ hash, uint32_t(m_textureBindingInfo.size()), binding, type });
 	m_nameMap[hash] = name;
 	return hash;
 }
@@ -244,6 +250,7 @@ size_t Shader::AddConstantBinding(const std::string &name, ConstantDataFormat fo
 		auto &lastConstant = m_pushConstantInfo.back();
 		offset = CalcOffset(lastConstant.offset, lastConstant.format, format);
 	}
+
 	m_pushConstantInfo.push_back({ hash, binding, offset, format });
 	m_constantStorageSize = offset + CalcSize(format);
 	m_nameMap[hash] = name;
@@ -267,7 +274,7 @@ TextureBindingData Shader::GetTextureBindingInfo(size_t name) const
 	auto *data = vector_search(m_textureBindingInfo, name);
 	if (data != nullptr) return *data;
 
-	return { 0, InvalidBinding, TextureType::TEXTURE_2D };
+	return { 0, 0, InvalidBinding, TextureType::TEXTURE_2D };
 }
 
 PushConstantData Shader::GetPushConstantInfo(size_t name) const
@@ -283,5 +290,5 @@ BufferBindingData Shader::GetBufferBindingInfo(size_t name) const
 	auto *data = vector_search(m_bufferBindingInfo, name);
 	if (data != nullptr) return *data;
 
-	return { 0, InvalidBinding, 0 };
+	return { 0, 0, InvalidBinding, 0 };
 }

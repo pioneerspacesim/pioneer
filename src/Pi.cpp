@@ -26,6 +26,7 @@
 #include "core/GuiApplication.h"
 #include "core/Log.h"
 #include "core/OS.h"
+#include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/opengl/RendererGL.h"
 #include "imgui/imgui.h"
@@ -269,49 +270,39 @@ void TestGPUJobsSupport()
 {
 	PROFILE_SCOPED()
 
-	// FIXME: add general-purpose compute support to Shader
-	Pi::config->SetInt("EnableGPUJobs", 0); // disable GPU Jobs
+	if (!Pi::config->Int("EnableGPUJobs"))
+		return;
 
-#if 0
-	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
-	if (supportsGPUJobs) {
-		Uint32 octaves = 8;
-		for (Uint32 i = 0; i < 6; i++) {
-			std::unique_ptr<Graphics::Material> material;
-			Graphics::MaterialDescriptor desc;
-			desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
-			desc.quality = (octaves << 16) | i;
-			desc.textures = 3;
-			material.reset(Pi::renderer->CreateMaterial(desc, Graphics::RenderStateDesc()));
-			supportsGPUJobs &= material->IsProgramLoaded();
-		}
-		if (!supportsGPUJobs) {
-			// failed - retry
+	Uint32 octaves = 8;
+	Graphics::MaterialDescriptor desc;
+	desc.quality = Graphics::MaterialQuality::HAS_OCTAVES | (octaves << 16);
+	desc.textures = 3;
 
-			// reset the GPU jobs flag
-			supportsGPUJobs = true;
+	Graphics::RenderStateDesc rsd;
+	rsd.depthTest = false;
+	rsd.depthWrite = false;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.primitiveType = Graphics::TRIANGLE_STRIP;
 
-			// retry the shader compilation
-			octaves = 5; // reduce the number of octaves
-			for (Uint32 i = 0; i < 6; i++) {
-				std::unique_ptr<Graphics::Material> material;
-				Graphics::MaterialDescriptor desc;
-				desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
-				desc.quality = (octaves << 16) | i;
-				desc.textures = 3;
-				material.reset(Pi::renderer->CreateMaterial(desc, Graphics::RenderStateDesc()));
-				supportsGPUJobs &= material->IsProgramLoaded();
-			}
+	std::unique_ptr<Graphics::Material> mat(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd));
 
-			if (!supportsGPUJobs) {
-				// failed
-				Warning("EnableGPUJobs DISABLED");
-				Pi::config->SetInt("EnableGPUJobs", 0); // disable GPU Jobs
-				Pi::config->Save();
-			}
-		}
+	// failed - retry
+	// reduce the number of octaves
+	if (!mat->IsProgramLoaded()) {
+		octaves = 5;
+		desc.quality = Graphics::MaterialQuality::HAS_OCTAVES | (octaves << 16);
+		mat.reset(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd));
+
+		// if this works correctly with fewer octaves, enable the config flag.
+		if (mat->IsProgramLoaded())
+			Pi::config->SetInt("AMD_MESA_HACKS", 1);
 	}
-#endif
+
+	if (!mat->IsProgramLoaded()) {
+		Log::Warning("EnableGPUJobs is DISABLED: shader compilation produced errors. Check output.txt and opengl.txt.\n");
+		Pi::config->SetInt("EnableGPUJobs", 0);
+		Pi::config->Save();
+	}
 }
 
 void Pi::App::Startup()

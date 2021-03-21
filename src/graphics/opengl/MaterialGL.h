@@ -56,14 +56,13 @@ namespace Graphics {
 			friend class Graphics::RendererOGL;
 			void Copy(OGL::Material *to) const;
 			void EvaluateVariant();
+			void UpdateDrawData();
 
 			Shader *m_shader;
 			Program *m_activeVariant;
 			RendererOGL *m_renderer;
 
-			uint32_t m_lightBinding;
 			uint32_t m_perDrawBinding;
-			uint32_t m_lightIntensityBinding;
 
 			// TODO: not happy with this structure - makes it far too hard to track
 			// per-frame buffers vs occasionally-updated (set-once?) buffers
