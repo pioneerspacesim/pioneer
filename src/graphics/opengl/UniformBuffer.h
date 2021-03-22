@@ -23,6 +23,10 @@ namespace Graphics {
 					m_map->Unmap();
 			}
 
+			// don't allow copying a scoped mapping
+			ScopedMapping(const ScopedMapping &) = delete;
+			ScopedMapping &operator=(const ScopedMapping) = delete;
+
 			T *operator->() { return m_data; }
 			T *data() { return m_data; }
 			operator bool() const { return isValid(); }
@@ -86,15 +90,26 @@ namespace Graphics {
 			UniformLinearBuffer(const UniformLinearBuffer &) = delete;
 			UniformLinearBuffer &operator=(const UniformLinearBuffer &) = delete;
 
-			uint32_t FreeSize() const { return m_capacity - m_size; }
-			uint32_t NumAllocs() const { return m_numAllocs; }
+			// public for ScopedMapping
+			void Unmap() override;
+
+			// Flushes all written data so far to the uniform buffer.
+			// Call this once before executing a command list to ensure data
+			// is made visible to the GPU
+			void Flush();
+
+			// Resets all allocations to the buffer and orphans the previous data,
+			// making it ready for a new frame.
 			void Reset();
 
+			uint32_t FreeSize() const { return m_capacity - m_size; }
+			uint32_t NumAllocs() const { return m_numAllocs; }
+
 			template <typename T>
-			ScopedMapping<T> Allocate(uint32_t binding)
+			ScopedMapping<T> Allocate(UniformBufferBinding &outBinding)
 			{
 				assert(m_mapMode == BUFFER_MAP_NONE);
-				return ScopedMapping<T>(AllocInternal(binding, sizeof(T)), this);
+				return ScopedMapping<T>(AllocInternal(sizeof(T), outBinding), this);
 			}
 
 			UniformBufferBinding Allocate(void *data, size_t size);
@@ -104,7 +119,14 @@ namespace Graphics {
 			using UniformBuffer::BufferData;
 			using UniformBuffer::Map;
 
-			void *AllocInternal(uint32_t binding, size_t size);
+			void *AllocInternal(size_t size, UniformBufferBinding &outBinding);
+			// cache individual allocations into a single buffer and upload to
+			// the GPU in one large chunk.
+			std::unique_ptr<char[]> m_data;
+
+			// This tracks the end of the last section of flushed data so
+			// we can use the same allocator with multiple command lists
+			uint32_t m_lastFlush;
 			uint32_t m_numAllocs;
 		};
 

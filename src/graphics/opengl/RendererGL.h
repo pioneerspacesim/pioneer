@@ -22,6 +22,7 @@ namespace Graphics {
 	struct Settings;
 
 	namespace OGL {
+		class CommandList;
 		class Material;
 		class Shader;
 		class RenderState;
@@ -105,7 +106,17 @@ namespace Graphics {
 		virtual void PushState() override final;
 		virtual void PopState() override final;
 
-		void SetRenderState(const RenderStateDesc &rsd);
+		// XXX kind of a hack, we only need the primitive type to pass it to
+		// the draw command because it's not part of the pipeline state in GL
+		PrimitiveType SetRenderState(size_t hash);
+
+		const RenderStateDesc *GetRenderState(size_t hash);
+		size_t InternRenderState(const RenderStateDesc &rsd);
+
+		bool DrawMeshInternal(MeshObject *, PrimitiveType type);
+		bool DrawMeshInstancedInternal(MeshObject *, InstanceBuffer *, PrimitiveType type);
+
+		void FlushCommandBuffer();
 
 		size_t m_frameNum;
 
@@ -123,11 +134,13 @@ namespace Graphics {
 		// TODO: cache shader filepaths and remove EffectType completely
 		std::vector<std::pair<std::string, OGL::Shader *>> m_shaders;
 		std::vector<std::unique_ptr<OGL::UniformLinearBuffer>> m_drawUniformBuffers;
+		std::vector<std::pair<size_t, RenderStateDesc>> m_renderStateCache;
 		RefCountedPtr<OGL::UniformBuffer> m_lightUniformBuffer;
 		bool m_useNVDepthRanged;
 		OGL::RenderTarget *m_activeRenderTarget = nullptr;
 		OGL::RenderTarget *m_windowRenderTarget = nullptr;
-		uint32_t m_activeRenderStateHash = 0;
+		size_t m_activeRenderStateHash = 0;
+		std::unique_ptr<OGL::CommandList> m_drawCommandList;
 
 		matrix4x4f m_modelViewMat;
 		matrix4x4f m_projectionMat;

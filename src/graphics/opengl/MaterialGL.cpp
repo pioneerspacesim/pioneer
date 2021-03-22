@@ -68,7 +68,7 @@ namespace Graphics {
 			m_perDrawBinding = s->GetBufferBindingInfo(s_drawDataName).binding;
 		}
 
-		void Material::EvaluateVariant()
+		Program *Material::EvaluateVariant()
 		{
 			MaterialDescriptor desc = GetDescriptor();
 			bool variantChanged = false;
@@ -87,10 +87,14 @@ namespace Graphics {
 				if (p->Loaded())
 					m_activeVariant = p;
 			}
+
+			return m_activeVariant;
 		}
 
 		void Material::UpdateDrawData()
 		{
+			PROFILE_SCOPED()
+
 			if (m_descriptor.lighting) {
 				UniformBuffer *lightBuffer = m_renderer->GetLightUniformBuffer();
 				SetBuffer(s_lightDataName, lightBuffer, 0, lightBuffer->GetSize());
@@ -105,7 +109,9 @@ namespace Graphics {
 			// this should always be present, but just in case...
 			if (m_perDrawBinding != Shader::InvalidBinding) {
 				auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(DrawDataBlock));
-				auto dataBlock = buffer->Allocate<DrawDataBlock>(m_perDrawBinding);
+				UniformBufferBinding binding;
+
+				auto dataBlock = buffer->Allocate<DrawDataBlock>(binding);
 				dataBlock->diffuse = this->diffuse.ToColor4f();
 				dataBlock->specular = this->specular.ToColor4f();
 				dataBlock->specular.a = this->shininess;
@@ -118,75 +124,8 @@ namespace Graphics {
 				dataBlock->uViewMatrix = mv;
 				dataBlock->uViewMatrixInverse = mv.Inverse();
 				dataBlock->uViewProjectionMatrix = proj * mv;
-			}
-		}
 
-		void Material::Apply()
-		{
-			PROFILE_SCOPED()
-			EvaluateVariant();
-			UpdateDrawData();
-
-			m_activeVariant->Use();
-
-			for (auto &info : m_shader->GetBufferBindings()) {
-				BufferBinding &bind = m_bufferBindings[info.index];
-				if (bind.buffer)
-					bind.buffer->BindRange(info.binding, bind.offset, bind.size);
-			}
-
-			for (auto &info : m_shader->GetTextureBindings()) {
-				glActiveTexture(GL_TEXTURE0 + info.binding);
-				if (m_textureBindings[info.index])
-					m_textureBindings[info.index]->Bind();
-				else
-					glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			for (auto &info : m_shader->GetPushConstantBindings()) {
-				GLuint location = m_activeVariant->GetConstantLocation(info.binding);
-				if (location == GL_INVALID_INDEX)
-					continue;
-
-				Uniform setter(location);
-				switch (info.format) {
-				case ConstantDataFormat::DATA_FORMAT_INT:
-					setter.Set(*reinterpret_cast<int *>(m_pushConstants.get() + info.offset));
-					break;
-				case ConstantDataFormat::DATA_FORMAT_FLOAT:
-					setter.Set(*reinterpret_cast<float *>(m_pushConstants.get() + info.offset));
-					break;
-				case ConstantDataFormat::DATA_FORMAT_FLOAT3:
-					setter.Set(*reinterpret_cast<vector3f *>(m_pushConstants.get() + info.offset));
-					break;
-				case ConstantDataFormat::DATA_FORMAT_FLOAT4:
-					setter.Set(*reinterpret_cast<Color4f *>(m_pushConstants.get() + info.offset));
-					break;
-				case ConstantDataFormat::DATA_FORMAT_MAT3:
-					setter.Set(*reinterpret_cast<matrix3x3f *>(m_pushConstants.get() + info.offset));
-					break;
-				case ConstantDataFormat::DATA_FORMAT_MAT4:
-					setter.Set(*reinterpret_cast<matrix4x4f *>(m_pushConstants.get() + info.offset));
-					break;
-				default:
-					assert(false);
-					break;
-				}
-			}
-		}
-
-		void Material::Unapply()
-		{
-			// Push constants (glUniforms) don't need to be unbound
-			// Uniform buffers also don't need to be unbound
-
-			// Unbinding textures is probably also not needed, (and not performant)
-			// but included here to ensure we don't have any state leakage
-			for (auto &info : m_shader->GetTextureBindings()) {
-				if (m_textureBindings[info.index]) {
-					glActiveTexture(GL_TEXTURE0 + info.binding);
-					m_textureBindings[info.index]->Unbind();
-				}
+				SetBuffer(s_drawDataName, binding.buffer, binding.offset, binding.size);
 			}
 		}
 

@@ -16,6 +16,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 
+#include "CommandBufferGL.h"
 #include "GLDebug.h"
 #include "MaterialGL.h"
 #include "Program.h"
@@ -33,7 +34,7 @@
 #include <sstream>
 
 namespace Graphics {
-	static uint32_t HashRenderStateDesc(const RenderStateDesc &desc);
+	static size_t HashRenderStateDesc(const RenderStateDesc &desc);
 
 	const char *gl_framebuffer_error_to_string(GLuint st);
 
@@ -246,6 +247,8 @@ namespace Graphics {
 		assert(TRIANGLES == GL_TRIANGLES);
 		assert(TRIANGLE_STRIP == GL_TRIANGLE_STRIP);
 		assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
+
+		m_drawCommandList.reset(new OGL::CommandList());
 
 		RenderTargetDesc windowTargetDesc(
 			m_width, m_height,
@@ -534,6 +537,13 @@ namespace Graphics {
 
 		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, s_DynamicDrawBufferMap.size());
 
+		uint32_t numShaderPrograms = 0;
+		for (auto &pair : m_shaders)
+			numShaderPrograms += pair.second->GetNumVariants();
+
+		stat.SetStatCount(Stats::STAT_NUM_RENDER_STATES, m_renderStateCache.size());
+		stat.SetStatCount(Stats::STAT_NUM_SHADER_PROGRAMS, numShaderPrograms);
+
 		return true;
 	}
 
@@ -595,13 +605,14 @@ namespace Graphics {
 	bool RendererOGL::SwapBuffers()
 	{
 		PROFILE_SCOPED()
+		FlushCommandBuffer();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		// Make sure we set the active FBO to our "default" window target
 		SetRenderTarget(nullptr);
 
 		// TODO(sturnclaw): handle upscaling to higher-resolution screens
-		// we'll need an intermediate target to resolve to, resolve and rescale are mutually exclusive
+		// we'll need an intermediate target to resolve to; resolve and rescale are mutually exclusive
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_windowRenderTarget->m_fbo);
@@ -666,19 +677,62 @@ namespace Graphics {
 			glDepthMask(GL_FALSE);
 	}
 
-	void RendererOGL::SetRenderState(const RenderStateDesc &rsd)
+	static size_t HashRenderStateDesc(const RenderStateDesc &desc)
 	{
-		uint32_t hash = HashRenderStateDesc(rsd);
+		// Can't directly pass RenderStateDesc* to lookup3_hashlittle, because
+		// it (most likely) has padding bytes, and those bytes are uninitialized,
+		// thereby arbitrarily affecting the hash output.
+		// (We used to do this and valgrind complained).
+		uint32_t words[5] = {
+			desc.blendMode,
+			desc.cullMode,
+			desc.primitiveType,
+			desc.depthTest,
+			desc.depthWrite,
+		};
+		uint32_t a = 0, b = 0;
+		lookup3_hashword2(words, 5, &a, &b);
+		return size_t(a) | (size_t(b) << 32);
+	}
+
+	size_t RendererOGL::InternRenderState(const RenderStateDesc &desc)
+	{
+		size_t hash = HashRenderStateDesc(desc);
+		if (!GetRenderState(hash))
+			m_renderStateCache.emplace_back(hash, desc);
+
+		return hash;
+	}
+
+	const RenderStateDesc *RendererOGL::GetRenderState(size_t hash)
+	{
+		for (auto &pair : m_renderStateCache) {
+			if (pair.first == hash)
+				return &pair.second;
+		}
+
+		return nullptr;
+	}
+
+	PrimitiveType RendererOGL::SetRenderState(size_t hash)
+	{
+		const RenderStateDesc *rsd = GetRenderState(hash);
+		assert(rsd != nullptr);
+
 		if (hash != m_activeRenderStateHash) {
 			m_activeRenderStateHash = hash;
-			ApplyRenderState(rsd); // TODO: should we track state more granularly?
+			ApplyRenderState(*rsd); // TODO: should we track state more granularly?
+			CheckRenderErrors(__FUNCTION__, __LINE__);
 		}
-		CheckRenderErrors(__FUNCTION__, __LINE__);
+
+		return rsd->primitiveType;
 	}
 
 	bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 	{
 		PROFILE_SCOPED()
+		FlushCommandBuffer();
+
 		if (rt) {
 			if (m_activeRenderTarget)
 				m_activeRenderTarget->Unbind();
@@ -692,7 +746,6 @@ namespace Graphics {
 
 			m_windowRenderTarget->Bind();
 		}
-
 		m_activeRenderTarget = static_cast<OGL::RenderTarget *>(rt);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
@@ -701,6 +754,7 @@ namespace Graphics {
 
 	bool RendererOGL::ClearScreen()
 	{
+		FlushCommandBuffer();
 		m_activeRenderStateHash = 0;
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
@@ -712,6 +766,7 @@ namespace Graphics {
 
 	bool RendererOGL::ClearDepthBuffer()
 	{
+		FlushCommandBuffer();
 		m_activeRenderStateHash = 0;
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
@@ -729,6 +784,7 @@ namespace Graphics {
 
 	bool RendererOGL::SetViewport(Viewport v)
 	{
+		FlushCommandBuffer();
 		m_viewport = v;
 		glViewport(v.x, v.y, v.w, v.h);
 		return true;
@@ -780,6 +836,7 @@ namespace Graphics {
 
 	bool RendererOGL::SetWireFrameMode(bool enabled)
 	{
+		FlushCommandBuffer();
 		glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
 		return true;
 	}
@@ -839,6 +896,7 @@ namespace Graphics {
 
 	bool RendererOGL::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
 	{
+		FlushCommandBuffer();
 		if (enabled) {
 			glScissor(pos.x, pos.y, size.x, size.y);
 			glEnable(GL_SCISSOR_TEST);
@@ -875,27 +933,63 @@ namespace Graphics {
 		}
 
 		meshObject->GetVertexBuffer()->Populate(*v);
-		const bool res = DrawMesh(meshObject, m);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
-		return res;
+		return DrawMesh(meshObject, m);
 	}
 
-	bool RendererOGL::DrawMesh(MeshObject *mesh, Material *mat)
+	bool RendererOGL::DrawMesh(MeshObject *mesh, Material *material)
+	{
+		m_drawCommandList->AddDrawCmd(mesh, material, nullptr);
+		return true;
+	}
+
+	bool RendererOGL::DrawMeshInstanced(MeshObject *mesh, Material *material, InstanceBuffer *inst)
+	{
+		m_drawCommandList->AddDrawCmd(mesh, material, inst);
+		return true;
+	}
+
+	void RendererOGL::FlushCommandBuffer()
 	{
 		PROFILE_SCOPED()
-		SetRenderState(mat->GetStateDescriptor());
-		mat->Apply();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
+		if (!m_drawCommandList || m_drawCommandList->IsEmpty())
+			return;
+
+		for (auto &buffer : m_drawUniformBuffers)
+			buffer->Flush();
+
+		m_drawCommandList->m_executing = true;
+
+		for (const auto &cmd : m_drawCommandList->GetDrawCmds()) {
+			PrimitiveType pt = SetRenderState(cmd.renderStateHash);
+
+			m_drawCommandList->ApplyDrawData(cmd);
+			CheckRenderErrors(__FUNCTION__, __LINE__);
+
+			if (cmd.inst)
+				DrawMeshInstancedInternal(cmd.mesh, cmd.inst, pt);
+			else
+				DrawMeshInternal(cmd.mesh, pt);
+
+			m_drawCommandList->CleanupDrawData(cmd);
+			CheckRenderErrors(__FUNCTION__, __LINE__);
+		}
+
+		m_drawCommandList->m_executing = false;
+		m_drawCommandList->Reset();
+	}
+
+	bool RendererOGL::DrawMeshInternal(MeshObject *mesh, PrimitiveType type)
+	{
+		PROFILE_SCOPED()
+		mesh->Bind();
 
 		int numElems = mesh->GetIndexBuffer() ? mesh->GetIndexBuffer()->GetIndexCount() : mesh->GetVertexBuffer()->GetSize();
-		PrimitiveType pt = mat->GetStateDescriptor().primitiveType;
-
-		mesh->Bind();
 		if (mesh->GetIndexBuffer())
-			glDrawElements(pt, numElems, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(type, numElems, GL_UNSIGNED_INT, nullptr);
 		else
-			glDrawArrays(pt, 0, numElems);
+			glDrawArrays(type, 0, numElems);
 
 		mesh->Release();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
@@ -904,22 +998,18 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::DrawMeshInstanced(MeshObject *mesh, Material *mat, InstanceBuffer *inst)
+	bool RendererOGL::DrawMeshInstancedInternal(MeshObject *mesh, InstanceBuffer *inst, PrimitiveType type)
 	{
 		PROFILE_SCOPED()
-		SetRenderState(mat->GetStateDescriptor());
-		mat->Apply();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		int numElems = mesh->GetIndexBuffer() ? mesh->GetIndexBuffer()->GetIndexCount() : mesh->GetVertexBuffer()->GetSize();
-		PrimitiveType pt = mat->GetStateDescriptor().primitiveType;
-
 		mesh->Bind();
 		inst->Bind();
+
+		int numElems = mesh->GetIndexBuffer() ? mesh->GetIndexBuffer()->GetIndexCount() : mesh->GetVertexBuffer()->GetSize();
 		if (mesh->GetIndexBuffer())
-			glDrawElementsInstanced(pt, numElems, GL_UNSIGNED_INT, nullptr, inst->GetInstanceCount());
+			glDrawElementsInstanced(type, numElems, GL_UNSIGNED_INT, nullptr, inst->GetInstanceCount());
 		else
-			glDrawArraysInstanced(pt, 0, numElems, inst->GetInstanceCount());
+			glDrawArraysInstanced(type, 0, numElems, inst->GetInstanceCount());
+
 		inst->Release();
 		mesh->Release();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
@@ -942,6 +1032,7 @@ namespace Graphics {
 		mat->m_renderer = this;
 		mat->m_descriptor = desc;
 		mat->m_stateDescriptor = stateDescriptor;
+		mat->m_renderStateHash = InternRenderState(stateDescriptor);
 
 		OGL::Shader *s = nullptr;
 		for (auto &pair : m_shaders) {
@@ -968,6 +1059,7 @@ namespace Graphics {
 		newMat->m_renderer = this;
 		newMat->m_descriptor = descriptor;
 		newMat->m_stateDescriptor = stateDescriptor;
+		newMat->m_renderStateHash = InternRenderState(stateDescriptor);
 
 		const OGL::Material *material = static_cast<const OGL::Material *>(old);
 		newMat->SetShader(material->m_shader);
@@ -993,22 +1085,6 @@ namespace Graphics {
 	{
 		PROFILE_SCOPED()
 		return new OGL::TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
-	}
-
-	static uint32_t HashRenderStateDesc(const RenderStateDesc &desc)
-	{
-		// Can't directly pass RenderStateDesc* to lookup3_hashlittle, because
-		// it (most likely) has padding bytes, and those bytes are uninitialized,
-		// thereby arbitrarily affecting the hash output.
-		// (We used to do this and valgrind complained).
-		uint32_t words[5] = {
-			desc.blendMode,
-			desc.cullMode,
-			desc.primitiveType,
-			desc.depthTest,
-			desc.depthWrite,
-		};
-		return lookup3_hashword(words, 5, 0);
 	}
 
 	RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
@@ -1112,14 +1188,14 @@ namespace Graphics {
 
 	OGL::UniformLinearBuffer *RendererOGL::GetDrawUniformBuffer(Uint32 size)
 	{
-		if (m_drawUniformBuffers.empty() || m_drawUniformBuffers.back()->FreeSize() < size) {
-			// Create a 1MiB buffer for draw uniform data
-			auto *buffer = new OGL::UniformLinearBuffer(1 << 20);
-			buffer->IncRefCount();
-			m_drawUniformBuffers.emplace_back(buffer);
-		}
+		for (auto &buffer : m_drawUniformBuffers)
+			if (buffer->FreeSize() >= size)
+				return buffer.get();
 
-		return m_drawUniformBuffers.back().get();
+		auto *buffer = new OGL::UniformLinearBuffer(1 << 20);
+		buffer->IncRefCount();
+		m_drawUniformBuffers.emplace_back(buffer);
+		return buffer;
 	}
 
 	// XXX very heavy. in the future when all GL calls are made through the

@@ -74,6 +74,7 @@ namespace Graphics {
 			void Reload();
 
 			Program *GetProgramForDesc(const MaterialDescriptor &desc);
+			uint32_t GetNumVariants() const { return m_variants.size(); }
 
 			TextureBindingData GetTextureBindingInfo(size_t name) const;
 			size_t GetNumTextureBindings() const { return m_textureBindingInfo.size(); }

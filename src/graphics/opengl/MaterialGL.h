@@ -27,6 +27,7 @@ namespace Graphics {
 
 	namespace OGL {
 
+		class CommandList;
 		class Shader;
 		class Program;
 
@@ -35,10 +36,11 @@ namespace Graphics {
 			Material() {}
 
 			// bind textures, set uniforms
-			virtual void Apply() override;
-			virtual void Unapply() override;
+			virtual void Apply() override{};
+			virtual void Unapply() override{};
 			virtual bool IsProgramLoaded() const override final;
 			virtual void SetShader(Shader *p);
+			virtual const Shader *GetShader() const { return m_shader; }
 
 			virtual bool SetTexture(size_t name, Texture *tex) override;
 			virtual bool SetBuffer(size_t name, void *buffer, size_t size, BufferUsage usage) override;
@@ -54,17 +56,19 @@ namespace Graphics {
 
 		protected:
 			friend class Graphics::RendererOGL;
+			friend class OGL::CommandList;
 			void Copy(OGL::Material *to) const;
-			void EvaluateVariant();
+			Program *EvaluateVariant();
 			void UpdateDrawData();
 
+			size_t m_renderStateHash;
 			Shader *m_shader;
 			Program *m_activeVariant;
 			RendererOGL *m_renderer;
 
 			uint32_t m_perDrawBinding;
 
-			// TODO: not happy with this structure - makes it far too hard to track
+			// TODO: not happy with this structure - makes it impossible to track
 			// per-frame buffers vs occasionally-updated (set-once?) buffers
 			// Interface needs some way to promise to update static buffers manually,
 			// and needs automatic end-of-frame invalidation of per-frame buffer bindings

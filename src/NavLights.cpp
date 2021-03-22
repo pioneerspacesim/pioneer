@@ -201,15 +201,16 @@ void NavLights::Render(Graphics::Renderer *renderer)
 	if (hasVerts) {
 		if (isMeshValid && isVertCountEnough) {
 			// If we don't need to resize the vertex buffer, just copy the verts
-			m_billboardMesh->GetVertexBuffer()->Populate(m_billboardTris);
+			// m_billboardMesh->GetVertexBuffer()->Populate(m_billboardTris);
 		} else {
 			// Otherwise, create a new buffer to fit the new count
 			// Use DYNAMIC as we will be updating this per-frame
-			m_billboardMesh.Reset(renderer->CreateMeshObjectFromArray(&m_billboardTris, nullptr, Graphics::BUFFER_USAGE_DYNAMIC));
+			// m_billboardMesh.Reset(renderer->CreateMeshObjectFromArray(&m_billboardTris, nullptr, Graphics::BUFFER_USAGE_DYNAMIC));
 		}
 
 		renderer->SetTransform(matrix4x4f::Identity());
-		renderer->DrawMesh(m_billboardMesh.Get(), matHalos4x4.Get());
+		// renderer->DrawMesh(m_billboardMesh.Get(), matHalos4x4.Get());
+		renderer->DrawBuffer(&m_billboardTris, matHalos4x4.Get());
 		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
 	}
 	m_billboardTris.Clear();

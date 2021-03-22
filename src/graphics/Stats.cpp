@@ -26,6 +26,9 @@ namespace Graphics {
 			GetOrCreateCounter("Dynamic Draw Buffers In Use"),
 			GetOrCreateCounter("Dynamic Draw Buffers Created", false),
 
+			GetOrCreateCounter("Num Cached Render States"),
+			GetOrCreateCounter("Num Cached Shader Programs"),
+
 			GetOrCreateCounter("Num Buildings"),
 			GetOrCreateCounter("Num Cities"),
 			GetOrCreateCounter("Num Ground Stations"),

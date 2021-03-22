@@ -256,6 +256,7 @@ namespace Graphics {
 			if (m_va->IsEmpty())
 				return;
 
+			/*
 			if (!m_lineMesh.Valid()) {
 				Graphics::VertexBufferDesc vbd = VertexBufferDesc::FromAttribSet(m_va->GetAttributeSet());
 				vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
@@ -268,11 +269,13 @@ namespace Graphics {
 				m_refreshVertexBuffer = false;
 				m_lineMesh->GetVertexBuffer()->Populate(*m_va);
 			}
+			*/
 
 			// XXX would be nicer to draw this as a textured triangle strip
 			// can't guarantee linewidth support
 			// glLineWidth(m_width);
-			r->DrawMesh(m_lineMesh.Get(), mat);
+			// r->DrawMesh(m_lineMesh.Get(), mat);
+			r->DrawBuffer(m_va.get(), mat);
 			// glLineWidth(1.f);
 		}
 
