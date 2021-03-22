@@ -1665,7 +1665,7 @@
   },
   "REQUEST_LAUNCH": {
     "description": "",
-    "message": "Richiesta autorizzazione al lancio"
+    "message": "Richiesta Takeoff"
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
