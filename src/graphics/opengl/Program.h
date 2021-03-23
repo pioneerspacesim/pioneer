@@ -34,7 +34,7 @@ namespace Graphics {
 			GLuint GetProgramID() const { return m_program; }
 
 		protected:
-			void LoadShaders(const ProgramDef &def);
+			GLuint LoadShaders(const ProgramDef &def);
 			void InitUniforms(Shader *shader);
 
 			GLuint m_program;

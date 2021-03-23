@@ -44,7 +44,7 @@ namespace Graphics {
 				glGetProgramiv(obj, GL_LINK_STATUS, &status);
 
 			if (status == GL_FALSE) {
-				Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
+				Log::Error("Error compiling shader: {}:\n {}\n OpenGL vendor: {}\nOpenGL renderer string: {}",
 					filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 				return false;
 			}
@@ -166,16 +166,19 @@ namespace Graphics {
 
 				Compile(shader);
 
-				if (!check_glsl_errors(filename.c_str(), shader))
-					throw ShaderCompileException();
+				if (!check_glsl_errors(filename.c_str(), shader)) {
+					glDeleteShader(shader);
+					shader = 0;
+				}
 			};
 
 			~ShaderProgram()
 			{
-				glDeleteShader(shader);
+				if (shader)
+					glDeleteShader(shader);
 			}
 
-			GLuint shader;
+			GLuint shader = 0;
 
 		private:
 			void AppendSource(const char *str)
@@ -210,24 +213,29 @@ namespace Graphics {
 			m_program(0),
 			success(false)
 		{
-			LoadShaders(def);
-			InitUniforms(shader);
+			m_program = LoadShaders(def);
+			if (success)
+				InitUniforms(shader);
 		}
 
 		Program::~Program()
 		{
-			glDeleteProgram(m_program);
+			if (m_program)
+				glDeleteProgram(m_program);
 		}
 
 		void Program::Reload(Shader *shader, const ProgramDef &def)
 		{
-			glDeleteProgram(m_program);
-			LoadShaders(def);
-			InitUniforms(shader);
+			GLuint newProg = LoadShaders(def);
+			if (newProg) {
+				glDeleteProgram(m_program);
+				m_program = newProg;
+				InitUniforms(shader);
+			}
 		}
 
 		//load, compile and link
-		void Program::LoadShaders(const ProgramDef &def)
+		GLuint Program::LoadShaders(const ProgramDef &def)
 		{
 			PROFILE_SCOPED()
 
@@ -235,34 +243,44 @@ namespace Graphics {
 			ShaderProgram vs(GL_VERTEX_SHADER, def.vertexShader, def.defines);
 			ShaderProgram fs(GL_FRAGMENT_SHADER, def.fragmentShader, def.defines);
 
+			if (!vs.shader || !fs.shader) {
+				Log::Warning("Error loading GLSL shaders for program {}\n", def.name);
+				success = false;
+				return 0;
+			}
+
 			//create program, attach shaders and link
-			m_program = glCreateProgram();
-			if (glIsProgram(m_program) != GL_TRUE)
+			GLuint program = glCreateProgram();
+			if (glIsProgram(program) != GL_TRUE)
 				throw ProgramException();
 
-			glAttachShader(m_program, vs.shader);
-
-			glAttachShader(m_program, fs.shader);
+			glAttachShader(program, vs.shader);
+			glAttachShader(program, fs.shader);
 
 			//extra attribs, if they exist
-			glBindAttribLocation(m_program, 0, "a_vertex");
-			glBindAttribLocation(m_program, 1, "a_normal");
-			glBindAttribLocation(m_program, 2, "a_color");
-			glBindAttribLocation(m_program, 3, "a_uv0");
-			glBindAttribLocation(m_program, 4, "a_uv1");
-			glBindAttribLocation(m_program, 5, "a_tangent");
-			glBindAttribLocation(m_program, 6, "a_transform");
+			glBindAttribLocation(program, 0, "a_vertex");
+			glBindAttribLocation(program, 1, "a_normal");
+			glBindAttribLocation(program, 2, "a_color");
+			glBindAttribLocation(program, 3, "a_uv0");
+			glBindAttribLocation(program, 4, "a_uv1");
+			glBindAttribLocation(program, 5, "a_tangent");
+			glBindAttribLocation(program, 6, "a_transform");
 			// a_transform @ 6 shadows (uses) 7, 8, and 9
 			// next available is layout (location = 10)
 
 			// TODO: setup fragment output locations from shader attributes
-			glBindFragDataLocation(m_program, 0, "frag_color");
+			glBindFragDataLocation(program, 0, "frag_color");
 
-			glLinkProgram(m_program);
+			glLinkProgram(program);
+			success = check_glsl_errors(def.name.c_str(), program);
 
-			success = check_glsl_errors(def.name.c_str(), m_program);
+			if (!success) {
+				glDeleteProgram(program);
+				return 0;
+			}
 
 			//shaders may now be deleted by Shader destructor
+			return program;
 		}
 
 		void Program::InitUniforms(Shader *shader)

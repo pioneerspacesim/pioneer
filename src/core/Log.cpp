@@ -105,6 +105,19 @@ void Log::Logger::WriteLog(Time::DateTime time, Severity sv, std::string_view ms
 	if (file && sv <= m_maxFileSeverity) {
 		fmt::print(file, "[{0}]{1:>8}: {2}", time.ToTimeString(), svName, msg);
 	}
+
+	if (sv <= m_maxMsgSeverity) {
+		uint32_t flags;
+		if (sv <= Severity::Error)
+			flags = SDL_MESSAGEBOX_ERROR;
+		else if (sv <= Severity::Warning)
+			flags = SDL_MESSAGEBOX_WARNING;
+		else
+			flags = SDL_MESSAGEBOX_INFORMATION;
+
+		// convert to std::string since we're going to be pausing the program here for the message box anyways
+		SDL_ShowSimpleMessageBox(flags, "Pioneer Warning", std::string(msg).c_str(), 0);
+	}
 }
 
 Log::Logger *Log::GetLog()
