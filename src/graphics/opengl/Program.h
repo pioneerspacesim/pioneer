@@ -30,14 +30,10 @@ namespace Graphics {
 			void Reload(Shader *shader, const ProgramDef &def);
 			bool Loaded() const { return success; }
 
-			void Use();
-			void Unuse();
-
 			GLuint GetConstantLocation(uint32_t binding) const { return m_constants[binding]; }
+			GLuint GetProgramID() const { return m_program; }
 
 		protected:
-			static GLuint s_curProgram;
-
 			void LoadShaders(const ProgramDef &def);
 			void InitUniforms(Shader *shader);
 

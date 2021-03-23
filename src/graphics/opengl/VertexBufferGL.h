@@ -75,6 +75,7 @@ namespace Graphics {
 			virtual void Release() override final;
 
 		protected:
+			friend class MeshObject; // need access to InstOffs enum
 			enum InstOffs {
 				INSTOFFS_MAT0 = 6, // these value must match those of a_transform within data/shaders/opengl/attributes.glsl
 				INSTOFFS_MAT1 = 7,

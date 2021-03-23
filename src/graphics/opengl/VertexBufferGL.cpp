@@ -475,11 +475,6 @@ namespace Graphics {
 			glVertexAttribPointer(INSTOFFS_MAT2, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid *>(2 * sizeVec4));
 			glEnableVertexAttribArray(INSTOFFS_MAT3);
 			glVertexAttribPointer(INSTOFFS_MAT3, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid *>(3 * sizeVec4));
-
-			glVertexAttribDivisor(INSTOFFS_MAT0, 1);
-			glVertexAttribDivisor(INSTOFFS_MAT1, 1);
-			glVertexAttribDivisor(INSTOFFS_MAT2, 1);
-			glVertexAttribDivisor(INSTOFFS_MAT3, 1);
 		}
 
 		void InstanceBuffer::Release()
@@ -524,8 +519,9 @@ namespace Graphics {
 					glVertexAttribPointer(1, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, desc.stride, offset);
 					break;
 				case ATTRIB_DIFFUSE:
-					glEnableVertexAttribArray(2);																							  // Enable the attribute at that location
-					glVertexAttribPointer(2, get_num_components(attr.format), get_component_type(attr.format), GL_TRUE, desc.stride, offset); // only normalise the colours
+					// only normalise the colours
+					glEnableVertexAttribArray(2); // Enable the attribute at that location
+					glVertexAttribPointer(2, get_num_components(attr.format), get_component_type(attr.format), GL_TRUE, desc.stride, offset);
 					break;
 				case ATTRIB_UV0:
 					glEnableVertexAttribArray(3); // Enable the attribute at that location
@@ -540,6 +536,12 @@ namespace Graphics {
 					break;
 				}
 			}
+
+			// set up the divisor for instance data slots in case they're used.
+			glVertexAttribDivisor(InstanceBuffer::INSTOFFS_MAT0, 1);
+			glVertexAttribDivisor(InstanceBuffer::INSTOFFS_MAT1, 1);
+			glVertexAttribDivisor(InstanceBuffer::INSTOFFS_MAT2, 1);
+			glVertexAttribDivisor(InstanceBuffer::INSTOFFS_MAT3, 1);
 
 			if (m_idxBuffer)
 				m_idxBuffer->Bind();

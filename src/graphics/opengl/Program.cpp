@@ -22,7 +22,6 @@ namespace Graphics {
 		// #version 150 for OpenGL3.2
 		// #version 330 for OpenGL3.3
 		static const char *s_glslVersion = "#version 140\n";
-		GLuint Program::s_curProgram = 0;
 
 		// Check and warn about compile & link errors
 		static bool check_glsl_errors(const char *filename, GLuint obj)
@@ -222,23 +221,9 @@ namespace Graphics {
 
 		void Program::Reload(Shader *shader, const ProgramDef &def)
 		{
-			Unuse();
 			glDeleteProgram(m_program);
 			LoadShaders(def);
 			InitUniforms(shader);
-		}
-
-		void Program::Use()
-		{
-			if (s_curProgram != m_program)
-				glUseProgram(m_program);
-			s_curProgram = m_program;
-		}
-
-		void Program::Unuse()
-		{
-			glUseProgram(0);
-			s_curProgram = 0;
 		}
 
 		//load, compile and link
@@ -282,7 +267,7 @@ namespace Graphics {
 
 		void Program::InitUniforms(Shader *shader)
 		{
-			Use();
+			glUseProgram(m_program);
 
 			// Bind texture sampler locations to texture units
 			for (auto &texInfo : shader->GetTextureBindings()) {
@@ -309,7 +294,7 @@ namespace Graphics {
 				m_constants[conInfo.binding] = location;
 			}
 
-			Unuse();
+			glUseProgram(0);
 		}
 
 	} // namespace OGL

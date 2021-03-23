@@ -106,8 +106,6 @@ namespace Graphics {
 		virtual bool SetAmbientColor(const Color &c) = 0;
 		const Color &GetAmbientColor() const { return m_ambient; }
 
-		virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) = 0;
-
 		//drawing functions
 
 		// Upload and draw the contents of this VertexArray. Should be used for highly dynamic geometry that changes per-frame.

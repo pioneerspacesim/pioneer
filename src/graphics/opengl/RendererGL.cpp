@@ -20,6 +20,7 @@
 #include "GLDebug.h"
 #include "MaterialGL.h"
 #include "Program.h"
+#include "RenderStateCache.h"
 #include "RenderTargetGL.h"
 #include "Shader.h"
 #include "TextureGL.h"
@@ -34,7 +35,6 @@
 #include <sstream>
 
 namespace Graphics {
-	static size_t HashRenderStateDesc(const RenderStateDesc &desc);
 
 	const char *gl_framebuffer_error_to_string(GLuint st);
 
@@ -156,7 +156,6 @@ namespace Graphics {
 		m_maxZFar(100000000.0f),
 		m_useCompressedTextures(false),
 		m_activeRenderTarget(0),
-		m_activeRenderStateHash(0),
 		m_glContext(glContext)
 	{
 		PROFILE_SCOPED()
@@ -235,6 +234,9 @@ namespace Graphics {
 		glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
 		glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);
 
+		// create the state cache immediately after establishing baseline state.
+		m_renderStateCache.reset(new OGL::RenderStateCache());
+
 		glClearDepth(0.0); // clear to 0.0 for use with reverse-Z
 		SetClearColor(Color4f(0.f, 0.f, 0.f, 0.f));
 		SetViewport(Viewport(0, 0, m_width, m_height));
@@ -248,7 +250,7 @@ namespace Graphics {
 		assert(TRIANGLE_STRIP == GL_TRIANGLE_STRIP);
 		assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
 
-		m_drawCommandList.reset(new OGL::CommandList());
+		m_drawCommandList.reset(new OGL::CommandList(this));
 
 		RenderTargetDesc windowTargetDesc(
 			m_width, m_height,
@@ -475,6 +477,8 @@ namespace Graphics {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		m_frameNum++;
+		// clear the cached program state (program loading may have trashed it)
+		m_renderStateCache->SetProgram(nullptr);
 		return true;
 	}
 
@@ -541,7 +545,7 @@ namespace Graphics {
 		for (auto &pair : m_shaders)
 			numShaderPrograms += pair.second->GetNumVariants();
 
-		stat.SetStatCount(Stats::STAT_NUM_RENDER_STATES, m_renderStateCache.size());
+		stat.SetStatCount(Stats::STAT_NUM_RENDER_STATES, m_renderStateCache->m_stateDescCache.size());
 		stat.SetStatCount(Stats::STAT_NUM_SHADER_PROGRAMS, numShaderPrograms);
 
 		return true;
@@ -622,112 +626,6 @@ namespace Graphics {
 		return true;
 	}
 
-	void ApplyRenderState(const RenderStateDesc &rsd)
-	{
-		switch (rsd.blendMode) {
-		case BLEND_SOLID:
-			glDisable(GL_BLEND);
-			glBlendFunc(GL_ONE, GL_ZERO);
-			break;
-		case BLEND_ADDITIVE:
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_ONE, GL_ONE);
-			break;
-		case BLEND_ALPHA:
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			break;
-		case BLEND_ALPHA_ONE:
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-			break;
-		case BLEND_ALPHA_PREMULT:
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-			break;
-		case BLEND_SET_ALPHA:
-			glEnable(GL_BLEND);
-			glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
-			break;
-		case BLEND_DEST_ALPHA:
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
-		default:
-			break;
-		}
-
-		if (rsd.cullMode == CULL_BACK) {
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_BACK);
-		} else if (rsd.cullMode == CULL_FRONT) {
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_FRONT);
-		} else {
-			glDisable(GL_CULL_FACE);
-		}
-
-		if (rsd.depthTest)
-			glEnable(GL_DEPTH_TEST);
-		else
-			glDisable(GL_DEPTH_TEST);
-
-		if (rsd.depthWrite)
-			glDepthMask(GL_TRUE);
-		else
-			glDepthMask(GL_FALSE);
-	}
-
-	static size_t HashRenderStateDesc(const RenderStateDesc &desc)
-	{
-		// Can't directly pass RenderStateDesc* to lookup3_hashlittle, because
-		// it (most likely) has padding bytes, and those bytes are uninitialized,
-		// thereby arbitrarily affecting the hash output.
-		// (We used to do this and valgrind complained).
-		uint32_t words[5] = {
-			desc.blendMode,
-			desc.cullMode,
-			desc.primitiveType,
-			desc.depthTest,
-			desc.depthWrite,
-		};
-		uint32_t a = 0, b = 0;
-		lookup3_hashword2(words, 5, &a, &b);
-		return size_t(a) | (size_t(b) << 32);
-	}
-
-	size_t RendererOGL::InternRenderState(const RenderStateDesc &desc)
-	{
-		size_t hash = HashRenderStateDesc(desc);
-		if (!GetRenderState(hash))
-			m_renderStateCache.emplace_back(hash, desc);
-
-		return hash;
-	}
-
-	const RenderStateDesc *RendererOGL::GetRenderState(size_t hash)
-	{
-		for (auto &pair : m_renderStateCache) {
-			if (pair.first == hash)
-				return &pair.second;
-		}
-
-		return nullptr;
-	}
-
-	PrimitiveType RendererOGL::SetRenderState(size_t hash)
-	{
-		const RenderStateDesc *rsd = GetRenderState(hash);
-		assert(rsd != nullptr);
-
-		if (hash != m_activeRenderStateHash) {
-			m_activeRenderStateHash = hash;
-			ApplyRenderState(*rsd); // TODO: should we track state more granularly?
-			CheckRenderErrors(__FUNCTION__, __LINE__);
-		}
-
-		return rsd->primitiveType;
-	}
-
 	bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 	{
 		PROFILE_SCOPED()
@@ -755,7 +653,7 @@ namespace Graphics {
 	bool RendererOGL::ClearScreen()
 	{
 		FlushCommandBuffer();
-		m_activeRenderStateHash = 0;
+		m_renderStateCache->InvalidateState();
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -767,7 +665,7 @@ namespace Graphics {
 	bool RendererOGL::ClearDepthBuffer()
 	{
 		FlushCommandBuffer();
-		m_activeRenderStateHash = 0;
+		m_renderStateCache->InvalidateState();
 		glEnable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
 		glClear(GL_DEPTH_BUFFER_BIT);
@@ -779,6 +677,13 @@ namespace Graphics {
 	bool RendererOGL::SetClearColor(const Color &c)
 	{
 		glClearColor(c.r, c.g, c.b, c.a);
+		return true;
+	}
+
+	bool RendererOGL::SetWireFrameMode(bool enabled)
+	{
+		FlushCommandBuffer();
+		glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
 		return true;
 	}
 
@@ -834,13 +739,6 @@ namespace Graphics {
 		return m_projectionMat;
 	}
 
-	bool RendererOGL::SetWireFrameMode(bool enabled)
-	{
-		FlushCommandBuffer();
-		glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
-		return true;
-	}
-
 	bool RendererOGL::SetLightIntensity(Uint32 numlights, const float *intensity)
 	{
 		numlights = std::min(numlights, m_numLights);
@@ -891,18 +789,6 @@ namespace Graphics {
 	bool RendererOGL::SetAmbientColor(const Color &c)
 	{
 		m_ambient = c;
-		return true;
-	}
-
-	bool RendererOGL::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
-	{
-		FlushCommandBuffer();
-		if (enabled) {
-			glScissor(pos.x, pos.y, size.x, size.y);
-			glEnable(GL_SCISSOR_TEST);
-		} else {
-			glDisable(GL_SCISSOR_TEST);
-		}
 		return true;
 	}
 
@@ -962,11 +848,13 @@ namespace Graphics {
 		m_drawCommandList->m_executing = true;
 
 		for (const auto &cmd : m_drawCommandList->GetDrawCmds()) {
-			PrimitiveType pt = SetRenderState(cmd.renderStateHash);
+			m_renderStateCache->SetRenderState(cmd.renderStateHash);
+			CheckRenderErrors(__FUNCTION__, __LINE__);
 
 			m_drawCommandList->ApplyDrawData(cmd);
 			CheckRenderErrors(__FUNCTION__, __LINE__);
 
+			PrimitiveType pt = m_renderStateCache->GetActiveRenderState().primitiveType;
 			if (cmd.inst)
 				DrawMeshInstancedInternal(cmd.mesh, cmd.inst, pt);
 			else
@@ -1032,7 +920,7 @@ namespace Graphics {
 		mat->m_renderer = this;
 		mat->m_descriptor = desc;
 		mat->m_stateDescriptor = stateDescriptor;
-		mat->m_renderStateHash = InternRenderState(stateDescriptor);
+		mat->m_renderStateHash = m_renderStateCache->InternRenderState(stateDescriptor);
 
 		OGL::Shader *s = nullptr;
 		for (auto &pair : m_shaders) {
@@ -1059,7 +947,7 @@ namespace Graphics {
 		newMat->m_renderer = this;
 		newMat->m_descriptor = descriptor;
 		newMat->m_stateDescriptor = stateDescriptor;
-		newMat->m_renderStateHash = InternRenderState(stateDescriptor);
+		newMat->m_renderStateHash = m_renderStateCache->InternRenderState(stateDescriptor);
 
 		const OGL::Material *material = static_cast<const OGL::Material *>(old);
 		newMat->SetShader(material->m_shader);
@@ -1071,6 +959,7 @@ namespace Graphics {
 
 	bool RendererOGL::ReloadShaders()
 	{
+		m_renderStateCache->SetProgram(nullptr);
 		Log::Info("Reloading {} shaders...\n", m_shaders.size());
 		Log::Info("Note: runtime shader reloading does not reload uniform assignments. Restart the program when making major changes.\n");
 		for (auto &pair : m_shaders) {

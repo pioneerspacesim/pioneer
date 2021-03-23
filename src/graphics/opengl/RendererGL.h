@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include "graphics/Material.h"
 #ifndef _RENDERER_OGL_H
 #define _RENDERER_OGL_H
 
@@ -26,6 +25,7 @@ namespace Graphics {
 		class Material;
 		class Shader;
 		class RenderState;
+		class RenderStateCache;
 		class RenderTarget;
 	} // namespace OGL
 
@@ -77,8 +77,6 @@ namespace Graphics {
 		virtual Uint32 GetNumLights() const override final { return m_numLights; }
 		virtual bool SetAmbientColor(const Color &c) override final;
 
-		virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) override final;
-
 		virtual bool DrawBuffer(const VertexArray *v, Material *m) override final;
 		virtual bool DrawMesh(MeshObject *, Material *) override final;
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final;
@@ -96,6 +94,7 @@ namespace Graphics {
 
 		OGL::UniformBuffer *GetLightUniformBuffer();
 		OGL::UniformLinearBuffer *GetDrawUniformBuffer(Uint32 size);
+		OGL::RenderStateCache *GetStateCache() { return m_renderStateCache.get(); }
 
 		virtual bool ReloadShaders() override final;
 
@@ -105,13 +104,6 @@ namespace Graphics {
 	protected:
 		virtual void PushState() override final;
 		virtual void PopState() override final;
-
-		// XXX kind of a hack, we only need the primitive type to pass it to
-		// the draw command because it's not part of the pipeline state in GL
-		PrimitiveType SetRenderState(size_t hash);
-
-		const RenderStateDesc *GetRenderState(size_t hash);
-		size_t InternRenderState(const RenderStateDesc &rsd);
 
 		bool DrawMeshInternal(MeshObject *, PrimitiveType type);
 		bool DrawMeshInstancedInternal(MeshObject *, InstanceBuffer *, PrimitiveType type);
@@ -134,12 +126,11 @@ namespace Graphics {
 		// TODO: cache shader filepaths and remove EffectType completely
 		std::vector<std::pair<std::string, OGL::Shader *>> m_shaders;
 		std::vector<std::unique_ptr<OGL::UniformLinearBuffer>> m_drawUniformBuffers;
-		std::vector<std::pair<size_t, RenderStateDesc>> m_renderStateCache;
+		std::unique_ptr<OGL::RenderStateCache> m_renderStateCache;
 		RefCountedPtr<OGL::UniformBuffer> m_lightUniformBuffer;
 		bool m_useNVDepthRanged;
 		OGL::RenderTarget *m_activeRenderTarget = nullptr;
 		OGL::RenderTarget *m_windowRenderTarget = nullptr;
-		size_t m_activeRenderStateHash = 0;
 		std::unique_ptr<OGL::CommandList> m_drawCommandList;
 
 		matrix4x4f m_modelViewMat;

@@ -1,3 +1,5 @@
+// Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
 
@@ -42,7 +44,8 @@ namespace Graphics {
 
 		private:
 			friend class Graphics::RendererOGL;
-			CommandList()
+			CommandList(Graphics::RendererOGL *r) :
+				m_renderer(r)
 			{
 				m_drawCmds.reserve(32);
 			}
@@ -78,6 +81,7 @@ namespace Graphics {
 				}
 			};
 
+			Graphics::RendererOGL *m_renderer;
 			std::vector<DrawCmd> m_drawCmds;
 			std::vector<DataBucket> m_dataBuckets;
 			bool m_executing = false;

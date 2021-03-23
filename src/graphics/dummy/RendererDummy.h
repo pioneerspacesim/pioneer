@@ -59,8 +59,6 @@ namespace Graphics {
 		virtual Uint32 GetNumLights() const override final { return 1; }
 		virtual bool SetAmbientColor(const Color &c) override final { return true; }
 
-		virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) override final { return true; }
-
 		virtual bool DrawBuffer(const VertexArray *, Material *) override final { return true; }
 		virtual bool DrawMesh(MeshObject *, Material *) override final { return true; }
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final { return true; }

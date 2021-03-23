@@ -248,8 +248,11 @@ void PerfInfo::DrawRendererStats()
 	const Uint32 numDynamicBuffersInUse = stats.m_stats[Graphics::Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE];
 	const Uint32 numDrawBuffers = stats.m_stats[Graphics::Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE];
 	const Uint32 numDrawBufferAllocs = stats.m_stats[Graphics::Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS];
+	const Uint32 numRenderStates = stats.m_stats[Graphics::Stats::STAT_NUM_RENDER_STATES];
+	const Uint32 numShaderPrograms = stats.m_stats[Graphics::Stats::STAT_NUM_SHADER_PROGRAMS];
 	const Uint32 numDrawTris = stats.m_stats[Graphics::Stats::STAT_DRAWTRIS];
 	const Uint32 numDrawPointSprites = stats.m_stats[Graphics::Stats::STAT_DRAWPOINTSPRITES];
+
 	const Uint32 numDrawBuildings = stats.m_stats[Graphics::Stats::STAT_BUILDINGS];
 	const Uint32 numDrawCities = stats.m_stats[Graphics::Stats::STAT_CITIES];
 	const Uint32 numDrawGroundStations = stats.m_stats[Graphics::Stats::STAT_GROUNDSTATIONS];
@@ -284,6 +287,7 @@ void PerfInfo::DrawRendererStats()
 	ImGui::Text("%u Draw Uniform Buffers (%u allocations)", numDrawBuffers, numDrawBufferAllocs);
 	ImGui::Spacing();
 
+	ImGui::Text("%u cached shader programs (%u cached render states)", numShaderPrograms, numRenderStates);
 	ImGui::Text("%u cached textures, using %.3f MB VRAM", numCachedTextures, double(cachedTextureMemUsage) / scale_MB);
 
 	if (ImGui::Button("Open Texture Cache Visualizer"))

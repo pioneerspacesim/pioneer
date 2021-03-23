@@ -25,8 +25,14 @@ namespace Graphics {
 			virtual void BuildMipmaps(const uint32_t validMips = 1) override final;
 			virtual uint32_t GetTextureID() const override final
 			{
-				assert(sizeof(uint32_t) == sizeof(GLuint));
+				static_assert(sizeof(uint32_t) == sizeof(GLuint));
 				return m_texture;
+			}
+
+			uint32_t GetTarget() const
+			{
+				static_assert(sizeof(uint32_t) == sizeof(GLuint));
+				return m_target;
 			}
 
 			uint32_t GetTextureMemSize() const final { return m_allocSize; }

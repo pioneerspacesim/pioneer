@@ -1,4 +1,4 @@
-// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -43,6 +43,12 @@ namespace Graphics {
 			UniformBuffer *buffer;
 			uint32_t offset;
 			uint32_t size;
+
+			bool operator!=(const UniformBufferBinding &rhs) const { return !(*this == rhs); }
+			bool operator==(const UniformBufferBinding &rhs) const
+			{
+				return buffer == rhs.buffer && offset == rhs.offset && size == rhs.size;
+			}
 		};
 
 		class UniformBuffer : public Mappable, public GLBufferBase {

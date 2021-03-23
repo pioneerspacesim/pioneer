@@ -1,13 +1,17 @@
+// Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CommandBufferGL.h"
 #include "MaterialGL.h"
+#include "Program.h"
+#include "RenderStateCache.h"
+#include "RendererGL.h"
 #include "Shader.h"
+#include "TextureGL.h"
+#include "UniformBuffer.h"
+#include "VertexBufferGL.h"
+
 #include "graphics/VertexBuffer.h"
-#include "graphics/opengl/Program.h"
-#include "graphics/opengl/RendererGL.h"
-#include "graphics/opengl/TextureGL.h"
-#include "graphics/opengl/UniformBuffer.h"
-#include "graphics/opengl/VertexBufferGL.h"
 
 using namespace Graphics::OGL;
 
@@ -109,23 +113,16 @@ char *CommandList::SetupMaterialData(OGL::Material *mat)
 void CommandList::ApplyDrawData(const DrawCmd &cmd) const
 {
 	PROFILE_SCOPED();
-	cmd.program->Use();
+	RenderStateCache *state = m_renderer->GetStateCache();
+	state->SetProgram(cmd.program);
 
 	UniformBufferBinding *buffers = getBufferBindings(cmd.shader, cmd.drawData);
-	for (auto &info : cmd.shader->GetBufferBindings()) {
-		UniformBufferBinding &bind = buffers[info.index];
-		if (bind.buffer)
-			bind.buffer->BindRange(info.binding, bind.offset, bind.size);
-	}
+	for (auto &info : cmd.shader->GetBufferBindings())
+		state->SetBufferBinding(info.binding, buffers[info.index]);
 
 	TextureGL **textures = getTextureBindings(cmd.shader, cmd.drawData);
-	for (auto &info : cmd.shader->GetTextureBindings()) {
-		glActiveTexture(GL_TEXTURE0 + info.binding);
-		if (textures[info.index])
-			textures[info.index]->Bind();
-		else
-			glBindTexture(GL_TEXTURE_2D, 0);
-	}
+	for (auto &info : cmd.shader->GetTextureBindings())
+		state->SetTexture(info.binding, textures[info.index]);
 
 	for (auto &info : cmd.shader->GetPushConstantBindings()) {
 		GLuint location = cmd.program->GetConstantLocation(info.binding);
@@ -163,14 +160,7 @@ void CommandList::CleanupDrawData(const DrawCmd &cmd) const
 {
 	// Push constants (glUniforms) don't need to be unbound
 	// Uniform buffers also don't need to be unbound
-
-	// Unbinding textures is probably also not needed, (and not performant)
-	// but included here to ensure we don't have any state leakage
-	TextureGL **textures = getTextureBindings(cmd.shader, cmd.drawData);
-	for (auto &info : cmd.shader->GetTextureBindings()) {
-		if (textures[info.index]) {
-			glActiveTexture(GL_TEXTURE0 + info.binding);
-			textures[info.index]->Unbind();
-		}
-	}
+	// Textures, though theoretically could be unbound, are all
+	// managed from a central place and therefore don't need to
+	// be unbound
 }
