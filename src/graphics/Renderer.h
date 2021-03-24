@@ -80,8 +80,8 @@ namespace Graphics {
 		virtual bool ClearDepthBuffer() = 0;
 		virtual bool SetClearColor(const Color &c) = 0;
 
-		virtual bool SetViewport(Viewport vp) = 0;
-		virtual Viewport GetViewport() const = 0;
+		virtual bool SetViewport(ViewportExtents vp) = 0;
+		virtual ViewportExtents GetViewport() const = 0;
 
 		//set the model view matrix
 		virtual bool SetTransform(const matrix4x4f &m) = 0;
@@ -107,6 +107,8 @@ namespace Graphics {
 		const Color &GetAmbientColor() const { return m_ambient; }
 
 		//drawing functions
+		// XXX extremely placeholder API; here until all code can safely deal with async drawing
+		virtual bool FlushCommandBuffers() = 0;
 
 		// Upload and draw the contents of this VertexArray. Should be used for highly dynamic geometry that changes per-frame.
 		virtual bool DrawBuffer(const VertexArray *v, Material *m) = 0;
@@ -171,7 +173,7 @@ namespace Graphics {
 			Renderer *m_renderer;
 			matrix4x4f m_storedProj;
 			matrix4x4f m_storedMV;
-			Viewport m_storedVP;
+			ViewportExtents m_storedVP;
 		};
 
 		// Temporarily save the current transform matrix to do non-destructive drawing.

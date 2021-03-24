@@ -239,7 +239,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		m_colors.reset();
 
 #ifdef DEBUG_BOUNDING_SPHERES
-		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial(Graphics::MaterialDescriptor(), Graphics::RenderStateDesc()));
+		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial("unlit", Graphics::MaterialDescriptor(), Graphics::RenderStateDesc()));
 		switch (m_depth) {
 		case 0: mat->diffuse = Color::WHITE; break;
 		case 1: mat->diffuse = Color::RED; break;
@@ -247,7 +247,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		case 3: mat->diffuse = Color::BLUE; break;
 		default: mat->diffuse = Color::BLACK; break;
 		}
-		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, mat, 2, m_clipRadius));
+		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, mat, 1, m_clipRadius));
 #endif
 	}
 }

@@ -55,10 +55,11 @@ void ModelSpinner::Render()
 	if (!m_renderTarget) return;
 
 	Graphics::Renderer *r = Pi::renderer;
-
 	Graphics::Renderer::StateTicket ticket(r);
 
 	r->SetRenderTarget(m_renderTarget.get());
+	const auto &desc = m_renderTarget.get()->GetDesc();
+	r->SetViewport({ 0, 0, desc.width, desc.height });
 
 	r->SetClearColor(Color(0, 0, 0, 0));
 	r->ClearScreen();
@@ -66,8 +67,6 @@ void ModelSpinner::Render()
 	const float fov = 45.f;
 	r->SetPerspectiveProjection(fov, m_size.x / m_size.y, 1.f, 10000.f);
 	r->SetTransform(matrix4x4f::Identity());
-	const auto &desc = m_renderTarget.get()->GetDesc();
-	r->SetViewport({ 0, 0, desc.width, desc.height });
 
 	r->SetLights(1, &m_light);
 
@@ -77,7 +76,7 @@ void ModelSpinner::Render()
 	rot[14] = -dist;
 	m_model->Render(rot);
 
-	r->SetRenderTarget(0);
+	r->SetRenderTarget(nullptr);
 }
 
 ImTextureID ModelSpinner::GetTextureID()

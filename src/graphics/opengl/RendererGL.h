@@ -59,16 +59,16 @@ namespace Graphics {
 		virtual bool ClearDepthBuffer() override final;
 		virtual bool SetClearColor(const Color &c) override final;
 
-		virtual bool SetViewport(Viewport v) override final;
-		virtual Viewport GetViewport() const override final;
+		virtual bool SetViewport(ViewportExtents v) override final;
+		virtual ViewportExtents GetViewport() const override final { return m_viewport; }
 
 		virtual bool SetTransform(const matrix4x4f &m) override final;
-		virtual matrix4x4f GetTransform() const override final;
+		virtual matrix4x4f GetTransform() const override final { return m_modelViewMat; }
 
 		virtual bool SetPerspectiveProjection(float fov, float aspect, float near_, float far_) override final;
 		virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) override final;
 		virtual bool SetProjection(const matrix4x4f &m) override final;
-		virtual matrix4x4f GetProjection() const override final;
+		virtual matrix4x4f GetProjection() const override final { return m_projectionMat; }
 
 		virtual bool SetWireFrameMode(bool enabled) override final;
 
@@ -76,6 +76,8 @@ namespace Graphics {
 		virtual bool SetLights(Uint32 numlights, const Light *l) override final;
 		virtual Uint32 GetNumLights() const override final { return m_numLights; }
 		virtual bool SetAmbientColor(const Color &c) override final;
+
+		virtual bool FlushCommandBuffers() override final;
 
 		virtual bool DrawBuffer(const VertexArray *v, Material *m) override final;
 		virtual bool DrawMesh(MeshObject *, Material *) override final;
@@ -101,14 +103,12 @@ namespace Graphics {
 		virtual bool Screendump(ScreendumpState &sd) override final;
 		virtual bool FrameGrab(ScreendumpState &sd) override final;
 
-	protected:
-		virtual void PushState() override final;
-		virtual void PopState() override final;
-
 		bool DrawMeshInternal(MeshObject *, PrimitiveType type);
 		bool DrawMeshInstancedInternal(MeshObject *, InstanceBuffer *, PrimitiveType type);
 
-		void FlushCommandBuffer();
+	protected:
+		virtual void PushState() override final;
+		virtual void PopState() override final;
 
 		size_t m_frameNum;
 
@@ -119,9 +119,6 @@ namespace Graphics {
 		float m_maxZFar;
 		bool m_useCompressedTextures;
 		bool m_useAnisotropicFiltering;
-
-		matrix4x4f &GetCurrentTransform() { return m_currentTransform; }
-		matrix4x4f m_currentTransform;
 
 		// TODO: cache shader filepaths and remove EffectType completely
 		std::vector<std::pair<std::string, OGL::Shader *>> m_shaders;
@@ -135,7 +132,8 @@ namespace Graphics {
 
 		matrix4x4f m_modelViewMat;
 		matrix4x4f m_projectionMat;
-		Viewport m_viewport;
+		ViewportExtents m_viewport;
+		Color m_clearColor;
 
 	private:
 		static bool initted;

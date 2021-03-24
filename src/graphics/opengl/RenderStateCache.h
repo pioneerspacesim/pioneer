@@ -3,7 +3,9 @@
 
 #pragma once
 
+#include "Color.h"
 #include "OpenGLLibs.h"
+#include "graphics/Graphics.h"
 #include "graphics/RenderState.h"
 
 #include <vector>
@@ -13,6 +15,7 @@ namespace Graphics {
 
 	namespace OGL {
 		class TextureGL;
+		class RenderTarget;
 		class Program;
 		struct UniformBufferBinding;
 
@@ -26,6 +29,13 @@ namespace Graphics {
 			void SetBufferBinding(uint32_t index, UniformBufferBinding &binding);
 			void SetProgram(Program *program);
 
+			void SetRenderTarget(RenderTarget *target);
+			void SetRenderTarget(RenderTarget *target, ViewportExtents extents);
+			RenderTarget *GetActiveRenderTarget() const { return m_activeRT; }
+			ViewportExtents GetActiveViewport() const { return m_currentExtents; }
+
+			void ClearBuffers(bool colorBuffer, bool depthBuffer, Color clearColor);
+
 		private:
 			friend class Graphics::RendererOGL;
 			RenderStateCache() = default;
@@ -36,10 +46,14 @@ namespace Graphics {
 
 			std::vector<TextureGL *> m_textureCache;
 			std::vector<UniformBufferBinding> m_bufferCache;
-			std::vector<std::pair<size_t, RenderStateDesc>> m_stateDescCache;
-			GLuint m_activeProgram = 0;
+
 			size_t m_activeRenderStateHash = 0;
 			RenderStateDesc m_activeRenderState;
+			std::vector<std::pair<size_t, RenderStateDesc>> m_stateDescCache;
+
+			GLuint m_activeProgram = 0;
+			RenderTarget *m_activeRT = 0;
+			ViewportExtents m_currentExtents;
 		};
 
 	} // namespace OGL

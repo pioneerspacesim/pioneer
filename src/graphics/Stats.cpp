@@ -14,9 +14,10 @@ namespace Graphics {
 		memset(&m_frameStats[0], 0, sizeof(TFrameData) * MAX_FRAMES_STORE);
 
 		m_counterRefs = {
-			GetOrCreateCounter("DrawBuffer Calls"),
-			GetOrCreateCounter("DrawTriangles Calls"),
-			GetOrCreateCounter("DrawPointSprites Calls"),
+			GetOrCreateCounter("DrawMesh Calls"),
+			GetOrCreateCounter("Num Points Drawn"),
+			GetOrCreateCounter("Num Lines Drawn"),
+			GetOrCreateCounter("Num Tris Drawn"),
 
 			GetOrCreateCounter("Buffers Created"),
 			GetOrCreateCounter("Buffers Destroyed"),
@@ -28,6 +29,7 @@ namespace Graphics {
 
 			GetOrCreateCounter("Num Cached Render States"),
 			GetOrCreateCounter("Num Cached Shader Programs"),
+			GetOrCreateCounter("Num CommandList Flushes"),
 
 			GetOrCreateCounter("Num Buildings"),
 			GetOrCreateCounter("Num Cities"),

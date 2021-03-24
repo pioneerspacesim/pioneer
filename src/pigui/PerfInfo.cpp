@@ -242,6 +242,10 @@ void PerfInfo::DrawRendererStats()
 {
 	const Graphics::Stats::TFrameData &stats = Pi::renderer->GetStats().FrameStatsPrevious();
 	const Uint32 numDrawCalls = stats.m_stats[Graphics::Stats::STAT_DRAWCALL];
+	const Uint32 numTris = stats.m_stats[Graphics::Stats::STAT_NUM_TRIS];
+	const Uint32 numLines = stats.m_stats[Graphics::Stats::STAT_NUM_LINES];
+	const Uint32 numPoints = stats.m_stats[Graphics::Stats::STAT_NUM_POINTS];
+	const Uint32 numCmdListFlushes = stats.m_stats[Graphics::Stats::STAT_NUM_CMDLIST_FLUSHES];
 	const Uint32 numBuffersCreated = stats.m_stats[Graphics::Stats::STAT_CREATE_BUFFER];
 	const Uint32 numBuffersInUse = stats.m_stats[Graphics::Stats::STAT_BUFFER_INUSE];
 	const Uint32 numDynamicBuffersCreated = stats.m_stats[Graphics::Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED];
@@ -250,8 +254,6 @@ void PerfInfo::DrawRendererStats()
 	const Uint32 numDrawBufferAllocs = stats.m_stats[Graphics::Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS];
 	const Uint32 numRenderStates = stats.m_stats[Graphics::Stats::STAT_NUM_RENDER_STATES];
 	const Uint32 numShaderPrograms = stats.m_stats[Graphics::Stats::STAT_NUM_SHADER_PROGRAMS];
-	const Uint32 numDrawTris = stats.m_stats[Graphics::Stats::STAT_DRAWTRIS];
-	const Uint32 numDrawPointSprites = stats.m_stats[Graphics::Stats::STAT_DRAWPOINTSPRITES];
 
 	const Uint32 numDrawBuildings = stats.m_stats[Graphics::Stats::STAT_BUILDINGS];
 	const Uint32 numDrawCities = stats.m_stats[Graphics::Stats::STAT_CITIES];
@@ -274,20 +276,29 @@ void PerfInfo::DrawRendererStats()
 	const Uint32 cachedTextureMemUsage = tex2dMemUsage + texCubeMemUsage + texArray2dMemUsage;
 
 	ImGui::Text("Renderer:");
-	ImGui::Text("%d tris (%.3f M tris/sec), %d GeoPatches",
-		Pi::statSceneTris, Pi::statSceneTris * framesThisSecond * 1e-6, Pi::statNumPatches);
-	ImGui::Text("%u draw calls (%u tris, %u point sprites, %u billboards)",
-		numDrawCalls, numDrawTris, numDrawPointSprites, numDrawBillBoards);
+	ImGui::Text("%u Draw calls, %u CommandList flushes",
+		numDrawCalls, numCmdListFlushes);
+
+	ImGui::Indent();
+	ImGui::Text("%u points", numPoints);
+	ImGui::Text("%u lines", numLines);
+	ImGui::Text("%u tris (%.2fM tris/sec)", numTris, numTris * framesThisSecond * 1e-6);
+	ImGui::Unindent();
+	ImGui::Spacing();
+
 	ImGui::Text("%u Buildings, %u Cities, %u Gd.Stations, %u Sp.Stations",
 		numDrawBuildings, numDrawCities, numDrawGroundStations, numDrawSpaceStations);
 	ImGui::Text("%u Atmospheres, %u Planets, %u Gas Giants, %u Stars, %u Ships",
 		numDrawAtmospheres, numDrawPlanets, numDrawGasGiants, numDrawStars, numDrawShips);
+	ImGui::Text("%u Billboards, %u GeoPatches (%d tris)",
+		numDrawBillBoards, Pi::statNumPatches, Pi::statSceneTris);
 	ImGui::Text("%u Buffers Created (%u in use)", numBuffersCreated, numBuffersInUse);
 	ImGui::Text("%u Dynamic Draw Buffers Created (%u in use)", numDynamicBuffersCreated, numDynamicBuffersInUse);
 	ImGui::Text("%u Draw Uniform Buffers (%u allocations)", numDrawBuffers, numDrawBufferAllocs);
 	ImGui::Spacing();
 
-	ImGui::Text("%u cached shader programs (%u cached render states)", numShaderPrograms, numRenderStates);
+	ImGui::Text("%u cached shader programs", numShaderPrograms);
+	ImGui::Text("%u cached render states", numRenderStates);
 	ImGui::Text("%u cached textures, using %.3f MB VRAM", numCachedTextures, double(cachedTextureMemUsage) / scale_MB);
 
 	if (ImGui::Button("Open Texture Cache Visualizer"))
@@ -465,8 +476,8 @@ bool DrawTexture(PerfInfo::ImGuiState *m_state, const Graphics::Texture *tex)
 	auto pos1 = ImGui::GetCursorPos();
 	ImGui::SetCursorPos(pos0);
 
-	auto texSize = tex->GetDescriptor().dataSize;
-	ImGui::Text("%ux%u", uint32_t(texSize.x), uint32_t(texSize.y));
+	const vector3f &dataSize = tex->GetDescriptor().dataSize;
+	ImGui::Text("%ux%u", uint32_t(dataSize.x), uint32_t(dataSize.y));
 	ImGui::Text("%.1f KB", double(tex->GetTextureMemSize()) / 1024.0);
 
 	ImGui::SetCursorPos(pos1);

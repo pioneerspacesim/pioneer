@@ -41,6 +41,7 @@ namespace Graphics {
 
 		virtual Texture *GetColorTexture() const = 0;
 		virtual Texture *GetDepthTexture() const = 0;
+
 		//Replace the texture attachment, or pass zero to detach
 		//Increases the new texture's reference count and decreases
 		//any existing texture's count

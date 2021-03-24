@@ -3,8 +3,11 @@
 
 #pragma once
 
+#include "graphics/Graphics.h"
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
+
+#include <variant>
 
 namespace Graphics {
 
@@ -22,6 +25,7 @@ namespace Graphics {
 		class Program;
 		class Shader;
 		class TextureGL;
+		class RenderTarget;
 		class UniformBuffer;
 		struct UniformBufferBinding;
 
@@ -36,8 +40,22 @@ namespace Graphics {
 				char *drawData;
 			};
 
+			struct RenderPassCmd {
+				RenderTarget *renderTarget;
+				ViewportExtents extents;
+				bool setRenderTarget;
+				bool clearColors;
+				bool clearDepth;
+				Color clearColor;
+			};
+
 			void AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat, Graphics::InstanceBuffer *inst = nullptr);
-			const std::vector<DrawCmd> &GetDrawCmds() const { return m_drawCmds; }
+
+			void AddRenderPassCmd(RenderTarget *renderTarget, ViewportExtents extents);
+			void AddClearCmd(bool clearColors, bool clearDepth, Color color);
+
+			using Cmd = std::variant<DrawCmd, RenderPassCmd>;
+			const std::vector<Cmd> &GetDrawCmds() const { return m_drawCmds; }
 
 			bool IsEmpty() const { return m_drawCmds.empty(); }
 			void Reset();
@@ -58,6 +76,9 @@ namespace Graphics {
 			// These functions are called before and after a command is executed
 			void ApplyDrawData(const DrawCmd &cmd) const;
 			void CleanupDrawData(const DrawCmd &cmd) const;
+
+			void ExecuteDrawCmd(const DrawCmd &);
+			void ExecuteRenderPassCmd(const RenderPassCmd &);
 
 			static UniformBufferBinding *getBufferBindings(const Shader *shader, char *data);
 			static TextureGL **getTextureBindings(const Shader *shader, char *data);
@@ -82,7 +103,7 @@ namespace Graphics {
 			};
 
 			Graphics::RendererOGL *m_renderer;
-			std::vector<DrawCmd> m_drawCmds;
+			std::vector<Cmd> m_drawCmds;
 			std::vector<DataBucket> m_dataBuckets;
 			bool m_executing = false;
 		};

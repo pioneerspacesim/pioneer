@@ -22,8 +22,9 @@ namespace Graphics {
 		enum StatType {
 			// renderer entries
 			STAT_DRAWCALL = 0,
-			STAT_DRAWTRIS,
-			STAT_DRAWPOINTSPRITES,
+			STAT_NUM_POINTS,
+			STAT_NUM_LINES,
+			STAT_NUM_TRIS,
 
 			// buffers
 			STAT_CREATE_BUFFER,
@@ -36,6 +37,7 @@ namespace Graphics {
 
 			STAT_NUM_RENDER_STATES,
 			STAT_NUM_SHADER_PROGRAMS,
+			STAT_NUM_CMDLIST_FLUSHES,
 
 			// objects
 			STAT_BUILDINGS,

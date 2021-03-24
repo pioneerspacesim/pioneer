@@ -42,8 +42,8 @@ namespace Graphics {
 		virtual bool ClearDepthBuffer() override final { return true; }
 		virtual bool SetClearColor(const Color &c) override final { return true; }
 
-		virtual bool SetViewport(Viewport v) override final { return true; }
-		virtual Viewport GetViewport() const override final { return {}; }
+		virtual bool SetViewport(ViewportExtents v) override final { return true; }
+		virtual ViewportExtents GetViewport() const override final { return {}; }
 
 		virtual bool SetTransform(const matrix4x4f &m) override final { return true; }
 		virtual matrix4x4f GetTransform() const override final { return matrix4x4f::Identity(); }
@@ -58,6 +58,8 @@ namespace Graphics {
 		virtual bool SetLights(Uint32 numlights, const Light *l) override final { return true; }
 		virtual Uint32 GetNumLights() const override final { return 1; }
 		virtual bool SetAmbientColor(const Color &c) override final { return true; }
+
+		virtual bool FlushCommandBuffers() override final { return true; }
 
 		virtual bool DrawBuffer(const VertexArray *, Material *) override final { return true; }
 		virtual bool DrawMesh(MeshObject *, Material *) override final { return true; }

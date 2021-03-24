@@ -399,6 +399,9 @@ void Instance::Render()
 	PROFILE_SCOPED()
 	EndFrame();
 
+	// FIXME: renderer uses async command execution but imgui impl is still directly generating GL commands
+	m_renderer->FlushCommandBuffers();
+
 	ImGui::Render();
 
 	switch (m_renderer->GetRendererType()) {

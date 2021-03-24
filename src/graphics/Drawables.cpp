@@ -323,7 +323,6 @@ namespace Graphics {
 			}
 
 			r->DrawMesh(m_pointData.Get(), mat);
-			r->GetStats().AddToStatCount(Stats::STAT_DRAWPOINTSPRITES, 1);
 		}
 
 		//------------------------------------------------------------

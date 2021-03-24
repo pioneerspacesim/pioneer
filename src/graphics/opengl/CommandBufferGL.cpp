@@ -31,9 +31,55 @@ void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat
 	m_drawCmds.emplace_back(std::move(cmd));
 }
 
+// RenderPass commands can be combined as long as they're setting the same render target
+void CommandList::AddRenderPassCmd(RenderTarget *renderTarget, ViewportExtents extents)
+{
+	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
+
+	RenderPassCmd *lastCmd = IsEmpty() ? nullptr : std::get_if<RenderPassCmd>(&m_drawCmds.back());
+	if (!lastCmd || !lastCmd->setRenderTarget || lastCmd->renderTarget != renderTarget) {
+		RenderPassCmd cmd;
+		cmd.renderTarget = renderTarget;
+		cmd.extents = extents;
+		cmd.setRenderTarget = true;
+		cmd.clearColors = false;
+		cmd.clearDepth = false;
+
+		m_drawCmds.emplace_back(std::move(cmd));
+	} else {
+		lastCmd->renderTarget = renderTarget;
+		lastCmd->extents = extents;
+		lastCmd->setRenderTarget = true;
+	}
+}
+
+// Clear commands can be combined with a previous clear/set render pass command
+void CommandList::AddClearCmd(bool clearColors, bool clearDepth, Color color)
+{
+	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
+
+	RenderPassCmd *lastCmd = IsEmpty() ? nullptr : std::get_if<RenderPassCmd>(&m_drawCmds.back());
+
+	if (!lastCmd) {
+		RenderPassCmd cmd;
+		cmd.setRenderTarget = false;
+		cmd.clearColors = clearColors;
+		cmd.clearDepth = clearDepth;
+		cmd.clearColor = color;
+
+		m_drawCmds.emplace_back(std::move(cmd));
+	} else {
+		lastCmd->clearDepth |= clearDepth;
+		if (clearColors) {
+			lastCmd->clearColors = true;
+			lastCmd->clearColor = color;
+		}
+	}
+}
+
 void CommandList::Reset()
 {
-	assert(!m_executing && "Attempt to reset a command list while it's being processed!");
+	assert(!m_executing && "Attempt to reset a command list while it's being executed!");
 
 	for (auto &bucket : m_dataBuckets)
 		bucket.used = 0;
@@ -163,4 +209,35 @@ void CommandList::CleanupDrawData(const DrawCmd &cmd) const
 	// Textures, though theoretically could be unbound, are all
 	// managed from a central place and therefore don't need to
 	// be unbound
+}
+
+void CommandList::ExecuteDrawCmd(const DrawCmd &cmd)
+{
+	RenderStateCache *stateCache = m_renderer->GetStateCache();
+	stateCache->SetRenderState(cmd.renderStateHash);
+	CHECKERRORS();
+
+	ApplyDrawData(cmd);
+	CHECKERRORS();
+
+	PrimitiveType pt = stateCache->GetActiveRenderState().primitiveType;
+	if (cmd.inst)
+		m_renderer->DrawMeshInstancedInternal(cmd.mesh, cmd.inst, pt);
+	else
+		m_renderer->DrawMeshInternal(cmd.mesh, pt);
+
+	CleanupDrawData(cmd);
+	CHECKERRORS();
+}
+
+void CommandList::ExecuteRenderPassCmd(const RenderPassCmd &cmd)
+{
+	RenderStateCache *stateCache = m_renderer->GetStateCache();
+	if (cmd.setRenderTarget)
+		stateCache->SetRenderTarget(cmd.renderTarget, cmd.extents);
+
+	if (cmd.clearColors || cmd.clearDepth)
+		stateCache->ClearBuffers(cmd.clearColors, cmd.clearDepth, cmd.clearColor);
+
+	CHECKERRORS();
 }

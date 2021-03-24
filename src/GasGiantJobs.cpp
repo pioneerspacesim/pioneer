@@ -260,22 +260,23 @@ namespace GasGiantJobs {
 		Graphics::Renderer::StateTicket ticket(Pi::renderer);
 
 		// enter ortho
-		Pi::renderer->SetViewport({ 0, 0, mData->UVDims(), mData->UVDims() });
 		Pi::renderer->SetOrthographicProjection(0, mData->UVDims(), mData->UVDims(), 0, -1, 1);
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
+		GasGiant::BeginRenderTarget();
 		for (Uint32 iFace = 0; iFace < NUM_PATCHES; iFace++) {
-			// BeginRenderTarget is here to force a flush of all pending draw commands
-			// before modifying the render target state
-			// FIXME: need better control over render target state and synchronization
-			GasGiant::BeginRenderTarget();
 			// render the scene
 			GasGiant::SetRenderTargetCubemap(iFace, mData->Texture());
+			Pi::renderer->SetViewport({ 0, 0, mData->UVDims(), mData->UVDims() });
 			Pi::renderer->ClearScreen();
 
 			// draw to the texture here
 			mData->SetupMaterialParams(iFace);
 			mData->Quad()->Draw(Pi::renderer);
+
+			// force the texture to be rendered before we modify the render target
+			// FIXME: use different render targets for each cubemap face
+			Pi::renderer->FlushCommandBuffers();
 		}
 		GasGiant::EndRenderTarget();
 

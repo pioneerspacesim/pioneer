@@ -2,13 +2,30 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RenderTargetGL.h"
+#include "RenderStateCache.h"
+#include "RendererGL.h"
 #include "TextureGL.h"
 
 namespace Graphics {
 	namespace OGL {
 
-		RenderTarget::RenderTarget(const RenderTargetDesc &d) :
+		// RAII helper to push/pop a framebuffer for temporary modification
+		struct ScopedActive {
+			ScopedActive(RenderStateCache *c, RenderTarget *t) :
+				m_cache(c)
+			{
+				m_last = m_cache->GetActiveRenderTarget();
+				m_cache->SetRenderTarget(t);
+			}
+			~ScopedActive() { m_cache->SetRenderTarget(m_last); }
+
+			RenderStateCache *m_cache;
+			RenderTarget *m_last;
+		};
+
+		RenderTarget::RenderTarget(Graphics::RendererOGL *r, const RenderTargetDesc &d) :
 			Graphics::RenderTarget(d),
+			m_renderer(r),
 			m_active(false),
 			m_depthRenderBuffer(0)
 		{
@@ -18,7 +35,8 @@ namespace Graphics {
 		RenderTarget::~RenderTarget()
 		{
 			glDeleteFramebuffers(1, &m_fbo);
-			glDeleteRenderbuffers(1, &m_depthRenderBuffer);
+			if (m_depthRenderBuffer)
+				glDeleteRenderbuffers(1, &m_depthRenderBuffer);
 		}
 
 		Texture *RenderTarget::GetColorTexture() const
@@ -34,42 +52,35 @@ namespace Graphics {
 
 		void RenderTarget::SetCubeFaceTexture(const Uint32 face, Texture *t)
 		{
-			const bool bound = m_active;
-			if (!bound) Bind();
+			ScopedActive binding(m_renderer->GetStateCache(), this);
+
 			//texture format should match the intended fbo format (aka. the one attached first)
-			GLuint texId = 0;
-			if (t) texId = static_cast<TextureGL *>(t)->GetTextureID();
+			GLuint texId = t ? static_cast<TextureGL *>(t)->GetTextureID() : 0;
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, texId, 0);
 			m_colorTexture.Reset(t);
-			if (!bound) Unbind();
 		}
 
 		void RenderTarget::SetColorTexture(Texture *t)
 		{
-			const bool bound = m_active;
-			if (!bound) Bind();
+			ScopedActive binding(m_renderer->GetStateCache(), this);
+
 			//texture format should match the intended fbo format (aka. the one attached first)
-			GLuint texId = 0;
-			if (t) texId = static_cast<TextureGL *>(t)->GetTextureID();
+			GLuint texId = t ? static_cast<TextureGL *>(t)->GetTextureID() : 0;
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 				GetDesc().numSamples ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D, texId, 0);
-
 			m_colorTexture.Reset(t);
-			if (!bound) Unbind();
 		}
 
 		void RenderTarget::SetDepthTexture(Texture *t)
 		{
 			assert(GetDesc().allowDepthTexture);
-			const bool bound = m_active;
-			if (!bound) Bind();
 			if (!GetDesc().allowDepthTexture) return;
-			GLuint texId = 0;
-			if (t) texId = static_cast<TextureGL *>(t)->GetTextureID();
+			ScopedActive binding(m_renderer->GetStateCache(), this);
+
+			GLuint texId = t ? static_cast<TextureGL *>(t)->GetTextureID() : 0;
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
 				GetDesc().numSamples ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D, texId, 0);
 			m_depthTexture.Reset(t);
-			if (!bound) Unbind();
 		}
 
 		void RenderTarget::Bind()

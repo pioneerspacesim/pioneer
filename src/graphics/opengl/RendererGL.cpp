@@ -34,6 +34,8 @@
 #include <ostream>
 #include <sstream>
 
+using RenderPassCmd = Graphics::OGL::CommandList::RenderPassCmd;
+
 namespace Graphics {
 
 	const char *gl_framebuffer_error_to_string(GLuint st);
@@ -225,6 +227,8 @@ namespace Graphics {
 		glEnable(GL_DEPTH_TEST);
 		// use floating-point reverse-Z depth buffer to remove the need for depth buffer hacks
 		glDepthFunc(GL_GREATER);
+		// clear to 0.0 for use with reverse-Z
+		glClearDepth(0.0);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
@@ -237,18 +241,16 @@ namespace Graphics {
 		// create the state cache immediately after establishing baseline state.
 		m_renderStateCache.reset(new OGL::RenderStateCache());
 
-		glClearDepth(0.0); // clear to 0.0 for use with reverse-Z
-		SetClearColor(Color4f(0.f, 0.f, 0.f, 0.f));
-		SetViewport(Viewport(0, 0, m_width, m_height));
+		m_clearColor = Color4f(0.f, 0.f, 0.f, 0.f);
 
 		// check enum PrimitiveType matches OpenGL values
-		assert(POINTS == GL_POINTS);
-		assert(LINE_SINGLE == GL_LINES);
-		assert(LINE_LOOP == GL_LINE_LOOP);
-		assert(LINE_STRIP == GL_LINE_STRIP);
-		assert(TRIANGLES == GL_TRIANGLES);
-		assert(TRIANGLE_STRIP == GL_TRIANGLE_STRIP);
-		assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
+		static_assert(POINTS == GL_POINTS);
+		static_assert(LINE_SINGLE == GL_LINES);
+		static_assert(LINE_LOOP == GL_LINE_LOOP);
+		static_assert(LINE_STRIP == GL_LINE_STRIP);
+		static_assert(TRIANGLES == GL_TRIANGLES);
+		static_assert(TRIANGLE_STRIP == GL_TRIANGLE_STRIP);
+		static_assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
 
 		m_drawCommandList.reset(new OGL::CommandList(this));
 
@@ -269,6 +271,7 @@ namespace Graphics {
 				gl_framebuffer_error_to_string(status));
 		}
 
+		m_viewport = ViewportExtents(0, 0, m_width, m_height);
 		SetRenderTarget(nullptr);
 
 		m_drawUniformBuffers.reserve(8);
@@ -473,12 +476,12 @@ namespace Graphics {
 	bool RendererOGL::BeginFrame()
 	{
 		PROFILE_SCOPED()
-		glClearColor(0, 0, 0, 0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		m_frameNum++;
 		// clear the cached program state (program loading may have trashed it)
 		m_renderStateCache->SetProgram(nullptr);
+		m_renderStateCache->SetRenderTarget(m_windowRenderTarget, m_viewport);
+		m_renderStateCache->ClearBuffers(true, true, Color(0, 0, 0, 0));
+
+		m_frameNum++;
 		return true;
 	}
 
@@ -609,11 +612,11 @@ namespace Graphics {
 	bool RendererOGL::SwapBuffers()
 	{
 		PROFILE_SCOPED()
-		FlushCommandBuffer();
+		FlushCommandBuffers();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		// Make sure we set the active FBO to our "default" window target
-		SetRenderTarget(nullptr);
+		m_renderStateCache->SetRenderTarget(m_windowRenderTarget, m_viewport);
 
 		// TODO(sturnclaw): handle upscaling to higher-resolution screens
 		// we'll need an intermediate target to resolve to; resolve and rescale are mutually exclusive
@@ -629,22 +632,12 @@ namespace Graphics {
 	bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 	{
 		PROFILE_SCOPED()
-		FlushCommandBuffer();
+		FlushCommandBuffers();
 
-		if (rt) {
-			if (m_activeRenderTarget)
-				m_activeRenderTarget->Unbind();
-			else
-				m_windowRenderTarget->Unbind();
-
-			static_cast<OGL::RenderTarget *>(rt)->Bind();
-		} else {
-			if (m_activeRenderTarget)
-				m_activeRenderTarget->Unbind();
-
-			m_windowRenderTarget->Bind();
-		}
 		m_activeRenderTarget = static_cast<OGL::RenderTarget *>(rt);
+		m_drawCommandList->AddRenderPassCmd(rt ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
+
+		m_renderStateCache->SetRenderTarget(rt ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		return true;
@@ -652,63 +645,40 @@ namespace Graphics {
 
 	bool RendererOGL::ClearScreen()
 	{
-		FlushCommandBuffer();
-		m_renderStateCache->InvalidateState();
-		glEnable(GL_DEPTH_TEST);
-		glDepthMask(GL_TRUE);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
+		m_drawCommandList->AddClearCmd(true, true, m_clearColor);
 		return true;
 	}
 
 	bool RendererOGL::ClearDepthBuffer()
 	{
-		FlushCommandBuffer();
-		m_renderStateCache->InvalidateState();
-		glEnable(GL_DEPTH_TEST);
-		glDepthMask(GL_TRUE);
-		glClear(GL_DEPTH_BUFFER_BIT);
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
+		m_drawCommandList->AddClearCmd(false, true, Color());
 		return true;
 	}
 
 	bool RendererOGL::SetClearColor(const Color &c)
 	{
-		glClearColor(c.r, c.g, c.b, c.a);
+		m_clearColor = c;
 		return true;
 	}
 
 	bool RendererOGL::SetWireFrameMode(bool enabled)
 	{
-		FlushCommandBuffer();
+		FlushCommandBuffers();
 		glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
 		return true;
 	}
 
-	bool RendererOGL::SetViewport(Viewport v)
+	bool RendererOGL::SetViewport(ViewportExtents v)
 	{
-		FlushCommandBuffer();
 		m_viewport = v;
-		glViewport(v.x, v.y, v.w, v.h);
+		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
 		return true;
-	}
-
-	Viewport RendererOGL::GetViewport() const
-	{
-		return m_viewport;
 	}
 
 	bool RendererOGL::SetTransform(const matrix4x4f &m)
 	{
 		m_modelViewMat = m;
 		return true;
-	}
-
-	matrix4x4f RendererOGL::GetTransform() const
-	{
-		return m_modelViewMat;
 	}
 
 	bool RendererOGL::SetPerspectiveProjection(float fov, float aspect, float near_, float far_)
@@ -734,11 +704,6 @@ namespace Graphics {
 		return true;
 	}
 
-	matrix4x4f RendererOGL::GetProjection() const
-	{
-		return m_projectionMat;
-	}
-
 	bool RendererOGL::SetLightIntensity(Uint32 numlights, const float *intensity)
 	{
 		numlights = std::min(numlights, m_numLights);
@@ -751,6 +716,8 @@ namespace Graphics {
 
 	bool RendererOGL::SetLights(Uint32 numlights, const Light *lights)
 	{
+		PROFILE_SCOPED()
+
 		numlights = std::min(numlights, TOTAL_NUM_LIGHTS);
 		if (numlights < 1) {
 			m_numLights = 0;
@@ -836,11 +803,11 @@ namespace Graphics {
 		return true;
 	}
 
-	void RendererOGL::FlushCommandBuffer()
+	bool RendererOGL::FlushCommandBuffers()
 	{
 		PROFILE_SCOPED()
 		if (!m_drawCommandList || m_drawCommandList->IsEmpty())
-			return;
+			return false;
 
 		for (auto &buffer : m_drawUniformBuffers)
 			buffer->Flush();
@@ -848,24 +815,41 @@ namespace Graphics {
 		m_drawCommandList->m_executing = true;
 
 		for (const auto &cmd : m_drawCommandList->GetDrawCmds()) {
-			m_renderStateCache->SetRenderState(cmd.renderStateHash);
-			CheckRenderErrors(__FUNCTION__, __LINE__);
-
-			m_drawCommandList->ApplyDrawData(cmd);
-			CheckRenderErrors(__FUNCTION__, __LINE__);
-
-			PrimitiveType pt = m_renderStateCache->GetActiveRenderState().primitiveType;
-			if (cmd.inst)
-				DrawMeshInstancedInternal(cmd.mesh, cmd.inst, pt);
-			else
-				DrawMeshInternal(cmd.mesh, pt);
-
-			m_drawCommandList->CleanupDrawData(cmd);
-			CheckRenderErrors(__FUNCTION__, __LINE__);
+			if (auto *drawCmd = std::get_if<OGL::CommandList::DrawCmd>(&cmd))
+				m_drawCommandList->ExecuteDrawCmd(*drawCmd);
+			else if (auto *renderPassCmd = std::get_if<OGL::CommandList::RenderPassCmd>(&cmd))
+				m_drawCommandList->ExecuteRenderPassCmd(*renderPassCmd);
 		}
 
 		m_drawCommandList->m_executing = false;
 		m_drawCommandList->Reset();
+
+		m_stats.AddToStatCount(Stats::STAT_NUM_CMDLIST_FLUSHES, 1);
+		return true;
+	}
+
+	static void stat_primitives(Stats &stats, PrimitiveType type, uint32_t count)
+	{
+		switch (type) {
+		case POINTS:
+			stats.AddToStatCount(Stats::STAT_NUM_POINTS, count);
+			return;
+		case LINE_STRIP:
+			count -= 1; // fall-through
+		case LINE_LOOP:
+			stats.AddToStatCount(Stats::STAT_NUM_LINES, count);
+			return;
+		case LINE_SINGLE:
+			stats.AddToStatCount(Stats::STAT_NUM_LINES, count / 2);
+			return;
+		case TRIANGLE_FAN:
+		case TRIANGLE_STRIP:
+			stats.AddToStatCount(Stats::STAT_NUM_TRIS, count - 2);
+			return;
+		case TRIANGLES:
+			stats.AddToStatCount(Stats::STAT_NUM_TRIS, count / 3);
+			return;
+		}
 	}
 
 	bool RendererOGL::DrawMeshInternal(MeshObject *mesh, PrimitiveType type)
@@ -883,6 +867,7 @@ namespace Graphics {
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+		stat_primitives(m_stats, type, numElems);
 		return true;
 	}
 
@@ -903,6 +888,7 @@ namespace Graphics {
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+		stat_primitives(m_stats, type, numElems);
 		return true;
 	}
 
@@ -979,7 +965,7 @@ namespace Graphics {
 	RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 	{
 		PROFILE_SCOPED()
-		OGL::RenderTarget *rt = new OGL::RenderTarget(desc);
+		OGL::RenderTarget *rt = new OGL::RenderTarget(this, desc);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 		rt->Bind();
 		if (desc.colorFormat != TEXTURE_NONE) {

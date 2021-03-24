@@ -5,6 +5,7 @@
 #include "Program.h"
 #include "UniformBuffer.h"
 #include "core/Log.h"
+#include "graphics/opengl/RenderTargetGL.h"
 #include "graphics/opengl/TextureGL.h"
 
 using namespace Graphics::OGL;
@@ -164,4 +165,47 @@ void RenderStateCache::SetProgram(Program *program)
 
 	m_activeProgram = newProgram;
 	glUseProgram(m_activeProgram);
+}
+
+void RenderStateCache::SetRenderTarget(RenderTarget *target)
+{
+	if (m_activeRT != target) {
+		if (m_activeRT)
+			m_activeRT->Unbind();
+		if (target)
+			target->Bind();
+	}
+}
+
+void RenderStateCache::SetRenderTarget(RenderTarget *target, ViewportExtents extents)
+{
+	SetRenderTarget(target);
+
+	if (extents != m_currentExtents) {
+		m_currentExtents = extents;
+		glViewport(extents.x, extents.y, extents.w, extents.h);
+	}
+}
+
+void RenderStateCache::ClearBuffers(bool colorBuffer, bool depthBuffer, Color clearColor)
+{
+	uint32_t flags = (colorBuffer ? GL_COLOR_BUFFER_BIT : 0) | (depthBuffer ? GL_DEPTH_BUFFER_BIT : 0);
+	if (!colorBuffer && !depthBuffer)
+		return;
+
+	if (colorBuffer)
+		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+
+	if (depthBuffer) {
+		glEnable(GL_DEPTH_TEST);
+		glDepthMask(GL_TRUE);
+		glClear(flags);
+
+		if (!m_activeRenderState.depthTest)
+			glDisable(GL_DEPTH_TEST);
+		if (!m_activeRenderState.depthWrite)
+			glDepthMask(GL_FALSE);
+	} else {
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
 }
