@@ -1086,19 +1086,6 @@ namespace Graphics {
 		return buffer;
 	}
 
-	// XXX very heavy. in the future when all GL calls are made through the
-	// renderer, we can probably do better by trackingn current state and
-	// only restoring the things that have changed
-	void RendererOGL::PushState()
-	{
-		// empty since viewport handling is now external, evaluate if renderer will need to save any custom state
-	}
-
-	void RendererOGL::PopState()
-	{
-		// empty since viewport handling is now external, evaluate if renderer will need to save any custom state
-	}
-
 	bool RendererOGL::Screendump(ScreendumpState &sd)
 	{
 		int w, h;

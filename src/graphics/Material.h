@@ -77,7 +77,62 @@ namespace Graphics {
 	};
 
 	/*
-	 * A generic material with some generic parameters.
+	 * Materials contain all the needed information to take some triangles
+	 * (or points, or lines) and get colored pixels on screen. They come with
+	 * some basic state common to all materials, and any additional state is
+	 * defined in <.shaderdef> files found in the data/shaders/<API> directory.
+	 *
+	 * Material state comes in three main types:
+	 *
+	 * - Push Constants are simple typed values set every time this material
+	 *   is used to draw something. The underlying renderer API may have
+	 *   constraints on how many push constants can be used in a single
+	 *   material, so they're a good candidate for indexes into a buffer or
+	 *   texture array, but not for passing large amounts of data. Expect
+	 *   a worst-case maximum size of 64 bytes (1 matrix4x4f).
+	 *
+	 * - Textures are, like the name implies, images of any sort and size.
+	 *   You can only bind a texture to a slot that has the same underlying
+	 *   texture type (e.g. Texture2D, Cubemap), and it is the calling code's
+	 *   responsibility to keep the texture alive until the renderer is done
+	 *   using it (more on that later).
+	 *
+	 * - Buffers are chunks of data passed from the calling code to the shader
+	 *   program running on the GPU. The structure of the buffer is determined
+	 *   by agreement between the calling code and the shader; no translation
+	 *   is performed by the Material system.
+	 *   Buffers are allocated in increments of 256 bytes, so if you only have
+	 *   one or two vectors to send to the shader, please use Push Constants
+	 *   instead. Trust me, your framerate will thank you.
+	 *   It is the calling code's responsibility to ensure that buffers set
+	 *   with BUFFER_USAGE_DYNAMIC are set *at least* once per frame; failing
+	 *   to observe this will cause the shader to be sent undefined data.
+	 *
+	 * Now that you know about state, let's talk about ownership.
+	 *
+	 * Push Constants are easy. Once you set them on a material, they stay and
+	 * are used for every draw until you change them again.
+	 *
+	 * Once you set a texture on a material and draw, it is the calling code's
+	 * responsibility to ensure that texture stays alive until the end of the
+	 * frame, even if you then set another texture on the material.
+	 * Most textures are acquired from the TextureCache and thus this isn't a
+	 * problem. If you're doing something special that doesn't involve the
+	 * TexCache, stop yourself and ask why; then remember to keep the texture
+	 * alive until the next SwapBuffers().
+	 *
+	 * Buffer objects are simpler - if you SetBuffer(..., BUFFER_USAGE_DYNAMIC)
+	 * then that buffer binding will stay there until the end of the frame.
+	 * However, once SwapBuffers() is called, all dynamic buffers are rendered
+	 * INVALID and must be re-set. Failure to do so will cause the shader to
+	 * read garbage data the next time you draw.
+	 * Setting a static buffer is easy, but once you draw using the material,
+	 * you must not call SetBuffer() until the next SwapBuffers().
+	 *
+	 * If you delete (or cause to be deleted by decrementing ref counts) a
+	 * Texture or (TDB: Buffer object), it is your responsibility to set
+	 * the Texture or (TBD: Buffer) reference to <nullptr>. Failure to do so
+	 * will result in undefined behavior.
 	 */
 	class Material : public RefCounted {
 	public:
@@ -89,17 +144,20 @@ namespace Graphics {
 		Color emissive;
 		float shininess; //specular power 0-128
 
-		virtual void Apply() {}
-		virtual void Unapply() {}
-		virtual bool IsProgramLoaded() const = 0;
-
 		//XXX may not be necessary. Used by newmodel to check if a material uses patterns
 		const MaterialDescriptor &GetDescriptor() const { return m_descriptor; }
+		//XXX may not be necessary. Used a few places to generate instanced variants,
+		// could be replaced by a hash
 		const RenderStateDesc &GetStateDescriptor() const { return m_stateDescriptor; }
 
-		virtual bool SetTexture(size_t hash, Texture *tex) = 0;
-		virtual bool SetBuffer(size_t hash, void *buffer, size_t size, BufferUsage usage) = 0;
+		virtual bool IsProgramLoaded() const = 0;
 
+		virtual bool SetTexture(size_t hash, Texture *tex) = 0;
+
+		// TODO: do we need BufferUsage parameter?
+		// TODO: expose UniformBuffer to main Renderer API, make calling code
+		// responsible for owning buffer objects.
+		virtual bool SetBuffer(size_t hash, void *buffer, size_t size, BufferUsage usage) = 0;
 		// typed overload of SetBuffer
 		template <typename T>
 		bool SetBuffer(size_t hash, T *buffer, BufferUsage usage) { return SetBuffer(hash, buffer, sizeof(T), usage); }

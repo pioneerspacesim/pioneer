@@ -19,9 +19,6 @@ namespace Graphics {
 			Material() {}
 			// Create an appropriate program for this material.
 			virtual Program *CreateProgram(const MaterialDescriptor &) { return nullptr; }
-			// bind textures, set uniforms
-			virtual void Apply() override {}
-			virtual void Unapply() override {}
 			virtual bool IsProgramLoaded() const override final { return false; }
 			virtual void SetProgram(Program *p) {}
 

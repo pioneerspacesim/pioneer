@@ -107,8 +107,16 @@ namespace Graphics {
 		const Color &GetAmbientColor() const { return m_ambient; }
 
 		//drawing functions
-		// XXX extremely placeholder API; here until all code can safely deal with async drawing
+		// TODO: placeholder API; here until CommandLists are exposed
+		// and all code can safely deal with async drawing
 		virtual bool FlushCommandBuffers() = 0;
+
+		// All drawing commands are assumed to defer execution of the command
+		// until the next commandlist flush. This is to batch GPU data updates
+		// and ensure state changes are minimal and internally consistent.
+		// If the calling code really needs all pending draw commands to be
+		// executed before making state changes, call FlushCommandBuffers to
+		// manually synchronize.
 
 		// Upload and draw the contents of this VertexArray. Should be used for highly dynamic geometry that changes per-frame.
 		virtual bool DrawBuffer(const VertexArray *v, Material *m) = 0;
@@ -177,7 +185,6 @@ namespace Graphics {
 		};
 
 		// Temporarily save the current transform matrix to do non-destructive drawing.
-		// XXX state has died, does this need to die further?
 		class MatrixTicket {
 		public:
 			MatrixTicket(Renderer *r) :

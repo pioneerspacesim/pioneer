@@ -108,8 +108,8 @@ namespace Graphics {
 		bool DrawMeshInstancedInternal(MeshObject *, uint32_t offset, InstanceBuffer *, PrimitiveType type, uint32_t num);
 
 	protected:
-		virtual void PushState() override final;
-		virtual void PopState() override final;
+		virtual void PushState() override final{};
+		virtual void PopState() override final{};
 
 		size_t m_frameNum;
 
@@ -121,7 +121,7 @@ namespace Graphics {
 		bool m_useCompressedTextures;
 		bool m_useAnisotropicFiltering;
 
-		// TODO: cache shader filepaths and remove EffectType completely
+		// TODO: iterate shaderdef files on startup and cache by Shader name directive rather than filename fragment
 		std::vector<std::pair<std::string, OGL::Shader *>> m_shaders;
 		std::vector<std::unique_ptr<OGL::UniformLinearBuffer>> m_drawUniformBuffers;
 		std::unique_ptr<OGL::RenderStateCache> m_renderStateCache;

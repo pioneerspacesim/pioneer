@@ -64,12 +64,31 @@ void NavLights::Init(Graphics::Renderer *renderer)
 	m_lightColorsUVoffsets[NAVLIGHT_BLUE] = LoadLightColorUVoffset(cfg.String("StaticUVOffset"));
 	m_lightColorsUVoffsets[NAVLIGHT_YELLOW] = LoadLightColorUVoffset(cfg.String("DockingUVOffset"));
 
+	const std::string texPath = cfg.String("NavLightsTexture");
+	texHalos4x4.Reset(Graphics::TextureBuilder::Billboard(texPath).GetOrCreateTexture(renderer, std::string("billboard")));
+
+	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
+	desc.textures = 1;
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ADDITIVE;
+	rsd.depthWrite = false;
+	rsd.primitiveType = Graphics::POINTS;
+
+	matHalos4x4.Reset(renderer->CreateMaterial("billboards", desc, rsd));
+	matHalos4x4->SetTexture(Graphics::Renderer::GetName("texture0"), texHalos4x4.Get());
+	matHalos4x4->SetPushConstant(Graphics::Renderer::GetName("coordDownScale"), 0.5f);
+
 	g_initted = true;
 }
 
 void NavLights::Uninit()
 {
 	assert(g_initted);
+
+	matHalos4x4.Reset();
+	texHalos4x4.Reset();
 
 	g_initted = false;
 }
@@ -179,22 +198,6 @@ void NavLights::Update(float time)
 
 void NavLights::Render(Graphics::Renderer *renderer)
 {
-	if (!matHalos4x4) {
-		Graphics::MaterialDescriptor desc;
-		desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
-		desc.textures = 1;
-
-		Graphics::RenderStateDesc rsd;
-		rsd.blendMode = Graphics::BLEND_ADDITIVE;
-		rsd.depthWrite = false;
-		rsd.primitiveType = Graphics::POINTS;
-
-		matHalos4x4.Reset(renderer->CreateMaterial("billboards", desc, rsd));
-		texHalos4x4.Reset(Graphics::TextureBuilder::Billboard("textures/halo_4x4.dds").GetOrCreateTexture(renderer, std::string("billboard")));
-		matHalos4x4->SetTexture(Graphics::Renderer::GetName("texture0"), texHalos4x4.Get());
-		matHalos4x4->SetPushConstant(Graphics::Renderer::GetName("coordDownScale"), 0.5f);
-	}
-
 	if (!m_billboardTris.IsEmpty()) {
 		renderer->SetTransform(matrix4x4f::Identity());
 		renderer->DrawBuffer(&m_billboardTris, matHalos4x4.Get());

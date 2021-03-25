@@ -92,12 +92,6 @@ namespace Graphics {
 
 			const std::string &GetString(size_t name) const { return m_nameMap.at(name); }
 
-			// FIXME: these are no-op shims to make old code compile while rewriting
-			// the shader request system
-			size_t AddTextureBinding(const std::string &name, TextureType type) { return 0; }
-			size_t AddConstantBinding(const std::string &name, ConstantDataFormat format) { return 0; }
-			size_t AddBufferBinding(const std::string &name) { return 0; }
-
 		protected:
 			friend class Program;
 

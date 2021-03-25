@@ -35,9 +35,6 @@ namespace Graphics {
 		public:
 			Material() {}
 
-			// bind textures, set uniforms
-			virtual void Apply() override{};
-			virtual void Unapply() override{};
 			virtual bool IsProgramLoaded() const override final;
 			virtual void SetShader(Shader *p);
 			virtual const Shader *GetShader() const { return m_shader; }

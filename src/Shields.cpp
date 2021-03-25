@@ -177,6 +177,8 @@ void Shields::Uninit()
 {
 	assert(s_initialised);
 
+	s_matShield.Reset();
+
 	s_initialised = false;
 }
 

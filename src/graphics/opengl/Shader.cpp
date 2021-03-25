@@ -108,7 +108,7 @@ Program *Shader::GetProgramForDesc(const MaterialDescriptor &desc)
 
 void Shader::Reload()
 {
-	// FIXME: reload the shader definition file and regenerate
+	// TODO: reload the shader definition file and regenerate
 	// binding points. This is probably not doable without some
 	// way to also track and reload all materials using this shader
 	// (as they will need to have their data store reallocated as well)

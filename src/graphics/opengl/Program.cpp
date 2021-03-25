@@ -70,7 +70,7 @@ namespace Graphics {
 			// this is not a good use for OS::Warning
 #ifndef NDEBUG
 			if (infologLength > 0) {
-				if (pi_strcasestr("infoLog", "warning"))
+				if (pi_strcasestr(infoLog, "warning"))
 					Output("%s: %s", filename, infoLog);
 			}
 #endif
@@ -268,7 +268,7 @@ namespace Graphics {
 			// a_transform @ 6 shadows (uses) 7, 8, and 9
 			// next available is layout (location = 10)
 
-			// TODO: setup fragment output locations from shader attributes
+			// TODO: setup fragment output locations from shaderdef attributes
 			glBindFragDataLocation(program, 0, "frag_color");
 
 			glLinkProgram(program);

@@ -46,7 +46,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	// FIXME: add render state properties to MaterialDefinition
 	// This is hacky and based off of the code in Loader.cpp
 	Graphics::RenderStateDesc rsd;
-	if (mdef.diffuse.a < 255) {
+	if (mdef.opacity < 100) {
 		rsd.blendMode = Graphics::BLEND_ALPHA;
 		rsd.depthWrite = false;
 	}

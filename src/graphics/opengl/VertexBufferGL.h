@@ -91,14 +91,15 @@ namespace Graphics {
 			virtual void Bind() override final;
 			virtual void Release() override final;
 
-		protected:
-			friend class MeshObject; // need access to InstOffs enum
 			enum InstOffs {
 				INSTOFFS_MAT0 = 6, // these value must match those of a_transform within data/shaders/opengl/attributes.glsl
 				INSTOFFS_MAT1 = 7,
 				INSTOFFS_MAT2 = 8,
 				INSTOFFS_MAT3 = 9
 			};
+
+		protected:
+			friend class MeshObject; // need access to InstOffs enum
 			std::unique_ptr<matrix4x4f[]> m_data;
 		};
 
@@ -115,7 +116,6 @@ namespace Graphics {
 
 		protected:
 			friend class Graphics::RendererOGL;
-			void CreateVAO(const VertexBufferDesc &);
 
 			// For use by the renderer in drawing from a dynamic vertex alloc buffer.
 			void BindOffset(uint32_t offset);

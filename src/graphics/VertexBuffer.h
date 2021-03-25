@@ -158,8 +158,13 @@ namespace Graphics {
 	/*
      * Wraps a vertex buffer and optional index buffer into a single mesh.
 	 *
-	 * This class maps to OpenGL's vertex array objects, and is used to coalesce primitive
-	 * data for drawing commands in one place.
+	 * This class maps to OpenGL's vertex array objects, and is used to
+	 * coalesce primitive data for drawing commands in one place.
+	 *
+	 * It is the calling code's responsibility to ensure that once a draw has
+	 * been issued using a MeshObject, the MeshObject stays alive until the
+	 * command list is executed or reset (e.g. SwapBuffers()). Failure to
+	 * observe this requirement will result in undefined behavior.
 	 */
 	class MeshObject : public RefCounted {
 	public:
