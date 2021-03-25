@@ -21,6 +21,7 @@ namespace Graphics {
 	struct Settings;
 
 	namespace OGL {
+		class CachedVertexBuffer;
 		class CommandList;
 		class Material;
 		class Shader;
@@ -103,8 +104,8 @@ namespace Graphics {
 		virtual bool Screendump(ScreendumpState &sd) override final;
 		virtual bool FrameGrab(ScreendumpState &sd) override final;
 
-		bool DrawMeshInternal(MeshObject *, PrimitiveType type);
-		bool DrawMeshInstancedInternal(MeshObject *, InstanceBuffer *, PrimitiveType type);
+		bool DrawMeshInternal(MeshObject *, uint32_t offset, PrimitiveType type, uint32_t num);
+		bool DrawMeshInstancedInternal(MeshObject *, uint32_t offset, InstanceBuffer *, PrimitiveType type, uint32_t num);
 
 	protected:
 		virtual void PushState() override final;
@@ -140,9 +141,8 @@ namespace Graphics {
 
 		struct DynamicBufferData {
 			AttributeSet attrs;
+			OGL::CachedVertexBuffer *vtxBuffer;
 			RefCountedPtr<MeshObject> mesh;
-			size_t lastFrameUsed;
-			size_t vertexCount;
 		};
 
 		using DynamicBufferMap = std::vector<DynamicBufferData>;

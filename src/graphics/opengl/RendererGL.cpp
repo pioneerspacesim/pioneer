@@ -172,9 +172,9 @@ namespace Graphics {
 		if (vs.enableDebugMessages)
 			GLDebug::Enable();
 
-		if (!glewIsSupported("GL_VERSION_3_1")) {
+		if (!glewIsSupported("GL_VERSION_3_2")) {
 			Error(
-				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.1\n"
+				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.2\n"
 				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly.");
 		}
 
@@ -190,6 +190,12 @@ namespace Graphics {
 					"OpenGL extension GL_EXT_texture_compression_s3tc not supported.\n"
 					"Pioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
 			}
+		}
+
+		if (!glewIsSupported("GL_ARB_vertex_attrib_binding")) {
+			Error("OpenGL extension GL_ARB_vertex_attrib_binding not supported.\n"
+				  "Pioneer can not run on your graphics card as it does not support vertex attribute bindings.\n"
+				  "Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly.");
 		}
 
 		// use floating-point reverse-Z depth buffer to remove the need for depth buffer hacks
@@ -531,18 +537,13 @@ namespace Graphics {
 			buffer->Reset();
 		}
 
-		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE, uint32_t(m_drawUniformBuffers.size()));
-		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS, numAllocs);
-
-		// evict temporary vertex buffers if they haven't been used in at least 30 frames
-		for (auto iter = s_DynamicDrawBufferMap.begin(); iter != s_DynamicDrawBufferMap.end();) {
-			if (iter->lastFrameUsed < (std::max(m_frameNum, 30UL) - 30))
-				iter = s_DynamicDrawBufferMap.erase(iter);
-			else
-				iter++;
+		for (auto &buffer : s_DynamicDrawBufferMap) {
+			buffer.vtxBuffer->Reset();
 		}
 
 		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, s_DynamicDrawBufferMap.size());
+		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE, uint32_t(m_drawUniformBuffers.size()));
+		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS, numAllocs);
 
 		uint32_t numShaderPrograms = 0;
 		for (auto &pair : m_shaders)
@@ -625,6 +626,7 @@ namespace Graphics {
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_windowRenderTarget->m_fbo);
 
 		SDL_GL_SwapWindow(m_window);
+		m_renderStateCache->ResetFrame();
 		m_stats.NextFrame();
 		return true;
 	}
@@ -759,36 +761,46 @@ namespace Graphics {
 		return true;
 	}
 
+	// 1MB vertex draw buffer should be enough for most cases, right?
+	static constexpr uint32_t DYNAMIC_DRAW_BUFFER_SIZE = 1 << 20;
 	bool RendererOGL::DrawBuffer(const VertexArray *v, Material *m)
 	{
 		PROFILE_SCOPED()
-		constexpr double BUFFER_WASTE_PROPORTION = 2.0;
 
 		if (v->IsEmpty()) return false;
 
 		const AttributeSet attrs = v->GetAttributeSet();
-		MeshObject *meshObject;
 
-		auto iter = std::find_if(s_DynamicDrawBufferMap.begin(), s_DynamicDrawBufferMap.end(), [&](const DynamicBufferData &a) {
-			return a.attrs == attrs && a.vertexCount >= v->GetNumVerts() && a.vertexCount <= v->GetNumVerts() * BUFFER_WASTE_PROPORTION;
+		// Find a buffer matching our attributes with enough free space
+		auto iter = std::find_if(s_DynamicDrawBufferMap.begin(), s_DynamicDrawBufferMap.end(), [&](DynamicBufferData &a) {
+			uint32_t freeSize = a.vtxBuffer->GetCapacity() - a.vtxBuffer->GetSize();
+			return a.attrs == attrs && freeSize >= v->GetNumVerts();
 		});
 
+		// If we don't have one, make one
 		if (iter == s_DynamicDrawBufferMap.end()) {
 			auto desc = VertexBufferDesc::FromAttribSet(v->GetAttributeSet());
-			desc.numVertices = v->GetNumVerts() * BUFFER_WASTE_PROPORTION;
+			desc.numVertices = DYNAMIC_DRAW_BUFFER_SIZE / desc.stride;
 			desc.usage = BUFFER_USAGE_DYNAMIC;
-			meshObject = CreateMeshObject(CreateVertexBuffer(desc), nullptr);
-			s_DynamicDrawBufferMap.push_back(DynamicBufferData{ attrs, RefCountedPtr<MeshObject>(meshObject), m_frameNum, desc.numVertices });
+
+			OGL::CachedVertexBuffer *vb = new OGL::CachedVertexBuffer(desc);
+			MeshObject *meshObject = CreateMeshObject(vb, nullptr);
+			s_DynamicDrawBufferMap.push_back(DynamicBufferData{ attrs, vb, RefCountedPtr<MeshObject>(meshObject) });
+
+			GetStats().AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 			GetStats().AddToStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED, 1);
-		} else {
-			meshObject = iter->mesh.Get();
-			iter->lastFrameUsed = m_frameNum;
+			iter = s_DynamicDrawBufferMap.end() - 1;
 		}
 
-		meshObject->GetVertexBuffer()->Populate(*v);
+		// Write our data into the buffer
+		uint32_t offset = iter->vtxBuffer->GetOffset();
+		iter->vtxBuffer->Populate(*v);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
-		return DrawMesh(meshObject, m);
+		// Append a command to the command list
+		m_drawCommandList->AddDrawCmd(iter->mesh.Get(), m, nullptr, offset, v->GetNumVerts());
+
+		return true;
 	}
 
 	bool RendererOGL::DrawMesh(MeshObject *mesh, Material *material)
@@ -811,6 +823,9 @@ namespace Graphics {
 
 		for (auto &buffer : m_drawUniformBuffers)
 			buffer->Flush();
+
+		for (auto &buffer : s_DynamicDrawBufferMap)
+			buffer.vtxBuffer->Flush();
 
 		m_drawCommandList->m_executing = true;
 
@@ -852,12 +867,11 @@ namespace Graphics {
 		}
 	}
 
-	bool RendererOGL::DrawMeshInternal(MeshObject *mesh, PrimitiveType type)
+	bool RendererOGL::DrawMeshInternal(MeshObject *mesh, uint32_t offset, PrimitiveType type, uint32_t numElems)
 	{
 		PROFILE_SCOPED()
-		mesh->Bind();
+		mesh->Bind(offset);
 
-		int numElems = mesh->GetIndexBuffer() ? mesh->GetIndexBuffer()->GetIndexCount() : mesh->GetVertexBuffer()->GetSize();
 		if (mesh->GetIndexBuffer())
 			glDrawElements(type, numElems, GL_UNSIGNED_INT, nullptr);
 		else
@@ -871,13 +885,12 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::DrawMeshInstancedInternal(MeshObject *mesh, InstanceBuffer *inst, PrimitiveType type)
+	bool RendererOGL::DrawMeshInstancedInternal(MeshObject *mesh, uint32_t offset, InstanceBuffer *inst, PrimitiveType type, uint32_t numElems)
 	{
 		PROFILE_SCOPED()
-		mesh->Bind();
+		mesh->Bind(offset);
 		inst->Bind();
 
-		int numElems = mesh->GetIndexBuffer() ? mesh->GetIndexBuffer()->GetIndexCount() : mesh->GetVertexBuffer()->GetSize();
 		if (mesh->GetIndexBuffer())
 			glDrawElementsInstanced(type, numElems, GL_UNSIGNED_INT, nullptr, inst->GetInstanceCount());
 		else

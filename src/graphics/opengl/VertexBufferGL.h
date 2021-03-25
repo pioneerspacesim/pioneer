@@ -27,10 +27,10 @@ namespace Graphics {
 			VertexBuffer(const VertexBufferDesc &);
 			~VertexBuffer();
 
-			virtual void Unmap() override final;
+			virtual void Unmap() override;
 
 			// copies the contents of the VertexArray into the buffer
-			virtual bool Populate(const VertexArray &) override final;
+			virtual bool Populate(const VertexArray &) override;
 
 			// change the buffer data without mapping
 			virtual void BufferData(const size_t, void *) override final;
@@ -39,10 +39,27 @@ namespace Graphics {
 			virtual void Release() override final;
 
 		protected:
-			virtual Uint8 *MapInternal(BufferMapMode) override final;
+			virtual Uint8 *MapInternal(BufferMapMode) override;
+			Uint8 *m_data;
+		};
+
+		class CachedVertexBuffer : public VertexBuffer {
+		public:
+			CachedVertexBuffer(const VertexBufferDesc &);
+
+			virtual bool Populate(const VertexArray &) override final;
+			uint32_t GetOffset() { return m_size * m_desc.stride; }
+
+			bool Flush();
+			void Reset();
+
+		protected:
+			using VertexBuffer::BufferData;
+			using VertexBuffer::Map;
+			using VertexBuffer::Unmap;
 
 		private:
-			Uint8 *m_data;
+			uint32_t m_lastFlushed;
 		};
 
 		class IndexBuffer : public Graphics::IndexBuffer, public GLBufferBase {
@@ -90,14 +107,21 @@ namespace Graphics {
 			MeshObject(RefCountedPtr<VertexBuffer> v, RefCountedPtr<IndexBuffer> i);
 			~MeshObject() override;
 
-			void Bind() override;
+			void Bind(uint32_t offset) override;
 			void Release() override;
 
 			Graphics::VertexBuffer *GetVertexBuffer() const override { return m_vtxBuffer.Get(); };
 			Graphics::IndexBuffer *GetIndexBuffer() const override { return m_idxBuffer.Get(); };
 
 		protected:
+			friend class Graphics::RendererOGL;
+			void CreateVAO(const VertexBufferDesc &);
+
+			// For use by the renderer in drawing from a dynamic vertex alloc buffer.
+			void BindOffset(uint32_t offset);
+
 			GLuint m_vao;
+			GLuint m_offset;
 			RefCountedPtr<VertexBuffer> m_vtxBuffer;
 			RefCountedPtr<IndexBuffer> m_idxBuffer;
 		};

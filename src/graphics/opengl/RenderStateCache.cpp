@@ -121,10 +121,21 @@ size_t RenderStateCache::InternRenderState(const RenderStateDesc &rsd)
 	return hash;
 }
 
+void RenderStateCache::ResetFrame()
+{
+	// Textures might be deleted between frames while they're still referenced in cache
+	// so we clear the texture cache
+	for (uint32_t idx = 0; idx < m_textureCache.size(); idx++)
+		SetTexture(idx, nullptr);
+
+	m_activeRenderStateHash = 0;
+	m_activeProgram = 0;
+}
+
 void RenderStateCache::SetTexture(uint32_t index, TextureGL *texture)
 {
 	if (index >= m_textureCache.size())
-		m_textureCache.resize(index + 1);
+		m_textureCache.resize(index + 1, nullptr);
 
 	// Don't do anything if the texture is the same as what was last bound.
 	TextureGL *current = m_textureCache[index];
@@ -146,7 +157,7 @@ void RenderStateCache::SetTexture(uint32_t index, TextureGL *texture)
 void RenderStateCache::SetBufferBinding(uint32_t index, UniformBufferBinding &binding)
 {
 	if (index >= m_bufferCache.size())
-		m_bufferCache.resize(index + 1);
+		m_bufferCache.resize(index + 1, UniformBufferBinding{ nullptr, 0, 0 });
 
 	UniformBufferBinding &current = m_bufferCache[index];
 	if (current == binding)

@@ -5,11 +5,31 @@
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "utils.h"
+#include <algorithm>
 
 namespace Graphics {
 	namespace OGL {
 
-		GLint get_num_components(VertexAttribFormat fmt)
+		static GLuint get_attrib_index(VertexAttrib semantic)
+		{
+			switch (semantic) {
+			case ATTRIB_POSITION: return 0;
+			case ATTRIB_NORMAL: return 1;
+			case ATTRIB_DIFFUSE: return 2;
+			case ATTRIB_UV0: return 3;
+			case ATTRIB_TANGENT: return 4;
+			default:
+				assert(false);
+				return 0;
+			}
+		}
+
+		static GLuint is_attr_normalized(VertexAttrib semantic)
+		{
+			return semantic == ATTRIB_DIFFUSE ? GL_TRUE : GL_FALSE;
+		}
+
+		static GLint get_num_components(VertexAttribFormat fmt)
 		{
 			switch (fmt) {
 			case ATTRIB_FORMAT_FLOAT2:
@@ -25,7 +45,7 @@ namespace Graphics {
 			}
 		}
 
-		GLenum get_component_type(VertexAttribFormat fmt)
+		static GLenum get_component_type(VertexAttribFormat fmt)
 		{
 			switch (fmt) {
 			case ATTRIB_FORMAT_UBYTE4:
@@ -38,7 +58,7 @@ namespace Graphics {
 			}
 		}
 
-		GLenum get_buffer_usage(BufferUsage use)
+		static GLenum get_buffer_usage(BufferUsage use)
 		{
 			switch (use) {
 			case BUFFER_USAGE_STATIC:
@@ -55,25 +75,10 @@ namespace Graphics {
 			Graphics::VertexBuffer(desc)
 		{
 			PROFILE_SCOPED()
-			//update offsets in desc
-			for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
-				if (m_desc.attrib[i].offset == 0)
-					m_desc.attrib[i].offset = VertexBufferDesc::CalculateOffset(m_desc, m_desc.attrib[i].semantic);
-			}
-
-			//update stride in desc (respecting offsets)
-			if (m_desc.stride == 0) {
-				Uint32 lastAttrib = 0;
-				while (lastAttrib < MAX_ATTRIBS) {
-					if (m_desc.attrib[lastAttrib].semantic == ATTRIB_NONE)
-						break;
-					lastAttrib++;
-				}
-
-				m_desc.stride = m_desc.attrib[lastAttrib].offset + VertexBufferDesc::GetAttribSize(m_desc.attrib[lastAttrib].format);
-			}
-			assert(m_desc.stride > 0);
 			assert(m_desc.numVertices > 0);
+
+			m_desc.CalculateOffsets();
+			assert(m_desc.stride > 0);
 
 			//SetVertexCount(m_desc.numVertices);
 
@@ -320,6 +325,85 @@ namespace Graphics {
 		}
 
 		// ------------------------------------------------------------
+		CachedVertexBuffer::CachedVertexBuffer(const VertexBufferDesc &desc) :
+			VertexBuffer(desc)
+		{
+			assert(desc.usage == BufferUsage::BUFFER_USAGE_DYNAMIC);
+			m_size = 0;
+			m_lastFlushed = 0;
+		}
+
+		bool CachedVertexBuffer::Populate(const VertexArray &va)
+		{
+			assert(m_capacity - m_size >= va.GetNumVerts());
+
+			// ugly but effective way of counting the number of non-empty vertex attribute slots
+			uint32_t numAttrs = 0;
+			for (; numAttrs < 8 && m_desc.attrib[numAttrs].semantic != ATTRIB_NONE; numAttrs++)
+				;
+
+			// Complicated-ish loop to deal with 16+ possible combinations of vertex formats
+			// (Position is effectively required, or it would be 32)
+			for (size_t idx = 0; idx < va.GetNumVerts(); idx++) {
+				for (uint32_t n = 0; n < numAttrs; n++) {
+					// Calculate the location of this component inside the vertex being written
+					uint8_t *data = m_data + (m_size + idx) * m_desc.stride + m_desc.attrib[n].offset;
+					switch (m_desc.attrib[n].semantic) {
+					case ATTRIB_POSITION:
+						*reinterpret_cast<vector3f *>(data) = va.position[idx];
+						break;
+					case ATTRIB_NORMAL:
+						*reinterpret_cast<vector3f *>(data) = va.normal[idx];
+						break;
+					case ATTRIB_DIFFUSE:
+						*reinterpret_cast<Color4ub *>(data) = va.diffuse[idx];
+						break;
+					case ATTRIB_UV0:
+						*reinterpret_cast<vector2f *>(data) = va.uv0[idx];
+						break;
+					case ATTRIB_TANGENT:
+						*reinterpret_cast<vector3f *>(data) = va.tangent[idx];
+						break;
+					default:
+						assert(false && "Unimplemented vertex attribute in CachedVertexBuffer::Populate!");
+						break;
+					}
+				}
+			}
+
+			m_size += va.GetNumVerts();
+			return true;
+		}
+
+		// Send accumulated data to the GPU prior to using the buffer for rendering
+		bool CachedVertexBuffer::Flush()
+		{
+			uint32_t dataSize = m_size * m_desc.stride;
+			if (m_lastFlushed >= dataSize)
+				return false;
+
+			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+			glBufferSubData(GL_ARRAY_BUFFER, m_lastFlushed, dataSize - m_lastFlushed, m_data + m_lastFlushed);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			m_lastFlushed = dataSize;
+			m_written = true;
+			return true;
+		}
+
+		// Reset the cache and associated buffer for use in a new frame
+		void CachedVertexBuffer::Reset()
+		{
+			// respecify the buffer storage to orphan data that theoretically might still be in flight
+			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+			glBufferData(GL_ARRAY_BUFFER, m_capacity * m_desc.stride, nullptr, get_buffer_usage(m_desc.usage));
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			m_size = 0;
+			m_lastFlushed = 0;
+			m_written = false;
+		}
+
+		// ------------------------------------------------------------
 		IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint) :
 			Graphics::IndexBuffer(size, hint)
 		{
@@ -463,32 +547,29 @@ namespace Graphics {
 		void InstanceBuffer::Bind()
 		{
 			assert(m_written);
-			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 
 			// used to pass a matrix4x4f in, however each attrib array is max size of (GLSL) vec4 so must enable 4 arrays
-			const size_t sizeVec4 = (sizeof(float) * 4);
 			glEnableVertexAttribArray(INSTOFFS_MAT0);
-			glVertexAttribPointer(INSTOFFS_MAT0, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid *>(0));
 			glEnableVertexAttribArray(INSTOFFS_MAT1);
-			glVertexAttribPointer(INSTOFFS_MAT1, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid *>(sizeVec4));
 			glEnableVertexAttribArray(INSTOFFS_MAT2);
-			glVertexAttribPointer(INSTOFFS_MAT2, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid *>(2 * sizeVec4));
 			glEnableVertexAttribArray(INSTOFFS_MAT3);
-			glVertexAttribPointer(INSTOFFS_MAT3, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid *>(3 * sizeVec4));
+
+			glBindVertexBuffer(1, m_buffer, 0, sizeof(float) * 16);
 		}
 
 		void InstanceBuffer::Release()
 		{
+			glBindVertexBuffer(1, 0, 0, sizeof(float) * 16);
+
 			// see enable comment above
 			glDisableVertexAttribArray(INSTOFFS_MAT0);
 			glDisableVertexAttribArray(INSTOFFS_MAT1);
 			glDisableVertexAttribArray(INSTOFFS_MAT2);
 			glDisableVertexAttribArray(INSTOFFS_MAT3);
-
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 
 		MeshObject::MeshObject(RefCountedPtr<VertexBuffer> vtxBuffer, RefCountedPtr<IndexBuffer> idxBuffer) :
+			m_offset(0),
 			m_vtxBuffer(std::move(vtxBuffer)),
 			m_idxBuffer(std::move(idxBuffer))
 		{
@@ -497,59 +578,47 @@ namespace Graphics {
 			// Create the VAOs
 			glGenVertexArrays(1, &m_vao);
 			glBindVertexArray(m_vao);
-			glBindBuffer(GL_ARRAY_BUFFER, m_vtxBuffer->GetBuffer());
 
-			auto &desc = m_vtxBuffer->GetDesc();
+			const auto &desc = m_vtxBuffer->GetDesc();
 
 			//Setup the VAO pointers
-			for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
+			for (uint32_t i = 0; i < MAX_ATTRIBS; i++) {
 				const auto &attr = desc.attrib[i];
 				if (attr.semantic == ATTRIB_NONE)
 					break;
 
+				GLuint attrib = get_attrib_index(attr.semantic);
+				// Enable the attribute at that location
+				glEnableVertexAttribArray(attrib);
 				// Tell OpenGL what the array contains
-				const auto offset = reinterpret_cast<const GLvoid *>(attr.offset);
-				switch (attr.semantic) {
-				case ATTRIB_POSITION:
-					glEnableVertexAttribArray(0); // Enable the attribute at that location
-					glVertexAttribPointer(0, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, desc.stride, offset);
-					break;
-				case ATTRIB_NORMAL:
-					glEnableVertexAttribArray(1); // Enable the attribute at that location
-					glVertexAttribPointer(1, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, desc.stride, offset);
-					break;
-				case ATTRIB_DIFFUSE:
-					// only normalise the colours
-					glEnableVertexAttribArray(2); // Enable the attribute at that location
-					glVertexAttribPointer(2, get_num_components(attr.format), get_component_type(attr.format), GL_TRUE, desc.stride, offset);
-					break;
-				case ATTRIB_UV0:
-					glEnableVertexAttribArray(3); // Enable the attribute at that location
-					glVertexAttribPointer(3, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, desc.stride, offset);
-					break;
-				case ATTRIB_TANGENT:
-					glEnableVertexAttribArray(4); // Enable the attribute at that location
-					glVertexAttribPointer(4, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, desc.stride, offset);
-					break;
-				case ATTRIB_NONE:
-				default:
-					break;
-				}
+				glVertexAttribFormat(attrib, get_num_components(attr.format), get_component_type(attr.format), is_attr_normalized(attr.semantic), attr.offset);
+				// All vertex attribs will be sourced from the same buffer
+				glVertexAttribBinding(attrib, 0);
 			}
 
-			// set up the divisor for instance data slots in case they're used.
-			glVertexAttribDivisor(InstanceBuffer::INSTOFFS_MAT0, 1);
-			glVertexAttribDivisor(InstanceBuffer::INSTOFFS_MAT1, 1);
-			glVertexAttribDivisor(InstanceBuffer::INSTOFFS_MAT2, 1);
-			glVertexAttribDivisor(InstanceBuffer::INSTOFFS_MAT3, 1);
+			// Set up the divisor for the instance data buffer binding
+			glVertexBindingDivisor(1, 1);
+			// Set up the slots for an instance buffer now, so we don't need to touch it again.
+			const size_t sizeVec4 = (sizeof(float) * 4);
+			for (uint32_t idx = 0; idx < 4; idx++) {
+				// Each row of the matrix needs to be set separately.
+				glVertexAttribFormat(InstanceBuffer::INSTOFFS_MAT0 + idx, 4, GL_FLOAT, GL_FALSE, idx * sizeVec4);
+				// All instance-data attribs will be sourced from a separate buffer
+				glVertexAttribBinding(InstanceBuffer::INSTOFFS_MAT0 + idx, 1);
+			}
 
+			// Bind the vertex buffer to the VAO state.
+			glBindVertexBuffer(0, m_vtxBuffer->GetBuffer(), 0, desc.stride);
+			// Bind the index buffer (if present) to the VAO state.
 			if (m_idxBuffer)
 				m_idxBuffer->Bind();
 
 			// Unbinding the VAO implicitly unbinds the index buffer (as it's part of the VAO state)
-			// The global GL_ARRAY_BUFFER binding however is *not* part of VAO state.
 			glBindVertexArray(0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+
+		void MeshObject::BindOffset(uint32_t offset)
+		{
 		}
 
 		MeshObject::~MeshObject()
@@ -557,9 +626,13 @@ namespace Graphics {
 			glDeleteVertexArrays(1, &m_vao);
 		}
 
-		void MeshObject::Bind()
+		void MeshObject::Bind(uint32_t offset)
 		{
 			glBindVertexArray(m_vao);
+			if (offset != m_offset) {
+				glBindVertexBuffer(0, m_vtxBuffer->GetBuffer(), offset, m_vtxBuffer->GetDesc().stride);
+				m_offset = offset;
+			}
 		}
 
 		void MeshObject::Release()

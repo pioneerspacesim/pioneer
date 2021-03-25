@@ -57,7 +57,6 @@ protected:
 	bool m_enabled;
 
 	Graphics::VertexArray m_billboardTris;
-	RefCountedPtr<Graphics::MeshObject> m_billboardMesh;
 };
 
 #endif

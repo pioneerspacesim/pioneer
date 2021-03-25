@@ -15,16 +15,22 @@
 
 using namespace Graphics::OGL;
 
-void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *material, Graphics::InstanceBuffer *inst)
+void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *material, Graphics::InstanceBuffer *inst, uint32_t offset, uint32_t num)
 {
 	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
 	OGL::Material *mat = static_cast<OGL::Material *>(material);
 
 	DrawCmd cmd;
 	cmd.mesh = static_cast<OGL::MeshObject *>(mesh);
+	cmd.inst = static_cast<OGL::InstanceBuffer *>(inst);
+	cmd.offset = offset;
+	if (num)
+		cmd.numElems = num;
+	else
+		cmd.numElems = mesh->GetIndexBuffer() ? mesh->GetIndexBuffer()->GetIndexCount() : mesh->GetVertexBuffer()->GetSize();
+
 	cmd.program = mat->EvaluateVariant();
 	cmd.shader = mat->GetShader();
-	cmd.inst = static_cast<OGL::InstanceBuffer *>(inst);
 	cmd.renderStateHash = mat->m_renderStateHash;
 	cmd.drawData = SetupMaterialData(mat);
 
@@ -171,7 +177,7 @@ void CommandList::ApplyDrawData(const DrawCmd &cmd) const
 		state->SetTexture(info.binding, textures[info.index]);
 
 	for (auto &info : cmd.shader->GetPushConstantBindings()) {
-		GLuint location = cmd.program->GetConstantLocation(info.binding);
+		GLuint location = cmd.program->GetConstantLocation(info.index);
 		if (location == GL_INVALID_INDEX)
 			continue;
 
@@ -222,9 +228,9 @@ void CommandList::ExecuteDrawCmd(const DrawCmd &cmd)
 
 	PrimitiveType pt = stateCache->GetActiveRenderState().primitiveType;
 	if (cmd.inst)
-		m_renderer->DrawMeshInstancedInternal(cmd.mesh, cmd.inst, pt);
+		m_renderer->DrawMeshInstancedInternal(cmd.mesh, cmd.offset, cmd.inst, pt, cmd.numElems);
 	else
-		m_renderer->DrawMeshInternal(cmd.mesh, pt);
+		m_renderer->DrawMeshInternal(cmd.mesh, cmd.offset, pt, cmd.numElems);
 
 	CleanupDrawData(cmd);
 	CHECKERRORS();

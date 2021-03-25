@@ -309,7 +309,7 @@ namespace Graphics {
 			m_constants.resize(shader->GetNumPushConstants());
 			for (auto &conInfo : shader->GetPushConstantBindings()) {
 				GLuint location = glGetUniformLocation(m_program, shader->GetString(conInfo.name).c_str());
-				m_constants[conInfo.binding] = location;
+				m_constants[conInfo.index] = location;
 			}
 
 			glUseProgram(0);

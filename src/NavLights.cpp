@@ -195,25 +195,13 @@ void NavLights::Render(Graphics::Renderer *renderer)
 		matHalos4x4->SetPushConstant(Graphics::Renderer::GetName("coordDownScale"), 0.5f);
 	}
 
-	const bool isMeshValid = m_billboardMesh.Valid();
-	const bool hasVerts = !m_billboardTris.IsEmpty();
-	const bool isVertCountEnough = isMeshValid && (m_billboardTris.GetNumVerts() <= m_billboardMesh->GetVertexBuffer()->GetCapacity());
-	if (hasVerts) {
-		if (isMeshValid && isVertCountEnough) {
-			// If we don't need to resize the vertex buffer, just copy the verts
-			// m_billboardMesh->GetVertexBuffer()->Populate(m_billboardTris);
-		} else {
-			// Otherwise, create a new buffer to fit the new count
-			// Use DYNAMIC as we will be updating this per-frame
-			// m_billboardMesh.Reset(renderer->CreateMeshObjectFromArray(&m_billboardTris, nullptr, Graphics::BUFFER_USAGE_DYNAMIC));
-		}
-
+	if (!m_billboardTris.IsEmpty()) {
 		renderer->SetTransform(matrix4x4f::Identity());
-		// renderer->DrawMesh(m_billboardMesh.Get(), matHalos4x4.Get());
 		renderer->DrawBuffer(&m_billboardTris, matHalos4x4.Get());
-		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
+		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, m_billboardTris.GetNumVerts());
+
+		m_billboardTris.Clear();
 	}
-	m_billboardTris.Clear();
 }
 
 void NavLights::SetColor(unsigned int group, LightColor c)

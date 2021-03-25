@@ -49,6 +49,8 @@ namespace Graphics {
 		static Uint32 CalculateOffset(const VertexBufferDesc &, VertexAttrib);
 		static Uint32 GetAttribSize(VertexAttribFormat);
 
+		void CalculateOffsets();
+
 		//semantic ATTRIB_NONE ends description (when not using all attribs)
 		VertexAttribDesc attrib[MAX_ATTRIBS];
 		Uint32 numVertices;
@@ -163,7 +165,7 @@ namespace Graphics {
 	public:
 		virtual ~MeshObject() {}
 
-		virtual void Bind() = 0;
+		virtual void Bind(uint32_t offset) = 0;
 		virtual void Release() = 0;
 
 		virtual VertexBuffer *GetVertexBuffer() const = 0;

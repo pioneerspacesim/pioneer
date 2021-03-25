@@ -68,6 +68,7 @@ namespace Graphics {
 			++attribIdx;
 		}
 
+		vbd.CalculateOffsets();
 		return vbd;
 	}
 
@@ -95,6 +96,23 @@ namespace Graphics {
 		//attrib not found
 		assert(false);
 		return 0;
+	}
+
+	void VertexBufferDesc::CalculateOffsets()
+	{
+		//update offsets in desc
+		// at the end of the loop, offs will be the stride of the buffer
+		Uint32 offs = 0;
+		for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
+			if (attrib[i].offset)
+				offs = attrib[i].offset;
+			else
+				attrib[i].offset = offs;
+			offs += GetAttribSize(attrib[i].format);
+		}
+
+		//update stride in desc (respecting offsets)
+		if (stride == 0) stride = offs;
 	}
 
 	VertexBuffer::~VertexBuffer()

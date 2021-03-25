@@ -85,7 +85,7 @@ namespace Graphics {
 			virtual Graphics::VertexBuffer *GetVertexBuffer() const override final { return m_vtxBuffer.Get(); }
 			virtual Graphics::IndexBuffer *GetIndexBuffer() const override final { return m_idxBuffer.Get(); }
 
-			virtual void Bind() override final {}
+			virtual void Bind(uint32_t) override final {}
 			virtual void Release() override final {}
 
 		protected:

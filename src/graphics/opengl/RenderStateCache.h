@@ -42,7 +42,7 @@ namespace Graphics {
 
 			const RenderStateDesc &GetRenderState(size_t hash) const;
 			size_t InternRenderState(const RenderStateDesc &rsd);
-			void InvalidateState() { m_activeRenderStateHash = 0; }
+			void ResetFrame();
 
 			std::vector<TextureGL *> m_textureCache;
 			std::vector<UniformBufferBinding> m_bufferCache;

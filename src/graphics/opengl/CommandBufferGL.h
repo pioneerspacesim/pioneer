@@ -33,6 +33,8 @@ namespace Graphics {
 		public:
 			struct DrawCmd {
 				MeshObject *mesh;
+				uint32_t offset;
+				uint32_t numElems;
 				InstanceBuffer *inst = nullptr;
 				const Shader *shader = nullptr;
 				Program *program = nullptr;
@@ -49,7 +51,7 @@ namespace Graphics {
 				Color clearColor;
 			};
 
-			void AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat, Graphics::InstanceBuffer *inst = nullptr);
+			void AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat, Graphics::InstanceBuffer *inst = nullptr, uint32_t offset = 0, uint32_t num = 0);
 
 			void AddRenderPassCmd(RenderTarget *renderTarget, ViewportExtents extents);
 			void AddClearCmd(bool clearColors, bool clearDepth, Color color);

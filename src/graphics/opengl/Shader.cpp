@@ -252,7 +252,7 @@ size_t Shader::AddConstantBinding(const std::string &name, ConstantDataFormat fo
 		offset = CalcOffset(lastConstant.offset, lastConstant.format, format);
 	}
 
-	m_pushConstantInfo.push_back({ hash, binding, offset, format });
+	m_pushConstantInfo.push_back({ hash, uint32_t(m_pushConstantInfo.size()), binding, offset, format });
 	m_constantStorageSize = offset + CalcSize(format);
 	m_nameMap[hash] = name;
 	return hash;

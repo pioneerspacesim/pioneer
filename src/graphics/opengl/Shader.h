@@ -20,6 +20,7 @@ namespace Graphics {
 
 		struct PushConstantData {
 			size_t name;
+			uint32_t index;
 			// uniform location attribute
 			GLuint binding;
 			// Offset of the given push constant in the binary blob of constant data
