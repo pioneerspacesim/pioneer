@@ -45,15 +45,23 @@ namespace Graphics {
 			struct RenderPassCmd {
 				RenderTarget *renderTarget;
 				ViewportExtents extents;
+				ViewportExtents scissor;
 				bool setRenderTarget;
+				bool setScissor;
 				bool clearColors;
 				bool clearDepth;
 				Color clearColor;
 			};
 
+			// development asserts to ensure sizes are kept reasonable.
+			// if you need to go beyond these sizes, add a new command instead.
+			static_assert(sizeof(DrawCmd) <= 64);
+			static_assert(sizeof(RenderPassCmd) <= sizeof(DrawCmd));
+
 			void AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat, Graphics::InstanceBuffer *inst = nullptr, uint32_t offset = 0, uint32_t num = 0);
 
 			void AddRenderPassCmd(RenderTarget *renderTarget, ViewportExtents extents);
+			void AddScissorCmd(ViewportExtents extents);
 			void AddClearCmd(bool clearColors, bool clearDepth, Color color);
 
 			using Cmd = std::variant<DrawCmd, RenderPassCmd>;

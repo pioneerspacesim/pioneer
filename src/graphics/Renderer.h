@@ -74,6 +74,10 @@ namespace Graphics {
 		//set 0 to render to screen
 		virtual bool SetRenderTarget(RenderTarget *) = 0;
 
+		// Set the scissor extents. This has no effect if not drawing with a renderstate using scissorTest.
+		// In particular, the scissor state will not affect clearing the screen.
+		virtual bool SetScissor(ViewportExtents scissor) = 0;
+
 		//clear color and depth buffer
 		virtual bool ClearScreen() = 0;
 		//clear depth buffer

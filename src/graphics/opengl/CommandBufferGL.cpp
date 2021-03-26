@@ -20,7 +20,7 @@ void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat
 	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
 	OGL::Material *mat = static_cast<OGL::Material *>(material);
 
-	DrawCmd cmd;
+	DrawCmd cmd{};
 	cmd.mesh = static_cast<OGL::MeshObject *>(mesh);
 	cmd.inst = static_cast<OGL::InstanceBuffer *>(inst);
 	cmd.offset = offset;
@@ -38,16 +38,18 @@ void CommandList::AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat
 }
 
 // RenderPass commands can be combined as long as they're setting the same render target
+// because viewport does not affect scissor or clear state
 void CommandList::AddRenderPassCmd(RenderTarget *renderTarget, ViewportExtents extents)
 {
 	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
 
 	RenderPassCmd *lastCmd = IsEmpty() ? nullptr : std::get_if<RenderPassCmd>(&m_drawCmds.back());
 	if (!lastCmd || !lastCmd->setRenderTarget || lastCmd->renderTarget != renderTarget) {
-		RenderPassCmd cmd;
+		RenderPassCmd cmd{};
 		cmd.renderTarget = renderTarget;
 		cmd.extents = extents;
 		cmd.setRenderTarget = true;
+		cmd.setScissor = false;
 		cmd.clearColors = false;
 		cmd.clearDepth = false;
 
@@ -59,7 +61,29 @@ void CommandList::AddRenderPassCmd(RenderTarget *renderTarget, ViewportExtents e
 	}
 }
 
-// Clear commands can be combined with a previous clear/set render pass command
+// Scissor commands can be combined with any previous render pass cmd
+// (because scissor test will be disabled during render target clears)
+void CommandList::AddScissorCmd(ViewportExtents scissor)
+{
+	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
+
+	RenderPassCmd *lastCmd = IsEmpty() ? nullptr : std::get_if<RenderPassCmd>(&m_drawCmds.back());
+	if (!lastCmd) {
+		RenderPassCmd cmd{};
+		cmd.scissor = scissor;
+		cmd.setRenderTarget = false;
+		cmd.setScissor = true;
+		cmd.clearColors = false;
+		cmd.clearDepth = false;
+
+		m_drawCmds.emplace_back(std::move(cmd));
+	} else {
+		lastCmd->setScissor = true;
+		lastCmd->scissor = scissor;
+	}
+}
+
+// Clear commands can be combined with any previous render pass command
 void CommandList::AddClearCmd(bool clearColors, bool clearDepth, Color color)
 {
 	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
@@ -67,8 +91,9 @@ void CommandList::AddClearCmd(bool clearColors, bool clearDepth, Color color)
 	RenderPassCmd *lastCmd = IsEmpty() ? nullptr : std::get_if<RenderPassCmd>(&m_drawCmds.back());
 
 	if (!lastCmd) {
-		RenderPassCmd cmd;
+		RenderPassCmd cmd{};
 		cmd.setRenderTarget = false;
+		cmd.setScissor = false;
 		cmd.clearColors = clearColors;
 		cmd.clearDepth = clearDepth;
 		cmd.clearColor = color;
@@ -241,6 +266,9 @@ void CommandList::ExecuteRenderPassCmd(const RenderPassCmd &cmd)
 	RenderStateCache *stateCache = m_renderer->GetStateCache();
 	if (cmd.setRenderTarget)
 		stateCache->SetRenderTarget(cmd.renderTarget, cmd.extents);
+
+	if (cmd.setScissor)
+		stateCache->SetScissor(cmd.scissor);
 
 	if (cmd.clearColors || cmd.clearDepth)
 		stateCache->ClearBuffers(cmd.clearColors, cmd.clearDepth, cmd.clearColor);

@@ -34,6 +34,7 @@ namespace Graphics {
 			RenderTarget *GetActiveRenderTarget() const { return m_activeRT; }
 			ViewportExtents GetActiveViewport() const { return m_currentExtents; }
 
+			void SetScissor(ViewportExtents scissor);
 			void ClearBuffers(bool colorBuffer, bool depthBuffer, Color clearColor);
 
 		private:
@@ -54,6 +55,7 @@ namespace Graphics {
 			GLuint m_activeProgram = 0;
 			RenderTarget *m_activeRT = 0;
 			ViewportExtents m_currentExtents;
+			ViewportExtents m_currentScissor;
 		};
 
 	} // namespace OGL

@@ -13,7 +13,8 @@ namespace Graphics {
 			cullMode(CULL_BACK),
 			primitiveType(PrimitiveType::TRIANGLES),
 			depthTest(true),
-			depthWrite(true)
+			depthWrite(true),
+			scissorTest(false)
 		{
 		}
 
@@ -28,6 +29,7 @@ namespace Graphics {
 		PrimitiveType primitiveType;
 		bool depthTest;
 		bool depthWrite;
+		bool scissorTest;
 	};
 
 } // namespace Graphics

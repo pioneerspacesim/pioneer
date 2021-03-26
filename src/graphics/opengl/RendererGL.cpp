@@ -605,7 +605,7 @@ namespace Graphics {
 			if (showWarning)
 				Log::Warning("{}", ss.str());
 			else
-				Log::Output("{}", ss.str());
+				Log::Info("{}", ss.str());
 		}
 #endif
 	}
@@ -642,6 +642,12 @@ namespace Graphics {
 		m_renderStateCache->SetRenderTarget(rt ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
+		return true;
+	}
+
+	bool RendererOGL::SetScissor(ViewportExtents extents)
+	{
+		m_drawCommandList->AddScissorCmd(extents);
 		return true;
 	}
 

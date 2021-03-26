@@ -55,6 +55,7 @@ namespace Graphics {
 		virtual bool SwapBuffers() override final;
 
 		virtual bool SetRenderTarget(RenderTarget *) override final;
+		virtual bool SetScissor(ViewportExtents) override final;
 
 		virtual bool ClearScreen() override final;
 		virtual bool ClearDepthBuffer() override final;

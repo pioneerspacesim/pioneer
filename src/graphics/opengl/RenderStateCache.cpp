@@ -88,6 +88,13 @@ void RenderStateCache::SetRenderState(size_t hash)
 			glDepthMask(GL_FALSE);
 	}
 
+	if (rsd.scissorTest != m_activeRenderState.scissorTest || !m_activeRenderStateHash) {
+		if (rsd.scissorTest)
+			glEnable(GL_SCISSOR_TEST);
+		else
+			glDisable(GL_SCISSOR_TEST);
+	}
+
 	m_activeRenderState = rsd;
 	m_activeRenderStateHash = hash;
 }
@@ -198,11 +205,23 @@ void RenderStateCache::SetRenderTarget(RenderTarget *target, ViewportExtents ext
 	}
 }
 
+void RenderStateCache::SetScissor(ViewportExtents scissor)
+{
+	if (scissor == m_currentScissor)
+		return;
+
+	glScissor(scissor.x, scissor.y, scissor.w, scissor.h);
+	m_currentScissor = scissor;
+}
+
 void RenderStateCache::ClearBuffers(bool colorBuffer, bool depthBuffer, Color clearColor)
 {
 	uint32_t flags = (colorBuffer ? GL_COLOR_BUFFER_BIT : 0) | (depthBuffer ? GL_DEPTH_BUFFER_BIT : 0);
 	if (!colorBuffer && !depthBuffer)
 		return;
+
+	if (m_activeRenderState.scissorTest)
+		glDisable(GL_SCISSOR_TEST);
 
 	if (colorBuffer)
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
@@ -219,4 +238,7 @@ void RenderStateCache::ClearBuffers(bool colorBuffer, bool depthBuffer, Color cl
 	} else {
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
+
+	if (m_activeRenderState.scissorTest)
+		glEnable(GL_SCISSOR_TEST);
 }
