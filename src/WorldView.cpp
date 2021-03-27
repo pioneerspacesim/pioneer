@@ -582,7 +582,7 @@ static vector3d projectToScreenSpace(const vector3d &pos, RefCountedPtr<CameraCo
 	float znear;
 	float zfar;
 	Pi::renderer->GetNearFarRange(znear, zfar);
-	proj.z = -((zfar * znear) / (proj.z * (zfar - znear) + znear));
+	proj.z = -znear / proj.z;
 
 	// set z to -1 if in front of camera, 1 else
 	if (adjustZ)
