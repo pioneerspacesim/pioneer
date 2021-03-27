@@ -88,6 +88,8 @@ void main(void)
 #else
 	vec3 vNormal = normal;
 #endif
+	vNormal = normalize(vNormal);
+
 	//ambient only make sense with lighting
 	vec4 light = scene.ambient;
 	vec4 specular = vec4(0.0);

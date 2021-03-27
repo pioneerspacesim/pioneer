@@ -72,7 +72,7 @@ void CameraContext::EndFrame()
 
 void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
 {
-	r->SetPerspectiveProjection(m_fovAng, m_width / m_height, m_zNear, m_zFar);
+	r->SetProjection(matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear));
 	r->SetTransform(matrix4x4f::Identity());
 }
 
