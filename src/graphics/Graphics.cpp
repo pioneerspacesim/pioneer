@@ -82,6 +82,8 @@ namespace Graphics {
 		const vector3d vVP = {
 			vNDC.x * 0.5 + 0.5,
 			vNDC.y * 0.5 + 0.5,
+			// FIXME: this isn't a proper linearization into viewspace (needs -znear / zNDC)
+			// but it accomplishes the goal of positions behind the camera having z > 0.
 			-vNDC.z // undo reverse-Z coordinate flip
 		};
 
