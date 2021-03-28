@@ -196,8 +196,12 @@ function Windows.edgeButtons.Show()
 	systemView:SetRotateMode(ui.isItemActive())
 	edgeButton(icons.search_lens, luc.ZOOM)
 	systemView:SetZoomMode(ui.isItemActive())
-	if edgeButton(icons.search_lens, isOrrery and luc.DISPLAY_MODE_ORRERY or luc.DISPLAY_MODE_ATLAS) then
-		systemView:SetDisplayMode(isOrrery and "Atlas" or "Orrery")
+
+	if isOrrery and edgeButton(icons.system_overview, luc.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW) then
+		systemView:SetDisplayMode('Atlas')
+	end
+	if not isOrrery and edgeButton(icons.system_map, luc.HUD_BUTTON_SWITCH_TO_SYSTEM_MAP) then
+		systemView:SetDisplayMode('Orrery')
 	end
 	ui.newLine()
 	-- visibility control buttons
@@ -224,6 +228,11 @@ function Windows.edgeButtons.Show()
 end
 
 function Windows.orbitPlanner.Show()
+	if systemView:GetDisplayMode() ~= 'Orrery' then
+		Windows.orbitPlanner.visible = false
+		return
+	end
+
 	textIcon(icons.semi_major_axis)
 	ui.text(lc.ORBIT_PLANNER)
 	ui.separator()
@@ -321,17 +330,50 @@ function Windows.systemName.Show()
 	ui.text(ui.Format.SystemPath(path))
 end
 
+local function drawGroupIcons(coords, icon, color, iconSize, group)
+	-- indicators
+	local stackedSize = indicatorSize
+	local stackStep = Vector2(10, 10)
+	if group.hasPlayer then
+		ui.addIcon(coords, icons.square, svColor.PLAYER, stackedSize, ui.anchor.center, ui.anchor.center)
+		stackedSize = stackedSize + stackStep
+	end
+	if group.hasNavTarget then
+		ui.addIcon(coords, icons.square, svColor.NAV_TARGET, stackedSize, ui.anchor.center, ui.anchor.center)
+		stackedSize = stackedSize + stackStep
+	end
+	if group.hasCombatTarget then
+		ui.addIcon(coords, icons.square, svColor.COMBAT_TARGET, stackedSize, ui.anchor.center, ui.anchor.center)
+		stackedSize = stackedSize + stackStep
+	end
+	if group.hasPlanner then
+		ui.addIcon(coords, icons.square, svColor.PLANNER, stackedSize, ui.anchor.center, ui.anchor.center)
+		stackedSize = stackedSize + stackStep
+	end
+
+	ui.addIcon(coords, icon, color, iconSize, ui.anchor.center, ui.anchor.center)
+end
+
+local unexloredWindowFlags = ui.WindowFlags {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "NoInputs"}
 -- forked from data/pigui/views/game.lua
 local function displayOnScreenObjects()
+	local isOrrery = systemView:GetDisplayMode() == 'Orrery'
 
 	local navTarget = player:GetNavTarget()
 	local combatTarget = player:GetCombatTarget()
 
 	local should_show_label = ui.shouldShowLabels()
+	if not isOrrery then
+		should_show_label = should_show_label and systemView:GetZoom() <= 0.5
+	end
+
 	local iconsize = Vector2(18 , 18)
 	local label_offset = 14 -- enough so that the target rectangle fits
 	local collapse = iconsize -- size of clusters to be collapsed into single bodies
 	local click_radius = collapse:length() * 0.5
+	if not isOrrery then
+		click_radius = collapse:length() * 0.8 / systemView:GetZoom()
+	end
 	-- make click_radius sufficiently smaller than the cluster size
 	-- to prevent overlap of selection regions
 	local objectCounter = 0
@@ -339,7 +381,7 @@ local function displayOnScreenObjects()
 	if #objects_grouped == 0 then
 		ui.setNextWindowPos(Vector2(ui.screenWidth, ui.screenHeight) / 2 - ui.calcTextSize(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW) / 2, "Always")
 		ui.withStyleColors({["WindowBg"] = svColor.WINDOW_BG}, function()
-			ui.window("NoSystemView", {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
+			ui.window("NoSystemView", unexloredWindowFlags,
 			function()
 				ui.text(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 			end)
@@ -350,34 +392,18 @@ local function displayOnScreenObjects()
 	for _,group in ipairs(objects_grouped) do
 		local mainObject = group.mainObject
 		local mainCoords = Vector2(group.screenCoordinates.x, group.screenCoordinates.y)
+		group.hasPlanner = mainObject.type == Projectable.OBJECT and mainObject.base == Projectable.PLANNER
 
-		-- indicators
-		local stackedSize = indicatorSize
-		local stackStep = Vector2(10, 10)
-		if group.hasPlayer then
-			ui.addIcon(mainCoords, icons.square, svColor.PLAYER, stackedSize, ui.anchor.center, ui.anchor.center)
-			stackedSize = stackedSize + stackStep
-		end
-		if group.hasNavTarget then
-			ui.addIcon(mainCoords, icons.square, svColor.NAV_TARGET, stackedSize, ui.anchor.center, ui.anchor.center)
-			stackedSize = stackedSize + stackStep
-		end
-		if group.hasCombatTarget then
-			ui.addIcon(mainCoords, icons.square, svColor.COMBAT_TARGET, stackedSize, ui.anchor.center, ui.anchor.center)
-			stackedSize = stackedSize + stackStep
-		end
-		if mainObject.type == Projectable.OBJECT and mainObject.base == Projectable.PLANNER then ui.addIcon(mainCoords, icons.square, svColor.PLANNER, indicatorSize, ui.anchor.center, ui.anchor.center) end
+		drawGroupIcons(mainCoords, getBodyIcon(mainObject, true), getColor(mainObject), iconsize, group)
 
-		ui.addIcon(mainCoords, getBodyIcon(mainObject, true), getColor(mainObject), iconsize, ui.anchor.center, ui.anchor.center)
-
+		local mp = ui.getMousePos()
 		local label = getLabel(mainObject)
-		if should_show_label then
+		if should_show_label or (mp - mainCoords):length() < click_radius then
 			if group.objects then
 				label = label .. " (" .. #group.objects .. ")"
 			end
 			ui.addStyledText(mainCoords + Vector2(label_offset,0), ui.anchor.left, ui.anchor.center, label , getColor(mainObject), hudfont)
 		end
-		local mp = ui.getMousePos()
 
 		if mainObject.type == Projectable.OBJECT and (mainObject.base == Projectable.SYSTEMBODY or mainObject.base == Projectable.SHIP or mainObject.base == Projectable.PLAYER) then
 			-- mouse release handler for right button
@@ -393,7 +419,7 @@ local function displayOnScreenObjects()
 				local isShip = isObject and not isSystemBody and mainObject.ref:IsShip()
 				ui.text(getLabel(mainObject))
 				ui.separator()
-				if ui.selectable(lc.CENTER, false, {}) then
+				if isOrrery and ui.selectable(lc.CENTER, false, {}) then
 					systemView:SetSelectedObject(mainObject.type, mainObject.base, mainObject.ref)
 				end
 				if (isShip or isSystemBody and mainObject.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then

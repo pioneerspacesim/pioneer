@@ -104,6 +104,8 @@ public:
 	void SetRotateMode(bool enable);
 	double ProjectedSize(double size, vector3d pos);
 
+	float GetZoom() const;
+
 	Mode GetDisplayMode() { return m_displayMode; }
 	void SetDisplayMode(Mode displayMode) { m_displayMode = displayMode; }
 
@@ -135,6 +137,8 @@ private:
 	void DrawOrreryView();
 	void DrawAtlasView();
 
+	void RenderAtlasBody(SystemBody *b, vector3f pos, matrix4x4f &cameraTrans, uint8_t direction);
+
 	template <typename RefType>
 	void PutOrbit(Projectable::bases base, RefType *ref, const Orbit *orb, const vector3d &offset, const Color &color, const double planetRadius = 0.0, const bool showLagrange = false);
 	void PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans);
@@ -144,7 +148,9 @@ private:
 	void MouseWheel(bool up);
 	void RefreshShips(void);
 	void DrawShips(const double t, const vector3d &offset);
-	void DrawGrid();
+
+	// draw a grid with `radius` * 2 gridlines on an evenly spaced 1-AU grid
+	void DrawGrid(uint32_t radius);
 
 	// Project a position in the current renderer project to screenspace and add it to the list of projected objects
 	template <typename T>
@@ -177,10 +183,10 @@ private:
 	const float CAMERA_FOV_RADIANS = CAMERA_FOV / 57.295779f;
 	matrix4x4f m_cameraSpace;
 
-	int m_grid_lines;
 	float m_rot_x, m_rot_y;
 	float m_rot_x_to, m_rot_y_to;
 	float m_zoom, m_zoomTo;
+	float m_atlasZoom, m_atlasZoomTo;
 	float m_atlasPosX, m_atlasPosY;
 	int m_animateTransition;
 	vector3d m_trans;
@@ -193,6 +199,7 @@ private:
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
 	std::unique_ptr<Graphics::Material> m_bodyMat;
+	std::unique_ptr<Graphics::Material> m_atlasMat;
 	std::unique_ptr<Graphics::Material> m_lineMat;
 	std::unique_ptr<Graphics::Material> m_gridMat;
 	Graphics::Drawables::Lines m_orbits;

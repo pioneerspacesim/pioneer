@@ -16,11 +16,11 @@
 #include "SectorView.h"
 #include "Space.h"
 #include "StringF.h"
-#include "gameconsts.h"
-#include "graphics/Drawables.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/SystemPath.h"
+#include "gameconsts.h"
+#include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
@@ -44,6 +44,8 @@ static const float ZOOM_OUT_SPEED = 3;
 static const float WHEEL_SENSITIVITY = .1f; // Should be a variable in user settings.
 static const double DEFAULT_VIEW_DISTANCE = 10.0;
 static const int MAX_TRANSITION_FRAMES = 60;
+
+static const float ATLAS_SCROLL_SENS = .1f;
 
 void SystemView::InputBindings::RegisterBindings()
 {
@@ -69,6 +71,7 @@ SystemView::SystemView(Game *game) :
 	m_atlasPosX = 0;
 	m_atlasPosY = 0;
 	m_zoom = 1.0f / float(AU);
+	m_atlasZoom = m_atlasZoomTo = 1.0f;
 
 	m_input.RegisterBindings();
 
@@ -125,6 +128,7 @@ void SystemView::ResetViewpoint()
 	m_transTo *= 0.0;
 	m_animateTransition = MAX_TRANSITION_FRAMES;
 	m_atlasPosX = m_atlasPosY = 0.0;
+	m_atlasZoom = m_atlasZoomTo = 1.0;
 }
 
 template <typename RefType>
@@ -218,15 +222,6 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		return;
 
 	if (b->GetType() != SystemBody::TYPE_GRAVPOINT) {
-		if (!m_bodyIcon) {
-			Graphics::MaterialDescriptor desc;
-			Graphics::RenderStateDesc rsd;
-			rsd.primitiveType = Graphics::TRIANGLE_FAN;
-
-			m_bodyMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd));
-			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer));
-		}
-
 		const double radius = b->GetRadius();
 
 		matrix4x4f invRot = trans;
@@ -349,6 +344,26 @@ void SystemView::Draw3D()
 	PROFILE_SCOPED()
 	m_renderer->ClearScreen();
 	m_projected.clear();
+
+	if (!m_bodyIcon) {
+		Graphics::MaterialDescriptor desc;
+		Graphics::RenderStateDesc rsd;
+		rsd.primitiveType = Graphics::TRIANGLE_FAN;
+
+		m_bodyMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd));
+		m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer));
+	}
+
+	if (!m_atlasMat) {
+		Graphics::MaterialDescriptor desc;
+		desc.textures = 1;
+		Graphics::RenderStateDesc rsd;
+		rsd.blendMode = Graphics::BLEND_ALPHA;
+		rsd.primitiveType = Graphics::TRIANGLE_FAN;
+
+		m_atlasMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd));
+		m_atlasMat->SetTexture(Graphics::Renderer::GetName("texture0"), TextureBuilder::GetWhiteTexture(m_renderer));
+	}
 
 	SystemPath path = m_game->GetSectorView()->GetSelected().SystemOnly();
 	if (m_system) {
@@ -489,24 +504,41 @@ void SystemView::DrawOrreryView()
 	}
 
 	if (m_gridDrawing != GridDrawing::OFF) {
-		DrawGrid();
+		// calculate lines for this system:
+		DrawGrid(std::floor(m_system->GetRootBody()->GetMaxChildOrbitalDistance() * 1.2 / AU));
 	}
 }
 
-static constexpr double SCALE_EXPONENT = 1.0/2.4;
+static constexpr double SCALE_EXPONENT = 1.0 / 3.2;
+static constexpr double STAR_SCALE_EXPONENT = 1.0 / 4.16;
 
-void RenderBody(Graphics::Renderer *r, SystemBody *b, vector3f pos, matrix4x4f &cameraTrans, Graphics::Drawables::Disk *bodyIcon, uint8_t direction)
+// Return a unit-scale relative size for a body; this is not a 'real' size, but one that preserves relative scale
+double get_body_radius(SystemBody *b)
 {
-	// get the earth radiuses of the body
-	const double radius = std::max(pow(b->GetRadius() / EARTH_RADIUS, SCALE_EXPONENT), 0.25);
+	if (b->GetType() == SystemBody::TYPE_GRAVPOINT)
+		return 0.0;
+	if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+		return std::max(pow(b->GetRadius() / EARTH_RADIUS, STAR_SCALE_EXPONENT) * 2.0, 1.0);
+	else
+		return std::max(pow(b->GetRadius() / EARTH_RADIUS, SCALE_EXPONENT), 0.25);
+}
+
+void SystemView::RenderAtlasBody(SystemBody *b, vector3f pos, matrix4x4f &cameraTrans, uint8_t direction)
+{
+	const double radius = get_body_radius(b);
 
 	if (b->GetType() != SystemBody::TYPE_GRAVPOINT) {
 		matrix4x4f bodyTrans = matrix4x4f::Identity();
 		bodyTrans.Translate(pos);
 		bodyTrans.Scale(radius);
-		r->SetTransform(cameraTrans * bodyTrans);
-		Drawables::GetAxes3DDrawable(r)->Draw(r);
-		bodyIcon->Draw(r);
+		m_renderer->SetTransform(cameraTrans * bodyTrans);
+
+		// Drawables::GetAxes3DDrawable(r)->Draw(r);
+		Graphics::Texture *bodyTex = TextureBuilder::Model(b->GetIcon()).GetOrCreateTexture(m_renderer, "bodyicons");
+		m_atlasMat->SetTexture(Graphics::Renderer::GetName("texture0"), bodyTex);
+		m_bodyIcon->Draw(m_renderer, m_atlasMat.get());
+
+		AddProjected<SystemBody>(Projectable::OBJECT, Projectable::SYSTEMBODY, b, vector3d());
 	}
 
 	double lastRadius = radius;
@@ -515,48 +547,68 @@ void RenderBody(Graphics::Renderer *r, SystemBody *b, vector3f pos, matrix4x4f &
 		if (child->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
 			continue;
 
-		const double bodyRadius = std::max(pow(child->GetRadius() / EARTH_RADIUS, SCALE_EXPONENT), 0.25);
+		const double bodyRadius = get_body_radius(child);
 		// the amount of separation between the last body's center and this one.
 		// constrained to be at least one grid between objects
 		const double combinedRadius = bodyRadius + lastRadius;
-		const double sepDistance = std::max(combinedRadius * 1.5, combinedRadius + 1.0);
+		const double sepDistance = std::max(combinedRadius * 1.5, combinedRadius + 1.333);
 		pos += direction ? vector3f(sepDistance, 0, 0) : vector3f(0, -sepDistance, 0);
-		RenderBody(r, child, pos, cameraTrans, bodyIcon, (direction+1) & 1);
+		RenderAtlasBody(child, pos, cameraTrans, (direction + 1) & 1);
 		lastRadius = bodyRadius;
 	}
 }
 
 void SystemView::DrawAtlasView()
 {
+	// Set up the perspective projection for the background stars
+	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1500.f);
+
+	// Background is rotated around (0,0,0), adjusted for parallax effect, and drawn
+	matrix4x4d trans2bg = matrix4x4d::Identity();
+
+	// parallax effect
+	trans2bg.Translate(m_atlasPosX, -m_atlasPosY, 0.0);
+	trans2bg.RotateY(DEG2RAD(m_atlasPosX * 0.05));
+
+	// rotate, tilt, tilt
+	trans2bg.RotateZ(DEG2RAD(35.f));
+	trans2bg.RotateX(DEG2RAD(-5.f));
+	trans2bg.RotateY(DEG2RAD(-45.f));
+
+	auto *background = m_game->GetSpace()->GetBackground();
+	background->SetIntensity(0.6);
+	if (!m_game->IsNormalSpace() || !m_viewingCurrentSystem) {
+		Uint32 cachedFlags = background->GetDrawFlags();
+		background->SetDrawFlags(Background::Container::DRAW_SKYBOX);
+		background->Draw(trans2bg);
+		background->SetDrawFlags(cachedFlags);
+	} else {
+		background->Draw(trans2bg);
+	}
+
+	m_renderer->ClearDepthBuffer();
+
 	// m_renderer->SetProjection(matrix4x4f::OrthoMatrix(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 0.1, 1000));
 	// m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.0, 100000.0);
 	// Pick an orthographic projection scale that has the same apparent size as a perspective projection at 30m.
-	float height2 = 14.0; //tan(DEG2RAD(CAMERA_FOV)/2) * 30.0f;
-	float width2 = height2 * m_renderer->GetDisplayAspect();
-	m_renderer->SetOrthographicProjection(-width2, width2, -height2, height2, 1.0, 10000.0);
+	float height = tan(DEG2RAD(CAMERA_FOV)) * 30.0f * m_atlasZoom;
+	m_renderer->SetProjection(matrix4x4f::OrthoMatrix(height * m_renderer->GetDisplayAspect(), height, 1.0, 1000.0));
 
 	matrix4x4f cameraTrans = matrix4x4f::Identity();
 	cameraTrans.Translate(vector3f(m_atlasPosX, -m_atlasPosY, -10.0));
-
-	m_renderer->SetTransform(cameraTrans);
-	Drawables::GetAxes3DDrawable(m_renderer)->Draw(m_renderer);
 
 	matrix4x4f gridTransform = matrix4x4f::Identity();
 	gridTransform.Translate(vector3f(1, 1, -1.0f));
 	gridTransform.RotateX(M_PI / 2.0);
 	gridTransform.Scale(2.0 / float(AU)); // one grid square = one earth diameter = two units
 	m_renderer->SetTransform(cameraTrans * gridTransform);
-	DrawGrid();
+	DrawGrid(64.0);
 
 	// TODO: refactor into a separate function
 	auto *b = m_system->GetRootBody().Get();
-	if (!m_bodyIcon) {
-		Graphics::RenderStateDesc rsd;
-		auto solidState = m_renderer->CreateRenderState(rsd);
-		m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, solidState, svColor[SYSTEMBODY], 1.0f));
-	}
 
-	RenderBody(m_renderer, b, vector3f(), cameraTrans, m_bodyIcon.get(), 1);
+	m_renderer->SetTransform(cameraTrans);
+	RenderAtlasBody(b, vector3f(), cameraTrans, b->GetType() != SystemBody::TYPE_GRAVPOINT);
 }
 
 void SystemView::Update()
@@ -565,9 +617,11 @@ void SystemView::Update()
 	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom
 	m_zoomTo = Clamp(m_zoomTo, MIN_ZOOM, MAX_ZOOM);
 	m_zoom = Clamp(m_zoom, MIN_ZOOM, MAX_ZOOM);
+	m_atlasZoomTo = Clamp(m_atlasZoomTo, 0.2f, 2.0f);
 	// Since m_zoom changes over multiple orders of magnitude, any fixed linear factor will not be appropriate
 	// at some of them.
 	AnimationCurves::Approach(m_zoom, m_zoomTo, ft, 10.f, m_zoomTo / 60.f);
+	AnimationCurves::Approach(m_atlasZoom, m_atlasZoomTo, Pi::GetFrameTime());
 
 	AnimationCurves::Approach(m_rot_x, m_rot_x_to, ft);
 	AnimationCurves::Approach(m_rot_y, m_rot_y_to, ft);
@@ -581,11 +635,11 @@ void SystemView::Update()
 	if (m_rotateWithMouseButton || m_rotateView) {
 		int motion[2];
 		Pi::input->GetMouseMotion(motion);
-		m_rot_x_to += motion[1] * 20 * ft;
-		m_rot_y_to += motion[0] * 20 * ft;
-
-		if (m_displayMode == Mode::Atlas) {
-			const double pixToUnits = Graphics::GetScreenHeight() / (tan(DEG2RAD(CAMERA_FOV)/2) * 30.0f * 2.0f);
+		if (m_displayMode == Mode::Orrery) {
+			m_rot_x_to += motion[1] * 20 * ft;
+			m_rot_y_to += motion[0] * 20 * ft;
+		} else {
+			const double pixToUnits = Graphics::GetScreenHeight() / (tan(DEG2RAD(CAMERA_FOV)) * 30.0f * m_atlasZoom);
 			m_atlasPosX += motion[0] / pixToUnits;
 			m_atlasPosY += motion[1] / pixToUnits;
 		}
@@ -593,12 +647,19 @@ void SystemView::Update()
 		Pi::input->SetCapturingMouse(true);
 		int motion[2];
 		Pi::input->GetMouseMotion(motion);
-		m_zoomTo *= pow(ZOOM_IN_SPEED * 0.003 + 1, -motion[1]);
+		if (m_displayMode == Mode::Orrery)
+			m_zoomTo *= pow(ZOOM_IN_SPEED * 0.003 + 1, -motion[1]);
+		else
+			m_atlasZoomTo += motion[1] * 0.005 * Clamp(m_atlasZoomTo, 0.2f, 1.0f);
 	}
 
 	// camera control signals from devices, sent to the SectorView
-	if (m_input.mapViewZoom->IsActive())
-		m_zoomTo *= pow(ZOOM_IN_SPEED * 0.006 + 1, m_input.mapViewZoom->GetValue());
+	if (m_input.mapViewZoom->IsActive()) {
+		if (m_displayMode == Mode::Orrery)
+			m_zoomTo *= pow(ZOOM_IN_SPEED * 0.006 + 1, m_input.mapViewZoom->GetValue());
+		else
+			m_atlasZoomTo -= m_input.mapViewZoom->GetValue() * ATLAS_SCROLL_SENS;
+	}
 	if (m_input.mapViewYaw->IsActive())
 		m_rot_y_to += m_input.mapViewYaw->GetValue() * ft * 60;
 	if (m_input.mapViewPitch->IsActive())
@@ -619,11 +680,16 @@ void SystemView::Update()
 
 void SystemView::MouseWheel(bool up)
 {
-	if (this == Pi::GetView()) {
+	if (this != Pi::GetView())
+		return;
+
+	if (m_displayMode == Mode::Orrery) {
 		if (!up)
 			m_zoomTo *= 1 / ((ZOOM_OUT_SPEED - 1) * WHEEL_SENSITIVITY + 1) / Pi::GetMoveSpeedShiftModifier();
 		else
 			m_zoomTo *= ((ZOOM_IN_SPEED - 1) * WHEEL_SENSITIVITY + 1) * Pi::GetMoveSpeedShiftModifier();
+	} else {
+		m_atlasZoomTo -= (up ? 1.0 : -1.0) * ATLAS_SCROLL_SENS;
 	}
 }
 
@@ -659,28 +725,25 @@ void SystemView::DrawShips(const double t, const vector3d &offset)
 	}
 }
 
-void SystemView::DrawGrid()
+void SystemView::DrawGrid(uint32_t radius)
 {
+	int half_lines = radius + 1;
 
-	// calculate lines for this system:
-	double diameter = std::floor(m_system->GetRootBody()->GetMaxChildOrbitalDistance() * 1.2 / AU);
-	m_grid_lines = int(diameter) + 1;
-
-	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, m_grid_lines * 4 + (m_gridDrawing == GridDrawing::GRID_AND_LEGS ? m_projected.size() * 2 : 0)));
+	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, half_lines * 4 + (m_gridDrawing == GridDrawing::GRID_AND_LEGS ? m_projected.size() * 2 : 0)));
 
 	float zoom = float(AU);
 	vector3d pos = m_trans;
 
-	for (int i = -m_grid_lines; i < m_grid_lines + 1; i++) {
+	for (int i = -half_lines; i < half_lines + 1; i++) {
 		float z = float(i) * zoom;
-		m_lineVerts->Add(vector3f(-m_grid_lines * zoom, 0.0f, z) + vector3f(pos), svColor[GRID]);
-		m_lineVerts->Add(vector3f(+m_grid_lines * zoom, 0.0f, z) + vector3f(pos), svColor[GRID]);
+		m_lineVerts->Add(vector3f(-half_lines * zoom, 0.0f, z) + vector3f(pos), svColor[GRID]);
+		m_lineVerts->Add(vector3f(+half_lines * zoom, 0.0f, z) + vector3f(pos), svColor[GRID]);
 	}
 
-	for (int i = -m_grid_lines; i < m_grid_lines + 1; i++) {
+	for (int i = -half_lines; i < half_lines + 1; i++) {
 		float x = float(i) * zoom;
-		m_lineVerts->Add(vector3f(x, 0.0f, -m_grid_lines * zoom) + vector3f(pos), svColor[GRID]);
-		m_lineVerts->Add(vector3f(x, 0.0f, +m_grid_lines * zoom) + vector3f(pos), svColor[GRID]);
+		m_lineVerts->Add(vector3f(x, 0.0f, -half_lines * zoom) + vector3f(pos), svColor[GRID]);
+		m_lineVerts->Add(vector3f(x, 0.0f, +half_lines * zoom) + vector3f(pos), svColor[GRID]);
 	}
 
 	if (m_gridDrawing == GridDrawing::GRID_AND_LEGS)
@@ -792,6 +855,10 @@ double SystemView::ProjectedSize(double size, vector3d pos)
 	return result;
 }
 
+float SystemView::GetZoom() const
+{
+	return m_displayMode == Mode::Orrery ? 1.0 / m_zoom : m_atlasZoom;
+}
 double SystemView::GetOrbitTime(double t, const SystemBody *b) { return t; }
 double SystemView::GetOrbitTime(double t, const Body *b) { return t - m_game->GetTime(); }
 void SystemView::OnSwitchFrom() { m_projected.clear(); } // because ships from the previous system may remain after last update
