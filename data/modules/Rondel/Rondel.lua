@@ -12,6 +12,7 @@ local Legal = require 'Legal'
 local Serializer = require 'Serializer'
 local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
+local SystemPath = require 'SystemPath'
 local Timer = require 'Timer'
 
 --local Character = require 'Character'
@@ -25,6 +26,8 @@ local jetissionedCargo = false
 
 local rondel_victory = false -- has the player defeated all Rondel guards once in their career?
 local rondel_prize = false -- whether the player has been rewarded or not
+
+local rondel_syspath = SystemPath.New(-1,6,2,0)
 
 local ads = {}
 
@@ -89,7 +92,7 @@ local attackShip = function (ship)
 end
 
 local onShipDestroyed = function (ship, attacker)
-	if ship:IsPlayer() or attacker == nil or Game.system.name ~= "Rondel" then return end
+	if ship:IsPlayer() or attacker == nil or not Game.system.path:IsSameSystem(rondel_syspath) then return end
 
 	for i = 1, #patrol do
 		if patrol[i] == ship then
@@ -108,7 +111,7 @@ local onShipDestroyed = function (ship, attacker)
 end
 
 local onShipFiring = function (ship)
-	if Game.system.name ~= "Rondel" then return end
+	if not Game.system.path:IsSameSystem(rondel_syspath) then return end
 
 	local police = ShipDef[Game.system.faction.policeShip]
 	if ship.shipId ~= police.id then
@@ -124,7 +127,7 @@ local onShipFiring = function (ship)
 end
 
 local onJettison = function (ship, cargo)
-	if Game.system.name ~= "Rondel" then return end
+	if not Game.system.path:IsSameSystem(rondel_syspath) then return end
 	if not jetissionedCargo and #patrol > 1 then
 		Comms.ImportantMessage(l_rondel.JETTISON_DEFENSIVE_PRECAUTION, patrol[1].label)
 		jetissionedCargo = true
@@ -136,7 +139,7 @@ local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
 
 	local system = Game.system
-	if system.name ~= "Rondel" then return end
+	if not system.path:IsSameSystem(rondel_syspath) then return end
 
 	local tolerance = 1
 	local hyperdrive = Game.player:GetEquip('engine',1)
