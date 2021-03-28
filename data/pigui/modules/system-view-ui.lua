@@ -508,7 +508,8 @@ function Windows.objectInfo.Show()
 
 	if isSystemBody then -- system body
 		local parent = body.parent
-		local orbital = body.superType == "STARPORT"
+		local starport = body.superType == "STARPORT"
+		local surface = body.type == "STARPORT_SURFACE"
 		local sma = body.semiMajorAxis
 		local semimajoraxis = nil
 		if sma and sma > 0 then
@@ -517,25 +518,31 @@ function Windows.objectInfo.Show()
 
 		local rp = body.rotationPeriod * 24 * 60 * 60
 		local op = body.orbitPeriod * 24 * 60 * 60
+		local pop = math.round(body.population * 1e9)
 		data = {
 			{ name = lc.MASS, icon = icons.body_radius,
-			value = (not orbital) and ui.Format.Mass(body.mass) or nil },
+			value = (not starport) and ui.Format.Mass(body.mass) or nil },
 			{ name = lc.RADIUS, icon = icons.body_radius,
-			value = (not orbital) and ui.Format.Distance(body.radius) or nil },
+			value = (not starport) and ui.Format.Distance(body.radius) or nil },
+			{ name = lc.SURFACE_GRAVITY, icon = icons.body_radius,
+			value = (not starport) and ui.Format.Speed(body.gravity, true).." ("..ui.Format.Gravity(body.gravity / 9.8066)..")" or nil },
 			{ name = lc.ORBITAL_PERIOD, icon = icons.body_orbit_period,
 			value = op and op > 0 and ui.Format.Duration(op, 2) or nil },
 			{ name = lc.DAY_LENGTH, icon = icons.body_day_length,
 			value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
 			{ name = luc.ORBIT_APOAPSIS, icon = icons.body_semi_major_axis,
-			value = parent and ui.Format.Distance(body.apoapsis) or nil },
+			value = (parent and not surface) and ui.Format.Distance(body.apoapsis) or nil },
 			{ name = luc.ORBIT_PERIAPSIS, icon = icons.body_semi_major_axis,
-			value = parent and ui.Format.Distance(body.periapsis) or nil },
+			value = (parent and not surface) and ui.Format.Distance(body.periapsis) or nil },
 			{ name = lc.SEMI_MAJOR_AXIS, icon = icons.body_semi_major_axis,
 			value = semimajoraxis },
 			{ name = lc.ECCENTRICITY, icon = icons.body_semi_major_axis,
-			value = parent and string.format("%0.2f", body.eccentricity) or nil },
+			value = (parent and not surface) and string.format("%0.2f", body.eccentricity) or nil },
 			{ name = lc.AXIAL_TILT, icon = icons.body_semi_major_axis,
-			value = (parent and not orbital) and string.format("%0.2f", body.axialTilt) or nil },
+			value = (not starport) and string.format("%0.2f", body.axialTilt) or nil },
+			{ name = lc.POPULATION, icon = icons.personal,
+			value = pop > 0 and ui.Format.Number(pop) or nil },
+
 		}
 
 	elseif obj.ref:IsShip() then -- physical body
@@ -565,6 +572,9 @@ function Windows.objectInfo.Dummy()
 	ui.spacing()
 	ui.separator()
 	ui.spacing()
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
 	ui.text("TAB LINE")
 	ui.text("TAB LINE")
 	ui.text("TAB LINE")
