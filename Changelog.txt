@@ -4,6 +4,11 @@ March 2021
 
    * Fixes
      * Fix GasGiant clipping and bright spots on models (#5157)
+     * Fix crash in hyperspace with sector map opened (#5155)
+     * Fix death music not playing over tombstone screen (#5129)
+   
+   * Internal Changes
+     * Modify GetAtmosphericState() to accept any two bodies (#5128)
 
 February 2021
    * Internal Changes
