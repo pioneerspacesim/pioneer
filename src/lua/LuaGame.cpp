@@ -457,7 +457,7 @@ static int l_game_in_hyperspace(lua_State *l)
  *
  * Return:
  *
- *   view - a string describing the game view: "world", "space_station", "info", "sector", "system", "system_info", "death", "settings"
+ *   view - a string describing the game view: "world", "space_station", "info", "sector", "system", "death", "settings"
  *
  * Availability:
  *
@@ -481,8 +481,6 @@ static int l_game_current_view(lua_State *l)
 		LuaPush(l, "sector");
 	else if (view == Pi::game->GetSystemView())
 		LuaPush(l, "system");
-	else if (view == Pi::game->GetSystemInfoView())
-		LuaPush(l, "system_info");
 	else if (view == Pi::game->GetDeathView())
 		LuaPush(l, "death");
 	else
@@ -587,8 +585,6 @@ static int l_game_set_view(lua_State *l)
 		Pi::SetView(Pi::game->GetSectorView());
 	} else if (!target.compare("system")) {
 		Pi::SetView(Pi::game->GetSystemView());
-	} else if (!target.compare("system_info")) {
-		Pi::SetView(Pi::game->GetSystemInfoView());
 	} else {
 		// TODO else error
 	}
