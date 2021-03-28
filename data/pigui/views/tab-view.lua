@@ -25,11 +25,10 @@ local function infoButton(icon, selected, tooltip, color)
     return ui.coloredSelectedIconButton(icon, mainButtonSize, selected, mainButtonFramePadding, colors.buttonBlue, color, tooltip)
 end
 
-function PiGuiTabView.New(viewName, legacyTabView)
+function PiGuiTabView.New(viewName)
     local self = {
         name = viewName,
-        legacyTabView = legacyTabView,
-        currentTab = 0,
+        currentTab = 1,
 		viewCount = 0,
 		isActive = false,
 		tabs = {},
@@ -71,12 +70,7 @@ end
 function PiGuiTabView:SwitchTo(id)
     for i, v in ipairs(self.tabs) do
         if v.id == id then
-            if self.legacyTabView then
-                self.legacyTabView:SwitchTo(v.id)
-                self.legacyTabView.outerBody:Hide()
-            end
-
-            if(self.currentTab ~= i) then self.tabs[i].refresh() end
+            if self.currentTab ~= i then self.tabs[i].refresh() end
             self.currentTab = i
             return
         end
@@ -84,16 +78,18 @@ function PiGuiTabView:SwitchTo(id)
     print("View not found:", id)
 end
 
-function PiGuiTabView.renderTabView(self)
-	self.isActive = Game.CurrentView() == self.name
-    if not self.isActive then
-        self.currentTab = 1
-        self.tabs[1].refresh()
-        return
-    end
+local staticButtonFlags = ui.WindowFlags {"NoResize", "NoTitleBar", "NoMove", "NoFocusOnAppearing", "NoScrollbar"}
 
-    local tab = self.tabs[self.currentTab] or self.tabs[1]
-    if not tab then return end
+function PiGuiTabView.renderTabView(self)
+	local wasActive = self.isActive
+	self.isActive = Game.CurrentView() == self.name
+    if not self.isActive then return end
+
+	local tab = self.tabs[self.currentTab] or self.tabs[1]
+	if not tab then return end
+
+	-- refresh the tab since we're swapping back to the view
+	if self.isActive and not wasActive then tab.refresh() end
 
     if(tab.showView) then
         ui.withStyleColors({
@@ -115,12 +111,6 @@ function PiGuiTabView.renderTabView(self)
         end)
     end
 
-    if self.legacyTabView and tab.showView then
-        self.legacyTabView.outerBody:Hide()
-    elseif self.legacyTabView then
-        self.legacyTabView.outerBody:Enable()
-    end
-
     ui.withFont(orbiteer.large.name, orbiteer.large.size * 1.5, function()
         local text_window_padding = 12
         local text_window_size = Vector2(
@@ -130,7 +120,7 @@ function PiGuiTabView.renderTabView(self)
 
         ui.setNextWindowPos(text_window_pos, "Always")
         ui.setNextWindowSize(text_window_size, "Always")
-        ui.window("StationViewName", {"NoResize", "NoTitleBar", "NoMove", "NoFocusOnAppearing"}, function()
+        ui.window("StationViewName", staticButtonFlags, function()
             ui.text(tab.name)
         end)
     end)
@@ -138,7 +128,7 @@ function PiGuiTabView.renderTabView(self)
     ui.setNextWindowSize(self.buttonWindowSize, "Always")
     ui.setNextWindowPos(buttonWindowPos, "Always")
     ui.withStyleVars({WindowPadding = mainButtonWindowPadding, ItemSpacing = mainButtonItemSpacing}, function()
-        ui.window("StationViewButtons", {"NoResize", "NoTitleBar", "NoMove", "NoFocusOnAppearing", "NoScrollbar"}, function()
+        ui.window("StationViewButtons", staticButtonFlags, function()
             for i, v in ipairs(self.tabs) do
                 if infoButton(v.icon, i == self.currentTab, v.name) then
                     self:SwitchTo(v.id)
