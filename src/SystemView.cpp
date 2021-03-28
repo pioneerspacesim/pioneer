@@ -360,6 +360,7 @@ void SystemView::Draw3D()
 		Graphics::RenderStateDesc rsd;
 		rsd.blendMode = Graphics::BLEND_ALPHA;
 		rsd.primitiveType = Graphics::TRIANGLE_FAN;
+		rsd.depthTest = false;
 
 		m_atlasMat.reset(m_renderer->CreateMaterial("unlit", desc, rsd));
 		m_atlasMat->SetTexture(Graphics::Renderer::GetName("texture0"), TextureBuilder::GetWhiteTexture(m_renderer));
@@ -509,18 +510,23 @@ void SystemView::DrawOrreryView()
 	}
 }
 
-static constexpr double SCALE_EXPONENT = 1.0 / 3.2;
-static constexpr double STAR_SCALE_EXPONENT = 1.0 / 4.16;
+static constexpr double SCALE_EXPONENT = 1.0 / 1.9;
+static constexpr double STAR_SCALE_EXPONENT = 1.0 / 3.8;
 
 // Return a unit-scale relative size for a body; this is not a 'real' size, but one that preserves relative scale
 double get_body_radius(SystemBody *b)
 {
 	if (b->GetType() == SystemBody::TYPE_GRAVPOINT)
 		return 0.0;
+
+	double x = b->GetRadius() / EARTH_RADIUS;
 	if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR)
-		return std::max(pow(b->GetRadius() / EARTH_RADIUS, STAR_SCALE_EXPONENT) * 2.0, 1.0);
+		// Stars are bigger at smaller sizes, but grow much slower.
+		// A star has the same perceptual size as a planet at roughly 32 earth radiuses
+		return pow(x, STAR_SCALE_EXPONENT) * 2.5;
 	else
-		return std::max(pow(b->GetRadius() / EARTH_RADIUS, SCALE_EXPONENT), 0.25);
+		// small objects have a min. radius of 0.25, earth has radius of 1, larger objects grow logarithmically
+		return pow(x, SCALE_EXPONENT) + std::max(0.25 * (1.0 - pow(x, 4.0)), 0.0);
 }
 
 void SystemView::RenderAtlasBody(SystemBody *b, vector3f pos, matrix4x4f &cameraTrans, uint8_t direction)

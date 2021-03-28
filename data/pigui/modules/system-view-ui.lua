@@ -507,32 +507,38 @@ function Windows.objectInfo.Show()
 	local data = { }
 
 	if isSystemBody then -- system body
-		local systemBody = obj.ref
-		local rp = systemBody.rotationPeriod * 24 * 60 * 60
-		local r = systemBody.radius
-		local radius = nil
-		if r and r > 0 then
-			radius = ui.Format.Distance(r)
-		end
-		local sma = systemBody.semiMajorAxis
+		local parent = body.parent
+		local orbital = body.superType == "STARPORT"
+		local sma = body.semiMajorAxis
 		local semimajoraxis = nil
 		if sma and sma > 0 then
 			semimajoraxis = ui.Format.Distance(sma)
 		end
-		local op = systemBody.orbitPeriod * 24 * 60 * 60
+
+		local rp = body.rotationPeriod * 24 * 60 * 60
+		local op = body.orbitPeriod * 24 * 60 * 60
 		data = {
+			{ name = lc.MASS, icon = icons.body_radius,
+			value = (not orbital) and ui.Format.Mass(body.mass) or nil },
+			{ name = lc.RADIUS, icon = icons.body_radius,
+			value = (not orbital) and ui.Format.Distance(body.radius) or nil },
+			{ name = lc.ORBITAL_PERIOD, icon = icons.body_orbit_period,
+			value = op and op > 0 and ui.Format.Duration(op, 2) or nil },
 			{ name = lc.DAY_LENGTH, icon = icons.body_day_length,
 			value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
-			{ name = lc.RADIUS, icon = icons.body_radius,
-			value = radius },
+			{ name = luc.ORBIT_APOAPSIS, icon = icons.body_semi_major_axis,
+			value = parent and ui.Format.Distance(body.apoapsis) or nil },
+			{ name = luc.ORBIT_PERIAPSIS, icon = icons.body_semi_major_axis,
+			value = parent and ui.Format.Distance(body.periapsis) or nil },
 			{ name = lc.SEMI_MAJOR_AXIS, icon = icons.body_semi_major_axis,
 			value = semimajoraxis },
-			{ name = lc.ORBITAL_PERIOD, icon = icons.body_orbit_period,
-			value = op and op > 0 and ui.Format.Duration(op, 2) or nil }
+			{ name = lc.ECCENTRICITY, icon = icons.body_semi_major_axis,
+			value = parent and string.format("%0.2f", body.eccentricity) or nil },
+			{ name = lc.AXIAL_TILT, icon = icons.body_semi_major_axis,
+			value = (parent and not orbital) and string.format("%0.2f", body.axialTilt) or nil },
 		}
 
 	elseif obj.ref:IsShip() then -- physical body
-		local body = obj.ref
 		-- TODO: the advanced target scanner should add additional data here,
 		-- but we really do not want to hardcode that here. there should be
 		-- some kind of hook that the target scanner can hook into to display
