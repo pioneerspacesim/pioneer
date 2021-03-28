@@ -1,4 +1,7 @@
 March 2021
+   * New Features
+     * Sinonatrix overhaul (#5106)
+
    * Fixes
      * Fix GasGiant clipping and bright spots on models (#5157)
 
