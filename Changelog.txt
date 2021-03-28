@@ -1,3 +1,7 @@
+March 2021
+   * Fixes
+     * Fix GasGiant clipping and bright spots on models (#5157)
+
 February 2021
    * Internal Changes
      * Support PowerPC 64 platform (#5141)
