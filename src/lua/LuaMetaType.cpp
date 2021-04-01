@@ -450,6 +450,9 @@ void LuaMetaTypeBase::CreateMetaType(lua_State *l)
 
 	// create the methods table
 	lua_newtable(l);
+	// create the methods metatable
+	lua_newtable(l);
+	lua_setmetatable(l, -2);
 	lua_setfield(l, -2, "methods");
 
 	lua_pushcclosure(l, &l_index, 0);

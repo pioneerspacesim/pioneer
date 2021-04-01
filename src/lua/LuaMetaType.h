@@ -9,6 +9,38 @@
 #include "LuaPushPull.h"
 #include "LuaTable.h"
 
+/*
+ * LuaMetaType is a C++ -> Lua binding system intended to drastically
+ * simplify the amount of time and code needed to write often-repetitive
+ * glue code to pull arguments from Lua and pass them to a C++ function,
+ * then push the result back on the Lua stack.
+ *
+ * Usage comes in two flavors based on what you're intending to bind:
+ *
+ * LuaObjects (e.g. classes and structs):
+ *
+ *   In the regular LuaObject<T>::RegisterClass method, create a static
+ *   LuaMetaType<T> object and call CreateMetaType(lua_State *) on it.
+ *   Once done, between any StartRecording() and StopRecording() pair,
+ *   chain AddFunction and AddMember calls to build the Lua binding like so:
+ *
+ *   > .AddFunction("name", &T::SomeFunc)
+ *   > .AddMember("name", &T::someMember)
+ *
+ *   Call LuaObjectBase::CreateClass(&metaType) afterwards and you're done.
+ *
+ * Generic "Namespace" bindings (e.g. LuaEngine):
+ *
+ *    These are similar to the above, simply create a LuaMetaTypeGeneric
+ *    object. Instead of binding c++ member functions however, you can
+ *    bind any C++ free function - LuaMetaTypeGeneric doesn't have a concept
+ *    of a 'this object' and is intended to simplify binding libraries of
+ *    stateless functions to Lua (e.g. ImGui).
+ *
+ *    > .AddFunction("NewLine", &ImGui::NewLine)
+ */
+
+// Base class for the LuaMetaType binding system
 class LuaMetaTypeBase {
 public:
 	LuaMetaTypeBase(const char *name) :
@@ -60,17 +92,50 @@ public:
 	static bool GetMetatableFromName(lua_State *l, const char *name);
 
 protected:
+	//=========================================================================
+	// LuaMetaTypeGeneric support:
+	//=========================================================================
+
+	// C++ free functions taking any set of arguments and returning a value or void
+	template <typename Rt, typename... Args>
+	using free_function = Rt (*)(Args...);
+
+	// Overload for free functions returning a value
+	template <typename Rt, typename... Args>
+	typename std::enable_if<!std::is_same<Rt, void>::value, int>::type static free_fn_wrapper_(lua_State *L)
+	{
+		if (size_t(lua_gettop(L)) < sizeof...(Args))
+			return luaL_error(L, "Invalid number of arguments for function %s (have %d, need %lu)",
+				lua_tostring(L, lua_upvalueindex(1)), lua_gettop(L), sizeof...(Args));
+
+		auto fn = PullFreeFunction<free_function<Rt, Args...>>(L, lua_upvalueindex(2));
+		Rt ret = pi_lua_multiple_call(L, 1, fn);
+		LuaPush<Rt>(L, ret);
+
+		return 1;
+	}
+
+	// Overload for functions returning void
+	template <typename Rt, typename... Args>
+	typename std::enable_if<std::is_same<Rt, void>::value, int>::type static free_fn_wrapper_(lua_State *L)
+	{
+		if (size_t(lua_gettop(L)) < sizeof...(Args))
+			return luaL_error(L, "Invalid number of arguments for function %s (have %d, need %lu)",
+				lua_tostring(L, lua_upvalueindex(1)), lua_gettop(L), sizeof...(Args));
+
+		auto fn = PullFreeFunction<free_function<Rt, Args...>>(L, lua_upvalueindex(2));
+		pi_lua_multiple_call(L, 1, fn);
+
+		return 0;
+	}
+
+	//=========================================================================
+	// LuaMetaType<T> support:
+	//=========================================================================
+
+	// Direct member pointer access (for structs, etc.)
 	template <typename T, typename Dt>
 	using member_pointer = Dt T::*;
-
-	template <typename T>
-	using free_function = int (*)(lua_State *, T *);
-
-	template <typename T, typename Rt, typename... Args>
-	using member_function = Rt (T::*)(Args...);
-
-	template <typename T, typename Rt, typename... Args>
-	using const_member_function = Rt (T::*)(Args...) const;
 
 	template <typename T, typename Dt>
 	static int member_wrapper_(lua_State *L)
@@ -94,12 +159,34 @@ protected:
 		}
 	}
 
+	//=========================================================================
+
+	// "Member Free Function" access: like lua_CFunction but with an automatic
+	// this-object pointer passed to the function for simplicity
 	template <typename T>
-	static int getter_member_wrapper_(lua_State *L)
+	using member_cfunction = int (*)(lua_State *, T *);
+
+	template <typename T>
+	static int member_cfn_wrapper_(lua_State *L)
 	{
 		T *ptr = LuaPull<T *>(L, 1);
 		const char *name = lua_tostring(L, lua_upvalueindex(1));
-		free_function<T> getter = PullFreeFunction<T>(L, lua_upvalueindex(2));
+		luaL_checktype(L, lua_upvalueindex(2), LUA_TLIGHTUSERDATA);
+
+		if (!ptr)
+			return luaL_error(L, "Invalid userdata accessed for function %s", name);
+
+		auto fn = PullFreeFunction<member_cfunction<T>>(L, lua_upvalueindex(2));
+		return fn(L, ptr);
+	}
+
+	// Bind two member free functions into a getter-setter pair for an attr
+	template <typename T>
+	static int getter_member_cfn_wrapper_(lua_State *L)
+	{
+		T *ptr = LuaPull<T *>(L, 1);
+		const char *name = lua_tostring(L, lua_upvalueindex(1));
+		auto getter = PullFreeFunction<member_cfunction<T>>(L, lua_upvalueindex(2));
 
 		if (!ptr)
 			return luaL_error(L, "Null or invalid userdata accessed for property %s", name);
@@ -108,7 +195,7 @@ protected:
 			return luaL_error(L, "Invalid number of arguments for property getter/setter %s", name);
 
 		if (lua_gettop(L) > 1) {
-			free_function<T> setter = PullFreeFunction<T>(L, lua_upvalueindex(3));
+			auto setter = PullFreeFunction<member_cfunction<T>>(L, lua_upvalueindex(3));
 			if (setter != nullptr)
 				return setter(L, ptr);
 			else
@@ -118,6 +205,56 @@ protected:
 		return getter(L, ptr);
 	}
 
+	//=========================================================================
+
+	// C++ member function pointer access: using template magic, this assembles
+	// all of the bridge code needed to pull values from Lua and pass the return value back
+	template <typename T, typename Rt, typename... Args>
+	using member_function = Rt (T::*)(Args...);
+
+	template <typename T, typename Rt, typename... Args>
+	using const_member_function = Rt (T::*)(Args...) const;
+
+	// Overload for function returning a value
+	template <typename T, typename Rt, typename... Args>
+	typename std::enable_if<!std::is_same<Rt, void>::value, int>::type static member_fn_wrapper_(lua_State *L)
+	{
+		T *ptr = LuaPull<T *>(L, 1);
+		const char *name = lua_tostring(L, lua_upvalueindex(1));
+
+		if (!ptr)
+			return luaL_error(L, "Invalid userdata accessed for function %s", name);
+
+		if (size_t(lua_gettop(L) - 1) < sizeof...(Args))
+			return luaL_error(L, "Invalid number of arguments for function %s", name);
+
+		auto &fn = PullPointerToMember<member_function<T, Rt, Args...>>(L, lua_upvalueindex(2));
+		Rt ret = pi_lua_multiple_call(L, 1, ptr, fn);
+		LuaPush<Rt>(L, ret);
+
+		return 1;
+	}
+
+	// Overload for function returning void
+	template <typename T, typename Rt, typename... Args>
+	typename std::enable_if<std::is_same<Rt, void>::value, int>::type static member_fn_wrapper_(lua_State *L)
+	{
+		T *ptr = LuaPull<T *>(L, 1);
+		const char *name = lua_tostring(L, lua_upvalueindex(1));
+
+		if (!ptr)
+			return luaL_error(L, "Invalid userdata accessed for function %s", name);
+
+		if (size_t(lua_gettop(L) - 1) < sizeof...(Args))
+			return luaL_error(L, "Invalid number of arguments for function %s", name);
+
+		auto &fn = PullPointerToMember<member_function<T, Rt, Args...>>(L, lua_upvalueindex(2));
+		pi_lua_multiple_call(L, 1, ptr, fn);
+
+		return 0;
+	}
+
+	// T::GetName / T::SetName glue code to wrap into a single attr function
 	template <typename T, typename Dt, typename Dt2>
 	static int getter_member_fn_wrapper_(lua_State *L)
 	{
@@ -145,56 +282,9 @@ protected:
 		}
 	}
 
-	template <typename T>
-	static int fn_wrapper_(lua_State *L)
-	{
-		T *ptr = LuaPull<T *>(L, 1);
-		const char *name = lua_tostring(L, lua_upvalueindex(1));
-		luaL_checktype(L, lua_upvalueindex(2), LUA_TLIGHTUSERDATA);
-
-		if (!ptr)
-			return luaL_error(L, "Invalid userdata accessed for function %s", name);
-
-		free_function<T> fn = PullFreeFunction<T>(L, lua_upvalueindex(2));
-		return fn(L, ptr);
-	}
-
-	template <typename T, typename Rt, typename... Args>
-	typename std::enable_if<!std::is_same<Rt, void>::value, int>::type static member_fn_wrapper_(lua_State *L)
-	{
-		T *ptr = LuaPull<T *>(L, 1);
-		const char *name = lua_tostring(L, lua_upvalueindex(1));
-
-		if (!ptr)
-			return luaL_error(L, "Invalid userdata accessed for function %s", name);
-
-		if (size_t(lua_gettop(L) - 1) < sizeof...(Args))
-			return luaL_error(L, "Invalid number of arguments for function %s", name);
-
-		auto &fn = PullPointerToMember<member_function<T, Rt, Args...>>(L, lua_upvalueindex(2));
-		Rt ret = pi_lua_multiple_call(L, 1, ptr, fn);
-		LuaPush<Rt>(L, ret);
-
-		return 1;
-	}
-
-	template <typename T, typename Rt, typename... Args>
-	typename std::enable_if<std::is_same<Rt, void>::value, int>::type static member_fn_wrapper_(lua_State *L)
-	{
-		T *ptr = LuaPull<T *>(L, 1);
-		const char *name = lua_tostring(L, lua_upvalueindex(1));
-
-		if (!ptr)
-			return luaL_error(L, "Invalid userdata accessed for function %s", name);
-
-		if (size_t(lua_gettop(L) - 1) < sizeof...(Args))
-			return luaL_error(L, "Invalid number of arguments for function %s", name);
-
-		auto &fn = PullPointerToMember<member_function<T, Rt, Args...>>(L, lua_upvalueindex(2));
-		pi_lua_multiple_call(L, 1, ptr, fn);
-
-		return 0;
-	}
+	//=========================================================================
+	// Generic support for getting function pointers in and out of lua:
+	//=========================================================================
 
 	template <typename MemT>
 	static void PushPointerToMember(lua_State *L, MemT obj)
@@ -209,16 +299,16 @@ protected:
 	}
 
 	template <typename T>
-	static void PushFreeFunction(lua_State *L, free_function<T> obj)
+	static void PushFreeFunction(lua_State *L, T obj)
 	{
-		static_assert(sizeof(free_function<T>) == sizeof(void *), "Free functions cannot be 'fat' lambdas!");
+		static_assert(sizeof(T) == sizeof(void *), "Free functions cannot be 'fat' lambdas!");
 		lua_pushlightuserdata(L, reinterpret_cast<void *>(obj));
 	}
 
 	template <typename T>
-	static free_function<T> PullFreeFunction(lua_State *L, int index)
+	static T PullFreeFunction(lua_State *L, int index)
 	{
-		return reinterpret_cast<free_function<T>>(lua_touserdata(L, index));
+		return reinterpret_cast<T>(lua_touserdata(L, index));
 	}
 
 	// Pushes a copy of the metatable's attribute table to the stack
@@ -295,6 +385,50 @@ public:
 		return *this;
 	}
 
+	template <typename Rt, typename... Args>
+	Self &AddFunction(const char *name, free_function<Rt, Args...> func)
+	{
+		GetMethodTable(m_lua, m_index);
+
+		lua_pushstring(m_lua, (m_typeName + "." + name).c_str());
+		PushFreeFunction(m_lua, func);
+		lua_pushcclosure(m_lua, &free_fn_wrapper_<Rt, Args...>, 2);
+		if (m_protected)
+			lua_pushcclosure(m_lua, &secure_trampoline, 1);
+
+		lua_setfield(m_lua, -2, name);
+		lua_pop(m_lua, 1);
+		return *this;
+	}
+
+	Self &AddCallCtor(lua_CFunction func)
+	{
+		GetMethodTable(m_lua, m_index);
+		lua_getmetatable(m_lua, -1);
+
+		lua_pushcfunction(m_lua, func);
+		if (m_protected)
+			lua_pushcclosure(m_lua, secure_trampoline, 1);
+
+		lua_setfield(m_lua, -2, "__call");
+		lua_pop(m_lua, 2);
+
+		return *this;
+	}
+
+	Self &AddNewCtor(lua_CFunction func)
+	{
+		GetMethodTable(m_lua, m_index);
+
+		lua_pushcfunction(m_lua, func);
+		if (m_protected)
+			lua_pushcclosure(m_lua, secure_trampoline, 1);
+
+		lua_setfield(m_lua, -2, "new");
+		lua_pop(m_lua, 1);
+		return *this;
+	}
+
 private:
 	bool m_protected = false;
 };
@@ -302,17 +436,19 @@ private:
 template <typename T>
 class LuaMetaType : public LuaMetaTypeBase {
 public:
+	using Self = LuaMetaType;
+
 	LuaMetaType(const char *name) :
 		LuaMetaTypeBase(name)
 	{}
 
-	LuaMetaType &StartRecording()
+	Self &StartRecording()
 	{
 		LuaMetaTypeBase::StartRecording();
 		return *this;
 	}
 
-	LuaMetaType &StopRecording()
+	Self &StopRecording()
 	{
 		LuaMetaTypeBase::StopRecording();
 		return *this;
@@ -326,7 +462,7 @@ public:
 	// Obviously, the member in question must be publically accessible, or
 	// LuaMetaTypeBase must be marked as a friend class.
 	template <typename Dt>
-	LuaMetaType &AddMember(const char *name, member_pointer<T, Dt> t)
+	Self &AddMember(const char *name, member_pointer<T, Dt> t)
 	{
 		lua_State *L = m_lua;
 		GetAttrTable(L, m_index);
@@ -345,7 +481,7 @@ public:
 
 	// Bind a pseudo-member to Lua via a free-function getter and setter.
 	// The getter and setter are responsible for pulling parameters from Lua.
-	LuaMetaType &AddMember(const char *name, free_function<T> getter, free_function<T> setter = nullptr)
+	Self &AddMember(const char *name, member_cfunction<T> getter, member_cfunction<T> setter = nullptr)
 	{
 		lua_State *L = m_lua;
 		GetAttrTable(L, m_index);
@@ -353,7 +489,7 @@ public:
 		lua_pushstring(L, (m_typeName + "." + name).c_str());
 		PushFreeFunction(L, getter);
 		PushFreeFunction(L, setter);
-		lua_pushcclosure(L, &getter_member_wrapper_<T>, 3);
+		lua_pushcclosure(L, &getter_member_cfn_wrapper_<T>, 3);
 		if (m_protected)
 			lua_pushcclosure(L, &secure_trampoline, 1);
 
@@ -366,7 +502,7 @@ public:
 	// Magic to allow binding a const function to Lua. Take care to ensure that you do not
 	// push a const object to lua, or this code will become undefined behavior.
 	template <typename Dt, typename Dt2 = Dt>
-	LuaMetaType &AddMember(const char *name, const_member_function<T, Dt> getter, member_function<T, void, Dt2> setter = nullptr)
+	Self &AddMember(const char *name, const_member_function<T, Dt> getter, member_function<T, void, Dt2> setter = nullptr)
 	{
 		return AddMember(name, reinterpret_cast<member_function<T, Dt>>(getter), setter);
 	}
@@ -374,7 +510,7 @@ public:
 	// Bind a pseudo-member to Lua via a member-function getter and setter.
 	// The parameter will automatically be pulled from Lua and passed to the setter.
 	template <typename Dt, typename Dt2 = Dt>
-	LuaMetaType &AddMember(const char *name, member_function<T, Dt> getter, member_function<T, void, Dt2> setter = nullptr)
+	Self &AddMember(const char *name, member_function<T, Dt> getter, member_function<T, void, Dt2> setter = nullptr)
 	{
 		lua_State *L = m_lua;
 		GetAttrTable(L, m_index);
@@ -395,7 +531,7 @@ public:
 	// Magic to allow binding a const function to Lua. Take care to ensure that you do not
 	// push a const object to lua, or this code will become undefined behavior.
 	template <typename Rt, typename... Args>
-	LuaMetaType &AddFunction(const char *name, const_member_function<T, Rt, Args...> fn)
+	Self &AddFunction(const char *name, const_member_function<T, Rt, Args...> fn)
 	{
 		return AddFunction(name, reinterpret_cast<member_function<T, Rt, Args...>>(fn));
 	}
@@ -407,7 +543,7 @@ public:
 	// If the function has a non-void return type, its return value will automatically be
 	// pushed to Lua.
 	template <typename Rt, typename... Args>
-	LuaMetaType &AddFunction(const char *name, member_function<T, Rt, Args...> fn)
+	Self &AddFunction(const char *name, member_function<T, Rt, Args...> fn)
 	{
 		lua_State *L = m_lua;
 		GetMethodTable(L, m_index);
@@ -428,14 +564,14 @@ public:
 	// The self parameter will be automatically provided, but the function
 	// is responsible for pulling the rest of its parameters and pushing the
 	// appropriate number of return values.
-	LuaMetaType &AddFunction(const char *name, free_function<T> fn)
+	Self &AddFunction(const char *name, member_cfunction<T> fn)
 	{
 		lua_State *L = m_lua;
 		GetMethodTable(L, m_index);
 
 		lua_pushstring(L, (m_typeName + "." + name).c_str());
 		PushFreeFunction(L, fn);
-		lua_pushcclosure(L, &fn_wrapper_<T>, 2);
+		lua_pushcclosure(L, &member_cfn_wrapper_<T>, 2);
 		if (m_protected)
 			lua_pushcclosure(L, &secure_trampoline, 1);
 
@@ -445,7 +581,7 @@ public:
 		return *this;
 	}
 
-	LuaMetaType &RegisterFuncs(const luaL_Reg *functions)
+	Self &RegisterFuncs(const luaL_Reg *functions)
 	{
 		lua_State *L = m_lua;
 		GetMethodTable(L, m_index);
@@ -459,6 +595,34 @@ public:
 		}
 
 		lua_pop(L, 1);
+	}
+
+	Self &AddCallCtor(lua_CFunction func)
+	{
+		GetMethodTable(m_lua, m_index);
+		lua_getmetatable(m_lua, -1);
+
+		lua_pushcfunction(m_lua, func);
+		if (m_protected)
+			lua_pushcclosure(m_lua, secure_trampoline, 1);
+
+		lua_setfield(m_lua, -2, "__call");
+		lua_pop(m_lua, 2);
+
+		return *this;
+	}
+
+	Self &AddNewCtor(lua_CFunction func)
+	{
+		GetMethodTable(m_lua, m_index);
+
+		lua_pushcfunction(m_lua, func);
+		if (m_protected)
+			lua_pushcclosure(m_lua, secure_trampoline, 1);
+
+		lua_setfield(m_lua, -2, "new");
+		lua_pop(m_lua, 1);
+		return *this;
 	}
 
 private:

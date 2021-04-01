@@ -400,6 +400,7 @@ void LuaObjectBase::CreateClass(LuaMetaTypeBase *metaType)
 	// Get the method table from the metatype
 	metaType->GetMetatable();
 	lua_getfield(l, -1, "methods");
+
 	lua_remove(l, -2); // "global" table, type name, methods table
 
 	// add the exists method
