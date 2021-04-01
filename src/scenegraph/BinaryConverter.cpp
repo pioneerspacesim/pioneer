@@ -155,9 +155,7 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 
 Model *BinaryConverter::Load(const std::string &filename)
 {
-	PROFILE_SCOPED()
-	Model *m = Load(filename, "models");
-	return m;
+	return Load(filename, "models");
 }
 
 Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::FileData> binfile)
@@ -430,7 +428,7 @@ ModelDefinition BinaryConverter::FindModelDefinition(const std::string &shortnam
 
 Node *BinaryConverter::LoadNode(Serializer::Reader &rd)
 {
-	PROFILE_SCOPED()
+	PROFILE_START()
 	const std::string ntype = rd.String();
 	const std::string nname = rd.String();
 	//Output("Loading: %s %s\n", ntype.c_str(), nname.c_str());
@@ -450,9 +448,6 @@ Node *BinaryConverter::LoadNode(Serializer::Reader &rd)
 	}
 
 	node = loadFuncIt->second(db);
-	Group *grp = dynamic_cast<Group *>(node);
-	if (grp)
-		LoadChildren(rd, grp);
 
 	//register tag nodes
 	if (nflags & NODE_TAG)
@@ -461,15 +456,17 @@ Node *BinaryConverter::LoadNode(Serializer::Reader &rd)
 	node->SetName(nname);
 	node->SetNodeMask(nmask);
 	node->SetNodeFlags(nflags);
-	return node;
-}
 
-void BinaryConverter::LoadChildren(Serializer::Reader &rd, Group *parent)
-{
-	PROFILE_SCOPED()
-	const Uint32 numChildren = rd.Int32();
-	for (Uint32 i = 0; i < numChildren; i++)
-		parent->AddChild(LoadNode(rd));
+	// Stop profiling this func before loading children to avoid a giant tree of calls
+	PROFILE_STOP()
+
+	if (Group *grp = dynamic_cast<Group *>(node)) {
+		Uint32 numChildren = rd.Int32();
+		for (Uint32 i = 0; i < numChildren; i++)
+			grp->AddChild(LoadNode(rd));
+	}
+
+	return node;
 }
 
 Label3D *BinaryConverter::LoadLabel3D(NodeDatabase &db)

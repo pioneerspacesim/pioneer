@@ -79,7 +79,6 @@ static Type parse_imgui_enum(lua_State *l, int index, LuaFlags<Type> lookupTable
 
 void *pi_lua_checklightuserdata(lua_State *l, int index)
 {
-	PROFILE_SCOPED()
 	if (lua_islightuserdata(l, index))
 		return lua_touserdata(l, index);
 	else
@@ -89,14 +88,12 @@ void *pi_lua_checklightuserdata(lua_State *l, int index)
 
 void pi_lua_generic_pull(lua_State *l, int index, ImVec2 &vec)
 {
-	PROFILE_SCOPED()
 	vector2d tr = LuaPull<vector2d>(l, index);
 	vec = ImVec2(tr.x, tr.y);
 }
 
 void pi_lua_generic_push(lua_State *l, const ImVec2 &vec)
 {
-	PROFILE_SCOPED()
 	LuaPush(l, vector2d(vec.x, vec.y));
 }
 
@@ -128,14 +125,12 @@ static LuaFlags<ImGuiSelectableFlags_> imguiSelectableFlagsTable = {
 
 void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
 {
-	PROFILE_SCOPED()
 	Color tr = LuaPull<Color>(l, index);
 	color = ImColor(tr.r, tr.g, tr.b, tr.a);
 }
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiSelectableFlags_ &theflags)
 {
-	PROFILE_SCOPED()
 	theflags = parse_imgui_flags(l, index, imguiSelectableFlagsTable);
 }
 
@@ -163,7 +158,6 @@ static LuaFlags<ImGuiTreeNodeFlags_> imguiTreeNodeFlagsTable = {
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiTreeNodeFlags_ &theflags)
 {
-	PROFILE_SCOPED()
 	theflags = parse_imgui_flags(l, index, imguiTreeNodeFlagsTable);
 }
 
@@ -196,7 +190,6 @@ static LuaFlags<ImGuiInputTextFlags_> imguiInputTextFlagsTable = {
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiInputTextFlags_ &theflags)
 {
-	PROFILE_SCOPED()
 	theflags = parse_imgui_flags(l, index, imguiInputTextFlagsTable);
 }
 
@@ -217,7 +210,6 @@ static LuaFlags<ImGuiCond_> imguiSetCondTable = {
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiCond_ &value)
 {
-	PROFILE_SCOPED()
 	value = parse_imgui_enum(l, index, imguiSetCondTable);
 }
 
@@ -276,7 +268,6 @@ static LuaFlags<ImGuiCol_> imguiColTable = {
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiCol_ &value)
 {
-	PROFILE_SCOPED()
 	value = parse_imgui_enum(l, index, imguiColTable);
 }
 
@@ -305,7 +296,6 @@ static LuaFlags<ImGuiStyleVar_> imguiStyleVarTable = {
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiStyleVar_ &value)
 {
-	PROFILE_SCOPED()
 	value = parse_imgui_enum(l, index, imguiStyleVarTable);
 }
 
@@ -330,7 +320,6 @@ static LuaFlags<ImGuiWindowFlags_> imguiWindowFlagsTable = {
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiWindowFlags_ &theflags)
 {
-	PROFILE_SCOPED()
 	theflags = parse_imgui_flags(l, index, imguiWindowFlagsTable);
 }
 
@@ -356,7 +345,6 @@ static LuaFlags<ImGuiHoveredFlags_> imguiHoveredFlagsTable = {
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiHoveredFlags_ &theflags)
 {
-	PROFILE_SCOPED()
 	theflags = parse_imgui_flags(l, index, imguiHoveredFlagsTable);
 }
 
@@ -372,7 +360,6 @@ static vector2d s_center(0., 0.);
 
 static vector2d pointOnClock(const double radius, const double hours)
 {
-	PROFILE_SCOPED()
 	double angle = (hours / 6) * 3.14159;
 	vector2d res = s_center + vector2d(radius * sin(angle), -radius * cos(angle));
 	return res;
@@ -380,7 +367,6 @@ static vector2d pointOnClock(const double radius, const double hours)
 
 static vector2d pointOnClock(const vector2d &center, const double radius, const double hours)
 {
-	PROFILE_SCOPED()
 	// Update center:
 	s_center = center;
 	return pointOnClock(radius, hours);
@@ -388,7 +374,6 @@ static vector2d pointOnClock(const vector2d &center, const double radius, const 
 
 static void lineOnClock(const double hours, const double length, const double radius, const ImColor &color, const double thickness)
 {
-	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	vector2d p1 = pointOnClock(radius, hours);
 	vector2d p2 = pointOnClock(radius - length, hours);
@@ -398,7 +383,6 @@ static void lineOnClock(const double hours, const double length, const double ra
 
 static void lineOnClock(const vector2d &center, const double hours, const double length, const double radius, const ImColor &color, const double thickness)
 {
-	PROFILE_SCOPED()
 	// Update center:
 	s_center = center;
 	lineOnClock(hours, length, radius, color, thickness);
@@ -563,7 +547,6 @@ static int l_pigui_set_column_width(lua_State *l)
  */
 static int l_pigui_set_column_offset(lua_State *l)
 {
-	PROFILE_SCOPED()
 	int column_index = LuaPull<int>(l, 1);
 	double offset_x = LuaPull<double>(l, 2);
 	ImGui::SetColumnOffset(column_index, offset_x);
@@ -584,7 +567,6 @@ static int l_pigui_set_column_offset(lua_State *l)
  */
 static int l_pigui_get_scroll_y(lua_State *l)
 {
-	PROFILE_SCOPED()
 	LuaPush<double>(l, ImGui::GetScrollY());
 	return 1;
 }
@@ -686,7 +668,6 @@ static int l_pigui_progress_bar(lua_State *l)
  */
 static int l_pigui_next_column(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImGui::NextColumn();
 	return 0;
 }
@@ -1345,7 +1326,6 @@ static int l_pigui_add_triangle_filled(lua_State *l)
  */
 static int l_pigui_same_line(lua_State *l)
 {
-	PROFILE_SCOPED()
 	double pos_x = LuaPull<double>(l, 1);
 	double spacing_w = LuaPull<double>(l, 2);
 	ImGui::SameLine(pos_x, spacing_w);
@@ -1389,14 +1369,12 @@ static int l_pigui_end_group(lua_State *l)
  */
 static int l_pigui_separator(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImGui::Separator();
 	return 0;
 }
 
 static int l_pigui_spacing(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImGui::Spacing();
 	return 0;
 }
@@ -1446,6 +1424,13 @@ static int l_pigui_begin_popup_modal(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_end_popup(lua_State *l)
+{
+	PROFILE_SCOPED()
+	ImGui::EndPopup();
+	return 0;
+}
+
 static int l_pigui_open_popup(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1463,16 +1448,8 @@ static int l_pigui_close_current_popup(lua_State *l)
 
 static int l_pigui_is_any_popup_open(lua_State *l)
 {
-	PROFILE_SCOPED()
 	LuaPush<bool>(l, !ImGui::GetCurrentContext()->OpenPopupStack.empty());
 	return 1;
-}
-
-static int l_pigui_end_popup(lua_State *l)
-{
-	PROFILE_SCOPED()
-	ImGui::EndPopup();
-	return 0;
 }
 
 static int l_pigui_begin_child(lua_State *l)
@@ -1591,7 +1568,6 @@ static int l_pigui_calc_text_size(lua_State *l)
 
 static int l_pigui_get_mouse_pos(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImVec2 pos = ImGui::GetMousePos();
 	LuaPush(l, vector2d(pos.x, pos.y));
 	return 1;
@@ -1599,7 +1575,6 @@ static int l_pigui_get_mouse_pos(lua_State *l)
 
 static int l_pigui_get_mouse_wheel(lua_State *l)
 {
-	PROFILE_SCOPED()
 	float wheel = ImGui::GetIO().MouseWheel;
 	LuaPush(l, wheel);
 	return 1;
@@ -1678,7 +1653,6 @@ static int l_pigui_pop_id(lua_State *l)
 
 static int l_pigui_get_window_pos(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImVec2 pos = ImGui::GetWindowPos();
 	LuaPush<vector2d>(l, vector2d(pos.x, pos.y));
 	return 1;
@@ -1686,7 +1660,6 @@ static int l_pigui_get_window_pos(lua_State *l)
 
 static int l_pigui_get_window_size(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImVec2 ws = ImGui::GetWindowSize();
 	LuaPush<vector2d>(l, vector2d(ws.x, ws.y));
 	return 1;
@@ -1694,7 +1667,6 @@ static int l_pigui_get_window_size(lua_State *l)
 
 static int l_pigui_get_content_region(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImVec2 cra = ImGui::GetContentRegionAvail();
 	LuaPush<vector2d>(l, vector2d(cra.x, cra.y));
 	return 1;
@@ -2073,7 +2045,6 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 
 static int l_pigui_disable_mouse_facing(lua_State *l)
 {
-	PROFILE_SCOPED()
 	bool b = LuaPull<bool>(l, 1);
 	auto *p = Pi::player->GetPlayerController();
 	p->SetDisableMouseFacing(b);
@@ -2082,7 +2053,6 @@ static int l_pigui_disable_mouse_facing(lua_State *l)
 
 static int l_pigui_set_mouse_button_state(lua_State *l)
 {
-	PROFILE_SCOPED()
 	int button = LuaPull<int>(l, 1);
 	bool state = LuaPull<bool>(l, 2);
 	Pi::input->SetMouseButtonState(button, state);
@@ -2091,7 +2061,6 @@ static int l_pigui_set_mouse_button_state(lua_State *l)
 
 static int l_pigui_should_show_labels(lua_State *l)
 {
-	PROFILE_SCOPED()
 	bool show_labels = Pi::game->GetWorldView()->ShouldShowLabels();
 	LuaPush(l, show_labels);
 	return 1;
@@ -2099,59 +2068,49 @@ static int l_pigui_should_show_labels(lua_State *l)
 
 static int l_attr_handlers(lua_State *l)
 {
-	PROFILE_SCOPED()
 	PiGui::GetHandlers().PushCopyToStack();
 	return 1;
 }
 
 static int l_attr_keys(lua_State *l)
 {
-	PROFILE_SCOPED()
-	// PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	PiGui::GetKeys().PushCopyToStack();
+	return 1;
+}
+
+static int l_attr_screen_height(lua_State *l)
+{
+	LuaPush<int>(l, Graphics::GetScreenHeight());
 	return 1;
 }
 
 static int l_attr_screen_width(lua_State *l)
 {
-	PROFILE_SCOPED()
 	LuaPush<int>(l, Graphics::GetScreenWidth());
 	return 1;
 }
 
 static int l_attr_key_ctrl(lua_State *l)
 {
-	PROFILE_SCOPED()
 	LuaPush<bool>(l, ImGui::GetIO().KeyCtrl);
 	return 1;
 }
 
 static int l_attr_key_none(lua_State *l)
 {
-	PROFILE_SCOPED()
 	LuaPush<bool>(l, !ImGui::GetIO().KeyCtrl & !ImGui::GetIO().KeyShift & !ImGui::GetIO().KeyAlt);
 	return 1;
 }
 
 static int l_attr_key_shift(lua_State *l)
 {
-	PROFILE_SCOPED()
 	LuaPush<bool>(l, ImGui::GetIO().KeyShift);
 	return 1;
 }
 
 static int l_attr_key_alt(lua_State *l)
 {
-	PROFILE_SCOPED()
 	LuaPush<bool>(l, ImGui::GetIO().KeyAlt);
-	return 1;
-}
-
-static int l_attr_screen_height(lua_State *l)
-{
-	PROFILE_SCOPED()
-	//	PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
-	LuaPush<int>(l, Graphics::GetScreenHeight());
 	return 1;
 }
 
@@ -2246,14 +2205,12 @@ static int l_pigui_radial_menu(lua_State *l)
 
 static int l_pigui_should_draw_ui(lua_State *l)
 {
-	PROFILE_SCOPED()
 	LuaPush(l, Pi::DrawGUI);
 	return 1;
 }
 
 static int l_pigui_is_mouse_hovering_rect(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImVec2 r_min = LuaPull<ImVec2>(l, 1);
 	ImVec2 r_max = LuaPull<ImVec2>(l, 2);
 	bool clip = LuaPull<bool>(l, 3);
@@ -2275,7 +2232,6 @@ static int l_pigui_data_dir_path(lua_State *l)
 
 static int l_pigui_is_window_hovered(lua_State *l)
 {
-	PROFILE_SCOPED()
 	int flags = LuaPull<ImGuiHoveredFlags_>(l, 1, ImGuiHoveredFlags_None);
 	LuaPush<bool>(l, ImGui::IsWindowHovered(flags));
 	return 1;
@@ -2302,7 +2258,7 @@ static int l_pigui_begin_tab_item(lua_State *l)
 
 static int l_pigui_end_tab_bar(lua_State *l)
 {
-	PROFILE_SCOPED()
+	PROFILE_SCOPED();
 	ImGui::EndTabBar();
 	return 0;
 }
@@ -2510,7 +2466,6 @@ static int l_pigui_color_edit(lua_State *l)
 
 static int l_pigui_is_key_released(lua_State *l)
 {
-	PROFILE_SCOPED()
 	SDL_Keycode key = LuaPull<int>(l, 1);
 	LuaPush<bool>(l, ImGui::IsKeyReleased(SDL_GetScancodeFromKey(key)));
 	return 1;
@@ -2518,7 +2473,6 @@ static int l_pigui_is_key_released(lua_State *l)
 
 static int l_pigui_get_cursor_pos(lua_State *l)
 {
-	PROFILE_SCOPED()
 	vector2d v(ImGui::GetCursorPos().x, ImGui::GetCursorPos().y);
 	LuaPush<vector2d>(l, v);
 	return 1;
@@ -2526,7 +2480,6 @@ static int l_pigui_get_cursor_pos(lua_State *l)
 
 static int l_pigui_get_cursor_screen_pos(lua_State *l)
 {
-	PROFILE_SCOPED()
 	vector2d v(ImGui::GetCursorScreenPos().x, ImGui::GetCursorScreenPos().y);
 	LuaPush<vector2d>(l, v);
 	return 1;
@@ -2534,7 +2487,6 @@ static int l_pigui_get_cursor_screen_pos(lua_State *l)
 
 static int l_pigui_set_cursor_pos(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImVec2 v = LuaPull<ImVec2>(l, 1);
 	ImGui::SetCursorPos(v);
 	return 0;
@@ -2542,7 +2494,6 @@ static int l_pigui_set_cursor_pos(lua_State *l)
 
 static int l_pigui_set_cursor_screen_pos(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImVec2 v = LuaPull<ImVec2>(l, 1);
 	ImGui::SetCursorScreenPos(v);
 	return 0;
@@ -2622,14 +2573,12 @@ static int l_pigui_load_texture_from_svg(lua_State *l)
 
 static int l_pigui_set_scroll_here(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImGui::SetScrollHere();
 	return 0;
 }
 
 static int l_pigui_pop_text_wrap_pos(lua_State *l)
 {
-	PROFILE_SCOPED()
 	ImGui::PopTextWrapPos();
 	return 0;
 }

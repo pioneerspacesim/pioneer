@@ -51,7 +51,6 @@ namespace SceneGraph {
 		ModelDefinition FindModelDefinition(const std::string &);
 
 		Node *LoadNode(Serializer::Reader &);
-		void LoadChildren(Serializer::Reader &, Group *parent);
 		//this is a very simple loader so it's implemented here
 		static Label3D *LoadLabel3D(NodeDatabase &);
 

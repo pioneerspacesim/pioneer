@@ -872,6 +872,7 @@ namespace Profiler {
 	};
 
 	u64 globalStart = Timer::getticks();
+	u64 globalClockStart = Clock::getticks();
 	GlobalThreadList threads = { NULL, {0} };
 	threadlocal Caller *root = NULL;
 
@@ -884,8 +885,8 @@ namespace Profiler {
 		void Init(const char *dir) {
 		}
 
-		void GlobalInfo( u64 rawCycles ) {
-			printf( "> Raw run time %.2f mcycles\n", Timer::ms( rawCycles ) );
+		void GlobalInfo( u64 rawCycles, u64 clockCycles ) {
+			printf( "> Raw run time %.2f mcycles; Wall clock time %.2f ms\n", Timer::ms( rawCycles ), Clock::ms( clockCycles ) );
 		}
 
 		void ThreadsInfo( u64 totalCalls, f64 timerOverhead, f64 rdtscOverhead ) {
@@ -958,7 +959,7 @@ namespace Profiler {
 			);
 		}
 
-		void GlobalInfo( u64 rawCycles ) {
+		void GlobalInfo( u64 rawCycles, u64 clockCycles ) {
 			fputs( "<div class=\"overall\"><table>", f );
 			if ( programName ) {
 				fprintf( f, "<tr><td class=\"title\">Command Line: </td><td>%s", programName );
@@ -966,8 +967,11 @@ namespace Profiler {
 					fprintf( f, " %s", commandLine );
 				fputs( "</td></tr>", f );
 			}
-			fprintf( f, "<tr><td class=\"title\">Date: </td><td>%s</td></tr><tr><td class=\"title\">Raw run time: </td><td>%.2f mcycles</td></tr>\n",
-				timeFormat, Timer::ms( rawCycles ) );
+			fprintf( f, "<tr><td class=\"title\">Date: </td><td>%s</td></tr>\n", timeFormat );
+			fprintf( f, "<tr><td class=\"title\">Raw run time: </td><td>%.2f mcycles</td></tr>\n",
+				Timer::ms( rawCycles ) );
+			fprintf( f, "<tr><td class=\"title\">Wall clock time: </td><td>%.3f ms</td></tr>\n",
+				Clock::ms( clockCycles ) );
 		}
 
 		void ThreadsInfo( u64 totalCalls, f64 timerOverhead, f64 rdtscOverhead ) {
@@ -1011,12 +1015,13 @@ namespace Profiler {
 	template< class Dumper >
 	void dumpThreads( Dumper dumper, const char *dir ) {
 		u64 rawDuration = ( Timer::getticks() - globalStart );
+		u64 clockDuration = ( Clock::getticks() - globalClockStart );
 
 		Caller *accumulate = new Caller( "/Top Callers" ), *packer = new Caller( "/Thread Packer" );
 		Buffer<Caller *> packedThreads;
 
 		dumper.Init(dir);
-		dumper.GlobalInfo( rawDuration );
+		dumper.GlobalInfo( rawDuration, clockDuration );
 
 		threads.AcquireGlobalLock();
 
@@ -1091,6 +1096,7 @@ namespace Profiler {
 
 	void resetThreads() {
 		globalStart = Timer::getticks();
+		globalClockStart = Clock::getticks();
 
 #if defined(__PROFILER_SMP__)
 		threads.AcquireGlobalLock();
