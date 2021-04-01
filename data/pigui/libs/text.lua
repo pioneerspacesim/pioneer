@@ -270,56 +270,55 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 	local spacing = 2
 	local size = Vector2(0, 0)
 	local max_offset = 0
+
 	for i=1,#data do
 		local item = data[i]
 		assert(item.text, "missing text for item in addFancyText")
 		assert(item.font, "missing font for item in addFancyText")
 		assert(item.color, "missing font for item in addFancyText")
 
-		local is_icon = item.font.name ~= "icons"
+		local is_icon = item.font.name == "icons"
 		local s
 		local popfont
 		if is_icon then
+			s = Vector2(item.font.size, item.font.size)
+		else
 			popfont = pigui:PushFont(item.font.name, item.font.size)
 			s = pigui.CalcTextSize(item.text)
-		else
-			s = Vector2(item.font.size, item.font.size)
 		end
+
 		size.x = size.x + s.x
 		size.x = size.x + spacing -- spacing
 		size.y = math.max(size.y, s.y)
 		max_offset = math.max(max_offset, item.font.offset)
-		if is_icon then
-			if popfont then
-				pigui.PopFont()
-			end
-		end
+
+		if popfont then pigui.PopFont() end
 	end
+
 	size.x = size.x - spacing -- remove last spacing
 	position = ui.calcTextAlignment(position, size, anchor_horizontal, nil)
+
 	if anchor_vertical == ui.anchor.top then
 		position.y = position.y + size.y -- was max_offset, seems wrong
 	elseif anchor_vertical == ui.anchor.bottom then
 		position.y = position.y - size.y + max_offset
 	end
+
 	if bg_color then
 		pigui.AddRectFilled(position - Vector2(textBackgroundMarginPixels, size.y + textBackgroundMarginPixels),
 			position + Vector2(size.x + textBackgroundMarginPixels, textBackgroundMarginPixels),
-			bg_color,
-			0,
-			0)
+			bg_color, 0, 0)
 	end
+
 	for i=1,#data do
 		local item = data[i]
-		local is_icon = item.font.name ~= "icons"
+		local is_icon = item.font.name == "icons"
 		if is_icon then
-			ui.withFont(item.font.name, item.font.size, function()
-				local s = ui.addStyledText(position, ui.anchor.left, ui.anchor.baseline, item.text, item.color, item.font, item.tooltip)
-					position.x = position.x + s.x + spacing
-			end)
-		else
 			local s = ui.addIcon(position, item.text, item.color, Vector2(item.font.size, item.font.size), ui.anchor.left, ui.anchor.bottom, item.tooltip)
 			position.x = position.x + s.x + spacing
+		else
+			local s = ui.addStyledText(position, ui.anchor.left, ui.anchor.baseline, item.text, item.color, item.font, item.tooltip)
+				position.x = position.x + s.x + spacing
 		end
 	end
 	return size
@@ -330,30 +329,23 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 	local size = Vector2(0, 0)
 	ui.withFont(font.name, font.size, function()
 		size = pigui.CalcTextSize(text)
-		local vert
-		if anchor_vertical == ui.anchor.baseline then
-			vert = nil
-		else
-			vert = anchor_vertical
-		end
-			position = ui.calcTextAlignment(position, size, anchor_horizontal, vert) -- ignore vertical if baseline
-		if anchor_vertical == ui.anchor.baseline then
-			position.y = position.y - font.offset
-		end
+		-- align bottom to baseline
+		if anchor_vertical == ui.anchor.baseline then anchor_vertical = ui.anchor.bottom end
+		position = ui.calcTextAlignment(position, size, anchor_horizontal, anchor_vertical) -- ignore vertical if baseline
 		if bg_color then
 			pigui.AddRectFilled(Vector2(position.x - textBackgroundMarginPixels, position.y - textBackgroundMarginPixels),
 				Vector2(position.x + size.x + textBackgroundMarginPixels, position.y + size.y + textBackgroundMarginPixels),
-				bg_color,
-				0,
-				0)
+				bg_color, 0, 0)
 		end
 		pigui.AddText(position, color, text)
 		-- pigui.AddQuad(position, position + Vector2(size.x, 0), position + Vector2(size.x, size.y), position + vector.new(0, size.y), colors.red, 1.0)
 	end)
+
 	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then
 		if pigui.IsMouseHoveringRect(position, position + size, true) then
 			ui.maybeSetTooltip(tooltip)
 		end
 	end
+
 	return size
 end

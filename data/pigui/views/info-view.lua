@@ -6,7 +6,7 @@ local ui = require 'pigui'
 local TabView = require 'pigui.views.tab-view'
 
 local infoView = TabView.New("info")
-infoView.windowPadding = ui.rescaleUI(Vector2(24, 24), Vector2(1920, 1200))
+infoView.windowPadding = ui.rescaleUI(Vector2(18, 18))
 
 ui.registerModule("game", function()
 	infoView:renderTabView()
