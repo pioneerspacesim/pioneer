@@ -19,7 +19,6 @@ local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
-local colors = ui.theme.colors
 local face = nil
 local stationSeed = false
 
@@ -36,7 +35,6 @@ local gray = Color(100, 100, 100)
 
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
-	windowPadding = Vector2(14, 14),
 	faceSize = Vector2(586,565),
 	crimeRecordColumnWidth = 55,
 	buttonSize = Vector2(100,0),
@@ -60,14 +58,13 @@ local function crime_record()
 	if #utils.build_array(pairs(past_crimes)) > 0 then
 		ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size,
 			function() ui.textColored(gray, l.CRIMINAL_RECORD) end)
-		ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size,
-			function ()
-				for k,v in pairs(past_crimes) do
-					ui.textColored(gray, v.count)
-					-- start second column at this position:
-					ui.sameLine(widgetSizes.crimeRecordColumnWidth)
-					ui.textColored(gray, Legal.CrimeType[k].name)
-				end
+		ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function ()
+			for k,v in pairs(past_crimes) do
+				ui.textColored(gray, v.count)
+				-- start second column at this position:
+				ui.sameLine(widgetSizes.crimeRecordColumnWidth)
+				ui.textColored(gray, Legal.CrimeType[k].name)
+			end
 		end)
 	end
 end
@@ -82,21 +79,20 @@ local function outstanding_fines()
 		ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size,
 			function() ui.text(l.OUTSTANDING_FINES) end)
 		-- wrap list in medlarge font
-		ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size,
-			function()
-				for k,v in pairs(crimes) do
-					ui.text(v.count)
-					-- start second column at this position:
-					ui.sameLine(widgetSizes.crimeRecordColumnWidth)
-					ui.text(Legal.CrimeType[k].name)
-				end
-				local pay_fine_text = string.interp(l.PAY_FINE_OF_N,
-					{ amount = Format.Money(fine) })
-				ui.text(pay_fine_text)
+		ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
+			for k,v in pairs(crimes) do
+				ui.text(v.count)
+				-- start second column at this position:
+				ui.sameLine(widgetSizes.crimeRecordColumnWidth)
+				ui.text(Legal.CrimeType[k].name)
+			end
+			local pay_fine_text = string.interp(l.PAY_FINE_OF_N,
+				{ amount = Format.Money(fine) })
+			ui.text(pay_fine_text)
 
-				if ui.button(l.PAY, widgetSizes.buttonSize) then
-					payfine(fine)
-				end
+			if ui.button(l.PAY, widgetSizes.buttonSize) then
+				payfine(fine)
+			end
 		end)
 	else
 		ui.withFont(pionillium.large.name, pionillium.large.size,
@@ -106,33 +102,28 @@ end
 
 
 local function drawPolice()
-
 	local intro_txt = string.interp(l.THIS_IS_FACTION_POLICE,
 		{ faction_police = Game.system.faction.policeName, faction = Game.system.faction.name})
 
-	ui.withStyleVars({WindowPadding = widgetSizes.windowPadding, ItemSpacing = widgetSizes.itemSpacing},
-		function()
-			local infoColumnWidth = ui.getContentRegion().x
-				- widgetSizes.faceSize.x - widgetSizes.windowPadding.x*3
+	ui.withStyleVars({ItemSpacing = widgetSizes.itemSpacing}, function()
+		local infoColumnWidth = ui.getContentRegion().x
+			- widgetSizes.faceSize.x - widgetSizes.itemSpacing.x
 
-			ui.child("CrimeStats", Vector2(infoColumnWidth, 0), {"AlwaysUseWindowPadding"},
-				function()
-					ui.withFont(pionillium.large.name, pionillium.large.size,
-						function () ui.text(intro_txt) end)
+		ui.child("CrimeStats", Vector2(infoColumnWidth, 0), {}, function()
+			ui.withFont(pionillium.large.name, pionillium.large.size,
+				function () ui.text(intro_txt) end)
 
-					-- 1. If outstanding fines, show list & offer to pay
-					outstanding_fines()
+			-- 1. If outstanding fines, show list & offer to pay
+			outstanding_fines()
 
-					ui.dummy(widgetSizes.dummySpaceMedium)
+			ui.dummy(widgetSizes.dummySpaceMedium)
 
-					-- 2 If old payed fines, show grayd out list
-					crime_record() end)
-			ui.sameLine()
-			ui.child("PoliceOfficer", Vector2(0, 0), {"AlwaysUseWindowPadding", "NoScrollbar"},
-				function ()
-					if(face ~= nil) then
-						face:render()
-			end end)
+			-- 2 If old payed fines, show grayd out list
+			crime_record()
+		end)
+
+		ui.sameLine()
+		if(face ~= nil) then face:render() end
 	end)
 end
 
@@ -142,11 +133,7 @@ StationView:registerView({
 	name = l.POLICE,
 	icon = ui.theme.icons.shield_other,
 	showView = true,
-	draw = function()
-		ui.child("StationPolice", Vector2(0, ui.getContentRegion().y
-			- StationView.style.height), {}, drawPolice)
-		StationView:shipSummary()
-	end,
+	draw = drawPolice,
 	refresh = function()
 		local station = Game.player:GetDockedWith()
 		if (station) then

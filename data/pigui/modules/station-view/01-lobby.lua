@@ -29,13 +29,11 @@ local l = Lang.GetResource("ui-core")
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
-	windowPadding = Vector2(14, 14),
 	faceSize = Vector2(586,565),
 	buttonSizeBase = Vector2(64, 48),
 }, Vector2(1600, 900))
 
 widgetSizes.itemSpacing = Vector2(math.ceil(widgetSizes.itemSpacing.x), math.ceil(widgetSizes.itemSpacing.y))
-widgetSizes.windowPadding = Vector2(math.ceil(widgetSizes.windowPadding.x), math.ceil(widgetSizes.windowPadding.y))
 widgetSizes.buttonFullRefuelSize = Vector2(widgetSizes.buttonSizeBase.x*2 + widgetSizes.itemSpacing.x, widgetSizes.buttonSizeBase.y)
 widgetSizes.buttonLaunchSize = Vector2(widgetSizes.buttonSizeBase.x*5, widgetSizes.buttonSizeBase.y)
 widgetSizes.iconSize = Vector2(0, widgetSizes.buttonSizeBase.y)
@@ -60,9 +58,8 @@ local popup = ModalWindow.New('lobbyPopup', function(self)
 	end
 end)
 
-local requestLaunch = function ()
+local requestLaunch = function (station)
 	local crimes, fine = Game.player:GetCrimeOutstanding()
-	local station = Game.player:GetDockedWith()
 	local nearbyTraffic = station:GetNearbyTraffic(50000) -- ships within 50km of station
 
 	if not Game.player:HasCorrectCrew() then
@@ -97,7 +94,7 @@ local refuelInternalTank = function (delta)
 	if delta > 0 then
 		if stock == 0 then
 			popupMsg = l.ITEM_IS_OUT_OF_STOCK
-			ui.openPopup(popupId)
+			popup:open()
 			return
 		end
 
@@ -135,7 +132,7 @@ local refuelHyperdrive = function (mass)
 	if mass > 0 then
 		if stock == 0 then
 			popupMsg = l.ITEM_IS_OUT_OF_STOCK
-			ui.openPopup(popupId)
+			popup:open()
 			return
 		end
 
@@ -164,9 +161,8 @@ local refuelHyperdrive = function (mass)
 	station:AddEquipmentStock(hyperdrive_fuel, -mass)
 end
 
-local function lobbyMenu(startPos)
+local function lobbyMenu()
 	local station = Game.player:GetDockedWith()
-	ui.setCursorPos(startPos)
 	ui.columns(4, 'thrusterFuel', false)
 	ui.setColumnWidth(0, widgetSizes.buttonSizeBase.x + widgetSizes.itemSpacing.x)
 	ui.setColumnWidth(1, widgetSizes.buttonSizeBase.x + widgetSizes.itemSpacing.x)
@@ -187,11 +183,12 @@ local function lobbyMenu(startPos)
 	ui.nextColumn()
 	local gaugePos = ui.getCursorScreenPos()
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
-	local gaugeWidth = ui.getContentRegion().x - widgetSizes.itemSpacing.x
+	local gaugeWidth = ui.getContentRegion().x
 	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %dt \t" .. l.DELTA_V .. ": %d km/s",
 			shipDef.fuelTankMass/100 * Game.player.fuel, Game.player:GetRemainingDeltaV()/1000),
 			0, 100, icons.fuel,
 			colors.gaugeEquipmentMarket, '', gaugeWidth, widgetSizes.buttonSizeBase.y, ui.fonts.pionillium.medlarge)
+
 	-- hyperspace fuel
 	ui.nextColumn()
 	hyperdriveIcon:Draw(widgetSizes.iconSize)
@@ -218,12 +215,6 @@ local function lobbyMenu(startPos)
 			gaugeWidth, widgetSizes.buttonSizeBase.y, ui.fonts.pionillium.medlarge)
 
 	ui.columns(1, '', false)
-	ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
-		local buttonPos = ui.getCursorScreenPos()
-		buttonPos.x = gaugePos.x + gaugeWidth - widgetSizes.buttonLaunchSize.x
-		ui.setCursorScreenPos(buttonPos)
-		if ui.coloredSelectedButton(l.REQUEST_LAUNCH, widgetSizes.buttonLaunchSize, false, colors.buttonBlue, nil, true) then requestLaunch() end
-	end)
 end
 
 local function drawPlayerInfo()
@@ -261,40 +252,37 @@ local function drawPlayerInfo()
 	end
 
 	ui.withFont(pionillium.large.name, pionillium.large.size, function()
-		ui.withStyleVars({WindowPadding = widgetSizes.windowPadding, ItemSpacing = widgetSizes.itemSpacing}, function()
-			local conReg = ui.getContentRegion()
-			local infoColumnWidth = conReg.x - widgetSizes.faceSize.x - widgetSizes.windowPadding.x*3
-			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*3 + widgetSizes.itemSpacing.y*3 + widgetSizes.windowPadding.y*2
-			local lobbyMenuAtBottom = (conReg.y - widgetSizes.faceSize.y > lobbyMenuHeight + widgetSizes.windowPadding.x*2)
+		ui.withStyleVars({ItemSpacing = widgetSizes.itemSpacing}, function()
+			local buttonSizeSpacing = widgetSizes.buttonLaunchSize.y + widgetSizes.itemSpacing.y
+			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*2 + widgetSizes.itemSpacing.y*2
 
-			ui.child("Wrapper", Vector2(0, lobbyMenuAtBottom and -lobbyMenuHeight or 0), {}, function()
-				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), {"AlwaysUseWindowPadding"}, function()
-					local curPos = ui.getCursorPos()
+			ui.child("Wrapper", Vector2(0, -lobbyMenuHeight), {}, function()
+				-- face display has 1:1 aspect ratio, and we need size for a launch button underneath
+				local infoColumnWidth = -math.min(ui.getContentRegion().y - buttonSizeSpacing, widgetSizes.faceSize.x) - widgetSizes.itemSpacing.x
+				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), function()
 					textTable.withHeading(station.label, orbiteer.xlarge, {
 						{ tech_certified, "" },
 						{ station_docks, "" },
 						{ station_orbit_info, "" },
 						{ local_gravity_pressure, ""},
 					})
-
-					if not lobbyMenuAtBottom then
-						lobbyMenu(Vector2(curPos.x, conReg.y - lobbyMenuHeight))
-					end
 				end)
 
 				ui.sameLine()
-				ui.child("StationManager", Vector2(0, 0), {"AlwaysUseWindowPadding", "NoScrollbar"}, function ()
-					if(face ~= nil) then
-						face:render()
-					end
+
+				ui.group(function()
+					if(face ~= nil) then face:render() end
+
+					ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
+						local size = Vector2(ui.getContentRegion().x, widgetSizes.buttonLaunchSize.y)
+						if ui.coloredSelectedButton(l.REQUEST_LAUNCH, size, false, colors.buttonBlue, nil, true) then
+							requestLaunch(station)
+						end
+					end)
 				end)
 			end)
 
-			if lobbyMenuAtBottom then
-				ui.child("LobbyMenuPanel", Vector2(0,0), {"AlwaysUseWindowPadding"}, function()
-					lobbyMenu(Vector2(0,0))
-				end)
-			end
+			ui.child("LobbyMenuPanel", Vector2(0,0), lobbyMenu)
 
 		end)
 	end)
@@ -305,12 +293,7 @@ StationView:registerView({
 	name = l.LOBBY,
 	icon = ui.theme.icons.info,
 	showView = true,
-	draw = function()
-		widgetSizes.info_column_width = ui.getContentRegion().x - widgetSizes.faceSize.x - widgetSizes.windowPadding.x
-		ui.child("StationLobby", Vector2(0, ui.getContentRegion().y - StationView.style.height), {}, drawPlayerInfo)
-
-		StationView:shipSummary()
-	end,
+	draw = drawPlayerInfo,
 	refresh = function()
 		local station = Game.player:GetDockedWith()
 		shipDef = ShipDef[Game.player.shipId]

@@ -20,16 +20,11 @@ local colors = ui.theme.colors
 
 local adTextColor = colors.white
 local chatBackgroundColor = Color(20, 20, 80, 230)
-local containerFlags = ui.WindowFlags {"AlwaysUseWindowPadding"}
 local widgetSizes = ui.rescaleUI({
 	iconSize = Vector2(20, 20),
 	chatButtonBase = Vector2(0, 24),
 	chatButtonSize = Vector2(0, 24),
 	itemSpacing = Vector2(18, 4),
-	bbContainerSize = Vector2(0, 0),
-	bbSearchSize = Vector2(0, 0),
-	bbPadding = Vector2(14, 11),
-	innerPadding = Vector2(0, 3),
 	rowVerticalSpacing = Vector2(0, 6),
 	popupSize = Vector2(1200, 0),
 	popupBig = Vector2(1200, 0),
@@ -43,7 +38,6 @@ local searchTextEntered = false
 local textWrapWidth = 100
 
 local icons = {}
-local currentIconSize = Vector2(0,0)
 local chatWin = ModalWindow.New('bbChatWindow', function() end, function (self, drawPopupFn)
 	ui.setNextWindowPosCenter('Always')
 	ui.setNextWindowSize(widgetSizes.popupSize, "Always")
@@ -75,7 +69,6 @@ end
 bulletinBoard = Table.New("BulletinBoardTable", false, {
 	columnCount = 2,
 	size = Vector2(ui.screenWidth * 0.8, 0),
-	windowPadding = widgetSizes.innerPadding,
 	initTable = function(self)
 		local iconColumnWidth = widgetSizes.iconSize.x + widgetSizes.itemSpacing.x
 		local columnWidth = (self.style.size.x - iconColumnWidth) / (self.columnCount-1)
@@ -88,7 +81,6 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 
 		if(icons[icon] == nil) then
 			icons[icon] = PiImage.New("icons/bbs/" .. icon .. ".png")
-			currentIconSize = icons[icon].texture.size
 		end
 
 		if (adActive(key, item)) then
@@ -150,30 +142,23 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 	sortingFunction = function(s1,s2) return s1.description < s2.description end
 })
 
-local function renderBulletingBoard()
+local function renderBulletinBoard()
 	ui.withFont(pionillium.large.name, pionillium.large.size, function()
-		ui.withStyleVars({WindowPadding = widgetSizes.bbPadding}, function()
-			ui.child("BulletinBoardContainer", widgetSizes.bbContainerSize(0, ui.getContentRegion().y - StationView.style.height), containerFlags, function()
-				ui.withStyleVars({WindowPadding = widgetSizes.innerPadding}, function()
-					ui.pushTextWrapPos(textWrapWidth)
-					bulletinBoard:render()
-					ui.popTextWrapPos()
-					ui.sameLine()
-					ui.child("BulletinBoardSearch", widgetSizes.bbSearchSize, containerFlags, function()
-						ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
-							ui.text(l.SEARCH)
-						end)
-						ui.pushItemWidth(ui.getContentRegion().x)
-						searchText, searchTextEntered = ui.inputText("", searchText, {})
-						if searchTextEntered then
-							refresh()
-						end
-					end)
-				end)
-			end)
-		end)
+		ui.pushTextWrapPos(textWrapWidth)
+		bulletinBoard:render()
+		ui.popTextWrapPos()
+		ui.sameLine()
 
-		StationView:shipSummary()
+		ui.child("BulletinBoardSearch", Vector2(0, 0), function()
+			ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
+				ui.text(l.SEARCH)
+			end)
+			ui.pushItemWidth(ui.getContentRegion().x)
+			searchText, searchTextEntered = ui.inputText("", searchText, {})
+			if searchTextEntered then
+				refresh()
+			end
+		end)
 	end)
 end
 
@@ -182,7 +167,7 @@ StationView:registerView({
 	name = lui.BULLETIN_BOARD,
 	icon = ui.theme.icons.bbs,
 	showView = true,
-	draw = renderBulletingBoard,
+	draw = renderBulletinBoard,
 	refresh = function ()
 		refresh()
 		bulletinBoard.scrollReset = true
