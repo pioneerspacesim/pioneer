@@ -272,8 +272,8 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 		client		= client,
 		location	= location,
 		localdelivery = flavours[flavour].localdelivery,
-		dist            = dist,
-		due		= due,
+		dist        = dist,
+		due			= due,
 		risk		= risk,
 		urgency		= urgency,
 		reward		= reward,
@@ -289,8 +289,11 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 	})
 
 	local ref = station:AddAdvert({
+		title       = "DELIVERY", -- FIXME: get this from the translation strings!
 		description = ad.desc,
 		icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
+		due         = ad.due,
+		reward      = ad.reward,
 		onChat      = onChat,
 		onDelete    = onDelete,
 		isEnabled   = isEnabled })

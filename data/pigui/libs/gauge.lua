@@ -61,10 +61,12 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 		ui.addIcon(Vector2(uiPos.x - gauge_height / 2, uiPos.y), icon, ui.theme.colors.reticuleCircle, Vector2(gauge_height * 0.9, gauge_height * 0.9), ui.anchor.center, ui.anchor.center, tooltip)
 		local w = (position.x + gauge_width) - uiPos.x
 		ui.addLine(uiPos, Vector2(uiPos.x + w * percent, uiPos.y), color, gauge_height, false)
+
+		formatFont = formatFont or ui.fonts.pionillium.small
 		if value and format then
-			ui.addFancyText(Vector2(uiPos.x + gauge_height/2, uiPos.y + gauge_height/4), ui.anchor.left, ui.anchor.center, {
-				{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=(formatFont or ui.fonts.pionillium.small), tooltip=tooltip },
-				{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=(formatFont or ui.fonts.pionillium.small), tooltip=tooltip }},
+			ui.addFancyText(Vector2(uiPos.x + gauge_height/2, uiPos.y + math.ceil(formatFont.size/2)), ui.anchor.left, ui.anchor.center, {
+				{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=formatFont, tooltip=tooltip },
+				{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=formatFont, tooltip=tooltip }},
 				ui.theme.colors.gaugeBackground)
 		end
 	end)

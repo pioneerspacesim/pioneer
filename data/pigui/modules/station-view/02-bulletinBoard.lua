@@ -17,6 +17,7 @@ local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
+local icons = ui.theme.icons
 
 local adTextColor = colors.white
 local chatBackgroundColor = Color(20, 20, 80, 230)
@@ -37,10 +38,10 @@ local searchText = ""
 local searchTextEntered = false
 local textWrapWidth = 100
 
-local icons = {}
+local images = {}
 local chatWin = ModalWindow.New('bbChatWindow', function() end, function (self, drawPopupFn)
 	ui.setNextWindowPosCenter('Always')
-	ui.setNextWindowSize(widgetSizes.popupSize, "Always")
+	ui.setNextWindowSize(widgetSizes.popupSize, 'Always')
 	ui.withStyleColorsAndVars({PopupBg = chatBackgroundColor}, {WindowBorderSize = 1, }, drawPopupFn)
 end)
 
@@ -61,44 +62,75 @@ local function refresh()
 				string.lower(searchText),
 				1, true)
 		then
-			bulletinBoard.items[ref] = ad
+			table.insert(bulletinBoard.items, ad)
 		end
 	end
+
+	table.sort(bulletinBoard.items, bulletinBoard.funcs.sortingFunction)
 end
 
 bulletinBoard = Table.New("BulletinBoardTable", false, {
-	columnCount = 2,
-	size = Vector2(ui.screenWidth * 0.8, 0),
+	columnCount = 1,
+	size = Vector2(ui.screenWidth * 0.6, 0),
 	initTable = function(self)
 		local iconColumnWidth = widgetSizes.iconSize.x + widgetSizes.itemSpacing.x
 		local columnWidth = (self.style.size.x - iconColumnWidth) / (self.columnCount-1)
 		textWrapWidth = columnWidth
-		ui.setColumnWidth(0, widgetSizes.iconSize.x + widgetSizes.itemSpacing.x)
-		ui.setColumnWidth(1, columnWidth)
+		--ui.setColumnWidth(0, widgetSizes.iconSize.x + widgetSizes.itemSpacing.x)
+		--ui.setColumnWidth(1, columnWidth)
+		ui.setColumnWidth(0, self.style.size.x)
 	end,
 	renderItem = function(self, item, key)
 		local icon = item.icon or "default"
+		local region = ui.getContentRegion()
 
-		if(icons[icon] == nil) then
-			icons[icon] = PiImage.New("icons/bbs/" .. icon .. ".png")
+		if(images[icon] == nil) then
+			images[icon] = PiImage.New("icons/bbs/" .. icon .. ".png")
 		end
 
-		if (adActive(key, item)) then
+		if (adActive(item.__ref, item)) then
 			adTextColor = colors.white
 		else
 			adTextColor = colors.grey
 		end
 
-		icons[icon]:Draw(widgetSizes.iconSize)
-		ui.nextColumn()
+		images[icon]:Draw(widgetSizes.iconSize)
+		ui.sameLine(0, widgetSizes.itemSpacing.x)
+		--ui.nextColumn()
+
 		ui.withStyleColorsAndVars({Text = adTextColor}, {ItemSpacing = widgetSizes.rowVerticalSpacing}, function()
-			ui.textWrapped(item.description)
+			ui.text(item.title)
+
+			ui.withFont(pionillium.medium, function()
+				local textHeight = ui.getTextLineHeight()
+				local iconSize = Vector2(textHeight)
+
+				local maxDuration = textHeight * 6 + widgetSizes.itemSpacing.x
+				local maxReward = textHeight * 5
+				if item.due then
+					ui.sameLine(region.x - maxDuration - maxReward)
+					ui.icon(icons.clock, iconSize, adTextColor)
+					ui.sameLine()
+					ui.text(ui.Format.Duration(item.due - Game.time, 3))
+				end
+
+				if item.reward then
+					ui.sameLine(region.x - maxReward)
+					ui.icon(icons.money, iconSize, adTextColor)
+					ui.sameLine()
+					ui.text(ui.Format.Number(item.reward))
+				end
+			end)
+
+			ui.withFont(pionillium.medlarge, function()
+				ui.textWrapped(item.description)
+			end)
 			ui.nextColumn()
 		end)
 	end,
 	onClickItem = function(self, item, key)
 		local station = Game.player:GetDockedWith()
-		local ref = key
+		local ref = item.__ref
 		local ad = SpaceStation.adverts[station][ref]
 
 		if Game.paused then
@@ -139,7 +171,11 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 		chatForm.resizeFunc()
 		chatWin:open()
 	end,
-	sortingFunction = function(s1,s2) return s1.description < s2.description end
+	sortingFunction = function(s1,s2)
+		return s1.title < s2.title
+			or (s1.title == s2.title and s1.description < s2.description)
+	end,
+	iterator = ipairs
 })
 
 local function renderBulletinBoard()

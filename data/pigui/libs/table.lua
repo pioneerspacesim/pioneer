@@ -25,7 +25,9 @@ local defaultFuncs = {
     -- sort items in the market table
     sortingFunction = function(e1,e2)
         return e1 < e2
-    end
+    end,
+
+	iterator = pairs
 }
 
 local TableWidget = {}
@@ -68,6 +70,7 @@ function TableWidget.New(id, title, config)
             onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem,
             onClickItem = config.onClickItem or defaultFuncs.onClickItem,
             sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction,
+			iterator = config.iterator or defaultFuncs.iterator
         },
     }
 
@@ -119,7 +122,7 @@ function TableWidget:render()
             self.highlightStart = nil
             self.highlightEnd = nil
 
-            for key, item in pairs(self.items) do
+            for key, item in self.funcs.iterator(self.items) do
 				startPos = ui.getCursorScreenPos() - Vector2(4, selOffset)
 
 				self.funcs.renderItem(self, item, key)
