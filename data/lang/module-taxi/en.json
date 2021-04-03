@@ -99,9 +99,13 @@
     "description": "",
     "message": "Excellent."
   },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "PASSAGE WANTED"
+  },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
@@ -131,9 +135,13 @@
     "description": "",
     "message": "We are visiting a friend."
   },
+  "FLAVOUR_10_ADTITLE": {
+    "description": "",
+    "message": "DISCREET SHIP WANTED"
+  },
   "FLAVOUR_10_ADTEXT": {
     "description": "",
-    "message": "SHIP WANTED: Passage on a fast ship to {system} system."
+    "message": "VIP needs urgent passage on a fast ship to {system} system. No questions asked."
   },
   "FLAVOUR_10_DANGER": {
     "description": "",
@@ -163,9 +171,13 @@
     "description": "",
     "message": "I would rather someone didn't find me."
   },
+  "FLAVOUR_11_ADTITLE": {
+    "description": "",
+    "message": "FAST SHIP NEEDED"
+  },
   "FLAVOUR_11_ADTEXT": {
     "description": "",
-    "message": "FAST SHIP: Passage on a fast ship to {system} system."
+    "message": "Corporate inspector needs passage on a fast ship to {system} system."
   },
   "FLAVOUR_11_DANGER": {
     "description": "",
@@ -195,9 +207,13 @@
     "description": "",
     "message": "I'm a factory inspector doing my rounds."
   },
+  "FLAVOUR_12_ADTITLE": {
+    "description": "",
+    "message": "SHIP REQUIRED"
+  },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "SHIP REQUIRED: Passage to {system} system."
+    "message": "Urgent transport required for fleeing citizen. Passage to {system} system needed."
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -227,9 +243,13 @@
     "description": "",
     "message": "I owe someone some money, and they're after me."
   },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "PASSAGE WANTED"
+  },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
@@ -259,9 +279,13 @@
     "description": "",
     "message": "We work for {corp} corporation and they are paying."
   },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SMALL GROUP PASSAGE"
+  },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
   },
   "FLAVOUR_2_DANGER": {
     "description": "",
@@ -291,9 +315,13 @@
     "description": "",
     "message": "It's normal business trip."
   },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "SHIP REQUIRED"
+  },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "SHIP REQUIRED: Passage to {system} system. Will pay {cash}."
+    "message": "Ship required for high-risk passage to {system} system. Will pay {cash}."
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
@@ -323,9 +351,13 @@
     "description": "",
     "message": "An old rival is trying to kill me."
   },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "BUSINESS PASSAGE"
+  },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "SHIP WANTED: Passage to {system} system. Will pay {cash}."
+    "message": "Ship wanted for business-class passage to {system} system. Will pay {cash}."
   },
   "FLAVOUR_4_DANGER": {
     "description": "",
@@ -355,9 +387,13 @@
     "description": "",
     "message": "I'm traveling salesman."
   },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "CONFIDENTIAL PASSAGE"
+  },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "WANTED: Passage to {system} system. Will pay {cash}."
+    "message": "Require confidential passage of anonymous VIP to {system} system. Will pay {cash}."
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
@@ -387,9 +423,13 @@
     "description": "",
     "message": "Didn't you know - I'm a well known dream star."
   },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "SHIP REQUIRED"
+  },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "SHIP WANTED: Passage to {system} system. Will pay {cash}."
+    "message": "Reporter needs proximity to story developing in the {system} system. Will pay {cash}."
   },
   "FLAVOUR_6_DANGER": {
     "description": "",
@@ -419,9 +459,13 @@
     "description": "",
     "message": "I'm freelance journalist."
   },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "SAFE PASSAGE NEEDED"
+  },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "SHIP WANTED: Safe passage to {system} system. Will pay {cash}."
+    "message": "Ship wanted for safe passage to {system} system. Secure transport required. Will pay {cash}."
   },
   "FLAVOUR_7_DANGER": {
     "description": "",
@@ -451,9 +495,13 @@
     "description": "",
     "message": "The Mafia want me dead."
   },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "FAST PERSONAL TRANSPORT"
+  },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "SHIP WANTED: Passage on a fast ship to {system} system."
+    "message": "Urgent personal passage to {system} system required. Surcharge included in payment."
   },
   "FLAVOUR_8_DANGER": {
     "description": "",
@@ -483,9 +531,13 @@
     "description": "",
     "message": "I'm visiting a sick relative."
   },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "LEGITIMATE PASSAGE"
+  },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "SHIP WANTED: Passage on a fast ship to {system} system."
+    "message": "Require urgent transport for honest citizen. Fast passage needed to {system} system."
   },
   "FLAVOUR_9_DANGER": {
     "description": "",

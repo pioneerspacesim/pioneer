@@ -93,6 +93,7 @@ local flavours = {
 -- add strings to flavours
 for i = 1,#flavours do
 	local f = flavours[i]
+	f.adtitle    = l["FLAVOUR_" .. i-1 .. "_ADTITLE"]
 	f.adtext     = l["FLAVOUR_" .. i-1 .. "_ADTEXT"]
 	f.introtext  = l["FLAVOUR_" .. i-1 .. "_INTROTEXT"]
 	f.whysomuch  = l["FLAVOUR_" .. i-1 .. "_WHYSOMUCH"]
@@ -263,8 +264,8 @@ local makeAdvert = function (station)
 		flavour		= flavour,
 		client		= client,
 		location	= location.path,
-		dist            = dist,
-		due		= due,
+		dist        = dist,
+		due		    = due,
 		group		= group,
 		risk		= risk,
 		urgency		= urgency,
@@ -278,8 +279,12 @@ local makeAdvert = function (station)
 	})
 
 	local ref = station:AddAdvert({
+		title = flavours[flavour].adtitle,
 		description = ad.desc,
 		icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
+		due         = ad.due,
+		reward      = ad.reward,
+		location    = ad.location,
 		onChat      = onChat,
 		onDelete    = onDelete,
 		isEnabled   = isEnabled})

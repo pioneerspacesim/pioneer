@@ -181,7 +181,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Transport belongings and hardware to {starport} from port storage facility."
+    "message": "Transport belongings to {starport} from port storage facility."
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",

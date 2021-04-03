@@ -27,6 +27,7 @@ local max_ass_dist = 30
 local flavours = {}
 for i = 0,5 do
 	table.insert(flavours, {
+		adtitle     = l["FLAVOUR_" .. i .. "_ADTITLE"],
 		adtext      = l["FLAVOUR_" .. i .. "_ADTEXT"],
 		introtext   = l["FLAVOUR_" .. i .. "_INTROTEXT"],
 		successmsg  = l["FLAVOUR_" .. i .. "_SUCCESSMSG"],
@@ -201,8 +202,12 @@ local makeAdvert = function (station)
 		system	= nearbysystem.name,
 	})
 	local ref = station:AddAdvert({
+		title       = flavours[ad.flavour].adtitle,
 		description = ad.desc,
 		icon        = "assassination",
+		due         = ad.due,
+		reward      = ad.reward,
+		location    = ad.location,
 		onChat      = onChat,
 		onDelete    = onDelete,
 		isEnabled   = isEnabled})

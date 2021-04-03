@@ -245,12 +245,22 @@ local makeAdvert = function (station)
 		due         = due,
 	}
 
-	ad.desc = string.interp(l["ADTEXT_" .. Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))],
-		{ system = location:GetStarSystem().name, cash = Format.Money(ad.reward, false), mission = l["MISSION_TYPE_" .. math.ceil(ad.dedication * NUMSUBTYPES)] })
+	local titleNum = Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))
+
+	ad.desc = string.interp(l["ADTEXT_" .. titleNum], {
+		system = location:GetStarSystem().name,
+		cash = Format.Money(ad.reward, false),
+		mission = l["MISSION_TYPE_" .. math.ceil(ad.dedication * NUMSUBTYPES)],
+		org = org
+	})
 
 	local ref = station:AddAdvert({
+		title = l["ADTITLE_" .. titleNum],
 		description = ad.desc,
 		icon        = "combat",
+		due         = ad.due,
+		reward      = ad.reward,
+		location    = ad.location,
 		onChat      = onChat,
 		onDelete    = onDelete,
 		isEnabled   = isEnabled})

@@ -649,11 +649,15 @@ local makeAdvert = function (station)
 	}
 
 	n = getNumberOfFlavours("ADTEXT_" .. missiontype)
-	local adtext
+	local adtext, adtitle
 	if n >= 1 then
-		adtext = l["ADTEXT_" .. missiontype .. "_" .. Engine.rand:Integer(1, n)]
+		local rand = Engine.rand:Integer(1, n)
+		adtext = l["ADTEXT_" .. missiontype .. "_" .. rand]
+		adtitle = l["ADTITLE_" .. missiontype .. "_" .. rand]
 	else
-		adtext = l["ADTEXT_" .. Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))]
+		local rand = Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))
+		adtext = l["ADTEXT_" .. rand]
+		adtitle = l["ADTITLE_" .. rand]
 	end
 	ad.adtext = adtext -- save for recreation
 	ad.desc = string.interp(adtext, {
@@ -663,8 +667,12 @@ local makeAdvert = function (station)
 	})
 
 	local ref = station:AddAdvert({
+		title       = adtitle,
 		description = ad.desc,
 		icon        = ad.urgency >=  0.8 and "haul_fast" or "haul",
+		due         = ad.due,
+		reward      = ad.reward,
+		location    = ad.location,
 		onChat      = onChat,
 		onDelete    = onDelete,
 		isEnabled   = isEnabled })
