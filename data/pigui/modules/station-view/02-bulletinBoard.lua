@@ -3,6 +3,7 @@
 
 local Lang = require 'Lang'
 local Game = require 'Game'
+local Space = require 'Space'
 local SpaceStation = require 'SpaceStation'
 
 local StationView = require 'pigui.views.station-view'
@@ -106,12 +107,31 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 				local iconSize = Vector2(textHeight)
 
 				local maxDuration = textHeight * 6 + widgetSizes.itemSpacing.x
+				local maxDistance = textHeight * 5 + widgetSizes.itemSpacing.x
 				local maxReward = textHeight * 5
+
 				if item.due then
-					ui.sameLine(region.x - maxDuration - maxReward)
+					ui.sameLine(region.x - maxDuration - maxDistance - maxReward)
 					ui.icon(icons.clock, iconSize, adTextColor)
 					ui.sameLine()
 					ui.text(ui.Format.Duration(item.due - Game.time, 3))
+				end
+
+				if item.location then
+					ui.sameLine(region.x - maxDistance - maxReward)
+					ui.icon(icons.distance, iconSize, adTextColor)
+					ui.sameLine()
+
+					if item.location:isa("Body") then
+						local alt = Game.player:GetAltitudeRelTo(item.location)
+						ui.text(ui.Format.Distance(alt))
+					elseif Game.system and item.location:IsSameSystem(Game.system.path) then
+						local alt = Game.player:GetAltitudeRelTo(Space.GetBody(item.location.bodyIndex))
+						ui.text(ui.Format.Distance(alt))
+					else
+						local playerSystem = Game.system or Game.player:GetHyperspaceTarget()
+						ui.text(string.format("%0.2f %s", item.location:DistanceTo(playerSystem), lui.LY))
+					end
 				end
 
 				if item.reward then

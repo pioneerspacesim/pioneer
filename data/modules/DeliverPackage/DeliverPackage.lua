@@ -82,6 +82,7 @@ local flavours = {
 -- add strings to flavours
 for i = 1,#flavours do
 	local f = flavours[i]
+	f.adtitle       = l["FLAVOUR_" .. i-1 .. "_ADTITLE"]
 	f.adtext        = l["FLAVOUR_" .. i-1 .. "_ADTEXT"]
 	f.introtext     = l["FLAVOUR_" .. i-1 .. "_INTROTEXT"]
 	f.whysomuchtext = l["FLAVOUR_" .. i-1 .. "_WHYSOMUCHTEXT"]
@@ -289,11 +290,12 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 	})
 
 	local ref = station:AddAdvert({
-		title       = "DELIVERY", -- FIXME: get this from the translation strings!
+		title       = flavours[flavour].adtitle,
 		description = ad.desc,
 		icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
 		due         = ad.due,
 		reward      = ad.reward,
+		location    = ad.location,
 		onChat      = onChat,
 		onDelete    = onDelete,
 		isEnabled   = isEnabled })
