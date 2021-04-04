@@ -385,7 +385,8 @@ local onCreateBB = function (station)
 
 	-- Only one crew hiring thingy per station
 	stationsWithAdverts[station:AddAdvert({
-		description = l.CREW_FOR_HIRE,
+		title       = l.CREW_FOR_HIRE_TITLE,
+		description = l.CREW_FOR_HIRE_DESC,
 		icon        = "crew_contracts",
 		onChat      = onChat,
 		isEnabled   = isEnabled})] = station
@@ -430,7 +431,8 @@ Event.Register("onGameStart", function()
 		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
 		for k,station in pairs(loaded_data.stationsWithAdverts) do
 		stationsWithAdverts[station:AddAdvert({
-			description = l.CREW_FOR_HIRE,
+			title       = l.CREW_FOR_HIRE_TITLE,
+			description = l.CREW_FOR_HIRE_DESC,
 			icon        = "crew_contracts",
 			onChat      = onChat,
 			isEnabled   = isEnabled})] = station

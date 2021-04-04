@@ -16,6 +16,7 @@ for i = 0,max_flavour_index do
 	table.insert(flavours, {
 		title = l["FLAVOUR_" .. i .. "_TITLE"],
 		body  = l["FLAVOUR_" .. i .. "_BODY"],
+		desc  = l["FLAVOUR_" .. i .. "_DESC"]
 	})
 end
 
@@ -46,9 +47,9 @@ local makeAdvert = function (station, flavour_index)
 		station = station,
 	}
 
-	ad.desc = flavours[ad.flavour].title
 	local ref = station:AddAdvert({
-		description = ad.desc,
+		title       = flavours[ad.flavour].title,
+		description = flavours[ad.flavour].desc,
 --		icon        = "lightning",
 		onDelete    = onDelete,
 		onChat      = onChat})
@@ -81,7 +82,8 @@ local onGameStart = function ()
 
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
-			description = ad.desc,
+			title       = flavours[ad.flavour].title,
+			description = flavours[ad.flavour].desc,
 --			icon        = "lightning",
 			onDelete    = onDelete,
 			onChat      = onChat,

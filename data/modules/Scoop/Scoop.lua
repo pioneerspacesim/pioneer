@@ -514,6 +514,7 @@ local makeAdvert = function (station)
 		ad.desc = string.interp(l["ADTEXT_" .. flavour.id], { cash = Format.Money(ad.reward, false) })
 
 		local ref = station:AddAdvert({
+			title       = l["ADTITLE_" .. flavour.id],
 			description = ad.desc,
 			icon        = flavour.id == "RESCUE" and "searchrescue" or "haul",
 			onChat      = onChat,
@@ -801,6 +802,7 @@ local onGameStart = function ()
 
 		for k, ad in pairs(loaded_data.ads) do
 			local ref = ad.station:AddAdvert({
+				title       = l["ADTITLE_" .. ad.id],
 				description = ad.desc,
 				icon        = ad.id == "RESCUE" and "searchrescue" or "haul",
 				onChat      = onChat,

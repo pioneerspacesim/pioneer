@@ -27,7 +27,7 @@ local widgetSizes = ui.rescaleUI({
 	chatButtonBase = Vector2(0, 24),
 	chatButtonSize = Vector2(0, 24),
 	itemSpacing = Vector2(18, 4),
-	rowVerticalSpacing = Vector2(0, 6),
+	rowVerticalSpacing = Vector2(0, 4),
 	popupSize = Vector2(1200, 0),
 	popupBig = Vector2(1200, 0),
 	popupSmall = Vector2(500, 0),
@@ -144,6 +144,8 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 
 			ui.withFont(pionillium.medlarge, function()
 				ui.textWrapped(item.description)
+				-- add a little bit of extra vertical space between rows
+				ui.dummy(widgetSizes.rowVerticalSpacing)
 			end)
 			ui.nextColumn()
 		end)

@@ -15,6 +15,7 @@ local l = Lang.GetResource("module-goodstrader")
 
 local num_names = 6 -- number of GOODS_TRADER_N names
 local num_slogans = 7 -- number of SLOGAN_N entries
+local num_titles = 4 -- number of ADTITLE_N entries
 
 local ads = {}
 
@@ -137,8 +138,9 @@ local onCreateBB = function (station)
 				numPolice = numPolice + 1
 			end
 
-			local flavour = string.interp(l["GOODS_TRADER_"..r:Integer(1, num_names)-1], {name = NameGen.Surname(r)})
-			local slogan = l["SLOGAN_"..r:Integer(1, num_slogans)-1]
+			local title = l["ADTITLE_" .. r:Integer(num_titles - 1)]
+			local flavour = string.interp(l["GOODS_TRADER_"..r:Integer(num_names - 1)], { name = NameGen.Surname(r) })
+			local slogan = l["SLOGAN_"..r:Integer(num_slogans - 1)]
 
 			local ad = {
 				station  = station,
@@ -146,6 +148,7 @@ local onCreateBB = function (station)
 				slogan   = slogan,
 				ispolice = ispolice,
 				trader   = Character.New({title = flavour, armour=false}, r),
+				title    = title
 			}
 
 			ad.stock = {}
@@ -159,6 +162,7 @@ local onCreateBB = function (station)
 			end
 
 			local ref = ad.station:AddAdvert({
+				title       = ad.title,
 				description = ad.flavour,
 				icon        = "goods_trader",
 				onChat      = onChat,
@@ -177,6 +181,7 @@ local onGameStart = function ()
 
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
+			title       = ad.title,
 			description = ad.flavour,
 			icon        = "goods_trader",
 			onChat      = onChat,
