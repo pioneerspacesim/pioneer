@@ -102,7 +102,8 @@ local function alarm ()
 				ui.addStyledText(uiTextPos, ui.anchor.center, ui.anchor.top, lui.HUD_WARNING_DESCENT_RATE, colors.alertRed, pionillium.large, nil, colors.lightBlackBackground)
 			end
 			if not alreadyAlertedDescent then
-				ui.playSfx("alarm_descent", 1.0, 1.0)
+				-- FIXME: alarm_descent is *REALLY* loud. Needs to be properly mixed.
+				ui.playSfx("alarm_descent", 0.2, 0.2)
 				alreadyAlertedDescent = true
 			end
 
