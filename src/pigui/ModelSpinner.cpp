@@ -2,18 +2,24 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "pigui/ModelSpinner.h"
+#include "AnimationCurves.h"
 #include "Pi.h"
 #include "PiGui.h"
+#include "graphics/Graphics.h"
 #include "graphics/RenderTarget.h"
 #include "graphics/Renderer.h"
+#include "scenegraph/MatrixTransform.h"
 
 #include <algorithm>
 
 using namespace PiGui;
 
 ModelSpinner::ModelSpinner() :
+	m_spinning(true),
 	m_pauseTime(.0f),
-	m_rot(vector2f(DEG2RAD(-15.0), DEG2RAD(180.0)))
+	m_rot(vector2f(DEG2RAD(-15.0), DEG2RAD(120.0))),
+	m_zoom(1.0f),
+	m_zoomTo(1.0f)
 {
 	Color lc(Color::WHITE);
 	m_light.SetDiffuse(lc);
@@ -45,8 +51,10 @@ void ModelSpinner::SetModel(SceneGraph::Model *model, const SceneGraph::ModelSki
 	skin.Apply(m_model.get());
 	m_model->SetPattern(pattern);
 	m_shields.reset(new Shields(model));
+	// m_model->SetDebugFlags(SceneGraph::Model::DEBUG_BBOX);
 }
 
+constexpr float SPINNER_FOV = 45.f;
 void ModelSpinner::Render()
 {
 	PROFILE_SCOPED()
@@ -64,17 +72,12 @@ void ModelSpinner::Render()
 	r->SetClearColor(Color(0, 0, 0, 0));
 	r->ClearScreen();
 
-	const float fov = 45.f;
-	r->SetPerspectiveProjection(fov, m_size.x / m_size.y, 1.f, 10000.f);
+	r->SetPerspectiveProjection(SPINNER_FOV, m_size.x / m_size.y, 1.f, 10000.f);
 	r->SetTransform(matrix4x4f::Identity());
 
 	r->SetLights(1, &m_light);
-
-	matrix4x4f rot = matrix4x4f::RotateXMatrix(m_rot.x);
-	rot.RotateY(m_rot.y);
-	const float dist = m_model->GetDrawClipRadius() / sinf(DEG2RAD(fov * 0.5f));
-	rot[14] = -dist;
-	m_model->Render(rot);
+	AnimationCurves::Approach(m_zoom, m_zoomTo, Pi::GetFrameTime(), 5.0f, 0.4f);
+	m_model->Render(MakeModelViewMat());
 
 	r->SetRenderTarget(nullptr);
 }
@@ -86,6 +89,18 @@ void ModelSpinner::SetSize(vector2d size)
 
 	m_size = new_size;
 	m_needsResize = true;
+}
+
+matrix4x4f ModelSpinner::MakeModelViewMat()
+{
+	const float dist = m_model->GetDrawClipRadius() / sinf(DEG2RAD(SPINNER_FOV * 0.5f));
+
+	matrix4x4f rot = matrix4x4f::Identity();
+	rot.Translate(vector3f(0, 0, -dist * m_zoom));
+	rot.RotateX(m_rot.x);
+	rot.RotateY(m_rot.y);
+
+	return rot;
 }
 
 void ModelSpinner::DrawPiGui()
@@ -101,18 +116,42 @@ void ModelSpinner::DrawPiGui()
 	}
 
 	const ImGuiIO &io = ImGui::GetIO();
-	if (ImGui::IsItemHovered(ImGuiHoveredFlags_None) && ImGui::IsMouseDown(0)) {
+	bool hovered = ImGui::IsItemHovered();
+	if (hovered && ImGui::IsMouseDown(0)) {
 		m_rot.x -= 0.005 * io.MouseDelta.y;
 		m_rot.y -= 0.005 * io.MouseDelta.x;
 		m_pauseTime = 1.0f;
 	} else if (m_pauseTime > 0.0) {
 		m_pauseTime = std::max(0.0f, m_pauseTime - io.DeltaTime);
-	} else {
+	} else if (m_spinning) {
 		m_rot.y += io.DeltaTime;
+	}
+
+	if (hovered && io.MouseWheel != 0) {
+		m_zoomTo = Clamp(m_zoomTo - io.MouseWheel * 0.08, 0.5, 1.0);
 	}
 }
 
-vector2d ModelSpinner::ModelSpaceToScreenSpace(vector3d modelSpaceVec)
+vector3f ModelSpinner::ModelSpaceToScreenSpace(vector3f modelSpaceVec)
 {
-	return { 0.0, 0.0 };
+	matrix4x4f projection = matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f);
+	matrix4x4f modelView = MakeModelViewMat();
+	Graphics::ViewportExtents vp = { 0, 0, int32_t(m_size.x), int32_t(m_size.y) };
+
+	return Graphics::ProjectToScreen(modelView * modelSpaceVec, projection, vp);
+}
+
+vector2d ModelSpinner::GetTagPos(const char *tagName)
+{
+	if (!m_model)
+		return vector2d(0);
+
+	std::string tName = tagName;
+	const SceneGraph::MatrixTransform *mt = m_model->FindTagByName(tName);
+
+	if (!mt)
+		return vector2d(0);
+
+	vector3f screenSpace = ModelSpaceToScreenSpace(mt->GetTransform().GetTranslate());
+	return { screenSpace.x, m_size.y - screenSpace.y };
 }

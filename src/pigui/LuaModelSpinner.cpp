@@ -47,9 +47,10 @@ void LuaObject<PiGui::ModelSpinner>::RegisterClass()
 	s_metaType.StartRecording()
 		.AddCallCtor(&l_model_new)
 		.AddMember("size", &T::GetSize)
+		.AddMember("spinning", &T::GetSpinning, &T::SetSpinning)
 		.AddFunction("setSize", &T::SetSize)
 		.AddFunction("setModel", &l_model_set_model)
-		.AddFunction("modelSpaceToScreenSpace", &T::ModelSpaceToScreenSpace)
+		.AddFunction("getTagPos", &T::GetTagPos)
 		.AddFunction("draw", [](lua_State *l, T *obj) {
 			obj->Render();
 			obj->DrawPiGui();
