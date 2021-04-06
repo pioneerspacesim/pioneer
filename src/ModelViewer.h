@@ -122,6 +122,7 @@ private:
 		float gridInterval;
 		uint32_t lightPreset;
 		bool orthoView;
+		bool metricsWindow;
 
 		Options();
 	};
