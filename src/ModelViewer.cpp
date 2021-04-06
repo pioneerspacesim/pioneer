@@ -45,7 +45,8 @@ ModelViewer::Options::Options() :
 	mouselookEnabled(false),
 	gridInterval(10.f),
 	lightPreset(0),
-	orthoView(false)
+	orthoView(false),
+	metricsWindow(false)
 {
 }
 
@@ -99,6 +100,10 @@ void ModelViewerApp::Startup()
 
 	StartupInput(config.get());
 	StartupPiGui();
+
+	GetPiGui()->SetDebugStyle();
+	// precache the editor font
+	GetPiGui()->GetFont("pionillium", 13);
 
 	NavLights::Init(renderer);
 	Shields::Init(renderer);
@@ -366,7 +371,7 @@ void ModelViewer::DrawBackground()
 
 	if (!m_bgBuffer.Valid()) {
 		const Color top = Color::BLACK;
-		const Color bottom = Color(77, 77, 77);
+		const Color bottom = Color(28, 31, 36);
 		Graphics::VertexArray bgArr(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 6);
 		// triangle 1
 		bgArr.Add(vector3f(0.f, 0.f, 0.f), bottom);
@@ -658,6 +663,10 @@ void ModelViewer::HandleInput()
 	if (m_input->IsKeyPressed(SDLK_p)) {
 		m_options.showLandingPad = !m_options.showLandingPad;
 		AddLog(stringf("Scale/landing pad test %0", m_options.showLandingPad ? "on" : "off"));
+	}
+
+	if (m_input->IsKeyPressed(SDLK_i)) {
+		m_options.metricsWindow = !m_options.metricsWindow;
 	}
 
 	// random colors, eastereggish
@@ -961,7 +970,11 @@ void ModelViewer::DrawModelOptions()
 {
 	float itmWidth = ImGui::CalcItemWidth();
 
+	ImGui::PushFont(m_pigui->GetFont("pionillium", 14));
+	ImGui::AlignTextToFramePadding();
 	ImGui::TextUnformatted(m_modelName.c_str());
+	ImGui::PopFont();
+
 	ImGui::SameLine();
 	if (ImGui::Button("Reload Model"))
 		ReloadModel();
@@ -1099,6 +1112,8 @@ void ModelViewer::DrawPiGui()
 		return;
 	}
 
+	ImGui::PushFont(m_pigui->GetFont("pionillium", 13));
+
 	ImGui::SetNextWindowPos({ 0, 0 });
 	ImGui::SetNextWindowSize({ m_windowSize.x, m_windowSize.y });
 	ImGui::Begin("##background-display", nullptr, fullscreenFlags);
@@ -1134,6 +1149,11 @@ void ModelViewer::DrawPiGui()
 	}
 	ImGui::End();
 	ImGui::PopStyleVar(1);
+
+	if (m_options.metricsWindow)
+		ImGui::ShowDemoWindow();
+
+	ImGui::PopFont();
 }
 
 void ModelViewer::UpdateCamera(float deltaTime)

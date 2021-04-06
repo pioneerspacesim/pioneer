@@ -112,12 +112,58 @@ ImTextureID PiGui::RenderSVG(Graphics::Renderer *renderer, std::string svgFilena
 	return makeTexture(renderer, img, W, H);
 }
 
+// Colors taken with love from the Limit Theory editor
+// http://forums.ltheory.com/viewtopic.php?f=30&t=6459
+void StyleColorsDarkPlus(ImGuiStyle &style)
+{
+	style.FramePadding = ImVec2(6, 5);
+
+	style.WindowRounding = 5.0;
+	style.ChildRounding = 2.0;
+	style.FrameRounding = 2.0;
+	style.GrabRounding = 2.0;
+	style.TabRounding = 2.0;
+
+	style.FrameBorderSize = 1.0;
+	style.TabBorderSize = 1.0;
+
+	style.Colors[ImGuiCol_WindowBg] = ImColor(24, 26, 31);
+	style.Colors[ImGuiCol_ChildBg] = ImColor(20, 22, 26);
+	style.Colors[ImGuiCol_PopupBg] = ImColor(20, 22, 26, 240);
+	style.Colors[ImGuiCol_Border] = ImColor(0, 0, 0);
+
+	style.Colors[ImGuiCol_FrameBg] = ImColor(33, 36, 43);
+	style.Colors[ImGuiCol_FrameBgHovered] = ImColor(45, 50, 59);
+	style.Colors[ImGuiCol_FrameBgActive] = ImColor(56, 126, 210);
+
+	style.Colors[ImGuiCol_TitleBg] = ImColor(20, 23, 26);
+	style.Colors[ImGuiCol_TitleBgActive] = ImColor(27, 31, 35);
+	style.Colors[ImGuiCol_TitleBgCollapsed] = ImColor(15, 17, 19);
+	style.Colors[ImGuiCol_MenuBarBg] = ImColor(20, 23, 26);
+
+	style.Colors[ImGuiCol_ScrollbarBg] = ImColor(19, 20, 24);
+	style.Colors[ImGuiCol_ScrollbarGrab] = ImColor(33, 36, 43);
+	style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImColor(81, 88, 105);
+	style.Colors[ImGuiCol_ScrollbarGrabActive] = ImColor(100, 109, 130);
+
+	style.Colors[ImGuiCol_Button] = ImColor(51, 56, 67);
+	style.Colors[ImGuiCol_Header] = ImColor(51, 56, 67);
+	style.Colors[ImGuiCol_HeaderHovered] = ImColor(56, 126, 210);
+	style.Colors[ImGuiCol_HeaderActive] = ImColor(66, 150, 250);
+
+	style.Colors[ImGuiCol_Tab] = ImColor(20, 23, 26);
+	style.Colors[ImGuiCol_TabActive] = ImColor(60, 133, 224);
+	style.Colors[ImGuiCol_TabHovered] = ImColor(66, 150, 250);
+}
+
 //
 //	PiGui::Instance
 //
 
 Instance::Instance() :
-	m_should_bake_fonts(true)
+	m_should_bake_fonts(true),
+	m_debugStyle(),
+	m_debugStyleActive(false)
 {
 	// TODO: clang-format doesn't like list initializers inside function calls
 	// clang-format off
@@ -158,6 +204,24 @@ Instance::Instance() :
 
 	// ensure the tooltip font exists
 	GetFont("pionillium", 14);
+
+	StyleColorsDarkPlus(m_debugStyle);
+}
+
+void Instance::SetDebugStyle()
+{
+	if (!m_debugStyleActive)
+		std::swap(m_debugStyle, ImGui::GetStyle());
+
+	m_debugStyleActive = true;
+}
+
+void Instance::SetNormalStyle()
+{
+	if (m_debugStyleActive)
+		std::swap(m_debugStyle, ImGui::GetStyle());
+
+	m_debugStyleActive = false;
 }
 
 ImFont *Instance::GetFont(const std::string &name, int size)

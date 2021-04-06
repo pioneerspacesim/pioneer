@@ -97,6 +97,12 @@ namespace PiGui {
 		// Calls ImGui::EndFrame() internally and does book-keeping before rendering.
 		void Render();
 
+		// Sets the ImGui Style object to use the predefined development tooling style
+		void SetDebugStyle();
+
+		// Sets the ImGui Style object to use the game UI style object as modified by Lua
+		void SetNormalStyle();
+
 		ImFont *AddFont(const std::string &name, int size);
 		ImFont *GetFont(const std::string &name, int size);
 
@@ -115,6 +121,9 @@ namespace PiGui {
 		bool m_should_bake_fonts;
 
 		std::map<std::string, PiFont> m_font_definitions;
+
+		ImGuiStyle m_debugStyle;
+		bool m_debugStyleActive;
 
 		void BakeFonts();
 		void BakeFont(PiFont &font);
