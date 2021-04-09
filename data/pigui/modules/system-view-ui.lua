@@ -25,7 +25,6 @@ local edgePadding = nil
 
 local mainButtonSize = ui.rescaleUI(Vector2(32,32), Vector2(1600, 900))
 local mainButtonFramePadding = 3
-local itemSpacing = Vector2(8, 4) -- couldn't get default from ui
 local indicatorSize = Vector2(30 , 30)
 
 local selectedObject -- object, centered in SystemView
@@ -107,6 +106,12 @@ local onGameStart = function ()
 	systemView:SetVisibility(ship_drawing)
 	systemView:SetVisibility(show_lagrange)
 	systemView:SetVisibility(show_grid)
+end
+
+local onEnterSystem = function (ship)
+	if ship == Game.player then
+		Game.systemView:SetVisibility("RESET_VIEW");
+	end
 end
 
 local function textIcon(icon, tooltip)
@@ -219,7 +224,7 @@ function Windows.orbitPlanner.Show()
 	ui.separator()
 	showDvLine(icons.decrease, icons.delta, icons.increase, "factor", function(i) return i, "x" end, luc.DECREASE, lc.PLANNER_RESET_FACTOR, luc.INCREASE)
 	showDvLine(icons.decrease, icons.clock, icons.increase, "starttime",
-	function(i)
+	function(_)
 		local now = Game.time
 		local start = systemView:GetOrbitPlannerStartTime()
 		if start then
@@ -626,6 +631,6 @@ local function displaySystemViewUI()
 end
 
 Event.Register("onGameStart", onGameStart)
-ui.registerModule("game", displaySystemViewUI)
-
+Event.Register("onEnterSystem", onEnterSystem)
+ui.registerHandler("system-view", ui.makeFullScreenHandler("system-view", displaySystemViewUI))
 return {}

@@ -317,6 +317,7 @@ static LuaFlags<ImGuiWindowFlags_> imguiWindowFlagsTable = {
 	{ "NoScrollWithMouse", ImGuiWindowFlags_NoScrollWithMouse },
 	{ "NoCollapse", ImGuiWindowFlags_NoCollapse },
 	{ "AlwaysAutoResize", ImGuiWindowFlags_AlwaysAutoResize },
+	{ "NoBackground", ImGuiWindowFlags_NoBackground },
 	{ "NoSavedSettings", ImGuiWindowFlags_NoSavedSettings },
 	{ "NoInputs", ImGuiWindowFlags_NoInputs },
 	{ "MenuBar", ImGuiWindowFlags_MenuBar },

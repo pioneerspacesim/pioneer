@@ -1030,10 +1030,10 @@ void GameLoop::Update(float deltaTime)
 		// TODO: this mechanism still isn't perfect, but it gets us out of newUI
 		if (Pi::luaConsole->IsActive())
 			Pi::luaConsole->Draw();
-		else
+		else {
+			Pi::GetView()->DrawPiGui();
 			PiGui::RunHandler(deltaTime, "game");
-
-		Pi::GetView()->DrawPiGui();
+		}
 	}
 
 	// Render this even when we're dead.

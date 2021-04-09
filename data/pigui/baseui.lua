@@ -25,7 +25,20 @@ ui.pi_4 = pi_4
 ui.pi = pi
 
 ui.anchor = { left = 1, right = 2, center = 3, top = 4, bottom = 5, baseline = 6 }
+ui.fullScreenWindowFlags = ui.WindowFlags { "NoTitleBar", "NoResize", "NoMove", "NoInputs", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoBackground" }
 
+-- make all the necessary preparations for displaying the full-screen UI, launch the drawing function
+function ui.makeFullScreenHandler(window_name, window_fnc)
+	return function()
+		ui.setNextWindowPos(Vector2(0, 0), "Always")
+		ui.setNextWindowSize(Vector2(ui.screenWidth, ui.screenHeight), "Always")
+		ui.window(window_name, ui.fullScreenWindowFlags, function()
+			if ui.shouldDrawUI() then
+				window_fnc()
+			end
+		end)
+	end
+end
 
 function ui.get_icon_tex_coords(icon)
 	assert(icon, "no icon given")
