@@ -80,8 +80,8 @@ ModelBody::ModelBody(const Json &jsonObj, Space *space) :
 
 	try {
 		m_isStatic = modelBodyObj["is_static"];
-		m_colliding = modelBodyObj["is_colliding"];
 		SetModel(modelBodyObj["model_name"].get<std::string>().c_str());
+		SetColliding(modelBodyObj["is_colliding"]);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
