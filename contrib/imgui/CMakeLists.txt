@@ -5,6 +5,7 @@ add_library(${PROJECT_NAME}
 	imgui.cpp
 	imgui_draw.cpp
 	imgui_demo.cpp
+	imgui_tables.cpp
 	imgui_widgets.cpp
 	examples/imgui_impl_opengl3.cpp
 	examples/imgui_impl_sdl.cpp
