@@ -582,6 +582,9 @@
     <ClCompile Include="..\..\src\TransferPlanner.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\contrib\imgui\imgui_demo.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
