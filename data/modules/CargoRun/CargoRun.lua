@@ -315,7 +315,16 @@ local getRiskMsg = function (mission)
 	end
 end
 
-local onChat = function (form, ref, option)
+local onDelete = function (ref)
+	ads[ref] = nil
+end
+
+local isEnabled = function (ref)
+	return ads[ref] ~= nil and isQualifiedFor(Character.persistent.player.reputation, ads[ref])
+end
+
+local onChat
+onChat = function (form, ref, option)
 	local ad = ads[ref]
 
 	form:Clear()
@@ -334,12 +343,25 @@ local onChat = function (form, ref, option)
 		return
 	end
 
+	-- check if we already have a deal
+	for _, m in pairs(missions) do
+		if ad.client == m.client then
+			form:SetMessage(l["DENY_AGAIN_" .. Engine.rand:Integer(1, getNumberOfFlavours("DENY_AGAIN"))])
+			return
+		end
+	end
+
 	form:AddNavButton(ad.location)
+
+	if ad.negotiated_amount == nil then
+		ad.negotiated_amount = ad.amount
+		ad.negotiated_reward = ad.reward
+	end
 
 	if option == 0 then
 		local introtext  = string.interp(ad.introtext, {
 			name         = ad.client.name,
-			cash         = Format.Money(ad.reward,false),
+			cash         = Format.Money(ad.negotiated_reward,false),
 			cargoname    = ad.cargotype:GetName(),
 			starport     = ad.location:GetSystemBody().name,
 			system       = ad.location:GetStarSystem().name,
@@ -367,31 +389,51 @@ local onChat = function (form, ref, option)
 
 	elseif option == 2 then
 		local howmuch
-		if ad.wholesaler then
-			howmuch = string.interp(l["HOWMUCH_WHOLESALER_" .. Engine.rand:Integer(1, getNumberOfFlavours("HOWMUCH_WHOLESALER"))], {
-				amount    = ad.amount,
-				cargoname = ad.cargotype:GetName()})
-		else
-			if ad.amount > 1 then
+		if ad.amount == 1 then
+			howmuch = string.interp(l["HOWMUCH_SINGULAR_" .. Engine.rand:Integer(1,getNumberOfFlavours("HOWMUCH_SINGULAR"))],
+				{amount = ad.amount})
+		elseif ad.negotiable then
+			if ad.wholesaler then
+				howmuch = string.interp(l["HOWMUCH_WHOLESALER_" .. Engine.rand:Integer(1, getNumberOfFlavours("HOWMUCH_WHOLESALER"))], {
+					amount    = ad.amount,
+					cargoname = ad.cargotype:GetName()})
+			else
 				howmuch = string.interp(l["HOWMUCH_" .. Engine.rand:Integer(1,getNumberOfFlavours("HOWMUCH"))],
 					{amount = ad.amount})
-			else
-				howmuch = string.interp(l["HOWMUCH_SINGULAR_" .. Engine.rand:Integer(1,getNumberOfFlavours("HOWMUCH_SINGULAR"))],
-					{amount = ad.amount})
 			end
+
+			local amount = {}
+			local button = 2
+
+			amount[1] = ad.wholesaler and max_cargo or 1
+			for i = 2, 5 do
+				local val = math.ceil(i^2/25 * ad.amount)
+				if val > amount[button-1] then
+					amount[button] = val
+					button = button + 1
+				end
+			end
+			for i, val in pairs(amount) do
+				form:AddOption(string.interp(l.OFFER, { amount = val, reward = Format.Money(math.ceil(ad.reward * val/ad.amount), false) }), 10+val)
+			end
+		else
+			howmuch = string.interp(l["HOWMUCH_NO_" .. Engine.rand:Integer(1,getNumberOfFlavours("HOWMUCH_NO"))],
+				{amount = ad.amount})
 		end
 		form:SetMessage(howmuch)
+		form:RemoveNavButton()
+		form:AddOption(l.GO_BACK, 0)
 
 	elseif option == 3 then
-		if not ad.pickup and (Game.player.totalCargo - Game.player.usedCargo) < ad.amount or
-			Game.player.totalCargo < ad.amount then
+		if not ad.pickup and (Game.player.totalCargo - Game.player.usedCargo) < ad.negotiated_amount or
+			Game.player.totalCargo < ad.negotiated_amount then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP)
 			form:RemoveNavButton()
 			return
 		end
 		local cargo_picked_up
 		if not ad.pickup then
-			Game.player:AddEquip(ad.cargotype, ad.amount, "cargo")
+			Game.player:AddEquip(ad.cargotype, ad.negotiated_amount, "cargo")
 			cargo_picked_up = true
 		else
 			cargo_picked_up = false
@@ -409,13 +451,37 @@ local onChat = function (form, ref, option)
 			cargo_picked_up	= cargo_picked_up,
 			introtext       = ad.introtext,
 			risk            = ad.risk,
-			reward          = ad.reward,
+			reward          = ad.negotiated_reward,
 			due             = ad.due,
-			amount          = ad.amount,
+			amount          = ad.negotiated_amount,
 			branch          = ad.branch,
 			cargotype       = ad.cargotype,
 		}
 		table.insert(missions,Mission.New(mission))
+
+		if ad.amount ~= ad.negotiated_amount then
+			-- recreate advert with the rest of the cargo
+			ad.amount = ad.amount - ad.negotiated_amount
+			ad.reward = ad.reward - ad.negotiated_reward
+			ad.negotiated_amount = ad.amount
+			ad.negotiated_reward = ad.reward
+
+			ad.desc = string.interp(ad.adtext, {
+				system   = ad.location:GetStarSystem().name,
+				cash     = Format.Money(ad.reward,false),
+				starport = ad.location:GetSystemBody().name,
+			})
+
+			local new = ad.station:AddAdvert({
+				description = ad.desc,
+				icon        = ad.urgency >=  0.8 and "haul_fast" or "haul",
+				onChat      = onChat,
+				onDelete    = onDelete,
+				isEnabled   = isEnabled
+			})
+			ads[new] = ad
+		end
+
 		if ad.pickup then
 			form:SetMessage(l["ACCEPTED_PICKUP_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED_PICKUP"))])
 		else
@@ -429,22 +495,21 @@ local onChat = function (form, ref, option)
 
 	elseif option == 5 then
 		form:SetMessage(getRiskMsg(ad))
+
+	elseif option > 10 then
+		ad.negotiated_amount = option - 10
+		ad.negotiated_reward = math.ceil(ad.reward * ad.negotiated_amount/ad.amount)
+		form:SetMessage(string.interp(l.OK_WE_AGREE, { amount = ad.negotiated_amount, reward = Format.Money(ad.negotiated_reward, false) }))
 	end
 
-	form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
-	form:AddOption(l.HOW_MUCH_MASS, 2)
-	form:AddOption(l.HOW_SOON_MUST_IT_BE_DELIVERED, 4)
-	form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 5)
-	form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
-	form:AddOption(l.OK_AGREED, 3)
-end
-
-local onDelete = function (ref)
-	ads[ref] = nil
-end
-
-local isEnabled = function (ref)
-	return ads[ref] ~= nil and isQualifiedFor(Character.persistent.player.reputation, ads[ref])
+	if option ~= 2 then
+		form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
+		form:AddOption(l.HOW_MUCH_MASS, 2)
+		form:AddOption(l.HOW_SOON_MUST_IT_BE_DELIVERED, 4)
+		form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 5)
+		form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
+		form:AddOption(l.OK_AGREED, 3)
+	end
 end
 
 local findNearbyStations = function (station, minDist, maxDist)
@@ -483,6 +548,7 @@ local makeAdvert = function (station)
 	local client = Character.New()
 	local urgency = Engine.rand:Number(0, 1)
 	local localdelivery = Engine.rand:Number(0, 1) > 0.5 and true or false
+	local negotiable = Engine.rand:Number(0, 1) > 0.25 and true or false
 
 	branch, cargotype = randomCargo()
 	if localdelivery then
@@ -559,6 +625,7 @@ local makeAdvert = function (station)
 		dist          = dist,
 		due           = due,
 		amount        = amount,
+		negotiable    = negotiable,
 		branch        = branch,
 		cargotype     = cargotype,
 		risk          = risk,
@@ -574,6 +641,7 @@ local makeAdvert = function (station)
 	else
 		adtext = l["ADTEXT_" .. Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))]
 	end
+	ad.adtext = adtext -- save for recreation
 	ad.desc = string.interp(adtext, {
 		system   = nearbysystem.name,
 		cash     = Format.Money(ad.reward,false),
