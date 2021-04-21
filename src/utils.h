@@ -98,14 +98,15 @@ inline bool starts_with(const std::string_view s, const std::string_view t)
 {
 	if (s.size() < t.size())
 		return false;
-	return memcmp(s.begin(), t.begin(), t.size()) == 0;
+	return memcmp(s.data(), t.data(), t.size()) == 0;
 }
 
 inline bool ends_with(const std::string_view s, const std::string_view t)
 {
 	if (s.size() < t.size())
 		return false;
-	return memcmp(s.end() - t.size(), t.begin(), t.size()) == 0;
+
+	return memcmp(s.data() + (s.size() - t.size()), t.data(), t.size()) == 0;
 }
 
 inline bool starts_with_ci(const std::string_view s, const std::string_view t)
@@ -125,8 +126,8 @@ inline bool ends_with_ci(const std::string_view s, const std::string_view t)
 	if (s.size() < t.size())
 		return false;
 
-	for (size_t i = t.size(); i > 0; i--)
-		if (tolower(s.end()[-i]) != tolower(t.end()[-i]))
+	for (int64_t i = t.size(); i > 0; i--)
+		if (tolower(s.data()[s.size() - i]) != tolower(t.data()[t.size() - i]))
 			return false;
 
 	return true;
