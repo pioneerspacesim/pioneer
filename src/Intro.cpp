@@ -13,11 +13,20 @@
 #include "scenegraph/SceneGraph.h"
 #include <algorithm>
 
-struct PiRngWrapper {
-	unsigned int operator()(unsigned int n)
+class PiRngWrapper {
+public:
+	PiRngWrapper(size_t maxValue) :
+		maxVal(maxValue) {}
+	typedef unsigned int result_type;
+	static unsigned int min() { return 0; }
+	static unsigned int max() { return std::numeric_limits<uint32_t>::max(); }
+	unsigned int operator()()
 	{
-		return Pi::rng.Int32(n);
+		return Pi::rng.Int32(maxVal);
 	}
+
+private:
+	const int32_t maxVal;
 };
 
 Intro::Intro(Graphics::Renderer *r, int width, int height) :
@@ -61,8 +70,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 		m_models.push_back(model);
 	}
 
-	PiRngWrapper rng;
-	std::random_shuffle(m_models.begin(), m_models.end(), rng);
+	std::shuffle(m_models.begin(), m_models.end(), PiRngWrapper(m_models.size()));
 
 	m_modelIndex = 0;
 
