@@ -221,6 +221,7 @@
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
       <AdditionalOptions>-Zm137 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -237,6 +238,7 @@
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
       <AdditionalOptions>-Zm137 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -252,6 +254,7 @@
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -268,6 +271,7 @@
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -282,6 +286,7 @@
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -299,6 +304,7 @@
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -316,6 +322,7 @@
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -334,6 +341,7 @@
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

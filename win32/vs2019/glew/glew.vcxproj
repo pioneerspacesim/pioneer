@@ -133,6 +133,7 @@
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../../contrib/glew/GL</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;GLEW_NO_GLU;GLEW_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -143,6 +144,7 @@
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../../contrib/glew/GL</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;GLEW_NO_GLU;GLEW_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -153,6 +155,7 @@
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../../contrib/glew/GL</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;GLEW_NO_GLU;GLEW_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -165,6 +168,7 @@
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../../contrib/glew/GL</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;GLEW_NO_GLU;GLEW_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -177,6 +181,7 @@
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../../contrib/glew/GL</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;GLEW_NO_GLU;GLEW_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -189,6 +194,7 @@
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../../contrib/glew/GL</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;GLEW_NO_GLU;GLEW_STATIC;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -205,6 +211,7 @@
       </ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;GLEW_NO_GLU;GLEW_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -222,6 +229,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;GLEW_NO_GLU;GLEW_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

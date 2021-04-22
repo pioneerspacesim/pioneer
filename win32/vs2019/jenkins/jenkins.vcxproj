@@ -131,6 +131,7 @@
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm137 %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -142,6 +143,7 @@
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm137 %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -152,6 +154,7 @@
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -164,6 +167,7 @@
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -176,6 +180,7 @@
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;PIONEER_PROFILER;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -188,6 +193,7 @@
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;PIONEER_PROFILER;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -204,6 +210,7 @@
       </ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -221,6 +228,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
