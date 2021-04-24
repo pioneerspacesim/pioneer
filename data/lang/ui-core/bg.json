@@ -259,6 +259,10 @@
     "description": "",
     "message": "Състав на екипажа"
   },
+  "CRIMINAL": {
+    "description": "Legal status of player",
+    "message": "Престъпник"
+  },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
     "message": "Досие"
@@ -610,6 +614,10 @@
   "FUEL_WEIGHT": {
     "description": "",
     "message": "Тежест на горивото"
+  },
+  "FUGITIVE": {
+    "description": "Legal status of player",
+    "message": "Беглец"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -1479,6 +1487,10 @@
     "description": "",
     "message": "Изключено"
   },
+  "OFFENDER": {
+    "description": "Legal status of player",
+    "message": "Нарушител"
+  },
   "OK": {
     "description": "",
     "message": "Ок"
@@ -1506,6 +1518,10 @@
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Ръкав Лебед"
+  },
+  "OUTLAW": {
+    "description": "Legal status of player",
+    "message": "Разбойник"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",

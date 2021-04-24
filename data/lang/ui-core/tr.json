@@ -259,6 +259,10 @@
     "description": "",
     "message": "Mürettebat Listesi"
   },
+  "CRIMINAL": {
+    "description": "Legal status of player",
+    "message": "Suçlu"
+  },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
     "message": "Suç kaydı"
@@ -610,6 +614,10 @@
   "FUEL_WEIGHT": {
     "description": "",
     "message": "Yakıt ağırlığı"
+  },
+  "FUGITIVE": {
+    "description": "Legal status of player",
+    "message": "Firari"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -1479,6 +1487,10 @@
     "description": "",
     "message": "Kapalı"
   },
+  "OFFENDER": {
+    "description": "Legal status of player",
+    "message": "Sabıkalı"
+  },
   "OK": {
     "description": "",
     "message": "Tamam"
@@ -1506,6 +1518,10 @@
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Dış kol"
+  },
+  "OUTLAW": {
+    "description": "Legal status of player",
+    "message": "Kanun Kaçağı"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",

@@ -259,6 +259,10 @@
     "description": "",
     "message": "船员名册"
   },
+  "CRIMINAL": {
+    "description": "Legal status of player",
+    "message": "Criminal"
+  },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
     "message": "犯罪记录"
@@ -610,6 +614,10 @@
   "FUEL_WEIGHT": {
     "description": "",
     "message": "燃料重量"
+  },
+  "FUGITIVE": {
+    "description": "Legal status of player",
+    "message": "Fugitive"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -1479,6 +1487,10 @@
     "description": "",
     "message": "关闭"
   },
+  "OFFENDER": {
+    "description": "Legal status of player",
+    "message": "Offender"
+  },
   "OK": {
     "description": "",
     "message": "确认"
@@ -1506,6 +1518,10 @@
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "外部臂"
+  },
+  "OUTLAW": {
+    "description": "Legal status of player",
+    "message": "Outlaw"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",

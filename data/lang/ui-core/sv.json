@@ -259,6 +259,10 @@
     "description": "",
     "message": "Besättningslista"
   },
+  "CRIMINAL": {
+    "description": "Legal status of player",
+    "message": "Criminal"
+  },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
     "message": "Kriminalregister"
@@ -610,6 +614,10 @@
   "FUEL_WEIGHT": {
     "description": "",
     "message": "Bränslevikt"
+  },
+  "FUGITIVE": {
+    "description": "Legal status of player",
+    "message": "Fugitive"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -1479,6 +1487,10 @@
     "description": "",
     "message": "Av"
   },
+  "OFFENDER": {
+    "description": "Legal status of player",
+    "message": "Offender"
+  },
   "OK": {
     "description": "",
     "message": "Ok"
@@ -1506,6 +1518,10 @@
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Yttre arm"
+  },
+  "OUTLAW": {
+    "description": "Legal status of player",
+    "message": "Outlaw"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
