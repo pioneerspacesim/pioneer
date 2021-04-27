@@ -261,7 +261,7 @@
   },
   "CRIMINAL": {
     "description": "Legal status of player",
-    "message": "Criminal"
+    "message": "犯人"
   },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
@@ -617,7 +617,7 @@
   },
   "FUGITIVE": {
     "description": "Legal status of player",
-    "message": "Fugitive"
+    "message": "逃犯"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -1489,7 +1489,7 @@
   },
   "OFFENDER": {
     "description": "Legal status of player",
-    "message": "Offender"
+    "message": "罪犯"
   },
   "OK": {
     "description": "",
@@ -1521,7 +1521,7 @@
   },
   "OUTLAW": {
     "description": "Legal status of player",
-    "message": "Outlaw"
+    "message": "逃犯"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
