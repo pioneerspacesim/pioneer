@@ -83,6 +83,14 @@
     "description": "Headline starts with this pre-headline",
     "message": "RİVAYET"
   },
+  "RUMOUR_1_BODYTEXT": {
+    "description": "",
+    "message": "Federal Donanmada hizmet veren birisi anlatıyor... Bir gün, donanma korvetlerinden birisi yanlışlıkla Rondel adında, Sol sisteminden yaklaşık 50 ışık yılı uzaklıktakı bir Haber sistemine sıçrama yapmış ve o gün sıcak çatışmanın eşiğinden dönülmüş. Donanma dışında pek kimse bu olaydan haberdar değil, ama kimileri diyor ki Rondel idaresi o zamandan beridir ziyaretçilere daha agresif davranıyormuş ve taşımacılık pilotları sistemden uzak durmaya başlamışlar."
+  },
+  "RUMOUR_1_HEADLINE": {
+    "description": "",
+    "message": "Rondel Olayı"
+  },
   "TALE_1_BODYTEXT": {
     "description": "",
     "message": "Hades, Epsilon Eridani'nin ışığını kapatırken Yeni Umut'taki güzel tutulmayı kaçırma."
