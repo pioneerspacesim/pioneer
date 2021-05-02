@@ -9,9 +9,9 @@ local Core = {
 	-- CONSTANTS / SETTINGS
 	AU = 149598000000.0, -- meters
 
-	MAX_ROUTE_FLOW = 3, -- flow to the most popular station in the system, ships/hour
-	MAX_BUSY = 0.4, -- maximum station load
-	MAX_SHIPS = 500, -- ~ maximim ships in open space (limitation for performance reasons)
+	MAX_ROUTE_FLOW = 1.8, -- flow to the most popular station in the system, ships/hour
+	MAX_BUSY = 0.3, -- maximum station load
+	MAX_SHIPS = 300, -- ~ maximim ships in open space (limitation for performance reasons)
 	MIN_STATION_DOCKING_TIME = 2, -- hours, minimum average time of the ship's stay at the station
 
 	WAIT_FOR_NEXT_UNDOCK = 600, -- seconds
