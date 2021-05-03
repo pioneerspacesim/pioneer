@@ -44,6 +44,30 @@ void Application::Shutdown()
 	SDL_Quit();
 }
 
+void Application::RequestProfileFrame(const std::string &path)
+{
+	// don't do anything if we're building without profiler.
+#ifdef PIONEER_PROFILER
+	if (!path.empty()) {
+		m_tempProfilePath = FileSystem::JoinPathBelow(m_profilerPath, path);
+		FileSystem::userFiles.MakeDirectory(m_tempProfilePath);
+	}
+
+	m_doTempProfile = true;
+#endif
+}
+
+void Application::SetProfilerPath(const std::string &path)
+{
+#ifdef PIONEER_PROFILER
+	if (path.empty())
+		return;
+
+	m_profilerPath = path;
+	FileSystem::userFiles.MakeDirectory(m_profilerPath);
+#endif
+}
+
 bool Application::StartLifecycle()
 {
 	// can't start a lifecycle if there are no more queued.
@@ -107,11 +131,6 @@ void Application::Run()
 	if (!m_queuedLifecycles.size())
 		throw std::runtime_error("Application::Run must have a queued lifecycle object (did you forget to queue one?)");
 
-#ifdef PIONEER_PROFILER
-	// For good measure, reset the profiler at the start of the first frame
-	Profiler::reset();
-#endif
-
 	// SoftStop updates the elapsed time measured by the clock, and continues to run the clock.
 	m_runtime.SoftStop();
 	m_totalTime = m_runtime.seconds();
@@ -142,20 +161,30 @@ void Application::Run()
 
 		EndFrame();
 
+		const bool profileReset = (m_activeLifecycle && !m_activeLifecycle->m_profilerAccumulate);
+
 		if (m_activeLifecycle->m_endLifecycle || !m_applicationRunning) {
 			EndLifecycle();
 		}
 
-		// TODO: design a better profiling interface, cache results of slow frames so they can be inspected
-		// in pigui, etc.
-		// m_runtime.SoftStop();
-		// thisTime = m_runtime.seconds();
-		// if (thisTime - m_totalTime > 0.100) // profile frames taking longer than 100ms
-		// 	Profiler::dumphtml(FileSystem::JoinPathBelow(FileSystem::GetUserDir(), "profiler");
-
 #ifdef PIONEER_PROFILER
+		// TODO: potential pigui frame profile inspector
+		m_runtime.SoftStop();
+		thisTime = m_runtime.seconds();
+		// profile frames taking longer than 100ms
+		if (m_doTempProfile || (m_doSlowProfile && thisTime - m_totalTime > 0.100)) {
+			const std::string path = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(),
+				m_tempProfilePath.empty() ? m_profilerPath : m_tempProfilePath);
+			m_tempProfilePath.clear();
+			m_doTempProfile = false;
+
+			Profiler::dumphtml(path.c_str());
+			if (m_profileZones)
+				Profiler::dumpzones(path.c_str());
+		}
+
 		// reset the profiler at the end of the frame
-		if (!m_activeLifecycle || !m_activeLifecycle->m_profilerAccumulate)
+		if (profileReset)
 			Profiler::reset();
 #endif
 	}

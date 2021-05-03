@@ -5,11 +5,12 @@
 
 #include <memory>
 #include <queue>
+#include <string>
 
 class Application {
 public:
-	Application(){};
-	virtual ~Application(){};
+	Application() = default;
+	virtual ~Application() = default;
 
 	class Lifecycle {
 	public:
@@ -63,6 +64,8 @@ public:
 
 	double GetTime() { return m_totalTime; }
 
+	void RequestProfileFrame(const std::string &path = "");
+
 protected:
 	// Hooks for inheriting classes to add their own behaviors to.
 
@@ -89,14 +92,23 @@ protected:
 	void RequestQuit() { m_applicationRunning = false; }
 
 	Lifecycle *GetActiveLifecycle() { return m_activeLifecycle.get(); }
+	void SetProfilerPath(const std::string &);
+	void SetProfileSlowFrames(bool enabled) { m_doSlowProfile = enabled; }
+	void SetProfileZones(bool enabled) { m_profileZones = enabled; }
 
 private:
 	bool StartLifecycle();
 	void EndLifecycle();
 
 	bool m_applicationRunning;
+	bool m_doTempProfile;
+	bool m_doSlowProfile;
+	bool m_profileZones;
 	float m_deltaTime;
 	double m_totalTime;
+
+	std::string m_profilerPath;
+	std::string m_tempProfilePath;
 
 	// The lifecycle we're actually running right now
 	std::shared_ptr<Lifecycle> m_activeLifecycle;

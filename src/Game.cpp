@@ -85,9 +85,7 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 
 	EmitPauseState(IsPaused());
 
-#ifdef PIONEER_PROFILER
-	Pi::RequestProfileFrame("NewGame");
-#endif
+	Pi::GetApp()->RequestProfileFrame("NewGame");
 }
 
 Game::~Game()
@@ -177,7 +175,7 @@ Game::Game(const Json &jsonObj) :
 
 	EmitPauseState(IsPaused());
 
-	Pi::RequestProfileFrame("LoadGame");
+	Pi::GetApp()->RequestProfileFrame("LoadGame");
 }
 
 void Game::ToJson(Json &jsonObj)
@@ -948,5 +946,5 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotWriteToFileException();
 	}
 
-	Pi::RequestProfileFrame("SaveGame");
+	Pi::GetApp()->RequestProfileFrame("SaveGame");
 }

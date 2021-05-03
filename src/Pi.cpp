@@ -113,12 +113,6 @@ Random Pi::rng;
 float Pi::frameTime;
 bool Pi::doingMouseGrab;
 bool Pi::showDebugInfo = false;
-#if PIONEER_PROFILER
-std::string Pi::profilerPath;
-std::string Pi::profileOnePath;
-bool Pi::doProfileSlow = false;
-bool Pi::doProfileOne = false;
-#endif
 int Pi::statSceneTris = 0;
 int Pi::statNumPatches = 0;
 GameConfig *Pi::config;
@@ -249,6 +243,7 @@ protected:
 // object devoted to whatever headless work we intend to do
 void Pi::Init(const std::map<std::string, std::string> &options, bool no_gui)
 {
+	PROFILE_SCOPED();
 	Pi::config = new GameConfig(options);
 	m_instance = new Pi::App();
 
@@ -264,21 +259,9 @@ void Pi::App::SetStartPath(const SystemPath &startPath)
 	static_cast<MainMenu *>(m_mainMenu.get())->SetStartPath(startPath);
 }
 
-void Pi::RequestProfileFrame(const std::string &profilePath)
-{
-// don't do anything if we're building without profiler.
-#ifdef PIONEER_PROFILER
-	if (!profilePath.empty()) {
-		profileOnePath = FileSystem::JoinPathBelow(Pi::profilerPath, profilePath);
-		FileSystem::userFiles.MakeDirectory(FileSystem::JoinPathBelow("profiler/", profilePath));
-	}
-
-	doProfileOne = true;
-#endif
-}
-
 void TestGPUJobsSupport()
 {
+	PROFILE_SCOPED()
 	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
 	if (supportsGPUJobs) {
 		Uint32 octaves = 8;
@@ -326,12 +309,10 @@ void Pi::App::Startup()
 	startupTimer.Start();
 
 	Application::Startup();
-#if PIONEER_PROFILER
-	Pi::profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
-	for (std::string target : { "", "SaveGame/", "NewGame/" }) {
-		FileSystem::userFiles.MakeDirectory("profiler/" + target);
-	}
-#endif
+
+	SetProfilerPath("profiler/");
+	SetProfileSlowFrames(config->Int("ProfileSlowFrames", 0));
+	SetProfileZones(config->Int("ProfilerZoneOutput", 0));
 
 	Log::GetLog()->SetLogFile("output.txt");
 
@@ -620,7 +601,7 @@ void LoadStep::Update(float deltaTime)
 		m_loadTimer.Stop();
 		Output("\n\nPioneer loading took %.2fms\n", m_loadTimer.milliseconds());
 
-		Pi::RequestProfileFrame();
+		Pi::GetApp()->RequestProfileFrame();
 	}
 }
 
@@ -736,11 +717,7 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 #ifdef PIONEER_PROFILER
 	case SDLK_p: // alert it that we want to profile
 		if (input->KeyState(SDLK_LSHIFT) || input->KeyState(SDLK_RSHIFT))
-			Pi::doProfileOne = true;
-		else {
-			Pi::doProfileSlow = !Pi::doProfileSlow;
-			Output("slow frame profiling %s\n", Pi::doProfileSlow ? "enabled" : "disabled");
-		}
+			Pi::GetApp()->RequestProfileFrame();
 		break;
 #endif
 
@@ -852,19 +829,6 @@ void Pi::App::PostUpdate()
 	GuiApplication::PostUpdate();
 
 	HandleRequests();
-
-#ifdef PIONEER_PROFILER
-	// TODO: profileSlow is profiling the previous frame, need to move that functionality to Application
-	if (Pi::doProfileOne || (Pi::doProfileSlow && (GetFrameTime() > 0.1))) { // slow: < ~10fps
-		Pi::doProfileOne = false;
-		if (!Pi::profileOnePath.empty()) {
-			Profiler::dumphtml(Pi::profileOnePath.c_str());
-			Pi::profileOnePath.clear();
-		} else {
-			Profiler::dumphtml(Pi::profilerPath.c_str());
-		}
-	}
-#endif
 }
 
 void Pi::App::RunJobs()
