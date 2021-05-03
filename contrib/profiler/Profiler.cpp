@@ -366,6 +366,8 @@ namespace Profiler {
 			return NULL;
 		}
 
+		u32 Size() const { return mNumChildren; }
+
 		void Create( const char *name, Value *value ) {
 			EnsureCapacity( ++mNumChildren );
 			FindEmptyChildSlot( mBuckets, mBucketCount, name ) = value;
@@ -385,6 +387,7 @@ namespace Profiler {
 		}
 
 		void Reset() {
+			mNumChildren = 0;
 			for ( u32 i = 0; i < mBucketCount; ++i )
 				if ( mBuckets[ i ] )
 					delete mBuckets[ i ];
@@ -1018,18 +1021,20 @@ namespace Profiler {
 
 		struct SharedPrinter {
 			SharedPrinter(HashTable<Entry> *_table, FILE *_f, Caller *c) :
-				frameTable(_table), f(_f), index(0) { this->operator()(c); }
+				frameTable(_table), f(_f) { this->operator()(c); }
 			void operator()(Caller *c) {
-				fprintf( f, ",{\"name\":\"%s\",\"index\":%d}", c->GetName(), ++index );
-				if (!frameTable->Find(c->GetName()))
+
+				if (!frameTable->Find(c->GetName())) {
+					u32 index = frameTable->Size() + 1;
+					fprintf( f, ",{\"name\":\"%s\",\"index\":%d}", c->GetName(), index );
 					frameTable->Create(c->GetName(), new Entry { c->GetName(), index });
+				}
 				c->ForEachByRef(*this);
 			}
 
 		protected:
 			HashTable<Entry> *frameTable;
 			FILE *f;
-			u32 index;
 		};
 
 		void Init(const char *dir) {
