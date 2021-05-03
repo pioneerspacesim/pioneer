@@ -306,7 +306,9 @@ AsyncJobQueue::JobRunner::~JobRunner()
 int AsyncJobQueue::JobRunner::Trampoline(void *data)
 {
 	JobRunner *jr = static_cast<JobRunner *>(data);
+	PROFILE_THREAD_START_DESC(jr->m_threadName.c_str())
 	jr->Main();
+	PROFILE_THREAD_STOP()
 	return 0;
 }
 
