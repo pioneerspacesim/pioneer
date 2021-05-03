@@ -4,11 +4,11 @@
 #include "galaxy/GalaxyCache.h"
 
 #include "Game.h"
+#include "Pi.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
-#include "Pi.h"
 #include "utils.h"
 #include <utility>
 
@@ -40,8 +40,6 @@ void GalaxyObjectCache<T, CompareT>::AddToCache(std::vector<RefCountedPtr<T>> &o
 template <typename T, typename CompareT>
 RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::GetIfCached(const SystemPath &path)
 {
-	PROFILE_SCOPED()
-
 	RefCountedPtr<T> s;
 	typename AtticMap::iterator i = m_attic.find(path);
 	if (i != m_attic.end()) {

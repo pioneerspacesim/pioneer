@@ -41,6 +41,7 @@ namespace Graphics {
 
 	static bool CreateWindowAndContext(const char *name, const Graphics::Settings &vs, SDL_Window *&window, SDL_GLContext &context)
 	{
+		PROFILE_SCOPED()
 		Uint32 winFlags = 0;
 
 		winFlags |= SDL_WINDOW_OPENGL;
@@ -95,6 +96,7 @@ namespace Graphics {
 
 	static Renderer *CreateRenderer(const Settings &vs)
 	{
+		PROFILE_SCOPED()
 		assert(vs.rendererType == Graphics::RendererType::RENDERER_OPENGL_3x);
 
 		const std::string name("Pioneer");
@@ -149,6 +151,7 @@ namespace Graphics {
 		m_activeRenderState(nullptr),
 		m_glContext(glContext)
 	{
+		PROFILE_SCOPED()
 		glewExperimental = true;
 		GLenum glew_err;
 		if ((glew_err = glewInit()) != GLEW_OK)
@@ -635,7 +638,6 @@ namespace Graphics {
 
 	bool RendererOGL::SetTransform(const matrix4x4f &m)
 	{
-		PROFILE_SCOPED()
 		m_modelViewMat = m;
 		return true;
 	}
@@ -667,7 +669,6 @@ namespace Graphics {
 
 	bool RendererOGL::SetProjection(const matrix4x4f &m)
 	{
-		PROFILE_SCOPED()
 		m_projectionMat = m;
 		return true;
 	}
@@ -1120,7 +1121,6 @@ namespace Graphics {
 
 	RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
 	{
-		PROFILE_SCOPED()
 		const uint32_t hash = HashRenderStateDesc(desc);
 		auto it = m_renderStates.find(hash);
 		if (it != m_renderStates.end()) {

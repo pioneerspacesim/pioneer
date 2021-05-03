@@ -112,7 +112,6 @@ namespace SceneGraph {
 
 	void Group::Render(const matrix4x4f &trans, const RenderData *rd)
 	{
-		PROFILE_SCOPED()
 		RenderChildren(trans, rd);
 	}
 
@@ -127,7 +126,6 @@ namespace SceneGraph {
 
 	void Group::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	{
-		PROFILE_SCOPED()
 		RenderChildren(trans, rd);
 	}
 

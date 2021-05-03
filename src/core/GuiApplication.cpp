@@ -158,11 +158,14 @@ void GuiApplication::HandleEvents()
 Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden)
 {
 	PROFILE_SCOPED()
+
 	// Initialize SDL
+	PROFILE_START_DESC("SDL_Init")
 	Uint32 sdlInitFlags = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK;
 	if (SDL_Init(sdlInitFlags) < 0) {
 		Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
+	PROFILE_STOP()
 
 	OutputVersioningInfo();
 
@@ -194,6 +197,7 @@ Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidd
 
 void GuiApplication::ShutdownRenderer()
 {
+	PROFILE_SCOPED()
 	m_renderTarget.reset();
 	m_renderState.reset();
 	m_renderer.reset();
@@ -203,6 +207,7 @@ void GuiApplication::ShutdownRenderer()
 
 Input::Manager *GuiApplication::StartupInput(IniConfig *config)
 {
+	PROFILE_SCOPED()
 	m_input.reset(new Input::Manager(config));
 
 	return m_input.get();
@@ -210,11 +215,13 @@ Input::Manager *GuiApplication::StartupInput(IniConfig *config)
 
 void GuiApplication::ShutdownInput()
 {
+	PROFILE_SCOPED()
 	m_input.reset();
 }
 
 PiGui::Instance *GuiApplication::StartupPiGui()
 {
+	PROFILE_SCOPED()
 	m_pigui.Reset(new PiGui::Instance());
 	m_pigui->Init(GetRenderer());
 	return m_pigui.Get();
@@ -222,6 +229,7 @@ PiGui::Instance *GuiApplication::StartupPiGui()
 
 void GuiApplication::ShutdownPiGui()
 {
+	PROFILE_SCOPED()
 	m_pigui->Uninit();
 	m_pigui.Reset();
 }

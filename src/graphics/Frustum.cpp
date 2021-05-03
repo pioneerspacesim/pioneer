@@ -85,7 +85,6 @@ namespace Graphics {
 
 	bool Frustum::TestPointInfinite(const vector3d &p, double radius) const
 	{
-		PROFILE_SCOPED()
 		// check all planes except far plane
 		for (int i = 0; i < 5; i++)
 			if (m_planes[i].DistanceToPoint(p) + radius < 0)

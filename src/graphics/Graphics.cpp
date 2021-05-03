@@ -98,6 +98,7 @@ namespace Graphics {
 
 	Renderer *Init(Settings vs)
 	{
+		PROFILE_SCOPED()
 		assert(!initted);
 		if (initted) return 0;
 

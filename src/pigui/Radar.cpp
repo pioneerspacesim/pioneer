@@ -10,7 +10,6 @@ static constexpr int RADAR_STEPS = 100;
 
 ImVec2 circlePos(float a, ImVec2 center, ImVec2 radius, float scale = 1.0f)
 {
-	PROFILE_SCOPED()
 	return ImVec2(center.x + sin(a) * scale * radius.x, center.y + cos(a) * scale * radius.y);
 }
 

@@ -98,7 +98,6 @@ void Geom::Collide(Geom *b, void (*callback)(CollisionContact *)) const
 
 static bool rotatedAabbIsectsNormalOne(Aabb &a, const matrix4x4d &transA, Aabb &b)
 {
-	PROFILE_SCOPED()
 	Aabb arot;
 	vector3d p[8];
 	p[0] = transA * vector3d(a.min.x, a.min.y, a.min.z);

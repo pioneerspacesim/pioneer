@@ -112,6 +112,7 @@ static void loadAxisConfig(const std::string &str, Input::JoystickInfo::Axis &ou
 
 void Input::InitJoysticks(IniConfig *config)
 {
+	PROFILE_SCOPED()
 	SDL_Init(SDL_INIT_JOYSTICK);
 
 	int joy_count = SDL_NumJoysticks();
