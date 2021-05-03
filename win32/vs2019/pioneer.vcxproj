@@ -553,6 +553,7 @@
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\ship\CameraController.cpp" />
     <ClCompile Include="..\..\src\ship\PlayerShipController.cpp" />
+    <ClCompile Include="..\..\src\ship\PrecalcPath.cpp" />
     <ClCompile Include="..\..\src\ship\Propulsion.cpp" />
     <ClCompile Include="..\..\src\ship\ShipController.cpp" />
     <ClCompile Include="..\..\src\ship\ShipViewController.cpp" />
@@ -735,6 +736,7 @@
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\ship\CameraController.h" />
     <ClInclude Include="..\..\src\ship\PlayerShipController.h" />
+    <ClInclude Include="..\..\src\ship\PrecalcPath.h" />
     <ClInclude Include="..\..\src\ship\Propulsion.h" />
     <ClInclude Include="..\..\src\ship\ShipController.h" />
     <ClInclude Include="..\..\src\ship\ShipViewController.h" />
