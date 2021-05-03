@@ -164,6 +164,7 @@ struct ModelNameComparator {
 //static
 void CityOnPlanet::SetCityModelPatterns(const SystemPath &path)
 {
+	PROFILE_SCOPED()
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
 

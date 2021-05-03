@@ -27,6 +27,7 @@ TerrainBody::~TerrainBody()
 
 void TerrainBody::InitTerrainBody()
 {
+	PROFILE_SCOPED()
 	assert(m_sbody);
 	m_mass = m_sbody->GetMass();
 	if (!m_baseSphere) {

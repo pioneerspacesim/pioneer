@@ -219,6 +219,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 	m_processingFinalizationQueue(false)
 #endif
 {
+	PROFILE_SCOPED()
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
 	m_background.reset(new Background::Container(Pi::renderer, rand, this, m_game->GetGalaxy()));
@@ -245,6 +246,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 	m_processingFinalizationQueue(false)
 #endif
 {
+	PROFILE_SCOPED()
 	Json spaceObj = jsonObj["space"];
 
 	m_starSystem = StarSystem::FromJson(galaxy, spaceObj);
@@ -315,6 +317,7 @@ Space::~Space()
 
 void Space::RefreshBackground()
 {
+	PROFILE_SCOPED()
 	const SystemPath &path = m_starSystem->GetPath();
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
@@ -689,6 +692,7 @@ void Space::UpdateStarSystemCache(const SystemPath *here)
 
 static FrameId MakeFramesFor(const double at_time, SystemBody *sbody, Body *b, FrameId fId, std::vector<vector3d> &prevPositions)
 {
+	PROFILE_SCOPED()
 	if (!sbody->GetParent()) {
 		if (b) b->SetFrame(fId);
 		Frame *f = Frame::GetFrame(fId);
@@ -796,6 +800,7 @@ static FrameId MakeFramesFor(const double at_time, SystemBody *sbody, Body *b, F
 
 void Space::GenBody(const double at_time, SystemBody *sbody, FrameId fId, std::vector<vector3d> &posAccum)
 {
+	PROFILE_START()
 	Body *b = nullptr;
 
 	if (sbody->GetType() != SystemBody::TYPE_GRAVPOINT) {
@@ -818,6 +823,7 @@ void Space::GenBody(const double at_time, SystemBody *sbody, FrameId fId, std::v
 	}
 	fId = MakeFramesFor(at_time, sbody, b, fId, posAccum);
 
+	PROFILE_STOP()
 	for (SystemBody *kid : sbody->GetChildren()) {
 		GenBody(at_time, kid, fId, posAccum);
 	}

@@ -279,7 +279,7 @@ AsyncJobQueue::JobRunner::JobRunner(AsyncJobQueue *jq, const uint8_t idx) :
 	m_threadIdx(idx),
 	m_queueDestroyed(false)
 {
-	m_threadName = stringf("Thread %0{d}", m_threadIdx);
+	m_threadName = stringf("Thread %0", m_threadIdx);
 	m_jobLock = SDL_CreateMutex();
 	m_queueDestroyingLock = SDL_CreateMutex();
 	m_threadId = SDL_CreateThread(&JobRunner::Trampoline, m_threadName.c_str(), this);
