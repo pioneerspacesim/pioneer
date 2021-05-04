@@ -101,6 +101,11 @@ file_filter = data/lang/module-policepatrol/<lang>.json
 source_file = data/lang/module-policepatrol/en.json
 source_lang = en
 
+[pioneer.module-rondel]
+file_filter = data/lang/module-rondel/<lang>.json
+source_file = data/lang/module-rondel/en.json
+source_lang = en
+
 [pioneer.module-scoop]
 file_filter = data/lang/module-scoop/<lang>.json
 source_file = data/lang/module-scoop/en.json
