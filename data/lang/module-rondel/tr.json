@@ -1,0 +1,66 @@
+{
+  "CREDITS_PROMISE": {
+    "description": "",
+    "message": "250 000 nakit. Anında. Açıkçası bu benim ilgimi çekerdi."
+  },
+  "DEFENSE_CRAFT_ELIMINATED": {
+    "description": "",
+    "message": "Sistem savunma aracı yok edildi. Olay kayıt altına alındı."
+  },
+  "HABER_DEFENSE_CRAFT": {
+    "description": "",
+    "message": "Haber Savunma Aracı"
+  },
+  "HEY_OVER_HERE": {
+    "description": "",
+    "message": "Hey, buraya bak."
+  },
+  "HOSTILE_ACTION_REPORTED": {
+    "description": "",
+    "message": "Muhalif eylemler rapor edildi. Yakala ve yok et!"
+  },
+  "INTERCEPTION_SUCCESSFUL": {
+    "description": "",
+    "message": "Engelleme başarılı. Düşman araç yok edildi."
+  },
+  "JETTISON_DEFENSIVE_PRECAUTION": {
+    "description": "",
+    "message": "Yük boşaltma algılandı. Savunma önlemi alın!"
+  },
+  "NOT_INTERESTED": {
+    "description": "",
+    "message": "Ya bu benim ilgimi çekmiyorsa?"
+  },
+  "PERFECT": {
+    "description": "",
+    "message": "Harika. Eğer birisi sorarsa... Eminim ki kimse sormayacaktır, ama olur da sorarlarsa, lütfen aklınızda bulunsun ki biz sadece ikinci el bir kalkan jeneratörü için pazarlık yapıyorduk."
+  },
+  "RONDEL_RESTRICTED_ZONE": {
+    "description": "",
+    "message": "{playerShipLabel}, bu yıldız sistemi yasak bölgedir. {seconds} saniye içerisinde sistemi terk etmelisiniz. Bu uyarıyı dikkate almadığınız takdirde düşman sayılacaksınız ve savunma önlemleri uygulamaya geçecek."
+  },
+  "SOLFED_INTEL": {
+    "description": "",
+    "message": "Güneş Federasyonu İstihbaratı"
+  },
+  "SOLFED_INTEL_INTRO": {
+    "description": "",
+    "message": "Sesini alçak tut, pilot. Ben Güneş Federasyonu için çalışan gizli bir ajanım. Bilgisayarınızın hafızasında ilgimizi çeken birtakım veriler mevcut."
+  },
+  "WEAPONS_EVASIVE_ACTION": {
+    "description": "",
+    "message": "Silah atışı algılandı. Kaçış manevrası uygulayın!"
+  },
+  "WHAT_IS_THIS_ABOUT": {
+    "description": "",
+    "message": "Ne verisi? Ne oluyor burada?"
+  },
+  "YOU_SHALL_HAVE_THE_DATA": {
+    "description": "",
+    "message": "Veriyi alabilirsiniz."
+  },
+  "YOU_VISITED_STAR_SYSTEM": {
+    "description": "",
+    "message": "Hakkında bilgi edinmek istediğimiz bir yıldız sistemini ziyaret etmiş olma ihtimaliniz var."
+  }
+}

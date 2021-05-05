@@ -1,0 +1,66 @@
+{
+  "CREDITS_PROMISE": {
+    "description": "",
+    "message": "250 000 en cash. Maintenant. Je trouverais ça intéressant."
+  },
+  "DEFENSE_CRAFT_ELIMINATED": {
+    "description": "",
+    "message": "Vaisseau de défense du système éliminé. L'incident a été enregistré."
+  },
+  "HABER_DEFENSE_CRAFT": {
+    "description": "",
+    "message": "Vaisseau de défense Haber"
+  },
+  "HEY_OVER_HERE": {
+    "description": "",
+    "message": "Hé, par ici."
+  },
+  "HOSTILE_ACTION_REPORTED": {
+    "description": "",
+    "message": "Action hostile signalée. Interceptez le coupable et détruisez-le!"
+  },
+  "INTERCEPTION_SUCCESSFUL": {
+    "description": "",
+    "message": "Réussite de l'interception. Vaisseau hostile détruit."
+  },
+  "JETTISON_DEFENSIVE_PRECAUTION": {
+    "description": "",
+    "message": "Largage détecté. Appliquez les précautions de défense."
+  },
+  "NOT_INTERESTED": {
+    "description": "",
+    "message": "Et si je ne suis pas intéressé ?"
+  },
+  "PERFECT": {
+    "description": "",
+    "message": "Parfait. Si quelqu'un le demande... Normalement personne ne va le demander, mais si quelqu'un le demande, souvenez-vous s'il vous plait que nous venons à l'instant de marchander un générateur de bouclier portable d'occasion."
+  },
+  "RONDEL_RESTRICTED_ZONE": {
+    "description": "",
+    "message": "{playerShipLabel}, ce système stellaire est une zone restreinte. Vous devez en être sorti d'ici {seconds} secondes. Si vous ne coopérez pas, vous serez considéré comme hostile et des mesures de défense seront utilisées."
+  },
+  "SOLFED_INTEL": {
+    "description": "",
+    "message": "Renseignements de la fédération Solaire."
+  },
+  "SOLFED_INTEL_INTRO": {
+    "description": "",
+    "message": "Baissez d'un ton, pilote! Je suis un agent infiltré travaillant pour les renseignements de la fédération Solaire. La mémoire de votre vaisseau contient des données qui nous intéressent."
+  },
+  "WEAPONS_EVASIVE_ACTION": {
+    "description": "",
+    "message": "Utilisation d'armes détectée. Manœuvres d'évitement !"
+  },
+  "WHAT_IS_THIS_ABOUT": {
+    "description": "",
+    "message": "Quelles données ? Qu'est ce que cela signifie ?"
+  },
+  "YOU_SHALL_HAVE_THE_DATA": {
+    "description": "",
+    "message": "Vous devrez avoir les données."
+  },
+  "YOU_VISITED_STAR_SYSTEM": {
+    "description": "",
+    "message": "Vous pourriez ou non avoir visité des systèmes stellaires que nous aimerions mieux connaitre."
+  }
+}

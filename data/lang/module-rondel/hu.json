@@ -1,0 +1,66 @@
+{
+  "CREDITS_PROMISE": {
+    "description": "",
+    "message": "250,000 készpénzben. Ezt azért csábítónak gondolnám."
+  },
+  "DEFENSE_CRAFT_ELIMINATED": {
+    "description": "",
+    "message": "Védelmi hajó kilőve. Az incidenst rögzítettük."
+  },
+  "HABER_DEFENSE_CRAFT": {
+    "description": "",
+    "message": "Haber Védelmi Hajó"
+  },
+  "HEY_OVER_HERE": {
+    "description": "",
+    "message": "Hé, maga ott!"
+  },
+  "HOSTILE_ACTION_REPORTED": {
+    "description": "",
+    "message": "Ellenséges tevékenység jelentve. Elfogó műveletet megkezdjük!"
+  },
+  "INTERCEPTION_SUCCESSFUL": {
+    "description": "",
+    "message": "Elfogó művelet sikeres. Ellenséges jármű megsemmisítve."
+  },
+  "JETTISON_DEFENSIVE_PRECAUTION": {
+    "description": "",
+    "message": "Rakomány kidobást érzékelünk. Kezeljék elővigyázattal!"
+  },
+  "NOT_INTERESTED": {
+    "description": "",
+    "message": "Mi van, ha nem érdekel a dolog?"
+  },
+  "PERFECT": {
+    "description": "",
+    "message": "Tökéletes. Ha bárki kérdezi... Senki sem fogja, de ha mégis, kérem ne feledje, hogy csak egy pajzsgenerátoron alkudoztunk."
+  },
+  "RONDEL_RESTRICTED_ZONE": {
+    "description": "",
+    "message": "{playerShipLabel}, ez a rendszer lezárt terület. Hagyja el a területet {seconds} másodpercen belül. Ha nem távozik, azt ellenséges lépésnek tekintjük, és védelmi intézkedéseket foganatosítunk."
+  },
+  "SOLFED_INTEL": {
+    "description": "",
+    "message": "Solar Föderáció Hírszerzés"
+  },
+  "SOLFED_INTEL_INTRO": {
+    "description": "",
+    "message": "Halkan, pilóta! Fedett ügynök vagyok, a Solar Föderáció Hírszerzésének dolgozom. A hajója számítógépe memórájának tartalma felkeltette érdeklődésünket. "
+  },
+  "WEAPONS_EVASIVE_ACTION": {
+    "description": "",
+    "message": "Lövéseket érzékeltünk. Kitérő manőver!"
+  },
+  "WHAT_IS_THIS_ABOUT": {
+    "description": "",
+    "message": "Milyen adatok? Miről van szó?"
+  },
+  "YOU_SHALL_HAVE_THE_DATA": {
+    "description": "",
+    "message": "Átadom az adatokat."
+  },
+  "YOU_VISITED_STAR_SYSTEM": {
+    "description": "",
+    "message": "Elképzelhető, hogy meglátogatott egy rendszert, amiről többet szeretnénk megtudni."
+  }
+}

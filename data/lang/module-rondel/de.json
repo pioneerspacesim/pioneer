@@ -1,0 +1,66 @@
+{
+  "CREDITS_PROMISE": {
+    "description": "",
+    "message": "250.000 bar auf die Hand. Jetzt sofort. Interesse?"
+  },
+  "DEFENSE_CRAFT_ELIMINATED": {
+    "description": "",
+    "message": "Verteidigungsschiff eleminiert. Der Vorfall wurde aufgezeichnet."
+  },
+  "HABER_DEFENSE_CRAFT": {
+    "description": "",
+    "message": "Haber Verteidigungsschiff"
+  },
+  "HEY_OVER_HERE": {
+    "description": "",
+    "message": "Hey! Hier drüben!"
+  },
+  "HOSTILE_ACTION_REPORTED": {
+    "description": "",
+    "message": "Feindliche Handlungen wurden gemeldet. Abfangen und zerstören!"
+  },
+  "INTERCEPTION_SUCCESSFUL": {
+    "description": "",
+    "message": "Abfangen erfolgreich. Feindliches Raumschiff zerstört."
+  },
+  "JETTISON_DEFENSIVE_PRECAUTION": {
+    "description": "",
+    "message": "Unsere Sensoren zeigen einen Frachtabwurf. Defensive Vorkehrungen einleiten!"
+  },
+  "NOT_INTERESTED": {
+    "description": "",
+    "message": "Und wenn ich kein Interesse habe?"
+  },
+  "PERFECT": {
+    "description": "",
+    "message": "Wunderbar. Wenn jemand fragt… Keiner wird fragen, aber falls doch, dann haben wir bloß intensiv um einen gebrauchten Schildgenerator gefeilscht. Verstanden?"
+  },
+  "RONDEL_RESTRICTED_ZONE": {
+    "description": "",
+    "message": "{playerShipLabel}, dieses Sternensystem ist eine Sperrzone. Verlassen Sie das System innerhalb von {seconds} Sekunden. Wenn sie dieses Ultimatum verstreichen lassen, werden wir Sie als feindlich erachten und defensive Maßnahmen ergreifen."
+  },
+  "SOLFED_INTEL": {
+    "description": "",
+    "message": "Geheimdienst der Solar Federation"
+  },
+  "SOLFED_INTEL_INTRO": {
+    "description": "",
+    "message": "Nicht so laut, Pilot. Ich bin undercover für den Geheimdienst der Solar Federation unterwegs. Ihr der Speicher Ihres Schiffscomputer enthält einige Daten, die mich interessieren würden."
+  },
+  "WEAPONS_EVASIVE_ACTION": {
+    "description": "",
+    "message": "Waffenfeuer detektiert. Ausweichmanöver einleiten!"
+  },
+  "WHAT_IS_THIS_ABOUT": {
+    "description": "",
+    "message": "Welche Daten? Worum geht es hier?"
+  },
+  "YOU_SHALL_HAVE_THE_DATA": {
+    "description": "",
+    "message": "Sie können die Daten haben."
+  },
+  "YOU_VISITED_STAR_SYSTEM": {
+    "description": "",
+    "message": "Möglicherweise haben Sie ein System besucht, über das wir gerne mehr wissen würden."
+  }
+}

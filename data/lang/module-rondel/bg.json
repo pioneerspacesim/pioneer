@@ -1,0 +1,66 @@
+{
+  "CREDITS_PROMISE": {
+    "description": "",
+    "message": "250 000 в брой. Мисля, че ще ти хареса."
+  },
+  "DEFENSE_CRAFT_ELIMINATED": {
+    "description": "",
+    "message": "Унищожен е отбранителен кораб. Действието е записано в компютърната памет."
+  },
+  "HABER_DEFENSE_CRAFT": {
+    "description": "",
+    "message": "Хаберски отбранителен кораб"
+  },
+  "HEY_OVER_HERE": {
+    "description": "",
+    "message": "Ей, насам."
+  },
+  "HOSTILE_ACTION_REPORTED": {
+    "description": "",
+    "message": "Засечено е враждебно действие. Унищожете нарушителя!"
+  },
+  "INTERCEPTION_SUCCESSFUL": {
+    "description": "",
+    "message": "Мисията е успешна. Нарушителят е обезвреден."
+  },
+  "JETTISON_DEFENSIVE_PRECAUTION": {
+    "description": "",
+    "message": "Засечено е изхвърляне на товар. Намерете нарушителя!"
+  },
+  "NOT_INTERESTED": {
+    "description": "",
+    "message": "Ами ако не се интересувам?"
+  },
+  "PERFECT": {
+    "description": "",
+    "message": "Перфектно. Ако някой пита... Със сигурност никой няма да пита, но все пак, ако стане въпрос – пазарихме се за един употребяван генератор на щитовете."
+  },
+  "RONDEL_RESTRICTED_ZONE": {
+    "description": "",
+    "message": "{playerShipLabel}, тази звездна система е забранена зона. Трябва да напуснете в следващите {seconds} секунди. Ако не го направите, ще предприемем нужните мерки."
+  },
+  "SOLFED_INTEL": {
+    "description": "",
+    "message": "Военно разузнаване на Слънчевата Федерация"
+  },
+  "SOLFED_INTEL_INTRO": {
+    "description": "",
+    "message": "Сега аз ще говоря, а ти ще слушаш. Работя под прикритие за Военното разузнаване на Слънчевата Федерация. Компютърната памет на кораба ти съдържа данни, които представляват интерес за нас."
+  },
+  "WEAPONS_EVASIVE_ACTION": {
+    "description": "",
+    "message": "Засечено е използване на оръжие. Прихванете нарушителя!"
+  },
+  "WHAT_IS_THIS_ABOUT": {
+    "description": "",
+    "message": "Какви данни? За какво става въпрос?"
+  },
+  "YOU_SHALL_HAVE_THE_DATA": {
+    "description": "",
+    "message": "Ще имате достъп до данните."
+  },
+  "YOU_VISITED_STAR_SYSTEM": {
+    "description": "",
+    "message": "Може да имаш информация за една определена звездна система, която представлява интерес за нас."
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "CREDITS_PROMISE": {
+    "description": "",
+    "message": "250.000 in contanti. Subito. Fossi in lei lo riterrei interessante."
+  },
+  "DEFENSE_CRAFT_ELIMINATED": {
+    "description": "",
+    "message": "Vascello della difesa del Sistema eliminato. L'incidente è stato registrato."
+  },
+  "HABER_DEFENSE_CRAFT": {
+    "description": "",
+    "message": "Vascello da difesa Haber"
+  },
+  "HEY_OVER_HERE": {
+    "description": "",
+    "message": "Ehi, guarda qua."
+  },
+  "HOSTILE_ACTION_REPORTED": {
+    "description": "",
+    "message": "Segnalata azione ostile. Intercettare e distruggere!"
+  },
+  "INTERCEPTION_SUCCESSFUL": {
+    "description": "",
+    "message": "Intercettazione compiuta. Vascello ostile distrutto."
+  },
+  "JETTISON_DEFENSIVE_PRECAUTION": {
+    "description": "",
+    "message": "Rilevata espulsione. Attuare misure difensive!"
+  },
+  "NOT_INTERESTED": {
+    "description": "",
+    "message": "Se non fossi interessato?"
+  },
+  "PERFECT": {
+    "description": "",
+    "message": "Perfetto. Se qualcuno facesse domande... Certamente nessuno farà domande, ma se qualcuno le facesse, si ricordi che stavamo solo mercanteggiando su un generatore di scudi usato."
+  },
+  "RONDEL_RESTRICTED_ZONE": {
+    "description": "",
+    "message": "{playerShipLabel}, questo sistema solare è zona militare. Deve lasciare la zona entro {seconds} secondi. Dovesse disobbedire, si aspetti che vengano prese precauzioni ostili e difensive"
+  },
+  "SOLFED_INTEL": {
+    "description": "",
+    "message": "Intelligence della Federazione Solare"
+  },
+  "SOLFED_INTEL_INTRO": {
+    "description": "",
+    "message": "Tenga un tono basso, pilota. Sono un agente sotto copertura dell'intelligence della Federazione Solare. La memoria del suo computer di bordo ha alcuni dati di cui siamo interessati."
+  },
+  "WEAPONS_EVASIVE_ACTION": {
+    "description": "",
+    "message": "Rilevati spari di armi. Attuare azioni evasive!"
+  },
+  "WHAT_IS_THIS_ABOUT": {
+    "description": "",
+    "message": "Quali dati? Di cosa sta parlando?"
+  },
+  "YOU_SHALL_HAVE_THE_DATA": {
+    "description": "",
+    "message": "Dovrebbe avere dei dati."
+  },
+  "YOU_VISITED_STAR_SYSTEM": {
+    "description": "",
+    "message": "Potrebbe aver visitato qualche sistema solare del quale saremmo interessati a sapere di più."
+  }
+}
