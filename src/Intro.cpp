@@ -18,8 +18,8 @@ public:
 	PiRngWrapper(size_t maxValue) :
 		maxVal(maxValue) {}
 	typedef unsigned int result_type;
-	static unsigned int min() { return 0; }
-	static unsigned int max() { return std::numeric_limits<uint32_t>::max(); }
+	static constexpr unsigned int min() { return 0; }
+	static constexpr unsigned int max() { return std::numeric_limits<uint32_t>::max(); }
 	unsigned int operator()()
 	{
 		return Pi::rng.Int32(maxVal);
