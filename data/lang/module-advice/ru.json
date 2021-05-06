@@ -85,11 +85,11 @@
   },
   "RUMOUR_1_BODYTEXT": {
     "description": "",
-    "message": "Someone in the Federal Navy told me that one day, one of their corvettes accidentally jumped to a Haber outpost system about 50ly out from Sol, called Rondel; almost causing open conflict. Not many people seem to know about the incident itself outside of the navy, but some say Rondel administration has been more aggressive towards visitors since, and freight pilots started avoiding the system."
+    "message": "От кого-то из федерального флота я слыхал, что однажды один из их корветов случайно прыгнул в систему форпоста Хабера примерно в 50 световых годах от Солнца, названную Рондел; и почти нарвался на открытый конфликт. Не многие за пределами флота знают о самом инциденте, но поговаривают, что администрация Рондела с тех пор стала более агрессивна к посетителям, поэтому грузовые пилоты начали обходить их стороной."
   },
   "RUMOUR_1_HEADLINE": {
     "description": "",
-    "message": "The Rondel Incident"
+    "message": "Инцидент Рондела"
   },
   "TALE_1_BODYTEXT": {
     "description": "",
