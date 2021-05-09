@@ -13,7 +13,7 @@
 #include "PlayerShipController.h"
 
 namespace {
-	static const float MOUSELOOK_SPEED = 0.01;
+	static const float MOUSELOOK_SPEED = 0.45 * 0.01;
 	static const float ZOOM_SPEED = 1.f;
 	static const float WHEEL_SENSITIVITY = .05f; // Should be a variable in user settings.
 } // namespace
@@ -129,9 +129,10 @@ void ShipViewController::SetCamType(enum CamType c)
 	// TODO: add collision testing for external cameras to avoid clipping through
 	// stations / spaceports the ship is docked to.
 
-	m_camType = c;
+	if (c != m_camType)
+		m_activeCameraController->OnDeactivated();
 
-	switch (m_camType) {
+	switch (c) {
 	case CAM_INTERNAL:
 		m_activeCameraController = m_internalCameraController.get();
 		Pi::player->OnCockpitActivated();
@@ -147,6 +148,10 @@ void ShipViewController::SetCamType(enum CamType c)
 		break;
 	}
 
+	if (c != m_camType)
+		m_activeCameraController->OnActivated();
+
+	m_camType = c;
 	if (m_camType != CAM_INTERNAL) {
 		headtracker_input_priority = false;
 	}
@@ -228,13 +233,13 @@ void ShipViewController::Update()
 		if (rotate.y != 0.0) cam->YawCamera(rotate.y);
 		if (rotate.x != 0.0) cam->PitchCamera(rotate.x);
 		if (rotate.z != 0.0) cam->RollCamera(rotate.z);
-
-		if (InputBindings.cameraZoom->IsActive())
-			cam->ZoomEvent(-InputBindings.cameraZoom->GetValue() * ZOOM_SPEED * frameTime);
-		if (InputBindings.resetCamera->IsActive())
-			cam->Reset();
-		cam->ZoomEventUpdate(frameTime);
 	}
+
+	if (InputBindings.cameraZoom->IsActive())
+		cam->ZoomEvent(-InputBindings.cameraZoom->GetValue() * ZOOM_SPEED * frameTime);
+	if (InputBindings.resetCamera->IsActive())
+		cam->Reset();
+	cam->ZoomEventUpdate(frameTime);
 
 	int mouseMotion[2];
 	Pi::input->GetMouseMotion(mouseMotion);
@@ -249,8 +254,8 @@ void ShipViewController::Update()
 
 		// invert the mouse input to convert between screen coordinates and
 		// right-hand coordinate system rotation.
-		cam->YawCamera(-mouseMotion[0] * MOUSELOOK_SPEED);
-		cam->PitchCamera(-mouseMotion[1] * MOUSELOOK_SPEED);
+		cam->YawCamera(float(-mouseMotion[0]) * MOUSELOOK_SPEED / M_PI);
+		cam->PitchCamera(float(-mouseMotion[1]) * MOUSELOOK_SPEED / M_PI);
 	}
 
 	if (!mouse_down && m_mouseActive) {
@@ -271,12 +276,10 @@ void ShipViewController::Draw(Camera *camera)
 
 void ShipViewController::MouseWheel(bool up)
 {
-	if (m_activeCameraController->IsExternal()) {
-		MoveableCameraController *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
+	MoveableCameraController *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
 
-		if (!up) // Zoom out
-			cam->ZoomEvent(ZOOM_SPEED * WHEEL_SENSITIVITY);
-		else
-			cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
-	}
+	if (!up) // Zoom out
+		cam->ZoomEvent(ZOOM_SPEED * WHEEL_SENSITIVITY);
+	else
+		cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
 }
