@@ -617,7 +617,7 @@
   },
   "FUGITIVE": {
     "description": "Legal status of player",
-    "message": "Fugitive"
+    "message": "Fugitivo"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -1489,7 +1489,7 @@
   },
   "OFFENDER": {
     "description": "Legal status of player",
-    "message": "Offender"
+    "message": "Delincuente"
   },
   "OK": {
     "description": "",
@@ -1521,7 +1521,7 @@
   },
   "OUTLAW": {
     "description": "Legal status of player",
-    "message": "Outlaw"
+    "message": "Proscrito"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",

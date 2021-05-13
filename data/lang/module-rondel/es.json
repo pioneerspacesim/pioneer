@@ -1,66 +1,66 @@
 {
   "CREDITS_PROMISE": {
     "description": "",
-    "message": "250,000 in cash. Right now. I would find that interesting."
+    "message": "250.000 en efectivo. Ahora mismo. Yo lo encontraría interesante."
   },
   "DEFENSE_CRAFT_ELIMINATED": {
     "description": "",
-    "message": "System defense craft eliminated. Incident has been logged."
+    "message": "Nave de defensa del sistema eliminada. Se ha registrado el incidente."
   },
   "HABER_DEFENSE_CRAFT": {
     "description": "",
-    "message": "Haber Defense Craft"
+    "message": "Nave de Defensa Haber"
   },
   "HEY_OVER_HERE": {
     "description": "",
-    "message": "Hey, over here."
+    "message": "Eh, por aquí."
   },
   "HOSTILE_ACTION_REPORTED": {
     "description": "",
-    "message": "Hostile action reported. Intercept and destroy!"
+    "message": "Se ha informado de una acción hostil. ¡Interceptar y destruyir!"
   },
   "INTERCEPTION_SUCCESSFUL": {
     "description": "",
-    "message": "Interception successful. Hostile craft destroyed."
+    "message": "Interceptación satisfactoria. La nave hostil ha sido destruida."
   },
   "JETTISON_DEFENSIVE_PRECAUTION": {
     "description": "",
-    "message": "Jettison detected. Apply defensive precautions!"
+    "message": "Eyección detectada. ¡Aplicar precauciones defensivas!"
   },
   "NOT_INTERESTED": {
     "description": "",
-    "message": "What if I'm not interested?"
+    "message": "¿Y si no estoy interesado?"
   },
   "PERFECT": {
     "description": "",
-    "message": "Perfect. If anyone asks... Surely no one will ask, but if anyone asks, please remember that we were just haggling over a second hand shield generator."
+    "message": "Perfecto. Si alguien pregunta... Seguramente nadie preguntará, pero si alguien pregunta, recuerde que solo estábamos regateando por un generador de escudos de segunda mano."
   },
   "RONDEL_RESTRICTED_ZONE": {
     "description": "",
-    "message": "{playerShipLabel}, this star system is a restricted zone. You must leave within {seconds} seconds. Should you fail to comply, you will be assumed hostile and defensive precautions will be taken."
+    "message": "{playerShipLabel}, este sistema estelar es una zona restringida. Debe salir en {seconds} segundos. Si no cumple, se asumirá que usted es hostil y se tomarán precauciones defensivas."
   },
   "SOLFED_INTEL": {
     "description": "",
-    "message": "Solar Federation Intelligence"
+    "message": "Inteligencia de la Federación Solar"
   },
   "SOLFED_INTEL_INTRO": {
     "description": "",
-    "message": "Keep your voice down, pilot. I'm an undercover agent working for Solar Federation Intelligence. Your ship's computer memory has some data we are interested in."
+    "message": "Baja la voz, piloto. Soy un agente encubierto que trabaja para Inteligencia de la Federación Solar. La memoria del ordenador de su nave tiene algunos datos que nos interesan."
   },
   "WEAPONS_EVASIVE_ACTION": {
     "description": "",
-    "message": "Weapons discharge detected. Take evasive action!"
+    "message": "Descarga de armas detectada. ¡Tomando acciones evasivas!"
   },
   "WHAT_IS_THIS_ABOUT": {
     "description": "",
-    "message": "What data? What is this all about?"
+    "message": "¿Qué información? ¿De qué va todo esto?"
   },
   "YOU_SHALL_HAVE_THE_DATA": {
     "description": "",
-    "message": "You shall have the data."
+    "message": "Tendrás los datos."
   },
   "YOU_VISITED_STAR_SYSTEM": {
     "description": "",
-    "message": "You may or may not have visited some star system we would like to know more about."
+    "message": "Puede que hayas visitado o no algún sistema estelar del que nos gustaría saber más."
   }
 }
