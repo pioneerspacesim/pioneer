@@ -298,12 +298,14 @@ end
 
 local missionTimer = function (mission)
 	Timer:CallEvery(mission.duration, function ()
-		if mission.complete then return true end -- already complete
+		if mission.complete or Game.time > mission.due then return true end -- already complete or too late
 		if Game.player.frameBody and Game.player.frameBody.path == mission.location then
 			mission.complete = true
 			mission.status = "COMPLETED"
 			Comms.ImportantMessage(l.MISSION_COMPLETE)
 			return true
+		else
+			Comms.ImportantMessage(l.MISSION_WARNING)
 		end
 	end)
 end
@@ -316,6 +318,7 @@ local onFrameChanged = function (player)
 			mission.in_progress = true
 
 			local ships
+			local planet_radius = player.frameBody:GetPhysicalRadius()
 			local riskmargin = Engine.rand:Number(-0.3, 0.3) -- Add some random luck
 			if mission.risk >= (1 + riskmargin) then ships = 3
 			elseif mission.risk >= (0.7 + riskmargin) then ships = 2
@@ -350,7 +353,7 @@ local onFrameChanged = function (player)
 
 					local ship
 					if mission.location:GetSystemBody().type == "PLANET_GAS_GIANT" then
-						ship = Space.SpawnShipNear(shipdef.id, player.frameBody, 100000, 150000)
+						ship = Space.SpawnShipOrbit(shipdef.id, player.frameBody, 1.2 * planet_radius, 3.5 * planet_radius)
 					else
 						ship = Space.SpawnShipLanded(shipdef.id, player.frameBody, math.rad(Engine.rand:Number(360)), math.rad(Engine.rand:Number(360)))
 					end
@@ -379,7 +382,8 @@ local onFrameChanged = function (player)
 
 			if mission.dedication <= RECON or #mission.mercenaries == 0 then
 				-- prevent a too quick fly-by
-				mission.duration = player.frameBody:GetPhysicalRadius()/1000
+				mission.duration = planet_radius/1000
+				Comms.ImportantMessage(string.interp(l.MISSION_INFO, { duration = Format.Duration(mission.duration) }))
 				missionTimer(mission)
 			end
 		end
