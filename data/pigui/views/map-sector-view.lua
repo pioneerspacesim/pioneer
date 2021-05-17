@@ -313,9 +313,9 @@ local function drawSearchResults(systempaths)
 		table.sort(data, function(a,b)
 			return a.path ~= b.path and (not a.path:IsSameSystem(b.path)) and a.distance < b.distance
 		end)
-		for _,item in pairs(data) do
+		for i, item in pairs(data) do
 			local system = item.path:GetStarSystem()
-			if ui.selectable(system.name, false, {}) then
+			if ui.selectable(system.name .. "##" .. i, false, {}) then
 				sectorView:SwitchToPath(item.path)
 			end
 			ui.sameLine()
