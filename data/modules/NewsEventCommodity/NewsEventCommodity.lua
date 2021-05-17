@@ -46,77 +46,77 @@ local maxIndexOfTitles = 4
 local maxIndexOfGreetings = 5
 
 local flavours = {
-	{                                      -- flavour 0 in en.json
-		cargo = Equipment.cargo.medicines, -- which commodity is affected
-		demand = 4,                        -- change in price (and stock)
+	{                                           -- flavour 0 in en.json
+		cargo = Equipment.cargo.medicines.name, -- which commodity is affected
+		demand = 4,                             -- change in price (and stock)
 	}, {
-		cargo = Equipment.cargo.battle_weapons,       --1
+		cargo = Equipment.cargo.battle_weapons.name,       --1
 		demand = 4,
 	}, {
-		cargo = Equipment.cargo.grain,                --2
+		cargo = Equipment.cargo.grain.name,                --2
 		demand = 10,
 	}, {
-		cargo = Equipment.cargo.fruit_and_veg,        --3
+		cargo = Equipment.cargo.fruit_and_veg.name,        --3
 		demand = 6,
 	}, {
-		cargo = Equipment.cargo.narcotics,            --4
+		cargo = Equipment.cargo.narcotics.name,            --4
 		demand = -4,
 	}, {
-		cargo = Equipment.cargo.slaves,               --5
+		cargo = Equipment.cargo.slaves.name,               --5
 		demand = 7,
 	}, {
-		cargo = Equipment.cargo.liquor,               --6
+		cargo = Equipment.cargo.liquor.name,               --6
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.industrial_machinery, --7
+		cargo = Equipment.cargo.industrial_machinery.name, --7
 		demand = 6,
 	}, {
-		cargo = Equipment.cargo.mining_machinery,     --8
+		cargo = Equipment.cargo.mining_machinery.name,     --8
 		demand = 6,
 	}, {
-		cargo = Equipment.cargo.live_animals,         --9
+		cargo = Equipment.cargo.live_animals.name,         --9
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.air_processors,       --10
+		cargo = Equipment.cargo.air_processors.name,       --10
 		demand = 5,
 	}, {
-		cargo = Equipment.cargo.animal_meat,          --11
+		cargo = Equipment.cargo.animal_meat.name,          --11
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.computers,            --12
+		cargo = Equipment.cargo.computers.name,            --12
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.robots,               --13
+		cargo = Equipment.cargo.robots.name,               --13
 		demand = -4,
 	}, {
-		cargo = Equipment.cargo.plastics,             --14
+		cargo = Equipment.cargo.plastics.name,             --14
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.narcotics,            --15
+		cargo = Equipment.cargo.narcotics.name,            --15
 		demand = 4,
 	}, {
-		cargo = Equipment.cargo.farm_machinery,       --16
+		cargo = Equipment.cargo.farm_machinery.name,       --16
 		demand = 5,
 	}, {
-		cargo = Equipment.cargo.metal_ore,            --17
+		cargo = Equipment.cargo.metal_ore.name,            --17
 		demand = -10,
 	}, {
-		cargo = Equipment.cargo.consumer_goods,       --18
+		cargo = Equipment.cargo.consumer_goods.name,       --18
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.precious_metals,      --19
+		cargo = Equipment.cargo.precious_metals.name,      --19
 		demand = -3,
 	}, {
-		cargo = Equipment.cargo.fertilizer,           --20
+		cargo = Equipment.cargo.fertilizer.name,           --20
 		demand = -3,
 	}, {
-		cargo = Equipment.cargo.nerve_gas,            --21
+		cargo = Equipment.cargo.nerve_gas.name,            --21
 		demand = -4,
 	}, {
-		cargo = Equipment.cargo.hand_weapons,         --22
+		cargo = Equipment.cargo.hand_weapons.name,         --22
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.metal_alloys,         --23
+		cargo = Equipment.cargo.metal_alloys.name,         --23
 		demand = 3,
 	}
 }
@@ -127,6 +127,15 @@ for i = 1,#flavours do
 	local f = flavours[i]
 	f.headline = l["FLAVOUR_" .. i-1 .. "_HEADLINE"]
 	f.newsbody = l["FLAVOUR_" .. i-1 .. "_NEWSBODY"]
+
+	-- make sure future changes to Equipment won't break this module:
+	local is_valid = false
+	for key, e in pairs(Equipment.cargo) do
+		if key == f.cargo then
+			is_valid = true
+		end
+	end
+	assert(is_valid)
 end
 
 -- will hold the ads of the current system
@@ -209,10 +218,10 @@ local createNewsEvent = function (timeInHyper)
 			local index = Engine.rand:Integer(1, #candidateSystems)
 			system = candidateSystems[index]
 
-			if system:IsCommodityLegal(cargo.name) then
-				--print("cargo,", cargo:GetName(), "is legal in:", system.name)
+			if system:IsCommodityLegal(cargo) then
+				--print("cargo,", cargo, "is legal in:", system.name)
 			else
-				--print("cargo,", cargo:GetName(), "is legal in:", system.name)
+				--print("cargo,", cargo, "is legal in:", system.name)
 				system = nil
 			end
 			table.remove(candidateSystems, index)
@@ -241,7 +250,7 @@ local createNewsEvent = function (timeInHyper)
 	-- add headline from flavour, and more info to be displayed
 	newsEvent.description = string.interp(flavours[flavour].headline, {
 		system = system.name,
-		cargo = cargo:GetName(),
+		cargo = Equipment.cargo[cargo]:GetName(),
 		-- Turn string "23:09:27 3 Jan 3200" into "3 Jan 3200:"
 		date  = string.match(Format.Date(date), "%d+ %w+ %d+$")
 	})
@@ -346,14 +355,15 @@ local onShipDocked = function (ship, station)
 		-- if this is the system of the news
 		if currentSystem:IsSameSystem(n.syspath) then
 			-- send a grateful greeting from the station if the player cargo is right
-			if ship:CountEquip(n.cargo, "cargo") > 0 and n.demand > 0 then
+			local cargo_item = Equipment.cargo[n.cargo]
+			if ship:CountEquip(cargo_item, "cargo") > 0 and n.demand > 0 then
 				local greeting = string.interp(l["GRATEFUL_GREETING_"..Engine.rand:Integer(0,maxIndexOfGreetings)],
-					{cargo = n.cargo:GetName()})
+					{cargo = cargo_item:GetName()})
 				Comms.Message(greeting)
 			end
 
-			local price = station:GetEquipmentPrice(n.cargo)
-			local stock = station:GetEquipmentStock(n.cargo)
+			local price = station:GetEquipmentPrice(cargo_item)
+			local stock = station:GetEquipmentStock(cargo_item)
 
 			local newPrice, newStockChange
 			if n.demand > 0 then
@@ -365,9 +375,9 @@ local onShipDocked = function (ship, station)
 			else
 				error("demand should probably not be 0.")
 			end
-			-- print("cargo:", n.cargo:GetName(), "price:", newPrice, newStockChange)
-			station:SetEquipmentPrice(n.cargo, newPrice)
-			station:AddEquipmentStock(n.cargo, newStockChange)
+			-- print("--- NewsEvent: cargo:", cargo_item:GetName(), "price:", newPrice, "stock:", newStockChange)
+			station:SetEquipmentPrice(cargo_item, newPrice)
+			station:AddEquipmentStock(cargo_item, newStockChange)
 		end
 	end
 end
@@ -410,6 +420,17 @@ end
 
 local unserialize = function (data)
 	loadedData = data
+
+	-- Saves are backwards compatible with new format, where we save
+	-- cargo string, instead of EquipType object (memory address)
+	-- (remove in a year or so)
+	if data.news then
+		for key, value in pairs(data.news) do
+			if type(value.cargo) == 'table' then
+				value.cargo = value.cargo.name
+			end
+		end
+	end
 end
 
 Event.Register("onCreateBB", onCreateBB)
