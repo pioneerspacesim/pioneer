@@ -2,20 +2,22 @@ May 2021
    * New Features
      * Add more tradeships and improve their behavior (#4984)
      * Highly improved performance with many ships in one system (#5166)
-   
+
    * Fixes
      * Fix crash when loading invalid AI command data from savefile (#5167)
      * Fix compilation of PiRngWrapper under GCC11 (#5172)
+     * Fix enable selecting stars in sector search even when duplicate named (#5193)
+     * Small improvements for the combat mission (#5184)
 
 April 2021
    * New Features
      * Add custom content to the Rondel system (#5095)
      * Add music to the map view, add new music tracks (#5093)
-     
+
    * Internal Changes
      * Add new debug tooling colorscheme (#5161)
      * Upgrade build tooling to C++17, remove nonstd::string_view (#5151)
-     
+
    * Fixes
      * Fix legal footer always being 'Clean' in station view (#5094)
 
@@ -27,7 +29,7 @@ March 2021
      * Fix GasGiant clipping and bright spots on models (#5157)
      * Fix crash in hyperspace with sector map opened (#5155)
      * Fix death music not playing over tombstone screen (#5129)
-   
+
    * Internal Changes
      * Modify GetAtmosphericState() to accept any two bodies (#5128)
 
