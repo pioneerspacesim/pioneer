@@ -231,6 +231,10 @@
     "description": "Message from the ship computer",
     "message": "Primair missiedoel voltooid"
   },
+  "MISSION_INFO": {
+    "description": "Message from the ship computer",
+    "message": "Target area reached. Start data logging. Predicted maximum mission time {duration}."
+  },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
     "message": "Verkenning"
@@ -242,6 +246,10 @@
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
     "message": "Gebied Bestrijken"
+  },
+  "MISSION_WARNING": {
+    "description": "Message from the ship computer",
+    "message": "Target area too far away. Cannot complete data collection."
   },
   "OBJECTIVE_1": {
     "description": "",
