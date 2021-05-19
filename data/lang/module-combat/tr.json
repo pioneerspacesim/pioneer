@@ -233,7 +233,7 @@
   },
   "MISSION_INFO": {
     "description": "Message from the ship computer",
-    "message": "Target area reached. Start data logging. Predicted maximum mission time {duration}."
+    "message": "Hedef bölgeye ulaşıldı. Veri toplama başladı. Tahmini maksimum görev süresi {duration}."
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
@@ -249,7 +249,7 @@
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
-    "message": "Target area too far away. Cannot complete data collection."
+    "message": "Hedef bölge çok uzakta. Veri toplama tamamlanamadı."
   },
   "OBJECTIVE_1": {
     "description": "",

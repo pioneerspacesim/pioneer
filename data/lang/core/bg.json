@@ -21,11 +21,11 @@
   },
   "AND_INDIGENOUS_MICROBIAL_LIFE": {
     "description": "",
-    "message": "\" и локален микробен живот\""
+    "message": "\" и местен микробен живот\""
   },
   "AND_INDIGENOUS_PLANT_LIFE": {
     "description": "",
-    "message": "\" и локален растителен живот\""
+    "message": "\" и местен растителен живот\""
   },
   "ANIMAL_MEAT": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\" атмосфера от въглероден двуоксид\""
+    "message": "\" атмосфера от въглероден диоксид\""
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "GAME_LOAD_CANNOT_OPEN": {
     "description": "",
-    "message": "Запазената игра '%filename' не може да бъде намерена (или програмата няма достъп до нея)."
+    "message": "Запазената игра „%filename“ не може да бъде намерена (или програмата няма достъп до нея)."
   },
   "GAME_LOAD_CORRUPT": {
     "description": "",
@@ -745,7 +745,7 @@
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Метална руда"
+    "message": "Желязна руда"
   },
   "MILITARY_DICTATORSHIP": {
     "description": "",
@@ -933,7 +933,7 @@
   },
   "NUMBER_HOURS": {
     "description": "",
-    "message": "%hours{f.1} ч."
+    "message": "%hours{f.1} часа"
   },
   "NUMBER_LY": {
     "description": "",
@@ -1145,7 +1145,7 @@
   },
   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
     "description": "",
-    "message": "\" скалиста планета, съдържаща някои течности,\""
+    "message": "\" скалиста планета, съдържаща течни вещества,\""
   },
   "ROLL": {
     "description": "",
@@ -1377,7 +1377,7 @@
   },
   "STAR_AF_SUPER_GIANT": {
     "description": "",
-    "message": "Бял супергигант"
+    "message": "Бял свръхгигант"
   },
   "STAR_B": {
     "description": "",
@@ -1393,7 +1393,7 @@
   },
   "STAR_B_SUPER_GIANT": {
     "description": "",
-    "message": "Син супергигант"
+    "message": "Син свръхргигант"
   },
   "STAR_B_WF": {
     "description": "",
@@ -1417,7 +1417,7 @@
   },
   "STAR_G_SUPER_GIANT": {
     "description": "",
-    "message": "Жълт супергигант"
+    "message": "Жълт свръхгигант"
   },
   "STAR_IM_BH": {
     "description": "",
@@ -1437,7 +1437,7 @@
   },
   "STAR_K_SUPER_GIANT": {
     "description": "",
-    "message": "Оранжев супергигант"
+    "message": "Оранжев свръхгигант"
   },
   "STAR_M": {
     "description": "",
@@ -1453,7 +1453,7 @@
   },
   "STAR_M_SUPER_GIANT": {
     "description": "",
-    "message": "Червен супергигант"
+    "message": "Червен свръхгигант"
   },
   "STAR_M_WF": {
     "description": "",
@@ -1473,7 +1473,7 @@
   },
   "STAR_O_SUPER_GIANT": {
     "description": "",
-    "message": "Горещ син супергигант"
+    "message": "Горещ син свръхгигант"
   },
   "STAR_O_WF": {
     "description": "",
@@ -1641,7 +1641,7 @@
   },
   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
     "description": "",
-    "message": "Неизследвана система. Информацията за звездите е взета от отдалечен телескоп, не е налична информация за планетите."
+    "message": "Неизследвана система. Информацията за звездата е събрана от отдалечен телескоп, не е налична информация за планетите."
   },
   "UNIT_AU": {
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",

@@ -249,7 +249,7 @@
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
-    "message": "Районът е твърде далеч. Записването на данните не може да започне."
+    "message": "Районът все още не е достигнат. Записването на данните не може да започне."
   },
   "OBJECTIVE_1": {
     "description": "",
