@@ -13,7 +13,7 @@
   },
   "FLAVOUR_10_NEWSBODY": {
     "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-    "message": "Фирмата Прикал иска да монополизира въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последния безплатен."
+    "message": "Фирмата „Прикал“ иска да монополизира въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последният безплатен."
   },
   "FLAVOUR_11_HEADLINE": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
-    "message": "Новината за изчезването на говедата им беше като гръм от ясно небе за фермерите в системата {system} ({sectorx}, {sectory}, {sectorz}). Полицията докладва, че това е „говеждата кражба на века“."
+    "message": "Новината за изчезването на техните говеда беше като гръм от ясно небе за фермерите в системата {system} ({sectorx}, {sectory}, {sectorz}). Полицията докладва, че това е „говеждата кражба на века“."
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "FLAVOUR_12_NEWSBODY": {
     "description": "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-    "message": "Гаден вирус причини унищожаване на хард дисковете на компютрите Начософт в системата {system} ({sectorx}, {sectory}, {sectorz}). Компютърните специалисти споделиха, че повредените твърди дискове стават за фризби."
+    "message": "Гаден вирус причини унищожаване на хард дисковете на компютрите „Начософт“ в системата {system} ({sectorx}, {sectory}, {sectorz}). Компютърните специалисти споделиха, че повредените твърди дискове стават за фризби."
   },
   "FLAVOUR_13_HEADLINE": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Спирането на тока в цялата система {system} ({sectorx}, {sectory}, {sectorz}) причини масови безредици. Потребителите се надпреварват да купят последния Трапъруеър за да си подменят хладилниците, защото техният производител си е изчерпал запасите."
+    "message": "Спирането на тока в цялата система {system} ({sectorx}, {sectory}, {sectorz}) причини масови безредици. Потребителите се надпреварват да купят последния „Трапъруеър“ за да си подменят хладилниците, защото техният производител си е изчерпал запасите."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
@@ -57,11 +57,11 @@
   },
   "FLAVOUR_16_HEADLINE": {
     "description": "",
-    "message": "НОВИНИ {date}: Сериозен инцидент по време на годишния Голям Парен Панаир в {system}."
+    "message": "НОВИНИ {date}: Сериозен инцидент по време на годишния Голям парен панаир в {system}."
   },
   "FLAVOUR_16_NEWSBODY": {
     "description": "Imply high demand of FARM_MACHINERY.",
-    "message": "По време на Големия Парен Панаир в системата {system} ({sectorx}, {sectory}, {sectorz}), в опит за подобрение на галактическия рекорд, състезанието за дърпане на трактори приключи с трагедия, един от участниците загуби контрол над трактора си, унищожавайки всички останали трактори. Администрацията очаква това да обрече на гибел местните фермери."
+    "message": "По време на Големия парен панаир в системата {system} ({sectorx}, {sectory}, {sectorz}), в опит за подобрение на галактическия рекорд, състезанието за дърпане на трактори приключи с трагедия, един от участниците загуби контрол над трактора си, унищожавайки всички останали трактори. Администрацията очаква това да обрече на гибел местните фермери."
   },
   "FLAVOUR_17_HEADLINE": {
     "description": "",
@@ -89,11 +89,11 @@
   },
   "FLAVOUR_1_HEADLINE": {
     "description": "",
-    "message": "НОВИНИ {date}: Ескалиращ конфликт в системата {system}."
+    "message": "НОВИНИ {date}: Нарастващ конфликт в системата {system}."
   },
   "FLAVOUR_1_NEWSBODY": {
     "description": "Imply high demand of BATTLE_WEAPONS. i.e. the word combat is important.",
-    "message": "Конфликтът в системата {system} ({sectorx}, {sectory}, {sectorz}) ескалира, след като армиите влязоха в сблъсък помежду си."
+    "message": "Конфликтът в системата {system} ({sectorx}, {sectory}, {sectorz}) нарастна, след като армиите влязоха в сблъсък помежду си."
   },
   "FLAVOUR_20_HEADLINE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_20_NEWSBODY": {
     "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-    "message": "{system} ({sectorx}, {sectory}, {sectorz}) навлезе във фаза, благоприятна за жълтите водорасли, които виреят в атмосферата на местния газов гигант, което доведе до добра реколта на компанията за торове Жълт Сойлент."
+    "message": "{system} ({sectorx}, {sectory}, {sectorz}) навлезе във фаза, благоприятна за жълтите водорасли, които виреят в атмосферата на местния газов гигант, което доведе до добра реколта на компанията за торове „Жълтият Сойлент“."
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_23_NEWSBODY": {
     "description": "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-    "message": "Новата фабрика Амисионокс в системата {system} ({sectorx}, {sectory}, {sectorz}) вече работи. Тя ще произвежда висококачествени ножове, способни да отрежат космически ботуш, но поради липса на достатъчно материали за направата на остриетата, все още не е достигнала пълния си производствен потенциал."
+    "message": "Новата фабрика „Амисионокс“ в системата {system} ({sectorx}, {sectory}, {sectorz}) вече работи. Тя ще произвежда висококачествени ножове, способни да отрежат космически ботуш, но поради липса на достатъчно материали за направата на остриетата, все още не е достигнала пълния си производствен потенциал."
   },
   "FLAVOUR_2_HEADLINE": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Работници в системата {system} ({sectorx}, {sectory}, {sectorz}) изхвърлиха оковите си и дигнаха въстание, понеже не искат да работят на полетата с Лотус. Местната икономиката е парализирана, защото не може да се намери нова евтина работна ръка."
+    "message": "Работници в системата {system} ({sectorx}, {sectory}, {sectorz}) изхвърлиха оковите си и дигнаха въстание, понеже не искат да работят на полетата с лотус. Местната икономиката е парализирана, защото не може да се намери нова евтина работна ръка."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -189,11 +189,11 @@
   },
   "FLAVOUR_9_NEWSBODY": {
     "description": "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-    "message": "Според последната тенденция в системата {system} ({sectorx}, {sectory}, {sectorz}), истинските домашни любимци са последната дума на модата."
+    "message": "Според последните тенденции в системата {system} ({sectorx}, {sectory}, {sectorz}), истинските домашни любимци са последната дума на модата."
   },
   "GRATEFUL_GREETING_0": {
     "description": "",
-    "message": "Добре дошъл, търговецо! Ще ти дадем добра цена за {cargo}."
+    "message": "Добре сте ни дошли! Ще ти дадем добра цена за {cargo}."
   },
   "GRATEFUL_GREETING_1": {
     "description": "",

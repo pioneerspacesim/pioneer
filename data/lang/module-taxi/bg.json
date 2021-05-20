@@ -9,11 +9,11 @@
   },
   "CORPORATIONS_10": {
     "description": "",
-    "message": "Товарни Кораби"
+    "message": "Товарни кораби"
   },
   "CORPORATIONS_11": {
     "description": "",
-    "message": "Армент Аеродинамикс"
+    "message": "Аеродинамика Армент"
   },
   "CORPORATIONS_2": {
     "description": "",
@@ -541,7 +541,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "ОК, съгласен."
+    "message": "ОК, става."
   },
   "PIRATE_TAUNTS_0": {
     "description": "",

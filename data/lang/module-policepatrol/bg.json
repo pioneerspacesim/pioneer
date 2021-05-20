@@ -1,7 +1,7 @@
 {
   "ILLEGAL_GOODS_DETECTED": {
     "description": "",
-    "message": "Засечени са нелегални стоки."
+    "message": "Засечени са незаконни стоки."
   },
   "INITIATE_CARGO_SCAN_1": {
     "description": "",
@@ -17,7 +17,7 @@
   },
   "NOTHING_DETECTED": {
     "description": "",
-    "message": "Не е засечен нелегален товар. Може да продължите."
+    "message": "Не е засечен незаконен товар. Може да продължите."
   },
   "OUTLAW_DETECTED_1": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "OUTLAW_DETECTED_3": {
     "description": "",
-    "message": "Хванахме те! Няма да излезеш жив от тук!"
+    "message": "Хванахме те! Поеми си последната глътка въздух!"
   },
   "POLICE_TAUNT_1": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "POLICE_TAUNT_3": {
     "description": "",
-    "message": "Глупако, не можеш да ни подкупиш!"
+    "message": "Престъпленията ти не си заслужават!"
   },
   "RESPECT_THE_LAW_1": {
     "description": "",

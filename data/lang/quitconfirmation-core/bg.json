@@ -9,11 +9,11 @@
   },
   "MSG_11": {
     "description": "",
-    "message": "Изследователите не си тръгват, но ако не си такъв, натисни {yes}."
+    "message": "Истинските изследователи не се предават и не биха натиснали {yes}."
   },
   "MSG_12": {
     "description": "",
-    "message": "Истинските играчи избират {no}, само страхливците избират {yes}."
+    "message": "Истинските ловци на глави избират {no}, всички останали избират {yes}."
   },
   "MSG_13": {
     "description": "\"Seeing\" as in having an affair / being unfaithful",
@@ -41,7 +41,7 @@
   },
   "MSG_19": {
     "description": "Alluding to / inviting the player to contribute content to the game",
-    "message": "Стига си играл, време е да допринесеш с нещо към играта, нали?"
+    "message": "Стига толкова, време е да допринесеш с нещо към играта, нали?"
   },
   "MSG_2": {
     "description": "",

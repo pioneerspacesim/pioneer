@@ -17,7 +17,7 @@
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Повече малки пътувания са по-бързи, отколкото всички накуп."
+    "message": "Повече малки пътувания са по-бързи, отколкото всички наведнъж."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
@@ -25,7 +25,7 @@
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "Преценете дали горивото ще Ви стигне, защото не навсякъде има опция за презареждане."
+    "message": "Преценете дали горивото ще Ви стигне, защото не навсякъде може да презаредите."
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
-    "message": "Даренията Ви правят добър в очите на обществото, но не всяко дарение ще Ви повиши репутацията."
+    "message": "Даренията Ви издигат в очите на обществото, но не всяко дарение ще Ви повиши репутацията."
   },
   "ADVICE_7_HEADLINE": {
     "description": "",

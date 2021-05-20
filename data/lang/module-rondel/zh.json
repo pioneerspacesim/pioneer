@@ -1,66 +1,66 @@
 {
   "CREDITS_PROMISE": {
     "description": "",
-    "message": "250,000 in cash. Right now. I would find that interesting."
+    "message": "25万现金。马上。我会觉得很有趣。"
   },
   "DEFENSE_CRAFT_ELIMINATED": {
     "description": "",
-    "message": "System defense craft eliminated. Incident has been logged."
+    "message": "系统防御飞船被清除。已记录事件。"
   },
   "HABER_DEFENSE_CRAFT": {
     "description": "",
-    "message": "Haber Defense Craft"
+    "message": "哈伯防御艇"
   },
   "HEY_OVER_HERE": {
     "description": "",
-    "message": "Hey, over here."
+    "message": "嘿，这边。"
   },
   "HOSTILE_ACTION_REPORTED": {
     "description": "",
-    "message": "Hostile action reported. Intercept and destroy!"
+    "message": "敌对行动报告。拦截并摧毁！"
   },
   "INTERCEPTION_SUCCESSFUL": {
     "description": "",
-    "message": "Interception successful. Hostile craft destroyed."
+    "message": "拦截成功。敌机被毁。"
   },
   "JETTISON_DEFENSIVE_PRECAUTION": {
     "description": "",
-    "message": "Jettison detected. Apply defensive precautions!"
+    "message": "检测到抛货。采取防御措施！"
   },
   "NOT_INTERESTED": {
     "description": "",
-    "message": "What if I'm not interested?"
+    "message": "如果我不感兴趣呢？"
   },
   "PERFECT": {
     "description": "",
-    "message": "Perfect. If anyone asks... Surely no one will ask, but if anyone asks, please remember that we were just haggling over a second hand shield generator."
+    "message": "很 完美。如果有人问。。。当然没有人会问，但如果有人问，请记住，我们只是在讨价还价的二手护盾发生器。"
   },
   "RONDEL_RESTRICTED_ZONE": {
     "description": "",
-    "message": "{playerShipLabel}, this star system is a restricted zone. You must leave within {seconds} seconds. Should you fail to comply, you will be assumed hostile and defensive precautions will be taken."
+    "message": "{playerShipLabel}，这个星系是一个限制区。你必须在{seconds}秒内离开。如果你不遵守，你将被视为敌对并采取防御性的预防措施。"
   },
   "SOLFED_INTEL": {
     "description": "",
-    "message": "Solar Federation Intelligence"
+    "message": "太阳联盟情报局"
   },
   "SOLFED_INTEL_INTRO": {
     "description": "",
-    "message": "Keep your voice down, pilot. I'm an undercover agent working for Solar Federation Intelligence. Your ship's computer memory has some data we are interested in."
+    "message": "小声点，飞行员。我是太阳联邦情报局的卧底。你飞船的计算机内存里有一些我们感兴趣的数据。"
   },
   "WEAPONS_EVASIVE_ACTION": {
     "description": "",
-    "message": "Weapons discharge detected. Take evasive action!"
+    "message": "检测到武器发射。采取回避行动！"
   },
   "WHAT_IS_THIS_ABOUT": {
     "description": "",
-    "message": "What data? What is this all about?"
+    "message": "什么数据？这是怎么回事？"
   },
   "YOU_SHALL_HAVE_THE_DATA": {
     "description": "",
-    "message": "You shall have the data."
+    "message": "你应该有数据。"
   },
   "YOU_VISITED_STAR_SYSTEM": {
     "description": "",
-    "message": "You may or may not have visited some star system we would like to know more about."
+    "message": "你可能去过，也可能没有去过我们想了解更多的恒星系。"
   }
 }

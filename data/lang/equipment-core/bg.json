@@ -9,11 +9,11 @@
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
-    "message": "Атмосферни щитове"
+    "message": "Атмосферно екраниране"
   },
   "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
     "description": "",
-    "message": "Предпазват Вашия кораб от горещината на снижаването в атмосферата."
+    "message": "Предпазва Вашия кораб от горещината на навлизането в атмосферата."
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
@@ -321,7 +321,7 @@
   },
   "THRUSTERS_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "Модифицирани ускорители, одобрени за Вашия кораб."
+    "message": "Модифицирани ускорители, които са одобрени за Вашия кораб."
   },
   "THRUSTERS_BEST": {
     "description": "",
@@ -329,7 +329,7 @@
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
-    "message": "Персонализирани ускорители, предоставят най-добрия резултат."
+    "message": "Персонализирани ускорители, които предоставят най-добрия резултат."
   },
   "THRUSTERS_MEDIUM": {
     "description": "",

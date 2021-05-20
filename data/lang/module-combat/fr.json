@@ -233,7 +233,7 @@
   },
   "MISSION_INFO": {
     "description": "Message from the ship computer",
-    "message": "Target area reached. Start data logging. Predicted maximum mission time {duration}."
+    "message": "Destination atteinte. Démarrage de la collecte de données. Prédiction de la durée maximum de la mission {duration}."
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
@@ -249,7 +249,7 @@
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
-    "message": "Target area too far away. Cannot complete data collection."
+    "message": "Destination trop éloignée. Impossible de terminer la collecte de données."
   },
   "OBJECTIVE_1": {
     "description": "",

@@ -125,7 +125,7 @@
   },
   "DENY_4": {
     "description": "",
-    "message": "Извини ме, но не мисля, че ти си способен да свършиш тази работа."
+    "message": "Извини ме, но не мисля, че ти можеш да свършиш тази работа."
   },
   "DENY_5": {
     "description": "",
@@ -297,11 +297,11 @@
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Поздрави. Аз съм {name}.Ще платя {cash} на някой, който може да транспортира {cargoname} от {starport} до {dom_starport}."
+    "message": "Поздрави. Аз съм {name}. Ще платя {cash} на някой, който може да транспортира {cargoname} от {starport} до {dom_starport}."
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Здравейте. Казвам се {name}. Моят работодател е готов да те наеме за {cash}, във връзка с релокацията на нашия склад, като преместиш {cargoname} от {starport} в нашето ново седалище в {dom_starport}."
+    "message": "Здравейте. Казвам се {name}. Моят работодател е готов да те наеме за {cash}, във връзка с преместването на нашия склад, като пренесеш {cargoname} от {starport} в нашето ново седалище в {dom_starport}."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
@@ -337,7 +337,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "ОК, съгласен."
+    "message": "ОК, става."
   },
   "PICKUP_FROM": {
     "description": "from a location",
@@ -545,7 +545,7 @@
   },
   "WHAT_IS_THIS": {
     "description": "",
-    "message": "Какво? Изхвърлил си моя товар? Луд ли си?"
+    "message": "Какво? Товарът ми е изхвърлен? Хлопа ли ти дъската?"
   },
   "WHYSOMUCH_1": {
     "description": "",

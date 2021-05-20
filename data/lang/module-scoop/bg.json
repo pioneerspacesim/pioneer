@@ -61,7 +61,7 @@
   },
   "FAILURE_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "Глупак. Клиентът няма да хареса това!"
+    "message": "Нямам думи. Клиентът няма да хареса това!"
   },
   "FAILURE_MSG_RESCUE": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "ОК, съгласен."
+    "message": "ОК, става."
   },
   "REPEAT_THE_REQUEST": {
     "description": "",

@@ -197,7 +197,7 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "МЕЖДУПЛАНЕТЕН НОСАЧ: Превоз на локален товар до {starport}."
+    "message": "МЕЖДУПЛАНЕТЕН НОСАЧ: Превоз на местен товар до {starport}."
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
@@ -277,7 +277,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "ОК, съгласен."
+    "message": "ОК, става."
   },
   "PIRATE_TAUNTS_0": {
     "description": "",

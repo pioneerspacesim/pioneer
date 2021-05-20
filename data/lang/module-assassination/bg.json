@@ -61,7 +61,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Ще платя {cash} за елиминирането на {target}."
+    "message": "Здрасти, аз съм {name}. Ще платя {cash} за да ме отървеш от {target}."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "ОК, съгласен."
+    "message": "ОК, става."
   },
   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
     "description": "",
