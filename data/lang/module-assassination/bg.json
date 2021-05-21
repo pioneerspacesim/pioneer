@@ -53,7 +53,7 @@
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "Огорчен съм да разбера, че {target} е все още жив. Излишно е да казвам, че няма да получиш заплащане."
+    "message": "Огорчен съм да разбера, че {target} е все още на този свят. Излишно е да казвам, че няма да получиш заплащане."
   },
   "FLAVOUR_0_FAILUREMSG2": {
     "description": "",
@@ -89,11 +89,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "ОТСТРАНЯВАНЕ: {target} вече не е желан в системата {system}."
+    "message": "ОТСТРАНЯВАНЕ: {target} вече не ни трябва в системата {system}."
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "За жалост, {target} е все още жив и здрав. За несвършената работа ще си тръгнеш с празни ръце."
+    "message": "За жалост, {target} все още е на този свят. За несвършената работа ще си тръгнеш с празни ръце."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "УНИЩОЖЕНИЕ: Някой да елиминира {target}."
+    "message": "УНИЩОЖЕНИЕ: Някой да премахне {target}."
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "{target} е мъртъв. Това е за Вас."
+    "message": "{target} е гушнал букета. Това е за Вас."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_5_FAILUREMSG2": {
     "description": "",
-    "message": "{target} беше неутрализиран от някой друг."
+    "message": "Вредителят {target} беше обезвреден от някой друг."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",

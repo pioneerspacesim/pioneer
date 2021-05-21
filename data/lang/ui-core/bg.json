@@ -1861,7 +1861,7 @@
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
-    "message": "Стартиране на Нова надежда"
+    "message": "Стартиране от Нова надежда"
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
@@ -1925,7 +1925,7 @@
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
-    "message": "Компресирането на текстурите освобождава памет за графичния процесор, за сметка на по-бавно зареждане при стартиране на играта."
+    "message": "Компресирането на текстурите освобождава памет за графичния процесор, за сметка на по-бавно зареждане при започване на играта."
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",

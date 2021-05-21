@@ -53,7 +53,7 @@
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "РЕЛОКАЦИЯ: Товар от {starport}."
+    "message": "ПРЕМЕСТВАНЕ: Товар от {starport}."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
@@ -257,7 +257,7 @@
   },
   "INTROTEXT_3": {
     "description": "",
-    "message": "Добър ден. Аз съм {name}, създател на {name} ООД. Нуждая се от надежден пилот да достави {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Ще платя {cash} за разстоянието от {dist} сг."
+    "message": "Добър ден. Аз съм {name} и управлявам {name} ООД. Нуждая се от надежден пилот да достави {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Ще платя {cash} за разстоянието от {dist} сг."
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
@@ -373,7 +373,7 @@
   },
   "PIRATE_TAUNTS_5": {
     "description": "",
-    "message": "А, още една тлъска гъска на път за {location}."
+    "message": "А, още една тлъста гъска на път за {location}."
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
