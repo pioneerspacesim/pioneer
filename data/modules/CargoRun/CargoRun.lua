@@ -851,12 +851,22 @@ local onShipDocked = function (player, station)
 	-- Now we have space pick up cargo as well
 	for ref,mission in pairs(missions) do
 		if mission.location == station.path and mission.pickup and not mission.cargo_picked_up then
-			if (player.totalCargo - player.usedCargo) < mission.amount then
-				Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
+			if Game.time < mission.due then
+				if (player.totalCargo - player.usedCargo) < mission.amount then
+					Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
+				else
+					Game.player:AddEquip(mission.cargotype, mission.amount, "cargo")
+					mission.cargo_picked_up = true
+					Comms.ImportantMessage(l.WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP, mission.client.name)
+				end
 			else
-				Game.player:AddEquip(mission.cargotype, mission.amount, "cargo")
-				mission.cargo_picked_up = true
-				Comms.ImportantMessage(l.WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP, mission.client.name)
+				local oldReputation = Character.persistent.player.reputation
+				Character.persistent.player.reputation = Character.persistent.player.reputation - (mission.localdelivery and 1 or 1.5)
+				Comms.ImportantMessage(l.TOO_LATE_TO_PICK_UP, mission.client.name)
+				Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+					Character.persistent.player.reputation, Character.persistent.player.killcount)
+				mission:Remove()
+				missions[ref] = nil
 			end
 		end
 	end
