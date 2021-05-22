@@ -125,7 +125,7 @@
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "{target} е гушнал букета. Това е за Вас."
+    "message": "{target} вече не диша. Това е за Вас."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
