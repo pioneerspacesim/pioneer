@@ -8,6 +8,8 @@ May 2021
      * Fix compilation of PiRngWrapper under GCC11 (#5172)
      * Fix enable selecting stars in sector search even when duplicate named (#5193)
      * Small improvements for the combat mission (#5184)
+     * Fix News Event not modifying commodity price and stock (#5192)
+     * Fix Cargo mission, to not pick up cargo if too late (#5196)
 
 April 2021
    * New Features
