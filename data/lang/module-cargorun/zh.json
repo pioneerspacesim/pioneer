@@ -499,6 +499,10 @@
     "description": "custom cargo",
     "message": "钛"
   },
+  "TOO_LATE_TO_PICK_UP": {
+    "description": "",
+    "message": "You are much too late! Your performance is so bad that I am cancelling my contract with you."
+  },
   "TUNGSTEN": {
     "description": "custom cargo",
     "message": "钨"

@@ -499,6 +499,10 @@
     "description": "custom cargo",
     "message": "Титаний"
   },
+  "TOO_LATE_TO_PICK_UP": {
+    "description": "",
+    "message": "Вече е прекалено късно! Изглежда за теб договорите са само лист хартия."
+  },
   "TUNGSTEN": {
     "description": "custom cargo",
     "message": "Волфрам"

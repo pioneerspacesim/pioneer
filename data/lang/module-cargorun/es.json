@@ -499,6 +499,10 @@
     "description": "custom cargo",
     "message": "Titanio"
   },
+  "TOO_LATE_TO_PICK_UP": {
+    "description": "",
+    "message": "¡Es demasiado tarde! Tu desempeño es tan malo que voy a cancelar mi contrato contigo."
+  },
   "TUNGSTEN": {
     "description": "custom cargo",
     "message": "Tungsteno"

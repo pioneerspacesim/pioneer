@@ -499,6 +499,10 @@
     "description": "custom cargo",
     "message": "Titane"
   },
+  "TOO_LATE_TO_PICK_UP": {
+    "description": "",
+    "message": "Vous êtes bien trop en retard! Votre performance a été si mauvaise que je me dois d'annuler notre contrat."
+  },
   "TUNGSTEN": {
     "description": "custom cargo",
     "message": "Tungsten"
