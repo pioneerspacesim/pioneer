@@ -3,6 +3,8 @@
 
 #include "FaceParts.h"
 #include "FileSystem.h"
+#include "JobQueue.h"
+#include "Pi.h"
 #include "SDLWrappers.h"
 #include "libs.h"
 #include "utils.h"
@@ -45,6 +47,36 @@ namespace {
 			num_genders(ngenders) {}
 	};
 
+	struct ScanPartJob : public Job {
+		ScanPartJob(std::vector<Part> &output, int species_idx, int race_idx, const std::string &path, const char *prefix) :
+			output(output),
+			species_idx(species_idx),
+			race_idx(race_idx),
+			path(path),
+			prefix(prefix)
+		{}
+
+		virtual void OnRun() override;
+		virtual void OnFinish() override
+		{
+			for (auto &part : cache)
+				output.push_back(std::move(part));
+		}
+
+	protected:
+		std::vector<Part> &output;
+		std::vector<Part> cache;
+		int species_idx;
+		int race_idx;
+		const std::string path;
+		const std::string prefix;
+	};
+
+	struct ScanGenderedPartJob : public ScanPartJob {
+		using ScanPartJob::ScanPartJob;
+		virtual void OnRun() override;
+	};
+
 	class PartDb {
 	public:
 		std::vector<SpeciesInfo> species;
@@ -65,8 +97,10 @@ namespace {
 
 	private:
 		void ScanSpecies(const std::string &dir, int species_idx);
-		void ScanParts(std::vector<Part> &output, const int species_idx, const int race_idx, const std::string &path, const char *prefix);
-		void ScanGenderedParts(std::vector<Part> &output, const int species_idx, const int race_idx, const std::string &path, const char *prefix);
+		void QueueScan(ScanPartJob *job)
+		{
+			Pi::GetApp()->GetAsyncStartupQueue()->Order(job);
+		}
 	};
 
 	static Uint32 _make_selector(int species, int race, int gender)
@@ -187,10 +221,10 @@ void PartDb::ScanSpecies(const std::string &basedir, const int species_idx)
 		const std::string &name = dirs.Current().GetName();
 
 		if (name == "accessories") {
-			ScanParts(this->accessories, species_idx, -1, path, "acc_");
+			QueueScan(new ScanPartJob(this->accessories, species_idx, -1, path, "acc_"));
 		} else if (name == "clothes") {
-			ScanGenderedParts(this->clothes, species_idx, -1, path, "cloth_");
-			ScanParts(this->armour, species_idx, -1, path, "armour_");
+			QueueScan(new ScanGenderedPartJob(this->clothes, species_idx, -1, path, "cloth_"));
+			QueueScan(new ScanPartJob(this->armour, species_idx, -1, path, "armour_"));
 		} else if (starts_with(name, "race_")) {
 			if (race_count >= MAX_RACES) {
 				Output("FaceParts: reached the limit on the number of races\n");
@@ -198,11 +232,11 @@ void PartDb::ScanSpecies(const std::string &basedir, const int species_idx)
 			}
 			const int race_idx = race_count++;
 
-			ScanGenderedParts(this->heads, species_idx, race_idx, fs::JoinPath(path, "head"), "head_");
-			ScanGenderedParts(this->eyes, species_idx, race_idx, fs::JoinPath(path, "eyes"), "eyes_");
-			ScanGenderedParts(this->noses, species_idx, race_idx, fs::JoinPath(path, "nose"), "nose_");
-			ScanGenderedParts(this->mouths, species_idx, race_idx, fs::JoinPath(path, "mouth"), "mouth_");
-			ScanGenderedParts(this->hairstyles, species_idx, race_idx, fs::JoinPath(path, "hair"), "hair_");
+			QueueScan(new ScanGenderedPartJob(this->heads, species_idx, race_idx, fs::JoinPath(path, "head"), "head_"));
+			QueueScan(new ScanGenderedPartJob(this->eyes, species_idx, race_idx, fs::JoinPath(path, "eyes"), "eyes_"));
+			QueueScan(new ScanGenderedPartJob(this->noses, species_idx, race_idx, fs::JoinPath(path, "nose"), "nose_"));
+			QueueScan(new ScanGenderedPartJob(this->mouths, species_idx, race_idx, fs::JoinPath(path, "mouth"), "mouth_"));
+			QueueScan(new ScanGenderedPartJob(this->hairstyles, species_idx, race_idx, fs::JoinPath(path, "hair"), "hair_"));
 		} else {
 			Output("FaceParts: unknown directory '%s'\n", path.c_str());
 		}
@@ -211,7 +245,7 @@ void PartDb::ScanSpecies(const std::string &basedir, const int species_idx)
 	species.push_back(SpeciesInfo(race_count, 2)); // XXX currently we hardcode genders = 2
 }
 
-void PartDb::ScanParts(std::vector<Part> &output, const int species_idx, const int race_idx, const std::string &path, const char *prefix)
+void ScanPartJob::OnRun()
 {
 	PROFILE_SCOPED()
 	const Uint32 selector = _make_selector(species_idx, race_idx, -1);
@@ -220,7 +254,7 @@ void PartDb::ScanParts(std::vector<Part> &output, const int species_idx, const i
 		if (starts_with(name, prefix)) {
 			SDLSurfacePtr im = LoadSurfaceFromFile(files.Current().GetPath());
 			if (im) {
-				output.push_back(Part(selector, im));
+				cache.push_back(Part(selector, im));
 			} else {
 				Output("Failed to load image %s\n", files.Current().GetPath().c_str());
 			}
@@ -228,10 +262,10 @@ void PartDb::ScanParts(std::vector<Part> &output, const int species_idx, const i
 	}
 }
 
-void PartDb::ScanGenderedParts(std::vector<Part> &output, const int species_idx, const int race_idx, const std::string &path, const char *prefix)
+void ScanGenderedPartJob::OnRun()
 {
 	PROFILE_SCOPED()
-	const int prefix_len = strlen(prefix);
+	const int prefix_len = prefix.size();
 	for (fs::FileEnumerator files(fs::gameDataFiles, path); !files.Finished(); files.Next()) {
 		const std::string &name = files.Current().GetName();
 		if (starts_with(name, prefix)) {
@@ -251,7 +285,7 @@ void PartDb::ScanGenderedParts(std::vector<Part> &output, const int species_idx,
 
 			SDLSurfacePtr im = LoadSurfaceFromFile(files.Current().GetPath());
 			if (im) {
-				output.push_back(Part(sel, im));
+				cache.push_back(Part(sel, im));
 			} else {
 				Output("Failed to load image %s\n", files.Current().GetPath().c_str());
 			}
