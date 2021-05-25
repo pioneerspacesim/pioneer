@@ -82,6 +82,16 @@ public:
 
 		void SetStartPath(const SystemPath &startPath);
 
+		// Returns a pointer to the async JobSet for the current startup loading step.
+		// The current load step will not complete until all ordered jobs have finished.
+		// NOTE: this queue runs on a different thread.
+		JobSet *GetCurrentLoadStepQueue() const;
+
+		// Returns a pointer to the async JobSet for the entire startup loading screen.
+		// Loading will not finish until all ordered jobs have finished.
+		// NOTE: this queue runs on a different thread.
+		JobSet *GetAsyncStartupQueue() const;
+
 	protected:
 		// for compatibility, while we're moving Pi's internals into App
 		friend class Pi;

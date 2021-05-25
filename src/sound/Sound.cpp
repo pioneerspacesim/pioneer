@@ -579,7 +579,6 @@ namespace Sound {
 	};
 
 	std::vector<std::string> s_audioDeviceNames = {};
-	std::unique_ptr<JobSet> s_audioJobSet;
 
 	bool Init(bool automaticallyOpenDevice)
 	{
@@ -594,13 +593,11 @@ namespace Sound {
 			return false;
 		}
 
-		s_audioJobSet.reset(new JobSet(Pi::GetAsyncJobQueue()));
-
 		// load all the wretched effects
-		s_audioJobSet->Order(new LoadSoundJob("sounds", false));
+		Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("sounds", false));
 
 		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
-		s_audioJobSet->Order(new LoadSoundJob("music", true));
+		Pi::GetApp()->GetAsyncStartupQueue()->Order(new LoadSoundJob("music", true));
 
 		UpdateAudioDevices();
 
@@ -660,8 +657,6 @@ namespace Sound {
 
 	void Uninit()
 	{
-		s_audioJobSet.reset();
-
 		if (!m_audioDevice)
 			return;
 

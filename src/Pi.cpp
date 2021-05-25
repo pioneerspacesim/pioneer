@@ -141,33 +141,42 @@ Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 
-class LoadStep : public Application::Lifecycle {
+class StartupScreen : public Application::Lifecycle {
 public:
-	LoadStep() :
+	StartupScreen() :
 		Lifecycle(true)
 	{}
 
+	std::unique_ptr<JobSet> asyncStartupQueue;
+	std::unique_ptr<JobSet> currentStepQueue;
+
 protected:
-	struct LoaderStep {
+	struct LoadStep {
 		// TODO: use a lighter-weight wrapper over lambdas instead of std::function
 		std::function<void()> fn;
 		std::string name;
 	};
 
-	std::vector<LoaderStep> m_loaders;
+	std::vector<LoadStep> m_loaders;
 	size_t m_currentLoader = 0;
+	bool m_hasQueuedJobs = 0;
 
 	template <typename T>
 	void AddStep(std::string name, T fn)
 	{
-		m_loaders.push_back(LoaderStep{ fn, name });
+		m_loaders.push_back(LoadStep{ fn, name });
 	}
 
 	Profiler::Clock m_loadTimer;
+	Profiler::Clock m_stepTimer;
 
 	void Start() override;
 	void Update(float) override;
 	void End() override;
+
+	void RunNewLoader();
+	void FinishLoadStep();
+	float GetProgress() { return (m_currentLoader) / float(m_loaders.size()); }
 };
 
 // FIXME: this is a hack, this class should have its lifecycle managed elsewhere
@@ -248,7 +257,7 @@ void Pi::Init(const std::map<std::string, std::string> &options, bool no_gui)
 	Pi::config = new GameConfig(options);
 	m_instance = new Pi::App();
 
-	GetApp()->m_loader = std::make_shared<LoadStep>();
+	GetApp()->m_loader = std::make_shared<StartupScreen>();
 	GetApp()->m_mainMenu = std::make_shared<MainMenu>();
 	GetApp()->m_gameLoop = std::make_shared<GameLoop>();
 
@@ -460,12 +469,25 @@ void Pi::App::Shutdown()
 ===============================================================================
 */
 
+JobSet *Pi::App::GetAsyncStartupQueue() const
+{
+	return static_cast<StartupScreen *>(m_loader.get())->asyncStartupQueue.get();
+}
+
+JobSet *Pi::App::GetCurrentLoadStepQueue() const
+{
+	return static_cast<StartupScreen *>(m_loader.get())->currentStepQueue.get();
+}
+
 // TODO: investigate constructing a DAG out of Init functions and dependencies
-void LoadStep::Start()
+void StartupScreen::Start()
 {
 	PROFILE_SCOPED()
 
-	Output("LoadStep::Start()\n");
+	asyncStartupQueue.reset(new JobSet(Pi::GetAsyncJobQueue()));
+	currentStepQueue.reset(new JobSet(Pi::GetAsyncJobQueue()));
+
+	Output("StartupScreen::Start()\n");
 	m_loadTimer.Reset();
 	m_loadTimer.Start();
 
@@ -573,36 +595,58 @@ void LoadStep::Start()
 	});
 }
 
-void LoadStep::Update(float deltaTime)
+void StartupScreen::Update(float deltaTime)
 {
 	PROFILE_SCOPED()
 
-	if (m_currentLoader >= m_loaders.size()) {
-		// TODO: this is here because profile dumps are currently run before Lifecycle::End is called
-		// Move profile dumping to Application.cpp to work around this!
-		Pi::RequestProfileFrame();
-		return RequestEndLifecycle();
+	// if we have queued jobs from the current loader step and they're all done, finish up
+	if (m_hasQueuedJobs && currentStepQueue->IsEmpty())
+		FinishLoadStep();
+
+	if (!m_hasQueuedJobs) {
+		if (m_currentLoader < m_loaders.size())
+			RunNewLoader();
+		else {
+			// finish loading once all steps are complete and there's nothing left in the queue.
+			if (asyncStartupQueue->IsEmpty()) {
+				// TODO: this is here because profile dumps are currently run before Lifecycle::End is called
+				// Move profile dumping to Application.cpp to work around this!
+				Pi::RequestProfileFrame();
+				return RequestEndLifecycle();
+			}
+		}
 	}
 
-	LoaderStep &loader = m_loaders[m_currentLoader++];
-	float progress = (m_currentLoader) / float(m_loaders.size());
-	Output("Loading [%02.f%%]: %s started\n", progress * 100., loader.name.c_str());
-
-	Profiler::Clock timer;
-	timer.Start();
-
-	loader.fn();
-
-	timer.Stop();
-	Output("Loading [%02.f%%]: %s took %.2fms\n", progress * 100.,
-		loader.name.c_str(), timer.milliseconds());
-
 	Pi::pigui->NewFrame();
-	PiGui::RunHandler(progress, "init");
+	PiGui::RunHandler(GetProgress(), "init");
 	Pi::pigui->Render();
 }
 
-void LoadStep::End()
+void StartupScreen::RunNewLoader()
+{
+	// don't increment the current loader count and run the loader if async jobs haven't finished yet
+	LoadStep &loader = m_loaders[m_currentLoader];
+	Output("Loading [%02.f%%]: %s started\n", GetProgress() * 100., loader.name.c_str());
+
+	m_stepTimer.SoftReset();
+	loader.fn();
+
+	// if we haven't queued any jobs, just finish this step and skip to the next one
+	m_hasQueuedJobs = !currentStepQueue->IsEmpty();
+	if (currentStepQueue->IsEmpty())
+		FinishLoadStep();
+}
+
+void StartupScreen::FinishLoadStep()
+{
+	m_hasQueuedJobs = false;
+	m_stepTimer.Stop();
+	Output("Loading [%02.f%%]: %s took %.2fms\n", GetProgress() * 100.,
+		m_loaders[m_currentLoader].name.c_str(), m_stepTimer.milliseconds());
+	m_currentLoader++;
+}
+
+void StartupScreen::End()
 {
 	OS::NotifyLoadEnd();
 

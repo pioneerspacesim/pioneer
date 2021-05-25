@@ -166,7 +166,7 @@ Job::Handle AsyncJobQueue::Queue(Job *job, JobClient *client)
 Job *AsyncJobQueue::GetJob()
 {
 	// profile to find the amount of time we spend waiting for a job
-	PROFILE_SCOPED()
+	PROFILE_SCOPED_DESC("Idle Waiting for Job")
 	SDL_LockMutex(m_queueLock);
 
 	// loop until a new job is available
