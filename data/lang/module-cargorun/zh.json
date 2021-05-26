@@ -501,7 +501,7 @@
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
-    "message": "You are much too late! Your performance is so bad that I am cancelling my contract with you."
+    "message": "你迟到了！你的表现太差了，我要取消与你的合同。"
   },
   "TUNGSTEN": {
     "description": "custom cargo",
