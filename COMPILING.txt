@@ -35,7 +35,7 @@ builds and is otherwise not actively maintained. Read the section below for
 details on using it for your platform.
 
 If you're having trouble compiling, please ask in #pioneer on
-irc.freenode.net. Most users are available to answer during CET daytime, but
+irc.libera.chat. Most users are available to answer during CET daytime, but
 questions are welcome anytime.
 
 
