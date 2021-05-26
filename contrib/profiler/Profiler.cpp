@@ -303,33 +303,29 @@ namespace Profiler {
 	=============
 	*/
 
-#if !defined(__LP64__) && !defined(__ILP32__) && !defined(_M_AMD64) && !defined(__i386__) && !defined(_M_IX86)
-	#error "Unknown processor architecture detected; zone-based profiling cannot work on this architecture"
-#endif
-
 	enum ZoneType : u8 {
 		ZoneEnter = 0,
 		ZoneExit
 	};
 
-	// Exploiting the fact that 64-bit pointers on AMD64 are restricted to the
-	// low 47 bits, with bit 48 and above copies of bit 47. This means we can
-	// stuff all needed metadata in the high 16 bits.
+	// We store relative time since epoch (generally, last profiler reset) in
+	// 56 bits, and the type of the event in the remaining 8 bits. This
+	// provides approximately 833 days of runtime before the time value is
+	// exhausted; generally speaking you will run out of memory and disk space
+	// well before that limit.
 	struct Zone {
-		u64 data : 48;
-		u64 _unused : 8;
+		u64 data;
+		u64 time : 56;
 		u64 type : 8;
-		u64 time;
 
 		Zone(ZoneType _t, void *_d, u64 _time) :
-			data((uintptr_t)(_d) & 0x0000FFFFFFFFFFFF),
-			type(_t),
-			time(_time)
+			data(u64(_d)),
+			time(_time),
+			type(_t)
 		{}
 
-		// recover an object pointer from the 48 bits of this value
 		template<typename T = void>
-		T *ptr() const { return (T *)(uintptr_t)(data | (data & (1UL << 47) ? 0xFFFF000000000000 : 0) ); }
+		T *ptr() const { return reinterpret_cast<T *>((void *)data); }
 
 		const char *str() const { return ptr<const char>(); }
 
@@ -1063,17 +1059,17 @@ namespace Profiler {
 			fprintf( f, "]},\n\"profiles\":[");
 		}
 
-		void PrintZone( const Zone *z, u64 epoch, f64 cyclesToTime, bool isLast ) {
-			u64 at = (z->time - epoch) * cyclesToTime;
+		void PrintZone( const Zone *z, f64 cyclesToTime, bool isLast ) {
+			u64 at = z->time * cyclesToTime;
 			Entry *ent = frameTable.Find(z->str());
 			fprintf( f, "{\"type\":\"%c\",\"frame\":%d,\"at\":%lld}%c", (z->type == ZoneType::ZoneEnter ? 'O' : 'C'),
 				(ent ? ent->index : 0), at, (isLast ? ' ' : ','));
 		}
 
-		void DumpZones( Buffer<Zone> *zones, u64 epoch, u64 endTicks, f64 cyclesToTime ) {
+		void DumpZones( Buffer<Zone> *zones, u64 endTicks, f64 cyclesToTime ) {
 			Buffer<const char *> stack;
 
-			u64 endNs = (endTicks - epoch) * cyclesToTime;
+			u64 endNs = endTicks * cyclesToTime;
 			fprintf( f, "%c\n{\"type\":\"evented\",\"name\":\"%s (thread %d): %s\",\"unit\":\"nanoseconds\",\"startValue\":0,\"endValue\":%lld,\"events\":[\n",
 				profileNum ? ',' : ' ', programName ? programName : "unnamed", profileNum, timeFormat, endNs );
 			profileNum++;
@@ -1086,12 +1082,12 @@ namespace Profiler {
 				if (z->type == ZoneType::ZoneExit)
 					stack.Pop();
 
-				PrintZone( z, epoch, cyclesToTime, z == zones->Last() && stack.Size() == 0 );
+				PrintZone( z, cyclesToTime, z == zones->Last() && stack.Size() == 0 );
 			}
 
 			for (u32 i = stack.Size(); i > 0; i--) {
 				Zone z(ZoneType::ZoneExit, (void *)stack.Pop(), endTicks);
-				PrintZone( &z, epoch, cyclesToTime, i == 1 );
+				PrintZone( &z, cyclesToTime, i == 1 );
 			}
 
 			fprintf( f, "\n]}" );
@@ -1132,7 +1128,7 @@ namespace Profiler {
 			accumulated->PrintTopStats( 50 );
 		}
 
-		void DumpZones( Buffer<Zone> *zones, u64 epoch, u64 endTime, f64 cyclesToMs ) {
+		void DumpZones( Buffer<Zone> *zones, u64 endTime, f64 cyclesToMs ) {
 			u32 stack = 0;
 			char *lineBuf = new char[2048];
 
@@ -1148,7 +1144,7 @@ namespace Profiler {
 				if (z.type == ZoneEnter)
 					stack++;
 
-				const f64 ms = Timer::ms(z.time - epoch) * cyclesToMs;
+				const f64 ms = Timer::ms(z.time) * cyclesToMs;
 				snprintf(lineBuf + indent, 2048 - indent, "%c %s [%.4f]", z.type == ZoneEnter ? '>' : '<', z.str(), ms);
 				puts(lineBuf);
 			}
@@ -1252,7 +1248,7 @@ namespace Profiler {
 			fputs( "</table></div>\n", f );
 		}
 
-		void DumpZones( Buffer<Zone> *, u64, u64, f64 ) {
+		void DumpZones( Buffer<Zone> *, u64, f64 ) {
 			// Do nothing, we don't want to show zones
 		}
 
@@ -1275,8 +1271,6 @@ namespace Profiler {
 		Caller *accumulate = new Caller( "/Top Callers" ), *packer = new Caller( "/Thread Packer" );
 		Buffer<Caller *> packedThreads;
 		Buffer<Buffer<Zone> *> packedZones(4);
-		u64 endTime = Timer::getticks();
-		u64 zoneEpoch = u64(-1);
 
 		dumper.Init(dir);
 		dumper.GlobalInfo( rawDuration, clockDuration );
@@ -1317,10 +1311,11 @@ namespace Profiler {
 			packedThreads.Push( stubroot );
 #endif
 
+#ifdef __PROFILER_WITH_ZONES__
 			Buffer<Zone> *threadZones = new Buffer<Zone>( thread.threadState->threadZones->Size() );
 			threadZones->Append( *thread.threadState->threadZones );
 			packedZones.Push( threadZones );
-			zoneEpoch = min(threadZones->Data()->time, zoneEpoch);
+#endif
 
 			if ( active ) {
 				Caller::thisThread.requireThreadLock = true;
@@ -1352,12 +1347,14 @@ namespace Profiler {
 		Caller::mGlobalDuration = sumTicks;
 		dumper.PrintAccumulated( accumulate );
 
+#ifdef __PROFILER_WITH_ZONES__
 		for ( u32 i = 0; i < packedZones.Size(); i++ ) {
-			dumper.DumpZones( packedZones[i], zoneEpoch, endTime, clockDuration / f64( rawDuration ) );
+			dumper.DumpZones( packedZones[i], rawDuration, clockDuration / f64( rawDuration ) );
 			delete packedZones[i];
 		}
 
 		packedZones.Clear();
+#endif
 
 		dumper.Finish();
 
@@ -1392,12 +1389,16 @@ namespace Profiler {
 				for ( ; iter; iter = iter->GetParent() )
 					iter->GetTimer().calls = 1;
 
+#ifdef __PROFILER_WITH_ZONES__
 				// clear the list of thread zones and add the current active set of zones to the new buffer
 				thread.threadState->threadZones->Clear();
 				for (u32 i = 0; i < thread.threadState->activeZoneStack->Size(); i++) {
-					Zone z(ZoneType::ZoneEnter, thread.threadState->activeZoneStack->Data()[i].ptr(), globalStart);
+					Zone &z = thread.threadState->activeZoneStack->Data()[i];
+					z.time = 0; // relative to globalStart.
 					thread.threadState->threadZones->Push(z);
 				}
+#endif
+
 				thread.threadState->threadLock.Release();
 			}
 		}
@@ -1416,16 +1417,20 @@ namespace Profiler {
 		threads.list->Push( Root( tmp, &Caller::thisThread ) );
 
 		Caller::AcquirePerThreadLock();
-		// allocate space for 262,144 zones (should be plenty :D)
-		Caller::thisThread.threadZones = new Buffer<Zone>((1 << 18) - 1);
-		Caller::thisThread.activeZoneStack = new Buffer<Zone>(512);
+
 		Caller::thisThread.activeCaller = tmp;
 		tmp->Start();
 		tmp->SetActive( true );
 
-		Zone z(ZoneType::ZoneEnter, (void*)name, tmp->GetTimer().started);
+#ifdef __PROFILER_WITH_ZONES__
+		// allocate space for 262,144 zones (should be plenty :D)
+		Caller::thisThread.threadZones = new Buffer<Zone>((1 << 18) - 1);
+		Caller::thisThread.activeZoneStack = new Buffer<Zone>(512);
+
+		Zone z(ZoneType::ZoneEnter, (void*)name, tmp->GetTimer().started - globalStart);
 		Caller::thisThread.threadZones->Push(z);
 		Caller::thisThread.activeZoneStack->Push(z);
+#endif
 
 		root = tmp;
 		Caller::ReleasePerThreadLock();
@@ -1440,11 +1445,16 @@ namespace Profiler {
 		root->Stop();
 		root->SetActive( false );
 		Caller::thisThread.activeCaller = NULL;
+
+#ifdef __PROFILER_WITH_ZONES__
+		u64 endTime = Timer::getticks() - globalStart;
 		for (u32 i = Caller::thisThread.activeZoneStack->Size(); i > 0; i--) {
 			void *name = Caller::thisThread.activeZoneStack->Pop().ptr();
-			Zone z(ZoneType::ZoneExit, name, Timer::getticks());
+			Zone z(ZoneType::ZoneExit, name, endTime);
 			Caller::thisThread.threadZones->Push(z);
 		}
+#endif
+
 		Caller::ReleasePerThreadLock();
 
 		threads.ReleaseGlobalLock();
@@ -1460,7 +1470,7 @@ namespace Profiler {
 		Caller::thisThread.activeCaller = active;
 
 #ifdef __PROFILER_WITH_ZONES__
-		Zone z(ZoneType::ZoneEnter, (void *)name, active->GetTimer().started);
+		Zone z(ZoneType::ZoneEnter, (void *)name, active->GetTimer().started - globalStart);
 		Caller::AcquirePerThreadLock();
 		Caller::thisThread.threadZones->Push(z);
 		Caller::thisThread.activeZoneStack->Push(z);
@@ -1477,7 +1487,7 @@ namespace Profiler {
 		Caller::thisThread.activeCaller = active->GetParent();
 
 #ifdef __PROFILER_WITH_ZONES__
-		Zone z(ZoneType::ZoneExit, (void *)active->GetName(), Timer::getticks());
+		Zone z(ZoneType::ZoneExit, (void *)active->GetName(), Timer::getticks() - globalStart);
 		Caller::AcquirePerThreadLock();
 		Caller::thisThread.threadZones->Push(z);
 		Caller::thisThread.activeZoneStack->Pop();
