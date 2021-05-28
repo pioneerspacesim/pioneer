@@ -501,7 +501,7 @@
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
-    "message": "You are much too late! Your performance is so bad that I am cancelling my contract with you."
+    "message": "Çok ama çok geciktin! Performansın o kadar kötü ki anlaşmamızı feshediyorum."
   },
   "TUNGSTEN": {
     "description": "custom cargo",
