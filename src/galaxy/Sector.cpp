@@ -111,7 +111,6 @@ void Sector::Dump(FILE *file, const char *indent) const
 
 float Sector::System::DistanceBetween(const System *a, const System *b)
 {
-	PROFILE_SCOPED()
 	vector3f dv = a->GetPosition() - b->GetPosition();
 	dv += Sector::SIZE * vector3f(float(a->sx - b->sx), float(a->sy - b->sy), float(a->sz - b->sz));
 	return dv.Length();

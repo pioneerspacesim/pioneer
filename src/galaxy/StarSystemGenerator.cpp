@@ -199,7 +199,6 @@ bool StarSystemFromSectorGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gal
 
 void StarSystemLegacyGeneratorBase::PickAtmosphere(SystemBody *sbody)
 {
-	PROFILE_SCOPED()
 	/* Alpha value isn't real alpha. in the shader fog depth is determined
 	 * by density*alpha, so that we can have very dense atmospheres
 	 * without having them a big stinking solid color obscuring everything
@@ -293,7 +292,6 @@ static const unsigned char RANDOM_RING_COLORS[][4] = {
 
 void StarSystemLegacyGeneratorBase::PickRings(SystemBody *sbody, bool forceRings)
 {
-	PROFILE_SCOPED()
 	sbody->m_rings.minRadius = fixed();
 	sbody->m_rings.maxRadius = fixed();
 	sbody->m_rings.baseColor = Color(255, 255, 255, 255);
@@ -579,7 +577,6 @@ static double CalcSurfaceTemp(double star_radius, double star_temp, double objec
  */
 static fixed calcEnergyPerUnitAreaAtDist(fixed star_radius, int star_temp, fixed object_dist)
 {
-	PROFILE_SCOPED()
 	fixed temp = star_temp * fixed(1, 5778); //normalize to Sun's temperature
 	const fixed total_solar_emission =
 		temp * temp * temp * temp * star_radius * star_radius;
@@ -659,7 +656,6 @@ int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed 
  */
 const SystemBody *StarSystemRandomGenerator::FindStarAndTrueOrbitalRange(const SystemBody *planet, fixed &orbMin_, fixed &orbMax_) const
 {
-	PROFILE_SCOPED()
 	const SystemBody *star = planet->GetParent();
 
 	assert(star);
@@ -863,7 +859,6 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 
 static fixed mass_from_disk_area(fixed a, fixed b, fixed max)
 {
-	PROFILE_SCOPED()
 	// so, density of the disk with distance from star goes like so: 1 - x/discMax
 	//
 	// ---
@@ -889,7 +884,6 @@ static fixed mass_from_disk_area(fixed a, fixed b, fixed max)
 
 static fixed get_disc_density(SystemBody *primary, fixed discMin, fixed discMax, fixed percentOfPrimaryMass)
 {
-	PROFILE_SCOPED()
 	discMax = std::max(discMax, discMin);
 	fixed total = mass_from_disk_area(discMin, discMax, discMax);
 	return primary->GetMassInEarths() * percentOfPrimaryMass / total;

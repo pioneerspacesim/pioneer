@@ -204,8 +204,6 @@ public:
 	/* Only use #if WITH_DEVKEYS */
 	static bool showDebugInfo;
 
-	static void RequestProfileFrame(const std::string &profilePath = "");
-
 	static Input::Manager *input;
 	static Player *player;
 	static TransferPlanner *planner;

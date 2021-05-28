@@ -606,15 +606,9 @@ void StartupScreen::Update(float deltaTime)
 	if (!m_hasQueuedJobs) {
 		if (m_currentLoader < m_loaders.size())
 			RunNewLoader();
-		else {
-			// finish loading once all steps are complete and there's nothing left in the queue.
-			if (asyncStartupQueue->IsEmpty()) {
-				// TODO: this is here because profile dumps are currently run before Lifecycle::End is called
-				// Move profile dumping to Application.cpp to work around this!
-				Pi::RequestProfileFrame();
-				return RequestEndLifecycle();
-			}
-		}
+		// finish loading once all steps are complete and there's nothing left in the queue.
+		else if (asyncStartupQueue->IsEmpty())
+			return RequestEndLifecycle();
 	}
 
 	Pi::pigui->NewFrame();
@@ -649,6 +643,7 @@ void StartupScreen::FinishLoadStep()
 void StartupScreen::End()
 {
 	OS::NotifyLoadEnd();
+	Pi::GetApp()->RequestProfileFrame();
 
 	m_loadTimer.Stop();
 	Output("\n\nPioneer loading took %.2fms\n", m_loadTimer.milliseconds());

@@ -35,7 +35,6 @@ Geom::Geom(const GeomTree *geomtree, const matrix4x4d &m, const vector3d &pos, v
 
 void Geom::MoveTo(const matrix4x4d &m)
 {
-	PROFILE_SCOPED()
 	m_orient = m;
 	m_pos = m_orient.GetTranslate();
 	m_invOrient = m.Inverse();
@@ -43,7 +42,6 @@ void Geom::MoveTo(const matrix4x4d &m)
 
 void Geom::MoveTo(const matrix4x4d &m, const vector3d &pos)
 {
-	PROFILE_SCOPED()
 	m_orient = m;
 	m_pos = pos;
 	m_orient.SetTranslate(pos);
