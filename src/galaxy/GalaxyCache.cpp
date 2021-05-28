@@ -4,11 +4,11 @@
 #include "galaxy/GalaxyCache.h"
 
 #include "Game.h"
+#include "Pi.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
-#include "Pi.h"
 #include "utils.h"
 #include <utility>
 
@@ -27,6 +27,7 @@ GalaxyObjectCache<T, CompareT>::~GalaxyObjectCache()
 template <typename T, typename CompareT>
 void GalaxyObjectCache<T, CompareT>::AddToCache(std::vector<RefCountedPtr<T>> &objects)
 {
+	PROFILE_SCOPED()
 	for (auto it = objects.begin(), itEnd = objects.end(); it != itEnd; ++it) {
 		auto inserted = m_attic.insert(std::make_pair(it->Get()->GetPath(), it->Get()));
 		if (!inserted.second) {
@@ -40,8 +41,6 @@ void GalaxyObjectCache<T, CompareT>::AddToCache(std::vector<RefCountedPtr<T>> &o
 template <typename T, typename CompareT>
 RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::GetIfCached(const SystemPath &path)
 {
-	PROFILE_SCOPED()
-
 	RefCountedPtr<T> s;
 	typename AtticMap::iterator i = m_attic.find(path);
 	if (i != m_attic.end()) {
@@ -54,8 +53,6 @@ RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::GetIfCached(const SystemPath &p
 template <typename T, typename CompareT>
 RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::GetCached(const SystemPath &path)
 {
-	PROFILE_SCOPED()
-
 	RefCountedPtr<T> s = this->GetIfCached(path);
 	if (!s) {
 		++m_cacheMisses;
@@ -120,8 +117,6 @@ void GalaxyObjectCache<T, CompareT>::Slave::MasterDeleted()
 template <typename T, typename CompareT>
 RefCountedPtr<T> GalaxyObjectCache<T, CompareT>::Slave::GetIfCached(const SystemPath &path)
 {
-	PROFILE_SCOPED()
-
 	typename CacheMap::iterator i = m_cache.find(path);
 	if (i != m_cache.end())
 		return (*i).second;
@@ -257,6 +252,7 @@ GalaxyObjectCache<T, CompareT>::CacheJob::CacheJob(std::unique_ptr<std::vector<S
 template <typename T, typename CompareT>
 void GalaxyObjectCache<T, CompareT>::CacheJob::OnRun() // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 {
+	PROFILE_SCOPED()
 	for (auto it = m_paths->begin(), itEnd = m_paths->end(); it != itEnd; ++it)
 		m_objects.push_back(m_galaxyGenerator->Generate<T, GalaxyObjectCache<T, CompareT>>(m_galaxy, *it, nullptr));
 }
@@ -265,6 +261,7 @@ void GalaxyObjectCache<T, CompareT>::CacheJob::OnRun() // RUNS IN ANOTHER THREAD
 template <typename T, typename CompareT>
 void GalaxyObjectCache<T, CompareT>::CacheJob::OnFinish() // runs in primary thread of the context
 {
+	PROFILE_SCOPED()
 	m_slaveCache->AddToCache(m_objects);
 	if (m_slaveCache->m_jobs.IsEmpty() && m_callback)
 		m_callback();

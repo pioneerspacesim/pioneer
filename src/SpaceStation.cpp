@@ -151,6 +151,7 @@ void SpaceStation::PostLoadFixup(Space *space)
 
 void SpaceStation::InitStation()
 {
+	PROFILE_SCOPED()
 	m_adjacentCity = 0;
 	for (int i = 0; i < NUM_STATIC_SLOTS; i++)
 		m_staticSlot[i] = false;
@@ -529,8 +530,8 @@ void SpaceStation::DockingUpdate(const double timeStep)
 		}
 
 		double stageDuration = (dt.stage > 0 ?
-				m_type->GetDockAnimStageDuration(dt.stage - 1) :
-				m_type->GetUndockAnimStageDuration(abs(dt.stage) - 1));
+				  m_type->GetDockAnimStageDuration(dt.stage - 1) :
+				  m_type->GetUndockAnimStageDuration(abs(dt.stage) - 1));
 		dt.stagePos += timeStep / stageDuration;
 
 		if (dt.stage == 1) {

@@ -223,7 +223,6 @@ void NavLights::Render(Graphics::Renderer *renderer)
 
 void NavLights::SetColor(unsigned int group, LightColor c)
 {
-	PROFILE_SCOPED();
 	if (!m_groupLights.count(group)) return;
 	for (LightBulb &light : m_groupLights[group]) {
 		if (light.group != group || light.color == c) continue;
@@ -236,7 +235,6 @@ void NavLights::SetColor(unsigned int group, LightColor c)
 
 void NavLights::SetMask(unsigned int group, uint8_t mask)
 {
-	PROFILE_SCOPED()
 	if (!m_groupLights.count(group)) return;
 	for (LightBulb &light : m_groupLights[group]) {
 		light.mask = mask;

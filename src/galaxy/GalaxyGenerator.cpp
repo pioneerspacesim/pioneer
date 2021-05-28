@@ -44,6 +44,7 @@ GalaxyGenerator::Version GalaxyGenerator::GetLastVersion(const std::string &name
 // static
 RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string &name, Version version)
 {
+	PROFILE_SCOPED()
 	if (version == LAST_VERSION)
 		version = GetLastVersion(name);
 
@@ -169,6 +170,7 @@ GalaxyGenerator *GalaxyGenerator::AddStarSystemStage(StarSystemGeneratorStage *s
 
 RefCountedPtr<Sector> GalaxyGenerator::GenerateSector(RefCountedPtr<Galaxy> galaxy, const SystemPath &path, SectorCache *cache)
 {
+	PROFILE_SCOPED()
 	const Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rng(_init, 4);
 	SectorConfig config;
@@ -181,6 +183,7 @@ RefCountedPtr<Sector> GalaxyGenerator::GenerateSector(RefCountedPtr<Galaxy> gala
 
 RefCountedPtr<StarSystem> GalaxyGenerator::GenerateStarSystem(RefCountedPtr<Galaxy> galaxy, const SystemPath &path, StarSystemCache *cache)
 {
+	PROFILE_SCOPED()
 	RefCountedPtr<const Sector> sec = galaxy->GetSector(path);
 	assert(path.systemIndex < sec->m_systems.size());
 	Uint32 seed = sec->m_systems[path.systemIndex].GetSeed();

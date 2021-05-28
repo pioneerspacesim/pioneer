@@ -201,6 +201,7 @@ namespace Background {
 
 	void Starfield::Init()
 	{
+		PROFILE_SCOPED()
 		Graphics::MaterialDescriptor desc;
 		desc.effect = Graphics::EFFECT_STARFIELD;
 		desc.textures = 1;
@@ -262,6 +263,7 @@ namespace Background {
 		//fill the array
 		Uint32 num = 0;
 		if (space != nullptr && galaxy.Valid() && space->GetStarSystem() != nullptr) {
+			PROFILE_SCOPED_DESC("Pick Stars from Galaxy")
 			const SystemPath current = space->GetStarSystem()->GetPath();
 
 			const double size = 1.0;
@@ -413,6 +415,7 @@ namespace Background {
 
 	void Starfield::Draw(Graphics::RenderState *rs)
 	{
+		PROFILE_SCOPED()
 		// XXX would be nice to get rid of the Pi:: stuff here
 		if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 			m_pointSprites->Draw(m_renderer, m_renderState);

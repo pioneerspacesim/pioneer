@@ -35,14 +35,11 @@ SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :
 
 bool SystemBody::HasAtmosphere() const
 {
-	PROFILE_SCOPED()
 	return (m_volatileGas > fixed(1, 100));
 }
 
 bool SystemBody::IsScoopable() const
 {
-	PROFILE_SCOPED()
-
 	if (GetSuperType() == SUPERTYPE_GAS_GIANT)
 		return true;
 	if ((m_type == TYPE_PLANET_TERRESTRIAL) &&
@@ -116,7 +113,6 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 SystemBody::BodySuperType SystemBody::GetSuperType() const
 {
-	PROFILE_SCOPED()
 	switch (m_type) {
 	case TYPE_BROWN_DWARF:
 	case TYPE_WHITE_DWARF:
@@ -518,7 +514,6 @@ bool SystemBody::IsCoOrbital() const
 
 double SystemBody::CalcSurfaceGravity() const
 {
-	PROFILE_SCOPED()
 	double r = GetRadius();
 	if (r > 0.0) {
 		return G * GetMass() / pow(r, 2);
@@ -580,6 +575,7 @@ void SystemBody::ClearParentAndChildPointers()
 
 SystemBody *SystemBody::GetNearestJumpable()
 {
+	PROFILE_SCOPED()
 	if (IsJumpable()) return this;
 	// trying to find a jumpable parent
 	SystemBody *result = this;

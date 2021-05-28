@@ -44,6 +44,7 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
+	PROFILE_SCOPED()
 	// Now that we have a Galaxy, check the starting location
 	if (!path.IsBodyPath())
 		throw InvalidGameStartLocation("SystemPath is not a body path");
@@ -85,9 +86,7 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 
 	EmitPauseState(IsPaused());
 
-#ifdef PIONEER_PROFILER
-	Pi::RequestProfileFrame("NewGame");
-#endif
+	Pi::GetApp()->RequestProfileFrame("NewGame");
 }
 
 Game::~Game()
@@ -121,6 +120,7 @@ Game::Game(const Json &jsonObj) :
 	m_requestedTimeAccel(TIMEACCEL_PAUSED),
 	m_forceTimeAccel(false)
 {
+	PROFILE_SCOPED()
 	try {
 		int version = jsonObj["version"];
 		Output("savefile version: %d\n", version);
@@ -177,7 +177,7 @@ Game::Game(const Json &jsonObj) :
 
 	EmitPauseState(IsPaused());
 
-	Pi::RequestProfileFrame("LoadGame");
+	Pi::GetApp()->RequestProfileFrame("LoadGame");
 }
 
 void Game::ToJson(Json &jsonObj)
@@ -812,6 +812,7 @@ Game::Views::~Views()
 // manage creation and destruction here to get the timing and order right
 void Game::CreateViews()
 {
+	PROFILE_SCOPED()
 	Pi::SetView(nullptr);
 
 	// XXX views expect Pi::game and Pi::player to exist
@@ -940,5 +941,5 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotWriteToFileException();
 	}
 
-	Pi::RequestProfileFrame("SaveGame");
+	Pi::GetApp()->RequestProfileFrame("SaveGame");
 }

@@ -194,13 +194,6 @@ public:
 	/* Only use #if WITH_DEVKEYS */
 	static bool showDebugInfo;
 
-#if PIONEER_PROFILER
-	static std::string profilerPath;
-	static std::string profileOnePath;
-	static bool doProfileSlow;
-	static bool doProfileOne;
-#endif
-
 	static void RequestProfileFrame(const std::string &profilePath = "");
 
 	static Input::Manager *input;

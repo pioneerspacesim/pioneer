@@ -781,7 +781,6 @@ Faction::Faction(Galaxy *galaxy) :
 	m_galaxy(galaxy),
 	m_homesector(0)
 {
-	PROFILE_SCOPED()
 	govtype_weights_total = 0;
 }
 
@@ -866,7 +865,6 @@ void FactionsDatabase::Octsapling::Add(const Faction *faction)
 
 void FactionsDatabase::Octsapling::PruneDuplicates(const int bx, const int by, const int bz)
 {
-	PROFILE_SCOPED()
 	octbox[bx][by][bz].erase(std::unique(octbox[bx][by][bz].begin(), octbox[bx][by][bz].end()), octbox[bx][by][bz].end());
 }
 

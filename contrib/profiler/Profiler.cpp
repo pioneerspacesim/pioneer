@@ -1,5 +1,6 @@
 #define __PROFILER_SMP__
 #define __PROFILER_CONSOLIDATE_THREADS__
+#define __PROFILER_WITH_ZONES__
 
 #define css_outline_color "#848484"
 #define css_thread_style "background-color:#EEEEEE;margin-top:8px;"
@@ -191,7 +192,14 @@ namespace Profiler {
 			mBuffer = (type *)realloc( mBuffer, mAlloc * sizeof( type ) );
 		}
 
+		void Append(const Buffer &other) {
+			EnsureCapacity( mItems + other.mItems );
+			memcpy( mBuffer + mItems, other.mBuffer, other.mItems * sizeof( type ) );
+			mItems += other.mItems;
+		}
+
 		u32 Size() const { return mItems; }
+		u32 Capacity() const { return mAlloc; }
 
 		template< class Compare >
 		void Sort( Compare comp ) {
@@ -287,6 +295,126 @@ namespace Profiler {
 		ColorRamp &push( const ColorF &color, f32 value ) { mColors.Push( Marker( color, value ) ); return *this; }
 
 		Buffer<Marker> mColors;
+	};
+
+	/*
+	=============
+	Zone
+	=============
+	*/
+
+	enum ZoneType : u8 {
+		ZoneEnter = 0,
+		ZoneExit
+	};
+
+	// We store relative time since epoch (generally, last profiler reset) in
+	// 56 bits, and the type of the event in the remaining 8 bits. This
+	// provides approximately 833 days of runtime before the time value is
+	// exhausted; generally speaking you will run out of memory and disk space
+	// well before that limit.
+	struct Zone {
+		u64 data;
+		u64 time : 56;
+		u64 type : 8;
+
+		Zone(ZoneType _t, void *_d, u64 _time) :
+			data(u64(_d)),
+			time(_time),
+			type(_t)
+		{}
+
+		template<typename T = void>
+		T *ptr() const { return reinterpret_cast<T *>((void *)data); }
+
+		const char *str() const { return ptr<const char>(); }
+
+		static bool sort(const Zone &a, const Zone &b) { return a.time < b.time; }
+	};
+
+	/*
+	=============
+	HashTable
+	=============
+	*/
+
+	template <typename Value>
+	struct HashTable {
+	public:
+		HashTable() {
+			mNumChildren = 0;
+			Resize(2);
+		}
+
+		~HashTable() {
+			Reset();
+			free( mBuckets );
+		}
+
+		Value *Find( const char *name ) {
+			u32 index = ( GetBucket( name, mBucketCount ) ), mask = ( mBucketCount - 1 );
+			// look through the slots in the table until we find the valid index or an empty slot
+			for ( Value *entry = mBuckets[index]; entry; entry = mBuckets[++index & mask] ) {
+				if ( entry->mName == name )
+					return entry;
+			}
+
+			return NULL;
+		}
+
+		u32 Size() const { return mNumChildren; }
+
+		void Create( const char *name, Value *value ) {
+			EnsureCapacity( ++mNumChildren );
+			FindEmptyChildSlot( mBuckets, mBucketCount, name ) = value;
+		}
+
+		void Resize( u32 new_size ) {
+			new_size = ( new_size < mBucketCount ) ? mBucketCount << 1 : nextpow2( new_size - 1 );
+			Value **new_buckets = (Value **)calloc( new_size, sizeof( Value* ) );
+
+			for ( u32 i = 0; i < mBucketCount; ++i )
+				if ( mBuckets[ i ] )
+					FindEmptyChildSlot( new_buckets, new_size, mBuckets[i]->mName ) = mBuckets[i];
+
+			free( mBuckets );
+			mBuckets = ( new_buckets );
+			mBucketCount = ( new_size );
+		}
+
+		void Reset() {
+			mNumChildren = 0;
+			for ( u32 i = 0; i < mBucketCount; ++i )
+				if ( mBuckets[ i ] )
+					delete mBuckets[ i ];
+
+			zeroarray( mBuckets, mBucketCount );
+		}
+
+	protected:
+
+		static inline Value *&FindEmptyChildSlot( Value **buckets, u32 bucket_count, const char *name ) {
+			u32 index = ( GetBucket( name, bucket_count ) ), mask = ( bucket_count - 1 );
+			Value **slot = &buckets[index];
+			// look through the slots until we find an empty slot
+			for ( ; *slot; slot = &buckets[++index & mask] )
+				continue;
+			return *slot;
+		}
+
+		inline static u32 GetBucket( const char *name, u32 bucket_count ) {
+			return u32( ( ( (size_t )name >> 5 ) /* * 2654435761 */ ) & ( bucket_count - 1 ) );
+		}
+
+		inline void EnsureCapacity( u32 capacity ) {
+			if ( capacity < ( mBucketCount / 2 ) )
+				return;
+			Resize( capacity );
+		}
+
+	private:
+		u32 mBucketCount, mNumChildren;
+		Value **mBuckets;
 	};
 
 	/*
@@ -777,6 +905,8 @@ namespace Profiler {
 			CASLock threadLock;
 			bool requireThreadLock;
 			Caller *activeCaller;
+			Buffer<Zone> *threadZones;
+			Buffer<Zone> *activeZoneStack;
 		};
 
 		static threadlocal ThreadState thisThread;
@@ -784,12 +914,8 @@ namespace Profiler {
 	#pragma pack(pop)
 
 
-
-
-
-
 #if defined(__PROFILER_ENABLED__)
-	threadlocal Caller::ThreadState Caller::thisThread = { {0}, 0, 0 };
+	threadlocal Caller::ThreadState Caller::thisThread = { {0}, 0, 0, 0, 0 };
 	f64 Caller::mTimerOverhead = 0, Caller::mRdtscOverhead = 0;
 	u64 Caller::mGlobalDuration = 0;
 	Caller::Max Caller::maxStats;
@@ -881,6 +1007,105 @@ namespace Profiler {
 		Thread Dumping
 	*/
 
+	// Export Speedscope (https://speedscope.app) format json event logs.
+	struct ZoneDumper {
+
+		struct Entry {
+			const char *mName;
+			u32 index;
+		};
+
+		struct SharedPrinter {
+			SharedPrinter(HashTable<Entry> *_table, FILE *_f, Caller *c) :
+				frameTable(_table), f(_f) { this->operator()(c); }
+			void operator()(Caller *c) {
+
+				if (!frameTable->Find(c->GetName())) {
+					u32 index = frameTable->Size() + 1;
+					fprintf( f, ",{\"name\":\"%s\",\"index\":%d}", c->GetName(), index );
+					frameTable->Create(c->GetName(), new Entry { c->GetName(), index });
+				}
+				c->ForEachByRef(*this);
+			}
+
+		protected:
+			HashTable<Entry> *frameTable;
+			FILE *f;
+		};
+
+		void Init(const char *dir) {
+			profileNum = 0;
+
+			time_t now;
+			time( &now );
+			tm *now_tm = localtime( &now );
+			strftime( timeFormat, 255, "%Y%m%d_%H%M%S", now_tm );
+			snprintf( fileFormat, 4096, "%s%s%s-profile-%s.json", dir ? dir : "", dir ? "/" : "", programName ? programName : "no-info-given", timeFormat );
+			strftime( timeFormat, 255, "%#c", now_tm );
+			f = fopen( fileFormat, "wb+" );
+			fprintf( f, "{\"version\":\"0.0.1\",\"$schema\":\"https://www.speedscope.app/file-format-schema.json\",\n" );
+			fprintf( f, "\"shared\":{\"frames\":[{\"name\":\"dummy\"}");
+		}
+
+		void GlobalInfo( u64, u64 ) {}
+		void ThreadsInfo( u64, f64, f64 ) {}
+
+		void PrintThread( Caller *r ) {
+			root = r;
+			SharedPrinter printer(&frameTable, f, r);
+		}
+
+		void PrintAccumulated( Caller * ) {
+			fprintf( f, "]},\n\"profiles\":[");
+		}
+
+		void PrintZone( const Zone *z, f64 cyclesToTime, bool isLast ) {
+			u64 at = z->time * cyclesToTime;
+			Entry *ent = frameTable.Find(z->str());
+			fprintf( f, "{\"type\":\"%c\",\"frame\":%d,\"at\":%lld}%c", (z->type == ZoneType::ZoneEnter ? 'O' : 'C'),
+				(ent ? ent->index : 0), at, (isLast ? ' ' : ','));
+		}
+
+		void DumpZones( Buffer<Zone> *zones, u64 endTicks, f64 cyclesToTime ) {
+			Buffer<const char *> stack;
+
+			u64 endNs = endTicks * cyclesToTime;
+			fprintf( f, "%c\n{\"type\":\"evented\",\"name\":\"%s (thread %d): %s\",\"unit\":\"nanoseconds\",\"startValue\":0,\"endValue\":%lld,\"events\":[\n",
+				profileNum ? ',' : ' ', programName ? programName : "unnamed", profileNum, timeFormat, endNs );
+			profileNum++;
+
+			for (u32 i = 0; i < zones->Size(); i++) {
+				const Zone *z = &zones->Data()[i];
+
+				if (z->type == ZoneType::ZoneEnter)
+					stack.Push(z->str());
+				if (z->type == ZoneType::ZoneExit)
+					stack.Pop();
+
+				PrintZone( z, cyclesToTime, z == zones->Last() && stack.Size() == 0 );
+			}
+
+			for (u32 i = stack.Size(); i > 0; i--) {
+				Zone z(ZoneType::ZoneExit, (void *)stack.Pop(), endTicks);
+				PrintZone( &z, cyclesToTime, i == 1 );
+			}
+
+			fprintf( f, "\n]}" );
+		}
+
+		void Finish() {
+			fprintf( f, "]}\n");
+			fflush( f );
+			fclose( f );
+		}
+
+	protected:
+		FILE *f;
+		HashTable<Entry> frameTable;
+		char timeFormat[256], fileFormat[4096];
+		u32 profileNum;
+	};
+
 	struct PrintfDumper {
 		void Init(const char *dir) {
 		}
@@ -901,6 +1126,28 @@ namespace Profiler {
 
 		void PrintAccumulated( Caller *accumulated ) {
 			accumulated->PrintTopStats( 50 );
+		}
+
+		void DumpZones( Buffer<Zone> *zones, u64 endTime, f64 cyclesToMs ) {
+			u32 stack = 0;
+			char *lineBuf = new char[2048];
+
+			printf("DumpZones: \n");
+			for (u32 i = 0; i < zones->Size(); i++) {
+				const Zone &z = zones->Data()[i];
+				if (z.type == ZoneExit)
+					stack--;
+
+				u32 indent = min(stack * 2, 1024U);
+				memset(lineBuf, ' ', indent);
+
+				if (z.type == ZoneEnter)
+					stack++;
+
+				const f64 ms = Timer::ms(z.time) * cyclesToMs;
+				snprintf(lineBuf + indent, 2048 - indent, "%c %s [%.4f]", z.type == ZoneEnter ? '>' : '<', z.str(), ms);
+				puts(lineBuf);
+			}
 		}
 
 		void Finish() {
@@ -1001,6 +1248,10 @@ namespace Profiler {
 			fputs( "</table></div>\n", f );
 		}
 
+		void DumpZones( Buffer<Zone> *, u64, f64 ) {
+			// Do nothing, we don't want to show zones
+		}
+
 		void Finish() {
 			fputs( "</div>\n", f );
 			fputs( "</body></html>", f );
@@ -1019,6 +1270,7 @@ namespace Profiler {
 
 		Caller *accumulate = new Caller( "/Top Callers" ), *packer = new Caller( "/Thread Packer" );
 		Buffer<Caller *> packedThreads;
+		Buffer<Buffer<Zone> *> packedZones(4);
 
 		dumper.Init(dir);
 		dumper.GlobalInfo( rawDuration, clockDuration );
@@ -1059,6 +1311,12 @@ namespace Profiler {
 			packedThreads.Push( stubroot );
 #endif
 
+#ifdef __PROFILER_WITH_ZONES__
+			Buffer<Zone> *threadZones = new Buffer<Zone>( thread.threadState->threadZones->Size() );
+			threadZones->Append( *thread.threadState->threadZones );
+			packedZones.Push( threadZones );
+#endif
+
 			if ( active ) {
 				Caller::thisThread.requireThreadLock = true;
 				thread.threadState->threadLock.Release();
@@ -1088,6 +1346,16 @@ namespace Profiler {
 		// print the totals, use the summed total of ticks to adjust percentages
 		Caller::mGlobalDuration = sumTicks;
 		dumper.PrintAccumulated( accumulate );
+
+#ifdef __PROFILER_WITH_ZONES__
+		for ( u32 i = 0; i < packedZones.Size(); i++ ) {
+			dumper.DumpZones( packedZones[i], rawDuration, clockDuration / f64( rawDuration ) );
+			delete packedZones[i];
+		}
+
+		packedZones.Clear();
+#endif
+
 		dumper.Finish();
 
 		delete accumulate;
@@ -1120,6 +1388,17 @@ namespace Profiler {
 				Caller *iter = thread.threadState->activeCaller;
 				for ( ; iter; iter = iter->GetParent() )
 					iter->GetTimer().calls = 1;
+
+#ifdef __PROFILER_WITH_ZONES__
+				// clear the list of thread zones and add the current active set of zones to the new buffer
+				thread.threadState->threadZones->Clear();
+				for (u32 i = 0; i < thread.threadState->activeZoneStack->Size(); i++) {
+					Zone &z = thread.threadState->activeZoneStack->Data()[i];
+					z.time = 0; // relative to globalStart.
+					thread.threadState->threadZones->Push(z);
+				}
+#endif
+
 				thread.threadState->threadLock.Release();
 			}
 		}
@@ -1138,9 +1417,21 @@ namespace Profiler {
 		threads.list->Push( Root( tmp, &Caller::thisThread ) );
 
 		Caller::AcquirePerThreadLock();
+
 		Caller::thisThread.activeCaller = tmp;
 		tmp->Start();
 		tmp->SetActive( true );
+
+#ifdef __PROFILER_WITH_ZONES__
+		// allocate space for 262,144 zones (should be plenty :D)
+		Caller::thisThread.threadZones = new Buffer<Zone>((1 << 18) - 1);
+		Caller::thisThread.activeZoneStack = new Buffer<Zone>(512);
+
+		Zone z(ZoneType::ZoneEnter, (void*)name, tmp->GetTimer().started - globalStart);
+		Caller::thisThread.threadZones->Push(z);
+		Caller::thisThread.activeZoneStack->Push(z);
+#endif
+
 		root = tmp;
 		Caller::ReleasePerThreadLock();
 
@@ -1154,6 +1445,16 @@ namespace Profiler {
 		root->Stop();
 		root->SetActive( false );
 		Caller::thisThread.activeCaller = NULL;
+
+#ifdef __PROFILER_WITH_ZONES__
+		u64 endTime = Timer::getticks() - globalStart;
+		for (u32 i = Caller::thisThread.activeZoneStack->Size(); i > 0; i--) {
+			void *name = Caller::thisThread.activeZoneStack->Pop().ptr();
+			Zone z(ZoneType::ZoneExit, name, endTime);
+			Caller::thisThread.threadZones->Push(z);
+		}
+#endif
+
 		Caller::ReleasePerThreadLock();
 
 		threads.ReleaseGlobalLock();
@@ -1167,6 +1468,14 @@ namespace Profiler {
 		Caller *active = parent->FindOrCreate( name );
 		active->Start();
 		Caller::thisThread.activeCaller = active;
+
+#ifdef __PROFILER_WITH_ZONES__
+		Zone z(ZoneType::ZoneEnter, (void *)name, active->GetTimer().started - globalStart);
+		Caller::AcquirePerThreadLock();
+		Caller::thisThread.threadZones->Push(z);
+		Caller::thisThread.activeZoneStack->Push(z);
+		Caller::ReleasePerThreadLock();
+#endif
 	}
 
 	inline void exitCaller() {
@@ -1176,6 +1485,14 @@ namespace Profiler {
 
 		active->Stop();
 		Caller::thisThread.activeCaller = active->GetParent();
+
+#ifdef __PROFILER_WITH_ZONES__
+		Zone z(ZoneType::ZoneExit, (void *)active->GetName(), Timer::getticks() - globalStart);
+		Caller::AcquirePerThreadLock();
+		Caller::thisThread.threadZones->Push(z);
+		Caller::thisThread.activeZoneStack->Pop();
+		Caller::ReleasePerThreadLock();
+#endif
 	}
 
 	inline void pauseCaller() {
@@ -1226,6 +1543,7 @@ namespace Profiler {
 	void detect( int argc, char **argv ) { detectByArgs( argc, argv ); }
 	//void detect( const char *commandLine ) { detectWinMain( commandLine ); }
 	void dump(const char *dir) { dumpThreads( PrintfDumper(), dir ); }
+	void dumpzones(const char *dir) { dumpThreads( ZoneDumper(), dir ); }
 	void dumphtml(const char *dir) { dumpThreads( HTMLDumper(), dir ); }
 	void fastcall enter( const char *name ) { enterCaller( name ); }
 	void fastcall exit() { exitCaller(); }
@@ -1238,6 +1556,7 @@ namespace Profiler {
 	void detect( int argc, char **argv ) {}
 	//void detect( const char *commandLine ) {}
 	void dump(const char *dir) {}
+	void dumpzones(const char *dir) {}
 	void dumphtml(const char *dir) {}
 	void fastcall enter( const char *name ) {}
 	void fastcall exit() {}
