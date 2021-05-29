@@ -206,30 +206,35 @@ void AsyncJobQueue::Finish(Job *job, const uint8_t threadIdx)
 Uint32 AsyncJobQueue::FinishJobs()
 {
 	PROFILE_SCOPED()
-	Uint32 finished = 0;
+
+	// semi-magic number to avoid frivolous reallocs
+	m_finishedScratch.reserve(32);
 
 	const uint32_t numRunners = m_runners.size();
 	for (uint32_t i = 0; i < numRunners; ++i) {
 		SDL_LockMutex(m_finishedLock[i]);
-		if (m_finished[i].empty()) {
-			SDL_UnlockMutex(m_finishedLock[i]);
-			continue;
+
+		while (!m_finished[i].empty()) {
+			assert(m_finished[i].front());
+			m_finishedScratch.push_back(std::move(m_finished[i].front()));
+			m_finished[i].pop_front();
 		}
-		Job *job = m_finished[i].front();
-		m_finished[i].pop_front();
+
 		SDL_UnlockMutex(m_finishedLock[i]);
+	}
 
-		assert(job);
-
+	for (Job *job : m_finishedScratch) {
 		// if its already been cancelled then its taken care of, so we just forget about it
 		if (!job->cancelled) {
 			job->UnlinkHandle();
 			job->OnFinish();
-			finished++;
 		}
 
 		delete job;
 	}
+
+	Uint32 finished = m_finishedScratch.size();
+	m_finishedScratch.clear();
 
 	return finished;
 }
@@ -441,6 +446,7 @@ void SyncJobQueue::Cancel(Job *job)
 
 Uint32 SyncJobQueue::RunJobs(Uint32 count)
 {
+	PROFILE_SCOPED()
 	Uint32 executed = 0;
 	assert(count >= 1);
 	for (Uint32 i = 0; i < count; ++i) {

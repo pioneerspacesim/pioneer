@@ -198,6 +198,8 @@ private:
 	SDL_mutex *m_finishedLock[MAX_THREADS];
 
 	std::vector<JobRunner *> m_runners;
+	// scratch space for finishing jobs on main thread
+	std::vector<Job *> m_finishedScratch;
 
 	bool m_shutdown;
 };
