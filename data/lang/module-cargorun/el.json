@@ -5,7 +5,7 @@
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Πολύ καλά"
+    "message": "Πολύ καλά."
   },
   "ACCEPTED_3": {
     "description": "",
@@ -17,47 +17,47 @@
   },
   "ACCEPTED_PICKUP_1": {
     "description": "",
-    "message": "Ok, I will make sure that the goods are ready for collection."
+    "message": "Εντάξει, θα φροντίσω τα πράγματα να είναι έτοιμα για φόρτωση."
   },
   "ACCEPTED_PICKUP_2": {
     "description": "",
-    "message": "It's a deal! I will let my colleagues know that you are on your way."
+    "message": "Σύμφωνοι!! Θα ενημερώσω τους συνεργάτες μου ότι ήδη ταξιδεύεις."
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "CARGO RUN. Delivery of cargo to the {system} system."
+    "message": "ΜΕΤΑΦΟΡΑ ΦΟΡΤΙΟΥ. Παράδoση φορτίου στο σύστημα {system}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "ΑΝΑΓΚΗ ΜΕΤΑΦΟΡΑΣ. Υπάρχει ανάγκη μεταφοράς στο σύστημα {system}. Αμοιβή {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "DELIVERY. Valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "ΠΑΡΑΔΟΣΗ. Φορτίο αξίας στο σύστημα {system}. {cash} για έναν έμπειρο πιλότο."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "LOCAL DELIVERY. Move of goods to {starport}."
+    "message": "ΤΟΠΙΚΗ ΠΑΡΑΔΟΣΗ. Μετακίνηση αγαθών στο {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "TRANSPORT NEEDED. Delivery of local cargo to {starport}."
+    "message": "ΤΟΠΙΚΗ ΜΕΤΑΦΟΡΑ. Παράδοση φορτίου στο {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN. Delivery of goods to {starport}."
+    "message": "ΤΟΠΙΚΗ ΜΕΤΑΦΟΡΑ ΦΟΡΤΙΟΥ. Παράδοση εμπορευμάτων στο {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "CARGO PICKUP. Pickup of cargo from the {system} system required."
+    "message": "ΦΟΡΤΩΣΗ ΦΟΡΤΙΟΥ. Απαιτείται φόρτωση φορτίου από το σύστημα {system}."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "RELOCATION. Move of cargo from {starport} required."
+    "message": "ΕΠΑΝΕΓΚΑΤΑΣΤΑΣΗ. Απαιτείται μετακίνηση το {starport}."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "CARGO SERVICE. We require a ship for a delivery to {system} system."
+    "message": "ΥΠΗΡΕΣΙΑ ΜΕΤΑΦΟΡΩΝ. Χρειαζόμαστε πλοίο για μια παράδοση στο σύστημα {system}."
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
@@ -97,7 +97,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Could you please repeat the original request?"
+    "message": "Μπορείς σε παρακλώ να επαναλάβεις το αίτημα;"
   },
   "DANGER": {
     "description": "the risk level",
@@ -249,15 +249,15 @@
   },
   "INTROTEXT_1": {
     "description": "",
-    "message": "Hi, I'm {name}. I'll pay you {cash} if you will deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+    "message": "Γειά, λέγομαι {name}. Θα πληρωθείς {cash} αν παραδώσεις {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, μια απόσταση of {dist} ly."
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
-    "message": "Greetings! {name} Transport Services needs you to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away. We pay {cash} for a safe and complete delivery."
+    "message": "Χαίρεται! Οι Υπηρεσίες Μεταφορών {name} σε χρειάζονται να παραδώσεις {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, {dist} ly μακριά. Πληρώνουμε {cash} για μια ασφαλή και πλήρη παράδοση."
   },
   "INTROTEXT_3": {
     "description": "",
-    "message": "Good day. I'm {name}, founder of the {name} Ltd. I need someone trustworthy to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash} for the {dist} ly long flight."
+    "message": "Καλημέρα. Λέγομαι {name}, ιδρυτής της {name} Ε.Π.Ε. Χρειάζομαι κάποιον αξιόπιστο να παραδώσει {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος. Πληρώνω {cash} πτήση απόστασης {dist} ly."
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
-    "message": "Hello. The {name} Mining Company wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away, to build a new mine. The pay is {cash}."
+    "message": "Γειά χαρά. Η Μεταλλευτική Εταιρία {name} επιθυμεί την παράδοση {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, {dist} ly μακριά, για την κατασκευή ενός νέου ορυχείου. Η αμοιβή είναι {cash}."
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
