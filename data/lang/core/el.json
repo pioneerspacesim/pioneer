@@ -1241,7 +1241,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "Θέσε ως στόχο πλοήγησης."
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",
