@@ -9,7 +9,7 @@
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Εντάξει.  Ελπίζω ότι μπορώ να σε εμπιστευτώ."
+    "message": "Εντάξει.  Ελπίζω ότι μπορώ να σ' εμπιστευτώ."
   },
   "ACCEPTED_4": {
     "description": "",
@@ -17,7 +17,7 @@
   },
   "ACCEPTED_PICKUP_1": {
     "description": "",
-    "message": "Εντάξει, θα φροντίσω τα πράγματα να είναι έτοιμα για φόρτωση."
+    "message": "Εντάξει, θα φροντίσω τα πράγματα να 'ναι έτοιμα για φόρτωση."
   },
   "ACCEPTED_PICKUP_2": {
     "description": "",
@@ -25,15 +25,15 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "ΑΠΟΣΤΟΛΗ ΦΟΡΤΙΟΥ. Παράδoση φορτίου στο σύστημα {system}."
+    "message": "ΔΡΟΜΟΛΟΓΙΟ. Παράδoση φορτίου στο σύστημα {system}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "ΑΝΑΓΚΗ ΜΕΤΑΦΟΡΑΣ. Υπάρχει ανάγκη μεταφοράς στο σύστημα {system}. Αμοιβή {cash}."
+    "message": "ΖΗΤΕΙΤΑΙ ΜΕΤΑΦΟΡΑ. Ζητείται μεταφορά αγαθών στο σύστημα {system}. Αμοιβή {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "ΠΑΡΑΔΟΣΗ. Φορτίο αξίας στο σύστημα {system}. {cash} για έναν έμπειρο πιλότο."
+    "message": "ΠΑΡΑΔΟΣΗ. Πολύτιμο φορτίο στο σύστημα {system}. {cash} για έναν έμπειρο πιλότο."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
@@ -41,15 +41,15 @@
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "ΤΟΠΙΚΗ ΜΕΤΑΦΟΡΑ. Παράδοση φορτίου στο {starport}."
+    "message": "ZHTEITAI ΜΕΤΑΦΟΡΑ. Τοπική παράδοση φορτίου στο {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "ΤΟΠΙΚΗ ΑΠΟΣΤΟΛΗ ΦΟΡΤΙΟΥ. Παράδοση εμπορευμάτων στο {starport}."
+    "message": "ΤΟΠΙΚΟ ΔΡΟΜΟΛΟΓΙΟ. Παράδοση αγαθών στο {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "ΦΟΡΤΩΣΗ ΦΟΡΤΙΟΥ. Απαιτείται φόρτωση φορτίου από το σύστημα {system}."
+    "message": "ΠΑΡΑΛΑΒΗ ΦΟΡΤΙΟΥ. Ζητείται παραλαβή φορτίου από το {system} σύστημα."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "ΥΠΗΡΕΣΙΑ ΜΕΤΑΦΟΡΩΝ. Χρειαζόμαστε πλοίο για μια παράδοση στο σύστημα {system}."
+    "message": "ΥΠΗΡΕΣΙΑ ΜΕΤΑΦΟΡΩΝ. Χρειαζόμαστε σκάφος για μια παράδοση στο {system} σύστημα."
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
@@ -65,7 +65,7 @@
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
-    "message": "Amount:"
+    "message": "Βάρος:"
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
@@ -73,11 +73,11 @@
   },
   "CARGO": {
     "description": "",
-    "message": "Cargo:"
+    "message": "Φορτίο:"
   },
   "CARGORUN": {
     "description": "Name of mission type",
-    "message": "Cargo run"
+    "message": "Δρομολόγιο φορτίου"
   },
   "CARGO_IS_LOADED": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "DANGER": {
     "description": "the risk level",
-    "message": "Κίνδυνος:"
+    "message": "Επικινδυνότητα:"
   },
   "DEADLINE": {
     "description": "Must be delivered by",
@@ -109,31 +109,31 @@
   },
   "DELIVER_TO": {
     "description": "Deliver to this location",
-    "message": "Deliver to:"
+    "message": "Παράδοση στο:"
   },
   "DENY_1": {
     "description": "",
-    "message": "I'm sorry, but this cargo is too valuable for me to hand over to an inexperienced pilot."
+    "message": "Λυπάμαι, αλλά αυτό το φορτίο είναι τέτοιας αξίας για μένα ώστε να μην το εμπιστεύομαι σε άπειρο πιλότο."
   },
   "DENY_2": {
     "description": "",
-    "message": "I've never heard of you. I don't know you and I don't trust you."
+    "message": "Δεν σ' έχω ακουστά. Δεν σε ξέρω και δεν σε εμπιστεύομαι."
   },
   "DENY_3": {
     "description": "",
-    "message": "I'm sorry, I'm looking for an experienced pilot."
+    "message": "Λυπάμαι. Ψάχνω έμπειρο πιλότο."
   },
   "DENY_4": {
     "description": "",
-    "message": "Excuse me, but I don't think you have what it takes to get the job done."
+    "message": "Συγνώμη, αλλά δεν νομίζω ότι έχεις τα προσόντα για αυτήν την δουλειά."
   },
   "DENY_5": {
     "description": "",
-    "message": "Don't waste my time! You are too wet behind the ears."
+    "message": "Μη σπαταλάς τον χρόνο μου! Είσαι ακόμα 'ψάρι'"
   },
   "DENY_6": {
     "description": "",
-    "message": "Come back when you're more experienced."
+    "message": "Τα ξαναλέμε όταν θα 'σαι πιο έμπειρος."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -177,23 +177,23 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "I'm very disappointed by the late delivery. You will not be paid."
+    "message": "Είμαι πολύ απογοητευμένος από την καθυστερημένη παράδοση. Δεν θα πληρωθείς."
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! What should I do with this now, it's worthless!"
+    "message": "Καθυστέρησες πάρα πολύ! Τι να το κάνω το εμπόρευμα τώρα; είναι άχρηστο!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Listen, we were clear about the deadline. You can forget about getting paid."
+    "message": "Άκου, είμασταν ξεκάθαροι για την προθεσμία. Ξέχνα την πληρωμή σου."
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "From now on, I will reject all job requests from you."
+    "message": "Από 'δώ και στο εξής, θα απορρίπτω κάθε πρόταση συνεργασίας μαζί σου."
   },
   "FAILUREMSG_FLUFFY_1": {
     "description": "",
-    "message": "You monster! You've waited too long for this delivery. All my fluffy pets are starved!"
+    "message": "Τέρας! Καθυστέρησες πάρα πολύ για αυτήν την παράδοση. Όλα τα χνουδωτά κατοικίδιά μου πεθαίνουν της πείνας."
   },
   "FURNITURE": {
     "description": "custom cargo",
@@ -213,7 +213,7 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} metric tons."
+    "message": "{amount} μετρικοί τόνοι."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
@@ -221,19 +221,19 @@
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "The mass is {amount}t."
+    "message": "Το βάρος είναι {amount}t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "There are {amount}t."
+    "message": "Υπάρχουν {amount}t."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric tons (singular)",
-    "message": "It's only {amount}t."
+    "message": "Είναι μόνον {amount}t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount}t of {cargoname}."
+    "message": "Υπάρχουν {amount}t {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "How much mass?"
+    "message": "Πόσο βάρος;"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "INTROTEXT_FLUFFY_1": {
     "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-    "message": "Γεια, ονομάζομαι {name}. Έχω ένα ευαίσθητο εμπόρευμα {cargoname} προς παράδοση στο  {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος Η απόσταση είναι {dist} ly. Για αυτήν την παράδοση, θα σε πληρώσω {cash}. "
+    "message": "Γεια, ονομάζομαι {name}. Έχω ένα χνουδωτό φορτίο {cargoname} προς παράδοση στο  {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος Η απόσταση είναι {dist} ly. Για αυτήν την παράδοση, θα σε πληρώσω {cash}. "
   },
   "INTROTEXT_INFRASTRUCTURE_1": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "INTROTEXT_LOCAL_1": {
     "description": "",
-    "message": "Χάρηκα για την γνωριμία μας. Ονομάζομαι {name} και εργάζομαι στην διοίκηση του {starport}. Πληρώνουμε {cash} σε όποιον μπορεί να μεταφέρει {cargoname} στο {starport}."
+    "message": "Χαίρομαι που σε συνάντησα. Ονομάζομαι {name} και εργάζομαι για την διοίκηση του {starport}. Πληρώνουμε {cash} σε όποιον μπορεί να μεταφέρει {cargoname} στο {starport}."
   },
   "INTROTEXT_LOCAL_2": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "INTROTEXT_LOCAL_3": {
     "description": "",
-    "message": "Ονομάζομαι {name} και χρειάζομαι την παράδοση {cargoname} σε έναν πελάτη στο {starport}. Σου πληρώνω {cash} για αυτήν την αποστολή."
+    "message": "Ονομάζομαι {name} και ζητώ να παραδοθεί {cargoname} σε έναν πελάτη στο {starport}. Πληρώνω {cash} για αυτήν την αποστολή."
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
@@ -289,11 +289,11 @@
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
-    "message": "Πώς τα πάτε; Λέγομαι {name}, και χρειάζομαι πλοίο το οποίο μπορεί να μεταβεί στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, να φορτώσει {cargoname} και να επιστρέψει στο {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) σύστημα για {cash}. Η απόσταση του {system} είναι {dist} ly."
+    "message": "Πώς τα πάτε; Λέγομαι {name}, και χρειάζομαι σκάφος ικανό να μεταβεί στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, να παραλάβει {cargoname} και να επιστρέψει στο {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) σύστημα για {cash}. Η απόσταση του {system} είναι {dist} ly."
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+    "message": "Πώς είσαι; Ονομάζομαι {name}. Ένας από τους πελάτες μου θέλει να εισάγει {cargoname} από το {system} ({sectorx}, {sectory}, {sectorz}) σύστημα, απόστασης {dist} ly. Πληρώνει {cash} για το συγκεκριμένο δρομολόγιο. Επέστρεψε εδώ στο {dom_starport} του {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) συστήματος για να ξεφορτώσεις το εμπόρευμα."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
-    "message": "Χαίρετε. Έχεις ακούσει για την εποχή ζευγαρώματος στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος; Επιθυμούμε την μεταφορά {cargoname} εκεί. Είναι {dist} ly μακριά. Η αμοιβή είναι {cash}. Τι λες για αυτό;"
+    "message": "Χαίρετε. Έχεις ακούσει για την εποχή ζευγαρώματος στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος; Επιθυμούμε την μεταφορά {cargoname} εκεί. Βρίσκεται {dist} ly μακριά. Η αμοιβή είναι {cash}. Τι λες γι' αυτό;"
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
@@ -313,7 +313,7 @@
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
-    "message": "Χαίρετε, λέγομαι {name} και εργάζομαι στην Haber Corp. Πληρώνουμε {cash} για την αποστολή στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, απόστασης {dist} ly."
+    "message": "Χαίρετε, λέγομαι {name} και εργάζομαι για την Haber Corp. Πληρώνουμε {cash} για την αποστολή στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, μια απόσταση {dist} ly."
   },
   "I_AM_ON_MY_WAY": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "I_HAVE_DEBITED_YOUR_ACCOUNT": {
     "description": "",
-    "message": "I've debited your account with the missing goods."
+    "message": "Χρέωσα στον λογαριασμό σου τα αγνοούμενα αγαθά."
   },
   "I_NEED_HELP": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "PICKUP_FROM": {
     "description": "from a location",
-    "message": "Pickup cargo from:"
+    "message": "Παραλαβή φορτίου από:"
   },
   "PIRATE_GRIPES_1": {
     "description": "",
@@ -549,7 +549,7 @@
   },
   "WHAT_IS_THIS": {
     "description": "",
-    "message": "What's this? Have you jettisoned my cargo? Are you crazy?"
+    "message": "Τι είναι αυτό; Πέταξες στο διάστημα το φορτίο μου; Τρελάθηκεςl"
   },
   "WHYSOMUCH_1": {
     "description": "",
