@@ -649,7 +649,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Θέσε διαδρομή επιστροφής"
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
