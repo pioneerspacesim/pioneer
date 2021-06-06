@@ -10,4 +10,4 @@ add_source_folders(LUA LUA_SRC_FOLDERS)
 # Creates a library, adds it to the build, and sets C++ target properties on it
 define_pioneer_library(pioneer-lua LUA_CXX_FILES LUA_HXX_FILES)
 target_include_directories(pioneer-lua PRIVATE ${CMAKE_BINARY_DIR})
-target_link_libraries(pioneer-lua pioneer-lib)
+target_link_libraries(pioneer-lua pioneer-lib ${LUA_LIBRARIES})
