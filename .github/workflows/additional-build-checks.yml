@@ -40,4 +40,4 @@ jobs:
         sudo apt-fast install -y ${{ env.packages }}
 
     - name: Build GCC
-      run: ./bootstrap cmake -DWITH_SYSTEM_LIBLUA=ON && make -C build
+      run: ./bootstrap cmake -DUSE_SYSTEM_LIBLUA=ON && make -C build
