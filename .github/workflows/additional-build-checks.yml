@@ -23,8 +23,7 @@ env:
     libsdl2-dev
     libsdl2-image-dev
     liblua5.1-0-dev
-  extra_opts: >
-    -DWITH_SYSTEM_LIBLUA=ON
+    
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -41,4 +40,4 @@ jobs:
         sudo apt-fast install -y ${{ env.packages }}
 
     - name: Build GCC
-      run: ./bootstrap cmake ${{extra_opts}} && make -C build
+      run: ./bootstrap cmake -DWITH_SYSTEM_LIBLUA=ON && make -C build
