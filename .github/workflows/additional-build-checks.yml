@@ -1,0 +1,44 @@
+# Test all pull requests to ensure they build
+
+name: Test Additional Build Options
+
+# Controls when the action will run.
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    paths:
+    - 'src/**.cpp'
+    - 'src/**.h'
+
+env:
+  packages: >
+    mesa-common-dev
+    libfreeimage-dev
+    libglew-dev
+    libsigc++-2.0-dev
+    libvorbis-dev
+    libassimp-dev
+    libsdl2-dev
+    libsdl2-image-dev
+    liblua5.1-0-dev
+  extra_opts: >
+    -DWITH_SYSTEM_LIBLUA=ON
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-system-lua:
+    runs-on: ubuntu-20.04
+
+    steps:
+    # Checkout the repository as $GITHUB_WORKSPACE
+    - uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-fast update
+        sudo apt-fast install -y ${{ env.packages }}
+
+    - name: Build GCC
+      run: ./bootstrap cmake ${{extra_opts}} && make -C build
