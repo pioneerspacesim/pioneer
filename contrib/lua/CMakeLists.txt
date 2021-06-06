@@ -10,7 +10,7 @@ if (NOT WIN32)
 endif (NOT WIN32)
 
 add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
-target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/src)
 
 # make debug configurations reasonably fast
 if (NOT MSVC)
