@@ -22,7 +22,7 @@ env:
     libassimp-dev
     libsdl2-dev
     libsdl2-image-dev
-    liblua5.1-0-dev
+    liblua5.2-dev
     
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
