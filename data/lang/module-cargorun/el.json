@@ -61,7 +61,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "Σωλήνες αλουμινίου"
+    "message": "Σωλήνων αλουμινίου"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -69,7 +69,7 @@
   },
   "ART_OBJECTS": {
     "description": "custom cargo",
-    "message": "Έργα τέχνης"
+    "message": "Έργων τέχνης"
   },
   "CARGO": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "CLUS": {
     "description": "custom cargo",
-    "message": "Εμπορευματοκιβώτια μονάδων διαβίωσης"
+    "message": "Εμπορευματοκιβωτίων μονάδων διαβίωσης"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -137,11 +137,11 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "Διαμάντια"
+    "message": "Διαμαντιών"
   },
   "DIGESTERS": {
     "description": "custom cargo",
-    "message": "Χωνευτές"
+    "message": "Χωνευτών"
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
@@ -149,7 +149,7 @@
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
-    "message": "Ηλεκτρικές συσκευές"
+    "message": "Ηλεκτρικών συσκευών"
   },
   "ESCORT_CHATTER_1": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "Εκρηκτικά"
+    "message": "Εκρηκτικών"
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -197,11 +197,11 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Έπιπλα"
+    "message": "Επίπλων"
   },
   "GREENHOUSES": {
     "description": "custom cargo",
-    "message": "Θερμοκήπια"
+    "message": "Θερμοκηπίων"
   },
   "GUNS_GUNS_GUNS": {
     "description": "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -209,7 +209,7 @@
   },
   "HAZARDOUS_SUBSTANCES": {
     "description": "custom cargo",
-    "message": "Επικίνδυνες ουσίες"
+    "message": "Επικίνδυνων ουσιών"
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
@@ -249,15 +249,15 @@
   },
   "INTROTEXT_1": {
     "description": "",
-    "message": "Γειά, λέγομαι {name}. Θα πληρωθείς {cash} αν παραδώσεις {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, μια απόσταση of {dist} ly."
+    "message": "Γειά, λέγομαι {name}. Θα πληρωθείς {cash} αν παραδώσεις φορτίο {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, μια απόσταση of {dist} ly."
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
-    "message": "Χαίρετε! Οι Υπηρεσίες Μεταφορών {name} σε χρειάζονται να παραδώσεις {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, {dist} ly μακριά. Πληρώνουμε {cash} για μια ασφαλή και πλήρη παράδοση."
+    "message": "Χαίρετε! Οι Υπηρεσίες Μεταφορών {name} σε χρειάζονται να παραδώσεις φορτίο {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, {dist} ly μακριά. Πληρώνουμε {cash} για μια ασφαλή και πλήρη παράδοση."
   },
   "INTROTEXT_3": {
     "description": "",
-    "message": "Καλημέρα. Λέγομαι {name}, ιδρυτής της {name} Ε.Π.Ε. Χρειάζομαι κάποιον αξιόπιστο να παραδώσει {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος. Πληρώνω {cash} πτήση απόστασης {dist} ly."
+    "message": "Καλημέρα. Λέγομαι {name}, ιδρυτής της {name} Ε.Π.Ε. Χρειάζομαι κάποιον αξιόπιστο να παραδώσει φορτίο {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος. Πληρώνω {cash} πτήση απόστασης {dist} ly."
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
@@ -269,43 +269,43 @@
   },
   "INTROTEXT_INFRASTRUCTURE_1": {
     "description": "",
-    "message": "Χαίρετε. Λέγομαι {name}. Η κυβέρνηση του {system} επιθυμεί να παραδώσει {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος Η αμοιβή είναι {cash}. Το {system} απέχει {dist} ly. "
+    "message": "Χαίρετε. Λέγομαι {name}. Η κυβέρνηση του {system} επιθυμεί να παραδώσει φορτίο {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος Η αμοιβή είναι {cash}. Το {system} απέχει {dist} ly. "
   },
   "INTROTEXT_LOCAL_1": {
     "description": "",
-    "message": "Χαίρομαι που σε συνάντησα. Ονομάζομαι {name} και εργάζομαι για την διοίκηση του {starport}. Πληρώνουμε {cash} σε όποιον μπορεί να μεταφέρει {cargoname} στο {starport}."
+    "message": "Χαίρομαι που σε συνάντησα. Ονομάζομαι {name} και εργάζομαι για την διοίκηση του {starport}. Πληρώνουμε {cash} σε όποιον μπορεί να μεταφέρει φορτίο {cargoname} στο {starport}."
   },
   "INTROTEXT_LOCAL_2": {
     "description": "",
-    "message": "Γεια. Ονομάζομαι {name} και πληρώνω {cash} για μια κοντινή παράδοση {cargoname} στο {starport}."
+    "message": "Γεια. Ονομάζομαι {name} και πληρώνω {cash} για να παραδοθεί φορτίο {cargoname} σε μικρή απόσταση, στο {starport}."
   },
   "INTROTEXT_LOCAL_3": {
     "description": "",
-    "message": "Ονομάζομαι {name} και ζητώ να παραδοθεί {cargoname} σε έναν πελάτη στο {starport}. Πληρώνω {cash} για αυτήν την αποστολή."
+    "message": "Ονομάζομαι {name} και ζητώ να παραδοθεί φορτίο {cargoname} σε έναν πελάτη στο {starport}. Πληρώνω {cash} για αυτήν την αποστολή."
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
-    "message": "Γεια χαρά. Η Μεταλλευτική Εταιρία {name} επιθυμεί την παράδοση {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, {dist} ly μακριά, για την κατασκευή ενός νέου ορυχείου. Η αμοιβή είναι {cash}."
+    "message": "Γεια χαρά. Η Μεταλλευτική Εταιρία {name} επιθυμεί την παράδοση φορτίου {cargoname} στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, {dist} ly μακριά, για την κατασκευή ενός νέου ορυχείου. Η αμοιβή είναι {cash}."
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
-    "message": "Πώς τα πάτε; Λέγομαι {name}, και χρειάζομαι σκάφος ικανό να μεταβεί στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, να παραλάβει {cargoname} και να επιστρέψει στο {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) σύστημα για {cash}. Η απόσταση του {system} είναι {dist} ly."
+    "message": "Πώς τα πάτε; Λέγομαι {name}, και χρειάζομαι σκάφος ικανό να μεταβεί στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος, να παραλάβει φορτίο {cargoname} και να επιστρέψει στο {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) σύστημα για {cash}. Η απόσταση του {system} είναι {dist} ly."
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "Πώς είσαι; Ονομάζομαι {name}. Ένας από τους πελάτες μου θέλει να εισάγει {cargoname} από το {system} ({sectorx}, {sectory}, {sectorz}) σύστημα, απόστασης {dist} ly. Πληρώνει {cash} για το συγκεκριμένο δρομολόγιο. Επέστρεψε εδώ στο {dom_starport} του {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) συστήματος για να ξεφορτώσεις το εμπόρευμα."
+    "message": "Πώς είσαι; Ονομάζομαι {name}. Ένας από τους πελάτες μου θέλει να εισάγει φορτίο {cargoname} από το {system} ({sectorx}, {sectory}, {sectorz}) σύστημα, απόστασης {dist} ly. Πληρώνει {cash} για το συγκεκριμένο δρομολόγιο. Επέστρεψε εδώ στο {dom_starport} του {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) συστήματος για να ξεφορτώσεις το εμπόρευμα."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Χαίρετε. Ονομάζομαι {name}. Πληρώνω {cash} σε όποιον μεταφέρει {cargoname} από το {starport} στο {dom_starport}."
+    "message": "Χαίρετε. Ονομάζομαι {name}. Πληρώνω {cash} σε όποιον μεταφέρει φορτίο {cargoname} από το {starport} στο {dom_starport}."
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Γεια χαρά. Ονομάζομαι {name}. Ο εργοδότης μου επιθυμεί να σε προσλάβει για {cash} ώστε να μας βοηθήσεις να μετεγκαταστήσουμε  την αποθήκη μας μεταφέροντας {cargoname} από το {starport} στην νέα έδρα μας στο {dom_starport}."
+    "message": "Γεια χαρά. Ονομάζομαι {name}. Ο εργοδότης μου επιθυμεί να σε προσλάβει για {cash} ώστε να μας βοηθήσεις να μετεγκαταστήσουμε  την αποθήκη μας μεταφέροντας φορτίο {cargoname} από το {starport} στην νέα έδρα μας στο {dom_starport}."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
-    "message": "Χαίρετε. Έχεις ακούσει για την εποχή ζευγαρώματος στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος; Επιθυμούμε την μεταφορά {cargoname} εκεί. Βρίσκεται {dist} ly μακριά. Η αμοιβή είναι {cash}. Τι λες γι' αυτό;"
+    "message": "Χαίρετε. Έχεις ακούσει για την εποχή ζευγαρώματος στο {starport} του {system} ({sectorx}, {sectory}, {sectorz}) συστήματος; Επιθυμούμε την μεταφορά φορτίου {cargoname} εκεί. Βρίσκεται {dist} ly μακριά. Η αμοιβή είναι {cash}. Τι λες γι' αυτό;"
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
@@ -329,11 +329,11 @@
   },
   "MACHINE_TOOLS": {
     "description": "custom cargo",
-    "message": "Εργαλεία μηχανών"
+    "message": "Εργαλείων μηχανών"
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "Ποσειδώνιο"
+    "message": "Ποσειδωνίου"
   },
   "OK_AGREED": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "Πλουτώνιο"
+    "message": "Πλουτωνίου"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
@@ -461,11 +461,11 @@
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
-    "message": "Εξαρτήματα διαστημοπλοίων"
+    "message": "Εξαρτημάτων διαστημοπλοίου"
   },
   "STEM_BOLTS": {
     "description": "custom cargo, used in Star Trek DS9 as something with unclear usefulness",
-    "message": "Αυτοσφραγιζόμενα μπουλόνια"
+    "message": "Αυτοσφραγιζόμενων μπουλονιών"
   },
   "SUCCESSMSG_1": {
     "description": "",
@@ -497,7 +497,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "Τιτάνιο"
+    "message": "Τιτανίου"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -505,11 +505,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "Βολφράμιο"
+    "message": "Βολφραμίου"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "Ουράνιο"
+    "message": "Ουρανίου"
   },
   "URGENCY_1": {
     "description": "",
@@ -541,7 +541,7 @@
   },
   "WEDDING_DRESSES": {
     "description": "custom cargo",
-    "message": "Νυφικά"
+    "message": "Νυφικών"
   },
   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP": {
     "description": "",
@@ -577,7 +577,7 @@
   },
   "WHYSOMUCH_CENTRIFUGES_1": {
     "description": "",
-    "message": "Μερικά {cargoname} καταστράφηκαν λόγω κάποιου λογισμικού λάθους και πρέπει επιγόντως να αντικατασταθούν."
+    "message": "Ποσότητες {cargoname} καταστράφηκαν λόγω κάποιου λογισμικού λάθους και πρέπει επειγόντως να αντικατασταθούν."
   },
   "WHYSOMUCH_CHEMICAL_1": {
     "description": "",
@@ -593,7 +593,7 @@
   },
   "WHYSOMUCH_FLUFFY_1": {
     "description": "",
-    "message": "Τα {cargoname} πουλιούνται γρήγορα αυτές τις μέρες. Θα πρέπει να επενδύσεις σε μετοχές {cargoname} αν θέλεις να βγάλεις πολύ χρήμα."
+    "message": "Ποσότητες {cargoname} πουλιούνται γρήγορα αυτές τις μέρες. Θα πρέπει να επενδύσεις σε μετοχές {cargoname} αν θέλεις να βγάλεις πολύ χρήμα."
   },
   "WHYSOMUCH_INFRASTRUCTURE_1": {
     "description": "",
