@@ -1,35 +1,35 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Air processors"
+    "message": "Επεξεργαστές αέρα"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+    "message": "Ο καθαρός αέρας θεωρείται δεδομένος μόνο όταν είναι ήδη άφθονος. Η τεχνική πίσω από τον καθαρισμό του αέρα φημολογείται ότι προέρχεται από εξωγήινα αντικείμενα που βρέθηκαν στον Άρη. Πολλές εταιρείες παράγουν διάφορα είδη επεξεργαστών αέρα, ικανά να μετατρέψουν ακόμη και τις πιο εχθρικές ατμόσφαιρες σε ένα λειτουργικό περιβάλλον, και οι κυβερνήσεις δεν ανέχονται το μονοπώλιο στην παραγωγή αέρα."
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Animal meat"
+    "message": "Κρέας ζώων"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+    "message": "Ένα σημαντικό σημείο διαμάχης, το κρέας είναι η σάρκα των ζώων. Με τη συνθετική πρωτεΐνη άμεσα διαθέσιμη, οι περισσότεροι πιστεύουν ότι τα ζώα δεν πρέπει να θανατώνονται. Ενώ τα κρέατα είναι παράνομα στα περισσότερα βασικά συστήματα, τα ζωντανά ζώα και το κρέας τους αποτελούν σημαντικό μέρος της ζωής των ανθρώπων σε πιο παραδοσιακούς κόσμους."
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Battle weapons"
+    "message": "Όπλα μάχης"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+    "message": "Βαριά στρατιωτικά όπλα, όπως τεθωρακισμένα τανκς, και πύραυλοι εδάφους-διαστήματος. Το εμπόριο σε αυτά είναι συνήθως κυβερνητικό μονοπώλιο. Στη μαύρη αγορά, ωστόσο, αυτά συχνά αποφέρουν βαριά χρηματικά ποσά."
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Carbon ore"
+    "message": "Ανθρακικό μετάλλευμα"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+    "message": "Ο άνθρακας είναι ένα από τα πιο πολυποίκιλα στοιχεία που γνωρίζουμε. Χρησιμοποιείται σε σχεδόν στα πάντα, από τα πλαστικά έως τα κράματα και μερικές φορές ακόμη και για παραγωγή ενέργειας. Ο άνθρακας είναι ένα φθηνό, αλλά σημαντικό αγαθό. Ως εκ τούτου, σχεδόν όλοι οι βιομηχανικοί οικισμοί εισάγουν μεταλλεύματα άνθρακα."
   },
   "COMPUTERS": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+    "message": "Πάνω από χίλια χρόνια πριν, με τα τσιπ Abacus, PDP-11 και Motorola 68k, μέχρι τη σύγχρονη σειρά HAL 9001 και Multivac, οι υπολογιστές σηματοδότησαν την αρχή της εποχής της πληροφορίας. Εξίσου απαραίτητοι για την είσοδο στο υπερδιάστημα και για τον διαμοιρασμό βίντεο με χαριτωμένα quibbles στο UniNet."
   },
   "CONSUMER_GOODS": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+    "message": "Τα έτοιμα τελικά προϊόντα για το ευρύ κοινό, χωρίς να απαιτείται περαιτέρω επεξεργασία τους. Τα πάντα, από οδοντόβουρτσες, συσκευές κουζίνας έως αιωρούμενα αυτοκίνητα."
   },
   "FARM_MACHINERY": {
     "description": "",
@@ -53,23 +53,23 @@
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+    "message": "Αν και είναι σπάνιο, είναι ακόμα δυνατό να συναντήσετε τον περιστασιακό αγρότη με ένα άροτρο με βόδι. Αλλά σχεδόν σε οποιοδήποτε μέρος όπου υπάρχει γεωργία, χρησιμοποιούνται πλέον μηχανήματα για την καλλιέργεια της γης, είτε πρόκειται για την υδροπονία ενός υπόγειου οικοτόπου είτε για τα ατελείωτα χωράφια ενός κηπευτικού κόσμου."
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Fertilizer"
+    "message": "Λίπασμα"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+    "message": "Τα λιπάσματα είναι ζωτικής σημασίας για αναπτυσσόμενες καλλιέργειες σε βιομηχανική κλίμακα, επιτρέποντας τις μονοκαλλιέργειες, και αποδίδοντας υψηλότερα μερίσματα από όσο θα ήταν δυνατόν χρησιμοποιώντας απλή κοπριά. Αυτό έρχεται συχνά με οικολογικό κόστος, μη εμφανές άμεσα."
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Fruit & vegetables"
+    "message": "Φρούτα και λαχανικά"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+    "message": "Ενώ υπάρχουν πολλές συνθετικές εναλλακτικές λύσεις, τα πραγματικά φρούτα και λαχανικά εξακολουθούν να αποτελούν σημαντικό μέρος της κουζίνας και της διατροφής μας. Καλλιεργείται σε γεωργικούς κόσμους ή ως μέρος της υποστήριξης της ζωής των οικοτόπων και εξάγεται σε συστήματα στα οποία δεν είναι εφικτή η καλλιέργεια φυτών."
   },
   "GRAIN": {
     "description": "",
@@ -77,15 +77,15 @@
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+    "message": "Η ραχοκοκαλιά της διατροφής πολλών ανθρώπων. Χρησιμοποιείται στη γεωργία, για τη διατροφή ζώων και ως συμπλήρωμα συνθετικών τροφίμων. Το σιτάρι χρησιμοποιείται επίσης σε πολλά άλλα τρόφιμα, όπως πλιγούρι βρώμης και ψητά. Οι περισσότερες σωστές κουλτούρες των αστρικών κόσμων καλλιεργούν και καταναλώνουν τουλάχιστον μερικούς κόκκους, που έχουν προσαρμοστεί στο κλίμα του οικοτόπου τους."
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Ελαφρά όπλα"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+    "message": "Παρέχοντας ασφάλιση πέρα από εκεί όπου φτάνει ο νόμος, τα όπλα χειρός είναι απαραίτητα για τους εμπόρους διαστήματος στα εξώτατα συστήματα. Ωστόσο, πολλές κυβερνήσεις τα βλέπουν ως απειλή για τον δικό τους έλεγχο επί του πληθυσμού τους και ελέγχουν αυστηρά το εμπόριο και την κατοχή τους."
   },
   "HYDROGEN": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+    "message": "Χρησιμοποιούμενο ως καύσιμο για υπερκινητήρες και προωθητήρες αστροπλοίων, το υδρογόνοτο είναι ένα εξαιρετικά σημαντικό στοιχείο. Ευτυχώς, είναι επίσης το πιο κοινό στοιχείο στο σύμπαν, αν και η αποθήκευσή του δεν είναι στοιχειώδης. Συνήθως είναι από τα φθηνότερα προϊόντα στο χρηματιστήριο. Τα κοσμοδρόμια είναι πλήρως εφοδιασμένα ανά πάσα στιγμή."
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -101,39 +101,39 @@
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+    "message": "Απαιτείται για γραμμές συναρμολόγησης, διυλιστήρια, χυτήρια και παραγωγή μηχανημάτων που με τη σειρά τους θα παράγουν άλλα προϊόντα. Απαιτείται υψηλή ικανότητα για την παραγωγή αυτών των προηγμένων μηχανών."
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Liquid oxygen"
+    "message": "Υγρό οξυγόνο"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+    "message": "Το υγρό οξυγόνο έχει πολλούς σκοπούς, συνήθως σε ιατρικές και βιομηχανικές εφαρμογές και μερικές φορές χρησιμοποιείται επίσης στην επεξεργασία αποβλήτων. Είναι πολύ προσιτό, καθώς το οξυγόνο είναι εύκολο να εξαχθεί από το νερό."
   },
   "LIQUOR": {
     "description": "",
-    "message": "Liquor"
+    "message": "Αλκοόλ"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+    "message": "Τα περισσότερα εξωτερικά φυλάκια διαθέτουν κάποια τοπική ζυθοποιία που συνήθως οι επισκέπτες την βρίσκουν βαριά για το στομάχι τους. Το αλκοόλ μπορεί να απαγορευτεί σε ορισμένα συστήματα, καθώς θεωρείται ότι θολώνει το μυαλό. Ανεξάρτητα από το νόμο, ένα σκοτσέζικο σφηνάκι είναι σχεδόν πάντα διαθέσιμο στη μαύρη αγορά,  με την κατάλληλη τιμή."
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Live animals"
+    "message": "Ζωντανά ζώα"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Partly due to humanistic, economic and ecological reasons, animal rearing and trade is strictly regulated, or even illegal in many core systems. Going outward, livestock becomes a more important part of the livelihood of the people, both as a source of nutrition and a beast of burden. Exotic zoos and wildlife reserves contribute to the trade of animals around the galaxy, usually under strict state regulations, to combat illegal hunting grounds."
+    "message": "Εν μέρει λόγω ανθρωπιστικών, οικονομικών και οικολογικών λόγων, η εκτροφή ζώων και το εμπόριο ρυθμίζονται αυστηρά ή ακόμη είναι παράνομα σε πολλά βασικά συστήματα. Οδεύοντας προς στα εξώτερα συστήματα, το ζωικό κεφάλαιο γίνεται ολοένα και πιο σημαντικό μέρος της ζωής των ανθρώπων, τόσο ως πηγή διατροφής όσο και ως βοηθητικού υποζυγίου. Οι εξωτικοί ζωολογικοί κήποι και ό,τι απέμεινε από την άγρια φύση συμβάλλουν στο εμπόριο ζώων σε όλο τον γαλαξία, συνήθως υπό αυστηρούς κρατικούς κανονισμούς για την καταπολέμηση του παράνομου κυνηγιού."
   },
   "MEDICINES": {
     "description": "",
-    "message": "Medicines"
+    "message": "Φάρμακα"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+    "message": "Προερχόμενα από φυσικές πηγές, ή συντιθέμενα τεχνητά, τα φάρμακα είναι απαραίτητα παντού. Από τη θεραπεία του κοινού κρυολογήματος έως την καταπολέμηση των αρνητικών επιπτώσεων των παρατεταμένων διαστημικών ταξιδιών, τα φάρμακα είναι απαραίτητα για την ευημερία μιας διαστρικής ανθρωπότητας. Παρακολουθούνται στενά από τους τελωνειακούς υπαλλήλους, καθώς δεν είναι ασυνήθιστο να μεταμφιέζονται τα ναρκωτικά ως ιατρικά φάρμακα."
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -141,23 +141,23 @@
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "After metal ore is extracted and refined, it is processed and ends up as various alloys. An alloy is an amalgamation of metals, rather than a single pure element, combined in exact proportions to gain specific desirable traits. Therefore, most consumer metals are alloys."
+    "message": "Τα μεταλλεύματα, μετά την εξόρυξη και τον εξευγενισμό τους, υποβάλλονται σε επεξεργασία και καταλήγουν σε διάφορα κράματα. Ένα κράμα είναι περισσότερο ένα αμάλγαμα μετάλλων, παρά ένα καθαρό στοιχείο, που συνδυάζονται σε ακριβείς αναλογίες ώστε να αποκτήσει συγκεκριμένα επιθυμητά χαρακτηριστικά. Επομένως, τα περισσότερα μέταλλα προς χρήση είναι κράματα."
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Metal ore"
+    "message": "Μεταλλεύματα"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Many colonies mine metal ores for export, to be refined and used in industrial manufacturing. Used in everything from small toys to spaceships, metal in all its forms is essential to modern civilization."
+    "message": "Πολλές αποικίες εξορύσσουν μεταλλεύματα μετάλλων για εξαγωγή, για εξευγενισμό και για χρήση στη βιομηχανικές κατασκευές. Χρησιμοποιούμενα στα πάντα, από μικρά παιχνίδια έως διαστημόπλοια, τα μέταλλα σε όλες τους τις μορφές είναι απαραίτητα για τον σύγχρονο πολιτισμό."
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "Military fuel"
+    "message": "Στρατιωτικά καύσιμα"
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel in the more advanced military drives. These drives produce radioactive waste during operation, which must be disposed of. Due to its synthetic nature, military fuel is more expensive and less common than hydrogen, and can not be found occurring naturally."
+    "message": "Χρησιμοποιείται ως καύσιμο στους πιο προηγμένους στρατιωτικούς κινητήρες. Αυτοί οι κιμητήρες παράγουν ραδιενεργά απόβλητα κατά τη λειτουργία τους, τα οποία πρέπει να απορρίπτονται. Λόγω της συνθετικής του φύσης, το στρατιωτικό καύσιμο είναι πιο ακριβό και λιγότερο κοινό από το υδρογόνο και δεν μπορεί να βρεθεί στην φύση."
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The traditionally back breaking work of mining is alleviated by the use of machines that help miners in locating and retrieving various ores, and transporting them to the closest processing facilities."
+    "message": "Τα παραδοσιακά κοψομεσιάσματα εξόρυξης μετριάζονται με τη χρήση μηχανών που βοηθούν τους ανθρακωρύχους να εντοπίζουν και να ανακτούν διάφορα μεταλλεύματα και να τα μεταφέρουν στις πλησιέστερες εγκαταστάσεις επεξεργασίας."
   },
   "NARCOTICS": {
     "description": "",
@@ -173,39 +173,39 @@
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Natural or synthetic substances that alter the state of mind and body. Although the use of narcotics, both for recreational and medical purposes, is as old as humanity itself, shipping and trading is commonly outlawed."
+    "message": "Φυσικές ή συνθετικές ουσίες που αλλάζουν την κατάσταση του νου και του σώματος. Αν και η χρήση ναρκωτικών, τόσο για ψυχαγωγικούς όσο και για ιατρικούς σκοπούς, είναι τόσο παλιά όσο η ίδια η ανθρωπότητα, η ναυτιλία και η εμπορία τους είναι ως συνήθως παράνομη."
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Nerve gas"
+    "message": "Αέριο νεύρων."
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "It is generally accepted to be a weapon of mass destruction, shunned even by the military in most systems, and thus illegal in most systems."
+    "message": "Είναι γενικά αποδεκτό ότι είναι ένα όπλο μαζικής καταστροφής, που αποφεύγεται ακόμη και από τον στρατό στην πλειονότητα των συστημάτων, και επομένως είναι παράνομο στα περισσότερα συστήματα."
   },
   "PLASTICS": {
     "description": "",
-    "message": "Plastics"
+    "message": "Πλαστικά είδη"
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Synthetical and semi-synthetical materials used in everything from everyday items to spaceship construction. They are relatively easy to use in manufacture, versatile and cheap to make, thus an important part of human civilization."
+    "message": "Συνθετικά και ημι-συνθετικά υλικά που χρησιμοποιούνται στα πάντα, από καθημερινά αντικείμενα έως κατασκευή διαστημοπλοίων. Είναι σχετικά εύκολα χρησιμοποιήσιμα στην βιομηχανία, ευπροσάρμοστα και φθηνά στην κατασκευή τους, επομένως ένα σημαντικό μέρος του ανθρώπινου πολιτισμού."
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "Precious metals"
+    "message": "Πολύτιμα μέταλλα"
   },
   "PRECIOUS_METALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Precious metals are, generally, less reactive, more difficult to mine, and more scarce, resulting in a considerable economic value. This often includes gold, silver, platinum, and rare earths. Certain elements such as gold and silicon, or rare earths, are crucial for the construction of computers and other electronics."
+    "message": "Τα πολύτιμα μέταλλα είναι, γενικά, λιγότερο αντιδραστικά, πιο δύσκολα στην εξόρυξη και πιο σπάνια, με αποτέλεσμα να έχουν σημαντική οικονομική αξία. Σε αυτά περιλαμβάνονται συχνά ο χρυσός, το ασήμι, η πλατίνα και οι σπάνιες γαίες. Ορισμένα στοιχεία όπως ο χρυσός και το πυρίτιο, ή οι σπάνιες γαίες, είναι ζωτικής σημασίας για την κατασκευή υπολογιστών και άλλων ηλεκτρονικών."
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Radioactive waste"
+    "message": "Ραδιενεργά απόβλητα"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Created by nuclear reactors, and military hyperdrives, radioactive waste is the hardest and most dangerous commodity to transport and dispose of. For this reason, most starports will pay to get rid of excess stockpile. Dumping radioactive waste is a severe offence."
+    "message": "Δημιουργούμενα από πυρηνικούς αντιδραστήρες και στρατιωτικές υπερκινήσεις, τα ραδιενεργά απόβλητα είναι το πιο δύσκολο και πιο επικίνδυνο εμπόρευμα για μεταφορά και διάθεση. Για αυτόν τον λόγο, τα περισσότερα κοσμοδρόμια προτίθενται να πληρώσουν ώστε να απαλλαγούν από το όποιο υπερβολικό απόθεμα. Η απόρριψη ραδιενεργών αποβλήτων αποτελεί σοβαρό αδίκημα."
   },
   "ROBOTS": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Robots are often imported into industrial and mining systems, due to their ability to easily perform tasks that would be too difficult, tedious, or unsafe for human workers. They can also serve as politicians and lawyers."
+    "message": "Τα ρομπότ εισάγονται συχνά σε βιομηχανικά και μεταλλευτικά συστήματα, λόγω της ικανότητάς τους να εκτελούν εύκολα εργασίες που θα ήταν πολύ δύσκολες, κουραστικές ή μη ασφαλείς για ανθρώπους εργάτες. Μπορούν επίσης να χρησιμεύσουν ως πολιτικοί και δικηγόροι."
   },
   "RUBBISH": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The byproduct of civilization, consisting of industrial waste, household garbage, and worn down equipment. Most waste is reprocessed, recycled or sent to starports for transport off-world. Dumping garbage in inhabited systems is almost always illegal. Starports usually charge a fee for waste disposal, but will also pay you to take it away."
+    "message": "Το υποπροϊόν του πολιτισμού, που αποτελείται από βιομηχανικά απόβλητα, σκουπίδια οικιακής χρήσης και φθαρμένο εξοπλισμό. Τα περισσότερα απόβλητα επανεπεξεργάζονται, ανακυκλώνονται ή αποστέλλονται σε κοσμοδρόνια για εξωκοσμική μεταφορά. Η απόρριψη απορριμμάτων σε κατοικημένα συστήματα είναι σχεδόν πάντα παράνομη. Τα κοσμοδρόμια συνήθως χρεώνουν ένα τέλος για τη διάθεση απορριμμάτων, αλλά θα σας πληρώσουν επίσης για να τα αφαιρέσετε."
   },
   "SLAVES": {
     "description": "",
@@ -229,15 +229,15 @@
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "As machines have replaced slaves as the engine that powers civilization, slavery is now almost universally seen as immoral, and transgression against a ban draws the strictest punishment. However, despite the best efforts of humanitarians, slavery is still prevalent, even in developed worlds."
+    "message": "Καθώς οι μηχανές έχουν αντικαταστήσει τους σκλάβους ως μηχανισμό που τροφοδοτεί τον πολιτισμό, η δουλεία θεωρείται σχεδόν καθολικά ως ανήθικη και η παραβίαση ενάντια σε μια απαγόρευση επιφέρει την αυστηρότερη τιμωρία. Ωστόσο, παρά τις καλύτερες προσπάθειες των ανθρωπιστών, η δουλεία εξακολουθεί να κυριαρχεί, ακόμη και στους ανεπτυγμένους κόσμους."
   },
   "TEXTILES": {
     "description": "",
-    "message": "Textiles"
+    "message": "Υφάσματα"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Textiles are simple fabric, woven from either synthetic, plant or animal derived yarn. Usually produced by robots in large factories, it is still possible to find the occasional weaver who makes their own textiles."
+    "message": "Τα κλωστοϋφαντουργικά προϊόντα είναι από απλό ύφασμα, υφασμένα είτε από συνθετικά, φυτικά ή ζωικά νήματα Συνήθως παράγονται από ρομπότ σε μεγάλα εργοστάσια, είναι ακόμα δυνατό να βρεθεί ο περιστασιακός υφαντής που κατασκευάζει τα δικά του υφάσματα."
   },
   "WATER": {
     "description": "",
@@ -245,6 +245,6 @@
   },
   "WATER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Essential for life as we know it, an often overlooked commodity, water is needed wherever humanity roams. As such, the vast majority of off-world colonies import water from comets or planets like Earth. Water is used on a massive scale for hydrogen and oxygen production."
+    "message": "Απαραίτητο για τη ζωή όπως την γνωρίζουμε, ένα αγαθό που συχνά παραβλέπεται, το νερό χρειάζεται όπου περιφέρεται η ανθρωπότητα. Ως εκ τούτου, η συντριπτική πλειονότητα των εξωκοσμικών αποικιών εισάγουν νερό από κομήτες ή πλανήτες όπως η Γη. Το νερό χρησιμοποιείται σε μαζική κλίμακα για παραγωγή υδρογόνου και οξυγόνου."
   }
 }

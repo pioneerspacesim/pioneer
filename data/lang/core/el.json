@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Air processors"
+    "message": "Επεξεργαστές αέρα"
   },
   "ALERT_CANCELLED": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Battle weapons"
+    "message": "Όπλα μάχης"
   },
   "BINARY_SYSTEM": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Carbon ore"
+    "message": "Ανθρακικό μετάλλευμα"
   },
   "CARGO": {
     "description": "",
@@ -381,7 +381,7 @@
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Fertilizer"
+    "message": "Λίπασμα"
   },
   "FIRE_LASER": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Ελαφρά όπλα"
   },
   "HARD_CAPITALIST": {
     "description": "",
@@ -665,7 +665,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Liquor"
+    "message": "Αλκοόλ"
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -725,7 +725,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Medicines"
+    "message": "Φάρμακα"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -745,7 +745,7 @@
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Metal ore"
+    "message": "Mεταλλεύματα"
   },
   "MILITARY_DICTATORSHIP": {
     "description": "",
@@ -753,7 +753,7 @@
   },
   "MILITARY_FUEL": {
     "description": "",
-    "message": "Military fuel"
+    "message": "Στρατιωτικά καύσιμα"
   },
   "MINING_COLONY": {
     "description": "",
@@ -1089,7 +1089,7 @@
   },
   "PLASTICS": {
     "description": "",
-    "message": "Plastics"
+    "message": "Πλαστικά είδη"
   },
   "PLUTOCRATIC_DICTATORSHIP": {
     "description": "",
@@ -1101,7 +1101,7 @@
   },
   "PRECIOUS_METALS": {
     "description": "",
-    "message": "Precious metals"
+    "message": "Πολύτιμα μέταλλα"
   },
   "PRESSURE_N_ATMOSPHERES": {
     "description": "",
@@ -1117,7 +1117,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Radioactive waste"
+    "message": "Ραδιενεργά απόβλητα"
   },
   "RADIUS": {
     "description": "",
@@ -1549,7 +1549,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Textiles"
+    "message": "Υφάσματα"
   },
   "THICK": {
     "description": "",

@@ -233,7 +233,7 @@
   },
   "MISSION_INFO": {
     "description": "Message from the ship computer",
-    "message": "Target area reached. Start data logging. Predicted maximum mission time {duration}."
+    "message": "Célterület elérve. Adatgyűjtés megkezdve. Várható maximális küldetés idő: {duration}."
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
@@ -249,7 +249,7 @@
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
-    "message": "Target area too far away. Cannot complete data collection."
+    "message": "Célterület hatótávon kívül. Adatgyűjtés nem teljesíthető."
   },
   "OBJECTIVE_1": {
     "description": "",

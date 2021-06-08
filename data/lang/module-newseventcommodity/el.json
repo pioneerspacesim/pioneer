@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_HEADLINE": {
     "description": "",
-    "message": "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+    "message": "ΝΕΑ {date}: Πανούκλα σε όλο το {system} σύστημα. Αυξάνεται ο αριθμός των θανάτων."
   },
   "FLAVOUR_0_NEWSBODY": {
     "description": "Imply high demand for MEDICINE commodity.",
