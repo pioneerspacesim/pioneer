@@ -1034,8 +1034,7 @@ namespace Profiler {
 		};
 
 		void Init(const char *dir) {
-			profileNum = 0;
-
+			firstThreadDump = true;
 			time_t now;
 			time( &now );
 			tm *now_tm = localtime( &now );
@@ -1070,9 +1069,9 @@ namespace Profiler {
 			Buffer<const char *> stack;
 
 			u64 endNs = endTicks * cyclesToTime;
-			fprintf( f, "%c\n{\"type\":\"evented\",\"name\":\"%s (thread %d): %s\",\"unit\":\"nanoseconds\",\"startValue\":0,\"endValue\":%lld,\"events\":[\n",
-				profileNum ? ',' : ' ', programName ? programName : "unnamed", profileNum, timeFormat, endNs );
-			profileNum++;
+			fprintf( f, "%c\n{\"type\":\"evented\",\"name\":\"%s (%s): %s\",\"unit\":\"nanoseconds\",\"startValue\":0,\"endValue\":%lld,\"events\":[\n",
+				firstThreadDump ? ' ' : ',', programName ? programName : "unnamed", zones->Size() ? zones->Data()->str() : "main", timeFormat, endNs );
+			firstThreadDump = false;
 
 			for (u32 i = 0; i < zones->Size(); i++) {
 				const Zone *z = &zones->Data()[i];
@@ -1103,7 +1102,7 @@ namespace Profiler {
 		FILE *f;
 		HashTable<Entry> frameTable;
 		char timeFormat[256], fileFormat[4096];
-		u32 profileNum;
+		bool firstThreadDump;
 	};
 
 	struct PrintfDumper {
