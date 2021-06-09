@@ -1,110 +1,110 @@
 {
   "ADVICE_10_BODYTEXT": {
     "description": "",
-    "message": "Relocating to another faction might be a good idea when in trouble with local authorities."
+    "message": "Η παράταξη με άλλη παράταξη μπορεί να είναι καλή ιδέα όταν αντιμετωπίζετε προβλήματα με τις τοπικές αρχές."
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Know when to leave town"
+    "message": "Αναγνωρίστε πότε έφτασε η κατάλληλη στιγμή να την σκαπουλάρετε"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
-    "message": "As you return to a station, be wary of those alternative market places you do not recognize, and you will stay out of trouble with the law."
+    "message": "Καθώς επιστρέφετε σε ένα σταθμό, να είστε προσεκτικοί με εκείνες τις εναλλακτικές αγορές που δεν αναγνωρίζετε και θα μείνετε έξω από προβλήματα με το νόμο."
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "Tame the Black Market"
+    "message": "Δαμάστε τη Μαύρη Αγορά"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Many small distances are faster travelled than their sum."
+    "message": "Πολλές μικρές αποστάσεις διανύονται γρηγορότερα από το άθροισμα τους."
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-    "message": "The Road Faster Taken"
+    "message": "Να επιλέγεται η πιο σύντομη διαδρομή."
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "Avoid jumping into uninhabited systems without the means to leave."
+    "message": "Αποφύγετε τη μετάβαση σε ακατοίκητα συστήματα χωρίς τα μέσα να φύγετε."
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Avoid getting stranded: plan your jump sequence ahead"
+    "message": "Αποφύγετε τα 'καραβοτσακίσματα': προσχεδιάστε την ακολουθία αλμάτων σας"
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+    "message": "Επιλέξτε το πλαίσιο αναφοράς σας. Ειδικά όταν θέλετε να συμβαδίσετε με την ταχύτητα και την πορεία ενός κινούμενου στόχου"
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
-    "message": "It's all relative"
+    "message": "Είναι όλα σχετικά"
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
-    "message": "Buy low and sell high."
+    "message": "Αγοράστε φτηνά και πωλήσατε ακριβά."
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
-    "message": "Never lose money"
+    "message": "Ποτέ μην χάνετε χρήματα"
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Pay close attention to any news reported, as information can affect market prices."
+    "message": "Δώστε ιδιαίτερη προσοχή σε τυχόν νέα που αναφέρονται, καθώς οι πληροφορίες μπορούν να επηρεάσουν τις τιμές της αγοράς."
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
-    "message": "Keep your ear to the ground"
+    "message": "Παρατηρείτε και προσέχετε όσα συμβαίνουν γύρω σας"
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
-    "message": "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+    "message": "Με τις δωρεές μπορείτε να αποκτήσετε  μια καλή θέση στην κοινωνία, αλλά δεν αποφέρουν όλες οι φιλανθρωπίες φήμη."
   },
   "ADVICE_7_HEADLINE": {
     "description": "",
-    "message": "Be generous"
+    "message": "Να είστε γενναιόδωροι"
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
-    "message": "When journeying to binary systems, make sure to target the right star."
+    "message": "Όταν ταξιδεύετε σε δυαδικά συστήματα, φροντίστε να στοχεύετε το σωστό αστέρι."
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Stay out of double trouble"
+    "message": "Μείνετε μακριά από διπλά προβλήματα"
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
-    "message": "Regularly maintain your engines, but remember: you get what you pay for."
+    "message": "Συντηρείτε τακτικά τους κινητήρες σας, αλλά θυμηθείτε: παίρνετε αυτό που πληρώνετε."
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "Treat your ship well"
+    "message": "Μεταχειριστείτε σωστά το σκάφος σας"
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",
-    "message": "RUMOUR"
+    "message": "ΚΟΥΤΣΟΜΠΟΛΙΌ"
   },
   "RUMOUR_1_BODYTEXT": {
     "description": "",
-    "message": "Someone in the Federal Navy told me that one day, one of their corvettes accidentally jumped to a Haber outpost system about 50ly out from Sol, called Rondel; almost causing open conflict. Not many people seem to know about the incident itself outside of the navy, but some say Rondel administration has been more aggressive towards visitors since, and freight pilots started avoiding the system."
+    "message": "Κάποιος στο Ομοσπονδιακό Ναυτικό μου είπε ότι μια μέρα, μία από τις κορβέτες τους πήγε κατά λάθος σε ένα σύστημα προφυλάκιων του Haber, περίπου 50ly έξω από το Sol, που ονομάζεται Rondel, σχεδόν προκαλώντας ανοιχτή σύγκρουση. Δεν φαίνεται να γνωρίζουν πολλοί άνθρωποι για το ίδιο το συμβάν έξω από το ναυτικό, αλλά μερικοί λένε ότι η διοίκηση του Rondel έχει γίνει πιο επιθετική απέναντι στους επισκέπτες από τότε, και οι πιλότοι μεταφορικών άρχισαν να αποφεύγουν το σύστημα."
   },
   "RUMOUR_1_HEADLINE": {
     "description": "",
-    "message": "The Rondel Incident"
+    "message": "Το περιστατικό στο Rondel"
   },
   "TALE_1_BODYTEXT": {
     "description": "",
-    "message": "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+    "message": "Μην χάσετε την όμορφη έκλειψη στο New Hope καθώς ο Hades αποκλείει το φως από το Epsilon Eridani."
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"I've seen things you people wouldn't believe\""
+    "message": "\"Έχω δει πράγματα που εσείς οι απλοί άνθρωποι δεν θα τα πιστεύατε\""
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S ADVICE"
+    "message": "ΤΑΞΙΔΙΩΤΙΚΉ ΣΥΜΒΟΥΛΉ"
   },
   "TRAVELLERS_TALE": {
     "description": "Headline starts with this pre-headline",
-    "message": "TRAVELLER'S TALE"
+    "message": "ΙΣΤΟΡΊΕΣ ΤΑΞΙΔΙΩΤΏΝ"
   }
 }

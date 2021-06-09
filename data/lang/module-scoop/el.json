@@ -125,7 +125,7 @@
   },
   "SCOOP": {
     "description": "Name of mission type",
-    "message": "Scoop"
+    "message": "Συλλέκτης"
   },
   "SET_AS_TARGET": {
     "description": "",

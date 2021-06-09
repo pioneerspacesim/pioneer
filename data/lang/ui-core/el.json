@@ -77,7 +77,7 @@
   },
   "BUY_SHIP": {
     "description": "",
-    "message": "Buy Ship"
+    "message": "Αγόρασε σκάφος"
   },
   "CABINS": {
     "description": "For passengers",
@@ -757,7 +757,7 @@
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
-    "message": "Flyby view"
+    "message": "Προβολή πτήσης"
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
@@ -1789,7 +1789,7 @@
   },
   "SHIP": {
     "description": "",
-    "message": "Ship"
+    "message": "Σκάφος"
   },
   "SHIPS_ENGINEER": {
     "description": "",
