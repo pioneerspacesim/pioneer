@@ -968,7 +968,6 @@ namespace Graphics {
 
 		mat->m_renderer = this;
 		mat->m_descriptor = desc;
-		mat->m_stateDescriptor = stateDescriptor;
 		mat->m_renderStateHash = m_renderStateCache->InternRenderState(stateDescriptor);
 
 		OGL::Shader *s = nullptr;
@@ -995,7 +994,6 @@ namespace Graphics {
 		OGL::Material *newMat = new OGL::Material();
 		newMat->m_renderer = this;
 		newMat->m_descriptor = descriptor;
-		newMat->m_stateDescriptor = stateDescriptor;
 		newMat->m_renderStateHash = m_renderStateCache->InternRenderState(stateDescriptor);
 
 		const OGL::Material *material = static_cast<const OGL::Material *>(old);
@@ -1133,6 +1131,11 @@ namespace Graphics {
 		buffer->IncRefCount();
 		m_drawUniformBuffers.emplace_back(buffer);
 		return buffer;
+	}
+
+	const RenderStateDesc &RendererOGL::GetMaterialRenderState(const Graphics::Material *m)
+	{
+		return m_renderStateCache->GetRenderState(m->m_renderStateHash);
 	}
 
 	bool RendererOGL::Screendump(ScreendumpState &sd)

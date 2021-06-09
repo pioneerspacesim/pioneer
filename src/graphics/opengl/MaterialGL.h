@@ -58,7 +58,6 @@ namespace Graphics {
 			Program *EvaluateVariant();
 			void UpdateDrawData();
 
-			size_t m_renderStateHash;
 			Shader *m_shader;
 			Program *m_activeVariant;
 			RendererOGL *m_renderer;

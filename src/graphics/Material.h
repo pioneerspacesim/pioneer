@@ -146,9 +146,6 @@ namespace Graphics {
 
 		//XXX may not be necessary. Used by newmodel to check if a material uses patterns
 		const MaterialDescriptor &GetDescriptor() const { return m_descriptor; }
-		//XXX may not be necessary. Used a few places to generate instanced variants,
-		// could be replaced by a hash
-		const RenderStateDesc &GetStateDescriptor() const { return m_stateDescriptor; }
 
 		virtual bool IsProgramLoaded() const = 0;
 
@@ -172,7 +169,7 @@ namespace Graphics {
 
 	protected:
 		MaterialDescriptor m_descriptor;
-		RenderStateDesc m_stateDescriptor;
+		size_t m_renderStateHash;
 
 	private:
 		friend class RendererOGL;

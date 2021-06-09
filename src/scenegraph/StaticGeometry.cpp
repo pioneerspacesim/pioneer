@@ -87,8 +87,10 @@ namespace SceneGraph {
 				// Due to the shader needing to change we have to get the material and force it to the instanced variant
 				Graphics::MaterialDescriptor mdesc = it.material->GetDescriptor();
 				mdesc.instanced = true;
+
+				const Graphics::RenderStateDesc oldDesc = r->GetMaterialRenderState(it.material.Get());
 				// create the "new" material with the instanced description
-				RefCountedPtr<Graphics::Material> mat(r->CloneMaterial(it.material.Get(), mdesc, it.material->GetStateDescriptor()));
+				RefCountedPtr<Graphics::Material> mat(r->CloneMaterial(it.material.Get(), mdesc, oldDesc));
 				m_instanceMaterials.push_back(std::move(mat));
 			}
 		}

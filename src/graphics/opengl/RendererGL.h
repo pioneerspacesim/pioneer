@@ -97,6 +97,8 @@ namespace Graphics {
 		virtual MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) override final;
 		virtual MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) override final;
 
+		virtual const RenderStateDesc &GetMaterialRenderState(const Graphics::Material *m) override final;
+
 		OGL::UniformBuffer *GetLightUniformBuffer();
 		OGL::UniformLinearBuffer *GetDrawUniformBuffer(Uint32 size);
 		OGL::RenderStateCache *GetStateCache() { return m_renderStateCache.get(); }

@@ -5,6 +5,7 @@
 #define _DUMMY_MATERIAL_H
 
 #include "graphics/Material.h"
+#include "graphics/Renderer.h"
 
 namespace Graphics {
 
@@ -16,7 +17,8 @@ namespace Graphics {
 
 		class Material : public Graphics::Material {
 		public:
-			Material() {}
+			Material(RenderStateDesc rsd) :
+				rsd(rsd) {}
 			// Create an appropriate program for this material.
 			virtual Program *CreateProgram(const MaterialDescriptor &) { return nullptr; }
 			virtual bool IsProgramLoaded() const override final { return false; }
@@ -32,6 +34,8 @@ namespace Graphics {
 			virtual bool SetPushConstant(size_t name, Color c) override { return false; }
 			virtual bool SetPushConstant(size_t name, matrix3x3f mat3) override { return false; }
 			virtual bool SetPushConstant(size_t name, matrix4x4f mat4) override { return false; }
+
+			RenderStateDesc rsd; // here to ensure validation works correctly
 		};
 	} // namespace Dummy
 } // namespace Graphics

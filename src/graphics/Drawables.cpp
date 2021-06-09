@@ -307,7 +307,7 @@ namespace Graphics {
 		void PointSprites::Draw(Renderer *r, Material *mat)
 		{
 			PROFILE_SCOPED()
-			assert(mat->GetStateDescriptor().primitiveType == Graphics::POINTS);
+			assert(r->GetMaterialRenderState(mat).primitiveType == Graphics::POINTS);
 
 			if (m_va->GetNumVerts() == 0)
 				return;

@@ -151,6 +151,9 @@ namespace Graphics {
 		// This function is not suitable for transient geometry; prefer DrawBuffer instead.
 		virtual MeshObject *CreateMeshObjectFromArray(const VertexArray *vertexArray, IndexBuffer *indexBuffer = nullptr, BufferUsage usage = BUFFER_USAGE_STATIC) = 0;
 
+		// Return a reference to the render state desc that is used by the given material.
+		virtual const RenderStateDesc &GetMaterialRenderState(const Material *mat) = 0;
+
 		Texture *GetCachedTexture(const std::string &type, const std::string &name);
 		void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
 		void RemoveCachedTexture(const std::string &type, const std::string &name);
