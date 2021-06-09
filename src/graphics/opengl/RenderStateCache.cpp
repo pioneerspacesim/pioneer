@@ -5,8 +5,11 @@
 #include "Program.h"
 #include "UniformBuffer.h"
 #include "core/Log.h"
+#include "graphics/Types.h"
+#include "graphics/VertexBuffer.h"
 #include "graphics/opengl/RenderTargetGL.h"
 #include "graphics/opengl/TextureGL.h"
+#include "graphics/opengl/VertexBufferGL.h"
 
 using namespace Graphics::OGL;
 using RenderStateDesc = Graphics::RenderStateDesc;
@@ -128,6 +131,40 @@ size_t RenderStateCache::InternRenderState(const RenderStateDesc &rsd)
 	return hash;
 }
 
+size_t RenderStateCache::CacheVertexDesc(const Graphics::VertexBufferDesc &desc)
+{
+	// Hash the attrib sets - they're tightly packed and zero-initialized, so
+	// we're guaranteed to get the correct hash result.
+	const uint32_t *ptr = reinterpret_cast<const uint32_t *>(&desc.attrib);
+	uint32_t a = 0, b = 0;
+	lookup3_hashword2(ptr, MAX_ATTRIBS, &a, &b); // size of a single attribute is == sizeof(uint32_t)
+	size_t hash = size_t(a) | (size_t(b) << 32);
+
+	for (auto &pair : m_vtxDescObjectCache)
+		if (pair.first == hash)
+			return hash;
+
+	GLuint vao = BuildVAOFromDesc(desc);
+	m_vtxDescObjectCache.emplace_back(hash, vao);
+	return hash;
+}
+
+size_t RenderStateCache::InternVertexAttribSet(Graphics::AttributeSet set)
+{
+	auto vbdesc = Graphics::VertexBufferDesc::FromAttribSet(set);
+	return CacheVertexDesc(vbdesc);
+}
+
+GLuint RenderStateCache::GetVertexArrayObject(size_t hash)
+{
+	for (auto &pair : m_vtxDescObjectCache)
+		if (pair.first == hash)
+			return pair.second;
+
+	Log::Warning("Attempt to set VertexDescState for unknown hash {}!", hash);
+	return 0;
+}
+
 void RenderStateCache::ResetFrame()
 {
 	// Textures might be deleted between frames while they're still referenced in cache
@@ -161,12 +198,12 @@ void RenderStateCache::SetTexture(uint32_t index, TextureGL *texture)
 	m_textureCache[index] = texture;
 }
 
-void RenderStateCache::SetBufferBinding(uint32_t index, UniformBufferBinding &binding)
+void RenderStateCache::SetBufferBinding(uint32_t index, BufferBinding<UniformBuffer> binding)
 {
 	if (index >= m_bufferCache.size())
-		m_bufferCache.resize(index + 1, UniformBufferBinding{ nullptr, 0, 0 });
+		m_bufferCache.resize(index + 1, BufferBinding<UniformBuffer>{ nullptr, 0, 0 });
 
-	UniformBufferBinding &current = m_bufferCache[index];
+	BufferBinding<UniformBuffer> &current = m_bufferCache[index];
 	if (current == binding)
 		return;
 

@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "OpenGLLibs.h"
 #include "graphics/Graphics.h"
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
@@ -26,16 +27,24 @@ namespace Graphics {
 		class Shader;
 		class TextureGL;
 		class RenderTarget;
+		class IndexBuffer;
 		class UniformBuffer;
-		struct UniformBufferBinding;
+		class VertexBuffer;
 
 		class CommandList {
 		public:
 			struct DrawCmd {
 				MeshObject *mesh;
-				uint32_t offset;
-				uint32_t numElems;
 				InstanceBuffer *inst = nullptr;
+				const Shader *shader = nullptr;
+				Program *program = nullptr;
+				size_t renderStateHash = 0;
+				char *drawData;
+			};
+
+			struct DynamicDrawCmd {
+				BufferBinding<VertexBuffer> vtxBind;
+				BufferBinding<IndexBuffer> idxBind;
 				const Shader *shader = nullptr;
 				Program *program = nullptr;
 				size_t renderStateHash = 0;
@@ -56,15 +65,18 @@ namespace Graphics {
 			// development asserts to ensure sizes are kept reasonable.
 			// if you need to go beyond these sizes, add a new command instead.
 			static_assert(sizeof(DrawCmd) <= 64);
-			static_assert(sizeof(RenderPassCmd) <= sizeof(DrawCmd));
+			static_assert(sizeof(DynamicDrawCmd) <= 64);
+			static_assert(sizeof(RenderPassCmd) <= 64);
 
-			void AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat, Graphics::InstanceBuffer *inst = nullptr, uint32_t offset = 0, uint32_t num = 0);
+			void AddDrawCmd(Graphics::MeshObject *mesh, Graphics::Material *mat, Graphics::InstanceBuffer *inst = nullptr);
+			void AddDynamicDrawCmd(BufferBinding<Graphics::VertexBuffer> vtx, BufferBinding<Graphics::IndexBuffer> idx, Graphics::Material *mat);
 
 			void AddRenderPassCmd(RenderTarget *renderTarget, ViewportExtents extents);
 			void AddScissorCmd(ViewportExtents extents);
 			void AddClearCmd(bool clearColors, bool clearDepth, Color color);
 
-			using Cmd = std::variant<DrawCmd, RenderPassCmd>;
+		protected:
+			using Cmd = std::variant<DrawCmd, DynamicDrawCmd, RenderPassCmd>;
 			const std::vector<Cmd> &GetDrawCmds() const { return m_drawCmds; }
 
 			bool IsEmpty() const { return m_drawCmds.empty(); }
@@ -84,13 +96,13 @@ namespace Graphics {
 			char *SetupMaterialData(OGL::Material *mat);
 
 			// These functions are called before and after a command is executed
-			void ApplyDrawData(const DrawCmd &cmd) const;
-			void CleanupDrawData(const DrawCmd &cmd) const;
+			void ApplyDrawData(const Shader *shader, Program *program, char *drawData) const;
 
 			void ExecuteDrawCmd(const DrawCmd &);
+			void ExecuteDynamicDrawCmd(const DynamicDrawCmd &);
 			void ExecuteRenderPassCmd(const RenderPassCmd &);
 
-			static UniformBufferBinding *getBufferBindings(const Shader *shader, char *data);
+			static BufferBinding<UniformBuffer> *getBufferBindings(const Shader *shader, char *data);
 			static TextureGL **getTextureBindings(const Shader *shader, char *data);
 
 			// 16k-sized buckets; we're not likely to have 100s of command lists

@@ -82,6 +82,7 @@ namespace Graphics {
 		virtual bool FlushCommandBuffers() override final;
 
 		virtual bool DrawBuffer(const VertexArray *v, Material *m) override final;
+		virtual bool DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *m) override final;
 		virtual bool DrawMesh(MeshObject *, Material *) override final;
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final;
 
@@ -105,8 +106,9 @@ namespace Graphics {
 		virtual bool Screendump(ScreendumpState &sd) override final;
 		virtual bool FrameGrab(ScreendumpState &sd) override final;
 
-		bool DrawMeshInternal(MeshObject *, uint32_t offset, PrimitiveType type, uint32_t num);
-		bool DrawMeshInstancedInternal(MeshObject *, uint32_t offset, InstanceBuffer *, PrimitiveType type, uint32_t num);
+		bool DrawMeshInternal(OGL::MeshObject *, PrimitiveType type);
+		bool DrawMeshInstancedInternal(OGL::MeshObject *, OGL::InstanceBuffer *, PrimitiveType type);
+		bool DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, PrimitiveType type);
 
 	protected:
 		virtual void PushState() override final{};
@@ -116,7 +118,6 @@ namespace Graphics {
 
 		Uint32 m_numLights;
 		Uint32 m_numDirLights;
-		std::vector<GLuint> m_vertexAttribsSet;
 		float m_minZNear;
 		float m_maxZFar;
 		bool m_useCompressedTextures;

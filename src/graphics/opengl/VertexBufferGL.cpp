@@ -4,6 +4,7 @@
 #include "graphics/opengl/VertexBufferGL.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
+#include "graphics/opengl/RendererGL.h"
 #include "utils.h"
 #include <algorithm>
 
@@ -71,8 +72,9 @@ namespace Graphics {
 			}
 		}
 
-		VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
-			Graphics::VertexBuffer(desc)
+		VertexBuffer::VertexBuffer(const VertexBufferDesc &desc, size_t stateHash) :
+			Graphics::VertexBuffer(desc),
+			m_vertexStateHash(stateHash)
 		{
 			PROFILE_SCOPED()
 			assert(m_desc.numVertices > 0);
@@ -325,8 +327,8 @@ namespace Graphics {
 		}
 
 		// ------------------------------------------------------------
-		CachedVertexBuffer::CachedVertexBuffer(const VertexBufferDesc &desc) :
-			VertexBuffer(desc)
+		CachedVertexBuffer::CachedVertexBuffer(const VertexBufferDesc &desc, size_t stateHash) :
+			VertexBuffer(desc, stateHash)
 		{
 			assert(desc.usage == BufferUsage::BUFFER_USAGE_DYNAMIC);
 			m_size = 0;
@@ -568,18 +570,43 @@ namespace Graphics {
 			glDisableVertexAttribArray(INSTOFFS_MAT3);
 		}
 
-		MeshObject::MeshObject(RefCountedPtr<VertexBuffer> vtxBuffer, RefCountedPtr<IndexBuffer> idxBuffer) :
-			m_offset(0),
-			m_vtxBuffer(std::move(vtxBuffer)),
-			m_idxBuffer(std::move(idxBuffer))
+		MeshObject::MeshObject(Graphics::VertexBuffer *vtx, Graphics::IndexBuffer *idx) :
+			m_vtxBuffer(static_cast<OGL::VertexBuffer *>(vtx)),
+			m_idxBuffer(static_cast<OGL::IndexBuffer *>(idx))
 		{
 			assert(m_vtxBuffer.Valid());
 
-			// Create the VAOs
-			glGenVertexArrays(1, &m_vao);
+			m_vao = BuildVAOFromDesc(m_vtxBuffer->GetDesc());
 			glBindVertexArray(m_vao);
 
-			const auto &desc = m_vtxBuffer->GetDesc();
+			glBindVertexBuffer(0, m_vtxBuffer->GetBuffer(), 0, m_vtxBuffer->GetDesc().stride);
+			if (m_idxBuffer)
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_idxBuffer->GetBuffer());
+
+			glBindVertexArray(0);
+		}
+
+		MeshObject::~MeshObject()
+		{
+			glDeleteVertexArrays(1, &m_vao);
+		}
+
+		void MeshObject::Bind()
+		{
+			glBindVertexArray(m_vao);
+		}
+
+		void MeshObject::Release()
+		{
+			glBindVertexArray(0);
+		}
+
+		GLuint BuildVAOFromDesc(const Graphics::VertexBufferDesc desc)
+		{
+			GLuint vao = 0;
+			// Create the VAOs
+			glGenVertexArrays(1, &vao);
+			glBindVertexArray(vao);
 
 			//Setup the VAO pointers
 			for (uint32_t i = 0; i < MAX_ATTRIBS; i++) {
@@ -596,6 +623,8 @@ namespace Graphics {
 				glVertexAttribBinding(attrib, 0);
 			}
 
+			CHECKERRORS();
+
 			// Set up the divisor for the instance data buffer binding
 			glVertexBindingDivisor(1, 1);
 			// Set up the slots for an instance buffer now, so we don't need to touch it again.
@@ -607,37 +636,10 @@ namespace Graphics {
 				glVertexAttribBinding(InstanceBuffer::INSTOFFS_MAT0 + idx, 1);
 			}
 
-			// Bind the vertex buffer to the VAO state.
-			glBindVertexBuffer(0, m_vtxBuffer->GetBuffer(), 0, desc.stride);
-			// Bind the index buffer (if present) to the VAO state.
-			if (m_idxBuffer)
-				m_idxBuffer->Bind();
+			CHECKERRORS();
 
-			// Unbinding the VAO implicitly unbinds the index buffer (as it's part of the VAO state)
 			glBindVertexArray(0);
-		}
-
-		void MeshObject::BindOffset(uint32_t offset)
-		{
-		}
-
-		MeshObject::~MeshObject()
-		{
-			glDeleteVertexArrays(1, &m_vao);
-		}
-
-		void MeshObject::Bind(uint32_t offset)
-		{
-			glBindVertexArray(m_vao);
-			if (offset != m_offset) {
-				glBindVertexBuffer(0, m_vtxBuffer->GetBuffer(), offset, m_vtxBuffer->GetDesc().stride);
-				m_offset = offset;
-			}
-		}
-
-		void MeshObject::Release()
-		{
-			glBindVertexArray(0);
+			return vao;
 		}
 
 	} //namespace OGL

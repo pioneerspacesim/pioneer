@@ -789,7 +789,8 @@ namespace Graphics {
 			desc.numVertices = DYNAMIC_DRAW_BUFFER_SIZE / desc.stride;
 			desc.usage = BUFFER_USAGE_DYNAMIC;
 
-			OGL::CachedVertexBuffer *vb = new OGL::CachedVertexBuffer(desc);
+			size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
+			OGL::CachedVertexBuffer *vb = new OGL::CachedVertexBuffer(desc, stateHash);
 			MeshObject *meshObject = CreateMeshObject(vb, nullptr);
 			s_DynamicDrawBufferMap.push_back(DynamicBufferData{ attrs, vb, RefCountedPtr<MeshObject>(meshObject) });
 
@@ -804,7 +805,22 @@ namespace Graphics {
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		// Append a command to the command list
-		m_drawCommandList->AddDrawCmd(iter->mesh.Get(), m, nullptr, offset, v->GetNumVerts());
+		m_drawCommandList->AddDynamicDrawCmd({ iter->mesh->GetVertexBuffer(), offset, v->GetNumVerts() }, {}, m);
+
+		return true;
+	}
+
+	bool RendererOGL::DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *mat)
+	{
+		if ((v->GetSize() <= vtxOffset) || (i && i->GetSize() <= idxOffset))
+			return false;
+		if (!numElems)
+			return false;
+
+		m_drawCommandList->AddDynamicDrawCmd(
+			{ v, vtxOffset * v->GetDesc().stride, numElems },
+			{ i, i == nullptr ? 0 : idxOffset * uint32_t(sizeof(uint32_t)), numElems },
+			mat);
 
 		return true;
 	}
@@ -838,9 +854,15 @@ namespace Graphics {
 		for (const auto &cmd : m_drawCommandList->GetDrawCmds()) {
 			if (auto *drawCmd = std::get_if<OGL::CommandList::DrawCmd>(&cmd))
 				m_drawCommandList->ExecuteDrawCmd(*drawCmd);
+			else if (auto *dynDrawCmd = std::get_if<OGL::CommandList::DynamicDrawCmd>(&cmd))
+				m_drawCommandList->ExecuteDynamicDrawCmd(*dynDrawCmd);
 			else if (auto *renderPassCmd = std::get_if<OGL::CommandList::RenderPassCmd>(&cmd))
 				m_drawCommandList->ExecuteRenderPassCmd(*renderPassCmd);
 		}
+
+		// we don't manually reset the active vertex array after each drawcall for performance,
+		// so we need to reset it here or risk stomping on state.
+		glBindVertexArray(0);
 
 		m_drawCommandList->m_executing = false;
 		m_drawCommandList->Reset();
@@ -873,41 +895,63 @@ namespace Graphics {
 		}
 	}
 
-	bool RendererOGL::DrawMeshInternal(MeshObject *mesh, uint32_t offset, PrimitiveType type, uint32_t numElems)
+	bool RendererOGL::DrawMeshInternal(OGL::MeshObject *mesh, PrimitiveType type)
 	{
 		PROFILE_SCOPED()
-		mesh->Bind(offset);
 
-		if (mesh->GetIndexBuffer())
+		glBindVertexArray(mesh->GetVertexArrayObject());
+		uint32_t numElems = mesh->m_idxBuffer.Valid() ? mesh->m_idxBuffer->GetIndexCount() : mesh->m_vtxBuffer->GetSize();
+
+		if (mesh->m_idxBuffer.Valid()) {
+			// FIXME: terrain segfaults without this BindBuffer call
+			// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->m_idxBuffer->GetBuffer());
 			glDrawElements(type, numElems, GL_UNSIGNED_INT, nullptr);
-		else
+		} else
 			glDrawArrays(type, 0, numElems);
 
-		mesh->Release();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
-
 		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 		stat_primitives(m_stats, type, numElems);
 		return true;
 	}
 
-	bool RendererOGL::DrawMeshInstancedInternal(MeshObject *mesh, uint32_t offset, InstanceBuffer *inst, PrimitiveType type, uint32_t numElems)
+	bool RendererOGL::DrawMeshInstancedInternal(OGL::MeshObject *mesh, OGL::InstanceBuffer *inst, PrimitiveType type)
 	{
 		PROFILE_SCOPED()
-		mesh->Bind(offset);
+
+		glBindVertexArray(mesh->GetVertexArrayObject());
+		uint32_t numElems = mesh->m_idxBuffer.Valid() ? mesh->m_idxBuffer->GetIndexCount() : mesh->m_vtxBuffer->GetSize();
 		inst->Bind();
 
-		if (mesh->GetIndexBuffer())
+		if (mesh->m_idxBuffer.Valid()) {
 			glDrawElementsInstanced(type, numElems, GL_UNSIGNED_INT, nullptr, inst->GetInstanceCount());
-		else
+		} else {
 			glDrawArraysInstanced(type, 0, numElems, inst->GetInstanceCount());
+		}
 
 		inst->Release();
-		mesh->Release();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
-
 		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 		stat_primitives(m_stats, type, numElems);
+		return true;
+	}
+
+	bool RendererOGL::DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, PrimitiveType type)
+	{
+		PROFILE_SCOPED()
+
+		glBindVertexArray(m_renderStateCache->GetVertexArrayObject(vtxBind.buffer->GetVertexFormatHash()));
+		glBindVertexBuffer(0, vtxBind.buffer->GetBuffer(), vtxBind.offset, vtxBind.buffer->GetDesc().stride);
+		if (idxBind.buffer) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBind.buffer->GetBuffer());
+			glDrawElements(type, idxBind.size, GL_UNSIGNED_INT, (void *)(uintptr_t)(idxBind.offset));
+		} else {
+			glDrawArrays(type, 0, vtxBind.size);
+		}
+
+		CheckRenderErrors(__FUNCTION__, __LINE__);
+		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+		stat_primitives(m_stats, type, idxBind.buffer ? idxBind.size : vtxBind.size);
 		return true;
 	}
 
@@ -1034,7 +1078,8 @@ namespace Graphics {
 	VertexBuffer *RendererOGL::CreateVertexBuffer(const VertexBufferDesc &desc)
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
-		return new OGL::VertexBuffer(desc);
+		size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
+		return new OGL::VertexBuffer(desc, stateHash);
 	}
 
 	IndexBuffer *RendererOGL::CreateIndexBuffer(Uint32 size, BufferUsage usage)
@@ -1058,9 +1103,7 @@ namespace Graphics {
 	MeshObject *RendererOGL::CreateMeshObject(VertexBuffer *v, IndexBuffer *i)
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
-		return new OGL::MeshObject(
-			RefCountedPtr<OGL::VertexBuffer>(static_cast<OGL::VertexBuffer *>(v)),
-			RefCountedPtr<OGL::IndexBuffer>(static_cast<OGL::IndexBuffer *>(i)));
+		return new OGL::MeshObject(v, i);
 	}
 
 	MeshObject *RendererOGL::CreateMeshObjectFromArray(const VertexArray *vertexArray, IndexBuffer *indexBuffer, BufferUsage usage)

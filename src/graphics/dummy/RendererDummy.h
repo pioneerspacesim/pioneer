@@ -63,6 +63,7 @@ namespace Graphics {
 		virtual bool FlushCommandBuffers() override final { return true; }
 
 		virtual bool DrawBuffer(const VertexArray *, Material *) override final { return true; }
+		virtual bool DrawBufferDynamic(VertexBuffer *, uint32_t, IndexBuffer *, uint32_t, uint32_t, Material *) override final { return true; }
 		virtual bool DrawMesh(MeshObject *, Material *) override final { return true; }
 		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final { return true; }
 

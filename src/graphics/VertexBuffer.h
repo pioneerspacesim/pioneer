@@ -35,8 +35,9 @@ namespace Graphics {
 		VertexAttribFormat format;
 		//byte offset of the attribute, if zero this
 		//is automatically filled for created buffers
-		Uint32 offset;
+		uint16_t offset;
 	};
+	static_assert(sizeof(VertexAttribDesc) == 4);
 
 	struct VertexBufferDesc {
 		VertexBufferDesc();
@@ -81,6 +82,19 @@ namespace Graphics {
 		Uint32 m_capacity;
 	};
 
+	template <typename T>
+	struct BufferBinding {
+		T *buffer;
+		uint32_t offset;
+		uint32_t size;
+
+		bool operator!=(const BufferBinding &rhs) const { return !(*this == rhs); }
+		bool operator==(const BufferBinding &rhs) const
+		{
+			return buffer == rhs.buffer && offset == rhs.offset && size == rhs.size;
+		}
+	};
+
 	class VertexBuffer : public Mappable {
 	public:
 		VertexBuffer(const VertexBufferDesc &desc) :
@@ -106,7 +120,10 @@ namespace Graphics {
 		// change the buffer data without mapping
 		virtual void BufferData(const size_t, void *) = 0;
 
+		// Bind the vertex buffer for use in rendering
 		virtual void Bind() = 0;
+
+		// Release the vertex buffer from rendering
 		virtual void Release() = 0;
 
 	protected:
@@ -170,7 +187,7 @@ namespace Graphics {
 	public:
 		virtual ~MeshObject() {}
 
-		virtual void Bind(uint32_t offset) = 0;
+		virtual void Bind() = 0;
 		virtual void Release() = 0;
 
 		virtual VertexBuffer *GetVertexBuffer() const = 0;

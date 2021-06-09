@@ -24,7 +24,7 @@ namespace Graphics {
 
 		class VertexBuffer : public Graphics::VertexBuffer, public GLBufferBase {
 		public:
-			VertexBuffer(const VertexBufferDesc &);
+			VertexBuffer(const VertexBufferDesc &, size_t stateHash);
 			~VertexBuffer();
 
 			virtual void Unmap() override;
@@ -38,14 +38,17 @@ namespace Graphics {
 			virtual void Bind() override final;
 			virtual void Release() override final;
 
+			size_t GetVertexFormatHash() const { return m_vertexStateHash; }
+
 		protected:
 			virtual Uint8 *MapInternal(BufferMapMode) override;
 			Uint8 *m_data;
+			size_t m_vertexStateHash;
 		};
 
 		class CachedVertexBuffer : public VertexBuffer {
 		public:
-			CachedVertexBuffer(const VertexBufferDesc &);
+			CachedVertexBuffer(const VertexBufferDesc &, size_t stateHash);
 
 			virtual bool Populate(const VertexArray &) override final;
 			uint32_t GetOffset() { return m_size * m_desc.stride; }
@@ -105,10 +108,10 @@ namespace Graphics {
 
 		class MeshObject final : public Graphics::MeshObject {
 		public:
-			MeshObject(RefCountedPtr<VertexBuffer> v, RefCountedPtr<IndexBuffer> i);
+			MeshObject(Graphics::VertexBuffer *vtx, Graphics::IndexBuffer *idx);
 			~MeshObject() override;
 
-			void Bind(uint32_t offset) override;
+			void Bind() override;
 			void Release() override;
 
 			Graphics::VertexBuffer *GetVertexBuffer() const override { return m_vtxBuffer.Get(); };
@@ -117,14 +120,13 @@ namespace Graphics {
 		protected:
 			friend class Graphics::RendererOGL;
 
-			// For use by the renderer in drawing from a dynamic vertex alloc buffer.
-			void BindOffset(uint32_t offset);
-
-			GLuint m_vao;
-			GLuint m_offset;
+			GLuint GetVertexArrayObject() const { return m_vao; }
 			RefCountedPtr<VertexBuffer> m_vtxBuffer;
 			RefCountedPtr<IndexBuffer> m_idxBuffer;
+			GLuint m_vao = 0;
 		};
+
+		GLuint BuildVAOFromDesc(const Graphics::VertexBufferDesc desc);
 
 	} // namespace OGL
 } // namespace Graphics
