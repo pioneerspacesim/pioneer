@@ -2,6 +2,10 @@ May 2021
    * New Features
      * Add more tradeships and improve their behavior (#4984)
      * Highly improved performance with many ships in one system (#5166)
+     * Improve startup times with threading (#4951)
+
+   * Internal Changes
+     * Add zone-based profiling to debug/profiler builds (#5168)
 
    * Fixes
      * Fix crash when loading invalid AI command data from savefile (#5167)
@@ -10,6 +14,8 @@ May 2021
      * Small improvements for the combat mission (#5184)
      * Fix News Event not modifying commodity price and stock (#5192)
      * Fix Cargo mission, to not pick up cargo if too late (#5196)
+     * Fix floating point truncation crash on old AMD hardware (#5204)
+     * Fix build with USE_SYSTEM_LIBLUA=ON (#5206)
 
 April 2021
    * New Features
