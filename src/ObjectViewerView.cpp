@@ -278,6 +278,11 @@ void ObjectViewerView::OnChangeTerrain()
 	sbody->m_volcanicity = dtofixed(std::abs(m_state.volcanicity));
 	sbody->m_life = dtofixed(std::abs(m_state.life));
 
+	// FIXME: need a better solution to queue terrain updates for a specific planet
+	// that doesn't involve destroying geopatches while they're being rendered
+	// (and a way run those updates at the right time)
+	Pi::renderer->FlushCommandBuffers();
+
 	// force reload
 	TerrainBody::OnChangeDetailLevel();
 	ReloadState();

@@ -822,6 +822,12 @@ void Pi::App::HandleRequests()
 			GetActiveLifecycle()->RequestEndLifecycle();
 			RequestQuit();
 		} break;
+		case InternalRequests::DETAIL_LEVEL_CHANGED: {
+			if (!Pi::game)
+				break;
+
+			BaseSphere::OnChangeDetailLevel();
+		} break;
 		default:
 			Output("Pi::HandleRequests, unhandled request type %d processed.\n", int(request));
 			break;
@@ -1172,7 +1178,7 @@ void Pi::SetView(View *v)
 
 void Pi::OnChangeDetailLevel()
 {
-	BaseSphere::OnChangeDetailLevel();
+	Pi::GetApp()->internalRequests.push_back(App::InternalRequests::DETAIL_LEVEL_CHANGED);
 }
 
 static void OnPlayerDockOrUndock()

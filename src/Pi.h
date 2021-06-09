@@ -114,6 +114,7 @@ public:
 		enum class InternalRequests {
 			END_GAME = 0,
 			QUIT_GAME,
+			DETAIL_LEVEL_CHANGED // FIXME: right idea, wrong place
 		};
 
 		std::vector<InternalRequests> internalRequests;
