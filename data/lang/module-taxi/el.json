@@ -101,7 +101,7 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ; Δίοδος για μια μικρή ομάδα στο σύστημα {system}. Πληρώνουμε {cash}."
+    "message": "ΖΗΤΕΙΤΑΙ: Δίοδος για μια μικρή ομάδα στο σύστημα {system}. Πληρώνουμε {cash}."
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_0_WHEREAREWE": {
     "description": "",
-    "message": "Πού βρισκόμαστε; Περιμέναμε αρκετά - πήγαινέ μας στο κοντινότερο κοσμοδρόμιο ΤΏΡΑ!"
+    "message": "Πού βρισκόμαστε: Περιμέναμε αρκετά - πήγαινέ μας στο κοντινότερο κοσμοδρόμιο ΤΏΡΑ!"
   },
   "FLAVOUR_0_WHYSOMUCH": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "FLAVOUR_10_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ ΣΚΑΦΟΣ; Δίοδος με ταχύ σκάφος στο {system} σύστημα."
+    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Δίοδος με ταχύ σκάφος στο {system} σύστημα."
   },
   "FLAVOUR_10_DANGER": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "ΑΙΤΕΙΤΑΙ ΣΚΑΦΟΣ; Πέρασμα στο {system} σύσττημα."
+    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Πέρασμα στο {system} σύσττημα."
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ; Δίοδος για μια μικρή ομάδα στο σύστημα {system}. Πληρώνουμε {cash}."
+    "message": "ΖΗΤΕΙΤΑΙ: Δίοδος για μια μικρή ομάδα στο σύστημα {system}. Πληρώνουμε {cash}."
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ; Δίοδος για μια μικρή ομάδα στο σύστημα {system}. Πληρώνουμε {cash}."
+    "message": "ΖΗΤΕΙΤΑΙ: Δίοδος για μια μικρή ομάδα στο σύστημα {system}. Πληρώνουμε {cash}."
   },
   "FLAVOUR_2_DANGER": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ ΣΚΑΦΟΣ; Πέρασμα στο {system} σύσττημα. Αμοιβή {cash}."
+    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Πέρασμα στο {system} σύσττημα. Αμοιβή {cash}."
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ ΣΚΑΦΟΣ; Δίοδος στο σύστημα {system}. Αμοιβή {cash}."
+    "message": "ΖΗΤΕΙΤΑΙ ΣΚΑΦΟΣ: Δίοδος στο σύστημα {system}. Αμοιβή {cash}."
   },
   "FLAVOUR_4_DANGER": {
     "description": "",
@@ -389,7 +389,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ ΣΚΑΦΟΣ; Δίοδος στο σύστημα {system}. Αμοιβή {cash}."
+    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Δίοδος στο σύστημα {system}. Αμοιβή {cash}."
   },
   "FLAVOUR_6_DANGER": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ ΣΚΑΦΟΣ; Ασφαλής δίοδος στο {system} σύστημα. Αμοιβή {cash}."
+    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Ασφαλής δίοδος στο {system} σύστημα. Αμοιβή {cash}."
   },
   "FLAVOUR_7_DANGER": {
     "description": "",
@@ -453,7 +453,7 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ ΣΚΑΦΟΣ; Δίοδος με ταχύ σκάφος στο {system} σύστημα."
+    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Δίοδος με ταχύ σκάφος στο {system} σύστημα."
   },
   "FLAVOUR_8_DANGER": {
     "description": "",
@@ -485,7 +485,7 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ ΣΚΑΦΟΣ; Πέρασμα με ταχύ σκάφος στο {system} σύστημα."
+    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Πέρασμα με ταχύ σκάφος στο {system} σύστημα."
   },
   "FLAVOUR_9_DANGER": {
     "description": "",

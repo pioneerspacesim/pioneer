@@ -77,7 +77,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ. Παράδοση πακέτου στο {system} σύστημα."
+    "message": "ΖΗΤΕΙΤΑΙ: Παράδοση πακέτου στο {system} σύστημα."
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",

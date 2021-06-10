@@ -1,27 +1,27 @@
 {
   "ADVANCED_TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
-    "message": "Advanced target scanner"
+    "message": "Προηγμένος σαρωτής στόχου"
   },
   "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Long range target scanner with system wide coverage."
+    "message": "Μεγάλης εμβέλειας σαρωτής στόχου με εμβέλεια ολόκληρου συστήματος."
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
-    "message": "Atmospheric Shielding"
+    "message": "Ατμοσφαιρική θωράκιση"
   },
   "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
     "description": "",
-    "message": "Shields your spaceship from the heat of atmospheric re-entry."
+    "message": "Προστατεύει το διαστημόπλοιό σας από τη ζέστη επανεισόδου στην ατμόσφαιρα."
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
-    "message": "Heavy Atmospheric Shielding"
+    "message": "Υπέρ-ανθεκτική ατμοσφαιρική προστασία"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "A more capable version of Atmospheric Shields"
+    "message": "Μια πιο αποδοτική έκδοση των Ατμοσφαιρικές Ασπίδων"
   },
   "AUTOPILOT": {
     "description": "",
@@ -29,19 +29,19 @@
   },
   "AUTOPILOT_DESCRIPTION": {
     "description": "",
-    "message": "An on-board flight computer."
+    "message": "Ένας υπολογιστής πτήσης στο σκάφος."
   },
   "BEAMLASER_1MW": {
     "description": "",
-    "message": "1MW beam laser"
+    "message": "1MW λέιζερ δέσμης"
   },
   "BEAMLASER_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire beam laser"
+    "message": "1MW λέιζερ δέσμης διπλής βολής"
   },
   "BEAMLASER_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire beam laser"
+    "message": "2MW ταχυβόλο λέιζερ δέσμης"
   },
   "CARGO_LIFE_SUPPORT": {
     "description": "",
@@ -49,111 +49,111 @@
   },
   "CARGO_LIFE_SUPPORT_DESCRIPTION": {
     "description": "",
-    "message": "Allows the transport of live cargo."
+    "message": "Επιτρέπει τη μεταφορά ζώντων φορτίων."
   },
   "CARGO_SCOOP": {
     "description": "",
-    "message": "Cargo Scoop"
+    "message": "Συλλέκτης φορτίου"
   },
   "CARGO_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Permits scooping cargo pods from space."
+    "message": "Επιτρέπει τη λήψη λοβών φορτίου από το διάστημα."
   },
   "DRIVE_CLASS1": {
     "description": "",
-    "message": "Class 1 Hyperdrive"
+    "message": "Υπερκινητήρας κατηγορίας 1"
   },
   "DRIVE_CLASS2": {
     "description": "",
-    "message": "Class 2 Hyperdrive"
+    "message": "Υπερκινητήρας κατηγορίας 2"
   },
   "DRIVE_CLASS3": {
     "description": "",
-    "message": "Class 3 Hyperdrive"
+    "message": "Υπερκινητήρας κατηγορίας 3"
   },
   "DRIVE_CLASS4": {
     "description": "",
-    "message": "Class 4 Hyperdrive"
+    "message": "Υπερκινητήρας κατηγορίας 4"
   },
   "DRIVE_CLASS5": {
     "description": "",
-    "message": "Class 5 Hyperdrive"
+    "message": "Υπερκινητήρας κατηγορίας 5"
   },
   "DRIVE_CLASS6": {
     "description": "",
-    "message": "Class 6 Hyperdrive"
+    "message": "Υπερκινητήρας κατηγορίας 6"
   },
   "DRIVE_CLASS7": {
     "description": "",
-    "message": "Class 7 Hyperdrive"
+    "message": "Υπερκινητήρας κατηγορίας 7"
   },
   "DRIVE_CLASS8": {
     "description": "",
-    "message": "Class 8 Hyperdrive"
+    "message": "Υπερκινητήρας κατηγορίας 8"
   },
   "DRIVE_CLASS9": {
     "description": "",
-    "message": "Class 9 Hyperdrive"
+    "message": "Υπερκινητήρας κατηγορίας 9"
   },
   "DRIVE_MIL1": {
     "description": "",
-    "message": "Class 1 Military drive"
+    "message": "Κινητήρας Στρατού κατηγορίας 1"
   },
   "DRIVE_MIL2": {
     "description": "",
-    "message": "Class 2 Military drive"
+    "message": "Κινητήρας Στρατού κατηγορίας 2"
   },
   "DRIVE_MIL3": {
     "description": "",
-    "message": "Class 3 Military drive"
+    "message": "Κινητήρας Στρατού κατηγορίας 3"
   },
   "DRIVE_MIL4": {
     "description": "",
-    "message": "Class 4 Military drive"
+    "message": "Κινητήρας Στρατού κατηγορίας 4"
   },
   "DRIVE_MIL5": {
     "description": "",
-    "message": "Class 5 Military drive"
+    "message": "Κινητήρας Στρατού κατηγορίας 5"
   },
   "DRIVE_MIL6": {
     "description": "",
-    "message": "Class 6 Military drive"
+    "message": "Κινητήρας Στρατού κατηγορίας 6"
   },
   "DRIVE_MIL7": {
     "description": "",
-    "message": "Class 7 Military drive"
+    "message": "Κινητήρας Στρατού κατηγορίας 7"
   },
   "DRIVE_MIL8": {
     "description": "",
-    "message": "Class 8 Military drive"
+    "message": "Κινητήρας Στρατού κατηγορίας 8"
   },
   "DRIVE_MIL9": {
     "description": "",
-    "message": "Class 9 Military drive"
+    "message": "Κινητήρας Στρατού κατηγορίας 9"
   },
   "ECM_ADVANCED": {
     "description": "",
-    "message": "Advanced ECM system"
+    "message": "Προηγμένο σύστημα ECM"
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
+    "message": "Ένα ηλεκτρονικό σύστημα αντιπυραυλικής άμυνας, ικανό να καταστρέψει πιο προηγμένους τύπους πυραύλων."
   },
   "ECM_BASIC": {
     "description": "",
-    "message": "ECM system"
+    "message": "Σύστημα ECM"
   },
   "ECM_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
+    "message": "Ένα ηλεκτρονικό σύστημα αντιπυραυλικής άμυνας, ικανό να καταστρέψει ορισμένους πυραύλους."
   },
   "FUEL_SCOOP": {
     "description": "",
-    "message": "Fuel Scoop"
+    "message": "Συλλέκτης καυσίμων"
   },
   "FUEL_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Permits scooping hydrogen fuel from gas giant planets."
+    "message": "Επιτρέπει τη λήψη καυσίμων υδρογόνου από γιγαντιαίους πλανήτες αερίου."
   },
   "HULL_AUTOREPAIR": {
     "description": "",
@@ -161,15 +161,15 @@
   },
   "HULL_AUTOREPAIR_DESCRIPTION": {
     "description": "",
-    "message": "Automatically repairs the ship's hull in the event of damage."
+    "message": "Επισκευάζει αυτόματα το κύτος του σκάφους σε περίπτωση ζημιάς."
   },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
-    "message": "Hypercloud Analyzer"
+    "message": "Αναλυτής Υπερνέφους"
   },
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
-    "message": "Analyze hyperspace clouds to determine destination and time of arrival or departure."
+    "message": "Αναλύει νέφη υπερδιαστήματος για να προσδιορίσει τον προορισμό και την ώρα άφιξης ή αναχώρησης."
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
@@ -177,27 +177,27 @@
   },
   "LASER_COOLING_BOOSTER": {
     "description": "",
-    "message": "Laser Cooling Booster"
+    "message": "Ενισχυτής ψύξης με λέιζερ"
   },
   "LASER_COOLING_BOOSTER_DESCRIPTION": {
     "description": "",
-    "message": "An improved cooling system for your weapons."
+    "message": "Ένα βελτιωμένο σύστημα ψύξης για τα όπλα σας."
   },
   "MININGCANNON_17MW": {
     "description": "",
-    "message": "17MW blast-mining cannon"
+    "message": "17MW πυροβόλο εξόρυξης"
   },
   "MININGCANNON_17MW_DESCRIPTION": {
     "description": "",
-    "message": "Used to blast-mine mineral rich asteroids."
+    "message": "Χρησιμοποιείται για εξορύξεις από αστεροειδείς πλούσιους σε ορυκτά."
   },
   "MININGCANNON_5MW": {
     "description": "",
-    "message": "5MW blast-mining cannon"
+    "message": "5MW πυροβόλο εξόρυξης"
   },
   "MININGCANNON_5MW_DESCRIPTION": {
     "description": "",
-    "message": "Used to blast-mine mineral rich asteroids."
+    "message": "Χρησιμοποιείται για εξορύξεις από αστεροειδείς πλούσιους σε ορυκτά."
   },
   "MISSILE_GUIDED": {
     "description": "",
@@ -205,91 +205,91 @@
   },
   "MISSILE_NAVAL": {
     "description": "",
-    "message": "Naval Missile"
+    "message": "Πύραυλος αεροναυτικών στρατευμάτων"
   },
   "MISSILE_SMART": {
     "description": "",
-    "message": "Smart Missile"
+    "message": "Έξυπνος πύραυλος"
   },
   "MISSILE_UNGUIDED": {
     "description": "",
-    "message": "R40 Unguided Rocket"
+    "message": "R40 μη καθοδηγούμενη ρουκέτα"
   },
   "MULTI_SCOOP": {
     "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
-    "message": "Multi Scoop"
+    "message": "Πολυσυλλέκτης"
   },
   "MULTI_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+    "message": "Παρόλο που είναι λιγότερο αποτελεσματικός από έναν συλλέκτη καυσίμου, επιτρέπει την συλλογή τόσο φορτίου όσο και καυσίμου"
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
-    "message": "Max scan range exceeded:"
+    "message": "Υπέρβαση της μέγιστης εμβέλειας σάρωσης:"
   },
   "PASSENGER_CABIN": {
     "description": "",
-    "message": "Passenger cabin"
+    "message": "Καμπίνα επιβάτη"
   },
   "PLANETSCANNER": {
     "description": "Scans the nearest body for resources",
-    "message": "Body scan"
+    "message": "Σάρωση διαστημικού σώματος"
   },
   "PLANETSCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Scan nearest body for resources."
+    "message": "Σάρωση του πλησιέστερου διαστημικού σώματος για πόρους."
   },
   "PULSECANNON_10MW": {
     "description": "",
-    "message": "10MW pulse cannon"
+    "message": "10MW παλμικό κανόνι"
   },
   "PULSECANNON_1MW": {
     "description": "",
-    "message": "1MW pulse cannon"
+    "message": "1MW παλμικό κανόνι"
   },
   "PULSECANNON_20MW": {
     "description": "",
-    "message": "20MW pulse cannon"
+    "message": "20MW παλμικό κανόνι"
   },
   "PULSECANNON_2MW": {
     "description": "",
-    "message": "2MW pulse cannon"
+    "message": "2MW παλμικό κανόνι"
   },
   "PULSECANNON_4MW": {
     "description": "",
-    "message": "4MW pulse cannon"
+    "message": "4MW παλμικό κανόνι"
   },
   "PULSECANNON_DUAL_1MW": {
     "description": "",
-    "message": "1MW dual-fire pulse cannon"
+    "message": "1MW παλμικό κανόνι διπλής βολής"
   },
   "PULSECANNON_RAPID_2MW": {
     "description": "",
-    "message": "2MW rapid-fire pulse cannon"
+    "message": "2MW ταχυβόλο παλμικό κανόνι"
   },
   "RADAR": {
     "description": "",
-    "message": "Radar"
+    "message": "Ραντάρ"
   },
   "RADAR_DESCRIPTION": {
     "description": "",
-    "message": "Provides a 3D map of nearby ships."
+    "message": "Εμφανίζει τα κοντινά σκάφη σε 3Δ χάρτη."
   },
   "SCAN_COMPLETED": {
     "description": "",
-    "message": "Scanning completed"
+    "message": "Η σάρωση ολοκληρώθηκε"
   },
   "SCAN_RESUMED": {
     "description": "",
-    "message": "Scanning resumed"
+    "message": "Συνέχιση σάρωσης"
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
-    "message": "Shield Energy Booster"
+    "message": "Ενισχυτής Ενέργειας Ασπίδων"
   },
   "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
     "description": "",
-    "message": "Increases the rate at which shields recharge."
+    "message": "Αυξάνει το ρυθμό επαναφόρτισης των ασπίδων."
   },
   "SHIELD_GENERATOR": {
     "description": "",
@@ -297,7 +297,7 @@
   },
   "SHIELD_GENERATOR_DESCRIPTION": {
     "description": "",
-    "message": "Provides additional hull defences with each unit fitted."
+    "message": "Παρέχει πρόσθετες άμυνες κύτους με κάθε τοποθέτηση μονάδας."
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -305,54 +305,54 @@
   },
   "STARTING_SCAN": {
     "description": "",
-    "message": "Starting scan, target distance is"
+    "message": "Εκκίνηση σάρωσης, η απόσταση στόχου είναι"
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
-    "message": "Target Scanner"
+    "message": "Σαρωτής στόχου"
   },
   "TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Used to remotely inspect the equipment, cargo and state of other ships."
+    "message": "Χρησιμοποιείται για την τηλεπιθεώρηση του εξοπλισμού, του φορτίου και της κατάστασης άλλων σκαφών."
   },
   "THRUSTERS_BASIC": {
     "description": "",
-    "message": "Modified Thrusters"
+    "message": "Τροποποιημένοι προωθητήρες"
   },
   "THRUSTERS_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "A modified type of thrusters approved for your ship."
+    "message": "Ένας τροποποιημένος, εγκεκριμένος για το σκάφος σας, τύπος προωθητήρων "
   },
   "THRUSTERS_BEST": {
     "description": "",
-    "message": "Bespoke Thrusters"
+    "message": "Κατά παραγγελία προωθητήρες"
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
-    "message": "Custom made thrusters that provide the best possible output."
+    "message": "Προσαρμοσμένοι προωθητήρες που παρέχουν την καλύτερη δυνατή απόδοση."
   },
   "THRUSTERS_MEDIUM": {
     "description": "",
-    "message": "Optimised Thrusters"
+    "message": "Βελτιστοποιημένοι προωθητήρες"
   },
   "THRUSTERS_MEDIUM_DESCRIPTION": {
     "description": "",
-    "message": "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+    "message": "Προωθητήρες που έχουν βελτιστοποιηθεί για να μειώσουν τις ανεπάρκειες και να βελτιώσουν την απόδοση ισχύος"
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
-    "message": "Trade Computer"
+    "message": "Υπολογιστής εμπορικών συναλλαγών"
   },
   "TRADE_COMPUTER_DESCRIPTION": {
     "description": "",
-    "message": "Shows profitable commodities to trade between selected and current system"
+    "message": "Δείχνει κερδοφόρα εμπορεύματα για συναλλαγές μεταξύ του επιλεγμένου και του τρέχοντος συστήματος"
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
-    "message": "Extra Passenger Cabin"
+    "message": "Επιπλέον καμπίνα επιβάτη"
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Required for transport of a single passenger"
+    "message": "Απαιτείται για τη μεταφορά ενός μόνο επιβάτη"
   }
 }

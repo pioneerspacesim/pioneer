@@ -49,135 +49,135 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "WANTED: Removal of {target} from the {system} system."
+    "message": "ΚΑΤΑΖΗΤΕΙΤΑΙ: Αποδόμηση του {target} από το {system} σύστημα."
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment."
+    "message": "Είμαι πολύ δυσαρεστημένος που διαπιστώνω ότι ο {target} είναι ακόμα ζωντανός. Περιττό να πούμε ότι δεν θα λάβεις καμία πληρωμή."
   },
   "FLAVOUR_0_FAILUREMSG2": {
     "description": "",
-    "message": "{target}'s removal was not done by you. No payment this time."
+    "message": "Η αποδόμηση του {target} δεν έγινε από εσάς. Καμία πληρωμή αυτή τη φορά."
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}."
+    "message": "Γεια, ονομάζομαι {name}. Θα σε πληρώσω {cash} για να μας απαλλάξεις από τον {target}."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
-    "message": "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment."
+    "message": "Τα νέα για τις μεγάλες διακοπές του {target} τα λάβαμε με ευγνωμοσύνη. Μπράβο, ξεκίνησα την πλήρη πληρωμή σας."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "WANTED: Someone to kill {target} from the {system} system."
+    "message": "ΚΑΤΑΖΗΤΕΙΤΑΙ: Κάποιος να σκοτώσει τον {target} από το σύστημα {system}."
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I hear that {target} is in good health. This pains me."
+    "message": "Ακούω ότι ο {target} χαίρει άκρας υγείας. Αυτό με πονάει."
   },
   "FLAVOUR_1_FAILUREMSG2": {
     "description": "",
-    "message": "{target}'s demise was not caused by you, so do not ask for payment."
+    "message": "Ο θάνατος του {target} δεν προκλήθηκε από εσάς, επομένως μην ζητήσετε πληρωμή."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "I need {target} taken out of the picture. I'll pay you {cash} to do this."
+    "message": "Χρειάζομαι τον {target} έξω από την εικόνα. Θα σας πληρώσω {cash} για να το κάνετε αυτό."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "I am most sad to hear of {target}'s demise. You have been paid in full."
+    "message": "Λυπάμαι πολύ που ακούω τον θάνατο του {target}. Πληρωθήκατε στο ακέραιο."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "REMOVAL: {target} is no longer wanted in the {system} system."
+    "message": "ΑΦΑΙΡΕΣΗ: Ο {target} δεν είναι πλέον επιθυμητό, στο {system} σύστημα, πρόσωπο."
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "It is most regrettable that {target} is still alive and well. You will receive no payment as you did not complete your contract."
+    "message": "Είναι πολύ λυπηρό που ο {target} είναι ακόμα ζωντανός και υγειής. Δεν θα λάβετε καμία πληρωμή καθώς δεν ολοκληρώσατε το συμβόλαιό σας."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
-    "message": "Contract was completed by someone else. Be faster next time!"
+    "message": "Η σύμβαση ολοκληρώθηκε από κάποιον άλλο. Να 'σαι ταχύτερος την επόμενη φορά!"
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "I am {name}, and I will pay you {cash} to terminate {target}."
+    "message": "Είμαι ο {name} και θα σε πληρώσω {cash} για να λήξεις τον {target}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "You have been paid in full for the completion of that important contract."
+    "message": "Πληρώθηκες πλήρως για την ολοκλήρωση αυτού του σημαντικού συμβολαίου."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "TERMINATION: Someone to eliminate {target}."
+    "message": "ΛΉΞΗ: Κάποιος να εξαλείψει τον {target}."
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "You will pay for not eliminating {target}!"
+    "message": "Θα πληρώσεις που δεν εξάλειψες τον {target}!"
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Are you asking money for a job done by someone else? Get lost."
+    "message": "Ζητάς χρήματα για δουλειά κάποιου άλλου; Άντε χάσου."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "The {target} must be reduced to space dust. I'll award you {cash} to do this."
+    "message": "Ο {target} πρέπει να συρρικνωθεί σε διαστημική σκόνη. Θα σας ανταμοίψω με {cash} για να το κάνετε αυτό."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "{target} is dead. Here is your award."
+    "message": "Ο {target} είναι νεκρός. Ορίστε η αμοιβή σας."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "RETIREMENT: Someone to retire {target}."
+    "message": "ΣΥΝΤΑΞΙΟΔΌΤΗΣΗ: Κάποιος Να συνταξιοδοτήσει τον {target}."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "{target} is still breathing and I'm not giving money to you."
+    "message": "Ο {target} αναπνέει ακόμα και δεν σας δίνω χρήματα."
   },
   "FLAVOUR_4_FAILUREMSG2": {
     "description": "",
-    "message": "Retirement of {target} was done by someone else."
+    "message": "Η συνταξιοδότηση του {target} έγινε από κάποιον άλλο."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "For {cash} we wish to encourage {target} to stop work permanently."
+    "message": "Για {cash}, θέλουμε να ενθαρρύνουμε τον {target} να σταματήσει να λειτουργεί επί μονίμου βάσεως."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "News of {target}'s retirement delightfully obtained. Here is your money."
+    "message": "Τα νέα για τη συνταξιοδότηση του {target} μας συναρπάσανε. Εδώ είναι τα χρήματά σας."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "BIOGRAPHICAL: Some admirers wish {target} dead."
+    "message": "ΒΙΟΓΡΑΦΙΚΟ: Μερικοί θαυμαστές επιθυμούν τον {target} νεκρό."
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "We found out that {target} is nonetheless operative. This saddens us."
+    "message": "Διαπιστώσαμε ότι ο {target} είναι αν μη τι άλλο λειτουργικός. Αυτό μας γεμίζει λύπη."
   },
   "FLAVOUR_5_FAILUREMSG2": {
     "description": "",
-    "message": "{target} was neutralized by someone else."
+    "message": "Ο {target} εξουδετερώθηκε από κάποιον άλλο."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "We wish {target} to have a fitting career end in the {system} system for {cash}."
+    "message": "Ευχόμαστε ο {target} να έχει ένα ταιριαστό τέλος σταδιοδρομίας στο σύστημα {system} για {cash}."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "Message of {target}'s ending career happily acquired. Here is your {cash}."
+    "message": "Μήνυμα του τέλους της καριέρας του {target} με χαρά το παραλάβαμε. Ορίστε τα {cash} σας."
   },
   "HOW_SOON_MUST_IT_BE_DONE": {
     "description": "",
-    "message": "Πόσο σύντομα πρέπει να ολοκληρωθεί ?"
+    "message": "Πόσο σύντομα πρέπει να γίνει;"
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
-    "message": "How will I be paid?"
+    "message": "Πώς θα πληρωθώ;"
   },
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
-    "message": "It must be done after {target} leaves {spaceport}. Do not miss this opportunity."
+    "message": "Πρέπει να γίνει αφού ο {target} απομακρυνθεί από το {spaceport}. Μην χάσετε αυτήν την ευκαιρία."
   },
   "OK_AGREED": {
     "description": "",
@@ -185,7 +185,7 @@
   },
   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
     "description": "",
-    "message": "Return here on the completion of the contract and you will be paid."
+    "message": "Επιστρέψτε εδώ μετά την ολοκλήρωση του συμβολαίου και θα πληρωθείτε."
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "SPACEPORT": {
     "description": "",
-    "message": "Διαστημικός_Σταθμός:"
+    "message": "Κοσμοδρόμιο:"
   },
   "SYSTEM": {
     "description": "",
@@ -213,11 +213,11 @@
   },
   "TARGET_NAME": {
     "description": "",
-    "message": "Target name:"
+    "message": "Όνομα στόχου:"
   },
   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
     "description": "",
-    "message": "Target will be leaving spaceport at:"
+    "message": "Ο στόχος θα αναχωρήσει από το  κοσμοδρόμιο:"
   },
   "TITLE_0": {
     "description": "",
@@ -225,11 +225,11 @@
   },
   "TITLE_1": {
     "description": "",
-    "message": "Ambassador"
+    "message": "Πρεσβευτής"
   },
   "TITLE_10": {
     "description": "",
-    "message": "Ensign"
+    "message": "σημαιοφόρος"
   },
   "TITLE_11": {
     "description": "",
@@ -245,23 +245,23 @@
   },
   "TITLE_14": {
     "description": "",
-    "message": "Lieutenant"
+    "message": "Υπολοχαγός"
   },
   "TITLE_15": {
     "description": "",
-    "message": "Marshal"
+    "message": "Αστυνόμος"
   },
   "TITLE_16": {
     "description": "",
-    "message": "Merchant"
+    "message": "Εμπορος"
   },
   "TITLE_17": {
     "description": "",
-    "message": "Officer"
+    "message": "Αξιωματικός"
   },
   "TITLE_18": {
     "description": "",
-    "message": "Private"
+    "message": "Ιδιωτικός"
   },
   "TITLE_19": {
     "description": "",
@@ -277,15 +277,15 @@
   },
   "TITLE_21": {
     "description": "",
-    "message": "Provost"
+    "message": "Κοσμήτορας"
   },
   "TITLE_22": {
     "description": "",
-    "message": "Seaman"
+    "message": "Ναυτικός"
   },
   "TITLE_23": {
     "description": "",
-    "message": "Senator"
+    "message": "Γερουσιαστής"
   },
   "TITLE_24": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "TITLE_3": {
     "description": "",
-    "message": "Cadet"
+    "message": "Δόκιμος"
   },
   "TITLE_4": {
     "description": "",
@@ -301,19 +301,19 @@
   },
   "TITLE_5": {
     "description": "",
-    "message": "Cardinal"
+    "message": "Καρδινάλιος"
   },
   "TITLE_6": {
     "description": "",
-    "message": "Colonel"
+    "message": "Σμήναρχος"
   },
   "TITLE_7": {
     "description": "",
-    "message": "Commandant"
+    "message": "Διοικητής"
   },
   "TITLE_8": {
     "description": "",
-    "message": "Commodore"
+    "message": "Ανώτερος αξιωματικός του ναυτικού"
   },
   "TITLE_9": {
     "description": "",
@@ -321,10 +321,10 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Where can I find {target}?"
+    "message": "Πού μπορώ να βρω τον {target};"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."
+    "message": "Ο {target} θα αναχωρήσει από το {spaceport} του {system} ({sectorX}, {sectorY}, {sectorZ}) συστήματος, απόστασης {dist} ly, στις {date}. Το σκάφος είναι {shipname} και έχει αναγνωριστικό εγγραφής {shipregid}."
   }
 }

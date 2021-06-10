@@ -1,23 +1,23 @@
 {
   "ASK_CANDIDATE_TO_SIT_A_TEST": {
     "description": "",
-    "message": "Ask candidate to sit a test"
+    "message": "Ζητήστε από τον υποψήφιο να κάνει μια δοκιμή"
   },
   "CREWDETAILSHEETBB": {
     "description": "",
-    "message": "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+    "message": "Όνομα: {name}\nΕμπειρία: {experience}\nΑπαίτηση μισθού: {wage} ανά βδομάδα\n\n{response}\n"
   },
   "CREWMEMBER_WAGE_PER_WEEK": {
     "description": "",
-    "message": "{potentialCrewMember} ({wage}/wk)"
+    "message": "{potentialCrewMember} ({wage}/εβδ)"
   },
   "CREWTESTRESULTSBB": {
     "description": "",
-    "message": "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+    "message": "Αποτελέσματα εξετάσεων:\n\nΓενική ικανότητα πληρώματος: {general}%\nΜηχανική και επισκευή: {engineering}%\nΠιλοτική και διαστημική πτήση: {piloting}%\nΠλοήγηση και σχεδιασμός: {navigation}%\nΑισθητήρες και άμυνα: {sensors}%\nΣυνολική βαθμολογία εξετάσεων: {overall}%"
   },
   "CREW_FOR_HIRE": {
     "description": "",
-    "message": "Crew for hire"
+    "message": "Πλήρωμα προς πρόσληψη"
   },
   "GO_BACK": {
     "description": "",
@@ -25,70 +25,70 @@
   },
   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
     "description": "",
-    "message": "I'm sorry, I'm not prepared to go any lower."
+    "message": "Λυπάμαι, δεν είμαι έτοιμος να πάω πιο κάτω."
   },
   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
     "description": "",
-    "message": "I'm sorry, your offer isn't attractive to me."
+    "message": "Λυπάμαι, η προσφορά σας δεν μου είναι ελκυστική."
   },
   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
     "description": "",
-    "message": "Make offer of position on ship for stated amount"
+    "message": "Κάντε προσφορά θέσης στο σκάφος για το προταθέν ποσό"
   },
   "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
     "description": "",
-    "message": "Minimal time served aboard ship"
+    "message": "Ελάχιστος χρόνος υπηρεσίας στο σκάφος"
   },
   "NO_CREW_AVAILABLE": {
     "description": "",
-    "message": "Sorry, no candidates are currently seeking employment at {station}"
+    "message": "Δυστυχώς, κανένας υποψήφιος δεν αναζητά αυτήν τη στιγμή εργασία στο {station}"
   },
   "NO_EXPERIENCE": {
     "description": "",
-    "message": "No experience"
+    "message": "Χωρίς εμπειρία"
   },
   "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
     "description": "",
-    "message": "OK, I suppose that's all right."
+    "message": "Εντάξει, υποθέτω ότι όλα είναι εντάξει."
   },
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
-    "message": "Potential crew members are registered as seeking employment at {station}:"
+    "message": "Τα πιθανά μέλη του πληρώματος είναι εγγεγραμμένα ως αναζητώντα εργασία στο {station}:"
   },
   "SIMULATOR_TRAINING_ONLY": {
     "description": "",
-    "message": "Simulator training only"
+    "message": "Εκπαίδευση σε προσομοιωτή μόνον"
   },
   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS": {
     "description": "",
-    "message": "Some experience in controlled environments"
+    "message": "Κάποια εμπειρία σε ελεγχόμενα περιβάλλοντα"
   },
   "SUGGEST_NEW_WEEKLY_WAGE_OF_N": {
     "description": "",
-    "message": "Suggest new weekly wage of {newAmount}"
+    "message": "Προτείνετε νέο εβδομαδιαίο μισθό {newAmount}"
   },
   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY": {
     "description": "",
-    "message": "Thanks, I'll get settled on board immediately."
+    "message": "Ευχαριστώ, θα επιβιβαστώ αμέσως στο σκάφος."
   },
   "THATS_EXTREMELY_GENEROUS_OF_YOU": {
     "description": "",
-    "message": "That's extremely generous of you!"
+    "message": "Είναι εξαιρετικά γενναιόδωρο εκ μέρους σας!"
   },
   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
     "description": "",
-    "message": "That certainly makes this offer look better!"
+    "message": "Αυτό σίγουρα κάνει αυτήν την προσφορά να φαίνεται καλύτερη!"
   },
   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
     "description": "",
-    "message": "There doesn't seem to be space for me on board!"
+    "message": "Δεν φαίνεται να υπάρχει χώρος για μένα!"
   },
   "TIME_SERVED_CREW_MEMBER": {
     "description": "",
-    "message": "Time served crew member"
+    "message": "Χρόνος υπηρεσίας μέλους πληρώματος"
   },
   "VETERAN_TIME_SERVED_CREW_MEMBER": {
     "description": "",
-    "message": "Veteran, time served crew member"
+    "message": "Βετεράνος, μέλος του πληρώματος"
   }
 }

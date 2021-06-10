@@ -29,7 +29,7 @@
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ ΜΕΤΑΦΟΡΑ. Ζητείται μεταφορά αγαθών στο σύστημα {system}. Αμοιβή {cash}."
+    "message": "ΖΗΤΕΙΤΑΙ ΜΕΤΑΦΟΡΑ: Ζητείται μεταφορά αγαθών στο σύστημα {system}. Αμοιβή {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",

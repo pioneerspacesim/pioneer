@@ -273,11 +273,11 @@
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
-    "message": "Current system"
+    "message": "Τρέχον σύστημα"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
-    "message": "Dangerous"
+    "message": "Επικίνδυνη"
   },
   "DATE": {
     "description": "Date of an event, used in flight log",
@@ -729,7 +729,7 @@
   },
   "HUD_BUTTON_EXTERNAL_VIEW": {
     "description": "Tooltip: External camera view",
-    "message": "External view"
+    "message": "Εξωτερική άποψη"
   },
   "HUD_BUTTON_FIX_ANTINORMAL": {
     "description": "Tooltip: fix heading antinormal",
@@ -761,7 +761,7 @@
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
-    "message": "Hyperdrive disabled"
+    "message": "Ο υπερκινητήρας απενεργοποιήθηκε"
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
@@ -773,11 +773,11 @@
   },
   "HUD_BUTTON_INTERNAL_VIEW": {
     "description": "Tooltip: Internal camera view",
-    "message": "Internal view"
+    "message": "Εσωτερική άποψη"
   },
   "HUD_BUTTON_KILL_ROTATION": {
     "description": "Tooltip: kill rotation",
-    "message": "Kill rotation"
+    "message": "Παύση περιστροφής"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
     "description": "Tooltip: Landing gear is down",
@@ -821,7 +821,7 @@
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
-    "message": "Sidereal view"
+    "message": "Πλευρική άποψη"
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
@@ -1033,7 +1033,7 @@
   },
   "HYPERDRIVE": {
     "description": "",
-    "message": "Hyperdrive"
+    "message": "Υπερκινητήρας"
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
@@ -1693,7 +1693,7 @@
   },
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
-    "message": "Reset Orientation and Zoom"
+    "message": "Επαναφορά προσανατολισμού και αυξομείωσης"
   },
   "RETURN_TO_GAME": {
     "description": "",
