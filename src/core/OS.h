@@ -33,6 +33,9 @@ namespace OS {
 	// Open the Explorer/Finder/etc
 	bool SupportsFolderBrowser();
 	void OpenUserFolderBrowser();
+
+	// Mark application as DPI-aware
+	void SetDPIAware();
 } // namespace OS
 
 #endif

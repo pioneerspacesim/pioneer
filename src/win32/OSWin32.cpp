@@ -291,4 +291,9 @@ namespace OS {
 		ShellExecuteW(NULL, L"open", dumps_path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 	}
 
+	void SetDPIAware()
+	{
+		SetProcessDPIAware();
+	}
+
 } // namespace OS
