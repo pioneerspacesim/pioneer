@@ -5,6 +5,7 @@
 #include "ModelViewer.h"
 #include "Pi.h"
 #include "buildopts.h"
+#include "core/OS.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "libs.h"
@@ -28,6 +29,8 @@ extern "C" int main(int argc, char **argv)
 #ifdef PIONEER_PROFILER
 	Profiler::detect(argc, argv);
 #endif
+
+	OS::SetDPIAware();
 
 	RunMode mode = MODE_GAME;
 	std::string modeopt;

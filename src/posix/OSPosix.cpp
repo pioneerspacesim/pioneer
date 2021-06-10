@@ -121,4 +121,8 @@ namespace OS {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Pioneer", FileSystem::userFiles.GetRoot().c_str(), 0);
 	}
 
+	void SetDPIAware()
+	{
+	}
+
 } // namespace OS
