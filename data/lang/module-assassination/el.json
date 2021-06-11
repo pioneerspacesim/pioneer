@@ -129,7 +129,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "ΣΥΝΤΑΞΙΟΔΌΤΗΣΗ: Κάποιος Να συνταξιοδοτήσει τον {target}."
+    "message": "ΣΥΝΤΑΞΙΟΔΌΤΗΣΗ: Κάποιος να συνταξιοδοτήσει τον {target}."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -221,95 +221,95 @@
   },
   "TITLE_0": {
     "description": "",
-    "message": "Ναύαρχος"
+    "message": "Ναύαρχο"
   },
   "TITLE_1": {
     "description": "",
-    "message": "Πρεσβευτής"
+    "message": "Πρεσβευτή"
   },
   "TITLE_10": {
     "description": "",
-    "message": "σημαιοφόρος"
+    "message": "Σημαιοφόρο"
   },
   "TITLE_11": {
     "description": "",
-    "message": "Στρατηγός"
+    "message": "Στρατηγό"
   },
   "TITLE_12": {
     "description": "",
-    "message": "Δικαστής"
+    "message": "Δικαστή"
   },
   "TITLE_13": {
     "description": "",
-    "message": "Δικηγόρος"
+    "message": "Δικηγόρο"
   },
   "TITLE_14": {
     "description": "",
-    "message": "Υπολοχαγός"
+    "message": "Υπολοχαγό"
   },
   "TITLE_15": {
     "description": "",
-    "message": "Αστυνόμος"
+    "message": "Αστυνόμο"
   },
   "TITLE_16": {
     "description": "",
-    "message": "Εμπορος"
+    "message": "Έμπορο"
   },
   "TITLE_17": {
     "description": "",
-    "message": "Αξιωματικός"
+    "message": "Αξιωματικό"
   },
   "TITLE_18": {
     "description": "",
-    "message": "Ιδιωτικός"
+    "message": "Ιδιώτη"
   },
   "TITLE_19": {
     "description": "",
-    "message": "Καθηγητής"
+    "message": "Καθηγητή"
   },
   "TITLE_2": {
     "description": "",
-    "message": "Ταξίαρχος"
+    "message": "Ταξίαρχο"
   },
   "TITLE_20": {
     "description": "",
-    "message": "Εισαγγελέας"
+    "message": "Εισαγγελέα"
   },
   "TITLE_21": {
     "description": "",
-    "message": "Κοσμήτορας"
+    "message": "Κοσμήτορα"
   },
   "TITLE_22": {
     "description": "",
-    "message": "Ναυτικός"
+    "message": "Ναυτικό"
   },
   "TITLE_23": {
     "description": "",
-    "message": "Γερουσιαστής"
+    "message": "Γερουσιαστή"
   },
   "TITLE_24": {
     "description": "",
-    "message": "Λοχίας"
+    "message": "Λοχία"
   },
   "TITLE_3": {
     "description": "",
-    "message": "Δόκιμος"
+    "message": "Δόκιμο"
   },
   "TITLE_4": {
     "description": "",
-    "message": "Καπετάνιος"
+    "message": "Καπετάνιο"
   },
   "TITLE_5": {
     "description": "",
-    "message": "Καρδινάλιος"
+    "message": "Καρδινάλιο"
   },
   "TITLE_6": {
     "description": "",
-    "message": "Σμήναρχος"
+    "message": "Σμήναρχο"
   },
   "TITLE_7": {
     "description": "",
-    "message": "Διοικητής"
+    "message": "Διοικητή"
   },
   "TITLE_8": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "TITLE_9": {
     "description": "",
-    "message": "Δεκανέας"
+    "message": "Δεκανέα"
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",

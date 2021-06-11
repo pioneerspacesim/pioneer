@@ -5,19 +5,19 @@
   },
   "BEGIN_TRADE": {
     "description": "",
-    "message": "Begin trade"
+    "message": "Ξεκινήστε την συναλλαγή"
   },
   "FLAVOUR_0_CLUBNAME": {
     "description": "",
-    "message": "Interstellar Pilots' Fuel Co-operative"
+    "message": "Διαστρικός Συνεταιρισμός 'Το καύσιμο του Πιλότου'"
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
-    "message": "You may purchase fuel and dispose of {radioactives} here."
+    "message": "Μπορείτε να αγοράσετε καύσιμα και να διαθέσετε {radioactives} εδώ."
   },
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
-    "message": "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+    "message": "Ο {clubname} είναι ένας ανεξάρτητος οργανισμός αφιερωμένος στην παροχή εκπτωτικών καυσίμων στα μέλη του. Υποκαταστήματα μπορούν να βρεθούν σε όλο τον γαλαξία. Τα οφέλη της συμμετοχής περιλαμβάνουν:"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -25,35 +25,35 @@
   },
   "FLAVOUR_1_CLUBNAME": {
     "description": "Fuel club for the Federation faction",
-    "message": "The Federal Fuel Foundation"
+    "message": "Ομοσπονδιακό Ίδρυμα Καυσίμων"
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
-    "message": "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+    "message": "Η {clubname} είναι ο κορυφαίος πάροχος μειωμένου καυσίμου στα διαστημικά σκάφη των μελών της μέσα στην Ηλιακή Ομοσπονδία. Η συνδρομή σας παρέχει τα εξής:"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "The Commonwealth Fuel Union"
+    "message": "Ένωση Καυσίμων Κοινοπολιτείας"
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
-    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+    "message": "Σε όλη τη μεγάλη έκταση της ελεύθερης Κοινοπολιτείας Ανεξάρτητων Κόσμων, θα βρείτε το {clubname} ως τον καλύτερο πάροχο έκπτωσης υπηρεσιών καυσίμων και αποβλήτων. Για τα μέλη μας, κάνουμε:"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
-    "message": "Greetings and salutations! We hope you enjoy our services."
+    "message": "Χαίρετε και γεια σας! Ελπίζουμε να απολαύσετε τις υπηρεσίες μας."
   },
   "FLAVOUR_3_CLUBNAME": {
     "description": "Fuel club for the Haber faction",
-    "message": "Haber Propellant and Perishables Division"
+    "message": "Haber - Τμήμα Προωθητικών και Αναλωσίμων"
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
-    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+    "message": "Χαιρετισμούς πιλότε. Αποκτήσατε τα προνόμια ανεφοδιασμού και υπό όρους διάθεσης παραπροϊόντων."
   },
   "FLAVOUR_3_NONMEMBER_INTRO": {
     "description": "for the Haber faction",
-    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+    "message": "Χαιρετισμούς πιλότε. Αυτό είναι το Haber - Τμήμα Προωθητικών και Αναλωσίμων, στο οποίο έχει ανατεθεί η διαχείριση της διανομής καυσίμων σε όλο το χώρο εποπτείας του Haber."
   },
   "GO_BACK": {
     "description": "",
@@ -61,15 +61,15 @@
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
-    "message": "{radioactives}, free disposal (conditions apply)"
+    "message": "{radioactives}, δωρεάν απόρριψη (ισχύουν προϋποθέσεις)"
   },
   "LIST_BENEFITS_FUEL": {
     "description": "",
-    "message": "{fuel} at discount prices"
+    "message": "{fuel} σε τιμές έκπτωσης"
   },
   "LIST_BENEFITS_FUEL_INTRO": {
     "description": "",
-    "message": "Our own stocks of fuel, independent of the general market"
+    "message": "Τα δικά μας αποθέματα καυσίμων, ανεξάρτητα από τη γενική αγορά"
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
@@ -77,26 +77,26 @@
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
-    "message": "Join now! Annual membership costs only {membership_fee}"
+    "message": "Γίνε μέλος τώρα! Η ετήσια συνδρομή κοστίζει μόνο {membership_fee}"
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",
-    "message": "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
+    "message": "Θα διαθέσουμε μόνο τόσους τόνους {radioactives} όσους {military_fuel} τόνους έχετε αγοράσει από εμάς."
   },
   "WHAT_CONDITIONS_APPLY": {
     "description": "",
-    "message": "What conditions apply to {radioactives} disposal?"
+    "message": "Ποιες προϋποθέσεις ισχύουν για την απόρριψη {radioactives}"
   },
   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
     "description": "",
-    "message": "Your membership application has been declined."
+    "message": "Η αίτηση εγγραφής σας απορρίφθηκε."
   },
   "YOU_ARE_NOW_A_MEMBER": {
     "description": "",
-    "message": "You are now a member. Your membership will expire on {expiry_date}."
+    "message": "Είστε τώρα μέλος. Η συνδρομή σας θα λήξει στις {expiry_date}."
   },
   "YOU_MUST_BUY": {
     "description": "",
-    "message": "You must buy our {military_fuel} before we will take your {radioactives}"
+    "message": "Πρέπει να αγοράσετε το δικό μας {military_fuel} προτού λάβουμε τα δικά σας {radioactives}"
   }
 }

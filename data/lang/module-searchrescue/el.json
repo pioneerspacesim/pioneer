@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
+    "message": "Η θλιβερή είδηση ότι η {shiplabel} καταστράφηκε έφτασε σε εμάς. Θα πληρώσουμε το ήμισυ της συμφωνηθείσας τιμής για τις προσπάθειές σας."
   },
   "AU": {
     "description": "",
@@ -9,11 +9,11 @@
   },
   "BOARDED_PASSENGER": {
     "description": "",
-    "message": "{name} has boarded the ship."
+    "message": "{name}. Επιβιβάστηκε στο σκάφος."
   },
   "COMMODITIES": {
     "description": "",
-    "message": "Commodities"
+    "message": "Εμπορεύματα"
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "CREW": {
     "description": "",
-    "message": "Crew"
+    "message": "Πλήρωμα"
   },
   "DEADLINE": {
     "description": "",
@@ -29,11 +29,11 @@
   },
   "DELIVERED_PASSENGER": {
     "description": "",
-    "message": "{name} has left the ship."
+    "message": "{name}. Αποβιβάστηκε από το σκάφος."
   },
   "DELIVERY": {
     "description": "",
-    "message": "DELIVERY"
+    "message": "ΠΑΡΆΔΟΣΗ"
   },
   "DISTANCE": {
     "description": "",
@@ -41,31 +41,31 @@
   },
   "ENTITY_FAMILY_BUSINESS_1": {
     "description": "",
-    "message": "{name} and Sons"
+    "message": "{name} και Υιοί"
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
-    "message": "{name} Taxi Services"
+    "message": "{name} Υπηρεσίες ταξί"
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",
-    "message": "{name} and Daughters"
+    "message": "{name} και Θυγατέρες"
   },
   "ENTITY_FAMILY_BUSINESS_3": {
     "description": "",
-    "message": "{name} Flowers of {locality}"
+    "message": "{name} Άνθη του {locality}"
   },
   "ENTITY_FAMILY_BUSINESS_4": {
     "description": "",
-    "message": "{name} Custom Painted Missiles"
+    "message": "{name}. Βαμμένοι κατά παραγγελία πύραυλοι"
   },
   "ENTITY_FAMILY_BUSINESS_5": {
     "description": "",
-    "message": "{name} Courier Services"
+    "message": "{name}  Υπηρεσίες ταχυμεταφορών"
   },
   "ENTITY_FAMILY_BUSINESS_6": {
     "description": "",
-    "message": "{name} Space Pets"
+    "message": "{name}. Διαστημικά κατοικίδια"
   },
   "ENTITY_FAMILY_BUSINESS_7": {
     "description": "",
@@ -73,351 +73,351 @@
   },
   "ENTITY_FAMILY_BUSINESS_8": {
     "description": "",
-    "message": "{name} Authentic {locality} Foods"
+    "message": "{name} Αυθεντικά τρόφιμα από το  {locality}"
   },
   "ENTITY_FAMILY_BUSINESS_9": {
     "description": "",
-    "message": "{name} Transports"
+    "message": "Μεταφορές {name} "
   },
   "ENTITY_GENERAL_1": {
     "description": "",
-    "message": "the {locality} General Prospectors Inc"
+    "message": "Γενική Μεταλλευτική Α.Ε. {locality}"
   },
   "ENTITY_GENERAL_10": {
     "description": "",
-    "message": "{locality} Infinity Energy One"
+    "message": "Άπλετη Ενέργεια Ένα {locality}"
   },
   "ENTITY_GENERAL_2": {
     "description": "",
-    "message": "the {locality} Society for Ecological Preservation"
+    "message": "Εταιρεία Οικολογικής Προστασίας {locality}"
   },
   "ENTITY_GENERAL_3": {
     "description": "",
-    "message": "the Interest Rights Groups for {locality}"
+    "message": "Ομάδες δικαιωμάτων συμφερόντων για το {locality}"
   },
   "ENTITY_GENERAL_4": {
     "description": "",
-    "message": "the {locality} Mining Rights Office"
+    "message": "Γραφείο Μεταλλευτικών Δικαιωμάτων {locality}"
   },
   "ENTITY_GENERAL_5": {
     "description": "",
-    "message": "the Landowners Association of {locality}"
+    "message": "Ένωση Γαιοκτημόνων του {locality}"
   },
   "ENTITY_GENERAL_6": {
     "description": "",
-    "message": "the Statistical Institute of {locality}"
+    "message": "Στατιστικό Ινστιτούτο του {locality}"
   },
   "ENTITY_GENERAL_7": {
     "description": "",
-    "message": "the {locality} branch office of SpaceCruise Inc"
+    "message": "το εις το {locality} υποκατάστημα της SpaceCruise Α.Ε."
   },
   "ENTITY_GENERAL_8": {
     "description": "",
-    "message": "{locality} iSatellite Ltd"
+    "message": "Δίκτυο Δορυφορική Ε.Π.Ε. {locality}"
   },
   "ENTITY_GENERAL_9": {
     "description": "",
-    "message": "{locality} Burial-Services Corp"
+    "message": "Eπιχείρηση Γραφείου Τελετών {locality}"
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
-    "message": "the {locality} Biological Society"
+    "message": "Βιολογική Εταιρεία {locality} "
   },
   "ENTITY_RESEARCH_10": {
     "description": "",
-    "message": "the {locality} Center of Zoological Research"
+    "message": "Κέντρο Ζωολογικών Ερευνών {locality}"
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": "the {locality} Microbiological Society"
+    "message": "Μικροβιολογική Εταιρεία {locality} "
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
-    "message": "the {locality} Chemical Society"
+    "message": "Χημική Εταιρεία {locality}"
   },
   "ENTITY_RESEARCH_4": {
     "description": "",
-    "message": "the {locality} Astrobiological Society"
+    "message": "Αστροβιολογική Εταιρεία {locality} "
   },
   "ENTITY_RESEARCH_5": {
     "description": "",
-    "message": "the {locality} Geological Society"
+    "message": "Γεωλογική Εταιρεία {locality}"
   },
   "ENTITY_RESEARCH_6": {
     "description": "",
-    "message": "the {locality} Society for Astropaleontology"
+    "message": "Society for Astropaleontology {locality}"
   },
   "ENTITY_RESEARCH_7": {
     "description": "",
-    "message": "the {locality} Astrophysics Research Center"
+    "message": "Κέντρο Ερευνών Αστροφυσικής {locality}"
   },
   "ENTITY_RESEARCH_8": {
     "description": "",
-    "message": "the {locality} Astrochemistry Research Center"
+    "message": "Ερευνητικό Κέντρο Αστροχημείας του  {locality}"
   },
   "ENTITY_RESEARCH_9": {
     "description": "",
-    "message": "the {locality} Center for Botany"
+    "message": "Κέντρο Βοτανολογίας του {locality}"
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "You are not equipped to handle this mission. {unit} {equipment} required."
+    "message": "Δεν έχετε τον εξοπλισμό για αυτή την αποστολή. Απαιτούνται {unit} {equipment}."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "SHIP CRASH LANDED on {planet}."
+    "message": "Αναγκαστική προσεδάφιση σκάφους στον {planet}."
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you are just returning now! How much time has been wasted!"
+    "message": "Δεν μπορώ να πιστέψω ότι μόλις τώρα επιστρέφεις! Πόσος χρόνος χάθηκε!"
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full reimbursement of expenses you have to be back by {due}."
+    "message": "Για πλήρη αποζημίωση για τα έξοδά σας, θα πρέπει να έχετε επιστρέψει μέχρι την {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+    "message": "Ο έλεγχος εναέριας κυκλοφορίας του {starport} χρειάζεται την ΑΜΕΣΗ βοήθειά σας για την αντιμετώπιση μιας αναγκαστικής προσεδάφισης ενός σκάφους τύπου {ship} στον πλανήτη {planet}. Η κατάσταση των συστημάτων υποστήριξης ζωής είναι άγνωστη. Το σκάφος είναι ασφαλισμένο, από την ασφάλεια του κοσμοδρομίου {starport}, για την περίπτωση αντιμετώπισης έκτακτης ανάγκη με ποσό αποζημίωσης {cash}."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+    "message": "Η τελευταία γνωστή θέση αυτού του πλοίου ήταν στον πλανήτη {planet} σε συντεταγμένες γεωγραφικού πλάτους/μήκους: {lat} / {long}. Το αναγνωριστικό του πλοίου είναι {shiplabel}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, this is a great relief! We will transmit the money momentarily."
+    "message": "Σας ευχαριστώ, αυτό είναι μια μεγάλη ανακούφιση! Θα διαβιβάσουμε τα χρήματα αμέσως."
   },
   "FLAVOUR_1_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit}. Επιβιβάστηκε στο πλοίο."
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+    "message": "Στο σκάφος φέρεται να επιβαίνουν {crew} μέλη πληρώματος και {pass} επιβάτες. Χρειαζόμαστε κάποιον να εντοπίσει το σκάφος, να μαζέψει τυχόν επιζώντες από την περιοχή και να τους φέρει άμεσα εδώ."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL en route to {starport}."
+    "message": "ΣΚΑΦΟΣ ΧΩΡΙΣ ΚΑΥΣΙΜΑ καθ' οδόν προς {starport}."
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you kept me waiting out here this long! Forget about your payment!"
+    "message": "Δεν μπορώ να το πιστέψω ότι με άφησες να περιμένω εδώ έξω τόσο πολύ! Ξέχνα την πληρωμή σου!"
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "To receive full payment you are asked to deliver the fuel by {due}."
+    "message": "Για να λάβετε πλήρη πληρωμή, σας ζητείται να παραδώσετε το καύσιμο μέχρι την {due}."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+    "message": "Ο έλεγχος εναέριας κυκλοφορίας του {starport} μόλις έλαβε ειδοποίηση ότι η εισερχόμενη πτήση {shiplabel} ξέμεινε από καύσιμα και αναγκάστηκε να προσεσαφιστεί εκτάκτως. Ο πιλότος είναι πρόθυμος να πληρώσει {cash} για υπηρεσία ανεφοδιασμού του."
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+    "message": "Το σκάφος περιμένει επί του παρόντος στο γεωγραφικό πλάτος {lat} / γεωγραφικό μήκος {long} στον πλανήτη {planet}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you so much! I have transferred the full reward."
+    "message": "Σας ευχαριστώ τόσο πολύ! Έχω μεταφέρει την πλήρη ανταμοιβή σας."
   },
   "FLAVOUR_2_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} τόνοι καυσίμου έχουν μεταγγιστεί."
   },
   "FLAVOUR_2_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is requesting {unit} tons of {cargo}."
+    "message": "Ο πιλότος θέλει {unit} τόνους φορτίου {cargo}."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "MEDICAL EMERGENCY on ship close to {starport}."
+    "message": "ΙΑΤΡΙΚΗ ΕΚΤΑΚΤΗ ΑΝΑΓΚΗ σε σκάφος κοντά στο {starport}."
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Unacceptable performance! We will update our records accordingly."
+    "message": "Απαράδεκτες επιδόσεις! Θα ενημερώσουμε τα αρχεία μας αναλόγως."
   },
   "FLAVOUR_3_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The substitute pilot will need to reach the ship by {due}."
+    "message": "Ο αντικαταστάτης πιλότος θα πρέπει να φτάσει στο πλοίο μέχρι την {due}."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+    "message": "Το όνομά μου είναι {name} από τον έλεγχο εναέριας κυκλοφορίας {starport}. Ζητώ βοήθεια για ένα επείγον ιατρικό περιστατικό που αφορά τον πιλότο της πτήσης {shiplabel} με προορισμό το {starport}."
   },
   "FLAVOUR_3_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship had to emergency land at the coordinates: {lat} / {long}. "
+    "message": "Το πλοίο έπρεπε εκτάκτως να προσεδαφιστεί στις συντεταγμένες: {lat} / {long}. "
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, commander! Your help has been duly noted."
+    "message": "Σ' ευχαριστώ, διοικητά! Η βοήθειά σας ελήφθη δεόντως υπόψη."
   },
   "FLAVOUR_3_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has left the ship."
+    "message": "{unit}. Εκτός σκάφους."
   },
   "FLAVOUR_3_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+    "message": "Παρακαλώ να μεταφέρετε έναν αντικαταστάτη πιλότο από το {starport} στο σκάφος, ώστε να μπορέσει να το οδηγήσει πίσω στο κοσμοδρόμιο {starport}."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL on {planet}."
+    "message": "ΣΚΑΦΟΣ ΧΩΡΙΣ ΚΑΥΣΙΜΑ στον {planet}."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "I will send someone else. Don't bother anymore."
+    "message": "Θα στείλω κάποιον άλλο. Μην χολοσκάτε πλέον."
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full pay the pilot expects you to deliver the fuel by {due}."
+    "message": "Για πλήρη πληρωμή, ο πιλότος περιμένει να παραδώσετε τα καύσιμα μέχρι την {due}."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+    "message": "Ο πιλότος της πτήσης {shiplabel} επικοινώνησε με τον έλεγχο εναέριας κυκλοφορίας του {starport}. Είναι αποκλεισμένοι με άδεια δεξαμενή καυσίμων και υποσχέθηκαν να πληρώσουν {cash} σε όποιον ανεφοδιάσει το σκάφος."
   },
   "FLAVOUR_4_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is stranded on {planet} at coordinates {lat} / {long}."
+    "message": "Το σκάφος έχει προσαράξει στον {planet} στις συντεταγμένες {lat} / {long}."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Very good. We will recommend you for future assignments."
+    "message": "Πολύ καλά. Θα σας προτείνουμε για αναθέσεις και στο μέλλον."
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} τόνοι καυσίμου έχουν μεταγγιστεί"
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}."
+    "message": "Ο πιλότος θέλει {unit} τόνους φορτίου {cargo}."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "SHIP OUT OF FUEL close to {starport}."
+    "message": "ΣΚΑΦΟΣ ΧΩΡΙΣ ΚΑΥΣΙΜΑ κοντά στο {starport}."
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "People are just not dependable anymore."
+    "message": "Δεν είναι πια να έχεις εμπιστοσύνη σε κανέναν."
   },
   "FLAVOUR_5_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Please complete refueling by {due}."
+    "message": "Παρακαλώ, ολοκληρώστε τον ανεφοδιασμό μέχρι την {due}."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+    "message": "Ο έλεγχος εναέριας κυκλοφορίας του {starport} εντόπισε ένα σκάφος με αναγνωριστικό {shiplabel} να παρασύρεται χωρίς καύσιμα κοντά μας. Θα πληρώσουμε {cash} σε όποιον ανεφοδιάσει το σκάφος ώστε να εγκαταλείψει την άμεση περιοχή ελέγχου του {starport}."
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+    "message": "Το σκάφος προορισμού σας παρασύρεται αυτή τη στιγμή σε απόσταση {dist} χιλιομέτρων από εδώ. Θα πρέπει να εντοπίσετε την ακριβή τοποθεσία μόνοι σας."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "We will make record of your timely completion of the task."
+    "message": "Θα καταγράψουμε την έγκαιρη ολοκλήρωση των καθηκόντων σας."
   },
   "FLAVOUR_5_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} τόνοι καυσίμου έχει μεταγγιστεί"
   },
   "FLAVOUR_5_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We request the delivery of {unit} tons of {cargo} to the ship."
+    "message": "Ζητούμε την παράδοση {unit} τόνων φορτίου {cargo} στο σκάφος."
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "VESSEL UNRESPONSIVE in the {system} system."
+    "message": "ΜΗ ΑΝΤΑΠΟΚΡΙΝΟΜΕΝΟ ΣΚΑΦΟΣ στο σύστημα {system}"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "What a disaster! This is the death sentence to our poor colleagues!"
+    "message": "Τι καταστροφή! Αυτή είναι η θανατική καταδίκη των καημένων των συναδέλφων μας!"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "You have to be back by {due}."
+    "message": "Πρέπει να είσαι πίσω μέχρι την {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+    "message": "Το όνομά μου είναι {name} της {entity}. Χάσαμε επαφή με το σκάφος μας {ship} {shiplabel} μετά από {problem}. Είμαστε πρόθυμοι να πληρώσουμε {cash} για άμεση βοήθεια."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+    "message": "Η τελευταία γνωστή θέση ήταν κοντά στον πλανήτη {planet} του {system} [{sectorx},{sectory},{sectorz}] συστήματος, {dist} ly μακριά από εδώ."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! You can't imagine how relieved we are."
+    "message": "Σας ευχαριστούμε! Δεν μπορείτε να φανταστείτε πόσο ανακουφισμένοι είμαστε."
   },
   "FLAVOUR_6_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit}. Επιβιβάστηκε στο σκάφος."
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+    "message": "Χρειάζομαι κάποιον πρόθυμο να φύγει αμέσως και να φέρει τους συναδέλφους μας πίσω στο {starport}, αν είναι ζωντανοί. Στο σκάφος επέβαιναν {crew} μέλη πληρώματος και {pass} επιβάτες."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+    "message": "Ζητείται ΑΜΕΣΗ ΜΕΤΑΦΟΡΑ ΠΛΗΡΩΜΑΤΟΣ στο σύστημα {system}."
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Thank you very much, but you are too late!"
+    "message": "Σ' ευχαριστώ πάρα πολύ, αλλά άργησες υπερβολικά."
   },
   "FLAVOUR_7_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The replacement crew has to reach the ship by {due}."
+    "message": "Το πλήρωμα αντικατάστασης πρέπει να φτάσει στο σκάφος μέχρι την {ημερομηνία}."
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+    "message": "Το όνομά μου είναι {name} της {entity}. Το μοναδικό μας σκάφος, το {ship} {shiplabel}, παρασύρεται με ένα πλήρωμα από {crew} μετά από {problem}. Είμαι διατεθειμένος να πληρώσω {cash} για άμεση βοήθεια."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+    "message": "Θα βρείτε το πλοίο στο {system} [{sectorx},{sectory},{sectorz}] σύστημα, {dist} ly από εδώ. Βρίσκεται σε τροχιά γύρω από τον {planet}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! I have been authorized to transmit the full payment."
+    "message": "Σας ευχαριστώ! Έχω εξουσιοδοτηθεί να διαβιβάσω το σύνολο της πληρωμής."
   },
   "FLAVOUR_7_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has transferred to the target ship."
+    "message": "{unit} έχει μεταφερθεί στο σκάφος προορισμού."
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+    "message": "Δεν μπορούμε να επιστρέψουμε το σκάφος χωρίς την παρουσία ελάχιστου πληρώματος. Ψάχνω για κάποιον πρόθυμο να μεταφέρει αμέσως στο διαστημόπλοιο {deliver_crew} αντικαταστάτες των μελών του πληρώματος ."
   },
   "FULL_CARGO": {
     "description": "",
-    "message": "Ship full. No more room for additional cargo."
+    "message": "Σκάφος πλήρες. Δεν υπάρχει πλέον χώρος για επιπλέον φορτίο."
   },
   "FULL_CREW": {
     "description": "",
-    "message": "Crew roster full. No more space for more crew."
+    "message": "Λίστα πληρώματος πλήρης. Δεν υπάρχει πλέον χώρος για περισσότερο πλήρωμα."
   },
   "FULL_PASSENGERS": {
     "description": "",
-    "message": "All cabins full. No more space for more passengers."
+    "message": "Όλες οι καμπίνες γεμάτες. Δεν υπάρχει χώρος για άλλους επιβάτες."
   },
   "HOW_FAR": {
     "description": "",
-    "message": "How far away is the target?"
+    "message": "Πόσο μακριά είν' ο στόχος;"
   },
   "HOW_MUCH_TIME": {
     "description": "",
-    "message": "How much time do I have?"
+    "message": "Πόσο χρόνο έχω;"
   },
   "INTERACTION_ABORTED": {
     "description": "",
-    "message": "Interaction aborted. Please come closer and try again."
+    "message": "Η αλληλεπίδραση διακόπηκε. Παρακαλούμε ελάτε πιο κοντά και δοκιμάστε ξανά."
   },
   "INTERACTION_DISTANCE_REACHED": {
     "description": "",
-    "message": "Interaction distance reached."
+    "message": "Εντός εμβέλειας αλληλεπίδρασης."
   },
   "IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It must be completed by "
+    "message": "Πρέπει να ολοκληρωθεί μέχρι την "
   },
   "KM": {
     "description": "",
@@ -425,31 +425,31 @@
   },
   "LAST_KNOWN_LOCATION": {
     "description": "",
-    "message": "Last known location:"
+    "message": "Τελευταία γνωστή θέση:"
   },
   "LAT": {
     "description": "",
-    "message": "Lat:"
+    "message": "Πλ:"
   },
   "LON": {
     "description": "",
-    "message": "Lon:"
+    "message": "Μήκ:"
   },
   "MISSING_COMM": {
     "description": "",
-    "message": "Cannot complete transfer. {cargotype} missing."
+    "message": "Δεν μπορεί να ολοκληρωθεί η μεταφορά. Το φορτίο {cargotype} αγνοείται."
   },
   "MISSING_CREW": {
     "description": "",
-    "message": "Cannot complete transfer. Crew missing."
+    "message": "Δεν μπορεί να ολοκληρωθεί η μετεπιβίβαση. Αγνοείται πλήρωμα."
   },
   "MISSING_PASS": {
     "description": "",
-    "message": "Cannot complete transfer. Passengers missing."
+    "message": "Δεν μπορεί να ολοκληρωθεί η μετεπιβίβαση. Αγνοούνται επιβάτες."
   },
   "MISSING_PASSENGER": {
     "description": "",
-    "message": "Cannot complete transfer. Passenger missing."
+    "message": "Δεν μπορεί να ολοκληρωθεί η μετεπιβίβαση. Άφαντος ο επιβάτης."
   },
   "OK_AGREED": {
     "description": "",
@@ -457,15 +457,15 @@
   },
   "ORBIT": {
     "description": "",
-    "message": "Orbit"
+    "message": "Τροχιά"
   },
   "PARTIAL": {
     "description": "",
-    "message": "Thank you for your efforts. I hope you will return to complete the task!"
+    "message": "Σ' ευχαριστώ για τις προσπάθειές σου. Ελπίζω να επιστρέψεις και να ολοκληρώσεις την αποστολή!"
   },
   "PASSENGERS": {
     "description": "",
-    "message": "Passengers"
+    "message": "Επιβάτες"
   },
   "PAYMENT_LOCATION": {
     "description": "",
@@ -473,187 +473,187 @@
   },
   "PICKUP": {
     "description": "",
-    "message": "PICKUP"
+    "message": "ΠΕΡΙΣΥΛΛΟΓΉ"
   },
   "PLACE_OF_ASSISTANCE": {
     "description": "",
-    "message": "At the place of assistance"
+    "message": "Στον τόπο συνδρομής"
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities for destroying the very ship you were sent out to help. A criminal lawsuit will follow."
+    "message": "Έχουμε ακούσει για τις πράξεις σου, καπετάνιε! Να 'στε σίγουρος ότι θα σε αναφέρουμε στις τοπικές αρχές επειδή κατάστρεψες το ίδιο το σκάφος που σε έστειλαν να βοηθήσεις. Θα ακολουθήσει μήνυση για ποινική δίωξη."
   },
   "PLEASE_LAND": {
     "description": "",
-    "message": "Please land ship to allow transfer."
+    "message": "Παρακαλώ προσγειώστε το σκάφος για να επιτρέψετε την μεταφορά."
   },
   "PROBLEM_CREW_1": {
     "description": "",
-    "message": "a deadly fight among the crew members"
+    "message": "μια θανάσιμη μάχη μεταξύ των μελών του πληρώματος"
   },
   "PROBLEM_CREW_10": {
     "description": "",
-    "message": "a mutiny"
+    "message": "μια ανταρσία"
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "the crew had to chase a deadly {locality} snake found loose on the ship"
+    "message": "αναγκαστικό κυνήγι ενός θανατηφόρου φιδιού του {locality}, από το πλήρωμα, που βρέθηκε ελεύθερο στο σκάφος"
   },
   "PROBLEM_CREW_3": {
     "description": "",
-    "message": "a {locality} spider killed all the others"
+    "message": "το θάνατο όλων των άλλων από μια αράχνη από το {locality}"
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "what it seems like a {locality} scorpion got into the crew quarters at night"
+    "message": "ό,τι φαίνεται ένας σκορπιός του {locality} μπήκε στα διαμερίσματα του πληρώματος τη νύχτα"
   },
   "PROBLEM_CREW_5": {
     "description": "",
-    "message": "a severe form of {locality} fever killed the others"
+    "message": "μια σοβαρή μορφή πυρετού {locality} που προκάλεσε τον θάνατο των άλλων"
   },
   "PROBLEM_CREW_6": {
     "description": "",
-    "message": "the other crew members did not return from a space walk"
+    "message": "την μη επιστροφή των άλλων μελών του πληρώματος από διαστημικό περίπατο"
   },
   "PROBLEM_CREW_7": {
     "description": "",
-    "message": "a severe form of food poisoning on the ship"
+    "message": "μια σοβαρή μορφή τροφικής δηλητηρίασης στο σκάφος"
   },
   "PROBLEM_CREW_8": {
     "description": "",
-    "message": "a terrible accident that lead to the ejection of the others into space"
+    "message": "ένα τρομερό ατύχημα που οδήγησε στην εκτίναξη των υπολοίπων στο διάστημα"
   },
   "PROBLEM_CREW_9": {
     "description": "",
-    "message": "a circumstance that I can't comment on publicly"
+    "message": "μια περίσταση που δεν μπορώ να σχολιάσω δημόσια"
   },
   "PROBLEM_GENERAL_1": {
     "description": "",
-    "message": "a fire in the cargo hold"
+    "message": "μια φωτιά στο αμπάρι του σκάφους"
   },
   "PROBLEM_GENERAL_10": {
     "description": "",
-    "message": "the receipt of a distress call from within {locality}"
+    "message": "την λήψη σήματος κινδύνου μέσα από το {locality}"
   },
   "PROBLEM_GENERAL_2": {
     "description": "",
-    "message": "a power failure in the engine core"
+    "message": "μια διακοπή ρεύματος στον πυρήνα του κινητήρα"
   },
   "PROBLEM_GENERAL_3": {
     "description": "",
-    "message": "an air leak"
+    "message": "μια διαρροή αέρα"
   },
   "PROBLEM_GENERAL_4": {
     "description": "",
-    "message": "a severe form of food poisoning involving all personnel on board the ship"
+    "message": "μια σοβαρή μορφή τροφικής δηλητηρίασης που αφορά σε όλο το προσωπικό του πλοίου"
   },
   "PROBLEM_GENERAL_5": {
     "description": "",
-    "message": "a small meteor impact"
+    "message": "μια μικρή πρόσκρουση μετεωρίτη"
   },
   "PROBLEM_GENERAL_6": {
     "description": "",
-    "message": "a fight among crew members"
+    "message": "έναν καυγά μεταξύ των μελών του πληρώματος"
   },
   "PROBLEM_GENERAL_7": {
     "description": "",
-    "message": "contact with an unidentified flight object"
+    "message": "μια επαφή με αγνώστου ταυτότητος ιπτάμενο αντικείμενο"
   },
   "PROBLEM_GENERAL_8": {
     "description": "",
-    "message": "a dispute with a competitor's vessel"
+    "message": "μια διαμάχη με σκάφος ανταγωνιστή"
   },
   "PROBLEM_GENERAL_9": {
     "description": "",
-    "message": "a reboot of the main computer"
+    "message": "μια επανεκκίνηση του κεντρικού υπολογιστή"
   },
   "PROBLEM_RESEARCH_1": {
     "description": "",
-    "message": "an unexpected chemical reaction in one of the reaction chambers"
+    "message": "μια απροσδόκητη χημική αντίδραση σε έναν από τους θαλάμους αντίδρασης"
   },
   "PROBLEM_RESEARCH_10": {
     "description": "",
-    "message": "a major discovery at {locality} that I am not at liberty to disclose at this time"
+    "message": "μια σημαντική ανακάλυψη στο {locality} την οποία δεν μπορώ να αποκαλύψω αυτή τη στιγμή"
   },
   "PROBLEM_RESEARCH_2": {
     "description": "",
-    "message": "an infection of a crew member with a pathogen local to {locality}"
+    "message": "μια μόλυνση ενός μέλους του πληρώματος από παθογόνο που εντοπίζεται στο {locality}"
   },
   "PROBLEM_RESEARCH_3": {
     "description": "",
-    "message": "a leak of experimental pathogens into the main air supply"
+    "message": "μια διαρροή πειραματικών παθογόνων μικροοργανισμών στο κύριο σύστημα εξαερισμού"
   },
   "PROBLEM_RESEARCH_4": {
     "description": "",
-    "message": "crew exposure to a specimen collected at {locality}"
+    "message": "μία έκθεση του πληρώματος σε δείγμα που συλλέχθηκε στον {locality}"
   },
   "PROBLEM_RESEARCH_5": {
     "description": "",
-    "message": "a chemical explosion in one of the on-board fume hoods"
+    "message": "μια χημική έκρηξη σε έναν από τους απαγωγείς προϊόντων καύσης του σκάφους"
   },
   "PROBLEM_RESEARCH_6": {
     "description": "",
-    "message": "an experimental recreation of {locality} atmospheric gases"
+    "message": "μια πειραματική αναδημιουργία των ατμοσφαιρικών αερίων του {locality}"
   },
   "PROBLEM_RESEARCH_7": {
     "description": "",
-    "message": "a heated dispute between scientists on board the ship"
+    "message": "μια έντονη διαμάχη μεταξύ επιστημόνων στο σκάφος"
   },
   "PROBLEM_RESEARCH_8": {
     "description": "",
-    "message": "the sudden disappearance of a lead investigator on board the ship"
+    "message": "μια ξαφνική εξαφάνιση ενός επικεφαλή ερευνητή του σκάφους"
   },
   "PROBLEM_RESEARCH_9": {
     "description": "",
-    "message": "the accidental combination of incompatible specimens from {locality}"
+    "message": "ένα τυχαίο συνδυασμό ασυμβίβαστων δειγμάτων από το {locality}"
   },
   "RESULT_DELIVERY_COMM": {
     "description": "",
-    "message": "Transferred {done} of {todo} tons of {cargotype} to target ship."
+    "message": "Εκφόρτωση {done} από {todo} τόνους {cargotype} στο σκάφος προορισμού."
   },
   "RESULT_DELIVERY_CREW": {
     "description": "",
-    "message": "Transferred {done} of {todo} crew members to target ship."
+    "message": "Μετεπιβίβαση {done} {todo} μελών του πληρώματος στο σκάφος προορισμού."
   },
   "RESULT_DELIVERY_PASS": {
     "description": "",
-    "message": "Transferred {done} of {todo} passengers to target ship."
+    "message": "Μετεπιβίβαση {done} {todo} επιβατών στο σκάφος προορισμού."
   },
   "RESULT_PICKUP_COMM": {
     "description": "",
-    "message": "Picked up {done} of {todo} tons of {cargotype} from target ship."
+    "message": "Περισυλλογή {done} από {todo} τόνους {cargotype} από το σκάφος προορισμού."
   },
   "RESULT_PICKUP_CREW": {
     "description": "",
-    "message": "Picked up {done} of {todo} crew members from target ship."
+    "message": "Περισυλλογή {done}  {todo} μελών του πληρώματος από το σκάφος προορισμού."
   },
   "RESULT_PICKUP_PASS": {
     "description": "",
-    "message": "Picked up {done} of {todo} passengers from target ship."
+    "message": "Περισυλλογή {done} {todo} επιβατών από το σκάφος προορισμού."
   },
   "RETURN_TO": {
     "description": "",
-    "message": "Return To:"
+    "message": "Επιστροφή στο:"
   },
   "REWARD": {
     "description": "",
-    "message": "Reward:"
+    "message": "Αμοιβή:"
   },
   "SEARCH_RESCUE": {
     "description": "",
-    "message": "Search & Rescue"
+    "message": "Έρευνα & Διάσωση"
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Θέσε ως στόχο πλοήγησης."
+    "message": "Ορισμός ως προορισμός πλοήγησης"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Θέσε διαδρομή επιστροφής"
+    "message": "Ορισμός διαδρομής επιστροφής"
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
-    "message": "Target ship unresponsive."
+    "message": "Το σκάφος προορισμού δεν ανταποκρίνεται."
   },
   "SYSTEM": {
     "description": "",
@@ -661,42 +661,42 @@
   },
   "TARGET_SHIP_ID": {
     "description": "",
-    "message": "Target ship ID:"
+    "message": "Αναγνωριστικό σκάφους προορισμού:"
   },
   "THANK_YOU_ACCEPTANCE_TXT": {
     "description": "",
-    "message": "Thank you so much. Your help is greatly appreciated."
+    "message": "Σ' ευχαριστώ τόσο πολύ. Η βοήθειά σου είναι ανεκτίμητη."
   },
   "TONS_OF_FREE_CARGO_SPACE": {
     "description": "",
-    "message": "tons of free cargo space"
+    "message": "τόνοι ελεύθερου χώρου στο αμπάρι"
   },
   "TRANSFER_ABORTED": {
     "description": "",
-    "message": "Transfer has been aborted!"
+    "message": "Η μεταφορά ακυρώθηκε!"
   },
   "TRANSFER_COMPLETE": {
     "description": "",
-    "message": "Transfer has been completed!"
+    "message": "Η μεταφορά ολοκληρώθηκε!"
   },
   "TRANSFER_PARTIAL": {
     "description": "",
-    "message": "Transfer has been partially completed. Please return to finish transfer."
+    "message": "Η μεταφορά έχει ολοκληρωθεί εν μέρει. Παρακαλώ επιστρέψτε ώστε να ολοκληρώσετε τη μεταφορά."
   },
   "TRANSFER_TIME": {
     "description": "",
-    "message": "Please allow {minutes} minutes for transfer."
+    "message": "Παρακαλώ δώστε μας  {minutes} λεπτά για τη μεταφορά."
   },
   "TYPE_OF_HELP": {
     "description": "",
-    "message": "What type of help is needed?"
+    "message": "Τι είδους βοήθεια χρειάζεστε;"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "unoccupied passenger cabins"
+    "message": "κενές καμπίνες επιβατών"
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",
-    "message": "Where do I find the target?"
+    "message": "Πού βρίσκω τον προορισμό;"
   }
 }

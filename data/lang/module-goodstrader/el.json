@@ -1,23 +1,23 @@
 {
   "GOODS_TRADER_0": {
     "description": "",
-    "message": "Εμπόριο Αγαθών {name}'s"
+    "message": "Εμπόριο Αγαθών του {name}"
   },
   "GOODS_TRADER_1": {
     "description": "",
-    "message": "Εμπορικό κατάστημα {name}'s"
+    "message": "Εμπορικό κατάστημα του {name}"
   },
   "GOODS_TRADER_2": {
     "description": "",
-    "message": "Κατάστημα {name}'s"
+    "message": "Αποθήκη της {name}"
   },
   "GOODS_TRADER_3": {
     "description": "",
-    "message": "{name}'s Goods Exchange"
+    "message": "Ανταλλαγή αγαθών του {name}"
   },
   "GOODS_TRADER_4": {
     "description": "",
-    "message": "{name} Holdings"
+    "message": "Μετοχές {name}"
   },
   "GOODS_TRADER_5": {
     "description": "",
@@ -25,31 +25,31 @@
   },
   "SLOGAN_0": {
     "description": "",
-    "message": "We deal in what others don't."
+    "message": "Εμείς ασχολούμαστε με αυτό που οι άλλοι δεν κάνουν."
   },
   "SLOGAN_1": {
     "description": "",
-    "message": "A truly free market."
+    "message": "Μια πραγματικά ελεύθερη αγορά."
   },
   "SLOGAN_2": {
     "description": "",
-    "message": "Bringing the best unconventional goods to you!"
+    "message": "Σας φέρνουμε τα καλύτερα αντισυμβατικά προϊόντα!"
   },
   "SLOGAN_3": {
     "description": "",
-    "message": "We believe in a market without restrictions."
+    "message": "Πιστεύουμε σε μια αγορά χωρίς περιορισμούς."
   },
   "SLOGAN_4": {
     "description": "",
-    "message": "The unregulated market, for your freedom."
+    "message": "Η ανεξέλεγκτη αγορά, για την δική σας ελευθερία."
   },
   "SLOGAN_5": {
     "description": "",
-    "message": "The trustworthy dealer."
+    "message": "Ο αξιόπιστος έμπορος."
   },
   "SLOGAN_6": {
     "description": "",
-    "message": "Allways a special price just for you."
+    "message": "Πάντα μια ειδική τιμή μόνο για εσάς."
   },
   "WELCOME_TO": {
     "description": "",

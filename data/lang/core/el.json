@@ -189,7 +189,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS_SELF": {
     "description": "",
-    "message": "Ανάλυση εμπορευμάτων εμπορευμάτων του συστήματος #fff%system#fff"
+    "message": "Ανάλυση ανταλλαγής εμπορευμάτων του συστήματος #fff%system#fff"
   },
   "COMMS": {
     "description": "",
@@ -641,7 +641,7 @@
   },
   "LATITUDE": {
     "description": "Short for latitude",
-    "message": "Πλάτος:"
+    "message": "Πλ:"
   },
   "LATITUDE_NORTH_ABBREV": {
     "description": "Abbreviation letter for latitude 'north'",

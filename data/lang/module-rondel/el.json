@@ -1,66 +1,66 @@
 {
   "CREDITS_PROMISE": {
     "description": "",
-    "message": "250,000 in cash. Right now. I would find that interesting."
+    "message": "250.000 σε μετρητά. Αυτή τη στιγμή. Θα το έβρισκα ενδιαφέρον."
   },
   "DEFENSE_CRAFT_ELIMINATED": {
     "description": "",
-    "message": "System defense craft eliminated. Incident has been logged."
+    "message": "Εξαλείφθηκε το σκάφος άμυνας του συστήματος. Το περιστατικό έχει καταγραφεί."
   },
   "HABER_DEFENSE_CRAFT": {
     "description": "",
-    "message": "Haber Defense Craft"
+    "message": "Αμυντικό Σκάφος Haber"
   },
   "HEY_OVER_HERE": {
     "description": "",
-    "message": "Hey, over here."
+    "message": "Έι, εδώ πέρα."
   },
   "HOSTILE_ACTION_REPORTED": {
     "description": "",
-    "message": "Hostile action reported. Intercept and destroy!"
+    "message": "Αναφέρθηκε εχθρική δράση. Αναχαιτίστε και καταστρέψτε!"
   },
   "INTERCEPTION_SUCCESSFUL": {
     "description": "",
-    "message": "Interception successful. Hostile craft destroyed."
+    "message": "Επιτυχής αναχαίτιση. Το εχθρικό σκάφος καταστράφηκε."
   },
   "JETTISON_DEFENSIVE_PRECAUTION": {
     "description": "",
-    "message": "Jettison detected. Apply defensive precautions!"
+    "message": "Ανιχνεύτηκε εκτόξευση. Εφαρμόστε αμυντικές προφυλάξεις!"
   },
   "NOT_INTERESTED": {
     "description": "",
-    "message": "What if I'm not interested?"
+    "message": "Και αν δεν ενδιαφέρομαι;"
   },
   "PERFECT": {
     "description": "",
-    "message": "Perfect. If anyone asks... Surely no one will ask, but if anyone asks, please remember that we were just haggling over a second hand shield generator."
+    "message": "Τέλεια. Αν κάποιος ρωτήσει... Σίγουρα κανείς δεν θα ρωτήσει, αλλά αν κάποιος ρωτήσει, παρακαλώ να θυμάστε ότι παζαρεύαμε για μια γεννήτρια ασπίδας από δεύτερο χέρι."
   },
   "RONDEL_RESTRICTED_ZONE": {
     "description": "",
-    "message": "{playerShipLabel}, this star system is a restricted zone. You must leave within {seconds} seconds. Should you fail to comply, you will be assumed hostile and defensive precautions will be taken."
+    "message": "{playerShipLabel}, αυτό το αστρικό σύστημα είναι απαγορευμένη ζώνη. Πρέπει να φύγετε μέσα σε {seconds} δευτερόλεπτα. Εάν δεν συμμορφωθείτε, θα θεωρηθείτε εχθρικός και θα ληφθούν αμυντικά μέτρα."
   },
   "SOLFED_INTEL": {
     "description": "",
-    "message": "Solar Federation Intelligence"
+    "message": "Υπηρεσία Πληροφοριών Ηλιακής Ομοσπονδίας"
   },
   "SOLFED_INTEL_INTRO": {
     "description": "",
-    "message": "Keep your voice down, pilot. I'm an undercover agent working for Solar Federation Intelligence. Your ship's computer memory has some data we are interested in."
+    "message": "Χαμήλωσε τη φωνή σου, πιλότε. Είμαι ένας μυστικός πράκτορας που εργάζεται για την Υπηρεσία Πληροφοριών της Ηλιακής Ομοσπονδίας. Η μνήμη του υπολογιστή του σκάφους σου έχει κάποια δεδομένα που μας ενδιαφέρουν."
   },
   "WEAPONS_EVASIVE_ACTION": {
     "description": "",
-    "message": "Weapons discharge detected. Take evasive action!"
+    "message": "Ανιχνεύτηκε εκφόρτιση όπλων. Πραγματοποιήστε ενέργεια αποφυγής!"
   },
   "WHAT_IS_THIS_ABOUT": {
     "description": "",
-    "message": "What data? What is this all about?"
+    "message": "Ποια δεδομένα; Περί τίνος πρόκειται;"
   },
   "YOU_SHALL_HAVE_THE_DATA": {
     "description": "",
-    "message": "You shall have the data."
+    "message": "Θα λάβετε τα δεδομένα."
   },
   "YOU_VISITED_STAR_SYSTEM": {
     "description": "",
-    "message": "You may or may not have visited some star system we would like to know more about."
+    "message": "Μπορεί να έχετε επισκεφθεί ή να μην έχετε επισκεφθεί κάποιο αστρικό σύστημα για το οποίο θα θέλαμε να μάθουμε περισσότερα."
   }
 }

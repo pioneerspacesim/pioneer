@@ -1,82 +1,82 @@
 {
   "CLEARANCE_ALREADY_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance already granted. Proceed to docking bay {bay}."
+    "message": "Η άδεια έχει ήδη χορηγηθεί. Προχωρήστε στην αποβάθρα προδέτησης {bay}."
   },
   "CLEARANCE_DENIED_NO_BAYS": {
     "description": "",
-    "message": "Clearance denied. There are no free docking bays."
+    "message": "Απόρριψη αδείας. Δεν υπάρχουν ελεύθερες θέσεις προδέτησης."
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
-    "message": "Clearance denied. Your ship is too far away for ID verification."
+    "message": "Απόρριψη αδείας. Το σκάφος σας είναι πολύ μακριά για επαλήθευση ταυτότητας."
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
-    "message": "Clearance granted. Proceed to docking bay {bay}."
+    "message": "Χορήγηση άδειας. Προχωρήστε στην αποβάθρα προδέτησης {bay}."
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",
-    "message": "Docking clearance expired. If you wish to dock you must repeat your request."
+    "message": "Η άδεια ελλιμενισμού έληξε. Εάν επιθυμείτε προδέτηση πρέπει να επαναλάβετε το αίτημά σας."
   },
   "STATION_GRAV": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}."
+    "message": "Η τοπική βαρύτητα είναι {grav}."
   },
   "STATION_GRAV_PRESS": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Local gravity is {grav}, pressure is {press}."
+    "message": "Η τοπική βαρύτητα είναι {grav}, η πίεση είναι {press}."
   },
   "WATCH_FOR_TRAFFIC_ON_APPROACH": {
     "description": "",
-    "message": "Please watch for traffic on your approach."
+    "message": "Παρακαλείστε να προσέχετε την κυκλοφορία κατά την προσέγγισή σας."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel} you are entering {station} space. Please follow local regulations."
+    "message": "{playerShipLabel} εισέρχεστε στο χώρο εποπτείας του {station}. Παρακαλούμε ακολουθήστε τους τοπικούς κανονισμούς."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_2": {
     "description": "",
-    "message": "{playerShipLabel}, we have you on the radar. You are in {station} controlled space."
+    "message": "{playerShipLabel}, σας έχουμε στο ραντάρ. Βρίσκεστε σε χώρο ελεγχόμενο από το {station}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_3": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. You are entering our controlled space."
+    "message": "{playerShipLabel}, εδώ {station} STC. Εισέρχεστε στον χώρο ελέγχου μας."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_4": {
     "description": "",
-    "message": "We have you flying into {station} controlled space, {playerShipLabel}."
+    "message": "Σας έχουμε να πετάτε σε ελεγχόμενο από το {station} χώρο, {playerShipLabel}."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, welcome to {station}. Please keep in mind that regulations apply as you are flying through our jurisdiction."
+    "message": "{playerShipLabel}, καλώς ήρθατε στο {station}. Παρακαλούμε να έχετε υπόψη σας ότι ισχύουν κανονισμοί καθώς πετάτε μέσα στο χώρο δικαιοδοσίας μας."
   },
   "YOU_ARE_ENTERING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC speaking. You are entering controlled space, and I would appreciate it if you didn't make me fill out any paperwork today."
+    "message": "{playerShipLabel}, σας μιλάει το {station} STC. Εισέρχεστε σε ελεγχόμενο χώρο και θα το εκτιμούσα αν δεν με αναγκάζατε να συμπληρώσω αναφορές σήμερα."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_1": {
     "description": "",
-    "message": "{playerShipLabel}, you are clear of {station} controlled space."
+    "message": "{playerShipLabel}, έχετε εξέλθει από τον χώρο ελέφχου του {station}."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_2": {
     "description": "",
-    "message": "You have left {station} space, {playerShipLabel}."
+    "message": "Έχετε εγκαταλείψει τον χώρο ελέγχου του {station}, {playerShipLabel}."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_3": {
     "description": "",
-    "message": "{playerShipLabel}, you have cleared {station} controlled space. Restrictions withdrawn."
+    "message": "{playerShipLabel}, έχετε εγκαταλείψει τον ελεγχόμενο από το {station} χώρο. Οι περιορισμοί αποσύρονται."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_4": {
     "description": "",
-    "message": "You are flying out of {station} space, {playerShipLabel}. Logging you out."
+    "message": "Πετάτε έξω από το χώρο ελέγχου του {station}, {playerShipLabel}. Σας αποσυνδέω."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, you are leaving {station} space. Have a pleasant journey."
+    "message": "{playerShipLabel}, φεύγετε από τον χώρο ελέγχου του {station}. Καλό ταξίδι."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",
-    "message": "{playerShipLabel}, this is {station} STC. I see you exiting our controlled space, be safe out there."
+    "message": "{playerShipLabel}, εδώ {station} STC. Σας βλέπω να βγαίνετε από τον ελεγχόμενο χώρο μας, να είστε ασφαλείς εκεί έξω."
   }
 }

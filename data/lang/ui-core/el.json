@@ -1,75 +1,75 @@
 {
   "ABOVE_AVERAGE": {
     "description": "",
-    "message": "Above Average"
+    "message": "Άνω του μέσου όρου"
   },
   "ACTIVE": {
     "description": "",
-    "message": "Active"
+    "message": "Ενεργό"
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Add Jump"
+    "message": "Προσθήκη άλματος"
   },
   "AFTER_TRADE_IN": {
     "description": "",
-    "message": "After trade-in"
+    "message": "Μετά την ανταλλαγή"
   },
   "ALLEGIANCE": {
     "description": "",
-    "message": "Allegiance:"
+    "message": "Αλληλεγγύη:"
   },
   "ALL_UP_WEIGHT": {
     "description": "",
-    "message": "All-up weight"
+    "message": "Συνολικό βάρος"
   },
   "AMOUNT": {
     "description": "",
-    "message": "Amount"
+    "message": "Ποσότητα"
   },
   "ANISOTROPIC_FILTERING_DESC": {
     "description": "",
-    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+    "message": "Δειγματοληπτεί την υφή σε πολλαπλά επίπεδα mip για να παράγει μια πολύ πιο καθαρή υφή όταν την βλέπεις από ρηχές γωνίες. Εμποδίζει τις υφές να γίνουν τόσο θολές- ωστόσο, μπορεί να έχει μεγάλο κόστος απόδοσης."
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
-    "message": "An error has occurred"
+    "message": "Εμφανίστηκε σφάλμα"
   },
   "ARRIVAL_DATE": {
     "description": "Time of arrival, used in flight log",
-    "message": "Arrival date"
+    "message": "Ημερομηνία άφιξης"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-    "message": "Atmospheric shielding"
+    "message": "Ατμοσφαιρική θωράκιση"
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Atmo. pressure limit"
+    "message": "Όριο ατμ. πίεσης"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
-    "message": "Attempt to repair hull"
+    "message": "Απόπειρα επισκευής του κύτους"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Auto Route"
+    "message": "Αυτοματοποιημένη διαδρομή"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
-    "message": "Available for purchase"
+    "message": "Διαθέσιμο για αγορά"
   },
   "AVERAGE": {
     "description": "",
-    "message": "Average"
+    "message": "Μέσος όρος"
   },
   "BACKWARD_ACCEL": {
     "description": "",
-    "message": "Backward acceleration"
+    "message": "Επιτάχυνση προς τα πίσω"
   },
   "BULLETIN_BOARD": {
     "description": "",
-    "message": "Bulletin Board"
+    "message": "Πίνακας ανακοινώσεων"
   },
   "BUY": {
     "description": "Commodities and equipment prices",
@@ -81,31 +81,31 @@
   },
   "CABINS": {
     "description": "For passengers",
-    "message": "Cabins"
+    "message": "Καμπίνες"
   },
   "CABIN_FREE": {
     "description": "Free capacity for passengers",
-    "message": "{amount} free"
+    "message": "{amount} ελεύθερα"
   },
   "CABIN_USED": {
     "description": "Passengers using cabins",
-    "message": "{amount} used"
+    "message": "{amount} σε χρήση"
   },
   "CANCEL": {
     "description": "",
-    "message": "Cancel"
+    "message": "Ακύρωση"
   },
   "CANNOT_SELL_ITEM": {
     "description": "",
-    "message": "This item cannot be sold"
+    "message": "Αυτό το αντικείμενο δεν μπορεί να πωληθεί"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
-    "message": "Capacity"
+    "message": "Χωρητικότητα"
   },
   "CAPACITY_USED": {
     "description": "",
-    "message": "Capacity used"
+    "message": "Χωρητικότητα εν χρήση"
   },
   "CARGO": {
     "description": "",
@@ -113,19 +113,19 @@
   },
   "CARGO_SPACE": {
     "description": "",
-    "message": "Cargo space"
+    "message": "Χώρος φόρτωσης"
   },
   "CARGO_SPACE_USED": {
     "description": "",
-    "message": "Cargo space used"
+    "message": "Χώρος φόρτωσης εν χρήση"
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
-    "message": "{amount}t free"
+    "message": "{amount}t ελεύθερα"
   },
   "CARGO_T_USED": {
     "description": "t for tonne",
-    "message": "{amount}t used"
+    "message": "{amount}t εν χρήση"
   },
   "CASH": {
     "description": "",
@@ -133,103 +133,103 @@
   },
   "CASH_N": {
     "description": "",
-    "message": "Cash: {money}"
+    "message": "Μετρητά: {money}"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Κεντράρισε στο σύστημα"
   },
   "CHANGE": {
     "description": "Face feature option",
-    "message": "Change:"
+    "message": "Αλλάξτε:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
-    "message": "Change Binding"
+    "message": "Αλλαγή δέσμευσης"
   },
   "CHIEF_MECHANIC": {
     "description": "",
-    "message": "Chief Mechanic"
+    "message": "Αρχιμηχανικός"
   },
   "CIRCULAR_ORBIT_SPEED": {
     "description": "",
-    "message": "Circular orbit speed"
+    "message": "Ταχύτητα κυκλικής περιφοράς"
   },
   "CITY_DETAIL_LEVEL": {
     "description": "Game graphics option",
-    "message": "City detail level"
+    "message": "Επίπεδο λεπτομέρειας πόλης"
   },
   "CLEAN": {
     "description": "Legal status of player",
-    "message": "Clean"
+    "message": "Καθαρός"
   },
   "CLEAR": {
     "description": "Clear an option in game settings/options menu",
-    "message": "Clear"
+    "message": "Όρισε κενό"
   },
   "CLEAR_ROUTE": {
     "description": "Clear a planned route of hyperjumps",
-    "message": "Clear Route"
+    "message": "Κενή διαδρομή"
   },
   "CLIENT": {
     "description": "",
-    "message": "Client"
+    "message": "Πελάτης"
   },
   "CLOSE": {
     "description": "",
-    "message": "Close"
+    "message": "Κλείσε"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
-    "message": "Combat"
+    "message": "Μάχη"
   },
   "COMMANDER": {
     "description": "",
-    "message": "Commander"
+    "message": "Κυβερνήτης"
   },
   "COMMODITY_MARKET": {
     "description": "",
-    "message": "Commodity Market"
+    "message": "Αγορά εμπορευμάτων"
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Commodity trade analysis of:"
+    "message": "Ανάλυση ανταλλαγής εμπορευμάτων του:"
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
-    "message": "Compact radar"
+    "message": "Συμπαγές ραντάρ"
   },
   "COMPETENT": {
     "description": "Combat rating",
-    "message": "Competent"
+    "message": "Ικανός"
   },
   "COMPLETED": {
     "description": "",
-    "message": "Completed"
+    "message": "Ολοκληρωμένο"
   },
   "COMPRESS_TEXTURES": {
     "description": "graphics option in game settings menu ",
-    "message": "Compress Textures"
+    "message": "Συμπίεση υφής"
   },
   "CONFIRM_PURCHASE": {
     "description": "",
-    "message": "Confirm purchase"
+    "message": "Επιβεβαίωση αγοράς"
   },
   "CONFIRM_SALE": {
     "description": "",
-    "message": "Confirm sale"
+    "message": "Επιβεβαίωση πώλησης"
   },
   "CONSTABLE": {
     "description": "",
-    "message": "Constable"
+    "message": "Αστυφύλαξ"
   },
   "CONTINUE_GAME": {
     "description": "",
-    "message": "Continue game"
+    "message": "Συνέχιση παιχνιδιού"
   },
   "CONTRACT_FRAUD": {
     "description": "Crime committed by intentionally breaking a contract",
-    "message": "Contract fraud"
+    "message": "Απάτη σύμβασης"
   },
   "CONTROLS": {
     "description": "",
@@ -1093,7 +1093,7 @@
   },
   "IN_CARGO_HOLD": {
     "description": "",
-    "message": "In cargo hold"
+    "message": "Στον χώρο αποσκευών"
   },
   "IN_STOCK": {
     "description": "",
