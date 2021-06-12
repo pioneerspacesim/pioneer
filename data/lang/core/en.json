@@ -192,7 +192,7 @@
     "message": "Commodity trade analysis of #fff%system#fff"
   },
   "COMMS": {
-    "description": "",
+    "description": "Title of communications log window, on world view",
     "message": "Comms"
   },
   "COMMUNIST": {
