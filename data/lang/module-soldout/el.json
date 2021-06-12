@@ -13,7 +13,7 @@
   },
   "SELL_1": {
     "description": "Sell one single unit (probably tonne)",
-    "message": "Πουλήστε 1"
+    "message": "Πώληση 1"
   },
   "SELL_ALL": {
     "description": "Sell everything player has of the good/commodity",
@@ -21,7 +21,7 @@
   },
   "SELL_N": {
     "description": "Sell several units (probably in tonne), i.e. N > 1",
-    "message": "Πουλήστε {N}"
+    "message": "Πώληση {N}"
   },
   "TITLE": {
     "description": "",

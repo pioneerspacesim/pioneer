@@ -249,7 +249,7 @@
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Σ' ευχαριστώ, διοικητά! Η βοήθειά σας ελήφθη δεόντως υπόψη."
+    "message": "Σ' ευχαριστώ, κυβερνήτη! Η βοήθειά σας ελήφθη δεόντως υπόψη."
   },
   "FLAVOUR_3_TRANSFERMSG": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "Το σκάφος προορισμού σας παρασύρεται αυτή τη στιγμή σε απόσταση {dist} χιλιομέτρων από εδώ. Θα πρέπει να εντοπίσετε την ακριβή τοποθεσία μόνοι σας."
+    "message": "Το σκάφος προορισμού σας παρασύρεται αυτή τη στιγμή σε απόσταση {dist} χιλιομέτρων από εδώ. Θα πρέπει να εντοπίσετε την ακριβή θέση μόνοι σας."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "Η τελευταία γνωστή θέση ήταν κοντά στον πλανήτη {planet} του {system} [{sectorx},{sectory},{sectorz}] συστήματος, {dist} ly μακριά από εδώ."
+    "message": "Η τελευταία γνωστή θέση ήταν στη γειτονιά του {planet} του {system} [{sectorx},{sectory},{sectorz}] συστήματος, {dist} ly μακριά από εδώ."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",

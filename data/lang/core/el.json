@@ -57,19 +57,19 @@
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "Αυτόματος πιλότος: Μπες σε υψηλή τροχιά γύρω από τον στόχο {target}"
+    "message": "Αυτόματος πιλότος: Μπες σε υψηλή τροχιά γύρω από το {target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "Αυτόματος πιλότος: Μπες σε χαμηλή τροχιά γύρω από τον στόχο {target}"
+    "message": "Αυτόματος πιλότος: Μπες σε χαμηλή τροχιά γύρω από το {target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
-    "message": "Αυτόματος πιλότος: Μπες σε μεσαία τροχιά γύρω από τον στόχο {target}"
+    "message": "Αυτόματος πιλότος: Μπες σε μεσαία τροχιά γύρω από το {target}"
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "Αυτόματος πιλότος: Πέταξε κοντά στον στόχο {target}"
+    "message": "Αυτόματος πιλότος: Πέταξε στην γειτονιά του {target}"
   },
   "AUTOPILOT_ON": {
     "description": "",
@@ -185,11 +185,11 @@
   },
   "COMMODITY_TRADE_ANALYSIS_COMPARE": {
     "description": "",
-    "message": "Ανάλυση ανταλλαγής εμπορευμάτων #ff0%selected_system#fff  (επιλεχθέν) έναντι #ff0%current_system#fff (τρέχον):"
+    "message": "Ανάλυση συναλλαγής εμπορευμάτων #ff0%selected_system#fff  (επιλεχθέν) έναντι #ff0%current_system#fff (τρέχον):"
   },
   "COMMODITY_TRADE_ANALYSIS_SELF": {
     "description": "",
-    "message": "Ανάλυση ανταλλαγής εμπορευμάτων του συστήματος #fff%system#fff"
+    "message": "Ανάλυση συναλλαγών εμπορευμάτων του συστήματος #fff%system#fff"
   },
   "COMMS": {
     "description": "",
@@ -441,7 +441,7 @@
   },
   "GENERAL_VIEW_CONTROLS": {
     "description": "",
-    "message": "Γενικά στοιχεία ελέγχου"
+    "message": "Χειρισμοί Γενικής Άποψης"
   },
   "GOVERNMENT_TYPE": {
     "description": "",
@@ -625,7 +625,7 @@
   },
   "LANG_NAME": {
     "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
-    "message": "Greek"
+    "message": "Ελληνικά"
   },
   "LARGE": {
     "description": "regarding terrestrial planet size (mass actually)",
@@ -765,19 +765,19 @@
   },
   "MINOR_EXPORTS": {
     "description": "",
-    "message": "Μικρές εισαγωγές:"
+    "message": "Δευτερεύουσες εξαγωγές"
   },
   "MINOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Μικρές εξαγωγές (τρέχον σύστημα)"
+    "message": "Δευτερεύουσα εξαγωγή (τρέχον σύστημα)"
   },
   "MINOR_IMPORTS": {
     "description": "",
-    "message": "Μικρές εισαγωγές:"
+    "message": "Δευτερεύουσες εισαγωγές"
   },
   "MINOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Μικρή εισαγωγή (τρέχον σύστημα)"
+    "message": "Δευτερεύουσα εισαγωγή (τρέχον σύστημα)"
   },
   "MISCELLANEOUS": {
     "description": "",
@@ -849,7 +849,7 @@
   },
   "NAME_PERSON": {
     "description": "For a person",
-    "message": "Όνομα"
+    "message": "Ονοματεπώνυμο"
   },
   "NARCOTICS": {
     "description": "",
@@ -1129,7 +1129,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Αίτημα άδειας από το {target} για προδέτηση"
+    "message": "Αίτημα άδειας για προδέτηση από το {target}"
   },
   "RESET": {
     "description": "",
@@ -1213,7 +1213,7 @@
   },
   "SECTOR_MAP_VIEW": {
     "description": "",
-    "message": "Χάρτης προβολής τομέα"
+    "message": "Χάρτης τομέα"
   },
   "SECTOR_X_Y_Z": {
     "description": "",

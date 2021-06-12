@@ -133,7 +133,7 @@
   },
   "BIND_SPEED_CONTROL": {
     "description": "Descriptive name for the SpeedControl axis.",
-    "message": "Όρισε ταχύτητα στόχου"
+    "message": "Καθόρισε ταχύτητα στόχου"
   },
   "BIND_TARGET_OBJECT": {
     "description": "Descriptive name for the TargetObject action.",
@@ -153,7 +153,7 @@
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",
-    "message": "Εναλλαγή απόσβεσης περιστροφής"
+    "message": "Εναλλαγή Απόσβεσης Περιστροφής"
   },
   "BIND_TOGGLE_SET_SPEED": {
     "description": "Descriptive name for the ToggleSetSpeed action.",
@@ -177,7 +177,7 @@
   },
   "GROUP_GENERAL_VIEW_CONTROLS": {
     "description": "Header for the GeneralViewControls input group.",
-    "message": "Στοιχεία ελέγχου γενικής άποψης"
+    "message": "Χειρισμοί Γενικής Άποψης"
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
@@ -188,7 +188,7 @@
   },
   "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
     "description": "Header for the SectorMapViewControls input group.",
-    "message": "Στοιχεία ελέγχου χάρτη προβολής τομέα"
+    "message": "Χειρισμοί χάρτη τομέα"
   },
   "GROUP_SHIP_ORIENT": {
     "description": "Header for the ShipOrient input group.",
@@ -224,15 +224,15 @@
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
-    "message": "Στοιχεία Γενικού ελέγχου"
+    "message": "Γενικοί Χειρισμοί"
   },
   "PAGE_MAP_CONTROLS": {
     "description": "Header for the MapControls input page.",
-    "message": "Στοιχεία ελέγχου Χάρτη"
+    "message": "Χειρισμοί Χάρτη"
   },
   "PAGE_SHIP_CONTROLS": {
     "description": "Header for the ShipControls input page.",
-    "message": "Στοιχεία ελέγχου Σκάφους"
+    "message": "Χειρισμοί Σκάφους"
   },
   "PAGE_SHIP_VIEW": {
     "description": "Header for the ShipView input page.",
