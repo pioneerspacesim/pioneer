@@ -39,7 +39,7 @@ local function displayCommsLog()
 		ui.setNextWindowPos(Vector2(10, 10) , "Always")
 		ui.window("CommsLogButton", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
 							function()
-								if ui.coloredSelectedIconButton(icons.comms, mainButtonSize, nil, mainButtonFramePadding, colors.buttonBlue, colors.white, 'Toggle full comms window') then
+								if ui.coloredSelectedIconButton(icons.comms, mainButtonSize, nil, mainButtonFramePadding, colors.buttonBlue, colors.white, lui.TOGGLE_FULL_COMMS_WINDOW) then
 									fullComms = not fullComms
 								end
 		end)
@@ -87,7 +87,7 @@ local function displayCommsLog()
 										ui.setNextWindowPos(aux , "Always")
 										ui.withStyleColors({ ["WindowBg"] = colors.commsWindowBackground }, function()
 												ui.withStyleVars({ ["WindowRounding"] = 0.0 }, function()
-														ui.window("CommsLog", {"NoResize"},
+														ui.window(lc.COMMS, {"NoResize"},
 																			function()
 																				local lines = Game.GetCommsLines()
 																				ui.pushTextWrapPos(ui.screenWidth/3 - 20)
