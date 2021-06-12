@@ -276,7 +276,7 @@ end
 local function displayDetailButtons(radius, navTarget, combatTarget)
 	local uiPos = ui.pointOnClock(center, radius, 3.6)
 	local mouse_position = ui.getMousePos()
-	local size = 24
+	local size = 20
 	if combatTarget or navTarget then
 		local color = reticuleTarget == "frame" and colors.reticuleCircle or colors.reticuleCircleDark
 		ui.addIcon(uiPos, icons.moon, color, Vector2(size, size), ui.anchor.left, ui.anchor.bottom, lui.HUD_SHOW_FRAME)
