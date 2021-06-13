@@ -57,7 +57,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
-    "message": "Διαθέσιμο για αγορά"
+    "message": "Διαθέσιμα για αγορά"
   },
   "AVERAGE": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "CITY_DETAIL_LEVEL": {
     "description": "Game graphics option",
-    "message": "Επίπεδο λεπτομέρειας πόλης"
+    "message": "Λεπτομέρεια πόλεων"
   },
   "CLEAN": {
     "description": "Legal status of player",
@@ -289,7 +289,7 @@
   },
   "DECREASE": {
     "description": "Decrease something.",
-    "message": "Μείωσε"
+    "message": "Μείωση"
   },
   "DELTA_V": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "DISABLE_SCREENSHOT_INFO": {
     "description": "",
-    "message": "Απενεργοποίηση πληροφοριών στιγμιότυπου οθόνης"
+    "message": "Όχι πληροφορίες σε στιγμιότυπα οθόνης"
   },
   "DISABLE_SCREENSHOT_INFO_DESC": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "EFFECTS": {
     "description": "",
-    "message": "Επιδράσεις:"
+    "message": "Εφέ:"
   },
   "ELITE": {
     "description": "Player combat rating",
@@ -413,7 +413,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "αποθήκευση κατάστασης κατά την προδέτηση, μπορεί να προκαλέσει κάποια καθυστέρηση ανάλογα με το χρόνο πρόσβασης στον σκληρό δίσκο"
+    "message": "Αποθήκευση παιγνιδιού κατά την προδέτηση. Μπορεί να προκαλέσει κάποια καθυστέρηση ανάλογα με το χρόνο πρόσβασης στον σκληρό δίσκο"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -921,7 +921,7 @@
   },
   "HUD_INDICATOR_AWAY_FROM_FRAME": {
     "description": "Indicator: Away from the current frame.",
-    "message": "Απόσταση από το τρέχον πλαίσιο αναφοράς"
+    "message": "Αντίθετα από το τρέχον σύστημα αναφοράς"
   },
   "HUD_INDICATOR_COMBAT_TARGET_PROGRADE": {
     "description": "Indicator: Prograde direction relative to the current combat target.",
@@ -969,7 +969,7 @@
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
-    "message": "Ζητήστε επιτάχυνση του χρόνου:"
+    "message": "Επιτάχυνση του χρόνου:"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
@@ -1273,7 +1273,7 @@
   },
   "MASTER_VOL": {
     "description": "Master sound in settings option",
-    "message": "Δάσκαλος:"
+    "message": "Κύριος ήχος:"
   },
   "MAX": {
     "description": "",
@@ -1357,7 +1357,7 @@
   },
   "MORE_INFO": {
     "description": "",
-    "message": "Περισσότερες πληροφορίες..."
+    "message": "Περισσότερα..."
   },
   "MOSTLY_HARMLESS": {
     "description": "",
@@ -1497,7 +1497,7 @@
   },
   "OPEN_USER_FOLDER": {
     "description": "",
-    "message": "Φάκελος χρήστη"
+    "message": "ΧρήσηΦακέλου"
   },
   "OPTIONS": {
     "description": "",
@@ -1573,7 +1573,7 @@
   },
   "PLANET_DETAIL_DISTANCE": {
     "description": "",
-    "message": "Απόσταση πλανητικής λεπτομέρειας"
+    "message": "Απόσταση λεπτομερειών"
   },
   "PLANET_TEXTURES": {
     "description": "",
@@ -1881,7 +1881,7 @@
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
-    "message": "Πυκνότητα του πεδίου αστέρων"
+    "message": "Πυκνότητα πεδίου αστέρων"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
@@ -1925,7 +1925,7 @@
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
-    "message": "Αυτό απελευθερώνει περισσότερη μνήμη για την κάρτα γραφικών, το οποίο είναι πιθανότατα αυτό που θέλετε, με κόστος το ότι συμπιέζονται κατά την έναρξη του παιχνιδιού."
+    "message": "Απελευθερώνει περισσότερη μνήμη για την κάρτα γραφικών, το οποίο είναι πιθανότατα αυτό που θέλετε, με το κόστος ότι συμπιέζεται κατά την έναρξη του παιχνιδιού."
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",
@@ -1946,6 +1946,10 @@
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Βραχίονας των 3 χιλιοπαρσέκ"
+  },
+  "TOGGLE_FULL_COMMS_WINDOW": {
+    "description": "on world view / main screen",
+    "message": "Toggle full comms window"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
@@ -2029,7 +2033,7 @@
   },
   "USED": {
     "description": "",
-    "message": "Μεταχειρισμένο"
+    "message": "Εν χρήση"
   },
   "VERY_HIGH": {
     "description": "Game settings option: graphic resolution",

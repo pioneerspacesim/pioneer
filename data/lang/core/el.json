@@ -33,7 +33,7 @@
   },
   "APOAPSIS_DISTANCE": {
     "description": "",
-    "message": "Απόσταση απόαψης"
+    "message": "Apoapsis distance"
   },
   "AR_ATMOSPHERE": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "AXIAL_TILT": {
     "description": "",
-    "message": "Αξονική κλίση"
+    "message": "Axial tilt"
   },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
@@ -192,7 +192,7 @@
     "message": "Ανάλυση συναλλαγών εμπορευμάτων του συστήματος #fff%system#fff"
   },
   "COMMS": {
-    "description": "",
+    "description": "Title of communications log window, on world view",
     "message": "Επικοινωνίες"
   },
   "COMMUNIST": {
@@ -285,7 +285,7 @@
   },
   "DAY_LENGTH": {
     "description": "",
-    "message": "Διάρκεια ημέρας"
+    "message": "Day length"
   },
   "DECREASE_RADAR_RANGE": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "ECCENTRICITY": {
     "description": "",
-    "message": "Εκκεντρικότητα"
+    "message": "Eccentricity"
   },
   "ECONOMIC_INFO": {
     "description": "",
@@ -357,7 +357,7 @@
   },
   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
     "description": "",
-    "message": "Αναλογία ισημερινής προς πολική ακτίνα"
+    "message": "Equatorial to polar radius ratio"
   },
   "EXACT_MATCH_X": {
     "description": "",
@@ -633,7 +633,7 @@
   },
   "LARGE_GAS_GIANT": {
     "description": "",
-    "message": "Μεγάλος γίγαντας φυσικού αερίου"
+    "message": "Large gas giant"
   },
   "LASER_FIRE_DETECTED": {
     "description": "",
@@ -713,7 +713,7 @@
   },
   "MASS": {
     "description": "",
-    "message": "Μάζα"
+    "message": "Mass"
   },
   "MASSIVE": {
     "description": "",
@@ -729,7 +729,7 @@
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
-    "message": "Μέσος γίγαντας αερίου"
+    "message": "Medium gas giant"
   },
   "MESSAGE_FROM_X": {
     "description": "",
@@ -965,19 +965,19 @@
   },
   "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} μάζες Γης"
+    "message": "%mass{f.3} Earth masses"
   },
   "N_EARTH_RADII": {
     "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
-    "message": "%radius{f.3} ακτίνες Γης (%radkm{f.0} km)"
+    "message": "%radius{f.3} Earth radii (%radkm{f.0} km)"
   },
   "N_SOLAR_MASSES": {
     "description": "",
-    "message": "%mass{f.3} μάζες Ηλίου"
+    "message": "%mass{f.3} Solar masses"
   },
   "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} ακτίνες Ηλίου (%radkm{f.0} km)"
+    "message": "%radius{f.3} Solar radii (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",
@@ -997,7 +997,7 @@
   },
   "ORBITAL_PERIOD": {
     "description": "",
-    "message": "Περίοδος τροχιάς"
+    "message": "Orbital period"
   },
   "ORBITAL_STARPORT": {
     "description": "",
@@ -1033,7 +1033,7 @@
   },
   "PERIAPSIS_DISTANCE": {
     "description": "",
-    "message": "Απόσταση περίαψης"
+    "message": "Periapsis distance"
   },
   "PIONEER": {
     "description": "",
@@ -1053,15 +1053,15 @@
   },
   "PLANETARY_INFO": {
     "description": "",
-    "message": "Πλανητικές πληροφορίες"
+    "message": "Planetary info"
   },
   "PLANET_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "\" πλανήτης που περιέχει υγρό νερό\""
+    "message": "\" planet containing liquid water\""
   },
   "PLANET_WITH_SOME_ICE": {
     "description": "",
-    "message": "\" πλανήτης με λίγο πάγο\""
+    "message": "\" planet with some ice\""
   },
   "PLANNED_ECONOMY": {
     "description": "",
@@ -1121,7 +1121,7 @@
   },
   "RADIUS": {
     "description": "",
-    "message": "Ακτίνα"
+    "message": "Radius"
   },
   "RECENTLY_EXPLORED_SYSTEM": {
     "description": "",
@@ -1141,11 +1141,11 @@
   },
   "ROCKY_PLANET": {
     "description": "",
-    "message": "\" βραχώδης πλανήτης\""
+    "message": "\" rocky planet\""
   },
   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
     "description": "",
-    "message": "\"βραχώδης πλανήτης που περιέχει μερικά υγρά,\""
+    "message": "\" rocky planet containing some liquids,\""
   },
   "ROLL": {
     "description": "",
@@ -1325,7 +1325,7 @@
   },
   "SMALL_GAS_GIANT": {
     "description": "",
-    "message": "Μικρός γίγαντας αστέρας"
+    "message": "Small gas giant"
   },
   "SMALL_INDUSTRIAL_OUTPOST": {
     "description": "",
@@ -1361,63 +1361,63 @@
   },
   "STARPORTS": {
     "description": "",
-    "message": "Κοσμοδρόμια"
+    "message": "Starports"
   },
   "STAR_A": {
     "description": "",
-    "message": "Θερμός λευκός αστέρας τύπου 'Α'"
+    "message": "Type 'A' hot white star"
   },
   "STAR_AF_GIANT": {
     "description": "",
-    "message": "Λευκός γίγαντας αστέρας"
+    "message": "White giant star"
   },
   "STAR_AF_HYPER_GIANT": {
     "description": "",
-    "message": "Λευκός υπερ-γίγαντας αστέρας"
+    "message": "White hyper giant star"
   },
   "STAR_AF_SUPER_GIANT": {
     "description": "",
-    "message": "Λευκός σούπερ γίγαντας αστέρας"
+    "message": "White super giant star"
   },
   "STAR_B": {
     "description": "",
-    "message": "Λαμπερός κυανός αστέρας τύπου 'Β'"
+    "message": "Bright type 'B' blue star"
   },
   "STAR_B_GIANT": {
     "description": "",
-    "message": "Κυανός γίγαντας αστέρας"
+    "message": "Blue giant star"
   },
   "STAR_B_HYPER_GIANT": {
     "description": "",
-    "message": "Κυανός υπερ-γίγαντας αστέρας"
+    "message": "Blue hyper giant star"
   },
   "STAR_B_SUPER_GIANT": {
     "description": "",
-    "message": "Κυανός υπερ-γίγαντας αστέρας"
+    "message": "Blue super giant star"
   },
   "STAR_B_WF": {
     "description": "",
-    "message": "Αστέρας Wolf-Rayet - Κίνδυνος κατάρρευσης"
+    "message": "Wolf-Rayet star - Risk of collapse"
   },
   "STAR_F": {
     "description": "",
-    "message": "Λευκός αστέρας τύπου 'F'"
+    "message": "Type 'F' white star"
   },
   "STAR_G": {
     "description": "",
-    "message": "Κίτρινος αστέρας τύπου 'G'"
+    "message": "Type 'G' yellow star"
   },
   "STAR_G_GIANT": {
     "description": "",
-    "message": "Κίτρινος γίγαντας αστέρας - Ασταθής"
+    "message": "Yellow giant star - Unstable"
   },
   "STAR_G_HYPER_GIANT": {
     "description": "",
-    "message": "Κίτρινος υπερ-γίγαντας αστέρας - Ασταθής"
+    "message": "Yellow hyper giant star - Unstable"
   },
   "STAR_G_SUPER_GIANT": {
     "description": "",
-    "message": "Κίτρινος σούπερ γίγαντας αστέρας"
+    "message": "Yellow super giant star"
   },
   "STAR_IM_BH": {
     "description": "",
@@ -1425,59 +1425,59 @@
   },
   "STAR_K": {
     "description": "",
-    "message": "Πορτοκαλής αστέρας τύπου 'Κ'"
+    "message": "Type 'K' orange star"
   },
   "STAR_K_GIANT": {
     "description": "",
-    "message": "Πορτοκαλής γίγαντας αστέρας - Ασταθής"
+    "message": "Orange giant star - Unstable"
   },
   "STAR_K_HYPER_GIANT": {
     "description": "",
-    "message": "Πορτοκαλής υπερ-γίγαντας αστέρας - Ασταθής"
+    "message": "Orange hyper giant star - Unstable"
   },
   "STAR_K_SUPER_GIANT": {
     "description": "",
-    "message": "Πορτοκαλής σούπερ γίγαντας αστέρας"
+    "message": "Orange super giant star"
   },
   "STAR_M": {
     "description": "",
-    "message": "Ερυθρός αστέρας τύπου 'Μ'"
+    "message": "Type 'M' red star"
   },
   "STAR_M_GIANT": {
     "description": "",
-    "message": "Ερυθρός γίγαντας αστέρας"
+    "message": "Red giant star"
   },
   "STAR_M_HYPER_GIANT": {
     "description": "",
-    "message": "Ερυθρός υπέρ-γίγαντας αστέρας"
+    "message": "Red hyper giant star"
   },
   "STAR_M_SUPER_GIANT": {
     "description": "",
-    "message": "Ερυθρός σούπερ γίγαντας αστέρας"
+    "message": "Red super giant star"
   },
   "STAR_M_WF": {
     "description": "",
-    "message": "Wolf-Rayet αστέρας - Ασταθής"
+    "message": "Wolf-Rayet star - Unstable"
   },
   "STAR_O": {
     "description": "",
-    "message": "Θερμός, βαρύς αστέρας τύπου 'Ο'"
+    "message": "Hot, massive type 'O' star"
   },
   "STAR_O_GIANT": {
     "description": "",
-    "message": "Θερμός κυανός γίγαντας αστέρας"
+    "message": "Hot Blue giant star"
   },
   "STAR_O_HYPER_GIANT": {
     "description": "",
-    "message": "Θερμός κυανός υπερ-γίγαντας αστέρας"
+    "message": "Hot Blue hyper giant star"
   },
   "STAR_O_SUPER_GIANT": {
     "description": "",
-    "message": "Θερμός κυανός σούπερ γίγαντας αστέρας"
+    "message": "Hot Blue super giant star"
   },
   "STAR_O_WF": {
     "description": "",
-    "message": "Wolf-Rayet αστέρας - Επικείμενη κατάρρευση"
+    "message": "Wolf-Rayet star - Imminent collapse"
   },
   "STAR_SM_BH": {
     "description": "",
@@ -1485,7 +1485,7 @@
   },
   "STAR_SYSTEM_INFORMATION": {
     "description": "",
-    "message": "Πληροφορίες συστήματος αστέρων"
+    "message": "Star system information"
   },
   "STAR_S_BH": {
     "description": "",
@@ -1497,11 +1497,11 @@
   },
   "SURFACE_GRAVITY": {
     "description": "",
-    "message": "Επιφανειακή βαρύτητα"
+    "message": "Surface gravity"
   },
   "SURFACE_TEMPERATURE": {
     "description": "",
-    "message": "Θερμοκρασία επιφάνειας"
+    "message": "Surface temperature"
   },
   "SWAP_SELECTED_HYPERSPACE_TARGET": {
     "description": "",
@@ -1617,7 +1617,7 @@
   },
   "TOMBSTONE_EPITAPH": {
     "description": "shown on tombstone when player dies",
-    "message": "ΑΙΩΝΊΑ Η ΜΝΗΜΗ"
+    "message": "RIP OLD BEAN"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
@@ -1641,7 +1641,7 @@
   },
   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
     "description": "",
-    "message": "Μη εξερευνημένο σύστημα. Οι πληροφορίες για τα αστέρια έχουν συγκεντρωθεί με απομακρυσμένο τηλεσκόπιο, αλλά δεν υπάρχουν διαθέσιμες πλανητικές πληροφορίες."
+    "message": "Ανεξερεύνητο σύστημα. Οι πληροφορίες για τα αστέρια έχουν συγκεντρωθεί με τηλεσκόπιο, αλλά δεν υπάρχουν πληροφορίες για τους πλανήτες."
   },
   "UNIT_AU": {
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
@@ -1729,7 +1729,7 @@
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
-    "message": "Πολύ μεγάλος γίγαντας φυσικού αερίου"
+    "message": "Very large gas giant"
   },
   "VIEW": {
     "description": "",

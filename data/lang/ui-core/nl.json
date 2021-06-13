@@ -1947,6 +1947,10 @@
     "description": "Arm of the Milky Way galaxy",
     "message": "3kpc-arm"
   },
+  "TOGGLE_FULL_COMMS_WINDOW": {
+    "description": "on world view / main screen",
+    "message": "Toggle full comms window"
+  },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
     "message": "Wissel man/vrouw"
