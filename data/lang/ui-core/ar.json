@@ -1947,6 +1947,10 @@
     "description": "Arm of the Milky Way galaxy",
     "message": "ذراع 3pkc"
   },
+  "TOGGLE_FULL_COMMS_WINDOW": {
+    "description": "on world view / main screen",
+    "message": "Toggle full comms window"
+  },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
     "message": "تبديل ذكر/أنثي"

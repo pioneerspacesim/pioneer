@@ -81,11 +81,11 @@
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",
-    "message": "Θα διαθέσουμε μόνο τόσους τόνους {radioactives} όσους {military_fuel} τόνους έχετε αγοράσει από εμάς."
+    "message": "Αποδεχόμαστε μόνο τόσους τόνους {radioactives} όσους {military_fuel} τόνους έχετε αγοράσει από εμάς."
   },
   "WHAT_CONDITIONS_APPLY": {
     "description": "",
-    "message": "Ποιες προϋποθέσεις ισχύουν για την απόρριψη {radioactives}"
+    "message": "Οι προϋποθέσεις απόρριψη για τα {radioactives}, είναι;"
   },
   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
     "description": "",
