@@ -51,6 +51,32 @@ static int l_format_date(lua_State *l)
 }
 
 /*
+ * Function: DateOnly
+ *
+ * Create a string representation of the given date value, without time.
+ *
+ * > string = Format.DateOnly(date)
+ *
+ * Parameters:
+ *
+ *   date - a date/time value, as seconds since 3200-01-01  00:00:00
+ *
+ * Return:
+ *
+ *   string - the string representation of the date
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_format_date_only(lua_State *l)
+{
+	double t = luaL_checknumber(l, 1);
+	lua_pushstring(l, format_date_only(t).c_str());
+	return 1;
+}
+
+/*
  * Function: Distance
  *
  * Create a string representation of the given distance value.
@@ -153,6 +179,7 @@ void LuaFormat::Register()
 
 	static const luaL_Reg l_methods[] = {
 		{ "Date", l_format_date },
+		{ "DateOnly", l_format_date_only },
 		{ "Distance", l_format_distance },
 		{ "Money", l_format_money },
 		{ "AccelG", l_format_accel_g },

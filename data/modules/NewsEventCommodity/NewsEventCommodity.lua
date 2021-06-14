@@ -252,7 +252,7 @@ local createNewsEvent = function (timeInHyper)
 		system = system.name,
 		cargo = Equipment.cargo[cargo]:GetName(),
 		-- Turn string "23:09:27 3 Jan 3200" into "3 Jan 3200:"
-		date  = string.match(Format.Date(date), "%d+ %w+ %d+$")
+		date  = Format.DateOnly(date),
 	})
 	table.insert(news, newsEvent)
 
