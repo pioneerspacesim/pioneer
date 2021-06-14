@@ -1949,7 +1949,7 @@
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
-    "message": "Toggle full comms window"
+    "message": "Преглед на съобщенията"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",

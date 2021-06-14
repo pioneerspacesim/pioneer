@@ -21,7 +21,7 @@
   },
   "EXPLORED_SYSTEM": {
     "description": "",
-    "message": "Εξερευνημένο σύστημα με {bodycount} μείζονα {body}."
+    "message": "Explored system with {bodycount} major {bodies}."
   },
   "GETTING_SENSOR_DATA": {
     "description": "Shown when entering an unexplored system",

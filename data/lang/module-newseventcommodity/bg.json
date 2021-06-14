@@ -273,22 +273,22 @@
   },
   "TITLE_0": {
     "description": "",
-    "message": "Пресен репортаж от {newspaper}"
+    "message": "Пресен репортаж от „{newspaper}“"
   },
   "TITLE_1": {
     "description": "",
-    "message": "Новини от {newspaper}"
+    "message": "Новини от „{newspaper}“"
   },
   "TITLE_2": {
     "description": "",
-    "message": "Репортаж от {newspaper}"
+    "message": "Репортаж от „{newspaper}“"
   },
   "TITLE_3": {
     "description": "",
-    "message": "Най-новото от {newspaper}"
+    "message": "Най-новото от „{newspaper}“"
   },
   "TITLE_4": {
     "description": "",
-    "message": "Извадки от {newspaper}"
+    "message": "Извадки от „{newspaper}“"
   }
 }

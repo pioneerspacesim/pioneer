@@ -25,7 +25,7 @@
   },
   "FLAVOUR_1_PRICE": {
     "description": "",
-    "message": "Το κόστος συντήρησης του {drive} σας θα είναι {τιμή}\n{τελευταία φορά}"
+    "message": "Το κόστος συντήρησης τον δικό σας {drive} θα είναι {τιμή}\n{τελευταία φορά}"
   },
   "FLAVOUR_1_RESPONSE": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "FLAVOUR_2_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nΓια το {drive} σας, θα επιβλέπω ο ίδιος την εργασία, ώστε να είστε βέβαιοι ότι θα γίνει καλή δουλειά, για το σύνολο των {price}."
+    "message": "\n\n{lasttime}\nΓια τον δικό σας {drive}, θα επιβλέπω ο ίδιος την εργασία, ώστε να είστε βέβαιοι ότι θα γίνει καλή δουλειά, για το σύνολο των {price}."
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "FLAVOUR_3_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nΜπορούμε να συντονίσουμε το {drive} σας με μόλις {price}. Δεν υπάρχει κανένας φθηνότερος!"
+    "message": "\n\n{lasttime}\nΜπορούμε να συντονίσουμε τον {drive} σας με μόλις {price}. Δεν υπάρχει κανένας φθηνότερος!"
   },
   "FLAVOUR_3_RESPONSE": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
-    "message": "\n{lasttime}\nΗ συντήρηση του {drive} σας θα κοστίσει {price}. Θα θέλατε να προχωρήσουμε στο σέρβις;"
+    "message": "\n{lasttime}\nΗ συντήρηση του δικού σας {drive} θα κοστίσει {price}. Θέλετε να προχωρήσουμε στο σέρβις;"
   },
   "FLAVOUR_4_RESPONSE": {
     "description": "",

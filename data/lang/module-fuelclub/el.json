@@ -81,7 +81,7 @@
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",
-    "message": "Αποδεχόμαστε μόνο τόσους τόνους {radioactives} όσους {military_fuel} τόνους έχετε αγοράσει από εμάς."
+    "message": "Αποδεχόμαστε μόνο τόσους τόνους {radioactives} όσους τόνους {military_fuel} έχετε αγοράσει από εμάς."
   },
   "WHAT_CONDITIONS_APPLY": {
     "description": "",

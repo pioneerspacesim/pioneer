@@ -1033,7 +1033,7 @@
   },
   "HYPERDRIVE": {
     "description": "",
-    "message": "Υπερκινητήρας"
+    "message": "Υπερκινητήρα"
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
@@ -2013,7 +2013,7 @@
   },
   "TYPE": {
     "description": "",
-    "message": "Τύπος"
+    "message": "Type"
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",

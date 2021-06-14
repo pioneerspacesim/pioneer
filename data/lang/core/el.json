@@ -17,7 +17,7 @@
   },
   "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
     "description": "",
-    "message": "\" και ένα πολύ περίπλοκο οικοσύστημα.\""
+    "message": "\" and a highly complex ecosystem.\""
   },
   "AND_INDIGENOUS_MICROBIAL_LIFE": {
     "description": "",
@@ -1353,7 +1353,7 @@
   },
   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
     "description": "",
-    "message": "Σταθερό σύστημα με %bodycount κύρια %{body(s)} και %portcount  {starport (s)}"
+    "message": "Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}"
   },
   "STARPORT": {
     "description": "",
@@ -1625,7 +1625,7 @@
   },
   "TRIPLE_SYSTEM": {
     "description": "",
-    "message": "Τριπλό σύστημα"
+    "message": "Triple system"
   },
   "UNDOCKING": {
     "description": "Flight state of ship when leaving station",
