@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "graphics/VertexBuffer.h"
+#include "graphics/Types.h"
 
 namespace Graphics {
 
@@ -129,9 +130,10 @@ namespace Graphics {
 	}
 
 	// ------------------------------------------------------------
-	IndexBuffer::IndexBuffer(Uint32 size, BufferUsage usage) :
+	IndexBuffer::IndexBuffer(Uint32 size, BufferUsage usage, IndexBufferSize elem) :
 		Mappable(size),
 		m_indexCount(size),
+		m_elemSize(elem),
 		m_usage(usage)
 	{
 	}

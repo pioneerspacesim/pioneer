@@ -140,7 +140,7 @@ namespace Graphics {
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0; //returns nullptr if unsupported
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) = 0;
-		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) = 0;
+		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize = INDEX_BUFFER_32BIT) = 0;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
 
 		// Create a new mesh object that wraps the given vertex and index buffers.

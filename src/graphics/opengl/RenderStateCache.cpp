@@ -29,8 +29,12 @@ void RenderStateCache::SetRenderState(size_t hash)
 	if (hash == m_activeRenderStateHash)
 		return;
 
-	const RenderStateDesc &rsd = GetRenderState(hash);
+	ApplyRenderState(GetRenderState(hash));
+	m_activeRenderStateHash = hash;
+}
 
+void RenderStateCache::ApplyRenderState(const RenderStateDesc &rsd)
+{
 	if (rsd.blendMode != m_activeRenderState.blendMode || !m_activeRenderStateHash) {
 		switch (rsd.blendMode) {
 		case BLEND_SOLID:
@@ -99,7 +103,6 @@ void RenderStateCache::SetRenderState(size_t hash)
 	}
 
 	m_activeRenderState = rsd;
-	m_activeRenderStateHash = hash;
 }
 
 static size_t HashRenderStateDesc(const RenderStateDesc &desc)

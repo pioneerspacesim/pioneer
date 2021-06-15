@@ -58,6 +58,7 @@ namespace Graphics {
 			// and cache the VAO needed for it.
 			size_t InternVertexAttribSet(Graphics::AttributeSet attribSet);
 
+			void ApplyRenderState(const RenderStateDesc &rsd);
 			void ResetFrame();
 
 			std::vector<TextureGL *> m_textureCache;

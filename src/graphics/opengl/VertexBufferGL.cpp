@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "graphics/opengl/VertexBufferGL.h"
+#include "SDL_stdinc.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "graphics/opengl/RendererGL.h"
@@ -406,20 +407,26 @@ namespace Graphics {
 		}
 
 		// ------------------------------------------------------------
-		IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint) :
-			Graphics::IndexBuffer(size, hint)
+		IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint, IndexBufferSize elem) :
+			Graphics::IndexBuffer(size, hint, elem)
 		{
 			assert(size > 0);
 
 			const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
+			const GLuint gl_size = (elem == INDEX_BUFFER_16BIT ? sizeof(Uint16) : sizeof(Uint32)) * m_size;
 			glGenBuffers(1, &m_buffer);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint32) * m_size, 0, usage);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, gl_size, 0, usage);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 			if (GetUsage() != BUFFER_USAGE_STATIC) {
-				m_data = new Uint32[size];
-				memset(m_data, 0, sizeof(Uint32) * size);
+				if (elem == INDEX_BUFFER_16BIT) {
+					m_data16 = new Uint16[size];
+					memset(m_data, 0, sizeof(Uint16) * size);
+				} else {
+					m_data = new Uint32[size];
+					memset(m_data, 0, sizeof(Uint32) * size);
+				}
 			} else
 				m_data = nullptr;
 		}
@@ -427,7 +434,10 @@ namespace Graphics {
 		IndexBuffer::~IndexBuffer()
 		{
 			glDeleteBuffers(1, &m_buffer);
-			delete[] m_data;
+			if (m_elemSize == INDEX_BUFFER_16BIT)
+				delete[] m_data16;
+			else
+				delete[] m_data;
 		}
 
 		Uint32 *IndexBuffer::Map(BufferMapMode mode)
@@ -446,6 +456,22 @@ namespace Graphics {
 			return m_data;
 		}
 
+		Uint16 *IndexBuffer::Map16(BufferMapMode mode)
+		{
+			assert(mode != BUFFER_MAP_NONE);	  //makes no sense
+			assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
+			m_mapMode = mode;
+			if (GetUsage() == BUFFER_USAGE_STATIC) {
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
+				if (mode == BUFFER_MAP_READ)
+					return reinterpret_cast<Uint16 *>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_ONLY));
+				else if (mode == BUFFER_MAP_WRITE)
+					return reinterpret_cast<Uint16 *>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
+			}
+
+			return m_data16;
+		}
+
 		void IndexBuffer::Unmap()
 		{
 			assert(m_mapMode != BUFFER_MAP_NONE); //not currently mapped
@@ -456,8 +482,13 @@ namespace Graphics {
 			} else {
 				if (m_mapMode == BUFFER_MAP_WRITE) {
 					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-					glBufferData(GL_ARRAY_BUFFER, sizeof(Uint32) * m_size, 0, GL_DYNAMIC_DRAW);
-					glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint32) * m_size, m_data);
+					if (m_elemSize == INDEX_BUFFER_16BIT) {
+						glBufferData(GL_ARRAY_BUFFER, sizeof(Uint16) * m_size, 0, GL_DYNAMIC_DRAW);
+						glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint16) * m_size, m_data16);
+					} else {
+						glBufferData(GL_ARRAY_BUFFER, sizeof(Uint32) * m_size, 0, GL_DYNAMIC_DRAW);
+						glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint32) * m_size, m_data);
+					}
 					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 				}
 			}

@@ -4,6 +4,7 @@
 #ifndef OGL_VERTEXBUFFER_H
 #define OGL_VERTEXBUFFER_H
 #include "OpenGLLibs.h"
+#include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
 
 namespace Graphics {
@@ -67,10 +68,11 @@ namespace Graphics {
 
 		class IndexBuffer : public Graphics::IndexBuffer, public GLBufferBase {
 		public:
-			IndexBuffer(Uint32 size, BufferUsage);
+			IndexBuffer(Uint32 size, BufferUsage, IndexBufferSize);
 			~IndexBuffer();
 
 			virtual Uint32 *Map(BufferMapMode) override final;
+			virtual Uint16 *Map16(BufferMapMode) override final;
 			virtual void Unmap() override final;
 
 			// change the buffer data without mapping
@@ -81,6 +83,7 @@ namespace Graphics {
 
 		private:
 			Uint32 *m_data;
+			Uint16 *m_data16;
 		};
 
 		// Instance buffer

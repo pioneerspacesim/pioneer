@@ -18,6 +18,7 @@ namespace Graphics {
 		//ATTRIB_UV1       = (1u << 4),
 		ATTRIB_TANGENT = (1u << 5),
 		//ATTRIB_BITANGENT = (1u << 6)
+		ATTRIB_POSITION2D = (1u << 7),
 		//etc.
 	};
 
@@ -70,6 +71,11 @@ namespace Graphics {
 		BUFFER_MAP_NONE,
 		BUFFER_MAP_WRITE,
 		BUFFER_MAP_READ
+	};
+
+	enum IndexBufferSize {
+		INDEX_BUFFER_16BIT,
+		INDEX_BUFFER_32BIT
 	};
 
 	// clang-format off

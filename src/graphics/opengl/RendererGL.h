@@ -91,7 +91,7 @@ namespace Graphics {
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override final;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) override final;
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) override final;
-		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override final;
+		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize) override final;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override final;
 		OGL::UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage);
 		virtual MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) override final;

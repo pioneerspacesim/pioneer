@@ -134,9 +134,10 @@ namespace Graphics {
 	// Index buffer
 	class IndexBuffer : public Mappable {
 	public:
-		IndexBuffer(Uint32 size, BufferUsage);
+		IndexBuffer(Uint32 size, BufferUsage, IndexBufferSize);
 		virtual ~IndexBuffer();
 		virtual Uint32 *Map(BufferMapMode) = 0;
+		virtual Uint16 *Map16(BufferMapMode) = 0;
 
 		// change the buffer data without mapping
 		virtual void BufferData(const size_t, void *) = 0;
@@ -144,12 +145,14 @@ namespace Graphics {
 		Uint32 GetIndexCount() const { return m_indexCount; }
 		void SetIndexCount(Uint32);
 		BufferUsage GetUsage() const { return m_usage; }
+		IndexBufferSize GetElementSize() const { return m_elemSize; }
 
 		virtual void Bind() = 0;
 		virtual void Release() = 0;
 
 	protected:
 		Uint32 m_indexCount;
+		IndexBufferSize m_elemSize;
 		BufferUsage m_usage;
 	};
 

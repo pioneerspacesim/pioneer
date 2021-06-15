@@ -4,6 +4,7 @@
 #ifndef DUMMY_VERTEXBUFFER_H
 #define DUMMY_VERTEXBUFFER_H
 
+#include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
 
 namespace Graphics {
@@ -37,11 +38,17 @@ namespace Graphics {
 
 		class IndexBuffer : public Graphics::IndexBuffer {
 		public:
-			IndexBuffer(Uint32 size, BufferUsage bu) :
-				Graphics::IndexBuffer(size, bu),
-				m_buffer(new Uint32[size]){};
+			IndexBuffer(Uint32 size, BufferUsage bu, IndexBufferSize el) :
+				Graphics::IndexBuffer(size, bu, el)
+			{
+				if (el == INDEX_BUFFER_16BIT)
+					m_buffer.reset(new Uint32[size]);
+				else
+					m_buffer16.reset(new Uint16[size]);
+			}
 
 			virtual Uint32 *Map(BufferMapMode) override final { return m_buffer.get(); }
+			virtual Uint16 *Map16(BufferMapMode) override final { return m_buffer16.get(); }
 			virtual void Unmap() override final {}
 
 			virtual void BufferData(const size_t, void *) override final {}
@@ -51,6 +58,7 @@ namespace Graphics {
 
 		private:
 			std::unique_ptr<Uint32[]> m_buffer;
+			std::unique_ptr<Uint16[]> m_buffer16;
 		};
 
 		// Instance buffer

@@ -618,6 +618,8 @@ namespace Graphics {
 
 		// Make sure we set the active FBO to our "default" window target
 		m_renderStateCache->SetRenderTarget(m_windowRenderTarget, m_viewport);
+		// Reset to a "known good" render state (disable scissor etc.)
+		m_renderStateCache->ApplyRenderState(RenderStateDesc{});
 
 		// TODO(sturnclaw): handle upscaling to higher-resolution screens
 		// we'll need an intermediate target to resolve to; resolve and rescale are mutually exclusive
@@ -812,14 +814,13 @@ namespace Graphics {
 
 	bool RendererOGL::DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *mat)
 	{
-		if ((v->GetSize() <= vtxOffset) || (i && i->GetSize() <= idxOffset))
-			return false;
 		if (!numElems)
 			return false;
 
+		uint32_t indexSize = i && i->GetElementSize() == INDEX_BUFFER_16BIT ? sizeof(uint16_t) : sizeof(uint32_t);
 		m_drawCommandList->AddDynamicDrawCmd(
 			{ v, vtxOffset * v->GetDesc().stride, numElems },
-			{ i, i == nullptr ? 0 : idxOffset * uint32_t(sizeof(uint32_t)), numElems },
+			{ i, i == nullptr ? 0 : idxOffset * indexSize, numElems },
 			mat);
 
 		return true;
@@ -895,6 +896,11 @@ namespace Graphics {
 		}
 	}
 
+	static GLuint get_element_size(OGL::IndexBuffer *idx)
+	{
+		return idx->GetElementSize() == INDEX_BUFFER_16BIT ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
+	}
+
 	bool RendererOGL::DrawMeshInternal(OGL::MeshObject *mesh, PrimitiveType type)
 	{
 		PROFILE_SCOPED()
@@ -905,7 +911,7 @@ namespace Graphics {
 		if (mesh->m_idxBuffer.Valid()) {
 			// FIXME: terrain segfaults without this BindBuffer call
 			// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->m_idxBuffer->GetBuffer());
-			glDrawElements(type, numElems, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(type, numElems, get_element_size(mesh->m_idxBuffer.Get()), nullptr);
 		} else
 			glDrawArrays(type, 0, numElems);
 
@@ -924,7 +930,7 @@ namespace Graphics {
 		inst->Bind();
 
 		if (mesh->m_idxBuffer.Valid()) {
-			glDrawElementsInstanced(type, numElems, GL_UNSIGNED_INT, nullptr, inst->GetInstanceCount());
+			glDrawElementsInstanced(type, numElems, get_element_size(mesh->m_idxBuffer.Get()), nullptr, inst->GetInstanceCount());
 		} else {
 			glDrawArraysInstanced(type, 0, numElems, inst->GetInstanceCount());
 		}
@@ -944,7 +950,7 @@ namespace Graphics {
 		glBindVertexBuffer(0, vtxBind.buffer->GetBuffer(), vtxBind.offset, vtxBind.buffer->GetDesc().stride);
 		if (idxBind.buffer) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBind.buffer->GetBuffer());
-			glDrawElements(type, idxBind.size, GL_UNSIGNED_INT, (void *)(uintptr_t)(idxBind.offset));
+			glDrawElements(type, idxBind.size, get_element_size(idxBind.buffer), (void *)(uintptr_t)(idxBind.offset));
 		} else {
 			glDrawArrays(type, 0, vtxBind.size);
 		}
@@ -1080,10 +1086,10 @@ namespace Graphics {
 		return new OGL::VertexBuffer(desc, stateHash);
 	}
 
-	IndexBuffer *RendererOGL::CreateIndexBuffer(Uint32 size, BufferUsage usage)
+	IndexBuffer *RendererOGL::CreateIndexBuffer(Uint32 size, BufferUsage usage, IndexBufferSize el)
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
-		return new OGL::IndexBuffer(size, usage);
+		return new OGL::IndexBuffer(size, usage, el);
 	}
 
 	InstanceBuffer *RendererOGL::CreateInstanceBuffer(Uint32 size, BufferUsage usage)
