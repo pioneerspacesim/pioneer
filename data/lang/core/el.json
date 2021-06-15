@@ -21,11 +21,11 @@
   },
   "AND_INDIGENOUS_MICROBIAL_LIFE": {
     "description": "",
-    "message": "\" και γηγενής μικροβιακή ζωή.\""
+    "message": "\" and indigenous microbial life.\""
   },
   "AND_INDIGENOUS_PLANT_LIFE": {
     "description": "",
-    "message": "\" και γηγενής φυτική ζωή.\""
+    "message": "\" and indigenous plant life.\""
   },
   "ANIMAL_MEAT": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "\" Ατμόσφαιρα Αργού\""
+    "message": "\" Argon atmosphere\""
   },
   "ASTEROID": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "BODIES": {
     "description": "space bodies",
-    "message": "σώματα"
+    "message": "bodies"
   },
   "BODY": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "BROWN_DWARF": {
     "description": "",
-    "message": "Υπο-αστρικό αντικείμενο καφέ νάνου"
+    "message": "Brown dwarf sub-stellar object"
   },
   "CAMERA_BOTTOM_VIEW": {
     "description": "",
@@ -169,19 +169,19 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "\"Ατμόσφαιρα μεθανίου\""
+    "message": "\" Methane atmosphere\""
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\"Ατμόσφαιρα διοξειδίου του άνθρακα\""
+    "message": "\" Carbon Dioxide atmosphere\""
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
-    "message": ", πολύ ηφαιστειακό"
+    "message": ", highly volcanic"
   },
   "COMMODITY_NONE": {
     "description": "When no commodities exist",
-    "message": "Τίποτε"
+    "message": "Κανένα"
   },
   "COMMODITY_TRADE_ANALYSIS_COMPARE": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "COUNT_ON_SURFACE": {
     "description": "",
-    "message": "\" (%surfacecount στην επιφάνεια)\""
+    "message": "\" (%surfacecount on surface)\""
   },
   "COUNT_STARPORTS": {
     "description": "",
@@ -269,7 +269,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "\" Ατμόσφαιρα μονοξειδίου του άνθρακα\""
+    "message": "\" Carbon Monoxide atmosphere\""
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -413,7 +413,7 @@
   },
   "GALACTIC_VIEW": {
     "description": "view galactic map",
-    "message": "Όψη Γαλαξία"
+    "message": "Άποψη Γαλαξία"
   },
   "GALAXY_SECTOR_VIEW": {
     "description": "",
@@ -497,11 +497,11 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "\" Ατμόσφαιρα Ηλίου\""
+    "message": "\" Helium atmosphere\""
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
-    "message": "Πολύ ηφαιστειακό"
+    "message": "Highly volcanic"
   },
   "HIGH_POPULATION_OUTDOOR_WORLD": {
     "description": "",
@@ -561,11 +561,11 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "\" Ατμόσφαιρα Υδρογόνου\""
+    "message": "\" Hydrogen atmosphere\""
   },
   "ICE_WORLD": {
     "description": "",
-    "message": "\" κόσμος πάγου\""
+    "message": "\" ice world\""
   },
   "ILLEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -629,7 +629,7 @@
   },
   "LARGE": {
     "description": "regarding terrestrial planet size (mass actually)",
-    "message": "μέγας"
+    "message": "Large"
   },
   "LARGE_GAS_GIANT": {
     "description": "",
@@ -677,7 +677,7 @@
   },
   "LONGITUDE": {
     "description": "Short for longitude",
-    "message": "Long:"
+    "message": "Μήκ:"
   },
   "LONGITUDE_EAST_ABBREV": {
     "description": "Abbreviation letter for longitude 'east'",
@@ -845,7 +845,7 @@
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
-    "message": "Ονομασία"
+    "message": "Εξοπλισμός"
   },
   "NAME_PERSON": {
     "description": "For a person",
@@ -881,7 +881,7 @@
   },
   "NO_ALERT": {
     "description": "",
-    "message": "Άνευ συναγερμού"
+    "message": "Παύση συναγερμού"
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
@@ -901,7 +901,7 @@
   },
   "NO_REGISTERED_INHABITANTS": {
     "description": "",
-    "message": "Χωρίς εγγεγραμμένους κατοίκους"
+    "message": "Χωρίς καταχωρημένο πληθυσμό"
   },
   "NO_TARGET_SELECTED": {
     "description": "",
@@ -909,7 +909,7 @@
   },
   "NUMBER_DAYS": {
     "description": "",
-    "message": "%days{f.0} μέρες"
+    "message": "%days{f.0} days"
   },
   "NUMBER_DECIMAL_POINT": {
     "description": "Decimal delimiter used in numbers.",
@@ -933,7 +933,7 @@
   },
   "NUMBER_HOURS": {
     "description": "",
-    "message": "%hours{f.1} ώρες"
+    "message": "%hours{f.1} hrs"
   },
   "NUMBER_LY": {
     "description": "",
@@ -945,7 +945,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "\" Ατμόσφαιρα αζώτου\""
+    "message": "\" Nitrogen atmosphere\""
   },
   "N_CELSIUS": {
     "description": "",
@@ -953,15 +953,15 @@
   },
   "N_DAYS": {
     "description": "",
-    "message": "%days{f.1} μέρες"
+    "message": "%days{f.1} days"
   },
   "N_DEGREES": {
     "description": "",
-    "message": "%angle{f.1} μοίρες"
+    "message": "%angle{f.1} degrees"
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} μέρες Γης"
+    "message": "%days{f.1} Earth days"
   },
   "N_EARTH_MASSES": {
     "description": "",
@@ -981,11 +981,11 @@
   },
   "N_YEARS": {
     "description": "",
-    "message": "%years{f.1} έτη"
+    "message": "%years{f.1} years"
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "\" Ατμόσφαιρα οξυγόνου\""
+    "message": "\" Oxygen atmosphere\""
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
@@ -993,7 +993,7 @@
   },
   "OCEANICWORLD": {
     "description": "",
-    "message": "\" ωκεάνιος κόσμος\""
+    "message": "\" oceanic world\""
   },
   "ORBITAL_PERIOD": {
     "description": "",
@@ -1177,7 +1177,7 @@
   },
   "ROTATIONAL_PERIOD": {
     "description": "",
-    "message": "\" (Περίοδος περιστροφής)\""
+    "message": "\" (rotational period)\""
   },
   "ROTATION_DAMPING_OFF": {
     "description": "",
@@ -1321,7 +1321,7 @@
   },
   "SMALL": {
     "description": "",
-    "message": "Μικρό"
+    "message": "Small"
   },
   "SMALL_GAS_GIANT": {
     "description": "",
@@ -1533,7 +1533,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "\" Θειική ατμόσφαιρα\""
+    "message": "\" Sulfuric atmosphere\""
   },
   "TAKEOFF": {
     "description": "",
@@ -1545,7 +1545,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "Πολύ λεπτή"
+    "message": "tenuous"
   },
   "TEXTILES": {
     "description": "",
@@ -1557,7 +1557,7 @@
   },
   "THIN": {
     "description": "",
-    "message": "αραιός"
+    "message": "thin"
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1593,7 +1593,7 @@
   },
   "TINY": {
     "description": "",
-    "message": "Μικροσκοπικό"
+    "message": "Tiny"
   },
   "TOGGLE_EQUIPMENT_VIEW": {
     "description": "Tooltip for the Equipment View button",
@@ -1725,7 +1725,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "πολύ πυκνό"
+    "message": "very dense"
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1761,7 +1761,7 @@
   },
   "WHITE_DWARF": {
     "description": "",
-    "message": "Αστρικό υπόλοιπο Λευκού νάνου"
+    "message": "White dwarf stellar remnant"
   },
   "WITH_A": {
     "description": "",
@@ -1769,7 +1769,7 @@
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",
-    "message": "\" χωρίς σημαντική ατμόσφαιρα\""
+    "message": "\" with no significant atmosphere\""
   },
   "YAW": {
     "description": "",
