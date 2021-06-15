@@ -23,9 +23,9 @@ namespace PiGui {
 		m_texture.Reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).GetOrCreateTexture(Pi::renderer, std::string("face")));
 	}
 
-	Uint32 Face::GetTextureId()
+	void *Face::GetImTextureID()
 	{
-		return m_texture->GetTextureID();
+		return m_texture.Get();
 	}
 
 	vector2f Face::GetTextureSize()

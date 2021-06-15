@@ -23,7 +23,7 @@ namespace PiGui {
 		static int l_image_attr_texture_id(lua_State *l)
 		{
 			Image *i = LuaObject<PiGui::Image>::CheckFromLua(1);
-			lua_pushlightuserdata(l, reinterpret_cast<void *>(i->GetId()));
+			lua_pushlightuserdata(l, i->GetImTextureID());
 
 			return 1;
 		}

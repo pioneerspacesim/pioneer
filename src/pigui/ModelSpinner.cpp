@@ -79,13 +79,6 @@ void ModelSpinner::Render()
 	r->SetRenderTarget(nullptr);
 }
 
-ImTextureID ModelSpinner::GetTextureID()
-{
-	// Upconvert a GLuint to uint64_t before casting to void *.
-	// This is downconverted to GLuint later by ImGui_ImplOpenGL3.
-	return reinterpret_cast<ImTextureID>(m_renderTarget.get()->GetColorTexture()->GetTextureID() | 0UL);
-}
-
 void ModelSpinner::SetSize(vector2d size)
 {
 	vector2f new_size = static_cast<vector2f>(size);
@@ -102,7 +95,7 @@ void ModelSpinner::DrawPiGui()
 	if (m_renderTarget) {
 		// Draw the image and stretch it over the available region.
 		// ImGui inverts the vertical axis to get top-left coordinates, so we need to invert our UVs to match.
-		ImGui::Image(GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image(m_renderTarget->GetColorTexture(), size, ImVec2(0, 1), ImVec2(1, 0));
 	} else {
 		ImGui::Dummy(size);
 	}

@@ -163,11 +163,6 @@ void PerfInfo::SetUpdatePause(bool pause)
 //
 // ============================================================================
 
-ImTextureID GetImTextureID(const Graphics::Texture *tex)
-{
-	return reinterpret_cast<ImTextureID>(tex->GetTextureID() | 0UL);
-}
-
 namespace ImGui {
 	IMGUI_API void Value(const char *prefix, const std::string &str)
 	{
@@ -471,7 +466,7 @@ bool DrawTexture(PerfInfo::ImGuiState *m_state, const Graphics::Texture *tex)
 	auto pos0 = ImGui::GetCursorPos();
 
 	const vector2f texUVs = tex->GetDescriptor().texSize;
-	ImGui::Image(GetImTextureID(tex), { 128, 128 }, { 0, 0 }, { texUVs.x, texUVs.y });
+	ImGui::Image(ImTextureID(tex), { 128, 128 }, { 0, 0 }, { texUVs.x, texUVs.y });
 
 	auto pos1 = ImGui::GetCursorPos();
 	ImGui::SetCursorPos(pos0);
@@ -552,7 +547,7 @@ void PerfInfo::DrawTextureInspector()
 
 			// If we have POT-extended textures, only display the part of the texture corresponding to the actual texture data.
 			const vector2f texUVs = tex->GetDescriptor().texSize;
-			ImGui::Image(GetImTextureID(tex), { 256, 256 }, { 0, 0 }, { texUVs.x, texUVs.y });
+			ImGui::Image(ImTextureID(tex), { 256, 256 }, { 0, 0 }, { texUVs.x, texUVs.y });
 			ImGui::Text("Dimensions: %ux%u", uint32_t(descriptor.dataSize.x), uint32_t(descriptor.dataSize.y));
 			ImGui::Value("Mipmap Count", tex->GetDescriptor().numberOfMipMaps);
 			ImGui::Value("VRAM Size", tex->GetTextureMemSize());

@@ -10,9 +10,6 @@ namespace Graphics {
 	class RenderTarget;
 }
 
-// Forward declare this type from imgui.h
-using ImTextureID = void *;
-
 #include "Shields.h"
 #include "scenegraph/Model.h"
 #include "scenegraph/ModelSkin.h"
@@ -58,7 +55,6 @@ namespace PiGui {
 		Graphics::Light m_light;
 
 		void CreateRenderTarget();
-		ImTextureID GetTextureID();
 
 		// The size of the render target.
 		vector2f m_size;

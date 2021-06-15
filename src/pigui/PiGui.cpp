@@ -4,16 +4,15 @@
 #include "PiGui.h"
 #include "Input.h"
 #include "Pi.h"
+#include "PiGuiRenderer.h"
 
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
 #include "graphics/Texture.h"
 #include "graphics/opengl/RendererGL.h"
 #include "graphics/opengl/TextureGL.h" // nasty, usage of GL is implementation specific
 #include "imgui/imgui.h"
 
-// Use GLEW instead of GL3W.
-#define IMGUI_IMPL_OPENGL_LOADER_GLEW 1
-#include "imgui/examples/imgui_impl_opengl3.h"
 #include "imgui/examples/imgui_impl_sdl.h"
 
 #include <float.h>
@@ -50,7 +49,7 @@ static ImTextureID makeTexture(Graphics::Renderer *renderer, unsigned char *pixe
 	// Update it with the actual pixels, this is a two step process due to legacy code
 	pTex->Update(pixels, dataSize, Graphics::TEXTURE_RGBA_8888);
 	PiGui::GetSVGTextures().push_back(pTex); // store for cleanup later
-	return reinterpret_cast<ImTextureID>(uintptr_t(pTex->GetTextureID()));
+	return ImTextureID(pTex);
 }
 
 ImTextureID PiGui::RenderSVG(Graphics::Renderer *renderer, std::string svgFilename, int width, int height)
@@ -297,9 +296,8 @@ ImFont *Instance::AddFont(const std::string &name, int size)
 void Instance::RefreshFontsTexture()
 {
 	PROFILE_SCOPED()
-	// TODO: fix this, do the right thing, don't just re-create *everything* :)
 	ImGui::GetIO().Fonts->Build();
-	ImGui_ImplOpenGL3_CreateDeviceObjects();
+	m_instanceRenderer->CreateFontsTexture();
 }
 
 // TODO: this isn't very RAII friendly, are we sure we need to call Init() seperately from creating the instance?
@@ -307,6 +305,7 @@ void Instance::Init(Graphics::Renderer *renderer)
 {
 	PROFILE_SCOPED()
 	m_renderer = renderer;
+	m_instanceRenderer.reset(new InstanceRenderer(renderer));
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -321,11 +320,7 @@ void Instance::Init(Graphics::Renderer *renderer)
 		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
 		return;
 	case Graphics::RENDERER_OPENGL_3x:
-#ifdef __APPLE__
-		ImGui_ImplOpenGL3_Init("#version 140");
-#else
-		ImGui_ImplOpenGL3_Init();
-#endif
+		m_instanceRenderer->Initialize();
 		break;
 	}
 
@@ -351,13 +346,33 @@ void Instance::NewFrame()
 {
 	PROFILE_SCOPED()
 
+	// Iterate through our fonts and check if IMGUI wants a character we don't have.
+	for (auto &iter : m_fonts) {
+		ImFont *font = iter.second;
+		// font might be nullptr, if it wasn't baked yet
+		if (font && !font->MissingGlyphs.empty()) {
+			//			Output("%s %i is missing glyphs.\n", iter.first.first.c_str(), iter.first.second);
+			for (const auto &glyph : font->MissingGlyphs) {
+				AddGlyph(font, glyph);
+			}
+			font->MissingGlyphs.clear();
+		}
+	}
+
+	// Bake fonts before a frame is begun.
+	// This avoids any dangling texture pointers from recreating the texture between
+	// issuing draw commands and rendering
+	if (m_should_bake_fonts) {
+		BakeFonts();
+	}
+
 	switch (m_renderer->GetRendererType()) {
 	default:
 	case Graphics::RENDERER_DUMMY:
 		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
 		return;
 	case Graphics::RENDERER_OPENGL_3x:
-		ImGui_ImplOpenGL3_NewFrame();
+		m_instanceRenderer->NewFrame();
 		break;
 	}
 	ImGui_ImplSDL2_NewFrame(m_renderer->GetSDLWindow());
@@ -374,24 +389,6 @@ void Instance::EndFrame()
 	// Explicitly end frame, to show tooltips. Otherwise, they are shown at the next NextFrame,
 	// which might crash because the font atlas was rebuilt, and the old fonts were cached inside imgui.
 	ImGui::EndFrame();
-
-	// Iterate through our fonts and check if IMGUI wants a character we don't have.
-	for (auto &iter : m_fonts) {
-		ImFont *font = iter.second;
-		// font might be nullptr, if it wasn't baked yet
-		if (font && !font->MissingGlyphs.empty()) {
-			//			Output("%s %i is missing glyphs.\n", iter.first.first.c_str(), iter.first.second);
-			for (const auto &glyph : font->MissingGlyphs) {
-				AddGlyph(font, glyph);
-			}
-			font->MissingGlyphs.clear();
-		}
-	}
-
-	// Bake fonts *after* a frame is done, so the font atlas is not needed any longer
-	if (m_should_bake_fonts) {
-		BakeFonts();
-	}
 }
 
 void Instance::Render()
@@ -409,7 +406,7 @@ void Instance::Render()
 	case Graphics::RENDERER_DUMMY:
 		return;
 	case Graphics::RENDERER_OPENGL_3x:
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		m_instanceRenderer->RenderDrawData(ImGui::GetDrawData());
 		break;
 	}
 }
@@ -512,7 +509,7 @@ void Instance::Uninit()
 	case Graphics::RENDERER_DUMMY:
 		return;
 	case Graphics::RENDERER_OPENGL_3x:
-		ImGui_ImplOpenGL3_Shutdown();
+		m_instanceRenderer->Shutdown();
 		break;
 	}
 

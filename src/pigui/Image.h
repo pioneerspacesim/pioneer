@@ -14,7 +14,7 @@ namespace PiGui {
 	public:
 		explicit Image(const std::string &filename);
 
-		Uint32 GetId();
+		void *GetImTextureID();
 		vector2f GetSize();
 		vector2f GetUv();
 

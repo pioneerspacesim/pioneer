@@ -16,7 +16,7 @@ namespace PiGui {
 	public:
 		Face(FaceParts::FaceDescriptor &face, Uint32 seed = 0);
 
-		Uint32 GetTextureId();
+		void *GetImTextureID();
 		vector2f GetTextureSize();
 
 		enum Flags { // <enum scope='PiGui::Face' name=PiGuiFaceFlags public>

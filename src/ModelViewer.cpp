@@ -130,7 +130,9 @@ void ModelViewerApp::Shutdown()
 	NavLights::Uninit();
 	Graphics::Uninit();
 
+	ShutdownPiGui();
 	ShutdownRenderer();
+	ShutdownInput();
 	Application::Shutdown();
 }
 

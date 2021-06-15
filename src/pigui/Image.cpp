@@ -12,9 +12,9 @@ namespace PiGui {
 		m_texture.Reset(Graphics::TextureBuilder::UI(filename).GetOrCreateTexture(Pi::renderer, "ui"));
 	}
 
-	Uint32 Image::GetId()
+	void *Image::GetImTextureID()
 	{
-		return m_texture->GetTextureID();
+		return m_texture.Get();
 	}
 
 	vector2f Image::GetSize()
