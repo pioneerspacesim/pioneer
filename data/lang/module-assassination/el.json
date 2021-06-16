@@ -141,7 +141,7 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Για {cash}, θέλουμε να ενθαρρύνουμε τον {target} να σταματήσει να λειτουργεί επί μονίμου βάσεως."
+    "message": "Για {cash}, θέλουμε να ενθαρρύνουμε τον {target} να σταματήσει να εργάζεται επί μονίμου βάσεως."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "TITLE_18": {
     "description": "",
-    "message": "Ιδιώτη"
+    "message": "πολίτης"
   },
   "TITLE_19": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "TITLE_20": {
     "description": "",
-    "message": "Εισαγγελέα"
+    "message": "Εισαγγελέας"
   },
   "TITLE_21": {
     "description": "",

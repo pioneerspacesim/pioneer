@@ -49,7 +49,7 @@
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
-    "message": "ΝΕΑ {date}: Η αστυνομία πραγματοποιεί επιδρομή σε συνδικάτο εγκλήματος στο σύστημα {σύστημα}, συνελήφθησαν βασικοί ηγέτες."
+    "message": "ΝΕΑ {date}: Η αστυνομία πραγματοποιεί επιδρομή σε συνδικάτο εγκλήματος στο σύστημα {system}, συνελήφθησαν βασικοί ηγέτες."
   },
   "FLAVOUR_15_NEWSBODY": {
     "description": "Imply high demand of NARCOTICS.",
@@ -169,7 +169,7 @@
   },
   "FLAVOUR_7_HEADLINE": {
     "description": "",
-    "message": "ΝΕΑ {date}: Η βιομηχανία σταματάει στο {σύστημα} σύστημα."
+    "message": "ΝΕΑ {date}: Η βιομηχανία σταματάει στο {system} σύστημα."
   },
   "FLAVOUR_7_NEWSBODY": {
     "description": "Imply demand of INDUSTRIAL_MACHINERY.",

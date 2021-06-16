@@ -265,7 +265,7 @@
   },
   "COUNT_STARPORTS": {
     "description": "",
-    "message": "κοσμοδρόμια"
+    "message": "starports"
   },
   "CO_ATMOSPHERE": {
     "description": "",
@@ -845,7 +845,7 @@
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
-    "message": "Εξοπλισμός"
+    "message": "Είδος"
   },
   "NAME_PERSON": {
     "description": "For a person",

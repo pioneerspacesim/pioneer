@@ -193,7 +193,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Ανάλυση συναλλαγής εμπορευμάτων των:"
+    "message": "Ανάλυση συναλλαγών μεταξύ των:"
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
@@ -1393,7 +1393,7 @@
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
-    "message": "Εξοπλισμός"
+    "message": "Είδος"
   },
   "NAME_PERSON": {
     "description": "For a person",
