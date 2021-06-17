@@ -1001,7 +1001,7 @@
   },
   "ORBITAL_STARPORT": {
     "description": "",
-    "message": "Τροχιακό κοσμοδρόμιο"
+    "message": "Orbital starport"
   },
   "ORBIT_PLANNER": {
     "description": "",
@@ -1765,7 +1765,7 @@
   },
   "WITH_A": {
     "description": "",
-    "message": "\" μ' ένα \""
+    "message": "\" with a \""
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",

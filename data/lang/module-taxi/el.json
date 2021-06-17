@@ -241,7 +241,7 @@
   },
   "FLAVOUR_1_HOWMANY": {
     "description": "",
-    "message": "Είναι {group} από μας."
+    "message": "Θα 'ναι {group} από μας."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",

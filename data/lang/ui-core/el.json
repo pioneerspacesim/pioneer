@@ -1681,7 +1681,7 @@
   },
   "REQUEST_LAUNCH": {
     "description": "",
-    "message": "Αίτηση απογείωσης"
+    "message": "Αίτημα απογείωσης"
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",

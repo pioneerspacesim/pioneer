@@ -49,15 +49,15 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "ΕΠΙΚΉΡΥΞΗ: Αποδόμηση του {target} από το {system} σύστημα."
+    "message": "ΕΠΙΚΉΡΥΞΗ: Αποδομήσατε τον {target} από το {system} σύστημα."
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "Είμαι πολύ δυσαρεστημένος που διαπιστώνω ότι ο {target} είναι ακόμα ζωντανός. Περιττό να πούμε ότι δεν θα λάβεις καμία πληρωμή."
+    "message": "Είμαι πολύ δυσαρεστημένος που διαπιστώνω τον {target} ακόμα ζωντανό. Περιττό να πούμε ότι δεν θα λάβεις καμία πληρωμή."
   },
   "FLAVOUR_0_FAILUREMSG2": {
     "description": "",
-    "message": "Η αποδόμηση του {target} δεν έγινε από εσάς. Καμία πληρωμή αυτή τη φορά."
+    "message": "Τον {target} δεν τον αποδομήσατε εσείς. Καμία πληρωμή αυτή τη φορά."
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
-    "message": "Τα νέα για τις μεγάλες διακοπές του {target} τα λάβαμε με ευγνωμοσύνη. Μπράβο, ξεκίνησα την πλήρη πληρωμή σας."
+    "message": "Μάθαμε για τον {target}. Τα νέα, για τις μεγάλες διακοπές του, τα λάβαμε με ευγνωμοσύνη. Μπράβο, ξεκίνησα την πλήρη πληρωμή σας."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
@@ -73,7 +73,7 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "Ακούω ότι ο {target} χαίρει άκρας υγείας. Αυτό με πονάει."
+    "message": "Ακούω, για τον {target}, ότι χαίρει άκρας υγείας. Αυτό με πονάει."
   },
   "FLAVOUR_1_FAILUREMSG2": {
     "description": "",
@@ -85,11 +85,11 @@
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Λυπάμαι πολύ που ακούω τον θάνατο του {target}. Πληρωθήκατε στο ακέραιο."
+    "message": "Λυπάμαι πολύ τον {target}, που ακούω για τον θάνατό του. Πληρωθήκατε στο ακέραιο."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "ΑΦΑΙΡΕΣΗ: Ο {target} δεν είναι πλέον επιθυμητό, στο {system} σύστημα, πρόσωπο."
+    "message": "ΑΦΑΙΡΕΣΗ: Πρόκειται για τον {target}. Δεν είναι πλέον επιθυμητό, στο {system} σύστημα, πρόσωπο."
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -121,11 +121,11 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Ο {target} πρέπει να συρρικνωθεί σε διαστημική σκόνη. Θα σας ανταμοίψω με {cash} για να το κάνετε αυτό."
+    "message": "Τον {target} πρέπει να τον συρρικνώσετε σε διαστημική σκόνη. Θα σας ανταμείψω με {cash} για να το κάνετε αυτό."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Ο {target} είναι νεκρός. Ορίστε η αμοιβή σας."
+    "message": "Σε ό,τι αφορά στον {target}, είναι νεκρός. Ορίστε η αμοιβή σας."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "Ο {target} αναπνέει ακόμα και δεν σας δίνω χρήματα."
+    "message": "Μιλώντας για τον {target}, αναπνέει ακόμα και δεν σας δίνω χρήματα."
   },
   "FLAVOUR_4_FAILUREMSG2": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Τα νέα για τη συνταξιοδότηση του {target} μας συναρπάσανε. Εδώ είναι τα χρήματά σας."
+    "message": "Τα νέα, για τον {target} και την συνταξιοδότησή του, μας συναρπάσανε. Εδώ είναι τα χρήματά σας."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -153,19 +153,19 @@
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "Διαπιστώσαμε ότι ο {target} είναι αν μη τι άλλο λειτουργικός. Αυτό μας γεμίζει λύπη."
+    "message": "Διαπιστώσαμε για τον {target} ότι είναι, αν μη τι άλλο, λειτουργικός. Αυτό μας γεμίζει λύπη."
   },
   "FLAVOUR_5_FAILUREMSG2": {
     "description": "",
-    "message": "Ο {target} εξουδετερώθηκε από κάποιον άλλο."
+    "message": "Τον {target} τον εξουδετέρωσε κάποιος άλλος."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Ευχόμαστε ο {target} να έχει ένα ταιριαστό τέλος σταδιοδρομίας στο σύστημα {system} για {cash}."
+    "message": "Ευχόμαστε για τον {target} να έχει ένα ταιριαστό τέλος σταδιοδρομίας στο σύστημα {system} για {cash}."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "Μήνυμα του τέλους της καριέρας του {target} με χαρά το παραλάβαμε. Ορίστε τα {cash} σας."
+    "message": "Το μήνυμα για τον {target} και το τέλος της καριέρας του, το παραλάβαμε με χαρά. Ορίστε τα {cash} σας."
   },
   "HOW_SOON_MUST_IT_BE_DONE": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
-    "message": "Πρέπει να γίνει αφού ο {target} απομακρυνθεί από το {spaceport}. Μην χάσετε αυτήν την ευκαιρία."
+    "message": "Πρέπει να εμπλακείτε με τον {target} αφού απομακρυνθεί από το {spaceport}. Μην χάσετε αυτήν την ευκαιρία."
   },
   "OK_AGREED": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "TITLE_20": {
     "description": "",
-    "message": "Εισαγγελέας"
+    "message": "Εισαγγελέα"
   },
   "TITLE_21": {
     "description": "",
@@ -325,6 +325,6 @@
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "Ο {target} θα αναχωρήσει από το {spaceport} του {system} ({sectorX}, {sectorY}, {sectorZ}) συστήματος, απόστασης {dist} ly, στις {date}. Το σκάφος είναι {shipname} και έχει αναγνωριστικό εγγραφής {shipregid}."
+    "message": "Η αναχώρηση με τον {target} θα γίνει από το {spaceport} του {system} ({sectorX}, {sectorY}, {sectorZ}) συστήματος, απόστασης {dist} ly, στις {date}. Το σκάφος είναι {shipname} και έχει αναγνωριστικό εγγραφής {shipregid}."
   }
 }
