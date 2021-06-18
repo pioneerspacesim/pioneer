@@ -21,7 +21,7 @@
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
-    "message": "Είμαι {proprietor}. Μπορώ να εξυπηρετήσω τον υπερκινητήρα σας, εξασφαλίζοντας τουλάχιστον ένα χρόνο απόδοσης χωρίς προβλήματα."
+    "message": "Ονομάζομαι {proprietor}. Μπορώ να εξυπηρετήσω τον υπερκινητήρα σας, εξασφαλίζοντας τουλάχιστον ένα χρόνο απόδοσης χωρίς προβλήματα."
   },
   "FLAVOUR_1_PRICE": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "FLAVOUR_5_TITLE": {
     "description": "",
-    "message": "{proprietor} Engine Servicing Company"
+    "message": "{proprietor} Εταιρεία συντήρησης κινητήρων"
   },
   "FLAVOUR_5_YESPLEASE": {
     "description": "",

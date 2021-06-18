@@ -201,7 +201,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Επισκεφτείτε έναν σταθμό στην περιοχή που προστατεύεται από την {org}!"
+    "message": "Επισκεφτείτε έναν σταθμό μέσα στην προστατευόμενη από την {org} περιοχή !"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",

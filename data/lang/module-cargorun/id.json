@@ -135,6 +135,18 @@
     "description": "",
     "message": "Come back when you're more experienced."
   },
+  "DENY_AGAIN_1": {
+    "description": "",
+    "message": "Sorry, we already have a deal. However, I would be happy to do business with you again after a successful delivery."
+  },
+  "DENY_AGAIN_2": {
+    "description": "",
+    "message": "Excuse me sir, please complete our existing contract first. Then we can negotiate another delivery."
+  },
+  "DENY_AGAIN_3": {
+    "description": "",
+    "message": "Sir, please deliver my cargo first. Then I will do more business with you."
+  },
   "DIAMONDS": {
     "description": "custom cargo",
     "message": "Diamonds"
@@ -199,6 +211,10 @@
     "description": "custom cargo",
     "message": "Furniture"
   },
+  "GO_BACK": {
+    "description": "",
+    "message": "Go back."
+  },
   "GREENHOUSES": {
     "description": "custom cargo",
     "message": "Greenhouses"
@@ -213,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} metric tons."
+    "message": "Yes it is. The total amount is {amount} metric tons."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t"
+    "message": "Yes, we can split the cargo. I have {amount}t in total."
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "The mass is {amount}t."
+    "message": "Yes. The entire mass is {amount}t."
   },
-  "HOWMUCH_4": {
+  "HOWMUCH_NO_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "There are {amount}t."
+    "message": "No, sorry. It is not possible to split the cargo. You have to transport the whole {amount} tons at once."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric tons (singular)",
-    "message": "It's only {amount}t."
+    "message": "No it is not. It's only {amount}t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount}t of {cargoname}."
+    "message": "There are {amount}t of {cargoname}. I can offer the following freight runs:"
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname}"
+    "message": "{amount}t {cargoname} can be divided as follows:"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "How much mass?"
+    "message": "Is the amount of cargo negotiable?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -335,9 +351,17 @@
     "description": "custom cargo",
     "message": "Neptunium"
   },
+  "OFFER": {
+    "description": "",
+    "message": "Transport {amount}t for {reward}"
+  },
   "OK_AGREED": {
     "description": "",
     "message": "OK, agreed."
+  },
+  "OK_WE_AGREE": {
+    "description": "",
+    "message": "OK, we agree on {amount}t for {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",
