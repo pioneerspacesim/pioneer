@@ -5,6 +5,7 @@
 #define _DUMMY_MATERIAL_H
 
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 
 namespace Graphics {
@@ -25,7 +26,8 @@ namespace Graphics {
 			virtual void SetProgram(Program *p) {}
 
 			virtual bool SetTexture(size_t name, Texture *tex) override { return false; }
-			virtual bool SetBuffer(size_t name, void *buffer, size_t size, BufferUsage usage) override { return false; }
+			virtual bool SetBuffer(size_t name, BufferBinding<UniformBuffer>) override { return false; }
+			virtual bool SetBufferDynamic(size_t name, void *data, size_t size) override { return false; }
 
 			virtual bool SetPushConstant(size_t name, int i) override { return false; }
 			virtual bool SetPushConstant(size_t name, float f) override { return false; }

@@ -9,6 +9,9 @@
 #include "matrix4x4.h"
 #include "vector3.h"
 
+#include <memory>
+#include <vector>
+
 namespace Graphics {
 	class Renderer;
 } // namespace Graphics

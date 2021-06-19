@@ -7,6 +7,7 @@
 #include "GameSaveError.h"
 #include "Json.h"
 #include "core/IniConfig.h"
+#include "graphics/RenderState.h"
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"

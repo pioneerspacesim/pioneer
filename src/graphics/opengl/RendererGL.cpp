@@ -1098,7 +1098,7 @@ namespace Graphics {
 		return new OGL::InstanceBuffer(size, usage);
 	}
 
-	OGL::UniformBuffer *RendererOGL::CreateUniformBuffer(Uint32 size, BufferUsage usage)
+	UniformBuffer *RendererOGL::CreateUniformBuffer(Uint32 size, BufferUsage usage)
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 		return new OGL::UniformBuffer(size, usage);

@@ -3,15 +3,13 @@
 
 #pragma once
 
-#ifndef _RENDERER_OGL_H
-#define _RENDERER_OGL_H
-
-#include "OpenGLLibs.h"
-#include "RefCounted.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/Types.h"
-#include "graphics/opengl/UniformBuffer.h"
+#include "graphics/UniformBuffer.h"
+
+#include "OpenGLLibs.h"
+#include "RefCounted.h"
 #include <stack>
 #include <unordered_map>
 
@@ -23,11 +21,17 @@ namespace Graphics {
 	namespace OGL {
 		class CachedVertexBuffer;
 		class CommandList;
+		class InstanceBuffer;
+		class IndexBuffer;
 		class Material;
-		class Shader;
+		class MeshObject;
 		class RenderState;
 		class RenderStateCache;
 		class RenderTarget;
+		class Shader;
+		class UniformBuffer;
+		class UniformLinearBuffer;
+		class VertexBuffer;
 	} // namespace OGL
 
 	class RendererOGL final : public Renderer {
@@ -93,7 +97,7 @@ namespace Graphics {
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) override final;
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize) override final;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override final;
-		OGL::UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage);
+		virtual UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) override final;
 		virtual MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) override final;
 		virtual MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) override final;
 
@@ -157,5 +161,3 @@ namespace Graphics {
 #define CHECKERRORS() RendererOGL::CheckErrors(__FUNCTION__, __LINE__)
 
 } // namespace Graphics
-
-#endif

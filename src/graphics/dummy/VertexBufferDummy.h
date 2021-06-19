@@ -7,6 +7,8 @@
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
 
+#include <memory>
+
 namespace Graphics {
 
 	namespace Dummy {

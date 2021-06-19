@@ -9,8 +9,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Texture.h"
-#include "graphics/opengl/RendererGL.h"
-#include "graphics/opengl/TextureGL.h" // nasty, usage of GL is implementation specific
+#include "graphics/VertexBuffer.h"
 #include "imgui/imgui.h"
 
 #include "imgui/examples/imgui_impl_sdl.h"

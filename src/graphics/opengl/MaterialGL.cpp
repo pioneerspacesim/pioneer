@@ -11,6 +11,7 @@
 #include "StringF.h"
 #include "graphics/Types.h"
 #include "graphics/opengl/TextureGL.h"
+#include "graphics/opengl/UniformBuffer.h"
 
 namespace Graphics {
 	namespace OGL {
@@ -53,9 +54,9 @@ namespace Graphics {
 			// Allocate storage for buffer bindings
 			GLuint numBufferBindings = s->GetNumBufferBindings();
 			if (numBufferBindings) {
-				m_bufferBindings.reset(new BufferBinding[numBufferBindings]);
+				m_bufferBindings.reset(new BufferBinding<UniformBuffer>[numBufferBindings]);
 				for (GLuint i = 0; i < numBufferBindings; i++)
-					m_bufferBindings.get()[i] = { RefCountedPtr<UniformBuffer>(), 0, 0 };
+					m_bufferBindings.get()[i] = { nullptr, 0, 0 };
 			}
 
 			// Allocate storage for push constants
@@ -97,7 +98,7 @@ namespace Graphics {
 
 			if (m_descriptor.lighting) {
 				UniformBuffer *lightBuffer = m_renderer->GetLightUniformBuffer();
-				SetBuffer(s_lightDataName, lightBuffer, 0, lightBuffer->GetSize());
+				SetBuffer(s_lightDataName, { lightBuffer, 0, lightBuffer->GetSize() });
 
 				float intensity[4] = { 0.f, 0.f, 0.f, 0.f };
 				for (uint32_t i = 0; i < m_renderer->GetNumLights(); i++)
@@ -109,7 +110,7 @@ namespace Graphics {
 			// this should always be present, but just in case...
 			if (m_perDrawBinding != Shader::InvalidBinding) {
 				auto buffer = m_renderer->GetDrawUniformBuffer(sizeof(DrawDataBlock));
-				UniformBufferBinding binding;
+				BufferBinding<UniformBuffer> binding;
 
 				auto dataBlock = buffer->Allocate<DrawDataBlock>(binding);
 				dataBlock->diffuse = this->diffuse.ToColor4f();
@@ -125,7 +126,7 @@ namespace Graphics {
 				dataBlock->uViewMatrixInverse = mv.Inverse();
 				dataBlock->uViewProjectionMatrix = proj * mv;
 
-				SetBuffer(s_drawDataName, binding.buffer, binding.offset, binding.size);
+				SetBuffer(s_drawDataName, { binding.buffer, binding.offset, binding.size });
 			}
 		}
 
@@ -150,7 +151,7 @@ namespace Graphics {
 				auto &buffer = m_bufferBindings.get()[bufferBinding.index];
 				// clone the buffer reference if present
 				if (buffer.buffer)
-					mat->SetBuffer(bufferBinding.name, buffer.buffer.Get(), buffer.offset, buffer.size);
+					mat->SetBuffer(bufferBinding.name, { buffer.buffer, buffer.offset, buffer.size });
 			}
 
 			for (auto &info : m_shader->GetPushConstantBindings()) {
@@ -190,7 +191,7 @@ namespace Graphics {
 			return true;
 		}
 
-		bool Material::SetBuffer(size_t name, void *buffer, size_t size, BufferUsage usage)
+		bool Material::SetBufferDynamic(size_t name, void *buffer, size_t size)
 		{
 			BufferBindingData info = m_shader->GetBufferBindingInfo(name);
 			if (info.binding == Shader::InvalidBinding)
@@ -198,33 +199,24 @@ namespace Graphics {
 
 			auto &bufferSlot = m_bufferBindings[info.index];
 
-			if (usage == BUFFER_USAGE_DYNAMIC) {
-				auto allocation = m_renderer->GetDrawUniformBuffer(size)->Allocate(buffer, size);
-				bufferSlot.buffer.Reset(allocation.buffer);
-				bufferSlot.offset = allocation.offset;
-				bufferSlot.size = allocation.size;
-			} else {
-				UniformBuffer *buffer = m_renderer->CreateUniformBuffer(size, BUFFER_USAGE_STATIC);
-				buffer->BufferData(size, buffer);
-
-				bufferSlot.buffer.Reset(buffer);
-				bufferSlot.offset = 0;
-				bufferSlot.size = size;
-			}
+			auto allocation = m_renderer->GetDrawUniformBuffer(size)->Allocate(buffer, size);
+			bufferSlot.buffer = allocation.buffer;
+			bufferSlot.offset = allocation.offset;
+			bufferSlot.size = allocation.size;
 
 			return true;
 		}
 
-		bool Material::SetBuffer(size_t name, UniformBuffer *buffer, uint32_t offset, uint32_t size)
+		bool Material::SetBuffer(size_t name, BufferBinding<Graphics::UniformBuffer> ubo)
 		{
 			BufferBindingData info = m_shader->GetBufferBindingInfo(name);
 			if (info.binding == Shader::InvalidBinding)
 				return false;
 
 			auto &bufferSlot = m_bufferBindings[info.index];
-			bufferSlot.buffer.Reset(buffer);
-			bufferSlot.offset = offset;
-			bufferSlot.size = size;
+			bufferSlot.buffer = static_cast<OGL::UniformBuffer *>(ubo.buffer);
+			bufferSlot.offset = ubo.offset;
+			bufferSlot.size = ubo.size;
 
 			return true;
 		}

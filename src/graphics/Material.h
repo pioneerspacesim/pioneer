@@ -14,13 +14,14 @@
  */
 #include "Color.h"
 #include "RefCounted.h"
-#include "graphics/RenderState.h"
+#include "graphics/BufferCommon.h"
 #include "matrix4x4.h"
 
 namespace Graphics {
 
 	class Texture;
 	class RendererOGL;
+	class UniformBuffer;
 
 	// Shorthand for unique effects
 	// The other descriptor parameters may or may not have effect,
@@ -105,7 +106,7 @@ namespace Graphics {
 	 *   one or two vectors to send to the shader, please use Push Constants
 	 *   instead. Trust me, your framerate will thank you.
 	 *   It is the calling code's responsibility to ensure that buffers set
-	 *   with BUFFER_USAGE_DYNAMIC are set *at least* once per frame; failing
+	 *   with SetBufferDynamic are set *at least* once per frame; failing
 	 *   to observe this will cause the shader to be sent undefined data.
 	 *
 	 * Now that you know about state, let's talk about ownership.
@@ -121,18 +122,28 @@ namespace Graphics {
 	 * TexCache, stop yourself and ask why; then remember to keep the texture
 	 * alive until the next SwapBuffers().
 	 *
-	 * Buffer objects are simpler - if you SetBuffer(..., BUFFER_USAGE_DYNAMIC)
-	 * then that buffer binding will stay there until the end of the frame.
-	 * However, once SwapBuffers() is called, all dynamic buffers are rendered
-	 * INVALID and must be re-set. Failure to do so will cause the shader to
-	 * read garbage data the next time you draw.
-	 * Setting a static buffer is easy, but once you draw using the material,
-	 * you must not call SetBuffer() until the next SwapBuffers().
+	 * Buffer objects are simpler - if you call SetBufferDynamic, then the
+	 * passed data will be copied and managed until the end of the frame.
+	 * However, once SwapBuffers() is called, all dynamic data is rendered
+	 * INVALID and must be re-uploaded. Failure to do so will cause the shader
+	 * to read garbage data the next time you draw.
+	 * If you're reading from dynamic buffer data to control loop execution in
+	 * the shader, failure to update the buffer binding WILL cause a GPU hang.
+	 * (There, I've saved you twenty minutes of debugging.)
+	 *
+	 * If your data needs to be shared between multiple materials or only needs
+	 * to be updated sporadically, use SetBuffer instead; you'll get the
+	 * BufferBinding object from the Renderer interface. If the buffer lives
+	 * longer than a frame, you'll need to externally manage its lifetime.
 	 *
 	 * If you delete (or cause to be deleted by decrementing ref counts) a
-	 * Texture or (TDB: Buffer object), it is your responsibility to set
-	 * the Texture or (TBD: Buffer) reference to <nullptr>. Failure to do so
-	 * will result in undefined behavior.
+	 * Texture or static Buffer object, it is your responsibility to set
+	 * the Texture or Buffer reference to <nullptr>. Failure to do so will
+	 * result in undefined behavior.
+	 *
+	 * Additionally, failure to properly set all Buffer bindings which are
+	 * actively used by the shader code will likely result in undefined
+	 * behavior and possibly a GPU hang or API error.
 	 */
 	class Material : public RefCounted {
 	public:
@@ -151,13 +162,17 @@ namespace Graphics {
 
 		virtual bool SetTexture(size_t hash, Texture *tex) = 0;
 
-		// TODO: do we need BufferUsage parameter?
-		// TODO: expose UniformBuffer to main Renderer API, make calling code
-		// responsible for owning buffer objects.
-		virtual bool SetBuffer(size_t hash, void *buffer, size_t size, BufferUsage usage) = 0;
-		// typed overload of SetBuffer
+		// Upload the passed data and assign it to the specified buffer binding point.
+		// The data will live until the end of the frame and its lifetime does not need
+		// to be managed by the calling code. `buffer` is copied and may be deleted safely.
+		virtual bool SetBufferDynamic(size_t hash, void *buffer, size_t size) = 0;
+
+		// typed overload of SetBufferDynamic
 		template <typename T>
-		bool SetBuffer(size_t hash, T *buffer, BufferUsage usage) { return SetBuffer(hash, buffer, sizeof(T), usage); }
+		bool SetBufferDynamic(size_t hash, T *buffer) { return SetBufferDynamic(hash, static_cast<void *>(buffer), sizeof(T)); }
+
+		// Set the given buffer object with an externally-managed uniform buffer.
+		virtual bool SetBuffer(size_t hash, BufferBinding<UniformBuffer> uboBinding) = 0;
 
 		virtual bool SetPushConstant(size_t hash, int i) = 0;
 		virtual bool SetPushConstant(size_t hash, float f) = 0;

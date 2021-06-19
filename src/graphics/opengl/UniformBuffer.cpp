@@ -2,16 +2,18 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "UniformBuffer.h"
-#include "graphics/Types.h"
-#include "graphics/VertexBuffer.h"
 
+#include "graphics/Types.h"
+#include "profiler/Profiler.h"
+
+using Graphics::BufferBinding;
 using namespace Graphics::OGL;
 
 // From OpenGL, the minimum alignment of a buffer range binding
 static constexpr int MIN_BUFFER_ALIGNMENT_MASK = 256 - 1;
 
 UniformBuffer::UniformBuffer(uint32_t size, BufferUsage usage) :
-	Mappable(size)
+	Graphics::UniformBuffer(size, usage)
 {
 	glGenBuffers(1, &m_buffer);
 	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer);
@@ -39,11 +41,6 @@ void UniformBuffer::BufferData(const size_t size, void *data)
 	glBindBuffer(GL_UNIFORM_BUFFER, m_buffer);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, size, data);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-}
-
-void UniformBuffer::Bind(uint32_t binding)
-{
-	glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_buffer);
 }
 
 void UniformBuffer::BindRange(uint32_t binding, uint32_t offset, uint32_t size)
@@ -126,7 +123,7 @@ void UniformLinearBuffer::Flush()
 	m_lastFlush = m_size;
 }
 
-UniformBufferBinding UniformLinearBuffer::Allocate(void *data, size_t size)
+BufferBinding<UniformBuffer> UniformLinearBuffer::Allocate(void *data, size_t size)
 {
 	PROFILE_SCOPED()
 	assert(m_mapMode == BUFFER_MAP_NONE);
@@ -143,7 +140,7 @@ UniformBufferBinding UniformLinearBuffer::Allocate(void *data, size_t size)
 	return { this, offset, uint32_t(size) };
 }
 
-void *UniformLinearBuffer::AllocInternal(size_t size, UniformBufferBinding &outBinding)
+void *UniformLinearBuffer::AllocInternal(size_t size, BufferBinding<UniformBuffer> &outBinding)
 {
 	PROFILE_SCOPED()
 	assert(m_mapMode == BUFFER_MAP_NONE);

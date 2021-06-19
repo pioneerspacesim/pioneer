@@ -14,6 +14,7 @@
 #include "graphics/dummy/MaterialDummy.h"
 #include "graphics/dummy/RenderTargetDummy.h"
 #include "graphics/dummy/TextureDummy.h"
+#include "graphics/dummy/UniformBufferDummy.h"
 #include "graphics/dummy/VertexBufferDummy.h"
 
 namespace Graphics {
@@ -75,6 +76,7 @@ namespace Graphics {
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &d) override final { return new Graphics::Dummy::VertexBuffer(d); }
 		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage bu, IndexBufferSize el) override final { return new Graphics::Dummy::IndexBuffer(size, bu, el); }
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage bu) override final { return new Graphics::Dummy::InstanceBuffer(size, bu); }
+		virtual UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage bu) override final { return new Graphics::Dummy::UniformBuffer(size, bu); }
 		virtual MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) override final { return new Graphics::Dummy::MeshObject(static_cast<Dummy::VertexBuffer *>(v), static_cast<Dummy::IndexBuffer *>(i)); }
 		virtual MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage = BUFFER_USAGE_STATIC) override final
 		{

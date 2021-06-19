@@ -313,8 +313,7 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 		// FIXME: this is marginally doable given that we're immediately drawing and uploading the data
 		// This should really use a better system like a per-model shield material or possibly a
 		// way to bind per-frame buffer uploads in with the draw command
-		GetGlobalShieldMaterial()->SetBuffer(s_shieldDataName,
-			&s_shieldRenderData, Graphics::BUFFER_USAGE_DYNAMIC);
+		GetGlobalShieldMaterial()->SetBufferDynamic(s_shieldDataName, &s_shieldRenderData);
 		GetGlobalShieldMaterial()->SetPushConstant(s_numHitsName, int(numHits));
 	}
 

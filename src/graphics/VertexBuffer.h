@@ -1,26 +1,27 @@
 // Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef GRAPHICS_VERTEXBUFFER_H
-#define GRAPHICS_VERTEXBUFFER_H
+#pragma once
+
+#include "graphics/BufferCommon.h"
+#include "graphics/Types.h"
+#include "matrix4x4.h"
+
 /**
- * A Vertex Buffer is created by filling out a
- * description struct with desired vertex attributes
- * and calling renderer->CreateVertexBuffer.
- * Can be used in combination with IndexBuffer,
- * for optimal rendering of complex geometry.
- * Call Map to write/read from the buffer, and Unmap to
- * commit the changes.
+ * A Vertex Buffer is created by filling out a description struct with desired
+ * vertex attributes and calling renderer->CreateVertexBuffer. Can be used in
+ * combination with IndexBuffer, for optimal rendering of complex geometry.
+ *
+ * Call Map to write/read from the buffer, and Unmap to commit the changes.
  * Buffers come in two usage flavors, static and dynamic.
- * Use Static buffer, when the geometry never changes.
- * Avoid mapping a buffer for reading, as it may be slow,
- * especially with static buffers.
+ * - Use a Static buffer when the geometry never changes.
+ * - Use a Dynamic buffer if you'll be uploading data regularly.
+ *
+ * Strictly avoid mapping a buffer for reading unless you have no choice, as it
+ * may be extremely slow, especially with static buffers.
  *
  * Expansion possibilities: range-based Map
  */
-#include "Types.h"
-#include "libs.h"
-
 namespace Graphics {
 
 	// fwd declaration
@@ -59,40 +60,6 @@ namespace Graphics {
 		//automatically calculated for created buffers
 		Uint32 stride;
 		BufferUsage usage;
-	};
-
-	class Mappable : public RefCounted {
-	public:
-		virtual ~Mappable() {}
-		virtual void Unmap() = 0;
-
-		inline Uint32 GetSize() const { return m_size; }
-		inline Uint32 GetCapacity() const { return m_capacity; }
-
-	protected:
-		explicit Mappable(const Uint32 size) :
-			m_mapMode(BUFFER_MAP_NONE),
-			m_size(size),
-			m_capacity(size) {}
-		BufferMapMode m_mapMode; //tracking map state
-
-		// size is the current number of elements in the buffer
-		Uint32 m_size;
-		// capacity is the maximum number of elements that can be put in the buffer
-		Uint32 m_capacity;
-	};
-
-	template <typename T>
-	struct BufferBinding {
-		T *buffer;
-		uint32_t offset;
-		uint32_t size;
-
-		bool operator!=(const BufferBinding &rhs) const { return !(*this == rhs); }
-		bool operator==(const BufferBinding &rhs) const
-		{
-			return buffer == rhs.buffer && offset == rhs.offset && size == rhs.size;
-		}
 	};
 
 	class VertexBuffer : public Mappable {
@@ -198,4 +165,3 @@ namespace Graphics {
 	};
 
 } // namespace Graphics
-#endif // GRAPHICS_VERTEXBUFFER_H

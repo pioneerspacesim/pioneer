@@ -3,11 +3,12 @@
 
 #pragma once
 
-#include "OpenGLLibs.h"
+#include "Color.h"
 #include "graphics/Graphics.h"
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
 
+#include "OpenGLLibs.h"
 #include <variant>
 
 namespace Graphics {

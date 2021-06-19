@@ -30,6 +30,7 @@ namespace Graphics {
 		class CommandList;
 		class Shader;
 		class Program;
+		class UniformBuffer;
 
 		class Material : public Graphics::Material {
 		public:
@@ -40,8 +41,9 @@ namespace Graphics {
 			virtual const Shader *GetShader() const { return m_shader; }
 
 			virtual bool SetTexture(size_t name, Texture *tex) override;
-			virtual bool SetBuffer(size_t name, void *buffer, size_t size, BufferUsage usage) override;
-			virtual bool SetBuffer(size_t name, UniformBuffer *buffer, uint32_t offset, uint32_t size);
+
+			virtual bool SetBufferDynamic(size_t name, void *buffer, size_t size) override;
+			virtual bool SetBuffer(size_t name, BufferBinding<Graphics::UniformBuffer> ub) override;
 
 			virtual bool SetPushConstant(size_t name, int i) override;
 			virtual bool SetPushConstant(size_t name, float f) override;
@@ -64,19 +66,9 @@ namespace Graphics {
 
 			uint32_t m_perDrawBinding;
 
-			// TODO: not happy with this structure - makes it impossible to track
-			// per-frame buffers vs occasionally-updated (set-once?) buffers
-			// Interface needs some way to promise to update static buffers manually,
-			// and needs automatic end-of-frame invalidation of per-frame buffer bindings
-			struct BufferBinding {
-				RefCountedPtr<UniformBuffer> buffer;
-				GLuint offset;
-				GLuint size;
-			};
-
 			std::unique_ptr<char[]> m_pushConstants;
 			std::unique_ptr<Texture *[]> m_textureBindings;
-			std::unique_ptr<BufferBinding[]> m_bufferBindings;
+			std::unique_ptr<BufferBinding<UniformBuffer>[]> m_bufferBindings;
 		};
 	} // namespace OGL
 } // namespace Graphics

@@ -11,6 +11,10 @@
 #include "graphics/opengl/TextureGL.h"
 #include "graphics/opengl/VertexBufferGL.h"
 
+extern "C" {
+#include "jenkins/lookup3.h"
+}
+
 using namespace Graphics::OGL;
 using RenderStateDesc = Graphics::RenderStateDesc;
 

@@ -1,27 +1,18 @@
 // Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef OGL_VERTEXBUFFER_H
-#define OGL_VERTEXBUFFER_H
-#include "OpenGLLibs.h"
+#pragma once
+
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
+#include "graphics/opengl/GLBufferBase.h"
+
+#include <memory>
 
 namespace Graphics {
 	class RendererOGL;
 
 	namespace OGL {
-
-		class GLBufferBase {
-		public:
-			GLBufferBase() :
-				m_written(false) {}
-			GLuint GetBuffer() const { return m_buffer; }
-
-		protected:
-			GLuint m_buffer;
-			bool m_written; // to check for invalid data rendering
-		};
 
 		class VertexBuffer : public Graphics::VertexBuffer, public GLBufferBase {
 		public:
@@ -133,5 +124,3 @@ namespace Graphics {
 
 	} // namespace OGL
 } // namespace Graphics
-
-#endif // OGL_VERTEXBUFFER_H

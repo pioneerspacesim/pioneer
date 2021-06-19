@@ -144,7 +144,7 @@ size_t align(size_t t)
 char *CommandList::AllocDrawData(const Shader *shader)
 {
 	size_t constantSize = align<8>(shader->GetConstantStorageSize());
-	size_t bufferSize = align<8>(shader->GetNumBufferBindings() * sizeof(UniformBufferBinding));
+	size_t bufferSize = align<8>(shader->GetNumBufferBindings() * sizeof(BufferBinding<UniformBuffer>));
 	size_t textureSize = align<8>(shader->GetNumTextureBindings() * sizeof(Texture *));
 	size_t totalSize = constantSize + bufferSize + textureSize;
 
@@ -190,10 +190,7 @@ char *CommandList::SetupMaterialData(OGL::Material *mat)
 
 	BufferBinding<UniformBuffer> *buffers = getBufferBindings(s, alloc);
 	for (size_t index = 0; index < s->GetNumBufferBindings(); index++) {
-		auto &info = mat->m_bufferBindings[index];
-		buffers[index].buffer = info.buffer.Get();
-		buffers[index].offset = info.offset;
-		buffers[index].size = info.size;
+		buffers[index] = mat->m_bufferBindings[index];
 	}
 
 	TextureGL **textures = getTextureBindings(s, alloc);

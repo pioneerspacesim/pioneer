@@ -283,7 +283,7 @@ PushConstantData Shader::GetPushConstantInfo(size_t name) const
 	auto *data = vector_search(m_pushConstantInfo, name);
 	if (data != nullptr) return *data;
 
-	return { 0, InvalidBinding, 0, ConstantDataFormat::DATA_FORMAT_NONE };
+	return { 0, 0, InvalidBinding, 0, ConstantDataFormat::DATA_FORMAT_NONE };
 }
 
 BufferBindingData Shader::GetBufferBindingInfo(size_t name) const

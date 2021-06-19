@@ -217,8 +217,7 @@ namespace GasGiantJobs {
 		dataBlock.hueAdjust = hueAdjust;
 		dataBlock.time = 0;
 
-		pQuad->GetMaterial()->SetBuffer(Graphics::Renderer::GetName("GenColorData"),
-			&dataBlock, Graphics::BufferUsage::BUFFER_USAGE_DYNAMIC);
+		pQuad->GetMaterial()->SetBufferDynamic(Graphics::Renderer::GetName("GenColorData"), &dataBlock);
 	}
 
 	// ********************************************************************************
