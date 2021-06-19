@@ -137,15 +137,15 @@
   },
   "DENY_AGAIN_1": {
     "description": "",
-    "message": "Sorry, we already have a deal. However, I would be happy to do business with you again after a successful delivery."
+    "message": "Λυπάμαι, έχουμε ήδη μια συμφωνία. Ωστόσο, θα ήμουν ευτυχής να συνεργαστώ ξανά μαζί σας μετά από μια επιτυχημένη παράδοση."
   },
   "DENY_AGAIN_2": {
     "description": "",
-    "message": "Excuse me sir, please complete our existing contract first. Then we can negotiate another delivery."
+    "message": "Με συγχωρείτε κύριε, παρακαλώ ολοκληρώστε πρώτα την υπάρχουσα σύμβασή μας. Μετά μπορούμε να διαπραγματευτούμε μια άλλη παράδοση."
   },
   "DENY_AGAIN_3": {
     "description": "",
-    "message": "Sir, please deliver my cargo first. Then I will do more business with you."
+    "message": "Κύριε, παραδώστε πρώτα το φορτίο μου. Τότε θα κάνω περισσότερες δουλειές μαζί σας."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -213,7 +213,7 @@
   },
   "GO_BACK": {
     "description": "",
-    "message": "Go back."
+    "message": "Επιστρέψτε."
   },
   "GREENHOUSES": {
     "description": "custom cargo",
@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes it is. The total amount is {amount} metric tons."
+    "message": "Ναι, είναι. Η συνολική ποσότητα είναι {amount} μετρικοί τόνοι."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo. I have {amount}t in total."
+    "message": "Ναι, μπορούμε να μοιραστούμε το φορτίο. Έχω {amount}t συνολικά."
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes. The entire mass is {amount}t."
+    "message": "Ναι. Η συνολική μάζα είναι {amount}t."
   },
   "HOWMUCH_NO_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "No, sorry. It is not possible to split the cargo. You have to transport the whole {amount} tons at once."
+    "message": "Όχι, λυπάμαι. Δεν είναι δυνατόν να χωρίσουμε το φορτίο. Πρέπει να μεταφέρετε όλους τους τόνους μαζί."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric tons (singular)",
-    "message": "No it is not. It's only {amount}t."
+    "message": "Όχι, δεν είναι. Είναι μόνο {amount}t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount}t of {cargoname}. I can offer the following freight runs:"
+    "message": "Υπάρχουν {amount}t {cargoname}. Μπορώ να προσφέρω τα ακόλουθα δρομολόγια:"
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname} can be divided as follows:"
+    "message": "{amount}t {cargoname} μπορούν να διαιρεθούν ως εξής:"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "Is the amount of cargo negotiable?"
+    "message": "Είναι το ποσό του φορτίου διαπραγματεύσιμο;"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transport {amount}t for {reward}"
+    "message": "Μεταφέρετε {amount}t για {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, we agree on {amount}t for {reward}."
+    "message": "Εντάξει, συμφωνούμε στους {amount} για {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",

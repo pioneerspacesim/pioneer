@@ -137,15 +137,15 @@
   },
   "DENY_AGAIN_1": {
     "description": "",
-    "message": "Sorry, we already have a deal. However, I would be happy to do business with you again after a successful delivery."
+    "message": "对不起，我们已经有协议了。不过，我很乐意在成功交货后再次与您做生意。"
   },
   "DENY_AGAIN_2": {
     "description": "",
-    "message": "Excuse me sir, please complete our existing contract first. Then we can negotiate another delivery."
+    "message": "对不起，先生，请先完成我们现有的合同。那我们可以再谈一次交易。"
   },
   "DENY_AGAIN_3": {
     "description": "",
-    "message": "Sir, please deliver my cargo first. Then I will do more business with you."
+    "message": "先生，请先把我的货送来。那我就和你做更多的生意。"
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -213,7 +213,7 @@
   },
   "GO_BACK": {
     "description": "",
-    "message": "Go back."
+    "message": "返回。"
   },
   "GREENHOUSES": {
     "description": "custom cargo",
@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes it is. The total amount is {amount} metric tons."
+    "message": "是的。总重量为{amount}公吨。"
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo. I have {amount}t in total."
+    "message": "是的，我们可以分货。我总共有{amount}吨。"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes. The entire mass is {amount}t."
+    "message": "对。整个质量是{amount}吨。"
   },
   "HOWMUCH_NO_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "No, sorry. It is not possible to split the cargo. You have to transport the whole {amount} tons at once."
+    "message": "不，对不起。无法分割货物。你必须一次运输全部{amount}吨。"
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric tons (singular)",
-    "message": "No it is not. It's only {amount}t."
+    "message": "不，不是。只有{amount}吨。"
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount}t of {cargoname}. I can offer the following freight runs:"
+    "message": "有{amount}吨的{cargoname}。我可以提供以下货运服务："
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname} can be divided as follows:"
+    "message": "{amount}吨{cargoname}可分为："
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "Is the amount of cargo negotiable?"
+    "message": "货物的数量可以商量吗？"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transport {amount}t for {reward}"
+    "message": "运输{amount}吨用于{reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, we agree on {amount}t for {reward}."
+    "message": "好的，我们同意{amount}吨作为{reward}。"
   },
   "PICKUP_FROM": {
     "description": "from a location",

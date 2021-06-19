@@ -53,7 +53,7 @@
   },
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
-    "message": "Τα πιθανά μέλη του πληρώματος είναι εγγεγραμμένα ως αναζητώντα εργασία στο {station}:"
+    "message": "Τα πιθανά μέλη του πληρώματος είναι που εγγεγραμμένα ως αναζητώντα εργασία στο {station}:"
   },
   "SIMULATOR_TRAINING_ONLY": {
     "description": "",

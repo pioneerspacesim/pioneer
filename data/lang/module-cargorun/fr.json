@@ -137,15 +137,15 @@
   },
   "DENY_AGAIN_1": {
     "description": "",
-    "message": "Sorry, we already have a deal. However, I would be happy to do business with you again after a successful delivery."
+    "message": "Désolé, nous avons déjà un conclu un marché. Cependant, je serais heureux de faire de nouveau affaire avec vous après le succès de cette livraison."
   },
   "DENY_AGAIN_2": {
     "description": "",
-    "message": "Excuse me sir, please complete our existing contract first. Then we can negotiate another delivery."
+    "message": "Excusez-moi monsieur, veuillez d'abord terminer notre contrat actuel. Nous pourrons alors négocier une autre livraison."
   },
   "DENY_AGAIN_3": {
     "description": "",
-    "message": "Sir, please deliver my cargo first. Then I will do more business with you."
+    "message": "Monsieur, veuillez d'abord délivrer ma marchandise. Ensuite, je ferais d'autre affaires avec vous."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -213,7 +213,7 @@
   },
   "GO_BACK": {
     "description": "",
-    "message": "Go back."
+    "message": "Retour"
   },
   "GREENHOUSES": {
     "description": "custom cargo",
@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes it is. The total amount is {amount} metric tons."
+    "message": "Oui. Le poids total est de {amount} tonnes."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo. I have {amount}t in total."
+    "message": "Oui, nous pouvons partager la marchandise. J'ai {amount}t au total."
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes. The entire mass is {amount}t."
+    "message": "Oui, le poids total est de {amount}t."
   },
   "HOWMUCH_NO_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "No, sorry. It is not possible to split the cargo. You have to transport the whole {amount} tons at once."
+    "message": "Non, désolé. Il n'est pas possible de partager la marchandise. Vous devez transporter la totalité des {amount} tonnes en une fois."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric tons (singular)",
-    "message": "No it is not. It's only {amount}t."
+    "message": "Non. C'est seulement {amount}t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount}t of {cargoname}. I can offer the following freight runs:"
+    "message": "Il y a {amount}t de {cargoname}. Je peux proposer les parcours suivants:"
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname} can be divided as follows:"
+    "message": "Lest {amount}t de {cargoname} peuvent être divisés comme suit:"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "Is the amount of cargo negotiable?"
+    "message": "Le poids de la marchandise est-il négociable ?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transport {amount}t for {reward}"
+    "message": "Transporter {amount}t pour un montant de {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, we agree on {amount}t for {reward}."
+    "message": "Ok, nous sommes d'accord pour {amount}t à {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",
