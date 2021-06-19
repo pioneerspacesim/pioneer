@@ -48,8 +48,9 @@ struct PerfInfo::ImGuiState {
 PerfInfo::PerfInfo() :
 	m_state(new ImGuiState({}))
 {
-	m_fpsGraph.fill(0.0);
-	m_physFpsGraph.fill(0.0);
+	m_fpsCounter.history.fill(0.0);
+	m_physCounter.history.fill(0.0);
+	m_piguiCounter.history.fill(0.0);
 }
 
 PerfInfo::~PerfInfo()
@@ -104,41 +105,54 @@ static PerfInfo::MemoryInfo GetMemoryInfo()
 }
 #undef ignoreLine
 
-void PerfInfo::Update(float deltaTime, float physTime)
+PerfInfo::CounterInfo &PerfInfo::GetCounter(CounterType ct)
+{
+	switch (ct) {
+	case COUNTER_FPS: return m_fpsCounter;
+	case COUNTER_PHYS: return m_physCounter;
+	case COUNTER_PIGUI: return m_piguiCounter;
+	}
+}
+
+void PerfInfo::ClearCounter(CounterType ct)
+{
+	CounterInfo &counter = GetCounter(ct);
+	counter.history.fill(0.);
+	counter.average = 0.;
+	counter.max = 0.;
+	counter.min = 0.;
+}
+
+void PerfInfo::UpdateCounter(CounterType ct, float deltaTime)
 {
 	// Don't accumulate new frames when performance data is paused.
 	if (m_state->updatePause)
 		return;
 
+	CounterInfo &counter = GetCounter(ct);
+
 	// Drop the oldest frame, make room for the new frame.
-	std::move(m_fpsGraph.begin() + 1, m_fpsGraph.end(), m_fpsGraph.begin());
-	std::move(m_physFpsGraph.begin() + 1, m_physFpsGraph.end(), m_physFpsGraph.begin());
-	m_fpsGraph[NUM_FRAMES - 1] = deltaTime;
-	m_physFpsGraph[NUM_FRAMES - 1] = physTime;
+	std::move(counter.history.begin() + 1, counter.history.end(), counter.history.begin());
+	counter.history[NUM_FRAMES - 1] = deltaTime * 1e3;
 
-	float fpsAccum = 0;
-	frameTimeMax = 0.f;
-	frameTimeMin = 0.f;
-	std::for_each(m_fpsGraph.begin(), m_fpsGraph.end(), [&](float i) {
-		fpsAccum += i;
-		frameTimeMax = std::max(frameTimeMax, i);
-		frameTimeMin = std::min(frameTimeMin, i);
+	float timeAccum = 0;
+	counter.max = 0.f;
+	counter.min = 0.f;
+	std::for_each(counter.history.begin(), counter.history.end(), [&](float i) {
+		timeAccum += i;
+		counter.max = std::max(counter.max, i);
+		counter.min = std::min(counter.min, i);
 	});
-	frameTimeAverage = fpsAccum / double(NUM_FRAMES);
+	counter.average = timeAccum / double(NUM_FRAMES);
+}
 
-	float physFpsAccum = 0;
-	physFrameTimeMax = 0.f;
-	physFrameTimeMin = 0.f;
-	std::for_each(m_physFpsGraph.begin(), m_physFpsGraph.end(), [&](float i) {
-		physFpsAccum += i;
-		physFrameTimeMax = std::max(physFrameTimeMax, i);
-		physFrameTimeMin = std::min(physFrameTimeMin, i);
-	});
-	physFrameTimeAverage = physFpsAccum / double(NUM_FRAMES);
+void PerfInfo::Update(float deltaTime)
+{
+	UpdateCounter(COUNTER_FPS, deltaTime);
 
 	lastUpdateTime += deltaTime;
-	if (lastUpdateTime > 1000.0) {
-		lastUpdateTime = fmod(lastUpdateTime, 1000.0);
+	if (lastUpdateTime > 1.0) {
+		lastUpdateTime = fmod(lastUpdateTime, 1.0);
 
 		lua_mem = ::Lua::manager->GetMemoryUsage();
 		process_mem = GetMemoryInfo();
@@ -191,9 +205,10 @@ void PerfInfo::Draw()
 void PerfInfo::DrawPerfWindow()
 {
 	if (ImGui::Begin("Performance", nullptr, ImGuiWindowFlags_NoNav)) {
-		ImGui::Text("%.1f fps (%.1f ms) %.1f physics ups (%.1f ms/u)", framesThisSecond, frameTimeAverage, physFramesThisSecond, physFrameTimeAverage);
-		ImGui::PlotLines("Frame Time (ms)", m_fpsGraph.data(), m_fpsGraph.size(), 0, nullptr, 0.0, 33.0, { 0, 60 });
-		ImGui::PlotLines("Update Time (ms)", m_physFpsGraph.data(), m_physFpsGraph.size(), 0, nullptr, 0.0, 10.0, { 0, 25 });
+		ImGui::Text("%.1f fps (%.1f ms) %.1f physics ups (%.1f ms/u)", framesThisSecond, m_fpsCounter.average, physFramesThisSecond, m_physCounter.average);
+		ImGui::PlotLines("Frame Time (ms)", m_fpsCounter.history.data(), m_fpsCounter.history.size(), 0, nullptr, 2.0, 33.0, { 0, 45 });
+		ImGui::PlotLines("Update Time (ms)", m_physCounter.history.data(), m_physCounter.history.size(), 0, nullptr, 0.0, 10.0, { 0, 25 });
+		ImGui::PlotLines("Pigui Time (ms)", m_piguiCounter.history.data(), m_piguiCounter.history.size(), 0, nullptr, 0.0, 5.0, { 0, 25 });
 		if (ImGui::Button(m_state->updatePause ? "Unpause" : "Pause")) {
 			SetUpdatePause(!m_state->updatePause);
 		}

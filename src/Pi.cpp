@@ -218,6 +218,7 @@ protected:
 
 	float frame_time_real; // higher resolution than SDL's 1ms, for detailed frame info
 	float phys_time;
+	float pigui_time;
 
 	int frame_stat;
 	int phys_stat;
@@ -655,6 +656,9 @@ void MainMenu::Start()
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
 	Pi::renderer->SetAmbientColor(Color(51, 51, 51, 255));
+
+	perfInfoDisplay->ClearCounter(PiGui::PerfInfo::COUNTER_PHYS);
+	perfInfoDisplay->ClearCounter(PiGui::PerfInfo::COUNTER_PIGUI);
 }
 
 void MainMenu::Update(float deltaTime)
@@ -667,7 +671,8 @@ void MainMenu::Update(float deltaTime)
 	Pi::pigui->NewFrame();
 	PiGui::RunHandler(deltaTime, "mainMenu");
 
-	perfInfoDisplay->Update(deltaTime * 1e3, 0.0);
+	perfInfoDisplay->Update(deltaTime);
+
 	if (Pi::showDebugInfo) {
 		Pi::pigui->SetDebugStyle();
 		perfInfoDisplay->Draw();
@@ -960,7 +965,7 @@ void GameLoop::Update(float deltaTime)
 	// Record physics timestep but keep information about current frame timing.
 	perfTimer.SoftStop();
 	// store the physics time until the end of the frame
-	phys_time = perfTimer.milliseconds();
+	phys_time = perfTimer.milliseconds() / 1.e3;
 
 	// did the player die?
 	if (Pi::game->GetPlayer()->IsDead()) {
@@ -1011,6 +1016,7 @@ void GameLoop::Update(float deltaTime)
 	// TODO: the escape menu depends on HandleEvents() being called before NewFrame()
 	// Move HandleEvents to either the end of the loop or the very start of the loop
 	// The goal is to be able to call imgui functions for debugging inside C++ code
+	perfTimer.SoftReset();
 	Pi::pigui->NewFrame();
 
 	if (Pi::game && !Pi::player->IsDead()) {
@@ -1032,6 +1038,9 @@ void GameLoop::Update(float deltaTime)
 
 	Pi::pigui->Render();
 
+	perfTimer.SoftStop();
+	pigui_time = perfTimer.milliseconds() / 1.e3;
+
 	if (Pi::game->UpdateTimeAccel())
 		accumulator = 0; // fix for huge pauses 10000x -> 1x
 
@@ -1043,7 +1052,10 @@ void GameLoop::Update(float deltaTime)
 
 	Pi::GetMusicPlayer().Update();
 
-	perfInfoDisplay->Update(frame_time_real, phys_time);
+	perfInfoDisplay->Update(deltaTime);
+	perfInfoDisplay->UpdateCounter(PiGui::PerfInfo::COUNTER_PHYS, phys_time);
+	perfInfoDisplay->UpdateCounter(PiGui::PerfInfo::COUNTER_PIGUI, pigui_time);
+
 	if (Pi::showDebugInfo && SDL_GetTicks() - last_stats >= 1000) {
 		perfInfoDisplay->UpdateFrameInfo(frame_stat, phys_stat);
 		frame_stat = 0;
