@@ -16,6 +16,7 @@ namespace Graphics {
 		{
 			switch (semantic) {
 			case ATTRIB_POSITION: return 0;
+			case ATTRIB_POSITION2D: return 0;
 			case ATTRIB_NORMAL: return 1;
 			case ATTRIB_DIFFUSE: return 2;
 			case ATTRIB_UV0: return 3;
@@ -78,12 +79,9 @@ namespace Graphics {
 			m_vertexStateHash(stateHash)
 		{
 			PROFILE_SCOPED()
-			assert(m_desc.numVertices > 0);
 
 			m_desc.CalculateOffsets();
 			assert(m_desc.stride > 0);
-
-			//SetVertexCount(m_desc.numVertices);
 
 			//Allocate GL buffer with undefined contents
 			//Critical optimisation for some architectures in cases where buffer is created and written in the same frame
@@ -408,10 +406,10 @@ namespace Graphics {
 
 		// ------------------------------------------------------------
 		IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint, IndexBufferSize elem) :
-			Graphics::IndexBuffer(size, hint, elem)
+			Graphics::IndexBuffer(size, hint, elem),
+			m_data(nullptr),
+			m_data16(nullptr)
 		{
-			assert(size > 0);
-
 			const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 			const GLuint gl_size = (elem == INDEX_BUFFER_16BIT ? sizeof(Uint16) : sizeof(Uint32)) * m_size;
 			glGenBuffers(1, &m_buffer);
@@ -422,13 +420,12 @@ namespace Graphics {
 			if (GetUsage() != BUFFER_USAGE_STATIC) {
 				if (elem == INDEX_BUFFER_16BIT) {
 					m_data16 = new Uint16[size];
-					memset(m_data, 0, sizeof(Uint16) * size);
+					memset(m_data16, 0, sizeof(Uint16) * size);
 				} else {
 					m_data = new Uint32[size];
 					memset(m_data, 0, sizeof(Uint32) * size);
 				}
-			} else
-				m_data = nullptr;
+			}
 		}
 
 		IndexBuffer::~IndexBuffer()

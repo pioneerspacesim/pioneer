@@ -1239,6 +1239,7 @@ void ImDrawListSplitter::Split(ImDrawList* draw_list, int channels_count)
         if (_Channels[i]._CmdBuffer.Size == 0)
         {
             ImDrawCmd draw_cmd;
+			draw_cmd.PrimDepth = 0.0;
             draw_cmd.ClipRect = draw_list->_ClipRectStack.back();
             draw_cmd.TextureId = draw_list->_TextureIdStack.back();
             _Channels[i]._CmdBuffer.push_back(draw_cmd);
@@ -1248,7 +1249,7 @@ void ImDrawListSplitter::Split(ImDrawList* draw_list, int channels_count)
 
 static inline bool CanMergeDrawCommands(ImDrawCmd* a, ImDrawCmd* b)
 {
-    return memcmp(&a->ClipRect, &b->ClipRect, sizeof(a->ClipRect)) == 0 && a->TextureId == b->TextureId && a->VtxOffset == b->VtxOffset && !a->UserCallback && !b->UserCallback;
+    return memcmp(&a->ClipRect, &b->ClipRect, sizeof(a->ClipRect)) == 0 && a->PrimDepth == b->PrimDepth && a->TextureId == b->TextureId && a->VtxOffset == b->VtxOffset && !a->UserCallback && !b->UserCallback;
 }
 
 void ImDrawListSplitter::Merge(ImDrawList* draw_list)

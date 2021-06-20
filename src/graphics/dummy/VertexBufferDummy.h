@@ -43,7 +43,7 @@ namespace Graphics {
 			IndexBuffer(Uint32 size, BufferUsage bu, IndexBufferSize el) :
 				Graphics::IndexBuffer(size, bu, el)
 			{
-				if (el == INDEX_BUFFER_16BIT)
+				if (el == INDEX_BUFFER_32BIT)
 					m_buffer.reset(new Uint32[size]);
 				else
 					m_buffer16.reset(new Uint16[size]);

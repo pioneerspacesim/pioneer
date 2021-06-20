@@ -1134,7 +1134,6 @@ namespace Graphics {
 				return buffer.get();
 
 		auto *buffer = new OGL::UniformLinearBuffer(1 << 20);
-		buffer->IncRefCount();
 		m_drawUniformBuffers.emplace_back(buffer);
 		return buffer;
 	}
