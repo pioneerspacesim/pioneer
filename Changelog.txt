@@ -1,10 +1,18 @@
 June 2021
    * New Features
      * Improve startup times with threading (#4951)
-   
+     * Cargo run allows negotiating cargo amount (#5164)
+
+   * Internal Changes
+     * Add Format.DateOnly() to lua side (#5214)
+     * Add sender to CommsLog (#5203)
+     * Mark Pioneer as DPI-aware on Windows (#5210)
+
    * Fixes
      * Fix floating point truncation crash on old AMD hardware (#5204)
      * Fix build with USE_SYSTEM_LIBLUA=ON (#5206)
+     * Fixing the covering of data by icons in reticule in low res (#5211)
+     * Fix missing translation strings in comms log (#5212)
 
 May 2021
    * New Features
