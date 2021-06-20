@@ -4,6 +4,8 @@
 #include "graphics/VertexBuffer.h"
 #include "graphics/Types.h"
 
+#include <algorithm>
+
 namespace Graphics {
 
 	Uint32 VertexBufferDesc::GetAttribSize(VertexAttribFormat f)
