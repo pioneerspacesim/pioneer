@@ -212,7 +212,7 @@
     "message": "Furniture"
   },
   "GO_BACK": {
-    "description": "",
+    "description": "Shown on a button in a sub-menu, to move back, to previous menu",
     "message": "Go back."
   },
   "GREENHOUSES": {
