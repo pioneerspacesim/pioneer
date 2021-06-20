@@ -119,7 +119,7 @@ void SystemView::SetRealTime()
 
 void SystemView::ResetViewpoint()
 {
-	m_selectedObject.type = Projectable::NONE;
+	m_viewedObject.type = Projectable::NONE;
 	m_rot_y_to = 0;
 	m_rot_x_to = 50;
 	m_zoomTo = 1.0f / float(AU);
@@ -210,10 +210,10 @@ static vector3d position_of_surface_starport_relative_to_parent(const SystemBody
 		vector3d(0.0, 1.0, 0.0) *
 		// we need the distance to the center of the planet
 		(Pi::game->IsNormalSpace() && Pi::game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(Pi::game->GetSectorView()->GetSelected()) ?
-				// if we look at the current system, the relief is known, we take the height from the physical body
-				Pi::game->GetSpace()->FindBodyForPath(&(starport->GetPath()))->GetPosition().Length() :
-				// if the remote system - take the radius of the planet
-				parent->GetRadius());
+				  // if we look at the current system, the relief is known, we take the height from the physical body
+				  Pi::game->GetSpace()->FindBodyForPath(&(starport->GetPath()))->GetPosition().Length() :
+				  // if the remote system - take the radius of the planet
+				  parent->GetRadius());
 }
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
@@ -281,11 +281,12 @@ void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 
 void SystemView::GetTransformTo(Projectable &p, vector3d &pos)
 {
-	if (m_selectedObject.type == Projectable::NONE) {
+	if (p.type == Projectable::NONE) {
 		// notning selected
 		pos *= 0.0;
 		return;
 	}
+
 	// accept only real objects (no orbit icons or lagrange points)
 	assert(p.type == Projectable::OBJECT);
 	pos = vector3d(0., 0., 0.);
@@ -448,7 +449,7 @@ void SystemView::DrawOrreryView()
 		// making an imprint of the old value (from previous frame)
 		m_trans -= m_transTo;
 		// calculate the new value
-		GetTransformTo(m_selectedObject, m_transTo);
+		GetTransformTo(m_viewedObject, m_transTo);
 		// now the difference between the new and the old value is added to m_trans
 		m_trans += m_transTo;
 		const float ft = Pi::GetFrameTime();
@@ -457,7 +458,7 @@ void SystemView::DrawOrreryView()
 		AnimationCurves::Approach(m_trans.y, m_transTo.y, ft);
 		AnimationCurves::Approach(m_trans.z, m_transTo.z, ft);
 	} else {
-		GetTransformTo(m_selectedObject, m_trans);
+		GetTransformTo(m_viewedObject, m_trans);
 	}
 
 	vector3d pos = m_trans;
@@ -676,7 +677,7 @@ void SystemView::Update()
 	if (m_shipDrawing != OFF) {
 		RefreshShips();
 		// if we are attached to the ship, check if we not deleted it in the previous frame
-		if (m_selectedObject.type != Projectable::NONE && m_selectedObject.base == Projectable::SHIP) {
+		if (m_viewedObject.type != Projectable::NONE && m_viewedObject.base == Projectable::SHIP) {
 			auto bs = m_game->GetSpace()->GetBodies();
 			if (std::find(bs.begin(), bs.end(), m_selectedObject.ref.body) == bs.end())
 				ResetViewpoint();
@@ -797,6 +798,8 @@ void SystemView::SetVisibility(std::string param)
 		m_shipDrawing = OFF;
 		// if we are attached to the ship, reset view, since the ship was hidden
 		if (m_selectedObject.type != Projectable::NONE && m_selectedObject.base == Projectable::SHIP)
+			m_selectedObject.type = Projectable::NONE;
+		if (m_viewedObject.type != Projectable::NONE && m_viewedObject.base == Projectable::SHIP)
 			ResetViewpoint();
 	} else if (param == "SHIPS_ON")
 		m_shipDrawing = BOXES;
@@ -834,11 +837,6 @@ void SystemView::SetSelectedObject(Projectable::types type, Projectable::bases b
 	m_selectedObject.type = type;
 	m_selectedObject.base = base;
 	m_selectedObject.ref.sbody = sb;
-	// we will immediately determine the coordinates of the selected body so that
-	// there is a correct starting point of the transition animation, otherwise
-	// there may be an unwanted shift in the next frame
-	GetTransformTo(m_selectedObject, m_transTo);
-	m_animateTransition = MAX_TRANSITION_FRAMES;
 }
 
 void SystemView::SetSelectedObject(Projectable::types type, Projectable::bases base, Body *b)
@@ -846,10 +844,20 @@ void SystemView::SetSelectedObject(Projectable::types type, Projectable::bases b
 	m_selectedObject.type = type;
 	m_selectedObject.base = base;
 	m_selectedObject.ref.body = b;
-	// we will immediately determine the coordinates of the selected body so that
+}
+
+void SystemView::ClearSelectedObject()
+{
+	m_selectedObject.type = Projectable::NONE;
+}
+
+void SystemView::ViewSelectedObject()
+{
+	// we will immediately determine the coordinates of the viewed body so that
 	// there is a correct starting point of the transition animation, otherwise
 	// there may be an unwanted shift in the next frame
-	GetTransformTo(m_selectedObject, m_transTo);
+	m_viewedObject = m_selectedObject;
+	GetTransformTo(m_viewedObject, m_transTo);
 	m_animateTransition = MAX_TRANSITION_FRAMES;
 }
 

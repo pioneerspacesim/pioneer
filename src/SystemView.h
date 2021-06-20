@@ -93,6 +93,10 @@ public:
 	Projectable *GetSelectedObject();
 	void SetSelectedObject(Projectable::types type, Projectable::bases base, SystemBody *sb);
 	void SetSelectedObject(Projectable::types type, Projectable::bases base, Body *b);
+	void ClearSelectedObject();
+	void ViewSelectedObject();
+	void ResetViewpoint();
+
 	TransferPlanner *GetTransferPlanner() const { return m_planner; }
 	double GetOrbitPlannerStartTime() const { return m_planner->GetStartTime(); }
 	double GetOrbitPlannerTime() const { return m_time; }
@@ -144,7 +148,6 @@ private:
 	void PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans);
 	void GetTransformTo(const SystemBody *b, vector3d &pos);
 	void GetTransformTo(Projectable &p, vector3d &pos);
-	void ResetViewpoint();
 	void MouseWheel(bool up);
 	void RefreshShips(void);
 	void DrawShips(const double t, const vector3d &offset);
@@ -164,6 +167,7 @@ private:
 
 	RefCountedPtr<StarSystem> m_system;
 	Projectable m_selectedObject;
+	Projectable m_viewedObject;
 	std::vector<Projectable> m_projected;
 	std::vector<SystemBody *> m_displayed_sbody;
 	bool m_unexplored;

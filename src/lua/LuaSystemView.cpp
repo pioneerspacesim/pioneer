@@ -279,6 +279,27 @@ static int l_systemview_get_selected_object(lua_State *l)
 	return 1;
 }
 
+static int l_systemview_clear_selected_object(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	sv->ClearSelectedObject();
+	return 0;
+}
+
+static int l_systemview_view_selected_object(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	sv->ViewSelectedObject();
+	return 0;
+}
+
+static int l_systemview_reset_viewpoint(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	sv->ResetViewpoint();
+	return 0;
+}
+
 static int l_systemview_set_visibility(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
@@ -435,12 +456,15 @@ void LuaObject<SystemView>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 
+		{ "ClearSelectedObject", l_systemview_clear_selected_object },
 		{ "GetProjectedGrouped", l_systemview_get_projected_grouped },
 		{ "GetSelectedObject", l_systemview_get_selected_object },
 		{ "GetOrbitPlannerStartTime", l_systemview_get_orbit_planner_start_time },
 		{ "GetOrbitPlannerTime", l_systemview_get_orbit_planner_time },
 		{ "AccelerateTime", l_systemview_accelerate_time },
 		{ "SetSelectedObject", l_systemview_set_selected_object },
+		{ "ViewSelectedObject", l_systemview_view_selected_object },
+		{ "ResetViewpoint", l_systemview_reset_viewpoint },
 		{ "SetVisibility", l_systemview_set_visibility },
 		{ "SetColor", l_systemview_set_color },
 		{ "SetRotateMode", l_systemview_set_rotate_mode },

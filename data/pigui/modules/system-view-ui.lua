@@ -26,11 +26,13 @@ local indicatorSize = Vector2(30 , 30)
 local selectedObject -- object, centered in SystemView
 
 local hudfont = ui.fonts.pionillium.small
+local hudfont_highlight = ui.fonts.pionillium.medium
 local detailfont = ui.fonts.pionillium.medium
 local winfont = ui.fonts.pionillium.medlarge
 
 local ASTEROID_RADIUS = 1500000 -- rocky planets smaller than this (in meters) are considered an asteroid, not a planet
 
+local itemSpacing = ui.rescaleUI(Vector2(4, 8), Vector2(1600, 900)) -- FIXME: inherit this from theme
 
 --load enums Projectable::types and Projectable::bases in one table "Projectable"
 local Projectable = {}
@@ -82,7 +84,8 @@ local buttonState = {
 	GRID_ON       = { icon = icons.toggle_grid,        color = svColor.BUTTON_SEMIACTIVE },
 	GRID_AND_LEGS = { icon = icons.toggle_grid,        color = svColor.BUTTON_ACTIVE },
 	[true]        = {                                  color = svColor.BUTTON_ACTIVE },
-	[false]       = {                                  color = svColor.BUTTON_INACTIVE }
+	[false]       = {                                  color = svColor.BUTTON_INACTIVE },
+	DISABLED      = {                                  color = svColor.BUTTON_SEMIACTIVE }
 }
 
 local ship_drawing = "SHIPS_OFF"
@@ -186,6 +189,17 @@ local function edgeButton(icon, tooltip, state)
 	return ui.coloredSelectedIconButton(icon, mainButtonSize, false, mainButtonFramePadding, (state ~= nil and state.color or svColor.BUTTON_ACTIVE), svColor.BUTTON_INK, tooltip)
 end
 
+local function drawWindowControlButton(window, icon, tooltip)
+	local isWindowActive = true
+	if window.ShouldShow then isWindowActive = window:ShouldShow() end
+
+	-- tristate: invisible, inactive, visible
+	local state = (isWindowActive or not window.visible) and buttonState[window.visible] or buttonState['DISABLED']
+	if edgeButton(icon, tooltip, state) then
+		window.visible = not window.visible
+	end
+end
+
 function Windows.edgeButtons.Show()
 	local isOrrery = systemView:GetDisplayMode() == "Orrery"
 	-- view control buttons
@@ -218,17 +232,17 @@ function Windows.edgeButtons.Show()
 		systemView:SetVisibility(show_grid)
 	end
 	ui.newLine()
-	-- windows control buttons
-	if edgeButton(icons.info, lc.OBJECT_INFO, buttonState[Windows.objectInfo.visible]) then
-		Windows.objectInfo.visible = not Windows.objectInfo.visible
-	end
-	if edgeButton(icons.semi_major_axis, lc.ORBIT_PLANNER, buttonState[Windows.orbitPlanner.visible]) then
-		Windows.orbitPlanner.visible = not Windows.orbitPlanner.visible
-	end
+
+	drawWindowControlButton(Windows.objectInfo, icons.info, lc.OBJECT_INFO)
+	drawWindowControlButton(Windows.orbitPlanner, icons.semi_major_axis, lc.ORBIT_PLANNER)
+end
+
+function Windows.orbitPlanner.ShouldShow()
+	return systemView:GetDisplayMode() == 'Orrery'
 end
 
 function Windows.orbitPlanner.Show()
-	if systemView:GetDisplayMode() ~= 'Orrery' then
+	if not Windows.orbitPlanner:ShouldShow() then
 		Windows.orbitPlanner.visible = false
 		return
 	end
@@ -389,6 +403,8 @@ local function displayOnScreenObjects()
 		return
 	end
 
+	local hoveredObject = nil
+
 	for _,group in ipairs(objects_grouped) do
 		local mainObject = group.mainObject
 		local mainCoords = Vector2(group.screenCoordinates.x, group.screenCoordinates.y)
@@ -398,16 +414,20 @@ local function displayOnScreenObjects()
 
 		local mp = ui.getMousePos()
 		local label = getLabel(mainObject)
-		if should_show_label or (mp - mainCoords):length() < click_radius then
+		local mouseover = (mp - mainCoords):length() < click_radius
+		local isSelected = mainObject.ref == systemView:GetSelectedObject().ref
+		if should_show_label or mouseover or isSelected then
 			if group.objects then
 				label = label .. " (" .. #group.objects .. ")"
 			end
+			local hudfont = isSelected and hudfont_highlight or hudfont
+			ui.addStyledText(mainCoords + Vector2(label_offset+2,1), ui.anchor.left, ui.anchor.center, label , ui.theme.colors.black, hudfont)
 			ui.addStyledText(mainCoords + Vector2(label_offset,0), ui.anchor.left, ui.anchor.center, label , getColor(mainObject), hudfont)
 		end
 
 		if mainObject.type == Projectable.OBJECT and (mainObject.base == Projectable.SYSTEMBODY or mainObject.base == Projectable.SHIP or mainObject.base == Projectable.PLAYER) then
 			-- mouse release handler for right button
-			if (mp - mainCoords):length() < click_radius then
+			if mouseover then
 				if not ui.isAnyWindowHovered() and ui.isMouseReleased(1) then
 					ui.openPopup("target" .. label)
 				end
@@ -439,12 +459,23 @@ local function displayOnScreenObjects()
 			end)
 		end
 		-- mouse release handler for left button
-		if (mp - mainCoords):length() < click_radius then
-			if not ui.isAnyWindowHovered() and ui.isMouseReleased(0) and mainObject.type == Projectable.OBJECT then
-				systemView:SetSelectedObject(mainObject.type, mainObject.base, mainObject.ref)
-			end
+		if mouseover and mainObject.type == Projectable.OBJECT then
+			hoveredObject = mainObject
 		end
 		objectCounter = objectCounter + 1
+	end
+
+	-- click once: select or deselect a body
+	-- double click: zoom to body or reset viewpoint
+	local clicked = not ui.isAnyWindowHovered() and (ui.isMouseClicked(0) or ui.isMouseDoubleClicked(0))
+	if clicked then
+		if hoveredObject then
+			systemView:SetSelectedObject(hoveredObject.type, hoveredObject.base, hoveredObject.ref)
+			if ui.isMouseDoubleClicked(0) then systemView:ViewSelectedObject() end
+		else
+			systemView:ClearSelectedObject()
+			if ui.isMouseDoubleClicked(0) then systemView:ResetViewpoint() end
+		end
 	end
 end
 
@@ -478,15 +509,18 @@ local function tabular(data, maxSize)
 	end
 end
 
-function Windows.objectInfo.Show()
-
+function Windows.objectInfo.ShouldShow()
 	local obj = systemView:GetSelectedObject()
+
 	if obj.type ~= Projectable.OBJECT or obj.base ~= Projectable.SHIP and obj.base ~= Projectable.SYSTEMBODY then
-		textIcon(icons.info)
-		ui.text(lc.OBJECT_INFO)
-		ui.separator()
-		return
+		return false
 	end
+
+	return true
+end
+
+function Windows.objectInfo.Show()
+	local obj = systemView:GetSelectedObject()
 
 	local isSystemBody = obj.base == Projectable.SYSTEMBODY
 	local body = obj.ref
@@ -586,6 +620,7 @@ function Windows.objectInfo.Dummy()
 end
 
 local function showWindow(w)
+	if w.ShouldShow and not w:ShouldShow() then return end
 	ui.setNextWindowSize(w.size, "Always")
 	ui.setNextWindowPos(w.pos, "Always")
 	ui.withStyleColors(w.style_colors, function() ui.window(w.name, w.params, w.Show) end)
