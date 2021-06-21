@@ -1949,7 +1949,7 @@
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
-    "message": "Toggle full comms window"
+    "message": "Tam iletişim penceresini aç/kapat"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",

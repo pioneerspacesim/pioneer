@@ -137,15 +137,15 @@
   },
   "DENY_AGAIN_1": {
     "description": "",
-    "message": "Sorry, we already have a deal. However, I would be happy to do business with you again after a successful delivery."
+    "message": "Üzgünüm, şu an halihazırda bir anlaşmamız var. Ancak, bu işi başarıyla hallederseniz sizinle tekrar çalışmaktan mutluluk duyarım."
   },
   "DENY_AGAIN_2": {
     "description": "",
-    "message": "Excuse me sir, please complete our existing contract first. Then we can negotiate another delivery."
+    "message": "Lütfen önce varolan kontratımızı tamamlayın, daha sonra başka bir taşıma işi için anlaşabiliriz."
   },
   "DENY_AGAIN_3": {
     "description": "",
-    "message": "Sir, please deliver my cargo first. Then I will do more business with you."
+    "message": "Lütfen önce kargomu teslim edin. Sonra sizinle daha çok iş yapabilirim."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -212,8 +212,8 @@
     "message": "Ev eşyası"
   },
   "GO_BACK": {
-    "description": "",
-    "message": "Go back."
+    "description": "Shown on a button in a sub-menu, to move back, to previous menu",
+    "message": "Geri dön."
   },
   "GREENHOUSES": {
     "description": "custom cargo",
@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes it is. The total amount is {amount} metric tons."
+    "message": "Evet. Toplam miktar {amount} metrik ton."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo. I have {amount}t in total."
+    "message": "Elbette, kargoyu bölüştürebiliriz. Toplamda {amount}t kadar mal var."
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes. The entire mass is {amount}t."
+    "message": "Tabii ki. Bütün miktar {amount}t kadar."
   },
   "HOWMUCH_NO_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "No, sorry. It is not possible to split the cargo. You have to transport the whole {amount} tons at once."
+    "message": "Hayır, üzgünüm. Kargoyu bölüştüremeyiz. {amount} ton malın hepsi birlikte ulaştırılmalı."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric tons (singular)",
-    "message": "No it is not. It's only {amount}t."
+    "message": "Hayır, bu mümkün değil. Kargo sadece {amount}t kadar."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount}t of {cargoname}. I can offer the following freight runs:"
+    "message": "{amount}t kadar {cargoname} var. Şu kargo uçuşlarını teklif edebilirim:"
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname} can be divided as follows:"
+    "message": "{amount}t {cargoname} şu şekilde ayrılabilir:"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "Is the amount of cargo negotiable?"
+    "message": "Kargo miktarında pazarlık yapabilir miyiz?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transport {amount}t for {reward}"
+    "message": "{reward} için {amount}t taşı"
   },
   "OK_AGREED": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, we agree on {amount}t for {reward}."
+    "message": "Tamam, {reward} için {amount} tonda anlaştık."
   },
   "PICKUP_FROM": {
     "description": "from a location",
