@@ -19,7 +19,6 @@ function layout.New(windows)
 	self.mainFont = ui.fonts.pionillium.medium
 	self.windows = windows or {}
 
-	self.onUpdateWindowConstraints = layout.onUpdateWindowConstraints
 	return self
 end
 
@@ -39,6 +38,10 @@ function layout:onUpdateWindowConstraints(windows)
 	-- override me
 end
 
+function layout:onUpdateWindowPivots(windows)
+	-- override me
+end
+
 local function calcWindowPivot(anchorH, anchorV)
 	local pv = Vector2(0, 0)
 	if anchorH == ui.anchor.right then pv.x = 1.0 end
@@ -51,7 +54,8 @@ local function calcWindowPivot(anchorH, anchorV)
 end
 
 local function showWindow(w)
-	if w.ShouldShow and not w:ShouldShow() then return end
+	if not w.visible or (w.ShouldShow and not w:ShouldShow()) then
+		return end
 
 	ui.setNextWindowSize(w.size, "Always")
 	ui.setNextWindowPos(w.pos, "Always", w.pivot)
@@ -75,9 +79,11 @@ function layout:display()
 
 		-- make final calculations on the last non-working frame
 		if self.__dummyFrames == 1 then
+			self:onUpdateWindowPivots(self.windows)
+
 			for _, w in pairs(self.windows) do
-				local anchorH = w.anchors and w.anchors.h or ui.anchor.left
-				local anchorV = w.anchors and w.anchors.v or ui.anchor.top
+				local anchorH = w.anchors and w.anchors[1] or ui.anchor.left
+				local anchorV = w.anchors and w.anchors[2] or ui.anchor.top
 				w.pivot = calcWindowPivot(anchorH, anchorV)
 				w.pos = w.pivot * Vector2(ui.screenWidth, ui.screenHeight)
 			end
@@ -91,9 +97,7 @@ function layout:display()
 		if self.enabled then
 			-- display all windows
 			ui.withFont(self.mainFont, function()
-				for _,w in pairs(self.windows) do
-					if w.visible then showWindow(w) end
-				end
+				for _,w in pairs(self.windows) do showWindow(w) end
 			end)
 		end
 	end
