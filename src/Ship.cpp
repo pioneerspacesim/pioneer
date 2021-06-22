@@ -663,10 +663,15 @@ void Ship::UpdateEquipStats()
 	p.Set("hyperspaceRange", m_stats.hyperspace_range);
 	p.Set("maxHyperspaceRange", m_stats.hyperspace_range_max);
 
+	m_stats.atmo_shield_cap = 0;
 	p.Get<int>("atmo_shield_cap", m_stats.atmo_shield_cap);
+	m_stats.radar_cap = 0;
 	p.Get<int>("radar_cap", m_stats.radar_cap);
+	m_stats.fuel_scoop_cap = 0;
 	p.Get<int>("fuel_scoop_cap", m_stats.fuel_scoop_cap);
+	m_stats.cargo_bay_life_support_cap = 0;
 	p.Get<int>("cargo_life_support_cap", m_stats.cargo_bay_life_support_cap);
+	m_stats.hull_autorepair_cap = 0;
 	p.Get<int>("hull_autorepair_cap", m_stats.hull_autorepair_cap);
 }
 
