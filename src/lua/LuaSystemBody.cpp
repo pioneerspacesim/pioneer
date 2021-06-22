@@ -668,6 +668,26 @@ static int l_sbody_attr_is_moon(lua_State *l)
 	return 1;
 }
 
+static int l_sbody_attr_is_station(lua_State *l)
+{
+	LuaPush<bool>(l, LuaObject<SystemBody>::CheckFromLua(1)->GetSuperType() == SystemBody::SUPERTYPE_STARPORT);
+	return 1;
+}
+
+static int l_sbody_attr_is_ground_station(lua_State *l)
+{
+	SystemBody *sb = LuaObject<SystemBody>::CheckFromLua(1);
+	LuaPush<bool>(l, sb->GetSuperType() == SystemBody::SUPERTYPE_STARPORT && sb->GetType() == SystemBody::TYPE_STARPORT_SURFACE);
+	return 1;
+}
+
+static int l_sbody_attr_is_space_station(lua_State *l)
+{
+	SystemBody *sb = LuaObject<SystemBody>::CheckFromLua(1);
+	LuaPush<bool>(l, sb->GetSuperType() == SystemBody::SUPERTYPE_STARPORT && sb->GetType() == SystemBody::TYPE_STARPORT_ORBITAL);
+	return 1;
+}
+
 static int l_sbody_attr_physics_body(lua_State *l)
 {
 	SystemBody *b = LuaObject<SystemBody>::CheckFromLua(1);
@@ -724,6 +744,9 @@ void LuaObject<SystemBody>::RegisterClass()
 		{ "children", l_sbody_attr_children },
 		{ "nearestJumpable", l_sbody_attr_nearest_jumpable },
 		{ "isMoon", l_sbody_attr_is_moon },
+		{ "isStation", l_sbody_attr_is_station },
+		{ "isGroundStation", l_sbody_attr_is_ground_station },
+		{ "isSpaceStation", l_sbody_attr_is_space_station },
 		{ "physicsBody", l_sbody_attr_physics_body },
 		{ 0, 0 }
 	};
