@@ -25,6 +25,6 @@
   },
   "TITLE": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ: {commodity}. Θα πληρωθούν {price} ανά τόνο"
+    "message": "ΣΕ ΖΉΤΗΣΗ: {commodity}. Θα πληρωθούν {price} ανά τόνο"
   }
 }

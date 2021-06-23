@@ -137,7 +137,7 @@
   },
   "DENY_AGAIN_1": {
     "description": "",
-    "message": "Sorry, we already have a deal. However, I would be happy to do business with you again after a successful delivery."
+    "message": "Lo siento, pero ya tenemos un trato acordado. De todos modos, estaría encantado de hacer negocios contigo tras un envío que sea satisfactorio."
   },
   "DENY_AGAIN_2": {
     "description": "",
@@ -212,7 +212,7 @@
     "message": "Muebles"
   },
   "GO_BACK": {
-    "description": "",
+    "description": "Shown on a button in a sub-menu, to move back, to previous menu",
     "message": "Go back."
   },
   "GREENHOUSES": {
