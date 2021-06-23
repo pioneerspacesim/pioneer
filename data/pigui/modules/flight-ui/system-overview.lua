@@ -12,6 +12,7 @@ local width_fraction = ui.rescaleUI(6, Vector2(1920, 1200))
 local height_fraction = 2
 
 local systemOverview = require 'pigui.modules.system-overview-window'.New()
+systemOverview.shouldDisplayPlayerDistance = true
 
 local icons = ui.theme.icons
 

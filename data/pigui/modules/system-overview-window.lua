@@ -24,13 +24,17 @@ local fg_color = colors.white
 -- Intended to be used by flight-ui as a list of nav targets,
 -- and the system info view as a list of bodies in-system
 
+---@class SystemOverviewWidget
 local SystemOverviewWidget = utils.inherits(nil, 'ui.SystemOverviewWidget')
 
 function SystemOverviewWidget.New(args)
+	---@type SystemOverviewWidget
 	local self = {}
+	self.shouldDisplayPlayerDistance = false
 	self.shouldSortByPlayerDistance = false
 	self.shouldShowStations = false
 	self.shouldShowMoons = false
+	self.focusSearchResults = false
 	self.visible = false
 	self.filterText = ""
 
@@ -45,14 +49,15 @@ local function sortBySystemDistance(a,b)
 	return (a.systemBody.periapsis + a.systemBody.apoapsis) < (b.systemBody.periapsis + b.systemBody.apoapsis)
 end
 
-local function make_result(systemBody, label, childrenVisible)
+local function make_result(systemBody, label, isSelected)
 	return {
 		systemBody = systemBody,
 		body = systemBody.body,
 		label = label,
 		children = {},
 		visible = true,
-		children_visible = childrenVisible,
+		children_visible = isSelected,
+		selected = isSelected,
 		has_space_stations = false,
 		has_ground_stations = false,
 		has_moons = false,
@@ -66,10 +71,10 @@ end
 ---@return boolean @ whether this entry is part of the chain of selected objects
 local function calculateEntry(systemBody, parent, selected, filter)
 	local result = nil
-	local is_target = selected[systemBody] or (systemBody.body and selected[systemBody.body]) or false
+	local isSelected = selected[systemBody] or (systemBody.body and selected[systemBody.body]) or false
 
-	result = make_result(systemBody, systemBody.name, is_target)
-	result.visible = is_target or filter(systemBody)
+	result = make_result(systemBody, systemBody.name, isSelected)
+	result.visible = isSelected or filter(systemBody)
 	if systemBody.isSpaceStation then
 		parent.has_space_stations = true
 	elseif systemBody.isGroundStation then
@@ -91,11 +96,22 @@ local function calculateEntry(systemBody, parent, selected, filter)
 	return result
 end
 
+function SystemOverviewWidget:onBodySelected(sBody, body)
+	-- override me
+end
+
+function SystemOverviewWidget:onBodyDoubleClicked(sBody, body)
+	-- override me
+end
+
+function SystemOverviewWidget:onBodyContextMenu(sBody, body)
+	-- override me
+end
+
 -- Render a row for an entry in the system overview
-function SystemOverviewWidget:renderEntry(entry, indent, selected)
+function SystemOverviewWidget:renderEntry(entry, indent)
 	local sbody = entry.systemBody
 	local label = entry.label or "UNKNOWN"
-	local isSelected = selected[sbody] or selected[entry.body]
 
 	ui.dummy(Vector2(iconSize.x * indent / 2.0, iconSize.y))
 	ui.sameLine()
@@ -103,8 +119,11 @@ function SystemOverviewWidget:renderEntry(entry, indent, selected)
 	ui.sameLine()
 
 	local pos = ui.getCursorPos()
-	if ui.selectable("##" .. label, isSelected, {"SpanAllColumns"}, Vector2(0, iconSize.y)) then
+	if ui.selectable("##" .. label, entry.selected, {"SpanAllColumns"}, Vector2(0, iconSize.y)) then
 		self:onBodySelected(sbody, entry.body)
+	end
+	if ui.isItemHovered() and ui.isMouseDoubleClicked(0) then
+		self:onBodyDoubleClicked(sbody, entry.body)
 	end
 	if ui.isItemHovered() and ui.isMouseClicked(1) then
 		self:onBodyContextMenu(sbody, entry.body)
@@ -134,7 +153,7 @@ function SystemOverviewWidget:renderEntry(entry, indent, selected)
 	ui.alignTextToLineHeight(iconSize.y)
 
 	local distance
-	if entry.body and self.showingActiveSystem then
+	if entry.body and self.shouldDisplayPlayerDistance then
 		distance = entry.body:DistanceTo(Game.player)
 	else
 		distance = (sbody.apoapsis + sbody.periapsis) / 2.0
@@ -143,13 +162,14 @@ function SystemOverviewWidget:renderEntry(entry, indent, selected)
 	ui.nextColumn()
 end
 
-function SystemOverviewWidget:showEntry(entry, indent, selected, sortFunction)
-	self:renderEntry(entry, indent, selected)
+function SystemOverviewWidget:showEntry(entry, indent, sortFunction)
+	if entry.systemBody.type ~= 'GRAVPOINT' then self:renderEntry(entry, indent) end
 
+	local isVisible = entry.children_visible and not self.focusSearchResults
 	table.sort(entry.children, sortFunction)
 	for _, v in pairs(entry.children) do
-		if v.visible or entry.children_visible then
-			self:showEntry(v, indent + 1, selected, sortFunction)
+		if v.visible or isVisible then
+			self:showEntry(v, indent + 1, sortFunction)
 		end
 	end
 end
@@ -169,13 +189,13 @@ function SystemOverviewWidget:overrideDrawButtons()
 end
 
 function SystemOverviewWidget:display(system, root, selected)
-	self.showingActiveSystem = Game.system.path:IsSameSystem(system.path)
 	self:overrideDrawButtons()
 
 	root = root or system.rootSystemBody
 
 	local filterText = ui.inputText("", self.filterText, {})
 	self.filterText = filterText
+	self.focusSearchResults = filterText and filterText ~= ""
 
 	ui.sameLine()
 	ui.icon(icons.filter_bodies, button_size, colors.frame, lui.OVERVIEW_NAME_FILTER)
@@ -187,9 +207,9 @@ function SystemOverviewWidget:display(system, root, selected)
 		if filterText ~= "" and filterText ~= nil and not string.find(systemBody.name:lower(), filterText:lower(), 1, true) then
 			return false
 		end
-		if (not self.shouldShowMoons) and systemBody.isMoon then
+		if not (self.shouldShowMoons or self.focusSearchResults) and systemBody.isMoon then
 			return false
-		elseif (not self.shouldShowStations) and systemBody.isStation then
+		elseif not (self.shouldShowStations or self.focusSearchResults) and systemBody.isStation then
 			return false
 		end
 		return true
@@ -201,7 +221,7 @@ function SystemOverviewWidget:display(system, root, selected)
 		if tree then
 			ui.columns(2, "spaceTargetColumnsOn", false) -- no border
 			ui.setColumnOffset(1, ui.getWindowSize().x * 0.66)
-			self:showEntry(tree, 0, selected, sortFunction)
+			self:showEntry(tree, 0, sortFunction)
 			ui.columns(1, "spaceTargetColumnsOff", false) -- no border
 			ui.radialMenu("systemoverviewspacetargets")
 		else
