@@ -174,6 +174,7 @@ end
 -- all windows in this view
 local Windows = {
 	systemName = layout.NewWindow("SystemMapSystemName"),
+	systemOverview = layout.NewWindow("SystemMapOverview"),
 	objectInfo = layout.NewWindow("SystemMapObjectIngo"),
 	edgeButtons = layout.NewWindow("SystemMapEdgeButtons"),
 	orbitPlanner = layout.NewWindow("SystemMapOrbitPlanner"),
@@ -183,6 +184,27 @@ local Windows = {
 
 local systemViewLayout = layout.New(Windows)
 systemViewLayout.mainFont = winfont
+
+local systemOverviewWidget = require 'pigui.modules.system-overview-window'.New()
+
+function systemOverviewWidget:onBodySelected(sBody)
+	systemView:SetSelectedObject(Projectable.OBJECT, Projectable.SYSTEMBODY, sBody)
+end
+
+function systemOverviewWidget:onBodyDoubleClicked(sBody)
+	systemView:ViewSelectedObject()
+end
+
+function Windows.systemOverview.ShouldShow()
+	return not Windows.unexplored.visible
+end
+
+function Windows.systemOverview.Show()
+	local selected = { [systemView:GetSelectedObject().ref or true] = true }
+	ui.withFont(ui.fonts.pionillium.medium, function()
+		systemOverviewWidget:display(systemView:GetSystem(), nil, selected)
+	end)
+end
 
 local function edgeButton(icon, tooltip, state)
 	return ui.coloredSelectedIconButton(icon, mainButtonSize, false, mainButtonFramePadding, (state ~= nil and state.color or svColor.BUTTON_ACTIVE), svColor.BUTTON_INK, tooltip)
@@ -474,6 +496,7 @@ local function displayOnScreenObjects()
 				ui.text(getLabel(mainObject))
 				ui.separator()
 				if isOrrery and ui.selectable(lc.CENTER, false, {}) then
+					selectedObject = mainObject.ref
 					systemView:SetSelectedObject(mainObject.type, mainObject.base, mainObject.ref)
 				end
 				if (isShip or isSystemBody and mainObject.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
@@ -509,9 +532,11 @@ local function displayOnScreenObjects()
 	local clicked = not ui.isAnyWindowHovered() and (ui.isMouseClicked(0) or ui.isMouseDoubleClicked(0))
 	if clicked then
 		if hoveredObject then
+			selectedObject = hoveredObject.ref
 			systemView:SetSelectedObject(hoveredObject.type, hoveredObject.base, hoveredObject.ref)
 			if ui.isMouseDoubleClicked(0) then systemView:ViewSelectedObject() end
 		else
+			selectedObject = nil
 			systemView:ClearSelectedObject()
 			if ui.isMouseDoubleClicked(0) then systemView:ResetViewpoint() end
 		end
@@ -663,12 +688,16 @@ function systemViewLayout:onUpdateWindowPivots(w)
 	w.timeButtons.anchors = { ui.anchor.right, ui.anchor.bottom }
 	w.orbitPlanner.anchors = { ui.anchor.right, ui.anchor.bottom }
 	w.objectInfo.anchors = { ui.anchor.right, ui.anchor.bottom }
+	w.unexplored.anchors = { ui.anchor.center, ui.anchor.center }
 end
 
 function systemViewLayout:onUpdateWindowConstraints(w)
 	-- resizing, aligning windows - static
 	w.systemName.pos = Vector2(winfont.size)
 	w.systemName.size.x = 0 -- adaptive width
+
+	w.systemOverview.pos = w.systemName.pos + w.systemName.size
+	w.systemOverview.size.y = ui.screenHeight - w.systemOverview.pos.y - 12 - ui.timeWindowSize.y
 
 	w.orbitPlanner.pos = w.timeButtons.pos - Vector2(w.edgeButtons.size.x, w.timeButtons.size.y)
 	w.orbitPlanner.size.x = w.timeButtons.size.x - w.edgeButtons.size.x

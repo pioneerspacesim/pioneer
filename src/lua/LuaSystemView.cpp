@@ -272,6 +272,13 @@ static int l_systemview_get_projected_grouped(lua_State *l)
 	return 1;
 }
 
+static int l_systemview_get_system(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	LuaPush(l, sv->GetCurrentSystem());
+	return 1;
+}
+
 static int l_systemview_get_selected_object(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
@@ -457,6 +464,7 @@ void LuaObject<SystemView>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 
+		{ "GetSystem", l_systemview_get_system },
 		{ "ClearSelectedObject", l_systemview_clear_selected_object },
 		{ "GetProjectedGrouped", l_systemview_get_projected_grouped },
 		{ "GetSelectedObject", l_systemview_get_selected_object },
