@@ -25,7 +25,7 @@
   },
   "FLAVOUR_1_PRICE": {
     "description": "",
-    "message": "Το κόστος συντήρησης για τον δικό σας {drive} θα είναι {τιμή}\n{τελευταία φορά}"
+    "message": "Το κόστος συντήρησης για τον δικό σας {drive} θα είναι {price}\n{lasttime}"
   },
   "FLAVOUR_1_RESPONSE": {
     "description": "",
