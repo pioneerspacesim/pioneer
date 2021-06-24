@@ -40,6 +40,9 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 	m_time(startDateTime),
 	m_state(State::NORMAL),
 	m_wantHyperspace(false),
+	m_hyperspaceProgress(0),
+	m_hyperspaceDuration(0),
+	m_hyperspaceEndTime(0),
 	m_timeAccel(TIMEACCEL_1X),
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)

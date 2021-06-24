@@ -68,7 +68,7 @@ protected:
 	RefCountedPtr<FixedGuns> m_fguns;
 
 	std::unique_ptr<AICommand> m_child;
-	bool m_is_flyto;
+	bool m_is_flyto = false;
 	CmdName m_cmdName;
 
 	int m_dBodyIndex; // deserialisation
