@@ -57,7 +57,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "",
-    "message": "Διαθέσιμα για αγορά"
+    "message": "Διαθέσιμος εξοπλισμός για αγορά"
   },
   "AVERAGE": {
     "description": "",
@@ -449,7 +449,7 @@
   },
   "EQUIPPED": {
     "description": "",
-    "message": "Εφοδιάστηκε"
+    "message": "Εγκατεστημένος εξοπλισμός"
   },
   "ERROR": {
     "description": "",
