@@ -79,7 +79,7 @@ pull request, see:
 Localization for Pioneer is handled trough Transifex, and pulled to the source from there automatically. Because of this please don't make pull requests for translations. [You can find the localization project here.](https://www.transifex.com/pioneer/pioneer/dashboard/)
 You need to register at transifex to be able to access the translations.
 
-If you want a new language introduced, [please request it on the Freenode IRC channel of Pioneer](https://webchat.freenode.net/?channels=pioneer), or here by making an issue for it.
+If you want a new language introduced, [please request it on the Libera IRC channel of Pioneer](https://web.libera.chat/#pioneer), or here by making an issue for it.
 
 ## Getting Pioneer
 
