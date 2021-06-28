@@ -212,7 +212,7 @@
     "message": "Επίπλων"
   },
   "GO_BACK": {
-    "description": "",
+    "description": "Shown on a button in a sub-menu, to move back, to previous menu",
     "message": "Επιστρέψτε."
   },
   "GREENHOUSES": {
@@ -241,7 +241,7 @@
   },
   "HOWMUCH_NO_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Όχι, λυπάμαι. Δεν είναι δυνατόν να χωρίσουμε το φορτίο. Πρέπει να μεταφέρετε όλους τους τόνους μαζί."
+    "message": "Όχι, λυπάμαι. Δεν είναι δυνατόν να χωρίσουμε το φορτίο. Πρέπει να μεταφέρετε όλους τους {amount} τόνους μαζί."
   },
   "HOWMUCH_SINGULAR_1": {
     "description": "This string is only used for 1 metric tons (singular)",
