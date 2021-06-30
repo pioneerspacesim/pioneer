@@ -445,7 +445,7 @@
   },
   "EQUIPMENT_MARKET": {
     "description": "",
-    "message": "Αγορά εξοπλισμών"
+    "message": "Αγορά εξοπλισμού"
   },
   "EQUIPPED": {
     "description": "",
@@ -1817,7 +1817,7 @@
   },
   "SHIP_REPAIRS": {
     "description": "",
-    "message": "Επισκευές σκαφών"
+    "message": "Επισκευές σκάφους"
   },
   "SHIP_TYPE": {
     "description": "",

@@ -261,7 +261,7 @@
   },
   "CRIMINAL": {
     "description": "Legal status of player",
-    "message": "Criminal"
+    "message": "Eucoireach"
   },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
@@ -617,7 +617,7 @@
   },
   "FUGITIVE": {
     "description": "Legal status of player",
-    "message": "Fugitive"
+    "message": "Fon choill"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -1489,7 +1489,7 @@
   },
   "OFFENDER": {
     "description": "Legal status of player",
-    "message": "Offender"
+    "message": "Ciontach"
   },
   "OK": {
     "description": "",
@@ -1521,7 +1521,7 @@
   },
   "OUTLAW": {
     "description": "Legal status of player",
-    "message": "Outlaw"
+    "message": "Fògarrach"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
@@ -1949,7 +1949,7 @@
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
-    "message": "Toggle full comms window"
+    "message": "Toglaich uinneag shlàn a’ chonaltraidh"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
