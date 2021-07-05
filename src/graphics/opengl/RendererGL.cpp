@@ -39,6 +39,8 @@
 
 namespace Graphics {
 
+	const char *gl_framebuffer_error_to_string(GLuint st);
+
 	static bool CreateWindowAndContext(const char *name, const Graphics::Settings &vs, SDL_Window *&window, SDL_GLContext &context)
 	{
 		PROFILE_SCOPED()
@@ -160,6 +162,9 @@ namespace Graphics {
 		// pump this once as glewExperimental is necessary but spews a single error
 		glGetError();
 
+		if (vs.enableDebugMessages)
+			GLDebug::Enable();
+
 		if (!glewIsSupported("GL_VERSION_3_1")) {
 			Error(
 				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.1\n"
@@ -228,9 +233,6 @@ namespace Graphics {
 		SetClearColor(Color4f(0.f, 0.f, 0.f, 0.f));
 		SetViewport(Viewport(0, 0, m_width, m_height));
 
-		if (vs.enableDebugMessages)
-			GLDebug::Enable();
-
 		// check enum PrimitiveType matches OpenGL values
 		assert(POINTS == GL_POINTS);
 		assert(LINE_SINGLE == GL_LINES);
@@ -246,13 +248,18 @@ namespace Graphics {
 			TextureFormat::TEXTURE_RGBA_8888,
 			TextureFormat::TEXTURE_DEPTH,
 			false, vs.requestedSamples);
-
 		m_windowRenderTarget = static_cast<OGL::RenderTarget *>(CreateRenderTarget(windowTargetDesc));
-		SetRenderTarget(nullptr);
 
-		if (!m_windowRenderTarget->CheckStatus())
-			Error("Pioneer window render target is invalid.\n"
-				  "Does your graphics driver support multisample anti-aliasing?");
+		m_windowRenderTarget->Bind();
+		if (!m_windowRenderTarget->CheckStatus()) {
+			GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+			Log::Fatal("Pioneer window render target is invalid. (Error: {})\n"
+				"Does your graphics driver support multisample anti-aliasing?\n"
+				"If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
+				gl_framebuffer_error_to_string(status));
+		}
+
+		SetRenderTarget(nullptr);
 	}
 
 	RendererOGL::~RendererOGL()
@@ -279,6 +286,24 @@ namespace Graphics {
 		case GL_INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
 		case GL_OUT_OF_MEMORY: return "out of memory";
 		default: return "(unknown error)";
+		}
+	}
+
+	const char *gl_framebuffer_error_to_string(GLuint st)
+	{
+		switch (st) {
+		case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+			return "INCOMPLETE_ATTACHMENT";
+		case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+			return "INCOMPLETE_MISSING_ATTACHMENT";
+		case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+			return "INCOMPLETE_DRAW_BUFFER";
+		case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+			return "INCOMPLETE_READ_BUFFER";
+		case GL_FRAMEBUFFER_UNSUPPORTED:
+			return "FRAMEBUFFER_UNSUPPORTED";
+		default:
+			return "Unknown reason";
 		}
 	}
 
@@ -1170,7 +1195,7 @@ namespace Graphics {
 				rt->CreateDepthRenderbuffer();
 			}
 		}
-		rt->CheckStatus();
+
 		rt->Unbind();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
