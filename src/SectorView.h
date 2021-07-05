@@ -16,6 +16,7 @@
 
 class Game;
 class Galaxy;
+class ImDrawList;
 
 class SectorView : public PiGuiView, public DeleteEmitter {
 public:
@@ -26,6 +27,7 @@ public:
 	void Update() override;
 	// void ShowAll() override;
 	void Draw3D() override;
+
 	vector3f GetPosition() const { return m_pos; }
 	SystemPath GetCurrent() const { return m_current; }
 	SystemPath GetSelected() const { return m_selected; }
@@ -186,6 +188,8 @@ private:
 	int m_cacheYMax;
 	int m_cacheZMin;
 	int m_cacheZMax;
+
+	std::unique_ptr<ImDrawList> m_drawList;
 
 	std::unique_ptr<Graphics::VertexArray> m_lineVerts;
 	std::unique_ptr<Graphics::VertexArray> m_secLineVerts;

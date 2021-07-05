@@ -406,6 +406,7 @@ ImDrawList* ImDrawList::CloneOutput() const
 void ImDrawList::AddDrawCmd()
 {
     ImDrawCmd draw_cmd;
+	draw_cmd.PrimDepth = 0.0f;
     draw_cmd.ClipRect = GetCurrentClipRect();
     draw_cmd.TextureId = GetCurrentTextureId();
     draw_cmd.VtxOffset = _VtxCurrentOffset;

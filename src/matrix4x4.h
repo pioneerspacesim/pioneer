@@ -308,7 +308,7 @@ public:
 	///////////////////////////////////////////////////////////////////////////////
 	static matrix4x4 OrthoFrustum(T left, T right, T bottom, T top, T znear, T zfar)
 	{
-		assert((znear >= T(-1)) && (zfar > T(0)));
+		assert((znear >= T(-1)) && (zfar >= T(0)));
 		T a = T(2) / (right - left);
 		T b = T(2) / (top - bottom);
 		T c = T(1) / (zfar - znear);

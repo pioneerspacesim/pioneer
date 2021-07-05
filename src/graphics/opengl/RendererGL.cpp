@@ -232,7 +232,7 @@ namespace Graphics {
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 		// use floating-point reverse-Z depth buffer to remove the need for depth buffer hacks
-		glDepthFunc(GL_GREATER);
+		glDepthFunc(GL_GEQUAL);
 		// clear to 0.0 for use with reverse-Z
 		glClearDepth(0.0);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

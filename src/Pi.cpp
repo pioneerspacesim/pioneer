@@ -679,6 +679,7 @@ void MainMenu::Update(float deltaTime)
 		Pi::pigui->SetNormalStyle();
 	}
 
+	Pi::renderer->ClearDepthBuffer();
 	Pi::pigui->Render();
 
 	if (Pi::game) {
@@ -1004,9 +1005,6 @@ void GameLoop::Update(float deltaTime)
 	Pi::luaConsole->HandleTCPDebugConnections();
 #endif
 
-	// Reset the depth buffer so our UI can get drawn right overtop
-	Pi::renderer->ClearDepthBuffer();
-
 	// Ask ImGui to hide OS cursor if we're capturing it for input:
 	// it will do this if GetMouseCursor == ImGuiMouseCursor_None.
 	if (Pi::input->IsCapturingMouse()) {
@@ -1036,6 +1034,8 @@ void GameLoop::Update(float deltaTime)
 		Pi::pigui->SetNormalStyle();
 	}
 
+	// Reset the depth buffer so our UI can get drawn right overtop
+	Pi::renderer->ClearDepthBuffer();
 	Pi::pigui->Render();
 
 	perfTimer.SoftStop();

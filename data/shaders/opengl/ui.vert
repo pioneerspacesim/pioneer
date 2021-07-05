@@ -6,9 +6,11 @@
 out vec4 v_color;
 out vec2 v_texCoord0;
 
+uniform float vertexDepth;
+
 void main(void)
 {
-	gl_Position = matrixTransform();
+	gl_Position = uViewProjectionMatrix * vec4(a_vertex.xy, vertexDepth, 1.0);
 	v_color = a_color;
 	v_texCoord0 = a_uv0.xy;
 }

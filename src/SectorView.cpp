@@ -22,9 +22,12 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/Types.h"
+#include "imgui/imgui.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaObject.h"
 #include "matrix4x4.h"
+#include "pigui/PiGui.h"
+#include "pigui/PiGuiRenderer.h"
 #include "sigc++/functors/mem_fun.h"
 #include "utils.h"
 #include <algorithm>
@@ -377,6 +380,8 @@ void SectorView::InitObject()
 
 	Graphics::MaterialDescriptor lineDesc;
 	m_lineMat.Reset(m_renderer->CreateMaterial("vtxColor", lineDesc, rsd));
+
+	m_drawList.reset(new ImDrawList(ImGui::GetDrawListSharedData()));
 }
 
 SectorView::~SectorView()
@@ -421,6 +426,13 @@ void SectorView::SaveToJson(Json &jsonObj)
 void SectorView::Draw3D()
 {
 	PROFILE_SCOPED()
+
+	ImFont *font = Pi::pigui->GetFont("orbiteer", 14);
+	if (!font) font = ImGui::GetFont();
+
+	m_drawList->Clear();
+	m_drawList->PushTextureID(font->ContainerAtlas->TexID);
+	m_drawList->PushClipRectFullScreen();
 
 	m_lineVerts->Clear();
 	m_secLineVerts->Clear();
@@ -495,6 +507,21 @@ void SectorView::Draw3D()
 		}
 		DrawRouteLines(modelview);
 	}
+
+	ImDrawData drawData{};
+	ImDrawList *dl = m_drawList.get();
+
+	drawData.Valid = true;
+	drawData.CmdLists = &dl;
+	drawData.CmdListsCount = 1;
+	drawData.TotalVtxCount = dl->VtxBuffer.size();
+	drawData.TotalIdxCount = dl->IdxBuffer.size();
+
+	drawData.DisplayPos = ImVec2(0.0f, 0.0f);
+	drawData.DisplaySize = ImVec2(Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+	drawData.FramebufferScale = ImVec2(1.0f, 1.0f);
+
+	Pi::pigui->GetRenderer()->RenderDrawData(&drawData);
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -624,6 +651,10 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 			// setup the label;
 			// FIXME: send this info to Lua for decoration
 			// m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
+			m_drawList->AddDrawCmd();
+			m_drawList->CmdBuffer.back().PrimDepth = -screenPos.z * 1.01;
+			float y = Graphics::GetScreenHeight() - screenPos.y;
+			m_drawList->AddText({ float(screenPos.x), y }, IM_COL32(labelColor.r, labelColor.g, labelColor.b, 255), text.c_str());
 		}
 	}
 }

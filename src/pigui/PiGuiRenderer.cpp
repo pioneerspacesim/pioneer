@@ -16,6 +16,9 @@
 
 using namespace PiGui;
 
+size_t InstanceRenderer::s_textureName = Graphics::Renderer::GetName("texture0");
+size_t InstanceRenderer::s_vertexDepthName = Graphics::Renderer::GetName("vertexDepth");
+
 InstanceRenderer::InstanceRenderer(Graphics::Renderer *r) :
 	m_renderer(r)
 {}
@@ -36,7 +39,8 @@ void InstanceRenderer::Initialize()
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.cullMode = Graphics::CULL_NONE;
-	rsd.depthTest = false;
+	rsd.depthTest = true;
+	rsd.depthWrite = false;
 	rsd.scissorTest = true;
 
 	Graphics::MaterialDescriptor mDesc;
@@ -60,6 +64,8 @@ void InstanceRenderer::Shutdown()
 
 void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 {
+	Graphics::Renderer::StateTicket st(m_renderer);
+
 	ImGuiIO &io = ImGui::GetIO();
 	int fb_width = (int)(draw_data->DisplaySize.x * io.DisplayFramebufferScale.x);
 	int fb_height = (int)(draw_data->DisplaySize.y * io.DisplayFramebufferScale.y);
@@ -73,7 +79,7 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 	float T = draw_data->DisplayPos.y;
 	float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	m_renderer->SetProjection(matrix4x4f::OrthoFrustum(L, R, B, T, 1.0, 0.0));
+	m_renderer->SetProjection(matrix4x4f::OrthoFrustum(L, R, B, T, -1.0, 0.0));
 
 	// we're going to throw all of the vertex and index data straight to the GPU
 	// in a single buffer for each, right before we begin executing commands.
@@ -113,7 +119,8 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 					Graphics::ViewportExtents vp(clip_rect.x, (fb_height - clip_rect.w), (clip_rect.z - clip_rect.x), (clip_rect.w - clip_rect.y));
 					m_renderer->SetScissor(vp);
 
-					m_material->SetTexture(m_renderer->GetName("texture0"), reinterpret_cast<Graphics::Texture *>(pcmd->TextureId));
+					m_material->SetTexture(s_textureName, reinterpret_cast<Graphics::Texture *>(pcmd->TextureId));
+					m_material->SetPushConstant(s_vertexDepthName, pcmd->PrimDepth);
 					m_renderer->DrawBufferDynamic(m_vtxBuffer.get(), vtxOffset, m_idxBuffer.get(), idxOffset, pcmd->ElemCount, m_material.get());
 				}
 			}

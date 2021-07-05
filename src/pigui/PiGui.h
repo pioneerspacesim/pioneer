@@ -90,6 +90,8 @@ namespace PiGui {
 		void Init(Graphics::Renderer *renderer);
 		void Uninit();
 
+		InstanceRenderer *GetRenderer() { return m_instanceRenderer.get(); }
+
 		// Call at the start of every frame. Calls ImGui::NewFrame() internally.
 		void NewFrame();
 

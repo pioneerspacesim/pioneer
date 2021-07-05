@@ -6,5 +6,7 @@ Shader ui
 Texture sampler2D texture0 name=diffuse
 Buffer DrawData binding=1
 
+PushConstant float vertexDepth
+
 Vertex "ui.vert"
 Fragment "ui.frag"
