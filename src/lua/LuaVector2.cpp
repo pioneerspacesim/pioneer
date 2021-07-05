@@ -105,7 +105,9 @@ static int l_vector_mul(lua_State *L)
 		const double s = lua_tonumber(L, 2);
 		LuaVector2::PushToLua(L, *v * s);
 	} else {
-		return luaL_error(L, "general vector product doesn't exist; please use dot() or cross()");
+		const vector2d *v1 = LuaVector2::CheckFromLua(L, 1);
+		const vector2d *v2 = LuaVector2::CheckFromLua(L, 2);
+		LuaVector2::PushToLua(L, (*v1) * (*v2));
 	}
 	return 1;
 }
