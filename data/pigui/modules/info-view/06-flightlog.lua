@@ -48,14 +48,18 @@ local function inputText(entry, counter, entering_text, log, str, clicked)
 	end
 
 	if clicked or entering_text == counter then
+		ui.spacing()
+		ui.pushItemWidth(-1.0)
 		local updated_entry, return_pressed = ui.inputText("##" ..str..counter, entry, {"EnterReturnsTrue"})
+		ui.popItemWidth()
 		entering_text = counter
 		if return_pressed then
 			log(counter, updated_entry)
 			entering_text = -1
 		end
 	end
-	ui.text("")
+
+	ui.spacing()
 	return entering_text
 end
 
@@ -72,9 +76,6 @@ local function renderCustomLog()
 	local was_clicked = false
 	for systemp, time, money, location, entry in FlightLog.GetCustomEntry() do
 		counter = counter + 1
-		-- reserve a narrow right colum for small edit/remove icon,
-		ui.columns(2, "custom" .. counter, false)
-		ui.setColumnWidth(0, ui.getWindowSize().x - 2*iconSize.x)
 
 		headerText(l.DATE, formatDate(time))
 		headerText(l.LOCATION, composeLocationString(location))
@@ -102,8 +103,10 @@ local function renderCustomLog()
 			-- if we were already in edit mode, reset it, or else it carries over to next iteration
 			entering_text_custom = false
 		end
-		ui.columns(1)
+
+		ui.nextColumn()
 		ui.separator()
+		ui.spacing()
 	end
 end
 
@@ -113,8 +116,6 @@ local function renderStationLog()
 	local was_clicked = false
 	for systemp, deptime, money, entry in FlightLog.GetStationPaths() do
 		counter = counter + 1
-		ui.columns(2, "station" .. counter, false)
-		ui.setColumnWidth(0, ui.getWindowSize().x - 2*iconSize.x)
 
 		local station_type = "FLIGHTLOG_" .. systemp:GetSystemBody().type
 		headerText(l.DATE, formatDate(deptime))
@@ -136,7 +137,8 @@ local function renderStationLog()
 			was_clicked = true
 			goto input
 		end
-		ui.columns(1)
+
+		ui.nextColumn()
 		ui.separator()
 	end
 end
@@ -147,8 +149,6 @@ local function renderSystemLog()
 	local was_clicked = false
 	for systemp, arrtime, deptime, entry in FlightLog.GetSystemPaths() do
 		counter = counter + 1
-		ui.columns(2, "system" .. counter, false)
-		ui.setColumnWidth(0, ui.getWindowSize().x - 2*iconSize.x)
 
 		headerText(l.ARRIVAL_DATE, formatDate(arrtime))
 		headerText(l.DEPARTURE_DATE, formatDate(deptime))
@@ -166,14 +166,27 @@ local function renderSystemLog()
 			was_clicked = true
 			goto input
 		end
-		ui.columns(1)
+
+		ui.nextColumn()
 		ui.separator()
 	end
+end
+
+local function displayLog(logFn)
+	ui.spacing()
+	-- reserve a narrow right column for edit / remove icon
+	local width = ui.getContentRegion().x
+	ui.columns(2, "##flightLogColumns", false)
+	ui.setColumnWidth(0, width - iconSize.x)
+
+	logFn()
+	ui.columns(1)
 end
 
 local function getFlightHistory()
 	if ui.beginTabBar("mytabbar") then
 		if ui.beginTabItem(l.LOG_CUSTOM) then
+			ui.spacing()
 			-- input field for custom log:
 			headerText(l.LOG_NEW, "")
 			ui.sameLine()
@@ -183,17 +196,17 @@ local function getFlightHistory()
 			end
 			ui.separator()
 
-			renderCustomLog()
+			displayLog(renderCustomLog)
 			ui.endTabItem()
 		end
 
 		if ui.beginTabItem(l.LOG_STATION) then
-			renderStationLog()
+			displayLog(renderStationLog)
 			ui.endTabItem()
 		end
 
 		if ui.beginTabItem(l.LOG_SYSTEM) then
-			renderSystemLog()
+			displayLog(renderSystemLog)
 			ui.endTabItem()
 		end
 
@@ -214,4 +227,5 @@ InfoView:registerView({
     showView = true,
     draw = drawLog,
     refresh = function() end,
+	debugReload = function() package.reimport() end
 })

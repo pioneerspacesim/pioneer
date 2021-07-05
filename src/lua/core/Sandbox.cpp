@@ -34,8 +34,10 @@ static int l_d_mode_enabled(lua_State *L)
 
 static int l_log_warning(lua_State *L)
 {
-	std::string str = lua_tostring(L, 1);
-	Log::GetLog()->LogLevel(Log::Severity::Warning, str);
+	const char *str = lua_tostring(L, 1);
+	if (lua_gettop(L) > 0 && str)
+		Log::GetLog()->LogLevel(Log::Severity::Warning, str);
+
 	return 0;
 }
 

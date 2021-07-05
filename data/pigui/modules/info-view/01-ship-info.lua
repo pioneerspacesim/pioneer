@@ -30,6 +30,7 @@ local function resetModelSpinner()
 end
 
 local function shipSpinner()
+	if not modelSpinner then resetModelSpinner() end
 	local spinnerWidth = ui.getColumnWidth()
 	modelSpinner:setSize(Vector2(spinnerWidth, spinnerWidth / 1.5))
 
@@ -38,6 +39,7 @@ local function shipSpinner()
 	ui.group(function ()
 		local font = ui.fonts.orbiteer.large
 		ui.withFont(font.name, font.size, function()
+			ui.alignTextToFramePadding()
 			ui.text(shipDef.name)
 			ui.sameLine()
 			ui.pushItemWidth(-1.0)
@@ -184,6 +186,7 @@ InfoView:registerView({
 		end)
 	end,
 	refresh = function() end,
+	debugReload = function() package.reimport() end
 })
 
 Event.Register("onGameStart", resetModelSpinner)

@@ -1579,6 +1579,10 @@
     "description": "",
     "message": "Planet textures"
   },
+  "PLEASE_REPORT_THIS_ERROR": {
+	"description": "Informational text mentioning the error and asking the player to report it.",
+	"message": "Oops, something went wrong here! Please report this error, the output log, and your current save file to the Pioneer issue tracker on Github."
+  },
   "POLICE": {
     "description": "",
     "message": "Police"

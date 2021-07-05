@@ -60,8 +60,8 @@ array_table.draw = function(id, tbl, iter, columns, extra)
 	local function less   (a, b) return a and ( not b or a < b ) end
 	local function greater(a, b) return a and ( not b or b < a ) end
 	local sort_symbol = {
-		[less]    = { sym = "▼ ", nxt = greater },
-		[greater] = { sym = "▲ ", nxt = less    }
+		[less]    = { sym = "▲ ", nxt = greater },
+		[greater] = { sym = "▼ ", nxt = less    }
 	}
 	if not sort_param[id] then sort_param[id] = {} end
 

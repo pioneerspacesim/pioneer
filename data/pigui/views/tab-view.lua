@@ -3,6 +3,7 @@
 
 local Game = require 'Game'
 local ui = require 'pigui'
+local lui = require 'Lang'.GetResource 'ui-core'
 
 local orbiteer = ui.fonts.orbiteer
 
@@ -79,6 +80,7 @@ function PiGuiTabView:SwitchTo(id)
 end
 
 local staticButtonFlags = ui.WindowFlags {"NoResize", "NoTitleBar", "NoMove", "NoFocusOnAppearing", "NoScrollbar"}
+local vCenter = Vector2(0.5, 0.5)
 
 function PiGuiTabView.renderTabView(self)
 	local wasActive = self.isActive
@@ -91,25 +93,47 @@ function PiGuiTabView.renderTabView(self)
 	-- refresh the tab since we're swapping back to the view
 	if self.isActive and not wasActive then tab.refresh() end
 
-    if(tab.showView) then
-        ui.withStyleColors({
-            ["WindowBg"] = colors.blueBackground,
-            ["Border"] = colors.blueFrame,
-        }, function()
-            ui.withStyleVars({
-                WindowRounding = 0,
-                WindowBorderSize = 1.0,
-                WindowPadding = self.windowPadding,
-            }, function()
-                ui.setNextWindowPos(self.viewWindowPos, "Always")
-                ui.setNextWindowSize(self.viewWindowSize, "Always")
-				ui.window("StationView", {"NoResize", "NoTitleBar"}, function()
-					local ok, err = ui.pcall(tab.draw, tab)
-					if not ok then logWarning(err); tab.showView = false end
-				end)
-            end)
-        end)
+	local styleColors = {
+		["WindowBg"] = colors.blueBackground,
+		["Border"] = colors.blueFrame,
+	}
+	local styleVars = {
+		WindowRounding = 0,
+		WindowBorderSize = 1.0,
+		WindowPadding = self.windowPadding,
+	}
+
+    if (tab.showView) then
+        ui.withStyleColorsAndVars(styleColors, styleVars, function()
+			-- TODO: show an error message dialog here if the tab has errored out.
+			ui.setNextWindowPos(self.viewWindowPos, "Always")
+			ui.setNextWindowSize(self.viewWindowSize, "Always")
+			ui.window("StationView", {"NoResize", "NoTitleBar"}, function()
+				tab.showView, tab.err = ui.pcall(tab.draw, tab)
+				if not tab.showView then logWarning(err) end
+			end)
+		end)
     end
+
+	if (tab.err) then
+		ui.setNextWindowPos(self.viewWindowPos + self.viewWindowSize * 0.5, "Always", vCenter)
+		ui.setNextWindowSize(self.viewWindowSize * 0.6, "Always")
+		ui.withStyleColorsAndVars(styleColors, styleVars, function()
+			ui.window("StationViewTabError", {"NoResize", "NoTitleBar"}, function()
+				ui.withFont(ui.fonts.orbiteer.medlarge, function() ui.text(lui.AN_ERROR_HAS_OCCURRED) end)
+				ui.withFont(ui.fonts.pionillium.medium, function()
+					ui.spacing()
+					ui.textWrapped(lui.PLEASE_REPORT_THIS_ERROR)
+					ui.spacing()
+					ui.child("#TabErrorMsg", function()
+						local err = tab.err
+						if type(err) == "string" then err = err:gsub('\t', '        ') end
+						ui.textWrapped(err)
+					end)
+				end)
+			end)
+		end)
+	end
 
     ui.withFont(orbiteer.large.name, orbiteer.large.size * 1.5, function()
         local text_window_padding = 12
