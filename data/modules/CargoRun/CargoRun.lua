@@ -389,40 +389,21 @@ onChat = function (form, ref, option)
 
 	elseif option == 2 then
 		local howmuch
-		if ad.amount == 1 then
-			howmuch = string.interp(l["HOWMUCH_SINGULAR_" .. Engine.rand:Integer(1,getNumberOfFlavours("HOWMUCH_SINGULAR"))],
-				{amount = ad.amount})
-		elseif ad.negotiable then
-			if ad.wholesaler then
-				howmuch = string.interp(l["HOWMUCH_WHOLESALER_" .. Engine.rand:Integer(1, getNumberOfFlavours("HOWMUCH_WHOLESALER"))], {
-					amount    = ad.amount,
-					cargoname = ad.cargotype:GetName()})
-			else
+		if ad.wholesaler then
+			howmuch = string.interp(l["HOWMUCH_WHOLESALER_" .. Engine.rand:Integer(1, getNumberOfFlavours("HOWMUCH_WHOLESALER"))], {
+				amount    = ad.amount,
+				cargoname = ad.cargotype:GetName()})
+		else
+			if ad.amount > 1 then
 				howmuch = string.interp(l["HOWMUCH_" .. Engine.rand:Integer(1,getNumberOfFlavours("HOWMUCH"))],
 					{amount = ad.amount})
+			else
+				howmuch = string.interp(l["HOWMUCH_SINGULAR_" .. Engine.rand:Integer(1,getNumberOfFlavours("HOWMUCH_SINGULAR"))],
+					{amount = ad.amount})
 			end
-
-			local amount = {}
-			local button = 2
-
-			amount[1] = ad.wholesaler and max_cargo or 1
-			for i = 2, 5 do
-				local val = math.ceil(i^2/25 * ad.amount)
-				if val > amount[button-1] then
-					amount[button] = val
-					button = button + 1
-				end
-			end
-			for i, val in pairs(amount) do
-				form:AddOption(string.interp(l.OFFER, { amount = val, reward = Format.Money(math.ceil(ad.reward * val/ad.amount), false) }), 10+val)
-			end
-		else
-			howmuch = string.interp(l["HOWMUCH_NO_" .. Engine.rand:Integer(1,getNumberOfFlavours("HOWMUCH_NO"))],
-				{amount = ad.amount})
 		end
 		form:SetMessage(howmuch)
-		form:RemoveNavButton()
-		form:AddOption(l.GO_BACK, 0)
+		form:AddOption(l.IS_IT_NEGOTIABLE, 6)
 
 	elseif option == 3 then
 		if not ad.pickup and (Game.player.totalCargo - Game.player.usedCargo) < ad.negotiated_amount or
@@ -496,13 +477,46 @@ onChat = function (form, ref, option)
 	elseif option == 5 then
 		form:SetMessage(getRiskMsg(ad))
 
+	elseif option == 6 then
+		local howmuch
+		if ad.amount == 1 then
+			howmuch = string.interp(l["NEGOTIABLE_SINGULAR_" .. Engine.rand:Integer(1,getNumberOfFlavours("NEGOTIABLE_SINGULAR"))],
+				{amount = ad.amount})
+		elseif ad.negotiable then
+			howmuch = string.interp(l["NEGOTIABLE_" .. Engine.rand:Integer(1, getNumberOfFlavours("NEGOTIABLE"))], {
+				amount    = ad.amount,
+				cargoname = ad.cargotype:GetName()})
+
+			local amount = {}
+			local button = 2
+
+			amount[1] = ad.wholesaler and max_cargo or 1
+			for i = 2, 5 do
+				local val = math.ceil(i^2/25 * ad.amount)
+				if val > amount[button-1] then
+					amount[button] = val
+					button = button + 1
+				end
+			end
+			for i, val in pairs(amount) do
+				form:AddOption(string.interp(l.OFFER, { amount = val, reward = Format.Money(math.ceil(ad.reward * val/ad.amount), false) }), 10+val)
+			end
+		else
+			howmuch = string.interp(l["NEGOTIABLE_NO_" .. Engine.rand:Integer(1,getNumberOfFlavours("NEGOTIABLE_NO"))],
+				{amount = ad.amount})
+		end
+		form:SetMessage(howmuch)
+
 	elseif option > 10 then
 		ad.negotiated_amount = option - 10
 		ad.negotiated_reward = math.ceil(ad.reward * ad.negotiated_amount/ad.amount)
 		form:SetMessage(string.interp(l.OK_WE_AGREE, { amount = ad.negotiated_amount, reward = Format.Money(ad.negotiated_reward, false) }))
 	end
 
-	if option ~= 2 then
+	if option == 2 or option == 6 then
+		form:RemoveNavButton()
+		form:AddOption(l.GO_BACK, 0)
+	else
 		form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
 		form:AddOption(l.HOW_MUCH_MASS, 2)
 		form:AddOption(l.HOW_SOON_MUST_IT_BE_DELIVERED, 4)
