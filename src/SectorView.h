@@ -158,6 +158,7 @@ private:
 	bool m_rotateWithMouseButton = false;
 	bool m_rotateView = false;
 	bool m_zoomView = false;
+	bool m_manualMove = false;
 
 	SystemPath m_hyperspaceTarget;
 	bool m_automaticSystemSelection;
