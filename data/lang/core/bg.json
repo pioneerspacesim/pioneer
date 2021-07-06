@@ -192,7 +192,7 @@
     "message": "Анализ на стоковата търговия на #fff%system#fff"
   },
   "COMMS": {
-    "description": "",
+    "description": "Title of communications log window, on world view",
     "message": "Съобщения"
   },
   "COMMUNIST": {
@@ -337,11 +337,11 @@
   },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
-    "message": "Колониално Управление на Земната Федерация"
+    "message": "Колониално управление на Земната федерация"
   },
   "EARTH_FEDERATION_DEMOCRACY": {
     "description": "",
-    "message": "Земна Федерална Демокрация"
+    "message": "Земна федерална демокрация"
   },
   "ECCENTRICITY": {
     "description": "",
@@ -949,7 +949,7 @@
   },
   "N_CELSIUS": {
     "description": "",
-    "message": "%temperature °C"
+    "message": "%temperature ° C"
   },
   "N_DAYS": {
     "description": "",
@@ -961,23 +961,23 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} Земни дни"
+    "message": "%days{f.1} земни дни"
   },
   "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} Земни маси"
+    "message": "%mass{f.3} земни маси"
   },
   "N_EARTH_RADII": {
     "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
-    "message": "%radius{f.3} Земни радиуса (%radkm{f.0} км.)"
+    "message": "%radius{f.3} земни радиуса (%radkm{f.0} км.)"
   },
   "N_SOLAR_MASSES": {
     "description": "",
-    "message": "%mass{f.3} Слънчеви маси"
+    "message": "%mass{f.3} слънчеви маси"
   },
   "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} Слънчеви радиуса (%radkm{f.0} км.)"
+    "message": "%radius{f.3} слънчеви радиуса (%radkm{f.0} км.)"
   },
   "N_YEARS": {
     "description": "",
@@ -1397,7 +1397,7 @@
   },
   "STAR_B_WF": {
     "description": "",
-    "message": "Звезда на Волф-Райе – Риск от разпадане"
+    "message": "Звезда на Волф-Райе – риск от разпадане"
   },
   "STAR_F": {
     "description": "",
@@ -1409,11 +1409,11 @@
   },
   "STAR_G_GIANT": {
     "description": "",
-    "message": "Жълт гигант – Нестабилен"
+    "message": "Жълт гигант – нестабилен"
   },
   "STAR_G_HYPER_GIANT": {
     "description": "",
-    "message": "Жълт хипергигант – Нестабилен"
+    "message": "Жълт хипергигант – нестабилен"
   },
   "STAR_G_SUPER_GIANT": {
     "description": "",
@@ -1429,11 +1429,11 @@
   },
   "STAR_K_GIANT": {
     "description": "",
-    "message": "Оранжев гигант – Нестабилен"
+    "message": "Оранжев гигант – нестабилен"
   },
   "STAR_K_HYPER_GIANT": {
     "description": "",
-    "message": "Оранжев хипергигант – Нестабилен"
+    "message": "Оранжев хипергигант – нестабилен"
   },
   "STAR_K_SUPER_GIANT": {
     "description": "",
@@ -1457,7 +1457,7 @@
   },
   "STAR_M_WF": {
     "description": "",
-    "message": "Звезда на Волф-Райе – Нестабилна"
+    "message": "Звезда на Волф-Райе – нестабилна"
   },
   "STAR_O": {
     "description": "",
@@ -1477,7 +1477,7 @@
   },
   "STAR_O_WF": {
     "description": "",
-    "message": "Звезда на Волф-Райе – Предстоящо разпадане"
+    "message": "Звезда на Волф-Райе – предстоящо разпадане"
   },
   "STAR_SM_BH": {
     "description": "",

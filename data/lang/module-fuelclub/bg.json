@@ -9,7 +9,7 @@
   },
   "FLAVOUR_0_CLUBNAME": {
     "description": "",
-    "message": "Горивната Кооперация на Междузвездните Пилоти"
+    "message": "Горивната кооперация на междузвездните пилоти"
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
@@ -25,19 +25,19 @@
   },
   "FLAVOUR_1_CLUBNAME": {
     "description": "Fuel club for the Federation faction",
-    "message": "Федералната Горивна Фондация"
+    "message": "Федералната горивна фондация"
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
-    "message": "{clubname} е лидер в осигуряването на евтино гориво, на нейните членове в Слънчевата Федерация. Членството Ви дава право на:"
+    "message": "{clubname} е лидер в осигуряването на евтино гориво, на нейните членове в Слънчевата федерация. Членството Ви дава право на:"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "Съюзът на Горивната Федерация"
+    "message": "Съюзът на горивната федерация"
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
-    "message": "В целия Съюз на Независимите Светове, {clubname} е най-добрия осигурител на евтино гориво и управление на отпадъците. За нашите членове, предлагаме:"
+    "message": "В Съюза на независимите светове, {clubname} осигурява най-евтиното гориво и най-доброто управление на отпадъците. За нашите членове, предлагаме:"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "FLAVOUR_3_CLUBNAME": {
     "description": "Fuel club for the Haber faction",
-    "message": "Хаберска Дивизия за Гориво и Отпадъци"
+    "message": "Хаберската дивизия за гориво и отпадъци"
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_3_NONMEMBER_INTRO": {
     "description": "for the Haber faction",
-    "message": "Здравейте. Намирате се в Хаберска Дивизия за Гориво и Отпадъци, ние се занимаваме с доставките на гориво в контролираната от нас територия."
+    "message": "Здравейте. Намирате се в Хаберската дивизия за гориво и отпадъци, ние се занимаваме с доставките на гориво в контролираната от нас територия."
   },
   "GO_BACK": {
     "description": "",

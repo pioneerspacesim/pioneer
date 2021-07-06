@@ -61,31 +61,31 @@
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
-    "message": "Фондация за Скъпоценни Стоки"
+    "message": "Фондацията за скъпоценни стоки"
   },
   "CORPORATION_2": {
     "description": "Name of a corporation",
-    "message": "Минна Компания Омега"
+    "message": "Минна компания Омега"
   },
   "CORPORATION_3": {
     "description": "Name of a corporation",
-    "message": "Обединени Рудни Синдикати"
+    "message": "Обединените рудни синдикати"
   },
   "CORPORATION_4": {
     "description": "Name of a corporation",
-    "message": "Корпорация на Галактическите Изследователи"
+    "message": "Корпорацията на галактическите изследователи"
   },
   "CORPORATION_5": {
     "description": "Name of a corporation",
-    "message": "Хаберска Корпорация"
+    "message": "Хаберската корпорация"
   },
   "CORPORATION_6": {
     "description": "Name of a corporation",
-    "message": "Търсачи на Благородни Метали АД"
+    "message": "Търсачи на благородни метали АД"
   },
   "CORPORATION_7": {
     "description": "Name of a corporation",
-    "message": "{name} Рудодобив АД"
+    "message": "Рудодобив {name} АД"
   },
   "CORPORATION_8": {
     "description": "Name of a corporation",

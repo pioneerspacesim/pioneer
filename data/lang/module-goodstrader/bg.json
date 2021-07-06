@@ -1,15 +1,15 @@
 {
   "GOODS_TRADER_0": {
     "description": "",
-    "message": "Универсален Магазин на {name}"
+    "message": "Универсален магазин {name}"
   },
   "GOODS_TRADER_1": {
     "description": "",
-    "message": "Търговска Кантора на {name}"
+    "message": "Търговска кантора {name}"
   },
   "GOODS_TRADER_2": {
     "description": "",
-    "message": "Склад на {name}"
+    "message": "Склад {name}"
   },
   "GOODS_TRADER_3": {
     "description": "",
@@ -17,7 +17,7 @@
   },
   "GOODS_TRADER_4": {
     "description": "",
-    "message": "Холдинг на {name}"
+    "message": "Холдинг {name}"
   },
   "GOODS_TRADER_5": {
     "description": "",

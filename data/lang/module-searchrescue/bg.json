@@ -45,7 +45,7 @@
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
-    "message": "{name} Таксиметрови Услуги"
+    "message": "Таксиметрови услуги {name}"
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",
@@ -53,19 +53,19 @@
   },
   "ENTITY_FAMILY_BUSINESS_3": {
     "description": "",
-    "message": "{name} Цветя от {locality}"
+    "message": "{name} цветя от {locality}"
   },
   "ENTITY_FAMILY_BUSINESS_4": {
     "description": "",
-    "message": "{name} Поръчково Боядисани Ракети"
+    "message": "Поръчково боядисване на ракети {name}"
   },
   "ENTITY_FAMILY_BUSINESS_5": {
     "description": "",
-    "message": "{name} Куриерски Услуги"
+    "message": "Куриерски услуги {name}"
   },
   "ENTITY_FAMILY_BUSINESS_6": {
     "description": "",
-    "message": "{name} Космически Любимци"
+    "message": "Космически любимци {name}"
   },
   "ENTITY_FAMILY_BUSINESS_7": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "ENTITY_FAMILY_BUSINESS_8": {
     "description": "",
-    "message": "{name} Автентични {locality} Храни"
+    "message": "Автентични храни {name} от {locality}"
   },
   "ENTITY_FAMILY_BUSINESS_9": {
     "description": "",
-    "message": "{name} Транспорт"
+    "message": "{name} транспорт"
   },
   "ENTITY_GENERAL_1": {
     "description": "",
@@ -85,79 +85,79 @@
   },
   "ENTITY_GENERAL_10": {
     "description": "",
-    "message": "Неограничена Рудна Енергия {locality}"
+    "message": "Неограничена рудна енергия {locality}"
   },
   "ENTITY_GENERAL_2": {
     "description": "",
-    "message": " Общество за Екологично Опазване {locality}"
+    "message": " Общество за екологично опазване {locality}"
   },
   "ENTITY_GENERAL_3": {
     "description": "",
-    "message": "Правозащитници на Лихварите за {locality}"
+    "message": "Правозащитници на лихварите за {locality}"
   },
   "ENTITY_GENERAL_4": {
     "description": "",
-    "message": "Служба за Права на Минното Дело {locality}"
+    "message": "Служба за правата на минното дело {locality}"
   },
   "ENTITY_GENERAL_5": {
     "description": "",
-    "message": "Земевладелска Асоциация {locality}"
+    "message": "Земевладелска асоциация {locality}"
   },
   "ENTITY_GENERAL_6": {
     "description": "",
-    "message": "Статистически Институт {locality}"
+    "message": "Статистически институт {locality}"
   },
   "ENTITY_GENERAL_7": {
     "description": "",
-    "message": "Клон {locality} на Космически Екскурзии АД"
+    "message": "Космически екскурзии АД – клон {locality}"
   },
   "ENTITY_GENERAL_8": {
     "description": "",
-    "message": "{locality} АзСателитът ООД"
+    "message": "АзСателитът {locality} ООД"
   },
   "ENTITY_GENERAL_9": {
     "description": "",
-    "message": "Корпорация за Погребални Услуги {locality}"
+    "message": "Корпорация за погребални услуги {locality}"
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
-    "message": "Общество на Биолозите {locality}"
+    "message": "Общество на биолозите {locality}"
   },
   "ENTITY_RESEARCH_10": {
     "description": "",
-    "message": "Център за Зоологични Изследвания {locality}"
+    "message": "Център за зоологически изследвания {locality}"
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": "Общество на Микробиолозите {locality}"
+    "message": "Общество на микробиолозите {locality}"
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
-    "message": "Общество на Химиците {locality}"
+    "message": "Общество на химиците {locality}"
   },
   "ENTITY_RESEARCH_4": {
     "description": "",
-    "message": "Общество на Астробиолозите {locality}"
+    "message": "Общество на астробиолозите {locality}"
   },
   "ENTITY_RESEARCH_5": {
     "description": "",
-    "message": "Общество на Геолозите {locality}"
+    "message": "Общество на геолозите {locality}"
   },
   "ENTITY_RESEARCH_6": {
     "description": "",
-    "message": "Общество на Астропланетолозите {locality}"
+    "message": "Общество на астропланетолозите {locality}"
   },
   "ENTITY_RESEARCH_7": {
     "description": "",
-    "message": "Изследователски Център на Астрофизиците {locality}"
+    "message": "Изследователски център на астрофизиците {locality}"
   },
   "ENTITY_RESEARCH_8": {
     "description": "",
-    "message": "Изследователски Център на Астрохимиците {locality}"
+    "message": "Изследователски център на астрохимиците {locality}"
   },
   "ENTITY_RESEARCH_9": {
     "description": "",
-    "message": "Ботанически Център {locality}"
+    "message": "Ботанически център {locality}"
   },
   "EQUIPMENT": {
     "description": "",

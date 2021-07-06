@@ -1109,7 +1109,7 @@
   },
   "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE": {
     "description": "",
-    "message": "Беше удоволствие да работя за Вас. Ако имате нужда от мен отново, ще може да ме намерите тук."
+    "message": "Беше удоволствие да работя за Вас. Ако имате нужда от мен отново, може да ме намерите тук."
   },
   "JETTISON": {
     "description": "",
@@ -1593,7 +1593,7 @@
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
-    "message": "Натиснете бутон или натиснете Esc за изчистване"
+    "message": "Натиснете бутон или натиснете „Esc“ за изчистване"
   },
   "PREVIOUS_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
