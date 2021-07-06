@@ -49,6 +49,7 @@ The Pioneer Developers are:
 * Frank Klippenberg
 * Gareth Allnutt
 * Gaz Davidson
+* Georgi Georgiev
 * Gernot
 * HeadHunter
 * Jan Olsina
