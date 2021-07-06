@@ -208,7 +208,7 @@ void GuiApplication::ShutdownRenderer()
 Input::Manager *GuiApplication::StartupInput(IniConfig *config)
 {
 	PROFILE_SCOPED()
-	m_input.reset(new Input::Manager(config));
+	m_input.reset(new Input::Manager(config, m_renderer->GetSDLWindow()));
 
 	return m_input.get();
 }
