@@ -97,7 +97,6 @@ void ModelViewerApp::Startup()
 	Graphics::RendererOGL::RegisterRenderer();
 
 	auto *renderer = StartupRenderer(config.get());
-
 	StartupInput(config.get());
 	StartupPiGui();
 
@@ -210,6 +209,7 @@ void ModelViewer::ToggleGuns()
 	m_options.attachGuns = !m_options.attachGuns;
 	SceneGraph::Model::TVecMT tags;
 	m_model->FindTagsByStartOfName("tag_gun_", tags);
+	m_model->FindTagsByStartOfName("tag_gunmount_", tags);
 	if (tags.empty()) {
 		AddLog("Missing tags \"tag_gun_XXX\" in model");
 		return;
@@ -343,6 +343,7 @@ void ModelViewer::ClearModel()
 	m_gunModel.reset();
 	m_scaleModel.reset();
 
+	m_options.attachGuns = false;
 	m_options.mouselookEnabled = false;
 	m_input->SetCapturingMouse(false);
 	m_viewPos = vector3f(0.0f, 0.0f, 10.0f);
@@ -981,6 +982,7 @@ void ModelViewer::DrawModelOptions()
 	if (ImGui::Button("Reload Model"))
 		ReloadModel();
 
+	ImGui::Checkbox("Show Scale Model", &m_options.showLandingPad);
 	ImGui::Checkbox("Show Collision Mesh", &m_options.showCollMesh);
 	m_options.showAabb = m_options.showCollMesh;
 	ImGui::Checkbox("Show Tags", &m_options.showTags);

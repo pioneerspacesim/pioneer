@@ -171,7 +171,8 @@ std::map<SDL_JoystickID, JoystickInfo> &Input::GetJoysticks()
 
 */
 
-Manager::Manager(IniConfig *config) :
+Manager::Manager(IniConfig *config, SDL_Window *window) :
+	m_window(window),
 	m_config(config),
 	keyModState(0),
 	mouseButton(),
@@ -719,7 +720,7 @@ void Manager::SetCapturingMouse(bool grabbed)
 	if (grabbed == m_capturingMouse)
 		return;
 
-	SDL_SetWindowGrab(Pi::renderer->GetSDLWindow(), SDL_bool(grabbed));
+	SDL_SetWindowGrab(m_window, SDL_bool(grabbed));
 	SDL_SetRelativeMouseMode(SDL_bool(grabbed));
 	m_capturingMouse = grabbed;
 }

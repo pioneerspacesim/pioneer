@@ -117,7 +117,7 @@ namespace Input {
 
 class Input::Manager {
 public:
-	Manager(IniConfig *config);
+	Manager(IniConfig *config, SDL_Window *window);
 	void InitGame();
 
 	// Call this at the start of a frame, before passing SDL events in
@@ -222,6 +222,7 @@ private:
 	bool GetBindingState(InputBindings::KeyBinding &key);
 	float GetAxisState(InputBindings::JoyAxis &axis);
 
+	SDL_Window *m_window;
 	IniConfig *m_config;
 	bool m_enableConfigSaving;
 
