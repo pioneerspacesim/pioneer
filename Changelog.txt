@@ -1,3 +1,13 @@
+July 2021
+   * Internal Changes
+     * Add error display to tab views that have crashed (#5224)
+
+   * Fixes
+     * Fix FlightLog buttons being offscreen (#5224)
+     * Fix invalid MSAA settings causing openGL errors (#5224)
+     * Fix ESC key not closing the settings window (#5224)
+     * Fix crash in ModelViewer when switching to FPS navigation (#5224)
+
 June 2021
    * New Features
      * Improve startup times with threading (#4951)
@@ -13,6 +23,8 @@ June 2021
      * Fix build with USE_SYSTEM_LIBLUA=ON (#5206)
      * Fixing the covering of data by icons in reticule in low res (#5211)
      * Fix missing translation strings in comms log (#5212)
+     * Fix corrupt savefiles being generated with GCC11 (#5218)
+     * Fix undefined behavior when caching ship equipment (#5217)
 
 May 2021
    * New Features
