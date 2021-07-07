@@ -1,12 +1,12 @@
 {
 	"model": "wave",
 	"name": "Wave",
-	"cockpit": " ",
+	"cockpit": "",
 	"manufacturer": "auronox",
 	"ship_class": "medium_fighter",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 62389,
+	"price": 55305,
 	"hull_mass": 13,
 	"atmospheric_pressure_limit": 14,
 	"capacity": 30,
@@ -20,6 +20,7 @@
 		"cargo": 30
 	},
 	"roles": {
+		"courier": true,
 		"mercenary": true,
 		"merchant": false,
 		"pirate": true

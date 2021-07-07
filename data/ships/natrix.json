@@ -1,17 +1,17 @@
 {
 	"model": "natrix",
 	"name": "Natrix",
-	"cockpit": " ",
+	"cockpit": "",
 	"manufacturer": "opli",
 	"ship_class": "medium_freighter",
 	"min_crew": 1,
 	"max_crew": 3,
-	"price": 59460,
+	"price": 96181,
 	"hull_mass": 50,
 	"atmospheric_pressure_limit": 3.3,
-	"capacity": 80,
+	"capacity": 84,
 	"slots": {
-		"engine": 3,
+		"engine": 1,
 		"cabin": 25,
 		"laser_front": 1,
 		"laser_rear": 1,
@@ -19,11 +19,12 @@
 		"cargo": 80
 	},
 	"roles": {
+		"courier": true,
 		"mercenary": true,
 		"merchant": true,
 		"pirate": true
 	},
-	"effective_exhaust_velocity": 23900000,
+	"effective_exhaust_velocity": 18000000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 60,
 	"hyperdrive_class": 2,

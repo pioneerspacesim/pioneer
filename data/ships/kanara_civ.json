@@ -6,13 +6,14 @@
 	"ship_class": "light_fighter",
 	"min_crew": 1,
 	"max_crew": 2,
-	"price": 17678,
+	"price": 24397,
 	"hull_mass": 10,
 	"atmospheric_pressure_limit": 7,
 	"capacity": 8,
 	"slots": {
-		"engine": 2,
+		"engine": 1,
 		"cabin": 2,
+		"scoop": 0,
 		"laser_front": 1,
 		"missile": 4,
 		"cargo": 8
@@ -28,7 +29,7 @@
 	"hyperdrive_class": 1,
 
 	"forward_thrust": 700000,
-	"forward_acceleration_cap": 36.297,
+	"forward_acceleration_cap": 38.7495,
 	"reverse_thrust": 600000,
 	"reverse_acceleration_cap": 24.525,
 	"up_thrust": 300000,

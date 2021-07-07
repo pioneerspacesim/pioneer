@@ -1,7 +1,7 @@
 {
 	"model": "pumpkinseed_police",
 	"name": "Pumpkinseed (Police)",
-	"cockpit": " ",
+	"cockpit": "",
 	"manufacturer": "kaluri",
 	"ship_class": "light_fighter",
 	"min_crew": 1,
@@ -11,8 +11,9 @@
 	"atmospheric_pressure_limit": 5,
 	"capacity": 17,
 	"slots": {
-		"engine": 2,
+		"engine": 1,
 		"cabin": 3,
+		"scoop": 0,
 		"laser_front": 1,
 		"laser_rear": 1,
 		"missile": 8,

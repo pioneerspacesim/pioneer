@@ -6,19 +6,20 @@
 	"ship_class": "medium_freighter",
 	"min_crew": 2,
 	"max_crew": 3,
-	"price": 269796,
+	"price": 511504,
 	"hull_mass": 100,
 	"atmospheric_pressure_limit": 4.2,
 	"capacity": 600,
 	"slots": {
-		"engine": 3,
+		"engine": 1,
 		"cabin": 20,
 		"laser_front": 1,
 		"laser_rear": 1,
 		"missile": 2,
-		"cargo": 200
+		"cargo": 550
 	},
 	"roles": {
+		"courier": true,
 		"mercenary": true,
 		"merchant": true,
 		"pirate": true
@@ -29,7 +30,7 @@
 	"hyperdrive_class": 4,
 
 	"forward_thrust": 21000000,
-	"forward_acceleration_cap": 19.62,
+	"forward_acceleration_cap": 23.544,
 	"reverse_thrust": 9000000,
 	"reverse_acceleration_cap": 9.81,
 	"up_thrust": 12000000,

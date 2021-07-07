@@ -1,22 +1,22 @@
 {
 	"model": "vatakara",
 	"name": "Vatakara",
-	"cockpit": " ",
+	"cockpit": "",
 	"manufacturer": "mandarava_csepel",
 	"ship_class": "heavy_freighter",
 	"min_crew": 1,
 	"max_crew": 8,
-	"price": 2159895,
-	"hull_mass": 660,
+	"price": 2655296,
+	"hull_mass": 890,
 	"atmospheric_pressure_limit": 4.9,
-	"capacity": 3000,
+	"capacity": 3200,
 	"slots": {
-		"engine": 8,
+		"engine": 1,
 		"cabin": 10,
 		"laser_front": 1,
 		"laser_rear": 1,
 		"missile": 6,
-		"cargo": 3000
+		"cargo": 2900
 	},
 	"roles": {
 		"mercenary": true,
@@ -26,7 +26,7 @@
 	"effective_exhaust_velocity": 16900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 2200,
-	"hyperdrive_class": 8,
+	"hyperdrive_class": 9,
 
 	"forward_thrust": 120000000,
 	"forward_acceleration_cap": 19.62,

@@ -1,23 +1,24 @@
 {
 	"model": "lunarshuttle",
 	"name": "Lunar Shuttle",
-	"cockpit": " ",
+	"cockpit": "",
 	"manufacturer": "haber",
 	"ship_class": "medium_passenger_shuttle",
 	"min_crew": 1,
 	"max_crew": 4,
-	"price": 16347,
+	"price": 35002,
 	"hull_mass": 30,
 	"atmospheric_pressure_limit": 3.5,
 	"capacity": 30,
 	"slots": {
-		"engine": 4,
+		"engine": 1,
 		"cabin": 20,
 		"laser_front": 1,
 		"missile": 1,
 		"cargo": 30
 	},
 	"roles": {
+		"courier": true,
 		"mercenary": true,
 		"merchant": true,
 		"pirate": true
@@ -27,7 +28,7 @@
 	"fuel_tank_mass": 25,
 	"hyperdrive_class": 0,
 
-	"forward_thrust": 2000000,
+	"forward_thrust": 1400000,
 	"forward_acceleration_cap": 18.5409,
 	"reverse_thrust": 1000000,
 	"reverse_acceleration_cap": 17.658,

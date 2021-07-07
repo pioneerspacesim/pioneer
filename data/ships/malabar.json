@@ -1,32 +1,32 @@
 {
 	"model": "malabar",
 	"name": "Malabar",
-	"cockpit": " ",
+	"cockpit": "",
 	"manufacturer": "mandarava_csepel",
 	"ship_class": "heavy_passenger_transport",
 	"min_crew": 1,
 	"max_crew": 8,
-	"price": 2261262,
-	"hull_mass": 700,
+	"price": 2219852,
+	"hull_mass": 940,
 	"atmospheric_pressure_limit": 4.7,
-	"capacity": 2300,
+	"capacity": 2600,
 	"slots": {
-		"engine": 8,
+		"engine": 1,
 		"cabin": 80,
 		"laser_front": 1,
 		"laser_rear": 1,
 		"missile": 6,
-		"cargo": 2000
+		"cargo": 1600
 	},
 	"roles": {
 		"mercenary": true,
 		"merchant": true,
 		"pirate": true
 	},
-	"effective_exhaust_velocity": 16900000,
+	"effective_exhaust_velocity": 14900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 2000,
-	"hyperdrive_class": 8,
+	"hyperdrive_class": 9,
 
 	"forward_thrust": 120000000,
 	"forward_acceleration_cap": 17.658,

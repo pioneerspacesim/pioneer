@@ -1,22 +1,24 @@
 {
 	"model": "xylophis",
 	"name": "Xylophis",
-	"cockpit": " ",
+	"cockpit": "",
 	"manufacturer": "opli",
 	"ship_class": "light_passenger_shuttle",
 	"min_crew": 1,
 	"max_crew": 2,
-	"price": 2450,
+	"price": 16872,
 	"hull_mass": 5,
 	"atmospheric_pressure_limit": 3,
 	"capacity": 10,
 	"slots": {
-		"engine": 2,
+		"engine": 1,
 		"cabin": 1,
+		"scoop": 0,
 		"laser_front": 1,
 		"cargo": 10
 	},
 	"roles": {
+		"courier": true,
 		"mercenary": true,
 		"merchant": true,
 		"pirate": true
@@ -26,7 +28,7 @@
 	"fuel_tank_mass": 4,
 	"hyperdrive_class": 0,
 
-	"forward_thrust": 300000,
+	"forward_thrust": 280000,
 	"forward_acceleration_cap": 14.715,
 	"reverse_thrust": 250000,
 	"reverse_acceleration_cap": 14.715,

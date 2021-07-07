@@ -1,7 +1,7 @@
 {
 	"model": "kanara",
 	"name": "Kanara (Police)",
-	"cockpit": " ",
+	"cockpit": "",
 	"manufacturer": "mandarava_csepel",
 	"ship_class": "light_fighter",
 	"min_crew": 1,
@@ -11,13 +11,15 @@
 	"atmospheric_pressure_limit": 7,
 	"capacity": 8,
 	"slots": {
-		"engine": 2,
+		"engine": 1,
 		"cabin": 1,
+		"scoop": 0,
 		"laser_front": 1,
 		"missile": 8,
 		"cargo": 4
 	},
 	"roles": {
+		"courier": true,
 		"mercenary": true,
 		"merchant": false,
 		"pirate": true
@@ -28,7 +30,7 @@
 	"hyperdrive_class": 0,
 
 	"forward_thrust": 700000,
-	"forward_acceleration_cap": 37.278,
+	"forward_acceleration_cap": 38.9457,
 	"reverse_thrust": 300000,
 	"reverse_acceleration_cap": 24.525,
 	"up_thrust": 300000,

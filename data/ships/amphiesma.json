@@ -1,23 +1,24 @@
 {
 	"model": "amphiesma",
 	"name": "Amphiesma",
-	"cockpit": " ",
+	"cockpit": "",
 	"manufacturer": "opli",
 	"ship_class": "light_passenger_shuttle",
 	"min_crew": 1,
 	"max_crew": 2,
-	"price": 16670,
+	"price": 38470,
 	"hull_mass": 18,
 	"atmospheric_pressure_limit": 3.1,
 	"capacity": 38,
 	"slots": {
-		"engine": 2,
+		"engine": 1,
 		"cabin": 2,
 		"laser_front": 1,
 		"missile": 2,
 		"cargo": 14
 	},
 	"roles": {
+		"courier": true,
 		"mercenary": true,
 		"merchant": true,
 		"pirate": true
@@ -28,7 +29,7 @@
 	"hyperdrive_class": 0,
 
 	"forward_thrust": 1800000,
-	"forward_acceleration_cap": 32.373,
+	"forward_acceleration_cap": 26.487,
 	"reverse_thrust": 920000,
 	"reverse_acceleration_cap": 20.601,
 	"up_thrust": 1400000,
