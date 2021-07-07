@@ -18,6 +18,7 @@
 		"cargo": 30
 	},
 	"roles": {
+		"courier": true,
 		"mercenary": true,
 		"merchant": true,
 		"pirate": true
