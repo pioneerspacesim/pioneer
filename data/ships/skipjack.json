@@ -19,12 +19,8 @@
 		"sensor": 1,
 		"cargo": 140
 	},
-	"roles": {
-		"courier": true,
-		"mercenary": true,
-		"merchant": true,
-		"pirate": true
-	},
+	"roles": ["mercenary", "merchant", "pirate", "courier"],
+
 	"effective_exhaust_velocity": 18900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 180,

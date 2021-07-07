@@ -18,11 +18,8 @@
 		"missile": 2,
 		"cargo": 360
 	},
-	"roles": {
-		"mercenary": true,
-		"merchant": true,
-		"pirate": true
-	},
+	"roles": ["mercenary", "merchant", "pirate"],
+
 	"effective_exhaust_velocity": 23900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 225,

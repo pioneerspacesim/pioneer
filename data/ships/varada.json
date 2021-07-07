@@ -17,12 +17,8 @@
 		"laser_front": 1,
 		"cargo": 5
 	},
-	"roles": {
-		"courier": true,
-		"mercenary": true,
-		"merchant": false,
-		"pirate": true
-	},
+	"roles": ["mercenary", "pirate", "courier"],
+	
 	"effective_exhaust_velocity": 8900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 2,
