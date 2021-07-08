@@ -1,12 +1,12 @@
 {
 	"model": "skipjack",
 	"name": "Skipjack",
-	"cockpit": "",
+	"cockpit": " ",
 	"manufacturer": "kaluri",
 	"ship_class": "medium_courier",
 	"min_crew": 2,
 	"max_crew": 3,
-	"price": 213665,
+	"price": 204837,
 	"hull_mass": 80,
 	"atmospheric_pressure_limit": 4,
 	"capacity": 192,
@@ -20,10 +20,10 @@
 		"cargo": 140
 	},
 	"roles": ["mercenary", "merchant", "pirate", "courier"],
-
+	
 	"effective_exhaust_velocity": 18900000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 180,
+	"fuel_tank_mass": 135,
 	"hyperdrive_class": 4,
 
 	"forward_thrust": 9000000,

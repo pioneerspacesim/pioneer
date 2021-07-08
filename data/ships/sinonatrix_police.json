@@ -1,13 +1,13 @@
 {
 	"model": "sinonatrix_police",
 	"name": "Sinonatrix (Police)",
-	"cockpit": "",
+	"cockpit": " ",
 	"manufacturer": "opli",
 	"ship_class": "light_fighter",
 	"min_crew": 1,
 	"max_crew": 2,
 	"price": 0,
-	"hull_mass": 22,
+	"hull_mass": 32,
 	"atmospheric_pressure_limit": 3.5,
 	"capacity": 35,
 	"slots": {
@@ -21,7 +21,7 @@
 	},
 	"roles": ["mercenary"],	
 	
-	"effective_exhaust_velocity": 8900000,
+	"effective_exhaust_velocity": 16000000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 30,
 	"hyperdrive_class": 1,

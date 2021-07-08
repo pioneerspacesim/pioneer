@@ -6,8 +6,8 @@
 	"ship_class": "medium_freighter",
 	"min_crew": 2,
 	"max_crew": 3,
-	"price": 511504,
-	"hull_mass": 100,
+	"price": 518244,
+	"hull_mass": 210,
 	"atmospheric_pressure_limit": 4.2,
 	"capacity": 600,
 	"slots": {
@@ -20,9 +20,9 @@
 	},
 	"roles": ["merchant", "pirate"],
 	
-	"effective_exhaust_velocity": 16900000,
+	"effective_exhaust_velocity": 17600000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 400,
+	"fuel_tank_mass": 375,
 	"hyperdrive_class": 4,
 
 	"forward_thrust": 21000000,

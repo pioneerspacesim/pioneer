@@ -1,12 +1,12 @@
 {
 	"model": "pumpkinseed",
 	"name": "Pumpkinseed",
-	"cockpit": "",
+	"cockpit": " ",
 	"manufacturer": "kaluri",
 	"ship_class": "light_courier",
 	"min_crew": 1,
 	"max_crew": 2,
-	"price": 56098,
+	"price": 36151,
 	"hull_mass": 10,
 	"atmospheric_pressure_limit": 4,
 	"capacity": 17,
@@ -18,10 +18,10 @@
 		"cargo": 10
 	},
 	"roles": ["mercenary", "merchant", "pirate", "courier"],
-	
-	"effective_exhaust_velocity": 32300000,
+
+	"effective_exhaust_velocity": 15200000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 7,
+	"fuel_tank_mass": 9,
 	"hyperdrive_class": 1,
 
 	"forward_thrust": 1500000,

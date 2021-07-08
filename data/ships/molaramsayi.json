@@ -1,13 +1,13 @@
 {
 	"model": "molaramsayi",
 	"name": "Mola Ramsayi",
-	"cockpit": "",
+	"cockpit": " ",
 	"manufacturer": "kaluri",
 	"ship_class": "medium_freighter",
 	"min_crew": 1,
 	"max_crew": 5,
-	"price": 950600,
-	"hull_mass": 500,
+	"price": 814200,
+	"hull_mass": 380,
 	"atmospheric_pressure_limit": 3.8,
 	"capacity": 950,
 	"slots": {
@@ -18,11 +18,11 @@
 		"missile": 3,
 		"cargo": 900
 	},
-		"roles": ["merchant"],
+	"roles": ["merchant"],
 
-	"effective_exhaust_velocity": 30000000,
+	"effective_exhaust_velocity": 17600000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 273,
+	"fuel_tank_mass": 473,
 	"hyperdrive_class": 5,
 
 	"forward_thrust": 36000000,

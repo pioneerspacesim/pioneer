@@ -1,15 +1,15 @@
 {
 	"model": "dsminer",
 	"name": "Deep Space Miner",
-	"cockpit": "",
+	"cockpit": " ",
 	"manufacturer": "haber",
 	"ship_class": "heavy_freighter",
 	"min_crew": 5,
-	"max_crew": 8,
-	"price": 3103773,
-	"hull_mass": 1200,
+	"max_crew": 12,
+	"price": 2676331,
+	"hull_mass": 1380,
 	"atmospheric_pressure_limit": 2,
-	"capacity": 4700,
+	"capacity": 3900,
 	"slots": {
 		"engine": 1,
 		"cabin": 50,
@@ -17,13 +17,13 @@
 		"laser_rear": 1,
 		"missile": 4,
 		"atmo_shield": 0,
-		"cargo": 4600
+		"cargo": 3100
 	},
 	"roles": ["merchant"],
 	
 	"effective_exhaust_velocity": 12900000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 1200,
+	"fuel_tank_mass": 2700,
 	"hyperdrive_class": 9,
 
 	"forward_thrust": 46000000,
@@ -34,12 +34,12 @@
 	"up_acceleration_cap": 5.0031,
 	"down_thrust": 13000000,
 	"down_acceleration_cap": 5.0031,
-	"left_thrust": 13000000,
+	"left_thrust": 9000000,
 	"left_acceleration_cap": 5.0031,
-	"right_thrust": 13000000,
+	"right_thrust": 9000000,
 	"right_acceleration_cap": 5.0031,
 
-	"angular_thrust": 133652501.208283,
+	"angular_thrust": 92528654.6826577,
 
 	"front_cross_section": 515,
 	"side_cross_section": 911,

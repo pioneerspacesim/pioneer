@@ -1,13 +1,13 @@
 {
 	"model": "sinonatrix",
 	"name": "Sinonatrix",
-	"cockpit": "",
+	"cockpit": " ",
 	"manufacturer": "opli",
 	"ship_class": "light_courier",
 	"min_crew": 1,
 	"max_crew": 2,
-	"price": 80232,
-	"hull_mass": 20,
+	"price": 62707,
+	"hull_mass": 28,
 	"atmospheric_pressure_limit": 3.2,
 	"capacity": 35,
 	"slots": {
@@ -18,10 +18,10 @@
 		"cargo": 30
 	},
 	"roles": ["mercenary", "merchant", "pirate", "courier"],
-	
-	"effective_exhaust_velocity": 14900000,
+
+	"effective_exhaust_velocity": 16000000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 66,
+	"fuel_tank_mass": 36,
 	"hyperdrive_class": 2,
 
 	"forward_thrust": 2000000,

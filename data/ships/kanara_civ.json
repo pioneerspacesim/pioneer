@@ -6,7 +6,7 @@
 	"ship_class": "light_fighter",
 	"min_crew": 1,
 	"max_crew": 2,
-	"price": 24397,
+	"price": 26409,
 	"hull_mass": 10,
 	"atmospheric_pressure_limit": 7,
 	"capacity": 8,
@@ -20,9 +20,9 @@
 	},
 	"roles": ["mercenary", "pirate", "courier"],
 	
-	"effective_exhaust_velocity": 17900000,
+	"effective_exhaust_velocity": 16900000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 4,
+	"fuel_tank_mass": 5,
 	"hyperdrive_class": 1,
 
 	"forward_thrust": 700000,

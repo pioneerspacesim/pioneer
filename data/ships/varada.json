@@ -1,13 +1,13 @@
 {
 	"model": "varada",
 	"name": "Varada",
-	"cockpit": "",
+	"cockpit": " ",
 	"manufacturer": "mandarava_csepel",
 	"ship_class": "light_courier",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 13440,
-	"hull_mass": 2,
+	"price": 20403,
+	"hull_mass": 4,
 	"atmospheric_pressure_limit": 4,
 	"capacity": 5,
 	"slots": {
@@ -21,7 +21,7 @@
 	
 	"effective_exhaust_velocity": 8900000,
 	"thruster_fuel_use": -1.0,
-	"fuel_tank_mass": 2,
+	"fuel_tank_mass": 5,
 	"hyperdrive_class": 1,
 
 	"forward_thrust": 200000,
