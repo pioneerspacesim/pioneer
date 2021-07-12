@@ -969,7 +969,7 @@
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
-    "message": "Επιτάχυνση του χρόνου:"
+    "message": "Επιτάχυνση χρόνου: {time}"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
