@@ -53,23 +53,23 @@
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
-    "message": "Autopilot: Dock with {target}"
+    "message": "Piloto automático: Acoplar ao {target}"
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter high orbit around {target}"
+    "message": "Piloto automático: Entrar em órbita alta ao redor de {target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter low orbit around {target}"
+    "message": "Piloto automático: Entrar em órbita baixa ao redor de {target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Enter medium orbit around {target}"
+    "message": "Piloto automático: Entrar em órbita média ao redor de {target}"
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
-    "message": "Autopilot: Fly to vicinity of {target}"
+    "message": "Piloto automático: Voar para os arredores de {target}"
   },
   "AUTOPILOT_ON": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "CENTER": {
     "description": "",
-    "message": "Center"
+    "message": "Centro"
   },
   "CH4_ATMOSPHERE": {
     "description": "",
@@ -192,7 +192,7 @@
     "message": "Análise de comércio de mercadorias de #fff%system#fff"
   },
   "COMMS": {
-    "description": "",
+    "description": "Title of communications log window, on world view",
     "message": "Comunicação"
   },
   "COMMUNIST": {
@@ -393,7 +393,7 @@
   },
   "FLYBY_VIEW": {
     "description": "camera view setting",
-    "message": "Flyby view"
+    "message": "Vista de sobrevôo"
   },
   "FOLLOWING_SELECTION": {
     "description": "",
@@ -453,11 +453,11 @@
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
-    "message": "Switch between grid display modes."
+    "message": "Alternar visualização de grade."
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Armas de pequeno porte"
   },
   "HARD_CAPITALIST": {
     "description": "",
@@ -465,15 +465,15 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Hold {target} anti-normal"
+    "message": "Manter vetor anti-normal a {target}"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Hold {target} retrograde"
+    "message": "Manter vetor retrógrado a {target}"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Hold {target} prograde"
+    "message": "Manter vetor prógrado a {target}"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -481,15 +481,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Hold {target} normal"
+    "message": "Manter vetor normal a {target}"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "Hold {target} radially in"
+    "message": "Manter vetor radial centrípeto a {target}"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "Hold {target} radially out"
+    "message": "Manter vetor radial centrífugo a {target}"
   },
   "HEAVY_INDUSTRY": {
     "description": "",
@@ -525,7 +525,7 @@
   },
   "HYPERSPACE_ARRIVAL_CLOUD": {
     "description": "",
-    "message": "Nuvem de chegada no hiperespaço"
+    "message": "Nuvem de chegada do hiperespaço"
   },
   "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
     "description": "",
@@ -885,7 +885,7 @@
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
-    "message": "Autopilot not installed on ship, cannot enable autopilot"
+    "message": "Não há piloto automático instalado nesta nave, impossível habilitar o piloto automático."
   },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",
