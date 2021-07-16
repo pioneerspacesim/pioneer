@@ -193,8 +193,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	}
 
 	for (Json::iterator role = data["roles"].begin(); role != data["roles"].end(); ++role) {
-		const std::string rolename = role.key();
-		roles[rolename] = data["roles"].value(rolename, 0);
+		roles[*role] = true;
 	}
 
 	for (int it = 0; it < 4; it++)
