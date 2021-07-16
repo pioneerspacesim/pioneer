@@ -79,9 +79,9 @@ static int box_max_size(const box_t &box)
 // crd - coordinates of the origin point in the sector, l.y.
 // originSector - coordinates of the sector containing the origin point
 // targetSector - coordinates of the sector in which we are looking for the nearest system
-// min_dist - here we will accumulate the minimum distance
+// min_dist_sq - here we will accumulate the minimum distance
 // best_sys - here we will accumulate the nearest system
-static void try_sector_for_nearer_system(cache_t cache, const vector3f &crd, const SystemPath &originSector, const SystemPath &targetSector, float &min_dist, SystemPath &best_sys)
+static void try_sector_for_nearer_system(cache_t cache, const vector3f &crd, const SystemPath &originSector, const SystemPath &targetSector, float &min_dist_sq, SystemPath &best_sys)
 {
 	RefCountedPtr<Sector> ps = cache->GetCached(targetSector);
 	vector3f base(
@@ -89,17 +89,38 @@ static void try_sector_for_nearer_system(cache_t cache, const vector3f &crd, con
 		targetSector.sectorY - originSector.sectorY,
 		targetSector.sectorZ - originSector.sectorZ);
 	base *= Sector::SIZE;
-	if (ps->m_systems.size()) {
+	if (!ps->m_systems.empty()) {
 		for (unsigned int i = 0; i < ps->m_systems.size(); i++) {
 			Sector::System *ss = &ps->m_systems[i];
 			vector3f dx = crd - (ss->GetPosition() + base);
 			float dist = dx.LengthSqr();
-			if (dist < min_dist) {
-				min_dist = dist;
+			if (dist < min_dist_sq) {
+				min_dist_sq = dist;
 				best_sys = ss->GetPath();
 			}
 		}
 	}
+}
+
+// helper function
+// return true, if at least one system is found
+// cache - source of sector and system data
+// sectorPos - coordinates of the sector containing the origin point
+// crd - coordinates of the origin point in the sector, l.y.
+// searchBox - we should search inside this box
+// prevSearchBox - we shouldn't search inside this box (because already searched)
+// min_dist_sq - here we will accumulate the minimum distance
+// best_sys - here we will accumulate the nearest system
+static bool search_nearest_in_box(cache_t cache, const SystemPath &sectorPos, const vector3f &crd, box_t &searchBox, box_t &prevSearchBox, float &min_dist_sq, SystemPath &best_sys)
+{
+	for (int x = searchBox[XMIN]; x < searchBox[XMAX]; ++x)
+		for (int y = searchBox[YMIN]; y < searchBox[YMAX]; ++y)
+			for (int z = searchBox[ZMIN]; z < searchBox[ZMAX]; ++z)
+				if (!in_box(x, y, z, prevSearchBox)) // we are not looking where we have already looked
+					try_sector_for_nearer_system(cache, crd, sectorPos, SystemPath(x, y, z), min_dist_sq, best_sys);
+	// we will not search next time where already searched
+	prevSearchBox = searchBox;
+	return min_dist_sq != FLT_MAX;
 }
 
 // the function searches for the closest star to the given coordinates
@@ -110,7 +131,7 @@ static void try_sector_for_nearer_system(cache_t cache, const vector3f &crd, con
 static SystemPath nearest_system_to_pos(cache_t cache, const vector3f &pos)
 {
 	// maximum size in sectors of the search box
-	const int MAX_SEARCH_DIST = 20;
+	const int MAX_SEARCH_BOX = 10;
 	// extract the coordinates of the sector, and the coordinates of the position within the sector
 	SystemPath sectorPos(floor(pos.x), floor(pos.y), floor(pos.z));
 	vector3f crd(FFRAC(pos.x), FFRAC(pos.y), FFRAC(pos.z));
@@ -127,7 +148,7 @@ static SystemPath nearest_system_to_pos(cache_t cache, const vector3f &pos)
 	// we will remember in which box we were already looked, so as not to repeat the search
 	box_t prevSearchBox = originBox;
 	// here we will accumulate the minimum distance
-	float min_dist = FLT_MAX;
+	float min_dist_sq = FLT_MAX;
 	// here we will accumulate the nearest system (this will be the result of the function)
 	SystemPath best_sys;
 	// the first iteration of the search - only in the sector where the base point is located
@@ -135,37 +156,33 @@ static SystemPath nearest_system_to_pos(cache_t cache, const vector3f &pos)
 	++searchBox[XMAX];
 	++searchBox[YMAX];
 	++searchBox[ZMAX];
-	bool search_complete;
-	do {
-		// looking for the nearest system in the current search box
-		for (int x = searchBox[XMIN]; x < searchBox[XMAX]; ++x)
-			for (int y = searchBox[YMIN]; y < searchBox[YMAX]; ++y)
-				for (int z = searchBox[ZMIN]; z < searchBox[ZMAX]; ++z)
-					if (!in_box(x, y, z, prevSearchBox)) // we are not looking where we have already looked
-						try_sector_for_nearer_system(cache, crd, sectorPos, SystemPath(x, y, z), min_dist, best_sys);
-		// check the search results, and enlarge the search box, if necessary
-		search_complete = true;
-		prevSearchBox = searchBox;
-		if (min_dist == FLT_MAX) {
-			// still did not find the system at all - we are expanding in all directions
-			for (int side = 0; side < SIDES; ++side) {
-				searchBox[side] += enlarge[side];
-			}
-			search_complete = false;
-		} else {
-			// found the system - we check if the found distance can go beyond the search box
-			for (int side = 0; side < SIDES; ++side) {
-				float side_crd = (searchBox[side] - originBox[side]) * Sector::SIZE;
-				float dist_to_edge = pow(posBox[side] - side_crd, 2);
-				if (dist_to_edge < min_dist) {
-					// the system is closer to this edge of the search box than the nearest found - we expand in this direction
-					searchBox[side] += enlarge[side];
-					search_complete = false;
-				}
-			}
+
+	// scan sectors, and expand the search box until we find at least one nearest system
+	while (!search_nearest_in_box(cache, sectorPos, crd, searchBox, prevSearchBox, min_dist_sq, best_sys)) {
+		// expand the search box
+		for (int side = 0; side < SIDES; ++side) {
+			searchBox[side] += enlarge[side];
 		}
-		if (box_max_size(searchBox) > MAX_SEARCH_DIST) return SystemPath(); // could not find anything, within the maximum search range - we return an empty path
-	} while (!search_complete);
+		// could not find anything, within the maximum search range - we return an empty path
+		if (box_max_size(searchBox) > MAX_SEARCH_BOX)
+			return SystemPath();
+	}
+
+	// we found a system, but it may not be the closest one - let's check all the
+	// edges of the search box, whether they are closer than the found star
+	bool search_complete = true;
+	for (int side = 0; side < SIDES; ++side) {
+		float side_crd = (searchBox[side] - originBox[side]) * Sector::SIZE;
+		float dist_to_edge_sq = pow(posBox[side] - side_crd, 2);
+		if (dist_to_edge_sq < min_dist_sq) {
+			// the origin is closer to this edge of the search box than to the nearest found - we expand in this direction
+			searchBox[side] += enlarge[side];
+			search_complete = false;
+		}
+	}
+	// if we enlarged the box, we will finally look for the closest system once again
+	if (!search_complete)
+		search_nearest_in_box(cache, sectorPos, crd, searchBox, prevSearchBox, min_dist_sq, best_sys);
 	return best_sys;
 }
 
@@ -407,8 +424,6 @@ void SectorView::SaveToJson(Json &jsonObj)
 
 	jsonObj["sector_view"] = sectorViewObj; // Add sector view object to supplied object.
 }
-
-#define FFRAC(_x) ((_x)-floor(_x))
 
 void SectorView::Draw3D()
 {
