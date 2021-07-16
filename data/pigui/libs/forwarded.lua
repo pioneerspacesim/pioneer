@@ -116,6 +116,7 @@ ui.HoveredFlags = pigui.HoveredFlags
 ui.button = pigui.Button
 
 ui.dataDirPath = pigui.DataDirPath
+ui.userDirPath = pigui.UserDirPath
 ui.addImage = pigui.AddImage
 ui.image = pigui.Image
 
