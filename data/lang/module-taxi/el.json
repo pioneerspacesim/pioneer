@@ -197,7 +197,7 @@
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Πέρασμα στο {system} σύσττημα."
+    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Πέρασμα στο {system} σύστημα."
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Πέρασμα στο {system} σύσττημα. Αμοιβή {cash}."
+    "message": "ΖΗΤΕΙΤΑΙ ΣΚΆΦΟΣ: Πέρασμα στο {system} σύστημα. Αμοιβή {cash}."
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
