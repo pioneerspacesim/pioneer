@@ -1,6 +1,10 @@
 July 2021
+   * New Features
+     * Ship thrust, fuel, and acceleration rebalances across the board (#4970)
+
    * Internal Changes
      * Add error display to tab views that have crashed (#5224)
+     * Re-added cargo mission tonnage dialogue option (#5228)
 
    * Fixes
      * Fix FlightLog buttons being offscreen (#5224)
