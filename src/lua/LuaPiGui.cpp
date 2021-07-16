@@ -102,7 +102,7 @@ int PiGui::pushOnScreenPositionDirection(lua_State *l, vector3d position)
 	PROFILE_SCOPED()
 	const int width = Graphics::GetScreenWidth();
 	const int height = Graphics::GetScreenHeight();
-	vector3d direction = (position - vector3d(width / 2, height / 2, 0)).Normalized();
+	vector3d direction = (position - vector3d(width / 2.0, height / 2.0, 0)).Normalized();
 	if (vector3d(0, 0, 0) == position || position.x < 0 || position.y < 0 || position.x > width || position.y > height || position.z > 0) {
 		LuaPush<bool>(l, false);
 		LuaPush<vector2d>(l, vector2d(position.x, position.y));
@@ -1724,7 +1724,7 @@ PiGui::TScreenSpace lua_world_space_to_screen_space(const Body *body)
 	const vector3d p = Pi::game->GetWorldView()->WorldSpaceToScreenSpace(body);
 	const int width = Graphics::GetScreenWidth();
 	const int height = Graphics::GetScreenHeight();
-	const vector3d direction = (p - vector3d(width / 2, height / 2, 0)).Normalized();
+	const vector3d direction = (p - vector3d(width / 2.0, height / 2.0, 0)).Normalized();
 	if (vector3d(0, 0, 0) == p || p.x < 0 || p.y < 0 || p.x > width || p.y > height || p.z > 0) {
 		return PiGui::TScreenSpace(false, vector2d(0, 0), direction * (p.z > 0 ? -1 : 1));
 	} else {

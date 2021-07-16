@@ -23,7 +23,6 @@ local ads = {}
 
 
 local addReputation = function (money, character)
-	local test = istest or false
 	local char = character or Character.persistent.player
 	local curRep = char.reputation
 	local newRep
@@ -89,7 +88,7 @@ local onChat = function (form, ref, option)
 
 	-- Draw buttons donation button options
 	for i=0,5,1 do
-		donate = math.floor(10^i)
+		local donate = math.floor(10^i)
 		form:AddOption(Format.Money(donate, false), donate)
 	end
 end

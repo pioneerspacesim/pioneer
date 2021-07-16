@@ -8,7 +8,7 @@ local e = require 'Equipment'
 local Game = require 'Game'
 local ui = require 'pigui.baseui'
 local utils = require 'utils'
-local Vector2 = _G.Vector2
+local Vector2 = Vector2
 local Space = require 'Space'
 
 local Core = require 'modules.TradeShips.Core'
@@ -261,7 +261,7 @@ debugView.registerTab('debug-trade-ships', function()
 			},{
 				callbacks = {
 					onClick = function(row)
-						status = Core.ships[row.ship] and Core.ships[row.ship].status
+						local status = Core.ships[row.ship] and Core.ships[row.ship].status
 						if status and status ~= "hyperspace" and status ~= "hyperspace_out" then
 							Game.systemView:SetSelectedObject(Engine.GetEnumValue("ProjectableTypes", "OBJECT"),
 								Engine.GetEnumValue("ProjectableBases", "SHIP"), row.ship)

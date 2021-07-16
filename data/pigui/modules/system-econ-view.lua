@@ -52,7 +52,7 @@ local minor_import = 4
 local major_import = 10
 
 local function getExportInfo(price)
-	local icon, color, tooltip = nil
+	local icon, color, tooltip
 
 	if not price then
 		icon = icons.alert_generic
@@ -75,7 +75,7 @@ local function getExportInfo(price)
 end
 
 local function getProfitabilityInfo(priceA, priceB)
-	local icon, color, tooltip = nil
+	local icon, color, tooltip
 	local priceDiff = (priceA and priceB) and priceB - priceA
 
 	if priceDiff and math.abs(priceDiff) > major_import then

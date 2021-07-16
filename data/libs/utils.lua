@@ -401,8 +401,7 @@ end
 --   a random element of the array, with the probability specified in the weight key
 --
 utils.chooseNormalized = function(array)
-	local choice = Engine.rand:Number(1.0)
-	sum = 0
+	local choice, sum = Engine.rand:Number(1.0), 0.0
 	for _, option in ipairs(array) do
 		sum = sum + option.weight
 		if choice <= sum then return option end

@@ -91,7 +91,7 @@ end
 
 local function button_info(current_view)
 	ui.sameLine()
-	active = current_view == "info"
+	local active = current_view == "info"
 	if mainMenuButton(icons.personal_info, active, lui.HUD_BUTTON_SHOW_PERSONAL_INFO) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f3)) then
 		if not active then
 			Game.SetView("info")
@@ -102,7 +102,7 @@ end
 local function button_comms(current_view)
 	if player:IsDocked() then
 		ui.sameLine()
-		active = current_view == "space_station"
+		local active = current_view == "space_station"
 		if mainMenuButton(icons.comms, active, lui.HUD_BUTTON_SHOW_COMMS) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f4)) then
 			if not active then
 				Game.SetView("space_station")
