@@ -287,7 +287,7 @@ trader_task.doUndock = function(ship)
 end
 
 trader_task.doRedock = function(ship)
-	trader = Core.ships[ship]
+	local trader = Core.ships[ship]
 	if trader then
 		if ship:exists() and ship.flightState ~= 'HYPERSPACE' then
 			trader['starport'] = Trader.getNearestStarport(ship, trader.starport)
@@ -320,7 +320,7 @@ end
 Trader.spawnInCloud = function(ship_name, cloud, route, dest_time)
 	-- choose random local route for choosen ship,
 	-- the hyperjump target depends on this (for multiple system)
-	ship = Space.SpawnShip(ship_name, 0, 0, {cloud.from, route.from:GetSystemBody().path, dest_time})
+	local ship = Space.SpawnShip(ship_name, 0, 0, {cloud.from, route.from:GetSystemBody().path, dest_time})
 	ship:SetLabel(Ship.MakeRandomLabel())
 	Trader.addEquip(ship)
 	Trader.addFuel(ship)

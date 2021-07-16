@@ -22,7 +22,7 @@ end
 -- convert an axis binding style ID to a translation resource identifier
 local function localize_binding_id(str)
 	local jsonIndex = str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
-	return rawget(linput, jsonIndex) or '[NO_JSON] '..jsonIndex
+	return rawget(linput, jsonIndex) or ('[NO_JSON] '..jsonIndex)
 end
 
 local function get_binding_desc(bind)
@@ -79,7 +79,7 @@ local keyCaptureNum
 
 local function combo(label, selected, items, tooltip)
 	local color = colors.buttonBlue
-	local changed, ret = 0
+	local changed, ret = 0, nil
 	ui.withStyleColors({["Button"]=color,["ButtonHovered"]=color:tint(0.1),["ButtonActive"]=color:tint(0.2)},function()
 		changed, ret = ui.combo(label, selected, items)
 	end)

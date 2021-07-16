@@ -8,7 +8,7 @@ local Lang = require 'Lang'
 local ShipDef = require 'ShipDef'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local InfoView = require 'pigui.views.info-view'
-local Vector2 = _G.Vector2
+local Vector2 = Vector2
 
 local ui = require 'pigui'
 local l = Lang.GetResource("ui-core")

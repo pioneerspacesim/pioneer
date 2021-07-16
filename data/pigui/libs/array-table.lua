@@ -1,9 +1,10 @@
 local ui = require 'pigui.baseui'
-array_table = {}
 
 --
 -- Table: array_table
 --
+
+local array_table = {}
 
 --
 -- Function: array_table.draw
