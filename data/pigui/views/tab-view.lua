@@ -110,7 +110,7 @@ function PiGuiTabView.renderTabView(self)
 			ui.setNextWindowSize(self.viewWindowSize, "Always")
 			ui.window("StationView", {"NoResize", "NoTitleBar"}, function()
 				tab.showView, tab.err = ui.pcall(tab.draw, tab)
-				if not tab.showView then logWarning(err) end
+				if not tab.showView then logWarning(tab.err) end
 			end)
 		end)
     end
@@ -123,7 +123,7 @@ function PiGuiTabView.renderTabView(self)
 				ui.withFont(ui.fonts.orbiteer.medlarge, function() ui.text(lui.AN_ERROR_HAS_OCCURRED) end)
 				ui.withFont(ui.fonts.pionillium.medium, function()
 					ui.spacing()
-					ui.textWrapped(lui.PLEASE_REPORT_THIS_ERROR)
+					ui.textWrapped(lui.PLEASE_REPORT_THIS_ERROR:interp {path = ui.userDirPath()})
 					ui.spacing()
 					ui.child("#TabErrorMsg", function()
 						local err = tab.err

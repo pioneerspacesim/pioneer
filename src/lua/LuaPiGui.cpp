@@ -2231,6 +2231,13 @@ static int l_pigui_data_dir_path(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_user_dir_path(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush(l, FileSystem::GetUserDir());
+	return 1;
+}
+
 static int l_pigui_is_window_hovered(lua_State *l)
 {
 	int flags = LuaPull<ImGuiHoveredFlags_>(l, 1, ImGuiHoveredFlags_None);
@@ -2908,6 +2915,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "ProgressBar", l_pigui_progress_bar },
 		{ "LoadTextureFromSVG", l_pigui_load_texture_from_svg },
 		{ "DataDirPath", l_pigui_data_dir_path },
+		{ "UserDirPath", l_pigui_user_dir_path },
 		{ "ShouldDrawUI", l_pigui_should_draw_ui },
 		{ "GetTargetsNearby", l_pigui_get_targets_nearby },
 		{ "GetProjectedBodies", l_pigui_get_projected_bodies },
