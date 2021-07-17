@@ -212,7 +212,7 @@
     "message": "Meubles"
   },
   "GO_BACK": {
-    "description": "",
+    "description": "Shown on a button in a sub-menu, to move back, to previous menu",
     "message": "Retour"
   },
   "GREENHOUSES": {
@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Oui. Le poids total est de {amount} tonnes."
+    "message": "{amount} tonnes."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Oui, nous pouvons partager la marchandise. J'ai {amount}t au total."
+    "message": "{amount}t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Oui, le poids total est de {amount}t."
+    "message": "Le poids est de {amount}t."
   },
-  "HOWMUCH_NO_1": {
+  "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "Non, désolé. Il n'est pas possible de partager la marchandise. Vous devez transporter la totalité des {amount} tonnes en une fois."
+    "message": "Il y a {amount}t."
   },
   "HOWMUCH_SINGULAR_1": {
-    "description": "This string is only used for 1 metric tons (singular)",
-    "message": "Non. C'est seulement {amount}t."
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "C'est seulement {amount}t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "Il y a {amount}t de {cargoname}. Je peux proposer les parcours suivants:"
+    "message": "Il y a {amount}t de {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "Lest {amount}t de {cargoname} peuvent être divisés comme suit:"
+    "message": "{amount}t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "Le poids de la marchandise est-il négociable ?"
+    "message": "Quel poids?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -331,6 +331,10 @@
     "description": "",
     "message": "Salutation, mon nom est {name} et je travaille pour Haber Corp. Nous payons {cash} pour une course vers {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), distant de {dist} al."
   },
+  "IS_IT_NEGOTIABLE": {
+    "description": "",
+    "message": "Le poids de la marchandise est-il négociable ?"
+  },
   "I_AM_ON_MY_WAY": {
     "description": "",
     "message": "Les capteurs montre que vous êtes attaqué et subissez des dégâts. J'arrive."
@@ -346,6 +350,26 @@
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "machines-outils"
+  },
+  "NEGOTIABLE_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "I can offer the following freight runs:"
+  },
+  "NEGOTIABLE_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Lest {amount}t de {cargoname} peuvent être divisés comme suit:"
+  },
+  "NEGOTIABLE_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Yes, we can split the cargo."
+  },
+  "NEGOTIABLE_NO_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Non, désolé. Il n'est pas possible de partager la marchandise. Vous devez transporter la totalité des {amount} tonnes en une fois."
+  },
+  "NEGOTIABLE_SINGULAR_1": {
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Non. C'est seulement {amount}t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",

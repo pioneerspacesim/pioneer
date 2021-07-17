@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Evet. Toplam miktar {amount} metrik ton."
+    "message": "{amount} metrik ton."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Elbette, kargoyu bölüştürebiliriz. Toplamda {amount}t kadar mal var."
+    "message": "{amount}t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Tabii ki. Bütün miktar {amount}t kadar."
+    "message": "Kütle: {amount}t."
   },
-  "HOWMUCH_NO_1": {
+  "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "Hayır, üzgünüm. Kargoyu bölüştüremeyiz. {amount} ton malın hepsi birlikte ulaştırılmalı."
+    "message": "{amount}t mal var."
   },
   "HOWMUCH_SINGULAR_1": {
-    "description": "This string is only used for 1 metric tons (singular)",
-    "message": "Hayır, bu mümkün değil. Kargo sadece {amount}t kadar."
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Sadece {amount}t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "{amount}t kadar {cargoname} var. Şu kargo uçuşlarını teklif edebilirim:"
+    "message": "{amount}t kadar {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname} şu şekilde ayrılabilir:"
+    "message": "{amount}t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "Kargo miktarında pazarlık yapabilir miyiz?"
+    "message": "Malların kütlesi ne kadar?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -331,6 +331,10 @@
     "description": "",
     "message": "Selamlar, benim adım {name} ve Haber Corp için çalışıyorum. {dist} ıy uzaklığında bulunan  {system} ({sectorx}, {sectory}, {sectorz}) sistemindeki {starport} limanına yapılacak bir teslimata {cash} ödeyeceğiz."
   },
+  "IS_IT_NEGOTIABLE": {
+    "description": "",
+    "message": "Kargo miktarında pazarlık yapabilir miyiz?"
+  },
   "I_AM_ON_MY_WAY": {
     "description": "",
     "message": "Sensörlerim hasar aldığını gösteriyor. Yoldayım."
@@ -346,6 +350,26 @@
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Makine"
+  },
+  "NEGOTIABLE_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "I can offer the following freight runs:"
+  },
+  "NEGOTIABLE_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount}t {cargoname} şu şekilde ayrılabilir:"
+  },
+  "NEGOTIABLE_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Yes, we can split the cargo."
+  },
+  "NEGOTIABLE_NO_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Hayır, üzgünüm. Kargoyu bölüştüremeyiz. {amount} ton malın hepsi birlikte ulaştırılmalı."
+  },
+  "NEGOTIABLE_SINGULAR_1": {
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Hayır, bu mümkün değil. Kargo sadece {amount}t kadar."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",

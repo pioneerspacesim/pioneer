@@ -1579,6 +1579,10 @@
     "description": "",
     "message": "Планетни текстури"
   },
+  "PLEASE_REPORT_THIS_ERROR": {
+    "description": "Informational text mentioning the error and asking the player to report it.",
+    "message": "Нещо се обърка! Моля, докладвайте как се е стигнало до тази неизправност в „Github“. Приложете изходния дневник на „Pioneer” и запазената игра към докладa.\nИзходният дневник се намира в: {path}/output.txt"
+  },
   "POLICE": {
     "description": "",
     "message": "Полиция"

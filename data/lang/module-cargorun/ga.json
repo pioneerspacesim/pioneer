@@ -212,7 +212,7 @@
     "message": "Troscán"
   },
   "GO_BACK": {
-    "description": "",
+    "description": "Shown on a button in a sub-menu, to move back, to previous menu",
     "message": "Go back."
   },
   "GREENHOUSES": {
@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes it is. The total amount is {amount} metric tons."
+    "message": "{amount} tonna méadrach."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo. I have {amount}t in total."
+    "message": "{amount}t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes. The entire mass is {amount}t."
+    "message": "Is é {amount}t an mhais."
   },
-  "HOWMUCH_NO_1": {
+  "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "No, sorry. It is not possible to split the cargo. You have to transport the whole {amount} tons at once."
+    "message": "Tá {amount}t ann."
   },
   "HOWMUCH_SINGULAR_1": {
-    "description": "This string is only used for 1 metric tons (singular)",
-    "message": "No it is not. It's only {amount}t."
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Níl ann ach {amount}t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "There are {amount}t of {cargoname}. I can offer the following freight runs:"
+    "message": "Tá {amount}t {cargoname} ann."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t {cargoname} can be divided as follows:"
+    "message": "{amount}t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "Is the amount of cargo negotiable?"
+    "message": "Cad é an mhais?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -331,6 +331,10 @@
     "description": "",
     "message": "Dia dhuit! Is mise {name} agus is fostaí de chuid Breosla Uí Scanaill, Teo. D'íocfaimis {cash} as turas go dtí {starport} i réaltchóras {system} ({sectorx}, {sectory}, {sectorz}), {dist} solasbhliain ar shiúl."
   },
+  "IS_IT_NEGOTIABLE": {
+    "description": "",
+    "message": "Is the amount of cargo negotiable?"
+  },
   "I_AM_ON_MY_WAY": {
     "description": "",
     "message": "Taispeánann na braiteoirí go bhfuil damáiste á dhéanamh duit. Tá mo ar mo bhealach."
@@ -346,6 +350,26 @@
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Meaisín-uirlisí"
+  },
+  "NEGOTIABLE_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "I can offer the following freight runs:"
+  },
+  "NEGOTIABLE_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount}t {cargoname} can be divided as follows:"
+  },
+  "NEGOTIABLE_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Yes, we can split the cargo."
+  },
+  "NEGOTIABLE_NO_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "No, sorry. It is not possible to split the cargo. You have to transport the whole {amount} tons at once."
+  },
+  "NEGOTIABLE_SINGULAR_1": {
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "No it is not. It's only {amount}t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",

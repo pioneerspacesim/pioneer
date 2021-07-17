@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Разбира се. Количество е {amount} метрични тона."
+    "message": "{amount} метрични тона."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Да, може да се раздели. Разполагаме с {amount} т."
+    "message": "{amount} т."
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Да. Количеството е {amount} т."
+    "message": "Тежи {amount} т."
   },
-  "HOWMUCH_NO_1": {
+  "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "За съжаление, количеството не може да бъде разделено. Трябва да се трнспортират {amount} тона наведнъж."
+    "message": "Има {amount} т."
   },
   "HOWMUCH_SINGULAR_1": {
-    "description": "This string is only used for 1 metric tons (singular)",
-    "message": "Не. Количеството е {amount} т."
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Само {amount} т."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "Има {amount} т. {cargoname}. Предлагам следните варианти:"
+    "message": "Има {amount} т. от {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "Има няколко варианта за {amount} т. {cargoname}:"
+    "message": "{amount} т. {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "Може ли да се договорим за количеството?"
+    "message": "Колко тежи?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -331,6 +331,10 @@
     "description": "",
     "message": "Поздрави, името ми е {name} и работя за Хаберската Корпорация. Ще платим {cash} за разноса до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
+  "IS_IT_NEGOTIABLE": {
+    "description": "",
+    "message": "Може ли да се договорим за количеството?"
+  },
   "I_AM_ON_MY_WAY": {
     "description": "",
     "message": "Сензорите показват, че имате щети по кораба. На път съм."
@@ -346,6 +350,26 @@
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Машинни инструменти"
+  },
+  "NEGOTIABLE_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Мога да предложа следните варианти:"
+  },
+  "NEGOTIABLE_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Има няколко варианта за {amount} т. {cargoname}:"
+  },
+  "NEGOTIABLE_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Да, количеството може да се раздели."
+  },
+  "NEGOTIABLE_NO_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "За съжаление, количеството не може да бъде разделено. Трябва да се трнспортират {amount} тона наведнъж."
+  },
+  "NEGOTIABLE_SINGULAR_1": {
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Не. Количеството е {amount} т."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",

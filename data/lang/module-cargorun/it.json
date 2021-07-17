@@ -212,7 +212,7 @@
     "message": "Mobilie"
   },
   "GO_BACK": {
-    "description": "",
+    "description": "Shown on a button in a sub-menu, to move back, to previous menu",
     "message": "Torna indietro."
   },
   "GREENHOUSES": {
@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Sì, lo è. Il totale è di {amount} tonnellate metriche."
+    "message": "{amount} tonnellate metriche."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Sì, possiamo suddividere il carico. Ho {amount}t in totale."
+    "message": "{amount}t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Sì. La massa totale è di {amount}t."
+    "message": "La massa è {amount}t."
   },
-  "HOWMUCH_NO_1": {
+  "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "No, spiacenti. Non è possibile suddividere il carico. Dovrà trasportare le {amount} tonnellate in una sola volta."
+    "message": "Sono {amount}t."
   },
   "HOWMUCH_SINGULAR_1": {
-    "description": "This string is only used for 1 metric tons (singular)",
-    "message": "No. Si tratta di solo {amount}t."
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Sono solo {amount}t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "Ci sono {amount}t di {cargoname}. Posso offrire le seguenti corse di merci:"
+    "message": "Ci sono {amount}t di {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}t di {cargoname} possono essere divise così:"
+    "message": "{amount}t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "La quantità di merce è negoziabile?"
+    "message": "Quanta massa?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -331,6 +331,10 @@
     "description": "",
     "message": "Ossequi, mi chiamo {name} e lavoro per la Haber Corp. Paghiamo {cash} per la una consegna a {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), ad una distanza di {dist} anni luce."
   },
+  "IS_IT_NEGOTIABLE": {
+    "description": "",
+    "message": "La quantità di merce è negoziabile?"
+  },
   "I_AM_ON_MY_WAY": {
     "description": "",
     "message": "I sensori mostrano che stai subendo danni. Sto arrivando."
@@ -346,6 +350,26 @@
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Macchine utensili"
+  },
+  "NEGOTIABLE_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "I can offer the following freight runs:"
+  },
+  "NEGOTIABLE_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount}t di {cargoname} possono essere divise così:"
+  },
+  "NEGOTIABLE_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Yes, we can split the cargo."
+  },
+  "NEGOTIABLE_NO_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "No, spiacenti. Non è possibile suddividere il carico. Dovrà trasportare le {amount} tonnellate in una sola volta."
+  },
+  "NEGOTIABLE_SINGULAR_1": {
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "No. Si tratta di solo {amount}t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",

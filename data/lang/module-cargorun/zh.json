@@ -212,7 +212,7 @@
     "message": "家具"
   },
   "GO_BACK": {
-    "description": "",
+    "description": "Shown on a button in a sub-menu, to move back, to previous menu",
     "message": "返回。"
   },
   "GREENHOUSES": {
@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "是的。总重量为{amount}公吨。"
+    "message": "{amount}公吨."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "是的，我们可以分货。我总共有{amount}吨。"
+    "message": "{amount}吨"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "对。整个质量是{amount}吨。"
+    "message": "质量是 {amount}吨."
   },
-  "HOWMUCH_NO_1": {
+  "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "不，对不起。无法分割货物。你必须一次运输全部{amount}吨。"
+    "message": "有 {amount}吨."
   },
   "HOWMUCH_SINGULAR_1": {
-    "description": "This string is only used for 1 metric tons (singular)",
-    "message": "不，不是。只有{amount}吨。"
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "只有 {amount}吨."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "有{amount}吨的{cargoname}。我可以提供以下货运服务："
+    "message": "这有 {amount}吨{cargoname}。"
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount}吨{cargoname}可分为："
+    "message": "{amount}吨{cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "货物的数量可以商量吗？"
+    "message": "质量多少？"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -331,6 +331,10 @@
     "description": "",
     "message": "您好，我的名字是{name}，为哈伯公司工作。我们在{system}星系（{sectorx}，{sectory}，{sectorz}）中为{starport}付款{cash}，距离 {dist} 光年。"
   },
+  "IS_IT_NEGOTIABLE": {
+    "description": "",
+    "message": "货物的数量可以商量吗？"
+  },
   "I_AM_ON_MY_WAY": {
     "description": "",
     "message": "传感器显示您正在受到伤害。 我赶过来了。"
@@ -346,6 +350,26 @@
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "机床"
+  },
+  "NEGOTIABLE_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "I can offer the following freight runs:"
+  },
+  "NEGOTIABLE_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount}吨{cargoname}可分为："
+  },
+  "NEGOTIABLE_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Yes, we can split the cargo."
+  },
+  "NEGOTIABLE_NO_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "不，对不起。无法分割货物。你必须一次运输全部{amount}吨。"
+  },
+  "NEGOTIABLE_SINGULAR_1": {
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "不，不是。只有{amount}吨。"
   },
   "NEPTUNIUM": {
     "description": "custom cargo",

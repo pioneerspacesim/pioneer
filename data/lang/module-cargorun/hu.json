@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Igen. Összesen {amount} tonna a szállítmány."
+    "message": "{amount} metric tons."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Igen, több fuvarral is leszállíthatja. Összesen {amount} tonnáról van szó."
+    "message": "{amount}t"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Igen. Összesen {amount} tonna."
+    "message": "The mass is {amount}t."
   },
-  "HOWMUCH_NO_1": {
+  "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "Sajnálom, de nem tudjuk több fuvarra osztani. Egyben kell leszállítania {amount} tonnát."
+    "message": "There are {amount}t."
   },
   "HOWMUCH_SINGULAR_1": {
-    "description": "This string is only used for 1 metric tons (singular)",
-    "message": "Nem lehetséges. Mindössze {amount} tonna."
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "It's only {amount}t."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "{amount} tonna {cargoname}. Az alábbi sfelosztásban szállítható:"
+    "message": "There are {amount}t of {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "{amount} tonna {cargoname}, ami felosztható az alábbiak szerint:"
+    "message": "{amount}t {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "Vállalhatok kisebb szállítmányt?"
+    "message": "How much mass?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -331,6 +331,10 @@
     "description": "",
     "message": "Greetings, my name is {name} and I work for Haber Corp. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
   },
+  "IS_IT_NEGOTIABLE": {
+    "description": "",
+    "message": "Vállalhatok kisebb szállítmányt?"
+  },
   "I_AM_ON_MY_WAY": {
     "description": "",
     "message": "Sensors show that you are taking damage. I'm on my way."
@@ -346,6 +350,26 @@
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Szerszámgépek"
+  },
+  "NEGOTIABLE_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "I can offer the following freight runs:"
+  },
+  "NEGOTIABLE_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "{amount} tonna {cargoname}, ami felosztható az alábbiak szerint:"
+  },
+  "NEGOTIABLE_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Yes, we can split the cargo."
+  },
+  "NEGOTIABLE_NO_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Sajnálom, de nem tudjuk több fuvarra osztani. Egyben kell leszállítania {amount} tonnát."
+  },
+  "NEGOTIABLE_SINGULAR_1": {
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Nem lehetséges. Mindössze {amount} tonna."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",

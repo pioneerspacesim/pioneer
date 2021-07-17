@@ -229,35 +229,35 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "Así es. La cantidad total son {amount} toneladas métricas."
+    "message": "{amount} toneladas métricas."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "Sí, podemos dividir la mercancía. Dispongo de {amount}t en total."
+    "message": "{amount} T"
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Sí. La masa total es {amount}t."
+    "message": "La masa es {amount} T."
   },
-  "HOWMUCH_NO_1": {
+  "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
-    "message": "No, lo siento. No es posible dividir la carga. Debes transportar las {amount} toneladas de una vez."
+    "message": "Hay {amount} T."
   },
   "HOWMUCH_SINGULAR_1": {
-    "description": "This string is only used for 1 metric tons (singular)",
-    "message": "No. Son solo {amount}t."
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "Solo son {amount} T."
   },
   "HOWMUCH_WHOLESALER_1": {
     "description": "",
-    "message": "Hay {amount}t de {cargoname}. Puedo ofrecer los siguientes recorridos de transporte:"
+    "message": "Hay {amount} T de {cargoname}."
   },
   "HOWMUCH_WHOLESALER_2": {
     "description": "",
-    "message": "Las {amount}t de {cargoname} se pueden dividir de la siguiente manera:"
+    "message": "{amount} T de {cargoname}"
   },
   "HOW_MUCH_MASS": {
     "description": "",
-    "message": "¿Es negociable la cantidad de carga?"
+    "message": "¿Cuánta masa?"
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",
@@ -331,6 +331,10 @@
     "description": "",
     "message": "Saludos, mi nombre es {name} y trabajo para Haber Corp. Pagamos {cash} por un envío a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}), a una distancia de {dist} años luz."
   },
+  "IS_IT_NEGOTIABLE": {
+    "description": "",
+    "message": "¿Es negociable la cantidad de carga?"
+  },
   "I_AM_ON_MY_WAY": {
     "description": "",
     "message": "Los sensores muestran que está sufriendo daños. Sigo mi camino."
@@ -346,6 +350,26 @@
   "MACHINE_TOOLS": {
     "description": "custom cargo",
     "message": "Herramientas de maquinaria"
+  },
+  "NEGOTIABLE_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "I can offer the following freight runs:"
+  },
+  "NEGOTIABLE_2": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Las {amount}t de {cargoname} se pueden dividir de la siguiente manera:"
+  },
+  "NEGOTIABLE_3": {
+    "description": "regarding mass, always more than 1t",
+    "message": "Yes, we can split the cargo."
+  },
+  "NEGOTIABLE_NO_1": {
+    "description": "regarding mass, always more than 1t",
+    "message": "No, lo siento. No es posible dividir la carga. Debes transportar las {amount} toneladas de una vez."
+  },
+  "NEGOTIABLE_SINGULAR_1": {
+    "description": "This string is only used for 1 metric ton (singular)",
+    "message": "No. Son solo {amount}t."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
