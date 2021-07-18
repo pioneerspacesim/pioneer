@@ -1581,7 +1581,7 @@
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Oops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on Github.\nYou can find your output log at: {path}/output.txt"
+    "message": "Oops, qualcosa è andata storta! Ti preghiamo di fornirci i passi necessari per riprodurre questo errore, il log di output ed il tuo file di salvataggio sul issue tracker di Pioneer su Girhub.\nIl log di output si trova qui: {path}/output.txt"
   },
   "POLICE": {
     "description": "",
