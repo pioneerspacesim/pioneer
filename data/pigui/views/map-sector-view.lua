@@ -35,6 +35,8 @@ local svColor = {
 	BUTTON_INACTIVE = setAlpha(colors.buttonBlue, 0),
 	BUTTON_SEMIACTIVE = setAlpha(colors.buttonBlue, 80),
 	BUTTON_INK = colors.buttonInk,
+	LABEL_HIGHLIGHT = colors.sectorMapLabelHighlight,
+	LABEL_SHADE = colors.sectorMapLabelShade,
 	FONT = colors.font,
 	UNKNOWN = colors.unknown,
 	WINDOW_BG = colors.lightBlackBackground
@@ -75,6 +77,7 @@ local onGameStart = function ()
 	sectorView:SetDrawOutRangeLabels(draw_out_range_labels)
 	sectorView:SetDrawUninhabitedLabels(draw_uninhabited_labels)
 	sectorView:SetDrawVerticalLines(draw_vertical_lines)
+	sectorView:SetLabelParams("orbiteer", font.size, 2.0, svColor.LABEL_HIGHLIGHT, svColor.LABEL_SHADE)
 end
 
 local function getHyperspaceDetails(path)
@@ -475,7 +478,8 @@ local function displaySectorViewWindow()
 			dummyFrames = dummyFrames - 1
 		else
 			if ui.isKeyReleased(ui.keys.tab) then
-				hideSectorViewWindows = not hideSectorViewWindows;
+				hideSectorViewWindows = not hideSectorViewWindows
+				sectorView:SetLabelsVisibility(hideSectorViewWindows)
 			end
 			if not hideSectorViewWindows then
 				-- display all windows

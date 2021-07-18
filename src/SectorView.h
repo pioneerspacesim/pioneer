@@ -9,6 +9,8 @@
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
 #include "pigui/PiGuiView.h"
 #include <set>
 #include <string>
@@ -16,7 +18,6 @@
 
 class Game;
 class Galaxy;
-class ImDrawList;
 
 class SectorView : public PiGuiView, public DeleteEmitter {
 public:
@@ -27,6 +28,8 @@ public:
 	void Update() override;
 	// void ShowAll() override;
 	void Draw3D() override;
+
+	void DrawPiGui() override;
 
 	vector3f GetPosition() const { return m_pos; }
 	SystemPath GetCurrent() const { return m_current; }
@@ -61,6 +64,9 @@ public:
 	void SetZoomMode(bool enable);
 	void SetRotateMode(bool enable);
 	void ResetView();
+	void SetLabelParams(std::string fontName, int fontSize, float gap, Color highlight, Color shade);
+	void DrawLabels();
+	void SetLabelsVisibility(bool hideLabels) { m_hideLabels = hideLabels; }
 
 	// HyperJump Route Planner
 	bool MoveRouteItemUp(const std::vector<SystemPath>::size_type element);
@@ -102,6 +108,7 @@ private:
 	void DrawNearSectors(const matrix4x4f &modelview);
 	void DrawNearSector(const int sx, const int sy, const int sz, const matrix4x4f &trans);
 	void PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &origin, int drawRadius);
+	void PutSystemLabel(const Sector::System &sys);
 
 	void DrawFarSectors(const matrix4x4f &modelview);
 	void BuildFarSector(RefCountedPtr<Sector> sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors);
@@ -206,6 +213,33 @@ private:
 	Graphics::Drawables::Lines m_sectorlines;
 	Graphics::Drawables::Lines m_routeLines;
 	Graphics::Drawables::Points m_farstarsPoints;
+
+	class Label;
+	class StarLabel;
+	class FactionLabel;
+	struct Labels {
+		// the constructor can only be defined after defining the Label class
+		Labels(SectorView &view);
+		// settings and globals for labels
+		// this is not hardcode, these are the defaults
+		std::string fontName = "orbiteer";
+		int fontSize = 15;
+		float gap = 2.f;
+		ImFont *starLabelFont = nullptr;
+		ImFont *factionHomeFont = nullptr;
+		ImFont *factionNameFont = nullptr;
+		ImRect starLabelHoverArea;
+		ImRect factionHomeHoverArea;
+		ImRect factionNameHoverArea;
+		ImU32 highlightColor = IM_COL32(255, 255, 255, 100);
+		ImU32 shadeColor = IM_COL32(25, 51, 82, 200);
+		// owning object
+		SectorView &view;
+		// array
+		std::vector<std::unique_ptr<Label>> array;
+	};
+	Labels m_labels;
+	bool m_hideLabels = false;
 };
 
 #endif /* _SECTORVIEW_H */
