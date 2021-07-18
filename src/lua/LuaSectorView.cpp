@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
+#include "LuaColor.h"
 #include "LuaMetaType.h"
 #include "LuaObject.h"
 #include "LuaVector.h"
@@ -39,6 +40,9 @@ void LuaObject<SectorView>::RegisterClass()
 		.AddFunction("SetHyperspaceTarget", &SectorView::SetHyperspaceTarget)
 		.AddFunction("ResetHyperspaceTarget", &SectorView::ResetHyperspaceTarget)
 		.AddFunction("IsCenteredOn", &SectorView::IsCenteredOn)
+		.AddFunction("SetLabelParams", &SectorView::SetLabelParams)
+		.AddFunction("DrawLabels", &SectorView::DrawLabels)
+		.AddFunction("SetLabelsVisibility", &SectorView::SetLabelsVisibility)
 		.AddFunction("GetFactions", [](lua_State *l, SectorView *sv) -> int {
 			const std::set<const Faction *> visible = sv->GetVisibleFactions();
 			const std::set<const Faction *> hidden = sv->GetHiddenFactions();
