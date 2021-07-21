@@ -25,6 +25,10 @@ InstanceRenderer::InstanceRenderer(Graphics::Renderer *r) :
 
 void InstanceRenderer::Initialize()
 {
+	ImGuiIO &io = ImGui::GetIO();
+	io.BackendRendererName = "Pioneer Renderer";
+	io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
+
 	Graphics::VertexBufferDesc vbd;
 	vbd.attrib[0] = { Graphics::ATTRIB_POSITION2D, Graphics::ATTRIB_FORMAT_FLOAT2, offsetof(ImDrawVert, pos) };
 	vbd.attrib[1] = { Graphics::ATTRIB_UV0, Graphics::ATTRIB_FORMAT_FLOAT2, offsetof(ImDrawVert, uv) };
@@ -94,11 +98,11 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 
 		// coalesce vertex and index data into a single buffer upload
 		auto &imVtxBuffer = cmd_list->VtxBuffer;
-		size_t vtxOffset = vtxStagingBuffer.size();
+		const size_t vtxOffset = vtxStagingBuffer.size();
 		vtxStagingBuffer.reserve(vtxOffset + imVtxBuffer.Size);
 
 		auto &imIdxBuffer = cmd_list->IdxBuffer;
-		size_t idxOffset = idxStagingBuffer.size();
+		const size_t idxOffset = idxStagingBuffer.size();
 		idxStagingBuffer.reserve(idxOffset + imIdxBuffer.Size);
 
 		// write this command list's data to the tail of the staging array
@@ -119,12 +123,11 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 					Graphics::ViewportExtents vp(clip_rect.x, (fb_height - clip_rect.w), (clip_rect.z - clip_rect.x), (clip_rect.w - clip_rect.y));
 					m_renderer->SetScissor(vp);
 
-					m_material->SetTexture(s_textureName, reinterpret_cast<Graphics::Texture *>(pcmd->TextureId));
+					m_material->SetTexture(s_textureName, reinterpret_cast<Graphics::Texture *>(pcmd->GetTexID()));
 					m_material->SetPushConstant(s_vertexDepthName, pcmd->PrimDepth);
-					m_renderer->DrawBufferDynamic(m_vtxBuffer.get(), vtxOffset, m_idxBuffer.get(), idxOffset, pcmd->ElemCount, m_material.get());
+					m_renderer->DrawBufferDynamic(m_vtxBuffer.get(), vtxOffset + pcmd->VtxOffset, m_idxBuffer.get(), idxOffset + pcmd->IdxOffset, pcmd->ElemCount, m_material.get());
 				}
 			}
-			idxOffset += pcmd->ElemCount;
 		}
 	}
 

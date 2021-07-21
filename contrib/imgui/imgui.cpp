@@ -7286,6 +7286,8 @@ void ImGuiStackSizes::SetToCurrentState()
     SizeOfFocusScopeStack = (short)g.FocusScopeStack.Size;
     SizeOfGroupStack = (short)g.GroupStack.Size;
     SizeOfBeginPopupStack = (short)g.BeginPopupStack.Size;
+	SizeOfTabBarStack = (short)g.CurrentTabBarStack.Size;
+	SizeOfWindowStack = (short)g.CurrentWindowStack.Size;
 }
 
 // Compare to detect usage errors

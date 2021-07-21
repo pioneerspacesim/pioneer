@@ -81,7 +81,8 @@ end
 function ui.pcall(fun, ...)
 	local stack = pigui.GetImguiStack()
 	return xpcall(fun, function(msg)
-		return debug.traceback(msg, 2) .. "\n" .. pigui.CleanupImguiStack(stack)
+		pigui.CleanupImguiStack(stack)
+		return debug.traceback(msg, 2) .. "\n"
 	end, ...)
 end
 

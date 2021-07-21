@@ -165,9 +165,9 @@ void ObjectViewerView::DrawInfoWindow()
 }
 
 namespace ImGui {
-	bool DragDouble(const char *label, double *v, double v_speed = 1.0f, double v_min = 0.0f, double v_max = 0.0f, const char *format = "%.3f", double power = 1.0f)
+	bool DragDouble(const char *label, double *v, double v_speed = 1.0f, double v_min = 0.0f, double v_max = 0.0f, const char *format = "%.3f")
 	{
-		return DragScalar(label, ImGuiDataType_Double, v, v_speed, &v_min, &v_max, format, power);
+		return DragScalar(label, ImGuiDataType_Double, v, v_speed, &v_min, &v_max, format);
 	}
 } // namespace ImGui
 

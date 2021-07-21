@@ -1319,6 +1319,8 @@ struct IMGUI_API ImGuiStackSizes
     short   SizeOfFocusScopeStack;
     short   SizeOfGroupStack;
     short   SizeOfBeginPopupStack;
+    short   SizeOfTabBarStack;
+	short   SizeOfWindowStack;
 
     ImGuiStackSizes() { memset(this, 0, sizeof(*this)); }
     void SetToCurrentState();
@@ -2609,6 +2611,7 @@ namespace ImGui
     IMGUI_API void          GcAwakeTransientWindowBuffers(ImGuiWindow* window);
 
     // Debug Tools
+    IMGUI_API void          ErrorCheckRecover(ImGuiStackSizes *on_begin, ImGuiErrorLogCallback log_callback, void* user_data = NULL);
     IMGUI_API void          ErrorCheckEndFrameRecover(ImGuiErrorLogCallback log_callback, void* user_data = NULL);
     inline void             DebugDrawItemRect(ImU32 col = IM_COL32(255,0,0,255))    { ImGuiContext& g = *GImGui; ImGuiWindow* window = g.CurrentWindow; GetForegroundDrawList(window)->AddRect(window->DC.LastItemRect.Min, window->DC.LastItemRect.Max, col); }
     inline void             DebugStartItemPicker()                                  { ImGuiContext& g = *GImGui; g.DebugItemPickerActive = true; }
