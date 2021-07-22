@@ -1,6 +1,7 @@
 July 2021
    * New Features
      * Ship thrust, fuel, and acceleration rebalances across the board (#4970)
+     * Better view-based star selection in Sector Map (#5227)
 
    * Internal Changes
      * Add error display to tab views that have crashed (#5224)
@@ -11,6 +12,7 @@ July 2021
      * Fix invalid MSAA settings causing openGL errors (#5224)
      * Fix ESC key not closing the settings window (#5224)
      * Fix crash in ModelViewer when switching to FPS navigation (#5224)
+     * Fixed DSMiner ship vertex normal issues (#5229)
 
 June 2021
    * New Features
