@@ -60,7 +60,6 @@ enum Side {
 };
 
 using box_t = std::array<int, SIDES>;
-using cache_t = SectorCache::Slave *;
 
 static bool in_box(int x, int y, int z, const box_t &box)
 {
@@ -81,7 +80,7 @@ static int box_max_size(const box_t &box)
 // targetSector - coordinates of the sector in which we are looking for the nearest system
 // min_dist_sq - here we will accumulate the minimum distance
 // best_sys - here we will accumulate the nearest system
-static void try_sector_for_nearer_system(cache_t cache, const vector3f &crd, const SystemPath &originSector, const SystemPath &targetSector, float &min_dist_sq, SystemPath &best_sys)
+static void try_sector_for_nearer_system(SectorCache::Slave *cache, const vector3f &crd, const SystemPath &originSector, const SystemPath &targetSector, float &min_dist_sq, SystemPath &best_sys)
 {
 	RefCountedPtr<Sector> ps = cache->GetCached(targetSector);
 	vector3f base(
@@ -89,15 +88,13 @@ static void try_sector_for_nearer_system(cache_t cache, const vector3f &crd, con
 		targetSector.sectorY - originSector.sectorY,
 		targetSector.sectorZ - originSector.sectorZ);
 	base *= Sector::SIZE;
-	if (!ps->m_systems.empty()) {
-		for (unsigned int i = 0; i < ps->m_systems.size(); i++) {
-			Sector::System *ss = &ps->m_systems[i];
-			vector3f dx = crd - (ss->GetPosition() + base);
-			float dist = dx.LengthSqr();
-			if (dist < min_dist_sq) {
-				min_dist_sq = dist;
-				best_sys = ss->GetPath();
-			}
+	for (unsigned int i = 0; i < ps->m_systems.size(); i++) {
+		Sector::System *ss = &ps->m_systems[i];
+		vector3f dx = crd - (ss->GetPosition() + base);
+		float dist = dx.LengthSqr();
+		if (dist < min_dist_sq) {
+			min_dist_sq = dist;
+			best_sys = ss->GetPath();
 		}
 	}
 }
@@ -111,7 +108,7 @@ static void try_sector_for_nearer_system(cache_t cache, const vector3f &crd, con
 // prevSearchBox - we shouldn't search inside this box (because already searched)
 // min_dist_sq - here we will accumulate the minimum distance
 // best_sys - here we will accumulate the nearest system
-static bool search_nearest_in_box(cache_t cache, const SystemPath &sectorPos, const vector3f &crd, box_t &searchBox, box_t &prevSearchBox, float &min_dist_sq, SystemPath &best_sys)
+static bool search_nearest_in_box(SectorCache::Slave *cache, const SystemPath &sectorPos, const vector3f &crd, box_t &searchBox, box_t &prevSearchBox, float &min_dist_sq, SystemPath &best_sys)
 {
 	for (int x = searchBox[XMIN]; x < searchBox[XMAX]; ++x)
 		for (int y = searchBox[YMIN]; y < searchBox[YMAX]; ++y)
@@ -128,7 +125,7 @@ static bool search_nearest_in_box(cache_t cache, const SystemPath &sectorPos, co
 // pos -  absolute coordinates of a point (in sectors, float)
 // returns the found SystemPath, (system closest to the given position)
 // if returned !SystemPath.IsSystemPath(), it means that nothing was found
-static SystemPath nearest_system_to_pos(cache_t cache, const vector3f &pos)
+static SystemPath nearest_system_to_pos(SectorCache::Slave *cache, const vector3f &pos)
 {
 	// maximum size in sectors of the search box
 	const int MAX_SEARCH_BOX = 10;
@@ -151,12 +148,13 @@ static SystemPath nearest_system_to_pos(cache_t cache, const vector3f &pos)
 	float min_dist_sq = FLT_MAX;
 	// here we will accumulate the nearest system (this will be the result of the function)
 	SystemPath best_sys;
-	// the first iteration of the search - only in the sector where the base point is located
-	box_t searchBox = originBox;
-	++searchBox[XMAX];
-	++searchBox[YMAX];
-	++searchBox[ZMAX];
 
+	// the first iteration of the search - only in the sector where the base point is located
+	box_t searchBox = {
+		sectorPos.sectorX, sectorPos.sectorX + 1,
+		sectorPos.sectorY, sectorPos.sectorY + 1,
+		sectorPos.sectorZ, sectorPos.sectorZ + 1
+	};
 	// scan sectors, and expand the search box until we find at least one nearest system
 	while (!search_nearest_in_box(cache, sectorPos, crd, searchBox, prevSearchBox, min_dist_sq, best_sys)) {
 		// expand the search box
@@ -172,9 +170,8 @@ static SystemPath nearest_system_to_pos(cache_t cache, const vector3f &pos)
 	// edges of the search box, whether they are closer than the found star
 	bool search_complete = true;
 	for (int side = 0; side < SIDES; ++side) {
-		float side_crd = (searchBox[side] - originBox[side]) * Sector::SIZE;
-		float dist_to_edge_sq = pow(posBox[side] - side_crd, 2);
-		if (dist_to_edge_sq < min_dist_sq) {
+		float dist_to_edge = posBox[side] - (searchBox[side] - originBox[side]) * Sector::SIZE;
+		if (dist_to_edge * dist_to_edge < min_dist_sq) {
 			// the origin is closer to this edge of the search box than to the nearest found - we expand in this direction
 			searchBox[side] += enlarge[side];
 			search_complete = false;
