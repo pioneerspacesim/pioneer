@@ -47,6 +47,142 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f; // Should be a variable in user settings.
 
+#define FFRAC(_x) ((_x)-floor(_x))
+
+enum Side {
+	XMIN,
+	XMAX,
+	YMIN,
+	YMAX,
+	ZMIN,
+	ZMAX,
+	SIDES
+};
+
+using box_t = std::array<int, SIDES>;
+
+static bool in_box(int x, int y, int z, const box_t &box)
+{
+	return x >= box[XMIN] && x < box[XMAX] &&
+		y >= box[YMIN] && y < box[YMAX] &&
+		z >= box[ZMIN] && z < box[ZMAX];
+}
+
+static int box_max_size(const box_t &box)
+{
+	return std::max(std::max(box[XMAX] - box[XMIN], box[YMAX] - box[YMIN]), box[ZMAX] - box[ZMIN]);
+}
+
+// helper function
+// cache - source of sector and system data
+// crd - coordinates of the origin point in the sector, l.y.
+// originSector - coordinates of the sector containing the origin point
+// targetSector - coordinates of the sector in which we are looking for the nearest system
+// min_dist_sq - here we will accumulate the minimum distance
+// best_sys - here we will accumulate the nearest system
+static void try_sector_for_nearer_system(SectorCache::Slave *cache, const vector3f &crd, const SystemPath &originSector, const SystemPath &targetSector, float &min_dist_sq, SystemPath &best_sys)
+{
+	RefCountedPtr<Sector> ps = cache->GetCached(targetSector);
+	vector3f base(
+		targetSector.sectorX - originSector.sectorX,
+		targetSector.sectorY - originSector.sectorY,
+		targetSector.sectorZ - originSector.sectorZ);
+	base *= Sector::SIZE;
+	for (unsigned int i = 0; i < ps->m_systems.size(); i++) {
+		Sector::System *ss = &ps->m_systems[i];
+		vector3f dx = crd - (ss->GetPosition() + base);
+		float dist = dx.LengthSqr();
+		if (dist < min_dist_sq) {
+			min_dist_sq = dist;
+			best_sys = ss->GetPath();
+		}
+	}
+}
+
+// helper function
+// return true, if at least one system is found
+// cache - source of sector and system data
+// sectorPos - coordinates of the sector containing the origin point
+// crd - coordinates of the origin point in the sector, l.y.
+// searchBox - we should search inside this box
+// prevSearchBox - we shouldn't search inside this box (because already searched)
+// min_dist_sq - here we will accumulate the minimum distance
+// best_sys - here we will accumulate the nearest system
+static bool search_nearest_in_box(SectorCache::Slave *cache, const SystemPath &sectorPos, const vector3f &crd, box_t &searchBox, box_t &prevSearchBox, float &min_dist_sq, SystemPath &best_sys)
+{
+	for (int x = searchBox[XMIN]; x < searchBox[XMAX]; ++x)
+		for (int y = searchBox[YMIN]; y < searchBox[YMAX]; ++y)
+			for (int z = searchBox[ZMIN]; z < searchBox[ZMAX]; ++z)
+				if (!in_box(x, y, z, prevSearchBox)) // we are not looking where we have already looked
+					try_sector_for_nearer_system(cache, crd, sectorPos, SystemPath(x, y, z), min_dist_sq, best_sys);
+	// we will not search next time where already searched
+	prevSearchBox = searchBox;
+	return min_dist_sq != FLT_MAX;
+}
+
+// the function searches for the closest star to the given coordinates
+// cache - source of sector and system data
+// pos -  absolute coordinates of a point (in sectors, float)
+// returns the found SystemPath, (system closest to the given position)
+// if returned !SystemPath.IsSystemPath(), it means that nothing was found
+static SystemPath nearest_system_to_pos(SectorCache::Slave *cache, const vector3f &pos)
+{
+	// maximum size in sectors of the search box
+	const int MAX_SEARCH_BOX = 10;
+	// extract the coordinates of the sector, and the coordinates of the position within the sector
+	SystemPath sectorPos(floor(pos.x), floor(pos.y), floor(pos.z));
+	vector3f crd(FFRAC(pos.x), FFRAC(pos.y), FFRAC(pos.z));
+	crd *= Sector::SIZE; // convert to l.y.
+	// directions of "growth" of the search box, if necessary
+	box_t enlarge = { -1, 1, -1, 1, -1, 1 };
+	// remember the initial sector coordinates and point coordinates as boxes with size 0, for ease of comparison
+	box_t originBox = {
+		sectorPos.sectorX, sectorPos.sectorX,
+		sectorPos.sectorY, sectorPos.sectorY,
+		sectorPos.sectorZ, sectorPos.sectorZ
+	};
+	std::array<float, SIDES> posBox = { crd.x, crd.x, crd.y, crd.y, crd.z, crd.z };
+	// we will remember in which box we were already looked, so as not to repeat the search
+	box_t prevSearchBox = originBox;
+	// here we will accumulate the minimum distance
+	float min_dist_sq = FLT_MAX;
+	// here we will accumulate the nearest system (this will be the result of the function)
+	SystemPath best_sys;
+
+	// the first iteration of the search - only in the sector where the base point is located
+	box_t searchBox = {
+		sectorPos.sectorX, sectorPos.sectorX + 1,
+		sectorPos.sectorY, sectorPos.sectorY + 1,
+		sectorPos.sectorZ, sectorPos.sectorZ + 1
+	};
+	// scan sectors, and expand the search box until we find at least one nearest system
+	while (!search_nearest_in_box(cache, sectorPos, crd, searchBox, prevSearchBox, min_dist_sq, best_sys)) {
+		// expand the search box
+		for (int side = 0; side < SIDES; ++side) {
+			searchBox[side] += enlarge[side];
+		}
+		// could not find anything, within the maximum search range - we return an empty path
+		if (box_max_size(searchBox) > MAX_SEARCH_BOX)
+			return SystemPath();
+	}
+
+	// we found a system, but it may not be the closest one - let's check all the
+	// edges of the search box, whether they are closer than the found star
+	bool search_complete = true;
+	for (int side = 0; side < SIDES; ++side) {
+		float dist_to_edge = posBox[side] - (searchBox[side] - originBox[side]) * Sector::SIZE;
+		if (dist_to_edge * dist_to_edge < min_dist_sq) {
+			// the origin is closer to this edge of the search box than to the nearest found - we expand in this direction
+			searchBox[side] += enlarge[side];
+			search_complete = false;
+		}
+	}
+	// if we enlarged the box, we will finally look for the closest system once again
+	if (!search_complete)
+		search_nearest_in_box(cache, sectorPos, crd, searchBox, prevSearchBox, min_dist_sq, best_sys);
+	return best_sys;
+}
+
 REGISTER_INPUT_BINDING(SectorView)
 {
 	using namespace InputBindings;
@@ -285,8 +421,6 @@ void SectorView::SaveToJson(Json &jsonObj)
 
 	jsonObj["sector_view"] = sectorViewObj; // Add sector view object to supplied object.
 }
-
-#define FFRAC(_x) ((_x)-floor(_x))
 
 void SectorView::Draw3D()
 {
@@ -1178,18 +1312,19 @@ void SectorView::Update()
 	const float moveSpeed = Pi::GetMoveSpeedShiftModifier();
 	float move = moveSpeed * frameTime * m_zoomClamped;
 	vector3f shift(0.0f);
-	bool manual_move = false; // used so that when you click on a system and move there, passing systems are not selected
+	if (m_manualMove && (m_pos - m_posMovingTo).LengthSqr() < 0.001f)
+		m_manualMove = false; // used so that when you click on a system and move there, passing systems are not selected
 	if (InputBindings.mapViewMoveLeft->IsActive()) {
 		shift.x -= move * InputBindings.mapViewMoveLeft->GetValue();
-		manual_move = true;
+		m_manualMove = true;
 	}
 	if (InputBindings.mapViewMoveForward->IsActive()) {
 		shift.y += move * InputBindings.mapViewMoveForward->GetValue();
-		manual_move = true;
+		m_manualMove = true;
 	}
 	if (InputBindings.mapViewMoveUp->IsActive()) {
 		shift.z += move * InputBindings.mapViewMoveUp->GetValue();
-		manual_move = true;
+		m_manualMove = true;
 	}
 	m_posMovingTo += shift * shiftRot;
 
@@ -1250,32 +1385,11 @@ void SectorView::Update()
 		m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
 	}
 
-	if (m_automaticSystemSelection && manual_move) {
-		SystemPath new_selected = SystemPath(int(floor(m_pos.x)), int(floor(m_pos.y)), int(floor(m_pos.z)), 0);
-
-		RefCountedPtr<Sector> ps = GetCached(new_selected);
-		if (ps->m_systems.size()) {
-			float px = FFRAC(m_pos.x) * Sector::SIZE;
-			float py = FFRAC(m_pos.y) * Sector::SIZE;
-			float pz = FFRAC(m_pos.z) * Sector::SIZE;
-
-			float min_dist = FLT_MAX;
-			for (unsigned int i = 0; i < ps->m_systems.size(); i++) {
-				Sector::System *ss = &ps->m_systems[i];
-				float dx = px - ss->GetPosition().x;
-				float dy = py - ss->GetPosition().y;
-				float dz = pz - ss->GetPosition().z;
-				float dist = sqrtf(dx * dx + dy * dy + dz * dz);
-				if (dist < min_dist) {
-					min_dist = dist;
-					new_selected.systemIndex = i;
-				}
-			}
-
-			if (!m_selected.IsSameSystem(new_selected)) {
-				RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(new_selected);
-				SetSelected(CheckPathInRoute(system->GetStars()[0]->GetPath()));
-			}
+	if (m_automaticSystemSelection && m_manualMove) {
+		SystemPath new_selected = nearest_system_to_pos(m_sectorCache.Get(), m_pos);
+		if (new_selected.IsSystemPath() && !m_selected.IsSameSystem(new_selected)) {
+			RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(new_selected);
+			SetSelected(CheckPathInRoute(system->GetStars()[0]->GetPath()));
 		}
 	}
 
@@ -1447,7 +1561,7 @@ void SectorView::SetRotateMode(bool enable)
 
 void SectorView::ResetView()
 {
-	GotoSystem(m_current);
+	SwitchToPath(m_current);
 	m_rotXMovingTo = m_rotXDefault;
 	m_rotZMovingTo = m_rotZDefault;
 	m_zoomMovingTo = m_zoomDefault;
