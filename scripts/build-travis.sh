@@ -2,7 +2,7 @@
 
 # Package a build and prepare it for upload via Travis.
 
-BINARIES=("build/pioneer" "build/modelcompiler")
+BINARIES=("build/pioneer" "build/modelcompiler" "build/savegamedump")
 COPY_DIR=release
 
 # Append .exe to the binaries if we're building for windows.
@@ -54,7 +54,7 @@ mkdir -p release/zip
 
 echo "Bundling output..."
 
-TAG_NAME=$(git describe HEAD)
+TAG_NAME=$GITHUB_REF
 if [ "$BUILD_TYPE" == "mxe" ]; then
     zip -r "release/zip/pioneer-$TAG_NAME-mxe.zip" release/* -x *release/zip*
 else

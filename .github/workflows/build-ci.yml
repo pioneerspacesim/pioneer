@@ -11,6 +11,8 @@ on:
     paths:
     - 'src/**.cpp'
     - 'src/**.h'
+  release:
+    types: [published]
 
 env:
   packages: >
@@ -29,67 +31,75 @@ jobs:
     runs-on: windows-2019
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          path: pioneer
+    - uses: actions/checkout@v2
+      with:
+        path: pioneer
 
-      - name: Checkout pioneer-thirdparty
-        uses: actions/checkout@v2
-        with:
-          repository: pioneerspacesim/pioneer-thirdparty
-          path: pioneer-thirdparty
+    - name: Checkout pioneer-thirdparty
+      uses: actions/checkout@v2
+      with:
+        repository: pioneerspacesim/pioneer-thirdparty
+        path: pioneer-thirdparty
 
-      - name: Build VS Solution
-        shell: cmd
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          cd pioneer
-          msbuild win32\vs2019\pioneer.sln /property:Configuration=Release
+    - name: Build VS Solution
+      shell: cmd
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        cd pioneer
+        msbuild win32\vs2019\pioneer.sln /property:Configuration=Release
 
   build-msvc:
     runs-on: windows-2019
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          path: pioneer
+    - uses: actions/checkout@v2
+      with:
+        path: pioneer
 
-      - name: Checkout pioneer-thirdparty
-        uses: actions/checkout@v2
-        with:
-          repository: pioneerspacesim/pioneer-thirdparty
-          path: pioneer-thirdparty
+    - name: Checkout pioneer-thirdparty
+      uses: actions/checkout@v2
+      with:
+        repository: pioneerspacesim/pioneer-thirdparty
+        path: pioneer-thirdparty
 
-      - name: Build MSVC
-        shell: cmd
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          cd pioneer
-          mkdir build
-          cd build
-          cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX="C:/Program Files/Pioneer" -DPIONEER_DATA_DIR="C:/Program Files/Pioneer/data" -DCMAKE_BUILD_TYPE:STRING=Release -DGIT_EXECUTABLE="c:/Program Files/Git/cmd/git.exe"
-          cmake --build .
+    - name: Build MSVC
+      shell: cmd
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        cd pioneer
+        mkdir build
+        cd build
+        cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX="C:/Program Files/Pioneer" -DPIONEER_DATA_DIR="C:/Program Files/Pioneer/data" -DCMAKE_BUILD_TYPE:STRING=Release -DGIT_EXECUTABLE="c:/Program Files/Git/cmd/git.exe"
+        cmake --build .
 
-      - name: Build Pioneer Data
-        shell: cmd
-        run: |
-          cd pioneer
-          modelcompiler.exe -b inplace          
+    - name: Build Pioneer Data
+      shell: cmd
+      run: |
+        cd pioneer
+        modelcompiler.exe -b inplace
 
-      - name: Build Release
-        shell: cmd
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-          cd pioneer
-          cd build
-          cmake --build . --target install
-          cmake --build . --target win-installer
+    - name: Build Release
+      shell: cmd
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        cd pioneer
+        cd build
+        cmake --build . --target install
+        cmake --build . --target win-installer
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: Windows-Artifacts
-          path: pioneer/pioneer-*-win.exe
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Windows-Artifacts
+        path: pioneer/pioneer-*-win.exe
+
+    - name: Upload Release Files
+      uses: softprops/action-gh-release@v1
+      if: ${{ github.event_name == 'release' }}
+      with:
+        files: pioneer/pioneer-*-win.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-gcc:
     runs-on: ${{ matrix.os }}
@@ -120,6 +130,14 @@ jobs:
       with:
         name: Linux-Artifacts
         path: release/zip/*.tar.gz
+
+    - name: Upload Release Files
+      uses: softprops/action-gh-release@v1
+      if: ${{ github.event_name == 'release' }}
+      with:
+        files: release/zip/pioneer-*.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-clang:
     runs-on: ${{ matrix.os }}
