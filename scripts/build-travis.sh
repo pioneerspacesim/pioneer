@@ -54,11 +54,20 @@ mkdir -p release/zip
 
 echo "Bundling output..."
 
-TAG_NAME=$GITHUB_REF
+TAG_NAME=$(git describe HEAD)
+if [ -z "$TAG_NAME" ]; then
+	TAG_NAME=$(date +%Y%m%d)
+fi
+
 if [ "$BUILD_TYPE" == "mxe" ]; then
     zip -r "release/zip/pioneer-$TAG_NAME-mxe.zip" release/* -x *release/zip*
 else
     tar -czf "release/zip/pioneer-$TAG_NAME.tar.gz" --exclude=release/zip release/*
+fi
+
+if [ $? -ne 0 ]; then
+	echo "Release failed!"
+	exit 1
 fi
 
 echo "Release finished successfully!"
