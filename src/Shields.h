@@ -3,6 +3,7 @@
 
 #ifndef _SHIELDS_H_
 #define _SHIELDS_H_
+
 /*
  * Mesh shields for ships and other objects.
  */
@@ -12,20 +13,12 @@
 
 namespace Graphics {
 	class Renderer;
+	class Material;
 }
 namespace SceneGraph {
 	class Model;
 	class StaticGeometry;
 } // namespace SceneGraph
-
-struct ShieldRenderParameters {
-	static const Uint32 MAX_SHIELD_HITS = 5; // Also defined in ShieldMaterial.h
-	float strength;
-	float coolDown;
-	vector3f hitPos[MAX_SHIELD_HITS];
-	float radii[MAX_SHIELD_HITS];
-	Sint32 numHits;
-};
 
 class Shields {
 public:
@@ -59,9 +52,11 @@ protected:
 		Uint32 start;
 		Uint32 end;
 	};
-	typedef std::deque<Shields::Hits>::iterator HitIterator;
+
 	std::deque<Hits> m_hits;
 	std::vector<Shield> m_shields;
+	RefCountedPtr<Graphics::Material> m_shieldMaterial;
+
 	bool m_enabled;
 
 	static bool s_initialised;

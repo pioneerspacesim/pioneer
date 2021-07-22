@@ -7,8 +7,10 @@
 #include "JsonUtils.h"
 #include "Ship.h"
 #include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
+#include "graphics/UniformBuffer.h"
 #include "scenegraph/CollisionGeometry.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/Node.h"
@@ -28,7 +30,7 @@ namespace {
 	};
 
 	static RefCountedPtr<Graphics::Material> s_matShield;
-	static ShieldData s_shieldRenderData;
+	static RefCountedPtr<Graphics::UniformBuffer> s_matUniformBuffer;
 	static const std::string s_shieldGroupName("Shields");
 	static const std::string s_matrixTransformName("_accMtx4");
 	static const size_t s_shieldDataName = Graphics::Renderer::GetName("ShieldData");
@@ -69,8 +71,6 @@ private:
 	std::string m_name;
 };
 
-typedef std::vector<Shields::Shield>::iterator ShieldIterator;
-
 //static
 bool Shields::s_initialised = false;
 
@@ -102,32 +102,35 @@ void Shields::Init(Graphics::Renderer *renderer)
 	rsd.depthWrite = false;
 	rsd.cullMode = Graphics::CULL_NONE;
 
+	// Create a global shield data buffer containing "nothing" for use when there isn't an active Shields class
+	// attached to the model
+	s_matUniformBuffer.Reset(renderer->CreateUniformBuffer(sizeof(ShieldData), Graphics::BUFFER_USAGE_STATIC));
+	s_matUniformBuffer->BufferData(ShieldData {});
+
 	s_matShield.Reset(renderer->CreateMaterial("shield", desc, rsd));
 	s_matShield->diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
+	s_matShield->SetPushConstant(s_numHitsName, 0);
+	s_matShield->SetBuffer(s_shieldDataName, s_matUniformBuffer->GetBufferBinding());
 
 	s_initialised = true;
 }
 
 void Shields::ReparentShieldNodes(SceneGraph::Model *model)
 {
+	using namespace SceneGraph;
 	assert(s_initialised);
 
 	Graphics::Renderer *renderer = model->GetRenderer();
 
-	using SceneGraph::Group;
-	using SceneGraph::MatrixTransform;
-	using SceneGraph::Node;
-	using SceneGraph::StaticGeometry;
-
 	//This will find all matrix transforms meant for shields.
 	SceneGraph::FindNodeVisitor shieldFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_ENDSWITH, "_shield");
 	model->GetRoot()->Accept(shieldFinder);
-	const std::vector<Node *> &results = shieldFinder.GetResults();
 
 	//Move shield geometry to same level as the LODs
-	for (unsigned int i = 0; i < results.size(); i++) {
-		MatrixTransform *mt = dynamic_cast<MatrixTransform *>(results.at(i));
-		assert(mt);
+	for (Node *node : shieldFinder.GetResults()) {
+		MatrixTransform *mt = dynamic_cast<MatrixTransform *>(node);
+		if (mt == nullptr)
+			continue;
 
 		const Uint32 NumChildren = mt->GetNumChildren();
 		if (NumChildren > 0) {
@@ -185,21 +188,21 @@ void Shields::Uninit()
 Shields::Shields(SceneGraph::Model *model) :
 	m_enabled(false)
 {
+	using namespace SceneGraph;
 	assert(s_initialised);
 
-	using SceneGraph::CollisionGeometry;
-	using SceneGraph::MatrixTransform;
-	using SceneGraph::Node;
-	using SceneGraph::StaticGeometry;
+	// Clone the global material and use a per-model instance
+	Graphics::Renderer *r = model->GetRenderer();
+	Graphics::Material *globalShield = GetGlobalShieldMaterial().Get();
+	m_shieldMaterial.Reset(r->CloneMaterial(globalShield, globalShield->GetDescriptor(), r->GetMaterialRenderState(globalShield)));
 
 	//This will find all matrix transforms meant for shields.
 	SceneGraph::FindNodeVisitor shieldFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_ENDSWITH, s_matrixTransformName);
 	model->GetRoot()->Accept(shieldFinder);
-	const std::vector<Node *> &results = shieldFinder.GetResults();
 
 	//Store pointer to the shields for later.
-	for (unsigned int i = 0; i < results.size(); i++) {
-		MatrixTransform *mt = dynamic_cast<MatrixTransform *>(results.at(i));
+	for (Node *node : shieldFinder.GetResults()) {
+		MatrixTransform *mt = dynamic_cast<MatrixTransform *>(node);
 		assert(mt);
 
 		for (Uint32 iChild = 0; iChild < mt->GetNumChildren(); ++iChild) {
@@ -212,7 +215,7 @@ Shields::Shields(SceneGraph::Model *model) :
 				// set the material
 				for (Uint32 iMesh = 0; iMesh < sg->GetNumMeshes(); ++iMesh) {
 					StaticGeometry::Mesh &rMesh = sg->GetMeshAt(iMesh);
-					rMesh.material = GetGlobalShieldMaterial();
+					rMesh.material = m_shieldMaterial;
 				}
 
 				m_shields.push_back(Shield(Color3ub(255), mt->GetTransform(), sg.Get()));
@@ -233,10 +236,10 @@ void Shields::SaveToJson(Json &jsonObj)
 	shieldsObj["num_shields"] = m_shields.size();
 
 	Json shieldArray = Json::array(); // Create JSON array to contain shield data.
-	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
+	for (const auto &shield : m_shields) {
 		Json shieldArrayEl({}); // Create JSON object to contain shield.
-		shieldArrayEl["color"] = it->m_colour;
-		shieldArrayEl["mesh_name"] = it->m_mesh->GetName();
+		shieldArrayEl["color"] = shield.m_colour;
+		shieldArrayEl["mesh_name"] = shield.m_mesh->GetName();
 		shieldArray.push_back(shieldArrayEl); // Append shield object to array.
 	}
 	shieldsObj["shield_array"] = shieldArray; // Add shield array to shields object.
@@ -256,9 +259,9 @@ void Shields::LoadFromJson(const Json &jsonObj)
 
 		for (unsigned int i = 0; i < shieldArray.size(); ++i) {
 			Json shieldArrayEl = shieldArray[i];
-			for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-				if (shieldArrayEl["mesh_name"] == it->m_mesh->GetName()) {
-					it->m_colour = shieldArrayEl["color"];
+			for (auto &shield : m_shields) {
+				if (shieldArrayEl["mesh_name"] == shield.m_mesh->GetName()) {
+					shield.m_colour = shieldArrayEl["color"];
 					break;
 				}
 			}
@@ -273,7 +276,7 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	// update hits on the shields
 	const Uint32 tickTime = SDL_GetTicks();
 	{
-		HitIterator it = m_hits.begin();
+		auto it = m_hits.begin();
 		while (it != m_hits.end()) {
 			if (tickTime > it->end) {
 				it = m_hits.erase(it);
@@ -284,11 +287,13 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	}
 
 	if (!m_enabled) {
-		for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-			it->m_mesh->SetNodeMask(0x0);
+		for (const auto &shield : m_shields) {
+			shield.m_mesh->SetNodeMask(0x0);
 		}
 		return;
 	}
+
+	ShieldData renderData {};
 
 	// setup the render params
 	// FIXME: don't use a static variable to hold all of this
@@ -303,30 +308,27 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 			//Range from start (0.0) to end (1.0)
 			float dif = float(dif2 / (dif1 * 1.0f));
 
-			s_shieldRenderData.hits[i].hitPos = vector3f(hit.pos.x, hit.pos.y, hit.pos.z);
-			s_shieldRenderData.hits[i].radii = dif;
+			renderData.hits[i].hitPos = vector3f(hit.pos.x, hit.pos.y, hit.pos.z);
+			renderData.hits[i].radii = dif;
 		}
 
-		s_shieldRenderData.shieldStrength = shieldStrength;
-		s_shieldRenderData.shieldCooldown = coolDown;
+		renderData.shieldStrength = shieldStrength;
+		renderData.shieldCooldown = coolDown;
 
-		// FIXME: this is marginally doable given that we're immediately drawing and uploading the data
-		// This should really use a better system like a per-model shield material or possibly a
-		// way to bind per-frame buffer uploads in with the draw command
-		GetGlobalShieldMaterial()->SetBufferDynamic(s_shieldDataName, &s_shieldRenderData);
-		GetGlobalShieldMaterial()->SetPushConstant(s_numHitsName, int(numHits));
+		m_shieldMaterial->SetBufferDynamic(s_shieldDataName, &renderData);
+		m_shieldMaterial->SetPushConstant(s_numHitsName, int(numHits));
 	}
 
 	// update the shield visibility
-	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-		it->m_mesh->SetNodeMask(shieldStrength > 0.0f ? SceneGraph::NODE_TRANSPARENT : 0x0);
+	for (const auto &shield : m_shields) {
+		shield.m_mesh->SetNodeMask(shieldStrength > 0.0f ? SceneGraph::NODE_TRANSPARENT : 0x0);
 	}
 }
 
 void Shields::SetColor(const Color3ub &inCol)
 {
-	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-		it->m_colour = inCol;
+	for (auto &shield : m_shields) {
+		shield.m_colour = inCol;
 	}
 }
 
@@ -338,9 +340,9 @@ void Shields::AddHit(const vector3d &hitPos)
 
 SceneGraph::StaticGeometry *Shields::GetFirstShieldMesh()
 {
-	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-		if (it->m_mesh) {
-			return it->m_mesh.Get();
+	for (const auto &shield : m_shields) {
+		if (shield.m_mesh) {
+			return shield.m_mesh.Get();
 		}
 	}
 

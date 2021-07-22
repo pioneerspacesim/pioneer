@@ -34,6 +34,8 @@ namespace Graphics {
 		// change the buffer data without mapping
 		virtual void BufferData(const size_t, void *) = 0;
 
+		BufferBinding<UniformBuffer> GetBufferBinding() { return { this, 0, m_size }; }
+
 	protected:
 		virtual void *MapInternal(BufferMapMode mode) = 0;
 		BufferUsage m_usage;
