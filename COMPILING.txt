@@ -17,6 +17,7 @@ Table of Contents
   3.2 C++ source - Doxygen
 4 Faster startup
   4.1 precompile models
+5 Installing Pioneer
 
 
 1 How to compile Pioneer
@@ -266,3 +267,19 @@ models into *.sgm files. This uses the modelcompiler, invoked through CMake.
 From the pioneer root directory the following will batch compile all models:
 
 1. make -C build/ build-data
+
+
+
+5 Installing Pioneer
+====================
+
+Pioneer is designed to be able to run in "portable mode", where the program
+is located next to the data directory and does not use system files.
+If you would like to install Pioneer in a system-wide fashion, please refer
+to the release steps used in the Github Actions workflow files for details
+regarding the commands used on each platform to generate release archives.
+
+If you are creating an installed version of Pioneer, you will need to
+ensure that you precompile the model files as described in 4.1 before
+running the install step, as installed versions do not package the model
+source files and depend on the *.sgm files for efficient loading of assets.
