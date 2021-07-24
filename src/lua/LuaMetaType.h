@@ -401,6 +401,31 @@ public:
 		return *this;
 	}
 
+	Self &AddMeta(const char *name, lua_CFunction func)
+	{
+		lua_pushcfunction(m_lua, func);
+		if (m_protected)
+			lua_pushcclosure(m_lua, secure_trampoline, 1);
+
+		lua_setfield(m_lua, m_index, name);
+
+		return *this;
+	}
+
+	template <typename Rt, typename... Args>
+	Self &AddMeta(const char *name, free_function<Rt, Args...> func)
+	{
+		lua_pushstring(m_lua, (m_typeName + "." + name).c_str());
+		PushFreeFunction(m_lua, func);
+		lua_pushcclosure(m_lua, &free_fn_wrapper_<Rt, Args...>, 2);
+		if (m_protected)
+			lua_pushcclosure(m_lua, &secure_trampoline, 1);
+
+		lua_setfield(m_lua, m_index, name);
+
+		return *this;
+	}
+
 	Self &AddCallCtor(lua_CFunction func)
 	{
 		GetMethodTable(m_lua, m_index);
@@ -424,7 +449,7 @@ public:
 		if (m_protected)
 			lua_pushcclosure(m_lua, secure_trampoline, 1);
 
-		lua_setfield(m_lua, -2, "new");
+		lua_setfield(m_lua, -2, "New");
 		lua_pop(m_lua, 1);
 		return *this;
 	}
@@ -581,6 +606,82 @@ public:
 		return *this;
 	}
 
+	// Add a raw lua function to this object's method table
+	// For e.g. static member functions
+	Self &AddFunction(const char *name, lua_CFunction func)
+	{
+		GetMethodTable(m_lua, m_index);
+
+		lua_pushcfunction(m_lua, func);
+		if (m_protected)
+			lua_pushcclosure(m_lua, secure_trampoline, 1);
+
+		lua_setfield(m_lua, -2, name);
+		lua_pop(m_lua, 1);
+		return *this;
+	}
+
+	// Magic to allow binding a const function to Lua. Take care to ensure that you do not
+	// push a const object to lua, or this code will become undefined behavior.
+	template <typename Rt, typename... Args>
+	Self &AddMeta(const char *name, const_member_function<T, Rt, Args...> fn)
+	{
+		return AddMeta(name, reinterpret_cast<member_function<T, Rt, Args...>>(fn));
+	}
+
+	// Bind a member function to Lua as a metamethod.
+	// Parameters will automatically be pulled from Lua and be passed to the function.
+	// It is the responsiblity of the programmer to ensure a valid LuaPull implementation
+	// is available for each parameter's time.
+	// If the function has a non-void return type, its return value will automatically be
+	// pushed to Lua.
+	template <typename Rt, typename... Args>
+	Self &AddMeta(const char *name, member_function<T, Rt, Args...> fn)
+	{
+		lua_State *L = m_lua;
+
+		lua_pushstring(L, (m_typeName + "." + name).c_str());
+		PushPointerToMember(L, fn);
+		lua_pushcclosure(L, &member_fn_wrapper_<T, Rt, Args...>, 2);
+		if (m_protected)
+			lua_pushcclosure(L, &secure_trampoline, 1);
+
+		lua_setfield(L, m_index, name);
+
+		return *this;
+	}
+
+	// Bind a free function to Lua as a metamethod.
+	// The self parameter will be automatically provided, but the function
+	// is responsible for pulling the rest of its parameters and pushing the
+	// appropriate number of return values.
+	Self &AddMeta(const char *name, member_cfunction<T> fn)
+	{
+		lua_State *L = m_lua;
+
+		lua_pushstring(L, (m_typeName + "." + name).c_str());
+		PushFreeFunction(L, fn);
+		lua_pushcclosure(L, &member_cfn_wrapper_<T>, 2);
+		if (m_protected)
+			lua_pushcclosure(L, &secure_trampoline, 1);
+
+		lua_setfield(L, m_index, name);
+
+		return *this;
+	}
+
+	// Add a raw lua function to this object's metamethod table
+	Self &AddMeta(const char *name, lua_CFunction func)
+	{
+		lua_pushcfunction(m_lua, func);
+		if (m_protected)
+			lua_pushcclosure(m_lua, secure_trampoline, 1);
+
+		lua_setfield(m_lua, m_index, name);
+
+		return *this;
+	}
+
 	Self &RegisterFuncs(const luaL_Reg *functions)
 	{
 		lua_State *L = m_lua;
@@ -620,7 +721,7 @@ public:
 		if (m_protected)
 			lua_pushcclosure(m_lua, secure_trampoline, 1);
 
-		lua_setfield(m_lua, -2, "new");
+		lua_setfield(m_lua, -2, "New");
 		lua_pop(m_lua, 1);
 		return *this;
 	}
