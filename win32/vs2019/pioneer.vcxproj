@@ -376,6 +376,7 @@
     <ClCompile Include="..\..\contrib\imgui\imgui.cpp" />
     <ClCompile Include="..\..\contrib\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\contrib\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\contrib\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\contrib\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\..\contrib\lz4\lz4.c" />
     <ClCompile Include="..\..\contrib\lz4\lz4frame.c" />

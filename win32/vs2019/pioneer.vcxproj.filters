@@ -585,6 +585,9 @@
     <ClCompile Include="..\..\src\pigui\PiGuiRenderer.cpp">
       <Filter>src\pigui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\contrib\imgui\imgui_tables.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
