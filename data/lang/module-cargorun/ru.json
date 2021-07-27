@@ -137,11 +137,11 @@
   },
   "DENY_AGAIN_1": {
     "description": "",
-    "message": "Sorry, we already have a deal. However, I would be happy to do business with you again after a successful delivery."
+    "message": "Извини, у нас уже есть договоренность. Тем не менее, я был бы рад снова иметь с вами дело после успешной доставки."
   },
   "DENY_AGAIN_2": {
     "description": "",
-    "message": "Excuse me sir, please complete our existing contract first. Then we can negotiate another delivery."
+    "message": "Извините, сэр, пожалуйста, сначала завершите наш  действующий контракт. Тогда мы сможем договориться о другой поставке."
   },
   "DENY_AGAIN_3": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
-    "message": "Go back."
+    "message": "Вернуться назад."
   },
   "GREENHOUSES": {
     "description": "custom cargo",
@@ -333,7 +333,7 @@
   },
   "IS_IT_NEGOTIABLE": {
     "description": "",
-    "message": "Is the amount of cargo negotiable?"
+    "message": "Является ли количество груза предметом переговоров?"
   },
   "I_AM_ON_MY_WAY": {
     "description": "",
@@ -353,23 +353,23 @@
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "I can offer the following freight runs:"
+    "message": "Я могу предложить следующие грузовые перевозки:"
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t {cargoname} can be divided as follows:"
+    "message": "{amount} т {cargoname} можно разделить следующим образом:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo."
+    "message": "Да, мы можем разделить груз."
   },
   "NEGOTIABLE_NO_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "No, sorry. It is not possible to split the cargo. You have to transport the whole {amount} tons at once."
+    "message": "Нет, извини. Разделить груз невозможно. Вы должны перевезти все {amount} тонны сразу."
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "No it is not. It's only {amount}t."
+    "message": "Нет, это не так. Это всего лишь {amount} т."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -377,7 +377,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transport {amount}t for {reward}"
+    "message": "Транспорт {amount}t для {reward}"
   },
   "OK_AGREED": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, we agree on {amount}t for {reward}."
+    "message": "Хорошо, мы согласны на {amount} т для {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",
@@ -549,7 +549,7 @@
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
-    "message": "You are much too late! Your performance is so bad that I am cancelling my contract with you."
+    "message": "Вы опоздали! И не справились с работой, поэтому я расторгаю с вами контракт."
   },
   "TUNGSTEN": {
     "description": "custom cargo",
