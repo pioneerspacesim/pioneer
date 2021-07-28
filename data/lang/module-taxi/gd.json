@@ -537,7 +537,7 @@
   },
   "I_MUST_BE_THERE_BEFORE": {
     "description": "",
-    "message": "Feumaidh mi bhith ann ro"
+    "message": "Feumaidh mi bhith ann ro "
   },
   "OK_AGREED": {
     "description": "",
@@ -573,7 +573,7 @@
   },
   "WE_WANT_TO_BE_THERE_BEFORE": {
     "description": "",
-    "message": "Tha sin airson a bhith ann ro"
+    "message": "Tha sin airson a bhith ann ro "
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",

@@ -41,7 +41,7 @@
   },
   "NO_CREW_AVAILABLE": {
     "description": "",
-    "message": "Duilich ach chan eil duine a’ sireadh fastadh aig {station}:"
+    "message": "Duilich ach chan eil duine a’ sireadh fastadh aig {station}"
   },
   "NO_EXPERIENCE": {
     "description": "",

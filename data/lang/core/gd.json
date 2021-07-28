@@ -53,7 +53,7 @@
   },
   "AUTOPILOT_DOCK_WITH_STATION": {
     "description": "",
-    "message": "Fèin-stiùireadh: Docaich le  {target}"
+    "message": "Fèin-stiùireadh: Docaich le {target}"
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
     "description": "",
-    "message": "Tha sgiob carago gnìomhach. Chruinnich thu 1 tunna de %item"
+    "message": "Tha sgiob carago gnìomhach. Chruinnich thu 1 tunna de %item."
   },
   "CARGO_SCOOP_ATTEMPTED": {
     "description": "",
@@ -192,7 +192,7 @@
     "message": "Sgrùdadh air malart bhatharan ann an #fff%system#fff"
   },
   "COMMS": {
-    "description": "",
+    "description": "Title of communications log window, on world view",
     "message": "Conaltradh"
   },
   "COMMUNIST": {
@@ -401,7 +401,7 @@
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Measan ’s glasraich"
+    "message": "Measan ⁊ glasraich"
   },
   "FUEL": {
     "description": "",
@@ -693,7 +693,7 @@
   },
   "MAJOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Prìomh às-mhalairt (far a bheil thu):"
+    "message": "Prìomh às-mhalairt (far a bheil thu)"
   },
   "MAJOR_IMPORTS": {
     "description": "",
@@ -701,7 +701,7 @@
   },
   "MAJOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Prìomh ion-mhalairt (far a bheil thu):"
+    "message": "Prìomh ion-mhalairt (far a bheil thu)"
   },
   "MANUAL_CONTROL": {
     "description": "",
@@ -769,7 +769,7 @@
   },
   "MINOR_EXPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Beagan às-mhalairt (far a bheil thu):"
+    "message": "Beagan às-mhalairt (far a bheil thu)"
   },
   "MINOR_IMPORTS": {
     "description": "",
@@ -777,7 +777,7 @@
   },
   "MINOR_IMPORT_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-    "message": "Beagan ion-mhalairt (far a bheil thu):"
+    "message": "Beagan ion-mhalairt (far a bheil thu)"
   },
   "MISCELLANEOUS": {
     "description": "",
@@ -1013,7 +1013,7 @@
   },
   "OVER_N_BILLION": {
     "description": "",
-    "message": "Còrr is %population billean "
+    "message": "Còrr is %population billean"
   },
   "OVER_N_MILLION": {
     "description": "",
@@ -1065,7 +1065,7 @@
   },
   "PLANNED_ECONOMY": {
     "description": "",
-    "message": "Àrd-riaghaltas le plana-eaconamaidh "
+    "message": "Àrd-riaghaltas le plana-eaconamaidh"
   },
   "PLANNER_RESET_FACTOR": {
     "description": "For system orbit view",
@@ -1257,7 +1257,7 @@
   },
   "SET_NAVTARGET_TO": {
     "description": "",
-    "message": "Cuir ceann-uidhe na seòladaireachd air:"
+    "message": "Cuir ceann-uidhe na seòladaireachd air: "
   },
   "SET_SPEED_KM_S": {
     "description": "",
@@ -1605,7 +1605,7 @@
   },
   "TOGGLE_RADAR_MODE": {
     "description": "",
-    "message": "Toglaich modh  an rèideir"
+    "message": "Toglaich modh an rèideir"
   },
   "TOGGLE_RADAR_VIEW": {
     "description": "Tooltip for the Radar View button",

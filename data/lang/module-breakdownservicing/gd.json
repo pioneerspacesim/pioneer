@@ -1,7 +1,7 @@
 {
   "FLAVOUR_0_INTRO": {
     "description": "",
-    "message": "Seachain am mì-ghoireas a bheireadh einnsein os-fhànais briste dhut.  Faigh obair-càraidh air an fhear agad an-diugh, le cùl-sgrìobhadh oifigeil Companaidh Càradh Einnsean {name}.\n"
+    "message": "Seachain am mì-ghoireas a bheireadh einnsein os-fhànais briste dhut. Faigh obair-càraidh air an fhear agad an-diugh, le cùl-sgrìobhadh oifigeil Companaidh Càradh Einnsean {name}.\n"
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
-    "message": "Is mise {proprietor}. Cuiridh mi gleus air an draibh os-fhànais dhut is geallaidh mi gun obraich e gun trioblaid fad còrr is bliadhna."
+    "message": "Is mise {proprietor}. Cuiridh mi gleus air an draibh os-fhànais dhut is geallaidh mi gun obraich e gun trioblaid fad còrr is bliadhna. "
   },
   "FLAVOUR_1_PRICE": {
     "description": "",
@@ -41,11 +41,11 @@
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
-    "message": "Shin thu. Tha sinne aig {proprietor} ⁊ Co a’ gealltainn deagh-obair chliùiteach.\nCuiridh sinn gleus air draibh os-fhànais an t-soithich, a’ gealltainn 12 mhìos dhe dh’obrachadh gun trioblaid."
+    "message": "Shin thu. Tha sinne aig {proprietor} ⁊ Co a’ gealltainn deagh-obair chliùiteach.\nCuiridh sinn gleus air draibh os-fhànais an t-soithich, a’ gealltainn 12 mhìos dhe dh’obrachadh gun trioblaid. "
   },
   "FLAVOUR_2_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nBidh mi fhìn a stiùireadh na h-obrach air {drive} dhut, mar sin feumaidh tu bhith cinnteach gun dèan sinn deagh-obair air {price} ort. "
+    "message": "\n\n{lasttime}\nBidh mi fhìn a stiùireadh na h-obrach air {drive} dhut, mar sin feumaidh tu bhith cinnteach gun dèan sinn deagh-obair air {price} ort."
   },
   "FLAVOUR_2_RESPONSE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
-    "message": "Seachain am mì-ghoireas a bheireadh einnsein os-fhànais briste dhut.  Faigh obair-càraidh air an fhear agad an-diugh.\n"
+    "message": "Seachain am mì-ghoireas a bheireadh einnsein os-fhànais briste dhut. Faigh obair-càraidh air an fhear agad an-diugh.\n"
   },
   "FLAVOUR_5_PRICE": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
     "description": "",
-    "message": "Chaidh an obair-chàraidh mu dheireadh air an draibh agaibh a dhèanamh le {company}"
+    "message": "Chaidh an obair-chàraidh mu dheireadh air an draibh agaibh a dhèanamh le {company} {date}"
   },
   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
     "description": "",

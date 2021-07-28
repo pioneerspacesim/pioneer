@@ -25,7 +25,7 @@
   },
   "STATION_GRAV_PRESS": {
     "description": "Like an airline pilot announcing local weather conditions",
-    "message": "Is  {grav} an iom-tharraing agus {press} am brùthadh-àile ionadail."
+    "message": "Is {grav} an iom-tharraing agus {press} am brùthadh-àile ionadail."
   },
   "WATCH_FOR_TRAFFIC_ON_APPROACH": {
     "description": "",
@@ -73,7 +73,7 @@
   },
   "YOU_ARE_LEAVING_STATION_SPACE_5": {
     "description": "",
-    "message": "{playerShipLabel}, tha sibh a’ fàgail sgìre {station}. Gabhaibh air ur socair!"
+    "message": "{playerShipLabel}, tha sibh a’ fàgail sgìre {station}. Gabhaibh air ur socair."
   },
   "YOU_ARE_LEAVING_STATION_SPACE_6": {
     "description": "STC = Space Traffic Control, (analogy of ATC)",

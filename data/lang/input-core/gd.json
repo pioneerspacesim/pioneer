@@ -1,7 +1,7 @@
 {
   "AXIS": {
     "description": "Cardinal name used to compose Joystick <X> Button <Y>",
-    "message": "Aiseal"
+    "message": " Aiseal "
   },
   "BIND_AXIS_PITCH": {
     "description": "Descriptive name for the Pitch axis.",
@@ -208,7 +208,7 @@
   },
   "MOUSE": {
     "description": "A computer mouse, used to create the name for a mouse button binding",
-    "message": "Luchag"
+    "message": "Luchag "
   },
   "MOUSE_LMB": {
     "description": "An acronym for the left mouse button",

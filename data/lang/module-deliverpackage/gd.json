@@ -237,7 +237,7 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "LÌBHRIGEADH PACAIDE. Lìbhrigeadh stuthan meadhach gu {starport} le cabhag."
+    "message": "LÌBHRIGEADH PACAIDE. Lìbhrigeadh stuthan meathach gu {starport} le cabhag."
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "IT_MUST_BE_DELIVERED_BY": {
     "description": "",
-    "message": "Tha e ri lìbhrigeadh gu ruige"
+    "message": "Tha e ri lìbhrigeadh gu ruige "
   },
   "I_HIGHLY_DOUBT_IT": {
     "description": "",

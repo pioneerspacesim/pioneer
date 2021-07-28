@@ -125,7 +125,7 @@
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Air adhbharan iochdail, eaconomach is dìon an nàdair, tha togail agus malairt bheathaichean fo riaghailtean cumhang agus fiù mì-laghail ann an cuid a shiostaman. Fhad ’s a bhios daoine a’ sgaoileadh mun chruinne-chè, bi beathaichean cudromach dhan bhith-bheò, an dà chuid mar bhiadh agus ainmhidh uallaich. Cuiridh sùthan cian-annasach agus tèarmainn nàdair ri malairt bheathaichean thar a’ reul-chriosa fo riaghailtean teann na stàite mas as trice airson  dol an aghaidh ionadan sealg mì-laghail."
+    "message": "Air adhbharan iochdail, eaconomach is dìon an nàdair, tha togail agus malairt bheathaichean fo riaghailtean cumhang agus fiù mì-laghail ann an cuid a shiostaman. Fhad ’s a bhios daoine a’ sgaoileadh mun chruinne-chè, bi beathaichean cudromach dhan bhith-bheò, an dà chuid mar bhiadh agus ainmhidh uallaich. Cuiridh sùthan cian-annasach agus tèarmainn nàdair ri malairt bheathaichean thar a’ reul-chriosa fo riaghailtean teann na stàite mas as trice airson dol an aghaidh ionadan sealg mì-laghail."
   },
   "MEDICINES": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Seo stuth nàdarra no fuadain a tha sna drugaichean a dh’atharraicheas cor d’ inntinn no do bhodhaig. Ged a chleachdte a-riamh iad an dà chuid gu cleasachail  no ’nan leigheas, tha an giùlan no reic mì-laghail mar as trice."
+    "message": "Seo stuth nàdarra no fuadain a tha sna drugaichean a dh’atharraicheas cor d’ inntinn no do bhodhaig. Ged a chleachdte a-riamh iad an dà chuid gu cleasachail no ’nan leigheas, tha an giùlan no reic mì-laghail mar as trice."
   },
   "NERVE_GAS": {
     "description": "",

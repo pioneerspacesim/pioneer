@@ -9,7 +9,7 @@
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
-    "message": "Sgiath àile"
+    "message": "Dìonadh àile"
   },
   "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "MULTI_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Ged nach eil e cho èifeachdach ’s a tha sgiob connaidh, ’s urrainn dhut an dà chuid carago is connadh a sgobadh leis."
+    "message": "Ged nach eil e cho èifeachdach ’s a tha sgiob connaidh, ’s urrainn dhut an dà chuid carago is connadh a sgobadh leis"
   },
   "OUT_OF_SCANRANGE": {
     "description": "",

@@ -293,7 +293,7 @@
   },
   "INTROTEXT_LOCAL_2": {
     "description": "",
-    "message": "Haoigh. ’S mise {name} ’s pàighidh mi {cash} airson lìbhrigeadh dlùth dhe  {cargoname} gu {starport}."
+    "message": "Haoigh. ’S mise {name} ’s pàighidh mi {cash} airson lìbhrigeadh dlùth dhe {cargoname} gu {starport}."
   },
   "INTROTEXT_LOCAL_3": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Halò. ’S mise {name}. Tha am fastaiche agam deònach d’ fhastadh air {cash} ach an cuidich thu gus an taigh-stòrais agad imrich ’s tu a’ toirt {cargoname} o {starport} dhan taigh ùr againn ann an  {dom_starport}."
+    "message": "Halò. ’S mise {name}. Tha am fastaiche agam deònach d’ fhastadh air {cash} ach an cuidich thu gus an taigh-stòrais agad imrich ’s tu a’ toirt {cargoname} o {starport} dhan taigh ùr againn ann an {dom_starport}."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",

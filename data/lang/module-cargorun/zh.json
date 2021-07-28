@@ -353,7 +353,7 @@
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "I can offer the following freight runs:"
+    "message": "我可以提供以下货运服务："
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
@@ -361,7 +361,7 @@
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo."
+    "message": "是的，我们可以分货。"
   },
   "NEGOTIABLE_NO_1": {
     "description": "regarding mass, always more than 1t",
