@@ -1,66 +1,66 @@
 {
   "CREDITS_PROMISE": {
     "description": "",
-    "message": "250,000 in cash. Right now. I would find that interesting."
+    "message": "250,000 de dh’airgead-làimhe. Sa bhad. Bhiodh sin inntinneach dhomh."
   },
   "DEFENSE_CRAFT_ELIMINATED": {
     "description": "",
-    "message": "System defense craft eliminated. Incident has been logged."
+    "message": "Tha soitheach dìon an t-siostaim air a mhilleadh. Chaidh an tachartas a chlàradh."
   },
   "HABER_DEFENSE_CRAFT": {
     "description": "",
-    "message": "Haber Defense Craft"
+    "message": "Soitheach dìona Haber"
   },
   "HEY_OVER_HERE": {
     "description": "",
-    "message": "Hey, over here."
+    "message": "Haoigh, an-seo."
   },
   "HOSTILE_ACTION_REPORTED": {
     "description": "",
-    "message": "Hostile action reported. Intercept and destroy!"
+    "message": "Chaidh aithris a dhèanamh air gnìomhachd nàimhdeil. Còmhlaich is mill!"
   },
   "INTERCEPTION_SUCCESSFUL": {
     "description": "",
-    "message": "Interception successful. Hostile craft destroyed."
+    "message": "Shoirbhich leinn. Chaidh an t-soitheach nàimhdeil a mhilleadh."
   },
   "JETTISON_DEFENSIVE_PRECAUTION": {
     "description": "",
-    "message": "Jettison detected. Apply defensive precautions!"
+    "message": "Mhothaich sinn do thilgeil amach. Cleachd earalas dìonadach!"
   },
   "NOT_INTERESTED": {
     "description": "",
-    "message": "What if I'm not interested?"
+    "message": "Dè mur eil diù a choin agam ar?"
   },
   "PERFECT": {
     "description": "",
-    "message": "Perfect. If anyone asks... Surely no one will ask, but if anyone asks, please remember that we were just haggling over a second hand shield generator."
+    "message": "Foirfe. Ma dh’fhaighnicheas duine sam bith… Cha chreid mi gum faighnich, ach ma dh’fhaighnicheas, cuimhnich gun taglainnich sinn mu ghineadair sgèithe ath-làimhe."
   },
   "RONDEL_RESTRICTED_ZONE": {
     "description": "",
-    "message": "{playerShipLabel}, this star system is a restricted zone. You must leave within {seconds} seconds. Should you fail to comply, you will be assumed hostile and defensive precautions will be taken."
+    "message": "{playerShipLabel}, ’s e sgìre chuingichte a th’ ann an siostam rèile seo. Feumaidh sibh falbh am broinn {seconds} diog. Mura gèill sibh, bidh sinn an dùil gur e nàmhaid a th’ annaibh is freastailidh sinn earalas dìonadach."
   },
   "SOLFED_INTEL": {
     "description": "",
-    "message": "Solar Federation Intelligence"
+    "message": "Faisneis Caidreachas na Grèine"
   },
   "SOLFED_INTEL_INTRO": {
     "description": "",
-    "message": "Keep your voice down, pilot. I'm an undercover agent working for Solar Federation Intelligence. Your ship's computer memory has some data we are interested in."
+    "message": "Mùchaibh ur guth, a phaidhleit! ’S e àidseant fo chleith do dh’Fhaisneis Caidreachas na Grèine a th’ annam. Tha dàta ann an cuimhne a’ choimpiutair agaibh sa bheil ùidh againn."
   },
   "WEAPONS_EVASIVE_ACTION": {
     "description": "",
-    "message": "Weapons discharge detected. Take evasive action!"
+    "message": "Mhothaich sinn do losgadh airm. Seachnamaid e!"
   },
   "WHAT_IS_THIS_ABOUT": {
     "description": "",
-    "message": "What data? What is this all about?"
+    "message": "Dè an dàta a tha sin? Cò air a tha sibh a-mach?"
   },
   "YOU_SHALL_HAVE_THE_DATA": {
     "description": "",
-    "message": "You shall have the data."
+    "message": "Bheir mi an dàta dhuibh."
   },
   "YOU_VISITED_STAR_SYSTEM": {
     "description": "",
-    "message": "You may or may not have visited some star system we would like to know more about."
+    "message": "Saoil an do thadhail sibh air siostam rèile a tha eòlas a dhìth oirnn mu dhèidhinn?"
   }
 }

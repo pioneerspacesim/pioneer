@@ -137,15 +137,15 @@
   },
   "DENY_AGAIN_1": {
     "description": "",
-    "message": "Sorry, we already have a deal. However, I would be happy to do business with you again after a successful delivery."
+    "message": "Tha mi duilich ach fhuair sinn bargan mu thràth. Gidheadh, bhithinn toilichte gnothach a thoirt dhuibh às dèidh ur lìbhrigeadh soirbheachail."
   },
   "DENY_AGAIN_2": {
     "description": "",
-    "message": "Excuse me sir, please complete our existing contract first. Then we can negotiate another delivery."
+    "message": "Gabhaibh mo leisgeul ach nach coilean sibh an cùmhnant a tha eadarainn a toiseach? Bruidhneamaid mu lìbhrigeadh eile an uairsin."
   },
   "DENY_AGAIN_3": {
     "description": "",
-    "message": "Sir, please deliver my cargo first. Then I will do more business with you."
+    "message": "Nach libhrig sibh an carago agam an toiseach? Bheir mi barrachd ghnothaichean dhuibh an uairsin."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -209,11 +209,11 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Àirneas"
+    "message": "Àirneis"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
-    "message": "Go back."
+    "message": "Till."
   },
   "GREENHOUSES": {
     "description": "custom cargo",
@@ -333,7 +333,7 @@
   },
   "IS_IT_NEGOTIABLE": {
     "description": "",
-    "message": "Is the amount of cargo negotiable?"
+    "message": "A bheil meud a’ charago ri barganachadh?"
   },
   "I_AM_ON_MY_WAY": {
     "description": "",
@@ -353,23 +353,23 @@
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "I can offer the following freight runs:"
+    "message": "Seo lìbhrigeadh faraidh air a bheil mi feumach:"
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t {cargoname} can be divided as follows:"
+    "message": "Gabhaidh {amount}t dhe {cargoname} a roinneadh mar a leanas:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo."
+    "message": "Tha, ’s urrainn dhuinn an carago a roinneadh."
   },
   "NEGOTIABLE_NO_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "No, sorry. It is not possible to split the cargo. You have to transport the whole {amount} tons at once."
+    "message": "Tha mi duilich ach cha ghabh an carago a roinneadh. Feumaidh sibh an {amount} tunna dheth a thoirt a-null còmhla."
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "No it is not. It's only {amount}t."
+    "message": "Chan eil. Chan e ach {amount}t a th’ ann."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -385,7 +385,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, we agree on {amount}t for {reward}."
+    "message": "Ceart ma-thà, dh’aontaich sinn {amount}t air {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",
@@ -549,7 +549,7 @@
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
-    "message": "You are much too late! Your performance is so bad that I am cancelling my contract with you."
+    "message": "Fada ro anmoch, a ghaisgich! Bha sinn cho dona ’s gun cuir mi crìoch air a’ chùmhnant eadarainn."
   },
   "TUNGSTEN": {
     "description": "custom cargo",
