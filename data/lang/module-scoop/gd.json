@@ -1,39 +1,39 @@
 {
   "ACCEPTED_ARMS_DEALER": {
     "description": "",
-    "message": "Great! Thank you."
+    "message": "Sgoinneil! Mòran taing."
   },
   "ACCEPTED_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Thanks. You won't regret it!"
+    "message": "Mòran taing. Chan aithreach leibh e!"
   },
   "ACCEPTED_LEGAL_GOODS": {
     "description": "",
-    "message": "Thank you. You know a good deal when you see one!"
+    "message": "Mòran taing. ’S e deagh bhargan a tha seo!"
   },
   "ACCEPTED_RESCUE": {
     "description": "",
-    "message": "Thank you very much. The crew will appreciate that."
+    "message": "Tha sinn fada ’nur comainn. Bidh an sgioba taingeil."
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "PICK UP: Prompt recovery of drifting container required."
+    "message": "TOGAIL: Tha bogsa air iomadan feumach air lìbhrigeadh luath."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "EASY MONEY: Valuable information for sale."
+    "message": "AIRGEAD FURASTA: Tha fiosrachadh fiachail ri reic."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "INFORMATION FOR SALE: Location of a debris field with valuable cargo."
+    "message": "FIOSRACHADH RI REIC: Ionad raon spruilich le carago luachmhor."
   },
   "ADTEXT_RESCUE": {
     "description": "",
-    "message": "HELP NEEDED: Urgent escape capsule rescue operation."
+    "message": "COBHAIR A DHÌTH: Teasairginn capsail èiginneach."
   },
   "CLIENT": {
     "description": "",
-    "message": "Client:"
+    "message": "Ceannaiche:"
   },
   "DANGER": {
     "description": "The risk level",
@@ -45,27 +45,27 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Excuse me, sir? I don't think your current qualification is sufficient."
+    "message": "B’ àill leibh? Cha chreid mi gum foghainn na teisteanasan làithreach agaibh."
   },
   "DENY_2": {
     "description": "",
-    "message": "Sorry, I think this task is beyond your ability as a pilot."
+    "message": "Tha mi duilich ach saoilidh mi gu bheil an t-saothair seo ro dhoirbh ro phaidhleat dhur leithid."
   },
   "DETONATORS": {
     "description": "",
-    "message": "Detonators"
+    "message": "Innealan-spreadhaidh"
   },
   "DOCKING_INSTRUCTION": {
     "description": "",
-    "message": "Nice to meet you. Please approach to within 100m to complete the cargo transfer!"
+    "message": "’S math coinneachadh ribh. Dlùthaibh gu 100m airson an carago a thar-chur!"
   },
   "FAILURE_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "You fool. The client's not gonna like this!"
+    "message": "A bhumalair! Cha bhi an cliant toilichte le sin."
   },
   "FAILURE_MSG_RESCUE": {
     "description": "",
-    "message": "Your unreliability has caused great harm. Get out of my sight!"
+    "message": "Dh’adhbharaich do neo-earbsachd dochann mòr. Thalla!"
   },
   "HOW_MUCH_TIME": {
     "description": "",
@@ -73,39 +73,39 @@
   },
   "HOW_MUCH_TIME_ARMS_DEALER": {
     "description": "",
-    "message": "My business partner is in orbit around {star} to avoid detection. It would be great if you could reach him before {date}."
+    "message": "Tha com-pàirtiche gnothachais agam air reul-chuairt timcheall air {star} airson cumail am falach. Bhiodh e math nan ruigeadh sibh e ro {date}."
   },
   "HOW_MUCH_TIME_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Don't waste time. Only the early bird catches the worm!"
+    "message": "Chan fhiach. Cha ghlac sionnach cadalach cearcan!"
   },
   "HOW_MUCH_TIME_LEGAL_GOODS": {
     "description": "",
-    "message": "I don't know. But if I were you, I would be quick!"
+    "message": "Chan eil fhios a’m. Ach thoirinn mo chasan leam-sa!"
   },
   "HOW_MUCH_TIME_RESCUE": {
     "description": "",
-    "message": "It would be good if you could reach the location before {date}."
+    "message": "Bhiodh e math nan ruigeadh sibh ro {date} e."
   },
   "INTROTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Hello Commander. My name is {client}. It would be great if you could help me out. An unreliable freighter captain dropped my cargo near {planet} and has disappeared since. Your task would be to pick up one container and deliver it to ship {shipid} in orbit around {star}. I would pay you {cash}."
+    "message": "Sin sibh, a Chomandair. Is mise {client}. Nach doir sibh cuideachadh dhomh? Leig sgiobair faraidh neo-earbsach às a’ charago agam faisg air {planet} mus deach e a-mach à sgeul. ’S e an t-saothair a bhiodh romhaibh gun tog sibh bogsa ’s gun lìbhrigeadh sibh gu long {shipid} e a tha air reul-chuairt timcheall air {star}. Phàighinn {cash}."
   },
   "INTROTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Hey buddy, I know about a debris field with illegal goods. The police caught a smuggler close to {planet}. They haven't had time to clean up the area yet. If you are quick, you can make easy money! I can give you the coordinates. It only costs you {cash}. Don't let the chance slip by!"
+    "message": "A charaid, tha mi eòlach air raon spruillich le bathar mì-laghail ann. Ghlac am poileas spùinneadair faisg air {planet}. Cha robh ùine aca fhathast gus an sgìre a ghlanadh. Ma bhios sibh luath, coisinnidh sibh airgead leis gun trioblaid! Bheir mi na co-chomharran dhuibh. Cha chosg iad ach {cash}. Na caillibh an cothrom!"
   },
   "INTROTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Hello my friend. I'm {client}. I heard about a cargo hauler that got into trouble near {planet} because of bad ship maintenance. Amazing who gets to fly a spaceship these days, isn't it? Anyway, they had to dump a lot of the cargo. If you're quick, you can grab the cargo very easily! This info is as good as new! I'll sell you the coordinates for lousy {cash}. What do you say?"
+    "message": "Sin sibh, a charaid. Is mise {client}. Chuala mi mu thruga carago a bha ann an staing faisg air {planet} ri linn droch obair-chàraidh air an long. Tha chreideadh tu cò dh’fhaodas falbh air soitheach-fànais san latha an-diugh! Co-dhiù no co-dheth, bha aca ri tòrr dhen charago a leigeil mu sgaoil. Ma ghreasas sibh oirbh, gheibh sibh grèim air a’ charago gun duilgheadas sam bith! Tha am fiosrachadh seo cho ùr ’s a ghabhas! Chan iarr mi oirbh ach {cash} air na co-chomharran. Dè ur beachd?"
   },
   "INTROTEXT_RESCUE": {
     "description": "",
-    "message": "Hi, my name is {client}. The crew of a freighter had to abandon their ship after an incident. The ship owner is willing to pay {cash} for a discreet rescue mission. The accident site is near {planet}. Please pick up the crew and bring them to a station!"
+    "message": "Haoigh, is mise {client}. Bha aig sgioba faraidh an long aca fhàgail às dèidh tachartais. Phàigheadh seilbheadair an t-soithich {cash} air misean teasairginn os ìosal. Thachair an tubaist faisg air {planet}. Togaibh an sgioba is thoiribh gu stèisean iad!"
   },
   "NUCLEAR_MISSILE": {
     "description": "A cargo item",
-    "message": "Nuclear missile"
+    "message": "Astas niùclasach"
   },
   "OK_AGREED": {
     "description": "",
@@ -113,15 +113,15 @@
   },
   "REPEAT_THE_REQUEST": {
     "description": "",
-    "message": "Could you please repeat the request?"
+    "message": "Dè an t-iarrtas a bh’ agaibh a-rithist?"
   },
   "RESCUE_CAPSULE": {
     "description": "",
-    "message": "Rescue capsule"
+    "message": "Capsail teasairginn"
   },
   "ROCKET_LAUNCHERS": {
     "description": "",
-    "message": "Rocket launchers"
+    "message": "Lòinsearan rocaide"
   },
   "SCOOP": {
     "description": "Name of mission type",
@@ -137,7 +137,7 @@
   },
   "SHIP_DESTROYED": {
     "description": "",
-    "message": "Oh no. {shipid} has been destroyed. Deliver the cargo to {station} now!"
+    "message": "Obh obh. Chaidh {shipid} a mhilleadh. Thoir an carago gu {station} a-nis!"
   },
   "SPACEPORT": {
     "description": "",
@@ -145,51 +145,51 @@
   },
   "SPOILED_FOOD": {
     "description": "cargo item",
-    "message": "Spoiled food"
+    "message": "Biadh millte"
   },
   "SUCCESS_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "Hey Ace, nice flying! Money has been transferred."
+    "message": "Abair itealach, a sheòid! Chaidh an t-airgead a thar-chur."
   },
   "SUCCESS_MSG_RESCUE": {
     "description": "",
-    "message": "Thank you very much! The crew would also like to express their thanks."
+    "message": "Tha mi fada ’nur comainn! Tha an sgioba glè thaingeil cuideachd."
   },
   "TOXIC_WASTE": {
     "description": "cargo item",
-    "message": "Toxic waste"
+    "message": "Sgudal puinnseanta"
   },
   "UNKNOWN": {
     "description": "",
-    "message": "Unknown"
+    "message": "Chan eil fhios"
   },
   "WARNING": {
     "description": "",
-    "message": "Hey! What are you trying to do? Our contract is at risk! Please pick that up again!"
+    "message": "Hoigh! Dè tha sibhse ris? Tha sibh a’ cur as cumhnant fo chunnart! Togaibh seo a-rithist làrach nam bonn!"
   },
   "WHY_NOT_YOURSELF": {
     "description": "",
-    "message": "Why don't you do it yourself?"
+    "message": "Carson nach dèan sibh fhèin e?"
   },
   "WHY_NOT_YOURSELF_ARMS_DEALER": {
     "description": "",
-    "message": "The local authorities are watching me! I have to keep a low profile for a few weeks."
+    "message": "Tha an t-ùghdarras ionadail a’ cumail sùil orm! Feumaidh mi bhith modhail corra seachdain."
   },
   "WHY_NOT_YOURSELF_ILLEGAL_GOODS": {
     "description": "",
-    "message": "I'm just an office clerk. I don't own a ship."
+    "message": "Chan e ach clàrc oifise a th’ annam. Chan eil long agam."
   },
   "WHY_NOT_YOURSELF_LEGAL_GOODS": {
     "description": "",
-    "message": "I don't have a ship."
+    "message": "Chan eil long agam."
   },
   "WHY_NOT_YOURSELF_RESCUE": {
     "description": "",
-    "message": "I have no ship available at this time."
+    "message": "Chan eil long shaor agam air an àm seo."
   },
   "YOU_DO_NOT_HAVE_A_SCOOP": {
     "description": "",
-    "message": "Sorry, you do not have a cargo scoop."
+    "message": "Tha mi duilich ach chan eil sgiob agaibh."
   },
   "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
     "description": "",
