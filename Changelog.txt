@@ -1,3 +1,7 @@
+August 2021
+   * Internal Changes
+     * Rewrite renderer API and material authoring system (#5156)
+
 July 2021
    * New Features
      * Ship thrust, fuel, and acceleration rebalances across the board (#4970)
