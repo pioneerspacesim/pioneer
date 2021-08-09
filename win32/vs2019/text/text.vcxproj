@@ -248,13 +248,11 @@
     <ClCompile Include="..\..\..\src\text\DistanceFieldFont.cpp" />
     <ClCompile Include="..\..\..\src\text\FontConfig.cpp" />
     <ClCompile Include="..\..\..\src\text\TextSupport.cpp" />
-    <ClCompile Include="..\..\..\src\text\TextureFont.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\text\DistanceFieldFont.h" />
     <ClInclude Include="..\..\..\src\text\FontConfig.h" />
     <ClInclude Include="..\..\..\src\text\TextSupport.h" />
-    <ClInclude Include="..\..\..\src\text\TextureFont.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

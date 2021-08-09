@@ -30,7 +30,8 @@ namespace Graphics {
 		__inline bool IsEmpty() const { return position.empty(); }
 
 		//removes vertices, does not deallocate space
-		void Clear();
+		// if reserveSize != 0, ensures the array has enough space for at least that many elements
+		void Clear(uint32_t reserveSize = 0);
 
 		// don't mix these
 		void Add(const vector3f &v);
@@ -62,6 +63,7 @@ namespace Graphics {
 		std::vector<vector3f> tangent;
 
 	private:
+		void Reserve(uint32_t size);
 		AttributeSet m_attribs;
 	};
 

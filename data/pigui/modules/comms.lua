@@ -100,7 +100,7 @@ local function displayCommsLog()
 																				end
 																				ui.popTextWrapPos()
 																				-- if lastLength ~= #lines then
-																				-- 	ui.setScrollHere()
+																				-- 	ui.setScrollHereY()
 																				-- end
 																				-- lastLength = #lines
 														end)

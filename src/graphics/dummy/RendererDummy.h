@@ -3,14 +3,18 @@
 
 #pragma once
 
+#include "graphics/Types.h"
 #ifndef _RENDERER_DUMMY_H
 #define _RENDERER_DUMMY_H
 
+#include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "graphics/dummy/MaterialDummy.h"
-#include "graphics/dummy/RenderStateDummy.h"
 #include "graphics/dummy/RenderTargetDummy.h"
 #include "graphics/dummy/TextureDummy.h"
+#include "graphics/dummy/UniformBufferDummy.h"
 #include "graphics/dummy/VertexBufferDummy.h"
 
 namespace Graphics {
@@ -34,18 +38,15 @@ namespace Graphics {
 		virtual bool EndFrame() override final { return true; }
 		virtual bool SwapBuffers() override final { return true; }
 
-		virtual bool SetRenderState(RenderState *) override final { return true; }
 		virtual bool SetRenderTarget(RenderTarget *) override final { return true; }
-
-		virtual bool SetDepthRange(double znear, double zfar) override final { return true; }
-		virtual bool ResetDepthRange() override final { return true; }
+		virtual bool SetScissor(ViewportExtents ext) override final { return true; }
 
 		virtual bool ClearScreen() override final { return true; }
 		virtual bool ClearDepthBuffer() override final { return true; }
 		virtual bool SetClearColor(const Color &c) override final { return true; }
 
-		virtual bool SetViewport(Viewport v) override final { return true; }
-		virtual Viewport GetViewport() const override final { return {}; }
+		virtual bool SetViewport(ViewportExtents v) override final { return true; }
+		virtual ViewportExtents GetViewport() const override final { return {}; }
 
 		virtual bool SetTransform(const matrix4x4f &m) override final { return true; }
 		virtual matrix4x4f GetTransform() const override final { return matrix4x4f::Identity(); }
@@ -56,27 +57,35 @@ namespace Graphics {
 
 		virtual bool SetWireFrameMode(bool enabled) override final { return true; }
 
+		virtual bool SetLightIntensity(Uint32, const float *) override final { return true; }
 		virtual bool SetLights(Uint32 numlights, const Light *l) override final { return true; }
 		virtual Uint32 GetNumLights() const override final { return 1; }
 		virtual bool SetAmbientColor(const Color &c) override final { return true; }
 
-		virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) override final { return true; }
+		virtual bool FlushCommandBuffers() override final { return true; }
 
-		virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type = TRIANGLES) override final { return true; }
-		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) override final { return true; }
-		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) override final { return true; }
-		virtual bool DrawBuffer(VertexBuffer *, RenderState *, Material *, PrimitiveType) override final { return true; }
-		virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType) override final { return true; }
-		virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) override final { return true; }
-		virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) override final { return true; }
+		virtual bool DrawBuffer(const VertexArray *, Material *) override final { return true; }
+		virtual bool DrawBufferDynamic(VertexBuffer *, uint32_t, IndexBuffer *, uint32_t, uint32_t, Material *) override final { return true; }
+		virtual bool DrawMesh(MeshObject *, Material *) override final { return true; }
+		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final { return true; }
 
-		virtual Material *CreateMaterial(const MaterialDescriptor &d) override final { return new Graphics::Dummy::Material(); }
+		virtual Material *CreateMaterial(const std::string &s, const MaterialDescriptor &d, const RenderStateDesc &rsd) override final { return new Graphics::Dummy::Material(rsd); }
+		virtual Material *CloneMaterial(const Material *m, const MaterialDescriptor &d, const RenderStateDesc &rsd) override final { return new Graphics::Dummy::Material(rsd); }
 		virtual Texture *CreateTexture(const TextureDescriptor &d) override final { return new Graphics::TextureDummy(d); }
-		virtual RenderState *CreateRenderState(const RenderStateDesc &d) override final { return new Graphics::Dummy::RenderState(d); }
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &d) override final { return new Graphics::Dummy::RenderTarget(d); }
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &d) override final { return new Graphics::Dummy::VertexBuffer(d); }
-		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage bu) override final { return new Graphics::Dummy::IndexBuffer(size, bu); }
+		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage bu, IndexBufferSize el) override final { return new Graphics::Dummy::IndexBuffer(size, bu, el); }
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage bu) override final { return new Graphics::Dummy::InstanceBuffer(size, bu); }
+		virtual UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage bu) override final { return new Graphics::Dummy::UniformBuffer(size, bu); }
+		virtual MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) override final { return new Graphics::Dummy::MeshObject(static_cast<Dummy::VertexBuffer *>(v), static_cast<Dummy::IndexBuffer *>(i)); }
+		virtual MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage = BUFFER_USAGE_STATIC) override final
+		{
+			auto desc = Graphics::VertexBufferDesc::FromAttribSet(v->GetAttributeSet());
+			desc.numVertices = v->GetNumVerts();
+			return new Graphics::Dummy::MeshObject(static_cast<Dummy::VertexBuffer *>(CreateVertexBuffer(desc)), static_cast<Dummy::IndexBuffer *>(i));
+		}
+
+		virtual const RenderStateDesc &GetMaterialRenderState(const Graphics::Material *m) override final { return static_cast<const Dummy::Material *>(m)->rsd; }
 
 		virtual bool ReloadShaders() override final { return true; }
 

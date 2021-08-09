@@ -5,10 +5,10 @@
 #define _BASESPHERE_H
 
 #include "Camera.h"
-#include "vector3.h"
 #include "galaxy/AtmosphereParameters.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
+#include "vector3.h"
 
 namespace Graphics {
 	class Renderer;
@@ -35,26 +35,17 @@ public:
 
 	void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 		const matrix4x4d &modelView, const vector3d &campos, float rad,
-		Graphics::RenderState *rs, RefCountedPtr<Graphics::Material> mat);
+		RefCountedPtr<Graphics::Material> mat);
 
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const = 0;
-
-	struct MaterialParameters {
-		AtmosphereParameters atmosphere;
-		std::vector<Camera::Shadow> shadows;
-		Sint32 patchDepth;
-		Sint32 maxPatchDepth;
-	};
 
 	virtual void Reset() = 0;
 
 	const SystemBody *GetSystemBody() const { return m_sbody; }
 	Terrain *GetTerrain() const { return m_terrain.Get(); }
 
-	Graphics::RenderState *GetSurfRenderState() const { return m_surfRenderState; }
 	RefCountedPtr<Graphics::Material> GetSurfaceMaterial() const { return m_surfaceMaterial; }
-	MaterialParameters &GetMaterialParameters() { return m_materialParameters; }
 
 protected:
 	const SystemBody *m_sbody;
@@ -64,16 +55,14 @@ protected:
 
 	virtual void SetUpMaterials() = 0;
 
-	Graphics::RenderState *m_surfRenderState;
-	Graphics::RenderState *m_atmosRenderState;
 	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
 	RefCountedPtr<Graphics::Material> m_atmosphereMaterial;
 
+	// set up shader data for this geosphere's atmosphere
+	void SetMaterialParameters(const matrix4x4d &t, const float r, const std::vector<Camera::Shadow> &s, const AtmosphereParameters &ap);
+
 	// atmosphere geometry
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos;
-
-	//special parameters for shaders
-	MaterialParameters m_materialParameters;
 };
 
 #endif /* _GEOSPHERE_H */

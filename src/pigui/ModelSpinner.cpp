@@ -55,10 +55,11 @@ void ModelSpinner::Render()
 	if (!m_renderTarget) return;
 
 	Graphics::Renderer *r = Pi::renderer;
-
 	Graphics::Renderer::StateTicket ticket(r);
 
 	r->SetRenderTarget(m_renderTarget.get());
+	const auto &desc = m_renderTarget.get()->GetDesc();
+	r->SetViewport({ 0, 0, desc.width, desc.height });
 
 	r->SetClearColor(Color(0, 0, 0, 0));
 	r->ClearScreen();
@@ -66,8 +67,6 @@ void ModelSpinner::Render()
 	const float fov = 45.f;
 	r->SetPerspectiveProjection(fov, m_size.x / m_size.y, 1.f, 10000.f);
 	r->SetTransform(matrix4x4f::Identity());
-	const auto &desc = m_renderTarget.get()->GetDesc();
-	r->SetViewport({ 0, 0, desc.width, desc.height });
 
 	r->SetLights(1, &m_light);
 
@@ -76,14 +75,8 @@ void ModelSpinner::Render()
 	const float dist = m_model->GetDrawClipRadius() / sinf(DEG2RAD(fov * 0.5f));
 	rot[14] = -dist;
 	m_model->Render(rot);
-	r->SetRenderTarget(0);
-}
 
-ImTextureID ModelSpinner::GetTextureID()
-{
-	// Upconvert a GLuint to uint64_t before casting to void *.
-	// This is downconverted to GLuint later by ImGui_ImplOpenGL3.
-	return reinterpret_cast<ImTextureID>(m_renderTarget.get()->GetColorTexture()->GetTextureID() | 0UL);
+	r->SetRenderTarget(nullptr);
 }
 
 void ModelSpinner::SetSize(vector2d size)
@@ -102,7 +95,7 @@ void ModelSpinner::DrawPiGui()
 	if (m_renderTarget) {
 		// Draw the image and stretch it over the available region.
 		// ImGui inverts the vertical axis to get top-left coordinates, so we need to invert our UVs to match.
-		ImGui::Image(GetTextureID(), size, ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image(m_renderTarget->GetColorTexture(), size, ImVec2(0, 1), ImVec2(1, 0));
 	} else {
 		ImGui::Dummy(size);
 	}

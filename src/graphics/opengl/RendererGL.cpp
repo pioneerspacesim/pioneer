@@ -2,40 +2,39 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererGL.h"
-#include "GLDebug.h"
-#include "Program.h"
 #include "RefCounted.h"
-#include "RenderStateGL.h"
-#include "RenderTargetGL.h"
+#include "SDL_video.h"
 #include "StringF.h"
-#include "TextureGL.h"
-#include "VertexBufferGL.h"
+
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
 #include "graphics/Texture.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 
-#include "BillboardMaterial.h"
-#include "FresnelColourMaterial.h"
-#include "GasGiantMaterial.h"
-#include "GenGasGiantColourMaterial.h"
-#include "GeoSphereMaterial.h"
+#include "CommandBufferGL.h"
+#include "GLDebug.h"
 #include "MaterialGL.h"
-#include "MultiMaterial.h"
-#include "RingMaterial.h"
-#include "ShieldMaterial.h"
-#include "SkyboxMaterial.h"
-#include "SphereImpostorMaterial.h"
-#include "StarfieldMaterial.h"
-#include "UIMaterial.h"
-#include "VtxColorMaterial.h"
+#include "Program.h"
+#include "RenderStateCache.h"
+#include "RenderTargetGL.h"
+#include "Shader.h"
+#include "TextureGL.h"
+#include "UniformBuffer.h"
+#include "VertexBufferGL.h"
+
+#include "core/Log.h"
 
 #include <cstddef> //for offsetof
 #include <iterator>
 #include <ostream>
 #include <sstream>
+
+using RenderPassCmd = Graphics::OGL::CommandList::RenderPassCmd;
 
 namespace Graphics {
 
@@ -55,6 +54,7 @@ namespace Graphics {
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 		// OSX doesn't care about forward-compatible flag, but it's good practice.
 		if (vs.gl3ForwardCompatible) SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+		if (vs.enableDebugMessages) SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 
 		// Don't request a depth/stencil/multisample buffer.
 		// We'll render to an offscreen buffer supporting these features and blit to the OS window from there.
@@ -123,6 +123,14 @@ namespace Graphics {
 		return new RendererOGL(window, vs, glContext);
 	}
 
+	struct LightData {
+		Color4f diffuse;
+		Color4f specular;
+		vector3f position;
+		float w;
+	};
+	static_assert(sizeof(LightData) == 48, "LightData glsl struct has incorrect size/alignment in C++");
+
 	// static method instantiations
 	void RendererOGL::RegisterRenderer()
 	{
@@ -131,7 +139,7 @@ namespace Graphics {
 
 	// static member instantiations
 	bool RendererOGL::initted = false;
-	RendererOGL::AttribBufferMap RendererOGL::s_AttribBufferMap;
+	RendererOGL::DynamicBufferMap RendererOGL::s_DynamicDrawBufferMap;
 
 	// typedefs
 	typedef std::vector<std::pair<MaterialDescriptor, OGL::Program *>>::const_iterator ProgramIterator;
@@ -139,6 +147,7 @@ namespace Graphics {
 	// ----------------------------------------------------------------------------
 	RendererOGL::RendererOGL(SDL_Window *window, const Graphics::Settings &vs, SDL_GLContext &glContext) :
 		Renderer(window, vs.width, vs.height),
+		m_frameNum(0),
 		m_numLights(0),
 		m_numDirLights(0)
 		//the range is very large due to a "logarithmic z-buffer" trick used
@@ -148,9 +157,7 @@ namespace Graphics {
 		m_minZNear(0.001f),
 		m_maxZFar(100000000.0f),
 		m_useCompressedTextures(false),
-		m_invLogZfarPlus1(0.f),
 		m_activeRenderTarget(0),
-		m_activeRenderState(nullptr),
 		m_glContext(glContext)
 	{
 		PROFILE_SCOPED()
@@ -165,9 +172,9 @@ namespace Graphics {
 		if (vs.enableDebugMessages)
 			GLDebug::Enable();
 
-		if (!glewIsSupported("GL_VERSION_3_1")) {
+		if (!glewIsSupported("GL_VERSION_3_2")) {
 			Error(
-				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.1\n"
+				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.2\n"
 				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly.");
 		}
 
@@ -183,6 +190,12 @@ namespace Graphics {
 					"OpenGL extension GL_EXT_texture_compression_s3tc not supported.\n"
 					"Pioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
 			}
+		}
+
+		if (!glewIsSupported("GL_ARB_vertex_attrib_binding")) {
+			Error("OpenGL extension GL_ARB_vertex_attrib_binding not supported.\n"
+				  "Pioneer can not run on your graphics card as it does not support vertex attribute bindings.\n"
+				  "Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly.");
 		}
 
 		// use floating-point reverse-Z depth buffer to remove the need for depth buffer hacks
@@ -219,7 +232,9 @@ namespace Graphics {
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 		// use floating-point reverse-Z depth buffer to remove the need for depth buffer hacks
-		glDepthFunc(GL_GREATER);
+		glDepthFunc(GL_GEQUAL);
+		// clear to 0.0 for use with reverse-Z
+		glClearDepth(0.0);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
@@ -229,18 +244,21 @@ namespace Graphics {
 		glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
 		glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);
 
-		glClearDepth(0.0); // clear to 0.0 for use with reverse-Z
-		SetClearColor(Color4f(0.f, 0.f, 0.f, 0.f));
-		SetViewport(Viewport(0, 0, m_width, m_height));
+		// create the state cache immediately after establishing baseline state.
+		m_renderStateCache.reset(new OGL::RenderStateCache());
+
+		m_clearColor = Color4f(0.f, 0.f, 0.f, 0.f);
 
 		// check enum PrimitiveType matches OpenGL values
-		assert(POINTS == GL_POINTS);
-		assert(LINE_SINGLE == GL_LINES);
-		assert(LINE_LOOP == GL_LINE_LOOP);
-		assert(LINE_STRIP == GL_LINE_STRIP);
-		assert(TRIANGLES == GL_TRIANGLES);
-		assert(TRIANGLE_STRIP == GL_TRIANGLE_STRIP);
-		assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
+		static_assert(POINTS == GL_POINTS);
+		static_assert(LINE_SINGLE == GL_LINES);
+		static_assert(LINE_LOOP == GL_LINE_LOOP);
+		static_assert(LINE_STRIP == GL_LINE_STRIP);
+		static_assert(TRIANGLES == GL_TRIANGLES);
+		static_assert(TRIANGLE_STRIP == GL_TRIANGLE_STRIP);
+		static_assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
+
+		m_drawCommandList.reset(new OGL::CommandList(this));
 
 		RenderTargetDesc windowTargetDesc(
 			m_width, m_height,
@@ -259,15 +277,30 @@ namespace Graphics {
 				gl_framebuffer_error_to_string(status));
 		}
 
+		m_viewport = ViewportExtents(0, 0, m_width, m_height);
 		SetRenderTarget(nullptr);
+
+		m_drawUniformBuffers.reserve(8);
+		GetDrawUniformBuffer(0);
+
+		m_lightUniformBuffer.Reset(new OGL::UniformBuffer(sizeof(LightData) * TOTAL_NUM_LIGHTS, BUFFER_USAGE_DYNAMIC));
 	}
 
 	RendererOGL::~RendererOGL()
 	{
+		for (auto &buffer : m_drawUniformBuffers) {
+			buffer.reset();
+		}
+
+		m_lightUniformBuffer.Reset();
+
+		s_DynamicDrawBufferMap.clear();
+
 		// HACK ANDYC - this crashes when shutting down? They'll be released anyway right?
-		//while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
-		for (auto state : m_renderStates)
-			delete state.second;
+		while (!m_shaders.empty()) {
+			delete m_shaders.back().second;
+			m_shaders.pop_back();
+		}
 
 		if (m_windowRenderTarget->m_active)
 			m_windowRenderTarget->Unbind();
@@ -449,8 +482,12 @@ namespace Graphics {
 	bool RendererOGL::BeginFrame()
 	{
 		PROFILE_SCOPED()
-		glClearColor(0, 0, 0, 0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// clear the cached program state (program loading may have trashed it)
+		m_renderStateCache->SetProgram(nullptr);
+		m_renderStateCache->SetRenderTarget(m_windowRenderTarget, m_viewport);
+		m_renderStateCache->ClearBuffers(true, true, Color(0, 0, 0, 0));
+
+		m_frameNum++;
 		return true;
 	}
 
@@ -493,6 +530,27 @@ namespace Graphics {
 		stat.SetStatCount(Stats::STAT_MEM_TEXTUREARRAY2D, used_texArray2d);
 		stat.SetStatCount(Stats::STAT_NUM_TEXTURECUBE, num_texCube);
 		stat.SetStatCount(Stats::STAT_MEM_TEXTURECUBE, used_texCube);
+
+		uint32_t numAllocs = 0;
+		for (auto &buffer : m_drawUniformBuffers) {
+			numAllocs += buffer->NumAllocs();
+			buffer->Reset();
+		}
+
+		for (auto &buffer : s_DynamicDrawBufferMap) {
+			buffer.vtxBuffer->Reset();
+		}
+
+		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, s_DynamicDrawBufferMap.size());
+		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE, uint32_t(m_drawUniformBuffers.size()));
+		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS, numAllocs);
+
+		uint32_t numShaderPrograms = 0;
+		for (auto &pair : m_shaders)
+			numShaderPrograms += pair.second->GetNumVariants();
+
+		stat.SetStatCount(Stats::STAT_NUM_RENDER_STATES, m_renderStateCache->m_stateDescCache.size());
+		stat.SetStatCount(Stats::STAT_NUM_SHADER_PROGRAMS, numShaderPrograms);
 
 		return true;
 	}
@@ -545,9 +603,9 @@ namespace Graphics {
 			}
 			// show warning dialog or just log to output
 			if (showWarning)
-				Warning("%s", ss.str().c_str());
+				Log::Warning("{}", ss.str());
 			else
-				Output("%s", ss.str().c_str());
+				Log::Info("{}", ss.str());
 		}
 #endif
 	}
@@ -555,110 +613,76 @@ namespace Graphics {
 	bool RendererOGL::SwapBuffers()
 	{
 		PROFILE_SCOPED()
+		FlushCommandBuffers();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		// Make sure we set the active FBO to our "default" window target
-		SetRenderTarget(nullptr);
+		m_renderStateCache->SetRenderTarget(m_windowRenderTarget, m_viewport);
+		// Reset to a "known good" render state (disable scissor etc.)
+		m_renderStateCache->ApplyRenderState(RenderStateDesc{});
 
 		// TODO(sturnclaw): handle upscaling to higher-resolution screens
-		// we'll need an intermediate target to resolve to, resolve and rescale are mutually exclusive
+		// we'll need an intermediate target to resolve to; resolve and rescale are mutually exclusive
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_windowRenderTarget->m_fbo);
 
 		SDL_GL_SwapWindow(m_window);
+		m_renderStateCache->ResetFrame();
 		m_stats.NextFrame();
-		return true;
-	}
-
-	bool RendererOGL::SetRenderState(RenderState *rs)
-	{
-		if (m_activeRenderState != rs) {
-			static_cast<OGL::RenderState *>(rs)->Apply();
-			m_activeRenderState = rs;
-		}
-		CheckRenderErrors(__FUNCTION__, __LINE__);
 		return true;
 	}
 
 	bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 	{
 		PROFILE_SCOPED()
-		if (rt) {
-			if (m_activeRenderTarget)
-				m_activeRenderTarget->Unbind();
-			else
-				m_windowRenderTarget->Unbind();
-
-			static_cast<OGL::RenderTarget *>(rt)->Bind();
-		} else {
-			if (m_activeRenderTarget)
-				m_activeRenderTarget->Unbind();
-
-			m_windowRenderTarget->Bind();
-		}
+		FlushCommandBuffers();
 
 		m_activeRenderTarget = static_cast<OGL::RenderTarget *>(rt);
+		m_drawCommandList->AddRenderPassCmd(rt ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
+
+		m_renderStateCache->SetRenderTarget(rt ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		return true;
 	}
 
-	bool RendererOGL::SetDepthRange(double znear, double zfar)
+	bool RendererOGL::SetScissor(ViewportExtents extents)
 	{
-		// XXX since we're using reverse-Z, flip the inputs to this function to avoid breaking old code.
-		glDepthRange(1.0 - zfar, 1.0 - znear);
-		return true;
-	}
-
-	bool RendererOGL::ResetDepthRange()
-	{
-		if (m_useNVDepthRanged)
-			glDepthRangedNV(-1.0, 1.0);
-		else
-			glDepthRange(0.0, 1.0);
-
+		m_drawCommandList->AddScissorCmd(extents);
 		return true;
 	}
 
 	bool RendererOGL::ClearScreen()
 	{
-		m_activeRenderState = nullptr;
-		glEnable(GL_DEPTH_TEST);
-		glDepthMask(GL_TRUE);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
+		m_drawCommandList->AddClearCmd(true, true, m_clearColor);
 		return true;
 	}
 
 	bool RendererOGL::ClearDepthBuffer()
 	{
-		m_activeRenderState = nullptr;
-		glEnable(GL_DEPTH_TEST);
-		glDepthMask(GL_TRUE);
-		glClear(GL_DEPTH_BUFFER_BIT);
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
+		m_drawCommandList->AddClearCmd(false, true, Color());
 		return true;
 	}
 
 	bool RendererOGL::SetClearColor(const Color &c)
 	{
-		glClearColor(c.r, c.g, c.b, c.a);
+		m_clearColor = c;
 		return true;
 	}
 
-	bool RendererOGL::SetViewport(Viewport v)
+	bool RendererOGL::SetWireFrameMode(bool enabled)
+	{
+		FlushCommandBuffers();
+		glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
+		return true;
+	}
+
+	bool RendererOGL::SetViewport(ViewportExtents v)
 	{
 		m_viewport = v;
-		glViewport(v.x, v.y, v.w, v.h);
+		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
 		return true;
-	}
-
-	Viewport RendererOGL::GetViewport() const
-	{
-		return m_viewport;
 	}
 
 	bool RendererOGL::SetTransform(const matrix4x4f &m)
@@ -667,17 +691,9 @@ namespace Graphics {
 		return true;
 	}
 
-	matrix4x4f RendererOGL::GetTransform() const
-	{
-		return m_modelViewMat;
-	}
-
 	bool RendererOGL::SetPerspectiveProjection(float fov, float aspect, float near_, float far_)
 	{
 		PROFILE_SCOPED()
-
-		// update values for log-z hack
-		m_invLogZfarPlus1 = 1.0f / (log1p(far_) / log(2.0f));
 
 		Graphics::SetFov(fov);
 		SetProjection(matrix4x4f::PerspectiveMatrix(DEG2RAD(fov), aspect, near_, far_));
@@ -698,19 +714,20 @@ namespace Graphics {
 		return true;
 	}
 
-	matrix4x4f RendererOGL::GetProjection() const
+	bool RendererOGL::SetLightIntensity(Uint32 numlights, const float *intensity)
 	{
-		return m_projectionMat;
-	}
+		numlights = std::min(numlights, m_numLights);
+		for (Uint32 i = 0; i < numlights; i++) {
+			m_lights[i].SetIntensity(intensity[i]);
+		}
 
-	bool RendererOGL::SetWireFrameMode(bool enabled)
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
 		return true;
 	}
 
 	bool RendererOGL::SetLights(Uint32 numlights, const Light *lights)
 	{
+		PROFILE_SCOPED()
+
 		numlights = std::min(numlights, TOTAL_NUM_LIGHTS);
 		if (numlights < 1) {
 			m_numLights = 0;
@@ -720,6 +737,9 @@ namespace Graphics {
 
 		m_numLights = numlights;
 		m_numDirLights = 0;
+		// ScopedMap will be released at the end of the function
+		auto lightData = m_lightUniformBuffer->Map<LightData>(BufferMapMode::BUFFER_MAP_WRITE);
+		assert(lightData.isValid());
 
 		for (Uint32 i = 0; i < numlights; i++) {
 			const Light &l = lights[i];
@@ -731,6 +751,13 @@ namespace Graphics {
 				m_numDirLights++;
 
 			assert(m_numDirLights <= TOTAL_NUM_LIGHTS);
+
+			// Update the GPU-side light data buffer
+			LightData &gpuLight = lightData.data()[i];
+			gpuLight.diffuse = l.GetDiffuse().ToColor4f();
+			gpuLight.specular = l.GetSpecular().ToColor4f();
+			gpuLight.position = l.GetPosition();
+			gpuLight.w = l.GetType() == Light::LIGHT_DIRECTIONAL ? 0.0f : 1.0f;
 		}
 
 		return true;
@@ -742,385 +769,258 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
+	// 1MB vertex draw buffer should be enough for most cases, right?
+	static constexpr uint32_t DYNAMIC_DRAW_BUFFER_SIZE = 1 << 20;
+	bool RendererOGL::DrawBuffer(const VertexArray *v, Material *m)
 	{
-		if (enabled) {
-			glScissor(pos.x, pos.y, size.x, size.y);
-			glEnable(GL_SCISSOR_TEST);
-		} else {
-			glDisable(GL_SCISSOR_TEST);
+		PROFILE_SCOPED()
+
+		if (v->IsEmpty()) return false;
+
+		const AttributeSet attrs = v->GetAttributeSet();
+
+		// Find a buffer matching our attributes with enough free space
+		auto iter = std::find_if(s_DynamicDrawBufferMap.begin(), s_DynamicDrawBufferMap.end(), [&](DynamicBufferData &a) {
+			uint32_t freeSize = a.vtxBuffer->GetCapacity() - a.vtxBuffer->GetSize();
+			return a.attrs == attrs && freeSize >= v->GetNumVerts();
+		});
+
+		// If we don't have one, make one
+		if (iter == s_DynamicDrawBufferMap.end()) {
+			auto desc = VertexBufferDesc::FromAttribSet(v->GetAttributeSet());
+			desc.numVertices = DYNAMIC_DRAW_BUFFER_SIZE / desc.stride;
+			desc.usage = BUFFER_USAGE_DYNAMIC;
+
+			size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
+			OGL::CachedVertexBuffer *vb = new OGL::CachedVertexBuffer(desc, stateHash);
+			MeshObject *meshObject = CreateMeshObject(vb, nullptr);
+			s_DynamicDrawBufferMap.push_back(DynamicBufferData{ attrs, vb, RefCountedPtr<MeshObject>(meshObject) });
+
+			GetStats().AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
+			GetStats().AddToStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED, 1);
+			iter = s_DynamicDrawBufferMap.end() - 1;
 		}
+
+		// Write our data into the buffer
+		uint32_t offset = iter->vtxBuffer->GetOffset();
+		iter->vtxBuffer->Populate(*v);
+		CheckRenderErrors(__FUNCTION__, __LINE__);
+
+		// Append a command to the command list
+		m_drawCommandList->AddDynamicDrawCmd({ iter->mesh->GetVertexBuffer(), offset, v->GetNumVerts() }, {}, m);
+
 		return true;
 	}
 
-	void RendererOGL::SetMaterialShaderTransforms(Material *m)
+	bool RendererOGL::DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *mat)
 	{
-		m->SetCommonUniforms(m_modelViewMat, m_projectionMat);
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-	}
-
-	bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
-	{
-		PROFILE_SCOPED()
-		if (!v || v->position.size() < 3) return false;
-
-		const AttributeSet attribs = v->GetAttributeSet();
-		RefCountedPtr<VertexBuffer> drawVB;
-
-		// see if we have a buffer to re-use
-		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(attribs, v->position.size()));
-		if (iter == s_AttribBufferMap.end()) {
-			// not found a buffer so create a new one
-			VertexBufferDesc vbd;
-			Uint32 attribIdx = 0;
-			assert(v->HasAttrib(ATTRIB_POSITION));
-			vbd.attrib[attribIdx].semantic = ATTRIB_POSITION;
-			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
-			++attribIdx;
-
-			if (v->HasAttrib(ATTRIB_NORMAL)) {
-				vbd.attrib[attribIdx].semantic = ATTRIB_NORMAL;
-				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
-				++attribIdx;
-			}
-			if (v->HasAttrib(ATTRIB_DIFFUSE)) {
-				vbd.attrib[attribIdx].semantic = ATTRIB_DIFFUSE;
-				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_UBYTE4;
-				++attribIdx;
-			}
-			if (v->HasAttrib(ATTRIB_UV0)) {
-				vbd.attrib[attribIdx].semantic = ATTRIB_UV0;
-				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT2;
-				++attribIdx;
-			}
-			if (v->HasAttrib(ATTRIB_TANGENT)) {
-				vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
-				vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
-				++attribIdx;
-			}
-			vbd.numVertices = static_cast<Uint32>(v->position.size());
-			vbd.usage = BUFFER_USAGE_DYNAMIC; // dynamic since we'll be reusing these buffers if possible
-
-			// VertexBuffer
-			RefCountedPtr<VertexBuffer> vb;
-			vb.Reset(CreateVertexBuffer(vbd));
-			vb->Populate(*v);
-
-			// add to map
-			s_AttribBufferMap[std::make_pair(attribs, v->position.size())] = vb;
-			drawVB = vb;
-		} else {
-			// got a buffer so use it and fill it with newest data
-			drawVB = iter->second;
-			drawVB->Populate(*v);
-		}
-
-		const bool res = DrawBuffer(drawVB.Get(), rs, m, t);
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		m_stats.AddToStatCount(Stats::STAT_DRAWTRIS, 1);
-
-		return res;
-	}
-
-	bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size)
-	{
-		PROFILE_SCOPED()
-		if (count == 0 || !material || !material->texture0)
+		if (!numElems)
 			return false;
 
-		size = Clamp(size, 0.1f, FLT_MAX);
-
-#pragma pack(push, 4)
-		struct PosNormVert {
-			vector3f pos;
-			vector3f norm;
-		};
-#pragma pack(pop)
-
-		RefCountedPtr<VertexBuffer> drawVB;
-		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
-		if (iter == s_AttribBufferMap.end()) {
-			// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
-			Graphics::VertexBufferDesc vbd;
-			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-			vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.numVertices = count;
-			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC; // we could be updating this per-frame
-
-			// VertexBuffer
-			RefCountedPtr<VertexBuffer> vb;
-			vb.Reset(CreateVertexBuffer(vbd));
-
-			// add to map
-			s_AttribBufferMap[std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count)] = vb;
-			drawVB = vb;
-		} else {
-			drawVB = iter->second;
-		}
-
-		// got a buffer so use it and fill it with newest data
-		PosNormVert *vtxPtr = drawVB->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(drawVB->GetDesc().stride == sizeof(PosNormVert));
-		for (Uint32 i = 0; i < count; i++) {
-			vtxPtr[i].pos = positions[i];
-			vtxPtr[i].norm = vector3f(0.0f, 0.0f, size);
-		}
-		drawVB->Unmap();
-
-		SetTransform(matrix4x4f::Identity());
-		DrawBuffer(drawVB.Get(), rs, material, Graphics::POINTS);
-		GetStats().AddToStatCount(Graphics::Stats::STAT_DRAWPOINTSPRITES, 1);
-		CheckRenderErrors(__FUNCTION__, __LINE__);
+		uint32_t indexSize = i && i->GetElementSize() == INDEX_BUFFER_16BIT ? sizeof(uint16_t) : sizeof(uint32_t);
+		m_drawCommandList->AddDynamicDrawCmd(
+			{ v, vtxOffset * v->GetDesc().stride, numElems },
+			{ i, i == nullptr ? 0 : idxOffset * indexSize, numElems },
+			mat);
 
 		return true;
 	}
 
-	bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material)
+	bool RendererOGL::DrawMesh(MeshObject *mesh, Material *material)
+	{
+		m_drawCommandList->AddDrawCmd(mesh, material, nullptr);
+		return true;
+	}
+
+	bool RendererOGL::DrawMeshInstanced(MeshObject *mesh, Material *material, InstanceBuffer *inst)
+	{
+		m_drawCommandList->AddDrawCmd(mesh, material, inst);
+		return true;
+	}
+
+	bool RendererOGL::FlushCommandBuffers()
 	{
 		PROFILE_SCOPED()
-		if (count == 0 || !material || !material->texture0)
+		if (!m_drawCommandList || m_drawCommandList->IsEmpty())
 			return false;
 
-#pragma pack(push, 4)
-		struct PosNormVert {
-			vector3f pos;
-			vector3f norm;
-		};
-#pragma pack(pop)
+		for (auto &buffer : m_drawUniformBuffers)
+			buffer->Flush();
 
-		RefCountedPtr<VertexBuffer> drawVB;
-		AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
-		if (iter == s_AttribBufferMap.end()) {
-			// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
-			Graphics::VertexBufferDesc vbd;
-			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-			vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.numVertices = count;
-			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC; // we could be updating this per-frame
+		for (auto &buffer : s_DynamicDrawBufferMap)
+			buffer.vtxBuffer->Flush();
 
-			// VertexBuffer
-			RefCountedPtr<VertexBuffer> vb;
-			vb.Reset(CreateVertexBuffer(vbd));
+		m_drawCommandList->m_executing = true;
 
-			// add to map
-			s_AttribBufferMap[std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count)] = vb;
-			drawVB = vb;
+		for (const auto &cmd : m_drawCommandList->GetDrawCmds()) {
+			if (auto *drawCmd = std::get_if<OGL::CommandList::DrawCmd>(&cmd))
+				m_drawCommandList->ExecuteDrawCmd(*drawCmd);
+			else if (auto *dynDrawCmd = std::get_if<OGL::CommandList::DynamicDrawCmd>(&cmd))
+				m_drawCommandList->ExecuteDynamicDrawCmd(*dynDrawCmd);
+			else if (auto *renderPassCmd = std::get_if<OGL::CommandList::RenderPassCmd>(&cmd))
+				m_drawCommandList->ExecuteRenderPassCmd(*renderPassCmd);
+		}
+
+		// we don't manually reset the active vertex array after each drawcall for performance,
+		// so we need to reset it here or risk stomping on state.
+		glBindVertexArray(0);
+
+		m_drawCommandList->m_executing = false;
+		m_drawCommandList->Reset();
+
+		m_stats.AddToStatCount(Stats::STAT_NUM_CMDLIST_FLUSHES, 1);
+		return true;
+	}
+
+	static void stat_primitives(Stats &stats, PrimitiveType type, uint32_t count)
+	{
+		switch (type) {
+		case POINTS:
+			stats.AddToStatCount(Stats::STAT_NUM_POINTS, count);
+			return;
+		case LINE_STRIP:
+			count -= 1; // fall-through
+		case LINE_LOOP:
+			stats.AddToStatCount(Stats::STAT_NUM_LINES, count);
+			return;
+		case LINE_SINGLE:
+			stats.AddToStatCount(Stats::STAT_NUM_LINES, count / 2);
+			return;
+		case TRIANGLE_FAN:
+		case TRIANGLE_STRIP:
+			stats.AddToStatCount(Stats::STAT_NUM_TRIS, count - 2);
+			return;
+		case TRIANGLES:
+			stats.AddToStatCount(Stats::STAT_NUM_TRIS, count / 3);
+			return;
+		}
+	}
+
+	static GLuint get_element_size(OGL::IndexBuffer *idx)
+	{
+		return idx->GetElementSize() == INDEX_BUFFER_16BIT ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
+	}
+
+	bool RendererOGL::DrawMeshInternal(OGL::MeshObject *mesh, PrimitiveType type)
+	{
+		PROFILE_SCOPED()
+
+		glBindVertexArray(mesh->GetVertexArrayObject());
+		uint32_t numElems = mesh->m_idxBuffer.Valid() ? mesh->m_idxBuffer->GetIndexCount() : mesh->m_vtxBuffer->GetSize();
+
+		if (mesh->m_idxBuffer.Valid()) {
+			// FIXME: terrain segfaults without this BindBuffer call
+			// glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->m_idxBuffer->GetBuffer());
+			glDrawElements(type, numElems, get_element_size(mesh->m_idxBuffer.Get()), nullptr);
+		} else
+			glDrawArrays(type, 0, numElems);
+
+		CheckRenderErrors(__FUNCTION__, __LINE__);
+		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+		stat_primitives(m_stats, type, numElems);
+		return true;
+	}
+
+	bool RendererOGL::DrawMeshInstancedInternal(OGL::MeshObject *mesh, OGL::InstanceBuffer *inst, PrimitiveType type)
+	{
+		PROFILE_SCOPED()
+
+		glBindVertexArray(mesh->GetVertexArrayObject());
+		uint32_t numElems = mesh->m_idxBuffer.Valid() ? mesh->m_idxBuffer->GetIndexCount() : mesh->m_vtxBuffer->GetSize();
+		inst->Bind();
+
+		if (mesh->m_idxBuffer.Valid()) {
+			glDrawElementsInstanced(type, numElems, get_element_size(mesh->m_idxBuffer.Get()), nullptr, inst->GetInstanceCount());
 		} else {
-			drawVB = iter->second;
+			glDrawArraysInstanced(type, 0, numElems, inst->GetInstanceCount());
 		}
 
-		// got a buffer so use it and fill it with newest data
-		PosNormVert *vtxPtr = drawVB->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
-		assert(drawVB->GetDesc().stride == sizeof(PosNormVert));
-		for (Uint32 i = 0; i < count; i++) {
-			vtxPtr[i].pos = positions[i];
-			vtxPtr[i].norm = vector3f(offsets[i], Clamp(sizes[i], 0.1f, FLT_MAX));
+		inst->Release();
+		CheckRenderErrors(__FUNCTION__, __LINE__);
+		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+		stat_primitives(m_stats, type, numElems);
+		return true;
+	}
+
+	bool RendererOGL::DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, PrimitiveType type)
+	{
+		PROFILE_SCOPED()
+
+		glBindVertexArray(m_renderStateCache->GetVertexArrayObject(vtxBind.buffer->GetVertexFormatHash()));
+		glBindVertexBuffer(0, vtxBind.buffer->GetBuffer(), vtxBind.offset, vtxBind.buffer->GetDesc().stride);
+		if (idxBind.buffer) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBind.buffer->GetBuffer());
+			glDrawElements(type, idxBind.size, get_element_size(idxBind.buffer), (void *)(uintptr_t)(idxBind.offset));
+		} else {
+			glDrawArrays(type, 0, vtxBind.size);
 		}
-		drawVB->Unmap();
 
-		SetTransform(matrix4x4f::Identity());
-		DrawBuffer(drawVB.Get(), rs, material, Graphics::POINTS);
-		GetStats().AddToStatCount(Graphics::Stats::STAT_DRAWPOINTSPRITES, 1);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		return true;
-	}
-
-	bool RendererOGL::DrawBuffer(VertexBuffer *vb, RenderState *state, Material *mat, PrimitiveType pt)
-	{
-		PROFILE_SCOPED()
-		SetRenderState(state);
-		mat->Apply();
-
-		SetMaterialShaderTransforms(mat);
-
-		vb->Bind();
-		glDrawArrays(pt, 0, vb->GetSize());
-		vb->Release();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
 		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
-
+		stat_primitives(m_stats, type, idxBind.buffer ? idxBind.size : vtxBind.size);
 		return true;
 	}
 
-	bool RendererOGL::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, PrimitiveType pt)
-	{
-		PROFILE_SCOPED()
-		SetRenderState(state);
-		mat->Apply();
-
-		SetMaterialShaderTransforms(mat);
-
-		vb->Bind();
-		ib->Bind();
-		glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_INT, 0);
-		ib->Release();
-		vb->Release();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
-
-		return true;
-	}
-
-	bool RendererOGL::DrawBufferInstanced(VertexBuffer *vb, RenderState *state, Material *mat, InstanceBuffer *instb, PrimitiveType pt)
-	{
-		PROFILE_SCOPED()
-		SetRenderState(state);
-		mat->Apply();
-
-		SetMaterialShaderTransforms(mat);
-
-		vb->Bind();
-		instb->Bind();
-		glDrawArraysInstanced(pt, 0, vb->GetSize(), instb->GetInstanceCount());
-		instb->Release();
-		vb->Release();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
-
-		return true;
-	}
-
-	bool RendererOGL::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, InstanceBuffer *instb, PrimitiveType pt)
-	{
-		PROFILE_SCOPED()
-		SetRenderState(state);
-		mat->Apply();
-
-		SetMaterialShaderTransforms(mat);
-
-		vb->Bind();
-		ib->Bind();
-		instb->Bind();
-		glDrawElementsInstanced(pt, ib->GetIndexCount(), GL_UNSIGNED_INT, 0, instb->GetInstanceCount());
-		instb->Release();
-		ib->Release();
-		vb->Release();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
-
-		return true;
-	}
-
-	Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
+	Material *RendererOGL::CreateMaterial(const std::string &shader, const MaterialDescriptor &d, const RenderStateDesc &stateDescriptor)
 	{
 		PROFILE_SCOPED()
 		MaterialDescriptor desc = d;
 
-		OGL::Material *mat = 0;
-		OGL::Program *p = 0;
+		OGL::Material *mat = new OGL::Material;
 
 		if (desc.lighting) {
 			desc.dirLights = m_numDirLights;
 		}
 
-		// Create the material. It will be also used to create the shader,
-		// like a tiny factory
-		switch (desc.effect) {
-		case EFFECT_VTXCOLOR:
-			mat = new OGL::VtxColorMaterial();
-			break;
-		case EFFECT_UI:
-			mat = new OGL::UIMaterial();
-			break;
-		case EFFECT_PLANETRING:
-			mat = new OGL::RingMaterial();
-			break;
-		case EFFECT_STARFIELD:
-			mat = new OGL::StarfieldMaterial();
-			break;
-		case EFFECT_GEOSPHERE_TERRAIN:
-		case EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA:
-		case EFFECT_GEOSPHERE_TERRAIN_WITH_WATER:
-			mat = new OGL::GeoSphereSurfaceMaterial();
-			break;
-		case EFFECT_GEOSPHERE_SKY:
-			mat = new OGL::GeoSphereSkyMaterial();
-			break;
-		case EFFECT_GEOSPHERE_STAR:
-			mat = new OGL::GeoSphereStarMaterial();
-			break;
-		case EFFECT_FRESNEL_SPHERE:
-			mat = new OGL::FresnelColourMaterial();
-			break;
-		case EFFECT_SHIELD:
-			mat = new OGL::ShieldMaterial();
-			break;
-		case EFFECT_SKYBOX:
-			mat = new OGL::SkyboxMaterial();
-			break;
-		case EFFECT_SPHEREIMPOSTOR:
-			mat = new OGL::SphereImpostorMaterial();
-			break;
-		case EFFECT_GASSPHERE_TERRAIN:
-			mat = new OGL::GasGiantSurfaceMaterial();
-			break;
-		case EFFECT_GEN_GASGIANT_TEXTURE:
-			mat = new OGL::GenGasGiantColourMaterial();
-			break;
-		case EFFECT_BILLBOARD_ATLAS:
-		case EFFECT_BILLBOARD:
-			mat = new OGL::BillboardMaterial();
-			break;
-		default:
-			if (desc.lighting)
-				mat = new OGL::LitMultiMaterial();
-			else
-				mat = new OGL::MultiMaterial();
-		}
-
 		mat->m_renderer = this;
 		mat->m_descriptor = desc;
+		mat->m_renderStateHash = m_renderStateCache->InternRenderState(stateDescriptor);
 
-		p = GetOrCreateProgram(mat); // XXX throws ShaderException on compile/link failure
+		OGL::Shader *s = nullptr;
+		for (auto &pair : m_shaders) {
+			if (pair.first == shader)
+				s = pair.second;
+		}
 
-		mat->SetProgram(p);
+		if (!s) {
+			s = new OGL::Shader(shader);
+			Log::Info("Created shader {} (address={})\n", shader, (void *)s);
+			CheckRenderErrors(__FUNCTION__, __LINE__);
+
+			m_shaders.push_back({ shader, s });
+		}
+
+		mat->SetShader(s);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 		return mat;
 	}
 
-	bool RendererOGL::ReloadShaders()
+	Material *RendererOGL::CloneMaterial(const Material *old, const MaterialDescriptor &descriptor, const RenderStateDesc &stateDescriptor)
 	{
-		Output("Reloading " SIZET_FMT " programs...\n", m_programs.size());
-		for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
-			it->second->Reload();
-		}
-		Output("Done.\n");
+		OGL::Material *newMat = new OGL::Material();
+		newMat->m_renderer = this;
+		newMat->m_descriptor = descriptor;
+		newMat->m_renderStateHash = m_renderStateCache->InternRenderState(stateDescriptor);
 
-		return true;
+		const OGL::Material *material = static_cast<const OGL::Material *>(old);
+		newMat->SetShader(material->m_shader);
+		material->Copy(newMat);
+
+		CheckRenderErrors(__FUNCTION__, __LINE__);
+		return newMat;
 	}
 
-	OGL::Program *RendererOGL::GetOrCreateProgram(OGL::Material *mat)
+	bool RendererOGL::ReloadShaders()
 	{
-		PROFILE_SCOPED()
-		const MaterialDescriptor &desc = mat->GetDescriptor();
-		OGL::Program *p = 0;
-
-		// Find an existing program...
-		for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
-			if ((*it).first == desc) {
-				p = (*it).second;
-				break;
-			}
+		m_renderStateCache->SetProgram(nullptr);
+		Log::Info("Reloading {} shaders...\n", m_shaders.size());
+		Log::Info("Note: runtime shader reloading does not reload uniform assignments. Restart the program when making major changes.\n");
+		for (auto &pair : m_shaders) {
+			pair.second->Reload();
 		}
+		Log::Info("Done.\n");
 
-		// ...or create a new one
-		if (!p) {
-			p = mat->CreateProgram(desc);
-			m_programs.push_back(std::make_pair(desc, p));
-		}
-		CheckRenderErrors(__FUNCTION__, __LINE__);
-
-		return p;
+		return true;
 	}
 
 	Texture *RendererOGL::CreateTexture(const TextureDescriptor &descriptor)
@@ -1129,40 +1029,10 @@ namespace Graphics {
 		return new OGL::TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
 	}
 
-	static uint32_t HashRenderStateDesc(const RenderStateDesc &desc)
-	{
-		// Can't directly pass RenderStateDesc* to lookup3_hashlittle, because
-		// it (most likely) has padding bytes, and those bytes are uninitialized,
-		// thereby arbitrarily affecting the hash output.
-		// (We used to do this and valgrind complained).
-		uint32_t words[4] = {
-			desc.blendMode,
-			desc.cullMode,
-			desc.depthTest,
-			desc.depthWrite,
-		};
-		return lookup3_hashword(words, 4, 0);
-	}
-
-	RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
-	{
-		const uint32_t hash = HashRenderStateDesc(desc);
-		auto it = m_renderStates.find(hash);
-		if (it != m_renderStates.end()) {
-			CheckRenderErrors(__FUNCTION__, __LINE__);
-			return it->second;
-		} else {
-			auto *rs = new OGL::RenderState(desc);
-			m_renderStates[hash] = rs;
-			CheckRenderErrors(__FUNCTION__, __LINE__);
-			return rs;
-		}
-	}
-
 	RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 	{
 		PROFILE_SCOPED()
-		OGL::RenderTarget *rt = new OGL::RenderTarget(desc);
+		OGL::RenderTarget *rt = new OGL::RenderTarget(this, desc);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 		rt->Bind();
 		if (desc.colorFormat != TEXTURE_NONE) {
@@ -1212,13 +1082,14 @@ namespace Graphics {
 	VertexBuffer *RendererOGL::CreateVertexBuffer(const VertexBufferDesc &desc)
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
-		return new OGL::VertexBuffer(desc);
+		size_t stateHash = m_renderStateCache->CacheVertexDesc(desc);
+		return new OGL::VertexBuffer(desc, stateHash);
 	}
 
-	IndexBuffer *RendererOGL::CreateIndexBuffer(Uint32 size, BufferUsage usage)
+	IndexBuffer *RendererOGL::CreateIndexBuffer(Uint32 size, BufferUsage usage, IndexBufferSize el)
 	{
 		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
-		return new OGL::IndexBuffer(size, usage);
+		return new OGL::IndexBuffer(size, usage, el);
 	}
 
 	InstanceBuffer *RendererOGL::CreateInstanceBuffer(Uint32 size, BufferUsage usage)
@@ -1227,17 +1098,49 @@ namespace Graphics {
 		return new OGL::InstanceBuffer(size, usage);
 	}
 
-	// XXX very heavy. in the future when all GL calls are made through the
-	// renderer, we can probably do better by trackingn current state and
-	// only restoring the things that have changed
-	void RendererOGL::PushState()
+	UniformBuffer *RendererOGL::CreateUniformBuffer(Uint32 size, BufferUsage usage)
 	{
-		// empty since viewport handling is now external, evaluate if renderer will need to save any custom state
+		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
+		return new OGL::UniformBuffer(size, usage);
 	}
 
-	void RendererOGL::PopState()
+	MeshObject *RendererOGL::CreateMeshObject(VertexBuffer *v, IndexBuffer *i)
 	{
-		// empty since viewport handling is now external, evaluate if renderer will need to save any custom state
+		m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
+		return new OGL::MeshObject(v, i);
+	}
+
+	MeshObject *RendererOGL::CreateMeshObjectFromArray(const VertexArray *vertexArray, IndexBuffer *indexBuffer, BufferUsage usage)
+	{
+		VertexBufferDesc desc = VertexBufferDesc::FromAttribSet(vertexArray->GetAttributeSet());
+		desc.numVertices = vertexArray->GetNumVerts();
+		desc.usage = usage;
+
+		Graphics::VertexBuffer *vertexBuffer = CreateVertexBuffer(desc);
+		vertexBuffer->Populate(*vertexArray);
+
+		return CreateMeshObject(vertexBuffer, indexBuffer);
+	}
+
+	OGL::UniformBuffer *RendererOGL::GetLightUniformBuffer()
+	{
+		return m_lightUniformBuffer.Get();
+	}
+
+	OGL::UniformLinearBuffer *RendererOGL::GetDrawUniformBuffer(Uint32 size)
+	{
+		for (auto &buffer : m_drawUniformBuffers)
+			if (buffer->FreeSize() >= size)
+				return buffer.get();
+
+		auto *buffer = new OGL::UniformLinearBuffer(1 << 20);
+		m_drawUniformBuffers.emplace_back(buffer);
+		return buffer;
+	}
+
+	const RenderStateDesc &RendererOGL::GetMaterialRenderState(const Graphics::Material *m)
+	{
+		return m_renderStateCache->GetRenderState(m->m_renderStateHash);
 	}
 
 	bool RendererOGL::Screendump(ScreendumpState &sd)

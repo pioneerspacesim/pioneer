@@ -16,23 +16,28 @@ namespace Graphics {
 	class RendererOGL;
 
 	namespace OGL {
+		class RenderStateCache;
 
 		class RenderTarget : public Graphics::RenderTarget {
 		public:
 			~RenderTarget();
-			virtual Texture *GetColorTexture() const;
-			virtual Texture *GetDepthTexture() const;
-			virtual void SetCubeFaceTexture(const Uint32 face, Texture *t) final;
-			virtual void SetColorTexture(Texture *) final;
-			virtual void SetDepthTexture(Texture *) final;
+			virtual Texture *GetColorTexture() const override final;
+			virtual Texture *GetDepthTexture() const override final;
+			virtual void SetCubeFaceTexture(const Uint32 face, Texture *t) override final;
+			virtual void SetColorTexture(Texture *) override final;
+			virtual void SetDepthTexture(Texture *) override final;
 
 		protected:
 			friend class Graphics::RendererOGL;
-			RenderTarget(const RenderTargetDesc &);
+			friend class RenderStateCache;
+
+			RenderTarget(RendererOGL *, const RenderTargetDesc &);
 			void Bind();
 			void Unbind();
 			void CreateDepthRenderbuffer();
 			bool CheckStatus();
+
+			RendererOGL *m_renderer;
 
 			bool m_active;
 			GLuint m_fbo;

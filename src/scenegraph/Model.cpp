@@ -10,13 +10,17 @@
 #include "NodeCopyCache.h"
 #include "StringF.h"
 #include "Thruster.h"
+#include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "matrix4x4.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Label3D.h"
 #include "scenegraph/MatrixTransform.h"
+#include "scenegraph/NodeVisitor.h"
+#include "scenegraph/StaticGeometry.h"
 #include "utils.h"
 
 namespace SceneGraph {
@@ -49,8 +53,7 @@ namespace SceneGraph {
 		m_boundingRadius(model.m_boundingRadius),
 		m_materials(model.m_materials),
 		m_patterns(model.m_patterns),
-		m_collMesh(model.m_collMesh) //might have to make this per-instance at some point
-		,
+		m_collMesh(model.m_collMesh), //might have to make this per-instance at some point
 		m_renderer(model.m_renderer),
 		m_name(model.m_name),
 		m_curPatternIndex(model.m_curPatternIndex),
@@ -104,15 +107,19 @@ namespace SceneGraph {
 		return m;
 	}
 
+	static size_t s_texture0Name = Graphics::Renderer::GetName("texture0");
+	static size_t s_texture4Name = Graphics::Renderer::GetName("texture4");
+	static size_t s_texture5Name = Graphics::Renderer::GetName("texture5");
+
 	void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	{
 		PROFILE_SCOPED()
 		//update color parameters (materials are shared by model instances)
 		if (m_curPattern) {
-			for (MaterialContainer::const_iterator it = m_materials.begin(); it != m_materials.end(); ++it) {
-				if ((*it).second->GetDescriptor().usePatterns) {
-					(*it).second->texture5 = m_colorMap.GetTexture();
-					(*it).second->texture4 = m_curPattern;
+			for (auto &mat : m_materials) {
+				if (mat.second->GetDescriptor().usePatterns) {
+					mat.second->SetTexture(s_texture4Name, m_curPattern);
+					mat.second->SetTexture(s_texture5Name, m_colorMap.GetTexture());
 				}
 			}
 		}
@@ -120,7 +127,7 @@ namespace SceneGraph {
 		//update decals (materials and geometries are shared)
 		for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++)
 			if (m_decalMaterials[i])
-				m_decalMaterials[i]->texture0 = m_curDecals[i];
+				m_decalMaterials[i]->SetTexture(s_texture0Name, m_curDecals[i]);
 
 		//Override renderdata if this model is called from ModelNode
 		RenderData params = (rd != 0) ? (*rd) : m_renderData;
@@ -150,24 +157,18 @@ namespace SceneGraph {
 		if (m_debugFlags & DEBUG_WIREFRAME)
 			m_renderer->SetWireFrameMode(false);
 
-		if (m_debugFlags & DEBUG_BBOX) {
-			m_renderer->SetTransform(trans);
-			DrawAabb();
-		}
+		if (m_debugMesh) {
+			if (!m_debugLineMat) {
+				Graphics::MaterialDescriptor desc;
+				Graphics::RenderStateDesc rsd;
+				rsd.depthWrite = false;
+				rsd.primitiveType = Graphics::LINE_SINGLE;
 
-		if (m_debugFlags & DEBUG_COLLMESH) {
-			m_renderer->SetTransform(trans);
-			DrawCollisionMesh();
-		}
+				m_debugLineMat.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
+			}
 
-		if (m_debugFlags & DEBUG_TAGS) {
 			m_renderer->SetTransform(trans);
-			DrawAxisIndicators(m_tagPoints);
-		}
-
-		if (m_debugFlags & DEBUG_DOCKING) {
-			m_renderer->SetTransform(trans);
-			DrawAxisIndicators(m_dockingPoints);
+			m_renderer->DrawMesh(m_debugMesh.get(), m_debugLineMat.get());
 		}
 	}
 
@@ -177,10 +178,10 @@ namespace SceneGraph {
 
 		//update color parameters (materials are shared by model instances)
 		if (m_curPattern) {
-			for (MaterialContainer::const_iterator it = m_materials.begin(); it != m_materials.end(); ++it) {
-				if ((*it).second->GetDescriptor().usePatterns) {
-					(*it).second->texture5 = m_colorMap.GetTexture();
-					(*it).second->texture4 = m_curPattern;
+			for (auto &mat : m_materials) {
+				if (mat.second->GetDescriptor().usePatterns) {
+					mat.second->SetTexture(s_texture4Name, m_curPattern);
+					mat.second->SetTexture(s_texture5Name, m_colorMap.GetTexture());
 				}
 			}
 		}
@@ -188,7 +189,7 @@ namespace SceneGraph {
 		//update decals (materials and geometries are shared)
 		for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++)
 			if (m_decalMaterials[i])
-				m_decalMaterials[i]->texture0 = m_curDecals[i];
+				m_decalMaterials[i]->SetTexture(s_texture0Name, m_curDecals[i]);
 
 		//Override renderdata if this model is called from ModelNode
 		RenderData params = (rd != 0) ? (*rd) : m_renderData;
@@ -209,121 +210,9 @@ namespace SceneGraph {
 			params.nodemask = NODE_TRANSPARENT;
 			m_root->Render(trans, &params);
 		}
-	}
 
-	void Model::CreateAabbVB()
-	{
-		PROFILE_SCOPED()
-		if (!m_collMesh) return;
-
-		const Aabb aabb = m_collMesh->GetAabb();
-
-		const vector3f verts[16] = {
-			vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
-			vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
-			vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
-			vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
-			vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
-			vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
-			vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
-			vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
-
-			vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
-			vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
-			vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
-			vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
-			vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
-			vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
-			vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
-			vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
-		};
-
-		if (!m_aabbVB.Valid()) {
-			Graphics::VertexArray va(Graphics::ATTRIB_POSITION, 28);
-			for (unsigned int i = 0; i < 7; i++) {
-				va.Add(verts[i]);
-				va.Add(verts[i + 1]);
-			}
-
-			for (unsigned int i = 8; i < 15; i++) {
-				va.Add(verts[i]);
-				va.Add(verts[i + 1]);
-			}
-
-			Graphics::MaterialDescriptor desc;
-			m_aabbMat.Reset(m_renderer->CreateMaterial(desc));
-			m_aabbMat->diffuse = Color::GREEN;
-
-			//create buffer and upload data
-			Graphics::VertexBufferDesc vbd;
-			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.numVertices = va.GetNumVerts();
-			vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-			m_aabbVB.Reset(m_renderer->CreateVertexBuffer(vbd));
-			m_aabbVB->Populate(va);
-		}
-
-		m_state = m_renderer->CreateRenderState(Graphics::RenderStateDesc());
-	}
-
-	void Model::DrawAabb()
-	{
-		if (!m_collMesh) return;
-
-		if (!m_aabbVB.Valid()) {
-			CreateAabbVB();
-		}
-
-		m_renderer->DrawBuffer(m_aabbVB.Get(), m_state, m_aabbMat.Get(), Graphics::LINE_SINGLE);
-	}
-
-	// Draw collision mesh as a wireframe overlay
-	void Model::DrawCollisionMesh()
-	{
-		PROFILE_SCOPED()
-		if (!m_collMesh) return;
-
-		if (!m_collisionMeshVB.Valid()) {
-			const std::vector<vector3f> &vertices = m_collMesh->GetGeomTreeVertices();
-			const Uint32 *indices = m_collMesh->GetGeomTreeIndices();
-			const unsigned int *triFlags = m_collMesh->GetGeomTreeTriFlags();
-			const unsigned int numIndices = m_collMesh->GetGeomTreeNumTris() * 3;
-
-			Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, numIndices * 3);
-			int trindex = -1;
-			for (unsigned int i = 0; i < numIndices; i++) {
-				if (i % 3 == 0)
-					trindex++;
-				const unsigned int flag = triFlags[trindex];
-				//show special geomflags in red
-				va.Add(vertices[indices[i]], flag > 0 ? Color::RED : Color::WHITE);
-			}
-
-			//create buffer and upload data
-			Graphics::VertexBufferDesc vbd;
-			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-			vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
-			vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
-			vbd.numVertices = va.GetNumVerts();
-			vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-			m_collisionMeshVB.Reset(m_renderer->CreateVertexBuffer(vbd));
-			m_collisionMeshVB->Populate(va);
-		}
-
-		//might want to add some offset
-		m_renderer->SetWireFrameMode(true);
-		Graphics::RenderStateDesc rsd;
-		rsd.cullMode = Graphics::CULL_NONE;
-		m_renderer->DrawBuffer(m_collisionMeshVB.Get(), m_renderer->CreateRenderState(rsd), Graphics::vtxColorMaterial);
-		m_renderer->SetWireFrameMode(false);
-	}
-
-	void Model::DrawAxisIndicators(std::vector<Graphics::Drawables::Line3D> &lines)
-	{
-		for (auto i = lines.begin(); i != lines.end(); ++i)
-			(*i).Draw(m_renderer, m_renderer->CreateRenderState(Graphics::RenderStateDesc()));
+		if (m_debugFlags & DEBUG_WIREFRAME)
+			m_renderer->SetWireFrameMode(false);
 	}
 
 	RefCountedPtr<CollMesh> Model::CreateCollisionMesh()
@@ -618,7 +507,10 @@ namespace SceneGraph {
 		return "unknown";
 	}
 
-	void Model::AddAxisIndicators(const std::vector<MatrixTransform *> &mts, std::vector<Graphics::Drawables::Line3D> &lines)
+	// Debug Visualization Handling
+	// ========================================================================
+
+	static void AddAxisIndicators(const std::vector<MatrixTransform *> &mts, Graphics::VertexArray &lines)
 	{
 		for (std::vector<MatrixTransform *>::const_iterator i = mts.begin(); i != mts.end(); ++i) {
 			const matrix4x4f &trans = (*i)->GetTransform();
@@ -628,45 +520,142 @@ namespace SceneGraph {
 			const vector3f y = orient.VectorY().Normalized();
 			const vector3f z = orient.VectorZ().Normalized();
 
-			Graphics::Drawables::Line3D lineX;
-			lineX.SetStart(pos);
-			lineX.SetEnd(pos + x);
-			lineX.SetColor(Color::RED);
+			lines.Add(pos, Color::RED);
+			lines.Add(pos + x, Color::RED * 0.5);
 
-			Graphics::Drawables::Line3D lineY;
-			lineY.SetStart(pos);
-			lineY.SetEnd(pos + y);
-			lineY.SetColor(Color::GREEN);
+			lines.Add(pos, Color::GREEN);
+			lines.Add(pos + y, Color::GREEN * 0.5);
 
-			Graphics::Drawables::Line3D lineZ;
-			lineZ.SetStart(pos);
-			lineZ.SetEnd(pos + z);
-			lineZ.SetColor(Color::BLUE);
-
-			lines.push_back(lineX);
-			lines.push_back(lineY);
-			lines.push_back(lineZ);
+			lines.Add(pos, Color::BLUE);
+			lines.Add(pos + z, Color::BLUE * 0.5);
 		}
 	}
+
+	static void AddCollMeshVisualizer(const CollMesh *collMesh, Graphics::VertexArray &lines)
+	{
+		const std::vector<vector3f> &vertices = collMesh->GetGeomTreeVertices();
+		const Uint32 *indices = collMesh->GetGeomTreeIndices();
+		const unsigned int *triFlags = collMesh->GetGeomTreeTriFlags();
+
+		for (unsigned int i = 0; i < collMesh->GetGeomTreeNumTris(); i++) {
+			//show special geomflags in red
+			Color4ub color = triFlags[i] > 0 ? Color::RED : Color::WHITE;
+
+			uint32_t idx = i * 3;
+			// draw one line for each edge of the triangle;
+			// this may be wasteful with shared triangle edges but avoids the need for a separate drawcall
+			lines.Add(vertices[indices[idx]], color);
+			lines.Add(vertices[indices[idx + 1]], color);
+
+			lines.Add(vertices[indices[idx + 1]], color);
+			lines.Add(vertices[indices[idx + 2]], color);
+
+			lines.Add(vertices[indices[idx + 2]], color);
+			lines.Add(vertices[indices[idx]], color);
+		}
+	}
+
+	static void AddAABBVisualizer(const Aabb &aabb, Color color, Graphics::VertexArray &lines, const matrix4x4f &transform = matrix4x4fIdentity)
+	{
+		PROFILE_SCOPED()
+
+		const vector3f verts[16] = {
+			transform * vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+			transform * vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+			transform * vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+			transform * vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+			transform * vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
+			transform * vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+			transform * vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+			transform * vector3f(aabb.max.x, aabb.min.y, aabb.min.z),
+
+			transform * vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+			transform * vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+			transform * vector3f(aabb.min.x, aabb.min.y, aabb.max.z),
+			transform * vector3f(aabb.max.x, aabb.min.y, aabb.max.z),
+			transform * vector3f(aabb.max.x, aabb.max.y, aabb.max.z),
+			transform * vector3f(aabb.max.x, aabb.max.y, aabb.min.z),
+			transform * vector3f(aabb.min.x, aabb.max.y, aabb.min.z),
+			transform * vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
+		};
+
+		for (unsigned int i = 0; i < 7; i++) {
+			lines.Add(verts[i], color);
+			lines.Add(verts[i + 1], color);
+		}
+
+		for (unsigned int i = 8; i < 15; i++) {
+			lines.Add(verts[i], color);
+			lines.Add(verts[i + 1], color);
+		}
+	}
+
+	class ModelAABBVisitor final : public SceneGraph::NodeVisitor {
+	public:
+		ModelAABBVisitor(Graphics::VertexArray &lines) :
+			lines(lines)
+		{
+			matrixStack.push_back(matrix4x4fIdentity);
+		}
+
+		void ApplyMatrixTransform(MatrixTransform &mt) override
+		{
+			matrixStack.push_back(matrixStack.back() * mt.GetTransform());
+			mt.Traverse(*this);
+			matrixStack.pop_back();
+		}
+
+		void ApplyStaticGeometry(StaticGeometry &sg) override
+		{
+			AddAABBVisualizer(sg.m_boundingBox, Color::YELLOW, lines, matrixStack.back());
+		}
+
+	private:
+		std::vector<matrix4x4f> matrixStack;
+		Graphics::VertexArray &lines;
+	};
 
 	void Model::SetDebugFlags(Uint32 flags)
 	{
 		m_debugFlags = flags;
 
-		if (m_debugFlags & SceneGraph::Model::DEBUG_TAGS && m_tagPoints.empty()) {
+		// reserve a decent amount of space if we're going to be drawing something
+		Graphics::VertexArray debugLines(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, m_debugFlags ? 256 : 0);
+
+		if (m_debugFlags & Model::DEBUG_TAGS) {
 			std::vector<MatrixTransform *> mts;
 			FindTagsByStartOfName("tag_", mts);
-			AddAxisIndicators(mts, m_tagPoints);
+			AddAxisIndicators(mts, debugLines);
 		}
 
-		if (m_debugFlags & SceneGraph::Model::DEBUG_DOCKING && m_dockingPoints.empty()) {
+		if (m_debugFlags & Model::DEBUG_DOCKING) {
 			std::vector<MatrixTransform *> mts;
 			FindTagsByStartOfName("entrance_", mts);
-			AddAxisIndicators(mts, m_dockingPoints);
+			AddAxisIndicators(mts, debugLines);
 			FindTagsByStartOfName("loc_", mts);
-			AddAxisIndicators(mts, m_dockingPoints);
+			AddAxisIndicators(mts, debugLines);
 			FindTagsByStartOfName("exit_", mts);
-			AddAxisIndicators(mts, m_dockingPoints);
+			AddAxisIndicators(mts, debugLines);
+		}
+
+		if (m_debugFlags & Model::DEBUG_COLLMESH && m_collMesh) {
+			AddCollMeshVisualizer(m_collMesh.Get(), debugLines);
+		}
+
+		if (m_debugFlags & Model::DEBUG_BBOX && m_collMesh) {
+			AddAABBVisualizer(m_collMesh->GetAabb(), Color::GREEN, debugLines);
+		}
+
+		if (m_debugFlags & Model::DEBUG_GEOMBBOX) {
+			ModelAABBVisitor visitor(debugLines);
+			m_root->Accept(visitor);
+		}
+
+		// Create the debug mesh if we have something to display.
+		if (!debugLines.IsEmpty()) {
+			m_debugMesh.reset(m_renderer->CreateMeshObjectFromArray(&debugLines));
+		} else {
+			m_debugMesh.reset();
 		}
 	}
 

@@ -391,59 +391,38 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 // setLighting: set renderer lights according to current position and sun
 // positions. Original lighting is passed back in oldLights, oldAmbient, and
 // should be reset after rendering with ModelBody::ResetLighting.
-void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> &oldLights, Color &oldAmbient)
+void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<float> &oldIntensity, Color &oldAmbient)
 {
-	std::vector<Graphics::Light> newLights;
 	double ambient, direct;
 	CalcLighting(ambient, direct, camera);
+
 	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
-	newLights.reserve(lightSources.size());
-	oldLights.reserve(lightSources.size());
+	oldIntensity.resize(lightSources.size(), 0.0f);
+	std::vector<float> lightIntensity(lightSources.size(), 0.0f);
 	for (size_t i = 0; i < lightSources.size(); i++) {
-		Graphics::Light light(lightSources[i].GetLight());
-
-		oldLights.push_back(light);
-
-		const float intensity = direct * camera->ShadowedIntensity(i, this);
-
-		Color c = light.GetDiffuse();
-		Color cs = light.GetSpecular();
-		c.r *= float(intensity);
-		c.g *= float(intensity);
-		c.b *= float(intensity);
-		cs.r *= float(intensity);
-		cs.g *= float(intensity);
-		cs.b *= float(intensity);
-		light.SetDiffuse(c);
-		light.SetSpecular(cs);
-
-		newLights.push_back(light);
-	}
-
-	if (newLights.empty()) {
-		// no lights means we're somewhere weird (eg hyperspace, ObjectViewer). fake one
-		newLights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), Color::WHITE, Color::WHITE));
+		oldIntensity[i] = r->GetLight(i).GetIntensity();
+		lightIntensity[i] = direct * camera->ShadowedIntensity(i, this);
 	}
 
 	oldAmbient = r->GetAmbientColor();
 	r->SetAmbientColor(Color(ambient * 255, ambient * 255, ambient * 255));
-	r->SetLights(newLights.size(), &newLights[0]);
+	r->SetLightIntensity(lightSources.size(), lightIntensity.data());
 }
 
-void ModelBody::ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient)
+void ModelBody::ResetLighting(Graphics::Renderer *r, const std::vector<float> &oldIntensity, const Color &oldAmbient)
 {
 	// restore old lights
-	if (!oldLights.empty())
-		r->SetLights(oldLights.size(), &oldLights[0]);
+	if (!oldIntensity.empty())
+		r->SetLightIntensity(oldIntensity.size(), oldIntensity.data());
 	r->SetAmbientColor(oldAmbient);
 }
 
 void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, const bool setLighting)
 {
-	std::vector<Graphics::Light> oldLights;
+	std::vector<float> oldIntensity;
 	Color oldAmbient;
 	if (setLighting)
-		SetLighting(r, camera, oldLights, oldAmbient);
+		SetLighting(r, camera, oldIntensity, oldAmbient);
 
 	matrix4x4d m2 = GetInterpOrient();
 	m2.SetTranslate(GetInterpPosition());
@@ -461,7 +440,7 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 	m_model->Render(trans);
 
 	if (setLighting)
-		ResetLighting(r, oldLights, oldAmbient);
+		ResetLighting(r, oldIntensity, oldAmbient);
 }
 
 void ModelBody::TimeStepUpdate(const float timestep)

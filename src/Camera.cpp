@@ -13,6 +13,7 @@
 #include "Space.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
 
 using namespace Graphics;
 
@@ -72,6 +73,7 @@ void CameraContext::EndFrame()
 
 void CameraContext::ApplyDrawTransforms(Graphics::Renderer *r)
 {
+	Graphics::SetFov(m_fovAng);
 	r->SetProjection(matrix4x4f::InfinitePerspectiveMatrix(DEG2RAD(m_fovAng), m_width / m_height, m_zNear));
 	r->SetTransform(matrix4x4f::Identity());
 }
@@ -99,11 +101,16 @@ Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *rendere
 	m_renderer(renderer)
 {
 	Graphics::MaterialDescriptor desc;
-	desc.effect = Graphics::EFFECT_BILLBOARD;
 	desc.textures = 1;
 
-	m_billboardMaterial.reset(m_renderer->CreateMaterial(desc));
-	m_billboardMaterial->texture0 = Graphics::TextureBuilder::Billboard("textures/planet_billboard.dds").GetOrCreateTexture(m_renderer, "billboard");
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.depthWrite = false;
+	rsd.primitiveType = Graphics::POINTS;
+
+	m_billboardMaterial.reset(m_renderer->CreateMaterial("billboards", desc, rsd));
+	m_billboardMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+		Graphics::TextureBuilder::Billboard("textures/planet_billboard.dds").GetOrCreateTexture(m_renderer, "billboard"));
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
@@ -274,6 +281,8 @@ void Camera::Draw(const Body *excludeBody)
 		m_renderer->SetLights(rendererLights.size(), &rendererLights[0]);
 	}
 
+	Graphics::VertexArray billboards(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
+
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
@@ -283,11 +292,14 @@ void Camera::Draw(const Body *excludeBody)
 
 		// draw something!
 		if (attrs->billboard) {
-			Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity());
-			m_billboardMaterial->diffuse = attrs->billboardColor;
-			m_renderer->DrawPointSprites(1, &attrs->billboardPos, SfxManager::additiveAlphaState, m_billboardMaterial.get(), attrs->billboardSize);
+			billboards.Add(attrs->billboardPos, vector3f(0.f, 0.f, attrs->billboardSize));
 		} else
 			attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
+	}
+
+	if (!billboards.IsEmpty()) {
+		Graphics::Renderer::MatrixTicket mt(m_renderer, matrix4x4f::Identity());
+		m_renderer->DrawBuffer(&billboards, m_billboardMaterial.get());
 	}
 
 	SfxManager::RenderAll(m_renderer, rootFrameId, camFrameId);

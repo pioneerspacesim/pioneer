@@ -3,6 +3,7 @@
 
 #include "Renderer.h"
 #include "Texture.h"
+#include "jenkins/lookup3.h"
 
 namespace Graphics {
 
@@ -46,6 +47,20 @@ namespace Graphics {
 		for (TextureCacheMap::iterator i = m_textureCache.begin(); i != m_textureCache.end(); ++i)
 			delete (*i).second;
 		m_textureCache.clear();
+	}
+
+	size_t Renderer::GetName(const std::string &s)
+	{
+		Uint32 a = 0xDEAD, b = 0xBEEF;
+		lookup3_hashlittle2(s.c_str(), s.size(), &a, &b);
+		return a | (Uint64(b) << 32);
+	}
+
+	size_t Renderer::GetName(const char *s)
+	{
+		Uint32 a = 0xDEAD, b = 0xBEEF;
+		lookup3_hashlittle2(s, strlen(s), &a, &b);
+		return a | (Uint64(b) << 32);
 	}
 
 } // namespace Graphics

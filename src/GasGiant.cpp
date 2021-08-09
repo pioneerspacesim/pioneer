@@ -14,13 +14,14 @@
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
+#include "graphics/Types.h"
 #include "graphics/VertexArray.h"
-#include "graphics/opengl/GenGasGiantColourMaterial.h"
 #include "perlin.h"
 #include "utils.h"
 #include "vcacheopt/vcacheopt.h"
 
 RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
+Graphics::RenderTarget *GasGiant::s_renderTarget;
 
 namespace {
 	static Uint32 s_texture_size_small = 16;
@@ -194,7 +195,7 @@ class GasPatch {
 public:
 	RefCountedPtr<GasPatchContext> ctx;
 	vector3d v[4];
-	std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
+	std::unique_ptr<Graphics::MeshObject> m_patchMesh;
 	GasGiant *gasSphere;
 	vector3d clipCentroid;
 	double clipRadius;
@@ -229,17 +230,13 @@ public:
 	{
 		PROFILE_SCOPED()
 		//create buffer and upload data
-		Graphics::VertexBufferDesc vbd;
-		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+		auto vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL);
 		vbd.numVertices = ctx->NUMVERTICES();
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		m_vertexBuffer.reset(Pi::renderer->CreateVertexBuffer(vbd));
+		Graphics::VertexBuffer *vtxBuffer = Pi::renderer->CreateVertexBuffer(vbd);
 
-		GasPatchContext::VBOVertex *vtxPtr = m_vertexBuffer->Map<GasPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
-		assert(m_vertexBuffer->GetDesc().stride == sizeof(GasPatchContext::VBOVertex));
+		GasPatchContext::VBOVertex *vtxPtr = vtxBuffer->Map<GasPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
+		assert(vtxBuffer->GetDesc().stride == sizeof(GasPatchContext::VBOVertex));
 
 		const Sint32 edgeLen = ctx->edgeLen;
 		const double frac = ctx->frac;
@@ -254,7 +251,9 @@ public:
 				++vtxPtr; // next vertex
 			}
 		}
-		m_vertexBuffer->Unmap();
+		vtxBuffer->Unmap();
+
+		m_patchMesh.reset(Pi::renderer->CreateMeshObject(vtxBuffer, ctx->indexBuffer.Get()));
 	}
 
 	void Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
@@ -262,22 +261,16 @@ public:
 		if (!frustum.TestPoint(clipCentroid, clipRadius))
 			return;
 
-		RefCountedPtr<Graphics::Material> mat = gasSphere->GetSurfaceMaterial();
-		Graphics::RenderState *rs = gasSphere->GetSurfRenderState();
-
 		const vector3d relpos = clipCentroid - campos;
 		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
 
 		Pi::statSceneTris += 2 * (ctx->edgeLen - 1) * (ctx->edgeLen - 1);
 		++Pi::statNumPatches;
 
-		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indexBuffer.Get(), rs, mat.Get());
+		renderer->DrawMesh(m_patchMesh.get(), gasSphere->GetSurfaceMaterial().Get());
 		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PATCHES, 1);
 	}
 };
-
-Graphics::RenderTarget *GasGiant::s_renderTarget;
-Graphics::RenderState *GasGiant::s_quadRenderState;
 
 // static
 void GasGiant::UpdateAllGasGiants()
@@ -467,7 +460,8 @@ bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 
 		// change the planet texture for the new higher resolution texture
 		if (m_surfaceMaterial.Get()) {
-			m_surfaceMaterial->texture0 = m_surfaceTexture.Get();
+			m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+				m_surfaceTexture.Get());
 			m_surfaceTextureSmall.Reset();
 		}
 	}
@@ -513,7 +507,8 @@ bool GasGiant::AddGPUGenResult(GasGiantJobs::SGPUGenResult *res)
 
 		// change the planet texture for the new higher resolution texture
 		if (m_surfaceMaterial.Get()) {
-			m_surfaceMaterial->texture0 = m_surfaceTexture.Get();
+			m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+				m_surfaceTexture.Get());
 			m_surfaceTextureSmall.Reset();
 		}
 	}
@@ -609,17 +604,17 @@ void GasGiant::GenerateTexture()
 		const std::string ColorFracName = GetTerrain()->GetColorFractalName();
 		Output("Color Fractal name: %s\n", ColorFracName.c_str());
 
-		Uint32 GasGiantType = Graphics::OGL::GEN_JUPITER_TEXTURE;
+		Uint32 GasGiantType = GasGiantTexture::GEN_JUPITER_TEXTURE;
 		if (ColorFracName == GGSaturn) {
-			GasGiantType = Graphics::OGL::GEN_SATURN_TEXTURE;
+			GasGiantType = GasGiantTexture::GEN_SATURN_TEXTURE;
 		} else if (ColorFracName == GGSaturn2) {
-			GasGiantType = Graphics::OGL::GEN_SATURN2_TEXTURE;
+			GasGiantType = GasGiantTexture::GEN_SATURN2_TEXTURE;
 		} else if (ColorFracName == GGNeptune) {
-			GasGiantType = Graphics::OGL::GEN_NEPTUNE_TEXTURE;
+			GasGiantType = GasGiantTexture::GEN_NEPTUNE_TEXTURE;
 		} else if (ColorFracName == GGNeptune2) {
-			GasGiantType = Graphics::OGL::GEN_NEPTUNE2_TEXTURE;
+			GasGiantType = GasGiantTexture::GEN_NEPTUNE2_TEXTURE;
 		} else if (ColorFracName == GGUranus) {
-			GasGiantType = Graphics::OGL::GEN_URANUS_TEXTURE;
+			GasGiantType = GasGiantTexture::GEN_URANUS_TEXTURE;
 		}
 		const Uint32 octaves = (Pi::config->Int("AMD_MESA_HACKS") == 0) ? s_noiseOctaves[Pi::detail.planets] : std::min(5U, s_noiseOctaves[Pi::detail.planets]);
 		GasGiantType = (octaves << 16) | GasGiantType;
@@ -631,7 +626,7 @@ void GasGiant::GenerateTexture()
 		const std::string parentname = GetSystemBody()->GetParent()->GetName();
 		const float hueShift = (parentname == "Sol") ? 0.0f : float(((rng.Double() * 2.0) - 1.0) * 0.9);
 
-		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]), s_quadRenderState, GasGiantType);
+		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]), GasGiantType);
 
 		GasGiantJobs::SGPUGenRequest *pGPUReq = new GasGiantJobs::SGPUGenRequest(GetSystemBody()->GetPath(), s_texture_size_gpu[Pi::detail.planets], GetTerrain(), GetSystemBody()->GetRadius(), hueShift, pQuad, m_builtTexture.Get());
 		m_gpuJob = Pi::GetSyncJobQueue()->Queue(new GasGiantJobs::SingleGPUGenJob(pGPUReq));
@@ -684,25 +679,17 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	if (!m_surfaceMaterial)
 		SetUpMaterials();
 
-	{
-		//Update material parameters
-		//XXX no need to calculate AP every frame
-		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
-		m_materialParameters.atmosphere.center = trans * vector3d(0.0, 0.0, 0.0);
-		m_materialParameters.atmosphere.planetRadius = radius;
-
-		m_materialParameters.shadows = shadows;
-
-		m_surfaceMaterial->specialParameter0 = &m_materialParameters;
-
-		if (m_materialParameters.atmosphere.atmosDensity > 0.0) {
-			m_atmosphereMaterial->specialParameter0 = &m_materialParameters;
-
-			// make atmosphere sphere slightly bigger than required so
-			// that the edges of the pixel shader atmosphere jizz doesn't
-			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, trans, campos, m_materialParameters.atmosphere.atmosRadius * 1.01, m_atmosRenderState, m_atmosphereMaterial);
-		}
+	//Update material parameters
+	//XXX no need to calculate AP every frame
+	auto ap = GetSystemBody()->CalcAtmosphereParams();
+	SetMaterialParameters(trans, radius, shadows, ap);
+	if (ap.atmosDensity > 0.0) {
+		// make atmosphere sphere slightly bigger than required so
+		// that the edges of the pixel shader atmosphere jizz doesn't
+		// show ugly polygonal angles
+		DrawAtmosphereSurface(renderer, trans, campos,
+			ap.atmosRadius * 1.01,
+			m_atmosphereMaterial);
 	}
 
 	Color ambient;
@@ -729,8 +716,6 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 		m_patches[i]->Render(renderer, campos, modelView, frustum);
 	}
 
-	m_surfaceMaterial->Unapply();
-
 	renderer->SetAmbientColor(oldAmbient);
 
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_GASGIANTS, 1);
@@ -738,42 +723,36 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 
 void GasGiant::SetUpMaterials()
 {
-	//solid
-	Graphics::RenderStateDesc rsd;
-	m_surfRenderState = Pi::renderer->CreateRenderState(rsd);
-
-	//blended
-	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
-	rsd.cullMode = Graphics::CULL_NONE;
-	rsd.depthWrite = false;
-	m_atmosRenderState = Pi::renderer->CreateRenderState(rsd);
 
 	// Request material for this planet, with atmosphere.
 	// Separate materials for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
-	surfDesc.effect = Graphics::EFFECT_GASSPHERE_TERRAIN;
+	surfDesc.lighting = true;
+	surfDesc.quality = Graphics::HAS_ATMOSPHERE | Graphics::HAS_ECLIPSES;
+	surfDesc.textures = 1;
 
 	//planetoid with atmosphere
 	const AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
-	surfDesc.lighting = true;
 	assert(ap.atmosDensity > 0.0);
-	{
-		surfDesc.quality |= Graphics::HAS_ATMOSPHERE;
-	}
-
-	surfDesc.quality |= Graphics::HAS_ECLIPSES;
-	surfDesc.textures = 1;
-
 	assert(m_surfaceTextureSmall.Valid() || m_surfaceTexture.Valid());
-	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
-	m_surfaceMaterial->texture0 = m_surfaceTexture.Valid() ? m_surfaceTexture.Get() : m_surfaceTextureSmall.Get();
+
+	// surface material is solid
+	Graphics::RenderStateDesc rsd;
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("gassphere_base", surfDesc, rsd));
+	m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+		m_surfaceTexture.Valid() ? m_surfaceTexture.Get() : m_surfaceTextureSmall.Get());
 
 	{
 		Graphics::MaterialDescriptor skyDesc;
-		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
-		skyDesc.quality |= Graphics::HAS_ECLIPSES;
-		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
+		skyDesc.quality = Graphics::HAS_ECLIPSES;
+
+		// atmosphere is blended
+		Graphics::RenderStateDesc rsd;
+		rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+		rsd.cullMode = Graphics::CULL_NONE;
+		rsd.depthWrite = false;
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial("geosphere_sky", skyDesc, rsd));
 	}
 }
 
@@ -835,11 +814,6 @@ void GasGiant::CreateRenderTarget(const Uint16 width, const Uint16 height)
 		You can reuse the same target with multiple textures.
 		In that case, leave the color format to NONE so the initial texture is not created, then use SetColorTexture to attach your own.
 	*/
-	Graphics::RenderStateDesc rsd;
-	rsd.depthTest = false;
-	rsd.depthWrite = false;
-	rsd.blendMode = Graphics::BLEND_ALPHA;
-	s_quadRenderState = Pi::renderer->CreateRenderState(rsd);
 
 	// Complete the RT description so we can request a buffer.
 	// NB: we don't want it to create use a texture because we share it with the textured quad created above.

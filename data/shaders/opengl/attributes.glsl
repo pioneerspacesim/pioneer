@@ -3,26 +3,39 @@
 
 #extension GL_ARB_explicit_attrib_location : enable
 
-uniform mat4 uProjectionMatrix;
-uniform mat4 uViewMatrix;
-uniform mat4 uViewMatrixInverse;
-uniform mat4 uViewProjectionMatrix;
-uniform mat3 uNormalMatrix;
-
 //Light uniform parameters
 struct Light {
 	vec4 diffuse;
 	vec4 specular;
 	vec4 position;
 };
-uniform Light uLight[4];
+
+#if (NUM_LIGHTS > 0)
+layout(std140) uniform LightData {
+	Light uLight[4];
+};
+#endif
 
 struct Material {
-	vec4 emission;
-	vec4 ambient;
 	vec4 diffuse;
-	vec4 specular;
+	vec3 specular;
 	float shininess;
+	vec4 emission;
+};
+
+struct Scene {
+	vec4 ambient;
+};
+
+// Carefully packed to fit in 256 bytes (the alignment requirement of UBO bindings)
+// If you need custom data for your shader, add a new uniform buffer binding instead
+layout(std140) uniform DrawData {
+	mat4 uViewMatrix;
+	mat4 uViewMatrixInverse;
+	mat4 uViewProjectionMatrix;
+
+	Material material;
+	Scene scene;
 };
 
 #ifdef VERTEX_SHADER
@@ -45,6 +58,12 @@ vec4 matrixTransform()
 #else
 	return uViewProjectionMatrix * a_vertex;
 #endif
+}
+
+// Extract the normal matrix from the inverse model-view matrix
+mat3 normalMatrix()
+{
+	return transpose(mat3(uViewMatrixInverse));
 }
 
 #endif // VERTEX_SHADER

@@ -5,6 +5,8 @@
 #define _DUMMY_MATERIAL_H
 
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
+#include "graphics/Renderer.h"
 
 namespace Graphics {
 
@@ -16,15 +18,26 @@ namespace Graphics {
 
 		class Material : public Graphics::Material {
 		public:
-			Material() {}
+			Material(RenderStateDesc rsd) :
+				rsd(rsd) {}
 			// Create an appropriate program for this material.
 			virtual Program *CreateProgram(const MaterialDescriptor &) { return nullptr; }
-			// bind textures, set uniforms
-			virtual void Apply() override {}
-			virtual void Unapply() override {}
 			virtual bool IsProgramLoaded() const override final { return false; }
 			virtual void SetProgram(Program *p) {}
-			virtual void SetCommonUniforms(const matrix4x4f &mv, const matrix4x4f &proj) override {}
+
+			virtual bool SetTexture(size_t name, Texture *tex) override { return false; }
+			virtual bool SetBuffer(size_t name, BufferBinding<UniformBuffer>) override { return false; }
+			virtual bool SetBufferDynamic(size_t name, void *data, size_t size) override { return false; }
+
+			virtual bool SetPushConstant(size_t name, int i) override { return false; }
+			virtual bool SetPushConstant(size_t name, float f) override { return false; }
+			virtual bool SetPushConstant(size_t name, vector3f v3) override { return false; }
+			virtual bool SetPushConstant(size_t name, vector3f v4, float f4) override { return false; }
+			virtual bool SetPushConstant(size_t name, Color c) override { return false; }
+			virtual bool SetPushConstant(size_t name, matrix3x3f mat3) override { return false; }
+			virtual bool SetPushConstant(size_t name, matrix4x4f mat4) override { return false; }
+
+			RenderStateDesc rsd; // here to ensure validation works correctly
 		};
 	} // namespace Dummy
 } // namespace Graphics

@@ -4,7 +4,10 @@
 #ifndef DUMMY_VERTEXBUFFER_H
 #define DUMMY_VERTEXBUFFER_H
 
+#include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
+
+#include <memory>
 
 namespace Graphics {
 
@@ -37,11 +40,17 @@ namespace Graphics {
 
 		class IndexBuffer : public Graphics::IndexBuffer {
 		public:
-			IndexBuffer(Uint32 size, BufferUsage bu) :
-				Graphics::IndexBuffer(size, bu),
-				m_buffer(new Uint32[size]){};
+			IndexBuffer(Uint32 size, BufferUsage bu, IndexBufferSize el) :
+				Graphics::IndexBuffer(size, bu, el)
+			{
+				if (el == INDEX_BUFFER_32BIT)
+					m_buffer.reset(new Uint32[size]);
+				else
+					m_buffer16.reset(new Uint16[size]);
+			}
 
 			virtual Uint32 *Map(BufferMapMode) override final { return m_buffer.get(); }
+			virtual Uint16 *Map16(BufferMapMode) override final { return m_buffer16.get(); }
 			virtual void Unmap() override final {}
 
 			virtual void BufferData(const size_t, void *) override final {}
@@ -51,6 +60,7 @@ namespace Graphics {
 
 		private:
 			std::unique_ptr<Uint32[]> m_buffer;
+			std::unique_ptr<Uint16[]> m_buffer16;
 		};
 
 		// Instance buffer
@@ -72,6 +82,25 @@ namespace Graphics {
 
 		protected:
 			std::unique_ptr<matrix4x4f> m_data;
+		};
+
+		class MeshObject final : public Graphics::MeshObject {
+		public:
+			MeshObject(VertexBuffer *v, IndexBuffer *i) :
+				m_vtxBuffer(v),
+				m_idxBuffer(i)
+			{}
+			virtual ~MeshObject() override final {}
+
+			virtual Graphics::VertexBuffer *GetVertexBuffer() const override final { return m_vtxBuffer.Get(); }
+			virtual Graphics::IndexBuffer *GetIndexBuffer() const override final { return m_idxBuffer.Get(); }
+
+			virtual void Bind() override final {}
+			virtual void Release() override final {}
+
+		protected:
+			RefCountedPtr<VertexBuffer> m_vtxBuffer;
+			RefCountedPtr<IndexBuffer> m_idxBuffer;
 		};
 
 	} // namespace Dummy

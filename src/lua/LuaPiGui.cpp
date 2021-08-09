@@ -15,7 +15,6 @@
 #include "Pi.h"
 #include "Player.h"
 #include "Space.h"
-#include "SystemInfoView.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
 #include "imgui/imgui.h"
@@ -145,7 +144,6 @@ int l_pigui_check_selectable_flags(lua_State *l)
 static LuaFlags<ImGuiTreeNodeFlags_> imguiTreeNodeFlagsTable = {
 	{ "Selected", ImGuiTreeNodeFlags_Selected },
 	{ "Framed", ImGuiTreeNodeFlags_Framed },
-	{ "AllowOverlapMode", ImGuiTreeNodeFlags_AllowOverlapMode },
 	{ "NoTreePushOnOpen", ImGuiTreeNodeFlags_NoTreePushOnOpen },
 	{ "NoAutoOpenOnLog", ImGuiTreeNodeFlags_NoAutoOpenOnLog },
 	{ "DefaultOpen", ImGuiTreeNodeFlags_DefaultOpen },
@@ -2579,9 +2577,9 @@ static int l_pigui_load_texture_from_svg(lua_State *l)
 	return 1;
 }
 
-static int l_pigui_set_scroll_here(lua_State *l)
+static int l_pigui_set_scroll_here_y(lua_State *l)
 {
-	ImGui::SetScrollHere();
+	ImGui::SetScrollHereY();
 	return 0;
 }
 
@@ -2832,7 +2830,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "Text", l_pigui_text },
 		{ "TextWrapped", l_pigui_text_wrapped },
 		{ "TextColored", l_pigui_text_colored },
-		{ "SetScrollHere", l_pigui_set_scroll_here },
+		{ "SetScrollHereY", l_pigui_set_scroll_here_y },
 		{ "Button", l_pigui_button },
 		{ "Selectable", l_pigui_selectable },
 		{ "BeginGroup", l_pigui_begin_group },

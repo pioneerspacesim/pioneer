@@ -14,7 +14,6 @@
 #include "lua/Lua.h"
 #include "lua/LuaManager.h"
 #include "scenegraph/Model.h"
-#include "text/TextureFont.h"
 
 #include <imgui/imgui.h>
 #include <algorithm>
@@ -49,8 +48,9 @@ struct PerfInfo::ImGuiState {
 PerfInfo::PerfInfo() :
 	m_state(new ImGuiState({}))
 {
-	m_fpsGraph.fill(0.0);
-	m_physFpsGraph.fill(0.0);
+	m_fpsCounter.history.fill(0.0);
+	m_physCounter.history.fill(0.0);
+	m_piguiCounter.history.fill(0.0);
 }
 
 PerfInfo::~PerfInfo()
@@ -105,41 +105,54 @@ static PerfInfo::MemoryInfo GetMemoryInfo()
 }
 #undef ignoreLine
 
-void PerfInfo::Update(float deltaTime, float physTime)
+PerfInfo::CounterInfo &PerfInfo::GetCounter(CounterType ct)
+{
+	switch (ct) {
+	case COUNTER_FPS: return m_fpsCounter;
+	case COUNTER_PHYS: return m_physCounter;
+	case COUNTER_PIGUI: return m_piguiCounter;
+	}
+}
+
+void PerfInfo::ClearCounter(CounterType ct)
+{
+	CounterInfo &counter = GetCounter(ct);
+	counter.history.fill(0.);
+	counter.average = 0.;
+	counter.max = 0.;
+	counter.min = 0.;
+}
+
+void PerfInfo::UpdateCounter(CounterType ct, float deltaTime)
 {
 	// Don't accumulate new frames when performance data is paused.
 	if (m_state->updatePause)
 		return;
 
+	CounterInfo &counter = GetCounter(ct);
+
 	// Drop the oldest frame, make room for the new frame.
-	std::move(m_fpsGraph.begin() + 1, m_fpsGraph.end(), m_fpsGraph.begin());
-	std::move(m_physFpsGraph.begin() + 1, m_physFpsGraph.end(), m_physFpsGraph.begin());
-	m_fpsGraph[NUM_FRAMES - 1] = deltaTime;
-	m_physFpsGraph[NUM_FRAMES - 1] = physTime;
+	std::move(counter.history.begin() + 1, counter.history.end(), counter.history.begin());
+	counter.history[NUM_FRAMES - 1] = deltaTime * 1e3;
 
-	float fpsAccum = 0;
-	frameTimeMax = 0.f;
-	frameTimeMin = 0.f;
-	std::for_each(m_fpsGraph.begin(), m_fpsGraph.end(), [&](float i) {
-		fpsAccum += i;
-		frameTimeMax = std::max(frameTimeMax, i);
-		frameTimeMin = std::min(frameTimeMin, i);
+	float timeAccum = 0;
+	counter.max = 0.f;
+	counter.min = 0.f;
+	std::for_each(counter.history.begin(), counter.history.end(), [&](float i) {
+		timeAccum += i;
+		counter.max = std::max(counter.max, i);
+		counter.min = std::min(counter.min, i);
 	});
-	frameTimeAverage = fpsAccum / double(NUM_FRAMES);
+	counter.average = timeAccum / double(NUM_FRAMES);
+}
 
-	float physFpsAccum = 0;
-	physFrameTimeMax = 0.f;
-	physFrameTimeMin = 0.f;
-	std::for_each(m_physFpsGraph.begin(), m_physFpsGraph.end(), [&](float i) {
-		physFpsAccum += i;
-		physFrameTimeMax = std::max(physFrameTimeMax, i);
-		physFrameTimeMin = std::min(physFrameTimeMin, i);
-	});
-	physFrameTimeAverage = physFpsAccum / double(NUM_FRAMES);
+void PerfInfo::Update(float deltaTime)
+{
+	UpdateCounter(COUNTER_FPS, deltaTime);
 
 	lastUpdateTime += deltaTime;
-	if (lastUpdateTime > 1000.0) {
-		lastUpdateTime = fmod(lastUpdateTime, 1000.0);
+	if (lastUpdateTime > 1.0) {
+		lastUpdateTime = fmod(lastUpdateTime, 1.0);
 
 		lua_mem = ::Lua::manager->GetMemoryUsage();
 		process_mem = GetMemoryInfo();
@@ -163,11 +176,6 @@ void PerfInfo::SetUpdatePause(bool pause)
 // Main Performance Window
 //
 // ============================================================================
-
-ImTextureID GetImTextureID(const Graphics::Texture *tex)
-{
-	return reinterpret_cast<ImTextureID>(tex->GetTextureID() | 0UL);
-}
 
 namespace ImGui {
 	IMGUI_API void Value(const char *prefix, const std::string &str)
@@ -197,9 +205,10 @@ void PerfInfo::Draw()
 void PerfInfo::DrawPerfWindow()
 {
 	if (ImGui::Begin("Performance", nullptr, ImGuiWindowFlags_NoNav)) {
-		ImGui::Text("%.1f fps (%.1f ms) %.1f physics ups (%.1f ms/u)", framesThisSecond, frameTimeAverage, physFramesThisSecond, physFrameTimeAverage);
-		ImGui::PlotLines("Frame Time (ms)", m_fpsGraph.data(), m_fpsGraph.size(), 0, nullptr, 0.0, 33.0, { 0, 60 });
-		ImGui::PlotLines("Update Time (ms)", m_physFpsGraph.data(), m_physFpsGraph.size(), 0, nullptr, 0.0, 10.0, { 0, 25 });
+		ImGui::Text("%.1f fps (%.1f ms) %.1f physics ups (%.1f ms/u)", framesThisSecond, m_fpsCounter.average, physFramesThisSecond, m_physCounter.average);
+		ImGui::PlotLines("Frame Time (ms)", m_fpsCounter.history.data(), m_fpsCounter.history.size(), 0, nullptr, 2.0, 33.0, { 0, 45 });
+		ImGui::PlotLines("Update Time (ms)", m_physCounter.history.data(), m_physCounter.history.size(), 0, nullptr, 0.0, 10.0, { 0, 25 });
+		ImGui::PlotLines("Pigui Time (ms)", m_piguiCounter.history.data(), m_piguiCounter.history.size(), 0, nullptr, 0.0, 5.0, { 0, 25 });
 		if (ImGui::Button(m_state->updatePause ? "Unpause" : "Pause")) {
 			SetUpdatePause(!m_state->updatePause);
 		}
@@ -243,10 +252,19 @@ void PerfInfo::DrawRendererStats()
 {
 	const Graphics::Stats::TFrameData &stats = Pi::renderer->GetStats().FrameStatsPrevious();
 	const Uint32 numDrawCalls = stats.m_stats[Graphics::Stats::STAT_DRAWCALL];
+	const Uint32 numTris = stats.m_stats[Graphics::Stats::STAT_NUM_TRIS];
+	const Uint32 numLines = stats.m_stats[Graphics::Stats::STAT_NUM_LINES];
+	const Uint32 numPoints = stats.m_stats[Graphics::Stats::STAT_NUM_POINTS];
+	const Uint32 numCmdListFlushes = stats.m_stats[Graphics::Stats::STAT_NUM_CMDLIST_FLUSHES];
 	const Uint32 numBuffersCreated = stats.m_stats[Graphics::Stats::STAT_CREATE_BUFFER];
 	const Uint32 numBuffersInUse = stats.m_stats[Graphics::Stats::STAT_BUFFER_INUSE];
-	const Uint32 numDrawTris = stats.m_stats[Graphics::Stats::STAT_DRAWTRIS];
-	const Uint32 numDrawPointSprites = stats.m_stats[Graphics::Stats::STAT_DRAWPOINTSPRITES];
+	const Uint32 numDynamicBuffersCreated = stats.m_stats[Graphics::Stats::STAT_DYNAMIC_DRAW_BUFFER_CREATED];
+	const Uint32 numDynamicBuffersInUse = stats.m_stats[Graphics::Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE];
+	const Uint32 numDrawBuffers = stats.m_stats[Graphics::Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE];
+	const Uint32 numDrawBufferAllocs = stats.m_stats[Graphics::Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS];
+	const Uint32 numRenderStates = stats.m_stats[Graphics::Stats::STAT_NUM_RENDER_STATES];
+	const Uint32 numShaderPrograms = stats.m_stats[Graphics::Stats::STAT_NUM_SHADER_PROGRAMS];
+
 	const Uint32 numDrawBuildings = stats.m_stats[Graphics::Stats::STAT_BUILDINGS];
 	const Uint32 numDrawCities = stats.m_stats[Graphics::Stats::STAT_CITIES];
 	const Uint32 numDrawGroundStations = stats.m_stats[Graphics::Stats::STAT_GROUNDSTATIONS];
@@ -268,17 +286,29 @@ void PerfInfo::DrawRendererStats()
 	const Uint32 cachedTextureMemUsage = tex2dMemUsage + texCubeMemUsage + texArray2dMemUsage;
 
 	ImGui::Text("Renderer:");
-	ImGui::Text("%d tris (%.3f M tris/sec), %d GeoPatches, %d glyphs",
-		Pi::statSceneTris, Pi::statSceneTris * framesThisSecond * 1e-6, Pi::statNumPatches, Text::TextureFont::GetGlyphCount());
-	ImGui::Text("%u draw calls (%u tris, %u point sprites, %u billboards)",
-		numDrawCalls, numDrawTris, numDrawPointSprites, numDrawBillBoards);
+	ImGui::Text("%u Draw calls, %u CommandList flushes",
+		numDrawCalls, numCmdListFlushes);
+
+	ImGui::Indent();
+	ImGui::Text("%u points", numPoints);
+	ImGui::Text("%u lines", numLines);
+	ImGui::Text("%u tris (%.2fM tris/sec)", numTris, numTris * framesThisSecond * 1e-6);
+	ImGui::Unindent();
+	ImGui::Spacing();
+
 	ImGui::Text("%u Buildings, %u Cities, %u Gd.Stations, %u Sp.Stations",
 		numDrawBuildings, numDrawCities, numDrawGroundStations, numDrawSpaceStations);
 	ImGui::Text("%u Atmospheres, %u Planets, %u Gas Giants, %u Stars, %u Ships",
 		numDrawAtmospheres, numDrawPlanets, numDrawGasGiants, numDrawStars, numDrawShips);
+	ImGui::Text("%u Billboards, %u GeoPatches (%d tris)",
+		numDrawBillBoards, Pi::statNumPatches, Pi::statSceneTris);
 	ImGui::Text("%u Buffers Created (%u in use)", numBuffersCreated, numBuffersInUse);
+	ImGui::Text("%u Dynamic Draw Buffers Created (%u in use)", numDynamicBuffersCreated, numDynamicBuffersInUse);
+	ImGui::Text("%u Draw Uniform Buffers (%u allocations)", numDrawBuffers, numDrawBufferAllocs);
 	ImGui::Spacing();
 
+	ImGui::Text("%u cached shader programs", numShaderPrograms);
+	ImGui::Text("%u cached render states", numRenderStates);
 	ImGui::Text("%u cached textures, using %.3f MB VRAM", numCachedTextures, double(cachedTextureMemUsage) / scale_MB);
 
 	if (ImGui::Button("Open Texture Cache Visualizer"))
@@ -451,13 +481,13 @@ bool DrawTexture(PerfInfo::ImGuiState *m_state, const Graphics::Texture *tex)
 	auto pos0 = ImGui::GetCursorPos();
 
 	const vector2f texUVs = tex->GetDescriptor().texSize;
-	ImGui::Image(GetImTextureID(tex), { 128, 128 }, { 0, 0 }, { texUVs.x, texUVs.y });
+	ImGui::Image(ImTextureID(tex), { 128, 128 }, { 0, 0 }, { texUVs.x, texUVs.y });
 
 	auto pos1 = ImGui::GetCursorPos();
 	ImGui::SetCursorPos(pos0);
 
-	auto texSize = tex->GetDescriptor().dataSize;
-	ImGui::Text("%ux%u", uint32_t(texSize.x), uint32_t(texSize.y));
+	const vector3f &dataSize = tex->GetDescriptor().dataSize;
+	ImGui::Text("%ux%u", uint32_t(dataSize.x), uint32_t(dataSize.y));
 	ImGui::Text("%.1f KB", double(tex->GetTextureMemSize()) / 1024.0);
 
 	ImGui::SetCursorPos(pos1);
@@ -532,7 +562,7 @@ void PerfInfo::DrawTextureInspector()
 
 			// If we have POT-extended textures, only display the part of the texture corresponding to the actual texture data.
 			const vector2f texUVs = tex->GetDescriptor().texSize;
-			ImGui::Image(GetImTextureID(tex), { 256, 256 }, { 0, 0 }, { texUVs.x, texUVs.y });
+			ImGui::Image(ImTextureID(tex), { 256, 256 }, { 0, 0 }, { texUVs.x, texUVs.y });
 			ImGui::Text("Dimensions: %ux%u", uint32_t(descriptor.dataSize.x), uint32_t(descriptor.dataSize.y));
 			ImGui::Value("Mipmap Count", tex->GetDescriptor().numberOfMipMaps);
 			ImGui::Value("VRAM Size", tex->GetTextureMemSize());

@@ -3,18 +3,13 @@
 
 #pragma once
 
-#ifndef _RENDERER_OGL_H
-#define _RENDERER_OGL_H
-/*
- * OpenGL 2.X renderer (2.0, GLSL 1.10 at the moment)
- *  - no fixed function support (shaders for everything)
- *  The plan is: make this more like GL3/ES2
- *  - try to stick to bufferobjects
- *  - use glvertexattribpointer instead of glvertexpointer etc
- *  - get rid of built-in glMaterial, glMatrix use
- */
-#include "OpenGLLibs.h"
+#include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
+#include "graphics/Types.h"
+#include "graphics/UniformBuffer.h"
+
+#include "OpenGLLibs.h"
+#include "RefCounted.h"
 #include <stack>
 #include <unordered_map>
 
@@ -24,22 +19,19 @@ namespace Graphics {
 	struct Settings;
 
 	namespace OGL {
-		class GasGiantSurfaceMaterial;
-		class GeoSphereSkyMaterial;
-		class GeoSphereStarMaterial;
-		class GeoSphereSurfaceMaterial;
-		class GenGasGiantColourMaterial;
+		class CachedVertexBuffer;
+		class CommandList;
+		class InstanceBuffer;
+		class IndexBuffer;
 		class Material;
-		class MultiMaterial;
-		class LitMultiMaterial;
-		class Program;
+		class MeshObject;
 		class RenderState;
+		class RenderStateCache;
 		class RenderTarget;
-		class RingMaterial;
-		class FresnelColourMaterial;
-		class ShieldMaterial;
-		class UIMaterial;
-		class BillboardMaterial;
+		class Shader;
+		class UniformBuffer;
+		class UniformLinearBuffer;
+		class VertexBuffer;
 	} // namespace OGL
 
 	class RendererOGL final : public Renderer {
@@ -66,109 +58,106 @@ namespace Graphics {
 		virtual bool EndFrame() override final;
 		virtual bool SwapBuffers() override final;
 
-		virtual bool SetRenderState(RenderState *) override final;
 		virtual bool SetRenderTarget(RenderTarget *) override final;
-
-		virtual bool SetDepthRange(double znear, double zfar) override final;
-		virtual bool ResetDepthRange() override final;
+		virtual bool SetScissor(ViewportExtents) override final;
 
 		virtual bool ClearScreen() override final;
 		virtual bool ClearDepthBuffer() override final;
 		virtual bool SetClearColor(const Color &c) override final;
 
-		virtual bool SetViewport(Viewport v) override final;
-		virtual Viewport GetViewport() const override final;
+		virtual bool SetViewport(ViewportExtents v) override final;
+		virtual ViewportExtents GetViewport() const override final { return m_viewport; }
 
 		virtual bool SetTransform(const matrix4x4f &m) override final;
-		virtual matrix4x4f GetTransform() const override final;
+		virtual matrix4x4f GetTransform() const override final { return m_modelViewMat; }
 
 		virtual bool SetPerspectiveProjection(float fov, float aspect, float near_, float far_) override final;
 		virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) override final;
 		virtual bool SetProjection(const matrix4x4f &m) override final;
-		virtual matrix4x4f GetProjection() const override final;
+		virtual matrix4x4f GetProjection() const override final { return m_projectionMat; }
 
 		virtual bool SetWireFrameMode(bool enabled) override final;
 
+		virtual bool SetLightIntensity(Uint32 numlights, const float *intensity) override final;
 		virtual bool SetLights(Uint32 numlights, const Light *l) override final;
 		virtual Uint32 GetNumLights() const override final { return m_numLights; }
 		virtual bool SetAmbientColor(const Color &c) override final;
 
-		virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) override final;
+		virtual bool FlushCommandBuffers() override final;
 
-		virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type = TRIANGLES) override final;
-		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) override final;
-		virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) override final;
-		virtual bool DrawBuffer(VertexBuffer *, RenderState *, Material *, PrimitiveType) override final;
-		virtual bool DrawBufferIndexed(VertexBuffer *, IndexBuffer *, RenderState *, Material *, PrimitiveType) override final;
-		virtual bool DrawBufferInstanced(VertexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType type = TRIANGLES) override final;
-		virtual bool DrawBufferIndexedInstanced(VertexBuffer *, IndexBuffer *, RenderState *, Material *, InstanceBuffer *, PrimitiveType = TRIANGLES) override final;
+		virtual bool DrawBuffer(const VertexArray *v, Material *m) override final;
+		virtual bool DrawBufferDynamic(VertexBuffer *v, uint32_t vtxOffset, IndexBuffer *i, uint32_t idxOffset, uint32_t numElems, Material *m) override final;
+		virtual bool DrawMesh(MeshObject *, Material *) override final;
+		virtual bool DrawMeshInstanced(MeshObject *, Material *, InstanceBuffer *) override final;
 
-		virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) override final;
+		virtual Material *CreateMaterial(const std::string &, const MaterialDescriptor &, const RenderStateDesc &) override final;
+		virtual Material *CloneMaterial(const Material *, const MaterialDescriptor &, const RenderStateDesc &) override final;
 		virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override final;
-		virtual RenderState *CreateRenderState(const RenderStateDesc &) override final;
 		virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) override final;
 		virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &) override final;
-		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override final;
+		virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage, IndexBufferSize) override final;
 		virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override final;
+		virtual UniformBuffer *CreateUniformBuffer(Uint32 size, BufferUsage) override final;
+		virtual MeshObject *CreateMeshObject(VertexBuffer *v, IndexBuffer *i) override final;
+		virtual MeshObject *CreateMeshObjectFromArray(const VertexArray *v, IndexBuffer *i = nullptr, BufferUsage u = BUFFER_USAGE_STATIC) override final;
+
+		virtual const RenderStateDesc &GetMaterialRenderState(const Graphics::Material *m) override final;
+
+		OGL::UniformBuffer *GetLightUniformBuffer();
+		OGL::UniformLinearBuffer *GetDrawUniformBuffer(Uint32 size);
+		OGL::RenderStateCache *GetStateCache() { return m_renderStateCache.get(); }
 
 		virtual bool ReloadShaders() override final;
 
 		virtual bool Screendump(ScreendumpState &sd) override final;
 		virtual bool FrameGrab(ScreendumpState &sd) override final;
 
+		bool DrawMeshInternal(OGL::MeshObject *, PrimitiveType type);
+		bool DrawMeshInstancedInternal(OGL::MeshObject *, OGL::InstanceBuffer *, PrimitiveType type);
+		bool DrawMeshDynamicInternal(BufferBinding<OGL::VertexBuffer> vtxBind, BufferBinding<OGL::IndexBuffer> idxBind, PrimitiveType type);
+
 	protected:
-		virtual void PushState() override final;
-		virtual void PopState() override final;
+		virtual void PushState() override final{};
+		virtual void PopState() override final{};
+
+		size_t m_frameNum;
 
 		Uint32 m_numLights;
 		Uint32 m_numDirLights;
-		std::vector<GLuint> m_vertexAttribsSet;
 		float m_minZNear;
 		float m_maxZFar;
 		bool m_useCompressedTextures;
 		bool m_useAnisotropicFiltering;
 
-		void SetMaterialShaderTransforms(Material *);
-
-		matrix4x4f &GetCurrentTransform() { return m_currentTransform; }
-		matrix4x4f m_currentTransform;
-
-		OGL::Program *GetOrCreateProgram(OGL::Material *);
-		friend class OGL::Material;
-		friend class OGL::GasGiantSurfaceMaterial;
-		friend class OGL::GeoSphereSurfaceMaterial;
-		friend class OGL::GeoSphereSkyMaterial;
-		friend class OGL::GeoSphereStarMaterial;
-		friend class OGL::GenGasGiantColourMaterial;
-		friend class OGL::MultiMaterial;
-		friend class OGL::LitMultiMaterial;
-		friend class OGL::RingMaterial;
-		friend class OGL::FresnelColourMaterial;
-		friend class OGL::ShieldMaterial;
-		friend class OGL::BillboardMaterial;
-		std::vector<std::pair<MaterialDescriptor, OGL::Program *>> m_programs;
-		std::unordered_map<Uint32, OGL::RenderState *> m_renderStates;
+		// TODO: iterate shaderdef files on startup and cache by Shader name directive rather than filename fragment
+		std::vector<std::pair<std::string, OGL::Shader *>> m_shaders;
+		std::vector<std::unique_ptr<OGL::UniformLinearBuffer>> m_drawUniformBuffers;
+		std::unique_ptr<OGL::RenderStateCache> m_renderStateCache;
+		RefCountedPtr<OGL::UniformBuffer> m_lightUniformBuffer;
 		bool m_useNVDepthRanged;
-		float m_invLogZfarPlus1;
 		OGL::RenderTarget *m_activeRenderTarget = nullptr;
 		OGL::RenderTarget *m_windowRenderTarget = nullptr;
-		RenderState *m_activeRenderState = nullptr;
+		std::unique_ptr<OGL::CommandList> m_drawCommandList;
 
 		matrix4x4f m_modelViewMat;
 		matrix4x4f m_projectionMat;
-		Viewport m_viewport;
+		ViewportExtents m_viewport;
+		Color m_clearColor;
 
 	private:
 		static bool initted;
 
-		typedef std::map<std::pair<AttributeSet, size_t>, RefCountedPtr<VertexBuffer>> AttribBufferMap;
-		typedef AttribBufferMap::iterator AttribBufferIter;
-		static AttribBufferMap s_AttribBufferMap;
+		struct DynamicBufferData {
+			AttributeSet attrs;
+			OGL::CachedVertexBuffer *vtxBuffer;
+			RefCountedPtr<MeshObject> mesh;
+		};
+
+		using DynamicBufferMap = std::vector<DynamicBufferData>;
+		static DynamicBufferMap s_DynamicDrawBufferMap;
 
 		SDL_GLContext m_glContext;
 	};
 #define CHECKERRORS() RendererOGL::CheckErrors(__FUNCTION__, __LINE__)
 
 } // namespace Graphics
-
-#endif

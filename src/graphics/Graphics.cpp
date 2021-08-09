@@ -6,6 +6,7 @@
 #include "Material.h"
 #include "Renderer.h"
 #include "StringF.h"
+#include "graphics/RenderState.h"
 #include "utils.h"
 #include <iterator>
 #include <sstream>
@@ -88,7 +89,7 @@ namespace Graphics {
 		};
 
 		// viewport coord * size + position
-		const Viewport &vp = r->GetViewport();
+		const ViewportExtents &vp = r->GetViewport();
 		return vector3d{
 			vVP.x * vp.w + vp.x,
 			vVP.y * vp.h + vp.y,
@@ -150,10 +151,7 @@ namespace Graphics {
 
 		initted = true;
 
-		MaterialDescriptor desc;
-		desc.effect = EFFECT_VTXCOLOR;
-		desc.vertexColors = true;
-		vtxColorMaterial = renderer->CreateMaterial(desc);
+		vtxColorMaterial = renderer->CreateMaterial("vtxColor", MaterialDescriptor(), RenderStateDesc());
 		vtxColorMaterial->IncRefCount();
 
 		return renderer;

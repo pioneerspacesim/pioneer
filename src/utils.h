@@ -133,6 +133,18 @@ inline bool ends_with_ci(const std::string_view s, const std::string_view t)
 	return true;
 }
 
+inline bool compare_ci(const std::string_view s, const std::string_view t)
+{
+	if (s.size() != t.size())
+		return false;
+
+	for (size_t i = 0; i < s.size(); i++)
+		if (tolower(s.data()[i]) != tolower(t.data()[i]))
+			return false;
+
+	return true;
+}
+
 static inline size_t SplitSpec(const std::string &spec, std::vector<int> &output)
 {
 	static const std::string delim(",");

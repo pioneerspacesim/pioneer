@@ -14,7 +14,9 @@
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
+#include "graphics/Material.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "graphics/opengl/RendererGL.h"
 #include "lua/Lua.h"
@@ -29,6 +31,7 @@
 #include <iterator>
 
 #include "Pi.h"
+#include "scenegraph/Node.h"
 
 //default options
 ModelViewer::Options::Options() :
@@ -37,6 +40,7 @@ ModelViewer::Options::Options() :
 	showDockingLocators(false),
 	showCollMesh(false),
 	showAabb(false),
+	showGeomBBox(false),
 	showShields(false),
 	showGrid(false),
 	showLandingPad(false),
@@ -126,7 +130,9 @@ void ModelViewerApp::Shutdown()
 	NavLights::Uninit();
 	Graphics::Uninit();
 
+	ShutdownPiGui();
 	ShutdownRenderer();
+	ShutdownInput();
 	Application::Shutdown();
 }
 
@@ -168,11 +174,17 @@ ModelViewer::ModelViewer(ModelViewerApp *app, LuaManager *lm) :
 	onModelChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnModelChanged));
 	SetupAxes();
 
+	Graphics::MaterialDescriptor desc;
+
 	//for grid, background
 	Graphics::RenderStateDesc rsd;
 	rsd.depthWrite = false;
 	rsd.cullMode = Graphics::CULL_NONE;
-	m_bgState = m_renderer->CreateRenderState(rsd);
+	rsd.primitiveType = Graphics::TRIANGLES;
+	m_bgMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
+
+	rsd.primitiveType = Graphics::LINE_SINGLE;
+	m_gridMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
 }
 
 void ModelViewer::Start()
@@ -189,9 +201,7 @@ void ModelViewer::End()
 void ModelViewer::ReloadModel()
 {
 	AddLog(stringf("Reloading model %0", m_modelName));
-	//camera is not reset, it would be annoying when
-	//tweaking materials
-	SetModel(m_modelName);
+	m_requestedModelName = m_modelName;
 	m_resetLogScroll = true;
 }
 
@@ -370,7 +380,7 @@ void ModelViewer::DrawBackground()
 	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, 0.f, 1.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	if (!m_bgBuffer.Valid()) {
+	if (!m_bgMesh) {
 		const Color top = Color::BLACK;
 		const Color bottom = Color(28, 31, 36);
 		Graphics::VertexArray bgArr(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 6);
@@ -383,20 +393,10 @@ void ModelViewer::DrawBackground()
 		bgArr.Add(vector3f(1.f, 1.f, 0.f), top);
 		bgArr.Add(vector3f(0.f, 1.f, 0.f), top);
 
-		Graphics::VertexBufferDesc vbd;
-		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
-		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
-		vbd.numVertices = 6;
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-
-		// VertexBuffer
-		m_bgBuffer.Reset(m_renderer->CreateVertexBuffer(vbd));
-		m_bgBuffer->Populate(bgArr);
+		m_bgMesh.reset(m_renderer->CreateMeshObjectFromArray(&bgArr));
 	}
 
-	m_renderer->DrawBuffer(m_bgBuffer.Get(), m_bgState, Graphics::vtxColorMaterial, Graphics::TRIANGLES);
+	m_renderer->DrawMesh(m_bgMesh.get(), m_bgMaterial.get());
 }
 
 //Draw grid and axes
@@ -430,7 +430,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 
 	m_renderer->SetTransform(trans);
 	m_gridLines.SetData(points.size(), &points[0], Color(128, 128, 128));
-	m_gridLines.Draw(m_renderer, m_bgState);
+	m_gridLines.Draw(m_renderer, m_gridMaterial.get());
 
 	// industry-standard red/green/blue XYZ axis indiactor
 	m_renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(radius));
@@ -443,11 +443,14 @@ void ModelViewer::DrawModel(const matrix4x4f &mv)
 
 	m_model->UpdateAnimations();
 
+	// this causes all debug visuals to be re-generated each frame, useful when scrubbing animations
+	// also a good incentive to make your debug visuals *fast*
 	m_model->SetDebugFlags(
 		(m_options.showAabb ? SceneGraph::Model::DEBUG_BBOX : 0x0) |
 		(m_options.showCollMesh ? SceneGraph::Model::DEBUG_COLLMESH : 0x0) |
 		(m_options.showTags ? SceneGraph::Model::DEBUG_TAGS : 0x0) |
 		(m_options.showDockingLocators ? SceneGraph::Model::DEBUG_DOCKING : 0x0) |
+		(m_options.showGeomBBox ? SceneGraph::Model::DEBUG_GEOMBBOX : 0x0) |
 		(m_options.wireframe ? SceneGraph::Model::DEBUG_WIREFRAME : 0x0));
 
 	m_model->Render(mv);
@@ -456,6 +459,12 @@ void ModelViewer::DrawModel(const matrix4x4f &mv)
 
 void ModelViewer::Update(float deltaTime)
 {
+	// if we've requested a different model then switch too it
+	if (!m_requestedModelName.empty()) {
+		SetModel(m_requestedModelName);
+		m_requestedModelName.clear();
+	}
+
 	HandleInput();
 
 	UpdateLights();
@@ -531,13 +540,6 @@ void ModelViewer::Update(float deltaTime)
 	if (m_screenshotQueued) {
 		m_screenshotQueued = false;
 		Screenshot();
-	}
-
-	// if we've requested a different model then switch too it
-	if (!m_requestedModelName.empty()) {
-		SetModel(m_requestedModelName);
-		ResetCamera();
-		m_requestedModelName.clear();
 	}
 }
 
@@ -624,6 +626,7 @@ void ModelViewer::HandleInput()
 	if (m_input->IsKeyPressed(SDLK_ESCAPE)) {
 		if (m_model) {
 			ClearModel();
+			ResetCamera();
 			UpdateModelList();
 			UpdateDecalList();
 		} else {
@@ -985,6 +988,7 @@ void ModelViewer::DrawModelOptions()
 	ImGui::Checkbox("Show Scale Model", &m_options.showLandingPad);
 	ImGui::Checkbox("Show Collision Mesh", &m_options.showCollMesh);
 	m_options.showAabb = m_options.showCollMesh;
+	ImGui::Checkbox("Show Geometry Bounds", &m_options.showGeomBBox);
 	ImGui::Checkbox("Show Tags", &m_options.showTags);
 	m_options.showDockingLocators = m_options.showTags;
 

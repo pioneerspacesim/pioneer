@@ -3,12 +3,16 @@
 
 #include "Program.h"
 #include "FileSystem.h"
+#include "Shader.h"
 #include "StringF.h"
 #include "StringRange.h"
 #include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+#include "graphics/Types.h"
 #include "utils.h"
 
 #include <set>
+#include <sstream>
 
 namespace Graphics {
 
@@ -18,7 +22,6 @@ namespace Graphics {
 		// #version 150 for OpenGL3.2
 		// #version 330 for OpenGL3.3
 		static const char *s_glslVersion = "#version 140\n";
-		GLuint Program::s_curProgram = 0;
 
 		// Check and warn about compile & link errors
 		static bool check_glsl_errors(const char *filename, GLuint obj)
@@ -41,7 +44,7 @@ namespace Graphics {
 				glGetProgramiv(obj, GL_LINK_STATUS, &status);
 
 			if (status == GL_FALSE) {
-				Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
+				Log::Error("Error compiling shader: {}:\n {}\n OpenGL vendor: {}\nOpenGL renderer string: {}",
 					filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 				return false;
 			}
@@ -67,7 +70,7 @@ namespace Graphics {
 			// this is not a good use for OS::Warning
 #ifndef NDEBUG
 			if (infologLength > 0) {
-				if (pi_strcasestr("infoLog", "warning"))
+				if (pi_strcasestr(infoLog, "warning"))
 					Output("%s: %s", filename, infoLog);
 			}
 #endif
@@ -75,8 +78,14 @@ namespace Graphics {
 			return true;
 		}
 
-		struct Shader {
-			Shader(GLenum type, const std::string &filename, const std::string &defines)
+		// ShaderProgram is a helper class to wrap fragment/vertex shader
+		// creation. The hierarchy is conceptually:
+		//   Shader ->
+		//     Program ->
+		//       ShaderProgram (vertex)
+		//       ShaderProgram (fragment)
+		struct ShaderProgram {
+			ShaderProgram(GLenum type, const std::string &filename, const std::string &defines)
 			{
 				RefCountedPtr<FileSystem::FileData> filecode = FileSystem::gameDataFiles.ReadFile(filename);
 
@@ -153,20 +162,23 @@ namespace Graphics {
 #endif
 				shader = glCreateShader(type);
 				if (glIsShader(shader) != GL_TRUE)
-					throw ShaderException();
+					throw ShaderCompileException();
 
 				Compile(shader);
 
-				if (!check_glsl_errors(filename.c_str(), shader))
-					throw ShaderException();
+				if (!check_glsl_errors(filename.c_str(), shader)) {
+					glDeleteShader(shader);
+					shader = 0;
+				}
 			};
 
-			~Shader()
+			~ShaderProgram()
 			{
-				glDeleteShader(shader);
+				if (shader)
+					glDeleteShader(shader);
 			}
 
-			GLuint shader;
+			GLuint shader = 0;
 
 		private:
 			void AppendSource(const char *str)
@@ -193,126 +205,114 @@ namespace Graphics {
 			std::set<std::string> previousIncludes;
 		};
 
-		Program::Program() :
-			m_name(""),
-			m_defines(""),
-			m_program(0),
-			success(false)
-		{
-		}
+		// ====================================================================
+		// Program Setup and Creation
+		//
 
-		Program::Program(const std::string &name, const std::string &defines) :
-			m_name(name),
-			m_defines(defines),
+		Program::Program(Shader *shader, const ProgramDef &def) :
 			m_program(0),
 			success(false)
 		{
-			LoadShaders(name, defines);
-			InitUniforms();
+			m_program = LoadShaders(def);
+			if (success)
+				InitUniforms(shader);
 		}
 
 		Program::~Program()
 		{
-			glDeleteProgram(m_program);
+			if (m_program)
+				glDeleteProgram(m_program);
 		}
 
-		void Program::Reload()
+		void Program::Reload(Shader *shader, const ProgramDef &def)
 		{
-			Unuse();
-			glDeleteProgram(m_program);
-			LoadShaders(m_name, m_defines);
-			InitUniforms();
-		}
-
-		void Program::Use()
-		{
-			if (s_curProgram != m_program)
-				glUseProgram(m_program);
-			s_curProgram = m_program;
-		}
-
-		void Program::Unuse()
-		{
-			glUseProgram(0);
-			s_curProgram = 0;
+			GLuint newProg = LoadShaders(def);
+			if (newProg) {
+				glDeleteProgram(m_program);
+				m_program = newProg;
+				InitUniforms(shader);
+			}
 		}
 
 		//load, compile and link
-		void Program::LoadShaders(const std::string &name, const std::string &defines)
+		GLuint Program::LoadShaders(const ProgramDef &def)
 		{
 			PROFILE_SCOPED()
-			const std::string filename = std::string("shaders/opengl/") + name;
 
 			//load, create and compile shaders
-			Shader vs(GL_VERTEX_SHADER, filename + ".vert", defines);
-			Shader fs(GL_FRAGMENT_SHADER, filename + ".frag", defines);
+			ShaderProgram vs(GL_VERTEX_SHADER, def.vertexShader, def.defines);
+			ShaderProgram fs(GL_FRAGMENT_SHADER, def.fragmentShader, def.defines);
+
+			if (!vs.shader || !fs.shader) {
+				Log::Warning("Error loading GLSL shaders for program {}\n", def.name);
+				success = false;
+				return 0;
+			}
 
 			//create program, attach shaders and link
-			m_program = glCreateProgram();
-			if (glIsProgram(m_program) != GL_TRUE)
+			GLuint program = glCreateProgram();
+			if (glIsProgram(program) != GL_TRUE)
 				throw ProgramException();
 
-			glAttachShader(m_program, vs.shader);
-
-			glAttachShader(m_program, fs.shader);
+			glAttachShader(program, vs.shader);
+			glAttachShader(program, fs.shader);
 
 			//extra attribs, if they exist
-			glBindAttribLocation(m_program, 0, "a_vertex");
-			glBindAttribLocation(m_program, 1, "a_normal");
-			glBindAttribLocation(m_program, 2, "a_color");
-			glBindAttribLocation(m_program, 3, "a_uv0");
-			glBindAttribLocation(m_program, 4, "a_uv1");
-			glBindAttribLocation(m_program, 5, "a_tangent");
-			glBindAttribLocation(m_program, 6, "a_transform");
+			glBindAttribLocation(program, 0, "a_vertex");
+			glBindAttribLocation(program, 1, "a_normal");
+			glBindAttribLocation(program, 2, "a_color");
+			glBindAttribLocation(program, 3, "a_uv0");
+			glBindAttribLocation(program, 4, "a_uv1");
+			glBindAttribLocation(program, 5, "a_tangent");
+			glBindAttribLocation(program, 6, "a_transform");
 			// a_transform @ 6 shadows (uses) 7, 8, and 9
 			// next available is layout (location = 10)
 
-			glBindFragDataLocation(m_program, 0, "frag_color");
+			// TODO: setup fragment output locations from shaderdef attributes
+			glBindFragDataLocation(program, 0, "frag_color");
 
-			glLinkProgram(m_program);
+			glLinkProgram(program);
+			success = check_glsl_errors(def.name.c_str(), program);
 
-			success = check_glsl_errors(name.c_str(), m_program);
-
-			//shaders may now be deleted by Shader destructor
-		}
-
-		void Program::InitUniforms()
-		{
-			PROFILE_SCOPED()
-			//Init generic uniforms, like matrices
-			uProjectionMatrix.Init("uProjectionMatrix", m_program);
-			uViewMatrix.Init("uViewMatrix", m_program);
-			uViewMatrixInverse.Init("uViewMatrixInverse", m_program);
-			uViewProjectionMatrix.Init("uViewProjectionMatrix", m_program);
-			uNormalMatrix.Init("uNormalMatrix", m_program);
-
-			//Light uniform parameters
-			char cLight[64];
-			for (int i = 0; i < 4; i++) {
-				snprintf(cLight, 64, "uLight[%d]", i);
-				const std::string strLight(cLight);
-				lights[i].diffuse.Init((strLight + ".diffuse").c_str(), m_program);
-				lights[i].specular.Init((strLight + ".specular").c_str(), m_program);
-				lights[i].position.Init((strLight + ".position").c_str(), m_program);
+			if (!success) {
+				glDeleteProgram(program);
+				return 0;
 			}
 
-			invLogZfarPlus1.Init("invLogZfarPlus1", m_program);
-			diffuse.Init("material.diffuse", m_program);
-			emission.Init("material.emission", m_program);
-			specular.Init("material.specular", m_program);
-			shininess.Init("material.shininess", m_program);
-			texture0.Init("texture0", m_program);
-			texture1.Init("texture1", m_program);
-			texture2.Init("texture2", m_program);
-			texture3.Init("texture3", m_program);
-			texture4.Init("texture4", m_program);
-			texture5.Init("texture5", m_program);
-			texture6.Init("texture6", m_program);
-			heatGradient.Init("heatGradient", m_program);
-			heatingMatrix.Init("heatingMatrix", m_program);
-			heatingNormal.Init("heatingNormal", m_program);
-			heatingAmount.Init("heatingAmount", m_program);
-			sceneAmbient.Init("scene.ambient", m_program);
+			//shaders may now be deleted by Shader destructor
+			return program;
+		}
+
+		void Program::InitUniforms(Shader *shader)
+		{
+			glUseProgram(m_program);
+
+			// Bind texture sampler locations to texture units
+			for (auto &texInfo : shader->GetTextureBindings()) {
+				GLuint location = glGetUniformLocation(m_program, shader->GetString(texInfo.name).c_str());
+				if (location == GL_INVALID_INDEX)
+					continue;
+
+				glUniform1i(location, texInfo.binding);
+			}
+
+			// Bind uniform buffer blocks to buffer binding points
+			for (auto &bufInfo : shader->GetBufferBindings()) {
+				GLuint location = glGetUniformBlockIndex(m_program, shader->GetString(bufInfo.name).c_str());
+				if (location == GL_INVALID_INDEX)
+					continue;
+
+				glUniformBlockBinding(m_program, location, bufInfo.binding);
+			}
+
+			// Build the table of active push constants and their uniform locations
+			m_constants.resize(shader->GetNumPushConstants());
+			for (auto &conInfo : shader->GetPushConstantBindings()) {
+				GLuint location = glGetUniformLocation(m_program, shader->GetString(conInfo.name).c_str());
+				m_constants[conInfo.index] = location;
+			}
+
+			glUseProgram(0);
 		}
 
 	} // namespace OGL

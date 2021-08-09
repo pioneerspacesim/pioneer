@@ -76,5 +76,4 @@ private:
 
 	std::unique_ptr<Graphics::Renderer> m_renderer;
 	std::unique_ptr<Graphics::RenderTarget> m_renderTarget;
-	std::unique_ptr<Graphics::RenderState> m_renderState;
 };

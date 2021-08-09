@@ -9,7 +9,6 @@
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
-#include "gui/Gui.h"
 #include "pigui/PiGuiView.h"
 #include <set>
 #include <string>
@@ -17,10 +16,7 @@
 
 class Game;
 class Galaxy;
-
-namespace Graphics {
-	class RenderState;
-}
+class ImDrawList;
 
 class SectorView : public PiGuiView, public DeleteEmitter {
 public:
@@ -29,8 +25,9 @@ public:
 	~SectorView() override;
 
 	void Update() override;
-	void ShowAll() override;
+	// void ShowAll() override;
 	void Draw3D() override;
+
 	vector3f GetPosition() const { return m_pos; }
 	SystemPath GetCurrent() const { return m_current; }
 	SystemPath GetSelected() const { return m_selected; }
@@ -102,22 +99,6 @@ private:
 	void InitDefaults();
 	void InitObject();
 
-	struct DistanceIndicator {
-		Gui::Label *label;
-		Graphics::Drawables::Line3D *line;
-		Color okayColor;
-		Color unsuffFuelColor;
-		Color outOfRangeColor;
-	};
-
-	struct SystemLabels {
-		Gui::Label *systemName;
-		Gui::Label *sector;
-		DistanceIndicator distance;
-		Gui::Label *starType;
-		Gui::Label *shortDesc;
-	};
-
 	void DrawNearSectors(const matrix4x4f &modelview);
 	void DrawNearSector(const int sx, const int sy, const int sz, const matrix4x4f &trans);
 	void PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &origin, int drawRadius);
@@ -167,16 +148,12 @@ private:
 	bool m_drawOutRangeLabels;
 	bool m_drawVerticalLines;
 
-	std::unique_ptr<Graphics::Drawables::Disk> m_disk;
-
-	Gui::LabelSet *m_clickableLabels;
+	//Gui::LabelSet *m_clickableLabels;
 
 	std::set<const Faction *> m_visibleFactions;
 	std::set<const Faction *> m_hiddenFactions;
 
 	Uint8 m_detailBoxVisible;
-
-	void OnToggleFaction(Gui::ToggleButton *button, bool pressed, const Faction *faction);
 
 	sigc::connection m_onMouseWheelCon;
 	sigc::connection m_onToggleSelectionFollowView;
@@ -188,24 +165,15 @@ private:
 	std::string m_previousSearch;
 
 	float m_playerHyperspaceRange;
-	Graphics::Drawables::Line3D m_selectedLine;
-	Graphics::Drawables::Line3D m_secondLine;
-	Graphics::Drawables::Line3D m_jumpLine;
 
 	// HyperJump Route Planner Stuff
 	std::vector<SystemPath> m_route;
-	Graphics::Drawables::Lines m_routeLines;
+
 	bool m_drawRouteLines;
 	bool m_setupRouteLines;
 	void DrawRouteLines(const matrix4x4f &trans);
 	void SetupRouteLines(const vector3f &playerAbsPos);
 	void GetPlayerPosAndStarSize(vector3f &playerPosOut, float &currentStarSizeOut);
-
-	Graphics::RenderState *m_solidState;
-	Graphics::RenderState *m_alphaBlendState;
-	Graphics::RenderState *m_jumpSphereState;
-	RefCountedPtr<Graphics::Material> m_material; //flat colour
-	RefCountedPtr<Graphics::Material> m_starMaterial;
 
 	std::vector<vector3f> m_farstars;
 	std::vector<Color> m_farstarsColor;
@@ -221,14 +189,22 @@ private:
 	int m_cacheZMin;
 	int m_cacheZMax;
 
+	std::unique_ptr<ImDrawList> m_drawList;
+
 	std::unique_ptr<Graphics::VertexArray> m_lineVerts;
 	std::unique_ptr<Graphics::VertexArray> m_secLineVerts;
-	RefCountedPtr<Graphics::Material> m_fresnelMat;
-	std::unique_ptr<Graphics::Drawables::Sphere3D> m_jumpSphere;
 	std::unique_ptr<Graphics::VertexArray> m_starVerts;
+
+	RefCountedPtr<Graphics::Material> m_starMaterial;
+	RefCountedPtr<Graphics::Material> m_fresnelMat;
+	RefCountedPtr<Graphics::Material> m_lineMat;
+	RefCountedPtr<Graphics::Material> m_farStarsMat;
+
+	std::unique_ptr<Graphics::Drawables::Sphere3D> m_jumpSphere;
 
 	Graphics::Drawables::Lines m_lines;
 	Graphics::Drawables::Lines m_sectorlines;
+	Graphics::Drawables::Lines m_routeLines;
 	Graphics::Drawables::Points m_farstarsPoints;
 };
 

@@ -1,0 +1,9 @@
+## Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
+## Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+Shader geosphere_star
+
+Buffer DrawData binding=1
+
+Vertex "geosphere_star.vert"
+Fragment "geosphere_star.frag"

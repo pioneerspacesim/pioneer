@@ -76,7 +76,7 @@ namespace Perf {
 	private:
 		struct Counter {
 			Counter(bool reset) :
-				resetOnNewFrame(reset){};
+				ctr(0), resetOnNewFrame(reset){};
 			// mutable because the only thing we're modifying via non-const references is the atomic counters
 			mutable std::atomic<uint32_t> ctr;
 			bool resetOnNewFrame;

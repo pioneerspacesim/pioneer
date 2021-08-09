@@ -33,8 +33,11 @@ namespace Log {
 		Severity GetSeverity() { return m_maxSeverity; }
 		void SetSeverity(Severity sv) { m_maxSeverity = sv; }
 
-		Severity GetFileSeverity() { return m_maxSeverity; }
+		Severity GetFileSeverity() { return m_maxFileSeverity; }
 		void SetFileSeverity(Severity sv) { m_maxFileSeverity = sv; }
+
+		Severity GetMsgSeverity() { return m_maxMsgSeverity; }
+		void SetMsgSeverity(Severity sv) { m_maxMsgSeverity = sv; }
 
 		void IncreaseIndent() { current_indent += 1; }
 		void DecreaseIndent()
@@ -50,6 +53,7 @@ namespace Log {
 		FILE *file;
 		Severity m_maxSeverity = Severity::Info;
 		Severity m_maxFileSeverity = Severity::Verbose;
+		Severity m_maxMsgSeverity = Severity::Error;
 		uint8_t current_indent;
 		std::string m_logName;
 	};

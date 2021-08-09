@@ -6,8 +6,9 @@
 
 #include <SDL_stdinc.h>
 
-#include "vector3.h"
+#include "Color.h"
 #include "graphics/VertexBuffer.h"
+#include "vector3.h"
 
 #include <deque>
 
@@ -61,7 +62,6 @@ private:
 	static int m_prevEdgeLen;
 
 	static void GenerateIndices();
-
 };
 
 #endif /* _GEOPATCHCONTEXT_H */

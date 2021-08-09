@@ -8,10 +8,8 @@
 
 namespace Graphics {
 
-	typedef Uint32 AttributeSet;
-
 	//Vertex attribute semantic
-	enum VertexAttrib {
+	enum VertexAttrib : uint8_t {
 		ATTRIB_NONE = 0,
 		ATTRIB_POSITION = (1u << 0),
 		ATTRIB_NORMAL = (1u << 1),
@@ -20,15 +18,48 @@ namespace Graphics {
 		//ATTRIB_UV1       = (1u << 4),
 		ATTRIB_TANGENT = (1u << 5),
 		//ATTRIB_BITANGENT = (1u << 6)
+		ATTRIB_POSITION2D = (1u << 7),
 		//etc.
 	};
 
-	enum VertexAttribFormat {
+	// typedef Uint32 AttributeSet;
+
+	struct AttributeSet {
+		AttributeSet() :
+			m_attr(0) {}
+		AttributeSet(VertexAttrib attr) :
+			m_attr(attr) {}
+		AttributeSet(uint32_t attr) :
+			m_attr(attr) {}
+		AttributeSet &operator=(uint32_t rhs)
+		{
+			m_attr = rhs;
+			return *this;
+		}
+		operator uint32_t() const { return m_attr; }
+
+		inline bool HasAttrib(uint32_t attr) const { return (m_attr & attr) == attr; }
+
+	private:
+		uint32_t m_attr;
+	};
+
+	enum VertexAttribFormat : uint8_t {
 		ATTRIB_FORMAT_NONE = 0,
 		ATTRIB_FORMAT_FLOAT2,
 		ATTRIB_FORMAT_FLOAT3,
 		ATTRIB_FORMAT_FLOAT4,
 		ATTRIB_FORMAT_UBYTE4
+	};
+
+	enum ConstantDataFormat : uint8_t {
+		DATA_FORMAT_NONE = 0,
+		DATA_FORMAT_INT,
+		DATA_FORMAT_FLOAT,
+		DATA_FORMAT_FLOAT3,
+		DATA_FORMAT_FLOAT4,
+		DATA_FORMAT_MAT3,
+		DATA_FORMAT_MAT4
 	};
 
 	enum BufferUsage {
@@ -40,6 +71,11 @@ namespace Graphics {
 		BUFFER_MAP_NONE,
 		BUFFER_MAP_WRITE,
 		BUFFER_MAP_READ
+	};
+
+	enum IndexBufferSize {
+		INDEX_BUFFER_16BIT,
+		INDEX_BUFFER_32BIT
 	};
 
 	// clang-format off

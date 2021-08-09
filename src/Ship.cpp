@@ -26,6 +26,7 @@
 #include "WorldView.h"
 #include "collider/CollisionContact.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Types.h"
 #include "lua/LuaEvent.h"
 #include "lua/LuaObject.h"
 #include "lua/LuaUtils.h"
@@ -34,9 +35,13 @@
 #include "ship/PlayerShipController.h"
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
-HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 const double Ship::DEFAULT_LIFT_TO_DRAG_RATIO = 0.001;
+
+namespace {
+	size_t s_heatingNormalParam;
+	size_t s_heatGradientTexParam;
+} // namespace
 
 Ship::Ship(const ShipType::Id &shipId) :
 	DynamicBody(),
@@ -327,16 +332,18 @@ void Ship::InitEquipSet()
 
 void Ship::InitMaterials()
 {
+	s_heatingNormalParam = Graphics::Renderer::GetName("heatingNormal");
+	s_heatGradientTexParam = Graphics::Renderer::GetName("heatGradient");
+
 	SceneGraph::Model *pModel = GetModel();
 	assert(pModel);
+
+	Graphics::Texture *tex = Graphics::TextureBuilder::Decal("textures/heat_gradient.dds").GetOrCreateTexture(Pi::renderer, "model");
 	const Uint32 numMats = pModel->GetNumMaterials();
 	for (Uint32 m = 0; m < numMats; m++) {
 		RefCountedPtr<Graphics::Material> mat = pModel->GetMaterialByIndex(m);
-		mat->heatGradient = Graphics::TextureBuilder::Decal("textures/heat_gradient.dds").GetOrCreateTexture(Pi::renderer, "model");
-		mat->specialParameter0 = &s_heatGradientParams;
+		mat->SetTexture(s_heatGradientTexParam, tex);
 	}
-	s_heatGradientParams.heatingAmount = 0.0f;
-	s_heatGradientParams.heatingNormal = vector3f(0.0f, -1.0f, 0.0f);
 }
 
 void Ship::SetController(ShipController *c)
@@ -1488,9 +1495,14 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	GetPropulsion()->Render(renderer, camera, viewCoords, viewTransform);
 
-	s_heatGradientParams.heatingMatrix = matrix3x3f(viewTransform.Inverse().GetOrient());
-	s_heatGradientParams.heatingNormal = vector3f(GetVelocity().Normalized());
-	s_heatGradientParams.heatingAmount = Clamp(GetHullTemperature(), 0.0, 1.0);
+	// transpose the interpolated orient to convert velocity into shipspace, then into view space
+	// FIXME: this produces a vector oriented to the top of the ship when velocity is forward.
+	vector3f heatingNormal = matrix3x3f(viewTransform.GetOrient()).Inverse().Transpose() * vector3f(GetVelocity().Normalized());
+	float heatingAmount = Clamp(GetHullTemperature(), 0.0, 1.0);
+
+	for (Uint32 m = 0; m < GetModel()->GetNumMaterials(); m++) {
+		GetModel()->GetMaterialByIndex(m)->SetPushConstant(s_heatingNormalParam, heatingNormal, heatingAmount);
+	}
 
 	// This has to be done per-model with a shield and just before it's rendered
 	const bool shieldsVisible = m_shieldCooldown > 0.01f && m_stats.shield_mass_left > (m_stats.shield_mass / 100.0f);
@@ -1503,14 +1515,17 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_SHIPS, 1);
 
 	if (m_ecmRecharge > 0.0f) {
+		constexpr uint32_t NUM_ECM_PARTICLES = 100;
 		// ECM effect: a cloud of particles for a sparkly effect
-		vector3f v[100];
-		for (int i = 0; i < 100; i++) {
+		Graphics::VertexArray particles(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, NUM_ECM_PARTICLES);
+		for (uint32_t i = 0; i < NUM_ECM_PARTICLES; i++) {
 			const double r1 = Pi::rng.Double() - 0.5;
 			const double r2 = Pi::rng.Double() - 0.5;
 			const double r3 = Pi::rng.Double() - 0.5;
-			v[i] = vector3f(GetPhysRadius() * vector3d(r1, r2, r3).NormalizedSafe());
+			vector3f pos(GetPhysRadius() * vector3d(r1, r2, r3).NormalizedSafe());
+			particles.Add(pos, vector3f(0.f, 0.f, 50.f));
 		}
+
 		Color c(128, 128, 255, 255);
 		float totalRechargeTime = GetECMRechargeTime();
 		if (totalRechargeTime >= 0.0f) {
@@ -1519,16 +1534,11 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 		SfxManager::ecmParticle->diffuse = c;
 
-		matrix4x4f t;
-		for (int i = 0; i < 12; i++)
-			t[i] = float(viewTransform[i]);
-		t[12] = viewCoords.x;
-		t[13] = viewCoords.y;
-		t[14] = viewCoords.z;
-		t[15] = 1.0f;
+		matrix4x4f t(viewTransform);
+		t.SetTranslate(vector3f(viewCoords));
 
 		renderer->SetTransform(t);
-		renderer->DrawPointSprites(100, v, SfxManager::additiveAlphaState, SfxManager::ecmParticle.get(), 50.f);
+		renderer->DrawBuffer(&particles, SfxManager::ecmParticle.get());
 	}
 }
 

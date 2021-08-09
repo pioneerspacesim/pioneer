@@ -8,8 +8,6 @@ in vec4 color;
 in vec2 uv;
 in vec3 lightDir;
 
-uniform Scene scene;
-
 out vec4 frag_color;
 
 void main(void)

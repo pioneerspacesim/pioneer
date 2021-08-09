@@ -83,7 +83,7 @@ function TableWidget:render()
     ui.withStyleVars({WindowPadding = self.style.windowPadding, ItemSpacing = self.style.itemSpacing}, function()
         ui.child("Table##" .. self.id, self.style.size, {"AlwaysUseWindowPadding"}, function()
             if self.scrollReset then
-                ui.setScrollHere()
+                ui.setScrollHereY()
                 self.scrollReset = false
             end
 

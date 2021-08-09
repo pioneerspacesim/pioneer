@@ -31,14 +31,8 @@ ObjectViewerView::ObjectViewerView() :
 	m_systemBody(nullptr),
 	m_state{}
 {
-	SetTransparency(true);
 	viewingDist = 1000.0f;
 	m_camRot = matrix4x4d::Identity();
-
-	float size[2];
-	GetSizeRequested(size);
-
-	SetTransparency(true);
 
 	float znear;
 	float zfar;
@@ -171,9 +165,9 @@ void ObjectViewerView::DrawInfoWindow()
 }
 
 namespace ImGui {
-	bool DragDouble(const char *label, double *v, double v_speed = 1.0f, double v_min = 0.0f, double v_max = 0.0f, const char *format = "%.3f", double power = 1.0f)
+	bool DragDouble(const char *label, double *v, double v_speed = 1.0f, double v_min = 0.0f, double v_max = 0.0f, const char *format = "%.3f")
 	{
-		return DragScalar(label, ImGuiDataType_Double, v, v_speed, &v_min, &v_max, format, power);
+		return DragScalar(label, ImGuiDataType_Double, v, v_speed, &v_min, &v_max, format);
 	}
 } // namespace ImGui
 
@@ -283,6 +277,11 @@ void ObjectViewerView::OnChangeTerrain()
 	sbody->m_volatileIces = dtofixed(std::abs(m_state.volatileIces));
 	sbody->m_volcanicity = dtofixed(std::abs(m_state.volcanicity));
 	sbody->m_life = dtofixed(std::abs(m_state.life));
+
+	// FIXME: need a better solution to queue terrain updates for a specific planet
+	// that doesn't involve destroying geopatches while they're being rendered
+	// (and a way run those updates at the right time)
+	Pi::renderer->FlushCommandBuffers();
 
 	// force reload
 	TerrainBody::OnChangeDetailLevel();

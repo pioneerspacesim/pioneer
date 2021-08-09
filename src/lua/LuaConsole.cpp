@@ -14,7 +14,6 @@
 #include "graphics/Graphics.h"
 #include "sigc++/functors/mem_fun.h"
 #include "text/TextSupport.h"
-#include "text/TextureFont.h"
 #include <imgui/imgui.h>
 #include <algorithm>
 #include <sstream>

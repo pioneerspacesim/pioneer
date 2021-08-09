@@ -15,6 +15,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
 #include "perlin.h"
 #include "vcacheopt/vcacheopt.h"
@@ -82,21 +83,13 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		m_needUpdateVBOs = false;
 
 		//create buffer and upload data
-		Graphics::VertexBufferDesc vbd;
-		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
-		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[2].semantic = Graphics::ATTRIB_DIFFUSE;
-		vbd.attrib[2].format = Graphics::ATTRIB_FORMAT_UBYTE4;
-		vbd.attrib[3].semantic = Graphics::ATTRIB_UV0;
-		vbd.attrib[3].format = Graphics::ATTRIB_FORMAT_FLOAT2;
+		auto vbd = Graphics::VertexBufferDesc::FromAttribSet(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 		vbd.numVertices = m_ctx->NUMVERTICES();
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));
+		Graphics::VertexBuffer *vtxBuffer = renderer->CreateVertexBuffer(vbd);
 
-		GeoPatchContext::VBOVertex *VBOVtxPtr = m_vertexBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
-		assert(m_vertexBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
+		GeoPatchContext::VBOVertex *VBOVtxPtr = vtxBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
+		assert(vtxBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
 
 		const Sint32 edgeLen = m_ctx->GetEdgeLen();
 		const double frac = m_ctx->GetFrac();
@@ -236,14 +229,17 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 
 		// ----------------------------------------------------
 		// end of mapping
-		m_vertexBuffer->Unmap();
+		vtxBuffer->Unmap();
+
+		// use the new vertex buffer and the shared index buffer
+		m_patchMesh.reset(renderer->CreateMeshObject(vtxBuffer, m_ctx->GetIndexBuffer()));
 
 		// Don't need this anymore so throw it away
 		m_normals.reset();
 		m_colors.reset();
 
 #ifdef DEBUG_BOUNDING_SPHERES
-		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial(Graphics::MaterialDescriptor()));
+		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial("unlit", Graphics::MaterialDescriptor(), Graphics::RenderStateDesc()));
 		switch (m_depth) {
 		case 0: mat->diffuse = Color::WHITE; break;
 		case 1: mat->diffuse = Color::RED; break;
@@ -251,13 +247,14 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		case 3: mat->diffuse = Color::BLUE; break;
 		default: mat->diffuse = Color::BLACK; break;
 		}
-		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, mat, Pi::renderer->CreateRenderState(Graphics::RenderStateDesc()), 2, m_clipRadius));
+		m_boundsphere.reset(new Graphics::Drawables::Sphere3D(Pi::renderer, mat, 1, m_clipRadius));
 #endif
 	}
 }
 
 // the default sphere we do the horizon culling against
 static const SSphere s_sph;
+static const size_t s_patchDetailName = Graphics::Renderer::GetName("PatchDetailFrequency");
 void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
 {
 	PROFILE_SCOPED()
@@ -287,9 +284,6 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		for (int i = 0; i < NUM_KIDS; i++)
 			m_kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (m_heights) {
-		RefCountedPtr<Graphics::Material> mat = m_geosphere->GetSurfaceMaterial();
-		Graphics::RenderState *rs = m_geosphere->GetSurfRenderState();
-
 		const vector3d relpos = m_clipCentroid - campos;
 		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(relpos)));
 
@@ -297,9 +291,10 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		++Pi::statNumPatches;
 
 		// per-patch detail texture scaling value
-		m_geosphere->GetMaterialParameters().patchDepth = m_depth;
+		const float fDetailFrequency = pow(2.0f, float(m_geosphere->GetMaxDepth()) - float(m_depth));
 
-		renderer->DrawBufferIndexed(m_vertexBuffer.get(), m_ctx->GetIndexBuffer(), rs, mat.Get());
+		m_geosphere->GetSurfaceMaterial()->SetPushConstant(s_patchDetailName, fDetailFrequency);
+		renderer->DrawMesh(m_patchMesh.get(), m_geosphere->GetSurfaceMaterial().Get());
 #ifdef DEBUG_BOUNDING_SPHERES
 		if (m_boundsphere.get()) {
 			renderer->SetWireFrameMode(true);

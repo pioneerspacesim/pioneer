@@ -26,6 +26,8 @@
 #include "core/GuiApplication.h"
 #include "core/Log.h"
 #include "core/OS.h"
+#include "graphics/Material.h"
+#include "graphics/RenderState.h"
 #include "graphics/opengl/RendererGL.h"
 #include "imgui/imgui.h"
 #include "lua/Lua.h"
@@ -49,7 +51,6 @@
 #include "SpaceStation.h"
 #include "Star.h"
 #include "StringF.h"
-#include "SystemInfoView.h"
 #include "Tombstone.h"
 #include "TransferPlanner.h"
 #include "WorldView.h"
@@ -128,10 +129,6 @@ PiGui::Instance *Pi::pigui = nullptr;
 ModelCache *Pi::modelCache;
 Intro *Pi::intro;
 SDLGraphics *Pi::sdl;
-Graphics::RenderTarget *Pi::renderTarget;
-RefCountedPtr<Graphics::Texture> Pi::renderTexture;
-std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
-Graphics::RenderState *Pi::quadRenderState = nullptr;
 bool Pi::isRecordingVideo = false;
 FILE *Pi::ffmpegFile = nullptr;
 
@@ -221,6 +218,7 @@ protected:
 
 	float frame_time_real; // higher resolution than SDL's 1ms, for detailed frame info
 	float phys_time;
+	float pigui_time;
 
 	int frame_stat;
 	int phys_stat;
@@ -272,43 +270,39 @@ void Pi::App::SetStartPath(const SystemPath &startPath)
 void TestGPUJobsSupport()
 {
 	PROFILE_SCOPED()
-	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
-	if (supportsGPUJobs) {
-		Uint32 octaves = 8;
-		for (Uint32 i = 0; i < 6; i++) {
-			std::unique_ptr<Graphics::Material> material;
-			Graphics::MaterialDescriptor desc;
-			desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
-			desc.quality = (octaves << 16) | i;
-			desc.textures = 3;
-			material.reset(Pi::renderer->CreateMaterial(desc));
-			supportsGPUJobs &= material->IsProgramLoaded();
-		}
-		if (!supportsGPUJobs) {
-			// failed - retry
 
-			// reset the GPU jobs flag
-			supportsGPUJobs = true;
+	if (!Pi::config->Int("EnableGPUJobs"))
+		return;
 
-			// retry the shader compilation
-			octaves = 5; // reduce the number of octaves
-			for (Uint32 i = 0; i < 6; i++) {
-				std::unique_ptr<Graphics::Material> material;
-				Graphics::MaterialDescriptor desc;
-				desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
-				desc.quality = (octaves << 16) | i;
-				desc.textures = 3;
-				material.reset(Pi::renderer->CreateMaterial(desc));
-				supportsGPUJobs &= material->IsProgramLoaded();
-			}
+	Uint32 octaves = 8;
+	Graphics::MaterialDescriptor desc;
+	desc.quality = Graphics::MaterialQuality::HAS_OCTAVES | (octaves << 16);
+	desc.textures = 3;
 
-			if (!supportsGPUJobs) {
-				// failed
-				Warning("EnableGPUJobs DISABLED");
-				Pi::config->SetInt("EnableGPUJobs", 0); // disable GPU Jobs
-				Pi::config->Save();
-			}
-		}
+	Graphics::RenderStateDesc rsd;
+	rsd.depthTest = false;
+	rsd.depthWrite = false;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.primitiveType = Graphics::TRIANGLE_STRIP;
+
+	std::unique_ptr<Graphics::Material> mat(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd));
+
+	// failed - retry
+	// reduce the number of octaves
+	if (!mat->IsProgramLoaded()) {
+		octaves = 5;
+		desc.quality = Graphics::MaterialQuality::HAS_OCTAVES | (octaves << 16);
+		mat.reset(Pi::renderer->CreateMaterial("gen_gas_giant_colour", desc, rsd));
+
+		// if this works correctly with fewer octaves, enable the config flag.
+		if (mat->IsProgramLoaded())
+			Pi::config->SetInt("AMD_MESA_HACKS", 1);
+	}
+
+	if (!mat->IsProgramLoaded()) {
+		Log::Warning("EnableGPUJobs is DISABLED: shader compilation produced errors. Check output.txt and opengl.txt.\n");
+		Pi::config->SetInt("EnableGPUJobs", 0);
+		Pi::config->Save();
 	}
 }
 
@@ -439,7 +433,6 @@ void Pi::App::Shutdown()
 	Pi::pigui = nullptr;
 	Lua::UninitModules();
 	Lua::Uninit();
-	Gui::Uninit();
 
 	delete Pi::modelCache;
 
@@ -548,10 +541,6 @@ void StartupScreen::Start()
 
 	// TODO: expose the AddStep interface so Lua::InitModules can granularize its registration
 	AddStep("Lua::InitModules()", &Lua::InitModules);
-
-	AddStep("Gui::Init()", []() {
-		Gui::Init(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 800, 600);
-	});
 
 	AddStep("GalaxyGenerator::Init()", []() {
 		if (Pi::config->HasEntry("GalaxyGenerator"))
@@ -667,6 +656,9 @@ void MainMenu::Start()
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
 	Pi::renderer->SetAmbientColor(Color(51, 51, 51, 255));
+
+	perfInfoDisplay->ClearCounter(PiGui::PerfInfo::COUNTER_PHYS);
+	perfInfoDisplay->ClearCounter(PiGui::PerfInfo::COUNTER_PIGUI);
 }
 
 void MainMenu::Update(float deltaTime)
@@ -675,16 +667,19 @@ void MainMenu::Update(float deltaTime)
 
 	Pi::intro->Draw(deltaTime);
 
+	Pi::renderer->SetRenderTarget(0);
 	Pi::pigui->NewFrame();
 	PiGui::RunHandler(deltaTime, "mainMenu");
 
-	perfInfoDisplay->Update(deltaTime * 1e3, 0.0);
+	perfInfoDisplay->Update(deltaTime);
+
 	if (Pi::showDebugInfo) {
 		Pi::pigui->SetDebugStyle();
 		perfInfoDisplay->Draw();
 		Pi::pigui->SetNormalStyle();
 	}
 
+	Pi::renderer->ClearDepthBuffer();
 	Pi::pigui->Render();
 
 	if (Pi::game) {
@@ -816,18 +811,6 @@ bool Pi::App::HandleEvent(SDL_Event &event)
 {
 	PROFILE_SCOPED()
 
-	// HACK for most keypresses SDL will generate KEYUP/KEYDOWN and TEXTINPUT
-	// events. keybindings run off KEYUP/KEYDOWN. the console is opened/closed
-	// via keybinding. the console TextInput widget uses TEXTINPUT events. thus
-	// after switching the console, the stray TEXTINPUT event causes the
-	// console key (backtick) to appear in the text entry field. we hack around
-	// this by setting this flag if the console was switched. if its set, we
-	// swallow the TEXTINPUT event this hack must remain until we have a
-	// unified input system
-	// This is safely able to be removed once GUI and newUI are gone
-
-	Gui::HandleSDLEvent(&event);
-
 	return false;
 }
 
@@ -844,6 +827,12 @@ void Pi::App::HandleRequests()
 		case InternalRequests::QUIT_GAME: {
 			GetActiveLifecycle()->RequestEndLifecycle();
 			RequestQuit();
+		} break;
+		case InternalRequests::DETAIL_LEVEL_CHANGED: {
+			if (!Pi::game)
+				break;
+
+			BaseSphere::OnChangeDetailLevel();
 		} break;
 		default:
 			Output("Pi::HandleRequests, unhandled request type %d processed.\n", int(request));
@@ -863,14 +852,11 @@ void Pi::App::PreUpdate()
 {
 	PROFILE_SCOPED()
 	Pi::frameTime = DeltaTime();
-
-	GuiApplication::PreUpdate();
 }
 
 void Pi::App::PostUpdate()
 {
 	PROFILE_SCOPED()
-	GuiApplication::PostUpdate();
 
 	RunJobs();
 
@@ -980,7 +966,7 @@ void GameLoop::Update(float deltaTime)
 	// Record physics timestep but keep information about current frame timing.
 	perfTimer.SoftStop();
 	// store the physics time until the end of the frame
-	phys_time = perfTimer.milliseconds();
+	phys_time = perfTimer.milliseconds() / 1.e3;
 
 	// did the player die?
 	if (Pi::game->GetPlayer()->IsDead()) {
@@ -1019,14 +1005,6 @@ void GameLoop::Update(float deltaTime)
 	Pi::luaConsole->HandleTCPDebugConnections();
 #endif
 
-	// Reset the depth buffer so our UI can get drawn right overtop
-	Pi::renderer->ClearDepthBuffer();
-
-	// FIXME: GUI must die!
-	if (Pi::DrawGUI) {
-		Gui::Draw();
-	}
-
 	// Ask ImGui to hide OS cursor if we're capturing it for input:
 	// it will do this if GetMouseCursor == ImGuiMouseCursor_None.
 	if (Pi::input->IsCapturingMouse()) {
@@ -1036,6 +1014,7 @@ void GameLoop::Update(float deltaTime)
 	// TODO: the escape menu depends on HandleEvents() being called before NewFrame()
 	// Move HandleEvents to either the end of the loop or the very start of the loop
 	// The goal is to be able to call imgui functions for debugging inside C++ code
+	perfTimer.SoftReset();
 	Pi::pigui->NewFrame();
 
 	if (Pi::game && !Pi::player->IsDead()) {
@@ -1055,7 +1034,12 @@ void GameLoop::Update(float deltaTime)
 		Pi::pigui->SetNormalStyle();
 	}
 
+	// Reset the depth buffer so our UI can get drawn right overtop
+	Pi::renderer->ClearDepthBuffer();
 	Pi::pigui->Render();
+
+	perfTimer.SoftStop();
+	pigui_time = perfTimer.milliseconds() / 1.e3;
 
 	if (Pi::game->UpdateTimeAccel())
 		accumulator = 0; // fix for huge pauses 10000x -> 1x
@@ -1068,12 +1052,14 @@ void GameLoop::Update(float deltaTime)
 
 	Pi::GetMusicPlayer().Update();
 
-	perfInfoDisplay->Update(frame_time_real, phys_time);
+	perfInfoDisplay->Update(deltaTime);
+	perfInfoDisplay->UpdateCounter(PiGui::PerfInfo::COUNTER_PHYS, phys_time);
+	perfInfoDisplay->UpdateCounter(PiGui::PerfInfo::COUNTER_PIGUI, pigui_time);
+
 	if (Pi::showDebugInfo && SDL_GetTicks() - last_stats >= 1000) {
 		perfInfoDisplay->UpdateFrameInfo(frame_stat, phys_stat);
 		frame_stat = 0;
 		phys_stat = 0;
-		Text::TextureFont::ClearGlyphCount();
 		if (SDL_GetTicks() - last_stats > 1200)
 			last_stats = SDL_GetTicks();
 		else
@@ -1204,7 +1190,7 @@ void Pi::SetView(View *v)
 
 void Pi::OnChangeDetailLevel()
 {
-	BaseSphere::OnChangeDetailLevel();
+	Pi::GetApp()->internalRequests.push_back(App::InternalRequests::DETAIL_LEVEL_CHANGED);
 }
 
 static void OnPlayerDockOrUndock()

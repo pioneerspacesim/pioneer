@@ -19,11 +19,6 @@ out vec3 normal;
 	out vec3 tangent;
 	out vec3 bitangent;
 #endif
-#ifdef HEAT_COLOURING
-	uniform mat3 heatingMatrix;
-	uniform vec3 heatingNormal; // normalised
-	out vec3 heatingDir;
-#endif // HEAT_COLOURING
 #endif
 
 void main(void)
@@ -35,7 +30,9 @@ void main(void)
 #ifdef TEXTURE0
 	texCoord0 = a_uv0.xy;
 #endif
+
 #if (NUM_LIGHTS > 0)
+	mat3 uNormalMatrix = normalMatrix();
 #ifdef USE_INSTANCING
 	eyePos = vec3(uViewMatrix * (a_transform * a_vertex));
 	normal = normalize(uNormalMatrix * (mat3(a_transform) * a_normal));
@@ -52,8 +49,5 @@ void main(void)
 	#endif
 #endif
 
-#ifdef HEAT_COLOURING
-	heatingDir = normalize(heatingMatrix * heatingNormal);
-#endif
 #endif
 }

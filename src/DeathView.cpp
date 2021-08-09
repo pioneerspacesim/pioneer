@@ -15,11 +15,6 @@ DeathView::DeathView(Game *game) :
 	View(),
 	m_game(game)
 {
-	float size[2];
-	GetSizeRequested(size);
-
-	SetTransparency(true);
-
 	float znear;
 	float zfar;
 	Pi::renderer->GetNearFarRange(znear, zfar);

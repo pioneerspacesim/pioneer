@@ -1,81 +1,49 @@
 // Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _GRAPHICS_OGLPROGRAM_H
-#define _GRAPHICS_OGLPROGRAM_H
-/*
- * The new 'Shader' class
- * This is a base class without specific uniforms
- */
+#pragma once
+
 #include "OpenGLLibs.h"
-#include "Uniform.h"
 
 #include <string>
+#include <vector>
 
 namespace Graphics {
 
 	namespace OGL {
 
-		struct ShaderException {};
-
+		struct ShaderCompileException {};
 		struct ProgramException {};
 
+		struct ProgramDef;
+		class Shader;
+
+		/*
+		* A Program is a specific, immutable variant of a shader that maps closely to
+		* the underlying API's terminology (Program, GraphicsPipeline, etc.)
+		*/
 		class Program {
 		public:
-			Program();
-			Program(const std::string &name, const std::string &defines);
-			virtual ~Program();
-			void Reload();
-			virtual void Use();
-			virtual void Unuse();
+			Program(Shader *shader, const ProgramDef &def);
+			~Program();
+
+			void Reload(Shader *shader, const ProgramDef &def);
 			bool Loaded() const { return success; }
 
-			// Uniforms.
-			Uniform uProjectionMatrix;
-			Uniform uViewMatrix;
-			Uniform uViewMatrixInverse;
-			Uniform uViewProjectionMatrix;
-			Uniform uNormalMatrix;
-
-			Uniform invLogZfarPlus1;
-			Uniform diffuse;
-			Uniform emission;
-			Uniform specular;
-			Uniform shininess;
-			Uniform texture0;
-			Uniform texture1;
-			Uniform texture2;
-			Uniform texture3;
-			Uniform texture4;
-			Uniform texture5;
-			Uniform texture6;
-			Uniform heatGradient;
-			Uniform heatingMatrix;
-			Uniform heatingNormal;
-			Uniform heatingAmount;
-
-			Uniform sceneAmbient;
-
-			//Light uniform parameters
-			struct UniformLight {
-				Uniform diffuse;
-				Uniform specular;
-				Uniform position;
-			};
-			UniformLight lights[4];
+			GLuint GetConstantLocation(uint32_t index) const { return m_constants[index]; }
+			GLuint GetProgramID() const { return m_program; }
 
 		protected:
-			static GLuint s_curProgram;
+			GLuint LoadShaders(const ProgramDef &def);
+			void InitUniforms(Shader *shader);
 
-			void LoadShaders(const std::string &, const std::string &defines);
-			virtual void InitUniforms();
-			std::string m_name;
-			std::string m_defines;
 			GLuint m_program;
 			bool success;
+
+			// map of push constant bindings to glUniform locations
+			std::vector<GLuint> m_constants;
 		};
 
 	} // namespace OGL
 
 } // namespace Graphics
-#endif

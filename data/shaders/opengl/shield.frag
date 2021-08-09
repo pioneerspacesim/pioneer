@@ -8,16 +8,13 @@ in vec3 varyingEyepos;
 in vec3 varyingNormal;
 in vec3 varyingVertex;
 
-uniform Scene scene;
-uniform Material material;
-uniform float shieldStrength;
-uniform float shieldCooldown;
+layout(std140) uniform ShieldData {
+	vec4 hits[8];
+	float shieldStrength;
+	float shieldCooldown;
+};
 
-#define MAX_SHIELD_HITS 5
-// hitPos entries should be in object local space
-uniform vec3 hitPos[MAX_SHIELD_HITS];
-uniform float radii[MAX_SHIELD_HITS];
-uniform int numHits;
+uniform int NumHits;
 
 const vec4 red = vec4(1.0, 0.5, 0.5, 0.5);
 const vec4 blue = vec4(0.5, 0.5, 1.0, 1.0);
@@ -25,21 +22,18 @@ const vec4 hitColour = vec4(1.0, 0.5, 0.5, 1.0);
 
 out vec4 frag_color;
 
-float calcIntensity(int shieldIndex)
+float calcIntensity(in vec4 hit)
 {
-	vec3 current_position = hitPos[shieldIndex];
-	float life = radii[shieldIndex];
-	float radius = 50.0 * life;
-	vec3 dif = varyingVertex - current_position;
-
+	// hit is encoded as { <pos>, life }
+	float radius = 50.0 * hit.w;
+	vec3 dif = varyingVertex - hit.xyz;
 	float sqrDist = dot(dif,dif);
 
-	return clamp(1.0/sqrDist*radius, 0.0, 0.9) * (1.0 - life);
+	return clamp(1.0/sqrDist*radius, 0.0, 0.9) * (1.0 - hit.w);
 }
 
 void main(void)
 {
-	//vec4 color = material.diffuse;
 	vec4 color = mix(red, blue, shieldStrength);
 	vec4 fillColour = color * 0.15;
 
@@ -50,9 +44,9 @@ void main(void)
 	fresnel += 0.05 * (1.0 - fresnel);
 
 	float sumIntensity = 0.0;
-	for ( int hit=0; hit<numHits; hit++ )
+	for (int idx=0; idx < NumHits; idx++)
 	{
-		sumIntensity += calcIntensity(hit);
+		sumIntensity += calcIntensity(hits[idx]);
 	}
 	float clampedInt = clamp(sumIntensity, 0.0, 1.0);
 

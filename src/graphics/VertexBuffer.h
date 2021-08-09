@@ -1,26 +1,27 @@
 // Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef GRAPHICS_VERTEXBUFFER_H
-#define GRAPHICS_VERTEXBUFFER_H
+#pragma once
+
+#include "graphics/BufferCommon.h"
+#include "graphics/Types.h"
+#include "matrix4x4.h"
+
 /**
- * A Vertex Buffer is created by filling out a
- * description struct with desired vertex attributes
- * and calling renderer->CreateVertexBuffer.
- * Can be used in combination with IndexBuffer,
- * for optimal rendering of complex geometry.
- * Call Map to write/read from the buffer, and Unmap to
- * commit the changes.
+ * A Vertex Buffer is created by filling out a description struct with desired
+ * vertex attributes and calling renderer->CreateVertexBuffer. Can be used in
+ * combination with IndexBuffer, for optimal rendering of complex geometry.
+ *
+ * Call Map to write/read from the buffer, and Unmap to commit the changes.
  * Buffers come in two usage flavors, static and dynamic.
- * Use Static buffer, when the geometry never changes.
- * Avoid mapping a buffer for reading, as it may be slow,
- * especially with static buffers.
+ * - Use a Static buffer when the geometry never changes.
+ * - Use a Dynamic buffer if you'll be uploading data regularly.
+ *
+ * Strictly avoid mapping a buffer for reading unless you have no choice, as it
+ * may be extremely slow, especially with static buffers.
  *
  * Expansion possibilities: range-based Map
  */
-#include "Types.h"
-#include "libs.h"
-
 namespace Graphics {
 
 	// fwd declaration
@@ -35,17 +36,22 @@ namespace Graphics {
 		VertexAttribFormat format;
 		//byte offset of the attribute, if zero this
 		//is automatically filled for created buffers
-		Uint32 offset;
+		uint16_t offset;
 	};
+	static_assert(sizeof(VertexAttribDesc) == 4);
 
 	struct VertexBufferDesc {
 		VertexBufferDesc();
+		static VertexBufferDesc FromAttribSet(AttributeSet set);
+
 		//byte offset of an existing attribute
 		Uint32 GetOffset(VertexAttrib) const;
 
 		//used internally for calculating offsets
 		static Uint32 CalculateOffset(const VertexBufferDesc &, VertexAttrib);
 		static Uint32 GetAttribSize(VertexAttribFormat);
+
+		void CalculateOffsets();
 
 		//semantic ATTRIB_NONE ends description (when not using all attribs)
 		VertexAttribDesc attrib[MAX_ATTRIBS];
@@ -54,27 +60,6 @@ namespace Graphics {
 		//automatically calculated for created buffers
 		Uint32 stride;
 		BufferUsage usage;
-	};
-
-	class Mappable : public RefCounted {
-	public:
-		virtual ~Mappable() {}
-		virtual void Unmap() = 0;
-
-		inline Uint32 GetSize() const { return m_size; }
-		inline Uint32 GetCapacity() const { return m_capacity; }
-
-	protected:
-		explicit Mappable(const Uint32 size) :
-			m_mapMode(BUFFER_MAP_NONE),
-			m_size(size),
-			m_capacity(size) {}
-		BufferMapMode m_mapMode; //tracking map state
-
-		// size is the current number of elements in the buffer
-		Uint32 m_size;
-		// capacity is the maximum number of elements that can be put in the buffer
-		Uint32 m_capacity;
 	};
 
 	class VertexBuffer : public Mappable {
@@ -102,7 +87,10 @@ namespace Graphics {
 		// change the buffer data without mapping
 		virtual void BufferData(const size_t, void *) = 0;
 
+		// Bind the vertex buffer for use in rendering
 		virtual void Bind() = 0;
+
+		// Release the vertex buffer from rendering
 		virtual void Release() = 0;
 
 	protected:
@@ -113,9 +101,10 @@ namespace Graphics {
 	// Index buffer
 	class IndexBuffer : public Mappable {
 	public:
-		IndexBuffer(Uint32 size, BufferUsage);
+		IndexBuffer(Uint32 size, BufferUsage, IndexBufferSize);
 		virtual ~IndexBuffer();
 		virtual Uint32 *Map(BufferMapMode) = 0;
+		virtual Uint16 *Map16(BufferMapMode) = 0;
 
 		// change the buffer data without mapping
 		virtual void BufferData(const size_t, void *) = 0;
@@ -123,12 +112,14 @@ namespace Graphics {
 		Uint32 GetIndexCount() const { return m_indexCount; }
 		void SetIndexCount(Uint32);
 		BufferUsage GetUsage() const { return m_usage; }
+		IndexBufferSize GetElementSize() const { return m_elemSize; }
 
 		virtual void Bind() = 0;
 		virtual void Release() = 0;
 
 	protected:
 		Uint32 m_indexCount;
+		IndexBufferSize m_elemSize;
 		BufferUsage m_usage;
 	};
 
@@ -151,5 +142,26 @@ namespace Graphics {
 		BufferUsage m_usage;
 	};
 
+	/*
+     * Wraps a vertex buffer and optional index buffer into a single mesh.
+	 *
+	 * This class maps to OpenGL's vertex array objects, and is used to
+	 * coalesce primitive data for drawing commands in one place.
+	 *
+	 * It is the calling code's responsibility to ensure that once a draw has
+	 * been issued using a MeshObject, the MeshObject stays alive until the
+	 * command list is executed or reset (e.g. SwapBuffers()). Failure to
+	 * observe this requirement will result in undefined behavior.
+	 */
+	class MeshObject : public RefCounted {
+	public:
+		virtual ~MeshObject() {}
+
+		virtual void Bind() = 0;
+		virtual void Release() = 0;
+
+		virtual VertexBuffer *GetVertexBuffer() const = 0;
+		virtual IndexBuffer *GetIndexBuffer() const = 0;
+	};
+
 } // namespace Graphics
-#endif // GRAPHICS_VERTEXBUFFER_H

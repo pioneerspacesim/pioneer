@@ -18,31 +18,7 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\Uniform.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\opengl\RingMaterial.cpp">
-      <Filter>opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp">
-      <Filter>opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.cpp">
-      <Filter>opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\opengl\ShieldMaterial.cpp">
-      <Filter>opengl</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\VertexBuffer.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\opengl\GasGiantMaterial.cpp">
-      <Filter>opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\opengl\VtxColorMaterial.cpp">
-      <Filter>opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\opengl\UIMaterial.cpp">
-      <Filter>opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\opengl\RenderStateGL.cpp">
-      <Filter>opengl</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\opengl\RenderTargetGL.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
@@ -58,19 +34,23 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\RendererGL.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\opengl\MultiMaterial.cpp">
-      <Filter>opengl</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp">
       <Filter>dummy</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\Stats.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\opengl\GenGasGiantColourMaterial.cpp">
+    <ClCompile Include="..\..\..\src\graphics\opengl\CommandBufferGL.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\opengl\BillboardMaterial.cpp">
+    <ClCompile Include="..\..\..\src\graphics\opengl\RenderStateCache.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\opengl\Shader.cpp">
+      <Filter>opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\opengl\UniformBuffer.cpp">
+      <Filter>opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\ShaderParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -88,42 +68,9 @@
     <ClInclude Include="..\..\..\src\graphics\opengl\Uniform.h">
       <Filter>opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\opengl\MultiMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\opengl\RingMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\opengl\StarfieldMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\RenderTarget.h" />
-    <ClInclude Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\opengl\ShieldMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\opengl\SkyboxMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\RenderState.h" />
     <ClInclude Include="..\..\..\src\graphics\VertexBuffer.h" />
-    <ClInclude Include="..\..\..\src\graphics\opengl\GasGiantMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\opengl\VtxColorMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\opengl\UIMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\opengl\RenderStateGL.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\opengl\RenderTargetGL.h">
       <Filter>opengl</Filter>
     </ClInclude>
@@ -161,16 +108,27 @@
       <Filter>dummy</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\Stats.h" />
-    <ClInclude Include="..\..\..\src\graphics\opengl\GenGasGiantColourMaterial.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\opengl\OpenGLLibs.h">
       <Filter>opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\Types.h" />
-    <ClInclude Include="..\..\..\src\graphics\opengl\BillboardMaterial.h">
+    <ClInclude Include="..\..\..\src\graphics\opengl\CommandBufferGL.h">
       <Filter>opengl</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\RenderStateCache.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\Shader.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\UniformBuffer.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\ShaderParser.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\GLBufferBase.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\BufferCommon.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

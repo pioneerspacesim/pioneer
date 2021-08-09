@@ -59,9 +59,7 @@ namespace PiGui {
 		{
 			PROFILE_SCOPED()
 			Face *f = LuaObject<PiGui::Face>::CheckFromLua(1);
-			Uint32 result = f->GetTextureId();
-
-			lua_pushlightuserdata(l, reinterpret_cast<void *>(result));
+			lua_pushlightuserdata(l, f->GetImTextureID());
 			return 1;
 		}
 

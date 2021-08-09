@@ -10,122 +10,124 @@
 
 #include <array>
 
-struct SavedImguiStackInfo {
-	static const char *meta_name;
+const char *s_meta_name = "PiGui.SavedImguiStackInfo";
 
-	uint32_t windowStackSize;
-	uint32_t styleColorStack;
-	uint32_t styleVarStack;
-	uint32_t fontStackSize;
-};
-
-const char *SavedImguiStackInfo::meta_name = "PiGui.SavedImguiStackInfo";
-
-static int CleanupWindowStack(SavedImguiStackInfo *stackInfo)
+// Cleanly recover from all unterminated calls in the current window.
+// If the on_begin parameter is passed, recover from all calls since the specified state.
+static void ErrorCheckRecover(ImGuiStackSizes *on_begin, ImGuiErrorLogCallback log_callback, void *user_data)
 {
-	auto &windowStack = ImGui::GetCurrentContext()->CurrentWindowStack;
-	int numUnfinishedWindows = windowStack.size() - stackInfo->windowStackSize;
+	ImGuiContext &g = *GImGui;
+	ImGuiWindow *window = g.CurrentWindow;
+#ifdef IMGUI_HAS_TABLE
+	while (g.CurrentTable && (g.CurrentTable->OuterWindow == window || g.CurrentTable->InnerWindow == window)) {
+		if (log_callback) log_callback(user_data, "Recovered from missing EndTable() in '%s'", g.CurrentTable->OuterWindow->Name);
+		ImGui::EndTable();
+		// if the table uses a child window, the current window has changed
+		window = g.CurrentWindow;
+	}
+#endif
+	IM_ASSERT(window != NULL);
+	if (on_begin == NULL)
+		on_begin = &window->DC.StackSizesOnBegin;
 
-	// While it shouldn't be possible to get a window stack of less than the last time it was updated,
-	// we want to check for it anyways to avoid causing issues down the line.
-	if (numUnfinishedWindows <= 0 || !stackInfo->windowStackSize)
-		return 0;
+	while (g.CurrentTabBarStack.Size > on_begin->SizeOfTabBarStack) {
+		if (log_callback) log_callback(user_data, "Recovered from missing EndTabBar() in '%s'", window->Name);
+		ImGui::EndTabBar();
+	}
+	while (window->DC.TreeDepth > 0) {
+		if (log_callback) log_callback(user_data, "Recovered from missing TreePop() in '%s'", window->Name);
+		ImGui::TreePop();
+	}
+	while (g.GroupStack.Size > on_begin->SizeOfGroupStack) {
+		if (log_callback) log_callback(user_data, "Recovered from missing EndGroup() in '%s'", window->Name);
+		ImGui::EndGroup();
+	}
+	while (window->IDStack.Size > 1) {
+		if (log_callback) log_callback(user_data, "Recovered from missing PopID() in '%s'", window->Name);
+		ImGui::PopID();
+	}
+	while (g.ColorStack.Size > on_begin->SizeOfColorStack) {
+		if (log_callback) log_callback(user_data, "Recovered from missing PopStyleColor() in '%s' for ImGuiCol_%s", window->Name, ImGui::GetStyleColorName(g.ColorStack.back().Col));
+		ImGui::PopStyleColor();
+	}
+	while (g.StyleVarStack.Size > on_begin->SizeOfStyleVarStack) {
+		if (log_callback) log_callback(user_data, "Recovered from missing PopStyleVar() in '%s'", window->Name);
+		ImGui::PopStyleVar();
+	}
+	while (g.FontStack.Size > on_begin->SizeOfFontStack) {
+		if (log_callback) log_callback(user_data, "Recovered from missing PopFont() in '%s'", window->Name);
+		ImGui::PopFont();
+	}
+	while (g.FocusScopeStack.Size > on_begin->SizeOfFocusScopeStack) {
+		if (log_callback) log_callback(user_data, "Recovered from missing PopFocusScope() in '%s'", window->Name);
+		ImGui::PopFocusScope();
+	}
+	IM_ASSERT(window == g.CurrentWindow);
+}
 
-	for (int n = numUnfinishedWindows; n > 0; n--) {
-		auto &wnd = windowStack.back();
-
-		// Finish all calls to BeginGroup() just to be courteous.
-		// We don't unwind the ID stack because that's per-window and doesn't affect the geometry output.
-		for (size_t gS = wnd->DC.GroupStack.size(); gS > 0; gS--) {
-			ImGui::EndGroup();
+static void RecoverToState(ImGuiStackSizes *state, ImGuiErrorLogCallback log_callback, void *user_data)
+{
+	ImGuiContext &g = *GImGui;
+	// Pop all windows created after the save point
+	while (g.CurrentWindowStack.Size > state->SizeOfWindowStack) {
+		ErrorCheckRecover(NULL, log_callback, user_data);
+		if (g.CurrentWindowStack.Size == 1) {
+			IM_ASSERT(g.CurrentWindow->IsFallbackWindow);
+			break;
 		}
 
-		// Need to call EndChild() instead of End() here
-		if (windowStack.back()->Flags & ImGuiWindowFlags_ChildWindow)
+		ImGuiWindow *window = g.CurrentWindow;
+		if (window->Flags & ImGuiWindowFlags_ChildWindow) {
+			if (log_callback) log_callback(user_data, "Recovered from missing EndChild() for '%s'", window->Name);
 			ImGui::EndChild();
-
-		// Just a regular window, close it
-		else
+		} else {
+			if (log_callback) log_callback(user_data, "Recovered from missing End() for '%s'", window->Name);
 			ImGui::End();
+		}
 	}
 
-	return numUnfinishedWindows;
-}
-
-static int CleanupStyleStack(SavedImguiStackInfo *stackInfo)
-{
-	// `ImVector::size()` returns an `int`, and `stackInfo->style*Stack`
-	// properties are `uint32_t`. Therefore, in order to correctly perform
-	// comparison without triggering UB, the unsigned type must be casted
-	// to an bigger signed type. In this case, `uint32_t` -> `int64_t`.
-	auto &colorStack = ImGui::GetCurrentContext()->ColorModifiers;
-	int numResetStyles = colorStack.size() - stackInfo->styleColorStack;
-	if (colorStack.size() > int64_t(stackInfo->styleColorStack))
-		ImGui::PopStyleColor(colorStack.size() - stackInfo->styleColorStack);
-
-	auto &varStack = ImGui::GetCurrentContext()->StyleModifiers;
-	numResetStyles += varStack.size() - stackInfo->styleVarStack;
-	if (varStack.size() > int64_t(stackInfo->styleVarStack))
-		ImGui::PopStyleVar(varStack.size() - stackInfo->styleVarStack);
-
-	return numResetStyles;
-}
-
-static int CleanupFontStack(SavedImguiStackInfo *stackInfo)
-{
-	auto &fontStack = ImGui::GetCurrentContext()->FontStack;
-	int numResetFonts = fontStack.size() - stackInfo->fontStackSize;
-
-	if (numResetFonts <= 0)
-		return 0;
-
-	for (int n = numResetFonts; n > 0; n--)
-		ImGui::PopFont();
-
-	return numResetFonts;
-}
-
-void UpdateStackInfo(SavedImguiStackInfo *stackInfo)
-{
-	stackInfo->windowStackSize = ImGui::GetCurrentContext()->CurrentWindowStack.size();
-	stackInfo->styleColorStack = ImGui::GetCurrentContext()->ColorModifiers.size();
-	stackInfo->styleVarStack = ImGui::GetCurrentContext()->StyleModifiers.size();
-	stackInfo->fontStackSize = ImGui::GetCurrentContext()->FontStack.size();
+	ErrorCheckRecover(state, log_callback, user_data);
 }
 
 static int l_new_stack_info(lua_State *L)
 {
-	auto *savedStackInfo = static_cast<SavedImguiStackInfo *>(lua_newuserdata(L, sizeof(SavedImguiStackInfo)));
+	auto *savedStackInfo = static_cast<ImGuiStackSizes *>(lua_newuserdata(L, sizeof(ImGuiStackSizes)));
 
 	// placement new to initialize this new userdata
-	new (savedStackInfo) SavedImguiStackInfo;
-	luaL_setmetatable(L, SavedImguiStackInfo::meta_name);
+	new (savedStackInfo) ImGuiStackSizes();
+	savedStackInfo->SetToCurrentState();
 
-	UpdateStackInfo(savedStackInfo);
+	luaL_setmetatable(L, s_meta_name);
 	return 1;
+}
+
+void ErrorMsgCallback(void *data, const char *str, ...)
+{
+	char msg[512]{ '\0' };
+	va_list vl;
+	va_start(vl, str);
+	size_t str_end = std::min(vsnprintf(msg, 511, str, vl), 510);
+	msg[str_end] = '\n';
+	msg[str_end + 1] = '\0';
+	va_end(vl);
+
+	reinterpret_cast<std::string *>(data)->append(msg);
 }
 
 static int l_stack_cleanup(lua_State *L)
 {
 	using std::to_string;
-	auto *stackInfo = static_cast<SavedImguiStackInfo *>(luaL_checkudata(L, 1, SavedImguiStackInfo::meta_name));
-	std::array<int, 3> resetNum = {
-		CleanupWindowStack(stackInfo),
-		CleanupStyleStack(stackInfo),
-		CleanupFontStack(stackInfo)
-	};
+	auto *stackInfo = static_cast<ImGuiStackSizes *>(luaL_checkudata(L, 1, s_meta_name));
 	lua_pop(L, 1);
 
-	if (resetNum[0] || resetNum[1] || resetNum[2]) {
-		std::string errormsg =
-			"Cleaned up " + to_string(resetNum[0]) + " windows, " + to_string(resetNum[1]) + " styles, and " + to_string(resetNum[2]) + " fonts.\n";
-
+	std::string errormsg;
+	RecoverToState(stackInfo, ErrorMsgCallback, &errormsg);
+	if (!errormsg.empty()) {
+		Log::Debug("ImGui error handler cleaned up:\n\n{}\n", errormsg);
 		lua_pushstring(L, errormsg.c_str());
-	} else {
-		lua_pushstring(L, "No imgui stack cleanup necessary.\n");
 	}
 
-	// return the new message
+	lua_pushboolean(L, errormsg.empty());
 	return 1;
 }
 
@@ -141,7 +143,7 @@ void PiGui::Lua::RegisterSandbox()
 	LUA_DEBUG_START(L);
 
 	// Create the new metatable and the
-	luaL_newmetatable(L, SavedImguiStackInfo::meta_name);
+	luaL_newmetatable(L, s_meta_name);
 	lua_pop(L, 1);
 
 	// We use this instead of lua_getglobal because PiGui is in the CoreImports table instead

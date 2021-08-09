@@ -473,17 +473,10 @@ namespace SceneGraph {
 			}
 			assert(mat.Valid());
 
-			Graphics::RenderStateDesc rsd;
 			//turn on alpha blending and mark entire node as transparent
 			//(all importers split by material so far)
-			if (mat->diffuse.a < 255) {
+			if (mat->diffuse.a < 255)
 				geom->SetNodeMask(NODE_TRANSPARENT);
-				geom->m_blendMode = Graphics::BLEND_ALPHA;
-				rsd.blendMode = Graphics::BLEND_ALPHA;
-				rsd.depthWrite = false;
-			}
-
-			geom->SetRenderState(m_renderer->CreateRenderState(rsd));
 
 			Graphics::VertexBufferDesc vbd;
 			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
@@ -882,14 +875,8 @@ namespace SceneGraph {
 				//set special material for decals
 				if (numDecal > 0) {
 					geom->SetNodeMask(NODE_TRANSPARENT);
-					geom->m_blendMode = Graphics::BLEND_ALPHA;
 					geom->GetMeshAt(0).material = GetDecalMaterial(numDecal);
 					geom->SetNodeFlags(geom->GetNodeFlags() | NODE_DECAL);
-					Graphics::RenderStateDesc rsd;
-					rsd.blendMode = Graphics::BLEND_ALPHA;
-					rsd.depthWrite = false;
-					//XXX add polygon offset to decal state
-					geom->SetRenderState(m_renderer->CreateRenderState(rsd));
 				}
 
 				parent->AddChild(geom.Get());

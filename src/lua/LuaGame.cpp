@@ -15,7 +15,6 @@
 #include "SectorView.h"
 #include "Space.h"
 #include "StringF.h"
-#include "SystemInfoView.h"
 #include "SystemView.h"
 #include "WorldView.h"
 #include "core/GZipFormat.h"

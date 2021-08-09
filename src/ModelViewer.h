@@ -113,6 +113,7 @@ private:
 		bool showDockingLocators;
 		bool showCollMesh;
 		bool showAabb;
+		bool showGeomBBox;
 		bool showShields;
 		bool showGrid;
 		bool showLandingPad;
@@ -200,8 +201,9 @@ private:
 	Options m_options;
 	float m_landingMinOffset;
 
-	Graphics::RenderState *m_bgState;
-	RefCountedPtr<Graphics::VertexBuffer> m_bgBuffer;
+	std::unique_ptr<Graphics::Material> m_bgMaterial;
+	std::unique_ptr<Graphics::Material> m_gridMaterial;
+	std::unique_ptr<Graphics::MeshObject> m_bgMesh;
 
 	sigc::signal<void> onModelChanged;
 

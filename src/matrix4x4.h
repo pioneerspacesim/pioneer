@@ -18,13 +18,13 @@ private:
 
 public:
 	matrix4x4() {}
-	matrix4x4(T val)
+	explicit matrix4x4(T val)
 	{
 		cell[0] = cell[1] = cell[2] = cell[3] = cell[4] = cell[5] = cell[6] =
 			cell[7] = cell[8] = cell[9] = cell[10] = cell[11] = cell[12] = cell[13] =
 				cell[14] = cell[15] = val;
 	}
-	matrix4x4(const T *vals)
+	explicit matrix4x4(const T *vals)
 	{
 		memcpy(cell, vals, sizeof(T) * 16);
 	}
@@ -308,7 +308,7 @@ public:
 	///////////////////////////////////////////////////////////////////////////////
 	static matrix4x4 OrthoFrustum(T left, T right, T bottom, T top, T znear, T zfar)
 	{
-		assert((znear >= T(-1)) && (zfar > T(0)));
+		assert((znear >= T(-1)) && (zfar >= T(0)));
 		T a = T(2) / (right - left);
 		T b = T(2) / (top - bottom);
 		T c = T(1) / (zfar - znear);

@@ -80,6 +80,8 @@ namespace PiGui {
 		int m_pixelsize;
 	};
 
+	class InstanceRenderer;
+
 	/* Class to wrap ImGui. */
 	class Instance : public RefCounted {
 	public:
@@ -87,6 +89,8 @@ namespace PiGui {
 
 		void Init(Graphics::Renderer *renderer);
 		void Uninit();
+
+		InstanceRenderer *GetRenderer() { return m_instanceRenderer.get(); }
 
 		// Call at the start of every frame. Calls ImGui::NewFrame() internally.
 		void NewFrame();
@@ -114,6 +118,7 @@ namespace PiGui {
 
 	private:
 		Graphics::Renderer *m_renderer;
+		std::unique_ptr<InstanceRenderer> m_instanceRenderer;
 
 		std::map<std::pair<std::string, int>, ImFont *> m_fonts;
 		std::map<ImFont *, std::pair<std::string, int>> m_im_fonts;

@@ -45,13 +45,13 @@ namespace Background {
 		UniverseBox(Graphics::Renderer *r);
 		~UniverseBox();
 
-		void Draw(Graphics::RenderState *);
+		void Draw();
 		void LoadCubeMap(Random &rand);
 
 	private:
 		void Init();
 
-		std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
+		std::unique_ptr<Graphics::MeshObject> m_universeBox;
 		RefCountedPtr<Graphics::Texture> m_cubemap;
 
 		Uint32 m_numCubemaps;
@@ -61,7 +61,7 @@ namespace Background {
 	public:
 		//does not Fill the starfield
 		Starfield(Graphics::Renderer *r, Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy);
-		void Draw(Graphics::RenderState *);
+		void Draw();
 		//create or recreate the starfield
 		void Fill(Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy);
 
@@ -69,12 +69,11 @@ namespace Background {
 		void Init();
 
 		std::unique_ptr<Graphics::Drawables::PointSprites> m_pointSprites;
-		Graphics::RenderState *m_renderState; // NB: we don't own RenderState pointers, just borrow them
 
 		//hyperspace animation vertex data
 		std::unique_ptr<vector3f[]> m_hyperVtx; // BG_STAR_MAX * 3
 		std::unique_ptr<Color[]> m_hyperCol;	// BG_STAR_MAX * 3
-		std::unique_ptr<Graphics::VertexBuffer> m_animBuffer;
+		std::unique_ptr<Graphics::MeshObject> m_animMesh;
 
 		float m_visibleRadiusLy;
 		float m_medianPosition;
@@ -88,10 +87,10 @@ namespace Background {
 	class MilkyWay : public BackgroundElement {
 	public:
 		MilkyWay(Graphics::Renderer *);
-		void Draw(Graphics::RenderState *);
+		void Draw();
 
 	private:
-		std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
+		std::unique_ptr<Graphics::MeshObject> m_meshObject;
 	};
 
 	// contains starfield, milkyway, possibly other Background elements
@@ -116,7 +115,6 @@ namespace Background {
 		Starfield m_starField;
 		UniverseBox m_universeBox;
 		Uint32 m_drawFlags;
-		Graphics::RenderState *m_renderState;
 	};
 
 } //namespace Background

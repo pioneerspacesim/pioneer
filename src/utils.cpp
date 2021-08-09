@@ -8,7 +8,6 @@
 #include "StringF.h"
 #include "gameconsts.h"
 #include "graphics/Graphics.h"
-#include "gui/Gui.h"
 #include "libs.h"
 #include <cmath>
 #include <cstdio>

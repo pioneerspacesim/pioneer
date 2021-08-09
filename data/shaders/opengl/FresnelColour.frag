@@ -7,9 +7,6 @@
 in vec3 varyingEyepos;
 in vec3 varyingNormal;
 
-uniform Scene scene;
-uniform Material material;
-
 out vec4 frag_color;
 
 void main(void)
