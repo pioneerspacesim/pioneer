@@ -18,13 +18,8 @@ local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local utils = require 'utils'
 
-local InfoFace = import("ui/InfoFace")
-local NavButton = import("ui/NavButton")
-
-local l = Lang.GetResource("module-findperson")
-
--- Get the UI class
-local ui = Engine.ui
+local l = Lang.GetResource 'module-findperson'
+local lc = Lang.GetResource 'core'
 
 -- Mission framework conditions
 local max_mission_dist = 20
@@ -61,6 +56,12 @@ local getNumberOfFlavours = function (str)
 	return num - 1
 end
 
+local getRiskMsg = function (mission)
+	local gender = (mission.wanted.female and "_FEMALE" or "_MALE")
+	return l:get("RISK_" .. mission.flavour.id .. gender .. "_" .. math.ceil(mission.risk * getNumberOfFlavours("RISK_" .. mission.flavour.id .. gender)))
+		or l["RISK" .. gender .. "_" .. math.ceil(mission.risk * getNumberOfFlavours("RISK" .. gender))]
+end
+
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -72,7 +73,6 @@ local onChat = function (form, ref, option)
 	end
 
 	local qualified = isQualifiedFor(Character.persistent.player.reputation, ad)
-	local gender = (ad.wanted.female and "_FEMALE" or "_MALE")
 
 	form:SetFace(ad.client)
 
@@ -100,15 +100,11 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
+		local gender = ad.wanted.female and "_FEMALE" or "_MALE"
 		form:SetMessage(l["HOW_TO_" .. ad.flavour.id .. gender])
 
 	elseif option == 2 then
-		form:SetMessage(
-			string.interp(
-				l:get("RISK_" .. ad.flavour.id .. gender .. "_" .. math.ceil(ad.risk * getNumberOfFlavours("RISK_" .. ad.flavour.id .. gender)))
-				or l["RISK" .. gender .. "_" .. math.ceil(ad.risk * getNumberOfFlavours("RISK" .. gender))], { wanted = ad.wanted.name }
-			)
-		)
+		form:SetMessage(string.interp(getRiskMsg(ad), { wanted = ad.wanted.name }))
 
 	elseif option == 3 then
 		form:SetMessage(string.interp(l["HOW_MUCH_TIME_" .. ad.flavour.id], { date = Format.Date(ad.due) }))
@@ -212,7 +208,7 @@ local makeAdvert = function (station)
 end
 
 local onCreateBB = function (station)
-	local num = Engine.rand:Integer(0, math.ceil(Game.system.population) / 2 + 1)
+	local num = Engine.rand:Integer(0, math.ceil(Game.system.population) / 2)
 	for i = 1, num do
 		makeAdvert(station)
 	end
@@ -504,7 +500,7 @@ end
 local loaded_data
 
 local onGameStart = function ()
-	if loaded_data then
+	if loaded_data and loaded_data.ads then
 		ads = {}
 		missions = {}
 
@@ -526,171 +522,49 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
-local onClick = function (mission)
+local buildMissionDescription = function (mission)
+	local ui = require 'pigui'
+	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-	local gender = (mission.wanted.female and "_FEMALE" or "_MALE")
-	local danger = l:get("RISK_" .. mission.flavour.id .. gender .. "_" .. math.ceil(mission.risk * getNumberOfFlavours("RISK_" .. mission.flavour.id .. gender)))
-		or l["RISK" .. gender .. "_" .. math.ceil(mission.risk * getNumberOfFlavours("RISK" .. gender))]
-	return ui:Grid(2,1)
-		:SetColumn(0, {
-			ui:VBox():PackEnd({
-				ui:MultiLineText(
-					mission.introtext:interp({
-						client = mission.client.name,
-						wanted = mission.wanted.name,
-						company = mission.company,
-						system = mission.destination:GetStarSystem().name,
-						sectorx = mission.destination.sectorX,
-						sectory = mission.destination.sectorY,
-						sectorz = mission.destination.sectorZ,
-						shipid = mission.shipid,
-						domicile = mission.domicile:GetSystemBody().name,
-						cash = Format.Money(mission.reward, false),
-						dist = dist
-					})
-				),
-				ui:Margin(10),
-				ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.WANTED)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:Label(mission.wanted.name)
-						})
-					}),
-				ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.SYSTEM)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
-						})
-					}),
-				mission.flavour.ship and ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.SHIP)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:Label(mission.shipid)
-						})
-					}) or ui:Margin(0),
-				ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.DISTANCE)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:Label(dist .. " " .. l.LY)
-						})
-					}),
-				NavButton.New(l.SET_AS_TARGET, mission.location),
-				ui:Margin(5),
-				ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.CLIENT)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:Label(mission.client.name)
-						})
-					}),
-				mission.company and ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.COMPANY)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:Label(mission.company)
-						})
-					}) or ui:Margin(0),
-				ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.SYSTEM)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:MultiLineText(mission.domicile:GetStarSystem().name.." ("..mission.domicile.sectorX..","..mission.domicile.sectorY..","..mission.domicile.sectorZ..")")
-						})
-					}),
-				ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.SPACEPORT)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:Label(mission.domicile:GetSystemBody().name)
-						})
-					}),
-				ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.DISTANCE)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:Label((Game.system and string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???") .. " " .. l.LY)
-						})
-					}),
-				NavButton.New(l.SET_RETURN_ROUTE, mission.domicile),
-				ui:Margin(5),
-				ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.DEADLINE)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:Label(Format.Date(mission.due))
-						})
-					}),
-				ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.PROGRESS)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:Label(mission.halfdone and l.MSTAT_HALF_DONE or l.MSTAT_NONE)
-						})
-					}),
-				ui:Grid(2,1)
-					:SetColumn(0, {
-						ui:VBox():PackEnd({
-							ui:Label(l.DANGER)
-						})
-					})
-					:SetColumn(1, {
-						ui:VBox():PackEnd({
-							ui:MultiLineText(string.interp(danger, { wanted = mission.wanted.name }))
-						})
-					}),
-			})
-		})
-		:SetColumn(1, {
-			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
-		})
+	local domicileDist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???"
+	local danger = getRiskMsg(mission)
+
+	desc.description = mission.introtext:interp({
+		client = mission.client.name,
+		wanted = mission.wanted.name,
+		company = mission.company,
+		system = mission.destination:GetStarSystem().name,
+		sectorx = mission.destination.sectorX,
+		sectory = mission.destination.sectorY,
+		sectorz = mission.destination.sectorZ,
+		shipid = mission.shipid,
+		domicile = mission.domicile:GetSystemBody().name,
+		cash = ui.Format.Money(mission.reward, false),
+		dist = dist
+	})
+
+	desc.location = mission.location
+	desc.client = mission.client
+	desc.returnLocation = mission.domicile
+
+	desc.details = {
+		{ l.WANTED, mission.wanted.name },
+		{ l.SYSTEM, ui.Format.SystemPath(mission.location) },
+		{ l.DISTANCE, dist .. " " .. lc.UNIT_LY },
+		mission.flavour.ship and { l.SHIP, mission.shipid },
+		false,
+		{ l.CLIENT, mission.client.name },
+		{ l.SYSTEM, ui.Format.SystemPath(mission.domicile) },
+		{ l.SPACEPORT, mission.domicile:GetSystemBody().name },
+		{ l.DISTANCE, domicileDist .. " " .. lc.UNIT_LY },
+		mission.flavour.company and { l.COMPANY, mission.company },
+		false,
+		{ l.DEADLINE, ui.Format.Date(mission.due) },
+		{ l.PROGRESS, mission.halfdone and l.MSTAT_HALF_DONE or l.MSTAT_NONE },
+		{ l.DANGER, string.interp(danger, { wanted = mission.wanted.name }) },
+	}
+
+	return desc
 end
 
 local serialize = function ()
@@ -715,7 +589,7 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
 
-Mission.RegisterType("FindPerson", l.FIND_PERSON, onClick)
+Mission.RegisterType("FindPerson", l.FIND_PERSON, buildMissionDescription)
 
 Serializer:Register("FindPerson", serialize, unserialize)
 
