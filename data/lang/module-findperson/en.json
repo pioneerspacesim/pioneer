@@ -83,10 +83,6 @@
     "description": "",
     "message": "Excuse me Sir, but I need a pilot who has more experience."
   },
-  "DENY_2": {
-    "description": "",
-    "message": "Sorry, I don't have time for you."
-  },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
     "message": "Distance:"
@@ -310,10 +306,6 @@
   "IS_THERE_A_RISK": {
     "description": "",
     "message": "Is there any risk?"
-  },
-  "LY": {
-    "description": "light year",
-    "message": "ly"
   },
   "MERCENARY_GREETING_FEMALE_1": {
     "description": "",
