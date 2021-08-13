@@ -3,8 +3,16 @@
 
 #include "LuaColor.h"
 #include "Color.h"
+#include "JsonUtils.h"
+#include "LuaMetaType.h"
+#include "LuaObject.h"
 #include "LuaUtils.h"
 #include "libs.h"
+
+void pi_lua_generic_pull(lua_State *l, int index, Color4ub *&out)
+{
+	out = LuaColor::CheckFromLua(l, index);
+}
 
 inline Color4ub ColorClamp(float r, float g, float b, float a)
 {
@@ -95,13 +103,7 @@ static int l_color_call(lua_State *L)
 static int l_color_tostring(lua_State *L)
 {
 	const Color4ub *c = LuaColor::CheckFromLua(L, 1);
-	luaL_Buffer buf;
-	luaL_buffinit(L, &buf);
-	char *bufstr = luaL_prepbuffer(&buf);
-	int len = snprintf(bufstr, LUAL_BUFFERSIZE, "Color(%i, %i, %i, %i)", c->r, c->g, c->b, c->a);
-	assert(len < LUAL_BUFFERSIZE); // XXX should handle this condition more gracefully
-	luaL_addsize(&buf, len);
-	luaL_pushresult(&buf);
+	lua_pushfstring(L, "Color(%d, %d, %d, %d)", (int)c->r, (int)c->g, (int)c->b, (int)c->a);
 	return 1;
 }
 
@@ -183,40 +185,13 @@ static int l_color_index(lua_State *L)
 		}
 	} else if (attr) {
 		lua_getmetatable(L, 1);
+		lua_getfield(L, -1, "methods");
 		lua_pushvalue(L, 2);
 		lua_rawget(L, -2);
 		lua_remove(L, -2);
 	} else {
 		luaL_error(L, "Attempted to index Color with a non-string type '%s'", luaL_typename(L, 2));
 	}
-	return 1;
-}
-
-static int l_color_shade(lua_State *L)
-{
-	const Color4ub *c = LuaColor::CheckFromLua(L, 1);
-	float factor = luaL_checknumber(L, 2);
-	Color4ub r(*c);
-	r.Shade(factor);
-	LuaColor::PushToLua(L, r);
-	return 1;
-}
-
-static int l_color_tint(lua_State *L)
-{
-	const Color4ub *c = LuaColor::CheckFromLua(L, 1);
-	float factor = luaL_checknumber(L, 2);
-	Color4ub r(*c);
-	r.Tint(factor);
-	LuaColor::PushToLua(L, r);
-	return 1;
-}
-
-static int l_color_opacity(lua_State *L)
-{
-	const Color4ub *c = LuaColor::CheckFromLua(L, 1);
-	float factor = luaL_checknumber(L, 2);
-	LuaColor::PushToLua(L, Color4ub(c->r, c->g, c->b, (factor <= 1.0 ? factor * 255 : uint8_t(factor))));
 	return 1;
 }
 
@@ -247,12 +222,6 @@ static int l_color_set(lua_State *L)
 	return 1;
 }
 
-static luaL_Reg l_color_lib[] = {
-	{ "new", &l_color_new },
-	{ "shade", &l_color_shade },
-	{ "tint", &l_color_tint },
-	{ 0, 0 }
-};
 
 static luaL_Reg l_color_meta[] = {
 	{ "__tostring", &l_color_tostring },
@@ -261,11 +230,22 @@ static luaL_Reg l_color_meta[] = {
 	{ "__index", &l_color_index },
 	{ "__newindex", &l_color_new_index },
 	{ "__call", &l_color_set },
-	{ "shade", &l_color_shade },
-	{ "tint", &l_color_tint },
-	{ "opacity", &l_color_opacity },
 	{ 0, 0 }
 };
+
+static bool _serialize_color(lua_State *l, Json &out)
+{
+	Color4ub *c = LuaColor::CheckFromLua(l, -1);
+	ColorToJson(out, *c);
+	return true;
+}
+
+static bool _deserialize_color(lua_State *l, const Json &obj)
+{
+	Color4ub *c = LuaColor::PushNewToLua(l);
+	JsonToColor(c, obj);
+	return true;
+}
 
 const char LuaColor::LibName[] = "Color";
 const char LuaColor::TypeName[] = "Color";
@@ -274,21 +254,27 @@ void LuaColor::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
-	luaL_newlib(L, l_color_lib);
+	LuaMetaType<Color4ub> metaType(LuaColor::TypeName);
+	metaType.CreateMetaType(L);
+	metaType.StartRecording()
+		.AddCallCtor(&l_color_call)
+		.AddNewCtor(&l_color_new)
+		.AddFunction("shade", &Color4ub::Shade)
+		.AddFunction("tint", &Color4ub::Tint)
+		.AddFunction("opacity", &Color4ub::Opacity)
+		.StopRecording();
 
-	lua_newtable(L);
-	lua_pushcfunction(L, &l_color_call);
-	lua_setfield(L, -2, "__call");
-	lua_setmetatable(L, -2);
-
-	lua_setglobal(L, LuaColor::LibName);
-
-	luaL_newmetatable(L, LuaColor::TypeName);
+	metaType.GetMetatable();
 	luaL_setfuncs(L, l_color_meta, 0);
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
+
+	lua_getfield(L, -1, "methods");
+	lua_setglobal(L, LuaColor::LibName);
 	lua_pop(L, 1);
+
+	LuaObjectBase::RegisterSerializer(LuaColor::TypeName, { _serialize_color, _deserialize_color });
 
 	LUA_DEBUG_END(L, 0);
 }
@@ -296,16 +282,17 @@ void LuaColor::Register(lua_State *L)
 Color4ub *LuaColor::PushNewToLua(lua_State *L)
 {
 	Color4ub *ptr = static_cast<Color4ub *>(lua_newuserdata(L, sizeof(Color4ub)));
-	luaL_setmetatable(L, LuaColor::TypeName);
+	LuaMetaTypeBase::GetMetatableFromName(L, LuaColor::TypeName);
+	lua_setmetatable(L, -2);
 	return ptr;
 }
 
 const Color4ub *LuaColor::GetFromLua(lua_State *L, int idx)
 {
-	return static_cast<Color4ub *>(luaL_testudata(L, idx, LuaColor::TypeName));
+	return static_cast<Color4ub *>(LuaMetaTypeBase::TestUserdata(L, idx, LuaColor::TypeName));
 }
 
 Color4ub *LuaColor::CheckFromLua(lua_State *L, int idx)
 {
-	return static_cast<Color4ub *>(luaL_checkudata(L, idx, LuaColor::TypeName));
+	return static_cast<Color4ub *>(LuaMetaTypeBase::CheckUserdata(L, idx, LuaColor::TypeName));
 }
