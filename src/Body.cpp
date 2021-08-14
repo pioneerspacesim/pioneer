@@ -3,6 +3,7 @@
 
 #include "Body.h"
 
+#include "BodyComponent.h"
 #include "CargoBody.h"
 #include "Frame.h"
 #include "GameSaveError.h"
@@ -17,9 +18,13 @@
 #include "Star.h"
 #include "lua/LuaEvent.h"
 
+size_t BodyComponentDB::m_componentIdx = 0;
+std::map<size_t, std::unique_ptr<BodyComponentDB::PoolBase>> BodyComponentDB::m_componentPools;
+std::map<std::string, std::unique_ptr<BodyComponentDB::SerializerBase>> BodyComponentDB::m_componentSerializers;
+std::vector<size_t> BodyComponentDB::m_componentTypes;
+
 Body::Body() :
 	PropertiedObject(),
-	m_flags(0),
 	m_interpPos(0.0),
 	m_interpOrient(matrix3x3d::Identity()),
 	m_pos(0.0),
@@ -34,7 +39,6 @@ Body::Body() :
 
 Body::Body(const Json &jsonObj, Space *space) :
 	PropertiedObject(),
-	m_flags(0),
 	m_interpPos(0.0),
 	m_interpOrient(matrix3x3d::Identity()),
 	m_frame(FrameId::Invalid)
@@ -52,6 +56,8 @@ Body::Body(const Json &jsonObj, Space *space) :
 		m_orient = bodyObj["orient"];
 		m_physRadius = bodyObj["phys_radius"];
 		m_clipRadius = bodyObj["clip_radius"];
+
+		Json components = jsonObj["components"];
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
@@ -59,6 +65,17 @@ Body::Body(const Json &jsonObj, Space *space) :
 
 Body::~Body()
 {
+	size_t idx = 0;
+	while (m_components) {
+		// get the bit index for each active component and delete it.
+		while (!(m_components & 1)) {
+			m_components >>= 1;
+			idx++;
+		}
+		BodyComponentDB::GetComponentType(idx)->deleteComponent(this);
+		m_components >>= 1;
+		idx++;
+	}
 }
 
 void Body::SaveToJson(Json &jsonObj, Space *space)
