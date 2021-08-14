@@ -91,6 +91,12 @@ public:
 	// Get the lua-side metatable from a type name instead of a LuaRef.
 	static bool GetMetatableFromName(lua_State *l, const char *name);
 
+	// A replacement for luaL_testudata that is metatype-aware
+	static void *TestUserdata(lua_State *l, int index, const char *name);
+
+	// A replacement for luaL_checkudata that is metatype-aware
+	static void *CheckUserdata(lua_State *l, int index, const char *name);
+
 protected:
 	//=========================================================================
 	// LuaMetaTypeGeneric support:

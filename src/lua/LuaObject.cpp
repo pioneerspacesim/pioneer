@@ -670,6 +670,28 @@ void LuaObjectBase::RegisterPromotion(const char *base_type, const char *target_
 
 void LuaObjectBase::RegisterSerializer(const char *type, SerializerPair pair)
 {
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+
+	// push a new type entry into the LuaObjectSerializers registry table
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectSerializers");
+	lua_newtable(l);
+
+	lua_pushlightuserdata(l, reinterpret_cast<void *>(pair.serialize));
+	lua_setfield(l, -2, "serializer");
+
+	lua_pushlightuserdata(l, reinterpret_cast<void *>(pair.deserialize));
+	lua_setfield(l, -2, "deserializer");
+
+	lua_setfield(l, -2, type);
+
+	lua_pop(l, 1);
+	LUA_DEBUG_END(l, 0);
+}
+
+/*
+void LuaObjectBase::RegisterSerializer(const char *type, SerializerPair pair)
+{
 	serializers[type] = pair;
 }
 
@@ -740,6 +762,61 @@ bool LuaObjectBase::FromJson(const Json &obj)
 
 	return it->second.from_json(obj["inner"]);
 }
+*/
+
+// Takes a lua userdata object at the top of the stack and serializes it to json
+bool LuaObjectBase::SerializeToJson(lua_State *l, Json &out)
+{
+	int index = lua_gettop(l);
+	lua_getmetatable(l, index);
+	if (!lua_istable(l, -1)) {
+		lua_pop(l, 1);
+		return false;
+	}
+
+	lua_getfield(l, -1, "type"); // obj, meta, type
+	const char *type = lua_tostring(l, -1);
+	out["cpp_class"] = type;
+	lua_pop(l, 2);
+
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectSerializers");
+	lua_getfield(l, -1, out["cpp_class"].get<std::string>().c_str());
+	lua_remove(l, -2); // obj, serializers
+	if (!lua_istable(l, -1)) {
+		lua_pop(l, 1);
+		return false;
+	}
+
+	lua_getfield(l, -1, "serializer"); // obj, serializers, serializer
+	auto serializer = reinterpret_cast<SerializerPair::Serializer>(lua_touserdata(l, -1));
+	lua_pop(l, 2); // obj
+
+	Json inner = Json::object();
+	return serializer(l, out["inner"]);
+}
+
+// Takes a serialized json object and deserializes it into a new lua object
+bool LuaObjectBase::DeserializeFromJson(lua_State *l, const Json &obj)
+{
+	if (!obj["cpp_class"].is_string() || obj["inner"].is_null())
+		return false;
+
+	const std::string &type = obj.at("cpp_class").get<std::string>();
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectSerializers");
+	lua_getfield(l, -1, type.c_str());
+	lua_remove(l, -2); // serializers
+	if (!lua_istable(l, -1)) {
+		lua_pop(l, 1);
+		return false;
+	}
+
+	lua_getfield(l, -1, "deserializer"); // serializers, deserializer
+	auto deserializer = reinterpret_cast<SerializerPair::Deserializer>(lua_touserdata(l, -1));
+	lua_pop(l, 2);
+
+	return deserializer(l, obj["inner"]);
+}
+
 
 void *LuaObjectBase::Allocate(size_t n)
 {

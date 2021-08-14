@@ -6,6 +6,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "LuaConstants.h"
+#include "LuaMetaType.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaVector.h"
@@ -698,6 +699,7 @@ static bool push_body_to_lua(Body *body)
 	return true;
 }
 
+/*
 static std::string _body_serializer(LuaWrappable *o)
 {
 	static char buf[256];
@@ -723,6 +725,23 @@ static void _body_to_json(Json &out, LuaWrappable *o)
 }
 
 static bool _body_from_json(const Json &obj)
+{
+	if (!obj.is_number_integer()) return false;
+	Body *body = Pi::game->GetSpace()->GetBodyByIndex(obj);
+	return push_body_to_lua(body);
+}
+*/
+
+static bool pi_lua_body_serializer(lua_State *l, Json &out)
+{
+	Body *body = LuaObject<Body>::GetFromLua(-1);
+	if (!body) return false;
+
+	out = Json(Pi::game->GetSpace()->GetIndexForBody(body));
+	return true;
+}
+
+static bool pi_lua_body_deserializer(lua_State *l, const Json &obj)
 {
 	if (!obj.is_number_integer()) return false;
 	Body *body = Pi::game->GetSpace()->GetBodyByIndex(obj);
@@ -788,7 +807,8 @@ void LuaObject<Body>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	const SerializerPair body_serializers(_body_serializer, _body_deserializer, _body_to_json, _body_from_json);
+	// const SerializerPair body_serializers(_body_serializer, _body_deserializer, _body_to_json, _body_from_json);
+	const SerializerPair body_serializers { pi_lua_body_serializer, pi_lua_body_deserializer };
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Body>::DynamicCastPromotionTest);

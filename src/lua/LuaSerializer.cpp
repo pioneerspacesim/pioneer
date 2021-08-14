@@ -51,6 +51,7 @@
 // "Deserialize" function under that namespace. that data returned will be
 // given back to the module
 
+/*
 void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, std::string key)
 {
 	PROFILE_SCOPED()
@@ -191,7 +192,9 @@ void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, std
 
 	LUA_DEBUG_END(l, 0);
 }
+*/
 
+/*
 const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 {
 	PROFILE_SCOPED()
@@ -325,6 +328,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 
 	return pos;
 }
+*/
 
 void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json &out, const std::string &key)
 {
@@ -445,17 +449,15 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json &out, const
 	}
 
 	case LUA_TUSERDATA: {
-		LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, idx));
-
-		// Check that there is still an object attached.
-		// There might not be; e.g., this could be a core object which has been deleted where Lua holds a weak reference.
-		void *o = lo->GetObject();
-		if (!o)
-			Error("Lua serializer '%s' tried to serialize an invalid '%s' object", key.c_str(), lo->GetType());
-
+		lua_pushvalue(l, to_serialize);
 		Json obj = Json::object();
-		lo->ToJson(obj);
-		out["userdata"] = obj;
+		if (LuaObjectBase::SerializeToJson(l, obj))
+			out = obj;
+		else
+			Log::Error("Lua serializer '{}' tried to serialize an invalid object\n"
+				"The save file may be invalid.\n", key.c_str());
+
+		lua_pop(l, 1);
 		break;
 	}
 
@@ -510,9 +512,13 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 		break;
 	case Json::value_t::object:
 		if (value.count("userdata")) {
-			if (!LuaObjectBase::FromJson(value["userdata"])) {
+			if (!LuaObjectBase::DeserializeFromJson(l, value["userdata"])) {
 				throw SavedGameCorruptException();
 			}
+			LUA_DEBUG_CHECK(l, 1);
+		} else if (value.count("cpp_class")) {
+			if (!LuaObjectBase::DeserializeFromJson(l, value))
+				throw SavedGameCorruptException();
 			LUA_DEBUG_CHECK(l, 1);
 		} else {
 			// Object, table, or table-reference.
@@ -673,10 +679,13 @@ void LuaSerializer::FromJson(const Json &jsonObj)
 		}
 		unpickle_json(l, value);
 	} else if (jsonObj.count("lua_modules")) {
+		/*
 		std::string pickled = JsonToBinStr(jsonObj["lua_modules"]);
 		const char *start = pickled.c_str();
 		const char *end = unpickle(l, start);
 		if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
+		*/
+		throw SavedGameCorruptException();
 	} else {
 		throw SavedGameCorruptException();
 	}

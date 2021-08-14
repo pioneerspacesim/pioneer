@@ -73,34 +73,30 @@
 // type for promotion test callbacks
 typedef bool (*PromotionTest)(LuaWrappable *o);
 
-// type for serializer function pair
+/*
+ * SerializerPair stores object hooks for serializing and deserializing objects
+ * into and out of json. The serialization mechanism functions in a type-erased
+ * manner; the hook is responsible for loading the serialized object from the
+ * Lua stack and in turn pushing the deserialized object on the stack as well.
+ */
 struct SerializerPair {
-	typedef std::string (*Serializer)(LuaWrappable *o);
-	typedef bool (*Deserializer)(const char *stream, const char **next);
-
-	typedef void (*ToJson)(Json &out, LuaWrappable *o);
-	typedef bool (*FromJson)(const Json &obj);
+	// Serializer takes a lua object on the top of the stack and writes it to `out`
+	using Serializer = bool (*)(lua_State *l, Json &out);
+	// Deserializer takes `obj` and creates a lua object on the top of the stack
+	using Deserializer = bool (*)(lua_State *l, const Json &obj);
 
 	SerializerPair() :
 		serialize(nullptr),
-		deserialize(nullptr),
-		to_json(nullptr),
-		from_json(nullptr)
+		deserialize(nullptr)
 	{}
 
-	SerializerPair(
-		Serializer serialize_, Deserializer deserialize_,
-		ToJson to_json_, FromJson from_json_) :
+	SerializerPair(Serializer serialize_, Deserializer deserialize_) :
 		serialize(serialize_),
-		deserialize(deserialize_),
-		to_json(to_json_),
-		from_json(from_json_)
+		deserialize(deserialize_)
 	{}
 
 	Serializer serialize;
 	Deserializer deserialize;
-	ToJson to_json;
-	FromJson from_json;
 };
 
 class PropertyMap;
@@ -170,13 +166,20 @@ protected:
 	// object will be of target_type
 	static void RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn);
 
+	// register a serializer pair for a given type
 	static void RegisterSerializer(const char *type, SerializerPair pair);
 
-	std::string Serialize();
-	static bool Deserialize(const char *stream, const char **next);
+	// [[deprecated]] std::string Serialize();
+	// [[deprecated]] static bool Deserialize(const char *stream, const char **next);
 
-	void ToJson(Json &out);
-	static bool FromJson(const Json &obj);
+	// Take a lua object at the top of the stack and serialize it to Json
+	static bool SerializeToJson(lua_State *l, Json &out);
+
+	// Take a json object and deserialize it to a lua object
+	static bool DeserializeFromJson(lua_State *l, const Json &obj);
+
+	// [[deprecated]] void ToJson(Json &out);
+	// [[deprecated]] static bool FromJson(const Json &obj);
 
 	// allocate n bytes from Lua memory and leave it an associated userdata on
 	// the stack. this is a wrapper around lua_newuserdata
