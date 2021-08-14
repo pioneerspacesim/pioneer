@@ -121,6 +121,9 @@ public:
 	// its PropertyMap. Returns nullptr on failure.
 	static PropertyMap *GetPropertiesFromObject(lua_State *l, int object);
 
+	// register a serializer pair for a given type
+	static void RegisterSerializer(const char *type, SerializerPair pair);
+
 protected:
 	// base class constructor, called by the wrapper Push* methods
 	LuaObjectBase(const char *type) :
@@ -166,20 +169,11 @@ protected:
 	// object will be of target_type
 	static void RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn);
 
-	// register a serializer pair for a given type
-	static void RegisterSerializer(const char *type, SerializerPair pair);
-
-	// [[deprecated]] std::string Serialize();
-	// [[deprecated]] static bool Deserialize(const char *stream, const char **next);
-
 	// Take a lua object at the top of the stack and serialize it to Json
 	static bool SerializeToJson(lua_State *l, Json &out);
 
 	// Take a json object and deserialize it to a lua object
 	static bool DeserializeFromJson(lua_State *l, const Json &obj);
-
-	// [[deprecated]] void ToJson(Json &out);
-	// [[deprecated]] static bool FromJson(const Json &obj);
 
 	// allocate n bytes from Lua memory and leave it an associated userdata on
 	// the stack. this is a wrapper around lua_newuserdata

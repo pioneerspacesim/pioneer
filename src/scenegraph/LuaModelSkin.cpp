@@ -92,43 +92,6 @@ namespace SceneGraph {
 
 } // namespace SceneGraph
 
-/*
-static std::string _modelskin_serializer(LuaWrappable *o)
-{
-	static char buf[256];
-
-	SceneGraph::ModelSkin *skin = static_cast<SceneGraph::ModelSkin *>(o);
-
-	Serializer::Writer wr;
-	skin->Save(wr);
-	const std::string &ser = wr.GetData();
-	snprintf(buf, sizeof(buf), SIZET_FMT "\n", ser.size());
-
-	return std::string(buf) + ser;
-}
-
-static bool _modelskin_deserializer(const char *pos, const char **next)
-{
-	const char *end;
-
-	Uint32 serlen = strtoul(pos, const_cast<char **>(&end), 0);
-	if (pos == end) return false;
-	pos = end + 1; // skip newline
-
-	std::string buf(pos, serlen);
-	const char *bufp = buf.c_str();
-	Serializer::Reader rd(ByteRange(bufp, bufp + buf.size()));
-	SceneGraph::ModelSkin skin;
-	skin.Load(rd);
-
-	LuaObject<SceneGraph::ModelSkin>::PushToLua(skin);
-
-	*next = pos + serlen;
-
-	return true;
-}
-*/
-
 static bool _modelskin_to_json(lua_State *l, Json &out)
 {
 	auto *skin = LuaObject<SceneGraph::ModelSkin>::GetFromLua(-1);

@@ -91,7 +91,6 @@
  */
 
 static std::map<std::string, std::map<std::string, PromotionTest>> promotions;
-static std::map<std::string, SerializerPair> serializers;
 
 class LuaObjectHelpers {
 public:
@@ -688,81 +687,6 @@ void LuaObjectBase::RegisterSerializer(const char *type, SerializerPair pair)
 	lua_pop(l, 1);
 	LUA_DEBUG_END(l, 0);
 }
-
-/*
-void LuaObjectBase::RegisterSerializer(const char *type, SerializerPair pair)
-{
-	serializers[type] = pair;
-}
-
-std::string LuaObjectBase::Serialize()
-{
-	static char buf[256];
-
-	lua_State *l = Lua::manager->GetLuaState();
-
-	auto i = serializers.find(m_type);
-	if (i == serializers.end()) {
-		luaL_error(l, "No registered serializer for type %s\n", m_type);
-		abort();
-	}
-
-	snprintf(buf, sizeof(buf), "%s\n", m_type);
-
-	return std::string(buf) + (*i).second.serialize(GetObject());
-}
-
-bool LuaObjectBase::Deserialize(const char *stream, const char **next)
-{
-	static char buf[256];
-
-	const char *end = strchr(stream, '\n');
-	int len = end - stream;
-	end++; // skip newline
-
-	snprintf(buf, sizeof(buf), "%.*s", len, stream);
-
-	lua_State *l = Lua::manager->GetLuaState();
-
-	auto i = serializers.find(buf);
-	if (i == serializers.end()) {
-		luaL_error(l, "No registered deserializer for type %s\n", buf);
-		abort();
-	}
-
-	return (*i).second.deserialize(end, next);
-}
-
-void LuaObjectBase::ToJson(Json &out)
-{
-	lua_State *l = Lua::manager->GetLuaState();
-
-	const auto it = serializers.find(m_type);
-	if (it == serializers.end()) {
-		luaL_error(l, "No registered serializer for type %s\n", m_type);
-		abort();
-	}
-
-	out["cpp_class"] = Json(m_type);
-	Json inner = Json::object();
-	it->second.to_json(inner, GetObject());
-	out["inner"] = inner;
-}
-
-bool LuaObjectBase::FromJson(const Json &obj)
-{
-	if (obj["cpp_class"].is_null() || obj["inner"].is_null()) return false;
-	const std::string type = obj["cpp_class"];
-	auto it = serializers.find(type);
-	if (it == serializers.end()) {
-		lua_State *l = Lua::manager->GetLuaState();
-		luaL_error(l, "No registered deserializer for type %s\n", type.c_str());
-		abort();
-	}
-
-	return it->second.from_json(obj["inner"]);
-}
-*/
 
 // Takes a lua userdata object at the top of the stack and serializes it to json
 bool LuaObjectBase::SerializeToJson(lua_State *l, Json &out)

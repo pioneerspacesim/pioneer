@@ -699,39 +699,6 @@ static bool push_body_to_lua(Body *body)
 	return true;
 }
 
-/*
-static std::string _body_serializer(LuaWrappable *o)
-{
-	static char buf[256];
-	Body *b = static_cast<Body *>(o);
-	snprintf(buf, sizeof(buf), "%u\n", Pi::game->GetSpace()->GetIndexForBody(b));
-	return std::string(buf);
-}
-
-static bool _body_deserializer(const char *pos, const char **next)
-{
-	Uint32 n = strtoul(pos, const_cast<char **>(next), 0);
-	if (pos == *next) return false;
-	(*next)++; // skip newline
-
-	Body *body = Pi::game->GetSpace()->GetBodyByIndex(n);
-	return push_body_to_lua(body);
-}
-
-static void _body_to_json(Json &out, LuaWrappable *o)
-{
-	Body *b = static_cast<Body *>(o);
-	out = Json(Pi::game->GetSpace()->GetIndexForBody(b));
-}
-
-static bool _body_from_json(const Json &obj)
-{
-	if (!obj.is_number_integer()) return false;
-	Body *body = Pi::game->GetSpace()->GetBodyByIndex(obj);
-	return push_body_to_lua(body);
-}
-*/
-
 static bool pi_lua_body_serializer(lua_State *l, Json &out)
 {
 	Body *body = LuaObject<Body>::GetFromLua(-1);
