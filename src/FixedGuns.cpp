@@ -58,7 +58,6 @@ void FixedGuns::Init(DynamicBody *b)
 		m_recharge_stat[i] = 0.0;
 		m_temperature_stat[i] = 0.0;
 	}
-	b->AddFeature(DynamicBody::FIXED_GUNS);
 }
 
 void FixedGuns::SaveToJson(Json &jsonObj, Space *space)

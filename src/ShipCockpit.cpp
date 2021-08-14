@@ -182,8 +182,9 @@ void ShipCockpit::Update(const Player *player, float timeStep)
 
 	// setup thruster levels
 	if (GetModel()) {
-		vector3f linthrust{ player->GetPropulsion()->GetLinThrusterState() };
-		vector3f angthrust{ player->GetPropulsion()->GetAngThrusterState() };
+		Propulsion *prop = player->GetComponent<Propulsion>();
+		vector3f linthrust{ prop->GetLinThrusterState() };
+		vector3f angthrust{ prop->GetAngThrusterState() };
 		GetModel()->SetThrust(linthrust, -angthrust);
 	}
 }
