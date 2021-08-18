@@ -117,7 +117,7 @@
   },
   "BIND_RESET_CAMERA": {
     "description": "Descriptive name for the ResetCamera action.",
-    "message": "Ath-shuidhich sealladh tùsail a’ chamara"
+    "message": "Ath-shuidhich sealladh bunaiteach a’ chamara"
   },
   "BIND_RESET_ORIENTATION_AND_ZOOM": {
     "description": "Descriptive name for the ResetOrientationAndZoom action.",
