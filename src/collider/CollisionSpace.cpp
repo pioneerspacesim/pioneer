@@ -59,6 +59,9 @@ public:
 	BvhNode *m_nodesAlloc;
 	int m_nodesAllocPos;
 	int m_nodesAllocMax;
+	// tree height at best log2(n), at worst n (n is the number of objects in the tree)
+	// it seems that the height of that tree never exceeds 20
+	// also TREE HEIGHT - THREE EIGHT, neat
 	static constexpr int MAX_TREE_HEIGHT = 38;
 
 	BvhNode *AllocNode()
@@ -210,7 +213,7 @@ void BvhTree::BuildNode(BvhNode *node, const std::list<Geom *> &a_geoms, int &ou
 	node->aabb = aabb;
 
 	// one side has all nodes, or we have reached the maximum tree height - just make a fucking child
-	if ((side[0].size() == 0) || (side[1].size() == 0) || maxHeight == 0) {
+	if (side[0].size() == 0 || side[1].size() == 0 || maxHeight == 0) {
 		node->geomStart = &m_geoms[outGeomPos];
 
 		// copy geoms to the stinking flat array
