@@ -267,7 +267,7 @@ static int l_space_put_ship_on_route(lua_State *l)
 	const int coll = CheckCollision(ship, reldir, targdist, targpos, 0, erad);
 	if (coll) {
 		// need to correct positon, to avoid collision
-		if (Frame::GetFrame(shipFrame->GetNonRotFrame()) != Frame::GetFrame(targFrame->GetNonRotFrame()) && targpos.Length() > erad) {
+		if (shipFrame->GetNonRotFrame() != targFrame->GetNonRotFrame() && targpos.Length() > erad) {
 			// the ship is not in the target's frame or target is above the effective radius of obstructor - rotate the ship's position
 			// around the target position, so that the obstructor's "effective radius" does not cross the path
 			// direction obstructor -> target
@@ -276,8 +276,9 @@ static int l_space_put_ship_on_route(lua_State *l)
 			const vector3d y = z.Cross(shippos).NormalizedSafe();
 			// just the third axis of this basis
 			const vector3d x = y.Cross(z);
+
 			// this is the basis in which the position of the ship will rotate
-			const matrix3x3d corrCS = matrix3x3d::FromVectors(x, y, z);
+			const matrix3x3d corrCS = matrix3x3d::FromVectors(x, y, z).Transpose();
 			const double len = targpos.Length();
 			// two possible positions of the ship, when flying around the obstructor to the right or left
 			// rotate (in the given basis) the direction from the target to the obstructor, so that it passes tangentially to the obstructor
