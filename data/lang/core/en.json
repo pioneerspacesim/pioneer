@@ -916,8 +916,8 @@
     "message": "."
   },
   "NUMBER_G": {
-    "description": "",
-    "message": "%acceleration{f.1} G"
+    "description": "Acceleration in units of earth gravity (1g)",
+    "message": "%acceleration{f.1} g"
   },
   "NUMBER_GROUP_MIN": {
     "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
