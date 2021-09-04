@@ -207,7 +207,9 @@ end
 function HyperdriveType:GetDuration(ship, distance, range_max)
 	range_max = range_max or self:GetMaximumRange(ship)
 	local hyperclass = self.capabilities.hyperclass
-	return 0.36*distance^2/(range_max*hyperclass) * (86400*math.sqrt(ship.staticMass + ship.fuelMassLeft))
+	local timefactor = self.capabilities.timefactor
+	-- staticMass + fuelMassLeft == hull + cargo + remaining fuel (ships total mass)
+	return timefactor*distance^2/(range_max*hyperclass) * (86400*math.sqrt(ship.staticMass + ship.fuelMassLeft))
 end
 
 -- range_max is optional, distance defaults to the maximal range.
