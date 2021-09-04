@@ -53,7 +53,7 @@ local function displayCommsLog()
 										ui.setNextWindowSize(aux , "Always")
 										aux = Vector2(mainButtonSize.x + 2 * mainButtonFramePadding + 15, 10)
 										ui.setNextWindowPos(aux , "Always")
-										ui.window("ShortCommsLog", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+										ui.window("ShortCommsLog", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"},
 															function()
 																local last = nil
 																local rep = 0
