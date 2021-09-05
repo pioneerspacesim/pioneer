@@ -40,6 +40,9 @@ public:
 	static const int citygridmidpoint = 100;
 	static const int citygridlimit = citygridmidpoint * 2;
 
+	// FIXME: is this accurate with revised CityOnPlanet generation code?
+	static constexpr double RADIUS = 5000.0;
+
 private:
 	void AddStaticGeomsToCollisionSpace();
 	void RemoveStaticGeomsFromCollisionSpace();
