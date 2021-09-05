@@ -28,8 +28,8 @@ static uint32_t cityradius_rnd[5];
 int simplebuildings[50];
 int numberofSimplebuildings;
 
-static const uint32_t DEFAULT_ATMO_SIZE;
-static const uint32_t DEFAULT_AIRLESS_SIZE;
+static const uint32_t DEFAULT_ATMO_SIZE = 60;
+static const uint32_t DEFAULT_AIRLESS_SIZE = 20;
 uint32_t config_atmo_size;
 uint32_t config_airless_size;
 
