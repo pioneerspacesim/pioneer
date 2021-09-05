@@ -455,7 +455,6 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 					// modify rarity instead of having a separate roll, otherwise we'll be in this loop a lot longer
 					rarity = rarity * (0.5 + ((double)(citydistancegrid[x][z] > 1) / cityradius));
 					// rarity = x0.5 at center up to x1.0 at edge
-
 				}
 				if (chosenBuilding->habitat) {
 					rarity = rarity * (1.0 - ((double)(citydistancegrid[x][z] > 1) / cityradius));
