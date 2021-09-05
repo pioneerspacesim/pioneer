@@ -205,7 +205,7 @@ void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 		}
 		// keep a list of simple buildings
 		assert(numberofSimplebuildings < 50);
-		if (list->buildings[i].layout == 0 && list->buildings[i].storage == false && list->buildings[i].industry == false && list->buildings[i].monument == false	&& list->buildings[i].habitat == true && list->buildings[i].atmo_rarity == 1.0 && list->buildings[i].airless_rarity == 1.0) {
+		if (list->buildings[i].layout == 0 && list->buildings[i].storage == false && list->buildings[i].industry == false && list->buildings[i].monument == false && list->buildings[i].habitat == true && list->buildings[i].atmo_rarity == 1.0 && list->buildings[i].airless_rarity == 1.0) {
 			simplebuildings[numberofSimplebuildings++] = i;
 		}
 		Output(" - %s: %s airless %.3f atmo %.3f\n", modelname, extra_attributes, list->buildings[i].airless_rarity, list->buildings[i].atmo_rarity);
@@ -332,7 +332,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	const matrix4x4d &m = station->GetOrient();
 	const vector3d station_position = station->GetPosition();
 	const std::string &stationmodelname = station->GetStationType()->ModelName();
-	const double bodyradius = planet->GetSystemBody()->GetRadius();			// cache for bodyradius value
+	const double bodyradius = planet->GetSystemBody()->GetRadius();			  // cache for bodyradius value
 	const double pop = 1000000000 * planet->GetSystemBody()->GetPopulation(); // GetPopulation() returns population in whole billions, as in 0.5 -> 500M
 	const int atmo = planet->GetSystemBody()->HasAtmosphere() ? config_atmo_size : config_airless_size;
 

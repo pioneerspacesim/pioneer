@@ -71,7 +71,7 @@ private:
 		int32_t x_offset;
 		int32_t z_offset;
 		float airless_rarity; // attribute for adjusting building rarity - airless worlds
-		float atmo_rarity;		// attribute for adjusting building rarity - atmospheric worlds
+		float atmo_rarity;	// attribute for adjusting building rarity - atmospheric worlds
 		bool storage;
 		bool industry;
 		bool monument;
