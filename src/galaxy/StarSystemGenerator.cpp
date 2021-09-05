@@ -1703,24 +1703,19 @@ void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem:
 void PopulateStarSystemGenerator::SetEconType(RefCountedPtr<StarSystem::GeneratorAPI> system)
 {
 	PROFILE_SCOPED()
-	// stack allocated instead of std::vector for cache performance concerns.
-	std::vector<std::pair<fixed, GalacticEconomy::EconomyId>> economies(GalacticEconomy::Economies().size());
-	uint32_t idx = 0;
-
+	fixed score, maximum = 0;
+	GalacticEconomy::EconomyId best_econ_id = GalacticEconomy::InvalidEconomyId;
 	// Score each economy typ according to this system's parameters.
 	for (const auto &econ : GalacticEconomy::Economies()) {
-		fixed score;
-
-		score += system->GetAgricultural() * econ.generation.agricultural;
+		score = system->GetAgricultural() * econ.generation.agricultural;
 		score += system->GetIndustrial() * econ.generation.industrial;
 		score += system->GetMetallicity() * econ.generation.metallicity;
-
-		economies[idx++] = { score, econ.id };
+		if (score > maximum) {
+			maximum = score;
+			best_econ_id = econ.id;
+		}
 	}
-
-	// highest-scoring economy ID is at the end of the array.
-	std::sort(economies.begin(), economies.end());
-	system->SetEconType(economies.back().second);
+	system->SetEconType(best_econ_id);
 }
 
 /* percent */
