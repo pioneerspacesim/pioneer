@@ -17,19 +17,19 @@ f:govtype_weight('SOCDEM',30)
 f:govtype_weight('LIBDEM',30)
 
 -- Julians are a pacifist bunch, only having a navy for self-defence
-f:illegal_goods_probability('BATTLE_WEAPONS',100)
+f:illegal_goods_probability('battle_weapons',100)
 
 -- Julians see alcohol as mostly an unhealthy distraction and try to ban it when local cultures permits it
-f:illegal_goods_probability('LIQUOR',50)
+f:illegal_goods_probability('liquor',50)
 
 -- chemical weapons clash with pacifist/humanist agenda
-f:illegal_goods_probability('NERVE_GAS',100)
+f:illegal_goods_probability('nerve_gas',100)
 
 -- another distraction, use is not criminal unless it affects someone else
-f:illegal_goods_probability('NARCOTICS',75)
+f:illegal_goods_probability('narcotics',75)
 
 -- Absolute enforcement of human rights
-f:illegal_goods_probability('SLAVES',100)
+f:illegal_goods_probability('slaves',100)
 
 -- Julians havent expanded. rather, other systems have seen the Julians prosper and negotiated to be included into their sphere of influence
 f:claim(3,-1,9,0)

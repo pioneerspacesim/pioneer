@@ -14,7 +14,7 @@ local f = Faction:new('Druello pirates')
 f:govtype_weight('MILDICT2',80)
 f:govtype_weight('DISORDER',20)
 
-f:illegal_goods_probability('ROBOTS',100)		--Old man Druello is insanely paranoid about killer robots.
+f:illegal_goods_probability('robots',100)		--Old man Druello is insanely paranoid about killer robots.
 
 -- spread our wings and infest nearby starsystems with our faction
 --f:claim(-56,10,-22)
