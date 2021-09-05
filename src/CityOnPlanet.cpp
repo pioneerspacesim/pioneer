@@ -6,6 +6,7 @@
 #include "FileSystem.h"
 #include "Frame.h"
 #include "Game.h"
+#include "JsonUtils.h"
 #include "ModelCache.h"
 #include "Pi.h"
 #include "Planet.h"
@@ -15,7 +16,6 @@
 #include "scenegraph/Animation.h"
 #include "scenegraph/ModelSkin.h"
 #include "scenegraph/SceneGraph.h"
-#include "JsonUtils.h"
 
 #define DEBUG_OUTPUT 1
 
@@ -155,7 +155,6 @@ void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 		cityradius_rnd[2] = data["global"].value("rnd-2", 14);
 		cityradius_rnd[3] = data["global"].value("rnd-3", 12);
 		cityradius_rnd[4] = data["global"].value("rnd-4", 10);
-
 	}
 	if (config_atmo_size > 68 || config_atmo_size < 5)
 		config_atmo_size = DEFAULT_ATMO_SIZE;
@@ -206,9 +205,7 @@ void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 		}
 		// keep a list of simple buildings
 		assert(numberofSimplebuildings < 50);
-		if (list->buildings[i].layout == 0 && list->buildings[i].storage == false && list->buildings[i].industry == false
-			&& list->buildings[i].monument == false	&& list->buildings[i].habitat == true
-			&& list->buildings[i].atmo_rarity == 1.0 && list->buildings[i].airless_rarity == 1.0) {
+		if (list->buildings[i].layout == 0 && list->buildings[i].storage == false && list->buildings[i].industry == false && list->buildings[i].monument == false	&& list->buildings[i].habitat == true && list->buildings[i].atmo_rarity == 1.0 && list->buildings[i].airless_rarity == 1.0) {
 			simplebuildings[numberofSimplebuildings++] = i;
 		}
 		Output(" - %s: %s airless %.3f atmo %.3f\n", modelname, extra_attributes, list->buildings[i].airless_rarity, list->buildings[i].atmo_rarity);
@@ -335,8 +332,8 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	const matrix4x4d &m = station->GetOrient();
 	const vector3d station_position = station->GetPosition();
 	const std::string &stationmodelname = station->GetStationType()->ModelName();
-	const double bodyradius = planet->GetSystemBody()->GetRadius();				// cache for bodyradius value
-	const double pop = 1000000000 * planet->GetSystemBody()->GetPopulation();	// GetPopulation() returns population in whole billions, as in 0.5 -> 500M
+	const double bodyradius = planet->GetSystemBody()->GetRadius();			// cache for bodyradius value
+	const double pop = 1000000000 * planet->GetSystemBody()->GetPopulation(); // GetPopulation() returns population in whole billions, as in 0.5 -> 500M
 	const int atmo = planet->GetSystemBody()->HasAtmosphere() ? config_atmo_size : config_airless_size;
 
 	Random rand;
@@ -477,17 +474,14 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 			if (chosenBuilding == NULL) {
 				if ((citybits[x][z >> 3] & (128 >> (z & 7))) == 0) {
 					chosenBuilding = &buildings->buildings[simplebuildings[rand.Int32(numberofSimplebuildings)]];
-				}
-				else
+				} else
 					continue;
 			}
-			
 			// building offset modifiers (from details.json)
 			if (chosenBuilding->x_offset)
 				x_offset = chosenBuilding->x_offset;
 			if (chosenBuilding->z_offset)
 				z_offset = chosenBuilding->z_offset;
-			
 			// multicell layout (from details.json)
 			if (chosenBuilding->layout > 0) {
 				setCityCellsOccupied(x, z, chosenBuilding->layout);
