@@ -181,7 +181,7 @@ static LuaFlags<ImGuiInputTextFlags_> imguiInputTextFlagsTable = {
 	{ "AllowTabInput", ImGuiInputTextFlags_AllowTabInput },
 	{ "CtrlEnterForNewLine", ImGuiInputTextFlags_CtrlEnterForNewLine },
 	{ "NoHorizontalScroll", ImGuiInputTextFlags_NoHorizontalScroll },
-	{ "AlwaysInsertMode", ImGuiInputTextFlags_AlwaysInsertMode },
+	{ "AlwaysInsertMode", ImGuiInputTextFlags_AlwaysOverwrite },
 	{ "ReadOnly", ImGuiInputTextFlags_ReadOnly },
 	{ "Password", ImGuiInputTextFlags_Password }
 };
@@ -1235,7 +1235,7 @@ static int l_pigui_add_bezier_curve(lua_State *l)
 	ImColor color = LuaPull<ImColor>(l, 5);
 	float thickness = LuaPull<double>(l, 6);
 	int num_segments = LuaPull<int>(l, 7);
-	draw_list->AddBezierCurve(a, c0, c1, b, color, thickness, num_segments);
+	draw_list->AddBezierCubic(a, c0, c1, b, color, thickness, num_segments);
 	return 0;
 }
 
