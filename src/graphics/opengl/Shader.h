@@ -76,7 +76,10 @@ namespace Graphics {
 
 			Program *GetProgramForDesc(const MaterialDescriptor &desc);
 #pragma message("FIX: warning of data loss (x64)")
-			uint32_t GetNumVariants() const	{ return 0xFFFFFFFF & m_variants.size(); }
+			uint32_t GetNumVariants() const
+			{
+				return 0xFFFFFFFF & m_variants.size();
+			}
 
 			TextureBindingData GetTextureBindingInfo(size_t name) const;
 			size_t GetNumTextureBindings() const { return m_textureBindingInfo.size(); }

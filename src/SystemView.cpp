@@ -197,10 +197,10 @@ static vector3d position_of_surface_starport_relative_to_parent(const SystemBody
 		vector3d(0.0, 1.0, 0.0) *
 		// we need the distance to the center of the planet
 		(Pi::game->IsNormalSpace() && Pi::game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(Pi::game->GetSectorView()->GetSelected()) ?
-				// if we look at the current system, the relief is known, we take the height from the physical body
-				Pi::game->GetSpace()->FindBodyForPath(&(starport->GetPath()))->GetPosition().Length() :
-				// if the remote system - take the radius of the planet
-				parent->GetRadius());
+				  // if we look at the current system, the relief is known, we take the height from the physical body
+				  Pi::game->GetSpace()->FindBodyForPath(&(starport->GetPath()))->GetPosition().Length() :
+				  // if the remote system - take the radius of the planet
+				  parent->GetRadius());
 }
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)

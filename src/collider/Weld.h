@@ -89,11 +89,11 @@ namespace nv {
 		Uint32 operator()(std::vector<T> &p, std::vector<Uint32> &xrefs)
 		{
 #pragma message("FIX: warning of data loss (x64)")
-			const Uint32 N = 0xFFFFFFFF & p.size();			 // # of input vertices.
-			Uint32 outputCount = 0; // # of output vertices
-			Uint32 hashSize = nextPowerOfTwo(N); // size of the hash table
+			const Uint32 N = 0xFFFFFFFF & p.size();		  // # of input vertices.
+			Uint32 outputCount = 0;						  // # of output vertices
+			Uint32 hashSize = nextPowerOfTwo(N);		  // size of the hash table
 			Uint32 *hashTable = new Uint32[hashSize + N]; // hash table + linked list
-			Uint32 *next = hashTable + hashSize; // use bottom part as linked list
+			Uint32 *next = hashTable + hashSize;		  // use bottom part as linked list
 
 			xrefs.resize(N);
 			memset(hashTable, NIL, (hashSize + N) * sizeof(Uint32)); // init hash table (NIL = 0xFFFFFFFF so memset works)

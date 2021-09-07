@@ -272,8 +272,8 @@ namespace Graphics {
 		if (!m_windowRenderTarget->CheckStatus()) {
 			GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			Log::Fatal("Pioneer window render target is invalid. (Error: {})\n"
-				"Does your graphics driver support multisample anti-aliasing?\n"
-				"If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
+					   "Does your graphics driver support multisample anti-aliasing?\n"
+					   "If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
 				gl_framebuffer_error_to_string(status));
 		}
 
