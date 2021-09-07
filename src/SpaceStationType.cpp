@@ -232,7 +232,8 @@ void SpaceStationType::OnSetupComplete()
 		}
 	}
 
-	numDockingPorts = m_portPaths.size();
+#pragma message("FIX: warning of data loss (x64)")
+	numDockingPorts = 0xFFFFFFFF & m_portPaths.size();
 
 	// sanity
 	assert(!m_portPaths.empty());
@@ -421,10 +422,12 @@ void SpaceStationType::Init()
 const SpaceStationType *SpaceStationType::RandomStationType(Random &random, const bool bIsGround)
 {
 	if (bIsGround) {
-		return &surfaceTypes[random.Int32(SpaceStationType::surfaceTypes.size())];
+#pragma message("FIX: warning of data loss (x64)")
+		return &surfaceTypes[random.Int32(0xFFFFFFFF & SpaceStationType::surfaceTypes.size())];
 	}
 
-	return &orbitalTypes[random.Int32(SpaceStationType::orbitalTypes.size())];
+#pragma message("FIX: warning of data loss (x64)")
+	return &orbitalTypes[random.Int32(0xFFFFFFFF & SpaceStationType::orbitalTypes.size())];
 }
 
 /*static*/

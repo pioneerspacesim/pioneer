@@ -39,7 +39,8 @@ namespace Text {
 			do {
 				++str;
 			} while ((*str & 0xC0) == 0x80);
-			return (str - start);
+#pragma message("FIX: warning of data loss (x64)")
+			return int(str - start);
 		} else
 			return 1;
 	}
@@ -57,7 +58,8 @@ namespace Text {
 			while ((str > begin) && ((*str & 0xC0) == 0x80)) {
 				--str;
 			}
-			return (start - str);
+#pragma message("FIX: warning of data loss (x64)")
+			return int(start - str);
 		} else
 			return 1;
 	}

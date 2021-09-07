@@ -45,7 +45,8 @@ namespace Serializer {
 
 		void writeObject(const std::string &obj)
 		{
-			writeObject<Uint32>(obj.size());
+#pragma message("FIX: warning of data loss (x64)")
+			writeObject<Uint32>(0xFFFFFFFF & obj.size());
 			m_str.append(obj.c_str(), obj.size());
 		}
 
@@ -56,7 +57,8 @@ namespace Serializer {
 				return;
 			}
 
-			Uint32 len = strlen(s);
+#pragma message("FIX: warning of data loss (x64)")
+			uint32_t len = uint32_t(strlen(s));
 			*this << len;
 			m_str.append(s, len);
 		}
@@ -80,7 +82,8 @@ namespace Serializer {
 		void Blob(ByteRange range)
 		{
 			assert(range.Size() < SDL_MAX_UINT32);
-			Int32(range.Size());
+#pragma message("FIX: warning of data loss (x64)")
+			Int32(0xFFFFFFFF & range.Size());
 			if (range.Size()) {
 				m_str.append(range.begin, range.Size());
 			}
@@ -179,7 +182,8 @@ namespace Serializer {
 
 		ByteRange Blob()
 		{
-			auto len = Int32();
+#pragma message("FIX: signed/unsigned mismatch")
+			int32_t len = Int32();
 			if (len == 0) return ByteRange();
 			if (len > (m_data.end - m_at))
 				throw std::out_of_range("Serializer::Reader encountered truncated stream.");

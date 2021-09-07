@@ -27,9 +27,13 @@ static int ParseInt(const std::string &str)
 	int i = 0;
 	try {
 		i = std::stoi(str);
+#pragma message("FIX: warning of unused variable")
+#pragma warning(push)
+#pragma warning(disable: 4101)
 	} catch (const std::invalid_argument &e) {
 		throw SystemPath::ParseFailure();
 	}
+#pragma warning(pop)
 	return i;
 }
 

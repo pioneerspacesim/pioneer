@@ -184,19 +184,22 @@ namespace Graphics {
 			void AppendSource(const char *str)
 			{
 				blocks.push_back(str);
-				block_sizes.push_back(std::strlen(str));
+#pragma message("FIX: warning of data loss (x64)")
+				block_sizes.push_back(0xFFFFFFFF & std::strlen(str));
 			}
 
 			void AppendSource(StringRange str)
 			{
 				blocks.push_back(str.begin);
-				block_sizes.push_back(str.Size());
+#pragma message("FIX: warning of data loss (x64)")
+				block_sizes.push_back(0xFFFFFFFF & str.Size());
 			}
 
 			void Compile(GLuint shader_id)
 			{
 				assert(blocks.size() == block_sizes.size());
-				glShaderSource(shader_id, blocks.size(), &blocks[0], &block_sizes[0]);
+#pragma message("FIX: warning of data loss (x64)")
+				glShaderSource(shader_id, 0xFFFFFFFF & blocks.size(), &blocks[0], &block_sizes[0]);
 				glCompileShader(shader_id);
 			}
 

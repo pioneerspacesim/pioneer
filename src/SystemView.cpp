@@ -486,7 +486,8 @@ void SystemView::Update()
 	AnimationCurves::Approach(m_rot_y, m_rot_y_to, ft);
 
 	// to capture mouse when button was pressed and release when released
-	if (Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
+#pragma message("FIX: warning comparing int with bool")
+	if (bool(Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE)) != m_rotateWithMouseButton) {
 		m_rotateWithMouseButton = !m_rotateWithMouseButton;
 		Pi::input->SetCapturingMouse(m_rotateWithMouseButton);
 	}

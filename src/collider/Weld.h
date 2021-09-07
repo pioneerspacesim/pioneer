@@ -88,7 +88,8 @@ namespace nv {
 		// xrefs maps old elements to new elements
 		Uint32 operator()(std::vector<T> &p, std::vector<Uint32> &xrefs)
 		{
-			const Uint32 N = p.size(); // # of input vertices.
+#pragma message("FIX: warning of data loss (x64)")
+			const Uint32 N = 0xFFFFFFFF & p.size();			 // # of input vertices.
 			Uint32 outputCount = 0; // # of output vertices
 			Uint32 hashSize = nextPowerOfTwo(N); // size of the hash table
 			Uint32 *hashTable = new Uint32[hashSize + N]; // hash table + linked list
