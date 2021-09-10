@@ -181,7 +181,7 @@ static LuaFlags<ImGuiInputTextFlags_> imguiInputTextFlagsTable = {
 	{ "AllowTabInput", ImGuiInputTextFlags_AllowTabInput },
 	{ "CtrlEnterForNewLine", ImGuiInputTextFlags_CtrlEnterForNewLine },
 	{ "NoHorizontalScroll", ImGuiInputTextFlags_NoHorizontalScroll },
-	{ "AlwaysInsertMode", ImGuiInputTextFlags_AlwaysOverwrite },
+	{ "AlwaysOverwrite", ImGuiInputTextFlags_AlwaysOverwrite },
 	{ "ReadOnly", ImGuiInputTextFlags_ReadOnly },
 	{ "Password", ImGuiInputTextFlags_Password }
 };
