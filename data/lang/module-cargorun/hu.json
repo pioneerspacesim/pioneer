@@ -353,7 +353,7 @@
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "I can offer the following freight runs:"
+    "message": "A következő szállítmányok várnak fuvarra:"
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
@@ -361,7 +361,7 @@
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo."
+    "message": "Igen, felosztható a rakomány."
   },
   "NEGOTIABLE_NO_1": {
     "description": "regarding mass, always more than 1t",
