@@ -61,6 +61,7 @@ local onChat = function (form, ref, option)
 	if ad.amount == 0 then
 		form:RemoveAdvertOnClose()
 		ads[ref] = nil
+		form:Close()
 	end
 
 	return
