@@ -27,7 +27,7 @@ local Equipment = require 'Equipment'
 local l = Lang.GetResource("module-newseventcommodity")
 
 local maxDist = 50          -- for spawning news (ly)
-local minTime = 15768000    -- no news the first 5 months of a new game (sec)
+local minTime = 15768000    -- no news the first 6 months of a new game (sec)
 
 -- to spawn a new event per hyperjump, provided no other news.
 local eventProbability = 1/20
@@ -319,7 +319,7 @@ local onEnterSystem = function (player)
 
 	-- create a news event with low probability
 	if Engine.rand:Number(0,1) < eventProbability and
-		#news <= maxNumberNews and Game.time > minTime then
+		#news <= maxNumberNews and Game.GetStartTime() > minTime then
 		createNewsEvent(timeInHyperspace)
 	end
 
