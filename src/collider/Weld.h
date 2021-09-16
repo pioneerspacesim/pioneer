@@ -89,7 +89,7 @@ namespace nv {
 		Uint32 operator()(std::vector<T> &p, std::vector<Uint32> &xrefs)
 		{
 #pragma message("FIX: warning of data loss (x64)")
-			const Uint32 N = 0xFFFFFFFF & p.size();		  // # of input vertices.
+			const Uint32 N = uint32_t(p.size());		  // # of input vertices.
 			Uint32 outputCount = 0;						  // # of output vertices
 			Uint32 hashSize = nextPowerOfTwo(N);		  // size of the hash table
 			Uint32 *hashTable = new Uint32[hashSize + N]; // hash table + linked list

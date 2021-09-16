@@ -542,7 +542,7 @@ namespace Graphics {
 		}
 
 #pragma message("FIX: warning of data loss (x64)")
-		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, 0xFFFFFFFF & s_DynamicDrawBufferMap.size());
+		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, uint32_t(s_DynamicDrawBufferMap.size()));
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE, uint32_t(m_drawUniformBuffers.size()));
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS, numAllocs);
 
@@ -551,7 +551,7 @@ namespace Graphics {
 			numShaderPrograms += pair.second->GetNumVariants();
 
 #pragma message("FIX: warning of data loss (x64)")
-		stat.SetStatCount(Stats::STAT_NUM_RENDER_STATES, 0xFFFFFFFF & m_renderStateCache->m_stateDescCache.size());
+		stat.SetStatCount(Stats::STAT_NUM_RENDER_STATES, uint32_t(m_renderStateCache->m_stateDescCache.size()));
 		stat.SetStatCount(Stats::STAT_NUM_SHADER_PROGRAMS, numShaderPrograms);
 
 		return true;

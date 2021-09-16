@@ -46,7 +46,7 @@ namespace Serializer {
 		void writeObject(const std::string &obj)
 		{
 #pragma message("FIX: warning of data loss (x64)")
-			writeObject<Uint32>(0xFFFFFFFF & obj.size());
+			writeObject<Uint32>(uint32_t(obj.size()));
 			m_str.append(obj.c_str(), obj.size());
 		}
 
@@ -83,7 +83,7 @@ namespace Serializer {
 		{
 			assert(range.Size() < SDL_MAX_UINT32);
 #pragma message("FIX: warning of data loss (x64)")
-			Int32(0xFFFFFFFF & range.Size());
+			Int32(uint32_t(range.Size()));
 			if (range.Size()) {
 				m_str.append(range.begin, range.Size());
 			}

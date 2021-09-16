@@ -114,13 +114,13 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 
 		//int t = SDL_GetTicks();
 #pragma message("FIX: warning of data loss (x64)")
-		m_triTree.reset(new BVHTree(0xFFFFFFFF & activeTris.size(), &activeTris[0], aabbs));
+		m_triTree.reset(new BVHTree(int(activeTris.size()), &activeTris[0], aabbs));
 		delete[] aabbs;
 	}
 	//Output("Tri tree of %d tris build in %dms\n", activeTris.size(), SDL_GetTicks() - t);
 
 #pragma message("FIX: warning of data loss (x64)")
-	m_numEdges = 0xFFFFFFFF & edges.size();
+	m_numEdges = int32_t(edges.size());
 	m_edges.resize(m_numEdges);
 	// to build Edge bvh tree with.
 	m_aabbs.resize(m_numEdges);
@@ -219,7 +219,7 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 		aabbs[i].Update(v3);
 	}
 #pragma message("FIX: warning of data loss (x64)")
-	m_triTree.reset(new BVHTree(0xFFFFFFFF & activeTris.size(), &activeTris[0], aabbs));
+	m_triTree.reset(new BVHTree(int(activeTris.size()), &activeTris[0], aabbs));
 	delete[] aabbs;
 
 	//

@@ -78,7 +78,7 @@ namespace Graphics {
 #pragma message("FIX: warning of data loss (x64)")
 			uint32_t GetNumVariants() const
 			{
-				return 0xFFFFFFFF & m_variants.size();
+				return uint32_t(m_variants.size());
 			}
 
 			TextureBindingData GetTextureBindingInfo(size_t name) const;
