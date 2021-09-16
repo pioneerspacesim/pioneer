@@ -1,3 +1,7 @@
+September 2021
+   * Internal Changes
+     * Increase and limit the height of the BvhTree (#5249)
+
 August 2021
    * Internal Changes
      * Rewrite renderer API and material authoring system (#5156)
