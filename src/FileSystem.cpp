@@ -205,7 +205,8 @@ namespace FileSystem {
 		assert((m_path.size() <= 1) || (m_path[m_path.size() - 1] != '/'));
 		std::size_t slashpos = m_path.rfind('/');
 		if (slashpos != std::string::npos) {
-			m_dirLen = slashpos + 1;
+#pragma message("FIX: warning of data loss (x64)")
+			m_dirLen = int(slashpos + 1);
 		} else {
 			m_dirLen = 0;
 		}

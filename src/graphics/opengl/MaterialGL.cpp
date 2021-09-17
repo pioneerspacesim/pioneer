@@ -44,7 +44,8 @@ namespace Graphics {
 			m_activeVariant = s->GetProgramForDesc(GetDescriptor());
 
 			// Allocate storage for texture bindings
-			GLuint numTextureBindings = s->GetNumTextureBindings();
+#pragma message("FIX: warning of data loss (x64)")
+			GLuint numTextureBindings = GLuint(s->GetNumTextureBindings());
 			if (numTextureBindings) {
 				m_textureBindings.reset(new Texture *[numTextureBindings]);
 				for (GLuint i = 0; i < numTextureBindings; i++)
@@ -52,7 +53,8 @@ namespace Graphics {
 			}
 
 			// Allocate storage for buffer bindings
-			GLuint numBufferBindings = s->GetNumBufferBindings();
+#pragma message("FIX: warning of data loss (x64)")
+			GLuint numBufferBindings = GLuint(s->GetNumBufferBindings());
 			if (numBufferBindings) {
 				m_bufferBindings.reset(new BufferBinding<UniformBuffer>[numBufferBindings]);
 				for (GLuint i = 0; i < numBufferBindings; i++)
@@ -60,7 +62,8 @@ namespace Graphics {
 			}
 
 			// Allocate storage for push constants
-			GLuint constantStorageSize = s->GetConstantStorageSize();
+#pragma message("FIX: warning of data loss (x64)")
+			GLuint constantStorageSize = GLuint(s->GetConstantStorageSize());
 			if (constantStorageSize) {
 				m_pushConstants.reset(new char[constantStorageSize]);
 				std::fill_n(m_pushConstants.get(), constantStorageSize, '\0');
@@ -199,7 +202,8 @@ namespace Graphics {
 
 			auto &bufferSlot = m_bufferBindings[info.index];
 
-			auto allocation = m_renderer->GetDrawUniformBuffer(size)->Allocate(buffer, size);
+#pragma message("FIX: warning of data loss (x64)")
+			auto allocation = m_renderer->GetDrawUniformBuffer(uint32_t(size))->Allocate(buffer, size);
 			bufferSlot.buffer = allocation.buffer;
 			bufferSlot.offset = allocation.offset;
 			bufferSlot.size = allocation.size;

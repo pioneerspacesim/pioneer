@@ -15,7 +15,8 @@ SDLSurfacePtr LoadSurfaceFromFile(const std::string &fname, FileSystem::FileSour
 		return SDLSurfacePtr();
 	}
 
-	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
+#pragma message("FIX: warning of data loss (x64)")
+	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), int(filedata->GetSize()));
 	SDL_Surface *surface = IMG_Load_RW(datastream, 1);
 	if (!surface) {
 		Output("LoadSurfaceFromFile: %s: %s\n", fname.c_str(), IMG_GetError());

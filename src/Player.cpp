@@ -296,7 +296,8 @@ void Player::StaticUpdate(const float timeStep)
 {
 	Ship::StaticUpdate(timeStep);
 
-	for (size_t i = 0; i < GUNMOUNT_MAX; i++)
+#pragma message("FIX: warning of data loss (x64)")
+	for (int i = 0; i < GUNMOUNT_MAX; i++)
 		if (GetFixedGuns()->IsGunMounted(i))
 			GetFixedGuns()->UpdateLead(timeStep, i, this, GetCombatTarget());
 

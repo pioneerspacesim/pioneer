@@ -206,9 +206,10 @@ void PerfInfo::DrawPerfWindow()
 {
 	if (ImGui::Begin("Performance", nullptr, ImGuiWindowFlags_NoNav)) {
 		ImGui::Text("%.1f fps (%.1f ms) %.1f physics ups (%.1f ms/u)", framesThisSecond, m_fpsCounter.average, physFramesThisSecond, m_physCounter.average);
-		ImGui::PlotLines("Frame Time (ms)", m_fpsCounter.history.data(), m_fpsCounter.history.size(), 0, nullptr, 2.0, 33.0, { 0, 45 });
-		ImGui::PlotLines("Update Time (ms)", m_physCounter.history.data(), m_physCounter.history.size(), 0, nullptr, 0.0, 10.0, { 0, 25 });
-		ImGui::PlotLines("Pigui Time (ms)", m_piguiCounter.history.data(), m_piguiCounter.history.size(), 0, nullptr, 0.0, 5.0, { 0, 25 });
+#pragma message("FIX: warning of data loss (x64) x3")
+		ImGui::PlotLines("Frame Time (ms)", m_fpsCounter.history.data(), int(m_fpsCounter.history.size()), 0, nullptr, 2.0, 33.0, { 0, 45 });
+		ImGui::PlotLines("Update Time (ms)", m_physCounter.history.data(), int(m_physCounter.history.size()), 0, nullptr, 0.0, 10.0, { 0, 25 });
+		ImGui::PlotLines("Pigui Time (ms)", m_piguiCounter.history.data(), int(m_piguiCounter.history.size()), 0, nullptr, 0.0, 5.0, { 0, 25 });
 		if (ImGui::Button(m_state->updatePause ? "Unpause" : "Pause")) {
 			SetUpdatePause(!m_state->updatePause);
 		}

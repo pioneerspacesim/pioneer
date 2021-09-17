@@ -51,8 +51,9 @@ namespace SceneGraph {
 		//fov is vertical, so using screen height
 		const float pixrad = Graphics::GetScreenHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
 		if (m_pixelSizes.empty()) return;
-		unsigned int lod = m_children.size() - 1;
-		for (unsigned int i = m_pixelSizes.size(); i > 0; i--) {
+#pragma message("FIX: warning of data loss (x64)")
+		size_t lod = m_children.size() - 1;
+		for (size_t i = m_pixelSizes.size(); i > 0; i--) {
 			if (pixrad < m_pixelSizes[i - 1]) lod = i - 1;
 		}
 		m_children[lod]->Render(trans, rd);
@@ -84,8 +85,9 @@ namespace SceneGraph {
 				const vector3f cameraPos(-mt[12], -mt[13], -mt[14]);
 				//fov is vertical, so using screen height
 				const float pixrad = Graphics::GetScreenHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
-				unsigned int lod = m_children.size() - 1;
-				for (unsigned int i = m_pixelSizes.size(); i > 0; i--) {
+#pragma message("FIX: warning of data loss (x64)")
+				size_t lod = m_children.size() - 1;
+				for (size_t i = m_pixelSizes.size(); i > 0; i--) {
 					if (pixrad < m_pixelSizes[i - 1]) {
 						lod = i - 1;
 					}
@@ -107,7 +109,8 @@ namespace SceneGraph {
 	{
 		Group::Save(db);
 		//same number as children
-		db.wr->Int32(m_pixelSizes.size());
+#pragma message("FIX: warning of data loss (x64)")
+		db.wr->Int32(uint32_t(m_pixelSizes.size()));
 		for (auto i : m_pixelSizes)
 			db.wr->Int32(i);
 	}

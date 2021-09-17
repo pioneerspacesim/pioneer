@@ -103,7 +103,8 @@ void LuaObject<SectorView>::RegisterClass()
 		})
 		.AddFunction("GetRouteSize", [](lua_State *l, SectorView *sv) -> int {
 			std::vector<SystemPath> route = sv->GetRoute();
-			const int size = route.size();
+#pragma message("FIX: warning of data loss (x64)")
+			const int size = int(route.size());
 			LuaPush(l, size);
 			return 1;
 		})

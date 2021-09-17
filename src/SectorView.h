@@ -16,7 +16,8 @@
 
 class Game;
 class Galaxy;
-class ImDrawList;
+#pragma message("FIX: struct declared as class")
+struct ImDrawList;
 
 class SectorView : public PiGuiView, public DeleteEmitter {
 public:

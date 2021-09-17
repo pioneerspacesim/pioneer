@@ -40,7 +40,8 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 &center, std::string popup_id, int
 		draw_list->PathArcTo(center, (RADIUS_MIN + RADIUS_MAX) * 0.5f, 0.0f, IM_PI * 2.0f * 0.99f); // FIXME: 0.99f look like full arc with closed thick stroke has a bug now
 		draw_list->PathStroke(ImColor(18, 44, 67, 210), true, RADIUS_MAX - RADIUS_MIN);
 
-		const float item_arc_span = 2 * IM_PI / ImMax<int>(ITEMS_MIN, tex_ids.size());
+#pragma message("FIX: warning of data loss (x64)")
+		const float item_arc_span = 2 * IM_PI / ImMax<int>(ITEMS_MIN, int(tex_ids.size()));
 		float drag_angle = atan2f(drag_delta.y, drag_delta.x);
 		if (drag_angle < -0.5f * item_arc_span)
 			drag_angle += 2.0f * IM_PI;

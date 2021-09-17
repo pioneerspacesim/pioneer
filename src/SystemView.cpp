@@ -574,7 +574,8 @@ void SystemView::DrawGrid()
 	double diameter = std::floor(m_system->GetRootBody()->GetMaxChildOrbitalDistance() * 1.2 / AU);
 	m_grid_lines = int(diameter) + 1;
 
-	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, m_grid_lines * 4 + (m_gridDrawing == GridDrawing::GRID_AND_LEGS ? m_projected.size() * 2 : 0)));
+#pragma message("FIX: warning of data loss (x64)")
+	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, m_grid_lines * 4 + (m_gridDrawing == GridDrawing::GRID_AND_LEGS ? int(m_projected.size()) * 2 : 0)));
 
 	float zoom = float(AU);
 	vector3d pos = m_trans;

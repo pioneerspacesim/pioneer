@@ -24,7 +24,8 @@ FormatSpec::FormatSpec(const char *format_) :
 	format(format_)
 {
 	assert(format_);
-	parseFormat(strlen(format));
+#pragma message("FIX: warning of data loss (x64)")
+	parseFormat(int(strlen(format)));
 }
 
 FormatSpec::FormatSpec(const char *format_, int formatlen_) :

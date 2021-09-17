@@ -278,7 +278,8 @@ void SfxManager::RenderAll(Renderer *renderer, FrameId fId, FrameId camFrameId)
 			}
 
 			// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
-			Graphics::VertexArray pointArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, numInstances);
+#pragma message("FIX: warning of data loss (x64)")
+			Graphics::VertexArray pointArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, int(numInstances));
 
 			for (size_t i = 0; i < numInstances; i++) {
 				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));

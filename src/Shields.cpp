@@ -298,7 +298,8 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 	// setup the render params
 	// FIXME: don't use a static variable to hold all of this
 	if (shieldStrength > 0.0f) {
-		Uint32 numHits = std::min(m_hits.size(), MAX_SHIELD_HITS);
+#pragma message("FIX: warning of data loss (x64)")
+		Uint32 numHits = uint32_t(std::min(m_hits.size(), MAX_SHIELD_HITS));
 		for (Uint32 i = 0; i < numHits; ++i) {
 			const Hits &hit = m_hits[i];
 

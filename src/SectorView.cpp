@@ -1009,7 +1009,8 @@ void SectorView::SetupRouteLines(const vector3f &playerAbsPos)
 	m_setupRouteLines = false;
 
 	std::unique_ptr<Graphics::VertexArray> verts;
-	verts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, m_route.size() * 2));
+#pragma message("FIX: warning of data loss (x64)")
+	verts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, int(m_route.size()) * 2));
 	verts->Clear();
 
 	vector3f startPos = playerAbsPos;
@@ -1252,7 +1253,8 @@ void SectorView::DrawFarSectors(const matrix4x4f &modelview)
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
 	if (m_farstars.size() > 0) {
-		m_farstarsPoints.SetData(m_renderer, m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], modelview, 0.25f * (Graphics::GetScreenHeight() / 720.f));
+#pragma message("FIX: warning of data loss (x64)")
+		m_farstarsPoints.SetData(m_renderer, int(m_farstars.size()), &m_farstars[0], &m_farstarsColor[0], modelview, 0.25f * (Graphics::GetScreenHeight() / 720.f));
 		m_farstarsPoints.Draw(m_renderer, m_farStarsMat.Get());
 	}
 
@@ -1346,7 +1348,8 @@ void SectorView::Update()
 	if (InputBindings.mapViewPitch->IsActive()) m_rotXMovingTo += 0.5f * moveSpeed * InputBindings.mapViewPitch->GetValue();
 
 	// to capture mouse when button was pressed and release when released
-	if (Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
+#pragma message("FIX: warning comparing int with bool")
+	if (bool(Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE)) != m_rotateWithMouseButton) {
 		m_rotateWithMouseButton = !m_rotateWithMouseButton;
 		Pi::input->SetCapturingMouse(m_rotateWithMouseButton);
 	}

@@ -224,7 +224,8 @@ namespace Profiler {
 		f64 milliseconds() { return ms(ticks); }
 		f64 currentmilliseconds() { return ms(ticks + (getticks() - started)); }
 		f64 avg() { return average(ticks, calls); }
-		f64 avgms() { return ms(average(ticks, calls)); }
+#pragma message("FIX: warning of data loss (x64)")
+		f64 avgms() { return ms(u64(average(ticks, calls))); }
 
 		void operator+=(const Clock &b)
 		{
