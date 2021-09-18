@@ -41,10 +41,11 @@ local function drawPlayerInfo()
     if (2 == ExplorerGlobals.getExplorerInvite()) then
         local lx = Lang.GetResource("module-explorerclub")
         ui.text("")
-        textTable.withHeading(lx.EXPLORATION, orbiteer.xlarge, {
-            { lx.SYSTEMS_EXPLORED, ExplorerGlobals.getSystemsExplored() },
-            { lx.JUMPS_MADE, ExplorerGlobals.getJumpsMade() },
-            { lx.LIGHTYEARS_TRAVELED, string.format("%.2fly", ExplorerGlobals.getLightyearsTraveled()) }
+        textTable.withHeading(lx.INFO_EXPLORATION, orbiteer.xlarge, {
+            { lx.INFO_RANK_HEADER, lx["INFO_RANK_" .. ExplorerGlobals.getRank()] },
+            { lx.INFO_SYSTEMS_EXPLORED, ExplorerGlobals.getSystemsExplored() },
+            { lx.INFO_JUMPS_MADE, ExplorerGlobals.getJumpsMade() },
+            { lx.INFO_LIGHTYEARS_TRAVELED, string.format("%.2fly", ExplorerGlobals.getLightyearsTraveled()) }
         })
     end
 end

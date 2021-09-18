@@ -15,12 +15,13 @@ local l = Lang.GetResource("module-explorerclub")
 		Explorer career
 --]]
 
-local explorerInvite		-- 0, no invite, 1, active invite, 2, invite accepted (member), 3, invite rejected
-local systemsExplored
-local jumpsMade
-local lightyearsTraveled
-local bountylist			-- make a list of systems explored while a member of the explorers guild
-							-- upon docking and connecting to explorers guild, list is used to calculate rewards
+local explorerInvite			-- 0, no invite, 1, active invite, 2, invite accepted (member), 3, invite rejected
+local explorerRank = 0			-- 0 trainee, ...
+local systemsExplored = 0
+local jumpsMade = 0
+local lightyearsTraveled = 0
+local bountylist				-- make a list of systems explored while a member of the explorers guild
+								-- upon docking and connecting to explorers guild, list is used to calculate rewards
 local hyperSource
 local loaded_data
 
@@ -32,24 +33,32 @@ local device = Equipment.EquipType.New({
 local ExplorerGlobals
 ExplorerGlobals = {
 
+	memberCost = 200,
+	deviceCost = 1400,
 
 	Init = function()
-		systemsExplored = 0
 		explorerInvite	= 0
+		explorerRank = 0
+		systemsExplored = 0
 		bountylist = {}
 		jumpsMade = 0
 		lightyearsTraveled = 0
 		hyperSource = Game.system
 
 		if loaded_data then
-			systemsExplored = loaded_data.sysex
 			explorerInvite = loaded_data.inv
-			bountylist = loaded_data.bolist
+			explorerRank = loaded_data.rank
+			systemsExplored = loaded_data.sysex
 			jumpsMade = loaded_data.jumps
 			lightyearsTraveled = loaded_data.travel
+			bountylist = loaded_data.bolist
 			hyperSource = loaded_data.hsrc
 			loaded_data = nil
 		end
+	end,
+
+	getRank = function ()
+		return explorerRank
 	end,
 
 	getSystemsExplored = function()
@@ -72,7 +81,7 @@ ExplorerGlobals = {
 		explorerInvite = v
 	end,
 
-	GetClubDevice = function()
+	GetExplorerDevice = function()
 		return device
 	end
 
@@ -93,8 +102,10 @@ local onShipDocked = function (ship, starport)
 end
 
 local onEnterSystem = function (ship)
-	jumpsMade = jumpsMade + 1
-	lightyearsTraveled = lightyearsTraveled + Game.system:DistanceTo(hyperSource)
+	if (ship:IsPlayer()) then
+		jumpsMade = jumpsMade + 1
+		lightyearsTraveled = lightyearsTraveled + Game.system:DistanceTo(hyperSource)
+	end
 end
 Event.Register("onEnterSystem", onEnterSystem)
 
@@ -112,14 +123,21 @@ local onSystemExplored = function ()
 	end
 
 	if explorerInvite == 2 and Game.player:GetEquipCountOccupied('explorer_device') > 0 then
-		Comms.ImportantMessage(l.TOKENDATACOLLECTED,l.EXPLORERS_CLUB)
-		table.insert(bountylist,Game.system.path)
+		Comms.ImportantMessage(string.interp(l.DATACOLLECTED, {longdevice=l.EXPLORER_DEVICE}), l.EXPLORERS_CLUB)
+		table.insert(bountylist, Game.system.path)
 	end
 end
 Event.Register("onSystemExplored", onSystemExplored)
 
 local serialize = function ()
-	return { sysex = systemsExplored, inv = explorerInvite, bolist = bountylist, jumps = jumpsMade, travel = lightyearsTraveled, hsrc = hyperSource }
+	return { sysex = systemsExplored,
+		rank = explorerRank,
+		inv = explorerInvite,
+		jumps = jumpsMade,
+		travel = lightyearsTraveled,
+		bolist = bountylist,
+		hsrc = hyperSource
+	}
 end
 
 local unserialize = function (data)
