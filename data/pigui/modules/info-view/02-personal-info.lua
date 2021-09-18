@@ -8,6 +8,7 @@ local Engine = require 'Engine'
 local Character = require 'Character'
 local PiGuiFace = require 'pigui.libs.face'
 local Event = require 'Event'
+local ExplorerGlobals = require 'ExplorerGlobals'
 local pigui = Engine.pigui
 
 local pionillium = ui.fonts.pionillium
@@ -36,6 +37,16 @@ local function drawPlayerInfo()
 	textTable.withHeading(l.REPUTATION, orbiteer.xlarge, {
 		{ l.STATUS..":", l[player:GetReputationRating()] },
 	})
+
+    if (2 == ExplorerGlobals.getExplorerInvite()) then
+        local lx = Lang.GetResource("module-explorerclub")
+        ui.text("")
+        textTable.withHeading(lx.EXPLORATION, orbiteer.xlarge, {
+            { lx.SYSTEMS_EXPLORED, ExplorerGlobals.getSystemsExplored() },
+            { lx.JUMPS_MADE, ExplorerGlobals.getJumpsMade() },
+            { lx.LIGHTYEARS_TRAVELED, string.format("%.2fly", ExplorerGlobals.getLightyearsTraveled()) }
+        })
+    end
 end
 
 InfoView:registerView({

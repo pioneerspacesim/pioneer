@@ -1,0 +1,139 @@
+{
+	"EXPLORER_DEVICE" : {
+		"description" : "",
+		"message" : "Explorers league membership token"
+	},
+	"EXPLORATION" : {
+		"description" : "",
+		"message" : "Exploration"
+	},
+	"SYSTEMS_EXPLORED" : {
+		"description" : "",
+		"message" : "Star systems explored"
+	},
+	"JUMPS_MADE" : {
+		"description" : "",
+		"message" : "Hyperspace jumps made"
+	},
+	"LIGHTYEARS_TRAVELED" : {
+		"description" : "",
+		"message" : "Lightyears traveled"
+	},
+	"EXPLORERS_CLUB" : {
+		"description" : "Full name of the organization",
+		"message" : "Explorers league"
+	},
+	"SHORTCLUB" : {
+		"description" : "Shorthand name of the organization",
+		"message" : "league"
+	},   
+	"EXPLORERS_CLUB_LOCAL_CONTACT" : {
+		"description" : "BBS title for local contact to explorers club",
+		"message" : "Explorers league, {station} chapter"
+	},
+	"EXPLORERS_INVITE" : {
+		"description" : "After exploring 10+ systems, player gets this message when docking at a station, inviting him or her to a bbs entry to talk/join the explorers faction-group",
+		"message" : "Greetings Commander. The {clubname} would like to invite you to join us. We have left a posting in the local BBS where you can contact us."
+	},
+	"TOKENDATACOLLECTED" : {
+		"description" : "",
+		"message" : "Explorer token has successfully collected and stored data gathered about this system."
+	},
+	"INVITED_INTRODUCTION" : {
+		"description" : "",
+		"message" : "Greetings commander. I am {repname} of the {clubname}. We have observed your recent exploration efforts, and I have been authorized to extend to you an invitation to join us."
+	},
+	"REJECT_INTRODUCTION" : {
+		"description" : "",
+		"message" : "Greetings once again commander. Have you changed your mind about joining?"
+	},
+	"SYSTEM_ERROR" : {
+		"description" : "",
+		"message" : "Im sorry commander, I cannot help you. Something seems to be faulty with our equipment as this BBS entry was posted by mistake."
+	},
+	"CLUBSTORY" : {
+		"description" : "",
+		"message" : "The {clubname} was established over five centuries ago by independent pilots who wished to expand the boundaries of human presence in the Milky way. Following the era of the great colony ships, the {shortclub} became one of the major driving forces of human expansion out into our galaxy. Word of temperate worlds ready for farming or planets rich in resources spreads quickly. We hope you will join in our efforts."
+	},
+	"NOTHINGTOSIGN" : {
+		"description" : "",
+		"message" : "Oh, there is nothing to sign. The {clubname} is a pretty informal organization. As a new member, you will be provided with a membership token. I have one prepared for you right here."
+	},
+	"EXPLAINTOKEN" : {
+		"description" : "",
+		"message" : "The token will identify you as one of us and will allow you to use the services that the {shortclub} provides. The token also interfaces with your ship computer to collect and safely store new data as you explore new systems. If your token gets lost or destroyed, the systems you have explored can not be added to the {shortclub} database. If you happen to lose it, you can contact the nearest {shortclub} chapter to get a replacement. The token is personal for you and cannot be transferred or misused if stolen or lost."
+	},
+	"EXPLAINBENEFITS" : {
+		"description" : "",
+		"message" : "As a member you will see bulletin board entries for our local chapters in almost every station. You will receive a membership token to identify you as one of us and allow you to use the services that the {shortclub} provides. The most significant service is the monetary rewards that the {shortclub} awards for data on newly explored systems. Extra bonuses are awarded for valuable discoveries like earthlike planets, water-rich planets (especially liquid water) and planets rich with rare and valuable resources. Sometimes the {shortclub} can also offer good deals on special ships and equipment. The {shortclub} may also offer various assignments for pilots with particular skills."
+	},
+	"WELCOMESPEECH" : {
+		"description" : "",
+		"message" : "Good. Good!\n\nThe {clubname} hereby accepts into its ranks, you, Commander {pname}! We hope that your efforts in exploration brings prosperity and glory to you yourself, the {shortclub} and all of humanity.\n\nYour personal membership token has been transferred to your ships cargo hold, remember to keep it with you when you explore new systems so that the information can be added to our catalogue."
+	},
+	"COMMSJOINEDMESSAGE" : {
+		"description" : "",
+		"message" : "You have joined the {clubname}."
+	},
+	"EXPLORERJOINLOGENTRY" : {
+		"description" : "",
+		"message" : "Joined the {clubname}."
+	},
+	"REJECTIONTEXT" : {
+		"description" : "",
+		"message" : "It saddens me to hear that. Maybe in the future you will reconsider. Our invitation will be posted on all the local bulletin boards if you ever have a change of heart. Until then, we wish you all the best."
+	},
+	"REJECTAGAIN" : {
+		"description" : "",
+		"message" : "It's your decision. You know where to contact us if you change your mind."
+	},
+	"OPT_CHANGEDMYMIND" : {
+		"description" : "",
+		"message" : "I have now changed my mind and would like to join."
+	},
+	"OPT_WHATFORME" : {
+		"description" : "What's in it for me?",
+		"message" : "What's in it for me?"
+	},
+	"OPT_NOTHANKS" : {
+		"description" : "",
+		"message" : "No thank you, I'm not interested."
+	},
+	"OPT_STILLNOINTEREST" : {
+		"description" : "",
+		"message" : "No thank you, I'm still not interested."
+	},
+	"OPT_YESDIRECT" : {
+		"description" : "",
+		"message" : "Sure thing! Where do I sign?"
+	},
+	"OPT_TELLMEMORE" : {
+		"description" : "",
+		"message" : "What is the {clubname} about?"
+	},
+	"OPT_WHATTOKEN" : {
+		"description" : "",
+		"message" : "A token? How does it work?"
+	},
+	"OPT_OKLETSDOIT" : {
+		"description" : "",
+		"message" : "Ok, it sounds interesting. I'd like to join."
+	},
+	"OPT_THANKYOU" : {
+		"description" : "",
+		"message" : "Thank you very much! (Hang up)"
+	},
+	"WELCOMESERVICES" : {
+		"description" : "",
+		"message" : "Welcome Commander! I am {repname} of the {station} chapter of {clubname}, how may I be of service to you today?"
+	},
+	"NONEWDATAFOUND" : {
+		"description" : "",
+		"message" : "Hmmm. Im sorry commander, your ship computer reports no new data."
+	},
+	"OPT_SUBMITNEWDATA" : {
+		"description" : "",
+		"message" : "I have new data to submit."
+	}
+}
+
