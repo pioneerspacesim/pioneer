@@ -32,6 +32,7 @@ public:
 	std::string name;			   // Formal name "Federation", "Empire", "Bob's Rib-shack consortium of delicious worlds (tm)", etc.
 	std::string description_short; // short description
 	std::string description;	   // detailed description describing formation, current status, etc
+	std::string motivation;		   // what motivates this faction, arbitrary string: let lua sort out effects
 
 	// government types with weighting
 	typedef std::pair<Polit::GovType, Sint32> GovWeight;

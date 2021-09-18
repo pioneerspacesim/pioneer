@@ -4,6 +4,7 @@
 local f = Faction:new('Independent')
 	:description_short('Worlds without a group allegience')
 	:description('Free and independent worlds, self governing and either self reliant or striving for it.')
+	:motivation('mixed')
 	:foundingDate(2900)
 	:expansionRate(2)
 	:military_name('Independent Space Fleet')

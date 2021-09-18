@@ -4,6 +4,7 @@
 local f = Faction:new('Haber Corporation')
 	:description_short('Haber Corporation')
 	:description('Totalitarian corporate state controlled by a board of CEOs')
+	:motivation('money')
 	:homeworld(4,-9,-17,0,21)
 	:foundingDate(3150)
 	:expansionRate(0.5)

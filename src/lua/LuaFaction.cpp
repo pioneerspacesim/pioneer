@@ -96,6 +96,26 @@ static int l_faction_attr_description(lua_State *l)
 }
 
 /*
+ * Attribute: motivation
+ *
+ * What motivates a faction to do the things it does
+ *
+ * Availability:
+ *
+ *  git 2021-09-18
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_faction_attr_motivation(lua_State *l)
+{
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
+	lua_pushlstring(l, faction->motivation.c_str(), faction->motivation.size());
+	return 1;
+}
+
+/*
  * Attribute: hasHomeworld
  *
  * Does the faction have a homeworld?
@@ -302,6 +322,7 @@ void LuaObject<Faction>::RegisterClass()
 		{ "id", l_faction_attr_id },
 		{ "descriptionShort", l_faction_attr_description_short },
 		{ "description", l_faction_attr_description },
+		{ "motivation", l_faction_attr_motivation },
 		{ "hasHomeworld", l_faction_attr_has_homeworld },
 		{ "homeworld", l_faction_attr_homeworld },
 		{ "foundingDate", l_faction_attr_founding_date },

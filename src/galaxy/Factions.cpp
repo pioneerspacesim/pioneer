@@ -120,6 +120,14 @@ static int l_fac_description(lua_State *L)
 	return 1;
 }
 
+static int l_fac_motivation(lua_State *L)
+{
+	Faction *fac = l_fac_check(L, 1);
+	fac->motivation = luaL_checkstring(L, 2);
+	lua_settop(L, 1);
+	return 1;
+}
+
 // weightings to use when picking a government type
 static int l_fac_govtype_weight(lua_State *L)
 {
@@ -395,6 +403,7 @@ static luaL_Reg LuaFaction_meta[] = {
 	{ "new", &l_fac_new },
 	{ "description_short", &l_fac_description_short },
 	{ "description", &l_fac_description },
+	{ "motivation", &l_fac_motivation },
 	{ "govtype_weight", &l_fac_govtype_weight },
 	{ "homeworld", &l_fac_homeworld },
 	{ "foundingDate", &l_fac_foundingDate },
