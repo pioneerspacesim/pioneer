@@ -406,6 +406,10 @@ function EquipSet:Get(slot, index)
 	return ret
 end
 
+function EquipSet:GetAll()
+	return self.slots
+end
+
 function EquipSet:Set(ship, slot_name, index, item)
 	local slot = self.slots[slot_name]
 

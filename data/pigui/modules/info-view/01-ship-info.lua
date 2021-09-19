@@ -134,31 +134,32 @@ local function equipmentList()
 
 	if closed then return end
 
-	-- TODO: there's definitely a better way to do this, but it's copied from ShipInfo.lua for now.
-	local equipItems = {}
-	local equips = {Equipment.cargo, Equipment.misc, Equipment.hyperspace, Equipment.laser}
-	for _,t in pairs(equips) do
-		for k,et in pairs(t) do
-			local slot = et:GetDefaultSlot(Game.player)
-			if (slot ~= "cargo" and slot ~= "missile" and slot ~= "engine" and slot ~= "laser_front" and slot ~= "laser_rear") then
-				local count = Game.player:CountEquip(et)
-				if count > 0 then
-					if count > 1 then
-						if et == Equipment.misc.shield_generator then
-							ui.text(string.interp(l.N_SHIELD_GENERATORS, { quantity = string.format("%d", count) }))
-						elseif et == Equipment.misc.cabin_occupied then
-							ui.text(string.interp(l.N_OCCUPIED_PASSENGER_CABINS, { quantity = string.format("%d", count) }))
-						elseif et == Equipment.misc.cabin then
-							ui.text(string.interp(l.N_UNOCCUPIED_PASSENGER_CABINS, { quantity = string.format("%d", count) }))
-						else
-							ui.text(et:GetName())
-						end
-					else
-						ui.text(et:GetName())
-					end
+	local eqlist = {}
+	local eqsort = {}
+	local eqall = Game.player.equipSet:GetAll()
+	for e,v in pairs(eqall) do
+		if (v.__occupied > 0) then
+			for i =1,v.__limit do
+				if (v[i] ~= nil and v[i].infovis ~= nil and v[i].infovis == 1) then
+					local ename = v[i].volatile.name;
+					table.insert(eqsort, ename)
+					eqlist[ename] = {name=ename, v=v.__occupied, plural=v[i].plural_l10n_key or ("ERROR_MISSING_PLURAL("..ename..")")}
+					i = v.__limit + 1
 				end
 			end
 		end
+	end
+
+	table.sort(eqsort)
+
+	for k,ename in pairs(eqsort) do
+		local tbl = eqlist[ename]
+		if (tbl.v > 1) then
+			ui.text(string.interp(l[tbl.plural], { quantity = string.format("%d", tbl.v) }))
+		elseif (tbl.v > 0) then
+			ui.text(ename)
+		end
+		tbl.v = 0
 	end
 end
 
