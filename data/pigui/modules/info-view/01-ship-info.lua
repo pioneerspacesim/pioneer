@@ -136,7 +136,7 @@ local function equipmentList()
 
 	local eqlist = {}
 	local eqsort = {}
-	local eqall = Game.player.equipSet:GetAll()
+	local eqall = Game.player.equipSet.slots
 	for e,v in pairs(eqall) do
 		if (v.__occupied > 0) then
 			for i =1,v.__limit do
