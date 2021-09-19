@@ -16,11 +16,13 @@ local l = Lang.GetResource("module-explorerclub")
 
 local ad = {}
 
-local explorerChat = function (form, ref, option)
+local explorerChat = function(form, ref, option)
 	form:Clear()
+	-- can this even happen?
+	if ad.npc == nil then return end
 	form:SetFace(ad.npc)
 	form:SetTitle(ad.title)
-	local invitestatus = ExplorerGlobals.getExplorerInvite()
+	local invitestatus = ExplorerGlobals.explorerInvite
 	local player = Character.persistent.player
 	local bothcost = ExplorerGlobals.deviceCost + ExplorerGlobals.memberCost
 	local substrings = {player = player.name, repname = ad.npcname, station = ad.station.label,
@@ -32,12 +34,15 @@ local explorerChat = function (form, ref, option)
 		if invitestatus == 0 then
 			form:SetMessage(string.interp(l.BBS_INVITED_INTRO, substrings))
 			form:AddOption(string.interp(l.BBSOPT_TELLMEMORE, substrings), 100)
-			form:AddOption(l.BBSOPT_WHATFORME, 102)
+			form:AddOption(l.BBSOPT_WHAT_FOR_ME, 102)
 			form:AddOption(l.BBSOPT_YESDIRECT, 101)
 			form:AddOption(l.BBSOPT_NOTHANKS, 103)
 		elseif invitestatus == 2 then
 			form:SetMessage(string.interp(l.BBS_WELCOMESERVICES, substrings))
-			form:AddOption(l.BBSOPT_SUBMITNEWDATA, 301)
+			if Game.player:GetEquipCountOccupied('explorer_device') ~= 0 then
+				form:AddOption(l.BBSOPT_SUBMITNEWDATA, 301)
+			end
+			form:AddOption(string.interp(l.BBSOPT_EXPLAIN_RANKS, substrings), 401)
 			if Game.player:GetEquipCountOccupied('explorer_device') == 0 then
 				form:AddOption(string.interp(l.BBSOPT_NEED_DEVICE, substrings), 125)
 			end
@@ -45,7 +50,7 @@ local explorerChat = function (form, ref, option)
 		elseif invitestatus == 3 then
 			form:SetMessage(l.BBS_REJECT_INTRO)
 			form:AddOption(string.interp(l.BBSOPT_TELLMEMORE, substrings), 201)
-			form:AddOption(l.BBSOPT_WHATFORME, 202)
+			form:AddOption(l.BBSOPT_WHAT_FOR_ME, 202)
 			form:AddOption(l.BBSOPT_CHANGEDMYMIND, 106)
 			form:AddOption(l.BBSOPT_STILLNOINTEREST, 203)
 		else
@@ -54,7 +59,7 @@ local explorerChat = function (form, ref, option)
 	-- options 100+ is only possible if invitestatus is 1
 	elseif option == 100 then
 		form:SetMessage(string.interp(l.BBS_CLUBSTORY, substrings))
-		form:AddOption(l.BBSOPT_WHATFORME, 102)
+		form:AddOption(l.BBSOPT_WHAT_FOR_ME, 102)
 		form:AddOption(l.BBSOPT_NOTHANKS, 103)
 	-- unquestionable enthusiasm, join without question
 	elseif option == 101 then
@@ -82,16 +87,6 @@ local explorerChat = function (form, ref, option)
 		form:SetMessage(string.interp(l.BBS_MEMBERSHIP_FEE, substrings))
 		form:AddOption(string.interp(l.BBSOPT_JUST_MEMBERSHIP, substrings), 120)
 		form:AddOption(string.interp(l.BBSOPT_MEMBERANDDEVICE, substrings), 121)
---[[	form:SetMessage(string.interp(l.BBS_WELCOMESPEECH, substrings))
-		form:AddOption(l.BBSOPT_THANKYOU, -1)
-		ExplorerGlobals.setExplorerInvite(2) -- 2 = invitation accepted
-		-- push a custom log entry to mark the occasion
-		FlightLog.MakeCustomEntry(string.interp(l.LOG_EXPLORER_JOIN, substrings))
-		Game.player:AddEquip(ExplorerGlobals:GetExplorerDevice())
-		if Game.player:GetEquipCountOccupied('explorer_device') > 0 then
-			Comms.Message(string.interp(l.COMM_EXPLORER_JOIN, substrings), l.EXPLORERS_CLUB)
-		end
--- ]]
 	-- only membership
 	elseif option == 120 then
 		local cash = Game.player:GetMoney()
@@ -101,7 +96,7 @@ local explorerChat = function (form, ref, option)
 			Game.player:AddMoney(-ExplorerGlobals.memberCost)
 			form:SetMessage(string.interp(l.BBS_WELCOME_ONLY, substrings))
 			form:AddOption(l.BBSOPT_THANKYOU, -1)
-			ExplorerGlobals.setExplorerInvite(2) -- 2 = player is now a member
+			ExplorerGlobals.explorerInvite = 2 -- 2 = player is now a member
 			-- push a custom log entry to mark the occasion
 			FlightLog.MakeCustomEntry(string.interp(l.LOG_EXPLORER_JOIN, substrings))
 		end
@@ -114,7 +109,7 @@ local explorerChat = function (form, ref, option)
 			form:SetMessage(string.interp(l.BBS_WELCOME_FULL, substrings))
 			form:AddOption(l.BBSOPT_THANKYOU, -1)
 			Game.player:AddMoney(-bothcost)
-			ExplorerGlobals.setExplorerInvite(2) -- 2 = player is now a member
+			ExplorerGlobals.explorerInvite = 2 -- 2 = player is now a member
 			-- push a custom log entry to mark the occasion
 			FlightLog.MakeCustomEntry(string.interp(l.LOG_EXPLORER_JOIN, substrings))
 			-- OH MY! This looks hacky. But Pioneer equipment handling is retarded
@@ -131,7 +126,8 @@ local explorerChat = function (form, ref, option)
 			form:SetMessage(string.interp(l.BBS_NEW_DEVICE_INSTALLED, substrings))
 			form:AddOption(l.BBSOPT_THANKYOU, -1)
 			Game.player:AddMoney(-ExplorerGlobals.deviceCost)
-			Game.player:AddEquip(ExplorerGlobals:GetExplorerDevice())
+			-- OH MY! This looks hacky. But Pioneer equipment handling is retarded
+			Game.player.equipSet.slots["explorer_device"] = { ExplorerGlobals.device, __occupied = 1, __limit = 1}
 		end
 	-- tell me about the club
 	elseif option == 201 then
@@ -155,7 +151,10 @@ local explorerChat = function (form, ref, option)
 		form:AddOption(l.BBSOPT_STILLNOINTEREST, 203)
 	elseif option == 301 then
 		-- WIP to be continued...
-		form:SetMessage(l.BBS_NONEWDATAFOUND)
+		form:SetMessage(string.interp(l.BBS_NONEWDATAFOUND, substrings))
+	elseif option == 401 then
+		--string.interp(, substrings)
+		form:SetMessage(string.interp(l.BBS_EXPLAIN_RANKS, substrings))
 	end
 end
 
@@ -186,10 +185,10 @@ local onCreateBB = function (station)
 		})
 	end
 end
-Event.Register("onCreateBB", onCreateBB)
 
 local onGameStart = function ()
-	ExplorerGlobals:Init()
-	rand = nil
+	ExplorerGlobals.Init()
 end
+
+Event.Register("onCreateBB", onCreateBB)
 Event.Register("onGameStart", onGameStart)

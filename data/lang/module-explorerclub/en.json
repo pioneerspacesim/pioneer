@@ -69,6 +69,10 @@
 		"description" : "Explain to the player what the explorer device is for",
 		"message" : "Upon entering an unexplored system the {device} will gather the desired data from the ships main computer and store it in a certified and secure format. If your device ever gets lost, damaged or destroyed, the system data stored within will be lost. However, to get a replacement device, simply find the nearest {shortclub} office where they should have replacement devices, for a small fee."
 	},
+	"BBS_EXPLAIN_RANKS" : {
+		"description" : "Explain to the player what the ranks are",
+		"message" : "Certainly!\n\nNew members always start out as Freshman where they remain until they have done at least some basic explorer tasks, either exploring new star systems or completing tasks for the {shortclub}.\n\nThe next rank up is Traveler, where most of our members are at. Its a full membership with voting rights and access to all the basic services but no actual duties."
+	},
 	"BBS_EXPLORERS_HQ_CONTACT" : {
 		"description" : "BBS title for headquarter contact to explorers club",
 		"message" : "Explorers Guild HQ, {station} chapter"
@@ -99,7 +103,7 @@
 	},
 	"BBS_NONEWDATAFOUND" : {
 		"description" : "",
-		"message" : "Hmmm. Im sorry commander, your ship computer reports no new data."
+		"message" : "Hmmm. Im sorry commander, your {device} holds no new data."
 	},
 	"BBS_REJECTIONTEXT" : {
 		"description" : "",
@@ -134,6 +138,10 @@
 		"description" : "",
 		"message" : "I have now changed my mind and would like to join."
 	},
+	"BBSOPT_EXPLAIN_RANKS" : {
+		"description" : "Ask contact to explain ranks",
+		"message" : "Could you explain the {shortclub} ranks?"
+	},
 	"BBSOPT_JUST_MEMBERSHIP" : {
 		"description" : "",
 		"message" : "({membercost}) Just membership for now."
@@ -150,36 +158,36 @@
 		"description" : "",
 		"message" : "No thank you, I'm not interested."
 	},
+	"BBSOPT_OKLETSDOIT" : {
+		"description" : "",
+		"message" : "Ok, it sounds interesting. I'd like to join."
+	},
 	"BBSOPT_STILLNOINTEREST" : {
 		"description" : "",
 		"message" : "No thank you, I'm still not interested."
 	},
-	"BBSOPT_YESDIRECT" : {
+	"BBSOPT_SUBMITNEWDATA" : {
 		"description" : "",
-		"message" : "Sure thing! Where do I sign?"
+		"message" : "I have new data to submit."
 	},
 	"BBSOPT_TELLMEMORE" : {
 		"description" : "",
 		"message" : "What is the {clubname} about?"
 	},
+	"BBSOPT_THANKYOU" : {
+		"description" : "It never hurts to be polite",
+		"message" : "Thank you very much! (Hang up)"
+	},
 	"BBSOPT_WHAT_DEVICE" : {
 		"description" : "",
 		"message" : "A {device}? How does it work?"
 	},
-	"BBSOPT_WHATFORME" : {
+	"BBSOPT_WHAT_FOR_ME" : {
 		"description" : "What's in it for me?",
 		"message" : "What's in it for me?"
 	},
-	"BBSOPT_OKLETSDOIT" : {
+	"BBSOPT_YESDIRECT" : {
 		"description" : "",
-		"message" : "Ok, it sounds interesting. I'd like to join."
-	},
-	"BBSOPT_THANKYOU" : {
-		"description" : "",
-		"message" : "Thank you very much! (Hang up)"
-	},
-	"BBSOPT_SUBMITNEWDATA" : {
-		"description" : "",
-		"message" : "I have new data to submit."
+		"message" : "Sure thing! Where do I sign?"
 	}
 }
