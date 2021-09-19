@@ -25,16 +25,17 @@ local bountylist				-- make a list of systems explored while a member of the exp
 local hyperSource
 local loaded_data
 
-local device = Equipment.EquipType.New({
-	l10n_key="EXPLORER_DEVICE", l10n_resource="module-explorerclub", slots="explorer_device", price=0,
-	capabilities={mass=0, explorer_device=1}, purchasable=false, tech_level=9
-})
-
 local ExplorerGlobals
 ExplorerGlobals = {
 
 	memberCost = 200,
 	deviceCost = 1400,
+
+	device = Equipment.EquipType.New({
+		l10n_key="EXPLORER_DEVICE", l10n_resource="module-explorerclub", slots="explorer_device", price=0,
+		capabilities={mass=0, explorer_device=1},
+		purchasable=false, tech_level=5, infovis=1
+	}),
 
 	Init = function()
 		explorerInvite	= 0

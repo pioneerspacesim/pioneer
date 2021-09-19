@@ -117,7 +117,8 @@ local explorerChat = function (form, ref, option)
 			ExplorerGlobals.setExplorerInvite(2) -- 2 = player is now a member
 			-- push a custom log entry to mark the occasion
 			FlightLog.MakeCustomEntry(string.interp(l.LOG_EXPLORER_JOIN, substrings))
-			Game.player:AddEquip(ExplorerGlobals:GetExplorerDevice())
+			-- OH MY! This looks hacky. But Pioneer equipment handling is retarded
+			Game.player.equipSet.slots["explorer_device"] = { ExplorerGlobals.device, __occupied = 1, __limit = 1}
 			if Game.player:GetEquipCountOccupied('explorer_device') > 0 then
 				Comms.Message(string.interp(l.COMM_EXPLORER_JOIN, substrings), l.EXPLORERS_CLUB)
 			end
