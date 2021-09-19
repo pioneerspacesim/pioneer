@@ -6,6 +6,7 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "galaxy/Galaxy.h"
+#include "galaxy/GalaxyGenerator.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
@@ -34,7 +35,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height) :
 {
 	using Graphics::Light;
 
-	m_background.reset(new Background::Container(r, Pi::rng, nullptr, RefCountedPtr<Galaxy>()));
+	RefreshBackground(r);
 	m_ambientColor = Color::BLANK;
 
 	const Color one = Color::WHITE;
@@ -89,6 +90,13 @@ Intro::~Intro()
 {
 	for (std::vector<SceneGraph::Model *>::iterator i = m_models.begin(); i != m_models.end(); ++i)
 		delete (*i);
+}
+
+void Intro::RefreshBackground(Graphics::Renderer *r)
+{
+	const SystemPath s(0, 0, 0);
+	RefCountedPtr<Galaxy> galaxy(GalaxyGenerator::Create());
+	m_background.reset(new Background::Container(r, Pi::rng, nullptr, galaxy, &s));
 }
 
 void Intro::Reset()

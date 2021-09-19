@@ -16,6 +16,7 @@ public:
 	virtual void Draw(float deltaTime);
 	SceneGraph::Model *getCurrentModel() const { return m_model; }
 	bool isZooming() const { return m_dist == m_zoomEnd; }
+	void RefreshBackground(Graphics::Renderer *r);
 
 private:
 	void Reset();
