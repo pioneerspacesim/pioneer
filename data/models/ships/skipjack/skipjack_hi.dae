@@ -900,7 +900,7 @@
       <node id="tag_camera_top" name="tag_camera_top" type="NODE">
         <matrix sid="transform">1 0 0 0 0 1 0 6.212425 0 0 1 2.093521 0 0 0 1</matrix>
       </node>
-      <node id="tag_gunmount" name="tag_gunmount" type="NODE">
+      <node id="tag_gunmount_0" name="tag_gunmount_0" type="NODE">
         <matrix sid="transform">1.071138 0 0 0.5465055 0 -4.68209e-8 1.071138 19.98892 0 -1.071138 -4.68209e-8 -0.7930407 0 0 0 1</matrix>
       </node>
       <node id="tag_camera_front" name="tag_camera_front" type="NODE">
