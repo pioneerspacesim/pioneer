@@ -87,3 +87,5 @@ result
 .cache/
 .vscode/
 *.code-workspace
+
+!data/modules/Debug
