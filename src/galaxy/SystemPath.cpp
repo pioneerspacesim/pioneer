@@ -27,18 +27,10 @@ static int ParseInt(const std::string &str)
 	int i = 0;
 	try {
 		i = std::stoi(str);
-#ifndef __GNUC__
-/* GCC doesnt know pragma warning push/disable/pop */
 #pragma message("FIX: warning of unused variable")
-#pragma warning(push)
-#pragma warning(disable : 4101)
-#endif /* __GNUC__ */
-	} catch (const std::invalid_argument &e) {
+	} catch (const std::invalid_argument &) {
 		throw SystemPath::ParseFailure();
 	}
-#ifndef __GNUC__
-#pragma warning(pop)
-#endif /* __GNUC__ */
 	return i;
 }
 

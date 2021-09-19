@@ -11,6 +11,10 @@
 #ifdef __GNUC__
 #pragma GCC optimize("O3")
 #endif /* __GNUC__ */
+#ifdef _MSC_BUILD
+#pragma message("collider/GeomTree.cpp: OPTIMIZE OVERRIDE: Turning on full optimizations for MSVC")
+#pragma optimize("O2b2ity", on)
+#endif /* _MSC_BUILD */
 
 GeomTree::~GeomTree()
 {

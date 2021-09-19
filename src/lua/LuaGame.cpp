@@ -124,13 +124,10 @@ static int l_game_savegame_stats(lua_State *l)
 
 		return 1;
 #pragma message("FIX: warning of unused variable")
-#pragma warning(push)
-#pragma warning(disable : 4101)
-	} catch (CouldNotOpenFileException & e) {
+	} catch (CouldNotOpenFileException &) {
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", filename));
 		lua_pushlstring(l, message.c_str(), message.size());
 		return lua_error(l);
-#pragma warning(pop)
 	} catch (const Json::type_error &) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
 		return 0;
