@@ -10,6 +10,7 @@ local Game = require 'Game'
 local Lang = require 'Lang'
 local NameGen = require 'NameGen'
 local Rand = require 'Rand'
+local SystemPath = require 'SystemPath'
 
 local ExplorerGlobals = require 'ExplorerGlobals'
 local l = Lang.GetResource("module-explorerclub")
@@ -22,9 +23,10 @@ local explorerChat = function(form, ref, option)
 	if ad.npc == nil then return end
 	form:SetFace(ad.npc)
 	form:SetTitle(ad.title)
-	local invitestatus = ExplorerGlobals.explorerInvite
+	local invitestatus = ExplorerGlobals.explorerInvite or 0
 	local player = Character.persistent.player
 	local bothcost = ExplorerGlobals.deviceCost + ExplorerGlobals.memberCost
+	local distFromSol = Game.system:DistanceTo(SystemPath.New(0, 0, 0, 0, 0))
 	local substrings = {player = player.name, repname = ad.npcname, station = ad.station.label,
 		clubname = l.EXPLORERS_CLUB, shortclub = l.SHORT_CLUB, device= l.SHORT_DEVICE,
 		devicecost = Format.Money(ExplorerGlobals.deviceCost), membercost = Format.Money(ExplorerGlobals.memberCost),
@@ -43,6 +45,10 @@ local explorerChat = function(form, ref, option)
 				form:AddOption(l.BBSOPT_SUBMITNEWDATA, 301)
 			end
 			form:AddOption(string.interp(l.BBSOPT_EXPLAIN_RANKS, substrings), 401)
+			-- if player is still within the core, tell them where to find unexplored stars
+			if distFromSol < 250 then
+				form:AddOption(l.BBSOPT_WHERE_UNEXPLORED, 402)
+			end
 			if Game.player:GetEquipCountOccupied('explorer_device') == 0 then
 				form:AddOption(string.interp(l.BBSOPT_NEED_DEVICE, substrings), 125)
 			end
@@ -97,6 +103,7 @@ local explorerChat = function(form, ref, option)
 			form:SetMessage(string.interp(l.BBS_WELCOME_ONLY, substrings))
 			form:AddOption(l.BBSOPT_THANKYOU, -1)
 			ExplorerGlobals.explorerInvite = 2 -- 2 = player is now a member
+			ExplorerGlobals.explorerRank = 0
 			-- push a custom log entry to mark the occasion
 			FlightLog.MakeCustomEntry(string.interp(l.LOG_EXPLORER_JOIN, substrings))
 		end
@@ -155,6 +162,10 @@ local explorerChat = function(form, ref, option)
 	elseif option == 401 then
 		--string.interp(, substrings)
 		form:SetMessage(string.interp(l.BBS_EXPLAIN_RANKS, substrings))
+		form:AddOption(l.BBSOPT_OKGOTIT, 0)
+	elseif option == 402 then
+		form:SetMessage(string.interp(l.BBS_WHERE_UNEXPLORED, substrings))
+		form:AddOption(l.BBSOPT_OKGOTIT, 0)
 	end
 end
 
@@ -162,7 +173,7 @@ local explorerDelete = function (ref)
 	ad = {}
 end
 
-local onCreateBB = function (station)
+local onCreateBB = function(station)
 	ad.station = Game.player:GetDockedWith()
 	local rand = Rand.New(ad.station.seed + -2017)
 
@@ -179,15 +190,18 @@ local onCreateBB = function (station)
 
 		ad.station:AddAdvert({
 			description = ad.title,
-			icon        = "explorerclub",
+			icon        = "explorer",
 			onChat      = explorerChat,
 			onDelete    = explorerDelete
 		})
 	end
 end
 
-local onGameStart = function ()
+local onGameStart = function()
 	ExplorerGlobals.Init()
+	if Game.player:IsDocked() then
+		onCreateBB(Game.player:GetDockedWith())
+	end
 end
 
 Event.Register("onCreateBB", onCreateBB)

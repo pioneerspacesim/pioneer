@@ -42,10 +42,10 @@ local function drawPlayerInfo()
         local lx = Lang.GetResource("module-explorerclub")
         ui.text("")
         textTable.withHeading(lx.INFO_EXPLORATION, orbiteer.xlarge, {
-            { lx.INFO_RANK_HEADER, lx["INFO_RANK_" .. ExplorerGlobals.explorerRank] },
-            { lx.INFO_SYSTEMS_EXPLORED, ExplorerGlobals.systemsExplored },
-            { lx.INFO_JUMPS_MADE, ExplorerGlobals.jumpsMade },
-            { lx.INFO_LIGHTYEARS_TRAVELED, string.format("%.2fly", ExplorerGlobals.lightyearsTraveled) }
+            { lx.INFO_RANK_HEADER, lx["INFO_RANK_" .. (ExplorerGlobals.explorerRank or 0)] },
+            { lx.INFO_SYSTEMS_EXPLORED, (ExplorerGlobals.systemsExplored or 0) },
+            { lx.INFO_JUMPS_MADE, (ExplorerGlobals.jumpsMade or 0)},
+            { lx.INFO_LIGHTYEARS_TRAVELED, string.format("%.2fly", (ExplorerGlobals.lightyearsTraveled or 0)) }
         })
     end
 end

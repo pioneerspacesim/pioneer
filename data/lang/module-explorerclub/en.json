@@ -1,4 +1,9 @@
 {
+	"X" : {
+		"description" : "",
+		"message" : ""
+	},
+
 	"EXPLORER_DEVICE" : {
 		"description" : "",
 		"message" : "Explorers Astro Data Interface"
@@ -133,6 +138,10 @@
 		"description" : "",
 		"message" : "Good. Good!\n\nThe {clubname} hereby accepts into its ranks, you, Commander {player}! We hope that your efforts in exploration brings prosperity and glory to you yourself, the {shortclub} and all of humanity. Your membership certificate will be issued right away and copies of it dispatched to our other offices.\n\nReturn to one of our offices when you feel ready to acquire the {device}. Until then, we wish you safe travels Commander!"
 	},
+	"BBS_WHERE_UNEXPLORED" : {
+		"description" : "",
+		"message" : "There are millions of unexplored star systems out there still waiting to be explored, but not around here!\n\nEverything within about 500 lightyears of Earth is already explored. But out past 700 lightyears or so it's almost all unexplored. It's a long journey out there, but we have offices out near the frontier too, so you won't have to travel all the way back here to collect your rewards."
+	},
 
 	"BBSOPT_CHANGEDMYMIND" : {
 		"description" : "",
@@ -162,6 +171,10 @@
 		"description" : "",
 		"message" : "Ok, it sounds interesting. I'd like to join."
 	},
+	"BBSOPT_OKGOTIT" : {
+		"description" : "",
+		"message" : "Ok, got it."
+	},
 	"BBSOPT_STILLNOINTEREST" : {
 		"description" : "",
 		"message" : "No thank you, I'm still not interested."
@@ -185,6 +198,10 @@
 	"BBSOPT_WHAT_FOR_ME" : {
 		"description" : "What's in it for me?",
 		"message" : "What's in it for me?"
+	},
+	"BBSOPT_WHERE_UNEXPLORED" : {
+		"description" : "",
+		"message" : "Where can I find unexplored star systems?"
 	},
 	"BBSOPT_YESDIRECT" : {
 		"description" : "",

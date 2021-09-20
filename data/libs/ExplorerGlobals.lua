@@ -85,8 +85,10 @@ local onEnterSystem = function(ship)
 	-- any ship can trigger this event, take no action unless its the player
 	if not ship:IsPlayer() then return end
 
-	ExplorerGlobals.jumpsMade = ExplorerGlobals.jumpsMade + 1
-	ExplorerGlobals.lightyearsTraveled = ExplorerGlobals.lightyearsTraveled + Game.system:DistanceTo(ExplorerGlobals.hyperSource)
+	ExplorerGlobals.jumpsMade = (ExplorerGlobals.jumpsMade or 0) + 1
+	if ExplorerGlobals.hyperSource ~= nil then
+		ExplorerGlobals.lightyearsTraveled = (ExplorerGlobals.lightyearsTraveled or 0) + Game.system:DistanceTo(ExplorerGlobals.hyperSource)
+	end
 end
 
 local onLeaveSystem = function(ship)
