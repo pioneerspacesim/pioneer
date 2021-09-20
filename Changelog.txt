@@ -1,6 +1,9 @@
 September 2021
    * Internal Changes
      * Increase and limit the height of the BvhTree (#5249)
+   
+   * Fixes
+     * Fix gun tag on Skipjack caused issues after save/load (#5269)
 
 August 2021
    * Internal Changes
