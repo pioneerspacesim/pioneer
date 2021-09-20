@@ -1,6 +1,7 @@
 September 2021
    * Internal Changes
      * Increase and limit the height of the BvhTree (#5249)
+     * No scrollbar on short comms log, show newest message first (#5256)
    
    * Fixes
      * Fix gun tag on Skipjack caused issues after save/load (#5269)
