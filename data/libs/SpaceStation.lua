@@ -40,11 +40,21 @@ function SpaceStation:Constructor()
 end
 
 local equipmentStock = {}
+local FlightLog = require 'FlightLog'
 
 local function updateEquipmentStock (station)
 	assert(station and station:exists())
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
+
+	local timediff = 0
+	for systemp,arrtime,deptime in FlightLog.GetSystemPaths() do
+		local time_interval = Game.time - (deptime or Game.time)
+		if time_interval < 60 * 30 * 24 * 60 * 60 and Game.system.name == systemp:GetStarSystem().name then	-- After 5 years of absence systems consider player new customer
+			timediff = math.max(time_interval, timediff)
+		end
+	end
+	local recentSystem = timediff < 6 * 30 * 24 * 60 * 60
 
 	local hydrogen = Equipment.cargo.hydrogen
 	for key, e in pairs(Equipment.cargo) do
@@ -60,9 +70,9 @@ local function updateEquipmentStock (station)
 				elseif pricemod > 4 then --minor import
 					stock = stock - (rn*0.07)     -- shifting .07 = 1% chance of 0 stock
 				elseif pricemod < -10 then --major export
-					stock = stock + (rn*0.8)
+					stock = stock +(recentSystem and rn or (rn * 0.6))	--decrease stock if player is 6 game months old customer
 				elseif pricemod < -4 then --minor export
-					stock = stock + (rn*0.3)
+					stock = stock + (recentSystem and (rn*0.2) or (rn*0.4))		--decrease stock if player is 6 game months old customer
 				end
 				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
 			end
