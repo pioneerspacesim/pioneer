@@ -9,8 +9,13 @@ local Serializer = require 'Serializer'
 local Character = require 'Character'
 local Format = require 'Format'
 local Equipment = require 'Equipment'
+local Calibration = require 'Calibration'
 
 local l = Lang.GetResource("module-soldout")
+
+local StockOne = Calibration.StockPriceOne
+local PriceExp = Calibration.PriceExponential
+local avgStock = Calibration.avgStock
 
 local ads = {}
 
@@ -89,9 +94,13 @@ local makeAdvert = function(station, commodity)
 
 	-- Amount that the desperado wants to buy is determined by the
 	-- wallet, i.e. fewer units if expensive commodity.
-	-- Money is uniformly distirubted in log space
-	local money_to_spend = lograndom(1e2, 1e5)
-	ad.amount = math.ceil(money_to_spend / math.abs(ad.price))
+	-- Amount should not exceed what station normally wants (relevant values at line 57 (former line 48 of SpaceStation.lua).
+	-- Actually we set to desperately want up to what a Major exports offer at double its price. ad.price/2 because it is already doubled.
+	-- Replaces the use of lograndom function.
+	local maxMoney = math.max(math.abs(ad.price)+1.00, Calibration.InvestmentOfPrice(math.abs(ad.price)/2) * avgStock * 2)
+	local money_to_spend = Engine.rand:Number(math.abs(ad.price), maxMoney)
+
+	ad.amount = math.min(math.ceil(money_to_spend / math.abs(ad.price)), Game.player.totalCargo * 2)
 
 	ad.title = string.interp(l.TITLE,
 		{commodity = ad.commodity:GetName(), price = Format.Money(ad.price)})
