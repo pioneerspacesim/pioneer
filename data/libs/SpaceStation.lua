@@ -291,8 +291,10 @@ end
 
 -- add num random ships for sale to station ShipMarket
 local function addRandomShipAdvert(station, num)
+	local playersShip = Game.player:GetShipType()
 	for i=1,num do
-		local avail = station.type == "STARPORT_SURFACE" and groundShips or spaceShips
+		local avail_0 = station.type == "STARPORT_SURFACE" and groundShips or spaceShips
+		local avail = utils.build_array(utils.filter(function (k,def) return (playersShip == def.name or Calibration.prerequisite(playersShip,def.name)) end, pairs(avail_0)))
 		local def = avail[Engine.rand:Integer(1,#avail)]
 		local model = Engine.GetModel(def.modelName)
 		local pattern = model.numPatterns ~= 0 and Engine.rand:Integer(1,model.numPatterns) or nil
