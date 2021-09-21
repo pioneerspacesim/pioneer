@@ -16,8 +16,12 @@ local ModelSkin = require 'SceneGraph.ModelSkin'
 local Serializer = require 'Serializer'
 local Equipment = require 'Equipment'
 local Faction = require 'Faction'
+local Calibration = require 'Calibration'
 local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
+
+local StockOne = Calibration.StockPriceOne
+local PriceExp = Calibration.PriceExponential
 
 --
 -- Class: SpaceStation
@@ -45,7 +49,7 @@ local function updateEquipmentStock (station)
 	local hydrogen = Equipment.cargo.hydrogen
 	for key, e in pairs(Equipment.cargo) do
 		if e.purchasable then
-			local rn = 100000 / math.abs(e.price) --have about 100,000 worth of stock, per commodity
+			local rn = math.min(StockOne / (math.abs(e.price))^PriceExp, 10^6)	--have less than 1,000,000 stock per commodity.
 			if e == hydrogen then
 				equipmentStock[station][e] = math.floor(rn/2 + Engine.rand:Integer(0,rn)) --always stock hydrogen
 			else
