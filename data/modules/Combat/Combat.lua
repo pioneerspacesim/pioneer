@@ -17,6 +17,7 @@ local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local utils = require 'utils'
+local Calibration = require 'Calibration'
 
 local l = Lang.GetResource("module-combat")
 local lc = Lang.GetResource 'core'
@@ -216,7 +217,17 @@ local makeAdvert = function (station)
 
 	location = flavour.planets[Engine.rand:Integer(1, #flavour.planets)]
 	dist = location:DistanceTo(Game.system)
+
+	local tradeCargo = Game.player.totalCargo*0.81 --the rest 0.19 is used for fuel.
+	local rewardRatio = 3/4-- For getting that ratio of average effective trading profit
+
+	--- Fighters should have increased reward. For that we increase minimum reward depending on number of missiles that player can acquire.
+	local missiles = Game.player:GetEquipSlotCapacity("missile")
+	local minimumRewardRatio = math.max(rewardRatio, Calibration.Fighting(missiles))
+
+	local profit = math.max(Calibration.profit(tradeCargo) * rewardRatio, Calibration.minProfit * minimumRewardRatio)
 	reward = math.ceil(dist * typical_reward * (1 + dedication)^2 * (1 + risk) * (1 + urgency) * Engine.rand:Number(0.8, 1.2))
+	reward = reward / 2300 * profit -- 2300 is the roughly estimated curent reward per standard unit
 	reward = utils.round(reward, 100)
 	due = Game.time + typical_travel_time * Engine.rand:Number(0.9, 1.1) + dist * typical_hyperspace_time * (1.5 - urgency) * Engine.rand:Number(0.9, 1.1)
 
