@@ -125,7 +125,8 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 
 					m_material->SetTexture(s_textureName, reinterpret_cast<Graphics::Texture *>(pcmd->GetTexID()));
 					m_material->SetPushConstant(s_vertexDepthName, pcmd->PrimDepth);
-					m_renderer->DrawBufferDynamic(m_vtxBuffer.get(), vtxOffset + pcmd->VtxOffset, m_idxBuffer.get(), idxOffset + pcmd->IdxOffset, pcmd->ElemCount, m_material.get());
+#pragma message("FIX: warning of data loss (x64)")
+					m_renderer->DrawBufferDynamic(m_vtxBuffer.get(), vtxOffset + pcmd->VtxOffset, m_idxBuffer.get(), uint32_t(idxOffset + pcmd->IdxOffset), pcmd->ElemCount, m_material.get());
 				}
 			}
 		}

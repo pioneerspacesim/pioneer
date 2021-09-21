@@ -32,7 +32,8 @@ void Tombstone::Draw(float _time)
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
 	m_renderer->SetAmbientColor(m_ambientColor);
-	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
+#pragma message("FIX: warning of data loss (x64)")
+	m_renderer->SetLights(uint32_t(m_lights.size()), &m_lights[0]);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time * 2);
 	rot[14] = -std::max(150.0f - 30.0f * _time, 30.0f);

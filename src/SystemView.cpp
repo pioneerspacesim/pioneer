@@ -197,10 +197,10 @@ static vector3d position_of_surface_starport_relative_to_parent(const SystemBody
 		vector3d(0.0, 1.0, 0.0) *
 		// we need the distance to the center of the planet
 		(Pi::game->IsNormalSpace() && Pi::game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(Pi::game->GetSectorView()->GetSelected()) ?
-				// if we look at the current system, the relief is known, we take the height from the physical body
-				Pi::game->GetSpace()->FindBodyForPath(&(starport->GetPath()))->GetPosition().Length() :
-				// if the remote system - take the radius of the planet
-				parent->GetRadius());
+				  // if we look at the current system, the relief is known, we take the height from the physical body
+				  Pi::game->GetSpace()->FindBodyForPath(&(starport->GetPath()))->GetPosition().Length() :
+				  // if the remote system - take the radius of the planet
+				  parent->GetRadius());
 }
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
@@ -486,7 +486,8 @@ void SystemView::Update()
 	AnimationCurves::Approach(m_rot_y, m_rot_y_to, ft);
 
 	// to capture mouse when button was pressed and release when released
-	if (Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
+#pragma message("FIX: warning comparing int with bool")
+	if (bool(Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE)) != m_rotateWithMouseButton) {
 		m_rotateWithMouseButton = !m_rotateWithMouseButton;
 		Pi::input->SetCapturingMouse(m_rotateWithMouseButton);
 	}
@@ -573,7 +574,8 @@ void SystemView::DrawGrid()
 	double diameter = std::floor(m_system->GetRootBody()->GetMaxChildOrbitalDistance() * 1.2 / AU);
 	m_grid_lines = int(diameter) + 1;
 
-	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, m_grid_lines * 4 + (m_gridDrawing == GridDrawing::GRID_AND_LEGS ? m_projected.size() * 2 : 0)));
+#pragma message("FIX: warning of data loss (x64)")
+	m_lineVerts.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION, m_grid_lines * 4 + (m_gridDrawing == GridDrawing::GRID_AND_LEGS ? int(m_projected.size()) * 2 : 0)));
 
 	float zoom = float(AU);
 	vector3d pos = m_trans;

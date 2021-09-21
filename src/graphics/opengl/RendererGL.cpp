@@ -272,8 +272,8 @@ namespace Graphics {
 		if (!m_windowRenderTarget->CheckStatus()) {
 			GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			Log::Fatal("Pioneer window render target is invalid. (Error: {})\n"
-				"Does your graphics driver support multisample anti-aliasing?\n"
-				"If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
+					   "Does your graphics driver support multisample anti-aliasing?\n"
+					   "If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
 				gl_framebuffer_error_to_string(status));
 		}
 
@@ -541,7 +541,8 @@ namespace Graphics {
 			buffer.vtxBuffer->Reset();
 		}
 
-		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, s_DynamicDrawBufferMap.size());
+#pragma message("FIX: warning of data loss (x64)")
+		stat.SetStatCount(Stats::STAT_DYNAMIC_DRAW_BUFFER_INUSE, uint32_t(s_DynamicDrawBufferMap.size()));
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_INUSE, uint32_t(m_drawUniformBuffers.size()));
 		stat.SetStatCount(Stats::STAT_DRAW_UNIFORM_BUFFER_ALLOCS, numAllocs);
 
@@ -549,7 +550,8 @@ namespace Graphics {
 		for (auto &pair : m_shaders)
 			numShaderPrograms += pair.second->GetNumVariants();
 
-		stat.SetStatCount(Stats::STAT_NUM_RENDER_STATES, m_renderStateCache->m_stateDescCache.size());
+#pragma message("FIX: warning of data loss (x64)")
+		stat.SetStatCount(Stats::STAT_NUM_RENDER_STATES, uint32_t(m_renderStateCache->m_stateDescCache.size()));
 		stat.SetStatCount(Stats::STAT_NUM_SHADER_PROGRAMS, numShaderPrograms);
 
 		return true;

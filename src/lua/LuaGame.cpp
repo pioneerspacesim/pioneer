@@ -123,7 +123,8 @@ static int l_game_savegame_stats(lua_State *l)
 		}
 
 		return 1;
-	} catch (CouldNotOpenFileException &e) {
+#pragma message("FIX: warning of unused variable")
+	} catch (CouldNotOpenFileException &) {
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", filename));
 		lua_pushlstring(l, message.c_str(), message.size());
 		return lua_error(l);

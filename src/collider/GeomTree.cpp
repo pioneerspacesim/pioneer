@@ -7,7 +7,14 @@
 #include "Weld.h"
 #include "scenegraph/Serializer.h"
 
+#pragma message("FIX: warning unknown pragma")
+#ifdef __GNUC__
 #pragma GCC optimize("O3")
+#endif /* __GNUC__ */
+#ifdef _MSC_BUILD
+#pragma message("collider/GeomTree.cpp: OPTIMIZE OVERRIDE: Turning on full optimizations for MSVC")
+#pragma optimize("O2b2ity", on)
+#endif /* _MSC_BUILD */
 
 GeomTree::~GeomTree()
 {
@@ -57,7 +64,8 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 		std::vector<Uint32> xrefs;
 		nv::Weld<vector3f> weld;
 		weld(m_vertices, xrefs);
-		m_numVertices = m_vertices.size();
+#pragma message("FIX: warning of data loss (x64)")
+		m_numVertices = 0xFFFFFFFF & m_vertices.size();
 
 		//Output("---   %d vertices welded\n", count - newCount);
 
@@ -109,12 +117,14 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 		}
 
 		//int t = SDL_GetTicks();
-		m_triTree.reset(new BVHTree(activeTris.size(), &activeTris[0], aabbs));
+#pragma message("FIX: warning of data loss (x64)")
+		m_triTree.reset(new BVHTree(int(activeTris.size()), &activeTris[0], aabbs));
 		delete[] aabbs;
 	}
 	//Output("Tri tree of %d tris build in %dms\n", activeTris.size(), SDL_GetTicks() - t);
 
-	m_numEdges = edges.size();
+#pragma message("FIX: warning of data loss (x64)")
+	m_numEdges = int32_t(edges.size());
 	m_edges.resize(m_numEdges);
 	// to build Edge bvh tree with.
 	m_aabbs.resize(m_numEdges);
@@ -212,7 +222,8 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 		aabbs[i].Update(v2);
 		aabbs[i].Update(v3);
 	}
-	m_triTree.reset(new BVHTree(activeTris.size(), &activeTris[0], aabbs));
+#pragma message("FIX: warning of data loss (x64)")
+	m_triTree.reset(new BVHTree(int(activeTris.size()), &activeTris[0], aabbs));
 	delete[] aabbs;
 
 	//

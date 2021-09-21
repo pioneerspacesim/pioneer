@@ -495,7 +495,8 @@ namespace Graphics {
 			}
 
 			//Create vtx & index buffers and copy data
-			Graphics::IndexBuffer *indexBuffer = renderer->CreateIndexBuffer(indices.size(), BUFFER_USAGE_STATIC);
+#pragma message("FIX: warning of data loss (x64)")
+			Graphics::IndexBuffer *indexBuffer = renderer->CreateIndexBuffer(uint32_t(indices.size()), BUFFER_USAGE_STATIC);
 			Uint32 *idxPtr = indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
 			for (auto it : indices) {
 				*idxPtr = it;

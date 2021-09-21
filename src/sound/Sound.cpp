@@ -96,7 +96,8 @@ namespace Sound {
 	private:
 		static size_t ov_callback_read(void *buf, size_t sz, size_t n, void *stream)
 		{
-			return reinterpret_cast<OggFileDataStream *>(stream)->read(reinterpret_cast<char *>(buf), sz, n);
+#pragma message("FIX: warning of data loss (x64)")
+			return reinterpret_cast<OggFileDataStream *>(stream)->read(reinterpret_cast<char *>(buf), sz, int(n));
 		}
 		static int ov_callback_seek(void *stream, ogg_int64_t offset, int whence)
 		{

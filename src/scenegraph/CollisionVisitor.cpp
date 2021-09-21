@@ -56,7 +56,8 @@ namespace SceneGraph {
 		const matrix4x4f matrix = m_matrixStack.empty() ? matrix4x4f::Identity() : m_matrixStack.back();
 
 		//copy data (with index offset)
-		int idxOffset = m_vertices.size();
+#pragma message("FIX: warning of data loss (x64)")
+		int idxOffset = int(m_vertices.size());
 		for (vector<vector3f>::const_iterator it = cg.GetVertices().begin(); it != cg.GetVertices().end(); ++it) {
 			const vector3f pos = matrix * (*it);
 			m_vertices.push_back(pos);
@@ -79,8 +80,9 @@ namespace SceneGraph {
 		PROFILE_SCOPED()
 		//don't transform geometry, one geomtree per cg, create tree right away
 
-		const int numVertices = cg.GetVertices().size();
-		const int numIndices = cg.GetIndices().size();
+#pragma message("FIX: warning of data loss (x64) x2")
+		const int numVertices = int(cg.GetVertices().size());
+		const int numIndices = int(cg.GetIndices().size());
 		const int numTris = numIndices / 3;
 		std::vector<vector3f> vertices(numVertices);
 		Uint32 *indices = new Uint32[numIndices];
@@ -113,7 +115,8 @@ namespace SceneGraph {
 		PROFILE_SCOPED()
 		std::vector<vector3f> &vts = m_vertices;
 		std::vector<Uint32> &ind = m_indices;
-		const int offs = vts.size();
+#pragma message("FIX: warning of data loss (x64)")
+		const int offs = int(vts.size());
 
 		const vector3f min(bb.min.x, bb.min.y, bb.min.z);
 		const vector3f max(bb.max.x, bb.max.y, bb.max.z);
@@ -191,7 +194,8 @@ namespace SceneGraph {
 		Uint32 *indices = new Uint32[numIndices];
 		Uint32 *triFlags = new Uint32[numTris];
 
-		m_totalTris += numTris;
+#pragma message("FIX: warning of data loss (x64)")
+		m_totalTris += uint32_t(numTris);
 
 		for (size_t i = 0; i < numVertices; i++)
 			vertices[i] = m_vertices[i];
@@ -204,8 +208,9 @@ namespace SceneGraph {
 
 		//create geomtree
 		//takes ownership of data
+#pragma message("FIX: warning of data loss (x64)")
 		GeomTree *gt = new GeomTree(
-			numVertices, numTris,
+			int(numVertices), int(numTris),
 			vertices,
 			indices, triFlags);
 		m_collMesh->SetGeomTree(gt);
