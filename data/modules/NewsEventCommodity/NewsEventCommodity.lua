@@ -378,6 +378,7 @@ local onShipDocked = function (ship, station)
 			-- print("--- NewsEvent: cargo:", cargo_item:GetName(), "price:", newPrice, "stock:", newStockChange)
 			station:SetEquipmentPrice(cargo_item, newPrice)
 			station:AddEquipmentStock(cargo_item, newStockChange)
+			table.remove(news, i)
 		end
 	end
 end
