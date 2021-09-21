@@ -367,10 +367,10 @@ local onShipDocked = function (ship, station)
 
 			local newPrice, newStockChange
 			if n.demand > 0 then
-				newPrice = n.demand * price -- increase price
+				newPrice = (1.20 + 0.28 * n.demand) * price -- increase price :jimishol up to triple the price
 				newStockChange = -1 * stock -- remove all stock
 			elseif n.demand < 0 then
-				newPrice = math.ceil(price / (1 + math.abs(n.demand)))  -- dump price
+				newPrice = math.ceil(price / (1 + 0.20 * math.abs(n.demand)))  -- dump price :jimishol down to third of price
 				newStockChange = math.ceil(math.abs(n.demand * stock))  -- spam stock
 			else
 				error("demand should probably not be 0.")
