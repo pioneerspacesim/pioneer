@@ -17,6 +17,7 @@ local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local utils = require 'utils'
+local Calibration = require 'Calibration'
 
 local lc = Lang.GetResource 'core'
 local l = Lang.GetResource("module-assassination")
@@ -170,7 +171,16 @@ local makeAdvert = function (station)
 	local time = Engine.rand:Number(1, 4)
 	local due = Game.time + dist / max_ass_dist * time * 22*60*60*24 + Engine.rand:Number(7*60*60*24, 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
-	local reward = Engine.rand:Number(2100, 7000) * danger
+
+	local tradeCargo = Game.player.totalCargo*0.81 --the rest 0.19 is used for fuel.
+	local rewardRatio = 3/4-- For getting that ratio of average effective trading profit
+
+	--- Fighters should have independed from cargo reward. For that we increase minimum reward depending on number of missiles that player can acquire.
+	local missiles = Game.player:GetEquipSlotCapacity("missile")
+	local minimumRewardRatio = math.max(rewardRatio, Calibration.Fighting(missiles))
+
+	local profit = math.max(Calibration.profit(tradeCargo) * rewardRatio, Calibration.minProfit * minimumRewardRatio)  
+	local reward = Engine.rand:Number(2100/8259 * profit, 7000/8259 * profit) * danger --8259 is the current estimated profit from assassination module.
 	reward = utils.round(reward, 500)
 
 	-- XXX hull mass is a bad way to determine suitability for role
