@@ -15,6 +15,7 @@ local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
 local eq = require 'Equipment'
 local utils = require 'utils'
+local Calibration = require 'Calibration'
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")
@@ -254,7 +255,12 @@ local makeAdvert = function (station)
 	if #nearbysystems == 0 then return end
 	location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
-	reward = ((dist / max_taxi_dist) * typical_reward * (group / 2) * (1+risk) * (1+3*urgency) * Engine.rand:Number(0.8,1.2))
+
+        local cargo = Game.player.totalCargo * 0.81 --the rest 0.19 is used for fuel.
+	local rewardRatio = 2/3 -- For getting that ratio of current average trading profit
+        local profit = math.max(Calibration.profit(cargo) * rewardRatio, Calibration.minProfit * rewardRatio)
+
+	reward = ((dist / max_taxi_dist) * typical_reward * (group / 2) * (1+risk) * (1+3*urgency) * Engine.rand:Number(0.8,1.2)) * profit/5666 --5666 is the current estimated profit from taxi module.
 	reward = utils.round(reward, 50)
 	due = Game.time + ((dist / max_taxi_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
 
