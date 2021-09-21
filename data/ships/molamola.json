@@ -6,16 +6,16 @@
 	"ship_class": "light_freighter",
 	"min_crew": 1,
 	"max_crew": 3,
-	"price": 81062,
+	"price": 178616,
 	"hull_mass": 27,
 	"atmospheric_pressure_limit": 5.1,
-	"capacity": 84,
+	"capacity": 49,
 	"slots": {
 		"engine": 1,
 		"cabin": 8,
 		"laser_front": 1,
 		"missile": 2,
-		"cargo": 80
+		"cargo": 45
 	},
 	"roles": ["mercenary", "merchant", "pirate", "courier"],
 	

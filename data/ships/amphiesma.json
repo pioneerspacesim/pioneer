@@ -6,7 +6,7 @@
 	"ship_class": "light_passenger_shuttle",
 	"min_crew": 1,
 	"max_crew": 2,
-	"price": 38470,
+	"price": 35002,
 	"hull_mass": 18,
 	"atmospheric_pressure_limit": 3.1,
 	"capacity": 38,

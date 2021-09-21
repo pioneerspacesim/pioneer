@@ -6,10 +6,10 @@
 	"ship_class": "medium_courier",
 	"min_crew": 2,
 	"max_crew": 3,
-	"price": 204837,
+	"price": 278463,
 	"hull_mass": 80,
 	"atmospheric_pressure_limit": 4,
-	"capacity": 192,
+	"capacity": 136,
 	"slots": {
 		"engine": 1,
 		"cabin": 5,
@@ -17,7 +17,7 @@
 		"laser_front": 1,
 		"missile": 8,
 		"sensor": 1,
-		"cargo": 140
+		"cargo": 84
 	},
 	"roles": ["mercenary", "merchant", "pirate", "courier"],
 	

@@ -6,17 +6,17 @@
 	"ship_class": "heavy_passenger_transport",
 	"min_crew": 1,
 	"max_crew": 8,
-	"price": 2219852,
+	"price": 1161321,
 	"hull_mass": 940,
 	"atmospheric_pressure_limit": 4.7,
-	"capacity": 2600,
+	"capacity": 1837,
 	"slots": {
 		"engine": 1,
 		"cabin": 80,
 		"laser_front": 1,
 		"laser_rear": 1,
 		"missile": 6,
-		"cargo": 1600
+		"cargo": 837
 	},
 	"roles": ["merchant"],
 	

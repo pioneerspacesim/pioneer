@@ -6,16 +6,16 @@
 	"ship_class": "medium_passenger_shuttle",
 	"min_crew": 1,
 	"max_crew": 4,
-	"price": 35002,
+	"price": 91234,
 	"hull_mass": 30,
 	"atmospheric_pressure_limit": 3.5,
-	"capacity": 30,
+	"capacity": 25,
 	"slots": {
 		"engine": 1,
 		"cabin": 20,
 		"laser_front": 1,
 		"missile": 1,
-		"cargo": 30
+		"cargo": 25
 	},
 	"roles": ["mercenary", "merchant", "pirate", "courier"],
 		

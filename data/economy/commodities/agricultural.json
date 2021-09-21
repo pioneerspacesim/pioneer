@@ -5,37 +5,37 @@
 			"inputs": [ "farm_machinery", "fertilizer" ],
 			"consumable": true,
 			"producer": "agricultural",
-			"price": 105
+			"price": 675
 		},
 		"animal_meat": {
 			"l10n_key": "ANIMAL_MEAT",
 			"inputs": [ "farm_machinery", "fertilizer" ],
 			"producer": "agricultural",
-			"price": 125
+			"price": 847
 		},
 		"live_animals": {
 			"l10n_key": "LIVE_ANIMALS",
 			"inputs": [ "farm_machinery", "fertilizer" ],
 			"producer": "agricultural",
-			"price": 932
+			"price": 2111
 		},
 		"liquor": {
 			"l10n_key": "LIQUOR",
 			"inputs": [ "farm_machinery", "fertilizer" ],
 			"producer": "agricultural",
-			"price": 422
+			"price": 1337
 		},
 		"grain": {
 			"l10n_key": "GRAIN",
 			"inputs": [ "farm_machinery", "fertilizer" ],
 			"producer": "agricultural",
-			"price": 41
+			"price": 381
 		},
 		"slaves": {
 			"l10n_key": "SLAVES",
 			"inputs": [ ],
 			"producer": "agricultural",
-			"price": 1011,
+			"price": 2111,
 			"default_legality": [ 1, 16 ]
 		}
 	}

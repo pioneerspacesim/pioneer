@@ -6,17 +6,17 @@
 	"ship_class": "medium_freighter",
 	"min_crew": 2,
 	"max_crew": 3,
-	"price": 518244,
+	"price": 515460,
 	"hull_mass": 210,
 	"atmospheric_pressure_limit": 4.2,
-	"capacity": 600,
+	"capacity": 256,
 	"slots": {
 		"engine": 1,
 		"cabin": 20,
 		"laser_front": 1,
 		"laser_rear": 1,
 		"missile": 2,
-		"cargo": 550
+		"cargo": 206
 	},
 	"roles": ["merchant", "pirate"],
 	

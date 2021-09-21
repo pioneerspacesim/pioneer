@@ -4,56 +4,57 @@
 			"l10n_key": "METAL_ALLOYS",
 			"inputs": [ "metal_ore", "industrial_machinery" ],
 			"producer": "industrial",
-			"price": 43
+			"price": 427
 		},
 		"plastics": {
 			"l10n_key": "PLASTICS",
 			"inputs": [ "carbon_ore", "industrial_machinery" ],
 			"producer": "industrial",
-			"price": 36
+			"price": 340
 		},
 		"textiles": {
 			"l10n_key": "TEXTILES",
 			"inputs": [ "plastics" ],
 			"producer": "industrial",
-			"price": 65
+			"price": 537
 		},
 		"fertilizer": {
 			"l10n_key": "FERTILIZER",
 			"inputs": [ "carbon_ore" ],
 			"producer": "industrial",
-			"price": 15
+			"price": 304
 		},
 		"consumer_goods": {
 			"l10n_key": "CONSUMER_GOODS",
 			"inputs": [ "plastics", "textiles" ],
 			"producer": "industrial",
-			"price": 246
+			"price": 1065
 		},
 		"farm_machinery": {
 			"l10n_key": "FARM_MACHINERY",
 			"inputs": [ "metal_alloys", "robots" ],
 			"producer": "industrial",
-			"price": 80
+			"price": 602
 		},
 		"mining_machinery": {
 			"l10n_key": "MINING_MACHINERY",
 			"inputs": [ "metal_alloys", "robots" ],
 			"producer": "industrial",
-			"price": 312
+			"price": 1193
+
 		},
 		"hand_weapons": {
 			"l10n_key": "HAND_WEAPONS",
 			"inputs": [ "metal_alloys", "computers" ],
 			"producer": "industrial",
-			"price": 251,
+			"price": 1065,
 			"default_legality": [ 1, 2 ]
 		},
 		"narcotics": {
 			"l10n_key": "NARCOTICS",
 			"inputs": [ ],
 			"producer": "industrial",
-			"price": 632,
+			"price": 1499,
 			"default_legality": [ 1, 2 ]
 		},
 		"military_fuel": {
