@@ -54,16 +54,37 @@ local misc = EquipTypes.misc
 local miltech = "MILITARY"
 
 --[[
-		Uniform equipment entries:
-		New(
+		Uniformly formatted equipment entries:
+
+		EquipType.New(
 			l10n_key, slots, price,
-			capabilities={},
+			capabilities={ mass=1, ... },
 			standard attributes (purchasable, tech_level, infovis),
 			non-standard attributes
 		)
 
-		infovis=1 : the item will be listed under "Equipment" on the info-view ship screen
+		l10n_key	: ("KEY") item name from this key in lang/equipment-core/*.json
+		slots		: (slots="slot" OR slots={ "slot1", "slot2", ... })
+					  which slot(s) the item will occupy in the ship
+					  slots are listed above
+		price		: (#) item can be bought for this in the equipment market IF
+					  purchasable is true AND station tech_level is >= item tech_level
+					  item may be available for less (this price modified) in BBS offerings
+		purchasable : (true/false) can item be traded in station equipment market
+		tech_level	: (0..11/"MILITARY") required station tech_level to be traded in market
+		infovis = 1 : (1/absent) the item will be listed under "Equipment" on the info-view ship screen
+					  if item lacks this attribute, or it is set to other than "1", it wont be listed
+		capabilities:
+		  mass		: weight in tonnes
+		(for hyperdrives only)
+		  hyperclass: used in hyperspace jump calculations	- higher is better
+		  timefactor: used in jump duration calculations		- lower is better
+					  civilian drives default: 0.36
+					  military drives default: 0.28 (22.2% less jump duration)
 --]]
+
+local base_timefactor = 0.36
+local military_timefactor = 0.28
 
 misc.missile_unguided = EquipType.New({
 	l10n_key="MISSILE_UNGUIDED", slots="missile", price=30,
@@ -132,7 +153,7 @@ misc.shield_generator = EquipType.New({
 	l10n_key="SHIELD_GENERATOR", slots="shield", price=2500,
 	capabilities={mass=4, shield=1},
 	purchasable=true, tech_level=8, infovis=1,
-	plural_l10n_key="N_SHIELD_GENERATORS"
+	plural_l10n_key = "N_SHIELD_GENERATORS"
 })
 misc.laser_cooling_booster = EquipType.New({
 	l10n_key="LASER_COOLING_BOOSTER", slots="laser_cooler", price=380,
@@ -220,16 +241,6 @@ misc.planetscanner = BodyScannerType.New({
 	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
 	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05}
 })
-
--- hyperdrive capabilities:
---       mass: weight in tonnes						- lower is better
--- hyperclass: used in hyperspace jump calculations - higher is better
--- timefactor: used in jump duration calculations	- lower is better
--- 		civilian drives default: 0.36
---		military drives default: 0.28 (22.2% less jump duration)
-local base_timefactor = 0.36
-local military_timefactor = 0.28
-
 hyperspace.hyperdrive_1 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS1", fuel=cargo.hydrogen, slots="engine", price=700,
 	capabilities={mass=4, hyperclass=1, timefactor=base_timefactor},
