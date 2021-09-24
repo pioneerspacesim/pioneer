@@ -43,18 +43,15 @@ local function displayTimeWindow()
 			color = colors.white
 		end
 		-- translate only paused, the rest can stay
-		local time = name
-		if (name == "paused") then
-			time = lc.PAUSED
-			local mpos = ui.getMousePos()
-			if mpos.x < pButt.x and mpos.y > pButt.y and ui.isMouseDoubleClicked(0) then
-				ui.optionsWindow:open()
-			end
-		end
+		local time = (name == "paused") and lc.PAUSED or name
 		local tooltip = string.interp(lui.HUD_REQUEST_TIME_ACCEL, { time = time })
 		if ui.coloredSelectedIconButton(icons['time_accel_' .. name], button_size, current == name, frame_padding, color, fg_color, tooltip .. "##time_accel_"..name)
 		or (ui.shiftHeld() and ui.isKeyReleased(key)) then
 			Game.SetTimeAcceleration(name, ui.ctrlHeld() or ui.isMouseDown(1))
+		end
+		-- isItemHovered is true for ALL the buttons
+		if ui.isMouseDoubleClicked(0) and ui.isItemHovered(0) and (ui.getMousePos().x < (32+(frame_padding*2)+7+15)) then
+			ui.optionsWindow:open()
 		end
 		ui.sameLine()
 	end
