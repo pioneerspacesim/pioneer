@@ -23,6 +23,7 @@ local button_size = Vector2(32,32) * (ui.screenHeight / 1200)
 local frame_padding = 3
 local bg_color = colors.buttonBlue
 local fg_color = colors.white
+local pButt = Vector2(frame_padding * 2 + 32 + 15, ui.screenHeight - (frame_padding * 2 + 32 + 20))
 local lastPause = 0
 
 local function displayTimeWindow()
@@ -46,11 +47,14 @@ local function displayTimeWindow()
 		local time = name
 		if (name == "paused") then
 			time = lc.PAUSED
-			if ui.isMouseDown(0) and (200 >= (Engine.ticks - lastPause)) then
-				ui.optionsWindow:open()
-			end
-			if ui.isMouseReleased(0) then
-				lastPause = Engine.ticks
+			local mpos = ui.getMousePos()
+			if mpos.x < pButt.x and mpos.y > pButt.y then
+				if ui.isMouseDown(0) and (200 >= (Engine.ticks - lastPause)) then
+					ui.optionsWindow:open()
+				end
+				if ui.isMouseReleased(0) then
+					lastPause = Engine.ticks
+				end
 			end
 		end
 		local tooltip = string.interp(lui.HUD_REQUEST_TIME_ACCEL, { time = time })
