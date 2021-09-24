@@ -35,41 +35,132 @@ function SpaceStation:Constructor()
 	self:setprop("techLevel", techLevel)
 end
 
+-- visited keeps track of which stations we have docked with and have had
+-- extended info (BBS adverts, ship ads, equipment stock info) generated for
+local visited = {}
 local equipmentStock = {}
 
-local function updateEquipmentStock (station)
-	assert(station and station:exists())
-	if equipmentStock[station] then return end
-	equipmentStock[station] = {}
+-- stationMarket is a persistent table of stock information for every station
+-- the player has visited in their journey
+local stationMarket = {}
 
-	local hydrogen = Equipment.cargo.hydrogen
-	for key, e in pairs(Equipment.cargo) do
+-- return the target stock level for a given commodity based on whether the
+-- commodity is an import/export good at this port (based on pricemod)
+local function applyStockPriceMod(maxStock, stock, pricemod)
+	if pricemod > 10 then --major import, low stock
+		return stock - (maxStock*0.10)     -- shifting .10 = 2% chance of 0 stock
+	elseif pricemod > 4 then --minor import
+		return stock - (maxStock*0.07)     -- shifting .07 = 1% chance of 0 stock
+	elseif pricemod < -10 then --major export
+		return stock + (maxStock*0.8)
+	elseif pricemod < -4 then --minor export
+		return stock + (maxStock*0.3)
+	end
+	return stock
+end
+
+-- set commodity stocking based on price adjusted for some rarity curve by exponent
+-- math.log() flattens the curve at the low end
+local function getMaxStock(price)
+	return 750000 * math.max(0.1, math.log(price, 10)) / price^1.457
+end
+
+-- return the persistent equilibrium stock for a commodity based on a deterministic seed
+local function getStationTargetStock(key, seed)
+	-- use a deterministic random function to determine target stock numbers
+	local rand = Rand.New(seed .. '-stock-' .. key)
+	local e = Equipment.cargo[key]
+	local rn = getMaxStock(math.abs(e.price))
+
+	local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
+	local targetStock = rn * (rand:Number() + rand:Number()) / 2.0 -- normal 0-100% "permanent" stock
+	return rn, math.floor(applyStockPriceMod(rn, targetStock, pricemod))
+end
+
+-- create a persistent entry for the given station's commodity market if it
+-- does not already exist, and populate persistent and transient stock info
+local function createStationMarket(station)
+	assert(station and station:exists())
+	if stationMarket[station.path] then return end
+
+	local storedStation = {
+		commodities = {},
+		lastStockUpdate = Game.time
+	}
+	stationMarket[station.path] = storedStation
+
+	local h2 = Equipment.cargo.hydrogen
+	for key, e in pairs (Equipment.cargo) do
 		if e.purchasable then
-			local rn = 100000 / math.abs(e.price) --have about 100,000 worth of stock, per commodity
-			if e == hydrogen then
-				equipmentStock[station][e] = math.floor(rn/2 + Engine.rand:Integer(0,rn)) --always stock hydrogen
+			local rn, targetStock = getStationTargetStock(key, station.seed)
+			if e == h2 then
+				-- always stock hydrogen, don't store it as a commodity
+				equipmentStock[station][e] = Engine.rand:Integer(rn/4, rn)
 			else
-				local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
-				local stock =  (Engine.rand:Integer(0,rn) + Engine.rand:Integer(0,rn)) / 2 -- normal 0-100% stock
-				if pricemod > 10 then --major import, low stock
-					stock = stock - (rn*0.10)     -- shifting .10 = 2% chance of 0 stock
-				elseif pricemod > 4 then --minor import
-					stock = stock - (rn*0.07)     -- shifting .07 = 1% chance of 0 stock
-				elseif pricemod < -10 then --major export
-					stock = stock + (rn*0.8)
-				elseif pricemod < -4 then --minor export
-					stock = stock + (rn*0.3)
-				end
-				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
+				storedStation.commodities[key] = targetStock
+				equipmentStock[station][e] = targetStock
 			end
 		else
 			equipmentStock[station][e] = 0 -- commodity that cant be bought
 		end
 	end
+end
+
+-- handle gradually restocking commodities at a station over time
+-- by default, a station restores to its maximum stock after 12 weeks
+-- this function is safe to call at any time, though it should be rate-limited
+local kTickDuration = 7 * 24 * 60 * 60 -- 1 week
+local kAvgTicksToRestock = 12
+local function updateStationMarket (station)
+	assert(station and station:exists())
+	if not stationMarket[station.path] then return end
+
+	local storedStation = stationMarket[station.path]
+	local lastStockUpdate = storedStation.lastStockUpdate
+	local timeSinceUpdate = Game.time - lastStockUpdate
+	if timeSinceUpdate <= kTickDuration then return end
+
+	-- make sure the next tick happens at the correct time
+	storedStation.lastStockUpdate = lastStockUpdate + math.floor(timeSinceUpdate / kTickDuration) * kTickDuration
+
+	-- use a *different* random function to tally up restocks
+	local randRestock = Rand.New(station.seed .. '-stockMarketUpdate-' .. math.floor(lastStockUpdate))
+
+	for key, stock in pairs (storedStation.commodities) do
+		local rn, targetStock = getStationTargetStock(key, station.seed)
+
+		for i = 1, math.floor(timeSinceUpdate / kTickDuration) do
+			stock = stock + (randRestock:Number() + randRestock:Number()) / kAvgTicksToRestock * targetStock
+		end
+		stock = math.min(targetStock, math.ceil(stock))
+
+		storedStation.commodities[key] = stock
+		if equipmentStock[station] then
+			local e = Equipment.cargo[key]
+			equipmentStock[station][e] = stock
+		end
+	end
+end
+
+-- create a transient entry for this station's equipment stock and seed it with
+-- commodity stock information from persistent data
+local function createEquipmentStock (station)
+	assert(station and station:exists())
+	if equipmentStock[station] then return end
+	equipmentStock[station] = {}
 
 	for _,slot in pairs{"laser", "hyperspace", "misc"} do
 		for key, e in pairs(Equipment[slot]) do
 			equipmentStock[station][e] = Engine.rand:Integer(0,100)
+		end
+	end
+
+	-- stationMarket is persistent across systems but equipmentStock is not,
+	-- so we want to import the data from the station market if it exists
+	if stationMarket[station.path] then
+		for key, stock in pairs(stationMarket[station.path].commodities) do
+			local e = Equipment.cargo[key]
+			equipmentStock[station][e] = stock
 		end
 	end
 end
@@ -141,7 +232,7 @@ end
 --
 function SpaceStation:GetEquipmentStock (e)
 	assert(self:exists())
-	return equipmentStock[self][e] or 0
+	return equipmentStock[self] and equipmentStock[self][e] or 0
 end
 
 --
@@ -168,6 +259,14 @@ end
 function SpaceStation:AddEquipmentStock (e, stock)
 	assert(self:exists())
 	equipmentStock[self][e] = (equipmentStock[self][e] or 0) + stock
+
+	-- update persistent station stock values
+	if e.name and stationMarket[self.path] then
+		local commodities = stationMarket[self.path].commodities
+		if commodities[e.name] then
+			commodities[e.name] = math.max(0, commodities[e.name] + stock)
+		end
+	end
 end
 
 
@@ -655,27 +754,32 @@ end
 local function updateSystem ()
 	local stations = Space.GetBodies(function (b) return b.superType == "STARPORT" end)
 	for i, station in ipairs(stations) do
-		if SpaceStation.adverts[station] then
-			updateEquipmentStock(station)
+		updateStationMarket(station)
+
+		if visited[station] then
 			updateShipsOnSale(station)
 			updateAdverts(station)
 		end
 	end
 end
 
-local function createStationMarket (station)
+local function createStationData (station)
 	SpaceStation.adverts[station] = {}
 	shipsOnSale[station] = {}
+	visited[station] = true
 
-	updateEquipmentStock(station)
+	createEquipmentStock(station)
+	createStationMarket(station)
 	local shipAdsToSpawn = Engine.rand:Poisson(N_equilibrium(station))
 	addRandomShipAdvert(station, shipAdsToSpawn)
+
 	Event.Queue("onCreateBB", station)
 end
 
 local function destroySystem ()
 	equipmentStock = {}
 	equipmentPrice = {}
+	visited = {}
 
 	police = {}
 
@@ -696,6 +800,8 @@ Event.Register("onGameStart", function ()
 	if (loaded_data) then
 		equipmentStock = loaded_data.equipmentStock
 		equipmentPrice = loaded_data.equipmentPrice or {} -- handle missing in old saves
+		stationMarket = loaded_data.stationMarket or {}
+		visited = loaded_data.visited or {}
 		police = loaded_data.police
 		for station,list in pairs(loaded_data.shipsOnSale) do
 			shipsOnSale[station] = {}
@@ -711,6 +817,12 @@ Event.Register("onGameStart", function ()
 				end
 			end
 		end
+
+		-- SAVEBUMP: fixup for save version 87 where player is docked to station without visited data
+		local dockedStation = Game.player:GetDockedWith()
+		if dockedStation and not visited[dockedStation] then
+			createStationData(dockedStation)
+		end
 		loaded_data = nil
 	end
 
@@ -718,8 +830,13 @@ Event.Register("onGameStart", function ()
 end)
 
 Event.Register("onShipDocked", function (ship, station)
-	if ship ~= Game.player or SpaceStation.adverts[station] then return end
-	createStationMarket(station)
+	if ship ~= Game.player then return end
+
+	if not visited[station] then
+		createStationData(station)
+	else
+		updateStationMarket(station)
+	end
 end)
 
 Event.Register("onLeaveSystem", function (ship)
@@ -744,6 +861,8 @@ Event.Register("onGameEnd", function ()
 	nextRef = 0
 	equipmentStock = {}
 	equipmentPrice = {}
+	stationMarket = {}
+	visited = {}
 	police = {}
 	shipsOnSale = {}
 end)
@@ -754,6 +873,8 @@ Serializer:Register("SpaceStation",
 		local data = {
 			equipmentStock = equipmentStock,
 			equipmentPrice = equipmentPrice,
+			stationMarket = stationMarket,
+			visited = visited,
 			police = police,  --todo fails if a police ship is killed
 			shipsOnSale = {},
 		}
