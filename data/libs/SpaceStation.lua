@@ -48,15 +48,15 @@ local stationMarket = {}
 -- commodity is an import/export good at this port (based on pricemod)
 local function applyStockPriceMod(maxStock, stock, pricemod)
 	if pricemod > 10 then --major import, low stock
-		return stock - (maxStock*0.10)     -- shifting .10 = 2% chance of 0 stock
+		stock = stock - (maxStock*0.10)     -- shifting .10 = 2% chance of 0 stock
 	elseif pricemod > 4 then --minor import
-		return stock - (maxStock*0.07)     -- shifting .07 = 1% chance of 0 stock
+		stock = stock - (maxStock*0.07)     -- shifting .07 = 1% chance of 0 stock
 	elseif pricemod < -10 then --major export
-		return stock + (maxStock*0.8)
+		stock = stock + (maxStock*0.8)
 	elseif pricemod < -4 then --minor export
-		return stock + (maxStock*0.3)
+		stock = stock + (maxStock*0.3)
 	end
-	return stock
+	return math.floor(stock >=0 and stock or 0)
 end
 
 -- set commodity stocking based on price adjusted for some rarity curve by exponent
