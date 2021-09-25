@@ -48,21 +48,20 @@ local stationMarket = {}
 -- commodity is an import/export good at this port (based on pricemod)
 local function applyStockPriceMod(maxStock, stock, pricemod)
 	if pricemod > 10 then --major import, low stock
-		return stock - (maxStock*0.10)     -- shifting .10 = 2% chance of 0 stock
+		stock = stock - (maxStock*0.10)     -- shifting .10 = 2% chance of 0 stock
 	elseif pricemod > 4 then --minor import
-		return stock - (maxStock*0.07)     -- shifting .07 = 1% chance of 0 stock
+		stock = stock - (maxStock*0.07)     -- shifting .07 = 1% chance of 0 stock
 	elseif pricemod < -10 then --major export
-		return stock + (maxStock*0.8)
+		stock = stock + (maxStock*0.8)
 	elseif pricemod < -4 then --minor export
-		return stock + (maxStock*0.3)
+		stock = stock + (maxStock*0.3)
 	end
-	return stock
+	return math.max(0.0, math.floor(stock))
 end
 
 -- set commodity stocking based on price adjusted for some rarity curve by exponent
--- math.log() flattens the curve at the low end
 local function getMaxStock(price)
-	return 750000 * math.max(0.1, math.log(price, 10)) / price^1.457
+	return 950000 / price^1.387
 end
 
 -- return the persistent equilibrium stock for a commodity based on a deterministic seed
@@ -74,7 +73,7 @@ local function getStationTargetStock(key, seed)
 
 	local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
 	local targetStock = rn * (rand:Number() + rand:Number()) / 2.0 -- normal 0-100% "permanent" stock
-	return rn, math.floor(applyStockPriceMod(rn, targetStock, pricemod))
+	return rn, applyStockPriceMod(rn, targetStock, pricemod)
 end
 
 -- create a persistent entry for the given station's commodity market if it
@@ -91,17 +90,14 @@ local function createStationMarket(station)
 
 	local h2 = Equipment.cargo.hydrogen
 	for key, e in pairs (Equipment.cargo) do
-		if e.purchasable then
+		if e.purchasable and e.price > 0.0 then
 			local rn, targetStock = getStationTargetStock(key, station.seed)
 			if e == h2 then
-				-- always stock hydrogen, don't store it as a commodity
 				equipmentStock[station][e] = Engine.rand:Integer(rn/4, rn)
 			else
 				storedStation.commodities[key] = targetStock
 				equipmentStock[station][e] = targetStock
 			end
-		else
-			equipmentStock[station][e] = 0 -- commodity that cant be bought
 		end
 	end
 end
@@ -152,6 +148,15 @@ local function createEquipmentStock (station)
 	for _,slot in pairs{"laser", "hyperspace", "misc"} do
 		for key, e in pairs(Equipment[slot]) do
 			equipmentStock[station][e] = Engine.rand:Integer(0,100)
+		end
+	end
+
+	for key, e in pairs(Equipment.cargo) do
+		if e.purchasable and e.price < 0.0 then
+			-- "haulaway" commodities
+			-- approximately 1t rubbish for every 10 people
+			local stock = math.floor(station:GetSystemBody().population * 1e8 / math.abs(e.price))
+			equipmentStock[station][e] = Engine.rand:Integer(stock / 10, stock)
 		end
 	end
 
