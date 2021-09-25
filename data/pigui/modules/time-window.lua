@@ -50,7 +50,7 @@ local function displayTimeWindow()
 			Game.SetTimeAcceleration(name, ui.ctrlHeld() or ui.isMouseDown(1))
 		end
 		-- isItemHovered is true for ALL the buttons
-		if ui.isMouseDoubleClicked(0) and ui.isItemHovered(0) and (ui.getMousePos().x < (32+(frame_padding*2)+7+15)) then
+		if ui.isMouseDoubleClicked(0) and ui.isItemHovered(0) and (name == "paused") then
 			ui.optionsWindow:open()
 		end
 		ui.sameLine()
