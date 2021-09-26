@@ -273,7 +273,11 @@ local function drawPlayerInfo()
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), {"AlwaysUseWindowPadding"}, function()
 					local curPos = ui.getCursorPos()
 					textTable.withHeading(station.label, orbiteer.xlarge, tabLines )
-					if station.lore then
+					if station.nolanglore then
+						ui.separator()
+						ui.text(station.nolanglore)
+					end
+					if not station.nolanglore and station.lore then
 						local lorelang = Lang.GetResource("lore")
 						ui.separator()
 						ui.text(lorelang[station.lore])
