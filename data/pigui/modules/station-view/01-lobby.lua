@@ -228,28 +228,24 @@ end
 
 local function drawPlayerInfo()
 	local station = Game.player:GetDockedWith()
+	if not station or not shipDef then return end
 
-	if(not (station and shipDef)) then return end
+	local substrings = { shipbay = station:GetAssignedBayNumber(Game.player),
+						 bays = string.format("%d", station.numDocks),
+						 tech_level = station.techLevel }
 
-	local tech_certified
-
-	if station.techLevel == 11 then
-		tech_certified = l.TECH_CERTIFIED_MILITARY
-	else
-		tech_certified = string.interp(l.TECH_CERTIFIED, { tech_level = station.techLevel})
-	end
-
-	local station_docks = string.interp(l.STATION_DOCKS, { total_docking_pads = string.format("%d", station.numDocks),})
-
+	local tech_certified = (station.techLevel >= 11) and l.TECH_CERTIFIED_MILITARY or string.interp(l.TECH_CERTIFIED, substrings)
+	local station_docks = string.interp(l.STATION_DOCKS, substrings)
 	local orbit_period = station.path:GetSystemBody().orbitPeriod
 
-	local station_frameBody = Space.GetBody(station.path:GetSystemBody().parent.index)
-	local local_gravity_pressure = ""
-	if station.type == "STARPORT_SURFACE" then
-		if station.path:GetSystemBody().parent.hasAtmosphere then
-			local_gravity_pressure = string.format(l.STATION_LOCAL_GRAVITY_PRESSURE, (station.path:GetSystemBody().parent.gravity/9.8), station_frameBody:GetAtmosphericState(station))
+	local local_conditions = ""
+	if station.isGroundStation then
+		local myBody = station.path:GetSystemBody()
+		if myBody.parent.hasAtmosphere then
+			local parentBody = Space.GetBody(myBody.parent.index)
+			local_conditions = string.format(l.STATION_LOCAL_GRAVITY_PRESSURE, (myBody.parent.gravity/9.8), parentBody:GetAtmosphericState(station))
 		else
-			local_gravity_pressure = string.format(l.STATION_LOCAL_GRAVITY, (station.path:GetSystemBody().parent.gravity/9.8))
+			local_conditions = string.format(l.STATION_LOCAL_GRAVITY, (myBody.parent.gravity/9.8))
 		end
 	end
 
@@ -266,16 +262,22 @@ local function drawPlayerInfo()
 			local infoColumnWidth = conReg.x - widgetSizes.faceSize.x - widgetSizes.windowPadding.x*3
 			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*3 + widgetSizes.itemSpacing.y*3 + widgetSizes.windowPadding.y*2
 			local lobbyMenuAtBottom = (conReg.y - widgetSizes.faceSize.y > lobbyMenuHeight + widgetSizes.windowPadding.x*2)
-
+			local tabLines = { { tech_certified, "" }, { station_docks, "" } }
+			if station_orbit_info ~= "" then
+				table.insert(tabLines, { station_orbit_info, "" })
+			end
+			if local_conditions ~= "" then
+				table.insert(tabLines, { local_conditions, "" })
+			end
 			ui.child("Wrapper", Vector2(0, lobbyMenuAtBottom and -lobbyMenuHeight or 0), {}, function()
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), {"AlwaysUseWindowPadding"}, function()
 					local curPos = ui.getCursorPos()
-					textTable.withHeading(station.label, orbiteer.xlarge, {
-						{ tech_certified, "" },
-						{ station_docks, "" },
-						{ station_orbit_info, "" },
-						{ local_gravity_pressure, ""},
-					})
+					textTable.withHeading(station.label, orbiteer.xlarge, tabLines )
+					if station.lore then
+						local lorelang = Lang.GetResource("lore")
+						ui.separator()
+						ui.text(lorelang[station.lore])
+					end
 
 					if not lobbyMenuAtBottom then
 						lobbyMenu(Vector2(curPos.x, conReg.y - lobbyMenuHeight))

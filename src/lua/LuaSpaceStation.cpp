@@ -1,11 +1,13 @@
 // Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "Json.h"
 #include "LuaConstants.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Ship.h"
 #include "SpaceStation.h"
+#include "galaxy/SystemBody.h"
 
 /*
  * Class: SpaceStation
@@ -150,6 +152,68 @@ static int l_spacestation_get_nearby_traffic(lua_State *l)
 }
 
 /*
+ * Method: GetPropertyDefaults
+ *
+ * Set properties that should exist for spacestations to defaults or
+ * values loaded from json files
+ *
+ * > station:GetPropertyDefaults()
+ *
+ * Returns:
+ *   table of properties
+ *
+ * Availability:
+ *
+ *   Sept 2021
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_spacestation_get_property_defaults(lua_State *l)
+{
+	SpaceStation *station = static_cast<SpaceStation *>(LuaObject<Body>::CheckFromLua(1));
+	const SystemBody *body = station->GetSystemBody();
+	const SystemPath sp = body->GetPath();
+
+	lua_newtable(l);
+
+	/* No known (or licensed) human settlements further out than 100 sectors outwards,
+	   a single byte (or hex FF) for each dimension is enough for a license number		*/
+	std::string stationID(100, '\0');
+	std::snprintf(&stationID[0], 100, "SCC#%02X%02X%02X%02X%02X", sp.sectorX, sp.sectorY, sp.sectorZ, sp.systemIndex, sp.bodyIndex);
+
+	pi_lua_settable(l, "stationID", stationID.c_str());
+	pi_lua_settable(l, "visualID", stationID.c_str());
+
+	/* try to load moar attributes from world station predefinitions
+	   values from json may override default values						*/
+	std::string propFile(100, '\0');
+	std::snprintf(&propFile[0], 100, "world/stations/%s.json", stationID.c_str());
+	Output("Looking for station presets for '%s' in '%s'\n", station->GetLabel().c_str(), propFile.c_str());
+	Json preset = JsonUtils::LoadJsonDataFile(propFile);
+
+	for (Json::iterator prop = preset.begin(); prop != preset.end(); ++prop) {
+		const std::string token = prop.key();
+		if (token.empty()) {
+			continue;
+		}
+		/* if (!valid_token(token)) { continue; } */
+
+		Json val = prop.value()["value"];
+		if (val.is_null()) {
+			continue;
+		}
+		if (!val.is_string()) {
+			continue;
+		}
+
+		pi_lua_settable(l, token.c_str(), std::string(val).c_str());
+	}
+	return 1;
+}
+
+/*
  * Attribute: numDocks
  *
  * The number of docking ports a spacestation has.
@@ -218,17 +282,18 @@ void LuaObject<SpaceStation>::RegisterClass()
 	const char *l_parent = "ModelBody";
 
 	static const luaL_Reg l_methods[] = {
-		{ "GetGroundPosition", l_spacestation_get_ground_position },
-		{ "RequestDockingClearance", l_spacestation_request_docking_clearance },
 		{ "GetAssignedBayNumber", l_spacestation_get_assigned_bay_number },
+		{ "GetGroundPosition", l_spacestation_get_ground_position },
 		{ "GetNearbyTraffic", l_spacestation_get_nearby_traffic },
+		{ "GetPropertyDefaults", l_spacestation_get_property_defaults },
+		{ "RequestDockingClearance", l_spacestation_request_docking_clearance },
 
 		{ 0, 0 }
 	};
 
 	static luaL_Reg l_attrs[] = {
-		{ "numDocks", l_spacestation_attr_num_docks },
 		{ "isGroundStation", l_spacestation_attr_is_ground_station },
+		{ "numDocks", l_spacestation_attr_num_docks },
 		{ "numShipsDocked", l_spacestation_attr_num_ships_docked },
 
 		{ 0, 0 }
