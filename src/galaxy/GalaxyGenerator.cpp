@@ -73,7 +73,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string &name, Version v
 
 		assert(name == "legacy"); // Once whe have have more, this will become an if switch
 		// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
-		s_galaxy = RefCountedPtr<Galaxy>(new DensityMapGalaxy(galgen, "galaxy_dense.bmp", 50000.0, 25000.0, 0.0, "factions", "systems"));
+		s_galaxy = RefCountedPtr<Galaxy>(new DensityMapGalaxy(galgen, "galaxy_dense.bmp", 50000.0, 25000.0, 0.0, "world/factions", "world/systems"));
 		s_galaxy->Init();
 		return s_galaxy;
 	} else {

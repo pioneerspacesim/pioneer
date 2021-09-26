@@ -1,3 +1,17 @@
+world/factions/<##_name>.lua
+
+	Contains properties of factions
+
+		##		determines order of precedence when loading
+		Name	filename only. faction name is determined by contents of the file
+
+world/systems/<##_Name>.lua
+
+	Contains manually created layouts of star systems
+
+		##		determines order of precedence when loading
+		Name	filename only. faction name is determined by contents of the file
+
 world/stations/<system+stationID>.json
 world/stations/<system>/<stationID>.json
 
