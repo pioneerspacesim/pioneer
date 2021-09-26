@@ -60,18 +60,22 @@ local function updateEquipmentStock (station)
 			if e == hydrogen then
 				equipmentStock[station][e] = math.floor(rn/2 + Engine.rand:Integer(0,rn)) --always stock hydrogen
 			else
-				local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
-				local stock =  (Engine.rand:Integer(0,rn) + Engine.rand:Integer(0,rn)) / 2 -- normal 0-100% stock
-				if pricemod > 10 then --major import, low stock
-					stock = stock - (rn*0.10)     -- shifting .10 = 2% chance of 0 stock
-				elseif pricemod > 4 then --minor import
-					stock = stock - (rn*0.07)     -- shifting .07 = 1% chance of 0 stock
-				elseif pricemod < -10 then --major export
-					stock = stock + (rn*0.8)
-				elseif pricemod < -4 then --minor export
-					stock = stock + (rn*0.3)
+				if station.noCargoForSale then
+					equipmentStock[station][e] = 0
+				else
+					local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
+					local stock =  (Engine.rand:Integer(0,rn) + Engine.rand:Integer(0,rn)) / 2 -- normal 0-100% stock
+					if pricemod > 10 then --major import, low stock
+						stock = stock - (rn*0.10)     -- shifting .10 = 2% chance of 0 stock
+					elseif pricemod > 4 then --minor import
+						stock = stock - (rn*0.07)     -- shifting .07 = 1% chance of 0 stock
+					elseif pricemod < -10 then --major export
+						stock = stock + (rn*0.8)
+					elseif pricemod < -4 then --minor export
+						stock = stock + (rn*0.3)
+					end
+					equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
 				end
-				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
 			end
 		else
 			equipmentStock[station][e] = 0 -- commodity that cant be bought

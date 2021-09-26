@@ -1,0 +1,30 @@
+world/stations/<system+stationID>.json
+world/stations/<system>/<stationID>.json
+
+	Contains patch properties for individual stations.
+	System subdirectories is checked first.
+
+	Stations Json format:
+	{
+		"<PropertyName>" : {
+			"value" : "<content>"
+		},
+		...
+	}
+
+	Properties are passed to station:setprop(<PropertyName>, <content>) for all properties
+	in SpaceStation:Constructor() (libs/SpaceStation.lua).
+	If PropertyName contains other keys than "value", those are ignored.
+	Safe to use "comment" for example.
+
+	Recognized PropertyName's:
+
+		techLevel			Override stations randomly generated techLevel
+
+		lore				Use this key, translated from lang/lore/*.json, as station lore text
+
+		nolanglore			Use this text as-is, as station lore text
+							overrides lore
+
+		noCargoForSale		(true/false) if present and not false, sets all cargo stocks except hydrogen
+							to zero. cargo can still be sold.

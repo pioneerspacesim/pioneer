@@ -181,17 +181,40 @@ static int l_spacestation_get_property_defaults(lua_State *l)
 	/* No known (or licensed) human settlements further out than 100 sectors outwards,
 	   a single byte (or hex FF) for each dimension is enough for a license number		*/
 	std::string stationID(100, '\0');
-	std::snprintf(&stationID[0], 100, "SCC#%02X%02X%02X%02X%02X", sp.sectorX, sp.sectorY, sp.sectorZ, sp.systemIndex, sp.bodyIndex);
+	std::snprintf(&stationID[0], 100, "SCC%02X%02X%02X%02X%02X", sp.sectorX, sp.sectorY, sp.sectorZ, sp.systemIndex, sp.bodyIndex);
 
 	pi_lua_settable(l, "stationID", stationID.c_str());
 	pi_lua_settable(l, "visualID", stationID.c_str());
 
+	const char *src = station->GetLabel().c_str();
+	std::string sysstr(100, '\0');
+	std::snprintf(&sysstr[0], 100, "%02X%02X%02X%02X", sp.sectorX, sp.sectorY, sp.sectorZ, sp.systemIndex);
+	char stationname[100], *dst = stationname;
+
+	/* remove non [A-Za-z] chars from the station name */
+	for (; *src; src++) {
+		if (*src >= 'A' && *src <= 'Z')
+			*dst++ = *src;
+		else if (*src >= 'a' && *src <= 'z')
+			*dst++ = *src;
+	}
+	*dst = '\0';
+
 	/* try to load moar attributes from world station predefinitions
 	   values from json may override default values						*/
+	Json preset;
 	std::string propFile(100, '\0');
-	std::snprintf(&propFile[0], 100, "world/stations/%s.json", stationID.c_str());
+	std::snprintf(&propFile[0], 100, "world/stations/%s/%s-%s.json", sysstr.c_str(), stationID.c_str(), stationname);
 	Output("Looking for station presets for '%s' in '%s'\n", station->GetLabel().c_str(), propFile.c_str());
-	Json preset = JsonUtils::LoadJsonDataFile(propFile);
+	preset = JsonUtils::LoadJsonDataFile(propFile);
+	if (preset.is_null()) {
+		std::snprintf(&propFile[0], 100, "world/stations/%s-%s.json", stationID.c_str(), stationname);
+		Output("Looking for station presets for '%s' in '%s'\n", station->GetLabel().c_str(), propFile.c_str());
+		preset = JsonUtils::LoadJsonDataFile(propFile);
+		if (preset.is_null()) {
+			return 1;
+		}
+	}
 
 	for (Json::iterator prop = preset.begin(); prop != preset.end(); ++prop) {
 		const std::string token = prop.key();
