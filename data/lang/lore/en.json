@@ -1,6 +1,26 @@
 {
+	"" : {
+        "description" : "",
+        "message" : ""
+    },
     "SOL_MARS_CYDONIA" : {
         "description" : "",
         "message" : "Home of the core systems number one gravball team, the Little Green Men."
+    },
+	"SOL_EARTH_LONDON" : {
+        "description" : "",
+        "message" : "Traditional center of civilazation. Has recovered quite well after last centurys flooding disasters, although many of the cultural landmarks will never be restored to their former glory."
+    },
+	"SOL_EARTH_MOSCOW" : {
+        "description" : "",
+        "message" : "Moscow Spaceflight museum is a must see!"
+    },
+	"SOL_EARTH_OLYMPUS" : {
+        "description" : "",
+        "message" : "Dont forget to enjoy the longest ski slope within a hundred lightyears!"
+    },
+	"SOL_EARTH_SHANGHAI" : {
+        "description" : "",
+        "message" : "Industrial powerhouse of Earth. Dont forget your hazmat suit if you want to venture outside."
     }
 }
