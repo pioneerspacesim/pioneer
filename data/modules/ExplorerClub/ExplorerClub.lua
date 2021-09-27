@@ -174,21 +174,21 @@ local explorerDelete = function (ref)
 end
 
 local onCreateBB = function(station)
-	ad.station = Game.player:GetDockedWith()
+	ad.station = station
 	local rand = Rand.New(ad.station.seed + -2017)
 
 	-- Explorers club listed only on some stations
-	if (ad.station.isHomeworld == 1 or 15 > rand:Integer(100)) then
+	if (station.isHomeworld == 1 or 15 > rand:Integer(100)) then
 		local text = l.BBS_EXPLORERS_LOCAL_CONTACT
-		if (ad.station.isHomeworld == 1) then
+		if (station.isHomeworld == 1) then
 			text = l.BBS_EXPLORERS_HQ_CONTACT
 		end
-		ad.title = string.interp(text, {station = ad.station.label})
+		ad.title = string.interp(text, {station = station.label})
 		ad.gender = (rand:Integer(1) == 1)
 		ad.npcname = NameGen.FullName(ad.gender, rand)
 		ad.npc = Character.New({name = ad.npcname, female = ad.gender, seed = station.seed + -2017})
 
-		ad.station:AddAdvert({
+		station:AddAdvert({
 			description = ad.title,
 			icon        = "explorer",
 			onChat      = explorerChat,
