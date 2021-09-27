@@ -203,7 +203,11 @@ local onLeaveSystem = function(ship)
 end
 
 local onSystemExplored = function(system)
-	ExplorerData.systemsExplored = ExplorerData.systemsExplored + 1
+	if ExplorerData.systemsExplored then
+		ExplorerData.systemsExplored = ExplorerData.systemsExplored + 1
+	else
+		ExplorerData.systemsExplored = 1
+	end
 
 	if ExplorerData.systemsExplored >= 10 and ExplorerData.explorerInvite == 0 then
 		ExplorerData.explorerInvite = 1
@@ -211,7 +215,10 @@ local onSystemExplored = function(system)
 
 	if ExplorerData.explorerInvite == 2 and Game.player:GetEquipCountOccupied('explorer_device') > 0 then
 		Comms.ImportantMessage(string.interp(l.DATACOLLECTED, {longdevice=l.EXPLORER_DEVICE}), l.EXPLORERS_CLUB)
-		table.insert(ExplorerData.bountylist, system.path)
+		if ExplorerData.bountylist == nil then
+			ExplorerData.bountylist = {}
+		end
+		ExplorerData.bountylist[system.path] = { when = Game.time, processed = false }
 	end
 end
 
@@ -224,7 +231,8 @@ local onCreateBB = function(station)
 	local rand = Rand.New(ad.station.seed + -2017)
 
 	-- Explorers club listed only on some stations
-	if (station.isHomeworld == 1 or 15 > rand:Integer(100)) then
+	if (true) then -- for debug
+	--if (station.isHomeworld == 1 or 15 > rand:Integer(100)) then
 		local text = l.BBS_EXPLORERS_LOCAL_CONTACT
 		if (station.isHomeworld == 1) then
 			text = l.BBS_EXPLORERS_HQ_CONTACT
