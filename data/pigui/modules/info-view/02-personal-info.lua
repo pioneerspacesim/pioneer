@@ -8,8 +8,8 @@ local Engine = require 'Engine'
 local Character = require 'Character'
 local PiGuiFace = require 'pigui.libs.face'
 local Event = require 'Event'
-local ExplorerGlobals = require 'ExplorerGlobals'
 local pigui = Engine.pigui
+local ExplorerData = require 'ExplorerData'
 
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
@@ -38,14 +38,14 @@ local function drawPlayerInfo()
 		{ l.STATUS..":", l[player:GetReputationRating()] },
 	})
 
-    if (2 == ExplorerGlobals.explorerInvite) then
-        local lx = Lang.GetResource("module-explorerclub")
+    if (ExplorerData.explorerInvite == 2) then
+        local lex = Lang.GetResource("module-explorerclub")
         ui.text("")
-        textTable.withHeading(lx.INFO_EXPLORATION, orbiteer.xlarge, {
-            { lx.INFO_RANK_HEADER, lx["INFO_RANK_" .. (ExplorerGlobals.explorerRank or 0)] },
-            { lx.INFO_SYSTEMS_EXPLORED, (ExplorerGlobals.systemsExplored or 0) },
-            { lx.INFO_JUMPS_MADE, (ExplorerGlobals.jumpsMade or 0)},
-            { lx.INFO_LIGHTYEARS_TRAVELED, string.format("%.2fly", (ExplorerGlobals.lightyearsTraveled or 0)) }
+        textTable.withHeading(lex.INFO_EXPLORATION, orbiteer.xlarge, {
+            { lex.INFO_RANK_HEADER, lex["INFO_RANK_" .. (ExplorerData.explorerRank or 0)] },
+            { lex.INFO_SYSTEMS_EXPLORED, (ExplorerData.systemsExplored or 0) },
+            { lex.INFO_JUMPS_MADE, (ExplorerData.jumpsMade or 0)},
+            { lex.INFO_LIGHTYEARS_TRAVELED, string.format("%.2fly", (ExplorerData.lightyearsTraveled or 0)) }
         })
     end
 end
