@@ -23,11 +23,8 @@ local button_size = Vector2(32,32) * (ui.screenHeight / 1200)
 local frame_padding = 3
 local bg_color = colors.buttonBlue
 local fg_color = colors.white
-local pButt = Vector2(frame_padding * 2 + 32 + 15, ui.screenHeight - (frame_padding * 2 + 32 + 20))
 
 local function displayTimeWindow()
-	player = Game.player
-
 	-- HACK: Don't display the time window if we're in a bespoke view
 	if Game.CurrentView() == nil then return end
 
