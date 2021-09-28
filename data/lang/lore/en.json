@@ -3,10 +3,6 @@
         "description" : "",
         "message" : ""
     },
-    "SOL_MARS_CYDONIA" : {
-        "description" : "",
-        "message" : "Home of the core systems champion gravball team, the Little Green Men."
-    },
 	"SOL_EARTH_LONDON" : {
         "description" : "",
         "message" : "Traditional center of civilization. Has recovered quite well after last centurys flooding disasters, although many of the cultural landmarks will never be restored to their former glory."
@@ -15,12 +11,16 @@
         "description" : "",
         "message" : "Moscow Spaceflight museum is a must see! See how it all started, including an actual moon lander recovered from the moon! Beware of hawkers selling moon rocks for souvenirs, often buying a ticket to the moon is cheaper."
     },
-	"SOL_EARTH_OLYMPUS" : {
-        "description" : "",
-        "message" : "Dont forget to enjoy the longest ski slope within a hundred lightyears!"
-    },
 	"SOL_EARTH_SHANGHAI" : {
         "description" : "",
         "message" : "Industrial powerhouse of Earth. Dont forget your hazmat suit if you want to venture outside."
+    },
+    "SOL_MARS_CYDONIA" : {
+        "description" : "",
+        "message" : "Home of the core systems champion gravball team, the Little Green Men."
+    },
+	"SOL_MARS_OLYMPUS" : {
+        "description" : "",
+        "message" : "Dont forget to enjoy the longest ski slope within a hundred lightyears!"
     }
 }
