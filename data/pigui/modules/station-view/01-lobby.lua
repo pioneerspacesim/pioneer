@@ -272,17 +272,27 @@ local function drawPlayerInfo()
 			ui.child("Wrapper", Vector2(0, lobbyMenuAtBottom and -lobbyMenuHeight or 0), {}, function()
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), {"AlwaysUseWindowPadding"}, function()
 					local curPos = ui.getCursorPos()
+					--tabLines contain basic station information
+					textTable.withHeading(station.label, orbiteer.xlarge, tabLines )
+
+					-- lore text for this station, if any
 					local loretext = station.nolanglore or nil
 					if loretext == nil and station.lore ~= nil then
 						local lorelang = Lang.GetResource("lore")
 						loretext = lorelang[station.lore]
 					end
-					textTable.withHeading(station.label, orbiteer.xlarge, tabLines )
 					if loretext ~= nil then
 						ui.separator()
 						ui.pushTextWrapPos(infoColumnWidth)
 						ui.textWrapped(loretext)
 						ui.popTextWrapPos()
+					end
+
+					if station.visualID ~= nil then
+						local licensetext = "Station License: "..station.visualID
+						local lXY = ui.calcTextSize(licensetext)
+						ui.setCursorPos(Vector2(infoColumnWidth - lXY.x - 6, curPos.y))
+						ui.text(licensetext)
 					end
 
 					if not lobbyMenuAtBottom then
