@@ -272,15 +272,17 @@ local function drawPlayerInfo()
 			ui.child("Wrapper", Vector2(0, lobbyMenuAtBottom and -lobbyMenuHeight or 0), {}, function()
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), {"AlwaysUseWindowPadding"}, function()
 					local curPos = ui.getCursorPos()
-					textTable.withHeading(station.label, orbiteer.xlarge, tabLines )
-					if station.nolanglore then
-						ui.separator()
-						ui.text(station.nolanglore)
-					end
-					if not station.nolanglore and station.lore then
+					local loretext = station.nolanglore or nil
+					if loretext == nil and station.lore ~= nil then
 						local lorelang = Lang.GetResource("lore")
+						loretext = lorelang[station.lore]
+					end
+					textTable.withHeading(station.label, orbiteer.xlarge, tabLines )
+					if loretext ~= nil then
 						ui.separator()
-						ui.text(lorelang[station.lore])
+						ui.pushTextWrapPos(infoColumnWidth)
+						ui.textWrapped(loretext)
+						ui.popTextWrapPos()
 					end
 
 					if not lobbyMenuAtBottom then
