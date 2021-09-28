@@ -230,7 +230,7 @@ local function drawPlayerInfo()
 	local station = Game.player:GetDockedWith()
 	if not station or not shipDef then return end
 
-	local substrings = { shipbay = station:GetAssignedBayNumber(Game.player),
+	local substrings = { shipbay = station:GetAssignedBayNumber(Game.player) + 1,
 						 bays = string.format("%d", station.numDocks),
 						 tech_level = station.techLevel }
 
