@@ -23,7 +23,6 @@ local button_size = Vector2(32,32) * (ui.screenHeight / 1200)
 local frame_padding = 3
 local bg_color = colors.buttonBlue
 local fg_color = colors.white
-local mTicks = 0
 
 local function displayTimeWindow()
 	-- HACK: Don't display the time window if we're in a bespoke view
@@ -48,13 +47,8 @@ local function displayTimeWindow()
 			Game.SetTimeAcceleration(name, ui.ctrlHeld() or ui.isMouseDown(1))
 		end
 		-- isItemHovered is true for ALL the buttons
-		if (name == "paused") and ui.isItemHovered(0) then
-			if ui.isMouseDown(0) and (200 >= (Engine.ticks - mTicks)) then
-				ui.optionsWindow:open()
-			end
-			if ui.isMouseReleased(0) then
-				mTicks = Engine.ticks
-			end
+		if ui.isItemHovered(0) and ui.isMouseDoubleClicked(0) and (name == "paused") then
+			ui.optionsWindow:open()
 		end
 		ui.sameLine()
 	end
