@@ -40,12 +40,12 @@ namespace SceneGraph {
 		rsd.cullMode = Graphics::CULL_NONE;
 
 		m_tMat.Reset(r->CreateMaterial("unlit", desc, rsd));
-		m_tMat->SetTexture(Graphics::Renderer::GetName("texture0"),
+		m_tMat->SetTexture("texture0"_hash,
 			Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(r, "billboard"));
 		m_tMat->diffuse = baseColor;
 
 		m_glowMat.Reset(r->CreateMaterial("unlit", desc, rsd));
-		m_glowMat->SetTexture(Graphics::Renderer::GetName("texture0"),
+		m_glowMat->SetTexture("texture0"_hash,
 			Graphics::TextureBuilder::Billboard(thrusterGlowTextureFilename).GetOrCreateTexture(r, "billboard"));
 		m_glowMat->diffuse = baseColor;
 	}

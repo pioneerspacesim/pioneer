@@ -16,8 +16,8 @@
 
 using namespace PiGui;
 
-size_t InstanceRenderer::s_textureName = Graphics::Renderer::GetName("texture0");
-size_t InstanceRenderer::s_vertexDepthName = Graphics::Renderer::GetName("vertexDepth");
+static constexpr size_t s_textureName = "texture0"_hash;
+static constexpr size_t s_vertexDepthName = "vertexDepth"_hash;
 
 InstanceRenderer::InstanceRenderer(Graphics::Renderer *r) :
 	m_renderer(r)

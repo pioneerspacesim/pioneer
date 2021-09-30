@@ -33,8 +33,8 @@ namespace {
 	static RefCountedPtr<Graphics::UniformBuffer> s_matUniformBuffer;
 	static const std::string s_shieldGroupName("Shields");
 	static const std::string s_matrixTransformName("_accMtx4");
-	static const size_t s_shieldDataName = Graphics::Renderer::GetName("ShieldData");
-	static const size_t s_numHitsName = Graphics::Renderer::GetName("NumHits");
+	static const size_t s_shieldDataName = "ShieldData"_hash;
+	static const size_t s_numHitsName = "NumHits"_hash;
 
 	static RefCountedPtr<Graphics::Material> GetGlobalShieldMaterial()
 	{

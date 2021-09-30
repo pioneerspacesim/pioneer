@@ -484,8 +484,8 @@ void GeoSphere::SetUpMaterials()
 
 		m_texHi.Reset(Graphics::TextureBuilder::Model("textures/high.dds").GetOrCreateTexture(Pi::renderer, "model"));
 		m_texLo.Reset(Graphics::TextureBuilder::Model("textures/low.dds").GetOrCreateTexture(Pi::renderer, "model"));
-		m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture0"), m_texHi.Get());
-		m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture1"), m_texLo.Get());
+		m_surfaceMaterial->SetTexture("texture0"_hash, m_texHi.Get());
+		m_surfaceMaterial->SetTexture("texture1"_hash, m_texLo.Get());
 	}
 
 	{

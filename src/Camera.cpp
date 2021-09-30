@@ -109,7 +109,7 @@ Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *rendere
 	rsd.primitiveType = Graphics::POINTS;
 
 	m_billboardMaterial.reset(m_renderer->CreateMaterial("billboards", desc, rsd));
-	m_billboardMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+	m_billboardMaterial->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard("textures/planet_billboard.dds").GetOrCreateTexture(m_renderer, "billboard"));
 }
 

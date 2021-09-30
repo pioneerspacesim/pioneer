@@ -58,12 +58,6 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	mat->emissive = mdef.emissive;
 	mat->shininess = mdef.shininess;
 
-	const static size_t s_tex0name = Graphics::Renderer::GetName("texture0");
-	const static size_t s_tex1name = Graphics::Renderer::GetName("texture1");
-	const static size_t s_tex2name = Graphics::Renderer::GetName("texture2");
-	const static size_t s_tex3name = Graphics::Renderer::GetName("texture3");
-	const static size_t s_tex6name = Graphics::Renderer::GetName("texture6");
-
 	//semitransparent material
 	//the node must be marked transparent when using this material
 	//and should not be mixed with opaque materials
@@ -90,11 +84,11 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	if (!normTex.empty())
 		texture6 = Graphics::TextureBuilder::Normal(normTex).GetOrCreateTexture(m_renderer, "model");
 
-	mat->SetTexture(s_tex0name, texture0);
-	mat->SetTexture(s_tex1name, texture1);
-	mat->SetTexture(s_tex2name, texture2);
-	mat->SetTexture(s_tex3name, texture3);
-	mat->SetTexture(s_tex6name, texture6);
+	mat->SetTexture("texture0"_hash, texture0);
+	mat->SetTexture("texture1"_hash, texture1);
+	mat->SetTexture("texture2"_hash, texture2);
+	mat->SetTexture("texture3"_hash, texture3);
+	mat->SetTexture("texture6"_hash, texture6);
 
 	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));
 }
@@ -114,7 +108,7 @@ RefCountedPtr<Graphics::Material> BaseLoader::GetDecalMaterial(unsigned int inde
 
 		// XXX add depth bias to render state parameter
 		decMat.Reset(m_renderer->CreateMaterial("multi", matDesc, rsd));
-		decMat->SetTexture(Graphics::Renderer::GetName("texture0"),
+		decMat->SetTexture("texture0"_hash,
 			Graphics::TextureBuilder::GetTransparentTexture(m_renderer));
 		decMat->specular = Color::BLACK;
 		decMat->diffuse = Color::WHITE;

@@ -49,18 +49,4 @@ namespace Graphics {
 		m_textureCache.clear();
 	}
 
-	size_t Renderer::GetName(const std::string &s)
-	{
-		Uint32 a = 0xDEAD, b = 0xBEEF;
-		lookup3_hashlittle2(s.c_str(), s.size(), &a, &b);
-		return a | (Uint64(b) << 32);
-	}
-
-	size_t Renderer::GetName(const char *s)
-	{
-		Uint32 a = 0xDEAD, b = 0xBEEF;
-		lookup3_hashlittle2(s, strlen(s), &a, &b);
-		return a | (Uint64(b) << 32);
-	}
-
 } // namespace Graphics

@@ -107,10 +107,6 @@ namespace SceneGraph {
 		return m;
 	}
 
-	static size_t s_texture0Name = Graphics::Renderer::GetName("texture0");
-	static size_t s_texture4Name = Graphics::Renderer::GetName("texture4");
-	static size_t s_texture5Name = Graphics::Renderer::GetName("texture5");
-
 	void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	{
 		PROFILE_SCOPED()
@@ -118,8 +114,8 @@ namespace SceneGraph {
 		if (m_curPattern) {
 			for (auto &mat : m_materials) {
 				if (mat.second->GetDescriptor().usePatterns) {
-					mat.second->SetTexture(s_texture4Name, m_curPattern);
-					mat.second->SetTexture(s_texture5Name, m_colorMap.GetTexture());
+					mat.second->SetTexture("texture4"_hash, m_curPattern);
+					mat.second->SetTexture("texture5"_hash, m_colorMap.GetTexture());
 				}
 			}
 		}
@@ -127,7 +123,7 @@ namespace SceneGraph {
 		//update decals (materials and geometries are shared)
 		for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++)
 			if (m_decalMaterials[i])
-				m_decalMaterials[i]->SetTexture(s_texture0Name, m_curDecals[i]);
+				m_decalMaterials[i]->SetTexture("texture0"_hash, m_curDecals[i]);
 
 		//Override renderdata if this model is called from ModelNode
 		RenderData params = (rd != 0) ? (*rd) : m_renderData;
@@ -180,8 +176,8 @@ namespace SceneGraph {
 		if (m_curPattern) {
 			for (auto &mat : m_materials) {
 				if (mat.second->GetDescriptor().usePatterns) {
-					mat.second->SetTexture(s_texture4Name, m_curPattern);
-					mat.second->SetTexture(s_texture5Name, m_colorMap.GetTexture());
+					mat.second->SetTexture("texture4"_hash, m_curPattern);
+					mat.second->SetTexture("texture5"_hash, m_colorMap.GetTexture());
 				}
 			}
 		}
@@ -189,7 +185,7 @@ namespace SceneGraph {
 		//update decals (materials and geometries are shared)
 		for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++)
 			if (m_decalMaterials[i])
-				m_decalMaterials[i]->SetTexture(s_texture0Name, m_curDecals[i]);
+				m_decalMaterials[i]->SetTexture("texture0"_hash, m_curDecals[i]);
 
 		//Override renderdata if this model is called from ModelNode
 		RenderData params = (rd != 0) ? (*rd) : m_renderData;
