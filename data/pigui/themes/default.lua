@@ -102,7 +102,7 @@ theme.colors = {
 	blueFrame				= styleColors.accent_100:shade(0.50),
 	tableHighlight			= styleColors.primary_700,
 	tableSelection			= styleColors.accent_300:shade(0.40),
-	commsWindowBackground	= styleColors.primary_800:opacity(0.75),
+	commsWindowBackground	= styleColors.primary_800:opacity(0.10),
 	buttonBlue				= styleColors.primary_300,
 	buttonInk				= styleColors.white,
 
