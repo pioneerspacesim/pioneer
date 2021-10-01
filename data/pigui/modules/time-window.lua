@@ -24,10 +24,7 @@ local frame_padding = 3
 local bg_color = colors.buttonBlue
 local fg_color = colors.white
 
-
 local function displayTimeWindow()
-	player = Game.player
-
 	-- HACK: Don't display the time window if we're in a bespoke view
 	if Game.CurrentView() == nil then return end
 
@@ -42,15 +39,16 @@ local function displayTimeWindow()
 		if requested == name and current ~= name then
 			color = colors.white
 		end
-		local time = name
 		-- translate only paused, the rest can stay
-		if time == "paused" then
-			time = lc.PAUSED
-		end
+		local time = (name == "paused") and lc.PAUSED or name
 		local tooltip = string.interp(lui.HUD_REQUEST_TIME_ACCEL, { time = time })
 		if ui.coloredSelectedIconButton(icons['time_accel_' .. name], button_size, current == name, frame_padding, color, fg_color, tooltip .. "##time_accel_"..name)
 		or (ui.shiftHeld() and ui.isKeyReleased(key)) then
 			Game.SetTimeAcceleration(name, ui.ctrlHeld() or ui.isMouseDown(1))
+		end
+		-- isItemHovered is true for ALL the buttons
+		if ui.isItemHovered(0) and ui.isMouseDoubleClicked(0) and (name == "paused") then
+			ui.optionsWindow:open()
 		end
 		ui.sameLine()
 	end
