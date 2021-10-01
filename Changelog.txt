@@ -1,3 +1,8 @@
+October 2021
+   * Internal Changes
+     * Double-clicking the pause button opens options menu (#5279)
+     * Make fuel scooping slightly easier and safer (#5281)
+
 September 2021
    * Internal Changes
      * Increase and limit the height of the BvhTree (#5249)
