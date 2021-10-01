@@ -25,7 +25,7 @@ local l = Lang.GetResource("ui-core")
 
 function SpaceStation:Constructor()
 	-- Use a variation of the space station seed itself to ensure consistency
-	local rand = Rand.New(self.seed .. '-techLevel')
+	local rand = Rand.New(self.seed .. 'techLevel')
 	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
 	local isHomeworld = 0
 	if Game.system.faction ~= nil and Game.system.faction.hasHomeworld and self.path:IsSameSystem(Game.system.faction.homeworld) then
@@ -37,12 +37,15 @@ function SpaceStation:Constructor()
 	self:setprop("techLevel", techLevel)
 	self:setprop("isHomeworld", isHomeworld)
 	local props = self:GetPropertyDefaults()
-	if props then
-		for k,v in pairs(props) do
-			if k and v then
-				self:setprop(k, v)
-			end
+	if props == nil then return end
+	for k,v in pairs(props) do
+		if k and v then
+			self:setprop(k, v)
 		end
+	end
+	if self.techModifier then
+		local tmp = self.techLevel + self.techModifier
+		self:setprop("techLevel", (tmp <= 10) and tmp or 10) -- maximum adjusted level: 10
 	end
 end
 

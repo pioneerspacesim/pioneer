@@ -1,0 +1,6 @@
+{
+    "techModifier" : {
+        "comment" : "added to the techLevel of all Solar Federation stations, up to 10 max",
+        "value" : "1"
+    }
+}

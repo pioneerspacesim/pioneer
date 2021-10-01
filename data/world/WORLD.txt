@@ -12,11 +12,15 @@ world/systems/<##_Name>.lua
 		##		determines order of precedence when loading
 		Name	filename only. faction name is determined by contents of the file
 
-world/stations/<system+stationID>.json
-world/stations/<system>/<stationID>.json
+world/stations/<faction>.json
+world/stations/<system>.json
+world/stations/<system+station>.json
+world/stations/<system>/<station>.json
 
 	Contains patch properties for individual stations.
-	System subdirectories is checked first.
+	Faction is the first to be loaded, then system, then both (or either) system+station files.
+	Any attribute in earlier files that reoccur in later loaded files will be overridden by the
+	last loaded. For example, faction values can be overridden by specific station files.
 
 	Stations Json format:
 	{
@@ -34,6 +38,8 @@ world/stations/<system>/<stationID>.json
 	Recognized PropertyName's:
 
 		techLevel			Override stations randomly generated techLevel
+
+		techModifier		Alter the randomly generated techLevel by this number, up to a max of 10 or a minimum of 1
 
 		lore				Use this key, translated from lang/lore/*.json, as station lore text
 

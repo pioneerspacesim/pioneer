@@ -22,5 +22,9 @@
 	"SOL_MARS_OLYMPUS" : {
         "description" : "",
         "message" : "Dont forget to enjoy the longest ski slope within a hundred lightyears!"
+    },
+    "SOL_MERCURY_CALORIS" : {
+        "description" : "",
+        "message" : "Located in Caloris Planitia, one of the largest impact craters in the system. Mercury being so close to the sun has lead to most things around here being named accordingly, 'Calor' even means 'heat' in latin and here there is a surplus of it. The almost unlimited solar power has been put to good use in the recycling business."
     }
 }
