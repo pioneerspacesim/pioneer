@@ -195,11 +195,13 @@ void HyperspaceCloud::InitGraphics(Graphics::Renderer *renderer)
 
 	Graphics::VertexArray vertices(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 
-	make_circle_thing(vertices, 1000.f, Color::WHITE, Color::BLUE);
+	const Color edgeArrivingColour(Color::BLUE, 0); // alpha needs to be zero'd
+	make_circle_thing(vertices, 1000.f, Color::WHITE, edgeArrivingColour);
 	s_cloudMeshArriving.reset(renderer->CreateMeshObjectFromArray(&vertices));
 
 	vertices.Clear();
 
-	make_circle_thing(vertices, 1000.f, Color::WHITE, Color::RED);
+	const Color edgeLeavingColour(Color::RED, 0); // alpha needs to be zero'd
+	make_circle_thing(vertices, 1000.f, Color::WHITE, edgeLeavingColour);
 	s_cloudMeshLeaving.reset(renderer->CreateMeshObjectFromArray(&vertices));
 }
