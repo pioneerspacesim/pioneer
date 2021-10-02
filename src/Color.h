@@ -91,6 +91,11 @@ struct Color4ub {
 		g((rgba >> 16) & 0xff),
 		b((rgba >> 8) & 0xff),
 		a(rgba & 0xff) {}
+	constexpr Color4ub(const Color4ub &c, const Uint8 a) :
+		r(c.r),
+		g(c.g),
+		b(c.b),
+		a(a) {}
 
 	operator unsigned char *() { return &r; }
 	operator const unsigned char *() const { return &r; }
