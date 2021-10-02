@@ -113,9 +113,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\IniConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\FileSourceZip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -137,16 +134,10 @@
     <ClInclude Include="..\..\src\libs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\OS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\SDLWrappers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ByteRange.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\buildopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Color.h">
@@ -209,9 +200,6 @@
     <ClInclude Include="..\..\contrib\json\json_fwd.hpp">
       <Filter>Header Files\json</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GZipFormat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\contrib\lz4\lz4.h">
       <Filter>Source Files\lz4</Filter>
     </ClInclude>
@@ -225,6 +213,12 @@
       <Filter>Source Files\lz4</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\PerfStats.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\IniConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\GZipFormat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

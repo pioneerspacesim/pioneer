@@ -697,10 +697,8 @@
     <ClInclude Include="..\..\src\ModelViewer.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
     <ClInclude Include="..\..\src\NavLights.h" />
-    <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
     <ClInclude Include="..\..\src\Orbit.h" />
-    <ClInclude Include="..\..\src\OS.h" />
     <ClInclude Include="..\..\src\PerfStats.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\Pi.h" />
@@ -722,7 +720,6 @@
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\Random.h" />
     <ClInclude Include="..\..\src\RandomColor.h" />
-    <ClInclude Include="..\..\src\Range.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
