@@ -90,14 +90,10 @@ local function createStationMarket(station)
 
 	local h2 = Equipment.cargo.hydrogen
 	for key, e in pairs (Equipment.cargo) do
-		if e.purchasable and e.price > 0.0 then
+		if e.purchasable and e.price > 0.0 and e ~= h2 then
 			local rn, targetStock = getStationTargetStock(key, station.seed)
-			if e == h2 then
-				equipmentStock[station][e] = Engine.rand:Integer(rn/4, rn)
-			else
-				storedStation.commodities[key] = targetStock
-				equipmentStock[station][e] = targetStock
-			end
+			storedStation.commodities[key] = targetStock
+			equipmentStock[station][e] = targetStock
 		end
 	end
 end
@@ -126,7 +122,7 @@ local function updateStationMarket (station)
 		local rn, targetStock = getStationTargetStock(key, station.seed)
 
 		for i = 1, math.floor(timeSinceUpdate / kTickDuration) do
-			stock = stock + (randRestock:Number() + randRestock:Number()) / kAvgTicksToRestock * targetStock
+			stock = stock + randRestock:Normal(1, 1) / kAvgTicksToRestock * targetStock
 		end
 		stock = math.min(targetStock, math.ceil(stock))
 
@@ -142,21 +138,12 @@ end
 -- commodity stock information from persistent data
 local function createEquipmentStock (station)
 	assert(station and station:exists())
-	if equipmentStock[station] then return end
+	if equipmentStock[station] then error("Attempt to create station equipment stock twice!") end
 	equipmentStock[station] = {}
 
 	for _,slot in pairs{"laser", "hyperspace", "misc"} do
 		for key, e in pairs(Equipment[slot]) do
 			equipmentStock[station][e] = Engine.rand:Integer(0,100)
-		end
-	end
-
-	for key, e in pairs(Equipment.cargo) do
-		if e.purchasable and e.price < 0.0 then
-			-- "haulaway" commodities
-			-- approximately 1t rubbish for every 10 people
-			local stock = math.floor(station:GetSystemBody().population * 1e8 / math.abs(e.price))
-			equipmentStock[station][e] = Engine.rand:Integer(stock / 10, stock)
 		end
 	end
 
@@ -166,6 +153,20 @@ local function createEquipmentStock (station)
 		for key, stock in pairs(stationMarket[station.path].commodities) do
 			local e = Equipment.cargo[key]
 			equipmentStock[station][e] = stock
+		end
+	end
+
+	local h2 = Equipment.cargo.hydrogen
+	for key, e in pairs(Equipment.cargo) do
+		if e.purchasable and e.price < 0.0 then
+			-- "haulaway" commodities
+			-- approximately 1t rubbish for every 10 people
+			local stock = math.floor(math.max(station:GetSystemBody().population * 1e8, 100) / math.abs(e.price))
+			equipmentStock[station][e] = Engine.rand:Integer(stock / 10, stock)
+		elseif e == h2 then
+			-- make sure we always have enough hydrogen here at the station
+			local rn, targetStock = getStationTargetStock(key, station.seed)
+			equipmentStock[station][e] = Engine.rand:Integer((targetStock + 1)/4, targetStock + 1)
 		end
 	end
 end
@@ -774,7 +775,7 @@ local function createStationData (station)
 	visited[station] = true
 
 	createEquipmentStock(station)
-	createStationMarket(station)
+	if not stationMarket[station.path] then createStationMarket(station) end
 	local shipAdsToSpawn = Engine.rand:Poisson(N_equilibrium(station))
 	addRandomShipAdvert(station, shipAdsToSpawn)
 
