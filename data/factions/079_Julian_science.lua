@@ -1,16 +1,16 @@
 -- Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local f = Faction:new('Julian science community')
+local f = Faction:new('Julian Science Commune')
 	:description_short('Worlds who have submitted to the rule of a group of elite scientists called the Julians')
 	:description('')
 	:homeworld(4,-1,9, 0, 0)
 	:foundingDate(2993)
 	:expansionRate(0)
-	:military_name('Julian defence force')
+	:military_name('Julian Defense Force')
 	:police_name('Guardian')
 	:colour(0.7,0.3,1)
-	
+
 f:govtype_weight('PLUTOCRATIC',10)
 f:govtype_weight('EARTHDEMOC',30)
 f:govtype_weight('SOCDEM',30)
@@ -39,6 +39,4 @@ f:claim(4,-2,10,2)
 f:claim(5,-1,10,0)
 f:claim(5,-2,10,1)
 
-f:add_to_factions('Julian science community')
-
-
+f:add_to_factions('Julian Science Commune')

@@ -7,8 +7,8 @@ local f = Faction:new('Tolan Kingdom')
 	:homeworld(2,-9,-19,2,4) -- edge of Habers sphere of influence
 	:foundingDate(2337) -- as per timeline
 	:expansionRate(0) -- a single system only, but quite populous
-	:military_name('Tolan Defenceforce')
-	:police_name('Skymartial')
+	:military_name('Tolan Defense Force')
+	:police_name('Sky Marshal')
 	:colour(0.85098,0.87451,0.152941) -- there is no feudal type!
 
 f:govtype_weight('MILDICT1', 100)
