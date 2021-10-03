@@ -59,21 +59,36 @@ local function applyStockPriceMod(maxStock, stock, pricemod)
 	return math.max(0.0, math.floor(stock))
 end
 
--- set commodity stocking based on price adjusted for some rarity curve by exponent
-local function getMaxStock(price)
+-- Function: GetMaxStockForPrice
+--
+-- Returns the maximum commodity stocking at any station based on price
+-- adjusted for some rarity curve by an exponent.
+function SpaceStation.GetMaxStockForPrice(price)
 	return 950000 / price^1.387
 end
 
--- return the persistent equilibrium stock for a commodity based on a deterministic seed
-local function getStationTargetStock(key, seed)
+-- Function: GetStationTargetStock
+--
+-- Calculate the target stock level for a commodity based on the given station
+-- seed number. This is used to determine the persistent equilibrium stock for
+-- a given commodity at a specific space station.
+--
+-- Parameters:
+--   key  - string, name of the commodity
+--   seed - number, the target space station's unique seed value
+--
+-- Returns:
+--  targetStock - the persistent equilibrium stock amount of the commodity for
+--                the given station steed.
+function SpaceStation.GetStationTargetStock(key, seed)
 	-- use a deterministic random function to determine target stock numbers
 	local rand = Rand.New(seed .. '-stock-' .. key)
 	local e = Equipment.cargo[key]
-	local rn = getMaxStock(math.abs(e.price))
+	local rn = SpaceStation.GetMaxStockForPrice(math.abs(e.price))
 
 	local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
 	local targetStock = rn * (rand:Number() + rand:Number()) / 2.0 -- normal 0-100% "permanent" stock
-	return rn, applyStockPriceMod(rn, targetStock, pricemod)
+	return applyStockPriceMod(rn, targetStock, pricemod)
 end
 
 -- create a persistent entry for the given station's commodity market if it
@@ -91,7 +106,7 @@ local function createStationMarket(station)
 	local h2 = Equipment.cargo.hydrogen
 	for key, e in pairs (Equipment.cargo) do
 		if e.purchasable and e.price > 0.0 and e ~= h2 then
-			local rn, targetStock = getStationTargetStock(key, station.seed)
+			local targetStock = SpaceStation.GetStationTargetStock(key, station.seed)
 			storedStation.commodities[key] = targetStock
 			equipmentStock[station][e] = targetStock
 		end
@@ -119,7 +134,7 @@ local function updateStationMarket (station)
 	local randRestock = Rand.New(station.seed .. '-stockMarketUpdate-' .. math.floor(lastStockUpdate))
 
 	for key, stock in pairs (storedStation.commodities) do
-		local rn, targetStock = getStationTargetStock(key, station.seed)
+		local targetStock = SpaceStation.GetStationTargetStock(key, station.seed)
 
 		for i = 1, math.floor(timeSinceUpdate / kTickDuration) do
 			stock = stock + randRestock:Normal(1, 1) / kAvgTicksToRestock * targetStock
@@ -165,7 +180,7 @@ local function createEquipmentStock (station)
 			equipmentStock[station][e] = Engine.rand:Integer(stock / 10, stock)
 		elseif e == h2 then
 			-- make sure we always have enough hydrogen here at the station
-			local rn, targetStock = getStationTargetStock(key, station.seed)
+			local targetStock = SpaceStation.GetStationTargetStock(key, station.seed)
 			equipmentStock[station][e] = Engine.rand:Integer((targetStock + 1)/4, targetStock + 1)
 		end
 	end
