@@ -1,7 +1,16 @@
 October 2021
+   * New Features
+     * New galaxy skybox, improved star brightness and density (#5124)
+
    * Internal Changes
      * Double-clicking the pause button opens options menu (#5279)
      * Make fuel scooping slightly easier and safer (#5281)
+     * Rewrite lua serialization of userdata types, remove old text-based pickling (#5240)
+
+   * Fixes
+     * Fix sharp edges on hypercloud halo (#5288)
+     * Fix NPC ship trajectory calculations crashing into planets (#5250)
+     * Fix DebugRPG menu crashing when current game is ended (#5292)
 
 September 2021
    * Internal Changes
