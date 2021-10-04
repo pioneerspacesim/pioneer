@@ -145,8 +145,8 @@ void LuaRef::LoadFromJson(const Json &jsonObj)
 	if (jsonObj.count("lua_ref_json")) {
 		LuaSerializer::unpickle_json(m_lua, jsonObj["lua_ref_json"]);
 	} else if (jsonObj.count("lua_ref")) {
-		std::string pickled = jsonObj["lua_ref"];
-		LuaSerializer::unpickle(m_lua, pickled.c_str());
+		// old text-based serialization
+		throw SavedGameCorruptException();
 	} else {
 		throw SavedGameCorruptException();
 	}

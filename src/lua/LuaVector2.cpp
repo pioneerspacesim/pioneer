@@ -3,7 +3,15 @@
 
 #include "LuaVector2.h"
 
+#include "LuaMetaType.h"
+#include "LuaObject.h"
 #include "LuaUtils.h"
+#include "Json.h"
+
+void pi_lua_generic_pull(lua_State *l, int index, vector2d *&out)
+{
+	out = LuaVector2::CheckFromLua(l, index);
+}
 
 static int l_vector_new(lua_State *L)
 {
@@ -49,32 +57,10 @@ static int l_vector_set(lua_State *L)
 	return 1;
 }
 
-static int l_vector_unit(lua_State *L)
-{
-	LUA_DEBUG_START(L);
-	if (lua_isnumber(L, 1)) {
-		double x = luaL_checknumber(L, 1);
-		double y = luaL_checknumber(L, 2);
-		const vector2d v = vector2d(x, y);
-		LuaVector2::PushToLua(L, v.NormalizedSafe());
-	} else {
-		const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-		LuaVector2::PushToLua(L, v->NormalizedSafe());
-	}
-	LUA_DEBUG_END(L, 1);
-	return 1;
-}
-
 static int l_vector_tostring(lua_State *L)
 {
 	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	luaL_Buffer buf;
-	luaL_buffinit(L, &buf);
-	char *bufstr = luaL_prepbuffer(&buf);
-	int len = snprintf(bufstr, LUAL_BUFFERSIZE, "vector(%g, %g)", v->x, v->y);
-	assert(len < LUAL_BUFFERSIZE); // XXX should handle this condition more gracefully
-	luaL_addsize(&buf, len);
-	luaL_pushresult(&buf);
+	lua_pushfstring(L, "Vector2(%f, %f)", v->x, v->y);
 	return 1;
 }
 
@@ -177,6 +163,7 @@ static int l_vector_index(lua_State *L)
 		}
 	} else if (attr) {
 		lua_getmetatable(L, 1);
+		lua_getfield(L, -1, "methods");
 		lua_pushvalue(L, 2);
 		lua_rawget(L, -2);
 		lua_remove(L, -2);
@@ -185,65 +172,6 @@ static int l_vector_index(lua_State *L)
 	}
 	return 1;
 }
-
-static int l_vector_normalised(lua_State *L)
-{
-	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	LuaVector2::PushToLua(L, v->NormalizedSafe());
-	return 1;
-}
-
-static int l_vector_length(lua_State *L)
-{
-	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	lua_pushnumber(L, v->Length());
-	return 1;
-}
-
-static int l_vector_length_sqr(lua_State *L)
-{
-	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	lua_pushnumber(L, v->LengthSqr());
-	return 1;
-}
-
-static int l_vector_angle(lua_State *L)
-{
-	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	lua_pushnumber(L, M_PI * 2 - atan2(v->x, v->y));
-	return 1;
-}
-
-static int l_vector_rotate(lua_State *L)
-{
-	vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	const double angle = luaL_checknumber(L, 2);
-	LuaVector2::PushToLua(L, v->Rotate(angle));
-	return 1;
-}
-
-static int l_vector_rot_90_left(lua_State *L)
-{
-	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	const vector2d rot(-v->y, v->x);
-	LuaVector2::PushToLua(L, rot);
-	return 1;
-}
-
-static int l_vector_rot_90_right(lua_State *L)
-{
-	const vector2d *v = LuaVector2::CheckFromLua(L, 1);
-	const vector2d rot(v->y, -v->x);
-	LuaVector2::PushToLua(L, rot);
-	return 1;
-}
-
-static luaL_Reg l_vector_lib[] = {
-	{ "new", &l_vector_new },
-	{ "unit", &l_vector_unit },
-	{ "length", &l_vector_length },
-	{ 0, 0 }
-};
 
 static luaL_Reg l_vector_meta[] = {
 	{ "__tostring", &l_vector_tostring },
@@ -255,18 +183,28 @@ static luaL_Reg l_vector_meta[] = {
 	{ "__index", &l_vector_index },
 	{ "__newindex", &l_vector_new_index },
 	{ "__call", &l_vector_set },
-	{ "normalised", &l_vector_normalised },
-	{ "normalized", &l_vector_normalised },
-	{ "unit", &l_vector_unit },
-	{ "length", &l_vector_length },
-	{ "lengthSqr", &l_vector_length_sqr },
-	{ "dot", &l_vector_length_sqr },
-	{ "rotate", &l_vector_rotate },
-	{ "angle", &l_vector_angle },
-	{ "left", &l_vector_rot_90_left },
-	{ "right", &l_vector_rot_90_right },
 	{ 0, 0 }
 };
+
+static bool _serialize_vector2(lua_State *l, Json &out)
+{
+	const auto *vec = LuaVector2::GetFromLua(l, -1);
+	if (!vec) return false;
+
+	out = Json::array({ vec->x, vec->y });
+	return true;
+}
+
+static bool _deserialize_vector2(lua_State *l, const Json &out)
+{
+	if (!out.is_array() || out.size() != 2)
+		return false;
+
+	vector2d *vec = LuaVector2::PushNewToLua(l);
+	vec->x = out[0];
+	vec->y = out[1];
+	return true;
+}
 
 const char LuaVector2::LibName[] = "Vector2";
 const char LuaVector2::TypeName[] = "Vector2";
@@ -275,21 +213,42 @@ void LuaVector2::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
-	luaL_newlib(L, l_vector_lib);
+	LuaMetaType<vector2d> metaType(TypeName);
+	metaType.CreateMetaType(L);
 
-	lua_newtable(L);
-	lua_pushcfunction(L, &l_vector_call);
-	lua_setfield(L, -2, "__call");
-	lua_setmetatable(L, -2);
+	metaType.StartRecording()
+		.AddCallCtor(&l_vector_call)
+		.AddNewCtor(&l_vector_new)
+		.AddFunction("normalized", &vector2d::NormalizedSafe)
+		.AddFunction("normalised", &vector2d::NormalizedSafe)
+		.AddFunction("length", &vector2d::Length)
+		.AddFunction("lengthSqr", &vector2d::LengthSqr)
+		.AddFunction("rotate", &vector2d::Rotate)
+		.AddFunction("angle", [](lua_State *L, vector2d *v) {
+			lua_pushnumber(L, M_PI * 2 - atan2(v->x, v->y));
+			return 1;
+		})
+		.AddFunction("left", [](lua_State *L, vector2d *v) {
+			LuaVector2::PushToLua(L, vector2d(-v->y, v->x));
+			return 1;
+		})
+		.AddFunction("right", [](lua_State *L, vector2d *v) {
+			LuaVector2::PushToLua(L, vector2d(v->y, -v->x));
+			return 1;
+		})
+		.StopRecording();
 
-	lua_setglobal(L, LuaVector2::LibName);
-
-	luaL_newmetatable(L, LuaVector2::TypeName);
-	luaL_setfuncs(L, l_vector_meta, 0);
+	metaType.GetMetatable();
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
+	luaL_setfuncs(L, l_vector_meta, 0);
+
+	lua_getfield(L, -1, "methods");
+	lua_setglobal(L, LuaVector2::LibName);
 	lua_pop(L, 1);
+
+	LuaObjectBase::RegisterSerializer(LuaVector2::TypeName, { _serialize_vector2, _deserialize_vector2 });
 
 	LUA_DEBUG_END(L, 0);
 }
@@ -297,16 +256,17 @@ void LuaVector2::Register(lua_State *L)
 vector2d *LuaVector2::PushNewToLua(lua_State *L)
 {
 	vector2d *ptr = static_cast<vector2d *>(lua_newuserdata(L, sizeof(vector2d)));
-	luaL_setmetatable(L, LuaVector2::TypeName);
+	LuaMetaTypeBase::GetMetatableFromName(L, LuaVector2::TypeName);
+	lua_setmetatable(L, -2);
 	return ptr;
 }
 
 const vector2d *LuaVector2::GetFromLua(lua_State *L, int idx)
 {
-	return static_cast<vector2d *>(luaL_testudata(L, idx, LuaVector2::TypeName));
+	return static_cast<vector2d *>(LuaMetaTypeBase::TestUserdata(L, idx, LuaVector2::TypeName));
 }
 
 vector2d *LuaVector2::CheckFromLua(lua_State *L, int idx)
 {
-	return static_cast<vector2d *>(luaL_checkudata(L, idx, LuaVector2::TypeName));
+	return static_cast<vector2d *>(LuaMetaTypeBase::CheckUserdata(L, idx, LuaVector2::TypeName));
 }

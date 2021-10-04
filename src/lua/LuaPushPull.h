@@ -5,8 +5,9 @@
 #define _LUAPUSHPULL_H
 
 #include <lua.hpp>
-
 #include "Lua.h"
+
+#include <cstddef>
 #include <string>
 #include <tuple>
 
@@ -19,6 +20,7 @@ inline void pi_lua_generic_push(lua_State *l, const std::string &value)
 {
 	lua_pushlstring(l, value.c_str(), value.size());
 }
+inline void pi_lua_generic_push(lua_State *l, const std::nullptr_t &value) { lua_pushnil(l); }
 
 inline void pi_lua_generic_pull(lua_State *l, int index, bool &out) { out = lua_toboolean(l, index); }
 inline void pi_lua_generic_pull(lua_State *l, int index, int &out) { out = luaL_checkinteger(l, index); }

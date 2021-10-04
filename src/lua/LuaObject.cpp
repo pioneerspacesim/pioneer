@@ -91,7 +91,6 @@
  */
 
 static std::map<std::string, std::map<std::string, PromotionTest>> promotions;
-static std::map<std::string, SerializerPair> serializers;
 
 class LuaObjectHelpers {
 public:
@@ -400,6 +399,7 @@ void LuaObjectBase::CreateClass(LuaMetaTypeBase *metaType)
 	// Get the method table from the metatype
 	metaType->GetMetatable();
 	lua_getfield(l, -1, "methods");
+
 	lua_remove(l, -2); // "global" table, type name, methods table
 
 	// add the exists method
@@ -669,76 +669,78 @@ void LuaObjectBase::RegisterPromotion(const char *base_type, const char *target_
 
 void LuaObjectBase::RegisterSerializer(const char *type, SerializerPair pair)
 {
-	serializers[type] = pair;
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+
+	// push a new type entry into the LuaObjectSerializers registry table
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectSerializers");
+	lua_newtable(l);
+
+	lua_pushlightuserdata(l, reinterpret_cast<void *>(pair.serialize));
+	lua_setfield(l, -2, "serializer");
+
+	lua_pushlightuserdata(l, reinterpret_cast<void *>(pair.deserialize));
+	lua_setfield(l, -2, "deserializer");
+
+	lua_setfield(l, -2, type);
+
+	lua_pop(l, 1);
+	LUA_DEBUG_END(l, 0);
 }
 
-std::string LuaObjectBase::Serialize()
+// Takes a lua userdata object at the top of the stack and serializes it to json
+bool LuaObjectBase::SerializeToJson(lua_State *l, Json &out)
 {
-	static char buf[256];
-
-	lua_State *l = Lua::manager->GetLuaState();
-
-	auto i = serializers.find(m_type);
-	if (i == serializers.end()) {
-		luaL_error(l, "No registered serializer for type %s\n", m_type);
-		abort();
+	int index = lua_gettop(l);
+	lua_getmetatable(l, index);
+	if (!lua_istable(l, -1)) {
+		lua_pop(l, 1);
+		return false;
 	}
 
-	snprintf(buf, sizeof(buf), "%s\n", m_type);
+	lua_getfield(l, -1, "type"); // obj, meta, type
+	const char *type = lua_tostring(l, -1);
+	out["cpp_class"] = type;
+	lua_pop(l, 2);
 
-	return std::string(buf) + (*i).second.serialize(GetObject());
-}
-
-bool LuaObjectBase::Deserialize(const char *stream, const char **next)
-{
-	static char buf[256];
-
-	const char *end = strchr(stream, '\n');
-	int len = end - stream;
-	end++; // skip newline
-
-	snprintf(buf, sizeof(buf), "%.*s", len, stream);
-
-	lua_State *l = Lua::manager->GetLuaState();
-
-	auto i = serializers.find(buf);
-	if (i == serializers.end()) {
-		luaL_error(l, "No registered deserializer for type %s\n", buf);
-		abort();
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectSerializers");
+	lua_getfield(l, -1, out["cpp_class"].get<std::string>().c_str());
+	lua_remove(l, -2); // obj, serializers
+	if (!lua_istable(l, -1)) {
+		lua_pop(l, 1);
+		return false;
 	}
 
-	return (*i).second.deserialize(end, next);
-}
+	lua_getfield(l, -1, "serializer"); // obj, serializers, serializer
+	auto serializer = reinterpret_cast<SerializerPair::Serializer>(lua_touserdata(l, -1));
+	lua_pop(l, 2); // obj
 
-void LuaObjectBase::ToJson(Json &out)
-{
-	lua_State *l = Lua::manager->GetLuaState();
-
-	const auto it = serializers.find(m_type);
-	if (it == serializers.end()) {
-		luaL_error(l, "No registered serializer for type %s\n", m_type);
-		abort();
-	}
-
-	out["cpp_class"] = Json(m_type);
 	Json inner = Json::object();
-	it->second.to_json(inner, GetObject());
-	out["inner"] = inner;
+	return serializer(l, out["inner"]);
 }
 
-bool LuaObjectBase::FromJson(const Json &obj)
+// Takes a serialized json object and deserializes it into a new lua object
+bool LuaObjectBase::DeserializeFromJson(lua_State *l, const Json &obj)
 {
-	if (obj["cpp_class"].is_null() || obj["inner"].is_null()) return false;
-	const std::string type = obj["cpp_class"];
-	auto it = serializers.find(type);
-	if (it == serializers.end()) {
-		lua_State *l = Lua::manager->GetLuaState();
-		luaL_error(l, "No registered deserializer for type %s\n", type.c_str());
-		abort();
+	if (!obj["cpp_class"].is_string() || obj["inner"].is_null())
+		return false;
+
+	const std::string &type = obj.at("cpp_class").get<std::string>();
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectSerializers");
+	lua_getfield(l, -1, type.c_str());
+	lua_remove(l, -2); // serializers
+	if (!lua_istable(l, -1)) {
+		lua_pop(l, 1);
+		return false;
 	}
 
-	return it->second.from_json(obj["inner"]);
+	lua_getfield(l, -1, "deserializer"); // serializers, deserializer
+	auto deserializer = reinterpret_cast<SerializerPair::Deserializer>(lua_touserdata(l, -1));
+	lua_pop(l, 2);
+
+	return deserializer(l, obj["inner"]);
 }
+
 
 void *LuaObjectBase::Allocate(size_t n)
 {
