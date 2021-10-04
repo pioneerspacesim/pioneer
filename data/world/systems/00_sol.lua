@@ -191,6 +191,10 @@ local mars_starports = {
 	CustomSystemBody:new('Mars High', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(5068,100000000))
 		:rotation_period(f(11,24)),
+	CustomSystemBody:new("Musk's Meme-Mansion", 'STARPORT_ORBITAL')
+		:seed(2024)
+		:semi_major_axis(f(1, 10000))
+		:inclination(math.deg2rad(25))
 }
 
 local mars_moons = {
