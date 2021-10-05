@@ -474,51 +474,68 @@ vector3d Ship::CalcAtmoTorque() const
 
 bool Ship::OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData)
 {
+	return OnDamagePtr(attacker, kgDamage, NULL);
+}
+
+bool Ship::OnDamagePtr(Body *attacker, float kgDamage, const CollisionContact *contactData)
+{
+	PROFILE_SCOPED()
 	if (m_invulnerable) {
 		Sound::BodyMakeNoise(this, "Hull_hit_Small", 0.5f);
 		return true;
 	}
 
-	if (!IsDead()) {
-		float dam = kgDamage * 0.001f;
-		if (m_stats.shield_mass_left > 0.0f) {
-			if (m_stats.shield_mass_left > dam) {
-				m_stats.shield_mass_left -= dam;
-				dam = 0;
-			} else {
-				dam -= m_stats.shield_mass_left;
-				m_stats.shield_mass_left = 0;
-			}
-			Properties().Set("shieldMassLeft", m_stats.shield_mass_left);
-		}
+	// a ship that is already dead can ignore damage
+	if (IsDead() == true)
+		return true;
 
-		m_shieldCooldown = DEFAULT_SHIELD_COOLDOWN_TIME;
-		// transform the collision location into the models local space (from world space) and add it as a hit.
+	float dam = kgDamage * 0.01f;
+
+	if (m_stats.shield_mass_left > 0.0f) {
+		if (m_stats.shield_mass_left > dam) {
+			m_stats.shield_mass_left -= dam;
+			dam = 0;
+		} else {
+			dam -= m_stats.shield_mass_left;
+			m_stats.shield_mass_left = 0;
+		}
+		Properties().Set("shieldMassLeft", m_stats.shield_mass_left);
+	}
+
+	m_shieldCooldown = DEFAULT_SHIELD_COOLDOWN_TIME; 
+	vector3d hitPos;
+	if (contactData) {
+		// hit position known: transform the collision location into the models local space (from world space) and add it as a hit.
 		matrix4x4d mtx = GetOrient();
 		mtx.SetTranslate(GetPosition());
 		const matrix4x4d invmtx = mtx.Inverse();
-		const vector3d localPos = invmtx * contactData.pos;
-		GetShields()->AddHit(localPos);
+		hitPos = invmtx * contactData->pos;
+	} else {
+		// no known hit position: create a collision location in the models local space and add it as a hit.
+		Random rnd;
+		rnd.seed(time(0));
+		hitPos = vector3d(rnd.Double() * 2.0 - 1.0, rnd.Double() * 2.0 - 1.0, rnd.Double() * 2.0 - 1.0);
+		hitPos *= (GetPhysRadius() * 0.75);
+	}
+	GetShields()->AddHit(hitPos);
 
-		m_stats.hull_mass_left -= dam;
-		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
-		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
-		if (m_stats.hull_mass_left < 0) {
-			if (attacker) {
-				LuaEvent::Queue("onShipDestroyed", this, attacker);
-			}
+	m_stats.hull_mass_left -= dam;
+	Properties().Set("hullMassLeft", m_stats.hull_mass_left);
+	Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 
-			Explode();
-		} else {
-			if (Pi::rng.Double() < kgDamage)
-				SfxManager::Add(this, TYPE_DAMAGE);
+	if (m_stats.hull_mass_left < 0) {
+		// onshipdestroyed: if there is no attacker, blame internal malfunction
+		LuaEvent::Queue("onShipDestroyed", this, (attacker) ? attacker : this);
+		Explode();
+	} else {
+		// compare to remaining damage passed to hull for sfx
+		if (Pi::rng.Double() < dam)
+			SfxManager::Add(this, TYPE_DAMAGE);
 
-			if (dam > float(GetShipType()->hullMass / 1000.)) {
-				if (dam < 0.01 * float(GetShipType()->hullMass))
-					Sound::BodyMakeNoise(this, "Hull_hit_Small", 1.0f);
-				else
-					Sound::BodyMakeNoise(this, "Hull_Hit_Medium", 1.0f);
-			}
+		float hullThou = float(GetShipType()->hullMass) / 1000.0f; 
+		if (dam > hullThou) {
+			// Sfx "small" for <1% dmg, "medium" for 1%+
+			Sound::BodyMakeNoise(this, (dam < (10 * hullThou)) ? "Hull_hit_Small" : "Hull_Hit_Medium", 1.0f);
 		}
 	}
 
@@ -589,51 +606,6 @@ void Ship::Explode()
 		Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
 	}
 	ClearThrusterState();
-}
-
-bool Ship::DoDamage(float kgDamage)
-{
-	PROFILE_SCOPED()
-	if (m_invulnerable) {
-		return true;
-	}
-
-	if (!IsDead()) {
-		float dam = kgDamage * 0.01f;
-		if (m_stats.shield_mass_left > 0.0f) {
-			if (m_stats.shield_mass_left > dam) {
-				m_stats.shield_mass_left -= dam;
-				dam = 0;
-			} else {
-				dam -= m_stats.shield_mass_left;
-				m_stats.shield_mass_left = 0;
-			}
-			Properties().Set("shieldMassLeft", m_stats.shield_mass_left);
-		}
-
-		m_shieldCooldown = DEFAULT_SHIELD_COOLDOWN_TIME;
-		// create a collision location in the models local space and add it as a hit.
-		Random rnd;
-		rnd.seed(time(0));
-		const vector3d randPos(
-			rnd.Double() * 2.0 - 1.0,
-			rnd.Double() * 2.0 - 1.0,
-			rnd.Double() * 2.0 - 1.0);
-		GetShields()->AddHit(randPos * (GetPhysRadius() * 0.75));
-
-		m_stats.hull_mass_left -= dam;
-		Properties().Set("hullMassLeft", m_stats.hull_mass_left);
-		Properties().Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
-		if (m_stats.hull_mass_left < 0) {
-			Explode();
-		} else {
-			if (Pi::rng.Double() < dam)
-				SfxManager::Add(this, TYPE_DAMAGE);
-		}
-	}
-
-	//Output("Ouch! %s took %.1f kilos of damage from %s! (%.1f t hull left)\n", GetLabel().c_str(), kgDamage, attacker->GetLabel().c_str(), m_stats.hull_mass_left);
-	return true;
 }
 
 void Ship::UpdateEquipStats()
@@ -1244,7 +1216,7 @@ void Ship::StaticUpdate(const float timeStep)
 
 	const double hullTemp = GetHullTemperature();
 	if (hullTemp > 1.0) {
-		DoDamage(hullTemp);
+		OnDamagePtr(NULL, hullTemp, NULL);
 	}
 
 	if (m_flightState == FLYING) {
@@ -1259,7 +1231,7 @@ void Ship::StaticUpdate(const float timeStep)
 			int atmo_shield_cap = std::max(m_stats.atmo_shield_cap, 1); // needs to have some shielding by default
 			if (pressure > (m_type->atmosphericPressureLimit * atmo_shield_cap)) {
 				float damage = float(pressure - m_type->atmosphericPressureLimit);
-				DoDamage(damage);
+				OnDamagePtr(NULL, damage, NULL);
 			}
 		}
 	}

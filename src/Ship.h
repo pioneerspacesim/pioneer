@@ -100,7 +100,6 @@ public:
 	const shipstats_t &GetStats() const { return m_stats; }
 
 	void Explode();
-	virtual bool DoDamage(float kgDamage); // can be overloaded in Player to add audio
 	void SetGunState(int idx, int state);
 	float GetGunTemperature(int idx) const { return GetFixedGuns()->GetGunTemperature(idx); }
 	void UpdateMass();
@@ -117,6 +116,7 @@ public:
 	virtual void NotifyRemoved(const Body *const removedBody) override;
 	virtual bool OnCollision(Body *o, Uint32 flags, double relVel) override;
 	virtual bool OnDamage(Body *attacker, float kgDamage, const CollisionContact &contactData) override;
+	bool OnDamagePtr(Body *attacker, float kgDamage, const CollisionContact *contactData);
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,		   // open flight (includes autopilot)
