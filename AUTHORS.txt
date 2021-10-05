@@ -233,6 +233,15 @@ Pioneer includes the following third-party software:
   Credit: NASA/JPL-Caltech/R. Hurt (SSC)
   See licenses/Image Use Policy - NASA Spitzer Space Telescope.html
 
+  Milky Way panorama ("The star map in galactic coordinates")
+  Modified version (dimmed stars, converted to cube map dds)
+  https://svs.gsfc.nasa.gov/4851
+  Credit:
+    Ernie Wright (USRA): Lead Animator
+    Laurence Schuler (ADNET): Technical Support
+    Ian Jones (ADNET): Technical Support 
+  Public domain: https://svs.gsfc.nasa.gov/help/ under "Copyright and Credit Information"
+
 Acknowledgements
 ================
 

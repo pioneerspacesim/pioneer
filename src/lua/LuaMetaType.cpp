@@ -409,6 +409,30 @@ void LuaMetaTypeBase::GetMetatable() const
 	LUA_DEBUG_END(m_lua, 1);
 }
 
+void *LuaMetaTypeBase::TestUserdata(lua_State *l, int index, const char *type)
+{
+	void *p = lua_touserdata(l, index);
+	if (p != nullptr && lua_getmetatable(l, index)) {
+		if (GetMetatableFromName(l, type) && lua_rawequal(l, -1, -2)) {
+			lua_pop(l, 2);
+			return p;
+		}
+		lua_pop(l, 1);
+	}
+	return nullptr;
+}
+
+void *LuaMetaTypeBase::CheckUserdata(lua_State *l, int index, const char *type)
+{
+	void *p = TestUserdata(l, index, type);
+	if (!p) {
+		const char *msg = lua_pushfstring(l, "%s expected, got %s", type, luaL_typename(l, index));
+		luaL_argerror(l, index, msg);
+	}
+
+	return p;
+}
+
 void LuaMetaTypeBase::CreateMetaType(lua_State *l)
 {
 	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaMetaTypes");
@@ -450,6 +474,9 @@ void LuaMetaTypeBase::CreateMetaType(lua_State *l)
 
 	// create the methods table
 	lua_newtable(l);
+	// create the methods metatable
+	lua_newtable(l);
+	lua_setmetatable(l, -2);
 	lua_setfield(l, -2, "methods");
 
 	lua_pushcclosure(l, &l_index, 0);

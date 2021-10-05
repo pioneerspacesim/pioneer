@@ -649,7 +649,7 @@ void CustomSystemsDatabase::Load()
 
 	// provide shortcut vector constructor: v = vector.new
 	lua_getglobal(L, LuaVector::LibName);
-	lua_getfield(L, -1, "new");
+	lua_getfield(L, -1, "New");
 	assert(lua_iscfunction(L, -1));
 	lua_setglobal(L, "v");
 	lua_pop(L, 1); // pop the vector table

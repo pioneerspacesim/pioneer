@@ -253,22 +253,19 @@ static int l_space_put_ship_on_route(lua_State *l)
 	ship->SetFuel((0.001 * pp.getMass() - ss.static_mass) / st->fuelTankMass);
 
 	ship->UpdateFrame();
-	Frame *shipFrame = Frame::GetFrame(ship->GetFrame());
-	Frame *targFrame = Frame::GetFrame(targetbody->GetFrame());
-
 	// check for collision at spawn position
 	const vector3d shippos = ship->GetPosition();
 	const vector3d targpos = targetbody->GetPositionRelTo(ship->GetFrame());
 	const vector3d relpos = targpos - shippos;
 	const vector3d reldir = relpos.NormalizedSafe();
 	const double targdist = relpos.Length();
-	Body *body = shipFrame->GetBody();
+	Body *body = Frame::GetFrame(ship->GetFrame())->GetBody();
 	const double erad = MaxEffectRad(body, ship->GetPropulsion());
 	const int coll = CheckCollision(ship, reldir, targdist, targpos, 0, erad);
 	if (coll) {
 		// need to correct positon, to avoid collision
-		if (Frame::GetFrame(shipFrame->GetNonRotFrame()) != Frame::GetFrame(targFrame->GetNonRotFrame()) && targpos.Length() > erad) {
-			// the ship is not in the target's frame or target is above the effective radius of obstructor - rotate the ship's position
+		if (targpos.Length() > erad) {
+			// target is above the effective radius of obstructor - rotate the ship's position
 			// around the target position, so that the obstructor's "effective radius" does not cross the path
 			// direction obstructor -> target
 			const vector3d z = targpos.Normalized();
@@ -276,20 +273,21 @@ static int l_space_put_ship_on_route(lua_State *l)
 			const vector3d y = z.Cross(shippos).NormalizedSafe();
 			// just the third axis of this basis
 			const vector3d x = y.Cross(z);
+
 			// this is the basis in which the position of the ship will rotate
-			const matrix3x3d corrCS = matrix3x3d::FromVectors(x, y, z);
+			const matrix3x3d corrCS = matrix3x3d::FromVectors(x, y, z).Transpose();
 			const double len = targpos.Length();
 			// two possible positions of the ship, when flying around the obstructor to the right or left
 			// rotate (in the given basis) the direction from the target to the obstructor, so that it passes tangentially to the obstructor
 			const vector3d safe1 = corrCS.Transpose() * (matrix3x3d::RotateY(+asin(erad / len)) * corrCS * -targpos).Normalized() * targdist;
 			const vector3d safe2 = corrCS.Transpose() * (matrix3x3d::RotateY(-asin(erad / len)) * corrCS * -targpos).Normalized() * targdist;
-			// choose the one that is closer to the current position oh the ship
+			// choose the one that is closer to the current position of the ship
 			if ((safe1 + relpos).Length() < (safe2 + relpos).Length())
 				ship->SetPosition(safe1 + targpos);
 			else
 				ship->SetPosition(safe2 + targpos);
 		} else {
-			// we are in target's frame, and target below the effective radius of planet. Position the ship direct above the target
+			// target below the effective radius of obstructor. Position the ship direct above the target
 			ship->SetPosition(targpos + targpos.Normalized() * targdist);
 		}
 		// update velocity direction

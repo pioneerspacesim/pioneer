@@ -43,6 +43,242 @@ static const float FAR_THRESHOLD = 7.5f;
 static const float FAR_LIMIT = 36.f;
 static const float FAR_MAX = 46.f;
 
+class SectorView::Label {
+public:
+	virtual ~Label() {}
+	// check if the cursor has hit the label, and if so, also save the boxes to select the text
+	// should run inside imgui context
+	virtual bool Hovered(const ImVec2 &p) = 0;
+	virtual void Draw(ImDrawList &dl, bool hovered = false) = 0;
+	virtual void OnClick() = 0;
+	float Depth() const { return pos.z; }
+	Label(Labels &host, const vector3f &pos, ImU32 color) :
+		pos(pos), color(color), host(host){};
+
+protected:
+	vector3f pos;
+	ImU32 color;
+	Labels &host;
+};
+
+// the Label type must be complete for this constructor to work, because we
+// have a unique_ptr<Label> here
+SectorView::Labels::Labels(SectorView &view) :
+	view(view) {}
+
+// helper functions to detect when the cursor hits the label
+static bool inbox(ImRect b, ImVec2 p)
+{
+	return p.x > b.Min.x && p.x < b.Max.x && p.y > b.Min.y && p.y < b.Max.y;
+}
+
+static bool incircle(ImVec2 c, float r, ImVec2 p)
+{
+	return (p.x - c.x) * (p.x - c.x) + (p.y - c.y) * (p.y - c.y) < r * r;
+}
+
+static bool indiamond(ImVec2 c, float r, ImVec2 p)
+{
+	float dx = p.x - c.x;
+	float dy1 = p.y - (c.y - r);
+	float dy2 = p.y - (c.y + r);
+	return dy1 > dx && dy1 > -dx && dy2 < dx && dy2 < -dx;
+}
+
+class SectorView::StarLabel : public SectorView::Label {
+
+	std::string name;
+	ImVec2 namePos;
+	// screen radius of the star
+	float radius;
+	// the height of the text of each label is different
+	float textHeight;
+	float scaledGap;
+	SystemPath path;
+
+	//  how much we will increase the original font so that it is less blurry for heavily enlarged labels
+	static constexpr float fontScale = 5.f;
+
+public:
+	StarLabel(Labels &host, const vector3f &pos, const Color &color_, const std::string &name, const float radius, const SystemPath &path) :
+		Label(host, pos, 0),
+		name(name),
+		radius(radius),
+		path(path)
+	{
+		ImFont *font = host.starLabelFont;
+		// we want to shade more distant labels, and make the closer ones transparent
+		const float far = -0.001;
+		// at a given depth, we see a label with a nominal font size
+		const float mid = -0.03;
+		const float near = -0.08;
+		// the font may not exist in the very first frame
+		const float fsize = font ? font->FontSize / fontScale : 15.f;
+		textHeight = fsize / mid * pos.z;
+		scaledGap = host.gap / mid * pos.z;
+		const int alpha = pos.z > near ? 255 : std::max(int(near / pos.z * 255), 0);
+		const float shad = pos.z < mid ? 1.0f : std::max((far - pos.z) / (far - mid), .0f);
+		namePos = ImVec2(pos.x + radius + scaledGap + scaledGap, pos.y - textHeight / 2);
+		color = IM_COL32(color_.r * shad, color_.g * shad, color_.b * shad, alpha);
+	};
+
+	bool Hovered(const ImVec2 &p) override
+	{
+		// something we can weed out right away
+		if (p.x < pos.x - radius) return false;
+		if (p.y < std::min(pos.y - radius, namePos.y)) return false;
+		if (p.y > std::max(pos.y + radius, namePos.y + textHeight)) return false;
+		ImFont *font = host.starLabelFont;
+		ImGui::PushFont(font);
+		ImVec2 ts = ImGui::CalcTextSize(name.c_str());
+		ImGui::PopFont();
+		// scale the size
+		ts.x = textHeight / ts.y * ts.x;
+		ts.y = textHeight;
+		// sift out by last dimension
+		if (p.x > namePos.x + ts.x + scaledGap) return false;
+		// so, the cursor is somewhere in the dimensions of this label
+		if (incircle(ImVec2(pos.x, pos.y), radius, p) ||
+			inbox(ImRect(namePos.x - scaledGap, namePos.y - scaledGap, namePos.x + ts.x + scaledGap, namePos.y + font->FontSize + scaledGap), p)) {
+			// so the cursor really covers this label
+			// save the boxes for further highlighting the label
+			host.starLabelHoverArea = ImRect(namePos.x - scaledGap, namePos.y - scaledGap, namePos.x + ts.x + scaledGap, namePos.y + ts.y + scaledGap);
+			return true;
+		} else
+			return false;
+	}
+
+	void Draw(ImDrawList &dl, bool hovered = false) override
+	{
+		if (hovered) {
+			dl.AddCircleFilled(ImVec2(pos.x, pos.y), radius + scaledGap, host.highlightColor);
+			auto &box = host.starLabelHoverArea;
+			dl.AddRectFilled(box.Min, box.Max, host.shadeColor, scaledGap);
+		}
+		ImFont *font = host.starLabelFont;
+		ImGui::PushFont(font);
+		dl.AddText(font, textHeight, namePos, color, name.c_str());
+		ImGui::PopFont();
+	}
+
+	void OnClick() override
+	{
+		host.view.SwitchToPath(path);
+	}
+
+	static void InitFonts(Labels &host, ImDrawList &dl)
+	{
+		ImFont *&font = host.starLabelFont;
+		font = Pi::pigui->GetFont(host.fontName, host.fontSize * fontScale);
+		if (!font) font = ImGui::GetFont();
+		dl.PushTextureID(font->ContainerAtlas->TexID);
+	}
+};
+
+class SectorView::FactionLabel : public SectorView::Label {
+
+	// how much the font of the name of the faction is smaller than the font of the name of the homeworld
+	constexpr static float nameScale = .8f;
+	std::string home;
+	ImVec2 homePos;
+	std::string name;
+	ImVec2 namePos;
+	// half the width of the rhombus
+	float radius;
+	SystemPath path;
+
+public:
+	FactionLabel(Labels &host, const vector3f &pos, const Color &color, const std::string &home, const std::string &name, const float radius, const SystemPath &path) :
+		Label(host, pos, IM_COL32(color.r, color.g, color.b, color.a)),
+		home(home),
+		homePos(pos.x + radius + host.gap, pos.y - host.factionHomeFont->FontSize - host.gap),
+		name(name),
+		namePos(pos.x + radius + host.gap, pos.y + host.gap),
+		radius(radius),
+		path(path){};
+
+	bool Hovered(const ImVec2 &p) override
+	{
+		// something we can weed out right away
+		auto &gap = host.gap;
+		if (p.x < pos.x - radius) return false;
+		if (p.y < std::min(pos.y - radius, homePos.y - gap)) return false;
+		if (p.y > std::max(pos.y + radius, namePos.y + host.factionNameFont->FontSize * nameScale + gap)) return false;
+
+		ImGui::PushFont(host.factionHomeFont);
+		ImVec2 ts1 = ImGui::CalcTextSize(home.c_str());
+		ImGui::PopFont();
+		ImGui::PushFont(host.factionNameFont);
+		ImVec2 ts2 = ImGui::CalcTextSize(name.c_str());
+		ImGui::PopFont();
+		// sift out by last dimension
+		if (p.x > std::max(homePos.x + ts1.x + gap, namePos.x + ts2.x + gap)) return false;
+		// so, the cursor is somewhere in the dimensions of this label
+		if (indiamond(ImVec2(pos.x, pos.y), radius + gap * 1.4142, p) ||
+			inbox(ImRect(homePos.x - gap, homePos.y - gap, homePos.x + ts1.x + gap, homePos.y + ts1.y + gap), p) ||
+			inbox(ImRect(namePos.x - gap, namePos.y - gap, namePos.x + ts2.x + gap, namePos.y + ts2.y + gap), p)) {
+			// so the cursor really covers this label
+			// save the boxes for further highlighting the label
+			host.factionHomeHoverArea = { homePos.x - gap, homePos.y - gap, homePos.x + ts1.x + gap, homePos.y + ts1.y + gap };
+			host.factionNameHoverArea = { namePos.x - gap, namePos.y - gap, namePos.x + ts2.x + gap, namePos.y + ts2.y + gap };
+			return true;
+		} else
+			return false;
+	}
+
+	void Draw(ImDrawList &dl, bool hovered = false) override
+	{
+		const float x = pos.x;
+		const float y = pos.y;
+		// rhombus
+		ImVec2 points[] = {
+			{ x, y - radius }, { x + radius, y }, { x, y + radius }, { x - radius, y }
+		};
+		dl.AddConvexPolyFilled(points, 4, color);
+
+		if (hovered) {
+			auto hcolor = host.highlightColor;
+			auto scolor = host.shadeColor;
+			auto &box1 = host.factionHomeHoverArea;
+			auto &box2 = host.factionNameHoverArea;
+			dl.AddRectFilled(box1.Min, box1.Max, scolor, host.gap);
+			dl.AddRectFilled(box2.Min, box2.Max, scolor, host.gap);
+			// 1.4142 ~ sqrt(2)
+			float diaGap = host.gap * 1.4142;
+			// rhombus enlarged by the gap and cut off from the side of the text, so as not to run over the text boxes
+			ImVec2 pointsWithGap[] = {
+				{ x, y - radius - diaGap }, { x + radius, y - diaGap }, { x + radius, y + diaGap }, { x, y + radius + diaGap }, { x - radius - diaGap, y }
+			};
+			dl.AddConvexPolyFilled(pointsWithGap, 5, hcolor);
+		}
+		ImGui::PushFont(host.factionHomeFont);
+		dl.AddText(homePos, color, home.c_str());
+		ImGui::PopFont();
+		ImGui::PushFont(host.factionNameFont);
+		dl.AddText(namePos, color, name.c_str());
+		ImGui::PopFont();
+	}
+
+	void OnClick() override
+	{
+		host.view.SwitchToPath(path);
+	}
+
+	static void InitFonts(Labels &host, ImDrawList &dl)
+	{
+		auto *&factionHomeFont = host.factionHomeFont;
+		auto *&factionNameFont = host.factionNameFont;
+		auto &fontName = host.fontName;
+		auto &fontSize = host.fontSize;
+		factionHomeFont = Pi::pigui->GetFont(fontName, fontSize);
+		if (!factionHomeFont) factionHomeFont = ImGui::GetFont();
+		factionNameFont = Pi::pigui->GetFont(fontName, int(fontSize * nameScale));
+		if (!factionNameFont) factionNameFont = ImGui::GetFont();
+		dl.PushTextureID(factionHomeFont->ContainerAtlas->TexID);
+		dl.PushTextureID(factionNameFont->ContainerAtlas->TexID);
+	}
+};
+
 enum DetailSelection {
 	DETAILBOX_NONE = 0,
 	DETAILBOX_INFO = 1,
@@ -238,7 +474,8 @@ void SectorView::InputBinding::RegisterBindings()
 SectorView::SectorView(Game *game) :
 	PiGuiView("sector-view"),
 	InputBindings(Pi::input),
-	m_galaxy(game->GetGalaxy())
+	m_galaxy(game->GetGalaxy()),
+	m_labels(*this)
 {
 	InitDefaults();
 
@@ -271,7 +508,8 @@ SectorView::SectorView(Game *game) :
 SectorView::SectorView(const Json &jsonObj, Game *game) :
 	PiGuiView("sector-view"),
 	InputBindings(Pi::input),
-	m_galaxy(game->GetGalaxy())
+	m_galaxy(game->GetGalaxy()),
+	m_labels(*this)
 {
 	InitDefaults();
 
@@ -427,17 +665,11 @@ void SectorView::Draw3D()
 {
 	PROFILE_SCOPED()
 
-	ImFont *font = Pi::pigui->GetFont("orbiteer", 14);
-	if (!font) font = ImGui::GetFont();
-
-	m_drawList->_ResetForNewFrame();
-	m_drawList->PushTextureID(font->ContainerAtlas->TexID);
-	m_drawList->PushClipRectFullScreen();
-
 	m_lineVerts->Clear();
 	m_secLineVerts->Clear();
 	// m_clickableLabels->Clear();
 	m_starVerts->Clear();
+	m_labels.array.clear();
 
 	if (m_zoomClamped <= FAR_THRESHOLD)
 		m_renderer->SetPerspectiveProjection(40.f, m_renderer->GetDisplayAspect(), 1.f, 300.f);
@@ -507,6 +739,70 @@ void SectorView::Draw3D()
 		}
 		DrawRouteLines(modelview);
 	}
+}
+
+void SectorView::DrawPiGui()
+{
+	if (!m_hideLabels) DrawLabels();
+}
+
+// function is used to pass label parameters from lua
+void SectorView::SetLabelParams(std::string fontName, int fontSize, float gap, Color highlight, Color shade)
+{
+	m_labels.fontName = fontName;
+	m_labels.fontSize = fontSize;
+	m_labels.gap = gap;
+	m_labels.highlightColor = IM_COL32(highlight.r, highlight.g, highlight.b, highlight.a);
+	m_labels.shadeColor = IM_COL32(shade.r, shade.g, shade.b, shade.a);
+}
+
+// function should run inside imgui context
+void SectorView::DrawLabels()
+{
+	// sort the labels to draw them starting from the farthest
+	std::sort(m_labels.array.begin(), m_labels.array.end(), [](const std::unique_ptr<Label> &a, const std::unique_ptr<SectorView::Label> &b) {
+		return a->Depth() > b->Depth();
+	});
+
+	ImVec2 mpos = ImGui::GetMousePos();
+	const size_t NOT_FOUND = m_labels.array.size();
+	// the index of the label the cursor is hovering over
+	size_t hovered_i = NOT_FOUND;
+
+	m_drawList->_ResetForNewFrame();
+	StarLabel::InitFonts(m_labels, *m_drawList);
+	FactionLabel::InitFonts(m_labels, *m_drawList);
+	m_drawList->PushClipRectFullScreen();
+
+	// iterate over the labels starting with the closest one until we find the one over which the cursor is hanging
+	if (!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
+		for (int i = m_labels.array.size() - 1; i >= 0; --i) {
+			Label &label = *m_labels.array[i];
+			if (hovered_i == NOT_FOUND && !m_rotateWithMouseButton && label.Hovered(mpos)) {
+				hovered_i = i;
+				if (ImGui::IsMouseReleased(0)) label.OnClick();
+				break;
+			}
+		}
+	}
+
+	// draw labels
+	for (size_t i = 0; i < m_labels.array.size(); ++i) {
+		if (i == hovered_i) continue;
+		Label &label = *m_labels.array[i];
+		m_drawList->AddDrawCmd();
+		m_drawList->CmdBuffer.back().PrimDepth = -label.Depth() * 1.01;
+		label.Draw(*m_drawList);
+	}
+
+	// draw the label over which the cursor is hovering the most recent
+	if (hovered_i != NOT_FOUND) {
+		Label &hovered = *m_labels.array[hovered_i];
+		m_drawList->AddDrawCmd();
+		// seems with this depth, the label will be drawn on top of all objects
+		m_drawList->CmdBuffer.back().PrimDepth = 1.0f;
+		hovered.Draw(*m_drawList, true);
+	}
 
 	ImDrawData drawData{};
 	ImDrawList *dl = m_drawList.get();
@@ -543,11 +839,6 @@ void SectorView::ResetHyperspaceTarget()
 void SectorView::GotoSector(const SystemPath &path)
 {
 	m_posMovingTo = vector3f(path.sectorX, path.sectorY, path.sectorZ);
-
-	// for performance don't animate the travel if we're Far Zoomed
-	if (m_zoomClamped > FAR_THRESHOLD) {
-		m_pos = m_posMovingTo;
-	}
 }
 
 void SectorView::GotoSystem(const SystemPath &path)
@@ -557,11 +848,6 @@ void SectorView::GotoSystem(const SystemPath &path)
 	m_posMovingTo.x = path.sectorX + p.x / Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y / Sector::SIZE;
 	m_posMovingTo.z = path.sectorZ + p.z / Sector::SIZE;
-
-	// for performance don't animate the travel if we're Far Zoomed
-	if (m_zoomClamped > FAR_THRESHOLD) {
-		m_pos = m_posMovingTo;
-	}
 }
 
 bool SectorView::IsCenteredOn(const SystemPath &path)
@@ -606,125 +892,67 @@ const SystemPath &SectorView::CheckPathInRoute(const SystemPath &path)
 	return path;
 }
 
-void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &origin, int drawRadius)
+void SectorView::PutSystemLabel(const Sector::System &sys)
 {
 	PROFILE_SCOPED()
 
-	Uint32 sysIdx = 0;
-	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys != sec->m_systems.end(); ++sys, ++sysIdx) {
-		// skip the system if it doesn't fall within the sphere we're viewing.
-		if ((m_pos * Sector::SIZE - (*sys).GetFullPosition()).Length() > drawRadius) continue;
+	// if the system is the current system or target we can't skip it
+	bool can_skip = !sys.IsSameSystem(m_selected) && !sys.IsSameSystem(m_hyperspaceTarget) && !sys.IsSameSystem(m_current);
 
-		// if the system is the current system or target we can't skip it
-		bool can_skip = !sys->IsSameSystem(m_selected) && !sys->IsSameSystem(m_hyperspaceTarget) && !sys->IsSameSystem(m_current);
+	// skip if we have no population and won't drawn uninhabited systems
+	if (can_skip && (sys.GetPopulation() <= 0 && !m_drawUninhabitedLabels)) return;
 
-		// skip if we have no population and won't drawn uninhabited systems
-		if (can_skip && (sys->GetPopulation() <= 0 && !m_drawUninhabitedLabels)) continue;
+	// skip the system if it belongs to a Faction we've toggled off and we can skip it
+	if (can_skip && m_hiddenFactions.find(sys.GetFaction()) != m_hiddenFactions.end()) return;
 
-		// skip the system if it belongs to a Faction we've toggled off and we can skip it
-		if (can_skip && m_hiddenFactions.find(sys->GetFaction()) != m_hiddenFactions.end()) continue;
+	// determine if system in hyperjump range or not
+	RefCountedPtr<const Sector> playerSec = GetCached(m_current);
+	float dist = Sector::System::DistanceBetween(&sys, &playerSec->m_systems[m_current.systemIndex]);
+	bool inRange = dist <= m_playerHyperspaceRange;
 
-		// determine if system in hyperjump range or not
-		RefCountedPtr<const Sector> playerSec = GetCached(m_current);
-		float dist = Sector::DistanceBetween(sec, sysIdx, playerSec, m_current.systemIndex);
-		bool inRange = dist <= m_playerHyperspaceRange;
+	// skip if we're out of rangen and won't draw out of range systems systems
+	if (can_skip && (!inRange && !m_drawOutRangeLabels)) return;
 
-		// skip if we're out of rangen and won't draw out of range systems systems
-		if (can_skip && (!inRange && !m_drawOutRangeLabels)) continue;
-
-		// place the label
-		vector3d systemPos = vector3d((*sys).GetFullPosition() - origin);
-		vector3d screenPos = Graphics::ProjectToScreen(m_renderer, systemPos);
-		// reject back-projected labels (negative Z in clipspace is in front of the view plane)
-		if (screenPos.z < 0.0f) {
-			// work out the colour
-			Color labelColor = sys->GetFaction()->AdjustedColour(sys->GetPopulation(), inRange);
-
-			// get a system path to pass to the event handler when the label is licked
-			SystemPath sysPath = SystemPath((*sys).sx, (*sys).sy, (*sys).sz, sysIdx);
-
-			// label text
-			std::string text = "";
-			if (((inRange || m_drawOutRangeLabels) && (sys->GetPopulation() > 0 || m_drawUninhabitedLabels)) || !can_skip)
-				text = sys->GetName();
-
-			// setup the label;
-			// FIXME: send this info to Lua for decoration
-			// m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
-			m_drawList->AddDrawCmd();
-			m_drawList->CmdBuffer.back().PrimDepth = -screenPos.z * 1.01;
-			float y = Graphics::GetScreenHeight() - screenPos.y;
-			m_drawList->AddText({ float(screenPos.x), y }, IM_COL32(labelColor.r, labelColor.g, labelColor.b, 255), text.c_str());
-		}
+	// place the label
+	//vector3d systemPos = vector3d((*sys).GetFullPosition() - origin);
+	vector3d screenPos = Graphics::ProjectToScreen(m_renderer, vector3d(0.0));
+	// reject back-projected labels (negative Z in clipspace is in front of the view plane)
+	if (screenPos.z < 0.0f && (((inRange || m_drawOutRangeLabels) && (sys.GetPopulation() > 0 || m_drawUninhabitedLabels)) || !can_skip)) {
+		vector3d screenStarEdge = Graphics::ProjectToScreen(m_renderer, vector3d(0.25, 0.0, 0.0));
+		float screenStarRadius = screenStarEdge.x - screenPos.x;
+		// work out the colour
+		Color labelColor = sys.GetFaction()->AdjustedColour(sys.GetPopulation(), inRange);
+		// get a system path to pass to the event handler when the label is licked
+		SystemPath sysPath = sys.GetPath();
+		// label text
+		std::string text = sys.GetName();
+		const float x = screenPos.x;
+		const float y = Graphics::GetScreenHeight() - screenPos.y;
+		const float z = screenPos.z;
+		m_labels.array.emplace_back(std::make_unique<StarLabel>(m_labels, vector3f(x, y, z), labelColor, text, screenStarRadius, sysPath));
 	}
 }
 
 void SectorView::PutFactionLabels(const vector3f &origin)
 {
 	PROFILE_SCOPED()
-	/* FIXME: replace this with an imgui-based solution (push system data into Lua for decoration?)
-
-	Gui::Screen::EnterOrtho();
-
-	if (!m_material)
-		m_material.Reset(m_renderer->CreateMaterial(Graphics::MaterialDescriptor()));
-
-	static const Color labelBorder(13, 13, 31, 166);
-	const auto renderState = Gui::Screen::alphaBlendState;
-
 	for (auto it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
 			Sector::System sys = GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
 			if ((m_pos * Sector::SIZE - sys.GetFullPosition()).Length() > (m_zoomClamped / FAR_THRESHOLD) * OUTER_RADIUS) continue;
 
-			vector3d pos;
-			Gui::Screen::Project(vector3d(sys.GetFullPosition() - origin), pos);
+			vector3d pos = Graphics::ProjectToScreen(m_renderer, vector3d(sys.GetFullPosition() - origin));
 			if (pos.z < 0.0f) { // reject back-projected stars
+				pos.y = Graphics::GetScreenHeight() - pos.y;
 
-				std::string labelText = sys.GetName() + "\n" + (*it)->name;
+				std::string factionHome = sys.GetName();
+				std::string factionName = (*it)->name;
 				Color labelColor = (*it)->colour;
-				float labelHeight = 0;
-				float labelWidth = 0;
 
-				Gui::Screen::MeasureString(labelText, labelWidth, labelHeight);
-
-				// draw a big diamond for the location of the star
-				static const float STARSIZE = 5;
-				Graphics::VertexArray outline(Graphics::ATTRIB_POSITION);
-				outline.Add(vector3f(pos.x - STARSIZE - 1.f, pos.y, 1));
-				outline.Add(vector3f(pos.x, pos.y + STARSIZE + 1.f, 1));
-				outline.Add(vector3f(pos.x, pos.y - STARSIZE - 1.f, 1));
-				outline.Add(vector3f(pos.x + STARSIZE + 1.f, pos.y, 1));
-				m_material->diffuse = { 0, 0, 0, 255 };
-				m_renderer->DrawTriangles(&outline, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
-
-				Graphics::VertexArray marker(Graphics::ATTRIB_POSITION);
-				marker.Add(vector3f(pos.x - STARSIZE, pos.y, 0));
-				marker.Add(vector3f(pos.x, pos.y + STARSIZE, 0));
-				marker.Add(vector3f(pos.x, pos.y - STARSIZE, 0));
-				marker.Add(vector3f(pos.x + STARSIZE, pos.y, 0));
-				m_material->diffuse = labelColor;
-				m_renderer->DrawTriangles(&marker, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
-
-				// draw a surface for the label to sit on
-				static const float MARGINLEFT = 8;
-				float halfheight = labelHeight / 2.0;
-				Graphics::VertexArray surface(Graphics::ATTRIB_POSITION);
-				surface.Add(vector3f(pos.x + MARGINLEFT - 2.f, pos.y - halfheight, 0));
-				surface.Add(vector3f(pos.x + MARGINLEFT - 2.f, pos.y + halfheight, 0));
-				surface.Add(vector3f(pos.x + MARGINLEFT + labelWidth + 2.f, pos.y - halfheight, 0));
-				surface.Add(vector3f(pos.x + MARGINLEFT + labelWidth + 2.f, pos.y + halfheight, 0));
-				m_material->diffuse = labelBorder;
-				m_renderer->DrawTriangles(&surface, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
-
-				if (labelColor.GetLuminance() > 204)
-					labelColor.a = 204; // luminance is sometimes a bit overly
-				m_clickableLabels->Add(labelText, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), (*it)->homeworld), pos.x + MARGINLEFT, pos.y - (halfheight / 2.0) - 1.f, labelColor);
+				m_labels.array.emplace_back(std::make_unique<FactionLabel>(m_labels, vector3f(pos), labelColor, factionHome, factionName, 15.f, sys.GetPath()));
 			}
 		}
 	}
-	Gui::Screen::LeaveOrtho();
-	*/
 }
 
 void SectorView::AddStarBillboard(const matrix4x4f &trans, const vector3f &pos, const Color &col, float size)
@@ -756,18 +984,6 @@ void SectorView::DrawNearSectors(const matrix4x4f &modelview)
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
 				DrawNearSector(int(floorf(m_pos.x)) + sx, int(floorf(m_pos.y)) + sy, int(floorf(m_pos.z)) + sz,
 					modelview * matrix4x4f::Translation(Sector::SIZE * sx, Sector::SIZE * sy, Sector::SIZE * sz));
-			}
-		}
-	}
-
-	// ...then switch and do all the labels
-	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
-
-	m_renderer->SetTransform(modelview);
-	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
-		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
-			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
-				PutSystemLabels(GetCached(SystemPath(sx + secOrigin.x, sy + secOrigin.y, sz + secOrigin.z)), Sector::SIZE * secOrigin, Sector::SIZE * DRAW_RAD);
 			}
 		}
 	}
@@ -1196,21 +1412,18 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		const Uint8 *col = StarSystem::starColors[(*i).GetStarType(0)];
 		AddStarBillboard(systrans, vector3f(0.f), Color(col[0], col[1], col[2], 255), 0.5f);
 
+		// add label
+		PutSystemLabel(*i);
+
 		// selected indicator
 		if (i->IsSameSystem(m_selected)) {
 			// move this disk 0.01 light years further so that it does not overlap the star
 			AddStarBillboard(systrans, vector3f(0.f, 0.f, -0.01), Color(0, 204, 0), 1.0);
-			// m_disk->SetColor(Color(0, 204, 0));
-			// m_renderer->SetTransform(matrix4x4f::Translation((systrans * vector3f(.0f)).NormalizedSafe() * 0.01) * systrans * matrix4x4f::ScaleMatrix(2.f));
-			// m_disk->Draw(m_renderer);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (i->IsSameSystem(m_hyperspaceTarget) && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
 			// move this disk 0.02 light years further so that it does not overlap the star, and selected indicator
 			AddStarBillboard(systrans, vector3f(0.f, 0.f, -0.02), Color(77, 77, 77), 1.0);
-			// m_disk->SetColor(Color(77, 77, 77));
-			// m_renderer->SetTransform(matrix4x4f::Translation((systrans * vector3f(.0f)).NormalizedSafe() * 0.02) * systrans * matrix4x4f::ScaleMatrix(2.f));
-			// m_disk->Draw(m_renderer);
 		}
 		// hyperspace range sphere
 		if (bIsCurrentSystem && m_jumpSphere && m_playerHyperspaceRange > 0.0f) {

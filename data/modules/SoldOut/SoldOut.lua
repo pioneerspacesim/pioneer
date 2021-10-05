@@ -83,7 +83,7 @@ local makeAdvert = function(station, commodity)
 	local ad = {
 		station   = station,
 		client    = Character.New(),
-		price     = 2 * station:GetEquipmentPrice(commodity),
+		price     = 2 * station:GetEquipmentPrice(commodity) * ((not Game.system:IsCommodityLegal(commodity:GetName()) and 2) or 1),
 		commodity = commodity,
 	}
 

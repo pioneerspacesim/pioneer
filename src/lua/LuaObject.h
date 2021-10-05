@@ -73,34 +73,30 @@
 // type for promotion test callbacks
 typedef bool (*PromotionTest)(LuaWrappable *o);
 
-// type for serializer function pair
+/*
+ * SerializerPair stores object hooks for serializing and deserializing objects
+ * into and out of json. The serialization mechanism functions in a type-erased
+ * manner; the hook is responsible for loading the serialized object from the
+ * Lua stack and in turn pushing the deserialized object on the stack as well.
+ */
 struct SerializerPair {
-	typedef std::string (*Serializer)(LuaWrappable *o);
-	typedef bool (*Deserializer)(const char *stream, const char **next);
-
-	typedef void (*ToJson)(Json &out, LuaWrappable *o);
-	typedef bool (*FromJson)(const Json &obj);
+	// Serializer takes a lua object on the top of the stack and writes it to `out`
+	using Serializer = bool (*)(lua_State *l, Json &out);
+	// Deserializer takes `obj` and creates a lua object on the top of the stack
+	using Deserializer = bool (*)(lua_State *l, const Json &obj);
 
 	SerializerPair() :
 		serialize(nullptr),
-		deserialize(nullptr),
-		to_json(nullptr),
-		from_json(nullptr)
+		deserialize(nullptr)
 	{}
 
-	SerializerPair(
-		Serializer serialize_, Deserializer deserialize_,
-		ToJson to_json_, FromJson from_json_) :
+	SerializerPair(Serializer serialize_, Deserializer deserialize_) :
 		serialize(serialize_),
-		deserialize(deserialize_),
-		to_json(to_json_),
-		from_json(from_json_)
+		deserialize(deserialize_)
 	{}
 
 	Serializer serialize;
 	Deserializer deserialize;
-	ToJson to_json;
-	FromJson from_json;
 };
 
 class PropertyMap;
@@ -124,6 +120,9 @@ public:
 	// Checks if the object at the stack position is a PropertiedObject and returns a pointer to
 	// its PropertyMap. Returns nullptr on failure.
 	static PropertyMap *GetPropertiesFromObject(lua_State *l, int object);
+
+	// register a serializer pair for a given type
+	static void RegisterSerializer(const char *type, SerializerPair pair);
 
 protected:
 	// base class constructor, called by the wrapper Push* methods
@@ -170,13 +169,11 @@ protected:
 	// object will be of target_type
 	static void RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn);
 
-	static void RegisterSerializer(const char *type, SerializerPair pair);
+	// Take a lua object at the top of the stack and serialize it to Json
+	static bool SerializeToJson(lua_State *l, Json &out);
 
-	std::string Serialize();
-	static bool Deserialize(const char *stream, const char **next);
-
-	void ToJson(Json &out);
-	static bool FromJson(const Json &obj);
+	// Take a json object and deserialize it to a lua object
+	static bool DeserializeFromJson(lua_State *l, const Json &obj);
 
 	// allocate n bytes from Lua memory and leave it an associated userdata on
 	// the stack. this is a wrapper around lua_newuserdata
@@ -497,6 +494,32 @@ void pi_lua_generic_push(lua_State *l, T *value)
 	assert(l == Lua::manager->GetLuaState());
 	if (value)
 		LuaObject<typename std::remove_cv<T>::type>::PushToLua(value);
+	else
+		lua_pushnil(l);
+}
+
+// LuaPushPull stuff.
+template <class T>
+void pi_lua_generic_pull(lua_State *l, int index, RefCountedPtr<T> &out)
+{
+	assert(l == Lua::manager->GetLuaState());
+	out = LuaObject<typename std::remove_cv<T>::type>::CheckFromLua(index);
+}
+
+template <class T>
+bool pi_lua_strict_pull(lua_State *l, int index, RefCountedPtr<T> &out)
+{
+	assert(l == Lua::manager->GetLuaState());
+	out = LuaObject<typename std::remove_cv<T>::type>::GetFromLua(index);
+	return out != 0;
+}
+
+template <class T>
+void pi_lua_generic_push(lua_State *l, RefCountedPtr<T> value)
+{
+	assert(l == Lua::manager->GetLuaState());
+	if (value)
+		LuaObject<typename std::remove_cv<T>::type>::PushToLua(value.Get());
 	else
 		lua_pushnil(l);
 }

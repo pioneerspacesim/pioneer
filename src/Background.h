@@ -4,6 +4,7 @@
 #ifndef _BACKGROUND_H
 #define _BACKGROUND_H
 
+#include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 
 class Random;
@@ -60,10 +61,10 @@ namespace Background {
 	class Starfield : public BackgroundElement {
 	public:
 		//does not Fill the starfield
-		Starfield(Graphics::Renderer *r, Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy);
+		Starfield(Graphics::Renderer *r, Random &rand, const SystemPath *const systemPath, RefCountedPtr<Galaxy> galaxy);
 		void Draw();
 		//create or recreate the starfield
-		void Fill(Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy);
+		void Fill(Random &rand, const SystemPath *const systemPath, RefCountedPtr<Galaxy> galaxy);
 
 	private:
 		void Init();
@@ -74,14 +75,6 @@ namespace Background {
 		std::unique_ptr<vector3f[]> m_hyperVtx; // BG_STAR_MAX * 3
 		std::unique_ptr<Color[]> m_hyperCol;	// BG_STAR_MAX * 3
 		std::unique_ptr<Graphics::MeshObject> m_animMesh;
-
-		float m_visibleRadiusLy;
-		float m_medianPosition;
-		float m_brightnessPower;
-		float m_brightnessApparentSizeOffset;
-		float m_brightnessApparentSizeFactor;
-		float m_brightnessColorFactor;
-		float m_brightnessColorOffset;
 	};
 
 	class MilkyWay : public BackgroundElement {
@@ -102,7 +95,7 @@ namespace Background {
 			DRAW_SKYBOX = 1 << 2
 		};
 
-		Container(Graphics::Renderer *, Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy);
+		Container(Graphics::Renderer *, Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy, const SystemPath *const systemPath = nullptr);
 		void Draw(const matrix4x4d &transform);
 
 		void SetIntensity(float intensity);

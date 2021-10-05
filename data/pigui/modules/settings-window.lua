@@ -77,6 +77,10 @@ local binding_pages
 local keyCaptureBind
 local keyCaptureNum
 
+local needBackgroundStarRefresh = false
+local starDensity = Engine.GetAmountStars() * 100
+local starFieldStarSizeFactor = Engine.GetStarFieldStarSizeFactor() * 100
+
 local function combo(label, selected, items, tooltip)
 	local color = colors.buttonBlue
 	local changed, ret = 0, nil
@@ -209,7 +213,6 @@ local function showVideoOptions()
 	local displayHudTrails = Engine.GetDisplayHudTrails()
 	local enableCockpit = Engine.GetCockpitEnabled()
 	local enableAutoSave = Engine.GetAutosaveEnabled()
-	local starDensity = Engine.GetAmountStars() * 100
 
 	local c
 	ui.text(lui.VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY)
@@ -298,8 +301,14 @@ local function showVideoOptions()
 	end
 
 	c,starDensity = slider(lui.STAR_FIELD_DENSITY, starDensity, 0, 100)
+	if c then		
+		needBackgroundStarRefresh = true
+	end
+
+	c,starFieldStarSizeFactor = slider(lui.STAR_FIELD_STAR_SIZE_FACTOR, starFieldStarSizeFactor, 0, 100)
 	if c then
-		Engine.SetAmountStars(starDensity/100)
+		-- TODO: lua somtimes gets very small slider changes, even though I didn't touch the slider
+		needBackgroundStarRefresh = true
 	end
 
 	ui.separator()
@@ -556,6 +565,11 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 	ui.sameLine()
 	optionTextButton(lui.CLOSE, nil, true, function()
 		ui.optionsWindow:close()
+		if needBackgroundStarRefresh then
+			Engine.SetAmountStars(starDensity/100)
+			Engine.SetStarFieldStarSizeFactor(starFieldStarSizeFactor/100)
+			needBackgroundStarRefresh = false
+		end
 		if Game.player then
 			Game.SetTimeAcceleration("1x")
 			Input.EnableBindings();

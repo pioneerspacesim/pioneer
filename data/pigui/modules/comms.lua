@@ -53,7 +53,7 @@ local function displayCommsLog()
 										ui.setNextWindowSize(aux , "Always")
 										aux = Vector2(mainButtonSize.x + 2 * mainButtonFramePadding + 15, 10)
 										ui.setNextWindowPos(aux , "Always")
-										ui.window("ShortCommsLog", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"},
+										ui.window("ShortCommsLog", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"},
 															function()
 																local last = nil
 																local rep = 0
@@ -79,7 +79,7 @@ local function displayCommsLog()
 																	table.insert(lines, 1, { sender = last.sender, text = last.text .. ((rep > 1) and (' x ' .. rep) or ''), priority = last.priority })
 																end
 																ui.pushTextWrapPos(ui.screenWidth/4 - 20)
-																for k,v in pairs(utils.reverse(utils.take(lines, commsLinesToShow))) do
+																for k,v in pairs(utils.take(lines, commsLinesToShow)) do
 																	showItem(v)
 																end
 																ui.popTextWrapPos()
@@ -95,14 +95,10 @@ local function displayCommsLog()
 																			function()
 																				local lines = Game.GetCommsLines()
 																				ui.pushTextWrapPos(ui.screenWidth/3 - 20)
-																				for k,v in pairs(lines) do
+																				for k,v in pairs(utils.reverse(lines)) do
 																					showItem(v)
 																				end
 																				ui.popTextWrapPos()
-																				-- if lastLength ~= #lines then
-																				-- 	ui.setScrollHereY()
-																				-- end
-																				-- lastLength = #lines
 														end)
 												end)
 										end)

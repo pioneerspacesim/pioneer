@@ -2,38 +2,41 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaVector.h"
+#include "JsonUtils.h"
+#include "LuaMetaType.h"
+#include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaVector2.h"
 #include "libs.h"
 
-static int l_vector_new(lua_State *L)
+void pi_lua_generic_pull(lua_State *l, int index, vector3d *&out)
 {
-	LUA_DEBUG_START(L);
-	double x = luaL_checknumber(L, 1);
-	double y = luaL_checknumber(L, 2);
-	double z = luaL_checknumber(L, 3);
-	LuaVector::PushToLua(L, vector3d(x, y, z));
-	LUA_DEBUG_END(L, 1);
-	return 1;
+	out = LuaVector::CheckFromLua(l, index);
 }
 
-vector3d construct_vec3(lua_State *L)
+vector3d construct_vec3(lua_State *L, int index)
 {
-	const vector2d *vec2 = LuaVector2::GetFromLua(L, 2);
+	const vector2d *vec2 = LuaVector2::GetFromLua(L, index);
 	double x, y, z;
 	if (vec2 != nullptr) {
 		x = vec2->x, y = vec2->y;
-		z = luaL_optnumber(L, 3, 0.0);
+		z = luaL_optnumber(L, index + 1, 0.0);
 	} else {
-		x = luaL_checknumber(L, 2);
-		if (lua_gettop(L) == 2)
+		x = luaL_checknumber(L, index);
+		if (lua_gettop(L) == index)
 			y = x, z = x;
 		else {
-			y = luaL_checknumber(L, 3);
-			z = luaL_checknumber(L, 4);
+			y = luaL_checknumber(L, index + 1);
+			z = luaL_checknumber(L, index + 2);
 		}
 	}
 	return vector3d(x, y, z);
+}
+
+static int l_vector_new(lua_State *L)
+{
+	LuaVector::PushToLua(L, construct_vec3(L, 1));
+	return 1;
 }
 
 /*
@@ -44,9 +47,7 @@ vector3d construct_vec3(lua_State *L)
 */
 static int l_vector_call(lua_State *L)
 {
-	LUA_DEBUG_START(L);
-	LuaVector::PushToLua(L, construct_vec3(L));
-	LUA_DEBUG_END(L, 1);
+	LuaVector::PushToLua(L, construct_vec3(L, 2));
 	return 1;
 }
 
@@ -54,25 +55,8 @@ static int l_vector_call(lua_State *L)
 static int l_vector_set(lua_State *L)
 {
 	LUA_DEBUG_START(L);
-	*LuaVector::CheckFromLua(L, 1) = construct_vec3(L);
+	*LuaVector::CheckFromLua(L, 1) = construct_vec3(L, 2);
 	lua_pushvalue(L, 1);
-	LUA_DEBUG_END(L, 1);
-	return 1;
-}
-
-static int l_vector_unit(lua_State *L)
-{
-	LUA_DEBUG_START(L);
-	if (lua_isnumber(L, 1)) {
-		double x = luaL_checknumber(L, 1);
-		double y = luaL_checknumber(L, 2);
-		double z = luaL_checknumber(L, 3);
-		const vector3d v = vector3d(x, y, z);
-		LuaVector::PushToLua(L, v.NormalizedSafe());
-	} else {
-		const vector3d *v = LuaVector::CheckFromLua(L, 1);
-		LuaVector::PushToLua(L, v->NormalizedSafe());
-	}
 	LUA_DEBUG_END(L, 1);
 	return 1;
 }
@@ -80,13 +64,7 @@ static int l_vector_unit(lua_State *L)
 static int l_vector_tostring(lua_State *L)
 {
 	const vector3d *v = LuaVector::CheckFromLua(L, 1);
-	luaL_Buffer buf;
-	luaL_buffinit(L, &buf);
-	char *bufstr = luaL_prepbuffer(&buf);
-	int len = snprintf(bufstr, LUAL_BUFFERSIZE, "vector(%g, %g, %g)", v->x, v->y, v->z);
-	assert(len < LUAL_BUFFERSIZE); // XXX should handle this condition more gracefully
-	luaL_addsize(&buf, len);
-	luaL_pushresult(&buf);
+	lua_pushfstring(L, "Vector3(%f, %f, %f)", v->x, v->y, v->z);
 	return 1;
 }
 
@@ -117,7 +95,9 @@ static int l_vector_mul(lua_State *L)
 		const double s = lua_tonumber(L, 2);
 		LuaVector::PushToLua(L, *v * s);
 	} else {
-		return luaL_error(L, "general vector product doesn't exist; please use dot() or cross()");
+		const vector3d *v1 = LuaVector::CheckFromLua(L, 1);
+		const vector3d *v2 = LuaVector::CheckFromLua(L, 2);
+		LuaVector::PushToLua(L, *v1 * *v2);
 	}
 	return 1;
 }
@@ -188,57 +168,12 @@ static int l_vector_index(lua_State *L)
 		luaL_error(L, "Expected Vector, but type is '%s'", luaL_typename(L, 2));
 	}
 	lua_getmetatable(L, 1);
+	lua_getfield(L, -1, "methods");
 	lua_pushvalue(L, 2);
 	lua_rawget(L, -2);
-	lua_remove(L, -2);
+
 	return 1;
 }
-
-static int l_vector_normalised(lua_State *L)
-{
-	const vector3d *v = LuaVector::CheckFromLua(L, 1);
-	LuaVector::PushToLua(L, v->NormalizedSafe());
-	return 1;
-}
-
-static int l_vector_length_sqr(lua_State *L)
-{
-	const vector3d *v = LuaVector::CheckFromLua(L, 1);
-	lua_pushnumber(L, v->LengthSqr());
-	return 1;
-}
-
-static int l_vector_length(lua_State *L)
-{
-	const vector3d *v = LuaVector::CheckFromLua(L, 1);
-	lua_pushnumber(L, v->Length());
-	return 1;
-}
-
-static int l_vector_dot(lua_State *L)
-{
-	const vector3d *a = LuaVector::CheckFromLua(L, 1);
-	const vector3d *b = LuaVector::CheckFromLua(L, 2);
-	lua_pushnumber(L, a->Dot(*b));
-	return 1;
-}
-
-static int l_vector_cross(lua_State *L)
-{
-	const vector3d *a = LuaVector::CheckFromLua(L, 1);
-	const vector3d *b = LuaVector::CheckFromLua(L, 2);
-	LuaVector::PushToLua(L, a->Cross(*b));
-	return 1;
-}
-
-static luaL_Reg l_vector_lib[] = {
-	{ "new", &l_vector_new },
-	{ "unit", &l_vector_unit },
-	{ "cross", &l_vector_cross },
-	{ "dot", &l_vector_dot },
-	{ "length", &l_vector_length },
-	{ 0, 0 }
-};
 
 static luaL_Reg l_vector_meta[] = {
 	{ "__tostring", &l_vector_tostring },
@@ -250,15 +185,24 @@ static luaL_Reg l_vector_meta[] = {
 	{ "__index", &l_vector_index },
 	{ "__newindex", &l_vector_new_index },
 	{ "__call", &l_vector_set },
-	{ "normalised", &l_vector_normalised },
-	{ "normalized", &l_vector_normalised },
-	{ "unit", &l_vector_unit },
-	{ "lengthSqr", &l_vector_length_sqr },
-	{ "length", &l_vector_length },
-	{ "cross", &l_vector_cross },
-	{ "dot", &l_vector_dot },
 	{ 0, 0 }
 };
+
+static bool _serialize_vector3(lua_State *l, Json &out)
+{
+	const auto *vec = LuaVector::GetFromLua(l, -1);
+	if (!vec) return false;
+
+	VectorToJson(out, *vec);
+	return true;
+}
+
+static bool _deserialize_vector3(lua_State *l, const Json &out)
+{
+	vector3d *vec = LuaVector::PushNewToLua(l);
+	JsonToVector(vec, out);
+	return true;
+}
 
 const char LuaVector::LibName[] = "Vector3";
 const char LuaVector::TypeName[] = "Vector3";
@@ -267,21 +211,32 @@ void LuaVector::Register(lua_State *L)
 {
 	LUA_DEBUG_START(L);
 
-	luaL_newlib(L, l_vector_lib);
+	LuaMetaType<vector3d> metaType(LuaVector::TypeName);
 
-	lua_newtable(L);
-	lua_pushcfunction(L, &l_vector_call);
-	lua_setfield(L, -2, "__call");
-	lua_setmetatable(L, -2);
+	metaType.CreateMetaType(L);
+	metaType.StartRecording()
+		.AddNewCtor(&l_vector_new)
+		.AddCallCtor(&l_vector_call)
+		.AddFunction("normalized", &vector3d::NormalizedSafe)
+		.AddFunction("normalised", &vector3d::NormalizedSafe)
+		.AddFunction("lengthSqr", &vector3d::LengthSqr)
+		.AddFunction("length", &vector3d::Length)
+		.AddFunction("cross", &vector3d::Cross)
+		.AddFunction("dot", &vector3d::Dot)
+		.StopRecording();
 
-	lua_setglobal(L, LuaVector::LibName);
-
-	luaL_newmetatable(L, LuaVector::TypeName);
+	// set the meta functions
+	metaType.GetMetatable();
 	luaL_setfuncs(L, l_vector_meta, 0);
 	// hide the metatable to thwart crazy exploits
 	lua_pushboolean(L, 0);
 	lua_setfield(L, -2, "__metatable");
+
+	lua_getfield(L, -1, "methods");
+	lua_setglobal(L, LuaVector::LibName);
 	lua_pop(L, 1);
+
+	LuaObjectBase::RegisterSerializer(LuaVector::TypeName, { _serialize_vector3, _deserialize_vector3 });
 
 	LUA_DEBUG_END(L, 0);
 }
@@ -289,16 +244,17 @@ void LuaVector::Register(lua_State *L)
 vector3d *LuaVector::PushNewToLua(lua_State *L)
 {
 	vector3d *ptr = static_cast<vector3d *>(lua_newuserdata(L, sizeof(vector3d)));
-	luaL_setmetatable(L, LuaVector::TypeName);
+	LuaMetaTypeBase::GetMetatableFromName(L, LuaVector::TypeName);
+	lua_setmetatable(L, -2);
 	return ptr;
 }
 
 const vector3d *LuaVector::GetFromLua(lua_State *L, int idx)
 {
-	return static_cast<vector3d *>(luaL_testudata(L, idx, LuaVector::TypeName));
+	return static_cast<vector3d *>(LuaMetaTypeBase::TestUserdata(L, idx, LuaVector::TypeName));
 }
 
 vector3d *LuaVector::CheckFromLua(lua_State *L, int idx)
 {
-	return static_cast<vector3d *>(luaL_checkudata(L, idx, LuaVector::TypeName));
+	return static_cast<vector3d *>(LuaMetaTypeBase::CheckUserdata(L, idx, LuaVector::TypeName));
 }

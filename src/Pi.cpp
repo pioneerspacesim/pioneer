@@ -123,6 +123,7 @@ bool Pi::speedLinesDisplayed = false;
 bool Pi::hudTrailsDisplayed = false;
 bool Pi::bRefreshBackgroundStars = true;
 float Pi::amountOfBackgroundStarsDisplayed = 1.0f;
+float Pi::starFieldStarSizeFactor = 1.0f;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
 PiGui::Instance *Pi::pigui = nullptr;
@@ -338,6 +339,7 @@ void Pi::App::Startup()
 	// FIXME: move these out of the Pi namespace
 	// TODO: add a better configuration interface for this kind of thing
 	Pi::SetAmountBackgroundStars(config->Float("AmountOfBackgroundStars"));
+	Pi::SetStarFieldStarSizeFactor(config->Float("StarFieldStarSizeFactor"));
 	Pi::detail.planets = config->Int("DetailPlanets");
 	Pi::detail.cities = config->Int("DetailCities");
 
@@ -664,6 +666,9 @@ void MainMenu::Start()
 void MainMenu::Update(float deltaTime)
 {
 	Pi::GetApp()->HandleEvents();
+
+	if (Pi::MustRefreshBackgroundClearFlag())
+		Pi::intro->RefreshBackground(Pi::renderer);
 
 	Pi::intro->Draw(deltaTime);
 

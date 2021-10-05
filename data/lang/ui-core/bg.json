@@ -1887,6 +1887,10 @@
     "description": "",
     "message": "Гъстота на звездите"
   },
+  "STAR_FIELD_STAR_SIZE_FACTOR": {
+    "description": "",
+    "message": "Размер на звездите"
+  },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
     "message": "Станция"

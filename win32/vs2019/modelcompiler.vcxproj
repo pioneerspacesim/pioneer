@@ -74,15 +74,14 @@
     <ClInclude Include="..\..\contrib\lz4\lz4hc.h" />
     <ClInclude Include="..\..\contrib\lz4\xxhash.h" />
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h" />
-    <ClInclude Include="..\..\src\buildopts.h" />
     <ClInclude Include="..\..\src\ByteRange.h" />
     <ClInclude Include="..\..\src\Color.h" />
+    <ClInclude Include="..\..\src\core\GZipFormat.h" />
+    <ClInclude Include="..\..\src\core\IniConfig.h" />
     <ClInclude Include="..\..\src\DateTime.h" />
     <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\GameConfig.h" />
-    <ClInclude Include="..\..\src\GZipFormat.h" />
-    <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\JobQueue.h" />
     <ClInclude Include="..\..\src\JsonUtils.h" />
     <ClInclude Include="..\..\src\Lang.h" />
@@ -91,7 +90,6 @@
     <ClInclude Include="..\..\src\matrix3x3.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
-    <ClInclude Include="..\..\src\OS.h" />
     <ClInclude Include="..\..\src\PerfStats.h" />
     <ClInclude Include="..\..\src\PngWriter.h" />
     <ClInclude Include="..\..\src\Random.h" />

@@ -189,6 +189,12 @@ public:
 		bRefreshBackgroundStars = true;
 	}
 	static float GetAmountBackgroundStars() { return amountOfBackgroundStarsDisplayed; }
+	static void SetStarFieldStarSizeFactor(const float pc)
+	{
+		starFieldStarSizeFactor = Clamp(pc, 0.0f, 1.0f);
+		bRefreshBackgroundStars = true;
+	}
+	static float GetStarFieldStarSizeFactor() { return starFieldStarSizeFactor; }
 	static bool MustRefreshBackgroundClearFlag()
 	{
 		const bool bRet = bRefreshBackgroundStars;
@@ -245,6 +251,7 @@ private:
 	static bool hudTrailsDisplayed;
 	static bool bRefreshBackgroundStars;
 	static float amountOfBackgroundStarsDisplayed;
+	static float starFieldStarSizeFactor;
 
 	static bool doingMouseGrab;
 

@@ -59,6 +59,10 @@ public:
 	BvhNode *m_nodesAlloc;
 	int m_nodesAllocPos;
 	int m_nodesAllocMax;
+	// tree height at best log2(n), at worst n (n is the number of objects in the tree)
+	// it seems that the height of that tree never exceeds 20
+	// also TREE HEIGHT - THREE EIGHT, neat
+	static constexpr int MAX_TREE_HEIGHT = 38;
 
 	BvhNode *AllocNode()
 	{
@@ -77,9 +81,10 @@ public:
 	void CollideGeom(Geom *, const Aabb &, int minMailboxValue, void (*callback)(CollisionContact *));
 
 private:
-	void BuildNode(BvhNode *node, const std::list<Geom *> &a_geoms, int &outGeomPos);
+	void BuildNode(BvhNode *node, const std::list<Geom *> &a_geoms, int &outGeomPos, int maxHeight);
 
-	void FreeAll() {
+	void FreeAll()
+	{
 		if (m_geoms) delete[] m_geoms;
 		m_geoms = nullptr;
 		if (m_nodesAlloc) delete[] m_nodesAlloc;
@@ -103,7 +108,7 @@ BvhTree::BvhTree(const std::list<Geom *> &geoms)
 	m_nodesAllocMax = numGeoms * 2;
 	m_nodesAlloc = new BvhNode[m_nodesAllocMax];
 	m_root = AllocNode();
-	BuildNode(m_root, geoms, geomPos);
+	BuildNode(m_root, geoms, geomPos, MAX_TREE_HEIGHT);
 	assert(geomPos == numGeoms);
 }
 
@@ -119,7 +124,7 @@ void BvhTree::Refresh(const std::list<Geom *> &geoms)
 	int geomPos = 0;
 	m_nodesAllocPos = 0;
 	m_root = AllocNode();
-	BuildNode(m_root, geoms, geomPos);
+	BuildNode(m_root, geoms, geomPos, MAX_TREE_HEIGHT);
 	assert(geomPos == numGeoms);
 }
 
@@ -133,7 +138,7 @@ void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, vo
 	double radius = g->GetGeomTree()->GetRadius();
 
 	int stackPos = -1;
-	BvhNode *stack[16];
+	BvhNode *stack[MAX_TREE_HEIGHT];
 	BvhNode *node = m_root;
 
 	for (;;) {
@@ -163,7 +168,7 @@ void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, vo
 	}
 }
 
-void BvhTree::BuildNode(BvhNode *node, const std::list<Geom *> &a_geoms, int &outGeomPos)
+void BvhTree::BuildNode(BvhNode *node, const std::list<Geom *> &a_geoms, int &outGeomPos, int maxHeight)
 {
 	PROFILE_SCOPED()
 	const int numGeoms = a_geoms.size();
@@ -207,8 +212,8 @@ void BvhTree::BuildNode(BvhNode *node, const std::list<Geom *> &a_geoms, int &ou
 	node->numGeoms = numGeoms;
 	node->aabb = aabb;
 
-	// side 1 has all nodes. just make a fucking child
-	if ((side[0].size() == 0) || (side[1].size() == 0)) {
+	// one side has all nodes, or we have reached the maximum tree height - just make a fucking child
+	if (side[0].size() == 0 || side[1].size() == 0 || maxHeight == 0) {
 		node->geomStart = &m_geoms[outGeomPos];
 
 		// copy geoms to the stinking flat array
@@ -222,8 +227,8 @@ void BvhTree::BuildNode(BvhNode *node, const std::list<Geom *> &a_geoms, int &ou
 		node->kids[0] = AllocNode();
 		node->kids[1] = AllocNode();
 
-		BuildNode(node->kids[0], side[0], outGeomPos);
-		BuildNode(node->kids[1], side[1], outGeomPos);
+		BuildNode(node->kids[0], side[0], outGeomPos, maxHeight - 1);
+		BuildNode(node->kids[1], side[1], outGeomPos, maxHeight - 1);
 	}
 }
 
@@ -311,7 +316,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 	vector3d invDir(1.0 / dir.x, 1.0 / dir.y, 1.0 / dir.z);
 	c->distance = len;
 
-	BvhNode *vn_stack[16];
+	BvhNode *vn_stack[BvhTree::MAX_TREE_HEIGHT];
 	BvhNode *node = m_staticObjectTree->m_root;
 	int stackPos = -1;
 
@@ -448,8 +453,10 @@ void CollisionSpace::RebuildObjectTrees()
 		m_dynamicObjectTree = new BvhTree(m_geoms);
 	} else {
 		// Same number or less (no needs for more memory)
-		if (m_dynamicObjectTree) m_dynamicObjectTree->Refresh(m_geoms);
-		else m_dynamicObjectTree = new BvhTree(m_geoms);
+		if (m_dynamicObjectTree)
+			m_dynamicObjectTree->Refresh(m_geoms);
+		else
+			m_dynamicObjectTree = new BvhTree(m_geoms);
 	}
 
 	m_oldGeomsNumber = m_geoms.size();

@@ -577,61 +577,21 @@ static int l_sbodypath_meta_tostring(lua_State *l)
 	return 1;
 }
 
-static std::string _systempath_serializer(LuaWrappable *o)
+static bool _systempath_to_json(lua_State *l, Json &out)
 {
-	static char buf[256];
+	auto *p = LuaObject<SystemPath>::GetFromLua(-1);
+	if (!p) return false;
 
-	SystemPath *sbp = static_cast<SystemPath *>(o);
-	snprintf(buf, sizeof(buf), "%d\n%d\n%d\n%u\n%u\n",
-		sbp->sectorX, sbp->sectorY, sbp->sectorZ, sbp->systemIndex, sbp->bodyIndex);
-
-	return std::string(buf);
-}
-
-static bool _systempath_deserializer(const char *pos, const char **next)
-{
-	const char *end;
-
-	Sint32 sectorX = strtol(pos, const_cast<char **>(&end), 0);
-	if (pos == end) return false;
-	pos = end + 1; // skip newline
-
-	Sint32 sectorY = strtol(pos, const_cast<char **>(&end), 0);
-	if (pos == end) return false;
-	pos = end + 1; // skip newline
-
-	Sint32 sectorZ = strtol(pos, const_cast<char **>(&end), 0);
-	if (pos == end) return false;
-	pos = end + 1; // skip newline
-
-	Uint32 systemNum = strtoul(pos, const_cast<char **>(&end), 0);
-	if (pos == end) return false;
-	pos = end + 1; // skip newline
-
-	Uint32 sbodyId = strtoul(pos, const_cast<char **>(&end), 0);
-	if (pos == end) return false;
-	pos = end + 1; // skip newline
-
-	const SystemPath sbp(sectorX, sectorY, sectorZ, systemNum, sbodyId);
-	LuaObject<SystemPath>::PushToLua(sbp);
-
-	*next = pos;
-
-	return true;
-}
-
-static void _systempath_to_json(Json &out, LuaWrappable *o)
-{
-	SystemPath *p = static_cast<SystemPath *>(o);
 	out = Json::array();
 	out[0] = Json(p->sectorX);
 	out[1] = Json(p->sectorY);
 	out[2] = Json(p->sectorZ);
 	out[3] = Json(p->systemIndex);
 	out[4] = Json(p->bodyIndex);
+	return true;
 }
 
-static bool _systempath_from_json(const Json &obj)
+static bool _systempath_from_json(lua_State *l, const Json &obj)
 {
 	if (!obj.is_array()) return false;
 	if (obj.size() < 3 || obj.size() > 5) return false;
@@ -697,5 +657,5 @@ void LuaObject<SystemPath>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, 0, l_methods, l_attrs, l_meta);
-	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(_systempath_serializer, _systempath_deserializer, _systempath_to_json, _systempath_from_json));
+	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(_systempath_to_json, _systempath_from_json));
 }

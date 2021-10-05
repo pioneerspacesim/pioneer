@@ -161,6 +161,9 @@ theme.colors = {
 	systemMapSystemBodyIcon	= styleColors.gray_300,
 	systemMapSystemBodyOrbit = styleColors.success_500,
 	systemMapLagrangePoint	= styleColors.accent_200,
+
+	sectorMapLabelHighlight = styleColors.white:opacity(0.5),
+	sectorMapLabelShade = styleColors.primary_700:opacity(0.8)
 }
 
 -- ImGui global theming styles

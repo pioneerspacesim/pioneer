@@ -1,3 +1,30 @@
+October 2021
+   * New Features
+     * New galaxy skybox, improved star brightness and density (#5124)
+
+   * Internal Changes
+     * Double-clicking the pause button opens options menu (#5279)
+     * Make fuel scooping slightly easier and safer (#5281)
+     * Rewrite lua serialization of userdata types, remove old text-based pickling (#5240)
+
+   * Fixes
+     * Fix sharp edges on hypercloud halo (#5288)
+     * Fix NPC ship trajectory calculations crashing into planets (#5250)
+     * Fix DebugRPG menu crashing when current game is ended (#5292)
+
+September 2021
+   * Internal Changes
+     * Increase and limit the height of the BvhTree (#5249)
+     * No scrollbar on short comms log, show newest message first (#5256)
+     * Two new tabs in debug mode (player info and commodity) (#5268)
+     * Replace obsolete imgui functions (#5259)
+     * Unbloated best-match code (#5257)
+
+   * Fixes
+     * Fix gun tag on Skipjack caused issues after save/load (#5269)
+     * Fix sold out Illegal commodity price not at x2 over black market (#5277)
+     * Fix crash from selling to sold out advert when amount=0 (#5262)
+
 August 2021
    * Internal Changes
      * Rewrite renderer API and material authoring system (#5156)
