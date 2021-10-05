@@ -43,8 +43,8 @@ GameConfig::GameConfig(const map_string &override_)
 	map["EnableCockpit"] = "0";
 	map["HudTrails"] = "0";
 	map["EnableServerAgent"] = "0";
-	map["AmountOfBackgroundStars"] = "0.25";
-	map["StarFieldStarSizeFactor"] = "0.7";
+	map["AmountOfBackgroundStars"] = "0.015";
+	map["StarFieldStarSizeFactor"] = "0.56";
 	map["UseAnisotropicFiltering"] = "0";
 	map["RendererName"] = "Opengl 3.x"; // default to our best renderer
 	map["EnableGLDebug"] = "0";
