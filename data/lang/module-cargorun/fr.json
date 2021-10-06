@@ -353,7 +353,7 @@
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "I can offer the following freight runs:"
+    "message": "Je peux vous offrir les courses de transport de marchandises suivantes:"
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
@@ -361,7 +361,7 @@
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo."
+    "message": "Oui, nous pouvons partager la cargaison."
   },
   "NEGOTIABLE_NO_1": {
     "description": "regarding mass, always more than 1t",
