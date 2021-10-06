@@ -360,7 +360,8 @@ namespace Background {
 			constexpr float brightnessPower = 7.5;
 			brightness[i] = std::pow(brightness[i], brightnessPower);
 
-			sizes[i] = std::max(brightnessApparentSizeFactor * brightness[i], 0.0f);
+			// 0.0f filters out NaNs from previous operations
+			sizes[i] = std::max(0.0f, brightnessApparentSizeFactor * brightness[i]);
 
 			// convert temporarily to floats to prevent narrowing errors
 			float colorR = colors[i].r;
