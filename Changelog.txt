@@ -6,6 +6,7 @@ October 2021
      * Double-clicking the pause button opens options menu (#5279)
      * Make fuel scooping slightly easier and safer (#5281)
      * Rewrite lua serialization of userdata types, remove old text-based pickling (#5240)
+     * Translation resources fall back to en.json (#5295)
 
    * Fixes
      * Fix sharp edges on hypercloud halo (#5288)
