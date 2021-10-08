@@ -5,6 +5,7 @@
 #include "FileSystem.h"
 #include "JsonUtils.h"
 #include "StringRange.h"
+#include "core/Log.h"
 #include "libs.h"
 #include "text/TextSupport.h"
 #include "utils.h"
@@ -40,35 +41,35 @@ namespace Lang {
 		std::string filename = "lang/" + m_name + "/" + m_langCode + ".json";
 		Json data = JsonUtils::LoadJsonDataFile(filename);
 		if (data.is_null()) {
-			Output("couldn't read language file '%s'\n", filename.c_str());
+			Log::Warning("couldn't read language file '{}'\n", filename.c_str());
 			return false;
 		}
 
 		for (Json::iterator i = data.begin(); i != data.end(); ++i) {
 			const std::string token = i.key();
 			if (token.empty()) {
-				Output("%s: found empty token, skipping it\n", filename.c_str());
+				Log::Info("{}: found empty token, skipping it\n", filename.c_str());
 				continue;
 			}
 			if (!valid_token(token)) {
-				Output("%s: invalid token '%s', skipping it\n", filename.c_str(), token.c_str());
+				Log::Info("{}: invalid token '{}', skipping it\n", filename.c_str(), token.c_str());
 				continue;
 			}
 
 			Json message = i.value()["message"];
 			if (message.is_null()) {
-				Output("%s: no 'message' key for token '%s', skipping it\n", filename.c_str(), token.c_str());
+				Log::Info("{}: no 'message' key for token '{}', skipping it\n", filename.c_str(), token.c_str());
 				continue;
 			}
 
 			if (!message.is_string()) {
-				Output("%s: value for token '%s' is not a string, skipping it\n", filename.c_str(), token.c_str());
+				Log::Info("{}: value for token '{}' is not a string, skipping it\n", filename.c_str(), token.c_str());
 				continue;
 			}
 
 			std::string text = message;
 			if (text.empty()) {
-				Output("%s: empty value for token '%s', skipping it\n", filename.c_str(), token.c_str());
+				Log::Info("{}: empty value for token '{}', skipping it\n", filename.c_str(), token.c_str());
 				continue;
 			}
 
@@ -177,12 +178,12 @@ namespace Lang {
 			std::string text = res.Get(token);
 
 			if (text.empty()) {
-				Output("%s/%s: token '%s' not found\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
+				Log::Info("{}/{}: token '{}' not found\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
 				text = token;
 			}
 
 			if (text.size() > size_t(STRING_RECORD_SIZE)) {
-				Output("%s/%s: text for token '%s' is too long and will be truncated\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
+				Log::Info("{}/{}: text for token '{}' is too long and will be truncated\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
 				text.resize(STRING_RECORD_SIZE);
 			}
 
@@ -213,13 +214,13 @@ namespace Lang {
 		bool loaded = res.Load();
 		if (!loaded) {
 			if (langCode != "en") {
-				Output("couldn't load language resource %s/%s, trying %s/en\n", name.c_str(), langCode.c_str(), name.c_str());
+				Log::Warning("couldn't load language resource {}/{}, trying {}/en\n", name.c_str(), langCode.c_str(), name.c_str());
 				res = Lang::Resource(name, "en");
 				loaded = res.Load();
 				key = name + ":" + "en";
 			}
 			if (!loaded)
-				Output("couldn't load language resource %s/en\n", name.c_str());
+				Log::Warning("couldn't load language resource {}/en\n", name.c_str());
 		}
 
 		if (loaded)
