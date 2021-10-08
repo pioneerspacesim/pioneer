@@ -66,7 +66,7 @@ static int l_lang_get_resource(lua_State *l)
 	lua_pop(l, 1);
 
 	lua_newtable(l);
-	Lang::Resource res(resourceName, langCode);
+	Lang::Resource res = Lang::GetResource(resourceName, langCode);
 	if (res.Load()) {
 		for (auto i : res.GetStrings()) {
 			const std::string token(i.first);
@@ -75,7 +75,7 @@ static int l_lang_get_resource(lua_State *l)
 			lua_setfield(l, -2, token.c_str());
 		}
 	} else {
-		Log::Warning("Translation of {0} into lang {1} not found! This should be in data/lang/{0}/{1}.json. Falling back to English language.\n",
+		Log::Warning("Translation module {0} not found! This should be in data/lang/{0}/{1}.json. Returning dummy resource.\n",
 			resourceName, langCode);
 	}
 
