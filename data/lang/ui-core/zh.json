@@ -1889,7 +1889,7 @@
   },
   "STAR_FIELD_STAR_SIZE_FACTOR": {
     "description": "",
-    "message": "Size of stars in star field"
+    "message": "恒星场中恒星的大小"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
