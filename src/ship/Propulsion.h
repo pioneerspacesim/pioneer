@@ -104,14 +104,12 @@ public:
 	void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	// AI on Propulsion
-	void AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness);
 	void AIModelCoordsMatchSpeedRelTo(const vector3d &v, const DynamicBody *other);
 	void AIAccelToModelRelativeVelocity(const vector3d &v);
-
 	bool AIMatchVel(const vector3d &vel);
 	bool AIChangeVelBy(const vector3d &diffvel); // acts in object space
 	vector3d AIChangeVelDir(const vector3d &diffvel); // object space, maintain direction
-	void AIMatchAngVelObjSpace(const vector3d &angvel);
+	void AIMatchAngVelObjSpace(const vector3d &angvel, double softness = 1.0);
 	double AIFaceUpdir(const vector3d &updir, double av = 0);
 	double AIFaceDirection(const vector3d &dir, double av = 0);
 	vector3d AIGetLeadDir(const Body *target, const vector3d &targaccel, double projspeed);

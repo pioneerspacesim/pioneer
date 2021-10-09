@@ -337,9 +337,8 @@ public:
 
 	bool AIMatchVel(const vector3d &vel) { return GetPropulsion()->AIMatchVel(vel); }
 	double AIFaceDirection(const vector3d &dir, double av = 0) { return GetPropulsion()->AIFaceDirection(dir, av); }
-	void AIMatchAngVelObjSpace(const vector3d &angvel) { return GetPropulsion()->AIMatchAngVelObjSpace(angvel); }
 	void SetThrusterState(int axis, double level) { return GetPropulsion()->SetLinThrusterState(axis, level); }
-	void AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness) { return GetPropulsion()->AIModelCoordsMatchAngVel(desiredAngVel, softness); }
+	void AIMatchAngVelObjSpace(const vector3d &desiredAngVel, double softness = 1.0) { return GetPropulsion()->AIMatchAngVelObjSpace(desiredAngVel, softness); }
 };
 
 #endif /* _SHIP_H */
