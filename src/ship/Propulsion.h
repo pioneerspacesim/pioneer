@@ -52,7 +52,7 @@ public:
 	inline double GetAccel(Thruster thruster) const { return GetThrust(thruster) / m_dBody->GetMass(); }
 	inline double GetAccelFwd() const { return GetAccel(THRUSTER_FORWARD); } //GetThrustFwd() / m_dBody->GetMass(); }
 	inline double GetAccelRev() const { return GetAccel(THRUSTER_REVERSE); } //GetThrustRev() / m_dBody->GetMass(); }
-	inline double GetAccelUp() const { return GetAccel(THRUSTER_UP); } //GetThrustUp() / m_dBody->GetMass(); }
+	inline double GetAccelUp() const { return GetAccel(THRUSTER_UP); }		 //GetThrustUp() / m_dBody->GetMass(); }
 	inline double GetAccelMin() const { return GetThrustMin() / m_dBody->GetMass(); }
 
 	// Clamp thruster levels and scale them down so that a level of 1
@@ -107,7 +107,7 @@ public:
 	void AIModelCoordsMatchSpeedRelTo(const vector3d &v, const DynamicBody *other);
 	void AIAccelToModelRelativeVelocity(const vector3d &v);
 	bool AIMatchVel(const vector3d &vel);
-	bool AIChangeVelBy(const vector3d &diffvel); // acts in object space
+	bool AIChangeVelBy(const vector3d &diffvel);	  // acts in object space
 	vector3d AIChangeVelDir(const vector3d &diffvel); // object space, maintain direction
 	void AIMatchAngVelObjSpace(const vector3d &angvel, double softness = 1.0);
 	double AIFaceUpdir(const vector3d &updir, double av = 0);
@@ -126,7 +126,7 @@ private:
 	// Fuel
 	int m_fuelTankMass;
 	double m_thrusterFuel; // 0.0-1.0, remaining fuel
-	double m_reserveFuel; // 0.0-1.0, fuel not to touch for the current AI program
+	double m_reserveFuel;  // 0.0-1.0, fuel not to touch for the current AI program
 	double m_effectiveExhaustVelocity;
 	bool m_fuelStateChange;
 
