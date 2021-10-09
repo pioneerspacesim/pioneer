@@ -83,7 +83,13 @@ public:
 		FUEL_EMPTY,
 	};
 
-	inline FuelState GetFuelState() const { return (m_thrusterFuel > 0.05f) ? FUEL_OK : (m_thrusterFuel > 0.0f) ? FUEL_WARNING : FUEL_EMPTY; }
+	inline FuelState GetFuelState() const
+	{
+		return (m_thrusterFuel > 0.05f) ? FUEL_OK :
+			(m_thrusterFuel > 0.0f) ?
+											FUEL_WARNING :
+											FUEL_EMPTY;
+	}
 	// fuel left, 0.0-1.0
 	inline double GetFuel() const { return m_thrusterFuel; }
 	inline double GetFuelReserve() const { return m_reserveFuel; }
