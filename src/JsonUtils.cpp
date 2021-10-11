@@ -108,6 +108,18 @@ namespace JsonUtils {
 
 #define USE_STRING_VERSIONS
 
+void VectorToJson(Json &jsonObj, const vector2f &vec)
+{
+	// Create JSON array to contain vector data.
+	jsonObj = Json::array({ vec.x, vec.y });
+}
+
+void VectorToJson(Json &jsonObj, const vector2d &vec)
+{
+	// Create JSON array to contain vector data.
+	jsonObj = Json::array({ vec.x, vec.y });
+}
+
 void VectorToJson(Json &jsonObj, const vector3f &vec)
 {
 	PROFILE_SCOPED()
@@ -286,6 +298,18 @@ void BinStrToJson(Json &jsonObj, const std::string &binStr)
 		// release the compressed data
 		mz_free(pCompressedData);
 	}
+}
+
+void JsonToVector(vector2f *pVec, const Json &jsonObj)
+{
+	pVec->x = jsonObj[0];
+	pVec->y = jsonObj[1];
+}
+
+void JsonToVector(vector2d *pVec, const Json &jsonObj)
+{
+	pVec->x = jsonObj[0];
+	pVec->y = jsonObj[1];
 }
 
 void JsonToVector(vector3f *pVec, const Json &jsonObj)

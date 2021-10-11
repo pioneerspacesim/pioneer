@@ -1,14 +1,15 @@
 
+#include "core/FNV1a.h"
 #include "core/Log.h"
 #include "core/StringName.h"
 #include "doctest.h"
 #include "profiler/Profiler.h"
 
+static constexpr uint32_t ITERATIONS = 10000;
+static constexpr uint32_t LOOKUP_ITERATIONS = 20000;
+
 void insertion_stress_test(StringTable *st, uint32_t test_num)
 {
-	static constexpr uint32_t ITERATIONS = 10000;
-	static constexpr uint32_t LOOKUP_ITERATIONS = 20000;
-
 	Profiler::Clock clock{};
 	clock.Start();
 
