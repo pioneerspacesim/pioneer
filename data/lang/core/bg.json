@@ -1029,7 +1029,7 @@
   },
   "PAY_FINE_REMOTELY": {
     "description": "",
-    "message": "Заплащане на глобата с паричен превод от (%amount)"
+    "message": "Заплащане на глобата с кредитен превод от (%amount)"
   },
   "PERIAPSIS_DISTANCE": {
     "description": "",

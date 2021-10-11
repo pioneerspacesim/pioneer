@@ -1581,7 +1581,7 @@
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Oops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on Github.\nYou can find your output log at: {path}/output.txt"
+    "message": "Ой, здесь что-то пошло не так! Сообщите, пожалуйста, шаги по воспроизведению этой ошибки, из журнала вывода и вашего файла сохранения в службу отслеживания проблем Pioneer на Github.\nВы можете найти свой выходной журнал по адресу: {path}/output.txt"
   },
   "POLICE": {
     "description": "",
@@ -1889,7 +1889,7 @@
   },
   "STAR_FIELD_STAR_SIZE_FACTOR": {
     "description": "",
-    "message": "Size of stars in star field"
+    "message": "Размер звезд в звездном поле"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
@@ -1957,7 +1957,7 @@
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
-    "message": "Toggle full comms window"
+    "message": "Переключить полное окно связи"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",

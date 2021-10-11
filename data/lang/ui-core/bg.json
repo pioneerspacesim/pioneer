@@ -21,7 +21,7 @@
   },
   "ALL_UP_WEIGHT": {
     "description": "",
-    "message": "Цялостно тегло"
+    "message": "Общо тегло"
   },
   "AMOUNT": {
     "description": "",
@@ -129,11 +129,11 @@
   },
   "CASH": {
     "description": "",
-    "message": "Пари"
+    "message": "Кредити"
   },
   "CASH_N": {
     "description": "",
-    "message": "Пари: {money}"
+    "message": "Кредити: {money}"
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
@@ -225,7 +225,7 @@
   },
   "CONTINUE_GAME": {
     "description": "",
-    "message": "Продължаване на играта"
+    "message": "Продължаване"
   },
   "CONTRACT_FRAUD": {
     "description": "Crime committed by intentionally breaking a contract",
@@ -557,11 +557,11 @@
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Скачен с {primary_info} в орбита, около {secondary_info}"
+    "message": "{primary_info} в орбита, около {secondary_info}"
   },
   "FLIGHTLOG_STARPORT_SURFACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Скачен с {primary_info} на {secondary_info}"
+    "message": "{primary_info} на {secondary_info}"
   },
   "FLIGHTLOG_UNDOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
@@ -817,7 +817,7 @@
   },
   "HUD_BUTTON_SHOW_PERSONAL_INFO": {
     "description": "Tooltip: Show personal info",
-    "message": "Лична информация"
+    "message": "Информация"
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
@@ -1101,7 +1101,7 @@
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
-    "message": "В системата"
+    "message": "Система"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -1189,7 +1189,7 @@
   },
   "LOAD_GAME": {
     "description": "",
-    "message": "Зареждане на игра"
+    "message": "Зареждане"
   },
   "LOBBY": {
     "description": "",
@@ -1501,7 +1501,7 @@
   },
   "OPTIONS": {
     "description": "",
-    "message": "Опции"
+    "message": "Настройки"
   },
   "ORBIT": {
     "description": "",
@@ -1949,7 +1949,7 @@
   },
   "THIS_IS_FACTION_POLICE": {
     "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
-    "message": "Това е {faction_police} от {faction}"
+    "message": "Ние сме {faction_police} от {faction}"
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -2061,11 +2061,11 @@
   },
   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
     "description": "",
-    "message": "Видео конфигурация (рестартирайте играта за прилагане)"
+    "message": "Графика (рестартирайте играта за прилагане)"
   },
   "VIDEO_RESOLUTION": {
     "description": "",
-    "message": "Видео резолюция"
+    "message": "Резолюция"
   },
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
@@ -2117,7 +2117,7 @@
   },
   "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION": {
     "description": "",
-    "message": "Нямате достатъчно пари за тази опция."
+    "message": "Нямате достатъчно кредити за тази опция."
   },
   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD": {
     "description": "",
@@ -2141,7 +2141,7 @@
   },
   "YOU_NOT_ENOUGH_MONEY": {
     "description": "",
-    "message": "Нямате достатъчно пари"
+    "message": "Нямате достатъчно кредити"
   },
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",

@@ -153,7 +153,7 @@
   },
   "FLAVOUR_4_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Ще се радваме да ти платим по-малко пари."
+    "message": "Ще се радваме да ти платим по-малко кредити."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "Сам можех да го доставя по-бързо. От мен пари няма да видиш."
+    "message": "Сам можех да го доставя по-бързо. От мен кредити няма да видиш."
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Отлично, преведохме парите във Вашата сметка."
+    "message": "Отлично, преведохме кредитите във Вашата сметка."
   },
   "FLAVOUR_7_WHYSOMUCHTEXT": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "FLAVOUR_8_SUCCESSMSG": {
     "description": "",
-    "message": "Оценявам бързината Ви, парите са преведени във Вашата сметка."
+    "message": "Оценявам бързината Ви, кредитите са преведени във Вашата сметка."
   },
   "FLAVOUR_8_WHYSOMUCHTEXT": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "FLAVOUR_9_SUCCESSMSG": {
     "description": "",
-    "message": "Велико! Ще започнем разтоварването веднага. Незабавно ще преведа парите по сметката Ви."
+    "message": "Велико! Ще започнем разтоварването веднага. Незабавно ще преведа кредитите по сметката Ви."
   },
   "FLAVOUR_9_WHYSOMUCHTEXT": {
     "description": "",
@@ -297,7 +297,7 @@
   },
   "PIRATE_TAUNTS_4": {
     "description": "",
-    "message": "Сигурен съм, че това струва доста пари на пазара"
+    "message": "Сигурен съм, че това струва доста кредити на пазара"
   },
   "PIRATE_TAUNTS_5": {
     "description": "",

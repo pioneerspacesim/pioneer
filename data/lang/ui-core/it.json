@@ -1889,7 +1889,7 @@
   },
   "STAR_FIELD_STAR_SIZE_FACTOR": {
     "description": "",
-    "message": "Size of stars in star field"
+    "message": "Dimensione delle stelle nel campo stellare"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",

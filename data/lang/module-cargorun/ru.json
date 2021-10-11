@@ -145,7 +145,7 @@
   },
   "DENY_AGAIN_3": {
     "description": "",
-    "message": "Sir, please deliver my cargo first. Then I will do more business with you."
+    "message": "Сэр, пожалуйста, сначала доставьте мой груз. Тогда я буду вести с тобой больше дел."
   },
   "DIAMONDS": {
     "description": "custom cargo",

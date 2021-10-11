@@ -297,7 +297,7 @@
   },
   "INTROTEXT_LOCAL_3": {
     "description": "",
-    "message": "Името ми е {name} и искам {cargoname} да се достави на клиент в {starport}. Ще ти платя {cash} за този разнос."
+    "message": "Името ми е {name} и искам доставката на {cargoname} за клиент в {starport}. Ще ти платя {cash} за този разнос."
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
@@ -521,7 +521,7 @@
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Благодаря за бързата доставка. Парите са преведени по Вашата сметка."
+    "message": "Благодаря за бързата доставка. Кредитите са преведени по Вашата сметка."
   },
   "SUCCESSMSG_3": {
     "description": "",
@@ -529,11 +529,11 @@
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Благодаря! Ще Ви препоръчам. Преведох парите по Вашата сметка."
+    "message": "Благодаря! Ще Ви препоръчам. Преведох кредитите по Вашата сметка."
   },
   "SUCCESSMSG_FLUFFY_1": {
     "description": "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-    "message": "Ох, какво да правя с толкова много пухкави същества. Така или иначе, парите са Ви изплатени."
+    "message": "Ох, какво да правя с толкова много пухкави същества. Така или иначе, кредитите са Ви изплатени."
   },
   "SYSTEM": {
     "description": "",
@@ -621,7 +621,7 @@
   },
   "WHYSOMUCH_6": {
     "description": "",
-    "message": "Е, ще се радваме да ти платим по-малко пари."
+    "message": "Е, ще се радваме да ти платим по-малко кредити."
   },
   "WHYSOMUCH_CENTRIFUGES_1": {
     "description": "",
@@ -641,7 +641,7 @@
   },
   "WHYSOMUCH_FLUFFY_1": {
     "description": "",
-    "message": "{cargoname} са доста печеливши. Трябва да инвестираш в {cargoname}, ако искаш да изкараш много пари."
+    "message": "{cargoname} са доста печеливши. Трябва да инвестираш в {cargoname}, ако искаш да изкараш много кредити."
   },
   "WHYSOMUCH_INFRASTRUCTURE_1": {
     "description": "",
