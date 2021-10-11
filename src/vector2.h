@@ -111,9 +111,13 @@ public:
 };
 
 template <>
-inline vector2<float>::vector2() {}
+inline vector2<float>::vector2() :
+	x(0.f),
+	y(0.f) {}
 template <>
-inline vector2<double>::vector2() {}
+inline vector2<double>::vector2() :
+	x(0.),
+	y(0.) {}
 template <>
 inline vector2<float>::vector2(const vector2<double> &v) :
 	x(float(v.x)),
