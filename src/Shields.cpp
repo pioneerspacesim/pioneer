@@ -105,7 +105,7 @@ void Shields::Init(Graphics::Renderer *renderer)
 	// Create a global shield data buffer containing "nothing" for use when there isn't an active Shields class
 	// attached to the model
 	s_matUniformBuffer.Reset(renderer->CreateUniformBuffer(sizeof(ShieldData), Graphics::BUFFER_USAGE_STATIC));
-	s_matUniformBuffer->BufferData(ShieldData {});
+	s_matUniformBuffer->BufferData(ShieldData{});
 
 	s_matShield.Reset(renderer->CreateMaterial("shield", desc, rsd));
 	s_matShield->diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -293,7 +293,7 @@ void Shields::Update(const float coolDown, const float shieldStrength)
 		return;
 	}
 
-	ShieldData renderData {};
+	ShieldData renderData{};
 
 	// setup the render params
 	// FIXME: don't use a static variable to hold all of this

@@ -18,7 +18,7 @@
  * They are not portable between compilers and should not be serialized.
  */
 
-template<typename T>
+template <typename T>
 class TypeId {
 public:
 	inline static constexpr size_t Get()
@@ -32,7 +32,7 @@ public:
 	}
 
 private:
-	template<size_t N>
+	template <size_t N>
 	inline static constexpr size_t Len(char const (&s)[N]) { return N; }
 };
 
