@@ -17,7 +17,7 @@
   },
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
-    "message": "{clubname} е независима организация, занимаваща се с осигуряването на евтино гориво, на нейните членове. Нейни клонове съществуват в цялата галактика. Ползите от членството включват:"
+    "message": "{clubname} е независима организация, занимаваща се с осигуряването на евтино гориво за нейните членове. Организацията има клонове в цялата галактика. Ползите от членството включват:"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
-    "message": "{clubname} е лидер в осигуряването на евтино гориво, на нейните членове в Слънчевата федерация. Членството Ви дава право на:"
+    "message": "{clubname} е лидер в осигуряването на евтино гориво за нейните членове в Слънчевата федерация. Членството Ви дава право на:"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
@@ -61,7 +61,7 @@
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
-    "message": "{radioactives} – безплатно унищожение (според условията)"
+    "message": "Безплатно унищожение на {radioactives} (според условията)"
   },
   "LIST_BENEFITS_FUEL": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "YOU_ARE_NOW_A_MEMBER": {
     "description": "",
-    "message": "Вече сте един от нас. Кандидатурата Ви ще изтече на {expiry_date}."
+    "message": "Вече сте част от нас. Кандидатурата Ви ще изтече на {expiry_date}."
   },
   "YOU_MUST_BUY": {
     "description": "",

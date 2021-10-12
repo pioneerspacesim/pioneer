@@ -117,7 +117,7 @@
   },
   "DENY_2": {
     "description": "",
-    "message": "Не съм чувал нищо за теб. Не те познавам и ти нямам доверие."
+    "message": "Не знам нищо за теб. Не те познавам и ти нямам доверие."
   },
   "DENY_3": {
     "description": "",
@@ -297,7 +297,7 @@
   },
   "INTROTEXT_LOCAL_3": {
     "description": "",
-    "message": "Името ми е {name} и искам доставката на {cargoname} за клиент в {starport}. Ще ти платя {cash} за този разнос."
+    "message": "Името ми е {name} и искам да доставиш {cargoname} на клиент в {starport}. Ще ти платя {cash} за този разнос."
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
@@ -309,7 +309,7 @@
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "Как си? Аз съм {name}. Един от моите клиенти иска да внесе {cargoname} от {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Той ще плати {cash} за този разнос. Върни се в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за да разтовариш товара."
+    "message": "Как си? Аз съм {name}. Един от моите клиенти иска да внесе {cargoname} от {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще ти плати {cash} за този разнос. Върни се в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за да разтовариш товара."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -317,11 +317,11 @@
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Здравейте. Казвам се {name}. Моят работодател е готов да те наеме за {cash}, във връзка с преместването на нашия склад, като пренесеш {cargoname} от {starport} в нашето ново седалище в {dom_starport}."
+    "message": "Здравейте. Казвам се {name}. Моят работодател е съгласен да те наеме за {cash}, във връзка с преместването на нашия склад, ако пренесеш {cargoname} от {starport} до нашето ново седалище в {dom_starport}."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
-    "message": "Поздрави. Чувал ли си за брачния сезон в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz})? Искаме да транспортираме {cargoname} дотам. Разстоянието е {dist} сг. Ще платим {cash}. Какво ще кажеш?"
+    "message": "Поздрави. Знаеш ли за брачния сезон в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz})? Искаме да транспортираме {cargoname} дотам. Разстоянието е {dist} сг. Ще платим {cash}. Какво ще кажеш?"
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "RISK_5": {
     "description": "",
-    "message": "Това може да е много рисковано, най-вероятно ще срещнеш силна съпротива."
+    "message": "Може да е много рисковано, най-вероятно ще срещнеш силна съпротива."
   },
   "RISK_6": {
     "description": "",

@@ -41,7 +41,7 @@
   },
   "DENY_6": {
     "description": "",
-    "message": "Не съм чувал нищо за теб. Нуждая се от опитен пилот за тази доставка."
+    "message": "Не знам нищо за теб. Нуждая се от опитен пилот за тази доставка."
   },
   "DENY_7": {
     "description": "",
@@ -337,7 +337,7 @@
   },
   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE": {
     "description": "",
-    "message": "Това е много рисковано, най-вероятно ще срещнеш съпротива."
+    "message": "Много е рисковано, най-вероятно ще срещнеш съпротива."
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",

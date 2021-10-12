@@ -5,7 +5,7 @@
   },
   "CREWDETAILSHEETBB": {
     "description": "",
-    "message": "Име: {name}\nОпит: {experience}\nПотенциална заплата: {wage} на седмица\n\n{response}\n"
+    "message": "Име: {name}\nОпит: {experience}\nЖелана заплата: {wage} на седмица\n\n{response}\n"
   },
   "CREWMEMBER_WAGE_PER_WEEK": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "CREWTESTRESULTSBB": {
     "description": "",
-    "message": "Резултати от изпита:\n\nОбщи способности на екипажа: {general}%\nИнженерство и поправка: {engineering}%\nПилотиране и космически полет: {piloting}%\nНавигация и чертаене: {navigation}%\nСензори и защита: {sensors}%\nОбщ резултат: {overall}%"
+    "message": "Резултати от изпита:\n\nОбщи способности на екипажа: {general}%\nИнженерство и поправка: {engineering}%\nПилотиране и космически полет: {piloting}%\nНавигация и планиране: {navigation}%\nСензори и защита: {sensors}%\nОбщ резултат: {overall}%"
   },
   "CREW_FOR_HIRE": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "NO_CREW_AVAILABLE": {
     "description": "",
-    "message": "Извинете, но в момента няма кандидати, търсещи работа на {station}"
+    "message": "За съжаление, в момента няма кандидати, търсещи работа от {station}"
   },
   "NO_EXPERIENCE": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
-    "message": "Потенциални членове на екипажа са регистрирани като търсещи работа на {station}:"
+    "message": "Кандидати, търсещи работа от {station}:"
   },
   "SIMULATOR_TRAINING_ONLY": {
     "description": "",
