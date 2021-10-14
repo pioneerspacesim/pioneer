@@ -9,6 +9,7 @@
 #include "GameSaveError.h"
 #include "Lang.h"
 #include "LuaObject.h"
+#include "LuaTable.h"
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "Player.h"

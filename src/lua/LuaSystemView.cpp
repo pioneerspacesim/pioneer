@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "LuaColor.h"
 #include "LuaObject.h"
+#include "LuaTable.h"
 #include "LuaVector.h"
 #include "LuaVector2.h"
 #include "Pi.h"

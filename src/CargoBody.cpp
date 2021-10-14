@@ -10,6 +10,7 @@
 #include "Ship.h"
 #include "Space.h"
 #include "lua/LuaEvent.h"
+#include "lua/LuaTable.h"
 
 CargoBody::CargoBody(const LuaRef &cargo, float selfdestructTimer) :
 	m_cargo(cargo)
@@ -128,8 +129,7 @@ bool CargoBody::OnCollision(Body *b, Uint32 flags, double relVel)
 {
 	// ignore collision if its about to be scooped
 	if (b->IsType(ObjectType::SHIP)) {
-		int cargoscoop_cap = 0;
-		static_cast<Ship *>(b)->Properties().Get("cargo_scoop_cap", cargoscoop_cap);
+		int cargoscoop_cap = Properties().Get("cargo_scoop_cap");
 		if (cargoscoop_cap > 0) {
 			LuaEvent::Queue("onCargoDestroyed", this);
 			return true;
