@@ -4,10 +4,11 @@
 #include "LuaObject.h"
 #include "Json.h"
 #include "LuaMetaType.h"
+#include "LuaPropertyMap.h"
 #include "LuaUtils.h"
 #include "PropertiedObject.h"
-#include "PropertyMap.h"
 #include "libs.h"
+#include "lua.h"
 
 #include <map>
 #include <utility>
@@ -131,16 +132,19 @@ int LuaObjectHelpers::l_hasprop(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	luaL_checktype(l, 2, LUA_TSTRING);
-	lua_getuservalue(l, 1);
 
-	if (lua_isnil(l, -1)) { // Doesn't have properties
+	PropertyMap *map = LuaObjectBase::GetPropertiesFromObject(l, 1);
+	if (map) {
+		LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
+		LuaWrappable *o = lo->GetObject();
+		if (!o)
+			return luaL_error(l, "Object is no longer valid");
+
+		lua_pushboolean(l, !map->Get(lua_tostring(l, 2)).is_null());
+	} else { // Doesn't have properties
 		lua_pushboolean(l, false);
-	} else {
-		lua_pushvalue(l, 2);
-		lua_gettable(l, -2);
-		// We consider that a value isn't set if it is nil
-		lua_pushboolean(l, !lua_isnil(l, -1));
 	}
+
 	return 1;
 }
 
@@ -151,8 +155,8 @@ int LuaObjectHelpers::l_unsetprop(lua_State *l)
 
 	// quick check to make sure this object actually has properties
 	// before we go diving through the stack etc
-	lua_getuservalue(l, 1);
-	if (lua_isnil(l, -1))
+	PropertyMap *map = LuaObjectBase::GetPropertiesFromObject(l, 1);
+	if (!map)
 		return luaL_error(l, "Object has no property map");
 
 	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
@@ -160,14 +164,7 @@ int LuaObjectHelpers::l_unsetprop(lua_State *l)
 	if (!o)
 		return luaL_error(l, "Object is no longer valid");
 
-	PropertiedObject *po = dynamic_cast<PropertiedObject *>(o);
-	assert(po);
-
-	po->Properties().PushLuaTable();
-	lua_pushvalue(l, 2);
-	lua_pushnil(l);
-	lua_settable(l, -3);
-
+	map->Set(key, nullptr);
 	return 0;
 }
 
@@ -176,10 +173,14 @@ int LuaObjectHelpers::l_setprop(lua_State *l)
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	const std::string key(luaL_checkstring(l, 2));
 
+	int type = lua_type(l, 3);
+	if (type == LUA_TFUNCTION || type == LUA_TTABLE || type == LUA_TTHREAD)
+		return luaL_error(l, "Bad argument #2 to 'setprop', got %s", luaL_typename(l, 3));
+
 	// quick check to make sure this object actually has properties
 	// before we go diving through the stack etc
-	lua_getuservalue(l, 1);
-	if (lua_isnil(l, -1))
+	PropertyMap *map = LuaObjectBase::GetPropertiesFromObject(l, 1);
+	if (!map)
 		return luaL_error(l, "Object has no property map");
 
 	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
@@ -187,18 +188,7 @@ int LuaObjectHelpers::l_setprop(lua_State *l)
 	if (!o)
 		return luaL_error(l, "Object is no longer valid");
 
-	PropertiedObject *po = dynamic_cast<PropertiedObject *>(o);
-	assert(po);
-
-	if (lua_isnumber(l, 3))
-		po->Properties().Set(key, lua_tonumber(l, 3));
-	else if (lua_isboolean(l, 3))
-		po->Properties().Set(key, lua_toboolean(l, 3));
-	else if (lua_isstring(l, 3))
-		po->Properties().Set(key, lua_tostring(l, 3));
-	else
-		return luaL_error(l, "Bad argument #2 to 'setprop' (number, string, or boolean expected, got %s)", luaL_typename(l, 3));
-
+	map->Set(key, LuaPull<Property>(l, 3));
 	return 0;
 }
 
@@ -240,16 +230,21 @@ PropertyMap *LuaObjectBase::GetPropertiesFromObject(lua_State *l, int object)
 	if (!lua_isuserdata(l, object))
 		return nullptr;
 
-	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, object));
-	LuaWrappable *o = lo->GetObject();
-	if (!o)
+	lua_getuservalue(l, object);
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
 		return nullptr;
+	}
 
-	PropertiedObject *po = dynamic_cast<PropertiedObject *>(o);
-	if (!po)
+	lua_getfield(l, -1, "__properties");
+	if (!lua_islightuserdata(l, -1)) {
+		lua_pop(l, 2);
 		return nullptr;
+	}
 
-	return &po->Properties();
+	PropertyMap *ret = static_cast<PropertyMap *>(lua_touserdata(l, -1));
+	lua_pop(l, 2);
+	return ret;
 }
 
 static void register_functions(lua_State *l, const luaL_Reg *methods, bool protect)
@@ -549,7 +544,10 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 	// attach properties table if available
 	PropertiedObject *po = dynamic_cast<PropertiedObject *>(lo->GetObject());
 	if (po) {
-		po->Properties().PushLuaTable();
+		lua_newtable(l);
+		lua_pushlightuserdata(l, &po->Properties());
+		lua_setfield(l, -2, "__properties");
+
 		lua_setuservalue(l, -3);
 	}
 
