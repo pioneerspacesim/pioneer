@@ -233,23 +233,6 @@ void Propulsion::Render(Graphics::Renderer *r, const Camera *camera, const vecto
 	if (m_smodel != nullptr) m_smodel->SetThrust(vector3f(GetLinThrusterState()), -vector3f(GetAngThrusterState()));
 }
 
-void Propulsion::AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness)
-{
-	double angAccel = m_angThrust / m_dBody->GetAngularInertia();
-	const double softTimeStep = Pi::game->GetTimeStep() * softness;
-
-	vector3d angVel = desiredAngVel - m_dBody->GetAngVelocity() * m_dBody->GetOrient();
-	vector3d thrust;
-	for (int axis = 0; axis < 3; axis++) {
-		if (angAccel * softTimeStep >= fabs(angVel[axis])) {
-			thrust[axis] = angVel[axis] / (softTimeStep * angAccel);
-		} else {
-			thrust[axis] = (angVel[axis] > 0.0 ? 1.0 : -1.0);
-		}
-	}
-	SetAngThrusterState(thrust);
-}
-
 void Propulsion::AIModelCoordsMatchSpeedRelTo(const vector3d &v, const DynamicBody *other)
 {
 	vector3d relToVel = other->GetVelocity() * m_dBody->GetOrient() + v;
@@ -369,10 +352,10 @@ vector3d Propulsion::AIChangeVelDir(const vector3d &reqdiffvel)
 }
 
 // Input in object space
-void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel)
+void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel, double softness)
 {
 	double maxAccel = m_angThrust / m_dBody->GetAngularInertia();
-	double invFrameAccel = 1.0 / (maxAccel * Pi::game->GetTimeStep());
+	double invFrameAccel = 1.0 / (maxAccel * Pi::game->GetTimeStep() * softness);
 
 	vector3d diff = angvel - m_dBody->GetAngVelocity() * m_dBody->GetOrient(); // find diff between current & desired angvel
 	SetAngThrusterState(diff * invFrameAccel);

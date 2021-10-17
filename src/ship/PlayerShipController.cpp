@@ -364,7 +364,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 				wantAngVel[axis] = wantAngVel[axis] * Pi::game->GetInvTimeAccelRate();
 		}
 
-		m_ship->AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
+		m_ship->AIMatchAngVelObjSpace(wantAngVel, angThrustSoftness);
 	}
 
 	if (m_mouseActive && !m_disableMouseFacing) m_ship->AIFaceDirection(GetMouseDir());
