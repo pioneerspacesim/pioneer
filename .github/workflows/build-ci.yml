@@ -122,6 +122,9 @@ jobs:
     - name: Build Pioneer Data
       run: make -C build build-data
 
+    - name: Run Tests
+      run: ./build/unittest
+
     - name: Build Release
       run: ./scripts/build-travis.sh
 
@@ -163,6 +166,9 @@ jobs:
 
     - name: Build Pioneer Data
       run: make -C build build-data
+
+    - name: Run Tests
+      run: ./build/unittest
 
     - name: Build Release
       run: ./scripts/build-travis.sh

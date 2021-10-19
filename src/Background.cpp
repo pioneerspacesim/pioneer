@@ -87,7 +87,6 @@ namespace Background {
 	{
 	}
 
-	static size_t s_texture0Name = Graphics::Renderer::GetName("texture0");
 	void UniverseBox::Init()
 	{
 		// Load default cubemap
@@ -192,7 +191,7 @@ namespace Background {
 			m_cubemap.Reset(s_defaultCubeMap.Get());
 		}
 
-		m_material->SetTexture(s_texture0Name, m_cubemap.Get());
+		m_material->SetTexture("texture0"_hash, m_cubemap.Get());
 	}
 
 	Starfield::Starfield(Graphics::Renderer *renderer, Random &rand, const SystemPath *const systemPath, RefCountedPtr<Galaxy> galaxy)
@@ -217,7 +216,7 @@ namespace Background {
 
 		m_material.Reset(m_renderer->CreateMaterial("starfield", desc, stateDesc));
 		Graphics::Texture *texture = Graphics::TextureBuilder::Billboard("textures/star_point.png").GetOrCreateTexture(m_renderer, "billboard");
-		m_material->SetTexture(Graphics::Renderer::GetName("texture0"), texture);
+		m_material->SetTexture("texture0"_hash, texture);
 		m_material->emissive = Color::WHITE;
 
 		// Create material to be used with hyperjump 'star streaks'

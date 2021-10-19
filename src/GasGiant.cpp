@@ -460,7 +460,7 @@ bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 
 		// change the planet texture for the new higher resolution texture
 		if (m_surfaceMaterial.Get()) {
-			m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+			m_surfaceMaterial->SetTexture("texture0"_hash,
 				m_surfaceTexture.Get());
 			m_surfaceTextureSmall.Reset();
 		}
@@ -507,7 +507,7 @@ bool GasGiant::AddGPUGenResult(GasGiantJobs::SGPUGenResult *res)
 
 		// change the planet texture for the new higher resolution texture
 		if (m_surfaceMaterial.Get()) {
-			m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+			m_surfaceMaterial->SetTexture("texture0"_hash,
 				m_surfaceTexture.Get());
 			m_surfaceTextureSmall.Reset();
 		}
@@ -739,7 +739,7 @@ void GasGiant::SetUpMaterials()
 	// surface material is solid
 	Graphics::RenderStateDesc rsd;
 	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial("gassphere_base", surfDesc, rsd));
-	m_surfaceMaterial->SetTexture(Graphics::Renderer::GetName("texture0"),
+	m_surfaceMaterial->SetTexture("texture0"_hash,
 		m_surfaceTexture.Valid() ? m_surfaceTexture.Get() : m_surfaceTextureSmall.Get());
 
 	{

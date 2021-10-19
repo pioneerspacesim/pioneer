@@ -188,6 +188,10 @@ Pioneer includes the following third-party software:
   Copyright (c) 2012 - present, Victor Zverovich
   Licensed under the MIT license
 
+  doctest - The fastest feature-rich C++11/14/17/20 single-header testing framework
+  Copyright (c) 2016-2021 Viktor Kirilov
+  Licensed under the MIT license
+
   High Performance C++ Profiler
   https://code.google.com/p/high-performance-cplusplus-profiler/
   Licensed under the MIT license
@@ -239,7 +243,7 @@ Pioneer includes the following third-party software:
   Credit:
     Ernie Wright (USRA): Lead Animator
     Laurence Schuler (ADNET): Technical Support
-    Ian Jones (ADNET): Technical Support 
+    Ian Jones (ADNET): Technical Support
   Public domain: https://svs.gsfc.nasa.gov/help/ under "Copyright and Credit Information"
 
 Acknowledgements

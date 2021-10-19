@@ -39,8 +39,8 @@ const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 const double Ship::DEFAULT_LIFT_TO_DRAG_RATIO = 0.001;
 
 namespace {
-	size_t s_heatingNormalParam;
-	size_t s_heatGradientTexParam;
+	static constexpr size_t s_heatingNormalParam = "heatingNormal"_hash;
+	static constexpr size_t s_heatGradientTexParam = "heatGradient"_hash;
 } // namespace
 
 Ship::Ship(const ShipType::Id &shipId) :
@@ -332,9 +332,6 @@ void Ship::InitEquipSet()
 
 void Ship::InitMaterials()
 {
-	s_heatingNormalParam = Graphics::Renderer::GetName("heatingNormal");
-	s_heatGradientTexParam = Graphics::Renderer::GetName("heatGradient");
-
 	SceneGraph::Model *pModel = GetModel();
 	assert(pModel);
 

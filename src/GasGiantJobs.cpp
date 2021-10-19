@@ -137,9 +137,9 @@ namespace GasGiantJobs {
 		m_material.reset(r->CreateMaterial("gen_gas_giant_colour", desc, rsd));
 
 		// setup noise textures
-		m_material->SetTexture(Graphics::Renderer::GetName("permTexture"),
+		m_material->SetTexture("permTexture"_hash,
 			Graphics::TextureBuilder::Raw("textures/permTexture.png").GetOrCreateTexture(Pi::renderer, "noise"));
-		m_material->SetTexture(Graphics::Renderer::GetName("gradTexture"),
+		m_material->SetTexture("gradTexture"_hash,
 			Graphics::TextureBuilder::Raw("textures/gradTexture.png").GetOrCreateTexture(Pi::renderer, "noise"));
 
 		Graphics::Texture *rampTexture = nullptr;
@@ -165,7 +165,7 @@ namespace GasGiantJobs {
 			break;
 		}
 
-		m_material->SetTexture(Graphics::Renderer::GetName("rampTexture"), rampTexture);
+		m_material->SetTexture("rampTexture"_hash, rampTexture);
 
 		// these might need to be reversed
 		const vector2f &texSize(size);
@@ -217,7 +217,7 @@ namespace GasGiantJobs {
 		dataBlock.hueAdjust = hueAdjust;
 		dataBlock.time = 0;
 
-		pQuad->GetMaterial()->SetBufferDynamic(Graphics::Renderer::GetName("GenColorData"), &dataBlock);
+		pQuad->GetMaterial()->SetBufferDynamic("GenColorData"_hash, &dataBlock);
 	}
 
 	// ********************************************************************************

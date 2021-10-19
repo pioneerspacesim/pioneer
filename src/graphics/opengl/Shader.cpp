@@ -78,7 +78,7 @@ Shader::Shader(const std::string &name) :
 		AddConstantBinding(info.name, info.type, info.binding);
 	}
 
-	if (GetBufferBindingInfo(Renderer::GetName("DrawData")).binding == InvalidBinding) {
+	if (GetBufferBindingInfo("DrawData"_hash).binding == InvalidBinding) {
 		Log::Warning("Shaderdef file {} is missing DrawData buffer assignment! Defaulting to {}.\n",
 			fileInfo.GetName(), info.bufferBindings.back().binding + 1);
 		AddBufferBinding("DrawData", info.bufferBindings.back().binding + 1);

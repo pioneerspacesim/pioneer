@@ -32,9 +32,9 @@ namespace Graphics {
 		};
 		static_assert(sizeof(DrawDataBlock) == 256, "");
 
-		static size_t s_lightDataName = Renderer::GetName("LightData");
-		static size_t s_drawDataName = Renderer::GetName("DrawData");
-		static size_t s_lightIntensityName = Renderer::GetName("lightIntensity");
+		static size_t s_lightDataName = "LightData"_hash;
+		static size_t s_drawDataName = "DrawData"_hash;
+		static size_t s_lightIntensityName = "lightIntensity"_hash;
 
 		// XXX potential target for allocation optimization
 		// (e.g. use renderer-owned freelist block allocator and align and group all three buffers into one allocation?)

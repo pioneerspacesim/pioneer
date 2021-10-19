@@ -397,7 +397,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 	// ECM effect is different, not managed by Sfx at all, should it be factored out?
 	desc.effect = Graphics::EFFECT_BILLBOARD;
 	ecmParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState));
-	ecmParticle->SetTexture(Graphics::Renderer::GetName("texture0"),
+	ecmParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard"));
 
 	// load material definition data
@@ -407,26 +407,26 @@ void SfxManager::Init(Graphics::Renderer *r)
 
 	desc.effect = m_materialData[TYPE_DAMAGE].effect;
 	damageParticle.reset(r->CreateMaterial("billboards", desc, additiveAlphaState));
-	damageParticle->SetTexture(Graphics::Renderer::GetName("texture0"),
+	damageParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard(cfg.String("damageFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
-		damageParticle->SetPushConstant(Graphics::Renderer::GetName("coordDownScale"),
+		damageParticle->SetPushConstant("coordDownScale"_hash,
 			m_materialData[TYPE_DAMAGE].coord_downscale);
 
 	desc.effect = m_materialData[TYPE_SMOKE].effect;
 	smokeParticle.reset(r->CreateMaterial("billboards", desc, alphaState));
-	smokeParticle->SetTexture(Graphics::Renderer::GetName("texture0"),
+	smokeParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard(cfg.String("smokeFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
-		smokeParticle->SetPushConstant(Graphics::Renderer::GetName("coordDownScale"),
+		smokeParticle->SetPushConstant("coordDownScale"_hash,
 			m_materialData[TYPE_SMOKE].coord_downscale);
 
 	desc.effect = m_materialData[TYPE_EXPLOSION].effect;
 	explosionParticle.reset(r->CreateMaterial("billboards", desc, alphaState));
-	explosionParticle->SetTexture(Graphics::Renderer::GetName("texture0"),
+	explosionParticle->SetTexture("texture0"_hash,
 		Graphics::TextureBuilder::Billboard(cfg.String("explosionFile")).GetOrCreateTexture(r, "billboard"));
 	if (desc.effect == Graphics::EFFECT_BILLBOARD_ATLAS)
-		explosionParticle->SetPushConstant(Graphics::Renderer::GetName("coordDownScale"),
+		explosionParticle->SetPushConstant("coordDownScale"_hash,
 			m_materialData[TYPE_EXPLOSION].coord_downscale);
 }
 

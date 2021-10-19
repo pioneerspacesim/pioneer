@@ -78,8 +78,8 @@ void NavLights::Init(Graphics::Renderer *renderer)
 	rsd.primitiveType = Graphics::POINTS;
 
 	matHalos4x4.Reset(renderer->CreateMaterial("billboards", desc, rsd));
-	matHalos4x4->SetTexture(Graphics::Renderer::GetName("texture0"), texHalos4x4.Get());
-	matHalos4x4->SetPushConstant(Graphics::Renderer::GetName("coordDownScale"), 0.5f);
+	matHalos4x4->SetTexture("texture0"_hash, texHalos4x4.Get());
+	matHalos4x4->SetPushConstant("coordDownScale"_hash, 0.5f);
 
 	g_initted = true;
 }

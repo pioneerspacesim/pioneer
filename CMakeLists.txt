@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.13)
 project(pioneer LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -236,6 +236,7 @@ set(PIONEER_CONTRIB ${CMAKE_SOURCE_DIR}/contrib)
 include_directories(
 	${PIONEER_SRC}
 	${PIONEER_CONTRIB}
+	${PIONEER_CONTRIB}/doctest
 	${PIONEER_CONTRIB}/fmt/include
 	${ASSIMP_INCLUDE_DIRS}
 	${FREETYPE_INCLUDE_DIRS}
@@ -290,7 +291,12 @@ link_directories(
 	${VORBISFILE_LIBRARY_DIRS}
 )
 
+list(APPEND UNITTEST_SRC_FOLDERS
+	src/test)
+add_source_folders(UNITTEST UNITTEST_SRC_FOLDERS)
+
 add_executable(${PROJECT_NAME} WIN32 src/main.cpp ${RESOURCES})
+add_executable(unittest ${UNITTEST_CXX_FILES})
 add_executable(modelcompiler src/modelcompiler.cpp)
 add_executable(savegamedump
 	src/savegamedump.cpp
@@ -340,10 +346,11 @@ if (WIN32)
 endif (WIN32)
 
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
+target_link_libraries(unittest LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(savegamedump LINK_PRIVATE pioneer-core ${SDL2_IMAGE_LIBRARIES} ${winLibs})
 
-set_cxx_properties(${PROJECT_NAME} modelcompiler savegamedump)
+set_cxx_properties(${PROJECT_NAME} unittest modelcompiler savegamedump)
 
 if(MSVC)
 	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

@@ -8,6 +8,7 @@
 #include "Light.h"
 #include "Stats.h"
 #include "Types.h"
+#include "core/StringHash.h"
 #include "graphics/BufferCommon.h"
 #include "libs.h"
 #include "matrix4x4.h"
@@ -233,8 +234,7 @@ namespace Graphics {
 		Stats &GetStats() { return m_stats; }
 
 		// Returns a hashed name for referring to material constant slots and other constant-size string names
-		static size_t GetName(const std::string &s);
-		static size_t GetName(const char *s);
+		static constexpr size_t GetName(std::string_view s) { return hash_64_fnv1a(s.data(), s.size()); }
 
 	protected:
 		int m_width;

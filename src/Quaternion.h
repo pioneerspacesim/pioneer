@@ -61,6 +61,15 @@ public:
 			axis.z = z / s;
 		}
 	}
+	bool operator==(const Quaternion &a) const
+	{
+		return is_equal_exact(a.w, w) && is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);
+	}
+	bool ExactlyEqual(const Quaternion &a) const
+	{
+		return is_equal_exact(a.w, w) && is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);
+	}
+
 	// conjugate (inverse)
 	friend Quaternion operator~(const Quaternion &a)
 	{
@@ -234,9 +243,17 @@ public:
 };
 
 template <>
-inline Quaternion<float>::Quaternion() {}
+inline Quaternion<float>::Quaternion() :
+	w(1.f),
+	x(0.f),
+	y(0.f),
+	z(0.f) {}
 template <>
-inline Quaternion<double>::Quaternion() {}
+inline Quaternion<double>::Quaternion() :
+	w(1.),
+	x(0.),
+	y(0.),
+	z(0.) {}
 template <>
 inline Quaternion<float>::Quaternion(float w_, float x_, float y_, float z_) :
 	w(w_),

@@ -254,7 +254,6 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 
 // the default sphere we do the horizon culling against
 static const SSphere s_sph;
-static const size_t s_patchDetailName = Graphics::Renderer::GetName("PatchDetailFrequency");
 void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
 {
 	PROFILE_SCOPED()
@@ -293,7 +292,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		// per-patch detail texture scaling value
 		const float fDetailFrequency = pow(2.0f, float(m_geosphere->GetMaxDepth()) - float(m_depth));
 
-		m_geosphere->GetSurfaceMaterial()->SetPushConstant(s_patchDetailName, fDetailFrequency);
+		m_geosphere->GetSurfaceMaterial()->SetPushConstant("PatchDetailFrequency"_hash, fDetailFrequency);
 		renderer->DrawMesh(m_patchMesh.get(), m_geosphere->GetSurfaceMaterial().Get());
 #ifdef DEBUG_BOUNDING_SPHERES
 		if (m_boundsphere.get()) {

@@ -84,8 +84,8 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_ATMOSPHERES, 1);
 }
 
-static size_t s_baseSphereData = Graphics::Renderer::GetName("BaseSphereData");
-static size_t s_numShadows = Graphics::Renderer::GetName("NumShadows");
+static size_t s_baseSphereData = "BaseSphereData"_hash;
+static size_t s_numShadows = "NumShadows"_hash;
 void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radius, const std::vector<Camera::Shadow> &shadows, const AtmosphereParameters &ap)
 {
 	BaseSphereDataBlock matData{};

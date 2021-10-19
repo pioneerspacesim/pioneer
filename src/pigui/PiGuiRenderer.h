@@ -25,8 +25,6 @@ namespace PiGui {
 
 	private:
 		Graphics::Renderer *m_renderer;
-		static size_t s_textureName;
-		static size_t s_vertexDepthName;
 
 		std::unique_ptr<Graphics::Material> m_material;
 		std::unique_ptr<Graphics::VertexBuffer> m_vtxBuffer;
