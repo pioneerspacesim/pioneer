@@ -42,7 +42,7 @@ local max_flavours = 22
 local startLocations = {
 	{['name']=lui.START_AT_MARS,
 	 ['desc']=lui.START_AT_MARS_DESC,
-	 ['location']=SystemPath.New(0,0,0,0,18),
+	 ['location']=SystemPath.New(0,0,0,0,22),
 	 ['logmsg']=lui.START_LOG_ENTRY_1,
 	 ['shipType']='sinonatrix',['money']=100,['hyperdrive']=true,
 	 ['equipment']={

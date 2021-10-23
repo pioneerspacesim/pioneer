@@ -32,6 +32,20 @@ local mercury = CustomSystemBody:new('Mercury', 'PLANET_TERRESTRIAL')
 	:orbital_phase_at_start(fixed.deg2rad(f(286,1)))
 	:rings(false)
 
+local mercury_starports = {
+	CustomSystemBody:new('Furiosa', 'STARPORT_SURFACE')
+		:latitude(math.deg2rad(89))
+		:longitude(5),
+	CustomSystemBody:new('Caloris', 'STARPORT_SURFACE')
+		:latitude(math.deg2rad(189))
+		:longitude(30),
+	CustomSystemBody:new('Fenix', 'STARPORT_ORBITAL')
+		-- can orbital station be made to stay in sun synchronous orbit?
+		:seed(666)
+		:semi_major_axis(f(1,25680))
+		:inclination(math.deg2rad(90))
+}
+
 local venus = CustomSystemBody:new('Venus', 'PLANET_TERRESTRIAL')
 	:radius(f(95,100))
 	:mass(f(815,1000))
@@ -50,6 +64,13 @@ local venus = CustomSystemBody:new('Venus', 'PLANET_TERRESTRIAL')
 	:life(f(0,1))
 	:orbital_phase_at_start(fixed.deg2rad(f(248,1)))
 	:rings(false)
+
+local venus_starports = {
+	CustomSystemBody:new('Cloud Nine', 'STARPORT_ORBITAL')
+		:seed(6734)
+		:semi_major_axis(f(100,100000))
+		:rotation_period(f(1,24*60*3))
+}
 
 local earth = CustomSystemBody:new('Earth', 'PLANET_TERRESTRIAL')
 	:radius(f(1,1))
@@ -92,15 +113,15 @@ local earth_starports = {
 		:latitude(math.deg2rad(34))
 		:longitude(math.deg2rad(118)),
 	CustomSystemBody:new('Gates Spaceport', 'STARPORT_ORBITAL')
-		:seed(1)
+		:seed(8088)
 		:semi_major_axis(f(100,100000))
 		:rotation_period(f(1,24*60*3)),
 	CustomSystemBody:new('Jobs Pad', 'STARPORT_ORBITAL')
-		:seed(13)
+		:seed(6502)
 		:semi_major_axis(f(100,100000))
 		:rotation_period(f(1,24*60*3)),
 	CustomSystemBody:new('Torvalds Platform', 'STARPORT_ORBITAL')
-		:seed(0)
+		:seed(80386)
 		:semi_major_axis(f(5.0,100000))
 		:rotation_period(f(1,24*60*3))
 		:orbital_phase_at_start(fixed.deg2rad(f(0,1)))
@@ -170,6 +191,10 @@ local mars_starports = {
 	CustomSystemBody:new('Mars High', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(5068,100000000))
 		:rotation_period(f(11,24)),
+	CustomSystemBody:new("Musk's Meme-Mansion", 'STARPORT_ORBITAL')
+		:seed(2024)
+		:semi_major_axis(f(1, 10000))
+		:inclination(math.deg2rad(25))
 }
 
 local mars_moons = {
@@ -724,7 +749,9 @@ local charon = {
 
 s:bodies(sol, {
 	mercury,
+		mercury_starports,
 	venus,
+		venus_starports,
 	earth,
 		earth_starports,
 		moon,

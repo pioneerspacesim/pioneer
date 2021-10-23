@@ -1,11 +1,15 @@
 // Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "Game.h"
+#include "Json.h"
 #include "LuaConstants.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "Pi.h"
 #include "Ship.h"
 #include "SpaceStation.h"
+#include "galaxy/SystemBody.h"
 
 /*
  * Class: SpaceStation
@@ -150,6 +154,118 @@ static int l_spacestation_get_nearby_traffic(lua_State *l)
 }
 
 /*
+ * Method: GetPropertyDefaults
+ *
+ * Set properties that should exist for spacestations to defaults or
+ * values loaded from json files
+ *
+ * > station:GetPropertyDefaults()
+ *
+ * Returns:
+ *   table of properties
+ *
+ * Availability:
+ *
+ *   Sept 2021
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static void storeprops(const char *propFile, std::map<std::string, std::string> &keyvalues)
+{
+	Json preset;
+	preset = JsonUtils::LoadJsonDataFile(propFile);
+	if (preset.is_null())
+		return;
+
+	for (Json::iterator prop = preset.begin(); prop != preset.end(); ++prop) {
+		const std::string token = prop.key();
+		if (token.empty()) {
+			continue;
+		}
+		/* if (!valid_token(token)) { continue; } */
+
+		Json val = prop.value()["value"];
+		if (val.is_null() || val.is_string() == false) {
+			continue;
+		}
+
+		// will overwrite existing keys
+		keyvalues[token] = val;
+	}
+}
+
+static inline void stripnonalpha(const char *src, char *dst, const char *end)
+{
+	for (; *src && dst < end; src++) {
+		if ((*src >= 'A' && *src <= 'Z') || (*src >= 'a' && *src <= 'z'))
+			*dst++ = *src;
+	}
+	*dst = '\0';
+}
+
+// try to load attributes from world station predefinitions
+// values from json may override default values
+static int l_spacestation_get_property_defaults(lua_State *l)
+{
+	SpaceStation *station = static_cast<SpaceStation *>(LuaObject<Body>::CheckFromLua(1));
+	const SystemBody *body = station->GetSystemBody();
+	const SystemPath sp = body->GetPath();
+	std::map<std::string, std::string> keyvalues;
+
+	char propFile[100];
+	char stationname[100];
+	char sysname[100];
+	char stationID[20]; // No known (or licensed) human settlements further out than 100 sectors outwards,
+						// a single byte (-128..127, or hex FF) for each dimension is enough for a license number
+	char sysstr[10];
+	std::snprintf(stationID, 20, "SCC%02X%02X%02X%02X%02X", sp.sectorX, sp.sectorY, sp.sectorZ, sp.systemIndex, sp.bodyIndex);
+	std::strncpy(sysstr, &stationID[3], 9);
+	sysstr[8] = 0;
+
+	keyvalues["stationID"] = stationID;
+	keyvalues["visualID"] = stationID;
+
+	const char *stationlabel = station->GetLabel().c_str();
+	stripnonalpha(stationlabel, stationname, &stationname[99]);
+
+	RefCountedPtr<StarSystem> s = Pi::game->GetGalaxy()->GetStarSystem(sp);
+	stripnonalpha(s->GetName().c_str(), sysname, &sysname[99]);
+
+	if (s->GetFaction()->IsValid()) {
+		char facname[100];
+
+		stripnonalpha(s->GetFaction()->name.c_str(), facname, &facname[99]);
+
+		std::snprintf(propFile, 100, "world/stations/%s.json", facname);
+		Output("Looking for station presets for '%s' in '%s'\n", stationlabel, propFile);
+		storeprops(propFile, keyvalues);
+	}
+
+	// settings for the whole system
+	std::snprintf(propFile, 100, "world/stations/%s-%s.json", sysstr, sysname);
+	Output("Looking for station presets for '%s' in '%s'\n", stationlabel, propFile);
+	storeprops(propFile, keyvalues);
+
+	// in the system specific directory, station names are unique enough
+	std::snprintf(propFile, 100, "world/stations/%s-%s/%s.json", sysstr, sysname, stationname);
+	Output("Looking for station presets for '%s' in '%s'\n", stationlabel, propFile);
+	storeprops(propFile, keyvalues);
+
+	std::snprintf(&propFile[0], 100, "world/stations/%s-%s.json", stationID, stationname);
+	Output("Looking for station presets for '%s' in '%s'\n", stationlabel, propFile);
+	storeprops(propFile, keyvalues);
+
+	// push whatever we collected into a lua table and return it
+	lua_newtable(l);
+	for (auto kv : keyvalues) {
+		pi_lua_settable(l, kv.first.c_str(), kv.second.c_str());
+	}
+	return 1;
+}
+
+/*
  * Attribute: numDocks
  *
  * The number of docking ports a spacestation has.
@@ -218,17 +334,18 @@ void LuaObject<SpaceStation>::RegisterClass()
 	const char *l_parent = "ModelBody";
 
 	static const luaL_Reg l_methods[] = {
-		{ "GetGroundPosition", l_spacestation_get_ground_position },
-		{ "RequestDockingClearance", l_spacestation_request_docking_clearance },
 		{ "GetAssignedBayNumber", l_spacestation_get_assigned_bay_number },
+		{ "GetGroundPosition", l_spacestation_get_ground_position },
 		{ "GetNearbyTraffic", l_spacestation_get_nearby_traffic },
+		{ "GetPropertyDefaults", l_spacestation_get_property_defaults },
+		{ "RequestDockingClearance", l_spacestation_request_docking_clearance },
 
 		{ 0, 0 }
 	};
 
 	static luaL_Reg l_attrs[] = {
-		{ "numDocks", l_spacestation_attr_num_docks },
 		{ "isGroundStation", l_spacestation_attr_is_ground_station },
+		{ "numDocks", l_spacestation_attr_num_docks },
 		{ "numShipsDocked", l_spacestation_attr_num_ships_docked },
 
 		{ 0, 0 }

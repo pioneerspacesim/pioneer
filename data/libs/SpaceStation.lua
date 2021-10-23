@@ -25,14 +25,28 @@ local l = Lang.GetResource("ui-core")
 
 function SpaceStation:Constructor()
 	-- Use a variation of the space station seed itself to ensure consistency
-	local rand = Rand.New(self.seed .. '-techLevel')
+	local rand = Rand.New(self.seed .. 'techLevel')
 	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
-	if Game.system.faction ~= nil and Game.system.faction.hasHomeworld and Game.system.faction.homeworld == self.path:GetSystemBody().parent.path then
+	local isHomeworld = 0
+	if Game.system.faction ~= nil and Game.system.faction.hasHomeworld and self.path:IsSameSystem(Game.system.faction.homeworld) then
 		techLevel = math.max(techLevel, 6) -- bump it upto at least 6 if it's a homeworld like Earth
+		isHomeworld = 1
 	end
 	-- cap the techlevel lower end based on the planets population
 	techLevel = math.max(techLevel, math.min(math.floor(self.path:GetSystemBody().parent.population * 0.5), 11))
 	self:setprop("techLevel", techLevel)
+	self:setprop("isHomeworld", isHomeworld)
+	local props = self:GetPropertyDefaults()
+	if props == nil then return end
+	for k,v in pairs(props) do
+		if k and v then
+			self:setprop(k, v)
+		end
+	end
+	if self.techModifier then
+		local tmp = self.techLevel + self.techModifier
+		self:setprop("techLevel", (tmp <= 10) and tmp or 10) -- maximum adjusted level: 10
+	end
 end
 
 local equipmentStock = {}
@@ -49,18 +63,22 @@ local function updateEquipmentStock (station)
 			if e == hydrogen then
 				equipmentStock[station][e] = math.floor(rn/2 + Engine.rand:Integer(0,rn)) --always stock hydrogen
 			else
-				local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
-				local stock =  (Engine.rand:Integer(0,rn) + Engine.rand:Integer(0,rn)) / 2 -- normal 0-100% stock
-				if pricemod > 10 then --major import, low stock
-					stock = stock - (rn*0.10)     -- shifting .10 = 2% chance of 0 stock
-				elseif pricemod > 4 then --minor import
-					stock = stock - (rn*0.07)     -- shifting .07 = 1% chance of 0 stock
-				elseif pricemod < -10 then --major export
-					stock = stock + (rn*0.8)
-				elseif pricemod < -4 then --minor export
-					stock = stock + (rn*0.3)
+				if station.noCargoForSale then
+					equipmentStock[station][e] = 0
+				else
+					local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
+					local stock =  (Engine.rand:Integer(0,rn) + Engine.rand:Integer(0,rn)) / 2 -- normal 0-100% stock
+					if pricemod > 10 then --major import, low stock
+						stock = stock - (rn*0.10)     -- shifting .10 = 2% chance of 0 stock
+					elseif pricemod > 4 then --minor import
+						stock = stock - (rn*0.07)     -- shifting .07 = 1% chance of 0 stock
+					elseif pricemod < -10 then --major export
+						stock = stock + (rn*0.8)
+					elseif pricemod < -4 then --minor export
+						stock = stock + (rn*0.3)
+					end
+					equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
 				end
-				equipmentStock[station][e] = math.floor(stock >=0 and stock or 0)
 			end
 		else
 			equipmentStock[station][e] = 0 -- commodity that cant be bought
@@ -141,6 +159,10 @@ end
 --
 function SpaceStation:GetEquipmentStock (e)
 	assert(self:exists())
+	if not equipmentStock or not equipmentStock[self] or not equipmentStock[self][e] then
+		print("equipmentStock is incomplete/missing")
+		return 0
+	end
 	return equipmentStock[self][e] or 0
 end
 

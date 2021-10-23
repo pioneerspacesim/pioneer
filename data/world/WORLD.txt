@@ -1,0 +1,50 @@
+world/factions/<##_name>.lua
+
+	Contains properties of factions
+
+		##		determines order of precedence when loading
+		Name	filename only. faction name is determined by contents of the file
+
+world/systems/<##_Name>.lua
+
+	Contains manually created layouts of star systems
+
+		##		determines order of precedence when loading
+		Name	filename only. faction name is determined by contents of the file
+
+world/stations/<faction>.json
+world/stations/<system>.json
+world/stations/<system+station>.json
+world/stations/<system>/<station>.json
+
+	Contains patch properties for individual stations.
+	Faction is the first to be loaded, then system, then both (or either) system+station files.
+	Any attribute in earlier files that reoccur in later loaded files will be overridden by the
+	last loaded. For example, faction values can be overridden by specific station files.
+
+	Stations Json format:
+	{
+		"<PropertyName>" : {
+			"value" : "<content>"
+		},
+		...
+	}
+
+	Properties are passed to station:setprop(<PropertyName>, <content>) for all properties
+	in SpaceStation:Constructor() (libs/SpaceStation.lua).
+	If PropertyName contains other keys than "value", those are ignored.
+	Safe to use "comment" for example.
+
+	Recognized PropertyName's:
+
+		techLevel			Override stations randomly generated techLevel
+
+		techModifier		Alter the randomly generated techLevel by this number, up to a max of 10 or a minimum of 1
+
+		lore				Use this key, translated from lang/lore/*.json, as station lore text
+
+		nolanglore			Use this text as-is, as station lore text
+							overrides lore
+
+		noCargoForSale		(true/false) if present and not false, sets all cargo stocks except hydrogen
+							to zero. cargo can still be sold.
