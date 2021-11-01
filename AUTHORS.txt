@@ -145,6 +145,10 @@ Pioneer includes the following third-party software:
   Copyright (C) 2002, Lev Povalahev
   Licensed under the Modified BSD licence (see licenses/GLEW.txt)
 
+  atomic_queue - C++ lockless queue
+  Copyright (c) 2019 Maxim Egorushkin
+  Licensed under the MIT license (see contrib/atomic_queue/LICENSE)
+
   argh
   Copyright (C) 2016, Adi Shavit
   Licensed under the BSD 3-clause license (see licenses/BSD-3-Clause.txt)
