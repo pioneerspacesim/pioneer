@@ -224,6 +224,7 @@ else (MSVC)
 	pkg_check_modules(VORBISFILE REQUIRED vorbisfile)
 endif (MSVC)
 
+find_package(Threads REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(OpenGL REQUIRED)
 
@@ -335,11 +336,8 @@ list(APPEND pioneerLibs
 	jenkins
 	picodds
 	profiler
+	Threads::Threads
 )
-
-if(USE_PIONEER_THIRDPARTY)
-    list(APPEND pioneerLibs Threads::Threads)
-endif()
 
 if (WIN32)
 	list(APPEND winLibs shlwapi psapi)
