@@ -46,6 +46,13 @@ public:
 			m_nextLifecycle = l;
 		}
 
+		bool GetProfilerAccumulate() const { return m_profilerAccumulate; }
+
+		void SetProfilerAccumulate(bool enable)
+		{
+			m_profilerAccumulate = enable;
+		}
+
 	private:
 		// set to true when you want to accumulate all updates in a lifecycle into a single profile frame
 		bool m_profilerAccumulate = false;

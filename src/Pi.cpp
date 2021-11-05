@@ -222,6 +222,9 @@ protected:
 	int frame_stat;
 	int phys_stat;
 
+	uint32_t profile_startup_ms;
+	uint32_t startup_ticks;
+
 	int MAX_PHYSICS_TICKS;
 	double accumulator;
 
@@ -866,6 +869,7 @@ static void OnPlayerDockOrUndock();
 
 void GameLoop::Start()
 {
+	PROFILE_SCOPED()
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
 	Pi::input->InitGame();
@@ -904,6 +908,10 @@ void GameLoop::Start()
 	// If we have a tombstone loop, we will SetNextLifecycle() so it runs before
 	// we jump back to the main menu
 	Pi::GetApp()->QueueLifecycle(Pi::GetApp()->m_mainMenu);
+
+	profile_startup_ms = Clamp(Pi::config->Int("ProfileStartupMs", 0), 0, 10000);
+	startup_ticks = SDL_GetTicks();
+	SetProfilerAccumulate(profile_startup_ms > 0);
 }
 
 void GameLoop::Update(float deltaTime)
@@ -1046,6 +1054,13 @@ void GameLoop::Update(float deltaTime)
 	perfInfoDisplay->Update(deltaTime);
 	perfInfoDisplay->UpdateCounter(PiGui::PerfInfo::COUNTER_PHYS, phys_time);
 	perfInfoDisplay->UpdateCounter(PiGui::PerfInfo::COUNTER_PIGUI, pigui_time);
+
+	// XXX: profile game startup
+	if (GetProfilerAccumulate() && (SDL_GetTicks() - startup_ticks) >= profile_startup_ms)
+	{
+		SetProfilerAccumulate(false);
+		Pi::GetApp()->RequestProfileFrame();
+	}
 
 	if (Pi::showDebugInfo && SDL_GetTicks() - last_stats >= 1000) {
 		perfInfoDisplay->UpdateFrameInfo(frame_stat, phys_stat);

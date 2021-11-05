@@ -1264,6 +1264,7 @@ namespace Profiler {
 
 	template< class Dumper >
 	void dumpThreads( Dumper dumper, const char *dir ) {
+		PROFILE_SCOPED()
 		Caller *accumulate = new Caller( "/Top Callers" ), *packer = new Caller( "/Thread Packer" );
 		Buffer<Caller *> packedThreads;
 		Buffer<Buffer<Zone> *> packedZones(4);
