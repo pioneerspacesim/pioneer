@@ -204,9 +204,16 @@ TaskSet::Handle TaskGraph::QueueTaskSetPinned(TaskSet *taskSet)
 {
 	taskSet->m_executing = true;
 	for (auto task : taskSet->m_tasks) {
-		QueueTaskPinned(task);
+		while (!m_pinnedTasks->try_push(task)) {
+			WakeForNewTasks();
+			if (GetThreadData()->threadNum == 0)
+				RunPinnedTasks();
+			else
+				WaitForFinishedTask();
+		}
 	}
 
+	WakeForNewTasks();
 	return TaskSet::Handle(taskSet);
 }
 
@@ -320,6 +327,7 @@ void TaskGraph::ThreadData::WaitForTasks()
 	if (graph->HasTasks(this))
 		return;
 	else {
+		PROFILE_SCOPED_DESC("Idle Waiting for Tasks");
 		graph->m_newTasksSemaphore.waitonly();
 	}
 }
@@ -381,6 +389,7 @@ void TaskGraph::ExecTask(Task *task)
 
 void TaskGraph::WakeForNewTasks()
 {
+	PROFILE_SCOPED()
 	// semaphore notify all threads waiting for new tasks
 	m_newTasksSemaphore.signal(std::max(m_newTasksSemaphore.count() + 1, 1));
 
