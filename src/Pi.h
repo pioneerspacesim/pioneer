@@ -229,7 +229,6 @@ private:
 	static void HandleKeyDown(SDL_Keysym *key);
 
 	// private members
-	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
 
 	static bool menuDone;
 
