@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "FileSystem.h"
+#include "JobQueue.h"
 #include "OS.h"
 #include "SDL.h"
 #include "profiler/Profiler.h"
@@ -11,6 +12,11 @@
 #include "SDL_timer.h"
 
 #include <stdexcept>
+
+static constexpr Uint32 SYNC_JOBS_PER_LOOP = 1;
+
+Application::Application() {}
+Application::~Application() {}
 
 void Application::QueueLifecycle(std::shared_ptr<Lifecycle> cycle)
 {
@@ -27,6 +33,9 @@ void Application::Startup()
 	OS::EnableBreakpad();
 	OS::NotifyLoadBegin();
 
+	m_taskGraph = std::make_unique<TaskGraph>();
+	m_syncJobQueue = std::make_unique<SyncJobQueue>();
+
 	FileSystem::Init();
 	// ensure the config directory exists
 	FileSystem::userFiles.MakeDirectory("");
@@ -40,6 +49,9 @@ void Application::Startup()
 
 void Application::Shutdown()
 {
+	m_taskGraph.reset();
+	m_syncJobQueue.reset();
+
 	FileSystem::Uninit();
 	SDL_Quit();
 }
@@ -66,6 +78,16 @@ void Application::SetProfilerPath(const std::string &path)
 	m_profilerPath = path;
 	FileSystem::userFiles.MakeDirectory(m_profilerPath);
 #endif
+}
+
+JobQueue *Application::GetSyncJobQueue()
+{
+	return m_syncJobQueue.get();
+}
+
+JobQueue *Application::GetAsyncJobQueue()
+{
+	return m_taskGraph->GetJobQueue();
 }
 
 bool Application::StartLifecycle()
@@ -120,6 +142,14 @@ void Application::ClearQueuedLifecycles()
 		m_queuedLifecycles.pop();
 }
 
+void Application::HandleJobs()
+{
+	m_taskGraph->RunPinnedTasks();
+	m_syncJobQueue->RunJobs(SYNC_JOBS_PER_LOOP);
+	m_syncJobQueue->FinishJobs();
+	m_taskGraph->GetJobQueue()->FinishJobs();
+}
+
 void Application::Run()
 {
 	Profiler::Clock m_runtime{};
@@ -155,6 +185,8 @@ void Application::Run()
 		PreUpdate();
 
 		m_activeLifecycle->Update(m_deltaTime);
+
+		HandleJobs();
 
 		// The PostUpdate hook should be used for finalizing per-frame state, rendering, etc.
 		PostUpdate();

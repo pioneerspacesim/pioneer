@@ -136,8 +136,6 @@ FILE *Pi::ffmpegFile = nullptr;
 Pi::App *Pi::m_instance = nullptr;
 
 Sound::MusicPlayer Pi::musicPlayer;
-std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
-std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 
 class StartupScreen : public Application::Lifecycle {
 public:
@@ -378,8 +376,7 @@ void Pi::App::Startup()
 	// get threads up
 	Uint32 numThreads = config->Int("WorkerThreads");
 	numThreads = numThreads ? numThreads : std::max(OS::GetNumCores() - 1, 1U);
-	Pi::asyncJobQueue.reset(new AsyncJobQueue(numThreads));
-	Pi::syncJobQueue.reset(new SyncJobQueue);
+	GetTaskGraph()->SetWorkerThreads(numThreads);
 
 	threadTimer.Stop();
 	Output("started %d worker threads in %.2fms\n", numThreads, threadTimer.milliseconds());
@@ -448,8 +445,6 @@ void Pi::App::Shutdown()
 
 	delete Pi::config;
 	delete Pi::planner;
-	asyncJobQueue.reset();
-	syncJobQueue.reset();
 
 	Application::Shutdown();
 
@@ -863,16 +858,7 @@ void Pi::App::PostUpdate()
 {
 	PROFILE_SCOPED()
 
-	RunJobs();
-
 	HandleRequests();
-}
-
-void Pi::App::RunJobs()
-{
-	Pi::syncJobQueue->RunJobs(SYNC_JOBS_PER_LOOP);
-	Pi::asyncJobQueue->FinishJobs();
-	Pi::syncJobQueue->FinishJobs();
 }
 
 // FIXME: delete/move this function out of Pi.cpp

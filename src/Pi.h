@@ -220,8 +220,8 @@ public:
 	static DetailLevel detail;
 	static GameConfig *config;
 
-	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get(); }
-	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get(); }
+	static JobQueue *GetAsyncJobQueue() { return GetApp()->GetAsyncJobQueue(); }
+	static JobQueue *GetSyncJobQueue() { return GetApp()->GetSyncJobQueue(); }
 
 	static bool DrawGUI;
 
@@ -230,8 +230,6 @@ private:
 
 	// private members
 	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
-	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
-	static std::unique_ptr<SyncJobQueue> syncJobQueue;
 
 	static bool menuDone;
 
