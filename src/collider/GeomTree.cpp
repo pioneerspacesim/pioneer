@@ -248,13 +248,12 @@ static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vect
 
 void GeomTree::TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const
 {
-	PROFILE_SCOPED()
 	TraceRay(m_triTree->GetRoot(), start, dir, isect);
 }
 
 void GeomTree::TraceRay(const BVHNode *currnode, const vector3f &a_origin, const vector3f &a_dir, isect_t *isect) const
 {
-	PROFILE_SCOPED()
+	// PROFILE_SCOPED()
 	BVHNode *stack[32];
 	int stackpos = -1;
 	const vector3f invDir( // avoid division by zero please
