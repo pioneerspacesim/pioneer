@@ -7,8 +7,9 @@
 
 void Job::UnlinkHandle()
 {
-	if (m_handle)
-		m_handle->Unlink();
+	Handle *handle = m_handle.load(std::memory_order_acquire);
+	if (handle)
+		handle->Unlink();
 }
 
 //virtual

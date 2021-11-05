@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FileSystem.h"
+#include "JobQueue.h"
 #include "SDL_timer.h"
 #include "atomic_queue/defs.h"
 #include "core/TaskGraph.h"
@@ -12,7 +13,7 @@ std::atomic<uint32_t> s_numExec = 0;
 
 class TestTask : public Task {
 public:
-	void OnExecute(TaskRange)
+	void OnExecute(TaskRange) override
 	{
 		PROFILE_SCOPED()
 		// printf("Task %p executed on thread %d!\n", this, TaskGraph::GetThreadNum());
@@ -26,10 +27,33 @@ public:
 	}
 };
 
+class TestJob : public Job {
+public:
+	void OnRun() override
+	{
+		printf("Job %p executed on thread %d!\n", this, TaskGraph::GetThreadNum());
+		Profiler::Clock clock{};
+		clock.Start();
+		// run a workload for 500us
+		while (clock.currentmilliseconds() < 0.500)
+			atomic_queue::spin_loop_pause();
+	}
+
+	void OnFinish() override
+	{
+		printf("TestJob %p completed!\n", this);
+	}
+
+	void OnCancel() override
+	{
+		printf("TestJob %p cancelled!\n", this);
+	}
+};
+
 TEST_CASE("Task Graph")
 {
 	TaskGraph *graph = new TaskGraph();
-	graph->SetWorkerThreads(3);
+	graph->SetWorkerThreads(2);
 	s_numExec = 0;
 
 	SUBCASE("Single Task")
@@ -95,6 +119,19 @@ TEST_CASE("Task Graph")
 		graph->WaitForTaskSet(handle);
 
 		CHECK(s_numExec.load() == 64);
+	}
+
+	SUBCASE("JobQueue Replacement")
+	{
+		Job *nj = new TestJob();
+		Job *nj2 = new TestJob();
+
+		Job::Handle h1 = graph->GetJobQueue()->Queue(nj);
+		graph->GetJobQueue()->Queue(nj2);
+
+		printf("Finishing jobs:\n");
+		while (h1.HasJob())
+			graph->GetJobQueue()->FinishJobs();
 	}
 
 	/*

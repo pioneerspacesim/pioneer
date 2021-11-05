@@ -10,8 +10,9 @@
 #pragma once
 
 #include "SDL_mutex.h"
-#include <atomic>
+#include <atomic_queue/defs.h>
 
+// Lightweight spinlock semaphore
 class Semaphore {
 public:
 	Semaphore(uint32_t initialCount = 0) :
@@ -68,6 +69,7 @@ private:
 			value = m_count.load(std::memory_order_relaxed);
 			if ((value > 0) && m_count.compare_exchange_strong(value, value - 1, std::memory_order_acquire))
 				return;
+			atomic_queue::spin_loop_pause();
 			// keep the compiler from detrimentally optimizing the loop
 			std::atomic_signal_fence(std::memory_order_acquire);
 		}

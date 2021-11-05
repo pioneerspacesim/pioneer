@@ -4,7 +4,6 @@
 #pragma once
 
 #include <atomic>
-#include <cassert>
 #include <thread>
 #include <vector>
 
@@ -18,8 +17,12 @@ struct TaskRange {
 class AsyncTaskQueueImpl;
 class AsyncJobQueueImpl;
 
+class JobQueue;
+class TaskGraphJobQueueImpl;
 class TaskGraph;
 
+// CompleteNotifier is a simple atomic helper class to track how many tasks
+// are running vs complete
 class CompleteNotifier {
 public:
 	CompleteNotifier() :
@@ -30,9 +33,10 @@ public:
 	bool IsComplete() { return m_dependants.load(std::memory_order_relaxed) == 0; }
 };
 
-// Represents a single unit of work to be done in parallel fashion.
+// A Task is the building block of the TaskGraph system.
+// It represents a single unit of work to be done in parallel fashion.
 // Tasks are associated with a numeric range of elements to operate on;
-// if you have a large number of work units, create multiple tasks
+// if you have a large number of items to process, create multiple tasks
 // responsible for a subrange of the overall workload.
 //
 // Tasks are managed by raw pointers and should not be deleted by
@@ -40,10 +44,11 @@ public:
 // when it is complete.
 //
 // Subclass and implement these methods:
-//   OnExecute:  carries out the actual work done by the task
+//   OnExecute: responsible for carrying out the actual work done by the task,
+//     runs on a worker thread.
 //
-//   OnComplete: used to synchronize reporting of task results,
-//               called by the task owner at a synchronization point
+//   OnComplete: used to synchronize reporting of task results, called by the
+//     task owner at a synchronization point on the task owner's thread.
 class Task {
 public:
 	Task(TaskRange range = {}) :
@@ -89,7 +94,8 @@ public:
 	// A Handle is the runtime interface to a currently executing TaskSet.
 	// If you do not call the (blocking) TaskGraph->WaitForTaskSet(handle);
 	// you will need to check for the handle to be complete and manually
-	// trigger execution of the task completion callbacks.
+	// trigger execution of the task completion callbacks via
+	// TaskGraph->CompleteTaskSet();
 	struct Handle {
 		Handle(const Handle &) = delete;
 		Handle &operator=(const Handle &) = delete;
@@ -160,9 +166,13 @@ public:
 	// Run currently available tasks pinned to the main thread
 	void RunPinnedTasks();
 
+	// Return the JobQueue interface object for this task graph.
+	JobQueue *GetJobQueue();
+
 	static uint32_t GetThreadNum();
 
 private:
+	friend class TaskGraphJobQueueImpl;
 	struct ThreadData {
 		std::thread *threadHandle;
 		uint32_t threadNum;
@@ -189,9 +199,12 @@ private:
 
 	// queue for short-lived high-priority tasks
 	AsyncTaskQueueImpl *m_taskQueue;
-
 	// queue of tasks to run on the main thread
 	AsyncTaskQueueImpl *m_pinnedTasks;
+
+	// implementation of the JobQueue interface for backwards compat
+	// with the old JobQueue system
+	TaskGraphJobQueueImpl *m_jobHandlerImpl;
 
 	// queue for long-lived low-priority background jobs
 	AsyncJobQueueImpl *m_jobQueue;

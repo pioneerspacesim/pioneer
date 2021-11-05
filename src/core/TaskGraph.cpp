@@ -10,13 +10,69 @@
 #include <atomic_queue/atomic_queue.h>
 #include <atomic>
 
+static constexpr size_t MAX_TASK_QUEUE_SIZE = 1024;
+static constexpr size_t MAX_JOB_QUEUE_SIZE = 1024;
+
 static constexpr size_t MAX_PINNED_TASKS_STEP = 8;
-static constexpr size_t MAX_TASK_QUEUE_SIZE = 256;
-static constexpr size_t MAX_JOB_QUEUE_SIZE = 128;
 static constexpr size_t MAX_SPIN_COUNT = 10000;
 
 class AsyncTaskQueueImpl : public atomic_queue::AtomicQueue2<Task *, MAX_TASK_QUEUE_SIZE> {};
 class AsyncJobQueueImpl : public atomic_queue::AtomicQueue2<Job *, MAX_JOB_QUEUE_SIZE> {};
+
+// =============================================================================
+
+// implementation structure to maintain backwards compatibility with existing Job API
+class TaskGraphJobQueueImpl : public JobQueue {
+public:
+	TaskGraphJobQueueImpl(TaskGraph *graph) :
+		m_graph(graph) {}
+
+	virtual Job::Handle Queue(Job *job, JobClient *client) override;
+	virtual void Cancel(Job *job) override;
+	virtual Uint32 FinishJobs() override;
+
+	TaskGraph *m_graph;
+};
+
+Job::Handle TaskGraphJobQueueImpl::Queue(Job *job, JobClient *client)
+{
+	Job::Handle handle(job, this, client);
+
+	m_graph->m_jobQueue->push(job);
+
+	std::atomic_thread_fence(std::memory_order_release);
+	m_graph->WakeForNewTasks();
+
+	return handle;
+}
+
+void TaskGraphJobQueueImpl::Cancel(Job *job)
+{
+	job->cancelled.store(true, std::memory_order_release);
+	job->m_handle.store(nullptr, std::memory_order_release);
+}
+
+Uint32 TaskGraphJobQueueImpl::FinishJobs()
+{
+	uint32_t numFinished = 0;
+	Job *job = nullptr;
+
+	while (m_graph->m_jobFinishedQueue->try_pop(job)) {
+		job->UnlinkHandle();
+		if (job->cancelled.load(std::memory_order_relaxed)) {
+			job->OnCancel();
+		} else {
+			job->OnFinish();
+			numFinished++;
+		}
+
+		delete job;
+	}
+
+	return numFinished;
+}
+
+// =============================================================================
 
 void Task::SetOwner(CompleteNotifier *comp)
 {
@@ -42,6 +98,7 @@ TaskGraph::TaskGraph() :
 	m_threads(),
 	m_taskQueue(new AsyncTaskQueueImpl()),
 	m_pinnedTasks(new AsyncTaskQueueImpl()),
+	m_jobHandlerImpl(new TaskGraphJobQueueImpl(this)),
 	m_jobQueue(new AsyncJobQueueImpl()),
 	m_jobFinishedQueue(new AsyncJobQueueImpl()),
 	m_isRunning(true),
@@ -70,8 +127,33 @@ TaskGraph::~TaskGraph()
 		delete m_threads[idx];
 	}
 
+	// Cleanup leftover task objects
+	Task *task = nullptr;
+	while (m_taskQueue->try_pop(task)) {
+		delete task;
+	}
+
+	while (m_pinnedTasks->try_pop(task)) {
+		delete task;
+	}
+
+	// cleanup leftover job objects
+	Job *job = nullptr;
+	while (m_jobQueue->try_pop(job)) {
+		job->UnlinkHandle();
+		job->OnCancel();
+		delete job;
+	}
+
+	while (m_jobFinishedQueue->try_pop(job)) {
+		job->UnlinkHandle();
+		job->OnCancel();
+		delete job;
+	}
+
 	delete m_taskQueue;
 	delete m_pinnedTasks;
+	delete m_jobHandlerImpl;
 	delete m_jobQueue;
 	delete m_jobFinishedQueue;
 }
@@ -90,7 +172,7 @@ void TaskGraph::SetWorkerThreads(uint32_t numThreads)
 
 		thr->threadNum = idx;
 		thr->graph = this;
-		thr->isJobThread = idx >= (numThreads * 2 / 3);
+		thr->isJobThread = idx > 0;
 		m_numAliveThreads.fetch_add(1, std::memory_order_release);
 		if (idx > 0)
 			thr->threadHandle = new std::thread(&ThreadData::RunThread, thr);
@@ -190,10 +272,17 @@ void TaskGraph::RunPinnedTasks()
 	}
 }
 
+JobQueue *TaskGraph::GetJobQueue()
+{
+	return m_jobHandlerImpl;
+}
+
 uint32_t TaskGraph::GetThreadNum()
 {
 	return GetThreadData()->threadNum;
 }
+
+// =============================================================================
 
 thread_local std::string tl_threadName;
 thread_local TaskGraph::ThreadData *TaskGraph::tl_threadData;
@@ -266,11 +355,11 @@ bool TaskGraph::TryRunTask(ThreadData *thread)
 		return true;
 	}
 
-	Job *jobToRun = nullptr;
-	if (thread->isJobThread && m_jobQueue->try_pop(jobToRun)) {
-		// if (!jobToRun->m_cancelled.load(std::memory_order_acquire))
-		jobToRun->OnRun();
-		m_jobFinishedQueue->push(jobToRun);
+	Job *job = nullptr;
+	if (thread->isJobThread && m_jobQueue->try_pop(job)) {
+		if (!job->cancelled.load(std::memory_order_acquire))
+			job->OnRun();
+		m_jobFinishedQueue->push(job);
 
 		return true;
 	}
@@ -302,13 +391,11 @@ void TaskGraph::WakeForNewTasks()
 
 void TaskGraph::WakeForFinishedTasks()
 {
-	// semaphore notify all threads waiting for finished tasks
 	m_finishedTasksSemaphore.signal();
 }
 
 // waits in the main thread for any task to be completed
 void TaskGraph::WaitForFinishedTask()
 {
-	// semaphore-wait here for a task to be completed
 	m_finishedTasksSemaphore.wait();
 }
