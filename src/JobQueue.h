@@ -128,63 +128,6 @@ public:
 	virtual Uint32 FinishJobs() = 0;
 };
 
-// the queue management class. create one from the main thread, and feed your
-// jobs do it. it will take care of the rest
-class AsyncJobQueue : public JobQueue {
-public:
-	// numRunners is the number of jobs to run in parallel. right now its the
-	// same as the number of threads, but there's no reason that it has to be
-	AsyncJobQueue(Uint32 numRunners);
-	virtual ~AsyncJobQueue();
-
-	virtual Job::Handle Queue(Job *job, JobClient *client = nullptr) override;
-	virtual void Cancel(Job *job) override;
-	virtual Uint32 FinishJobs() override;
-
-private:
-	// a runner wraps a single thread, and calls into the queue when its ready for
-	// a new job. no user-servicable parts inside!
-	class JobRunner {
-	public:
-		JobRunner(AsyncJobQueue *jq, const uint8_t idx);
-		~JobRunner();
-		SDL_mutex *GetQueueDestroyingLock();
-		void SetQueueDestroyed();
-
-	private:
-		static int Trampoline(void *);
-		void Main();
-
-		AsyncJobQueue *m_jobQueue;
-
-		Job *m_job;
-		SDL_mutex *m_jobLock;
-		SDL_mutex *m_queueDestroyingLock;
-
-		SDL_Thread *m_threadId;
-
-		uint8_t m_threadIdx;
-		std::string m_threadName;
-		bool m_queueDestroyed;
-	};
-
-	Job *GetJob();
-	void Finish(Job *job, const uint8_t threadIdx);
-
-	std::deque<Job *> m_queue;
-	SDL_mutex *m_queueLock;
-	SDL_cond *m_queueWaitCond;
-
-	std::deque<Job *> m_finished[MAX_THREADS];
-	SDL_mutex *m_finishedLock[MAX_THREADS];
-
-	std::vector<JobRunner *> m_runners;
-	// scratch space for finishing jobs on main thread
-	std::vector<Job *> m_finishedScratch;
-
-	bool m_shutdown;
-};
-
 class SyncJobQueue : public JobQueue {
 public:
 	SyncJobQueue() = default;
