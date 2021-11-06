@@ -11,18 +11,23 @@
 
 std::atomic<uint32_t> s_numExec = 0;
 
+void busy_wait(uint32_t uSec = 500)
+{
+	Profiler::Clock clock{};
+	clock.Start();
+	while (clock.currentmilliseconds() * 1000 < uSec)
+		atomic_queue::spin_loop_pause();
+}
+
 class TestTask : public Task {
 public:
 	void OnExecute(TaskRange) override
 	{
 		PROFILE_SCOPED()
 		// printf("Task %p executed on thread %d!\n", this, TaskGraph::GetThreadNum());
-		Profiler::Clock clock{};
-		clock.Start();
 
 		// run a workload for 50us
-		while (clock.currentmilliseconds() < 0.050)
-			atomic_queue::spin_loop_pause();
+		busy_wait(50);
 		s_numExec.fetch_add(1);
 	}
 };
@@ -32,11 +37,8 @@ public:
 	void OnRun() override
 	{
 		printf("Job %p executed on thread %d!\n", this, TaskGraph::GetThreadNum());
-		Profiler::Clock clock{};
-		clock.Start();
 		// run a workload for 500us
-		while (clock.currentmilliseconds() < 0.500)
-			atomic_queue::spin_loop_pause();
+		busy_wait(500);
 	}
 
 	void OnFinish() override
@@ -53,7 +55,7 @@ public:
 TEST_CASE("Task Graph")
 {
 	TaskGraph *graph = new TaskGraph();
-	graph->SetWorkerThreads(2);
+	graph->SetWorkerThreads(3);
 	s_numExec = 0;
 
 	SUBCASE("Single Task")
@@ -134,9 +136,60 @@ TEST_CASE("Task Graph")
 			graph->GetJobQueue()->FinishJobs();
 	}
 
+	SUBCASE("Wait on Other Threads")
+	{
+		Profiler::reset();
+		TaskSet *set1 = new TaskSet();
+
+		for (uint32_t idx = 0; idx < 4; idx++) {
+			set1->AddTaskLambda({0, 32}, [=](TaskRange r){
+				PROFILE_SCOPED_DESC("Launcher Task")
+
+				TaskSet *setN = new TaskSet();
+				for (uint32_t idx = r.begin; idx < r.end; idx++)
+					setN->AddTask(new TestTask());
+
+				auto handle = graph->QueueTaskSet(setN);
+				graph->WaitForTaskSet(handle);
+				printf("Job %d finished waiting on thread %d\n", idx, graph->GetThreadNum());
+			});
+		}
+
+		auto handle = graph->QueueTaskSet(set1);
+		graph->WaitForTaskSet(handle);
+		CHECK(s_numExec.load() == 128);
+
+		// const std::string path = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
+		// Profiler::dumpzones(path.c_str());
+	}
+
+	SUBCASE("Add Pinned Tasks from Other Threads")
+	{
+		Profiler::reset();
+		TaskSet *set1 = new TaskSet();
+
+		for (uint32_t idx = 0; idx < 4; idx++) {
+			set1->AddTaskLambda({}, [=](TaskRange){
+				PROFILE_SCOPED_DESC("Launcher Task")
+
+				graph->QueueTaskPinned(new TestTask());
+				busy_wait(500);
+			});
+		}
+
+		auto handle = graph->QueueTaskSet(set1);
+		busy_wait(50);
+		graph->WaitForTaskSet(handle);
+
+		// const std::string path = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
+		// Profiler::dumpzones(path.c_str());
+	}
+
 	/*
 	SUBCASE("Profile Task Set") {
-		PROFILE_SCOPED()
+		Profiler::reset();
+
+		PROFILE_SCOPED_DESC("Profile Task Set")
 		Profiler::Clock clock {};
 		clock.Start();
 
@@ -154,6 +207,7 @@ TEST_CASE("Task Graph")
 
 		clock.Stop();
 		printf("TaskSet Profile completed in %f ms\n", clock.milliseconds());
+		CHECK(s_numExec.load() == 256*256);
 
 		const std::string path = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
 		Profiler::dumpzones(path.c_str());
