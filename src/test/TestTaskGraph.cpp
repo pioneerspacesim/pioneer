@@ -142,7 +142,7 @@ TEST_CASE("Task Graph")
 		TaskSet *set1 = new TaskSet();
 
 		for (uint32_t idx = 0; idx < 4; idx++) {
-			set1->AddTaskLambda({0, 32}, [=](TaskRange r){
+			set1->AddTaskLambda({ 0, 32 }, [=](TaskRange r) {
 				PROFILE_SCOPED_DESC("Launcher Task")
 
 				TaskSet *setN = new TaskSet();
@@ -169,7 +169,7 @@ TEST_CASE("Task Graph")
 		TaskSet *set1 = new TaskSet();
 
 		for (uint32_t idx = 0; idx < 4; idx++) {
-			set1->AddTaskLambda({}, [=](TaskRange){
+			set1->AddTaskLambda({}, [=](TaskRange) {
 				PROFILE_SCOPED_DESC("Launcher Task")
 
 				graph->QueueTaskPinned(new TestTask());

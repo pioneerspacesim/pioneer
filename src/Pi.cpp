@@ -1056,8 +1056,7 @@ void GameLoop::Update(float deltaTime)
 	perfInfoDisplay->UpdateCounter(PiGui::PerfInfo::COUNTER_PIGUI, pigui_time);
 
 	// XXX: profile game startup
-	if (GetProfilerAccumulate() && (SDL_GetTicks() - startup_ticks) >= profile_startup_ms)
-	{
+	if (GetProfilerAccumulate() && (SDL_GetTicks() - startup_ticks) >= profile_startup_ms) {
 		SetProfilerAccumulate(false);
 		Pi::GetApp()->RequestProfileFrame();
 	}
