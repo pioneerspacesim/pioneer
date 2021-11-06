@@ -227,6 +227,8 @@ void TaskGraph::QueueTaskPinned(Task *task)
 
 void TaskGraph::WaitForTaskSet(TaskSet::Handle &setHandle)
 {
+	PROFILE_SCOPED()
+
 	if (!setHandle.m_set)
 		return;
 
@@ -267,6 +269,8 @@ bool TaskGraph::CompleteTaskSet(TaskSet::Handle &setHandle)
 
 void TaskGraph::RunPinnedTasks()
 {
+	PROFILE_SCOPED()
+
 	if (!m_pinnedTasks->was_size())
 		return;
 
@@ -391,7 +395,7 @@ void TaskGraph::WakeForNewTasks()
 {
 	PROFILE_SCOPED()
 	// semaphore notify all threads waiting for new tasks
-	m_newTasksSemaphore.signal(std::max(m_newTasksSemaphore.count() + 1, 1));
+	m_newTasksSemaphore.signal(m_numAliveThreads.load(std::memory_order_relaxed));
 
 	// also wakeup threads waiting on finished tasks
 	// (currently only the main thread)
