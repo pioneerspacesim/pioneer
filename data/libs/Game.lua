@@ -16,7 +16,10 @@ end
 -- Function: GetStartTime()
 --
 -- Returns the zero-offset time in seconds since Jan 1 3200 at which the
--- current game began
+-- current game began.
+--
+-- > local seconds_since_start = Game.time - Game.GetStartTime()
+--
 function Game.GetStartTime()
 	return gameStartTime
 end
