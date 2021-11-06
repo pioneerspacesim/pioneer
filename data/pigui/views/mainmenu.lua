@@ -34,6 +34,7 @@ local icons = ui.theme.icons
 local mainButtonSize = Vector2(400,46) * (ui.screenHeight / 1200)
 local dialogButtonSize = Vector2(150,46) * (ui.screenHeight / 1200)
 local mainButtonFontSize = 24 * (ui.screenHeight / 1200)
+local quitPadding = ui.rescaleUI(Vector2(12, 12))
 
 local showQuitConfirm = false
 local quitConfirmMsg
@@ -103,25 +104,29 @@ end --mainTextButton
 local function confirmQuit()
 	ui.setNextWindowPosCenter('Always')
 
-	ui.withStyleColors({["WindowBg"] = colors.commsWindowBackground}, function()
+	ui.withStyleColorsAndVars({WindowBg = colors.blueBackground:opacity(0.70)}, {WindowPadding = quitPadding}, function()
 		-- TODO: this window should be ShowBorders
 		ui.window("MainMenuQuitConfirm", {"NoTitleBar", "NoResize", "AlwaysAutoResize"}, function()
-			ui.withFont(pionillium.large.name, mainButtonFontSize, function()
+			local w = dialogButtonSize.x * 0.6
+			local fullW = w * 3 + dialogButtonSize.x * 2
+
+			ui.withFont(orbiteer.medlarge, function()
 				ui.text(qlc.QUIT)
 			end)
-			ui.withFont(pionillium.large.name, pionillium.large.size, function()
-				ui.pushTextWrapPos(450)
+			ui.withFont(pionillium.medlarge, function()
+				ui.pushTextWrapPos(fullW)
 				ui.textWrapped(quitConfirmMsg)
 				ui.popTextWrapPos()
 			end)
 			ui.dummy(Vector2(5,15)) -- small vertical spacing
-			ui.dummy(Vector2(30, 5))
-			ui.sameLine()
+
+			ui.dummy(Vector2(0, 0))
+			ui.sameLine(0, w)
 			dialogTextButton(qlc.YES, true, Engine.Quit)
-			ui.sameLine()
-			ui.dummy(Vector2(30, 5))
-			ui.sameLine()
+			ui.sameLine(0, w)
 			dialogTextButton(qlc.NO, true, function() showQuitConfirm = false end)
+			ui.sameLine(0, w)
+			ui.dummy(Vector2(0, 0))
 		end)
 	end)
 end
