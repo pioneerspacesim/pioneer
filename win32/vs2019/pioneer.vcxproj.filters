@@ -588,6 +588,9 @@
     <ClCompile Include="..\..\contrib\imgui\imgui_tables.cpp">
       <Filter>src\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\core\TaskGraph.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -1135,6 +1138,24 @@
     </ClInclude>
     <ClInclude Include="..\..\src\pigui\PiGuiRenderer.h">
       <Filter>src\pigui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\FNV1a.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\OS.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\Semaphore.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\StringHash.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\TaskGraph.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\TypeId.h">
+      <Filter>src\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -398,6 +398,7 @@
     <ClCompile Include="..\..\src\core\IniConfig.cpp" />
     <ClCompile Include="..\..\src\core\Log.cpp" />
     <ClCompile Include="..\..\src\core\LZ4Format.cpp" />
+    <ClCompile Include="..\..\src\core\TaskGraph.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\DateTime.cpp" />
     <ClCompile Include="..\..\src\DeathView.cpp" />
@@ -613,11 +614,17 @@
     <ClInclude Include="..\..\src\CollMesh.h" />
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\core\Application.h" />
+    <ClInclude Include="..\..\src\core\FNV1a.h" />
     <ClInclude Include="..\..\src\core\GuiApplication.h" />
     <ClInclude Include="..\..\src\core\GZipFormat.h" />
     <ClInclude Include="..\..\src\core\IniConfig.h" />
     <ClInclude Include="..\..\src\core\Log.h" />
     <ClInclude Include="..\..\src\core\LZ4Format.h" />
+    <ClInclude Include="..\..\src\core\OS.h" />
+    <ClInclude Include="..\..\src\core\Semaphore.h" />
+    <ClInclude Include="..\..\src\core\StringHash.h" />
+    <ClInclude Include="..\..\src\core\TaskGraph.h" />
+    <ClInclude Include="..\..\src\core\TypeId.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\DateTime.h" />
     <ClInclude Include="..\..\src\DeathView.h" />
