@@ -8,6 +8,8 @@ local utils = require 'utils'
 local pigui = Engine.pigui
 local ui = require 'pigui.libs.forwarded'
 
+local defaultBaseResolution = Vector2(1600, 900)
+
 --
 -- Function: ui.rescaleUI
 --
@@ -37,6 +39,10 @@ local ui = require 'pigui.libs.forwarded'
 function ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution)
 	if not targetResolution then
 		targetResolution = Vector2(pigui.screen_width, pigui.screen_height)
+	end
+
+	if not baseResolution then
+		baseResolution = defaultBaseResolution
 	end
 
 	local rescaleVector = Vector2(targetResolution.x / baseResolution.x, targetResolution.y / baseResolution.y)
