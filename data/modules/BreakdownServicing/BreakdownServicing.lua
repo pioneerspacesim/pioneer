@@ -62,6 +62,7 @@ for i = 1,#flavours do
 	f.response  = l["FLAVOUR_" .. i-1 .. "_RESPONSE"]
 end
 
+local mechanic = {}
 local ads = {}
 local service_history = {
 	lastdate = 0, -- Default will be overwritten on game start
@@ -131,7 +132,7 @@ local onChat = function (form, ref, option)
 	if option == 0 then
 		-- Initial proposal
 		form:SetTitle(ad.title)
-		form:SetFace(Character.New({ female = ad.isfemale, seed = ad.faceseed, name = ad.name }))
+		form:SetFace(ad.mechanic)
 		-- Replace token with details of last service (which might have
 		-- been seconds ago)
 		form:SetMessage(string.interp(message, {
@@ -151,7 +152,7 @@ local onChat = function (form, ref, option)
 		-- Yes please, service my engine
 		form:Clear()
 		form:SetTitle(ad.title)
-		form:SetFace(Character.New({ female = ad.isfemale, seed = ad.faceseed, name = ad.name }))
+		form:SetFace(ad.mechanic)
 		if Game.player:GetMoney() >= price then -- We did check earlier, but...
 			-- Say thanks
 			form:SetMessage(ad.response)
@@ -187,26 +188,23 @@ end
 local onCreateBB = function (station)
 	local rand = Rand.New(station.seed + seedbump)
 	local n = rand:Integer(1,#flavours)
-	local isfemale = rand:Integer(1) == 1
-	local name = NameGen.FullName(isfemale,rand)
+	mechanic = Character.New()
 
 	local ad = {
-		name = name,
-		isfemale = isfemale,
+		mechanic = mechanic,
 		-- Only replace tokens which are not subject to further change
 		title = string.interp(flavours[n].title, {
 			name = station.label,
-			proprietor = name,
+			proprietor = mechanic.name,
 		}),
 		intro = string.interp(flavours[n].intro, {
 			name = station.label,
-			proprietor = name,
+			proprietor = mechanic.name,
 		}),
 		price = flavours[n].price,
 		yesplease = flavours[n].yesplease,
 		response = flavours[n].response,
 		station = station,
-		faceseed = rand:Integer(),
 		strength = flavours[n].strength,
 		baseprice = flavours[n].baseprice *rand:Number(0.8,1.2), -- A little per-station flavouring
 	}
