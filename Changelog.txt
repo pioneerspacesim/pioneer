@@ -1,6 +1,9 @@
 November 2021
   * New Features
     * Added station restocking and balanced goods availability (#5291)
+  
+  * Internal Changes
+    * Change CommsWindow opacity, adjust Quit message window (#5303)
 
 October 2021
    * New Features
