@@ -62,7 +62,6 @@ for i = 1,#flavours do
 	f.response  = l["FLAVOUR_" .. i-1 .. "_RESPONSE"]
 end
 
-local mechanic = {}
 local ads = {}
 local service_history = {
 	lastdate = 0, -- Default will be overwritten on game start
@@ -188,7 +187,7 @@ end
 local onCreateBB = function (station)
 	local rand = Rand.New(station.seed + seedbump)
 	local n = rand:Integer(1,#flavours)
-	mechanic = Character.New()
+	local mechanic = Character.New()
 
 	local ad = {
 		mechanic = mechanic,
