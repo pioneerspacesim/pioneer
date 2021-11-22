@@ -7,6 +7,7 @@
 #include "CargoBody.h"
 #include "Frame.h"
 #include "GameSaveError.h"
+#include "JsonUtils.h"
 #include "HyperspaceCloud.h"
 #include "Missile.h"
 #include "Planet.h"
@@ -16,6 +17,7 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "Star.h"
+#include "core/Log.h"
 #include "lua/LuaEvent.h"
 
 Body::Body() :

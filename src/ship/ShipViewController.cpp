@@ -8,6 +8,7 @@
 #include "GameSaveError.h"
 #include "Headtracker.h"
 #include "Input.h"
+#include "Json.h"
 #include "WorldView.h"
 
 #include "Pi.h"

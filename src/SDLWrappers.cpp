@@ -6,6 +6,8 @@
 #include "libs.h"
 #include "utils.h"
 
+#include <SDL_image.h>
+
 SDLSurfacePtr LoadSurfaceFromFile(const std::string &fname, FileSystem::FileSource &source)
 {
 	PROFILE_SCOPED()

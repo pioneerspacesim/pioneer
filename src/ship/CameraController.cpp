@@ -7,6 +7,7 @@
 #include "Frame.h"
 #include "Game.h"
 #include "GameSaveError.h"
+#include "JsonUtils.h"
 #include "MathUtil.h"
 #include "Pi.h"
 #include "Quaternion.h"

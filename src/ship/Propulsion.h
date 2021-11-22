@@ -5,7 +5,8 @@
 #define PROPULSION_H
 
 #include "DynamicBody.h"
-#include "JsonUtils.h"
+#include "JsonFwd.h"
+#include "MathUtil.h"
 #include "scenegraph/Model.h"
 #include "vector3.h"
 

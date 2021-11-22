@@ -1,7 +1,8 @@
+// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "DateTime.h"
 
-#include "libs.h"
-#include <stdio.h>
 #include <cassert>
 #include <cstdint>
 #include <tuple>
@@ -96,11 +97,11 @@ Time::DateTime::DateTime(double gameTime) :
 void Time::DateTime::GetDateParts(int *out_year, int *out_month, int *out_day) const
 {
 	if (out_year || out_month || out_day) {
-		static_assert(Time::Day > (Sint64(1) << 32),
+		static_assert(Time::Day > (int64_t(1) << 32),
 			"code below assumes that the 'date' part of a 64-bit timestamp fits in 32 bits");
 
 		// number of days from the epoch to the beginning of the stored date
-		int days = divmod_euclid(m_timestamp, Sint64(Time::Day)).first;
+		int days = divmod_euclid(m_timestamp, int64_t(Time::Day)).first;
 
 		// work out how many completed cycles, centuries, 'quads' and years we've measured since the epoch
 		// computed such that n400 may be negative, but all other values must be positive
@@ -149,7 +150,7 @@ void Time::DateTime::GetDateParts(int *out_year, int *out_month, int *out_day) c
 void Time::DateTime::GetTimeParts(int *out_hour, int *out_minute, int *out_second, int *out_microsecond) const
 {
 	if (out_hour || out_minute || out_second || out_microsecond) {
-		const Sint64 tstamp = divmod_euclid(m_timestamp, Sint64(Time::Day)).second;
+		const int64_t tstamp = divmod_euclid(m_timestamp, int64_t(Time::Day)).second;
 		assert(tstamp >= 0);
 
 		if (out_microsecond) {

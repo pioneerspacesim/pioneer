@@ -4,7 +4,7 @@
 #ifndef __OGGMIX_H
 #define __OGGMIX_H
 
-#include <SDL.h>
+#include <SDL_stdinc.h>
 #include <map>
 #include <string>
 #include <vector>

@@ -9,6 +9,7 @@
 #include "FrameId.h"
 #include "lua/PropertiedObject.h"
 #include "matrix3x3.h"
+#include "matrix4x4.h"
 #include "vector3.h"
 #include <string>
 

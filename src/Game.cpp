@@ -10,6 +10,7 @@
 #include "FileSystem.h"
 #include "GameLog.h"
 #include "GameSaveError.h"
+#include "JsonUtils.h"
 #include "HyperspaceCloud.h"
 #include "MathUtil.h"
 #include "collider/CollisionSpace.h"

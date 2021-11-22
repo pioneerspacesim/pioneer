@@ -18,6 +18,7 @@
 #include "graphics/Renderer.h"
 #include "imgui/imgui.h"
 #include "pigui/LuaPiGui.h"
+#include "profiler/Profiler.h"
 #include "terrain/Terrain.h"
 #include "utils.h"
 

@@ -5,6 +5,7 @@
 #define _MODELBODY_H
 
 #include "Body.h"
+#include "Color.h"
 #include "CollMesh.h"
 #include "FrameId.h"
 

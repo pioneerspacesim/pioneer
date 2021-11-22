@@ -4,6 +4,7 @@
 #include "Frame.h"
 
 #include "GameSaveError.h"
+#include "Json.h"
 #include "JsonUtils.h"
 #include "Sfx.h"
 #include "Space.h"

@@ -8,6 +8,7 @@
 #include "IterationProxy.h"
 #include "Orbit.h"
 #include "RefCounted.h"
+#include "fixed.h"
 #include "galaxy/RingStyle.h"
 #include "galaxy/SystemPath.h"
 #include "gameconsts.h"

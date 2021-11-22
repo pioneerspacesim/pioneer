@@ -5,6 +5,7 @@
 #define _PROJECTILE_H
 
 #include "Body.h"
+#include "Color.h"
 
 struct ProjectileData {
 	ProjectileData() :

@@ -7,7 +7,8 @@
 #include "graphics/Material.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
-#include "libs.h"
+
+#include <memory>
 
 namespace Graphics {
 	class Renderer;

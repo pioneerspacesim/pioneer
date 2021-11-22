@@ -6,8 +6,8 @@
 
 #include "Renderer.h"
 #include "SDLWrappers.h"
+#include "SDL_mutex.h"
 #include "Texture.h"
-#include <SDL.h>
 #include <string>
 
 #include "PicoDDS/PicoDDS.h"
@@ -118,6 +118,7 @@ namespace Graphics {
 			UpdateTexture(t);
 			return t;
 		}
+
 		void UpdateTexture(Texture *texture); // XXX pass src/dest rectangles
 		void PrepareSurface();
 		bool m_prepared;

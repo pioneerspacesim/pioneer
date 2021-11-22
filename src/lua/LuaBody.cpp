@@ -5,6 +5,7 @@
 #include "EnumStrings.h"
 #include "Frame.h"
 #include "Game.h"
+#include "Json.h"
 #include "LuaConstants.h"
 #include "LuaMetaType.h"
 #include "LuaObject.h"

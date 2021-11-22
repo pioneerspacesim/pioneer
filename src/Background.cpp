@@ -25,6 +25,7 @@
 #include "graphics/VertexBuffer.h"
 #include "perlin.h"
 #include "profiler/Profiler.h"
+#include "utils.h"
 
 #include <SDL_stdinc.h>
 #include <iostream>

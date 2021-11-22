@@ -10,6 +10,9 @@
 #include "Sector.h"
 #include "utils.h"
 
+// FIXME(sturnclaw): don't need to be pulling in SDL_image here
+#include <SDL_image.h>
+
 Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
 	const std::string &factionsDir, const std::string &customSysDir) :
 	GALAXY_RADIUS(radius),
@@ -120,6 +123,7 @@ DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerato
 	m_mapWidth(0),
 	m_mapHeight(0)
 {
+	// FIXME(sturnclaw): why are we using raw SDL ops here - use an image loader!
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(mapfile);
 	if (!filedata) {
 		Error("Galaxy: couldn't load '%s'\n", mapfile.c_str());

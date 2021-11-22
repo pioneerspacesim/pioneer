@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Plane.h"
-#include "libs.h"
 
 double SPlane::DistanceToPoint(const vector3d &p) const
 {

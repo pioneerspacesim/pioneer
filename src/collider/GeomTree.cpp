@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GeomTree.h"
+
 #include "../libs.h"
 #include "BVHTree.h"
 #include "Weld.h"

@@ -5,6 +5,7 @@
 #define _STARSYSTEM_H
 
 #include "Polit.h"
+#include "Random.h"
 #include "RefCounted.h"
 #include "galaxy/Economy.h"
 #include "galaxy/GalaxyCache.h"

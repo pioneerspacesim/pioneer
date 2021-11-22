@@ -11,7 +11,7 @@
 #include "lua/LuaConstants.h"
 #endif
 #include "FileSystem.h"
-#include "Json.h"
+#include "JsonUtils.h"
 #include "Lang.h"
 #include "utils.h"
 #include <algorithm>

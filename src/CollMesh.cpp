@@ -5,6 +5,7 @@
 
 #include "scenegraph/Serializer.h"
 #include "collider/GeomTree.h"
+#include "profiler/Profiler.h"
 
 //This simply stores the collision GeomTrees
 //and AABB.

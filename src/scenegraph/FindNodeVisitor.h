@@ -9,6 +9,9 @@
  */
 #include "NodeVisitor.h"
 
+#include <string>
+#include <vector>
+
 namespace SceneGraph {
 
 	class FindNodeVisitor : public NodeVisitor {

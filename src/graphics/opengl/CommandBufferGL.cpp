@@ -12,6 +12,7 @@
 #include "VertexBufferGL.h"
 
 #include "graphics/VertexBuffer.h"
+#include "profiler/Profiler.h"
 
 using namespace Graphics::OGL;
 

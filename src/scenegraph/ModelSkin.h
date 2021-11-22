@@ -5,7 +5,7 @@
 #define SCENEGRAPH_MODELSKIN_H
 
 #include "Color.h"
-#include "Json.h"
+#include "JsonFwd.h"
 #include "Random.h"
 #include "lua/LuaWrappable.h"
 #include <string>

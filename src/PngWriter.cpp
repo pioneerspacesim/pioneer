@@ -6,6 +6,8 @@
 #include "graphics/Graphics.h"
 #include "utils.h"
 
+#include <SDL_image.h>
+
 void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint8 *bytes, int width, int height, int stride, int bytes_per_pixel)
 {
 	// Set up the pixel format color masks for RGB(A) byte arrays.

@@ -1,7 +1,10 @@
+// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GAMELOG_H
 #define _GAMELOG_H
 
-#include "libs.h"
+#include <string>
 
 /*
  * For storing all in-game log messages

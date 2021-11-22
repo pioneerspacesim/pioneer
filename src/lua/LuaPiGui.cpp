@@ -28,6 +28,7 @@
 #include "pigui/PiGui.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
+#include "utils.h"
 
 #include <iterator>
 #include <numeric>

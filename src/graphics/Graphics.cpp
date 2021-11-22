@@ -11,6 +11,8 @@
 #include <iterator>
 #include <sstream>
 
+#include <SDL.h>
+
 namespace Graphics {
 
 	const char *RendererNameFromType(const RendererType rType)

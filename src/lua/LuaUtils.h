@@ -4,7 +4,6 @@
 #ifndef _LUAUTILS_H
 #define _LUAUTILS_H
 
-#include "utils.h"
 #include <lua.hpp>
 #include <string>
 

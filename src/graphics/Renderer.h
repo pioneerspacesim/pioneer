@@ -10,10 +10,11 @@
 #include "Types.h"
 #include "core/StringHash.h"
 #include "graphics/BufferCommon.h"
-#include "libs.h"
 #include "matrix4x4.h"
 #include <map>
 #include <memory>
+
+struct SDL_Window;
 
 namespace Graphics {
 

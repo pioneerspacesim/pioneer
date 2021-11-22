@@ -4,6 +4,7 @@
 #include "ModelSkin.h"
 #include "GameSaveError.h"
 #include "JsonUtils.h"
+#include "Json.h"
 #include "Model.h"
 #include "Serializer.h"
 #include "StringF.h"

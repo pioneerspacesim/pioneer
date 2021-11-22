@@ -3,12 +3,14 @@
 
 #include "Drawables.h"
 
+#include "MathUtil.h"
 #include "Texture.h"
 #include "TextureBuilder.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
+#include "profiler/Profiler.h"
 
 namespace Graphics {
 

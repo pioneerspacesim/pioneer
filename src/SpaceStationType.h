@@ -4,7 +4,13 @@
 #ifndef _SPACESTATIONTYPE_H
 #define _SPACESTATIONTYPE_H
 
-#include "libs.h"
+#include "Random.h"
+#include "matrix4x4.h"
+#include "vector3.h"
+
+#include <map>
+#include <vector>
+#include <string>
 
 //Space station definition, loaded from data/stations
 
@@ -15,7 +21,7 @@ namespace SceneGraph {
 
 class SpaceStationType {
 public:
-	typedef std::map<Uint32, matrix4x4f> TMapBayIDMat;
+	typedef std::map<uint32_t, matrix4x4f> TMapBayIDMat;
 	struct PortPath {
 		TMapBayIDMat m_docking;
 		TMapBayIDMat m_leaving;

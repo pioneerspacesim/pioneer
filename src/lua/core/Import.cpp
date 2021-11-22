@@ -3,6 +3,8 @@
 
 #include "CoreFwdDecl.h"
 #include "FileSystem.h"
+#include "utils.h"
+
 #include <algorithm>
 #include <deque>
 #include <string>

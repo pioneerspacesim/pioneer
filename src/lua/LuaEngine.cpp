@@ -29,6 +29,8 @@
 #include "sound/Sound.h"
 #include "sound/SoundMusic.h"
 #include "utils.h"
+
+#include <SDL_timer.h>
 /*
  * Interface: Engine
  *

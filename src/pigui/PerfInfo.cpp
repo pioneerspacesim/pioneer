@@ -4,6 +4,7 @@
 #include "PerfInfo.h"
 #include "Frame.h"
 #include "Game.h"
+#include "Input.h"
 #include "LuaPiGui.h"
 #include "Pi.h"
 #include "Player.h"

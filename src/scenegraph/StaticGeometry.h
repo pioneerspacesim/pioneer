@@ -10,7 +10,6 @@
 #include "Node.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexBuffer.h"
-#include "libs.h"
 
 namespace SceneGraph {
 

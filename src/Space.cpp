@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "GameSaveError.h"
 #include "HyperspaceCloud.h"
+#include "JsonUtils.h"
 #include "Lang.h"
 #include "MathUtil.h"
 #include "Pi.h"

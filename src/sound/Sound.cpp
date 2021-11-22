@@ -11,6 +11,7 @@
 #include "JobQueue.h"
 #include "Pi.h"
 #include "Player.h"
+#include "utils.h"
 
 #include "SDL_audio.h"
 #include "SDL_events.h"

@@ -8,7 +8,9 @@
  */
 #include "RefCounted.h"
 #include "graphics/Material.h"
-#include "libs.h"
+
+#include <string>
+#include <vector>
 
 namespace Graphics {
 	class Renderer;

@@ -4,6 +4,10 @@
 #ifndef _JSON_UTILS_H
 #define _JSON_UTILS_H
 
+// This file pulls in a fair number of includes, including the complete json library.
+// If possible, avoid #including this file in other headers; use JsonFwd.h and include
+// this in your .cpp file instead.
+
 #include "Color.h"
 #include "FrameId.h"
 #include "Json.h"

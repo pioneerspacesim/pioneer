@@ -11,6 +11,7 @@
 #include "GameSaveError.h"
 #include "Input.h"
 #include "Json.h"
+#include "JsonUtils.h"
 #include "lua/LuaObject.h"
 #include "MathUtil.h"
 #include "Pi.h"

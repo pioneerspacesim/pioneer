@@ -23,6 +23,7 @@
 #include "scenegraph/Animation.h"
 #include "scenegraph/ModelSkin.h"
 #include "scenegraph/SceneGraph.h"
+#include "utils.h"
 
 #include "utils.h"
 

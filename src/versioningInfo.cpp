@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "versioningInfo.h"
-#include "libs.h"
+
 #include "utils.h"
 // open asset importer
 #include <assimp/version.h>
@@ -15,6 +15,8 @@
 #endif
 
 #include <GL/glew.h>
+#include <SDL.h>
+#include <SDL_image.h>
 
 void OutputVersioningInfo()
 {

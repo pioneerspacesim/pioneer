@@ -3,8 +3,10 @@
 
 #include "Billboard.h"
 
+#include "MathUtil.h"
 #include "Model.h"
 #include "NodeVisitor.h"
+
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
@@ -12,6 +14,8 @@
 #include "graphics/Stats.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
+
+#include "profiler/Profiler.h"
 
 namespace SceneGraph {
 

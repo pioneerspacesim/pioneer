@@ -10,6 +10,9 @@
 #include "Body.h"
 #include "Space.h"
 
+#include "core/Log.h"
+#include "profiler/Profiler.h"
+
 // every module can save one object. that will usually be a table.  we call
 // each serializer in turn and capture its return value we build a table like
 // so:
@@ -186,7 +189,7 @@ void LuaSerializer::pickle_json(lua_State *l, int to_serialize, Json &out, const
 	}
 
 	default:
-		Error("Lua serializer '%s' tried to serialize %s value", key.c_str(), lua_typename(l, lua_type(l, idx)));
+		Log::Error("Lua serializer '{}' tried to serialize {} value", key.c_str(), lua_typename(l, lua_type(l, idx)));
 		break;
 	}
 

@@ -11,6 +11,7 @@
 #include "GameSaveError.h"
 #include "HeatGradientPar.h"
 #include "HyperspaceCloud.h"
+#include "JsonUtils.h"
 #include "Lang.h"
 #include "Missile.h"
 #include "NavLights.h"

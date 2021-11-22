@@ -5,6 +5,7 @@
 
 #include "Game.h"
 #include "GameSaveError.h"
+#include "JsonUtils.h"
 #include "Pi.h"
 #include "Sfx.h"
 #include "Ship.h"

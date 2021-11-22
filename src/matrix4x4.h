@@ -6,6 +6,8 @@
 
 #include "matrix3x3.h"
 #include "vector3.h"
+
+#include <cassert>
 #include <math.h>
 #include <stdio.h>
 #include <cassert>

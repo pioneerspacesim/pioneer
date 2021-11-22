@@ -29,6 +29,8 @@
 
 #include "core/Log.h"
 
+#include <SDL.h>
+
 #include <cstddef> //for offsetof
 #include <iterator>
 #include <ostream>

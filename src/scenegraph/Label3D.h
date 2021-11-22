@@ -11,6 +11,8 @@
 #include "graphics/VertexBuffer.h"
 #include "text/DistanceFieldFont.h"
 
+#include <memory>
+
 namespace Graphics {
 	class Renderer;
 	class RenderState;

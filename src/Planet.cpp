@@ -15,6 +15,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"
 #include "perlin.h"
+#include "profiler/Profiler.h"
 
 #ifdef _MSC_VER
 #include "win32/WinMath.h"

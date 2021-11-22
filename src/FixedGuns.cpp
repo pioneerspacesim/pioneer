@@ -5,6 +5,7 @@
 #include "Beam.h"
 #include "DynamicBody.h"
 #include "GameSaveError.h"
+#include "JsonUtils.h"
 #include "Projectile.h"
 #include "Quaternion.h"
 #include "StringF.h"
