@@ -63,6 +63,11 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS_DEBUG "-g -Og")
 endif (CMAKE_COMPILER_IS_GNUCXX)
 
+option(USE_TIME_TRACE "Use -ftime-trace to profile compile times (requires Clang)" OFF)
+if (USE_TIME_TRACE)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftime-trace")
+endif()
+
 include(CheckSymbolExists)
 check_symbol_exists(feclearexcept "fenv.h" HAS_FECLEAREXCEPT)
 check_symbol_exists(feenableexcept "fenv.h" HAS_FEENABLEEXCEPT)
