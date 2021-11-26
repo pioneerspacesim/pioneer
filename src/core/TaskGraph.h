@@ -185,7 +185,7 @@ private:
 
 	static thread_local ThreadData *tl_threadData;
 
-	bool TryRunTask(ThreadData *thread);
+	bool TryRunTask(ThreadData *thread, bool allowJobs = true);
 	void ExecTask(Task *task);
 	bool HasTasks(ThreadData *thread);
 	static ThreadData *GetThreadData();

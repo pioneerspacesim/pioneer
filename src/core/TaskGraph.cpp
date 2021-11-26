@@ -94,6 +94,8 @@ bool TaskSet::AddTask(Task *task)
 	return true;
 }
 
+// =============================================================================
+
 TaskGraph::TaskGraph() :
 	m_threads(),
 	m_taskQueue(new AsyncTaskQueueImpl()),
@@ -113,11 +115,13 @@ TaskGraph::~TaskGraph()
 	m_isRunning.store(false);
 	m_numAliveThreads.fetch_sub(1);
 
+	// Shutdown threads, wait for the number of running threads to hit zeron
 	while (m_numAliveThreads.load(std::memory_order_acquire)) {
 		WakeForNewTasks();
 		SDL_Delay(10); // force sleep on this thread
 	}
 
+	// once all threads have finished, join them and clean up their allocations
 	for (size_t idx = 0; idx < m_threads.size(); idx++) {
 		if (m_threads[idx]->threadHandle) {
 			m_threads[idx]->threadHandle->join();
@@ -133,6 +137,7 @@ TaskGraph::~TaskGraph()
 		delete task;
 	}
 
+	// clean up pinned tasks from this thread
 	while (m_pinnedTasks->try_pop(task)) {
 		delete task;
 	}
@@ -145,6 +150,7 @@ TaskGraph::~TaskGraph()
 		delete job;
 	}
 
+	// cleanup all jobs that are waiting for the main thread
 	while (m_jobFinishedQueue->try_pop(job)) {
 		job->UnlinkHandle();
 		job->OnCancel();
@@ -160,6 +166,7 @@ TaskGraph::~TaskGraph()
 
 void TaskGraph::SetWorkerThreads(uint32_t numThreads)
 {
+	// numThreads + 1 because we have an implicit thread entry for the "main" thread
 	if (numThreads + 1 <= m_threads.size())
 		return;
 
@@ -178,6 +185,7 @@ void TaskGraph::SetWorkerThreads(uint32_t numThreads)
 			thr->threadHandle = new std::thread(&ThreadData::RunThread, thr);
 	}
 
+	// setup threadlocal data for the "main" thread here
 	tl_threadData = m_threads[0];
 	assert(m_numAliveThreads == numThreads + 1);
 }
@@ -197,6 +205,8 @@ TaskSet::Handle TaskGraph::QueueTaskSet(TaskSet *taskSet)
 void TaskGraph::QueueTask(Task *task)
 {
 	m_taskQueue->push(task);
+
+	// wake all threads that can run this task
 	WakeForNewTasks();
 }
 
@@ -204,8 +214,15 @@ TaskSet::Handle TaskGraph::QueueTaskSetPinned(TaskSet *taskSet)
 {
 	taskSet->m_executing = true;
 	for (auto task : taskSet->m_tasks) {
-		while (!m_pinnedTasks->try_push(task)) {
+		// Check that the graph is still running to avoid a potential deadlock
+		// during shutdown.
+		while (!m_pinnedTasks->try_push(task) && m_isRunning.load(std::memory_order_relaxed)) {
 			WakeForNewTasks();
+
+			// If we're the main thread, we deadlock if we wait on pinned tasks
+			// to complete; instead, take the option that makes forward
+			// progress and immediately run a pending pinned task to free a
+			// queue slot to push this task.
 			if (GetThreadData()->threadNum == 0)
 				RunPinnedTasks();
 			else
@@ -232,9 +249,14 @@ void TaskGraph::WaitForTaskSet(TaskSet::Handle &setHandle)
 	if (!setHandle.m_set)
 		return;
 
+	// if the currently running thread can't accomplish anything until the
+	// TaskSet has finished executing, this thread is implicitly free to assist
+	// in executing the TaskSet to minimize overall latency.
 	uint32_t spinCount = 0;
 	while (m_isRunning && !setHandle.IsComplete()) {
-		if (!TryRunTask(m_threads[0])) {
+		// We don't want to run any background Jobs during this loop as they
+		// cannot contribute towards the goal of completing the TaskSet
+		if (!TryRunTask(m_threads[0], false)) {
 			if (++spinCount > MAX_SPIN_COUNT) {
 				WaitForFinishedTask();
 			} else {
@@ -303,6 +325,14 @@ void TaskGraph::ThreadData::RunThread()
 	tl_threadName = fmt::format("Thread {}", threadNum);
 	Profiler::threadenter(tl_threadName.c_str());
 
+	// Worker threads pull Tasks / Jobs off of a central queue that all
+	// threads can push to - this requires the use of a bulletproof atomic
+	// queue implementation for speed and reliability.
+
+	// We also spin-wait for a fairly long time retrying for more work items
+	// to optimize the case in which there are many threaded work items being
+	// added to the system.
+
 	uint32_t spinCount = 0;
 	while (graph->m_isRunning.load(std::memory_order_relaxed)) {
 		if (!graph->TryRunTask(this)) {
@@ -351,7 +381,7 @@ bool TaskGraph::HasTasks(ThreadData *thread)
 }
 
 // Try to run a task on this thread. Can be called from any thread
-bool TaskGraph::TryRunTask(ThreadData *thread)
+bool TaskGraph::TryRunTask(ThreadData *thread, bool allowJobs)
 {
 	Task *taskToRun = nullptr;
 	bool hasTask = false;
@@ -368,7 +398,7 @@ bool TaskGraph::TryRunTask(ThreadData *thread)
 	}
 
 	Job *job = nullptr;
-	if (thread->isJobThread && m_jobQueue->try_pop(job)) {
+	if (allowJobs && thread->isJobThread && m_jobQueue->try_pop(job)) {
 		if (!job->cancelled.load(std::memory_order_acquire))
 			job->OnRun();
 		m_jobFinishedQueue->push(job);
@@ -388,6 +418,8 @@ void TaskGraph::ExecTask(Task *task)
 	else
 		delete task;
 
+	// Notify threads in WaitForTaskSet that a task has been completed, so they
+	// can check if the set is finished and return.
 	WakeForFinishedTasks();
 }
 
