@@ -4,6 +4,7 @@ November 2021
   
   * Internal Changes
     * Change CommsWindow opacity, adjust Quit message window (#5303)
+    * Add TaskGraph implementation for mid-frame parallelism (#5302)
 
 October 2021
    * New Features
