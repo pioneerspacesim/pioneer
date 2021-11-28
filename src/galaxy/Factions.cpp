@@ -621,7 +621,7 @@ bool Faction::IsClaimed(SystemPath path) const
 */
 bool Faction::IsCloserAndContains(double &closestFactionDist, const Sector::System *sys) const
 {
-	PROFILE_SCOPED()
+	// PROFILE_SCOPED() // verbose profiling, this gets called a lot
 	/*	Treat factions without homeworlds as if they are of effectively infinite radius,
 		so every world is potentially within their borders, but also treat them as if
 		they had a homeworld that was infinitely far away, so every other faction has

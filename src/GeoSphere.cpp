@@ -222,6 +222,7 @@ bool GeoSphere::AddSingleSplitResult(SSingleSplitResult *res)
 
 void GeoSphere::ProcessSplitResults()
 {
+	PROFILE_SCOPED()
 	// now handle the single split results that define the base level of the quad tree
 	{
 		std::deque<SSingleSplitResult *>::iterator iter = mSingleSplitResults.begin();
@@ -273,6 +274,7 @@ void GeoSphere::ProcessSplitResults()
 
 void GeoSphere::BuildFirstPatches()
 {
+	PROFILE_SCOPED()
 	assert(!m_patches[0]);
 	if (m_patches[0])
 		return;

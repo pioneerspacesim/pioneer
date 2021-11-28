@@ -5,6 +5,8 @@
 #define JOBQUEUE_H
 
 #include "SDL_thread.h"
+#include "core/TaskGraph.h"
+#include <atomic>
 #include <cassert>
 #include <deque>
 #include <set>
@@ -57,6 +59,7 @@ public:
 		friend class Job;
 		friend class AsyncJobQueue;
 		friend class SyncJobQueue;
+		friend class TaskGraphJobQueueImpl;
 
 		Handle(Job *job, JobQueue *queue, JobClient *client);
 		void Unlink();
@@ -87,13 +90,17 @@ private:
 	friend class SyncJobQueue;
 	friend class JobRunner;
 
+	// TaskGraph stuff
+	friend class TaskGraph;
+	friend class TaskGraphJobQueueImpl;
+
 	void UnlinkHandle();
 	const Handle *GetHandle() const { return m_handle; }
-	void SetHandle(Handle *handle) { m_handle = handle; }
+	void SetHandle(Handle *handle) { m_handle.store(handle, std::memory_order_release); }
 	void ClearHandle() { m_handle = nullptr; }
 
-	bool cancelled;
-	Handle *m_handle;
+	std::atomic<bool> cancelled;
+	std::atomic<Handle *> m_handle;
 };
 
 // the queue management class. create one from the main thread, and feed your
@@ -103,25 +110,16 @@ public:
 	JobQueue() = default;
 	JobQueue(const JobQueue &) = delete;
 	JobQueue &operator=(const JobQueue &) = delete;
-
-	// numRunners is the number of jobs to run in parallel. right now its the
-	// same as the number of threads, but there's no reason that it has to be
 	virtual ~JobQueue() {}
 
 	// call from the main thread to add a job to the queue. the job should be
 	// allocated with new. the queue will delete it once its its completed
 	virtual Job::Handle Queue(Job *job, JobClient *client = nullptr) = 0;
 
-	// call from the main thread to cancel a job. one of three things will happen
-	//
-	// - the job hasn't run yet. it will never be run, and neither OnFinished nor
-	//   OnCancel will be called. the job will be deleted on the next call to
-	//   FinishJobs
-	//
-	// - the job has finished. neither onFinished not onCancel will be called.
-	//   the job will be deleted on the next call to FinishJobs
-	//
-	// - the job is running. OnCancel will be called
+	// Call from the main thread to cancel a job.
+	// The job will not be run if it is not already executing, and OnFinished
+	// will not be called for the job. OnCancel will be called for the job
+	// when it is eventually processed in a FinishJobs() call
 	virtual void Cancel(Job *job) = 0;
 
 	// call from the main loop. this will call OnFinish for any finished jobs,
@@ -130,104 +128,13 @@ public:
 	virtual Uint32 FinishJobs() = 0;
 };
 
-// the queue management class. create one from the main thread, and feed your
-// jobs do it. it will take care of the rest
-class AsyncJobQueue : public JobQueue {
-public:
-	// numRunners is the number of jobs to run in parallel. right now its the
-	// same as the number of threads, but there's no reason that it has to be
-	AsyncJobQueue(Uint32 numRunners);
-	virtual ~AsyncJobQueue();
-
-	// call from the main thread to add a job to the queue. the job should be
-	// allocated with new. the queue will delete it once its its completed
-	virtual Job::Handle Queue(Job *job, JobClient *client = nullptr) override;
-
-	// call from the main thread to cancel a job. one of three things will happen
-	//
-	// - the job hasn't run yet. it will never be run, and neither OnFinished nor
-	//   OnCancel will be called. the job will be deleted on the next call to
-	//   FinishJobs
-	//
-	// - the job has finished. neither onFinished not onCancel will be called.
-	//   the job will be deleted on the next call to FinishJobs
-	//
-	// - the job is running. OnCancel will be called
-	virtual void Cancel(Job *job) override;
-
-	// call from the main loop. this will call OnFinish for any finished jobs,
-	// and then delete all finished and cancelled jobs. returns the number of
-	// finished jobs (not cancelled)
-	virtual Uint32 FinishJobs() override;
-
-private:
-	// a runner wraps a single thread, and calls into the queue when its ready for
-	// a new job. no user-servicable parts inside!
-	class JobRunner {
-	public:
-		JobRunner(AsyncJobQueue *jq, const uint8_t idx);
-		~JobRunner();
-		SDL_mutex *GetQueueDestroyingLock();
-		void SetQueueDestroyed();
-
-	private:
-		static int Trampoline(void *);
-		void Main();
-
-		AsyncJobQueue *m_jobQueue;
-
-		Job *m_job;
-		SDL_mutex *m_jobLock;
-		SDL_mutex *m_queueDestroyingLock;
-
-		SDL_Thread *m_threadId;
-
-		uint8_t m_threadIdx;
-		std::string m_threadName;
-		bool m_queueDestroyed;
-	};
-
-	Job *GetJob();
-	void Finish(Job *job, const uint8_t threadIdx);
-
-	std::deque<Job *> m_queue;
-	SDL_mutex *m_queueLock;
-	SDL_cond *m_queueWaitCond;
-
-	std::deque<Job *> m_finished[MAX_THREADS];
-	SDL_mutex *m_finishedLock[MAX_THREADS];
-
-	std::vector<JobRunner *> m_runners;
-	// scratch space for finishing jobs on main thread
-	std::vector<Job *> m_finishedScratch;
-
-	bool m_shutdown;
-};
-
 class SyncJobQueue : public JobQueue {
 public:
 	SyncJobQueue() = default;
 	virtual ~SyncJobQueue();
 
-	// call from the main thread to add a job to the queue. the job should be
-	// allocated with new. the queue will delete it once its its completed
 	virtual Job::Handle Queue(Job *job, JobClient *client = nullptr) override;
-
-	// call from the main thread to cancel a job. one of three things will happen
-	//
-	// - the job hasn't run yet. it will never be run, and neither OnFinished nor
-	//   OnCancel will be called. the job will be deleted on the next call to
-	//   FinishJobs
-	//
-	// - the job has finished. neither onFinished not onCancel will be called.
-	//   the job will be deleted on the next call to FinishJobs
-	//
-	// - the job is running. OnCancel will be called
 	virtual void Cancel(Job *job) override;
-
-	// call from the main loop. this will call OnFinish for any finished jobs,
-	// and then delete all finished and cancelled jobs. returns the number of
-	// finished jobs (not cancelled)
 	virtual Uint32 FinishJobs() override;
 
 	Uint32 RunJobs(Uint32 count = 1);

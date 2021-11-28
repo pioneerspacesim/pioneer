@@ -1264,15 +1264,10 @@ namespace Profiler {
 
 	template< class Dumper >
 	void dumpThreads( Dumper dumper, const char *dir ) {
-		u64 rawDuration = ( Timer::getticks() - globalStart );
-		u64 clockDuration = ( Clock::getticks() - globalClockStart );
-
+		PROFILE_SCOPED()
 		Caller *accumulate = new Caller( "/Top Callers" ), *packer = new Caller( "/Thread Packer" );
 		Buffer<Caller *> packedThreads;
 		Buffer<Buffer<Zone> *> packedZones(4);
-
-		dumper.Init(dir);
-		dumper.GlobalInfo( rawDuration, clockDuration );
 
 		threads.AcquireGlobalLock();
 
@@ -1324,6 +1319,12 @@ namespace Profiler {
 
 		// working on local data now, don't need the threads lock any more
 		threads.ReleaseGlobalLock();
+
+		u64 rawDuration = ( Timer::getticks() - globalStart );
+		u64 clockDuration = ( Clock::getticks() - globalClockStart );
+
+		dumper.Init(dir);
+		dumper.GlobalInfo( rawDuration, clockDuration );
 
 		// do the pre-computations on the gathered threads
 		Caller::ComputeChildTicks preprocessor( *accumulate );

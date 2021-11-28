@@ -3,14 +3,19 @@
 
 #pragma once
 
+#include "core/TaskGraph.h"
+
 #include <memory>
 #include <queue>
 #include <string>
 
+class JobQueue;
+class SyncJobQueue;
+
 class Application {
 public:
-	Application() = default;
-	virtual ~Application() = default;
+	Application();
+	virtual ~Application();
 
 	class Lifecycle {
 	public:
@@ -41,6 +46,13 @@ public:
 			m_nextLifecycle = l;
 		}
 
+		bool GetProfilerAccumulate() const { return m_profilerAccumulate; }
+
+		void SetProfilerAccumulate(bool enable)
+		{
+			m_profilerAccumulate = enable;
+		}
+
 	private:
 		// set to true when you want to accumulate all updates in a lifecycle into a single profile frame
 		bool m_profilerAccumulate = false;
@@ -64,6 +76,11 @@ public:
 
 	double GetTime() { return m_totalTime; }
 
+	TaskGraph *GetTaskGraph() { return m_taskGraph.get(); }
+
+	JobQueue *GetSyncJobQueue();
+	JobQueue *GetAsyncJobQueue();
+
 	void RequestProfileFrame(const std::string &path = "");
 
 protected:
@@ -75,6 +92,9 @@ protected:
 	// Runs after the main loop ends
 	virtual void Shutdown();
 
+	// Handle running pinned tasks and processing queued jobs
+	virtual void HandleJobs();
+
 	// Runs at the top of each frame.
 	virtual void BeginFrame() {}
 
@@ -85,7 +105,7 @@ protected:
 	virtual void PostUpdate() {}
 
 	// Runs at the bottom of each frame.
-	virtual void EndFrame(){};
+	virtual void EndFrame() {}
 
 	// Request the application quit immediately at the end of the update,
 	// ignoring all queued lifecycles
@@ -100,12 +120,12 @@ private:
 	bool StartLifecycle();
 	void EndLifecycle();
 
-	bool m_applicationRunning;
-	bool m_doTempProfile;
-	bool m_doSlowProfile;
-	bool m_profileZones;
-	float m_deltaTime;
-	double m_totalTime;
+	bool m_applicationRunning = false;
+	bool m_doTempProfile = false;
+	bool m_doSlowProfile = false;
+	bool m_profileZones = false;
+	float m_deltaTime = 0.f;
+	double m_totalTime = 0.f;
 
 	std::string m_profilerPath;
 	std::string m_tempProfilePath;
@@ -118,4 +138,7 @@ private:
 
 	// Lifecycles queued by QueueLifecycle()
 	std::queue<std::shared_ptr<Lifecycle>> m_queuedLifecycles;
+
+	std::unique_ptr<SyncJobQueue> m_syncJobQueue;
+	std::unique_ptr<TaskGraph> m_taskGraph;
 };

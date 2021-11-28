@@ -180,7 +180,7 @@ void Geom::CollideEdgesWithTrisOf(int &maxContacts, const Geom *b, const matrix4
 void Geom::CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const matrix4x4d &transToB,
 	const Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact *)) const
 {
-	PROFILE_SCOPED()
+	// PROFILE_SCOPED() // verbose profiling only, this gets called a LOT
 	if (maxContacts <= 0) return;
 	if (edgeNode->triIndicesStart) {
 		const GeomTree::Edge *edges = this->GetGeomTree()->GetEdges();
