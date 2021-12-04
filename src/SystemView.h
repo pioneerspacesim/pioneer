@@ -62,6 +62,7 @@ struct Projectable {
 	} ref;
 	vector3d screenpos; // x,y - screen coordinate, z - in NDC
 	vector3d worldpos;
+	float screensize; // approximate size in screen pixels
 
 	Projectable(const types t, const bases b, const Body *obj) :
 		type(t), base(b)
@@ -141,7 +142,8 @@ private:
 	void DrawOrreryView();
 	void DrawAtlasView();
 
-	void RenderAtlasBody(SystemBody *b, vector3f pos, matrix4x4f &cameraTrans, uint8_t direction);
+	vector3f CalcInitialAtlasBodyInfo(SystemBody *b, uint8_t & outDirection);
+	void RenderAtlasBody(SystemBody *b, vector3f pos, const matrix4x4f &cameraTrans, uint8_t direction);
 
 	template <typename RefType>
 	void PutOrbit(Projectable::bases base, RefType *ref, const Orbit *orb, const vector3d &offset, const Color &color, const double planetRadius = 0.0, const bool showLagrange = false);
@@ -157,7 +159,7 @@ private:
 
 	// Project a position in the current renderer project to screenspace and add it to the list of projected objects
 	template <typename T>
-	void AddProjected(Projectable::types type, Projectable::bases base, T *ref, const vector3d &worldpos);
+	void AddProjected(Projectable::types type, Projectable::bases base, T *ref, const vector3d &worldpos, float screensize = 0.f);
 	void CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos);
 	void CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos);
 	double GetOrbitTime(double t, const SystemBody *b);
@@ -191,7 +193,8 @@ private:
 	float m_rot_x_to, m_rot_y_to;
 	float m_zoom, m_zoomTo;
 	float m_atlasZoom, m_atlasZoomTo;
-	float m_atlasPosX, m_atlasPosY;
+	vector2f m_atlasPos, m_atlasPosTo;
+	float m_atlasViewW, m_atlasViewH;
 	int m_animateTransition;
 	vector3d m_trans;
 	vector3d m_transTo;

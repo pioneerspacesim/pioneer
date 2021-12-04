@@ -249,6 +249,7 @@ static int l_systemview_get_projected_grouped(lua_State *l)
 		for (GroupInfo &group : groups) {
 			LuaTable info_table(l, 0, 6);
 			info_table.Set("screenCoordinates", group.m_mainObject.screenpos);
+			info_table.Set("screenSize", group.m_mainObject.screensize);
 			info_table.Set("mainObject", projectable_to_lua_row(group.m_mainObject, l));
 			lua_pop(l, 1);
 			if (group.m_objects.size() > 1) {

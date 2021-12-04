@@ -22,6 +22,7 @@ local systemView
 local mainButtonSize = ui.rescaleUI(Vector2(32,32), Vector2(1600, 900))
 local mainButtonFramePadding = 3
 local indicatorSize = Vector2(30 , 30)
+local bodyIconSize = Vector2(18 , 18)
 
 local selectedObject -- object, centered in SystemView
 
@@ -29,6 +30,12 @@ local hudfont = ui.fonts.pionillium.small
 local hudfont_highlight = ui.fonts.pionillium.medium
 local detailfont = ui.fonts.pionillium.medium
 local winfont = ui.fonts.pionillium.medlarge
+
+local atlasfont = ui.fonts.pionillium.medium
+local atlasfont_highlight = ui.fonts.pionillium.medlarge
+
+local atlas_line_length = ui.rescaleUI(24)
+local atlas_label_offset = ui.rescaleUI(Vector2(12, -8))
 
 local ASTEROID_RADIUS = 1500000 -- rocky planets smaller than this (in meters) are considered an asteroid, not a planet
 
@@ -60,6 +67,7 @@ local svColor = {
 	PLANNER_ORBIT = colors.systemMapPlannerOrbit,
 	PLAYER = colors.systemMapPlayer,
 	PLAYER_ORBIT = colors.systemMapPlayerOrbit,
+	SELECTED = ui.theme.styleColors.gray_200,
 	SELECTED_SHIP_ORBIT = colors.systemMapSelectedShipOrbit,
 	SHIP = colors.systemMapShip,
 	SHIP_ORBIT = colors.systemMapShipOrbit,
@@ -344,10 +352,14 @@ function Windows.systemName.Show()
 	ui.text(ui.Format.SystemPath(path))
 end
 
-local function drawGroupIcons(coords, icon, color, iconSize, group)
+local function drawGroupIcons(coords, icon, color, iconSize, group, isSelected)
 	-- indicators
 	local stackedSize = indicatorSize
 	local stackStep = Vector2(10, 10)
+	if isSelected then
+		ui.addIcon(coords, icons.square, svColor.SELECTED, stackedSize, ui.anchor.center, ui.anchor.center)
+		stackedSize = stackedSize + stackStep
+	end
 	if group.hasPlayer then
 		ui.addIcon(coords, icons.square, svColor.PLAYER, stackedSize, ui.anchor.center, ui.anchor.center)
 		stackedSize = stackedSize + stackStep
@@ -368,6 +380,39 @@ local function drawGroupIcons(coords, icon, color, iconSize, group)
 	ui.addIcon(coords, icon, color, iconSize, ui.anchor.center, ui.anchor.center)
 end
 
+-- handle positioning and drawing a label for the given object in Atlas mode
+local function drawAtlasBodyLabel(label, screenSize, mainCoords, isHovered, isSelected)
+	-- Larger font for hovered bodies, slight emphasis on the selected body
+	local font = isHovered and atlasfont_highlight or atlasfont
+	local fontColor = isSelected and colors.systemAtlasLabelActive or colors.systemAtlasLabel
+	local lineColor = isSelected and colors.systemAtlasLineActive or colors.systemAtlasLine
+
+	local textSize = ui.calcTextSize(label, font)
+	-- lineOffset is half the screen-size radius of the body
+	local lineOffsetSize = math.max(screenSize * 0.66, bodyIconSize.x * 0.5) -- most icons use about 60% of the actual radius
+	-- lineLength is how long to draw the "pointer" line between the label and the edge of the body
+	local lineLength = (atlas_line_length / math.max(systemView:GetZoom(), 1.0)) * (isHovered and 1.0 or 0.6)
+
+	local lineStartPos = mainCoords + Vector2(lineOffsetSize, -lineOffsetSize * 0.667)
+	local lineEndPos = lineStartPos + Vector2(lineLength, -lineLength)
+	local underlinePos = lineEndPos + Vector2(textSize.x + atlas_label_offset.x * 2, 0)
+
+	-- draw a background behind the label, then an indicator line
+	if isHovered then
+		ui.addRectFilled(lineEndPos - Vector2(0, -atlas_label_offset.y + textSize.y), underlinePos, colors.lightBlackBackground, 4, 0)
+		ui.addLine(lineStartPos, lineEndPos, lineColor, 2)
+		ui.addLine(lineEndPos, underlinePos, lineColor, 3)
+	end
+
+	-- draw the label and it's shadow for clarity
+	local labelPos = (isHovered and lineEndPos or lineStartPos) + atlas_label_offset
+	local shadowPos = labelPos + Vector2(2, 1)
+
+	ui.addStyledText(shadowPos, ui.anchor.left, ui.anchor.baseline, label, colors.black, font)
+	ui.addStyledText(labelPos, ui.anchor.left, ui.anchor.baseline, label, fontColor, font)
+end
+
+
 local unexloredWindowFlags = ui.WindowFlags {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "NoInputs"}
 -- forked from data/pigui/views/game.lua
 local function displayOnScreenObjects()
@@ -376,14 +421,10 @@ local function displayOnScreenObjects()
 	local navTarget = player:GetNavTarget()
 	local combatTarget = player:GetCombatTarget()
 
-	local should_show_label = ui.shouldShowLabels()
-	if not isOrrery then
-		should_show_label = should_show_label and systemView:GetZoom() <= 0.5
-	end
+	local should_show_label = isOrrery and ui.shouldShowLabels()
 
-	local iconsize = Vector2(18 , 18)
 	local label_offset = 14 -- enough so that the target rectangle fits
-	local collapse = iconsize -- size of clusters to be collapsed into single bodies
+	local collapse = bodyIconSize -- size of clusters to be collapsed into single bodies
 	local click_radius = collapse:length() * 0.5
 	if not isOrrery then
 		click_radius = collapse:length() * 0.8 / systemView:GetZoom()
@@ -404,25 +445,34 @@ local function displayOnScreenObjects()
 	end
 
 	local hoveredObject = nil
+	local atlas_label_objects = {}
 
 	for _,group in ipairs(objects_grouped) do
 		local mainObject = group.mainObject
 		local mainCoords = Vector2(group.screenCoordinates.x, group.screenCoordinates.y)
+		local isSelected = mainObject.type == Projectable.OBJECT and mainObject.ref == systemView:GetSelectedObject().ref
 		group.hasPlanner = mainObject.type == Projectable.OBJECT and mainObject.base == Projectable.PLANNER
 
-		drawGroupIcons(mainCoords, getBodyIcon(mainObject, true), getColor(mainObject), iconsize, group)
+		drawGroupIcons(mainCoords, getBodyIcon(mainObject, true), getColor(mainObject), bodyIconSize, group, isSelected)
 
 		local mp = ui.getMousePos()
 		local label = getLabel(mainObject)
-		local mouseover = (mp - mainCoords):length() < click_radius
-		local isSelected = mainObject.ref == systemView:GetSelectedObject().ref
-		if should_show_label or mouseover or isSelected then
+		local mouseover = (mp - mainCoords):length() < (isOrrery and click_radius or math.max(click_radius, group.screenSize))
+
+		if #label > 0 and (should_show_label or mouseover) then
 			if group.objects then
 				label = label .. " (" .. #group.objects .. ")"
 			end
-			local hudfont = isSelected and hudfont_highlight or hudfont
-			ui.addStyledText(mainCoords + Vector2(label_offset+2,1), ui.anchor.left, ui.anchor.center, label , ui.theme.colors.black, hudfont)
-			ui.addStyledText(mainCoords + Vector2(label_offset,0), ui.anchor.left, ui.anchor.center, label , getColor(mainObject), hudfont)
+
+			local pos = mainCoords + Vector2(label_offset, 0)
+			if isOrrery then
+				local hovered = mouseover and mainObject.type == Projectable.OBJECT
+				local font = (hovered or isSelected) and hudfont_highlight or hudfont
+				ui.addStyledText(pos + Vector2(2, 1), ui.anchor.left, ui.anchor.center, label , ui.theme.colors.black, font)
+				ui.addStyledText(pos, ui.anchor.left, ui.anchor.center, label , getColor(mainObject), font)
+			else
+				table.insert(atlas_label_objects, { label, group.screenSize, mainCoords, mouseover, isSelected })
+			end
 		end
 
 		if mainObject.type == Projectable.OBJECT and (mainObject.base == Projectable.SYSTEMBODY or mainObject.base == Projectable.SHIP or mainObject.base == Projectable.PLAYER) then
@@ -463,6 +513,11 @@ local function displayOnScreenObjects()
 			hoveredObject = mainObject
 		end
 		objectCounter = objectCounter + 1
+	end
+
+	-- atlas body labels have to be drawn after icons for proper ordering
+	for i, v in ipairs(atlas_label_objects) do
+		drawAtlasBodyLabel(table.unpack(v))
 	end
 
 	-- click once: select or deselect a body
@@ -631,6 +686,8 @@ local dummyFrames = 3
 local hideSystemViewWindows = false
 
 local function displaySystemViewUI()
+	if not systemView then onGameStart() end
+
 	player = Game.player
 	local current_view = Game.CurrentView()
 	if current_view == "system" then
@@ -681,10 +738,15 @@ local function displaySystemViewUI()
 		if ui.escapeKeyReleased() then
 			Game.SetView("sector")
 		end
+
+		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+			package.reimport()
+		end
 	end
 end
 
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", onEnterSystem)
 ui.registerHandler("system-view", ui.makeFullScreenHandler("system-view", displaySystemViewUI))
+
 return {}

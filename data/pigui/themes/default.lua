@@ -170,6 +170,11 @@ theme.colors = {
 	systemMapSystemBodyOrbit = styleColors.success_500,
 	systemMapLagrangePoint	= styleColors.accent_200,
 
+	systemAtlasLabel        = styleColors.gray_300,
+	systemAtlasLabelActive  = styleColors.gray_200,
+	systemAtlasLine         = styleColors.primary_500,
+	systemAtlasLineActive   = styleColors.primary_400,
+
 	sectorMapLabelHighlight = styleColors.white:opacity(0.5),
 	sectorMapLabelShade = styleColors.primary_700:opacity(0.8),
 
