@@ -172,10 +172,13 @@ local click_on_radar = false
 -- display either the 3D or the 2D radar, show a popup on right click to select
 local function displayRadar()
 	if ui.optionsWindow.isOpen then return end
+	local view = Game.CurrentView()
+	if view == "sector" or view == "system" then return end
+
 	player = Game.player
-	local radar = player:GetEquip("radar")
+	local equipped_radar = player:GetEquip("radar")
 	-- only display if there actually *is* a radar installed
-	if #radar > 0 then
+	if #equipped_radar > 0 then
 
 		local size = ui.reticuleCircleRadius * 0.66
 		local cntr = Vector2(ui.screenWidth / 2, ui.screenHeight - size - 4)
