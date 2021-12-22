@@ -73,7 +73,7 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Fuel tank refilling, where necessary"
+    "message": "Fuel tank refilling, once per day"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
