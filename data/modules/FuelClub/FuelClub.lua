@@ -41,6 +41,7 @@ local l = Lang.GetResource("module-fuelclub")
 
 -- Default numeric values --
 ----------------------------
+local oneday = 86400 -- One standard day
 local oneyear = 31557600 -- One standard Julian year
 -- 10, guaranteed random by D16 dice roll.
 -- This is to make the BBS name different from the station welcome character.
@@ -112,8 +113,12 @@ onChat = function (form, ref, option)
 	local membership = memberships[ad.flavour.clubname]
 
 	if membership and (membership.joined + membership.expiry > Game.time) then
-		-- members get refuelled, whether or not the station managed to do it
-		Game.player:SetFuelPercent()
+		-- members get refueled only once a day
+		if not membership.refueled and (membership.refueling_date + oneday < Game.time) then
+			Game.player:SetFuelPercent()
+			membership.refueled = true
+			membership.refueling_date = Game.time
+		end
 		-- members get the trader interface
 		form:SetMessage(string.interp(ad.flavour.member_intro, {radioactives=Equipment.cargo.radioactives:GetName()}))
 		form:AddGoodsTrader({
@@ -224,6 +229,8 @@ onChat = function (form, ref, option)
 				joined = Game.time,
 				expiry = oneyear,
 				milrads = 0,
+				refueled = false,
+				refueling_date = 0,
 			}
 			Game.player:AddMoney(0 - ad.flavour.annual_fee)
 			form:SetMessage(l.YOU_ARE_NOW_A_MEMBER:interp({
@@ -288,6 +295,14 @@ local onCreateBB = function (station)
 	end
 end
 
+local onShipUndocked = function (ship, station)
+	if not ship:IsPlayer() then return end
+
+	for _, membership in pairs(memberships) do
+		membership.refueled = false
+	end
+end
+
 local onGameStart = function ()
 
 	if loaded_data and loaded_data.ads then
@@ -317,6 +332,8 @@ local unserialize = function (data)
 end
 
 Event.Register("onCreateBB", onCreateBB)
+Event.Register("onShipUndocked", onShipUndocked)
 Event.Register("onGameStart", onGameStart)
 
 Serializer:Register("FuelClub", serialize, unserialize)
+
