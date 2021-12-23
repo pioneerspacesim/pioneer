@@ -17,14 +17,9 @@ class BodyComponent {};
 
 /*
 	BodyComponentDB provides a simple interface to support dynamic composition
-	of game objects.
-
-	It is intended for use as a transitional interface to facilitate the
-	migration of Pioneer's inheritance-hierarchy based object model to an ECS-
-	style system, and thus is not and never will be a permanent solution.
-
-	Please direct all concerns about speed and efficiency to /dev/null
-	Improvements to compile times are welcomed wherever possible.
+	of game objects. It is intended to be an interim solution to assist in
+	transitioning Pioneer's inheritance hierarchy to a simpler composition
+	model.
 */
 class BodyComponentDB {
 public:
@@ -34,6 +29,8 @@ public:
 	struct SerializerBase {
 		SerializerBase(std::string name) :
 			typeName(name) {}
+		virtual ~SerializerBase() {}
+
 		std::string typeName;
 		virtual void toJson(const Body *body, Json &obj, Space *space) = 0;
 		virtual BodyComponent *fromJson(Body *body, const Json &obj, Space *space) = 0;
@@ -44,6 +41,8 @@ public:
 		PoolBase(size_t index, size_t type) :
 			componentIndex(index),
 			componentType(type) {}
+		virtual ~PoolBase() {}
+
 		size_t componentIndex = 0;
 		size_t componentType = 0;
 		SerializerBase *serializer = nullptr;
@@ -69,6 +68,9 @@ public:
 	private:
 		template <typename U>
 		friend struct BodyComponentDB::Serializer;
+
+		// std::map used here for expediency of implementation; this should be
+		// replaced with an appropriately fast sparse-set container
 		std::map<const Body *, T> m_components;
 	};
 
@@ -102,8 +104,9 @@ public:
 	{
 		auto iter = m_componentPools.find(TypeId<T>::Get());
 		if (iter == m_componentPools.end()) {
-			iter = m_componentPools.emplace(TypeId<T>::Get(), new Pool<T>(m_componentIdx++, TypeId<T>::Get())).first;
-			m_componentTypes.push_back(TypeId<T>::Get());
+			auto *pool = new Pool<T>(m_componentIdx++, TypeId<T>::Get());
+			iter = m_componentPools.emplace(TypeId<T>::Get(), pool).first;
+			m_componentTypes.push_back(pool);
 		}
 
 		return static_cast<Pool<T> *>(iter->second.get());
@@ -111,7 +114,11 @@ public:
 
 	// Returns (if present) the polymorphic interface to component associated with the given index
 	// This differs from the type-ID and is volatile between program restarts
-	static PoolBase *GetComponentType(size_t componentIndex) { return m_componentPools.at(m_componentTypes[componentIndex]).get(); }
+	static PoolBase *GetComponentType(size_t componentIndex)
+	{
+		assert(componentIndex < m_componentTypes.size());
+		return m_componentTypes[componentIndex];
+	}
 
 	// Register a serializer for the given type.
 	template <typename T>
@@ -139,6 +146,6 @@ public:
 private:
 	static std::map<size_t, std::unique_ptr<PoolBase>> m_componentPools;
 	static std::map<std::string, std::unique_ptr<SerializerBase>> m_componentSerializers;
-	static std::vector<size_t> m_componentTypes;
+	static std::vector<PoolBase *> m_componentTypes;
 	static size_t m_componentIdx;
 };
