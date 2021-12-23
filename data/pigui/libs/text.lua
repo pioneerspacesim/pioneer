@@ -44,6 +44,37 @@ ui.fonts = {
 	},
 }
 
+
+--
+-- Function: ui.calcTextSize
+--
+-- ui.calcTextSize(text, [font, [size]])
+--
+-- Calculate the size of the given text. If no font is specified, the currently
+-- active font is assumed.
+--
+-- Parameters:
+--   text - string, the text to calculate the size of
+--   font - table or string, a font definition or the name of a font
+--   size - number, the size of the font if a font definition was not passed
+--
+-- Returns:
+--   size - Vector2, the size of the text when rendered
+--
+function ui.calcTextSize(text, font, size)
+	if size == nil and type(font) == "table" then
+		size = font.size
+		font = font.name
+	end
+
+	local pushed = false
+	if font then pushed = pigui:PushFont(font, size) end
+	local ret = pigui.CalcTextSize(text)
+	if pushed then pigui:PopFont() end
+
+	return ret
+end
+
 ui.Format = {
 	Latitude = function(decimal_degrees)
 		local prefix = lc.LATITUDE_NORTH_ABBREV

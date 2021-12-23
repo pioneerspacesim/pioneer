@@ -383,7 +383,7 @@ end
 --             false otherwise
 --
 function ui.isAnyWindowHovered()
-	return ui.isWindowHovered({"AnyWindow"})
+	return ui.isWindowHovered({"AnyWindow", "RectOnly"})
 end
 
 --

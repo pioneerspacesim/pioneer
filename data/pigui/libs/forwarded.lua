@@ -36,7 +36,6 @@ ui.selectable = pigui.Selectable
 ui.progressBar = pigui.ProgressBar
 ui.plotHistogram = pigui.PlotHistogram
 ui.setTooltip = pigui.SetTooltip
-ui.calcTextSize = pigui.CalcTextSize
 ui.addCircle = pigui.AddCircle
 ui.addCircleFilled = pigui.AddCircleFilled
 ui.addRect = pigui.AddRect
