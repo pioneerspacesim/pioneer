@@ -75,6 +75,20 @@ function ui.calcTextSize(text, font, size)
 	return ret
 end
 
+local EARTH_MASS = 5.9742e24
+local SOL_MASS = 1.98892e30
+
+local function oldFmt(str, values)
+	str = str:gsub("%%(%w+)(%b{})", function(name, fmt)
+		if not values[name] then return "" end
+		if #fmt <= 2 then return values[name] end
+		-- rearrange {f.2} -> %0.2f
+		return string.format("%0"..fmt:sub(3, -2)..fmt:sub(2,2), values[name])
+	end)
+	-- drop extra values from string.gsub
+	return str
+end
+
 ui.Format = {
 	Latitude = function(decimal_degrees)
 		local prefix = lc.LATITUDE_NORTH_ABBREV
@@ -166,10 +180,10 @@ ui.Format = {
 		end
 		return result
 	end,
-	Distance = function(distance)
+	DistanceUnit = function(distance, fractional)
 		local d = math.abs(distance)
 		if d < 1000 then
-			return math.floor(distance), lc.UNIT_METERS
+			return (fractional and string.format("%0.2f", distance) or math.floor(distance)), lc.UNIT_METERS
 		end
 		if d < 1000*1000 then
 			return string.format("%0.2f", distance / 1000), lc.UNIT_KILOMETERS
@@ -179,16 +193,49 @@ ui.Format = {
 		end
 		return string.format("%0.2f", distance / 1.4960e11), lc.UNIT_AU
 	end,
-	Speed = function(distance)
+	Distance = function(distance, fractional)
+		local d, u = ui.Format.DistanceUnit(distance, fractional)
+		return d .. ' ' .. u
+	end,
+	SpeedUnit = function(distance, fractional)
 		local d = math.abs(distance)
 		if d < 1000 then
-			return math.floor(distance), lc.UNIT_METERS_PER_SECOND
+			return (fractional and string.format("%0.2f", distance) or math.floor(distance)), lc.UNIT_METERS_PER_SECOND
 		end
 		if d < 1000*1000 then
 			return string.format("%0.2f", distance / 1000), lc.UNIT_KILOMETERS_PER_SECOND
 		end
 		return string.format("%0.2f", distance / 1000 / 1000), lc.UNIT_MILLION_METERS_PER_SECOND
 		-- no need for au/s
+	end,
+	Speed = function(distance, fractional)
+		local s, u = ui.Format.SpeedUnit(distance, fractional)
+		return s .. u
+	end,
+	MassUnit = function(mass)
+		local m = math.abs(mass)
+		if m < 1e3 then
+			return string.format("%0.2f", mass), lc.UNIT_KILOGRAMS
+		elseif m < 1e6 then
+			return string.format("%0.2f", mass / 1e3), lc.UNIT_TONNES
+		elseif m < 1e9 then
+			return string.format("%0.2f", mass / 1e6), lc.UNIT_KILOTONNES
+		elseif m < 1e12 then
+			return string.format("%0.2f", mass / 1e9), lc.UNIT_MEGATONNES
+		elseif m < 1e15 then
+			return string.format("%0.2f", mass / 1e12), lc.UNIT_GIGATONNES
+		elseif m < 1e18 then
+			return string.format("%0.2f", mass / 1e15), lc.UNIT_TERATONNES
+		elseif m < EARTH_MASS / 1e3 then
+			return string.format("%0.2f", mass / 1e18), lc.UNIT_PETATONNES
+		elseif m < EARTH_MASS * 1e3 then
+			return oldFmt(lc.N_EARTH_MASSES, { mass = mass / EARTH_MASS })
+		end
+		return oldFmt(lc.N_SOLAR_MASSES, { mass = mass / SOL_MASS })
+	end,
+	Mass = function(mass)
+		local m, u = ui.Format.MassUnit(mass)
+		return m .. ' ' .. u
 	end,
 	Money = Format.Money,
 	Date = Format.Date,
@@ -202,6 +249,7 @@ ui.Format = {
 	Pressure = function(pres)
 		return string.format("%0.2f", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
 	end,
+	-- round numbers
 	Number = function(number, places)
 		local s = number < 0.0 and "-" or ""
 		number = math.abs(number)

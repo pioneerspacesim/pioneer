@@ -286,8 +286,8 @@ debugView.registerTab('debug-trade-ships', function()
 			if status == "docked" then
 				status = status .. " (" .. trader.starport:GetLabel() .. ")"
 			elseif status == "inbound" then
-				local d,u = ui.Format.Distance(ship:DistanceTo(trader.starport))
-				status = status .. " (" .. trader.starport:GetLabel() .. " - " .. d .. " " ..  u .. ")"
+				local d = ui.Format.Distance(ship:DistanceTo(trader.starport))
+				status = status .. " (" .. trader.starport:GetLabel() .. " - " .. d .. ")"
 			end
 			property("Status: ", status)
 			if trader.fnc then
