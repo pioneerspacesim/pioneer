@@ -95,8 +95,7 @@ local function display2DRadar(cntr, size)
 	if #tooltip > 0 then
 		ui.setTooltip(table.concat(tooltip, "\n"))
 	end
-	local d, d_u = ui.Format.Distance(current_radar_size)
-	local distance = d .. ' ' .. d_u
+	local distance = ui.Format.Distance(current_radar_size)
 	local textcenter = cntr + Vector2((halfsize + twothirdsize) * 0.5, size)
 	local textsize = ui.addStyledText(textcenter, ui.anchor.left, ui.anchor.bottom, distance, colors.frame, pionillium.small, lui.HUD_RADAR_DISTANCE, colors.lightBlackBackground)
 end
