@@ -163,6 +163,8 @@ end
 
 local function lobbyMenu()
 	local station = Game.player:GetDockedWith()
+	if not station then return end -- station can be false if we requested launch this frame
+
 	ui.columns(4, 'thrusterFuel', false)
 	ui.setColumnWidth(0, widgetSizes.buttonSizeBase.x + widgetSizes.itemSpacing.x)
 	ui.setColumnWidth(1, widgetSizes.buttonSizeBase.x + widgetSizes.itemSpacing.x)
