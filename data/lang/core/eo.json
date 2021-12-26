@@ -9,7 +9,7 @@
   },
   "ALLEGIANCE": {
     "description": "",
-    "message": "Allegiance:"
+    "message": "Fideleco: "
   },
   "ALT": {
     "description": "Alt key on keyboard",
@@ -137,15 +137,15 @@
   },
   "CAPITALIST": {
     "description": "",
-    "message": "Capitalist"
+    "message": "Kapitalisma"
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Karbono Erco"
+    "message": "Karbona erco"
   },
   "CARGO": {
     "description": "",
-    "message": "Cargo"
+    "message": "Kargo"
   },
   "CARGO_BAY_LIFE_SUPPORT_LOST": {
     "description": "",
@@ -192,7 +192,7 @@
     "message": "Commodity trade analysis of #fff%system#fff"
   },
   "COMMS": {
-    "description": "",
+    "description": "Title of communications log window, on world view",
     "message": "Comms"
   },
   "COMMUNIST": {
@@ -201,35 +201,35 @@
   },
   "COMPASS_E": {
     "description": "Abbreviation for compass direction: East",
-    "message": "E"
+    "message": "Or"
   },
   "COMPASS_N": {
     "description": "Abbreviation for compass direction: North",
-    "message": "N"
+    "message": "No"
   },
   "COMPASS_NE": {
     "description": "Abbreviation for compass direction: North East",
-    "message": "NE"
+    "message": "NoOr"
   },
   "COMPASS_NW": {
     "description": "Abbreviation for compass direction: North West",
-    "message": "NW"
+    "message": "NoOk"
   },
   "COMPASS_S": {
     "description": "Abbreviation for compass direction: South",
-    "message": "S"
+    "message": "Su"
   },
   "COMPASS_SE": {
     "description": "Abbreviation for compass direction: South East",
-    "message": "SE"
+    "message": "SuOr"
   },
   "COMPASS_SW": {
     "description": "Abbreviation for compass direction: South West",
-    "message": "SW"
+    "message": "SuOk"
   },
   "COMPASS_W": {
     "description": "Abbreviation for compass direction: West",
-    "message": "W"
+    "message": "Ok"
   },
   "COMPUTERS": {
     "description": "",
@@ -381,7 +381,7 @@
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Fertilizer"
+    "message": "Sterko"
   },
   "FIRE_LASER": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Pafiloj"
   },
   "HARD_CAPITALIST": {
     "description": "",
@@ -517,7 +517,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Hydrogen"
+    "message": "Hidrogeno"
   },
   "HYPERSPACE": {
     "description": "",
@@ -593,7 +593,7 @@
   },
   "INDUSTRIAL_COLONY": {
     "description": "",
-    "message": "Industrial colony."
+    "message": "Industria kolonio."
   },
   "INDUSTRIAL_HUB_SYSTEM": {
     "description": "",
@@ -629,7 +629,7 @@
   },
   "LARGE": {
     "description": "regarding terrestrial planet size (mass actually)",
-    "message": "Large"
+    "message": "Granda"
   },
   "LARGE_GAS_GIANT": {
     "description": "",
@@ -645,11 +645,11 @@
   },
   "LATITUDE_NORTH_ABBREV": {
     "description": "Abbreviation letter for latitude 'north'",
-    "message": "N"
+    "message": "No"
   },
   "LATITUDE_SOUTH_ABBREV": {
     "description": "Abbreviation letter for latitude 'south'",
-    "message": "S"
+    "message": "Su"
   },
   "LEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -657,7 +657,7 @@
   },
   "LIBERAL_DEMOCRACY": {
     "description": "",
-    "message": "Liberal democracy"
+    "message": "Liberala demokratio"
   },
   "LIQUID_OXYGEN": {
     "description": "",
@@ -665,7 +665,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Liquor"
+    "message": "Likvoro"
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -681,11 +681,11 @@
   },
   "LONGITUDE_EAST_ABBREV": {
     "description": "Abbreviation letter for longitude 'east'",
-    "message": "E"
+    "message": "Or"
   },
   "LONGITUDE_WEST_ABBREV": {
     "description": "Abbreviation letter for latitude 'west'",
-    "message": "W"
+    "message": "Ok"
   },
   "MAJOR_EXPORTS": {
     "description": "",
@@ -713,7 +713,7 @@
   },
   "MASS": {
     "description": "",
-    "message": "Mass"
+    "message": "Maso"
   },
   "MASSIVE": {
     "description": "",
@@ -725,7 +725,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Medicines"
+    "message": "Kuraciloj"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -741,11 +741,11 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Metal alloys"
+    "message": "Metalaj alojoj"
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Metal ore"
+    "message": "Metala erco"
   },
   "MILITARY_DICTATORSHIP": {
     "description": "",
@@ -801,7 +801,7 @@
   },
   "MONTH_AUG": {
     "description": "",
-    "message": "Aug"
+    "message": "Aŭg"
   },
   "MONTH_DEC": {
     "description": "",
@@ -829,7 +829,7 @@
   },
   "MONTH_MAY": {
     "description": "",
-    "message": "May"
+    "message": "Maj"
   },
   "MONTH_NOV": {
     "description": "",
@@ -837,7 +837,7 @@
   },
   "MONTH_OCT": {
     "description": "",
-    "message": "Oct"
+    "message": "Okt"
   },
   "MONTH_SEP": {
     "description": "",
@@ -853,7 +853,7 @@
   },
   "NARCOTICS": {
     "description": "",
-    "message": "Narcotics"
+    "message": "Narkotikoj"
   },
   "NAVIGATION_STAR_MAPS": {
     "description": "",
@@ -957,7 +957,7 @@
   },
   "N_DEGREES": {
     "description": "",
-    "message": "%angle{f.1} degrees"
+    "message": "%angle{f.1} gradoj"
   },
   "N_EARTH_DAYS": {
     "description": "",
@@ -1089,7 +1089,7 @@
   },
   "PLASTICS": {
     "description": "",
-    "message": "Plastics"
+    "message": "Plastoj"
   },
   "PLUTOCRATIC_DICTATORSHIP": {
     "description": "",
@@ -1097,7 +1097,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Population:"
+    "message": "Loĝantaro: "
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1117,7 +1117,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Radioactive waste"
+    "message": "Radioaktiva rubo"
   },
   "RADIUS": {
     "description": "",
@@ -1137,7 +1137,7 @@
   },
   "ROBOTS": {
     "description": "",
-    "message": "Robots"
+    "message": "Robotoj"
   },
   "ROCKY_PLANET": {
     "description": "",
@@ -1189,7 +1189,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "Rubbish"
+    "message": "Rubo"
   },
   "SCOOP": {
     "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
@@ -1281,7 +1281,7 @@
   },
   "SHIP": {
     "description": "",
-    "message": "Ship"
+    "message": "Kosmoŝipo"
   },
   "SHIPS_DISPLAY_MODE_TOGGLE": {
     "description": "Either show no ships, show ships, or show ships + their orbits",
@@ -1317,11 +1317,11 @@
   },
   "SLAVES": {
     "description": "",
-    "message": "Slaves"
+    "message": "Sklavoj"
   },
   "SMALL": {
     "description": "",
-    "message": "Small"
+    "message": "Malgranda"
   },
   "SMALL_GAS_GIANT": {
     "description": "",
@@ -1549,15 +1549,15 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Textiles"
+    "message": "Teksaĵoj"
   },
   "THICK": {
     "description": "",
-    "message": "thick"
+    "message": "dika"
   },
   "THIN": {
     "description": "",
-    "message": "thin"
+    "message": "maldika"
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1649,7 +1649,7 @@
   },
   "UNIT_DAYS": {
     "description": "Duration unit: one 24-hour day",
-    "message": "d"
+    "message": "t"
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
@@ -1705,7 +1705,7 @@
   },
   "UNIT_WEEKS": {
     "description": "Duration unit: one 7-day week",
-    "message": "w"
+    "message": "s"
   },
   "UNKNOWN": {
     "description": "",
@@ -1725,7 +1725,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "very dense"
+    "message": "tre densa"
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1741,11 +1741,11 @@
   },
   "WATER": {
     "description": "",
-    "message": "akvo"
+    "message": "Akvo"
   },
   "WEAPONS": {
     "description": "",
-    "message": "Weapons"
+    "message": "Armiloj"
   },
   "WEAPON_TEMP": {
     "description": "",

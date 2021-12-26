@@ -221,11 +221,11 @@
   },
   "TITLE_0": {
     "description": "",
-    "message": "Admiral"
+    "message": "Admiralo"
   },
   "TITLE_1": {
     "description": "",
-    "message": "Ambassador"
+    "message": "Ambasadoro"
   },
   "TITLE_10": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "TITLE_11": {
     "description": "",
-    "message": "General"
+    "message": "Generalo"
   },
   "TITLE_12": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "TITLE_13": {
     "description": "",
-    "message": "Lawyer"
+    "message": "Advokato"
   },
   "TITLE_14": {
     "description": "",
@@ -261,11 +261,11 @@
   },
   "TITLE_18": {
     "description": "",
-    "message": "Private"
+    "message": "Soldato"
   },
   "TITLE_19": {
     "description": "",
-    "message": "Professor"
+    "message": "Profesoro"
   },
   "TITLE_2": {
     "description": "",
@@ -281,27 +281,27 @@
   },
   "TITLE_22": {
     "description": "",
-    "message": "Seaman"
+    "message": "Mararmeano"
   },
   "TITLE_23": {
     "description": "",
-    "message": "Senator"
+    "message": "Senatano"
   },
   "TITLE_24": {
     "description": "",
-    "message": "Sergeant"
+    "message": "Serĝento"
   },
   "TITLE_3": {
     "description": "",
-    "message": "Cadet"
+    "message": "Kadeto"
   },
   "TITLE_4": {
     "description": "",
-    "message": "Captain"
+    "message": "Kapitano"
   },
   "TITLE_5": {
     "description": "",
-    "message": "Cardinal"
+    "message": "Kardinalo"
   },
   "TITLE_6": {
     "description": "",
@@ -313,11 +313,11 @@
   },
   "TITLE_8": {
     "description": "",
-    "message": "Commodore"
+    "message": "Komodoro"
   },
   "TITLE_9": {
     "description": "",
-    "message": "Corporal"
+    "message": "Kaporalo"
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",

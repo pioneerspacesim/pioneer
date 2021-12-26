@@ -53,7 +53,7 @@
   },
   "DANGER": {
     "description": "",
-    "message": "Danger:"
+    "message": "Danĝereco:"
   },
   "DEADLINE": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
-    "message": "No."
+    "message": "Ne."
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
-    "message": "No."
+    "message": "Ne."
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "FLAVOUR_2_DANGER": {
     "description": "",
-    "message": "No."
+    "message": "Ne."
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -329,7 +329,7 @@
   },
   "FLAVOUR_4_DANGER": {
     "description": "",
-    "message": "No."
+    "message": "Ne."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "FLAVOUR_6_DANGER": {
     "description": "",
-    "message": "No."
+    "message": "Ne."
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "FLAVOUR_8_DANGER": {
     "description": "",
-    "message": "No."
+    "message": "Ne."
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
@@ -565,7 +565,7 @@
   },
   "TAXI": {
     "description": "",
-    "message": "Taxi"
+    "message": "Taksio"
   },
   "TO": {
     "description": "",

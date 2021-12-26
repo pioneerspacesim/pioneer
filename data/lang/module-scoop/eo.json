@@ -37,7 +37,7 @@
   },
   "DANGER": {
     "description": "The risk level",
-    "message": "Danger:"
+    "message": "Danĝereco:"
   },
   "DEADLINE": {
     "description": "Must be delivered by",
@@ -193,6 +193,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
     "description": "",
-    "message": "You don't have enough money."
+    "message": "Vi ne havas sufiĉan monon."
   }
 }

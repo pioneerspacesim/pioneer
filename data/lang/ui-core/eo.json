@@ -17,7 +17,7 @@
   },
   "ALLEGIANCE": {
     "description": "",
-    "message": "Allegiance:"
+    "message": "Fideleco: "
   },
   "ALL_UP_WEIGHT": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "CARGO": {
     "description": "",
-    "message": "Cargo"
+    "message": "Kargo"
   },
   "CARGO_SPACE": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "CASH": {
     "description": "",
-    "message": "Cash"
+    "message": "Mono"
   },
   "CASH_N": {
     "description": "",
@@ -961,7 +961,7 @@
   },
   "HUD_MASS": {
     "description": "Mass",
-    "message": "Mass"
+    "message": "Maso"
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
@@ -1265,7 +1265,7 @@
   },
   "MASS": {
     "description": "",
-    "message": "Mass"
+    "message": "Maso"
   },
   "MASTER": {
     "description": "For player reputation",
@@ -1313,7 +1313,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Metal alloys"
+    "message": "Metalaj alojoj"
   },
   "MILITARY": {
     "description": "",
@@ -1421,7 +1421,7 @@
   },
   "NO": {
     "description": "Negative answer to a question",
-    "message": "No"
+    "message": "Ne"
   },
   "NOBODY": {
     "description": "For player reputation",
@@ -1793,7 +1793,7 @@
   },
   "SHIP": {
     "description": "",
-    "message": "Ship"
+    "message": "Kosmoŝipo"
   },
   "SHIPS_ENGINEER": {
     "description": "",
@@ -2105,7 +2105,7 @@
   },
   "YES": {
     "description": "Positive answer to a question",
-    "message": "Yes"
+    "message": "Jes"
   },
   "YOURE_GOING_TO_REGRET_SACKING_ME": {
     "description": "",

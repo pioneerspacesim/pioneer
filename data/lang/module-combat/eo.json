@@ -93,7 +93,7 @@
   },
   "DANGER": {
     "description": "The risk level",
-    "message": "Danger:"
+    "message": "Danĝereco:"
   },
   "DENY_1": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "DETECTIVE": {
     "description": "Police Detective",
-    "message": "Detective"
+    "message": "Detektivo"
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
@@ -129,11 +129,11 @@
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "Saluton, mi estas {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "Saluton! Mia nomo estas {name}."
   },
   "GREETING_3": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Reconnaissance"
+    "message": "Skoltado"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",

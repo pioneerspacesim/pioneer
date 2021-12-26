@@ -5,7 +5,7 @@
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Very good."
+    "message": "Tre bona."
   },
   "ACCEPTED_3": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
-    "message": "Aluminium tubes"
+    "message": "Aluminiaj tuboj"
   },
   "AMOUNT": {
     "description": "Shown in mission summary. The amount of cargo",
@@ -73,7 +73,7 @@
   },
   "CARGO": {
     "description": "",
-    "message": "Cargo:"
+    "message": "Kargo:"
   },
   "CARGORUN": {
     "description": "Name of mission type",
@@ -101,7 +101,7 @@
   },
   "DANGER": {
     "description": "the risk level",
-    "message": "Danger:"
+    "message": "Danĝereco:"
   },
   "DEADLINE": {
     "description": "Must be delivered by",
@@ -149,7 +149,7 @@
   },
   "DIAMONDS": {
     "description": "custom cargo",
-    "message": "Diamonds"
+    "message": "Diamantoj"
   },
   "DIGESTERS": {
     "description": "custom cargo",
@@ -185,7 +185,7 @@
   },
   "EXPLOSIVES": {
     "description": "custom cargo",
-    "message": "Explosives"
+    "message": "Eksplodaĵoj"
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "FURNITURE": {
     "description": "custom cargo",
-    "message": "Furniture"
+    "message": "Mebloj"
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
@@ -229,7 +229,7 @@
   },
   "HOWMUCH_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount} metric tons."
+    "message": "{amount} tunoj."
   },
   "HOWMUCH_2": {
     "description": "regarding mass, always more than 1t",
@@ -237,7 +237,7 @@
   },
   "HOWMUCH_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "The mass is {amount}t."
+    "message": "La maso estas {amount}t."
   },
   "HOWMUCH_4": {
     "description": "regarding mass, always more than 1t",
@@ -373,7 +373,7 @@
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
-    "message": "Neptunium"
+    "message": "Neptunio"
   },
   "OFFER": {
     "description": "",
@@ -433,11 +433,11 @@
   },
   "PLUTONIUM": {
     "description": "custom cargo",
-    "message": "Plutonium"
+    "message": "Plutonio"
   },
   "QUIBBLES": {
     "description": "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-    "message": "Quibbles"
+    "message": "Kuibloj"
   },
   "RISK_1": {
     "description": "",
@@ -545,7 +545,7 @@
   },
   "TITANIUM": {
     "description": "custom cargo",
-    "message": "Titanium"
+    "message": "Titanio"
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
@@ -553,11 +553,11 @@
   },
   "TUNGSTEN": {
     "description": "custom cargo",
-    "message": "Tungsten"
+    "message": "Tungsteno"
   },
   "URANIUM": {
     "description": "custom cargo",
-    "message": "Uranium"
+    "message": "Uranio"
   },
   "URGENCY_1": {
     "description": "",

@@ -13,15 +13,15 @@
   },
   "SELL_1": {
     "description": "Sell one single unit (probably tonne)",
-    "message": "Sell 1"
+    "message": "Vendas 1"
   },
   "SELL_ALL": {
     "description": "Sell everything player has of the good/commodity",
-    "message": "Sell all"
+    "message": "Vendas ĉiuj"
   },
   "SELL_N": {
     "description": "Sell several units (probably in tonne), i.e. N > 1",
-    "message": "Sell {N}"
+    "message": "Vendas {N}"
   },
   "TITLE": {
     "description": "",

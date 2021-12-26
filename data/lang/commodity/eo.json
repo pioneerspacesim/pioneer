@@ -25,7 +25,7 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Karbono Erco"
+    "message": "Karbona erco"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -57,7 +57,7 @@
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Fertilizer"
+    "message": "Sterko"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -81,7 +81,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "Pafiloj"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -89,7 +89,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Hydrogen"
+    "message": "Hidrogeno"
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -105,7 +105,7 @@
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Liquid oxygen"
+    "message": "Likva oxigeno"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -113,7 +113,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Liquor"
+    "message": "Likvoro"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -129,7 +129,7 @@
   },
   "MEDICINES": {
     "description": "",
-    "message": "Medicines"
+    "message": "Kuraciloj"
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -137,7 +137,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Metal alloys"
+    "message": "Metalaj alojoj"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -145,7 +145,7 @@
   },
   "METAL_ORE": {
     "description": "",
-    "message": "Metal ore"
+    "message": "Metala erco"
   },
   "METAL_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -169,7 +169,7 @@
   },
   "NARCOTICS": {
     "description": "",
-    "message": "Narcotics"
+    "message": "Narkotikoj"
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -185,7 +185,7 @@
   },
   "PLASTICS": {
     "description": "",
-    "message": "Plastics"
+    "message": "Plastoj"
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -201,7 +201,7 @@
   },
   "RADIOACTIVES": {
     "description": "",
-    "message": "Radioactive waste"
+    "message": "Radioaktiva rubo"
   },
   "RADIOACTIVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -209,7 +209,7 @@
   },
   "ROBOTS": {
     "description": "",
-    "message": "Robots"
+    "message": "Robotoj"
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -217,7 +217,7 @@
   },
   "RUBBISH": {
     "description": "",
-    "message": "Rubbish"
+    "message": "Rubo"
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -225,7 +225,7 @@
   },
   "SLAVES": {
     "description": "",
-    "message": "Slaves"
+    "message": "Sklavoj"
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -233,7 +233,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Textiles"
+    "message": "Teksaĵoj"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

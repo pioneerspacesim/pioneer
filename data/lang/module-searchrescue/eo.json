@@ -41,7 +41,7 @@
   },
   "ENTITY_FAMILY_BUSINESS_1": {
     "description": "",
-    "message": "{name} and Sons"
+    "message": "{name} kaj Filoj"
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",
-    "message": "{name} and Daughters"
+    "message": "{name} kaj Filinoj"
   },
   "ENTITY_FAMILY_BUSINESS_3": {
     "description": "",
@@ -493,7 +493,7 @@
   },
   "PROBLEM_CREW_10": {
     "description": "",
-    "message": "a mutiny"
+    "message": "ribelo"
   },
   "PROBLEM_CREW_2": {
     "description": "",
