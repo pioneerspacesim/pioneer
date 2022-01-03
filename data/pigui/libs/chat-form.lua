@@ -137,6 +137,7 @@ function ChatForm:Clear ()
 	self.message = nil
 	self.options = nil
 	self.tradeFuncs = nil
+	self.market = nil
 end
 
 local tradeFuncKeys = { "canTrade", "getStock", "getBuyPrice", "getSellPrice", "onClickBuy", "onClickSell", "canDisplayItem", "bought", "sold"}
