@@ -354,5 +354,33 @@
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
     "message": "Required for transport of a single passenger"
+  },
+  "EMPTY_SLOT": {
+	  "description": "Text indicating an empty equipment slot.",
+	  "message": "EMPTY"
+  },
+  "EQUIPMENT_WEIGHT": {
+    "description": "Tooltip explaining equipment weight",
+    "message": "Equipment Weight"
+  },
+  "EQUIPMENT_INTEGRITY": {
+    "description": "Tooltip explaining remaining equipment integrity",
+    "message": "Equipment Integrity"
+  },
+  "SHOTS_PER_MINUTE": {
+    "description": "Tooltip explaining weapon fire rate / RPM counter",
+    "message": "Firing Rate / Minute"
+  },
+  "DAMAGE_PER_SHOT": {
+    "description": "Tooltip explaining weapon damage per shot",
+    "message": "Damage Per Shot"
+  },
+  "TOTAL_MODULE_CAPACITY": {
+    "description": "Tooltip explaining module capacity of specific slot",
+    "message": "Total Capacity"
+  },
+  "TOTAL_MODULE_WEIGHT": {
+    "description": "Tooltip explaining total equipped weight of specific slot",
+    "message": "Total Weight"
   }
 }

@@ -102,6 +102,7 @@ theme.colors = {
 	blueFrame				= styleColors.accent_100:shade(0.50),
 	tableHighlight			= styleColors.primary_700,
 	tableSelection			= styleColors.accent_300:shade(0.40),
+	tableBackground			= styleColors.primary_800,
 	commsWindowBackground	= styleColors.primary_700:opacity(0.30),
 	buttonBlue				= styleColors.primary_300,
 	buttonInk				= styleColors.white,
@@ -163,12 +164,16 @@ theme.colors = {
 	systemMapLagrangePoint	= styleColors.accent_200,
 
 	sectorMapLabelHighlight = styleColors.white:opacity(0.5),
-	sectorMapLabelShade = styleColors.primary_700:opacity(0.8)
+	sectorMapLabelShade = styleColors.primary_700:opacity(0.8),
+
+	equipScreenHighlight    = styleColors.gray_300,
+	equipScreenBgText       = styleColors.gray_400,
 }
 
 -- ImGui global theming styles
 theme.styles = {
 	WindowBorderSize = 0.0,
+	TabRounding = 0.0,
 }
 
 theme.icons = {

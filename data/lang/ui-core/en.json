@@ -2146,5 +2146,13 @@
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
     "message": "Zoom"
+  },
+  "OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Occupied Passenger Cabins"
+  },
+  "UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Unoccupied Passenger Cabins"
   }
 }
