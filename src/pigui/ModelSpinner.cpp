@@ -61,6 +61,7 @@ void ModelSpinner::Render()
 	// Resizing a render target involves destroying the old one and creating a new one.
 	if (m_needsResize) CreateRenderTarget();
 	if (!m_renderTarget) return;
+	if (!m_model) return;
 
 	Graphics::Renderer *r = Pi::renderer;
 	Graphics::Renderer::StateTicket ticket(r);

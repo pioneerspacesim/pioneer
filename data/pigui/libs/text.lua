@@ -33,6 +33,12 @@ ui.fonts = {
 		-- 		medsmall = { name = "pionillium", size = 15, offset = 12 },
 		small	= { name = "pionillium", size = fontScale(14), offset = fontScale(11) },
 		tiny	= { name = "pionillium", size = fontScale(10), offset = fontScale(7) },
+
+		-- alternate font breakpoints
+		title    = { name = "pionillium", size = fontScale(30), offset = fontScale(18) },
+		heading  = { name = "pionillium", size = fontScale(22), offset = fontScale(18) },
+		body     = { name = "pionillium", size = fontScale(19), offset = fontScale(14) },
+		details  = { name = "pionillium", size = fontScale(16), offset = fontScale(14) },
 	},
 	orbiteer = {
 		xlarge	= { name = "orbiteer", size = fontScale(36), offset = fontScale(24) },
@@ -212,30 +218,31 @@ ui.Format = {
 		local s, u = ui.Format.SpeedUnit(distance, fractional)
 		return s .. u
 	end,
-	MassUnit = function(mass)
+	MassUnit = function(mass, digits)
 		local m = math.abs(mass)
+		local fmt = "%0." .. (digits or 2) .. "f"
 		if m < 1e3 then
-			return string.format("%0.2f", mass), lc.UNIT_KILOGRAMS
+			return string.format(fmt, mass), lc.UNIT_KILOGRAMS
 		elseif m < 1e6 then
-			return string.format("%0.2f", mass / 1e3), lc.UNIT_TONNES
+			return string.format(fmt, mass / 1e3), lc.UNIT_TONNES
 		elseif m < 1e9 then
-			return string.format("%0.2f", mass / 1e6), lc.UNIT_KILOTONNES
+			return string.format(fmt, mass / 1e6), lc.UNIT_KILOTONNES
 		elseif m < 1e12 then
-			return string.format("%0.2f", mass / 1e9), lc.UNIT_MEGATONNES
+			return string.format(fmt, mass / 1e9), lc.UNIT_MEGATONNES
 		elseif m < 1e15 then
-			return string.format("%0.2f", mass / 1e12), lc.UNIT_GIGATONNES
+			return string.format(fmt, mass / 1e12), lc.UNIT_GIGATONNES
 		elseif m < 1e18 then
-			return string.format("%0.2f", mass / 1e15), lc.UNIT_TERATONNES
+			return string.format(fmt, mass / 1e15), lc.UNIT_TERATONNES
 		elseif m < EARTH_MASS / 1e3 then
-			return string.format("%0.2f", mass / 1e18), lc.UNIT_PETATONNES
+			return string.format(fmt, mass / 1e18), lc.UNIT_PETATONNES
 		elseif m < EARTH_MASS * 1e3 then
 			return oldFmt(lc.N_EARTH_MASSES, { mass = mass / EARTH_MASS })
 		end
 		return oldFmt(lc.N_SOLAR_MASSES, { mass = mass / SOL_MASS })
 	end,
-	Mass = function(mass)
-		local m, u = ui.Format.MassUnit(mass)
-		return m .. ' ' .. u
+	Mass = function(mass, digits)
+		local m, u = ui.Format.MassUnit(mass, digits)
+		return m .. u
 	end,
 	Money = Format.Money,
 	Date = Format.Date,

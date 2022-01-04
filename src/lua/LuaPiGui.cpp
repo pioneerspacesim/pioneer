@@ -149,6 +149,7 @@ static LuaFlags<ImGuiTreeNodeFlags_> imguiTreeNodeFlagsTable = {
 	{ "DefaultOpen", ImGuiTreeNodeFlags_DefaultOpen },
 	{ "OpenOnDoubleClick", ImGuiTreeNodeFlags_OpenOnDoubleClick },
 	{ "OpenOnArrow", ImGuiTreeNodeFlags_OpenOnArrow },
+	{ "FramePadding", ImGuiTreeNodeFlags_FramePadding },
 	{ "Leaf", ImGuiTreeNodeFlags_Leaf },
 	{ "Bullet", ImGuiTreeNodeFlags_Bullet },
 	{ "CollapsingHeader", ImGuiTreeNodeFlags_CollapsingHeader },
@@ -289,7 +290,10 @@ static LuaFlags<ImGuiStyleVar_> imguiStyleVarTable = {
 	{ "ScrollbarSize", ImGuiStyleVar_ScrollbarSize },
 	{ "ScrollbarRounding", ImGuiStyleVar_ScrollbarRounding },
 	{ "GrabMinSize", ImGuiStyleVar_GrabMinSize },
-	{ "ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign }
+	{ "GrabRounding", ImGuiStyleVar_GrabRounding },
+	{ "TabRounding", ImGuiStyleVar_TabRounding },
+	{ "ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign },
+	{ "SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign }
 };
 
 void pi_lua_generic_pull(lua_State *l, int index, ImGuiStyleVar_ &value)
@@ -2776,18 +2780,22 @@ void PiGui::load_theme_from_table(LuaTable &table, ImGuiStyle &style)
 	SET_STYLE(WindowTitleAlign);
 	SET_STYLE(ChildRounding);
 	SET_STYLE(ChildBorderSize);
+	SET_STYLE(PopupRounding);
+	SET_STYLE(PopupBorderSize);
 	SET_STYLE(FramePadding);
 	SET_STYLE(FrameRounding);
 	SET_STYLE(FrameBorderSize);
-	SET_STYLE(PopupRounding);
-	SET_STYLE(PopupBorderSize);
 	SET_STYLE(ItemSpacing);
 	SET_STYLE(ItemInnerSpacing);
 	SET_STYLE(IndentSpacing);
 	SET_STYLE(ScrollbarSize);
 	SET_STYLE(ScrollbarRounding);
 	SET_STYLE(GrabMinSize);
+	SET_STYLE(GrabRounding);
+	SET_STYLE(TabRounding);
+	SET_STYLE(TabBorderSize);
 	SET_STYLE(ButtonTextAlign);
+	SET_STYLE(SelectableTextAlign);
 
 #undef SET_STYLE
 }
