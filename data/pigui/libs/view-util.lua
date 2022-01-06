@@ -4,14 +4,19 @@
 local util = {}
 
 function util.mixin_modules(t)
-    t.modules = {}
-    t.moduleCount = 0
+	t.modules = {}
+	t.moduleCount = 0
 
-    function t.registerModule(name, module)
-        t.modules[name] = module
-        table.insert(t.modules, module)
-        t.moduleCount = t.moduleCount + 1
-    end
+	function t.registerModule(name, module)
+		-- replace if such name already exists
+		if t.modules[name] then
+			t.modules[t.modules[name]] = module
+		else
+			table.insert(t.modules, module)
+			t.moduleCount = t.moduleCount + 1
+			t.modules[name] = t.moduleCount
+		end
+	end
 end
 
 return util

@@ -888,7 +888,7 @@ void GameLoop::Start()
 #ifndef REMOTE_LUA_REPL_PORT
 #define REMOTE_LUA_REPL_PORT 12345
 #endif
-	luaConsole->OpenTCPDebugConnection(REMOTE_LUA_REPL_PORT);
+	Pi::luaConsole->OpenTCPDebugConnection(REMOTE_LUA_REPL_PORT);
 #endif
 
 	// fire event before the first frame
