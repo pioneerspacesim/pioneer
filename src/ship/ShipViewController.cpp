@@ -32,10 +32,10 @@ REGISTER_INPUT_BINDING(ShipViewController)
 	input->AddAxisBinding("BindLookYaw", group, Axis());
 	input->AddAxisBinding("BindLookPitch", group, Axis());
 
-	input->AddActionBinding("BindFrontCamera", group, Action({ SDLK_KP_8 }, { SDLK_UP }));
-	input->AddActionBinding("BindRearCamera", group, Action({ SDLK_KP_2 }, { SDLK_DOWN }));
-	input->AddActionBinding("BindLeftCamera", group, Action({ SDLK_KP_4 }, { SDLK_LEFT }));
-	input->AddActionBinding("BindRightCamera", group, Action({ SDLK_KP_6 }, { SDLK_RIGHT }));
+	input->AddActionBinding("BindFrontCamera", group, Action({ SDLK_KP_8 }));
+	input->AddActionBinding("BindRearCamera", group, Action({ SDLK_KP_2 }));
+	input->AddActionBinding("BindLeftCamera", group, Action({ SDLK_KP_4 }));
+	input->AddActionBinding("BindRightCamera", group, Action({ SDLK_KP_6 }));
 	input->AddActionBinding("BindTopCamera", group, Action({ SDLK_KP_9 }));
 	input->AddActionBinding("BindBottomCamera", group, Action({ SDLK_KP_3 }));
 

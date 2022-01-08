@@ -1,6 +1,7 @@
 // Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "Pi.h"
 #include "PiGui.h"
 #include "imgui/imgui.h"
 
@@ -8,33 +9,44 @@
 #define IMGUI_DEFINE_MATH_OPERATORS true
 #include "imgui/imgui_internal.h"
 
-int PiGui::RadialPopupSelectMenu(const ImVec2 &center, std::string popup_id, int mouse_button, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2, ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips)
+int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int mouse_button, const std::vector<ImTextureID> &tex_ids, const std::vector<std::pair<ImVec2, ImVec2>> &uvs, const std::vector<ImU32> &colors, const std::vector<const char *> &tooltips, unsigned int size, unsigned int padding)
 {
 	PROFILE_SCOPED()
 	// return:
-	// 0 - n for item selected
-	// -1 for nothing chosen, but menu open
-	// -2 for menu closed without an icon chosen
-	// -3 for menu not open
-	int ret = -3;
+	// 0 - nothing is selected
+	// > 0 - item selected
+	int ret = 0;
+
+	static InputBindings::Axis *horizontalSelection = Pi::input->GetAxisBinding("BindRadialHorizontalSelection");
+	static InputBindings::Axis *verticalSelection = Pi::input->GetAxisBinding("BindRadialVerticalSelection");
 
 	// FIXME: Missing a call to query if Popup is open so we can move the PushStyleColor inside the BeginPopupBlock (e.g. IsPopupOpen() in imgui.cpp)
 	// FIXME: Our PathFill function only handle convex polygons, so we can't have items spanning an arc too large else inner concave edge artifact is too visible, hence the ImMax(7,items_count)
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
 	ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0, 0, 0, 0));
 	ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
-	if (ImGui::BeginPopup(popup_id.c_str())) {
-		ret = -1;
-		const ImVec2 drag_delta = ImVec2(ImGui::GetIO().MousePos.x - center.x, ImGui::GetIO().MousePos.y - center.y);
-		const float drag_dist2 = drag_delta.x * drag_delta.x + drag_delta.y * drag_delta.y;
+	if (ImGui::BeginPopup(popup_id)) {
 
+		// the radial menu can be called either by a mouse click or by holding a certain key
+		const bool usingMouse = mouse_button >= 0;
 		const ImGuiStyle &style = ImGui::GetStyle();
-		const float RADIUS_MIN = 20.0f;
-		const float RADIUS_MAX = 90.0f;
-		const float RADIUS_INTERACT_MIN = 20.0f;
+		const float psize = size + padding * 2;
+		const float RADIUS_MIN = 0.55 * psize;
+		const float RADIUS_MAX = 2.4 * psize;
+		const float RADIUS_INTERACT_MIN = RADIUS_MIN;
+		const char *hovered_tooltip = nullptr;
+		ImVec2 hovered_coord;
+		ImVec2 drag_delta;
+		if (usingMouse) {
+			drag_delta = ImVec2(ImGui::GetIO().MousePos.x - center.x, ImGui::GetIO().MousePos.y - center.y);
+		} else {
+			const float length = (RADIUS_MIN + RADIUS_MAX) / 2;
+			drag_delta = ImVec2(-horizontalSelection->GetValue() * length, -verticalSelection->GetValue() * length);
+		}
+		const float drag_dist2 = drag_delta.x * drag_delta.x + drag_delta.y * drag_delta.y;
 		const int ITEMS_MIN = 4;
-		const float border_inout = 12.0f;
-		const float border_thickness = 4.0f;
+		const float border_inout = 0.3 * psize;
+		const float border_thickness = 0.1 * psize;
 		ImDrawList *draw_list = ImGui::GetWindowDrawList();
 		draw_list->PushClipRectFullScreen();
 		draw_list->PathArcTo(center, (RADIUS_MIN + RADIUS_MAX) * 0.5f, 0.0f, IM_PI * 2.0f * 0.99f); // FIXME: 0.99f look like full arc with closed thick stroke has a bug now
@@ -45,10 +57,10 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 &center, std::string popup_id, int
 		if (drag_angle < -0.5f * item_arc_span)
 			drag_angle += 2.0f * IM_PI;
 
-		int item_hovered = -1;
 		int item_n = 0;
+		assert(tex_ids.size() == tooltips.size() && tooltips.size() == colors.size());
 		for (ImTextureID tex_id : tex_ids) {
-			const char *tooltip = tooltips.at(item_n).c_str();
+			const char *tooltip = tooltips.at(item_n);
 			const float inner_spacing = style.ItemInnerSpacing.x / RADIUS_MIN / 2;
 			const float item_inner_ang_min = item_arc_span * (item_n - 0.5f + inner_spacing);
 			const float item_inner_ang_max = item_arc_span * (item_n + 0.5f - inner_spacing);
@@ -78,26 +90,30 @@ int PiGui::RadialPopupSelectMenu(const ImVec2 &center, std::string popup_id, int
 			ImVec2 text_pos = ImVec2(
 				center.x + cosf((item_inner_ang_min + item_inner_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.x * 0.5f,
 				center.y + sinf((item_inner_ang_min + item_inner_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.y * 0.5f);
-			draw_list->AddImage(tex_id, text_pos, ImVec2(text_pos.x + size, text_pos.y + size), uvs[item_n].first, uvs[item_n].second);
+			draw_list->AddImage(tex_id, text_pos, ImVec2(text_pos.x + size, text_pos.y + size), uvs[item_n].first, uvs[item_n].second, colors[item_n]);
 			ImGui::SameLine();
 			if (hovered) {
-				item_hovered = item_n;
-				ImGui::SetTooltip("%s", tooltip);
+				ret = item_n + 1;
+				if (usingMouse) {
+					ImGui::SetTooltip("%s", tooltip);
+				} else {
+					// draw custom text, since imgui only draws a tooltip over the mouse cursor
+					// draw the text after the loop, otherwise it may be overlapped in subsequent iterations
+					hovered_tooltip = tooltip;
+					hovered_coord = ImVec2(text_pos.x + size, text_pos.y + size);
+				}
 			}
 			item_n++;
 		}
+
+		if (hovered_tooltip) {
+			draw_list->AddText(hovered_coord, IM_COL32_WHITE, hovered_tooltip);
+		}
 		draw_list->PopClipRect();
 
-		if (ImGui::IsMouseReleased(mouse_button)) {
-			ImGui::CloseCurrentPopup();
-			if (item_hovered == -1)
-				ret = -2;
-			else
-				ret = item_hovered;
-		}
 		ImGui::EndPopup();
 	} else {
-		// Output("WARNING: RadialPopupSelectMenu BeginPopup failed: %s\n", popup_id.c_str());
+		// Output("WARNING: RadialPopupSelectMenu BeginPopup failed: %s\n", popup_id);
 	}
 	ImGui::PopStyleColor(3);
 	return ret;

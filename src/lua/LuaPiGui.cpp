@@ -2251,7 +2251,7 @@ static int l_pigui_radial_menu(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
-	std::string id = LuaPull<std::string>(l, 2);
+	auto id = LuaPull<const char *>(l, 2);
 	int mouse_button = LuaPull<int>(l, 3);
 	std::vector<ImTextureID> tex_ids;
 	std::vector<std::pair<ImVec2, ImVec2>> uvs;
@@ -2282,14 +2282,19 @@ static int l_pigui_radial_menu(lua_State *l)
 		tex_ids.push_back(tid);
 		uvs.push_back(std::pair<ImVec2, ImVec2>(uv0, uv1));
 	}
-
-	int size = LuaPull<int>(l, 5);
-	std::vector<std::string> tooltips;
+	std::vector<ImU32> colors;
+	LuaTable colorsTbl(l, 5);
+	for (LuaTable::VecIter<Color> iter = colorsTbl.Begin<Color>(); iter != colorsTbl.End<Color>(); ++iter) {
+		colors.push_back(IM_COL32(iter->r, iter->g, iter->b, iter->a));
+	}
+	std::vector<const char *> tooltips;
 	LuaTable tts(l, 6);
-	for (LuaTable::VecIter<std::string> iter = tts.Begin<std::string>(); iter != tts.End<std::string>(); ++iter) {
+	for (LuaTable::VecIter<const char *> iter = tts.Begin<const char *>(); iter != tts.End<const char *>(); ++iter) {
 		tooltips.push_back(*iter);
 	}
-	int n = PiGui::RadialPopupSelectMenu(center, id, mouse_button, tex_ids, uvs, size, tooltips);
+	int size = LuaPull<int>(l, 7);
+	int padding = LuaPull<int>(l, 8);
+	int n = PiGui::RadialPopupSelectMenu(center, id, mouse_button, tex_ids, uvs, colors, tooltips, size, padding);
 	LuaPush<int>(l, n);
 	return 1;
 }
@@ -2365,6 +2370,13 @@ static int l_pigui_end_tab_item(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImGui::EndTabItem();
+	return 0;
+}
+
+static int l_pigui_clear_mouse(lua_State *l)
+{
+	PROFILE_SCOPED()
+	Pi::input->ClearMouse();
 	return 0;
 }
 
@@ -3033,6 +3045,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "BeginTabItem", l_pigui_begin_tab_item },
 		{ "EndTabBar", l_pigui_end_tab_bar },
 		{ "EndTabItem", l_pigui_end_tab_item },
+		{ "ClearMouse", l_pigui_clear_mouse },
 		{ 0, 0 }
 	};
 

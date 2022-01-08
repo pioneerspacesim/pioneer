@@ -13,6 +13,7 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "Player.h"
+#include "SDL_keycode.h"
 #include "SectorView.h"
 #include "Sensors.h"
 #include "SpeedLines.h"
@@ -40,6 +41,9 @@ REGISTER_INPUT_BINDING(WorldView)
 	input->AddActionBinding("BindToggleHudMode", group, Action({ SDLK_TAB }));
 	input->AddActionBinding("BindIncreaseTimeAcceleration", group, Action({ SDLK_PAGEUP }));
 	input->AddActionBinding("BindDecreaseTimeAcceleration", group, Action({ SDLK_PAGEDOWN }));
+	// universal axes for selecting an item from a radial menu
+	input->AddAxisBinding("BindRadialHorizontalSelection", group, Axis({}, { SDLK_LEFT }, { SDLK_RIGHT }));
+	input->AddAxisBinding("BindRadialVerticalSelection", group, Axis({}, { SDLK_UP }, { SDLK_DOWN }));
 }
 
 void WorldView::InputBinding::RegisterBindings()
@@ -47,6 +51,8 @@ void WorldView::InputBinding::RegisterBindings()
 	toggleHudMode = AddAction("BindToggleHudMode");
 	increaseTimeAcceleration = AddAction("BindIncreaseTimeAcceleration");
 	decreaseTimeAcceleration = AddAction("BindDecreaseTimeAcceleration");
+	AddAxis("BindRadialVerticalSelection");
+	AddAxis("BindRadialHorizontalSelection");
 }
 
 WorldView::WorldView(Game *game) :

@@ -211,6 +211,7 @@ public:
 	// To avoid contention between different classes, please only call this when the state
 	// has actually changed.
 	void SetCapturingMouse(bool enabled);
+	void ClearMouse();
 
 	sigc::signal<void, SDL_Keysym *> onKeyPress;
 	sigc::signal<void, SDL_Keysym *> onKeyRelease;

@@ -89,8 +89,6 @@ local function displayOnScreenObjects()
 	local navTarget = player:GetNavTarget()
 	local combatTarget = player:GetCombatTarget()
 
-	ui.radialMenu("onscreenobjects")
-
 	local should_show_label = ui.shouldShowLabels()
 	local iconsize = Vector2(20, 20)
 	local small_iconsize = Vector2(18,18)

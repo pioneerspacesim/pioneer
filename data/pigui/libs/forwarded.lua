@@ -116,6 +116,7 @@ ui.HoveredFlags = pigui.HoveredFlags
 
 -- Wrapped in buttons.lua
 -- ui.button = pigui.Button
+ui.clearMouse = pigui.ClearMouse
 
 ui.dataDirPath = pigui.DataDirPath
 ui.userDirPath = pigui.UserDirPath

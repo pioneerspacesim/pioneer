@@ -28,7 +28,7 @@ function systemOverview:onBodySelected(sbody, body)
 end
 
 function systemOverview:onBodyContextMenu(sbody, body)
-	ui.openDefaultRadialMenu(body)
+	ui.openDefaultRadialMenu("systemoverviewspacetargets", body)
 end
 
 function systemOverview:overrideDrawButtons()

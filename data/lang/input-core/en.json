@@ -111,6 +111,14 @@
     "description": "Descriptive name for the PrimaryFire action.",
     "message": "Primary Fire"
   },
+  "BIND_RADIAL_HORIZONTAL_SELECTION": {
+    "description": "Input axis name to select in the radial menu.",
+    "message": "Radial Menu Left/Right"
+  },
+  "BIND_RADIAL_VERTICAL_SELECTION": {
+    "description": "Input axis name to select in the radial menu.",
+    "message": "Radial Menu Up/Down"
+  },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
     "message": "Switch to Rear Camera"

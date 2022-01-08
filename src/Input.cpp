@@ -239,8 +239,7 @@ void Manager::InitGame()
 	//reset input states
 	keyState.clear();
 	keyModState = 0;
-	mouseButton.fill(0);
-	mouseMotion.fill(0);
+	ClearMouse();
 
 	// Force a rebuild of key chords and modifier state
 	m_frameListChanged = true;
@@ -800,4 +799,10 @@ void Manager::SetCapturingMouse(bool grabbed)
 	SDL_SetWindowGrab(m_window, SDL_bool(grabbed));
 	SDL_SetRelativeMouseMode(SDL_bool(grabbed));
 	m_capturingMouse = grabbed;
+}
+
+void Manager::ClearMouse()
+{
+	mouseButton.fill(0);
+	mouseMotion.fill(0);
 }
