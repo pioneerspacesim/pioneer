@@ -6,6 +6,7 @@ local Lang = require 'Lang'
 local Game = require 'Game'
 local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
+local Vector2 = _G.Vector2
 
 local lc = Lang.GetResource("core");
 
@@ -22,32 +23,32 @@ end
 ui.fonts = {
 	-- dummy font, actually renders icons
 	pionicons = {
-		small	= { name = "icons", size = fontScale(16), offset = fontScale(14) },
-		medium	= { name = "icons", size = fontScale(18), offset = fontScale(20) },
-		large	= { name = "icons", size = fontScale(22), offset = fontScale(28) }
+		small	= { name = "icons", size = fontScale(14), offset = fontScale(12) },
+		medium= { name = "icons", size = fontScale(18), offset = fontScale(14) },
+		large	= { name = "icons", size = fontScale(30), offset = fontScale(23.5) }
 	},
 	pionillium = {
-		xlarge	= { name = "pionillium", size = fontScale(36), offset = fontScale(24) },
-		large	= { name = "pionillium", size = fontScale(30), offset = fontScale(24) },
-		medlarge = { name = "pionillium", size = fontScale(22), offset = fontScale(18) },
-		medium	= { name = "pionillium", size = fontScale(18), offset = fontScale(14) },
-		-- 		medsmall = { name = "pionillium", size = 15, offset = 12 },
-		small	= { name = "pionillium", size = fontScale(14), offset = fontScale(11) },
-		tiny	= { name = "pionillium", size = fontScale(10), offset = fontScale(7) },
+		xlarge	= { name = "pionillium", size = fontScale(36) },
+		large	= { name = "pionillium", size = fontScale(30) },
+		medlarge = { name = "pionillium", size = fontScale(22) },
+		medium	= { name = "pionillium", size = fontScale(18) },
+		-- 		medsmall = { name = "pionillium", size = 15 },
+		small	= { name = "pionillium", size = fontScale(14) },
+		tiny	= { name = "pionillium", size = fontScale(10) },
 
 		-- alternate font breakpoints
-		title    = { name = "pionillium", size = fontScale(30), offset = fontScale(18) },
-		heading  = { name = "pionillium", size = fontScale(22), offset = fontScale(18) },
-		body     = { name = "pionillium", size = fontScale(19), offset = fontScale(14) },
-		details  = { name = "pionillium", size = fontScale(16), offset = fontScale(14) },
+		title    = { name = "pionillium", size = fontScale(30) },
+		heading  = { name = "pionillium", size = fontScale(22) },
+		body     = { name = "pionillium", size = fontScale(19) },
+		details  = { name = "pionillium", size = fontScale(16) },
 	},
 	orbiteer = {
-		xlarge	= { name = "orbiteer", size = fontScale(36), offset = fontScale(24) },
-		large	= { name = "orbiteer", size = fontScale(30), offset = fontScale(24) },
-		medlarge = { name = "orbiteer", size = fontScale(24), offset = fontScale(20) },
-		medium	= { name = "orbiteer", size = fontScale(20), offset = fontScale(16) },
-		small	= { name = "orbiteer", size = fontScale(14), offset = fontScale(11) },
-		tiny	= { name = "orbiteer", size = fontScale(10), offset = fontScale(7) },
+		xlarge	= { name = "orbiteer", size = fontScale(36) },
+		large	= { name = "orbiteer", size = fontScale(30) },
+		medlarge = { name = "orbiteer", size = fontScale(24) },
+		medium	= { name = "orbiteer", size = fontScale(20) },
+		small	= { name = "orbiteer", size = fontScale(14) },
+		tiny	= { name = "orbiteer", size = fontScale(10) },
 	},
 }
 
@@ -307,17 +308,20 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 		local is_icon = item.font.name == "icons"
 		local s
 		local popfont
+		local offset
 		if is_icon then
 			s = Vector2(item.font.size, item.font.size)
+			offset = item.font.offset
 		else
 			popfont = pigui:PushFont(item.font.name, item.font.size)
 			s = pigui.CalcTextSize(item.text)
+			offset = -ui.calcTextAlignment(Vector2(0,0), s, ui.anchor.left, ui.anchor.baseline).y
 		end
 
 		size.x = size.x + s.x
 		size.x = size.x + spacing -- spacing
 		size.y = math.max(size.y, s.y)
-		max_offset = math.max(max_offset, item.font.offset)
+		max_offset = math.max(max_offset, offset)
 
 		if popfont then pigui.PopFont() end
 	end
@@ -326,14 +330,16 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 	position = ui.calcTextAlignment(position, size, anchor_horizontal, nil)
 
 	if anchor_vertical == ui.anchor.top then
-		position.y = position.y + size.y -- was max_offset, seems wrong
+		position.y = position.y + max_offset
 	elseif anchor_vertical == ui.anchor.bottom then
 		position.y = position.y - size.y + max_offset
+	elseif anchor_vertical == ui.anchor.center then
+		position.y = position.y + max_offset - size.y / 2.0
 	end
 
 	if bg_color then
-		pigui.AddRectFilled(position - Vector2(textBackgroundMarginPixels, size.y + textBackgroundMarginPixels),
-			position + Vector2(size.x + textBackgroundMarginPixels, textBackgroundMarginPixels),
+		pigui.AddRectFilled(position - Vector2(textBackgroundMarginPixels, max_offset + textBackgroundMarginPixels),
+			position + Vector2(size.x + textBackgroundMarginPixels, size.y - max_offset + textBackgroundMarginPixels),
 			bg_color, 0, 0)
 	end
 
@@ -341,7 +347,7 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 		local item = data[i]
 		local is_icon = item.font.name == "icons"
 		if is_icon then
-			local s = ui.addIcon(position, item.text, item.color, Vector2(item.font.size, item.font.size), ui.anchor.left, ui.anchor.bottom, item.tooltip)
+			local s = ui.addIcon(position - Vector2(0.0, max_offset - size.y / 2), item.text, item.color, Vector2(item.font.size, item.font.size), ui.anchor.left, ui.anchor.center, item.tooltip)
 			position.x = position.x + s.x + spacing
 		else
 			local s = ui.addStyledText(position, ui.anchor.left, ui.anchor.baseline, item.text, item.color, item.font, item.tooltip)
@@ -352,20 +358,18 @@ ui.addFancyText = function(position, anchor_horizontal, anchor_vertical, data, b
 end
 
 ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, color, font, tooltip, bg_color)
-	-- addStyledText aligns to upper left
+
 	local size = Vector2(0, 0)
+
 	ui.withFont(font.name, font.size, function()
 		size = pigui.CalcTextSize(text)
-		-- align bottom to baseline
-		if anchor_vertical == ui.anchor.baseline then anchor_vertical = ui.anchor.bottom end
-		position = ui.calcTextAlignment(position, size, anchor_horizontal, anchor_vertical) -- ignore vertical if baseline
+		position = ui.calcTextAlignment(position, size, anchor_horizontal, anchor_vertical)
 		if bg_color then
 			pigui.AddRectFilled(Vector2(position.x - textBackgroundMarginPixels, position.y - textBackgroundMarginPixels),
 				Vector2(position.x + size.x + textBackgroundMarginPixels, position.y + size.y + textBackgroundMarginPixels),
 				bg_color, 0, 0)
 		end
 		pigui.AddText(position, color, text)
-		-- pigui.AddQuad(position, position + Vector2(size.x, 0), position + Vector2(size.x, size.y), position + vector.new(0, size.y), colors.red, 1.0)
 	end)
 
 	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) and tooltip ~= "" then

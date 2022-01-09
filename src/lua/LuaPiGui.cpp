@@ -2725,6 +2725,9 @@ static int l_pigui_calc_text_alignment(lua_State *l)
 		pos.y -= size.y;
 	} else if (anchor_v == 3) {
 		pos.y -= size.y / 2;
+	} else if (anchor_v == 6) {
+		ImFont *font = ImGui::GetFont();
+		pos.y -= font->Ascent;
 	} else
 		luaL_error(l, "CalcTextAlignment: incorrect vertical anchor %d", anchor_v);
 	LuaPush<vector2d>(l, pos);
