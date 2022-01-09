@@ -621,6 +621,22 @@ void LuaConsole::OpenTCPDebugConnection(int portnumber)
 	}
 }
 
+void LuaConsole::CloseTCPDebugConnection()
+{
+	const char *cmd = "CloseTCPDebugConnection";
+	if (m_debugSocket) {
+		errno = 0;
+		if (close(m_debugSocket) == -1) {
+			Output("%s: FAIL(%d).\n", cmd, errno);
+		} else {
+			Output("%s: OK.\n", cmd);
+		}
+		m_debugSocket = 0;
+	} else {
+		Output("%s: FAIL - already closed.\n", cmd);
+	}
+}
+
 void LuaConsole::HandleTCPDebugConnections()
 {
 	if (m_debugSocket) {

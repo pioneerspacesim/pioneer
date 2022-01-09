@@ -1089,6 +1089,10 @@ void GameLoop::End()
 
 	Pi::SetMouseGrab(false);
 
+#ifdef REMOTE_LUA_REPL
+	Pi::luaConsole->CloseTCPDebugConnection();
+#endif
+
 	// final event
 	LuaEvent::Queue("onGameEnd");
 	LuaEvent::Emit();
