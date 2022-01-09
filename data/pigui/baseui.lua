@@ -40,14 +40,6 @@ function ui.makeFullScreenHandler(window_name, window_fnc)
 	end
 end
 
-function ui.get_icon_tex_coords(icon)
-	assert(icon, "no icon given")
-	local count = 16.0 -- icons per row/column
-	local rem = math.floor(icon % count)
-	local quot = math.floor(icon / count)
-	return Vector2(rem / count, quot/count), Vector2((rem+1) / count, (quot+1)/count)
-end
-
 function ui.circleSegments(radius)
 	if radius < 5 then
 		return 8

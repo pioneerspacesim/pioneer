@@ -219,13 +219,12 @@ equipmentInfoTab = {
 -- Generate all UI data appropriate to the passed equipment item
 local function makeEquipmentData(equip)
 	local out = {
-		icon = icons.systems_management,
+		icon = equip.icon_name and icons[equip.icon_name] or icons.systems_management,
 		name = equip:GetName(),
 		equip = equip
 	}
 
 	if equip:Class() == EquipType.LaserType then
-		out.icon = icons.combattarget
 		table.insert(out, {
 			icons.comms, -- PLACEHOLDER
 			string.format("%d RPM", 60 / equip.laser_stats.rechargeTime),
@@ -236,27 +235,13 @@ local function makeEquipmentData(equip)
 			string.format("%.1f KW", equip.laser_stats.damage),
 			le.DAMAGE_PER_SHOT
 		})
-	elseif equip:Class() == EquipType.HyperdriveType then
-		out.icon = icons.galaxy_map
-	elseif equip:Class() == EquipType.SensorType then
-		out.icon = icons.scanner
-	elseif equip == EquipType.misc.missile_unguided then
-		-- the existing missile icons are not properly sized / oriented
-		out.icon = icons.light_cargo_shuttle
-	elseif equip == EquipType.misc.missile_guided then
-		out.icon = icons.light_passenger_transport
-	elseif equip == EquipType.misc.missile_smart then
-		out.icon = icons.medium_passenger_transport
-	elseif equip == EquipType.misc.missile_naval then
-		out.icon = icons.heavy_courier
-	elseif utils.contains(equip.slots, "shield") then
-		out.icon = icons.shield
-	elseif utils.contains(equip.slots, "cabin") then
-		out.icon = icons.personal
-	elseif utils.contains(equip.slots, "radar") then
-		out.icon = icons.broadcast
-	elseif utils.contains(equip.slots, "autopilot") then
-		out.icon = icons.comms
+	-- elseif equip:Class() == EquipType.HyperdriveType then
+	-- elseif equip:Class() == EquipType.SensorType then
+	-- elseif utils.contains(equip.slots, "missile") then
+	-- elseif utils.contains(equip.slots, "shield") then
+	-- elseif utils.contains(equip.slots, "cabin") then
+	-- elseif utils.contains(equip.slots, "radar") then
+	-- elseif utils.contains(equip.slots, "autopilot") then
 	end -- TODO: more data for different equip types
 
 	local equipHealth = 1

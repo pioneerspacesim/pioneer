@@ -4,17 +4,26 @@ local Engine = require 'Engine'
 local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 
+local iconsX = 16
+local iconsY = 19
+
+local icons_texture_small = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), iconsX * 24, iconsY * 24)
+local icons_texture_med = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), iconsX * 32, iconsY * 32)
+local icons_texture_large = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), iconsX * 64, iconsY * 64)
+
 local function get_wide_icon_tex_coords(icon)
 	assert(icon, "no icon given")
-	local count = 16.0 -- icons per row/column
-	local rem = math.floor(icon % count)
-	local quot = math.floor(icon / count)
-	return Vector2(rem / count, quot/count), Vector2((rem+2) / count, (quot+1)/count)
+	local rem = math.floor(icon % iconsX)
+	local quot = math.floor(icon / iconsX)
+	return Vector2(rem / iconsX, quot/iconsY), Vector2((rem+2) / iconsX, (quot+1)/iconsY)
 end
 
-local icons_texture_small = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 24, 16 * 24)
-local icons_texture_med = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 32, 16 * 32)
-local icons_texture_large = pigui:LoadTextureFromSVG(pigui.DataDirPath({"icons", "icons.svg"}), 16 * 64, 16 * 64)
+function ui.get_icon_tex_coords(icon)
+	assert(icon, "no icon given")
+	local rem = math.floor(icon % iconsX)
+	local quot = math.floor(icon / iconsX)
+	return Vector2(rem / iconsX, quot/iconsY), Vector2((rem+1) / iconsX, (quot+1)/iconsY)
+end
 
 function ui.get_icons_texture(size)
 	if size.x > 32.0 or size.y > 32.0 then
