@@ -1,3 +1,11 @@
+January 2022
+  * New Features
+    * Redesign the BBS layout, show pertinent mission info (#5312)
+
+  * Fixes
+    * FuelClub: Refuel internal fuel tank only once a day (#5311)
+    * Fix mechanic character not being persistent (#5306)
+
 November 2021
   * New Features
     * Added station restocking and balanced goods availability (#5291)
