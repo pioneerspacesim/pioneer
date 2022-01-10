@@ -324,6 +324,27 @@ local isEnabled = function (ref)
 end
 
 local onChat
+
+local postAdvert = function(station, ad)
+	local desc = string.interp(l[ad.text], {
+		system   = ad.location:GetStarSystem().name,
+		cash     = Format.Money(ad.reward, false),
+		starport = ad.location:GetSystemBody().name,
+	})
+
+	local ref = station:AddAdvert({
+		title       = l[ad.title],
+		description = desc,
+		icon        = ad.urgency >=  0.8 and "haul_fast" or "haul",
+		due         = ad.due,
+		reward      = ad.reward,
+		location    = ad.location,
+		onChat      = onChat,
+		onDelete    = onDelete,
+		isEnabled   = isEnabled })
+	ads[ref] = ad
+end
+
 onChat = function (form, ref, option)
 	local ad = ads[ref]
 
@@ -359,7 +380,7 @@ onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		local introtext  = string.interp(ad.introtext, {
+		local introtext  = string.interp(l[ad.introtext], {
 			name         = ad.client.name,
 			cash         = Format.Money(ad.negotiated_reward,false),
 			cargoname    = ad.cargotype:GetName(),
@@ -447,20 +468,7 @@ onChat = function (form, ref, option)
 			ad.negotiated_amount = ad.amount
 			ad.negotiated_reward = ad.reward
 
-			ad.desc = string.interp(ad.adtext, {
-				system   = ad.location:GetStarSystem().name,
-				cash     = Format.Money(ad.reward,false),
-				starport = ad.location:GetSystemBody().name,
-			})
-
-			local new = ad.station:AddAdvert({
-				description = ad.desc,
-				icon        = ad.urgency >=  0.8 and "haul_fast" or "haul",
-				onChat      = onChat,
-				onDelete    = onDelete,
-				isEnabled   = isEnabled
-			})
-			ads[new] = ad
+			postAdvert(ad.station, ad)
 		end
 
 		if ad.pickup then
@@ -623,9 +631,9 @@ local makeAdvert = function (station)
 	local n = getNumberOfFlavours("INTROTEXT_" .. missiontype)
 	local introtext
 	if n >= 1 then
-		introtext = l["INTROTEXT_" .. missiontype .. "_" .. Engine.rand:Integer(1, n)]
+		introtext = "INTROTEXT_" .. missiontype .. "_" .. Engine.rand:Integer(1, n)
 	else
-		introtext = l["INTROTEXT_" .. Engine.rand:Integer(1, getNumberOfFlavours("INTROTEXT"))]
+		introtext = "INTROTEXT_" .. Engine.rand:Integer(1, getNumberOfFlavours("INTROTEXT"))
 	end
 	local ad = {
 		station       = station,
@@ -649,34 +657,17 @@ local makeAdvert = function (station)
 	}
 
 	n = getNumberOfFlavours("ADTEXT_" .. missiontype)
-	local adtext, adtitle
 	if n >= 1 then
 		local rand = Engine.rand:Integer(1, n)
-		adtext = l["ADTEXT_" .. missiontype .. "_" .. rand]
-		adtitle = l["ADTITLE_" .. missiontype .. "_" .. rand]
+		ad.text = "ADTEXT_" .. missiontype .. "_" .. rand
+		ad.title = "ADTITLE_" .. missiontype .. "_" .. rand
 	else
 		local rand = Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))
-		adtext = l["ADTEXT_" .. rand]
-		adtitle = l["ADTITLE_" .. rand]
+		ad.text = "ADTEXT_" .. rand
+		ad.title = "ADTITLE_" .. rand
 	end
-	ad.adtext = adtext -- save for recreation
-	ad.desc = string.interp(adtext, {
-		system   = nearbysystem.name,
-		cash     = Format.Money(ad.reward,false),
-		starport = ad.location:GetSystemBody().name,
-	})
 
-	local ref = station:AddAdvert({
-		title       = adtitle,
-		description = ad.desc,
-		icon        = ad.urgency >=  0.8 and "haul_fast" or "haul",
-		due         = ad.due,
-		reward      = ad.reward,
-		location    = ad.location,
-		onChat      = onChat,
-		onDelete    = onDelete,
-		isEnabled   = isEnabled })
-	ads[ref] = ad
+	postAdvert(station, ad)
 
 	return ad
 end
@@ -981,13 +972,7 @@ local onGameStart = function ()
 		custom_cargo_weight_sum = 0
 
 		for k,ad in pairs(loaded_data.ads) do
-			local ref = ad.station:AddAdvert({
-				description = ad.desc,
-				icon        = ad.urgency >=  0.8 and "haul_fast" or "haul",
-				onChat      = onChat,
-				onDelete    = onDelete,
-				isEnabled   = isEnabled })
-			ads[ref] = ad
+			postAdvert(ad.station, ad)
 		end
 		missions = loaded_data.missions
 		custom_cargo = loaded_data.custom_cargo
@@ -1008,7 +993,7 @@ local buildMissionDescription = function(mission)
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	local danger = getRiskMsg(mission)
 
-	desc.description = mission.introtext:interp({
+	desc.description = l[mission.introtext]:interp({
 		name = mission.client.name,
 		cargoname = mission.cargotype:GetName(),
 		starport = mission.location:GetSystemBody().name,

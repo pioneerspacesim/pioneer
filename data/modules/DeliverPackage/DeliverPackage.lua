@@ -231,6 +231,26 @@ local findNearbyStations = function (station, minDist, maxDist)
 	return nearbystations
 end
 
+local placeAdvert = function (station, ad)
+	ad.desc = string.interp(flavours[ad.flavour].adtext, {
+		system	= ad.location:GetStarSystem().name,
+		cash	= Format.Money(ad.reward,false),
+		starport = ad.location:GetSystemBody().name,
+	})
+
+	local ref = station:AddAdvert({
+		title       = flavours[ad.flavour].adtitle,
+		description = ad.desc,
+		icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
+		due         = ad.due,
+		reward      = ad.reward,
+		location    = ad.location,
+		onChat      = onChat,
+		onDelete    = onDelete,
+		isEnabled   = isEnabled })
+	ads[ref] = ad
+end
+
 -- return statement is nil if no advert was created, else it is bool:
 -- true if a localdelivery, false for non-local
 local makeAdvert = function (station, manualFlavour, nearbystations)
@@ -281,25 +301,7 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 		faceseed	= Engine.rand:Integer(),
 	}
 
-	local sbody = ad.location:GetSystemBody()
-
-	ad.desc = string.interp(flavours[flavour].adtext, {
-		system	= nearbysystem.name,
-		cash	= Format.Money(ad.reward,false),
-		starport = sbody.name,
-	})
-
-	local ref = station:AddAdvert({
-		title       = flavours[flavour].adtitle,
-		description = ad.desc,
-		icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
-		due         = ad.due,
-		reward      = ad.reward,
-		location    = ad.location,
-		onChat      = onChat,
-		onDelete    = onDelete,
-		isEnabled   = isEnabled })
-	ads[ref] = ad
+	placeAdvert(station, ad)
 
 	-- successfully created an advert, return non-nil
 	return ad
@@ -473,13 +475,7 @@ local onGameStart = function ()
 	if not loaded_data or not loaded_data.ads then return end
 
 	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert({
-			description = ad.desc,
-			icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
-			onChat      = onChat,
-			onDelete    = onDelete,
-			isEnabled   = isEnabled })
-		ads[ref] = ad
+		placeAdvert(ad.station, ad)
 	end
 
 	missions = loaded_data.missions

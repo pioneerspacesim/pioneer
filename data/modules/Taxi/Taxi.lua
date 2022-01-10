@@ -237,6 +237,25 @@ local isEnabled = function (ref)
 	return ads[ref] ~= nil and isQualifiedFor(Character.persistent.player.reputation, ads[ref])
 end
 
+local placeAdvert = function (station, ad)
+	local desc = string.interp(flavours[ad.flavour].adtext, {
+		system	= ad.location:GetStarSystem().name,
+		cash	= Format.Money(ad.reward,false),
+	})
+
+	local ref = station:AddAdvert({
+		title = flavours[ad.flavour].adtitle,
+		description = desc,
+		icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
+		due         = ad.due,
+		reward      = ad.reward,
+		location    = ad.location,
+		onChat      = onChat,
+		onDelete    = onDelete,
+		isEnabled   = isEnabled})
+	ads[ref] = ad
+end
+
 local nearbysystems
 local makeAdvert = function (station)
 	local reward, due, location
@@ -273,22 +292,7 @@ local makeAdvert = function (station)
 		faceseed	= Engine.rand:Integer(),
 	}
 
-	ad.desc = string.interp(flavours[flavour].adtext, {
-		system	= location.name,
-		cash	= Format.Money(ad.reward,false),
-	})
-
-	local ref = station:AddAdvert({
-		title = flavours[flavour].adtitle,
-		description = ad.desc,
-		icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
-		due         = ad.due,
-		reward      = ad.reward,
-		location    = ad.location,
-		onChat      = onChat,
-		onDelete    = onDelete,
-		isEnabled   = isEnabled})
-	ads[ref] = ad
+	placeAdvert(station, ad)
 end
 
 local onCreateBB = function (station)
@@ -451,13 +455,7 @@ local onGameStart = function ()
 	if not loaded_data or not loaded_data.ads then return end
 
 	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert({
-			description = ad.desc,
-			icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
-			onChat      = onChat,
-			onDelete    = onDelete,
-			isEnabled   = isEnabled})
-		ads[ref] = ad
+		placeAdvert(ad.station, ad)
 	end
 
 	missions = loaded_data.missions

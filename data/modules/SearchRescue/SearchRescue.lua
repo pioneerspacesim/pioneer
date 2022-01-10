@@ -1186,6 +1186,31 @@ local discardShip = function (ship)
 	end
 end
 
+local placeAdvert = function (station, ad)
+	local starport_label, planet_label, system_label
+	if ad.station_target then starport_label = ad.station_target:GetSystemBody().name else starport_label = nil end
+	if ad.planet_target then planet_label = ad.planet_target:GetSystemBody().name else planet_label = nil end
+	if ad.system_target then system_label = ad.system_target:GetStarSystem().name else system_label = nil end
+	local desc = string.interp(ad.flavour.adtext, {
+		starport = starport_label,
+	    planet = planet_label,
+	    system = system_label
+	})
+
+	local ref = station:AddAdvert({
+		title       = ad.flavour.adtitle,
+		description = desc,
+		icon        = "searchrescue",
+		due         = ad.due,
+		reward      = ad.reward,
+		location    = ad.location,
+		onChat      = onChat,
+		onDelete    = onDelete,
+		isEnabled   = isEnabled
+	})
+	ads[ref] = ad
+end
+
 local makeAdvert = function (station, manualFlavour, closestplanets)
 	-- Make a single advertisement for the bulletin board of the supplied station.
 	local due, dist, client, entity, problem, location
@@ -1361,28 +1386,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		shipseed       = shipseed
 	}
 
-	local starport_label, planet_label, system_label
-	if station_target then starport_label = station_target:GetSystemBody().name else starport_label = nil end
-	if planet_target then planet_label = planet_target:GetSystemBody().name else planet_label = nil end
-	if system_target then system_label = system_target:GetStarSystem().name else system_label = nil end
-	ad.desc = string.interp(flavour.adtext, {
-		starport = starport_label,
-	    planet = planet_label,
-	    system = system_label
-	})
-
-	local ref = station:AddAdvert({
-		title       = flavour.adtitle,
-		description = ad.desc,
-		icon        = "searchrescue",
-		due         = ad.due,
-		reward      = ad.reward,
-		location    = ad.location,
-		onChat      = onChat,
-		onDelete    = onDelete,
-		isEnabled   = isEnabled
-	})
-	ads[ref] = ad
+	placeAdvert(station, ad)
 
 	-- successfully created an advert, return non-nil
 	return ad
@@ -2123,13 +2127,7 @@ local onGameStart = function ()
 
 	-- fill the global containers with previously saved data if this is a reload
 	for _,ad in pairs(loaded_data.ads) do
-		local ref = Space.GetBody(ad.station_local.bodyIndex):AddAdvert({
-				description = ad.desc,
-				icon        = "searchrescue",
-				onChat      = onChat,
-				onDelete    = onDelete,
-				isEnabled   = isEnabled })
-		ads[ref] = ad
+		placeAdvert(Space.GetBody(ad.station_local.bodyIndex), ad)
 	end
 	missions = loaded_data.missions
 	aircontrol_chars = loaded_data.aircontrol_chars

@@ -154,6 +154,25 @@ local onChat = function (form, ref, option)
 	form:AddOption(l.OK_AGREED, 3);
 end
 
+local placeAdvert = function(station, ad)
+	local desc = string.interp(flavours[ad.flavour].adtext, {
+		target	= ad.target,
+		system	= ad.location:GetStarSystem().name,
+	})
+
+	local ref = station:AddAdvert({
+		title       = flavours[ad.flavour].adtitle,
+		description = desc,
+		icon        = "assassination",
+		due         = ad.due,
+		reward      = ad.reward,
+		location    = ad.location,
+		onChat      = onChat,
+		onDelete    = onDelete,
+		isEnabled   = isEnabled})
+	ads[ref] = ad
+end
+
 local nearbysystems
 local makeAdvert = function (station)
 	if nearbysystems == nil then
@@ -197,21 +216,7 @@ local makeAdvert = function (station)
 		target = target,
 	}
 
-	ad.desc = string.interp(flavours[ad.flavour].adtext, {
-		target	= ad.target,
-		system	= nearbysystem.name,
-	})
-	local ref = station:AddAdvert({
-		title       = flavours[ad.flavour].adtitle,
-		description = ad.desc,
-		icon        = "assassination",
-		due         = ad.due,
-		reward      = ad.reward,
-		location    = ad.location,
-		onChat      = onChat,
-		onDelete    = onDelete,
-		isEnabled   = isEnabled})
-	ads[ref] = ad
+	placeAdvert(station, ad)
 end
 
 local onCreateBB = function (station)
@@ -460,13 +465,7 @@ local onGameStart = function ()
 	if not loaded_data or not loaded_data.ads then return end
 
 	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert({
-			description = ad.desc,
-			icon        = "assassination",
-			onChat      = onChat,
-			onDelete    = onDelete,
-			isEnabled   = isEnabled})
-		ads[ref] = ad
+		placeAdvert(ad.station, ad)
 	end
 
 	missions = loaded_data.missions

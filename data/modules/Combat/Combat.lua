@@ -197,6 +197,28 @@ local findPlanets = function (dist, type, fac)
 	return planets
 end
 
+local placeAdvert = function (station, ad)
+	local title = l["ADTITLE_" .. ad.titleId]
+	local desc = string.interp(l["ADTEXT_" .. ad.titleId], {
+		system = ad.location:GetStarSystem().name,
+		cash = Format.Money(ad.reward, false),
+		mission = l["MISSION_TYPE_" .. math.ceil(ad.dedication * NUMSUBTYPES)],
+		org = ad.org
+	})
+
+	local ref = station:AddAdvert({
+		title       = title,
+		description = desc,
+		icon        = "combat",
+		due         = ad.due,
+		reward      = ad.reward,
+		location    = ad.location,
+		onChat      = onChat,
+		onDelete    = onDelete,
+		isEnabled   = isEnabled})
+	ads[ref] = ad
+end
+
 local makeAdvert = function (station)
 	local flavour, location, dist, reward, due, org
 	local risk = Engine.rand:Number(0.2, 1)
@@ -227,10 +249,12 @@ local makeAdvert = function (station)
 		end
 	end
 
+	local titleNum = Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))
 	local introtext = l["GREETING_" .. Engine.rand:Integer(1, getNumberOfFlavours("GREETING"))] .. " " .. l[flavour.id .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(flavour.id))]
 
 	local ad = {
 		station     = station,
+		titleId     = titleNum,
 		introtext   = introtext,
 		flavour     = flavour,
 		client      = Character.New( { title = l[flavour.client_title] } ),
@@ -245,26 +269,7 @@ local makeAdvert = function (station)
 		due         = due,
 	}
 
-	local titleNum = Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))
-
-	ad.desc = string.interp(l["ADTEXT_" .. titleNum], {
-		system = location:GetStarSystem().name,
-		cash = Format.Money(ad.reward, false),
-		mission = l["MISSION_TYPE_" .. math.ceil(ad.dedication * NUMSUBTYPES)],
-		org = org
-	})
-
-	local ref = station:AddAdvert({
-		title = l["ADTITLE_" .. titleNum],
-		description = ad.desc,
-		icon        = "combat",
-		due         = ad.due,
-		reward      = ad.reward,
-		location    = ad.location,
-		onChat      = onChat,
-		onDelete    = onDelete,
-		isEnabled   = isEnabled})
-	ads[ref] = ad
+	placeAdvert(station, ad)
 end
 
 local onCreateBB = function (station)
@@ -492,13 +497,7 @@ local onGameStart = function ()
 
 	if loaded_data and loaded_data.ads then
 		for k, ad in pairs(loaded_data.ads) do
-			local ref = ad.station:AddAdvert({
-				description = ad.desc,
-				icon        = "combat",
-				onChat      = onChat,
-				onDelete    = onDelete,
-				isEnabled   = isEnabled })
-			ads[ref] = ad
+			placeAdvert(ad.station, ad)
 		end
 		missions = loaded_data.missions
 		loaded_data = nil
