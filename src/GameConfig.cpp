@@ -3,12 +3,13 @@
 
 #include "GameConfig.h"
 #include "FileSystem.h"
+#include "core/OS.h"
 
 GameConfig::GameConfig(const map_string &override_)
 {
 	// set defaults
 	std::map<std::string, std::string> &map = m_map[""];
-	map["Lang"] = "en";
+	map["Lang"] = OS::GetUserLangCode();
 	map["AMD_MESA_HACKS"] = "0";
 	map["DisableSound"] = "0";
 	map["StartFullscreen"] = "0";
