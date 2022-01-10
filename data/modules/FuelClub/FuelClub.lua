@@ -38,9 +38,11 @@ end)
 -- exist on every station in the galaxy.
 
 local l = Lang.GetResource("module-fuelclub")
+local lc = Lang.GetResource("ui-core")
 
 -- Default numeric values --
 ----------------------------
+local oneday = 86400 -- One standard day
 local oneyear = 31557600 -- One standard Julian year
 -- 10, guaranteed random by D16 dice roll.
 -- This is to make the BBS name different from the station welcome character.
@@ -119,9 +121,7 @@ onChat = function (form, ref, option)
 	form:SetTitle(ad.flavour.welcome:interp({clubname = ad.flavour.clubname}))
 	local membership = memberships[ad.flavour.clubname]
 
-	if membership and (membership.joined + membership.expiry > Game.time) then
-		-- members get refuelled, whether or not the station managed to do it
-		Game.player:SetFuelPercent()
+	if option == 0 and membership and (membership.joined + membership.expiry > Game.time) then
 		-- members get the trader interface
 		form:SetMessage(string.interp(ad.flavour.member_intro, {radioactives=Equipment.cargo.radioactives:GetName()}))
 		form:AddGoodsTrader({
@@ -211,6 +211,10 @@ onChat = function (form, ref, option)
 				end
 			end,
 		})
+		-- members can only refuel once a day
+		if not membership.refueled and (membership.refueling_date + oneday < Game.time) and Game.player.fuel < 100 then
+			form:AddOption(l.REFUEL_FREE,3)
+		end
 
 	elseif option == -1 then
 		-- hang up
@@ -222,7 +226,7 @@ onChat = function (form, ref, option)
 						military_fuel = Equipment.cargo.military_fuel:GetName(),
 						radioactives = Equipment.cargo.radioactives:GetName()}))
 		form:AddOption(l.APPLY_FOR_MEMBERSHIP,2)
-		form:AddOption(l.GO_BACK,0)
+		form:AddOption(lc.GO_BACK,0)
 
 	elseif option == 2 then
 		-- Player applied for membership
@@ -232,6 +236,8 @@ onChat = function (form, ref, option)
 				joined = Game.time,
 				expiry = oneyear,
 				milrads = 0,
+				refueled = false,
+				refueling_date = 0,
 			}
 			Game.player:AddMoney(0 - ad.flavour.annual_fee)
 			form:SetMessage(l.YOU_ARE_NOW_A_MEMBER:interp({
@@ -242,6 +248,21 @@ onChat = function (form, ref, option)
 			-- Membership application unsuccessful
 			form:SetMessage(l.YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED)
 		end
+
+	elseif option == 3 then
+		form:Clear() -- remove goods trader table
+		form:SetFace(ad.character)
+		form:SetTitle(ad.flavour.welcome:interp({clubname = ad.flavour.clubname}))
+		form:SetMessage(string.interp(l.FUEL_LEVEL, {level = math.floor(Game.player.fuel)}))
+		form:AddOption(lc.REFUEL_FULL,4)
+		form:AddOption(lc.GO_BACK,0)
+
+	elseif option == 4 then
+		Game.player:SetFuelPercent()
+		membership.refueled = true
+		membership.refueling_date = Game.time
+		form:SetMessage(string.interp(l.FUEL_LEVEL, {level = math.floor(Game.player.fuel)}))
+		form:AddOption(lc.GO_BACK,0)
 
 	else
 		-- non-members get offered membership
@@ -298,6 +319,14 @@ local onCreateBB = function (station)
 	end
 end
 
+local onShipUndocked = function (ship, station)
+	if not ship:IsPlayer() then return end
+
+	for _, membership in pairs(memberships) do
+		membership.refueled = false
+	end
+end
+
 local onGameStart = function ()
 
 	if loaded_data and loaded_data.ads then
@@ -329,6 +358,8 @@ local unserialize = function (data)
 end
 
 Event.Register("onCreateBB", onCreateBB)
+Event.Register("onShipUndocked", onShipUndocked)
 Event.Register("onGameStart", onGameStart)
 
 Serializer:Register("FuelClub", serialize, unserialize)
+
