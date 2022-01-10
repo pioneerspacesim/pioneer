@@ -28,6 +28,7 @@ local flavours = {}
 for i = 0,max_flavour_index do
     table.insert(flavours, {
         adtitle = l["FLAVOUR_" .. i .. "_TITLE"],
+        adtext = l["FLAVOUR_" .. i .. "_TEXT"],
         adbody  = l["FLAVOUR_" .. i .. "_BODY"],
     })
 end
@@ -147,10 +148,11 @@ local makeAdvert = function (station)
 		station = station,
     }
 
-    ad.desc = string.interp(flavours[ad.flavour].adtitle, {
+    ad.desc = string.interp(flavours[ad.flavour].adtext, {
 		equipment = equipment:GetName(),
     })
     local ref = station:AddAdvert({
+		title       = flavours[ad.flavour].adtitle,
         description = ad.desc,
         icon        = "second_hand",
         onChat      = onChat,
@@ -234,6 +236,7 @@ local onGameStart = function ()
 
     for k,ad in pairs(loaded_data.ads) do
         local ref = ad.station:AddAdvert({
+			title       = flavours[ad.flavour].adtitle,
             description = ad.desc,
             icon        = "second_hand",
             onChat      = onChat,

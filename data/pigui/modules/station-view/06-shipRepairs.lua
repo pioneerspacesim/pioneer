@@ -28,7 +28,6 @@ local repair_cost = 0
 
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
-	windowPadding = Vector2(14, 14),
 	faceSize = Vector2(586,565),
 	buttonSize = Vector2(100, 0),
 	verticalDummy = Vector2(0, 50),
@@ -83,50 +82,47 @@ local function drawShipRepair()
 	local damage = 100 - hullPercent
 	local shipDef = ShipDef[Game.player.shipId]
 
-	local intro = string.interp(l.YOUR_HULL_IS_AT_X_INTEGRITY, {value = string.format('%.1f', hullPercent)})
+	-- local intro = string.interp(l.YOUR_HULL_IS_AT_X_INTEGRITY, {value = string.format('%.1f', hullPercent)})
 
-	ui.withStyleVars({WindowPadding = widgetSizes.windowPadding,
-		ItemSpacing = widgetSizes.itemSpacing}, function ()
-			local infoColumnWidth = ui.getContentRegion().x - widgetSizes.faceSize.x - widgetSizes.windowPadding.x*3
+	ui.withStyleVars({ItemSpacing = widgetSizes.itemSpacing}, function ()
+		local infoColumnWidth = ui.getContentRegion().x - widgetSizes.faceSize.x - widgetSizes.itemSpacing.x
 
-			ui.child("ShipStatus", Vector2(infoColumnWidth, 0), {"AlwaysUseWindowPadding"}, function ()
-				if hullPercent > 99.9 then
-					ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size,
-						function () ui.text(l.SHIP_IS_ALREADY_FULLY_REPAIRED) end)
-				else
-					ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function ()
-						ui.text(getRepairMessage(damageToRepair, repair_cost))
-						ui.pushItemWidth(widgetSizes.gaugeWidth)
-						damageToRepair = ui.sliderInt("", damageToRepair, 1, damage, "%d%%")
-						repair_cost = getRepairCost(damageToRepair, shipDef)
-					end)
+		ui.child("ShipStatus", Vector2(infoColumnWidth, 0), {}, function ()
+			if hullPercent > 99.9 then
+				ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size,
+					function () ui.text(l.SHIP_IS_ALREADY_FULLY_REPAIRED) end)
+			else
+				ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function ()
+					ui.text(getRepairMessage(damageToRepair, repair_cost))
+					ui.pushItemWidth(widgetSizes.gaugeWidth)
+					damageToRepair = ui.sliderInt("", damageToRepair, 1, damage, "%d%%")
+					repair_cost = getRepairCost(damageToRepair, shipDef)
+				end)
 
-					ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function ()
-						if  ui.button(l.PAY, widgetSizes.buttonSize) then
-							tryRepair(damageToRepair, repair_cost)
-							-- If we repaired more than 50% of the damage, reset
-							if  damageToRepair > damage / 2 then
-								damageToRepair = damage - damageToRepair
-							end
+				ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function ()
+					if  ui.button(l.PAY, widgetSizes.buttonSize) then
+						tryRepair(damageToRepair, repair_cost)
+						-- If we repaired more than 50% of the damage, reset
+						if  damageToRepair > damage / 2 then
+							damageToRepair = damage - damageToRepair
 						end
-					end)
-				end
+					end
+				end)
+			end
 
-				ui.dummy(widgetSizes.verticalDummy)
+			ui.dummy(widgetSizes.verticalDummy)
 
-				local gaugePos = ui.getCursorScreenPos()
-				gaugePos.y = gaugePos.y + 50
+			local gaugePos = ui.getCursorScreenPos()
+			gaugePos.y = gaugePos.y + 50
 
-				local text = string.format(hullPercent)
-				ui.gauge(gaugePos, hullPercent, '', l.HULL_INTEGRITY, 0, 100, icons.hull, colors.gaugeEquipmentMarket, l.HUD_HULL_STRENGTH, widgetSizes.gaugeWidth)
+			ui.gauge(gaugePos, hullPercent, '', l.HULL_INTEGRITY, 0, 100, icons.hull, colors.gaugeEquipmentMarket, l.HUD_HULL_STRENGTH, widgetSizes.gaugeWidth)
+		end)
 
-			end)
-			ui.sameLine()
-			ui.child("ChiefMechanic", Vector2(0, 0), {"AlwaysUseWindowPadding", "NoScrollbar"},
-				function ()
-					if(face ~= nil) then
-						face:render()
-			end end)
+		ui.sameLine()
+
+		if(face ~= nil) then
+			face:render()
+		end
 	end)
 end
 
@@ -136,10 +132,7 @@ StationView:registerView({
 	name = l.SHIP_REPAIRS,
 	icon = ui.theme.icons.repairs,
 	showView = true,
-	draw = function ()
-		ui.child("StationRepair", Vector2(0, ui.getContentRegion().y - StationView.style.height), {}, drawShipRepair)
-		StationView:shipSummary()
-	end,
+	draw = drawShipRepair,
 	refresh = function ()
 		local station = Game.player:GetDockedWith()
 		-- Don't reset player's choice if temporarily leaving ship repair screen

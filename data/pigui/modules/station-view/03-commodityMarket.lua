@@ -11,14 +11,9 @@ local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("ui-core")
 
 local commodityMarket = CommodityWidget.New("commodityMarket", false)
-local resetSize = true
 
 local function render()
-	local size = ui.getContentRegion()
-	size.y =  size.y - StationView.style.height
-
-	commodityMarket:Render(size)
-	StationView:shipSummary()
+	commodityMarket:Render()
 end
 
 StationView:registerView({
@@ -28,7 +23,6 @@ StationView:registerView({
 	showView = true,
 	draw = render,
 	refresh = function()
-		resetSize = true
 		commodityMarket:Refresh()
 		commodityMarket.scrollReset = true
 		commodityMarket.selectedItem = nil

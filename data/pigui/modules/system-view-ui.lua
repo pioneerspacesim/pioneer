@@ -234,9 +234,9 @@ function Windows.orbitPlanner.Show()
 		end
 	end,
 	luc.DECREASE, lc.PLANNER_RESET_START, luc.INCREASE)
-	showDvLine(icons.decrease, icons.orbit_prograde, icons.increase, "prograde", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_PROGRADE, luc.INCREASE)
-	showDvLine(icons.decrease, icons.orbit_normal, icons.increase, "normal", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_NORMAL, luc.INCREASE)
-	showDvLine(icons.decrease, icons.orbit_radial, icons.increase, "radial", ui.Format.Speed, luc.DECREASE, lc.PLANNER_RESET_RADIAL, luc.INCREASE)
+	showDvLine(icons.decrease, icons.orbit_prograde, icons.increase, "prograde", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_PROGRADE, luc.INCREASE)
+	showDvLine(icons.decrease, icons.orbit_normal, icons.increase, "normal", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_NORMAL, luc.INCREASE)
+	showDvLine(icons.decrease, icons.orbit_radial, icons.increase, "radial", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_RADIAL, luc.INCREASE)
 end
 
 function Windows.timeButtons.Show()
@@ -502,14 +502,12 @@ function Windows.objectInfo.Show()
 		local r = systemBody.radius
 		local radius = nil
 		if r and r > 0 then
-			local v,u = ui.Format.Distance(r)
-			radius = v .. u
+			radius = ui.Format.Distance(r)
 		end
 		local sma = systemBody.semiMajorAxis
 		local semimajoraxis = nil
 		if sma and sma > 0 then
-			local v,u = ui.Format.Distance(sma)
-			semimajoraxis = v .. u
+			semimajoraxis = ui.Format.Distance(sma)
 		end
 		local op = systemBody.orbitPeriod * 24 * 60 * 60
 		data = {

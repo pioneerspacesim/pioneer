@@ -141,11 +141,13 @@ function PiGuiFace:render()
 			end)
 		end)
 
+		local lastPos = ui.getCursorPos()
 		local itemSpacing = self.style.itemSpacing
 		ui.child("Face", Vector2(ui.getColumnWidth() - (facegenSize.x + itemSpacing.x), 0), {}, function()
 			self:renderFaceDisplay()
 		end)
 
+		ui.setCursorPos(lastPos)
 		ui.sameLine(0, itemSpacing.x)
 
 		ui.withStyleVars({ItemSpacing = facegenSpacing}, function()
@@ -183,7 +185,6 @@ function PiGuiFace:renderFaceDisplay ()
 				end
 			end)
 		end)
-		ui.setCursorPos(lastPos)
 	end
 end
 

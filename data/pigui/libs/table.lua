@@ -25,14 +25,16 @@ local defaultFuncs = {
     -- sort items in the market table
     sortingFunction = function(e1,e2)
         return e1 < e2
-    end
+    end,
+
+	iterator = pairs
 }
 
 local TableWidget = {}
 
 function TableWidget.New(id, title, config)
     local defaultSizes = ui.rescaleUI({
-        windowPadding = Vector2(14, 14),
+        itemPadding = Vector2(14, 14),
         itemSpacing = Vector2(4, 9),
     }, Vector2(1600, 900))
 
@@ -53,7 +55,7 @@ function TableWidget.New(id, title, config)
         itemTypes = config.itemTypes or {},
         columnCount = config.columnCount or 0,
         style = {
-            windowPadding = config.windowPadding or defaultSizes.windowPadding,
+            itemPadding = config.itemPadding or defaultSizes.itemPadding,
             itemSpacing = config.itemSpacing or defaultSizes.itemSpacing,
             size = config.size or Vector2(ui.screenWidth / 2,0),
             titleFont = config.titleFont or ui.fonts.orbiteer.xlarge,
@@ -68,6 +70,7 @@ function TableWidget.New(id, title, config)
             onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem,
             onClickItem = config.onClickItem or defaultFuncs.onClickItem,
             sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction,
+			iterator = config.iterator or defaultFuncs.iterator
         },
     }
 
@@ -80,8 +83,8 @@ function TableWidget.New(id, title, config)
 end
 
 function TableWidget:render()
-    ui.withStyleVars({WindowPadding = self.style.windowPadding, ItemSpacing = self.style.itemSpacing}, function()
-        ui.child("Table##" .. self.id, self.style.size, {"AlwaysUseWindowPadding"}, function()
+    ui.withStyleVars({ItemSpacing = self.style.itemSpacing}, function()
+        ui.child("Table##" .. self.id, self.style.size, function()
             if self.scrollReset then
                 ui.setScrollHereY()
                 self.scrollReset = false
@@ -119,7 +122,7 @@ function TableWidget:render()
             self.highlightStart = nil
             self.highlightEnd = nil
 
-            for key, item in pairs(self.items) do
+            for key, item in self.funcs.iterator(self.items) do
 				startPos = ui.getCursorScreenPos() - Vector2(4, selOffset)
 
 				self.funcs.renderItem(self, item, key)

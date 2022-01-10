@@ -3,6 +3,7 @@
 
 local Lang = require 'Lang'
 local Game = require 'Game'
+local Space = require 'Space'
 local SpaceStation = require 'SpaceStation'
 
 local StationView = require 'pigui.views.station-view'
@@ -17,19 +18,15 @@ local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
+local icons = ui.theme.icons
 
 local adTextColor = colors.white
 local chatBackgroundColor = Color(20, 20, 80, 230)
-local containerFlags = ui.WindowFlags {"AlwaysUseWindowPadding"}
 local widgetSizes = ui.rescaleUI({
-	iconSize = Vector2(20, 20),
 	chatButtonBase = Vector2(0, 24),
 	chatButtonSize = Vector2(0, 24),
 	itemSpacing = Vector2(18, 4),
-	bbContainerSize = Vector2(0, 0),
-	bbSearchSize = Vector2(0, 0),
-	bbPadding = Vector2(14, 11),
-	innerPadding = Vector2(0, 3),
+	itemInnerSpacing = Vector2(8, 4),
 	rowVerticalSpacing = Vector2(0, 6),
 	popupSize = Vector2(1200, 0),
 	popupBig = Vector2(1200, 0),
@@ -40,13 +37,11 @@ local bulletinBoard
 local chatForm
 local searchText = ""
 local searchTextEntered = false
-local textWrapWidth = 100
 
-local icons = {}
-local currentIconSize = Vector2(0,0)
+local images = {}
 local chatWin = ModalWindow.New('bbChatWindow', function() end, function (self, drawPopupFn)
 	ui.setNextWindowPosCenter('Always')
-	ui.setNextWindowSize(widgetSizes.popupSize, "Always")
+	ui.setNextWindowSize(widgetSizes.popupSize, 'Always')
 	ui.withStyleColorsAndVars({PopupBg = chatBackgroundColor}, {WindowBorderSize = 1, }, drawPopupFn)
 end)
 
@@ -67,46 +62,93 @@ local function refresh()
 				string.lower(searchText),
 				1, true)
 		then
-			bulletinBoard.items[ref] = ad
+			table.insert(bulletinBoard.items, ad)
 		end
 	end
+
+	table.sort(bulletinBoard.items, bulletinBoard.funcs.sortingFunction)
 end
 
 bulletinBoard = Table.New("BulletinBoardTable", false, {
-	columnCount = 2,
-	size = Vector2(ui.screenWidth * 0.8, 0),
-	windowPadding = widgetSizes.innerPadding,
+	columnCount = 1,
 	initTable = function(self)
-		local iconColumnWidth = widgetSizes.iconSize.x + widgetSizes.itemSpacing.x
-		local columnWidth = (self.style.size.x - iconColumnWidth) / (self.columnCount-1)
-		textWrapWidth = columnWidth
-		ui.setColumnWidth(0, widgetSizes.iconSize.x + widgetSizes.itemSpacing.x)
-		ui.setColumnWidth(1, columnWidth)
+		ui.setColumnWidth(0, self.style.size.x)
 	end,
 	renderItem = function(self, item, key)
 		local icon = item.icon or "default"
+		local region = ui.getContentRegion()
 
-		if(icons[icon] == nil) then
-			icons[icon] = PiImage.New("icons/bbs/" .. icon .. ".png")
-			currentIconSize = icons[icon].texture.size
+		if(images[icon] == nil) then
+			images[icon] = PiImage.New("icons/bbs/" .. icon .. ".png")
 		end
 
-		if (adActive(key, item)) then
+		if (adActive(item.__ref, item)) then
 			adTextColor = colors.white
 		else
 			adTextColor = colors.grey
 		end
 
-		icons[icon]:Draw(widgetSizes.iconSize)
-		ui.nextColumn()
+		ui.withFont(pionillium.title, function()
+			images[icon]:Draw(Vector2(ui.getTextLineHeight()))
+		end)
+		ui.sameLine(0, widgetSizes.itemInnerSpacing.x)
+
 		ui.withStyleColorsAndVars({Text = adTextColor}, {ItemSpacing = widgetSizes.rowVerticalSpacing}, function()
-			ui.textWrapped(item.description)
+			ui.withFont(pionillium.title, function()
+				ui.text(item.title)
+			end)
+
+			ui.withFont(pionillium.body, function()
+				local textHeight = ui.getTextLineHeight()
+				local iconSize = Vector2(textHeight)
+
+				local maxDuration = textHeight * 6 + widgetSizes.itemSpacing.x
+				local maxDistance = textHeight * 5 + widgetSizes.itemSpacing.x
+				local maxReward = textHeight * 5
+
+				if item.due then
+					ui.sameLine(region.x - maxDuration - maxDistance - maxReward)
+					ui.icon(icons.clock, iconSize, adTextColor)
+					ui.sameLine()
+					ui.text(ui.Format.Duration(item.due - Game.time, 3))
+				end
+
+				if item.location then
+					ui.sameLine(region.x - maxDistance - maxReward)
+					ui.icon(icons.distance, iconSize, adTextColor)
+					ui.sameLine()
+
+					if item.location:isa("Body") then
+						local alt = Game.player:GetAltitudeRelTo(item.location)
+						ui.text(ui.Format.Distance(alt))
+					elseif Game.system and item.location:IsSameSystem(Game.system.path) then
+						local alt = Game.player:GetAltitudeRelTo(Space.GetBody(item.location.bodyIndex))
+						ui.text(ui.Format.Distance(alt))
+					else
+						local playerSystem = Game.system or Game.player:GetHyperspaceTarget()
+						ui.text(string.format("%0.2f %s", item.location:DistanceTo(playerSystem), lui.LY))
+					end
+				end
+
+				if item.reward then
+					ui.sameLine(region.x - maxReward)
+					ui.icon(icons.money, iconSize, adTextColor)
+					ui.sameLine()
+					ui.text(ui.Format.Number(item.reward, 0))
+				end
+			end)
+
+			ui.withFont(pionillium.heading, function()
+				ui.textWrapped(item.description)
+				-- add a little bit of extra vertical space between rows
+				ui.dummy(widgetSizes.rowVerticalSpacing)
+			end)
 			ui.nextColumn()
 		end)
 	end,
 	onClickItem = function(self, item, key)
 		local station = Game.player:GetDockedWith()
-		local ref = key
+		local ref = item.__ref
 		local ad = SpaceStation.adverts[station][ref]
 
 		if Game.paused then
@@ -147,33 +189,29 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 		chatForm.resizeFunc()
 		chatWin:open()
 	end,
-	sortingFunction = function(s1,s2) return s1.description < s2.description end
+	sortingFunction = function(s1,s2)
+		return s1.title < s2.title
+			or (s1.title == s2.title and s1.description < s2.description)
+	end,
+	iterator = ipairs
 })
 
-local function renderBulletingBoard()
-	ui.withFont(pionillium.large.name, pionillium.large.size, function()
-		ui.withStyleVars({WindowPadding = widgetSizes.bbPadding}, function()
-			ui.child("BulletinBoardContainer", widgetSizes.bbContainerSize(0, ui.getContentRegion().y - StationView.style.height), containerFlags, function()
-				ui.withStyleVars({WindowPadding = widgetSizes.innerPadding}, function()
-					ui.pushTextWrapPos(textWrapWidth)
-					bulletinBoard:render()
-					ui.popTextWrapPos()
-					ui.sameLine()
-					ui.child("BulletinBoardSearch", widgetSizes.bbSearchSize, containerFlags, function()
-						ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
-							ui.text(l.SEARCH)
-						end)
-						ui.pushItemWidth(ui.getContentRegion().x)
-						searchText, searchTextEntered = ui.inputText("", searchText, {})
-						if searchTextEntered then
-							refresh()
-						end
-					end)
-				end)
-			end)
-		end)
+local function renderBulletinBoard()
+	ui.withFont(pionillium.title, function()
+		bulletinBoard.style.size = ui.getContentRegion() * Vector2(1 / 1.6, 0)
+		bulletinBoard:render()
+		ui.sameLine()
 
-		StationView:shipSummary()
+		ui.child("BulletinBoardSearch", Vector2(0, 0), function()
+			ui.withFont(orbiteer.xlarge, function()
+				ui.text(l.SEARCH)
+			end)
+			ui.pushItemWidth(ui.getContentRegion().x)
+			searchText, searchTextEntered = ui.inputText("", searchText, {})
+			if searchTextEntered then
+				refresh()
+			end
+		end)
 	end)
 end
 
@@ -182,9 +220,12 @@ StationView:registerView({
 	name = lui.BULLETIN_BOARD,
 	icon = ui.theme.icons.bbs,
 	showView = true,
-	draw = renderBulletingBoard,
+	draw = renderBulletinBoard,
 	refresh = function ()
 		refresh()
 		bulletinBoard.scrollReset = true
 	end,
+	debugReload = function()
+		package.reimport()
+	end
 })

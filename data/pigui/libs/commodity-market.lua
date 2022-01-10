@@ -14,6 +14,7 @@ local MarketWidget = require 'pigui.libs.equipment-market'
 
 local l = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
+local icons = ui.theme.icons
 
 local baseCommodityMarketSize = ui.rescaleUI(Vector2(1592, 654), Vector2(1600, 900))
 local baseWidgetSizes = {
@@ -26,13 +27,13 @@ local baseWidgetSizes = {
 	smallButton = Vector2(92, 48),
 	bigButton = Vector2(128, 48),
 	confirmButtonSize = Vector2(384, 48),
+	windowGutter = 18
 }
 
 local vZero = Vector2(0, 0)
 local textColorDefault = Color(255, 255, 255)
 local textColorWarning = Color(255, 255, 0)
 local textColorError = Color(255, 0, 0)
-local tradeMenuFlags = ui.WindowFlags {"AlwaysUseWindowPadding"}
 local containerFlags = ui.WindowFlags {"NoScrollbar"}
 
 local CommodityMarketWidget = {}
@@ -102,7 +103,6 @@ function CommodityMarketWidget.New(id, title, config)
 	self.textColorError = Color(255, 0, 0)
 	self.tradeTextColor = textColorDefault
 	self.style.defaults = {
-		windowPadding = self.windowPadding,
 		itemSpacing = self.itemSpacing
 	}
 
@@ -263,81 +263,93 @@ end
 
 function CommodityMarketWidget:TradeMenu()
 	if(self.selectedItem) then
-		ui.withStyleVars({WindowPadding = self.style.windowPadding}, function()
-			ui.child(self.id .. "TradeMenu", vZero, tradeMenuFlags, function()
-				if(ui.coloredSelectedButton(l.BUY, self.style.widgetSizes.buySellSize, self.tradeModeBuy, colors.buttonBlue, nil, true)) then
-					self.tradeModeBuy = true
-					self:ChangeTradeAmount(-self.tradeAmount)
-				end
-				ui.sameLine()
-				if(ui.coloredSelectedButton(l.SELL, self.style.widgetSizes.buySellSize, not self.tradeModeBuy, colors.buttonBlue, nil, true)) then
-					self.tradeModeBuy = false
-					self:ChangeTradeAmount(-self.tradeAmount)
-				end
+		ui.child(self.id .. "TradeMenu", vZero, function()
+			if(ui.coloredSelectedButton(l.BUY, self.style.widgetSizes.buySellSize, self.tradeModeBuy, colors.buttonBlue, nil, true)) then
+				self.tradeModeBuy = true
+				self:ChangeTradeAmount(-self.tradeAmount)
+			end
+			ui.sameLine()
+			if(ui.coloredSelectedButton(l.SELL, self.style.widgetSizes.buySellSize, not self.tradeModeBuy, colors.buttonBlue, nil, true)) then
+				self.tradeModeBuy = false
+				self:ChangeTradeAmount(-self.tradeAmount)
+			end
 
-				ui.text('')
-				local bottomHalf = ui.getCursorPos()
-				bottomHalf.y = bottomHalf.y + ui.getContentRegion().y/1.65
-				if(self.icons[self.selectedItem.icon_name] == nil) then
-					self.icons[self.selectedItem.icon_name] = PiImage.New("icons/goods/".. self.selectedItem.icon_name ..".png")
-				end
+			ui.text('')
+			local bottomHalf = ui.getCursorPos()
+			bottomHalf.y = bottomHalf.y + ui.getContentRegion().y/1.65
+			if(self.icons[self.selectedItem.icon_name] == nil) then
+				self.icons[self.selectedItem.icon_name] = PiImage.New("icons/goods/".. self.selectedItem.icon_name ..".png")
+			end
 
-				ui.columns(2, "tradeMenuItemTitle", false)
-				ui.setColumnWidth(0, self.style.widgetSizes.buttonSizeBase.x)
-				self.icons[self.selectedItem.icon_name]:Draw(self.style.widgetSizes.iconSize)
-				ui.nextColumn()
-				ui.withStyleVars({ItemSpacing = self.style.itemSpacing/2}, function()
-					ui.withFont(orbiteer.xlarge.name, self.style.widgetSizes.fontSizeLarge, function()
-						ui.dummy(vZero)
-						ui.text(self.selectedItem:GetName())
-					end)
-				end)
-				ui.columns(1, "", false)
-				ui.text('')
-
-				local pricemod = Game.system:GetCommodityBasePriceAlterations(self.selectedItem.name)
-				if pricemod > 10 then
-					ui.text(l.MAJOR_IMPORT)
-				elseif pricemod > 4 then
-					ui.text(l.MINOR_IMPORT)
-				elseif pricemod < -10 then
-					ui.text(l.MAJOR_EXPORT)
-				elseif pricemod < -4 then
-					ui.text(l.MINOR_EXPORT)
-				end
-				ui.textWrapped(self.selectedItem:GetDescription())
-
-				ui.setCursorPos(bottomHalf)
-				if ui.coloredSelectedButton("-100", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(-100) end
-				ui.sameLine()
-				if ui.coloredSelectedButton("-10", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(-10) end
-				ui.sameLine()
-				if ui.coloredSelectedButton("-1", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(-1) end
-				ui.sameLine()
-				if ui.coloredSelectedButton(l.RESET, self.style.widgetSizes.bigButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(-self.tradeAmount) end
-				ui.sameLine()
-				if ui.coloredSelectedButton("+1", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(1) end
-				ui.sameLine()
-				if ui.coloredSelectedButton("+10", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(10) end
-				ui.sameLine()
-				if ui.coloredSelectedButton("+100", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(100) end
-
-				ui.dummy(self.style.itemSpacing/2)
-				ui.withStyleColors({["Text"] = self.tradeTextColor }, function()
-					ui.withFont(pionillium.xlarge.name, self.style.widgetSizes.fontSizeLarge, function()
-						ui.text(self.tradeText)
-					end)
-				end)
-
-				ui.setCursorPos(ui.getCursorPos() + Vector2(0, ui.getContentRegion().y - self.style.widgetSizes.confirmButtonSize.y))
-				ui.withFont(orbiteer.xlarge.name, self.style.widgetSizes.fontSizeXLarge, function()
-					if ui.coloredSelectedButton(self.tradeModeBuy and l.CONFIRM_PURCHASE or l.CONFIRM_SALE, self.style.widgetSizes.confirmButtonSize, false, colors.buttonBlue, nil, true) then
-						if self.tradeModeBuy then self:DoBuy()
-						else self:DoSell() end
-					end
+			ui.columns(2, "tradeMenuItemTitle", false)
+			ui.setColumnWidth(0, self.style.widgetSizes.buttonSizeBase.x)
+			self.icons[self.selectedItem.icon_name]:Draw(self.style.widgetSizes.iconSize)
+			ui.nextColumn()
+			ui.withStyleVars({ItemSpacing = self.style.itemSpacing/2}, function()
+				ui.withFont(orbiteer.xlarge.name, self.style.widgetSizes.fontSizeLarge, function()
+					ui.dummy(vZero)
+					ui.text(self.selectedItem:GetName())
 				end)
 			end)
+			ui.columns(1, "", false)
+			ui.newLine()
+
+			ui.withFont(pionillium.medlarge, function()
+				local pricemod = Game.system:GetCommodityBasePriceAlterations(self.selectedItem.name)
+				-- TODO: unify this with logic in system-econ-view.lua
+				local ptext, picon, pcolor
+				if pricemod > 10 then
+					ptext, picon, pcolor = l.MAJOR_IMPORT, icons.econ_major_import, colors.econMajorImport
+				elseif pricemod > 4 then
+					ptext, picon, pcolor = l.MINOR_IMPORT, icons.econ_minor_import, colors.econMinorImport
+				elseif pricemod < -10 then
+					ptext, picon, pcolor = l.MAJOR_EXPORT, icons.econ_major_export, colors.econMajorExport
+				elseif pricemod < -4 then
+					ptext, picon, pcolor = l.MINOR_EXPORT, icons.econ_minor_export, colors.econMinorExport
+				end
+
+				if ptext then
+					ui.icon(picon, Vector2(ui.getTextLineHeight()), pcolor)
+					ui.sameLine()
+					ui.text(ptext)
+					ui.spacing()
+				end
+
+				ui.textWrapped(self.selectedItem:GetDescription())
+			end)
+
+			ui.setCursorPos(bottomHalf)
+			if ui.coloredSelectedButton("-100", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(-100) end
+			ui.sameLine()
+			if ui.coloredSelectedButton("-10", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(-10) end
+			ui.sameLine()
+			if ui.coloredSelectedButton("-1", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(-1) end
+			ui.sameLine()
+			if ui.coloredSelectedButton(l.RESET, self.style.widgetSizes.bigButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(-self.tradeAmount) end
+			ui.sameLine()
+			if ui.coloredSelectedButton("+1", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(1) end
+			ui.sameLine()
+			if ui.coloredSelectedButton("+10", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(10) end
+			ui.sameLine()
+			if ui.coloredSelectedButton("+100", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(100) end
+
+			ui.dummy(self.style.itemSpacing/2)
+			ui.withStyleColors({["Text"] = self.tradeTextColor }, function()
+				ui.withFont(pionillium.xlarge.name, self.style.widgetSizes.fontSizeLarge, function()
+					ui.text(self.tradeText)
+				end)
+			end)
+
+			ui.setCursorPos(ui.getCursorPos() + Vector2(0, ui.getContentRegion().y - self.style.widgetSizes.confirmButtonSize.y))
+			ui.withFont(orbiteer.xlarge.name, self.style.widgetSizes.fontSizeXLarge, function()
+				if ui.coloredSelectedButton(self.tradeModeBuy and l.CONFIRM_PURCHASE or l.CONFIRM_SALE, self.style.widgetSizes.confirmButtonSize, false, colors.buttonBlue, nil, true) then
+					if self.tradeModeBuy then self:DoBuy()
+					else self:DoSell() end
+				end
+			end)
 		end)
+	else
+		ui.newLine()
 	end
 end
 
@@ -350,13 +362,6 @@ function CommodityMarketWidget:SetSize(size)
 
 		self.style.widgetSizes = ui.rescaleUI(
 			baseWidgetSizes,
-			Vector2(1592, 654), --Size the Commodity Market was scaled to during design
-			true,
-			size
-		)
-
-		self.windowPadding = ui.rescaleUI(
-			self.style.defaults.windowPadding,
 			Vector2(1592, 654), --Size the Commodity Market was scaled to during design
 			true,
 			size
@@ -378,13 +383,13 @@ end
 function CommodityMarketWidget:Render(size)
 	self:SetSize(size or ui.getContentRegion())
 
-	ui.withFont(pionillium.large.name, self.style.widgetSizes.fontSizeLarge, function()
-		ui.withStyleVars({WindowPadding = vZero, ItemSpacing = self.style.itemSpacing}, function()
-			ui.child(self.id .. "Container", self.style.widgetSize, containerFlags, function()
+	ui.withFont(pionillium.large, function()
+		ui.withStyleVars({ItemSpacing = self.style.itemSpacing}, function()
+			--ui.child(self.id .. "Container", self.style.widgetSize, containerFlags, function()
 				MarketWidget.render(self)
-				ui.sameLine()
+				ui.sameLine(0, self.style.widgetSizes.windowGutter)
 				self:TradeMenu()
-			end)
+			--end)
 		end)
 	end)
 end

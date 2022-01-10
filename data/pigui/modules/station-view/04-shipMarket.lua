@@ -19,7 +19,6 @@ local colors = ui.theme.colors
 local textTable = require 'pigui.libs.text-table'
 
 local vZero = Vector2(0,0)
-local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 local widgetSizes = ui.rescaleUI({
 	iconSize = Vector2(64, 64),
 	buyButton = Vector2(96, 36),
@@ -32,8 +31,6 @@ local shipMarket
 local icons = {}
 local manufacturerIcons = {}
 local selectedItem
-
-local currentIconSize = Vector2(0,0)
 
 local shipSellPriceReduction = 0.5
 local equipSellPriceReduction = 0.8
@@ -174,8 +171,8 @@ end
 
 local tradeMenu = function()
 	if(selectedItem) then
-		ui.withStyleVars({ WindowPadding = shipMarket.style.windowPadding, ItemSpacing = shipMarket.style.itemSpacing}, function()
-			ui.child("TradeMenu", Vector2(0,0), {"AlwaysUseWindowPadding"}, function()
+		ui.withStyleVars({ ItemSpacing = shipMarket.style.itemSpacing}, function()
+			ui.child("TradeMenu", Vector2(0,0), function()
 				local colHeadingWidth = ui.getContentRegion().x - widgetSizes.buyButton.x
 				local def = selectedItem.def
 
@@ -267,7 +264,7 @@ local tradeMenu = function()
 					},
 				}
 
-				ui.child("ShipSpecs", ui.getContentRegion() - widgetSizes.itemSpacing, {"AlwaysUseWindowPadding"}, function()
+				ui.child("ShipSpecs", Vector2(0, 0), function()
 					local colSpecNameWidth = ui.getContentRegion().x / 3.6
 					local colSpecValWidth = (ui.getContentRegion().x - colSpecNameWidth*2) / 2
 					local widths = { colSpecNameWidth, colSpecValWidth, colSpecNameWidth, colSpecValWidth }
@@ -303,7 +300,6 @@ shipMarket = Table.New("shipMarketWidget", false, {
 	renderItem = function(s, item)
 		if(icons[item.def.shipClass] == nil) then
 			icons[item.def.shipClass] = PiImage.New("icons/shipclass/".. item.def.shipClass ..".png")
-			currentIconSize = icons[item.def.shipClass].texture.size
 		end
 		if not selectedItem then
 			selectedItem = item
@@ -332,24 +328,18 @@ shipMarket = Table.New("shipMarketWidget", false, {
 	sortingFunction = function(s1,s2) return s1.def.name < s2.def.name end
 })
 
-local function renderShipMarket()
-	ui.withFont(pionillium.large.name, pionillium.large.size, function()
-		ui.child("shipMarketContainer", Vector2(0, ui.getContentRegion().y - StationView.style.height), {}, function()
-			shipMarket:render()
-			ui.sameLine()
-			tradeMenu()
-		end)
-
-		StationView:shipSummary()
-	end)
-end
-
 StationView:registerView({
 	id = "shipMarketView",
 	name = l.SHIP_MARKET,
 	icon = ui.theme.icons.ship,
 	showView = true,
-	draw = renderShipMarket,
+	draw = function()
+		ui.withFont(pionillium.large.name, pionillium.large.size, function()
+			shipMarket:render()
+			ui.sameLine(0, widgetSizes.itemSpacing.x)
+			tradeMenu()
+		end)
+	end,
 	refresh = function()
 		refreshShipMarket()
 		shipMarket.scrollReset = true

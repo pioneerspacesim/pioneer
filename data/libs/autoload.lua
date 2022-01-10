@@ -6,6 +6,10 @@
 
 require 'SpaceStation'
 
+string.trim = function(s)
+	return string.gsub(s or "", "^%s*(.-)%s*$", "%1")
+end
+
 math.round = function(v)
 	return (math.modf(v + (v < 0.0 and -.5 or .5)))
 end

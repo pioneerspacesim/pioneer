@@ -12,6 +12,8 @@ local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local l = Lang.GetResource("ui-core")
 
+local itemSpacing = ui.rescaleUI(Vector2(8, 4))
+
 local hasTech = function (e)
 	local station = Game.player:GetDockedWith()
 	local equip_tech_level = e.tech_level or 1 -- default to 1
@@ -36,8 +38,8 @@ equipmentMarketStation = EquipMarket.New("EquipmentMarket", l.AVAILABLE_FOR_PURC
 	columnCount = 5,
 	initTable = function(self)
 		ui.setColumnWidth(0, self.style.size.x / 2.5)
-		ui.setColumnWidth(3, ui.calcTextSize(l.MASS).x + self.style.itemSpacing.x + self.style.windowPadding.x)
-		ui.setColumnWidth(4, ui.calcTextSize(l.IN_STOCK).x + self.style.itemSpacing.x + self.style.windowPadding.x)
+		ui.setColumnWidth(3, ui.calcTextSize(l.MASS).x + self.style.itemSpacing.x + self.style.itemPadding.x)
+		ui.setColumnWidth(4, ui.calcTextSize(l.IN_STOCK).x + self.style.itemSpacing.x + self.style.itemPadding.x)
 	end,
 	renderHeaderRow = function(self)
 		ui.text(l.NAME_OBJECT)
@@ -68,7 +70,9 @@ equipmentMarketStation = EquipMarket.New("EquipmentMarket", l.AVAILABLE_FOR_PURC
 	canDisplayItem = function (s, e) return e.purchasable and hasTech(e) and not e:IsValidSlot("cargo", Game.player) end,
 	onMouseOverItem = function(s, e)
 		local tooltip = e:GetDescription()
-		if string.len(tooltip) > 0 then ui.setTooltip(tooltip) end
+		if string.len(tooltip) > 0 then
+			ui.withFont(pionillium.medium, function() ui.setTooltip(tooltip) end)
+		end
 	end,
 	onClickItem = function(s,e)
 		if s.funcs.onClickBuy(s, e) then
@@ -137,14 +141,20 @@ equipmentMarketPlayer = EquipMarket.New("EquipmentMarketPlayer", l.EQUIPPED, {
 
 local function drawEquipmentView()
 	ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
+		local padding = equipmentMarketStation.style.itemPadding.x
+		local width = (ui.getContentRegion().x - padding) / 2.0
 
-		ui.child("equipmentMarketContainer", Vector2(0, ui.getContentRegion().y - StationView.style.height), {}, function()
+		ui.child("equipmentMarketStation", Vector2(width, 0), {}, function()
+			equipmentMarketStation.style.size = ui.getContentRegion()
 			equipmentMarketStation:render()
-			ui.sameLine()
-			equipmentMarketPlayer:render()
 		end)
 
-		StationView:shipSummary()
+		ui.sameLine(0, padding)
+
+		ui.child("equipmentMarketPlayer", Vector2(width, 0), {}, function()
+			equipmentMarketPlayer.style.size = ui.getContentRegion()
+			equipmentMarketPlayer:render()
+		end)
 	end)
 end
 

@@ -25,6 +25,10 @@
   },
   "TITLE": {
     "description": "",
-    "message": "WANTED: {commodity}. Will pay {price} per tonne"
+    "message": "COMMODITY WANTED"
+  },
+  "ADTEXT": {
+    "description": "",
+    "message": "Wanted: {commodity}. Will pay {price} per tonne"
   }
 }

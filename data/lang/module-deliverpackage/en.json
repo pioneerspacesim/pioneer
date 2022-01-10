@@ -55,9 +55,13 @@
     "description": "",
     "message": "Excellent. I will let the recipient know you are on your way."
   },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "INTERSTELLAR DELIVERY"
+  },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "GOING TO the {system} system? Money paid for delivery of a small package."
+    "message": "Going to the {system} system? Money paid for delivery of a small package."
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -75,9 +79,13 @@
     "description": "",
     "message": "When a friend visited me she left behind some clothes and antique paper books. I'd like to have them returned to her."
   },
+  "FLAVOUR_1_ADTITLE": {
+	  "description": "",
+	  "message": "DELIVERY WANTED"
+  },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "WANTED. Delivery of a package to the {system} system."
+    "message": "Wanted: Delivery of a package to the {system} system."
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -95,9 +103,13 @@
     "description": "",
     "message": "It is nothing special."
   },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "URGENT DELIVERY"
+  },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "URGENT. Fast ship needed to deliver a package to the {system} system."
+    "message": "Urgent! Fast ship needed to deliver a package to the {system} system."
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -115,9 +127,13 @@
     "description": "",
     "message": "It is a research proposal and must be delivered by the deadline or we may not get funding."
   },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "DOCUMENT DELIVERY"
+  },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot."
+    "message": "Delivery of sensitive documents to the {system} system. {cash} to an experienced pilot."
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -135,9 +151,13 @@
     "description": "",
     "message": "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me."
   },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "POSTAL SERVICE"
+  },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "POSTAL SERVICE. We require a ship for the delivery run to {system} system."
+    "message": "Interstellar Postal Services. We require a ship for the delivery run to {system} system."
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -155,9 +175,13 @@
     "description": "",
     "message": "We would be happy to pay you less money."
   },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "MOVING HOME"
+  },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "MOVING HOME. Move of hardware to {starport} from storage."
+    "message": "Transport belongings to {starport} from port storage facility."
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -175,9 +199,13 @@
     "description": "",
     "message": "Is it a lot? I should rethink my offer!"
   },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "SHORT-RANGE COURIER"
+  },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "SHORT-RANGE COURIER. Delivery of a small package to {starport}."
+    "message": "In-system courier services required. Delivery of a small package to {starport}."
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -195,9 +223,13 @@
     "description": "",
     "message": "I don't think it's a lot."
   },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "INTER-PLANETARY CARGO"
+  },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "INTER-PLANETARY CARGO. Freight of local cargo to {starport}."
+    "message": "Standardized inter-planetary transport contract. Freight of local cargo to {starport}."
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
@@ -215,9 +247,13 @@
     "description": "",
     "message": "Standard rates, we work with the market."
   },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "NEARBY DELIVERY"
+  },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "NEARBY DELIVERY. Require quick delivery of an item to {starport}."
+    "message": "Urgent personal delivery contract. Require quick delivery of an item to {starport}."
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
@@ -235,9 +271,13 @@
     "description": "",
     "message": "It's really urgent."
   },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "PACKAGE DROP"
+  },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "PACKAGE DROP. Urgent dispatch of perishables to {starport}."
+    "message": "Package drop-off required. Urgent dispatch of perishables to {starport}."
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",

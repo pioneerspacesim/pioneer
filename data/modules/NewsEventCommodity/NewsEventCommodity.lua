@@ -5,14 +5,6 @@
 -- StationView/Lobby.lua board?) with information which will indicate
 -- (indirectly) a change in demand of item.
 
--- useful for debuging
-local tableLength = function (T)
-	local count = 0
-	for _ in pairs(T) do
-		count = count + 1
-	end
-	return count
-end
 
 -- copy table by value, rather than the default: by reference.
 local copyTable = function(T)
@@ -42,6 +34,7 @@ local eventProbability = 1/20
 
 -- max index of flavoured variants
 local maxIndexOfIndNewspapers = 10
+local maxIndexOfAdTitles = 3
 local maxIndexOfTitles = 4
 local maxIndexOfGreetings = 5
 
@@ -289,11 +282,13 @@ local checkAdvertsAdd = function(station)
 	for i,n in pairs(news) do
 		-- don't place ad if we're in the system of the event
 		if not currentSystem:IsSameSystem(n.syspath) then
-			local ref = station:AddAdvert(
-				{description = n.description,
-				 icon = "news",
-				 onChat = onChat,
-				 onDelete = onDelete})
+			local ref = station:AddAdvert({
+				title       = l["ADTITLE_"..Engine.rand:Integer(0,maxIndexOfAdTitles)],
+				description = n.description,
+				icon        = "news",
+				onChat      = onChat,
+				onDelete    = onDelete
+			})
 			ads[ref] = {n=n, station=station}
 		end
 	end
@@ -393,11 +388,13 @@ local onGameStart = function ()
 	if not loadedData or not loadedData.ads then return end
 
 	for k,ad in pairs(loadedData.ads) do
-		local ref = ad.station:AddAdvert(
-			{description = ad.n.description,
-			 icon = "news",
-			 onChat= onChat,
-			 onDelete = onDelete})
+		local ref = ad.station:AddAdvert({
+			title       = l["ADTITLE_" .. Engine.rand:Integer(maxIndexOfAdTitles)],
+			description = ad.n.description,
+			icon        = "news",
+			onChat      = onChat,
+			onDelete    = onDelete
+		})
 		ads[ref] = ad
 	end
 

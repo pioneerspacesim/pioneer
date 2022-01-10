@@ -125,8 +125,7 @@ local function button_flight_control()
 	elseif flightcontrolstate == "CONTROL_FIXSPEED" then
 		local speed = player:GetSetSpeed()
 		if speed then
-			local distance, unit = ui.Format.Speed(speed)
-			tooltip = tooltip .. " " .. distance .. unit
+			tooltip = tooltip .. " " .. ui.Format.Speed(speed)
 		end
   end
 	if mainMenuButton(icon, false, tooltip) or (flightstate == "FLYING" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then

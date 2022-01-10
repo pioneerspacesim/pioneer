@@ -5,6 +5,7 @@
 #define _GRAPHICS_H
 
 #include "RenderTarget.h"
+#include "matrix4x4.h"
 #include <memory>
 #include <vector>
 
@@ -86,11 +87,44 @@ namespace Graphics {
 	void SetFov(float);
 	float GetFovFactor(); //cached 2*tan(fov/2) for LOD
 
-	// Project a point in the renderer's current coordinate system to screenspace
-	// as defined by Renderer::GetViewport.
+	// Project a point in the renderer's current coordinate system to
+	// screenspace as defined by Renderer::GetViewport.
+	// This function applies the current renderer transform to the input point
 	// TODO: find a better place to hang this off of; this is too useful to be tied to a renderer object
 	vector3d ProjectToScreen(const Renderer *r, const vector3d &in);
 	vector3f ProjectToScreen(const Renderer *r, const vector3f &in);
+
+	// ProjectToScreen handles projecting a point in view-space to 2d viewport space.
+	// It returns the { X, Y } window coordinates and the NDC depth value as Z.
+	// Implements gluProject (see the OpenGL documentation or the Mesa implementation of gluProject)
+	// This implementation is tailored to understand Reverse-Z and our data structures.
+	template <typename T>
+	vector3<T> ProjectToScreen(const vector3<T> &vcam, const matrix4x4<T> &proj, const ViewportExtents &vp)
+	{
+		// compute the effective W component for perspective divide.
+		// This code assumes that it's being passed a 'standard' perspective or ortho matrix.
+		const double w = vcam.z * proj[11] + proj[15];
+
+		// convert view coordinates -> homogeneous coordinates -> NDC
+		// perspective divide is applied last (left-to-right associativity)
+		const vector3<T> vNDC = proj * vcam / w;
+
+		// convert -1..1 NDC to 0..1 viewport coordinates
+		const vector3<T> vVP = {
+			vNDC.x * T(0.5) + T(0.5),
+			vNDC.y * T(0.5) + T(0.5),
+			// FIXME: this isn't a proper linearization into viewspace (needs -znear / zNDC)
+			// but it accomplishes the goal of positions behind the camera having z > 0.
+			-vNDC.z // undo reverse-Z coordinate flip
+		};
+
+		// viewport coord * size + position
+		return vector3<T>{
+			vVP.x * vp.w + vp.x,
+			vVP.y * vp.h + vp.y,
+			vVP.z
+		};
+	}
 
 	// does SDL video init, constructs appropriate Renderer
 	Renderer *Init(Settings);

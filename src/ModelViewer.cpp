@@ -787,7 +787,7 @@ void ModelViewer::SetModel(const std::string &filename)
 			m_model.reset(bc.Load(m_modelName));
 		} else {
 			m_modelName = filename;
-			SceneGraph::Loader loader(m_renderer, true);
+			SceneGraph::Loader loader(m_renderer, true, false);
 			m_model.reset(loader.LoadModel(filename));
 
 			//dump warnings

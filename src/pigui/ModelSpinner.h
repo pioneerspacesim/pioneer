@@ -42,10 +42,13 @@ namespace PiGui {
 		void SetSize(vector2d size);
 
 		// Retrieve the size of the rendered texture.
-		const vector2d GetSize() { return static_cast<vector2d>(m_size); }
+		const vector2d GetSize() const { return static_cast<vector2d>(m_size); }
 
-		// Transform a model-space location into a screen-space position.
-		vector2d ModelSpaceToScreenSpace(vector3d modelSpaceVec);
+		// Get the screen-space position of the given tag in the model.
+		vector2d GetTagPos(const char *tagName);
+
+		void SetSpinning(bool en) { m_spinning = en; }
+		bool GetSpinning() const { return m_spinning; }
 
 	private:
 		std::unique_ptr<Graphics::RenderTarget> m_renderTarget;
@@ -56,10 +59,17 @@ namespace PiGui {
 
 		void CreateRenderTarget();
 
+		// Transform a model-space location into a screen-space position.
+		vector3f ModelSpaceToScreenSpace(vector3f modelSpaceVec);
+		matrix4x4f MakeModelViewMat();
+
 		// The size of the render target.
 		vector2f m_size;
 		// Do we need to resize the render target next frame?
 		bool m_needsResize;
+
+		// Shoulde we spinne?
+		bool m_spinning;
 
 		// After the user manually rotates the model, hold that orientation for
 		// a second to let them look at it. Assumes Update() is called every
@@ -68,5 +78,7 @@ namespace PiGui {
 
 		// The rotation of the model.
 		vector2f m_rot;
+		float m_zoom;
+		float m_zoomTo;
 	};
 } // namespace PiGui

@@ -55,6 +55,7 @@ local flavours = {
 -- add strings to flavours
 for i = 1,#flavours do
 	local f = flavours[i]
+	f.adtitle   = l["FLAVOUR_" .. i-1 .. "_ADTITLE"]
 	f.title     = l["FLAVOUR_" .. i-1 .. "_TITLE"]
 	f.intro     = l["FLAVOUR_" .. i-1 .. "_INTRO"]
 	f.price     = l["FLAVOUR_" .. i-1 .. "_PRICE"]
@@ -209,9 +210,11 @@ local onCreateBB = function (station)
 		faceseed = rand:Integer(),
 		strength = flavours[n].strength,
 		baseprice = flavours[n].baseprice *rand:Number(0.8,1.2), -- A little per-station flavouring
+		n         = n
 	}
 
 	local ref = station:AddAdvert({
+		title       = flavours[n].adtitle,
 		description = ad.title,
 		icon        = "breakdown_servicing",
 		onChat      = onChat,
@@ -234,6 +237,7 @@ local onGameStart = function ()
 	elseif loaded_data.ads then
 		for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
+			title       = flavours[ad.n].adtitle,
 			description = ad.title,
 			icon        = "breakdown_servicing",
 			onChat      = onChat,

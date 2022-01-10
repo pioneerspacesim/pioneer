@@ -37,6 +37,10 @@ local defaultBaseResolution = Vector2(1600, 900)
 --   number|Vector2|Table - the scaled value
 --
 function ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution)
+	if not baseResolution then
+		baseResolution = Vector2(1600, 900)
+	end
+
 	if not targetResolution then
 		targetResolution = Vector2(pigui.screen_width, pigui.screen_height)
 	end
@@ -383,7 +387,7 @@ end
 --             false otherwise
 --
 function ui.isAnyWindowHovered()
-	return ui.isWindowHovered({"AnyWindow"})
+	return ui.isWindowHovered({"AnyWindow", "RectOnly"})
 end
 
 --

@@ -200,7 +200,7 @@ function Windows.systemInfo:Show()
 			elseif pop < 1 / 1000.0 then
 				popText = lc.A_FEW_THOUSAND
 			else
-				popText = ui.Format.Number(pop * 1e9)
+				popText = ui.Format.NumberAbbv(pop * 1e9)
 			end
 
 			ui.withTooltip(lc.POPULATION, function()

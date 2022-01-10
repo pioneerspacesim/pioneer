@@ -92,7 +92,7 @@ local rowCache = nil
 local function makeMissionRows()
 	rowCache = {
 		separated = true,
-		{ l.TYPE, l.CLIENT, l.LOCATION, l.DUE, l.REWARD, l.STATUS, font = pionillium.large }
+		{ l.TYPE, l.CLIENT, l.LOCATION, l.DUE, l.REWARD, l.STATUS, font = orbiteer.xlarge }
 	}
 
 	for _, mission in pairs(Character.persistent.player.missions) do

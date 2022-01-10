@@ -16,12 +16,21 @@ local stationView
 
 if not stationView then
 	stationView = TabView.New("space_station")
+	-- stationView.windowPadding = ui.rescaleUI(Vector2(18, 18))
 	stationView.style = ui.rescaleUI({
+		windowPadding = Vector2(18, 18),
 		itemSpacing = Vector2(4,9),
 		inventoryPadding = Vector2(20, 10),
 		fontSize = 22,
 		height = 22 + 10 + 10 + 9
 	}, Vector2(1600, 900))
+
+	function stationView:renderTab(tabFn)
+		ui.withStyleVars({WindowPadding = self.style.windowPadding}, function()
+			ui.child("Container", Vector2(0, -self.style.height), {"AlwaysUseWindowPadding"}, tabFn)
+		end)
+		self:shipSummary()
+	end
 
 	function stationView:shipSummary()
 		local player = Game.player
@@ -43,7 +52,7 @@ if not stationView then
 					ui.nextColumn()
 					ui.text(l.CAPACITY .. ': ')
 					ui.sameLine()
-					local gaugePos = ui.getWindowPos() + ui.getCursorPos() + self.style.inventoryPadding
+					local gaugePos = ui.getWindowPos() + ui.getCursorPos() + Vector2(0, ui.getTextLineHeight() / 2)
 					local gaugeWidth = ui.getContentRegion().x - self.style.inventoryPadding.x - self.style.itemSpacing.x
 					ui.gauge(gaugePos, player.usedCapacity, '', string.format('%%it %s / %it %s', l.USED, player.freeCapacity, l.FREE), 0, player.usedCapacity + player.freeCapacity, icons.market, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
 					ui.nextColumn()
@@ -52,7 +61,7 @@ if not stationView then
 					local cabins_total = Game.player:GetEquipCountOccupied("cabin")
 					local cabins_free = player.cabin_cap or 0
 					local cabins_used = cabins_total - cabins_free
-					gaugePos = ui.getWindowPos() + ui.getCursorPos() + self.style.inventoryPadding
+					gaugePos = ui.getWindowPos() + ui.getCursorPos() + Vector2(0, ui.getTextLineHeight() / 2)
 					gaugeWidth = ui.getContentRegion().x - self.style.inventoryPadding.x - self.style.itemSpacing.x
 					ui.gauge(gaugePos, cabins_used, '', string.format('%%i %s / %i %s', l.USED, cabins_free, l.FREE), 0, cabins_total, icons.personal, colors.gaugeEquipmentMarket, '', gaugeWidth, ui.getTextLineHeight())
 					ui.nextColumn()

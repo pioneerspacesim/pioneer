@@ -60,7 +60,9 @@ local memberships = {
 
 local flavours = {
 	{    -- Independent club
+		title    = l.FLAVOUR_0_TITLE,
 		clubname = l.FLAVOUR_0_CLUBNAME,
+		desc     = l.FLAVOUR_0_DESC,
 		welcome = l.FLAVOUR_0_WELCOME,
 		nonmember_intro = l.FLAVOUR_0_NONMEMBER_INTRO,
 		member_intro = l.FLAVOUR_0_MEMBER_INTRO,
@@ -68,7 +70,9 @@ local flavours = {
 		availability = {FED = 0.1, CIW = 0.1, HABER = 0, IND = 0.4} -- probability for these factions
 	},
 	{   -- SolFed club (reuse some messages)
+		title    = l.FLAVOUR_1_TITLE,
 		clubname = l.FLAVOUR_1_CLUBNAME,
+		desc     = l.FLAVOUR_1_DESC,
 		welcome = l.FLAVOUR_0_WELCOME,
 		nonmember_intro = l.FLAVOUR_1_NONMEMBER_INTRO,
 		member_intro = l.FLAVOUR_0_MEMBER_INTRO,
@@ -76,7 +80,9 @@ local flavours = {
 		availability = {FED = 0.4, CIW = 0, HABER = 0, IND = 0}
 	},
 	{   -- Confederation club
+		title    = l.FLAVOUR_2_TITLE,
 		clubname = l.FLAVOUR_2_CLUBNAME,
+		desc     = l.FLAVOUR_2_DESC,
 		welcome = l.FLAVOUR_2_WELCOME,
 		nonmember_intro = l.FLAVOUR_2_NONMEMBER_INTRO,
 		member_intro = l.FLAVOUR_0_MEMBER_INTRO,
@@ -84,7 +90,9 @@ local flavours = {
 		availability = {FED = 0, CIW = 0.4, HABER = 0, IND = 0}
 	},
 	{   -- Haber fuel division
+		title    = l.FLAVOUR_3_TITLE,
 		clubname = l.FLAVOUR_3_CLUBNAME,
+		desc     = l.FLAVOUR_3_DESC,
 		welcome = l.FLAVOUR_0_WELCOME,
 		nonmember_intro = l.FLAVOUR_3_NONMEMBER_INTRO,
 		member_intro = l.FLAVOUR_3_MEMBER_INTRO,
@@ -280,10 +288,12 @@ local onCreateBB = function (station)
 					armour = false,
 			})
 			ads[station:AddAdvert({
-						description = ad.flavour.clubname,
-						icon        = "fuel_club",
-						onChat      = onChat,
-						onDelete    = onDelete})] = ad
+				title       = ad.flavour.title,
+				description = ad.flavour.desc,
+				icon        = "fuel_club",
+				onChat      = onChat,
+				onDelete    = onDelete
+			})] = ad
 		end
 	end
 end
@@ -294,10 +304,12 @@ local onGameStart = function ()
 		-- rebuild saved adverts
 		for k,ad in pairs(loaded_data.ads) do
 			ads[ad.station:AddAdvert({
-				description = ad.flavour.clubname,
+				title       = ad.flavour.title,
+				description = ad.flavour.desc,
 				icon        = "fuel_club",
 				onChat      = onChat,
-				onDelete    = onDelete})] = ad
+				onDelete    = onDelete
+			})] = ad
 		end
 		-- load membership info
 		memberships = loaded_data.memberships

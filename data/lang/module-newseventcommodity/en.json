@@ -271,6 +271,22 @@
     "description": "",
     "message": "The Satellite Journal"
   },
+  "ADTITLE_0": {
+    "description": "",
+    "message": "FRESH REPORT"
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "NEWS BULLETIN"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "GALATIC REPORT"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "LOCAL GAZETTE"
+  },
   "TITLE_0": {
     "description": "",
     "message": "Fresh report from {newspaper}"

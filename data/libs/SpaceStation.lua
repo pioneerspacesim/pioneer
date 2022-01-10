@@ -640,13 +640,11 @@ function SpaceStation:AddAdvert (description, onChat, onDelete)
 	if not SpaceStation.adverts[self] then SpaceStation.adverts[self] = {} end
 	local adverts = SpaceStation.adverts[self]
 	nextRef = nextRef+1
-	adverts[nextRef] = {
-		description = args.description,
-		icon        = args.icon,
-		onChat      = args.onChat,
-		onDelete    = args.onDelete,
-		isEnabled   = args.isEnabled,
-	}
+	adverts[nextRef] = args
+
+	args.__ref = nextRef
+	args.title = args.title or ""
+
 	Event.Queue("onAdvertAdded", self, nextRef)
 	return nextRef
 end

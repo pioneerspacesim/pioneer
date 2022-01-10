@@ -586,6 +586,28 @@ namespace SceneGraph {
 		}
 	}
 
+	static void AddClipSphereVisualizer(float radius, Color color, Graphics::VertexArray &lines)
+	{
+		constexpr float STEP = float(M_PI) / 72;
+		// XY plane
+		for (float theta = 0; theta < float(2 * M_PI); theta += STEP) {
+			lines.Add(vector3f(radius * sin(theta), radius * cos(theta), 0), color);
+			lines.Add(vector3f(radius * sin(theta + STEP), radius * cos(theta + STEP), 0), color);
+		}
+
+		// XZ plane
+		for (float theta = 0; theta < float(2 * M_PI); theta += STEP) {
+			lines.Add(vector3f(radius * sin(theta), 0, radius * cos(theta)), color);
+			lines.Add(vector3f(radius * sin(theta + STEP), 0, radius * cos(theta + STEP)), color);
+		}
+
+		// YZ plane
+		for (float theta = 0; theta < float(2 * M_PI); theta += STEP) {
+			lines.Add(vector3f(0, radius * sin(theta), radius * cos(theta)), color);
+			lines.Add(vector3f(0, radius * sin(theta + STEP), radius * cos(theta + STEP)), color);
+		}
+	}
+
 	class ModelAABBVisitor final : public SceneGraph::NodeVisitor {
 	public:
 		ModelAABBVisitor(Graphics::VertexArray &lines) :
@@ -640,6 +662,7 @@ namespace SceneGraph {
 
 		if (m_debugFlags & Model::DEBUG_BBOX && m_collMesh) {
 			AddAABBVisualizer(m_collMesh->GetAabb(), Color::GREEN, debugLines);
+			AddClipSphereVisualizer(m_boundingRadius, Color::STEELBLUE, debugLines);
 		}
 
 		if (m_debugFlags & Model::DEBUG_GEOMBBOX) {

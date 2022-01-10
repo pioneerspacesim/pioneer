@@ -93,13 +93,14 @@ local makeAdvert = function(station, commodity)
 	local money_to_spend = lograndom(1e2, 1e5)
 	ad.amount = math.ceil(money_to_spend / math.abs(ad.price))
 
-	ad.title = string.interp(l.TITLE,
+	ad.title = string.interp(l.ADTEXT,
 		{commodity = ad.commodity:GetName(), price = Format.Money(ad.price)})
 
 	ad.message = string.interp(l.MESSAGE,
 		{name = ad.client.name, commodity = commodity:GetName(), price = Format.Money(ad.price)})
 
 	local ref = station:AddAdvert({
+		title       = l.TITLE,
 		description = ad.title,
 		icon        = "donate_to_cranks",
 		onChat      = onChat,
@@ -135,7 +136,8 @@ local onGameStart = function ()
 
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
-			description = string.interp(l.TITLE, {commodity = ad.commodity:GetName(), price = Format.Money(ad.price)}),
+			title       = l.TITLE,
+			description = string.interp(l.ADTEXT, {commodity = ad.commodity:GetName(), price = Format.Money(ad.price)}),
 			icon        = "donate_to_cranks",
 			onChat      = onChat,
 			onDelete    = onDelete})
