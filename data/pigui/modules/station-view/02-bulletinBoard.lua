@@ -23,10 +23,10 @@ local icons = ui.theme.icons
 local adTextColor = colors.white
 local chatBackgroundColor = Color(20, 20, 80, 230)
 local widgetSizes = ui.rescaleUI({
-	iconSize = Vector2(20, 20),
 	chatButtonBase = Vector2(0, 24),
 	chatButtonSize = Vector2(0, 24),
 	itemSpacing = Vector2(18, 4),
+	itemInnerSpacing = Vector2(8, 4),
 	rowVerticalSpacing = Vector2(0, 6),
 	popupSize = Vector2(1200, 0),
 	popupBig = Vector2(1200, 0),
@@ -37,7 +37,6 @@ local bulletinBoard
 local chatForm
 local searchText = ""
 local searchTextEntered = false
-local textWrapWidth = 100
 
 local images = {}
 local chatWin = ModalWindow.New('bbChatWindow', function() end, function (self, drawPopupFn)
@@ -72,13 +71,7 @@ end
 
 bulletinBoard = Table.New("BulletinBoardTable", false, {
 	columnCount = 1,
-	size = Vector2(ui.screenWidth * 0.6, 0),
 	initTable = function(self)
-		local iconColumnWidth = widgetSizes.iconSize.x + widgetSizes.itemSpacing.x
-		local columnWidth = (self.style.size.x - iconColumnWidth) / (self.columnCount-1)
-		textWrapWidth = columnWidth
-		--ui.setColumnWidth(0, widgetSizes.iconSize.x + widgetSizes.itemSpacing.x)
-		--ui.setColumnWidth(1, columnWidth)
 		ui.setColumnWidth(0, self.style.size.x)
 	end,
 	renderItem = function(self, item, key)
@@ -95,14 +88,17 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 			adTextColor = colors.grey
 		end
 
-		images[icon]:Draw(widgetSizes.iconSize)
-		ui.sameLine(0, widgetSizes.itemSpacing.x)
-		--ui.nextColumn()
+		ui.withFont(pionillium.title, function()
+			images[icon]:Draw(Vector2(ui.getTextLineHeight()))
+		end)
+		ui.sameLine(0, widgetSizes.itemInnerSpacing.x)
 
 		ui.withStyleColorsAndVars({Text = adTextColor}, {ItemSpacing = widgetSizes.rowVerticalSpacing}, function()
-			ui.text(item.title)
+			ui.withFont(pionillium.title, function()
+				ui.text(item.title)
+			end)
 
-			ui.withFont(pionillium.medium, function()
+			ui.withFont(pionillium.body, function()
 				local textHeight = ui.getTextLineHeight()
 				local iconSize = Vector2(textHeight)
 
@@ -142,7 +138,7 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 				end
 			end)
 
-			ui.withFont(pionillium.medlarge, function()
+			ui.withFont(pionillium.heading, function()
 				ui.textWrapped(item.description)
 				-- add a little bit of extra vertical space between rows
 				ui.dummy(widgetSizes.rowVerticalSpacing)
@@ -201,14 +197,13 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 })
 
 local function renderBulletinBoard()
-	ui.withFont(pionillium.large.name, pionillium.large.size, function()
-		ui.pushTextWrapPos(textWrapWidth)
+	ui.withFont(pionillium.title, function()
+		bulletinBoard.style.size = ui.getContentRegion() * Vector2(1 / 1.6, 0)
 		bulletinBoard:render()
-		ui.popTextWrapPos()
 		ui.sameLine()
 
 		ui.child("BulletinBoardSearch", Vector2(0, 0), function()
-			ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
+			ui.withFont(orbiteer.xlarge, function()
 				ui.text(l.SEARCH)
 			end)
 			ui.pushItemWidth(ui.getContentRegion().x)

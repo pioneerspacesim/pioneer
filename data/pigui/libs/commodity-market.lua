@@ -14,6 +14,7 @@ local MarketWidget = require 'pigui.libs.equipment-market'
 
 local l = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
+local icons = ui.theme.icons
 
 local baseCommodityMarketSize = ui.rescaleUI(Vector2(1592, 654), Vector2(1600, 900))
 local baseWidgetSizes = {
@@ -291,19 +292,31 @@ function CommodityMarketWidget:TradeMenu()
 				end)
 			end)
 			ui.columns(1, "", false)
-			ui.text('')
+			ui.newLine()
 
-			local pricemod = Game.system:GetCommodityBasePriceAlterations(self.selectedItem.name)
-			if pricemod > 10 then
-				ui.text(l.MAJOR_IMPORT)
-			elseif pricemod > 4 then
-				ui.text(l.MINOR_IMPORT)
-			elseif pricemod < -10 then
-				ui.text(l.MAJOR_EXPORT)
-			elseif pricemod < -4 then
-				ui.text(l.MINOR_EXPORT)
-			end
-			ui.textWrapped(self.selectedItem:GetDescription())
+			ui.withFont(pionillium.medlarge, function()
+				local pricemod = Game.system:GetCommodityBasePriceAlterations(self.selectedItem.name)
+				-- TODO: unify this with logic in system-econ-view.lua
+				local ptext, picon, pcolor
+				if pricemod > 10 then
+					ptext, picon, pcolor = l.MAJOR_IMPORT, icons.econ_major_import, colors.econMajorImport
+				elseif pricemod > 4 then
+					ptext, picon, pcolor = l.MINOR_IMPORT, icons.econ_minor_import, colors.econMinorImport
+				elseif pricemod < -10 then
+					ptext, picon, pcolor = l.MAJOR_EXPORT, icons.econ_major_export, colors.econMajorExport
+				elseif pricemod < -4 then
+					ptext, picon, pcolor = l.MINOR_EXPORT, icons.econ_minor_export, colors.econMinorExport
+				end
+
+				if ptext then
+					ui.icon(picon, Vector2(ui.getTextLineHeight()), pcolor)
+					ui.sameLine()
+					ui.text(ptext)
+					ui.spacing()
+				end
+
+				ui.textWrapped(self.selectedItem:GetDescription())
+			end)
 
 			ui.setCursorPos(bottomHalf)
 			if ui.coloredSelectedButton("-100", self.style.widgetSizes.smallButton, false, colors.buttonBlue, nil, true) then self:ChangeTradeAmount(-100) end
@@ -335,6 +348,8 @@ function CommodityMarketWidget:TradeMenu()
 				end
 			end)
 		end)
+	else
+		ui.newLine()
 	end
 end
 
