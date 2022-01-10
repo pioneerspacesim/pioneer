@@ -27,7 +27,7 @@ local widgetSizes = ui.rescaleUI({
 	chatButtonBase = Vector2(0, 24),
 	chatButtonSize = Vector2(0, 24),
 	itemSpacing = Vector2(18, 4),
-	rowVerticalSpacing = Vector2(0, 4),
+	rowVerticalSpacing = Vector2(0, 6),
 	popupSize = Vector2(1200, 0),
 	popupBig = Vector2(1200, 0),
 	popupSmall = Vector2(500, 0),
@@ -138,7 +138,7 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 					ui.sameLine(region.x - maxReward)
 					ui.icon(icons.money, iconSize, adTextColor)
 					ui.sameLine()
-					ui.text(ui.Format.Number(item.reward))
+					ui.text(ui.Format.Number(item.reward, 0))
 				end
 			end)
 
@@ -230,4 +230,7 @@ StationView:registerView({
 		refresh()
 		bulletinBoard.scrollReset = true
 	end,
+	debugReload = function()
+		package.reimport()
+	end
 })

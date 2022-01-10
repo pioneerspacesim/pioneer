@@ -256,16 +256,33 @@ ui.Format = {
 	Pressure = function(pres)
 		return string.format("%0.2f", pres) .. lc.UNIT_PRESSURE_ATMOSPHERES
 	end,
-	-- round numbers
-	Number = function(number, places)
+	-- produce number..denominator format
+	NumberAbbv = function(number, places)
 		local s = number < 0.0 and "-" or ""
 		number = math.abs(number)
 		local fmt = "%." .. (places or '2') .. "f%s"
 		if number < 1e3 then return s .. fmt:format(number, "")
-		elseif number < 1e6 then return s .. math.floor(number / 1e3) .. "," .. number % 1e3
+		elseif number < 1e6 then return s .. fmt:format(number / 1e3, "k")
 		elseif number < 1e9 then return s .. fmt:format(number / 1e6, "mil")
 		elseif number < 1e12 then return s .. fmt:format(number / 1e9, "bil")
 		else return s .. fmt:format(number / 1e12, "trn") end
+	end,
+	-- write the entire number using thousands-place grouping
+	Number = function(number, places)
+		local s = number < 0.0 and "-" or ""
+		number = math.abs(number)
+		local fmt = "%." .. (places or '2') .. "f"
+		if number < 1e3 then return s .. fmt:format(number)
+		else
+			fmt = "%03." .. (places or '2') .. "f"
+			local res = fmt:format(number % 1e3)
+			number = number / 1e3
+			while number > 1e3 do
+				res = string.format("%03d,%s", number % 1e3, res)
+				number = number / 1e3
+			end
+			return string.format("%d,%s", number, res)
+		end
 	end,
 	SystemPath = function(path)
 		return path:GetStarSystem().name.." ("..path.sectorX..", "..path.sectorY..", "..path.sectorZ..")"
