@@ -256,7 +256,7 @@ local function drawPlayerInfo()
 	ui.withFont(pionillium.large.name, pionillium.large.size, function()
 		ui.withStyleVars({ItemSpacing = widgetSizes.itemSpacing}, function()
 			local buttonSizeSpacing = widgetSizes.buttonLaunchSize.y + widgetSizes.itemSpacing.y
-			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*2 + widgetSizes.itemSpacing.y*2
+			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*2 + widgetSizes.itemSpacing.y*3 -- use an extra itemSpacing to avoid scrollbar
 
 			ui.child("Wrapper", Vector2(0, -lobbyMenuHeight), {}, function()
 				-- face display has 1:1 aspect ratio, and we need size for a launch button underneath
@@ -310,4 +310,7 @@ StationView:registerView({
 			hyperdriveIcon = PiImage.New("icons/goods/" .. hyperdrive_fuel.icon_name .. ".png")
 		end
 	end,
+	debugReload = function()
+		package.reimport()
+	end
 })
