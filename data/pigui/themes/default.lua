@@ -183,7 +183,7 @@ theme.styles = {
 	TabRounding = 0.0,
 	TabPadding = rescaleUI(Vector2(8, 6)),
 	ButtonPadding = rescaleUI(Vector2(8, 6)),
-	ItemSpacing = rescaleUI(Vector2(8, 6))
+	ItemSpacing = rescaleUI(Vector2(8, 6)),
 }
 
 theme.icons = {
