@@ -11,49 +11,73 @@
     "description": "",
     "message": "Haoigh! ’S mise {name} is tha mi a’ reic {equipment} on t-seann soitheach mheirgeach agam. Tha mi ag iarraidh {price} air a shon."
   },
+  "FLAVOUR_0_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Special offer, selling one {equipment}."
+  },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "AIR FÈILL: Tairgse shònraichte, a’ reic {equipment}."
+    "message": "FOR SALE"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
     "message": "Haoigh! ’S mise {name}. Tha {equipment} a tha cha mhòr ùr ’s a tha mi a’ reic air {price} a-mhàin."
   },
+  "FLAVOUR_1_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Practically unused {equipment}, at an affordable price!"
+  },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "A’ REIC: {equipment} nach deach a chleachdadh cha mhòr, air prìs ìosal!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
     "message": "Fàilte ort! ’S mise {name} ’s tha {equipment} sgoinneil agam agus ’s ann leatsa a bhios an t-uidheam seo air {price} a-mhàin."
   },
+  "FLAVOUR_2_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Selling one {equipment}, for a reasonable price!"
+  },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "A’ REIC: {equipment} air prìs reusanta!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
     "message": "Shin thu! Tha {equipment} a bharrachd agam ’s feumaidh mi cuidhteas fhaighinn dheth. Tha mi ag iarraidh {price} air a shon."
   },
+  "FLAVOUR_3_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Offering one {equipment}, in good condition."
+  },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "AIR FÈILL: {equipment} ann an deagh-chor."
+    "message": "FOR SALE"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
     "message": "Haoigh! Tha {equipment} a bharrachd againn agus ’s ann leatsa a bhios e air {price}."
   },
+  "FLAVOUR_4_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "For sale: leftover {equipment}, in fine condition."
+  },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "AIR FÈILL: An còrr dhe {equipment} ann an deagh-chor."
+    "message": "FOR SALE"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
     "message": "Fàile ort! A bheil thu airson an seann-{equipment} agam a cheannach? Tha e air mo fhrithealadh gu math ach rinn mi àrdachadh is chan eil e gu feum dhomh tuilleadh. Tha mi ag iarraidh {price}."
   },
+  "FLAVOUR_5_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "On offer: old {equipment}, in working condition."
+  },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "AIR FÈILL: Seann-{equipment} a dh’obraicheas fhathast."
+    "message": "SELLING EQUIPMENT"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",

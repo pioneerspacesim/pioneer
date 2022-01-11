@@ -1,51 +1,75 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "DONATE!"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+  },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
     "message": "Παρακαλώ επιλέξτε ένα ποσό δωρεάς στην Εκκλησία της Ουράνιας Ιπτάμενης Απανταχού Μακαρονάδας."
   },
-  "FLAVOUR_0_TITLE": {
+  "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "ΠΡΟΣΦΕΡΑΤΕ! Η Εκκλησία της Ουράνιας Ιπτάμενης Απανταχού Μακαρονάδας χρειάζεται τον οβολό σας για να διαδώσει τον λόγο του Θεού."
+    "message": "DONATE"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "",
+    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
     "message": "Ειρήνη υμίν, αδερφέ. Παρακαλώ επέλεξε ένα ποσό για δωρεά στους Φύλακες του Ελεύθερου Πνεύματος"
   },
-  "FLAVOUR_1_TITLE": {
+  "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "ΠΡΟΣΦΟΡΑ: Οι Φύλακες του Ελεύθερου Πνεύματος ζητούν ταπεινά τη φιλανθρωπία σας για την υποστήριξη των μοναστηριών μας."
+    "message": "FEELING GENEROUS?"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "",
+    "message": "War Orphan's Support needs your help to keep up its essential work."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
     "message": "Επιλέξτε ένα ποσό για δωρεά στην Υποστήριξη για τα Ορφανά του Πολέμου και τερματίστε τα δεινά των παιδιών σε όλο τον γαλαξία."
   },
-  "FLAVOUR_2_TITLE": {
+  "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "ΜΠΟΡΕΊΤΕ ΝΑ ΕΝΙΣΧΎΣΕΤΕ; Η Υποστήριξη για τα Ορφανά του Πολέμου χρειάζεται τη βοήθειά σας για να συνεχίσει το σημαντικό της έργο."
+    "message": "CONTRIBUTE"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "",
+    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
     "message": "Επιλέξτε ένα ποσό δωρεάς στην Πράσινη Επιτήρηση και τερματίστε τη ρύπανση του γαλαξία μας."
   },
-  "FLAVOUR_3_TITLE": {
+  "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "ΣΥΝΕΙΣΦΟΡΆ: Η εκστρατεία Φίλοι του Γαλαξία 'Εξοστρακισμός των Στρατιωτικών Κινητήρων' χρειάζεται τον οβολό σας."
+    "message": "DONATE!"
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Save our species. Stop the carnage of newly settled worlds."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
     "message": "Παρακαλώ επιλέξτε ένα ποσό για δωρεά."
   },
-  "FLAVOUR_4_TITLE": {
+  "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "ΠΡΟΣΦΟΡΆ! Σώστε τα είδη μας. Σταματήστε τη σφαγή των νέων κόσμων."
+    "message": "SUPPORT FREEDOM!"
+  },
+  "FLAVOUR_5_DESC": {
+    "description": "",
+    "message": "Stop the great injustice of proprietary software controlling your ship."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Απελευθερώστε το σκάφος σας! Επιλέξτε ποσό για δωρεά. Ευτυχείς Παραβιάσεις."
-  },
-  "FLAVOUR_5_TITLE": {
-    "description": "",
-    "message": "ΥΠΟΣΤΉΡΙΞΗ ΕΛΕΥΘΕΡΙΆΣ! Σταματήστε τη μεγάλη αδικία του ιδιόκτητου λογισμικού που ελέγχει το σκάφος σας."
   },
   "SALES_PITCH": {
     "description": "",

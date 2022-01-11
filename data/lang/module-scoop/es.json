@@ -17,19 +17,35 @@
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "RECOGIDA: Se requiere una pronta recuperación de un contenedor a la deriva."
+    "message": "Pick-up mission: prompt recovery of drifting container required."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "DINERO FACIL: Información valiosa a la venta."
+    "message": "Have a cargo scoop and looking for your next score? Valuable information for sale."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "INFORMACION A LA VENTA: Ubicación de un campo de escombros con carga valiosa."
+    "message": "Derelict Brokerage Services: information regarding a debris field with valuable cargo."
   },
   "ADTEXT_RESCUE": {
     "description": "",
     "message": "SE NECESITA AYUDA: Operación urgente de rescate de una cápsula de escape."
+  },
+  "ADTITLE_ARMS_DEALER": {
+    "description": "",
+    "message": "CARGO RECOVERY"
+  },
+  "ADTITLE_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "EASY MONEY"
+  },
+  "ADTITLE_LEGAL_GOODS": {
+    "description": "",
+    "message": "INFORMATION FOR SALE"
+  },
+  "ADTITLE_RESCUE": {
+    "description": "",
+    "message": "HELP NEEDED"
   },
   "CLIENT": {
     "description": "",

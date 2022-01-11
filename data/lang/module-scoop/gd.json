@@ -17,19 +17,35 @@
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "TOGAIL: Tha bogsa air iomadan feumach air lìbhrigeadh luath."
+    "message": "Pick-up mission: prompt recovery of drifting container required."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "AIRGEAD FURASTA: Tha fiosrachadh fiachail ri reic."
+    "message": "Have a cargo scoop and looking for your next score? Valuable information for sale."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "FIOSRACHADH RI REIC: Ionad raon spruilich le carago luachmhor."
+    "message": "Derelict Brokerage Services: information regarding a debris field with valuable cargo."
   },
   "ADTEXT_RESCUE": {
     "description": "",
     "message": "COBHAIR A DHÌTH: Teasairginn capsail èiginneach."
+  },
+  "ADTITLE_ARMS_DEALER": {
+    "description": "",
+    "message": "CARGO RECOVERY"
+  },
+  "ADTITLE_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "EASY MONEY"
+  },
+  "ADTITLE_LEGAL_GOODS": {
+    "description": "",
+    "message": "INFORMATION FOR SALE"
+  },
+  "ADTITLE_RESCUE": {
+    "description": "",
+    "message": "HELP NEEDED"
   },
   "CLIENT": {
     "description": "",

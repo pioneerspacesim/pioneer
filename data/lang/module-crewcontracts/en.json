@@ -15,6 +15,10 @@
     "description": "",
     "message": "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
   },
+  "CREW_FOR_HIRE": {
+    "description": "",
+    "message": "Crew for hire"
+  },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
     "message": "Potential crew available for hire at this starport."
@@ -22,10 +26,6 @@
   "CREW_FOR_HIRE_TITLE": {
     "description": "",
     "message": "CREW FOR HIRE"
-  },
-  "CREW_FOR_HIRE": {
-    "description": "",
-    "message": "Crew for hire"
   },
   "GO_BACK": {
     "description": "",

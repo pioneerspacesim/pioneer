@@ -11,49 +11,73 @@
     "description": "",
     "message": "Hai! Mijn naam is {name} en ik verkoop de {equipment} van mijn oude roestige blik. ik wil er {price} voor hebben."
   },
+  "FLAVOUR_0_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Special offer, selling one {equipment}."
+  },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "TE KOOP: Speciale aanbieding, verkoop één {equipment}."
+    "message": "FOR SALE"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
     "message": "Hai! Mijn naam is {name}. Ik wil mijn {equipment} verkopen. Zo goed als nieuw, en maar {price}."
   },
+  "FLAVOUR_1_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Practically unused {equipment}, at an affordable price!"
+  },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VERKOOP: {equipment}, praktisch ongebruikt, tegen een betaalbare prijs!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
     "message": "Gegroet! Ik ben {name} en ik heb een {equipment} in zeer mooie staat die van jou kan zijn voor slechts {price}."
   },
+  "FLAVOUR_2_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Selling one {equipment}, for a reasonable price!"
+  },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VERKOOP: Een {equipment}, voor een redelijke prijs!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
     "message": "Hallo! Ik heb een extra {equipment} waar ik van af moet. Mijn vraagprijs is {price}."
   },
+  "FLAVOUR_3_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Offering one {equipment}, in good condition."
+  },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "TE KOOP: Een {equipment}, in goede conditie."
+    "message": "FOR SALE"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
     "message": "Hai! We hebben een extra {equipment} die van jou kan zijn voor which could be yours for {price}."
   },
+  "FLAVOUR_4_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "For sale: leftover {equipment}, in fine condition."
+  },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE: Leftover {equipment}, in fine condition."
+    "message": "FOR SALE"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
     "message": "Gegroet! Wilt u mijn oude {equipment} kopen? Het doet het prima, maar ik heb mijn uitrusting opgewaardeerd en nu heb ik het niet meer nodig. The prijs is {price}."
   },
+  "FLAVOUR_5_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "On offer: old {equipment}, in working condition."
+  },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE: Old {equipment}, in working condition."
+    "message": "SELLING EQUIPMENT"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",

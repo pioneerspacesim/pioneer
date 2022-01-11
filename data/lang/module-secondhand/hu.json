@@ -11,49 +11,73 @@
     "description": "",
     "message": "Üdv! {name} vagyok. Feleslegessé vált egy {equipment} a tragacsomról. {price}-ért a tiéd lehet."
   },
+  "FLAVOUR_0_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Special offer, selling one {equipment}."
+  },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "ELADÓ: Kihagyhatatlan ajánlat, eladó {equipment}!"
+    "message": "FOR SALE"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
     "message": "Üdv! Van itt egy majdnem vadonat új {equipment} {price}-ért."
   },
+  "FLAVOUR_1_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Practically unused {equipment}, at an affordable price!"
+  },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "ELADÓ: Újszerű {equipment}, megfizethető áron!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
     "message": "Üdvözöllek! {name} vagyok, és van itt egy {equipment}, ami mindössze {price}-ért a tied lehet."
   },
+  "FLAVOUR_2_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Selling one {equipment}, for a reasonable price!"
+  },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "ALKALMI VÉTEL: {equipment} jó áron!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
     "message": "Hello! Feleslegessé vált egy {equipment}, nem fér el a sufniban. {price}-ért viheted is."
   },
+  "FLAVOUR_3_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Offering one {equipment}, in good condition."
+  },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "ELADÓ: {equipment} megkimélt állapotban."
+    "message": "FOR SALE"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
     "message": "Üdv! Maradt készleten egy {equipment} amivel nem tudunk mit kezdeni. {price}-ért viheted is."
   },
+  "FLAVOUR_4_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "For sale: leftover {equipment}, in fine condition."
+  },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "KIÁRUSITÁS: {equipment} jó állapotban."
+    "message": "FOR SALE"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
     "message": "Üdvözöllek! {equipment} érdekelne? Épp tunningolok, erre pedig már nincs szükségem. {price}-ért viheted."
   },
+  "FLAVOUR_5_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "On offer: old {equipment}, in working condition."
+  },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "ELADÓ: öreg {equipment}, működőképes állapotban."
+    "message": "SELLING EQUIPMENT"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",

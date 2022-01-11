@@ -101,7 +101,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "ARANIYOR: Küçük bir grup için {system} sistemine geçiş. {cash} ödenecek."
+    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+  },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "PASSAGE WANTED"
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
@@ -133,7 +137,11 @@
   },
   "FLAVOUR_10_ADTEXT": {
     "description": "",
-    "message": "GEMİ ARANIYOR: Hızlı bir gemiyle {system} sistemine geçiş."
+    "message": "VIP needs urgent passage on a fast ship to {system} system. No questions asked."
+  },
+  "FLAVOUR_10_ADTITLE": {
+    "description": "",
+    "message": "DISCREET SHIP WANTED"
   },
   "FLAVOUR_10_DANGER": {
     "description": "",
@@ -165,7 +173,11 @@
   },
   "FLAVOUR_11_ADTEXT": {
     "description": "",
-    "message": "HIZLI GEMİ: Hızlı bir gemiyle {system} sistemine geçiş."
+    "message": "Corporate inspector needs passage on a fast ship to {system} system."
+  },
+  "FLAVOUR_11_ADTITLE": {
+    "description": "",
+    "message": "FAST SHIP NEEDED"
   },
   "FLAVOUR_11_DANGER": {
     "description": "",
@@ -197,7 +209,11 @@
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "GEMİ LAZIM: {system} sistemine geçiş."
+    "message": "Urgent transport required for fleeing citizen. Passage to {system} system needed."
+  },
+  "FLAVOUR_12_ADTITLE": {
+    "description": "",
+    "message": "SHIP REQUIRED"
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -229,7 +245,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "ARANIYOR: Küçük bir grup için {system} sistemine geçiş. {cash} ödenecek."
+    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "PASSAGE WANTED"
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
@@ -261,7 +281,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "ARANIYOR: Küçük bir grup için {system} sistemine geçiş. {cash} ödenecek."
+    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SMALL GROUP PASSAGE"
   },
   "FLAVOUR_2_DANGER": {
     "description": "",
@@ -293,7 +317,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "GEMİ LAZIM: {system} sistemine geçiş. {cash} ödenecek."
+    "message": "Ship required for high-risk passage to {system} system. Will pay {cash}."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "SHIP REQUIRED"
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
@@ -325,7 +353,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "GEMİ ARANIYOR: {system} sistemine geçiş. {cash} ödenecek."
+    "message": "Ship wanted for business-class passage to {system} system. Will pay {cash}."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "BUSINESS PASSAGE"
   },
   "FLAVOUR_4_DANGER": {
     "description": "",
@@ -357,7 +389,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "ARANIYOR: {system} sistemine geçiş. {cash} ödenecek."
+    "message": "Require confidential passage of anonymous VIP to {system} system. Will pay {cash}."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "CONFIDENTIAL PASSAGE"
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
@@ -389,7 +425,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "GEMİ ARANIYOR: {system} sistemine geçiş. {cash} ödenecek."
+    "message": "Reporter needs proximity to story developing in the {system} system. Will pay {cash}."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "SHIP REQUIRED"
   },
   "FLAVOUR_6_DANGER": {
     "description": "",
@@ -421,7 +461,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "GEMİ ARANIYOR: {system} sistemine güvenli geçiş. {cash} ödenecek."
+    "message": "Ship wanted for safe passage to {system} system. Secure transport required. Will pay {cash}."
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "SAFE PASSAGE NEEDED"
   },
   "FLAVOUR_7_DANGER": {
     "description": "",
@@ -453,7 +497,11 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "GEMİ ARANIYOR: Hızlı bir gemiyle {system} sistemine geçiş."
+    "message": "Urgent personal passage to {system} system required. Surcharge included in payment."
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "FAST PERSONAL TRANSPORT"
   },
   "FLAVOUR_8_DANGER": {
     "description": "",
@@ -485,7 +533,11 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "GEMİ ARANIYOR: Hızlı bir gemiyle {system} sistemine geçiş."
+    "message": "Require urgent transport for honest citizen. Fast passage needed to {system} system."
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "LEGITIMATE PASSAGE"
   },
   "FLAVOUR_9_DANGER": {
     "description": "",

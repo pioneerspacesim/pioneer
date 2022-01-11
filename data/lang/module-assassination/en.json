@@ -47,13 +47,13 @@
     "description": "",
     "message": "Excellent."
   },
-  "FLAVOUR_0_ADTITLE": {
-    "description": "",
-    "message": "REMOVAL WANTED"
-  },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
     "message": "Wanted: Removal of {target} from the {system} system."
+  },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "REMOVAL WANTED"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -71,13 +71,13 @@
     "description": "",
     "message": "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment."
   },
-  "FLAVOUR_1_ADTITLE": {
-	  "description": "",
-	  "message": "TARGET ELIMINATION"
-  },
   "FLAVOUR_1_ADTEXT": {
-	  "description": "",
+    "description": "",
     "message": "Wanted: Someone to kill {target} from the {system} system."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "TARGET ELIMINATION"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -95,13 +95,13 @@
     "description": "",
     "message": "I am most sad to hear of {target}'s demise. You have been paid in full."
   },
-  "FLAVOUR_2_ADTITLE": {
-    "description": "",
-    "message": "REMOVAL OPERATION"
-  },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
     "message": "{target} is tragically no longer wanted in the {system} system. Removal specialist needed."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "REMOVAL OPERATION"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -119,13 +119,13 @@
     "description": "",
     "message": "You have been paid in full for the completion of that important contract."
   },
-  "FLAVOUR_3_ADTITLE": {
-    "description": "",
-    "message": "TERMINATION"
-  },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
     "message": "Contract killer needed to eliminate {target}."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "TERMINATION"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -143,13 +143,13 @@
     "description": "",
     "message": "{target} is dead. Here is your award."
   },
-  "FLAVOUR_4_ADTITLE": {
-    "description": "",
-    "message": "RETIREMENT"
-  },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
     "message": "Discreet operator needed to ensure fatal retirement of {target}."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "RETIREMENT"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -167,13 +167,13 @@
     "description": "",
     "message": "News of {target}'s retirement delightfully obtained. Here is your money."
   },
-  "FLAVOUR_5_ADTITLE": {
-    "description": "",
-    "message": "BIOGRAPHICAL"
-  },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
     "message": "Some admirers wish {target} dead. Qualified termination experts apply within."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "BIOGRAPHICAL"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",

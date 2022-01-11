@@ -17,19 +17,35 @@
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "ΠΕΡΙΣΥΛΛΟΓΉ: Απαιτείται άμεση ανάκτηση παρασυρόμενου εμπορευματοκιβωτίου."
+    "message": "Pick-up mission: prompt recovery of drifting container required."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Εύκολο χρήμα: Πολύτιμες πληροφορίες προς πώληση."
+    "message": "Have a cargo scoop and looking for your next score? Valuable information for sale."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "ΠΛΗΡΟΦΟΡΊΕΣ ΠΡΟΣ ΠΏΛΗΣΗ: Θέση μιας περιοχής συντριμμιών με πολύτιμο φορτίο."
+    "message": "Derelict Brokerage Services: information regarding a debris field with valuable cargo."
   },
   "ADTEXT_RESCUE": {
     "description": "",
     "message": "ΑΝΆΓΚΗ ΒΟΗΘΕΙΑΣ: Επείγουσα επιχείρηση διάσωσης κάψουλας διαφυγής."
+  },
+  "ADTITLE_ARMS_DEALER": {
+    "description": "",
+    "message": "CARGO RECOVERY"
+  },
+  "ADTITLE_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "EASY MONEY"
+  },
+  "ADTITLE_LEGAL_GOODS": {
+    "description": "",
+    "message": "INFORMATION FOR SALE"
+  },
+  "ADTITLE_RESCUE": {
+    "description": "",
+    "message": "HELP NEEDED"
   },
   "CLIENT": {
     "description": "",

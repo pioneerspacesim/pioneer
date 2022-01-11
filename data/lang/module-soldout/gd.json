@@ -1,4 +1,8 @@
 {
+  "ADTEXT": {
+    "description": "",
+    "message": "Wanted: {commodity}. Will pay {price} per tonne"
+  },
   "AMOUNT": {
     "description": "The amount (for now in tonne) of goods person wants to buy",
     "message": "Ceannaichidh mi na th’ agaibh gu ruige {amount}t."
@@ -25,6 +29,6 @@
   },
   "TITLE": {
     "description": "",
-    "message": "’GA IARRAIDH: {commodity}. Pàighidh mi {price} air gach tunna"
+    "message": "COMMODITY WANTED"
   }
 }

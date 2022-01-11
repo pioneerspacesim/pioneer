@@ -1,51 +1,75 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "DONATE!"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+  },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
     "message": "Пожалуйста, выберите сумму пожертвования, которой вы могли бы поддержать Церковь Летающего Макаронного Монстра."
   },
-  "FLAVOUR_0_TITLE": {
+  "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "ПОМОГИТЕ! Церковь Летающего Макаронного Монстра нуждается в ВАШИХ деньгах, дабы иметь возможность нести Слово Создателя!"
+    "message": "DONATE"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "",
+    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
     "message": "Мир тебе, брат. Выбери сумму, которую ты мог бы пожертвовать Стражам Вольного Духа."
   },
-  "FLAVOUR_1_TITLE": {
+  "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "ПОМОГИТЕ. Стражи Вольного Духа покорнейше просят вас пожертвовать скромную сумму на поддержку нашего святого братства."
+    "message": "FEELING GENEROUS?"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "",
+    "message": "War Orphan's Support needs your help to keep up its essential work."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
     "message": "Пожалуйста, выберете сумму, которую вы хотите отправить Сиротам Войны, чтобы помочь прекратить страдания детей по всей Галактике."
   },
-  "FLAVOUR_2_TITLE": {
+  "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "ВЫ ЩЕДРЫЙ? Помогите Сиротам Войны, которым требуется ваша помощь, чтобы получить шанс выжить в этом жестком мире!"
+    "message": "CONTRIBUTE"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "",
+    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
     "message": "Пожалуйста! Выберете сумму, которую вы готовы перечислить на счёт ГринВотч, посодействовав прекращению загрязнения нашей Галактики!"
   },
-  "FLAVOUR_3_TITLE": {
+  "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "ПОСОДЕЙСТВУЙТЕ. Кампания Галактических Друзей За Запрещение Военных Гипердвигателей рассчитывает на вашу финансовую поддержку!"
+    "message": "DONATE!"
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Save our species. Stop the carnage of newly settled worlds."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
     "message": "Пожалуйста, выберите размер пожертвования."
   },
-  "FLAVOUR_4_TITLE": {
+  "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "ВЛОЖИТЕСЬ! Спасите экосистему нашей планеты! Остановите варварское истребление животных и растительности в новых колониях!"
+    "message": "SUPPORT FREEDOM!"
+  },
+  "FLAVOUR_5_DESC": {
+    "description": "",
+    "message": "Stop the great injustice of proprietary software controlling your ship."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Освободите свой корабль! Пожалуйста, сделайте пожертвования. Всего доброго."
-  },
-  "FLAVOUR_5_TITLE": {
-    "description": "",
-    "message": "ПОДДЕРЖИ СВОБОДУ! Скажи стоп закрытым программам контролирующим ваш корабль!"
   },
   "SALES_PITCH": {
     "description": "",

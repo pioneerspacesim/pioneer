@@ -49,7 +49,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "PRECISA-SE: Remoção de {alvo} do sistema {sistema}."
+    "message": "Wanted: Removal of {target} from the {system} system."
+  },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "REMOVAL WANTED"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -69,7 +73,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "PROCURA-SE: Alguém para matar {alvo} desde o sistema {sistema}."
+    "message": "Wanted: Someone to kill {target} from the {system} system."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "TARGET ELIMINATION"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -89,7 +97,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "REMOÇÃO: {alvo} não é mais aceito no sistema {sistema}."
+    "message": "{target} is tragically no longer wanted in the {system} system. Removal specialist needed."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "REMOVAL OPERATION"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -109,7 +121,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "EXTERMÍNIO: Alguém para eliminar {alvo}."
+    "message": "Contract killer needed to eliminate {target}."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "TERMINATION"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -129,7 +145,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "APOSENTADORIA: Alguém para aposentar {alvo}."
+    "message": "Discreet operator needed to ensure fatal retirement of {target}."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "RETIREMENT"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -149,7 +169,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "BIOGRÁFICO: Alguns admiradores querem {alvo} morto."
+    "message": "Some admirers wish {target} dead. Qualified termination experts apply within."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "BIOGRAPHICAL"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",

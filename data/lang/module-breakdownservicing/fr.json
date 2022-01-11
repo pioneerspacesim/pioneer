@@ -1,4 +1,8 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_0_INTRO": {
     "description": "",
     "message": "Évitez l'inconvénience d'une hyperpropulsion cassée. Faites une révision aujourd'hui, par la compagnie de maintenance moteur officiellement approuvée {name}.\n"
@@ -18,6 +22,10 @@
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
     "message": "Révision de moteur hyperspacial"
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
@@ -39,6 +47,10 @@
     "description": "",
     "message": "Révisez ma Propulsion"
   },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SHIP HYPER-MECHANICS"
+  },
   "FLAVOUR_2_INTRO": {
     "description": "",
     "message": "Bien le bonjour. Ici à {proprietor} & Co, nous engageons notre réputation sur notre travail. Nous pouvons régler votre hyperpropulsion afin qu'elle opère sans problème pendant 12 mois."
@@ -58,6 +70,10 @@
   "FLAVOUR_2_YESPLEASE": {
     "description": "",
     "message": "Réglez mon hyperpropulsion au prix indiqué, s'il vous plait"
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
@@ -79,6 +95,10 @@
     "description": "",
     "message": "SuperFixez moi !"
   },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_4_INTRO": {
     "description": "",
     "message": "Bienvenu à Temps et Espace.\n\nNous nous spécialisont dans les moteurs interstellaires. Tout travail de maintenance est garanti 2 ans."
@@ -98,6 +118,10 @@
   "FLAVOUR_4_YESPLEASE": {
     "description": "",
     "message": "Oui, s'il vous plait."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE SERVICE"
   },
   "FLAVOUR_5_INTRO": {
     "description": "",

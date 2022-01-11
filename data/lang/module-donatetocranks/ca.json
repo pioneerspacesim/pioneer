@@ -1,51 +1,75 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "DONATE!"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+  },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
     "message": "Si us plau, seleccioneu un import per donar a l'Església del Monstre d'Espaguetis Volador Celeste, i digueu Ramen."
   },
-  "FLAVOUR_0_TITLE": {
+  "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONEU! L'Església del Monstre d'Espaguetis Volador Celeste necessita els VOSTRES diners per escampar la sagrada paraula."
+    "message": "DONATE"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "",
+    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
     "message": "La pau sigui amb vos, germà. Si us plau, seleccioneu un import per donar als Guardians de l'Esperit Lliure."
   },
-  "FLAVOUR_1_TITLE": {
+  "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "DONEU. Els Guardians de l'Esperit Lliure imploren humilment la vostra caritat per mantenir els nostres monestirs."
+    "message": "FEELING GENEROUS?"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "",
+    "message": "War Orphan's Support needs your help to keep up its essential work."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
     "message": "Si us plau, seleccioneu un import per donar a la Mutualitat d'Orfes de Guerra, i acabeu amb el patiment dels nens de tota la galàxia."
   },
-  "FLAVOUR_2_TITLE": {
+  "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "US SENTIU GENERÓS? La Mutualitat d'Orfes de Guerra necessita la vostra ajuda per portar a terme la seva tasca essencial."
+    "message": "CONTRIBUTE"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "",
+    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
     "message": "Si us plau, seleccioneu un import per donar als Amics de la Galàxia, i lluiteu contra la contaminació del nostre univers."
   },
-  "FLAVOUR_3_TITLE": {
+  "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUÏU. La campanya 'Prohibim els impulsors militars' dels Amics de la Galàxia necessita els vostres diners."
+    "message": "DONATE!"
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Save our species. Stop the carnage of newly settled worlds."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
     "message": "Si us plau, seleccioneu un import per donar."
   },
-  "FLAVOUR_4_TITLE": {
+  "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "DONEU! Salveu les nostres espècies. Atureu la massacre als mons amb nous assentaments colonials."
+    "message": "SUPPORT FREEDOM!"
+  },
+  "FLAVOUR_5_DESC": {
+    "description": "",
+    "message": "Stop the great injustice of proprietary software controlling your ship."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Allibereu la vostra nau! Si us plau, seleccioneu un import per donar. Feliç pirateig."
-  },
-  "FLAVOUR_5_TITLE": {
-    "description": "",
-    "message": "RECOLZEU LA LLIBERTAT! No permeteu que el programari de propietat controli la vostra nau."
   },
   "SALES_PITCH": {
     "description": "",

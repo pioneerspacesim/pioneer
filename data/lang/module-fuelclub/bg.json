@@ -11,6 +11,10 @@
     "description": "",
     "message": "Горивната кооперация на междузвездните пилоти"
   },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "Contact the local Interstellar Pilots' Fuel Co-operative representative."
+  },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
     "message": "Тук може да закупите гориво и да изхвърлите {radioactives}."
@@ -18,6 +22,10 @@
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
     "message": "{clubname} е независима организация, занимаваща се с осигуряването на евтино гориво за нейните членове. Организацията има клонове в цялата галактика. Ползите от членството включват:"
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "PILOT'S FUEL CO-OP"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -27,17 +35,33 @@
     "description": "Fuel club for the Federation faction",
     "message": "Федералната горивна фондация"
   },
+  "FLAVOUR_1_DESC": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Authorized contact for The Federal Fuel Foundation."
+  },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
     "message": "{clubname} е лидер в осигуряването на евтино гориво за нейните членове в Слънчевата федерация. Членството Ви дава право на:"
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "FEDERAL FUEL FOUNDATION"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
     "message": "Съюзът на горивната федерация"
   },
+  "FLAVOUR_2_DESC": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Make an appointment to speak with the Commonwealth Fuel Union."
+  },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
     "message": "В Съюза на независимите светове, {clubname} осигурява най-евтиното гориво и най-доброто управление на отпадъците. За нашите членове, предлагаме:"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "COMMONWEALTH FUEL UNION"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
@@ -47,6 +71,10 @@
     "description": "Fuel club for the Haber faction",
     "message": "Хаберската дивизия за гориво и отпадъци"
   },
+  "FLAVOUR_3_DESC": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Branch office of the Haber Propellant and Perishables Division."
+  },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
     "message": "Здравейте. Може да презаредите с гориво или да унищожите Вашите отпадъци."
@@ -55,9 +83,13 @@
     "description": "for the Haber faction",
     "message": "Здравейте. Намирате се в Хаберската дивизия за гориво и отпадъци, ние се занимаваме с доставките на гориво в контролираната от нас територия."
   },
-  "GO_BACK": {
+  "FLAVOUR_3_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "HABER PROPELLANT"
+  },
+  "FUEL_LEVEL": {
     "description": "",
-    "message": "Назад"
+    "message": "Your current fuel level is {level}%."
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
@@ -73,11 +105,15 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Зареждане с гориво, когато е нужно"
+    "message": "Fuel tank refilling, once per day"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
     "message": "Присъединете се сега! Годишното членство струва само {membership_fee}"
+  },
+  "REFUEL_FREE": {
+    "description": "",
+    "message": "Refuel internal fuel tank for free."
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",

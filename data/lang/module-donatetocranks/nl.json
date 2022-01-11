@@ -1,51 +1,75 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "DONATE!"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+  },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
     "message": "Doneer een bedrag naar keuze aan de Kerk van het Hemelse Vliegende Spaghettimonster."
   },
-  "FLAVOUR_0_TITLE": {
+  "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "GEEF! De Kerk van de Hemelse Vliegende Spaghetti Monster heeft  UW geld nodig om het woord van god te verspreiden."
+    "message": "DONATE"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "",
+    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
     "message": "Vrede zij met u, broeder. Doneer een bedrag naar keuze aan de Wachters van de Vrije Geest."
   },
-  "FLAVOUR_1_TITLE": {
+  "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "GEEF. De Wachter van de Vrije Geest vragen nederig om uw vrijgevigheid onze kloosters te laten steunen."
+    "message": "FEELING GENEROUS?"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "",
+    "message": "War Orphan's Support needs your help to keep up its essential work."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
     "message": "Doneer een bedrag naar keuze aan Steun voor Oorlogswezen, en stop van het lijden van kinderen door de hele Melkweg."
   },
-  "FLAVOUR_2_TITLE": {
+  "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "VRIJGEVIG? Steun voor Oorlogswezen heeft uw hulp nodig om ons belangrijke werk voort te kunnen zetten."
+    "message": "CONTRIBUTE"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "",
+    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
     "message": "Doneer een bedrag naar keuze aan de GroenWacht en maak een einde aan de vervuiling van de Melkweg."
   },
-  "FLAVOUR_3_TITLE": {
+  "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "BIJDRAGE. De Vrienden van de Melkweg 'Verbied Militaire Aandrijving'-campagne heeft uw geld nodig."
+    "message": "DONATE!"
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Save our species. Stop the carnage of newly settled worlds."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
     "message": "Doneer een bedrag naar keuze."
   },
-  "FLAVOUR_4_TITLE": {
+  "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "DONEER! Redt onze soort. Stop het bloedbad van nieuw gevestigde werelden."
+    "message": "SUPPORT FREEDOM!"
+  },
+  "FLAVOUR_5_DESC": {
+    "description": "",
+    "message": "Stop the great injustice of proprietary software controlling your ship."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Bevrijd je schip! Doneer een bedrag naar keuze. Veel plezier met hacken."
-  },
-  "FLAVOUR_5_TITLE": {
-    "description": "",
-    "message": "STEUN VRIJHEID! Stop het grote onrecht van gesloten software die uw schip bestuurt."
   },
   "SALES_PITCH": {
     "description": "",

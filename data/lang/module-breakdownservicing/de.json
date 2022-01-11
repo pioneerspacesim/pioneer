@@ -1,4 +1,8 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_0_INTRO": {
     "description": "",
     "message": "Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraum-Antriebs. Lassen Sie Ihres heute noch überholen, von der offiziell zugelassenen {name} Triebwerksservice-Firma.\n"
@@ -18,6 +22,10 @@
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
     "message": "Hyperraum-Antrieb überholen lassen"
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
@@ -39,6 +47,10 @@
     "description": "",
     "message": "Antrieb überholen"
   },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SHIP HYPER-MECHANICS"
+  },
   "FLAVOUR_2_INTRO": {
     "description": "",
     "message": "Hallo. Wir, bei {proprietor} & Co stehen mit unserem guten Namen für unsere Arbeit.\nWir können den Hyperraumantrieb Ihres Schifffes abstimmen und garantieren 12 Monate problemlosen Betrieb."
@@ -58,6 +70,10 @@
   "FLAVOUR_2_YESPLEASE": {
     "description": "",
     "message": "Bitte tunen sie meinen Hyperraumantrieb für den genannten Preis."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
@@ -79,6 +95,10 @@
     "description": "",
     "message": "Superfixen Sie mich!"
   },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_4_INTRO": {
     "description": "",
     "message": "Wilkommen bei Zeit und Raum\n\nWir sind Spezialisten für interstellare Antriebe. Auf alle Instandhaltungsarbeiten gibt es eine Garantie von zwei Jahren."
@@ -98,6 +118,10 @@
   "FLAVOUR_4_YESPLEASE": {
     "description": "",
     "message": "Ja."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE SERVICE"
   },
   "FLAVOUR_5_INTRO": {
     "description": "",

@@ -1,4 +1,8 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_0_INTRO": {
     "description": "",
     "message": "Kerülje el az elromlott hiperhajtómű által okozott kellemetlenségeket. Javíttassa meg még ma a hivatalosan elismert {name} Hajtómű Karbantartó Vállalatnál.\n"
@@ -18,6 +22,10 @@
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
     "message": "Hipermotor szervízelés"
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
@@ -39,6 +47,10 @@
     "description": "",
     "message": "Hipermotorszervízt kérnék"
   },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SHIP HYPER-MECHANICS"
+  },
   "FLAVOUR_2_INTRO": {
     "description": "",
     "message": "Üdv! Mi a {proprietor} &Co-nál jótállunk a munkánkért. \nA hiperhajtómű behangolási szolgálatásunk 12 hónap zavartalan működést biztosít. "
@@ -58,6 +70,10 @@
   "FLAVOUR_2_YESPLEASE": {
     "description": "",
     "message": "Kérem állítsa be a hiperhajtóművem az árajánlatnak megfelelően."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
@@ -79,6 +95,10 @@
     "description": "",
     "message": "SuperFix javítást kérek!"
   },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_4_INTRO": {
     "description": "",
     "message": "Isten hozta a Tér és Időnél!\n\nSzakterületünk a csillagközi hajtóművek. Minden karbantartási munkánkra két év garanciát vállalunk."
@@ -98,6 +118,10 @@
   "FLAVOUR_4_YESPLEASE": {
     "description": "",
     "message": "Mehet"
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE SERVICE"
   },
   "FLAVOUR_5_INTRO": {
     "description": "",

@@ -13,23 +13,43 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "BETROUWBARE PILOOT GEVRAAGD: Betaal {cash}"
+    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "UITDAGING: Schip en bemanning gevraagd voor een gevechtsmissie in het {system}-stelsel."
+    "message": "Ship and crew wanted for a combat mission in the {system} system."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "VECHTEN: Gekwalificeerde huurling gevraagd met goed uitgerust schip."
+    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "ONVERSCHROKKEN HUURLING GEVRAAGD: Betaal {cash} voor een missie naar het {system}-stelsel."
+    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
   },
   "ADTEXT_5": {
     "description": "",
     "message": "{mission} Missie: Betaling {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "RELIABLE PILOT WANTED"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "CHALLENGE RESOLUTION"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "COMBAT FLIGHT"
+  },
+  "ADTITLE_4": {
+    "description": "",
+    "message": "FEARLESS MERCENARY WANTED"
+  },
+  "ADTITLE_5": {
+    "description": "",
+    "message": "AUTHORIZED COMBAT MISSION"
   },
   "AGENT": {
     "description": "Secret Service Agent",

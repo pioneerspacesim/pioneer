@@ -1,4 +1,20 @@
 {
+  "ADTITLE_0": {
+    "description": "",
+    "message": "FRESH REPORT"
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "NEWS BULLETIN"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "GALATIC REPORT"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "LOCAL GAZETTE"
+  },
   "FLAVOUR_0_HEADLINE": {
     "description": "",
     "message": "{date} 新闻: 在{system} 星系中瘟疫泛滥.死亡人数上升."

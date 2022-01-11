@@ -1,4 +1,8 @@
 {
+  "ADTEXT": {
+    "description": "",
+    "message": "Wanted: {commodity}. Will pay {price} per tonne"
+  },
   "AMOUNT": {
     "description": "The amount (for now in tonne) of goods person wants to buy",
     "message": "Ich kaufe alles, bis zu den {amount}t, die ich benötige."
@@ -25,6 +29,6 @@
   },
   "TITLE": {
     "description": "",
-    "message": "GESUCHT: {commodity}. Ich zahle {price} pro Tonne"
+    "message": "COMMODITY WANTED"
   }
 }

@@ -25,39 +25,75 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "ENVÍO DE CARGA. Envío de mercancías al sistema {system}."
+    "message": "Ship needed for delivery of cargo to the {system} system."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "SE NECESITA TRANSPORTE. Se necesita transporte de mercancías al sistema {system}. Se pagará {cash}."
+    "message": "Transport of goods to the {system} system needed. Pay {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "ENVÍO. Carga valiosa para el sistema {system}. {cash} para un piloto con experiencia."
+    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "ENVÍO LOCAL. Movimiento de mercancía a {starport}."
+    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "SE NECESITA TRANSPORTE. Envío de carga local a {starport}."
+    "message": "Need local delivery of personal cargo to {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "ENVÍO DE CARGA LOCAL. Envío de mercancías a {starport}."
+    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "RECOGIDA DE CARGA. Se requiere recogida de una carga del sistema {system}."
+    "message": "Pickup of cargo from the {system} system required. Details available on request."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "TRASLADO. Se requiere movimiento de carga desde {starport}."
+    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "SERVICIO DE CARGA. Requerimos una nave para un envío al sistema {system}."
+    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "CARGO RUN"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "NEED CARGO TRANSPORT"
+  },
+  "ADTITLE_EXPENSIVE_1": {
+    "description": "",
+    "message": "INSURED DELIVERY"
+  },
+  "ADTITLE_LOCAL_1": {
+    "description": "",
+    "message": "SHORT-RANGE FREIGHT"
+  },
+  "ADTITLE_LOCAL_2": {
+    "description": "",
+    "message": "LOCAL FREIGHT TRANSPORT"
+  },
+  "ADTITLE_LOCAL_3": {
+    "description": "",
+    "message": "LOCAL CARGO RUN"
+  },
+  "ADTITLE_PICKUP_1": {
+    "description": "",
+    "message": "CARGO PICKUP"
+  },
+  "ADTITLE_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "IN-SYSTEM RELOCATION"
+  },
+  "ADTITLE_WHOLESALER_1": {
+    "description": "",
+    "message": "BULK CARGO SERVICE"
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",

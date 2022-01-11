@@ -15,22 +15,6 @@
     "description": "",
     "message": "Thank you very much. The crew will appreciate that."
   },
-  "ADTITLE_ARMS_DEALER": {
-    "description": "",
-    "message": "CARGO RECOVERY"
-  },
-  "ADTITLE_ILLEGAL_GOODS": {
-    "description": "",
-    "message": "EASY MONEY"
-  },
-  "ADTITLE_LEGAL_GOODS": {
-    "description": "",
-    "message": "INFORMATION FOR SALE"
-  },
-  "ADTITLE_RESCUE": {
-    "description": "",
-    "message": "HELP NEEDED"
-  },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
     "message": "Pick-up mission: prompt recovery of drifting container required."
@@ -46,6 +30,22 @@
   "ADTEXT_RESCUE": {
     "description": "",
     "message": "HELP NEEDED: Urgent escape capsule rescue operation."
+  },
+  "ADTITLE_ARMS_DEALER": {
+    "description": "",
+    "message": "CARGO RECOVERY"
+  },
+  "ADTITLE_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "EASY MONEY"
+  },
+  "ADTITLE_LEGAL_GOODS": {
+    "description": "",
+    "message": "INFORMATION FOR SALE"
+  },
+  "ADTITLE_RESCUE": {
+    "description": "",
+    "message": "HELP NEEDED"
   },
   "CLIENT": {
     "description": "",

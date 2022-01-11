@@ -13,23 +13,43 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "НАДЕЖНЫЙ ПИЛОТ ХОТЕЛ: Оплатить {cash}."
+    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "ЗАДАЧА: Для выполнения боевой задачи в системе {system} разыскивается команда со своим кораблём."
+    "message": "Ship and crew wanted for a combat mission in the {system} system."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "БОЙ: Требуется квалифицированный наёмник с хорошо оснащённым кораблем."
+    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "РАЗЫСКИВАЕТСЯ БЕССТРАШНЫЙ НАЁМНИК: Заплатим {cash} за миссию в {system}."
+    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
   },
   "ADTEXT_5": {
     "description": "",
     "message": "{mission} миссия: Зарплата {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "RELIABLE PILOT WANTED"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "CHALLENGE RESOLUTION"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "COMBAT FLIGHT"
+  },
+  "ADTITLE_4": {
+    "description": "",
+    "message": "FEARLESS MERCENARY WANTED"
+  },
+  "ADTITLE_5": {
+    "description": "",
+    "message": "AUTHORIZED COMBAT MISSION"
   },
   "AGENT": {
     "description": "Secret Service Agent",

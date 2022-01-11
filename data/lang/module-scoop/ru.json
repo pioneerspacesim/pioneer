@@ -17,19 +17,35 @@
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "ЗАБРАТЬ: Надо быстро подобрать дрейфующий контейнер."
+    "message": "Pick-up mission: prompt recovery of drifting container required."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "ЛЕГКИЕ ДЕНЬГИ: Ценная информация на продажу."
+    "message": "Have a cargo scoop and looking for your next score? Valuable information for sale."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "ИНФОРМАЦИЯ ДЛЯ ПРОДАЖИ: Расположение поля обломков с ценным грузом."
+    "message": "Derelict Brokerage Services: information regarding a debris field with valuable cargo."
   },
   "ADTEXT_RESCUE": {
     "description": "",
     "message": "ТРЕБУЕТСЯ ПОМОЩЬ: Срочная операция по спасению капсулы."
+  },
+  "ADTITLE_ARMS_DEALER": {
+    "description": "",
+    "message": "CARGO RECOVERY"
+  },
+  "ADTITLE_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "EASY MONEY"
+  },
+  "ADTITLE_LEGAL_GOODS": {
+    "description": "",
+    "message": "INFORMATION FOR SALE"
+  },
+  "ADTITLE_RESCUE": {
+    "description": "",
+    "message": "HELP NEEDED"
   },
   "CLIENT": {
     "description": "",

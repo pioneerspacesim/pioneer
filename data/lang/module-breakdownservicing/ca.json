@@ -1,4 +1,8 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_0_INTRO": {
     "description": "",
     "message": "Avoid the inconvenience of a broken-down hyperspace engine. Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n"
@@ -18,6 +22,10 @@
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
     "message": "Reviseu el motor hiperespacial"
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
@@ -39,6 +47,10 @@
     "description": "",
     "message": "Reviseu el meu impulsor"
   },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SHIP HYPER-MECHANICS"
+  },
   "FLAVOUR_2_INTRO": {
     "description": "",
     "message": "Hi there. We at {proprietor} & Co stake our reputation on our work.\nWe can tune your ship's hyperdrive, ensuring 12 months of trouble-free operation. "
@@ -58,6 +70,10 @@
   "FLAVOUR_2_YESPLEASE": {
     "description": "",
     "message": "Si us plau, afineu el meu hiperimpulsor al preu acordat"
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
@@ -79,6 +95,10 @@
     "description": "",
     "message": "Super serviu-me!"
   },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_4_INTRO": {
     "description": "",
     "message": "Benvingut a Temps i Espai.\n\nSom especialistes en motors interestel·lars. Tots els manteniments tenen garantia de dos anys."
@@ -98,6 +118,10 @@
   "FLAVOUR_4_YESPLEASE": {
     "description": "",
     "message": "Procediu, si us plau"
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE SERVICE"
   },
   "FLAVOUR_5_INTRO": {
     "description": "",

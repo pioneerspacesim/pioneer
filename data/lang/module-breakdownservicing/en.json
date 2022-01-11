@@ -1,4 +1,8 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_0_INTRO": {
     "description": "",
     "message": "Avoid the inconvenience of a broken-down hyperspace engine. Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n"
@@ -15,13 +19,13 @@
     "description": "",
     "message": "{name} Engine Servicing Company"
   },
-  "FLAVOUR_0_ADTITLE": {
-    "description": "",
-    "message": "ENGINE SERVICING"
-  },
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
     "message": "Service hyperspace engine"
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
@@ -39,13 +43,13 @@
     "description": "",
     "message": "{proprietor}: Hyperdrive maintenance specialist"
   },
-  "FLAVOUR_1_ADTITLE": {
-    "description": "",
-    "message": "HYPERDRIVE MAINTENANCE"
-  },
   "FLAVOUR_1_YESPLEASE": {
     "description": "",
     "message": "Service my drive"
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SHIP HYPER-MECHANICS"
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
@@ -63,13 +67,13 @@
     "description": "",
     "message": "{proprietor} & Co HyperMechanics"
   },
-  "FLAVOUR_2_ADTITLE": {
-    "description": "",
-    "message": "SHIP HYPER-MECHANICS"
-  },
   "FLAVOUR_2_YESPLEASE": {
     "description": "",
     "message": "Please tune my hyperdrive at the quoted price"
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
@@ -87,13 +91,13 @@
     "description": "",
     "message": "SuperFix Maintenance ({name} branch)"
   },
-  "FLAVOUR_3_ADTITLE": {
-    "description": "",
-    "message": "HYPERDRIVE MAINTENANCE"
-  },
   "FLAVOUR_3_YESPLEASE": {
     "description": "",
     "message": "SuperFix me!"
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
   },
   "FLAVOUR_4_INTRO": {
     "description": "",
@@ -111,13 +115,13 @@
     "description": "",
     "message": "Time and Space Engines, Inc."
   },
-  "FLAVOUR_4_ADTITLE": {
-    "description": "",
-    "message": "ENGINE SERVICING"
-  },
   "FLAVOUR_4_YESPLEASE": {
     "description": "",
     "message": "Yes, please proceed"
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE SERVICE"
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
@@ -134,10 +138,6 @@
   "FLAVOUR_5_TITLE": {
     "description": "",
     "message": "{proprietor} Engine Servicing Company"
-  },
-  "FLAVOUR_5_ADTITLE": {
-    "description": "",
-    "message": "HYPERDRIVE SERVICE"
   },
   "FLAVOUR_5_YESPLEASE": {
     "description": "",

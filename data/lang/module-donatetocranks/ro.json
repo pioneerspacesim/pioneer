@@ -1,51 +1,75 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "DONATE!"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+  },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
     "message": "Vă rog să alegeți o sumă pe care să o donați Bisericii Monstrului Spaghetti Zburător Celest."
   },
-  "FLAVOUR_0_TITLE": {
+  "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONAȚI! Biserica Monstrului Spaghetti Zburător Celest are nevoie de banii TĂI să răspândească cuvântul zeului."
+    "message": "DONATE"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "",
+    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
     "message": "Pacea fie cu tine. Vă rog să alegeți suma pe care vreți să o donați Gardienilor Spiritului Liber."
   },
-  "FLAVOUR_1_TITLE": {
+  "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "DONAȚI. Gardienii Spiritului Liber cer cu umilință caritatea dvs. pentru a susține bisericile noastre."
+    "message": "FEELING GENEROUS?"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "",
+    "message": "War Orphan's Support needs your help to keep up its essential work."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
     "message": "Vă rog să alegeți o sumă pe care să o donați Asistenței Orfanilor de Război și să opriți suferința copiilor din toată galaxia."
   },
-  "FLAVOUR_2_TITLE": {
+  "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "VĂ SIMȚIȚI GENEROȘI? Asistența Orfanilor de Război are nevoie de ajutorul dvs. pentru a-și menține activitatea."
+    "message": "CONTRIBUTE"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "",
+    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
     "message": "Vă rog să alegeți o sumă pe care să o donați instituției GardianiiEco pentru a pune un capăt poluării galaxiei noastre."
   },
-  "FLAVOUR_3_TITLE": {
+  "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUIȚI. Campania Prietenii Galaxiei 'Interziceți Motoarele Militare' are nevoie de banii dvs."
+    "message": "DONATE!"
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Save our species. Stop the carnage of newly settled worlds."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
     "message": "Vă rog să alegeți o sumă de donat."
   },
-  "FLAVOUR_4_TITLE": {
+  "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "DONAȚI! Salvați specia noastră. Opriți masacrul pe lumile noi populate."
+    "message": "SUPPORT FREEDOM!"
+  },
+  "FLAVOUR_5_DESC": {
+    "description": "",
+    "message": "Stop the great injustice of proprietary software controlling your ship."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Eliberați-vă nava! Alegeți o sumă pe care vreți să o donați. Hacking fericit."
-  },
-  "FLAVOUR_5_TITLE": {
-    "description": "",
-    "message": "SUSȚINEȚI LIBERTATEA! Opriți marea nedreptate a software-ului proprietar care vă controlează nava."
   },
   "SALES_PITCH": {
     "description": "",

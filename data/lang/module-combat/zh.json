@@ -13,23 +13,43 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "需要可靠的飞行员：付 {cash}."
+    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "挑战：船和船员需要在系统系统中执行作战任务。"
+    "message": "Ship and crew wanted for a combat mission in the {system} system."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "战斗：需要装备精良的船作为合格的雇佣兵。"
+    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "无畏的雇佣军需要：支付{cash} 来执行 {system}星系的任务。"
+    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
   },
   "ADTEXT_5": {
     "description": "",
     "message": "任务{mission} ：薪水 {cash}。"
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "RELIABLE PILOT WANTED"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "CHALLENGE RESOLUTION"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "COMBAT FLIGHT"
+  },
+  "ADTITLE_4": {
+    "description": "",
+    "message": "FEARLESS MERCENARY WANTED"
+  },
+  "ADTITLE_5": {
+    "description": "",
+    "message": "AUTHORIZED COMBAT MISSION"
   },
   "AGENT": {
     "description": "Secret Service Agent",

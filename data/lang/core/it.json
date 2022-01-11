@@ -192,7 +192,7 @@
     "message": "Analisi dello scambio merci di #fff%system#fff"
   },
   "COMMS": {
-    "description": "",
+    "description": "Title of communications log window, on world view",
     "message": "Comunicazioni"
   },
   "COMMUNIST": {
@@ -1655,9 +1655,17 @@
     "description": "Acceleration unit: one earth gravity (g)",
     "message": "g"
   },
+  "UNIT_GIGATONNES": {
+    "description": "Mass unit: one gigatonne",
+    "message": "Gt"
+  },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
     "message": "o"
+  },
+  "UNIT_KILOGRAMS": {
+    "description": "Mass unit: one kilogram",
+    "message": "kg"
   },
   "UNIT_KILOMETERS": {
     "description": "Distance unit: one kilometer",
@@ -1667,9 +1675,17 @@
     "description": "Speed unit: one kilometer per second",
     "message": "km/s"
   },
+  "UNIT_KILOTONNES": {
+    "description": "Mass unit: one kilotonne",
+    "message": "kt"
+  },
   "UNIT_LY": {
     "description": "Distance unit: a light year",
     "message": "AL"
+  },
+  "UNIT_MEGATONNES": {
+    "description": "Mass unit: one megatonne",
+    "message": "Mt"
   },
   "UNIT_METERS": {
     "description": "Distance unit: one meter",
@@ -1691,6 +1707,10 @@
     "description": "Duration unit: one 60-second minute",
     "message": "m"
   },
+  "UNIT_PETATONNES": {
+    "description": "Mass unit: one petatonne",
+    "message": "Pt"
+  },
   "UNIT_PRESSURE_ATMOSPHERES": {
     "description": "Pressure unit: one earth atmosphere (atm)",
     "message": "atm"
@@ -1698,6 +1718,10 @@
   "UNIT_SECONDS": {
     "description": "Duration unit: one second",
     "message": "s"
+  },
+  "UNIT_TERATONNES": {
+    "description": "Mass unit: one teratonne",
+    "message": "Tt"
   },
   "UNIT_TONNES": {
     "description": "Mass unit: one tonne (t)",

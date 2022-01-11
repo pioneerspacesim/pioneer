@@ -1,4 +1,8 @@
 {
+  "ADTEXT": {
+    "description": "",
+    "message": "Wanted: {commodity}. Will pay {price} per tonne"
+  },
   "AMOUNT": {
     "description": "The amount (for now in tonne) of goods person wants to buy",
     "message": "Трябва да запълня {amount} т. със стоки, ще купя всичко до изчерпване на този капацитет."
@@ -25,6 +29,6 @@
   },
   "TITLE": {
     "description": "",
-    "message": "ТЪРСИ СЕ: {commodity}. Ще платя {price} на тон."
+    "message": "COMMODITY WANTED"
   }
 }

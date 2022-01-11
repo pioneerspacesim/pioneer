@@ -17,19 +17,35 @@
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "ПРЕНОС: Връщане на изгубен контейнер."
+    "message": "Pick-up mission: prompt recovery of drifting container required."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "ЛЕСНИ КРЕДИТИ: Продава се ценна информация."
+    "message": "Have a cargo scoop and looking for your next score? Valuable information for sale."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "ПРОДАВА СЕ ИНФОРМАЦИЯ: Местоположение на отломки от кораб с ценен товар."
+    "message": "Derelict Brokerage Services: information regarding a debris field with valuable cargo."
   },
   "ADTEXT_RESCUE": {
     "description": "",
     "message": "ТЪРСИ СЕ ПОМОЩ: Спешна операция за възстановяване на спасителна капсула."
+  },
+  "ADTITLE_ARMS_DEALER": {
+    "description": "",
+    "message": "CARGO RECOVERY"
+  },
+  "ADTITLE_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "EASY MONEY"
+  },
+  "ADTITLE_LEGAL_GOODS": {
+    "description": "",
+    "message": "INFORMATION FOR SALE"
+  },
+  "ADTITLE_RESCUE": {
+    "description": "",
+    "message": "HELP NEEDED"
   },
   "CLIENT": {
     "description": "",

@@ -11,6 +11,10 @@
     "description": "",
     "message": "星际飞行员燃料合作社"
   },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "Contact the local Interstellar Pilots' Fuel Co-operative representative."
+  },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
     "message": "你可以在这里购买燃料和处理 {radioactives} 。"
@@ -18,6 +22,10 @@
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
     "message": "{clubname} 是一个独立的组织,致力于向其成员提供价格便宜的星际飞船的燃料.分支机构遍布整个银河系.会员的好处包括:"
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "PILOT'S FUEL CO-OP"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -27,17 +35,33 @@
     "description": "Fuel club for the Federation faction",
     "message": "联邦燃料基金会"
   },
+  "FLAVOUR_1_DESC": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Authorized contact for The Federal Fuel Foundation."
+  },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
     "message": "{clubname} 是太阳能联合会会员星际飞船打折燃料的领先供应商。会员资格将授予您以下权利："
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "FEDERAL FUEL FOUNDATION"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
     "message": "联邦燃料联盟"
   },
+  "FLAVOUR_2_DESC": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Make an appointment to speak with the Commonwealth Fuel Union."
+  },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
     "message": "在自由联邦独立世界的广大范围内，您将发现 {clubname}是打折燃料和废物管理服务的最佳供应商。对于我们的会员，我们做到："
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "COMMONWEALTH FUEL UNION"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
@@ -47,6 +71,10 @@
     "description": "Fuel club for the Haber faction",
     "message": "哈伯推进剂和易腐品部"
   },
+  "FLAVOUR_3_DESC": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Branch office of the Haber Propellant and Perishables Division."
+  },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
     "message": "你好，飞行员。您有加油和有条件的副产品处理特权。"
@@ -55,9 +83,13 @@
     "description": "for the Haber faction",
     "message": "你好，飞行员。这是哈伯推进剂和易腐物品部，负责管理整个哈伯拥有的空间的燃料分配。"
   },
-  "GO_BACK": {
+  "FLAVOUR_3_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "HABER PROPELLANT"
+  },
+  "FUEL_LEVEL": {
     "description": "",
-    "message": "返回"
+    "message": "Your current fuel level is {level}%."
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
@@ -73,11 +105,15 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "在必要时加满燃料."
+    "message": "Fuel tank refilling, once per day"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
     "message": "现在就加入吧! 年度会员费只要 {membership_fee}"
+  },
+  "REFUEL_FREE": {
+    "description": "",
+    "message": "Refuel internal fuel tank for free."
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",

@@ -165,7 +165,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "GEMİ {planet} ÜZERİNE ACİL İNİŞ YAPTI"
+    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "SHIP CRASH LANDED"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -197,7 +201,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} yolunda GEMİNİN YAKITI BİTTİ"
+    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SHIP OUT OF FUEL"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -229,7 +237,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "{starport} yakınındaki gemide TIBBİ VAKA"
+    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "MEDICAL EMERGENCY"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -261,7 +273,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "{planet} üzerinde GEMİNİN YAKITI BİTTİ"
+    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "SHIP OUT OF FUEL"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -293,7 +309,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "{starport} yakınında GEMİNİN YAKITI BİTTİ"
+    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "SHIP OUT OF FUEL"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -325,7 +345,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "{system} sisteminde YANIT VERMEYEN ARAÇ"
+    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "VESSEL UNRESPONSIVE"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -357,7 +381,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "{system} sistemine ACİL MÜRETTEBAT AKTARIMI isteniyor"
+    "message": "Immediate crew transport to drifting ship in the {system} system requested."
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "EMERGENCY CREW TRANSPORT"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",

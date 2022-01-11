@@ -13,23 +13,43 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "ΑΞΙΟΠΙΣΤΟΣ ΠΙΛΟΤΟΣ ΣΕ ΖΗΤΗΣΗ: Αμοιβή {cash}."
+    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "ΠΡΌΚΛΗΣΗ: Ψάχνουμε σκάφος και πλήρωμα για μια αποστολή μάχης στο {system} σύστημα."
+    "message": "Ship and crew wanted for a combat mission in the {system} system."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "ΜΆΧΗ: Αναζητούμε εξειδικευμένο μισθοφόρο με καλά εξοπλισμένο σκάφος."
+    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "ΑΝΑΖΉΤΗΣΗ ΑΤΡΌΜΗΤΟΥ ΜΙΣΘΟΦΌΡΟΥ: Αμοίβουμε {cash} για μια αποστολή στο {system} σύστημα."
+    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
   },
   "ADTEXT_5": {
     "description": "",
     "message": "{mission} Αποστολή: Μισθός {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "RELIABLE PILOT WANTED"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "CHALLENGE RESOLUTION"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "COMBAT FLIGHT"
+  },
+  "ADTITLE_4": {
+    "description": "",
+    "message": "FEARLESS MERCENARY WANTED"
+  },
+  "ADTITLE_5": {
+    "description": "",
+    "message": "AUTHORIZED COMBAT MISSION"
   },
   "AGENT": {
     "description": "Secret Service Agent",

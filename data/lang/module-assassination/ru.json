@@ -49,7 +49,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "РАЗЫСКИВАЮ: человека для решения проблемы в системе {system}. Моя проблема - {target}."
+    "message": "Wanted: Removal of {target} from the {system} system."
+  },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "REMOVAL WANTED"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -69,7 +73,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "ПРЕДЛОЖЕНИЕ: {target} должен навсегда исчезнуть из моей жизни в системе {system}."
+    "message": "Wanted: Someone to kill {target} from the {system} system."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "TARGET ELIMINATION"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -89,7 +97,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "УСТРАНЕНИЕ: {target} был недавно замечен в системе {system}."
+    "message": "{target} is tragically no longer wanted in the {system} system. Removal specialist needed."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "REMOVAL OPERATION"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -109,7 +121,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "ЗАДАНИЕ: {target} должен быть устранен."
+    "message": "Contract killer needed to eliminate {target}."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "TERMINATION"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -129,7 +145,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "НА СВАЛКУ истории должен отправиться {target}"
+    "message": "Discreet operator needed to ensure fatal retirement of {target}."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "RETIREMENT"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -149,7 +169,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "КОНТРАКТ: требуется человек для деликатной работы. Цель - {target}."
+    "message": "Some admirers wish {target} dead. Qualified termination experts apply within."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "BIOGRAPHICAL"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",

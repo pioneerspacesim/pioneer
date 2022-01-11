@@ -1,51 +1,75 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "DONATE!"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+  },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
     "message": "Roghnaigh an méid airgid ba mhaith leat a bhronnadh ar Eaglais na hOllphéiste Eitilte Spaigití."
   },
-  "FLAVOUR_0_TITLE": {
+  "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "BRONN! Teastaíonn airgead ó Eaglais na hOllphéiste Eitilte Spaigití chun cabhrú leo briathar Dé a scaipeadh. Theagmhaigh sé lena ghéagán núdlach mé!"
+    "message": "DONATE"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "",
+    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
     "message": "Go raibh síocháin Dé agat, a chara. Roghnaigh an méid ba mhaith leat a bhronnadh ar Chosantóirí an Anama Shaoir."
   },
-  "FLAVOUR_1_TITLE": {
+  "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "BRONN! Iarrann Cosantóirí an Anama Shaoir tabhartas carthanúil uait i dtacaíocht lena gcuid mainistreacha."
+    "message": "FEELING GENEROUS?"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "",
+    "message": "War Orphan's Support needs your help to keep up its essential work."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
     "message": "Roghnaigh méid airgid le bronnadh ar Chumann na nDílleachtaí Cogaidh, agus cuir deireadh le fulaingt na bpáistí ar fud an réaltra."
   },
-  "FLAVOUR_2_TITLE": {
+  "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "DUINE FLAITHIÚIL? Tá do thacaíocht ag teastáil ó Chumann na nDílleachtaí Cogaidh le leanúint ar aghaidh leis an obair ríthábhachtach s'acu."
+    "message": "CONTRIBUTE"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "",
+    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
     "message": "Roghnaigh an méid airgid ba mhaith leat a bhronnadh ar na Glasaigh Réaltracha, chun cabhrú leo deireadh a chur le truailliú inár réaltra féin."
   },
-  "FLAVOUR_3_TITLE": {
+  "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "BRONN. Tá airgead ag teastáil ó Chairde an Réaltra i gcomhair feachtais 'Cosc ar Thiomáintí Míleata'."
+    "message": "DONATE!"
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Save our species. Stop the carnage of newly settled worlds."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
     "message": "Roghnaigh an méid airgid ba mhaith leat a bhronnadh."
   },
-  "FLAVOUR_4_TITLE": {
+  "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "BRONN! Sábháil ár speiceas. Cuir deireadh leis an eirleach ar dhomhain nualonnaithe."
+    "message": "SUPPORT FREEDOM!"
+  },
+  "FLAVOUR_5_DESC": {
+    "description": "",
+    "message": "Stop the great injustice of proprietary software controlling your ship."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Fuascail do long! Roghnaigh an méid airgid le bronnadh. Ríomhéigse abú!"
-  },
-  "FLAVOUR_5_TITLE": {
-    "description": "",
-    "message": "TACAIGH LEIS AN tSAOIRSE! Is éagóir chruthanta é bogearraí dílsithe a úsáid chun do long a rialú."
   },
   "SALES_PITCH": {
     "description": "",

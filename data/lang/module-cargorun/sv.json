@@ -25,39 +25,75 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "TRANSPORT. Leverans av last till {system} systemet."
+    "message": "Ship needed for delivery of cargo to the {system} system."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "TRANSPORT ÖNSKAS. Behöver transport av varor från {system} systemet. Betalar {cash}."
+    "message": "Transport of goods to the {system} system needed. Pay {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "LEVERANS. Värdefull last till {system} systemet. {cash} till en erfaren pilot."
+    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "LOKAL LEVERANS: Flytt av varor till {starport}."
+    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "TRANSPORT EFTERSÖKES. Lokalleverans av varor till {starport} "
+    "message": "Need local delivery of personal cargo to {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "LOKAL VARUTRANSPORT. Leverans av varor till {starport}."
+    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "HÄMTNING AV LAST. Önskar hämtning av last från {system} systemet."
+    "message": "Pickup of cargo from the {system} system required. Details available on request."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "OMLOKALISERING. Flytt av varor från {starport} önskas."
+    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "LASTTJÄNST. Vi behöver ett skepp för leverans till {system} systemet."
+    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "CARGO RUN"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "NEED CARGO TRANSPORT"
+  },
+  "ADTITLE_EXPENSIVE_1": {
+    "description": "",
+    "message": "INSURED DELIVERY"
+  },
+  "ADTITLE_LOCAL_1": {
+    "description": "",
+    "message": "SHORT-RANGE FREIGHT"
+  },
+  "ADTITLE_LOCAL_2": {
+    "description": "",
+    "message": "LOCAL FREIGHT TRANSPORT"
+  },
+  "ADTITLE_LOCAL_3": {
+    "description": "",
+    "message": "LOCAL CARGO RUN"
+  },
+  "ADTITLE_PICKUP_1": {
+    "description": "",
+    "message": "CARGO PICKUP"
+  },
+  "ADTITLE_PICKUP_LOCAL_1": {
+    "description": "",
+    "message": "IN-SYSTEM RELOCATION"
+  },
+  "ADTITLE_WHOLESALER_1": {
+    "description": "",
+    "message": "BULK CARGO SERVICE"
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",

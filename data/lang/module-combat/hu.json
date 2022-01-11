@@ -13,23 +13,43 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "MEGBÍZHATÓ PILÓTÁT KERESEK: Díj: {cash}."
+    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "KIHÍVÁS: Hajó és legényéség kerestetik harci bevetésre a {system} rendszerben."
+    "message": "Ship and crew wanted for a combat mission in the {system} system."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "HARC: Képzett, jól felszerelt zsoldost keresek."
+    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "RETTENTHETETLEN ZSOLDOST KERESÜNK: megbízás {cash} - ért a {system} rendszerben."
+    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
   },
   "ADTEXT_5": {
     "description": "",
     "message": "{mission} küldetés: Fizetés {cash}."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "RELIABLE PILOT WANTED"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "CHALLENGE RESOLUTION"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "COMBAT FLIGHT"
+  },
+  "ADTITLE_4": {
+    "description": "",
+    "message": "FEARLESS MERCENARY WANTED"
+  },
+  "ADTITLE_5": {
+    "description": "",
+    "message": "AUTHORIZED COMBAT MISSION"
   },
   "AGENT": {
     "description": "Secret Service Agent",

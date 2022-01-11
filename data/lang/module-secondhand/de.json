@@ -11,49 +11,73 @@
     "description": "",
     "message": "Hi. Mein Name ist {name}. Ich habe {equipment} aus meiner Rostmühle zu verkaufen. Wunschpreis: {price}."
   },
+  "FLAVOUR_0_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Special offer, selling one {equipment}."
+  },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VERKAUFE: {equipment} zum Sonderpreis, Stückzahl: 1"
+    "message": "FOR SALE"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
     "message": "Hi. Mein Name ist {name}. Ich hätte da 1 nigelnagelneues {equipment} zu verkaufen zu einem Hammerpreis: {price}."
   },
+  "FLAVOUR_1_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Practically unused {equipment}, at an affordable price!"
+  },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VERKAUFE: {equipment}, so gut wie neu, zu einem bezahlbaren Preis."
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
     "message": "Seid gegrüßt! Mein Name ist {name} und verkaufe hochwertige Ersatzteile. 1 {equipment} zum Preis von {price} wäre mein Angebot an Euch."
   },
+  "FLAVOUR_2_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Selling one {equipment}, for a reasonable price!"
+  },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VERKAUFE: 1 {equipment}, guter Preis!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
     "message": "Hi! Ich hätte da ein überschüssiges Teil, das ich loswerden möchte: 1 {equipment}, Wunschpreis wäre {price}."
   },
+  "FLAVOUR_3_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Offering one {equipment}, in good condition."
+  },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VERKAUFE: {equipment}, guter Zustand!"
+    "message": "FOR SALE"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
     "message": "Hi! Wir hätten ein überzähliges Reserveteil (1 {equipment}), welches für {price} Ihnen gehören könnte."
   },
+  "FLAVOUR_4_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "For sale: leftover {equipment}, in fine condition."
+  },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VERKAUFE: {equipment}, überzählig, im sehr gutem Zustand"
+    "message": "FOR SALE"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
     "message": "Guten Tag! Möchten Sie meine alte Ausrüstung kaufen (1 {equipment})? Sie hat mir gut gedient, aber ich habe sie durch ein neueres Modell ersetzt. Der Preis ist {price}."
   },
+  "FLAVOUR_5_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "On offer: old {equipment}, in working condition."
+  },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VERKAUF: {equipment}, alt aber funktionstüchtig."
+    "message": "SELLING EQUIPMENT"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",

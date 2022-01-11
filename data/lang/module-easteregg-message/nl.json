@@ -3,13 +3,21 @@
     "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to the song by AC/DC",
     "message": "Bel me op 36 24 36, Ik ben altijd thuis. Ik handel in:\n - Betonnen schoenen,\n - Cyanide,\n - TNT,\n - Stroppen,\n - Contracten,\n - Hoge voltages,\n\n ...of bel me gewoon om te kletsen."
   },
+  "FLAVOUR_0_DESC": {
+    "description": "Second line for an easter-egg AC/DC song title reference.",
+    "message": "If you're having trouble, call me any time."
+  },
   "FLAVOUR_0_TITLE": {
     "description": "The 'all caps' title should probably not be translated, as it's an AC/DC song title reference. Either way, it's a very rare 'Easter egg'",
-    "message": "VIEZE DADEN GEDAAN VIES GOEDKOOP, als je problemen hebt bel me maar"
+    "message": "DIRTY DEEDS DONE DIRT CHEAP"
   },
   "FLAVOUR_1_BODY": {
     "description": "This is a very rare string, that's part of an 'Easter egg'. This specific one is a reference to https://en.wikipedia.org/wiki/867-5309/Jenny",
     "message": "Je kent me niet, maar bel me; 867-5309 / Jenny"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "A very rare Easter egg, and reference to a line from a famous song.",
+    "message": "Everyone needs a listening ear once in a while."
   },
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",

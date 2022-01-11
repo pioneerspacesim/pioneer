@@ -1,51 +1,75 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "DONATE!"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+  },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
     "message": "Por favor, elija una cantidad para donar a La Iglesia de El Monstruo Celeste de Spaghetti Volante."
   },
-  "FLAVOUR_0_TITLE": {
+  "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "¡HAGA UNA DONACION! La Iglesia de El Monstruo Celeste del Spaghetti Volador necesita TU dinero para propagar la palabra de dios."
+    "message": "DONATE"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "",
+    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
     "message": "La paz sea contigo, hermano. Por favor, elije una cantidad para donar a los Guardianes del Espíritu Libre."
   },
-  "FLAVOUR_1_TITLE": {
+  "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "HAZ UNA DONACION. Los Guardianes del Espíritu Libre humildemente apelamos a su caridad para el mantenimiento de nuestros monasterios."
+    "message": "FEELING GENEROUS?"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "",
+    "message": "War Orphan's Support needs your help to keep up its essential work."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
     "message": "Por favor seleccione una cantidad para donar a Apoyo a los Huérfanos de Guerra, y acabe con el sufrimiento de los niños de toda la galaxia."
   },
-  "FLAVOUR_2_TITLE": {
+  "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "¿TE SIENTES GENEROSO? Apoyo a los Huérfanos de Guerra necesita tu ayuda para mantener su trabajo esencial."
+    "message": "CONTRIBUTE"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "",
+    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
     "message": "Por favor elija una cantidad para donar a GreenWatch, y acabe con la contaminación de nuestra galaxia."
   },
-  "FLAVOUR_3_TITLE": {
+  "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUYA. Los Amigos de La Galaxia necesitan su dinero para financiar la campaña 'Prohibamos los hipermotores militares' ."
+    "message": "DONATE!"
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Save our species. Stop the carnage of newly settled worlds."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
     "message": "Por favor, elija una cantidad para donar."
   },
-  "FLAVOUR_4_TITLE": {
+  "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "¡CONTRIBUYA! Protejamos nuestras especies. Acabemos con la matanza en los nuevos mundos colonizados."
+    "message": "SUPPORT FREEDOM!"
+  },
+  "FLAVOUR_5_DESC": {
+    "description": "",
+    "message": "Stop the great injustice of proprietary software controlling your ship."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "¡Libere su nave! Por favor, elija la cantidad para donar. Feliz pirateo."
-  },
-  "FLAVOUR_5_TITLE": {
-    "description": "",
-    "message": "¡APOYE LA LIBERTAD! Acabe con la gran injusticia de que software propietario controle su nave."
   },
   "SALES_PITCH": {
     "description": "",

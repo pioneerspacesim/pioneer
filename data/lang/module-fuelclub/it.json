@@ -11,6 +11,10 @@
     "description": "",
     "message": "Cooperativa Piloti Interstellari per il Carburante"
   },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "Contact the local Interstellar Pilots' Fuel Co-operative representative."
+  },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
     "message": "Qua potrai acquistare carburante e smaltire {radioactives}."
@@ -18,6 +22,10 @@
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
     "message": "{clubname} è un'organizzazione indipendente che ha lo scopo di fornire carburante per astronavi scontato ai propri membi. Si possono trovare succursali in tutta la galassia. L'iscrizione porta i seguenti vantaggi:"
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "PILOT'S FUEL CO-OP"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -27,17 +35,33 @@
     "description": "Fuel club for the Federation faction",
     "message": "La Fondazione Federale Carburanti"
   },
+  "FLAVOUR_1_DESC": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Authorized contact for The Federal Fuel Foundation."
+  },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
     "message": "{clubname} è il fornitore principale di carburanti per le astronavi dei propri membri nella Federazione Solare. L'iscrizione le darà diritto a:"
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "FEDERAL FUEL FOUNDATION"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
     "message": "L'Unione Confederata Carburanti"
   },
+  "FLAVOUR_2_DESC": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Make an appointment to speak with the Commonwealth Fuel Union."
+  },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
     "message": "Nella vastità de della libera Comunità dei Mondi Indipendenti, troverà {clubname} come miglior fornitore di carburanti e servizi di gestione residui. Per i nostri membri:"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "COMMONWEALTH FUEL UNION"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
@@ -47,6 +71,10 @@
     "description": "Fuel club for the Haber faction",
     "message": "Divisione Propellenti e Deteriorabili Haber"
   },
+  "FLAVOUR_3_DESC": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Branch office of the Haber Propellant and Perishables Division."
+  },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
     "message": "Ossequi pilota. I suoi privilegi per rifornimenti e smaltimento prodotti di scarto sono qui garantiti."
@@ -55,9 +83,13 @@
     "description": "for the Haber faction",
     "message": "Saluti pilota. Questa è la Divisione Propellenti e Deteriorabili Haber, incaricata della gestione e della distribuzione dei carburanti in tutto lo spazio di proprietà della Haber."
   },
-  "GO_BACK": {
+  "FLAVOUR_3_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "HABER PROPELLANT"
+  },
+  "FUEL_LEVEL": {
     "description": "",
-    "message": "Indietro"
+    "message": "Your current fuel level is {level}%."
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
@@ -73,11 +105,15 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Rabbocco di carburante, se necessario"
+    "message": "Fuel tank refilling, once per day"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
     "message": "Iscriviti ora! La quota d'iscrizione annuale è di soli {membership_fee}"
+  },
+  "REFUEL_FREE": {
+    "description": "",
+    "message": "Refuel internal fuel tank for free."
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",

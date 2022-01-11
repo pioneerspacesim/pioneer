@@ -11,49 +11,73 @@
     "description": "",
     "message": "Salut! Numele meu este {name} și vând echipament de la rabla mea({equipment}). Vreau {price} pentru el."
   },
+  "FLAVOUR_0_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Special offer, selling one {equipment}."
+  },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "DE VÂNZARE: Ofertă specială, vând echipamentul: {equipment}."
+    "message": "FOR SALE"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
     "message": "Salut! Numele meu este {name}. Am un echipament aproape nou nouț({equipment}) pe care îl vând pentru doar {price}."
   },
+  "FLAVOUR_1_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Practically unused {equipment}, at an affordable price!"
+  },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VÂND: Echipament ({equipment}) practic nefolosit, la un preț convenabil!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
     "message": "Salutări! Sunt {name} și am un echipament foarte bun :{equipment}, care poate fi al dvs. doar pentru {price}."
   },
+  "FLAVOUR_2_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Selling one {equipment}, for a reasonable price!"
+  },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VÂND: Un echipament: {equipment}, la un preț rezonabil!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
     "message": "Bună ziua! Am un echipament extra ({equipment}) de care vreau sa scap. Cer pe el {price}."
   },
+  "FLAVOUR_3_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Offering one {equipment}, in good condition."
+  },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "DE VÂNZARE: Un echipament ({equipment}), în condiție bună."
+    "message": "FOR SALE"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
     "message": "Salutare! Avem un echipament extra ({equipment}) care poate fi al vostru pentru {price}."
   },
+  "FLAVOUR_4_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "For sale: leftover {equipment}, in fine condition."
+  },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "DE VÂNZARE: Echipament surplus ({equipment}), în condiție bună."
+    "message": "FOR SALE"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
     "message": "Salutări! Vrei să-mi cumperi vechiul meu echipament ({equipment})? Mi-a fost de mare ajutor, dar acum am luat altul mai bun și nu mai am nevoie de el. Prețul este {price}."
   },
+  "FLAVOUR_5_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "On offer: old {equipment}, in working condition."
+  },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "DE VÂNZARE: Echipament vechi ({equipment}), în stare funcțională."
+    "message": "SELLING EQUIPMENT"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",

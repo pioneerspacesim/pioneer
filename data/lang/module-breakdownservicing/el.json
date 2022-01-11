@@ -1,4 +1,8 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_0_INTRO": {
     "description": "",
     "message": "Αποφύγετε την ταλαιπωρία ενός κατεστραμμένου υπερδιαστημικού κινητήρα. Εξασφαλίστε το σέρβις του δικού σας σήμερα, από την επίσημα εγκεκριμένη {name} Engine Servicing Company.\n\n"
@@ -18,6 +22,10 @@
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
     "message": "Σέρβις μηχανών υπερκινητήρα"
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_1_INTRO": {
     "description": "",
@@ -39,6 +47,10 @@
     "description": "",
     "message": "Κάνετε σέρβις στον κινητήρα μου"
   },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SHIP HYPER-MECHANICS"
+  },
   "FLAVOUR_2_INTRO": {
     "description": "",
     "message": "Γεια σου. Εμείς στην {proprietor} & Co διακυβεύουμε τη φήμη μας για τη δουλειά μας.\nΜπορούμε να συντονίσουμε τον υπερκινητήρα του σκάφους σας, διασφαλίζοντας 12 μήνες λειτουργίας χωρίς προβλήματα."
@@ -58,6 +70,10 @@
   "FLAVOUR_2_YESPLEASE": {
     "description": "",
     "message": "Ναι. Ρυθμίστε τον υπερκινητήρα μου στην αναγραφόμενη τιμή"
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
@@ -79,6 +95,10 @@
     "description": "",
     "message": "SuperFix εμένα!"
   },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
   "FLAVOUR_4_INTRO": {
     "description": "",
     "message": "Καλώς ήλθατε στο Time and Space.\n\nΕιδικευόμαστε σε διαστρικούς κινητήρες. Όλες οι εργασίες συντήρησης είναι εγγυημένες για δύο χρόνια."
@@ -98,6 +118,10 @@
   "FLAVOUR_4_YESPLEASE": {
     "description": "",
     "message": "Ναι, παρακαλώ προχωρήστε"
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE SERVICE"
   },
   "FLAVOUR_5_INTRO": {
     "description": "",

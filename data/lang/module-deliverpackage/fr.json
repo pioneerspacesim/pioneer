@@ -57,7 +57,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "VOUS ALLEZ VERS le systeme {system}? Argent payé pour livraison d'un petit paquet."
+    "message": "Going to the {system} system? Money paid for delivery of a small package."
+  },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "INTERSTELLAR DELIVERY"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -77,7 +81,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "RECHERCHE. Livraison d'un paquet vers le systeme {system}. "
+    "message": "Wanted: Delivery of a package to the {system} system."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "DELIVERY WANTED"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -97,7 +105,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "URGENT. Vaisseau rapide requis pour livrer un colis vers le systeme {system}."
+    "message": "Urgent! Fast ship needed to deliver a package to the {system} system."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "URGENT DELIVERY"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -117,7 +129,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "LIVRAISON. Documents vers le systeme {system}. {cash} pour un pilote expérimenté."
+    "message": "Delivery of sensitive documents to the {system} system. {cash} to an experienced pilot."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "DOCUMENT DELIVERY"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -137,7 +153,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "SERVICE POSTAL. Requisition d'un vaisseau pour executer une livraison vers le systeme {system}."
+    "message": "Interstellar Postal Services. We require a ship for the delivery run to {system} system."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "POSTAL SERVICE"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -157,7 +177,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "TRANSPORT PRIVE. Déplacement de materiel d'un stock vers {starport}. "
+    "message": "Transport belongings to {starport} from port storage facility."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "MOVING HOME"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -177,7 +201,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "COURRIER COURTE PORTEE. Livraison d'un petit paquet vers {starport}."
+    "message": "In-system courier services required. Delivery of a small package to {starport}."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "SHORT-RANGE COURIER"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -197,7 +225,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "CARGAISON INTERPLANÉTAIRE. Fret de cargaison locale vers {starport}. "
+    "message": "Standardized inter-planetary transport contract. Freight of local cargo to {starport}."
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "INTER-PLANETARY CARGO"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
@@ -217,7 +249,11 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "LIVRAISON LOCALE. Recrute pour livraison rapide d'un article a {starport}."
+    "message": "Urgent personal delivery contract. Require quick delivery of an item to {starport}."
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "NEARBY DELIVERY"
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
@@ -237,7 +273,11 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "COLIS EXPRESS. Expédition urgente de denrées périssables vers {starport}."
+    "message": "Package drop-off required. Urgent dispatch of perishables to {starport}."
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "PACKAGE DROP"
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",

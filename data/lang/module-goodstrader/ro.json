@@ -1,4 +1,20 @@
 {
+  "ADTITLE_0": {
+    "description": "",
+    "message": "CARGO EMPORIUM"
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "TRADING HOUSE"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "TRADE WAREHOUSE"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "GOODS EXCHANGE"
+  },
   "GOODS_TRADER_0": {
     "description": "",
     "message": "{name} Capital Dinamic"

@@ -1,4 +1,8 @@
 {
+  "ADTEXT": {
+    "description": "",
+    "message": "Wanted: {commodity}. Will pay {price} per tonne"
+  },
   "AMOUNT": {
     "description": "The amount (for now in tonne) of goods person wants to buy",
     "message": "{amount}t kadar ihtiyacım var, ne kadarını satarsanız alırım."
@@ -25,6 +29,6 @@
   },
   "TITLE": {
     "description": "",
-    "message": "TALEP: {commodity}. Ton başına {price} ödenecek."
+    "message": "COMMODITY WANTED"
   }
 }

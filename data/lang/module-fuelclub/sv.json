@@ -11,6 +11,10 @@
     "description": "",
     "message": "Interstellära piloters bränslesamfund"
   },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "Contact the local Interstellar Pilots' Fuel Co-operative representative."
+  },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
     "message": "Du kan köpa drivmedel och lämna {radioactives} här."
@@ -18,6 +22,10 @@
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
     "message": "{clubname} är en oberoende organisation vars mål är att förse sina medlemars rymdskepp med rabatterad bränsle. Avdelningar kan hittas genom galaxen. Fördelar av medlemskap inkluderar:"
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "PILOT'S FUEL CO-OP"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -27,17 +35,33 @@
     "description": "Fuel club for the Federation faction",
     "message": "Den Federala bränsle-stiftelsen"
   },
+  "FLAVOUR_1_DESC": {
+    "description": "Fuel club for the Federation faction",
+    "message": "Authorized contact for The Federal Fuel Foundation."
+  },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
     "message": "{clubname} är den huvudsakliga leverantören av billigt bränsle till medlemmarnas skepp i Solfederationen. Ett medlemskap ger dig följande förmåner:"
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "FEDERAL FUEL FOUNDATION"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
     "message": "Samväldets bränsleunion"
   },
+  "FLAVOUR_2_DESC": {
+    "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+    "message": "Make an appointment to speak with the Commonwealth Fuel Union."
+  },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
     "message": "Genom hela vidda Konfederationens fria planeter finner man att {clubname} ger den bästa servicen åt sina piloter genom förmånliga erbjudanden för både bränsle och avfallshantering. Våra medlemmar erbjuds:  "
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "COMMONWEALTH FUEL UNION"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
@@ -47,6 +71,10 @@
     "description": "Fuel club for the Haber faction",
     "message": "Haber drivmedel- och avfalls-divisionen"
   },
+  "FLAVOUR_3_DESC": {
+    "description": "Fuel club for the Haber faction",
+    "message": "Branch office of the Haber Propellant and Perishables Division."
+  },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
     "message": "Hälsad pilot! Dina privilegier för tankning och avfallshantering är godkända."
@@ -55,9 +83,13 @@
     "description": "for the Haber faction",
     "message": "Hej pilot!! Detta är Haber drivmedel- och avfalls-division. Vi försörjer alla piloter med bränsle i hela Haber-ägda universum."
   },
-  "GO_BACK": {
+  "FLAVOUR_3_TITLE": {
+    "description": "Title of the BBS advertisement",
+    "message": "HABER PROPELLANT"
+  },
+  "FUEL_LEVEL": {
     "description": "",
-    "message": "Tillbaka"
+    "message": "Your current fuel level is {level}%."
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
@@ -73,11 +105,15 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Påfyllning av bränsle vid behov"
+    "message": "Fuel tank refilling, once per day"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
     "message": "Gå med nu! Årligt medlemskap kostar endast {membership_fee}"
+  },
+  "REFUEL_FREE": {
+    "description": "",
+    "message": "Refuel internal fuel tank for free."
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",

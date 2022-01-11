@@ -1,51 +1,75 @@
 {
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "DONATE!"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+  },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
     "message": "Моля, изберете сума за дарение към Църквата на „Небесното летящо спагетено чудовище“."
   },
-  "FLAVOUR_0_TITLE": {
+  "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "ДАРЯВАЙТЕ! Църквата на „Небесното летящо спагетено чудовище“ се нуждае от ВАС за да разпространява Божието слово."
+    "message": "DONATE"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "",
+    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
     "message": "Мир на теб. Моля, избери сума за дарение към „Пазителите на безплатния дух“."
   },
-  "FLAVOUR_1_TITLE": {
+  "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "ДАРЯВАЙТЕ! „Пазителите на безплатния дух“ смирено молят за Вашата милостиня за да поддържат нашите манастири."
+    "message": "FEELING GENEROUS?"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "",
+    "message": "War Orphan's Support needs your help to keep up its essential work."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
     "message": "Моля, изберете сума за дарение към „Подкрепа за военните сираци“, която ще спре детските страдания в цялата галактика."
   },
-  "FLAVOUR_2_TITLE": {
+  "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "ЧУВСТВАТЕ СЕ ЩЕДРИ? „Подкрепа за военните сираци“ се нуждае от Вашата помощ за да продължи да функционира."
+    "message": "CONTRIBUTE"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "",
+    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
     "message": "Моля, изберете сума за дарение към „Зелено наблюдение“ и спрете замърсяването на нашата галактика."
   },
-  "FLAVOUR_3_TITLE": {
+  "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "ДОПРИНЕСЕТЕ! Кампанията „Забрана на военните походи“, организирана от „Приятелите на галактиката“ се нуждае от Вашите кредити."
+    "message": "DONATE!"
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Save our species. Stop the carnage of newly settled worlds."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
     "message": "Моля, изберете сума за дарение."
   },
-  "FLAVOUR_4_TITLE": {
+  "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "ДАРЯВАЙТЕ! Спасете нашия вид. Спрете безобразията в новозаселените светове."
+    "message": "SUPPORT FREEDOM!"
+  },
+  "FLAVOUR_5_DESC": {
+    "description": "",
+    "message": "Stop the great injustice of proprietary software controlling your ship."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Освободете кораба си! Моля, изберете сума за дарение. Спорна работа."
-  },
-  "FLAVOUR_5_TITLE": {
-    "description": "",
-    "message": "ПОДКРЕПЕТЕ СВОБОДАТА! Спрете голямата неправда, наречена патентован софтуер, контролираща Вашия кораб."
   },
   "SALES_PITCH": {
     "description": "",

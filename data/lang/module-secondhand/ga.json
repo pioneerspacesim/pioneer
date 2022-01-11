@@ -11,49 +11,73 @@
     "description": "",
     "message": "Dia dhuit! Is mise {name} agus tá mé ag díol {equipment} ó mo sheantobán. Tá mé ag fiafraí {price} air."
   },
+  "FLAVOUR_0_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Special offer, selling one {equipment}."
+  },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "LE DÍOL: Tairiscint speisialta, {equipment} amháin le díol."
+    "message": "FOR SALE"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
     "message": "Dia dhuit! Is mise {name}. Tá {equipment} beagnach úrnua agam agus níl mé ag iarraidh ach {price} air."
   },
+  "FLAVOUR_1_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Practically unused {equipment}, at an affordable price!"
+  },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "LE DÍOL: {equipment} beagnach úrnua, ar phraghas réasúnta!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
     "message": "Dia dhuit a chara! Is mise {name} agus tá {equipment} thar cionn agam, gan ach {price} air."
   },
+  "FLAVOUR_2_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Selling one {equipment}, for a reasonable price!"
+  },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "LE DÍOL: {equipment} amháin, ar phraghas an-réasúnta ar fad!"
+    "message": "SELLING EQUIPMENT"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
     "message": "Dia dhuit! Tá {equipment} sa bhreis agam agus ba mhaith liom fáil réidh leis. Tá mé ag iarraidh {price} air."
   },
+  "FLAVOUR_3_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "Offering one {equipment}, in good condition."
+  },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "LE DÍOL: {equipment} amháin, dea-bhail air."
+    "message": "FOR SALE"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
     "message": "Dia dhuit a chara! Tá {equipment} sa bhreis againn, agus nílimid ag lorg ach {price} air."
   },
+  "FLAVOUR_4_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "For sale: leftover {equipment}, in fine condition."
+  },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "LE DÍOL: {equipment} breise, dóigh an-mhaith air."
+    "message": "FOR SALE"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
     "message": "Dia dhuit a chara! Ar mhaith leat {equipment} úsáidte a cheannach? D'fhóin sé go maith dom, ach tá mé tar éis ceann nua a fháil agus ní theastaíonn sé uaim a thuilleadh. Is é {price} an praghas."
   },
+  "FLAVOUR_5_TEXT": {
+    "description": "Selling second hand ship equipment",
+    "message": "On offer: old {equipment}, in working condition."
+  },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "LE DÍOL: {equipment} seanchaite, fós i bhfearas."
+    "message": "SELLING EQUIPMENT"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",

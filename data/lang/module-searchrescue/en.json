@@ -163,13 +163,13 @@
     "description": "",
     "message": "You are not equipped to handle this mission. {unit} {equipment} required."
   },
-  "FLAVOUR_1_ADTITLE": {
-    "description": "",
-    "message": "SHIP CRASH LANDED"
-  },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
     "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "SHIP CRASH LANDED"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -199,13 +199,13 @@
     "description": "",
     "message": "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
   },
-  "FLAVOUR_2_ADTITLE": {
-    "description": "",
-    "message": "SHIP OUT OF FUEL"
-  },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
     "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SHIP OUT OF FUEL"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -235,13 +235,13 @@
     "description": "",
     "message": "The pilot is requesting {unit} tons of {cargo}."
   },
-  "FLAVOUR_3_ADTITLE": {
-    "description": "",
-    "message": "MEDICAL EMERGENCY"
-  },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
     "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "MEDICAL EMERGENCY"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -271,13 +271,13 @@
     "description": "",
     "message": "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
   },
-  "FLAVOUR_4_ADTITLE": {
-    "description": "",
-    "message": "SHIP OUT OF FUEL"
-  },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
     "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "SHIP OUT OF FUEL"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -307,13 +307,13 @@
     "description": "",
     "message": "The pilot is asking for {unit} tons of {cargo}."
   },
-  "FLAVOUR_5_ADTITLE": {
-    "description": "",
-    "message": "SHIP OUT OF FUEL"
-  },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
     "message": "Stranded ship is requesting refuelling operation close to {starport}."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "SHIP OUT OF FUEL"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -343,13 +343,13 @@
     "description": "",
     "message": "We request the delivery of {unit} tons of {cargo} to the ship."
   },
-  "FLAVOUR_6_ADTITLE": {
-    "description": "",
-    "message": "VESSEL UNRESPONSIVE"
-  },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
     "message": "Emergency: corporate vessel unresponsive in the {system} system."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "VESSEL UNRESPONSIVE"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -379,13 +379,13 @@
     "description": "",
     "message": "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
   },
-  "FLAVOUR_7_ADTITLE": {
-    "description": "",
-    "message": "EMERGENCY CREW TRANSPORT"
-  },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
     "message": "Immediate crew transport to drifting ship in the {system} system requested."
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "EMERGENCY CREW TRANSPORT"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
