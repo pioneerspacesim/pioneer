@@ -40,13 +40,13 @@ local emptySlot = {
 -- Equipment item grouping by underlying slot type
 -- TODO: significant refactor to slot system to reduce highly-specialized slots
 local sections = {
-	{ name = "Propulsion", slot = "engine", showCapacity = true },
-	{ name = "Weapons", slot = "laser_front", showCapacity = true },
-	{ name = "Missiles", slot = "missile", showCapacity = true },
-	{ name = "Scoops", slot = "scoop", showCapacity = true },
-	{ name = "Sensors", slot = "sensor", showCapacity = true },
-	{ name = "Shields", slot = "shield" },
-	{ name = "Utility", slots = {
+	{ name = le.PROPULSION, slot = "engine", showCapacity = true },
+	{ name = le.WEAPONS, slot = "laser_front", showCapacity = true },
+	{ name = le.MISSILES, slot = "missile", showCapacity = true },
+	{ name = le.SCOOPS, slot = "scoop", showCapacity = true },
+	{ name = le.SENSORS, slot = "sensor", showCapacity = true },
+	{ name = le.SHIELDS, slot = "shield" },
+	{ name = le.UTILITY, slots = {
 		"cabin", "ecm", "radar", "target_scanner",
 		"hypercloud", "hull_autorepair",
 		"energy_booster", "atmo_shield",
@@ -133,18 +133,23 @@ return EquipMarket.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
 	end,
 	-- If we have an equipment item selected, we're replacing it.
 	onClickBuy = function(s,e)
-		if s.owner.selectedEquip[1] then
+		local selected = s.owner.selectedEquip
+		if selected[1] then
+			s:sell(selected[1], selected.slot)
 			s.owner.ship:RemoveEquip(s.owner.selectedEquip[1], 1, s.owner.selectedEquip.slot)
 			s.owner.ship:AddMoney(s.funcs.getSellPrice(s, s.owner.selectedEquip[1]))
+			s.owner.ship:GetDockedWith():AddEquipmentStock(e, 1)
 		end
 
 		return true
 	end,
 	-- If the purchase failed, undo the sale of the item previously in the slot
 	onBuyFailed = function(s, e, reason)
-		if s.owner.selectedEquip[1] then
-			s.owner.ship:AddEquip(s.owner.selectedEquip[1], 1, s.owner.selectedEquip.slot)
-			s.owner.ship:AddMoney(-s.funcs.getSellPrice(s, s.owner.selectedEquip[1]))
+		local selected = s.owner.selectedEquip
+		if selected[1] then
+			s.owner.ship:AddEquip(selected[1], 1, selected.slot)
+			s.owner.ship:AddMoney(-s.funcs.getSellPrice(s, selected[1]))
+			s.owner.ship:GetDockedWith():AddEquipmentStock(e, -1)
 		end
 
 		s.defaultFuncs.onBuyFailed(s, e, reason)
