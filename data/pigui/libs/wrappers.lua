@@ -458,6 +458,61 @@ function ui.tabBar(id, items)
 	return true
 end
 
+
+--
+-- Function: ui.tabBarFont
+--
+-- ui.tabBarFont(id, tabs, font, [args...])
+--
+--
+-- Example:
+--
+-- >
+--
+-- Parameters:
+--   id    - String, unique id to identify the group of tabs by
+--   items - Table, a list of contents. Each item should contain a 'name'
+--           field and a 'draw' field with a function that displays that
+--           tab's contents.
+--   font  - Font Table, the header font for the tab
+--   args  - [optional] varargs to pass to the draw function of each tab
+--
+-- Returns:
+--
+--   index - index of the open tab if the tab bar is open, 0 otherwise
+--
+function ui.tabBarFont(id, items, font, ...)
+	local active_index = 0
+
+	pigui.PushStyleVar("FramePadding", ui.theme.styles.TabPadding)
+	local _fnt = pigui:PushFont(font.name, font.size)
+	local open = pigui.BeginTabBar(id)
+	if _fnt then pigui.PopFont() end
+	pigui.PopStyleVar(1)
+
+	if not open then return active_index end
+
+	for i, item in ipairs(items) do
+		pigui.PushStyleVar("FramePadding", ui.theme.styles.TabPadding)
+		local _fnt = pigui:PushFont(font.name, font.size)
+		local tab_open = pigui.BeginTabItem(item.name or item[1])
+		if _fnt then pigui.PopFont() end
+		pigui.PopStyleVar(1)
+
+		if tab_open then
+			ui.spacing()
+
+			active_index = (item.draw or item[2])(...)
+
+			pigui.EndTabItem()
+		end
+
+		pigui.EndTabItem()
+	end
+
+	return active_index
+end
+
 --
 -- Function: ui.withFont
 --
