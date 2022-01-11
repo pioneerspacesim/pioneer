@@ -136,10 +136,9 @@ return EquipMarket.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
 	onClickBuy = function(s,e)
 		local selected = s.owner.selectedEquip
 		if selected[1] then
-			s:sell(selected[1], selected.slot)
-			s.owner.ship:RemoveEquip(s.owner.selectedEquip[1], 1, s.owner.selectedEquip.slot)
-			s.owner.ship:AddMoney(s.funcs.getSellPrice(s, s.owner.selectedEquip[1]))
-			s.owner.ship:GetDockedWith():AddEquipmentStock(e, 1)
+			s.owner.ship:RemoveEquip(selected[1], 1, selected.slot)
+			s.owner.ship:AddMoney(s.funcs.getSellPrice(s, selected[1]))
+			s.owner.ship:GetDockedWith():AddEquipmentStock(selected[1], 1)
 		end
 
 		return true
@@ -544,8 +543,9 @@ function EquipmentWidget:drawMarketButtons()
 		local price = self.equipmentMarket.funcs.getSellPrice(self.equipmentMarket, self.selectedEquip[1])
 
 		if ui.button(l.SELL_EQUIPPED, Vector2(0, 0)) then
-			Game.player:RemoveEquip(self.selectedEquip[1], 1, self.selectedEquip.slot)
-			Game.player:AddMoney(price)
+			self.ship:RemoveEquip(self.selectedEquip[1], 1, self.selectedEquip.slot)
+			self.ship:AddMoney(price)
+			self.ship:GetDockedWith():AddEquipmentStock(self.selectedEquip[1], 1)
 			self.selectedEquip = { nil, nil }
 			return
 		end
@@ -579,6 +579,7 @@ function EquipmentWidget:draw()
 				end)
 				ui.setCursorPos(_pos)
 
+				if not self.selectedEquip then return end
 				self.equipmentMarket.title = self.selectedEquip[1] and l.REPLACE_EQUIPMENT_WITH or l.AVAILABLE_FOR_PURCHASE
 				self.equipmentMarket.style.size = ui.getContentRegion() - Vector2(0, bottomControlsHeight)
 				self.equipmentMarket:render()
