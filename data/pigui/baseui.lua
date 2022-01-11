@@ -3,9 +3,10 @@
 
 local Engine = require 'Engine'
 local pigui = Engine.pigui
-local ui = require 'pigui.libs.forwarded'
-require 'pigui.libs.wrappers'
 
+local ui = require 'pigui.libs.forwarded'
+ui.rescaleUI = require 'pigui.libs.rescale-ui'
+require 'pigui.libs.wrappers'
 
 local defaultTheme = require 'pigui.themes.default'
 

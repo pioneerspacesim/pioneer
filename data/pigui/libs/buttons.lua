@@ -5,6 +5,57 @@ local ui = require 'pigui.baseui'
 local pigui = Engine.pigui
 
 --
+-- Function: ui.button
+--
+-- > clicked = ui.button(label, button_size, variant, tooltip)
+--
+-- Example:
+--
+-- > clicked = ui.button("Click me", Vector2(100,0), "Does the thing")
+--
+-- Parameters:
+--
+--   label       - string, text rendered on the button, must be unique.
+--                 Append any text following "##" to make a unique ID
+--   button_size - [optional] Vector2, giving size of button
+--   variant     - [optional] Table, color variants used for this button;
+--                 contains Color fields 'normal', 'hovered', and 'active'
+--   tooltip     - [optional] string, mouseover text
+--
+-- Returns:
+--
+--   clicked - true if button was clicked
+--
+function ui.button(label, button_size, variant, tooltip)
+	if variant then
+		pigui.PushStyleColor("Button", variant.normal)
+		pigui.PushStyleColor("ButtonHovered", variant.hovered)
+		pigui.PushStyleColor("ButtonActive", variant.active)
+	end
+
+	pigui.PushStyleVar("FramePadding", ui.theme.styles.ButtonPadding)
+	local res = pigui.Button(label, button_size or Vector2(0, 0))
+	pigui.PopStyleVar(1)
+
+	if variant then
+		pigui.PopStyleColor(3)
+	end
+
+	if pigui.IsItemHovered() and tooltip then pigui.SetTooltip(tooltip) end
+	return res
+end
+
+function ui.alignTextToButtonPadding()
+	pigui.PushStyleVar("FramePadding", ui.theme.styles.ButtonPadding)
+	ui.alignTextToFramePadding()
+	pigui.PopStyleVar()
+end
+
+function ui.getButtonHeightWithSpacing()
+	return ui.getTextLineHeightWithSpacing() + ui.theme.styles.ButtonPadding.y * 2.0
+end
+
+--
 -- Function: ui.imageButton
 --
 -- ui.imageButton(icon, size, frame_padding, bg_color, fg_color, tint_color, tooltip)

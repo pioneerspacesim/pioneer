@@ -48,8 +48,6 @@ ui.setCursorPos = pigui.SetCursorPos
 ui.getCursorPos = pigui.GetCursorPos
 ui.setCursorScreenPos = pigui.SetCursorScreenPos
 ui.getCursorScreenPos = pigui.GetCursorScreenPos
-ui.getTextLineHeight = pigui.GetTextLineHeight
-ui.getTextLineHeightWithSpacing = pigui.GetTextLineHeightWithSpacing
 ui.lowThrustButton = pigui.LowThrustButton
 ui.thrustIndicator = pigui.ThrustIndicator
 ui.isMouseClicked = pigui.IsMouseClicked
@@ -67,6 +65,7 @@ ui.getTextLineHeight = pigui.GetTextLineHeight
 ui.getTextLineHeightWithSpacing = pigui.GetTextLineHeightWithSpacing
 ui.getFrameHeight = pigui.GetFrameHeight
 ui.getFrameHeightWithSpacing = pigui.GetFrameHeightWithSpacing
+ui.getItemSpacing = pigui.GetItemSpacing
 ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
 ui.getProjectedBodiesGrouped = pigui.GetProjectedBodiesGrouped
@@ -113,7 +112,8 @@ ui.InputTextFlags = pigui.InputTextFlags
 ui.WindowFlags = pigui.WindowFlags
 ui.HoveredFlags = pigui.HoveredFlags
 
-ui.button = pigui.Button
+-- Wrapped in buttons.lua
+-- ui.button = pigui.Button
 
 ui.dataDirPath = pigui.DataDirPath
 ui.userDirPath = pigui.UserDirPath

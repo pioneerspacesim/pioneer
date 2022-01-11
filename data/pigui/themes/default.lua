@@ -3,6 +3,8 @@
 
 local theme = {}
 
+local rescaleUI = require 'pigui.libs.rescale-ui'
+
 -- theme.styleColors
 -- This table provides a coherent theme palette that can be referenced by
 -- component-specific semantic colors for consistent styling across the UI
@@ -107,6 +109,11 @@ theme.colors = {
 	buttonBlue				= styleColors.primary_300,
 	buttonInk				= styleColors.white,
 
+	-- ImGui theme default colors
+	Button					= styleColors.primary_600,
+	ButtonHovered			= styleColors.primary_400,
+	ButtonActive			= styleColors.primary_300,
+
 	unknown					= styleColors.unknown, -- used as an invalid color
 	transparent				= styleColors.transparent,
 	font					= styleColors.white,
@@ -174,6 +181,9 @@ theme.colors = {
 theme.styles = {
 	WindowBorderSize = 0.0,
 	TabRounding = 0.0,
+	TabPadding = rescaleUI(Vector2(8, 6)),
+	ButtonPadding = rescaleUI(Vector2(8, 6)),
+	ItemSpacing = rescaleUI(Vector2(8, 6))
 }
 
 theme.icons = {
