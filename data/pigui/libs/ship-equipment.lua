@@ -44,11 +44,12 @@ local sections = {
 	{ name = le.WEAPONS, slot = "laser_front", showCapacity = true },
 	{ name = le.MISSILES, slot = "missile", showCapacity = true },
 	{ name = le.SCOOPS, slot = "scoop", showCapacity = true },
-	{ name = le.SENSORS, slot = "sensor", showCapacity = true },
+	{ name = le.SENSORS, showCapacity = true, slots = {
+		"sensor", "radar", "target_scanner", "hypercloud"
+	} },
 	{ name = le.SHIELDS, slot = "shield" },
 	{ name = le.UTILITY, slots = {
-		"cabin", "ecm", "radar", "target_scanner",
-		"hypercloud", "hull_autorepair",
+		"cabin", "ecm", "hull_autorepair",
 		"energy_booster", "atmo_shield",
 		"laser_cooler", "cargo_life_support",
 		"autopilot", "trade_computer", "thruster"
@@ -183,6 +184,17 @@ function EquipmentWidget.New(id)
 	self.id = id or "EquipmentWidget"
 	return self
 end
+
+--[[
+self.selectedEquip format:
+{
+	[1] = equipment table or nil
+	[2] = equipment index in slot or nil
+	slot = name of slot currently selected
+	mass = mass of current equipment
+	name = name of current equipment
+}
+--]]
 
 function EquipmentWidget:onEquipmentClicked(equipDetail, slots)
 	if self.station then
@@ -521,9 +533,7 @@ function EquipmentWidget:drawShipSpinner()
 	end)
 end
 
-function EquipmentWidget:drawMarketButtons(buttonLinePos)
-	ui.setCursorPos(buttonLinePos)
-
+function EquipmentWidget:drawMarketButtons()
 	if ui.button(l.GO_BACK, Vector2(0, 0)) then
 		self.selectedEquip = nil
 		return
@@ -533,18 +543,14 @@ function EquipmentWidget:drawMarketButtons(buttonLinePos)
 	if self.selectedEquip[1] then
 		local price = self.equipmentMarket.funcs.getSellPrice(self.equipmentMarket, self.selectedEquip[1])
 
-		if ui.button(l.SELL, Vector2(0, 0)) then
+		if ui.button(l.SELL_EQUIPPED, Vector2(0, 0)) then
 			Game.player:RemoveEquip(self.selectedEquip[1], 1, self.selectedEquip.slot)
 			Game.player:AddMoney(price)
 			self.selectedEquip = { nil, nil }
 			return
 		end
 		ui.sameLine()
-
-		local _pos = ui.getCursorPos()
-		ui.setCursorPos(buttonLinePos - Vector2(0, ui.getTextLineHeightWithSpacing()))
-		ui.text("Sell Price:  " .. Format.Money(price))
-		ui.setCursorPos(_pos)
+		ui.text(l.PRICE .. ": " .. Format.Money(price))
 	end
 end
 
@@ -552,17 +558,7 @@ function EquipmentWidget:draw()
 	ui.withFont(pionillium.body, function()
 		ui.child("ShipInfo", Vector2(ui.getContentRegion().x * 1 / 3, 0), { "NoSavedSettings" }, function()
 			if #self.tabs > 1 then
-				if ui.beginTabBar("##tabs") then
-					for i = 1, #self.tabs do
-						if ui.beginTabItem(self.tabs[i].name) then
-							ui.spacing()
-							self.activeTab = i
-							self.tabs[i].draw(self)
-							ui.endTabItem()
-						end
-					end
-					ui.endTabBar()
-				end
+				self.activeTab = ui.tabBarFont("##tabs", self.tabs, pionillium.heading, self)
 			else
 				self.tabs[1].draw(self)
 			end
@@ -573,16 +569,17 @@ function EquipmentWidget:draw()
 		ui.child("##container", function()
 			if self.tabs[self.activeTab] == equipmentInfoTab and self.station and self.selectedEquip then
 				local bottomControlsHeight = 0
-				local _pos = ui.getCursorPos()
 
+				local _pos = ui.getCursorPos()
 				ui.withFont(pionillium.heading, function()
-					bottomControlsHeight = ui.getFrameHeightWithSpacing() + ui.getTextLineHeightWithSpacing() + lineSpacing.y
-					local buttonLinePos = ui.getCursorPos() + Vector2(0, ui.getContentRegion().y - ui.getFrameHeightWithSpacing())
-					self:drawMarketButtons(buttonLinePos)
+					bottomControlsHeight = ui.getButtonHeightWithSpacing()
+					ui.setCursorPos(ui.getCursorPos() + Vector2(0, ui.getContentRegion().y - bottomControlsHeight))
+					self:drawMarketButtons()
 					ui.sameLine()
 				end)
-
 				ui.setCursorPos(_pos)
+
+				self.equipmentMarket.title = self.selectedEquip[1] and l.REPLACE_EQUIPMENT_WITH or l.AVAILABLE_FOR_PURCHASE
 				self.equipmentMarket.style.size = ui.getContentRegion() - Vector2(0, bottomControlsHeight)
 				self.equipmentMarket:render()
 			else

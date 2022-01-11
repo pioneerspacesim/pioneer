@@ -56,8 +56,8 @@
     "message": "Auto Route"
   },
   "AVAILABLE_FOR_PURCHASE": {
-    "description": "",
-    "message": "Available for purchase"
+    "description": "Market header when buying items",
+    "message": "Available For Purchase"
   },
   "AVERAGE": {
     "description": "",
@@ -2154,5 +2154,13 @@
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
     "message": "Unoccupied Passenger Cabins"
+  },
+  "REPLACE_EQUIPMENT_WITH": {
+    "description": "Market header when replacing equipped items",
+    "message": "Replace Equipment With"
+  },
+  "SELL_EQUIPPED": {
+    "description": "Button text to sell selected ship equipment",
+    "message": "Sell Equipped"
   }
 }
