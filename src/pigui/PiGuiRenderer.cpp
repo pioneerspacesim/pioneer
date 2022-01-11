@@ -68,22 +68,28 @@ void InstanceRenderer::Shutdown()
 
 void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 {
-	Graphics::Renderer::StateTicket st(m_renderer);
-
-	ImGuiIO &io = ImGui::GetIO();
-	int fb_width = (int)(draw_data->DisplaySize.x * io.DisplayFramebufferScale.x);
-	int fb_height = (int)(draw_data->DisplaySize.y * io.DisplayFramebufferScale.y);
-	if (fb_width <= 0 || fb_height <= 0)
-		return;
-
-	draw_data->ScaleClipRects(io.DisplayFramebufferScale);
-
 	float L = draw_data->DisplayPos.x;
 	float R = draw_data->DisplayPos.x + draw_data->DisplaySize.x;
 	float T = draw_data->DisplayPos.y;
 	float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
+
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	m_renderer->SetProjection(matrix4x4f::OrthoFrustum(L, R, B, T, -1.0, 0.0));
+
+	RenderDrawData(draw_data, m_material.get());
+}
+
+void InstanceRenderer::RenderDrawData(ImDrawData *draw_data, Graphics::Material* material)
+{
+	Graphics::Renderer::StateTicket st(m_renderer);
+
+	ImGuiIO &io = ImGui::GetIO();
+	int fb_width = (int)(fabs(draw_data->DisplaySize.x) * io.DisplayFramebufferScale.x);
+	int fb_height = (int)(fabs(draw_data->DisplaySize.y) * io.DisplayFramebufferScale.y);
+	if (fb_width <= 0 || fb_height <= 0)
+		return;
+
+	draw_data->ScaleClipRects(io.DisplayFramebufferScale);
 
 	// we're going to throw all of the vertex and index data straight to the GPU
 	// in a single buffer for each, right before we begin executing commands.
@@ -123,9 +129,9 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 					Graphics::ViewportExtents vp(clip_rect.x, (fb_height - clip_rect.w), (clip_rect.z - clip_rect.x), (clip_rect.w - clip_rect.y));
 					m_renderer->SetScissor(vp);
 
-					m_material->SetTexture(s_textureName, reinterpret_cast<Graphics::Texture *>(pcmd->GetTexID()));
-					m_material->SetPushConstant(s_vertexDepthName, pcmd->PrimDepth);
-					m_renderer->DrawBufferDynamic(m_vtxBuffer.get(), vtxOffset + pcmd->VtxOffset, m_idxBuffer.get(), idxOffset + pcmd->IdxOffset, pcmd->ElemCount, m_material.get());
+					material->SetTexture(s_textureName, reinterpret_cast<Graphics::Texture *>(pcmd->GetTexID()));
+					material->SetPushConstant(s_vertexDepthName, pcmd->PrimDepth);
+					m_renderer->DrawBufferDynamic(m_vtxBuffer.get(), vtxOffset + pcmd->VtxOffset, m_idxBuffer.get(), idxOffset + pcmd->IdxOffset, pcmd->ElemCount, material);
 				}
 			}
 		}

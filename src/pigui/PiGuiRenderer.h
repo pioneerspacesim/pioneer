@@ -18,7 +18,16 @@ namespace PiGui {
 		void Shutdown();
 
 		void NewFrame() {}
+
+		// Render a draw data to the screen using an orthographic projection
 		void RenderDrawData(ImDrawData *draw_data);
+
+		// Render a draw data struct using a user-defined material and rendering setup.
+		// The user is responsible for setting the transform and projection matrices before drawing.
+		// The provided material should support two parameters:
+		//  - texture0:     Texture2d
+		//  - vertexDepth:  float
+		void RenderDrawData(ImDrawData *draw_data, Graphics::Material* material);
 
 		void CreateFontsTexture();
 		void DestroyFontsTexture();
