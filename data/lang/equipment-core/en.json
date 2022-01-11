@@ -382,5 +382,33 @@
   "TOTAL_MODULE_WEIGHT": {
     "description": "Tooltip explaining total equipped weight of specific slot",
     "message": "Total Weight"
+  },
+  "PROPULSION": {
+	  "description": "Category name of propulsion-related equipment",
+    "message": "Propulsion"
+  },
+  "WEAPONS": {
+	  "description": "Category name of weapon-related equipment",
+    "message": "Weapons"
+  },
+  "MISSILES": {
+	  "description": "Category name of missile-related equipment",
+    "message": "Missiles"
+  },
+  "SCOOPS": {
+	  "description": "Category name of scoop-related equipment",
+    "message": "Scoops"
+  },
+  "SENSORS": {
+	  "description": "Category name of sensor-related equipment",
+    "message": "Sensors"
+  },
+  "SHIELDS": {
+	  "description": "Category name of shield-related equipment",
+    "message": "Shields"
+  },
+  "UTILITY": {
+	  "description": "Category name of utility equipment",
+    "message": "Utility"
   }
 }
