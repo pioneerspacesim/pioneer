@@ -5,7 +5,7 @@
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+    "message": "La Chiesta del Celeste Mostro di Spaghetti Volante ha bisogno dei TUOI soldi per diffondere la parola del dio."
   },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "DONAZIONE"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "I Guardiani del Libero Spirito chiedono umilmente la tua carità per sostenere i propri monasteri."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "FEELING GENEROUS?"
+    "message": "CARITATEVOLE?"
   },
   "FLAVOUR_2_DESC": {
     "description": "",
-    "message": "War Orphan's Support needs your help to keep up its essential work."
+    "message": "Il Fondo per gli Orfani di Guerra ti chiede aiuto per proseguire con la propria missione."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUTE"
+    "message": "CONTRIBUTO"
   },
   "FLAVOUR_3_DESC": {
     "description": "",
-    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "Gli Amici della campagna Galattica \"Abolizione Propulsori Militari\" hanno bisogno del tuo contributo."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
@@ -49,11 +49,11 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "DONAZIONE!"
   },
   "FLAVOUR_4_DESC": {
     "description": "",
-    "message": "Save our species. Stop the carnage of newly settled worlds."
+    "message": "Salva le nostre specie. Ferma la carneficina delle nuove colonie."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "SOSTIENI LA LIBERTÀ"
   },
   "FLAVOUR_5_DESC": {
     "description": "",
-    "message": "Stop the great injustice of proprietary software controlling your ship."
+    "message": "Ferma la grande frode del software proprietario che controlla le nostre navi."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",

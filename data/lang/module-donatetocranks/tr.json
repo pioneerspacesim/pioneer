@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "BAĞIŞ YAP!"
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+    "message": "Uçan Spagetti Canavarı Kilisesinin tanrının sözlerini yaymak için SİZİN paranıza ihtiyacı var."
   },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "BAĞIŞ YAP"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "Özgür Ruhun Muhafızları manastırlarımıza destek olmak için alçakgönüllülükle sadakanızı istiyor."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "FEELING GENEROUS?"
+    "message": "CÖMERT Mİ HİSSEDİYORSUNUZ?"
   },
   "FLAVOUR_2_DESC": {
     "description": "",
-    "message": "War Orphan's Support needs your help to keep up its essential work."
+    "message": "Savaş Yetimlerinin Desteği vazgeçilmez görevini sürdürmek için yardımınıza ihtiyaç duyuyor."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUTE"
+    "message": "KATKI SAĞLA"
   },
   "FLAVOUR_3_DESC": {
     "description": "",
-    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "Galaksinin Dostları 'Askeri Sürücüleri Yasaklayın' kampanyası için paranıza ihtiyaç duyuyor."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
@@ -49,11 +49,11 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "BAĞIŞ YAP!"
   },
   "FLAVOUR_4_DESC": {
     "description": "",
-    "message": "Save our species. Stop the carnage of newly settled worlds."
+    "message": "Türlerimizi koruyun. Yeni yerleşilen dünyalardaki katliamı durdurun."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "ÖZGÜRLÜĞÜ DESTEKLE!"
   },
   "FLAVOUR_5_DESC": {
     "description": "",
-    "message": "Stop the great injustice of proprietary software controlling your ship."
+    "message": "Geminizi kontrol eden mülki yazılımların adaletsizliğine son verin."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",

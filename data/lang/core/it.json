@@ -1657,7 +1657,7 @@
   },
   "UNIT_GIGATONNES": {
     "description": "Mass unit: one gigatonne",
-    "message": "Gt"
+    "message": "GT"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1665,7 +1665,7 @@
   },
   "UNIT_KILOGRAMS": {
     "description": "Mass unit: one kilogram",
-    "message": "kg"
+    "message": "Kg"
   },
   "UNIT_KILOMETERS": {
     "description": "Distance unit: one kilometer",
@@ -1677,7 +1677,7 @@
   },
   "UNIT_KILOTONNES": {
     "description": "Mass unit: one kilotonne",
-    "message": "kt"
+    "message": "KT"
   },
   "UNIT_LY": {
     "description": "Distance unit: a light year",
@@ -1685,7 +1685,7 @@
   },
   "UNIT_MEGATONNES": {
     "description": "Mass unit: one megatonne",
-    "message": "Mt"
+    "message": "MT"
   },
   "UNIT_METERS": {
     "description": "Distance unit: one meter",
@@ -1709,7 +1709,7 @@
   },
   "UNIT_PETATONNES": {
     "description": "Mass unit: one petatonne",
-    "message": "Pt"
+    "message": "PT"
   },
   "UNIT_PRESSURE_ATMOSPHERES": {
     "description": "Pressure unit: one earth atmosphere (atm)",
@@ -1721,7 +1721,7 @@
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",
-    "message": "Tt"
+    "message": "TT"
   },
   "UNIT_TONNES": {
     "description": "Mass unit: one tonne (t)",

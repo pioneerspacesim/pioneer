@@ -17,15 +17,15 @@
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Pick-up mission: prompt recovery of drifting container required."
+    "message": "Missione di recupero: Richiesto pronto recupero di un container alla deriva."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Have a cargo scoop and looking for your next score? Valuable information for sale."
+    "message": "Hai un raccoglitore di cargo e stai cercando il prossimo affare? Abbiamo in vendita preziose informazioni."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Derelict Brokerage Services: information regarding a debris field with valuable cargo."
+    "message": "Servizio broker per relitti: posizione di campo di detriti contenente cargo di valore."
   },
   "ADTEXT_RESCUE": {
     "description": "",
@@ -33,19 +33,19 @@
   },
   "ADTITLE_ARMS_DEALER": {
     "description": "",
-    "message": "CARGO RECOVERY"
+    "message": "RECUPERO CARGO"
   },
   "ADTITLE_ILLEGAL_GOODS": {
     "description": "",
-    "message": "EASY MONEY"
+    "message": "SOLDI FACILI"
   },
   "ADTITLE_LEGAL_GOODS": {
     "description": "",
-    "message": "INFORMATION FOR SALE"
+    "message": "INFORMAZIONE IN VENDITA"
   },
   "ADTITLE_RESCUE": {
     "description": "",
-    "message": "HELP NEEDED"
+    "message": "RICHIESTA D'AIUTO"
   },
   "CLIENT": {
     "description": "",

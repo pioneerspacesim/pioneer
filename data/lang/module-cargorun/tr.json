@@ -25,75 +25,75 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Ship needed for delivery of cargo to the {system} system."
+    "message": "{system} sistemine kargo nakliyesi için gemi gerekiyor."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "Malların {system} sistemine taşınması gerekli. Ödeme {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "Değerli kargoyu {system} sistemine taşı. Tecrübeli bir pilota {cash}."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
+    "message": "Sistem-içi taşıma için nakliyeci aranıyor. Malların {starport} limanına taşınması."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "Need local delivery of personal cargo to {starport}."
+    "message": "Kişisel kargonun {starport}'a yerel nakliyesi gerekli."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
+    "message": "Özel kargo nakliyat kontratı. Malların {starport}'a sertifikalı taşınması."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Pickup of cargo from the {system} system required. Details available on request."
+    "message": "{system} sisteminden kargo alınması gerekiyor. Detaylar istek üzerine verilecek."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
+    "message": "Kargo taşıma hizmeti gerekli. Kargonun bu limandan {starport}'a taşınması lazım."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+    "message": "Kontratlı kargo işi için kalifiye pilot gerekiyor. {system} sistemine toplu bir nakliye için gemiye ihtiyacımız var."
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "CARGO RUN"
+    "message": "KARGO İŞİ"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "NEED CARGO TRANSPORT"
+    "message": "KARGO TAŞIMA GEREKLİ"
   },
   "ADTITLE_EXPENSIVE_1": {
     "description": "",
-    "message": "INSURED DELIVERY"
+    "message": "GÜVENLİ NAKLİYAT"
   },
   "ADTITLE_LOCAL_1": {
     "description": "",
-    "message": "SHORT-RANGE FREIGHT"
+    "message": "KISA-MENZİL TAŞIMA"
   },
   "ADTITLE_LOCAL_2": {
     "description": "",
-    "message": "LOCAL FREIGHT TRANSPORT"
+    "message": "YEREL YÜK TAŞIMA"
   },
   "ADTITLE_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN"
+    "message": "YEREL KARGO İŞİ"
   },
   "ADTITLE_PICKUP_1": {
     "description": "",
-    "message": "CARGO PICKUP"
+    "message": "KARGO TOPLAMA"
   },
   "ADTITLE_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "IN-SYSTEM RELOCATION"
+    "message": "SİSTEM-İÇİ TAŞIMA"
   },
   "ADTITLE_WHOLESALER_1": {
     "description": "",
-    "message": "BULK CARGO SERVICE"
+    "message": "TOPLU TAŞIMA HİZMETİ"
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
