@@ -147,4 +147,30 @@ ui.image = pigui.Image
 --   value - the value that the drag was set to
 --
 ui.incrementDrag = pigui.IncrementDrag
+
+--
+-- Function: ui.dragFloat
+--
+-- ui.dragFloat(label, value, v_speed, v_min, v_max, format)
+--
+-- Create a float drag
+--
+-- Example:
+--
+-- > value = ui.dragFloat("##mydrag", value, 0, 20, "%dt")
+--
+-- Parameters:
+--
+--   label - string, text, also used as ID
+--   value - float, set drag to this value
+--   v_speed - minimum change step
+--   v_min - float, lower bound
+--   v_max - float, upper bound
+--   format - format according to snprintf
+--
+-- Returns:
+--
+--   value - the value that the drag was set to
+--
+ui.dragFloat = pigui.DragFloat
 return ui

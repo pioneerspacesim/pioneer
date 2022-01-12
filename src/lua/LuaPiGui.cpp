@@ -2609,6 +2609,25 @@ static int l_pigui_set_cursor_screen_pos(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_drag_float(lua_State *l)
+{
+	PROFILE_SCOPED()
+
+	auto label = LuaPull<const char *>(l, 1);
+	auto value = LuaPull<float>(l, 2);
+	auto v_speed = LuaPull<float>(l, 3);
+	auto v_min = LuaPull<float>(l, 4);
+	auto v_max = LuaPull<float>(l, 5);
+	auto format = LuaPull<const char *>(l, 6);
+
+	auto old_value = value;
+	ImGui::DragFloat(label, &value, v_speed, v_min, v_max, format);
+
+	LuaPush(l, value);
+	LuaPush(l, value != old_value);
+	return 2;
+}
+
 static int l_pigui_drag_int_4(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -3005,6 +3024,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetMouseClickedPos", l_pigui_get_mouse_clicked_pos },
 		{ "AddConvexPolyFilled", l_pigui_add_convex_poly_filled },
 		{ "IsKeyReleased", l_pigui_is_key_released },
+		{ "DragFloat", l_pigui_drag_float },
 		{ "DragInt4", l_pigui_drag_int_4 },
 		{ "IncrementDrag", l_pigui_increment_drag },
 		{ "GetWindowPos", l_pigui_get_window_pos },
