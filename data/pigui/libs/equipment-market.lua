@@ -52,18 +52,14 @@ local defaultFuncs = {
         if not self.funcs.onClickBuy(self, e) then return end
 
         if self.funcs.getStock(self, e) <= 0 then
-            self.popup.msg = l.ITEM_IS_OUT_OF_STOCK
-            self.popup:open()
-            return
+			return self.funcs.onBuyFailed(self, e, l.ITEM_IS_OUT_OF_STOCK)
         end
 
         local player = Game.player
 
         -- if this ship model doesn't support fitting of this equip:
         if player:GetEquipSlotCapacity(e:GetDefaultSlot(player)) < 1 then
-            self.popup.msg = string.interp(l.NOT_SUPPORTED_ON_THIS_SHIP, {equipment = e:GetName(),})
-            self.popup:open()
-            return
+            return self.funcs.onBuyFailed(self, e, string.interp(l.NOT_SUPPORTED_ON_THIS_SHIP, {equipment = e:GetName(),}))
         end
 
         -- add to first free slot
@@ -77,24 +73,18 @@ local defaultFuncs = {
 
         -- if ship maxed out in any valid slot for e
         if not slot then
-            self.popup.msg = l.SHIP_IS_FULLY_EQUIPPED
-            self.popup:open()
-            return
+            return self.funcs.onBuyFailed(self, e, l.SHIP_IS_FULLY_EQUIPPED)
         end
 
         -- if ship too heavy to support more
         if player.freeCapacity < e.capabilities.mass then
-            self.popup.msg = l.SHIP_IS_FULLY_LADEN
-            self.popup:open()
-            return
+            return self.funcs.onBuyFailed(self, e, l.SHIP_IS_FULLY_LADEN)
         end
 
 
         local price = self.funcs.getBuyPrice(self, e)
         if player:GetMoney() < self.funcs.getBuyPrice(self, e) then
-            self.popup.msg = l.YOU_NOT_ENOUGH_MONEY
-            self.popup:open()
-            return
+            return self.funcs.onBuyFailed(self, e, l.YOU_NOT_ENOUGH_MONEY)
         end
 
         assert(player:AddEquip(e, 1, slot) == 1)
@@ -108,6 +98,11 @@ local defaultFuncs = {
 		local count = tradeamount or 1  -- default to 1 for e.g. equipment market
         Game.player:GetDockedWith():AddEquipmentStock(e, -count)
     end,
+
+	onBuyFailed = function (self, e, reason)
+		self.popup.msg = reason
+		self.popup:open()
+	end,
 
     -- do something when a "sell" button is clicked
     -- return true if the buy can proceed
@@ -180,7 +175,9 @@ local defaultFuncs = {
     end
 }
 
-local MarketWidget = {}
+local MarketWidget = {
+	defaultFuncs = defaultFuncs
+}
 
 function MarketWidget.New(id, title, config)
     local self
@@ -205,6 +202,7 @@ function MarketWidget.New(id, title, config)
     self.funcs.onClickSell = config.onClickSell or defaultFuncs.onClickSell
     self.funcs.buy = config.buy or defaultFuncs.buy
     self.funcs.bought = config.bought or defaultFuncs.bought
+    self.funcs.onBuyFailed = config.onBuyFailed or defaultFuncs.onBuyFailed
     self.funcs.sell = config.sell or defaultFuncs.sell
     self.funcs.sold = config.sold or defaultFuncs.sold
     self.funcs.initTable = config.initTable or defaultFuncs.initTable

@@ -239,10 +239,11 @@ namespace Graphics {
 		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 		glEnable(GL_PROGRAM_POINT_SIZE);
-		if (!vs.gl3ForwardCompatible) glEnable(GL_POINT_SPRITE); // GL_POINT_SPRITE hack for compatibility contexts
 
 		glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
 		glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);
+
+		CHECKERRORS();
 
 		// create the state cache immediately after establishing baseline state.
 		m_renderStateCache.reset(new OGL::RenderStateCache());
@@ -573,7 +574,6 @@ namespace Graphics {
 
 	void RendererOGL::CheckErrors(const char *func, const int line)
 	{
-#ifndef PIONEER_PROFILER
 		GLenum err = glGetError();
 		if (err) {
 			// static-cache current err that sparked this
@@ -607,7 +607,6 @@ namespace Graphics {
 			else
 				Log::Info("{}", ss.str());
 		}
-#endif
 	}
 
 	bool RendererOGL::SwapBuffers()

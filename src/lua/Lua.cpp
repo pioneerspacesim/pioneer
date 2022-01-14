@@ -59,9 +59,13 @@ namespace Lua {
 	// initialize standalone math types as the "extended standard library" for all lua instances
 	void InitMath()
 	{
+		LuaObject<Random>::RegisterClass();
+
 		LuaVector::Register(manager->GetLuaState());
 		LuaVector2::Register(manager->GetLuaState());
 		LuaColor::Register(manager->GetLuaState());
+
+		LuaEngine::Register();
 	}
 
 	void InitModules()
@@ -87,7 +91,6 @@ namespace Lua {
 		LuaObject<SystemView>::RegisterClass();
 		LuaObject<SectorView>::RegisterClass();
 		LuaObject<SystemBody>::RegisterClass();
-		LuaObject<Random>::RegisterClass();
 		LuaObject<Faction>::RegisterClass();
 
 		Pi::luaSerializer = new LuaSerializer();
@@ -98,7 +101,6 @@ namespace Lua {
 
 		LuaConstants::Register(Lua::manager->GetLuaState());
 		LuaLang::Register();
-		LuaEngine::Register();
 		LuaEconomy::Register();
 		LuaInput::Register();
 		LuaFileSystem::Register();

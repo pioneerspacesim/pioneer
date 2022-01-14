@@ -3,6 +3,8 @@
 
 local theme = {}
 
+local rescaleUI = require 'pigui.libs.rescale-ui'
+
 -- theme.styleColors
 -- This table provides a coherent theme palette that can be referenced by
 -- component-specific semantic colors for consistent styling across the UI
@@ -102,9 +104,15 @@ theme.colors = {
 	blueFrame				= styleColors.accent_100:shade(0.50),
 	tableHighlight			= styleColors.primary_700,
 	tableSelection			= styleColors.accent_300:shade(0.40),
+	tableBackground			= styleColors.primary_800,
 	commsWindowBackground	= styleColors.primary_700:opacity(0.30),
 	buttonBlue				= styleColors.primary_300,
 	buttonInk				= styleColors.white,
+
+	-- ImGui theme default colors
+	Button					= styleColors.primary_600,
+	ButtonHovered			= styleColors.primary_400,
+	ButtonActive			= styleColors.primary_300,
 
 	unknown					= styleColors.unknown, -- used as an invalid color
 	transparent				= styleColors.transparent,
@@ -163,12 +171,19 @@ theme.colors = {
 	systemMapLagrangePoint	= styleColors.accent_200,
 
 	sectorMapLabelHighlight = styleColors.white:opacity(0.5),
-	sectorMapLabelShade = styleColors.primary_700:opacity(0.8)
+	sectorMapLabelShade = styleColors.primary_700:opacity(0.8),
+
+	equipScreenHighlight    = styleColors.gray_300,
+	equipScreenBgText       = styleColors.gray_400,
 }
 
 -- ImGui global theming styles
 theme.styles = {
 	WindowBorderSize = 0.0,
+	TabRounding = 0.0,
+	TabPadding = rescaleUI(Vector2(8, 6)),
+	ButtonPadding = rescaleUI(Vector2(8, 6)),
+	ItemSpacing = rescaleUI(Vector2(8, 6)),
 }
 
 theme.icons = {
@@ -433,6 +448,49 @@ theme.icons = {
 	station_orbital_small = 248,
 	station_observatory = 249,
 	cargo_crate_illegal = 255,
+	-- seventeenth row
+	-- reticle icons 256..268
+	-- EMPTY = 269,
+	-- EMPTY = 270,
+	-- EMPTY = 271,
+	-- eighteenth row
+	equip_cargo_scoop = 272,
+	equip_fuel_scoop = 273,
+	equip_multi_scoop = 274,
+	equip_beamlaser = 275,
+	equip_plasma_accelerator = 276,
+	equip_pulsecannon = 277,
+	equip_pulsecannon_rapid = 278,
+	equip_mining_laser = 279,
+	equip_dual_beamlaser = 280,
+	equip_dual_plasma_accelerator = 281,
+	equip_dual_pulsecannon = 282,
+	equip_dual_pulsecannon_rapid = 283,
+	equip_dual_mining_laser = 284,
+	-- EMPTY = 285,
+	-- EMPTY = 286,
+	-- EMPTY = 287,
+	-- nineteenth row
+	equip_missile_unguided = 288,
+	equip_missile_guided = 289,
+	equip_missile_smart = 290,
+	equip_missile_naval = 291,
+	equip_shield_generator = 292,
+	equip_atmo_shield_generator = 293,
+	equip_scanner = 294,
+	equip_radar = 295,
+	equip_planet_scanner = 296,
+	equip_generic = 297,
+	equip_cabin_empty = 298,
+	equip_cabin_occupied = 299,
+	equip_thrusters = 300,
+	-- TODO: distinct icons for these
+	equip_thrusters_basic = 300,
+	equip_thrusters_medium = 300,
+	equip_thrusters_best = 300,
+	equip_trade_computer = 301,
+	equip_autopilot = 302,
+	equip_hyperdrive = 303,
 
 	-- TODO: manual / autopilot
 	-- dummy, until actually defined correctly

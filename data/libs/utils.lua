@@ -251,6 +251,14 @@ utils.count = function(t)
 	return i
 end
 
+utils.contains = function(t, val)
+	for _, v in pairs(t) do
+		if v == val then return true end
+	end
+
+	return false
+end
+
 utils.take = function(t, n)
 	local res = {}
 	local i = 0

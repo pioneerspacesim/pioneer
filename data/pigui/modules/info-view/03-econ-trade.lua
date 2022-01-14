@@ -7,7 +7,7 @@ local Lang = require 'Lang'
 local Game = require "Game"
 local Equipment = require "Equipment"
 local ShipDef = require "ShipDef"
-local StationView = require 'pigui/views/station-view'
+local StationView = require 'pigui.views.station-view'
 local Format = require "Format"
 local l = Lang.GetResource("ui-core")
 

@@ -3,9 +3,10 @@
 
 local Engine = require 'Engine'
 local pigui = Engine.pigui
-local ui = require 'pigui.libs.forwarded'
-require 'pigui.libs.wrappers'
 
+local ui = require 'pigui.libs.forwarded'
+ui.rescaleUI = require 'pigui.libs.rescale-ui'
+require 'pigui.libs.wrappers'
 
 local defaultTheme = require 'pigui.themes.default'
 
@@ -38,14 +39,6 @@ function ui.makeFullScreenHandler(window_name, window_fnc)
 			end
 		end)
 	end
-end
-
-function ui.get_icon_tex_coords(icon)
-	assert(icon, "no icon given")
-	local count = 16.0 -- icons per row/column
-	local rem = math.floor(icon % count)
-	local quot = math.floor(icon / count)
-	return Vector2(rem / count, quot/count), Vector2((rem+1) / count, (quot+1)/count)
 end
 
 function ui.circleSegments(radius)

@@ -8,65 +8,6 @@ local utils = require 'utils'
 local pigui = Engine.pigui
 local ui = require 'pigui.libs.forwarded'
 
-local defaultBaseResolution = Vector2(1600, 900)
-
---
--- Function: ui.rescaleUI
---
--- ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution)
---
--- Scales a set of values (normally a size or a position) based on a base
--- resolution and the current or target resultion.
---
---
--- Example:
---
--- > size = ui.rescaleUI(Vector2(96, 96), Vector2(1600, 900))
---
--- Parameters:
---
---   val                   - number|Vector2|Table, the values to scale
---   baseResolution        - Vector2, the resolution at which val is valid
---   rescaleToScreenAspect - (Optional) number, when scaling a Vector2, scale x and y
---                           appropriately to match the given aspect ratio
---   targetResolution      - (Optional) Vector2, the target resolution to scale
---                           the value to. Default: current screen resolution.
---
--- Returns:
---
---   number|Vector2|Table - the scaled value
---
-function ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution)
-	if not baseResolution then
-		baseResolution = Vector2(1600, 900)
-	end
-
-	if not targetResolution then
-		targetResolution = Vector2(pigui.screen_width, pigui.screen_height)
-	end
-
-	if not baseResolution then
-		baseResolution = defaultBaseResolution
-	end
-
-	local rescaleVector = Vector2(targetResolution.x / baseResolution.x, targetResolution.y / baseResolution.y)
-	local rescaleFactor = math.min(rescaleVector.x, rescaleVector.y)
-	local type = type(val)
-
-	if type == 'table' then
-		local result = {}
-		for k, v in pairs(val) do
-			result[k] = ui.rescaleUI(v, baseResolution, rescaleToScreenAspect, targetResolution)
-		end
-
-		return result
-	elseif type == 'userdata' and val.x and val.y then
-		return Vector2(val.x * ((rescaleToScreenAspect and rescaleVector.x) or rescaleFactor), val.y * ((rescaleToScreenAspect and rescaleVector.y) or rescaleFactor))
-	elseif type == 'number' then
-		return val * rescaleFactor
-	end
-end
-
 --
 -- Function: ui.pcall
 --
@@ -515,6 +456,61 @@ function ui.tabBar(id, items)
 
 	pigui.EndTabBar()
 	return true
+end
+
+
+--
+-- Function: ui.tabBarFont
+--
+-- ui.tabBarFont(id, tabs, font, [args...])
+--
+--
+-- Example:
+--
+-- >
+--
+-- Parameters:
+--   id    - String, unique id to identify the group of tabs by
+--   items - Table, a list of contents. Each item should contain a 'name'
+--           field and a 'draw' field with a function that displays that
+--           tab's contents.
+--   font  - Font Table, the header font for the tab
+--   args  - [optional] varargs to pass to the draw function of each tab
+--
+-- Returns:
+--
+--   index - index of the open tab if the tab bar is open, 0 otherwise
+--
+function ui.tabBarFont(id, items, font, ...)
+	local active_index = 0
+
+	pigui.PushStyleVar("FramePadding", ui.theme.styles.TabPadding)
+	local _fnt = pigui:PushFont(font.name, font.size)
+	local open = pigui.BeginTabBar(id)
+	if _fnt then pigui.PopFont() end
+	pigui.PopStyleVar(1)
+
+	if not open then return active_index end
+
+	for i, item in ipairs(items) do
+		pigui.PushStyleVar("FramePadding", ui.theme.styles.TabPadding)
+		local _fnt = pigui:PushFont(font.name, font.size)
+		local tab_open = pigui.BeginTabItem(item.name or item[1])
+		if _fnt then pigui.PopFont() end
+		pigui.PopStyleVar(1)
+
+		if tab_open then
+			ui.spacing()
+
+			active_index = (item.draw or item[2])(...)
+
+			pigui.EndTabItem()
+		end
+
+		pigui.EndTabItem()
+	end
+
+	return active_index
 end
 
 --

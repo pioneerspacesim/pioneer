@@ -9,7 +9,8 @@ local pigui = Engine.pigui
 
 local lc = Lang.GetResource("core");
 
-local font_factor = ui.rescaleUI(1, Vector2(1920, 1200))
+-- get a fractional font factor
+local font_factor = ui.rescaleUI(1, Vector2(1920, 1200), false, true)
 
 local textBackgroundMarginPixels = 2
 

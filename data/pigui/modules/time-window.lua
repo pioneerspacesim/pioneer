@@ -55,7 +55,7 @@ local function displayTimeWindow()
 
 	ui.withFont(pionillium.large.name, pionillium.large.size, function()
 		local text_size = ui.calcTextSize(date)
-		local window_size = Vector2(math.max(text_size.x, (button_size.x + frame_padding * 2 + 7) * 6) + 15, text_size.y + button_size.y + frame_padding * 2 + 20)
+		local window_size = Vector2(math.max(text_size.x, (button_size.x + frame_padding * 2 + 7) * 6) + 15, text_size.y + button_size.y + frame_padding * 2 + 22)
 		ui.timeWindowSize = window_size
 		ui.setNextWindowSize(window_size, "Always")
 		ui.setNextWindowPos(Vector2(0, ui.screenHeight - window_size.y), "Always")
