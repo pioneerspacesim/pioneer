@@ -1,10 +1,16 @@
 January 2022
   * New Features
     * Redesign the BBS layout, show pertinent mission info (#5312)
+    * New slot-based ship equipment display (#5315)
+
+  * Internal Changes
+    * Reduce BBS advert string data written to save files (#5312)
+    * Unify default UI theming, ensure UI scaling snaps to pixel values (#5315)
 
   * Fixes
     * FuelClub: Refuel internal fuel tank only once a day (#5311)
     * Fix mechanic character not being persistent (#5306)
+    * Fix GL_INVALID_ENUM error in forward-compatible GL contexts (#5315)
 
 November 2021
   * New Features
