@@ -1483,6 +1483,10 @@
     "description": "",
     "message": "{quantity} Unoccupied Passenger Cabins"
   },
+  "OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Occupied Passenger Cabins"
+  },
   "OFF": {
     "description": "",
     "message": "Off"
@@ -1679,6 +1683,10 @@
     "description": "",
     "message": "Repair {damage}% hull damage for {price}"
   },
+  "REPLACE_EQUIPMENT_WITH": {
+    "description": "Market header when replacing equipped items",
+    "message": "Replace Equipment With"
+  },
   "REPUTATION": {
     "description": "",
     "message": "Reputation"
@@ -1770,6 +1778,10 @@
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "Sell"
+  },
+  "SELL_EQUIPPED": {
+    "description": "Button text to sell selected ship equipment",
+    "message": "Sell Equipped"
   },
   "SENSORS": {
     "description": "",
@@ -2027,6 +2039,10 @@
     "description": "",
     "message": "Unlawful weapons discharge"
   },
+  "UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Unoccupied Passenger Cabins"
+  },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
     "message": "Unprofitable Trade"
@@ -2146,21 +2162,5 @@
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
     "message": "Zoom"
-  },
-  "OCCUPIED_PASSENGER_CABINS": {
-    "description": "",
-    "message": "Occupied Passenger Cabins"
-  },
-  "UNOCCUPIED_PASSENGER_CABINS": {
-    "description": "",
-    "message": "Unoccupied Passenger Cabins"
-  },
-  "REPLACE_EQUIPMENT_WITH": {
-    "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
-  },
-  "SELL_EQUIPPED": {
-    "description": "Button text to sell selected ship equipment",
-    "message": "Sell Equipped"
   }
 }

@@ -59,6 +59,10 @@
     "description": "",
     "message": "Ligeann seo duit cochaill lasta a bhailiú ón spás."
   },
+  "DAMAGE_PER_SHOT": {
+    "description": "Tooltip explaining weapon damage per shot",
+    "message": "Damage Per Shot"
+  },
   "DRIVE_CLASS1": {
     "description": "",
     "message": "Hipirthiomáint (Aicme 1)"
@@ -147,6 +151,18 @@
     "description": "",
     "message": "Córas cosanta frithdhiúracán a úsáideann frithbhearta leictreonacha, atá in ann diúracáin fhrithinge áirithe a scriosadh."
   },
+  "EMPTY_SLOT": {
+    "description": "Text indicating an empty equipment slot.",
+    "message": "EMPTY"
+  },
+  "EQUIPMENT_INTEGRITY": {
+    "description": "Tooltip explaining remaining equipment integrity",
+    "message": "Equipment Integrity"
+  },
+  "EQUIPMENT_WEIGHT": {
+    "description": "Tooltip explaining equipment weight",
+    "message": "Equipment Weight"
+  },
   "FUEL_SCOOP": {
     "description": "",
     "message": "Scúp Breosla"
@@ -199,6 +215,10 @@
     "description": "",
     "message": "Úsáidtear é seo chun mianadóireacht a dhéanamh ar astaróidigh atá lán de mhianraí."
   },
+  "MISSILES": {
+    "description": "Category name of missile-related equipment",
+    "message": "Missiles"
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Diúracán Treoraithe"
@@ -238,6 +258,10 @@
   "PLANETSCANNER_DESCRIPTION": {
     "description": "",
     "message": "Lorg acmhainní ar an rinn is gaire."
+  },
+  "PROPULSION": {
+    "description": "Category name of propulsion-related equipment",
+    "message": "Propulsion"
   },
   "PULSECANNON_10MW": {
     "description": "",
@@ -283,6 +307,18 @@
     "description": "",
     "message": "Atosaíodh an scanadh"
   },
+  "SCOOPS": {
+    "description": "Category name of scoop-related equipment",
+    "message": "Scoops"
+  },
+  "SENSORS": {
+    "description": "Category name of sensor-related equipment",
+    "message": "Sensors"
+  },
+  "SHIELDS": {
+    "description": "Category name of shield-related equipment",
+    "message": "Shields"
+  },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
     "message": "Treiseoir na Sciath"
@@ -298,6 +334,10 @@
   "SHIELD_GENERATOR_DESCRIPTION": {
     "description": "",
     "message": "Tugann gach ceann a fheistíonn tú cosaint níos fearr don chabhail."
+  },
+  "SHOTS_PER_MINUTE": {
+    "description": "Tooltip explaining weapon fire rate / RPM counter",
+    "message": "Firing Rate / Minute"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -339,6 +379,14 @@
     "description": "",
     "message": "Inneall optamaithe a laghdaíonn neamhéifeachtúlacht agus a fheabhsaíonn aschur cumhachta."
   },
+  "TOTAL_MODULE_CAPACITY": {
+    "description": "Tooltip explaining module capacity of specific slot",
+    "message": "Total Capacity"
+  },
+  "TOTAL_MODULE_WEIGHT": {
+    "description": "Tooltip explaining total equipped weight of specific slot",
+    "message": "Total Weight"
+  },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
     "message": "Ríomhaire Trádála"
@@ -354,5 +402,13 @@
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
     "message": "Tá cábán breise ag teastáil le paisinéir amháin a iompar"
+  },
+  "UTILITY": {
+    "description": "Category name of utility equipment",
+    "message": "Utility"
+  },
+  "WEAPONS": {
+    "description": "Category name of weapon-related equipment",
+    "message": "Airm"
   }
 }

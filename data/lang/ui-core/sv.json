@@ -56,8 +56,8 @@
     "message": "Auto-rutt"
   },
   "AVAILABLE_FOR_PURCHASE": {
-    "description": "",
-    "message": "Tillgänglig för köp"
+    "description": "Market header when buying items",
+    "message": "Available For Purchase"
   },
   "AVERAGE": {
     "description": "",
@@ -1483,6 +1483,10 @@
     "description": "",
     "message": "{quantity} tomma passagerarhytter"
   },
+  "OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Occupied Passenger Cabins"
+  },
   "OFF": {
     "description": "",
     "message": "Av"
@@ -1679,6 +1683,10 @@
     "description": "",
     "message": "Reparera {damage}% skrov för {price}"
   },
+  "REPLACE_EQUIPMENT_WITH": {
+    "description": "Market header when replacing equipped items",
+    "message": "Replace Equipment With"
+  },
   "REPUTATION": {
     "description": "",
     "message": "Rykte"
@@ -1770,6 +1778,10 @@
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "Sälja"
+  },
+  "SELL_EQUIPPED": {
+    "description": "Button text to sell selected ship equipment",
+    "message": "Sell Equipped"
   },
   "SENSORS": {
     "description": "",
@@ -2026,6 +2038,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Olaglig vapenavfyring"
+  },
+  "UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Unoccupied Passenger Cabins"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",

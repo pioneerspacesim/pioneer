@@ -59,6 +59,10 @@
     "description": "",
     "message": "Lehetővé teszi rakománytartály felszedését az űrből."
   },
+  "DAMAGE_PER_SHOT": {
+    "description": "Tooltip explaining weapon damage per shot",
+    "message": "Damage Per Shot"
+  },
   "DRIVE_CLASS1": {
     "description": "",
     "message": "1. osztályú hipermotor"
@@ -147,6 +151,18 @@
     "description": "",
     "message": "Egy elektronikus rakétazavaró védelmi rendszer, amely bizonyos fajta követőrakéták megsemmisítésére alkalmas."
   },
+  "EMPTY_SLOT": {
+    "description": "Text indicating an empty equipment slot.",
+    "message": "EMPTY"
+  },
+  "EQUIPMENT_INTEGRITY": {
+    "description": "Tooltip explaining remaining equipment integrity",
+    "message": "Equipment Integrity"
+  },
+  "EQUIPMENT_WEIGHT": {
+    "description": "Tooltip explaining equipment weight",
+    "message": "Equipment Weight"
+  },
   "FUEL_SCOOP": {
     "description": "",
     "message": "Üzemanyagszívó"
@@ -199,6 +215,10 @@
     "description": "",
     "message": "Ásványokban gazdag aszteroidák bányászatához."
   },
+  "MISSILES": {
+    "description": "Category name of missile-related equipment",
+    "message": "Missiles"
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "Irányított rakéta"
@@ -238,6 +258,10 @@
   "PLANETSCANNER_DESCRIPTION": {
     "description": "",
     "message": "A legközelebbi égitest ásványkincskészletének felmérése."
+  },
+  "PROPULSION": {
+    "description": "Category name of propulsion-related equipment",
+    "message": "Propulsion"
   },
   "PULSECANNON_10MW": {
     "description": "",
@@ -283,6 +307,18 @@
     "description": "",
     "message": "Felmérés folytatása"
   },
+  "SCOOPS": {
+    "description": "Category name of scoop-related equipment",
+    "message": "Scoops"
+  },
+  "SENSORS": {
+    "description": "Category name of sensor-related equipment",
+    "message": "Sensors"
+  },
+  "SHIELDS": {
+    "description": "Category name of shield-related equipment",
+    "message": "Shields"
+  },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
     "message": "Pajzsenergia töltő"
@@ -298,6 +334,10 @@
   "SHIELD_GENERATOR_DESCRIPTION": {
     "description": "",
     "message": "Minden felszerelt egységgel növekszik a hajótest védelme."
+  },
+  "SHOTS_PER_MINUTE": {
+    "description": "Tooltip explaining weapon fire rate / RPM counter",
+    "message": "Firing Rate / Minute"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -339,6 +379,14 @@
     "description": "",
     "message": "Tolóerőre optimalizált hajtómű, kevésbé hajtóanyaghatékony."
   },
+  "TOTAL_MODULE_CAPACITY": {
+    "description": "Tooltip explaining module capacity of specific slot",
+    "message": "Total Capacity"
+  },
+  "TOTAL_MODULE_WEIGHT": {
+    "description": "Tooltip explaining total equipped weight of specific slot",
+    "message": "Total Weight"
+  },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
     "message": "Kereskedelmi számítógép"
@@ -354,5 +402,13 @@
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
     "message": "Szükséges egy személy szállításához"
+  },
+  "UTILITY": {
+    "description": "Category name of utility equipment",
+    "message": "Utility"
+  },
+  "WEAPONS": {
+    "description": "Category name of weapon-related equipment",
+    "message": "Fegyverek"
   }
 }

@@ -56,8 +56,8 @@
     "message": "Otomatik Rota"
   },
   "AVAILABLE_FOR_PURCHASE": {
-    "description": "",
-    "message": "Satın alınabilir"
+    "description": "Market header when buying items",
+    "message": "Satın Alınabilir"
   },
   "AVERAGE": {
     "description": "",
@@ -1483,6 +1483,10 @@
     "description": "",
     "message": "{quantity} Dolu Yolcu Kabini"
   },
+  "OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Dolu Yolcu Kabinleri"
+  },
   "OFF": {
     "description": "",
     "message": "Kapalı"
@@ -1679,6 +1683,10 @@
     "description": "",
     "message": "%{damage} gövde hasarını {price} için tamir et"
   },
+  "REPLACE_EQUIPMENT_WITH": {
+    "description": "Market header when replacing equipped items",
+    "message": "Ekipmanı Şununla Değiştir"
+  },
   "REPUTATION": {
     "description": "",
     "message": "İtibar"
@@ -1770,6 +1778,10 @@
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "Sat"
+  },
+  "SELL_EQUIPPED": {
+    "description": "Button text to sell selected ship equipment",
+    "message": "Ekipmanı Sat"
   },
   "SENSORS": {
     "description": "",
@@ -2026,6 +2038,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "Kanun dışı silah kullanımı"
+  },
+  "UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Boş Yolcu Kabinleri"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",

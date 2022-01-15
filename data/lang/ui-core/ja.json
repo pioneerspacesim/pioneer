@@ -56,8 +56,8 @@
     "message": "自動ルート"
   },
   "AVAILABLE_FOR_PURCHASE": {
-    "description": "",
-    "message": "Available for purchase"
+    "description": "Market header when buying items",
+    "message": "Available For Purchase"
   },
   "AVERAGE": {
     "description": "",
@@ -1483,6 +1483,10 @@
     "description": "",
     "message": "客室は{quantity}人の空きがある"
   },
+  "OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Occupied Passenger Cabins"
+  },
   "OFF": {
     "description": "",
     "message": "オフ"
@@ -1679,6 +1683,10 @@
     "description": "",
     "message": "{price}で{damage}%の船体ダメージを修理する"
   },
+  "REPLACE_EQUIPMENT_WITH": {
+    "description": "Market header when replacing equipped items",
+    "message": "Replace Equipment With"
+  },
   "REPUTATION": {
     "description": "",
     "message": "評判"
@@ -1770,6 +1778,10 @@
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "売る"
+  },
+  "SELL_EQUIPPED": {
+    "description": "Button text to sell selected ship equipment",
+    "message": "Sell Equipped"
   },
   "SENSORS": {
     "description": "",
@@ -2026,6 +2038,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "違法な武器の発射"
+  },
+  "UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Unoccupied Passenger Cabins"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",

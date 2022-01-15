@@ -59,6 +59,10 @@
     "description": "",
     "message": "允许飞船从太空中打捞货柜."
   },
+  "DAMAGE_PER_SHOT": {
+    "description": "Tooltip explaining weapon damage per shot",
+    "message": "每发伤害"
+  },
   "DRIVE_CLASS1": {
     "description": "",
     "message": "1级超空间引擎"
@@ -147,6 +151,18 @@
     "description": "",
     "message": "一套电子反导防御系统,有能力摧毁一些制导导弹."
   },
+  "EMPTY_SLOT": {
+    "description": "Text indicating an empty equipment slot.",
+    "message": "空的"
+  },
+  "EQUIPMENT_INTEGRITY": {
+    "description": "Tooltip explaining remaining equipment integrity",
+    "message": "设备完整性"
+  },
+  "EQUIPMENT_WEIGHT": {
+    "description": "Tooltip explaining equipment weight",
+    "message": "设备重量"
+  },
   "FUEL_SCOOP": {
     "description": "",
     "message": "燃料收集器"
@@ -199,6 +215,10 @@
     "description": "",
     "message": "用爆破地雷对富矿小行星采矿."
   },
+  "MISSILES": {
+    "description": "Category name of missile-related equipment",
+    "message": "导弹"
+  },
   "MISSILE_GUIDED": {
     "description": "",
     "message": "制导导弹"
@@ -238,6 +258,10 @@
   "PLANETSCANNER_DESCRIPTION": {
     "description": "",
     "message": "扫描最近的星体以搜寻资源. "
+  },
+  "PROPULSION": {
+    "description": "Category name of propulsion-related equipment",
+    "message": "推动力"
   },
   "PULSECANNON_10MW": {
     "description": "",
@@ -283,6 +307,18 @@
     "description": "",
     "message": "继续扫描"
   },
+  "SCOOPS": {
+    "description": "Category name of scoop-related equipment",
+    "message": "槽位数"
+  },
+  "SENSORS": {
+    "description": "Category name of sensor-related equipment",
+    "message": "传感器"
+  },
+  "SHIELDS": {
+    "description": "Category name of shield-related equipment",
+    "message": "护盾"
+  },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
     "message": "护盾能量增益装置"
@@ -298,6 +334,10 @@
   "SHIELD_GENERATOR_DESCRIPTION": {
     "description": "",
     "message": "每个装置都可提供外加的船体防护."
+  },
+  "SHOTS_PER_MINUTE": {
+    "description": "Tooltip explaining weapon fire rate / RPM counter",
+    "message": "射速/分钟"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -339,6 +379,14 @@
     "description": "",
     "message": "经过优化以增加效率并增加输出功率的推进器. "
   },
+  "TOTAL_MODULE_CAPACITY": {
+    "description": "Tooltip explaining module capacity of specific slot",
+    "message": "总容量"
+  },
+  "TOTAL_MODULE_WEIGHT": {
+    "description": "Tooltip explaining total equipped weight of specific slot",
+    "message": "总重量"
+  },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
     "message": "贸易计算机"
@@ -354,5 +402,13 @@
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
     "message": "需要单人客运船"
+  },
+  "UTILITY": {
+    "description": "Category name of utility equipment",
+    "message": "公用事业"
+  },
+  "WEAPONS": {
+    "description": "Category name of weapon-related equipment",
+    "message": "武器"
   }
 }

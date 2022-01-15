@@ -56,8 +56,8 @@
     "message": "自动路线"
   },
   "AVAILABLE_FOR_PURCHASE": {
-    "description": "",
-    "message": "可以购买"
+    "description": "Market header when buying items",
+    "message": "Available For Purchase"
   },
   "AVERAGE": {
     "description": "",
@@ -1483,6 +1483,10 @@
     "description": "",
     "message": "{quantity} 个空客舱"
   },
+  "OCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Occupied Passenger Cabins"
+  },
   "OFF": {
     "description": "",
     "message": "关闭"
@@ -1679,6 +1683,10 @@
     "description": "",
     "message": "花 {price} 修理船体的 {damage}%"
   },
+  "REPLACE_EQUIPMENT_WITH": {
+    "description": "Market header when replacing equipped items",
+    "message": "Replace Equipment With"
+  },
   "REPUTATION": {
     "description": "",
     "message": "声誉"
@@ -1770,6 +1778,10 @@
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "价格"
+  },
+  "SELL_EQUIPPED": {
+    "description": "Button text to sell selected ship equipment",
+    "message": "Sell Equipped"
   },
   "SENSORS": {
     "description": "",
@@ -2026,6 +2038,10 @@
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
     "message": "武器违法射击"
+  },
+  "UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "Unoccupied Passenger Cabins"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",

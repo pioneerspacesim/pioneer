@@ -101,11 +101,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "通缉：一小群人进入{system}星系。支付赏金{cash}。"
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "通缉"
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
@@ -137,11 +137,11 @@
   },
   "FLAVOUR_10_ADTEXT": {
     "description": "",
-    "message": "VIP needs urgent passage on a fast ship to {system} system. No questions asked."
+    "message": "贵宾需要紧急乘坐快速飞船前往{system}系统。没有问题。"
   },
   "FLAVOUR_10_ADTITLE": {
     "description": "",
-    "message": "DISCREET SHIP WANTED"
+    "message": "通缉走私飞船"
   },
   "FLAVOUR_10_DANGER": {
     "description": "",
@@ -245,11 +245,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "通缉：一小群人进入{system}星系。支付赏金{cash}。"
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "通缉"
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "通缉：一小群人进入{system}星系。支付赏金{cash}。"
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
