@@ -775,7 +775,7 @@ void SectorView::DrawLabels()
 	m_drawList->PushClipRectFullScreen();
 
 	// iterate over the labels starting with the closest one until we find the one over which the cursor is hanging
-	if (!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
+	if (!ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow) && !ImGui::IsAnyItemHovered()) {
 		for (int i = m_labels.array.size() - 1; i >= 0; --i) {
 			Label &label = *m_labels.array[i];
 			if (hovered_i == NOT_FOUND && !m_rotateWithMouseButton && label.Hovered(mpos)) {
