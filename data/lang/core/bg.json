@@ -429,7 +429,7 @@
   },
   "GAME_LOAD_WRONG_VERSION": {
     "description": "",
-    "message": "Тази игра не може да бъде заредена, защото е създадена от друга версия на „Pioneer“."
+    "message": "Тази игра не може да бъде заредена, защото е създадена в друга версия на „Pioneer“."
   },
   "GAME_SAVED_TO": {
     "description": "",
@@ -469,11 +469,11 @@
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Задържане на {target} ретроградно"
+    "message": "Ретроградно задържане на {target}"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Задържане на {target} проградно"
+    "message": "Проградно задържане на {target}"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -885,7 +885,7 @@
   },
   "NO_AUTOPILOT_INSTALLED": {
     "description": "",
-    "message": "Автопилотът не може да се включи, защото кораба няма автопилот"
+    "message": "Корабът няма автопилот"
   },
   "NO_CENTRAL_GOVERNANCE": {
     "description": "",
@@ -929,7 +929,7 @@
   },
   "NUMBER_GROUP_SEP": {
     "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-    "message": "’"
+    "message": "​"
   },
   "NUMBER_HOURS": {
     "description": "",
@@ -1657,7 +1657,7 @@
   },
   "UNIT_GIGATONNES": {
     "description": "Mass unit: one gigatonne",
-    "message": "Gt"
+    "message": "гт"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1665,7 +1665,7 @@
   },
   "UNIT_KILOGRAMS": {
     "description": "Mass unit: one kilogram",
-    "message": "kg"
+    "message": "кг"
   },
   "UNIT_KILOMETERS": {
     "description": "Distance unit: one kilometer",
@@ -1677,7 +1677,7 @@
   },
   "UNIT_KILOTONNES": {
     "description": "Mass unit: one kilotonne",
-    "message": "kt"
+    "message": "кт"
   },
   "UNIT_LY": {
     "description": "Distance unit: a light year",
@@ -1685,7 +1685,7 @@
   },
   "UNIT_MEGATONNES": {
     "description": "Mass unit: one megatonne",
-    "message": "Mt"
+    "message": "мт"
   },
   "UNIT_METERS": {
     "description": "Distance unit: one meter",
@@ -1709,7 +1709,7 @@
   },
   "UNIT_PETATONNES": {
     "description": "Mass unit: one petatonne",
-    "message": "Pt"
+    "message": "пт"
   },
   "UNIT_PRESSURE_ATMOSPHERES": {
     "description": "Pressure unit: one earth atmosphere (atm)",
@@ -1721,7 +1721,7 @@
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",
-    "message": "Tt"
+    "message": "тт"
   },
   "UNIT_TONNES": {
     "description": "Mass unit: one tonne (t)",

@@ -1,19 +1,19 @@
 {
   "ADTITLE_0": {
     "description": "",
-    "message": "FRESH REPORT"
+    "message": "НОВ РЕПОРТАЖ"
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "NEWS BULLETIN"
+    "message": "НОВИНАРСКИ БЮЛЕТИН"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "GALATIC REPORT"
+    "message": "ГАЛАКТИЧЕСКИ РЕПОРТАЖ"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "LOCAL GAZETTE"
+    "message": "МЕСТЕН ВЕСТНИК"
   },
   "FLAVOUR_0_HEADLINE": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "GRATEFUL_GREETING_0": {
     "description": "",
-    "message": "Добре сте ни дошли! Ще ти дадем добра цена за {cargo}."
+    "message": "Добре сте ни дошли! Предлагаме добра цена за {cargo}."
   },
   "GRATEFUL_GREETING_1": {
     "description": "",
@@ -289,7 +289,7 @@
   },
   "TITLE_0": {
     "description": "",
-    "message": "Пресен репортаж от „{newspaper}“"
+    "message": "Нов репортаж от „{newspaper}“"
   },
   "TITLE_1": {
     "description": "",

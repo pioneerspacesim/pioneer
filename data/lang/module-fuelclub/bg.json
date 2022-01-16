@@ -73,7 +73,7 @@
   },
   "FLAVOUR_3_DESC": {
     "description": "Fuel club for the Haber faction",
-    "message": "Branch office of the Haber Propellant and Perishables Division."
+    "message": "Клон на Хаберската дивизия за гориво и отпадъци."
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
@@ -105,7 +105,7 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Fuel tank refilling, once per day"
+    "message": "Зареждане с гориво, веднъж дневно"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",

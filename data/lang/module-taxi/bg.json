@@ -101,7 +101,7 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Търси се: Превоз за малка група към системата {system}. Ще платим {cash}."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
@@ -245,7 +245,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Търси се: Превоз за малка група към системата {system}. Ще платим {cash}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Търси се: Превоз за малка група към системата {system}. Ще платим {cash}."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",

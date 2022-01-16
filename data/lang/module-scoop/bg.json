@@ -17,7 +17,7 @@
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Pick-up mission: prompt recovery of drifting container required."
+    "message": "Пренос: Връщане на изгубен контейнер."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "ADTITLE_ILLEGAL_GOODS": {
     "description": "",
-    "message": "EASY MONEY"
+    "message": "ЛЕСНИ КРЕДИТИ"
   },
   "ADTITLE_LEGAL_GOODS": {
     "description": "",

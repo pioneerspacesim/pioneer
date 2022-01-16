@@ -13,11 +13,11 @@
   },
   "FLAVOUR_0_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Special offer, selling one {equipment}."
+    "message": "Специална оферта за {equipment}."
   },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "ПРОДАВА СЕ"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_1_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Practically unused {equipment}, at an affordable price!"
+    "message": "{equipment}, без драскотина, на достъпна цена!"
   },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "ПРОДАВА СЕ ОБОРУДВАНЕ"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
@@ -37,23 +37,23 @@
   },
   "FLAVOUR_2_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Selling one {equipment}, for a reasonable price!"
+    "message": "Един брой {equipment} на добра цена!"
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "ПРОДАВА СЕ ОБОРУДВАНЕ"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
-    "message": "Ехо! Имам {equipment} в излишък и искам {price}."
+    "message": "Здравей! Имам {equipment} в излишък и искам {price}."
   },
   "FLAVOUR_3_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Offering one {equipment}, in good condition."
+    "message": "Един брой {equipment} в добро състояние."
   },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "ПРОДАВА СЕ"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_4_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "For sale: leftover {equipment}, in fine condition."
+    "message": "Продава се: {equipment} в задоволително състояние."
   },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "ПРОДАВА СЕ"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "FLAVOUR_5_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "On offer: old {equipment}, in working condition."
+    "message": "Оферта: {equipment} в работно състояние."
   },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "ПРОДАВА СЕ ОБОРУДВАНЕ"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",

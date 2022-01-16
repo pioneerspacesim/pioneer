@@ -25,15 +25,15 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Ship needed for delivery of cargo to the {system} system."
+    "message": "Нужен е кораб за доставка на товар до системата {system}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "Транспорт на стоки до системата {system}. Плащам {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "Доставка на ценен товар до системата {system}. {cash} за опитен пилот."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",

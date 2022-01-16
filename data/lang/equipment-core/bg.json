@@ -153,15 +153,15 @@
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
-    "message": "EMPTY"
+    "message": "ПРАЗНО"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
-    "message": "Equipment Integrity"
+    "message": "Здравина"
   },
   "EQUIPMENT_WEIGHT": {
     "description": "Tooltip explaining equipment weight",
-    "message": "Equipment Weight"
+    "message": "Тегло"
   },
   "FUEL_SCOOP": {
     "description": "",
@@ -217,7 +217,7 @@
   },
   "MISSILES": {
     "description": "Category name of missile-related equipment",
-    "message": "Missiles"
+    "message": "Ракети"
   },
   "MISSILE_GUIDED": {
     "description": "",
@@ -309,15 +309,15 @@
   },
   "SCOOPS": {
     "description": "Category name of scoop-related equipment",
-    "message": "Scoops"
+    "message": "Товарачи"
   },
   "SENSORS": {
     "description": "Category name of sensor-related equipment",
-    "message": "Sensors"
+    "message": "Сензори"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
-    "message": "Shields"
+    "message": "Щитове"
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
@@ -385,7 +385,7 @@
   },
   "TOTAL_MODULE_WEIGHT": {
     "description": "Tooltip explaining total equipped weight of specific slot",
-    "message": "Total Weight"
+    "message": "Общо тегло"
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",

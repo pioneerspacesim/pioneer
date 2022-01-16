@@ -5,7 +5,7 @@
   },
   "CREWDETAILSHEETBB": {
     "description": "",
-    "message": "Име: {name}\nОпит: {experience}\nЖелана заплата: {wage} на седмица\n\n{response}\n"
+    "message": "Име: {name}\nОпит: {experience}\nСедмична заплата: {wage}\n\n{response}\n"
   },
   "CREWMEMBER_WAGE_PER_WEEK": {
     "description": "",
@@ -21,11 +21,11 @@
   },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
-    "message": "Potential crew available for hire at this starport."
+    "message": "Кандидати, търсещи работа от този космодрум."
   },
   "CREW_FOR_HIRE_TITLE": {
     "description": "",
-    "message": "CREW FOR HIRE"
+    "message": "ЕКИПАЖ ЗА НАЕМАНЕ"
   },
   "GO_BACK": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
     "description": "",
-    "message": "ОК, тогава всичко е наред."
+    "message": "Добре, всичко е наред."
   },
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER": {
     "description": "",
-    "message": "Това определено подобрява тази оферта!"
+    "message": "Това определено подобрява офертата!"
   },
   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD": {
     "description": "",

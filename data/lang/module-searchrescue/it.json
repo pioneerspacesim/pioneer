@@ -165,7 +165,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "La stazione di controllo locale riferisce di una nave schiantata sul pianeta {planet}. Si richiede assistenza."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "La torre di controllo di {starport} ha ricevuto una richiesta d'aiuto per esaurimento carburante da una nave in arrivo. Si richiede servizio di rifornimento."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",

@@ -101,7 +101,7 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "ИЩЕМ ТРАНСПОРТ: для перелета небольшой группы в систему {system} за {cash}."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "FLAVOUR_10_ADTEXT": {
     "description": "",
-    "message": "VIP needs urgent passage on a fast ship to {system} system. No questions asked."
+    "message": "VIP ищет быстрый корабль, который может доставить его в систему {system}. Вопросов не задавать."
   },
   "FLAVOUR_10_ADTITLE": {
     "description": "",
@@ -245,7 +245,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "ИЩЕМ ТРАНСПОРТ: для перелета небольшой группы в систему {system} за {cash}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "ИЩЕМ ТРАНСПОРТ: для перелета небольшой группы в систему {system} за {cash}."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",

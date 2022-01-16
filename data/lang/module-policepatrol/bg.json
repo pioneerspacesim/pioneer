@@ -29,7 +29,7 @@
   },
   "OUTLAW_DETECTED_3": {
     "description": "",
-    "message": "Хванахме те! Поеми си последната глътка въздух!"
+    "message": "Това е краят! Поемете си последната глътка въздух!"
   },
   "POLICE_TAUNT_1": {
     "description": "",
@@ -41,11 +41,11 @@
   },
   "POLICE_TAUNT_3": {
     "description": "",
-    "message": "Престъпленията ти не си заслужават!"
+    "message": "Престъпленията никога не се отплащат!"
   },
   "RESPECT_THE_LAW_1": {
     "description": "",
-    "message": "Спазвай закона! В системата {system} не се правят подкупи!"
+    "message": "Спазвайте закона! В системата {system} не се правят подкупи!"
   },
   "RESPECT_THE_LAW_2": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Почивай на парчета! Ха-ха."
+    "message": "Почивайте на парчета! Ха-ха."
   },
   "TARGET_DESTROYED_4": {
     "description": "",

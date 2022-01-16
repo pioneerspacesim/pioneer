@@ -1,23 +1,23 @@
 {
   "ADTITLE_0": {
     "description": "",
-    "message": "CARGO EMPORIUM"
+    "message": "ТЪРГОВСКИ ЦЕНТЪР"
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "TRADING HOUSE"
+    "message": "ТЪРГОВСКА КАНТОРА"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "TRADE WAREHOUSE"
+    "message": "ТЪРГОВСКИ СКЛАД"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "GOODS EXCHANGE"
+    "message": "ОБМЯНА НА СТОКИ"
   },
   "GOODS_TRADER_0": {
     "description": "",
-    "message": "Универсален магазин {name}"
+    "message": "Търговски център {name}"
   },
   "GOODS_TRADER_1": {
     "description": "",

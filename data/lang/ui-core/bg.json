@@ -57,7 +57,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase"
+    "message": "Оборудване на пазара"
   },
   "AVERAGE": {
     "description": "",
@@ -613,7 +613,7 @@
   },
   "FUEL_WEIGHT": {
     "description": "",
-    "message": "Тежест на горивото"
+    "message": "Тегло на горивото"
   },
   "FUGITIVE": {
     "description": "Legal status of player",
@@ -637,7 +637,7 @@
   },
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
-    "message": "Прав ти път."
+    "message": "Прав ти път и на теб."
   },
   "GO_BACK": {
     "description": "",
@@ -649,7 +649,7 @@
   },
   "GPU_JOBS_DESC": {
     "description": "",
-    "message": "Задачите на графичния процесор подобряват производителността."
+    "message": "Задачите за графичния процесор подобряват производителността."
   },
   "HANG_UP": {
     "description": "",
@@ -1057,7 +1057,7 @@
   },
   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
     "description": "",
-    "message": "Омръзна ми да работя за нищо. Не знаеш ли какво е договор?"
+    "message": "Омръзна ми да работя за нищо. Не знаете ли какво е договор?"
   },
   "INACTIVE": {
     "description": "",
@@ -1153,7 +1153,7 @@
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
-    "message": "Имате разрешение. Оглеждайте се за трафик, по време на излитането."
+    "message": "Имате разрешение. Оглеждайте се за трафик по време на излитането."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1433,7 +1433,7 @@
   },
   "NONE_FOR_SALE_IN_THIS_STATION": {
     "description": "",
-    "message": "Няма за продажба в тази станция."
+    "message": "Няма наличност в тази станция."
   },
   "NORMA_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1485,7 +1485,7 @@
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Occupied Passenger Cabins"
+    "message": "Заети пасажерски кабини"
   },
   "OFF": {
     "description": "",
@@ -2041,7 +2041,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Незаети пасажерски кабини"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
@@ -2101,7 +2101,7 @@
   },
   "WEIGHT_EMPTY": {
     "description": "",
-    "message": "Нетна тежест"
+    "message": "Нетно тегло"
   },
   "WEIGHT_FULLY_LOADED": {
     "description": "",
@@ -2113,7 +2113,7 @@
   },
   "WE_HAVE_NO_BUSINESS_WITH_YOU": {
     "description": "Said by the police to law abiding player",
-    "message": "В момента нямаме работа с теб."
+    "message": "В момента нямаме работа с Вас."
   },
   "X_CANNOT_BE_TOLERATED_HERE": {
     "description": "Message to be sent over comms by police when crime is committed by player",
