@@ -6,7 +6,6 @@ local Event = require 'Event'
 local Game = require 'Game'
 local Lang = require 'Lang'
 local ShipDef = require 'ShipDef'
-local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local InfoView = require 'pigui.views.info-view'
 local Vector2 = Vector2
 
@@ -15,7 +14,6 @@ local l = Lang.GetResource("ui-core")
 
 local fonts = ui.fonts
 local textTable = require 'pigui.libs.text-table'
-
 
 local equipmentWidget = require 'pigui.libs.ship-equipment'.New("ShipInfo")
 
@@ -117,5 +115,8 @@ InfoView:registerView({
 })
 
 Event.Register("onShipTypeChanged", function(ship)
-	if ship == Game.player then equipmentWidget:refresh() end
+	if ship == Game.player then
+		equipmentWidget.ship = Game.player
+		equipmentWidget:refresh()
+	end
 end)
