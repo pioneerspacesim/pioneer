@@ -87,7 +87,8 @@ local onCreateBB = function (station)
 
 	local ad = {
 		id = flavours[n].ID,
-		headline = flavours[n].ID .. ": " .. flavours[n].headline,
+		headline = flavours[n].ID,
+		description = flavours[n].headline,
 		bodytext = flavours[n].bodytext,
 		station  = station
 	}
@@ -96,7 +97,8 @@ local onCreateBB = function (station)
 	local ref
 	if rand:Number() < advice_probability then
 		ref = station:AddAdvert({
-			description = ad.headline,
+			title       = ad.headline,
+			description = ad.description,
 			icon        = "advice",
 			onChat      = onChat,
 			onDelete    = onDelete})
