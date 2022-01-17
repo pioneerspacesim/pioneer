@@ -13,7 +13,7 @@
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "Contact the local Interstellar Pilots' Fuel Co-operative representative."
+    "message": "Свържете се с местния представител на Горивната кооперация на пилотите."
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "FLAVOUR_0_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "PILOT'S FUEL CO-OP"
+    "message": "ГОРИВНА КООПЕРАЦИЯ НА ПИЛОТИТЕ"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "FLAVOUR_1_DESC": {
     "description": "Fuel club for the Federation faction",
-    "message": "Authorized contact for The Federal Fuel Foundation."
+    "message": "Пълномощник на Федералната горивна фондация."
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
@@ -45,7 +45,7 @@
   },
   "FLAVOUR_1_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "FEDERAL FUEL FOUNDATION"
+    "message": "ФЕДЕРАЛНА ГОРИВНА ФОНДАЦИЯ"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_2_DESC": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "Make an appointment to speak with the Commonwealth Fuel Union."
+    "message": "Уговорете си среща с представител на Съюзът на горивната федерация."
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_2_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "COMMONWEALTH FUEL UNION"
+    "message": "СЪЮЗ НА ГОРИВНАТА ФЕДЕРАЦИЯ"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
@@ -85,11 +85,11 @@
   },
   "FLAVOUR_3_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "HABER PROPELLANT"
+    "message": "ХАБЕРСКО ГОРИВО"
   },
   "FUEL_LEVEL": {
     "description": "",
-    "message": "Your current fuel level is {level}%."
+    "message": "Резервоарът на Вашия кораб е пълен на {level} %."
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Зареждане с гориво, веднъж дневно"
+    "message": "Всекидневно зареждане с гориво"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "REFUEL_FREE": {
     "description": "",
-    "message": "Refuel internal fuel tank for free."
+    "message": "Безплатно зареждане с гориво."
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",
@@ -133,6 +133,6 @@
   },
   "YOU_MUST_BUY": {
     "description": "",
-    "message": "Първо, закупете от нашето {military_fuel}, после ще вземем Вашите {radioactives}"
+    "message": "Първо, закупете от {military_fuel}, после ще вземем Вашите {radioactives}"
   }
 }
