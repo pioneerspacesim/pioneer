@@ -129,8 +129,26 @@ void SystemView::ResetViewpoint()
 	m_time = m_game->GetTime();
 	m_transTo *= 0.0;
 	m_animateTransition = MAX_TRANSITION_FRAMES;
+
+	float height = tan(DEG2RAD(CAMERA_FOV)) * 30.0f;
+	m_atlasViewW = height * m_renderer->GetDisplayAspect();
+	m_atlasViewH = height;
+
+	bool hasChildren = m_atlasLayout.children.size();
+	bool isBinary = m_atlasLayout.isBinary;
+	vector2f size = m_atlasLayout.size;
+	vector2f avail = vector2f(m_atlasViewW, m_atlasViewH) * 0.85f;
+
+	m_atlasZoomDefault = Clamp(std::max(size.x / avail.x, size.y / avail.y), 1.0f, MAX_ATLAS_ZOOM);
+
+	// This framing algorithm doesn't produce perfect results, but it works in 95% of cases.
+	// Future developers can tweak it for prettier results in the SystemView.
+	m_atlasPosDefault = 0.5f * vector2f(
+		hasChildren ? std::min(size.x / avail.x, 1.0f) * avail.x : 0,
+		isBinary ? std::min(size.y / avail.y, 1.0f) * avail.y : 0);
+
 	m_atlasPosTo *= 0.0;
-	m_atlasZoomTo = 1.0;
+	m_atlasZoomTo = m_atlasZoomDefault;
 }
 
 template <typename RefType>
@@ -373,7 +391,6 @@ void SystemView::Draw3D()
 	if (m_system) {
 		if (m_system->GetUnexplored() != m_unexplored || !m_system->GetPath().IsSameSystem(path)) {
 			m_system.Reset();
-			ResetViewpoint();
 		}
 	}
 
@@ -389,6 +406,13 @@ void SystemView::Draw3D()
 	if (!m_system) {
 		m_system = m_game->GetGalaxy()->GetStarSystem(path);
 		m_unexplored = m_system->GetUnexplored();
+
+		SystemBody *body = m_system->GetRootBody().Get();
+		m_atlasLayout = {};
+		m_atlasLayout.isVertical = body->GetType() == SystemBody::TYPE_GRAVPOINT;
+		LayoutSystemBody(body, m_atlasLayout);
+
+		ResetViewpoint();
 	}
 
 	if (m_displayMode == Mode::Orrery) {
@@ -532,77 +556,85 @@ double get_body_radius(SystemBody *b)
 		return pow(x, SCALE_EXPONENT) + std::max(0.25 * (1.0 - pow(x, 4.0)), 0.0);
 }
 
-double get_body_distance(double lastRadius, double nextRadius)
+// LayoutSystemBody accumulates the size of all children bodies into the passed
+// layout parameter. The size of the layout is measured from the center of the
+// root body to the trailing edge of the furthest child body in both directions.
+// The offset and isVertical layout fields are reserved for the caller to set.
+void SystemView::LayoutSystemBody(SystemBody *body, AtlasBodyLayout &layout)
 {
-	// the amount of separation between the last body's center and this one.
-	// constrained to be at least one grid between objects
-	const double combinedRadius = lastRadius + nextRadius;
-	return std::max(combinedRadius * 1.5, combinedRadius + 1.333);
-}
+	layout.body = body;
+	layout.radius = get_body_radius(body);
+	layout.size = vector2f(layout.radius);
 
-vector3f SystemView::CalcInitialAtlasBodyInfo(SystemBody *b, uint8_t &outDirection)
-{
-	double x_offset = -m_atlasViewW * 0.45 / m_atlasZoom;
-	double y_offset = m_atlasViewH * 0.45 / m_atlasZoom;
+	const int orient = layout.isVertical ? 1 : 0;
+	const int crossdir = layout.isVertical ? 0 : 1;
 
-	// if we're a single-star system, everything is in a line
-	if (b->GetType() != SystemBody::TYPE_GRAVPOINT) {
-		outDirection = 1;
-		return vector3f(x_offset + get_body_radius(b), 0, 0);
+	if (body->GetType() == SystemBody::TYPE_GRAVPOINT) {
+		layout.isBinary = true;
+		// layout.offset[crossdir] += 10.0f; // gravpoint debugging
 	}
 
-	// if the gravpoint has no children, it's an empty system
-	if (!b->GetNumChildren()) {
-		outDirection = 0;
-		return vector3f(0, 0, 0);
-	}
+	if (!body->GetNumChildren())
+		return;
 
-	auto children = b->GetChildren();
-
-	// if the first child isn't a grav-point, good odds this is a binary with a single rotation center
-	if (children[0]->GetType() != SystemBody::TYPE_GRAVPOINT) {
-		double radius = get_body_radius(children[0]);
-		outDirection = 0;
-		// body rendering code will offset gravpoint children, compensate here
-		return vector3f(x_offset + radius, y_offset + get_body_distance(0.0, radius) - radius, 0);
-	}
-
-	// TODO: if the first child is also a gravpoint, we have a trinary or worse system
-	outDirection = 0;
-	return vector3f(0, 0, 0);
-}
-
-void SystemView::RenderAtlasBody(SystemBody *b, vector3f pos, const matrix4x4f &cameraTrans, uint8_t direction)
-{
-	const double radius = get_body_radius(b);
-
-	if (b->GetType() != SystemBody::TYPE_GRAVPOINT) {
-		matrix4x4f bodyTrans = matrix4x4f::Identity();
-		bodyTrans.Translate(pos);
-		bodyTrans.Scale(radius);
-		m_renderer->SetTransform(cameraTrans * bodyTrans);
-
-		// Drawables::GetAxes3DDrawable(m_renderer)->Draw(m_renderer);
-		Graphics::Texture *bodyTex = TextureBuilder::Model(b->GetIcon()).GetOrCreateTexture(m_renderer, "bodyicons");
-		m_atlasMat->SetTexture(Graphics::Renderer::GetName("texture0"), bodyTex);
-		m_bodyIcon->Draw(m_renderer, m_atlasMat.get());
-
-		float pixPerUnit = Graphics::GetScreenHeight() / m_atlasViewH;
-		AddProjected<SystemBody>(Projectable::OBJECT, Projectable::SYSTEMBODY, b, vector3d(), radius * pixPerUnit);
-	}
-
-	double lastRadius = radius;
-	for (auto child : b->GetChildren()) {
-		// skip surface starports
+	for (auto *child : body->GetChildren()) {
 		if (child->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
 			continue;
 
-		const double bodyRadius = get_body_radius(child);
-		const double sepDistance = get_body_distance(lastRadius, bodyRadius);
+		AtlasBodyLayout child_layout {};
 
-		pos += direction ? vector3f(sepDistance, 0, 0) : vector3f(0, -sepDistance, 0);
-		RenderAtlasBody(child, pos, cameraTrans, child->GetType() == SystemBody::TYPE_GRAVPOINT ? direction : (direction + 1) & 1);
-		lastRadius = bodyRadius;
+		// if this is a binary host gravpoint, don't alter the layout direction
+		if (child->GetType() == SystemBody::TYPE_GRAVPOINT)
+			child_layout.isVertical = layout.isVertical;
+		else
+			child_layout.isVertical = !layout.isVertical;
+
+		LayoutSystemBody(child, child_layout);
+
+		const double bodyRadius = get_body_radius(child);
+
+		// layout.size measures to the edge of the last encountered body
+		// so we add the radius of the current child body plus a gap
+		float offset = layout.size[orient];
+		if (offset > 0)
+			offset += bodyRadius + std::max(bodyRadius * 0.6, 1.33);
+		child_layout.offset[orient] = offset;
+
+		layout.size[orient] = offset + child_layout.size[orient];
+		layout.size[crossdir] = std::max(layout.size[crossdir], child_layout.size[crossdir]);
+
+		layout.children.push_back(child_layout);
+	}
+}
+
+void SystemView::RenderAtlasBody(const AtlasBodyLayout &layout, vector3f pos, const matrix4x4f &cameraTrans)
+{
+	pos += vector3f(layout.offset.x, -layout.offset.y, 0.f);
+
+	if (layout.body->GetType() != SystemBody::TYPE_GRAVPOINT) {
+		matrix4x4f bodyTrans = matrix4x4f::Identity();
+		bodyTrans.Translate(pos);
+		bodyTrans.Scale(layout.radius);
+		m_renderer->SetTransform(cameraTrans * bodyTrans);
+
+		// Drawables::GetAxes3DDrawable(m_renderer)->Draw(m_renderer);
+		Graphics::Texture *bodyTex = TextureBuilder::Model(layout.body->GetIcon()).GetOrCreateTexture(m_renderer, "bodyicons");
+		m_atlasMat->SetTexture(Graphics::Renderer::GetName("texture0"), bodyTex);
+		m_bodyIcon->Draw(m_renderer, m_atlasMat.get());
+
+		float pixPerUnit = Graphics::GetScreenHeight() / (m_atlasViewH * m_atlasZoom);
+		AddProjected<SystemBody>(Projectable::OBJECT, Projectable::SYSTEMBODY, layout.body, vector3d(), layout.radius * pixPerUnit);
+	}
+	/* else { // gravpoint debugging
+		matrix4x4f bodyTrans = matrix4x4f::Identity();
+		bodyTrans.Translate(pos - vector3f(layout.offset.x, -layout.offset.y, 0.f));
+		m_renderer->SetTransform(cameraTrans * bodyTrans);
+
+		Drawables::GetAxes3DDrawable(m_renderer)->Draw(m_renderer);
+	} */
+
+	for (const auto &child : layout.children) {
+		RenderAtlasBody(child, pos, cameraTrans);
 	}
 }
 
@@ -637,10 +669,7 @@ void SystemView::DrawAtlasView()
 	m_renderer->ClearDepthBuffer();
 
 	// Pick an orthographic projection scale that has the same apparent size as a perspective projection at 30m.
-	float height = tan(DEG2RAD(CAMERA_FOV)) * 30.0f * m_atlasZoom;
-	m_atlasViewW = height * m_renderer->GetDisplayAspect();
-	m_atlasViewH = height;
-	m_renderer->SetProjection(matrix4x4f::OrthoMatrix(m_atlasViewW, m_atlasViewH, 1.0, 1000.0));
+	m_renderer->SetProjection(matrix4x4f::OrthoMatrix(m_atlasViewW * m_atlasZoom, m_atlasViewH * m_atlasZoom, 1.0, 1000.0));
 
 	matrix4x4f cameraTrans = matrix4x4f::Identity();
 	cameraTrans.Translate(vector3f(m_atlasPos.x, -m_atlasPos.y, -10.0));
@@ -652,13 +681,8 @@ void SystemView::DrawAtlasView()
 	m_renderer->SetTransform(cameraTrans * gridTransform);
 	DrawGrid(64.0);
 
-	// TODO: refactor into a separate function
-	auto *b = m_system->GetRootBody().Get();
-
-	m_renderer->SetTransform(cameraTrans);
-	uint8_t startDirection = 0;
-	vector3f startPos = CalcInitialAtlasBodyInfo(b, startDirection);
-	RenderAtlasBody(b, startPos, cameraTrans, startDirection);
+	// Draw the system atlas layout, offsetting the position to ensure it's roughly centered on the grid
+	RenderAtlasBody(m_atlasLayout, vector3f{ -m_atlasPosDefault.x, m_atlasPosDefault.y, 0.0f }, cameraTrans);
 }
 
 void SystemView::Update()

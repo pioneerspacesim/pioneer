@@ -79,10 +79,13 @@ public:
 		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y);
 	}
 
+	inline T &operator[](unsigned int idx) { return (&x)[idx]; }
+
 	friend vector2 operator*(const vector2 &v, const T &a) { return vector2(v.x * a, v.y * a); }
 	friend vector2 operator*(const T &a, const vector2 &v) { return v * a; }
 	friend vector2 operator*(const vector2 &va, const vector2 &vb) { return vector2(va.x * vb.x, va.y * vb.y); }
 	friend vector2 operator/(const vector2 &v, const T &a) { return vector2(v.x / a, v.y / a); }
+	friend vector2 operator/(const vector2 &va, const vector2 &vb) { return vector2(va.x / vb.x, va.y / vb.y); }
 	friend bool operator<(const vector2 &va, const vector2 &vb) { return va.LengthSqr() < vb.LengthSqr(); }
 
 	T Length() const { return sqrt(x * x + y * y); }
