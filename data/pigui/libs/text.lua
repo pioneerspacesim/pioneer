@@ -237,9 +237,9 @@ ui.Format = {
 		elseif m < EARTH_MASS / 1e3 then
 			return string.format(fmt, mass / 1e18), lc.UNIT_PETATONNES
 		elseif m < EARTH_MASS * 1e3 then
-			return oldFmt(lc.N_EARTH_MASSES, { mass = mass / EARTH_MASS })
+			return oldFmt(lc.N_EARTH_MASSES, { mass = mass / EARTH_MASS }), ""
 		end
-		return oldFmt(lc.N_SOLAR_MASSES, { mass = mass / SOL_MASS })
+		return oldFmt(lc.N_SOLAR_MASSES, { mass = mass / SOL_MASS }), ""
 	end,
 	Mass = function(mass, digits)
 		local m, u = ui.Format.MassUnit(mass, digits)
@@ -269,20 +269,22 @@ ui.Format = {
 		else return s .. fmt:format(number / 1e12, "trn") end
 	end,
 	-- write the entire number using thousands-place grouping
+	-- Due to bugs with format specifier %03.2f producing 0.00 instead of 000.00,
+	-- format the decimal part of the number separately and use integer formatting
 	Number = function(number, places)
 		local s = number < 0.0 and "-" or ""
 		number = math.abs(number)
 		local fmt = "%." .. (places or '2') .. "f"
 		if number < 1e3 then return s .. fmt:format(number)
 		else
-			fmt = "%03." .. (places or '2') .. "f"
-			local res = fmt:format(number % 1e3)
-			number = number / 1e3
+			local deci = places ~= 0 and fmt:format(number % 1.0):match("(%..*)") or ""
+			number = math.floor(number)
+			local res = ""
 			while number > 1e3 do
-				res = string.format("%03d,%s", number % 1e3, res)
+				res = string.format(",%03d%s", number % 1e3, res)
 				number = number / 1e3
 			end
-			return string.format("%d,%s", number, res)
+			return string.format("%d%s%s", number, res, deci)
 		end
 	end,
 	SystemPath = function(path)

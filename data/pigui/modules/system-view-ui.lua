@@ -630,7 +630,7 @@ function Windows.objectInfo.Show()
 			{ name = lc.AXIAL_TILT, icon = icons.body_semi_major_axis,
 			value = (not starport) and string.format("%0.2f", body.axialTilt) or nil },
 			{ name = lc.POPULATION, icon = icons.personal,
-			value = pop > 0 and ui.Format.Number(pop) or nil },
+			value = pop > 0 and ui.Format.NumberAbbv(pop) or nil },
 
 		}
 
