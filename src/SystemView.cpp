@@ -143,9 +143,7 @@ void SystemView::ResetViewpoint()
 
 	// This framing algorithm doesn't produce perfect results, but it works in 95% of cases.
 	// Future developers can tweak it for prettier results in the SystemView.
-	m_atlasPosDefault = 0.5f * vector2f(
-		hasChildren ? std::min(size.x / avail.x, 1.0f) * avail.x : 0,
-		isBinary ? std::min(size.y / avail.y, 1.0f) * avail.y : 0);
+	m_atlasPosDefault = 0.5f * vector2f(hasChildren ? std::min(size.x / avail.x, 1.0f) * avail.x : 0, isBinary ? std::min(size.y / avail.y, 1.0f) * avail.y : 0);
 
 	m_atlasPosTo *= 0.0;
 	m_atlasZoomTo = m_atlasZoomDefault;
@@ -584,7 +582,7 @@ void SystemView::LayoutSystemBody(SystemBody *body, AtlasBodyLayout &layout)
 		if (child->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
 			continue;
 
-		AtlasBodyLayout child_layout {};
+		AtlasBodyLayout child_layout{};
 
 		// if this is a binary host gravpoint, don't alter the layout direction
 		if (child->GetType() == SystemBody::TYPE_GRAVPOINT)

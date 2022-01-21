@@ -80,11 +80,11 @@ struct Projectable {
 
 struct AtlasBodyLayout {
 	SystemBody *body;
-	float       radius;
-	bool        isVertical;
-	bool        isBinary;
-	vector2f    offset;
-	vector2f    size;
+	float radius;
+	bool isVertical;
+	bool isBinary;
+	vector2f offset;
+	vector2f size;
 
 	std::vector<AtlasBodyLayout> children;
 };
