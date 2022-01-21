@@ -25,27 +25,27 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Ship needed for delivery of cargo to the {system} system."
+    "message": "Besoin de vaisseau pour la livraison d'une marchandise vers le système {system}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "Besoin de transport de produits vers le système {system}. Paie {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "Livraison d'une cargaison de valeur vers le système {system}. {cash} pour un pilote expérimenté."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
+    "message": "Transporteurs requis pour un trajet à l'intérieur du système: amener des marchandises vers {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "Need local delivery of personal cargo to {starport}."
+    "message": "Besoin de livraison locale pour une cargaison personnelle vers {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
+    "message": "Contrat de livraison de cargaison privée. Besoin de transport certifié de marchandises vers {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",

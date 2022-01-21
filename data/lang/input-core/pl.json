@@ -212,15 +212,15 @@
   },
   "MOUSE_LMB": {
     "description": "An acronym for the left mouse button",
-    "message": "LMB"
+    "message": "LPM"
   },
   "MOUSE_MMB": {
     "description": "An acronym for the middle mouse button",
-    "message": "MMB"
+    "message": "ŚPM"
   },
   "MOUSE_RMB": {
     "description": "An acronym for the right mouse button",
-    "message": "RMB"
+    "message": "PPM"
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",

@@ -25,23 +25,23 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Ship needed for delivery of cargo to the {system} system."
+    "message": "Statek potrzebny, żeby dostarczyć towar do systemu {system}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "Potrzebny transport dóbr do systemu {system}. Płacę {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "Dostawa drogiego towaru do systemu {system}. Płacę {cash} dla doświadczonego pilota."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
+    "message": "Przewoźnicy potrzebni do transportu w tym systemie. Trzeba dostarczyć towar do {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "Need local delivery of personal cargo to {starport}."
+    "message": "Potrzeba lokalnej dostawy personalnych rzeczy do {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",

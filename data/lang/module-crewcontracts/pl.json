@@ -21,11 +21,11 @@
   },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
-    "message": "Potential crew available for hire at this starport."
+    "message": "Potencjalna załoga jest możliwa do zatrudnienia na tej stacji kosmicznej."
   },
   "CREW_FOR_HIRE_TITLE": {
     "description": "",
-    "message": "CREW FOR HIRE"
+    "message": "ZAŁOGA DO WYNAJĘCIA"
   },
   "GO_BACK": {
     "description": "",
