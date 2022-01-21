@@ -19,21 +19,27 @@ local icons = ui.theme.icons
 
 local systemView
 
--- will be initialized at first frame
-local textIconSize = nil
-local edgePadding = nil
-
 local mainButtonSize = ui.rescaleUI(Vector2(32,32), Vector2(1600, 900))
 local mainButtonFramePadding = 3
 local indicatorSize = Vector2(30 , 30)
+local bodyIconSize = Vector2(18 , 18)
 
 local selectedObject -- object, centered in SystemView
 
 local hudfont = ui.fonts.pionillium.small
+local hudfont_highlight = ui.fonts.pionillium.medium
+local detailfont = ui.fonts.pionillium.medium
 local winfont = ui.fonts.pionillium.medlarge
+
+local atlasfont = ui.fonts.pionillium.medium
+local atlasfont_highlight = ui.fonts.pionillium.medlarge
+
+local atlas_line_length = ui.rescaleUI(24)
+local atlas_label_offset = ui.rescaleUI(Vector2(12, -8))
 
 local ASTEROID_RADIUS = 1500000 -- rocky planets smaller than this (in meters) are considered an asteroid, not a planet
 
+local itemSpacing = ui.rescaleUI(Vector2(4, 8), Vector2(1600, 900)) -- FIXME: inherit this from theme
 
 --load enums Projectable::types and Projectable::bases in one table "Projectable"
 local Projectable = {}
@@ -61,6 +67,7 @@ local svColor = {
 	PLANNER_ORBIT = colors.systemMapPlannerOrbit,
 	PLAYER = colors.systemMapPlayer,
 	PLAYER_ORBIT = colors.systemMapPlayerOrbit,
+	SELECTED = ui.theme.styleColors.gray_200,
 	SELECTED_SHIP_ORBIT = colors.systemMapSelectedShipOrbit,
 	SHIP = colors.systemMapShip,
 	SHIP_ORBIT = colors.systemMapShipOrbit,
@@ -85,7 +92,8 @@ local buttonState = {
 	GRID_ON       = { icon = icons.toggle_grid,        color = svColor.BUTTON_SEMIACTIVE },
 	GRID_AND_LEGS = { icon = icons.toggle_grid,        color = svColor.BUTTON_ACTIVE },
 	[true]        = {                                  color = svColor.BUTTON_ACTIVE },
-	[false]       = {                                  color = svColor.BUTTON_INACTIVE }
+	[false]       = {                                  color = svColor.BUTTON_INACTIVE },
+	DISABLED      = {                                  color = svColor.BUTTON_SEMIACTIVE }
 }
 
 local ship_drawing = "SHIPS_OFF"
@@ -115,7 +123,8 @@ local onEnterSystem = function (ship)
 end
 
 local function textIcon(icon, tooltip)
-	ui.icon(icon, textIconSize, svColor.FONT, tooltip)
+	ui.icon(icon, Vector2(ui.getTextLineHeight()), svColor.FONT, tooltip)
+	ui.sameLine()
 end
 
 local function showDvLine(leftIcon, resetIcon, rightIcon, key, Formatter, leftTooltip, resetTooltip, rightTooltip)
@@ -184,42 +193,69 @@ local Windows = {
 	timeButtons = newWindow("SystemMapTimeButtons")
 }
 
-function Windows.edgeButtons.Show()
-	-- view control buttons
-	if ui.coloredSelectedIconButton(icons.reset_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.RESET_ORIENTATION_AND_ZOOM) then
-		systemView:SetVisibility("RESET_VIEW")
-	end
-	ui.coloredSelectedIconButton(icons.rotate_view, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.ROTATE_VIEW)
-	systemView:SetRotateMode(ui.isItemActive())
-	ui.coloredSelectedIconButton(icons.search_lens,mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, luc.ZOOM)
-	systemView:SetZoomMode(ui.isItemActive())
-	ui.text("")
-	-- visibility control buttons
-	if ui.coloredSelectedIconButton(buttonState[ship_drawing].icon, mainButtonSize, false, mainButtonFramePadding, buttonState[ship_drawing].color, svColor.BUTTON_INK, lc.SHIPS_DISPLAY_MODE_TOGGLE) then
-		ship_drawing = nextShipDrawings[ship_drawing]
-		systemView:SetVisibility(ship_drawing)
-	end
-	if ui.coloredSelectedIconButton(buttonState[show_lagrange].icon, mainButtonSize, false, mainButtonFramePadding, buttonState[show_lagrange].color, svColor.BUTTON_INK, lc.L4L5_DISPLAY_MODE_TOGGLE) then
-		show_lagrange = nextShowLagrange[show_lagrange]
-		systemView:SetVisibility(show_lagrange)
-	end
-	if ui.coloredSelectedIconButton(buttonState[show_grid].icon, mainButtonSize, false, mainButtonFramePadding, buttonState[show_grid].color, svColor.BUTTON_INK, lc.GRID_DISPLAY_MODE_TOGGLE) then
-		show_grid = nextShowGrid[show_grid]
-		systemView:SetVisibility(show_grid)
-	end
-	ui.text("")
-	-- windows control buttons
-	if ui.coloredSelectedIconButton(icons.info, mainButtonSize, false, mainButtonFramePadding, buttonState[Windows.objectInfo.visible].color, svColor.BUTTON_INK, lc.OBJECT_INFO) then
-		Windows.objectInfo.visible = not Windows.objectInfo.visible
-	end
-	if ui.coloredSelectedIconButton(icons.semi_major_axis, mainButtonSize, false, mainButtonFramePadding, buttonState[Windows.orbitPlanner.visible].color, svColor.BUTTON_INK, lc.ORBIT_PLANNER) then
-		Windows.orbitPlanner.visible = not Windows.orbitPlanner.visible
+local function edgeButton(icon, tooltip, state)
+	return ui.coloredSelectedIconButton(icon, mainButtonSize, false, mainButtonFramePadding, (state ~= nil and state.color or svColor.BUTTON_ACTIVE), svColor.BUTTON_INK, tooltip)
+end
+
+local function drawWindowControlButton(window, icon, tooltip)
+	local isWindowActive = true
+	if window.ShouldShow then isWindowActive = window:ShouldShow() end
+
+	-- tristate: invisible, inactive, visible
+	local state = (isWindowActive or not window.visible) and buttonState[window.visible] or buttonState['DISABLED']
+	if edgeButton(icon, tooltip, state) then
+		window.visible = not window.visible
 	end
 end
 
+function Windows.edgeButtons.Show()
+	local isOrrery = systemView:GetDisplayMode() == "Orrery"
+	-- view control buttons
+	if edgeButton(icons.reset_view, luc.RESET_ORIENTATION_AND_ZOOM) then
+		systemView:SetVisibility("RESET_VIEW")
+	end
+	edgeButton(icons.rotate_view, luc.ROTATE_VIEW)
+	systemView:SetRotateMode(ui.isItemActive())
+	edgeButton(icons.search_lens, luc.ZOOM)
+	systemView:SetZoomMode(ui.isItemActive())
+
+	if isOrrery and edgeButton(icons.system_overview, luc.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW) then
+		systemView:SetDisplayMode('Atlas')
+	end
+	if not isOrrery and edgeButton(icons.system_map, luc.HUD_BUTTON_SWITCH_TO_SYSTEM_MAP) then
+		systemView:SetDisplayMode('Orrery')
+	end
+	ui.newLine()
+	-- visibility control buttons
+	if edgeButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing]) then
+		ship_drawing = nextShipDrawings[ship_drawing]
+		systemView:SetVisibility(ship_drawing)
+	end
+	if edgeButton(buttonState[show_lagrange].icon, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[show_lagrange]) then
+		show_lagrange = nextShowLagrange[show_lagrange]
+		systemView:SetVisibility(show_lagrange)
+	end
+	if edgeButton(buttonState[show_grid].icon, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[show_grid]) then
+		show_grid = nextShowGrid[show_grid]
+		systemView:SetVisibility(show_grid)
+	end
+	ui.newLine()
+
+	drawWindowControlButton(Windows.objectInfo, icons.info, lc.OBJECT_INFO)
+	drawWindowControlButton(Windows.orbitPlanner, icons.semi_major_axis, lc.ORBIT_PLANNER)
+end
+
+function Windows.orbitPlanner.ShouldShow()
+	return systemView:GetDisplayMode() == 'Orrery'
+end
+
 function Windows.orbitPlanner.Show()
+	if not Windows.orbitPlanner:ShouldShow() then
+		Windows.orbitPlanner.visible = false
+		return
+	end
+
 	textIcon(icons.semi_major_axis)
-	ui.sameLine()
 	ui.text(lc.ORBIT_PLANNER)
 	ui.separator()
 	showDvLine(icons.decrease, icons.delta, icons.increase, "factor", function(i) return i, "x" end, luc.DECREASE, lc.PLANNER_RESET_FACTOR, luc.INCREASE)
@@ -259,7 +295,8 @@ function Windows.timeButtons.Show()
 	end
 end
 
-local function getBodyIcon(obj)
+local _getBodyIcon = require 'pigui.modules.flight-ui.body-icons'
+local function getBodyIcon(obj, forWorld)
 	if obj.type == Projectable.APOAPSIS then return icons.apoapsis
 	elseif obj.type == Projectable.PERIAPSIS then return icons.periapsis
 	elseif obj.type == Projectable.L4 then return icons.lagrange_marker
@@ -271,54 +308,8 @@ local function getBodyIcon(obj)
 		else
 			return icons.ship
 		end
-	elseif obj.base == Projectable.SYSTEMBODY then
-		local body = obj.ref
-		local st = body.superType
-		local t = body.type
-		if st == "STARPORT" then
-			if t == "STARPORT_ORBITAL" then
-				return icons.spacestation
-			elseif body.type == "STARPORT_SURFACE" then
-				return icons.starport
-			end
-		elseif st == "GAS_GIANT" then
-			return icons.gas_giant
-		elseif st == "STAR" then
-			return icons.sun
-		elseif st == "ROCKY_PLANET" then
-			if body.IsMoon then
-				return icons.moon
-			else
-				if body.radius < ASTEROID_RADIUS then
-					return icons.asteroid_hollow
-				else
-					return icons.rocky_planet
-				end
-			end
-		end -- st
 	else
-		-- physical body
-		local body = obj.ref
-		if body:IsShip() then
-			local shipClass = body:GetShipClass()
-			if icons[shipClass] then
-				return icons[shipClass]
-			else
-				print("system-view-ui.lua: getBodyIcon unknown ship class " .. (shipClass and shipClass or "nil"))
-				return icons.ship -- TODO: better icon
-			end
-		elseif body:IsHyperspaceCloud() then
-			return icons.hyperspace -- TODO: better icon
-		elseif body:IsMissile() then
-			return icons.bullseye -- TODO: better icon
-		elseif body:IsCargoContainer() then
-			return icons.rocky_planet -- TODO: better icon
-		else
-			local t, st = body.type, body.superType
-			print("system-view-ui.lua: getBodyIcon not sure how to process body, supertype: " .. (st and st or "nil") .. ", type: " .. (t and t or "nil"))
-			--utils.print_r(body)
-			return icons.ship
-		end
+		return _getBodyIcon(obj.ref, forWorld)
 	end
 end
 
@@ -361,17 +352,83 @@ function Windows.systemName.Show()
 	ui.text(ui.Format.SystemPath(path))
 end
 
+local function drawGroupIcons(coords, icon, color, iconSize, group, isSelected)
+	-- indicators
+	local stackedSize = indicatorSize
+	local stackStep = Vector2(10, 10)
+	if isSelected then
+		ui.addIcon(coords, icons.square, svColor.SELECTED, stackedSize, ui.anchor.center, ui.anchor.center)
+		stackedSize = stackedSize + stackStep
+	end
+	if group.hasPlayer then
+		ui.addIcon(coords, icons.square, svColor.PLAYER, stackedSize, ui.anchor.center, ui.anchor.center)
+		stackedSize = stackedSize + stackStep
+	end
+	if group.hasNavTarget then
+		ui.addIcon(coords, icons.square, svColor.NAV_TARGET, stackedSize, ui.anchor.center, ui.anchor.center)
+		stackedSize = stackedSize + stackStep
+	end
+	if group.hasCombatTarget then
+		ui.addIcon(coords, icons.square, svColor.COMBAT_TARGET, stackedSize, ui.anchor.center, ui.anchor.center)
+		stackedSize = stackedSize + stackStep
+	end
+	if group.hasPlanner then
+		ui.addIcon(coords, icons.square, svColor.PLANNER, stackedSize, ui.anchor.center, ui.anchor.center)
+		stackedSize = stackedSize + stackStep
+	end
+
+	ui.addIcon(coords, icon, color, iconSize, ui.anchor.center, ui.anchor.center)
+end
+
+-- handle positioning and drawing a label for the given object in Atlas mode
+local function drawAtlasBodyLabel(label, screenSize, mainCoords, isHovered, isSelected)
+	-- Larger font for hovered bodies, slight emphasis on the selected body
+	local font = isHovered and atlasfont_highlight or atlasfont
+	local fontColor = isSelected and colors.systemAtlasLabelActive or colors.systemAtlasLabel
+	local lineColor = isSelected and colors.systemAtlasLineActive or colors.systemAtlasLine
+
+	local textSize = ui.calcTextSize(label, font)
+	-- lineOffset is half the screen-size radius of the body
+	local lineOffsetSize = math.max(screenSize * 0.66, bodyIconSize.x * 0.5) -- most icons use about 60% of the actual radius
+	-- lineLength is how long to draw the "pointer" line between the label and the edge of the body
+	local lineLength = (atlas_line_length / math.max(systemView:GetZoom(), 1.0)) * (isHovered and 1.0 or 0.6)
+
+	local lineStartPos = mainCoords + Vector2(lineOffsetSize, -lineOffsetSize * 0.667)
+	local lineEndPos = lineStartPos + Vector2(lineLength, -lineLength)
+	local underlinePos = lineEndPos + Vector2(textSize.x + atlas_label_offset.x * 2, 0)
+
+	-- draw a background behind the label, then an indicator line
+	if isHovered then
+		ui.addRectFilled(lineEndPos - Vector2(0, -atlas_label_offset.y + textSize.y), underlinePos, colors.lightBlackBackground, 4, 0)
+		ui.addLine(lineStartPos, lineEndPos, lineColor, 2)
+		ui.addLine(lineEndPos, underlinePos, lineColor, 3)
+	end
+
+	-- draw the label and it's shadow for clarity
+	local labelPos = (isHovered and lineEndPos or lineStartPos) + atlas_label_offset
+	local shadowPos = labelPos + Vector2(2, 1)
+
+	ui.addStyledText(shadowPos, ui.anchor.left, ui.anchor.baseline, label, colors.black, font)
+	ui.addStyledText(labelPos, ui.anchor.left, ui.anchor.baseline, label, fontColor, font)
+end
+
+
+local unexloredWindowFlags = ui.WindowFlags {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "NoInputs"}
 -- forked from data/pigui/views/game.lua
 local function displayOnScreenObjects()
+	local isOrrery = systemView:GetDisplayMode() == 'Orrery'
 
 	local navTarget = player:GetNavTarget()
 	local combatTarget = player:GetCombatTarget()
 
-	local should_show_label = ui.shouldShowLabels()
-	local iconsize = Vector2(18 , 18)
+	local should_show_label = isOrrery and ui.shouldShowLabels()
+
 	local label_offset = 14 -- enough so that the target rectangle fits
-	local collapse = iconsize -- size of clusters to be collapsed into single bodies
+	local collapse = bodyIconSize -- size of clusters to be collapsed into single bodies
 	local click_radius = collapse:length() * 0.5
+	if not isOrrery then
+		click_radius = collapse:length() * 0.8 / systemView:GetZoom()
+	end
 	-- make click_radius sufficiently smaller than the cluster size
 	-- to prevent overlap of selection regions
 	local objectCounter = 0
@@ -379,7 +436,7 @@ local function displayOnScreenObjects()
 	if #objects_grouped == 0 then
 		ui.setNextWindowPos(Vector2(ui.screenWidth, ui.screenHeight) / 2 - ui.calcTextSize(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW) / 2, "Always")
 		ui.withStyleColors({["WindowBg"] = svColor.WINDOW_BG}, function()
-			ui.window("NoSystemView", {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
+			ui.window("NoSystemView", unexloredWindowFlags,
 			function()
 				ui.text(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 			end)
@@ -387,41 +444,41 @@ local function displayOnScreenObjects()
 		return
 	end
 
+	local hoveredObject = nil
+	local atlas_label_objects = {}
+
 	for _,group in ipairs(objects_grouped) do
 		local mainObject = group.mainObject
 		local mainCoords = Vector2(group.screenCoordinates.x, group.screenCoordinates.y)
+		local isSelected = mainObject.type == Projectable.OBJECT and mainObject.ref == systemView:GetSelectedObject().ref
+		group.hasPlanner = mainObject.type == Projectable.OBJECT and mainObject.base == Projectable.PLANNER
 
-		-- indicators
-		local stackedSize = indicatorSize
-		local stackStep = Vector2(10, 10)
-		if group.hasPlayer then
-			ui.addIcon(mainCoords, icons.square, svColor.PLAYER, stackedSize, ui.anchor.center, ui.anchor.center)
-			stackedSize = stackedSize + stackStep
-		end
-		if group.hasNavTarget then
-			ui.addIcon(mainCoords, icons.square, svColor.NAV_TARGET, stackedSize, ui.anchor.center, ui.anchor.center)
-			stackedSize = stackedSize + stackStep
-		end
-		if group.hasCombatTarget then
-			ui.addIcon(mainCoords, icons.square, svColor.COMBAT_TARGET, stackedSize, ui.anchor.center, ui.anchor.center)
-			stackedSize = stackedSize + stackStep
-		end
-		if mainObject.type == Projectable.OBJECT and mainObject.base == Projectable.PLANNER then ui.addIcon(mainCoords, icons.square, svColor.PLANNER, indicatorSize, ui.anchor.center, ui.anchor.center) end
+		drawGroupIcons(mainCoords, getBodyIcon(mainObject, true), getColor(mainObject), bodyIconSize, group, isSelected)
 
-		ui.addIcon(mainCoords, getBodyIcon(mainObject), getColor(mainObject), iconsize, ui.anchor.center, ui.anchor.center)
-
+		local mp = ui.getMousePos()
 		local label = getLabel(mainObject)
-		if should_show_label then
+		local mouseover = not ui.isAnyWindowHovered() and
+			(mp - mainCoords):length() < (isOrrery and click_radius or math.max(click_radius, group.screenSize))
+
+		if #label > 0 and (should_show_label or mouseover) then
 			if group.objects then
 				label = label .. " (" .. #group.objects .. ")"
 			end
-			ui.addStyledText(mainCoords + Vector2(label_offset,0), ui.anchor.left, ui.anchor.center, label , getColor(mainObject), hudfont)
+
+			local pos = mainCoords + Vector2(label_offset, 0)
+			if isOrrery then
+				local hovered = mouseover and mainObject.type == Projectable.OBJECT
+				local font = (hovered or isSelected) and hudfont_highlight or hudfont
+				ui.addStyledText(pos + Vector2(2, 1), ui.anchor.left, ui.anchor.center, label , ui.theme.colors.black, font)
+				ui.addStyledText(pos, ui.anchor.left, ui.anchor.center, label , getColor(mainObject), font)
+			else
+				table.insert(atlas_label_objects, { label, group.screenSize, mainCoords, mouseover, isSelected })
+			end
 		end
-		local mp = ui.getMousePos()
 
 		if mainObject.type == Projectable.OBJECT and (mainObject.base == Projectable.SYSTEMBODY or mainObject.base == Projectable.SHIP or mainObject.base == Projectable.PLAYER) then
 			-- mouse release handler for right button
-			if (mp - mainCoords):length() < click_radius then
+			if mouseover then
 				if not ui.isAnyWindowHovered() and ui.isMouseReleased(1) then
 					ui.openPopup("target" .. label)
 				end
@@ -433,7 +490,7 @@ local function displayOnScreenObjects()
 				local isShip = isObject and not isSystemBody and mainObject.ref:IsShip()
 				ui.text(getLabel(mainObject))
 				ui.separator()
-				if ui.selectable(lc.CENTER, false, {}) then
+				if isOrrery and ui.selectable(lc.CENTER, false, {}) then
 					systemView:SetSelectedObject(mainObject.type, mainObject.base, mainObject.ref)
 				end
 				if (isShip or isSystemBody and mainObject.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
@@ -453,12 +510,28 @@ local function displayOnScreenObjects()
 			end)
 		end
 		-- mouse release handler for left button
-		if (mp - mainCoords):length() < click_radius then
-			if not ui.isAnyWindowHovered() and ui.isMouseReleased(0) and mainObject.type == Projectable.OBJECT then
-				systemView:SetSelectedObject(mainObject.type, mainObject.base, mainObject.ref)
-			end
+		if mouseover and mainObject.type == Projectable.OBJECT then
+			hoveredObject = mainObject
 		end
 		objectCounter = objectCounter + 1
+	end
+
+	-- atlas body labels have to be drawn after icons for proper ordering
+	for i, v in ipairs(atlas_label_objects) do
+		drawAtlasBodyLabel(table.unpack(v))
+	end
+
+	-- click once: select or deselect a body
+	-- double click: zoom to body or reset viewpoint
+	local clicked = not ui.isAnyWindowHovered() and (ui.isMouseClicked(0) or ui.isMouseDoubleClicked(0))
+	if clicked then
+		if hoveredObject then
+			systemView:SetSelectedObject(hoveredObject.type, hoveredObject.base, hoveredObject.ref)
+			if ui.isMouseDoubleClicked(0) then systemView:ViewSelectedObject() end
+		else
+			systemView:ClearSelectedObject()
+			if ui.isMouseDoubleClicked(0) then systemView:ResetViewpoint() end
+		end
 	end
 end
 
@@ -469,13 +542,19 @@ local function tabular(data, maxSize)
 		local valueWidth = 0
 		for _,item in pairs(data) do
 			if item.value then
-				ui.text(item.name)
+				local nWidth = ui.calcTextSize(item.name).x + itemSpacing.x
+				local vWidth = ui.calcTextSize(item.value).x + itemSpacing.x
+				if ui.getColumnWidth() < nWidth then
+					textIcon(item.icon or icons.info, item.name)
+				else
+					ui.text(item.name)
+				end
 				ui.nextColumn()
 				ui.text(item.value)
 				ui.nextColumn()
-				-- adding "--" for spacing
-				nameWidth = math.max(nameWidth, ui.calcTextSize(item.name .. "--").x)
-				valueWidth = math.max(valueWidth, ui.calcTextSize(item.value .. "--").x)
+
+				nameWidth = math.max(nameWidth, nWidth)
+				valueWidth = math.max(valueWidth, vWidth)
 			end
 		end
 		if nameWidth + valueWidth > maxSize then
@@ -486,47 +565,77 @@ local function tabular(data, maxSize)
 	end
 end
 
-function Windows.objectInfo.Show()
-	textIcon(icons.info)
-	ui.sameLine()
-	ui.text(lc.OBJECT_INFO)
-	ui.separator()
+function Windows.objectInfo.ShouldShow()
 	local obj = systemView:GetSelectedObject()
-	if obj.type ~= Projectable.OBJECT or obj.base ~= Projectable.SHIP and obj.base ~= Projectable.SYSTEMBODY then return end
-	local data
-	-- system body
-	if obj.base == Projectable.SYSTEMBODY then
-		local systemBody = obj.ref
-		local name = systemBody.name
-		local rp = systemBody.rotationPeriod * 24 * 60 * 60
-		local r = systemBody.radius
-		local radius = nil
-		if r and r > 0 then
-			radius = ui.Format.Distance(r)
-		end
-		local sma = systemBody.semiMajorAxis
+
+	if obj.type ~= Projectable.OBJECT or obj.base ~= Projectable.SHIP and obj.base ~= Projectable.SYSTEMBODY then
+		return false
+	end
+
+	return true
+end
+
+function Windows.objectInfo.Show()
+	local obj = systemView:GetSelectedObject()
+
+	local isSystemBody = obj.base == Projectable.SYSTEMBODY
+	local body = obj.ref
+
+	textIcon(getBodyIcon(obj))
+	ui.text(isSystemBody and body.name or body.label)
+	ui.spacing()
+
+	if isSystemBody then
+		ui.withFont(detailfont, function()
+			ui.textWrapped(body.astroDescription)
+		end)
+	end
+
+	ui.separator()
+	ui.spacing()
+
+	local data = { }
+
+	if isSystemBody then -- system body
+		local parent = body.parent
+		local starport = body.superType == "STARPORT"
+		local surface = body.type == "STARPORT_SURFACE"
+		local sma = body.semiMajorAxis
 		local semimajoraxis = nil
 		if sma and sma > 0 then
 			semimajoraxis = ui.Format.Distance(sma)
 		end
-		local op = systemBody.orbitPeriod * 24 * 60 * 60
+
+		local rp = body.rotationPeriod * 24 * 60 * 60
+		local op = body.orbitPeriod * 24 * 60 * 60
+		local pop = math.round(body.population * 1e9)
 		data = {
-			{ name = lc.NAME_OBJECT,
-			value = name },
-			{ name = lc.DAY_LENGTH,
+			{ name = lc.MASS, icon = icons.body_radius,
+			value = (not starport) and ui.Format.Mass(body.mass) or nil },
+			{ name = lc.RADIUS, icon = icons.body_radius,
+			value = (not starport) and ui.Format.Distance(body.radius) or nil },
+			{ name = lc.SURFACE_GRAVITY, icon = icons.body_radius,
+			value = (not starport) and ui.Format.Speed(body.gravity, true).." ("..ui.Format.Gravity(body.gravity / 9.8066)..")" or nil },
+			{ name = lc.ORBITAL_PERIOD, icon = icons.body_orbit_period,
+			value = op and op > 0 and ui.Format.Duration(op, 2) or nil },
+			{ name = lc.DAY_LENGTH, icon = icons.body_day_length,
 			value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
-			{ name = lc.RADIUS,
-			value = radius },
-			{ name = lc.SEMI_MAJOR_AXIS,
+			{ name = luc.ORBIT_APOAPSIS, icon = icons.body_semi_major_axis,
+			value = (parent and not surface) and ui.Format.Distance(body.apoapsis) or nil },
+			{ name = luc.ORBIT_PERIAPSIS, icon = icons.body_semi_major_axis,
+			value = (parent and not surface) and ui.Format.Distance(body.periapsis) or nil },
+			{ name = lc.SEMI_MAJOR_AXIS, icon = icons.body_semi_major_axis,
 			value = semimajoraxis },
-			{ name = lc.ORBITAL_PERIOD,
-			value = op and op > 0 and ui.Format.Duration(op, 2) or nil }
+			{ name = lc.ECCENTRICITY, icon = icons.body_semi_major_axis,
+			value = (parent and not surface) and string.format("%0.2f", body.eccentricity) or nil },
+			{ name = lc.AXIAL_TILT, icon = icons.body_semi_major_axis,
+			value = (not starport) and string.format("%0.2f", body.axialTilt) or nil },
+			{ name = lc.POPULATION, icon = icons.personal,
+			value = pop > 0 and ui.Format.NumberAbbv(pop) or nil },
+
 		}
-		-- physical body
-	elseif obj.ref:IsShip() then
-		local body = obj.ref
-		local name = body.label
-		data = {{ name = lc.NAME_OBJECT, value = name }}
+
+	elseif obj.ref:IsShip() then -- physical body
 		-- TODO: the advanced target scanner should add additional data here,
 		-- but we really do not want to hardcode that here. there should be
 		-- some kind of hook that the target scanner can hook into to display
@@ -542,12 +651,22 @@ function Windows.objectInfo.Show()
 	else
 		data = {}
 	end
-	tabular(data, Windows.objectInfo.size.x)
+
+	ui.withFont(detailfont, function()
+		tabular(data, Windows.objectInfo.size.x)
+	end)
 end
 
 function Windows.objectInfo.Dummy()
 	ui.text(lc.OBJECT_INFO)
+	ui.spacing()
 	ui.separator()
+	ui.spacing()
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
+	ui.text("TAB LINE")
 	ui.text("TAB LINE")
 	ui.text("TAB LINE")
 	ui.text("TAB LINE")
@@ -557,6 +676,7 @@ function Windows.objectInfo.Dummy()
 end
 
 local function showWindow(w)
+	if w.ShouldShow and not w:ShouldShow() then return end
 	ui.setNextWindowSize(w.size, "Always")
 	ui.setNextWindowPos(w.pos, "Always")
 	ui.withStyleColors(w.style_colors, function() ui.window(w.name, w.params, w.Show) end)
@@ -567,20 +687,14 @@ local dummyFrames = 3
 local hideSystemViewWindows = false
 
 local function displaySystemViewUI()
+	if not systemView then onGameStart() end
+
 	player = Game.player
 	local current_view = Game.CurrentView()
 	if current_view == "system" then
 		if dummyFrames > 0 then -- do it a few frames, because imgui need a few frames to make the correct window size
 
 			-- first, doing some one-time actions here
-			-- calculating in-text icon size for used font size
-			if not textIconSize then
-				ui.withFont(winfont, function()
-					textIconSize = ui.calcTextSize("H")
-					textIconSize.x = textIconSize.y -- make square
-				end)
-				edgePadding = textIconSize
-			end
 			-- measuring windows (or dummies)
 			ui.withFont(winfont, function()
 				for _,w in pairs(Windows) do
@@ -597,7 +711,7 @@ local function displaySystemViewUI()
 			-- make final calculations on the last non-working frame
 			if dummyFrames == 1 then
 				-- resizing, aligning windows - static
-				Windows.systemName.pos = Vector2(edgePadding.x, edgePadding.y)
+				Windows.systemName.pos = Vector2(winfont.size)
 				Windows.systemName.size.x = 0 -- adaptive width
 				Windows.edgeButtons.pos = Vector2(ui.screenWidth - Windows.edgeButtons.size.x, ui.screenHeight / 2 - Windows.edgeButtons.size.y / 2) -- center-right
 				Windows.timeButtons.pos = Vector2(ui.screenWidth, ui.screenHeight) - Windows.timeButtons.size
@@ -625,10 +739,15 @@ local function displaySystemViewUI()
 		if ui.escapeKeyReleased() then
 			Game.SetView("sector")
 		end
+
+		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+			package.reimport()
+		end
 	end
 end
 
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", onEnterSystem)
 ui.registerHandler("system-view", ui.makeFullScreenHandler("system-view", displaySystemViewUI))
+
 return {}

@@ -79,15 +79,16 @@ namespace Graphics {
 		{
 			PROFILE_SCOPED()
 
-			VertexArray vertices(ATTRIB_POSITION);
+			VertexArray vertices(ATTRIB_POSITION | ATTRIB_UV0);
 
-			vertices.Add(vector3f(0.f, 0.f, 0.f));
-			const float edgeStep = 360.0f / float(edges);
+			vertices.Add(vector3f(0.f, 0.f, 0.f), vector2(0.5f, 0.5f));
+			const float edgeStep = DEG2RAD(360.0f) / float(edges);
 			for (int i = edges; i >= 0; i--) {
-				vertices.Add(vector3f(
-					0.f + sinf(DEG2RAD(i * edgeStep)) * rad,
-					0.f + cosf(DEG2RAD(i * edgeStep)) * rad,
-					0.f));
+				float x = sinf(i * edgeStep);
+				float y = cosf(i * edgeStep);
+				vertices.Add(
+					vector3f(x * rad, y * rad, 0.f),
+					vector2f(0.5f + x * 0.5f, 0.5f + y * 0.5f));
 			}
 
 			m_diskMesh.reset(r->CreateMeshObjectFromArray(&vertices));

@@ -170,6 +170,11 @@ theme.colors = {
 	systemMapSystemBodyOrbit = styleColors.success_500,
 	systemMapLagrangePoint	= styleColors.accent_200,
 
+	systemAtlasLabel        = styleColors.gray_300,
+	systemAtlasLabelActive  = styleColors.gray_200,
+	systemAtlasLine         = styleColors.primary_500,
+	systemAtlasLineActive   = styleColors.primary_400,
+
 	sectorMapLabelHighlight = styleColors.white:opacity(0.5),
 	sectorMapLabelShade = styleColors.primary_700:opacity(0.8),
 
@@ -447,6 +452,11 @@ theme.icons = {
 	station_orbital_large = 247,
 	station_orbital_small = 248,
 	station_observatory = 249,
+	body_name = 250,
+	body_day_length = 251,
+	body_radius = 252,
+	body_semi_major_axis = 253,
+	body_orbit_period = 253,
 	cargo_crate_illegal = 255,
 	-- seventeenth row
 	-- reticle icons 256..268

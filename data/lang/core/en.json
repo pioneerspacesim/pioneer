@@ -716,7 +716,7 @@
     "message": "Mass"
   },
   "MASSIVE": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "Massive"
   },
   "MASS_N_TONNES": {
@@ -1320,7 +1320,7 @@
     "message": "Slaves"
   },
   "SMALL": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "Small"
   },
   "SMALL_GAS_GIANT": {
@@ -1591,8 +1591,12 @@
     "description": "",
     "message": "Time point:"
   },
+  "MEDIUM": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "Medium"
+  },
   "TINY": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "Tiny"
   },
   "TOGGLE_EQUIPMENT_VIEW": {

@@ -70,6 +70,7 @@ ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
 ui.getProjectedBodiesGrouped = pigui.GetProjectedBodiesGrouped
 ui.isMouseReleased = pigui.IsMouseReleased
+ui.isMouseDoubleClicked = pigui.IsMouseDoubleClicked
 ui.isMouseHoveringRect = pigui.IsMouseHoveringRect
 ui.collapsingHeader = pigui.CollapsingHeader
 ui.treeNode = pigui.TreeNode

@@ -249,6 +249,7 @@ static int l_systemview_get_projected_grouped(lua_State *l)
 		for (GroupInfo &group : groups) {
 			LuaTable info_table(l, 0, 6);
 			info_table.Set("screenCoordinates", group.m_mainObject.screenpos);
+			info_table.Set("screenSize", group.m_mainObject.screensize);
 			info_table.Set("mainObject", projectable_to_lua_row(group.m_mainObject, l));
 			lua_pop(l, 1);
 			if (group.m_objects.size() > 1) {
@@ -277,6 +278,27 @@ static int l_systemview_get_selected_object(lua_State *l)
 	Projectable *p = sv->GetSelectedObject();
 	LuaPush(l, projectable_to_lua_row(*p, l));
 	return 1;
+}
+
+static int l_systemview_clear_selected_object(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	sv->ClearSelectedObject();
+	return 0;
+}
+
+static int l_systemview_view_selected_object(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	sv->ViewSelectedObject();
+	return 0;
+}
+
+static int l_systemview_reset_viewpoint(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	sv->ResetViewpoint();
+	return 0;
 }
 
 static int l_systemview_set_visibility(lua_State *l)
@@ -331,6 +353,28 @@ static int l_systemview_set_zoom_mode(lua_State *l)
 	bool b = LuaPull<bool>(l, 2);
 	sv->SetZoomMode(b);
 	return 0;
+}
+
+static int l_systemview_get_zoom(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	LuaPush(l, sv->GetZoom());
+	return 1;
+}
+
+static int l_systemview_get_display_mode(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	LuaPush(l, EnumStrings::GetString("SystemViewMode", int(sv->GetDisplayMode())));
+	return 1;
+}
+
+static int l_systemview_set_display_mode(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	int mode = EnumStrings::GetValue("SystemViewMode", LuaPull<const char *>(l, 2));
+	sv->SetDisplayMode(SystemView::Mode(mode));
+	return 1;
 }
 
 static int l_systemview_transfer_planner_get(lua_State *l)
@@ -413,16 +457,22 @@ void LuaObject<SystemView>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 
+		{ "ClearSelectedObject", l_systemview_clear_selected_object },
 		{ "GetProjectedGrouped", l_systemview_get_projected_grouped },
 		{ "GetSelectedObject", l_systemview_get_selected_object },
 		{ "GetOrbitPlannerStartTime", l_systemview_get_orbit_planner_start_time },
 		{ "GetOrbitPlannerTime", l_systemview_get_orbit_planner_time },
 		{ "AccelerateTime", l_systemview_accelerate_time },
 		{ "SetSelectedObject", l_systemview_set_selected_object },
+		{ "ViewSelectedObject", l_systemview_view_selected_object },
+		{ "ResetViewpoint", l_systemview_reset_viewpoint },
 		{ "SetVisibility", l_systemview_set_visibility },
 		{ "SetColor", l_systemview_set_color },
 		{ "SetRotateMode", l_systemview_set_rotate_mode },
 		{ "SetZoomMode", l_systemview_set_zoom_mode },
+		{ "GetDisplayMode", l_systemview_get_display_mode },
+		{ "SetDisplayMode", l_systemview_set_display_mode },
+		{ "GetZoom", l_systemview_get_zoom },
 
 		{ "TransferPlannerAdd", l_systemview_transfer_planner_add },
 		{ "TransferPlannerGet", l_systemview_transfer_planner_get },

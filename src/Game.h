@@ -114,7 +114,6 @@ public:
 	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel] * (1.0f / PHYSICS_HZ); }
 
 	SectorView *GetSectorView() const { return m_gameViews->m_sectorView; }
-	View *GetSystemInfoView() const { return m_gameViews->m_systemInfoView; }
 	SystemView *GetSystemView() const { return m_gameViews->m_systemView; }
 	WorldView *GetWorldView() const { return m_gameViews->m_worldView; }
 	DeathView *GetDeathView() const { return m_gameViews->m_deathView; }
@@ -137,7 +136,6 @@ private:
 		void SetRenderer(Graphics::Renderer *r);
 
 		SectorView *m_sectorView;
-		View *m_systemInfoView;
 		SystemView *m_systemView;
 		WorldView *m_worldView;
 		DeathView *m_deathView;
