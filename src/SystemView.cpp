@@ -404,6 +404,8 @@ void SystemView::Draw3D()
 	std::string t = Lang::TIME_POINT + format_date(m_time);
 
 	if (!m_system) {
+		ClearSelectedObject();
+
 		m_system = m_game->GetGalaxy()->GetStarSystem(path);
 		m_unexplored = m_system->GetUnexplored();
 
@@ -577,6 +579,7 @@ void SystemView::LayoutSystemBody(SystemBody *body, AtlasBodyLayout &layout)
 	if (!body->GetNumChildren())
 		return;
 
+	float maxRadius = layout.radius;
 	for (auto *child : body->GetChildren()) {
 		if (child->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
 			continue;
@@ -591,19 +594,24 @@ void SystemView::LayoutSystemBody(SystemBody *body, AtlasBodyLayout &layout)
 
 		LayoutSystemBody(child, child_layout);
 
-		const double bodyRadius = get_body_radius(child);
-
 		// layout.size measures to the edge of the last encountered body
 		// so we add the radius of the current child body plus a gap
 		float offset = layout.size[orient];
 		if (offset > 0)
-			offset += bodyRadius + std::max(bodyRadius * 0.6, 1.33);
+			offset += child_layout.radius + std::max(child_layout.radius * 0.6, 1.33);
 		child_layout.offset[orient] = offset;
 
 		layout.size[orient] = offset + child_layout.size[orient];
 		layout.size[crossdir] = std::max(layout.size[crossdir], child_layout.size[crossdir]);
 
+		maxRadius = std::max(child_layout.radius, maxRadius);
 		layout.children.push_back(child_layout);
+	}
+
+	if (layout.isBinary) {
+		// if we're a gravpoint, set the "radius" from the maximum radius of our direct children
+		// (used to determine how much back-fill space is reserved to avoid overlap)
+		layout.radius = maxRadius;
 	}
 }
 

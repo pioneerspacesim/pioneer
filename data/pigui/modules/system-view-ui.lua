@@ -457,7 +457,8 @@ local function displayOnScreenObjects()
 
 		local mp = ui.getMousePos()
 		local label = getLabel(mainObject)
-		local mouseover = (mp - mainCoords):length() < (isOrrery and click_radius or math.max(click_radius, group.screenSize))
+		local mouseover = not ui.isAnyWindowHovered() and
+			(mp - mainCoords):length() < (isOrrery and click_radius or math.max(click_radius, group.screenSize))
 
 		if #label > 0 and (should_show_label or mouseover) then
 			if group.objects then
