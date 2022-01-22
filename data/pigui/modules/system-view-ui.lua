@@ -498,6 +498,7 @@ local function displayOnScreenObjects()
 				if isOrrery and ui.selectable(lc.CENTER, false, {}) then
 					selectedObject = mainObject.ref
 					systemView:SetSelectedObject(mainObject.type, mainObject.base, mainObject.ref)
+					systemView:ViewSelectedObject()
 				end
 				if (isShip or isSystemBody and mainObject.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
 					if isSystemBody then
