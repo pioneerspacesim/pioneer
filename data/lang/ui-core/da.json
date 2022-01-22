@@ -1519,6 +1519,14 @@
     "description": "",
     "message": "Cirkulært kredsløb er givet for en tangential hastighed. Skibet skal bevæge sig i en retning på 90° til skibets/{navn} akse.\n\nNedstigningshastighed er et absolut minimum og også tangential. En langsommere hastighed eller en lavere vinkel vil resultere i en kurs, der krydser med overfladen af {name}.\n\nUndslipningshastigheden vil i teorien virke i alle retninger, så længe skibet ikke kolliderer med {name} på vejen."
   },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Apoapsis"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Periapsis"
+  },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Ydre arm"

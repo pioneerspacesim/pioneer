@@ -57,11 +57,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Going to the {system} system? Money paid for delivery of a small package."
+    "message": "去{system}星系？有偿捎带一个小包裹。"
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "INTERSTELLAR DELIVERY"
+    "message": "星际输送"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",

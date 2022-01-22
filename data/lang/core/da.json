@@ -716,7 +716,7 @@
     "message": "Masse"
   },
   "MASSIVE": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "Massiv"
   },
   "MASS_N_TONNES": {
@@ -726,6 +726,10 @@
   "MEDICINES": {
     "description": "",
     "message": "Medicin"
+  },
+  "MEDIUM": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "Mellem"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -1320,7 +1324,7 @@
     "message": "Slaver"
   },
   "SMALL": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "Lille"
   },
   "SMALL_GAS_GIANT": {
@@ -1592,7 +1596,7 @@
     "message": "Tidspunkt:"
   },
   "TINY": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "Lille"
   },
   "TOGGLE_EQUIPMENT_VIEW": {

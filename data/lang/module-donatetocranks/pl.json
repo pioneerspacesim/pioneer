@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "DAROWIZNA!"
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+    "message": "Kościół Niebiańskiego Latającego Potwora Spaghetti potrzebuje TWOICH pieniędzy żeby szerzyć słowo boże."
   },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "DAROWIZNA"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "Strażnicy Wolnego Ducha pokornie proszą o wsparcie charytatywne naszych klasztorów."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "FEELING GENEROUS?"
+    "message": "CZUJESZ SIĘ HOJNY?"
   },
   "FLAVOUR_2_DESC": {
     "description": "",
-    "message": "War Orphan's Support needs your help to keep up its essential work."
+    "message": "Wsparcie Sierot Wojennych potrzebuje Twojej pomocy, żeby móc wykonywać swoja kluczową pracę."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUTE"
+    "message": "PRZYCZYŃ SIĘ"
   },
   "FLAVOUR_3_DESC": {
     "description": "",
-    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "Przyjaciele galaktyki, kampania 'Pozbądźmy się Wojskowych napędów' potrzebuje Twoich pieniędzy."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
@@ -49,11 +49,11 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "DAROWIZNA!"
   },
   "FLAVOUR_4_DESC": {
     "description": "",
-    "message": "Save our species. Stop the carnage of newly settled worlds."
+    "message": "Uratuj nasz gatunek. Zatrzymaj rzeź na nowo osiedlonych planetach."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "WSPIERAJ WOLNOŚĆ!"
   },
   "FLAVOUR_5_DESC": {
     "description": "",
-    "message": "Stop the great injustice of proprietary software controlling your ship."
+    "message": "Zatrzymaj niesprawiedliwość autorskiego oprogramowania, kontrolującego Twój statek."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",

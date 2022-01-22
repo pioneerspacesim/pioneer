@@ -1519,6 +1519,14 @@
     "description": "",
     "message": "Η ταχύτητα κυκλικής τροχιάς ορίζεται ως  ίση με την εφαπτομενική ταχύτητα. Το πλοίο πρέπει να κινείται προς μια κατεύθυνση 90° ως προς τον άξονα σκάφους/{name}.\n\nΗ ταχύτητα καθόδου είναι ένα απόλυτο ελάχιστο και είναι επίσης εφαπτομενική. Μια μικρότερη ταχύτητα ή μια μικρότερη γωνία θα έχει ως αποτέλεσμα μια πορεία σύγκρουσης που τέμνει την επιφάνεια του {name}.\n\nΗ ταχύτητα διαφυγής θα λειτουργήσει θεωρητικά προς οποιαδήποτε κατεύθυνση, αρκεί το σκάφος να μην συγκρουστεί με το {name} στην πορεία, πριν την διαφυγή του.\n\n\t\t"
   },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Apoapsis"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Periapsis"
+  },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Δακτύλιος του Μονόκερω"

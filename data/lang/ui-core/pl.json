@@ -57,7 +57,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase"
+    "message": "Dostępne do zakupu"
   },
   "AVERAGE": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "CRIMINAL": {
     "description": "Legal status of player",
-    "message": "Criminal"
+    "message": "Przestępca"
   },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
@@ -617,7 +617,7 @@
   },
   "FUGITIVE": {
     "description": "Legal status of player",
-    "message": "Fugitive"
+    "message": "Uciekinier"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -1485,7 +1485,7 @@
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Occupied Passenger Cabins"
+    "message": "Zajęte kabiny pasażerskie"
   },
   "OFF": {
     "description": "",
@@ -1493,7 +1493,7 @@
   },
   "OFFENDER": {
     "description": "Legal status of player",
-    "message": "Offender"
+    "message": "Złoczyńca"
   },
   "OK": {
     "description": "",
@@ -1519,13 +1519,21 @@
     "description": "",
     "message": "Prędkość orbitalna to stała prędkość z jaką powinien poruszać się statek pod kątem 90° względem osi statek/{name}.\n\nPrędkość graniczna, jest minimalną prędkością przy której statek pozostaje na orbicie.  Przy mniejszej prędkości lub kącie, rozpocznie się opadanie ku powierzchni {name}.\n\nPrędkość ucieczki teoretycznie powoduje opuszczenie orbity, jeśli tylko statek nie jest na kursie kolizyjnym z {name}.\n\t\t"
   },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Apocentrum"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Perycentrum"
+  },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Ramię Zewnętrzne"
   },
   "OUTLAW": {
     "description": "Legal status of player",
-    "message": "Outlaw"
+    "message": "Wygnaniec"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
@@ -1585,7 +1593,7 @@
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Oops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on Github.\nYou can find your output log at: {path}/output.txt"
+    "message": "Ups, coś poszło nie tak! Prosze zgłosić czynności pozwalające na odtworzenie tego błędu, raport wyjściowy, oraz plik z save na naszej stronie Github.\nRaport wyjściowy znajdziesz w folderze :{path}/output.txt"
   },
   "POLICE": {
     "description": "",
@@ -1685,7 +1693,7 @@
   },
   "REPLACE_EQUIPMENT_WITH": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Zamień ekwipunek na"
   },
   "REPUTATION": {
     "description": "",
@@ -1781,7 +1789,7 @@
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
-    "message": "Sell Equipped"
+    "message": "Sprzedaj posiadany"
   },
   "SENSORS": {
     "description": "",
@@ -1901,7 +1909,7 @@
   },
   "STAR_FIELD_STAR_SIZE_FACTOR": {
     "description": "",
-    "message": "Size of stars in star field"
+    "message": "Rozmiar gwiazd w polu gwiezdnym"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
@@ -1969,7 +1977,7 @@
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
-    "message": "Toggle full comms window"
+    "message": "Włącz pełne okno komunikacyjne"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
@@ -2041,7 +2049,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Wolne kabiny pasażerskie"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",

@@ -716,7 +716,7 @@
     "message": "Маса"
   },
   "MASSIVE": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "масивна"
   },
   "MASS_N_TONNES": {
@@ -726,6 +726,10 @@
   "MEDICINES": {
     "description": "",
     "message": "Лекарства"
+  },
+  "MEDIUM": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "средна"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -1320,7 +1324,7 @@
     "message": "Роби"
   },
   "SMALL": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "малка"
   },
   "SMALL_GAS_GIANT": {
@@ -1592,7 +1596,7 @@
     "message": "Час и дата: "
   },
   "TINY": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "дребна"
   },
   "TOGGLE_EQUIPMENT_VIEW": {

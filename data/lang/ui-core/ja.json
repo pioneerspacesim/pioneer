@@ -1519,6 +1519,14 @@
     "description": "",
     "message": "円軌道速度は接線速度として与えられる。ship/{name} 軸に対して90°の方向に移動する。\n\n降下速度はその最小値で、接線方向である。より遅い速度または低い角度では{name}の表面と交わることになる。\n\n脱出速度は理論上どの方向でも、船が{name}に衝突しない限り離脱するだろう。"
   },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Apoapsis"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Periapsis"
+  },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Outer arm"

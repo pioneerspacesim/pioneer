@@ -49,51 +49,51 @@
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Pickup of cargo from the {system} system required. Details available on request."
+    "message": "Récupération de cargaison localisée dans le système {system} requise. Détails disponibles sur demandee."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
+    "message": "Besoin de transport de cargaison: déplacement de marchandises depuis {starport} vers cette station requis."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+    "message": "Contractuel qualifié requis pour du transport de marchandises. Nous avons besoin d'un vaisseau pour une livraison en vrac vers le système {system}."
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "CARGO RUN"
+    "message": "TRANSPORT DE MARCHANDISES"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "NEED CARGO TRANSPORT"
+    "message": "BESOIN DE TRANSPORT DE MARCHANDISES"
   },
   "ADTITLE_EXPENSIVE_1": {
     "description": "",
-    "message": "INSURED DELIVERY"
+    "message": "LIVRAISON ASSURÉE"
   },
   "ADTITLE_LOCAL_1": {
     "description": "",
-    "message": "SHORT-RANGE FREIGHT"
+    "message": "FRET COURTE DISTANCE"
   },
   "ADTITLE_LOCAL_2": {
     "description": "",
-    "message": "LOCAL FREIGHT TRANSPORT"
+    "message": "TRANSPORT DE FRET LOCAL"
   },
   "ADTITLE_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN"
+    "message": "TRANSPORT DE  MARCHANDISES LOCAL"
   },
   "ADTITLE_PICKUP_1": {
     "description": "",
-    "message": "CARGO PICKUP"
+    "message": "RÉCUPÉRATION DE CARGAISON"
   },
   "ADTITLE_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "IN-SYSTEM RELOCATION"
+    "message": "TRANSPORT INTRA-SYSTÈME"
   },
   "ADTITLE_WHOLESALER_1": {
     "description": "",
-    "message": "BULK CARGO SERVICE"
+    "message": "SERVICE DE TRANSPORT EN VRAC"
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",

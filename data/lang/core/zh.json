@@ -716,7 +716,7 @@
     "message": "质量"
   },
   "MASSIVE": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "巨大的"
   },
   "MASS_N_TONNES": {
@@ -726,6 +726,10 @@
   "MEDICINES": {
     "description": "",
     "message": "药品"
+  },
+  "MEDIUM": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "中等"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -1320,7 +1324,7 @@
     "message": "奴隶"
   },
   "SMALL": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "小"
   },
   "SMALL_GAS_GIANT": {
@@ -1592,7 +1596,7 @@
     "message": "时间点:"
   },
   "TINY": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "微小的"
   },
   "TOGGLE_EQUIPMENT_VIEW": {

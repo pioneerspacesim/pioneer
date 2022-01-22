@@ -1519,6 +1519,14 @@
     "description": "",
     "message": "Круговая скорость орбиты выражает тангенциальную скорость. Корабль должен двигаться в направлении 90° к оси корабля-{name}.\n\nСкорость снижения это абсолютный минимум скорости, так-же являющейся тангенциальной. Меньшая скорость или меньший угол приведут к пересечению с поверхностью {name}.\n\nПараболическая скорость теоретически будет справедлива для любого направления, до тех пор пока корабль не пересекается с поверхностью {name}."
   },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Apoapsis"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Periapsis"
+  },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Внешний рукав"

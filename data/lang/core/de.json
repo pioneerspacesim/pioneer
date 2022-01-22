@@ -716,7 +716,7 @@
     "message": "Masse"
   },
   "MASSIVE": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "Sehr großer"
   },
   "MASS_N_TONNES": {
@@ -726,6 +726,10 @@
   "MEDICINES": {
     "description": "",
     "message": "Pharmazeutika"
+  },
+  "MEDIUM": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "Mittel"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -1320,7 +1324,7 @@
     "message": "Sklaven"
   },
   "SMALL": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "Kleiner"
   },
   "SMALL_GAS_GIANT": {
@@ -1592,7 +1596,7 @@
     "message": "Zeitpunkt: "
   },
   "TINY": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "Winziger"
   },
   "TOGGLE_EQUIPMENT_VIEW": {

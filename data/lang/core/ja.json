@@ -716,7 +716,7 @@
     "message": "質量"
   },
   "MASSIVE": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "Massive"
   },
   "MASS_N_TONNES": {
@@ -726,6 +726,10 @@
   "MEDICINES": {
     "description": "",
     "message": "医薬品"
+  },
+  "MEDIUM": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "ミディアム"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -1320,7 +1324,7 @@
     "message": "奴隷"
   },
   "SMALL": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "小さな"
   },
   "SMALL_GAS_GIANT": {
@@ -1592,7 +1596,7 @@
     "message": "Time point:"
   },
   "TINY": {
-    "description": "",
+    "description": "Adjective used to describe the size of an object.",
     "message": "非常に小さな"
   },
   "TOGGLE_EQUIPMENT_VIEW": {

@@ -1519,6 +1519,14 @@
     "description": "",
     "message": "Скоростта при кръгова орбита е представена като тангенционална скорост. Корабът трябва да се движи в посока от 90°, спрямо неговата {name} ос.\n\nСкоростта на спускане е абсолютния минимум и също е тангенционална. При по-ниска скорост или по-малък ъгъл ще се стигне до сблъсък с {name}.\n\nВтората космическа скорост ще има ефект във всяка посока на движение, стига да не се стигне до сблъсък с {name} .\n\t\t"
   },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Апсида"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Периапсида"
+  },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Ръкав Лебед"
@@ -1685,7 +1693,7 @@
   },
   "REPLACE_EQUIPMENT_WITH": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Замяна на оборудването"
   },
   "REPUTATION": {
     "description": "",
@@ -1781,7 +1789,7 @@
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
-    "message": "Sell Equipped"
+    "message": "Продаване"
   },
   "SENSORS": {
     "description": "",

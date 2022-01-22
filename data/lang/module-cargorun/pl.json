@@ -45,55 +45,55 @@
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
+    "message": "Prywatny kontrakt na dostawę towaru. Potrzebny certyfikowany dostawca towaru do {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Pickup of cargo from the {system} system required. Details available on request."
+    "message": "Potrzebny odbiór towaru z systemu {system}. Szczegóły w ogłoszeniu."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
+    "message": "Potrzebna usługa przeniesienia towaru. Potrzeba odebrać towar ze stacji {starport}."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+    "message": "Kwalifikowany kontrahent potrzebny do wykonania zlecenia. Potrzebujemy statku ktory dostarczy towar hurtowy do systemu {system}."
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "CARGO RUN"
+    "message": "DOSTAWA TOWARU"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "NEED CARGO TRANSPORT"
+    "message": "POTRZEBNY TRANSPORT TOWARU"
   },
   "ADTITLE_EXPENSIVE_1": {
     "description": "",
-    "message": "INSURED DELIVERY"
+    "message": "ZABEZPIECZONA DOSTAWA"
   },
   "ADTITLE_LOCAL_1": {
     "description": "",
-    "message": "SHORT-RANGE FREIGHT"
+    "message": "FRACH KRÓTKODYSTANSOWY"
   },
   "ADTITLE_LOCAL_2": {
     "description": "",
-    "message": "LOCAL FREIGHT TRANSPORT"
+    "message": "LOKALNY FRACHT TOWARÓW"
   },
   "ADTITLE_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN"
+    "message": "LOKALNA DOSTAWA TOWARU"
   },
   "ADTITLE_PICKUP_1": {
     "description": "",
-    "message": "CARGO PICKUP"
+    "message": "ODBIÓR TOWARU"
   },
   "ADTITLE_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "IN-SYSTEM RELOCATION"
+    "message": "PRZENOSINY W SYSTEMIE"
   },
   "ADTITLE_WHOLESALER_1": {
     "description": "",
-    "message": "BULK CARGO SERVICE"
+    "message": "HURTOWA DOSTAWA TOWARÓW"
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
@@ -173,15 +173,15 @@
   },
   "DENY_AGAIN_1": {
     "description": "",
-    "message": "Sorry, we already have a deal. However, I would be happy to do business with you again after a successful delivery."
+    "message": "Przykro mi, ale już jesteśmy umówieni. Jednakże, chętnie będę robić z Tobą interesy po udanej dostawie."
   },
   "DENY_AGAIN_2": {
     "description": "",
-    "message": "Excuse me sir, please complete our existing contract first. Then we can negotiate another delivery."
+    "message": "Proszę najpierw wykonać aktualne zlecenie. Potem możemy negocjować kolejne dostawy."
   },
   "DENY_AGAIN_3": {
     "description": "",
-    "message": "Sir, please deliver my cargo first. Then I will do more business with you."
+    "message": "Proszę pana, proszę najpierw dostarczyć mój towar, potem możemy planować kolejne zlecenia."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -249,7 +249,7 @@
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
-    "message": "Go back."
+    "message": "Powrót."
   },
   "GREENHOUSES": {
     "description": "custom cargo",
@@ -369,7 +369,7 @@
   },
   "IS_IT_NEGOTIABLE": {
     "description": "",
-    "message": "Is the amount of cargo negotiable?"
+    "message": "Czy można negocjować ilość towaru?"
   },
   "I_AM_ON_MY_WAY": {
     "description": "",
@@ -389,23 +389,23 @@
   },
   "NEGOTIABLE_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "I can offer the following freight runs:"
+    "message": "Mogę zaproponować:"
   },
   "NEGOTIABLE_2": {
     "description": "regarding mass, always more than 1t",
-    "message": "{amount}t {cargoname} can be divided as follows:"
+    "message": "{amount}t {cargoname} może zostać podzielone w taki sposób:"
   },
   "NEGOTIABLE_3": {
     "description": "regarding mass, always more than 1t",
-    "message": "Yes, we can split the cargo."
+    "message": "Tak, możemy zmienić ilość"
   },
   "NEGOTIABLE_NO_1": {
     "description": "regarding mass, always more than 1t",
-    "message": "No, sorry. It is not possible to split the cargo. You have to transport the whole {amount} tons at once."
+    "message": "Niestety, nie możemy zmienić ilości towaru. Musisz dostarczyć {amount} ton jednocześnie."
   },
   "NEGOTIABLE_SINGULAR_1": {
     "description": "This string is only used for 1 metric ton (singular)",
-    "message": "No it is not. It's only {amount}t."
+    "message": "Nie, to tylko {amount} tona."
   },
   "NEPTUNIUM": {
     "description": "custom cargo",
@@ -413,7 +413,7 @@
   },
   "OFFER": {
     "description": "",
-    "message": "Transport {amount}t for {reward}"
+    "message": "Transport {amount}t za {amount}"
   },
   "OK_AGREED": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, we agree on {amount}t for {reward}."
+    "message": "OK, zgadzamy się dla {amount} za {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",
@@ -585,7 +585,7 @@
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
-    "message": "You are much too late! Your performance is so bad that I am cancelling my contract with you."
+    "message": "Jesteś bardzo spóźniony. Twoje usługi są tak beznadziejne, że zrywam kontrakt z Tobą."
   },
   "TUNGSTEN": {
     "description": "custom cargo",

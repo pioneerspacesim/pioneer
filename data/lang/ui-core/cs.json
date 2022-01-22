@@ -1519,6 +1519,14 @@
     "description": "",
     "message": "Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat v úhlu 90° k ose lodi/{name}.\n\nRychlost sestupu je absolutní minimum a je taktéž tangenciální. Menší rychlost nebo menší úhel bude mít za následek trajektorii, která se protíná s povrchem {name}.\n\nÚniková rychlost může být teoreticky libovolná ve všech směrech, dokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.\n\t\t"
   },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Apoapsis"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Periapsis"
+  },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "rameno Labuť"

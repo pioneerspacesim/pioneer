@@ -727,6 +727,10 @@
     "description": "",
     "message": "Medicines"
   },
+  "MEDIUM": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "Medium"
+  },
   "MEDIUM_GAS_GIANT": {
     "description": "",
     "message": "Medium gas giant"
@@ -1590,10 +1594,6 @@
   "TIME_POINT": {
     "description": "",
     "message": "Time point:"
-  },
-  "MEDIUM": {
-    "description": "Adjective used to describe the size of an object.",
-    "message": "Medium"
   },
   "TINY": {
     "description": "Adjective used to describe the size of an object.",

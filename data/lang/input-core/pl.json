@@ -33,15 +33,15 @@
   },
   "BIND_CAMERA_PITCH": {
     "description": "Descriptive name for the Camera Pitch axis.",
-    "message": "Camera Pitch"
+    "message": "Odchylenie pionowe kamery"
   },
   "BIND_CAMERA_ROLL": {
     "description": "Descriptive name for the Camera Roll axis",
-    "message": "Camera Roll"
+    "message": "Obrót kamery"
   },
   "BIND_CAMERA_YAW": {
     "description": "Descriptive name for the Camera Yaw axis.",
-    "message": "Camera Yaw"
+    "message": "Odchylenie poziome kamery"
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
@@ -69,11 +69,11 @@
   },
   "BIND_LOOK_PITCH": {
     "description": "Descriptive name for the Freelook Pitch axis.",
-    "message": "Freelook Pitch"
+    "message": "Swobodne rozglądanie się poziomo"
   },
   "BIND_LOOK_YAW": {
     "description": "Descriptive name for the Freelook Yaw axis.",
-    "message": "Freelook Yaw"
+    "message": "Swobodne rozglądanie się pionowo"
   },
   "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
     "description": "Descriptive name for the MapToggleSelectionFollowView action.",
@@ -93,11 +93,11 @@
   },
   "BIND_MAP_VIEW_PITCH": {
     "description": "Axis binding",
-    "message": "Map Pitch"
+    "message": "Poziomy  obrót mapy"
   },
   "BIND_MAP_VIEW_YAW": {
     "description": "Axis binding",
-    "message": "Map Yaw"
+    "message": "Pionowy obrót mapy"
   },
   "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "Descriptive name for the MapWarpToCurrentSystem action.",

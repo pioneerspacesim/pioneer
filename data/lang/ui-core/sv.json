@@ -1519,6 +1519,14 @@
     "description": "",
     "message": "Cirkulär omloppshastighet är angiven för en tangerande hastighet. Skeppet borde röras i 90° riktning mot skep/{name} axeln.\n\nNedstigningshastighet är ett absolut minimum och är också tangerande. En lägre hastighet eller lägre vinkel kommer att resultera i en kurs som korsar ytan på {name}.\n\nFlykthastighet fungerar i teorin i alla riktningar så länge inte skeppet krockar med {name} på vägen.\n\t\t"
   },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Apoapsis"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Periapsis"
+  },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Yttre arm"

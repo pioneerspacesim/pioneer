@@ -1519,6 +1519,14 @@
     "description": "",
     "message": "Treoluas tadhlaíoch atá i luas na fithise ciorclaí. Ba chóir don long a bheith ag taisteal i dtreo ingearach (90°) le hais na loinge/{name}.\n\nIs é an luas tuirlingthe an t-íosmhéid, agus is treoluas tadhlaíoch é freisin. Má thagann tú isteach ar luas níos moille nó ar uillinn níos lú, buailfidh an long le dromchla an phláinéid {name}.\n\nOibríonn an luas éalaithe i dtreo ar bith, go teoiriciúil, chomh fada is nach mbuailfidh an long le {name} ar an mbealach.\n  "
   },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Apoapsis"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Periapsis"
+  },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "An ghéag amuigh"

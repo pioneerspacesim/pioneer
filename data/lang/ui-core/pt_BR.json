@@ -1519,6 +1519,14 @@
     "description": "",
     "message": "Velocidade da órbita circular é dada pela velocidade tangencial. A nave deveria estar se movendo em em uma direção a 90° para a nave/{nome} eixo.%s\n%s\nVelocidade descentee é um mínimo absoluto, e é também tangencial. Uma velocidade mais baixa ou um ângulo mais baixo resultará em um caminho que cruza a superfície de {nome}.%s\n%s\nVelocidade de escape teoricamente trabalhará em qualquer direção, enquanto a nave não colidir com {nome} no caminho.%s\n⇥⇥"
   },
+  "ORBIT_APOAPSIS": {
+    "description": "Label for the point of an orbit furthest from the orbited body",
+    "message": "Apoapsis"
+  },
+  "ORBIT_PERIAPSIS": {
+    "description": "Label for the point of an orbit nearest to the orbited body",
+    "message": "Periapsis"
+  },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Braço de Outer"
