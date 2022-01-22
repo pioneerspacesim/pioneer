@@ -6,6 +6,17 @@ local pigui = Engine.pigui
 
 local ui = require 'pigui.libs.forwarded'
 ui.rescaleUI = require 'pigui.libs.rescale-ui'
+
+--
+-- Function: ui.rescaleFraction
+--
+-- Smoothly rescale a UI value without rounding to whole numbers.
+--
+-- ui.rescaleFraction(val, baseResolution, rescaleToScreenAspect, targetResolution)
+ui.rescaleFraction = function (val, baseResolution, rescaleToScreenAspect, targetResolution)
+	return ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, true, targetResolution)
+end
+
 require 'pigui.libs.wrappers'
 
 local defaultTheme = require 'pigui.themes.default'
