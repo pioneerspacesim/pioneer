@@ -601,7 +601,7 @@ void SectorView::InitObject()
 
 	m_renderer = Pi::renderer; //XXX pass cleanly to all views constructors!
 
-	Graphics::RenderStateDesc rsd;
+	Graphics::RenderStateDesc rsd {};
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 
 	Graphics::MaterialDescriptor bbMatDesc;
