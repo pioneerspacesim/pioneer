@@ -1,20 +1,11 @@
 -- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = require 'Engine'
 local Game = require 'Game'
-local utils = require 'utils'
-local Event = require 'Event'
-
-local Lang = require 'Lang'
-local lc = Lang.GetResource("core");
-local lui = Lang.GetResource("ui-core");
-
 local ui = require 'pigui'
+local Vector2 = _G.Vector2
 
-local player = nil
 local pionillium = ui.fonts.pionillium
-local pionicons = ui.fonts.pionicons
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
@@ -22,7 +13,7 @@ local iconSize = Vector2(16,16)
 
 local font = pionillium.medium
 local width = 120 + 120 * (ui.screenWidth / 1200)
-local height = math.max(iconSize.y, font.size) * 3 + 4
+local height = math.max(iconSize.y, font.size) * 2 + ui.getItemSpacing().y + ui.getWindowPadding().y * 2
 
 local function displayPlanetaryInfo()
 	local player = Game.player
@@ -55,6 +46,6 @@ local function displayPlanetaryInfo()
 	end
 end
 
-ui.registerModule("game", displayPlanetaryInfo)
+ui.registerModule("game", { id = "planetary-info", draw = displayPlanetaryInfo })
 
 return {}

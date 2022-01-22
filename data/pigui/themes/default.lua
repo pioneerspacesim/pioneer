@@ -4,6 +4,8 @@
 local theme = {}
 
 local rescaleUI = require 'pigui.libs.rescale-ui'
+local Vector2 = _G.Vector2
+local Color = _G.Color
 
 -- theme.styleColors
 -- This table provides a coherent theme palette that can be referenced by
@@ -73,6 +75,34 @@ local styleColors = {
 
 theme.styleColors = styleColors
 
+theme.buttonColors = {
+	default = {
+		normal = styleColors.primary_600,
+		hovered = styleColors.primary_400,
+		active = styleColors.primary_300
+	},
+	selected = {
+		normal = styleColors.primary_300,
+		hovered = styleColors.primary_300:tint(0.1),
+		active = styleColors.primary_300:tint(0.2)
+	},
+	disabled = {
+		normal = styleColors.gray_500:shade(0.6),
+		hovered = styleColors.gray_500:shade(0.6):tint(0.1),
+		active = styleColors.gray_500:shade(0.6):tint(0.2)
+	},
+	semi_transparent = {
+		normal = styleColors.primary_600:opacity(0.5),
+		hovered = styleColors.primary_400:opacity(0.5),
+		active = styleColors.primary_300:opacity(0.5)
+	},
+	transparent = {
+		normal = styleColors.transparent,
+		hovered = styleColors.primary_600:opacity(0.1),
+		active = styleColors.primary_600:opacity(0.2)
+	}
+}
+
 theme.colors = {
 	reticuleCircle			= styleColors.gray_300,
 	reticuleCircleDark		= styleColors.gray_400,
@@ -106,13 +136,13 @@ theme.colors = {
 	tableSelection			= styleColors.accent_300:shade(0.40),
 	tableBackground			= styleColors.primary_800,
 	commsWindowBackground	= styleColors.primary_700:opacity(0.30),
-	buttonBlue				= styleColors.primary_300,
+	buttonBlue				= theme.buttonColors.selected.normal,
 	buttonInk				= styleColors.white,
 
 	-- ImGui theme default colors
-	Button					= styleColors.primary_600,
-	ButtonHovered			= styleColors.primary_400,
-	ButtonActive			= styleColors.primary_300,
+	Button					= theme.buttonColors.default.normal,
+	ButtonHovered			= theme.buttonColors.default.hovered,
+	ButtonActive			= theme.buttonColors.default.active,
 
 	unknown					= styleColors.unknown, -- used as an invalid color
 	transparent				= styleColors.transparent,
@@ -183,12 +213,15 @@ theme.colors = {
 }
 
 -- ImGui global theming styles
-theme.styles = {
+theme.styles = rescaleUI {
 	WindowBorderSize = 0.0,
 	TabRounding = 0.0,
-	TabPadding = rescaleUI(Vector2(8, 6)),
-	ButtonPadding = rescaleUI(Vector2(8, 6)),
-	ItemSpacing = rescaleUI(Vector2(8, 6)),
+	TabPadding = Vector2(8, 6),
+	ButtonPadding = Vector2(8, 6),
+	ItemSpacing = Vector2(8, 6),
+	MainButtonSize = Vector2(32, 32),
+	SmallButtonSize = Vector2(24, 24),
+	MainButtonPadding = 3
 }
 
 theme.icons = {

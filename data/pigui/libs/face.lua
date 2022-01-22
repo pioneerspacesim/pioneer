@@ -7,6 +7,8 @@ local Character = require 'Character'
 
 local l = require 'Lang'.GetResource("ui-core")
 local ui = require 'pigui'
+local Vector2 = _G.Vector2
+local Color = _G.Color
 
 local colors = ui.theme.colors
 local icons = ui.theme.icons
@@ -103,10 +105,10 @@ function PiGuiFace:changeFeature(featureId, amt, callback)
 end
 
 local pigui = Engine.pigui
-local buttonSize = Vector2(40, 56) * (ui.screenHeight / 1200)
-local iconSize = Vector2(56, 56) * (ui.screenHeight / 1200)
+local buttonSize = ui.rescaleUI(Vector2(30, 42))
+local iconSize = ui.rescaleUI(Vector2(42, 42))
 local function faceGenButton(self, feature)
-    if (ui.coloredSelectedButton('<##' .. feature.id, buttonSize, false, colors.buttonBlue, nil, true)) then
+    if ui.button('<##' .. feature.id, buttonSize) then
         self:changeFeature(feature.id, -1, feature.callback)
     end
     ui.sameLine()
@@ -115,15 +117,15 @@ local function faceGenButton(self, feature)
     pigui.PopID()
     if pigui.IsItemHovered() then pigui.SetTooltip(feature.tooltip) end
     ui.sameLine()
-    if (ui.coloredSelectedButton('>##' .. feature.id, buttonSize, false, colors.buttonBlue, nil, true)) then
+    if ui.button('>##' .. feature.id, buttonSize) then
         self:changeFeature(feature.id, 1, feature.callback)
     end
 end
 
-local facegenSpacing = Vector2(math.ceil(24* (ui.screenHeight / 1200)),math.ceil(6* (ui.screenHeight / 1200)))
+local facegenSpacing = ui.rescaleUI(Vector2(24, 6))
 local facegenSize = Vector2(buttonSize.x * 2 + iconSize.x + facegenSpacing.x * 2, 0)
-local buttonSpaceSize = Vector2(math.ceil(facegenSpacing.x*2 + buttonSize.x*2 + iconSize.x), math.ceil(56 * (ui.screenHeight / 1200)))
-local inputTextPadding = Vector2(math.ceil(18 * (ui.screenHeight / 1200)), math.ceil(18 * (ui.screenHeight / 1200)))
+local buttonSpaceSize = Vector2(facegenSpacing.x * 2 + buttonSize.x * 2 + iconSize.x, iconSize.y)
+local inputTextPadding = ui.rescaleUI(Vector2(18, 18))
 function PiGuiFace:render()
 	local char = self.character
 	if not self.allowModification then
@@ -152,11 +154,11 @@ function PiGuiFace:render()
 
 		ui.withStyleVars({ItemSpacing = facegenSpacing}, function()
 			ui.child("FaceGen", facegenSize, {}, function()
-				for i, v in ipairs(faceFeatures) do
+				for _, v in ipairs(faceFeatures) do
 					faceGenButton(self, v)
 				end
 
-				if (ui.coloredSelectedIconButton(icons.random, buttonSpaceSize, false, 0, colors.buttonBlue, colors.white, l.RANDOM_FACE, iconSize)) then
+				if (ui.iconButton(icons.random, buttonSpaceSize, l.RANDOM_FACE, nil, nil, 0, iconSize)) then
 					char.faceDescription = rerollFaceDesc(char.faceDescription)
 					self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
 				end

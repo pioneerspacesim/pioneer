@@ -3,38 +3,32 @@
 
 local Engine = require 'Engine'
 local Game = require 'Game'
-local Event = require 'Event'
 local ShipDef = require 'ShipDef'
 local FileSystem = require 'FileSystem'
 local Format = require 'Format'
-local utils = require 'utils'
 
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
+local Vector2 = _G.Vector2
+local Color = _G.Color
 
 local ui = require 'pigui'
 local ModalWindow = require 'pigui.libs.modal-win'
 
-local player = nil
-local colors = ui.theme.colors
-local icons = ui.theme.icons
+local optionButtonSize = ui.rescaleUI(Vector2(100, 32))
+local winSize = Vector2(ui.screenWidth * 0.4, ui.screenHeight * 0.6)
 local pionillium = ui.fonts.pionillium
-local popupOpened = false
-
-local optionButtonSize = ui.rescaleUI(Vector2(150,25), Vector2(1920,1080))
-local mainButtonFramePadding = 3
 
 local saveFileCache = {}
 local selectedSave
-local saveIsValid = false
+local saveIsValid = true
 
-local function optionTextButton(label, tooltip, enabled, callback)
-	local bgcolor = enabled and colors.buttonBlue or colors.grey
-
+local function optionTextButton(label, enabled, callback)
+	local variant = not enabled and ui.theme.buttonColors.disabled or nil
     local button
 	ui.withFont(pionillium.medium.name, pionillium.medium.size, function()
-		button = ui.coloredSelectedButton(label, optionButtonSize, false, bgcolor, tooltip, enabled)
+		button = ui.button(label, optionButtonSize, variant)
 	end)
     if button then
         callback(button)
@@ -45,8 +39,7 @@ local function getSaveTooltip(name)
 	local ret
 	local stats
 	if not saveFileCache[name] then
-        local ok
-        ok, saveFileCache[name] = pcall(Game.SaveGameStats, name)
+        _, saveFileCache[name] = pcall(Game.SaveGameStats, name)
 	end
     stats = saveFileCache[name]
     if (type(stats) == "string") then -- file could not be loaded, this is the error
@@ -120,18 +113,34 @@ local function closeAndLoadOrSave()
 end
 
 ui.saveLoadWindow = ModalWindow.New("LoadGame", function()
-	local mode = ui.saveLoadWindow.mode == 'SAVE' and lui.SAVE or lui.LOAD
-	optionTextButton(mode, nil, selectedSave ~= nil and selectedSave ~= '' and saveIsValid, closeAndLoadOrSave)
-	ui.sameLine()
-	optionTextButton(lui.CANCEL, nil, true, closeAndClearCache)
+	local saving = ui.saveLoadWindow.mode == "SAVE"
+	local other_height = optionButtonSize.y + ui.getItemSpacing().y * 2 + ui.getWindowPadding().y * 2
+	ui.child("savefiles", Vector2(-1, winSize.y - other_height), function()
+		showSaveFiles()
+	end)
 
-	if ui.saveLoadWindow.mode == "SAVE" then
+	ui.separator()
+
+	local txt_width = winSize.x - (ui.getWindowPadding().x + optionButtonSize.x + ui.getItemSpacing().x) * 2
+	if saving then
+		-- for vertical center alignment
+		local txt_hshift = math.max(0, (optionButtonSize.y - ui.getFrameHeight()) / 2)
+		ui.nextItemWidth(txt_width, 0)
+		ui.setCursorPos(ui.getCursorPos() + Vector2(0, txt_hshift))
 		selectedSave = ui.inputText("##saveFileName", selectedSave or "", {})
+		ui.sameLine(txt_width + ui.getWindowPadding().x + ui.getItemSpacing().x)
+		ui.setCursorPos(ui.getCursorPos() + Vector2(0, -txt_hshift))
+	else
+		ui.setCursorPos(ui.getCursorPos() + Vector2(txt_width + ui.getItemSpacing().x, 0))
 	end
 
-	showSaveFiles()
-end, function (self, drawPopupFn)
-	ui.setNextWindowSize(ui.rescaleUI(Vector2(640, 400), Vector2(1920,1080)), "Always")
+	local mode = saving and lui.SAVE or lui.LOAD
+	optionTextButton(mode, selectedSave ~= nil and selectedSave ~= '' and saveIsValid, closeAndLoadOrSave)
+	ui.sameLine()
+	optionTextButton(lui.CANCEL, true, closeAndClearCache)
+
+end, function (_, drawPopupFn)
+	ui.setNextWindowSize(winSize, "Always")
 	ui.setNextWindowPosCenter('Always')
 	ui.withStyleColorsAndVars({PopupBg = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
 end)

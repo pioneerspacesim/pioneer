@@ -14,9 +14,9 @@ local l = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
-local gray = colors.grey
+local Vector2 = _G.Vector2
 
-local iconSize = Vector2(28, 28) * (ui.screenHeight / 1200)
+local iconSize = ui.rescaleUI(Vector2(28, 28))
 local buttonSpaceSize = iconSize
 -- FIXME: need to manually set itemSpacing to be able to properly size columns
 -- Need a style-var query system for best effect
@@ -28,10 +28,9 @@ local hyperdrive_fuel
 
 local jettison = function (item)
 	local enabled = Game.player.flightState == "FLYING"
-	local bgcolor = enabled and colors.buttonBlue or colors.grey
 	local tooltip = l.JETTISON .. "##".. item:GetName()
 
-	local button = ui.coloredSelectedIconButton(icons.cargo_crate_illegal, buttonSpaceSize, false, 0, colors.buttonBlue, colors.white, tooltip, iconSize)
+	local button = ui.iconButton(icons.cargo_crate_illegal, buttonSpaceSize, tooltip)
 
 	if button and enabled then
 		Game.player:Jettison(item)
@@ -45,7 +44,7 @@ local maxCargoWidth = 0
 local function rebuildCargoList()
 	local count = {}
 	local maxCargoCount = 0
-	for k, et in pairs(Game.player:GetEquip("cargo")) do
+	for _, et in pairs(Game.player:GetEquip("cargo")) do
 		if not count[et] then count[et] = 0 end
 		count[et] = count[et]+1
 		maxCargoCount = math.max(count[et], maxCargoCount)
@@ -161,16 +160,8 @@ end
 local function drawEconTrade()
 	local player = Game.player
 
-	-- Current mass of fuel stored in internal tanks
-	local fuelMassLeft = player.fuelMassLeft
-
-	-- Current fuel in internal tanks, in interval [0,100], as float
-	local currentfuel = player.fuel
-
 	if ui.collapsingHeader(l.FUEL, {"DefaultOpen"}) then
 		gauge_fuel()
-
-		local current_fuel_text = string.format("%.2f%%", currentfuel)
 
 		local width1 = ui.calcTextSize(l.PUMP_DOWN)
 		local width2 = ui.calcTextSize(l.REFUEL)
@@ -188,7 +179,7 @@ local function drawEconTrade()
 		for _, k in ipairs(options) do
 			if ui.button(tostring(k)  .. "##fuel", Vector2(100, 0)) then
 				-- Refuel k tonnes from cargo hold
-				local successfully_used = Game.player:Refuel(k)
+				Game.player:Refuel(k)
 			end
 			ui.sameLine()
 		end
@@ -198,7 +189,7 @@ local function drawEconTrade()
 		-- at the moment: no visual cue for this.
 		ui.text(l.PUMP_DOWN)
 		ui.sameLine(width)
-		for k, v in ipairs(options) do
+		for _, v in ipairs(options) do
 			local fuel = -1*v
 			if ui.button(fuel .. "##pump", Vector2(100, 0)) then
 				pumpDown(fuel)
@@ -211,8 +202,6 @@ local function drawEconTrade()
 	gauge_hyperdrive()
 
 	if ui.collapsingHeader(l.CABINS, {"DefaultOpen"}) then
-		local totalCabins = Game.player:GetEquipCountOccupied("cabin")
-		local usedCabins = totalCabins - (Game.player.cabin_cap or 0)
 
 		gauge_cabins()
 	end

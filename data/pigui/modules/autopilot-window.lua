@@ -1,38 +1,25 @@
 -- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = require 'Engine'
 local Game = require 'Game'
-local utils = require 'utils'
-local Event = require 'Event'
 
 local Lang = require 'Lang'
-local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
 
 local ui = require 'pigui'
+local Vector2 = _G.Vector2
 
 local player = nil
-local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local mainButtonSize = Vector2(32,32) * (ui.screenHeight / 1200)
-local mainButtonFramePadding = 3
-
-local function mainMenuButton(icon, selected, tooltip, color)
-	if color == nil then
-		color = colors.white
-	end
-	return ui.coloredSelectedIconButton(icon, mainButtonSize, selected, mainButtonFramePadding, colors.buttonBlue, color, tooltip)
-end
+local mainButtonSize = ui.theme.styles.MainButtonSize
+local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
 
 local function button_hyperspace()
 	local disabled = false
 	local shown = true
 	local legal = player:IsHyperjumpAllowed()
-	local abort = false
 	local targetpath = player:GetHyperspaceTarget()
-	local target = targetpath and targetpath:GetStarSystem()
 	if player:CanHyperjumpTo(targetpath) then
 		if player:IsDocked() or player:IsLanded() then
 			disabled = true
@@ -45,9 +32,8 @@ local function button_hyperspace()
 
 
 	if shown then
-		ui.sameLine()
 		if disabled then
-			mainMenuButton(icons.hyperspace, false, lui.HUD_BUTTON_HYPERDRIVE_DISABLED, colors.grey)
+			ui.mainMenuButton(icons.hyperspace, lui.HUD_BUTTON_HYPERDRIVE_DISABLED, ui.theme.buttonColors.disabled)
 		else
 			local icon = icons.hyperspace_off
 			local tooltip = lui.HUD_BUTTON_INITIATE_ILLEGAL_HYPERJUMP
@@ -55,7 +41,7 @@ local function button_hyperspace()
 				icon = icons.hyperspace
 				tooltip = lui.HUD_BUTTON_INITIATE_HYPERJUMP
 			end
-			if mainMenuButton(icon, false, tooltip) or ui.isKeyReleased(ui.keys.f7)  then
+			if ui.mainMenuButton(icon, tooltip) or ui.isKeyReleased(ui.keys.f7)  then
 				if player:IsHyperspaceActive() then
 					player:AbortHyperjump()
 				else
@@ -68,14 +54,12 @@ end
 
 local function button_undock()
 	if player:IsLanded() then
-		ui.sameLine()
-		if mainMenuButton(icons.autopilot_blastoff, false, lui.HUD_BUTTON_BLASTOFF) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
+		if ui.mainMenuButton(icons.autopilot_blastoff, lui.HUD_BUTTON_BLASTOFF) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 			Game.SetTimeAcceleration("1x")
 			player:BlastOff()
 		end
 	elseif player:IsDocked() then
-		ui.sameLine()
-		if mainMenuButton(icons.autopilot_undock, false, lui.HUD_BUTTON_UNDOCK) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
+		if ui.mainMenuButton(icons.autopilot_undock, lui.HUD_BUTTON_UNDOCK) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 			Game.SetTimeAcceleration("1x")
 			player:Undock()
 		end
@@ -103,7 +87,6 @@ local aicommand_info = {
 }
 
 local function button_flight_control()
-	ui.sameLine()
 	local flightstate = player:GetFlightState()
 	local flightcontrolstate = player:GetFlightControlState()
 	local fcsi = flightstate_info[flightcontrolstate]
@@ -128,7 +111,7 @@ local function button_flight_control()
 			tooltip = tooltip .. " " .. ui.Format.Speed(speed)
 		end
   end
-	if mainMenuButton(icon, false, tooltip) or (flightstate == "FLYING" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
+	if ui.mainMenuButton(icon, tooltip) or (flightstate == "FLYING" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 		local newState = "CONTROL_MANUAL"
 		if ui.ctrlHeld() and flightcontrolstate == "CONTROL_FIXSPEED" then
 			newState = "CONTROL_FIXHEADING_FORWARD"
@@ -155,19 +138,21 @@ local function displayAutoPilotWindow()
 	if ui.optionsWindow.isOpen then return end
 	player = Game.player
 	local current_view = Game.CurrentView()
-	ui.setNextWindowPos(Vector2(ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3, ui.screenHeight - mainButtonSize.y * 1.5 - 8) , "Always")
-	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"},
+	local window_posx = ui.screenWidth/2 + ui.reticuleCircleRadius / 4 * 3
+	local window_posy = ui.screenHeight - mainButtonSize.y - mainButtonFramePadding * 2 - ui.getWindowPadding().y * 2
+	ui.setNextWindowPos(Vector2(window_posx, window_posy) , "Always")
+	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "AlwaysAutoResize"},
 						function()
 							if current_view == "world" then
 								button_hyperspace()
-
+								ui.sameLine()
 								button_undock()
-
+								ui.sameLine()
 								button_flight_control()
 							end -- current_view == "world"
 	end)
 end
 
-ui.registerModule("game", displayAutoPilotWindow)
+ui.registerModule("game", { id = "autopilot-window", draw = displayAutoPilotWindow })
 
 return {}

@@ -6,16 +6,17 @@ local InfoView = require 'pigui/views/info-view'
 local Lang = require 'Lang'
 local FlightLog = require 'FlightLog'
 local Format = require 'Format'
+local Color = _G.Color
+local Vector2 = _G.Vector2
 
 local pionillium = ui.fonts.pionillium
-local colors = ui.theme.colors
 local icons = ui.theme.icons
 
 local gray = Color(145, 145, 145)
 
 local l = Lang.GetResource("ui-core")
 
-local iconSize = Vector2(28, 28) * (ui.screenHeight / 1200)
+local iconSize = ui.rescaleUI(Vector2(28, 28))
 local buttonSpaceSize = iconSize
 
 -- Sometimes date is empty, e.g. departure date prior to departure
@@ -89,16 +90,14 @@ local function renderCustomLog()
 		ui.nextColumn()
 
 		was_clicked = false
-		if ui.coloredSelectedIconButton(icons.pencil, buttonSpaceSize, false,
-			0, colors.buttonBlue, colors.white, l.EDIT .. "##custom"..counter, iconSize) then
+		if ui.iconButton(icons.pencil, buttonSpaceSize, l.EDIT .. "##custom"..counter) then
 			was_clicked = true
 			-- If edit field was clicked, we want to edit _this_ iteration's field,
 			-- not next record's. Quick, behind you, velociraptor!
 			goto input
 		end
 
-		if ui.coloredSelectedIconButton(icons.trashcan, buttonSpaceSize, false,
-			0, colors.buttonBlue, colors.white, l.REMOVE .. "##custom" .. counter, iconSize) then
+		if ui.iconButton(icons.trashcan, buttonSpaceSize, l.REMOVE .. "##custom" .. counter) then
 			FlightLog.DeleteCustomEntry(counter)
 			-- if we were already in edit mode, reset it, or else it carries over to next iteration
 			entering_text_custom = false
@@ -132,8 +131,7 @@ local function renderStationLog()
 		ui.nextColumn()
 
 		was_clicked = false
-		if ui.coloredSelectedIconButton(icons.pencil, buttonSpaceSize, false,
-			0, colors.buttonBlue, colors.white, l.EDIT .. "##station"..counter, iconSize) then
+		if ui.iconButton(icons.pencil, buttonSpaceSize, l.EDIT .. "##station"..counter) then
 			was_clicked = true
 			goto input
 		end
@@ -161,8 +159,7 @@ local function renderSystemLog()
 		ui.nextColumn()
 
 		was_clicked = false
-		if ui.coloredSelectedIconButton(icons.pencil, buttonSpaceSize, false,
-			0, colors.buttonBlue, colors.white, l.EDIT .. "##system"..counter, iconSize) then
+		if ui.iconButton(icons.pencil, buttonSpaceSize, l.EDIT .. "##system"..counter) then
 			was_clicked = true
 			goto input
 		end
@@ -183,40 +180,39 @@ local function displayLog(logFn)
 	ui.columns(1)
 end
 
-local function getFlightHistory()
-	if ui.beginTabBar("mytabbar") then
-		if ui.beginTabItem(l.LOG_CUSTOM) then
-			ui.spacing()
-			-- input field for custom log:
-			headerText(l.LOG_NEW, "")
-			ui.sameLine()
-			local text, changed = ui.inputText("##inputfield", "", {"EnterReturnsTrue"})
-			if changed then
-				FlightLog.MakeCustomEntry(text)
-			end
-			ui.separator()
+local function drawFlightHistory()
+	ui.tabBarFont("#flightlog", {
 
-			displayLog(renderCustomLog)
-			ui.endTabItem()
-		end
+		{ name = l.LOG_CUSTOM,
+			draw = function()
+				ui.spacing()
+				-- input field for custom log:
+				headerText(l.LOG_NEW, "")
+				ui.sameLine()
+				local text, changed = ui.inputText("##inputfield", "", {"EnterReturnsTrue"})
+				if changed then
+					FlightLog.MakeCustomEntry(text)
+				end
+				ui.separator()
+				displayLog(renderCustomLog)
+			end },
 
-		if ui.beginTabItem(l.LOG_STATION) then
-			displayLog(renderStationLog)
-			ui.endTabItem()
-		end
+		{ name = l.LOG_STATION,
+			draw = function()
+				displayLog(renderStationLog)
+			end },
 
-		if ui.beginTabItem(l.LOG_SYSTEM) then
-			displayLog(renderSystemLog)
-			ui.endTabItem()
-		end
+		{ name = l.LOG_SYSTEM,
+			draw = function()
+				displayLog(renderSystemLog)
+			end }
 
-		ui.endTabBar()
-	end
+	}, pionillium.heading)
 end
 
 local function drawLog ()
 	ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
-		getFlightHistory()
+		drawFlightHistory()
 	end)
 end
 

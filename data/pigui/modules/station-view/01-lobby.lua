@@ -25,12 +25,13 @@ local icons = ui.theme.icons
 
 local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
+local Vector2 = _G.Vector2
 
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
 	faceSize = Vector2(586,565),
-	buttonSizeBase = Vector2(64, 48),
+	buttonSizeBase = Vector2(72, 48),
 }, Vector2(1600, 900))
 
 widgetSizes.itemSpacing = Vector2(math.ceil(widgetSizes.itemSpacing.x), math.ceil(widgetSizes.itemSpacing.y))
@@ -41,7 +42,6 @@ widgetSizes.iconSize = Vector2(0, widgetSizes.buttonSizeBase.y)
 local face = nil
 local stationSeed = 0
 local shipDef
-local winPos = Vector2(0,0)
 
 local hyperdrive
 local hyperdrive_fuel
@@ -59,7 +59,7 @@ local popup = ModalWindow.New('lobbyPopup', function(self)
 end)
 
 local requestLaunch = function (station)
-	local crimes, fine = Game.player:GetCrimeOutstanding()
+	local _, fine = Game.player:GetCrimeOutstanding()
 	local nearbyTraffic = station:GetNearbyTraffic(50000) -- ships within 50km of station
 
 	if not Game.player:HasCorrectCrew() then
@@ -177,11 +177,11 @@ local function lobbyMenu()
 		ui.text(Format.Money(station:GetEquipmentPrice(Equipment.cargo.hydrogen) * shipDef.fuelTankMass/100 * Game.player.fuel))
 	end)
 	ui.nextColumn()
-	if ui.coloredSelectedButton(l.REFUEL_FULL, widgetSizes.buttonFullRefuelSize, false, colors.buttonBlue, nil, true) then refuelInternalTank(100) end
+	if ui.button(l.REFUEL_FULL, widgetSizes.buttonFullRefuelSize) then refuelInternalTank(100) end
 	ui.sameLine()
-	if ui.coloredSelectedButton("-10%", widgetSizes.buttonSizeBase, false, colors.buttonBlue, nil, true) then refuelInternalTank(-10) end
+	if ui.button("-10%", widgetSizes.buttonSizeBase) then refuelInternalTank(-10) end
 	ui.sameLine()
-	if ui.coloredSelectedButton("+10%", widgetSizes.buttonSizeBase, false, colors.buttonBlue, nil, true) then refuelInternalTank(10) end
+	if ui.button("+10%", widgetSizes.buttonSizeBase) then refuelInternalTank(10) end
 	ui.nextColumn()
 	local gaugePos = ui.getCursorScreenPos()
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
@@ -200,13 +200,13 @@ local function lobbyMenu()
 		ui.text(Format.Money(station:GetEquipmentPrice(hyperdrive_fuel) * Game.player:CountEquip(hyperdrive_fuel)))
 	end)
 	ui.nextColumn()
-	if ui.coloredSelectedButton("-10t", widgetSizes.buttonSizeBase, false, colors.buttonBlue, nil, true) then refuelHyperdrive(-10) end
+	if ui.button("-10t", widgetSizes.buttonSizeBase) then refuelHyperdrive(-10) end
 	ui.sameLine()
-	if ui.coloredSelectedButton("-1t", widgetSizes.buttonSizeBase, false, colors.buttonBlue, nil, true) then refuelHyperdrive(-1) end
+	if ui.button("-1t", widgetSizes.buttonSizeBase) then refuelHyperdrive(-1) end
 	ui.sameLine()
-	if ui.coloredSelectedButton("+1t", widgetSizes.buttonSizeBase, false, colors.buttonBlue, nil, true) then refuelHyperdrive(1) end
+	if ui.button("+1t", widgetSizes.buttonSizeBase) then refuelHyperdrive(1) end
 	ui.sameLine()
-	if ui.coloredSelectedButton("+10t", widgetSizes.buttonSizeBase, false, colors.buttonBlue, nil, true) then refuelHyperdrive(10) end
+	if ui.button("+10t", widgetSizes.buttonSizeBase) then refuelHyperdrive(10) end
 	ui.nextColumn()
 	gaugePos = ui.getCursorScreenPos()
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
@@ -220,6 +220,7 @@ local function lobbyMenu()
 end
 
 local function drawPlayerInfo()
+
 	local station = Game.player:GetDockedWith()
 
 	if(not (station and shipDef)) then return end
@@ -277,7 +278,7 @@ local function drawPlayerInfo()
 
 					ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
 						local size = Vector2(ui.getContentRegion().x, widgetSizes.buttonLaunchSize.y)
-						if ui.coloredSelectedButton(l.REQUEST_LAUNCH, size, false, colors.buttonBlue, nil, true) then
+						if ui.button(l.REQUEST_LAUNCH, size) then
 							requestLaunch(station)
 						end
 					end)

@@ -11,6 +11,7 @@ local Format = require 'Format'
 local MusicPlayer = require 'modules.MusicPlayer'
 local Lang = require 'Lang'
 local FlightLog = require ("FlightLog")
+local Vector2 = _G.Vector2
 
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
@@ -25,15 +26,13 @@ local misc = Equipment.misc
 local laser = Equipment.laser
 local hyperspace = Equipment.hyperspace
 
-local player = nil
 local colors = ui.theme.colors
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
-local icons = ui.theme.icons
 
-local mainButtonSize = Vector2(400,46) * (ui.screenHeight / 1200)
-local dialogButtonSize = Vector2(150,46) * (ui.screenHeight / 1200)
-local mainButtonFontSize = 24 * (ui.screenHeight / 1200)
+local mainButtonSize = ui.rescaleUI(Vector2(400,46))
+local dialogButtonSize = ui.rescaleUI(Vector2(150,46))
+local mainButtonFont = pionillium.large
 local quitPadding = ui.rescaleUI(Vector2(12, 12))
 
 local showQuitConfirm = false
@@ -76,11 +75,11 @@ local startLocations = {
 }
 
 local function dialogTextButton(label, enabled, callback)
-	local bgcolor = enabled and colors.buttonBlue or colors.grey
+	local variant = not enabled and ui.theme.buttonColors.disabled or nil
 
 	local button
-	ui.withFont(pionillium.large.name, mainButtonFontSize, function()
-		button = ui.coloredSelectedButton(label, dialogButtonSize, false, bgcolor, nil, enabled)
+	ui.withFont(mainButtonFont, function()
+		button = ui.button(label, dialogButtonSize, variant)
 	end)
 	if button then
 		callback()
@@ -89,11 +88,11 @@ local function dialogTextButton(label, enabled, callback)
 end
 
 local function mainTextButton(label, tooltip, enabled, callback)
-	local bgcolor = enabled and colors.buttonBlue or colors.grey
+	local variant = not enabled and ui.theme.buttonColors.disabled or nil
 
 	local button
-	ui.withFont(pionillium.large.name, mainButtonFontSize, function()
-		button = ui.coloredSelectedButton(label, mainButtonSize, false, bgcolor, tooltip, enabled)
+	ui.withFont(mainButtonFont, function()
+		button = ui.button(label, mainButtonSize, variant, tooltip)
 	end)
 	if button and enabled then
 		callback()
@@ -175,7 +174,7 @@ local function startAtLocation(location)
 end
 
 local function callModules(mode)
-	for k,v in ipairs(ui.getModules(mode)) do
+	for _,v in ipairs(ui.getModules(mode)) do
 		v.draw()
 	end
 end
@@ -197,7 +196,7 @@ local function showMainMenu()
 	ui.setNextWindowPos(Vector2(110,65),'Always')
 	ui.withStyleColors({["WindowBg"]=colors.transparent}, function()
 		ui.window("headingWindow", overlayWindowFlags, function()
-			ui.withFont("orbiteer",36 * (ui.screenHeight/1200),function() ui.text("Pioneer") end)
+			ui.withFont(orbiteer.xlarge, function() ui.text("Pioneer") end)
 		end)
 	end)
 	if Engine.IsIntroZooming() then
@@ -217,7 +216,7 @@ local function showMainMenu()
 		end)
 	end
 	local build_text = Engine.version
-	ui.withFont("orbiteer", 16 * (ui.screenHeight/1200),
+	ui.withFont(orbiteer.medium,
 		function()
 			ui.setNextWindowPos(Vector2(ui.screenWidth - ui.calcTextSize(build_text).x * 1.2,ui.screenHeight - 50), 'Always')
 			ui.withStyleColors({["WindowBg"] = colors.transparent}, function()
@@ -271,6 +270,4 @@ local function showMainMenu()
 	callModules('modal')
 end -- showMainMenu
 
-ui.registerHandler('mainMenu',function(delta)
-	showMainMenu()
-end)
+ui.registerHandler('mainMenu', showMainMenu)
