@@ -13,9 +13,12 @@ local getBodyIcon = require 'pigui.modules.flight-ui.body-icons'
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local iconSize = Vector2(24,24)
-local bodyIconSize = Vector2(18,18)
-local button_size = Vector2(32,32) * (ui.screenHeight / 1200)
+local style = ui.rescaleUI {
+	iconSize = Vector2(24,24),
+	bodyIconSize = Vector2(18,18),
+	buttonSize = Vector2(32,32),
+}
+
 local frame_padding = 1
 local bg_color = colors.buttonBlue
 local fg_color = colors.white
@@ -65,7 +68,7 @@ local function make_result(systemBody, label, isSelected)
 end
 
 -- Returns a table of entries.
--- Each entry will have { children_visible = true } if they are a parent of, or a selected object
+-- Each entry will have { children_visible = true } if they are a parent of, or are a selected object
 -- Entries that are excluded by the current filter will have { visible = false }
 ---@return table @ SystemBody entry
 ---@return boolean @ whether this entry is part of the chain of selected objects
@@ -75,6 +78,8 @@ local function calculateEntry(systemBody, parent, selected, filter)
 
 	result = make_result(systemBody, systemBody.name, isSelected)
 	result.visible = isSelected or filter(systemBody)
+
+	-- Set show-flags on the direct parent of this body
 	if systemBody.isSpaceStation then
 		parent.has_space_stations = true
 	elseif systemBody.isGroundStation then
@@ -113,13 +118,13 @@ function SystemOverviewWidget:renderEntry(entry, indent)
 	local sbody = entry.systemBody
 	local label = entry.label or "UNKNOWN"
 
-	ui.dummy(Vector2(iconSize.x * indent / 2.0, iconSize.y))
+	ui.dummy(Vector2(style.iconSize.x * indent / 2.0, style.iconSize.y))
 	ui.sameLine()
-	ui.icon(getBodyIcon(sbody), iconSize, colors.font)
+	ui.icon(getBodyIcon(sbody), style.iconSize, colors.font)
 	ui.sameLine()
 
 	local pos = ui.getCursorPos()
-	if ui.selectable("##" .. label, entry.selected, {"SpanAllColumns"}, Vector2(0, iconSize.y)) then
+	if ui.selectable("##" .. label, entry.selected, {"SpanAllColumns"}, Vector2(0, style.iconSize.y)) then
 		self:onBodySelected(sbody, entry.body)
 	end
 	if ui.isItemHovered() and ui.isMouseDoubleClicked(0) then
@@ -130,27 +135,27 @@ function SystemOverviewWidget:renderEntry(entry, indent)
 	end
 
 	ui.setCursorPos(pos)
-	ui.alignTextToLineHeight(iconSize.y)
+	ui.alignTextToLineHeight(style.iconSize.y)
 	ui.text(label)
 	ui.sameLine()
 
 	if entry.has_moons then
-		ui.icon(icons.moon, bodyIconSize, colors.font)
+		ui.icon(icons.moon, style.bodyIconSize, colors.font)
 		ui.sameLine(0,0.01)
 	end
 	if entry.has_ground_stations then
-		ui.icon(icons.starport, bodyIconSize, colors.font)
+		ui.icon(icons.starport, style.bodyIconSize, colors.font)
 		ui.sameLine(0,0.01)
 	end
 	if entry.has_space_stations then
-		ui.icon(icons.spacestation, bodyIconSize, colors.font)
+		ui.icon(icons.spacestation, style.bodyIconSize, colors.font)
 		ui.sameLine(0,0.01)
 	end
 
 	ui.nextColumn()
-	ui.dummy(Vector2(0, iconSize.y))
+	ui.dummy(Vector2(0, style.iconSize.y))
 	ui.sameLine()
-	ui.alignTextToLineHeight(iconSize.y)
+	ui.alignTextToLineHeight(style.iconSize.y)
 
 	local distance
 	if entry.body and self.shouldDisplayPlayerDistance then
@@ -175,11 +180,11 @@ function SystemOverviewWidget:showEntry(entry, indent, sortFunction)
 end
 
 function SystemOverviewWidget:drawControlButtons()
-	if ui.coloredSelectedIconButton(icons.moon, button_size, self.shouldShowMoons, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_MOONS) then
+	if ui.coloredSelectedIconButton(icons.moon, style.buttonSize, self.shouldShowMoons, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_MOONS) then
 		self.shouldShowMoons = not self.shouldShowMoons
 	end
 	ui.sameLine()
-	if ui.coloredSelectedIconButton(icons.filter_stations, button_size, self.shouldShowStations, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_STATIONS) then
+	if ui.coloredSelectedIconButton(icons.filter_stations, style.buttonSize, self.shouldShowStations, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_STATIONS) then
 		self.shouldShowStations = not self.shouldShowStations
 	end
 end
@@ -198,7 +203,7 @@ function SystemOverviewWidget:display(system, root, selected)
 	self.focusSearchResults = filterText and filterText ~= ""
 
 	ui.sameLine()
-	ui.icon(icons.filter_bodies, button_size, colors.frame, lui.OVERVIEW_NAME_FILTER)
+	ui.icon(icons.filter_bodies, style.buttonSize, colors.frame, lui.OVERVIEW_NAME_FILTER)
 
 	local sortFunction = self.shouldSortByPlayerDistance and sortByPlayerDistance or sortBySystemDistance
 

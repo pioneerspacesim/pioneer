@@ -459,7 +459,7 @@ ui.registerModule("game", function()
 
 		if ui.isKeyReleased(ui.keys.tab) then
 			sectorViewLayout.enabled = not sectorViewLayout.enabled
-			sectorView:SetLabelsVisibility(hideSectorViewWindows)
+			sectorView:SetLabelsVisibility(not sectorViewLayout.enabled)
 		end
 
 		if ui.escapeKeyReleased() then
