@@ -4,7 +4,8 @@
 #include "View.h"
 #include "Pi.h"
 
-View::View()
+View::View() :
+	m_renderer(nullptr)
 {
 }
 
