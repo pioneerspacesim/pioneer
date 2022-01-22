@@ -328,7 +328,7 @@ end
 --             false otherwise
 --
 function ui.isAnyWindowHovered()
-	return ui.isWindowHovered({"AnyWindow", "RectOnly"})
+	return ui.isWindowHovered({"AnyWindow", "AllowWhenBlockedByPopup", "AllowWhenBlockedByActiveItem"})
 end
 
 --
@@ -506,9 +506,9 @@ function ui.tabBarFont(id, items, font, ...)
 
 			pigui.EndTabItem()
 		end
-
-		pigui.EndTabItem()
 	end
+
+	pigui.EndTabBar()
 
 	return active_index
 end

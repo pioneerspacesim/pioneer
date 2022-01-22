@@ -103,6 +103,13 @@ namespace OS {
 		return std::string(infoString);
 	}
 
+	const std::string GetUserLangCode()
+	{
+		// assume $LANG is in the format en_US.utf8
+		const char *env_lang = getenv("LANG");
+		return std::string(env_lang ? env_lang : "en").substr(0, 2);
+	}
+
 	void EnableBreakpad()
 	{
 		// Support for Mac and Linux should be added

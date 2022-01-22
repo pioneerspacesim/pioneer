@@ -229,6 +229,12 @@ namespace OS {
 		return hwInfo + name;
 	}
 
+	const std::string GetUserLangCode()
+	{
+		// TODO: implement me
+		return "en";
+	}
+
 #ifdef WITH_BREAKPAD
 	/////////////////////////////////////////////////////// Google Breakpad
 	bool FilterCallback(void *context, EXCEPTION_POINTERS *exinfo,

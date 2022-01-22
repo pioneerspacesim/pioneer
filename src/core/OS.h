@@ -27,6 +27,10 @@ namespace OS {
 	// return a string describing the operating system that the game is running on, useful!
 	const std::string GetOSInfoString();
 
+	// return a two-character language code detected from the OS environment
+	// If the OS environment language cannot be detected, returns "en"
+	const std::string GetUserLangCode();
+
 	// Enable Google breakpad for crash minidumps
 	void EnableBreakpad();
 

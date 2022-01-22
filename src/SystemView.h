@@ -62,7 +62,7 @@ struct Projectable {
 	} ref;
 	vector3d screenpos; // x,y - screen coordinate, z - in NDC
 	vector3d worldpos;
-	float screensize; // approximate size in screen pixels
+	float screensize = 0.f; // approximate size in screen pixels
 
 	Projectable(const types t, const bases b, const Body *obj) :
 		type(t), base(b)

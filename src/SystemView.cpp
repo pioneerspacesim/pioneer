@@ -130,6 +130,8 @@ void SystemView::ResetViewpoint()
 	m_transTo *= 0.0;
 	m_animateTransition = MAX_TRANSITION_FRAMES;
 
+	if (!m_renderer) return;
+
 	float height = tan(DEG2RAD(CAMERA_FOV)) * 30.0f;
 	m_atlasViewW = height * m_renderer->GetDisplayAspect();
 	m_atlasViewH = height;
@@ -686,6 +688,10 @@ void SystemView::DrawAtlasView()
 	gridTransform.Scale(4.0 / float(AU)); // one grid square = one earth diameter = two units
 	m_renderer->SetTransform(cameraTrans * gridTransform);
 	DrawGrid(64.0);
+
+	// Don't draw bodies in unexplored systems
+	if (m_unexplored)
+		return;
 
 	// Draw the system atlas layout, offsetting the position to ensure it's roughly centered on the grid
 	RenderAtlasBody(m_atlasLayout, vector3f{ -m_atlasPosDefault.x, m_atlasPosDefault.y, 0.0f }, cameraTrans);
