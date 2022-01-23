@@ -51,7 +51,7 @@ local lc = Lang.GetResource 'core'
 local max_mission_dist = 30          -- max distance for long distance mission target location [ly]
 local max_close_dist = 5000          -- max distance for "CLOSE_PLANET" target location [km]
 local max_close_space_dist = 10000   -- max distance for "CLOSE_SPACE" target location [km]
-local far_space_orbit_dist = 100000  -- orbital distance around planet for "FAR_SPACE" target location [km]
+local far_space_orbit_dist = 3.5     -- orbital distance around planet for "FAR_SPACE" target location (number of planet radii)
 local min_interaction_dist = 50      -- min distance for successful interaction with target [meters]
 local target_interaction_time = 10   -- target interaction time to load/unload one unit of cargo/person [sec]
 local max_pass = 20                  -- max number of passengers on target ship
@@ -718,8 +718,9 @@ local createTargetShip = function (mission)
 	elseif mission.flavour.loctype == "CLOSE_SPACE" then
 		ship = Space.SpawnShipNear(shipdef.id, Space.GetBody(mission.station_target.bodyIndex), mission.dist/1000, mission.dist/1000)
 	elseif mission.flavour.loctype == "FAR_SPACE" then
-		ship = Space.SpawnShipNear(shipdef.id, Space.GetBody(mission.planet_target.bodyIndex), far_space_orbit_dist, far_space_orbit_dist)
-		ship:AIEnterHighOrbit(Space.GetBody(mission.planet_target.bodyIndex))
+		local planet_body = Space.GetBody(mission.planet_target.bodyIndex)
+		local orbit_radius = planet_body:GetPhysicalRadius() * far_space_orbit_dist
+		ship = Space.SpawnShipOrbit(shipdef.id, planet_body, orbit_radius, orbit_radius)
 	end
 
 	-- set ship looks (label, skin, pattern)
