@@ -105,7 +105,7 @@
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "ТЪРСИ СЕ ПРЕВОЗ"
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
@@ -121,7 +121,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name} и се нуждая от превоз на малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
+    "message": "Здрасти, аз съм {name} и се нуждая от превоз за малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -137,11 +137,11 @@
   },
   "FLAVOUR_10_ADTEXT": {
     "description": "",
-    "message": "VIP needs urgent passage on a fast ship to {system} system. No questions asked."
+    "message": "Важна личност се нуждае от спешен превоз на бърз кораб към системата {system}. Не задавайте въпроси."
   },
   "FLAVOUR_10_ADTITLE": {
     "description": "",
-    "message": "DISCREET SHIP WANTED"
+    "message": "ТЪРСИ СЕ ДИСКРЕТЕН КОРАБ"
   },
   "FLAVOUR_10_DANGER": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "FLAVOUR_11_ADTITLE": {
     "description": "",
-    "message": "FAST SHIP NEEDED"
+    "message": "НУЖЕН Е БЪРЗ КОРАБ"
   },
   "FLAVOUR_11_DANGER": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "FLAVOUR_12_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "НЕОБХОДИМ Е КОРАБ"
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "ТЪРСИ СЕ ПРЕВОЗ"
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name} и се нуждая от превоз на малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
+    "message": "Здрасти, аз съм {name} и се нуждая от превоз за малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SMALL GROUP PASSAGE"
+    "message": "ПРЕВОЗ ЗА МАЛКА ГРУПА"
   },
   "FLAVOUR_2_DANGER": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name} и се нуждая от превоз на малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
+    "message": "Здрасти, аз съм {name} и се нуждая от превоз за малка група към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платя {cash}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -313,7 +313,7 @@
   },
   "FLAVOUR_2_WHYSOMUCH": {
     "description": "",
-    "message": "Това е обикновено бизнес пътешествие."
+    "message": "Това е обикновено търговско пътешествие."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "НЕОБХОДИМ Е КОРАБ"
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
@@ -353,11 +353,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for business-class passage to {system} system. Will pay {cash}."
+    "message": "Търси се кораб за търговски превоз към системата {system}. Ще платя {cash}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "BUSINESS PASSAGE"
+    "message": "ТЪРГОВСКИ ПРЕВОЗ"
   },
   "FLAVOUR_4_DANGER": {
     "description": "",
@@ -389,11 +389,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Require confidential passage of anonymous VIP to {system} system. Will pay {cash}."
+    "message": "Необходим е конфиденциален превоз на анонимна важна личност към системата {system}. Ще платя {cash}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "CONFIDENTIAL PASSAGE"
+    "message": "КОНФИДЕНЦИАЛЕН ПРЕВОЗ"
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "НЕОБХОДИМ Е КОРАБ"
   },
   "FLAVOUR_6_DANGER": {
     "description": "",
@@ -461,11 +461,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for safe passage to {system} system. Secure transport required. Will pay {cash}."
+    "message": "Търси се кораб за безопасен превоз към системата {system}. Ще платя {cash}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "SAFE PASSAGE NEEDED"
+    "message": "НУЖЕН Е БЕЗОПАСЕН ПРЕВОЗ"
   },
   "FLAVOUR_7_DANGER": {
     "description": "",
@@ -501,7 +501,7 @@
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "FAST PERSONAL TRANSPORT"
+    "message": "БЪРЗ ЛИЧЕН ПРЕВОЗ"
   },
   "FLAVOUR_8_DANGER": {
     "description": "",
@@ -537,7 +537,7 @@
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "LEGITIMATE PASSAGE"
+    "message": "ЛЕГИТИМЕН ПРЕВОЗ"
   },
   "FLAVOUR_9_DANGER": {
     "description": "",

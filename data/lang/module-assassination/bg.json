@@ -9,35 +9,35 @@
   },
   "DENY_0": {
     "description": "",
-    "message": "Съжалявам, нямам ти доверие. "
+    "message": "Съжалявам, нямам Ви доверие. "
   },
   "DENY_1": {
     "description": "",
-    "message": "Върни се, когато натрупаш нужния опит."
+    "message": "Върнете се, когато натрупате нужния опит."
   },
   "DENY_2": {
     "description": "",
-    "message": "Не мисля, че ти си човека, който ми трябва."
+    "message": "Не мисля, че имам нужда от Вас."
   },
   "DENY_3": {
     "description": "",
-    "message": "Не приличаш на пилот, способен да свърши тази работа."
+    "message": "Не приличате на пилот, способен да свърши тази работа."
   },
   "DENY_4": {
     "description": "",
-    "message": "Със сигурност не ставаш за тази работа."
+    "message": "Със сигурност не ставате за тази работа."
   },
   "DENY_5": {
     "description": "",
-    "message": "Нямаш опит, няма да се справиш с толкова важна мисия."
+    "message": "Нямате опит, няма да се справите с толкова важна мисия."
   },
   "DENY_6": {
     "description": "",
-    "message": "Не знам нищо за теб. Нуждая се от опитен пилот за тази мисия."
+    "message": "Не знам нищо за Вас. Нуждая се от опитен пилот за тази мисия."
   },
   "DENY_7": {
     "description": "",
-    "message": "Няма да подложа на риск тази мисия с неопитен пилот като теб."
+    "message": "Няма да подложа на риск тази мисия с неопитен пилот като Вас."
   },
   "DISTANCE": {
     "description": "",
@@ -53,11 +53,11 @@
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "REMOVAL WANTED"
+    "message": "ОТСТРАНЯВАНЕ"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "Огорчен съм да разбера, че {target} е все още на този свят. Излишно е да казвам, че няма да получиш заплащане."
+    "message": "Огорчен съм да разбера, че {target} е все още на този свят. Излишно е да казвам, че няма да получите заплащане."
   },
   "FLAVOUR_0_FAILUREMSG2": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Ще платя {cash} за да ме отървеш от {target}."
+    "message": "Здрасти, аз съм {name}. Ще платя {cash} за да ме отървете от {target}."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "TARGET ELIMINATION"
+    "message": "ЕЛИМИНИРАНЕ НА ЦЕЛТА"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -85,11 +85,11 @@
   },
   "FLAVOUR_1_FAILUREMSG2": {
     "description": "",
-    "message": "Смъртта на {target} не беше причинена от теб, така че не ме питай за заплащане."
+    "message": "Смъртта на {target} не беше причинена от Вас, така че не ме питайте за заплащане."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Трябва да разкарам {target}. Ще ти платя {cash} за услугата."
+    "message": "Трябва да разкарам {target}. Ще платя {cash} за услугата."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -97,19 +97,19 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{target} is tragically no longer wanted in the {system} system. Removal specialist needed."
+    "message": "За съжаление, {target} вече не е желан в системата {system}. Нужен е специалист по отстраняване."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "REMOVAL OPERATION"
+    "message": "ОПЕРАЦИЯ ПО ОТСТРАНЯВАНЕ"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "За жалост, {target} все още е на този свят. За несвършената работа ще си тръгнеш с празни ръце."
+    "message": "За жалост, {target} все още е на този свят. За несвършената работа ще си тръгнете с празни ръце."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
-    "message": "Изпревариха те. Действай по-бързо следващия път!"
+    "message": "Изпревариха Ви. Действайте по-бързо следващия път!"
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
@@ -121,23 +121,23 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Contract killer needed to eliminate {target}."
+    "message": "Нужен е наемен убиец за премахването на {target}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "TERMINATION"
+    "message": "УНИЩОЖЕНИЕ"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Ще си платиш за излагацията с {target}!"
+    "message": "Ще си платите за излагацията с {target}!"
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Искаш кредити за нещо, което е свършил някой друг? Изчезвай."
+    "message": "Искате кредити за нещо, което е свършил някой друг? Изчезвайте!"
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "{target} трябва да стане на космически прах. Ще ти платя {cash} за тази цел."
+    "message": "{target} трябва да стане на космически прах. Ще платя {cash} за тази цел."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -145,15 +145,15 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Discreet operator needed to ensure fatal retirement of {target}."
+    "message": "Нужна е дискретна личност за очистването на {target}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "RETIREMENT"
+    "message": "ОЧИСТВАНЕ"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "{target} още диша, което означава, че няма да ти платя."
+    "message": "{target} още диша, което означава, че няма да платя."
   },
   "FLAVOUR_4_FAILUREMSG2": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "За {cash} желаем да пенсионираме {target} посмъртно."
+    "message": "За {cash}, желаем да пенсионираме {target} посмъртно."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
@@ -169,11 +169,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Some admirers wish {target} dead. Qualified termination experts apply within."
+    "message": "Някои почитатели желаят смъртта на {target}. Квалифицираните експерти са на същото мнение."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "BIOGRAPHICAL"
+    "message": "БИОГРАФИЧНО"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "Получих честитка за смъртта на {target}. Тези {cash} са за Вас."
+    "message": "Получих честитка за смъртта на {target}. Тези {cash} са Ваши."
   },
   "HOW_SOON_MUST_IT_BE_DONE": {
     "description": "",
@@ -201,15 +201,15 @@
   },
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
-    "message": "Трябва да се направи след като {target} напусне {spaceport}. Не изпускай тази възможност."
+    "message": "Трябва да се направи след като {target} напусне {spaceport}. Не изпускайте тази възможност."
   },
   "OK_AGREED": {
     "description": "",
-    "message": "ОК, става."
+    "message": "Добре, става."
   },
   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
     "description": "",
-    "message": "Върни се тук след приключването на мисията и ще ти се плати."
+    "message": "Върнете се тук след приключването на мисията и ще Ви бъде платено."
   },
   "SET_AS_TARGET": {
     "description": "",

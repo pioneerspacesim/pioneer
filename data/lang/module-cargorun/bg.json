@@ -1,7 +1,7 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Отлично. Ще натоваря стоката на кораба ти."
+    "message": "Отлично. Ще натоваря стоката на Вашия кораб."
   },
   "ACCEPTED_2": {
     "description": "",
@@ -9,7 +9,7 @@
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Ок, добре. Надявам се, че мога да ти се доверя."
+    "message": "Ок, добре. Надявам се, че мога да Ви се доверя."
   },
   "ACCEPTED_4": {
     "description": "",
@@ -21,7 +21,7 @@
   },
   "ACCEPTED_PICKUP_2": {
     "description": "",
-    "message": "Имаме сделка! Ще информирам колегите, че си на път."
+    "message": "Имаме сделка! Ще информирам колегите, че сте на път."
   },
   "ADTEXT_1": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
+    "message": "Търси се товарен кораб за местен транспорт. Преместване на стоки в {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "Need local delivery of personal cargo to {starport}."
+    "message": "Местна доставка на личен товар до {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
@@ -57,43 +57,43 @@
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+    "message": "Нужен е квалифициран пилот за разнос. Необходим е кораб за доставка на едро до системата {system}."
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "CARGO RUN"
+    "message": "РАЗНОС"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "NEED CARGO TRANSPORT"
+    "message": "НУЖЕН Е ТОВАРЕН ТРАНСПОРТ"
   },
   "ADTITLE_EXPENSIVE_1": {
     "description": "",
-    "message": "INSURED DELIVERY"
+    "message": "ЗАСТРАХОВАНА ДОСТАВКА"
   },
   "ADTITLE_LOCAL_1": {
     "description": "",
-    "message": "SHORT-RANGE FREIGHT"
+    "message": "МЕСТЕН ПРЕВОЗ"
   },
   "ADTITLE_LOCAL_2": {
     "description": "",
-    "message": "LOCAL FREIGHT TRANSPORT"
+    "message": "МЕСТЕН ПРЕВОЗ НА ТОВАР"
   },
   "ADTITLE_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN"
+    "message": "МЕСТЕН РАЗНОС"
   },
   "ADTITLE_PICKUP_1": {
     "description": "",
-    "message": "CARGO PICKUP"
+    "message": "ПРЕВОЗВАНЕ НА ТОВАР"
   },
   "ADTITLE_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "IN-SYSTEM RELOCATION"
+    "message": "МЕСТНО ПРЕМЕСТВАНЕ"
   },
   "ADTITLE_WHOLESALER_1": {
     "description": "",
-    "message": "BULK CARGO SERVICE"
+    "message": "ДОСТАВКА НА ЕДРО"
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
@@ -341,7 +341,7 @@
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
-    "message": "Как е? Името ми е {name}, трябва ми кораб, който да отиде до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), да натовари {cargoname} и да се върне в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за {cash}. Разстоянието до {system} е {dist} сг."
+    "message": "Как е? Името ми е {name}, трябва ми кораб, който да отиде до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), да превози {cargoname} и да се върне в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за {cash}. Разстоянието до {system} е {dist} сг."
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "PICKUP_FROM": {
     "description": "from a location",
-    "message": "Вземи товара от:"
+    "message": "Превозете товара от:"
   },
   "PIRATE_GRIPES_1": {
     "description": "",

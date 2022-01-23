@@ -73,7 +73,7 @@
   },
   "ADTITLE_LOCAL_1": {
     "description": "",
-    "message": "FRACH KRÓTKODYSTANSOWY"
+    "message": "FRACHT KRÓTKODYSTANSOWY"
   },
   "ADTITLE_LOCAL_2": {
     "description": "",
@@ -421,7 +421,7 @@
   },
   "OK_WE_AGREE": {
     "description": "",
-    "message": "OK, zgadzamy się dla {amount} za {reward}."
+    "message": "OK, zgadzamy się dla {amount}t za {reward}."
   },
   "PICKUP_FROM": {
     "description": "from a location",

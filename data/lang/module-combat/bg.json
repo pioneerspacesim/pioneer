@@ -9,11 +9,11 @@
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Добре. Разчитаме на теб!"
+    "message": "Добре. Разчитаме на Вас!"
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
+    "message": "Нужен е квалифициран пилот за тайна задача с заплащане от {cash}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -21,11 +21,11 @@
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
+    "message": "Нужен е квалифициран наемник с добре оборудван кораб. Подробности за мисията са налични при поискване."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
+    "message": "{org} търси безстрашен наемник за мисия към системата {system} с заплащане от {cash}."
   },
   "ADTEXT_5": {
     "description": "",
@@ -33,23 +33,23 @@
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED"
+    "message": "ТЪРСИ СЕ НАДЕЖДЕН ПИЛОТ"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "CHALLENGE RESOLUTION"
+    "message": "РЕШАВАНЕ НА ПРОБЛЕМ"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "COMBAT FLIGHT"
+    "message": "БОЕН ПОЛЕТ"
   },
   "ADTITLE_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED"
+    "message": "ТЪРСИ СЕ БЕЗСТРАШЕН НАЕМНИК"
   },
   "ADTITLE_5": {
     "description": "",
-    "message": "AUTHORIZED COMBAT MISSION"
+    "message": "УПЪЛНОМОЩЕНА БОЙНА МИСИЯ"
   },
   "AGENT": {
     "description": "Secret Service Agent",
@@ -73,7 +73,7 @@
   },
   "BONUS_4": {
     "description": "",
-    "message": "Много съм доволен от свършената работа! Преведох допълнителни {cash} кредита по сметката Ви."
+    "message": "Много съм доволен от свършената работа! Преведох допълнителни {cash} по сметката Ви."
   },
   "COMBAT": {
     "description": "Name of mission type",
@@ -133,19 +133,19 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Срамота. Изчезвай от тук."
+    "message": "Срамота. Изчезвайте от тук."
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "Твърде късно е! Твоето забавяне ни причини огромни загуби. Нищо няма да ти платим!"
+    "message": "Твърде късно е! Вашето забавяне ни причини огромни загуби. Нищо няма да платим!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Ти си позор за всички пилоти. Няма да ти платя!"
+    "message": "Вие сте позор за всички пилоти. Не мога да платя!"
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "Провали се! Нищо няма да ти платя!"
+    "message": "Провалихте се! Нищо няма да платя!"
   },
   "GREETING_1": {
     "description": "",
@@ -161,7 +161,7 @@
   },
   "GREETING_4": {
     "description": "",
-    "message": "Поздрави! Наричай ме {name}."
+    "message": "Поздрави! Наричайте ме {name}."
   },
   "GREETING_5": {
     "description": "",
@@ -185,7 +185,7 @@
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "Имаме продавач във всяка звездна система наоколо. Този човек ще се свърже с теб, когато се приземиш."
+    "message": "Имаме продавач във всяка звездна система наоколо. Този човек ще се свърже с Вас, когато се приземите."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Очаквам те в системата {rendezvous} за да довършим започнатото."
+    "message": "Очаквам Ви в системата {rendezvous} за да довършим започнатото."
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
@@ -221,7 +221,7 @@
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Посети станция в територията на {org}!"
+    "message": "Посетете станция в територията на {org}!"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
@@ -229,7 +229,7 @@
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Аз съм управителя на {org}. Нуждаем се от малко помощ в един юридически спор с конкурент, който вече дълго време се проточва, относно минните права в системата {system} ({sectorx}, {sectory}, {sectorz}), {dist} сг. Изгубихме търпение и искаме да забързаме нещата извън съдебната зала. Твоята мисия ще бъде пътуване до {area} за {cash}."
+    "message": "Аз съм управителя на {org}. Нуждаем се от малко помощ в един юридически спор с конкурент, който вече дълго време се проточва, относно минните права в системата {system} ({sectorx}, {sectory}, {sectorz}), {dist} сг. Изгубихме търпение и искаме да забързаме нещата извън съдебната зала. Вашата мисия ще бъде пътуване до {area} за {cash}."
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
@@ -277,11 +277,11 @@
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Удари ги колкото можеш по-здраво и после си обирай крушите."
+    "message": "Ударете ги колкото може по-здраво и после си обирайте крушите."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Изчисти района около {area}. Заложници не ни трябват."
+    "message": "Изчистете района около {area}. Заложници не ни трябват."
   },
   "OK_AGREED": {
     "description": "",
@@ -301,11 +301,11 @@
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Ние от {org} ще платим {cash} за бойна мисия в системата {system} ({sectorx}, {sectory}, {sectorz}). Нямаме достатъчно пилоти и кораби. Поради тази причина, това може да е твоят шанс да изкараш повече кредити. Целта е малка пиратска база на {area}.  Ще ти е нужен хипердвигател с гориво за {dist} сг и допълнително гориво за връщане."
+    "message": "Ние от {org} ще платим {cash} за бойна мисия в системата {system} ({sectorx}, {sectory}, {sectorz}). Нямаме достатъчно пилоти и кораби. Поради тази причина, това може да е Вашият шанс да изкарате повече кредити. Целта е малка пиратска база на {area}.  Ще Ви трябва хипердвигател с гориво за {dist} сг и допълнително гориво за връщане."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Нашите пазари се напълниха с контрабанда. Следите на източника водят до {area} в системата {system} ({sectorx}, {sectory}, {sectorz}). На разстояние от само {dist} сг. Поради намаления полицейски бюджет, местните власти желаят да възложат тази мисия на доброволец и са готови да платят {cash} кредита."
+    "message": "Нашите пазари се напълниха с контрабанда. Следите на източника водят до {area} в системата {system} ({sectorx}, {sectory}, {sectorz}). На разстояние от само {dist} сг. Поради намаления полицейски бюджет, местните власти желаят да възложат тази мисия на доброволец и са готови да платят {cash}."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -313,15 +313,15 @@
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Просто се приземи на станция с офис на {org}."
+    "message": "Просто се приземете на станция с офис на {org}."
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
-    "message": "Съжалявам, едва ли ще се справиш без радар."
+    "message": "Съжалявам, едва ли ще се справите без радар."
   },
   "RISK_1": {
     "description": "",
-    "message": "Конкурентът ни има ограничени възможности. Нищо, с което не можеш да се справиш."
+    "message": "Конкурентът ни има ограничени възможности. Нищо, с което не може да се справите."
   },
   "RISK_2": {
     "description": "",
@@ -329,11 +329,11 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "Съперникът ти е добре оборудван. Дръж си очите отворени!"
+    "message": "Съперникът е добре оборудван. Дръжте си очите отворени!"
   },
   "RISK_4": {
     "description": "",
-    "message": "Врагът е много добре оборудван и има достъп до последните технологии. Бъди внимателен!"
+    "message": "Врагът е много добре оборудван и има достъп до последните технологии. Бъдете внимателни!"
   },
   "SET_AS_TARGET": {
     "description": "",
