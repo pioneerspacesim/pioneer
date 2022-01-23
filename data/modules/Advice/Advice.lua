@@ -116,7 +116,8 @@ local onGameStart = function ()
 
 	for k,ad in pairs(loaded_data.ads or {}) do
 		local ref = ad.station:AddAdvert({
-			description = ad.headline,
+			title       = ad.headline,
+			description = ad.description,
 			icon        = "advice",
 			onChat      = onChat,
 			onDelete    = onDelete})
