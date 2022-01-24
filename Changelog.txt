@@ -3,6 +3,7 @@ January 2022
     * Redesign the BBS layout, show pertinent mission info (#5312)
     * New slot-based ship equipment display (#5315)
     * Completely new System Atlas mode for System Map (#5239)
+    * Add System Overview Widget to System Map view (#5327)
 
   * Internal Changes
     * Reduce BBS advert string data written to save files (#5312)
