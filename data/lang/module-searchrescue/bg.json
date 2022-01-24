@@ -161,7 +161,7 @@
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "Не ставаш за тази мисия. Нуждаеш се от {unit} {equipment}."
+    "message": "Не сте за тази мисия. Нуждаете се от {unit} {equipment}."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
@@ -173,11 +173,11 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "Не мога да повярвам, че се връщаш чак сега! Изгубихме толкова време!"
+    "message": "Не мога да повярвам, че се връщате чак сега! Изгубихме толкова време!"
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "За пълно възстановяване на сумата, трябва да се върнеш до {due}."
+    "message": "За пълно възстановяване на сумата, трябва да се върнете до {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
@@ -209,11 +209,11 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "Не мога да повярвам, че ме накара да чакам толкова време! Няма да получиш нищо."
+    "message": "Не мога да повярвам, че трябваше да чакам толкова време! Няма да получите нищо."
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "За да получиш пълното си възнаграждение, трябва да доставиш горивото до {due}."
+    "message": "За да получите пълното си възнаграждение, трябва да доставите горивото до {due}."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "FLAVOUR_2_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Пилотът желае {unit} тона {cargo}."
+    "message": "Пилотът има нужда от {unit} тона {cargo}."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
@@ -281,11 +281,11 @@
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "Ще изпратя някой друг. Не се занимавай повече."
+    "message": "Ще изпратя някой друг. Не се занимавайте повече."
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "За да получиш пълното си възнаграждение, пилотът очаква да доставиш горивото му до {due}."
+    "message": "За да получите пълното си възнаграждение, пилотът очаква да доставите горивото му до {due}."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
@@ -317,11 +317,11 @@
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "В днешно време не можеш да имаш доверие на никого."
+    "message": "В днешно време не може да имате доверие на никого."
   },
   "FLAVOUR_5_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Моля, завърши презареждането до {due}."
+    "message": "Моля, завършете презареждането до {due}."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
@@ -329,7 +329,7 @@
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "В момента, целевият кораб, е на {dist} км. от тук. Трябва да откриеш точното му местоположение."
+    "message": "В момента, целевият кораб, е на {dist} км. от тук. Трябва да откриете точното му местоположение."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
@@ -357,7 +357,7 @@
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Трябва да се върнеш до {due}."
+    "message": "Трябва да се върнете до {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
@@ -401,7 +401,7 @@
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "Ще намериш кораба в системата {system} [{sectorx},{sectory},{sectorz}], на разстояние от {dist} сг. Той е в орбита около {planet}."
+    "message": "Ще намерите кораба в системата {system} [{sectorx},{sectory},{sectorz}], на разстояние от {dist} сг. Той е в орбита около {planet}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
@@ -509,7 +509,7 @@
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "Чували сме за теб, капитане! Ще те докладваме на властите за това, че унищожи кораба, на който трябваше да помогнеш. Очаква те наказателно дело."
+    "message": "Чували сме за Вас, капитане! Ще Ви докладваме на властите за това, че унищожихте кораба, на който трябваше да помогнете. Очаква Ви наказателно дело."
   },
   "PLEASE_LAND": {
     "description": "",
@@ -661,7 +661,7 @@
   },
   "RETURN_TO": {
     "description": "",
-    "message": "Върни в:"
+    "message": "Върнете в:"
   },
   "REWARD": {
     "description": "",
@@ -669,7 +669,7 @@
   },
   "SEARCH_RESCUE": {
     "description": "",
-    "message": "Намери и спаси"
+    "message": "Намерете и спасете"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -713,7 +713,7 @@
   },
   "TRANSFER_TIME": {
     "description": "",
-    "message": "Моля, отделете {minutes} минути за прехвърлянето."
+    "message": "Моля, изчакайте {minutes} минути за прехвърлянето."
   },
   "TYPE_OF_HELP": {
     "description": "",

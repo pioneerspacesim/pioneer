@@ -121,7 +121,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Нужен е наемен убиец за премахването на {target}."
+    "message": "Търси се наемен убиец за премахването на {target}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Нужна е дискретна личност за очистването на {target}."
+    "message": "Търси се дискретна личност за очистването на {target}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",

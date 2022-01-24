@@ -105,7 +105,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Спешно! Нужен е бърз кораб за доставката на пакет до системата {system}."
+    "message": "Спешно! Необходим е бърз кораб за доставка на пакет до системата {system}."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Междузвездни пощенски услуги. Нуждаем се от доставчик до системата {system}."
+    "message": "Междузвездни пощенски услуги. Търси се доставчик до системата {system}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Обикновен междупланетен транспортен договор. Превоз на местен товар до {starport}."
+    "message": "Стандартен междупланетен транспорт. Превоз на местен товар до {starport}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Спешно! Нужна е бърза доставка на артикул до {starport}."
+    "message": "Спешно! Бърза доставка на артикул до {starport}."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",

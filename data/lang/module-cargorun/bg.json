@@ -25,7 +25,7 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Нужен е кораб за доставка на товар до системата {system}."
+    "message": "Търси се кораб за доставка на товар до системата {system}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -45,19 +45,19 @@
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
+    "message": "Частна доставка на товар. Сертифицирана доставка на стоки до {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Pickup of cargo from the {system} system required. Details available on request."
+    "message": "Превозване на товар от системата {system}. Повече подробности при поискване."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
+    "message": "Преместване на товар. От {starport} до този космодрум."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Нужен е квалифициран пилот за разнос. Необходим е кораб за доставка на едро до системата {system}."
+    "message": "Търси се квалифициран пилот за разнос. Необходим е кораб за доставка на едро до системата {system}."
   },
   "ADTITLE_1": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "НУЖЕН Е ТОВАРЕН ТРАНСПОРТ"
+    "message": "ТОВАРЕН ТРАНСПОРТ"
   },
   "ADTITLE_EXPENSIVE_1": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "DENY_2": {
     "description": "",
-    "message": "Не знам нищо за теб. Не те познавам и ти нямам доверие."
+    "message": "Не знам нищо за Вас. Не Ви познавам и не мога да Ви се доверя."
   },
   "DENY_3": {
     "description": "",
@@ -161,15 +161,15 @@
   },
   "DENY_4": {
     "description": "",
-    "message": "Извини ме, но не мисля, че ти можеш да свършиш тази работа."
+    "message": "Извинете ме, но не мисля, че ще можете да свършите тази работа."
   },
   "DENY_5": {
     "description": "",
-    "message": "Не ми губи времето! Още ходиш под масата."
+    "message": "Не ми губете времето! Още ходите под масата."
   },
   "DENY_6": {
     "description": "",
-    "message": "Върни се, когато натрупаш повече опит."
+    "message": "Върнете се, когато натрупате повече опит."
   },
   "DENY_AGAIN_1": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "DENY_AGAIN_2": {
     "description": "",
-    "message": "Извинете, като за начало, нека да приключим със сегашната сделка."
+    "message": "Извинете, но първо искам да приключим с изпълнението на текущия договор."
   },
   "DENY_AGAIN_3": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Много съм разочарован от бавната доставка. Няма да получиш заплащане."
+    "message": "Много съм разочарован от бавната доставка. Няма да получите заплащане."
   },
   "FAILUREMSG_2": {
     "description": "",
@@ -233,11 +233,11 @@
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "Слушай, бяхме ясни за крайния срок. Мечтай си да получиш заплащане от нас."
+    "message": "Слушайте, бяхме ясни за крайния срок. Мечтайте си да получите заплащане от нас."
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "Отсега нататък ти ще бъдеш в моя черен списък."
+    "message": "Отсега нататък Вие ще бъдете в моя черен списък."
   },
   "FAILUREMSG_FLUFFY_1": {
     "description": "",
@@ -301,15 +301,15 @@
   },
   "INTROTEXT_1": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Ще ти платя {cash}, ако доставиш {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Здрасти, аз съм {name}. Ще платя {cash}, ако доставите {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",
-    "message": "Поздрави! Транспортни Услуги {name} искат да доставиш {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще платим {cash} за безопасна и безаварийна доставка."
+    "message": "Поздрави! Транспортни Услуги {name} искат да доставите {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще получите {cash} при безопасна и безаварийна доставка."
   },
   "INTROTEXT_3": {
     "description": "",
-    "message": "Добър ден. Аз съм {name} и управлявам {name} ООД. Нуждая се от надежден пилот да достави {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Ще платя {cash} за разстоянието от {dist} сг."
+    "message": "Добър ден. Аз съм {name} и управлявам {name} ООД. Нуждая се от надежден пилот за доставка на {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Ще платя {cash} за разстоянието от {dist} сг."
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "INTROTEXT_FLUFFY_1": {
     "description": "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-    "message": "Здрасти, името ми е {name}. Имам пухкава пратка от {cargoname} за доставка в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Разстоянието е {dist} сг. За доставката ще ти платя {cash}."
+    "message": "Здрасти, името ми е {name}. Имам пухкава пратка от {cargoname} за доставка в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}). Разстоянието е {dist} сг. За доставката ще платя {cash}."
   },
   "INTROTEXT_INFRASTRUCTURE_1": {
     "description": "",
@@ -333,11 +333,11 @@
   },
   "INTROTEXT_LOCAL_3": {
     "description": "",
-    "message": "Името ми е {name} и искам да доставиш {cargoname} на клиент в {starport}. Ще ти платя {cash} за този разнос."
+    "message": "Името ми е {name} и искам да доставите {cargoname} на клиент в {starport}. Ще платя {cash} за този разнос."
   },
   "INTROTEXT_MINING_1": {
     "description": "{name} is the full name of a person",
-    "message": "Здравейте. Минната Компания {name} трябва да достави {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг, за да построи нова мина. Ще платят {cash}."
+    "message": "Здравейте. Минната Компания {name} трябва да достави {cargoname} в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг, за да построи нова мина. Заплащането е {cash}."
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "Как си? Аз съм {name}. Един от моите клиенти иска да внесе {cargoname} от {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще ти плати {cash} за този разнос. Върни се в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за да разтовариш товара."
+    "message": "Как сте? Аз съм {name}. Един от моите клиенти иска да внесе {cargoname} от {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще плати {cash} за този разнос. Върнете се в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за да разтоварите товара."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -353,11 +353,11 @@
   },
   "INTROTEXT_PICKUP_LOCAL_2": {
     "description": "",
-    "message": "Здравейте. Казвам се {name}. Моят работодател е съгласен да те наеме за {cash}, във връзка с преместването на нашия склад, ако пренесеш {cargoname} от {starport} до нашето ново седалище в {dom_starport}."
+    "message": "Здравейте. Казвам се {name}. Моят работодател е съгласен да Ви наеме за {cash}, във връзка с преместването на нашия склад, ако пренесете {cargoname} от {starport} до нашето ново седалище в {dom_starport}."
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
-    "message": "Поздрави. Знаеш ли за брачния сезон в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz})? Искаме да транспортираме {cargoname} дотам. Разстоянието е {dist} сг. Ще платим {cash}. Какво ще кажеш?"
+    "message": "Поздрави. Знаете ли за брачния сезон в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz})? Искаме да транспортираме {cargoname} дотам. Разстоянието е {dist} сг. Ще платим {cash}. Какво ще кажете?"
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
-    "message": "Поздрави, името ми е {name} и работя за Хаберската Корпорация. Ще платим {cash} за разноса до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Поздрави, името ми е {name} и работя за Хаберската Корпорация. Ще платя {cash} за разноса до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
   "IS_IT_NEGOTIABLE": {
     "description": "",
@@ -377,7 +377,7 @@
   },
   "I_HAVE_DEBITED_YOUR_ACCOUNT": {
     "description": "",
-    "message": "Липсващите стоки са за твоя сметка."
+    "message": "Липсващите стоки са за Ваша сметка."
   },
   "I_NEED_HELP": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "PIRATE_GRIPES_1": {
     "description": "",
-    "message": "По дяволите! Ще си платиш за това!"
+    "message": "По дяволите! Ще си платите за това!"
   },
   "PIRATE_GRIPES_2": {
     "description": "",
@@ -441,11 +441,11 @@
   },
   "PIRATE_TAUNTS_1": {
     "description": "",
-    "message": "Това ще е последният ти полет!"
+    "message": "Това ще е последният Ви полет!"
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "Работиш за {client}? Това е твоят край!"
+    "message": "Работите за {client}? Това е Вашият край!"
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
@@ -461,11 +461,11 @@
   },
   "PIRATE_TAUNTS_6": {
     "description": "",
-    "message": "Корабът ти изглежда доста натоварен. Ей сега ще ти помогна да го разтоварим."
+    "message": "Корабът Ви изглежда доста натоварен. Ей сега ще Ви помогна да го разтоварим."
   },
   "PIRATE_TAUNTS_7": {
     "description": "",
-    "message": "Късмета ти беше дотук!"
+    "message": "Късметът Ви беше дотук!"
   },
   "PLUTONIUM": {
     "description": "custom cargo",
@@ -485,7 +485,7 @@
   },
   "RISK_3": {
     "description": "",
-    "message": "Това е ценен товар, отваряй си очите на четири."
+    "message": "Това е ценен товар, отваряйте си очите на четири."
   },
   "RISK_4": {
     "description": "",
@@ -493,11 +493,11 @@
   },
   "RISK_5": {
     "description": "",
-    "message": "Може да е много рисковано, най-вероятно ще срещнеш силна съпротива."
+    "message": "Може да е много рисковано, най-вероятно ще срещнете силна съпротива."
   },
   "RISK_6": {
     "description": "",
-    "message": "Не се надявай да стигнеш без драскотина."
+    "message": "Не се надявайте да стигнете без драскотина."
   },
   "RISK_ART_1": {
     "description": "",
@@ -513,11 +513,11 @@
   },
   "RISK_GEMS_1": {
     "description": "",
-    "message": "Възможно е да си имаш работа с някой безскрупулен търговец на бижута."
+    "message": "Възможно е да си имате работа с някой безскрупулен търговец на бижута."
   },
   "RISK_WHOLESALER_1": {
     "description": "",
-    "message": "Не се притеснявай. Полицията е готова да се намеси при необходимост."
+    "message": "Не се притеснявайте. Полицията е готова да се намеси при необходимост."
   },
   "RISK_WHOLESALER_2": {
     "description": "",
@@ -585,7 +585,7 @@
   },
   "TOO_LATE_TO_PICK_UP": {
     "description": "",
-    "message": "Вече е прекалено късно! Изглежда за теб договорите са само лист хартия."
+    "message": "Вече е прекалено късно! Изглежда за Вас договорите са само лист хартия."
   },
   "TUNGSTEN": {
     "description": "custom cargo",
@@ -597,7 +597,7 @@
   },
   "URGENCY_1": {
     "description": "",
-    "message": "Не бързай. Трябва да се достави до {date}."
+    "message": "Не бързайте. Трябва да се достави до {date}."
   },
   "URGENCY_2": {
     "description": "",
@@ -633,7 +633,7 @@
   },
   "WHAT_IS_THIS": {
     "description": "",
-    "message": "Какво? Товарът ми е изхвърлен? Дъската ли ти хлопа?"
+    "message": "Какво? Товарът ми е изхвърлен? Добре ли сте с главата си?"
   },
   "WHYSOMUCH_1": {
     "description": "",
@@ -641,7 +641,7 @@
   },
   "WHYSOMUCH_2": {
     "description": "",
-    "message": "Няма значение дали ти харесва или не."
+    "message": "Няма значение дали Ви харесва или не."
   },
   "WHYSOMUCH_3": {
     "description": "",
@@ -653,11 +653,11 @@
   },
   "WHYSOMUCH_5": {
     "description": "",
-    "message": "Това е бонус, за да си държиш езика зад зъбите."
+    "message": "Това е бонус, за да си държите езика зад зъбите."
   },
   "WHYSOMUCH_6": {
     "description": "",
-    "message": "Е, ще се радваме да ти платим по-малко кредити."
+    "message": "Е, ще се радваме да Ви платим по-малко кредити."
   },
   "WHYSOMUCH_CENTRIFUGES_1": {
     "description": "",
@@ -677,7 +677,7 @@
   },
   "WHYSOMUCH_FLUFFY_1": {
     "description": "",
-    "message": "{cargoname} са доста печеливши. Трябва да инвестираш в {cargoname}, ако искаш да изкараш много кредити."
+    "message": "{cargoname} са доста печеливши. Трябва да инвестирате в {cargoname}, ако искате да изкарате много кредити."
   },
   "WHYSOMUCH_INFRASTRUCTURE_1": {
     "description": "",
@@ -717,6 +717,6 @@
   },
   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE": {
     "description": "",
-    "message": "Моля, върни се, когато имаш достатъчно товарно пространство."
+    "message": "Моля, върнете се, когато имате достатъчно товарно пространство."
   }
 }
