@@ -181,7 +181,7 @@ utils.inherits = function (baseClass, name)
 
 	-- generic constructor
 	function new_class.New(args)
-		local newinst = baseClass.New(args)
+		local newinst = base_class.New(args)
 		setmetatable( newinst, new_class.meta )
 		return newinst
 	end

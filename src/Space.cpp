@@ -541,15 +541,19 @@ Body *Space::FindNearestTo(const Body *b, ObjectType t) const
 
 Body *Space::FindBodyForPath(const SystemPath *path) const
 {
+	if (!path->IsSameSystem(m_starSystem->GetPath()))
+		return nullptr;
+
 	// it is a bit dumb that currentSystem is not part of Space...
 	SystemBody *body = m_starSystem->GetBodyByPath(path);
-
-	if (!body) return 0;
+	if (!body)
+		return nullptr;
 
 	for (Body *b : m_bodies) {
 		if (b->GetSystemBody() == body) return b;
 	}
-	return 0;
+
+	return nullptr;
 }
 
 static FrameId find_frame_with_sbody(FrameId fId, const SystemBody *b)

@@ -151,6 +151,11 @@ void SystemView::ResetViewpoint()
 	m_atlasZoomTo = m_atlasZoomDefault;
 }
 
+RefCountedPtr<StarSystem> SystemView::GetCurrentSystem()
+{
+	return m_system;
+}
+
 template <typename RefType>
 void SystemView::PutOrbit(Projectable::bases base, RefType *ref, const Orbit *orbit, const vector3d &offset, const Color &color, const double planetRadius, const bool showLagrange)
 {

@@ -115,15 +115,16 @@ static size_t HashRenderStateDesc(const RenderStateDesc &desc)
 	// it (most likely) has padding bytes, and those bytes are uninitialized,
 	// thereby arbitrarily affecting the hash output.
 	// (We used to do this and valgrind complained).
-	uint32_t words[5] = {
+	uint32_t words[6] = {
 		desc.blendMode,
 		desc.cullMode,
 		desc.primitiveType,
 		desc.depthTest,
 		desc.depthWrite,
+		desc.scissorTest
 	};
 	uint32_t a = 0, b = 0;
-	lookup3_hashword2(words, 5, &a, &b);
+	lookup3_hashword2(words, 6, &a, &b);
 	return size_t(a) | (size_t(b) << 32);
 }
 

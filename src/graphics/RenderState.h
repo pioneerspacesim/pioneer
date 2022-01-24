@@ -21,7 +21,7 @@ namespace Graphics {
 		bool operator!=(const RenderStateDesc &rhs) const { return !(*this == rhs); }
 		bool operator==(const RenderStateDesc &rhs) const
 		{
-			return blendMode == rhs.blendMode && cullMode == rhs.cullMode && primitiveType == rhs.primitiveType && depthTest == rhs.depthTest && depthWrite == rhs.depthWrite;
+			return blendMode == rhs.blendMode && cullMode == rhs.cullMode && primitiveType == rhs.primitiveType && depthTest == rhs.depthTest && depthWrite == rhs.depthWrite && scissorTest == rhs.scissorTest;
 		}
 
 		BlendMode blendMode;

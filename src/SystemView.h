@@ -109,6 +109,8 @@ public:
 	void ViewSelectedObject();
 	void ResetViewpoint();
 
+	RefCountedPtr<StarSystem> GetCurrentSystem();
+
 	TransferPlanner *GetTransferPlanner() const { return m_planner; }
 	double GetOrbitPlannerStartTime() const { return m_planner->GetStartTime(); }
 	double GetOrbitPlannerTime() const { return m_time; }

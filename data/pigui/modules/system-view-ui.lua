@@ -12,6 +12,7 @@ local Constants = _G.Constants
 local Vector2 = _G.Vector2
 local lc = Lang.GetResource("core")
 local luc = Lang.GetResource("ui-core")
+local layout = require 'pigui.libs.window-layout'
 
 local player = nil
 local colors = ui.theme.colors
@@ -79,7 +80,7 @@ local svColor = {
 }
 
 -- button states
-local function loop3items(a, b, c) return { [a] = b, [b] = c, [c] = a } end
+local function loop3items(a, b, c) return a, { [a] = b, [b] = c, [c] = a } end
 
 local buttonState = {
 	SHIPS_OFF     = { icon = icons.ships_no_orbits,    color = svColor.BUTTON_INACTIVE },
@@ -96,12 +97,9 @@ local buttonState = {
 	DISABLED      = {                                  color = svColor.BUTTON_SEMIACTIVE }
 }
 
-local ship_drawing = "SHIPS_OFF"
-local show_lagrange = "LAG_OFF"
-local show_grid = "GRID_OFF"
-local nextShipDrawings = loop3items("SHIPS_OFF", "SHIPS_ON", "SHIPS_ORBITS")
-local nextShowLagrange = loop3items("LAG_OFF", "LAG_ICON", "LAG_ICONTEXT")
-local nextShowGrid = loop3items("GRID_OFF", "GRID_ON", "GRID_AND_LEGS")
+local ship_drawing,  nextShipDrawings = loop3items("SHIPS_OFF", "SHIPS_ON", "SHIPS_ORBITS")
+local show_lagrange, nextShowLagrange = loop3items("LAG_OFF", "LAG_ICON", "LAG_ICONTEXT")
+local show_grid,     nextShowGrid     = loop3items("GRID_OFF", "GRID_ON", "GRID_AND_LEGS")
 
 local onGameStart = function ()
 	--connect to class SystemView
@@ -173,25 +171,40 @@ local function timeButton(icon, tooltip, factor)
 	return active
 end
 
-local function newWindow(name)
-	return {
-		size = Vector2(0.0, 0.0),
-		pos = Vector2(0.0, 0.0),
-		visible = true,
-		name = name,
-		style_colors = {["WindowBg"] = svColor.WINDOW_BG},
-		params = {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
-	}
-end
-
 -- all windows in this view
 local Windows = {
-	systemName = newWindow("SystemMapSystemName"),
-	objectInfo = newWindow("SystemMapObjectIngo"),
-	edgeButtons = newWindow("SystemMapEdgeButtons"),
-	orbitPlanner = newWindow("SystemMapOrbitPlanner"),
-	timeButtons = newWindow("SystemMapTimeButtons")
+	systemName = layout.NewWindow("SystemMapSystemName"),
+	systemOverview = layout.NewWindow("SystemMapOverview"),
+	objectInfo = layout.NewWindow("SystemMapObjectIngo"),
+	edgeButtons = layout.NewWindow("SystemMapEdgeButtons"),
+	orbitPlanner = layout.NewWindow("SystemMapOrbitPlanner"),
+	timeButtons = layout.NewWindow("SystemMapTimeButtons"),
+	unexplored = layout.NewWindow("SystemMapUnexplored")
 }
+
+local systemViewLayout = layout.New(Windows)
+systemViewLayout.mainFont = winfont
+
+local systemOverviewWidget = require 'pigui.modules.system-overview-window'.New()
+
+function systemOverviewWidget:onBodySelected(sBody)
+	systemView:SetSelectedObject(Projectable.OBJECT, Projectable.SYSTEMBODY, sBody)
+end
+
+function systemOverviewWidget:onBodyDoubleClicked(sBody)
+	systemView:ViewSelectedObject()
+end
+
+function Windows.systemOverview.ShouldShow()
+	return not Windows.unexplored.visible
+end
+
+function Windows.systemOverview.Show()
+	local selected = { [systemView:GetSelectedObject().ref or true] = true }
+	ui.withFont(ui.fonts.pionillium.medium, function()
+		systemOverviewWidget:display(systemView:GetSystem(), nil, selected)
+	end)
+end
 
 local function edgeButton(icon, tooltip, state)
 	return ui.coloredSelectedIconButton(icon, mainButtonSize, false, mainButtonFramePadding, (state ~= nil and state.color or svColor.BUTTON_ACTIVE), svColor.BUTTON_INK, tooltip)
@@ -250,11 +263,6 @@ function Windows.orbitPlanner.ShouldShow()
 end
 
 function Windows.orbitPlanner.Show()
-	if not Windows.orbitPlanner:ShouldShow() then
-		Windows.orbitPlanner.visible = false
-		return
-	end
-
 	textIcon(icons.semi_major_axis)
 	ui.text(lc.ORBIT_PLANNER)
 	ui.separator()
@@ -412,8 +420,11 @@ local function drawAtlasBodyLabel(label, screenSize, mainCoords, isHovered, isSe
 	ui.addStyledText(labelPos, ui.anchor.left, ui.anchor.baseline, label, fontColor, font)
 end
 
+Windows.unexplored.visible = false
+function Windows.unexplored.Show()
+	ui.text(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW)
+end
 
-local unexloredWindowFlags = ui.WindowFlags {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "NoInputs"}
 -- forked from data/pigui/views/game.lua
 local function displayOnScreenObjects()
 	local isOrrery = systemView:GetDisplayMode() == 'Orrery'
@@ -433,16 +444,10 @@ local function displayOnScreenObjects()
 	-- to prevent overlap of selection regions
 	local objectCounter = 0
 	local objects_grouped = systemView:GetProjectedGrouped(collapse, 1e64)
-	if #objects_grouped == 0 then
-		ui.setNextWindowPos(Vector2(ui.screenWidth, ui.screenHeight) / 2 - ui.calcTextSize(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW) / 2, "Always")
-		ui.withStyleColors({["WindowBg"] = svColor.WINDOW_BG}, function()
-			ui.window("NoSystemView", unexloredWindowFlags,
-			function()
-				ui.text(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
-			end)
-		end)
-		return
-	end
+
+	-- if there's nothing to display, we're an unexplored system
+	Windows.unexplored.visible = #objects_grouped == 0
+	if Windows.unexplored.visible then return end
 
 	local hoveredObject = nil
 	local atlas_label_objects = {}
@@ -491,7 +496,9 @@ local function displayOnScreenObjects()
 				ui.text(getLabel(mainObject))
 				ui.separator()
 				if isOrrery and ui.selectable(lc.CENTER, false, {}) then
+					selectedObject = mainObject.ref
 					systemView:SetSelectedObject(mainObject.type, mainObject.base, mainObject.ref)
+					systemView:ViewSelectedObject()
 				end
 				if (isShip or isSystemBody and mainObject.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
 					if isSystemBody then
@@ -526,9 +533,11 @@ local function displayOnScreenObjects()
 	local clicked = not ui.isAnyWindowHovered() and (ui.isMouseClicked(0) or ui.isMouseDoubleClicked(0))
 	if clicked then
 		if hoveredObject then
+			selectedObject = hoveredObject.ref
 			systemView:SetSelectedObject(hoveredObject.type, hoveredObject.base, hoveredObject.ref)
 			if ui.isMouseDoubleClicked(0) then systemView:ViewSelectedObject() end
 		else
+			selectedObject = nil
 			systemView:ClearSelectedObject()
 			if ui.isMouseDoubleClicked(0) then systemView:ResetViewpoint() end
 		end
@@ -675,66 +684,39 @@ function Windows.objectInfo.Dummy()
 	ui.text("TAB LINE")
 end
 
-local function showWindow(w)
-	if w.ShouldShow and not w:ShouldShow() then return end
-	ui.setNextWindowSize(w.size, "Always")
-	ui.setNextWindowPos(w.pos, "Always")
-	ui.withStyleColors(w.style_colors, function() ui.window(w.name, w.params, w.Show) end)
+function systemViewLayout:onUpdateWindowPivots(w)
+	w.edgeButtons.anchors = { ui.anchor.right, ui.anchor.center }
+	w.timeButtons.anchors = { ui.anchor.right, ui.anchor.bottom }
+	w.orbitPlanner.anchors = { ui.anchor.right, ui.anchor.bottom }
+	w.objectInfo.anchors = { ui.anchor.right, ui.anchor.bottom }
+	w.unexplored.anchors = { ui.anchor.center, ui.anchor.center }
 end
 
-local dummyFrames = 3
+function systemViewLayout:onUpdateWindowConstraints(w)
+	-- resizing, aligning windows - static
+	w.systemName.pos = Vector2(winfont.size)
+	w.systemName.size.x = 0 -- adaptive width
 
-local hideSystemViewWindows = false
+	w.systemOverview.pos = w.systemName.pos + w.systemName.size
+	w.systemOverview.size.y = ui.screenHeight - w.systemOverview.pos.y - 12 - ui.timeWindowSize.y
+
+	w.orbitPlanner.pos = w.timeButtons.pos - Vector2(w.edgeButtons.size.x, w.timeButtons.size.y)
+	w.orbitPlanner.size.x = w.timeButtons.size.x - w.edgeButtons.size.x
+	w.objectInfo.pos = w.orbitPlanner.pos - Vector2(0, w.orbitPlanner.size.y)
+	w.objectInfo.size = Vector2(w.orbitPlanner.size.x, 0) -- adaptive height
+end
 
 local function displaySystemViewUI()
 	if not systemView then onGameStart() end
 
 	player = Game.player
-	local current_view = Game.CurrentView()
-	if current_view == "system" then
-		if dummyFrames > 0 then -- do it a few frames, because imgui need a few frames to make the correct window size
-
-			-- first, doing some one-time actions here
-			-- measuring windows (or dummies)
-			ui.withFont(winfont, function()
-				for _,w in pairs(Windows) do
-					ui.setNextWindowPos(Vector2(ui.screenWidth, 0.0), "Always")
-					ui.window(w.name, w.params, function()
-						if w.Dummy then w.Dummy()
-						else w.Show()
-						end
-						w.size = ui.getWindowSize()
-					end)
-				end
-			end)
-
-			-- make final calculations on the last non-working frame
-			if dummyFrames == 1 then
-				-- resizing, aligning windows - static
-				Windows.systemName.pos = Vector2(winfont.size)
-				Windows.systemName.size.x = 0 -- adaptive width
-				Windows.edgeButtons.pos = Vector2(ui.screenWidth - Windows.edgeButtons.size.x, ui.screenHeight / 2 - Windows.edgeButtons.size.y / 2) -- center-right
-				Windows.timeButtons.pos = Vector2(ui.screenWidth, ui.screenHeight) - Windows.timeButtons.size
-				Windows.orbitPlanner.pos = Windows.timeButtons.pos - Vector2(0, Windows.orbitPlanner.size.y)
-				Windows.orbitPlanner.size.x = Windows.edgeButtons.pos.x - Windows.timeButtons.pos.x
-				Windows.objectInfo.pos = Windows.orbitPlanner.pos - Vector2(0, Windows.objectInfo.size.y)
-				Windows.objectInfo.size = Vector2(Windows.orbitPlanner.size.x, 0) -- adaptive height
-			end
-			dummyFrames = dummyFrames - 1
-		else
-			if ui.isKeyReleased(ui.keys.tab) then
-				hideSystemViewWindows = not hideSystemViewWindows;
-			end
-			if not hideSystemViewWindows then
-				-- display all windows
-				ui.withFont(winfont, function()
-					for _,w in pairs(Windows) do
-						if w.visible then showWindow(w) end
-					end
-				end)
-			end
-			displayOnScreenObjects()
+	if Game.CurrentView() == "system" then
+		if ui.isKeyReleased(ui.keys.tab) then
+			systemViewLayout.enabled = not systemViewLayout.enabled
 		end
+
+		systemViewLayout:display()
+		displayOnScreenObjects()
 
 		if ui.escapeKeyReleased() then
 			Game.SetView("sector")

@@ -13,11 +13,11 @@ local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
 
 local ui = require 'pigui'
+local layout = require 'pigui.libs.window-layout'
 
 local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
-local hideSectorViewWindows = false
 
 local mainButtonSize = ui.rescaleUI(Vector2(32,32), Vector2(1600, 900))
 local mainButtonFramePadding = 3
@@ -91,25 +91,14 @@ local function getHyperspaceDetails(path)
 	return it
 end
 
-local function newWindow(name)
-	return {
-		size = Vector2(0.0, 0.0),
-		pos = Vector2(0.0, 0.0),
-		visible = true,
-		name = name,
-		style_colors = {["WindowBg"] = svColor.WINDOW_BG},
-		params = ui.WindowFlags {"NoTitleBar", "AlwaysAutoResize", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings"}
-	}
-end
-
 -- all windows in this view
 local Windows = {
-	current = newWindow("SectorMapCurrentSystem"), -- current system string
-	hjPlanner = newWindow("HyperJumpPlanner"), -- hyper jump planner
-	systemInfo = newWindow("SectorMapSystemInfo"), -- selected system information
-	searchBar = newWindow("SectorMapSearchBar"),
-	edgeButtons = newWindow("SectorMapEdgeButtons"),
-	factions = newWindow("SectorMapFactions")
+	current = layout.NewWindow("SectorMapCurrentSystem"), -- current system string
+	hjPlanner = layout.NewWindow("HyperJumpPlanner"), -- hyper jump planner
+	systemInfo = layout.NewWindow("SectorMapSystemInfo"), -- selected system information
+	searchBar = layout.NewWindow("SectorMapSearchBar"),
+	edgeButtons = layout.NewWindow("SectorMapEdgeButtons"),
+	factions = layout.NewWindow("SectorMapFactions")
 }
 
 local statusIcons = {
@@ -120,6 +109,9 @@ local statusIcons = {
 	OUT_OF_RANGE = { icon = icons.alert_generic },
 	NO_DRIVE = { icon = icons.hyperspace_off }
 }
+
+local sectorViewLayout = layout.New(Windows)
+sectorViewLayout.mainFont = font
 
 local function draw_jump_status(item)
 	textIcon(statusIcons[item.jumpStatus].icon, lui[item.jumpStatus])
@@ -432,72 +424,50 @@ end
 Windows.hjPlanner.Show = hyperJumpPlanner.display
 Windows.hjPlanner.Dummy = hyperJumpPlanner.Dummy
 
-local function showWindow(w)
-	ui.setNextWindowSize(w.size, "Always")
-	ui.setNextWindowPos(w.pos, "Always")
-	ui.withStyleColors(w.style_colors, function() ui.window(w.name, w.params, function() w:Show() end) end)
+function sectorViewLayout:onUpdateWindowPivots(w)
+	w.hjPlanner.anchors = { ui.anchor.right, ui.anchor.bottom }
+	w.systemInfo.anchors = { ui.anchor.right, ui.anchor.bottom }
+	w.edgeButtons.anchors = { ui.anchor.right, ui.anchor.center }
+	w.factions.anchors = { ui.anchor.right, ui.anchor.top }
 end
 
-local dummyFrames = 3
+function sectorViewLayout:onUpdateWindowConstraints(w)
+	-- resizing, aligning windows - static
+	w.current.pos = edgePadding
+	w.current.size.x = 0 -- adaptive width
 
-local function displaySectorViewWindow()
+	w.searchBar.pos = w.current.pos + w.current.size
+	w.searchBar.collapsedHeight = w.searchBar.size.y
+	w.searchBar.fullHeight = ui.screenHeight - w.searchBar.pos.y - edgePadding.y - ui.timeWindowSize.y
+	w.searchBar.size.y = w.searchBar.fullHeight
+
+	local rightColWidth = math.max(w.hjPlanner.size.x, w.systemInfo.size.x)
+	w.hjPlanner.pos = w.hjPlanner.pos - Vector2(w.edgeButtons.size.x, edgePadding.y)
+	w.hjPlanner.size.x = rightColWidth
+
+	w.systemInfo.pos = w.hjPlanner.pos - Vector2(0, w.hjPlanner.size.y)
+	w.systemInfo.size.x = rightColWidth
+
+	w.factions.pos = Vector2(w.hjPlanner.pos.x, edgePadding.y)
+	w.factions.size = Vector2(rightColWidth, 0.0) -- adaptive height
+end
+
+ui.registerModule("game", function()
 	player = Game.player
 	if Game.CurrentView() == "sector" then
-		if dummyFrames > 0 then -- do it a few frames, because imgui need a few frames to make the correct window size
+		sectorViewLayout:display()
 
-			-- measuring windows (or dummies)
-			ui.withFont(font, function()
-				for _,w in pairs(Windows) do
-					ui.setNextWindowPos(Vector2(ui.screenWidth, 0.0), "Always")
-					ui.window(w.name, w.params, function()
-						if w.Dummy then w.Dummy()
-						else w.Show()
-						end
-						w.size = ui.getWindowSize()
-					end)
-				end
-			end)
-
-			-- make final calculations on the last non-working frame
-			if dummyFrames == 1 then
-				-- resizing, aligning windows - static
-				Windows.current.pos = edgePadding
-				Windows.current.size.x = 0 -- adaptive width
-				Windows.hjPlanner.size.x = math.max(Windows.hjPlanner.size.x, Windows.systemInfo.size.x - Windows.edgeButtons.size.x)
-				Windows.hjPlanner.pos = Vector2(ui.screenWidth - Windows.edgeButtons.size.x, ui.screenHeight - edgePadding.y) - Windows.hjPlanner.size
-				Windows.systemInfo.pos = Windows.hjPlanner.pos - Vector2(0, Windows.systemInfo.size.y)
-				Windows.systemInfo.size.x = Windows.hjPlanner.size.x
-				Windows.searchBar.pos = Windows.current.pos + Windows.current.size
-				Windows.searchBar.collapsedHeight = Windows.searchBar.size.y
-				Windows.searchBar.size.y = ui.screenHeight - Windows.searchBar.pos.y - edgePadding.y - ui.timeWindowSize.y
-				Windows.searchBar.fullHeight = Windows.searchBar.size.y
-				Windows.edgeButtons.pos = Vector2(ui.screenWidth - Windows.edgeButtons.size.x, ui.screenHeight / 2 - Windows.edgeButtons.size.y / 2) -- center-right
-				Windows.factions.pos = Vector2(Windows.systemInfo.pos.x, Windows.current.pos.y)
-				Windows.factions.size = Vector2(ui.screenWidth - Windows.factions.pos.x - edgePadding.x, 0.0)
-			end
-			dummyFrames = dummyFrames - 1
-		else
-			if ui.isKeyReleased(ui.keys.tab) then
-				hideSectorViewWindows = not hideSectorViewWindows
-				sectorView:SetLabelsVisibility(hideSectorViewWindows)
-			end
-			if not hideSectorViewWindows then
-				-- display all windows
-				ui.withFont(font, function()
-					for _,w in pairs(Windows) do
-						if w.visible then showWindow(w) end
-					end
-				end)
-			end
+		if ui.isKeyReleased(ui.keys.tab) then
+			sectorViewLayout.enabled = not sectorViewLayout.enabled
+			sectorView:SetLabelsVisibility(not sectorViewLayout.enabled)
 		end
 
 		if ui.escapeKeyReleased() then
 			Game.SetView("world")
 		end
 	end
-end
+end)
 
-ui.registerModule("game", displaySectorViewWindow)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", function()
 	hyperspaceDetailsCache = {}
