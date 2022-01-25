@@ -30,19 +30,23 @@ local styleColors = {
 	gray_400 		= Color "969696",
 	gray_500 		= Color "787878",
 	gray_600 		= Color "5A5B5D",
-	gray_700 		= Color "3C3E42",
+	gray_700 		= Color "3A3C40",
 	gray_800 		= Color "24242B",
 	gray_900 		= Color "131315",
 
 	primary_100		= Color "B5BCE3",
-	primary_200		= Color "9CA0E2",
-	primary_300		= Color "8A8FD6",
-	primary_400		= Color "767CCB",
-	primary_500		= Color "5F64B4",
-	primary_600		= Color "4B4E95",
-	primary_700		= Color "323267",
-	primary_800		= Color "1B1B46",
-	primary_900		= Color "0F0F2E",
+	primary_200		= Color "9FA7DB",
+	primary_300		= Color "8990C8",
+	primary_400		= Color "777FBB",
+	primary_500		= Color "6771AD",
+	primary_600		= Color "4F5992",
+	primary_700		= Color "3D4471",
+
+	background_500	= Color "41418B",
+	background_600	= Color "343474",
+	background_700	= Color "28285D",
+	background_800	= Color "1B1B46",
+	background_900	= Color "0F0F2E",
 
 	accent_100		= Color "9DBEE7",
 	accent_200		= Color "6DA6EE",
@@ -51,8 +55,6 @@ local styleColors = {
 	accent_500		= Color "1770EE",
 	accent_600		= Color "0F4FC7",
 	accent_700		= Color "06318E",
-	accent_800		= Color "041853",
-	accent_900		= Color "050E29",
 
 	success_100		= Color "CAF8A8",
 	success_300		= Color "77EE21",
@@ -77,29 +79,29 @@ theme.styleColors = styleColors
 
 theme.buttonColors = {
 	default = {
-		normal = styleColors.primary_600,
+		normal  = styleColors.primary_700,
+		hovered = styleColors.primary_600,
+		active  = styleColors.primary_500
+	},
+	selected = {
+		normal = styleColors.primary_500,
 		hovered = styleColors.primary_400,
 		active = styleColors.primary_300
 	},
-	selected = {
-		normal = styleColors.primary_300,
-		hovered = styleColors.primary_300:tint(0.1),
-		active = styleColors.primary_300:tint(0.2)
-	},
 	disabled = {
-		normal = styleColors.gray_500:shade(0.6),
-		hovered = styleColors.gray_500:shade(0.6):tint(0.1),
-		active = styleColors.gray_500:shade(0.6):tint(0.2)
+		normal = styleColors.gray_700,
+		hovered = styleColors.gray_700,
+		active = styleColors.gray_700
 	},
 	semi_transparent = {
-		normal = styleColors.primary_600:opacity(0.5),
-		hovered = styleColors.primary_400:opacity(0.5),
-		active = styleColors.primary_300:opacity(0.5)
+		normal = styleColors.primary_600:opacity(0.6),
+		hovered = styleColors.primary_500:opacity(0.6),
+		active = styleColors.primary_400:opacity(0.6)
 	},
 	transparent = {
 		normal = styleColors.transparent,
-		hovered = styleColors.primary_600:opacity(0.1),
-		active = styleColors.primary_600:opacity(0.2)
+		hovered = styleColors.primary_500:opacity(0.2),
+		active = styleColors.primary_400:opacity(0.3)
 	}
 }
 
@@ -128,14 +130,15 @@ theme.colors = {
 	mouseMovementDirection	= styleColors.accent_100,
 	-- FIXME: this color is primarily used to tint buttons by rendering over top of the frame color.
 	-- This is atrocious for obvious reasons. Refactor button / frame rendering to draw an independent frame border.
-	lightBlueBackground		= styleColors.primary_700:opacity(0.10),
+	lightBlueBackground		= styleColors.background_700:opacity(0.10),
 	lightBlackBackground	= styleColors.black:opacity(0.40),
-	blueBackground			= styleColors.primary_900,
+	modalBackground			= styleColors.background_800:opacity(0.90),
+	blueBackground			= styleColors.background_900,
 	blueFrame				= styleColors.accent_100:shade(0.50),
-	tableHighlight			= styleColors.primary_700,
+	tableBackground			= styleColors.background_800,
+	tableHighlight			= styleColors.background_700,
 	tableSelection			= styleColors.accent_300:shade(0.40),
-	tableBackground			= styleColors.primary_800,
-	commsWindowBackground	= styleColors.primary_700:opacity(0.30),
+	commsWindowBackground	= styleColors.background_700:opacity(0.30),
 	buttonBlue				= theme.buttonColors.selected.normal,
 	buttonInk				= styleColors.white,
 
@@ -143,6 +146,7 @@ theme.colors = {
 	Button					= theme.buttonColors.default.normal,
 	ButtonHovered			= theme.buttonColors.default.hovered,
 	ButtonActive			= theme.buttonColors.default.active,
+	PopupBg					= styleColors.gray_900,
 
 	unknown					= styleColors.unknown, -- used as an invalid color
 	transparent				= styleColors.transparent,
@@ -206,7 +210,7 @@ theme.colors = {
 	systemAtlasLineActive   = styleColors.primary_400,
 
 	sectorMapLabelHighlight = styleColors.white:opacity(0.5),
-	sectorMapLabelShade = styleColors.primary_700:opacity(0.8),
+	sectorMapLabelShade = styleColors.background_700:opacity(0.8),
 
 	equipScreenHighlight    = styleColors.gray_300,
 	equipScreenBgText       = styleColors.gray_400,

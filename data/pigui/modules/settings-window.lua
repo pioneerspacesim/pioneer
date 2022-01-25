@@ -354,7 +354,7 @@ captureBindingWindow = ModalWindow.New("CaptureBinding", function()
 	end)
 end, function (_, drawPopupFn)
 	ui.setNextWindowPosCenter('Always')
-	ui.withStyleColorsAndVars({["PopupBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
+	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
 local function showSoundOptions()
@@ -587,7 +587,7 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 end, function (_, drawPopupFn)
 	ui.setNextWindowSize(optionsWinSize, 'Always')
 	ui.setNextWindowPosCenter('Always')
-	ui.withStyleColorsAndVars({["PopupBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
+	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
 

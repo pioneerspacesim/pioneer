@@ -142,7 +142,7 @@ ui.saveLoadWindow = ModalWindow.New("LoadGame", function()
 end, function (_, drawPopupFn)
 	ui.setNextWindowSize(winSize, "Always")
 	ui.setNextWindowPosCenter('Always')
-	ui.withStyleColorsAndVars({PopupBg = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
+	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
 ui.saveLoadWindow.mode = "LOAD"
