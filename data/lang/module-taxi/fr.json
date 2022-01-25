@@ -101,11 +101,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Cherche transport pour un petit groupe vers le système {system}. Paiement cash: {cash}."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "CHERCHE TRANSPORT"
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
@@ -137,11 +137,11 @@
   },
   "FLAVOUR_10_ADTEXT": {
     "description": "",
-    "message": "VIP needs urgent passage on a fast ship to {system} system. No questions asked."
+    "message": "URGENT: Célébrité cherche transport sur vaisseau rapide vers le système {system}. Discrétion obligatoire."
   },
   "FLAVOUR_10_ADTITLE": {
     "description": "",
-    "message": "DISCREET SHIP WANTED"
+    "message": "CHERCHE VAISSEAU DISCRET"
   },
   "FLAVOUR_10_DANGER": {
     "description": "",
@@ -173,11 +173,11 @@
   },
   "FLAVOUR_11_ADTEXT": {
     "description": "",
-    "message": "Corporate inspector needs passage on a fast ship to {system} system."
+    "message": "Inspecteur de corporation cherche transport sur un vaisseau rapide vers le système {system}."
   },
   "FLAVOUR_11_ADTITLE": {
     "description": "",
-    "message": "FAST SHIP NEEDED"
+    "message": "CHERCHE VAISSEAU RAPIDE"
   },
   "FLAVOUR_11_DANGER": {
     "description": "",
@@ -209,11 +209,11 @@
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "Urgent transport required for fleeing citizen. Passage to {system} system needed."
+    "message": "Cherche transport urgent pour citoyen en fuite. Transport vers le système {system}."
   },
   "FLAVOUR_12_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "VAISSEAU REQUIS"
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -245,11 +245,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Cherche transport pour un petit groupe vers le système {system}. Paiement cash: {cash}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "CHERCHE TRANSPORT"
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
@@ -281,11 +281,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Cherche transport pour un petit groupe vers le système {system}. Paiement cash: {cash}."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SMALL GROUP PASSAGE"
+    "message": "TRANSPORT POUR PETIT GROUPE"
   },
   "FLAVOUR_2_DANGER": {
     "description": "",
@@ -317,11 +317,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship required for high-risk passage to {system} system. Will pay {cash}."
+    "message": "Cherche vaisseau pour transport à haut-risque vers le système {system}. Paiement: {cash}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "CHERCHE VAISSEAU"
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
@@ -353,11 +353,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for business-class passage to {system} system. Will pay {cash}."
+    "message": "Cherche vaisseau pour transport en 1ère classe vers le système {system}. Paiement: {cash}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "BUSINESS PASSAGE"
+    "message": "TRANSPORT 1ÈRE CLASSE"
   },
   "FLAVOUR_4_DANGER": {
     "description": "",
@@ -389,11 +389,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Require confidential passage of anonymous VIP to {system} system. Will pay {cash}."
+    "message": "Cherche transport discret pour personnalité VIP vers le système {system}. Paiement: {cash}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "CONFIDENTIAL PASSAGE"
+    "message": "TRANSPORT DISCRET"
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "VAISSEAU REQUIS"
   },
   "FLAVOUR_6_DANGER": {
     "description": "",
