@@ -714,7 +714,7 @@ void SystemView::Update()
 	// Since m_zoom changes over multiple orders of magnitude, any fixed linear factor will not be appropriate
 	// at some of them.
 	AnimationCurves::Approach(m_zoom, m_zoomTo, ft, 10.f, m_zoomTo / 60.f);
-	AnimationCurves::Approach(m_atlasZoom, m_atlasZoomTo, ft);
+	AnimationCurves::Approach(m_atlasZoom, m_atlasZoomTo, ft, 10.f, m_atlasZoomTo / 60.f);
 
 	AnimationCurves::Approach(m_rot_x, m_rot_x_to, ft);
 	AnimationCurves::Approach(m_rot_y, m_rot_y_to, ft);
@@ -736,8 +736,9 @@ void SystemView::Update()
 			m_rot_y_to += motion[0] * 20 * ft;
 		} else {
 			const double pixToUnits = Graphics::GetScreenHeight() / m_atlasViewH;
-			m_atlasPosTo.x = m_atlasPos.x += motion[0] / pixToUnits;
-			m_atlasPosTo.y = m_atlasPos.y += motion[1] / pixToUnits;
+			constexpr float mouseAcceleration = 1.5f;
+			m_atlasPosTo.x += motion[0] * m_atlasZoom / pixToUnits * mouseAcceleration;
+			m_atlasPosTo.y += motion[1] * m_atlasZoom / pixToUnits * mouseAcceleration;
 		}
 	} else if (m_zoomView) {
 		Pi::input->SetCapturingMouse(true);
@@ -768,8 +769,13 @@ void SystemView::Update()
 		// if we are attached to the ship, check if we not deleted it in the previous frame
 		if (m_viewedObject.type != Projectable::NONE && m_viewedObject.base == Projectable::SHIP) {
 			auto bs = m_game->GetSpace()->GetBodies();
-			if (std::find(bs.begin(), bs.end(), m_selectedObject.ref.body) == bs.end())
+			if (std::find(bs.begin(), bs.end(), m_viewedObject.ref.body) == bs.end())
 				ResetViewpoint();
+		}
+		if (m_selectedObject.type != Projectable::NONE && m_selectedObject.base == Projectable::SHIP) {
+			auto bs = m_game->GetSpace()->GetBodies();
+			if (std::find(bs.begin(), bs.end(), m_selectedObject.ref.body) == bs.end())
+				m_selectedObject.type = Projectable::NONE;
 		}
 	}
 }

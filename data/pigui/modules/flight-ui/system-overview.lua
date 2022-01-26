@@ -9,8 +9,8 @@ local ui = require 'pigui'
 local lui = Lang.GetResource("ui-core");
 local Vector2 = _G.Vector2
 
-local width_fraction = ui.rescaleFraction(5)
-local height_fraction = 2
+local width_fraction = 5
+local height_fraction = 1.6
 
 local style = {
 	buttonSize = ui.theme.styles.MainButtonSize,

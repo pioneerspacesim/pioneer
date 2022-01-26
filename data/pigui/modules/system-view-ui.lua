@@ -162,6 +162,7 @@ end
 local Windows = {
 	systemName = layout.NewWindow("SystemMapSystemName"),
 	systemOverview = layout.NewWindow("SystemMapOverview"),
+	systemOverviewHidden = layout.NewWindow("SystemOverviewHidden"),
 	objectInfo = layout.NewWindow("SystemMapObjectIngo"),
 	edgeButtons = layout.NewWindow("SystemMapEdgeButtons"),
 	orbitPlanner = layout.NewWindow("SystemMapOrbitPlanner"),
@@ -173,6 +174,7 @@ local systemViewLayout = layout.New(Windows)
 systemViewLayout.mainFont = winfont
 
 local systemOverviewWidget = require 'pigui.modules.system-overview-window'.New()
+systemOverviewWidget.visible = true
 
 function systemOverviewWidget:onBodySelected(sBody)
 	systemView:SetSelectedObject(Projectable.OBJECT, Projectable.SYSTEMBODY, sBody)
@@ -182,14 +184,34 @@ function systemOverviewWidget:onBodyDoubleClicked(sBody)
 	systemView:ViewSelectedObject()
 end
 
+function systemOverviewWidget:overrideDrawButtons()
+	if ui.mainMenuButton(icons.system_overview, luc.TOGGLE_OVERVIEW_WINDOW) then
+		self.visible = false
+	end
+	ui.sameLine()
+	self:drawControlButtons()
+end
+
 function Windows.systemOverview.ShouldShow()
-	return not Windows.unexplored.visible
+	return not Windows.unexplored.visible and systemOverviewWidget.visible
+end
+
+function Windows.systemOverviewHidden.ShouldShow()
+	return not Windows.unexplored.visible and not systemOverviewWidget.visible
 end
 
 function Windows.systemOverview.Show()
 	local selected = { [systemView:GetSelectedObject().ref or true] = true }
 	ui.withFont(ui.fonts.pionillium.medium, function()
 		systemOverviewWidget:display(systemView:GetSystem(), nil, selected)
+	end)
+end
+
+function Windows.systemOverviewHidden.Show()
+	ui.withFont(ui.fonts.pionillium.medium, function()
+		if ui.mainMenuButton(icons.system_overview, luc.TOGGLE_OVERVIEW_WINDOW) then
+			systemOverviewWidget.visible = true
+		end
 	end)
 end
 
@@ -223,25 +245,33 @@ function Windows.edgeButtons.Show()
 	end
 	ui.newLine()
 	-- visibility control buttons
-	if ui.mainMenuButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing].state) then
-		ship_drawing = nextShipDrawings[ship_drawing]
-		systemView:SetVisibility(ship_drawing)
+	if isOrrery then
+		if ui.mainMenuButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing].state) then
+			ship_drawing = nextShipDrawings[ship_drawing]
+			systemView:SetVisibility(ship_drawing)
+		end
+		if ui.mainMenuButton(buttonState[show_lagrange].icon, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[show_lagrange].state) then
+			show_lagrange = nextShowLagrange[show_lagrange]
+			systemView:SetVisibility(show_lagrange)
+		end
+		if ui.mainMenuButton(buttonState[show_grid].icon, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[show_grid].state) then
+			show_grid = nextShowGrid[show_grid]
+			systemView:SetVisibility(show_grid)
+		end
+		ui.newLine()
 	end
-	if ui.mainMenuButton(buttonState[show_lagrange].icon, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[show_lagrange].state) then
-		show_lagrange = nextShowLagrange[show_lagrange]
-		systemView:SetVisibility(show_lagrange)
-	end
-	if ui.mainMenuButton(buttonState[show_grid].icon, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[show_grid].state) then
-		show_grid = nextShowGrid[show_grid]
-		systemView:SetVisibility(show_grid)
-	end
-	ui.newLine()
 
 	drawWindowControlButton(Windows.objectInfo, icons.info, lc.OBJECT_INFO)
-	drawWindowControlButton(Windows.orbitPlanner, icons.semi_major_axis, lc.ORBIT_PLANNER)
+	if isOrrery then
+		drawWindowControlButton(Windows.orbitPlanner, icons.semi_major_axis, lc.ORBIT_PLANNER)
+	end
 end
 
 function Windows.orbitPlanner.ShouldShow()
+	return systemView:GetDisplayMode() == 'Orrery'
+end
+
+function Windows.timeButtons.ShouldShow()
 	return systemView:GetDisplayMode() == 'Orrery'
 end
 
@@ -287,7 +317,7 @@ function Windows.timeButtons.Show()
 end
 
 local _getBodyIcon = require 'pigui.modules.flight-ui.body-icons'
-local function getBodyIcon(obj, forWorld)
+local function getBodyIcon(obj, forWorld, isOrrery)
 	if obj.type == Projectable.APOAPSIS then return icons.apoapsis
 	elseif obj.type == Projectable.PERIAPSIS then return icons.periapsis
 	elseif obj.type == Projectable.L4 then return icons.lagrange_marker
@@ -299,6 +329,8 @@ local function getBodyIcon(obj, forWorld)
 		else
 			return icons.ship
 		end
+	elseif forWorld and not isOrrery and obj.ref.superType ~= "STARPORT" and obj.ref.type ~= "PLANET_ASTEROID" then
+		return icons.empty
 	else
 		return _getBodyIcon(obj.ref, forWorld)
 	end
@@ -441,7 +473,7 @@ local function displayOnScreenObjects()
 		local isSelected = mainObject.type == Projectable.OBJECT and mainObject.ref == systemView:GetSelectedObject().ref
 		group.hasPlanner = mainObject.type == Projectable.OBJECT and mainObject.base == Projectable.PLANNER
 
-		drawGroupIcons(mainCoords, getBodyIcon(mainObject, true), getColor(mainObject), bodyIconSize, group, isSelected)
+		drawGroupIcons(mainCoords, getBodyIcon(mainObject, true, isOrrery), getColor(mainObject), bodyIconSize, group, isSelected)
 
 		local mp = ui.getMousePos()
 		local label = getLabel(mainObject)
@@ -667,9 +699,11 @@ function systemViewLayout:onUpdateWindowConstraints(w)
 	-- resizing, aligning windows - static
 	w.systemName.pos = Vector2(winfont.size)
 	w.systemName.size.x = 0 -- adaptive width
+	w.edgeButtons.size.y = 0 -- adaptive height
 
 	w.systemOverview.pos = w.systemName.pos + w.systemName.size
 	w.systemOverview.size.y = ui.screenHeight - w.systemOverview.pos.y - 12 - ui.timeWindowSize.y
+	w.systemOverviewHidden.pos = w.systemOverview.pos
 
 	w.orbitPlanner.pos = w.timeButtons.pos - Vector2(w.edgeButtons.size.x, w.timeButtons.size.y)
 	w.orbitPlanner.size.x = w.timeButtons.size.x - w.edgeButtons.size.x
