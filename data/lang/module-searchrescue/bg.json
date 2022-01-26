@@ -165,7 +165,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "Местният ККД получи сигнал за кораб, който се е разбил на {planet}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Диспечерите от {starport} се нуждаят от СПЕШНА помощ, във връзка с {ship} кораб, който се е разбил на {planet}. Не е ясно дали има оцелели от катастрофата. Корабът е застрахован от космодрума {starport} за сумата от {cash} за спешни ситуации."
+    "message": "Диспечерите от {starport} се нуждаят от спешна помощ, във връзка с {ship} кораб, който се е разбил на {planet}. Не е ясно дали има оцелели от катастрофата. Корабът е застрахован от космодрума {starport} за сумата от {cash} при спешни ситуации."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "ККД на {starport} получи съобщение от пристигащ кораб, който е останал без гориво."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -217,7 +217,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Диспечерите от {starport} току-що получиха известие, че пристигащият {shiplabel} е останал без гориво и е извършил аварийно приземяване. Пилотът е готов да плати {cash} за презареждането."
+    "message": "Диспечерите от {starport} току-що получиха съобщение, че пристигащият {shiplabel} е останал без гориво и е извършил аварийно приземяване. Пилотът е готов да плати {cash} за презареждането."
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+    "message": "Необходима е спешна медицинска помощ на кораб, в близост до {starport}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+    "message": "Кораб е останал без гориво на {planet}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -289,11 +289,11 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Диспечерите от {starport} получиха съобщение от полет {shiplabel}, според което техният кораб е останал без гориво и пилотът е готов да плати {cash} на всеки, който може да презареди кораба."
+    "message": "Диспечерите от {starport} получиха съобщение от {shiplabel}, който е останал без гориво. Пилотът е готов да плати {cash} на всеки, който може да презареди кораба."
   },
   "FLAVOUR_4_LOCATIONTEXT": {
     "description": "",
-    "message": "Корабът е заседнал на следните координати {lat} / {long} на {planet}."
+    "message": "Координатите на кораба са {lat} / {long} на {planet}."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+    "message": "Кораб е останал без гориво, в близост до {starport}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Диспечерите от {starport} идентифицираха кораб с номер {shiplabel}, носещ се без гориво в близост до {starport}. Ще бъдат изплатени {cash} на всеки, който може да презареди кораба."
+    "message": "Диспечерите от {starport} идентифицираха кораб без гориво с номер {shiplabel}, в близост до {starport}. Ще бъдат изплатени {cash} на всеки, който може да презареди кораба."
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+    "message": "Спешно: Изгубен е контакт с частен кораб в системата {system}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "Аз съм {name} от {entity}. Изгубихме връзка с нашия {ship} {shiplabel}, поради {problem}. Имаме неотложна нужда от помощ и сме готови да платим {cash}."
+    "message": "Аз съм {name} от {entity}. Изгубихме връзка с нашия {ship} {shiplabel}, след като {problem}. Имаме неотложна нужда от помощ и сме готови да платим {cash}."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -381,7 +381,7 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Immediate crew transport to drifting ship in the {system} system requested."
+    "message": "Неотложен транспорт на екипаж към кораб без гориво в системата {system}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
@@ -397,7 +397,7 @@
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "Аз съм {name} от {entity}. Единственият ни кораб, {ship} {shiplabel}, се носи безконтролно с {crew} членен екипаж, след {problem}. Имаме неотложна нужда от помощ и сме готови да платим {cash}."
+    "message": "Аз съм {name} от {entity}. Единственият ни кораб, {ship} {shiplabel}, се носи безконтролно с {crew} членен екипаж, след като {problem}. Имаме неотложна нужда от помощ и сме готови да платим {cash}."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
@@ -413,7 +413,7 @@
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Не може да върнем кораба с толкова малък екипаж. Търся някой, който да транспортира {deliver_crew} заместници, които да запълнят празните места веднага."
+    "message": "Не може да върнем кораба с толкова малък екипаж. Трябва ми някой, който да транспортира {deliver_crew} заместници, които да запълнят празните места веднага."
   },
   "FULL_CARGO": {
     "description": "",
@@ -533,7 +533,7 @@
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "нещо като {locality} скорпион е влязъл в жилищната част на екипажа през нощта"
+    "message": "някакъв {locality} скорпион е влязъл в жилищната част на екипажа през нощта"
   },
   "PROBLEM_CREW_5": {
     "description": "",
@@ -553,7 +553,7 @@
   },
   "PROBLEM_CREW_9": {
     "description": "",
-    "message": "има нещо, за което не мога да коментирам публично"
+    "message": "е станало нещо, за което не мога да коментирам публично"
   },
   "PROBLEM_GENERAL_1": {
     "description": "",

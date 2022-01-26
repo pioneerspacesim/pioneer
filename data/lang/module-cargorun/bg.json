@@ -9,7 +9,7 @@
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Ок, добре. Надявам се, че мога да Ви се доверя."
+    "message": "Добре. Надявам се, че мога да Ви се доверя."
   },
   "ACCEPTED_4": {
     "description": "",
@@ -17,7 +17,7 @@
   },
   "ACCEPTED_PICKUP_1": {
     "description": "",
-    "message": "Ок, ще се уверя, че стоката е готова за превоз."
+    "message": "Добре, ще се уверя, че стоката е готова за превоз."
   },
   "ACCEPTED_PICKUP_2": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Търси се кораб за доставка на товар до системата {system}."
+    "message": "Необходим е кораб за доставка на товар до системата {system}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Преместване на товар. От {starport} до този космодрум."
+    "message": "Преместване на товар от {starport} до този космодрум."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
@@ -341,11 +341,11 @@
   },
   "INTROTEXT_PICKUP_1": {
     "description": "",
-    "message": "Как е? Името ми е {name}, трябва ми кораб, който да отиде до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), да превози {cargoname} и да се върне в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за {cash}. Разстоянието до {system} е {dist} сг."
+    "message": "Как е? Името ми е {name}, нуждая се от кораб, който да отиде до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), да превози {cargoname} и да се върне в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за {cash}. Разстоянието до {system} е {dist} сг."
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "Как сте? Аз съм {name}. Един от моите клиенти иска да внесе {cargoname} от {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще плати {cash} за този разнос. Върнете се в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за да разтоварите товара."
+    "message": "Как сте? Аз съм {name}. Един от моите клиенти трябва да внесе {cargoname} от {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще плати {cash} за този разнос. Върнете се в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за да разтоварите товара."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -357,7 +357,7 @@
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
-    "message": "Поздрави. Знаете ли за брачния сезон в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz})? Искаме да транспортираме {cargoname} дотам. Разстоянието е {dist} сг. Ще платим {cash}. Какво ще кажете?"
+    "message": "Поздрави. Знаете ли за брачния сезон в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz})? Трябва да транспортираме {cargoname} дотам. Разстоянието е {dist} сг. Ще платим {cash}. Какво ще кажете?"
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
@@ -417,7 +417,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "ОК, става."
+    "message": "Добре, става."
   },
   "OK_WE_AGREE": {
     "description": "",

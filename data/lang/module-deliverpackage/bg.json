@@ -153,7 +153,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Междузвездни пощенски услуги. Търси се доставчик до системата {system}."
+    "message": "Междузвездни пощенски услуги. Доставка до системата {system}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",

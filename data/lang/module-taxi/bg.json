@@ -149,7 +149,7 @@
   },
   "FLAVOUR_10_FAILUREMSG": {
     "description": "",
-    "message": "Нямате никакъв опит. Няма да платя и една стотинка."
+    "message": "Нямате никакъв опит. Няма да платя и един кредит."
   },
   "FLAVOUR_10_HOWMANY": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_10_INTROTEXT": {
     "description": "",
-    "message": "Името ми е {name}. Искам бърз превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Плащам {cash}."
+    "message": "Името ми е {name}. Търся бърз превоз към системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Плащам {cash}."
   },
   "FLAVOUR_10_SUCCESSMSG": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "FLAVOUR_11_ADTEXT": {
     "description": "",
-    "message": "Корпоративен инспектор се нуждае от превоз на бърз кораб към системата {system}."
+    "message": "Частен инспектор се нуждае от превоз на бърз кораб към системата {system}."
   },
   "FLAVOUR_11_ADTITLE": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "Urgent transport required for fleeing citizen. Passage to {system} system needed."
+    "message": "Бежанец се нуждае от спешен транспорт към системата {system}."
   },
   "FLAVOUR_12_ADTITLE": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship required for high-risk passage to {system} system. Will pay {cash}."
+    "message": "Необходим е кораб за рисков превоз към системата {system}. Ще платя {cash}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
-    "message": "Мисля, че наемен убиец ми върви по петите, най-вероятно и Вас ще убие."
+    "message": "Мисля, че наемен убиец върви по петите ми, най-вероятно ще убие и Вас."
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Reporter needs proximity to story developing in the {system} system. Will pay {cash}."
+    "message": "Репортер се нуждае от превоз към системата {system}. Ще плати {cash}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -465,7 +465,7 @@
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "ТЪРСИ СЕ БЕЗОПАСЕН ПРЕВОЗ"
+    "message": "НЕОБХОДИМ Е БЕЗОПАСЕН ПРЕВОЗ"
   },
   "FLAVOUR_7_DANGER": {
     "description": "",
@@ -497,7 +497,7 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal passage to {system} system required. Surcharge included in payment."
+    "message": "Необходим е кораб за спешен личен превоз с допълнително заплащане към системата {system}."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
@@ -533,7 +533,7 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Require urgent transport for honest citizen. Fast passage needed to {system} system."
+    "message": "Почтена личност се нуждае от спешен транспорт към системата {system}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
@@ -593,7 +593,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "ОК, става."
+    "message": "Добре, става."
   },
   "PIRATE_TAUNTS_0": {
     "description": "",
@@ -605,7 +605,7 @@
   },
   "PIRATE_TAUNTS_2": {
     "description": "",
-    "message": "Днес нямате късмет! Товат е краят."
+    "message": "Днес нямате късмет! Това е краят."
   },
   "PIRATE_TAUNTS_3": {
     "description": "",
