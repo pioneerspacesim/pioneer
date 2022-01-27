@@ -9,6 +9,7 @@ January 2022
     * Reduce BBS advert string data written to save files (#5312)
     * Unify default UI theming, ensure UI scaling snaps to pixel values (#5315)
     * Default language is based on the user's environment language code (#5326)
+    * Improve buttons (#5332)
 
   * Fixes
     * FuelClub: Refuel internal fuel tank only once a day (#5311)
