@@ -57,7 +57,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase"
+    "message": "Доступно для покупки"
   },
   "AVERAGE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
-    "message": "Грузоподъёмность"
+    "message": "Вместимость"
   },
   "CAPACITY_USED": {
     "description": "",
@@ -113,11 +113,11 @@
   },
   "CARGO_SPACE": {
     "description": "",
-    "message": "Грузоподъёмность"
+    "message": "Грузовой отсек"
   },
   "CARGO_SPACE_USED": {
     "description": "",
-    "message": "Грузовой отсек"
+    "message": "Использование грузового отсека"
   },
   "CARGO_T_FREE": {
     "description": "t for tonne",
@@ -1393,7 +1393,7 @@
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
-    "message": "Имя"
+    "message": "Наименование"
   },
   "NAME_PERSON": {
     "description": "For a person",
@@ -1485,7 +1485,7 @@
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Occupied Passenger Cabins"
+    "message": "Занятые пассажирские каюты"
   },
   "OFF": {
     "description": "",
@@ -1521,11 +1521,11 @@
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
-    "message": "Apoapsis"
+    "message": "Апоапсис"
   },
   "ORBIT_PERIAPSIS": {
     "description": "Label for the point of an orbit nearest to the orbited body",
-    "message": "Periapsis"
+    "message": "Периапсис"
   },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1693,7 +1693,7 @@
   },
   "REPLACE_EQUIPMENT_WITH": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Заменить оборудование на"
   },
   "REPUTATION": {
     "description": "",
@@ -1789,7 +1789,7 @@
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
-    "message": "Sell Equipped"
+    "message": "Продавать оборудованные"
   },
   "SENSORS": {
     "description": "",
@@ -1945,7 +1945,7 @@
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
-    "message": "Эта станция имеет сертификацию {tech_level} технологического уровня."
+    "message": "Эта станция имеет сертификацию {tech_level}-го технологического уровня."
   },
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
@@ -2049,7 +2049,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Незанятые пассажирские кабины"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
