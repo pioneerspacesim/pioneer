@@ -98,15 +98,15 @@ local function displayFxWindow()
 	local aux = Vector2(ui.screenWidth / 2 - window_width / 2, 0)
 	ui.setNextWindowPos(aux , "Always")
 	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"},
-						function()
-							button_world(current_view)
+		function()
+			button_world(current_view)
 
-							button_info(current_view)
+			button_info(current_view)
 
-							button_comms(current_view)
+			button_comms(current_view)
 
-							buttons_map(current_view)
-	end)
+			buttons_map(current_view)
+		end)
 end
 
 ui.registerModule("game", { id = "fx-window", draw = displayFxWindow })

@@ -56,7 +56,7 @@ local function refresh()
 
 	for ref,ad in pairs(ads or {}) do
 		if searchText == ""
-				or searchText ~= "" and string.find(
+			or searchText ~= "" and string.find(
 				string.lower(ad.description),
 				string.lower(searchText),
 				1, true)

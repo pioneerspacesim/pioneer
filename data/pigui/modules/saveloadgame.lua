@@ -26,25 +26,25 @@ local saveIsValid = true
 
 local function optionTextButton(label, enabled, callback)
 	local variant = not enabled and ui.theme.buttonColors.disabled or nil
-    local button
+	local button
 	ui.withFont(pionillium.medium.name, pionillium.medium.size, function()
 		button = ui.button(label, optionButtonSize, variant)
 	end)
-    if button then
-        callback(button)
-    end
+	if button then
+		callback(button)
+	end
 end
 
 local function getSaveTooltip(name)
 	local ret
 	local stats
 	if not saveFileCache[name] then
-        _, saveFileCache[name] = pcall(Game.SaveGameStats, name)
+		_, saveFileCache[name] = pcall(Game.SaveGameStats, name)
 	end
-    stats = saveFileCache[name]
-    if (type(stats) == "string") then -- file could not be loaded, this is the error
-        return stats
-    end
+	stats = saveFileCache[name]
+	if (type(stats) == "string") then -- file could not be loaded, this is the error
+		return stats
+	end
 	ret = lui.GAME_TIME..":    " .. Format.Date(stats.time)
 	if stats.system then    ret = ret .. "\n"..lc.SYSTEM..": " .. stats.system end
 	if stats.credits then   ret = ret .. "\n"..lui.CREDITS..": " .. Format.Money(stats.credits) end

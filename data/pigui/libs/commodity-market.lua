@@ -186,8 +186,8 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 			--if player starts at 0 quantity, presses +100 to "sell" radioactives but only has
 			--enough credits to sell 5, this kludge will ignore the +100 completely
 			--todo: change amount to 5 instead
-		end
-		self.tradeText = l.MARKET_SELLINE
+	end
+	self.tradeText = l.MARKET_SELLINE
 	end
 	--wantamount is now checked and modified to a safe bounded amount
 	self.tradeAmount = wantamount
@@ -391,9 +391,9 @@ function CommodityMarketWidget:Render(size)
 	ui.withFont(pionillium.large, function()
 		ui.withStyleVars({ItemSpacing = self.style.itemSpacing}, function()
 			--ui.child(self.id .. "Container", self.style.widgetSize, containerFlags, function()
-				MarketWidget.render(self)
-				ui.sameLine(0, self.style.widgetSizes.windowGutter)
-				self:TradeMenu()
+			MarketWidget.render(self)
+			ui.sameLine(0, self.style.widgetSizes.windowGutter)
+			self:TradeMenu()
 			--end)
 		end)
 	end)

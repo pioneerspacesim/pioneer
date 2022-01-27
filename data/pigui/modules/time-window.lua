@@ -37,7 +37,7 @@ local function displayTimeWindow()
 		local time = (name == "paused") and lc.PAUSED or name
 		local tooltip = string.interp(lui.HUD_REQUEST_TIME_ACCEL, { time = time })
 		if ui.mainMenuButton(icons['time_accel_' .. name], tooltip, state)
-		or (ui.shiftHeld() and ui.isKeyReleased(key)) then
+			or (ui.shiftHeld() and ui.isKeyReleased(key)) then
 			Game.SetTimeAcceleration(name, ui.ctrlHeld() or ui.isMouseDown(1))
 		end
 		-- isItemHovered is true for ALL the buttons
@@ -52,24 +52,24 @@ local function displayTimeWindow()
 		text_size = ui.calcTextSize(date)
 	end)
 	local buttons_width = (button_size.x + frame_padding * 2) * 6 + ui.getItemSpacing().x * 5
-		local window_width = math.max(text_size.x, buttons_width) + ui.getWindowPadding().x * 2
-		window_height = timefont.size + button_size.y + frame_padding * 2 + ui.getItemSpacing().y + ui.getWindowPadding().y * 2
-		local window_size = Vector2(window_width, window_height)
-		ui.timeWindowSize = window_size
-		ui.setNextWindowSize(window_size, "Always")
-		local window_pos = Vector2(0, ui.screenHeight - window_size.y)
-		ui.setNextWindowPos(window_pos, "Always")
-		ui.window("Time", {"NoTitleBar", "NoResize", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"}, function()
-			ui.withFont(timefont.name, timefont.size, function()
-				ui.text(date)
-			end)
-			accelButton("paused", ui.keys.escape)
-			accelButton("1x", ui.keys.f1)
-			accelButton("10x", ui.keys.f2)
-			accelButton("100x", ui.keys.f3)
-			accelButton("1000x", ui.keys.f4)
-			accelButton("10000x", ui.keys.f5)
+	local window_width = math.max(text_size.x, buttons_width) + ui.getWindowPadding().x * 2
+	window_height = timefont.size + button_size.y + frame_padding * 2 + ui.getItemSpacing().y + ui.getWindowPadding().y * 2
+	local window_size = Vector2(window_width, window_height)
+	ui.timeWindowSize = window_size
+	ui.setNextWindowSize(window_size, "Always")
+	local window_pos = Vector2(0, ui.screenHeight - window_size.y)
+	ui.setNextWindowPos(window_pos, "Always")
+	ui.window("Time", {"NoTitleBar", "NoResize", "NoSavedSettings", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"}, function()
+		ui.withFont(timefont.name, timefont.size, function()
+			ui.text(date)
 		end)
+		accelButton("paused", ui.keys.escape)
+		accelButton("1x", ui.keys.f1)
+		accelButton("10x", ui.keys.f2)
+		accelButton("100x", ui.keys.f3)
+		accelButton("1000x", ui.keys.f4)
+		accelButton("10000x", ui.keys.f5)
+	end)
 end
 
 ui.registerModule("game", { id = "time-window", draw = displayTimeWindow })

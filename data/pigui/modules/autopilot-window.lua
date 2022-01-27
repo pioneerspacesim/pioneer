@@ -110,7 +110,7 @@ local function button_flight_control()
 		if speed then
 			tooltip = tooltip .. " " .. ui.Format.Speed(speed)
 		end
-  end
+	end
 	if ui.mainMenuButton(icon, tooltip) or (flightstate == "FLYING" and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 		local newState = "CONTROL_MANUAL"
 		if ui.ctrlHeld() and flightcontrolstate == "CONTROL_FIXSPEED" then
@@ -142,15 +142,15 @@ local function displayAutoPilotWindow()
 	local window_posy = ui.screenHeight - mainButtonSize.y - mainButtonFramePadding * 2 - ui.getWindowPadding().y * 2
 	ui.setNextWindowPos(Vector2(window_posx, window_posy) , "Always")
 	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "AlwaysAutoResize"},
-						function()
-							if current_view == "world" then
-								button_hyperspace()
-								ui.sameLine()
-								button_undock()
-								ui.sameLine()
-								button_flight_control()
-							end -- current_view == "world"
-	end)
+		function()
+			if current_view == "world" then
+				button_hyperspace()
+				ui.sameLine()
+				button_undock()
+				ui.sameLine()
+				button_flight_control()
+			end -- current_view == "world"
+		end)
 end
 
 ui.registerModule("game", { id = "autopilot-window", draw = displayAutoPilotWindow })

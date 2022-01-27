@@ -26,20 +26,20 @@ local ensureCharacter = function (character)
 end
 
 local function rerollFaceDesc(oldDesc)
-    return {
-        --Fit Integer by 2 into an signed int
-        FEATURE_SPECIES = Engine.rand:Integer() % 2^31,
-        FEATURE_RACE = Engine.rand:Integer() % 2^31,
-        FEATURE_GENDER = oldDesc.FEATURE_GENDER or 0,
-        FEATURE_HEAD = Engine.rand:Integer() % 2^31,
-        FEATURE_EYES = Engine.rand:Integer() % 2^31,
-        FEATURE_NOSE = Engine.rand:Integer() % 2^31,
-        FEATURE_MOUTH = Engine.rand:Integer() % 2^31,
-        FEATURE_HAIRSTYLE = Engine.rand:Integer() % 2^31,
-        FEATURE_ACCESSORIES = Engine.rand:Integer() % 2^31,
-        FEATURE_CLOTHES = Engine.rand:Integer() % 2^31,
-        FEATURE_ARMOUR = oldDesc.FEATURE_ARMOUR or 0,
-    }
+	return {
+		--Fit Integer by 2 into an signed int
+		FEATURE_SPECIES = Engine.rand:Integer() % 2^31,
+		FEATURE_RACE = Engine.rand:Integer() % 2^31,
+		FEATURE_GENDER = oldDesc.FEATURE_GENDER or 0,
+		FEATURE_HEAD = Engine.rand:Integer() % 2^31,
+		FEATURE_EYES = Engine.rand:Integer() % 2^31,
+		FEATURE_NOSE = Engine.rand:Integer() % 2^31,
+		FEATURE_MOUTH = Engine.rand:Integer() % 2^31,
+		FEATURE_HAIRSTYLE = Engine.rand:Integer() % 2^31,
+		FEATURE_ACCESSORIES = Engine.rand:Integer() % 2^31,
+		FEATURE_CLOTHES = Engine.rand:Integer() % 2^31,
+		FEATURE_ARMOUR = oldDesc.FEATURE_ARMOUR or 0,
+	}
 end
 
 local PiGuiFace = {}
@@ -69,8 +69,8 @@ function PiGuiFace.New (character, style, allowModification)
 	}
 
 	piguiFace.style.charInfoHeight = math.ceil(
-			piguiFace.style.nameFont.size + (character.title and piguiFace.style.titleFont.size or 0)
-			+ piguiFace.style.charInfoPadding.y*2
+		piguiFace.style.nameFont.size + (character.title and piguiFace.style.titleFont.size or 0)
+		+ piguiFace.style.charInfoPadding.y*2
 	)
 
 	setmetatable(piguiFace, {
@@ -82,24 +82,24 @@ function PiGuiFace.New (character, style, allowModification)
 end
 
 local faceFeatures = {
-    {id = 'FEATURE_SPECIES', icon = icons.sun, tooltip = l.FEATURE_SPECIES},
-    {id = 'FEATURE_RACE', icon = icons.planet_grid, tooltip = l.FEATURE_RACE},
-    {id = 'FEATURE_GENDER', icon = icons.gender, tooltip = l.FEATURE_GENDER, callback = function(char, value)
-        char.female = (value % 2 == 1)
-    end},
-    {id = 'FEATURE_HEAD', icon = icons.personal, tooltip = l.FEATURE_HEAD},
-    {id = 'FEATURE_EYES', icon = icons.view_internal, tooltip = l.FEATURE_EYES},
-    {id = 'FEATURE_NOSE', icon = icons.nose, tooltip = l.FEATURE_NOSE},
-    {id = 'FEATURE_MOUTH', icon = icons.mouth, tooltip = l.FEATURE_MOUTH},
-    {id = 'FEATURE_HAIRSTYLE', icon = icons.hair, tooltip = l.FEATURE_HAIRSTYLE},
-    {id = 'FEATURE_ACCESSORIES', icon = icons.accessories, tooltip = l.FEATURE_ACCESSORIES},
-    {id = 'FEATURE_CLOTHES', icon = icons.clothes, tooltip = l.FEATURE_CLOTHES},
+	{id = 'FEATURE_SPECIES', icon = icons.sun, tooltip = l.FEATURE_SPECIES},
+	{id = 'FEATURE_RACE', icon = icons.planet_grid, tooltip = l.FEATURE_RACE},
+	{id = 'FEATURE_GENDER', icon = icons.gender, tooltip = l.FEATURE_GENDER, callback = function(char, value)
+		char.female = (value % 2 == 1)
+	end},
+	{id = 'FEATURE_HEAD', icon = icons.personal, tooltip = l.FEATURE_HEAD},
+	{id = 'FEATURE_EYES', icon = icons.view_internal, tooltip = l.FEATURE_EYES},
+	{id = 'FEATURE_NOSE', icon = icons.nose, tooltip = l.FEATURE_NOSE},
+	{id = 'FEATURE_MOUTH', icon = icons.mouth, tooltip = l.FEATURE_MOUTH},
+	{id = 'FEATURE_HAIRSTYLE', icon = icons.hair, tooltip = l.FEATURE_HAIRSTYLE},
+	{id = 'FEATURE_ACCESSORIES', icon = icons.accessories, tooltip = l.FEATURE_ACCESSORIES},
+	{id = 'FEATURE_CLOTHES', icon = icons.clothes, tooltip = l.FEATURE_CLOTHES},
 }
 
 function PiGuiFace:changeFeature(featureId, amt, callback)
 	local char = self.character
 
-    char.faceDescription[featureId] = (char.faceDescription[featureId] + amt) % 2^31
+	char.faceDescription[featureId] = (char.faceDescription[featureId] + amt) % 2^31
 	if callback then callback(char, char.faceDescription[featureId]) end
 	self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
 end
@@ -108,18 +108,18 @@ local pigui = Engine.pigui
 local buttonSize = ui.rescaleUI(Vector2(30, 42))
 local iconSize = ui.rescaleUI(Vector2(42, 42))
 local function faceGenButton(self, feature)
-    if ui.button('<##' .. feature.id, buttonSize) then
-        self:changeFeature(feature.id, -1, feature.callback)
-    end
-    ui.sameLine()
-    pigui.PushID(feature.id)
-    ui.icon(feature.icon, iconSize, colors.white)
-    pigui.PopID()
-    if pigui.IsItemHovered() then pigui.SetTooltip(feature.tooltip) end
-    ui.sameLine()
-    if ui.button('>##' .. feature.id, buttonSize) then
-        self:changeFeature(feature.id, 1, feature.callback)
-    end
+	if ui.button('<##' .. feature.id, buttonSize) then
+		self:changeFeature(feature.id, -1, feature.callback)
+	end
+	ui.sameLine()
+	pigui.PushID(feature.id)
+	ui.icon(feature.icon, iconSize, colors.white)
+	pigui.PopID()
+	if pigui.IsItemHovered() then pigui.SetTooltip(feature.tooltip) end
+	ui.sameLine()
+	if ui.button('>##' .. feature.id, buttonSize) then
+		self:changeFeature(feature.id, 1, feature.callback)
+	end
 end
 
 local facegenSpacing = ui.rescaleUI(Vector2(24, 6))

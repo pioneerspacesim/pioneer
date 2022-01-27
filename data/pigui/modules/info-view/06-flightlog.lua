@@ -68,8 +68,8 @@ end
 local function composeLocationString(location)
 	return string.interp(l["FLIGHTLOG_"..location[1]],
 		{ primary_info = location[2],
-		  secondary_info = location[3] or "",
-		  tertiary_info = location[4] or "",})
+			secondary_info = location[3] or "",
+			tertiary_info = location[4] or "",})
 end
 
 local function renderCustomLog()
@@ -183,7 +183,7 @@ end
 local function drawFlightHistory()
 	ui.tabBarFont("#flightlog", {
 
-		{ name = l.LOG_CUSTOM,
+		{	name = l.LOG_CUSTOM,
 			draw = function()
 				ui.spacing()
 				-- input field for custom log:
@@ -197,12 +197,12 @@ local function drawFlightHistory()
 				displayLog(renderCustomLog)
 			end },
 
-		{ name = l.LOG_STATION,
+		{	name = l.LOG_STATION,
 			draw = function()
 				displayLog(renderStationLog)
 			end },
 
-		{ name = l.LOG_SYSTEM,
+		{	name = l.LOG_SYSTEM,
 			draw = function()
 				displayLog(renderSystemLog)
 			end }
@@ -217,11 +217,11 @@ local function drawLog ()
 end
 
 InfoView:registerView({
-    id = "captainsLog",
-    name = l.FLIGHT_LOG,
-    icon = ui.theme.icons.bookmark,
-    showView = true,
-    draw = drawLog,
-    refresh = function() end,
+	id = "captainsLog",
+	name = l.FLIGHT_LOG,
+	icon = ui.theme.icons.bookmark,
+	showView = true,
+	draw = drawLog,
+	refresh = function() end,
 	debugReload = function() package.reimport() end
 })

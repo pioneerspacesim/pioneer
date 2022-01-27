@@ -51,16 +51,16 @@ end
 
 function PiGuiTabView.resize(self)
 	self.buttonWindowSize = Vector2(
-			(bigButtonSize.x + bigButtonFramePadding * 2) * self.viewCount + bigButtonItemSpacing.x * (self.viewCount-1) + bigButtonWindowPadding.x,
-			(bigButtonSize.y + bigButtonFramePadding * 2) + bigButtonWindowPadding.y)
+		(bigButtonSize.x + bigButtonFramePadding * 2) * self.viewCount + bigButtonItemSpacing.x * (self.viewCount-1) + bigButtonWindowPadding.x,
+		(bigButtonSize.y + bigButtonFramePadding * 2) + bigButtonWindowPadding.y)
 
 	self.viewWindowSize = Vector2(
-			ui.screenWidth - viewWindowPadding.x * 2,
-			ui.screenHeight - self.buttonWindowSize.y - bottomUiMargin - viewWindowPadding.y * 2)
+		ui.screenWidth - viewWindowPadding.x * 2,
+		ui.screenHeight - self.buttonWindowSize.y - bottomUiMargin - viewWindowPadding.y * 2)
 
 	self.viewWindowPos = Vector2(
-			viewWindowPadding.x,
-			self.buttonWindowSize.y + viewWindowPadding.y)
+		viewWindowPadding.x,
+		self.buttonWindowSize.y + viewWindowPadding.y)
 end
 
 function PiGuiTabView.registerView(self, view)
@@ -145,8 +145,8 @@ function PiGuiTabView.renderTabView(self)
 	ui.withFont(orbiteer.large.name, orbiteer.large.size * 1.5, function()
 		local text_window_padding = 12
 		local text_window_size = Vector2(
-				ui.calcTextSize(tab.name).x + text_window_padding * 2,
-				self.buttonWindowSize.y + 6)
+			ui.calcTextSize(tab.name).x + text_window_padding * 2,
+			self.buttonWindowSize.y + 6)
 		local text_window_pos = Vector2(ui.screenWidth - text_window_size.x, 3)
 
 		ui.setNextWindowPos(text_window_pos, "Always")

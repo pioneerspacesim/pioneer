@@ -156,77 +156,76 @@ end
 local function showJumpRoute()
 	if ui.collapsingHeader(lui.ROUTE_JUMPS, {"DefaultOpen"}) then
 		smallButton(icons.forward, lui.ADD_JUMP,
-		function()
-			sectorView:AddToRoute(map_selected_path)
-			updateHyperspaceTarget()
-			selected_jump = #hyperjump_route
-		end)
+			function()
+				sectorView:AddToRoute(map_selected_path)
+				updateHyperspaceTarget()
+				selected_jump = #hyperjump_route
+			end)
 		ui.sameLine()
 
 		smallButton(icons.current_line, lui.REMOVE_JUMP,
-		function()
-			if selected_jump then
-				sectorView:RemoveRouteItem(selected_jump)
-			end
-			updateHyperspaceTarget()
-		end)
+			function()
+				if selected_jump then
+					sectorView:RemoveRouteItem(selected_jump)
+				end
+				updateHyperspaceTarget()
+			end)
 		ui.sameLine()
 
 		smallButton(icons.current_periapsis, lui.MOVE_UP,
-		function()
-			if selected_jump then
-				if sectorView:MoveRouteItemUp(selected_jump) then
-					selected_jump = selected_jump - 1
+			function()
+				if selected_jump then
+					if sectorView:MoveRouteItemUp(selected_jump) then
+						selected_jump = selected_jump - 1
+					end
 				end
-			end
-			updateHyperspaceTarget()
-		end)
+				updateHyperspaceTarget()
+			end)
 		ui.sameLine()
 
 		smallButton(icons.current_apoapsis, lui.MOVE_DOWN,
-		function()
-			if selected_jump then
-				if sectorView:MoveRouteItemDown(selected_jump) then
-					selected_jump = selected_jump + 1
+			function()
+				if selected_jump then
+					if sectorView:MoveRouteItemDown(selected_jump) then
+						selected_jump = selected_jump + 1
+					end
 				end
-			end
-			updateHyperspaceTarget()
-		end)
+				updateHyperspaceTarget()
+			end)
 		ui.sameLine()
 
 		smallButton(icons.retrograde_thin, lui.CLEAR_ROUTE,
-		function()
-			sectorView:ClearRoute()
-			updateHyperspaceTarget()
-		end)
+			function()
+				sectorView:ClearRoute()
+				updateHyperspaceTarget()
+			end)
 		ui.sameLine()
 
 		smallButton(icons.hyperspace, lui.AUTO_ROUTE,
-		function()
-			local result = sectorView:AutoRoute()
-			if result == "NO_DRIVE" then
-				mb.OK(lui.NO_DRIVE)
-			elseif result == "NO_VALID_ROUTE" then
-				mb.OK(lui.NO_VALID_ROUTE)
-			end
-			updateHyperspaceTarget()
-		end)
+			function()
+				local result = sectorView:AutoRoute()
+				if result == "NO_DRIVE" then
+					mb.OK(lui.NO_DRIVE)
+				elseif result == "NO_VALID_ROUTE" then
+					mb.OK(lui.NO_VALID_ROUTE)
+				end
+				updateHyperspaceTarget()
+			end)
 		ui.sameLine()
 
 		smallButton(icons.search_lens, lui.CENTER_ON_SYSTEM,
-		function()
-			if selected_jump then
-				sectorView:GotoSystemPath(hyperjump_route[selected_jump].path)
-			end
-		end)
+			function()
+				if selected_jump then
+					sectorView:GotoSystemPath(hyperjump_route[selected_jump].path)
+				end
+			end)
 
 		ui.separator()
 
 		local clicked
 		ui.child("routelist", function()
 			for jumpIndex, jump in pairs(hyperjump_route) do
-				ui.withStyleColors({["Text"] = jump.color},
-				function()
+				ui.withStyleColors({["Text"] = jump.color}, function()
 					if ui.selectable(jump.textLine, jumpIndex == selected_jump) then
 						clicked = jumpIndex
 					end

@@ -87,18 +87,18 @@ local pumpDown = function (fuel)
 	end
 
 	-- internal tanks capacity
- 	local fuelTankMass = ShipDef[player.shipId].fuelTankMass
+	local fuelTankMass = ShipDef[player.shipId].fuelTankMass
 
 	-- current fuel in internal tanks, in tonnes
- 	local availableFuel = math.floor(player.fuel / 100 * fuelTankMass)
+	local availableFuel = math.floor(player.fuel / 100 * fuelTankMass)
 
 	fuel = fuel * -1
 
 	-- Don't go above 100%
- 	if fuel > availableFuel then fuel = availableFuel end
+	if fuel > availableFuel then fuel = availableFuel end
 
 	-- Military fuel is only used for the hyperdrive
- 	local drainedFuel = player:AddEquip(Equipment.cargo.hydrogen, fuel)
+	local drainedFuel = player:AddEquip(Equipment.cargo.hydrogen, fuel)
 
 	-- Set internal thruster fuel tank state
 	-- (player.fuel is percentage, between 0-100)
@@ -114,7 +114,7 @@ local function gauge_bar(x, text, min, max, icon)
 	gaugePos.y = gaugePos.y + height
 
 	ui.gauge(gaugePos, x, '', text, min, max, icon,
-			 colors.gaugeEquipmentMarket, '', gaugeWidth, height)
+		colors.gaugeEquipmentMarket, '', gaugeWidth, height)
 
 	ui.text("")
 	ui.text("")
@@ -136,15 +136,15 @@ local function gauge_hyperdrive()
 		player:CountEquip(hyperdrive_fuel), player:GetHyperspaceRange())
 
 	gauge_bar(player:CountEquip(hyperdrive_fuel), text, 0,
-			  player.totalCargo - player.usedCargo + player:CountEquip(hyperdrive_fuel),
-			  icons.hyperspace)
+		player.totalCargo - player.usedCargo + player:CountEquip(hyperdrive_fuel),
+		icons.hyperspace)
 end
 
 -- Gauge bar for used/free cargo space
 local function gauge_cargo()
 	local player = Game.player
 	gauge_bar(player.usedCargo, string.format('%%it %s / %it %s', l.USED, player.totalCargo - player.usedCargo, l.FREE),
-			  0, player.totalCargo, icons.market)
+		0, player.totalCargo, icons.market)
 end
 
 -- Gauge bar for used/free cabins
@@ -154,7 +154,7 @@ local function gauge_cabins()
 	local cabins_free = player.cabin_cap or 0
 	local cabins_used = cabins_total - cabins_free
 	gauge_bar(cabins_used, string.format('%%i %s / %i %s', l.USED, cabins_free, l.FREE),
-			  0, cabins_total, icons.personal)
+		0, cabins_total, icons.personal)
 end
 
 local function drawEconTrade()
@@ -216,10 +216,10 @@ local function drawEconTrade()
 end
 
 InfoView:registerView({
-    id = "econTrade",
-    name = l.ECONOMY_TRADE,
-    icon = ui.theme.icons.cargo_manifest,
-    showView = true,
+	id = "econTrade",
+	name = l.ECONOMY_TRADE,
+	icon = ui.theme.icons.cargo_manifest,
+	showView = true,
 	draw = function()
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
 			ui.withFont(pionillium.medlarge, function()

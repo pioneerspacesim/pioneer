@@ -187,9 +187,9 @@ local function lobbyMenu()
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
 	local gaugeWidth = ui.getContentRegion().x
 	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %dt \t" .. l.DELTA_V .. ": %d km/s",
-			shipDef.fuelTankMass/100 * Game.player.fuel, Game.player:GetRemainingDeltaV()/1000),
-			0, 100, icons.fuel,
-			colors.gaugeEquipmentMarket, '', gaugeWidth, widgetSizes.buttonSizeBase.y, ui.fonts.pionillium.medlarge)
+		shipDef.fuelTankMass/100 * Game.player.fuel, Game.player:GetRemainingDeltaV()/1000),
+		0, 100, icons.fuel,
+		colors.gaugeEquipmentMarket, '', gaugeWidth, widgetSizes.buttonSizeBase.y, ui.fonts.pionillium.medlarge)
 
 	-- hyperspace fuel
 	ui.nextColumn()
@@ -211,10 +211,10 @@ local function lobbyMenu()
 	gaugePos = ui.getCursorScreenPos()
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
 	ui.gauge(gaugePos, Game.player:CountEquip(hyperdrive_fuel), '', string.format(l.FUEL .. ": %dt \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
-			Game.player:CountEquip(hyperdrive_fuel), Game.player:GetHyperspaceRange()),
-			0, Game.player.totalCargo - Game.player.usedCargo + Game.player:CountEquip(hyperdrive_fuel),
-			icons.hyperspace, colors.gaugeEquipmentMarket, '',
-			gaugeWidth, widgetSizes.buttonSizeBase.y, ui.fonts.pionillium.medlarge)
+		Game.player:CountEquip(hyperdrive_fuel), Game.player:GetHyperspaceRange()),
+		0, Game.player.totalCargo - Game.player.usedCargo + Game.player:CountEquip(hyperdrive_fuel),
+		icons.hyperspace, colors.gaugeEquipmentMarket, '',
+		gaugeWidth, widgetSizes.buttonSizeBase.y, ui.fonts.pionillium.medlarge)
 
 	ui.columns(1, '', false)
 end
@@ -250,8 +250,8 @@ local function drawPlayerInfo()
 	local station_orbit_info = ""
 	if station.type == "STARPORT_ORBITAL" then
 		station_orbit_info =
-		string.interp(l.STATION_ORBIT, { orbit_period = string.format("%.2f", orbit_period),
-										 parent_body = station.path:GetSystemBody().parent.name})
+			string.interp(l.STATION_ORBIT, { orbit_period = string.format("%.2f", orbit_period),
+				parent_body = station.path:GetSystemBody().parent.name})
 	end
 
 	ui.withFont(pionillium.large.name, pionillium.large.size, function()

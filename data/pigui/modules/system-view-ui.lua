@@ -251,16 +251,16 @@ function Windows.orbitPlanner.Show()
 	ui.separator()
 	showDvLine(icons.decrease, icons.delta, icons.increase, "factor", function(i) return i, "x" end, luc.DECREASE, lc.PLANNER_RESET_FACTOR, luc.INCREASE)
 	showDvLine(icons.decrease, icons.clock, icons.increase, "starttime",
-	function(_)
-		local now = Game.time
-		local start = systemView:GetOrbitPlannerStartTime()
-		if start then
-			return ui.Format.Duration(math.floor(start - now)), ""
-		else
-			return lc.NOW, ""
-		end
-	end,
-	luc.DECREASE, lc.PLANNER_RESET_START, luc.INCREASE)
+		function(_)
+			local now = Game.time
+			local start = systemView:GetOrbitPlannerStartTime()
+			if start then
+				return ui.Format.Duration(math.floor(start - now)), ""
+			else
+				return lc.NOW, ""
+			end
+		end,
+		luc.DECREASE, lc.PLANNER_RESET_START, luc.INCREASE)
 	showDvLine(icons.decrease, icons.orbit_prograde, icons.increase, "prograde", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_PROGRADE, luc.INCREASE)
 	showDvLine(icons.decrease, icons.orbit_normal, icons.increase, "normal", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_NORMAL, luc.INCREASE)
 	showDvLine(icons.decrease, icons.orbit_radial, icons.increase, "radial", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_RADIAL, luc.INCREASE)
@@ -603,27 +603,27 @@ function Windows.objectInfo.Show()
 		local pop = math.round(body.population * 1e9)
 		data = {
 			{ name = lc.MASS, icon = icons.body_radius,
-			value = (not starport) and ui.Format.Mass(body.mass) or nil },
+				value = (not starport) and ui.Format.Mass(body.mass) or nil },
 			{ name = lc.RADIUS, icon = icons.body_radius,
-			value = (not starport) and ui.Format.Distance(body.radius) or nil },
+				value = (not starport) and ui.Format.Distance(body.radius) or nil },
 			{ name = lc.SURFACE_GRAVITY, icon = icons.body_radius,
-			value = (not starport) and ui.Format.Speed(body.gravity, true).." ("..ui.Format.Gravity(body.gravity / 9.8066)..")" or nil },
+				value = (not starport) and ui.Format.Speed(body.gravity, true).." ("..ui.Format.Gravity(body.gravity / 9.8066)..")" or nil },
 			{ name = lc.ORBITAL_PERIOD, icon = icons.body_orbit_period,
-			value = op and op > 0 and ui.Format.Duration(op, 2) or nil },
+				value = op and op > 0 and ui.Format.Duration(op, 2) or nil },
 			{ name = lc.DAY_LENGTH, icon = icons.body_day_length,
-			value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
+				value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
 			{ name = luc.ORBIT_APOAPSIS, icon = icons.body_semi_major_axis,
-			value = (parent and not surface) and ui.Format.Distance(body.apoapsis) or nil },
+				value = (parent and not surface) and ui.Format.Distance(body.apoapsis) or nil },
 			{ name = luc.ORBIT_PERIAPSIS, icon = icons.body_semi_major_axis,
-			value = (parent and not surface) and ui.Format.Distance(body.periapsis) or nil },
+				value = (parent and not surface) and ui.Format.Distance(body.periapsis) or nil },
 			{ name = lc.SEMI_MAJOR_AXIS, icon = icons.body_semi_major_axis,
-			value = semimajoraxis },
+				value = semimajoraxis },
 			{ name = lc.ECCENTRICITY, icon = icons.body_semi_major_axis,
-			value = (parent and not surface) and string.format("%0.2f", body.eccentricity) or nil },
+				value = (parent and not surface) and string.format("%0.2f", body.eccentricity) or nil },
 			{ name = lc.AXIAL_TILT, icon = icons.body_semi_major_axis,
-			value = (not starport) and string.format("%0.2f", body.axialTilt) or nil },
+				value = (not starport) and string.format("%0.2f", body.axialTilt) or nil },
 			{ name = lc.POPULATION, icon = icons.personal,
-			value = pop > 0 and ui.Format.NumberAbbv(pop) or nil },
+				value = pop > 0 and ui.Format.NumberAbbv(pop) or nil },
 
 		}
 

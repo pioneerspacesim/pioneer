@@ -24,24 +24,24 @@ local gauge_bg = colors.grey
 local gauge_fg = colors.lightGrey
 local function button_lowThrustPower()
 	local thrust = player:GetLowThrustPower()
-            local winpos = ui.getWindowPos()
-            local pos = ui.getCursorPos()
-			if ui.lowThrustButton("lowthrust", mainButtonSize, thrust * 100, colors.transparent, mainButtonFramePadding, gauge_fg, gauge_bg)  then
-                show_thrust_slider = not show_thrust_slider
-			end
+	local winpos = ui.getWindowPos()
+	local pos = ui.getCursorPos()
+	if ui.lowThrustButton("lowthrust", mainButtonSize, thrust * 100, colors.transparent, mainButtonFramePadding, gauge_fg, gauge_bg)  then
+		show_thrust_slider = not show_thrust_slider
+	end
 
-            if show_thrust_slider then
-                local p = winpos + pos - Vector2(8,100+9)
-                ui.setNextWindowPos(p,'Always')
+	if show_thrust_slider then
+		local p = winpos + pos - Vector2(8,100+9)
+		ui.setNextWindowPos(p,'Always')
 
-                ui.window("ThrustSliderWindow", {"NoTitleBar", "NoResize"},
-                    function()
-                        ui.withStyleColors({["SliderGrab"] =colors.white, ["SliderGrabActive"]=colors.buttonBlue},function()
-                            local new_thrust = ui.vSliderInt('###ThrustLowPowerSlider',Vector2(mainButtonSize.x + 1 + 2 * mainButtonFramePadding,100), thrust*100,0,100)
-                            player:SetLowThrustPower(new_thrust/100)
-                        end)
-                end)
-            end
+		ui.window("ThrustSliderWindow", {"NoTitleBar", "NoResize"},
+			function()
+				ui.withStyleColors({["SliderGrab"] =colors.white, ["SliderGrabActive"]=colors.buttonBlue},function()
+					local new_thrust = ui.vSliderInt('###ThrustLowPowerSlider',Vector2(mainButtonSize.x + 1 + 2 * mainButtonFramePadding,100), thrust*100,0,100)
+					player:SetLowThrustPower(new_thrust/100)
+				end)
+			end)
+	end
 	if ui.isItemHovered() then
 		ui.setTooltip(lc.SELECT_LOW_THRUST_POWER_LEVEL)
 		local wheel = ui.getMouseWheel()
@@ -55,13 +55,13 @@ local function button_lowThrustPower()
 end
 
 local function button_thrustIndicator(thrust_widget_size)
-			local vel = Engine.WorldSpaceToShipSpace(player:GetVelocity())
-			vel = vel / math.max(vel:length(), 10) -- minimum of 10m/s
-			local thrust = player:GetThrusterState()
-			ui.thrustIndicator("foo", thrust_widget_size, thrust, vel, colors.transparent, mainButtonFramePadding, colors.gaugeVelocityLight, colors.gaugeVelocityDark, colors.gaugeThrustLight, colors.gaugeThrustDark)
-			if ui.isItemHovered() then
-				ui.setTooltip(lui.HUD_THRUST_INDICATOR)
-			end
+	local vel = Engine.WorldSpaceToShipSpace(player:GetVelocity())
+	vel = vel / math.max(vel:length(), 10) -- minimum of 10m/s
+	local thrust = player:GetThrusterState()
+	ui.thrustIndicator("foo", thrust_widget_size, thrust, vel, colors.transparent, mainButtonFramePadding, colors.gaugeVelocityLight, colors.gaugeVelocityDark, colors.gaugeThrustLight, colors.gaugeThrustDark)
+	if ui.isItemHovered() then
+		ui.setTooltip(lui.HUD_THRUST_INDICATOR)
+	end
 end
 
 local function button_wheelstate()
@@ -69,11 +69,11 @@ local function button_wheelstate()
 	if wheelstate == 0.0 then -- gear is up
 		if ui.mainMenuButton(icons.landing_gear_down, lui.HUD_BUTTON_LANDING_GEAR_IS_UP) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f6)) then
 			player:ToggleWheelState()
-		end
+	end
 	elseif wheelstate == 1.0 then -- gear is down
 		if ui.mainMenuButton(icons.landing_gear_up, lui.HUD_BUTTON_LANDING_GEAR_IS_DOWN) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f6)) then
 			player:ToggleWheelState()
-		end
+	end
 	else
 		ui.mainMenuButton(icons.landing_gear_up, lui.HUD_BUTTON_LANDING_GEAR_IS_MOVING, ui.theme.buttonColors.disabled)
 	end
@@ -106,22 +106,22 @@ local function displayShipFunctionWindow()
 	local window_posy = ui.screenHeight - window_height
 	ui.setNextWindowPos(Vector2(window_posx, window_posy), "Always")
 	ui.window("ShipFunctions", windowFlags, function()
-							if current_view == "world" then
-								local shift = Vector2(0.0, thrust_widget_size.y - mainButtonSize.y)
-								ui.setCursorPos(ui.getCursorPos() + shift)
-								button_wheelstate()
-								ui.sameLine()
-								button_rotation_damping()
-								ui.sameLine()
-								button_lowThrustPower()
-								ui.sameLine()
-								ui.setCursorPos(ui.getCursorPos() - shift)
-								button_thrustIndicator(thrust_widget_size)
-								if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8) then
-                                    show_thrust_slider = not show_thrust_slider
-								end
-							end -- current_view == "world"
-						end)
+		if current_view == "world" then
+			local shift = Vector2(0.0, thrust_widget_size.y - mainButtonSize.y)
+			ui.setCursorPos(ui.getCursorPos() + shift)
+			button_wheelstate()
+			ui.sameLine()
+			button_rotation_damping()
+			ui.sameLine()
+			button_lowThrustPower()
+			ui.sameLine()
+			ui.setCursorPos(ui.getCursorPos() - shift)
+			button_thrustIndicator(thrust_widget_size)
+			if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8) then
+				show_thrust_slider = not show_thrust_slider
+			end
+		end -- current_view == "world"
+	end)
 end
 
 ui.registerModule("game", { id = "ship-internals-window", draw = displayShipFunctionWindow })

@@ -40,38 +40,38 @@ local quitConfirmMsg
 local max_flavours = 22
 
 local startLocations = {
-	{['name']=lui.START_AT_MARS,
-	 ['desc']=lui.START_AT_MARS_DESC,
-	 ['location']=SystemPath.New(0,0,0,0,18),
-	 ['logmsg']=lui.START_LOG_ENTRY_1,
-	 ['shipType']='sinonatrix',['money']=100,['hyperdrive']=true,
-	 ['equipment']={
-		{laser.pulsecannon_1mw,1},
-		{misc.atmospheric_shielding,1},
-		{misc.autopilot,1},
-		{misc.radar,1},
-		{cargo.hydrogen,2}}},
-	{['name']=lui.START_AT_NEW_HOPE,
-	 ['desc']=lui.START_AT_NEW_HOPE_DESC,
-	 ['location']=SystemPath.New(1,-1,-1,0,4),
-	 ['logmsg']=lui.START_LOG_ENTRY_2,
-	 ['shipType']='pumpkinseed',['money']=100,['hyperdrive']=true,
-	 ['equipment']={
-		{laser.pulsecannon_1mw,1},
-		{misc.atmospheric_shielding,1},
-		{misc.autopilot,1},
-		{misc.radar,1},
-		{cargo.hydrogen,2}}},
-	{['name']=lui.START_AT_BARNARDS_STAR,
-	 ['desc']=lui.START_AT_BARNARDS_STAR_DESC,
-	 ['location']=SystemPath.New(-1,0,0,0,16),
-	 ['logmsg']=lui.START_LOG_ENTRY_3,
-	 ['shipType']='xylophis',['money']=100,['hyperdrive']=false,
-	 ['equipment']={
-		{misc.atmospheric_shielding,1},
-		{misc.autopilot,1},
-		{misc.radar,1},
-		{cargo.hydrogen,2}}}
+	{	['name']=lui.START_AT_MARS,
+		['desc']=lui.START_AT_MARS_DESC,
+		['location']=SystemPath.New(0,0,0,0,18),
+		['logmsg']=lui.START_LOG_ENTRY_1,
+		['shipType']='sinonatrix',['money']=100,['hyperdrive']=true,
+		['equipment']={
+			{laser.pulsecannon_1mw,1},
+			{misc.atmospheric_shielding,1},
+			{misc.autopilot,1},
+			{misc.radar,1},
+			{cargo.hydrogen,2}}},
+	{	['name']=lui.START_AT_NEW_HOPE,
+		['desc']=lui.START_AT_NEW_HOPE_DESC,
+		['location']=SystemPath.New(1,-1,-1,0,4),
+		['logmsg']=lui.START_LOG_ENTRY_2,
+		['shipType']='pumpkinseed',['money']=100,['hyperdrive']=true,
+		['equipment']={
+			{laser.pulsecannon_1mw,1},
+			{misc.atmospheric_shielding,1},
+			{misc.autopilot,1},
+			{misc.radar,1},
+			{cargo.hydrogen,2}}},
+	{	['name']=lui.START_AT_BARNARDS_STAR,
+		['desc']=lui.START_AT_BARNARDS_STAR_DESC,
+		['location']=SystemPath.New(-1,0,0,0,16),
+		['logmsg']=lui.START_LOG_ENTRY_3,
+		['shipType']='xylophis',['money']=100,['hyperdrive']=false,
+		['equipment']={
+			{misc.atmospheric_shielding,1},
+			{misc.autopilot,1},
+			{misc.radar,1},
+			{cargo.hydrogen,2}}}
 }
 
 local function dialogTextButton(label, enabled, callback)
@@ -224,7 +224,7 @@ local function showMainMenu()
 					ui.text(build_text)
 				end)
 			end)
-	end)
+		end)
 
 	ui.setNextWindowPos(winPos,'Always')
 	ui.setNextWindowSize(Vector2(0,0), 'Always')
