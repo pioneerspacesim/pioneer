@@ -15,8 +15,8 @@ local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("ui-core")
-local colors = ui.theme.colors
 local textTable = require 'pigui.libs.text-table'
+local Vector2 = _G.Vector2
 
 local vZero = Vector2(0,0)
 local widgetSizes = ui.rescaleUI({
@@ -179,10 +179,10 @@ local tradeMenu = function()
 				ui.columns(2, "shipMarketInfo")
 				ui.setColumnWidth(0, colHeadingWidth)
 
-				ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
+				ui.withFont(orbiteer.xlarge, function()
 					ui.text(selectedItem.def.name)
 				end)
-				ui.withFont(orbiteer.medlarge.name, orbiteer.medlarge.size, function()
+				ui.withFont(orbiteer.medlarge, function()
 					ui.text(shipClassString[selectedItem.def.shipClass])
 				end)
 
@@ -195,8 +195,8 @@ local tradeMenu = function()
 				ui.sameLine()
 				manufacturerIcon(selectedItem.def.manufacturer)
 				local shipBought = false
-				ui.withFont(pionillium.medlarge.name, orbiteer.medlarge.size, function()
-					shipBought = ui.coloredSelectedButton(l.BUY_SHIP, widgetSizes.buyButton, false, colors.buttonBlue, nil, true)
+				ui.withFont(pionillium.medlarge, function()
+					shipBought = ui.button(l.BUY_SHIP, widgetSizes.buyButton)
 				end)
 				ui.columns(1, "")
 
@@ -285,8 +285,8 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		ui.setColumnWidth(2, columnWidth)
 		ui.setColumnWidth(3, columnWidth)
 	end,
-	renderHeaderRow = function(s)
-		ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
+	renderHeaderRow = function(_)
+		ui.withFont(orbiteer.xlarge, function()
 			ui.text('')
 			ui.nextColumn()
 			ui.text(l.SHIP)
@@ -297,7 +297,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.nextColumn()
 		end)
 	end,
-	renderItem = function(s, item)
+	renderItem = function(_, item)
 		if(icons[item.def.shipClass] == nil) then
 			icons[item.def.shipClass] = PiImage.New("icons/shipclass/".. item.def.shipClass ..".png")
 		end
@@ -320,7 +320,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 			ui.nextColumn()
 		end)
 	end,
-	onClickItem = function(s,e)
+	onClickItem = function(_,e)
 		selectedItem = e
 		shipMarket.selectedItem = e
 		refreshModelSpinner()
@@ -334,7 +334,7 @@ StationView:registerView({
 	icon = ui.theme.icons.ship,
 	showView = true,
 	draw = function()
-		ui.withFont(pionillium.large.name, pionillium.large.size, function()
+		ui.withFont(pionillium.large, function()
 			shipMarket:render()
 			ui.sameLine(0, widgetSizes.itemSpacing.x)
 			tradeMenu()

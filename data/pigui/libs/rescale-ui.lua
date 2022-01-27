@@ -9,7 +9,7 @@ local defaultBaseResolution = Vector2(1600, 900)
 --
 -- Function: ui.rescaleUI
 --
--- ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution)
+-- ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution, disableCeil)
 --
 -- Scales a set of values (normally a size or a position) based on a base
 -- resolution and the current or target resultion.
@@ -25,15 +25,15 @@ local defaultBaseResolution = Vector2(1600, 900)
 --   baseResolution        - (Optional) Vector2, the resolution at which val is valid
 --   rescaleToScreenAspect - (Optional) boolean, when scaling a Vector2, scale x and y
 --                           appropriately to match the given aspect ratio
---   disableCeil           - (Optional) boolean, controls returning fractional or whole numbers
 --   targetResolution      - (Optional) Vector2, the target resolution to scale
 --                           the value to. Default: current screen resolution.
+--   disableCeil           - (Optional) boolean, controls returning fractional or whole numbers
 --
 -- Returns:
 --
 --   number|Vector2|Table - the scaled value
 --
-local function rescaleUI(val, baseResolution, rescaleToScreenAspect, disableCeil, targetResolution)
+local function rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution, disableCeil)
 	if not targetResolution then
 		targetResolution = Vector2(pigui.screen_width, pigui.screen_height)
 	end
@@ -51,7 +51,7 @@ local function rescaleUI(val, baseResolution, rescaleToScreenAspect, disableCeil
 	if type == 'table' then
 		local result = {}
 		for k, v in pairs(val) do
-			result[k] = rescaleUI(v, baseResolution, rescaleToScreenAspect, targetResolution)
+			result[k] = rescaleUI(v, baseResolution, rescaleToScreenAspect, targetResolution, disableCeil)
 		end
 
 		return result

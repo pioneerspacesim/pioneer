@@ -14,7 +14,7 @@ ui.rescaleUI = require 'pigui.libs.rescale-ui'
 --
 -- ui.rescaleFraction(val, baseResolution, rescaleToScreenAspect, targetResolution)
 ui.rescaleFraction = function (val, baseResolution, rescaleToScreenAspect, targetResolution)
-	return ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, true, targetResolution)
+	return ui.rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution, true)
 end
 
 require 'pigui.libs.wrappers'

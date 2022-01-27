@@ -4,20 +4,16 @@
 local Engine = require 'Engine'
 local Input = require 'Input'
 local Game = require 'Game'
-local Event = require 'Event'
 local Lang = require 'Lang'
-local utils = require 'utils'
+local Color = _G.Color
+local Vector2 = _G.Vector2
 
-local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
 local linput = Lang.GetResource("input-core")
 
 local ui = require 'pigui'
 local ModalWindow = require 'pigui.libs.modal-win'
 
-local function l18n_key_from_id(str)
-	return str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
-end
 
 -- convert an axis binding style ID to a translation resource identifier
 local function localize_binding_id(str)
@@ -56,18 +52,14 @@ local function get_chord_desc(chord)
 	return str
 end
 
-local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
 
-local mainButtonSize = Vector2(40,40) * (ui.screenHeight / 1200)
-local optionButtonSize = Vector2(125,40) * (ui.screenHeight / 1200)
-local bindingButtonSize = Vector2(177,25) * (ui.screenHeight / 1200)
-local mainButtonFramePadding = 3
-
-local bindingPageFontSize = 36 * (ui.screenHeight / 1200)
-local bindingGroupFontSize = 26 * (ui.screenHeight / 1200)
+local mainButtonSize = ui.theme.styles.MainButtonSize
+local mainButtonFramePadding = ui.theme.styles.MainButtonPadding
+local optionButtonSize = ui.rescaleUI(Vector2(100, 32))
+local bindingButtonSize = ui.rescaleUI(Vector2(142, 32))
 
 local optionsWinSize = Vector2(ui.screenWidth * 0.4, ui.screenHeight * 0.6)
 
@@ -126,11 +118,11 @@ local function keyOf(t, value)
 end
 
 local function bindingTextButton(label, tooltip, enabled, callback)
-	local bgcolor = enabled and colors.buttonBlue or colors.grey
+	local variant = not enabled and ui.theme.buttonColors.disabled
 
 	local button
-	ui.withFont(pionillium.small.name, pionillium.small.size, function()
-		button = ui.coloredSelectedButton(label, bindingButtonSize, false, bgcolor, tooltip, enabled)
+	ui.withFont(pionillium.small, function()
+		button = ui.button(label, bindingButtonSize, variant, tooltip)
 	end)
 	if button then
 		callback(button)
@@ -138,11 +130,11 @@ local function bindingTextButton(label, tooltip, enabled, callback)
 end
 
 local function optionTextButton(label, tooltip, enabled, callback)
-	local bgcolor = enabled and colors.buttonBlue or colors.grey
+	local variant = not enabled and ui.theme.buttonColors.disabled
 
 	local button
-	ui.withFont(pionillium.medium.name, pionillium.medium.size, function()
-		button = ui.coloredSelectedButton(label, optionButtonSize, false, bgcolor, tooltip, enabled)
+	ui.withFont(pionillium.medium, function()
+		button = ui.button(label, optionButtonSize, variant, tooltip)
 	end)
 	if button then
 		callback(button)
@@ -150,7 +142,7 @@ local function optionTextButton(label, tooltip, enabled, callback)
 end --mainButton
 
 local function mainButton(icon, tooltip, selected, callback)
-	local button = ui.coloredSelectedIconButton(icon, mainButtonSize, selected, mainButtonFramePadding, colors.buttonBlue, colors.white, tooltip)
+	local button = ui.mainMenuButton(icon, tooltip, selected)
 	if button then
 		callback()
 	end
@@ -301,7 +293,7 @@ local function showVideoOptions()
 	end
 
 	c,starDensity = slider(lui.STAR_FIELD_DENSITY, starDensity, 0, 100)
-	if c then		
+	if c then
 		needBackgroundStarRefresh = true
 	end
 
@@ -360,9 +352,9 @@ captureBindingWindow = ModalWindow.New("CaptureBinding", function()
 		Input.SaveBinding(info)
 		captureBindingWindow:close()
 	end)
-end, function (self, drawPopupFn)
+end, function (_, drawPopupFn)
 	ui.setNextWindowPosCenter('Always')
-	ui.withStyleColorsAndVars({["PopupBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
+	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
 local function showSoundOptions()
@@ -397,13 +389,13 @@ end
 local function showLanguageOptions()
 	local langs = Lang.GetAvailableLanguages("core")
 
-	ui.withFont(pionillium.large.name, pionillium.large.size, function()
+	ui.withFont(pionillium.large, function()
 		ui.text(lui.LANGUAGE_RESTART_GAME_TO_APPLY)
 	end)
 
 	local clicked
 	for _,lang in pairs(langs) do
-		ui.withFont(pionillium.large.name, pionillium.large.size, function()
+		ui.withFont(pionillium.large, function()
 			if ui.selectable(Lang.GetResource("core",lang).LANG_NAME, Lang.currentLanguage==lang, {}) then
 				clicked = lang
 			end
@@ -500,7 +492,7 @@ local function showControlsOptions()
 
 	for _,page in ipairs(binding_pages) do
 		ui.text ''
-		ui.withFont(pionillium.medium.name, bindingPageFontSize, function()
+		ui.withFont(pionillium.medium, function()
 			ui.text(localize_binding_id("Page" .. page.id))
 		end)
 		ui.separator()
@@ -509,7 +501,7 @@ local function showControlsOptions()
 			if group.id then
 				Engine.pigui.PushID(group.id)
 				if _ > 1 then ui.text '' end
-				ui.withFont(pionillium.medium.name, bindingGroupFontSize, function()
+				ui.withFont(pionillium.medium, function()
 					ui.text(localize_binding_id("Group" .. group.id))
 				end)
 				ui.separator()
@@ -553,7 +545,9 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 
 	ui.separator()
 
-	ui.child("options_tab", Vector2(-1, optionsWinSize.y - mainButtonSize.y*3 - 4), function()
+	-- I count the separator as two item spacings
+	local other_height = mainButtonSize.y + mainButtonFramePadding * 2 + optionButtonSize.y  + ui.getItemSpacing().y * 4 + ui.getWindowPadding().y * 2
+	ui.child("options_tab", Vector2(-1, optionsWinSize.y - other_height), function()
 		optionsTabs[showTab]()
 	end)
 
@@ -590,10 +584,10 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 			Game.EndGame()
 		end)
 	end
-end, function (self, drawPopupFn)
+end, function (_, drawPopupFn)
 	ui.setNextWindowSize(optionsWinSize, 'Always')
 	ui.setNextWindowPosCenter('Always')
-	ui.withStyleColorsAndVars({["PopupBg"] = Color(20, 20, 80, 230)}, {WindowBorderSize = 1}, drawPopupFn)
+	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
 

@@ -1,16 +1,16 @@
 -- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
 local Space = require 'Space'
 
 local CommodityWidget = require 'pigui.libs.commodity-market'
 local Face = require 'pigui.libs.face'
+local Vector2 = _G.Vector2
+local Color = _G.Color
 
 local ui = require 'pigui'
-local colors = ui.theme.colors
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 
@@ -52,6 +52,8 @@ function ChatForm.New (chatFunc, removeFunc, closeFunc, resizeFunc, ref, tabGrou
 			marketSize = style.marketSize or ui.rescaleUI(Vector2(1200, 450), Vector2(1600, 900))
 		},
 	}
+	-- So that the font at least fits in the button in height
+	form.style.buttonSize = Vector2(form.style.buttonSize.x, math.max(form.style.buttonSize.y, form.style.font.size + ui.theme.styles.ButtonPadding.y * 2))
 	setmetatable(form, ChatForm.meta)
 	form.chatFunc(form, 0)
 	return form
@@ -88,8 +90,8 @@ function ChatForm:render ()
 		end
 
 		if self.options then
-			for k, option in ipairs(self.options) do
-				if ui.coloredSelectedButton(option[1], self.style.buttonSize, false, colors.buttonBlue, nil, true) then
+			for _, option in ipairs(self.options) do
+				if ui.button(option[1], self.style.buttonSize) then
 					if (option[2] == -1) then
 						self:Close()
 					else
@@ -105,7 +107,7 @@ function ChatForm:render ()
 
 		self.navButton()
 
-		if ui.coloredSelectedButton(l.HANG_UP, self.style.buttonSize, false, colors.buttonBlue, nil, true) or ui.escapeKeyReleased(true) then
+		if ui.button(l.HANG_UP, self.style.buttonSize) or ui.escapeKeyReleased(true) then
 			self:Close()
 		end
 	end)
@@ -164,7 +166,7 @@ end
 
 function ChatForm:AddNavButton (target)
 	self.navButton = function()
-		if ui.coloredSelectedButton(l.SET_AS_TARGET, self.style.buttonSize, false, colors.buttonBlue, nil, true) then
+		if ui.button(l.SET_AS_TARGET, self.style.buttonSize) then
 			if target:isa("Body") and target:IsDynamic() then
 				Game.player:SetNavTarget(target)
 				ui.playSfx("OK")

@@ -11,6 +11,8 @@ local systemEconView = require 'pigui.modules.system-econ-view'
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
+local Vector2 = _G.Vector2
+local Color = _G.Color
 
 local ui = require 'pigui'
 local layout = require 'pigui.libs.window-layout'
@@ -19,32 +21,22 @@ local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local mainButtonSize = ui.rescaleUI(Vector2(32,32), Vector2(1600, 900))
-local mainButtonFramePadding = 3
 
 local font = ui.fonts.pionillium.medlarge
 local smallfont = ui.fonts.pionillium.medium
 local edgePadding = Vector2(font.size)
 
-local function setAlpha(c, a)
-	return Color(c.r, c.g, c.b, a)
-end
 -- all colors, used in this module
 local svColor = {
-	BUTTON_ACTIVE = colors.buttonBlue,
-	BUTTON_INACTIVE = setAlpha(colors.buttonBlue, 0),
-	BUTTON_SEMIACTIVE = setAlpha(colors.buttonBlue, 80),
-	BUTTON_INK = colors.buttonInk,
 	LABEL_HIGHLIGHT = colors.sectorMapLabelHighlight,
 	LABEL_SHADE = colors.sectorMapLabelShade,
 	FONT = colors.font,
 	UNKNOWN = colors.unknown,
-	WINDOW_BG = colors.lightBlackBackground
 }
 
 local buttonState = {
-	[true]        = { color = svColor.BUTTON_ACTIVE },
-	[false]       = { color = svColor.BUTTON_INACTIVE }
+	[true]        = nil, -- to use the default color
+	[false]       = ui.theme.buttonColors.transparent
 }
 
 local draw_vertical_lines = false
@@ -52,16 +44,17 @@ local draw_out_range_labels = false
 local draw_uninhabited_labels = true
 local automatic_system_selection = true
 
-local function mainMenuButton(icon, tooltip)
-	return ui.coloredSelectedIconButton(icon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, tooltip)
-end
-
 local function textIcon(icon, tooltip)
 	ui.icon(icon, Vector2(ui.getTextLineHeight()), svColor.FONT, tooltip)
 	ui.sameLine()
 end
 
 local sectorView
+if Game then
+	sectorView = Game.sectorView
+	hyperJumpPlanner.setSectorView(sectorView)
+end -- for hot-reload
+
 local hyperspaceDetailsCache = {}
 local prevSystemPath = nil
 
@@ -142,7 +135,7 @@ function Windows.systemInfo:Show()
 		if not sectorView:IsCenteredOn(systempath) then
 			-- add button to center on the object
 			ui.sameLine()
-			if ui.coloredSelectedIconButton(icons.maneuver, Vector2(ui.getTextLineHeight()), false, 0, svColor.WINDOW_BG, svColor.FONT, lui.CENTER_ON_SYSTEM) then
+			if ui.iconButton(icons.maneuver, Vector2(ui.getTextLineHeight()), lui.CENTER_ON_SYSTEM, ui.theme.buttonColors.transparent) then
 				sectorView:GotoSystemPath(systempath)
 			end
 		end
@@ -209,7 +202,6 @@ function Windows.systemInfo:Show()
 		-- star list
 		local stars = starsystem:GetJumpable()
 		for _,star in pairs(stars) do
-			local pos = ui.getCursorPos() + Vector2(0, 1) -- add vertical alignment, not quite necessary
 			if ui.selectable("## " .. star.name, star.path == systempath, {}) then
 				clicked = star.path
 			end
@@ -249,8 +241,6 @@ function Windows.systemInfo.Dummy()
 	ui.selectable("Star 4", false, {})
 end
 
-local search_text = ""
-
 local function showSettings()
 	local changed
 	changed, draw_vertical_lines = ui.checkbox(lc.DRAW_VERTICAL_LINES, draw_vertical_lines)
@@ -274,28 +264,29 @@ end
 
 function Windows.edgeButtons.Show()
 	-- view control buttons
-	if mainMenuButton(icons.reset_view, lui.RESET_ORIENTATION_AND_ZOOM) then
+	if ui.mainMenuButton(icons.reset_view, lui.RESET_ORIENTATION_AND_ZOOM) then
 		sectorView:ResetView()
 	end
-	mainMenuButton(icons.rotate_view, lui.ROTATE_VIEW)
+	ui.mainMenuButton(icons.rotate_view, lui.ROTATE_VIEW)
 	sectorView:SetRotateMode(ui.isItemActive())
-	mainMenuButton(icons.search_lens, lui.ZOOM)
+	ui.mainMenuButton(icons.search_lens, lui.ZOOM)
 	sectorView:SetZoomMode(ui.isItemActive())
 	ui.text("")
 	-- settings buttons
-	if mainMenuButton(icons.settings, lui.SETTINGS) then
+	if ui.mainMenuButton(icons.settings, lui.SETTINGS) then
 		ui.openPopup("sectorViewLabelSettings")
 	end
 	ui.popup("sectorViewLabelSettings", function()
 		showSettings()
 	end)
-	if ui.coloredSelectedIconButton(icons.shield_other, mainButtonSize, false, mainButtonFramePadding, buttonState[Windows.factions.visible].color, svColor.BUTTON_INK, "Factions") then
+
+	if ui.mainMenuButton(icons.shield_other, lui.FACTIONS, buttonState[Windows.factions.visible]) then
 		Windows.factions.visible = not Windows.factions.visible
 	end
-	if ui.coloredSelectedIconButton(icons.info, mainButtonSize, false, mainButtonFramePadding, buttonState[Windows.systemInfo.visible].color, svColor.BUTTON_INK, lc.OBJECT_INFO) then
+	if ui.mainMenuButton(icons.info, lc.OBJECT_INFO, buttonState[Windows.systemInfo.visible]) then
 		Windows.systemInfo.visible = not Windows.systemInfo.visible
 	end
-	if ui.coloredSelectedIconButton(icons.route, mainButtonSize, false, mainButtonFramePadding, buttonState[Windows.hjPlanner.visible].color, svColor.BUTTON_INK, lui.HYPERJUMP_ROUTE) then
+	if ui.mainMenuButton(icons.route, lui.HYPERJUMP_ROUTE, buttonState[Windows.hjPlanner.visible]) then
 		Windows.hjPlanner.visible = not Windows.hjPlanner.visible
 	end
 end
@@ -323,9 +314,9 @@ local searchString, systemPaths = "", nil
 local leftBarMode = "SEARCH"
 
 function Windows.searchBar:Show()
-	if mainMenuButton(icons.search_lens, lc.SEARCH) then leftBarMode = "SEARCH" end
+	if ui.mainMenuButton(icons.search_lens, lc.SEARCH) then leftBarMode = "SEARCH" end
 	ui.sameLine()
-	if mainMenuButton(icons.money, lui.ECONOMY_TRADE) then
+	if ui.mainMenuButton(icons.money, lui.ECONOMY_TRADE) then
 		leftBarMode = "ECONOMY"
 		self.size.y = self.fullHeight
 	end
@@ -390,7 +381,7 @@ function Windows.searchBar:Show()
 end
 
 function Windows.searchBar.Dummy()
-	mainMenuButton(icons.search_lens, lc.SEARCH)
+	ui.mainMenuButton(icons.search_lens, lc.SEARCH)
 	ui.spacing()
 	ui.text("***************")
 	ui.inputText("", "", {})
@@ -452,7 +443,7 @@ function sectorViewLayout:onUpdateWindowConstraints(w)
 	w.factions.size = Vector2(rightColWidth, 0.0) -- adaptive height
 end
 
-ui.registerModule("game", function()
+ui.registerModule("game", { id = 'map-sector-view', draw = function()
 	player = Game.player
 	if Game.CurrentView() == "sector" then
 		sectorViewLayout:display()
@@ -465,8 +456,9 @@ ui.registerModule("game", function()
 		if ui.escapeKeyReleased() then
 			Game.SetView("world")
 		end
+
 	end
-end)
+end})
 
 Event.Register("onGameStart", onGameStart)
 Event.Register("onEnterSystem", function()

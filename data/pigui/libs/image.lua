@@ -3,6 +3,7 @@
 
 local Image = require 'PiGui.Modules.Image'
 local ui = require 'pigui'
+local Vector2 = _G.Vector2
 local colors = ui.theme.colors
 
 local PiImage = {}
@@ -21,12 +22,14 @@ function PiImage.New (filename)
 	}
 
 	piImage.Draw = function(self, size)
-		if (size.x == 0 and size.y == 0) then size = self.texture.size
-		elseif (size.y == 0) then size.y = size.x / self.texture.xy
-		elseif (size.x == 0) then size.x = size.y * self.texture.xy
+		local im_size -- we probably don't want to change the passed vector
+		if (size.x == 0 and size.y == 0) then im_size = self.texture.size
+		elseif (size.y == 0) then im_size = Vector2(size.x, size.x / self.texture.xy)
+		elseif (size.x == 0) then im_size = Vector2(size.y * self.texture.xy, size.y)
+		else im_size = size
 		end
 
-		ui.image(self.texture.id, size, Vector2(0.0, 0.0), self.texture.uv, colors.white)
+		ui.image(self.texture.id, im_size, Vector2(0.0, 0.0), self.texture.uv, colors.white)
 	end
 
 	setmetatable(piImage, {

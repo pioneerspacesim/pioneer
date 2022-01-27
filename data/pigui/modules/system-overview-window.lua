@@ -12,16 +12,13 @@ local getBodyIcon = require 'pigui.modules.flight-ui.body-icons'
 
 local colors = ui.theme.colors
 local icons = ui.theme.icons
+local Vector2 = _G.Vector2
 
 local style = ui.rescaleUI {
 	iconSize = Vector2(24,24),
 	bodyIconSize = Vector2(18,18),
-	buttonSize = Vector2(32,32),
+	buttonSize = Vector2(32,32)
 }
-
-local frame_padding = 1
-local bg_color = colors.buttonBlue
-local fg_color = colors.white
 
 -- Reusable widget to list the static contents of a system.
 -- Intended to be used by flight-ui as a list of nav targets,
@@ -180,11 +177,11 @@ function SystemOverviewWidget:showEntry(entry, indent, sortFunction)
 end
 
 function SystemOverviewWidget:drawControlButtons()
-	if ui.coloredSelectedIconButton(icons.moon, style.buttonSize, self.shouldShowMoons, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_MOONS) then
+	if ui.mainMenuButton(icons.moon, lui.TOGGLE_OVERVIEW_SHOW_MOONS, self.shouldShowMoons) then
 		self.shouldShowMoons = not self.shouldShowMoons
 	end
 	ui.sameLine()
-	if ui.coloredSelectedIconButton(icons.filter_stations, style.buttonSize, self.shouldShowStations, frame_padding, bg_color, fg_color, lui.TOGGLE_OVERVIEW_SHOW_STATIONS) then
+	if ui.mainMenuButton(icons.filter_stations, lui.TOGGLE_OVERVIEW_SHOW_STATIONS, self.shouldShowStations) then
 		self.shouldShowStations = not self.shouldShowStations
 	end
 end

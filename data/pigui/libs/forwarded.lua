@@ -66,6 +66,7 @@ ui.getTextLineHeightWithSpacing = pigui.GetTextLineHeightWithSpacing
 ui.getFrameHeight = pigui.GetFrameHeight
 ui.getFrameHeightWithSpacing = pigui.GetFrameHeightWithSpacing
 ui.getItemSpacing = pigui.GetItemSpacing
+ui.getWindowPadding = pigui.GetWindowPadding
 ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
 ui.getProjectedBodiesGrouped = pigui.GetProjectedBodiesGrouped

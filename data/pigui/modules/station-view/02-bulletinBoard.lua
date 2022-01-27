@@ -21,7 +21,6 @@ local colors = ui.theme.colors
 local icons = ui.theme.icons
 
 local adTextColor = colors.white
-local chatBackgroundColor = Color(20, 20, 80, 230)
 local widgetSizes = ui.rescaleUI({
 	chatButtonBase = Vector2(0, 24),
 	chatButtonSize = Vector2(0, 24),
@@ -42,7 +41,7 @@ local images = {}
 local chatWin = ModalWindow.New('bbChatWindow', function() end, function (self, drawPopupFn)
 	ui.setNextWindowPosCenter('Always')
 	ui.setNextWindowSize(widgetSizes.popupSize, 'Always')
-	ui.withStyleColorsAndVars({PopupBg = chatBackgroundColor}, {WindowBorderSize = 1, }, drawPopupFn)
+	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
 local function adActive(ref, ad)
@@ -57,7 +56,7 @@ local function refresh()
 
 	for ref,ad in pairs(ads or {}) do
 		if searchText == ""
-				or searchText ~= "" and string.find(
+			or searchText ~= "" and string.find(
 				string.lower(ad.description),
 				string.lower(searchText),
 				1, true)

@@ -3,7 +3,6 @@
 
 local ui = require 'pigui'
 
-local modals = {}
 local modalStack = {}
 
 local ModalWindow = {}
@@ -16,7 +15,7 @@ function ModalWindow.New(name, innerHandler, outerHandler, flags)
 		stackIdx = -1,
 		isOpen = false,
 		innerHandler = innerHandler,
-		outerHandler = outerHandler or function(self, drawPopupFn)
+		outerHandler = outerHandler or function(_, drawPopupFn)
 			drawPopupFn()
 		end,
 	}
@@ -25,8 +24,6 @@ function ModalWindow.New(name, innerHandler, outerHandler, flags)
 		__index = ModalWindow,
 		class = "UI.ModalWindow",
 	})
-
-	modals[name] = modalWin
 
 	return modalWin
 end

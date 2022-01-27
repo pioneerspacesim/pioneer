@@ -825,6 +825,12 @@ static int l_pigui_get_item_spacing(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_get_window_padding(lua_State *l)
+{
+	LuaPush(l, ImGui::GetStyle().WindowPadding);
+	return 1;
+}
+
 static int l_pigui_add_line(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2926,6 +2932,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetFrameHeight", l_pigui_get_frame_height },
 		{ "GetFrameHeightWithSpacing", l_pigui_get_frame_height_with_spacing },
 		{ "GetItemSpacing", l_pigui_get_item_spacing },
+		{ "GetWindowPadding", l_pigui_get_window_padding },
 		{ "InputText", l_pigui_input_text },
 		{ "Combo", l_pigui_combo },
 		{ "ListBox", l_pigui_listbox },

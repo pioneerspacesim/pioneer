@@ -18,12 +18,10 @@ local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local systemView
+local systemView = Game and Game.systemView -- for hot-reload
 
-local mainButtonSize = ui.rescaleUI(Vector2(32,32), Vector2(1600, 900))
-local mainButtonFramePadding = 3
-local indicatorSize = Vector2(30 , 30)
-local bodyIconSize = Vector2(18 , 18)
+local indicatorSize = Vector2(30, 30)
+local bodyIconSize = Vector2(18, 18)
 
 local selectedObject -- object, centered in SystemView
 
@@ -38,25 +36,13 @@ local atlasfont_highlight = ui.fonts.pionillium.medlarge
 local atlas_line_length = ui.rescaleUI(24)
 local atlas_label_offset = ui.rescaleUI(Vector2(12, -8))
 
-local ASTEROID_RADIUS = 1500000 -- rocky planets smaller than this (in meters) are considered an asteroid, not a planet
-
-local itemSpacing = ui.rescaleUI(Vector2(4, 8), Vector2(1600, 900)) -- FIXME: inherit this from theme
-
 --load enums Projectable::types and Projectable::bases in one table "Projectable"
 local Projectable = {}
 for _, key in pairs(Constants.ProjectableTypes) do Projectable[key] = Engine.GetEnumValue("ProjectableTypes", key) end
 for _, key in pairs(Constants.ProjectableBases) do Projectable[key] = Engine.GetEnumValue("ProjectableBases", key) end
 
-local function setAlpha(c, a)
-	return Color(c.r, c.g, c.b, a)
-end
-
 -- all colors, used in this module
 local svColor = {
-	BUTTON_ACTIVE = colors.buttonBlue,
-	BUTTON_INACTIVE = setAlpha(colors.buttonBlue, 0),
-	BUTTON_SEMIACTIVE = setAlpha(colors.buttonBlue, 80),
-	BUTTON_INK = colors.buttonInk,
 	COMBAT_TARGET = colors.combatTarget,
 	FONT = colors.font,
 	GRID = colors.systemMapGrid,
@@ -75,26 +61,26 @@ local svColor = {
 	SYSTEMBODY = colors.systemMapSystemBody,
 	SYSTEMBODY_ICON = colors.systemMapSystemBodyIcon,
 	SYSTEMBODY_ORBIT = colors.systemMapSystemBodyOrbit,
-	WINDOW_BG = colors.lightBlackBackground,
 	UNKNOWN = colors.unknown
 }
 
 -- button states
 local function loop3items(a, b, c) return a, { [a] = b, [b] = c, [c] = a } end
+local colorset = ui.theme.buttonColors
 
 local buttonState = {
-	SHIPS_OFF     = { icon = icons.ships_no_orbits,    color = svColor.BUTTON_INACTIVE },
-	SHIPS_ON      = { icon = icons.ships_no_orbits,    color = svColor.BUTTON_SEMIACTIVE },
-	SHIPS_ORBITS  = { icon = icons.ships_with_orbits,  color = svColor.BUTTON_ACTIVE },
-	LAG_OFF       = { icon = icons.lagrange_no_text,   color = svColor.BUTTON_INACTIVE },
-	LAG_ICON      = { icon = icons.lagrange_no_text,   color = svColor.BUTTON_SEMIACTIVE },
-	LAG_ICONTEXT  = { icon = icons.lagrange_with_text, color = svColor.BUTTON_ACTIVE },
-	GRID_OFF      = { icon = icons.toggle_grid,        color = svColor.BUTTON_INACTIVE },
-	GRID_ON       = { icon = icons.toggle_grid,        color = svColor.BUTTON_SEMIACTIVE },
-	GRID_AND_LEGS = { icon = icons.toggle_grid,        color = svColor.BUTTON_ACTIVE },
-	[true]        = {                                  color = svColor.BUTTON_ACTIVE },
-	[false]       = {                                  color = svColor.BUTTON_INACTIVE },
-	DISABLED      = {                                  color = svColor.BUTTON_SEMIACTIVE }
+	SHIPS_OFF     = { icon = icons.ships_no_orbits,    state = colorset.transparent },
+	SHIPS_ON      = { icon = icons.ships_no_orbits,    state = colorset.semi_transparent },
+	SHIPS_ORBITS  = { icon = icons.ships_with_orbits },
+	LAG_OFF       = { icon = icons.lagrange_no_text,   state = colorset.transparent },
+	LAG_ICON      = { icon = icons.lagrange_no_text,   state = colorset.semi_transparent },
+	LAG_ICONTEXT  = { icon = icons.lagrange_with_text },
+	GRID_OFF      = { icon = icons.toggle_grid,        state = colorset.transparent },
+	GRID_ON       = { icon = icons.toggle_grid,        state = colorset.semi_transparent },
+	GRID_AND_LEGS = { icon = icons.toggle_grid },
+	[true]        = {                                  state = colorset.default },
+	[false]       = {                                  state = colorset.transparent },
+	DISABLED      = {                                  state = colorset.semi_transparent }
 }
 
 local ship_drawing,  nextShipDrawings = loop3items("SHIPS_OFF", "SHIPS_ON", "SHIPS_ORBITS")
@@ -135,18 +121,19 @@ local function showDvLine(leftIcon, resetIcon, rightIcon, key, Formatter, leftTo
 		end
 	end
 	local id =  "##" .. key
-	local press = ui.coloredSelectedIconButton(leftIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, leftTooltip..id, nil)
+
+	local press = ui.mainMenuButton(leftIcon, leftTooltip..id)
 	if press or (key ~= "factor" and ui.isItemActive()) then
 		systemView:TransferPlannerAdd(key, -10)
 	end
 	wheel()
 	ui.sameLine()
-	if ui.coloredSelectedIconButton(resetIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, resetTooltip..id, nil) then
+	if ui.mainMenuButton(resetIcon, resetTooltip..id) then
 		systemView:TransferPlannerReset(key)
 	end
 	wheel()
 	ui.sameLine()
-	press = ui.coloredSelectedIconButton(rightIcon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, rightTooltip..id, nil)
+	press = ui.mainMenuButton(rightIcon, rightTooltip..id)
 	if press or (key ~= "factor" and ui.isItemActive()) then
 		systemView:TransferPlannerAdd(key, 10)
 	end
@@ -160,7 +147,7 @@ end
 local time_selected_button_icon = icons.time_center
 
 local function timeButton(icon, tooltip, factor)
-	if ui.coloredSelectedIconButton(icon, mainButtonSize, false, mainButtonFramePadding, svColor.BUTTON_ACTIVE, svColor.BUTTON_INK, tooltip) then
+	if ui.mainMenuButton(icon, tooltip) then
 		time_selected_button_icon = icon
 	end
 	local active = ui.isItemActive()
@@ -206,17 +193,13 @@ function Windows.systemOverview.Show()
 	end)
 end
 
-local function edgeButton(icon, tooltip, state)
-	return ui.coloredSelectedIconButton(icon, mainButtonSize, false, mainButtonFramePadding, (state ~= nil and state.color or svColor.BUTTON_ACTIVE), svColor.BUTTON_INK, tooltip)
-end
-
 local function drawWindowControlButton(window, icon, tooltip)
 	local isWindowActive = true
 	if window.ShouldShow then isWindowActive = window:ShouldShow() end
 
 	-- tristate: invisible, inactive, visible
-	local state = (isWindowActive or not window.visible) and buttonState[window.visible] or buttonState['DISABLED']
-	if edgeButton(icon, tooltip, state) then
+	local state = (isWindowActive or not window.visible) and buttonState[window.visible].state or buttonState['DISABLED'].state
+	if ui.mainMenuButton(icon, tooltip, state) then
 		window.visible = not window.visible
 	end
 end
@@ -224,31 +207,31 @@ end
 function Windows.edgeButtons.Show()
 	local isOrrery = systemView:GetDisplayMode() == "Orrery"
 	-- view control buttons
-	if edgeButton(icons.reset_view, luc.RESET_ORIENTATION_AND_ZOOM) then
+	if ui.mainMenuButton(icons.reset_view, luc.RESET_ORIENTATION_AND_ZOOM) then
 		systemView:SetVisibility("RESET_VIEW")
 	end
-	edgeButton(icons.rotate_view, luc.ROTATE_VIEW)
+	ui.mainMenuButton(icons.rotate_view, luc.ROTATE_VIEW)
 	systemView:SetRotateMode(ui.isItemActive())
-	edgeButton(icons.search_lens, luc.ZOOM)
+	ui.mainMenuButton(icons.search_lens, luc.ZOOM)
 	systemView:SetZoomMode(ui.isItemActive())
 
-	if isOrrery and edgeButton(icons.system_overview, luc.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW) then
+	if isOrrery and ui.mainMenuButton(icons.system_overview, luc.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW) then
 		systemView:SetDisplayMode('Atlas')
 	end
-	if not isOrrery and edgeButton(icons.system_map, luc.HUD_BUTTON_SWITCH_TO_SYSTEM_MAP) then
+	if not isOrrery and ui.mainMenuButton(icons.system_map, luc.HUD_BUTTON_SWITCH_TO_SYSTEM_MAP) then
 		systemView:SetDisplayMode('Orrery')
 	end
 	ui.newLine()
 	-- visibility control buttons
-	if edgeButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing]) then
+	if ui.mainMenuButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing].state) then
 		ship_drawing = nextShipDrawings[ship_drawing]
 		systemView:SetVisibility(ship_drawing)
 	end
-	if edgeButton(buttonState[show_lagrange].icon, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[show_lagrange]) then
+	if ui.mainMenuButton(buttonState[show_lagrange].icon, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[show_lagrange].state) then
 		show_lagrange = nextShowLagrange[show_lagrange]
 		systemView:SetVisibility(show_lagrange)
 	end
-	if edgeButton(buttonState[show_grid].icon, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[show_grid]) then
+	if ui.mainMenuButton(buttonState[show_grid].icon, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[show_grid].state) then
 		show_grid = nextShowGrid[show_grid]
 		systemView:SetVisibility(show_grid)
 	end
@@ -268,16 +251,16 @@ function Windows.orbitPlanner.Show()
 	ui.separator()
 	showDvLine(icons.decrease, icons.delta, icons.increase, "factor", function(i) return i, "x" end, luc.DECREASE, lc.PLANNER_RESET_FACTOR, luc.INCREASE)
 	showDvLine(icons.decrease, icons.clock, icons.increase, "starttime",
-	function(_)
-		local now = Game.time
-		local start = systemView:GetOrbitPlannerStartTime()
-		if start then
-			return ui.Format.Duration(math.floor(start - now)), ""
-		else
-			return lc.NOW, ""
-		end
-	end,
-	luc.DECREASE, lc.PLANNER_RESET_START, luc.INCREASE)
+		function(_)
+			local now = Game.time
+			local start = systemView:GetOrbitPlannerStartTime()
+			if start then
+				return ui.Format.Duration(math.floor(start - now)), ""
+			else
+				return lc.NOW, ""
+			end
+		end,
+		luc.DECREASE, lc.PLANNER_RESET_START, luc.INCREASE)
 	showDvLine(icons.decrease, icons.orbit_prograde, icons.increase, "prograde", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_PROGRADE, luc.INCREASE)
 	showDvLine(icons.decrease, icons.orbit_normal, icons.increase, "normal", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_NORMAL, luc.INCREASE)
 	showDvLine(icons.decrease, icons.orbit_radial, icons.increase, "radial", ui.Format.SpeedUnit, luc.DECREASE, lc.PLANNER_RESET_RADIAL, luc.INCREASE)
@@ -524,7 +507,7 @@ local function displayOnScreenObjects()
 	end
 
 	-- atlas body labels have to be drawn after icons for proper ordering
-	for i, v in ipairs(atlas_label_objects) do
+	for _, v in ipairs(atlas_label_objects) do
 		drawAtlasBodyLabel(table.unpack(v))
 	end
 
@@ -551,8 +534,8 @@ local function tabular(data, maxSize)
 		local valueWidth = 0
 		for _,item in pairs(data) do
 			if item.value then
-				local nWidth = ui.calcTextSize(item.name).x + itemSpacing.x
-				local vWidth = ui.calcTextSize(item.value).x + itemSpacing.x
+				local nWidth = ui.calcTextSize(item.name).x + ui.getItemSpacing().x
+				local vWidth = ui.calcTextSize(item.value).x + ui.getItemSpacing().x
 				if ui.getColumnWidth() < nWidth then
 					textIcon(item.icon or icons.info, item.name)
 				else
@@ -620,27 +603,27 @@ function Windows.objectInfo.Show()
 		local pop = math.round(body.population * 1e9)
 		data = {
 			{ name = lc.MASS, icon = icons.body_radius,
-			value = (not starport) and ui.Format.Mass(body.mass) or nil },
+				value = (not starport) and ui.Format.Mass(body.mass) or nil },
 			{ name = lc.RADIUS, icon = icons.body_radius,
-			value = (not starport) and ui.Format.Distance(body.radius) or nil },
+				value = (not starport) and ui.Format.Distance(body.radius) or nil },
 			{ name = lc.SURFACE_GRAVITY, icon = icons.body_radius,
-			value = (not starport) and ui.Format.Speed(body.gravity, true).." ("..ui.Format.Gravity(body.gravity / 9.8066)..")" or nil },
+				value = (not starport) and ui.Format.Speed(body.gravity, true).." ("..ui.Format.Gravity(body.gravity / 9.8066)..")" or nil },
 			{ name = lc.ORBITAL_PERIOD, icon = icons.body_orbit_period,
-			value = op and op > 0 and ui.Format.Duration(op, 2) or nil },
+				value = op and op > 0 and ui.Format.Duration(op, 2) or nil },
 			{ name = lc.DAY_LENGTH, icon = icons.body_day_length,
-			value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
+				value = rp > 0 and ui.Format.Duration(rp, 2) or nil },
 			{ name = luc.ORBIT_APOAPSIS, icon = icons.body_semi_major_axis,
-			value = (parent and not surface) and ui.Format.Distance(body.apoapsis) or nil },
+				value = (parent and not surface) and ui.Format.Distance(body.apoapsis) or nil },
 			{ name = luc.ORBIT_PERIAPSIS, icon = icons.body_semi_major_axis,
-			value = (parent and not surface) and ui.Format.Distance(body.periapsis) or nil },
+				value = (parent and not surface) and ui.Format.Distance(body.periapsis) or nil },
 			{ name = lc.SEMI_MAJOR_AXIS, icon = icons.body_semi_major_axis,
-			value = semimajoraxis },
+				value = semimajoraxis },
 			{ name = lc.ECCENTRICITY, icon = icons.body_semi_major_axis,
-			value = (parent and not surface) and string.format("%0.2f", body.eccentricity) or nil },
+				value = (parent and not surface) and string.format("%0.2f", body.eccentricity) or nil },
 			{ name = lc.AXIAL_TILT, icon = icons.body_semi_major_axis,
-			value = (not starport) and string.format("%0.2f", body.axialTilt) or nil },
+				value = (not starport) and string.format("%0.2f", body.axialTilt) or nil },
 			{ name = lc.POPULATION, icon = icons.personal,
-			value = pop > 0 and ui.Format.NumberAbbv(pop) or nil },
+				value = pop > 0 and ui.Format.NumberAbbv(pop) or nil },
 
 		}
 
@@ -667,21 +650,9 @@ function Windows.objectInfo.Show()
 end
 
 function Windows.objectInfo.Dummy()
-	ui.text(lc.OBJECT_INFO)
-	ui.spacing()
-	ui.separator()
-	ui.spacing()
-	ui.text("TAB LINE")
-	ui.text("TAB LINE")
-	ui.text("TAB LINE")
-	ui.text("TAB LINE")
-	ui.text("TAB LINE")
-	ui.text("TAB LINE")
-	ui.text("TAB LINE")
-	ui.text("TAB LINE")
-	ui.text("TAB LINE")
-	ui.text("TAB LINE")
-	ui.text("TAB LINE")
+	ui.withFont(detailfont, function()
+		ui.text("Tiny rocky planet with no significant")
+	end)
 end
 
 function systemViewLayout:onUpdateWindowPivots(w)
@@ -702,8 +673,8 @@ function systemViewLayout:onUpdateWindowConstraints(w)
 
 	w.orbitPlanner.pos = w.timeButtons.pos - Vector2(w.edgeButtons.size.x, w.timeButtons.size.y)
 	w.orbitPlanner.size.x = w.timeButtons.size.x - w.edgeButtons.size.x
-	w.objectInfo.pos = w.orbitPlanner.pos - Vector2(0, w.orbitPlanner.size.y)
-	w.objectInfo.size = Vector2(w.orbitPlanner.size.x, 0) -- adaptive height
+	w.objectInfo.pos = Vector2(w.edgeButtons.pos.x - w.edgeButtons.size.x, w.orbitPlanner.pos.y - w.orbitPlanner.size.y)
+	w.objectInfo.size = Vector2(math.max(w.objectInfo.size.x, w.orbitPlanner.size.x), 0) -- adaptive height
 end
 
 local function displaySystemViewUI()

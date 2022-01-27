@@ -17,14 +17,14 @@ local player = nil
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local mainIconSize = Vector2(32,32) * (ui.screenHeight / 1200)
-local mainWideIconSize = Vector2(64,32) * (ui.screenHeight / 1200)
+local mainIconSize = ui.rescaleUI(Vector2(32,32))
+local mainWideIconSize = ui.rescaleUI(Vector2(64,32))
 local mainForegroundColor = colors.reticuleCircle
 local mainBackgroundColor = colors.lightBlueBackground
 local mainHoverColor = colors.lightBlueBackground:tint(0.2)
 local mainPressedColor = colors.lightBlueBackground:tint(0.5)
 local mainButtonPadding = 3
-local function iconButton(leftupper, icon, is_wide, icon_size, text, is_disabled, bg_color, fg_color, hover_color, pressed_color, tooltip)
+local function iconEqButton(leftupper, icon, is_wide, icon_size, text, is_disabled, bg_color, fg_color, hover_color, pressed_color, tooltip)
 	local textsize = ui.calcTextSize(text)
 	local x = icon_size.x + textsize.x + mainButtonPadding * 2
 	local y = math.max(icon_size.y, textsize.y) -- + mainButtonPadding * 2
@@ -62,7 +62,7 @@ local function displayECM(uiPos)
 	if current_view == "world" then
 		local ecms = player:GetEquip('ecm')
 		for i,ecm in ipairs(ecms) do
-			local size, clicked = iconButton(uiPos, icons[ecm.ecm_type], false, mainIconSize, "ECM", not player:IsECMReady(), mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, 'ECM')
+			local size, clicked = iconEqButton(uiPos, icons[ecm.ecm_type], false, mainIconSize, "ECM", not player:IsECMReady(), mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, 'ECM')
 			uiPos.y = uiPos.y + size.y + 10
 			if clicked then
 				player:UseECM()
@@ -78,7 +78,7 @@ local function displayBodyScanner(uiPos)
 	if current_view == "world" then
 		local sensors = player:GetEquip('sensor')
 		for i,sensor in ipairs(sensors) do
-			local size,clicked = iconButton(uiPos, icons.scanner, false, mainIconSize, sensor:GetName(), false, mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, 'Body scanner')
+			local size,clicked = iconEqButton(uiPos, icons.scanner, false, mainIconSize, sensor:GetName(), false, mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, 'Body scanner')
 			uiPos.y = uiPos.y + size.y + 10
 			if clicked then
 				player:StartSensor(i)
@@ -121,7 +121,7 @@ local function displayMissiles(uiPos)
 		end
 		for t,missile in pairs(types) do
 			local c = count[t]
-			local size,clicked = iconButton(uiPos, getMissileIcon(missile), true, mainWideIconSize, c, c == 0, mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, lec[missile.l10n_key])
+			local size,clicked = iconEqButton(uiPos, getMissileIcon(missile), true, mainWideIconSize, c, c == 0, mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, lec[missile.l10n_key])
 			uiPos.y = uiPos.y + size.y + 10
 			if clicked then
 				print("firing missile " .. t .. ", " .. index[t])
