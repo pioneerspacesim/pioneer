@@ -1,27 +1,39 @@
-material Material
+material Fuselage
 diffuse 1.0 1.0 1.0
 specular 0.7 0.7 0.7
 shininess 69
-use_patterns
 tex_diff xylophis_diff.dds
 tex_spec xylophis_spec.dds
+tex_norm xylophis_norm.png
+tex_glow xylophis_glow.dds
+use_patterns
+
+material Transparent
+diffuse 1.0 1.0 1.0
+specular 0.7 0.7 0.7
+shininess 69
+opacity 70
+tex_diff xylophis_diff.dds
+tex_spec xylophis_spec.dds
+tex_norm xylophis_norm.png
 tex_glow xylophis_glow.dds
 
-material Exaust
-diffuse 1.0 1.0 1.0
-specular 0.1 0.1 0.1
-shininess 40
-tex_diff xylophis_diff.dds
-tex_spec xylophis_spec.dds
-tex_glow xylophis_glow.dds
+material int
+diffuse 0.1 0.1 0.1
+specular 0.0 0.0 0.0
+shininess 0	
+tex_ambi xylophis_int_diff.dds
 
 lod 300
-mesh xylophis.dae
-mesh xylophis_shield.dae
+mesh xylophis_hi.dae
+
+lod 100
+mesh xylophis_med.dae
 
 lod 50
-mesh xylophis_lo.dae
+mesh xylophis_low.dae
 
-#collision xylophis_col.dae
+anim gear_down 0 70
 
-anim gear_down 0 50
+collision xylophis_coll.dae
+mesh xylophis_shield.dae
