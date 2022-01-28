@@ -475,6 +475,10 @@
     "description": "For player reputation",
     "message": "Експерт"
   },
+  "FACTIONS": {
+    "description": "Button to toggle the display of factions on the sector map",
+    "message": "Групировки"
+  },
   "FAILED": {
     "description": "When failed mission",
     "message": "Неуспешна"

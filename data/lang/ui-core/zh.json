@@ -475,6 +475,10 @@
     "description": "For player reputation",
     "message": "专家"
   },
+  "FACTIONS": {
+    "description": "Button to toggle the display of factions on the sector map",
+    "message": "Factions"
+  },
   "FAILED": {
     "description": "When failed mission",
     "message": "失败"
