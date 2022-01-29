@@ -369,6 +369,21 @@ static int l_systemview_get_zoom(lua_State *l)
 	return 1;
 }
 
+static int l_systemview_atlas_view_planet_gap(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	auto radius = LuaPull<float>(l, 2);
+	LuaPush(l, sv->AtlasViewPlanetGap(radius));
+	return 1;
+}
+
+static int l_systemview_atlas_view_pixel_per_unit(lua_State *l)
+{
+	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
+	LuaPush(l, sv->AtlasViewPixelPerUnit());
+	return 1;
+}
+
 static int l_systemview_get_display_mode(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
@@ -481,6 +496,8 @@ void LuaObject<SystemView>::RegisterClass()
 		{ "GetDisplayMode", l_systemview_get_display_mode },
 		{ "SetDisplayMode", l_systemview_set_display_mode },
 		{ "GetZoom", l_systemview_get_zoom },
+		{ "AtlasViewPlanetGap", l_systemview_atlas_view_planet_gap },
+		{ "AtlasViewPixelPerUnit", l_systemview_atlas_view_pixel_per_unit },
 
 		{ "TransferPlannerAdd", l_systemview_transfer_planner_add },
 		{ "TransferPlannerGet", l_systemview_transfer_planner_get },

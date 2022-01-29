@@ -462,34 +462,47 @@ local function displaySurfPorts(center, radius, ports, mouseover)
 	local nports = #ports
 	if nports == 0 then return nil end
 	local icon_size = bodyIconSize.x
-	local two_pi = math.pi * 2
 	-- pretty rough estimate
-	local min_rad = icon_size * nports / two_pi
-	radius = math.max(icon_size, min_rad, radius - icon_size / 2)
+	local min_rad = icon_size * nports / ui.twoPi
+	local pixPerUnit = systemView:AtlasViewPixelPerUnit()
+	local gap = systemView:AtlasViewPlanetGap(radius / pixPerUnit) * pixPerUnit
+	local icons_radius = math.max(icon_size, min_rad, radius + icon_size / 2)
+	local can_show_ring = icons_radius + icon_size / 2 < radius + gap or nports < 3
 
-	local start_ang = 225 * two_pi / 360
-	local step_ang = two_pi / nports
+	local start_ang = math.deg2rad(225)
+	local step_ang = ui.twoPi / nports
 	local hover_i = 0
 	local hover_center
 	local select_i = 0
 	local select_center
+	local navtarget_in_ring = false
 	for i = 1, nports do
 		local ang = start_ang + step_ang * (i - 1)
-		local p_center = center + Vector2(math.cos(ang), math.sin(ang)) * radius
+		local p_center = center + Vector2(math.cos(ang), math.sin(ang)) * icons_radius
 		-- HACK we pretend to be a group, to use drawGroupIcons
 		local body = ports[i].physicsBody
 		local group = { hasNavTarget = body and body == Game.player:GetNavTarget() }
 		local isSelected = ports[i] == systemView:GetSelectedObject().ref
-		drawGroupIcons(p_center, _getBodyIcon(ports[i], true), svColor.SYSTEMBODY_ICON, bodyIconSize, group, isSelected)
-		-- hover mouse
-		if (ui.getMousePos() - p_center):length() < icon_size / 2 then
-			hover_i = i
-			hover_center = p_center
+		if can_show_ring then
+			drawGroupIcons(p_center, _getBodyIcon(ports[i]), svColor.SYSTEMBODY_ICON, bodyIconSize, group, isSelected)
+			-- hover mouse
+			if (ui.getMousePos() - p_center):length() < icon_size / 2 then
+				hover_i = i
+				hover_center = p_center
+			end
+		else
+			navtarget_in_ring = navtarget_in_ring or group.hasNavTarget
 		end
 		if isSelected then
 			select_i = i
 			select_center = p_center
 		end
+	end
+	if not can_show_ring then
+		local p_center = center + Vector2(math.cos(start_ang), math.sin(start_ang)) * icons_radius
+		local group = { hasNavTarget = navtarget_in_ring }
+		drawGroupIcons(p_center, icons.plus, svColor.SYSTEMBODY_ICON, bodyIconSize, group, select_i ~= 0)
+		return nil
 	end
 	if hover_i ~= 0 then
 		return ports[hover_i], hover_center
@@ -500,37 +513,35 @@ local function displaySurfPorts(center, radius, ports, mouseover)
 	end
 end
 
-local popup = {}
-
-function popup.make()
-	if not popup.enabled then return end
+local popup_object
+function makePopup()
 	ui.popup("system-view-ui-popup", function()
-		local isObject = popup.mainObject.type == Projectable.OBJECT
-		local isSystemBody = isObject and popup.mainObject.base == Projectable.SYSTEMBODY
-		local isShip = isObject and not isSystemBody and popup.mainObject.ref:IsShip()
-		ui.text(getLabel(popup.mainObject))
+		local isOrrery = systemView:GetDisplayMode() == "Orrery"
+		local combatTarget = player:GetCombatTarget()
+		local navTarget = Game.player:GetNavTarget()
+		local isObject = popup_object.type == Projectable.OBJECT
+		local isSystemBody = isObject and popup_object.base == Projectable.SYSTEMBODY
+		local isShip = isObject and not isSystemBody and popup_object.ref:IsShip()
+		ui.text(getLabel(popup_object))
 		ui.separator()
-		if popup.isOrrery and ui.selectable(lc.CENTER, false, {}) then
-			selectedObject = popup.mainObject.ref
-			systemView:SetSelectedObject(popup.mainObject.type, popup.mainObject.base, popup.mainObject.ref)
+		if isOrrery and ui.selectable(lc.CENTER, false, {}) then
+			selectedObject = popup_object.ref
+			systemView:SetSelectedObject(popup_object.type, popup_object.base, popup_object.ref)
 			systemView:ViewSelectedObject()
-			popup.enabled = false
 		end
-		if (isShip or isSystemBody and popup.mainObject.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
+		if (isShip or isSystemBody and popup_object.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
 			if isSystemBody then
-				player:SetNavTarget(popup.mainObject.ref.physicsBody)
+				player:SetNavTarget(popup_object.ref.physicsBody)
 				ui.playSfx("OK")
 			else
-				if popup.combatTarget == popup.mainObject.ref then player:SetCombatTarget(nil) end
-				player:SetNavTarget(popup.mainObject.ref)
+				if combatTarget == popup_object.ref then player:SetCombatTarget(nil) end
+				player:SetNavTarget(popup_object.ref)
 				ui.playSfx("OK")
 			end
-			popup.enabled = false
 		end
 		if isShip and ui.selectable(lc.SET_AS_COMBAT_TARGET, false, {}) then
-			if popup.navTarget == popup.mainObject.ref then player:SetNavTarget(nil) end
-			player:SetCombatTarget(popup.mainObject.ref)
-			popup.enabled = false
+			if navTarget == popup_object.ref then player:SetNavTarget(nil) end
+			player:SetCombatTarget(popup_object.ref)
 		end
 	end)
 end
@@ -539,9 +550,6 @@ local expanded_hover_body = nil -- body with expanded hover area (atlas view onl
 -- forked from data/pigui/views/game.lua
 local function displayOnScreenObjects()
 	local isOrrery = systemView:GetDisplayMode() == 'Orrery'
-
-	local navTarget = player:GetNavTarget()
-	local combatTarget = player:GetCombatTarget()
 
 	local should_show_label = isOrrery and ui.shouldShowLabels()
 
@@ -570,6 +578,7 @@ local function displayOnScreenObjects()
 		local mainCoords = Vector2(group.screenCoordinates.x, group.screenCoordinates.y)
 		local isSelected = mainObject.type == Projectable.OBJECT and mainObject.ref == systemView:GetSelectedObject().ref
 		group.hasPlanner = mainObject.type == Projectable.OBJECT and mainObject.base == Projectable.PLANNER
+		local hoverSize = group.screenSize
 
 		local ports = {} -- ground ports
 		local should_show_ports = false -- if we want to show ports even if we are not hovered
@@ -579,7 +588,7 @@ local function displayOnScreenObjects()
 			-- or if the central body is selected
 			should_show_ports = should_show_ports or isSelected
 			-- if we hover over a body with ports, we expand its hover radius to make it easier to hover ports
-			if mainObject.ref == expanded_hover_body or should_show_ports then group.screenSize = group.screenSize + bodyIconSize.x end
+			if mainObject.ref == expanded_hover_body or should_show_ports then hoverSize = group.screenSize + bodyIconSize.x end
 		end
 
 		drawGroupIcons(mainCoords, getBodyIcon(mainObject, true, isOrrery), getColor(mainObject), bodyIconSize, group, isSelected)
@@ -587,8 +596,7 @@ local function displayOnScreenObjects()
 		local mp = ui.getMousePos()
 		local label = getLabel(mainObject)
 		local mouseover = not ui.isAnyWindowHovered() and
-			(mp - mainCoords):length() < (isOrrery and click_radius or math.max(click_radius, group.screenSize))
-
+			(mp - mainCoords):length() < (isOrrery and click_radius or math.max(click_radius, hoverSize))
 
 		if #label > 0 and (should_show_label or mouseover or should_show_ports) then
 			if group.objects then
@@ -629,11 +637,7 @@ local function displayOnScreenObjects()
 			-- mouse release handler for right button
 			if mouseover then
 				if not ui.isAnyWindowHovered() and ui.isMouseReleased(1) then
-					popup.enabled = true
-					popup.mainObject = mainObject
-					popup.isOrrery = isOrrery
-					popup.combatTarget = combatTarget
-					popup.navTarget = navTarget
+					popup_object = mainObject
 					ui.openPopup("system-view-ui-popup")
 				end
 			end
@@ -644,7 +648,7 @@ local function displayOnScreenObjects()
 		end
 		objectCounter = objectCounter + 1
 	end
-	popup.make()
+	makePopup()
 	if not was_hovered then expanded_hover_body = nil end
 
 	-- atlas body labels have to be drawn after icons for proper ordering
