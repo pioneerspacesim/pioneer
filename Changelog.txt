@@ -4,12 +4,15 @@ January 2022
     * New slot-based ship equipment display (#5315)
     * Completely new System Atlas mode for System Map (#5239)
     * Add System Overview Widget to System Map view (#5327)
+    * Xylophis overhaul, new model (#5323)
+    * Culture/language specific first + last name (#5223)
 
   * Internal Changes
     * Reduce BBS advert string data written to save files (#5312)
     * Unify default UI theming, ensure UI scaling snaps to pixel values (#5315)
     * Default language is based on the user's environment language code (#5326)
     * Improve buttons (#5332)
+    * Fix remote lua connection (#5318)
 
   * Fixes
     * FuelClub: Refuel internal fuel tank only once a day (#5311)
@@ -20,7 +23,7 @@ January 2022
 November 2021
   * New Features
     * Added station restocking and balanced goods availability (#5291)
-  
+
   * Internal Changes
     * Change CommsWindow opacity, adjust Quit message window (#5303)
     * Add TaskGraph implementation for mid-frame parallelism (#5302)
