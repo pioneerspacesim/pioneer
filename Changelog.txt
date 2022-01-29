@@ -6,6 +6,7 @@ January 2022
     * Add System Overview Widget to System Map view (#5327)
     * Xylophis overhaul, new model (#5323)
     * Culture/language specific first + last name (#5223)
+    * Show ground stations in System Atlas view (#5333)
 
   * Internal Changes
     * Reduce BBS advert string data written to save files (#5312)
