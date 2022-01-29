@@ -121,6 +121,8 @@ public:
 	void SetZoomMode(bool enable);
 	void SetRotateMode(bool enable);
 	double ProjectedSize(double size, vector3d pos);
+	float AtlasViewPlanetGap(float planetRadius) { return std::max(planetRadius * 0.6, 1.33); }
+	float AtlasViewPixelPerUnit();
 
 	float GetZoom() const;
 

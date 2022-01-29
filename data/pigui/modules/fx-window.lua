@@ -49,9 +49,21 @@ local function buttons_map(current_view)
 	end
 
 	ui.sameLine()
-	active = current_view == "system"
+	local isOrrery = Game.systemView:GetDisplayMode() == "Orrery"
+	active = current_view == "system" and isOrrery
 	if ui.mainMenuButton(icons.system_map, lui.HUD_BUTTON_SWITCH_TO_SYSTEM_MAP, active) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f6)) then
 		if not active then
+			Game.systemView:SetDisplayMode('Orrery')
+			Game.SetView("system")
+			current_map_view = "system"
+		end
+	end
+
+	ui.sameLine()
+	active = current_view == "system" and not isOrrery
+	if ui.mainMenuButton(icons.system_overview, lui.HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW, active) or (onmap and ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f7)) then
+		if not active then
+			Game.systemView:SetDisplayMode('Atlas')
 			Game.SetView("system")
 			current_map_view = "system"
 		end

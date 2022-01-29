@@ -162,6 +162,7 @@ end
 local Windows = {
 	systemName = layout.NewWindow("SystemMapSystemName"),
 	systemOverview = layout.NewWindow("SystemMapOverview"),
+	systemOverviewHidden = layout.NewWindow("SystemOverviewHidden"),
 	objectInfo = layout.NewWindow("SystemMapObjectIngo"),
 	edgeButtons = layout.NewWindow("SystemMapEdgeButtons"),
 	orbitPlanner = layout.NewWindow("SystemMapOrbitPlanner"),
@@ -173,6 +174,7 @@ local systemViewLayout = layout.New(Windows)
 systemViewLayout.mainFont = winfont
 
 local systemOverviewWidget = require 'pigui.modules.system-overview-window'.New()
+systemOverviewWidget.visible = true
 
 function systemOverviewWidget:onBodySelected(sBody)
 	systemView:SetSelectedObject(Projectable.OBJECT, Projectable.SYSTEMBODY, sBody)
@@ -182,14 +184,34 @@ function systemOverviewWidget:onBodyDoubleClicked(sBody)
 	systemView:ViewSelectedObject()
 end
 
+function systemOverviewWidget:overrideDrawButtons()
+	if ui.mainMenuButton(icons.system_overview, luc.TOGGLE_OVERVIEW_WINDOW) then
+		self.visible = false
+	end
+	ui.sameLine()
+	self:drawControlButtons()
+end
+
 function Windows.systemOverview.ShouldShow()
-	return not Windows.unexplored.visible
+	return not Windows.unexplored.visible and systemOverviewWidget.visible
+end
+
+function Windows.systemOverviewHidden.ShouldShow()
+	return not Windows.unexplored.visible and not systemOverviewWidget.visible
 end
 
 function Windows.systemOverview.Show()
 	local selected = { [systemView:GetSelectedObject().ref or true] = true }
 	ui.withFont(ui.fonts.pionillium.medium, function()
 		systemOverviewWidget:display(systemView:GetSystem(), nil, selected)
+	end)
+end
+
+function Windows.systemOverviewHidden.Show()
+	ui.withFont(ui.fonts.pionillium.medium, function()
+		if ui.mainMenuButton(icons.system_overview, luc.TOGGLE_OVERVIEW_WINDOW) then
+			systemOverviewWidget.visible = true
+		end
 	end)
 end
 
@@ -223,25 +245,33 @@ function Windows.edgeButtons.Show()
 	end
 	ui.newLine()
 	-- visibility control buttons
-	if ui.mainMenuButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing].state) then
-		ship_drawing = nextShipDrawings[ship_drawing]
-		systemView:SetVisibility(ship_drawing)
+	if isOrrery then
+		if ui.mainMenuButton(buttonState[ship_drawing].icon, lc.SHIPS_DISPLAY_MODE_TOGGLE, buttonState[ship_drawing].state) then
+			ship_drawing = nextShipDrawings[ship_drawing]
+			systemView:SetVisibility(ship_drawing)
+		end
+		if ui.mainMenuButton(buttonState[show_lagrange].icon, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[show_lagrange].state) then
+			show_lagrange = nextShowLagrange[show_lagrange]
+			systemView:SetVisibility(show_lagrange)
+		end
+		if ui.mainMenuButton(buttonState[show_grid].icon, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[show_grid].state) then
+			show_grid = nextShowGrid[show_grid]
+			systemView:SetVisibility(show_grid)
+		end
+		ui.newLine()
 	end
-	if ui.mainMenuButton(buttonState[show_lagrange].icon, lc.L4L5_DISPLAY_MODE_TOGGLE, buttonState[show_lagrange].state) then
-		show_lagrange = nextShowLagrange[show_lagrange]
-		systemView:SetVisibility(show_lagrange)
-	end
-	if ui.mainMenuButton(buttonState[show_grid].icon, lc.GRID_DISPLAY_MODE_TOGGLE, buttonState[show_grid].state) then
-		show_grid = nextShowGrid[show_grid]
-		systemView:SetVisibility(show_grid)
-	end
-	ui.newLine()
 
 	drawWindowControlButton(Windows.objectInfo, icons.info, lc.OBJECT_INFO)
-	drawWindowControlButton(Windows.orbitPlanner, icons.semi_major_axis, lc.ORBIT_PLANNER)
+	if isOrrery then
+		drawWindowControlButton(Windows.orbitPlanner, icons.semi_major_axis, lc.ORBIT_PLANNER)
+	end
 end
 
 function Windows.orbitPlanner.ShouldShow()
+	return systemView:GetDisplayMode() == 'Orrery'
+end
+
+function Windows.timeButtons.ShouldShow()
 	return systemView:GetDisplayMode() == 'Orrery'
 end
 
@@ -287,7 +317,7 @@ function Windows.timeButtons.Show()
 end
 
 local _getBodyIcon = require 'pigui.modules.flight-ui.body-icons'
-local function getBodyIcon(obj, forWorld)
+local function getBodyIcon(obj, forWorld, isOrrery)
 	if obj.type == Projectable.APOAPSIS then return icons.apoapsis
 	elseif obj.type == Projectable.PERIAPSIS then return icons.periapsis
 	elseif obj.type == Projectable.L4 then return icons.lagrange_marker
@@ -299,6 +329,8 @@ local function getBodyIcon(obj, forWorld)
 		else
 			return icons.ship
 		end
+	elseif forWorld and not isOrrery and obj.ref.superType ~= "STARPORT" and obj.ref.type ~= "PLANET_ASTEROID" then
+		return icons.empty
 	else
 		return _getBodyIcon(obj.ref, forWorld)
 	end
@@ -408,12 +440,116 @@ function Windows.unexplored.Show()
 	ui.text(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW)
 end
 
+local function checkSurfPorts(sbody)
+	local children = sbody.children
+	if #children == 0 then return nil end
+	local ports = {}
+	local has_indicators
+	local navTarget = Game.player:GetNavTarget()
+	local selected = systemView:GetSelectedObject().ref
+	for _, child in ipairs(children) do
+		if child.type == "STARPORT_SURFACE" then
+			table.insert(ports, child)
+			local body = child.physicsBody
+			has_indicators = has_indicators or body and body == navTarget or child == selected
+		end
+	end
+	if #ports == 0 then return nil end
+	return ports, has_indicators
+end
+
+local function displaySurfPorts(center, radius, ports, mouseover)
+	local nports = #ports
+	if nports == 0 then return nil end
+	local icon_size = bodyIconSize.x
+	-- pretty rough estimate
+	local min_rad = icon_size * nports / ui.twoPi
+	local pixPerUnit = systemView:AtlasViewPixelPerUnit()
+	local gap = systemView:AtlasViewPlanetGap(radius / pixPerUnit) * pixPerUnit
+	local icons_radius = math.max(icon_size, min_rad, radius + icon_size / 2)
+	local can_show_ring = icons_radius + icon_size / 2 < radius + gap or nports < 3
+
+	local start_ang = math.deg2rad(225)
+	local step_ang = ui.twoPi / nports
+	local hover_i = 0
+	local hover_center
+	local select_i = 0
+	local select_center
+	local navtarget_in_ring = false
+	for i = 1, nports do
+		local ang = start_ang + step_ang * (i - 1)
+		local p_center = center + Vector2(math.cos(ang), math.sin(ang)) * icons_radius
+		-- HACK we pretend to be a group, to use drawGroupIcons
+		local body = ports[i].physicsBody
+		local group = { hasNavTarget = body and body == Game.player:GetNavTarget() }
+		local isSelected = ports[i] == systemView:GetSelectedObject().ref
+		if can_show_ring then
+			drawGroupIcons(p_center, _getBodyIcon(ports[i]), svColor.SYSTEMBODY_ICON, bodyIconSize, group, isSelected)
+			-- hover mouse
+			if (ui.getMousePos() - p_center):length() < icon_size / 2 then
+				hover_i = i
+				hover_center = p_center
+			end
+		else
+			navtarget_in_ring = navtarget_in_ring or group.hasNavTarget
+		end
+		if isSelected then
+			select_i = i
+			select_center = p_center
+		end
+	end
+	if not can_show_ring then
+		local p_center = center + Vector2(math.cos(start_ang), math.sin(start_ang)) * icons_radius
+		local group = { hasNavTarget = navtarget_in_ring }
+		drawGroupIcons(p_center, icons.plus, svColor.SYSTEMBODY_ICON, bodyIconSize, group, select_i ~= 0)
+		return nil
+	end
+	if hover_i ~= 0 then
+		return ports[hover_i], hover_center
+	elseif select_i ~= 0 and not mouseover then
+		return ports[select_i], select_center
+	else
+		return nil
+	end
+end
+
+local popup_object
+function makePopup()
+	ui.popup("system-view-ui-popup", function()
+		local isOrrery = systemView:GetDisplayMode() == "Orrery"
+		local combatTarget = player:GetCombatTarget()
+		local navTarget = Game.player:GetNavTarget()
+		local isObject = popup_object.type == Projectable.OBJECT
+		local isSystemBody = isObject and popup_object.base == Projectable.SYSTEMBODY
+		local isShip = isObject and not isSystemBody and popup_object.ref:IsShip()
+		ui.text(getLabel(popup_object))
+		ui.separator()
+		if isOrrery and ui.selectable(lc.CENTER, false, {}) then
+			selectedObject = popup_object.ref
+			systemView:SetSelectedObject(popup_object.type, popup_object.base, popup_object.ref)
+			systemView:ViewSelectedObject()
+		end
+		if (isShip or isSystemBody and popup_object.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
+			if isSystemBody then
+				player:SetNavTarget(popup_object.ref.physicsBody)
+				ui.playSfx("OK")
+			else
+				if combatTarget == popup_object.ref then player:SetCombatTarget(nil) end
+				player:SetNavTarget(popup_object.ref)
+				ui.playSfx("OK")
+			end
+		end
+		if isShip and ui.selectable(lc.SET_AS_COMBAT_TARGET, false, {}) then
+			if navTarget == popup_object.ref then player:SetNavTarget(nil) end
+			player:SetCombatTarget(popup_object.ref)
+		end
+	end)
+end
+
+local expanded_hover_body = nil -- body with expanded hover area (atlas view only)
 -- forked from data/pigui/views/game.lua
 local function displayOnScreenObjects()
 	local isOrrery = systemView:GetDisplayMode() == 'Orrery'
-
-	local navTarget = player:GetNavTarget()
-	local combatTarget = player:GetCombatTarget()
 
 	local should_show_label = isOrrery and ui.shouldShowLabels()
 
@@ -433,33 +569,66 @@ local function displayOnScreenObjects()
 	if Windows.unexplored.visible then return end
 
 	local hoveredObject = nil
+	local was_hovered = false
 	local atlas_label_objects = {}
 
 	for _,group in ipairs(objects_grouped) do
 		local mainObject = group.mainObject
+
 		local mainCoords = Vector2(group.screenCoordinates.x, group.screenCoordinates.y)
 		local isSelected = mainObject.type == Projectable.OBJECT and mainObject.ref == systemView:GetSelectedObject().ref
 		group.hasPlanner = mainObject.type == Projectable.OBJECT and mainObject.base == Projectable.PLANNER
+		local hoverSize = group.screenSize
 
-		drawGroupIcons(mainCoords, getBodyIcon(mainObject, true), getColor(mainObject), bodyIconSize, group, isSelected)
+		local ports = {} -- ground ports
+		local should_show_ports = false -- if we want to show ports even if we are not hovered
+		if not isOrrery and mainObject.type == Projectable.OBJECT and mainObject.base == Projectable.SYSTEMBODY then
+			-- should show ports if there is some indicators
+			ports, should_show_ports = checkSurfPorts(mainObject.ref)
+			-- or if the central body is selected
+			should_show_ports = should_show_ports or isSelected
+			-- if we hover over a body with ports, we expand its hover radius to make it easier to hover ports
+			if mainObject.ref == expanded_hover_body or should_show_ports then hoverSize = group.screenSize + bodyIconSize.x end
+		end
+
+		drawGroupIcons(mainCoords, getBodyIcon(mainObject, true, isOrrery), getColor(mainObject), bodyIconSize, group, isSelected)
 
 		local mp = ui.getMousePos()
 		local label = getLabel(mainObject)
 		local mouseover = not ui.isAnyWindowHovered() and
-			(mp - mainCoords):length() < (isOrrery and click_radius or math.max(click_radius, group.screenSize))
+			(mp - mainCoords):length() < (isOrrery and click_radius or math.max(click_radius, hoverSize))
 
-		if #label > 0 and (should_show_label or mouseover) then
+		if #label > 0 and (should_show_label or mouseover or should_show_ports) then
 			if group.objects then
 				label = label .. " (" .. #group.objects .. ")"
 			end
 
-			local pos = mainCoords + Vector2(label_offset, 0)
 			if isOrrery then
+				local pos = mainCoords + Vector2(label_offset, 0)
 				local hovered = mouseover and mainObject.type == Projectable.OBJECT
 				local font = (hovered or isSelected) and hudfont_highlight or hudfont
 				ui.addStyledText(pos + Vector2(2, 1), ui.anchor.left, ui.anchor.center, label , ui.theme.colors.black, font)
 				ui.addStyledText(pos, ui.anchor.left, ui.anchor.center, label , getColor(mainObject), font)
 			else
+				local labeled = nil -- hovered or selected
+				local labeled_center = nil
+				if ports then
+					if mouseover then
+						was_hovered = true
+						expanded_hover_body = mainObject.ref
+					end
+					labeled, labeled_center = displaySurfPorts(mainCoords, group.screenSize, ports, mouseover)
+				end
+				if labeled then
+					-- HACK we just replace the current object with its selected or hovered ground port (if has)
+					mainObject.type = Projectable.OBJECT
+					mainObject.base = Projectable.SYSTEMBODY
+					mainObject.ref = labeled
+					mainCoords = labeled_center
+					group.screenSize = bodyIconSize.x
+					isSelected = labeled == systemView:GetSelectedObject().ref
+					label = labeled.name
+				end
 				table.insert(atlas_label_objects, { label, group.screenSize, mainCoords, mouseover, isSelected })
 			end
 		end
@@ -468,36 +637,10 @@ local function displayOnScreenObjects()
 			-- mouse release handler for right button
 			if mouseover then
 				if not ui.isAnyWindowHovered() and ui.isMouseReleased(1) then
-					ui.openPopup("target" .. label)
+					popup_object = mainObject
+					ui.openPopup("system-view-ui-popup")
 				end
 			end
-			-- make popup
-			ui.popup("target" .. label, function()
-				local isObject = mainObject.type == Projectable.OBJECT
-				local isSystemBody = isObject and mainObject.base == Projectable.SYSTEMBODY
-				local isShip = isObject and not isSystemBody and mainObject.ref:IsShip()
-				ui.text(getLabel(mainObject))
-				ui.separator()
-				if isOrrery and ui.selectable(lc.CENTER, false, {}) then
-					selectedObject = mainObject.ref
-					systemView:SetSelectedObject(mainObject.type, mainObject.base, mainObject.ref)
-					systemView:ViewSelectedObject()
-				end
-				if (isShip or isSystemBody and mainObject.ref.physicsBody) and ui.selectable(lc.SET_AS_TARGET, false, {}) then
-					if isSystemBody then
-						player:SetNavTarget(mainObject.ref.physicsBody)
-						ui.playSfx("OK")
-					else
-						if combatTarget == mainObject.ref then player:SetCombatTarget(nil) end
-						player:SetNavTarget(mainObject.ref)
-						ui.playSfx("OK")
-					end
-				end
-				if isShip and ui.selectable(lc.SET_AS_COMBAT_TARGET, false, {}) then
-					if navTarget == mainObject.ref then player:SetNavTarget(nil) end
-					player:SetCombatTarget(mainObject.ref)
-				end
-			end)
 		end
 		-- mouse release handler for left button
 		if mouseover and mainObject.type == Projectable.OBJECT then
@@ -505,6 +648,8 @@ local function displayOnScreenObjects()
 		end
 		objectCounter = objectCounter + 1
 	end
+	makePopup()
+	if not was_hovered then expanded_hover_body = nil end
 
 	-- atlas body labels have to be drawn after icons for proper ordering
 	for _, v in ipairs(atlas_label_objects) do
@@ -667,9 +812,11 @@ function systemViewLayout:onUpdateWindowConstraints(w)
 	-- resizing, aligning windows - static
 	w.systemName.pos = Vector2(winfont.size)
 	w.systemName.size.x = 0 -- adaptive width
+	w.edgeButtons.size.y = 0 -- adaptive height
 
 	w.systemOverview.pos = w.systemName.pos + w.systemName.size
 	w.systemOverview.size.y = ui.screenHeight - w.systemOverview.pos.y - 12 - ui.timeWindowSize.y
+	w.systemOverviewHidden.pos = w.systemOverview.pos
 
 	w.orbitPlanner.pos = w.timeButtons.pos - Vector2(w.edgeButtons.size.x, w.timeButtons.size.y)
 	w.orbitPlanner.size.x = w.timeButtons.size.x - w.edgeButtons.size.x

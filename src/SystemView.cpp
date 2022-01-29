@@ -603,7 +603,7 @@ void SystemView::LayoutSystemBody(SystemBody *body, AtlasBodyLayout &layout)
 		// so we add the radius of the current child body plus a gap
 		float offset = layout.size[orient];
 		if (offset > 0)
-			offset += child_layout.radius + std::max(child_layout.radius * 0.6, 1.33);
+			offset += child_layout.radius + AtlasViewPlanetGap(child_layout.radius);
 		child_layout.offset[orient] = offset;
 
 		layout.size[orient] = offset + child_layout.size[orient];
@@ -635,7 +635,7 @@ void SystemView::RenderAtlasBody(const AtlasBodyLayout &layout, vector3f pos, co
 		m_atlasMat->SetTexture(Graphics::Renderer::GetName("texture0"), bodyTex);
 		m_bodyIcon->Draw(m_renderer, m_atlasMat.get());
 
-		float pixPerUnit = Graphics::GetScreenHeight() / (m_atlasViewH * m_atlasZoom);
+		float pixPerUnit = AtlasViewPixelPerUnit();
 		AddProjected<SystemBody>(Projectable::OBJECT, Projectable::SYSTEMBODY, layout.body, vector3d(), layout.radius * pixPerUnit);
 	}
 	/* else { // gravpoint debugging
@@ -711,16 +711,30 @@ void SystemView::Update()
 	m_zoom = Clamp(m_zoom, MIN_ZOOM, MAX_ZOOM);
 	m_atlasZoomTo = Clamp(m_atlasZoomTo, MIN_ATLAS_ZOOM, MAX_ATLAS_ZOOM);
 
+	auto prevAtlasZoom = m_atlasZoom;
 	// Since m_zoom changes over multiple orders of magnitude, any fixed linear factor will not be appropriate
 	// at some of them.
 	AnimationCurves::Approach(m_zoom, m_zoomTo, ft, 10.f, m_zoomTo / 60.f);
-	AnimationCurves::Approach(m_atlasZoom, m_atlasZoomTo, ft);
+	AnimationCurves::Approach(m_atlasZoom, m_atlasZoomTo, ft, 10.f, m_atlasZoomTo / 60.f);
 
 	AnimationCurves::Approach(m_rot_x, m_rot_x_to, ft);
 	AnimationCurves::Approach(m_rot_y, m_rot_y_to, ft);
 
 	AnimationCurves::Approach(m_atlasPos.x, m_atlasPosTo.x, ft);
 	AnimationCurves::Approach(m_atlasPos.y, m_atlasPosTo.y, ft);
+
+	// make panning so that the zoom occurs on the mouse cursor
+	if (prevAtlasZoom != m_atlasZoom) {
+		// FIXME The ImGui method one frame out of date
+		// either add the appropriate method to Input or start the pigui frame earlier
+		auto mpos = ImGui::GetMousePos();
+		mpos.x = Clamp(mpos.x, 0.f, float(Graphics::GetScreenWidth()));
+		mpos.y = Clamp(mpos.y, 0.f, float(Graphics::GetScreenHeight()));
+		auto cpos = vector2f(mpos.x, mpos.y) - vector2f(Graphics::GetScreenWidth() / 2, Graphics::GetScreenHeight() / 2);
+		auto shift = cpos * (m_atlasZoom - prevAtlasZoom) * m_atlasViewH / Graphics::GetScreenHeight();
+		m_atlasPosTo += shift;
+		m_atlasPos = m_atlasPosTo;
+	}
 
 	// to capture mouse when button was pressed and release when released
 	if (Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
@@ -736,8 +750,9 @@ void SystemView::Update()
 			m_rot_y_to += motion[0] * 20 * ft;
 		} else {
 			const double pixToUnits = Graphics::GetScreenHeight() / m_atlasViewH;
-			m_atlasPosTo.x = m_atlasPos.x += motion[0] / pixToUnits;
-			m_atlasPosTo.y = m_atlasPos.y += motion[1] / pixToUnits;
+			constexpr float mouseAcceleration = 1.5f;
+			m_atlasPosTo.x += motion[0] * m_atlasZoom / pixToUnits * mouseAcceleration;
+			m_atlasPosTo.y += motion[1] * m_atlasZoom / pixToUnits * mouseAcceleration;
 		}
 	} else if (m_zoomView) {
 		Pi::input->SetCapturingMouse(true);
@@ -768,8 +783,13 @@ void SystemView::Update()
 		// if we are attached to the ship, check if we not deleted it in the previous frame
 		if (m_viewedObject.type != Projectable::NONE && m_viewedObject.base == Projectable::SHIP) {
 			auto bs = m_game->GetSpace()->GetBodies();
-			if (std::find(bs.begin(), bs.end(), m_selectedObject.ref.body) == bs.end())
+			if (std::find(bs.begin(), bs.end(), m_viewedObject.ref.body) == bs.end())
 				ResetViewpoint();
+		}
+		if (m_selectedObject.type != Projectable::NONE && m_selectedObject.base == Projectable::SHIP) {
+			auto bs = m_game->GetSpace()->GetBodies();
+			if (std::find(bs.begin(), bs.end(), m_selectedObject.ref.body) == bs.end())
+				m_selectedObject.type = Projectable::NONE;
 		}
 	}
 }
@@ -967,3 +987,7 @@ float SystemView::GetZoom() const
 double SystemView::GetOrbitTime(double t, const SystemBody *b) { return t; }
 double SystemView::GetOrbitTime(double t, const Body *b) { return t - m_game->GetTime(); }
 void SystemView::OnSwitchFrom() { m_projected.clear(); } // because ships from the previous system may remain after last update
+float SystemView::AtlasViewPixelPerUnit()
+{
+	return Graphics::GetScreenHeight() / (m_atlasViewH * m_atlasZoom);
+}
