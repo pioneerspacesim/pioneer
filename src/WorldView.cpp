@@ -170,6 +170,17 @@ void WorldView::Draw3D()
 	}
 
 	m_cameraContext->EndFrame();
+
+	// don't draw crosshairs etc in hyperspace
+	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
+
+	// setup orthographic projection the indicator coordinate system expects
+	// (could also draw this using ImGui methods in DrawPiGui, but this is a quick patch for release)
+	m_renderer->SetProjection(matrix4x4f::OrthoFrustum(0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 0, 0, 1));
+	m_renderer->SetTransform(matrix4x4f::Identity());
+
+	// combat target indicator
+	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
 }
 
 void WorldView::OnToggleLabels()
@@ -429,12 +440,6 @@ void WorldView::Draw()
 	m_renderer->ClearDepthBuffer();
 
 	View::Draw();
-
-	// don't draw crosshairs etc in hyperspace
-	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
-
-	// combat target indicator
-	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
 
 	// glLineWidth(1.0f);
 	m_renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
