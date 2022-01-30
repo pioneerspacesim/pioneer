@@ -320,11 +320,14 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel_raw, double 
 	vector3d ang = pos.Cross(vel);
 	// quite a rare case - the speed is directed strictly to the star or away from the star
 	// let's make a small disturbance to the velocity, so as not to calculate the radial orbit
-	if (is_zero_general(ang.LengthSqr()) && !is_zero_general(centralMass)) {
+	double speed = vel.Length();
+	double dist = pos.Length();
+	bool radial_orbit = is_zero_general(speed) || is_zero_general(dist) || is_zero_general(1.0 - fabs(pos.Dot(vel)) / speed / dist);
+	if (radial_orbit && !is_zero_general(centralMass)) {
 		if (is_zero_general(pos.x) && is_zero_general(pos.y)) // even rarer case, the body lies strictly on the z-axis
-			vel.x += 0.001;
+			vel.x += 1e-3 + 1e-6 * speed;
 		else
-			vel.z += 0.001;
+			vel.z += 1e-3 + 1e-6 * speed;
 		ang = pos.Cross(vel); // recalculate angular momentum
 	}
 
