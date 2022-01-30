@@ -399,7 +399,7 @@ void SystemView::Draw3D()
 		}
 	}
 
-	m_viewingCurrentSystem = m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(path);
+	m_viewingCurrentSystem = m_game->IsNormalSpace() && m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(path);
 
 	if (m_realtime) {
 		m_time = m_game->GetTime();

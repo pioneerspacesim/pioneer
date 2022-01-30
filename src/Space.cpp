@@ -541,7 +541,7 @@ Body *Space::FindNearestTo(const Body *b, ObjectType t) const
 
 Body *Space::FindBodyForPath(const SystemPath *path) const
 {
-	if (!path->IsSameSystem(m_starSystem->GetPath()))
+	if (!m_game->IsNormalSpace() || !path->IsSameSystem(m_starSystem->GetPath()))
 		return nullptr;
 
 	// it is a bit dumb that currentSystem is not part of Space...
