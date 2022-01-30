@@ -68,6 +68,7 @@ void GuiApplication::EndFrame()
 	DrawRenderTarget();
 #endif
 
+	m_renderer->FlushCommandBuffers();
 	m_renderer->EndFrame();
 	m_renderer->SwapBuffers();
 }
