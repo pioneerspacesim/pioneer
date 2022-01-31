@@ -294,8 +294,6 @@ private:
 	SceneGraph::ModelSkin m_skin;
 
 	Sound::Event m_beamLaser[2];
-	Sound::Event m_creakSound;
-	vector3d m_accel;
 
 	FlightState m_flightState;
 	bool m_testLanded;

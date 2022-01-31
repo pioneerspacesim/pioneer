@@ -85,7 +85,6 @@ Ship::Ship(const ShipType::Id &shipId) :
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
-	m_accel = vector3d(0.0f, 0.0f, 0.0f);
 
 	InitEquipSet();
 
@@ -1259,22 +1258,6 @@ void Ship::StaticUpdate(const float timeStep)
 				float damage = float(pressure - m_type->atmosphericPressureLimit);
 				DoDamage(damage);
 			}
-		}
-		// play some metal stressing sound when the player acceleration changes too rapidly
-		if (IsType(ObjectType::PLAYER)) {
-			vector3d current_accel = GetLastForce() * (1.0 / GetMass());
-			if ((current_accel - m_accel).Length() * Pi::game->GetInvTimeAccelRate() > 50.0f &&
-				(current_accel - m_accel).Length() * Pi::game->GetInvTimeAccelRate() < 2000.0f) { // prevent spikes during time accel change
-				float creakVol = fmin(float((current_accel - m_accel).Length() * Pi::game->GetInvTimeAccelRate() - 48.0f) * 0.3f, 1.0f);
-				if (!m_creakSound.IsPlaying()) {
-					m_creakSound.Play("metal_creaking", creakVol, creakVol, Sound::OP_REPEAT);
-					m_creakSound.VolumeAnimate(creakVol, creakVol, 1.0f, 1.0f);
-				}
-			} else if (m_creakSound.IsPlaying()) {
-				m_creakSound.VolumeAnimate(0.0f, 0.0f, 1.5f, 1.5f);
-				m_creakSound.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
-			}
-			m_accel = current_accel;
 		}
 	}
 
