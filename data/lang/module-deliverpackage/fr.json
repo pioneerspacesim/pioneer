@@ -57,11 +57,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Going to the {system} system? Money paid for delivery of a small package."
+    "message": "Vous allez vers le système {system}? Nous payons pour la livraison d'un petit colis."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "INTERSTELLAR DELIVERY"
+    "message": "LIVRAISON INTERSTELLAIRE"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -81,11 +81,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Delivery of a package to the {system} system."
+    "message": "Cherche livraison de colis vers le système {system}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DELIVERY WANTED"
+    "message": "CHERCHE LIVREUR"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -105,11 +105,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Urgent! Fast ship needed to deliver a package to the {system} system."
+    "message": "Urgent! Cherche vaisseau rapide pour livrer un paquet dans le système {system}."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "URGENT DELIVERY"
+    "message": "LIVRAISON URGENTE"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -129,11 +129,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Delivery of sensitive documents to the {system} system. {cash} to an experienced pilot."
+    "message": "Livraison de documents sensibles vers le système {system}. {cash} pour un pilote expérimenté."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "DOCUMENT DELIVERY"
+    "message": "LIVRAISON DE DOCUMENT"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
