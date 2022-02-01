@@ -9,6 +9,25 @@
 
 namespace Graphics {
 
+	size_t GetAttributeIndexInSet(AttributeSet set, VertexAttrib attrib)
+	{
+		if (!(set & attrib))
+			return SIZE_MAX;
+
+		size_t index = 0;
+
+		for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
+			uint32_t attrib_i = 1 << i;
+			if (attrib == attrib_i)
+				break;
+
+			if (set & attrib_i)
+				index++;
+		}
+
+		return index;
+	}
+
 	Uint32 VertexBufferDesc::GetAttribSize(VertexAttribFormat f)
 	{
 		switch (f) {

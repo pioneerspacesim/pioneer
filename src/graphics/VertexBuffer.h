@@ -27,18 +27,67 @@ namespace Graphics {
 	// fwd declaration
 	class VertexArray;
 
-	const Uint32 MAX_ATTRIBS = 8;
+	// tuned to ensure the size of VertexFormatDesc == 64
+	constexpr uint32_t MAX_ATTRIBS = 12;
+	constexpr uint32_t MAX_BINDINGS = 4;
+
+#pragma pack(push, 1)
 
 	struct VertexAttribDesc {
-		//position, texcoord, normal etc.
-		VertexAttrib semantic;
-		//float3, float2 etc.
-		VertexAttribFormat format;
-		//byte offset of the attribute, if zero this
-		//is automatically filled for created buffers
-		uint16_t offset;
+		// size of the vertex data element
+		VertexAttribFormat format = VertexAttribFormat::ATTRIB_FORMAT_NONE;
+		// program location index of this vertex
+		uint8_t location = 0;
+		// buffer binding source for this vertex attrib
+		uint16_t binding : 4;
+		// byte offset of the attribute, if zero this is automatically filled
+		// when creating a vertex format desc
+		uint16_t offset : 12;
 	};
 	static_assert(sizeof(VertexAttribDesc) == 4);
+
+	struct VertexBindingDesc {
+		// stride between vertices in the buffer
+		uint16_t stride = 0;
+		// Is this binding entry used by the vertex format
+		uint8_t enabled = 0;
+		// rate of vertex advancement in the buffer
+		VertexAttribRate rate = VertexAttribRate::ATTRIB_RATE_NORMAL;
+	};
+	static_assert(sizeof(VertexBindingDesc) == 4);
+
+	// Enumerates the possible reasons for VertexFormatDesc validation to fail
+	enum class InvalidVertexFormatReason {
+		OK = 0,
+		InvalidBinding = 1,
+		LocationOverlap = 2
+	};
+
+	// Return the index of the given attribute within the passed AttributeSet.
+	static size_t GetAttributeIndex(AttributeSet set, VertexAttrib attrib);
+
+	struct VertexFormatDesc {
+		VertexFormatDesc();
+
+		// Create a vertex format descriptor from the given attribute set.
+		// Attributes are mapped to predefined locations and sourced from buffer binding 0
+		static VertexFormatDesc FromAttribSet(AttributeSet set);
+
+		// Run a validation check on the layout of this vertex format
+		InvalidVertexFormatReason ValidateDesc() const;
+
+		// Return a hash of this vertex format descriptor
+		size_t Hash() const;
+
+		size_t GetNumAttribs() const;
+		size_t GetNumBindings() const;
+
+		VertexAttribDesc attribs[MAX_ATTRIBS];
+		VertexBindingDesc bindings[MAX_BINDINGS];
+	};
+	static_assert(sizeof(VertexFormatDesc) == 64);
+
+#pragma pack(pop)
 
 	struct VertexBufferDesc {
 		VertexBufferDesc();
