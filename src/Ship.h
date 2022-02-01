@@ -335,10 +335,10 @@ public:
 	void SetFuel(const double f) { GetPropulsion()->SetFuel(f); }
 	void SetFuelReserve(const double f) { GetPropulsion()->SetFuelReserve(f); }
 
-	bool AIMatchVel(const vector3d &vel) { return GetPropulsion()->AIMatchVel(vel); }
+	bool AIMatchVel(const vector3d &vel, const vector3d &powerLimit = vector3d(1.0)) { return GetPropulsion()->AIMatchVel(vel, powerLimit); }
 	double AIFaceDirection(const vector3d &dir, double av = 0) { return GetPropulsion()->AIFaceDirection(dir, av); }
 	void SetThrusterState(int axis, double level) { return GetPropulsion()->SetLinThrusterState(axis, level); }
-	void AIMatchAngVelObjSpace(const vector3d &desiredAngVel, double softness = 1.0) { return GetPropulsion()->AIMatchAngVelObjSpace(desiredAngVel, softness); }
+	void AIMatchAngVelObjSpace(const vector3d &desiredAngVel, const vector3d &powerLimit = vector3d(1.0)) { return GetPropulsion()->AIMatchAngVelObjSpace(desiredAngVel, powerLimit); }
 };
 
 #endif /* _SHIP_H */

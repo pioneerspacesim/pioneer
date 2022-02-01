@@ -69,6 +69,8 @@ public:
 	const matrix3x3d &GetOrient() const { return m_orient; }
 	virtual void SetVelocity(const vector3d &v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
+	virtual void SetAngVelocity(const vector3d &v) { assert(0); }
+	virtual vector3d GetAngVelocity() const { return vector3d(0.0); }
 
 	void SetPhysRadius(double r) { m_physRadius = r; }
 	double GetPhysRadius() const { return m_physRadius; }

@@ -729,6 +729,13 @@ static int l_body_set_velocity(lua_State *l)
 	return 0;
 }
 
+static int l_body_set_ang_velocity(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	b->SetAngVelocity(LuaPull<vector3d>(l, 2));
+	return 0;
+}
+
 template <>
 const char *LuaObject<Body>::s_type = "Body";
 
@@ -761,6 +768,7 @@ void LuaObject<Body>::RegisterClass()
 		{ "GetSystemBody", l_body_get_system_body },
 		{ "GetVelocity", l_body_get_velocity },
 		{ "SetVelocity", l_body_set_velocity },
+		{ "SetAngVelocity", l_body_set_ang_velocity },
 		{ 0, 0 }
 	};
 

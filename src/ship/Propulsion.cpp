@@ -306,15 +306,15 @@ double calc_ivel_pos(double dist, double vel, double acc)
 
 // vel is desired velocity in ship's frame
 // returns true if this can be attained in a single timestep
-bool Propulsion::AIMatchVel(const vector3d &vel)
+bool Propulsion::AIMatchVel(const vector3d &vel, const vector3d &powerLimit)
 {
 	vector3d diffvel = (vel - m_dBody->GetVelocity()) * m_dBody->GetOrient();
-	return AIChangeVelBy(diffvel);
+	return AIChangeVelBy(diffvel, powerLimit);
 }
 
 // diffvel is required change in velocity in object space
 // returns true if this can be done in a single timestep
-bool Propulsion::AIChangeVelBy(const vector3d &diffvel)
+bool Propulsion::AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLimit)
 {
 	// counter external forces
 	vector3d extf = m_dBody->GetExternalForce() * (Pi::game->GetTimeStep() / m_dBody->GetMass());
@@ -322,9 +322,10 @@ bool Propulsion::AIChangeVelBy(const vector3d &diffvel)
 
 	vector3d maxThrust = GetThrust(diffvel2);
 	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / m_dBody->GetMass());
-	vector3d thrust(diffvel2.x / maxFrameAccel.x,
-		diffvel2.y / maxFrameAccel.y,
-		diffvel2.z / maxFrameAccel.z);
+	vector3d thrust(
+		Clamp(diffvel2.x / maxFrameAccel.x, -powerLimit.x, powerLimit.x),
+		Clamp(diffvel2.y / maxFrameAccel.y, -powerLimit.y, powerLimit.y),
+		Clamp(diffvel2.z / maxFrameAccel.z, -powerLimit.z, powerLimit.z));
 	SetLinThrusterState(thrust); // use clamping
 	if (thrust.x * thrust.x > 1.0 || thrust.y * thrust.y > 1.0 || thrust.z * thrust.z > 1.0) return false;
 	return true;
@@ -352,13 +353,17 @@ vector3d Propulsion::AIChangeVelDir(const vector3d &reqdiffvel)
 }
 
 // Input in object space
-void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel, double softness)
+void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel, const vector3d &powerLimit)
 {
 	double maxAccel = m_angThrust / m_dBody->GetAngularInertia();
-	double invFrameAccel = 1.0 / (maxAccel * Pi::game->GetTimeStep() * softness);
+	double invFrameAccel = 1.0 / maxAccel / Pi::game->GetTimeStep();
 
 	vector3d diff = angvel - m_dBody->GetAngVelocity() * m_dBody->GetOrient(); // find diff between current & desired angvel
-	SetAngThrusterState(diff * invFrameAccel);
+	diff = diff * invFrameAccel;
+	diff.x = Clamp(diff.x, -powerLimit.x, powerLimit.x);
+	diff.y = Clamp(diff.y, -powerLimit.y, powerLimit.y);
+	diff.z = Clamp(diff.z, -powerLimit.z, powerLimit.z);
+	SetAngThrusterState(diff);
 }
 
 // get updir as close as possible just using roll thrusters

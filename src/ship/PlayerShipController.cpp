@@ -275,10 +275,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 	m_ship->SetGunState(0, 0);
 	m_ship->SetGunState(1, 0);
 
-	// vector3d wantAngVel(0.0);
-	double angThrustSoftness = 10.0;
-
-	const float linearThrustPower = (InputBindings.thrustLowPower->IsActive() ? m_lowThrustPower : 1.0f);
+	const float thrustPower = (InputBindings.thrustLowPower->IsActive() ? m_lowThrustPower : 1.0f);
 
 	if (Pi::input->MouseButtonState(SDL_BUTTON_RIGHT)) {
 		// use ship rotation relative to system, unchanged by frame transitions
@@ -337,11 +334,11 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 	}
 
 	if (InputBindings.thrustForward->IsActive())
-		m_ship->SetThrusterState(2, -linearThrustPower * InputBindings.thrustForward->GetValue());
+		m_ship->SetThrusterState(2, -thrustPower * InputBindings.thrustForward->GetValue());
 	if (InputBindings.thrustUp->IsActive())
-		m_ship->SetThrusterState(1, linearThrustPower * InputBindings.thrustUp->GetValue());
+		m_ship->SetThrusterState(1, thrustPower * InputBindings.thrustUp->GetValue());
 	if (InputBindings.thrustLeft->IsActive())
-		m_ship->SetThrusterState(0, -linearThrustPower * InputBindings.thrustLeft->GetValue());
+		m_ship->SetThrusterState(0, -thrustPower * InputBindings.thrustLeft->GetValue());
 
 	if (InputBindings.primaryFire->IsActive() || (Pi::input->MouseButtonState(SDL_BUTTON_LEFT) && Pi::input->MouseButtonState(SDL_BUTTON_RIGHT))) {
 		//XXX worldview? madness, ask from ship instead
@@ -349,14 +346,11 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 	}
 
 	vector3d wantAngVel = vector3d(
-		InputBindings.pitch->GetValue(),
-		InputBindings.yaw->GetValue(),
-		InputBindings.roll->GetValue());
+		InputBindings.pitch->GetValue() * thrustPower,
+		InputBindings.yaw->GetValue() * thrustPower,
+		InputBindings.roll->GetValue() * thrustPower);
 
 	if (InputBindings.killRot->IsActive()) SetFlightControlState(CONTROL_FIXHEADING_KILLROT);
-
-	if (InputBindings.thrustLowPower->IsActive())
-		angThrustSoftness = 50.0;
 
 	if (wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping) {
 		if (Pi::game->GetTimeAccel() != Game::TIMEACCEL_1X) {
@@ -364,7 +358,16 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 				wantAngVel[axis] = wantAngVel[axis] * Pi::game->GetInvTimeAccelRate();
 		}
 
-		m_ship->AIMatchAngVelObjSpace(wantAngVel, angThrustSoftness);
+		// rotation speed limit identical to thrust power for now
+		// and for 100% thrust speed limit is 1 rad/s
+		// except that for wantAngVel ~ 0 angThrustPower should be 1.0
+		// and angThrustPower should be 0.0 - 1.0
+		vector3d angThrustPower;
+		auto angVelToThrust = [](double x, double value) { return x > 1e-5 ? Clamp(x, 0.0, 1.0) : value; };
+		angThrustPower.x = angVelToThrust(fabs(wantAngVel.x), thrustPower);
+		angThrustPower.y = angVelToThrust(fabs(wantAngVel.y), thrustPower);
+		angThrustPower.z = angVelToThrust(fabs(wantAngVel.z), thrustPower);
+		m_ship->AIMatchAngVelObjSpace(wantAngVel, angThrustPower);
 	}
 
 	if (m_mouseActive && !m_disableMouseFacing) m_ship->AIFaceDirection(GetMouseDir());
