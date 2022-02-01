@@ -494,6 +494,7 @@ void Game::SwitchToNormalSpace()
 	// create a new space for the system
 	m_space.reset(); // HACK: Here because next line will create Frames *before* deleting existing ones
 	m_space.reset(new Space(this, m_galaxy, m_hyperspaceDest, m_space.get()));
+	m_state = State::NORMAL;
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
@@ -615,8 +616,6 @@ void Game::SwitchToNormalSpace()
 	// HACK: we call RebuildObjectTrees to make the internal state of CollisionSpace valid
 	// This is absolutely not our job and CollisionSpace should be redesigned to fix this.
 	Frame::GetFrame(m_player->GetFrame())->GetCollisionSpace()->RebuildObjectTrees();
-
-	m_state = State::NORMAL;
 }
 
 const float Game::s_timeAccelRates[] = {
