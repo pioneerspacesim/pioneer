@@ -57,7 +57,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase"
+    "message": "Disponible Para Compra"
   },
   "AVERAGE": {
     "description": "",
@@ -477,7 +477,7 @@
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
-    "message": "Factions"
+    "message": "Facciones"
   },
   "FAILED": {
     "description": "When failed mission",
@@ -1489,7 +1489,7 @@
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Occupied Passenger Cabins"
+    "message": "Camarotes Ocupados"
   },
   "OFF": {
     "description": "",
@@ -1525,11 +1525,11 @@
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
-    "message": "Apoapsis"
+    "message": "Apogeo"
   },
   "ORBIT_PERIAPSIS": {
     "description": "Label for the point of an orbit nearest to the orbited body",
-    "message": "Periapsis"
+    "message": "Perigeo"
   },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1697,7 +1697,7 @@
   },
   "REPLACE_EQUIPMENT_WITH": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Reemplazar Equipo Con"
   },
   "REPUTATION": {
     "description": "",
@@ -1793,7 +1793,7 @@
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
-    "message": "Sell Equipped"
+    "message": "Vender lo Equipado"
   },
   "SENSORS": {
     "description": "",
@@ -2053,7 +2053,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Camarotes Desocupados"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",

@@ -1,7 +1,7 @@
 {
   "ADTEXT": {
     "description": "",
-    "message": "Wanted: {commodity}. Will pay {price} per tonne"
+    "message": "Se Requiere: {commodity}. Se pagarán {price} por tonelada"
   },
   "AMOUNT": {
     "description": "The amount (for now in tonne) of goods person wants to buy",
@@ -13,7 +13,7 @@
   },
   "NOT_IN_STOCK": {
     "description": "Regarding selling more than the player has",
-    "message": "No hay suficiente {commodity} en stock."
+    "message": "No hay suficientes {commodity} en stock."
   },
   "SELL_1": {
     "description": "Sell one single unit (probably tonne)",
@@ -29,6 +29,6 @@
   },
   "TITLE": {
     "description": "",
-    "message": "COMMODITY WANTED"
+    "message": "SE REQUIRE MERCANCÍA"
   }
 }

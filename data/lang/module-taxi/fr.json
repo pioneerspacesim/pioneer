@@ -425,7 +425,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Reporter needs proximity to story developing in the {system} system. Will pay {cash}."
+    "message": "Journaliste cherche a se rapprocher du système {system} pour couvrir des nouvelles en constante évolution. Paiement de {cash}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -461,11 +461,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for safe passage to {system} system. Secure transport required. Will pay {cash}."
+    "message": "Cherche vaisseau pour passage en toute sécurité vers le système {system}. Transporteur sécurisé requis. Paie {cash}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "SAFE PASSAGE NEEDED"
+    "message": "TRANSPORT SÉCURISÉ REQUIS"
   },
   "FLAVOUR_7_DANGER": {
     "description": "",
@@ -497,11 +497,11 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal passage to {system} system required. Surcharge included in payment."
+    "message": "Transport inviduel urgent vers le système {system} requis. Supplément inclu dans le paiement."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "FAST PERSONAL TRANSPORT"
+    "message": "TRANSPORT INDIVIDUEL RAPIDE"
   },
   "FLAVOUR_8_DANGER": {
     "description": "",
@@ -533,11 +533,11 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Require urgent transport for honest citizen. Fast passage needed to {system} system."
+    "message": "Besoin de transport urgent pour citoyen honnête. Transport rapide vers le système {system}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "LEGITIMATE PASSAGE"
+    "message": "TRANSPORT LÉGAL"
   },
   "FLAVOUR_9_DANGER": {
     "description": "",

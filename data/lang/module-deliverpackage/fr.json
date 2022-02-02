@@ -153,11 +153,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Interstellar Postal Services. We require a ship for the delivery run to {system} system."
+    "message": "Services Postaux Interstellaire. Nous avons besoin d'un vaisseau pour une livraison vers le système {system}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "POSTAL SERVICE"
+    "message": "SERVICE POSTAL"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",

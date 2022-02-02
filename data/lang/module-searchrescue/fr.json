@@ -165,11 +165,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "La STC locale rapporte un atterrissage forcé sur {planet}. Assistance requise."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "SHIP CRASH LANDED"
+    "message": "CRASH DE VAISSEAU"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "La STC de {starport} a reçu un message de carburant quasiment épuisé d'un vaisseau arrivant sur la station. Services de ravitaillement requis."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -237,11 +237,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+    "message": "Un vaisseau proche de {starport} a signalé une urgence médicale. Une ambulance est urgemment requise."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "MEDICAL EMERGENCY"
+    "message": "URGENCE MEDICALE"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+    "message": "Signal de détresse reçu: un vaisseau s'est échoué sans carburant sur la planète {planet}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+    "message": "Vaisseau échoué demande une opération de ravitaillement près de {starport}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -345,11 +345,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+    "message": "Urgence: aucune réponse d'un vaisseau de corporation dans le système {system}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "VESSEL UNRESPONSIVE"
+    "message": "VAISSEAU NE DONNANT AUCUN SIGNE DE VIE"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -381,11 +381,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Immediate crew transport to drifting ship in the {system} system requested."
+    "message": "Transport immédiat d'équipage vers un vaisseau à la dérive dans le système {system} requis."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "EMERGENCY CREW TRANSPORT"
+    "message": "TRANPORT D'ÉQUIPAGE URGENT"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",

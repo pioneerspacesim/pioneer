@@ -101,11 +101,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Se Busca: Pasaje para un grupo pequeño al sistema {system}. Se pagarán {cash}."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "SE REQUIERE PASAJE"
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
@@ -137,11 +137,11 @@
   },
   "FLAVOUR_10_ADTEXT": {
     "description": "",
-    "message": "VIP needs urgent passage on a fast ship to {system} system. No questions asked."
+    "message": "VIP necesita pasaje urgente en una nave rápida al sistema {system}. Sin preguntas."
   },
   "FLAVOUR_10_ADTITLE": {
     "description": "",
-    "message": "DISCREET SHIP WANTED"
+    "message": "SE REQUIERE NAVE DISCRETA"
   },
   "FLAVOUR_10_DANGER": {
     "description": "",
@@ -173,11 +173,11 @@
   },
   "FLAVOUR_11_ADTEXT": {
     "description": "",
-    "message": "Corporate inspector needs passage on a fast ship to {system} system."
+    "message": "Inspector corporativo requiere pasaje en una nave rápida al sistema {system}."
   },
   "FLAVOUR_11_ADTITLE": {
     "description": "",
-    "message": "FAST SHIP NEEDED"
+    "message": "SE NECESITA NAVE RÁPIDA"
   },
   "FLAVOUR_11_DANGER": {
     "description": "",
@@ -209,11 +209,11 @@
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "Urgent transport required for fleeing citizen. Passage to {system} system needed."
+    "message": "Transporte urgente requerido para un ciudadano en fuga. Se necesita pasaje al sistema {system}."
   },
   "FLAVOUR_12_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "SE REQUIEE NAVE"
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -245,11 +245,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Se Busca: Pasaje para un grupo pequeño al sistema {system}. Se pagarán {cash}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "SE REQUIERE PASAJE"
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "Se Busca: Pasaje para un grupo pequeño al sistema {system}. Se pagarán {cash}."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "SE REQUIEE NAVE"
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "SE REQUIEE NAVE"
   },
   "FLAVOUR_6_DANGER": {
     "description": "",

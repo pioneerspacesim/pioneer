@@ -21,11 +21,11 @@
   },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
-    "message": "Potential crew available for hire at this starport."
+    "message": "Tripulación disponible para contratar en este puerto estelar."
   },
   "CREW_FOR_HIRE_TITLE": {
     "description": "",
-    "message": "CREW FOR HIRE"
+    "message": "TRIPULACIÓN DISPONIBLE"
   },
   "GO_BACK": {
     "description": "",
