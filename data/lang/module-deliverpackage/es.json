@@ -57,11 +57,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Going to the {system} system? Money paid for delivery of a small package."
+    "message": "¿Pasa por el sistema {system}? Se paga dinero por la entrega de un paquete pequeño."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "INTERSTELLAR DELIVERY"
+    "message": "ENVÍO INTERESTELAR"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -81,11 +81,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Delivery of a package to the {system} system."
+    "message": "Se Busca: Envío de un paquete al sistema {system}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DELIVERY WANTED"
+    "message": "SE NECESITA ENTREGA"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -105,11 +105,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Urgent! Fast ship needed to deliver a package to the {system} system."
+    "message": "¡Urgente! Se necesita nave rápida para el envío de un paquete al sistema {system}."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "URGENT DELIVERY"
+    "message": "ENTREGA URGENTE"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -129,11 +129,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Delivery of sensitive documents to the {system} system. {cash} to an experienced pilot."
+    "message": "Envío de documentos sensibles al sistema {system}. {cash} para un piloto experimentado."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "DOCUMENT DELIVERY"
+    "message": "ENTREGA DE DOCUMENTOS"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -153,11 +153,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Interstellar Postal Services. We require a ship for the delivery run to {system} system."
+    "message": "Servicios Postales Interestelares. Necesitamos una nave para un envío al sistema {system}"
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "POSTAL SERVICE"
+    "message": "SERVICIO POSTAL"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -177,11 +177,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Transport belongings to {starport} from port storage facility."
+    "message": "Transporte de propiedades a {starport} desde una instalación portuaria de almacenamiento."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "MOVING HOME"
+    "message": "VUELTA A CASA"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "In-system courier services required. Delivery of a small package to {starport}."
+    "message": "Se requiere mensajero de dentro del sistema. Envío de un paquete pequeño a {starport}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHORT-RANGE COURIER"
+    "message": "MENSAJERO DE CORTO ALCANCE"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -225,11 +225,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Standardized inter-planetary transport contract. Freight of local cargo to {starport}."
+    "message": "Contrato de transporte interplanetario estandarizado. Transporte de mercancía local a {starport}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "INTER-PLANETARY CARGO"
+    "message": "MERCANCÍA INTERPLANETARIA"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
@@ -249,11 +249,11 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal delivery contract. Require quick delivery of an item to {starport}."
+    "message": "Contrato personal de entrega urgente. Se requiere una entrega rápida de un objeto en {starport}."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "NEARBY DELIVERY"
+    "message": "ENTREGA CERCANA"
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
@@ -273,11 +273,11 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Package drop-off required. Urgent dispatch of perishables to {starport}."
+    "message": "Requerimos el lanzamiento de un paquete. Envío urgente de perecederos a {starport}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "PACKAGE DROP"
+    "message": "LANZAMIENTO DE PAQUETE"
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",

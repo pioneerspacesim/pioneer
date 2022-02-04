@@ -49,11 +49,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Wanted: Removal of {target} from the {system} system."
+    "message": "Se Busca: Eliminación de {target} del sistema {system}."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "REMOVAL WANTED"
+    "message": "SE REQUIERE ELIMINACIÓN"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Someone to kill {target} from the {system} system."
+    "message": "Se Busca: Alguien para matar a {target} del sistema {system}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "TARGET ELIMINATION"
+    "message": "ELIMINACIÓN DE OBJETIVO"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -97,11 +97,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{target} is tragically no longer wanted in the {system} system. Removal specialist needed."
+    "message": "Trágicamente ya no se desea a {target} en el sistema {system}. Se necesita un especialista en retiros."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "REMOVAL OPERATION"
+    "message": "OPERACIÓN DE ELIMINACIÓN"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -121,11 +121,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Contract killer needed to eliminate {target}."
+    "message": "Se necesita asesino a sueldo para eliminar a {target}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "TERMINATION"
+    "message": "EXTERMINIO"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -145,11 +145,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Discreet operator needed to ensure fatal retirement of {target}."
+    "message": "Se necesita un operario discreto para asegurar el retiro fatal de {target}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "RETIREMENT"
+    "message": "RETIRO"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -169,11 +169,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Some admirers wish {target} dead. Qualified termination experts apply within."
+    "message": "Ciertos admiradores quieren a muerto {target}. Pensado para expertos en exterminio."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "BIOGRAPHICAL"
+    "message": "BIOGRÁFICA"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",

@@ -165,11 +165,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "STC Local informa de que una nave se ha estrellado en {planet}. Se requiere asistencia."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "SHIP CRASH LANDED"
+    "message": "NAVE ESTRELLADA"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "STC de {starport} ha recibido un mensaje de combustible bajo de una nave cercana. Se requieren servicios de repostaje."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "NAVE SIN COMBUSTIBLE"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -237,11 +237,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+    "message": "Nave en las cercanías de {starport} ha avisado de una emergencia sanitaria. Se requiere transporte urgente al hospital."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "MEDICAL EMERGENCY"
+    "message": "EMERGENCIA SANITARIA"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -273,11 +273,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+    "message": "Señal de Socorro Recibida: una nave está varada y sin fuel en {planet}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "NAVE SIN COMBUSTIBLE"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -309,11 +309,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+    "message": "Una nave varada requiere una operación de repostaje en las cercanías de {starport}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "NAVE SIN COMBUSTIBLE"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -345,11 +345,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+    "message": "Emergencia: Nave corporativa no responde en el sistema {system}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "VESSEL UNRESPONSIVE"
+    "message": "NAVE NO RESPONDE"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -381,11 +381,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Immediate crew transport to drifting ship in the {system} system requested."
+    "message": "Se requiere el transporte inmediato de tripulación a una nave a la deriva en el sistema {system}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "EMERGENCY CREW TRANSPORT"
+    "message": "TRANSPORTE DE TRIPULACIÓN DE EMERGENCIA"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",

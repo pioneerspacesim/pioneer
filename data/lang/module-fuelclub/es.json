@@ -13,7 +13,7 @@
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "Contact the local Interstellar Pilots' Fuel Co-operative representative."
+    "message": "Contacte con el representante local de Pilots' Fuel Co-operative."
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "FLAVOUR_1_DESC": {
     "description": "Fuel club for the Federation faction",
-    "message": "Authorized contact for The Federal Fuel Foundation."
+    "message": "Contacto autorizado con la Fundación Federal de Combustibles."
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
@@ -45,7 +45,7 @@
   },
   "FLAVOUR_1_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "FEDERAL FUEL FOUNDATION"
+    "message": "FUNDACIÓN FEDERAL DE COMBUSTIBLES"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_2_DESC": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "Make an appointment to speak with the Commonwealth Fuel Union."
+    "message": "Pida una reunión para hablar con Commonwealth Fuel Union."
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
@@ -73,7 +73,7 @@
   },
   "FLAVOUR_3_DESC": {
     "description": "Fuel club for the Haber faction",
-    "message": "Branch office of the Haber Propellant and Perishables Division."
+    "message": "Sucursal de Propelentes Haber y División de Perecederos."
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
@@ -85,11 +85,11 @@
   },
   "FLAVOUR_3_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "HABER PROPELLANT"
+    "message": "PROPELENTES HABER"
   },
   "FUEL_LEVEL": {
     "description": "",
-    "message": "Your current fuel level is {level}%."
+    "message": "Su nivel actual de fuel es {level}%."
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Fuel tank refilling, once per day"
+    "message": "Llenado del depósito de fuel, una vez al día"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "REFUEL_FREE": {
     "description": "",
-    "message": "Refuel internal fuel tank for free."
+    "message": "Repostaje del depósito interno gratis."
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",

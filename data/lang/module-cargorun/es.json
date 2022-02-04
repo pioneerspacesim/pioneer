@@ -25,75 +25,75 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Ship needed for delivery of cargo to the {system} system."
+    "message": "Se necesita nave para la entrega de mercancía al sistema {system}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "Se necesita transporte de mercancías al sistema {system}. Se abona {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "Entrega de mercancía valiosa al sistema {system}. {cash} para un piloto experimentado."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
+    "message": "Se buscan transportistas para una entrega dentro del sistema {starport}. Transporte de artículos a {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "Need local delivery of personal cargo to {starport}."
+    "message": "Se necesita el envío de mercancía personal a {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
+    "message": "Contrato privado de envío de carga. Se necesita la entrega de artículos certificados en {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Pickup of cargo from the {system} system required. Details available on request."
+    "message": "Se requiere recogida de mercancía desde el sistema {system}. Detalles disponibles bajo petición."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
+    "message": "Se necesita servicio de reubicación de mercancía. Se requiere que mueva la mercancía a este puerto estelar desde {starport}."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+    "message": "Se necesita contratista cualificado para el transporte de carga. Necesitamos una nave para una entrega masiva al sistema {system}."
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "CARGO RUN"
+    "message": "ENVÍO DE MERCANCÁ"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "NEED CARGO TRANSPORT"
+    "message": "SE NECESITA TRANSPORTE DE MERCANCÍA"
   },
   "ADTITLE_EXPENSIVE_1": {
     "description": "",
-    "message": "INSURED DELIVERY"
+    "message": "ENTREGA ASEGURADA"
   },
   "ADTITLE_LOCAL_1": {
     "description": "",
-    "message": "SHORT-RANGE FREIGHT"
+    "message": "CARGA DE CORTA DISTANCIA"
   },
   "ADTITLE_LOCAL_2": {
     "description": "",
-    "message": "LOCAL FREIGHT TRANSPORT"
+    "message": "TRANSPORTE LOCAL DE CARGA"
   },
   "ADTITLE_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN"
+    "message": "TRANSPORTE LOCAL DE MERCANCÍA"
   },
   "ADTITLE_PICKUP_1": {
     "description": "",
-    "message": "CARGO PICKUP"
+    "message": "RECOLECCIÓN DE MERCANCÍA"
   },
   "ADTITLE_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "IN-SYSTEM RELOCATION"
+    "message": "REUBICACIÓN DENTRO DEL SISTEMA"
   },
   "ADTITLE_WHOLESALER_1": {
     "description": "",
-    "message": "BULK CARGO SERVICE"
+    "message": "SERVICIO DE MERCANCÍAS A GRANEL"
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",

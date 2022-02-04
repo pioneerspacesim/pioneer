@@ -13,11 +13,11 @@
   },
   "FLAVOUR_0_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Special offer, selling one {equipment}."
+    "message": "Oferta especial, se vende un {equipment}."
   },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "SE VENDE"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_1_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Practically unused {equipment}, at an affordable price!"
+    "message": "{equipment} prácticamente sin usar, ¡a un precio accesible!"
   },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "EQUIPO A LA VENTA"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_2_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Selling one {equipment}, for a reasonable price!"
+    "message": "A la venta un {equipment}, ¡a un precio razonable!"
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "EQUIPO A LA VENTA"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
@@ -49,11 +49,11 @@
   },
   "FLAVOUR_3_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Offering one {equipment}, in good condition."
+    "message": "Se ofrece un {equipment}, en buenas condiciones."
   },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "SE VENDE"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_4_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "For sale: leftover {equipment}, in fine condition."
+    "message": "A la Venta: {equipment} sobrante, en buenas condiciones."
   },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "SE VENDE"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "FLAVOUR_5_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "On offer: old {equipment}, in working condition."
+    "message": "En Oferta: {equipment} usado, funcional."
   },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "EQUIPO A LA VENTA"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",
