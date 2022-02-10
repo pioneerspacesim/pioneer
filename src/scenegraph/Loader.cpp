@@ -14,9 +14,11 @@
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/Animation.h"
 #include "utils.h"
+#include <sstream>
 #include <assimp/material.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
+#include <assimp/version.h>
 #include <assimp/IOStream.hpp>
 #include <assimp/IOSystem.hpp>
 #include <assimp/Importer.hpp>
@@ -340,8 +342,15 @@ namespace SceneGraph {
 				aiProcess_FindDegenerates |
 				aiProcess_FindInvalidData);
 
-		if (!scene)
-			throw LoadingError("Couldn't load file");
+		if (!scene) {
+			std::ostringstream version;
+			version << std::to_string(aiGetVersionMajor()) << "." << std::to_string(aiGetVersionMinor()) << "." << std::to_string(aiGetVersionPatch());
+			std::string str1 = "Assimp (";
+			str1.append(version.str());
+			str1.append(") importer error: ");
+			str1.append(importer.GetErrorString());
+			throw LoadingError(str1.c_str());
+		}
 
 		if (scene->mNumMeshes == 0)
 			throw LoadingError("No geometry found");
