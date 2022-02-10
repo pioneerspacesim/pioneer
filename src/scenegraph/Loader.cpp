@@ -14,7 +14,6 @@
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/Animation.h"
 #include "utils.h"
-#include <sstream>
 #include <assimp/material.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
@@ -22,6 +21,7 @@
 #include <assimp/IOStream.hpp>
 #include <assimp/IOSystem.hpp>
 #include <assimp/Importer.hpp>
+#include <sstream>
 
 namespace {
 	class AssimpFileReadStream : public Assimp::IOStream {
