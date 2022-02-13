@@ -1,25 +1,29 @@
 -- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Lang = require 'Lang'
 local Game = require 'Game'
 local Engine = require 'Engine'
 local Format = require 'Format'
 local ShipDef = require 'ShipDef'
 local StationView = require 'pigui.views.station-view'
+local ModalWindow = require 'pigui.libs.modal-win'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
 local ModelSkin = require 'SceneGraph.ModelSkin'
+local Lang = require 'Lang'
+local l = Lang.GetResource("ui-core")
 
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local Vector2 = _G.Vector2
+local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 
 local pionillium = ui.fonts.pionillium
 
 local modelSpinner = ModelSpinner()
 local previewPattern
 local previewSkin
-local price
+local changesMade = false
+local price = 0.0
 
 local function refreshModelSpinner()
 	local player = Game.player
@@ -30,18 +34,37 @@ local function refreshModelSpinner()
 	modelSpinner:draw()
 end
 
+local popupNotEnoughMoney = ModalWindow.New('paintshopPopupNotEnoughMoney', function(self)
+	ui.text(l.YOU_NOT_ENOUGH_MONEY)
+	ui.dummy(Vector2((ui.getContentRegion().x - 100*rescaleVector.x) / 2, 0))
+	ui.sameLine()
+	if ui.button(l.OK, Vector2(100*rescaleVector.x, 0)) then
+		self:close()
+	end
+end)
+
+local popupChangesApplied = ModalWindow.New('paintshopPopupChangesApplied', function(self)
+	ui.text(l.NEW_PAINTJOB_APPLIED)
+	ui.dummy(Vector2((ui.getContentRegion().x - 100*rescaleVector.x) / 2, 0))
+	ui.sameLine()
+	if ui.button(l.OK, Vector2(100*rescaleVector.x, 0)) then
+		self:close()
+	end
+end)
+
 local function changeColor()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
 	previewSkin = ModelSkin.New():SetRandomColors(Engine.rand):SetDecal(shipDef.manufacturer)
 	refreshModelSpinner()
+	changesMade = true
 end
 
 local function changePattern()
 	local player = Game.player
 	local patterns = player.model.numPatterns
 	
-	if patterns == 0 then return end
+	if patterns < 2 then return end
 	
 	if previewPattern == (patterns - 1) then
 		previewPattern = 0
@@ -50,12 +73,33 @@ local function changePattern()
 	end
 	
 	refreshModelSpinner()
+	changesMade = true
+end
+
+local function updatePrice()
+	local player = Game.player
+	local shipDef = ShipDef[player.shipId]
+	
+	if changesMade then
+		price = (shipDef.hullMass)
+	else
+		price = 0.0
+	end
 end
 
 local function applyChanges()
 	local player = Game.player
-	player.model.pattern = previewPattern
-	player:SetSkin(previewSkin)
+	if not changesMade then return end
+	
+	if price < player:GetMoney() then
+		player.model:SetPattern(previewPattern)
+		player:SetSkin(previewSkin)
+		player:AddMoney(-price)
+		popupChangesApplied:open()
+		changesMade = false
+	else
+		popupNotEnoughMoney:open()
+	end
 end
 
 local function resetPreview()
@@ -63,45 +107,38 @@ local function resetPreview()
 	previewPattern = player.model.pattern
 	previewSkin = player:GetSkin()
 	refreshModelSpinner()
+	changesMade = false
 end
 
-local function getPaintChanged()
-	local player = Game.player
-	return (player.model.pattern == previewPattern and player:GetSkin() == previewSkin)
-end
-
-local function doPaintjob()
+local function paintshop()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
 	local patterns = player.model.numPatterns
-	local price = 0
 	
 	modelSpinner:draw()
+	updatePrice()
+	
+	ui.text(l.PRICE.. ": " ..Format.Money(price, false))
 	
 	local patternChanged = false
 	ui.withFont(pionillium.medlarge, function()
-		patternChanged = ui.button("Change Pattern", Vector2(200, 36))
+		patternChanged = ui.button(l.CHANGE_PATTERN, Vector2(200, 36))
 	end)
 	
 	local colorChanged = false
 	ui.withFont(pionillium.medlarge, function()
-		colorChanged = ui.button("Change Color", Vector2(200, 36))
+		colorChanged = ui.button(l.CHANGE_COLOR, Vector2(200, 36))
 	end)
 	
 	local changesApplied = false
 	ui.withFont(pionillium.medlarge, function()
-		changesApplied = ui.button("Apply Changes", Vector2(200, 36))
+		changesApplied = ui.button(l.APPLY_CHANGES, Vector2(200, 36))
 	end)
 	
 	local discardChanges = false
 	ui.withFont(pionillium.medlarge, function()
-		discardChanges = ui.button("Reset Preview", Vector2(200, 36))
+		discardChanges = ui.button(l.RESET_PREVIEW, Vector2(200, 36))
 	end)
-	
-	if getPaintChanged() then
-		price = (shipDef.hullMass / 1000)
-	end
-	ui.text("Price: " ..Format.Money(price, false))
 	
 	if patternChanged then
 		changePattern()
@@ -127,7 +164,7 @@ StationView:registerView({
 	icon = ui.theme.icons.ship,
 	showView = true,
 	draw = function()
-		doPaintjob()
+		paintshop()
 	end,
 	refresh = function()
 		resetPreview()

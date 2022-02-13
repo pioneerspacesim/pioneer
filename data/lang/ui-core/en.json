@@ -35,6 +35,10 @@
     "description": "",
     "message": "An error has occurred"
   },
+  "APPLY_CHANGES": {
+    "description": "Paintshop button",
+	"message": "Apply Changes"
+  },
   "ARRIVAL_DATE": {
     "description": "Time of arrival, used in flight log",
     "message": "Arrival date"
@@ -146,6 +150,14 @@
   "CHANGE_BINDING": {
     "description": "Key binding option",
     "message": "Change Binding"
+  },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+	"message": "Change Color"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+	"message": "Change Pattern"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -1415,6 +1427,10 @@
     "description": "",
     "message": "Negotiate"
   },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+	"message": "The new paintjob has been applied to your ship."
+  },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
     "message": "Next"
@@ -1718,6 +1734,10 @@
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
     "message": "Reset Orientation and Zoom"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+	"message": "Reset Preview"
   },
   "RETURN_TO_GAME": {
     "description": "",
