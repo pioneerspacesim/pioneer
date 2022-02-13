@@ -309,7 +309,7 @@
   },
   "SCOOPS": {
     "description": "Category name of scoop-related equipment",
-    "message": "Scoops"
+    "message": "Ковш"
   },
   "SENSORS": {
     "description": "Category name of sensor-related equipment",
@@ -337,7 +337,7 @@
   },
   "SHOTS_PER_MINUTE": {
     "description": "Tooltip explaining weapon fire rate / RPM counter",
-    "message": "Firing Rate / Minute"
+    "message": "Скорострельность/минуту"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",

@@ -17,15 +17,15 @@
   },
   "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
     "description": "",
-    "message": "\" и изключително сложна екосистема\""
+    "message": "\" и изключително сложна екосистема.\""
   },
   "AND_INDIGENOUS_MICROBIAL_LIFE": {
     "description": "",
-    "message": "\" и местен микробен живот\""
+    "message": "\" и местен микробен живот.\""
   },
   "AND_INDIGENOUS_PLANT_LIFE": {
     "description": "",
-    "message": "\" и местен растителен живот\""
+    "message": "\" и местен растителен живот.\""
   },
   "ANIMAL_MEAT": {
     "description": "",
@@ -501,7 +501,7 @@
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
-    "message": "силно вулканична"
+    "message": "Силно вулканична"
   },
   "HIGH_POPULATION_OUTDOOR_WORLD": {
     "description": "",
@@ -629,11 +629,11 @@
   },
   "LARGE": {
     "description": "regarding terrestrial planet size (mass actually)",
-    "message": "голяма"
+    "message": "Голяма"
   },
   "LARGE_GAS_GIANT": {
     "description": "",
-    "message": "голям газов гигант"
+    "message": "Голям газов гигант"
   },
   "LASER_FIRE_DETECTED": {
     "description": "",
@@ -717,7 +717,7 @@
   },
   "MASSIVE": {
     "description": "Adjective used to describe the size of an object.",
-    "message": "масивна"
+    "message": "Масивна"
   },
   "MASS_N_TONNES": {
     "description": "",
@@ -729,11 +729,11 @@
   },
   "MEDIUM": {
     "description": "Adjective used to describe the size of an object.",
-    "message": "средна"
+    "message": "Средна"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
-    "message": "среден газов гигант"
+    "message": "Среден газов гигант"
   },
   "MESSAGE_FROM_X": {
     "description": "",
@@ -1325,11 +1325,11 @@
   },
   "SMALL": {
     "description": "Adjective used to describe the size of an object.",
-    "message": "малка"
+    "message": "Малка"
   },
   "SMALL_GAS_GIANT": {
     "description": "",
-    "message": "малък газов гигант"
+    "message": "Малък газов гигант"
   },
   "SMALL_INDUSTRIAL_OUTPOST": {
     "description": "",
@@ -1397,7 +1397,7 @@
   },
   "STAR_B_SUPER_GIANT": {
     "description": "",
-    "message": "Син свръхргигант"
+    "message": "Син свръхгигант"
   },
   "STAR_B_WF": {
     "description": "",
@@ -1597,7 +1597,7 @@
   },
   "TINY": {
     "description": "Adjective used to describe the size of an object.",
-    "message": "дребна"
+    "message": "Дребна"
   },
   "TOGGLE_EQUIPMENT_VIEW": {
     "description": "Tooltip for the Equipment View button",
@@ -1645,7 +1645,7 @@
   },
   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
     "description": "",
-    "message": "Неизследвана система. Информацията за звездата е събрана от отдалечен телескоп, не е налична информация за планетите."
+    "message": "Неизследвана система. Информацията за звездата е предоставена от отдалечен телескоп, не е налична информация за планетите."
   },
   "UNIT_AU": {
     "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
@@ -1757,7 +1757,7 @@
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
-    "message": "много голям газов гигант"
+    "message": "Много голям газов гигант"
   },
   "VIEW": {
     "description": "",

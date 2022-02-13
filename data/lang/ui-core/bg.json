@@ -1213,7 +1213,7 @@
   },
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
-    "message": "Персонализиран дневник"
+    "message": "Личен дневник"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
@@ -1377,11 +1377,11 @@
   },
   "MULTISAMPLING": {
     "description": "",
-    "message": "Мултисемплиране"
+    "message": "Множествено изглаждане"
   },
   "MULTISAMPLING_DESC": {
     "description": "",
-    "message": "Мултисемплирането намалява ефекта на назъбените ръбове, но значително понижава производителността."
+    "message": "Множественото изглаждане намалява ефекта на назъбените ръбове, но значително понижава производителността."
   },
   "MURDER": {
     "description": "",
