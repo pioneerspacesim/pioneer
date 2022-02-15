@@ -1571,6 +1571,10 @@
     "description": "Player owing money to crew members",
     "message": "Owed"
   },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+	"message": "Paintshop"
+  },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
     "message": "Pay"

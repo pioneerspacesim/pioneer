@@ -22,8 +22,11 @@ local pionillium = ui.fonts.pionillium
 local modelSpinner = ModelSpinner()
 local previewPattern
 local previewSkin
+local previewColors
 local changesMade = false
 local price = 0.0
+
+local testTable = {}
 
 local function refreshModelSpinner()
 	local player = Game.player
@@ -31,7 +34,6 @@ local function refreshModelSpinner()
 	modelSpinner:setModel(shipDef.modelName, previewSkin, previewPattern)
 	modelSpinner:setSize(Vector2(300, 300))
 	modelSpinner.spinning = false
-	modelSpinner:draw()
 end
 
 local popupNotEnoughMoney = ModalWindow.New('paintshopPopupNotEnoughMoney', function(self)
@@ -52,12 +54,37 @@ local popupChangesApplied = ModalWindow.New('paintshopPopupChangesApplied', func
 	end
 end)
 
+-- TO DO: not do this abomination below
+local function reformatColor()
+	local newColor = {}
+	
+	newColor["primary"] = {}
+	newColor["primary"]["r"] = previewColors[1]["r"]
+	newColor["primary"]["g"] = previewColors[1]["g"]
+	newColor["primary"]["b"] = previewColors[1]["b"]
+	newColor["primary"]["a"] = previewColors[1]["a"]
+	
+	newColor["secondary"] = {}
+	newColor["secondary"]["r"] = previewColors[2]["r"]
+	newColor["secondary"]["g"] = previewColors[2]["g"]
+	newColor["secondary"]["b"] = previewColors[2]["b"]
+	newColor["secondary"]["a"] = previewColors[2]["a"]
+	
+	newColor["trim"] = {}
+	newColor["trim"]["r"] = previewColors[3]["r"]
+	newColor["trim"]["g"] = previewColors[3]["g"]
+	newColor["trim"]["b"] = previewColors[3]["b"]
+	newColor["trim"]["a"] = previewColors[3]["a"]
+	
+	return newColor
+end
+
 local function changeColor()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
-	previewSkin = ModelSkin.New():SetRandomColors(Engine.rand):SetDecal(shipDef.manufacturer)
+	newColor = reformatColor()
+	previewSkin = ModelSkin.New():SetColors(newColor):SetDecal(shipDef.manufacturer)
 	refreshModelSpinner()
-	changesMade = true
 end
 
 local function changePattern()
@@ -71,7 +98,7 @@ local function changePattern()
 	else
 		previewPattern = previewPattern + 1
 	end
-	
+
 	refreshModelSpinner()
 	changesMade = true
 end
@@ -81,7 +108,7 @@ local function updatePrice()
 	local shipDef = ShipDef[player.shipId]
 	
 	if changesMade then
-		price = (shipDef.hullMass)
+		price = (shipDef.hullMass) * 2.5
 	else
 		price = 0.0
 	end
@@ -106,6 +133,7 @@ local function resetPreview()
 	local player = Game.player
 	previewPattern = player.model.pattern
 	previewSkin = player:GetSkin()
+	previewColors = previewSkin:GetColors()
 	refreshModelSpinner()
 	changesMade = false
 end
@@ -113,21 +141,38 @@ end
 local function paintshop()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
-	local patterns = player.model.numPatterns
 	
-	modelSpinner:draw()
 	updatePrice()
+	modelSpinner:draw()
+	
+	previewColors[1]["r"] = ui.sliderInt("Pri_R", previewColors[1]["r"], 0, 255, "%d")
+	previewColors[1]["g"] = ui.sliderInt("Pri_G", previewColors[1]["g"], 0, 255, "%d")
+	previewColors[1]["b"] = ui.sliderInt("Pri_B", previewColors[1]["b"], 0, 255, "%d")
+	--previewColors[1]["a"] = ui.sliderInt("Pri_A", previewColors[1]["a"], 0, 255, "%d")
+	
+	previewColors[2]["r"] = ui.sliderInt("Sec_R", previewColors[2]["r"], 0, 255, "%d")
+	previewColors[2]["g"] = ui.sliderInt("Sec_G", previewColors[2]["g"], 0, 255, "%d")
+	previewColors[2]["b"] = ui.sliderInt("Sec_B", previewColors[2]["b"], 0, 255, "%d")
+	--previewColors[2]["a"] = ui.sliderInt("Sec_A", previewColors[2]["a"], 0, 255, "%d")
+	
+	previewColors[3]["r"] = ui.sliderInt("Ter_R", previewColors[3]["r"], 0, 255, "%d")
+	previewColors[3]["g"] = ui.sliderInt("Ter_G", previewColors[3]["g"], 0, 255, "%d")
+	previewColors[3]["b"] = ui.sliderInt("Ter_B", previewColors[3]["b"], 0, 255, "%d")
+	--previewColors[3]["a"] = ui.sliderInt("Ter_A", previewColors[3]["a"], 0, 255, "%d")
+
+	-- TO DO: use ui.colorEdit()
+	
+	local colorChanged = false
+	if previewColors ~= previewSkin:GetColors() then
+		colorChanged = true
+		changesMade = true
+	end
 	
 	ui.text(l.PRICE.. ": " ..Format.Money(price, false))
 	
 	local patternChanged = false
 	ui.withFont(pionillium.medlarge, function()
 		patternChanged = ui.button(l.CHANGE_PATTERN, Vector2(200, 36))
-	end)
-	
-	local colorChanged = false
-	ui.withFont(pionillium.medlarge, function()
-		colorChanged = ui.button(l.CHANGE_COLOR, Vector2(200, 36))
 	end)
 	
 	local changesApplied = false
@@ -160,7 +205,7 @@ end
 
 StationView:registerView({
 	id = "paintshopView",
-	name = "Paintshop",
+	name = l.PAINTSHOP,
 	icon = ui.theme.icons.ship,
 	showView = true,
 	draw = function()
@@ -168,6 +213,5 @@ StationView:registerView({
 	end,
 	refresh = function()
 		resetPreview()
-		refreshModelSpinner()
 	end,
 })
