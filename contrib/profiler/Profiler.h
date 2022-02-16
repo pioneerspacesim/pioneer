@@ -8,7 +8,7 @@
 #define __PROFILER_FULL_TYPE_EXPANSION__
 
 //#define USE_CHRONO
-#if !defined(USE_CHRONO) && (defined(__arm__) || defined(__aarch64__) || defined(__PPC64__) || defined(_M_AMD64) || defined(_WIN64) || defined(_M_X64))
+#if !defined(USE_CHRONO) && (defined(__arm__) || defined(__aarch64__) || defined(__PPC64__) || defined(_M_AMD64) || defined(_WIN64) || defined(_M_X64) || defined(__riscv))
 // this isn't optional for __arm__ or x64 builds
 #define USE_CHRONO
 #endif
