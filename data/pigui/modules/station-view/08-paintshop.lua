@@ -27,8 +27,6 @@ local previewColors
 local changesMade = false
 local price = 0.0
 
-local testTable = {}
-
 local function refreshModelSpinner()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
@@ -60,22 +58,22 @@ local function reformatColor()
 	local newColor = {}
 	
 	newColor["primary"] = {}
-	newColor["primary"]["r"] = previewColors[1].r
-	newColor["primary"]["g"] = previewColors[1].g
-	newColor["primary"]["b"] = previewColors[1].b
-	newColor["primary"]["a"] = previewColors[1].a
+	newColor["primary"]["r"] = previewColors[1].r/255
+	newColor["primary"]["g"] = previewColors[1].g/255
+	newColor["primary"]["b"] = previewColors[1].b/255
+	newColor["primary"]["a"] = previewColors[1].a/255
 	
 	newColor["secondary"] = {}
-	newColor["secondary"]["r"] = previewColors[2].r
-	newColor["secondary"]["g"] = previewColors[2].g
-	newColor["secondary"]["b"] = previewColors[2].b
-	newColor["secondary"]["a"] = previewColors[2].a
+	newColor["secondary"]["r"] = previewColors[2].r/255
+	newColor["secondary"]["g"] = previewColors[2].g/255
+	newColor["secondary"]["b"] = previewColors[2].b/255
+	newColor["secondary"]["a"] = previewColors[2].a/255
 	
 	newColor["trim"] = {}
-	newColor["trim"]["r"] = previewColors[3].r
-	newColor["trim"]["g"] = previewColors[3].g
-	newColor["trim"]["b"] = previewColors[3].b
-	newColor["trim"]["a"] = previewColors[3].a
+	newColor["trim"]["r"] = previewColors[3].r/255
+	newColor["trim"]["g"] = previewColors[3].g/255
+	newColor["trim"]["b"] = previewColors[3].b/255
+	newColor["trim"]["a"] = previewColors[3].a/255
 	
 	return newColor
 end
@@ -152,12 +150,12 @@ local function paintshop()
 	updatePrice()
 	modelSpinner:draw()
 	
-	c1changed, previewColors[1] = ui.colorEdit("Pri", previewColors[1], false)
-	c2changed, previewColors[2] = ui.colorEdit("Sec", previewColors[2], false)
-	c3changed, previewColors[3] = ui.colorEdit("Tri", previewColors[3], false)
+	local priChanged, secChanged, triChanged
+	priChanged, previewColors[1] = ui.colorEdit("Pri", previewColors[1], false)
+	secChanged, previewColors[2] = ui.colorEdit("Sec", previewColors[2], false)
+	triChanged, previewColors[3] = ui.colorEdit("Tri", previewColors[3], false)
 	
-	
-	local colorChanged = (c1changed or c2changed or c3changed)
+	local colorChanged = (priChanged or secChanged or triChanged)
 	if colorChanged then
 		changesMade = true
 	end

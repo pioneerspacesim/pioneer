@@ -3,9 +3,9 @@
 
 #include "ModelSkin.h"
 #include "Serializer.h"
-#include "lua/LuaTable.h"
 #include "lua/LuaColor.h"
 #include "lua/LuaObject.h"
+#include "lua/LuaTable.h"
 
 namespace SceneGraph {
 
