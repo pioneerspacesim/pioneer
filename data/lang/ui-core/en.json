@@ -1575,6 +1575,10 @@
     "description": "Station tab title",
 	"message": "Paintshop"
   },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+	"message": "Paintshop is not available in this spaceport."
+  },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
     "message": "Pay"

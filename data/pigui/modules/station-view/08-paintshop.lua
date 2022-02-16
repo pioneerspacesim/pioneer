@@ -1,9 +1,10 @@
 -- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Game = require 'Game'
 local Engine = require 'Engine'
 local Format = require 'Format'
+local Game = require 'Game'
+local Rand = require "Rand"
 local ShipDef = require 'ShipDef'
 local StationView = require 'pigui.views.station-view'
 local ModalWindow = require 'pigui.libs.modal-win'
@@ -26,6 +27,30 @@ local previewSkin
 local previewColors
 local changesMade = false
 local price = 0.0
+
+local function determineAvailability()
+	local player = Game.player
+	local station = player:GetDockedWith()
+	
+	-- faction homeworlds always have paintshops
+	if Game.system.faction ~= nil and Game.system.faction.hasHomeworld and Game.system.faction.homeworld == station.path:GetSystemBody().parent.path then
+		return true
+	end
+
+	-- high population stations sometimes have them
+	pop = station:GetSystemBody().population
+	if pop > 0.0001 then -- Mars is about 0.0002
+		stationSeed = station.seed
+		rand = Rand.New(station.seed .. '-paintshop')
+		if rand:Number(0,1) < 0.5 then 
+			return true
+		else
+			return false
+		end
+	else
+		return false
+	end
+end
 
 local function refreshModelSpinner()
 	local player = Game.player
@@ -147,6 +172,12 @@ local function paintshop()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
 	
+	local available = determineAvailability()
+	if not available then
+		ui.text(l.PAINTSHOP_NOT_AVAILABLE)
+		return
+	end
+	
 	updatePrice()
 	modelSpinner:draw()
 	
@@ -192,7 +223,6 @@ local function paintshop()
 	if discardChanges then
 		resetPreview()
 	end
-	
 end
 
 StationView:registerView({
