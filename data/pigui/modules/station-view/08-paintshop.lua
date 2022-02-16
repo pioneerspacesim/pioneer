@@ -15,6 +15,7 @@ local l = Lang.GetResource("ui-core")
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local Vector2 = _G.Vector2
+local Color = _G.Color
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 
 local pionillium = ui.fonts.pionillium
@@ -59,22 +60,22 @@ local function reformatColor()
 	local newColor = {}
 	
 	newColor["primary"] = {}
-	newColor["primary"]["r"] = previewColors[1]["r"]
-	newColor["primary"]["g"] = previewColors[1]["g"]
-	newColor["primary"]["b"] = previewColors[1]["b"]
-	newColor["primary"]["a"] = previewColors[1]["a"]
+	newColor["primary"]["r"] = previewColors[1].r
+	newColor["primary"]["g"] = previewColors[1].g
+	newColor["primary"]["b"] = previewColors[1].b
+	newColor["primary"]["a"] = previewColors[1].a
 	
 	newColor["secondary"] = {}
-	newColor["secondary"]["r"] = previewColors[2]["r"]
-	newColor["secondary"]["g"] = previewColors[2]["g"]
-	newColor["secondary"]["b"] = previewColors[2]["b"]
-	newColor["secondary"]["a"] = previewColors[2]["a"]
+	newColor["secondary"]["r"] = previewColors[2].r
+	newColor["secondary"]["g"] = previewColors[2].g
+	newColor["secondary"]["b"] = previewColors[2].b
+	newColor["secondary"]["a"] = previewColors[2].a
 	
 	newColor["trim"] = {}
-	newColor["trim"]["r"] = previewColors[3]["r"]
-	newColor["trim"]["g"] = previewColors[3]["g"]
-	newColor["trim"]["b"] = previewColors[3]["b"]
-	newColor["trim"]["a"] = previewColors[3]["a"]
+	newColor["trim"]["r"] = previewColors[3].r
+	newColor["trim"]["g"] = previewColors[3].g
+	newColor["trim"]["b"] = previewColors[3].b
+	newColor["trim"]["a"] = previewColors[3].a
 	
 	return newColor
 end
@@ -134,6 +135,12 @@ local function resetPreview()
 	previewPattern = player.model.pattern
 	previewSkin = player:GetSkin()
 	previewColors = previewSkin:GetColors()
+	
+	-- convert to a color format that works with ui.colorEdit
+	previewColors[1] = Color(string.format("%x%x%x", previewColors[1]["r"], previewColors[1]["g"], previewColors[1]["b"]))
+	previewColors[2] = Color(string.format("%x%x%x", previewColors[2]["r"], previewColors[2]["g"], previewColors[2]["b"]))
+	previewColors[3] = Color(string.format("%x%x%x", previewColors[3]["r"], previewColors[3]["g"], previewColors[3]["b"]))
+	
 	refreshModelSpinner()
 	changesMade = false
 end
@@ -145,26 +152,13 @@ local function paintshop()
 	updatePrice()
 	modelSpinner:draw()
 	
-	previewColors[1]["r"] = ui.sliderInt("Pri_R", previewColors[1]["r"], 0, 255, "%d")
-	previewColors[1]["g"] = ui.sliderInt("Pri_G", previewColors[1]["g"], 0, 255, "%d")
-	previewColors[1]["b"] = ui.sliderInt("Pri_B", previewColors[1]["b"], 0, 255, "%d")
-	--previewColors[1]["a"] = ui.sliderInt("Pri_A", previewColors[1]["a"], 0, 255, "%d")
+	c1changed, previewColors[1] = ui.colorEdit("Pri", previewColors[1], false)
+	c2changed, previewColors[2] = ui.colorEdit("Sec", previewColors[2], false)
+	c3changed, previewColors[3] = ui.colorEdit("Tri", previewColors[3], false)
 	
-	previewColors[2]["r"] = ui.sliderInt("Sec_R", previewColors[2]["r"], 0, 255, "%d")
-	previewColors[2]["g"] = ui.sliderInt("Sec_G", previewColors[2]["g"], 0, 255, "%d")
-	previewColors[2]["b"] = ui.sliderInt("Sec_B", previewColors[2]["b"], 0, 255, "%d")
-	--previewColors[2]["a"] = ui.sliderInt("Sec_A", previewColors[2]["a"], 0, 255, "%d")
 	
-	previewColors[3]["r"] = ui.sliderInt("Ter_R", previewColors[3]["r"], 0, 255, "%d")
-	previewColors[3]["g"] = ui.sliderInt("Ter_G", previewColors[3]["g"], 0, 255, "%d")
-	previewColors[3]["b"] = ui.sliderInt("Ter_B", previewColors[3]["b"], 0, 255, "%d")
-	--previewColors[3]["a"] = ui.sliderInt("Ter_A", previewColors[3]["a"], 0, 255, "%d")
-
-	-- TO DO: use ui.colorEdit()
-	
-	local colorChanged = false
-	if previewColors ~= previewSkin:GetColors() then
-		colorChanged = true
+	local colorChanged = (c1changed or c2changed or c3changed)
+	if colorChanged then
 		changesMade = true
 	end
 	
