@@ -47,6 +47,13 @@ namespace atomic_queue {
 constexpr int CACHE_LINE_SIZE = 256; // TODO: Review that this is the correct value.
 static inline void spin_loop_pause() noexcept {} // TODO: Find the right instruction to use here, if any.
 } // namespace atomic_queue
+#elif defined(__riscv)
+namespace atomic_queue {
+constexpr int CACHE_LINE_SIZE = 64;
+static inline void spin_loop_pause() noexcept {
+    asm volatile ("nop");
+}
+} // namespace atomic_queue
 #else
 #warning "Unknown CPU architecture. Using L1 cache line size of 64 bytes and no spinloop pause instruction."
 namespace atomic_queue {
