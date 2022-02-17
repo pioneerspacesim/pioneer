@@ -145,7 +145,6 @@ end
 local function applyChanges()
 	local player = Game.player
 	if not changesMade then return end
-	
 	if price < player:GetMoney() then
 		player.model:SetPattern(previewPattern)
 		player:SetSkin(previewSkin)
@@ -191,11 +190,18 @@ local function paintshop()
 	local itemSpacing = Vector2(8, 6)
 	local verticalDummy = Vector2(0, 50)
 	ui.withStyleVars({ItemSpacing = itemSpacing}, function ()
+		ui.child("PaintshopModelSpinner", Vector2(columnWidth, 0), {}, function()
+			modelSpinner:setSize(ui.getContentRegion())
+			modelSpinner:draw()
+		end)
+	
+		ui.sameLine()
+
 		ui.child("PaintshopControls", Vector2(columnWidth, 0), {}, function ()
 			ui.text(l["PAINTSHOP_WELCOME_" .. rand:Integer(numWelcomeMessages - 1)])
 			ui.dummy(verticalDummy)
 			ui.text(l.PRICE.. ": " ..Format.Money(price, false))
-			
+			ui.text(l.PLEASE_DESIGN_NEW_PAINTJOB)
 			local priChanged, secChanged, triChanged
 			priChanged, previewColors[1] = ui.colorEdit((l.COLOR.." 1"), previewColors[1], false)
 			secChanged, previewColors[2] = ui.colorEdit((l.COLOR.." 2"), previewColors[2], false)
@@ -231,13 +237,6 @@ local function paintshop()
 					resetPreview()
 				end
 			end)
-		end)
-	
-		ui.sameLine()
-
-		ui.child("PaintshopModelSpinner", Vector2(columnWidth, 0), {}, function()
-			modelSpinner:setSize(ui.getContentRegion())
-			modelSpinner:draw()
 		end)
 	end)
 end

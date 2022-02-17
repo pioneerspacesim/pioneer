@@ -1647,6 +1647,10 @@
     "description": "",
     "message": "Planet textures"
   },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+	"message": "Please design your new paintjob:"
+  },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
     "message": "Oops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on Github.\nYou can find your output log at: {path}/output.txt"
