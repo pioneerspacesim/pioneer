@@ -21,6 +21,7 @@ local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 
 local pionillium = ui.fonts.pionillium
 
+local numWelcomeMessages = 5
 local modelSpinner = ModelSpinner()
 local previewPattern
 local previewSkin
@@ -56,7 +57,6 @@ local function refreshModelSpinner()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
 	modelSpinner:setModel(shipDef.modelName, previewSkin, previewPattern)
-	modelSpinner:setSize(Vector2(300, 300))
 	modelSpinner.spinning = false
 end
 
@@ -111,16 +111,18 @@ local function changeColor()
 	refreshModelSpinner()
 end
 
-local function changePattern()
+local function changePattern(increment)
 	local player = Game.player
 	local patterns = player.model.numPatterns
 	
 	if patterns < 2 then return end
 	
-	if previewPattern == (patterns - 1) then
-		previewPattern = 0
-	else
-		previewPattern = previewPattern + 1
+	previewPattern = previewPattern + increment
+	
+	if previewPattern > patterns then
+		previewPattern = 1
+	elseif previewPattern < 1 then
+		previewPattern = patterns - 1
 	end
 
 	refreshModelSpinner()
@@ -132,7 +134,9 @@ local function updatePrice()
 	local shipDef = ShipDef[player.shipId]
 	
 	if changesMade then
-		price = (shipDef.hullMass) * 2.5
+		local approxSurfaceArea = (shipDef.frontCrossSec + shipDef.sideCrossSec + shipDef.topCrossSec) * 2
+		-- round to 10
+		price = math.floor(approxSurfaceArea / 10 + 0.5) * 10 
 	else
 		price = 0.0
 	end
@@ -171,6 +175,7 @@ end
 local function paintshop()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
+	local station = player:GetDockedWith()
 	
 	local available = determineAvailability()
 	if not available then
@@ -179,50 +184,62 @@ local function paintshop()
 	end
 	
 	updatePrice()
-	modelSpinner:draw()
 	
-	local priChanged, secChanged, triChanged
-	priChanged, previewColors[1] = ui.colorEdit("Pri", previewColors[1], false)
-	secChanged, previewColors[2] = ui.colorEdit("Sec", previewColors[2], false)
-	triChanged, previewColors[3] = ui.colorEdit("Tri", previewColors[3], false)
+	local rand = Rand.New(station.seed)
 	
-	local colorChanged = (priChanged or secChanged or triChanged)
-	if colorChanged then
-		changesMade = true
-	end
+	local columnWidth = ui.getContentRegion().x/2
+	local itemSpacing = Vector2(8, 6)
+	local verticalDummy = Vector2(0, 50)
+	ui.withStyleVars({ItemSpacing = itemSpacing}, function ()
+		ui.child("PaintshopControls", Vector2(columnWidth, 0), {}, function ()
+			ui.text(l["PAINTSHOP_WELCOME_" .. rand:Integer(numWelcomeMessages - 1)])
+			ui.dummy(verticalDummy)
+			ui.text(l.PRICE.. ": " ..Format.Money(price, false))
+			
+			local priChanged, secChanged, triChanged
+			priChanged, previewColors[1] = ui.colorEdit((l.COLOR.." 1"), previewColors[1], false)
+			secChanged, previewColors[2] = ui.colorEdit((l.COLOR.." 2"), previewColors[2], false)
+			triChanged, previewColors[3] = ui.colorEdit((l.COLOR.." 3"), previewColors[3], false)
 	
-	ui.text(l.PRICE.. ": " ..Format.Money(price, false))
+			local colorChanged = (priChanged or secChanged or triChanged)
+			if colorChanged then
+				changesMade = true
+			end
 	
-	local patternChanged = false
-	ui.withFont(pionillium.medlarge, function()
-		patternChanged = ui.button(l.CHANGE_PATTERN, Vector2(200, 36))
+			if colorChanged then
+				changeColor()
+			end
+	
+			ui.withFont(pionillium.medlarge, function()
+			
+				if ui.button("<", Vector2(20, 20)) then
+					changePattern(-1)
+				end
+				ui.sameLine()
+				ui.text(l.PATTERN.. " " ..previewPattern)
+				ui.sameLine()
+				if ui.button(">", Vector2(20, 20)) then
+					changePattern(1)
+				end
+				
+				ui.dummy(verticalDummy)
+				
+				if ui.button(l.APPLY_CHANGES, Vector2(200, 36)) then
+					applyChanges()
+				end
+				if ui.button(l.RESET_PREVIEW, Vector2(200, 36)) then
+					resetPreview()
+				end
+			end)
+		end)
+	
+		ui.sameLine()
+
+		ui.child("PaintshopModelSpinner", Vector2(columnWidth, 0), {}, function()
+			modelSpinner:setSize(ui.getContentRegion())
+			modelSpinner:draw()
+		end)
 	end)
-	
-	local changesApplied = false
-	ui.withFont(pionillium.medlarge, function()
-		changesApplied = ui.button(l.APPLY_CHANGES, Vector2(200, 36))
-	end)
-	
-	local discardChanges = false
-	ui.withFont(pionillium.medlarge, function()
-		discardChanges = ui.button(l.RESET_PREVIEW, Vector2(200, 36))
-	end)
-	
-	if patternChanged then
-		changePattern()
-	end
-	
-	if colorChanged then
-		changeColor()
-	end
-	
-	if changesApplied then
-		applyChanges()
-	end
-	
-	if discardChanges then
-		resetPreview()
-	end
 end
 
 StationView:registerView({

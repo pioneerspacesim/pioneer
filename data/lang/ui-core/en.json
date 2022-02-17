@@ -191,6 +191,10 @@
     "description": "",
     "message": "Close"
   },
+  "COLOR": {
+    "description": "",
+	"message": "Color"
+  },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
     "message": "Combat"
@@ -1578,6 +1582,30 @@
   "PAINTSHOP_NOT_AVAILABLE": {
     "description": "",
 	"message": "Paintshop is not available in this spaceport."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+	"message": "Welcome! We will paint your ship pretty!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+	"message": "Hi there! Looking for a change in aesthetics?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+	"message": "We can't make your ship fly fast, but we can make it fly in style!"
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+	"message": "Welcome, sir. Please take your time and let out your creativity."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+	"message": "Looking the best in the galaxy has never been easier!"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+	"message": "Pattern"
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
