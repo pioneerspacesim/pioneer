@@ -155,6 +155,7 @@ local onEnterSystem = function (player)
 		else
 			Comms.ImportantMessage(l["INITIATE_CARGO_SCAN_" .. Engine.rand:Integer(1, getNumberOfFlavours("INITIATE_CARGO_SCAN"))], ship.label)
 			Timer:CallAt(Game.time + Engine.rand:Integer(3, 9), function ()
+				if not Game.system then return end -- Shut up when the player is already in hyperspace
 				local manifest = player:GetEquip("cargo")
 				if hasIllegalGoods(manifest) then
 					Comms.ImportantMessage(l.ILLEGAL_GOODS_DETECTED, ship.label)
