@@ -188,14 +188,6 @@ void SystemView::PutOrbit(Projectable::bases base, RefType *ref, const Orbit *or
 			break;
 	}
 
-	const Color fadedColor = color * fadedColorParameter;
-	std::fill_n(m_orbitColors.get(), num_vertices, fadedColor);
-	const Uint16 trailLength = num_vertices - fadingColors;
-
-	for (Uint16 currentColor = 0; currentColor < trailLength; ++currentColor) {
-		float scalingParameter = fadedColorParameter + static_cast<float>(currentColor) / trailLength * (1.f - fadedColorParameter);
-		m_orbitColors[currentColor + fadingColors] = color * scalingParameter;
-	}
 
 	if (num_vertices > 1) {
 		//close the loop for thin ellipses
@@ -203,6 +195,15 @@ void SystemView::PutOrbit(Projectable::bases base, RefType *ref, const Orbit *or
 			m_orbitVts[num_vertices] = m_orbitVts[0];
 			m_orbitColors[num_vertices] = m_orbitColors[0];
 			++num_vertices;
+		}
+
+		// fade trail
+		const Color fadedColor = color * fadedColorParameter;
+		std::fill_n(m_orbitColors.get(), num_vertices, fadedColor);
+		const Uint16 trailLength = num_vertices - fadingColors;
+		for (Uint16 currentColor = 0; currentColor < trailLength; ++currentColor) {
+			float scalingParameter = (1.f - static_cast<float>(currentColor) / (trailLength - 1));
+			m_orbitColors[currentColor + fadingColors] = fadedColor * scalingParameter;
 		}
 
 		m_orbits.SetData(num_vertices, m_orbitVts.get(), m_orbitColors.get());
