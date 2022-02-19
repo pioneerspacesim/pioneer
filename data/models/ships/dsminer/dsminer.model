@@ -2,6 +2,7 @@ material fuselage
 tex_diff dsminer_diff.dds
 tex_spec dsminer_spec.dds
 tex_glow dsminer_glow.dds
+use_patterns
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 shininess 80
