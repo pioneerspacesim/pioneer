@@ -171,6 +171,10 @@
     "description": "",
     "message": "\" Button \""
   },
+  "CONNECTED": {
+    "description": "Joystick status in the list",
+    "message": "Connected"
+  },
   "DIRECTION": {
     "description": "Direction",
     "message": "\" Dir \""
@@ -206,6 +210,14 @@
     "description": "Hat switch: Is the top button on a joystick",
     "message": "\" Hat\""
   },
+  "JOY": {
+    "description": "An acronym for the joystick",
+    "message": "Joy"
+  },
+  "JOYSTICKS": {
+    "description": "Header for the joystick's list.",
+    "message": "Joysticks"
+  },
   "MOUSE": {
     "description": "A computer mouse, used to create the name for a mouse button binding",
     "message": "Mouse "
@@ -221,6 +233,10 @@
   "MOUSE_RMB": {
     "description": "An acronym for the right mouse button",
     "message": "RMB"
+  },
+  "NOT_CONNECTED": {
+    "description": "Joystick status in the list",
+    "message": "Not connected"
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",

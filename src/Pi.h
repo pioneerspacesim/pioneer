@@ -107,7 +107,6 @@ public:
 		void RunJobs();
 
 		void HandleRequests();
-		bool HandleEvent(SDL_Event &ev) override;
 
 	private:
 		// msgs/requests that can be posted which the game processes at the end of a game loop in HandleRequests

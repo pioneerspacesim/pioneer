@@ -332,6 +332,20 @@ function ui.isAnyWindowHovered()
 end
 
 --
+-- Function: ui.canClickOnScreenObjectHere
+--
+-- A set of checks sufficient to safely process a click at the current mouse
+-- coordinates.
+--
+-- Returns:
+--
+--   boolean
+--
+function ui.canClickOnScreenObjectHere()
+	return not ui.isAnyWindowHovered() and not ui.isAnyPopupOpen()
+end
+
+--
 -- Function: ui.ctrlHeld
 --
 -- ui.ctrlHeld()

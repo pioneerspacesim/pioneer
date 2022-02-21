@@ -871,6 +871,10 @@
     "description": "",
     "message": "Nerve Gas"
   },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
+  },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
     "message": "Not found"

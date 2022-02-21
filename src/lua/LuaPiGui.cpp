@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Input.h"
+#include "InputBindings.h"
 #include "LuaPiGuiInternal.h"
 
 #include "EnumStrings.h"
@@ -14,6 +15,8 @@
 #include "LuaVector2.h"
 #include "Pi.h"
 #include "Player.h"
+#include "SDL_keycode.h"
+#include "SDL_scancode.h"
 #include "Space.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
@@ -1103,13 +1106,18 @@ static int l_pigui_get_axisbinding(lua_State *l)
 	const auto &joysticks = Input::GetJoysticks();
 	InputBindings::JoyAxis binding = {};
 
-	for (const auto &js : joysticks) {
-		const auto &axes = js.second.axes;
+	for (unsigned id = 0; id < joysticks.size(); ++id) {
+		const auto &axes = joysticks[id].axes;
 		for (size_t axis_num = 0; axis_num < axes.size(); axis_num++) {
 			float val = axes[axis_num].value;
-			if (std::abs(val) > 0.25) {
+			// we will cut off the possible joystick noise, as well as the fact that
+			// the trigger in a relaxed position means -1.0
+			// TODO: Would be better if the input system had some tracking for
+			// "at-rest" axes and only evaluate ones that have changed their values
+			// during this frame.
+			if (std::abs(val) > 0.25 && std::abs(val) < 0.9) {
 				binding.axis = axis_num;
-				binding.joystickId = js.first;
+				binding.joystickId = id;
 				binding.direction = val > 0.0 ? 1 : -1;
 			}
 		}
@@ -1127,17 +1135,23 @@ static int l_pigui_get_axisbinding(lua_State *l)
 	return 2;
 }
 
-// FIXME: at the moment this just grabs the first button that is pressed
-static InputBindings::KeyBinding get_joy_button()
+static constexpr int MAX_BIND_KEYS = 3; // activator, modifier1, modifier2
+using KeyBindings = std::array<InputBindings::KeyBinding, MAX_BIND_KEYS>;
+
+static KeyBindings get_joy_buttons()
 {
+	KeyBindings bindings{};
+	int bind_count = 0;
 	auto &joysticks = Input::GetJoysticks();
 
-	for (const auto &js : joysticks) {
-		const auto &buttons = js.second.buttons;
-		const auto &hats = js.second.hats;
+	for (unsigned id = 0; id < joysticks.size(); ++id) {
+		const auto &buttons = joysticks[id].buttons;
+		const auto &hats = joysticks[id].hats;
 		for (size_t b = 0; b < buttons.size(); b++) {
-			if (buttons[b])
-				return InputBindings::KeyBinding::JoystickButton(js.first, b);
+			if (buttons[b]) {
+				bindings[bind_count++] = InputBindings::KeyBinding::JoystickButton(id, b);
+				if (bind_count == MAX_BIND_KEYS) return bindings;
+			}
 		}
 		for (size_t h = 0; h < hats.size(); h++) {
 			if (hats[h]) {
@@ -1147,7 +1161,8 @@ static InputBindings::KeyBinding get_joy_button()
 				case SDL_HAT_RIGHT:
 				case SDL_HAT_UP:
 				case SDL_HAT_DOWN:
-					return InputBindings::KeyBinding::JoystickHat(js.first, h, hatDir);
+					bindings[bind_count++] = InputBindings::KeyBinding::JoystickHat(id, h, hatDir);
+					if (bind_count == MAX_BIND_KEYS) return bindings;
 				default:
 					continue;
 				}
@@ -1156,7 +1171,7 @@ static InputBindings::KeyBinding get_joy_button()
 		}
 	}
 
-	return InputBindings::KeyBinding{};
+	return bindings;
 }
 
 // FIXME: implement an "input binding mode" which listens to events from Pi::input to build input chords
@@ -1164,41 +1179,94 @@ static int l_pigui_get_keybinding(lua_State *l)
 {
 	PROFILE_SCOPED()
 
-	InputBindings::KeyChord binding;
-	int key = 0;
+	auto bindState = LuaPull<InputBindings::KeyChord>(l, 1);
+	KeyBindings binds{};
+	int bind_count = 0;
 
-	// FIXME: support key chording instead of scanning the list of currently held keys!
-	// pick the first key that's currently held down
-	// should there be a priority?
+	// Collect the first MAX_KEYS keys, joystick buttons, mouse buttons
+
+	// keys
 	for (int i = 0; i < 512; i++) {
 		if (ImGui::GetIO().KeysDown[i]) {
 			// io.KeysDown uses scancodes, but we need keycodes.
-			key = SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(i));
-			break;
+			binds[bind_count++] = SDL_GetKeyFromScancode(static_cast<SDL_Scancode>(i));
+			if (bind_count == MAX_BIND_KEYS) break;
 		}
 	}
 
 	// Escape is used to clear an existing binding
-	if (key == SDLK_ESCAPE) {
+	if (bind_count == 1 && binds[0].keycode == SDLK_ESCAPE) {
 		LuaPush(l, true);
 		lua_pushnil(l);
 		return 2;
 	}
 
-	// Check joysticks if no keys are held down
-	if (Pi::input->IsJoystickEnabled() && (key == 0 || (key >= SDLK_LCTRL && key <= SDLK_RGUI))) {
-		binding.activator = get_joy_button();
-	} else if (key != 0) {
-		binding.activator = InputBindings::KeyBinding(key);
+	// joysticks
+	if (Pi::input->IsJoystickEnabled() && bind_count < MAX_BIND_KEYS) {
+		KeyBindings joy_binds = get_joy_buttons();
+		for (int i = 0; joy_binds[i].Enabled() && bind_count < MAX_BIND_KEYS; ++i) {
+			binds[bind_count++] = joy_binds[i];
+		}
 	}
 
-	if (!binding.Enabled()) {
+	// mouse
+	if (bind_count < MAX_BIND_KEYS) {
+		for (int i = 0; i < 5; i++) {
+			if (ImGui::GetIO().MouseDown[i]) {
+				// imgui mouse button numbering different from sdl
+				const uint8_t imgui_to_sdl[] = { 1, 3, 2, 4, 5 };
+				binds[bind_count++] = InputBindings::KeyBinding::MouseButton(imgui_to_sdl[i]);
+				if (bind_count == MAX_BIND_KEYS) break;
+			}
+		}
+	}
+
+	// nothing pressed
+	if (bind_count == 0) {
 		lua_pushnil(l);
 		return 1;
 	}
 
+	// only left mouse button is pressed - ignore
+	if (bind_count == 1 && binds[0] == InputBindings::KeyBinding::MouseButton(1)) {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	// Key chording support.
+	// The trick is that while something is being pressed, each new pressed key
+	// becomes an activator, and all the previous ones roll into modifiers,
+	// Until all modifiers are filled.
+	// The key chord accumulates as long as something is pressed.
+
+	// Remove from the list of KeyBindings, captured in the current frame,
+	// everything that was saved in the previous frame.
+	// Separately remember whether the activator from the previous frame is still pressed
+	bool activatorThere = false;
+	if (bindState.Enabled()) {
+		for (auto &bind : binds) {
+			if (bind.Enabled() && (bindState.modifier1 == bind || bindState.modifier2 == bind || bindState.activator == bind)) {
+				if (bind == bindState.activator) activatorThere = true;
+				bind.type = InputBindings::KeyBinding::Type::Disabled;
+			}
+		}
+	}
+
+	// Update activator, if a new KeyBinding is captured in this frame
+	// but only if the binding is not completely filled, i.e. does not have two
+	// modifiers yet.
+	for (auto &bind : binds) {
+		if (bind.Enabled() && !(bind == bindState.activator)) {
+			if (!bindState.modifier2.Enabled() && activatorThere) {
+				bindState.modifier2 = bindState.modifier1;
+				bindState.modifier1 = bindState.activator;
+			}
+			bindState.activator = bind;
+		}
+	}
+
 	LuaPush(l, true);
-	LuaPush(l, binding);
+	LuaPush(l, bindState);
 	return 2;
 }
 
@@ -2034,9 +2102,9 @@ static int l_pigui_get_targets_nearby(lua_State *l)
 		vector3d shipSpacePosition = position * Pi::player->GetOrient();
 		// convert to polar https://en.wikipedia.org/wiki/Spherical_coordinate_system
 		vector3d polarPosition( // don't calculate X, it is not used
-			// sqrt(shipSpacePosition.x*shipSpacePosition.x
-			// 		+ shipSpacePosition.y*shipSpacePosition.y
-			// 		+ shipSpacePosition.z*shipSpacePosition.z)
+								// sqrt(shipSpacePosition.x*shipSpacePosition.x
+								// 		+ shipSpacePosition.y*shipSpacePosition.y
+								// 		+ shipSpacePosition.z*shipSpacePosition.z)
 			0,
 			atan2(shipSpacePosition.x, shipSpacePosition.y),
 			atan2(-shipSpacePosition.z, sqrt(shipSpacePosition.x * shipSpacePosition.x + shipSpacePosition.y * shipSpacePosition.y)));

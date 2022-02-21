@@ -5,6 +5,7 @@
 #define INPUT_H
 
 #include "InputBindings.h"
+#include "SDL_joystick.h"
 #include "utils.h"
 
 #include <algorithm>
@@ -91,7 +92,7 @@ namespace Input {
 	};
 
 	void InitJoysticks(IniConfig *config);
-	std::map<SDL_JoystickID, JoystickInfo> &GetJoysticks();
+	std::vector<JoystickInfo> &GetJoysticks();
 
 	// User display name for the joystick from the API/OS.
 	std::string JoystickName(int joystick);
@@ -104,8 +105,9 @@ namespace Input {
 	int JoystickFromGUIDString(const char *guid);
 	int JoystickFromGUID(SDL_JoystickGUID guid);
 
-	// We use SDL's joystick IDs because they're stable enough for the job.
-	inline int JoystickFromID(SDL_JoystickID id) { return id; }
+	int JoystickFromID(SDL_JoystickID id);
+	// map SDL joystick instance ID to internal ID
+	void AddJoystickID(SDL_JoystickID sdl_id, uint32_t internal_id);
 
 	// An adapter to decouple input frame creation from input binding registration.
 	// The functions registered via AddBindingRegistrar should be thread-safe and

@@ -118,14 +118,14 @@ local function displayOnScreenObjects()
 		local mp = ui.getMousePos()
 		-- mouse release handler for radial menu
 		if (mp - mainCoords):length() < click_radius then
-			if not ui.isAnyWindowHovered() and ui.isMouseClicked(1) then
+			if not ui.canClickOnScreenObjectHere() and ui.isMouseClicked(1) then
 				local body = mainBody
 				ui.openDefaultRadialMenu(body)
 			end
 		end
 		-- mouse release handler
 		if (mp - mainCoords):length() < click_radius then
-			if not ui.isAnyWindowHovered() and ui.isMouseReleased(0) then
+			if not ui.canClickOnScreenObjectHere() and ui.isMouseReleased(0) then
 				if group.hasNavTarget or combatTarget == mainBody then
 					-- if clicked and is target, unset target
 					if group.hasNavTarget then
