@@ -91,6 +91,12 @@ local earth_starports = {
 	CustomSystemBody:new('Los Angeles', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(34))
 		:longitude(math.deg2rad(118)),
+	CustomSystemBody:new('Torvalds Platform', 'STARPORT_ORBITAL')
+		:seed(0)
+		:semi_major_axis(f(5.0,100000))
+		:rotation_period(f(1,24*60*3))
+		:orbital_phase_at_start(fixed.deg2rad(f(0,1)))
+		:axial_tilt(fixed.deg2rad(f(668,100))),
 	CustomSystemBody:new('Gates Spaceport', 'STARPORT_ORBITAL')
 		:seed(1)
 		:semi_major_axis(f(100,100000))
@@ -99,12 +105,6 @@ local earth_starports = {
 		:seed(13)
 		:semi_major_axis(f(100,100000))
 		:rotation_period(f(1,24*60*3)),
-	CustomSystemBody:new('Torvalds Platform', 'STARPORT_ORBITAL')
-		:seed(0)
-		:semi_major_axis(f(5.0,100000))
-		:rotation_period(f(1,24*60*3))
-		:orbital_phase_at_start(fixed.deg2rad(f(0,1)))
-		:axial_tilt(fixed.deg2rad(f(668,100))),
 
 }
 
