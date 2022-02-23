@@ -5,7 +5,7 @@
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+    "message": "L'Église Celeste du Monstrueux Spaghetti Volant a besoin de VOTRE argent pour diffuser la parole de Dieu."
   },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "DONNEZ"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "Les Gardiens de l'Esprit Libre vous demandent humblement la charité pour aider leurs monastères."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "FEELING GENEROUS?"
+    "message": "A VOTRE BON COEUR"
   },
   "FLAVOUR_2_DESC": {
     "description": "",
-    "message": "War Orphan's Support needs your help to keep up its essential work."
+    "message": "L'Aide aux Orphelins de Guerre a besoin de votre aide pour continuer son action."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUTE"
+    "message": "CONTRIBUEZ"
   },
   "FLAVOUR_3_DESC": {
     "description": "",
-    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "Les Amis de la Galaxie et sa campagne 'Bannisson la propulsion militaire' ont besoin de votre argent."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_4_DESC": {
     "description": "",
-    "message": "Save our species. Stop the carnage of newly settled worlds."
+    "message": "Sauvez nos especes. Stop au carnage des nouveaux mondes colonisés."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "SOUTENEZ LA LIBERTÉ!"
   },
   "FLAVOUR_5_DESC": {
     "description": "",
-    "message": "Stop the great injustice of proprietary software controlling your ship."
+    "message": "Stoppez la grande injustice des logiciels propriétaires contrôlant votre vaisseau."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",

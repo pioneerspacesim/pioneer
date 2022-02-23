@@ -13,11 +13,11 @@
   },
   "FLAVOUR_0_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Special offer, selling one {equipment}."
+    "message": "Offre spéciale, vend l'équipement: {equipement}."
   },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "À VENDRE"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "À VENDRE"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "À VENDRE"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
