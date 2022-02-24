@@ -25,11 +25,11 @@
   },
   "FLAVOUR_1_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Practically unused {equipment}, at an affordable price!"
+    "message": "équipement ({equipment}) pratiquement pas utilisé, à un prix abordable!"
   },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "VEND EQUIPEMENT"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_2_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Selling one {equipment}, for a reasonable price!"
+    "message": "Vend un équipement ({equipment}), pour un prix raisonnable!"
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "VEND EQUIPEMENT"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_3_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Offering one {equipment}, in good condition."
+    "message": "Vend un équipement ({equipment}), en bonne condition."
   },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_4_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "For sale: leftover {equipment}, in fine condition."
+    "message": "À vendre: équipment ({equipment}) plus utile, en bon état."
   },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
@@ -73,11 +73,11 @@
   },
   "FLAVOUR_5_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "On offer: old {equipment}, in working condition."
+    "message": "Vend un ancien équipement ({equipment}), en bon état de marche."
   },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "VEND EQUIPEMENT"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",
