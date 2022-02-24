@@ -498,10 +498,9 @@ theme.icons = {
 	cargo_crate_illegal = 255,
 	-- seventeenth row
 	-- reticle icons 256..268
-	-- EMPTY = 269,
+	paintspray = 269,
 	-- EMPTY = 270,
 	-- EMPTY = 271,
-	paintspray = 269,
 	-- eighteenth row
 	equip_cargo_scoop = 272,
 	equip_fuel_scoop = 273,
