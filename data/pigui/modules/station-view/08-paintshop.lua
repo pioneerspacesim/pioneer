@@ -244,7 +244,7 @@ end
 StationView:registerView({
 	id = "paintshopView",
 	name = l.PAINTSHOP,
-	icon = ui.theme.icons.ship,
+	icon = ui.theme.icons.paintspray,
 	showView = true,
 	draw = function()
 		paintshop()

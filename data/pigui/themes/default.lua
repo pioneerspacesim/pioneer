@@ -501,6 +501,7 @@ theme.icons = {
 	-- EMPTY = 269,
 	-- EMPTY = 270,
 	-- EMPTY = 271,
+	paintspray = 269,
 	-- eighteenth row
 	equip_cargo_scoop = 272,
 	equip_fuel_scoop = 273,
