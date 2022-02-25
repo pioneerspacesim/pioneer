@@ -19,8 +19,6 @@ local Vector2 = _G.Vector2
 local Color = _G.Color
 local rescaleVector = ui.rescaleUI(Vector2(1, 1), Vector2(1600, 900), true)
 
-local pionillium = ui.fonts.pionillium
-
 local numWelcomeMessages = 5
 local modelSpinner = ModelSpinner()
 local previewPattern
@@ -28,6 +26,8 @@ local previewSkin
 local previewColors
 local changesMade = false
 local price = 0.0
+local textColorDefault = Color(255, 255, 255)
+local textColorWarning = Color(255, 255, 0)
 
 local function determineAvailability()
 	local player = Game.player
@@ -133,13 +133,9 @@ local function updatePrice()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
 	
-	if changesMade then
-		local approxSurfaceArea = (shipDef.frontCrossSec + shipDef.sideCrossSec + shipDef.topCrossSec) * 2
-		-- round to 10
-		price = math.floor(approxSurfaceArea / 10 + 0.5) * 10 
-	else
-		price = 0.0
-	end
+	local approxSurfaceArea = (shipDef.frontCrossSec + shipDef.sideCrossSec + shipDef.topCrossSec) * 2
+	-- round to 10
+	price = math.floor(approxSurfaceArea / 10 + 0.5) * 10
 end
 
 local function applyChanges()
@@ -168,6 +164,7 @@ local function resetPreview()
 	previewColors[3] = Color(string.format("%x%x%x", previewColors[3]["r"], previewColors[3]["g"], previewColors[3]["b"]))
 	
 	refreshModelSpinner()
+	updatePrice()
 	changesMade = false
 end
 
@@ -182,9 +179,12 @@ local function paintshop()
 		return
 	end
 	
-	updatePrice()
-	
 	local rand = Rand.New(station.seed)
+	
+	local priceColor = textColorDefault
+	if price > player:GetMoney() then
+		priceColor = textColorWarning
+	end
 	
 	local columnWidth = ui.getContentRegion().x/2
 	local itemSpacing = Vector2(8, 6)
@@ -200,7 +200,9 @@ local function paintshop()
 		ui.child("PaintshopControls", Vector2(columnWidth, 0), {}, function ()
 			ui.text(l["PAINTSHOP_WELCOME_" .. rand:Integer(numWelcomeMessages - 1)])
 			ui.dummy(verticalDummy)
-			ui.text(l.PRICE.. ": " ..Format.Money(price, false))
+			ui.withStyleColors({["Text"] = priceColor }, function()
+				ui.text(l.PRICE.. ": " ..Format.Money(price, false))
+			end)
 			ui.text(l.PLEASE_DESIGN_NEW_PAINTJOB)
 			local priChanged, secChanged, triChanged
 			priChanged, previewColors[1] = ui.colorEdit((l.COLOR.." 1"), previewColors[1], false)
