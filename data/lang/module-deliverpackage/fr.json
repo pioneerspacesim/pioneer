@@ -177,11 +177,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Transport belongings to {starport} from port storage facility."
+    "message": "Transport de mes biens vers {starport} depuis le centre de stockage du port."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "MOVING HOME"
+    "message": "DÉMÉNAGEMENT"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "In-system courier services required. Delivery of a small package to {starport}."
+    "message": "Services de courrier Intra-système requis. Livraison d'un petit colis vers {starport}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHORT-RANGE COURIER"
+    "message": "COURRIER COURTE DISTANCE"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -225,11 +225,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Standardized inter-planetary transport contract. Freight of local cargo to {starport}."
+    "message": "Contrat standard de transport inter-planétaire. Livraison  locale d'une cargaison vers {starport}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "INTER-PLANETARY CARGO"
+    "message": "CARGAISON INTER-PLANÉTAIRE"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
@@ -249,11 +249,11 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal delivery contract. Require quick delivery of an item to {starport}."
+    "message": "Contrat de livraison privée urgent. Besoin de livraison rapide d'un object vers {starport}."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "NEARBY DELIVERY"
+    "message": "LIVRAISON DE PROXIMITÉ"
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
@@ -273,11 +273,11 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Package drop-off required. Urgent dispatch of perishables to {starport}."
+    "message": "Besoin de livraison de coli. Expédition urgente de produits périssables vers {starport}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "PACKAGE DROP"
+    "message": "LIVRAISON DE COLIS"
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",
