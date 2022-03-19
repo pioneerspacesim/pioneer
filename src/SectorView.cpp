@@ -191,7 +191,7 @@ public:
 	FactionLabel(Labels &host, const vector3f &pos, const Color &color, const std::string &home, const std::string &name, const float radius, const SystemPath &path) :
 		Label(host, pos, IM_COL32(color.r, color.g, color.b, color.a)),
 		home(home),
-		homePos(pos.x + radius + host.gap, pos.y - host.factionHomeFont->FontSize - host.gap),
+		homePos(pos.x + radius + host.gap, pos.y - host.fontSize - host.gap),
 		name(name),
 		namePos(pos.x + radius + host.gap, pos.y + host.gap),
 		radius(radius),
@@ -601,7 +601,7 @@ void SectorView::InitObject()
 
 	m_renderer = Pi::renderer; //XXX pass cleanly to all views constructors!
 
-	Graphics::RenderStateDesc rsd {};
+	Graphics::RenderStateDesc rsd{};
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 
 	Graphics::MaterialDescriptor bbMatDesc;
@@ -760,7 +760,7 @@ void SectorView::SetLabelParams(std::string fontName, int fontSize, float gap, C
 void SectorView::DrawLabels()
 {
 	// sort the labels to draw them starting from the farthest
-	std::sort(m_labels.array.begin(), m_labels.array.end(), [](const std::unique_ptr<Label> &a, const std::unique_ptr<SectorView::Label> &b) {
+	std::sort(m_labels.array.begin(), m_labels.array.end(), [](const std::unique_ptr<Label> &a, const std::unique_ptr<Label> &b) {
 		return a->Depth() > b->Depth();
 	});
 
