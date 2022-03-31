@@ -5,7 +5,7 @@
   },
   "INITIATE_CARGO_SCAN_1": {
     "description": "",
-    "message": "Scansione del cago avviata."
+    "message": "Scansione del cargo avviata."
   },
   "INITIATE_CARGO_SCAN_2": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "OUTLAW_DETECTED_3": {
     "description": "",
-    "message": "Hah, preso! Non uscirai vivo da questo sistema!"
+    "message": "Ah, preso! Non uscirai vivo da questo sistema!"
   },
   "POLICE_TAUNT_1": {
     "description": "",
@@ -65,10 +65,10 @@
   },
   "TARGET_DESTROYED_3": {
     "description": "",
-    "message": "Riposa in pezzi! Haha."
+    "message": "Riposa in pezzi! Ahah!"
   },
   "TARGET_DESTROYED_4": {
     "description": "",
-    "message": "Another one bites the dust!"
+    "message": "Anche questo è andato!"
   }
 }
