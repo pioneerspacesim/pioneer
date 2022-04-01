@@ -97,6 +97,10 @@ namespace Graphics {
 		public:
 			PointSprites();
 			void SetData(const int count, const vector3f *positions, const Color *colours, const float *sizes);
+
+			// Transfer ownership of the vertex data to the PointSprites instance
+			void SetData(const int count, std::vector<vector3f> &&positions, std::vector<Color> &&colors, std::vector<float> &&sizes);
+
 			void Draw(Renderer *, Material *);
 
 		private:
