@@ -170,7 +170,6 @@ GalaxyGenerator *GalaxyGenerator::AddStarSystemStage(StarSystemGeneratorStage *s
 
 RefCountedPtr<Sector> GalaxyGenerator::GenerateSector(RefCountedPtr<Galaxy> galaxy, const SystemPath &path, SectorCache *cache)
 {
-	PROFILE_SCOPED()
 	const Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rng(_init, 4);
 	SectorConfig config;
