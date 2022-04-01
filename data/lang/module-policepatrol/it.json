@@ -5,7 +5,7 @@
   },
   "INITIATE_CARGO_SCAN_1": {
     "description": "",
-    "message": "Scansione del cago avviata."
+    "message": "Scansione del cargo avviata."
   },
   "INITIATE_CARGO_SCAN_2": {
     "description": "",
@@ -69,6 +69,6 @@
   },
   "TARGET_DESTROYED_4": {
     "description": "",
-    "message": "Another one bites the dust!"
+    "message": "Anche questo è andato!"
   }
 }
