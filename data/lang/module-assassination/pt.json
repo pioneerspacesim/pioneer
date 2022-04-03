@@ -57,19 +57,19 @@
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment."
+    "message": "Estou muito insatisfeito por saber que {alvo} ainda está vivo. Desnecessário dizer que você não será pago."
   },
   "FLAVOUR_0_FAILUREMSG2": {
     "description": "",
-    "message": "{target}'s removal was not done by you. No payment this time."
+    "message": "Remoção de {alvo} não foi feita por você. Sem pagamento desta vez."
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}."
+    "message": "Olá, sou {nome}. Lhe pagarei {dinheiro}} para se livrar de {alvo}."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
-    "message": "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment."
+    "message": "Muito gratos pelo recebimento da notícia das longas férias de {alvo}. Muito bem, já inicieiseu pagamento completo."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
@@ -81,19 +81,19 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I hear that {target} is in good health. This pains me."
+    "message": "Ouvi que {alvo} tem ótima saúde. Isso acaba comigo."
   },
   "FLAVOUR_1_FAILUREMSG2": {
     "description": "",
-    "message": "{target}'s demise was not caused by you, so do not ask for payment."
+    "message": "O falecimento de {alvo} não foi causado por você, então não peça pagamento."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "I need {target} taken out of the picture. I'll pay you {cash} to do this."
+    "message": "Preciso que {alvo} saia de cena. Lhe pagarei {dinheiro} por isso."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "I am most sad to hear of {target}'s demise. You have been paid in full."
+    "message": "Estou muito triste por ouvir sobre o falecimento de {alvo}. Você foi integralmente pago."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
@@ -109,15 +109,15 @@
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
-    "message": "Contract was completed by someone else. Be faster next time!"
+    "message": "O contrato foi concluído por outra pessoa. Seja mais rápido da próxima vez!"
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "I am {name}, and I will pay you {cash} to terminate {target}."
+    "message": "Sou {nome}, e lhe pagarei {dinheiro} para eliminar {alvo}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "You have been paid in full for the completion of that important contract."
+    "message": "Você foi integralmente pago por completar um contrato de tamanha importância."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
@@ -137,11 +137,11 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "The {target} must be reduced to space dust. I'll award you {cash} to do this."
+    "message": "O {alvo} deve ser reduzido a poeira espacial. Vou te recompensar {dinheiro} por isso."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "{target} is dead. Here is your award."
+    "message": "{alvo} está morto. Aqui está o seu prêmio."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
@@ -153,19 +153,19 @@
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "{target} is still breathing and I'm not giving money to you."
+    "message": "{alvo} ainda respira e eu não vou te dar nenhum dinheiro."
   },
   "FLAVOUR_4_FAILUREMSG2": {
     "description": "",
-    "message": "Retirement of {target} was done by someone else."
+    "message": "A aposentadoria de {alvo} foi feita por outra pessoa."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "For {cash} we wish to encourage {target} to stop work permanently."
+    "message": "Por {dinheiro} desejamos encorajar {alvo} a parar de trabalhar permanentemente."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "News of {target}'s retirement delightfully obtained. Here is your money."
+    "message": "Notícias da aposentadoria de {alvo} deliciosamente recebidas. Aqui está seu dinheiro."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "We found out that {target} is nonetheless operative. This saddens us."
+    "message": "Descobrimos que {alvo} ainda está operante. Isso nos entristece."
   },
   "FLAVOUR_5_FAILUREMSG2": {
     "description": "",
@@ -185,11 +185,11 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "We wish {target} to have a fitting career end in the {system} system for {cash}."
+    "message": "Desejamos que {alvo} tenha um fim de carreira adequado no sistema {sistema} por {dinheiro}."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "Message of {target}'s ending career happily acquired. Here is your {cash}."
+    "message": "Mensagem do fim da carreira de {alvo} felizmente recebida. Aqui está seu {dinheiro}."
   },
   "HOW_SOON_MUST_IT_BE_DONE": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
-    "message": "It must be done after {target} leaves {spaceport}. Do not miss this opportunity."
+    "message": "Será feito depois que {alvo} deixar {base de lançamento}. Não perca a oportunidade."
   },
   "OK_AGREED": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
     "description": "",
-    "message": "Return here on the completion of the contract and you will be paid."
+    "message": "Volte aqui na conclusão do contrato e você será pago."
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -217,7 +217,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Definir rota de retorno"
   },
   "SHIP": {
     "description": "",
@@ -345,10 +345,10 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Where can I find {target}?"
+    "message": "Onde posso encontrar {alvo}?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."
+    "message": "{alvo} deixará {base de lançamento} no sistema {sistema} ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz em {data}. A nave é a {nome da nave} e tem o número de registro  {registro da nave}."
   }
 }

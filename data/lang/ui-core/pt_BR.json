@@ -137,7 +137,7 @@
   },
   "CENTER_ON_SYSTEM": {
     "description": "Center on selected star system",
-    "message": "Center on System"
+    "message": "Centrar no sistema"
   },
   "CHANGE": {
     "description": "Face feature option",
@@ -177,7 +177,7 @@
   },
   "CLOSE": {
     "description": "",
-    "message": "Close"
+    "message": "Fechar"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -249,7 +249,7 @@
   },
   "CREDITS": {
     "description": "in game currency",
-    "message": "Credits"
+    "message": "Créditos"
   },
   "CREW_CABINS": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "END_GAME": {
     "description": "",
-    "message": "End Game"
+    "message": "Terminar jogo"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
@@ -577,11 +577,11 @@
   },
   "FLIGHT_STATE": {
     "description": "",
-    "message": "Flight State"
+    "message": "Estado do voo"
   },
   "FLYING": {
     "description": "",
-    "message": "Flying"
+    "message": "A voar"
   },
   "FORWARD_ACCEL": {
     "description": "",
@@ -1681,7 +1681,7 @@
   },
   "REMOVE": {
     "description": "Remove, e.g. deleting a log entry",
-    "message": "Remove"
+    "message": "Remover"
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
@@ -1805,7 +1805,7 @@
   },
   "SETTINGS": {
     "description": "UI option",
-    "message": "Settings"
+    "message": "Configurações"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -2021,7 +2021,7 @@
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration:"
+    "message": "Duração total:"
   },
   "TOTAL_MASS": {
     "description": "",

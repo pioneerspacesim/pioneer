@@ -85,7 +85,7 @@
   },
   "HOW_MUCH_TIME": {
     "description": "",
-    "message": "How much time do I have?"
+    "message": "Quanto tempo eu tenho?"
   },
   "HOW_MUCH_TIME_ARMS_DEALER": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "SCOOP": {
     "description": "Name of mission type",
-    "message": "Scoop"
+    "message": "Coletor"
   },
   "SET_AS_TARGET": {
     "description": "",

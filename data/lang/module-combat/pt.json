@@ -289,7 +289,7 @@
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Payment location:"
+    "message": "Local de pagamento:"
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",

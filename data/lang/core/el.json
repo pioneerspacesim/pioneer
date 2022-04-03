@@ -713,7 +713,7 @@
   },
   "MASS": {
     "description": "",
-    "message": "Mass"
+    "message": "Μάζα"
   },
   "MASSIVE": {
     "description": "Adjective used to describe the size of an object.",
@@ -1693,7 +1693,7 @@
   },
   "UNIT_METERS": {
     "description": "Distance unit: one meter",
-    "message": "m"
+    "message": "λ"
   },
   "UNIT_METERS_PER_SECOND": {
     "description": "Speed unit: one meter per second",

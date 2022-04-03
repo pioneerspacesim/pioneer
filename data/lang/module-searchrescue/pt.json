@@ -21,7 +21,7 @@
   },
   "CREW": {
     "description": "",
-    "message": "Crew"
+    "message": "Tripulação"
   },
   "DEADLINE": {
     "description": "",
@@ -121,7 +121,7 @@
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
-    "message": "the {locality} Biological Society"
+    "message": "a Sociedade de Biologia de {locality}"
   },
   "ENTITY_RESEARCH_10": {
     "description": "",
@@ -129,19 +129,19 @@
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": "the {locality} Microbiological Society"
+    "message": "a Sociedade de Microbiologia de {locality}"
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
-    "message": "the {locality} Chemical Society"
+    "message": "a Sociedade de Química de {locality}"
   },
   "ENTITY_RESEARCH_4": {
     "description": "",
-    "message": "the {locality} Astrobiological Society"
+    "message": "a Sociedade de Astrobiologia de {locality}"
   },
   "ENTITY_RESEARCH_5": {
     "description": "",
-    "message": "the {locality} Geological Society"
+    "message": "a Sociedade de Geologia de {locality}"
   },
   "ENTITY_RESEARCH_6": {
     "description": "",
@@ -173,31 +173,31 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you are just returning now! How much time has been wasted!"
+    "message": "Não acredito que você só está voltando agora! Quanto tempo foi desperdiçado!"
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full reimbursement of expenses you have to be back by {due}."
+    "message": "Para reembolso completo dos gastos você deve estar de volta até {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+    "message": "O controle de tráfego aéreo de {starport}  precisa da sua ajuda IMEDIATA para ajudar a responder a um pouso de emergência de uma nave do tipo {ship} no planeta {planet}. O status dos sistemas de suporte à vida é desconhecido. A nave foi segurada pelo seguro do espaçoporto {starport} e tem cobertura para {cash} em reembolso de respostas a emergências."
   },
   "FLAVOUR_1_LOCATIONTEXT": {
     "description": "",
-    "message": "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+    "message": "A última localização conhecida da nave foi o planeta {planet}, nas coordenadas de latitude/longitude: {lat} / {long}. O ID da nave é {shiplabel}."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, this is a great relief! We will transmit the money momentarily."
+    "message": "Muito obrigado! Isso é um grande alívio! Nós vamos transferir o dinheiro em um momento."
   },
   "FLAVOUR_1_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit} entrou a bordo da nave."
   },
   "FLAVOUR_1_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+    "message": "Uma tripulação de {crew} e {pass} passageiros foram identificados a bordo da nave. Precisamos de alguém para localizar a nave, resgatar quaisquer sobreviventes do local e trazê-los aqui imediatamente."
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
@@ -209,31 +209,31 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "I can't believe you kept me waiting out here this long! Forget about your payment!"
+    "message": "Eu não acredito que você me deixou esperando aqui fora por todo esse tempo! Pode esquecer o seu pagamento!"
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "To receive full payment you are asked to deliver the fuel by {due}."
+    "message": "Para receber o pagamento total você deve entregar o combustível até {due}."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+    "message": "O controle de tráfego aéreo de {starport} acaba de receber um aviso de que o vôo {shiplabel} está sem combustível e precisou fazer um pouso de emergência. O piloto está disposto a pagar {cash} por um serviço de reabastecimento."
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+    "message": "Neste momento a nave está esperando na latitude {lat} / longitude {long} no planeta {planet}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you so much! I have transferred the full reward."
+    "message": "Muito obrigado! Acabo de transferir a recompensa total."
   },
   "FLAVOUR_2_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} toneladas de combustível foram transferidas."
   },
   "FLAVOUR_2_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is requesting {unit} tons of {cargo}."
+    "message": "O piloto está solicitando {unit} toneladas de {cargo}."
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
@@ -245,31 +245,31 @@
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Unacceptable performance! We will update our records accordingly."
+    "message": "Performance inaceitável! Nós vamos atualizar os registros de acordo."
   },
   "FLAVOUR_3_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The substitute pilot will need to reach the ship by {due}."
+    "message": "O piloto substituto deve chegar à nave até {due}."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+    "message": "Meu nome é {name} do controle de tráfego aéreo de {starport}. Eu estou solicitando ajuda para uma emergência médica envolvendo o piloto do vôo {shiplabel} indo para {starport}."
   },
   "FLAVOUR_3_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship had to emergency land at the coordinates: {lat} / {long}. "
+    "message": "A nave precisou fazer pouso de emergência nas coordenadas: {lat} / {long}. "
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you, commander! Your help has been duly noted."
+    "message": "Obrigado, comandante! Sua ajuda foi devidamente anotada."
   },
   "FLAVOUR_3_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has left the ship."
+    "message": "{unit} deixou a nave."
   },
   "FLAVOUR_3_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+    "message": "Por favor transporte um piloto substituto de {starport} até a nave para que eles possam conduzir a nave de volta para {starport}."
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
@@ -281,31 +281,31 @@
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "I will send someone else. Don't bother anymore."
+    "message": "Eu vou enviar outra pessoa. Não precisa mais se incomodar."
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "For full pay the pilot expects you to deliver the fuel by {due}."
+    "message": "Para pagamento total o piloto espera que você entregue o combustível até {due}."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+    "message": "O controle de tráfego aéreo de {starport} acaba de ser contactado pelo piloto do vôo {shiplabel}. Eles estão encalhados com tanque de combustível vazio e prometeram pagar {cash} a qualquer um que reabasteça a nave."
   },
   "FLAVOUR_4_LOCATIONTEXT": {
     "description": "",
-    "message": "The ship is stranded on {planet} at coordinates {lat} / {long}."
+    "message": "A nave está encalhada em {planet}, nas coordenadas  {lat} / {long}."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Very good. We will recommend you for future assignments."
+    "message": "Muito bom. Nós vamos recomendar você para futuras designações."
   },
   "FLAVOUR_4_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} toneladas de combustível foram transferidas."
   },
   "FLAVOUR_4_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "The pilot is asking for {unit} tons of {cargo}."
+    "message": "O piloto está pedindo por {unit} toneladas de {cargo}."
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
@@ -317,31 +317,31 @@
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "People are just not dependable anymore."
+    "message": "As pessoas não são mais dependentes."
   },
   "FLAVOUR_5_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Please complete refueling by {due}."
+    "message": "Por favor termine de reabastecer até {due}."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+    "message": "O controle de tráfego aéreo de {starport} identificou uma nave com ID {shiplabel} sem combustível à deriva nas proximidades. Nós vamos pagar {cash} para qualquer um que recarregue a nave para que eles possam deixar a vizinhança de {starport}."
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+    "message": "A nave alvo está atualmente à deriva em algum lugar num raio de {dist} km daqui. Você vai ter que achar a localização exata por você mesmo."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "We will make record of your timely completion of the task."
+    "message": "Nós vamos fazer um registro da sua conclusão em prazo da tarefa."
   },
   "FLAVOUR_5_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} ton of fuel has been transferred."
+    "message": "{unit} toneladas de combustível foram transferidas."
   },
   "FLAVOUR_5_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We request the delivery of {unit} tons of {cargo} to the ship."
+    "message": "Nós solicitamos a entrega de {unit} toneladas de {cargo} para a nave."
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
@@ -353,15 +353,15 @@
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
-    "message": "What a disaster! This is the death sentence to our poor colleagues!"
+    "message": "Que desastre! Isso é a sentença de morte para os nossos pobres colegas!"
   },
   "FLAVOUR_6_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "You have to be back by {due}."
+    "message": "Você deve estar de volta até {due}."
   },
   "FLAVOUR_6_INTROTEXT": {
     "description": "",
-    "message": "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+    "message": "Meu nome é {name}, de {entity}. Nós perdemos contato com a nossa {ship} {shiplabel} após um problema de {problem}. Nós vamos pagar {cash} por uma ajuda imediata."
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
@@ -369,11 +369,11 @@
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! You can't imagine how relieved we are."
+    "message": "Obrigado! Você não imagina o quão aliviado estamos."
   },
   "FLAVOUR_6_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has boarded the ship."
+    "message": "{unit} entrou a bordo da nave."
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
@@ -389,11 +389,11 @@
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
-    "message": "Thank you very much, but you are too late!"
+    "message": "Muito obrigado, mas você está muito atrasado!"
   },
   "FLAVOUR_7_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "The replacement crew has to reach the ship by {due}."
+    "message": "A tripulação substituta deve alcançar a nave até {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
@@ -401,19 +401,19 @@
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+    "message": "Você vai encontrar a nave no sistema  {system} [{sectorx},{sectory},{sectorz}], a {dist} anos luz daqui. Está sendo mantida em órbita de {planet}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Thank you! I have been authorized to transmit the full payment."
+    "message": "Obrigado! Fui autorizado a transferir o pagamento total."
   },
   "FLAVOUR_7_TRANSFERMSG": {
     "description": "",
-    "message": "{unit} has transferred to the target ship."
+    "message": "{unit} foi transferido para a nave selecionada."
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+    "message": "Nós não podemos retornar a nave sem uma tripulação mínima presente. Estou procurando por alguém disposto a transportar uma tripulação substituta de {deliver_crew} para nossa nave imediatamente."
   },
   "FULL_CARGO": {
     "description": "",
@@ -429,11 +429,11 @@
   },
   "HOW_FAR": {
     "description": "",
-    "message": "How far away is the target?"
+    "message": "O quão distante está o alvo?"
   },
   "HOW_MUCH_TIME": {
     "description": "",
-    "message": "How much time do I have?"
+    "message": "Quanto tempo eu tenho?"
   },
   "INTERACTION_ABORTED": {
     "description": "",
@@ -445,7 +445,7 @@
   },
   "IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It must be completed by "
+    "message": "Deve ser completado até"
   },
   "KM": {
     "description": "",
@@ -453,7 +453,7 @@
   },
   "LAST_KNOWN_LOCATION": {
     "description": "",
-    "message": "Last known location:"
+    "message": "Última localização conhecida:"
   },
   "LAT": {
     "description": "",
@@ -493,11 +493,11 @@
   },
   "PASSENGERS": {
     "description": "",
-    "message": "Passengers"
+    "message": "Passageiros"
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Payment location:"
+    "message": "Local de pagamento:"
   },
   "PICKUP": {
     "description": "",
@@ -513,11 +513,11 @@
   },
   "PLEASE_LAND": {
     "description": "",
-    "message": "Please land ship to allow transfer."
+    "message": "Por favor, pouse a nave autorizar transferência."
   },
   "PROBLEM_CREW_1": {
     "description": "",
-    "message": "a deadly fight among the crew members"
+    "message": "uma briga mortal entre membros da tripulação"
   },
   "PROBLEM_CREW_10": {
     "description": "",
@@ -525,79 +525,79 @@
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "the crew had to chase a deadly {locality} snake found loose on the ship"
+    "message": "a tripulação teve qeu perseguir uma cobra mortal de {locality} encontrada solta dentro da nave"
   },
   "PROBLEM_CREW_3": {
     "description": "",
-    "message": "a {locality} spider killed all the others"
+    "message": "uma aranha de {locality} matou todos os outros"
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "what it seems like a {locality} scorpion got into the crew quarters at night"
+    "message": "o que parece ser um escorpião de {locality} entrou no dormitório da tripulação à noite"
   },
   "PROBLEM_CREW_5": {
     "description": "",
-    "message": "a severe form of {locality} fever killed the others"
+    "message": "uma forma severa de febre de {locality} matou os outros"
   },
   "PROBLEM_CREW_6": {
     "description": "",
-    "message": "the other crew members did not return from a space walk"
+    "message": "os outros membros não voltaram de uma caminhada espacial"
   },
   "PROBLEM_CREW_7": {
     "description": "",
-    "message": "a severe form of food poisoning on the ship"
+    "message": "uma forma severa de envenenamento alimentar na nave"
   },
   "PROBLEM_CREW_8": {
     "description": "",
-    "message": "a terrible accident that lead to the ejection of the others into space"
+    "message": "um acidente terrível que levou à ejeção dos outros ao espaço"
   },
   "PROBLEM_CREW_9": {
     "description": "",
-    "message": "a circumstance that I can't comment on publicly"
+    "message": "uma circunstância que eu não posso comentar publicamente"
   },
   "PROBLEM_GENERAL_1": {
     "description": "",
-    "message": "a fire in the cargo hold"
+    "message": "um incêndio no compartimento de carga"
   },
   "PROBLEM_GENERAL_10": {
     "description": "",
-    "message": "the receipt of a distress call from within {locality}"
+    "message": "a recepção de um sinal de socorro de {locality}"
   },
   "PROBLEM_GENERAL_2": {
     "description": "",
-    "message": "a power failure in the engine core"
+    "message": "uma queda de energia no núcleo do motor"
   },
   "PROBLEM_GENERAL_3": {
     "description": "",
-    "message": "an air leak"
+    "message": "um vazamento de ar"
   },
   "PROBLEM_GENERAL_4": {
     "description": "",
-    "message": "a severe form of food poisoning involving all personnel on board the ship"
+    "message": "uma forma severa de envenenamento alimentar envolvendo todo o pessoal a bordo"
   },
   "PROBLEM_GENERAL_5": {
     "description": "",
-    "message": "a small meteor impact"
+    "message": "um impacto de um pequeno meteoro"
   },
   "PROBLEM_GENERAL_6": {
     "description": "",
-    "message": "a fight among crew members"
+    "message": "uma briga entre membros da tripulação"
   },
   "PROBLEM_GENERAL_7": {
     "description": "",
-    "message": "contact with an unidentified flight object"
+    "message": "contato com um objeto voador não identificado"
   },
   "PROBLEM_GENERAL_8": {
     "description": "",
-    "message": "a dispute with a competitor's vessel"
+    "message": "uma disputa com a nave de um competidor"
   },
   "PROBLEM_GENERAL_9": {
     "description": "",
-    "message": "a reboot of the main computer"
+    "message": "uma reinicialização do computador principal"
   },
   "PROBLEM_RESEARCH_1": {
     "description": "",
-    "message": "an unexpected chemical reaction in one of the reaction chambers"
+    "message": "uma reação química inesperada em uma das câmaras de reação"
   },
   "PROBLEM_RESEARCH_10": {
     "description": "",
@@ -605,15 +605,15 @@
   },
   "PROBLEM_RESEARCH_2": {
     "description": "",
-    "message": "an infection of a crew member with a pathogen local to {locality}"
+    "message": "uma infecção de um membro da tripulação com um patógeno natural de {locality}"
   },
   "PROBLEM_RESEARCH_3": {
     "description": "",
-    "message": "a leak of experimental pathogens into the main air supply"
+    "message": "um vazamento de patógenos experimentais para dentro do suprimento de ar"
   },
   "PROBLEM_RESEARCH_4": {
     "description": "",
-    "message": "crew exposure to a specimen collected at {locality}"
+    "message": "exposição de tripulação a um espécime coletado em {locality}"
   },
   "PROBLEM_RESEARCH_5": {
     "description": "",
@@ -661,15 +661,15 @@
   },
   "RETURN_TO": {
     "description": "",
-    "message": "Return To:"
+    "message": "Retornar para:"
   },
   "REWARD": {
     "description": "",
-    "message": "Reward:"
+    "message": "Recompensa:"
   },
   "SEARCH_RESCUE": {
     "description": "",
-    "message": "Search & Rescue"
+    "message": "Busca & Resgate"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -677,11 +677,11 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "Definir rota de retorno"
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
-    "message": "Target ship unresponsive."
+    "message": "Nave alvo não responde."
   },
   "SYSTEM": {
     "description": "",
@@ -689,11 +689,11 @@
   },
   "TARGET_SHIP_ID": {
     "description": "",
-    "message": "Target ship ID:"
+    "message": "ID da nave alvo:"
   },
   "THANK_YOU_ACCEPTANCE_TXT": {
     "description": "",
-    "message": "Thank you so much. Your help is greatly appreciated."
+    "message": "Muito obrigado. Sua ajuda é muito apreciada."
   },
   "TONS_OF_FREE_CARGO_SPACE": {
     "description": "",
@@ -713,11 +713,11 @@
   },
   "TRANSFER_TIME": {
     "description": "",
-    "message": "Please allow {minutes} minutes for transfer."
+    "message": "Por favor, libere {minutes} minutos para transferir."
   },
   "TYPE_OF_HELP": {
     "description": "",
-    "message": "What type of help is needed?"
+    "message": "Que tipo de ajuda é necessária?"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
@@ -725,6 +725,6 @@
   },
   "WHERE_IS_THE_TARGET": {
     "description": "",
-    "message": "Where do I find the target?"
+    "message": "Onde eu acho o alvo?"
   }
 }
