@@ -273,7 +273,7 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Paket bırakılması gerekiyor. Bozulabilecek kargonun {starport} limanına acil sevkiyatı."
+    "message": "Paket bırakılması gerekiyor. Tüketim mallarının {starport} limanına acil sevkiyatı."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
