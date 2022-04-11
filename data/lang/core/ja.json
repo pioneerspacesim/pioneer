@@ -625,7 +625,7 @@
   },
   "LANG_NAME": {
     "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
-    "message": "英語"
+    "message": "日本語"
   },
   "LARGE": {
     "description": "regarding terrestrial planet size (mass actually)",
@@ -721,7 +721,7 @@
   },
   "MASS_N_TONNES": {
     "description": "",
-    "message": "Mass: %{mass}t"
+    "message": "質量: %{mass}t"
   },
   "MEDICINES": {
     "description": "",
@@ -737,7 +737,7 @@
   },
   "MESSAGE_FROM_X": {
     "description": "",
-    "message": "Message from %sender:"
+    "message": "%sender からのメッセージ:"
   },
   "META": {
     "description": "'Meta' key on keyboard",
@@ -1221,7 +1221,7 @@
   },
   "SECTOR_X_Y_Z": {
     "description": "",
-    "message": "Sector: %x,%y,%z"
+    "message": "セクター: %x,%y,%z"
   },
   "SELECTED_SYSTEM": {
     "description": "",
@@ -1249,7 +1249,7 @@
   },
   "SET_HYPERSPACE_DESTINATION_TO": {
     "description": "",
-    "message": "Set hyperspace destination to %system"
+    "message": "ハイパースペースの目的地を %system に設定"
   },
   "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
     "description": "",
@@ -1693,7 +1693,7 @@
   },
   "UNIT_METERS": {
     "description": "Distance unit: one meter",
-    "message": "分"
+    "message": "m"
   },
   "UNIT_METERS_PER_SECOND": {
     "description": "Speed unit: one meter per second",

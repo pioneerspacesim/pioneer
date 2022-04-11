@@ -13,7 +13,7 @@
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+    "message": "論争の主要な点は、肉は動物の生肉であるということだ。合成タンパクがすでに利用できるために、多くの人々は動物が殺されるべきではないと信じている。肉が多くの主要星系で違法であるが、動物とそれらの肉は伝統的な世界の人々の生活の一部として重要である。"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+    "message": "非常にまれですが、牛で耕す農家はいまだに存在します。しかしほとんどの農業では、機械が地下居住地での水耕栽培や農業惑星での広大な大地の工作に用いられている。"
   },
   "FERTILIZER": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+    "message": "ほとんどのアウトポストにはよそ者には耐えられないような地酒がある。アルコールはいくつかの星系では精神を曇らせる恐れがあるとみなされ、禁止されています。法律にかかわらずスコッチはほとんどいつもブラックマーケットで入手できます。"
   },
   "LIVE_ANIMALS": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Derived from natural sources, or synthesized artificially, medicines are needed everywhere humans go. From curing the common cold to combat the adverse effects of prolonged space travel, medicines are essential to the prosperity of an interstellar humanity. Carefully watched by customs agents, as it is not uncommon to disguise narcotics as medical drugs."
+    "message": "天然資源に由来する、または人工的に合成される医薬品は人類のいくところすべてで必要とされている。風邪を治すことから長期的な宇宙旅行の悪影響に対処するためなど、医薬品は宇宙での人々の繁栄に必要不可欠なものです。麻薬を医薬品として偽装することはよくあるので、税関当局によって注意深く監視されています。"
   },
   "METAL_ALLOYS": {
     "description": "",
