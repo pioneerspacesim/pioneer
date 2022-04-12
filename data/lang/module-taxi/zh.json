@@ -173,11 +173,11 @@
   },
   "FLAVOUR_11_ADTEXT": {
     "description": "",
-    "message": "Corporate inspector needs passage on a fast ship to {system} system."
+    "message": "公司检查员需要通过一艘快速客运船进入{system}系统。"
   },
   "FLAVOUR_11_ADTITLE": {
     "description": "",
-    "message": "FAST SHIP NEEDED"
+    "message": "需要快速客运船"
   },
   "FLAVOUR_11_DANGER": {
     "description": "",
@@ -209,11 +209,11 @@
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "Urgent transport required for fleeing citizen. Passage to {system} system needed."
+    "message": "逃离的公民需要紧急交通工具。需要通到{system}系统。"
   },
   "FLAVOUR_12_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "需要船吗"
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SMALL GROUP PASSAGE"
+    "message": "小组通道"
   },
   "FLAVOUR_2_DANGER": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "需要船吗"
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "需要船吗"
   },
   "FLAVOUR_6_DANGER": {
     "description": "",
