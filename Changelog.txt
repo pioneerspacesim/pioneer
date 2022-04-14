@@ -1,3 +1,20 @@
+April 2022
+  * New Features
+    * Adding the new and fixed patterns and texture to ships (#5347)
+
+  * Fixes
+    * Fix Deneb model (#5341)
+    * Fix list order of Torvalds (#5351)
+    * Fix crash on sector map - don't access imgui font until it's initialized (#5361)
+
+March 2022
+  * Watching life pass by
+
+February 2022
+  * Fixes
+    * Do not scan the player's cargo if he is already in hyperspace (#5346)
+    * Fix getting exit parameters from hyperjump (#5336)
+
 January 2022
   * New Features
     * Redesign the BBS layout, show pertinent mission info (#5312)
@@ -20,6 +37,8 @@ January 2022
     * Fix mechanic character not being persistent (#5306)
     * Fix GL_INVALID_ENUM error in forward-compatible GL contexts (#5315)
     * Fix clicks falling through buttons in Sector Map (#5324)
+    * Fix SAR orbit, and load of Traveller's advice module (#5331)
+    * Fix System map bugs, after play-testing (#5334)
 
 November 2021
   * New Features
