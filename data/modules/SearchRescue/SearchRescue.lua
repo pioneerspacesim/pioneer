@@ -1425,7 +1425,7 @@ local missionStatus = function (mission)
 		end
 	end
 	for commodity,_ in pairs(mission.deliver_comm_check) do
-		if mission.deliver_comm_check[commodity] == "PARTIAL" or mission.pickup_comm_check[commodity] == "ABORT" then
+		if mission.deliver_comm_check[commodity] == "PARTIAL" or mission.deliver_comm_check[commodity] == "ABORT" then
 			status = "PARTIAL"
 		end
 	end
@@ -1443,7 +1443,7 @@ local missionStatusReset = function (mission)
 		if mission.pickup_comm_check[commodity] == "PARTIAL" then mission.pickup_comm_check[commodity] = "NOT" end
 	end
 	for commodity,_ in pairs(mission.deliver_comm_check) do
-		if mission.deliver_comm_check[commodity] == "PARTIAL" then mission.pickup_comm_check[commodity] = "NOT" end
+		if mission.deliver_comm_check[commodity] == "PARTIAL" then mission.deliver_comm_check[commodity] = "NOT" end
 	end
 end
 
@@ -1738,11 +1738,6 @@ local deliverCommodity = function (mission, commodity)
 	else
 		removeCargo(Game.player, commodity)
 		addCargo(mission.target, commodity)
-		if mission.cargo_comm[commodity] == nil then
-			mission.cargo_comm[commodity] = 1
-		else
-			mission.cargo_comm[commodity] = mission.cargo_comm[commodity] + 1
-		end
 
 		-- show result message if done delivering this commodity
 		mission.deliver_comm[commodity] = mission.deliver_comm[commodity] - 1
