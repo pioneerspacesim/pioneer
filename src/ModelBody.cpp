@@ -426,18 +426,8 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 
 	matrix4x4d m2 = GetInterpOrient();
 	m2.SetTranslate(GetInterpPosition());
-	matrix4x4d t = viewTransform * m2;
 
-	//double to float matrix
-	matrix4x4f trans;
-	for (int i = 0; i < 12; i++)
-		trans[i] = float(t[i]);
-	trans[12] = viewCoords.x;
-	trans[13] = viewCoords.y;
-	trans[14] = viewCoords.z;
-	trans[15] = 1.0f;
-
-	m_model->Render(trans);
+	m_model->Render(matrix4x4f(viewTransform * m2));
 
 	if (setLighting)
 		ResetLighting(r, oldIntensity, oldAmbient);
