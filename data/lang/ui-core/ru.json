@@ -477,7 +477,7 @@
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
-    "message": "Factions"
+    "message": "Фракции"
   },
   "FAILED": {
     "description": "When failed mission",

@@ -177,7 +177,7 @@
   },
   "FLAVOUR_11_ADTITLE": {
     "description": "",
-    "message": "FAST SHIP NEEDED"
+    "message": "НУЖЕН БЫСТРЫЙ КОРАБЛЬ"
   },
   "FLAVOUR_11_DANGER": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "FLAVOUR_12_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "ТРЕБУЕТСЯ КОРАБЛЬ"
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "ТРЕБУЕТСЯ КОРАБЛЬ"
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "ТРЕБУЕТСЯ КОРАБЛЬ"
   },
   "FLAVOUR_6_DANGER": {
     "description": "",
@@ -501,7 +501,7 @@
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "FAST PERSONAL TRANSPORT"
+    "message": "БЫСТРЫЙ ЛИЧНЫЙ ТРАНСПОРТ"
   },
   "FLAVOUR_8_DANGER": {
     "description": "",

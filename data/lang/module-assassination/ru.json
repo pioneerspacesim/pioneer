@@ -77,7 +77,7 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "TARGET ELIMINATION"
+    "message": "УСТРАНЕНИЕ ЦЕЛИ"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "TERMINATION"
+    "message": "УНИЧТОЖЕНИЕ"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "RETIREMENT"
+    "message": "ОТСТАВКА"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "BIOGRAPHICAL"
+    "message": "БИОГРАФИЯ"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",

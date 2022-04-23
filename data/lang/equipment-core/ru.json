@@ -261,7 +261,7 @@
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
-    "message": "Propulsion"
+    "message": "Силовая установка"
   },
   "PULSECANNON_10MW": {
     "description": "",

@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "ПОЖЕРТВУЙТЕ!"
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+    "message": "Церкви Летающего Небесного Монстра-Спагетти нужны ТВОИ деньги для проповеди слова божьего."
   },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "ПОЖЕРТВОВАНИЯ"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "Хранители Свободного Духа смиренно просят на благотворительность для поддержки наших монастырей."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "ПОЖЕРТВУЙТЕ!"
   },
   "FLAVOUR_4_DESC": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "ПОДДЕРЖИ СВОБОДУ!"
   },
   "FLAVOUR_5_DESC": {
     "description": "",

@@ -17,7 +17,7 @@
   },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "РАСПРОДАЖА"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "ПРОДАЖА ОБОРУДОВАНИЯ"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "ПРОДАЖА ОБОРУДОВАНИЯ"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "РАСПРОДАЖА"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
@@ -65,7 +65,7 @@
   },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "РАСПРОДАЖА"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "ПРОДАЖА ОБОРУДОВАНИЯ"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",
