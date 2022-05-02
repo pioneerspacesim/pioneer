@@ -89,3 +89,4 @@ result
 *.code-workspace
 
 !data/modules/Debug
+*.lnk
