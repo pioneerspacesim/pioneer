@@ -91,7 +91,7 @@ public:
 	inline void ClearThrusterState()
 	{
 		ClearAngThrusterState();
-		if (m_launchLockTimeout <= 0.0f) ClearLinThrusterState();
+		ClearLinThrusterState();
 	}
 	void UpdateLuaStats();
 	void UpdateEquipStats();

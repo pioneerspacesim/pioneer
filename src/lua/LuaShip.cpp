@@ -19,6 +19,7 @@
 #include "SpaceStation.h"
 #include "ship/PlayerShipController.h"
 #include "ship/PrecalcPath.h"
+#include "src/lua.h"
 
 /*
  * Class: Ship
@@ -963,46 +964,48 @@ static int l_ship_set_flight_control_state(lua_State *l)
 	return 0;
 }
 
-/* Method: GetSetSpeed
+/* Method: GetCruiseSpeed
  *
- * Return the current SetSpeed speed in m/s.
+ * Return the current cruise speed in m/s.
  *
- * local speed = ship:GetSetSpeed()
+ * local speed = ship:GetCruiseSpeed()
  *
  * Returns:
  *
- *    the current SetSpeed speed in m/s or nil if not in fix speed mode.
+ *    the current cruise speed in m/s or nil if not in cruise speed mode.
  *
  */
-static int l_ship_get_set_speed(lua_State *l)
+static int l_ship_get_cruise_speed(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	if (s->GetController()->GetFlightControlState() == CONTROL_FIXSPEED)
-		LuaPush(l, s->GetController()->GetSetSpeed());
+		LuaPush(l, s->GetController()->GetCruiseSpeed());
 	else
 		lua_pushnil(l);
 	return 1;
 }
 
-/* Method: GetSetSpeedTarget
+/* Method: GetFollowTarget
  *
- * Return the current SetSpeed target of the ship.
+ * Return the current follow target of the ship.
  *
  * Returns:
  *
- *    The <Body> of the current SetSpeed target or nil.
+ *    The <Body> of the current follow target or nil.
  *
  */
-static int l_ship_get_set_speed_target(lua_State *l)
+static int l_ship_get_follow_target(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	Body *t = s->GetController()->GetSetSpeedTarget();
+	Body *t = s->GetController()->GetFollowTarget();
+	/*
 	if (s->GetType() == ObjectType::PLAYER && t == nullptr) {
 		FrameId fId = s->GetFrame();
 		Frame *f = Frame::GetFrame(fId);
 		if (f)
 			t = f->GetBody();
 	}
+	*/
 	if (t)
 		LuaObject<Body>::PushToLua(t);
 	else
@@ -1671,8 +1674,8 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetWheelState", l_ship_get_wheel_state },
 		{ "ToggleWheelState", l_ship_toggle_wheel_state },
 		{ "GetFlightState", l_ship_get_flight_state },
-		{ "GetSetSpeed", l_ship_get_set_speed },
-		{ "GetSetSpeedTarget", l_ship_get_set_speed_target },
+		{ "GetCruiseSpeed", l_ship_get_cruise_speed },
+		{ "GetFollowTarget", l_ship_get_follow_target },
 		{ "GetStats", l_ship_get_stats },
 
 		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },

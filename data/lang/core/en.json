@@ -1263,6 +1263,10 @@
     "description": "",
     "message": "Set low thrust power level to %power%%"
   },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Set maximum speed limit"
+  },
   "SET_NAVTARGET_TO": {
     "description": "",
     "message": "Set navigation target to: "

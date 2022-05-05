@@ -45,8 +45,8 @@ public:
 	virtual void StaticUpdate(float timeStep);
 	virtual void SetFlightControlState(FlightControlState s) {}
 	virtual FlightControlState GetFlightControlState() const { return CONTROL_MANUAL; }
-	virtual double GetSetSpeed() const { return 0.0; }
-	virtual void ChangeSetSpeed(double delta) {}
-	virtual Body *GetSetSpeedTarget() const { return nullptr; }
+	virtual double GetCruiseSpeed() const { return 0.0; }
+	virtual void ChangeCruiseSpeed(double delta) {}
+	virtual Body *GetFollowTarget() const { return nullptr; }
 	Ship *m_ship;
 };

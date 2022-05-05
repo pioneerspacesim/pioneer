@@ -116,7 +116,30 @@ ui.HoveredFlags = pigui.HoveredFlags
 
 -- Wrapped in buttons.lua
 -- ui.button = pigui.Button
+
+--
+-- Function: ui.clearMouse
+--
+-- ui.clearMouse()
+--
+-- Resets the mouse click data in the Input class. The ActionBindings and
+-- AxisBindings, as well as ImGui structs are not reset, but a subsequent call
+-- to Input::MouseButtonState will return false for all mouse buttons.
+--
+-- Returns:
+--
+--   nothing
+--
 ui.clearMouse = pigui.ClearMouse
+
+--
+-- Function: ui.wantTextInput
+--
+-- ui.wantTextInput()
+--
+-- Returns true if text is being entered into a text field in the current frame
+--
+ui.wantTextInput = pigui.WantTextInput
 
 ui.dataDirPath = pigui.DataDirPath
 ui.userDirPath = pigui.UserDirPath
@@ -171,6 +194,7 @@ ui.incrementDrag = pigui.IncrementDrag
 -- Returns:
 --
 --   value - the value that the drag was set to
+--   changed - boolean, whether the passed value has changed
 --
 ui.dragFloat = pigui.DragFloat
 return ui

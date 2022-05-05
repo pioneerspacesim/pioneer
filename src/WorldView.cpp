@@ -44,6 +44,9 @@ REGISTER_INPUT_BINDING(WorldView)
 	// universal axes for selecting an item from a radial menu
 	input->AddAxisBinding("BindRadialHorizontalSelection", group, Axis({}, { SDLK_LEFT }, { SDLK_RIGHT }));
 	input->AddAxisBinding("BindRadialVerticalSelection", group, Axis({}, { SDLK_UP }, { SDLK_DOWN }));
+	// radial menu activators
+	input->AddActionBinding("BindFlightAssistRadial", group, Action{});
+	input->AddActionBinding("BindFixheadingRadial", group, Action{});
 }
 
 void WorldView::InputBinding::RegisterBindings()
@@ -53,6 +56,8 @@ void WorldView::InputBinding::RegisterBindings()
 	decreaseTimeAcceleration = AddAction("BindDecreaseTimeAcceleration");
 	AddAxis("BindRadialVerticalSelection");
 	AddAxis("BindRadialHorizontalSelection");
+	AddAction("BindFlightAssistRadial");
+	AddAction("BindFixheadingRadial");
 }
 
 WorldView::WorldView(Game *game) :

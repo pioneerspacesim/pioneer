@@ -20,6 +20,7 @@
 #include "lua/LuaObject.h"
 #include "lua/LuaTable.h"
 #include "ship/PlayerShipController.h"
+#include "ship/ShipController.h"
 #include "sound/Sound.h"
 
 //Some player specific sounds
@@ -145,6 +146,7 @@ bool Player::SetWheelState(bool down)
 	bool did = Ship::SetWheelState(down);
 	if (did) {
 		s_soundUndercarriage.Play(down ? "UC_out" : "UC_in", 1.0f, 1.0f, 0);
+		GetPlayerController()->SetCruiseDirection(down ? PlayerShipController::CRUISE_UP : PlayerShipController::CRUISE_FWD);
 	}
 	return did;
 }
@@ -203,8 +205,14 @@ void Player::NotifyRemoved(const Body *const removedBody)
 			SetNavTarget(static_cast<const Ship *>(removedBody)->GetHyperspaceCloud());
 	}
 
-	if (GetSetSpeedTarget() == removedBody)
-		SetSetSpeedTarget(0);
+	if (GetFollowTarget() == removedBody) {
+		SetFollowTarget(0);
+		// turn on manual mode, otherwise the ship will start to drop speed to 0
+		// relative to the frame
+		if (m_controller->GetFlightControlState() == CONTROL_FIXSPEED) {
+			m_controller->SetFlightControlState(CONTROL_MANUAL);
+		}
+	}
 
 	Ship::NotifyRemoved(removedBody);
 }
@@ -215,7 +223,7 @@ void Player::OnEnterHyperspace()
 	s_soundHyperdrive.Play(m_hyperspace.sounds.jump_sound.c_str());
 	SetNavTarget(0);
 	SetCombatTarget(0);
-	SetSetSpeedTarget(0);
+	SetFollowTarget(0);
 
 	m_controller->SetFlightControlState(CONTROL_MANUAL); //could set CONTROL_HYPERDRIVE
 	ClearThrusterState();
@@ -245,14 +253,14 @@ Body *Player::GetNavTarget() const
 	return static_cast<PlayerShipController *>(m_controller)->GetNavTarget();
 }
 
-Body *Player::GetSetSpeedTarget() const
+Body *Player::GetFollowTarget() const
 {
-	return static_cast<PlayerShipController *>(m_controller)->GetSetSpeedTarget();
+	return static_cast<PlayerShipController *>(m_controller)->GetFollowTarget();
 }
 
-void Player::SetCombatTarget(Body *const target, bool setSpeedTo)
+void Player::SetCombatTarget(Body *const target, bool setFollowTo)
 {
-	static_cast<PlayerShipController *>(m_controller)->SetCombatTarget(target, setSpeedTo);
+	static_cast<PlayerShipController *>(m_controller)->SetCombatTarget(target, setFollowTo);
 }
 
 void Player::SetNavTarget(Body *const target)
@@ -260,14 +268,14 @@ void Player::SetNavTarget(Body *const target)
 	static_cast<PlayerShipController *>(m_controller)->SetNavTarget(target);
 }
 
-void Player::SetSetSpeedTarget(Body *const target)
+void Player::SetFollowTarget(Body *const target)
 {
-	static_cast<PlayerShipController *>(m_controller)->SetSetSpeedTarget(target);
+	static_cast<PlayerShipController *>(m_controller)->SetFollowTarget(target);
 }
 
-void Player::ChangeSetSpeed(double delta)
+void Player::ChangeCruiseSpeed(double delta)
 {
-	static_cast<PlayerShipController *>(m_controller)->ChangeSetSpeed(delta);
+	static_cast<PlayerShipController *>(m_controller)->ChangeCruiseSpeed(delta);
 }
 
 //temporary targeting stuff ends
