@@ -58,7 +58,6 @@ local popup = ModalWindow.New('ChiefMechanicPopup', function(self)
 	end
 end)
 
-
 local tryRepair = function (damage, price)
 	if Game.player:GetMoney() >= price then
 		Game.player:AddMoney(-price)
@@ -332,7 +331,7 @@ local function drawShipRepair()
 				ui.withStyleColors({["Text"] = priceColor }, function()
 					ui.text(l.PRICE.. ": " ..Format.Money(price, false))
 				end)
-				if ui.button(l.APPLY_CHANGES, Vector2(200, 36)) then
+				if ui.button(l.PURCHASE_PAINTJOB, Vector2(200, 36)) then
 					applyChanges()
 				end
 			end)

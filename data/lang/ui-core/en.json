@@ -35,9 +35,9 @@
     "description": "",
     "message": "An error has occurred"
   },
-  "APPLY_CHANGES": {
+  "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
-	"message": "Apply Changes"
+	"message": "Purchase Paintjob"
   },
   "ARRIVAL_DATE": {
     "description": "Time of arrival, used in flight log",
