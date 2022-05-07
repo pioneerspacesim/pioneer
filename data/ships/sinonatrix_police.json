@@ -1,7 +1,7 @@
 {
 	"model": "sinonatrix_police",
 	"name": "Sinonatrix (Police)",
-	"cockpit": " ",
+	"cockpit": "sinonatrix_cockpit",
 	"manufacturer": "opli",
 	"ship_class": "light_fighter",
 	"min_crew": 1,
