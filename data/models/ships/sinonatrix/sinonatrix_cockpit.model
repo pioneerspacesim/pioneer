@@ -1,0 +1,39 @@
+material Sinonatrix.Cockpit
+diffuse 0.9 0.9 0.9
+specular 0.3 0.3 0.3
+shininess 23
+tex_diff sinonatrix_cockpit_diff.dds
+tex_spec sinonatrix_cockpit_spec.dds
+tex_norm sinonatrix_cockpit_norm.png
+tex_glow sinonatrix_cockpit_glow.dds
+
+material Sinonatrix.Transp
+diffuse 0.9 0.9 0.9
+specular 0.3 0.3 0.3
+shininess 23
+opacity 30
+tex_diff sinonatrix_cockpit_diff.dds
+tex_spec sinonatrix_cockpit_spec.dds
+tex_norm sinonatrix_cockpit_norm.png
+tex_glow sinonatrix_cockpit_glow.dds
+
+material Sinonatrix.Screens
+diffuse 0.333 0.324 0.329
+specular 0.3 0.3 0.3
+shininess 23
+tex_diff sinonatrix_screen_diff.dds
+tex_spec sinonatrix_screen_spec.dds
+tex_glow sinonatrix_screen_glow.dds
+
+material Hull
+diffuse 1.0 1.0 1.0
+specular 0.8 0.8 0.8
+shininess 100
+tex_diff fuselage_diff.dds
+tex_spec fuselage_spec.dds
+tex_norm fuselage_norm.png
+tex_glow fuselage_glow.dds
+use_patterns
+
+mesh sinonatrix_cockpit.dae
+
