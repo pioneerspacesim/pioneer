@@ -105,7 +105,7 @@
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "ТРЕБУЕТСЯ ПРОХОД"
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "FLAVOUR_10_ADTITLE": {
     "description": "",
-    "message": "DISCREET SHIP WANTED"
+    "message": "ТРЕБУЕТСЯ НЕЗАМЕТНЫЙ КОРАБЛЬ"
   },
   "FLAVOUR_10_DANGER": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "ТРЕБУЕТСЯ ПРОХОД"
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SMALL GROUP PASSAGE"
+    "message": "ПРОХОД ДЛЯ МАЛЫХ ГРУПП"
   },
   "FLAVOUR_2_DANGER": {
     "description": "",

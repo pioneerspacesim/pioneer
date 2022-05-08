@@ -61,11 +61,11 @@
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "CARGO RUN"
+    "message": "ГРУЗОВОЙ РЕЙС"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "NEED CARGO TRANSPORT"
+    "message": "НУЖЕН ГРУЗОВОЙ ТРАНСПОРТ"
   },
   "ADTITLE_EXPENSIVE_1": {
     "description": "",
@@ -73,15 +73,15 @@
   },
   "ADTITLE_LOCAL_1": {
     "description": "",
-    "message": "SHORT-RANGE FREIGHT"
+    "message": "ПЕРЕВОЗКИ НА КОРОТКИЕ РАССТОЯНИЯ"
   },
   "ADTITLE_LOCAL_2": {
     "description": "",
-    "message": "LOCAL FREIGHT TRANSPORT"
+    "message": "МЕСТНЫЕ ГРУЗОВЫЕ ПЕРЕВОЗКИ"
   },
   "ADTITLE_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN"
+    "message": "МЕСТНЫЙ ГРУЗОВОЙ РЕЙС"
   },
   "ADTITLE_PICKUP_1": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "ADTITLE_WHOLESALER_1": {
     "description": "",
-    "message": "BULK CARGO SERVICE"
+    "message": "ОБСЛУЖИВАНИЕ СЫПУЧИХ ГРУЗОВ"
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",
