@@ -40,6 +40,8 @@ local price = 0.0
 local textColorDefault = Color(255, 255, 255)
 local textColorWarning = Color(255, 255, 0)
 
+local activeTab = 0
+
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
 	faceSize = Vector2(586,565),
@@ -220,18 +222,20 @@ local function resetPreview()
 end
 
 local function drawShipRepair()
-	local player = Game.player
-	local hullPercent = round(player:GetHullPercent())
-	local damage = 100 - hullPercent
-	local shipDef = ShipDef[player.shipId]
-	local station = player:GetDockedWith()
+
+	local paintshopAvailable = determinePaintshopAvailability()
 	
-	local rand = Rand.New(station.seed)
-	
-	local priceColor = textColorDefault
-	if price > player:GetMoney() then
-		priceColor = textColorWarning
+	if (paintshopAvailable) then
+		if ui.button(l.VISIT_PAINTSHOP, Vector2(250, 36)) then
+			activeTab = 1
+		end
+	else
+		ui.text(l.PAINTSHOP_NOT_AVAILABLE)
 	end
+
+	local hullPercent = round(Game.player:GetHullPercent())
+	local damage = 100 - hullPercent
+	local shipDef = ShipDef[Game.player.shipId]
 
 	-- local intro = string.interp(l.YOUR_HULL_IS_AT_X_INTEGRITY, {value = string.format('%.1f', hullPercent)})
 
@@ -274,26 +278,45 @@ local function drawShipRepair()
 		if(face ~= nil) then
 			face:render()
 		end
-		
-		ui.dummy(widgetSizes.verticalDummy * 2)
-		
-		local paintshopAvailable = determinePaintshopAvailability()
-		if not paintshopAvailable then
-			ui.text(l.PAINTSHOP_NOT_AVAILABLE)
-			return
-		end
-		
-		local paintshopColumnWidth = ui.getContentRegion().x/2
-		ui.child("PaintshopModelSpinner", Vector2(paintshopColumnWidth, 500), {}, function()
+	end)
+end
+
+local function drawPaintshop()
+	if ui.button(l.VISIT_REPAIR_SERVICES, Vector2(250, 36)) then
+		activeTab = 0
+	end
+
+	local player = Game.player
+	local shipDef = ShipDef[player.shipId]
+	local station = player:GetDockedWith()
+	
+	local available = determinePaintshopAvailability()
+	if not available then
+		ui.text(l.PAINTSHOP_NOT_AVAILABLE)
+		return
+	end
+	
+	local rand = Rand.New(station.seed)
+	
+	local priceColor = textColorDefault
+	if price > player:GetMoney() then
+		priceColor = textColorWarning
+	end
+	
+	local columnWidth = ui.getContentRegion().x/2
+	local itemSpacing = Vector2(8, 6)
+	local verticalDummy = Vector2(0, 50)
+	ui.withStyleVars({ItemSpacing = itemSpacing}, function ()
+		ui.child("PaintshopModelSpinner", Vector2(columnWidth, 0), {}, function()
 			modelSpinner:setSize(ui.getContentRegion())
 			modelSpinner:draw()
 		end)
 	
 		ui.sameLine()
 
-		ui.child("PaintshopControls", Vector2(paintshopColumnWidth, 500), {}, function ()
+		ui.child("PaintshopControls", Vector2(columnWidth, 0), {}, function ()
 			ui.text(l["PAINTSHOP_WELCOME_" .. rand:Integer(numWelcomeMessages - 1)])
-			ui.dummy(widgetSizes.verticalDummy)
+			ui.dummy(verticalDummy)
 			ui.text(l.PLEASE_DESIGN_NEW_PAINTJOB)
 			local priChanged, secChanged, triChanged
 			priChanged, previewColors[1] = ui.colorEdit((l.COLOR.." 1"), previewColors[1], false)
@@ -310,6 +333,7 @@ local function drawShipRepair()
 			end
 	
 			ui.withFont(pionillium.medlarge, function()
+			
 				if ui.button("<", Vector2(20, 36)) then
 					changePattern(-1)
 				end
@@ -322,11 +346,11 @@ local function drawShipRepair()
 				
 				ui.sameLine()
 				
-				if ui.button(l.RESET_PREVIEW, Vector2(175, 36)) then
+				if ui.button(l.RESET_PREVIEW, Vector2(200, 36)) then
 					resetPreview()
 				end
 				
-				ui.dummy(widgetSizes.verticalDummy)
+				ui.dummy(verticalDummy)
 				
 				ui.withStyleColors({["Text"] = priceColor }, function()
 					ui.text(l.PRICE.. ": " ..Format.Money(price, false))
@@ -345,8 +369,15 @@ StationView:registerView({
 	name = l.SHIP_REPAIRS,
 	icon = ui.theme.icons.repairs,
 	showView = true,
-	draw = drawShipRepair,
+	draw = function()
+		if (activeTab == 0) then
+			drawShipRepair()
+		else
+			drawPaintshop()
+		end
+	end,
 	refresh = function ()
+		activeTab = 0
 		local station = Game.player:GetDockedWith()
 		-- Don't reset player's choice if temporarily leaving ship repair screen
 		if not damageToRepair then

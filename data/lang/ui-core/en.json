@@ -1904,8 +1904,8 @@
     "message": "Ship Market"
   },
   "SHIP_REPAIRS": {
-    "description": "",
-    "message": "Ship Repairs"
+    "description": "Station tab name",
+    "message": "Ship Repairs & Paintshop"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2158,6 +2158,14 @@
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
     "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+  },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+	"message": "Visit Paintshop"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+	"message": "Visit Repair Services"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
