@@ -173,7 +173,7 @@
   },
   "FLAVOUR_11_ADTEXT": {
     "description": "",
-    "message": "Corporate inspector needs passage on a fast ship to {system} system."
+    "message": "Корпоративному инспектору необходим проход на быстром корабле в систему {system}."
   },
   "FLAVOUR_11_ADTITLE": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "Urgent transport required for fleeing citizen. Passage to {system} system needed."
+    "message": "Срочно требуется транспорт для убегающего гражданина. Требуется переход в систему {system}."
   },
   "FLAVOUR_12_ADTITLE": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship required for high-risk passage to {system} system. Will pay {cash}."
+    "message": "Корабль, необходимый для перехода с высоким риском в систему {system}. Плачу {cash}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -353,11 +353,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for business-class passage to {system} system. Will pay {cash}."
+    "message": "Требуется корабль бизнес-класса для перехода в систему {system}. Оплата {cash}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "BUSINESS PASSAGE"
+    "message": "ДЕЛОВОЙ ПРОХОД"
   },
   "FLAVOUR_4_DANGER": {
     "description": "",

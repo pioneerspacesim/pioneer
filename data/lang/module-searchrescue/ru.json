@@ -165,7 +165,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "Местный STC сообщает, что корабль потерпел крушение на {planet}. Требуется помощь."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "{starport} STC получил сообщение о низком количестве топлива от приближающегося корабля. Запрошены услуги дозаправки."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+    "message": "Корабль рядом с {starport} подал сигнал о неотложной медицинской помощи. Требуется срочная транспортировка в больницу."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+    "message": "Получен сигнал бедствия: корабль не может взлететь у него кончилось топливо на {planet}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+    "message": "Застрявший корабль запрашивает операцию по дозаправке недалеко от {starport}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+    "message": "Чрезвычайная ситуация: корпоративное судно не отвечает в системе {system}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -381,11 +381,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Immediate crew transport to drifting ship in the {system} system requested."
+    "message": "Запрошена немедленная транспортировка экипажа с дрейфующего корабля в системе {system}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "EMERGENCY CREW TRANSPORT"
+    "message": "АВАРИЙНАЯ ТРАНСПОРТИРОВКА ЭКИПАЖА"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",

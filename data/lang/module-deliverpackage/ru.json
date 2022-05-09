@@ -57,7 +57,7 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Going to the {system} system? Money paid for delivery of a small package."
+    "message": "Переходите в систему {system}? Деньги, уплаченные за доставку небольшой посылки."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Delivery of a package to the {system} system."
+    "message": "Требуется: Доставка посылки в систему {system}."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Urgent! Fast ship needed to deliver a package to the {system} system."
+    "message": "Срочно! Быстрый корабль, необходимый для доставки посылки в систему {system}."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Delivery of sensitive documents to the {system} system. {cash} to an experienced pilot."
+    "message": "Доставка конфиденциальных документов в систему {system}. {cash} опытному пилоту."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Interstellar Postal Services. We require a ship for the delivery run to {system} system."
+    "message": "Межзвездные почтовые службы. Нам требуется корабль для доставки в систему {system}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Transport belongings to {starport} from port storage facility."
+    "message": "Транспортировка вещей в {starport} из портового хранилища."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "In-system courier services required. Delivery of a small package to {starport}."
+    "message": "Требуются внутрисистемные курьерские услуги. Доставка небольшой посылки в {starport}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Standardized inter-planetary transport contract. Freight of local cargo to {starport}."
+    "message": "Стандартизированный межпланетный транспортный контракт. Перевозка местных грузов в {starport}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal delivery contract. Require quick delivery of an item to {starport}."
+    "message": "Срочный договор персональной поставки. Требуется быстрая доставка товара в {starport}."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
@@ -273,11 +273,11 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Package drop-off required. Urgent dispatch of perishables to {starport}."
+    "message": "Требуется сдача посылки. Срочная отправка скоропортящихся продуктов в {starport}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "PACKAGE DROP"
+    "message": "СБРОС УПАКОВКИ"
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",

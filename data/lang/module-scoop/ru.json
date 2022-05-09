@@ -17,15 +17,15 @@
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Pick-up mission: prompt recovery of drifting container required."
+    "message": "Миссия по подбору: требуется быстро подобрать дрейфующий контейнер."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Have a cargo scoop and looking for your next score? Valuable information for sale."
+    "message": "У вас есть грузовой ковш и вы ищете свой следующий результат? Ценная информация для продажи."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Derelict Brokerage Services: information regarding a debris field with valuable cargo."
+    "message": "Запрошенные брокерские услуги: информация о мусорном поле с ценным грузом."
   },
   "ADTEXT_RESCUE": {
     "description": "",
