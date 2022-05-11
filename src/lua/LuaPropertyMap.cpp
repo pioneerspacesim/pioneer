@@ -38,14 +38,16 @@ void pi_lua_generic_pull(lua_State *l, int idx, Property &out)
 		PropertyMap *map = new PropertyMap();
 		lua_pushnil(l);
 		while (lua_next(l, idx)) {
-			if (lua_type(l, -2) != LUA_TSTRING)
+			if (lua_type(l, -2) != LUA_TSTRING) {
+				lua_pop(l, 1);
 				continue; // XXX should we log a warning here?
+			}
 
 			Property prop = LuaPull<Property>(l, -1);
 			std::string_view key = LuaPull<std::string_view>(l, -2);
 
 			map->Set(key, std::move(prop));
-			lua_pop(l, 2);
+			lua_pop(l, 1);
 		}
 	}
 }

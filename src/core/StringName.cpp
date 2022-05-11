@@ -88,7 +88,7 @@ StringTable::Data *StringTable::Find(uint32_t key)
 
 StringTable::Data *StringTable::Create(uint32_t key)
 {
-	if (entries > uint32_t(keys.size() * 0.95))
+	if (entries > uint32_t(keys.size() * 0.9))
 		Grow();
 
 	uint8_t slot_dist = 0;

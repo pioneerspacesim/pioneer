@@ -172,6 +172,8 @@ static PropertyMap::value_type null_map_value{};
 
 // Implementation adapted from:
 // https://preshing.com/20130605/the-worlds-simplest-lock-free-hash-table/
+// PropertyMap requires that the underlying vector size be a power of two for
+// best performance.
 
 PropertyMap::reference PropertyMap::GetRef(uint32_t hash) const
 {
@@ -235,7 +237,7 @@ void PropertyMap::Grow()
 				jdx &= new_size - 1;
 
 				uint32_t probed_key = newMap.m_keys[jdx];
-				if (probed_key == hash || probed_key == 0) {
+				if (probed_key == 0) {
 
 					newMap.m_keys[jdx] = hash;
 					newMap.m_values[jdx] = std::move(m_values[idx]);

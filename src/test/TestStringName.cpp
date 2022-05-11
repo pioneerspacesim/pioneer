@@ -4,8 +4,10 @@
 #include "core/FNV1a.h"
 #include "core/Log.h"
 #include "core/StringName.h"
-#include "doctest.h"
 #include "profiler/Profiler.h"
+
+#include <iostream>
+#include "doctest.h"
 
 static constexpr uint32_t ITERATIONS = 10000;
 static constexpr uint32_t LOOKUP_ITERATIONS = 20000;

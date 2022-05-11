@@ -717,7 +717,7 @@ void Ship::UpdateGunsStats()
 			const float width = prop.Get(prefix + "width");
 			const float length = prop.Get(prefix + "length");
 			const float speed = prop.Get(prefix + "speed");
-			const float recharge = prop.Get(prefix + "recharge");
+			const float recharge = prop.Get(prefix + "rechargeTime");
 			const bool mining = prop.Get(prefix + "mining").get_integer();
 			const bool beam = prop.Get(prefix + "beam").get_integer();
 

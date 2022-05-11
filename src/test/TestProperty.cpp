@@ -5,9 +5,11 @@
 #include "Quaternion.h"
 #include "core/Log.h"
 #include "core/Property.h"
-#include "doctest.h"
+
 #include <algorithm>
 #include <string>
+#include <iostream>
+#include "doctest.h"
 
 static constexpr uint32_t ITERATIONS = 10000;
 static constexpr uint32_t LOOKUP_ITERATIONS = 20000;

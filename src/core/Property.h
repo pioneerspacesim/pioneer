@@ -18,6 +18,7 @@
 #include <vector>
 
 class PropertyMap;
+class PropertyArray;
 
 // little indirection class to allow nesting refcounted property maps in a property
 // without direct circular compilation dependency
@@ -61,11 +62,26 @@ using PropertyBase = std::variant<
 	PropertyMapWrapper>;
 
 /*
- * A property is a simple tagged union type
+ * A property is a simple tagged union type, storing the most common datatypes
+ * interchanged between C++ <-> Lua. It's meant to be small (32 bytes),
+ * efficient, and flexible.
+ *
+ * It purposefully does not store matrix types, arbitrary pointers, classes,
+ * or LuaObjects, as those should be handled by more domain-specific structures
+ * and interfaces.
  */
 class Property : public PropertyBase {
 public:
 	using PropertyBase::PropertyBase;
+
+	// Overloads for integral and floating-point type construction for GCC 9/MSVC
+	template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+	Property(const T &arg) : PropertyBase(int64_t(arg)) {}
+	template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+	Property(const T &arg) : PropertyBase(double(arg)) {}
+
+	// Promoting overload for PropertyMap*, because GCC 9 converts it to bool instead...
+	Property(PropertyMap *map) : PropertyBase(PropertyMapWrapper(map)) {};
 
 	// construction from string literal
 	template <size_t N>
@@ -139,9 +155,19 @@ private:
 	}
 };
 
+// JSON overloads for Property types
 void from_json(const Json &obj, Property &n);
 void to_json(Json &obj, const Property &n);
 
+/*
+ * PropertyMap implements an efficient key-value store of Properties that can
+ * be shared between Lua and C++ and persisted across the destruction of a Lua
+ * VM.
+ *
+ * Internally, a power-of-two based Robin-Hood hash map is used to associate
+ * StringName keys with Property values with extremely low hashing and lookup
+ * overhead.
+ */
 class PropertyMap : public RefCounted {
 public:
 	using value_type = std::pair<StringName, Property>;
@@ -195,10 +221,13 @@ public:
 	const Property &Get(std::string_view str) const { return GetRef(hash_32_fnv1a(str.data(), str.size())).second; }
 
 	void Set(const StringName &key, Property &&prop) { SetRef(key.hash(), { key, std::move(prop) }); }
-	void Set(const StringName &key, const Property &prop) { Set(key, Property(prop)); }
-
 	void Set(std::string_view str, Property &&prop) { Set(StringName(str), std::move(prop)); }
-	void Set(std::string_view str, const Property &prop) { Set(StringName(str), Property(prop)); }
+
+	// Use template-based forwarding for older compilers which cannot convert e.g. int to Property&&
+	template<typename T>
+	void Set(const StringName &key, const T &prop) { Set(key, Property(prop)); }
+	template<typename T>
+	void Set(std::string_view str, const T &prop) { Set(StringName(str), Property(prop)); }
 
 	void Clear();
 

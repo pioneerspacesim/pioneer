@@ -81,6 +81,8 @@ private:
 
 /*
  * Thread-local hash table for efficient storage of immutable strings.
+ * StringTable uses a power-of-two based robin-hood hash table to keep
+ * indexing overhead as small as possible.
  */
 class StringTable {
 public:
