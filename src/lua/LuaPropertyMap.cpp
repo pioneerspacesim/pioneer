@@ -85,10 +85,10 @@ static int l_iter_next(lua_State *l)
 	return 0;
 }
 
-template<>
+template <>
 const char *LuaObject<PropertyMap>::s_type = "PropertyMap";
 
-template<>
+template <>
 void LuaObject<PropertyMap>::RegisterClass()
 {
 	LuaMetaType<PropertyMap> metaType(s_type);

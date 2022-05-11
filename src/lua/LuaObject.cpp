@@ -739,7 +739,6 @@ bool LuaObjectBase::DeserializeFromJson(lua_State *l, const Json &obj)
 	return deserializer(l, obj["inner"]);
 }
 
-
 void *LuaObjectBase::Allocate(size_t n)
 {
 	lua_State *l = Lua::manager->GetLuaState();

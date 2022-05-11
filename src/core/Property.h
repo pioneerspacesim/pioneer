@@ -5,8 +5,8 @@
 
 #include "Color.h"
 #include "JsonFwd.h"
-#include "RefCounted.h"
 #include "Quaternion.h"
+#include "RefCounted.h"
 #include "core/StringName.h"
 #include "vector2.h"
 #include "vector3.h"
@@ -23,11 +23,13 @@ class PropertyMap;
 // without direct circular compilation dependency
 struct PropertyMapWrapper {
 public:
-	PropertyMapWrapper() : m_map(nullptr) {}
+	PropertyMapWrapper() :
+		m_map(nullptr) {}
 	PropertyMapWrapper(PropertyMap *);
 	~PropertyMapWrapper();
 
-	PropertyMapWrapper(const PropertyMapWrapper &rhs) : PropertyMapWrapper(rhs.m_map) {}
+	PropertyMapWrapper(const PropertyMapWrapper &rhs) :
+		PropertyMapWrapper(rhs.m_map) {}
 	PropertyMapWrapper &operator=(const PropertyMapWrapper &rhs);
 
 	// implicit conversion
@@ -46,10 +48,7 @@ private:
 	mutable PropertyMap *m_map;
 };
 
-/*
- * A property is a simple tagged union type
- */
-class Property : public std::variant<
+using PropertyBase = std::variant<
 	std::nullptr_t,
 	bool,
 	double,
@@ -59,18 +58,26 @@ class Property : public std::variant<
 	Color,
 	Quaternionf,
 	StringName,
-	PropertyMapWrapper
-> {
+	PropertyMapWrapper>;
+
+/*
+ * A property is a simple tagged union type
+ */
+class Property : public PropertyBase {
 public:
-	using variant::variant;
+	using PropertyBase::PropertyBase;
 
 	// construction from string literal
-	template<size_t N>
-	Property(const char (&s)[N]) : Property(StringName(std::string_view(s, N-1), hash_32_fnv1a(s, N-1))) {}
+	template <size_t N>
+	Property(const char (&s)[N]) :
+		Property(StringName(std::string_view(s, N - 1), hash_32_fnv1a(s, N - 1))) {}
 	// have to have all of these string constructors to get around the one-implicit-conversion rule
-	Property(const char *s) : Property(std::string_view(s)) {}
-	Property(std::string_view s) : Property(StringName(s)) {}
-	Property(const std::string &s) : Property(StringName(std::string_view(s))) {}
+	Property(const char *s) :
+		Property(std::string_view(s)) {}
+	Property(std::string_view s) :
+		Property(StringName(s)) {}
+	Property(const std::string &s) :
+		Property(StringName(std::string_view(s))) {}
 
 	bool is_null() const { return index() == 0 || index() == std::variant_npos; }
 	bool is_bool() const { return index() == 1; }
@@ -106,9 +113,9 @@ public:
 	PropertyMap *get_map(PropertyMap *def = {}) const { return _get<PropertyMapWrapper>(std::move(def)); }
 
 	// helpers for common conversions
-	template<typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
+	template <typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
 	operator T() const { return get_integer(); }
-	template<typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
+	template <typename T, std::enable_if_t<std::is_floating_point_v<T>, int> = 0>
 	operator T() const { return get_number(); }
 
 	operator bool() const { return get_bool(); }
@@ -119,10 +126,10 @@ public:
 	operator Color() const { return get_color(); }
 	operator Quaternionf() const { return get_quat(); }
 	operator StringName() const { return get_string(); }
-	operator PropertyMap*() const { return get_map(); }
+	operator PropertyMap *() const { return get_map(); }
 
 private:
-	template<typename T, typename U = T>
+	template <typename T, typename U = T>
 	U _get(T &&def) const
 	{
 		if (auto *ptr = std::get_if<U>(this))
@@ -177,10 +184,10 @@ public:
 	bool Empty() const { return !m_entries; }
 
 	// Explicit literal string overload to ensure hashing is run at compile time
-	template<size_t N>
+	template <size_t N>
 	const Property &Get(const char str[N]) const
 	{
-		constexpr uint32_t hash = hash_32_fnv1a(str, N-1);
+		constexpr uint32_t hash = hash_32_fnv1a(str, N - 1);
 		return GetRef(hash).second;
 	}
 
@@ -195,10 +202,10 @@ public:
 
 	void Clear();
 
-	iterator begin() { return iterator {this, 0}; }
-	iterator end() { return iterator {this, uint32_t(m_keys.size()) }; }
-	iterator cbegin() const { return iterator {this, 0}; }
-	iterator cend() const { return iterator {this, uint32_t(m_keys.size()) }; }
+	iterator begin() { return iterator{ this, 0 }; }
+	iterator end() { return iterator{ this, uint32_t(m_keys.size()) }; }
+	iterator cbegin() const { return iterator{ this, 0 }; }
+	iterator cend() const { return iterator{ this, uint32_t(m_keys.size()) }; }
 
 	operator PropertyMapWrapper() { return PropertyMapWrapper(this); }
 

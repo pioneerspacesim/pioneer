@@ -32,7 +32,6 @@ PropertyMapWrapper &PropertyMapWrapper::operator=(const PropertyMapWrapper &rhs)
 
 // =============================================================================
 
-
 void from_json(const Json &obj, Property &n)
 {
 	n = nullptr;
@@ -116,7 +115,8 @@ PropertyMap::iterator PropertyMap::iterator::operator++()
 {
 	size_t sz = map->m_keys.size();
 	if (map && sz > idx)
-		while (!map->m_keys[++idx] && idx < sz) {}
+		while (!map->m_keys[++idx] && idx < sz) {
+		}
 	return *this;
 }
 
@@ -168,7 +168,7 @@ void PropertyMap::SaveToJson(Json &obj)
 	}
 }
 
-static PropertyMap::value_type null_map_value {};
+static PropertyMap::value_type null_map_value{};
 
 // Implementation adapted from:
 // https://preshing.com/20130605/the-worlds-simplest-lock-free-hash-table/
@@ -191,8 +191,7 @@ void PropertyMap::SetRef(uint32_t hash, value_type &&value)
 	if (m_entries >= uint32_t(m_keys.size() * 0.8))
 		Grow();
 
-	for (uint32_t idx = hash;; idx++)
-	{
+	for (uint32_t idx = hash;; idx++) {
 		idx &= m_keys.size() - 1;
 
 		uint32_t probed_key = m_keys[idx];
