@@ -64,6 +64,7 @@ local tryRepair = function (damage, price)
 	if Game.player:GetMoney() >= price then
 		Game.player:AddMoney(-price)
 		Game.player:SetHullPercent(Game.player:GetHullPercent() + damage)
+		ui.playSfx("Repairing_Ship")
 	else
 		popup:open()
 	end
@@ -187,6 +188,7 @@ local function applyChanges()
 		player.model:SetPattern(previewPattern)
 		player:SetSkin(previewSkin)
 		player:AddMoney(-price)
+		ui.playSfx("Painting_Ship")
 		popupChangesApplied:open()
 		changesMade = false
 	else
