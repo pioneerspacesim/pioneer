@@ -30,7 +30,7 @@ local repair_cost = 0
 
 local Color = _G.Color
 local Vector2 = _G.Vector2
-local numWelcomeMessages = 5
+local NUM_WELCOME_MESSAGES = 5
 local modelSpinner = ModelSpinner()
 local previewPattern
 local previewSkin
@@ -131,27 +131,16 @@ local popupChangesApplied = ModalWindow.New('paintshopPopupChangesApplied', func
 	end
 end)
 
--- TO DO: not do this abomination below
+-- prepares color for use on the ship model
 local function reformatColor()
 	local newColor = {}
 	
-	newColor["primary"] = {}
-	newColor["primary"]["r"] = previewColors[1].r/255
-	newColor["primary"]["g"] = previewColors[1].g/255
-	newColor["primary"]["b"] = previewColors[1].b/255
-	newColor["primary"]["a"] = previewColors[1].a/255
-	
-	newColor["secondary"] = {}
-	newColor["secondary"]["r"] = previewColors[2].r/255
-	newColor["secondary"]["g"] = previewColors[2].g/255
-	newColor["secondary"]["b"] = previewColors[2].b/255
-	newColor["secondary"]["a"] = previewColors[2].a/255
-	
-	newColor["trim"] = {}
-	newColor["trim"]["r"] = previewColors[3].r/255
-	newColor["trim"]["g"] = previewColors[3].g/255
-	newColor["trim"]["b"] = previewColors[3].b/255
-	newColor["trim"]["a"] = previewColors[3].a/255
+	for i, paintColor in next, {"primary", "secondary", "trim"} do
+		newColor[paintColor] = {}
+		for _, val in next, {"r", "g", "b", "a"} do 
+			newColor[paintColor][val] = previewColors[i][val] / 255 
+		end
+	end
 	
 	return newColor
 end
@@ -315,7 +304,7 @@ local function drawPaintshop()
 		ui.sameLine()
 
 		ui.child("PaintshopControls", Vector2(columnWidth, 0), {}, function ()
-			ui.text(l["PAINTSHOP_WELCOME_" .. rand:Integer(numWelcomeMessages - 1)])
+			ui.text(l["PAINTSHOP_WELCOME_" .. rand:Integer(NUM_WELCOME_MESSAGES - 1)])
 			ui.dummy(verticalDummy)
 			ui.text(l.PLEASE_DESIGN_NEW_PAINTJOB)
 			local priChanged, secChanged, triChanged
@@ -377,7 +366,10 @@ StationView:registerView({
 		end
 	end,
 	refresh = function ()
-		activeTab = 0
+		if not determinePaintshopAvailability() then
+			activeTab = 0
+		end
+		
 		local station = Game.player:GetDockedWith()
 		-- Don't reset player's choice if temporarily leaving ship repair screen
 		if not damageToRepair then
