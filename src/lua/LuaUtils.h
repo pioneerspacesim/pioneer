@@ -4,6 +4,9 @@
 #ifndef _LUAUTILS_H
 #define _LUAUTILS_H
 
+// to mask __attribute on MSVC
+#include "core/macros.h"
+
 #include <lua.hpp>
 #include <string>
 
