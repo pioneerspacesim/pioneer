@@ -201,9 +201,18 @@ local function resetPreview()
 	previewColors = previewSkin:GetColors()
 	
 	-- convert to a color format that works with ui.colorEdit
-	previewColors[1] = Color(string.format("%x%x%x", previewColors[1]["r"], previewColors[1]["g"], previewColors[1]["b"]))
-	previewColors[2] = Color(string.format("%x%x%x", previewColors[2]["r"], previewColors[2]["g"], previewColors[2]["b"]))
-	previewColors[3] = Color(string.format("%x%x%x", previewColors[3]["r"], previewColors[3]["g"], previewColors[3]["b"]))
+	for i=1, 3, 1 do
+		local r = previewColors[i]["r"]
+		local g = previewColors[i]["g"]
+		local b = previewColors[i]["b"]
+		local rgb = (r * 0x10000) + (g * 0x100) + b
+		previewColors[i] = Color(string.format("%x", rgb))
+	end
+	
+	-- If you do this like below, the ui.colorEdit color turns pitch black (#000000) if any of the r, g or b values is 0.
+	-- previewColors[1] = Color(string.format("%x%x%x", previewColors[1]["r"], previewColors[1]["g"], previewColors[1]["b"]))
+	-- previewColors[2] = Color(string.format("%x%x%x", previewColors[2]["r"], previewColors[2]["g"], previewColors[2]["b"]))
+	-- previewColors[3] = Color(string.format("%x%x%x", previewColors[3]["r"], previewColors[3]["g"], previewColors[3]["b"]))
 	
 	refreshModelSpinner()
 	updatePrice()
