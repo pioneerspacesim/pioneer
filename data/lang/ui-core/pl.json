@@ -973,7 +973,7 @@
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
-    "message": "Rządanie przyspieszenia czasu: {time}"
+    "message": "Żądanie przyspieszenia czasu: {time}"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",

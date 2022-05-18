@@ -1133,7 +1133,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Rządanie oddokowania od {target}"
+    "message": "Żądanie pozwolenia oddokowania od {target}"
   },
   "RESET": {
     "description": "",
