@@ -1,3 +1,16 @@
+May 2022
+  * New Features
+    * New, more detailed default cockpit model (#5368)
+    * New paintshop customization interface for stations (#5342)
+    * Metal creaking sound feedback under high acceleration (#5335)
+
+  * Internal Changes
+    * Add riscv compilation support (#5345)
+    * [Loader] Add assimp version information and error string when loading a model fails (#5340)
+    
+  * Fixes
+    * [FlightLog] Use Game.GetStartTime() instead of the Jan 1 3200-based Game.time (#5263)
+
 April 2022
   * New Features
     * Adding the new and fixed patterns and texture to ships (#5347)
