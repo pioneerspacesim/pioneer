@@ -79,7 +79,7 @@ void Player::SaveToJson(Json &jsonObj, Space *space)
 
 void Player::InitCockpit()
 {
-	m_cockpit.release();
+	delete m_cockpit.release();
 	if (!Pi::config->Int("EnableCockpit"))
 		return;
 
