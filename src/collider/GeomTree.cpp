@@ -13,26 +13,17 @@ GeomTree::~GeomTree()
 {
 }
 
-GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const Uint32 *indices, const Uint32 *triflags) :
+GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const std::vector<Uint32> indices, const std::vector<Uint32> triFlags) :
 	m_numVertices(numVerts),
 	m_numTris(numTris),
-	m_vertices(vertices)
+	m_vertices(vertices),
+	m_indices(indices),
+	m_triFlags(triFlags)
 {
 	PROFILE_SCOPED()
 	assert(static_cast<int>(vertices.size()) == m_numVertices);
 	Profiler::Timer timer;
 	timer.Start();
-
-	const int numIndices = numTris * 3;
-	m_indices.reserve(numIndices);
-	for (int i = 0; i < numIndices; ++i) {
-		m_indices.push_back(indices[i]);
-	}
-
-	m_triFlags.reserve(numTris);
-	for (int i = 0; i < numTris; ++i) {
-		m_triFlags.push_back(triflags[i]);
-	}
 
 	m_aabb.min = vector3d(FLT_MAX, FLT_MAX, FLT_MAX);
 	m_aabb.max = vector3d(-FLT_MAX, -FLT_MAX, -FLT_MAX);

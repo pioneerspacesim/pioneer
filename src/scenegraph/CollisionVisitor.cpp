@@ -82,25 +82,14 @@ namespace SceneGraph {
 		const int numVertices = cg.GetVertices().size();
 		const int numIndices = cg.GetIndices().size();
 		const int numTris = numIndices / 3;
-		std::vector<vector3f> vertices(numVertices);
-		Uint32 *indices = new Uint32[numIndices];
-		unsigned int *triFlags = new unsigned int[numTris];
-
-		for (int i = 0; i < numVertices; i++)
-			vertices[i] = cg.GetVertices()[i];
-
-		for (int i = 0; i < numIndices; i++)
-			indices[i] = cg.GetIndices()[i];
-
-		for (int i = 0; i < numTris; i++)
-			triFlags[i] = cg.GetTriFlag();
+		std::vector<Uint32> triFlags(numTris, cg.GetTriFlag());
 
 		//create geomtree
-		//takes ownership of data
+		//copy data
 		GeomTree *gt = new GeomTree(
 			numVertices, numTris,
-			vertices,
-			indices, triFlags);
+			cg.GetVertices(),
+			cg.GetIndices(), triFlags);
 		cg.SetGeomTree(gt);
 
 		m_collMesh->AddDynGeomTree(gt);
@@ -183,31 +172,18 @@ namespace SceneGraph {
 		assert(m_collMesh->GetGeomTree() == 0);
 		assert(!m_vertices.empty() && !m_indices.empty());
 
-		//duplicate data again for geomtree...
 		const size_t numVertices = m_vertices.size();
 		const size_t numIndices = m_indices.size();
 		const size_t numTris = numIndices / 3;
-		std::vector<vector3f> vertices(numVertices);
-		Uint32 *indices = new Uint32[numIndices];
-		Uint32 *triFlags = new Uint32[numTris];
 
 		m_totalTris += numTris;
 
-		for (size_t i = 0; i < numVertices; i++)
-			vertices[i] = m_vertices[i];
-
-		for (size_t i = 0; i < numIndices; i++)
-			indices[i] = m_indices[i];
-
-		for (size_t i = 0; i < numTris; i++)
-			triFlags[i] = m_flags[i];
-
 		//create geomtree
-		//takes ownership of data
+		//copy data
 		GeomTree *gt = new GeomTree(
 			numVertices, numTris,
-			vertices,
-			indices, triFlags);
+			m_vertices,
+			m_indices, m_flags);
 		m_collMesh->SetGeomTree(gt);
 		m_collMesh->SetNumTriangles(m_totalTris);
 		m_boundingRadius = m_collMesh->GetAabb().GetRadius();

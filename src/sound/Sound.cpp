@@ -533,6 +533,8 @@ namespace Sound {
 			}
 		}
 
+		ov_clear(&oggv);
+
 		if (is_music) {
 			sample.isMusic = true;
 			// music keyed by pathname minus (datapath)/music/ and extension
@@ -542,8 +544,6 @@ namespace Sound {
 			// sfx keyed by basename minus the .ogg
 			return { basename.substr(0, basename.size() - 4), sample };
 		}
-
-		ov_clear(&oggv);
 	}
 
 	class LoadSoundJob : public Job {

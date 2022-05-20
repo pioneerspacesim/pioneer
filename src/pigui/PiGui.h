@@ -120,6 +120,10 @@ namespace PiGui {
 		Graphics::Renderer *m_renderer;
 		std::unique_ptr<InstanceRenderer> m_instanceRenderer;
 
+		// Stores the pointer to the ini file name given to ImGui,
+		// so we can delete[] the memory again when uninitializing.
+		char *m_ioIniFilename;
+
 		std::map<std::pair<std::string, int>, ImFont *> m_fonts;
 		std::map<ImFont *, std::pair<std::string, int>> m_im_fonts;
 		std::map<std::pair<std::string, int>, PiFont> m_pi_fonts;

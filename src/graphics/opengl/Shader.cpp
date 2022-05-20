@@ -101,7 +101,7 @@ Program *Shader::GetProgramForDesc(const MaterialDescriptor &desc)
 
 	Program *program = LoadProgram(desc);
 	if (program->Loaded())
-		m_variants.push_back({ desc, LoadProgram(desc) });
+		m_variants.push_back({ desc, program });
 
 	return program;
 }
