@@ -18,6 +18,7 @@
 #include "SystemView.h" // for the transfer planner
 #include "WorldView.h"
 #include "lua/LuaObject.h"
+#include "lua/LuaTable.h"
 #include "ship/PlayerShipController.h"
 #include "sound/Sound.h"
 

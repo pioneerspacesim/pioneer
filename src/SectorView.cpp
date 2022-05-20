@@ -25,6 +25,7 @@
 #include "imgui/imgui.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaObject.h"
+#include "lua/LuaTable.h"
 #include "matrix4x4.h"
 #include "pigui/PiGui.h"
 #include "pigui/PiGuiRenderer.h"

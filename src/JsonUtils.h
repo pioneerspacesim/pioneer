@@ -32,6 +32,8 @@ namespace JsonUtils {
 } // namespace JsonUtils
 
 // To-JSON functions. These are called explicitly, and are passed a reference to the object to fill.
+void VectorToJson(Json &jsonObj, const vector2f &vec);
+void VectorToJson(Json &jsonObj, const vector2d &vec);
 void VectorToJson(Json &jsonObj, const vector3f &vec);
 void VectorToJson(Json &jsonObj, const vector3d &vec);
 void QuaternionToJson(Json &jsonObj, const Quaternionf &quat);
@@ -45,6 +47,8 @@ void ColorToJson(Json &jsonObj, const Color4ub &col);
 void BinStrToJson(Json &jsonObj, const std::string &str);
 
 // Drivers for automatic serialization of custom types. These are implicitly called by assigning to a Json object.
+template <typename T>
+void to_json(Json &obj, const vector2<T> &vec) { VectorToJson(obj, vec); }
 template <typename T>
 void to_json(Json &obj, const vector3<T> &vec) { VectorToJson(obj, vec); }
 template <typename T>
@@ -61,6 +65,8 @@ void from_json(const Json &obj, fixed &n);
 void to_json(Json &obj, const fixed &n);
 
 // Parse JSON functions. These functions will throw Json::type_error if passed an invalid type.
+void JsonToVector(vector2f *vec, const Json &jsonObj);
+void JsonToVector(vector2d *vec, const Json &jsonObj);
 void JsonToVector(vector3f *vec, const Json &jsonObj);
 void JsonToVector(vector3d *vec, const Json &jsonObj);
 void JsonToQuaternion(Quaternionf *pQuat, const Json &jsonObj);
@@ -73,6 +79,8 @@ void JsonToColor(Color3ub *pCol, const Json &jsonObj);
 void JsonToColor(Color4ub *pCol, const Json &jsonObj);
 std::string JsonToBinStr(const Json &jsonObj);
 
+template <typename T>
+void from_json(const Json &obj, vector2<T> &vec) { JsonToVector(&vec, obj); }
 template <typename T>
 void from_json(const Json &obj, vector3<T> &vec) { JsonToVector(&vec, obj); }
 template <typename T>

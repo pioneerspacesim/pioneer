@@ -73,7 +73,7 @@ namespace Lua {
 		PROFILE_SCOPED()
 		lua_State *l = Lua::manager->GetLuaState();
 
-		LuaObject<PropertiedObject>::RegisterClass();
+		LuaObject<PropertyMap>::RegisterClass();
 
 		LuaObject<Body>::RegisterClass();
 		LuaObject<Ship>::RegisterClass();

@@ -5,6 +5,7 @@
 #include "EnumStrings.h"
 #include "Game.h"
 #include "LuaObject.h"
+#include "LuaTable.h"
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "SectorView.h"
@@ -400,19 +401,19 @@ static int l_sbody_attr_average_temp(lua_State *l)
 }
 
 /*
-* Attribute: metallicity
-*
-* Returns the measure of metallicity of the body
-* (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
-*
-* Availability:
-*
-*   January 2018
-*
-* Status:
-*
-*   experimental
-*/
+ * Attribute: metallicity
+ *
+ * Returns the measure of metallicity of the body
+ * (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
+ *
+ * Availability:
+ *
+ *   January 2018
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_sbody_attr_metallicity(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
@@ -421,19 +422,19 @@ static int l_sbody_attr_metallicity(lua_State *l)
 }
 
 /*
-* Attribute: volatileGas
-*
-* Returns the measure of volatile gas present in the atmosphere of the body
-* 0.0 = no atmosphere, 1.0 = earth atmosphere density, 4.0+ ~= venus
-*
-* Availability:
-*
-*   January 2018
-*
-* Status:
-*
-*   experimental
-*/
+ * Attribute: volatileGas
+ *
+ * Returns the measure of volatile gas present in the atmosphere of the body
+ * 0.0 = no atmosphere, 1.0 = earth atmosphere density, 4.0+ ~= venus
+ *
+ * Availability:
+ *
+ *   January 2018
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_sbody_attr_volatileGas(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
@@ -442,19 +443,19 @@ static int l_sbody_attr_volatileGas(lua_State *l)
 }
 
 /*
-* Attribute: atmosOxidizing
-*
-* Returns the compositional value of any atmospheric gasses in the bodys atmosphere (if any)
-* 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
-*
-* Availability:
-*
-*   January 2018
-*
-* Status:
-*
-*   experimental
-*/
+ * Attribute: atmosOxidizing
+ *
+ * Returns the compositional value of any atmospheric gasses in the bodys atmosphere (if any)
+ * 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
+ *
+ * Availability:
+ *
+ *   January 2018
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_sbody_attr_atmosOxidizing(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
@@ -463,19 +464,19 @@ static int l_sbody_attr_atmosOxidizing(lua_State *l)
 }
 
 /*
-* Attribute: volatileLiquid
-*
-* Returns the measure of volatile liquids present on the body
-* 0.0 = none, 1.0 = waterworld (earth = 70%)
-*
-* Availability:
-*
-*   January 2018
-*
-* Status:
-*
-*   experimental
-*/
+ * Attribute: volatileLiquid
+ *
+ * Returns the measure of volatile liquids present on the body
+ * 0.0 = none, 1.0 = waterworld (earth = 70%)
+ *
+ * Availability:
+ *
+ *   January 2018
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_sbody_attr_volatileLiquid(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
@@ -484,19 +485,19 @@ static int l_sbody_attr_volatileLiquid(lua_State *l)
 }
 
 /*
-* Attribute: volatileIces
-*
-* Returns the measure of volatile ices present on the body
-* 0.0 = none, 1.0 = total ice cover (earth = 3%)
-*
-* Availability:
-*
-*   January 2018
-*
-* Status:
-*
-*   experimental
-*/
+ * Attribute: volatileIces
+ *
+ * Returns the measure of volatile ices present on the body
+ * 0.0 = none, 1.0 = total ice cover (earth = 3%)
+ *
+ * Availability:
+ *
+ *   January 2018
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_sbody_attr_volatileIces(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
@@ -505,19 +506,19 @@ static int l_sbody_attr_volatileIces(lua_State *l)
 }
 
 /*
-* Attribute: volcanicity
-*
-* Returns the measure of volcanicity of the body
-* 0.0 = none, 1.0 = lava planet
-*
-* Availability:
-*
-*   January 2018
-*
-* Status:
-*
-*   experimental
-*/
+ * Attribute: volcanicity
+ *
+ * Returns the measure of volcanicity of the body
+ * 0.0 = none, 1.0 = lava planet
+ *
+ * Availability:
+ *
+ *   January 2018
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_sbody_attr_volcanicity(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
@@ -526,19 +527,19 @@ static int l_sbody_attr_volcanicity(lua_State *l)
 }
 
 /*
-* Attribute: life
-*
-* Returns the measure of life present on the body
-* 0.0 = dead, 1.0 = teeming (~= pandora)
-*
-* Availability:
-*
-*   January 2018
-*
-* Status:
-*
-*   experimental
-*/
+ * Attribute: life
+ *
+ * Returns the measure of life present on the body
+ * 0.0 = dead, 1.0 = teeming (~= pandora)
+ *
+ * Availability:
+ *
+ *   January 2018
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_sbody_attr_life(lua_State *l)
 {
 	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
@@ -547,18 +548,18 @@ static int l_sbody_attr_life(lua_State *l)
 }
 
 /*
-* Attribute: hasRings
-*
-* Returns true if the body has a ring or rings of debris or ice in orbit around it
-*
-* Availability:
-*
-*   January 2018
-*
-* Status:
-*
-*  experimental
-*/
+ * Attribute: hasRings
+ *
+ * Returns true if the body has a ring or rings of debris or ice in orbit around it
+ *
+ * Availability:
+ *
+ *   January 2018
+ *
+ * Status:
+ *
+ *  experimental
+ */
 
 static int l_sbody_attr_has_rings(lua_State *l)
 {

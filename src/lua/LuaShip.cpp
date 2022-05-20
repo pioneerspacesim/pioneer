@@ -6,7 +6,9 @@
 #include "Frame.h"
 #include "Game.h"
 #include "HyperspaceCloud.h"
+#include "Lua.h"
 #include "LuaObject.h"
+#include "LuaTable.h"
 #include "LuaVector.h"
 #include "Missile.h"
 #include "Pi.h"
@@ -15,7 +17,6 @@
 #include "ShipType.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "lua.h"
 #include "ship/PlayerShipController.h"
 #include "ship/PrecalcPath.h"
 
@@ -1595,6 +1596,13 @@ static int l_ship_update_equip_stats(lua_State *l)
 	return 0;
 }
 
+static int l_ship_attr_equipset(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->GetEquipSet().PushCopyToStack();
+	return 1;
+}
+
 template <>
 const char *LuaObject<Ship>::s_type = "Ship";
 
@@ -1682,7 +1690,12 @@ void LuaObject<Ship>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	const luaL_Reg l_attrs[] = {
+		{ "equipSet", l_ship_attr_equipset },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Ship>::DynamicCastPromotionTest);
 }
 

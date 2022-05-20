@@ -5,6 +5,7 @@
 
 #include "JobQueue.h"
 #include "SDL_timer.h"
+#include "core/StringName.h"
 #include "fmt/format.h"
 #include "profiler/Profiler.h"
 #include <atomic_queue/atomic_queue.h>
@@ -343,6 +344,9 @@ void TaskGraph::ThreadData::RunThread()
 			}
 		} else {
 			spinCount = 0;
+
+			// reclaim used space in this thread's StringTable periodically
+			StringTable::Get()->Reclaim();
 		}
 	}
 

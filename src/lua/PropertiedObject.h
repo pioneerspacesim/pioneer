@@ -4,7 +4,7 @@
 #ifndef PROPERTIEDOBJECT_H
 #define PROPERTIEDOBJECT_H
 
-#include "PropertyMap.h"
+#include "core/Property.h"
 
 class LuaManager;
 
@@ -12,10 +12,6 @@ class PropertiedObject {
 public:
 	PropertyMap &Properties() { return m_properties; }
 	const PropertyMap &Properties() const { return m_properties; }
-
-protected:
-	PropertiedObject(LuaManager *lua) :
-		m_properties(lua) {}
 
 private:
 	PropertyMap m_properties;

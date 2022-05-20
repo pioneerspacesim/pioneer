@@ -18,7 +18,7 @@
 #include "lua/LuaEvent.h"
 
 Body::Body() :
-	PropertiedObject(Lua::manager),
+	PropertiedObject(),
 	m_flags(0),
 	m_interpPos(0.0),
 	m_interpOrient(matrix3x3d::Identity()),
@@ -33,7 +33,7 @@ Body::Body() :
 }
 
 Body::Body(const Json &jsonObj, Space *space) :
-	PropertiedObject(Lua::manager),
+	PropertiedObject(),
 	m_flags(0),
 	m_interpPos(0.0),
 	m_interpOrient(matrix3x3d::Identity()),
@@ -42,7 +42,7 @@ Body::Body(const Json &jsonObj, Space *space) :
 	try {
 		Json bodyObj = jsonObj["body"];
 
-		Properties().LoadFromJson(bodyObj);
+		Properties().LoadFromJson(bodyObj["properties"]);
 		m_frame = bodyObj["index_for_frame"];
 		m_label = bodyObj["label"].get<std::string>();
 		Properties().Set("label", m_label);
@@ -65,7 +65,7 @@ void Body::SaveToJson(Json &jsonObj, Space *space)
 {
 	Json bodyObj = Json::object(); // Create JSON object to contain body data.
 
-	Properties().SaveToJson(bodyObj);
+	Properties().SaveToJson(bodyObj["properties"]);
 	bodyObj["index_for_frame"] = m_frame.id();
 	bodyObj["label"] = m_label;
 	bodyObj["dead"] = m_dead;

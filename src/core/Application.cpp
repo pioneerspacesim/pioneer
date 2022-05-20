@@ -6,6 +6,7 @@
 #include "JobQueue.h"
 #include "OS.h"
 #include "SDL.h"
+#include "StringName.h"
 #include "profiler/Profiler.h"
 #include "utils.h"
 
@@ -148,6 +149,9 @@ void Application::HandleJobs()
 	m_syncJobQueue->RunJobs(SYNC_JOBS_PER_LOOP);
 	m_syncJobQueue->FinishJobs();
 	m_taskGraph->GetJobQueue()->FinishJobs();
+
+	// Reclaim StringTable memory periodically
+	StringTable::Get()->Reclaim();
 }
 
 void Application::Run()

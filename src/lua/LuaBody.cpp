@@ -775,9 +775,9 @@ void LuaObject<Body>::RegisterClass()
 	};
 
 	// const SerializerPair body_serializers(_body_serializer, _body_deserializer, _body_to_json, _body_from_json);
-	const SerializerPair body_serializers { pi_lua_body_serializer, pi_lua_body_deserializer };
+	const SerializerPair body_serializers{ pi_lua_body_serializer, pi_lua_body_deserializer };
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
+	LuaObjectBase::CreateClass(s_type, 0, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Body>::DynamicCastPromotionTest);
 	LuaObjectBase::RegisterSerializer(s_type, body_serializers);
 

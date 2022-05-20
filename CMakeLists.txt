@@ -321,6 +321,7 @@ endif()
 target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
 
 list(APPEND pioneerLibs
+	pioneer-core
 	pioneer-lib
 	pioneer-lua
 	${ASSIMP_LIBRARIES}

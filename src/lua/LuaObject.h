@@ -179,6 +179,14 @@ protected:
 	// the stack. this is a wrapper around lua_newuserdata
 	static void *Allocate(size_t n);
 
+	// allocate uninitialized memory for an object of type T and leave it as an
+	// associated userdata on the stack.
+	template <typename T>
+	static T *Allocate() { return static_cast<T *>(Allocate(sizeof(T))); }
+
+	template <typename T, typename... Args>
+	static T *AllocateNew(Args &&...args) { return new (Allocate<T>()) T(std::forward<Args>(args)...); }
+
 	// get a pointer to the underlying object
 	virtual LuaWrappable *GetObject() const = 0;
 
@@ -211,18 +219,18 @@ public:
 	static inline void PushToLua(RefCounted *o);	// LuaSharedObject
 	static inline void PushToLua(const T &o);		// LuaCopyObject
 	template <typename... Args>
-	static inline void CreateInLua(Args &&... args);
+	static inline void CreateInLua(Args &&...args);
 
 	template <typename Ret, typename Key, typename... Args>
-	static inline Ret CallMethod(T *o, const Key &key, const Args &... args);
+	static inline Ret CallMethod(T *o, const Key &key, const Args &...args);
 	template <typename Key, typename... Args>
-	static inline void CallMethod(T *o, const Key &key, const Args &... args)
+	static inline void CallMethod(T *o, const Key &key, const Args &...args)
 	{
 		CallMethod<bool>(o, key, args...);
 	}
 
 	template <typename Ret1, typename Ret2, typename... Ret, typename Key, typename... Args>
-	static inline std::tuple<Ret1, Ret2, Ret...> CallMethod(T *o, const Key &key, const Args &... args);
+	static inline std::tuple<Ret1, Ret2, Ret...> CallMethod(T *o, const Key &key, const Args &...args);
 
 	// pull an object off the stack, unwrap and return it
 	// if not found or doesn't match the type, throws a lua exception
@@ -337,7 +345,7 @@ public:
 	LuaCopyObject(const T &o)
 	{
 		lua_State *l = Lua::manager->GetLuaState();
-		m_object = new (LuaObjectBase::Allocate(sizeof(T))) T(o);
+		m_object = LuaObjectBase::AllocateNew<T>(o);
 		m_ref = LuaRef(l, -1);
 		lua_pop(l, 1);
 	}
@@ -388,33 +396,33 @@ template <typename T>
 inline void LuaObject<T>::PushToLua(DeleteEmitter *o)
 {
 	if (!PushRegistered(o))
-		Register(new (LuaObjectBase::Allocate(sizeof(LuaCoreObject<T>))) LuaCoreObject<T>(static_cast<T *>(o)));
+		Register(AllocateNew<LuaCoreObject<T>>(static_cast<T *>(o)));
 }
 
 template <typename T>
 inline void LuaObject<T>::PushToLua(RefCounted *o)
 {
 	if (!PushRegistered(o))
-		Register(new (LuaObjectBase::Allocate(sizeof(LuaSharedObject<T>))) LuaSharedObject<T>(static_cast<T *>(o)));
+		Register(AllocateNew<LuaSharedObject<T>>(static_cast<T *>(o)));
 }
 
 template <typename T>
 inline void LuaObject<T>::PushToLua(const T &o)
 {
-	Register(new (LuaObjectBase::Allocate(sizeof(LuaCopyObject<T>))) LuaCopyObject<T>(o));
+	Register(AllocateNew<LuaCopyObject<T>>(o));
 }
 
 template <typename T>
 template <typename... Args>
-inline void LuaObject<T>::CreateInLua(Args &&... args)
+inline void LuaObject<T>::CreateInLua(Args &&...args)
 {
 	T *p(new T(std::forward<Args>(args)...));
-	Register(new (LuaObjectBase::Allocate(sizeof(LuaOwnObject<T>))) LuaOwnObject<T>(static_cast<T *>(p)));
+	Register(AllocateNew<LuaOwnObject<T>>(static_cast<T *>(p)));
 }
 
 template <typename T>
 template <typename Ret, typename Key, typename... Args>
-inline Ret LuaObject<T>::CallMethod(T *o, const Key &key, const Args &... args)
+inline Ret LuaObject<T>::CallMethod(T *o, const Key &key, const Args &...args)
 {
 	lua_State *l = Lua::manager->GetLuaState();
 	LUA_DEBUG_START(l);
@@ -436,7 +444,7 @@ inline Ret LuaObject<T>::CallMethod(T *o, const Key &key, const Args &... args)
 
 template <typename T>
 template <typename Ret1, typename Ret2, typename... Ret, typename Key, typename... Args>
-inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T *o, const Key &key, const Args &... args)
+inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T *o, const Key &key, const Args &...args)
 {
 	lua_State *l = Lua::manager->GetLuaState();
 

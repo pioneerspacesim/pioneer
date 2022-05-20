@@ -188,11 +188,11 @@ void Missile::Explode()
 	Pi::game->GetSpace()->KillBody(this);
 
 	// how much energy was converted in the explosion?
-	double mjYield = 4.184 * 200; // defaults to 200kg of TNT
-	Properties().Get("missile_yield_cap", mjYield);
+	// defaults to 200kg of TNT
+	double mjYield = Properties().Get("missile_yield_cap").get_number(4.184 * 200);
 
-	double queryRadius = 2000.0; // defaults to 2 km, this is sufficient for most explosions
-	Properties().Get("missile_explosion_radius_cap", queryRadius);
+	// defaults to 2 km, this is sufficient for most explosions
+	double queryRadius = Properties().Get("missile_explosion_radius_cap").get_number(2000.0);
 
 	CollisionContact dummy;
 	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, queryRadius);
