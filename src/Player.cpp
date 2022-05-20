@@ -53,6 +53,7 @@ Player::Player(const ShipType::Id &shipId) :
 	InitCockpit();
 	GetFixedGuns()->SetShouldUseLeadCalc(true);
 	registerEquipChangeListener(this);
+	m_accel = vector3d(0.0f, 0.0f, 0.0f);
 }
 
 Player::Player(const Json &jsonObj, Space *space) :
@@ -299,6 +300,38 @@ void Player::StaticUpdate(const float timeStep)
 	for (size_t i = 0; i < GUNMOUNT_MAX; i++)
 		if (GetFixedGuns()->IsGunMounted(i))
 			GetFixedGuns()->UpdateLead(timeStep, i, this, GetCombatTarget());
+
+	// store last 5 jerk (derivative of acceleration wrt. time) values
+	// first, move the earlier values back by one
+	for (int i = 0; i < 4; i++) {
+		m_jerk[i] = m_jerk[i + 1];
+	}
+	// now insert the latest value
+	vector3d current_accel = GetLastForce() * (1.0 / GetMass());
+	m_jerk[4] = current_accel - m_accel;
+
+	// now, check whether the jerk values of last 5 frames were higher than
+	// 0.5 m s-3, in which case we will play a creaking metal sfx (player ship is under rapidly changing load)
+	// we do this storing operation so that single-frame jerk spikes when firing thrusters won't trigger
+	// the sound effect
+	bool playCreak = true;
+	for (int i = 1; i < 5; i++) {
+		if ((m_jerk[i] - m_jerk[i - 1]).Length() * Pi::game->GetInvTimeAccelRate() < 0.5f) {
+			playCreak = false;
+		}
+	}
+
+	if (playCreak) {
+		if (!m_creakSound.IsPlaying()) {
+			float creakVol = fmin(float(((m_jerk[4] - m_jerk[3]).Length() * Pi::game->GetInvTimeAccelRate() - 0.45) * 0.3), 1.0f);
+			m_creakSound.Play("metal_creaking", creakVol, creakVol, Sound::OP_REPEAT);
+			m_creakSound.VolumeAnimate(creakVol, creakVol, 1.0f, 1.0f);
+		}
+	} else if (m_creakSound.IsPlaying()) {
+		m_creakSound.VolumeAnimate(0.0f, 0.0f, 0.75f, 0.75f);
+		m_creakSound.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
+	}
+	m_accel = current_accel;
 
 	// XXX even when not on screen. hacky, but really cockpit shouldn't be here
 	// anyway so this will do for now
