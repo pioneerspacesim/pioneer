@@ -249,6 +249,9 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "hyperdriveClass", st.hyperdriveClass);
 		pi_lua_settable(l, "effectiveExhaustVelocity", st.effectiveExhaustVelocity);
 		pi_lua_settable(l, "thrusterFuelUse", st.GetFuelUseRate());
+		pi_lua_settable(l, "frontCrossSec", st.frontCrossSection);
+		pi_lua_settable(l, "sideCrossSec", st.sideCrossSection);
+		pi_lua_settable(l, "topCrossSec", st.topCrossSection);
 		pi_lua_settable(l, "atmosphericPressureLimit", st.atmosphericPressureLimit);
 
 		lua_newtable(l);

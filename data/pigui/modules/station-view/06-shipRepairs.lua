@@ -10,6 +10,8 @@ local PiGuiFace = require 'pigui.libs.face'
 local Format = require "Format"
 local Character = require "Character"
 local ModalWindow = require 'pigui.libs.modal-win'
+local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
+local ModelSkin = require 'SceneGraph.ModelSkin'
 local Lang = require 'Lang'
 local l = Lang.GetResource("ui-core")
 
@@ -25,6 +27,20 @@ local face = nil
 local stationSeed = false
 local damageToRepair = nil
 local repair_cost = 0
+
+local Color = _G.Color
+local Vector2 = _G.Vector2
+local NUM_WELCOME_MESSAGES = 5
+local modelSpinner = ModelSpinner()
+local previewPattern
+local previewSkin
+local previewColors
+local changesMade = false
+local price = 0.0
+local textColorDefault = Color(255, 255, 255)
+local textColorWarning = Color(255, 255, 0)
+
+local activeTab = 0
 
 local widgetSizes = ui.rescaleUI({
 	itemSpacing = Vector2(4, 9),
@@ -44,11 +60,11 @@ local popup = ModalWindow.New('ChiefMechanicPopup', function(self)
 	end
 end)
 
-
 local tryRepair = function (damage, price)
 	if Game.player:GetMoney() >= price then
 		Game.player:AddMoney(-price)
 		Game.player:SetHullPercent(Game.player:GetHullPercent() + damage)
+		ui.playSfx("Repairing_Ship")
 	else
 		popup:open()
 	end
@@ -76,8 +92,147 @@ local function round(num, numDecimalPlaces)
 	return math.floor(num * mult + 0.5) / mult
 end
 
+local function determinePaintshopAvailability()
+	local player = Game.player
+	local station = player:GetDockedWith()
+	
+	-- faction homeworlds always have paintshops
+	if Game.system.faction ~= nil and Game.system.faction.hasHomeworld and Game.system.faction.homeworld == station.path:GetSystemBody().parent.path then
+		return true
+	end
+
+	-- high population stations often have them
+	pop = station:GetSystemBody().population
+	if pop > 0.00005 then -- Mars is about 0.0002
+		stationSeed = station.seed
+		rand = Rand.New(station.seed .. '-paintshop')
+		if rand:Number(0,1) < 0.75 then 
+			return true
+		else
+			return false
+		end
+	else
+		return false
+	end
+end
+
+local function refreshModelSpinner()
+	local player = Game.player
+	local shipDef = ShipDef[player.shipId]
+	modelSpinner:setModel(shipDef.modelName, previewSkin, previewPattern)
+	modelSpinner.spinning = false
+end
+
+local popupChangesApplied = ModalWindow.New('paintshopPopupChangesApplied', function(self)
+	ui.text(l.NEW_PAINTJOB_APPLIED)
+	ui.dummy(Vector2((ui.getContentRegion().x - 100*rescaleVector.x) / 2, 0))
+	ui.sameLine()
+	if ui.button(l.OK, Vector2(100*rescaleVector.x, 0)) then
+		self:close()
+	end
+end)
+
+-- prepares color for use on the ship model
+local function reformatColor()
+	local newColor = {}
+	
+	for i, paintColor in next, {"primary", "secondary", "trim"} do
+		newColor[paintColor] = {}
+		for _, val in next, {"r", "g", "b", "a"} do 
+			newColor[paintColor][val] = previewColors[i][val] / 255 
+		end
+	end
+	
+	return newColor
+end
+
+local function changeColor()
+	local player = Game.player
+	local shipDef = ShipDef[player.shipId]
+	newColor = reformatColor()
+	previewSkin = ModelSkin.New():SetColors(newColor):SetDecal(shipDef.manufacturer)
+	refreshModelSpinner()
+end
+
+local function changePattern(increment)
+	local player = Game.player
+	local patterns = player.model.numPatterns
+	
+	if patterns < 2 then return end
+	
+	previewPattern = previewPattern + increment
+	
+	if previewPattern > patterns then
+		previewPattern = 1
+	elseif previewPattern < 1 then
+		previewPattern = patterns - 1
+	end
+
+	refreshModelSpinner()
+	changesMade = true
+end
+
+local function updatePrice()
+	local player = Game.player
+	local shipDef = ShipDef[player.shipId]
+	
+	local approxSurfaceArea = (shipDef.frontCrossSec + shipDef.sideCrossSec + shipDef.topCrossSec) * 2
+	-- round to 10
+	price = math.floor(approxSurfaceArea / 10 + 0.5) * 10
+end
+
+local function applyChanges()
+	local player = Game.player
+	if not changesMade then return end
+	if price < player:GetMoney() then
+		player.model:SetPattern(previewPattern)
+		player:SetSkin(previewSkin)
+		player:AddMoney(-price)
+		ui.playSfx("Painting_Ship")
+		popupChangesApplied:open()
+		changesMade = false
+	else
+		popup:open()
+	end
+end
+
+local function resetPreview()
+	local player = Game.player
+	previewPattern = player.model.pattern
+	previewSkin = player:GetSkin()
+	previewColors = previewSkin:GetColors()
+	
+	-- convert to a color format that works with ui.colorEdit
+	for i=1, 3, 1 do
+		local r = previewColors[i]["r"]
+		local g = previewColors[i]["g"]
+		local b = previewColors[i]["b"]
+		local rgb = (r * 0x10000) + (g * 0x100) + b
+		previewColors[i] = Color(string.format("%x", rgb))
+	end
+	
+	-- If you do this like below, the ui.colorEdit color turns pitch black (#000000) if any of the r, g or b values is 0.
+	-- previewColors[1] = Color(string.format("%x%x%x", previewColors[1]["r"], previewColors[1]["g"], previewColors[1]["b"]))
+	-- previewColors[2] = Color(string.format("%x%x%x", previewColors[2]["r"], previewColors[2]["g"], previewColors[2]["b"]))
+	-- previewColors[3] = Color(string.format("%x%x%x", previewColors[3]["r"], previewColors[3]["g"], previewColors[3]["b"]))
+	
+	refreshModelSpinner()
+	updatePrice()
+	changesMade = false
+end
 
 local function drawShipRepair()
+
+	local paintshopAvailable = determinePaintshopAvailability()
+	
+	if (paintshopAvailable) then
+		if ui.button(l.VISIT_PAINTSHOP, Vector2(250, 36)) then
+			activeTab = 1
+		end
+	else
+		ui.text(l.PAINTSHOP_NOT_AVAILABLE)
+	end
+
 	local hullPercent = round(Game.player:GetHullPercent())
 	local damage = 100 - hullPercent
 	local shipDef = ShipDef[Game.player.shipId]
@@ -126,14 +281,106 @@ local function drawShipRepair()
 	end)
 end
 
+local function drawPaintshop()
+	if ui.button(l.VISIT_REPAIR_SERVICES, Vector2(250, 36)) then
+		activeTab = 0
+	end
+
+	local player = Game.player
+	local shipDef = ShipDef[player.shipId]
+	local station = player:GetDockedWith()
+	
+	local available = determinePaintshopAvailability()
+	if not available then
+		ui.text(l.PAINTSHOP_NOT_AVAILABLE)
+		return
+	end
+	
+	local rand = Rand.New(station.seed)
+	
+	local priceColor = textColorDefault
+	if price > player:GetMoney() then
+		priceColor = textColorWarning
+	end
+	
+	local columnWidth = ui.getContentRegion().x/2
+	local itemSpacing = Vector2(8, 6)
+	local verticalDummy = Vector2(0, 50)
+	ui.withStyleVars({ItemSpacing = itemSpacing}, function ()
+		ui.child("PaintshopModelSpinner", Vector2(columnWidth, 0), {}, function()
+			modelSpinner:setSize(ui.getContentRegion())
+			modelSpinner:draw()
+		end)
+	
+		ui.sameLine()
+
+		ui.child("PaintshopControls", Vector2(columnWidth, 0), {}, function ()
+			ui.text(l["PAINTSHOP_WELCOME_" .. rand:Integer(NUM_WELCOME_MESSAGES - 1)])
+			ui.dummy(verticalDummy)
+			ui.text(l.PLEASE_DESIGN_NEW_PAINTJOB)
+			local priChanged, secChanged, triChanged
+			priChanged, previewColors[1] = ui.colorEdit((l.COLOR.." 1"), previewColors[1], false)
+			secChanged, previewColors[2] = ui.colorEdit((l.COLOR.." 2"), previewColors[2], false)
+			triChanged, previewColors[3] = ui.colorEdit((l.COLOR.." 3"), previewColors[3], false)
+	
+			local colorChanged = (priChanged or secChanged or triChanged)
+			if colorChanged then
+				changesMade = true
+			end
+	
+			if colorChanged then
+				changeColor()
+			end
+	
+			ui.withFont(pionillium.medlarge, function()
+			
+				if ui.button("<", Vector2(20, 36)) then
+					changePattern(-1)
+				end
+				ui.sameLine()
+				ui.text(l.PATTERN.. " " ..previewPattern)
+				ui.sameLine()
+				if ui.button(">", Vector2(20, 36)) then
+					changePattern(1)
+				end
+				
+				ui.sameLine()
+				
+				if ui.button(l.RESET_PREVIEW, Vector2(200, 36)) then
+					resetPreview()
+				end
+				
+				ui.dummy(verticalDummy)
+				
+				ui.withStyleColors({["Text"] = priceColor }, function()
+					ui.text(l.PRICE.. ": " ..Format.Money(price, false))
+				end)
+				if ui.button(l.PURCHASE_PAINTJOB, Vector2(200, 36)) then
+					applyChanges()
+				end
+			end)
+		end)
+	end)
+end
+
 
 StationView:registerView({
 	id = "shipRepairs",
 	name = l.SHIP_REPAIRS,
 	icon = ui.theme.icons.repairs,
 	showView = true,
-	draw = drawShipRepair,
+	draw = function()
+		if (activeTab == 0) then
+			drawShipRepair()
+		else
+			drawPaintshop()
+		end
+	end,
 	refresh = function ()
+		if not determinePaintshopAvailability() then
+			activeTab = 0
+		end
+		
 		local station = Game.player:GetDockedWith()
 		-- Don't reset player's choice if temporarily leaving ship repair screen
 		if not damageToRepair then
@@ -147,5 +394,6 @@ StationView:registerView({
 							{itemSpacing = widgetSizes.itemSpacing})
 			end
 		end
+		resetPreview()
 	end,
 })

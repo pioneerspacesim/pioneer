@@ -35,6 +35,10 @@
     "description": "",
     "message": "An error has occurred"
   },
+  "PURCHASE_PAINTJOB": {
+    "description": "Paintshop button",
+	"message": "Purchase Paintjob"
+  },
   "ARRIVAL_DATE": {
     "description": "Time of arrival, used in flight log",
     "message": "Arrival date"
@@ -147,6 +151,14 @@
     "description": "Key binding option",
     "message": "Change Binding"
   },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+	"message": "Change Color"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+	"message": "Change Pattern"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Chief Mechanic"
@@ -178,6 +190,10 @@
   "CLOSE": {
     "description": "",
     "message": "Close"
+  },
+  "COLOR": {
+    "description": "",
+	"message": "Color"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -1415,6 +1431,10 @@
     "description": "",
     "message": "Negotiate"
   },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+	"message": "The new paintjob has been applied to your ship."
+  },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
     "message": "Next"
@@ -1555,6 +1575,38 @@
     "description": "Player owing money to crew members",
     "message": "Owed"
   },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+	"message": "Paintshop"
+  },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+	"message": "Paintshop is not available in this spaceport."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+	"message": "Welcome! We will paint your ship pretty!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+	"message": "Hi there! Looking for a change in aesthetics?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+	"message": "We can't make your ship fly fast, but we can make it fly in style!"
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+	"message": "Welcome, traveller. Please take your time and let out your creativity."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+	"message": "Looking the best in the galaxy has never been easier!"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+	"message": "Pattern"
+  },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
     "message": "Pay"
@@ -1594,6 +1646,10 @@
   "PLANET_TEXTURES": {
     "description": "",
     "message": "Planet textures"
+  },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+	"message": "Please design your new paintjob:"
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
@@ -1718,6 +1774,10 @@
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
     "message": "Reset Orientation and Zoom"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+	"message": "Reset Preview"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1844,8 +1904,8 @@
     "message": "Ship Market"
   },
   "SHIP_REPAIRS": {
-    "description": "",
-    "message": "Ship Repairs"
+    "description": "Station tab name",
+    "message": "Ship Repairs & Paintshop"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2098,6 +2158,14 @@
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
     "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+  },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+	"message": "Visit Paintshop"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+	"message": "Visit Repair Services"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
