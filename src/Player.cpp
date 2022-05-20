@@ -301,29 +301,29 @@ void Player::StaticUpdate(const float timeStep)
 		if (GetFixedGuns()->IsGunMounted(i))
 			GetFixedGuns()->UpdateLead(timeStep, i, this, GetCombatTarget());
 
-	// store last 5 jerk (derivative of acceleration wrt. time) values
+	// store last 20 jerk (derivative of acceleration wrt. time) values
 	// first, move the earlier values back by one
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 19; i++) {
 		m_jerk[i] = m_jerk[i + 1];
 	}
 	// now insert the latest value
 	vector3d current_accel = GetLastForce() * (1.0 / GetMass());
-	m_jerk[4] = current_accel - m_accel;
+	m_jerk[19] = current_accel - m_accel;
 
 	// now, check whether the jerk values of last 5 frames were higher than
 	// 0.5 m s-3, in which case we will play a creaking metal sfx (player ship is under rapidly changing load)
 	// we do this storing operation so that single-frame jerk spikes when firing thrusters won't trigger
 	// the sound effect
 	bool playCreak = true;
-	for (int i = 1; i < 5; i++) {
-		if ((m_jerk[i] - m_jerk[i - 1]).Length() * Pi::game->GetInvTimeAccelRate() < 0.5f) {
+	for (int i = 1; i < 20; i++) {
+		if ((m_jerk[i] - m_jerk[i - 1]).Length() * Pi::game->GetInvTimeAccelRate() < 0.01f) {
 			playCreak = false;
 		}
 	}
 
 	if (playCreak) {
 		if (!m_creakSound.IsPlaying()) {
-			float creakVol = fmin(float(((m_jerk[4] - m_jerk[3]).Length() * Pi::game->GetInvTimeAccelRate() - 0.45) * 0.3), 1.0f);
+			float creakVol = fmin(float(((m_jerk[19] - m_jerk[18]).Length() * Pi::game->GetInvTimeAccelRate() - 0.45) * 0.3), 1.0f);
 			m_creakSound.Play("metal_creaking", creakVol, creakVol, Sound::OP_REPEAT);
 			m_creakSound.VolumeAnimate(creakVol, creakVol, 1.0f, 1.0f);
 		}
