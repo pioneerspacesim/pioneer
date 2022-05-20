@@ -31,7 +31,7 @@ std::vector<Graphics::Texture *> &PiGui::GetSVGTextures()
 	return m_svg_textures;
 }
 
-static ImTextureID makeTexture(Graphics::Renderer *renderer, unsigned char *pixels, int width, int height)
+static ImTextureID makeTexture(Graphics::Renderer *renderer, const unsigned char *pixels, int width, int height)
 {
 	PROFILE_SCOPED()
 	// this is not very pretty code
@@ -330,10 +330,10 @@ void Instance::Init(Graphics::Renderer *renderer)
 	ImGui::StyleColorsDark();
 
 	std::string imguiIni = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini");
-	// this will be leaked, not sure how to deal with it properly in imgui...
-	char *ioIniFilename = new char[imguiIni.size() + 1];
-	std::strncpy(ioIniFilename, imguiIni.c_str(), imguiIni.size() + 1);
-	io.IniFilename = ioIniFilename;
+
+	m_ioIniFilename = new char[imguiIni.size() + 1];
+	std::strncpy(m_ioIniFilename, imguiIni.c_str(), imguiIni.size() + 1);
+	io.IniFilename = m_ioIniFilename;
 }
 
 bool Instance::ProcessEvent(SDL_Event *event)
@@ -516,6 +516,7 @@ void Instance::Uninit()
 
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+	delete[] m_ioIniFilename;
 }
 
 //
