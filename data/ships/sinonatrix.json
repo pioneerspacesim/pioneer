@@ -1,7 +1,7 @@
 {
 	"model": "sinonatrix",
 	"name": "Sinonatrix",
-	"cockpit": " ",
+	"cockpit": "sinonatrix_cockpit",
 	"manufacturer": "opli",
 	"ship_class": "light_courier",
 	"min_crew": 1,
