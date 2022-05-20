@@ -17,6 +17,7 @@
 #include <assimp/material.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
+#include <assimp/version.h>
 #include <assimp/IOStream.hpp>
 #include <assimp/IOSystem.hpp>
 #include <assimp/Importer.hpp>
@@ -340,8 +341,12 @@ namespace SceneGraph {
 				aiProcess_FindDegenerates |
 				aiProcess_FindInvalidData);
 
-		if (!scene)
-			throw LoadingError("Couldn't load file");
+		if (!scene) {
+			// Assimp 3.1.1 doesn't have aiGetVersionPatch(), add it back in at some point
+			std::string err = fmt::format("Assimp {}.{} importer error: {}\n",
+				aiGetVersionMajor(), aiGetVersionMinor(), importer.GetErrorString());
+			throw LoadingError(err);
+		}
 
 		if (scene->mNumMeshes == 0)
 			throw LoadingError("No geometry found");
