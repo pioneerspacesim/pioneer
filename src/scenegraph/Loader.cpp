@@ -21,7 +21,6 @@
 #include <assimp/IOStream.hpp>
 #include <assimp/IOSystem.hpp>
 #include <assimp/Importer.hpp>
-#include <sstream>
 
 namespace {
 	class AssimpFileReadStream : public Assimp::IOStream {
@@ -343,15 +342,10 @@ namespace SceneGraph {
 				aiProcess_FindInvalidData);
 
 		if (!scene) {
-			std::ostringstream version;
-			version << std::to_string(aiGetVersionMajor()) << "." << std::to_string(aiGetVersionMinor());
-			// Assimp 3.1.1 doesn't have this, add it back in at some point:
-			// version << "." << std::to_string(aiGetVersionPatch());
-			std::string str1 = "Assimp (";
-			str1.append(version.str());
-			str1.append(") importer error: ");
-			str1.append(importer.GetErrorString());
-			throw LoadingError(str1.c_str());
+			// Assimp 3.1.1 doesn't have aiGetVersionPatch(), add it back in at some point
+			std::string err = fmt::format("Assimp {}.{} importer error: {}\n",
+				aiGetVersionMajor(), aiGetVersionMinor(), importer.GetErrorString());
+			throw LoadingError(err);
 		}
 
 		if (scene->mNumMeshes == 0)
