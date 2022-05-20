@@ -107,7 +107,9 @@ ImTextureID PiGui::RenderSVG(Graphics::Renderer *renderer, std::string svgFilena
 	}
 	nsvgDeleteRasterizer(rast);
 	nsvgDelete(image);
-	return makeTexture(renderer, img, W, H);
+	ImTextureID texture = makeTexture(renderer, img, W, H);
+	free(img);
+	return texture;
 }
 
 // Colors taken with love from the Limit Theory editor
