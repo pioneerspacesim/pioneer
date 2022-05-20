@@ -1,8 +1,10 @@
 May 2022
   * New Features
     * New, more detailed default cockpit model (#5368)
+    * Add bespoke cockpit for the Sinonatrix (#5370)
     * New paintshop customization interface for stations (#5342)
     * Metal creaking sound feedback under high acceleration (#5335)
+    * Display thruster plumes in cockpit view for enabled ships (#5370)
 
   * Internal Changes
     * Add riscv compilation support (#5345)
