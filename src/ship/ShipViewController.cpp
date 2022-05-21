@@ -4,7 +4,9 @@
 #include "ShipViewController.h"
 
 #include "CameraController.h"
+#include "GameConfig.h"
 #include "GameSaveError.h"
+#include "Headtracker.h"
 #include "Input.h"
 #include "WorldView.h"
 
@@ -73,6 +75,9 @@ ShipViewController::ShipViewController(WorldView *v) :
 	InputBindings.RegisterBindings();
 }
 
+ShipViewController::~ShipViewController()
+{}
+
 void ShipViewController::LoadFromJson(const Json &jsonObj)
 {
 	if (!jsonObj["cam_type"].is_number_integer())
@@ -103,6 +108,12 @@ void ShipViewController::Init()
 	m_siderealCameraController.reset(new SiderealCameraController(m_cameraContext, Pi::player));
 	m_flybyCameraController.reset(new FlyByCameraController(m_cameraContext, Pi::player));
 	SetCamType(m_camType); //set the active camera
+
+	std::string headtrackingIP = Pi::config->String("HeadtrackingIP", "");
+	int port = Pi::config->Int("HeadtrackingPort", 4242);
+
+	m_headtrackingManager.reset(new HeadtrackingManager());
+	m_headtrackingManager->Connect(headtrackingIP.c_str(), port);
 }
 
 void ShipViewController::Activated()
@@ -183,6 +194,8 @@ void ShipViewController::Update()
 	auto *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
 	auto frameTime = Pi::GetFrameTime();
 
+	m_headtrackingManager->Update();
+
 	if (!InputBindings.active) {
 		m_activeCameraController->Update();
 
@@ -213,7 +226,16 @@ void ShipViewController::Update()
 			InputBindings.lookYaw->GetValue() * M_PI / 2.0,
 			0.0);
 
-		if (rotate.LengthSqr() > 0.0001) {
+		const HeadtrackingManager::State *headState = m_headtrackingManager->GetHeadState();
+		vector3f headRot = vector3f(
+			DEG2RAD(-headState->pitch),
+			DEG2RAD(-headState->yaw),
+			DEG2RAD(headState->roll));
+
+		if (headRot.LengthSqr() > 0.0001) {
+			cam->SetRotationAngles(headRot);
+			headtracker_input_priority = true;
+		} else if (rotate.LengthSqr() > 0.0001) {
 			cam->SetRotationAngles(rotate);
 			headtracker_input_priority = true;
 		} else if (headtracker_input_priority) {
