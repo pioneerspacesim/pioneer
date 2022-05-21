@@ -147,6 +147,14 @@
     "description": "Key binding option",
     "message": "Zuweisung ändern"
   },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+    "message": "Change Color"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+    "message": "Change Pattern"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Chefingenieur"
@@ -178,6 +186,10 @@
   "CLOSE": {
     "description": "",
     "message": "Schließen"
+  },
+  "COLOR": {
+    "description": "",
+    "message": "Color"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -1415,6 +1427,10 @@
     "description": "",
     "message": "Verhandeln"
   },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+    "message": "The new paintjob has been applied to your ship."
+  },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
     "message": "Nächstes"
@@ -1555,6 +1571,38 @@
     "description": "Player owing money to crew members",
     "message": "Schuld"
   },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+    "message": "Paintshop"
+  },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+    "message": "Paintshop is not available in this spaceport."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Welcome! We will paint your ship pretty!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Hi there! Looking for a change in aesthetics?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+    "message": "We can't make your ship fly fast, but we can make it fly in style!"
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Welcome, traveller. Please take your time and let out your creativity."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Looking the best in the galaxy has never been easier!"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+    "message": "Pattern"
+  },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
     "message": "Zahlen"
@@ -1595,6 +1643,10 @@
     "description": "",
     "message": "Planeten-Texturen"
   },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+    "message": "Please design your new paintjob:"
+  },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
     "message": "Oops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on Github.\nYou can find your output log at: {path}/output.txt"
@@ -1634,6 +1686,10 @@
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
     "message": "Abpumpen"
+  },
+  "PURCHASE_PAINTJOB": {
+    "description": "Paintshop button",
+    "message": "Purchase Paintjob"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1718,6 +1774,10 @@
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
     "message": "Ansicht und Zoom zurücksetzen"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+    "message": "Reset Preview"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1844,8 +1904,8 @@
     "message": "Schiffsmarkt"
   },
   "SHIP_REPAIRS": {
-    "description": "",
-    "message": "Reparaturservice"
+    "description": "Station tab name",
+    "message": "Ship Repairs & Paintshop"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2098,6 +2158,14 @@
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
     "message": "Höhere Auflösungen zeigen mehr Bild-Informationen bei einer kleineren Größe an und können die Leistung verschlechtern."
+  },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+    "message": "Visit Paintshop"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+    "message": "Visit Repair Services"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

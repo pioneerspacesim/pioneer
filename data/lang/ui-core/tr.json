@@ -147,6 +147,14 @@
     "description": "Key binding option",
     "message": "Atamayı Değiştir"
   },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+    "message": "Renk Değiştir"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+    "message": "Desen Değiştir"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Şef Tamirci"
@@ -178,6 +186,10 @@
   "CLOSE": {
     "description": "",
     "message": "Kapat"
+  },
+  "COLOR": {
+    "description": "",
+    "message": "Renk"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -1415,6 +1427,10 @@
     "description": "",
     "message": "Uzlaş"
   },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+    "message": "Yeni boya tasarımı geminize uygulandı."
+  },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
     "message": "Sonraki"
@@ -1555,6 +1571,38 @@
     "description": "Player owing money to crew members",
     "message": "Borç"
   },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+    "message": "Boya Atölyesi"
+  },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+    "message": "Bu uzay limanında bir boya atölyesi mevcut değil."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Hoşgeldiniz! Geminize zarafet katacağız!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Selam! Estetik bir değişiklik mi arıyorsunuz?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Geminizin daha hızlı uçmasını sağlayamayız, ama klas bir şekilde uçmasını sağlayabiliriz."
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Hoşgeldin, gezgin. Lütfen acele etme ve yaratıcılığını ortaya koy."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Galakside en güzel görünmek hiç daha kolay olmamıştı!"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+    "message": "Desen"
+  },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
     "message": "Öde"
@@ -1595,6 +1643,10 @@
     "description": "",
     "message": "Gezegen dokuları"
   },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+    "message": "Lütfen yeni boya kaplamasını tasarlayın:"
+  },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
     "message": "Hay aksi, bireşyler ters gitti! Lütfen bu hatayı alırken izlenilen adımları, çıktı günlüğünü ve kayıt dosyanızı Github'daki Pioneer sorun takipçisine rapor edin.\nÇıktı günlüğünü şurada bulabilirsiniz: {path}/output.txt"
@@ -1634,6 +1686,10 @@
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
     "message": "Geri pompala"
+  },
+  "PURCHASE_PAINTJOB": {
+    "description": "Paintshop button",
+    "message": "Tasarımı Satın Al"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1718,6 +1774,10 @@
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
     "message": "Yönelim ve Yakınlaştırmayı Sıfırla"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+    "message": "Önizlemeyi Sıfırla"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1844,8 +1904,8 @@
     "message": "Gemi Pazarı"
   },
   "SHIP_REPAIRS": {
-    "description": "",
-    "message": "Gemi Tamiri"
+    "description": "Station tab name",
+    "message": "Gemi Tamiri & Boya Atölyesi"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2098,6 +2158,14 @@
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
     "message": "Yüksek çözünürlük, ekrana daha fazla ve daha küçük bilgiler gönderir, performansı düşürebilir."
+  },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+    "message": "Boya Atölyesini Ziyaret Et"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+    "message": "Tamir Hizmetlerini Ziyaret Et"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

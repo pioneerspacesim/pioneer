@@ -147,6 +147,14 @@
     "description": "Key binding option",
     "message": "Zmień przypisany klawisz"
   },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+    "message": "Zmień kolor"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+    "message": "Zmień wzór"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Naczelny mechanik"
@@ -178,6 +186,10 @@
   "CLOSE": {
     "description": "",
     "message": "Zamknij"
+  },
+  "COLOR": {
+    "description": "",
+    "message": "Kolor"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -1415,6 +1427,10 @@
     "description": "",
     "message": "Negocjacje"
   },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+    "message": "Twój statek został pomalowany."
+  },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
     "message": "Następny"
@@ -1555,6 +1571,38 @@
     "description": "Player owing money to crew members",
     "message": "Zalegasz"
   },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+    "message": "Lakiernia"
+  },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+    "message": "Lakiernia nie jest dostępna na tej stacji."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Witamy! Twój statek będzie pięknie pomalowany!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Siemanko! Szukasz nowego stylu?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Nie spowodujemy ze Twój statek będzie szybki, ale za to w jakim stylu!"
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Witaj podróżniku. Nie śpiesz się i pozwól działać swojej kreatywności."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Najlepszy wygląd w galaktyce, nie był nigdy łatwiejszy!"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+    "message": "Wzór"
+  },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
     "message": "Zapłać"
@@ -1595,6 +1643,10 @@
     "description": "",
     "message": "Tekstury planet"
   },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+    "message": "Proszę stwórz swoje nowe malowanie:"
+  },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
     "message": "Ups, coś poszło nie tak! Prosze zgłosić czynności pozwalające na odtworzenie tego błędu, raport wyjściowy, oraz plik z save na naszej stronie Github.\nRaport wyjściowy znajdziesz w folderze :{path}/output.txt"
@@ -1634,6 +1686,10 @@
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
     "message": "Wypompuj"
+  },
+  "PURCHASE_PAINTJOB": {
+    "description": "Paintshop button",
+    "message": "Kup malowanie"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1718,6 +1774,10 @@
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
     "message": "Reset orientacji i zbliżenia"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+    "message": "Resetuj podgląd"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1844,8 +1904,8 @@
     "message": "Giełda statków"
   },
   "SHIP_REPAIRS": {
-    "description": "",
-    "message": "Naprawa statków"
+    "description": "Station tab name",
+    "message": "Warsztat i lakiernia"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2098,6 +2158,14 @@
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
     "message": "Wyższe rozdzielczości pokazują więcej informacji przy mniejszych rozmiarach i mogą zmniejszyć wydajność."
+  },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+    "message": "Odwiedź lakiernię"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+    "message": "Odwiedź mechanika"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
