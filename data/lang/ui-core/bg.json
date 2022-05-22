@@ -149,11 +149,11 @@
   },
   "CHANGE_COLOR": {
     "description": "Paintshop button",
-    "message": "Change Color"
+    "message": "Промяна на цвета"
   },
   "CHANGE_PATTERN": {
     "description": "Paintshop button",
-    "message": "Change Pattern"
+    "message": "Промяна на шаблона"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "COLOR": {
     "description": "",
-    "message": "Color"
+    "message": "Цвят"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -1429,7 +1429,7 @@
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
-    "message": "The new paintjob has been applied to your ship."
+    "message": "Новата цветова схема е приложена успешно."
   },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
@@ -1573,35 +1573,35 @@
   },
   "PAINTSHOP": {
     "description": "Station tab title",
-    "message": "Paintshop"
+    "message": "Отдел за боядисване"
   },
   "PAINTSHOP_NOT_AVAILABLE": {
     "description": "",
-    "message": "Paintshop is not available in this spaceport."
+    "message": "Този космодрум не разполага с отдел за боядисване."
   },
   "PAINTSHOP_WELCOME_0": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome! We will paint your ship pretty!"
+    "message": "Добре дошли! Ние ще разкрасим Вашия кораб!"
   },
   "PAINTSHOP_WELCOME_1": {
     "description": "Welcome message to the paintshop.",
-    "message": "Hi there! Looking for a change in aesthetics?"
+    "message": "Здравейте! Имате нужда от промяна на външния вид?"
   },
   "PAINTSHOP_WELCOME_2": {
     "description": "Welcome message to the paintshop.",
-    "message": "We can't make your ship fly fast, but we can make it fly in style!"
+    "message": "При нас, Вашият кораб няма да стане по-бърз, но ще стане по-красив!"
   },
   "PAINTSHOP_WELCOME_3": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome, traveller. Please take your time and let out your creativity."
+    "message": "Добре дошли. Време е да направите Вашия кораб неповторим."
   },
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
-    "message": "Looking the best in the galaxy has never been easier!"
+    "message": "Да изглеждате добре в галактиката никога не е било по-лесно!"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
-    "message": "Pattern"
+    "message": "Шаблон"
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
@@ -1645,7 +1645,7 @@
   },
   "PLEASE_DESIGN_NEW_PAINTJOB": {
     "description": "",
-    "message": "Please design your new paintjob:"
+    "message": "Избиране на цветова схема:"
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
@@ -1689,7 +1689,7 @@
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
-    "message": "Purchase Paintjob"
+    "message": "Купуване"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1777,7 +1777,7 @@
   },
   "RESET_PREVIEW": {
     "description": "Paintshop button",
-    "message": "Reset Preview"
+    "message": "Нулиране на изгледа"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1905,7 +1905,7 @@
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
-    "message": "Ship Repairs & Paintshop"
+    "message": "Сервиз за кораби"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2161,11 +2161,11 @@
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Paintshop"
+    "message": "Отдел за боядисване"
   },
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Repair Services"
+    "message": "Отдел за ремонти"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
