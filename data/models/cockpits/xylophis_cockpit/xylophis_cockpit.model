@@ -1,0 +1,28 @@
+material Xylophis_cockpit
+diffuse 1.0 1.0 1.0
+specular 0.7 0.7 0.7
+shininess 69
+tex_diff xylophis_cockpit_diff.dds
+tex_spec xylophis_cockpit_spec.dds
+tex_norm xylophis_cockpit_norm.png
+tex_glow xylophis_cockpit_glow.dds
+
+material Xylophis_cockpit_transparent
+diffuse 1.0 1.0 1.0
+specular 0.7 0.7 0.7
+shininess 69
+opacity 30
+tex_diff xylophis_cockpit_diff.dds
+tex_spec xylophis_cockpit_spec.dds
+tex_norm xylophis_cockpit_norm.png
+tex_glow xylophis_cockpit_glow.dds
+
+material Xylophis_cockpit_screen
+diffuse 1.0 1.0 1.0
+specular 0.7 0.7 0.7
+shininess 69
+tex_diff xylophis_cockpit_screen_diff.dds
+tex_spec xylophis_cockpit_screen_spec.dds
+tex_glow xylophis_cockpit_screen_glow.dds
+
+mesh xylophis_cockpit.dae
