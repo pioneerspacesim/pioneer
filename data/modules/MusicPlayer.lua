@@ -130,14 +130,24 @@ end
 
 Event.Register("onGameStart", function ()
 	MusicPlayer.rebuildSongList()
-	playAmbient()
+	if Game.player:GetDockedWith() and music["docked"] then
+		MusicPlayer.playRandomSongFromCategory("docked")
+	else
+		playAmbient()
+	end
 end)
 
 -- if a song finishes fall back to ambient music
 -- unless the player is in a map view, in which case
 -- we start map music instead
 Event.Register("onSongFinished", function ()
-	if Game.CurrentView() == "sector" or Game.CurrentView() == "system_info" or Game.CurrentView() == "system" then
+	if Game.player:GetDockedWith() then
+		if music["docked"] then
+			MusicPlayer.playRandomSongFromCategory("docked")
+		else
+			playAmbient()
+		end
+	elseif Game.CurrentView() == "sector" or Game.CurrentView() == "system_info" or Game.CurrentView() == "system" then
 		if Game.system:DistanceTo(SystemPath.New(0, 0, 0, 0, 0)) < 1000 then -- farther than where ambient music switches
 			if music["map-core"] then
 				MusicPlayer.playRandomSongFromCategory("map-core")
