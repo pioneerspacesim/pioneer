@@ -1,31 +1,31 @@
 {
   "ADTEXT": {
     "description": "",
-    "message": "Wanted: {commodity}. Will pay {price} per tonne"
+    "message": "Wanted: {commodity}求む。1t当たり{price}で買い取ります。"
   },
   "AMOUNT": {
     "description": "The amount (for now in tonne) of goods person wants to buy",
-    "message": "I'll buy anything you have, up to the full {amount}t that I need."
+    "message": "あなたが持っているものなら、{amount}tまでいくつでも買います。"
   },
   "MESSAGE": {
     "description": "",
-    "message": "I'm {name}. I need {commodity} urgently, and I'll pay twice the market price ({price})."
+    "message": "私は{name}です。{commodity}を一刻も早く必要としているため、市場価格({price})の二倍を支払います。"
   },
   "NOT_IN_STOCK": {
     "description": "Regarding selling more than the player has",
-    "message": "Not enough {commodity} in stock."
+    "message": "{commodity}の量が足りません。"
   },
   "SELL_1": {
     "description": "Sell one single unit (probably tonne)",
-    "message": "Sell 1"
+    "message": "1t売る"
   },
   "SELL_ALL": {
     "description": "Sell everything player has of the good/commodity",
-    "message": "Sell all"
+    "message": "全部売る"
   },
   "SELL_N": {
     "description": "Sell several units (probably in tonne), i.e. N > 1",
-    "message": "Sell {N}"
+    "message": "{N}t売る"
   },
   "TITLE": {
     "description": "",
