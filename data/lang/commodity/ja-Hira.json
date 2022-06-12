@@ -1,127 +1,127 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Air processors"
+    "message": "空気清浄機"
   },
   "AIR_PROCESSORS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Clean air is only taken for granted when already abundant. The technique behind air purification is rumoured to come from alien artifacts found on Mars. Many companies produce various types of air processors, capable of turning even the most hostile atmospheres into a workable environment, and governments do not tolerate monopoly on air production."
+    "message": "空気は綺麗であるべきだ。空気清浄の技術は火星のエイリアンの遺物から来ていると噂されています。多くの企業は毒性のある空気を活動可能な空気にできる様々な空気清浄機を製造しています。そして政府は空気清浄機の独占を許しません。"
   },
   "ANIMAL_MEAT": {
     "description": "",
-    "message": "Animal meat"
+    "message": "動物肉"
   },
   "ANIMAL_MEAT_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "A major point of controversy, meat is the flesh of animals. With synthetic protein readily available, most people believe that animals should not be killed. While meats are illegal in most core systems, live animals and their meat is an important part of the lives of people on more traditional worlds."
+    "message": "動物の肉は論争の重要なポイントです。多くの人はすぐに入手できる合成タンパク質があるので、動物は殺すべきではないと考えています。そのため、動物の肉は多くの主要な中心星系で違法です。しかし、生きた動物とその肉は、伝統的な暮らしをしている世界の人々にとって重要です。"
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Battle weapons"
+    "message": "戦闘兵器"
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Heavy military-grade weapons, like armoured hover tanks, and surface-to-space missiles. Trading in them is usually a governmental monopoly. On the black market, however, these can often fetch a hefty sum of money."
+    "message": "装甲ホバー戦車、地上対宇宙ミサイル、などの軍用の重火器。それらの取引は通常政府が独占して行います。しかし闇市場においてこれらの物品はしばしば多額の利益を上げます。"
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Carbon ore"
+    "message": "炭素鉱石"
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Carbon is one of the most diverse elements we know of. Used in almost everything from plastics to alloys and sometimes even power production, carbon is an inexpensive, but important commodity. As such, almost all industrial settlements import carbon ore."
+    "message": "炭素は私たちが知っている多様な元素の1つです。炭素はプラスチック、合金、時々発電など色々なことに使われています。炭素は安いが重要です。そのため、ほとんどの産業地区は炭素を輸入しています。"
   },
   "COMPUTERS": {
     "description": "",
-    "message": "Computers"
+    "message": "コンピューター"
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "From over a thousand years ago, with the Abacus, PDP-11, and Motorola 68k chip, down to our modern HAL 9001 and Multivac line, computers marked the dawn of the information age. Equally essential for entering hyperspace as for sharing videos of cute quibbles over the UniNet."
+    "message": "千年前のそろばん、PDP-11、Motorola 68k chip、そして最新の HAL 9001 と Multivac line に至るまでコンピューターは情報時代を作り上げました。ハイパースペースに入る事と同じぐらい UniNet で面白い動画を共有することは必要不可欠です。"
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Consumer goods"
+    "message": "最終財"
   },
   "CONSUMER_GOODS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The end products ready for the general consumer public, without need for further processing. Everything from toothbrushes, kitchen appliances to hover cars."
+    "message": "一般消費者向けの最終製品です。歯ブラシ、キッチン家電、ホバーカーなど。"
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Farm machinery"
+    "message": "農業機械"
   },
   "FARM_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Although rare, it is still possible to catch the occasional farmer with an ox-driven plow. But in almost any place where there is agriculture, machines are used in the cultivation of the land, be it the hydroponics of an underground habitat or the endless fields of a garden world."
+    "message": "まれに牛が土を耕すところを見ることができます。しかし、農業が行われているほとんどの場所では機械が土地を耕作しています。たとえそこが地下の水耕栽培場や果てしなく続く耕作地帯の世界であっても。"
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Fertilizer"
+    "message": "肥料"
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Fertilizers are crucial for growing crops at an industrial scale, allowing mono-cultures, and yielding higher dividends than possible using plain dirt. This often comes with an ecological cost, not evident at the onset."
+    "message": "肥料は産業規模で作物を育てるのに不可欠です。これは単作を可能にしより多くの作物を生み出します。しかし、これには多くの場合いつ影響が出るか分からない環境的コストを伴います。"
   },
   "FRUIT_AND_VEG": {
     "description": "",
-    "message": "Fruit & vegetables"
+    "message": "果物と野菜"
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "While there are lots of synthetic alternatives, real fruits and vegetables are still an important part of our cuisine and nutrition. Grown on agricultural worlds or as part of the life support of habitats, and exported to systems in which growing plants is not feasible."
+    "message": "合成代替品はたくさん存在します。しかし、本物の果実と野菜は依然として、私たちの料理と栄養の重要な点です。農業世界もしくは生息地の生命活動の一環として育った植物は、植物の育成が不可能な星系に出荷されます。"
   },
   "GRAIN": {
     "description": "",
-    "message": "Grain"
+    "message": "穀物"
   },
   "GRAIN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "The backbone of many peoples' diets. It is used in farming, to feed animals, and as a supplement to synthetic foods. Grain is also used in many other foods, such as oatmeal and baked goods. Most star faring cultures grow and consume at least some grains, that have been adopted to the climate of their habitat."
+    "message": "多くの人々の主食。これは農業、動物の餌、合成食品の素材として使われます。穀物は他にもオートミールや焼き菓子にも利用されます。ほとんどの星系移動者の文化は生育地の気候に合わせていくつかの穀物を育て消費します。"
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "小火器"
   },
   "HAND_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Providing insurance beyond the long arm of the law, hand weapons are essential for space traders in far-out systems. However, many governments see them as a threat to their own control over their population and strictly control their trade and possession."
+    "message": "厚い法の範囲を超えて、保護を提供する小火器は彼方の宇宙トレーダーにとって必要不可欠です。しかし、多くの政府は住民管理の脅威と見なし取引と所有を厳重に管理しています。"
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Hydrogen"
+    "message": "水素"
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Used as fuel for hyperdrives and propellant for starships, hydrogen is an extremely important element. Fortunately it is also the most common element in the universe, although storing it isn't trivial. It is usually among the cheapest commodities on the stock market. Starports are well supplied at any given time."
+    "message": "水素はハイパードライブの燃料や宇宙船の推進剤として利用される重要な元素です。これを保管することは簡単ではありません。しかし幸いにも水素は宇宙で最も一般的な元素であり、市場で最も安い商品の1つです。スターポートはいつでも十分に提供します。"
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Industrial machinery"
+    "message": "工業機械"
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Needed for assembly lines, refineries, smelters, and production of machinery that will in turn produce other goods. High competence is needed to produce these advanced machines."
+    "message": "生産ライン、製油所、精錬所、他の製品の機械生産に必要です。これらの高度な機械を生産するには高度な技術が求められます。"
   },
   "LIQUID_OXYGEN": {
     "description": "",
-    "message": "Liquid oxygen"
+    "message": "液体酸素"
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Liquid oxygen has many purposes, most commonly in medical and industrial applications and sometimes also used in waste treatment. It is very affordable, as oxygen is easy to obtain from water."
+    "message": "液体酸素には多くの用途があります。一般的には医療や産業、時には廃棄物処理にも使われます。酸素は水から簡単に得ることができるので非常に安いです。"
   },
   "LIQUOR": {
     "description": "",
-    "message": "Liquor"
+    "message": "蒸留酒"
   },
   "LIQUOR_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Most outposts have a local brew that outsiders find hard to stomach. Alcohol can be banned in some systems as it is deemed to cloud the mind. Regardless of the law, a shot of scotch is almost always available on the black market, for a price."
+    "message": "多くのアウトポストには、訪問者には耐え難い地元の一杯があります。アルコールは一部の星系では精神を濁すとして禁止されることがあります。法律に関係なく一杯のスコッチは闇市場で、ほぼ必ず高額で売られています。"
   },
   "LIVE_ANIMALS": {
     "description": "",
-    "message": "Live animals"
+    "message": "生きている動物"
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

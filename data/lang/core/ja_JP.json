@@ -1,7 +1,7 @@
 {
   "AIR_PROCESSORS": {
     "description": "",
-    "message": "Air processors"
+    "message": "空気清浄機"
   },
   "ALERT_CANCELLED": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "BATTLE_WEAPONS": {
     "description": "",
-    "message": "Battle weapons"
+    "message": "戦闘兵器"
   },
   "BINARY_SYSTEM": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "CARBON_ORE": {
     "description": "",
-    "message": "Carbon ore"
+    "message": "炭素鉱石"
   },
   "CARGO": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "COMPUTERS": {
     "description": "",
-    "message": "Computers"
+    "message": "コンピューター"
   },
   "COMPUTER_HEADING_CONTROL": {
     "description": "",
@@ -245,7 +245,7 @@
   },
   "CONSUMER_GOODS": {
     "description": "",
-    "message": "Consumer goods"
+    "message": "最終財"
   },
   "CONTROLS": {
     "description": "",
@@ -377,11 +377,11 @@
   },
   "FARM_MACHINERY": {
     "description": "",
-    "message": "Farm machinery"
+    "message": "農業機械"
   },
   "FERTILIZER": {
     "description": "",
-    "message": "Fertilizer"
+    "message": "肥料"
   },
   "FIRE_LASER": {
     "description": "",
@@ -449,7 +449,7 @@
   },
   "GRAIN": {
     "description": "like wheat or barley",
-    "message": "Grain"
+    "message": "穀物"
   },
   "GRID_DISPLAY_MODE_TOGGLE": {
     "description": "Switch show no grid",
@@ -457,7 +457,7 @@
   },
   "HAND_WEAPONS": {
     "description": "",
-    "message": "Small arms"
+    "message": "小火器"
   },
   "HARD_CAPITALIST": {
     "description": "",
@@ -517,7 +517,7 @@
   },
   "HYDROGEN": {
     "description": "",
-    "message": "Hydrogen"
+    "message": "水素"
   },
   "HYPERSPACE": {
     "description": "",
@@ -601,7 +601,7 @@
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
-    "message": "Industrial machinery"
+    "message": "工業機械"
   },
   "INTERNAL_VIEW": {
     "description": "",
@@ -665,7 +665,7 @@
   },
   "LIQUOR": {
     "description": "",
-    "message": "Liquor"
+    "message": "蒸留酒"
   },
   "LIVE_ANIMALS": {
     "description": "",
