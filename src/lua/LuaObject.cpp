@@ -573,6 +573,26 @@ void LuaObjectBase::Deregister(LuaObjectBase *lo)
 	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 	assert(lua_istable(l, -1));
 
+	// Retrieve the full userdata object from the registry
+	lua_pushlightuserdata(l, o);
+	lua_rawget(l, -2);
+
+	// Check for (and clear) the registered properties object - it is deleted with the object being deregistered.
+	if (lua_isuserdata(l, -1)) {
+		lua_getuservalue(l, -1);
+
+		if (!lua_isnil(l, -1)) {
+			lua_pushstring(l, "__properties");
+			lua_pushnil(l);
+			lua_rawset(l, -3);
+		}
+
+		lua_pop(l, 1);
+	}
+
+	// Wind the stack back to the registry
+	lua_pop(l, 1);
+
 	lua_pushlightuserdata(l, o);
 	lua_pushnil(l);
 	lua_rawset(l, -3);
