@@ -894,6 +894,8 @@ local onGameStart = function ()
 	if loaded_data then
 		CrewRoster = loaded_data
 		Event.Queue('crewAvailable') -- Signal any scripts that depend on initialised crew
+	else
+		CrewRoster = {}
 	end
 	loaded_data = nil
 end
