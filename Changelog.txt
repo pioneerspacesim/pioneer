@@ -1,3 +1,22 @@
+June 2022
+  * New Features
+    * Add custom two-seater cockpit for the Xylophis (#5373)
+    * New follow-target and follow-orient flight control modes (#5371)
+    * Add player-controllable flight speed limiter (#5371)
+    * New radial menu for autopilot hold-orientation functions (#5371)
+   
+  * Internal Changes
+    * Reduce ship stress creaking sound occurance (#5377)
+    * Refactor input binding widget to allow binding key chords (#5371)
+    * Add axis input to select radial menu options with gamepad (#5371)
+    * Add Chrome-Tracing output support to profiler (#5380)
+    * Optimize starfield filling during new-game startup (#5381)
+    * Rasterize SVG images on a background thread (#5381)
+  
+  * Fixes
+    * Fix docked music not playing (#5378)
+    * Fix PropertyMap use-after-free with orphaned LuaObjects (#5382)
+
 May 2022
   * New Features
     * New, more detailed default cockpit model (#5368)
@@ -9,9 +28,11 @@ May 2022
   * Internal Changes
     * Add riscv compilation support (#5345)
     * [Loader] Add assimp version information and error string when loading a model fails (#5340)
+    * Rewrite PropertyMap implementation to use C++-side hashtable (#5300)
     
   * Fixes
     * [FlightLog] Use Game.GetStartTime() instead of the Jan 1 3200-based Game.time (#5263)
+    * Fix 20MB of memory leaks (#5372)
 
 April 2022
   * New Features
