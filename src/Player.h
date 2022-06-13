@@ -34,11 +34,11 @@ public:
 	//XXX temporary things to avoid causing too many changes right now
 	Body *GetCombatTarget() const;
 	Body *GetNavTarget() const;
-	Body *GetSetSpeedTarget() const;
-	void SetCombatTarget(Body *const target, bool setSpeedTo = false);
+	Body *GetFollowTarget() const;
+	void SetCombatTarget(Body *const target, bool setFollowTo = false);
 	void SetNavTarget(Body *const target);
-	void SetSetSpeedTarget(Body *const target);
-	void ChangeSetSpeed(double delta);
+	void SetFollowTarget(Body *const target);
+	void ChangeCruiseSpeed(double delta);
 
 	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) override;
 	virtual void AbortHyperjump() override;

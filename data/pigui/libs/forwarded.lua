@@ -117,6 +117,30 @@ ui.HoveredFlags = pigui.HoveredFlags
 -- Wrapped in buttons.lua
 -- ui.button = pigui.Button
 
+--
+-- Function: ui.clearMouse
+--
+-- ui.clearMouse()
+--
+-- Resets the mouse click data in the Input class. The ActionBindings and
+-- AxisBindings, as well as ImGui structs are not reset, but a subsequent call
+-- to Input::MouseButtonState will return false for all mouse buttons.
+--
+-- Returns:
+--
+--   nothing
+--
+ui.clearMouse = pigui.ClearMouse
+
+--
+-- Function: ui.wantTextInput
+--
+-- ui.wantTextInput()
+--
+-- Returns true if text is being entered into a text field in the current frame
+--
+ui.wantTextInput = pigui.WantTextInput
+
 ui.dataDirPath = pigui.DataDirPath
 ui.userDirPath = pigui.UserDirPath
 ui.addImage = pigui.AddImage
@@ -146,4 +170,31 @@ ui.image = pigui.Image
 --   value - the value that the drag was set to
 --
 ui.incrementDrag = pigui.IncrementDrag
+
+--
+-- Function: ui.dragFloat
+--
+-- ui.dragFloat(label, value, v_speed, v_min, v_max, format)
+--
+-- Create a float drag
+--
+-- Example:
+--
+-- > value = ui.dragFloat("##mydrag", value, 0, 20, "%dt")
+--
+-- Parameters:
+--
+--   label - string, text, also used as ID
+--   value - float, set drag to this value
+--   v_speed - minimum change step
+--   v_min - float, lower bound
+--   v_max - float, upper bound
+--   format - format according to snprintf
+--
+-- Returns:
+--
+--   value - the value that the drag was set to
+--   changed - boolean, whether the passed value has changed
+--
+ui.dragFloat = pigui.DragFloat
 return ui

@@ -87,8 +87,6 @@ void CargoBody::Init()
 	skin.SetDecal("pioneer");
 	skin.Apply(GetModel());
 	GetModel()->SetColors(colors);
-
-	Properties().Set("type", cargoname);
 }
 
 void CargoBody::TimeStepUpdate(const float timeStep)

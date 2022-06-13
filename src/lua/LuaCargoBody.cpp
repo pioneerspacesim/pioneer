@@ -12,21 +12,6 @@
  * <ModelBody>.
  */
 
-/*
- * Attribute: type
- *
- * The type of cargo contained within this cargo body, as a
- * <Constants.CommodityType> constant.
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-
 template <>
 const char *LuaObject<CargoBody>::s_type = "CargoBody";
 

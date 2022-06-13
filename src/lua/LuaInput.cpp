@@ -17,7 +17,13 @@
 
 using namespace InputBindings;
 
-// Proxy object for an action binding
+/*
+ * Class: LuaInputAction
+ *
+ * Proxy object for an action binding
+ *
+ */
+
 // TODO: push the actual action pointer to lua
 struct LuaInputAction : public LuaWrappable {
 	LuaInputAction(std::string _id) :
@@ -46,10 +52,110 @@ struct LuaInputAction : public LuaWrappable {
 		}
 	}
 
+	/*
+	 * Function: OnPress
+	 *
+	 * Activate the corresponding action
+	 *
+	 * Example:
+	 *
+	 * > action = Input.GetActionBinding("BindToggleSpeedLimiter")
+	 * > if ui.isMouseClicked(0) then
+	 * >     action:OnPress()
+	 * > elseif ui.isMouseReleased(0) then
+	 * >     action:OnRelease()
+	 * > end
+	 *
+	 * Returns:
+	 *
+	 *   nothing
+	 *
+	 */
+	void onPress()
+	{
+		auto *action = getAction();
+		action->binding.m_queuedEvents |= 1;
+		action->binding.m_active = true;
+	}
+
+	/*
+	 * Function: OnRelease
+	 *
+	 * Deactivate the corresponding action
+	 *
+	 * Example:
+	 *
+	 * > action = Input.GetActionBinding("BindToggleSpeedLimiter")
+	 * > if ui.isMouseClicked(0) then
+	 * >     action:OnPress()
+	 * > elseif ui.isMouseReleased(0) then
+	 * >     action:OnRelease()
+	 * > end
+	 *
+	 * Returns:
+	 *
+	 *   nothing
+	 *
+	 */
+	void onRelease()
+	{
+		auto *action = getAction();
+		action->binding.m_queuedEvents |= 2;
+		action->binding.m_active = false;
+	}
+
+	/*
+	 * Function: IsActive
+	 *
+	 * Check if the corresponding action is currently active
+	 *
+	 * Example:
+	 *
+	 * > action = Input.GetActionBinding("BindToggleSpeedLimiter")
+	 * > active = action:IsActive()
+	 *
+	 * Returns:
+	 *
+	 *   boolean
+	 *
+	 */
+	bool isActive()
+	{
+		auto *action = getAction();
+		return action->binding.IsActive() || action->binding2.IsActive();
+	}
+
+	/*
+	 * Function: IsJustActive
+	 *
+	 * Check if the corresponding action is activated in the current frame
+	 *
+	 * Example:
+	 *
+	 * > action = Input.GetActionBinding("BindToggleSpeedLimiter")
+	 * > activated = action:IsJustActive()
+	 *
+	 * Returns:
+	 *
+	 *   boolean
+	 *
+	 */
+	bool isJustActive()
+	{
+		auto *action = getAction();
+		return (action->binding.m_queuedEvents & 1) || (action->binding2.m_queuedEvents & 1);
+	}
+
 	Action *getAction() const { return Pi::input->GetActionBinding(id); }
 };
 
-// Proxy object for an axis binding
+/*
+ * Class: LuaInputAxis
+ *
+ * Proxy object for an axis binding
+ *
+ */
+
 // TODO: push the actual axis pointer to lua
 struct LuaInputAxis : public LuaWrappable {
 	LuaInputAxis(std::string _id) :
@@ -83,6 +189,52 @@ struct LuaInputAxis : public LuaWrappable {
 			axis->positive = chord;
 			Pi::input->MarkBindingsDirty();
 		}
+	}
+
+	/*
+	 * Function: SetValue
+	 *
+	 * Set the corresponding axis value
+	 *
+	 * Example:
+	 *
+	 * > axis = Input.GetAxisBinding('BindAxisYaw')
+	 * > value = ui.sliderFloat("", value, -1, 1, "%.3f")
+	 * > axis:SetValue(value)
+	 *
+	 * Parameters:
+	 *
+	 * value: real number, -1.0 .. 1.0
+	 *
+	 * Returns:
+	 *
+	 *   nothing
+	 *
+	 */
+	void setValue(double value)
+	{
+		getAxis()->SetValue(value);
+	}
+
+	/*
+	 * Function: GetValue
+	 *
+	 * Get the corresponding axis value
+	 *
+	 * Example:
+	 *
+	 * > axis = Input.GetAxisBinding('BindAxisYaw')
+	 * > slider_value = axis:GetValue()
+	 * > ui.sliderFloat("", slider_value, -1, 1, "%.3f")
+	 *
+	 * Returns:
+	 *
+	 *   real number, -1.0 .. 1.0
+	 *
+	 */
+	double getValue()
+	{
+		return getAxis()->GetValue();
 	}
 
 	Axis *getAxis() const { return Pi::input->GetAxisBinding(id); }
@@ -261,6 +413,47 @@ static int l_input_get_joystick_name(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: IsJoystickConnected
+ *
+ * > connected = Input.IsJoystickConnected(id)
+ *
+ * Parameters:
+ *
+ *   id - joystick internal ID, non-negative integer number less than Input.GetJoystickCount()
+ *
+ * Returns:
+ *
+ *   boolean
+ *
+ */
+static int l_input_is_joystick_connected(lua_State *l)
+{
+	auto joystick = LuaPull<int>(l, 1);
+	LuaPush(l, Input::GetJoysticks()[joystick].joystick != nullptr);
+	return 1;
+}
+
+/*
+ * Function: GetJoystickCount
+ *
+ * Return the number of known joysticks in the game
+ *
+ * Example:
+ *
+ * > joysticks = Input.GetJoystickCount()
+ *
+ * Returns:
+ *
+ *   number
+ *
+ */
+static int l_input_get_joystick_count(lua_State *l)
+{
+	LuaPush<int>(l, Input::GetJoysticks().size());
+	return 1;
+}
+
 static int l_input_get_action_binding(lua_State *l)
 {
 	std::string id = luaL_checkstring(l, 1);
@@ -432,7 +625,9 @@ void LuaInput::Register()
 		{ "GetActionBinding", l_input_get_action_binding },
 		{ "GetAxisBinding", l_input_get_axis_binding },
 		{ "GetKeyName", l_input_get_key_name },
+		{ "GetJoystickCount", l_input_get_joystick_count },
 		{ "GetJoystickName", l_input_get_joystick_name },
+		{ "IsJoystickConnected", l_input_is_joystick_connected },
 		{ "SaveBinding", l_input_save_binding },
 		{ "GetMouseYInverted", l_input_get_mouse_y_inverted },
 		{ "SetMouseYInverted", l_input_set_mouse_y_inverted },
@@ -455,7 +650,11 @@ void LuaInput::Register()
 		.AddMember("id", &LuaInputAction::id)
 		.AddMember("type", &LuaInputAction::getType)
 		.AddMember("binding", &LuaInputAction::getBinding, &LuaInputAction::setBinding)
-		.AddMember("binding2", &LuaInputAction::getBinding2, &LuaInputAction::setBinding2);
+		.AddMember("binding2", &LuaInputAction::getBinding2, &LuaInputAction::setBinding2)
+		.AddFunction("OnPress", &LuaInputAction::onPress)
+		.AddFunction("OnRelease", &LuaInputAction::onRelease)
+		.AddFunction("IsActive", &LuaInputAction::isActive)
+		.AddFunction("IsJustActive", &LuaInputAction::isJustActive);
 
 	lua_pushcfunction(l, lua_deleter<LuaInputAction>);
 	lua_setfield(l, -2, "__gc");
@@ -467,7 +666,9 @@ void LuaInput::Register()
 		.AddMember("type", &LuaInputAxis::getType)
 		.AddMember("axis", &LuaInputAxis::getAxisBinding, &LuaInputAxis::setAxisBinding)
 		.AddMember("positive", &LuaInputAxis::getPositive, &LuaInputAxis::setPositive)
-		.AddMember("negative", &LuaInputAxis::getNegative, &LuaInputAxis::setNegative);
+		.AddMember("negative", &LuaInputAxis::getNegative, &LuaInputAxis::setNegative)
+		.AddFunction("SetValue", &LuaInputAxis::setValue)
+		.AddFunction("GetValue", &LuaInputAxis::getValue);
 	lua_pushcfunction(l, lua_deleter<LuaInputAxis>);
 	lua_setfield(l, -2, "__gc");
 	s_inputAxisBinding.StopRecording();

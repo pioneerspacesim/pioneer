@@ -808,15 +808,6 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 	}
 }
 
-// Return true if the event has been handled and shouldn't be passed through
-// to the normal input system.
-bool Pi::App::HandleEvent(SDL_Event &event)
-{
-	PROFILE_SCOPED()
-
-	return false;
-}
-
 void Pi::App::HandleRequests()
 {
 	for (auto request : internalRequests) {
@@ -995,10 +986,14 @@ void GameLoop::Update(float deltaTime)
 	Pi::GetView()->Update();
 	Pi::GetView()->Draw3D();
 
-	// FIXME: HandleEvents at the moment must be after view->Draw3D and before
+	// FIXME: Handling events at the moment must be after view->Draw3D and before
 	// Gui::Draw so that labels drawn to screen can have mouse events correctly
 	// detected. Gui::Draw wipes memory of label positions.
-	Pi::GetApp()->HandleEvents();
+
+	// Read events into internal structures and into imgui structures,
+	// dispatch will be performed after the imgui frame, so that imgui can add
+	// something based on clicks on widgets
+	Pi::GetApp()->PollEvents();
 
 #ifdef REMOTE_LUA_REPL
 	Pi::luaConsole->HandleTCPDebugConnections();
@@ -1032,6 +1027,8 @@ void GameLoop::Update(float deltaTime)
 		perfInfoDisplay->Draw();
 		Pi::pigui->SetNormalStyle();
 	}
+
+	Pi::GetApp()->DispatchEvents();
 
 	// Reset the depth buffer so our UI can get drawn right overtop
 	Pi::renderer->ClearDepthBuffer();
@@ -1091,6 +1088,10 @@ void GameLoop::End()
 	Pi::input->SetCapturingMouse(false);
 
 	Pi::SetMouseGrab(false);
+
+#ifdef REMOTE_LUA_REPL
+	Pi::luaConsole->CloseTCPDebugConnection();
+#endif
 
 	// final event
 	LuaEvent::Queue("onGameEnd");

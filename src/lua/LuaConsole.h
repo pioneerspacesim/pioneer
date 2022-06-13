@@ -25,6 +25,7 @@ public:
 
 #ifdef REMOTE_LUA_REPL
 	void OpenTCPDebugConnection(int portnumber);
+	void CloseTCPDebugConnection();
 	void HandleTCPDebugConnections();
 #endif
 

@@ -58,38 +58,10 @@ local function callModules(mode)
 	end
 end
 
-local radial_menu_actions_orbital = {
-	{icon = ui.theme.icons.normal_thin,
-	 tooltip=lc.HEADING_LOCK_NORMAL,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_NORMAL") end},
-	{icon = ui.theme.icons.radial_out_thin,
-	 tooltip=lc.HEADING_LOCK_RADIALLY_OUTWARD,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_RADIALLY_OUTWARD") end},
-	{icon = ui.theme.icons.retrograde_thin,
-	 tooltip=lc.HEADING_LOCK_BACKWARD,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_BACKWARD") end},
-	{icon = ui.theme.icons.antinormal_thin,
-	 tooltip=lc.HEADING_LOCK_ANTINORMAL,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_ANTINORMAL") end},
-	{icon = ui.theme.icons.radial_in_thin,
-	 tooltip=lc.HEADING_LOCK_RADIALLY_INWARD,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_RADIALLY_INWARD") end},
-	{icon = ui.theme.icons.prograde_thin,
-	 tooltip=lc.HEADING_LOCK_FORWARD,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_FORWARD") end},
-}
-
 local function displayOnScreenObjects()
-	if ui.altHeld() and not ui.isAnyWindowHovered() and ui.isMouseClicked(1) then
-		local frame = player.frameBody
-		if frame then
-			ui.openRadialMenu(frame, 1, 30, radial_menu_actions_orbital)
-		end
-	end
+
 	local navTarget = player:GetNavTarget()
 	local combatTarget = player:GetCombatTarget()
-
-	ui.radialMenu("onscreenobjects")
 
 	local should_show_label = ui.shouldShowLabels()
 	local iconsize = Vector2(20, 20)
@@ -118,14 +90,14 @@ local function displayOnScreenObjects()
 		local mp = ui.getMousePos()
 		-- mouse release handler for radial menu
 		if (mp - mainCoords):length() < click_radius then
-			if not ui.isAnyWindowHovered() and ui.isMouseClicked(1) then
+			if ui.canClickOnScreenObjectHere() and ui.isMouseClicked(1) then
 				local body = mainBody
-				ui.openDefaultRadialMenu(body)
+				ui.openDefaultRadialMenu("game", body)
 			end
 		end
 		-- mouse release handler
 		if (mp - mainCoords):length() < click_radius then
-			if not ui.isAnyWindowHovered() and ui.isMouseReleased(0) then
+			if ui.canClickOnScreenObjectHere() and ui.isMouseReleased(0) then
 				if group.hasNavTarget or combatTarget == mainBody then
 					-- if clicked and is target, unset target
 					if group.hasNavTarget then
@@ -133,20 +105,12 @@ local function displayOnScreenObjects()
 					else
 						player:SetCombatTarget(nil)
 					end
-					-- if not in setspeed mode or ctrl-click and is setspeed target,
-					-- clear setspeed target
-					if not player:GetSetSpeed() or (ui.ctrlHeld() and group.hasSetSpeedTarget) then
-						player:SetSetSpeedTarget(nil)
-					end
 				elseif not group.multiple then
 					-- clicked on single, just set navtarget/combatTarget
 					setTarget(mainBody)
 					if ui.ctrlHeld() then
-						-- also set setspeed target on ctrl-click
-						player:SetSetSpeedTarget(mainBody)
-					elseif not player:GetSetSpeed() then
-						-- clear setspeed target if not in setspeed mode
-						player:SetSetSpeedTarget(nil)
+						-- also set follow target on ctrl-click
+						player:SetFollowTarget(mainBody)
 					end
 				else
 					-- clicked on group, show popup
@@ -168,11 +132,8 @@ local function displayOnScreenObjects()
 						ui.playSfx("OK")
 					end
 					if ui.ctrlHeld() then
-						-- also set setspeed target on ctrl-click
-						player:SetSetSpeedTarget(b)
-					elseif not player:GetSetSpeed() then
-						-- clear setspeed target if not in setspeed mode
-						player:SetSetSpeedTarget(nil)
+						-- also set follow-target target on ctrl-click
+						player:SetFollowTarget(b)
 					end
 				end
 			end
@@ -232,11 +193,8 @@ ui.registerHandler('game', function(delta_t)
 				if ui.shouldDrawUI() then
 					if Game.CurrentView() == "world" then
 						drawGameModules(delta_t)
-						ui.radialMenu("worldloopworld")
-					else
-						ui.radialMenu("worldloopnotworld")
 					end
-
+					ui.radialMenu("game")
 					callModules("game")
 				elseif Game.CurrentView() == "world" then
 					displayScreenshotInfo()

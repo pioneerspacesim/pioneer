@@ -44,7 +44,7 @@ public:
 	SpaceStation(const Json &jsonObj, Space *space);
 
 	virtual ~SpaceStation();
-	virtual vector3d GetAngVelocity() const { return vector3d(0, m_type->AngVel(), 0); }
+	virtual vector3d GetAngVelocity() const override { return vector3d(0, m_type->AngVel(), 0); }
 	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) override;
 	bool DoShipDamage(Ship *s, Uint32 flags, double relVel);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
