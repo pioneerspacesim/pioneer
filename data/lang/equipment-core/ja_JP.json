@@ -5,7 +5,7 @@
   },
   "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Long range target scanner with system wide coverage."
+    "message": "星系を幅広くカバーする長距離スキャナー"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
     "description": "",
-    "message": "Shields your spaceship from the heat of atmospheric re-entry."
+    "message": "大気圏再突入の熱からあなたの宇宙船を保護します"
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
@@ -21,7 +21,7 @@
   },
   "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
     "description": "",
-    "message": "A more capable version of Atmospheric Shields"
+    "message": "より高性能なバージョンの大気シールド"
   },
   "AUTOPILOT": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "AUTOPILOT_DESCRIPTION": {
     "description": "",
-    "message": "An on-board flight computer."
+    "message": "電子基盤に実装されたフライトコンピューター"
   },
   "BEAMLASER_1MW": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "CARGO_LIFE_SUPPORT_DESCRIPTION": {
     "description": "",
-    "message": "Allows the transport of live cargo."
+    "message": "生物貨物の輸送を可能にする"
   },
   "CARGO_SCOOP": {
     "description": "",
@@ -57,11 +57,11 @@
   },
   "CARGO_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Permits scooping cargo pods from space."
+    "message": "宇宙からカーゴポッドを回収することを可能にする"
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
-    "message": "Damage Per Shot"
+    "message": "一撃あたりのダメージ"
   },
   "DRIVE_CLASS1": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
+    "message": "より高度な種類のミサイルを破壊できる、電子ミサイル対抗防御システム"
   },
   "ECM_BASIC": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "ECM_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
+    "message": "一部の自動追尾ミサイルを破壊できる 電子ミサイル対抗 - Electronic Countermeasure Missile(ECM) 防御システム"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
@@ -157,11 +157,11 @@
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
-    "message": "Equipment Integrity"
+    "message": "機器の完全性"
   },
   "EQUIPMENT_WEIGHT": {
     "description": "Tooltip explaining equipment weight",
-    "message": "Equipment Weight"
+    "message": "機器の重さ"
   },
   "FUEL_SCOOP": {
     "description": "",
@@ -169,7 +169,7 @@
   },
   "FUEL_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Permits scooping hydrogen fuel from gas giant planets."
+    "message": "ガスジャイアントから水素燃料を回収することを可能にします"
   },
   "HULL_AUTOREPAIR": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "HULL_AUTOREPAIR_DESCRIPTION": {
     "description": "",
-    "message": "Automatically repairs the ship's hull in the event of damage."
+    "message": "損傷が発生したとき船体を自動修理します"
   },
   "HYPERCLOUD_ANALYZER": {
     "description": "",
@@ -185,7 +185,7 @@
   },
   "HYPERCLOUD_ANALYZER_DESCRIPTION": {
     "description": "",
-    "message": "Analyze hyperspace clouds to determine destination and time of arrival or departure."
+    "message": "ハイパースペースの雲を分析して目的地と、到着または出発時刻を測定します"
   },
   "LARGE_PLASMA_ACCEL": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "LASER_COOLING_BOOSTER_DESCRIPTION": {
     "description": "",
-    "message": "An improved cooling system for your weapons."
+    "message": "銃身冷却システムの改善"
   },
   "MININGCANNON_17MW": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "MININGCANNON_17MW_DESCRIPTION": {
     "description": "",
-    "message": "Used to blast-mine mineral rich asteroids."
+    "message": "鉱物豊富な小惑星を爆破採掘するのに使われます"
   },
   "MININGCANNON_5MW": {
     "description": "",
@@ -213,11 +213,11 @@
   },
   "MININGCANNON_5MW_DESCRIPTION": {
     "description": "",
-    "message": "Used to blast-mine mineral rich asteroids."
+    "message": "鉱物豊富な小惑星を爆破採掘するのに使われます"
   },
   "MISSILES": {
     "description": "Category name of missile-related equipment",
-    "message": "Missiles"
+    "message": "ミサイル"
   },
   "MISSILE_GUIDED": {
     "description": "",
@@ -241,11 +241,11 @@
   },
   "MULTI_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+    "message": "Fuel Scoop ほど効果的ではないが、貨物と燃料を両方とも回収できます"
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
-    "message": "Max scan range exceeded:"
+    "message": "最大スキャン範囲を上回りました:"
   },
   "PASSENGER_CABIN": {
     "description": "",
@@ -253,15 +253,15 @@
   },
   "PLANETSCANNER": {
     "description": "Scans the nearest body for resources",
-    "message": "Body scan"
+    "message": "天体をスキャン"
   },
   "PLANETSCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Scan nearest body for resources."
+    "message": "最も近い天体をスキャンして資源を探します"
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
-    "message": "Propulsion"
+    "message": "推進"
   },
   "PULSECANNON_10MW": {
     "description": "",
@@ -297,15 +297,15 @@
   },
   "RADAR_DESCRIPTION": {
     "description": "",
-    "message": "Provides a 3D map of nearby ships."
+    "message": "近くの船の3Dマップを提供します"
   },
   "SCAN_COMPLETED": {
     "description": "",
-    "message": "Scanning completed"
+    "message": "スキャン完了"
   },
   "SCAN_RESUMED": {
     "description": "",
-    "message": "Scanning resumed"
+    "message": "スキャン再開"
   },
   "SCOOPS": {
     "description": "Category name of scoop-related equipment",
@@ -313,11 +313,11 @@
   },
   "SENSORS": {
     "description": "Category name of sensor-related equipment",
-    "message": "Sensors"
+    "message": "センサー類"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
-    "message": "Shields"
+    "message": "シールド"
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
     "description": "",
-    "message": "Increases the rate at which shields recharge."
+    "message": "シールドの回復速度を上げます"
   },
   "SHIELD_GENERATOR": {
     "description": "",
@@ -333,11 +333,11 @@
   },
   "SHIELD_GENERATOR_DESCRIPTION": {
     "description": "",
-    "message": "Provides additional hull defences with each unit fitted."
+    "message": "各機器が取り付けられた状態で追加の船体防御を提供します"
   },
   "SHOTS_PER_MINUTE": {
     "description": "Tooltip explaining weapon fire rate / RPM counter",
-    "message": "Firing Rate / Minute"
+    "message": "発射速度 / 分"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "STARTING_SCAN": {
     "description": "",
-    "message": "Starting scan, target distance is"
+    "message": "スキャン開始、目標との距離は"
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
@@ -353,7 +353,7 @@
   },
   "TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Used to remotely inspect the equipment, cargo and state of other ships."
+    "message": "他の船の機器、貨物、状態を遠隔で調査するのに使われます"
   },
   "THRUSTERS_BASIC": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "THRUSTERS_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "A modified type of thrusters approved for your ship."
+    "message": "あなたの船のために承認された、修正された型のスラスター"
   },
   "THRUSTERS_BEST": {
     "description": "",
@@ -369,7 +369,7 @@
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
-    "message": "Custom made thrusters that provide the best possible output."
+    "message": "可能な最大の出力を提供するカスタムメイドのスラスター"
   },
   "THRUSTERS_MEDIUM": {
     "description": "",
@@ -377,15 +377,15 @@
   },
   "THRUSTERS_MEDIUM_DESCRIPTION": {
     "description": "",
-    "message": "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+    "message": "非効率性を減らし出力が改善されたスラスター"
   },
   "TOTAL_MODULE_CAPACITY": {
     "description": "Tooltip explaining module capacity of specific slot",
-    "message": "Total Capacity"
+    "message": "合計容積"
   },
   "TOTAL_MODULE_WEIGHT": {
     "description": "Tooltip explaining total equipped weight of specific slot",
-    "message": "Total Weight"
+    "message": "合計重量"
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
@@ -393,7 +393,7 @@
   },
   "TRADE_COMPUTER_DESCRIPTION": {
     "description": "",
-    "message": "Shows profitable commodities to trade between selected and current system"
+    "message": "選択した星系と現在の星系の間での収益性の高い商品を表示します"
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
@@ -401,14 +401,14 @@
   },
   "UNOCCUPIED_CABIN_DESCRIPTION": {
     "description": "",
-    "message": "Required for transport of a single passenger"
+    "message": "一人の乗客の輸送に必要"
   },
   "UTILITY": {
     "description": "Category name of utility equipment",
-    "message": "Utility"
+    "message": "効果"
   },
   "WEAPONS": {
     "description": "Category name of weapon-related equipment",
-    "message": "Weapons"
+    "message": "銃"
   }
 }

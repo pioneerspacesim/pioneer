@@ -337,7 +337,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "ナビゲーションターゲットとして設定"
   },
   "SUCCESSMSG_1": {
     "description": "",

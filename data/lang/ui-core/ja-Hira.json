@@ -17,7 +17,7 @@
   },
   "ALLEGIANCE": {
     "description": "",
-    "message": "Allegiance:"
+    "message": "忠誠:"
   },
   "ALL_UP_WEIGHT": {
     "description": "",
@@ -245,7 +245,7 @@
   },
   "CONTROLS": {
     "description": "",
-    "message": "Controls"
+    "message": "制御系"
   },
   "CONTROL_OPTIONS": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "CURRENT_SYSTEM": {
     "description": "For hyperjump planner",
-    "message": "Current system"
+    "message": "現在の星系"
   },
   "DANGEROUS": {
     "description": "Player combat rating",
@@ -621,7 +621,7 @@
   },
   "FUEL": {
     "description": "",
-    "message": "Fuel"
+    "message": "燃料"
   },
   "FUEL_TANK_FULL": {
     "description": "",
@@ -745,7 +745,7 @@
   },
   "HUD_BUTTON_EXTERNAL_VIEW": {
     "description": "Tooltip: External camera view",
-    "message": "External view"
+    "message": "船外視点"
   },
   "HUD_BUTTON_FIX_ANTINORMAL": {
     "description": "Tooltip: fix heading antinormal",
@@ -773,11 +773,11 @@
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
-    "message": "Flyby view"
+    "message": "接近視点"
   },
   "HUD_BUTTON_HYPERDRIVE_DISABLED": {
     "description": "Tooltip: Hyperdrive disabled (docked or landed)",
-    "message": "Hyperdrive disabled"
+    "message": "ハイパードライブを無効化"
   },
   "HUD_BUTTON_INITIATE_HYPERJUMP": {
     "description": "Tooltip: Initiate legal hyperjump",
@@ -789,11 +789,11 @@
   },
   "HUD_BUTTON_INTERNAL_VIEW": {
     "description": "Tooltip: Internal camera view",
-    "message": "Internal view"
+    "message": "内部視点"
   },
   "HUD_BUTTON_KILL_ROTATION": {
     "description": "Tooltip: kill rotation",
-    "message": "Kill rotation"
+    "message": "回転を止める"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
     "description": "Tooltip: Landing gear is down",
@@ -809,7 +809,7 @@
   },
   "HUD_BUTTON_MANUAL_CONTROL": {
     "description": "Tooltip: Manual control",
-    "message": "Manual control"
+    "message": "手動制御"
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
     "description": "Tooltip: Rotation damping is off",
@@ -837,7 +837,7 @@
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
-    "message": "Sidereal view"
+    "message": "恒星描画"
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
@@ -977,7 +977,7 @@
   },
   "HUD_MASS": {
     "description": "Mass",
-    "message": "Mass"
+    "message": "質量"
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
@@ -1037,7 +1037,7 @@
   },
   "HULL_INTEGRITY": {
     "description": "",
-    "message": "Hull integrity"
+    "message": "船体状況"
   },
   "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT": {
     "description": "",
@@ -1281,7 +1281,7 @@
   },
   "MASS": {
     "description": "",
-    "message": "Mass"
+    "message": "質量"
   },
   "MASTER": {
     "description": "For player reputation",
@@ -1301,7 +1301,7 @@
   },
   "MEDIUM": {
     "description": "Game settings option: graphics resolution",
-    "message": "Medium"
+    "message": "中型"
   },
   "MEDIUM_CARGO_SHUTTLE": {
     "description": "",
@@ -1329,7 +1329,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Metal alloys"
+    "message": "合金"
   },
   "MILITARY": {
     "description": "",
@@ -1409,11 +1409,11 @@
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
-    "message": "Name"
+    "message": "名前"
   },
   "NAME_PERSON": {
     "description": "For a person",
-    "message": "Name"
+    "message": "名前"
   },
   "NAVIGATION": {
     "description": "",
@@ -1877,7 +1877,7 @@
   },
   "SHIP": {
     "description": "",
-    "message": "Ship"
+    "message": "船"
   },
   "SHIPS_ENGINEER": {
     "description": "",
@@ -2093,7 +2093,7 @@
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Trading illegal goods"
+    "message": "違法品の取引"
   },
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",

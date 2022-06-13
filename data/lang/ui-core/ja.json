@@ -793,7 +793,7 @@
   },
   "HUD_BUTTON_KILL_ROTATION": {
     "description": "Tooltip: kill rotation",
-    "message": "Kill rotation"
+    "message": "回転を止める"
   },
   "HUD_BUTTON_LANDING_GEAR_IS_DOWN": {
     "description": "Tooltip: Landing gear is down",

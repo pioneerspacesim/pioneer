@@ -5,7 +5,7 @@
   },
   "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
     "description": "",
-    "message": "Long range target scanner with system wide coverage."
+    "message": "星系を幅広くカバーする長距離スキャナー"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "AUTOPILOT_DESCRIPTION": {
     "description": "",
-    "message": "An on-board flight computer."
+    "message": "電子基盤に実装されたフライトコンピューター"
   },
   "BEAMLASER_1MW": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
-    "message": "Damage Per Shot"
+    "message": "一撃あたりのダメージ"
   },
   "DRIVE_CLASS1": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
+    "message": "より高度な種類のミサイルを破壊できる、電子ミサイル対抗防御システム"
   },
   "ECM_BASIC": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "ECM_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
+    "message": "一部の自動追尾ミサイルを破壊できる 電子ミサイル対抗 - Electronic Countermeasure Missile(ECM) 防御システム"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
@@ -157,11 +157,11 @@
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
-    "message": "Equipment Integrity"
+    "message": "機器の完全性"
   },
   "EQUIPMENT_WEIGHT": {
     "description": "Tooltip explaining equipment weight",
-    "message": "Equipment Weight"
+    "message": "機器の重さ"
   },
   "FUEL_SCOOP": {
     "description": "",
@@ -217,7 +217,7 @@
   },
   "MISSILES": {
     "description": "Category name of missile-related equipment",
-    "message": "Missiles"
+    "message": "ミサイル"
   },
   "MISSILE_GUIDED": {
     "description": "",
@@ -241,11 +241,11 @@
   },
   "MULTI_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+    "message": "Fuel Scoop ほど効果的ではないが、貨物と燃料を両方とも回収できます"
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
-    "message": "Max scan range exceeded:"
+    "message": "最大スキャン範囲を上回りました:"
   },
   "PASSENGER_CABIN": {
     "description": "",
@@ -261,7 +261,7 @@
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
-    "message": "Propulsion"
+    "message": "推進"
   },
   "PULSECANNON_10MW": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "SCAN_RESUMED": {
     "description": "",
-    "message": "Scanning resumed"
+    "message": "スキャン再開"
   },
   "SCOOPS": {
     "description": "Category name of scoop-related equipment",
@@ -313,11 +313,11 @@
   },
   "SENSORS": {
     "description": "Category name of sensor-related equipment",
-    "message": "Sensors"
+    "message": "センサー類"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
-    "message": "Shields"
+    "message": "シールド"
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
@@ -337,7 +337,7 @@
   },
   "SHOTS_PER_MINUTE": {
     "description": "Tooltip explaining weapon fire rate / RPM counter",
-    "message": "Firing Rate / Minute"
+    "message": "発射速度 / 分"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "THRUSTERS_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "A modified type of thrusters approved for your ship."
+    "message": "あなたの船のために承認された、修正された型のスラスター"
   },
   "THRUSTERS_BEST": {
     "description": "",
@@ -369,7 +369,7 @@
   },
   "THRUSTERS_BEST_DESCRIPTION": {
     "description": "",
-    "message": "Custom made thrusters that provide the best possible output."
+    "message": "可能な最大の出力を提供するカスタムメイドのスラスター"
   },
   "THRUSTERS_MEDIUM": {
     "description": "",
@@ -377,15 +377,15 @@
   },
   "THRUSTERS_MEDIUM_DESCRIPTION": {
     "description": "",
-    "message": "Thrusters that have been optimised to reduce inefficiencies and improve power output."
+    "message": "非効率性を減らし出力が改善されたスラスター"
   },
   "TOTAL_MODULE_CAPACITY": {
     "description": "Tooltip explaining module capacity of specific slot",
-    "message": "Total Capacity"
+    "message": "合計能力"
   },
   "TOTAL_MODULE_WEIGHT": {
     "description": "Tooltip explaining total equipped weight of specific slot",
-    "message": "Total Weight"
+    "message": "合計重量"
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
@@ -393,7 +393,7 @@
   },
   "TRADE_COMPUTER_DESCRIPTION": {
     "description": "",
-    "message": "Shows profitable commodities to trade between selected and current system"
+    "message": "選択した星系と現在の星系の間での収益性の高い商品を表示します"
   },
   "UNOCCUPIED_CABIN": {
     "description": "",
@@ -405,7 +405,7 @@
   },
   "UTILITY": {
     "description": "Category name of utility equipment",
-    "message": "Utility"
+    "message": "効果"
   },
   "WEAPONS": {
     "description": "Category name of weapon-related equipment",

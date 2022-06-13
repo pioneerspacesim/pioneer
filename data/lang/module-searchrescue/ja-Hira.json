@@ -457,7 +457,7 @@
   },
   "LAT": {
     "description": "",
-    "message": "Lat:"
+    "message": "緯度:"
   },
   "LON": {
     "description": "",
@@ -673,7 +673,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Set as navigation target"
+    "message": "ナビゲーションターゲットとして設定"
   },
   "SET_RETURN_ROUTE": {
     "description": "",
