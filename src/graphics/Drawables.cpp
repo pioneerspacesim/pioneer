@@ -305,6 +305,23 @@ namespace Graphics {
 			m_refreshVertexBuffer = true;
 		}
 
+		void PointSprites::SetData(const int count, std::vector<vector3f> &&positions, std::vector<Color> &&colors, std::vector<float> &&sizes)
+		{
+			PROFILE_SCOPED();
+			if (count < 1)
+				return;
+
+			m_va->Clear();
+			m_va->position = std::move(positions);
+			m_va->diffuse = std::move(colors);
+
+			m_va->normal.reserve(count);
+			for (int i = 0; i < count; i++) {
+				vector3f vSize(sizes[i]);
+				m_va->normal.push_back(vSize);
+			}
+		}
+
 		void PointSprites::Draw(Renderer *r, Material *mat)
 		{
 			PROFILE_SCOPED()

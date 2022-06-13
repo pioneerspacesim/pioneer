@@ -141,6 +141,7 @@ public:
 
 	// Set the total number of worker threads
 	void SetWorkerThreads(uint32_t numThreads);
+	uint32_t GetNumWorkerThreads() const;
 
 	// Queues all tasks in a TaskSet for execution. The TaskGraph now owns
 	// the underlying TaskSet and is responsible for deletion.

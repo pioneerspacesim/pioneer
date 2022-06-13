@@ -165,6 +165,12 @@ TaskGraph::~TaskGraph()
 	delete m_jobFinishedQueue;
 }
 
+uint32_t TaskGraph::GetNumWorkerThreads() const
+{
+	// m_threads[0] is the thread entry for the main thread
+	return m_threads.size() - 1;
+}
+
 void TaskGraph::SetWorkerThreads(uint32_t numThreads)
 {
 	// numThreads + 1 because we have an implicit thread entry for the "main" thread

@@ -2694,12 +2694,17 @@ static int l_pigui_add_convex_poly_filled(lua_State *l)
 static int l_pigui_load_texture_from_svg(lua_State *l)
 {
 	PROFILE_SCOPED()
+
 	// PiGui::Instance *pigui = LuaObject<PiGui::Instance>::CheckFromLua(1);
 	std::string svg_filename = LuaPull<std::string>(l, 2);
 	int width = LuaPull<int>(l, 3);
 	int height = LuaPull<int>(l, 4);
+
 	ImTextureID id = PiGui::RenderSVG(Pi::renderer, svg_filename, width, height);
-	//	LuaPush(l, id);
+	if (id == nullptr) {
+		return luaL_error(l, "LoadTextureFromSVG: error loading file %s", svg_filename.c_str());
+	}
+
 	lua_pushlightuserdata(l, id);
 	return 1;
 }
