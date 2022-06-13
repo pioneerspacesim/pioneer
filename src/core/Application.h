@@ -115,6 +115,7 @@ protected:
 	void SetProfilerPath(const std::string &);
 	void SetProfileSlowFrames(bool enabled) { m_doSlowProfile = enabled; }
 	void SetProfileZones(bool enabled) { m_profileZones = enabled; }
+	void SetProfileTrace(bool enabled) { m_profileTrace = enabled; }
 
 private:
 	bool StartLifecycle();
@@ -124,6 +125,7 @@ private:
 	bool m_doTempProfile = false;
 	bool m_doSlowProfile = false;
 	bool m_profileZones = false;
+	bool m_profileTrace = false;
 	float m_deltaTime = 0.f;
 	double m_totalTime = 0.f;
 

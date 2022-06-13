@@ -207,16 +207,22 @@ void Application::Run()
 		// TODO: potential pigui frame profile inspector
 		m_runtime.SoftStop();
 		thisTime = m_runtime.seconds();
+
 		// profile frames taking longer than 100ms
-		if (m_doTempProfile || (m_doSlowProfile && thisTime - m_totalTime > 0.100)) {
+		bool isSlowProfile = (m_doSlowProfile && thisTime - m_totalTime > 0.100);
+		if (m_doTempProfile || isSlowProfile) {
 			const std::string path = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(),
 				m_tempProfilePath.empty() ? m_profilerPath : m_tempProfilePath);
 			m_tempProfilePath.clear();
 			m_doTempProfile = false;
 
 			Profiler::dumphtml(path.c_str());
-			if (m_profileZones)
-				Profiler::dumpzones(path.c_str());
+			if (m_profileZones) {
+				if (m_profileTrace)
+					Profiler::dumptrace(path.c_str());
+				else
+					Profiler::dumpzones(path.c_str());
+			}
 		}
 
 		// reset the profiler at the end of the frame

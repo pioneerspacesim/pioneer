@@ -318,7 +318,11 @@ void Pi::App::Startup()
 
 	SetProfilerPath("profiler/");
 	SetProfileSlowFrames(config->Int("ProfileSlowFrames", 0));
-	SetProfileZones(config->Int("ProfilerZoneOutput", 0));
+	bool profileZones = config->Int("ProfilerZoneOutput", 0);
+	bool profileTraces = config->Int("ProfilerTraceOutput", 0);
+
+	SetProfileZones(profileZones || profileTraces);
+	SetProfileTrace(profileTraces);
 
 	Log::GetLog()->SetLogFile("output.txt");
 

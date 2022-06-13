@@ -67,7 +67,6 @@ static Type parse_imgui_flags(lua_State *l, int index, LuaFlags<Type> &lookupTab
 template <typename Type>
 static Type parse_imgui_enum(lua_State *l, int index, LuaFlags<Type> lookupTable)
 {
-	PROFILE_SCOPED()
 	if (lua_isstring(l, index))
 		return lookupTable.LookupEnum(l, index);
 	else if (lua_isnumber(l, index))

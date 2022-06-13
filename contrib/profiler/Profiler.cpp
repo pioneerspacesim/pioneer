@@ -1005,6 +1005,23 @@ namespace Profiler {
 
 	/*
 		Thread Dumping
+
+		Each profile data format is handled by a separate dumper struct
+		implementation.
+
+		The call order for a dumper is as follows:
+
+		- dumper.Init()
+		- dumper.GlobalInfo()
+		- dumper.ThreadsInfo()
+
+		- dumper.PrintThread() // run for each thread starting with 0
+
+		- dumper.PrintAccumulated() // run on the accumulated app-wide counters
+
+		- dumper.DumpZones() // run for each thread's zone buffer
+
+		- dumper.Finish()
 	*/
 
 	// Export Speedscope (https://speedscope.app) format json event logs.
@@ -1103,6 +1120,92 @@ namespace Profiler {
 		HashTable<Entry> frameTable;
 		char timeFormat[256], fileFormat[4096];
 		bool firstThreadDump;
+	};
+
+	// Exports Chrome Tracing format json event logs
+	struct TraceDumper {
+		struct Entry {
+			const char *mName;
+			u32 index;
+		};
+
+		void Init(const char *dir) {
+			threadIndex = 0;
+
+			time_t now;
+			time( &now );
+			tm *now_tm = localtime( &now );
+
+			strftime( timeFormat, 255, "%Y%m%d_%H%M%S", now_tm );
+			snprintf( fileFormat, 4096, "%s%s%s-profile-%s-chrome.json", dir ? dir : "", dir ? "/" : "", programName ? programName : "no-info-given", timeFormat );
+
+			f = fopen( fileFormat, "wb+" );
+			fprintf( f, "{\"traceEvents\":[" );
+		}
+
+		void GlobalInfo( u64, u64 ) {}
+		void ThreadsInfo( u64, f64, f64 ) {}
+
+		void PrintThread( Caller * ) {}
+		void PrintAccumulated( Caller * ) {}
+
+		void PrintMeta( const char *type, const char *name, bool isLast ) {
+			fprintf( f, "{\"name\":\"%s\",\"ph\":\"M\",\"tid\":%d,\"args\":{\"name\":\"%s\"}}%c",
+				type, threadIndex, name, (isLast ? ' ' : ',') );
+		}
+
+		void PrintEnter( const Zone *z, f64 cyclesToTime ) {
+			f64 at = z->time * cyclesToTime / 1000.f;
+			fprintf( f, "{\"name\":\"%s\",\"ph\":\"B\",\"tid\":%d,\"ts\":%.3f},",
+				z->str(), threadIndex, at);
+		}
+
+		void PrintExit( const Zone *z, f64 cyclesToTime ) {
+			f64 at = z->time * cyclesToTime / 1000.f;
+			fprintf( f, "{\"name\":\"%s\",\"ph\":\"E\",\"tid\":%d,\"ts\":%.3f},",
+				z->str(), threadIndex, at );
+		}
+
+		void DumpZones( Buffer<Zone> *zones, u64 endTicks, f64 cyclesToTime ) {
+			Buffer<const char *> stack;
+
+			PrintMeta("thread_name", zones->Size() ? zones->Data()->str() : "main", false);
+
+			for (u32 i = 0; i < zones->Size(); i++) {
+				const Zone *z = &zones->Data()[i];
+
+				if (z->type == ZoneType::ZoneEnter) {
+					stack.Push(z->str());
+					PrintEnter(z, cyclesToTime);
+				}
+
+				if (z->type == ZoneType::ZoneExit) {
+					stack.Pop();
+					PrintExit(z, cyclesToTime);
+				}
+
+			}
+
+			for (u32 i = stack.Size(); i > 0; i--) {
+				const Zone endZone(ZoneType::ZoneExit, (void*)stack.Pop(), endTicks);
+				PrintExit(&endZone, cyclesToTime);
+			}
+
+			threadIndex++;
+		}
+
+		void Finish() {
+			PrintMeta("process_name", programName ? programName : "unnamed", true);
+
+			fprintf( f, "]}\n");
+			fflush( f );
+			fclose( f );
+		}
+
+	protected:
+		FILE *f;
+		char timeFormat[256], fileFormat[4096];
+		u32 threadIndex;
 	};
 
 	struct PrintfDumper {
@@ -1543,6 +1646,7 @@ namespace Profiler {
 	void detect( int argc, char **argv ) { detectByArgs( argc, argv ); }
 	//void detect( const char *commandLine ) { detectWinMain( commandLine ); }
 	void dump(const char *dir) { dumpThreads( PrintfDumper(), dir ); }
+	void dumptrace(const char *dir) { dumpThreads( TraceDumper(), dir ); }
 	void dumpzones(const char *dir) { dumpThreads( ZoneDumper(), dir ); }
 	void dumphtml(const char *dir) { dumpThreads( HTMLDumper(), dir ); }
 	void fastcall enter( const char *name ) { enterCaller( name ); }
@@ -1556,6 +1660,7 @@ namespace Profiler {
 	void detect( int argc, char **argv ) {}
 	//void detect( const char *commandLine ) {}
 	void dump(const char *dir) {}
+	void dumptrace(const char *dir) {}
 	void dumpzones(const char *dir) {}
 	void dumphtml(const char *dir) {}
 	void fastcall enter( const char *name ) {}
