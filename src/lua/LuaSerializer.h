@@ -10,6 +10,7 @@
 #include "LuaRef.h"
 
 class LuaSerializer : public DeleteEmitter {
+	friend class LuaObjectBase;
 	friend class LuaObject<LuaSerializer>;
 	friend void LuaRef::SaveToJson(Json &jsonObj);
 	friend void LuaRef::LoadFromJson(const Json &jsonObj);

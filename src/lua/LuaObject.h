@@ -124,6 +124,16 @@ public:
 	// register a serializer pair for a given type
 	static void RegisterSerializer(const char *type, SerializerPair pair);
 
+	// Serialize all lua components registered for the given object.
+	// Requires the LuaWrappable object to have been pushed to Lua at least once and still exist.
+	// LuaComponents are only valid for LuaCoreObjects (in practice, only Body descendants)
+	static bool SerializeComponents(LuaWrappable *object, Json &out);
+
+	// Deserialize all lua components saved for the given object
+	// Requires the LuaWrappable object to have been pushed to Lua at least once and still exist
+	// LuaComponents are only valid for LuaCoreObjects (in practice, only Body descendants)
+	static bool DeserializeComponents(LuaWrappable *object, const Json &obj);
+
 protected:
 	// base class constructor, called by the wrapper Push* methods
 	LuaObjectBase(const char *type) :

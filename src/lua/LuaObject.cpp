@@ -5,7 +5,9 @@
 #include "Json.h"
 #include "LuaMetaType.h"
 #include "LuaPropertyMap.h"
+#include "LuaSerializer.h"
 #include "LuaUtils.h"
+#include "LuaWrappable.h"
 #include "PropertiedObject.h"
 #include "libs.h"
 #include "lua.h"
@@ -704,6 +706,96 @@ void LuaObjectBase::RegisterSerializer(const char *type, SerializerPair pair)
 
 	lua_pop(l, 1);
 	LUA_DEBUG_END(l, 0);
+}
+
+bool LuaObjectBase::SerializeComponents(LuaWrappable *object, Json &out)
+{
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
+
+	// Get the LuaObject for the given LuaWrappable passed in
+	lua_pushlightuserdata(l, object);
+	lua_rawget(l, -2); // Registry, LuaObject
+
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 2);
+		LUA_DEBUG_END(l, 0);
+
+		return false;
+	}
+
+	lua_getuservalue(l, -1); // Registry, LuaObject, Uservalue
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 3);
+		LUA_DEBUG_END(l, 0);
+
+		return false;
+	}
+
+	lua_pushnil(l);
+	while (lua_next(l, -2) != 0) {
+		if (!lua_isstring(l, -2)) {
+			lua_pop(l, 1);
+			continue;
+		}
+
+		// Don't serialize the properties object
+		std::string_view key = lua_tostring(l, -2);
+		if (key == "__properties") {
+			lua_pop(l, 1);
+			continue;
+		}
+
+		// Pickle the table to json
+		LuaSerializer::pickle_json(l, lua_gettop(l), out[key.data()], "BodyComponent");
+		lua_pop(l, 1);
+	}
+
+	lua_pop(l, 3);
+	LUA_DEBUG_END(l, 0);
+
+	return true;
+}
+
+bool LuaObjectBase::DeserializeComponents(LuaWrappable *object, const Json &obj)
+{
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
+
+	// Get the LuaObject for the given LuaWrappable passed in
+	lua_pushlightuserdata(l, object);
+	lua_rawget(l, -2); // Registry, LuaObject
+
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 2);
+		LUA_DEBUG_END(l, 0);
+
+		return false;
+	}
+
+	lua_getuservalue(l, -1); // Registry, LuaObject, Uservalue
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 3);
+		LUA_DEBUG_END(l, 0);
+
+		return false;
+	}
+
+	// Deserialize all components
+	for (const auto &pair : obj.items()) {
+		lua_pushstring(l, pair.key().c_str());
+		LuaSerializer::unpickle_json(l, pair.value());
+		lua_rawset(l, -3);
+	}
+
+	lua_pop(l, 3);
+	LUA_DEBUG_END(l, 0);
+
+	return true;
 }
 
 // Takes a lua userdata object at the top of the stack and serializes it to json

@@ -118,6 +118,48 @@ static int l_body_attr_path(lua_State *l)
 	return 1;
 }
 
+static int l_body_get_component(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	std::string_view componentName = luaL_checkstring(l, 2);
+
+	// TODO: lookup C++ components
+
+	if (componentName == "__properties") {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	lua_getuservalue(l, 1);
+	lua_pushvalue(l, 2);
+	lua_rawget(l, -2);
+
+	return 1;
+}
+
+static int l_body_set_component(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	std::string_view componentName = luaL_checkstring(l, 2);
+
+	// TODO: lookup C++ components
+
+	if (componentName == "__properties") {
+		return luaL_error(l, "Error: '__properties' is a reserved name for body components.");
+	}
+
+	int type = lua_type(l, 3);
+	if (type != LUA_TNIL && type != LUA_TTABLE) {
+		return luaL_error(l, "Cannot set body component '%s' to non-table value.", componentName.data());
+	}
+
+	lua_getuservalue(l, 1);
+	lua_replace(l, 1);
+	lua_rawset(l, -3);
+
+	return 0;
+}
+
 /*
  * Method: GetVelocityRelTo
  *
@@ -745,6 +787,8 @@ void LuaObject<Body>::RegisterClass()
 	const char *l_parent = "PropertiedObject";
 
 	static luaL_Reg l_methods[] = {
+		{ "GetComponent", l_body_get_component },
+		{ "SetComponent", l_body_set_component },
 		{ "IsDynamic", l_body_is_dynamic },
 		{ "DistanceTo", l_body_distance_to },
 		{ "GetGroundPosition", l_body_get_ground_position },
