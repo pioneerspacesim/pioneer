@@ -33,7 +33,7 @@ public:
 
 		std::string typeName;
 		virtual void toJson(const Body *body, Json &obj, Space *space) = 0;
-		virtual BodyComponent *fromJson(Body *body, const Json &obj, Space *space) = 0;
+		virtual void fromJson(Body *body, const Json &obj, Space *space) = 0;
 	};
 
 	// Polymorphic interface to support generic deletion operations
@@ -76,6 +76,10 @@ public:
 
 	// Type-specific serialization implementation. Delegates to the type's
 	// internal serialization methods and provides the needed glue code.
+	//
+	// The Component::LoadFromJson method will be called after the component
+	// is constructed and added to the body, and may potentially have defaults
+	// set by the owning Body before it is deserialized.
 	template <typename T>
 	struct Serializer final : public SerializerBase {
 		Serializer(std::string name, Pool<T> *pool) :
@@ -89,12 +93,10 @@ public:
 			pool->get(body)->SaveToJson(obj, space);
 		}
 
-		virtual BodyComponent *fromJson(Body *body, const Json &obj, Space *space) override
+		virtual void fromJson(Body *body, const Json &obj, Space *space) override
 		{
-			pool->deleteComponent(body);
 			auto *component = pool->newComponent(body);
 			component->LoadFromJson(obj, space);
-			return component;
 		}
 	};
 
