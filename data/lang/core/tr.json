@@ -871,6 +871,10 @@
     "description": "",
     "message": "Sinir Gazı"
   },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
+  },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
     "message": "Bulunamadı"
@@ -1258,6 +1262,10 @@
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
     "message": "Düşük itiş güç seviyesini %%%power olarak ayarlayın"
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Maksimum hız limitini ayarla"
   },
   "SET_NAVTARGET_TO": {
     "description": "",

@@ -739,6 +739,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Kalkış"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "İleri seyir modu"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Yukarı seyir modu"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Otopilotu devre dışı bırak"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Seyir modunu devre dışı bırak"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Sabit yönelim modunu devre dışı bırak"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Takip modunu devre dışı bırak"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Ekipman"
@@ -867,6 +891,10 @@
     "description": "Cargo Mass",
     "message": "Kargo Kütlesi"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Seyir hızı"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "Şu anki savaş hedefi"
@@ -918,6 +946,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "Manevranın ortasına kadar geçecek süre"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: Yönelimi takip et"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: Yönelim takibi mümkün değil."
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Yönelim takibi mümkün değil - çok uzak."
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: Konumu takip et"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: Konum takibi mümkün değil."
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Konum takibi mümkün değil - çok uzak."
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Hedefi takip et"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -1002,6 +1058,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Şu anki navigasyon hedefini göster"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Hız sınırlayıcı aktif"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1875,6 +1935,18 @@
     "description": "",
     "message": "Dönüş yolunu seç"
   },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Kalan delta-v'nin %45'ine ayarla"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Şu anki hıza ayarla"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Sıfıra ayarla"
+  },
   "SHIP": {
     "description": "",
     "message": "Gemi"
@@ -2102,6 +2174,10 @@
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "İtimat edilir"
+  },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Kapat"
   },
   "TYPE": {
     "description": "",

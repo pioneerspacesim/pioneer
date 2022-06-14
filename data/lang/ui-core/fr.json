@@ -149,11 +149,11 @@
   },
   "CHANGE_COLOR": {
     "description": "Paintshop button",
-    "message": "Change Color"
+    "message": "Changer la couleur"
   },
   "CHANGE_PATTERN": {
     "description": "Paintshop button",
-    "message": "Change Pattern"
+    "message": "Changer le motif"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "COLOR": {
     "description": "",
-    "message": "Color"
+    "message": "Couleur"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -739,6 +739,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Décollage"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "Mode croisière: avancer"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Mode croisière: vers le haut"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Désactiver autopilote"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Désactiver mode croisière"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Désactiver mode direction fixe"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Désactiver mode poursuite"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Equipement"
@@ -867,6 +891,10 @@
     "description": "Cargo Mass",
     "message": "Poids de la cargaison"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Vitesse de croisière"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "La cible de combat courante"
@@ -918,6 +946,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "La durée jusqu'à la moitié de la manoeuvre de mise à feu"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: suivre l'orientation"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: 'suivre l'orientation' indisponible"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: cible trop loin pour 'suivre l'orientation'"
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: suivre la position"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: 'suivre la position' indisponible"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: cible trop loin pour 'suivre la position'"
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Suivre la cible"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -1002,6 +1058,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Affiche la cible de navigation courante"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Limiteur de vitesse activé"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1429,7 +1489,7 @@
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
-    "message": "The new paintjob has been applied to your ship."
+    "message": "La nouvelle peinture de votre vaisseau a été posée."
   },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
@@ -1573,35 +1633,35 @@
   },
   "PAINTSHOP": {
     "description": "Station tab title",
-    "message": "Paintshop"
+    "message": "Atelier de peinture"
   },
   "PAINTSHOP_NOT_AVAILABLE": {
     "description": "",
-    "message": "Paintshop is not available in this spaceport."
+    "message": "Atelier de peinture non disponible dans cette station."
   },
   "PAINTSHOP_WELCOME_0": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome! We will paint your ship pretty!"
+    "message": "Bienvenue! Votre vaisseau va devenir une oeuvre d'art!"
   },
   "PAINTSHOP_WELCOME_1": {
     "description": "Welcome message to the paintshop.",
-    "message": "Hi there! Looking for a change in aesthetics?"
+    "message": "Bonjour! Vous souhaitez changer l'apparence de votre vaisseau?"
   },
   "PAINTSHOP_WELCOME_2": {
     "description": "Welcome message to the paintshop.",
-    "message": "We can't make your ship fly fast, but we can make it fly in style!"
+    "message": "Avec nous votre vaisseau ne sera peut-être pas plus rapide, mais il aura la classe!"
   },
   "PAINTSHOP_WELCOME_3": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome, traveller. Please take your time and let out your creativity."
+    "message": "Bienvenue voyageur. Prenez votre temps et laissez parler votre créativité."
   },
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
-    "message": "Looking the best in the galaxy has never been easier!"
+    "message": "La beauté n'aura jamais été aussi facile dans la galaxie!"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
-    "message": "Pattern"
+    "message": "Motif"
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
@@ -1645,7 +1705,7 @@
   },
   "PLEASE_DESIGN_NEW_PAINTJOB": {
     "description": "",
-    "message": "Please design your new paintjob:"
+    "message": "Créez votre nouvelle peinture:"
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
@@ -1689,7 +1749,7 @@
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
-    "message": "Purchase Paintjob"
+    "message": "Acheter peinture"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1777,7 +1837,7 @@
   },
   "RESET_PREVIEW": {
     "description": "Paintshop button",
-    "message": "Reset Preview"
+    "message": "Réinitialiser l'aperçu"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1875,6 +1935,18 @@
     "description": "",
     "message": "Définir le trajet de retour"
   },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Ajuster à 45% du delta-v restant"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Ajuster à la vitesse courante"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Mettre à zéro"
+  },
   "SHIP": {
     "description": "",
     "message": "Vaisseau"
@@ -1905,7 +1977,7 @@
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
-    "message": "Ship Repairs & Paintshop"
+    "message": "Réparation de vaisseau et peinture"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2103,6 +2175,10 @@
     "description": "For player reputation",
     "message": "De confiance"
   },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Éteindre"
+  },
   "TYPE": {
     "description": "",
     "message": "Type"
@@ -2161,11 +2237,11 @@
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Paintshop"
+    "message": "Visiter l'atelier de peinture"
   },
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Repair Services"
+    "message": "Visiter le garagiste"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

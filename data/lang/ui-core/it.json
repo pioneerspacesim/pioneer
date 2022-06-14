@@ -739,6 +739,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Decollo"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "Modo crociera avanti"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Modo crociera su"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Disabilita autopilota"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Disabilita modo crociera"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Disabilita modo orientamento fisso"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Disabilita modo inseguimento"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Equipaggiamento"
@@ -867,6 +891,10 @@
     "description": "Cargo Mass",
     "message": "Massa del Carico"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Velocità di crociera"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "Bersaglio selezionato"
@@ -918,6 +946,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "La durata fino a metà della manovra orbitale"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: Segui orientamento"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: Segui orientamento, non disponibile."
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Segui orientamento non disponibile - troppo lontano."
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: Segui posizione"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: Segui posizione non disponibile."
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Segui posizione non disponibile - troppo lontano."
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Segui obiettivo"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -1002,6 +1058,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Mostra l'obiettivo di navigazione"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Limite velocità attivo"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1875,6 +1935,18 @@
     "description": "",
     "message": "Imposta rotta di ritorno"
   },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Imposta al 45% del delta-v restante"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Imposta all'attuale velocità"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Azzera"
+  },
   "SHIP": {
     "description": "",
     "message": "Astronave"
@@ -2102,6 +2174,10 @@
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "Fidato"
+  },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Spegni"
   },
   "TYPE": {
     "description": "",
