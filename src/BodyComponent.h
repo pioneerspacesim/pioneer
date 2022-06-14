@@ -41,9 +41,11 @@ public:
 
 	// Polymorphic interface to support generic deletion operations
 	struct PoolBase {
-		PoolBase(size_t i) :
-			componentIndex(i) {}
+		PoolBase(size_t index, size_t type) :
+			componentIndex(index),
+			componentType(type) {}
 		size_t componentIndex = 0;
+		size_t componentType = 0;
 		SerializerBase *serializer = nullptr;
 
 		virtual void deleteComponent(Body *body) = 0;

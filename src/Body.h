@@ -42,18 +42,21 @@ enum class ObjectType { // <enum name=PhysicsObjectType scope='ObjectType' publi
 	HYPERSPACECLOUD // <enum skip>
 };
 
-#define OBJDEF(__thisClass, __parentClass, __TYPE)                             \
-	virtual ObjectType GetType() const override { return ObjectType::__TYPE; } \
-	virtual bool IsType(ObjectType c) const override                           \
-	{                                                                          \
-		if (__thisClass::GetType() == (c))                                     \
-			return true;                                                       \
-		else                                                                   \
-			return __parentClass::IsType(c);                                   \
+#define OBJDEF(__thisClass, __parentClass, __TYPE)                                  \
+	static constexpr ObjectType StaticType() { return ObjectType::__TYPE; }         \
+	static constexpr ObjectType SuperType() { return __parentClass::StaticType(); } \
+	virtual ObjectType GetType() const override { return ObjectType::__TYPE; }      \
+	virtual bool IsType(ObjectType c) const override                                \
+	{                                                                               \
+		if (__thisClass::GetType() == (c))                                          \
+			return true;                                                            \
+		else                                                                        \
+			return __parentClass::IsType(c);                                        \
 	}
 
 class Body : public DeleteEmitter, public PropertiedObject {
 public:
+	static constexpr ObjectType StaticType() { return ObjectType::BODY; }
 	virtual ObjectType GetType() const { return ObjectType::BODY; }
 	virtual bool IsType(ObjectType c) const { return GetType() == c; }
 
@@ -131,7 +134,7 @@ public:
 	template <typename T>
 	bool HasComponent() const
 	{
-		return m_components & (1 << uint8_t(BodyComponentDB::GetComponentType<T>()->componentIndex));
+		return m_components & (uint64_t(1) << uint8_t(BodyComponentDB::GetComponentType<T>()->componentIndex));
 	}
 
 	// Return a pointer to the component of type T attached to this instance or nullptr.
@@ -141,19 +144,22 @@ public:
 	T *GetComponent() const
 	{
 		auto *type = BodyComponentDB::GetComponentType<T>();
-		return m_components & (1 << uint8_t(type->componentIndex)) ? type->get(this) : nullptr;
+		return m_components & (uint64_t(1) << uint8_t(type->componentIndex)) ? type->get(this) : nullptr;
 	}
 
 	template <typename T>
 	T *AddComponent()
 	{
 		auto *type = BodyComponentDB::GetComponentType<T>();
-		if (m_components & (1 << uint8_t(type->componentIndex)))
+		if (m_components & (uint64_t(1) << uint8_t(type->componentIndex)))
 			return type->get(this);
 
-		m_components |= (1 << uint8_t(type->componentIndex));
+		m_components |= (uint64_t(1) << uint8_t(type->componentIndex));
 		return type->newComponent(this);
 	}
+
+	// Returns the bitset of components attached to this body. Prefer using HasComponent<> or GetComponent<> instead.
+	uint64_t GetComponentList() const { return m_components; }
 
 	// Only Space::KillBody() should call this method.
 	void MarkDead() { m_dead = true; }
