@@ -1,4 +1,4 @@
-// Copyright © 2008-2020 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -13,7 +13,6 @@
 
 class Body;
 class Space;
-class BodyComponent {};
 
 /*
 	BodyComponentDB provides a simple interface to support dynamic composition
@@ -36,7 +35,19 @@ public:
 		virtual void fromJson(Body *body, const Json &obj, Space *space) = 0;
 	};
 
-	// Polymorphic interface to support generic deletion operations
+	// Polymorphic interface to support pushing type-erased components to Lua
+	// This functionality is separated to facilitate components that do not wish
+	// to be accessed from Lua.
+	struct LuaInterfaceBase {
+		LuaInterfaceBase();
+		virtual ~LuaInterfaceBase() {}
+
+		virtual void PushToLua(const Body *body) = 0;
+		virtual void DeregisterComponent(const Body *body) = 0;
+	};
+
+	// Primary polymorphic interface to component storage. PoolBase contains all
+	// functionality for operating on specific components in a type-erased manner.
 	struct PoolBase {
 		PoolBase(size_t index, size_t type) :
 			componentIndex(index),
@@ -46,20 +57,36 @@ public:
 		size_t componentIndex = 0;
 		size_t componentType = 0;
 		SerializerBase *serializer = nullptr;
+		LuaInterfaceBase *luaInterface = nullptr;
 
 		virtual void deleteComponent(Body *body) = 0;
 	};
 
+	// Forward-declared to allow access to specializations of the Pool struct.
 	template <typename T>
 	struct Serializer;
 
+	// Intentionally left undefined, implemented in lua/LuaBodyComponent.h
+	template <typename T>
+	struct LuaInterface;
+
 	// Type-specific component pool; uses std::map as a backing store.
 	// This is not meant to be particularly performant, merely to transition API usage.
+	// Future optimization may include use of a custom sparse-set or hash-table for
+	// faster lookup times.
 	template <typename T>
 	struct Pool final : public PoolBase {
 		using PoolBase::PoolBase;
 
-		virtual void deleteComponent(Body *body) override { m_components.erase(body); }
+		// Delete the component and delegate removing it from lua if necessary
+		virtual void deleteComponent(Body *body) override
+		{
+			if (luaInterface)
+				luaInterface->DeregisterComponent(body);
+
+			m_components.erase(body);
+		}
+
 		// Create a new component, or return the existing one.
 		T *newComponent(const Body *body) { return &m_components[body]; }
 		// Assert that a component exists for this body and return it
@@ -68,9 +95,9 @@ public:
 	private:
 		template <typename U>
 		friend struct BodyComponentDB::Serializer;
+		template <typename U>
+		friend struct BodyComponentDB::LuaInterface;
 
-		// std::map used here for expediency of implementation; this should be
-		// replaced with an appropriately fast sparse-set container
 		std::map<const Body *, T> m_components;
 	};
 
@@ -122,14 +149,45 @@ public:
 		return m_componentTypes[componentIndex];
 	}
 
+	// Returns (if present) the polymorphic interface to the component type associated with the given name
+	// This name can be used for serialization or to interface with Lua
+	static PoolBase *GetComponentType(const std::string &typeName)
+	{
+		auto iter = m_componentNames.find(typeName);
+		if (iter != m_componentNames.end())
+			return iter->second;
+
+		return nullptr;
+	}
+
+	// Register a component type to be queryable from Lua with body:GetComponent()
+	template <typename T>
+	static bool RegisterLuaInterface(std::string typeName)
+	{
+		Pool<T> *pool = GetComponentType<T>();
+		if (pool->luaInterface)
+			return false;
+
+		pool->luaInterface = new LuaInterface<T>(pool);
+		m_componentNames.emplace(typeName, pool);
+		return true;
+	}
+
 	// Register a serializer for the given type.
+	// Multiple serializers can be registered for the given type and used while
+	// loading for backwards compatibility, however only the last-registered
+	// serializer will be used when serializing to JSON
 	template <typename T>
 	static bool RegisterSerializer(std::string typeName)
 	{
 		assert(!m_componentSerializers.count(typeName));
-		SerializerBase *serial = new Serializer<T>(typeName, GetComponentType<T>());
+		Pool<T> *pool = GetComponentType<T>();
+
+		SerializerBase *serial = new Serializer<T>(typeName, pool);
+		pool->serializer = serial;
+
 		m_componentSerializers.emplace(typeName, serial);
-		GetComponentType<T>()->serializer = serial;
+		m_componentNames.emplace(typeName, pool);
 		return true;
 	}
 
@@ -148,6 +206,7 @@ public:
 private:
 	static std::map<size_t, std::unique_ptr<PoolBase>> m_componentPools;
 	static std::map<std::string, std::unique_ptr<SerializerBase>> m_componentSerializers;
+	static std::map<std::string, PoolBase *> m_componentNames;
 	static std::vector<PoolBase *> m_componentTypes;
 	static size_t m_componentIdx;
 };

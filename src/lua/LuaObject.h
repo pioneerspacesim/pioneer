@@ -134,6 +134,11 @@ public:
 	// LuaComponents are only valid for LuaCoreObjects (in practice, only Body descendants)
 	static bool DeserializeComponents(LuaWrappable *object, const Json &obj);
 
+	// Lookup the given LuaWrappable-derived object and deregister it if present.
+	// This interface is designed for BodyComponents and other LuaCoreObjects which do not inherit
+	// from DeleteEmitter but instead have deletion managed externally.
+	static void DeregisterObject(LuaWrappable *object);
+
 protected:
 	// base class constructor, called by the wrapper Push* methods
 	LuaObjectBase(const char *type) :
@@ -200,6 +205,9 @@ protected:
 	// get a pointer to the underlying object
 	virtual LuaWrappable *GetObject() const = 0;
 
+	// clear the underlying object pointer (turn this LuaObject into an "orphan" object)
+	virtual void ClearObject() {}
+
 	const char *GetType() const { return m_type; }
 
 private:
@@ -225,9 +233,10 @@ public:
 
 	// wrap an object and push it onto the stack. these create a wrapper
 	// object that knows how to deal with the type of object
-	static inline void PushToLua(DeleteEmitter *o); // LuaCoreObject
-	static inline void PushToLua(RefCounted *o);	// LuaSharedObject
-	static inline void PushToLua(const T &o);		// LuaCopyObject
+	static inline void PushToLua(DeleteEmitter *o);         // LuaCoreObject
+	static inline void PushToLua(RefCounted *o);	        // LuaSharedObject
+	static inline void PushToLua(const T &o);		        // LuaCopyObject
+	static inline void PushComponentToLua(LuaWrappable *o); // LuaComponentObject
 	template <typename... Args>
 	static inline void CreateInLua(Args &&...args);
 
@@ -311,9 +320,17 @@ public:
 			m_deleteConnection.disconnect();
 	}
 
-	LuaWrappable *GetObject() const
+	LuaWrappable *GetObject() const override
 	{
 		return m_object;
+	}
+
+	void ClearObject() override
+	{
+		if (m_deleteConnection.connected())
+			m_deleteConnection.disconnect();
+
+		m_object = 0;
 	}
 
 private:
@@ -327,6 +344,30 @@ private:
 	sigc::connection m_deleteConnection;
 };
 
+// Wrapper type for BodyComponent handles - deletion of components is handled in a callback
+// from the BodyComponentDB
+template<typename T>
+class LuaComponentObject final : public LuaObject<T> {
+public:
+	LuaComponentObject(T *o) :
+		m_object(o)
+	{
+	}
+
+	LuaWrappable *GetObject() const override
+	{
+		return m_object;
+	}
+
+	void ClearObject() override
+	{
+		m_object = nullptr;
+	}
+
+private:
+	T *m_object;
+};
+
 // wrapper for a "shared" object - one that can comfortably exist in both
 // environments. usually for long-lived (StarSystem) or standalone (UI
 // widget) objects
@@ -337,7 +378,7 @@ public:
 	LuaSharedObject(T *o) :
 		m_object(o) {}
 
-	LuaWrappable *GetObject() const
+	LuaWrappable *GetObject() const override
 	{
 		return m_object.Get();
 	}
@@ -366,7 +407,7 @@ public:
 		m_object = 0;
 	}
 
-	LuaWrappable *GetObject() const
+	LuaWrappable *GetObject() const override
 	{
 		return m_object;
 	}
@@ -391,7 +432,7 @@ public:
 		delete (m_object);
 	}
 
-	LuaWrappable *GetObject() const
+	LuaWrappable *GetObject() const override
 	{
 		return m_object;
 	}
@@ -420,6 +461,13 @@ template <typename T>
 inline void LuaObject<T>::PushToLua(const T &o)
 {
 	Register(AllocateNew<LuaCopyObject<T>>(o));
+}
+
+template<typename T>
+inline void LuaObject<T>::PushComponentToLua(LuaWrappable *o)
+{
+	if (!PushRegistered(o))
+		Register(AllocateNew<LuaComponentObject<T>>(static_cast<T *>(o)));
 }
 
 template <typename T>

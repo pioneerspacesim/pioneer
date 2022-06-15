@@ -121,9 +121,13 @@ static int l_body_attr_path(lua_State *l)
 static int l_body_get_component(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
-	std::string_view componentName = luaL_checkstring(l, 2);
+	std::string componentName = luaL_checkstring(l, 2);
 
-	// TODO: lookup C++ components
+	BodyComponentDB::PoolBase *pool = BodyComponentDB::GetComponentType(componentName);
+	if (pool && pool->luaInterface) {
+		pool->luaInterface->PushToLua(b);
+		return 1;
+	}
 
 	if (componentName == "__properties") {
 		lua_pushnil(l);
@@ -140,12 +144,15 @@ static int l_body_get_component(lua_State *l)
 static int l_body_set_component(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
-	std::string_view componentName = luaL_checkstring(l, 2);
+	std::string componentName = luaL_checkstring(l, 2);
 
-	// TODO: lookup C++ components
+	BodyComponentDB::PoolBase *pool = BodyComponentDB::GetComponentType(componentName);
+	if (pool) {
+		return luaL_error(l, "Cannot set C++ body component '%s' to a lua value.");
+	}
 
 	if (componentName == "__properties") {
-		return luaL_error(l, "Error: '__properties' is a reserved name for body components.");
+		return luaL_error(l, "'__properties' is a reserved name for body components.");
 	}
 
 	int type = lua_type(l, 3);

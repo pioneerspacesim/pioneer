@@ -21,6 +21,7 @@
 size_t BodyComponentDB::m_componentIdx = 0;
 std::map<size_t, std::unique_ptr<BodyComponentDB::PoolBase>> BodyComponentDB::m_componentPools;
 std::map<std::string, std::unique_ptr<BodyComponentDB::SerializerBase>> BodyComponentDB::m_componentSerializers;
+std::map<std::string, BodyComponentDB::PoolBase *> BodyComponentDB::m_componentNames;
 std::vector<BodyComponentDB::PoolBase *> BodyComponentDB::m_componentTypes;
 
 Body::Body() :
