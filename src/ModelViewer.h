@@ -116,6 +116,7 @@ private:
 		bool showGeomBBox;
 		bool showShields;
 		bool showGrid;
+		bool showVerticalGrids;
 		bool showLandingPad;
 		bool showUI;
 		bool wireframe;
@@ -202,12 +203,11 @@ private:
 	float m_landingMinOffset;
 
 	std::unique_ptr<Graphics::Material> m_bgMaterial;
-	std::unique_ptr<Graphics::Material> m_gridMaterial;
 	std::unique_ptr<Graphics::MeshObject> m_bgMesh;
 
 	sigc::signal<void> onModelChanged;
 
-	Graphics::Drawables::Lines m_gridLines;
+	std::unique_ptr<Graphics::Drawables::GridLines> m_gridLines;
 };
 
 #endif

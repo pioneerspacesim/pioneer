@@ -43,6 +43,7 @@ ModelViewer::Options::Options() :
 	showGeomBBox(false),
 	showShields(false),
 	showGrid(false),
+	showVerticalGrids(false),
 	showLandingPad(false),
 	showUI(true),
 	wireframe(false),
@@ -146,6 +147,11 @@ void ModelViewerApp::PostUpdate()
 {
 	GetRenderer()->ClearDepthBuffer();
 	GetPiGui()->Render();
+
+	if (GetInput()->IsKeyReleased(SDLK_F12)) {
+		GetRenderer()->FlushCommandBuffers();
+		GetRenderer()->ReloadShaders();
+	}
 }
 
 ModelViewer::ModelViewer(ModelViewerApp *app, LuaManager *lm) :
@@ -183,8 +189,7 @@ ModelViewer::ModelViewer(ModelViewerApp *app, LuaManager *lm) :
 	rsd.primitiveType = Graphics::TRIANGLES;
 	m_bgMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
 
-	rsd.primitiveType = Graphics::LINE_SINGLE;
-	m_gridMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
+	m_gridLines.reset(new Graphics::Drawables::GridLines(m_renderer));
 }
 
 void ModelViewer::Start()
@@ -404,33 +409,20 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 {
 	assert(m_options.showGrid);
 
-	const float dist = zoom_distance(m_baseDistance, m_zoom);
+	// const float dist = zoom_distance(m_baseDistance, m_zoom);
 
-	const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius / m_options.gridInterval) * m_options.gridInterval);
-
-	static std::vector<vector3f> points;
-	points.clear();
-
-	for (float x = -max; x <= max; x += m_options.gridInterval) {
-		points.push_back(vector3f(x, 0, -max));
-		points.push_back(vector3f(x, 0, max));
-		points.push_back(vector3f(0, x, -max));
-		points.push_back(vector3f(0, x, max));
-
-		points.push_back(vector3f(x, -max, 0));
-		points.push_back(vector3f(x, max, 0));
-		points.push_back(vector3f(0, -max, x));
-		points.push_back(vector3f(0, max, x));
-
-		points.push_back(vector3f(-max, x, 0));
-		points.push_back(vector3f(max, x, 0));
-		points.push_back(vector3f(-max, 0, x));
-		points.push_back(vector3f(max, 0, x));
-	}
+	const float max = powf(10, ceilf(log10f(radius * 1.1)));
 
 	m_renderer->SetTransform(trans);
-	m_gridLines.SetData(points.size(), &points[0], Color(128, 128, 128));
-	m_gridLines.Draw(m_renderer, m_gridMaterial.get());
+	m_gridLines->Draw(m_renderer, { max, max }, m_options.gridInterval);
+
+	if (m_options.showVerticalGrids) {
+		m_renderer->SetTransform(trans * matrix4x4f::RotateXMatrix(M_PI * 0.5));
+		m_gridLines->Draw(m_renderer, { max, max }, m_options.gridInterval);
+
+		m_renderer->SetTransform(trans * matrix4x4f::RotateZMatrix(M_PI * 0.5));
+		m_gridLines->Draw(m_renderer, { max, max }, m_options.gridInterval);
+	}
 
 	// industry-standard red/green/blue XYZ axis indiactor
 	m_renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(radius));
@@ -992,25 +984,31 @@ void ModelViewer::DrawModelOptions()
 	ImGui::Checkbox("Show Tags", &m_options.showTags);
 	m_options.showDockingLocators = m_options.showTags;
 
+	ImGui::Spacing();
+
 	ImGui::Checkbox("##ToggleGrid", &m_options.showGrid);
 	ImGui::SameLine(0.0, 4.0f);
 	ImGui::SetNextItemWidth(itmWidth - 4.0f - ImGui::GetFrameHeight());
 
 	std::string currentGridMode = std::to_string(int(m_options.gridInterval)) + "x";
 	if (ImGui::BeginCombo("Grid Mode", currentGridMode.c_str())) {
-		if (ImGui::Selectable("1x"))
+		if (ImGui::Selectable("1m"))
 			m_options.gridInterval = 1.0f;
 
-		if (ImGui::Selectable("10x"))
+		if (ImGui::Selectable("10m"))
 			m_options.gridInterval = 10.0f;
 
-		if (ImGui::Selectable("100x"))
+		if (ImGui::Selectable("100m"))
 			m_options.gridInterval = 100.0f;
 
-		if (ImGui::Selectable("1000x"))
+		if (ImGui::Selectable("1000m"))
 			m_options.gridInterval = 1000.0f;
 
 		ImGui::EndCombo();
+	}
+
+	if (m_options.showGrid) {
+		ImGui::Checkbox("Show Vertical Grids", &m_options.showVerticalGrids);
 	}
 
 	if (m_modelHasShields) {

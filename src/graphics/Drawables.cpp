@@ -829,6 +829,63 @@ namespace Graphics {
 		*/
 
 		//------------------------------------------------------------
+
+		struct GridLines::GridData {
+			Color4f thin_color;
+			Color4f thick_color;
+
+			vector3f grid_dir;
+			float cell_size;
+
+			vector2f grid_size;
+			float line_width;
+		};
+
+		GridLines::GridLines(Graphics::Renderer *r) :
+			m_minorColor(Color(160, 160, 160)),
+			m_majorColor(Color(255, 255, 255)),
+			m_lineWidth(2.0f)
+		{
+			Graphics::RenderStateDesc rsd = {};
+			rsd.blendMode = Graphics::BLEND_ALPHA;
+			rsd.cullMode = Graphics::CULL_NONE;
+			rsd.depthWrite = false;
+
+			m_gridMat.reset(r->CreateMaterial("grid", {}, rsd));
+		}
+
+		void GridLines::SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth)
+		{
+			m_minorColor = minorLineColor;
+			m_majorColor = majorLineColor;
+			m_lineWidth = std::min(lineWidth, 1.0f);
+		}
+
+		void GridLines::Draw(Graphics::Renderer *r, vector2f grid_size, float cell_size)
+		{
+			Graphics::VertexArray va = Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+
+			// Generate two triangles for the grid plane
+			va.Add(vector3f( grid_size.x, 0, -grid_size.y), vector2f( grid_size.x, -grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0,  grid_size.y), vector2f(-grid_size.x,  grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0, -grid_size.y), vector2f(-grid_size.x, -grid_size.y));
+			va.Add(vector3f( grid_size.x, 0, -grid_size.y), vector2f( grid_size.x, -grid_size.y));
+			va.Add(vector3f( grid_size.x, 0,  grid_size.y), vector2f( grid_size.x,  grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0,  grid_size.y), vector2f(-grid_size.x,  grid_size.y));
+
+			GridData data = {};
+			data.thin_color = m_minorColor.ToColor4f();
+			data.thick_color = m_majorColor.ToColor4f();
+			data.grid_dir = r->GetTransform().ApplyRotationOnly(vector3f(0, 1.0, 0));
+			data.cell_size = cell_size;
+			data.grid_size = grid_size;
+			data.line_width = m_lineWidth;
+
+			m_gridMat->SetBufferDynamic("GridData"_hash, &data);
+			r->DrawBuffer(&va, m_gridMat.get());
+		}
+
+		//------------------------------------------------------------
 		Axes3D::Axes3D(Graphics::Renderer *r)
 		{
 			PROFILE_SCOPED()

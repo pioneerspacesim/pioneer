@@ -217,6 +217,26 @@ namespace Graphics {
 
 		//------------------------------------------------------------
 
+		// Shader-based anti-aliased XZ-plane grid rendering.
+		class GridLines {
+		public:
+			GridLines(Graphics::Renderer *r);
+
+			void SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth = 2.0);
+
+			void Draw(Graphics::Renderer *r, vector2f grid_size, float cell_size);
+
+		private:
+			struct GridData;
+
+			std::unique_ptr<Graphics::Material> m_gridMat;
+			Color m_minorColor;
+			Color m_majorColor;
+			float m_lineWidth;
+		};
+
+		//------------------------------------------------------------
+
 		//industry-standard red/green/blue XYZ axis indicator
 		class Axes3D {
 		public:
