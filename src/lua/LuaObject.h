@@ -135,8 +135,9 @@ public:
 	static bool DeserializeComponents(LuaWrappable *object, const Json &obj);
 
 	// Lookup the given LuaWrappable-derived object and deregister it if present.
-	// This interface is designed for BodyComponents and other LuaCoreObjects which do not inherit
-	// from DeleteEmitter but instead have deletion managed externally.
+	// Remove the object->wrapper from the registry. checks to make sure the
+	// the mapping matches first, to protect against memory being reused
+	// Transient (garbage-collected) LuaObjects should not be deregistered.
 	static void DeregisterObject(LuaWrappable *object);
 
 protected:
@@ -156,20 +157,25 @@ protected:
 	// is contained in the metatype.
 	static void CreateClass(LuaMetaTypeBase *metaType);
 
-	// push an already-registered object onto the lua stack. the object is
-	// looked up in the lua registry, if it exists its userdata its userdata
-	// is pushed onto the lua stack. returns true if the object exists and was
-	// pushed, false otherwise
+	// Push an already-registered object onto the lua stack. the object is
+	// looked up in the lua registry, if it exists its userdata is pushed
+	// onto the lua stack. Returns true if the object exists and was pushed,
+	// false otherwise
 	static bool PushRegistered(LuaWrappable *o);
 
-	// adds an object->wrapper mapping to the registry for the given wrapper
-	// object. the wrapper's corresponding userdata should be on the top of
-	// the stack
+	// Adds an object->wrapper mapping to the registry for the given wrapper
+	// object. The wrapper's corresponding userdata should be on the top of
+	// the stack.
+	// This method registers the given userdata in the transient registry and
+	// the LuaObject will be garbage-collected if no reference is held in Lua.
+	// This should only be used for ref-counted pointers or lua-owned objects.
 	static void Register(LuaObjectBase *lo);
 
-	// remove the object->wrapper from the registry. checks to make sure the
-	// the mapping matches first, to protect against memory being reused
-	static void Deregister(LuaObjectBase *lo);
+	// Adds an object->wrapper mapping to the persistent registry for the
+	// given wrapper object (will never be garbage collected).
+	// The wrapper's corresponding userdata should be on the top of the
+	// stack.
+	static void RegisterPersistent(LuaObjectBase *lo);
 
 	// pulls an object off the lua stack and returns its associated c++
 	// object. type is the lua type string of the object. a lua exception is
@@ -305,6 +311,8 @@ private:
 // wrapper for a "core" object - one owned by c++ (eg Body).
 // Lua needs to know when the object is deleted so that it can handle
 // requests for it appropriately (ie with an exception, or exists())
+// CoreObject pointers will be registered in the persistent registry and never
+// garbage-collected while the referenced object is still alive.
 template <typename T>
 class LuaCoreObject : public LuaObject<T> {
 public:
@@ -336,7 +344,7 @@ public:
 private:
 	void OnDelete()
 	{
-		LuaObjectBase::Deregister(this);
+		LuaObjectBase::DeregisterObject(m_object);
 		m_object = 0;
 	}
 
@@ -344,8 +352,10 @@ private:
 	sigc::connection m_deleteConnection;
 };
 
-// Wrapper type for BodyComponent handles - deletion of components is handled in a callback
-// from the BodyComponentDB
+// Wrapper type for BodyComponent handles - deletion of components is handled
+// in a callback from the BodyComponentDB. Component handles will be registered
+// in the persistent registry and never garbage-collected while the component
+// remains alive.
 template<typename T>
 class LuaComponentObject final : public LuaObject<T> {
 public:
@@ -447,7 +457,14 @@ template <typename T>
 inline void LuaObject<T>::PushToLua(DeleteEmitter *o)
 {
 	if (!PushRegistered(o))
-		Register(AllocateNew<LuaCoreObject<T>>(static_cast<T *>(o)));
+		RegisterPersistent(AllocateNew<LuaCoreObject<T>>(static_cast<T *>(o)));
+}
+
+template<typename T>
+inline void LuaObject<T>::PushComponentToLua(LuaWrappable *o)
+{
+	if (!PushRegistered(o))
+		RegisterPersistent(AllocateNew<LuaComponentObject<T>>(static_cast<T *>(o)));
 }
 
 template <typename T>
@@ -461,13 +478,6 @@ template <typename T>
 inline void LuaObject<T>::PushToLua(const T &o)
 {
 	Register(AllocateNew<LuaCopyObject<T>>(o));
-}
-
-template<typename T>
-inline void LuaObject<T>::PushComponentToLua(LuaWrappable *o)
-{
-	if (!PushRegistered(o))
-		Register(AllocateNew<LuaComponentObject<T>>(static_cast<T *>(o)));
 }
 
 template <typename T>

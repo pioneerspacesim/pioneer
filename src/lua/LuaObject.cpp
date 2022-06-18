@@ -321,21 +321,19 @@ static void initialize_object_registry(lua_State *l)
 	// create the object registry if it doesn't already exist. this is the
 	// best place we have to do this since classes will always be registered
 	// before any objects actually turn up
-	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
-	if (lua_isnil(l, -1)) {
-		// create the LuaObjectRegistry table
-		lua_newtable(l);
-
+	if (!luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectRegistry")) {
 		// configure the registry to use weak values
 		lua_newtable(l);
-		lua_pushstring(l, "__mode");
 		lua_pushstring(l, "v");
-		lua_rawset(l, -3);
+		lua_setfield(l, -2, "__mode");
 		lua_setmetatable(l, -2);
-
-		lua_setfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 	}
-	lua_pop(l, 1);
+
+	// Create the persistent object registry - values stored in here have
+	// lifetimes controlled by C++ and should not have their handles deleted
+	// by the Lua GC.
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectPersistentRegistry");
+	lua_pop(l, 2);
 }
 
 void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
@@ -562,14 +560,40 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 	LUA_DEBUG_END(l, 0);
 }
 
+void LuaObjectBase::RegisterPersistent(LuaObjectBase *lo)
+{
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l); // lo userdata
+
+	Register(lo);
+
+	// Register the userdata object in the persistent registry to avoid it being garbage-collected
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectPersistentRegistry");
+	lua_pushlightuserdata(l, lo->GetObject()); // lo userdata, registry, o lightuserdata
+	lua_pushvalue(l, -3);
+	lua_settable(l, -3);
+
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+}
+
 void LuaObjectBase::DeregisterObject(LuaWrappable *o)
 {
 	lua_State *l = Lua::manager->GetLuaState();
-
 	LUA_DEBUG_START(l);
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
-	assert(lua_istable(l, -1));
+	// Remove the object from the transient registry in case the object address
+	// is reused by the allocator.
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
+
+	lua_pushlightuserdata(l, o);
+	lua_pushnil(l);
+	lua_rawset(l, -3);
+	lua_pop(l, 1);
+
+	// Remove the object from the persistent registry as well
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectPersistentRegistry");
 
 	// Retrieve the full userdata object from the registry
 	lua_pushlightuserdata(l, o);
@@ -596,6 +620,7 @@ void LuaObjectBase::DeregisterObject(LuaWrappable *o)
 	// Wind the stack back to the registry
 	lua_pop(l, 1);
 
+	// Clear the object from the registry
 	lua_pushlightuserdata(l, o);
 	lua_pushnil(l);
 	lua_rawset(l, -3);
@@ -603,49 +628,6 @@ void LuaObjectBase::DeregisterObject(LuaWrappable *o)
 	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
-}
-
-void LuaObjectBase::Deregister(LuaObjectBase *lo)
-{
-	LuaWrappable *o = lo->GetObject();
-	lo->ClearObject();
-
-	lua_State *l = Lua::manager->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
-	assert(lua_istable(l, -1));
-
-	// Retrieve the full userdata object from the registry
-	lua_pushlightuserdata(l, o);
-	lua_rawget(l, -2);
-
-	// Check for (and clear) the registered properties object - it is deleted with the object being deregistered.
-	if (lua_isuserdata(l, -1)) {
-		lua_getuservalue(l, -1);
-
-		if (!lua_isnil(l, -1)) {
-			lua_pushstring(l, "__properties");
-			lua_pushnil(l);
-			lua_rawset(l, -3);
-		}
-
-		lua_pop(l, 1);
-	}
-
-	// Wind the stack back to the registry
-	lua_pop(l, 1);
-
-	lua_pushlightuserdata(l, o);
-	lua_pushnil(l);
-	lua_rawset(l, -3);
-
-	lua_pop(l, 1);
-
-	LUA_DEBUG_END(l, 0);
-
-	return;
 }
 
 LuaWrappable *LuaObjectBase::CheckFromLua(int index, const char *type)
