@@ -210,8 +210,6 @@ int LuaObjectHelpers::l_gc(lua_State *l)
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
 
-	LuaObjectBase::Deregister(lo);
-
 	lo->~LuaObjectBase();
 
 	return 0;
