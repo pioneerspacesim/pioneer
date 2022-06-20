@@ -14,6 +14,15 @@
 class Body;
 class Space;
 
+// Macro to handle registering components at startup
+#define REGISTER_COMPONENT_TYPE(type)                                              \
+	namespace type##RegisterComponent                                              \
+	{                                                                              \
+		void Register();                                                           \
+		bool type##Registered = BodyComponentDB::AddComponentRegistrar(&Register); \
+	}                                                                              \
+	void type##RegisterComponent::Register()
+
 /*
 	BodyComponentDB provides a simple interface to support dynamic composition
 	of game objects. It is intended to be an interim solution to assist in
@@ -22,15 +31,19 @@ class Space;
 */
 class BodyComponentDB {
 public:
+	static void Init();
+	static void Uninit();
+
+	// Add a registrar to create and register a component pool using the REGISTER_COMPONENT_TYPE macro
+	static bool AddComponentRegistrar(void (*registrar)());
+
 	// Polymorphic interface to support generic serialization operations
 	// This functionality is separated to facilitate components that do not wish
 	// to be serialized.
 	struct SerializerBase {
-		SerializerBase(std::string name) :
-			typeName(name) {}
+		SerializerBase() {}
 		virtual ~SerializerBase() {}
 
-		std::string typeName;
 		virtual void toJson(const Body *body, Json &obj, Space *space) = 0;
 		virtual void fromJson(Body *body, const Json &obj, Space *space) = 0;
 	};
@@ -39,7 +52,7 @@ public:
 	// This functionality is separated to facilitate components that do not wish
 	// to be accessed from Lua.
 	struct LuaInterfaceBase {
-		LuaInterfaceBase();
+		LuaInterfaceBase() {};
 		virtual ~LuaInterfaceBase() {}
 
 		virtual void PushToLua(const Body *body) = 0;
@@ -52,12 +65,21 @@ public:
 		PoolBase(size_t index, size_t type) :
 			componentIndex(index),
 			componentType(type) {}
-		virtual ~PoolBase() {}
+		virtual ~PoolBase();
 
 		size_t componentIndex = 0;
 		size_t componentType = 0;
+
+		// Pointer to an optional type-erased serializer instance.
+		// The serializer will persist for the lifetime of the program.
 		SerializerBase *serializer = nullptr;
+
+		// Pointer to an optional type-erased lua interface helper.
+		// The lua interface will be deleted by the pool's destructor.
 		LuaInterfaceBase *luaInterface = nullptr;
+
+		// Primary name of the component type for serialization purposes.
+		std::string typeName;
 
 		virtual void deleteComponent(Body *body) = 0;
 	};
@@ -109,8 +131,7 @@ public:
 	// set by the owning Body before it is deserialized.
 	template <typename T>
 	struct Serializer final : public SerializerBase {
-		Serializer(std::string name, Pool<T> *pool) :
-			SerializerBase(name),
+		Serializer(Pool<T> *pool) :
 			pool(pool)
 		{}
 		Pool<T> *pool;
@@ -133,9 +154,7 @@ public:
 	{
 		auto iter = m_componentPools.find(TypeId<T>::Get());
 		if (iter == m_componentPools.end()) {
-			auto *pool = new Pool<T>(m_componentIdx++, TypeId<T>::Get());
-			iter = m_componentPools.emplace(TypeId<T>::Get(), pool).first;
-			m_componentTypes.push_back(pool);
+			return nullptr;
 		}
 
 		return static_cast<Pool<T> *>(iter->second.get());
@@ -160,16 +179,31 @@ public:
 		return nullptr;
 	}
 
+	// Explicitly create and register a component pool. This function should be called during startup
+	// for all component types used at runtime.
+	template <typename T>
+	static void RegisterComponent(std::string typeName)
+	{
+		// We cannot have more components registered than fit in the Body bitset
+		assert(m_componentIdx < 64);
+		assert(m_componentPools.find(TypeId<T>::Get()) == m_componentPools.end());
+
+		auto *pool = new Pool<T>(m_componentIdx++, TypeId<T>::Get());
+		pool->typeName = typeName;
+		m_componentPools.emplace(TypeId<T>::Get(), pool);
+		m_componentNames.emplace(typeName, pool);
+		m_componentTypes.push_back(pool);
+	}
+
 	// Register a component type to be queryable from Lua with body:GetComponent()
 	template <typename T>
-	static bool RegisterLuaInterface(std::string typeName)
+	static bool RegisterLuaInterface()
 	{
 		Pool<T> *pool = GetComponentType<T>();
 		if (pool->luaInterface)
 			return false;
 
 		pool->luaInterface = new LuaInterface<T>(pool);
-		m_componentNames.emplace(typeName, pool);
 		return true;
 	}
 
@@ -178,12 +212,15 @@ public:
 	// loading for backwards compatibility, however only the last-registered
 	// serializer will be used when serializing to JSON
 	template <typename T>
-	static bool RegisterSerializer(std::string typeName)
+	static bool RegisterSerializer(std::string typeName = {})
 	{
-		assert(!m_componentSerializers.count(typeName));
 		Pool<T> *pool = GetComponentType<T>();
+		if (typeName.empty())
+			typeName = pool->typeName;
 
-		SerializerBase *serial = new Serializer<T>(typeName, pool);
+		assert(!m_componentSerializers.count(typeName));
+
+		SerializerBase *serial = new Serializer<T>(pool);
 		pool->serializer = serial;
 
 		m_componentSerializers.emplace(typeName, serial);
