@@ -723,9 +723,10 @@ static vector3d GenerateTangent(DynamicBody *dBody, FrameId targframeId, const v
 //4 - probable path intercept
 int CheckCollision(DynamicBody *dBody, const vector3d &pathdir, double pathdist, const vector3d &tpos, double endvel, double r)
 {
-	if (!dBody->HasComponent<Propulsion>()) return 0;
 	Propulsion *prop = dBody->GetComponent<Propulsion>();
-	assert(prop != nullptr);
+	if (!prop) // This body doesn't have any propulsion to avoid collision
+		return 0;
+
 	// ship is in obstructor's frame anyway, so is tpos
 	if (pathdist < 100.0) return 0;
 	Body *body = Frame::GetFrame(dBody->GetFrame())->GetBody();

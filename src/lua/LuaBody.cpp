@@ -143,7 +143,7 @@ static int l_body_get_component(lua_State *l)
 
 static int l_body_set_component(lua_State *l)
 {
-	Body *b = LuaObject<Body>::CheckFromLua(1);
+	LuaObject<Body>::CheckFromLua(1);
 	std::string componentName = luaL_checkstring(l, 2);
 
 	BodyComponentDB::PoolBase *pool = BodyComponentDB::GetComponentType(componentName);
@@ -152,7 +152,7 @@ static int l_body_set_component(lua_State *l)
 	}
 
 	if (componentName == "__properties") {
-		return luaL_error(l, "'__properties' is a reserved name for body components.");
+		return luaL_error(l, "'__properties' is a reserved name and cannot be used as a component.");
 	}
 
 	int type = lua_type(l, 3);

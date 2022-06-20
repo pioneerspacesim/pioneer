@@ -12,6 +12,10 @@
 #include "scenegraph/MatrixTransform.h"
 #include "vector3.h"
 
+REGISTER_COMPONENT_TYPE(FixedGuns) {
+	BodyComponentDB::RegisterComponent<FixedGuns>("FixedGuns");
+}
+
 FixedGuns::FixedGuns()
 {
 }
