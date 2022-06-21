@@ -10,6 +10,7 @@ local ShipDef = require 'ShipDef'
 local Equipment = require 'Equipment'
 local Timer = require 'Timer'
 local Lang = require 'Lang'
+local CargoManager = require 'CargoManager'
 local Character = require 'Character'
 local Comms = require 'Comms'
 
@@ -20,6 +21,10 @@ local l = Lang.GetResource("ui-core")
 --
 -- Class representing a ship. Inherits from <Body>.
 --
+
+function Ship:Constructor()
+	self:SetComponent('CargoManager', CargoManager.New(self))
+end
 
 -- class method
 function Ship.MakeRandomLabel ()

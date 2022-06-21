@@ -4,6 +4,8 @@
 local Economy = require 'Economy'
 local EquipType = require 'EquipType'
 
+local CommodityType = require 'CommodityType'
+
 local commodities = Economy.GetCommodities()
 local economies = Economy.GetEconomies()
 
@@ -56,6 +58,16 @@ for name, commodity in pairs(commodities) do
 		l10n_key=commodity.l10n_key, l10n_resource=CARGOLANGRESOURCE,
 		price=commodity.price, capabilities={mass=1}, economy_type=econ.name,
 		purchasable=true, icon_name=icon_names[commodity.name] or ""
+	})
+
+	CommodityType.RegisterCommodity(name, {
+		l10n_key = commodity.l10n_key,
+		l10n_resource = nil,
+		price = commodity.price,
+		mass = 1,
+		economy_type = econ.name,
+		purchasable = true,
+		icon_name = icon_names[name] or ""
 	})
 end
 
