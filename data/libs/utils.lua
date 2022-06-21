@@ -207,6 +207,24 @@ utils.inherits = function (baseClass, name)
 	return new_class
 end
 
+-- Wrapper for utils.inherits that manages creating new class instances and
+-- calling the constructor.
+utils.class = function (name, baseClass)
+	local new_class = utils.inherits(baseClass, name)
+
+	new_class.New = function(...)
+		local instance = setmetatable( {}, new_class.meta )
+
+		if new_class.Constructor then
+			new_class.Constructor(instance, ...)
+		end
+
+		return instance
+	end
+
+	return new_class
+end
+
 utils.print_r = function(t)
 	local print_r_cache={}
 	local function sub_print_r(t,indent,rec_guard)
