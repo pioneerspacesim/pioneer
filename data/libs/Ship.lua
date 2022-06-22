@@ -624,15 +624,17 @@ end
 --
 --   experimental
 --
-Ship.Refuel = function (self,amount)
-	local currentFuel = self.fuel
-	if currentFuel == 100 then
-		Comms.Message(l.FUEL_TANK_FULL) -- XXX don't translate in libs
-		return 0
-	end
+function Ship:Refuel(fuelType, amount)
+	if self.fuel == 100 then return 0 end -- tank is completely full
+
+	---@type CargoManager
+	local cargoMgr = self:GetComponent('CargoManager')
+
 	local fuelTankMass = ShipDef[self.shipId].fuelTankMass
 	local needed = math.clamp(math.floor(fuelTankMass - self.fuelMassLeft), 0, amount)
-	local removed = self:RemoveEquip(Equipment.cargo.hydrogen, needed)
+	needed = math.min(needed, cargoMgr:CountCommodity(fuelType))
+
+	local removed = cargoMgr:RemoveCommodity(fuelType, needed)
 	self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / fuelTankMass, 0, 100))
 	return removed
 end
@@ -665,20 +667,24 @@ end
 --
 --   experimental
 --
-Ship.Jettison = function (self,equip)
+function Ship:Jettison(cargoType)
 	if self.flightState ~= "FLYING" and self.flightState ~= "DOCKED" and self.flightState ~= "LANDED" then
 		return false
 	end
-	if self:RemoveEquip(equip, 1) < 1 then
+
+	---@type CargoManager
+	local cargoMgr = self:GetComponent('CargoManager')
+	if cargoMgr:RemoveCommodity(cargoType, 1) < 1 then
 		return false
 	end
+
 	if self.flightState == "FLYING" then
-		self:SpawnCargo(equip)
-		Event.Queue("onJettison", self, equip)
+		self:SpawnCargo(cargoType)
+		Event.Queue("onJettison", self, cargoType)
 	elseif self.flightState == "DOCKED" then
-		Event.Queue("onCargoUnload", self:GetDockedWith(), equip)
+		Event.Queue("onCargoUnload", self:GetDockedWith(), cargoType)
 	elseif self.flightState == "LANDED" then
-		Event.Queue("onCargoUnload", self.frameBody, equip)
+		Event.Queue("onCargoUnload", self.frameBody, cargoType)
 	end
 end
 

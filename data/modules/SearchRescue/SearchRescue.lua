@@ -37,6 +37,7 @@ local Mission = require 'Mission'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
+local Commodities = require 'Commodities'
 local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
@@ -1750,7 +1751,7 @@ local deliverCommodity = function (mission, commodity)
 			-- if commodity was fuel and the mission was local refuel the ship with it
 			if commodity == Equipment.cargo.hydrogen then
 				if mission.flavour.id == 2 or mission.flavour.id == 4 or mission.flavour.id == 5 then
-					mission.target:Refuel(mission.deliver_comm_orig[commodity])
+					mission.target:Refuel(Commodities.hydrogen, mission.deliver_comm_orig[commodity])
 				end
 			end
 		end

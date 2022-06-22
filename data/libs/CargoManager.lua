@@ -12,6 +12,7 @@ local utils = require 'utils'
 -- contrast to EquipSet which manages active ship equipment.
 --
 
+---@class CargoManager
 local CargoManager = utils.class('CargoManager')
 
 -- Constructor
@@ -24,12 +25,19 @@ function CargoManager:Constructor(ship)
 	self.usedCargoSpace = 0
 	self.usedCargoMass = 0
 
+	-- Initialize property variables on owning ship for backwards compatibility
+	ship:setprop("totalCargo", self:GetTotalSpace())
+	ship:setprop("usedCargo", 0)
+
 	-- TODO: stored commodities should be represented as array of { name, count, meta } entries
 	-- to allow for e.g. tracking stolen/scooped cargo, or special mission-related cargoes
 
 	-- Commodity storage is implemented as simple hashtable of name -> { count=n } values
 	-- to ease initial implementation
 	self.commodities = {}
+
+	-- Event listeners for changes to commodities stored in this manager
+	self.listeners = {}
 end
 
 -- Method: GetFreeSpace
@@ -42,6 +50,13 @@ function CargoManager:GetFreeSpace()
 	local cargo_slots = ship.equipSet.slots.cargo
 
 	return math.min(avail_mass, cargo_slots.__limit - self.usedCargoSpace)
+end
+
+-- Method: GetUsedSpace
+--
+-- Returns the amount of cargo space currently occupied on the vessel.
+function CargoManager:GetUsedSpace()
+	return self.usedCargoSpace
 end
 
 -- Method: GetTotalSpace
@@ -76,7 +91,7 @@ function CargoManager:AddCommodity(type, count)
 	self.usedCargoSpace = self.usedCargoSpace + required_space
 
 	self.usedCargoMass = self.usedCargoMass + required_space
-	self.ship:setcap("mass_cap", self.ship.mass_cap + required_space)
+	self.ship:setprop("mass_cap", self.ship.mass_cap + required_space)
 
 	local storage = self.commodities[type.name]
 
@@ -86,6 +101,11 @@ function CargoManager:AddCommodity(type, count)
 	end
 
 	storage.count = storage.count + count
+
+	-- Notify listeners that the cargo contents have changed
+	for _, fn in pairs(self.listeners) do
+		fn(type, count)
+	end
 
 	return true
 end
@@ -119,7 +139,12 @@ function CargoManager:RemoveCommodity(type, count)
 	self.usedCargoSpace = self.usedCargoSpace - freed_space
 
 	self.usedCargoMass = self.usedCargoMass - freed_space
-	self.ship:setcap("mass_cap", self.ship.mass_cap - freed_space)
+	self.ship:setprop("mass_cap", self.ship.mass_cap - freed_space)
+
+	-- Notify listeners that the cargo contents have changed
+	for _, fn in pairs(self.listeners) do
+		fn(type, -removed)
+	end
 
 	return removed
 end
@@ -136,6 +161,33 @@ function CargoManager:CountCommodity(type)
 	end
 
 	return self.commodities[type.name].count
+end
+
+-- Method: AddListener
+--
+-- Register a callback function to be notified when the cargo stored in this manager is changed.
+-- The provided key will be used to uniquely identify the callback function and can be used to
+-- later remove the event listener.
+--
+-- The callback function receives two arguments:
+--   cargoType - an object describing the type of cargo that was added or removed. Usually a CommodityType.
+--   count - a number specifying how many items were added (positive) or removed (negative).
+--
+-- Parameters:
+--   key - a unique value identifying the listener function being added.
+--   fn - a callback function following the above format to be notified of any changes in cargo manifest.
+function CargoManager:AddListener(key, fn)
+	self.listeners[key] = fn
+end
+
+-- Method: RemoveListener
+--
+-- Remove a previously-added listener by providing the same key as was used to register it.
+--
+-- Parameters:
+--   key - a unique value identifiying a listener function previously added.
+function CargoManager:RemoveListener(key)
+	self.listeners[key] = nil
 end
 
 return CargoManager

@@ -71,4 +71,4 @@ for name, commodity in pairs(commodities) do
 	})
 end
 
-return cargo
+return CommodityType.registry

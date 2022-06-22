@@ -5,7 +5,6 @@ local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
 local Space = require 'Space'
-local cargo = require 'Commodities'
 local Comms = require 'Comms'
 local Event = require 'Event'
 local Legal = require 'Legal'
@@ -16,6 +15,7 @@ local SystemPath = require 'SystemPath'
 local Timer = require 'Timer'
 
 --local Character = require 'Character'
+local cargo = Equipment.cargo
 
 local l_rondel = Lang.GetResource("module-rondel")
 local l_ui_core = Lang.GetResource("ui-core")

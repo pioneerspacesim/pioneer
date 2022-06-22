@@ -4,11 +4,13 @@
 local ui = require 'pigui'
 local InfoView = require 'pigui.views.info-view'
 local Lang = require 'Lang'
-local Game = require "Game"
-local Equipment = require "Equipment"
-local ShipDef = require "ShipDef"
+local Game = require 'Game'
+local ShipDef = require 'ShipDef'
 local StationView = require 'pigui.views.station-view'
-local Format = require "Format"
+local Format = require 'Format'
+local Commodities = require 'Commodities'
+local CommodityType = require 'CommodityType'
+
 local l = Lang.GetResource("ui-core")
 
 local colors = ui.theme.colors
@@ -39,16 +41,26 @@ local jettison = function (item)
 	return button
 end
 
+-- Memoize the contents of the player's cargo hold to avoid recalculating them every frame
+---@type { commodity: CommodityType, count: number }[]
 local cachedCargoList = nil
 local maxCargoWidth = 0
+
 local function rebuildCargoList()
 	local count = {}
 	local maxCargoCount = 0
-	for _, et in pairs(Game.player:GetEquip("cargo")) do
-		if not count[et] then count[et] = 0 end
-		count[et] = count[et]+1
-		maxCargoCount = math.max(count[et], maxCargoCount)
+
+	local cargoMgr = Game.player:GetComponent('CargoManager')
+	for name, info in pairs(cargoMgr.commodities) do
+		table.insert(count, {
+			commodity = CommodityType.GetCommodity(name),
+			count = info.count
+		})
+
+		maxCargoCount = math.max(maxCargoCount, info.count)
 	end
+
+	table.sort(count, function(a, b) return a.count > b.count end)
 
 	cachedCargoList = count
 	maxCargoWidth = ui.calcTextSize(maxCargoCount.."t").x + itemSpacing.x * 2
@@ -61,18 +73,17 @@ local function cargolist ()
 	ui.columns(3, "cargoTable")
 
 	ui.setColumnWidth(0, maxCargoWidth)
-	for et, nb in pairs(count) do
+	for _, entry in ipairs(count) do
 		-- count
-		local text = nb .. "t"
-		ui.text(text)
+		ui.text(entry.count .. "t")
 		ui.nextColumn()
 
 		-- name
-		ui.text(et:GetName())
+		ui.text(entry.commodity:GetName())
 		ui.nextColumn()
 
 		-- jettison button
-		jettison(et)
+		jettison(entry.commodity)
 		ui.nextColumn()
 	end
 	ui.columns(1, "")
@@ -81,7 +92,10 @@ end
 
 local pumpDown = function (fuel)
 	local player = Game.player
-	if player.fuel == 0 or player:GetEquipFree("cargo") == 0 then
+	---@type CargoManager
+	local cargoMgr = player:GetComponent('CargoManager')
+
+	if player.fuel == 0 or cargoMgr:GetFreeSpace() == 0 then
 		print("No fuel left to pump!")
 		return
 	end
@@ -92,13 +106,17 @@ local pumpDown = function (fuel)
 	-- current fuel in internal tanks, in tonnes
 	local availableFuel = math.floor(player.fuel / 100 * fuelTankMass)
 
-	fuel = fuel * -1
-
-	-- Don't go above 100%
-	if fuel > availableFuel then fuel = availableFuel end
+	-- Convert fuel to positive number, don't take more fuel than is in the tank
+	local drainedFuel = math.min(math.abs(fuel), availableFuel)
+	-- Don't pump down more fuel than we can fit in the cargo space available
+	drainedFuel = math.min(drainedFuel, cargoMgr:GetFreeSpace())
 
 	-- Military fuel is only used for the hyperdrive
-	local drainedFuel = player:AddEquip(Equipment.cargo.hydrogen, fuel)
+	local ok = cargoMgr:AddCommodity(Commodities.hydrogen, drainedFuel)
+	if not ok then
+		print("Couldn't pump fuel into cargo hold!")
+		return
+	end
 
 	-- Set internal thruster fuel tank state
 	-- (player.fuel is percentage, between 0-100)
@@ -131,20 +149,22 @@ end
 
 -- Gauge bar for hyperdrive fuel / range
 local function gauge_hyperdrive()
-	local player = Game.player
-	local text = string.format(l.FUEL .. ": %dt \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY,
-		player:CountEquip(hyperdrive_fuel), player:GetHyperspaceRange())
+	---@type CargoManager
+	local cargoMgr = Game.player:GetComponent('CargoManager')
+	local fuel = cargoMgr:CountCommodity(hyperdrive_fuel)
 
-	gauge_bar(player:CountEquip(hyperdrive_fuel), text, 0,
-		player.totalCargo - player.usedCargo + player:CountEquip(hyperdrive_fuel),
-		icons.hyperspace)
+	local text = string.format(l.FUEL .. ": %%dt \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY, Game.player:GetHyperspaceRange())
+
+	gauge_bar(fuel, text, 0, cargoMgr:GetTotalSpace() - cargoMgr:GetUsedSpace() + fuel, icons.hyperspace)
 end
 
 -- Gauge bar for used/free cargo space
 local function gauge_cargo()
-	local player = Game.player
-	gauge_bar(player.usedCargo, string.format('%%it %s / %it %s', l.USED, player.totalCargo - player.usedCargo, l.FREE),
-		0, player.totalCargo, icons.market)
+	---@type CargoManager
+	local cargoMgr = Game.player:GetComponent('CargoManager')
+
+	local fmtString = string.format('%%it %s / %it %s', l.USED, cargoMgr:GetFreeSpace(), l.FREE)
+	gauge_bar(cargoMgr:GetUsedSpace(), fmtString, 0, cargoMgr:GetTotalSpace(), icons.market)
 end
 
 -- Gauge bar for used/free cabins
@@ -179,7 +199,7 @@ local function drawEconTrade()
 		for _, k in ipairs(options) do
 			if ui.button(tostring(k)  .. "##fuel", Vector2(100, 0)) then
 				-- Refuel k tonnes from cargo hold
-				Game.player:Refuel(k)
+				Game.player:Refuel(Commodities.hydrogen, k)
 			end
 			ui.sameLine()
 		end
@@ -220,11 +240,13 @@ InfoView:registerView({
 	name = l.ECONOMY_TRADE,
 	icon = ui.theme.icons.cargo_manifest,
 	showView = true,
+
 	draw = function()
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
 			ui.withFont(pionillium.medlarge, function()
 				local sizex = (ui.getColumnWidth() - itemSpacing.x) / 2
 				local sizey = ui.getContentRegion().y - StationView.style.height
+
 				ui.child("leftpanel", Vector2(sizex, sizey), function()
 					drawEconTrade()
 				end)
@@ -240,15 +262,18 @@ InfoView:registerView({
 			end)
 		end)
 	end,
+
 	refresh = function()
-		Game.player.equipSet:AddListener(function (slot)
-			if slot == "cargo" then cachedCargoList = nil end
-		end)
 		cachedCargoList = nil
+		Game.player:GetComponent('CargoManager'):AddListener('econ-trade', function (type, count)
+			if type:Class() == CommodityType then cachedCargoList = nil end
+		end)
+
 		shipDef = ShipDef[Game.player.shipId]
 		hyperdrive = table.unpack(Game.player:GetEquip("engine")) or nil
-		hyperdrive_fuel = hyperdrive and hyperdrive.fuel or Equipment.cargo.hydrogen
+		hyperdrive_fuel = hyperdrive and hyperdrive.fuel or Commodities.hydrogen
 	end,
+
 	debugReload = function()
 		package.reimport()
 	end

@@ -11,7 +11,6 @@ local Comms = require 'Comms'
 local Game = package.core['Game']
 local Space = package.core['Space']
 
-
 local EquipTypes = require 'EquipType'
 
 local LaserType = EquipTypes.LaserType
@@ -20,7 +19,9 @@ local HyperdriveType = EquipTypes.HyperdriveType
 local SensorType = EquipTypes.SensorType
 local BodyScannerType = EquipTypes.BodyScannerType
 
-local cargo = require 'Commodities'
+require 'Commodities'
+
+local cargo = EquipTypes.cargo
 local laser = EquipTypes.laser
 local hyperspace = EquipTypes.hyperspace
 local misc = EquipTypes.misc

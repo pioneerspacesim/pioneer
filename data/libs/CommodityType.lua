@@ -1,6 +1,7 @@
 -- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+local Lang = require 'Lang'
 local utils = require 'utils'
 
 -- Default l10n resource for commodity types
@@ -13,7 +14,10 @@ local CARGOLANGRESOURCE = "commodity"
 -- registered at game startup and serialized by name/ID instead of using table
 -- identities to refer to commodities.
 --
+
+---@class CommodityType
 local CommodityType = utils.class('CommodityType')
+
 
 -- Constructor:
 --
@@ -52,6 +56,26 @@ function CommodityType:Constructor(name, data)
 	self.economy_type  = data.economy_type  or nil
 	self.purchasable   = data.purchasable   or false
 	self.icon_name     = data.icon_name     or ""
+
+	local l = Lang.GetResource(self.l10n_resource)
+	self.lang = {
+		name = l[self.l10n_key],
+		description = l:get(self.l10n_key .. "_DESCRIPTION") or ""
+	}
+end
+
+-- Method: GetName()
+--
+-- Returns the translated name of this commodity
+function CommodityType:GetName()
+	return self.lang.name
+end
+
+-- Method: GetDescription()
+--
+-- Returns the translated description of this commodity
+function CommodityType:GetDescription()
+	return self.lang.description
 end
 
 CommodityType.registry = {}
@@ -73,6 +97,7 @@ end
 -- Return the CommodityType registered for the given name or nil.
 --
 -- Static member function.
+---@return CommodityType
 function CommodityType.GetCommodity(name)
 	return CommodityType.registry[name]
 end
