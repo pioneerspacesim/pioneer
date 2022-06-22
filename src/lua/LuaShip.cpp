@@ -447,8 +447,8 @@ static int l_ship_set_ship_name(lua_State *l)
  *
  * Example:
  *
- * > Game.player:SpawnCargo(Equipment.cargo.hydrogen, 0)
- * > Game.player:SpawnCargo(Equipment.cargo.hydrogen)
+ * > Game.player:SpawnCargo(Commodities.hydrogen, 0)
+ * > Game.player:SpawnCargo(Commodities.hydrogen)
  *
  * Availability:
  *

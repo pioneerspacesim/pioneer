@@ -155,7 +155,7 @@ local function gauge_hyperdrive()
 
 	local text = string.format(l.FUEL .. ": %%dt \t" .. l.HYPERSPACE_RANGE .. ": %d " .. l.LY, Game.player:GetHyperspaceRange())
 
-	gauge_bar(fuel, text, 0, cargoMgr:GetTotalSpace() - cargoMgr:GetUsedSpace() + fuel, icons.hyperspace)
+	gauge_bar(fuel, text, 0, cargoMgr:GetFreeSpace() + fuel, icons.hyperspace)
 end
 
 -- Gauge bar for used/free cargo space
@@ -164,7 +164,7 @@ local function gauge_cargo()
 	local cargoMgr = Game.player:GetComponent('CargoManager')
 
 	local fmtString = string.format('%%it %s / %it %s', l.USED, cargoMgr:GetFreeSpace(), l.FREE)
-	gauge_bar(cargoMgr:GetUsedSpace(), fmtString, 0, cargoMgr:GetTotalSpace(), icons.market)
+	gauge_bar(cargoMgr:GetUsedSpace(), fmtString, 0, cargoMgr:GetFreeSpace() + cargoMgr:GetUsedSpace(), icons.market)
 end
 
 -- Gauge bar for used/free cabins

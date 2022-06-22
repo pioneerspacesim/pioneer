@@ -78,6 +78,7 @@ function CommodityType:GetDescription()
 	return self.lang.description
 end
 
+---@type { [string]: CommodityType }
 CommodityType.registry = {}
 
 -- Function: RegisterCommodity

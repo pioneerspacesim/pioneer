@@ -15,7 +15,7 @@ local sellPriceReduction = 0.8
 local defaultFuncs = {
     -- can we display this item
     canDisplayItem = function (self, e)
-        return e.purchasable and e:IsValidSlot("cargo") and Game.system:IsCommodityLegal(e.name)
+        return e.purchasable
     end,
 
     -- how much of this item do we have in stock?
@@ -180,8 +180,7 @@ local MarketWidget = {
 }
 
 function MarketWidget.New(id, title, config)
-    local self
-    self = TableWidget.New(id, title, config)
+    local self = TableWidget.New(id, title, config)
 
     self.popup = config.popup or ModalWindow.New('popupMsg' .. id, function()
         ui.text(self.popup.msg)
@@ -195,18 +194,19 @@ function MarketWidget.New(id, title, config)
     self.items = {}
     self.itemTypes = config.itemTypes or {}
     self.columnCount = config.columnCount or 0
-    self.funcs.getStock = config.getStock or defaultFuncs.getStock
-    self.funcs.getBuyPrice = config.getBuyPrice or defaultFuncs.getBuyPrice
-    self.funcs.getSellPrice = config.getSellPrice or defaultFuncs.getSellPrice
-    self.funcs.onClickBuy = config.onClickBuy or defaultFuncs.onClickBuy
-    self.funcs.onClickSell = config.onClickSell or defaultFuncs.onClickSell
-    self.funcs.buy = config.buy or defaultFuncs.buy
-    self.funcs.bought = config.bought or defaultFuncs.bought
-    self.funcs.onBuyFailed = config.onBuyFailed or defaultFuncs.onBuyFailed
-    self.funcs.sell = config.sell or defaultFuncs.sell
-    self.funcs.sold = config.sold or defaultFuncs.sold
-    self.funcs.initTable = config.initTable or defaultFuncs.initTable
-    self.funcs.canDisplayItem = config.canDisplayItem or defaultFuncs.canDisplayItem
+
+    self.funcs.getStock        = config.getStock        or defaultFuncs.getStock
+    self.funcs.getBuyPrice     = config.getBuyPrice     or defaultFuncs.getBuyPrice
+    self.funcs.getSellPrice    = config.getSellPrice    or defaultFuncs.getSellPrice
+    self.funcs.onClickBuy      = config.onClickBuy      or defaultFuncs.onClickBuy
+    self.funcs.onClickSell     = config.onClickSell     or defaultFuncs.onClickSell
+    self.funcs.buy             = config.buy             or defaultFuncs.buy
+    self.funcs.bought          = config.bought          or defaultFuncs.bought
+    self.funcs.onBuyFailed     = config.onBuyFailed     or defaultFuncs.onBuyFailed
+    self.funcs.sell            = config.sell            or defaultFuncs.sell
+    self.funcs.sold            = config.sold            or defaultFuncs.sold
+    self.funcs.initTable       = config.initTable       or defaultFuncs.initTable
+    self.funcs.canDisplayItem  = config.canDisplayItem  or defaultFuncs.canDisplayItem
     self.funcs.sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction
     self.funcs.onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem
 

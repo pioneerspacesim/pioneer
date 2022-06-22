@@ -13,6 +13,8 @@ local cargo = EquipType.cargo
 
 local CARGOLANGRESOURCE = "commodity"
 
+local Commodities = CommodityType.registry
+
 -- TODO: normalize icon name conventions; ideally we don't need this table at all and can simply
 -- use the commodity name for the icon
 local icon_names = {
@@ -71,4 +73,4 @@ for name, commodity in pairs(commodities) do
 	})
 end
 
-return CommodityType.registry
+return Commodities

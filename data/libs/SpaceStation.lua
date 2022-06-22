@@ -290,7 +290,28 @@ function SpaceStation:AddEquipmentStock (e, stock)
 	end
 end
 
+-- ============================================================================
 
+-- FIXME: redirection functions to ease porting Cargo out of Equipment
+-- These should have proper implementations that track separate commodity stocks
+
+function SpaceStation:GetCommodityPrice(type)
+	return self:GetEquipmentPrice(Equipment.cargo[type.name])
+end
+
+function SpaceStation:SetCommodityPrice(type, price)
+	return self:SetEquipmentPrice(Equipment.cargo[type.name], price)
+end
+
+function SpaceStation:GetCommodityStock(type)
+	return self:GetEquipmentStock(Equipment.cargo[type.name])
+end
+
+function SpaceStation:AddCommodityStock(type, count)
+	return self:AddEquipmentStock(Equipment.cargo[type.name], count)
+end
+
+-- ============================================================================
 
 local shipsOnSale = {}
 
@@ -499,7 +520,6 @@ function SpaceStation:LaunchPolice(targetShip)
 				policeShip:AddEquip(Equipment.laser.pulsecannon_dual_1mw)
 				policeShip:AddEquip(Equipment.misc.atmospheric_shielding)
 				policeShip:AddEquip(Equipment.misc.laser_cooling_booster)
-				policeShip:AddEquip(Equipment.cargo.hydrogen, 1)
 
 				table.insert(police[self], policeShip)
 			end

@@ -119,13 +119,13 @@ end
 --
 -- Method: AddEquip
 --
--- Add an equipment or cargo item to its appropriate equipment slot
+-- Add an equipment item to its appropriate equipment slot
 --
 -- > num_added = ship:AddEquip(item, count, slot)
 --
 -- Parameters:
 --
---   item  - an Equipment type object (e.g., require 'Equipment'.cargo.hydrogen)
+--   item  - an Equipment type object (e.g., require 'Equipment'.misc.radar)
 --
 --   count - optional. The number of this item to add. Defaults to 1.
 --
@@ -138,7 +138,7 @@ end
 --
 -- Example:
 --
--- > ship:AddEquip(Equipment.cargo.animal_meat, 10)
+-- > ship:AddEquip(Equipment.misc.cabin, 10)
 -- > ship:AddEquip(Equipment.laser.pulsecannon_dual_1mw, 1, "laser_rear")
 --
 -- Availability:
@@ -167,7 +167,7 @@ end
 --
 -- Parameters:
 --
---   slot  - a slot name string (e.g., "cargo")
+--   slot  - a slot name string (e.g., "autopilot")
 --
 --   index - optional. The equipment position in the slot to fetch. If
 --           specified the item at that position in the slot will be returned,
@@ -206,7 +206,7 @@ end
 --
 -- Parameters:
 --
---   slot - a slot name (e.g., "cargo")
+--   slot - a slot name (e.g., "autopilot")
 --
 -- Return:
 --
@@ -260,13 +260,13 @@ end
 --
 -- Method: RemoveEquip
 --
--- Remove one or more of a given equipment type from its appropriate cargo slot
+-- Remove one or more of a given equipment type from its appropriate equipment slot
 --
 -- > num_removed = ship:RemoveEquip(item, count, slot)
 --
 -- Parameters:
 --
---   item - an equipment type object (e.g., Equipment.cargo.hydrogen)
+--   item - an equipment type object (e.g., Equipment.misc.autopilot)
 --
 --   count - optional. The number of this item to remove. Defaults to 1.
 --
@@ -952,9 +952,15 @@ local onShipDestroyed = function (ship, attacker)
 	end
 end
 
+-- Reinitialize cargo-related ship properties when changing ship type
+local onShipTypeChanged = function (ship)
+	ship:GetComponent('CargoManager'):OnShipTypeChanged()
+end
+
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
+Event.Register("onShipTypeChanged", onShipTypeChanged)
 Serializer:Register("ShipClass", serialize, unserialize)
 
 return Ship

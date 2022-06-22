@@ -40,16 +40,29 @@ function CargoManager:Constructor(ship)
 	self.listeners = {}
 end
 
+-- Method: OnShipTypeChanged
+--
+-- Reinitialize ship properties after changing the type of the ship
+-- Note: cargo mass is not removed from ship.mass_cap when changing ship types
+function CargoManager:OnShipTypeChanged()
+	self.ship:setprop("totalCargo", self:GetTotalSpace())
+	self.ship:setprop("usedCargo", self.usedCargoSpace)
+
+	self.ship:UpdateEquipStats()
+end
+
 -- Method: GetFreeSpace
 --
 -- Returns the available amount of cargo space currently present on the vessel.
 function CargoManager:GetFreeSpace()
 	local ship = self.ship
 
-	local avail_mass = ShipDef[ship.shipId].capacity - ship.mass_cap
-	local cargo_slots = ship.equipSet.slots.cargo
+	-- use mass_cap directly here instead of freeCapacity because this can be
+	-- called before ship:UpdateEquipStats() has been called
+	local avail_mass = ShipDef[ship.shipId].capacity - (ship.mass_cap or 0)
+	local cargo_space = ShipDef[ship.shipId].equipSlotCapacity.cargo or 0
 
-	return math.min(avail_mass, cargo_slots.__limit - self.usedCargoSpace)
+	return math.min(avail_mass, cargo_space - self.usedCargoSpace)
 end
 
 -- Method: GetUsedSpace
@@ -61,10 +74,9 @@ end
 
 -- Method: GetTotalSpace
 --
--- Returns the theoretical maximum amount of cargo that could be stored on the vessel.
+-- Returns the maximum amount of cargo that could be stored on the vessel.
 function CargoManager:GetTotalSpace()
-	local ship = self.ship
-	return math.min(ShipDef[ship.shipId].capacity, ship.equipSet.slots.cargo.__limit)
+	return self:GetFreeSpace() + self.usedCargoSpace
 end
 
 -- Method: AddCommodity
@@ -89,6 +101,7 @@ function CargoManager:AddCommodity(type, count)
 	end
 
 	self.usedCargoSpace = self.usedCargoSpace + required_space
+	self.ship:setprop("usedCargo", self.usedCargoSpace)
 
 	self.usedCargoMass = self.usedCargoMass + required_space
 	self.ship:setprop("mass_cap", self.ship.mass_cap + required_space)
@@ -101,6 +114,8 @@ function CargoManager:AddCommodity(type, count)
 	end
 
 	storage.count = storage.count + count
+
+	self.ship:UpdateEquipStats()
 
 	-- Notify listeners that the cargo contents have changed
 	for _, fn in pairs(self.listeners) do
@@ -137,9 +152,12 @@ function CargoManager:RemoveCommodity(type, count)
 	-- TODO: use a cargo volume metric with variable mass instead of fixed 1m^3 == 1t
 	local freed_space = (type.mass or 1) * removed
 	self.usedCargoSpace = self.usedCargoSpace - freed_space
+	self.ship:setprop("usedCargo", self.usedCargoSpace)
 
 	self.usedCargoMass = self.usedCargoMass - freed_space
 	self.ship:setprop("mass_cap", self.ship.mass_cap - freed_space)
+
+	self.ship:UpdateEquipStats()
 
 	-- Notify listeners that the cargo contents have changed
 	for _, fn in pairs(self.listeners) do
@@ -170,8 +188,9 @@ end
 -- later remove the event listener.
 --
 -- The callback function receives two arguments:
+--
 --   cargoType - an object describing the type of cargo that was added or removed. Usually a CommodityType.
---   count - a number specifying how many items were added (positive) or removed (negative).
+--   count     - a number specifying how many items were added (positive) or removed (negative).
 --
 -- Parameters:
 --   key - a unique value identifying the listener function being added.
