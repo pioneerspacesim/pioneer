@@ -305,7 +305,7 @@ function HyperdriveType:HyperjumpTo(ship, destination)
 	local warmup_time = 5 + self.capabilities.hyperclass*1.5
 
 	local sounds
-	if self.fuel == cargo.military_fuel then
+	if self.fuel.name == 'military_fuel' then
 		sounds = HYPERDRIVE_SOUNDS_MILITARY
 	else
 		sounds = HYPERDRIVE_SOUNDS_NORMAL
@@ -316,10 +316,12 @@ end
 
 function HyperdriveType:OnLeaveHyperspace(ship)
 	if ship:hasprop('nextJumpFuelUse') then
+		local cargoMgr = ship:GetComponent('CargoManager')
+
 		local amount = ship.nextJumpFuelUse
-		ship:RemoveEquip(self.fuel, amount)
+		cargoMgr:RemoveCommodity(self.fuel, amount)
 		if self.byproduct then
-			ship:AddEquip(self.byproduct, amount)
+			cargoMgr:AddCommodity(self.byproduct, amount)
 		end
 		ship:unsetprop('nextJumpFuelUse')
 	end

@@ -7,12 +7,11 @@ local Game = require 'Game'
 local Comms = require 'Comms'
 local Event = require 'Event'
 local Rand = require 'Rand'
-local NameGen = require 'NameGen'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
-local Equipment = require 'Equipment'
 local Character = require 'Character'
 local utils = require 'utils'
+local Commodities = require 'Commodities'
 
 local l = Lang.GetResource("module-breakdownservicing")
 local lui = Lang.GetResource("ui-core")
@@ -287,13 +286,16 @@ local onEnterSystem = function (ship)
 		else
 			-- Destroy the engine
 			local engine = ship:GetEquip('engine',1)
-			if engine.fuel == Equipment.cargo.military_fuel then
+
+			if engine.fuel.name == 'military_fuel' then
 				pigui.playSfx("Hyperdrive_Breakdown_Military", 1.0, 1.0)
 			else
 				pigui.playSfx("Hyperdrive_Breakdown", 1.0, 1.0)
 			end
+
 			ship:RemoveEquip(engine)
-			ship:AddEquip(Equipment.cargo.rubbish, engine.capabilities.mass)
+			ship:GetComponent('CargoManager'):AddCommodity(Commodities.rubbish, engine.capabilities.mass)
+
 			Comms.Message(l.THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION)
 		end
 	end

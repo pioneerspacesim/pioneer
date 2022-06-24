@@ -11,6 +11,7 @@ local Event = require 'Event'
 local Mission = require 'Mission'
 local NameGen = require 'NameGen'
 local Character = require 'Character'
+local Commodities = require 'Commodities'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Equipment = require 'Equipment'
@@ -292,19 +293,25 @@ local onEnterSystem = function (ship)
 						if mission.ship == nil then
 							return -- TODO
 						end
+
 						mission.ship:SetLabel(mission.shipregid)
+
 						mission.ship:AddEquip(Equipment.misc.atmospheric_shielding)
 						local engine = Equipment.hyperspace['hyperdrive_'..tostring(default_drive)]
 						mission.ship:AddEquip(engine)
 						mission.ship:AddEquip(laserdef)
 						mission.ship:AddEquip(Equipment.misc.shield_generator, mission.danger)
-						mission.ship:AddEquip(Equipment.cargo.hydrogen, count)
+
+						mission.ship:GetComponent('CargoManager'):AddCommodity(Commodities.hydrogen, count)
+
 						if mission.danger > 2 then
 							mission.ship:AddEquip(Equipment.misc.shield_energy_booster)
 						end
+
 						if mission.danger > 3 then
 							mission.ship:AddEquip(Equipment.misc.laser_cooling_booster)
 						end
+
 						_setupHooksForMission(mission)
 						mission.shipstate = 'docked'
 					end

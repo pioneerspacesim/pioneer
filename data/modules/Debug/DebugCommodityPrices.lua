@@ -14,6 +14,7 @@ local Format = require 'Format'
 -- (local) Global options
 local radius = 20
 local N = 0
+local commodities = nil
 local include_illegal, changed = false, false
 
 
