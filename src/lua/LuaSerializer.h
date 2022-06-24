@@ -9,6 +9,8 @@
 #include "LuaObject.h"
 #include "LuaRef.h"
 
+class Space;
+
 class LuaSerializer : public DeleteEmitter {
 	friend class LuaObjectBase;
 	friend class LuaObject<LuaSerializer>;
@@ -18,6 +20,9 @@ class LuaSerializer : public DeleteEmitter {
 public:
 	void ToJson(Json &jsonObj);
 	void FromJson(const Json &jsonObj);
+
+	void SaveComponents(Json &jsonObj, Space *space);
+	void LoadComponents(const Json &jsonObj, Space *space);
 
 	void InitTableRefs();
 	void UninitTableRefs();

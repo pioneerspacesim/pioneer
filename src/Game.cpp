@@ -172,6 +172,10 @@ Game::Game(const Json &jsonObj) :
 	// views
 	LoadViewsFromJson(jsonObj);
 
+	// lua components
+	// the contents of m_space->m_bodies must not change until after this call
+	Pi::luaSerializer->LoadComponents(jsonObj, m_space.get());
+
 	// lua
 	Pi::luaSerializer->FromJson(jsonObj);
 
@@ -225,6 +229,10 @@ void Game::ToJson(Json &jsonObj)
 	// views. must be saved in init order
 	m_gameViews->m_sectorView->SaveToJson(jsonObj);
 	m_gameViews->m_worldView->SaveToJson(jsonObj);
+
+	// lua components
+	// the contents of m_space->m_bodies must not change until after this call
+	Pi::luaSerializer->SaveComponents(jsonObj, m_space.get());
 
 	// lua
 	Pi::luaSerializer->ToJson(jsonObj);

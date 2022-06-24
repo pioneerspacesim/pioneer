@@ -108,14 +108,6 @@ void Body::SaveToJson(Json &jsonObj, Space *space)
 	}
 
 	jsonObj["components"] = componentsObj;
-
-	// Serialize lua components
-	Json luaComponentsObj = Json::object();
-	if (LuaObjectBase::SerializeComponents(this, luaComponentsObj)) {
-		if (!luaComponentsObj.empty()) {
-			jsonObj["lua_components"] = luaComponentsObj;
-		}
-	}
 }
 
 void Body::ToJson(Json &jsonObj, Space *space)
@@ -200,19 +192,6 @@ Body *Body::FromJson(const Json &jsonObj, Space *space)
 			}
 
 			serializer->fromJson(body, pair.value(), space);
-		}
-	}
-
-	// Deserialize lua components
-	if (jsonObj.count("lua_components") != 0) {
-		const Json &luaComponents = jsonObj["lua_components"];
-		if (luaComponents.is_object() && !luaComponents.empty()) {
-			// Ensure we've registered the body object in Lua
-			// TODO: this is a bit messy, should be handled inside a lua-related function somewhere
-			LuaObject<Body>::PushToLua(body);
-			lua_pop(Lua::manager->GetLuaState(), 1);
-
-			LuaObjectBase::DeserializeComponents(body, luaComponents);
 		}
 	}
 
