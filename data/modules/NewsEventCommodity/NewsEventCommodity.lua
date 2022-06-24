@@ -121,15 +121,6 @@ for i = 1,#flavours do
 	local f = flavours[i]
 	f.headline = l["FLAVOUR_" .. i-1 .. "_HEADLINE"]
 	f.newsbody = l["FLAVOUR_" .. i-1 .. "_NEWSBODY"]
-
-	-- make sure future changes to Equipment won't break this module:
-	local is_valid = false
-	for key, e in pairs(Equipment.cargo) do
-		if key == f.cargo then
-			is_valid = true
-		end
-	end
-	assert(is_valid)
 end
 
 -- will hold the ads of the current system
@@ -419,17 +410,6 @@ end
 
 local unserialize = function (data)
 	loadedData = data
-
-	-- Saves are backwards compatible with new format, where we save
-	-- cargo string, instead of EquipType object (memory address)
-	-- (remove in a year or so)
-	if data.news then
-		for key, value in pairs(data.news) do
-			if type(value.cargo) == 'table' then
-				value.cargo = value.cargo.name
-			end
-		end
-	end
 end
 
 Event.Register("onCreateBB", onCreateBB)

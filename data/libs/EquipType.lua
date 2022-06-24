@@ -252,7 +252,10 @@ end
 function HyperdriveType:GetRange(ship, remaining_fuel)
 	local range_max = self:GetMaximumRange(ship)
 	local fuel_max = self:GetFuelUse(ship, range_max, range_max)
-	remaining_fuel = remaining_fuel or ship:CountEquip(self.fuel)
+
+	---@type CargoManager
+	local cargoMgr = ship:GetComponent('CargoManager')
+	remaining_fuel = remaining_fuel or cargoMgr:CountCommodity(self.fuel)
 
 	if fuel_max <= remaining_fuel then
 		return range_max, range_max
@@ -316,6 +319,7 @@ end
 
 function HyperdriveType:OnLeaveHyperspace(ship)
 	if ship:hasprop('nextJumpFuelUse') then
+		---@type CargoManager
 		local cargoMgr = ship:GetComponent('CargoManager')
 
 		local amount = ship.nextJumpFuelUse

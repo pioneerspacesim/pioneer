@@ -3,6 +3,7 @@
 
 local Game = require 'Game'
 local Lang = require 'Lang'
+local utils= require 'utils'
 
 local ui = require 'pigui'
 local ModalWindow = require 'pigui.libs.modal-win'
@@ -117,9 +118,9 @@ local defaultFuncs = {
 
         -- remove from last free slot (reverse table)
         local slot
-        for i=#e.slots,1,-1 do
-            if player:CountEquip(e, e.slots[i]) > 0 then
-                slot = e.slots[i]
+        for i, s in utils.reverse(e.slots) do
+            if player:CountEquip(e, s) > 0 then
+                slot = s
                 break
             end
         end

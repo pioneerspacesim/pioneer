@@ -80,7 +80,7 @@ end
 
 local function makeEquipmentMarket()
 return EquipMarket.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
-	itemTypes = { Equipment.cargo, Equipment.misc, Equipment.laser, Equipment.hyperspace },
+	itemTypes = { Equipment.misc, Equipment.laser, Equipment.hyperspace },
 	columnCount = 5,
 	initTable = function(self)
 		ui.setColumnWidth(0, self.style.size.x / 2.5)

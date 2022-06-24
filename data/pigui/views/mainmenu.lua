@@ -193,6 +193,7 @@ local function startAtLocation(location)
 		Game.player:AddEquip(equip[1],equip[2])
 	end
 
+	---@type CargoManager
 	local cargoMgr = Game.player:GetComponent('CargoManager')
 	for _,cargo in pairs(location.cargo) do
 		cargoMgr:AddCommodity(cargo[1], cargo[2])

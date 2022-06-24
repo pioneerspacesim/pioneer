@@ -208,11 +208,8 @@ end
 
 function EquipSet:__TriggerCallbacks(ship, slot)
 	ship:UpdateEquipStats()
-	if slot == "cargo" then -- TODO: build a proper property system for the slots
-		ship:setprop("usedCargo", self.slots.cargo.__occupied)
-	else
-		ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, self.slots.cargo.__occupied+ship.freeCapacity))
-	end
+	-- if we reduce the available capacity, we need to update the maximum amount of cargo available
+	ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, ship.usedCargo+ship.freeCapacity))
 	self:CallListener(slot)
 end
 
@@ -307,6 +304,7 @@ function EquipSet:Add(ship, item, num, slot)
 	elseif not item:IsValidSlot(slot, ship) then
 		return -1
 	end
+	assert(slot ~= "cargo", "Cargo slots for equipment are no longer valid")
 
 	local added = self:__Add_NoCheck(item, num, slot)
 	if added == 0 then
@@ -343,6 +341,8 @@ function EquipSet:Remove(ship, item, num, slot)
 	if not slot then
 		slot = item:GetDefaultSlot(ship)
 	end
+	assert(slot ~= "cargo", "Cargo slots for equipment are no longer valid")
+
 	local removed = self:__Remove_NoCheck(item, num, slot)
 	if removed == 0 then
 		return 0

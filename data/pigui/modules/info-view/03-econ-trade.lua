@@ -50,6 +50,7 @@ local function rebuildCargoList()
 	local count = {}
 	local maxCargoCount = 0
 
+	---@type CargoManager
 	local cargoMgr = Game.player:GetComponent('CargoManager')
 	for name, info in pairs(cargoMgr.commodities) do
 		table.insert(count, {

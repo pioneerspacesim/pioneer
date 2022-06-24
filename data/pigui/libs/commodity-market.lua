@@ -420,6 +420,7 @@ end
 function CommodityMarketWidget:Refresh()
 	MarketWidget.refresh(self)
 
+	---@type CargoManager
 	self.cargoMgr = Game.player:GetComponent('CargoManager')
 	self.station = Game.player:GetDockedWith()
 end

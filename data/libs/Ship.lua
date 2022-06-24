@@ -90,15 +90,15 @@ end
 
 -- Method: CountEquip
 --
--- Get the number of a given equipment or cargo item in a given equipment slot
+-- Get the number of a given equipment item in a given equipment slot
 --
 -- > count = ship:CountEquip(item, slot)
 --
 -- Parameters:
 --
---   item - an Equipment type object (e.g., require 'Equipment'.cargo.hydrogen)
+--   item - an Equipment type object (e.g., require 'Equipment'.misc.radar)
 --
---   slot - the slot name (e.g., "cargo")
+--   slot - the slot name (e.g., "radar")
 --
 -- Return:
 --
@@ -298,36 +298,6 @@ Ship.RemoveEquip = function (self, item, count, slot)
 end
 
 --
--- Method: GetCargo
---
--- Build a table that maps the names of stored cargo items to the quantity of
--- the items stored in the ship.
---
--- > cargo = ship:GetCargo()
---
--- Return:
---
--- The table that maps the names of stored cargo items to the quantity of
--- the items stored in the ship.
---
--- Availability:
---
---  2021
---
--- Status:
---
---  experimental
---
-function Ship:GetCargo()
-	local count = {}
-	for _, et in pairs(self:GetEquip("cargo")) do
-		if not count[et] then count[et] = 0 end
-		count[et] = count[et]+1
-	end
-	return count
-end
-
---
 -- Method: IsHyperjumpAllowed
 --
 -- Check if hyperjump is allowed, return bool and minimum allowed
@@ -465,13 +435,18 @@ Ship.GetHyperspaceDetails = function (self, source, destination)
 	elseif source:IsSameSystem(destination) then
 		return "CURRENT_SYSTEM", 0, 0, 0
 	end
+
 	local distance, fuel, duration = engine:CheckJump(self, source, destination)
 	local status = "OK"
+
+	---@type CargoManager
+	local cargoMgr = self:GetComponent('CargoManager')
+
 	if not duration then
 		duration = 0
 		fuel = 0
 		status = "OUT_OF_RANGE"
-	elseif fuel > self:CountEquip(engine.fuel) then
+	elseif fuel > cargoMgr:CountCommodity(engine.fuel) then
 		status = "INSUFFICIENT_FUEL"
 	end
 	return status, distance, fuel, duration
@@ -610,7 +585,8 @@ end
 --
 -- Parameters:
 --
---   amount - the amount of fuel (in tons) to take from the cargo
+--   fuelType - the type of fuel to remove from the cargo hold.
+--   amount   - the amount of fuel (in tons) to take from the cargo
 --
 -- Result:
 --
@@ -624,6 +600,8 @@ end
 --
 --   experimental
 --
+---@param fuelType CommodityType
+---@param amount integer
 function Ship:Refuel(fuelType, amount)
 	if self.fuel == 100 then return 0 end -- tank is completely full
 
@@ -651,7 +629,7 @@ end
 --
 -- Parameters:
 --
---   item - an equipment type object (e.g., Equipment.cargo.radioactives)
+--   item - a commodity type object (e.g., Commodity.radioactives)
 --          specifying the type of item to jettison.
 --
 -- Result:
@@ -667,6 +645,7 @@ end
 --
 --   experimental
 --
+---@param cargoType CommodityType
 function Ship:Jettison(cargoType)
 	if self.flightState ~= "FLYING" and self.flightState ~= "DOCKED" and self.flightState ~= "LANDED" then
 		return false

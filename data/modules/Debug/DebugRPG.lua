@@ -107,6 +107,7 @@ debugView.registerTab("RPG-debug-view", function()
 		-- Load up on commodities
 		if ui.collapsingHeader("Cargo", {}) then  -- {"OpenOnDoubleClick"}
 
+			---@type CargoManager
 			local cargoMgr = Game.player:GetComponent('CargoManager')
 			local free_space = cargoMgr:GetFreeSpace()
 
