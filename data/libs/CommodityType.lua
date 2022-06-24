@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
+local Serializer = require 'Serializer'
 local utils = require 'utils'
 
 -- Default l10n resource for commodity types
@@ -48,16 +49,21 @@ local CommodityType = utils.class('CommodityType')
 --                 Defaults to "".
 --
 function CommodityType:Constructor(name, data)
+	-- Initialize sane defaults
 	self.name          = name
-	self.l10n_key      = data.l10n_key      or "UNKNOWN_CARGO"
-	self.l10n_resource = data.l10n_resource or CARGOLANGRESOURCE
-	self.price         = data.price         or 0
-	self.mass          = data.mass          or 1
-	self.economy_type  = data.economy_type  or nil
-	self.purchasable   = data.purchasable   or false
-	self.icon_name     = data.icon_name     or ""
+	self.l10n_key      = "UNKNOWN_CARGO"
+	self.l10n_resource = CARGOLANGRESOURCE
+	self.price         = 0
+	self.mass          = 1
+	self.economy_type  = nil
+	self.purchasable   = false
+	self.icon_name     = "Default"
+
+	-- Overwrite defaults with any custom data the registrar needs to include
+	for k, v in pairs(data) do self[k] = v end
 
 	local l = Lang.GetResource(self.l10n_resource)
+	---@type { name: string, description: string }
 	self.lang = {
 		name = l[self.l10n_key],
 		description = l:get(self.l10n_key .. "_DESCRIPTION") or ""
@@ -78,7 +84,7 @@ function CommodityType:GetDescription()
 	return self.lang.description
 end
 
----@type { [string]: CommodityType }
+---@type table<string, CommodityType>
 CommodityType.registry = {}
 
 -- Function: RegisterCommodity
@@ -91,6 +97,7 @@ function CommodityType.RegisterCommodity(name, info)
 	assert(not CommodityType.registry[name])
 
 	CommodityType.registry[name] = CommodityType.New(name, info)
+	return CommodityType.registry[name]
 end
 
 -- Function: GetCommodity
@@ -102,5 +109,15 @@ end
 function CommodityType.GetCommodity(name)
 	return CommodityType.registry[name]
 end
+
+function CommodityType:Serialize()
+	return self.name
+end
+
+function CommodityType.Unserialize(data)
+	return CommodityType.GetCommodity(data)
+end
+
+Serializer:RegisterClass('CommodityType', CommodityType)
 
 return CommodityType

@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ShipDef = require 'ShipDef'
+local Serializer = require 'Serializer'
 
 local utils = require 'utils'
 
@@ -34,6 +35,7 @@ function CargoManager:Constructor(ship)
 
 	-- Commodity storage is implemented as simple hashtable of name -> { count=n } values
 	-- to ease initial implementation
+	---@type table<string, { count: number }>
 	self.commodities = {}
 
 	-- Event listeners for changes to commodities stored in this manager
@@ -92,6 +94,8 @@ end
 -- Returns:
 --   success - boolean indicating whether there was enough space on the vessel
 --             to store the commodity
+---@param type CommodityType
+---@param count integer
 function CargoManager:AddCommodity(type, count)
 	-- TODO: use a cargo volume metric with variable mass instead of fixed 1m^3 == 1t
 	local required_space = (type.mass or 1) * (count or 1)
@@ -138,6 +142,8 @@ end
 -- Returns:
 --   numRemoved - total number of commodity items removed, or 0 if no items
 --                were removed from the cargo
+---@param type CommodityType
+---@param count integer
 function CargoManager:RemoveCommodity(type, count)
 	local storage = self.commodities[type.name]
 
@@ -148,6 +154,11 @@ function CargoManager:RemoveCommodity(type, count)
 	local removed = math.min(storage.count, (count or 1))
 
 	storage.count = storage.count - removed
+
+	-- Remove the storage entry from the ship if the commodity is no longer stored here
+	if storage.count == 0 then
+		self.commodities[type.name] = nil
+	end
 
 	-- TODO: use a cargo volume metric with variable mass instead of fixed 1m^3 == 1t
 	local freed_space = (type.mass or 1) * removed
@@ -173,6 +184,7 @@ end
 --
 -- Parameters:
 --   type - CommodityType object of the commodity to query
+---@param type CommodityType
 function CargoManager:CountCommodity(type)
 	if not self.commodities[type.name] then
 		return 0
@@ -208,5 +220,17 @@ end
 function CargoManager:RemoveListener(key)
 	self.listeners[key] = nil
 end
+
+function CargoManager:Serialize()
+	return utils.filter_table(self, function(k, v) return k ~= "listeners" end)
+end
+
+function CargoManager:Unserialize()
+	setmetatable(self, CargoManager.meta)
+	self.listeners = {}
+	return self
+end
+
+Serializer:RegisterClass('CargoManager', CargoManager)
 
 return CargoManager
