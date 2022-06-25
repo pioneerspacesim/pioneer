@@ -110,12 +110,22 @@ function CommodityType.GetCommodity(name)
 	return CommodityType.registry[name]
 end
 
+-- Serialize commodity types by object, but load by name
 function CommodityType:Serialize()
-	return self.name
+	return self
 end
 
+-- Ensure loaded commodity types always point at the 'canonical' instance of the commodity;
+-- commodity types not defined by the current version of the code will be loaded verbatim
 function CommodityType.Unserialize(data)
-	return CommodityType.GetCommodity(data)
+	local ct = CommodityType.GetCommodity(data.name)
+
+	if not ct then
+		logWarning('Commodity type ' .. data.name .. ' could not be found, are you loading an outdated save?')
+		ct = CommodityType.RegisterCommodity(data.name, data)
+	end
+
+	return ct
 end
 
 Serializer:RegisterClass('CommodityType', CommodityType)
