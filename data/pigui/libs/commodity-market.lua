@@ -119,6 +119,16 @@ function CommodityMarketWidget.New(id, title, config)
         end
     end
 
+	config.bought = function (self, commodity, tradeamount)
+		local count = tradeamount or 1
+        self.station:AddCommodityStock(commodity, -count)
+    end
+
+    config.sold = function (self, commodity, tradeamount)
+		local count = tradeamount or 1
+        Game.player:GetDockedWith():AddCommodityStock(commodity, count)
+    end
+
 	config.onClickItem = config.onClickItem or function(s,e,_)
 		s.selectedItem = e
 		s.tradeModeBuy = true
