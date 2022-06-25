@@ -11,10 +11,6 @@ local Comms = require 'Comms'
 local Game = package.core['Game']
 local Space = package.core['Space']
 
--- XXX this is kind of hacky, but we'll put up with it for now
--- Ideally we should separate out the hyperdrives into their own module
--- that can function independently of the cargo
-local cargo = {}
 local laser = {}
 local hyperspace = {}
 local misc = {}
@@ -472,7 +468,6 @@ Serializer:RegisterClass("SensorType", SensorType)
 Serializer:RegisterClass("BodyScannerType", BodyScannerType)
 
 return {
-	cargo			= cargo,
 	laser			= laser,
 	hyperspace		= hyperspace,
 	misc			= misc,

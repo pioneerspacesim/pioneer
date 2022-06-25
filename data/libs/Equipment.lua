@@ -1,37 +1,25 @@
 -- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local utils = require 'utils'
-local Serializer = require 'Serializer'
-local Lang = require 'Lang'
-local ShipDef = require 'ShipDef'
-local Timer = require 'Timer'
-local Comms = require 'Comms'
+local Commodities = require 'Commodities'
+local EquipTypes  = require 'EquipType'
+local Serializer  = require 'Serializer'
 
-local Game = package.core['Game']
-local Space = package.core['Space']
-
-local EquipTypes = require 'EquipType'
-
-local LaserType = EquipTypes.LaserType
-local EquipType = EquipTypes.EquipType
-local HyperdriveType = EquipTypes.HyperdriveType
-local SensorType = EquipTypes.SensorType
+local LaserType       = EquipTypes.LaserType
+local EquipType       = EquipTypes.EquipType
+local HyperdriveType  = EquipTypes.HyperdriveType
+local SensorType      = EquipTypes.SensorType
 local BodyScannerType = EquipTypes.BodyScannerType
 
-local Commodities = require 'Commodities'
-
-local cargo = EquipTypes.cargo
-local laser = EquipTypes.laser
-local hyperspace = EquipTypes.hyperspace
-local misc = EquipTypes.misc
+local laser           = EquipTypes.laser
+local hyperspace      = EquipTypes.hyperspace
+local misc            = EquipTypes.misc
 
 -- Constants: EquipSlot
 --
--- Equipment slots. Every equipment or cargo type has a corresponding
+-- Equipment slots. Every equipment item has a corresponding
 -- "slot" that it fits in to. Each slot has an independent capacity.
 --
--- cargo - any cargo (commodity) item
 -- engine - hyperdrives and military drives
 -- laser_front - front attachment point for lasers and plasma accelerators
 -- laser_rear - rear attachment point for lasers and plasma accelerators

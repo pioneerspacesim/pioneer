@@ -1,17 +1,18 @@
 -- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local Economy = require 'Economy'
-local EquipType = require 'EquipType'
-
 local CommodityType = require 'CommodityType'
+local Economy       = require 'Economy'
 
-local commodities = Economy.GetCommodities()
-local economies = Economy.GetEconomies()
-
-local cargo = EquipType.cargo
-
-local CARGOLANGRESOURCE = "commodity"
+--
+-- Interface: Commodities
+--
+-- Commodities is a module that wraps the <CommodityType> registry for easy access.
+--
+-- It automatically registers all commodities defined in the economy JSON files,
+-- and any commodity in the game can be retrieved by indexing the table with the
+-- name of the commodity in questino.
+--
 
 local Commodities = CommodityType.registry
 
@@ -51,16 +52,10 @@ local icon_names = {
 	industrial_machinery = "Industrial_machinery"
 }
 
--- TODO: don't create a separate EquipType instance for each commoditity,
--- instead store cargo separately from ship equipment
-for name, commodity in pairs(commodities) do
+local economies = Economy.GetEconomies()
+
+for name, commodity in pairs(Economy.GetCommodities()) do
 	local econ = commodity.producer > 0 and economies[commodity.producer] or {}
-	cargo[commodity.name] = EquipType.EquipType.New({
-		name=commodity.name, slots="cargo",
-		l10n_key=commodity.l10n_key, l10n_resource=CARGOLANGRESOURCE,
-		price=commodity.price, capabilities={mass=1}, economy_type=econ.name,
-		purchasable=true, icon_name=icon_names[commodity.name] or ""
-	})
 
 	local required_life_support_level = nil
 	-- TODO: define this in commodity JSON files rather than explicit callouts
