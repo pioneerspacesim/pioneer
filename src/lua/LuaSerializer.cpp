@@ -305,7 +305,19 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 							lua_insert(l, -3); // [klass.Unserialize] [t] [klass]
 							lua_pop(l, 1); // [klass.Unserialize] [t]
 
-							pi_lua_protected_call(l, 1, 1);
+							pi_lua_protected_call(l, 1, 1); // [t]
+							if (lua_isnil(l, -1)) {
+								luaL_error(l, "The Unserialize method for class '%s' didn't return a value\n", cl);
+							}
+
+							// Update the TableRefs cache with the new value
+							// NOTE: recursive references to the original table will not be affected,
+							// only references in tables deserialized later.
+							lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // [t] [refs]
+							lua_pushinteger(l, ptr); // [t] [refs] [key]
+							lua_pushvalue(l, -3); // [t] [refs] [key] [t]
+							lua_rawset(l, -3); // [t] [refs]
+							lua_pop(l, 1); // [t]
 						}
 					}
 				}
