@@ -7,10 +7,10 @@ local Engine = require 'Engine'
 local Event = require 'Event'
 local Serializer = require 'Serializer'
 local ShipDef = require 'ShipDef'
-local Equipment = require 'Equipment'
 local Timer = require 'Timer'
 local Lang = require 'Lang'
 local CargoManager = require 'CargoManager'
+local CommodityType = require 'CommodityType'
 local Character = require 'Character'
 local Comms = require 'Comms'
 
@@ -24,6 +24,13 @@ local l = Lang.GetResource("ui-core")
 
 function Ship:Constructor()
 	self:SetComponent('CargoManager', CargoManager.New(self))
+
+	-- Timers cannot be started in ship constructors before Game is fully set,
+	-- so trigger a lazy event to setup gameplay timers.
+	--
+	-- TODO: this feels a little bit hacky, but it's the best way to decouple
+	-- Ship itself and "game balance" code that drags in a bunch of dependencies
+	Event.Queue('onShipCreated', self)
 end
 
 -- class method
@@ -665,6 +672,40 @@ function Ship:Jettison(cargoType)
 	elseif self.flightState == "LANDED" then
 		Event.Queue("onCargoUnload", self.frameBody, cargoType)
 	end
+end
+
+--
+-- Method: OnScoopCargo
+--
+-- Function triggered from C++ to handle scooping a cargo body.
+--
+-- Triggers the <onShipScoopCargo> event when an attempt is made
+-- to scoop the cargo into the ship's hold.
+--
+-- Returns true if the body was successfully scooped.
+--
+function Ship:OnScoopCargo(cargoType)
+	---@type CargoManager
+	local cargoMgr = self:GetComponent('CargoManager')
+
+	if cargoType:Class() ~= CommodityType then
+		return false
+	end
+
+	-- Rate-limit scooping to avoid triggering hundreds of events
+	-- if the cargo hold is full
+	local lastScoop = self:hasprop('last_scoop_time') and self.last_scoop_time or 0
+	if Game.time - lastScoop < 0.5 then
+		return false
+	else
+		self:setprop('last_scoop_time', Game.time)
+	end
+
+	local success = cargoMgr:AddCommodity(cargoType, 1)
+
+	Event.Queue('onShipScoopCargo', self, success, cargoType)
+
+	return success
 end
 
 --
