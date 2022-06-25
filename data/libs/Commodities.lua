@@ -62,11 +62,18 @@ for name, commodity in pairs(commodities) do
 		purchasable=true, icon_name=icon_names[commodity.name] or ""
 	})
 
+	local required_life_support_level = nil
+	-- TODO: define this in commodity JSON files rather than explicit callouts
+	if name == "live_animals" or name == "slaves" then
+		required_life_support_level = 1
+	end
+
 	CommodityType.RegisterCommodity(name, {
 		l10n_key = commodity.l10n_key,
 		l10n_resource = nil,
 		price = commodity.price,
 		mass = 1,
+		life_support = required_life_support_level,
 		economy_type = econ.name,
 		purchasable = true,
 		icon_name = icon_names[name] or ""

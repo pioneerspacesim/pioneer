@@ -38,6 +38,9 @@ local CommodityType = utils.class('CommodityType')
 --
 -- mass          - number, mass per 1m^3 ideal volume unit of cargo.
 --
+-- life_support  - optional number, the required life support level of the
+--                 vessel to preserve this commodity
+--
 -- economy_type  - optional string, economy ID of the primary producer of this
 --                 commodity. Defaults to nil.
 --
@@ -55,6 +58,7 @@ function CommodityType:Constructor(name, data)
 	self.l10n_resource = CARGOLANGRESOURCE
 	self.price         = 0
 	self.mass          = 1
+	self.life_support  = 0
 	self.economy_type  = nil
 	self.purchasable   = false
 	self.icon_name     = "Default"

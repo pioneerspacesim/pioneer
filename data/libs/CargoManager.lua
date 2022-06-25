@@ -35,7 +35,7 @@ function CargoManager:Constructor(ship)
 
 	-- Commodity storage is implemented as simple hashtable of name -> { count=n } values
 	-- to ease initial implementation
-	---@type table<string, { count: number }>
+	---@type table<string, { count: number, life_support: number? }>
 	self.commodities = {}
 
 	-- Event listeners for changes to commodities stored in this manager
@@ -113,7 +113,7 @@ function CargoManager:AddCommodity(type, count)
 	local storage = self.commodities[type.name]
 
 	if not storage then
-		storage = { count = 0 }
+		storage = { count = 0, life_support = type.life_support }
 		self.commodities[type.name] = storage
 	end
 
@@ -191,6 +191,23 @@ function CargoManager:CountCommodity(type)
 	end
 
 	return self.commodities[type.name].count
+end
+
+-- Method: DoLifeSupportChecks
+--
+-- Check for commodities on this vessel which would perish under the given
+-- cargo life-support level.
+-- Returns the name of the first commodity found that would perish.
+---@param supportLevel integer
+---@return string?
+function CargoManager:DoLifeSupportChecks(supportLevel)
+	for name, info in pairs(self.commodities) do
+		if info.life_support > supportLevel then
+			return name
+		end
+	end
+
+	return nil
 end
 
 -- Method: AddListener
