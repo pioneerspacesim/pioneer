@@ -2,7 +2,7 @@ local Game = package.core["Game"]
 local Event = require 'Event'
 
 -- Simple way to track the start date of the game until DateTime objects are exposed to lua
-local gameStartTime = 0
+local gameStartTime = 0.0
 
 Game.comms_log_lines = {}
 Game.AddCommsLogLine = function(text, sender, priority)
