@@ -336,8 +336,9 @@ void WorldView::UpdateProjectedObjects()
 			}
 		}
 
-		if (laser >= 0 && Pi::player->GetFixedGuns()->IsGunMounted(laser)) {
-			UpdateIndicator(m_targetLeadIndicator, cam_rot * Pi::player->GetFixedGuns()->GetTargetLeadPos());
+		FixedGuns *gunManager = Pi::player->GetComponent<FixedGuns>();
+		if (laser >= 0 && gunManager->IsGunMounted(laser)) {
+			UpdateIndicator(m_targetLeadIndicator, cam_rot * gunManager->GetTargetLeadPos());
 			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
 				HideIndicator(m_targetLeadIndicator);
 		} else {

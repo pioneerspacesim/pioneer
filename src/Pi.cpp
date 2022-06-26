@@ -1,12 +1,15 @@
 // Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "Input.h"
 #include "buildopts.h"
 
 #include "Pi.h"
 
+#include "Body.h"
+#include "BodyComponent.h"
+
 #include "BaseSphere.h"
+#include "Beam.h"
 #include "CityOnPlanet.h"
 #include "DeathView.h"
 #include "EnumStrings.h"
@@ -17,29 +20,13 @@
 #include "GameConfig.h"
 #include "GameLog.h"
 #include "GameSaveError.h"
+#include "Input.h"
 #include "Intro.h"
 #include "Lang.h"
 #include "Missile.h"
 #include "ModManager.h"
 #include "ModelCache.h"
 #include "NavLights.h"
-#include "core/GuiApplication.h"
-#include "core/Log.h"
-#include "core/OS.h"
-#include "graphics/Material.h"
-#include "graphics/RenderState.h"
-#include "graphics/opengl/RendererGL.h"
-#include "imgui/imgui.h"
-#include "lua/Lua.h"
-#include "lua/LuaConsole.h"
-#include "lua/LuaEvent.h"
-#include "lua/LuaTimer.h"
-#include "profiler/Profiler.h"
-#include "sound/AmbientSounds.h"
-#if WITH_OBJECTVIEWER
-#include "ObjectViewerView.h"
-#endif
-#include "Beam.h"
 #include "Player.h"
 #include "PngWriter.h"
 #include "Projectile.h"
@@ -54,26 +41,38 @@
 #include "Tombstone.h"
 #include "TransferPlanner.h"
 #include "WorldView.h"
+
+#if WITH_OBJECTVIEWER
+#include "ObjectViewerView.h"
+#endif
+
 #include "galaxy/GalaxyGenerator.h"
-#include "libs.h"
+
+#include "graphics/Renderer.h"
+#include "graphics/Material.h"
+#include "graphics/RenderState.h"
+#include "graphics/opengl/RendererGL.h"
+
+#include "core/GuiApplication.h"
+#include "core/Log.h"
+#include "core/OS.h"
+
+#include "lua/Lua.h"
+#include "lua/LuaConsole.h"
+#include "lua/LuaEvent.h"
+#include "lua/LuaTimer.h"
+
 #include "pigui/LuaPiGui.h"
 #include "pigui/PerfInfo.h"
 #include "pigui/PiGui.h"
-#include "ship/PlayerShipController.h"
-#include "ship/ShipViewController.h"
+
+#include "sound/AmbientSounds.h"
 #include "sound/Sound.h"
 #include "sound/SoundMusic.h"
 
-#include "graphics/Renderer.h"
-
-#if WITH_DEVKEYS
-#include "graphics/Graphics.h"
-#include "graphics/Light.h"
-#include "graphics/Stats.h"
-#endif // WITH_DEVKEYS
-
-#include "scenegraph/Lua.h"
+#include "libs.h"
 #include "versioningInfo.h"
+#include "profiler/Profiler.h"
 
 #ifdef PROFILE_LUA_TIME
 #include <time.h>
@@ -377,6 +376,8 @@ void Pi::App::Startup()
 	// Can be initialized directly after FileSystem::Init, but put it here for convenience
 	GalacticEconomy::Init();
 
+	BodyComponentDB::Init();
+
 	Profiler::Clock threadTimer;
 	threadTimer.Start();
 
@@ -443,6 +444,8 @@ void Pi::App::Shutdown()
 	delete Pi::modelCache;
 
 	GalaxyGenerator::Uninit();
+
+	BodyComponentDB::Uninit();
 
 	ShutdownRenderer();
 	Pi::renderer = nullptr;

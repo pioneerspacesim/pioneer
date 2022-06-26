@@ -13,10 +13,12 @@
 #include "collider/CollisionContact.h"
 #include "core/Log.h"
 #include "lua/LuaEvent.h"
+#include "ship/Propulsion.h"
 
 Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
 {
-	AddFeature(Feature::PROPULSION); // add component propulsion
+	m_propulsion = AddComponent<Propulsion>();
+
 	if (power < 0) {
 		m_power = 0;
 		if (shipId == ShipType::MISSILE_GUIDED) m_power = 1;
@@ -37,21 +39,21 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
 
 	Disarm();
 
-	GetPropulsion()->SetFuel(1.0);
-	GetPropulsion()->SetFuelReserve(0.0);
+	m_propulsion->SetFuel(1.0);
+	m_propulsion->SetFuelReserve(0.0);
 
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
 
-	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
+	m_propulsion->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
 Missile::Missile(const Json &jsonObj, Space *space) :
 	DynamicBody(jsonObj, space)
 {
-	AddFeature(Feature::PROPULSION);
-	GetPropulsion()->LoadFromJson(jsonObj, space);
+	m_propulsion = AddComponent<Propulsion>();
+	m_propulsion->LoadFromJson(jsonObj, space);
 	Json missileObj = jsonObj["missile"];
 
 	try {
@@ -69,13 +71,13 @@ Missile::Missile(const Json &jsonObj, Space *space) :
 		throw SavedGameCorruptException();
 	}
 
-	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
+	m_propulsion->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
 void Missile::SaveToJson(Json &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
-	GetPropulsion()->SaveToJson(jsonObj, space);
+	m_propulsion->SaveToJson(jsonObj, space);
 	Json missileObj = Json::object(); // Create JSON object to contain missile data.
 
 	if (m_curAICmd) m_curAICmd->SaveToJson(missileObj);
@@ -114,8 +116,8 @@ void Missile::StaticUpdate(const float timeStep)
 	// Note: direct call to AI->TimeStepUpdate
 
 	if (!m_curAICmd) {
-		GetPropulsion()->ClearLinThrusterState();
-		GetPropulsion()->ClearAngThrusterState();
+		m_propulsion->ClearLinThrusterState();
+		m_propulsion->ClearAngThrusterState();
 	} else if (m_curAICmd->TimeStepUpdate()) {
 		delete m_curAICmd;
 		m_curAICmd = nullptr;
@@ -123,10 +125,10 @@ void Missile::StaticUpdate(const float timeStep)
 	//Add smoke trails for missiles on thruster state
 	static double s_timeAccum = 0.0;
 	s_timeAccum += timeStep;
-	if (!is_equal_exact(GetPropulsion()->GetLinThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1 * Pi::rng.Double() < timeStep)) {
+	if (!is_equal_exact(m_propulsion->GetLinThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1 * Pi::rng.Double() < timeStep)) {
 		s_timeAccum = 0.0;
 		const vector3d pos = GetOrient() * vector3d(0, 0, 5);
-		const float speed = std::min(10.0 * GetVelocity().Length() * std::max(1.0, fabs(GetPropulsion()->GetLinThrusterState().z)), 100.0);
+		const float speed = std::min(10.0 * GetVelocity().Length() * std::max(1.0, fabs(m_propulsion->GetLinThrusterState().z)), 100.0);
 		SfxManager::AddThrustSmoke(this, speed, pos);
 	}
 }
@@ -134,12 +136,12 @@ void Missile::StaticUpdate(const float timeStep)
 void Missile::TimeStepUpdate(const float timeStep)
 {
 
-	const vector3d thrust = GetPropulsion()->GetActualLinThrust();
+	const vector3d thrust = m_propulsion->GetActualLinThrust();
 	AddRelForce(thrust);
-	AddRelTorque(GetPropulsion()->GetActualAngThrust());
+	AddRelTorque(m_propulsion->GetActualAngThrust());
 
 	DynamicBody::TimeStepUpdate(timeStep);
-	GetPropulsion()->UpdateFuel(timeStep);
+	m_propulsion->UpdateFuel(timeStep);
 
 	const float MISSILE_DETECTION_RADIUS = 100.0f;
 	if (!m_owner) {
@@ -249,7 +251,7 @@ void Missile::Render(Graphics::Renderer *renderer, const Camera *camera, const v
 {
 	if (IsDead()) return;
 
-	GetPropulsion()->Render(renderer, camera, viewCoords, viewTransform);
+	m_propulsion->Render(renderer, camera, viewCoords, viewTransform);
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 }
 

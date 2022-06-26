@@ -12,6 +12,10 @@
 #include "scenegraph/MatrixTransform.h"
 #include "vector3.h"
 
+REGISTER_COMPONENT_TYPE(FixedGuns) {
+	BodyComponentDB::RegisterComponent<FixedGuns>("FixedGuns");
+}
+
 FixedGuns::FixedGuns()
 {
 }
@@ -58,7 +62,6 @@ void FixedGuns::Init(DynamicBody *b)
 		m_recharge_stat[i] = 0.0;
 		m_temperature_stat[i] = 0.0;
 	}
-	b->AddFeature(DynamicBody::FIXED_GUNS);
 }
 
 void FixedGuns::SaveToJson(Json &jsonObj, Space *space)

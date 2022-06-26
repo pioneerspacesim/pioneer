@@ -53,7 +53,7 @@ Player::Player(const ShipType::Id &shipId) :
 {
 	SetController(new PlayerShipController());
 	InitCockpit();
-	GetFixedGuns()->SetShouldUseLeadCalc(true);
+	m_fixedGuns->SetShouldUseLeadCalc(true);
 	registerEquipChangeListener(this);
 	m_accel = vector3d(0.0f, 0.0f, 0.0f);
 }
@@ -62,7 +62,7 @@ Player::Player(const Json &jsonObj, Space *space) :
 	Ship(jsonObj, space)
 {
 	InitCockpit();
-	GetFixedGuns()->SetShouldUseLeadCalc(true);
+	m_fixedGuns->SetShouldUseLeadCalc(true);
 	registerEquipChangeListener(this);
 }
 
@@ -307,8 +307,8 @@ void Player::StaticUpdate(const float timeStep)
 	Ship::StaticUpdate(timeStep);
 
 	for (size_t i = 0; i < GUNMOUNT_MAX; i++)
-		if (GetFixedGuns()->IsGunMounted(i))
-			GetFixedGuns()->UpdateLead(timeStep, i, this, GetCombatTarget());
+		if (m_fixedGuns->IsGunMounted(i))
+			m_fixedGuns->UpdateLead(timeStep, i, this, GetCombatTarget());
 
 	// store last 20 jerk (derivative of acceleration wrt. time) values
 	// first, move the earlier values back by one

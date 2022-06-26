@@ -9,6 +9,16 @@
 #include "Player.h"
 #include "PlayerShipController.h"
 
+// #include "lua/LuaBodyComponent.h"
+
+REGISTER_COMPONENT_TYPE(Propulsion) {
+	BodyComponentDB::RegisterComponent<Propulsion>("Propulsion");
+	// Commented out as serialization is still handled in Ship
+	// BodyComponentDB::RegisterSerializer<Propulsion>();
+	// Commented out as Propulsion has no lua interface at current
+	// BodyComponentDB::RegisterLuaInterface<Propulsion>();
+}
+
 void Propulsion::SaveToJson(Json &jsonObj, Space *space)
 {
 	//Json PropulsionObj(Json::objectValue); // Create JSON object to contain propulsion data.

@@ -1146,7 +1146,7 @@ static int l_ship_get_gun_temperature(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	int gun = luaL_checkinteger(l, 2);
-	LuaPush(l, s->GetGunTemperature(gun));
+	LuaPush(l, s->GetComponent<FixedGuns>()->GetGunTemperature(gun));
 	return 1;
 }
 
@@ -1282,7 +1282,7 @@ static int l_ship_is_hyperspace_active(lua_State *l)
 static int l_ship_get_thruster_state(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	vector3d v = s->GetPropulsion()->GetLinThrusterState();
+	vector3d v = s->GetComponent<Propulsion>()->GetLinThrusterState();
 	LuaPush<vector3d>(l, v);
 	return 1;
 }

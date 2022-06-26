@@ -40,6 +40,7 @@ private:
 	Body *m_owner;
 	bool m_armed;
 	const ShipType *m_type;
+	Propulsion *m_propulsion;
 
 	int m_ownerIndex; // deserialisation
 };

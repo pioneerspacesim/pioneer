@@ -77,19 +77,7 @@ public:
 		return tmp;
 	}
 
-	enum Feature {
-		PROPULSION = 0,
-		FIXED_GUNS = 1,
-		MAX_FEATURE = 2,
-	};
-
-	bool Have(Feature f) const { return m_features[f]; };
 	void SetDecelerating(bool decel) { m_decelerating = decel; }
-	const Propulsion *GetPropulsion() const;
-	Propulsion *GetPropulsion();
-	const FixedGuns *GetFixedGuns() const;
-	FixedGuns *GetFixedGuns();
-	void AddFeature(Feature f);
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
@@ -124,11 +112,6 @@ private:
 	// for time accel reduction fudge
 	vector3d m_lastForce;
 	vector3d m_lastTorque;
-
-	bool m_features[MAX_FEATURE];
-
-	RefCountedPtr<Propulsion> m_propulsion;
-	RefCountedPtr<FixedGuns> m_fixedGuns;
 };
 
 #endif /* _DYNAMICBODY_H */

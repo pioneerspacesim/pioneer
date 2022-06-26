@@ -8,8 +8,8 @@
 #include "JsonFwd.h"
 
 #include "DynamicBody.h"
-#include "FrameId.h"
 #include "FixedGuns.h"
+#include "FrameId.h"
 #include "ship/Propulsion.h"
 
 class Ship;
@@ -64,8 +64,8 @@ public:
 
 protected:
 	DynamicBody *m_dBody;
-	RefCountedPtr<Propulsion> m_prop;
-	RefCountedPtr<FixedGuns> m_fguns;
+	Propulsion *m_prop;
+	FixedGuns *m_fguns;
 
 	std::unique_ptr<AICommand> m_child;
 	bool m_is_flyto = false;
@@ -89,9 +89,9 @@ public:
 private:
 	enum EDockingStates {
 		eDockGetDataStart = 0, // 0: get data for docking start pos
-		eDockFlyToStart = 1, // 1: Fly to docking start pos
-		eDockGetDataEnd = 2, // 2: get data for docking end pos
-		eDockFlyToEnd = 3, // 3: Fly to docking end pos
+		eDockFlyToStart = 1,   // 1: Fly to docking start pos
+		eDockGetDataEnd = 2,   // 2: get data for docking end pos
+		eDockFlyToEnd = 3,	   // 3: Fly to docking end pos
 		eDockingComplete = 4,
 		eInvalidDockingStage = 5
 	};
@@ -101,7 +101,7 @@ private:
 	vector3d m_dockdir;
 	vector3d m_dockupdir;
 	EDockingStates m_state; // see TimeStepUpdate()
-	int m_targetIndex; // used during deserialisation
+	int m_targetIndex;		// used during deserialisation
 
 	void IncrementState()
 	{
@@ -130,12 +130,12 @@ public:
 	virtual void OnDeleted(const Body *body);
 
 private:
-	Body *m_target; // target for vicinity. Either this or targframe is 0
-	double m_dist; // vicinity distance
+	Body *m_target;		   // target for vicinity. Either this or targframe is 0
+	double m_dist;		   // vicinity distance
 	FrameId m_targframeId; // target frame for waypoint
-	vector3d m_posoff; // offset in target frame
-	double m_endvel; // target speed in direction of motion at end of path, positive only
-	bool m_tangent; // true if path is to a tangent of the target frame's body
+	vector3d m_posoff;	   // offset in target frame
+	double m_endvel;	   // target speed in direction of motion at end of path, positive only
+	bool m_tangent;		   // true if path is to a tangent of the target frame's body
 	int m_state;
 
 	bool m_lockhead;
@@ -170,10 +170,10 @@ protected:
 	double MaxVel(double targdist, double targalt);
 
 private:
-	Body *m_obstructor; // body to fly around
+	Body *m_obstructor;	   // body to fly around
 	int m_obstructorIndex; // deserialisation
 	double m_alt, m_vel;
-	int m_targmode; // 0 targpos termination, 1 infinite, 2+ orbital termination
+	int m_targmode;		// 0 targpos termination, 1 infinite, 2+ orbital termination
 	vector3d m_targpos; // target position in ship space
 };
 
@@ -235,7 +235,7 @@ public:
 
 private:
 	DynamicBody *m_target; // target frame for waypoint
-	vector3d m_posoff; // offset in target frame
+	vector3d m_posoff;	   // offset in target frame
 
 	int m_targetIndex; // used during deserialisation
 };
