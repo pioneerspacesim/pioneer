@@ -871,6 +871,10 @@
     "description": "",
     "message": "Парализующий газ"
   },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
+  },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
     "message": "Не обнаружено"
@@ -921,7 +925,7 @@
   },
   "NUMBER_G": {
     "description": "",
-    "message": "%acceleration{f.1} G"
+    "message": "%acceleration{f.1} Грав."
   },
   "NUMBER_GROUP_MIN": {
     "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
@@ -1258,6 +1262,10 @@
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
     "message": "Зафиксировать тягу на уровне %power%%."
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Установить максимальное ограничение скорости"
   },
   "SET_NAVTARGET_TO": {
     "description": "",

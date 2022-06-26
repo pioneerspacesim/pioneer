@@ -389,11 +389,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Require confidential passage of anonymous VIP to {system} system. Will pay {cash}."
+    "message": "Требуется конфиденциальный проход анонимного VIP клиента в систему {system}. Заплатит {cash}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "CONFIDENTIAL PASSAGE"
+    "message": "КОНФИДЕНЦИАЛЬНЫЙ ПРОХОД"
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Reporter needs proximity to story developing in the {system} system. Will pay {cash}."
+    "message": "Репортеру нужна близость к сюжету, развивающемуся в системе {system}. Заплатит {cash}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -461,11 +461,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for safe passage to {system} system. Secure transport required. Will pay {cash}."
+    "message": "Корабль разыскивается для безопасного прохода в систему {system}. Требуется безопасный транспорт. Будет оплачено {cash}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "SAFE PASSAGE NEEDED"
+    "message": "ТРЕБУЕТСЯ БЕЗОПАСНЫЙ ПРОХОД"
   },
   "FLAVOUR_7_DANGER": {
     "description": "",
@@ -497,7 +497,7 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal passage to {system} system required. Surcharge included in payment."
+    "message": "Требуется срочный личный проход в систему {system}. Доплата включена в оплату."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
@@ -533,11 +533,11 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Require urgent transport for honest citizen. Fast passage needed to {system} system."
+    "message": "Срочно требуется транспорт для честного гражданина. Необходим быстрый проход в систему {system}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "LEGITIMATE PASSAGE"
+    "message": "ЗАКОННЫЙ ПРОХОД"
   },
   "FLAVOUR_9_DANGER": {
     "description": "",
