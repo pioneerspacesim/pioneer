@@ -118,6 +118,21 @@ static int l_body_attr_path(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: GetComponent
+ *
+ * Returns a handle to the specified LuaComponent or C++ Component attached
+ * to the given body, if present. Will return nil if the specified component
+ * does not exist on this body.
+ *
+ * Availability:
+ *
+ *   June 2022
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_body_get_component(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -141,6 +156,26 @@ static int l_body_get_component(lua_State *l)
 	return 1;
 }
 
+/*
+ * Function: SetComponent
+ *
+ * Sets the given LuaComponent slot to a specific table value. Will error if
+ * the slot name is reserved by C++ components or if the caller is attempting
+ * to set the `__properties` reserved name.
+ *
+ * Parameters:
+ *
+ *   comp - a table object to be used as the component value or nil to remove
+ *          the component from the Body.
+ *
+ * Availability:
+ *
+ *   June 2022
+ *
+ * Status:
+ *
+ *   stable
+ */
 static int l_body_set_component(lua_State *l)
 {
 	LuaObject<Body>::CheckFromLua(1);
