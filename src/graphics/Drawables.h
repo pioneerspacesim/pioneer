@@ -125,7 +125,23 @@ namespace Graphics {
 			RefCountedPtr<MeshObject> m_pointMesh;
 			std::unique_ptr<VertexArray> m_va;
 		};
+
 		//------------------------------------------------------------
+
+		// Helper class to generate an Icosphere mesh
+		class Icosphere {
+		public:
+			static Graphics::MeshObject *Generate(Graphics::Renderer *r, int subdivisions = 0, float scale = 1.f, AttributeSet attribs = (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0));
+
+		private:
+			//add a new vertex, return the index
+			static int AddVertex(VertexArray &, const vector3f &v, const vector3f &n);
+			//add three vertex indices to form a triangle
+			static void AddTriangle(std::vector<Uint32> &, int i1, int i2, int i3);
+			static void Subdivide(VertexArray &, std::vector<Uint32> &,
+				const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
+				int i1, int i2, int i3, int depth);
+		};
 
 		// Three dimensional sphere (subdivided icosahedron) with normals
 		// and spherical texture coordinates.
@@ -140,15 +156,6 @@ namespace Graphics {
 		private:
 			std::unique_ptr<MeshObject> m_sphereMesh;
 			RefCountedPtr<Material> m_material;
-
-			//std::unique_ptr<Surface> m_surface;
-			//add a new vertex, return the index
-			int AddVertex(VertexArray &, const vector3f &v, const vector3f &n);
-			//add three vertex indices to form a triangle
-			void AddTriangle(std::vector<Uint32> &, int i1, int i2, int i3);
-			void Subdivide(VertexArray &, std::vector<Uint32> &,
-				const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
-				int i1, int i2, int i3, int depth);
 		};
 		//------------------------------------------------------------
 
@@ -214,6 +221,50 @@ namespace Graphics {
 			Graphics::RenderState *m_renderState;
 		};
 		*/
+
+		//------------------------------------------------------------
+
+		// Shader-based anti-aliased XZ-plane grid rendering.
+		class GridLines {
+		public:
+			GridLines(Graphics::Renderer *r);
+
+			void SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth = 2.0);
+
+			void Draw(Graphics::Renderer *r, vector2f grid_size, float cell_size);
+
+		private:
+			struct GridData;
+
+			std::unique_ptr<Graphics::Material> m_gridMat;
+			Color m_minorColor;
+			Color m_majorColor;
+			float m_lineWidth;
+		};
+
+		//------------------------------------------------------------
+
+		// Shader-based anti-aliased UV-sphere grid rendering.
+		// Grid has primary lines at 90 and 10 degree intervals, and subdivides by tenths from there
+		// The visual density of the grid can be controlled by the lineSpacing parameter
+		class GridSphere {
+		public:
+			GridSphere(Graphics::Renderer *r, uint32_t numSubdivs = 12);
+
+			void SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth = 2.0);
+
+			void Draw(Graphics::Renderer *r, float lineSpacing = 2.0);
+
+		private:
+			struct GridData;
+
+			std::unique_ptr<Graphics::Material> m_gridMat;
+			std::unique_ptr<Graphics::MeshObject> m_sphereMesh;
+			Color m_minorColor;
+			Color m_majorColor;
+			float m_lineWidth;
+			uint32_t m_numSubdivs;
+		};
 
 		//------------------------------------------------------------
 

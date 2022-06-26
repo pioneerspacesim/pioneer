@@ -478,13 +478,8 @@ namespace Graphics {
 			{ 6, 1, 10 }, { 9, 0, 11 }, { 9, 11, 2 }, { 9, 2, 5 }, { 7, 2, 11 }
 		};
 
-		Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, int subdivs, float scale, AttributeSet attribs)
+		Graphics::MeshObject *Icosphere::Generate(Graphics::Renderer *r, int subdivs, float scale, AttributeSet attribs)
 		{
-			PROFILE_SCOPED()
-			assert(attribs.HasAttrib(ATTRIB_POSITION));
-
-			m_material = mat;
-
 			subdivs = Clamp(subdivs, 0, 4);
 			scale = fabs(scale);
 			matrix4x4f trans = matrix4x4f::Identity();
@@ -513,23 +508,18 @@ namespace Graphics {
 			}
 
 			//Create vtx & index buffers and copy data
-			Graphics::IndexBuffer *indexBuffer = renderer->CreateIndexBuffer(indices.size(), BUFFER_USAGE_STATIC);
+			Graphics::IndexBuffer *indexBuffer = r->CreateIndexBuffer(indices.size(), BUFFER_USAGE_STATIC);
 			Uint32 *idxPtr = indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
 			for (auto it : indices) {
 				*idxPtr = it;
 				idxPtr++;
 			}
 			indexBuffer->Unmap();
-			m_sphereMesh.reset(renderer->CreateMeshObjectFromArray(&vts, indexBuffer));
+
+			return r->CreateMeshObjectFromArray(&vts, indexBuffer);
 		}
 
-		void Sphere3D::Draw(Renderer *r)
-		{
-			PROFILE_SCOPED()
-			r->DrawMesh(m_sphereMesh.get(), m_material.Get());
-		}
-
-		int Sphere3D::AddVertex(VertexArray &vts, const vector3f &v, const vector3f &n)
+		int Icosphere::AddVertex(VertexArray &vts, const vector3f &v, const vector3f &n)
 		{
 			PROFILE_SCOPED()
 			vts.position.push_back(v);
@@ -543,7 +533,7 @@ namespace Graphics {
 			return vts.GetNumVerts() - 1;
 		}
 
-		void Sphere3D::AddTriangle(std::vector<Uint32> &indices, int i1, int i2, int i3)
+		void Icosphere::AddTriangle(std::vector<Uint32> &indices, int i1, int i2, int i3)
 		{
 			PROFILE_SCOPED()
 			indices.push_back(i1);
@@ -551,7 +541,7 @@ namespace Graphics {
 			indices.push_back(i3);
 		}
 
-		void Sphere3D::Subdivide(VertexArray &vts, std::vector<Uint32> &indices,
+		void Icosphere::Subdivide(VertexArray &vts, std::vector<Uint32> &indices,
 			const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
 			const int i1, const int i2, const int i3, int depth)
 		{
@@ -571,6 +561,23 @@ namespace Graphics {
 			Subdivide(vts, indices, trans, v2, v23, v12, i2, i23, i12, depth - 1);
 			Subdivide(vts, indices, trans, v3, v31, v23, i3, i31, i23, depth - 1);
 			Subdivide(vts, indices, trans, v12, v23, v31, i12, i23, i31, depth - 1);
+		}
+
+		//------------------------------------------------------------
+
+		Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, int subdivs, float scale, AttributeSet attribs)
+		{
+			PROFILE_SCOPED()
+			assert(attribs.HasAttrib(ATTRIB_POSITION));
+
+			m_material = mat;
+			m_sphereMesh.reset(Icosphere::Generate(renderer, subdivs, scale, attribs));
+		}
+
+		void Sphere3D::Draw(Renderer *r)
+		{
+			PROFILE_SCOPED()
+			r->DrawMesh(m_sphereMesh.get(), m_material.Get());
 		}
 
 		//------------------------------------------------------------
@@ -827,6 +834,109 @@ namespace Graphics {
 			r->DrawBuffer(m_vertexBuffer.Get(), m_renderState, m_material.Get(), TRIANGLE_FAN);
 		}
 		*/
+
+		//------------------------------------------------------------
+
+		struct GridLines::GridData {
+			Color4f thin_color;
+			Color4f thick_color;
+
+			vector3f grid_dir;
+			float cell_size;
+
+			vector2f grid_size;
+			float line_width;
+		};
+
+		GridLines::GridLines(Graphics::Renderer *r) :
+			m_minorColor(Color(160, 160, 160)),
+			m_majorColor(Color(255, 255, 255)),
+			m_lineWidth(2.0f)
+		{
+			Graphics::RenderStateDesc rsd = {};
+			rsd.blendMode = Graphics::BLEND_ALPHA;
+			rsd.cullMode = Graphics::CULL_NONE;
+			rsd.depthWrite = false;
+
+			m_gridMat.reset(r->CreateMaterial("grid", {}, rsd));
+		}
+
+		void GridLines::SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth)
+		{
+			m_minorColor = minorLineColor;
+			m_majorColor = majorLineColor;
+			m_lineWidth = std::min(lineWidth, 1.0f);
+		}
+
+		void GridLines::Draw(Graphics::Renderer *r, vector2f grid_size, float cell_size)
+		{
+			Graphics::VertexArray va = Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+
+			// Generate two triangles for the grid plane
+			va.Add(vector3f( grid_size.x, 0, -grid_size.y), vector2f( grid_size.x, -grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0,  grid_size.y), vector2f(-grid_size.x,  grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0, -grid_size.y), vector2f(-grid_size.x, -grid_size.y));
+			va.Add(vector3f( grid_size.x, 0, -grid_size.y), vector2f( grid_size.x, -grid_size.y));
+			va.Add(vector3f( grid_size.x, 0,  grid_size.y), vector2f( grid_size.x,  grid_size.y));
+			va.Add(vector3f(-grid_size.x, 0,  grid_size.y), vector2f(-grid_size.x,  grid_size.y));
+
+			GridData data = {};
+			data.thin_color = m_minorColor.ToColor4f();
+			data.thick_color = m_majorColor.ToColor4f();
+			data.grid_dir = r->GetTransform().ApplyRotationOnly(vector3f(0, 1.0, 0));
+			data.cell_size = cell_size;
+			data.grid_size = grid_size;
+			data.line_width = m_lineWidth;
+
+			m_gridMat->SetBufferDynamic("GridData"_hash, &data);
+			r->DrawBuffer(&va, m_gridMat.get());
+		}
+
+		//------------------------------------------------------------
+
+		struct GridSphere::GridData {
+			Color4f thin_color;
+			Color4f thick_color;
+			float line_spacing;
+			float line_width;
+		};
+
+		GridSphere::GridSphere(Graphics::Renderer *r, uint32_t num_subdivs) :
+			m_minorColor(Color(160, 160, 160)),
+			m_majorColor(Color(255, 255, 255)),
+			m_lineWidth(2.0f),
+			m_numSubdivs(num_subdivs)
+		{
+			Graphics::RenderStateDesc rsd = {};
+			rsd.blendMode = Graphics::BLEND_ALPHA;
+			rsd.cullMode = Graphics::CULL_NONE;
+			rsd.depthWrite = false;
+
+			m_gridMat.reset(r->CreateMaterial("gridsphere", {}, rsd));
+		}
+
+		void GridSphere::SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth)
+		{
+			m_minorColor = minorLineColor;
+			m_majorColor = majorLineColor;
+			m_lineWidth = std::min(lineWidth, 1.0f);
+		}
+
+		void GridSphere::Draw(Graphics::Renderer *r, float lineSpacing)
+		{
+			if (!m_sphereMesh) {
+				m_sphereMesh.reset(Icosphere::Generate(r, m_numSubdivs, 1.f, Graphics::ATTRIB_POSITION));
+			}
+
+			GridData data = {};
+			data.thin_color = m_minorColor.ToColor4f();
+			data.thick_color = m_majorColor.ToColor4f();
+			data.line_spacing = lineSpacing;
+			data.line_width = m_lineWidth;
+
+			m_gridMat->SetBufferDynamic("GridData"_hash, &data);
+			r->DrawMesh(m_sphereMesh.get(), m_gridMat.get());
+		}
 
 		//------------------------------------------------------------
 		Axes3D::Axes3D(Graphics::Renderer *r)
