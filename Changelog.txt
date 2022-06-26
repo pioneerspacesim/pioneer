@@ -12,6 +12,8 @@ June 2022
     * Add Chrome-Tracing output support to profiler (#5380)
     * Optimize starfield filling during new-game startup (#5381)
     * Rasterize SVG images on a background thread (#5381)
+    * Add BodyComponent and LuaComponent systems (#5384)
+    * Add better grid rendering for ModelViewer (#5386)
   
   * Fixes
     * Fix docked music not playing (#5378)
