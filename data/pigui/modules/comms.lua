@@ -76,7 +76,7 @@ local function displayCommsLog()
 							table.insert(lines, 1, { sender = last.sender, text = last.text .. ((rep > 1) and (' x ' .. rep) or ''), priority = last.priority })
 						end
 						ui.pushTextWrapPos(ui.screenWidth/4 - 20)
-						for _,v in pairs(utils.take(lines, commsLinesToShow)) do
+						for _,v in utils.take(lines, commsLinesToShow) do
 							showItem(v)
 						end
 						ui.popTextWrapPos()
@@ -91,7 +91,7 @@ local function displayCommsLog()
 							function()
 								local lines = Game.GetCommsLines()
 								ui.pushTextWrapPos(ui.screenWidth/3 - 20)
-								for _,v in pairs(utils.reverse(lines)) do
+								for _,v in utils.reverse(lines) do
 									showItem(v)
 								end
 								ui.popTextWrapPos()

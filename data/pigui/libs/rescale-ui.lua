@@ -33,6 +33,9 @@ local defaultBaseResolution = Vector2(1600, 900)
 --
 --   number|Vector2|Table - the scaled value
 --
+---@generic T
+---@param val T
+---@return T
 local function rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution, disableCeil)
 	if not targetResolution then
 		targetResolution = Vector2(pigui.screen_width, pigui.screen_height)
