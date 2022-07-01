@@ -28,6 +28,9 @@ package.reimport = function(name) end
 --- Log the specified string at the Warning semantic level
 function logWarning(string) end
 
+--- Log the specified string at the Verbose semantic level
+function logVerbose(string) end
+
 -- ============================================================================
 
 -- Document lua Constants as typed subclasses of string for API visibility sake

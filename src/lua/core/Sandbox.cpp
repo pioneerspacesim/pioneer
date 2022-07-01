@@ -32,6 +32,46 @@ static int l_d_mode_enabled(lua_State *L)
 	return 1;
 }
 
+
+// Copy of luaB_print tailored to use Pioneer logging facilities
+static int l_print(lua_State *L)
+{
+	std::string accum = "";
+	int n = lua_gettop(L);  /* number of arguments */
+	int i;
+
+	lua_getglobal(L, "tostring");
+	for (i=1; i<=n; i++) {
+		const char *s;
+		size_t l;
+		lua_pushvalue(L, -1);  /* function to be called */
+		lua_pushvalue(L, i);   /* value to print */
+		lua_call(L, 1, 1);
+		s = lua_tolstring(L, -1, &l);  /* get result */
+
+		if (s == NULL)
+			return luaL_error(L, LUA_QL("tostring") " must return a string to " LUA_QL("print"));
+
+		accum += s;
+		if (n > i)
+			accum.append(1, '\t');
+
+		lua_pop(L, 1);  /* pop result */
+	}
+
+	Log::GetLog()->LogLevel(Log::Severity::Info, accum);
+	return 0;
+}
+
+static int l_log_verbose(lua_State *L)
+{
+	const char *str = lua_tostring(L, 1);
+	if (lua_gettop(L) > 0 && str)
+		Log::GetLog()->LogLevel(Log::Severity::Verbose, str);
+
+	return 0;
+}
+
 static int l_log_warning(lua_State *L)
 {
 	const char *str = lua_tostring(L, 1);
@@ -95,8 +135,12 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_pushnil(L);
 	lua_setglobal(L, "loadstring");
 
+	lua_pushcfunction(L, l_print);
+	lua_setglobal(L, "print");
 	lua_pushcfunction(L, l_log_warning);
 	lua_setglobal(L, "logWarning");
+	lua_pushcfunction(L, l_log_verbose);
+	lua_setglobal(L, "logVerbose");
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
@@ -190,7 +234,7 @@ int pi_lua_loadfile(lua_State *l, const FileSystem::FileData &code)
 	const StringRange source = code.AsStringRange().StripUTF8BOM();
 	const std::string &path(code.GetInfo().GetPath());
 	bool trusted = code.GetInfo().GetSource().IsTrusted();
-	const std::string chunkName = (trusted ? "[T] @" : "@") + path;
+	const std::string chunkName = (trusted ? "@[T] " : "@") + path;
 
 	return luaL_loadbuffer(l, source.begin, source.Size(), chunkName.c_str());
 }
@@ -375,7 +419,7 @@ int secure_trampoline(lua_State *l)
 	int stack_pos = 1;
 	while (lua_getstack(l, stack_pos, &ar) && lua_getinfo(l, "S", &ar)) {
 		if (strcmp(ar.what, "C") != 0) {
-			trusted = (strncmp(ar.source, "[T]", 3) == 0);
+			trusted = (strncmp(ar.source, "@[T]", 4) == 0);
 			break;
 		}
 		++stack_pos;
