@@ -487,6 +487,10 @@ namespace Background {
 		num = stars.pos.size();
 		Output("Stars picked from galaxy: %d\n", stars.pos.size());
 
+		stars.pos.resize(NUM_BG_STARS);
+		stars.color.resize(NUM_BG_STARS);
+		stars.brightness.resize(NUM_BG_STARS);
+
 		PROFILE_START_DESC("Generate Random Stars")
 		// fill out the remaining target count with generated points and also fill hyperspace stars
 		Output("Generating %d random stars\n", NUM_BG_STARS - num);
