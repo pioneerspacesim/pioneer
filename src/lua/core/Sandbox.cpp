@@ -3,6 +3,7 @@
 
 #include "CoreFwdDecl.h"
 #include "FileSystem.h"
+#include "LuaUtils.h"
 #include "core/Log.h"
 #include "libs.h"
 
@@ -32,6 +33,27 @@ static int l_d_mode_enabled(lua_State *L)
 	return 1;
 }
 
+static int l_d_traceback(lua_State *L)
+{
+	const char *str = luaL_optstring(L, 1, "");
+	int level = luaL_optinteger(L, 2, 1);
+
+	if (str[0] != '\0') {
+		lua_pushstring(L, fmt::format("{}\n{}", str, pi_lua_traceback(L, level)).c_str());
+	} else {
+		lua_pushstring(L, pi_lua_traceback(L, level).c_str());
+	}
+
+	return 1;
+}
+
+static int l_d_dumpstack(lua_State *L)
+{
+	int level = luaL_optinteger(L, 1, 1);
+
+	lua_pushstring(L, pi_lua_dumpstack(L, level).c_str());
+	return 1;
+}
 
 // Copy of luaB_print tailored to use Pioneer logging facilities
 static int l_print(lua_State *L)
@@ -59,6 +81,7 @@ static int l_print(lua_State *L)
 		lua_pop(L, 1);  /* pop result */
 	}
 
+	accum.append("\n");
 	Log::GetLog()->LogLevel(Log::Severity::Info, accum);
 	return 0;
 }
@@ -180,12 +203,22 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_pushcfunction(L, l_d_null_userdata);
 	lua_setfield(L, -2, "makenull");
 
+	lua_pushcfunction(L, l_d_traceback);
+	lua_setfield(L, -2, "traceback");
+
+	lua_pushcfunction(L, l_d_dumpstack);
+	lua_setfield(L, -2, "dumpstack");
+
 	lua_pop(L, 1); // pop the debug table
 }
 
 static int l_handle_error(lua_State *L)
 {
 	const char *msg = lua_tostring(L, 1);
+
+	Log::Debug("{}\n", msg);
+	Log::Debug("{}", pi_lua_dumpstack(L, 1));
+
 	luaL_traceback(L, L, msg, 1);
 	return 1;
 }
@@ -199,12 +232,11 @@ int pi_lua_panic(lua_State *L)
 	errorMsg += lua_tostring(L, -1);
 	lua_pop(L, 1);
 
-	lua_getglobal(L, "debug");
-	lua_getfield(L, -1, "traceback");
-	lua_call(L, 0, 1);
-	errorMsg += "\n";
-	errorMsg += lua_tostring(L, -1);
-	errorMsg += "\n";
+	Log::Debug("{}\n", errorMsg);
+	Log::Debug("{}", pi_lua_dumpstack(L, 0));
+
+	errorMsg += "\n" + pi_lua_traceback(L, 0) + "\n";
+
 	Error("%s", errorMsg.c_str());
 	// Error() is noreturn
 
@@ -223,7 +255,7 @@ void pi_lua_protected_call(lua_State *L, int nargs, int nresults)
 	if (ret) {
 		std::string errorMsg = lua_tostring(L, -1);
 		lua_pop(L, 1);
-		Error("%s", errorMsg.c_str());
+		Error("%s\n", errorMsg.c_str());
 	}
 }
 
@@ -430,19 +462,4 @@ int secure_trampoline(lua_State *l)
 
 	lua_CFunction fn = lua_tocfunction(l, lua_upvalueindex(1));
 	return fn(l);
-}
-
-// https://zeux.io/2010/11/07/lua-callstack-with-c-debugger/
-void pi_lua_stacktrace(lua_State *l)
-{
-	lua_Debug entry;
-	int depth = 0;
-
-	while (lua_getstack(l, depth, &entry)) {
-		int status = lua_getinfo(l, "Sln", &entry);
-		assert(status);
-
-		Output("%s(%d): %s\n", entry.short_src, entry.currentline, entry.name ? entry.name : "?");
-		depth++;
-	}
 }

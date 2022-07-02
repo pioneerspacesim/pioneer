@@ -23,6 +23,11 @@ LuaManager::LuaManager() :
 	// in the codebase and thus available via the "immediate" window in the MSVC debugger for us in any C++ lua function
 	pi_lua_stacktrace(m_lua);
 
+	// this will print the lua version as a string and ensure the function is included for use while debugging.
+	lua_pushstring(m_lua, LUA_VERSION);
+	pi_lua_printvalue(m_lua, -1);
+	lua_pop(m_lua, 1);
+
 	instantiated = true;
 }
 

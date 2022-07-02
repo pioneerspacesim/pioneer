@@ -116,7 +116,6 @@ function PiGuiTabView.renderTabView(self)
 			ui.window("StationView", mainWindowFlags, function()
 				self:renderTab(function()
 					tab.showView, tab.err = ui.pcall(tab.draw, tab)
-					if not tab.showView then logWarning(tab.err) end
 				end)
 			end)
 		end)

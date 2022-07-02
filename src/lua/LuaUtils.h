@@ -83,6 +83,9 @@ bool pi_lua_split_table_path(lua_State *l, const std::string &path);
 
 int secure_trampoline(lua_State *l);
 
+std::string pi_lua_traceback(lua_State *l, int top);
+std::string pi_lua_dumpstack(lua_State *l, int top);
+void pi_lua_printvalue(lua_State *l, int idx);
 void pi_lua_stacktrace(lua_State *l);
 
 #ifdef DEBUG

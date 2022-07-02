@@ -168,7 +168,7 @@ local function drawGameModules(delta_t)
 			local ok, err = ui.pcall(module.draw, module, delta_t)
 			if not ok then
 				module.disabled = true
-				logWarning(err)
+				-- TODO: visually notify the user of an error
 			end
 		end
 	end
