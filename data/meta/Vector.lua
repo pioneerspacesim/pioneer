@@ -68,8 +68,10 @@ function Vector3:lengthSqr() end
 ---@return number
 function Vector3:length() end
 
+---@param vec Vector3
 ---@return Vector3
-function Vector3:cross() end
+function Vector3:cross(vec) end
 
+---@param vec Vector3
 ---@return number
-function Vector3:dot() end
+function Vector3:dot(vec) end

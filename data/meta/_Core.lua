@@ -54,6 +54,12 @@ function logVerbose(string) end
 --- PolitGovType string constant; EARTHCOLONIAL, EARTHDEMOC, EMPIRERULE, etc.
 ---@class PolitGovType: string
 
+-- A <Constants.ShipAlertStatus> string
+---@class ShipAlertStatus: string
+
+-- A <Constants.ShipFlightState> string
+---@class ShipFlightState: string
+
 -- ============================================================================
 
 -- Global Constants namespace
@@ -70,3 +76,9 @@ Constants.PhysicsObjectType = {}
 
 ---@type PolitGovType[]
 Constants.PolitGovType = {}
+
+---@type ShipAlertStatus[]
+Constants.ShipAlertStatus = {}
+
+---@type ShipFlightState[]
+Constants.ShipFlightState = {}
