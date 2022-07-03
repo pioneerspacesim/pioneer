@@ -739,6 +739,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Wystrzelenie"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "Przyśpiesz tempomat"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Up cruise mode"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Wyłącz autopilot"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Wyłącz tempomat"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Wyłącz tryb stałego kursu"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Wyłącz tryb śledzenia"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Wyposażenie"
@@ -867,6 +891,10 @@
     "description": "Cargo Mass",
     "message": "Masa ładunku"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Prędkość tempomatu"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "Aktualny cel bojowy"
@@ -918,6 +946,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "Czas do wykonania połowy manewru"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: Podążaj kierunkiem"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: Podążanie nie jest dostępne."
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Podążanie nie jest dostępne. Cel jest za daleko."
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: Follow position"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: Follow position is not available."
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Follow position is not available - too far."
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Śledź cel"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -1002,6 +1058,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Pokaż aktualny cel nawigacyjny."
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Ogranicznik prędkości jest aktywny"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1875,6 +1935,18 @@
     "description": "",
     "message": "Ustaw drogę powrotną."
   },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Ustaw 45% pozostałego delta-v"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Ustaw aktualną prędkość"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Ustaw zero"
+  },
   "SHIP": {
     "description": "",
     "message": "Statek"
@@ -2102,6 +2174,10 @@
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "Godny zaufania"
+  },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Wyłącz"
   },
   "TYPE": {
     "description": "",
