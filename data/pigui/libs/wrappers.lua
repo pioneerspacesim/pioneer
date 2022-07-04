@@ -41,6 +41,29 @@ function ui.pcall(fun, ...)
 	end, ...)
 end
 
+local _nextWindowPadding = nil
+
+--
+-- Function: ui.setNextWindowPadding()
+--
+-- Overrides the window padding for the next ui.window() or ui.child() call
+-- without propagating the padding to further subwindows.
+--
+-- Example:
+--
+-- > ui.setNextWindowPadding( Vector2(0, 0) )
+-- > ui.window("NoPadding", function()
+-- >     ui.child("ID", { "AlwaysUseWindowPadding" }, function() ... end)
+-- > end)
+--
+-- Parameters:
+--
+--  padding - Vector2, the window padding to override with.
+--
+function ui.setNextWindowPadding(padding)
+	_nextWindowPadding = padding
+end
+
 --
 -- Function: ui.window
 --
@@ -90,7 +113,17 @@ end
 --   nil
 --
 function ui.window(name, params, fun)
-	local ok = pigui.Begin(name, params)
+	local ok
+
+	if _nextWindowPadding then
+		pigui.PushStyleVar("WindowPadding", _nextWindowPadding)
+		ok = pigui.Begin(name, params)
+		pigui.PopStyleVar(1)
+	else
+		ok = pigui.Begin(name, params)
+	end
+	_nextWindowPadding = nil
+
 	if ok then fun() end
 	pigui.End()
 end
@@ -235,7 +268,15 @@ function ui.child(id, size, flags, fun)
 		flags = {}
 	end
 
-	pigui.BeginChild(id, size, flags)
+	if _nextWindowPadding then
+		pigui.PushStyleVar("WindowPadding", _nextWindowPadding)
+		pigui.BeginChild(id, size, flags)
+		pigui.PopStyleVar()
+		_nextWindowPadding = nil
+	else
+		pigui.BeginChild(id, size, flags)
+	end
+
 	fun()
 	pigui.EndChild()
 end

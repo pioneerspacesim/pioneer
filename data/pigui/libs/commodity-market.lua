@@ -339,7 +339,7 @@ function CommodityMarketWidget:TradeMenu()
 				ui.withFont(orbiteer.xlarge.name, self.style.widgetSizes.fontSizeLarge, function()
 					-- align the height to the center relative to the icon
 					local fontsize = self.style.widgetSizes.fontSizeLarge
-					ui.setCursorPos(ui.getCursorPos() + Vector2(0, math.max(0, (commodityIconSize.y - fontsize) / 2)))
+					ui.addCursorPos(Vector2(0, math.max(0, (commodityIconSize.y - fontsize) / 2)))
 					ui.text(self.selectedItem:GetName())
 				end)
 			end)
@@ -392,7 +392,7 @@ function CommodityMarketWidget:TradeMenu()
 				end)
 			end)
 
-			ui.setCursorPos(ui.getCursorPos() + Vector2(0, ui.getContentRegion().y - self.style.widgetSizes.confirmButtonSize.y))
+			ui.addCursorPos(Vector2(0, ui.getContentRegion().y - self.style.widgetSizes.confirmButtonSize.y))
 			ui.withFont(orbiteer.xlarge.name, self.style.widgetSizes.fontSizeXLarge, function()
 				if ui.button(self.tradeModeBuy and l.CONFIRM_PURCHASE or l.CONFIRM_SALE, self.style.widgetSizes.confirmButtonSize) then
 					if self.tradeModeBuy then self:DoBuy()

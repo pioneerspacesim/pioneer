@@ -827,6 +827,8 @@ end
 local function displaySystemViewUI()
 	if not systemView then onGameStart() end
 
+	if not ui.shouldDrawUI() then return end
+
 	player = Game.player
 	if Game.CurrentView() == "system" then
 		if ui.isKeyReleased(ui.keys.tab) then

@@ -46,6 +46,34 @@ namespace ImGui {
 		window->DC.CurrLineSize.y = ImMax(window->DC.CurrLineSize.y, ImMax(lineHeight, g.FontSize));
 		window->DC.CurrLineTextBaseOffset = ImMax(window->DC.CurrLineTextBaseOffset, (window->DC.CurrLineSize.y - g.FontSize) / 2.0f);
 	}
+
+	// Horribly abuse the internals to allow submitting a window without padding and adding it later (e.g. drawing custom decorations).
+	// This... probably is fine.
+	void AddWindowPadding(ImVec2 padding)
+	{
+		ImGuiWindow *window = ImGui::GetCurrentWindow();
+		if (window->SkipItems)
+			return;
+
+		ImVec2 shrink = ImVec2(-padding.x, -padding.y);
+		window->ContentRegionRect.Expand(shrink);
+		window->WorkRect.Expand(shrink);
+		window->DC.Indent.x += padding.x;
+
+		// Move the cursor to match the new work rect areas
+		// NOTE: this will reset the horizontal position of the cursor!
+		window->DC.CursorPos.x = IM_FLOOR(window->Pos.x + window->DC.Indent.x + window->DC.ColumnsOffset.x);
+		window->DC.CursorPos.y = IM_FLOOR(ImMax(window->DC.CursorPos.y, window->ContentRegionRect.Min.y));
+	}
+
+	float GetLineHeight()
+	{
+		ImGuiWindow *window = ImGui::GetCurrentWindow();
+		if (window->SkipItems)
+			return 0.0;
+
+		return window->DC.CurrLineSize.y;
+	}
 } // namespace ImGui
 
 template <typename Type>
@@ -821,6 +849,12 @@ static int l_pigui_get_frame_height_with_spacing(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_get_line_height(lua_State *l)
+{
+	LuaPush(l, ImGui::GetLineHeight());
+	return 1;
+}
+
 static int l_pigui_get_item_spacing(lua_State *l)
 {
 	LuaPush(l, ImGui::GetStyle().ItemSpacing);
@@ -833,13 +867,20 @@ static int l_pigui_get_window_padding(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_add_window_padding(lua_State *l)
+{
+	ImVec2 padding = LuaPull<ImVec2>(l, 1);
+	ImGui::AddWindowPadding(padding);
+	return 0;
+}
+
 static int l_pigui_add_line(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 a = LuaPull<ImVec2>(l, 1);
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
-	ImColor color = LuaPull<ImColor>(l, 3);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	double thickness = LuaPull<double>(l, 4);
 	draw_list->AddLine(a, b, color, thickness);
 	return 0;
@@ -851,7 +892,7 @@ static int l_pigui_add_circle(lua_State *l)
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
 	int radius = LuaPull<int>(l, 2);
-	ImColor color = LuaPull<ImColor>(l, 3);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	int segments = LuaPull<int>(l, 4);
 	double thickness = LuaPull<double>(l, 5);
 	draw_list->AddCircle(center, radius, color, segments, thickness);
@@ -864,7 +905,7 @@ static int l_pigui_add_circle_filled(lua_State *l)
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
 	int radius = LuaPull<int>(l, 2);
-	ImColor color = LuaPull<ImColor>(l, 3);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	int segments = LuaPull<int>(l, 4);
 	draw_list->AddCircleFilled(center, radius, color, segments);
 	return 0;
@@ -887,7 +928,7 @@ static int l_pigui_path_stroke(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImColor color = LuaPull<ImColor>(l, 1);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 1).Value);
 	bool closed = LuaPull<bool>(l, 2);
 	double thickness = LuaPull<double>(l, 3);
 	draw_list->PathStroke(color, closed, thickness);
@@ -1275,7 +1316,7 @@ static int l_pigui_add_text(lua_State *l)
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
-	ImColor color = LuaPull<ImColor>(l, 2);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 2).Value);
 	std::string text = LuaPull<std::string>(l, 3);
 	draw_list->AddText(center, color, text.c_str());
 	return 0;
@@ -1288,7 +1329,7 @@ static int l_pigui_add_triangle(lua_State *l)
 	ImVec2 a = LuaPull<ImVec2>(l, 1);
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
 	ImVec2 c = LuaPull<ImVec2>(l, 3);
-	ImColor color = LuaPull<ImColor>(l, 4);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 4).Value);
 	float thickness = LuaPull<double>(l, 5);
 	draw_list->AddTriangle(a, b, c, color, thickness);
 	return 0;
@@ -1300,7 +1341,7 @@ static int l_pigui_add_rect(lua_State *l)
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 a = LuaPull<ImVec2>(l, 1);
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
-	ImColor color = LuaPull<ImColor>(l, 3);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	float rounding = LuaPull<double>(l, 4);
 	int round_corners = LuaPull<int>(l, 5);
 	float thickness = LuaPull<double>(l, 6);
@@ -1316,7 +1357,7 @@ static int l_pigui_add_bezier_curve(lua_State *l)
 	ImVec2 c0 = LuaPull<ImVec2>(l, 2);
 	ImVec2 c1 = LuaPull<ImVec2>(l, 3);
 	ImVec2 b = LuaPull<ImVec2>(l, 4);
-	ImColor color = LuaPull<ImColor>(l, 5);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 5).Value);
 	float thickness = LuaPull<double>(l, 6);
 	int num_segments = LuaPull<int>(l, 7);
 	draw_list->AddBezierCubic(a, c0, c1, b, color, thickness, num_segments);
@@ -1332,7 +1373,7 @@ static int l_pigui_add_image(lua_State *l)
 	ImVec2 b = LuaPull<ImVec2>(l, 3);
 	ImVec2 uv0 = LuaPull<ImVec2>(l, 4);
 	ImVec2 uv1 = LuaPull<ImVec2>(l, 5);
-	ImColor color = LuaPull<ImColor>(l, 6);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 6).Value);
 	draw_list->AddImage(id, a, b, uv0, uv1, color);
 	return 0;
 }
@@ -1350,7 +1391,7 @@ static int l_pigui_add_image_quad(lua_State *l)
 	ImVec2 uvb = LuaPull<ImVec2>(l, 7);
 	ImVec2 uvc = LuaPull<ImVec2>(l, 8);
 	ImVec2 uvd = LuaPull<ImVec2>(l, 9);
-	ImColor color = LuaPull<ImColor>(l, 10);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 10).Value);
 	draw_list->AddImageQuad(id, a, b, c, d, uva, uvb, uvc, uvd, color);
 	return 0;
 }
@@ -1361,7 +1402,7 @@ static int l_pigui_add_rect_filled(lua_State *l)
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 a = LuaPull<ImVec2>(l, 1);
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
-	ImColor color = LuaPull<ImColor>(l, 3);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	float rounding = LuaPull<double>(l, 4);
 	int round_corners = LuaPull<int>(l, 5);
 	draw_list->AddRectFilled(a, b, color, rounding, round_corners);
@@ -1376,7 +1417,7 @@ static int l_pigui_add_quad(lua_State *l)
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
 	ImVec2 c = LuaPull<ImVec2>(l, 3);
 	ImVec2 d = LuaPull<ImVec2>(l, 4);
-	ImColor color = LuaPull<ImColor>(l, 5);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 5).Value);
 	float thickness = LuaPull<double>(l, 6);
 	draw_list->AddQuad(a, b, c, d, color, thickness);
 	return 0;
@@ -1389,7 +1430,7 @@ static int l_pigui_add_triangle_filled(lua_State *l)
 	ImVec2 a = LuaPull<ImVec2>(l, 1);
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
 	ImVec2 c = LuaPull<ImVec2>(l, 3);
-	ImColor color = LuaPull<ImColor>(l, 4);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 4).Value);
 	draw_list->AddTriangleFilled(a, b, c, color);
 	return 0;
 }
@@ -2614,6 +2655,22 @@ static int l_pigui_set_cursor_screen_pos(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_add_cursor_pos(lua_State *l)
+{
+	ImVec2 v = LuaPull<ImVec2>(l, 1);
+	ImVec2 pos = ImGui::GetCursorPos();
+	ImGui::SetCursorPos(ImVec2(pos.x + v.x, pos.y + v.y));
+	return 0;
+}
+
+static int l_pigui_add_cursor_screen_pos(lua_State *l)
+{
+	ImVec2 v = LuaPull<ImVec2>(l, 1);
+	ImVec2 pos = ImGui::GetCursorScreenPos();
+	ImGui::SetCursorScreenPos(ImVec2(pos.x + v.x, pos.y + v.y));
+	return 0;
+}
+
 static int l_pigui_drag_float(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2976,8 +3033,10 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "BeginGroup", l_pigui_begin_group },
 		{ "SetCursorPos", l_pigui_set_cursor_pos },
 		{ "GetCursorPos", l_pigui_get_cursor_pos },
+		{ "AddCursorPos", l_pigui_add_cursor_pos },
 		{ "SetCursorScreenPos", l_pigui_set_cursor_screen_pos },
 		{ "GetCursorScreenPos", l_pigui_get_cursor_screen_pos },
+		{ "AddCursorScreenPos", l_pigui_add_cursor_screen_pos },
 		{ "EndGroup", l_pigui_end_group },
 		{ "SameLine", l_pigui_same_line },
 		{ "Separator", l_pigui_separator },
@@ -3042,10 +3101,12 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetContentRegion", l_pigui_get_content_region },
 		{ "GetTextLineHeight", l_pigui_get_text_line_height },
 		{ "GetTextLineHeightWithSpacing", l_pigui_get_text_line_height_with_spacing },
+		{ "GetLineHeight", l_pigui_get_line_height },
 		{ "GetFrameHeight", l_pigui_get_frame_height },
 		{ "GetFrameHeightWithSpacing", l_pigui_get_frame_height_with_spacing },
 		{ "GetItemSpacing", l_pigui_get_item_spacing },
 		{ "GetWindowPadding", l_pigui_get_window_padding },
+		{ "AddWindowPadding", l_pigui_add_window_padding },
 		{ "InputText", l_pigui_input_text },
 		{ "Combo", l_pigui_combo },
 		{ "ListBox", l_pigui_listbox },

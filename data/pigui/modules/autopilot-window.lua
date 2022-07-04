@@ -173,12 +173,12 @@ local speed_limiter = (function()
 		ui.addRectFilled(cp, cp + Vector2(full_width, full_height), colors.Button, 0, 0)
 		if anim_active then
 			ui.addRectFilled(cp + Vector2(0, txt_shift), cp + Vector2(full_width - ui.getItemSpacing().x, full_height - txt_shift), colors.lightBlackBackground, 0, 0)
-			ui.setCursorPos(ui.getCursorPos() + Vector2(full_width, 0))
+			ui.addCursorPos(Vector2(full_width, 0))
 		else
 			-- because of this, the window became larger by <txt_shift> pixels from
 			-- the bottom (but this is invisible and it sticks out of the bottom edge
 			-- of the screen)
-			ui.setCursorPos(ui.getCursorPos() + Vector2(-ui.getItemSpacing().x, txt_shift))
+			ui.addCursorPos(Vector2(-ui.getItemSpacing().x, txt_shift))
 			-- fixed width for drag
 			local drag_width = full_width - ui.getItemSpacing().x
 			ui.pushItemWidth(drag_width)
@@ -217,7 +217,7 @@ local speed_limiter = (function()
 			-- aux buttons
 			ui.sameLine()
 			local buttonSize = smallButtonSize + Vector2(mainButtonFramePadding * 2, mainButtonFramePadding * 2)
-			ui.setCursorPos(ui.getCursorPos() - Vector2(buttonSize.x * 3, buttonSize.y + txt_shift))
+			ui.addCursorPos(-Vector2(buttonSize.x * 3, buttonSize.y + txt_shift))
 			if ui.mainMenuButton(icons.frame_away, lui.SET_TO_ZERO .. "##speed_limiter_set_zero", semi_transp, smallButtonSize) then
 				player:SetSpeedLimit(0)
 			end
@@ -247,7 +247,7 @@ local function displayAutoPilotWindow()
 	ui.window("AutoPilot", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoSavedSettings", "AlwaysAutoResize"},
 		function()
 			if current_view == "world" then
-				ui.setCursorPos(ui.getCursorPos() + Vector2(0, shift))
+				ui.addCursorPos(Vector2(0, shift))
 				if button_hyperspace() then ui.sameLine() end
 				if button_undock() then ui.sameLine() end
 				speed_limiter.show()

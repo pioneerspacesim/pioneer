@@ -44,11 +44,7 @@ function ui.makeFullScreenHandler(window_name, window_fnc)
 	return function()
 		ui.setNextWindowPos(Vector2(0, 0), "Always")
 		ui.setNextWindowSize(Vector2(ui.screenWidth, ui.screenHeight), "Always")
-		ui.window(window_name, ui.fullScreenWindowFlags, function()
-			if ui.shouldDrawUI() then
-				window_fnc()
-			end
-		end)
+		ui.window(window_name, ui.fullScreenWindowFlags, window_fnc)
 	end
 end
 

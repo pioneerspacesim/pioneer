@@ -118,8 +118,16 @@ end
 function ui.iconButton(icon, size, tooltip, variant, fg_color, frame_padding, icon_size)
 	local uv0, uv1 = ui.get_icon_tex_coords(icon)
 	local res = nil
-	if not frame_padding then frame_padding = 0 end
-	if not fg_color then fg_color = ui.theme.colors.buttonInk end
+	if not frame_padding then
+		frame_padding = 0
+	end
+	if not fg_color then
+		fg_color = ui.theme.colors.buttonInk
+	end
+	if variant == true then
+		variant = ui.theme.buttonColors.selected
+	end
+
 	ui.withID(tooltip, function()
 		ui.withButtonColors(variant, function()
 			pigui.PushID(tooltip)
@@ -131,6 +139,7 @@ function ui.iconButton(icon, size, tooltip, variant, fg_color, frame_padding, ic
 			pigui.PopID()
 		end)
 	end)
+
 	if pigui.IsItemHovered() then
 		local pos = tooltip:find("##") -- get position for id tag start
 		if not pos then
@@ -139,6 +148,7 @@ function ui.iconButton(icon, size, tooltip, variant, fg_color, frame_padding, ic
 			pigui.SetTooltip(string.sub(tooltip, 1, pos - 1))
 		end
 	end
+
 	return res
 end
 

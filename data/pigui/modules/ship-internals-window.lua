@@ -108,14 +108,14 @@ local function displayShipFunctionWindow()
 	ui.window("ShipFunctions", windowFlags, function()
 		if current_view == "world" then
 			local shift = Vector2(0.0, thrust_widget_size.y - mainButtonSize.y)
-			ui.setCursorPos(ui.getCursorPos() + shift)
+			ui.addCursorPos(shift)
 			button_wheelstate()
 			ui.sameLine()
 			button_rotation_damping()
 			ui.sameLine()
 			button_lowThrustPower()
 			ui.sameLine()
-			ui.setCursorPos(ui.getCursorPos() - shift)
+			ui.addCursorPos(-shift)
 			button_thrustIndicator(thrust_widget_size)
 			if ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f8) then
 				show_thrust_slider = not show_thrust_slider
