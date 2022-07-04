@@ -473,7 +473,7 @@ static int l_reimport_package(lua_State *L)
 		return 1;
 	else {
 		lua_pushnil(L);
-		lua_insert(L, lua_gettop(L) - 2);
+		lua_insert(L, lua_gettop(L) - 1);
 		return 2;
 	}
 }
