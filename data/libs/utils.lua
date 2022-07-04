@@ -125,6 +125,25 @@ function utils.map_table(table, predicate)
 end
 
 --
+-- Function: map_array
+--
+-- Return a new array created from applying a transformer predicate to the
+-- values of the provided array object. If the predicate returns a nil value,
+-- that value will be skipped.
+--
+-- Example:
+--   > transformed = utils.map_array(t, function(v) return v + 32 end)
+--
+function utils.map_array(array, predicate)
+	local t = {}
+	for i, v in ipairs(array) do
+		v = predicate(v)
+		if v ~= nil then table.insert(t, v) end
+	end
+	return t
+end
+
+--
 -- Function: filter_table
 --
 -- Return a new table created from applying a filter predicate to the values
@@ -138,6 +157,22 @@ function utils.filter_table(table, predicate)
 	local t = {}
 	for k, v in pairs(table) do
 		if predicate(k, v) then t[k] = v end
+	end
+	return t
+end
+--
+-- Function: filter_array
+--
+-- Return a new array created from applying a filter predicate to the values
+-- of the provided array object.
+--
+-- Example:
+--   > filtered = utils.filter_array(t, function (i, v) return true end)
+--
+function utils.filter_array(array, predicate)
+	local t = {}
+	for i, v in ipairs(array) do
+		if predicate(v) then table.insert(t, v) end
 	end
 	return t
 end
