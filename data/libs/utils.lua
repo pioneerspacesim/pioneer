@@ -447,13 +447,13 @@ end
 --
 -- Return an iterator that iterates through the first N values of the given array table.
 --
-utils.take = function(t, n)
+utils.take = function(t, n, skip)
 	local f = function(s, k)
 		k = k + 1
 		if k > n or s[k] == nil then return nil end
 		return k, s[k]
 	end
-	return f, t, 0
+	return f, t, skip or 0
 end
 
 --
@@ -461,13 +461,13 @@ end
 --
 -- Return an iterator that iterates backwards through the given array table.
 --
-utils.reverse = function(t)
+utils.reverse = function(t, start)
 	local f = function(s, k)
 		k = k - 1
 		if k <= 0 then return end
 		return k, s[k]
 	end
-	return f, t, #t + 1
+	return f, t, (start or #t) + 1
 end
 
 --

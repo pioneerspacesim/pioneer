@@ -62,6 +62,56 @@ function ui.circleSegments(radius)
 	end
 end
 
+local sides = {
+	top = 1,
+	bottom = 2,
+	left = 3,
+	right = 4
+}
+
+ui.sides = sides
+
+-- Function: ui.rectcut
+--
+-- Simple rect-cutting UI layout implementation to cut and return space from
+-- the given rectangle. This function intentionally modifies the input vectors.
+--
+-- Parameters:
+--
+--   min  - Vector2, minimum bound of the rectangle. Will be modified in-place.
+--   max  - Vector2, maximum bound of the rectangle. Will be modified in-place.
+--   amt  - number, amount of space (in pixels) to reserve from the rectangle.
+--   side - integer, indicates the side of the rectangle to cut
+--
+-- Returns:
+--
+--   pos  - Vector2, upper-left corner of the reserved space
+--   size - Vector2, x and y size of the reserved space
+function ui.rectcut(min, max, amt, side)
+	local size = max - min
+	local pos = Vector2(0, 0)
+
+	if side == sides.top then
+		pos(min.x, min.y)
+		size.y = math.min(size.y, amt)
+		min.y = min.y + size.y
+	elseif side == sides.bottom then
+		size.y = math.min(size.y, amt)
+		max.y = max.y - size.y
+		pos(min.x, max.y)
+	elseif side == sides.left then
+		pos(min.x, min.y)
+		size.x = math.min(size.x, amt)
+		min.x = min.x + size.x
+	else
+		size.x = math.min(size.x, amt)
+		max.x = max.x - size.x
+		pos(max.x, min.y)
+	end
+
+	return pos, size
+end
+
 local modules = {}
 
 -- Function: ui.registerModule
