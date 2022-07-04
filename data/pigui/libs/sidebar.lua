@@ -220,6 +220,12 @@ function Sidebar:Draw()
 	local linePos = self.displayPos - Vector2(0, ui.getWindowPadding().y)
 	ui.addLine(linePos, linePos + Vector2(self.displaySize.x, 0), colors.grey:opacity(self.displayAlpha), 1)
 
+	local nextSize = ui.getWindowContentSize(self.id)
+	if not self.active then
+		-- we add the padding in late, so we only need a single "side" of it
+		self.displaySize.y = math.min(nextSize.y + styles.WindowPadding.y, self.displaySize.y)
+	end
+
 	ui.setNextWindowPos(self.displayPos, "Always")
 	ui.setNextWindowSize(self.displaySize, "Always")
 

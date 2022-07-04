@@ -15,9 +15,14 @@ ui.lineOnClock = pigui.lineOnClock
 ui.pointOnClock = pigui.pointOnClock
 ui.screenWidth = pigui.screen_width
 ui.screenHeight = pigui.screen_height
+
+-- Return the size of the specified window's contents from last frame (without padding/decoration)
+-- Returns {0,0} if the window hasn't been submitted during the lifetime of the program
+ui.getWindowContentSize = pigui.GetWindowContentSize ---@type fun(name: string): Vector2
 ui.setNextWindowPos = pigui.SetNextWindowPos ---@type fun(pos: Vector2, cond: string, pivot: Vector2?)
 ui.setNextWindowSize = pigui.SetNextWindowSize ---@type fun(size: Vector2, cond: string)
 ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints ---@type fun(min: Vector2, max: Vector2)
+
 ui.dummy = pigui.Dummy
 ui.newLine = pigui.NewLine
 ui.spacing = pigui.Spacing

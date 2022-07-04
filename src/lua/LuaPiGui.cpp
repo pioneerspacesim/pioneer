@@ -74,6 +74,12 @@ namespace ImGui {
 
 		return window->DC.CurrLineSize.y;
 	}
+
+	ImVec2 GetWindowContentSize(const char *name)
+	{
+		ImGuiWindow *window = ImGui::FindWindowByName(name);
+		return (window != nullptr) ? window->ContentSize : ImVec2(0, 0);
+	}
 } // namespace ImGui
 
 template <typename Type>
@@ -737,6 +743,13 @@ static int l_pigui_push_clip_rect_full_screen(lua_State *l)
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	draw_list->PushClipRectFullScreen();
 	return 0;
+}
+
+static int l_pigui_get_window_content_size(lua_State *l)
+{
+	const char *name = luaL_checkstring(l, 1);
+	LuaPush(l, ImGui::GetWindowContentSize(name));
+	return 1;
 }
 
 static int l_pigui_set_next_window_pos(lua_State *l)
@@ -3007,6 +3020,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "AddBezierCurve", l_pigui_add_bezier_curve },
 		{ "AlignTextToFramePadding", l_pigui_align_to_frame_padding },
 		{ "AlignTextToLineHeight", l_pigui_align_to_line_height },
+		{ "GetWindowContentSize", l_pigui_get_window_content_size },
 		{ "SetNextWindowPos", l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize", l_pigui_set_next_window_size },
 		{ "SetNextWindowSizeConstraints", l_pigui_set_next_window_size_constraints },
