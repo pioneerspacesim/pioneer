@@ -94,9 +94,9 @@ function Game.InHyperspace() end
 ---@return number
 function Game.GetHyperspaceTravelledPercentage() end
 
----@param type string
-function Game.GetWorldCamType(type) end
 ---@return string
-function Game.SetWorldCamType() end
+function Game.GetWorldCamType() end
+---@param type string
+function Game.SetWorldCamType(type) end
 
 return Game

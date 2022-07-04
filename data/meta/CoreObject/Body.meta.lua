@@ -33,6 +33,9 @@
 ---@class Body
 local Body = {}
 
+-- Ensure the CoreImport field is visible to static analysis
+package.core["Body"] = Body
+
 --- Get a C++ or Lua component object from the body if present.
 ---
 --- Note: the caller should check the return value if there is a possibility if

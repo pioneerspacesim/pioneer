@@ -13,6 +13,7 @@ local Vector2 = {}
 ---@param x number
 ---@param y number
 ---@return Vector2
+---@overload fun(x: number): Vector2
 function _G.Vector2(x, y) end
 
 ---@return Vector2

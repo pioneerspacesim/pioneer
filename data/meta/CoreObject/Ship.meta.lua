@@ -93,8 +93,9 @@ function Ship:GetHyperspaceDestination() end
 function Ship:GetHullTemperature() end
 
 -- Get a gun's temperature (0.0 - 1.0).
+---@param gun integer
 ---@return number
-function Ship:GetGunTemperature() end
+function Ship:GetGunTemperature(gun) end
 
 -- Return the remaining hull mass as a percent in the range 0..100
 ---@return number

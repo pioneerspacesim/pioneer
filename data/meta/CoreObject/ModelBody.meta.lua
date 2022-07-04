@@ -10,3 +10,9 @@
 ---
 ---@field model SceneGraph.Model
 ---
+
+---@class ModelBody
+local ModelBody = {}
+
+-- Ensure the CoreImport field is visible to static analysis
+package.core["ModelBody"] = ModelBody
