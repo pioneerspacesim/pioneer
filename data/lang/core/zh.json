@@ -871,6 +871,10 @@
     "description": "",
     "message": "神经毒气"
   },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
+  },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
     "message": "未找到"
@@ -1258,6 +1262,10 @@
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
     "message": "降低推力等级至 %power%%"
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "设置最大速度限制"
   },
   "SET_NAVTARGET_TO": {
     "description": "",
@@ -1661,7 +1669,7 @@
   },
   "UNIT_GIGATONNES": {
     "description": "Mass unit: one gigatonne",
-    "message": "Gt"
+    "message": "吉吨"
   },
   "UNIT_HOURS": {
     "description": "Duration unit: one 60-minute hour",
@@ -1669,7 +1677,7 @@
   },
   "UNIT_KILOGRAMS": {
     "description": "Mass unit: one kilogram",
-    "message": "kg"
+    "message": "千克"
   },
   "UNIT_KILOMETERS": {
     "description": "Distance unit: one kilometer",
@@ -1681,7 +1689,7 @@
   },
   "UNIT_KILOTONNES": {
     "description": "Mass unit: one kilotonne",
-    "message": "kt"
+    "message": "千吨"
   },
   "UNIT_LY": {
     "description": "Distance unit: a light year",
@@ -1689,7 +1697,7 @@
   },
   "UNIT_MEGATONNES": {
     "description": "Mass unit: one megatonne",
-    "message": "Mt"
+    "message": "兆吨"
   },
   "UNIT_METERS": {
     "description": "Distance unit: one meter",
@@ -1713,7 +1721,7 @@
   },
   "UNIT_PETATONNES": {
     "description": "Mass unit: one petatonne",
-    "message": "Pt"
+    "message": "皮吨"
   },
   "UNIT_PRESSURE_ATMOSPHERES": {
     "description": "Pressure unit: one earth atmosphere (atm)",
@@ -1725,7 +1733,7 @@
   },
   "UNIT_TERATONNES": {
     "description": "Mass unit: one teratonne",
-    "message": "Tt"
+    "message": "特吨"
   },
   "UNIT_TONNES": {
     "description": "Mass unit: one tonne (t)",

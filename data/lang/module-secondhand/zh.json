@@ -13,11 +13,11 @@
   },
   "FLAVOUR_0_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Special offer, selling one {equipment}."
+    "message": "特价出售一台{equipment}。"
   },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "待售"
   },
   "FLAVOUR_1_BODY": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_1_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Practically unused {equipment}, at an affordable price!"
+    "message": "闲置的{equipment}，价格实惠！"
   },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "销售设备"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_2_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Selling one {equipment}, for a reasonable price!"
+    "message": "平价出售一台{equipment}！"
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "销售设备"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
@@ -49,11 +49,11 @@
   },
   "FLAVOUR_3_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Offering one {equipment}, in good condition."
+    "message": "出售一台{equipment}，状况良好。"
   },
   "FLAVOUR_3_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "待售"
   },
   "FLAVOUR_4_BODY": {
     "description": "",
@@ -61,11 +61,11 @@
   },
   "FLAVOUR_4_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "For sale: leftover {equipment}, in fine condition."
+    "message": "待售：仅剩一台{equipment}，状况良好。"
   },
   "FLAVOUR_4_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "FOR SALE"
+    "message": "待售"
   },
   "FLAVOUR_5_BODY": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "FLAVOUR_5_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "On offer: old {equipment}, in working condition."
+    "message": "报价：旧{equipment}，处于工作状态。"
   },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "SELLING EQUIPMENT"
+    "message": "销售设备"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",

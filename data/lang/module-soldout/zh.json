@@ -1,7 +1,7 @@
 {
   "ADTEXT": {
     "description": "",
-    "message": "Wanted: {commodity}. Will pay {price} per tonne"
+    "message": "通缉：{commodity}。将支付每吨{price}"
   },
   "AMOUNT": {
     "description": "The amount (for now in tonne) of goods person wants to buy",
@@ -29,6 +29,6 @@
   },
   "TITLE": {
     "description": "",
-    "message": "COMMODITY WANTED"
+    "message": "需要商品"
   }
 }
