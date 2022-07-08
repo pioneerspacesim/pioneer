@@ -1,3 +1,11 @@
+July 2022
+  * Internal Changes
+    * Improve error reporting and debug printing utilities (#5391)
+  
+  * Fixes
+    * Search and Rescue: fix refueling mission (#5383)
+    * Fix randomly-generated background stars being invisible (#5390)
+
 June 2022
   * New Features
     * Add custom two-seater cockpit for the Xylophis (#5373)
