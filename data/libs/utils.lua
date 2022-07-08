@@ -336,37 +336,49 @@ end
 --
 utils.print_r = function(t)
 	local print_r_cache={}
-	local function sub_print_r(t,indent,rec_guard)
+	local print_str_cache = {}
+
+	local write = function(indent, str, ...)
+		table.insert(print_str_cache, string.rep(" ", indent) .. string.format(str, ...))
+	end
+
+	local function sub_print_r(t, indent)
 		if (print_r_cache[tostring(t)]) then
-			print(indent.."*"..tostring(t))
+			write(indent, "*" .. tostring(t))
 		else
-			print_r_cache[tostring(t)]=true
-			if (type(t)=="table") then
-				for pos,val in pairs(t) do
-					local string_pos = tostring(pos)
-					if (type(val)=="table") then
-						print(indent.."["..string_pos.."] => "..tostring(t).." {")
-						sub_print_r(val,indent..string.rep(" ",string.len(string_pos)+8))
-						print(indent..string.rep(" ",string.len(string_pos)+6).."}")
+			print_r_cache[tostring(t)] = true
+
+			if type(t) == "table" then
+				for key, val in pairs(t) do
+					local string_key = tostring(key)
+
+					if type(val) == "table" then
+						write(indent, '[%s] => %s {', string_key, tostring(t))
+
+						sub_print_r(val, indent + string.len(string_key) + 8)
+
+						write(indent + string.len(string_key) + 6, "}")
 					elseif (type(val)=="string") then
-						print(indent.."["..string_pos..'] => "'..val..'"')
+						write(indent, "[%s] => '%s'", string_key, val)
 					else
-						print(indent.."["..string_pos.."] => "..tostring(val))
+						write(indent, "[%s] => %s", string_key, tostring(val))
 					end
 				end
 			else
-				print(indent..tostring(t))
+				write(indent, "%s", tostring(t))
 			end
 		end
 	end
+
 	if (type(t)=="table") then
-		print(tostring(t).." {")
-		sub_print_r(t,"  ")
-		print("}")
+		write(0, "%s {", tostring(t))
+		sub_print_r(t, 2)
+		write(0, "}")
 	else
-		sub_print_r(t,"  ")
+		sub_print_r(t, 2)
 	end
-	print()
+
+	print(table.concat(print_str_cache, "\n"))
 end
 
 --

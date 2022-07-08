@@ -11,19 +11,21 @@ local ui = require 'pigui.libs.forwarded'
 --
 -- Function: ui.pcall
 --
--- ui.pcall(fun, ...)
+-- Run a function in *protected mode* with the given arguments. Any error
+-- inside the function will be caught and the ImGui stack cleaned up to a safe
+-- state to continue calling UI functions.
 --
--- Clean up the ImGui stack in case of an error
---
+-- A detailed stack dump of the error will be written to the game's output log
+-- and a traceback returned with the error message.
 --
 -- Example:
 --
--- >
+-- > local ok, err = ui.pcall(fun, ...)
 --
 -- Parameters:
 --
---   fun -
---   ... -
+--   fun - function to call in protected mode
+--   ... - any arguments to be passed to the function
 --
 -- Returns:
 --
@@ -33,6 +35,8 @@ function ui.pcall(fun, ...)
 	local stack = pigui.GetImguiStack()
 	return xpcall(fun, function(msg)
 		pigui.CleanupImguiStack(stack)
+		logWarning("Caught error in Lua UI code:\n\t" .. tostring(msg) .. '\n')
+		logVerbose(debug.dumpstack(2))
 		return debug.traceback(msg, 2) .. "\n"
 	end, ...)
 end

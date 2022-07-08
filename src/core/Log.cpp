@@ -104,6 +104,8 @@ void Log::Logger::WriteLog(Time::DateTime time, Severity sv, std::string_view ms
 
 	if (file && sv <= m_maxFileSeverity) {
 		fmt::print(file, "[{0}]{1:>8}: {2}", time.ToTimeString(), svName, msg);
+		// flush log file to ensure we have complete data in case of a crash
+		fflush(file);
 	}
 
 	if (sv <= m_maxMsgSeverity) {

@@ -90,13 +90,13 @@ static std::string get_caller(lua_State *L)
 		int start = 0;
 		int end = strlen(ar.source);
 
-		// strip the trusted annotation if present
-		if ((ar.source[start] != '@') && (end > 5))
-			start = 4;
-
 		// if we have an @, this is a file name. Strip it and return the file name
 		if (ar.source[start] == '@') {
 			start++;
+
+			// strip the trusted annotation ("@[T] ") if present
+			if ((ar.source[start] == '[') && (end > 5))
+				start += 4;
 
 			caller = std::string(&ar.source[start], end - start);
 		}
