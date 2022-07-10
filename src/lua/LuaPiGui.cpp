@@ -395,6 +395,88 @@ int l_pigui_check_hovered_flags(lua_State *l)
 	return 1;
 }
 
+static LuaFlags<ImGuiTableFlags_> imguiTableFlagsTable = {
+	{ "None", ImGuiTableFlags_None },
+	{ "Resizable", ImGuiTableFlags_Resizable },
+	{ "Reorderable", ImGuiTableFlags_Reorderable },
+	{ "Hideable", ImGuiTableFlags_Hideable },
+	{ "Sortable", ImGuiTableFlags_Sortable },
+	{ "NoSavedSettings", ImGuiTableFlags_NoSavedSettings },
+	{ "ContextMenuInBody", ImGuiTableFlags_ContextMenuInBody },
+	{ "RowBg", ImGuiTableFlags_RowBg },
+	{ "BordersInnerH", ImGuiTableFlags_BordersInnerH },
+	{ "BordersOuterH", ImGuiTableFlags_BordersOuterH },
+	{ "BordersInnerV", ImGuiTableFlags_BordersInnerV },
+	{ "BordersOuterV", ImGuiTableFlags_BordersOuterV },
+	{ "BordersH", ImGuiTableFlags_BordersH },
+	{ "BordersV", ImGuiTableFlags_BordersV },
+	{ "BordersInner", ImGuiTableFlags_BordersInner },
+	{ "BordersOuter", ImGuiTableFlags_BordersOuter },
+	{ "Borders", ImGuiTableFlags_Borders },
+	{ "SizingFixedFit", ImGuiTableFlags_SizingFixedFit },
+	{ "SizingFixedSame", ImGuiTableFlags_SizingFixedSame },
+	{ "SizingStretchProp", ImGuiTableFlags_SizingStretchProp },
+	{ "SizingStretchSame", ImGuiTableFlags_SizingStretchSame },
+	{ "NoHostExtendX", ImGuiTableFlags_NoHostExtendX },
+	{ "NoHostExtendY", ImGuiTableFlags_NoHostExtendY },
+	{ "NoKeepColumnsVisible", ImGuiTableFlags_NoKeepColumnsVisible },
+	{ "PreciseWidths", ImGuiTableFlags_PreciseWidths },
+	{ "NoClip", ImGuiTableFlags_NoClip },
+	{ "PadOuterX", ImGuiTableFlags_PadOuterX },
+	{ "NoPadOuterX", ImGuiTableFlags_NoPadOuterX },
+	{ "NoPadInnerX", ImGuiTableFlags_NoPadInnerX },
+	{ "ScrollX", ImGuiTableFlags_ScrollX },
+	{ "ScrollY", ImGuiTableFlags_ScrollY },
+	{ "SortMulti", ImGuiTableFlags_SortMulti },
+	{ "SortTristate", ImGuiTableFlags_SortTristate }
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableFlags_ &theflags)
+{
+	theflags = parse_imgui_flags(l, index, imguiTableFlagsTable);
+}
+
+int l_pigui_check_table_flags(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TTABLE);
+	ImGuiTableFlags_ fl = imguiTableFlagsTable.LookupTable(l, 1);
+	LuaPush<ImGuiTableFlags_>(l, fl);
+	return 1;
+}
+
+static LuaFlags<ImGuiTableColumnFlags_> imguiTableColumnFlagsTable = {
+	{ "None", ImGuiTableColumnFlags_None },
+	{ "DefaultHide", ImGuiTableColumnFlags_DefaultHide },
+	{ "DefaultSort", ImGuiTableColumnFlags_DefaultSort },
+	{ "WidthStretch", ImGuiTableColumnFlags_WidthStretch },
+	{ "WidthFixed", ImGuiTableColumnFlags_WidthFixed },
+	{ "NoResize", ImGuiTableColumnFlags_NoResize },
+	{ "NoReorder", ImGuiTableColumnFlags_NoReorder },
+	{ "NoHide", ImGuiTableColumnFlags_NoHide },
+	{ "NoClip", ImGuiTableColumnFlags_NoClip },
+	{ "NoSort", ImGuiTableColumnFlags_NoSort },
+	{ "NoSortAscending", ImGuiTableColumnFlags_NoSortAscending },
+	{ "NoSortDescending", ImGuiTableColumnFlags_NoSortDescending },
+	{ "NoHeaderWidth", ImGuiTableColumnFlags_NoHeaderWidth },
+	{ "PreferSortAscending", ImGuiTableColumnFlags_PreferSortAscending },
+	{ "PreferSortDescending", ImGuiTableColumnFlags_PreferSortDescending },
+	{ "IndentEnable", ImGuiTableColumnFlags_IndentEnable },
+	{ "IndentDisable", ImGuiTableColumnFlags_IndentDisable },
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableColumnFlags_ &theflags)
+{
+	theflags = parse_imgui_flags(l, index, imguiTableColumnFlagsTable);
+}
+
+int l_pigui_check_table_column_flags(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TTABLE);
+	ImGuiTableColumnFlags_ fl = imguiTableColumnFlagsTable.LookupTable(l, 1);
+	LuaPush<ImGuiTableColumnFlags_>(l, fl);
+	return 1;
+}
+
 static vector2d s_center(0., 0.);
 
 static vector2d pointOnClock(const double radius, const double hours)
@@ -2942,6 +3024,86 @@ static int l_pigui_push_text_wrap_pos(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_begin_table(lua_State *l)
+{
+	const char *str_id = luaL_checkstring(l, 1);
+	int num_columns = luaL_checkinteger(l, 2);
+	ImGuiTableFlags flags = LuaPull<ImGuiTableFlags_>(l, 3, {});
+	ImVec2 outer_size = LuaPull<ImVec2>(l, 4, ImVec2(0.f, 0.f));
+	float inner_width = luaL_optnumber(l, 5, 0.f);
+
+	bool ok = ImGui::BeginTable(str_id, num_columns, flags, outer_size, inner_width);
+	LuaPush(l, ok);
+
+	return 1;
+}
+
+static int l_pigui_end_table(lua_State *l)
+{
+	ImGui::EndTable();
+	return 0;
+}
+
+static int l_pigui_table_next_row(lua_State *l)
+{
+	float min_row_height = luaL_optnumber(l, 1, 0.0);
+	ImGui::TableNextRow(0, min_row_height);
+	return 0;
+}
+
+static int l_pigui_table_next_column(lua_State *l)
+{
+	bool visible = ImGui::TableNextColumn();
+	LuaPush(l, visible);
+	return 1;
+}
+
+static int l_pigui_table_set_column_index(lua_State *l)
+{
+	int column_index = luaL_checkinteger(l, 1);
+	bool visible = ImGui::TableSetColumnIndex(column_index);
+	LuaPush(l, visible);
+	return 1;
+}
+
+static int l_pigui_table_setup_column(lua_State *l)
+{
+	const char *label = luaL_checkstring(l, 1);
+	ImGuiTableColumnFlags flags = LuaPull<ImGuiTableColumnFlags_>(l, 2, {});
+	float width_or_weight = luaL_optnumber(l, 3, 0.f);
+	const char *user_id_str = luaL_optstring(l, 4, nullptr);
+
+	ImGuiID user_id = user_id_str ? ImGui::GetID(user_id_str) : 0;
+	ImGui::TableSetupColumn(label, flags, width_or_weight, user_id);
+	return 0;
+}
+
+static int l_pigui_table_setup_scroll_freeze(lua_State *l)
+{
+	int columns = luaL_checkinteger(l, 1);
+	int rows = luaL_checkinteger(l, 2);
+
+	ImGui::TableSetupScrollFreeze(columns, rows);
+	return 0;
+}
+
+static int l_pigui_table_headers_row(lua_State *l)
+{
+	bool custom = lua_gettop(l) >= 1 && lua_toboolean(l, 1);
+	if (custom)
+		ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
+	else
+		ImGui::TableHeadersRow();
+	return 0;
+}
+
+static int l_pigui_table_header(lua_State *l)
+{
+	const char *label = luaL_checkstring(l, 1);
+	ImGui::TableHeader(label);
+	return 0;
+}
+
 static Color4ub to_Color4ub(ImVec4 c)
 {
 	return Color4ub(uint8_t(c.x * 255), uint8_t(c.y * 255), uint8_t(c.z * 255), uint8_t(c.w * 255));
@@ -3149,10 +3311,25 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "InputTextFlags", l_pigui_check_input_text_flags },
 		{ "WindowFlags", l_pigui_check_window_flags },
 		{ "HoveredFlags", l_pigui_check_hovered_flags },
+		{ "TableFlags", l_pigui_check_table_flags },
+		{ "TableColumnFlags", l_pigui_check_table_column_flags },
 		{ "BeginTabBar", l_pigui_begin_tab_bar },
 		{ "BeginTabItem", l_pigui_begin_tab_item },
 		{ "EndTabBar", l_pigui_end_tab_bar },
 		{ "EndTabItem", l_pigui_end_tab_item },
+
+		// TABLES API
+		{ "BeginTable", l_pigui_begin_table },
+		{ "EndTable", l_pigui_end_table },
+		{ "TableNextRow", l_pigui_table_next_row },
+		{ "TableNextColumn", l_pigui_table_next_column },
+		{ "TableSetColumnIndex", l_pigui_table_set_column_index },
+		{ "TableSetupColumn", l_pigui_table_setup_column },
+		{ "TableSetupScrollFreeze", l_pigui_table_setup_scroll_freeze },
+		{ "TableHeadersRow", l_pigui_table_headers_row },
+		{ "TableHeader", l_pigui_table_header },
+		// TODO: finish exposing Tables API
+
 		{ "WantTextInput", l_pigui_want_text_input },
 		{ "ClearMouse", l_pigui_clear_mouse },
 		{ 0, 0 }
@@ -3182,4 +3359,6 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	imguiStyleVarTable.Register(l, "ImGuiStyleVar");
 	imguiWindowFlagsTable.Register(l, "ImGuiWindowFlags");
 	imguiHoveredFlagsTable.Register(l, "ImGuiHoveredFlags");
+	imguiTableFlagsTable.Register(l, "ImGuiTableFlags");
+	imguiTableColumnFlagsTable.Register(l, "ImGuiTableColumnFlags");
 }

@@ -44,7 +44,7 @@ ui.setTooltip = pigui.SetTooltip
 ui.addCircle = pigui.AddCircle
 ui.addCircleFilled = pigui.AddCircleFilled
 ui.addRect = pigui.AddRect ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer, thickness: number)
-ui.addRectFilled = pigui.AddRectFilled
+ui.addRectFilled = pigui.AddRectFilled ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer)
 ui.addLine = pigui.AddLine ---@type fun(a: Vector2, b: Vector2, col: Color, thickness: number)
 ui.addText = pigui.AddText ---@type fun(pos: Vector2, col: Color, text: string)
 ui.pathArcTo = pigui.PathArcTo
@@ -127,12 +127,24 @@ ui.beginTabItem = pigui.BeginTabItem
 ui.endTabItem = pigui.EndTabItem
 ui.endTabBar = pigui.EndTabBar
 
+ui.beginTable = pigui.BeginTable
+ui.endTable = pigui.EndTable
+ui.tableNextRow = pigui.TableNextRow
+ui.tableNextColumn = pigui.TableNextColumn
+ui.tableSetColumnIndex = pigui.TableSetColumnIndex
+ui.tableSetupColumn = pigui.TableSetupColumn
+ui.tableSetupScrollFreeze = pigui.TableSetupScrollFreeze
+ui.tableHeadersRow = pigui.TableHeadersRow
+ui.tableHeader = pigui.TableHeader
+
 -- Flag validation functions. Call with a table of string flags as the only argument.
 ui.SelectableFlags = pigui.SelectableFlags
 ui.TreeNodeFlags = pigui.TreeNodeFlags
 ui.InputTextFlags = pigui.InputTextFlags
 ui.WindowFlags = pigui.WindowFlags
 ui.HoveredFlags = pigui.HoveredFlags
+ui.TableFlags = pigui.TableFlags
+ui.TableColumnFlags = pigui.TableColumnFlags
 
 -- Wrapped in buttons.lua
 -- ui.button = pigui.Button

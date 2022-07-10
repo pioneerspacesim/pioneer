@@ -88,7 +88,7 @@ ui.sides = sides
 --   pos  - Vector2, upper-left corner of the reserved space
 --   size - Vector2, x and y size of the reserved space
 function ui.rectcut(min, max, amt, side)
-	local size = max - min
+	local size = max - min ---@type Vector2
 	local pos = Vector2(0, 0)
 
 	if side == sides.top then
