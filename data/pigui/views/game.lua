@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
+local Event = require 'Event'
 local Input = require 'Input'
 local Game = require 'Game'
 local utils= require 'utils'
@@ -33,6 +34,7 @@ local IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE = 1000000 -- ships farther away than 
 local gameView = {
 	center  = nil,
 	player  = nil,
+	shouldRefresh = false,
 
 	leftSidebar = Sidebar.New("##SidebarL", "left"),
 	rightSidebar = Sidebar.New("##SidebarR", "right"),
@@ -188,6 +190,13 @@ gameView.registerModule("onscreen-objects", {
 })
 
 function gameView:draw()
+	if self.shouldRefresh then
+		self.leftSidebar:Refresh()
+		self.rightSidebar:Refresh()
+
+		self.shouldRefresh = false
+	end
+
 	self:updateModules()
 
 	for i, module in ipairs(gameView.modules) do
@@ -231,6 +240,8 @@ local drawHUD = ui.makeFullScreenHandler("HUD", function()
 	if ui.shouldDrawUI() then
 		if Game.CurrentView() == "world" then
 			gameView:draw()
+		else
+			gameView.shouldRefresh = true
 		end
 
 		ui.radialMenu("game")
@@ -247,6 +258,12 @@ local debugReload = function(t)
 		end
 	end
 end
+
+Event.Register("onGameStart", function()
+	gameView.shouldRefresh = true
+	gameView.leftSidebar:Reset()
+	gameView.rightSidebar:Reset()
+end)
 
 ui.registerHandler('game', function(delta_t)
 		-- delta_t is ignored for now

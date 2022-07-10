@@ -81,9 +81,13 @@ gameView.registerSidebarModule("comms", {
 	title = lc.COMMS,
 	exclusive = true,
 	drawBody = function()
+		ui.pushTextWrapPos(0.0)
+
 		for _, v in iterCommsLog() do
 			showItem(v)
 		end
+
+		ui.popTextWrapPos()
 	end
 })
 

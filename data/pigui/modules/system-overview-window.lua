@@ -67,8 +67,7 @@ end
 -- Returns a table of entries.
 -- Each entry will have { children_visible = true } if they are a parent of, or are a selected object
 -- Entries that are excluded by the current filter will have { visible = false }
----@return table @ SystemBody entry
----@return boolean @ whether this entry is part of the chain of selected objects
+---@return table @ information about a given SystemBody
 local function calculateEntry(systemBody, parent, selected, filter)
 	local result = nil
 	local isSelected = selected[systemBody] or (systemBody.body and selected[systemBody.body]) or false

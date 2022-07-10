@@ -63,7 +63,7 @@ function Sidebar:Constructor(id, side, offset)
 end
 
 function Sidebar:SafeCall(module, fn, ...)
-	if module.disabled then return end
+	if module.disabled or not fn then return end
 	module.disabled = not ui.pcall(fn, module, ...)
 end
 
@@ -104,6 +104,8 @@ function Sidebar:DrawButtons()
 				else
 					v.closing = v.active
 					v.active = true
+
+					if not v.closing then self:SafeCall(v, v.refresh) end
 				end
 			end
 
@@ -159,20 +161,16 @@ function Sidebar:DrawModule(module)
 		end
 	end)
 
-	ui.setCursorScreenPos(screenPos + Vector2(0, frameSize))
-	ui.spacing()
+	ui.newLine()
+	ui.setCursorScreenPos(screenPos + Vector2(0, frameSize + styles.WindowPadding.y))
 
 	if module.drawBody then
-		-- Add padding and wrap text at padding edge
 		ui.addWindowPadding(styles.WindowPadding)
-		ui.pushTextWrapPos(0.0)
 
 		ui.withFont(pionillum.body, function()
 			self:SafeCall(module, module.drawBody)
 		end)
 
-		-- Pop wrap pos and remove padding
-		ui.popTextWrapPos()
 		ui.addWindowPadding(-styles.WindowPadding)
 	end
 end
@@ -193,11 +191,14 @@ function Sidebar:Draw()
 
 	-- Handle displaying the next module to be visible (when swapping between exclusive modules)
 	if self.nextActive and #closingModules == 0 then
-		self.nextActive.active = true
-		table.insert(activeModules, self.nextActive)
+		local module = self.nextActive
 
-		if self.nextActive.exclusive then
-			self.active = self.nextActive
+		module.active = true
+		table.insert(activeModules, module)
+		self:SafeCall(module, module.refresh)
+
+		if module.exclusive then
+			self.active = module
 		end
 
 		self.nextActive = nil
@@ -261,6 +262,32 @@ function Sidebar:Draw()
 
 	end)
 
+end
+
+-- Trigger the refresh event for all active sidebar modules
+-- (expected to be triggered when the entire sidebar becomes visible)
+function Sidebar:Refresh()
+	local activeModules = utils.filter_array(self.modules, function(v) return v.active and not v.disabled end)
+
+	for i, v in ipairs(activeModules) do
+		self:SafeCall(v, v.refresh)
+	end
+end
+
+-- Reset all modules to inactive and clear transient sidebar state.
+-- This should be called at the start of a new game, etc.
+function Sidebar:Reset()
+	self.displayAlpha = 0.0
+	self.hudAlpha = 0.0
+	self.active = nil
+	self.nextActive = nil
+
+	local activeModules = utils.filter_array(self.modules, function(v) return v.active and not v.disabled end)
+	for i, v in ipairs(activeModules) do
+		v.active = false
+		v.closing = false
+		v.alpha = nil
+	end
 end
 
 return Sidebar
