@@ -171,6 +171,9 @@ theme.colors = {
 	econMinorImport			= styleColors.accent_500,
 	econIllegalCommodity	= styleColors.danger_300,
 
+	gaugeCargo              = styleColors.gray_300,
+	gaugeJettison           = styleColors.danger_500,
+
 	gaugeBackground			= styleColors.gray_800:opacity(0.85),
 	gaugePressure			= styleColors.primary_600,
 	gaugeTemperature		= styleColors.danger_500,
