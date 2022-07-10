@@ -81,7 +81,26 @@ end
 function ui.alignTextToButtonPadding()
 	pigui.PushStyleVar("FramePadding", ui.theme.styles.ButtonPadding)
 	ui.alignTextToFramePadding()
-	pigui.PopStyleVar()
+	pigui.PopStyleVar(1)
+end
+
+--
+-- Function: ui.calcButtonSize
+--
+-- Calculate the size of a button drawn with the given label, optionally under
+-- the given font instead of the current font.
+--
+-- Parameters:
+--   label - string, label of the button to calculate size for
+--   font  - Font|string, optional font to use when calculating button size
+--   size  - number|nil, optional font size to use
+--
+function ui.calcButtonSize(label, font, size)
+	return ui.calcTextSize(label, font, size) + ui.theme.styles.ButtonPadding * 2
+end
+
+function ui.getButtonHeight()
+	return ui.getTextLineHeight() + ui.theme.styles.ButtonPadding.y * 2
 end
 
 function ui.getButtonHeightWithSpacing()
@@ -187,4 +206,34 @@ function ui.mainMenuButton(icon, tooltip, variant, size, fg_color)
 		variant = ui.theme.buttonColors.selected
 	end
 	return ui.iconButton(icon, size, tooltip, variant, fg_color, ui.theme.styles.MainButtonPadding)
+end
+
+--
+-- Function: ui.inlineIconButton
+--
+-- Draw an icon button sized to match the current font size. Calling
+-- alignTextToButtonPadding() is recommended if submitting text before the
+-- icon button.
+--
+-- Example:
+--
+-- > clicked = ui.inlineButton(ui.theme.icons.ship, "Tooltip", ui.theme.buttonColors.transparent, ui.theme.colors.unknown)
+--
+-- Parameters:
+--
+--   icon          - icon index from ui.theme.icons (integer number)
+--   tooltip       - string, mouseover text, will be used as ID, must be
+--                   unique, append "##uniqueID" if needed
+--   variant       - [optional] Table, color variants used for this button;
+--                   contains Color fields 'normal', 'hovered', and 'active'.
+--                   can be true for selected and false (nil) for default color variant
+--   fg_color      - [optional] Color, for foreground, default - ui.theme.colors.white
+--
+-- Returns:
+--
+--   clicked - true if button was clicked
+--
+function ui.inlineIconButton(icon, tooltip, variant, fg_color)
+	local height = ui.getTextLineHeight() + (ui.theme.styles.ButtonPadding.y - ui.theme.styles.MainButtonPadding) * 2
+	return ui.iconButton(icon, Vector2(height), tooltip, variant, fg_color, ui.theme.styles.MainButtonPadding)
 end
