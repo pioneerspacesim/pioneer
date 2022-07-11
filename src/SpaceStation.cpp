@@ -730,10 +730,6 @@ bool SpaceStation::IsGroundStation() const
 }
 
 // Renders space station and adjacent city if applicable
-// For orbital starports: renders as normal
-// For surface starports:
-//	Lighting: Calculates available light for model and splits light between directly and ambiently lit
-//            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
 static const double SQRMAXCITYDIST = 1e5 * 1e5;
 
 void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
@@ -751,9 +747,6 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		if (viewCoords.LengthSqr() >= SQRMAXCITYDIST) {
 			return;
 		}
-		std::vector<float> oldIntensity;
-		Color oldAmbient;
-		SetLighting(r, camera, oldIntensity, oldAmbient);
 
 		if (!m_adjacentCity) {
 			m_adjacentCity = new CityOnPlanet(static_cast<Planet *>(b), this, m_sbody->GetSeed());
@@ -763,10 +756,8 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 
 		m_adjacentCity->Render(r, camera->GetContext()->GetFrustum(), this, viewCoords, viewTransform);
 
-		RenderModel(r, camera, viewCoords, viewTransform, false);
+		RenderModel(r, camera, viewCoords, viewTransform);
 		m_navLights->Render(r);
-
-		ResetLighting(r, oldIntensity, oldAmbient);
 
 		r->GetStats().AddToStatCount(Graphics::Stats::STAT_GROUNDSTATIONS, 1);
 	}
