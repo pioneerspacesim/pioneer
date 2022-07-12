@@ -9,6 +9,7 @@
 #include "SDL.h"
 #include "SDL_events.h"
 #include "SDL_joystick.h"
+#include "SDL_mouse.h"
 
 #include <array>
 #include <regex>
@@ -476,6 +477,11 @@ void Manager::SetMouseYInvert(bool state)
 		m_config->SetInt("InvertMouseY", mouseYInvert);
 		m_config->Save();
 	}
+}
+
+void Manager::GetMousePosition(int position[2])
+{
+	SDL_GetMouseState(&position[0], &position[1]);
 }
 
 /*
