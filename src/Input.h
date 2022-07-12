@@ -195,6 +195,8 @@ public:
 	int MouseButtonState(int button) { return mouseButton[button]; }
 	void SetMouseButtonState(int button, bool state) { mouseButton[button] = state; }
 
+	void GetMousePosition(int position[2]);
+
 	void GetMouseMotion(int motion[2])
 	{
 		std::copy_n(mouseMotion.data(), mouseMotion.size(), motion);

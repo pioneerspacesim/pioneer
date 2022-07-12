@@ -99,6 +99,13 @@ public:
 		r.z = a.z * s;
 		return r;
 	}
+	// vector transform with quaternion
+	// (see https://community.khronos.org/t/quaternion-functions-for-glsl/50140/3)
+	friend vector3<T> operator*(const Quaternion &a, const vector3<T> &vec)
+	{
+		vector3<T> xyz = vector3<T>(a.x, a.y, a.z);
+		return vec + 2.0 * (vec.Cross(xyz) + a.w * vec).Cross(xyz);
+	}
 	friend Quaternion operator+(const Quaternion &a, const Quaternion &b)
 	{
 		Quaternion r;

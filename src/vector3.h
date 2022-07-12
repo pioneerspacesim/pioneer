@@ -109,6 +109,10 @@ public:
 		const T inv = 1.0 / scalar;
 		return vector3(a.x * inv, a.y * inv, a.z * inv);
 	}
+	friend vector3 operator/(const T scalar, const vector3 &a)
+	{
+		return vector3(scalar / a.x, scalar / a.y, scalar / a.z);
+	}
 
 	vector3 Cross(const vector3 &b) const { return vector3(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x); }
 	T Dot(const vector3 &b) const { return x * b.x + y * b.y + z * b.z; }
