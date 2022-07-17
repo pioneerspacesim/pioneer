@@ -117,10 +117,10 @@ namespace SceneGraph {
 
 		unsigned int GetNumTags() const { return static_cast<Uint32>(m_tags.size()); }
 		MatrixTransform *GetTagByIndex(unsigned int index) const;
-		MatrixTransform *FindTagByName(const std::string &name) const;
+		MatrixTransform *FindTagByName(std::string_view name) const;
 		typedef std::vector<MatrixTransform *> TVecMT;
-		void FindTagsByStartOfName(const std::string &name, TVecMT &outNameMTs) const;
-		void AddTag(const std::string &name, MatrixTransform *node);
+		void FindTagsByStartOfName(std::string_view name, TVecMT &outNameMTs) const;
+		void AddTag(std::string_view name, MatrixTransform *node);
 
 		const PatternContainer &GetPatterns() const { return m_patterns; }
 		unsigned int GetNumPatterns() const { return static_cast<Uint32>(m_patterns.size()); }

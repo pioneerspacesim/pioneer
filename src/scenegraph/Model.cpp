@@ -242,7 +242,7 @@ namespace SceneGraph {
 		return m_tags.at(i);
 	}
 
-	MatrixTransform *Model::FindTagByName(const std::string &name) const
+	MatrixTransform *Model::FindTagByName(std::string_view name) const
 	{
 		for (TagContainer::const_iterator it = m_tags.begin();
 			 it != m_tags.end();
@@ -253,7 +253,7 @@ namespace SceneGraph {
 		return 0;
 	}
 
-	void Model::FindTagsByStartOfName(const std::string &name, TVecMT &outNameMTs) const
+	void Model::FindTagsByStartOfName(std::string_view name, TVecMT &outNameMTs) const
 	{
 		for (TagContainer::const_iterator it = m_tags.begin();
 			 it != m_tags.end();
@@ -266,10 +266,10 @@ namespace SceneGraph {
 		return;
 	}
 
-	void Model::AddTag(const std::string &name, MatrixTransform *node)
+	void Model::AddTag(std::string_view name, MatrixTransform *node)
 	{
 		if (FindTagByName(name)) return;
-		node->SetName(name);
+		node->SetName(std::string(name));
 		node->SetNodeFlags(node->GetNodeFlags() | NODE_TAG);
 		m_root->AddChild(node);
 		m_tags.push_back(node);
