@@ -220,11 +220,15 @@ public:
 		minv[idx2d(2, 2)] = (cell2d(0, 0) * cell2d(1, 1) - cell2d(1, 0) * cell2d(0, 1)) * invdet;
 		return minv;
 	}
-	void Renormalize()
+	matrix3x3 Normalized() const
 	{
 		vector3<T> x = VectorX().Normalized();
 		vector3<T> y = VectorZ().Cross(x).Normalized();
-		*this = FromVectors(x, y);
+		return FromVectors(x, y);
+	}
+	void Renormalize()
+	{
+		*this = Normalized();
 	}
 	void Print() const
 	{
