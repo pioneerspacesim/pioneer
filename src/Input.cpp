@@ -494,6 +494,14 @@ void Manager::NewFrame()
 {
 	mouseMotion.fill(0);
 	mouseWheel = 0;
+
+	for (char &m : mouseButton) {
+		if (m == 1) // if we were just pressed last frame, migrate to held state
+			m = 2;
+		if (m == 4) // if we were just released last frame, migrate to empty state
+			m = 0;
+	}
+
 	for (auto &k : keyState) {
 		auto &val = keyState[k.first];
 		switch (k.second) {
@@ -620,7 +628,7 @@ void Manager::HandleSDLEvent(SDL_Event &event)
 		break;
 	case SDL_MOUSEBUTTONUP:
 		if (event.button.button < mouseButton.size()) {
-			mouseButton[event.button.button] = 0;
+			mouseButton[event.button.button] = 4;
 			onMouseButtonUp.emit(event.button.button,
 				event.button.x, event.button.y);
 		}
