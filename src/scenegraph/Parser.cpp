@@ -83,7 +83,7 @@ namespace SceneGraph {
 	{
 		checkString(ss, out, "file name");
 		//add newmodels/some_model/ to path
-		out = FileSystem::JoinPathBelow(m_path, out);
+		out = FileSystem::NormalisePath(FileSystem::JoinPath(m_path, out));
 		return true;
 	}
 
