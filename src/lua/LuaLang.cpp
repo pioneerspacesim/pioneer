@@ -66,7 +66,7 @@ static int l_lang_get_resource(lua_State *l)
 	lua_pop(l, 1);
 
 	lua_newtable(l);
-	Lang::Resource res = Lang::GetResource(resourceName, langCode);
+	Lang::Resource &res = Lang::GetResource(resourceName, langCode);
 	if (res.Load()) {
 		for (auto i : res.GetStrings()) {
 			const std::string token(i.first);

@@ -202,7 +202,7 @@ namespace Lang {
 
 	static std::map<std::string, Resource> m_cachedResources;
 
-	Resource GetResource(const std::string &name, const std::string &langCode)
+	Resource &GetResource(const std::string &name, const std::string &langCode)
 	{
 		auto key = name + ":" + langCode;
 
@@ -223,10 +223,9 @@ namespace Lang {
 				Log::Warning("couldn't load language resource {}/en\n", name.c_str());
 		}
 
-		if (loaded)
-			m_cachedResources.insert(std::make_pair(key, res));
+		m_cachedResources.insert(std::make_pair(key, std::move(res)));
 
-		return res;
+		return m_cachedResources.at(key);
 	}
 
 } // namespace Lang

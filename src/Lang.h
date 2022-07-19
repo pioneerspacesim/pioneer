@@ -50,7 +50,7 @@ namespace Lang {
 	void MakeCore(Resource &res);
 	const Resource &GetCore();
 
-	Resource GetResource(const std::string &name, const std::string &langCode);
+	Resource &GetResource(const std::string &name, const std::string &langCode);
 
 } // namespace Lang
 
