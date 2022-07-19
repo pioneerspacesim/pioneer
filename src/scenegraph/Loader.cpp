@@ -757,12 +757,15 @@ namespace SceneGraph {
 		return m;
 	}
 
-	void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
+	void Loader::CreateLabel(const std::string &name, Group *parent, const matrix4x4f &m)
 	{
 		PROFILE_SCOPED()
 		MatrixTransform *trans = new MatrixTransform(m_renderer, m);
+
 		Label3D *label = new Label3D(m_renderer, m_labelFont);
 		label->SetText("Bananas");
+		label->SetName(name);
+
 		trans->AddChild(label);
 		parent->AddChild(trans);
 	}
@@ -858,7 +861,7 @@ namespace SceneGraph {
 			} else if (starts_with(nodename, "thruster_")) {
 				CreateThruster(nodename, accum * m);
 			} else if (starts_with(nodename, "label_")) {
-				CreateLabel(parent, m);
+				CreateLabel(nodename, parent, m);
 			} else if (starts_with(nodename, "tag_")) {
 				m_model->AddTag(nodename, new MatrixTransform(m_renderer, accum * m));
 			} else if (starts_with(nodename, "entrance_")) {

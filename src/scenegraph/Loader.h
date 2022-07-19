@@ -68,7 +68,7 @@ namespace SceneGraph {
 		void ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry>> &, const aiScene *); //model is only for material lookup
 		void ConvertAnimations(const aiScene *, const std::vector<AnimDefinition> &, Node *meshRoot);
 		void ConvertNodes(aiNode *node, Group *parent, std::vector<RefCountedPtr<StaticGeometry>> &meshes, const matrix4x4f &);
-		void CreateLabel(Group *parent, const matrix4x4f &);
+		void CreateLabel(const std::string &name, Group *parent, const matrix4x4f &);
 		void CreateThruster(const std::string &name, const matrix4x4f &nodeTrans);
 		void CreateNavlight(const std::string &name, const matrix4x4f &nodeTrans);
 		RefCountedPtr<CollisionGeometry> CreateCollisionGeometry(RefCountedPtr<StaticGeometry>, unsigned int collFlag);
