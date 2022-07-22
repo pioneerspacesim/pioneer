@@ -14,6 +14,7 @@
 #include "matrix4x4.h"
 #include "pigui/PiGuiView.h"
 #include "vector3.h"
+#include "ConnectionTicket.h"
 
 class StarSystem;
 class SystemBody;
@@ -219,7 +220,7 @@ private:
 	bool m_realtime;
 	double m_timeStep;
 
-	sigc::connection m_onMouseWheelCon;
+	ConnectionTicket m_onMouseWheelCon;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
 	std::unique_ptr<Graphics::Material> m_bodyMat;

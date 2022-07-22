@@ -5,6 +5,7 @@
 
 #include "Input.h"
 #include "ShipController.h"
+#include "ConnectionTicket.h"
 
 // autopilot AI + input
 class PlayerShipController : public ShipController {
@@ -146,8 +147,8 @@ private:
 	FollowMode m_followMode = FOLLOW_POS;
 	CruiseDirection m_cruiseDirection = CRUISE_FWD;
 
-	sigc::connection m_connRotationDampingToggleKey;
-	sigc::connection m_fireMissileKey;
-	sigc::connection m_toggleCruise;
-	sigc::connection m_toggleSpeedLimiter;
+	ConnectionTicket m_connRotationDampingToggleKey;
+	ConnectionTicket m_fireMissileKey;
+	ConnectionTicket m_toggleCruise;
+	ConnectionTicket m_toggleSpeedLimiter;
 };

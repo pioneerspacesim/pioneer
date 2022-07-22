@@ -60,11 +60,6 @@ LuaConsole::LuaConsole() :
 	std::fill_n(m_editBuffer.get(), EDIT_BUFFER_LENGTH, '\0');
 }
 
-LuaConsole::~LuaConsole()
-{
-	m_logCallbackConn.disconnect();
-}
-
 REGISTER_INPUT_BINDING(LuaConsole)
 {
 	auto *group = Pi::input->GetBindingPage("General")->GetBindingGroup("Miscellaneous");

@@ -42,7 +42,6 @@ void LuaRef::Unref()
 {
 	if (m_id != LUA_NOREF && m_lua) {
 		--(*m_copycount);
-		m_id = LUA_NOREF;
 		CheckCopyCount();
 	}
 }
@@ -70,6 +69,7 @@ void LuaRef::CheckCopyCount()
 		PushGlobalToStack();
 		luaL_unref(m_lua, -1, m_id);
 		lua_pop(m_lua, 1);
+		m_id = LUA_NOREF;
 	}
 }
 
