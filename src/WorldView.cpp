@@ -27,6 +27,8 @@
 #include "ship/ShipViewController.h"
 #include "sound/Sound.h"
 
+WorldView::~WorldView() {}
+
 namespace {
 	static const float HUD_CROSSHAIR_SIZE = 8.0f;
 	static const Color green(0, 255, 0, 204);
@@ -121,12 +123,6 @@ void WorldView::InitObject()
 	m_onDecTimeAccelCon = InputBindings.decreaseTimeAcceleration->onPressed.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
 }
 
-WorldView::~WorldView()
-{
-	m_onToggleHudModeCon.disconnect();
-	m_onIncTimeAccelCon.disconnect();
-	m_onDecTimeAccelCon.disconnect();
-}
 
 void WorldView::SaveToJson(Json &jsonObj)
 {

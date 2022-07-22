@@ -35,6 +35,8 @@
 #include <sstream>
 #include <unordered_set>
 
+SectorView::~SectorView() {}
+
 using namespace Graphics;
 
 static const int DRAW_RAD = 5;
@@ -621,15 +623,6 @@ void SectorView::InitObject()
 	m_lineMat.Reset(m_renderer->CreateMaterial("vtxColor", lineDesc, rsd));
 
 	m_drawList.reset(new ImDrawList(ImGui::GetDrawListSharedData()));
-}
-
-SectorView::~SectorView()
-{
-	m_onMouseWheelCon.disconnect();
-	m_onToggleSelectionFollowView.disconnect();
-	m_onWarpToCurrent.disconnect();
-	m_onWarpToSelected.disconnect();
-	m_onViewReset.disconnect();
 }
 
 void SectorView::SaveToJson(Json &jsonObj)

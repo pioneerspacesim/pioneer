@@ -4,6 +4,7 @@
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
+#include "ConnectionTicket.h"
 #include "graphics/Drawables.h"
 #include "pigui/PiGuiView.h"
 #include "ship/ShipViewController.h"
@@ -32,7 +33,7 @@ public:
 	friend class NavTunnelWidget;
 	WorldView(Game *game);
 	WorldView(const Json &jsonObj, Game *game);
-	virtual ~WorldView();
+	~WorldView() override;
 
 	void Update() override;
 	void Draw3D() override;
@@ -110,9 +111,9 @@ private:
 
 	bool m_labelsOn;
 
-	sigc::connection m_onToggleHudModeCon;
-	sigc::connection m_onIncTimeAccelCon;
-	sigc::connection m_onDecTimeAccelCon;
+	ConnectionTicket m_onToggleHudModeCon;
+	ConnectionTicket m_onIncTimeAccelCon;
+	ConnectionTicket m_onDecTimeAccelCon;
 
 	RefCountedPtr<CameraContext> m_cameraContext;
 	std::unique_ptr<Camera> m_camera;

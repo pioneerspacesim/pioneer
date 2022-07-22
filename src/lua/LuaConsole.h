@@ -7,7 +7,7 @@
 #include "Input.h"
 #include "LuaManager.h"
 #include "RefCounted.h"
-#include "sigc++/connection.h"
+#include "ConnectionTicket.h"
 #include <deque>
 
 struct ImGuiInputTextCallbackData;
@@ -15,7 +15,6 @@ struct ImGuiInputTextCallbackData;
 class LuaConsole {
 public:
 	LuaConsole();
-	~LuaConsole();
 
 	void SetupBindings();
 	void Toggle();
@@ -51,7 +50,7 @@ private:
 	bool m_active;
 	Input::InputFrame m_inputFrame;
 	InputBindings::Action *toggleLuaConsole;
-	sigc::connection m_logCallbackConn;
+	ConnectionTicket m_logCallbackConn;
 
 	// Output log
 	std::vector<std::string> m_outputLines;

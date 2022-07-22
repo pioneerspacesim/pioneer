@@ -225,14 +225,7 @@ void PlayerShipController::InputBinding::RegisterBindings()
 
 PlayerShipController::~PlayerShipController()
 {
-	m_toggleSpeedLimiter.disconnect();
-	m_toggleCruise.disconnect();
-	m_fireMissileKey.disconnect();
-	m_connRotationDampingToggleKey.disconnect();
-
 	Pi::input->RemoveInputFrame(&InputBindings);
-	m_connRotationDampingToggleKey.disconnect();
-	m_fireMissileKey.disconnect();
 }
 
 void PlayerShipController::SaveToJson(Json &jsonObj, Space *space)
