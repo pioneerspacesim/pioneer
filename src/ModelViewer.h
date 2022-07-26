@@ -101,6 +101,7 @@ private:
 	void DrawModelOptions();
 	void DrawModelTags();
 	void DrawTagNames();
+	void DrawModelHierarchy();
 	void DrawShipControls();
 	void DrawLog();
 	void DrawPiGui();

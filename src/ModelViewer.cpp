@@ -886,9 +886,6 @@ void ModelViewer::DrawModelSelector()
 
 void ModelViewer::DrawModelTags()
 {
-	ImGui::TextUnformatted("Model Tags:");
-	ImGui::Spacing();
-
 	const uint32_t numTags = m_model->GetNumTags();
 	if (!numTags) return;
 
@@ -913,6 +910,62 @@ void ModelViewer::DrawTagNames()
 
 	// ImGui::SetCursorPos({ 0.5f * size.x, 0.5f * size.y });
 	// ImGui::Text("%f %f %f", point.x, point.y, point.z);
+}
+
+struct NodeHierarchyVisitor : SceneGraph::NodeVisitor {
+	void DisplayNode(SceneGraph::Node &node, std::string_view nodeType)
+	{
+		const ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
+		if (nodeType.empty()) {
+			ImGui::TreeNodeEx(node.GetName().c_str(), flags);
+		} else {
+			std::string name = fmt::format("[{}] {}", nodeType, node.GetName());
+			ImGui::TreeNodeEx(name.c_str(), flags);
+		}
+	}
+
+	void DisplayGroup(SceneGraph::Group &node, std::string_view nodeType)
+	{
+		std::string name = fmt::format("[{}] {}", nodeType, node.GetName());
+		if (ImGui::TreeNodeEx(name.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			node.Traverse(*this);
+
+			ImGui::TreePop();
+		}
+	}
+
+	void ApplyNode(SceneGraph::Node &node) override
+	{
+		DisplayNode(node, "");
+	}
+
+	void ApplyGroup(SceneGraph::Group &node) override
+	{
+		DisplayGroup(node, "Group");
+	}
+
+	void ApplyMatrixTransform(SceneGraph::MatrixTransform &m) override
+	{
+		DisplayGroup(m, "MT");
+	}
+
+	void ApplyLOD(SceneGraph::LOD &l) override
+	{
+		DisplayGroup(l, "LOD");
+	}
+
+	void ApplyCollisionGeometry(SceneGraph::CollisionGeometry &cg) override
+	{
+		DisplayNode(cg, "CG");
+	}
+};
+
+void ModelViewer::DrawModelHierarchy()
+{
+	NodeHierarchyVisitor v = {};
+	m_model->GetRoot()->Accept(v);
 }
 
 void ModelViewer::DrawShipControls()
@@ -1146,7 +1199,19 @@ void ModelViewer::DrawPiGui()
 	ImGui::SetNextWindowPos({ m_windowSize.x - rightWidth, 0 });
 	ImGui::SetNextWindowSize({ rightWidth, rightDiv });
 	if (ImGui::Begin("##window-topright", nullptr, tabWindowFlags)) {
-		DrawModelTags();
+		if (ImGui::BeginTabBar("##tabbar-topright")) {
+			if (ImGui::BeginTabItem("Tags")) {
+				DrawModelTags();
+				ImGui::EndTabItem();
+			}
+
+			if (ImGui::BeginTabItem("Hierarchy")) {
+				DrawModelHierarchy();
+				ImGui::EndTabItem();
+			}
+
+			ImGui::EndTabBar();
+		}
 	}
 	ImGui::End();
 
