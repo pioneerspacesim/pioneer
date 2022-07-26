@@ -8,7 +8,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/RenderTarget.h"
 #include "graphics/Renderer.h"
-#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Tag.h"
 
 #include <algorithm>
 
@@ -148,11 +148,11 @@ vector2d ModelSpinner::GetTagPos(const char *tagName)
 		return vector2d(0);
 
 	std::string tName = tagName;
-	const SceneGraph::MatrixTransform *mt = m_model->FindTagByName(tName);
+	const SceneGraph::Tag *tagNode = m_model->FindTagByName(tName);
 
-	if (!mt)
+	if (!tagNode)
 		return vector2d(0);
 
-	vector3f screenSpace = ModelSpaceToScreenSpace(mt->GetTransform().GetTranslate());
+	vector3f screenSpace = ModelSpaceToScreenSpace(tagNode->GetGlobalTransform().GetTranslate());
 	return { screenSpace.x, m_size.y - screenSpace.y };
 }

@@ -14,7 +14,7 @@
 #include "Space.h"
 #include "collider/CollisionContact.h"
 #include "collider/CollisionSpace.h"
-#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Tag.h"
 
 CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	m_camera(camera),
@@ -66,8 +66,8 @@ static bool FillCameraPosOrient(const SceneGraph::Model *m, const char *tag, vec
 {
 	matrix3x3d fixOrient(matrix3x3d::Identity());
 
-	const SceneGraph::MatrixTransform *mt = m->FindTagByName(tag);
-	if (!mt) {
+	const SceneGraph::Tag *tagNode = m->FindTagByName(tag);
+	if (!tagNode) {
 		fixOrient = fallbackOrient;
 	} else {
 		// camera points are have +Z pointing out of the ship, X left, so we
@@ -75,7 +75,7 @@ static bool FillCameraPosOrient(const SceneGraph::Model *m, const char *tag, vec
 		// the rest of the ship. this is not a bug, but rather a convenience to
 		// modellers. it makes sense to orient the camera point in the
 		// direction the camera will face
-		trans = mt->GetTransform() * matrix4x4f::RotateYMatrix(M_PI);
+		trans = tagNode->GetGlobalTransform() * matrix4x4f::RotateYMatrix(M_PI);
 	}
 
 	pos = vector3d(trans.GetTranslate());
@@ -91,9 +91,9 @@ void InternalCameraController::Reset()
 	const SceneGraph::Model *m = GetShip()->GetModel();
 
 	matrix4x4f fallbackTransform = matrix4x4f::Translation(vector3f(0.0));
-	const SceneGraph::MatrixTransform *fallback = m->FindTagByName("tag_camera");
+	const SceneGraph::Tag *fallback = m->FindTagByName("tag_camera");
 	if (fallback)
-		fallbackTransform = fallback->GetTransform() * matrix4x4f::RotateYMatrix(M_PI);
+		fallbackTransform = fallback->GetGlobalTransform() * matrix4x4f::RotateYMatrix(M_PI);
 
 	FillCameraPosOrient(m, "tag_camera_front", m_initPos[MODE_FRONT], m_initOrient[MODE_FRONT], fallbackTransform, matrix3x3d::Identity());
 	FillCameraPosOrient(m, "tag_camera_rear", m_initPos[MODE_REAR], m_initOrient[MODE_REAR], fallbackTransform, matrix3x3d::RotateY(M_PI));

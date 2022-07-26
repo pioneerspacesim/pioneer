@@ -25,6 +25,7 @@
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/ModelSkin.h"
+#include "scenegraph/Tag.h"
 
 #include "imgui/imgui.h"
 
@@ -192,6 +193,10 @@ ModelViewer::ModelViewer(ModelViewerApp *app, LuaManager *lm) :
 	m_gridLines.reset(new Graphics::Drawables::GridLines(m_renderer));
 }
 
+ModelViewer::~ModelViewer()
+{
+}
+
 void ModelViewer::Start()
 {
 	UpdateModelList();
@@ -222,7 +227,7 @@ void ModelViewer::ToggleGuns()
 	}
 
 	m_options.attachGuns = !m_options.attachGuns;
-	SceneGraph::Model::TVecMT tags;
+	std::vector<SceneGraph::Tag *> tags;
 	m_model->FindTagsByStartOfName("tag_gun_", tags);
 	m_model->FindTagsByStartOfName("tag_gunmount_", tags);
 	if (tags.empty()) {
@@ -790,6 +795,11 @@ void ModelViewer::SetModel(const std::string &filename)
 			}
 		}
 
+		if (!m_model) {
+			AddLog(stringf("Could not load model %0", filename));
+			return;
+		}
+
 		Shields::ReparentShieldNodes(m_model.get());
 
 		//set decal textures, max 4 supported.
@@ -802,9 +812,9 @@ void ModelViewer::SetModel(const std::string &filename)
 		AddLog(d.GetModelStatistics());
 
 		// If we've got the tag_landing set then use it for an offset otherwise grab the AABB
-		const SceneGraph::MatrixTransform *mt = m_model->FindTagByName("tag_landing");
+		const SceneGraph::Tag *mt = m_model->FindTagByName("tag_landing");
 		if (mt)
-			m_landingMinOffset = mt->GetTransform().GetTranslate().y;
+			m_landingMinOffset = mt->GetGlobalTransform().GetTranslate().y;
 		else if (m_model->GetCollisionMesh())
 			m_landingMinOffset = m_model->GetCollisionMesh()->GetAabb().min.y;
 		else
@@ -904,7 +914,7 @@ void ModelViewer::DrawTagNames()
 	auto size = ImGui::GetWindowSize();
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	vector3f point = m_modelViewMat * m_selectedTag->GetTransform().GetTranslate();
+	vector3f point = m_modelViewMat * m_selectedTag->GetGlobalTransform().GetTranslate();
 	point = Graphics::ProjectToScreen(m_renderer, point);
 	ImGui::SetCursorPos({ point.x + 8.0f, size.y - point.y });
 	ImGui::TextUnformatted(m_selectedTag->GetName().c_str());
@@ -960,6 +970,11 @@ struct NodeHierarchyVisitor : SceneGraph::NodeVisitor {
 	void ApplyCollisionGeometry(SceneGraph::CollisionGeometry &cg) override
 	{
 		DisplayNode(cg, "CG");
+	}
+
+	void ApplyTag(SceneGraph::Tag &tag) override
+	{
+		DisplayNode(tag, "Tag");
 	}
 };
 
