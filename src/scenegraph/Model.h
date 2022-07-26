@@ -24,9 +24,8 @@
  *            StaticGeometry_hi
  *
  * It's not supposed to be too complex. For example there are no "Material" nodes.
- * Geometry nodes can contain multiple separate meshes. One node can be attached to
- * multiple parents to achieve a simple form of instancing, although the support for
- * this is dependanant on tools.
+ * Geometry nodes can contain multiple separate meshes. Nodes should only be attached
+ * to a single parent for consistency.
  *
  * Models are defined in a simple .model text file, which describes materials,
  * detail levels, meshes to import to each detail level and animations.
@@ -75,6 +74,7 @@ namespace SceneGraph {
 	class BinaryConverter;
 	class MatrixTransform;
 	class ModelBinarizer;
+	class Tag;
 
 	struct LoadingError : public std::runtime_error {
 		LoadingError(const std::string &str) :
@@ -83,7 +83,6 @@ namespace SceneGraph {
 
 	typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material>>> MaterialContainer;
 	typedef std::vector<Animation *> AnimationContainer;
-	typedef std::vector<MatrixTransform *> TagContainer;
 
 	class Model : public DeleteEmitter {
 	public:
@@ -115,12 +114,19 @@ namespace SceneGraph {
 		RefCountedPtr<Graphics::Material> GetMaterialByIndex(const int) const;
 		unsigned int GetNumMaterials() const { return static_cast<Uint32>(m_materials.size()); }
 
-		unsigned int GetNumTags() const { return static_cast<Uint32>(m_tags.size()); }
-		MatrixTransform *GetTagByIndex(unsigned int index) const;
-		MatrixTransform *FindTagByName(std::string_view name) const;
-		typedef std::vector<MatrixTransform *> TVecMT;
-		void FindTagsByStartOfName(std::string_view name, TVecMT &outNameMTs) const;
-		void AddTag(std::string_view name, MatrixTransform *node);
+		// Utilities for iterating the array of model tags
+		// Tag indicies should not be considered stable
+		size_t GetNumTags() const { return m_tags.size(); }
+		Tag *GetTagByIndex(size_t index) const;
+
+		// Find the given tag in the model
+		Tag *FindTagByName(std::string_view name) const;
+		void FindTagsByStartOfName(std::string_view name, std::vector<Tag *> &outTags) const;
+
+		// Add a tag to this model in the given parent
+		void AddTag(std::string_view name, Group *parent, Tag *node);
+		// Recalculate tag global transforms after e.g. animation changes
+		void UpdateTagTransforms();
 
 		const PatternContainer &GetPatterns() const { return m_patterns; }
 		unsigned int GetNumPatterns() const { return static_cast<Uint32>(m_patterns.size()); }
@@ -189,9 +195,12 @@ namespace SceneGraph {
 		RefCountedPtr<Group> m_root;
 		Graphics::Renderer *m_renderer;
 		std::string m_name;
+
 		std::vector<Animation *> m_animations;
 		uint64_t m_activeAnimations; // bitmask of actively ticking animations
-		TagContainer m_tags;		 //named attachment points
+
+		std::vector<Tag *> m_tags;		 //named attachment points
+
 		RenderData m_renderData;
 
 		//per-instance flavour data
@@ -200,6 +209,7 @@ namespace SceneGraph {
 		Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
 
 		Uint32 m_debugFlags;
+		bool m_tagsDirty;
 
 		std::unique_ptr<Graphics::MeshObject> m_debugMesh;
 		std::unique_ptr<Graphics::Material> m_debugLineMat;

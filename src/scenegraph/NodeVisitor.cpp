@@ -11,6 +11,7 @@
 #include "Node.h"
 #include "StaticGeometry.h"
 #include "Thruster.h"
+#include "Tag.h"
 
 namespace SceneGraph {
 
@@ -37,6 +38,11 @@ namespace SceneGraph {
 	void NodeVisitor::ApplyMatrixTransform(MatrixTransform &m)
 	{
 		ApplyGroup(static_cast<Group &>(m));
+	}
+
+	void NodeVisitor::ApplyTag(Tag &t)
+	{
+		ApplyMatrixTransform(static_cast<MatrixTransform &>(t));
 	}
 
 	void NodeVisitor::ApplyBillboard(Billboard &b)

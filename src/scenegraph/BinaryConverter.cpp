@@ -11,6 +11,7 @@
 #include "scenegraph/Label3D.h"
 #include "scenegraph/MatrixTransform.h"
 #include "scenegraph/Serializer.h"
+#include "scenegraph/Tag.h"
 #include "utils.h"
 
 extern "C" {
@@ -63,6 +64,7 @@ BinaryConverter::BinaryConverter(Graphics::Renderer *r) :
 	RegisterLoader("CollisionGeometry", &CollisionGeometry::Load);
 	RegisterLoader("Thruster", &Thruster::Load);
 	RegisterLoader("Label3D", &LoadLabel3D);
+	RegisterLoader("Tag", &Tag::Load);
 }
 
 void BinaryConverter::RegisterLoader(const std::string &typeName, std::function<Node *(NodeDatabase &)> func)
@@ -139,7 +141,7 @@ void BinaryConverter::Save(const std::string &filename, const std::string &savep
 		fwrite(compressedData.data(), outSize, 1, f);
 		fclose(f);
 	} catch (std::runtime_error &e) {
-		Warning("Error saving SGM model: %s\n", e.what());
+		Log::Error("Error saving SGM model: {}\n", e.what());
 		throw CouldNotWriteToFileException();
 	}
 }
@@ -162,7 +164,7 @@ Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::
 			Serializer::Reader rd(ByteRange(decompressedData.data(), decompressedData.size()));
 			model = CreateModel(name, rd);
 		} catch (std::runtime_error &e) {
-			Warning("Error loading SGM model: %s\n", e.what());
+			Log::Error("Error loading SGM model: {}\n", e.what());
 		}
 	} else {
 		void *pDecompressedData;
@@ -178,7 +180,7 @@ Model *BinaryConverter::Load(const std::string &name, RefCountedPtr<FileSystem::
 			model = CreateModel(name, rd);
 			mz_free(pDecompressedData);
 		} else {
-			Error("BinaryConverter failed to load old-style SGM called: %s", name.c_str());
+			Log::Warning("BinaryConverter failed to load old-style SGM called: {}\n", name.c_str());
 		}
 	}
 
@@ -222,13 +224,13 @@ Model *BinaryConverter::CreateModel(const std::string &filename, Serializer::Rea
 	//verify signature
 	const Uint32 sig = rd.Int32();
 	if (sig != SGM_STRING_ID.value) { //'SGM#'
-		Warning("Error whilst loading %s\nSGM versioning (%u) did not match the supported SGM STRING ID (%u)\nSGM file will be ignored\n", filename.c_str(), sig, SGM_STRING_ID.value);
+		Log::Warning("Error whilst loading {}\nSGM versioning ({}) did not match the supported SGM STRING ID ({})\nSGM file will be ignored\n", filename.c_str(), sig, SGM_STRING_ID.value);
 		return nullptr;
 	}
 
 	const Uint32 version = rd.Int32();
 	if (version != SGM_VERSION) {
-		Warning("Error whilst loading %s\nSGM versioning (%u) did not match the supported SGM_VERSION (%u)\nSGM file will be ignored\n", filename.c_str(), version, SGM_VERSION);
+		Log::Warning("Error whilst loading {}\nSGM versioning ({}) did not match the supported SGM_VERSION ({})\nSGM file will be ignored\n", filename.c_str(), version, SGM_VERSION);
 		return nullptr;
 	}
 
@@ -253,6 +255,8 @@ Model *BinaryConverter::CreateModel(const std::string &filename, Serializer::Rea
 	m_model->InitAnimations();
 	//m_model->CreateCollisionMesh();
 	if (m_patternsUsed) SetUpPatterns();
+
+	m_model->UpdateTagTransforms();
 
 	return m_model;
 }
@@ -442,7 +446,7 @@ Node *BinaryConverter::LoadNode(Serializer::Reader &rd)
 
 	//register tag nodes
 	if (nflags & NODE_TAG)
-		m_model->m_tags.push_back(static_cast<MatrixTransform *>(node));
+		m_model->m_tags.push_back(static_cast<Tag *>(node));
 
 	node->SetName(nname);
 	node->SetNodeMask(nmask);

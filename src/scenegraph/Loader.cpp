@@ -2,12 +2,16 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Loader.h"
+
+#include "Animation.h"
 #include "BinaryConverter.h"
 #include "CollisionGeometry.h"
-#include "FileSystem.h"
 #include "LOD.h"
 #include "Parser.h"
 #include "SceneGraph.h"
+#include "Tag.h"
+
+#include "FileSystem.h"
 #include "StringF.h"
 #include "core/Log.h"
 #include "graphics/RenderState.h"
@@ -16,6 +20,7 @@
 #include "scenegraph/Animation.h"
 #include "scenegraph/LoaderDefinitions.h"
 #include "utils.h"
+
 #include <assimp/material.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
@@ -309,6 +314,9 @@ namespace SceneGraph {
 		//find usable pattern textures from the model directory
 		if (patternsUsed)
 			SetUpPatterns();
+
+		// initialize tag transforms
+		m_model->UpdateTagTransforms();
 
 		return model;
 	}
@@ -863,13 +871,13 @@ namespace SceneGraph {
 			} else if (starts_with(nodename, "label_")) {
 				CreateLabel(nodename, parent, m);
 			} else if (starts_with(nodename, "tag_")) {
-				m_model->AddTag(nodename, new MatrixTransform(m_renderer, accum * m));
+				m_model->AddTag(nodename, parent, new Tag(m_renderer, m));
 			} else if (starts_with(nodename, "entrance_")) {
-				m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
+				m_model->AddTag(nodename, parent, new Tag(m_renderer, m));
 			} else if (starts_with(nodename, "loc_")) {
-				m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
+				m_model->AddTag(nodename, parent, new Tag(m_renderer, m));
 			} else if (starts_with(nodename, "exit_")) {
-				m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
+				m_model->AddTag(nodename, parent, new Tag(m_renderer, m));
 			}
 			return;
 		}

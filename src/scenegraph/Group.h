@@ -5,6 +5,7 @@
 #define _SCENEGRAPH_GROUP_H
 
 #include "Node.h"
+#include "matrix4x4.h"
 #include <vector>
 
 namespace SceneGraph {
@@ -28,6 +29,10 @@ namespace SceneGraph {
 		virtual void Render(const matrix4x4f &trans, const RenderData *rd) override;
 		virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
 		virtual Node *FindNode(const std::string &) override;
+
+		// Walk the node hierarchy to the root of the model and compute the global transform of this node.
+		// The result of this *should* be cached if the model has not changed
+		virtual matrix4x4f CalcGlobalTransform() const;
 
 	protected:
 		virtual ~Group();

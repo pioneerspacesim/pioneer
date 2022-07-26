@@ -12,4 +12,5 @@
 #include "ModelNode.h"
 #include "StaticGeometry.h"
 #include "Thruster.h"
+#include "Tag.h"
 #endif
