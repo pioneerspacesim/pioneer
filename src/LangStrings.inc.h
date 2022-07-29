@@ -1,6 +1,10 @@
 // Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#ifndef DECLARE_STRING
+#define DECLARE_STRING(_)
+#endif
+
 DECLARE_STRING(LANG_NAME)
 DECLARE_STRING(SUGGESTED_RESPONSES)
 DECLARE_STRING(SHIP)
