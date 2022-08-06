@@ -322,6 +322,18 @@ namespace SceneGraph {
 		size_t slashpos = filename.rfind("/");
 		m_curMeshDef = filename.substr(slashpos + 1, filename.length() - slashpos);
 
+		std::string_view ext = filename;
+		ext = ext.substr(ext.rfind("."));
+
+		if (ext == ".dae")
+			m_modelFormat = ModelFormat::COLLADA;
+		else if (ext == ".gltf")
+			m_modelFormat = ModelFormat::GLTF;
+		else if (ext == ".obj")
+			m_modelFormat = ModelFormat::WAVEFRONT;
+		else
+			m_modelFormat = ModelFormat::UNKNOWN;
+
 		Assimp::Importer importer;
 		importer.SetIOHandler(new AssimpFileSystem(FileSystem::gameDataFiles));
 
@@ -599,22 +611,21 @@ namespace SceneGraph {
 			//duration is calculated after adding all keys
 			//take TPS from the first animation
 			const aiAnimation *firstAnim = scene->mAnimations[0];
-			const double ticksPerSecond = firstAnim->mTicksPerSecond > 0.0 ? firstAnim->mTicksPerSecond : 24.0;
-			const double secondsPerTick = 1.0 / ticksPerSecond;
+			double ticksPerSecond = firstAnim->mTicksPerSecond > 0.0 ? firstAnim->mTicksPerSecond : 24.0;
+			double secondsPerTick = 1.0 / ticksPerSecond;
+
+			// FIXME: we assume 24 frames per second here, this should be specified in the model file
+			//Ranges are specified in frames (since that's nice) but Assimp
+			//uses seconds. This is easiest to detect from ticksPerSecond,
+			//but assuming 24 FPS here
+			//Could make FPS an additional define or always require 24
+			const double framesPerSecond = 24.0;
 
 			double start = DBL_MAX;
 			double end = -DBL_MAX;
 
-			//Ranges are specified in frames (since that's nice) but Collada
-			//uses seconds. This is easiest to detect from ticksPerSecond,
-			//but assuming 24 FPS here
-			//Could make FPS an additional define or always require 24
-			double defStart = def.start;
-			double defEnd = def.end;
-			if (is_equal_exact(ticksPerSecond, 1.0)) {
-				defStart /= 24.0;
-				defEnd /= 24.0;
-			}
+			double defStart = def.start * ticksPerSecond / framesPerSecond;
+			double defEnd = def.end * ticksPerSecond / framesPerSecond;
 
 			// Add channels to current animation if it's already present
 			// Necessary to make animations work in multiple LODs

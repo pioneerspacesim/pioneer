@@ -40,9 +40,19 @@ namespace SceneGraph {
 		const std::vector<std::string> &GetLogMessages() const { return m_logMessages; }
 
 	protected:
+		// store the format of the mesh file we're currently importing to
+		// enable importer-specific quirks/workarounds
+		enum class ModelFormat : uint8_t {
+			UNKNOWN = 0,
+			GLTF,
+			COLLADA,
+			WAVEFRONT
+		};
+
 		bool m_doLog;
 		bool m_loadSGMs;
 		bool m_mostDetailedLod;
+		ModelFormat m_modelFormat;
 		std::vector<std::string> m_logMessages;
 		std::string m_curMeshDef; //for logging
 
