@@ -827,6 +827,7 @@ void ModelViewer::SetModel(const std::string &filename)
 
 void ModelViewer::OnModelChanged()
 {
+	ResetCamera();
 	ResetThrusters();
 	m_model->SetColors(m_colors);
 
