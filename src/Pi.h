@@ -120,9 +120,9 @@ public:
 
 		bool m_noGui;
 
-		std::shared_ptr<Lifecycle> m_loader;
-		std::shared_ptr<Lifecycle> m_mainMenu;
-		std::shared_ptr<Lifecycle> m_gameLoop;
+		RefCountedPtr<Lifecycle> m_loader;
+		RefCountedPtr<Lifecycle> m_mainMenu;
+		RefCountedPtr<Lifecycle> m_gameLoop;
 	};
 
 public:

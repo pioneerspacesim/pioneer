@@ -40,7 +40,7 @@ protected:
 
 private:
 	std::string m_modelName;
-	std::shared_ptr<ModelViewer> m_modelViewer;
+	RefCountedPtr<ModelViewer> m_modelViewer;
 };
 
 class ModelViewer : public Application::Lifecycle {

@@ -256,16 +256,16 @@ void Pi::Init(const std::map<std::string, std::string> &options, bool no_gui)
 	Pi::config = new GameConfig(options);
 	m_instance = new Pi::App();
 
-	GetApp()->m_loader = std::make_shared<StartupScreen>();
-	GetApp()->m_mainMenu = std::make_shared<MainMenu>();
-	GetApp()->m_gameLoop = std::make_shared<GameLoop>();
+	GetApp()->m_loader.Reset(new StartupScreen());
+	GetApp()->m_mainMenu.Reset(new MainMenu());
+	GetApp()->m_gameLoop.Reset(new GameLoop());
 
 	m_instance->m_noGui = no_gui;
 }
 
 void Pi::App::SetStartPath(const SystemPath &startPath)
 {
-	static_cast<MainMenu *>(m_mainMenu.get())->SetStartPath(startPath);
+	static_cast<MainMenu *>(m_mainMenu.Get())->SetStartPath(startPath);
 }
 
 void TestGPUJobsSupport()
@@ -477,12 +477,12 @@ void Pi::App::Shutdown()
 
 JobSet *Pi::App::GetAsyncStartupQueue() const
 {
-	return static_cast<StartupScreen *>(m_loader.get())->asyncStartupQueue.get();
+	return static_cast<StartupScreen *>(m_loader.Get())->asyncStartupQueue.get();
 }
 
 JobSet *Pi::App::GetCurrentLoadStepQueue() const
 {
-	return static_cast<StartupScreen *>(m_loader.get())->currentStepQueue.get();
+	return static_cast<StartupScreen *>(m_loader.Get())->currentStepQueue.get();
 }
 
 // TODO: investigate constructing a DAG out of Init functions and dependencies
@@ -979,7 +979,7 @@ void GameLoop::Update(float deltaTime)
 		} else if (Pi::game->GetTime() - time_player_died > 8.0) {
 			// This also shouldn't go here, though we should evaluate to what degree
 			// Pi.cpp is involved in queuing the tombstone loop.
-			SetNextLifecycle(std::make_shared<TombstoneLoop>());
+			SetNextLifecycle(RefCountedPtr<TombstoneLoop>(new TombstoneLoop()));
 			RequestEndLifecycle();
 		}
 	}
