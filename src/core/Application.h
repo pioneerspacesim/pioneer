@@ -4,6 +4,7 @@
 #pragma once
 
 #include "core/TaskGraph.h"
+#include "RefCounted.h"
 
 #include <memory>
 #include <queue>
@@ -17,7 +18,7 @@ public:
 	Application();
 	virtual ~Application();
 
-	class Lifecycle {
+	class Lifecycle : public RefCounted {
 	public:
 		Lifecycle(){};
 		Lifecycle(bool profilerAccumulate) :
@@ -41,7 +42,7 @@ public:
 		virtual void End() {}
 
 		// Set a lifecycle that should begin immediately after this lifecycle has finished execution
-		void SetNextLifecycle(std::shared_ptr<Lifecycle> l)
+		void SetNextLifecycle(RefCountedPtr<Lifecycle> l)
 		{
 			m_nextLifecycle = l;
 		}
@@ -57,13 +58,13 @@ public:
 		// set to true when you want to accumulate all updates in a lifecycle into a single profile frame
 		bool m_profilerAccumulate = false;
 		bool m_endLifecycle = false;
-		std::shared_ptr<Lifecycle> m_nextLifecycle;
+		RefCountedPtr<Lifecycle> m_nextLifecycle;
 		Application *m_application;
 	};
 
 	// Add a lifecycle object to the queue of pending lifecycles
 	// You must add at least one lifecycle before calling Run()
-	void QueueLifecycle(std::shared_ptr<Lifecycle> cycle);
+	void QueueLifecycle(RefCountedPtr<Lifecycle> cycle);
 
 	// Use this function very sparingly (e.g. when the application is shutting down)
 	void ClearQueuedLifecycles();
@@ -111,7 +112,7 @@ protected:
 	// ignoring all queued lifecycles
 	void RequestQuit() { m_applicationRunning = false; }
 
-	Lifecycle *GetActiveLifecycle() { return m_activeLifecycle.get(); }
+	Lifecycle *GetActiveLifecycle() { return m_activeLifecycle.Get(); }
 	void SetProfilerPath(const std::string &);
 	void SetProfileSlowFrames(bool enabled) { m_doSlowProfile = enabled; }
 	void SetProfileZones(bool enabled) { m_profileZones = enabled; }
@@ -133,13 +134,13 @@ private:
 	std::string m_tempProfilePath;
 
 	// The lifecycle we're actually running right now
-	std::shared_ptr<Lifecycle> m_activeLifecycle;
+	RefCountedPtr<Lifecycle> m_activeLifecycle;
 
 	// A lifecycle that should be run next before the rest of the queue.
-	std::shared_ptr<Lifecycle> m_priorityLifecycle;
+	RefCountedPtr<Lifecycle> m_priorityLifecycle;
 
 	// Lifecycles queued by QueueLifecycle()
-	std::queue<std::shared_ptr<Lifecycle>> m_queuedLifecycles;
+	std::queue<RefCountedPtr<Lifecycle>> m_queuedLifecycles;
 
 	std::unique_ptr<SyncJobQueue> m_syncJobQueue;
 	std::unique_ptr<TaskGraph> m_taskGraph;

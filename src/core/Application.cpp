@@ -19,7 +19,7 @@ static constexpr Uint32 SYNC_JOBS_PER_LOOP = 1;
 Application::Application() {}
 Application::~Application() {}
 
-void Application::QueueLifecycle(std::shared_ptr<Lifecycle> cycle)
+void Application::QueueLifecycle(RefCountedPtr<Lifecycle> cycle)
 {
 	if (!cycle)
 		throw std::runtime_error("Invalid Lifecycle object pushed to Application queue!");
@@ -104,7 +104,7 @@ bool Application::StartLifecycle()
 	// Lifecycle objects returned from Lifecycle::End() take priority over queued objects
 	if (m_priorityLifecycle) {
 		m_activeLifecycle = m_priorityLifecycle;
-		m_priorityLifecycle = nullptr;
+		m_priorityLifecycle.Reset();
 	} else {
 		m_activeLifecycle = std::move(m_queuedLifecycles.front());
 		m_queuedLifecycles.pop();
@@ -134,7 +134,7 @@ void Application::EndLifecycle()
 	// wait until we've finished the control flow for the lifecycle;
 	// the lifecycle may decide to set the next lifecycle in End()
 	m_priorityLifecycle = m_activeLifecycle->m_nextLifecycle;
-	m_activeLifecycle = nullptr;
+	m_activeLifecycle.Reset();
 }
 
 void Application::ClearQueuedLifecycles()

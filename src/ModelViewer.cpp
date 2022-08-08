@@ -113,7 +113,7 @@ void ModelViewerApp::Startup()
 	Shields::Init(renderer);
 
 	//run main loop until quit
-	m_modelViewer = std::make_shared<ModelViewer>(this, Lua::manager);
+	m_modelViewer.Reset(new ModelViewer(this, Lua::manager));
 	if (!m_modelName.empty())
 		m_modelViewer->SetModel(m_modelName);
 
@@ -125,7 +125,7 @@ void ModelViewerApp::Startup()
 void ModelViewerApp::Shutdown()
 {
 	//uninit components
-	m_modelViewer.reset();
+	m_modelViewer.Reset();
 	Lua::Uninit();
 	Shields::Uninit();
 	NavLights::Uninit();
