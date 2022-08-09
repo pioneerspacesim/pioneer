@@ -97,8 +97,8 @@ public:
 		App() :
 			GuiApplication("Pioneer") {}
 
-		void Startup() override;
-		void Shutdown() override;
+		void OnStartup() override;
+		void OnShutdown() override;
 
 		void PreUpdate() override;
 		void PostUpdate() override;
@@ -126,6 +126,7 @@ public:
 
 public:
 	static void Init(const std::map<std::string, std::string> &options, bool no_gui = false);
+	static void Uninit();
 
 	static void StartGame(Game *game);
 

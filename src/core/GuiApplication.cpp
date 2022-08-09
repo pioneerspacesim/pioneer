@@ -169,6 +169,19 @@ void GuiApplication::HandleEvents()
 	DispatchEvents();
 }
 
+void GuiApplication::SetupProfiler(IniConfig *config)
+{
+	// Setup common profiling parameters from the config file
+	bool profileSlow   = config->Int("ProfileSlowFrames", 0);
+	bool profileZones  = config->Int("ProfilerZoneOutput", 0);
+	bool profileTraces = config->Int("ProfilerTraceOutput", 0);
+
+	SetProfilerPath("profiler/");
+	SetProfileSlowFrames(profileSlow);
+	SetProfileZones(profileZones || profileTraces);
+	SetProfileTrace(profileTraces);
+}
+
 Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden)
 {
 	PROFILE_SCOPED()

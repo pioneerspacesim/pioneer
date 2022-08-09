@@ -201,6 +201,8 @@ start:
 				Output("pioneer: writing to \"%s\" failed: %s\n", filename.c_str(), strerror(errno));
 			}
 		}
+
+		Pi::Uninit();
 		break;
 	}
 
@@ -210,7 +212,9 @@ start:
 			modelName = argv[2];
 		auto modelViewer = ModelViewerApp();
 		modelViewer.SetInitialModel(modelName);
+		modelViewer.Startup();
 		modelViewer.Run();
+		modelViewer.Shutdown();
 		break;
 	}
 

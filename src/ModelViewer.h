@@ -30,8 +30,8 @@ public:
 	std::string &GetModelName() { return m_modelName; }
 
 protected:
-	void Startup() override;
-	void Shutdown() override;
+	void OnStartup() override;
+	void OnShutdown() override;
 
 	void PreUpdate() override;
 	void PostUpdate() override;

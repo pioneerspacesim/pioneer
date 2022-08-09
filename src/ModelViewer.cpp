@@ -85,9 +85,8 @@ namespace ImGui {
 	}
 } // namespace ImGui
 
-void ModelViewerApp::Startup()
+void ModelViewerApp::OnStartup()
 {
-	Application::Startup();
 	Log::GetLog()->SetLogFile("output.txt");
 
 	std::unique_ptr<IniConfig> config(new IniConfig);
@@ -123,7 +122,7 @@ void ModelViewerApp::Startup()
 	QueueLifecycle(m_modelViewer);
 }
 
-void ModelViewerApp::Shutdown()
+void ModelViewerApp::OnShutdown()
 {
 	//uninit components
 	m_modelViewer.Reset();
@@ -135,7 +134,6 @@ void ModelViewerApp::Shutdown()
 	ShutdownPiGui();
 	ShutdownRenderer();
 	ShutdownInput();
-	Application::Shutdown();
 }
 
 void ModelViewerApp::PreUpdate()

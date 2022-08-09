@@ -69,8 +69,14 @@ public:
 	// Use this function very sparingly (e.g. when the application is shutting down)
 	void ClearQueuedLifecycles();
 
+	// Perform initialization tasks at program startup
+	void Startup();
+
 	// Runs the application as long as there is a valid lifecycle object
 	void Run();
+
+	// Perform deinitialization tasks at program termination
+	void Shutdown();
 
 	// Get the time between the start of the last update and the current one
 	float DeltaTime() { return m_deltaTime; }
@@ -88,10 +94,10 @@ protected:
 	// Hooks for inheriting classes to add their own behaviors to.
 
 	// Runs before the main loop begins
-	virtual void Startup();
+	virtual void OnStartup() {}
 
 	// Runs after the main loop ends
-	virtual void Shutdown();
+	virtual void OnShutdown() {}
 
 	// Handle running pinned tasks and processing queued jobs
 	virtual void HandleJobs();
