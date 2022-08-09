@@ -12,6 +12,8 @@
 #include "Space.h"
 #include "StringF.h"
 
+#include "core/TaskGraph.h"
+
 #include "galaxy/StarSystem.h"
 #include "galaxy/GalaxyGenerator.h"
 

@@ -99,6 +99,8 @@ public:
 	struct Handle {
 		Handle(const Handle &) = delete;
 		Handle &operator=(const Handle &) = delete;
+		Handle(Handle &&) = default;
+		Handle &operator=(Handle &&) = default;
 		bool IsComplete() { return !m_set || m_set->IsComplete(); }
 
 	private:

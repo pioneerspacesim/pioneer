@@ -4,7 +4,6 @@
 #ifndef _PI_H
 #define _PI_H
 
-#include "JobQueue.h"
 #include "Random.h"
 #include "core/GuiApplication.h"
 #include "gameconsts.h"
@@ -25,9 +24,9 @@ namespace PiGui {
 } //namespace PiGui
 
 class Game;
-
 class GameConfig;
 class Intro;
+class JobSet;
 class LuaConsole;
 class LuaNameGen;
 class LuaTimer;

@@ -7,6 +7,7 @@
 #include "OS.h"
 #include "SDL.h"
 #include "StringName.h"
+#include "TaskGraph.h"
 #include "profiler/Profiler.h"
 #include "utils.h"
 

@@ -8,12 +8,15 @@
 #include "Sound.h"
 #include "Body.h"
 #include "FileSystem.h"
+#include "JobQueue.h"
 #include "Pi.h"
 #include "Player.h"
+
 #include "SDL_audio.h"
 #include "SDL_events.h"
 #include <SDL.h>
 #include <vorbis/vorbisfile.h>
+
 #include <cassert>
 #include <cerrno>
 #include <cstdio>

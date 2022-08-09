@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include "core/TaskGraph.h"
 #include "RefCounted.h"
 
 #include <memory>
@@ -12,6 +11,7 @@
 
 class JobQueue;
 class SyncJobQueue;
+class TaskGraph;
 
 class Application {
 public:
