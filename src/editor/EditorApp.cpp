@@ -7,6 +7,9 @@
 
 #include "FileSystem.h"
 #include "ModManager.h"
+#include "ModelViewer.h"
+
+#include "argh/argh.h"
 #include "core/IniConfig.h"
 #include "graphics/Graphics.h"
 #include "lua/Lua.h"
@@ -32,6 +35,19 @@ EditorApp *EditorApp::Get()
 void EditorApp::Initialize(argh::parser &cmdline)
 {
 	// Load / register editor modules and frames here
+
+	if (cmdline[{"-mv", "--modelviewer"}]) {
+		std::string modelName;
+		cmdline({"-mv", "--modelviewer"}, "") >> modelName;
+
+		RefCountedPtr<ModelViewer> modelViewer(new ModelViewer(this, Lua::manager));
+
+		if (!modelName.empty())
+			modelViewer->SetModel(modelName);
+
+		QueueLifecycle(modelViewer);
+		return;
+	}
 }
 
 void EditorApp::AddLoadingTask(TaskSet::Handle handle)

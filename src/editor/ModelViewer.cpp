@@ -2,6 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelViewer.h"
+
+#include "EditorApp.h"
+
 #include "FileSystem.h"
 #include "GameConfig.h"
 #include "GameSaveError.h"
@@ -33,6 +36,8 @@
 
 #include "Pi.h"
 #include "scenegraph/Node.h"
+
+using namespace Editor;
 
 //default options
 ModelViewer::Options::Options() :
@@ -85,75 +90,7 @@ namespace ImGui {
 	}
 } // namespace ImGui
 
-void ModelViewerApp::OnStartup()
-{
-	Log::GetLog()->SetLogFile("output.txt");
-
-	std::unique_ptr<IniConfig> config(new IniConfig);
-	config->SetInt("ScrWidth", 1600);
-	config->SetInt("ScrHeight", 900);
-	config->SetInt("VSync", 1);
-	config->SetInt("AntiAliasingMode", 4);
-
-	Lua::Init();
-
-	ModManager::Init();
-
-	Graphics::RendererOGL::RegisterRenderer();
-
-	auto *renderer = StartupRenderer(config.get());
-	StartupInput(config.get());
-	StartupPiGui();
-
-	GetPiGui()->SetDebugStyle();
-	// precache the editor font
-	GetPiGui()->GetFont("pionillium", 13);
-
-	NavLights::Init(renderer);
-	Shields::Init(renderer);
-
-	//run main loop until quit
-	m_modelViewer.Reset(new ModelViewer(this, Lua::manager));
-	if (!m_modelName.empty())
-		m_modelViewer->SetModel(m_modelName);
-
-	m_modelViewer->ResetCamera();
-
-	QueueLifecycle(m_modelViewer);
-}
-
-void ModelViewerApp::OnShutdown()
-{
-	//uninit components
-	m_modelViewer.Reset();
-	Lua::Uninit();
-	Shields::Uninit();
-	NavLights::Uninit();
-	Graphics::Uninit();
-
-	ShutdownPiGui();
-	ShutdownRenderer();
-	ShutdownInput();
-}
-
-void ModelViewerApp::PreUpdate()
-{
-	HandleEvents();
-	GetPiGui()->NewFrame();
-}
-
-void ModelViewerApp::PostUpdate()
-{
-	GetRenderer()->ClearDepthBuffer();
-	GetPiGui()->Render();
-
-	if (GetInput()->IsKeyReleased(SDLK_F12)) {
-		GetRenderer()->FlushCommandBuffers();
-		GetRenderer()->ReloadShaders();
-	}
-}
-
-ModelViewer::ModelViewer(ModelViewerApp *app, LuaManager *lm) :
+ModelViewer::ModelViewer(EditorApp *app, LuaManager *lm) :
 	m_input(app->GetInput()),
 	m_pigui(app->GetPiGui()),
 	m_bindings(m_input),
@@ -178,6 +115,7 @@ ModelViewer::ModelViewer(ModelViewerApp *app, LuaManager *lm) :
 {
 	onModelChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnModelChanged));
 	SetupAxes();
+	ResetCamera();
 
 	Graphics::MaterialDescriptor desc;
 
@@ -197,6 +135,9 @@ ModelViewer::~ModelViewer()
 
 void ModelViewer::Start()
 {
+	NavLights::Init(m_renderer);
+	Shields::Init(m_renderer);
+
 	UpdateModelList();
 	UpdateDecalList();
 }
@@ -204,6 +145,9 @@ void ModelViewer::Start()
 void ModelViewer::End()
 {
 	ClearModel();
+
+	Shields::Uninit();
+	NavLights::Uninit();
 }
 
 void ModelViewer::ReloadModel()

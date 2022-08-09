@@ -1,8 +1,7 @@
 // Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef MODELVIEWER_H
-#define MODELVIEWER_H
+#pragma once
 
 #include "Input.h"
 #include "NavLights.h"
@@ -18,30 +17,9 @@
 
 #include <memory>
 
-class ModelViewer;
+namespace Editor {
 
-class ModelViewerApp : public GuiApplication {
-public:
-	ModelViewerApp() :
-		GuiApplication("Model Viewer")
-	{}
-
-	void SetInitialModel(std::string &modelName) { m_modelName = modelName; }
-	std::string &GetModelName() { return m_modelName; }
-
-protected:
-	void OnStartup() override;
-	void OnShutdown() override;
-
-	void PreUpdate() override;
-	void PostUpdate() override;
-
-	friend class ModelViewer;
-
-private:
-	std::string m_modelName;
-	RefCountedPtr<ModelViewer> m_modelViewer;
-};
+class EditorApp;
 
 class ModelViewer : public Application::Lifecycle {
 public:
@@ -54,7 +32,7 @@ public:
 		Bottom
 	};
 
-	ModelViewer(ModelViewerApp *app, LuaManager *l);
+	ModelViewer(EditorApp *app, LuaManager *l);
 	~ModelViewer();
 
 	void SetModel(const std::string &modelName);
@@ -212,4 +190,4 @@ private:
 	std::unique_ptr<Graphics::Drawables::GridLines> m_gridLines;
 };
 
-#endif
+} // namespace Editor

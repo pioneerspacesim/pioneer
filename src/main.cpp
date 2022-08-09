@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
-#include "ModelViewer.h"
 #include "Pi.h"
 #include "buildopts.h"
 #include "core/OS.h"
@@ -16,7 +15,6 @@
 
 enum RunMode {
 	MODE_GAME,
-	MODE_MODELVIEWER,
 	MODE_GALAXYDUMP,
 	MODE_START_AT,
 	MODE_VERSION,
@@ -46,11 +44,6 @@ extern "C" int main(int argc, char **argv)
 
 		if (modeopt == "game" || modeopt == "g") {
 			mode = MODE_GAME;
-			goto start;
-		}
-
-		if (modeopt == "modelviewer" || modeopt == "mv") {
-			mode = MODE_MODELVIEWER;
 			goto start;
 		}
 
@@ -203,18 +196,6 @@ start:
 		}
 
 		Pi::Uninit();
-		break;
-	}
-
-	case MODE_MODELVIEWER: {
-		std::string modelName;
-		if (argc > 2)
-			modelName = argv[2];
-		auto modelViewer = ModelViewerApp();
-		modelViewer.SetInitialModel(modelName);
-		modelViewer.Startup();
-		modelViewer.Run();
-		modelViewer.Shutdown();
 		break;
 	}
 
