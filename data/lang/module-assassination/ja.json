@@ -9,35 +9,35 @@
   },
   "DENY_0": {
     "description": "",
-    "message": "I'm sorry, but I don't trust you."
+    "message": "申し訳ないが、あなたは信頼できない。"
   },
   "DENY_1": {
     "description": "",
-    "message": "Come back when you have some qualifications."
+    "message": "ふさわしい能力を身につけたら戻ってきてください。"
   },
   "DENY_2": {
     "description": "",
-    "message": "I don't think you're the one I'm looking for."
+    "message": "私が探しているのはあなたではありません。"
   },
   "DENY_3": {
     "description": "",
-    "message": "You don't look like someone capable of doing what needs to be done."
+    "message": "あなたは私が求めていることをできる人のようには見えない。"
   },
   "DENY_4": {
     "description": "",
-    "message": "You are clearly not the one for this job."
+    "message": "あなたは明らかに、この仕事と釣り合う人ではない。"
   },
   "DENY_5": {
     "description": "",
-    "message": "You seem much too inexperienced to handle a contract of this importance."
+    "message": "あなたはこの重要な契約を扱うには未熟すぎます。"
   },
   "DENY_6": {
     "description": "",
-    "message": "I have never heard of you. I need someone experienced for this contract."
+    "message": "私はあなたのことを耳にしたことがありません。私はこの契約に経験者を必要としています。"
   },
   "DENY_7": {
     "description": "",
-    "message": "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+    "message": "私はあなたのような未熟な人にこの契約を任せることによって、リスクを冒すことはできない。"
   },
   "DISTANCE": {
     "description": "",
@@ -45,11 +45,11 @@
   },
   "EXCELLENT": {
     "description": "",
-    "message": "Excellent."
+    "message": "素晴らしい。"
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Wanted: Removal of {target} from the {system} system."
+    "message": "Wanted: {system} 星系からの {target} の排除"
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
@@ -57,23 +57,23 @@
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
-    "message": "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment."
+    "message": "私は {target} が依然として生きていることを知って、とても不快に感じます。言うまでもなく、あなたは支払いを受けることはできません。"
   },
   "FLAVOUR_0_FAILUREMSG2": {
     "description": "",
-    "message": "{target}'s removal was not done by you. No payment this time."
+    "message": "{target} の排除はあなたによって行われませんでした。よって、今回は支払い無し。"
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}."
+    "message": "やぁ、私は {name}。{target} を排除するために {cash} 支払う用意がある。"
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
-    "message": "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment."
+    "message": "{target} の長期休暇のニュースは有難く受け取った。見事だった。全額の支払いを開始した。"
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Someone to kill {target} from the {system} system."
+    "message": "WANTED: {system} 星系で {target} を殺害する者"
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -81,23 +81,23 @@
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
-    "message": "I hear that {target} is in good health. This pains me."
+    "message": "{target} は健康だと聞きました。これは私を苦しめます。"
   },
   "FLAVOUR_1_FAILUREMSG2": {
     "description": "",
-    "message": "{target}'s demise was not caused by you, so do not ask for payment."
+    "message": "{target} の死因はあなたが原因ではありません。そのため、私に支払いを要求しないでください。"
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "I need {target} taken out of the picture. I'll pay you {cash} to do this."
+    "message": "私は {target} を写真から取り除く必要があります。これを実行した人に {cash} 支払うつもりです。"
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
-    "message": "I am most sad to hear of {target}'s demise. You have been paid in full."
+    "message": "{target} の死去を聞いてとても悲しいです。あなたに全額支払いました。"
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{target} is tragically no longer wanted in the {system} system. Removal specialist needed."
+    "message": "{target} は {system} 星系で不必要になりました。除去専門家が必要です。"
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -105,23 +105,23 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "It is most regrettable that {target} is still alive and well. You will receive no payment as you did not complete your contract."
+    "message": "{target} が未だに健在であることはとても残念だ。契約を完了しなかったため支払いはありません。"
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
-    "message": "Contract was completed by someone else. Be faster next time!"
+    "message": "契約は他の誰かによって完了された。次はより早く!"
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "I am {name}, and I will pay you {cash} to terminate {target}."
+    "message": "私は {name} だ。私は {target} を終わらせるために {cash} 支払うつもりです。"
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "You have been paid in full for the completion of that important contract."
+    "message": "あなたは重要な契約を完了した。あなたに全額支払いました。"
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Contract killer needed to eliminate {target}."
+    "message": "{target} を排除する契約暗殺人"
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -129,23 +129,23 @@
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "You will pay for not eliminating {target}!"
+    "message": "{target} を廃除しない事に対してあなたは支払いをすることになるだろう!"
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",
-    "message": "Are you asking money for a job done by someone else? Get lost."
+    "message": "あなたは他の誰かによって行われた仕事に対して支払いを求めるのか? 消えろ。"
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "The {target} must be reduced to space dust. I'll award you {cash} to do this."
+    "message": "{target} を宇宙塵に縮める必要がある。私はこれを実行した者に {cash} を授与するつもりだ。"
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
-    "message": "{target} is dead. Here is your award."
+    "message": "{target} は死にました。あなたへの授与はここに。"
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Discreet operator needed to ensure fatal retirement of {target}."
+    "message": "{target}の致死的引退を保証する、用心深い実行者が必要。"
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -153,23 +153,23 @@
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
-    "message": "{target} is still breathing and I'm not giving money to you."
+    "message": "{target} はまだ息をしている。そして、あなたに金は渡さない。"
   },
   "FLAVOUR_4_FAILUREMSG2": {
     "description": "",
-    "message": "Retirement of {target} was done by someone else."
+    "message": "{target} の引退は他の誰かによって行われました。"
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "For {cash} we wish to encourage {target} to stop work permanently."
+    "message": "{cash} で、私達は {target} に永久に仕事をやめるよう促したい。"
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "News of {target}'s retirement delightfully obtained. Here is your money."
+    "message": "{target} の引退のニュースを喜んで手に入れました。あなたのお金はここにあります。"
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Some admirers wish {target} dead. Qualified termination experts apply within."
+    "message": "一部の崇拝者は {target} の死を望む。資格ある終了専門家の応募はこちら"
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -177,31 +177,31 @@
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
-    "message": "We found out that {target} is nonetheless operative. This saddens us."
+    "message": "私達は {target} がまだ活動していることを知りました。これにはとても悲しんでいる。"
   },
   "FLAVOUR_5_FAILUREMSG2": {
     "description": "",
-    "message": "{target} was neutralized by someone else."
+    "message": "{target} は他の誰かによって無力化されました。"
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "We wish {target} to have a fitting career end in the {system} system for {cash}."
+    "message": "私達は {cash} で {target} が {system} 星系で適切に生涯を終えることを望みます。"
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
-    "message": "Message of {target}'s ending career happily acquired. Here is your {cash}."
+    "message": "{target} の生涯終了の一報を幸せに受け取っている。ここにあなたの {cash} がある。"
   },
   "HOW_SOON_MUST_IT_BE_DONE": {
     "description": "",
-    "message": "How soon must it be done?"
+    "message": "いつまでに終えればよいか?"
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
-    "message": "How will I be paid?"
+    "message": "どのように支払われるか?"
   },
   "IT_MUST_BE_DONE_AFTER": {
     "description": "",
-    "message": "It must be done after {target} leaves {spaceport}. Do not miss this opportunity."
+    "message": "{target} が {spaceport} を出発した後にこれを実行する必要がある。この機会を逃さないように。"
   },
   "OK_AGREED": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
     "description": "",
-    "message": "Return here on the completion of the contract and you will be paid."
+    "message": "契約を完了し、ここに戻って来た時に支払われる。"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -217,7 +217,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "帰路を設定"
   },
   "SHIP": {
     "description": "",
@@ -237,11 +237,11 @@
   },
   "TARGET_NAME": {
     "description": "",
-    "message": "Target name:"
+    "message": "ターゲット:"
   },
   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
     "description": "",
-    "message": "Target will be leaving spaceport at:"
+    "message": "ターゲットはこの時刻にスペースポートを出発するだろう:"
   },
   "TITLE_0": {
     "description": "",
@@ -345,10 +345,10 @@
   },
   "WHERE_CAN_I_FIND_X": {
     "description": "",
-    "message": "Where can I find {target}?"
+    "message": "どこで {target} を見つけられるか?"
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."
+    "message": "{target} は {system} 星系 ({sectorX}, {sectorY}, {sectorZ}), 距離 {dist} ly, にある {spaceport} を {date} に出発するだろう。船は {shipname} で登録 id は {shipregid}。"
   }
 }
