@@ -357,6 +357,8 @@ if (WIN32)
 	list(APPEND winLibs shlwapi psapi)
 endif (WIN32)
 
+add_subdirectory(src/editor)
+
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(unittest LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
