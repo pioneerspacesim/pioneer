@@ -15,6 +15,8 @@
 #include "lua/Lua.h"
 #include "graphics/opengl/RendererGL.h"
 
+#include "SDL_keycode.h"
+
 using namespace Editor;
 
 EditorApp::EditorApp() :
@@ -46,6 +48,7 @@ void EditorApp::Initialize(argh::parser &cmdline)
 			modelViewer->SetModel(modelName);
 
 		QueueLifecycle(modelViewer);
+		SetAppName("ModelViewer");
 		return;
 	}
 }
@@ -53,6 +56,11 @@ void EditorApp::Initialize(argh::parser &cmdline)
 void EditorApp::AddLoadingTask(TaskSet::Handle handle)
 {
 	m_loadingTasks.emplace_back(std::move(handle));
+}
+
+void EditorApp::SetAppName(std::string_view name)
+{
+	m_appName = name;
 }
 
 void EditorApp::OnStartup()
@@ -111,6 +119,13 @@ void EditorApp::PostUpdate()
 	if (GetInput()->IsKeyReleased(SDLK_F11)) {
 		GetRenderer()->FlushCommandBuffers();
 		GetRenderer()->ReloadShaders();
+	}
+
+	bool ctrl = GetInput()->IsKeyDown(SDLK_LCTRL) || GetInput()->IsKeyDown(SDLK_RCTRL);
+	bool shift = GetInput()->IsKeyDown(SDLK_LSHIFT) || GetInput()->IsKeyDown(SDLK_RSHIFT);
+
+	if (ctrl && shift && GetInput()->IsKeyPressed(SDLK_p)) {
+		RequestProfileFrame(m_appName);
 	}
 }
 

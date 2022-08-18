@@ -27,6 +27,8 @@ namespace Editor {
 
 		void AddLoadingTask(TaskSet::Handle handle);
 
+		void SetAppName(std::string_view name);
+
 	protected:
 		void OnStartup() override;
 		void OnShutdown() override;
@@ -40,6 +42,8 @@ namespace Editor {
 	private:
 		std::vector<TaskSet::Handle> m_loadingTasks;
 		Graphics::Renderer *m_renderer;
+
+		std::string m_appName;
 	};
 
 	class LoadingPhase : public Application::Lifecycle {
@@ -54,7 +58,7 @@ namespace Editor {
 
 	private:
 		EditorApp *m_app;
-		float minRuntime = 2.f;
+		float minRuntime = 1.f;
 	};
 
 } // namespace Editor
