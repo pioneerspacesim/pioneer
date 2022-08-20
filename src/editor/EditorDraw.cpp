@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EditorDraw.h"
+#include "UndoSystem.h"
 #include "imgui/imgui.h"
 
 using namespace Editor;
@@ -31,4 +32,85 @@ bool Draw::BeginWindow(ImRect rect, const char *label, bool *open, ImGuiWindowFl
 	flags |= ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus;
 
 	return ImGui::Begin(label, open, flags);
+}
+
+bool Draw::EditFloat2(const char *label, ImVec2 *vec, float step, float step_fast, const char *format)
+{
+	bool changed = false;
+	if (Draw::LayoutHorizontal(label, 2, ImGui::GetFontSize())) {
+		changed |= ImGui::InputFloat("X", &vec->x, step, step_fast, format);
+		changed |= ImGui::InputFloat("Y", &vec->y, step, step_fast, format);
+
+		Draw::EndLayout();
+	}
+
+	return changed;
+}
+
+bool Draw::LayoutHorizontal(const char *label, int numItems, float itemLabelSize)
+{
+	float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
+	float width = ImGui::GetContentRegionAvail().x;
+
+	ImGui::TextUnformatted(label);
+	ImGui::BeginGroup();
+
+	ImGui::PushID(label);
+	ImGui::PushItemWidth((width / numItems) - itemLabelSize - spacing);
+	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Horizontal;
+
+	return true;
+}
+
+void Draw::EndLayout()
+{
+	ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Vertical;
+	ImGui::PopItemWidth();
+	ImGui::PopID();
+
+	ImGui::EndGroup();
+	ImGui::Spacing();
+}
+
+bool Draw::UndoHelper(std::string_view label, UndoSystem *undo)
+{
+	if (ImGui::IsItemDeactivated()) {
+		undo->EndEntry();
+		// Log::Info("Ending entry {}\n", label);
+	}
+
+	if (ImGui::IsItemActivated()) {
+		undo->BeginEntry(label);
+		// Log::Info("Beginning entry {}\n", label);
+		return true;
+	}
+
+	return false;
+}
+
+bool Draw::ComboUndoHelper(std::string_view entryName, const char *label, const char *preview, UndoSystem *undo)
+{
+	ImGuiID id = ImGui::GetID(entryName.data());
+	bool *opened = ImGui::GetStateStorage()->GetBoolRef(id);
+	bool append = ImGui::BeginCombo(label, preview);
+
+	if (ImGui::IsWindowAppearing()) {
+		// Log::Info("Beginning entry {}\n", entryName);
+		undo->BeginEntry(entryName);
+		*opened = true;
+	}
+
+	if (*opened && !append)
+	{
+		*opened = false;
+		undo->EndEntry();
+		// Log::Info("Ending entry {}\n", entryName);
+	}
+
+	return append;
+}
+
+bool Draw::ComboUndoHelper(std::string_view label, const char *preview, UndoSystem *undo)
+{
+	return ComboUndoHelper(label, label.data(), preview, undo);
 }
