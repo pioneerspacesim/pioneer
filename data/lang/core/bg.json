@@ -1613,11 +1613,11 @@
   },
   "TOGGLE_HUD_MODE": {
     "description": "",
-    "message": "Кабинен режим"
+    "message": "Режим кабина"
   },
   "TOGGLE_RADAR_MODE": {
     "description": "",
-    "message": "Радарен режим"
+    "message": "Режим на радара"
   },
   "TOGGLE_RADAR_VIEW": {
     "description": "Tooltip for the Radar View button",
