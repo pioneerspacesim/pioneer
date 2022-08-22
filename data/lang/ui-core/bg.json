@@ -893,7 +893,7 @@
   },
   "HUD_CRUISE_SPEED": {
     "description": "Tooltip for cruise speed indicator",
-    "message": "Крайцерска скорост"
+    "message": "Круизна скорост"
   },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
