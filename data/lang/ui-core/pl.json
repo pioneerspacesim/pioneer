@@ -961,7 +961,7 @@
   },
   "HUD_FOLLOW_POSITION": {
     "description": "Tooltip for follow mode 'position' button",
-    "message": "{targetname}: Follow position"
+    "message": "{targetname}: Kieruj się za celem"
   },
   "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
     "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
