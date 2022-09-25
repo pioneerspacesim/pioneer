@@ -202,7 +202,7 @@ end
 ---@return string?
 function CargoManager:DoLifeSupportChecks(supportLevel)
 	for name, info in pairs(self.commodities) do
-		if info.life_support > supportLevel then
+		if (info.life_support or 0) > supportLevel then
 			return name
 		end
 	end
