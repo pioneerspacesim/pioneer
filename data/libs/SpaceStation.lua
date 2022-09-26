@@ -50,6 +50,8 @@ local commodityPrice = {}
 -- the player has visited in their journey
 local stationMarket = {}
 
+local ensureStationData
+
 -- Return the target stock level for a given commodity based on whether the
 -- commodity is an import/export good at this port (based on pricemod)
 --
@@ -331,6 +333,7 @@ end
 --
 function SpaceStation:AddEquipmentStock (e, stock)
 	assert(self:exists())
+	ensureStationData(self)
 	assert(equipmentStock[self])
 
 	equipmentStock[self][e] = (equipmentStock[self][e] or 0) + stock
@@ -459,6 +462,7 @@ end
 ---@param amount integer
 function SpaceStation:AddCommodityStock(itemType, amount)
 	assert(self:exists())
+	ensureStationData(self)
 	assert(commodityStock[self])
 
 	-- update transient stocking numbers
@@ -980,6 +984,15 @@ local function createStationData (station)
 	addRandomShipAdvert(station, shipAdsToSpawn)
 
 	Event.Queue("onCreateBB", station)
+end
+
+ensureStationData = function (station)
+	if not visited[station] or not commodityStock[station] or not equipmentStock[station] then
+		logWarning("Creating station data for station " .. station.label .. " before onShipDocked event is processed for that station")
+		logVerbose(debug.dumpstack(2))
+
+		createStationData(station)
+	end
 end
 
 local function destroySystem ()
