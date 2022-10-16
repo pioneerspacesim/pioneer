@@ -843,3 +843,11 @@ void Manager::ClearMouse()
 	mouseButton.fill(0);
 	mouseMotion.fill(0);
 }
+
+float Manager::GetMoveSpeedShiftModifier()
+{
+	// Suggestion: make x1000 speed on pressing both keys?
+	if (KeyState(SDLK_LSHIFT)) return 100.f;
+	if (KeyState(SDLK_RSHIFT)) return 10.f;
+	return 1;
+}

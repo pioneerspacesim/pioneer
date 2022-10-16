@@ -659,14 +659,14 @@ bool Faction::IsCloserAndContains(double &closestFactionDist, const Sector::Syst
 	}
 }
 
-Color Faction::AdjustedColour(fixed population, bool inRange) const
+Color Faction::AdjustedColour(fixed population, bool shadow) const
 {
 	PROFILE_SCOPED()
 	Color result;
 	// Unexplored: population = -1, Uninhabited: population = 0.
 	result = population <= 0 ? BAD_FACTION_COLOUR : colour;
 	result.a = population > 0 ? (FACTION_BASE_ALPHA + (M_E + (logf(population.ToFloat() / 1.25))) / ((2 * M_E) + FACTION_BASE_ALPHA)) * 255 : FACTION_BASE_ALPHA * 255;
-	result.a = inRange ? 255 : result.a;
+	result.a = shadow ? result.a : 255;
 	return result;
 }
 

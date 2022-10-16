@@ -221,7 +221,7 @@ local function showJumpRoute()
 		smallButton(icons.search_lens, lui.CENTER_ON_SYSTEM,
 			function()
 				if selected_jump then
-					sectorView:GotoSystemPath(hyperjump_route[selected_jump].path)
+					sectorView:GetMap():GotoSystemPath(hyperjump_route[selected_jump].path)
 				end
 			end)
 

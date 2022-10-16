@@ -1221,14 +1221,6 @@ static void OnPlayerDockOrUndock()
 	Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
 }
 
-float Pi::GetMoveSpeedShiftModifier()
-{
-	// Suggestion: make x1000 speed on pressing both keys?
-	if (Pi::input->KeyState(SDLK_LSHIFT)) return 100.f;
-	if (Pi::input->KeyState(SDLK_RSHIFT)) return 10.f;
-	return 1;
-}
-
 // This absolutely ought not to be part of the Pi class
 #if 0
 static void SetVideoRecording(bool enabled)

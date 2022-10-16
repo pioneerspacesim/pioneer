@@ -801,9 +801,9 @@ void SystemView::MouseWheel(bool up)
 
 	if (m_displayMode == Mode::Orrery) {
 		if (!up)
-			m_zoomTo *= 1 / ((ZOOM_OUT_SPEED - 1) * WHEEL_SENSITIVITY + 1) / Pi::GetMoveSpeedShiftModifier();
+			m_zoomTo *= 1 / ((ZOOM_OUT_SPEED - 1) * WHEEL_SENSITIVITY + 1) / m_input.manager->GetMoveSpeedShiftModifier();
 		else
-			m_zoomTo *= ((ZOOM_IN_SPEED - 1) * WHEEL_SENSITIVITY + 1) * Pi::GetMoveSpeedShiftModifier();
+			m_zoomTo *= ((ZOOM_IN_SPEED - 1) * WHEEL_SENSITIVITY + 1) * m_input.manager->GetMoveSpeedShiftModifier();
 	} else {
 		m_atlasZoomTo -= (up ? 1.0 : -1.0) * ATLAS_SCROLL_SENS;
 	}
