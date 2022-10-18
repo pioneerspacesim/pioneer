@@ -127,7 +127,7 @@ bool CargoBody::OnCollision(Body *b, Uint32 flags, double relVel)
 {
 	// ignore collision if its about to be scooped
 	if (b->IsType(ObjectType::SHIP)) {
-		int cargoscoop_cap = Properties().Get("cargo_scoop_cap");
+		int cargoscoop_cap = b->Properties().Get("cargo_scoop_cap");
 		if (cargoscoop_cap > 0) {
 			LuaEvent::Queue("onCargoDestroyed", this);
 			return true;
