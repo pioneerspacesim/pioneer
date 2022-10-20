@@ -363,16 +363,24 @@ vector3d Propulsion::AIChangeVelDir(const vector3d &reqdiffvel)
 }
 
 // Input in object space
-void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel, const vector3d &powerLimit)
+void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel, const vector3d &powerLimit, bool ignoreZeroValues)
 {
 	double maxAccel = m_angThrust / m_dBody->GetAngularInertia();
 	double invFrameAccel = 1.0 / maxAccel / Pi::game->GetTimeStep();
 
-	vector3d diff = angvel - m_dBody->GetAngVelocity() * m_dBody->GetOrient(); // find diff between current & desired angvel
-	diff = diff * invFrameAccel;
-	diff.x = Clamp(diff.x, -powerLimit.x, powerLimit.x);
-	diff.y = Clamp(diff.y, -powerLimit.y, powerLimit.y);
-	diff.z = Clamp(diff.z, -powerLimit.z, powerLimit.z);
+	vector3d currAngVel = m_dBody->GetAngVelocity() * m_dBody->GetOrient();
+	vector3d diff;
+
+	for (int axis = 0; axis < 3; axis++) {
+
+		if (!ignoreZeroValues || abs(angvel[axis]) > 0.001) {
+			diff[axis] = (angvel[axis] - currAngVel[axis]);
+			diff[axis] = diff[axis] * invFrameAccel;
+			diff[axis] = Clamp(diff[axis], -powerLimit[axis], powerLimit[axis]);
+		} else
+			diff[axis] = 0.0;
+	}
+
 	SetAngThrusterState(diff);
 }
 

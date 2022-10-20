@@ -107,7 +107,7 @@ private:
 	struct Util;
 
 	// Poll controls, set gun states
-	void PollControls(float timeStep, const bool force_rotation_damping, int *mouseMotion, TotalDesiredAction &outParams);
+	void PollControls(float timeStep, int *mouseMotion, TotalDesiredAction &outParams);
 	// desired speed of linear and rotary movement, calculated by flight control assistance
 	void FlightAssist(const float timeStep, TotalDesiredAction &outParams);
 	// send a control request to propulsion
