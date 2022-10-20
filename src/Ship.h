@@ -343,7 +343,10 @@ public:
 	bool AIMatchVel(const vector3d &vel, const vector3d &powerLimit = vector3d(1.0)) { return m_propulsion->AIMatchVel(vel, powerLimit); }
 	double AIFaceDirection(const vector3d &dir, double av = 0) { return m_propulsion->AIFaceDirection(dir, av); }
 	void SetThrusterState(int axis, double level) { return m_propulsion->SetLinThrusterState(axis, level); }
-	void AIMatchAngVelObjSpace(const vector3d &desiredAngVel, const vector3d &powerLimit = vector3d(1.0)) { return m_propulsion->AIMatchAngVelObjSpace(desiredAngVel, powerLimit); }
+	void AIMatchAngVelObjSpace(const vector3d &desiredAngVel, const vector3d &powerLimit = vector3d(1.0), bool ignoreZeroValues = false)
+	{
+		m_propulsion->AIMatchAngVelObjSpace(desiredAngVel, powerLimit, ignoreZeroValues);
+	}
 };
 
 #endif /* _SHIP_H */

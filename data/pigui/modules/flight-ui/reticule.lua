@@ -478,7 +478,8 @@ local flightstate_info = {
 	["CONTROL_FIXHEADING_ANTINORMAL"] = { icon = icons.antinormal_thin, tooltip = lui.HUD_BUTTON_FIX_ANTINORMAL },
 	["CONTROL_FIXHEADING_RADIALLY_INWARD"] = { icon = icons.radial_in_thin, tooltip = lui.HUD_BUTTON_FIX_RADIAL_IN },
 	["CONTROL_FIXHEADING_RADIALLY_OUTWARD"] = { icon = icons.radial_out_thin, tooltip = lui.HUD_BUTTON_FIX_RADIAL_OUT },
-	["CONTROL_FIXHEADING_KILLROT"] = { icon = icons.rotation_damping_on_thin , tooltip = lui.HUD_BUTTON_KILL_ROTATION }
+	-- "CONTROL_FIXHEADING_KILLROT" uses the same icon as rotation damping on
+	["CONTROL_FIXHEADING_KILLROT"] = { icon = icons.rotation_damping_on , tooltip = lui.HUD_BUTTON_KILL_ROTATION }
 }
 
 local radial_menu_actions_orbital = {

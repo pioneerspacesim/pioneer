@@ -49,7 +49,7 @@ endif(APPLE)
 option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)
 if (CMAKE_COMPILER_IS_GNUCXX)
 	add_compile_options(
-		-fdiagnostics-color
+		-fdiagnostics-color=auto
 		-Wall
 		-Wextra
 		-Wno-unused-parameter

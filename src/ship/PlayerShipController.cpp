@@ -21,8 +21,6 @@
 #include <algorithm>
 
 // so that we can summarize the controller action from all subsystems
-// vector3d (0.0) means we want zero speed, for example, so I made optional
-// so that the system can say that it does not want to touch this parameter at all
 struct PlayerShipController::TotalDesiredAction {
 	vector3d desiredLinear = {};  // in ship's frame
 	vector3d desiredAngular = {}; // in ship's local space
@@ -30,8 +28,9 @@ struct PlayerShipController::TotalDesiredAction {
 	vector3d linPower = vector3d(1.0);
 	// true means that desiredLinear contains speed, false means thrust
 	bool desireLinVel = false;
-	// true means that desiredAngular contains speed, false means thrust
-	bool desireAngVel = false;
+	// false means that zero desireAngVel components are to be ignored 
+	// used for rotation damping off
+	bool desireAngVelFull = false;
 };
 
 // static functions with access to private class members
@@ -284,8 +283,8 @@ void PlayerShipController::FlightAssist(const float timeStep, TotalDesiredAction
 	outParams.desireLinVel = true;
 	outParams.desiredLinear = {};
 	// someone could touch the angular speed already, or not
-	if (!outParams.desireAngVel) {
-		outParams.desireAngVel = true;
+	if (!outParams.desireAngVelFull) {
+		outParams.desireAngVelFull = true;
 		outParams.desiredAngular = {};
 	}
 	vector3d &lin = outParams.desiredLinear;
@@ -468,11 +467,7 @@ void PlayerShipController::ApplyTotalAction(const TotalDesiredAction &params)
 		m_ship->m_launchLockTimeout = 0;
 	}
 
-	if (params.desireAngVel) {
-		m_ship->AIMatchAngVelObjSpace(params.desiredAngular, params.angPower);
-	} else {
-		m_ship->GetPropulsion()->SetAngThrusterState(params.desiredAngular);
-	}
+	m_ship->AIMatchAngVelObjSpace(params.desiredAngular, params.angPower, !params.desireAngVelFull);
 }
 
 void PlayerShipController::StaticUpdate(const float timeStep)
@@ -498,19 +493,22 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	if (m_ship->GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
-			PollControls(timeStep, true, mouseMotion, act);
+			PollControls(timeStep, mouseMotion, act);
 			FlightAssist(timeStep, act);
 			ApplyTotalAction(act);
 			break;
 		case CONTROL_MANUAL:
 			// maintain the thrust set by the station when undocking while the timeout lasts
 			// but only in manual mode
-			PollControls(timeStep, true, mouseMotion, act);
+			PollControls(timeStep, mouseMotion, act);
 			Util::LimitActualSpeed(*this, timeStep, act);
 			// synchronize the rotation in 'follow orient' mode
 			if (m_followTarget && m_followMode == FOLLOW_ORI) {
 				act.desiredAngular += m_followTarget->GetAngVelocity() * Pi::player->GetOrient();
 			}
+			//m_followMode == FOLLOW_ORI is when we try to match rotation speeds with a target
+			//so all axes should be matched even with rotation damping off 
+			act.desireAngVelFull = m_rotationDamping || (m_followTarget && m_followMode == FOLLOW_ORI);
 			ApplyTotalAction(act);
 			break;
 		case CONTROL_FIXHEADING_FORWARD:
@@ -520,7 +518,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 		case CONTROL_FIXHEADING_RADIALLY_INWARD:
 		case CONTROL_FIXHEADING_RADIALLY_OUTWARD:
 		case CONTROL_FIXHEADING_KILLROT:
-			PollControls(timeStep, true, mouseMotion, act);
+			PollControls(timeStep, mouseMotion, act);
 			Util::LimitActualSpeed(*this, timeStep, act);
 			v = m_ship->GetVelocity().NormalizedSafe();
 			if (m_flightControlState == CONTROL_FIXHEADING_BACKWARD ||
@@ -597,14 +595,14 @@ static double clipmouse(double cur, double inp)
 	return inp;
 }
 
-void PlayerShipController::PollControls(const float timeStep, const bool force_rotation_damping, int *mouseMotion, TotalDesiredAction &outParams)
+void PlayerShipController::PollControls(const float timeStep, int *mouseMotion, TotalDesiredAction &outParams)
 {
 	if (AreControlsLocked()) return;
 
 	const float thrustPower = (InputBindings.thrustLowPower->IsActive() ? m_lowThrustPower : 1.0f);
 	outParams.angPower.x = outParams.angPower.y = outParams.angPower.z = thrustPower;
 	// at the moment we do not work with angle thrusters directly at all
-	outParams.desireAngVel = true;
+	outParams.desireAngVelFull = true;
 
 	if (IsAnyLinearThrusterKeyDown()) {
 		if (InputBindings.thrustForward->IsActive())
@@ -688,6 +686,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 	if (InputBindings.killRot->IsActive()) SetFlightControlState(CONTROL_FIXHEADING_KILLROT);
 
 	outParams.desiredAngular = wantAngVel;
+
 	if (IsAnyAngularThrusterKeyDown()) {
 		// rotation speed limit identical to thrust power (almost)
 		// and for 100% thrust speed limit is 1 rad/s, but
