@@ -219,7 +219,7 @@ else (MSVC)
 	pkg_check_modules(SDL2 REQUIRED sdl2)
 	pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
 
-	pkg_check_modules(ASSIMP REQUIRED assimp>=5.0.1)
+	pkg_check_modules(ASSIMP REQUIRED assimp>=5.0)
 	pkg_check_modules(SIGCPP REQUIRED sigc++-2.0)
 	pkg_check_modules(VORBISFILE REQUIRED vorbisfile)
 endif (MSVC)
