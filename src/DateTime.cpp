@@ -194,9 +194,9 @@ std::string Time::DateTime::ToDateString() const
 std::string Time::DateTime::ToTimeString() const
 {
 	char buf[16];
-	int hour, minute, second;
-	GetTimeParts(&hour, &minute, &second);
-	snprintf(buf, sizeof(buf), "%02d:%02d:%02d", hour, minute, second);
+	int hour, minute, second, microsecond;
+	GetTimeParts(&hour, &minute, &second, &microsecond);
+	snprintf(buf, sizeof(buf), "%02d:%02d:%02d.%06d", hour, minute, second, microsecond);
 	return std::string(buf);
 }
 

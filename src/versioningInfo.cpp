@@ -20,7 +20,7 @@ void OutputVersioningInfo()
 {
 	SDL_version ver;
 	SDL_GetVersion(&ver);
-	Output("\n\n--------------------\n");
+	Output("--------------------\n");
 	Output("SDL Version (build) %d.%d.%d\n", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 	Output("SDL Version (dynamic) %d.%d.%d\n", ver.major, ver.minor, ver.patch);
 	const bool sameSDLVer = (SDL_MAJOR_VERSION == ver.major && SDL_MINOR_VERSION == ver.minor && SDL_PATCHLEVEL == ver.patch);
@@ -38,5 +38,6 @@ void OutputVersioningInfo()
 #endif
 
 	Output("GLEW dynamic version: %s\n", glewGetString(GLEW_VERSION));
-	Output("--------------------\n\n");
+	Output("--------------------\n");
+	Output("\n");
 }
