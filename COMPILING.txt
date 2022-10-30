@@ -57,11 +57,11 @@ questions are welcome anytime.
     libsigc++-2.0
     libsigc++-2.0-dev
     libvorbis-dev
-    libassimp-dev >= 3.2
+    libassimp-dev >= 5.0.1
     libsdl2-dev
     libsdl2-image-dev
 
-   If your platform doesn't have assimp 3.2, you'll need to build it from
+   If your platform doesn't have assimp 5, you'll need to build it from
    source. It's available in pioneer-thirdparty, see below.
 
 2. Run './bootstrap' to generate CMake build files in the 'build' folder.
@@ -123,11 +123,11 @@ questions are welcome anytime.
 3. Go to File->Open->CMake and select pioneer/CMakeLists.txt
 
 4. Select the appropriate build type (x64-Debug or x64-Release) under the configuration
-   drop down on the main toolbar, located next to the run button. 
+   drop down on the main toolbar, located next to the run button.
 
 5. Build the project (Build->Build All).
 
-6. Pioneer can be run and debugged by selecting 'pioneer.exe' on the 
+6. Pioneer can be run and debugged by selecting 'pioneer.exe' on the
    'Select Startup Item' menu (click the small down arrow on the run button), and then clicking run.
    Be sure to select 'pioneer.exe' and not 'pioneer.exe (install)'.
 
