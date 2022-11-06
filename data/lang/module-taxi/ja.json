@@ -65,7 +65,7 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Come back when you have some qualifications."
+    "message": "ふさわしい能力を身につけたら戻ってきてください。"
   },
   "DENY_2": {
     "description": "",
@@ -97,7 +97,7 @@
   },
   "EXCELLENT": {
     "description": "",
-    "message": "Excellent."
+    "message": "素晴らしい。"
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",

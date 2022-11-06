@@ -335,5 +335,6 @@ local onGameEnd = function ()
 	-- drop the references for our data so Lua can free them
 	-- and so we can start fresh if the player starts another game
 	Core.ships, Core.params = nil, nil
+	Core.log:clear()
 end
 Event.Register("onGameEnd", onGameEnd)

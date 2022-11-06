@@ -13,6 +13,7 @@ The Pioneer Developers are:
 * Alexander Noack
 * Andrew Cook
 * Andrew Copland
+* Andrzej Zięba
 * Anton Korzun
 * Antti Salonen
 * Arda Güler

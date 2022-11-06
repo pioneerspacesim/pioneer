@@ -741,27 +741,27 @@
   },
   "HUD_BUTTON_CRUISE_FORWARD": {
     "description": "Tooltip for button",
-    "message": "Forward cruise mode"
+    "message": "Режим на круиз напред"
   },
   "HUD_BUTTON_CRUISE_UP": {
     "description": "Tooltip for button",
-    "message": "Up cruise mode"
+    "message": "Режим на круиз нагоре"
   },
   "HUD_BUTTON_DISABLE_AUTOPILOT": {
     "description": "Tooltip for button",
-    "message": "Disable autopilot"
+    "message": "Автопилот"
   },
   "HUD_BUTTON_DISABLE_CRUISE": {
     "description": "Tooltip for button",
-    "message": "Disable cruise mode"
+    "message": "Режим на круиз"
   },
   "HUD_BUTTON_DISABLE_FIXHEADING": {
     "description": "Tooltip for button",
-    "message": "Disable fixheading mode"
+    "message": "Режим на насочване"
   },
   "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
     "description": "Tooltip for button",
-    "message": "Disable follow mode"
+    "message": "Режим на следване"
   },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
@@ -893,7 +893,7 @@
   },
   "HUD_CRUISE_SPEED": {
     "description": "Tooltip for cruise speed indicator",
-    "message": "Cruise speed"
+    "message": "Круизна скорост"
   },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
@@ -1061,7 +1061,7 @@
   },
   "HUD_SPEED_LIMITER_ACTIVE": {
     "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
-    "message": "Speed limiter is active"
+    "message": "Ограничителят на скоростта е включен"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1937,15 +1937,15 @@
   },
   "SET_TO_45PERCENT_OF_DELTAV": {
     "description": "For the speed limiter button",
-    "message": "Set to 45% of remaining delta-v"
+    "message": "Задаване на 45% от оставащата Δ-v"
   },
   "SET_TO_CURRENT_VELOCITY": {
     "description": "For the speed limiter button",
-    "message": "Set to current velocity"
+    "message": "Задаване на текущата скорост"
   },
   "SET_TO_ZERO": {
     "description": "For the speed limiter button",
-    "message": "Set to zero"
+    "message": "Задаване на нула"
   },
   "SHIP": {
     "description": "",
@@ -2177,7 +2177,7 @@
   },
   "TURN_OFF": {
     "description": "",
-    "message": "Turn off"
+    "message": "Изключване"
   },
   "TYPE": {
     "description": "",

@@ -605,9 +605,11 @@ local createTargetShipParameters = function (flavour)
 			end
 			if (shipdef.capacity-drive.capabilities.mass) / 10 < 1 then shipdefs[i] = nil end
 		end
-	elseif flavour.pickup_pass > 0 then
+	end
+
+	if flavour.pickup_pass > 0 then
 		for i,shipdef in pairs(shipdefs) do
-			if shipdef.capacity * 10 < flavour.pickup_pass then shipdefs[i] = nil end
+			if shipdef.slots["cabin"] < flavour.pickup_pass then shipdefs[i] = nil end
 		end
 	end
 

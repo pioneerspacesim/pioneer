@@ -5,7 +5,7 @@
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Know when to leave town"
+    "message": "街を出る時を知る"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
@@ -21,7 +21,7 @@
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-    "message": "The Road Faster Taken"
+    "message": "より速い道"
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
@@ -85,11 +85,11 @@
   },
   "RUMOUR_1_BODYTEXT": {
     "description": "",
-    "message": "Someone in the Federal Navy told me that one day, one of their corvettes accidentally jumped to a Haber outpost system about 50ly out from Sol, called Rondel; almost causing open conflict. Not many people seem to know about the incident itself outside of the navy, but some say Rondel administration has been more aggressive towards visitors since, and freight pilots started avoiding the system."
+    "message": "Federal Navy の誰かが私に言った、ある日、彼らのコルベットの1つが誤って Rondel と呼ばれる Haber のアウトポスト星系にジャンプした。Rondel はあからさまな対立を引き起こした。海軍以外の多くの人々はこの事件を知らないようだ。しかし、一部の人は Rondel 政府は事件以来訪問者に攻撃的で、貨物パイロットは星系を避け始めたと言う。"
   },
   "RUMOUR_1_HEADLINE": {
     "description": "",
-    "message": "The Rondel Incident"
+    "message": "Rondel 事件"
   },
   "TALE_1_BODYTEXT": {
     "description": "",

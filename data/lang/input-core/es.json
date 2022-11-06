@@ -53,11 +53,11 @@
   },
   "BIND_FIXHEADING_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Open Attitude Hold Radial Menu"
+    "message": "Abrir Menú Radial de Mantenimiento de Altitud"
   },
   "BIND_FLIGHT_ASSIST_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Open Flight Assist Radial Menu"
+    "message": "Abrir Menú Radial del Asistente de Vuelo"
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
@@ -121,11 +121,11 @@
   },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Left/Right"
+    "message": "Menú Radial Izquierda/Derecha"
   },
   "BIND_RADIAL_VERTICAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Up/Down"
+    "message": "Menú Radial Arriba/Abajo"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
@@ -161,7 +161,7 @@
   },
   "BIND_TOGGLE_CRUISE": {
     "description": "Descriptive name for the action binding.",
-    "message": "Toggle Cruise Mode"
+    "message": "Alternar Modo Crucero"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
@@ -177,7 +177,7 @@
   },
   "BIND_TOGGLE_SPEED_LIMITER": {
     "description": "Descriptive name for the action binding.",
-    "message": "Toggle Speed Limiter"
+    "message": "Alternar Limitador de Velocidad"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
@@ -193,7 +193,7 @@
   },
   "CONNECTED": {
     "description": "Joystick status in the list",
-    "message": "Connected"
+    "message": "Conectado"
   },
   "DIRECTION": {
     "description": "Direction",
@@ -256,7 +256,7 @@
   },
   "NOT_CONNECTED": {
     "description": "Joystick status in the list",
-    "message": "Not connected"
+    "message": "No conectado"
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",

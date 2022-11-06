@@ -17,7 +17,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Could you repeat the original request?"
+    "message": "先ほどの内容をもう一度教えてくれませんか?"
   },
   "CREW": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "DISTANCE": {
     "description": "",
-    "message": "Distance:"
+    "message": "距離:"
   },
   "ENTITY_FAMILY_BUSINESS_1": {
     "description": "",
@@ -481,7 +481,7 @@
   },
   "OK_AGREED": {
     "description": "",
-    "message": "Ok, agreed."
+    "message": "Ok, 同意した。"
   },
   "ORBIT": {
     "description": "",
@@ -677,7 +677,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "帰路を設定"
   },
   "SHIP_UNRESPONSIVE": {
     "description": "",
@@ -685,7 +685,7 @@
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "星系:"
   },
   "TARGET_SHIP_ID": {
     "description": "",

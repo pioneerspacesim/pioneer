@@ -40,9 +40,19 @@ namespace SceneGraph {
 		const std::vector<std::string> &GetLogMessages() const { return m_logMessages; }
 
 	protected:
+		// store the format of the mesh file we're currently importing to
+		// enable importer-specific quirks/workarounds
+		enum class ModelFormat : uint8_t {
+			UNKNOWN = 0,
+			GLTF,
+			COLLADA,
+			WAVEFRONT
+		};
+
 		bool m_doLog;
 		bool m_loadSGMs;
 		bool m_mostDetailedLod;
+		ModelFormat m_modelFormat;
 		std::vector<std::string> m_logMessages;
 		std::string m_curMeshDef; //for logging
 
@@ -52,11 +62,11 @@ namespace SceneGraph {
 		bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
 		matrix4x4f ConvertMatrix(const aiMatrix4x4 &) const;
 		Model *CreateModel(ModelDefinition &def);
-		RefCountedPtr<Node> LoadMesh(const std::string &filename, const AnimList &animDefs); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
+		RefCountedPtr<Node> LoadMesh(const std::string &filename, const std::vector<AnimDefinition> &animDefs); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 		void AddLog(const std::string &);
 		void CheckAnimationConflicts(const Animation *, const std::vector<Animation *> &); //detect animation overlap
 		void ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry>> &, const aiScene *); //model is only for material lookup
-		void ConvertAnimations(const aiScene *, const AnimList &, Node *meshRoot);
+		void ConvertAnimations(const aiScene *, const std::vector<AnimDefinition> &, Node *meshRoot);
 		void ConvertNodes(aiNode *node, Group *parent, std::vector<RefCountedPtr<StaticGeometry>> &meshes, const matrix4x4f &);
 		void CreateLabel(Group *parent, const matrix4x4f &);
 		void CreateThruster(const std::string &name, const matrix4x4f &nodeTrans);

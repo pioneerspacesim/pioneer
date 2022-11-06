@@ -193,7 +193,7 @@
   },
   "DISTANCE": {
     "description": "distance in space, between two locations",
-    "message": "Distance:"
+    "message": "距離:"
   },
   "ELECTRICAL_APPLIANCES": {
     "description": "custom cargo",
@@ -537,11 +537,11 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "帰路を設定"
   },
   "SPACEPORT": {
     "description": "",
-    "message": "Spaceport:"
+    "message": "スペースポート:"
   },
   "SPACESHIP_PARTS": {
     "description": "custom cargo",
@@ -573,7 +573,7 @@
   },
   "SYSTEM": {
     "description": "",
-    "message": "System:"
+    "message": "星系:"
   },
   "TARGET_DESTROYED": {
     "description": "",

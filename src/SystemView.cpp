@@ -105,7 +105,6 @@ SystemView::SystemView(Game *game) :
 SystemView::~SystemView()
 {
 	m_contacts.clear();
-	m_onMouseWheelCon.disconnect();
 }
 
 void SystemView::AccelerateTime(float step)

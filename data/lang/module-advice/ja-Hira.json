@@ -1,83 +1,83 @@
 {
   "ADVICE_10_BODYTEXT": {
     "description": "",
-    "message": "Relocating to another faction might be a good idea when in trouble with local authorities."
+    "message": "地方当局とトラブルになったとき、別の派閥に移動することは良いアイデアです。"
   },
   "ADVICE_10_HEADLINE": {
     "description": "",
-    "message": "Know when to leave town"
+    "message": "街を出る時を知る"
   },
   "ADVICE_1_BODYTEXT": {
     "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
-    "message": "As you return to a station, be wary of those alternative market places you do not recognize, and you will stay out of trouble with the law."
+    "message": "あなたがステーションに戻った時、見覚えのない市場には用心してください。そうすれば罪に問われることはないだろう。"
   },
   "ADVICE_1_HEADLINE": {
     "description": "",
-    "message": "Tame the Black Market"
+    "message": "Black Market を使いこなす"
   },
   "ADVICE_2_BODYTEXT": {
     "description": "",
-    "message": "Many small distances are faster travelled than their sum."
+    "message": "小距離移動の繰り返しは、一回の長距離移動より速い。"
   },
   "ADVICE_2_HEADLINE": {
     "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
-    "message": "The Road Faster Taken"
+    "message": "より速い道"
   },
   "ADVICE_3_BODYTEXT": {
     "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
-    "message": "Avoid jumping into uninhabited systems without the means to leave."
+    "message": "離れる手段を持たずに、無人星系にジャンプすることは避けてください。"
   },
   "ADVICE_3_HEADLINE": {
     "description": "",
-    "message": "Avoid getting stranded: plan your jump sequence ahead"
+    "message": "立往生を避ける: ジャンプの順序を前もって計画しよう"
   },
   "ADVICE_4_BODYTEXT": {
     "description": "",
-    "message": "Choose your frame of reference. Especially when wanting to match speed and course of a moving target."
+    "message": "基準系を選ぼう、特に動くターゲットに速度とコースを合わせたいときは。"
   },
   "ADVICE_4_HEADLINE": {
     "description": "",
-    "message": "It's all relative"
+    "message": "全ては相対的"
   },
   "ADVICE_5_BODYTEXT": {
     "description": "",
-    "message": "Buy low and sell high."
+    "message": "安く買い、高く売る。"
   },
   "ADVICE_5_HEADLINE": {
     "description": "",
-    "message": "Never lose money"
+    "message": "決して損しない方法"
   },
   "ADVICE_6_BODYTEXT": {
     "description": "",
-    "message": "Pay close attention to any news reported, as information can affect market prices."
+    "message": "報じられたニュースには細心の注意を払ってください。情報は市場価格に影響を与えることがあります。"
   },
   "ADVICE_6_HEADLINE": {
     "description": "",
-    "message": "Keep your ear to the ground"
+    "message": "社会の動向に耳を傾ける"
   },
   "ADVICE_7_BODYTEXT": {
     "description": "",
-    "message": "Donations can earn you a good standing in society, but not all charities will earn you a reputation."
+    "message": "寄付によって、あなたは社会的に良い立ち位置を得ることができる。しかし、全ての慈善行為があなたの評判を高めるわけではありません。"
   },
   "ADVICE_7_HEADLINE": {
     "description": "",
-    "message": "Be generous"
+    "message": "寛大に"
   },
   "ADVICE_8_BODYTEXT": {
     "description": "",
-    "message": "When journeying to binary systems, make sure to target the right star."
+    "message": "連星系に旅をするときは、必ず正しい恒星を目標にしてください。"
   },
   "ADVICE_8_HEADLINE": {
     "description": "",
-    "message": "Stay out of double trouble"
+    "message": "2重のトラブルを避ける"
   },
   "ADVICE_9_BODYTEXT": {
     "description": "",
-    "message": "Regularly maintain your engines, but remember: you get what you pay for."
+    "message": "定期的にエンジンをメンテナンスしてください。そして忘れるな: 支払いに見合った物だけを手に入れることができる。"
   },
   "ADVICE_9_HEADLINE": {
     "description": "",
-    "message": "Treat your ship well"
+    "message": "あなたの船を大切に"
   },
   "RUMOUR": {
     "description": "Headline starts with this pre-headline",
@@ -85,19 +85,19 @@
   },
   "RUMOUR_1_BODYTEXT": {
     "description": "",
-    "message": "Someone in the Federal Navy told me that one day, one of their corvettes accidentally jumped to a Haber outpost system about 50ly out from Sol, called Rondel; almost causing open conflict. Not many people seem to know about the incident itself outside of the navy, but some say Rondel administration has been more aggressive towards visitors since, and freight pilots started avoiding the system."
+    "message": "Federal Navy の誰かが私に言った、ある日、彼らのコルベットの1つが誤って、 Sol から 50ly 離れた Rondel と呼ばれる Haber のアウトポスト星系にジャンプした。Rondel はあからさまな対立を引き起こした。海軍以外の多くの人々はこの事件を知らないようだ。しかし、一部の人は Rondel 政府は事件以来訪問者に攻撃的で、貨物パイロットは星系を避け始めたと言う。"
   },
   "RUMOUR_1_HEADLINE": {
     "description": "",
-    "message": "The Rondel Incident"
+    "message": "Rondel 事件"
   },
   "TALE_1_BODYTEXT": {
     "description": "",
-    "message": "Don't miss the beautiful eclipse on New Hope as Hades blocks out the light from Epsilon Eridani."
+    "message": "Hades が Epsilon Eridani からの光を遮る New Hope での美しい日食を見逃さないで。"
   },
   "TALE_1_HEADLINE": {
     "description": "Blade runner?",
-    "message": "\"I've seen things you people wouldn't believe\""
+    "message": "\"私はあなた方が信じられないようなものを見てきた\""
   },
   "TRAVELLERS_ADVICE": {
     "description": "Headline starts with this pre-headline",

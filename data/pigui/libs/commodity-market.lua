@@ -215,12 +215,12 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 		local playerfreecargo = self.cargoMgr:GetFreeSpace()
 
 		if tradecost > playerCash then
-			wantamount = math.floor(playerCash / price)
+			wantamount =  math.min(wantamount, math.floor(playerCash / price))
 		end
 
 		local tradecargo = (self.selectedItem.mass or 1) * wantamount
 		if playerfreecargo < tradecargo then
-			wantamount = math.floor(playerfreecargo / (self.selectedItem.mass or 1))
+			wantamount = math.min(wantamount, math.floor(playerfreecargo / self.selectedItem.mass))
 		end
 		self.tradeText = l.MARKET_BUYLINE
 	else --mode = sell

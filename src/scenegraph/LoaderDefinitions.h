@@ -64,14 +64,13 @@ namespace SceneGraph {
 		double end;
 		bool loop;
 	};
-	typedef std::vector<AnimDefinition> AnimList;
 
 	struct ModelDefinition {
 		std::string name;
 		std::vector<LodDefinition> lodDefs;
 		std::vector<MaterialDefinition> matDefs;
 		std::vector<std::string> collisionDefs;
-		AnimList animDefs;
+		std::vector<AnimDefinition> animDefs;
 	};
 
 } // namespace SceneGraph

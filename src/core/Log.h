@@ -52,7 +52,7 @@ namespace Log {
 
 		FILE *file;
 		Severity m_maxSeverity = Severity::Info;
-		Severity m_maxFileSeverity = Severity::Verbose;
+		Severity m_maxFileSeverity = Severity::Debug;
 		Severity m_maxMsgSeverity = Severity::Error;
 		uint8_t current_indent;
 		std::string m_logName;
