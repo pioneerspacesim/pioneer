@@ -372,7 +372,7 @@ function SpaceStation:GetCommodityPrice(itemType)
 	local price = commodityPrice[self] and commodityPrice[self][itemType.name]
 	if price then return price end
 
-	local mul = ((100 + Game.system:GetCommodityBasePriceAlterations(itemType.name)) / 100)
+	local mul = (100 + Game.system:GetCommodityBasePriceAlterations(itemType.name)) / 100
 	return itemType.price * mul
 end
 
@@ -402,7 +402,10 @@ end
 function SpaceStation:SetCommodityPrice(itemType, price)
 	assert(self:exists())
 
-	if not commodityPrice[self] then commodityPrice[self] = {} end
+	if not commodityPrice[self] then
+		commodityPrice[self] = {}
+	end
+
 	commodityPrice[self][itemType.name] = price
 end
 
@@ -434,7 +437,7 @@ end
 function SpaceStation:GetCommodityStock(itemType)
 	assert(self:exists())
 
-	return (commodityStock[self] and commodityStock[self][itemType.name]) or 0
+	return commodityStock[self] and commodityStock[self][itemType.name] or 0
 end
 
 --
