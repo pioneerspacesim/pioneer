@@ -10,6 +10,7 @@ local StationView = require 'pigui.views.station-view'
 local Table = require 'pigui.libs.table'
 local PiImage = require 'pigui.libs.image'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
+local CommodityType= require 'CommodityType'
 
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
@@ -133,7 +134,6 @@ local function buyShip (mkt, sos)
 		return
 	end
 
-	local manifest = player:GetEquip("cargo")
 	player:AddMoney(-cost)
 
 	station:ReplaceShipOnSale(sos, {
@@ -147,12 +147,11 @@ local function buyShip (mkt, sos)
 	player:SetSkin(sos.skin)
 	if sos.pattern then player.model:SetPattern(sos.pattern) end
 	player:SetLabel(sos.label)
+
 	if def.hyperdriveClass > 0 then
 		player:AddEquip(Equipment.hyperspace["hyperdrive_" .. def.hyperdriveClass])
 	end
-	for _, e in pairs(manifest) do
-		player:AddEquip(e)
-	end
+
 	player:SetFuelPercent(100)
 	refreshShipMarket();
 

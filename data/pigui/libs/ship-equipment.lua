@@ -1,4 +1,4 @@
--- Copyright © 2008-2021 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Equipment = require 'Equipment'
@@ -80,7 +80,7 @@ end
 
 local function makeEquipmentMarket()
 return EquipMarket.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
-	itemTypes = { Equipment.cargo, Equipment.misc, Equipment.laser, Equipment.hyperspace },
+	itemTypes = { Equipment.misc, Equipment.laser, Equipment.hyperspace },
 	columnCount = 5,
 	initTable = function(self)
 		ui.setColumnWidth(0, self.style.size.x / 2.5)

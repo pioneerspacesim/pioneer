@@ -8,6 +8,7 @@ local Ship = require 'Ship'
 local ShipDef = require 'ShipDef'
 local Space = require 'Space'
 local utils = require 'utils'
+local Commodities = require 'Commodities'
 
 local Core = require 'modules.TradeShips.Core'
 local Trader = require 'modules.TradeShips.Trader'
@@ -65,19 +66,25 @@ end
 local function getImportsExports(system)
 	local import_score, export_score = 0, 0
 	local imports, exports = {}, {}
-	for key, equip in pairs(e.cargo) do
+
+	for key, commodity in pairs(Commodities) do
 		local v = system:GetCommodityBasePriceAlterations(key)
-		if key ~= "rubbish" and key ~= "radioactives" and system:IsCommodityLegal(key) then
+		local isTransportable =
+			commodity.price > 0 and
+			commodity.purchasable and
+			system:IsCommodityLegal(key)
+
+		if isTransportable then
 			-- values from SystemInfoView::UpdateEconomyTab
 
 			if v > 2 then
 				import_score = import_score + (v > 10 and 2 or 1)
-				table.insert(imports, equip)
+				table.insert(imports, commodity)
 			end
 
 			if v < -4 then
 				export_score = export_score + (v < -10 and 2 or 1)
-				table.insert(exports, equip)
+				table.insert(exports, commodity)
 			end
 		end
 	end
@@ -136,8 +143,12 @@ Flow.calculateSystemParams = function()
 	for _, ship_name in ipairs(ship_names) do
 		local dummy = Ship.Create(ship_name)
 		Trader.addEquip(dummy)
+
+		---@type CargoManager
+		local cargoMgr = dummy:GetComponent('CargoManager')
+
 		-- just fill it with hydrogen to the brim
-		dummy:AddEquip(e.cargo.hydrogen, Trader.emptySpace(dummy))
+		cargoMgr:AddCommodity(Commodities.hydrogen, cargoMgr:GetFreeSpace())
 		dummies[ship_name] = dummy
 	end
 
@@ -447,15 +458,19 @@ Flow.spawnInitialShips = function()
 		if place == "inbound" then
 			local params = utils.chooseNormalized(routes_variants)
 			local hj_route = utils.chooseEqual(hyper_routes[params.id])
+
 			local ship = Space.SpawnShip(params.id, 9, 11, {hj_route.from, params.from:GetSystemBody().path, 0.0})
 			ship:SetLabel(Ship.MakeRandomLabel())
 			Core.ships[ship] = { ts_error = "OK", status = 'inbound', starport = params.to, ship_name	= params.id}
+
 			Trader.addEquip(ship)
 			local fuel_added = Trader.addFuel(ship)
 			Trader.addCargo(ship, 'import')
+
 			if fuel_added and fuel_added > 0 then
-				ship:RemoveEquip(e.cargo.hydrogen, math.min(hj_route.fuel, fuel_added))
+				Trader.removeFuel(ship, math.min(hj_route.fuel, fuel_added))
 			end
+
 			Space.PutShipOnRoute(ship, params.to, Engine.rand:Number(0.0, 0.999))-- don't generate at the destination
 			ship:AIDockWith(params.to)
 

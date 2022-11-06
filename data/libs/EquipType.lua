@@ -11,10 +11,6 @@ local Comms = require 'Comms'
 local Game = package.core['Game']
 local Space = package.core['Space']
 
--- XXX this is kind of hacky, but we'll put up with it for now
--- Ideally we should separate out the hyperdrives into their own module
--- that can function independently of the cargo
-local cargo = {}
 local laser = {}
 local hyperspace = {}
 local misc = {}
@@ -252,7 +248,10 @@ end
 function HyperdriveType:GetRange(ship, remaining_fuel)
 	local range_max = self:GetMaximumRange(ship)
 	local fuel_max = self:GetFuelUse(ship, range_max, range_max)
-	remaining_fuel = remaining_fuel or ship:CountEquip(self.fuel)
+
+	---@type CargoManager
+	local cargoMgr = ship:GetComponent('CargoManager')
+	remaining_fuel = remaining_fuel or cargoMgr:CountCommodity(self.fuel)
 
 	if fuel_max <= remaining_fuel then
 		return range_max, range_max
@@ -305,7 +304,7 @@ function HyperdriveType:HyperjumpTo(ship, destination)
 	local warmup_time = 5 + self.capabilities.hyperclass*1.5
 
 	local sounds
-	if self.fuel == cargo.military_fuel then
+	if self.fuel.name == 'military_fuel' then
 		sounds = HYPERDRIVE_SOUNDS_MILITARY
 	else
 		sounds = HYPERDRIVE_SOUNDS_NORMAL
@@ -316,10 +315,13 @@ end
 
 function HyperdriveType:OnLeaveHyperspace(ship)
 	if ship:hasprop('nextJumpFuelUse') then
+		---@type CargoManager
+		local cargoMgr = ship:GetComponent('CargoManager')
+
 		local amount = ship.nextJumpFuelUse
-		ship:RemoveEquip(self.fuel, amount)
+		cargoMgr:RemoveCommodity(self.fuel, amount)
 		if self.byproduct then
-			ship:AddEquip(self.byproduct, amount)
+			cargoMgr:AddCommodity(self.byproduct, amount)
 		end
 		ship:unsetprop('nextJumpFuelUse')
 	end
@@ -466,7 +468,6 @@ Serializer:RegisterClass("SensorType", SensorType)
 Serializer:RegisterClass("BodyScannerType", BodyScannerType)
 
 return {
-	cargo			= cargo,
 	laser			= laser,
 	hyperspace		= hyperspace,
 	misc			= misc,

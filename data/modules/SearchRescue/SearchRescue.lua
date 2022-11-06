@@ -37,6 +37,7 @@ local Mission = require 'Mission'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
+local Commodities = require 'Commodities'
 local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Ship = require 'Ship'
@@ -296,15 +297,6 @@ end
 -- basic mission functions
 -- =======================
 
-local verifyCommodity = function (item)
-	-- Reloads the actual cargo equipment as object. Somehow that can get lost in some
-	-- setups and for some users. All commodities used for any mission flavor have to
-	-- be accounted for here.
-	if item.l10n_key == 'HYDROGEN' then
-		return Equipment.cargo.hydrogen
-	end
-end
-
 local triggerAdCreation = function ()
 	-- Return if ad should be created based on lawlessness and min/max frequency values.
 	-- Ad number per system is based on how many stations a system has so a player will
@@ -433,22 +425,12 @@ end
 
 local cargoPresent = function (ship, item)
 	-- Check if this cargo item is present on the ship.
-	local cargotype = verifyCommodity(item)  -- necessary for some users
-	if ship:CountEquip(cargotype) > 0 then
-		return true
-	else
-		return false
-	end
+	return ship:GetComponent('CargoManager'):CountCommodity(item) > 0
 end
 
 local cargoSpace = function (ship)
 	-- Check if the ship has space for additional cargo.
-	-- TODO: GetEquipFree("cargo") does not seem to work right - issue submitted.
-	if ship:GetEquipFree("cargo") > 0 then
-		return true
-	else
-		return false
-	end
+	return ship:GetComponent('CargoManager'):GetFreeSpace() > 0
 end
 
 local addCrew = function (ship, crew_member)
@@ -488,16 +470,12 @@ end
 
 local addCargo = function (ship, item)
 	-- Add a ton of the supplied cargo item to the ship.
-	if not cargoSpace(ship) then return end
-	local cargotype = verifyCommodity(item)  -- necessary for some users
-	ship:AddEquip(cargotype, 1)
+	ship:GetComponent('CargoManager'):AddCommodity(item, 1)
 end
 
 local removeCargo = function (ship, item)
 	-- Remove a ton of the supplied cargo item from the ship.
-	if not cargoPresent(ship, item) then return end
-	local cargotype = verifyCommodity(item)  -- necessary for some users
-	ship:RemoveEquip(cargotype, 1)
+	ship:GetComponent('CargoManager'):RemoveCommodity(item, 1)
 end
 
 local passEquipmentRequirements = function (requirements)
@@ -768,7 +746,7 @@ local createTargetShip = function (mission)
 	if mission.flavour.id ~= 2 and mission.flavour.id ~= 4 and mission.flavour.id ~= 5 then
 		local drive = ship:GetEquip('engine', 1)
 		local hypfuel = drive.capabilities.hyperclass ^ 2  -- fuel for max range
-		ship:AddEquip(Equipment.cargo.hydrogen, hypfuel)
+		ship:GetComponent('CargoManager'):AddCommodity(drive.fuel or Commodities.hydrogen, hypfuel)
 	end
 
 	-- load a laser
@@ -1300,7 +1278,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 	elseif flavour.id == 4 then
 		needed_fuel = math.max(math.floor(shipdef.fuelTankMass * 0.2), 1)
 	end
-	deliver_comm[Equipment.cargo.hydrogen] = needed_fuel
+	deliver_comm[Commodities.hydrogen] = needed_fuel
 
 	-- terminate ad creation if no suitable target ship could be created
 	if not shipdef then return nil end
@@ -1750,9 +1728,9 @@ local deliverCommodity = function (mission, commodity)
 			mission.deliver_comm_check[commodity] = "COMPLETE"
 
 			-- if commodity was fuel and the mission was local refuel the ship with it
-			if commodity == Equipment.cargo.hydrogen then
+			if commodity == Commodities.hydrogen then
 				if mission.flavour.id == 2 or mission.flavour.id == 4 or mission.flavour.id == 5 then
-					mission.target:Refuel(mission.deliver_comm_orig[commodity])
+					mission.target:Refuel(Commodities.hydrogen, mission.deliver_comm_orig[commodity])
 				end
 			end
 		end
@@ -2092,9 +2070,11 @@ local onShipDocked = function (ship, station)
 				-- add hydrogen for hyperjumping
 				local drive = ship:GetEquip('engine', 1)
 				if drive then
+					---@type CargoManager
+					local cargoMgr = ship:GetComponent('CargoManager')
 					local hypfuel = drive.capabilities.hyperclass ^ 2  -- fuel for max range
-					hypfuel = hypfuel - ship:CountEquip(Equipment.cargo.hydrogen)
-					ship:AddEquip(Equipment.cargo.hydrogen, hypfuel)
+					hypfuel = hypfuel - cargoMgr:CountCommodity(Commodities.hydrogen)
+					cargoMgr:AddCommodity(Commodities.hydrogen, math.max(hypfuel, 0))
 				end
 			end
 

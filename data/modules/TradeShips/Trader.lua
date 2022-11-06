@@ -8,6 +8,7 @@ local Ship = require 'Ship'
 local ShipDef = require 'ShipDef'
 local Space = require 'Space'
 local Timer = require 'Timer'
+local Commodities = require 'Commodities'
 
 local Core = require 'modules.TradeShips.Core'
 
@@ -58,15 +59,18 @@ Trader.addEquip = function (ship)
 end
 
 Trader.addCargo = function (ship, direction)
+	---@type CargoManager
+	local cargoMgr = ship:GetComponent('CargoManager')
+
 	local total = 0
-	local empty_space = math.min(ship.freeCapacity, ship:GetEquipFree("cargo"))
+	local empty_space = cargoMgr:GetFreeSpace()
 	local size_factor = empty_space / 20
 	local ship_cargo = {}
 
 	local cargoTypes = direction == 'import' and Core.params.imports or Core.params.exports
 
 	if #cargoTypes == 1 then
-		total = ship:AddEquip(cargoTypes[1], empty_space)
+		total = cargoMgr:AddCommodity(cargoTypes[1], empty_space)
 		ship_cargo[cargoTypes[1]] = total
 	elseif #cargoTypes > 1 then
 
@@ -88,7 +92,9 @@ Trader.addCargo = function (ship, direction)
 			local num = math.abs(Game.system:GetCommodityBasePriceAlterations(cargo_type.name)) * size_factor
 			num = Engine.rand:Integer(num, num * 2)
 
-			local added = ship:AddEquip(cargo_type, num)
+			local added = math.min(num, empty_space - total)
+			cargoMgr:AddCommodity(cargo_type, added)
+
 			if ship_cargo[cargo_type] == nil then
 				ship_cargo[cargo_type] = added
 			else
@@ -134,9 +140,13 @@ local getSystem = function (ship)
 	for _, next_system in ipairs(systems_in_range) do
 		if #next_system:GetStationPaths() > 0 then
 			local next_prices = 0
-			for cargo, count in pairs(ship:GetCargo()) do
-				next_prices = next_prices + (next_system:GetCommodityBasePriceAlterations(cargo.name) * count)
+			---@type CargoManager
+			local cargoMgr = ship:GetComponent('CargoManager')
+
+			for name, info in pairs(cargoMgr.commodities) do
+				next_prices = next_prices + (next_system:GetCommodityBasePriceAlterations(name) * info.count)
 			end
+
 			if next_prices > best_prices then
 				target_system, best_prices = next_system, next_prices
 			end
@@ -198,10 +208,6 @@ Trader.getSystemAndJump = function (ship)
 	end
 end
 
-Trader.emptySpace = function(ship)
-	return math.min(ship.freeCapacity, ship:GetEquipFree("cargo"))
-end
-
 local function isAtmo(starport)
 	return starport.type ~= 'STARPORT_ORBITAL' and starport.path:GetSystemBody().parent.hasAtmosphere
 end
@@ -247,12 +253,26 @@ Trader.addFuel = function (ship)
 	-- the fuel needed for max range is the square of the drive class
 	local count = drive.capabilities.hyperclass ^ 2
 
+	---@type CargoManager
+	local cargoMgr = ship:GetComponent('CargoManager')
+
 	-- account for fuel it already has
-	count = count - ship:CountEquip(e.cargo.hydrogen)
+	count = count - cargoMgr:CountCommodity(Commodities.hydrogen)
 
-	local added = ship:AddEquip(e.cargo.hydrogen, count)
+	-- don't add more fuel than the ship can hold
+	count = math.min(count, cargoMgr:GetFreeSpace())
+	cargoMgr:AddCommodity(Commodities.hydrogen, count)
 
-	return added
+	return count
+end
+
+Trader.removeFuel = function (ship, count)
+	---@type CargoManager
+	local cargoMgr = ship:GetComponent('CargoManager')
+
+	local removed = cargoMgr:RemoveCommodity(Commodities.hydrogen, count)
+
+	return removed
 end
 
 -- TRADER DEFERRED TASKS

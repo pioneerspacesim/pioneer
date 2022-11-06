@@ -3,6 +3,7 @@
 
 local Game = require 'Game'
 local Equipment = require 'Equipment'
+local Commodities = require 'Commodities'
 
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core")
@@ -110,13 +111,17 @@ end -- smallButton
 
 local function buildJumpRouteList()
 	hyperjump_route = {}
+
 	local player = Game.player
 	-- if we are not in the system, then we are in hyperspace, we start building the route from the jump target
 	local start = Game.system and Game.system.path or player:GetHyperspaceDestination()
+
 	local drive = table.unpack(player:GetEquip("engine")) or nil
-	local fuel_type = drive and drive.fuel or Equipment.cargo.hydrogen
-	local cur_fuel = player:CountEquip(fuel_type,"cargo")
+	local fuel_type = drive and drive.fuel or Commodities.hydrogen
+
+	local cur_fuel = player:GetComponent('CargoManager'):CountCommodity(fuel_type)
 	local running_fuel = 0
+
 	for jumpIndex, jump in pairs(sectorView:GetRoute()) do
 		local jump_sys = jump:GetSystemBody()
 		local _, distance, fuel, _ = player:GetHyperspaceDetails(start, jump)
@@ -304,10 +309,10 @@ function hyperJumpPlanner.display()
 		textIconSize.x = textIconSize.y -- make square
 	end
 	local drive = table.unpack(Game.player:GetEquip("engine")) or nil
-	local fuel_type = drive and drive.fuel or Equipment.cargo.hydrogen
+	local fuel_type = drive and drive.fuel or Commodities.hydrogen
 	current_system = Game.system -- will be nil during the hyperjump
 	current_path = Game.system and current_system.path -- will be nil during the hyperjump
-	current_fuel = Game.player:CountEquip(fuel_type,"cargo")
+	current_fuel = Game.player:GetComponent('CargoManager'):CountCommodity(fuel_type)
 	map_selected_path = sectorView:GetSelectedSystemPath()
 	route_jumps = sectorView:GetRouteSize()
 	showHyperJumpPlannerWindow()
@@ -317,8 +322,17 @@ function hyperJumpPlanner.setSectorView(sv)
 	sectorView = sv
 end
 
+function hyperJumpPlanner.onPlayerCargoChanged(comm, count)
+	local drive = table.unpack(Game.player:GetEquip("engine")) or nil
+	local fuel_type = drive and drive.fuel or Commodities.hydrogen
+
+	if comm.name == fuel_type.name then
+		buildJumpRouteList()
+	end
+end
+
 function hyperJumpPlanner.onShipEquipmentChanged(ship, equipment)
-	if ship:IsPlayer() and equipment and (equipment:GetName() == "Hydrogen"  or equipment:IsValidSlot("engine", ship)) then
+	if ship:IsPlayer() and equipment and equipment:IsValidSlot("engine", ship) then
 		buildJumpRouteList()
 	end
 end
@@ -333,6 +347,11 @@ function hyperJumpPlanner.onEnterSystem(ship)
 		end
 	end
 	updateHyperspaceTarget()
+end
+
+function hyperJumpPlanner.onGameStart()
+	-- get notified when the player buys hydrogen
+	Game.player:GetComponent('CargoManager'):AddListener('hyperjump-planner', hyperJumpPlanner.onPlayerCargoChanged)
 end
 
 function hyperJumpPlanner.onGameEnd()

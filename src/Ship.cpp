@@ -311,7 +311,6 @@ void Ship::SaveToJson(Json &jsonObj, Space *space)
 void Ship::InitEquipSet()
 {
 	lua_State *l = Lua::manager->GetLuaState();
-	PropertyMap &p = Properties();
 
 	LUA_DEBUG_START(l);
 
@@ -322,13 +321,7 @@ void Ship::InitEquipSet()
 	m_equipSet = es_class.Call<LuaRef>("New", slots);
 
 	UpdateEquipStats();
-	{
-		ScopedTable es(m_equipSet);
-		int usedCargo = es.CallMethod<int>("OccupiedSpace", "cargo");
-		int totalCargo = std::min(m_stats.free_capacity + usedCargo, es.CallMethod<int>("SlotSize", "cargo"));
-		p.Set("usedCargo", usedCargo);
-		p.Set("totalCargo", totalCargo);
-	}
+
 	lua_pop(l, 2);
 	LUA_DEBUG_END(l, 0);
 }
@@ -540,18 +533,15 @@ bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 	// hitting cargo scoop surface shouldn't do damage
 	int cargoscoop_cap = Properties().Get("cargo_scoop_cap");
 	if (cargoscoop_cap > 0 && b->IsType(ObjectType::CARGOBODY) && !b->IsDead()) {
-		LuaRef item = static_cast<CargoBody *>(b)->GetCargoType();
-		if (LuaObject<Ship>::CallMethod<int>(this, "AddEquip", item) > 0) { // try to add it to the ship cargo.
+		bool scooped = LuaObject<Ship>::CallMethod<bool>(this, "OnScoopCargo",
+			static_cast<CargoBody *>(b)->GetCargoType());
+
+		if (scooped) {
 			Pi::game->GetSpace()->KillBody(b);
-			if (this->IsType(ObjectType::PLAYER))
-				Pi::game->log->Add(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", ScopedTable(item).CallMethod<std::string>("GetName"))));
-			// XXX SfxManager::Add(this, TYPE_SCOOP);
-			UpdateEquipStats();
 			return true;
 		}
-		if (this->IsType(ObjectType::PLAYER))
-			Pi::game->log->Add(Lang::CARGO_SCOOP_ATTEMPTED);
 	}
+
 
 	if (b->IsType(ObjectType::PLANET)) {
 		// geoms still enabled when landed
@@ -1250,8 +1240,8 @@ void Ship::StaticUpdate(const float timeStep)
 
 	/* FUEL SCOOPING!!!!!!!!! */
 	if (m_flightState == FLYING && m_stats.fuel_scoop_cap > 0) {
-		// TODO: this should probably be in Lua instead of in C++
-		// Needs a reliable way to schedule callbacks at ship creation
+		// TODO: this isn't the cleanest, but at least it's performant and the
+		// fiddly bits are delegated to Lua
 		Frame *frame = Frame::GetFrame(GetFrame());
 		Body *astro = frame->GetBody();
 		if (astro && astro->IsType(ObjectType::PLANET)) {
@@ -1268,43 +1258,10 @@ void Ship::StaticUpdate(const float timeStep)
 				if ((m_stats.free_capacity) && (dot > 0.90) && (speed > 100.0) && (density > 0.3)) {
 					const double rate = speed * density * 0.00000333 * double(m_stats.fuel_scoop_cap);
 					if (Pi::rng.Double() < rate) {
-						lua_State *l = Lua::manager->GetLuaState();
-						pi_lua_import(l, "Equipment");
-						LuaTable hydrogen = LuaTable(l, -1).Sub("cargo").Sub("hydrogen");
-						LuaObject<Ship>::CallMethod(this, "AddEquip", hydrogen);
-						UpdateEquipStats();
-						if (this->IsType(ObjectType::PLAYER)) {
-							Pi::game->log->Add(stringf(Lang::FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED,
-								formatarg("quantity", LuaObject<Ship>::CallMethod<int>(this, "CountEquip", hydrogen))));
-						}
-						lua_pop(l, 3);
+						LuaEvent::Queue("onShipScoopFuel", this, p);
 					}
 				}
 			}
-		}
-	}
-
-	// Cargo bay life support
-	// TODO: this should be run in Lua
-	if (!m_stats.cargo_bay_life_support_cap) {
-		// Hull is pressure-sealed, it just doesn't provide
-		// temperature regulation and breathable atmosphere
-
-		// kill stuff roughly every 5 seconds
-		if ((!m_dockedWith) && (5.0 * Pi::rng.Double() < timeStep)) {
-			std::string t(Pi::rng.Int32(2) ? "live_animals" : "slaves");
-
-			lua_State *l = Lua::manager->GetLuaState();
-			pi_lua_import(l, "Equipment");
-			LuaTable cargo = LuaTable(l, -1).Sub("cargo");
-			if (LuaObject<Ship>::CallMethod<int>(this, "RemoveEquip", cargo.Sub(t))) {
-				LuaObject<Ship>::CallMethod<int>(this, "AddEquip", cargo.Sub("fertilizer"));
-				if (this->IsType(ObjectType::PLAYER)) {
-					Pi::game->log->Add(Lang::CARGO_BAY_LIFE_SUPPORT_LOST);
-				}
-				lua_pop(l, 4);
-			} else
-				lua_pop(l, 3);
 		}
 	}
 

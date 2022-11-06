@@ -18,6 +18,8 @@ void LuaTimer::RemoveAll()
 
 void LuaTimer::Tick()
 {
+	PROFILE_SCOPED()
+
 	assert(Pi::game);
 	lua_State *l = Lua::manager->GetLuaState();
 

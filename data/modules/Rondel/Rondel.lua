@@ -5,7 +5,6 @@ local Engine = require 'Engine'
 local Lang = require 'Lang'
 local Game = require 'Game'
 local Space = require 'Space'
-local cargo = require 'Commodities'
 local Comms = require 'Comms'
 local Event = require 'Event'
 local Legal = require 'Legal'
@@ -14,6 +13,7 @@ local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local SystemPath = require 'SystemPath'
 local Timer = require 'Timer'
+local Commodities = require 'Commodities'
 
 --local Character = require 'Character'
 
@@ -143,7 +143,7 @@ local onEnterSystem = function (player)
 
 	local tolerance = 1
 	local hyperdrive = Game.player:GetEquip('engine',1)
-	if hyperdrive.fuel == cargo.military_fuel then
+	if hyperdrive.fuel == Commodities.military_fuel then
 		tolerance = 0.5
 	end
 

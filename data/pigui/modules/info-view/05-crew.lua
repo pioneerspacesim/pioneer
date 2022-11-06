@@ -8,6 +8,7 @@ local Lang		= require 'Lang'
 local ShipDef	= require 'ShipDef'
 local InfoView	= require 'pigui.views.info-view'
 local PiGuiFace = require 'pigui.libs.face'
+local Commodities = require 'Commodities'
 
 local ui = require 'pigui'
 local textTable = require 'pigui.libs.text-table'
@@ -60,7 +61,11 @@ local crewTasks = {
 		local hullMassLeft = Game.player.hullMassLeft
 		local hullDamage = hullMass - hullMassLeft
 		if hullDamage > 0 then
-			if Game.player:CountEquip(Equipment.cargo.metal_alloys, "cargo") <= 0 then
+			---@type CargoManager
+			local cargoMgr = Game.player:GetComponent('CargoManager')
+			local num_metal_alloys = cargoMgr:CountCommodity(Commodities.metal_alloys)
+
+			if num_metal_alloys <= 0 then
 				return l.NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR:interp({alloy = l.METAL_ALLOYS})
 			end
 
@@ -69,9 +74,9 @@ local crewTasks = {
 				local repair = math.min(
 					-- Need metal alloys for repair. Check amount.
 					math.ceil(hullDamage/(64 - result)), -- 65 > result > 3
-					Game.player:CountEquip(Equipment.cargo.metal_alloys, "cargo")
+					num_metal_alloys
 				)
-				Game.player:RemoveEquip(Equipment.cargo.metal_alloys, repair) -- These will now be part of the hull.
+				cargoMgr:RemoveCommodity(Commodities.metal_alloys, repair) -- These will now be part of the hull.
 				local repairPercent = math.min(math.ceil(100 * (repair + hullMassLeft) / hullMass), 100) -- Get new hull percentage...
 				Game.player:SetHullPercent(repairPercent)   -- ...and set it.
 				return l.HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT:interp({name = crewMember.name,repairPercent = repairPercent})

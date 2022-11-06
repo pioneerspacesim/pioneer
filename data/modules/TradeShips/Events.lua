@@ -7,6 +7,7 @@ local Event = require 'Event'
 local Game = require 'Game'
 local ShipDef = require 'ShipDef'
 local utils = require 'utils'
+local CommodityType = require 'CommodityType'
 
 local Core = require 'modules.TradeShips.Core'
 local Flow = require 'modules.TradeShips.Flow'
@@ -30,6 +31,9 @@ local onGameStart = function ()
 			end
 			Flow.run()
 		end
+	else
+		-- Failed to init parameters for this system, just make a table to prevent further errors
+		Core.ships = Core.ships or {}
 	end
 end
 Event.Register("onGameStart", onGameStart)
@@ -131,8 +135,12 @@ local onShipDocked = function (ship, starport)
 	end
 
 	-- 'sell' trade cargo
-	for cargo, _ in pairs(ship:GetCargo()) do
-		ship:RemoveEquip(cargo, 1000000)
+	---@type CargoManager
+	local cargoMgr = ship:GetComponent('CargoManager')
+
+	for name, info in pairs(cargoMgr.commodities) do
+		local commodity = CommodityType.GetCommodity(name)
+		cargoMgr:RemoveCommodity(commodity, info.count)
 	end
 
 	local damage = ShipDef[trader.ship_name].hullMass - ship.hullMassLeft
@@ -264,12 +272,17 @@ local onShipHit = function (ship, attacker)
 	if Engine.rand:Number(1) < trader.chance then
 		local cargo_type = nil
 		local max_cap = ShipDef[ship.shipId].capacity
-		for k, v in pairs(ship:GetCargo()) do
-			if v > 1 and Engine.rand:Number(1) < v / max_cap then
-				cargo_type = k
+
+		---@type CargoManager
+		local cargoMgr = ship:GetComponent('CargoManager')
+
+		for name, info in pairs(cargoMgr.commodities) do
+			if info.count > 1 and Engine.rand:Number(1) < (info.count / max_cap) then
+				cargo_type = CommodityType.GetCommodity(name)
 				break
 			end
 		end
+
 		if cargo_type and ship:Jettison(cargo_type) then
 			Comms.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1

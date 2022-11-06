@@ -7,9 +7,10 @@ local Engine = require 'Engine'
 local Event = require 'Event'
 local Serializer = require 'Serializer'
 local ShipDef = require 'ShipDef'
-local Equipment = require 'Equipment'
 local Timer = require 'Timer'
 local Lang = require 'Lang'
+local CargoManager = require 'CargoManager'
+local CommodityType = require 'CommodityType'
 local Character = require 'Character'
 local Comms = require 'Comms'
 
@@ -20,6 +21,17 @@ local l = Lang.GetResource("ui-core")
 --
 -- Class representing a ship. Inherits from <Body>.
 --
+
+function Ship:Constructor()
+	self:SetComponent('CargoManager', CargoManager.New(self))
+
+	-- Timers cannot be started in ship constructors before Game is fully set,
+	-- so trigger a lazy event to setup gameplay timers.
+	--
+	-- TODO: this feels a little bit hacky, but it's the best way to decouple
+	-- Ship itself and "game balance" code that drags in a bunch of dependencies
+	Event.Queue('onShipCreated', self)
+end
 
 -- class method
 function Ship.MakeRandomLabel ()
@@ -85,15 +97,15 @@ end
 
 -- Method: CountEquip
 --
--- Get the number of a given equipment or cargo item in a given equipment slot
+-- Get the number of a given equipment item in a given equipment slot
 --
 -- > count = ship:CountEquip(item, slot)
 --
 -- Parameters:
 --
---   item - an Equipment type object (e.g., require 'Equipment'.cargo.hydrogen)
+--   item - an Equipment type object (e.g., require 'Equipment'.misc.radar)
 --
---   slot - the slot name (e.g., "cargo")
+--   slot - the slot name (e.g., "radar")
 --
 -- Return:
 --
@@ -114,13 +126,13 @@ end
 --
 -- Method: AddEquip
 --
--- Add an equipment or cargo item to its appropriate equipment slot
+-- Add an equipment item to its appropriate equipment slot
 --
 -- > num_added = ship:AddEquip(item, count, slot)
 --
 -- Parameters:
 --
---   item  - an Equipment type object (e.g., require 'Equipment'.cargo.hydrogen)
+--   item  - an Equipment type object (e.g., require 'Equipment'.misc.radar)
 --
 --   count - optional. The number of this item to add. Defaults to 1.
 --
@@ -133,7 +145,7 @@ end
 --
 -- Example:
 --
--- > ship:AddEquip(Equipment.cargo.animal_meat, 10)
+-- > ship:AddEquip(Equipment.misc.cabin, 10)
 -- > ship:AddEquip(Equipment.laser.pulsecannon_dual_1mw, 1, "laser_rear")
 --
 -- Availability:
@@ -162,7 +174,7 @@ end
 --
 -- Parameters:
 --
---   slot  - a slot name string (e.g., "cargo")
+--   slot  - a slot name string (e.g., "autopilot")
 --
 --   index - optional. The equipment position in the slot to fetch. If
 --           specified the item at that position in the slot will be returned,
@@ -201,7 +213,7 @@ end
 --
 -- Parameters:
 --
---   slot - a slot name (e.g., "cargo")
+--   slot - a slot name (e.g., "autopilot")
 --
 -- Return:
 --
@@ -255,13 +267,13 @@ end
 --
 -- Method: RemoveEquip
 --
--- Remove one or more of a given equipment type from its appropriate cargo slot
+-- Remove one or more of a given equipment type from its appropriate equipment slot
 --
 -- > num_removed = ship:RemoveEquip(item, count, slot)
 --
 -- Parameters:
 --
---   item - an equipment type object (e.g., Equipment.cargo.hydrogen)
+--   item - an equipment type object (e.g., Equipment.misc.autopilot)
 --
 --   count - optional. The number of this item to remove. Defaults to 1.
 --
@@ -290,36 +302,6 @@ Ship.RemoveEquip = function (self, item, count, slot)
 		Event.Queue("onShipEquipmentChanged", self, item)
 	end
 	return ret
-end
-
---
--- Method: GetCargo
---
--- Build a table that maps the names of stored cargo items to the quantity of
--- the items stored in the ship.
---
--- > cargo = ship:GetCargo()
---
--- Return:
---
--- The table that maps the names of stored cargo items to the quantity of
--- the items stored in the ship.
---
--- Availability:
---
---  2021
---
--- Status:
---
---  experimental
---
-function Ship:GetCargo()
-	local count = {}
-	for _, et in pairs(self:GetEquip("cargo")) do
-		if not count[et] then count[et] = 0 end
-		count[et] = count[et]+1
-	end
-	return count
 end
 
 --
@@ -460,13 +442,18 @@ Ship.GetHyperspaceDetails = function (self, source, destination)
 	elseif source:IsSameSystem(destination) then
 		return "CURRENT_SYSTEM", 0, 0, 0
 	end
+
 	local distance, fuel, duration = engine:CheckJump(self, source, destination)
 	local status = "OK"
+
+	---@type CargoManager
+	local cargoMgr = self:GetComponent('CargoManager')
+
 	if not duration then
 		duration = 0
 		fuel = 0
 		status = "OUT_OF_RANGE"
-	elseif fuel > self:CountEquip(engine.fuel) then
+	elseif fuel > cargoMgr:CountCommodity(engine.fuel) then
 		status = "INSUFFICIENT_FUEL"
 	end
 	return status, distance, fuel, duration
@@ -605,7 +592,8 @@ end
 --
 -- Parameters:
 --
---   amount - the amount of fuel (in tons) to take from the cargo
+--   fuelType - the type of fuel to remove from the cargo hold.
+--   amount   - the amount of fuel (in tons) to take from the cargo
 --
 -- Result:
 --
@@ -619,15 +607,19 @@ end
 --
 --   experimental
 --
-Ship.Refuel = function (self,amount)
-	local currentFuel = self.fuel
-	if currentFuel == 100 then
-		Comms.Message(l.FUEL_TANK_FULL) -- XXX don't translate in libs
-		return 0
-	end
+---@param fuelType CommodityType
+---@param amount integer
+function Ship:Refuel(fuelType, amount)
+	if self.fuel == 100 then return 0 end -- tank is completely full
+
+	---@type CargoManager
+	local cargoMgr = self:GetComponent('CargoManager')
+
 	local fuelTankMass = ShipDef[self.shipId].fuelTankMass
 	local needed = math.clamp(math.floor(fuelTankMass - self.fuelMassLeft), 0, amount)
-	local removed = self:RemoveEquip(Equipment.cargo.hydrogen, needed)
+	needed = math.min(needed, cargoMgr:CountCommodity(fuelType))
+
+	local removed = cargoMgr:RemoveCommodity(fuelType, needed)
 	self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / fuelTankMass, 0, 100))
 	return removed
 end
@@ -644,7 +636,7 @@ end
 --
 -- Parameters:
 --
---   item - an equipment type object (e.g., Equipment.cargo.radioactives)
+--   item - a commodity type object (e.g., Commodity.radioactives)
 --          specifying the type of item to jettison.
 --
 -- Result:
@@ -660,21 +652,60 @@ end
 --
 --   experimental
 --
-Ship.Jettison = function (self,equip)
+---@param cargoType CommodityType
+function Ship:Jettison(cargoType)
 	if self.flightState ~= "FLYING" and self.flightState ~= "DOCKED" and self.flightState ~= "LANDED" then
 		return false
 	end
-	if self:RemoveEquip(equip, 1) < 1 then
+
+	---@type CargoManager
+	local cargoMgr = self:GetComponent('CargoManager')
+	if cargoMgr:RemoveCommodity(cargoType, 1) < 1 then
 		return false
 	end
+
 	if self.flightState == "FLYING" then
-		self:SpawnCargo(equip)
-		Event.Queue("onJettison", self, equip)
+		self:SpawnCargo(cargoType)
+		Event.Queue("onJettison", self, cargoType)
 	elseif self.flightState == "DOCKED" then
-		Event.Queue("onCargoUnload", self:GetDockedWith(), equip)
+		Event.Queue("onCargoUnload", self:GetDockedWith(), cargoType)
 	elseif self.flightState == "LANDED" then
-		Event.Queue("onCargoUnload", self.frameBody, equip)
+		Event.Queue("onCargoUnload", self.frameBody, cargoType)
 	end
+end
+
+--
+-- Method: OnScoopCargo
+--
+-- Function triggered from C++ to handle scooping a cargo body.
+--
+-- Triggers the <onShipScoopCargo> event when an attempt is made
+-- to scoop the cargo into the ship's hold.
+--
+-- Returns true if the body was successfully scooped.
+--
+function Ship:OnScoopCargo(cargoType)
+	---@type CargoManager
+	local cargoMgr = self:GetComponent('CargoManager')
+
+	if cargoType:Class() ~= CommodityType then
+		return false
+	end
+
+	-- Rate-limit scooping to avoid triggering hundreds of events
+	-- if the cargo hold is full
+	local lastScoop = self:hasprop('last_scoop_time') and self.last_scoop_time or 0
+	if Game.time - lastScoop < 0.5 then
+		return false
+	else
+		self:setprop('last_scoop_time', Game.time)
+	end
+
+	local success = cargoMgr:AddCommodity(cargoType, 1)
+
+	Event.Queue('onShipScoopCargo', self, success, cargoType)
+
+	return success
 end
 
 --
@@ -941,9 +972,15 @@ local onShipDestroyed = function (ship, attacker)
 	end
 end
 
+-- Reinitialize cargo-related ship properties when changing ship type
+local onShipTypeChanged = function (ship)
+	ship:GetComponent('CargoManager'):OnShipTypeChanged()
+end
+
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
+Event.Register("onShipTypeChanged", onShipTypeChanged)
 Serializer:Register("ShipClass", serialize, unserialize)
 
 return Ship
