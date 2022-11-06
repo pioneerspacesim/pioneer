@@ -1088,10 +1088,6 @@ static int l_pigui_text_colored(lua_State *l)
 static int l_pigui_get_axisbinding(lua_State *l)
 {
 	PROFILE_SCOPED()
-	if (!Pi::input->IsJoystickEnabled()) {
-		lua_pushnil(l);
-		return 1;
-	}
 
 	// Escape is used to clear an existing binding
 	// io.KeysDown uses scancodes, but we want to use keycodes.
@@ -1099,6 +1095,11 @@ static int l_pigui_get_axisbinding(lua_State *l)
 		LuaPush(l, true);
 		lua_pushnil(l);
 		return 2;
+	}
+
+	if (!Pi::input->IsJoystickEnabled()) {
+		lua_pushnil(l);
+		return 1;
 	}
 
 	// otherwise actually check the joystick

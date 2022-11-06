@@ -529,8 +529,12 @@ void pi_lua_generic_push(lua_State *l, InputBindings::JoyAxis axis)
 
 void pi_lua_generic_pull(lua_State *l, int index, InputBindings::JoyAxis &out)
 {
-	if (!lua_istable(l, index))
+	if (!lua_istable(l, index)) {
+		out.joystickId = 0;
+		out.axis = 0;
+		out.direction = 0;
 		return;
+	}
 
 	LuaTable axisTab(l, index);
 	out.joystickId = axisTab.Get<int>("joystick");
@@ -601,7 +605,11 @@ void pi_lua_generic_push(lua_State *l, InputBindings::KeyChord chord)
 
 void pi_lua_generic_pull(lua_State *l, int index, InputBindings::KeyChord &out)
 {
-	if (!lua_istable(l, index)) return;
+	if (!lua_istable(l, index)) {
+		out = {};
+		return;
+	}
+
 	LuaTable chordTab(l, index);
 	if (!chordTab.Get<bool>("enabled"))
 		return;
