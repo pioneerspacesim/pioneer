@@ -453,9 +453,6 @@
     <ClCompile Include="..\..\src\lua\LuaPlayer.cpp">
       <Filter>src\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\lua\LuaPropertiedObject.cpp">
-      <Filter>src\Lua</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\lua\LuaRand.cpp">
       <Filter>src\Lua</Filter>
     </ClCompile>
@@ -502,9 +499,6 @@
       <Filter>src\Lua</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\lua\LuaVector2.cpp">
-      <Filter>src\Lua</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\lua\PropertyMap.cpp">
       <Filter>src\Lua</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\lua\core\Import.cpp">
@@ -590,6 +584,21 @@
     </ClCompile>
     <ClCompile Include="..\..\src\core\TaskGraph.cpp">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lua\core\Debug.cpp">
+      <Filter>src\Lua\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BodyComponent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\Property.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\StringName.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\lua\LuaPropertyMap.cpp">
+      <Filter>src\Lua</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1070,9 +1079,6 @@
     <ClInclude Include="..\..\src\lua\PropertiedObject.h">
       <Filter>src\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\lua\PropertyMap.h">
-      <Filter>src\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\lua\core\CoreFwdDecl.h">
       <Filter>src\Lua\Core</Filter>
     </ClInclude>
@@ -1156,6 +1162,33 @@
     </ClInclude>
     <ClInclude Include="..\..\src\core\TypeId.h">
       <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BodyComponent.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ConnectionTicket.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Easing.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\FloatComparison.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GameSaveError.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\HeatGradientPar.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\Property.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\core\StringName.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\lua\LuaPropertyMap.h">
+      <Filter>src\Lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
