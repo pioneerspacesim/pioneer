@@ -194,12 +194,11 @@ bool FixedGuns::Fire(int num, Body *b)
 	m_temperature_stat[num] += m_gun[num].temp_heat_rate;
 	m_recharge_stat[num] = m_gun[num].recharge;
 
-	const matrix3x3d leadRot = m_shouldUseLeadCalc ? Quaterniond(m_currentLeadDir).ToMatrix3x3<double>() : matrix3x3d::Identity();
-
 	const int maxBarrels = std::min(size_t(m_gun[num].dual ? 2 : 1), m_gun[num].locs.size());
 
 	for (int iBarrel = 0; iBarrel < maxBarrels; iBarrel++) {
-		const vector3d dir = (b->GetOrient() * leadRot * vector3d(m_gun[num].locs[iBarrel].dir)).Normalized();
+		//m_currentLeadDir already points in direction to shoot - corrected with aim assist if near the crosshair
+		const vector3d dir = b->GetOrient() * (m_shouldUseLeadCalc ? m_currentLeadDir : vector3d(m_gun[num].locs[iBarrel].dir));
 		const vector3d pos = b->GetOrient() * vector3d(m_gun[num].locs[iBarrel].pos) + b->GetPosition();
 
 		if (m_gun[num].projData.beam) {
@@ -242,6 +241,7 @@ void FixedGuns::UpdateLead(float timeStep, int num, Body *ship, Body *target)
 	assert(num < GUNMOUNT_MAX);
 	const vector3d forwardVector = num == GUN_REAR ? vector3d(0, 0, 1) : vector3d(0, 0, -1);
 	m_targetLeadPos = forwardVector;
+	m_firingSolutionOk = false;
 
 	if (!target) {
 		m_currentLeadDir = forwardVector;
@@ -255,21 +255,60 @@ void FixedGuns::UpdateLead(float timeStep, int num, Body *ship, Body *target)
 
 	// don't calculate lead if there's no gun there
 	if (m_gun_present[num] && projspeed > 0) {
-		const vector3d targvel = target->GetVelocityRelTo(ship) * ship->GetOrient();
-		vector3d leadpos = targpos + targvel * (targpos.Length() / projspeed);
-		leadpos = targpos + targvel * (leadpos.Length() / projspeed); // second order approx
+		if (m_gun[num].projData.beam) {
+			//For beems just shoot where the target is - no lead needed
+			m_targetLeadPos = targpos;
+		} else {
+			const vector3d targvel = target->GetVelocityRelTo(ship) * ship->GetOrient();
 
-		m_targetLeadPos = leadpos;
+			//Exact lead calculation. We start with:
+			// |targpos * l + targvel| = projspeed
+			//we solve for l which can be interpreted as 1/time for the projectile to reach the target
+			//it gives:
+			// |targpos|^2 * l^2 + targpos*targvel * 2l + |targvel|^2 - projspeed^2 = 0;
+			// so it gives scalar quadratic equation with two posible solutions - we care only about the positive one - shooting forward
+			// A basic math for solving, there is probably more elegant and efficient way to do this:
+			double a = targpos.LengthSqr();
+			double b = targpos.Dot(targvel) * 2;
+			double c = targvel.LengthSqr() - projspeed * projspeed;
+			double delta = b * b - 4 * a * c;
+
+			if (delta < 0) {
+				//no solution
+				m_currentLeadDir = forwardVector;
+				return;
+			}
+
+			//l = (-b + sqrt(delta)) / 2a; t=1/l; a>0
+			double t = 2 * a / (-b + sqrt(delta));
+
+			if (t < 0 || t > m_gun[num].projData.lifespan) {
+				//no positive solution or target too far
+				m_currentLeadDir = forwardVector;
+				return;
+			} else {
+				//This is an exact solution as opposed to 2 step aproximation used before
+				//It does not improve the accuracy as expected though.
+				//If the target is accelerating and is far enough then this aim assist will
+				//actually make sure that it is mpossible to hit..
+				m_targetLeadPos = targpos + targvel * t;
+
+				//lets try to adjust for acceleration of the target ship
+				if (target->IsType(ObjectType::SHIP)) {
+					DynamicBody *targetShip = static_cast<DynamicBody *>(target);
+					vector3d acc = targetShip->GetLastForce() * ship->GetOrient() / targetShip->GetMass();
+					//s=a*t^2/2 -> hitting steadily accelerating ships works at much greater distance
+					m_targetLeadPos += acc * t * t * 0.5;
+				}
+			}
+		}
 	}
 
 	const vector3d targetDir = m_targetLeadPos.Normalized();
 	const vector3d gunLeadTarget = (targetDir.Dot(forwardVector) >= cos(MAX_LEAD_ANGLE)) ? targetDir : forwardVector;
-	// FIXME: for some unearthly reason, pointing directly at the lead target causes projectiles to overshoot by 2x
-	// So we just interpolate by exactly half and it works perfectly. This is a pretty benign hack, all considered.
-	Quaterniond interpTarget = Quaterniond::Slerp(Quaterniond(gunLeadTarget), Quaterniond(forwardVector), 0.5);
 
-	double angle;
-	interpTarget.GetAxisAngle(angle, m_currentLeadDir);
+	m_currentLeadDir = gunLeadTarget;
+	m_firingSolutionOk = true;
 }
 
 float FixedGuns::GetGunTemperature(int idx) const
