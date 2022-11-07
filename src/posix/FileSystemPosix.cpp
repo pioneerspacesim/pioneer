@@ -57,7 +57,20 @@ namespace FileSystem {
 #ifdef __APPLE__
 		path += "Library/Application Support/Pioneer";
 #else
-		path += ".pioneer";
+		struct stat info;
+		stat((path + ".pioneer").c_str(), &info);
+		if (S_ISDIR(info.st_mode)) {
+			// Check for legacy pioneer directory.
+			path += ".pioneer";
+		} else {
+			char *data_home = getenv("XDG_DATA_HOME");
+			if (data_home == NULL || strcmp(data_home, "") == 0) {
+				path += ".local/share/pioneer";
+			} else {
+				path = data_home;
+				path += "/pioneer";
+			}
+		}
 #endif
 		return path;
 	}
