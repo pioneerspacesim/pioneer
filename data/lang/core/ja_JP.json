@@ -261,7 +261,7 @@
   },
   "COUNT_ON_SURFACE": {
     "description": "",
-    "message": "\" (%surfacecount は表面)\""
+    "message": "\" (%surfacecount は表面上)\""
   },
   "COUNT_STARPORTS": {
     "description": "",
@@ -871,6 +871,10 @@
     "description": "",
     "message": "神経ガス"
   },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
+  },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
     "message": "Not found"
@@ -1065,7 +1069,7 @@
   },
   "PLANET_WITH_SOME_ICE": {
     "description": "",
-    "message": "\" 一部氷のある惑星\""
+    "message": "\" 部分的に氷のある惑星\""
   },
   "PLANNED_ECONOMY": {
     "description": "",
@@ -1133,7 +1137,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "{target}にドッキングクリアランスを要求"
+    "message": "{target} にドッキングクリアランスを要求"
   },
   "RESET": {
     "description": "",
@@ -1259,6 +1263,10 @@
     "description": "",
     "message": "低出力推力を %power%% に設定"
   },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Set maximum speed limit"
+  },
   "SET_NAVTARGET_TO": {
     "description": "",
     "message": "ナビゲーションターゲットに設定: "
@@ -1357,7 +1365,7 @@
   },
   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
     "description": "",
-    "message": "主な %bodycount の %{body(s)} と %portcount の %{starport(s)} を持つ安定した星系"
+    "message": "%bodycount の主な %{body(s)} と %portcount の %{starport(s)} を持つ安定した星系"
   },
   "STARPORT": {
     "description": "",
