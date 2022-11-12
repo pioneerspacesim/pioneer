@@ -51,7 +51,7 @@ struct shipstats_t {
 	int atmo_shield_cap;
 	int radar_cap;
 	int fuel_scoop_cap;
-	int cargo_bay_life_support_cap;
+	int cargo_life_support_cap;
 	int hull_autorepair_cap;
 };
 
