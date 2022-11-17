@@ -53,11 +53,11 @@
   },
   "BIND_FIXHEADING_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Open Attitude Hold Radial Menu"
+    "message": "Otwórz Menu kołowe utrzymania kierunku"
   },
   "BIND_FLIGHT_ASSIST_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Open Flight Assist Radial Menu"
+    "message": "Otwórz Menu kołowe Asystenta lotu"
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
@@ -121,11 +121,11 @@
   },
   "BIND_RADIAL_HORIZONTAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Left/Right"
+    "message": "Menu kołowe Lewo/Prawo"
   },
   "BIND_RADIAL_VERTICAL_SELECTION": {
     "description": "Input axis name to select in the radial menu.",
-    "message": "Radial Menu Up/Down"
+    "message": "Menu kołowe Góra/Dół"
   },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
@@ -161,7 +161,7 @@
   },
   "BIND_TOGGLE_CRUISE": {
     "description": "Descriptive name for the action binding.",
-    "message": "Toggle Cruise Mode"
+    "message": "Przełącz tempomat"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
@@ -177,7 +177,7 @@
   },
   "BIND_TOGGLE_SPEED_LIMITER": {
     "description": "Descriptive name for the action binding.",
-    "message": "Toggle Speed Limiter"
+    "message": "Przełącz ogranicznik prędkości"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",

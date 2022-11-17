@@ -745,7 +745,7 @@
   },
   "HUD_BUTTON_CRUISE_UP": {
     "description": "Tooltip for button",
-    "message": "Up cruise mode"
+    "message": "Tempomat podnoszenia"
   },
   "HUD_BUTTON_DISABLE_AUTOPILOT": {
     "description": "Tooltip for button",
@@ -965,11 +965,11 @@
   },
   "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
     "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
-    "message": "{targetname}: Follow position is not available."
+    "message": "{targetname}: Kierowanie do pozycji jest niemożliwe."
   },
   "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
     "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
-    "message": "{targetname}: Follow position is not available - too far."
+    "message": "{targetname}: Kierowanie do pozycji jest niemożliwe - poza zasięgiem. "
   },
   "HUD_FOLLOW_TARGET": {
     "description": "Tooltip for followed target's name in reticule",
