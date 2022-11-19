@@ -32,7 +32,7 @@ public:
 	vector3d GetAngularMomentum() const;
 	double GetAngularInertia() const { return m_angInertia; }
 	void SetMassDistributionFromModel();
-	void SetMoving(bool isMoving) { m_isMoving = isMoving; }
+	void SetMoving(bool isMoving);
 	bool IsMoving() const { return m_isMoving; }
 	virtual double GetMass() const override { return m_mass; } // XXX don't override this
 	virtual void TimeStepUpdate(const float timeStep) override;
