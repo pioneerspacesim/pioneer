@@ -687,8 +687,8 @@ void Ship::UpdateLuaStats()
 void Ship::UpdateGunsStats()
 {
 	PropertyMap &prop = Properties();
-	float cooler = prop.Get("laser_cooler_cap").get_integer(1.0f);
-	m_fixedGuns->SetCoolingBoost(cooler);
+	float cooler = prop.Get("laser_cooler_cap");
+	m_fixedGuns->SetCoolingBoost(cooler ? cooler : 1.0f);
 
 	for (int num = 0; num < 2; num++) {
 		std::string prefix(num ? "laser_rear_" : "laser_front_");
