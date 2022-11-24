@@ -62,13 +62,25 @@ DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
 		m_mass = dynamicBodyObj["mass"];
 		m_massRadius = dynamicBodyObj["mass_radius"];
 		m_angInertia = dynamicBodyObj["ang_inertia"];
-		m_isMoving = dynamicBodyObj["is_moving"];
+		SetMoving(dynamicBodyObj["is_moving"]);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 
 	m_aiMessage = AIError::AIERROR_NONE;
 	m_decelerating = false;
+}
+
+void DynamicBody::SetMoving(bool isMoving)
+{
+	m_isMoving = isMoving;
+
+	if (!m_isMoving) {
+		m_vel = vector3d(0.0);
+		m_angVel = vector3d(0.0);
+		m_force = vector3d(0.0);
+		m_torque = vector3d(0.0);
+	}
 }
 
 void DynamicBody::SaveToJson(Json &jsonObj, Space *space)
