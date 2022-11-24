@@ -19,7 +19,7 @@ local function LifeSupportCallback(self)
 	---@type CargoManager
 	local cargoMgr = self:GetComponent('CargoManager')
 
-	local commodityName = cargoMgr:DoLifeSupportChecks(self.cargo_bay_life_support_cap or 0)
+	local commodityName = cargoMgr:DoLifeSupportChecks(self.cargo_life_support_cap or 0)
 	if commodityName then
 		cargoMgr:RemoveCommodity(Commodities[commodityName], 1)
 

@@ -659,7 +659,7 @@ void Ship::UpdateEquipStats()
 	m_stats.atmo_shield_cap = p.Get("atmo_shield_cap");
 	m_stats.radar_cap = p.Get("radar_cap");
 	m_stats.fuel_scoop_cap = p.Get("fuel_scoop_cap");
-	m_stats.cargo_bay_life_support_cap = p.Get("cargo_life_support_cap");
+	m_stats.cargo_life_support_cap = p.Get("cargo_life_support_cap");
 	m_stats.hull_autorepair_cap = p.Get("hull_autorepair_cap");
 }
 
