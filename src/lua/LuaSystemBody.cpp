@@ -692,14 +692,8 @@ static int l_sbody_attr_is_space_station(lua_State *l)
 static int l_sbody_attr_physics_body(lua_State *l)
 {
 	SystemBody *b = LuaObject<SystemBody>::CheckFromLua(1);
-	Body *physbody = nullptr;
-	SystemPath headpath = Pi::game->GetSectorView()->GetSelected().SystemOnly();
-	SystemPath gamepath = Pi::game->GetSpace()->GetStarSystem()->GetPath();
-	if (headpath == gamepath) {
-		RefCountedPtr<StarSystem> ss = Pi::game->GetGalaxy()->GetStarSystem(headpath);
-		SystemPath path = ss->GetPathOf(b);
-		physbody = Pi::game->GetSpace()->FindBodyForPath(&path);
-	}
+
+	Body *physbody = Pi::game->GetSpace()->FindBodyForPath(&b->GetPath());
 	LuaObject<Body>::PushToLua(physbody);
 	return 1;
 }
