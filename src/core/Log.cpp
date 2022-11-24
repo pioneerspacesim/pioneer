@@ -93,7 +93,7 @@ void Log::Logger::WriteLog(Time::DateTime time, Severity sv, std::string_view ms
 	auto *outFile = (sv <= Severity::Warning ? stderr : stdout);
 
 	if (sv <= m_maxSeverity) {
-		if (msg.back() == '\n')
+		if (!msg.empty() && msg.back() == '\n')
 			fmt::print(outFile, "{} {}", svName, msg);
 		else
 			fmt::print(outFile, "{} {}\n", svName, msg);
@@ -108,7 +108,7 @@ void Log::Logger::WriteLog(Time::DateTime time, Severity sv, std::string_view ms
 	}
 
 	if (file && sv <= m_maxFileSeverity) {
-		if (msg.back() == '\n')
+		if (!msg.empty() && msg.back() == '\n')
 			fmt::print(file, "[{0}] {1:<8} {2}", time.ToTimeString(), svName, msg);
 		else
 			fmt::print(file, "[{0}] {1:<8} {2}\n", time.ToTimeString(), svName, msg);
