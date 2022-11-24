@@ -148,7 +148,7 @@ Event.Register("onSongFinished", function ()
 			playAmbient()
 		end
 	elseif Game.CurrentView() == "sector" or Game.CurrentView() == "system_info" or Game.CurrentView() == "system" then
-		if Game.system:DistanceTo(SystemPath.New(0, 0, 0, 0, 0)) < 1000 then -- farther than where ambient music switches
+		if Game.system and Game.system:DistanceTo(SystemPath.New(0, 0, 0, 0, 0)) < 1000 then -- farther than where ambient music switches
 			if music["map-core"] then
 				MusicPlayer.playRandomSongFromCategory("map-core")
 			else -- fall back to ambient if category is empty
