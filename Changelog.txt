@@ -1,4 +1,7 @@
 November 2022
+  * New Features
+    * Improved lead calculation for pulse and beam weapons (#5417)
+
   * Internal Changes
     * Cargo is now handled completely separately from ship equipment (#5389)
     * Fuel / cargo scooping is now moddable by Lua (#5389)
@@ -9,6 +12,12 @@ November 2022
     * Fix SAR allowing ships without suitable passenger capacity (#5413)
     * Fix potential to buy more than the available amount of a commodity (#5413)
     * Fix issues where cargo types could have different values across save/load (#5389)
+    * Fix joystick axis reporting invalid joystick value when cleared (#5415)
+    * Fix crash when opening System View in hyperspace (#5428)
+    * Fix MusicPlayer crashing when music ends on sector view while in hyperspace (#5425)
+    * Fix cargo life support not being correctly handled (#5419)
+    * Fix catastrophic rotation after undocking from space station (#5422)
+    * Fix ship having no gun cooling after selling laser cooler (#5426)
 
 October 2022
   * Fixes
