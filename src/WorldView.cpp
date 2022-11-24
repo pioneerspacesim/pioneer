@@ -333,7 +333,7 @@ void WorldView::UpdateProjectedObjects()
 		}
 
 		FixedGuns *gunManager = Pi::player->GetComponent<FixedGuns>();
-		if (laser >= 0 && gunManager->IsGunMounted(laser)) {
+		if (laser >= 0 && gunManager->IsGunMounted(laser) && gunManager->IsFiringSolutionOk()) {
 			UpdateIndicator(m_targetLeadIndicator, cam_rot * gunManager->GetTargetLeadPos());
 			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
 				HideIndicator(m_targetLeadIndicator);
