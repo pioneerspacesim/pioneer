@@ -61,20 +61,42 @@ bool Sensors::ChooseTarget(TargetingCriteria crit)
 	PROFILE_SCOPED();
 	bool found = false;
 
+	Player* player = dynamic_cast<Player*>(m_owner);
+
+	if(!player)
+		return false;
+
+	Body* currTarget = player->GetCombatTarget();
+
 	m_radarContacts.sort(ContactDistanceSort);
 
 	for (auto it = m_radarContacts.begin(); it != m_radarContacts.end(); ++it) {
 		//match object type
 		//match iff
 		if (it->body->IsType(ObjectType::SHIP)) {
-			//if (it->iff != IFF_HOSTILE) continue;
+
+			if(crit == CYCLE_HOSTILE && currTarget) {
+				if(currTarget == it->body) {
+					currTarget = nullptr;
+					//next hostile will be selected
+				}
+				continue;
+			}
+
+			if (it->iff != IFF_HOSTILE) continue;
 			//should move the target to ship after all (from PlayerShipController)
 			//targeting inputs stay in PSC
-			static_cast<Player *>(m_owner)->SetCombatTarget(it->body);
+
+
+
+			player->SetCombatTarget(it->body);
 			found = true;
 			break;
 		}
 	}
+
+	if(!found && crit == CYCLE_HOSTILE)
+		player->SetCombatTarget(nullptr);
 
 	return found;
 }
@@ -84,9 +106,12 @@ Sensors::IFF Sensors::CheckIFF(Body *other)
 	PROFILE_SCOPED();
 	//complicated relationship check goes here
 	if (other->IsType(ObjectType::SHIP)) {
-		Uint8 rel = m_owner->GetRelations(other);
-		if (rel == 0)
+		Ship* ship = static_cast<Ship*>(other);
+		Uint8 rel = m_owner->GetRelations(ship);
+		if (rel == 0 || ship->IsAIAttacking(m_owner))
+		{
 			return IFF_HOSTILE;
+		}
 		else if (rel == 100)
 			return IFF_ALLY;
 		return IFF_NEUTRAL;
@@ -136,6 +161,8 @@ void Sensors::Update(float time)
 			const Ship *ship = dynamic_cast<Ship *>(it->body);
 			if (ship && Ship::FLYING == ship->GetFlightState()) {
 				it->distance = m_owner->GetPositionRelTo(it->body).Length();
+				it->iff = CheckIFF(it->body);
+				it->trail->SetColor(IFFColor(it->iff));
 				it->trail->Update(time);
 			} else {
 				it->trail->Reset(FrameId::Invalid);

@@ -74,6 +74,14 @@ void Ship::AIKill(Ship *target)
 	m_curAICmd = new AICmdKill(this, target);
 }
 
+
+bool Ship::IsAIAttacking(const Ship *target) const
+{
+	return m_curAICmd &&
+		((m_curAICmd->GetType() == AICommand::CMD_KILL && (static_cast<AICmdKill *>(m_curAICmd)->GetTarget() == target)) ||
+			(m_curAICmd->GetType() == AICommand::CMD_KAMIKAZE && (static_cast<AICmdKamikaze *>(m_curAICmd)->GetTarget() == target)));
+}
+
 /*
 void Ship::AIJourney(SystemBodyPath &dest)
 {

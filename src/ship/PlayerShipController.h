@@ -37,6 +37,10 @@ public:
 	void ToggleRotationDamping();
 	void FireMissile();
 	void ToggleCruise();
+	void SelectTarget();
+	void CycleHostiles();
+
+
 
 	//targeting
 	//XXX AI should utilize one or more of these
@@ -77,6 +81,7 @@ private:
 
 		// Weapons
 		Action *targetObject;
+		Action *cycleHostiles;
 		Action *primaryFire;
 		Action *secondaryFire;
 
@@ -151,4 +156,6 @@ private:
 	ConnectionTicket m_fireMissileKey;
 	ConnectionTicket m_toggleCruise;
 	ConnectionTicket m_toggleSpeedLimiter;
+	ConnectionTicket m_SelectTarget;
+	ConnectionTicket m_CycleHostiles;
 };

@@ -155,6 +155,10 @@
     "description": "Descriptive name for the TargetObject action.",
     "message": "Target Object"
   },
+  "BIND_CYCLE_HOSTILES": {
+    "description": "Descriptive name for the CycleHostiles action.",
+    "message": "Cycle Hostiles"
+  },
   "BIND_THRUST_LOW_POWER": {
     "description": "Descriptive name for the ThrustLowPower action.",
     "message": "Low Power Thrust Mode (hold)"

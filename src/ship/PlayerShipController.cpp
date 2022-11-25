@@ -17,6 +17,7 @@
 #include "core/OS.h"
 #include "lua/LuaObject.h"
 #include "ship/ShipController.h"
+#include "Sensors.h"
 
 #include <algorithm>
 
@@ -137,6 +138,7 @@ REGISTER_INPUT_BINDING(PlayerShipController)
 
 	auto weaponsGroup = controlsPage->GetBindingGroup("Weapons");
 	input->AddActionBinding("BindTargetObject", weaponsGroup, Action({ SDLK_y }));
+	input->AddActionBinding("BindCycleHostiles", weaponsGroup, Action({ SDLK_t }));
 	input->AddActionBinding("BindPrimaryFire", weaponsGroup, Action({ SDLK_SPACE }));
 	input->AddActionBinding("BindSecondaryFire", weaponsGroup, Action({ SDLK_m }));
 
@@ -197,11 +199,18 @@ PlayerShipController::PlayerShipController() :
 		[this]() {
 			this->SetSpeedLimiterActive(not this->IsSpeedLimiterActive());
 		});
+
+	m_SelectTarget = InputBindings.targetObject->onPressed.connect (
+		sigc::mem_fun(this, &PlayerShipController::SelectTarget));
+
+	m_CycleHostiles = InputBindings.cycleHostiles->onPressed.connect (
+		sigc::mem_fun(this, &PlayerShipController::CycleHostiles));
 }
 
 void PlayerShipController::InputBinding::RegisterBindings()
 {
 	targetObject = AddAction("BindTargetObject");
+	cycleHostiles = AddAction("BindCycleHostiles");
 	primaryFire = AddAction("BindPrimaryFire");
 	secondaryFire = AddAction("BindSecondaryFire");
 
@@ -755,6 +764,16 @@ void PlayerShipController::FireMissile()
 	if (!Pi::player->GetCombatTarget())
 		return;
 	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", "any", static_cast<Ship *>(Pi::player->GetCombatTarget()));
+}
+
+void PlayerShipController::SelectTarget()
+{
+	std::cout << "Not implemented" << std::endl;
+}
+
+void PlayerShipController::CycleHostiles()
+{
+	Pi::player->GetSensors()->ChooseTarget(Sensors::CYCLE_HOSTILE);
 }
 
 void PlayerShipController::ToggleCruise()

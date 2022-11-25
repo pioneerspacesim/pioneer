@@ -28,7 +28,8 @@ public:
 	};
 
 	enum TargetingCriteria {
-		TARGET_NEAREST_HOSTILE
+		TARGET_NEAREST_HOSTILE,
+		CYCLE_HOSTILE
 	};
 
 	struct RadarContact {
