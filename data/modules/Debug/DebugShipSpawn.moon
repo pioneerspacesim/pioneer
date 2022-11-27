@@ -7,6 +7,7 @@ Timer = require 'Timer'
 Equipment = require 'Equipment'
 
 import Vector2 from _G
+
 ui = require 'pigui'
 debug_ui = require 'pigui.views.debug'
 
@@ -148,10 +149,15 @@ ship_spawn_debug_window = ->
 			if ui.button "Spawn Docked", Vector2(0, 0)
 				spawn_ship_docked ship_name, ai_options[ai_opt_selected], ship_equip
 
+			if not Game.player\GetDockedWith!
+				ui.sameLine!
+				if ui.button "Teleport To", Vector2(0, 0)
+					Game.player\SetDockedWith nav_target
+
 		if Game.player\GetCombatTarget!
-			ui.sameLine!
-			if ui.button "Spawn Missile", Vector2(0, 0)
+			if ui.button "Spawn##Missile", Vector2(0, 0)
 				do_spawn_missile missile_types[missile_selected + 1]
+			ui.sameLine 0, 2
 
 		ui.nextItemWidth -1.0
 		_, missile_selected = ui.combo "##missile_type", missile_selected, missile_names
