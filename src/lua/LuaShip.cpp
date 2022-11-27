@@ -17,7 +17,6 @@
 #include "ShipType.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "lauxlib.h"
 #include "ship/PlayerShipController.h"
 #include "ship/PrecalcPath.h"
 #include "src/lua.h"
