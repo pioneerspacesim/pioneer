@@ -53,12 +53,12 @@ void GeoSphere::Uninit()
 
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
 {
-	Output(
-		"%s:\n"
-		"    height fractal: %s\n"
-		"    colour fractal: %s\n"
-		"    seed: %u\n",
-		sbody->GetName().c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->GetSeed());
+	Log::Verbose(
+		"Geosphere Init for {}:\n" \
+		"\theight fractal: {}\n" \
+		"\tcolour fractal: {}\n" \
+		"\tseed: {}\n",
+		sbody->GetName(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->GetSeed());
 }
 
 // static

@@ -325,6 +325,12 @@ void Pi::App::Startup()
 
 	Log::GetLog()->SetLogFile("output.txt");
 
+	if (config->Int("LogVerbose", 0))
+		Log::GetLog()->SetFileSeverity(Log::Severity::Verbose);
+
+	if (config->Int("LogVerbose", 0) > 1)
+		Log::GetLog()->SetSeverity(Log::Severity::Verbose);
+
 	std::string version(PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 	const char *platformName = SDL_GetPlatform();
