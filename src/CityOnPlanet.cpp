@@ -135,6 +135,8 @@ void CityOnPlanet::LoadBuildingType(std::string_view key, const Json &buildingDe
 		out.buildingKind = SectorKind::Monument;
 	else if (kind == "habitat")
 		out.buildingKind = SectorKind::Habitat;
+	else if (kind == "frontier")
+		out.buildingKind = SectorKind::Frontier;
 
 	std::string idleName = buildingDef.value("idle", "");
 	if (!idleName.empty()) {
@@ -487,8 +489,8 @@ void CityOnPlanet::Generate(SpaceStation *station)
 					// 1.0 at city center and 0.2 at outskirts
 					rarity *= 1.0 - distribution * 0.8;
 				} else if (buildingType->buildingKind == SectorKind::Frontier) {
-					// extremely rare at city center and 0.8 at outskirts
-					rarity *= (distribution * distribution) * 0.8;
+					// extremely rare at city center and 1.5 at outskirts
+					rarity *= (distribution * distribution) * 1.5;
 				}
 
 				// roll to see if the building spawns here or not
