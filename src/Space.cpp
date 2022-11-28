@@ -539,6 +539,32 @@ Body *Space::FindNearestTo(const Body *b, ObjectType t) const
 	return nearest;
 }
 
+Body *Space::FindInAngleNearestTo(const Body *b, const vector3d &offset, const vector3d &view_dir, double cosOfMaxAngle) const
+{
+	Body *nearest = 0;
+	double dist = FLT_MAX;
+	for (Body *const body : m_bodies) {
+		if (body == b) continue;
+		if (body->IsDead()) continue;
+
+		//offset from the body center - like for view from ship cocpit
+		vector3d dirBody = body->GetPositionRelTo(b) * b->GetOrient() -  offset;
+		double d = dirBody.Length();
+		//Normalizing but not using Normalized function to avoid calculating Lenght again
+		dirBody = dirBody / d;
+
+		//Bodies outside of the cone disregarded
+		if(dirBody.Dot(view_dir) < cosOfMaxAngle)
+			continue;
+
+		if (d < dist) {
+			dist = d;
+			nearest = body;
+		}
+	}
+	return nearest;
+}
+
 Body *Space::FindBodyForPath(const SystemPath *path) const
 {
 	if (!m_game->IsNormalSpace() || !path->IsSameSystem(m_starSystem->GetPath()))

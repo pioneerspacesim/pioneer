@@ -65,6 +65,9 @@ public:
 	Body *FindNearestTo(const Body *b, ObjectType t) const;
 	Body *FindBodyForPath(const SystemPath *path) const;
 
+	//Find bodies within angle to given direction. Dir and offset relative to b like in ship coordinates
+	Body *FindInAngleNearestTo(const Body *b, const vector3d &offset, const vector3d &dir, double cosOfMaxAngle) const;
+
 	Uint32 GetNumBodies() const { return static_cast<Uint32>(m_bodies.size()); }
 	IterationProxy<std::vector<Body *>> GetBodies() { return MakeIterationProxy(m_bodies); }
 	const IterationProxy<const std::vector<Body *>> GetBodies() const { return MakeIterationProxy(m_bodies); }

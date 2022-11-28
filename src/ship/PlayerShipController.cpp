@@ -766,9 +766,26 @@ void PlayerShipController::FireMissile()
 	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", "any", static_cast<Ship *>(Pi::player->GetCombatTarget()));
 }
 
+static constexpr double MAX_SELECT_VIEW_ANGLE = DEG2RAD(3.0);
+
 void PlayerShipController::SelectTarget()
 {
-	std::cout << "Not implemented" << std::endl;
+	// camera orientation and offset relative to the ship. This vector is already normalized, but for some reason
+	// has wrong direction
+	vector3d view_dir = Pi::game->GetWorldView()->shipView->GetCameraController()->GetOrient().VectorZ() * (-1.0);
+
+	//The cocpit camera is not in the center of the ship, this has to be accounted for when looking to the side
+	//or for tall ships
+	vector3d camera_offset = Pi::game->GetWorldView()->shipView->GetCameraController()->GetPosition();
+
+	Body *target = Pi::game->GetSpace()->FindInAngleNearestTo(Pi::player, camera_offset, view_dir, cos(MAX_SELECT_VIEW_ANGLE));
+
+	if (target) {
+		if(target->IsType(ObjectType::SHIP) || target->IsType(ObjectType::MISSILE))
+			SetCombatTarget(target);
+		else
+			SetNavTarget(target);
+	}
 }
 
 void PlayerShipController::CycleHostiles()
