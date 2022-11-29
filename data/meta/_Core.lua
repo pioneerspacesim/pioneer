@@ -6,6 +6,9 @@
 
 ---@meta
 
+-- Load in auto-generated constants
+require 'Constants.lua'
+
 --- Dump all relevant variables and parameters for the current lua stack trace.
 ---@param level number stack level to start the stack dump at
 debug.dumpstack = function(level) end
@@ -34,51 +37,3 @@ function logWarning(string) end
 
 --- Log the specified string at the Verbose semantic level
 function logVerbose(string) end
-
--- ============================================================================
-
--- Document lua Constants as typed subclasses of string for API visibility sake
-
--- TODO: not all constant types are present here; please update this file as new
--- constant types are required
-
--- A <Constants.BodyType> string
----@class BodyType: string
-
--- A <Constants.BodySuperType> string
----@class BodySuperType: string
-
--- A <Constants.PhysicsObjectType> string
----@class PhysicsObjectType: string
-
---- PolitGovType string constant; EARTHCOLONIAL, EARTHDEMOC, EMPIRERULE, etc.
----@class PolitGovType: string
-
--- A <Constants.ShipAlertStatus> string
----@class ShipAlertStatus: string
-
--- A <Constants.ShipFlightState> string
----@class ShipFlightState: string
-
--- ============================================================================
-
--- Global Constants namespace
-Constants = {}
-
----@type BodyType[]
-Constants.BodyType = {}
-
----@type BodySuperType[]
-Constants.BodySuperType = {}
-
----@type PhysicsObjectType[]
-Constants.PhysicsObjectType = {}
-
----@type PolitGovType[]
-Constants.PolitGovType = {}
-
----@type ShipAlertStatus[]
-Constants.ShipAlertStatus = {}
-
----@type ShipFlightState[]
-Constants.ShipFlightState = {}
