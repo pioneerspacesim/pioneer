@@ -99,8 +99,8 @@ function ui.calcButtonSize(label, font, size)
 	return ui.calcTextSize(label, font, size) + ui.theme.styles.ButtonPadding * 2
 end
 
-function ui.getButtonHeight()
-	return ui.getTextLineHeight() + ui.theme.styles.ButtonPadding.y * 2
+function ui.getButtonHeight(font)
+	return (font and font.size or ui.getTextLineHeight()) + ui.theme.styles.ButtonPadding.y * 2
 end
 
 function ui.getButtonHeightWithSpacing()
