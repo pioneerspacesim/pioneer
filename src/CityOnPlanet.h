@@ -99,7 +99,7 @@ private:
 	void Generate(SpaceStation *station);
 	void CalcCityRadius(const SystemBody *body);
 
-	void SetGridOccupancy(uint32_t x, uint32_t y, const uint8_t size[2], bool occupied);
+	void SetGridOccupancy(uint32_t x, uint32_t y, const uint8_t size[2]);
 	bool TestGridOccupancy(uint32_t x, uint32_t y, const uint8_t size[2]);
 
 	// Quickly check if the given single grid cell is set.

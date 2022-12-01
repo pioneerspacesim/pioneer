@@ -261,17 +261,6 @@ void CityOnPlanet::Uninit()
 	s_debugMat.reset();
 }
 
-// Need a reliable way to sort the models rather than using their address in memory we use their name which should be unique.
-bool setcomp(SceneGraph::Model *mlhs, SceneGraph::Model *mrhs) { return mlhs->GetName() < mrhs->GetName(); }
-bool (*fn_pt)(SceneGraph::Model *mlhs, SceneGraph::Model *mrhs) = setcomp;
-
-struct ModelNameComparator {
-	bool operator()(const SceneGraph::Model *lhs, const SceneGraph::Model *rhs) const
-	{
-		return lhs->GetName() < rhs->GetName();
-	}
-};
-
 // FIXME: this is a horrible idea as it directly mutates models in the ModelCache
 // and forces all instances of a building to have the exact same color.
 // Color data should be supplied via an instance buffer and managed as part of a building instance.
@@ -315,13 +304,10 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	m_body = planet->GetSystemBody();
 	m_planet = planet;
 	m_frame = planet->GetFrame();
-	m_detailLevel = Pi::detail.cities;
 
 	m_rand.seed(seed);
 
 	if (s_cityFlavours.empty()) {
-		// initialize needed variables to render nothing
-		AddStaticGeomsToCollisionSpace();
 		return; // no buildings available to generate, we already logged an error about this during startup
 	}
 
@@ -366,7 +352,7 @@ void CityOnPlanet::Generate(SpaceStation *station)
 
 	// ensure divisible by 8 bytes for fast 64-bit lookup
 	if (m_gridPitch & 7) {
-		m_gridPitch = (m_gridPitch + 7) & ~7;
+		m_gridPitch = (m_gridPitch + 7) & ~uint32_t(7);
 	}
 	m_gridLen = m_gridPitch * m_citySize;
 
@@ -381,7 +367,8 @@ void CityOnPlanet::Generate(SpaceStation *station)
 	vector3d incZ = station->GetOrient().VectorZ() * CELLSIZE;
 
 	// top-left corner of the grid is -X, -Z relative to station position at center
-	m_gridOrigin = station->GetPosition() - incX * cityExtents - incZ * cityExtents;
+	// offset origin by half-grid to ensure grid centers are aligned with the station model
+	m_gridOrigin = station->GetPosition() - incX * (cityExtents + 0.5) - incZ * (cityExtents + 0.5);
 
 	// Setup the station somewhere in the city (defaults to center for now)
 	const uint32_t stationPos[2] = {
@@ -390,7 +377,7 @@ void CityOnPlanet::Generate(SpaceStation *station)
 	};
 
 	// Reserve space for the spacestation
-	SetGridOccupancy(stationPos[0], stationPos[1], stationSize, true);
+	SetGridOccupancy(stationPos[0], stationPos[1], stationSize);
 
 	Log::Verbose("\tCityOnPlanet: Station {} placed at grid {}:{} with extents {}x{}",
 		station->GetModel()->GetName(), stationPos[0], stationPos[1], stationSize[0], stationSize[1]);
@@ -508,7 +495,7 @@ void CityOnPlanet::Generate(SpaceStation *station)
 				continue;
 			}
 
-			SetGridOccupancy(x, y, buildingType->cellSize, true);
+			SetGridOccupancy(x, y, buildingType->cellSize);
 
 			// rotate the building to face a random direction
 			const int32_t orient = m_rand.Int32(4);
@@ -609,7 +596,7 @@ static inline uint64_t CalcBitmaskForGrid(uint32_t x, uint32_t xsize)
 	return bitmask;
 }
 
-void CityOnPlanet::SetGridOccupancy(uint32_t x, uint32_t y, const uint8_t size[2], bool occupied)
+void CityOnPlanet::SetGridOccupancy(uint32_t x, uint32_t y, const uint8_t size[2])
 {
 	if (x + size[0] > m_citySize || y + size[1] > m_citySize)
 		return; // footprint would be off-grid, prevent writing outside the bitset
@@ -651,12 +638,17 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 {
 	PROFILE_SCOPED()
 
+	// Early out for failure case
+	if (!m_cityType)
+		return;
+
 	// Early frustum test of whole city.
 	const vector3d stationPos = viewTransform * (station->GetPosition() + m_realCentre);
 	//modelview seems to be always identity
 	if (!frustum.TestPoint(stationPos, m_clipRadius))
 		return;
 
+	// Precalculate building orientation matrices
 	matrix4x4d rot[4];
 	matrix4x4f rotf[4];
 	rot[0] = station->GetOrient();
@@ -694,29 +686,24 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 	uint32_t uCount = 0;
 	uint32_t numBuildings = m_cityType->buildingTypes.size();
 
-	std::vector<uint32_t> instCount;
 	std::vector<std::vector<matrix4x4f>> transform;
 
-	instCount.resize(numBuildings, 0);
 	transform.resize(numBuildings);
 
 	for (uint32_t i = 0; i < numBuildings; i++) {
 		transform[i].reserve(m_buildingCounts[i]);
 	}
 
-	for (std::vector<BuildingInstance>::const_iterator iter = m_enabledBuildings.begin(), itEND = m_enabledBuildings.end(); iter != itEND; ++iter) {
-		const vector3d pos = viewTransform * (*iter).pos;
-		const vector3f posf(pos);
-		if (!frustum.TestPoint(pos, (*iter).clipRadius))
+	for (const auto &building : m_enabledBuildings) {
+		const vector3d pos = viewTransform * building.pos;
+
+		if (!frustum.TestPoint(pos, building.clipRadius))
 			continue;
 
-		matrix4x4f _rot(rotf[(*iter).rotation]);
-		_rot.SetTranslate(posf);
+		matrix4x4f instanceRot = matrix4x4f(rotf[building.rotation]);
+		instanceRot.SetTranslate(vector3f(pos));
 
-		// increment the instance count and store the transform
-		instCount[(*iter).instIndex]++;
-		transform[(*iter).instIndex].push_back(_rot);
-
+		transform[building.instIndex].push_back(instanceRot);
 		++uCount;
 	}
 
