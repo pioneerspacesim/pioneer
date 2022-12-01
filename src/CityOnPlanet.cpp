@@ -189,13 +189,17 @@ void CityOnPlanet::LoadCityFlavour(const FileSystem::FileInfo &file)
 		radius.density = item.value("density", 1.0);
 
 		if (!cityType.sizeDefs.empty() && radius.population > cityType.sizeDefs.back().population) {
-			Log::Warning("\tSize definition {} has higher population threshold than previous ({}b vs. {}b); ignoring",
+			Log::Warning("\tSize definition {} has higher population threshold than previous ({}b vs. {}b).\n" \
+				"Size defs should be in descending order.",
 				numSizeDefs, radius.population, cityType.sizeDefs.back().population);
-			continue;
 		}
 
 		cityType.sizeDefs.emplace_back(std::move(radius));
 	}
+
+	std::sort(cityType.sizeDefs.begin(), cityType.sizeDefs.end(), [](auto &a, auto &b) -> bool {
+		return a.population > b.population;
+	});
 
 	Log::Verbose("\tLoaded {} city size definitions", numSizeDefs);
 
@@ -350,10 +354,10 @@ void CityOnPlanet::Generate(SpaceStation *station)
 		m_body->GetPopulation(), m_citySize, m_cityRadius);
 
 
-	// ensure divisible by 8 bytes for fast 64-bit lookup
-	if (m_gridPitch & 7) {
-		m_gridPitch = (m_gridPitch + 7) & ~uint32_t(7);
-	}
+	// reserve space off the 'edge' of the grid for fast 64-bit lookup
+	// prevents reading or writing unallocated memory on grid edges
+	m_gridPitch = (m_gridPitch + 7) & ~uint32_t(7);
+
 	m_gridLen = m_gridPitch * m_citySize;
 
 	m_gridBitset.reset(new uint8_t[m_gridLen]);
