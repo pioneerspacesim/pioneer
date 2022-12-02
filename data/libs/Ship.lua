@@ -1,7 +1,9 @@
 -- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+---@class Ship
 local Ship = package.core['Ship']
+
 local Game = package.core['Game']
 local Engine = require 'Engine'
 local Event = require 'Event'

@@ -80,6 +80,48 @@ static int l_engine_attr_ticks(lua_State *l)
 }
 
 /*
+ * Attribute: time
+ *
+ * Number of real-time seconds since Pioneer was started. This should be used
+ * for debugging or UI purposes only (eg animations), and should never be used
+ * in game logic of any kind.
+ *
+ * Availability:
+ *
+ *   July 2022
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_engine_attr_time(lua_State *l)
+{
+	lua_pushnumber(l, Pi::GetApp()->GetTime());
+	return 1;
+}
+
+/*
+ * Attribute: frameTime
+ *
+ * Length of the last frame in seconds. This should be used for debugging or UI
+ * purposes only (e.g. animations) and should never be used in game logic of
+ * any kind.
+ *
+ * Availability:
+ *
+ *   July 2022
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_engine_attr_frame_time(lua_State *l)
+{
+	lua_pushnumber(l, Pi::GetFrameTime());
+	return 1;
+}
+
+/*
  * Attribute: pigui
  *
  * The global PiGui object. It provides an interface to ImGui functions
@@ -1084,6 +1126,8 @@ void LuaEngine::Register()
 	static const luaL_Reg l_attrs[] = {
 		{ "rand", l_engine_attr_rand },
 		{ "ticks", l_engine_attr_ticks },
+		{ "time", l_engine_attr_time },
+		{ "frameTime", l_engine_attr_frame_time },
 		{ "pigui", l_engine_attr_pigui },
 		{ "version", l_engine_attr_version },
 		{ 0, 0 }

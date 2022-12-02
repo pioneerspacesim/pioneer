@@ -13,6 +13,7 @@ local Vector2 = {}
 ---@param x number
 ---@param y number
 ---@return Vector2
+---@overload fun(x: number): Vector2
 function _G.Vector2(x, y) end
 
 ---@return Vector2
@@ -68,8 +69,10 @@ function Vector3:lengthSqr() end
 ---@return number
 function Vector3:length() end
 
+---@param vec Vector3
 ---@return Vector3
-function Vector3:cross() end
+function Vector3:cross(vec) end
 
+---@param vec Vector3
 ---@return number
-function Vector3:dot() end
+function Vector3:dot(vec) end

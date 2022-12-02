@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
+local utils= require 'utils'
 local Vector2 = _G.Vector2
 
 local ui = require 'pigui'
@@ -27,34 +28,34 @@ function gauges.registerGauge(priority, data)
 end
 
 local gaugeWindowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus"}
-function gauges.displayGauges()
+function gauges.displayGauges(min, max)
 	if gauges.dirty then
 		table.sort(gauges, function(a,b) return a.priority < b.priority end)
 		gauges.dirty = false
 	end
 
-	local gauge_stretch = 1.4
-	local current_view = Game.CurrentView()
-	local c = gauges.gaugeCount + 0.1
-	if current_view == "world" then
-		ui.setNextWindowSize(Vector2(ui.gauge_width, ui.gauge_height * c * gauge_stretch), "Always")
-		local tws = ui.timeWindowSize
-		if not tws then
-			tws = Vector2(0, 100)
+	local drawGauges = utils.map_array(gauges, function(g)
+		local value = g.value()
+		if value then return { value, g } end
+	end)
+
+	local spacing = ui.gauge_height * 1.4
+	local height = spacing * #drawGauges
+
+	local pos, size = ui.rectcut(min, max, height, ui.sides.bottom)
+
+	ui.setNextWindowPos(pos, "Always")
+	ui.setNextWindowSize(size, "Always")
+	ui.setNextWindowPadding(Vector2(0, 0))
+
+	ui.window("PlayerGauges", gaugeWindowFlags, function()
+		local uiPos = ui.getCursorScreenPos() + Vector2(0, ui.gauge_height * 0.5)
+		for i, t in ipairs(drawGauges) do
+			local value, g = t[1], t[2]
+			ui.gauge(uiPos, value, g.unit, g.format, g.min, g.max, g.icon, g.color, g.tooltip)
+			uiPos = uiPos + Vector2(0, spacing)
 		end
-		tws = tws + Vector2(0, 30) -- extra offset
-		ui.setNextWindowPos(Vector2(5, ui.screenHeight - tws.y - ui.gauge_height * c * gauge_stretch), "Always")
-		ui.window("PlayerGauges", gaugeWindowFlags, function()
-			local uiPos = ui.getWindowPos() + Vector2(0, ui.gauge_height)
-			for k,g in ipairs(gauges) do
-				local value = g.value()
-				if value then
-					ui.gauge(uiPos, value, g.unit, g.format, g.min, g.max, g.icon, g.color, g.tooltip)
-					uiPos = uiPos + Vector2(0, ui.gauge_height * gauge_stretch)
-				end
-			end
-		end)
-	end
+	end)
 end
 
 gauges.registerGauge(0, {
@@ -110,12 +111,14 @@ gauges.registerGauge(5, {
 	icon = icons.hull, color = colors.gaugeHull, tooltip = lui.HUD_HULL_STRENGTH
 })
 
-gameView.registerModule("gauges", {
+gameView.registerHudModule("gauges", {
+	side = "left",
 	showInHyperspace = false,
-	draw = function()
+	debugReload = function() package.reimport() end,
+	draw = function(_, min, max)
 		colors = ui.theme.colors
 		icons = ui.theme.icons
-		gauges.displayGauges()
+		gauges.displayGauges(min, max)
 	end
 })
 

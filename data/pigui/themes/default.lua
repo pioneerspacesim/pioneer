@@ -128,6 +128,9 @@ theme.colors = {
 	maneuver				= styleColors.accent_300,
 	maneuverDark			= styleColors.accent_500,
 	mouseMovementDirection	= styleColors.accent_100,
+
+	overlayWindowBg         = styleColors.gray_900:opacity(0.90),
+
 	-- FIXME: this color is primarily used to tint buttons by rendering over top of the frame color.
 	-- This is atrocious for obvious reasons. Refactor button / frame rendering to draw an independent frame border.
 	lightBlueBackground		= styleColors.background_700:opacity(0.10),
@@ -167,6 +170,9 @@ theme.colors = {
 	econMajorImport			= styleColors.accent_300,
 	econMinorImport			= styleColors.accent_500,
 	econIllegalCommodity	= styleColors.danger_300,
+
+	gaugeCargo              = styleColors.gray_300,
+	gaugeJettison           = styleColors.danger_500,
 
 	gaugeBackground			= styleColors.gray_800:opacity(0.85),
 	gaugePressure			= styleColors.primary_600,
@@ -219,10 +225,12 @@ theme.colors = {
 -- ImGui global theming styles
 theme.styles = rescaleUI {
 	WindowBorderSize = 0.0,
+	WindowPadding = Vector2(8, 8),
 	TabRounding = 0.0,
 	TabPadding = Vector2(8, 6),
 	ButtonPadding = Vector2(8, 6),
 	ItemSpacing = Vector2(8, 6),
+	ItemInnerSpacing = Vector2(4, 4),
 	MainButtonSize = Vector2(32, 32),
 	SmallButtonSize = Vector2(24, 24),
 	MainButtonPadding = 3

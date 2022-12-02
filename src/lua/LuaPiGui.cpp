@@ -46,6 +46,40 @@ namespace ImGui {
 		window->DC.CurrLineSize.y = ImMax(window->DC.CurrLineSize.y, ImMax(lineHeight, g.FontSize));
 		window->DC.CurrLineTextBaseOffset = ImMax(window->DC.CurrLineTextBaseOffset, (window->DC.CurrLineSize.y - g.FontSize) / 2.0f);
 	}
+
+	// Horribly abuse the internals to allow submitting a window without padding and adding it later (e.g. drawing custom decorations).
+	// This... probably is fine.
+	void AddWindowPadding(ImVec2 padding)
+	{
+		ImGuiWindow *window = ImGui::GetCurrentWindow();
+		if (window->SkipItems)
+			return;
+
+		ImVec2 shrink = ImVec2(-padding.x, -padding.y);
+		window->ContentRegionRect.Expand(shrink);
+		window->WorkRect.Expand(shrink);
+		window->DC.Indent.x += padding.x;
+
+		// Move the cursor to match the new work rect areas
+		// NOTE: this will reset the horizontal position of the cursor!
+		window->DC.CursorPos.x = IM_FLOOR(window->Pos.x + window->DC.Indent.x + window->DC.ColumnsOffset.x);
+		window->DC.CursorPos.y = IM_FLOOR(ImMax(window->DC.CursorPos.y, window->ContentRegionRect.Min.y));
+	}
+
+	float GetLineHeight()
+	{
+		ImGuiWindow *window = ImGui::GetCurrentWindow();
+		if (window->SkipItems)
+			return 0.0;
+
+		return window->DC.CurrLineSize.y;
+	}
+
+	ImVec2 GetWindowContentSize(const char *name)
+	{
+		ImGuiWindow *window = ImGui::FindWindowByName(name);
+		return (window != nullptr) ? window->ContentSize : ImVec2(0, 0);
+	}
 } // namespace ImGui
 
 template <typename Type>
@@ -358,6 +392,88 @@ int l_pigui_check_hovered_flags(lua_State *l)
 	luaL_checktype(l, 1, LUA_TTABLE);
 	ImGuiHoveredFlags_ fl = imguiHoveredFlagsTable.LookupTable(l, 1);
 	LuaPush<ImGuiHoveredFlags_>(l, fl);
+	return 1;
+}
+
+static LuaFlags<ImGuiTableFlags_> imguiTableFlagsTable = {
+	{ "None", ImGuiTableFlags_None },
+	{ "Resizable", ImGuiTableFlags_Resizable },
+	{ "Reorderable", ImGuiTableFlags_Reorderable },
+	{ "Hideable", ImGuiTableFlags_Hideable },
+	{ "Sortable", ImGuiTableFlags_Sortable },
+	{ "NoSavedSettings", ImGuiTableFlags_NoSavedSettings },
+	{ "ContextMenuInBody", ImGuiTableFlags_ContextMenuInBody },
+	{ "RowBg", ImGuiTableFlags_RowBg },
+	{ "BordersInnerH", ImGuiTableFlags_BordersInnerH },
+	{ "BordersOuterH", ImGuiTableFlags_BordersOuterH },
+	{ "BordersInnerV", ImGuiTableFlags_BordersInnerV },
+	{ "BordersOuterV", ImGuiTableFlags_BordersOuterV },
+	{ "BordersH", ImGuiTableFlags_BordersH },
+	{ "BordersV", ImGuiTableFlags_BordersV },
+	{ "BordersInner", ImGuiTableFlags_BordersInner },
+	{ "BordersOuter", ImGuiTableFlags_BordersOuter },
+	{ "Borders", ImGuiTableFlags_Borders },
+	{ "SizingFixedFit", ImGuiTableFlags_SizingFixedFit },
+	{ "SizingFixedSame", ImGuiTableFlags_SizingFixedSame },
+	{ "SizingStretchProp", ImGuiTableFlags_SizingStretchProp },
+	{ "SizingStretchSame", ImGuiTableFlags_SizingStretchSame },
+	{ "NoHostExtendX", ImGuiTableFlags_NoHostExtendX },
+	{ "NoHostExtendY", ImGuiTableFlags_NoHostExtendY },
+	{ "NoKeepColumnsVisible", ImGuiTableFlags_NoKeepColumnsVisible },
+	{ "PreciseWidths", ImGuiTableFlags_PreciseWidths },
+	{ "NoClip", ImGuiTableFlags_NoClip },
+	{ "PadOuterX", ImGuiTableFlags_PadOuterX },
+	{ "NoPadOuterX", ImGuiTableFlags_NoPadOuterX },
+	{ "NoPadInnerX", ImGuiTableFlags_NoPadInnerX },
+	{ "ScrollX", ImGuiTableFlags_ScrollX },
+	{ "ScrollY", ImGuiTableFlags_ScrollY },
+	{ "SortMulti", ImGuiTableFlags_SortMulti },
+	{ "SortTristate", ImGuiTableFlags_SortTristate }
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableFlags_ &theflags)
+{
+	theflags = parse_imgui_flags(l, index, imguiTableFlagsTable);
+}
+
+int l_pigui_check_table_flags(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TTABLE);
+	ImGuiTableFlags_ fl = imguiTableFlagsTable.LookupTable(l, 1);
+	LuaPush<ImGuiTableFlags_>(l, fl);
+	return 1;
+}
+
+static LuaFlags<ImGuiTableColumnFlags_> imguiTableColumnFlagsTable = {
+	{ "None", ImGuiTableColumnFlags_None },
+	{ "DefaultHide", ImGuiTableColumnFlags_DefaultHide },
+	{ "DefaultSort", ImGuiTableColumnFlags_DefaultSort },
+	{ "WidthStretch", ImGuiTableColumnFlags_WidthStretch },
+	{ "WidthFixed", ImGuiTableColumnFlags_WidthFixed },
+	{ "NoResize", ImGuiTableColumnFlags_NoResize },
+	{ "NoReorder", ImGuiTableColumnFlags_NoReorder },
+	{ "NoHide", ImGuiTableColumnFlags_NoHide },
+	{ "NoClip", ImGuiTableColumnFlags_NoClip },
+	{ "NoSort", ImGuiTableColumnFlags_NoSort },
+	{ "NoSortAscending", ImGuiTableColumnFlags_NoSortAscending },
+	{ "NoSortDescending", ImGuiTableColumnFlags_NoSortDescending },
+	{ "NoHeaderWidth", ImGuiTableColumnFlags_NoHeaderWidth },
+	{ "PreferSortAscending", ImGuiTableColumnFlags_PreferSortAscending },
+	{ "PreferSortDescending", ImGuiTableColumnFlags_PreferSortDescending },
+	{ "IndentEnable", ImGuiTableColumnFlags_IndentEnable },
+	{ "IndentDisable", ImGuiTableColumnFlags_IndentDisable },
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableColumnFlags_ &theflags)
+{
+	theflags = parse_imgui_flags(l, index, imguiTableColumnFlagsTable);
+}
+
+int l_pigui_check_table_column_flags(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TTABLE);
+	ImGuiTableColumnFlags_ fl = imguiTableColumnFlagsTable.LookupTable(l, 1);
+	LuaPush<ImGuiTableColumnFlags_>(l, fl);
 	return 1;
 }
 
@@ -711,6 +827,13 @@ static int l_pigui_push_clip_rect_full_screen(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_get_window_content_size(lua_State *l)
+{
+	const char *name = luaL_checkstring(l, 1);
+	LuaPush(l, ImGui::GetWindowContentSize(name));
+	return 1;
+}
+
 static int l_pigui_set_next_window_pos(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -821,6 +944,12 @@ static int l_pigui_get_frame_height_with_spacing(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_get_line_height(lua_State *l)
+{
+	LuaPush(l, ImGui::GetLineHeight());
+	return 1;
+}
+
 static int l_pigui_get_item_spacing(lua_State *l)
 {
 	LuaPush(l, ImGui::GetStyle().ItemSpacing);
@@ -833,13 +962,20 @@ static int l_pigui_get_window_padding(lua_State *l)
 	return 1;
 }
 
+static int l_pigui_add_window_padding(lua_State *l)
+{
+	ImVec2 padding = LuaPull<ImVec2>(l, 1);
+	ImGui::AddWindowPadding(padding);
+	return 0;
+}
+
 static int l_pigui_add_line(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 a = LuaPull<ImVec2>(l, 1);
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
-	ImColor color = LuaPull<ImColor>(l, 3);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	double thickness = LuaPull<double>(l, 4);
 	draw_list->AddLine(a, b, color, thickness);
 	return 0;
@@ -851,7 +987,7 @@ static int l_pigui_add_circle(lua_State *l)
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
 	int radius = LuaPull<int>(l, 2);
-	ImColor color = LuaPull<ImColor>(l, 3);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	int segments = LuaPull<int>(l, 4);
 	double thickness = LuaPull<double>(l, 5);
 	draw_list->AddCircle(center, radius, color, segments, thickness);
@@ -864,7 +1000,7 @@ static int l_pigui_add_circle_filled(lua_State *l)
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
 	int radius = LuaPull<int>(l, 2);
-	ImColor color = LuaPull<ImColor>(l, 3);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	int segments = LuaPull<int>(l, 4);
 	draw_list->AddCircleFilled(center, radius, color, segments);
 	return 0;
@@ -887,7 +1023,7 @@ static int l_pigui_path_stroke(lua_State *l)
 {
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
-	ImColor color = LuaPull<ImColor>(l, 1);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 1).Value);
 	bool closed = LuaPull<bool>(l, 2);
 	double thickness = LuaPull<double>(l, 3);
 	draw_list->PathStroke(color, closed, thickness);
@@ -1275,7 +1411,7 @@ static int l_pigui_add_text(lua_State *l)
 	PROFILE_SCOPED()
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 center = LuaPull<ImVec2>(l, 1);
-	ImColor color = LuaPull<ImColor>(l, 2);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 2).Value);
 	std::string text = LuaPull<std::string>(l, 3);
 	draw_list->AddText(center, color, text.c_str());
 	return 0;
@@ -1288,7 +1424,7 @@ static int l_pigui_add_triangle(lua_State *l)
 	ImVec2 a = LuaPull<ImVec2>(l, 1);
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
 	ImVec2 c = LuaPull<ImVec2>(l, 3);
-	ImColor color = LuaPull<ImColor>(l, 4);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 4).Value);
 	float thickness = LuaPull<double>(l, 5);
 	draw_list->AddTriangle(a, b, c, color, thickness);
 	return 0;
@@ -1300,7 +1436,7 @@ static int l_pigui_add_rect(lua_State *l)
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 a = LuaPull<ImVec2>(l, 1);
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
-	ImColor color = LuaPull<ImColor>(l, 3);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	float rounding = LuaPull<double>(l, 4);
 	int round_corners = LuaPull<int>(l, 5);
 	float thickness = LuaPull<double>(l, 6);
@@ -1316,7 +1452,7 @@ static int l_pigui_add_bezier_curve(lua_State *l)
 	ImVec2 c0 = LuaPull<ImVec2>(l, 2);
 	ImVec2 c1 = LuaPull<ImVec2>(l, 3);
 	ImVec2 b = LuaPull<ImVec2>(l, 4);
-	ImColor color = LuaPull<ImColor>(l, 5);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 5).Value);
 	float thickness = LuaPull<double>(l, 6);
 	int num_segments = LuaPull<int>(l, 7);
 	draw_list->AddBezierCubic(a, c0, c1, b, color, thickness, num_segments);
@@ -1332,7 +1468,7 @@ static int l_pigui_add_image(lua_State *l)
 	ImVec2 b = LuaPull<ImVec2>(l, 3);
 	ImVec2 uv0 = LuaPull<ImVec2>(l, 4);
 	ImVec2 uv1 = LuaPull<ImVec2>(l, 5);
-	ImColor color = LuaPull<ImColor>(l, 6);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 6).Value);
 	draw_list->AddImage(id, a, b, uv0, uv1, color);
 	return 0;
 }
@@ -1350,7 +1486,7 @@ static int l_pigui_add_image_quad(lua_State *l)
 	ImVec2 uvb = LuaPull<ImVec2>(l, 7);
 	ImVec2 uvc = LuaPull<ImVec2>(l, 8);
 	ImVec2 uvd = LuaPull<ImVec2>(l, 9);
-	ImColor color = LuaPull<ImColor>(l, 10);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 10).Value);
 	draw_list->AddImageQuad(id, a, b, c, d, uva, uvb, uvc, uvd, color);
 	return 0;
 }
@@ -1361,7 +1497,7 @@ static int l_pigui_add_rect_filled(lua_State *l)
 	ImDrawList *draw_list = ImGui::GetWindowDrawList();
 	ImVec2 a = LuaPull<ImVec2>(l, 1);
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
-	ImColor color = LuaPull<ImColor>(l, 3);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 3).Value);
 	float rounding = LuaPull<double>(l, 4);
 	int round_corners = LuaPull<int>(l, 5);
 	draw_list->AddRectFilled(a, b, color, rounding, round_corners);
@@ -1376,7 +1512,7 @@ static int l_pigui_add_quad(lua_State *l)
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
 	ImVec2 c = LuaPull<ImVec2>(l, 3);
 	ImVec2 d = LuaPull<ImVec2>(l, 4);
-	ImColor color = LuaPull<ImColor>(l, 5);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 5).Value);
 	float thickness = LuaPull<double>(l, 6);
 	draw_list->AddQuad(a, b, c, d, color, thickness);
 	return 0;
@@ -1389,7 +1525,7 @@ static int l_pigui_add_triangle_filled(lua_State *l)
 	ImVec2 a = LuaPull<ImVec2>(l, 1);
 	ImVec2 b = LuaPull<ImVec2>(l, 2);
 	ImVec2 c = LuaPull<ImVec2>(l, 3);
-	ImColor color = LuaPull<ImColor>(l, 4);
+	ImU32 color = ImGui::GetColorU32(LuaPull<ImColor>(l, 4).Value);
 	draw_list->AddTriangleFilled(a, b, c, color);
 	return 0;
 }
@@ -2614,6 +2750,22 @@ static int l_pigui_set_cursor_screen_pos(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_add_cursor_pos(lua_State *l)
+{
+	ImVec2 v = LuaPull<ImVec2>(l, 1);
+	ImVec2 pos = ImGui::GetCursorPos();
+	ImGui::SetCursorPos(ImVec2(pos.x + v.x, pos.y + v.y));
+	return 0;
+}
+
+static int l_pigui_add_cursor_screen_pos(lua_State *l)
+{
+	ImVec2 v = LuaPull<ImVec2>(l, 1);
+	ImVec2 pos = ImGui::GetCursorScreenPos();
+	ImGui::SetCursorScreenPos(ImVec2(pos.x + v.x, pos.y + v.y));
+	return 0;
+}
+
 static int l_pigui_drag_float(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2872,6 +3024,86 @@ static int l_pigui_push_text_wrap_pos(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_begin_table(lua_State *l)
+{
+	const char *str_id = luaL_checkstring(l, 1);
+	int num_columns = luaL_checkinteger(l, 2);
+	ImGuiTableFlags flags = LuaPull<ImGuiTableFlags_>(l, 3, {});
+	ImVec2 outer_size = LuaPull<ImVec2>(l, 4, ImVec2(0.f, 0.f));
+	float inner_width = luaL_optnumber(l, 5, 0.f);
+
+	bool ok = ImGui::BeginTable(str_id, num_columns, flags, outer_size, inner_width);
+	LuaPush(l, ok);
+
+	return 1;
+}
+
+static int l_pigui_end_table(lua_State *l)
+{
+	ImGui::EndTable();
+	return 0;
+}
+
+static int l_pigui_table_next_row(lua_State *l)
+{
+	float min_row_height = luaL_optnumber(l, 1, 0.0);
+	ImGui::TableNextRow(0, min_row_height);
+	return 0;
+}
+
+static int l_pigui_table_next_column(lua_State *l)
+{
+	bool visible = ImGui::TableNextColumn();
+	LuaPush(l, visible);
+	return 1;
+}
+
+static int l_pigui_table_set_column_index(lua_State *l)
+{
+	int column_index = luaL_checkinteger(l, 1);
+	bool visible = ImGui::TableSetColumnIndex(column_index);
+	LuaPush(l, visible);
+	return 1;
+}
+
+static int l_pigui_table_setup_column(lua_State *l)
+{
+	const char *label = luaL_checkstring(l, 1);
+	ImGuiTableColumnFlags flags = LuaPull<ImGuiTableColumnFlags_>(l, 2, {});
+	float width_or_weight = luaL_optnumber(l, 3, 0.f);
+	const char *user_id_str = luaL_optstring(l, 4, nullptr);
+
+	ImGuiID user_id = user_id_str ? ImGui::GetID(user_id_str) : 0;
+	ImGui::TableSetupColumn(label, flags, width_or_weight, user_id);
+	return 0;
+}
+
+static int l_pigui_table_setup_scroll_freeze(lua_State *l)
+{
+	int columns = luaL_checkinteger(l, 1);
+	int rows = luaL_checkinteger(l, 2);
+
+	ImGui::TableSetupScrollFreeze(columns, rows);
+	return 0;
+}
+
+static int l_pigui_table_headers_row(lua_State *l)
+{
+	bool custom = lua_gettop(l) >= 1 && lua_toboolean(l, 1);
+	if (custom)
+		ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
+	else
+		ImGui::TableHeadersRow();
+	return 0;
+}
+
+static int l_pigui_table_header(lua_State *l)
+{
+	const char *label = luaL_checkstring(l, 1);
+	ImGui::TableHeader(label);
+	return 0;
+}
+
 static Color4ub to_Color4ub(ImVec4 c)
 {
 	return Color4ub(uint8_t(c.x * 255), uint8_t(c.y * 255), uint8_t(c.z * 255), uint8_t(c.w * 255));
@@ -2950,6 +3182,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "AddBezierCurve", l_pigui_add_bezier_curve },
 		{ "AlignTextToFramePadding", l_pigui_align_to_frame_padding },
 		{ "AlignTextToLineHeight", l_pigui_align_to_line_height },
+		{ "GetWindowContentSize", l_pigui_get_window_content_size },
 		{ "SetNextWindowPos", l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize", l_pigui_set_next_window_size },
 		{ "SetNextWindowSizeConstraints", l_pigui_set_next_window_size_constraints },
@@ -2976,8 +3209,10 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "BeginGroup", l_pigui_begin_group },
 		{ "SetCursorPos", l_pigui_set_cursor_pos },
 		{ "GetCursorPos", l_pigui_get_cursor_pos },
+		{ "AddCursorPos", l_pigui_add_cursor_pos },
 		{ "SetCursorScreenPos", l_pigui_set_cursor_screen_pos },
 		{ "GetCursorScreenPos", l_pigui_get_cursor_screen_pos },
+		{ "AddCursorScreenPos", l_pigui_add_cursor_screen_pos },
 		{ "EndGroup", l_pigui_end_group },
 		{ "SameLine", l_pigui_same_line },
 		{ "Separator", l_pigui_separator },
@@ -3042,10 +3277,12 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetContentRegion", l_pigui_get_content_region },
 		{ "GetTextLineHeight", l_pigui_get_text_line_height },
 		{ "GetTextLineHeightWithSpacing", l_pigui_get_text_line_height_with_spacing },
+		{ "GetLineHeight", l_pigui_get_line_height },
 		{ "GetFrameHeight", l_pigui_get_frame_height },
 		{ "GetFrameHeightWithSpacing", l_pigui_get_frame_height_with_spacing },
 		{ "GetItemSpacing", l_pigui_get_item_spacing },
 		{ "GetWindowPadding", l_pigui_get_window_padding },
+		{ "AddWindowPadding", l_pigui_add_window_padding },
 		{ "InputText", l_pigui_input_text },
 		{ "Combo", l_pigui_combo },
 		{ "ListBox", l_pigui_listbox },
@@ -3074,10 +3311,25 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "InputTextFlags", l_pigui_check_input_text_flags },
 		{ "WindowFlags", l_pigui_check_window_flags },
 		{ "HoveredFlags", l_pigui_check_hovered_flags },
+		{ "TableFlags", l_pigui_check_table_flags },
+		{ "TableColumnFlags", l_pigui_check_table_column_flags },
 		{ "BeginTabBar", l_pigui_begin_tab_bar },
 		{ "BeginTabItem", l_pigui_begin_tab_item },
 		{ "EndTabBar", l_pigui_end_tab_bar },
 		{ "EndTabItem", l_pigui_end_tab_item },
+
+		// TABLES API
+		{ "BeginTable", l_pigui_begin_table },
+		{ "EndTable", l_pigui_end_table },
+		{ "TableNextRow", l_pigui_table_next_row },
+		{ "TableNextColumn", l_pigui_table_next_column },
+		{ "TableSetColumnIndex", l_pigui_table_set_column_index },
+		{ "TableSetupColumn", l_pigui_table_setup_column },
+		{ "TableSetupScrollFreeze", l_pigui_table_setup_scroll_freeze },
+		{ "TableHeadersRow", l_pigui_table_headers_row },
+		{ "TableHeader", l_pigui_table_header },
+		// TODO: finish exposing Tables API
+
 		{ "WantTextInput", l_pigui_want_text_input },
 		{ "ClearMouse", l_pigui_clear_mouse },
 		{ 0, 0 }
@@ -3107,4 +3359,6 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	imguiStyleVarTable.Register(l, "ImGuiStyleVar");
 	imguiWindowFlagsTable.Register(l, "ImGuiWindowFlags");
 	imguiHoveredFlagsTable.Register(l, "ImGuiHoveredFlags");
+	imguiTableFlagsTable.Register(l, "ImGuiTableFlags");
+	imguiTableColumnFlagsTable.Register(l, "ImGuiTableColumnFlags");
 }

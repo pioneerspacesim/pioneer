@@ -126,12 +126,12 @@ ui.saveLoadWindow = ModalWindow.New("LoadGame", function()
 		-- for vertical center alignment
 		local txt_hshift = math.max(0, (optionButtonSize.y - ui.getFrameHeight()) / 2)
 		ui.nextItemWidth(txt_width, 0)
-		ui.setCursorPos(ui.getCursorPos() + Vector2(0, txt_hshift))
+		ui.addCursorPos(Vector2(0, txt_hshift))
 		selectedSave = ui.inputText("##saveFileName", selectedSave or "", {})
 		ui.sameLine(txt_width + ui.getWindowPadding().x + ui.getItemSpacing().x)
-		ui.setCursorPos(ui.getCursorPos() + Vector2(0, -txt_hshift))
+		ui.addCursorPos(Vector2(0, -txt_hshift))
 	else
-		ui.setCursorPos(ui.getCursorPos() + Vector2(txt_width + ui.getItemSpacing().x, 0))
+		ui.addCursorPos(Vector2(txt_width + ui.getItemSpacing().x, 0))
 	end
 
 	local mode = saving and lui.SAVE or lui.LOAD

@@ -42,7 +42,7 @@ static void ErrorCheckRecover(ImGuiStackSizes *on_begin, ImGuiErrorLogCallback l
 		if (log_callback) log_callback(user_data, "Recovered from missing EndGroup() in '%s'", window->Name);
 		ImGui::EndGroup();
 	}
-	while (window->IDStack.Size > 1) {
+	while (window->IDStack.Size > on_begin->SizeOfIDStack) {
 		if (log_callback) log_callback(user_data, "Recovered from missing PopID() in '%s'", window->Name);
 		ImGui::PopID();
 	}

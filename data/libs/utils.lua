@@ -125,6 +125,25 @@ function utils.map_table(table, predicate)
 end
 
 --
+-- Function: map_array
+--
+-- Return a new array created from applying a transformer predicate to the
+-- values of the provided array object. If the predicate returns a nil value,
+-- that value will be skipped.
+--
+-- Example:
+--   > transformed = utils.map_array(t, function(v) return v + 32 end)
+--
+function utils.map_array(array, predicate)
+	local t = {}
+	for i, v in ipairs(array) do
+		v = predicate(v)
+		if v ~= nil then table.insert(t, v) end
+	end
+	return t
+end
+
+--
 -- Function: filter_table
 --
 -- Return a new table created from applying a filter predicate to the values
@@ -138,6 +157,22 @@ function utils.filter_table(table, predicate)
 	local t = {}
 	for k, v in pairs(table) do
 		if predicate(k, v) then t[k] = v end
+	end
+	return t
+end
+--
+-- Function: filter_array
+--
+-- Return a new array created from applying a filter predicate to the values
+-- of the provided array object.
+--
+-- Example:
+--   > filtered = utils.filter_array(t, function (i, v) return true end)
+--
+function utils.filter_array(array, predicate)
+	local t = {}
+	for i, v in ipairs(array) do
+		if predicate(v) then table.insert(t, v) end
 	end
 	return t
 end
@@ -412,13 +447,13 @@ end
 --
 -- Return an iterator that iterates through the first N values of the given array table.
 --
-utils.take = function(t, n)
+utils.take = function(t, n, skip)
 	local f = function(s, k)
 		k = k + 1
 		if k > n or s[k] == nil then return nil end
 		return k, s[k]
 	end
-	return f, t, 0
+	return f, t, skip or 0
 end
 
 --
@@ -426,13 +461,13 @@ end
 --
 -- Return an iterator that iterates backwards through the given array table.
 --
-utils.reverse = function(t)
+utils.reverse = function(t, start)
 	local f = function(s, k)
 		k = k - 1
 		if k <= 0 then return end
 		return k, s[k]
 	end
-	return f, t, #t + 1
+	return f, t, (start or #t) + 1
 end
 
 --

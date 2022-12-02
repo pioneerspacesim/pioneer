@@ -147,6 +147,34 @@ function ui.addWideIcon(position, icon, color, size, anchor_horizontal, anchor_v
 end
 
 --
+-- Function: ui.addIconSimple
+--
+-- Display an icon at the given screen position
+--
+-- Example:
+--
+-- > ui.addIconSimple(screenPos, ui.theme.icons.prograde, size, color)
+--
+-- Parameters:
+--
+--   pos     - Vector2, screen position
+--   icon    - number, icon id into the icons texture
+--   size    - Vector2, size to display the icon
+--   color   - Color, icon color
+--   tooltip - string, tooltip to display when hovering icon
+--
+function ui.addIconSimple(pos, icon, size, color, tooltip)
+	local uv0, uv1 = ui.get_icon_tex_coords(icon)
+	pigui.AddImage(ui.get_icons_texture(size), pos, pos + size, uv0, uv1, color)
+
+	if tooltip and (ui.isMouseHoveringWindow() or not ui.isAnyWindowHovered()) then
+		if pigui.IsMouseHoveringRect(pos, pos + size, true) then
+			ui.maybeSetTooltip(tooltip)
+		end
+	end
+end
+
+--
 -- Function: ui.icon
 --
 -- ui.icon(icon, size, color, tooltip)

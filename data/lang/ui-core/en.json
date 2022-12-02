@@ -2318,5 +2318,21 @@
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
     "message": "Zoom"
+  },
+  "CARGO_CAPACITY": {
+	"description": "Label to show a ship's total cargo space.",
+	"message": "Cargo Capacity"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+	"description": "Label for a button toggling the cargo display window.",
+	"message": "Toggle Cargo Window"
+  },
+  "JETTISON_MODE": {
+	"description": "",
+	"message": "Jettison Mode"
+  },
+  "NO_CARGO": {
+	"description": "Message displayed when the player has no cargo in their hold.",
+	"message": "NO CARGO"
   }
 }

@@ -7,6 +7,8 @@ local Serializer = require 'Serializer'
 -- Class: EquipSet
 --
 -- A container for a ship's equipment.
+
+---@class EquipSet
 local EquipSet = utils.inherits(nil, "EquipSet")
 
 EquipSet.default = {

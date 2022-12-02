@@ -280,7 +280,7 @@ end
 --   [...] - up to 4 { icon, value, tooltip } data items for the stats line
 function EquipmentWidget:drawEquipmentItem(data, isSelected, outPos)
 	-- initial indent
-	ui.setCursorPos(ui.getCursorPos() + Vector2(lineSpacing.x * 2, 0))
+	ui.addCursorPos(Vector2(lineSpacing.x * 2, 0))
 	local iconHeight = pionillium.body.size + pionillium.details.size + lineSpacing.y
 	local totalHeight = iconHeight + lineSpacing.y * 2
 	local textWidth = ui.getContentRegion().x - iconHeight - lineSpacing.x * 2
@@ -573,7 +573,7 @@ function EquipmentWidget:draw()
 				local _pos = ui.getCursorPos()
 				ui.withFont(pionillium.heading, function()
 					bottomControlsHeight = ui.getButtonHeightWithSpacing()
-					ui.setCursorPos(ui.getCursorPos() + Vector2(0, ui.getContentRegion().y - bottomControlsHeight))
+					ui.addCursorPos(Vector2(0, ui.getContentRegion().y - bottomControlsHeight))
 					self:drawMarketButtons()
 					ui.sameLine()
 				end)

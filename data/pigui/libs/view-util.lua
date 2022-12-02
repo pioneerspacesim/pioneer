@@ -3,19 +3,20 @@
 
 local util = {}
 
-function util.mixin_modules(t)
-	t.modules = {}
-	t.moduleCount = 0
-
-	function t.registerModule(name, module)
+function util.mixin_modules(modules, callback)
+	---@param name string
+	---@param module table
+	return function (name, module)
+		local idx = modules[name]
 		-- replace if such name already exists
-		if t.modules[name] then
-			t.modules[t.modules[name]] = module
+		if idx then
+			modules[idx] = module
 		else
-			table.insert(t.modules, module)
-			t.moduleCount = t.moduleCount + 1
-			t.modules[name] = t.moduleCount
+			table.insert(modules, module)
+			modules[name] = #modules
 		end
+
+		if callback then callback(name, module, modules[name]) end
 	end
 end
 

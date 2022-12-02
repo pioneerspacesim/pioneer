@@ -15,9 +15,14 @@ ui.lineOnClock = pigui.lineOnClock
 ui.pointOnClock = pigui.pointOnClock
 ui.screenWidth = pigui.screen_width
 ui.screenHeight = pigui.screen_height
-ui.setNextWindowPos = pigui.SetNextWindowPos
-ui.setNextWindowSize = pigui.SetNextWindowSize
-ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints
+
+-- Return the size of the specified window's contents from last frame (without padding/decoration)
+-- Returns {0,0} if the window hasn't been submitted during the lifetime of the program
+ui.getWindowContentSize = pigui.GetWindowContentSize ---@type fun(name: string): Vector2
+ui.setNextWindowPos = pigui.SetNextWindowPos ---@type fun(pos: Vector2, cond: string, pivot: Vector2?)
+ui.setNextWindowSize = pigui.SetNextWindowSize ---@type fun(size: Vector2, cond: string)
+ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints ---@type fun(min: Vector2, max: Vector2)
+
 ui.dummy = pigui.Dummy
 ui.newLine = pigui.NewLine
 ui.spacing = pigui.Spacing
@@ -38,16 +43,18 @@ ui.plotHistogram = pigui.PlotHistogram
 ui.setTooltip = pigui.SetTooltip
 ui.addCircle = pigui.AddCircle
 ui.addCircleFilled = pigui.AddCircleFilled
-ui.addRect = pigui.AddRect
-ui.addRectFilled = pigui.AddRectFilled
-ui.addLine = pigui.AddLine
-ui.addText = pigui.AddText
+ui.addRect = pigui.AddRect ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer, thickness: number)
+ui.addRectFilled = pigui.AddRectFilled ---@type fun(a: Vector2, b: Vector2, col: Color, rounding: number, edges: integer)
+ui.addLine = pigui.AddLine ---@type fun(a: Vector2, b: Vector2, col: Color, thickness: number)
+ui.addText = pigui.AddText ---@type fun(pos: Vector2, col: Color, text: string)
 ui.pathArcTo = pigui.PathArcTo
 ui.pathStroke = pigui.PathStroke
-ui.setCursorPos = pigui.SetCursorPos
-ui.getCursorPos = pigui.GetCursorPos
-ui.setCursorScreenPos = pigui.SetCursorScreenPos
-ui.getCursorScreenPos = pigui.GetCursorScreenPos
+ui.setCursorPos = pigui.SetCursorPos ---@type fun(pos: Vector2)
+ui.getCursorPos = pigui.GetCursorPos ---@type fun(): Vector2
+ui.addCursorPos = pigui.AddCursorPos ---@type fun(add: Vector2)
+ui.setCursorScreenPos = pigui.SetCursorScreenPos ---@type fun(pos: Vector2)
+ui.getCursorScreenPos = pigui.GetCursorScreenPos ---@type fun(): Vector2
+ui.addCursorScreenPos = pigui.AddCursorScreenPos ---@type fun(add: Vector2)
 ui.lowThrustButton = pigui.LowThrustButton
 ui.thrustIndicator = pigui.ThrustIndicator
 ui.isMouseClicked = pigui.IsMouseClicked
@@ -61,12 +68,25 @@ ui.getWindowPos = pigui.GetWindowPos
 ui.getWindowSize = pigui.GetWindowSize
 -- available content region
 ui.getContentRegion = pigui.GetContentRegion
+
+-- Get the current height of a line of text (font.size)
 ui.getTextLineHeight = pigui.GetTextLineHeight
+-- Get the current height of a line of text plus line spacing (font.size + ItemSpacing.y)
 ui.getTextLineHeightWithSpacing = pigui.GetTextLineHeightWithSpacing
-ui.getFrameHeight = pigui.GetFrameHeight
-ui.getFrameHeightWithSpacing = pigui.GetFrameHeightWithSpacing
-ui.getItemSpacing = pigui.GetItemSpacing
-ui.getWindowPadding = pigui.GetWindowPadding
+-- Get current height of line (e.g. after ui.sameLine())
+ui.getLineHeight = pigui.GetLineHeight ---@type fun(): number
+-- Get the current frame height (font.size + FramePadding.y * 2)
+ui.getFrameHeight = pigui.GetFrameHeight ---@type fun(): number
+-- Get the current frame height including the next line spacing (getFrameHeight() + ItemSpacing.y)
+ui.getFrameHeightWithSpacing = pigui.GetFrameHeightWithSpacing ---@type fun(): number
+-- Get the current style item spacing value
+ui.getItemSpacing = pigui.GetItemSpacing ---@type fun(): Vector2
+-- Get the current style window padding value
+ui.getWindowPadding = pigui.GetWindowPadding ---@type fun(): Vector2
+-- Add extra window padding after beginning a window.
+-- WARNING: this must only be called at "top-level" window scope (e.g. not in a Group or Columns etc.)
+ui.addWindowPadding = pigui.AddWindowPadding ---@type fun(padding: Vector2)
+
 ui.getTargetsNearby = pigui.GetTargetsNearby
 ui.getProjectedBodies = pigui.GetProjectedBodies
 ui.getProjectedBodiesGrouped = pigui.GetProjectedBodiesGrouped
@@ -107,12 +127,24 @@ ui.beginTabItem = pigui.BeginTabItem
 ui.endTabItem = pigui.EndTabItem
 ui.endTabBar = pigui.EndTabBar
 
+ui.beginTable = pigui.BeginTable
+ui.endTable = pigui.EndTable
+ui.tableNextRow = pigui.TableNextRow
+ui.tableNextColumn = pigui.TableNextColumn
+ui.tableSetColumnIndex = pigui.TableSetColumnIndex
+ui.tableSetupColumn = pigui.TableSetupColumn
+ui.tableSetupScrollFreeze = pigui.TableSetupScrollFreeze
+ui.tableHeadersRow = pigui.TableHeadersRow
+ui.tableHeader = pigui.TableHeader
+
 -- Flag validation functions. Call with a table of string flags as the only argument.
 ui.SelectableFlags = pigui.SelectableFlags
 ui.TreeNodeFlags = pigui.TreeNodeFlags
 ui.InputTextFlags = pigui.InputTextFlags
 ui.WindowFlags = pigui.WindowFlags
 ui.HoveredFlags = pigui.HoveredFlags
+ui.TableFlags = pigui.TableFlags
+ui.TableColumnFlags = pigui.TableColumnFlags
 
 -- Wrapped in buttons.lua
 -- ui.button = pigui.Button

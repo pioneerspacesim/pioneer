@@ -7,7 +7,9 @@
 -- Functions for interacting with the Player.
 --
 
+---@class Player
 local Player = package.core["Player"]
+
 local Serializer = require 'Serializer'
 local Event = require 'Event'
 local Game = require 'Game'

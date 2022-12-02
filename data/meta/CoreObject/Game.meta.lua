@@ -8,7 +8,7 @@
 
 ---@class Game
 ---
----@field player Body #TODO: add Ship / Player to type tree
+---@field player Player The player's current ship
 ---@field system StarSystem? The system the game is currently playing in or nil when in hyperspace.
 ---@field systemView unknown #TODO: add type info for SystemView interface
 ---@field sectorView unknown #TODO: add type info for SectorView interface
@@ -82,7 +82,8 @@ function Game.GetDateTime() end
 function Game.GetPartsFromDateTime(time) end
 
 ---@param newAccel string
-function Game.SetTimeAcceleration(newAccel) end
+---@param force boolean?
+function Game.SetTimeAcceleration(newAccel, force) end
 ---@return string
 function Game.GetTimeAcceleration() end
 ---@return string
@@ -93,9 +94,9 @@ function Game.InHyperspace() end
 ---@return number
 function Game.GetHyperspaceTravelledPercentage() end
 
----@param type string
-function Game.GetWorldCamType(type) end
 ---@return string
-function Game.SetWorldCamType() end
+function Game.GetWorldCamType() end
+---@param type string
+function Game.SetWorldCamType(type) end
 
 return Game

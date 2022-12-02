@@ -184,14 +184,6 @@ function systemOverviewWidget:onBodyDoubleClicked(sBody)
 	systemView:ViewSelectedObject()
 end
 
-function systemOverviewWidget:overrideDrawButtons()
-	if ui.mainMenuButton(icons.system_overview, luc.TOGGLE_OVERVIEW_WINDOW) then
-		self.visible = false
-	end
-	ui.sameLine()
-	self:drawControlButtons()
-end
-
 function Windows.systemOverview.ShouldShow()
 	return not Windows.unexplored.visible and systemOverviewWidget.visible
 end
@@ -203,6 +195,13 @@ end
 function Windows.systemOverview.Show()
 	local selected = { [systemView:GetSelectedObject().ref or true] = true }
 	ui.withFont(ui.fonts.pionillium.medium, function()
+		if ui.mainMenuButton(icons.system_overview, luc.TOGGLE_OVERVIEW_WINDOW) then
+			systemOverviewWidget.visible = false
+		end
+		ui.sameLine()
+		systemOverviewWidget:drawControlButtons()
+
+		systemOverviewWidget:displaySearch()
 		systemOverviewWidget:display(systemView:GetSystem(), nil, selected)
 	end)
 end
@@ -826,6 +825,8 @@ end
 
 local function displaySystemViewUI()
 	if not systemView then onGameStart() end
+
+	if not ui.shouldDrawUI() then return end
 
 	player = Game.player
 	if Game.CurrentView() == "system" then
