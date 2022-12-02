@@ -192,6 +192,12 @@ ship_spawn_debug_window = function()
       if ui.button("Spawn Docked", Vector2(0, 0)) then
         spawn_ship_docked(ship_name, ai_options[ai_opt_selected], ship_equip)
       end
+      if not Game.player:GetDockedWith() then
+        ui.sameLine()
+        if ui.button("Teleport To", Vector2(0, 0)) then
+          Game.player:SetDockedWith(nav_target)
+        end
+      end
     end
     if Game.player:GetCombatTarget() then
       if ui.button("Spawn##Missile", Vector2(0, 0)) then

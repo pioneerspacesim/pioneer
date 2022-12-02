@@ -757,7 +757,10 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 
 		if (!m_adjacentCity) {
 			m_adjacentCity = new CityOnPlanet(static_cast<Planet *>(b), this, m_sbody->GetSeed());
+			// Update clipping radius
+			SetClipRadius(m_adjacentCity->GetClipRadius());
 		}
+
 		m_adjacentCity->Render(r, camera->GetContext()->GetFrustum(), this, viewCoords, viewTransform);
 
 		RenderModel(r, camera, viewCoords, viewTransform, false);

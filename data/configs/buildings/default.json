@@ -1,0 +1,148 @@
+{
+	"size": [
+		{
+			"population": 6.0,
+			"baseSize": 6000,
+			"atmoSize": 3500,
+			"randomSize": 5000,
+			"density": 0.5
+		},
+		{
+			"population": 2.0,
+			"baseSize": 4000,
+			"atmoSize": 2500,
+			"randomSize": 3000,
+			"density": 0.6
+		},
+		{
+			"population": 0.8,
+			"baseSize": 2500,
+			"atmoSize": 2000,
+			"randomSize": 1500,
+			"density": 0.7
+		},
+		{
+			"population": 0.2,
+			"baseSize": 2000,
+			"atmoSize": 1500,
+			"randomSize": 1000,
+			"density": 0.8
+		},
+		{
+			"population": 0.02,
+			"baseSize": 1000,
+			"atmoSize": 750,
+			"randomSize": 500,
+			"density": 0.9
+		},
+		{
+			"population": 0.001,
+			"baseSize": 500,
+			"atmoSize": 200,
+			"randomSize": 300,
+			"density": 1.0
+		}
+	],
+	"buildings": {
+		"kbuilding01": {
+			"airless-rarity": 0.8,
+			"kind": "industry"
+		},
+		"kbuilding02": {
+			"airless-rarity": 0.3,
+			"atmospheric-rarity": 0.4,
+			"kind": "industry"
+		},
+		"kbuilding03": {
+			"airless-rarity": 0.3,
+			"atmospheric-rarity": 0.5,
+			"kind": "industry"
+		},
+		"Dome1": {
+			"airless-rarity": 0.8,
+			"atmospheric-rarity": 0.5,
+			"kind": "frontier"
+		},
+		"Dome2": {
+			"layout": 1,
+			"airless-rarity": 0.6,
+			"atmospheric-rarity": 0.2,
+			"kind": "frontier"
+		},
+		"Library": {
+			"airless-rarity": 0.3,
+			"atmospheric-rarity": 0.3,
+			"kind": "monument"
+		},
+		"Mall": {
+			"airless-rarity": 0.6,
+			"atmospheric-rarity": 1.0,
+			"kind": "habitat"
+		},
+		"Tower1": {
+			"airless-rarity": 0.7,
+			"atmospheric-rarity": 1.0,
+			"kind": "habitat"
+		},
+		"Tower2": {
+			"airless-rarity": 0.6,
+			"atmospheric-rarity": 0.8,
+			"kind": "monument"
+		},
+		"newbuilding1": {
+			"airless-rarity": 0.9,
+			"atmospheric-rarity": 0.5,
+			"kind": "habitat"
+		},
+		"newbuilding2": {
+			"airless-rarity": 0.9,
+			"atmospheric-rarity": 0.5,
+			"kind": "habitat"
+		},
+		"newbuilding3": {
+			"airless-rarity": 0.9,
+			"atmospheric-rarity": 0.5,
+			"kind": "monument"
+		},
+		"newbuilding4": {
+			"airless-rarity": 0.9,
+			"atmospheric-rarity": 0.5,
+			"kind": "monument"
+		},
+		"newbuilding5": {
+			"airless-rarity": 0.6,
+			"atmospheric-rarity": 0.4,
+			"kind": "habitat"
+		},
+		"newbuilding6": {
+			"airless-rarity": 0.6,
+			"atmospheric-rarity": 0.4,
+			"kind": "habitat"
+		},
+		"newbuilding7": {
+			"airless-rarity": 0.6,
+			"atmospheric-rarity": 0.4,
+			"kind": "industry"
+		},
+		"newbuilding8": {
+			"airless-rarity": 0.5,
+			"atmospheric-rarity": 0.2,
+			"kind": "industry"
+		},
+		"newbuilding9": {
+			"airless-rarity": 0.4,
+			"atmospheric-rarity": 0.3,
+			"kind": "industry"
+		},
+		"newbuilding10": {
+			"airless-rarity": 0.4,
+			"atmospheric-rarity": 0.3,
+			"kind": "storage"
+		},
+		"newbuilding11": {
+			"airless-rarity": 0.3,
+			"atmospheric-rarity": 0.5,
+			"kind": "frontier"
+		}
+	}
+}

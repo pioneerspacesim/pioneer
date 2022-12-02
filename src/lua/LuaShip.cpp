@@ -514,6 +514,46 @@ static int l_ship_get_docked_with(lua_State *l)
 }
 
 /*
+ * Method: SetDockedWith
+ *
+ * Set the station as docked with the given space station. May not work properly if the ship is already docked.
+ *
+ * > success = ship:SetDockedWith(station)
+ *
+ * Parameters:
+ *
+ *   station - a SpaceStation to dock the current ship with
+ *
+ * Return:
+ *
+ *   success - a boolean indicating whether the current ship was able to be docked at the station
+ *
+ * Availability:
+ *
+ *   2022-11
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_set_docked_with(lua_State *l)
+{
+	Ship *ship = LuaObject<Ship>::CheckFromLua(1);
+	SpaceStation *station = LuaObject<SpaceStation>::CheckFromLua(2);
+
+	int port = station->GetFreeDockingPort(ship); // pass in the ship to get a port we fit into
+	if (port < 0) {
+		lua_pushboolean(l, false);
+		return 0;
+	}
+
+	ship->SetFrame(station->GetFrame());
+	ship->SetDockedWith(station, port);
+	lua_pushboolean(l, true);
+	return 1;
+}
+
+/*
  * Method: Undock
  *
  * Undock from the station currently docked with
@@ -1640,6 +1680,7 @@ void LuaObject<Ship>::RegisterClass()
 		{ "GetDurationForDistance", l_ship_get_duration_for_distance },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
+		{ "SetDockedWith", l_ship_set_docked_with },
 		{ "Undock", l_ship_undock },
 		{ "BlastOff", l_ship_blast_off },
 
