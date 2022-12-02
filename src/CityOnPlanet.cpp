@@ -155,7 +155,7 @@ void CityOnPlanet::LoadBuildingType(std::string_view key, const Json &buildingDe
 
 void CityOnPlanet::LoadCityFlavour(const FileSystem::FileInfo &file)
 {
-	Json fileData = JsonUtils::LoadJson(file.Read());
+	Json fileData = JsonUtils::LoadJsonDataFile(file.GetPath(), true);
 	if (!fileData.is_object()) {
 		Log::Info("CityOnPlanet: Could not load city definition file '{}' as a valid JSON file.", file.GetPath());
 		return;
