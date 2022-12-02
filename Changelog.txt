@@ -1,6 +1,8 @@
 November 2022
   * New Features
     * Improved lead calculation for pulse and beam weapons (#5417)
+    * New sidebars and cargo display in the Flight UI (#5431)
+    * Massively expanded and improved spaceport city generation (#5430)
 
   * Internal Changes
     * Cargo is now handled completely separately from ship equipment (#5389)
