@@ -56,17 +56,14 @@ Sensors::Sensors(Ship *owner)
 	m_owner = owner;
 }
 
-bool Sensors::ChooseTarget(TargetingCriteria crit)
+Body* Sensors::ChooseTarget(TargetingCriteria crit, const Body* oldTarget )
 {
 	PROFILE_SCOPED();
-	bool found = false;
 
-	Player* player = dynamic_cast<Player*>(m_owner);
-
-	if(!player)
-		return false;
-
-	Body* currTarget = player->GetCombatTarget();
+	if(!m_owner->IsType(ObjectType::PLAYER))
+		return nullptr;
+		
+	const Body* currTarget = oldTarget;
 
 	m_radarContacts.sort(ContactDistanceSort);
 
@@ -87,18 +84,11 @@ bool Sensors::ChooseTarget(TargetingCriteria crit)
 			//should move the target to ship after all (from PlayerShipController)
 			//targeting inputs stay in PSC
 
-
-
-			player->SetCombatTarget(it->body);
-			found = true;
-			break;
+			return it->body;
 		}
 	}
 
-	if(!found && crit == CYCLE_HOSTILE)
-		player->SetCombatTarget(nullptr);
-
-	return found;
+	return nullptr;
 }
 
 Sensors::IFF Sensors::CheckIFF(Body *other)
@@ -158,7 +148,7 @@ void Sensors::Update(float time)
 		if (!it->fresh) {
 			m_radarContacts.erase(it++);
 		} else {
-			const Ship *ship = dynamic_cast<Ship *>(it->body);
+			const Ship *ship = it->body->IsType(ObjectType::SHIP) ? static_cast<Ship *>(it->body) : nullptr;
 			if (ship && Ship::FLYING == ship->GetFlightState()) {
 				it->distance = m_owner->GetPositionRelTo(it->body).Length();
 				it->iff = CheckIFF(it->body);

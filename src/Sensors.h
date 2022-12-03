@@ -49,7 +49,7 @@ public:
 	static bool ContactDistanceSort(const RadarContact &a, const RadarContact &b);
 
 	Sensors(Ship *owner);
-	bool ChooseTarget(TargetingCriteria);
+	Body* ChooseTarget(TargetingCriteria, const Body* oldTarget);
 	IFF CheckIFF(Body *other);
 	const ContactList &GetContacts() { return m_radarContacts; }
 	const ContactList &GetStaticContacts() { return m_staticContacts; }
