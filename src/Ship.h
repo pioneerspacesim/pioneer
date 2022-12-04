@@ -198,6 +198,7 @@ public:
 	void AIBodyDeleted(const Body *const body){}; // Note: defined in Ship-AI.cpp // todo: signals
 
 	const AICommand *GetAICommand() const { return m_curAICmd; }
+	bool IsAIAttacking(const Ship *target) const;
 
 	virtual void PostLoadFixup(Space *space) override;
 

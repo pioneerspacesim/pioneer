@@ -17,6 +17,7 @@
 #include "core/OS.h"
 #include "lua/LuaObject.h"
 #include "ship/ShipController.h"
+#include "Sensors.h"
 
 #include <algorithm>
 
@@ -137,6 +138,7 @@ REGISTER_INPUT_BINDING(PlayerShipController)
 
 	auto weaponsGroup = controlsPage->GetBindingGroup("Weapons");
 	input->AddActionBinding("BindTargetObject", weaponsGroup, Action({ SDLK_y }));
+	input->AddActionBinding("BindCycleHostiles", weaponsGroup, Action({ SDLK_t }));
 	input->AddActionBinding("BindPrimaryFire", weaponsGroup, Action({ SDLK_SPACE }));
 	input->AddActionBinding("BindSecondaryFire", weaponsGroup, Action({ SDLK_m }));
 
@@ -197,11 +199,18 @@ PlayerShipController::PlayerShipController() :
 		[this]() {
 			this->SetSpeedLimiterActive(not this->IsSpeedLimiterActive());
 		});
+
+	m_SelectTarget = InputBindings.targetObject->onPressed.connect (
+		sigc::mem_fun(this, &PlayerShipController::SelectTarget));
+
+	m_CycleHostiles = InputBindings.cycleHostiles->onPressed.connect (
+		sigc::mem_fun(this, &PlayerShipController::CycleHostiles));
 }
 
 void PlayerShipController::InputBinding::RegisterBindings()
 {
 	targetObject = AddAction("BindTargetObject");
+	cycleHostiles = AddAction("BindCycleHostiles");
 	primaryFire = AddAction("BindPrimaryFire");
 	secondaryFire = AddAction("BindSecondaryFire");
 
@@ -755,6 +764,143 @@ void PlayerShipController::FireMissile()
 	if (!Pi::player->GetCombatTarget())
 		return;
 	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", "any", static_cast<Ship *>(Pi::player->GetCombatTarget()));
+}
+
+static constexpr double MAX_SELECT_VIEW_ANGLE = DEG2RAD(3.0);
+static constexpr double RELATIVE_DIST_EPSILON = 1.0/20.0;
+
+//Same value as in data/pigui/modules/radar.lua. They should be in sync.
+#define MAX_RADAR_SIZE 1000000000
+//Value from pigui/views/game.lua. They should be in sync.
+#define IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE 1000000
+
+static bool HierarchyAndDistanceComparator(const Space::BodyDist& bd1, const Space::BodyDist& bd2)
+{
+	//If the bodies are relatively close to each other from pleyers perspective
+	if(abs(bd1.dist - bd2.dist)/(bd1.dist + bd2.dist) < RELATIVE_DIST_EPSILON) {
+		FrameId fid =  bd2.body->GetFrame();
+		Frame* f = nullptr;
+
+		//check if second body is parent of first
+		while((f = Frame::GetFrame(fid))) {
+
+			if(f->GetBody() == bd1.body)
+				return true;
+
+			fid = f->GetParent();
+		}
+
+		fid =  bd1.body->GetFrame();
+		f = nullptr;
+		
+		//check if first body is parent of second
+		while((f = Frame::GetFrame(fid))) {
+			if(f->GetBody() == bd2.body)
+				return false;
+
+			fid = f->GetParent();
+		}
+	}
+
+	//if bodies are far enough from each other or not related
+	return bd1.dist < bd2.dist;
+}
+
+void PlayerShipController::SelectTarget()
+{
+	// camera orientation and offset relative to the ship. This vector is already normalized, but for some reason
+	// has wrong direction
+	vector3d view_dir = Pi::game->GetWorldView()->shipView->GetCameraController()->GetOrient().VectorZ() * (-1.0);
+
+	//The cocpit camera is not in the center of the ship, this has to be accounted for when looking to the side
+	//or for tall ships
+	vector3d camera_offset = Pi::game->GetWorldView()->shipView->GetCameraController()->GetPosition();
+
+	std::vector<Space::BodyDist> bodyDistList =
+		Pi::game->GetSpace()->BodiesInAngle(Pi::player, camera_offset, view_dir, cos(MAX_SELECT_VIEW_ANGLE));
+
+	//sort by distance and body hierarchy
+	std::sort(bodyDistList.begin(), bodyDistList.end(), HierarchyAndDistanceComparator);
+
+	//Can't rely on GetCombatTarget() or GetNavTarget() to know what was previously selected
+	static Body *prevSelectTarget = nullptr;
+	Body *newTarget = nullptr;
+
+	//With radar ships will be selected at much greter distance, the idea is that even though
+	//you can't see them on screen overlay, they could be visible on radar
+	int ship_detect_dist = m_ship->m_stats.radar_cap > 0 ? MAX_RADAR_SIZE : IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE;
+
+	//cycling
+	for (auto it = bodyDistList.begin(); it != bodyDistList.end(); ++it) {
+
+		if (it->body->GetType() == ObjectType::PROJECTILE) continue;
+		if ((it->body->GetType() == ObjectType::SHIP || it->body->GetType() == ObjectType::CARGOBODY
+			|| it->body->GetType() == ObjectType::HYPERSPACECLOUD)
+			&& it->dist > ship_detect_dist)
+			continue;
+
+		//selecting first valid target, but only if different then already selected
+		if(!newTarget) {
+			if (it->body->IsType(ObjectType::SHIP) || it->body->IsType(ObjectType::MISSILE)) {
+
+				if(it->body != GetCombatTarget())
+					newTarget = it->body;
+			}
+			else {
+				if(it->body != GetNavTarget())
+					newTarget = it->body;
+			}
+
+		}
+
+		//If there was target previously selected we keep rolling till we find it
+		//and then select next one. If no prevSelectTarget found the first valid is taken
+		if (prevSelectTarget) {
+			if (prevSelectTarget == it->body) {
+				prevSelectTarget = nullptr;
+				//next valid body will be selected
+			}
+			continue;
+		}
+
+		if (it->body->IsType(ObjectType::SHIP) || it->body->IsType(ObjectType::MISSILE)) {
+
+			if(it->body != GetCombatTarget()) {
+				newTarget = it->body;
+				break;
+			}
+		}
+		else {
+			if(it->body != GetNavTarget()) {
+
+				newTarget = it->body;
+				break;
+			}
+		}
+	}
+
+	prevSelectTarget = newTarget;
+
+	//newTarget is really new - not the same as current combat or nav target
+	//if such fresh target was not found then newTarget should be null so we will
+	//be toggling in such case
+	if (newTarget) {
+		if (newTarget->IsType(ObjectType::SHIP) || newTarget->IsType(ObjectType::MISSILE))
+			SetCombatTarget(newTarget);
+		else
+			SetNavTarget(newTarget);
+	} else {
+		if (GetCombatTarget())
+			SetCombatTarget(nullptr);
+		else
+			SetNavTarget(nullptr);
+	}
+}
+
+void PlayerShipController::CycleHostiles()
+{
+	Body* newTarget = Pi::player->GetSensors()->ChooseTarget(Sensors::CYCLE_HOSTILE, GetCombatTarget());
+	SetCombatTarget(newTarget);
 }
 
 void PlayerShipController::ToggleCruise()

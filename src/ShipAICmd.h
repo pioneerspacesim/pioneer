@@ -65,7 +65,6 @@ public:
 protected:
 	DynamicBody *m_dBody;
 	Propulsion *m_prop;
-	FixedGuns *m_fguns;
 
 	std::unique_ptr<AICommand> m_child;
 	bool m_is_flyto = false;
@@ -191,7 +190,10 @@ public:
 
 	virtual void OnDeleted(const Body *body);
 
+	const Ship* GetTarget() const { return m_target; }
+
 private:
+	FixedGuns *m_fguns;
 	Ship *m_target;
 	double m_leadTime, m_evadeTime, m_closeTime;
 	vector3d m_leadOffset, m_leadDrift, m_lastVel;
@@ -209,6 +211,7 @@ public:
 
 	virtual void OnDeleted(const Body *body);
 
+	const Body* GetTarget() const { return m_target; }
 private:
 	Body *m_target;
 	int m_targetIndex; // used during deserialisation
