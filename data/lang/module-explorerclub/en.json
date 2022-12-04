@@ -1,0 +1,210 @@
+{
+	"X" : {
+		"description" : "",
+		"message" : ""
+	},
+
+	"EXPLORER_DEVICE" : {
+		"description" : "",
+		"message" : "Explorers Astro Data Interface"
+	},
+	"SHORT_DEVICE" : {
+		"description" : "",
+		"message" : "Data Interface"
+	},
+	"EXPLORERS_CLUB" : {
+		"description" : "Full name of the organization",
+		"message" : "Explorers guild"
+	},
+	"SHORT_CLUB" : {
+		"description" : "Shorthand name of the organization",
+		"message" : "guild"
+	},   
+	"EXPLORERS_INVITE" : {
+		"description" : "After exploring 10+ systems, player gets this message when docking at a station, inviting him or her to a bbs entry to talk/join the explorers faction-group",
+		"message" : "Greetings Commander. The {clubname} would like to invite you to join us. Check your local BBS to contact one of our branch offices for further information."
+	},
+	"DATACOLLECTED" : {
+		"description" : "",
+		"message" : "{longdevice} has successfully collected and stored data gathered about this system."
+	},
+	"COMM_EXPLORER_JOIN" : {
+		"description" : "",
+		"message" : "You have joined the {clubname}."
+	},
+	"LOG_EXPLORER_JOIN" : {
+		"description" : "",
+		"message" : "Joined the {clubname}."
+	},
+
+	"INFO_RANK_HEADER" : {
+		"description" : "",
+		"message" : "Guild rank"
+	},
+	"INFO_RANK_0" : {
+		"description" : "Lowest rank, for unproven new recruits",
+		"message" : "Freshman"
+	},
+	"INFO_EXPLORATION" : {
+		"description" : "Section header for explorers club in personal info-view",
+		"message" : "Exploration"
+	},
+	"INFO_SYSTEMS_EXPLORED" : {
+		"description" : "Line item for number of systems explored in personal info-view",
+		"message" : "Star systems explored"
+	},
+	"INFO_JUMPS_MADE" : {
+		"description" : "Line item for number of jumps made in personal info-view",
+		"message" : "Hyperspace jumps made"
+	},
+	"INFO_LIGHTYEARS_TRAVELED" : {
+		"description" : "Line item for lightyears traveled in personal info-view",
+		"message" : "Lightyears traveled"
+	},
+
+	"BBS_CLUBSTORY" : {
+		"description" : "",
+		"message" : "The {clubname} was established over five centuries ago by independent pilots who wished to expand the boundaries of human presence in the Milky way. Following the era of the great colony ships, the {shortclub} became one of the major driving forces of human expansion out into our galaxy. Word of temperate worlds ready for farming or planets rich in resources spreads quickly and the men and women who find them are richly rewarded. We hope you will join us the endeavour."
+	},
+	"BBS_EXPLAIN_BENEFITS" : {
+		"description" : "",
+		"message" : "You will receive a membership certificate to allow you to use the services that the {shortclub} provides. The most significant service is the monetary rewards that the {shortclub} awards for data on newly explored systems. Extra bonuses are awarded for valuable discoveries like earthlike planets, water-rich planets (especially liquid water) and planets rich with rare and valuable resources. Sometimes the {shortclub} can also offer good deals on ships and equipment. The {shortclub} may also offer various assignments for pilots with particular skills."
+	},
+	"BBS_EXPLAIN_DEVICE" : {
+		"description" : "Explain to the player what the explorer device is for",
+		"message" : "Upon entering an unexplored system the {device} will gather the desired data from the ships main computer and store it in a certified and secure format. If your device ever gets lost, damaged or destroyed, the system data stored within will be lost. However, to get a replacement device, simply find the nearest {shortclub} office where they should have replacement devices, for a small fee."
+	},
+	"BBS_EXPLAIN_RANKS" : {
+		"description" : "Explain to the player what the ranks are",
+		"message" : "Certainly!\n\nNew members always start out as Freshman where they remain until they have done at least some basic explorer tasks, either exploring new star systems or completing tasks for the {shortclub}.\n\nThe next rank up is Traveler, where most of our members are at. Its a full membership with voting rights and access to all the basic services but no actual duties."
+	},
+	"BBS_EXPLORERS_HQ_CONTACT" : {
+		"description" : "BBS title for headquarter contact to explorers club",
+		"message" : "Explorers Guild HQ, {station} chapter"
+	},
+	"BBS_EXPLORERS_LOCAL_CONTACT" : {
+		"description" : "BBS title for local contact to explorers club",
+		"message" : "Explorers Guild, {station} chapter"
+	},
+	"BBS_INVITED_INTRO" : {
+		"description" : "",
+		"message" : "Greetings commander. I am {repname} of the {clubname}. We have received word of your recent exploration efforts, and I would like to invite you to join us so that you may earn income from your exploring."
+	},
+	"BBS_MEMBERSHIP_FEE" : {
+		"description" : "",
+		"message" : "Very well! There is only the matter of the membership fee, currently set at {membercost}. The {device} is an additional {devicecost}. You can choose to pay for both right now, or come back to get the {device} at a later date. Whats your choice?"
+	},
+	"BBS_NEW_DEVICE_INSTALLED" : {
+		"description" : "",
+		"message" : "Certainly Commander, I have received the funds and dispatched a new {device} to the docks to be installed in your ship."
+	},
+	"BBS_NOFUNDS" : {
+		"description" : "",
+		"message" : "Commander, it seems like your current funds are insufficient at this time. Please return once you have secured the needed capital."
+	},
+	"BBS_NOTHINGTOSIGN" : {
+		"description" : "",
+		"message" : "Oh, there is nothing to sign, just a small membership fee. The {clubname} is a pretty informal organization. As a new member, you will probably also want a {device} so that new system data can be gathered and stored in a certified manner. We can install one on your ship right now, however it also has an associated charge of {devicecost}."
+	},
+	"BBS_NONEWDATAFOUND" : {
+		"description" : "",
+		"message" : "Hmmm. Im sorry commander, your {device} holds no new data."
+	},
+	"BBS_REJECTIONTEXT" : {
+		"description" : "",
+		"message" : "It saddens me to hear that. Maybe in the future you will reconsider. Our offices are always open if you ever have a change of heart. Until then, we wish you all the best."
+	},
+	"BBS_REJECTAGAIN" : {
+		"description" : "",
+		"message" : "It's your decision. You know how to contact us if you change your mind."
+	},
+	"BBS_REJECT_INTRO" : {
+		"description" : "",
+		"message" : "Greetings once again commander. Have you changed your mind about joining?"
+	},
+	"BBS_SYSTEM_ERROR" : {
+		"description" : "",
+		"message" : "Im sorry commander, I cannot help you. Something seems to be faulty with our equipment as this BBS entry was posted by mistake."
+	},
+	"BBS_WELCOMESERVICES" : {
+		"description" : "",
+		"message" : "Welcome Commander! I am {repname} of the {station} chapter of {clubname}, how may I be of service to you today?"
+	},
+	"BBS_WELCOME_FULL" : {
+		"description" : "",
+		"message" : "Good. Good!\n\nThe {clubname} hereby accepts into its ranks, you, Commander {player}! We hope that your efforts in exploration brings prosperity and glory to you yourself, the {shortclub} and all of humanity. Your membership certificate will be issued right away and copies of it dispatched to our other offices. A brand new {device} has also been installed in your ship. Good luck fellow traveller!"
+	},
+	"BBS_WELCOME_ONLY" : {
+		"description" : "",
+		"message" : "Good. Good!\n\nThe {clubname} hereby accepts into its ranks, you, Commander {player}! We hope that your efforts in exploration brings prosperity and glory to you yourself, the {shortclub} and all of humanity. Your membership certificate will be issued right away and copies of it dispatched to our other offices.\n\nReturn to one of our offices when you feel ready to acquire the {device}. Until then, we wish you safe travels Commander!"
+	},
+	"BBS_WHERE_UNEXPLORED" : {
+		"description" : "",
+		"message" : "There are millions of unexplored star systems out there still waiting to be explored, but not around here!\n\nEverything within about 500 lightyears of Earth is already explored. But out past 700 lightyears or so it's almost all unexplored. It's a long journey out there, but we have offices out near the frontier too, so you won't have to travel all the way back here to collect your rewards."
+	},
+
+	"BBSOPT_CHANGEDMYMIND" : {
+		"description" : "",
+		"message" : "I have now changed my mind and would like to join."
+	},
+	"BBSOPT_EXPLAIN_RANKS" : {
+		"description" : "Ask contact to explain ranks",
+		"message" : "Could you explain the {shortclub} ranks?"
+	},
+	"BBSOPT_JUST_MEMBERSHIP" : {
+		"description" : "",
+		"message" : "({membercost}) Just membership for now."
+	},
+	"BBSOPT_MEMBERANDDEVICE" : {
+		"description" : "",
+		"message" : "({bothcost}) The whole package!"
+	},
+	"BBSOPT_NEED_DEVICE" : {
+		"description" : "",
+		"message" : "({devicecost}) I need a {device}."
+	},
+	"BBSOPT_NOTHANKS" : {
+		"description" : "",
+		"message" : "No thank you, I'm not interested."
+	},
+	"BBSOPT_OKLETSDOIT" : {
+		"description" : "",
+		"message" : "Ok, it sounds interesting. I'd like to join."
+	},
+	"BBSOPT_OKGOTIT" : {
+		"description" : "",
+		"message" : "Ok, got it."
+	},
+	"BBSOPT_STILLNOINTEREST" : {
+		"description" : "",
+		"message" : "No thank you, I'm still not interested."
+	},
+	"BBSOPT_SUBMITNEWDATA" : {
+		"description" : "",
+		"message" : "I have new data to submit."
+	},
+	"BBSOPT_TELLMEMORE" : {
+		"description" : "",
+		"message" : "What is the {clubname} about?"
+	},
+	"BBSOPT_THANKYOU" : {
+		"description" : "It never hurts to be polite",
+		"message" : "Thank you very much! (Hang up)"
+	},
+	"BBSOPT_WHAT_DEVICE" : {
+		"description" : "",
+		"message" : "A {device}? How does it work?"
+	},
+	"BBSOPT_WHAT_FOR_ME" : {
+		"description" : "What's in it for me?",
+		"message" : "What's in it for me?"
+	},
+	"BBSOPT_WHERE_UNEXPLORED" : {
+		"description" : "",
+		"message" : "Where can I find unexplored star systems?"
+	},
+	"BBSOPT_YESDIRECT" : {
+		"description" : "",
+		"message" : "Sure thing! Where do I sign?"
+	}
+}
