@@ -111,6 +111,10 @@
     "description": "",
     "message": "Товар"
   },
+  "CARGO_CAPACITY": {
+    "description": "Label to show a ship's total cargo space.",
+    "message": "Товарен капацитет"
+  },
   "CARGO_SPACE": {
     "description": "",
     "message": "Товарно място"
@@ -1191,6 +1195,10 @@
     "description": "",
     "message": "Изхвърляне"
   },
+  "JETTISON_MODE": {
+    "description": "",
+    "message": "Режим на изхвърляне"
+  },
   "JUMPING": {
     "description": "Flight State",
     "message": "Хиперскок"
@@ -1530,6 +1538,10 @@
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
     "message": "{equipment} не се поддържа на този кораб"
+  },
+  "NO_CARGO": {
+    "description": "Message displayed when the player has no cargo in their hold.",
+    "message": "НЯМА ТОВАР"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
@@ -2110,6 +2122,10 @@
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Ръкав 3-кпс"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+    "description": "Label for a button toggling the cargo display window.",
+    "message": "Преглед на товара"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
