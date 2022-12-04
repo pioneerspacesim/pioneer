@@ -28,9 +28,9 @@ local function LifeSupportCallback(self)
 		end
 	end
 
-	if self == Game.player then
-		Engine.RequestProfileFrame()
-	end
+	-- if self == Game.player then
+	-- 	Engine.RequestProfileFrame()
+	-- end
 
 	return true
 end
