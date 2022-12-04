@@ -1313,8 +1313,8 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
 		// 250 second recharge
 		float recharge_rate = 0.004f;
-		float booster = Properties().Get("shield_energy_booster_cap").get_number(1.0f);
-		recharge_rate *= booster;
+		float booster = Properties().Get("shield_energy_booster_cap");
+		recharge_rate *= booster ? booster : 1.0;
 		m_stats.shield_mass_left = Clamp(m_stats.shield_mass_left + m_stats.shield_mass * recharge_rate * timeStep, 0.0f, m_stats.shield_mass);
 		Properties().Set("shieldMassLeft", m_stats.shield_mass_left);
 	}
