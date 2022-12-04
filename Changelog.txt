@@ -1,3 +1,13 @@
+December 2022
+  * New Features
+    * Implement select target and cycle hostile contact buttons (#5429)
+  
+  * Internal Changes
+    * Load mods from unpacked directories as well as zip files (#5432)
+  
+  * Fixes
+    * Fix shield recharging being disabled after selling shield booster (#5434)
+
 November 2022
   * New Features
     * Improved lead calculation for pulse and beam weapons (#5417)
@@ -25,6 +35,12 @@ October 2022
   * Fixes
     * Fix broken Scoop mission, due to onCargoDestroyed event not triggered (#5407)
     * Fix animation import issues with assimp >= 5.1.0 (#5412)
+
+September 2022
+  * The busy nature of life consumes all
+
+August 2022
+  * Contributors all working on unmerged code
 
 July 2022
   * Internal Changes
