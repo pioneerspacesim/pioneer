@@ -47,6 +47,10 @@
     "description": "Descriptive name for the CycleCameraMode action.",
     "message": "Przełącz tryb kamery"
   },
+  "BIND_CYCLE_HOSTILES": {
+    "description": "Descriptive name for the CycleHostiles action.",
+    "message": "Przełącz wrogów "
+  },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
     "message": "Zwolnienie upływu czasu"

@@ -1605,7 +1605,7 @@
   },
   "TINY": {
     "description": "Adjective used to describe the size of an object.",
-    "message": "Średnia"
+    "message": "Mały"
   },
   "TOGGLE_EQUIPMENT_VIEW": {
     "description": "Tooltip for the Equipment View button",
