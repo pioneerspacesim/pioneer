@@ -381,11 +381,22 @@ bool AICmdKill::TimeStepUpdate()
 		return false;
 	}
 
-	if (!ProcessChild()) return false;
 	if (!m_target || m_target->IsDead()) return true;
 
+	const vector3d targpos = m_target->GetPositionRelTo(m_dBody);
+	double dist = targpos.LengthSqr();
+
+	//Autopilot leads to a point VICINITY_MIN in front of target
+	//If terget (Player) is manouvering this point might never be reached..
+	if(m_child) {
+		if(dist < (VICINITY_MIN + 1000.0) * (VICINITY_MIN + 1000.0)) //no sqrt on dist yet
+			m_child.reset();
+		else if (!ProcessChild())
+			return false;
+	}
+
+	dist = sqrt(dist);
 	const matrix3x3d &rot = m_dBody->GetOrient();
-	vector3d targpos = m_target->GetPositionRelTo(m_dBody);
 	vector3d targvel = m_target->GetVelocityRelTo(m_dBody);
 	vector3d targdir = targpos.NormalizedSafe();
 	vector3d heading = -rot.VectorZ();
@@ -394,7 +405,7 @@ bool AICmdKill::TimeStepUpdate()
 	m_lastVel = m_target->GetVelocity(); // may need next frame
 	vector3d leaddir = m_prop->AIGetLeadDir(m_target, targaccel, m_fguns->GetProjSpeed(0));
 
-	if (targpos.Length() >= VICINITY_MIN + 1000.0) { // if really far from target, intercept
+	if (dist >= VICINITY_MIN + 1000.0) { // if really far from target, intercept
 		//		Output("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
 		m_child.reset(new AICmdFlyTo(m_dBody, m_target));
 		ProcessChild();
@@ -419,7 +430,7 @@ bool AICmdKill::TimeStepUpdate()
 
 		// Shoot only when close to target
 
-		double vissize = 1.3 * m_dBody->GetPhysRadius() / targpos.Length();
+		double vissize = 1.3 * m_dBody->GetPhysRadius() / dist;
 		vissize += (0.05 + 0.5 * leaddiff) * Pi::rng.Double() * skillShoot;
 		if (vissize > headdiff)
 			m_fguns->SetGunFiringState(0, 1);
@@ -427,8 +438,7 @@ bool AICmdKill::TimeStepUpdate()
 			m_fguns->SetGunFiringState(0, 0);
 		float max_fire_dist = m_fguns->GetGunRange(0);
 		if (max_fire_dist > 4000) max_fire_dist = 4000;
-		max_fire_dist *= max_fire_dist;
-		if (targpos.LengthSqr() > max_fire_dist) m_fguns->SetGunFiringState(0, 0); // temp
+		if (dist > max_fire_dist) m_fguns->SetGunFiringState(0, 0); // temp
 	}
 	m_leadOffset += m_leadDrift * Pi::game->GetTimeStep();
 	double leadAV = (leaddir - targdir).Dot((leaddir - heading).NormalizedSafe()); // leaddir angvel
@@ -452,7 +462,7 @@ bool AICmdKill::TimeStepUpdate()
 				evadethrust.y = objvel.y > 0.0 ? 1.0 : -1.0;
 			}
 		} else {
-			skillEvade += targpos.Length() / 2000; // 0.25 per 500m
+			skillEvade += dist / 2000; // 0.25 per 500m
 
 			if (skillEvade < 1.0 && targav.Length() < 0.05) { // smart evade, assumes facing
 				evadethrust.x = targhead.x < 0.0 ? 1.0 : -1.0;
@@ -479,7 +489,7 @@ bool AICmdKill::TimeStepUpdate()
 		m_closeTime = Pi::game->GetTime() + skillEvade * Pi::rng.Double(1.0, 5.0);
 
 		double reqdist = 500.0 + skillEvade * Pi::rng.Double(-500.0, 250);
-		double dist = targpos.Length(), ispeed;
+		double ispeed;
 		double rearaccel = m_prop->GetAccelRev();
 		rearaccel += targaccel.Dot(targdir);
 		// v = sqrt(2as), positive => towards
