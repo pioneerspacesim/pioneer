@@ -45,7 +45,11 @@
   },
   "BIND_CYCLE_CAMERA_MODE": {
     "description": "Descriptive name for the CycleCameraMode action.",
-    "message": "Смяна"
+    "message": "Смяна на изгледа"
+  },
+  "BIND_CYCLE_HOSTILES": {
+    "description": "Descriptive name for the CycleHostiles action.",
+    "message": "Смяна на целта"
   },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",

@@ -47,6 +47,10 @@
     "description": "Descriptive name for the CycleCameraMode action.",
     "message": "Basculer entre les modes de caméra"
   },
+  "BIND_CYCLE_HOSTILES": {
+    "description": "Descriptive name for the CycleHostiles action.",
+    "message": "Parcourir Ennemis"
+  },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
     "message": "Diminuer l'accélération du temps"

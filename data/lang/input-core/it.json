@@ -47,6 +47,10 @@
     "description": "Descriptive name for the CycleCameraMode action.",
     "message": "Commuta Modalità Camera"
   },
+  "BIND_CYCLE_HOSTILES": {
+    "description": "Descriptive name for the CycleHostiles action.",
+    "message": "Prossimo Nemico"
+  },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
     "message": "Riduci Accelerazione Temporale"
