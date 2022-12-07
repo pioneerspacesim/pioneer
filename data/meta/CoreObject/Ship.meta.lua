@@ -8,6 +8,9 @@
 ---
 ---@class Ship : ModelBody
 ---
+--- Whether the frame this body is in is a rotating frame.
+---@field frameRotating boolean
+---
 ---@field shipId string
 ---@field shipName string
 ---@field equipSet EquipSet
