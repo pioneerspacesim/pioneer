@@ -503,6 +503,30 @@ void LuaSerializer::LoadComponents(const Json &jsonObj, Space *space)
 	}
 }
 
+/*
+ * Interface: Serializer
+ */
+
+/*
+ * Function: Register
+ *
+ * Registers a function pair to serialize per-module data across savegames.
+ *
+ * The serializer function can only serialize a single table object, but may
+ * store any serializable objects inside that table.
+ *
+ * Example:
+ *
+ * > Serializer.Register("MyModule", function() return {} end, function(data) ... end)
+ *
+ * Parameters:
+ *
+ *   key          - unique string key of the module serializer to register
+ *   serializer   - function that should return the object to be serialized
+ *   unserializer - function that receives the unserialized object and should
+ *                  restore needed module state
+ *
+ */
 int LuaSerializer::l_register(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -540,6 +564,24 @@ int LuaSerializer::l_register(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: RegisterClass
+ *
+ * Registers a class object to be serialized across savegames. Objects of the
+ * passed class will be serialized via the Serialize / Unserialize class
+ * methods if referred to by other serialized data.
+ *
+ * Example:
+ *
+ * > Serializer.RegisterClass("MyClass", MyClass)
+ *
+ * Parameters:
+ *
+ *   key   - unique string key of the class to register
+ *   class - a class object containing a Serialize() and Unserialize() method.
+ *           These methods will be called to save / restore state for instances
+ *           of this class.
+ */
 int LuaSerializer::l_register_class(lua_State *l)
 {
 	LUA_DEBUG_START(l);
