@@ -457,6 +457,17 @@ utils.contains = function(t, val)
 end
 
 --
+-- Function: remove_elem
+--
+-- Remove the given value element from the passed array table
+--
+utils.remove_elem = function(t, val)
+	for i = #t, 1, -1 do
+		if t[i] == val then table.remove(t, i) end
+	end
+end
+
+--
 -- Function: take
 --
 -- Return an iterator that iterates through the first N values of the given array table.

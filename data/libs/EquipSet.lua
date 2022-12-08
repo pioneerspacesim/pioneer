@@ -9,6 +9,7 @@ local Serializer = require 'Serializer'
 -- A container for a ship's equipment.
 
 ---@class EquipSet
+---@field meta table
 local EquipSet = utils.inherits(nil, "EquipSet")
 
 EquipSet.default = {
@@ -36,6 +37,7 @@ EquipSet.default = {
 }
 
 function EquipSet.New (slots)
+	---@class EquipSet
 	local obj = {}
 	obj.slots = {}
 	for k, n in pairs(EquipSet.default) do
@@ -50,12 +52,15 @@ end
 
 local listeners = {}
 function EquipSet:AddListener(listener)
-	listeners[self] = listener
+	listeners[self] = listeners[self] or {}
+	table.insert(listeners[self], listener)
 end
 
 function EquipSet:CallListener(slot)
-	if listeners[self] then
-		listeners[self](slot)
+	if not listeners[self] then return end
+
+	for _, listener in ipairs(listeners[self]) do
+		listener(slot)
 	end
 end
 

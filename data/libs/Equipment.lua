@@ -183,11 +183,39 @@ misc.trade_computer = EquipType.New({
 	icon_name="equip_trade_computer"
 })
 misc.planetscanner = BodyScannerType.New({
-	l10n_key = 'PLANETSCANNER', slots="sensor", price=15000,
-	capabilities={mass=1,sensor=1}, purchasable=false, tech_level=1,
+	l10n_key = 'PLANETSCANNER', slots="sensor", price=15,
+	capabilities={mass=1,sensor=1}, purchasable=true, tech_level=5,
 	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
 	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
 	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
+	stats={ aperture = 55.0, minAltitude = 150, resolution = 768 },
+	icon_name="equip_planet_scanner"
+})
+misc.planetscanner_good = BodyScannerType.New({
+	l10n_key = 'PLANETSCANNER_GOOD', slots="sensor", price=15,
+	capabilities={mass=2,sensor=1}, purchasable=true, tech_level=5,
+	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
+	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
+	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
+	stats={ aperture = 65.0, minAltitude = 250, resolution = 1092 },
+	icon_name="equip_planet_scanner"
+})
+misc.orbitscanner = BodyScannerType.New({
+	l10n_key = 'ORBITSCANNER', slots="sensor", price=15,
+	capabilities={mass=3,sensor=1}, purchasable=true, tech_level=3,
+	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
+	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
+	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
+	stats={ aperture = 7.0, minAltitude = 250000, resolution = 6802 },
+	icon_name="equip_planet_scanner"
+})
+misc.orbitscanner_good = BodyScannerType.New({
+	l10n_key = 'ORBITSCANNER_GOOD', slots="sensor", price=15,
+	capabilities={mass=7,sensor=1}, purchasable=true, tech_level=7,
+	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
+	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
+	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
+	stats={ aperture = 4.0, minAltitude = 450000, resolution = 11375 },
 	icon_name="equip_planet_scanner"
 })
 
