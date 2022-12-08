@@ -8,6 +8,19 @@
 ---@class Vector2
 ---@field x number
 ---@field y number
+---
+---@operator add: Vector2
+---@operator add(number): Vector2
+---@operator sub: Vector2
+---@operator sub(number): Vector2
+---@operator mul: Vector2
+---@operator mul(number): Vector2
+---@operator div: Vector2
+---@operator div(number): Vector2
+---@operator unm: Vector2
+---@operator call: Vector2
+
+---@class Vector2
 local Vector2 = {}
 
 ---@param x number
@@ -49,6 +62,19 @@ function Vector2:right() end
 ---@field x number
 ---@field y number
 ---@field z number
+---
+---@operator add: Vector3
+---@operator add(number): Vector3
+---@operator sub: Vector3
+---@operator sub(number): Vector3
+---@operator mul: Vector3
+---@operator mul(number): Vector3
+---@operator div: Vector3
+---@operator div(number): Vector3
+---@operator unm: Vector3
+---@operator call: Vector3
+
+---@class Vector3
 local Vector3 = {}
 
 ---@param x number
