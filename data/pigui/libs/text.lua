@@ -208,17 +208,18 @@ ui.Format = {
 		return string.trim(result)
 	end,
 	DistanceUnit = function(distance, fractional)
+		local fmt = fractional and fractional or "%0.2f"
 		local d = math.abs(distance)
 		if d < 1000 then
-			return (fractional and string.format("%0.2f", distance) or math.floor(distance)), lc.UNIT_METERS
+			return (fractional and fmt:format(distance) or math.floor(distance)), lc.UNIT_METERS
 		end
 		if d < 1000*1000 then
-			return string.format("%0.2f", distance / 1000), lc.UNIT_KILOMETERS
+			return fmt:format(distance / 1000), lc.UNIT_KILOMETERS
 		end
 		if d < 1000*1000*1000 then
-			return string.format("%0.2f", distance / 1000 / 1000), lc.UNIT_MILLION_METERS
+			return fmt:format(distance / 1000 / 1000), lc.UNIT_MILLION_METERS
 		end
-		return string.format("%0.2f", distance / 1.4960e11), lc.UNIT_AU
+		return fmt:format(distance / 1.4960e11), lc.UNIT_AU
 	end,
 	Distance = function(distance, fractional)
 		local d, u = ui.Format.DistanceUnit(distance, fractional)
