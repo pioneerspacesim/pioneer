@@ -711,6 +711,33 @@ function ui.withStyleColorsAndVars(styles, vars, fun)
 end
 
 --
+-- Function: ui.withClipRect
+--
+-- ui.withClipRect(min, max, fun)
+--
+-- Wrap the passed UI code inside a user-defined clipping rectangle
+--
+-- Example:
+--
+-- >
+--
+-- Parameters:
+--   min        - Vector2, minimum screen position of the new clip rect
+--   max        - Vector2, maximum screen position of the new clip rect
+--   fun        - function, a function to call that shows the contents
+--
+-- Returns:
+--
+--   any - the value returned from fun
+--
+function ui.withClipRect(min, max, fun)
+	pigui.PushClipRect(min, max, true)
+	local res = fun()
+	pigui.PopClipRect()
+	return res
+end
+
+--
 -- Function: ui.screenSize
 --
 -- ui.screenSize()
