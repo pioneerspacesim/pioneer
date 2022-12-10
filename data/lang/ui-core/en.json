@@ -2099,6 +2099,10 @@
     "description": "Lobby screen shows the tech level of the station",
     "message": "This installation holds a military technology clearance."
   },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Tech level"
+  },
   "TEXTURE_COMPRESSION": {
     "description": "",
     "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
@@ -2206,6 +2210,10 @@
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
     "message": "Unoccupied Passenger Cabins"
+  },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Passenger cabin capacity"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",

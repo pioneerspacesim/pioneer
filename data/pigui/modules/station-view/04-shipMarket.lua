@@ -259,7 +259,8 @@ local tradeMenu = function()
 						l.ATMOSPHERIC_SHIELDING, yes_no(def.equipSlotCapacity["atmo_shield"]),
 						l.ATMO_PRESS_LIMIT, atmoSlot
 					}, {
-						l.SCOOP_MOUNTS, def.equipSlotCapacity["scoop"]
+						l.SCOOP_MOUNTS, def.equipSlotCapacity["scoop"],
+						l.PASSENGER_CABIN_CAPACITY, def.equipSlotCapacity["cabin"]
 					},
 				}
 
