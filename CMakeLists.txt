@@ -318,6 +318,13 @@ if (NATURALDOCS)
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 endif()
 
+find_program(PYTHON NAMES python)
+if (PYTHON)
+	add_custom_target(enums
+		COMMAND scripts/scan_enums.py -o src/enum_table.cpp --pattern='*.h' -r src
+		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+endif()
+
 target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
 
 list(APPEND pioneerLibs
