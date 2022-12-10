@@ -4,7 +4,6 @@
 local ui = require 'pigui'
 local Engine = require 'Engine'
 local Game = require 'Game'
-local Space = require 'Space'
 local Vector2 = _G.Vector2
 local Vector3 = _G.Vector3
 
@@ -118,9 +117,8 @@ local function displayNavTargetIndicator(navTarget)
 	-- checks if the nav target is a ground starport below the horizon of the player's frame
 	local isaGroundPortBehindPlanet = false
 	if navTarget.type == "STARPORT_SURFACE" then
-		local frame = player.frameBody
-		if Space.GetBody(navTarget.path:GetSystemBody().parent.index) == frame then
-			if navTarget:GetPositionRelTo(frame):dot(player:GetPositionRelTo(navTarget)) < 0 then
+		if navTarget.path:GetSystemBody().parent.path == player.frameBody.path then
+			if navTarget:GetPositionRelTo(player.frameBody):dot(player:GetPositionRelTo(navTarget)) < 0 then
 				isaGroundPortBehindPlanet = true
 			end
 		end
