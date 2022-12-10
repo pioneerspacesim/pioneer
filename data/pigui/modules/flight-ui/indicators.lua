@@ -4,6 +4,7 @@
 local ui = require 'pigui'
 local Engine = require 'Engine'
 local Game = require 'Game'
+local Space = require 'Space'
 local Vector2 = _G.Vector2
 local Vector3 = _G.Vector3
 
@@ -113,7 +114,24 @@ end
 -- display the indicator pointing at the nav target, and pro- and retrograde
 local function displayNavTargetIndicator(navTarget)
 	local onscreen,position,direction = Engine.GetTargetIndicatorScreenPosition(navTarget)
-	displayIndicator(onscreen, position, direction, icons.square, colors.navTarget, true)
+
+	-- checks if the nav target is a ground starport below the horizon of the player's frame
+	local isaGroundPortBehindPlanet = false
+	if navTarget.type == "STARPORT_SURFACE" then
+		local frame = player.frameBody
+		if Space.GetBody(navTarget.path:GetSystemBody().parent.index) == frame then
+			if navTarget:GetPositionRelTo(frame):dot(player:GetPositionRelTo(navTarget)) < 0 then
+				isaGroundPortBehindPlanet = true
+			end
+		end
+	end
+
+	if isaGroundPortBehindPlanet then
+		displayIndicator(onscreen, position, direction, icons.navtarget, colors.navTargetDark, true)
+	else
+		displayIndicator(onscreen, position, direction, icons.square, colors.navTarget, true)
+	end
+	
 	local navVelocity = -navTarget:GetVelocityRelTo(player)
 	if navVelocity:length() > 1 then
 		onscreen,position,direction = Engine.ProjectRelDirection(navVelocity)
