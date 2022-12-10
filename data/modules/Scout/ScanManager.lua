@@ -12,6 +12,7 @@ local utils = require 'utils'
 ---@alias ScanID string
 
 ---@class ScanData
+---@field meta table
 --
 ---@field id ScanID
 ---@field bodyPath SystemPath
@@ -30,11 +31,19 @@ function ScanData.New(id, bodyPath, minResolution, minCoverage, isOrbital)
 		bodyPath = bodyPath,
 		minResolution = minResolution,
 		targetCoverage = minCoverage,
-		orbital = isOrbital,
+		orbital = isOrbital or false,
 		coverage = 0.0,
 		complete = false
 	}, ScanData.meta)
 end
+
+---@class ScanManager.SensorData
+---@field resolutionMs number
+---@field minAltitude number
+---@field minResolution number
+---@field apertureWidth number
+---@field orbital boolean
+---@field equip unknown
 
 --=============================================================================
 
@@ -85,9 +94,12 @@ function ScanManager:Constructor(ship)
 	self.scanMap = {}
 	self.scanId = 1
 
-	-- Do we have a sensor onboard this craft?
-	-- TODO: allow multiple independent or supporting scanners
-	self.hasSensor = false
+	-- The list of available sensors on this craft
+	---@type ScanManager.SensorData[]
+	self.sensors = {}
+	-- The currently activated sensor that will be used for this scan
+	---@type ScanManager.SensorData
+	self.activeSensor = {}
 
 	-- is the ship's current position within viable scan parameters?
 	self.withinParameters = false
@@ -96,38 +108,71 @@ function ScanManager:Constructor(ship)
 	---@type Vector3
 	self.lastScanPos = nil
 
+	-- is there a currently running scan callback
+	self.activeCallback = false
+
 	self:UpdateSensorEquipInfo()
 end
 
 ---@private
 -- Scan the ship's equipment and determine its sensor capabilities
+-- Note: this function completely rebuilds the list of sensors when a sensor equipment item is changed on the ship
 function ScanManager:UpdateSensorEquipInfo()
 	local equip = self.ship.equipSet
 
-	local sensor = equip:Get("sensor", 1)
-	if not sensor then
-		self.hasSensor = false
+	self.sensors = {}
+
+	local sensors = equip:Get("sensor")
+	if #sensors == 0 then
+		self.activeSensor = nil
+		self:ClearActiveScan()
 		return
 	end
 
-	-- TODO: support multiple disparate sensors on the same craft
+	-- rebuild the list of sensors from the ship's equipment
+	-- we don't attempt to preserve the existing list because we have no idea
+	-- which sensor was added/removed and where
+	for i, sensor in ipairs(sensors) do
+		local sensorData = {}
 
-	-- width of the aperture at one meter
-	self.apertureWidth = math.tan(math.deg2rad(sensor.stats.aperture) * 0.5) * 2
-	-- resolution in meters / sample at one meter
-	self.resolutionMs = self.apertureWidth / sensor.stats.resolution
-	-- minimum altitude required to get sensor data
-	self.minAltitude = sensor.stats.minAltitude
+		-- width of the aperture at one meter
+		sensorData.apertureWidth = math.tan(math.deg2rad(sensor.stats.aperture) * 0.5) * 2
+		-- resolution in meters / sample at one meter
+		sensorData.resolutionMs = sensorData.apertureWidth / sensor.stats.resolution
+		-- minimum altitude required to get sensor data
+		sensorData.minAltitude = sensor.stats.minAltitude
+		-- minimum effective resolution of sensor data
+		sensorData.minResolution = sensorData.resolutionMs * sensorData.minAltitude
+		-- is the sensor a surface or orbital scanner?
+		sensorData.orbital = sensor.stats.orbital or false
 
-	self.hasSensor = true
+		sensorData.equip = sensor
+
+		table.insert(self.sensors, sensorData)
+
+		if self.activeSensor and self.activeSensor.equip == sensor then
+			self.activeSensor = sensorData
+		end
+	end
+
+	-- if the old active sensor is no longer present on the craft, default to
+	-- the first sensor in the list if any
+	if not (self.activeSensor and utils.contains(sensors, self.activeSensor.equip)) then
+		self.activeSensor = self.sensors[1]
+		self:ClearActiveScan()
+	end
+
 end
 
 ---@param body Body
 ---@return number altitude
 ---@return number resolution
 function ScanManager:GetBodyState(body)
+	assert(self.activeScan)
+
 	local altitude
 	local radius = body:GetSystemBody().radius
+	local sensor = self.activeSensor
 
 	if self.activeScan.orbital then
 		-- altitude above sea-level
@@ -138,25 +183,29 @@ function ScanManager:GetBodyState(body)
 	end
 
 	-- calculate effective resolution in meters/sample at this altitude
-	local resolution = self.resolutionMs * altitude
+	local resolution = sensor.resolutionMs * altitude
 	return altitude, resolution
 end
 
 --=============================================================================
 
-function ScanManager:GetHasSensor()
-	return self.hasSensor
+function ScanManager:GetActiveSensor()
+	return self.activeSensor
+end
+
+function ScanManager:GetAvailableSensors()
+	return self.sensors
 end
 
 ---@return ScanManager.State
 function ScanManager:GetState()
-	if not self.hasSensor then
+	if not self.activeSensor then
 		return self.State.NoSensors
 	end
 
 	if self.activeScan then
 		local altitude, resolution = self:GetBodyState(self.ship.frameBody)
-		local isInRange = resolution <= self.activeScan.minResolution and altitude > self.minAltitude
+		local isInRange = resolution <= self.activeScan.minResolution and altitude > self.activeSensor.minAltitude
 
 		return isInRange and self.State.Scanning or self.State.OutOfRange
 	else
@@ -166,31 +215,35 @@ function ScanManager:GetState()
 	end
 end
 
--- Determine if the given scan can be carried out by this craft,
+-- Determine if the given scan can be carried out by the selected sensor,
 -- and the maximum allowable mission parameters for the scan
 ---@param sBody SystemBody body to be scanning
----@param minResolution number minimum scan resolution required, effectively meters/sample
-function ScanManager:GetScanParameters(sBody, minResolution)
-	if not self.hasSensor then return nil end
+---@param maxResolution number maximum scan resolution allowed, effectively meters/sample
+function ScanManager:GetScanParameters(sBody, maxResolution, orbital, sensorIndex)
+	local sensor = sensorIndex and self.sensors[sensorIndex] or self.activeSensor
+	if not sensor then return nil end
+
+	-- sensor cannot carry out this mission
+	if not sensor.orbital == orbital then return nil end
 
 	-- maximum altitude for the given resolution
-	local maxAlt = minResolution / self.resolutionMs
+	local maxAlt = maxResolution / sensor.resolutionMs
 	-- one-half circumference due to orbit covering the entire sphere
 	local bodyHalfCirc = sBody.radius * math.pi
 
 	-- Amount of body coverage per orbit
 	-- Math is a little bit cheat-y here, would be better to use great circle distance rather than straight-line
-	local coverage = self.apertureWidth * maxAlt
+	local coverage = sensor.apertureWidth * maxAlt
 	-- number of orbits required to achieve full coverage of the body
 	local orbitToCov = bodyHalfCirc / coverage
 
 	return {
 		-- whether the given scan can actually be carried out
-		canScan = maxAlt > self.minAltitude,
+		canScan = maxAlt > sensor.minAltitude and sensor.minResolution <= maxResolution,
 		-- the maximum altitude the ship can fly at to scan the body
 		maxAltitude = maxAlt,
 		-- the minimum altitude the ship can fly at to scan the body
-		minAltitude = self.minAltitude,
+		minAltitude = sensor.minAltitude,
 		-- the number of orbits at maximum altitude required to fully cover the body
 		orbitsToCover = orbitToCov
 	}
@@ -252,6 +305,18 @@ function ScanManager:AddNewOrbitalScan(bodyPath, minResolution, requiredCoverage
 	return id
 end
 
+-- Set the given sensor as the currently active data-source
+function ScanManager:SetActiveSensor(index)
+	local sensor = self.sensors[index]
+	if not sensor then return false end
+
+	self.activeSensor = sensor
+
+	if self.activeScan and self.activeScan.orbital ~= self.activeSensor.orbital then
+		self:ClearActiveScan()
+	end
+end
+
 -- Set the given scan ID as the current scan
 ---@param id ScanID
 function ScanManager:SetActiveScan(id)
@@ -274,17 +339,18 @@ function ScanManager:SetActiveScan(id)
 	self:StartScanCallback()
 end
 
--- Clear the currently active scan
+-- Clear the currently active scan and running callback
 function ScanManager:ClearActiveScan()
 	table.insert(self.pendingScans, self.activeScan)
 	self.activeScan = nil
+	self.activeCallback = nil
 end
 
 -- Check if the given scan is within viable parameters (e.g. in correct body frame, etc)
 ---@param id ScanID id of the scan to activate
 ---@return boolean
 function ScanManager:CanScanBeActivated(id)
-	if not self.hasSensor then return false end
+	if not self.activeSensor then return false end
 
 	local scan = self.scanMap[id]
 	if not scan then return false end
@@ -292,7 +358,15 @@ function ScanManager:CanScanBeActivated(id)
 	local frameBody = self.ship.frameBody
 	if not frameBody then return false end
 
-	return frameBody.path == scan.bodyPath and (scan.orbital or self.ship.frameRotating)
+	if frameBody.path ~= scan.bodyPath then
+		return false
+	end
+
+	if scan.orbital ~= self.activeSensor.orbital then
+		return false
+	end
+
+	return (scan.orbital or self.ship.frameRotating)
 end
 
 -- Remove a completed scan from the scanner's data storage
@@ -327,6 +401,7 @@ function ScanManager:CancelScan(id)
 
 	if scan == self.activeScan then
 		self.activeScan = nil
+		self.activeCallback = nil
 	else
 		utils.remove_elem(self.pendingScans, scan)
 	end
@@ -354,21 +429,28 @@ end
 -- Start the scanner callback
 ---@package
 function ScanManager:StartScanCallback()
-	local scan = self.activeScan
-	local updateRate = scan.orbital and ORBITAL_SCAN_UPDATE_RATE or SURFACE_SCAN_UPDATE_RATE
-
-	-- TODO: generating a new callback every time we start a scan isn't the most performant,
-	-- but it's the best way to handle it without the ability to cancel or modify an ongoing timer
-	Timer:CallEvery(updateRate, function()
-
-		if self.activeScan ~= scan then return true end
-
-		return self:OnUpdateScan(scan)
-
-	end)
+	local updateRate = self.activeScan.orbital and ORBITAL_SCAN_UPDATE_RATE or SURFACE_SCAN_UPDATE_RATE
 
 	-- Immediately trigger a scan update for responsiveness
-	self:OnUpdateScan(scan)
+	self:OnUpdateScan(self.activeScan)
+
+	-- Don't queue a new scan callback if we're already running one at the right frequency
+	if updateRate == self.activeCallback then
+		return
+	end
+
+	self.activeCallback = updateRate
+
+	Timer:CallEvery(updateRate, function()
+
+		-- cancel this callback if the parameters have changed (it's been orphaned)
+		if not self.activeScan or not self.activeSensor or self.activeCallback ~= updateRate then
+			return true
+		end
+
+		return self:OnUpdateScan(self.activeScan)
+
+	end)
 end
 
 -- Update the current active scan, assuming we're in the correct frame
@@ -377,7 +459,13 @@ end
 ---@package
 function ScanManager:OnUpdateScan(scan)
 	local body = self.ship.frameBody
-	if not body then return true end
+
+	-- Somehow we don't have a valid body to be scanning
+	if not body then
+		logWarning("ScanManager: owning ship does not have a frameBody to scan!")
+		self:ClearActiveScan()
+		return true
+	end
 
 	local radius = body:GetSystemBody().radius
 	local altitude, resolution = self:GetBodyState(body)
@@ -400,7 +488,7 @@ function ScanManager:OnUpdateScan(scan)
 		local dS = math.atan(crossTerm / dotTerm)
 
 		local coverage
-		local beamWidth = self.apertureWidth * altitude
+		local beamWidth = self.activeSensor.apertureWidth * altitude
 
 		if scan.orbital then
 			-- percent of total coverage gained per orbit, calculated at the widest point of the body
@@ -428,6 +516,7 @@ function ScanManager:OnUpdateScan(scan)
 	if scan.coverage > scan.targetCoverage then
 		scan.complete = true
 		self.activeScan = nil
+		self.activeCallback = nil
 
 		table.insert(self.completedScans, scan)
 		return true
@@ -438,6 +527,17 @@ function ScanManager:OnUpdateScan(scan)
 end
 
 --=============================================================================
+
+function ScanManager:Unserialize()
+	setmetatable(self, ScanManager.meta)
+
+	-- Restore the scanning callback on loading a saved game
+	if self.activeCallback then
+		self:StartScanCallback()
+	end
+
+	return self
+end
 
 Serializer:RegisterClass('Scout.ScanData', ScanData)
 Serializer:RegisterClass('Scout.ScanManager', ScanManager)
