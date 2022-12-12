@@ -47,6 +47,10 @@
     "description": "Descriptive name for the CycleCameraMode action.",
     "message": "Kamera Modları Arası Geçiş"
   },
+  "BIND_CYCLE_HOSTILES": {
+    "description": "Descriptive name for the CycleHostiles action.",
+    "message": "Düşmanlar Arası Geçiş"
+  },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
     "message": "Zamanı Yavaşlat"
