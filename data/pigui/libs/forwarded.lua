@@ -27,7 +27,7 @@ ui.dummy = pigui.Dummy
 ui.newLine = pigui.NewLine
 ui.spacing = pigui.Spacing
 ui.text = pigui.Text
-ui.combo = pigui.Combo
+ui.combo = pigui.Combo ---@type fun(label: string, selected: integer, items: string[]): changed: boolean, selected: integer
 ui.listBox = pigui.ListBox
 ui.textWrapped = pigui.TextWrapped
 ui.textColored = pigui.TextColored
@@ -60,14 +60,14 @@ ui.thrustIndicator = pigui.ThrustIndicator
 ui.isMouseClicked = pigui.IsMouseClicked
 ui.isMouseDoubleClicked = pigui.IsMouseDoubleClicked
 ui.isMouseDown = pigui.IsMouseDown
-ui.getMousePos = pigui.GetMousePos
+ui.getMousePos = pigui.GetMousePos ---@type fun(): Vector2
 ui.getMouseWheel = pigui.GetMouseWheel
 --ui.setTooltip = maybeSetTooltip
 ui.shouldDrawUI = pigui.ShouldDrawUI
-ui.getWindowPos = pigui.GetWindowPos
-ui.getWindowSize = pigui.GetWindowSize
+ui.getWindowPos = pigui.GetWindowPos ---@type fun(): Vector2
+ui.getWindowSize = pigui.GetWindowSize ---@type fun(): Vector2
 -- available content region
-ui.getContentRegion = pigui.GetContentRegion
+ui.getContentRegion = pigui.GetContentRegion ---@type fun(): Vector2
 
 -- Get the current height of a line of text (font.size)
 ui.getTextLineHeight = pigui.GetTextLineHeight

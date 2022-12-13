@@ -41,5 +41,18 @@ string.interp = function (s, t)
 	return (s:gsub('(%b{})', function(w) return t[w:sub(2,-2)] or w end))
 end
 
+-- make a simple shallow copy of the passed-in table
+-- does not copy metatable nor recurse into the table
+---@generic T
+---@param t T
+---@return T
+table.copy = function(t)
+	local ret = {}
+	for k, v in pairs(t) do
+		ret[k] = v
+	end
+	return ret
+end
+
 -- make import break. you should never import this file
 return nil

@@ -115,6 +115,10 @@ end
 -- Example:
 --   > transformed = utils.map_table(t, function(k, v) return k .. "1", v end)
 --
+---@generic K, V, K2, V2
+---@param table table<K, V>
+---@param predicate fun(k: K, v: V): K2, V2
+---@return table<K2, V2>
 function utils.map_table(table, predicate)
 	local t = {}
 	for k, v in pairs(table) do
@@ -134,6 +138,10 @@ end
 -- Example:
 --   > transformed = utils.map_array(t, function(v) return v + 32 end)
 --
+---@generic T, T2
+---@param array T[]
+---@param predicate fun(v: T): T2
+---@return T2[]
 function utils.map_array(array, predicate)
 	local t = {}
 	for i, v in ipairs(array) do
@@ -153,6 +161,9 @@ end
 -- Example:
 --   > filtered = utils.filter_table(t, function (k, v) return true end)
 --
+---@generic K, V
+---@param table table<K, V>
+---@param predicate fun(k: K, v: V): boolean
 function utils.filter_table(table, predicate)
 	local t = {}
 	for k, v in pairs(table) do
@@ -169,6 +180,9 @@ end
 -- Example:
 --   > filtered = utils.filter_array(t, function (i, v) return true end)
 --
+---@generic T
+---@param array T[]
+---@param predicate fun(v: T): boolean
 function utils.filter_array(array, predicate)
 	local t = {}
 	for i, v in ipairs(array) do
