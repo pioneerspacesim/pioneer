@@ -137,7 +137,7 @@ local function displayEquipment()
 	local uiPos = Vector2(15, ui.screenHeight / 3 + 10)
 	uiPos = displayMissiles(uiPos)
 	uiPos = displayECM(uiPos + Vector2(0, 10))
-	uiPos = displayBodyScanner(uiPos + Vector2(0, 10))
+	-- uiPos = displayBodyScanner(uiPos + Vector2(0, 10))
 end
 
 ui.registerModule("game", displayEquipment)

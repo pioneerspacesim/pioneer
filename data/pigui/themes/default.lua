@@ -83,6 +83,11 @@ theme.buttonColors = {
 		hovered = styleColors.primary_600,
 		active  = styleColors.primary_500
 	},
+	deselected = {
+		normal  = styleColors.gray_800,
+		hovered = styleColors.gray_700,
+		active  = styleColors.gray_600
+	},
 	selected = {
 		normal = styleColors.primary_500,
 		hovered = styleColors.primary_400,

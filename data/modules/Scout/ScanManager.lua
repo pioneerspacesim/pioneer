@@ -68,8 +68,8 @@ local ScanManager = utils.class("Scout.ScanManager")
 ScanManager.State = {
 	Inactive = "INACTIVE",
 	Scanning = "SCANNING",
+	MinAltitude = "MIN_ALTITUDE",
 	OutOfRange = "OUT_OF_RANGE",
-	Completed = "COMPLETED",
 	NoSensors = "NO_SENSORS",
 }
 
@@ -205,13 +205,15 @@ function ScanManager:GetState()
 
 	if self.activeScan then
 		local altitude, resolution = self:GetBodyState(self.ship.frameBody)
-		local isInRange = resolution <= self.activeScan.minResolution and altitude > self.activeSensor.minAltitude
+		local isInRange = resolution <= self.activeScan.minResolution
 
-		return isInRange and self.State.Scanning or self.State.OutOfRange
+		if altitude > self.activeSensor.minAltitude then
+			return isInRange and self.State.Scanning or self.State.OutOfRange
+		else
+			return self.State.MinAltitude
+		end
 	else
-		return (#self.completedScans > 0 and #self.pendingScans == 0) and
-			self.State.Completed or
-			self.State.Inactive
+		return self.State.Inactive
 	end
 end
 
@@ -364,6 +366,8 @@ function ScanManager:CanScanBeActivated(id)
 	local scan = self.scanMap[id]
 	if not scan then return false end
 
+	if scan.complete then return false end
+
 	local frameBody = self.ship.frameBody
 	if not frameBody then return false end
 
@@ -372,6 +376,10 @@ function ScanManager:CanScanBeActivated(id)
 	end
 
 	if scan.orbital ~= self.activeSensor.orbital then
+		return false
+	end
+
+	if scan.minResolution < self.activeSensor.minResolution then
 		return false
 	end
 
@@ -481,7 +489,7 @@ function ScanManager:OnUpdateScan(scan)
 	local currentScanPos = self.ship:GetPositionRelTo(body):normalized()
 
 	-- Determine if we're currently in range to record scan data
-	local withinParams = resolution <= scan.minResolution
+	local withinParams = resolution <= scan.minResolution and altitude > self.activeSensor.minAltitude
 
 	-- print("altitude", altitude)
 	-- print("resolution", resolution)
