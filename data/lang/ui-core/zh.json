@@ -111,6 +111,10 @@
     "description": "",
     "message": "货仓"
   },
+  "CARGO_CAPACITY": {
+    "description": "Label to show a ship's total cargo space.",
+    "message": "货物容量"
+  },
   "CARGO_SPACE": {
     "description": "",
     "message": "货仓空间"
@@ -1191,6 +1195,10 @@
     "description": "",
     "message": "抛弃"
   },
+  "JETTISON_MODE": {
+    "description": "",
+    "message": "Jettison Mode"
+  },
   "JUMPING": {
     "description": "Flight State",
     "message": "跳跃"
@@ -1530,6 +1538,10 @@
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
     "message": "{equipment} 无法安装在该飞船上"
+  },
+  "NO_CARGO": {
+    "description": "Message displayed when the player has no cargo in their hold.",
+    "message": "没有货物"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
@@ -2110,6 +2122,10 @@
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "3k秒差距旋臂"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+    "description": "Label for a button toggling the cargo display window.",
+    "message": "Toggle Cargo Window"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
