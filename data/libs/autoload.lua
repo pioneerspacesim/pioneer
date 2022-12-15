@@ -38,8 +38,20 @@ end
 
 -- a nice string interpolator
 string.interp = function (s, t)
-	return (s:gsub('(%b{})', function(w) return t[w:sub(2,-2)] or w end))
+	local i = 0
+	return (s:gsub('(%b{})', function(w)
+		if #w > 2 then
+			return t[w:sub(2, -2)] or w
+		else
+			i = i + 1; return t[i] or w
+		end
+	end))
 end
+
+-- allow using string.interp via "s" % { t }
+---@class string
+---@operator mod(table): string
+getmetatable("").__mod = string.interp
 
 -- make a simple shallow copy of the passed-in table
 -- does not copy metatable nor recurse into the table
