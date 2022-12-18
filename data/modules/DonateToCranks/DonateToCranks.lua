@@ -63,7 +63,7 @@ local onChat = function (form, ref, option)
 	local ad = ads[ref]
 	form:Clear()
 
-	form:SetTitle(ad.desc)
+	form:SetTitle(string.interp(ad.desc, ad.stringVariables))
 	form:SetFace(ad.character)
 
 	if option == -1 then
@@ -72,7 +72,7 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetMessage(ad.message .. "\n\n" .. string.interp(
+		form:SetMessage(string.interp(ad.message, ad.stringVariables) .. "\n\n" .. string.interp(
 			l.SALES_PITCH, {cash = Format.Money(computeReputation(ad), false)}))
 
 	elseif Game.player:GetMoney() < option then
@@ -109,20 +109,22 @@ local onCreateBB = function (station)
 	local faction = Game.system.faction.name
 	local military = Game.system.faction.militaryName
 	local police = Game.system.faction.policeName
-	local stringVariables = {FACTION = faction, MILITARY = military, POLICE = police}
+	local system = Game.system.name
+	local stringVariables = {SYSTEM = system, FACTION = faction, MILITARY = military, POLICE = police}
 	local ad = {
 		modifier = n == 6 and 1.5 or 1.0, -- donating to FOSS is twice as good
 		title    = string.upper(string.interp(flavours[n].title, stringVariables)),
 		desc     = string.interp(flavours[n].desc, stringVariables),
 		message  = string.interp(flavours[n].message, stringVariables),
+		stringVariables = stringVariables,
 		station  = station,
 		character = Character.New({armour=false}),
 		n        = n
 	}
 
 	local ref = station:AddAdvert({
-		title       = ad.title,
-		description = ad.desc,
+		title       = string.interp(ad.title, ad.stringVariables),
+		description = string.interp(ad.desc, ad.stringVariables),
 		icon        = "donate_to_cranks",
 		onChat      = onChat,
 		onDelete    = onDelete})
@@ -136,15 +138,10 @@ local onGameStart = function ()
 
 	if not loaded_data or not loaded_data.ads then return end
 
-	local faction = Game.system.faction.name
-	local military = Game.system.faction.militaryName
-	local police = Game.system.faction.policeName
-	local stringVariables = {FACTION = faction, MILITARY = military, POLICE = police}
-
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
-			title       = string.upper(string.interp(flavours[ad.n].title), stringVariables),
-			description = string.interp(flavours[ad.n].desc, stringVariables),
+			title       = string.interp(flavours[ad.n].title, ad.stringVariables),
+			description = string.interp(flavours[ad.n].desc, ad.stringVariables),
 			icon        = "donate_to_cranks",
 			onChat      = onChat,
 			onDelete    = onDelete})
