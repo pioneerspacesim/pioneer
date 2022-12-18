@@ -63,7 +63,7 @@ local onChat = function (form, ref, option)
 	local ad = ads[ref]
 	form:Clear()
 
-	form:SetTitle(string.interp(ad.desc, ad.stringVariables))
+	form:SetTitle(string.interp(flavours[ad.n].desc, ad.stringVariables))
 	form:SetFace(ad.character)
 
 	if option == -1 then
@@ -72,7 +72,7 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetMessage(string.interp(ad.message, ad.stringVariables) .. "\n\n" .. string.interp(
+		form:SetMessage(string.interp(flavours[ad.n].message, ad.stringVariables) .. "\n\n" .. string.interp(
 			l.SALES_PITCH, {cash = Format.Money(computeReputation(ad), false)}))
 
 	elseif Game.player:GetMoney() < option then
@@ -113,9 +113,6 @@ local onCreateBB = function (station)
 	local stringVariables = {SYSTEM = system, FACTION = faction, MILITARY = military, POLICE = police}
 	local ad = {
 		modifier = n == 6 and 1.5 or 1.0, -- donating to FOSS is twice as good
-		title    = flavours[n].title,
-		desc     = flavours[n].desc,
-		message  = flavours[n].message,
 		stringVariables = stringVariables,
 		station  = station,
 		character = Character.New({armour=false}),
@@ -123,13 +120,14 @@ local onCreateBB = function (station)
 	}
 
 	local ref = station:AddAdvert({
-		title       = string.interp(ad.title, ad.stringVariables),
-		description = string.interp(ad.desc, ad.stringVariables),
+		title       = string.interp(flavours[n].title, stringVariables),
+		description = string.interp(flavours[n].desc, stringVariables),
 		icon        = "donate_to_cranks",
 		onChat      = onChat,
 		onDelete    = onDelete})
 	ads[ref] = ad
 end
+
 
 local loaded_data
 
