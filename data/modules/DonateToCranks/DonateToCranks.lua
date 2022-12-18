@@ -113,9 +113,9 @@ local onCreateBB = function (station)
 	local stringVariables = {SYSTEM = system, FACTION = faction, MILITARY = military, POLICE = police}
 	local ad = {
 		modifier = n == 6 and 1.5 or 1.0, -- donating to FOSS is twice as good
-		title    = string.upper(string.interp(flavours[n].title, stringVariables)),
-		desc     = string.interp(flavours[n].desc, stringVariables),
-		message  = string.interp(flavours[n].message, stringVariables),
+		title    = flavours[n].title,
+		desc     = flavours[n].desc,
+		message  = flavours[n].message,
 		stringVariables = stringVariables,
 		station  = station,
 		character = Character.New({armour=false}),
