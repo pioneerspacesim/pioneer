@@ -267,7 +267,8 @@ theme.icons = {
 	direction_frame = 26,
 	direction_frame_hollow = 27,
 	direction_forward = 28,
-	empty = 29,
+	square_dashed = 29,
+	empty = 30,
 	semi_major_axis = 31,
 	-- third row
 	heavy_fighter = 32,
