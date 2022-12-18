@@ -12,7 +12,7 @@ local Format = require 'Format'
 local l = Lang.GetResource("module-donatetocranks")
 
 local flavours = {}
-for i = 0,5 do
+for i = 0,9 do
 	table.insert(flavours, {
 		title     = l["FLAVOUR_" .. i .. "_ADTITLE"],
 		desc      = l["FLAVOUR_" .. i .. "_DESC"],
@@ -63,7 +63,7 @@ local onChat = function (form, ref, option)
 	local ad = ads[ref]
 	form:Clear()
 
-	form:SetTitle(ad.title)
+	form:SetTitle(ad.desc)
 	form:SetFace(ad.character)
 
 	if option == -1 then
@@ -106,18 +106,23 @@ local onCreateBB = function (station)
 		return
 	end
 
+	local faction = Game.system.faction.name
+	local military = Game.system.faction.militaryName
+	local police = Game.system.faction.policeName
+	local stringVariables = {FACTION = faction, MILITARY = military, POLICE = police}
 	local ad = {
 		modifier = n == 6 and 1.5 or 1.0, -- donating to FOSS is twice as good
-		title    = flavours[n].desc,
-		message  = flavours[n].message,
+		title    = string.upper(string.interp(flavours[n].title, stringVariables)),
+		desc     = string.interp(flavours[n].desc, stringVariables),
+		message  = string.interp(flavours[n].message, stringVariables),
 		station  = station,
 		character = Character.New({armour=false}),
 		n        = n
 	}
 
 	local ref = station:AddAdvert({
-		title       = flavours[n].title,
-		description = flavours[n].desc,
+		title       = ad.title,
+		description = ad.desc,
 		icon        = "donate_to_cranks",
 		onChat      = onChat,
 		onDelete    = onDelete})
@@ -131,10 +136,15 @@ local onGameStart = function ()
 
 	if not loaded_data or not loaded_data.ads then return end
 
+	local faction = Game.system.faction.name
+	local military = Game.system.faction.militaryName
+	local police = Game.system.faction.policeName
+	local stringVariables = {FACTION = faction, MILITARY = military, POLICE = police}
+
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
-			title       = flavours[ad.n].title,
-			description = flavours[ad.n].desc,
+			title       = string.upper(string.interp(flavours[ad.n].title), stringVariables),
+			description = string.interp(flavours[ad.n].desc, stringVariables),
 			icon        = "donate_to_cranks",
 			onChat      = onChat,
 			onDelete    = onDelete})
