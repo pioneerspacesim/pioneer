@@ -742,9 +742,6 @@ void Pi::HandleKeyDown(SDL_Keysym *key)
 
 	// special keys: CTRL+[KEY].
 	switch (key->sym) {
-	case SDLK_q: // Quit
-		Pi::RequestQuit();
-		break;
 	case SDLK_PRINTSCREEN: // print
 	case SDLK_KP_MULTIPLY: // screen
 	{
@@ -998,6 +995,11 @@ void GameLoop::Update(float deltaTime)
 
 	Pi::GetView()->Update();
 	Pi::GetView()->Draw3D();
+
+	// Kick rendering in the background to avoid write->delete->read issues with UI command processing
+	// This may cause future issues if graphic resources are deleted while in-flight, but OpenGL is
+	// capable of handling that eventuality and it prevents application-scope crashes
+	Pi::renderer->FlushCommandBuffers();
 
 	// FIXME: Handling events at the moment must be after view->Draw3D and before
 	// Gui::Draw so that labels drawn to screen can have mouse events correctly
