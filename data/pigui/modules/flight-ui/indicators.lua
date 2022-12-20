@@ -118,7 +118,7 @@ local function displayNavTargetIndicator(navTarget)
 	-- checks if the nav target is a starport behind (on the other side of) the player's framebody
 	local isaPortBehindPlanet = false
 	
-	if navTarget.path:GetSystemBody().parent.path == frameBody.path and frameBody.path:GetSystemBody().radius > 0 then
+	if frameBody and navTarget.path:GetSystemBody().parent.path == frameBody.path and frameBody.path:GetSystemBody().radius > 0 then
 
 		-- ground ports are straightforward - if player is above the zero-horizon from the station's POV, the station is visible
 		if navTarget.type == "STARPORT_SURFACE" then
