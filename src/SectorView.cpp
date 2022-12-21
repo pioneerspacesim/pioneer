@@ -1197,6 +1197,8 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 			outRoute.push_back(m_galaxy->GetStarSystem(nodes[u])->GetStars()[0]->GetPath());
 			u = path_prev[u];
 		}
+		//End at given body in multistar systems
+		outRoute.begin()->bodyIndex = target.bodyIndex;
 		std::reverse(std::begin(outRoute), std::end(outRoute));
 		return "OKAY";
 	}
