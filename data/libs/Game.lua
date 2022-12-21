@@ -6,7 +6,10 @@ local gameStartTime = 0.0
 
 Game.comms_log_lines = {}
 Game.AddCommsLogLine = function(text, sender, priority)
-	 table.insert(Game.comms_log_lines, { text=text, time=Game.time, sender=sender, priority = priority or 'normal'})
+	table.insert(Game.comms_log_lines, { text=text, time=Game.time, sender=sender, priority = priority or 'normal'})
+	if type(priority) == "number" and priority > 0 then
+		Game.SetTimeAcceleration("1x")
+	end 
 end
 
 Game.GetCommsLines = function()

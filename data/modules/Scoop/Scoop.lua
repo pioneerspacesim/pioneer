@@ -155,10 +155,12 @@ local sortGoods = function (goods)
 	local system = Game.system
 
 	for _, e in pairs(goods) do
-		if e.purchasable and system:IsCommodityLegal(e.name) then
-			table.insert(legal_goods, e)
-		else
-			table.insert(illegal_goods, e)
+		if e.purchasable then
+			if system:IsCommodityLegal(e.name) then
+				table.insert(legal_goods, e)
+			else
+				table.insert(illegal_goods, e)
+			end
 		end
 	end
 

@@ -542,7 +542,7 @@ local calcReward = function (flavour, pickup_crew, pickup_pass, pickup_comm, del
 	return reward
 end
 
-local createTargetShipParameters = function (flavour)
+local createTargetShipParameters = function (flavour, planet)
 	-- Create the basic parameters for the target ship. It is important to set these before ad creation
 	-- so certain info can be included in the ad text. The actual ship is created once the mission has
 	-- been accepted.
@@ -566,7 +566,13 @@ local createTargetShipParameters = function (flavour)
 	----> atmo-shield if ship stranded on planet
 	if flavour.loctype == "CLOSE_PLANET" or flavour.loctype == "MEDIUM_PLANET" then
 		for i,shipdef in pairs(shipdefs) do
-			if shipdef.equipSlotCapacity.atmo_shield == 0 then shipdefs[i] = nil end
+			-- make sure that this ship model has atmosferic shield capacity and can take off from the planet
+			-- e.g. Natrix with some fuel cant take off from Earth ..
+			local fullMass = shipdef.hullMass + shipdef.capacity + shipdef.fuelTankMass
+			local UpAccelFull  =  math.abs(shipdef.linearThrust.UP / (1000*fullMass))
+			if shipdef.equipSlotCapacity.atmo_shield == 0 or planet:GetSystemBody().gravity > UpAccelFull then
+				shipdefs[i] = nil
+			end
 		end
 	end
 	----> crew quarters for crew delivery missions
@@ -603,13 +609,11 @@ local createTargetShipParameters = function (flavour)
 				table.sort(drives, function (a,b) return a.capabilities.mass < b.capabilities.mass end)
 				drive = drives[1]
 			end
-			if (shipdef.capacity-drive.capabilities.mass) / 10 < 1 then shipdefs[i] = nil end
-		end
-	end
-
-	if flavour.pickup_pass > 0 then
-		for i,shipdef in pairs(shipdefs) do
-			if shipdef.slots["cabin"] < flavour.pickup_pass then shipdefs[i] = nil end
+			if (shipdef.capacity - drive.capabilities.mass - drive.capabilities.hyperclass^2 ) < 2
+				or shipdef.equipSlotCapacity.cargo < drive.capabilities.hyperclass^2
+				or shipdef.equipSlotCapacity.cabin == 0 then
+				shipdefs[i] = nil
+			end
 		end
 	end
 
@@ -668,7 +672,10 @@ local createTargetShipParameters = function (flavour)
 				table.sort(drives, function (a,b) return a.capabilities.mass < b.capabilities.mass end)
 				drive = drives[1]
 			end
-			pickup_pass = rand:Integer(1, math.min(((shipdef.capacity-drive.capabilities.mass) / 10)+1, max_pass))
+			--after drive, hyper fuel, atmo shield, laser
+			local max_cabins = shipdef.capacity - drive.capabilities.mass - drive.capabilities.hyperclass^2 - 2
+			max_cabins = math.min(max_cabins, shipdef.equipSlotCapacity.cabin)
+			pickup_pass = rand:Integer(1, math.min(max_cabins, max_pass))
 		else
 			pickup_pass = 0
 		end
@@ -737,20 +744,29 @@ local createTargetShip = function (mission)
 	if not drive then drive = drives[1] end
 	ship:AddEquip(drive)
 
-	-- add thruster fuel
-	if mission.flavour.id == 2 or mission.flavour.id == 4 or mission.flavour.id == 5 then
-		ship:SetFuelPercent(0)
+	-- load passengers
+	if mission.pickup_pass > 0 then
+		ship:AddEquip(Equipment.misc.cabin_occupied, mission.pickup_pass)
 	end
 
-	-- add hydrogen for hyperjumping
-	if mission.flavour.id ~= 2 and mission.flavour.id ~= 4 and mission.flavour.id ~= 5 then
-		local drive = ship:GetEquip('engine', 1)
-		local hypfuel = drive.capabilities.hyperclass ^ 2  -- fuel for max range
-		ship:GetComponent('CargoManager'):AddCommodity(drive.fuel or Commodities.hydrogen, hypfuel)
+	-- add hydrogen for hyperjumping even for refueling missoins - to reserve the space
+	-- for refueling missions it is removed later
+	local drive = ship:GetEquip('engine', 1)
+	local hypfuel = drive.capabilities.hyperclass ^ 2  -- fuel for max range
+	ship:GetComponent('CargoManager'):AddCommodity(drive.fuel or Commodities.hydrogen, hypfuel)
+
+	-- load crew
+	for _ = 1, mission.crew_num do
+		ship:Enroll(Character.New())
+	end
+
+	-- load atmo_shield
+	if shipdef.equipSlotCapacity.atmo_shield ~= 0 then
+		ship:AddEquip(Equipment.misc.atmospheric_shielding)
 	end
 
 	-- load a laser
-	local max_laser_size = shipdef.capacity - (drive and drive.capabilities.mass or 0)
+	local max_laser_size = ship.freeCapacity
 	local laserdefs = utils.build_array(utils.filter(function (_,laser)
 		return laser:IsValidSlot('laser_front')
 			and laser.capabilities.mass <= max_laser_size
@@ -759,19 +775,10 @@ local createTargetShip = function (mission)
 	local laserdef = laserdefs[rand:Integer(1,#laserdefs)]
 	ship:AddEquip(laserdef)
 
-	-- load crew
-	for _ = 1, mission.crew_num do
-		ship:Enroll(Character.New())
-	end
-
-	-- load passengers
-	if mission.pickup_pass > 0 then
-		ship:AddEquip(Equipment.misc.cabin_occupied, mission.pickup_pass)
-	end
-
-	-- load atmo_shield
-	if shipdef.equipSlotCapacity.atmo_shield ~= 0 then
-		ship:AddEquip(Equipment.misc.atmospheric_shielding)
+	-- remove all fuel for refueling mission
+	if mission.flavour.id == 2 or mission.flavour.id == 4 or mission.flavour.id == 5 then
+		ship:SetFuelPercent(0)
+		ship:GetComponent('CargoManager'):RemoveCommodity(drive.fuel or Commodities.hydrogen, hypfuel)
 	end
 
 	return ship
@@ -1147,7 +1154,7 @@ local discardShip = function (ship)
 	if #nearbysystems > 0 and status == "OK" then
 		Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function ()
 			ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindNearestTo("STAR"))
-			Timer:CallAt(Game.time + 5, function () ship:HyperjumpTo(nearbysystems[1]) end)
+			Timer:CallAt(Game.time + 30, function () ship:HyperjumpTo(nearbysystems[1]) end)
 		end)
 	else
 		with_stations = false
@@ -1156,7 +1163,7 @@ local discardShip = function (ship)
 		if #nearbysystems > 0 and status == "OK" then
 			Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function ()
 				ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindNearestTo("STAR"))
-				Timer:CallAt(Game.time + 5, function () ship:HyperjumpTo(nearbysystems[1]) end)
+				Timer:CallAt(Game.time + 30, function () ship:HyperjumpTo(nearbysystems[1]) end)
 			end)
 		else
 			Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function ()
@@ -1219,7 +1226,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		system_target = system_local
 		location = planet_target
 		lat, long, dist = randomLatLong(station)
-		due = Game.time + 60 * 60 * Engine.rand:Number(2,24)        --TODO: adjust due date based on urgency
+		due = 60 * 60 * Engine.rand:Number(2,24)        --TODO: adjust due date based on urgency
 
 	elseif flavour.loctype == "MEDIUM_PLANET" then
 		station_target = nil
@@ -1238,7 +1245,8 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		location = planet_target
 		lat, long, dist = randomLatLong()
 		dist = station:DistanceTo(Space.GetBody(planet_target.bodyIndex))  --overwrite empty dist from randomLatLong()
-		due = Game.time + (mToAU(dist) * 4) * Engine.rand:Integer(20,24) * 60 * 60     -- TODO: adjust due date based on urgency
+		--1 added for short distances when most of the time is spent at low average speed (accelerating and deccelerating)
+		due = (mToAU(dist) * 2 + 1) * Engine.rand:Integer(20,24) * 60 * 60     -- TODO: adjust due date based on urgency
 
 	elseif flavour.loctype == "CLOSE_SPACE" then
 		station_target = station_local
@@ -1246,7 +1254,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		system_target = system_local
 		location = planet_target
 		dist = 1000 * Engine.rand:Integer(1,max_close_space_dist)     -- minimum of 1 km distance from station
-		due = Game.time + (60 * 60 * Engine.rand:Number(2,24))        --TODO: adjust due date based on urgency
+		due = (60 * 60 * Engine.rand:Number(2,24))        --TODO: adjust due date based on urgency
 
 	elseif flavour.loctype == "FAR_SPACE" then
 		local nearbysystems = findNearbySystems(false)  -- setup to only return systems without stations
@@ -1257,8 +1265,12 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		if not planet_target then return nil end
 		location = planet_target
 		dist = system_local:DistanceTo(system_target)
-		due = Game.time + (5 * dist + 4) * Engine.rand:Integer(20,24) * 60 * 60     -- TODO: adjust due date based on urgency
+		due = (5 * dist + 4) * Engine.rand:Integer(20,24) * 60 * 60     -- TODO: adjust due date based on urgency
 	end
+
+	--double the time if return to original station is required
+	if flavour.reward_immediate == false then due = 2 * due end
+	due = Game.time + due
 
 	-- determine pickup and deliver of items based on mission flavour
 	-- appropriate target ship size will be selected later based on this
@@ -1269,14 +1281,14 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 	deliver_comm = copyTable(flavour.deliver_comm)
 
 	-- set target ship parameters and determine pickup and delivery of personnel based on mission flavour
-	local shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew, shipseed = createTargetShipParameters(flavour)
+	local shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew, shipseed = createTargetShipParameters(flavour, planet_target)
 
 	-- adjust fuel to deliver based on selected ship and mission flavour
 	local needed_fuel
 	if flavour.id == 2 or flavour.id == 5 then
 		needed_fuel = math.max(math.floor(shipdef.fuelTankMass * 0.1), 1)
-	elseif flavour.id == 4 then
-		needed_fuel = math.max(math.floor(shipdef.fuelTankMass * 0.2), 1)
+	elseif flavour.id == 4 then -- different planet 
+		needed_fuel = math.max(math.floor(shipdef.fuelTankMass * 0.5), 1)
 	end
 	deliver_comm[Commodities.hydrogen] = needed_fuel
 
@@ -1350,7 +1362,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		entity         = entity,
 		problem        = problem,
 		dist           = dist,
-		due	           = due,
+		due	       = due,
 		urgency	       = urgency,
 		reward         = reward,
 		shipdef_name   = shipdef.name, -- saving the actual shipdef causes crash at serialization (ship undock)
@@ -2056,8 +2068,10 @@ end
 local onShipDocked = function (ship, station)
 	if ship:IsPlayer() then
 		for _,mission in pairs(missions) do
-			if Game.time > mission.due or mission.station_local:IsSameSystem(Game.system.path) and Space.GetBody(mission.station_local.bodyIndex) == station then
-				closeMission(mission)
+			if mission.station_local:IsSameSystem(Game.system.path) and Space.GetBody(mission.station_local.bodyIndex) == station then
+				if missionStatus(mission)~="NOT" or Game.time > mission.due then
+					closeMission(mission)
+				end
 			end
 		end
 	else
@@ -2076,10 +2090,10 @@ local onShipDocked = function (ship, station)
 					hypfuel = hypfuel - cargoMgr:CountCommodity(Commodities.hydrogen)
 					cargoMgr:AddCommodity(Commodities.hydrogen, math.max(hypfuel, 0))
 				end
-			end
 
-			discardShip(ship)
-			table.remove(discarded_ships,i)
+				discardShip(ship)
+				table.remove(discarded_ships,i)
+			end
 		end
 	end
 end
