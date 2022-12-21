@@ -1,5 +1,9 @@
 {
-  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_LANDING": {
+    "description": "",
+    "message": "This is {station}. You do not have enough money for your landing fee of {fee}."
+  },
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_DOCKING": {
     "description": "",
     "message": "This is {station}. You do not have enough money for your docking fee of {fee}."
   },
