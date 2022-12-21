@@ -181,6 +181,7 @@ theme.colors = {
 
 	gaugeBackground			= styleColors.gray_800:opacity(0.85),
 	gaugePressure			= styleColors.primary_600,
+	gaugeScanner			= styleColors.primary_500,
 	gaugeTemperature		= styleColors.danger_500,
 	gaugeShield				= styleColors.primary_300,
 	gaugeHull				= styleColors.gray_200,

@@ -308,6 +308,10 @@
     "message" : "Mapping process interrupted, too far from target."
   },
 
+  "HUD_SCAN_PROGRESS": {
+    "description": "",
+    "message": "Current Scan Progress"
+  },
   "STORED_SCAN_DATA": {
     "description": "",
     "message": "Stored Scan Data:"
