@@ -23,6 +23,10 @@ ui.setNextWindowPos = pigui.SetNextWindowPos ---@type fun(pos: Vector2, cond: st
 ui.setNextWindowSize = pigui.SetNextWindowSize ---@type fun(size: Vector2, cond: string)
 ui.setNextWindowSizeConstraints = pigui.SetNextWindowSizeConstraints ---@type fun(min: Vector2, max: Vector2)
 
+-- Forwarded as-is for use in complicated layout primitives without introducing additional scopes
+ui.beginGroup = pigui.BeginGroup
+ui.endGroup = pigui.EndGroup
+
 ui.dummy = pigui.Dummy
 ui.newLine = pigui.NewLine
 ui.spacing = pigui.Spacing
@@ -62,7 +66,6 @@ ui.isMouseDoubleClicked = pigui.IsMouseDoubleClicked
 ui.isMouseDown = pigui.IsMouseDown
 ui.getMousePos = pigui.GetMousePos ---@type fun(): Vector2
 ui.getMouseWheel = pigui.GetMouseWheel
---ui.setTooltip = maybeSetTooltip
 ui.shouldDrawUI = pigui.ShouldDrawUI
 ui.getWindowPos = pigui.GetWindowPos ---@type fun(): Vector2
 ui.getWindowSize = pigui.GetWindowSize ---@type fun(): Vector2
