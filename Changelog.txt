@@ -1,12 +1,22 @@
 December 2022
   * New Features
     * Implement select target and cycle hostile contact buttons (#5429)
+    * Nav target icons indicate whether the target is on the other side of a body (#5438)
+    * Display station tech-level in System Map info panel (#5439)
   
   * Internal Changes
     * Load mods from unpacked directories as well as zip files (#5432)
   
   * Fixes
     * Fix shield recharging being disabled after selling shield booster (#5434)
+    * Fix ship passenger cabin capacity not being shown when buying a ship (#5439)
+    * Fix SolFed homeworld was pointing at Shanghai instead of Mars (#5439)
+    * Fix auto-route button routing to the wrong body in the target system (#5435)
+    * Fix hostile ships running away from the player and never engaging (#5436)
+    * Fix illegal scoop missions didn't spawn saleable goods (#5446)
+    * Fix SAR missions generating invalid configurations (#5446)
+    * Fix SAR missions not giving the player enough time to reach the target (#5446)
+    * Fix high-priority messages not interrupting timewarp (#5446)
 
 November 2022
   * New Features
