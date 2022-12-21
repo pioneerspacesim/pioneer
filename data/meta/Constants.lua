@@ -28,8 +28,8 @@
 -- A <Constants.ShipAICmdName> string
 ---@class ShipAICmdName: string
 
--- A <Constants.HardpointTag> string
----@class HardpointTag: string
+-- A <Constants.DualLaserOrientation> string
+---@class DualLaserOrientation: string
 
 -- A <Constants.ShipTypeTag> string
 ---@class ShipTypeTag: string
@@ -111,8 +111,8 @@ Constants.ShipAlertStatus = {}
 ---@type ShipAICmdName[]
 Constants.ShipAICmdName = {}
 
----@type HardpointTag[]
-Constants.HardpointTag = {}
+---@type DualLaserOrientation[]
+Constants.DualLaserOrientation = {}
 
 ---@type ShipTypeTag[]
 Constants.ShipTypeTag = {}

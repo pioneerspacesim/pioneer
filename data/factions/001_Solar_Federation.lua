@@ -4,7 +4,7 @@
 local f = Faction:new('Solar Federation')
 	:description_short('The historical birthplace of humankind')
 	:description('Sol is a fine joint')
-	:homeworld(0,0,0,0,4)
+	:homeworld(0,0,0,0,16) --Mars
 	:foundingDate(3050)
 	:expansionRate(1)
 	:military_name('SolFed Military')

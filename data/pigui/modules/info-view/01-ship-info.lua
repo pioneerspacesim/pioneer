@@ -76,6 +76,7 @@ local function shipStats()
 		{ l.CREW_CABINS..":",                 shipDef.maxCrew },
 		{ l.UNOCCUPIED_PASSENGER_CABINS..":", cabinEmpty },
 		{ l.OCCUPIED_PASSENGER_CABINS..":",   cabinOccupied },
+		{ l.PASSENGER_CABIN_CAPACITY..":",    shipDef.equipSlotCapacity.cabin},
 		false,
 		{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
 		{ l.SCOOP_MOUNTS..":",              shipDef.equipSlotCapacity.scoop},

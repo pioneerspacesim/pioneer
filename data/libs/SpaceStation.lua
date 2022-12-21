@@ -24,15 +24,23 @@ local l = Lang.GetResource("ui-core")
 -- Class: SpaceStation
 --
 
-function SpaceStation:Constructor()
-	-- Use a variation of the space station seed itself to ensure consistency
-	local rand = Rand.New(self.seed .. '-techLevel')
+function SpaceStation.GetTechLevel(systemBody)
+
+	local rand = Rand.New(systemBody.seed .. '-techLevel')
 	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
-	if Game.system.faction ~= nil and Game.system.faction.hasHomeworld and Game.system.faction.homeworld == self.path:GetSystemBody().parent.path then
+	local system = systemBody.path:GetStarSystem()
+	
+	if system.faction ~= nil and system.faction.hasHomeworld and system.faction.homeworld == systemBody.parent.path then
 		techLevel = math.max(techLevel, 6) -- bump it upto at least 6 if it's a homeworld like Earth
 	end
 	-- cap the techlevel lower end based on the planets population
-	techLevel = math.max(techLevel, math.min(math.floor(self.path:GetSystemBody().parent.population * 0.5), 11))
+	techLevel = math.max(techLevel, math.min(math.floor(systemBody.parent.population * 0.5), 11))
+	return techLevel;
+end
+
+function SpaceStation:Constructor()
+	techLevel = SpaceStation.GetTechLevel(self.path:GetSystemBody())
+
 	self:setprop("techLevel", techLevel)
 end
 
