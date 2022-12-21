@@ -2,8 +2,8 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game        = require 'Game'
+local Event       = require 'Event'
 local Lang        = require 'Lang'
-local Space       = require 'Space'
 local Format      = require 'Format'
 local Equipment   = require 'Equipment'
 local ItemCard    = require 'pigui.libs.item-card'
@@ -17,11 +17,11 @@ local ls = Lang.GetResource("module-scout")
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
+local pionillium = ui.fonts.pionillium
+
 local sizes = ui.rescaleUI({
 	leadIconSize = Vector2(32),
 })
-
-local pionillium = ui.fonts.pionillium
 
 local gameView = require 'pigui.views.game'
 
@@ -36,19 +36,19 @@ ScanCard.backgroundColor = ui.theme.styleColors.gray_800
 ScanCard.hoveredColor = ui.theme.styleColors.gray_700
 ScanCard.selectedColor = ui.theme.styleColors.primary_600
 
-function ScanCard:drawTooltip(data, isActive)
-	do ui.setTooltip(data.scan.id) return end
-
+function ScanCard:drawTooltip(data, isHighlighted)
 	if data.scan.complete then
 		ui.setTooltip(ls.COMPLETED_SCAN_TOOLTIP)
-	elseif isActive then
+	elseif data.isActive then
 		ui.setTooltip(ls.ACTIVE_SCAN_TOOLTIP)
+	elseif isHighlighted then
+		ui.setTooltip(ls.AVAILABLE_SCAN_TOOLTIP)
 	else
 		ui.setTooltip(ls.PENDING_SCAN_TOOLTIP)
 	end
 end
 
-function ScanCard:drawTitle(data, textWidth, isActive)
+function ScanCard:drawTitle(data, textWidth, isHighlighted)
 	local pos = ui.getCursorScreenPos()
 	local size = ui.calcTextSize(data.completion)
 	local textArea = pos + Vector2(textWidth - size.x - self.lineSpacing.x, ui.getTextLineHeight())
@@ -57,8 +57,6 @@ function ScanCard:drawTitle(data, textWidth, isActive)
 		ui.text(data.title)
 	end)
 
-	ui.text(data.title)
-
 	ui.setCursorScreenPos(pos + Vector2(textWidth - size.x, 0))
 	ui.text(data.completion)
 end
@@ -66,7 +64,7 @@ end
 local scanDisplay = {
 	side = "left",
 	icon = icons.equip_planet_scanner,
-	tooltip = ls.SCAN_DETAILS,
+	tooltip = ls.SCAN_MANAGER,
 	exclusive = false,
 
 	debugReload = function()
@@ -150,29 +148,40 @@ function scanDisplay:addTestScan(scanMgr, orbit)
 end
 
 function scanDisplay:drawEmptyActiveScan()
-	local clicked, highlighted, bbMin, bbMax = ScanCard:drawBackground(false)
-	local pos = (bbMin + bbMax) * 0.5
-	local text = ls.NO_ACTIVE_SCAN
+	ui.beginGroup()
 
-	local textSize = ui.calcTextSize(text)
-	ui.setCursorScreenPos(pos - textSize * 0.5)
+	local pos = ui.getCursorScreenPos()
+	local _, _, size = ScanCard:drawBackground(false)
 
-	ui.text(text)
+	local text = ls.NO_AVAILABLE_SCANNER
+	local tooltip = ls.NO_AVAILABLE_SCANNER_TOOLTIP
 
-	ui.setCursorScreenPos(bbMin)
-	ui.dummy(bbMax - bbMin)
+	if self.scanMgr:GetActiveSensor() then
+		text = ls.NO_ACTIVE_SCAN
+		tooltip = ls.NO_ACTIVE_SCAN_TOOLTIP
+	end
+
+	ui.withFont(pionillium.heading, function()
+		local textSize = ui.calcTextSize(text)
+		ui.setCursorScreenPos(pos + (size - textSize) * 0.5)
+
+		ui.text(text)
+	end)
+
+	ui.endGroup()
 
 	if ui.isItemHovered() then
-		ui.setTooltip(ls.NO_ACTIVE_SCAN_TOOLTIP)
+		ui.setTooltip(tooltip)
 	end
 end
 
 ---@param scan ScanData
-function scanDisplay:drawScanInfo(scan, active)
+function scanDisplay:drawScanInfo(scan, isHighlighted)
 	local sBody = scan.bodyPath:GetSystemBody()
 	local scanMgr = self.ship:GetComponent("ScanManager")
 
-	local altitude = string.upper("Scanner") -- TODO: localization
+	-- displayed when the active scanner cannot carry out the scan
+	local altitude = string.upper(ls.INVALID_SCANNER)
 	local target = ""
 
 	local params = scanMgr:GetScanParameters(sBody, scan.minResolution, scan.orbital)
@@ -186,12 +195,13 @@ function scanDisplay:drawScanInfo(scan, active)
 		target = ui.Format.Distance(scan.targetCoverage * 1000.0, "%.1f")
 	end
 
-	local completion = scan.coverage / scan.targetCoverage
+	local completion = math.min(1.0, scan.coverage / scan.targetCoverage)
 
 	local data = {
 		title = sBody.name .. ", " .. scan.bodyPath:GetStarSystem().name,
 		target = target,
 		completion = string.format("%2.1f%%", completion * 100.0),
+		isActive = self.scanMgr:GetActiveScan() == scan,
 		scan = scan,
 		icon = scan.orbital and icons.map or icons.scanner,
 		{ icons.comms, target, ls.SCAN_TARGET_COVERAGE },
@@ -199,7 +209,7 @@ function scanDisplay:drawScanInfo(scan, active)
 		{ icons.altitude, altitude, ls.SCAN_MAXIMUM_ALTITUDE },
 	}
 
-	return ScanCard:draw(data, active)
+	return ScanCard:draw(data, isHighlighted)
 end
 
 -- Return a sorted copy of the given scan list for display
@@ -247,23 +257,21 @@ function scanDisplay:drawActiveSensor()
 end
 
 function scanDisplay:drawTitle()
-	ui.text(ls[self.scanMgr:GetState()])
+	ui.text(ls["STATE_" .. self.scanMgr:GetState()])
 	ui.sameLine()
 
-	local buttonSize = Vector2(ui.getLineHeight() - ui.theme.styles.MainButtonPadding * 2)
+	-- Draw debug display button
+	if self.showDebug or (ui.shiftHeld() and ui.altHeld()) then
+		local buttonSize = Vector2(ui.getLineHeight() - ui.theme.styles.MainButtonPadding * 2)
 
-	ui.addCursorPos(Vector2(ui.getContentRegion().x - buttonSize.x, 0))
-	if ui.mainMenuButton(icons.alert1, "Debug Display", false, buttonSize) then
-		self.showDebug = not self.showDebug
+		ui.addCursorPos(Vector2(ui.getContentRegion().x - buttonSize.x * 1.5, 0))
+		if ui.mainMenuButton(icons.alert1, "Debug Display", false, buttonSize) then
+			self.showDebug = not self.showDebug
+		end
 	end
 end
 
 function scanDisplay:drawBody()
-
-	ui.spacing()
-
-	-- Draw current sensor selector
-	self:drawActiveSensor()
 
 	ui.spacing()
 
@@ -280,10 +288,22 @@ function scanDisplay:drawBody()
 		self:drawEmptyActiveScan()
 	end
 
+	-- Draw current sensor selector
+	if #self.scanMgr:GetAvailableSensors() > 0 then
+		ui.spacing()
+
+		self:drawActiveSensor()
+	end
+
 	ui.spacing()
 	ui.separator()
 	ui.spacing()
 
+	ui.withFont(pionillium.heading, function()
+		ui.textAligned(ls.STORED_SCAN_DATA, 0.5)
+	end)
+
+	ui.spacing()
 
 	-- Draw list of pending/complete scans
 
@@ -291,11 +311,11 @@ function scanDisplay:drawBody()
 	local selectedBtn = ui.theme.buttonColors.selected
 	local deselectedBtn = ui.theme.buttonColors.deselected
 
-	if ui.button(string.format("%d Pending", #self.scanMgr:GetPendingScans()), buttonSize, self.activeTab == 1 and selectedBtn or deselectedBtn) then
+	if ui.button(ls.PENDING_SCANS % { #self.scanMgr:GetPendingScans() }, buttonSize, self.activeTab == 1 and selectedBtn or deselectedBtn) then
 		self.activeTab = 1
 	end
 	ui.sameLine(0, 0)
-	if ui.button(string.format("%d Completed", #self.scanMgr:GetCompletedScans()), buttonSize, self.activeTab == 2 and selectedBtn or deselectedBtn) then
+	if ui.button(ls.COMPLETED_SCANS % { #self.scanMgr:GetCompletedScans() }, buttonSize, self.activeTab == 2 and selectedBtn or deselectedBtn) then
 		self.activeTab = 2
 	end
 
@@ -310,7 +330,7 @@ function scanDisplay:drawBody()
 	else
 		local complete, _ = self:sortScanList(self.scanMgr:GetCompletedScans())
 		for _, scan in ipairs(complete) do
-			self:drawScanInfo(scan, true)
+			self:drawScanInfo(scan)
 		end
 	end
 
@@ -321,22 +341,8 @@ function scanDisplay:drawBody()
 	end
 end
 
-local ScanManager = require '.ScanManager'
-
 function scanDisplay:refresh()
 	self.ship = Game.player
-
-	if not self.ship:GetComponent("ScanManager") then
-		print("Added scan manager to player ship")
-		self.ship:SetComponent("ScanManager", ScanManager.New(self.ship))
-	end
-
-	if not self.ship:GetEquip("sensor", 1) then
-		print("Added planet scanner to player ship")
-		self.ship:AddEquip(Equipment.misc.planetscanner)
-		self.ship:AddEquip(Equipment.misc.orbitscanner)
-	end
-
 	self.scanMgr = self.ship:GetComponent("ScanManager")
 end
 
