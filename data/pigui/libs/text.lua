@@ -399,3 +399,23 @@ ui.addStyledText = function(position, anchor_horizontal, anchor_vertical, text, 
 
 	return size
 end
+
+--
+-- Function: setTooltip
+--
+-- Displays a tooltip in the UI, optionally with the given font.
+-- This function does not display a tooltip if the mouse is currently captured by the game.
+--
+-- Parameters:
+--   tooltip - string, tooltip text to display to the user
+--   font    - optional font table, used to display the given tooltip
+--
+function ui.maybeSetTooltip(tooltip, font)
+	if not Game.player:IsMouseActive() then
+		ui.withFont(font or ui.fonts.pionillium.details, function()
+			pigui.SetTooltip(tooltip)
+		end)
+	end
+end
+
+ui.setTooltip = ui.maybeSetTooltip

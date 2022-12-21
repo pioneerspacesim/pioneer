@@ -875,11 +875,3 @@ end
 function ui.loadTexture(filename)
 	return pigui:LoadTexture(filename)
 end
-
-function ui.maybeSetTooltip(tooltip)
-	if not Game.player:IsMouseActive() then
-		pigui.SetTooltip(tooltip)
-	end
-end
-
-ui.setTooltip = ui.maybeSetTooltip

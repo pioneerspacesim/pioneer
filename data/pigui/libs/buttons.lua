@@ -162,9 +162,9 @@ function ui.iconButton(icon, size, tooltip, variant, fg_color, frame_padding, ic
 	if pigui.IsItemHovered() then
 		local pos = tooltip:find("##") -- get position for id tag start
 		if not pos then
-			pigui.SetTooltip(tooltip)
+			ui.setTooltip(tooltip)
 		elseif pos > 1 then
-			pigui.SetTooltip(string.sub(tooltip, 1, pos - 1))
+			ui.setTooltip(string.sub(tooltip, 1, pos - 1))
 		end
 	end
 
