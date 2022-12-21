@@ -52,6 +52,7 @@ The Pioneer Developers are:
 * Gaz Davidson
 * Georgi Georgiev
 * Gernot
+* Gliese852
 * HeadHunter
 * Jan Olsina
 * jmf
