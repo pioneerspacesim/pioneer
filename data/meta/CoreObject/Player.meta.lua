@@ -16,3 +16,5 @@ local Player = {}
 package.core["Player"] = Player
 
 -- TODO: document methods as required
+
+return Player

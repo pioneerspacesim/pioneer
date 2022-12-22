@@ -36,6 +36,25 @@ local Body = {}
 -- Ensure the CoreImport field is visible to static analysis
 package.core["Body"] = Body
 
+-- Check if this body reference is still valid
+---@return boolean
+function Body:exists() end
+
+-- Check if this object is a specific type (e.g. Ship or SpaceStation)
+---@param type string
+---@return boolean
+function Body:isa(type) end
+
+-- Set the given body property to the passed value
+---@param key string
+---@param value any NOTE: functions, tables, and coroutines cannot be set as body properties
+function Body:setprop(key, value) end
+
+-- Check if the given property exists on the body
+---@param key string
+---@return boolean
+function Body:hasprop(key) end
+
 --- Get a C++ or Lua component object from the body if present.
 ---
 --- Note: the caller should check the return value if there is a possibility if

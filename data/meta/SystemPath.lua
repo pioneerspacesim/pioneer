@@ -47,6 +47,7 @@ function SystemPath:SectorOnly() end
 
 --- Calculate the distance between this and another system
 ---@param system SystemPath|StarSystem --not yet implemented
+---@return number
 function SystemPath:DistanceTo(system) end
 
 ---@return StarSystem

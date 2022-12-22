@@ -1,7 +1,9 @@
 -- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+---@class SpaceStation : ModelBody
 local SpaceStation = package.core['SpaceStation']
+
 local Event = require 'Event'
 local Rand = require 'Rand'
 local Space = require 'Space'
