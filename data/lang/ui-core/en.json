@@ -1671,6 +1671,10 @@
     "description": "Welcome message to the paintshop.",
     "message": "Looking the best in the galaxy has never been easier!"
   },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Passenger cabin capacity"
+  },
   "PATTERN": {
     "description": "Ship painting pattern.",
     "message": "Pattern"
@@ -2210,10 +2214,6 @@
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
     "message": "Unoccupied Passenger Cabins"
-  },
-  "PASSENGER_CABIN_CAPACITY": {
-    "description": "Entry for ship info",
-    "message": "Passenger cabin capacity"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",

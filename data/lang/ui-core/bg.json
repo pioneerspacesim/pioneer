@@ -1671,6 +1671,10 @@
     "description": "Welcome message to the paintshop.",
     "message": "Да изглеждате добре в галактиката никога не е било по-лесно!"
   },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Капацитет на пасажерската кабина"
+  },
   "PATTERN": {
     "description": "Ship painting pattern.",
     "message": "Шаблон"
@@ -2098,6 +2102,10 @@
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
     "message": "Това съоръжение има разрешение за изполване на военна технология."
+  },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Технологично ниво"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",

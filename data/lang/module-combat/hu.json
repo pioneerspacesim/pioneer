@@ -13,19 +13,19 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
+    "message": "Jól képzett pilótát keresünk fedett megbízásra: Javadalmazás: {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Ship and crew wanted for a combat mission in the {system} system."
+    "message": "Hajót és legénységet keresünk harci küldetéshez, {system} rendszerben."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
+    "message": "Jól felszerelt hajóval rendelkező gyakorlott pilótát keresünk. Részleteket kérésre elküldjük."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
+    "message": "{org} félelmet nem ismerő zsoldost keres egy {system}-beli küldetésre. Fizettség: {cash}."
   },
   "ADTEXT_5": {
     "description": "",
@@ -33,23 +33,23 @@
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED"
+    "message": "MEGBÍZHATÓ PILÓTA KERESTETIK"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "CHALLENGE RESOLUTION"
+    "message": "FELELŐSSÉGRE VONÁS"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "COMBAT FLIGHT"
+    "message": "HARCI FELADAT"
   },
   "ADTITLE_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED"
+    "message": "FÉLELMET NEM ISMERŐ PILÓTÁT KERESÜNK"
   },
   "ADTITLE_5": {
     "description": "",
-    "message": "AUTHORIZED COMBAT MISSION"
+    "message": "ENGEDÉLYEZETT HARCI KÜLDETÉS"
   },
   "AGENT": {
     "description": "Secret Service Agent",

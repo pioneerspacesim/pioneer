@@ -871,6 +871,10 @@
     "description": "",
     "message": "Ideggáz"
   },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<semmi>"
+  },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
     "message": "Nincs ilyen"
@@ -1258,6 +1262,10 @@
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
     "message": "Tolóerő korlátozása %power%%-ra."
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Maximális sebesség korlátozása"
   },
   "SET_NAVTARGET_TO": {
     "description": "",

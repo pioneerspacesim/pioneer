@@ -5,7 +5,7 @@
   },
   "FLAVOUR_0_DESC": {
     "description": "Second line for an easter-egg AC/DC song title reference.",
-    "message": "If you're having trouble, call me any time."
+    "message": "Ha bármi gond van, keress nyugodtan."
   },
   "FLAVOUR_0_TITLE": {
     "description": "The 'all caps' title should probably not be translated, as it's an AC/DC song title reference. Either way, it's a very rare 'Easter egg'",
@@ -17,7 +17,7 @@
   },
   "FLAVOUR_1_DESC": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
-    "message": "Everyone needs a listening ear once in a while."
+    "message": "Mindenkinek elkél néha egy kis figyelem."
   },
   "FLAVOUR_1_TITLE": {
     "description": "A very rare Easter egg, and reference to a line from a famous song.",
