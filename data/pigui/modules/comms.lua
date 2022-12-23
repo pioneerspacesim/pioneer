@@ -104,11 +104,13 @@ gameView.registerHudModule("comms", {
 		ui.setNextWindowSize(size, "Always")
 
 		ui.window("ShortCommsLog", windowFlags, function()
-			ui.pushTextWrapPos(0.0)
-			for _, v in iterCommsLog(Game.time - commsLogRetainTime) do
-				showItem(v)
-			end
-			ui.popTextWrapPos()
+			ui.withFont(ui.fonts.pionillium.details, function()
+				ui.pushTextWrapPos(0.0)
+				for _, v in iterCommsLog(Game.time - commsLogRetainTime) do
+					showItem(v)
+				end
+				ui.popTextWrapPos()
+			end)
 		end)
 	end
 })
