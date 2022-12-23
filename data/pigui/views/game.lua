@@ -277,7 +277,10 @@ ui.registerHandler('game', function(delta_t)
 		-- without triggering the options dialog
 		local currentView = Game.CurrentView()
 
-		ui.withStyleColors({ WindowBg = colors.transparent }, drawHUD)
+		-- Ensure we're wrapping the whole UI in a font that scales with the rest of the game
+		ui.withFont(pionillium.medium, function()
+			ui.withStyleColors({ WindowBg = colors.transparent }, drawHUD)
+		end)
 
 		-- TODO: dispatch escape key to views and let them handle it
 		if currentView == "world" and ui.escapeKeyReleased(true) then
