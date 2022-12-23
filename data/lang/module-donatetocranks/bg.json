@@ -71,6 +71,54 @@
     "description": "",
     "message": "Освободете кораба си! Моля, изберете сума за дарение. Спорна работа."
   },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "ДЕНЯТ НА ВЕТЕРАНИТЕ!"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "Подкрепете ветераните от {MILITARY}."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "Винаги може да разчитате на {MILITARY}.\nА те могат ли да разчитат на Вас?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "ПОДКРЕПЯТЕ ЛИ ГИ?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "Подкрепете ветераните от {POLICE}."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "Смелите мъже и жени от {POLICE}, които отдават живота си за сигурността на {SYSTEM} се нуждаят от Вашата подкрепа!"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "ПОДКРЕПЕТЕ НАШИТЕ ВЕТЕРАНИ!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Подкрепете нашите военни ветерани."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "Смелите войници от {MILITARY} са готови да се жертват за Вас!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "СЛОЖЕТЕ КРАЙ НА БЕДНОСТТА!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Подкрепете борбата с бедността в {FACTION}."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "Даваме възможност на семействата в {FACTION} да създадат по-добро бъдеще за всички."
+  },
   "SALES_PITCH": {
     "description": "",
     "message": "С дарение от {cash}, Вашата репутация ще се повиши, всяко дарение е от полза за нас."
