@@ -149,10 +149,16 @@ ship_spawn_debug_window = ->
 			if ui.button "Spawn Docked", Vector2(0, 0)
 				spawn_ship_docked ship_name, ai_options[ai_opt_selected], ship_equip
 
-			if not Game.player\GetDockedWith!
-				ui.sameLine!
+		SectorView = Game.sectorView
+		if not Game.player\GetDockedWith!
+			ui.sameLine!
+			if nav_target and nav_target\isa "SpaceStation"
 				if ui.button "Teleport To", Vector2(0, 0)
 					Game.player\SetDockedWith nav_target
+
+			if SectorView\GetSelectedSystemPath! and Game.system and not SectorView\GetSelectedSystemPath!\IsSameSystem(Game.system.path)
+				if ui.button "Hyperjump To", Vector2(0, 0)
+					Game.player\InitiateHyperjumpTo(SectorView\GetSelectedSystemPath(), 1.0, 0.0, {})
 
 		if Game.player\GetCombatTarget!
 			if ui.button "Spawn##Missile", Vector2(0, 0)
