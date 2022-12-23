@@ -22,6 +22,16 @@ math.clamp = function(v, min, max)
 	return math.min(max, math.max(v,min))
 end
 
+-- linearly interpolate between min and max according to V
+math.lerp = function(min, max, v)
+	return min + (max - min) * v
+end
+
+-- calculate the interpolation factor of the given number v relative to min and max
+math.invlerp = function(min, max, v)
+	return (v - min) / (max - min)
+end
+
 debug.deprecated = function(name)
 	local deprecated_function = debug.getinfo(2)
 	local caller = debug.getinfo(3)
