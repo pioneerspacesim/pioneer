@@ -12,13 +12,13 @@ local Vector2 = _G.Vector2
 local lc = Lang.GetResource("core");
 
 -- get a fractional font factor
-local font_factor = ui.rescaleFraction(1, Vector2(1920, 1200))
+local font_factor = ui.rescaleFraction(1, Vector2(1920, 1080))
 
 local textBackgroundMarginPixels = 2
 
 -- apply a subtle bias to prevent fonts from becoming overly tiny at small resolutions
 local function fontScale(size)
-	return math.round(size * (font_factor * 0.8 + 0.2))
+	return math.round(size * (font_factor < 1 and font_factor * 0.8 + 0.2 or font_factor))
 end
 
 ui.fonts = {
