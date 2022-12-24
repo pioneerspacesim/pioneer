@@ -541,6 +541,8 @@ end
 
 -- 0..25% chance for police to notice you scooping illegal cargo
 local onPlayerCargoChanged = function (comm, amount)
+	if not Game.system then return end
+
 	if Game.system:IsCommodityLegal(comm.name) or Game.player:IsDocked() then return end
 
 	for ref, mission in pairs(missions) do
