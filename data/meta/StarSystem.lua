@@ -23,6 +23,8 @@
 ---@field explored boolean
 ---
 ---@field numberOfStars integer
+---@field numberOfStations integer
+---@field numberOfBodies integer
 ---@field rootSystemBody SystemBody
 ---
 --- Translated description for the system
