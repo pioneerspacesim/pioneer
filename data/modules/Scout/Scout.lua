@@ -59,9 +59,9 @@ local orbital_params = {
 	nominal_radius = 2500,
 
 	-- reward per kilometer-width of body coverage
-	reward_per_km = 0.05,
+	reward_per_km = 0.08,
 	-- reward scaling by resolution
-	reward_resolution_max = 0.5,
+	reward_resolution_max = 1.0,
 	reward_resolution_min = 8.0,
 }
 
@@ -84,10 +84,6 @@ local surface_params = {
 	-- base reward for interesting nature of the body (ice, liquids, atmosphere composition, volcanicity etc)
 	reward_interesting = 500,
 }
-
--- reward scaling by distance from this system
-local scan_reward_distance_min = 1.0
-local scan_reward_distance_max = 1.6
 
 local MissionCalc = MissionUtils.Calculator.New()
 
@@ -303,6 +299,8 @@ local function calcOrbitalScanMission(sBody, difficulty, reward)
 	local radiusKm = sBody.radius / 1000
 	local radiusScalar = p.nominal_radius / radiusKm
 
+	local resolutionScalar = math.invlerp(p.resolution_min, p.resolution_max, resolution)
+
 	if radiusScalar > 1.0 then
 		-- body is small, increase coverage of the scan
 		coverage = math.min(coverage, 1.0) * (radiusScalar ^ 0.9)
@@ -310,15 +308,14 @@ local function calcOrbitalScanMission(sBody, difficulty, reward)
 		-- body is large, reduce coverage of the scan proportionally
 		coverage = math.min(coverage, 1.0) * radiusScalar
 		-- similarly increase the resolution of the scan to ensure we can scan at higher altitudes
-		resolution = resolution * (1.0 + math.log(radiusKm / p.nominal_radius, 10) * 0.5)
+		resolution = resolution * (1.0 + math.log(radiusKm / p.nominal_radius, 10))
 	end
 
 	coverage = math.min(coverage * realDifficulty, 1.0)
 
 	local rewardAmount = reward
 		* p.reward_per_km * (math.pi * radiusKm * coverage)
-		* math.lerp(p.reward_resolution_min, p.reward_resolution_max,
-			math.invlerp(p.resolution_min, p.resolution_max, resolution))
+		* math.lerp(p.reward_resolution_min, p.reward_resolution_max, resolutionScalar)
 
 	return {
 		coverage = coverage,
