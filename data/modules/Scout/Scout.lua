@@ -5,18 +5,17 @@ local Lang         = require "Lang"
 local Engine       = require "Engine"
 local Game         = require "Game"
 local StarSystem   = require "StarSystem"
-local Space        = require "Space"
 local Comms        = require "Comms"
 local Event        = require "Event"
+local Music        = require "Music"
 local Mission      = require "Mission"
 local MissionUtils = require "modules.MissionUtils"
-local NameGen      = require "NameGen"
 local Format       = require "Format"
 local Serializer   = require "Serializer"
 local Character    = require "Character"
-local Timer        = require "Timer"
-local Eq           = require "Equipment"
 local utils        = require 'utils'
+
+local ui = require 'pigui'
 
 local ScanManager = require '.ScanManager'
 
@@ -28,22 +27,13 @@ local luc = Lang.GetResource("ui-core")
 -- * days / flat deadline, always e.g. 3 months (depending on contractor?)
 -- * adjust deadline for each flavour
 -- * ...thus remove "why so much" line
--- * have propper progress bar for surface scanner
+-- X have propper progress bar for surface scanner
 -- * look over each flavour's deadline, rewards and difficulty
--- * round reward utils.round()
+-- X round reward utils.round()
 -- * use svg icon instead of png, remove png
 
  -- don't produce missions for further than this many light years away
 local max_scout_dist = 30
-
--- scanning time 600 = 10 minutes
-local scan_time = 600
-
--- CallEvery(xTimeUp,....
-local xTimeUp = 10
-
--- Duration expected to de-orbit and carry out a typical surface scan
-local surface_duration = 2 * MissionUtils.Days
 
 -- minimum $350 reward in local missions
 local local_reward = 350
@@ -119,57 +109,68 @@ local flavours = {
 	-- days: simply the hard deadline for this type of contract
 	-- difficulty: used to set altitude in scanner
 	-- reward: used as multiplier in reward calculation
+	-- dropoff: data needs to be delivered to another station than where the mission was accepted from
 	{                          -- flavour 1
 		localscout = false,    -- is in same system?
 		days       = 60,       -- days until deadline, from accepting it
 		difficulty = 1,        -- altitude, [0,1]
 		reward     = 1,        -- reward multiplier, 1=none. (unrelated to "urgency")
+		dropoff    = false,
 	}, {
 		localscout = false,    -- 2 Galactic Geographic Society
 		days       = 60,
 		difficulty = 2,        -- low altitude flying
 		reward     = 1,
+		dropoff    = false,
 	}, {
 		localscout = false,    -- 3 rich pirate hiring
 		days       = 30,
 		difficulty = 1.5,
 		reward     = 1.5,
+		dropoff    = true,
 	}, {
 		localscout = false,    -- 4 Stressed PhD student, short time
 		days       = 30,
 		difficulty = 1.5,
 		reward     = 1,
+		dropoff    = false,
 	}, {
 		localscout = false,    -- 5 Neutral / standard
 		days       = 60,
 		difficulty = 1,
 		reward     = 1,
+		dropoff    = false,
 	}, {
 		localscout = true,     -- 6 local system admin
 		days       = 60,
 		difficulty = 1,
 		reward     = 1.5,      -- government pays well
+		dropoff    = false,
 	}, {
 		localscout = true,     -- 7 family in need of new land
 		days       = 25,       -- urgent!
 		difficulty = 1,
 		reward     = 2,        -- because urgent
+		dropoff    = false,
 	}, {
 		localscout = true,     -- 8 geographical society
 		days       = 80,
 		difficulty = 2,
 		reward     = 2,
+		dropoff    = false,
 	}, {
 		localscout = false,    -- 9 Family in race to a claim
 		days       = 30,	   -- should be short
 		difficulty = 1,
 		reward     = 3,
+		dropoff    = true,
 	}
 }
 
 -- add strings to scout flavours
 for i = 1,#flavours do
 	local f = flavours[i]
+	f.adtitle    = l["ADTITLE_"..i]
 	f.adtext     = l["ADTEXT_"..i]
 	f.introtext  = l["ADTEXT_"..i.."_INTRO"]
 	f.introtext2 = l["INTROTEXT_COMPLETED_"..i]   -- xxx
@@ -180,10 +181,19 @@ end
 
 local ads      = {}
 local missions = {}
+local missionKey = {}
+
+local format_coverage = function(orbital, val)
+	return orbital and string.format("%.2f%%", val * 100) or ui.Format.Distance(val * 1000)
+end
+
+local format_resolution = function(val)
+	return ui.Format.Distance(val, "%.1f")
+end
 
 local onChat = function (form, ref, option)
-	local ad          = ads[ref]
-	local backstation = Game.player:GetDockedWith().path
+	local ad      = ads[ref]
+	local station = Game.player:GetDockedWith().path
 	form:Clear()
 	if option == -1 then
 		form:Close()
@@ -215,7 +225,15 @@ local onChat = function (form, ref, option)
 		form:SetMessage(string.interp(l.PLEASE_HAVE_THE_DATA_BACK_BEFORE, {date = Format.Date(ad.due)}))
 
 	elseif option == 4 then
-			form:SetMessage(l.ADDITIONAL_INFORMATION)
+		form:SetMessage(string.interp(l.SCAN_DETAILS, {
+			coverage = format_coverage(ad.orbital, ad.coverage),
+			resolution = string.format("%.1f", ad.resolution),
+			body = ad.location:GetSystemBody().name,
+			type = ad.orbital and l.AN_ORBITAL_SCAN or l.A_SURFACE_SCAN
+		}))
+
+	elseif option == 5 then
+		form:SetMessage(ad.orbital and l.ADDITIONAL_INFORMATION_ORBITAL or l.ADDITIONAL_INFORMATION_SURFACE)
 
 	elseif option == 3 then
 
@@ -228,13 +246,16 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 		local mission = {
 			type        = "Scout",
-			backstation = backstation,
+			station     = station,
 			client      = ad.client,
 			location    = ad.location,
 			difficulty  = ad.difficulty,
 			reward      = ad.reward,
 			due         = ad.due,
 			flavour     = ad.flavour,
+			dropoff     = ad.dropoff,
+			coverage    = ad.coverage,
+			resolution  = ad.resolution,
 			status      = 'ACTIVE',
 		}
 
@@ -246,6 +267,8 @@ local onChat = function (form, ref, option)
 			mission.scanId = scanMgr:AddNewSurfaceScan(ad.location, ad.resolution, ad.coverage)
 		end
 
+		missionKey[mission.scanId] = mission
+
 		table.insert(missions, Mission.New(mission))
 		Game.player:SetHyperspaceTarget(mission.location:GetStarSystem().path)
 		form:SetMessage(l.EXCELLENT_I_AWAIT_YOUR_REPORT)
@@ -254,7 +277,8 @@ local onChat = function (form, ref, option)
 
 	form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
 	form:AddOption(l.WHEN_DO_YOU_NEED_THE_DATA, 2)
-	form:AddOption(l.HOW_DOES_IT_WORK, 4)             --- foo xxx
+	form:AddOption(l.WHAT_DATA_DO_YOU_NEED, 4)             --- foo xxx
+	form:AddOption(l.HOW_DOES_IT_WORK, 5)             --- foo xxx
 	form:AddOption(l.REPEAT_THE_ORIGINAL_REQUEST, 0)
 	form:AddOption(l.ACCEPT_AND_SET_SYSTEM_TARGET, 3)
 end
@@ -412,7 +436,9 @@ local makeAdvert = function (station)
 	local days = Engine.rand:Number(flavour.days * 0.5, flavour.days)
 	local urgency = 1.0 - math.clamp((days - 30) / 50, 0.0, 1.0)
 	local difficulty = flavour.difficulty
-	local filter = flavour.orbital and filterBodyOrbital or filterBodySurface
+
+	local orbital = Engine.rand:Number() > 0.6 -- slightly more surface scans than orbital scans
+	local filter = orbital and filterBodyOrbital or filterBodySurface
 
 	if flavour.localscout then  -- local system
 		nearbysystem = assert(Game.system)        -- i.e. this system
@@ -444,7 +470,7 @@ local makeAdvert = function (station)
 	end
 
 	local info
-	if flavour.orbital then
+	if orbital then
 		info = calcOrbitalScanMission(missionBody, difficulty, flavour.reward)
 	else
 		info = calcSurfaceScanMission(missionBody, difficulty, flavour.reward)
@@ -452,6 +478,7 @@ local makeAdvert = function (station)
 
 	due = Game.time + days * MissionUtils.Days + MissionCalc:CalcTravelTime(station, location, urgency, 0.1) * 3.5
 	reward = info.reward + MissionCalc:CalcReward(station, location, urgency, difficulty - 1.0, 0.2) * 1.6
+	local dist = MissionCalc:CalcDistance(station, location)
 
 	reward = utils.round(reward, 5)
 	local client = Character.New()
@@ -461,14 +488,15 @@ local makeAdvert = function (station)
 		flavour    = flavourN,
 		client     = client,
 		location   = location,
-		dist       = Game.system:DistanceTo(location),
+		dist       = dist,
 		due        = due,
 		difficulty = difficulty,
 		days       = days,
 		reward     = reward,
+		dropoff    = flavour.dropoff,
 		faceseed   = Engine.rand:Integer(),
 
-		orbital    = flavour.orbital,
+		orbital    = orbital,
 		coverage   = info.coverage,
 		resolution = info.minResolution,
 	}
@@ -476,12 +504,12 @@ local makeAdvert = function (station)
 	ad.desc = string.interp(flavour.adtext, {
 		system     = nearbysystem.name,
 		cash       = Format.Money(ad.reward),
-		dist       = string.format("%.2f", ad.dist),
+		dist       = flavour.localscout and ui.Format.Distance(ad.dist) or string.format("%.2f ", ad.dist) .. lc.UNIT_LY,
 		systembody = ad.location:GetSystemBody().name
 	})
 
 	local ref = station:AddAdvert({
-		title = "{difficulty} | {coverage} | {resolution}" % ad,
+		title       = flavour.adtitle,
 		description = ad.desc,
 		icon        = "scout",
 		due         = ad.due,
@@ -494,8 +522,8 @@ end
 
 
 local onCreateBB = function (station)
-	local num = Engine.rand:Integer(math.ceil(Game.system.population)) / 2
-	num = 10 -- xxx force creation of adverts, for testing
+	local num = Engine.rand:Integer(math.ceil(Game.system.population)) / 3
+
 	for i = 1,num do
 		makeAdvert(station)
 	end
@@ -529,107 +557,74 @@ local onEnterSystem = function (playership)
 	end
 end
 
-
-local mapped = function(body)
-	local CurBody = Game.player.frameBody or body
-	if not CurBody then return end
-	local mission, radius_min, radius_max
-
-	for ref,mission in pairs(missions) do
-		if Game.time > mission.due then mission.status = "FAILED" end
-		if Game.system == mission.location:GetStarSystem() then
-
-			if mission.status == "COMPLETED" then return end -- should this not be continue?
-
-			local PhysBody = CurBody.path:GetSystemBody()
-			if PhysBody and CurBody.path == mission.location then
-				print("CORRECT BODY")
-				local TimeUp = 0
-				if mission.difficulty == 2 then
-					radius_min = 1.1
-					radius_max = 1.2
-				elseif mission.difficulty == 1 then
-					radius_min = 1.3
-					radius_max = 1.4
-				else
-					radius_min = 1.5
-					radius_max = 1.6
-				end
-
-				Timer:CallEvery(xTimeUp, function ()
-					if not CurBody or not CurBody:exists() or mission.status == "COMPLETED" then return 1 end
-					local Dist = CurBody:DistanceTo(Game.player)
-					if Dist < PhysBody.radius * radius_min
-					and (mission.status == 'ACTIVE' or mission.status == "SUSPENDED") then
-						print("DIST1:", PhysBody.radius * radius_min)
-						local lapse = scan_time / 60
-						Comms.ImportantMessage(l.Distance_reached .. lapse .. l.minutes, l.COMPUTER)
-						print(l.Distance_reached .. lapse .. l.minutes, l.COMPUTER)
-						-- Music.Play("music/core/radar-mapping/mapping-on")
-						mission.status = "MAPPING"
-					elseif Dist > PhysBody.radius * radius_max and mission.status == "MAPPING" then
-						-- Music.Play("music/core/radar-mapping/mapping-off",false)
-						print("DIST1:", PhysBody.radius * radius_max)
-						Comms.ImportantMessage(l.MAPPING_INTERRUPTED, l.COMPUTER)
-						print(l.MAPPING_INTERRUPTED)
-						mission.status = "SUSPENDED"
-						TimeUp = 0
-						return 1
-					end
-					if mission.status == "MAPPING" then
-						TimeUp = TimeUp + xTimeUp
-						if TimeUp >= scan_time then
-							mission.status = "COMPLETED"
-							-- Music.Play("music/core/radar-mapping/mapping-off",false)
-							Comms.ImportantMessage(l.MAPPING_COMPLETED, l.COMPUTER)
-
-							-- decide delivery location:
-
-							--- uuu if we're changing location, that's silly -> remove
-							--- or is it a "hack" that a delivery location might not be there?
-							--- I know I can always return to the same station, as where I picked up the mission, right.
-							local newlocation = mission.backstation
-							if not flavours[mission.flavour].localscout then
-								-- XXX-TODO GetNearbyStationPaths triggers bug in Gliese 190 mission. Empty system!
-								local nearbystations =
-									StarSystem:GetNearbyStationPaths(Engine.rand:Integer(10,20), nil, function (s) return
-										(s.type ~= 'STARPORT_SURFACE') or (s.parent.type ~= 'PLANET_ASTEROID') end)
-								if nearbystations and #nearbystations > 0 then
-									newlocation = nearbystations[Engine.rand:Integer(1,#nearbystations)]
-									Comms.ImportantMessage(l.YOU_WILL_BE_PAID_ON_MY_BEHALF_AT_NEW_DESTINATION,
-												mission.client.name)
-								end
-							end
-							mission.location = newlocation
-							Game.player:SetHyperspaceTarget(mission.location:GetStarSystem().path)
-						end
-					end
-					if mission.status == "COMPLETED" then return 1 end
-				end)
-			end
-		end
+local onScanRangeEnter = function(player, scanId)
+	local mission = missionKey[scanId]
+	if not mission then
+		print("onScanRangeEnter: scan not associated with a Scout mission!", scanId)
+		return
 	end
+
+	Comms.ImportantMessage(mission.orbital and l.DISTANCE_REACHED_ORBITAL or l.DISTANCE_REACHED_SURFACE, l.COMPUTER)
+	-- TODO: this will be muted if the player has music muted - needs a dedicated SFX channel
+	Music.FadeIn("music/core/radar-mapping/scanner-in-operation", 0.6, true)
 end
 
--- Is this called if the mission is to current frame? xxx
-local onFrameChanged = function (body)
-	if not body:isa("Ship") or not body:IsPlayer() then return end
-	if body.frameBody == nil then return end
-	local target = Game.player:GetNavTarget()
-	if target == nil then return end
-	local closestPlanet = Game.player:FindNearestTo("PLANET")
-	if closestPlanet ~= target then return end
-	local dist
-	dist = Format.Distance(Game.player:DistanceTo(target))
-	mapped(body)
+local onScanRangeExit = function(player, scanId)
+	local mission = missionKey[scanId]
+	if not mission then
+		print("onScanRangeExit: scan not associated with a Scout mission!", scanId)
+		return
+	end
+
+	Comms.ImportantMessage(mission.orbital and l.MAPPING_INTERRUPTED_ORBITAL or l.MAPPING_INTERRUPTED_SURFACE, l.COMPUTER)
+	Music.FadeOut(0.8)
+end
+
+local onScanPaused = function(player, scanId)
+	local mission = missionKey[scanId]
+	if not mission then
+		print("onScanRangeExit: scan not associated with a Scout mission!", scanId)
+		return
+	end
+
+	Comms.ImportantMessage(l.MAPPING_PAUSED, l.COMPUTER)
+	Music.FadeOut(0.8)
 end
 
 local onScanComplete = function (player, scanId)
-	for ref, mission in pairs(missions) do
-		if mission.scanId == scanId then
-			mission.status = "COMPLETED"
+	local mission = missionKey[scanId]
+	if not mission then
+		print("onScanComplete: scan not associated with a Scout mission!", scanId)
+		return
+	end
+
+	Comms.ImportantMessage(l.MAPPING_COMPLETED, l.COMPUTER)
+	Music.FadeOut(0.8)
+
+	mission.status = "COMPLETED"
+
+	-- decide delivery location:
+
+	--- uuu if we're changing location, that's silly -> remove
+	--- or is it a "hack" that a delivery location might not be there?
+	--- I know I can always return to the same station, as where I picked up the mission, right.
+
+	-- TODO: local missions with dropoff should select a new station in the same system
+	local newlocation = mission.station
+	if mission.dropoff and not flavours[mission.flavour].localscout then
+		-- XXX-TODO GetNearbyStationPaths triggers bug in Gliese 190 mission. Empty system!
+		local nearbystations =
+		StarSystem:GetNearbyStationPaths(Engine.rand:Integer(10, 20), nil, function(s) return (s.type ~= 'STARPORT_SURFACE') or
+				(s.parent.type ~= 'PLANET_ASTEROID')
+		end)
+		if nearbystations and #nearbystations > 0 then
+			newlocation = nearbystations[Engine.rand:Integer(1, #nearbystations)]
+			Comms.ImportantMessage(l.YOU_WILL_BE_PAID_ON_MY_BEHALF_AT_NEW_DESTINATION,
+				mission.client.name)
 		end
 	end
+	mission.location = newlocation
+	Game.player:SetHyperspaceTarget(mission.location:GetStarSystem().path)
 end
 
 
@@ -673,6 +668,7 @@ local onShipDocked = function (player, station)
 
 			mission:Remove()
 			missions[ref] = nil
+			missionKey[mission.scanId] = nil
 		end
 
 	end
@@ -684,6 +680,7 @@ local loaded_data
 local onGameStart = function ()
 	ads = {}
 	missions = {}
+	missionKey = {}
 
 	if loaded_data then
 		for k,ad in pairs(loaded_data.ads) do
@@ -693,7 +690,13 @@ local onGameStart = function ()
 				onChat      = onChat,
 				onDelete    = onDelete})] = ad
 		end
+
+		-- Recreate mission lookup key
 		missions = loaded_data.missions
+		for ref, mission in pairs(missions) do
+			if mission.scanId then missionKey[mission.scanId] = mission end
+		end
+
 		loaded_data = nil
 	end
 
@@ -707,18 +710,13 @@ local onGameStart = function ()
 			missions[ref] = nil
 			return
 		end
-		-- mapped(currentBody)
 	end
 end
 
 
 local buildMissionDescription = function (mission)
-	local ui = require 'pigui'
 	local desc = {}
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-
-	-- Map to altitude, or 'low' / 'medium' / 'high'
-	local danger = mission.difficulty
 
 	-- Main body intro text (should be different if completed mission?)
 	desc.description =
@@ -741,27 +739,26 @@ local buildMissionDescription = function (mission)
 		..mission.location.sectorY..","
 		..mission.location.sectorZ..")"
 
-	-- TODO: don't show danger, instead, show min/max altitude for scanning
 	-- station is shown for return station, after mission is completed
 	-- mission status should be translated
 
-	--if mission.status == "ACTIVE" or mission.status == "MAPPING" then
+	local finished = mission.status == "COMPLETED" or mission.status == "FAILED"
+	local destination = not finished and
+		{ l.TARGET_BODY,   mission.location:GetSystemBody().name } or
+		{ l.DESTINATION,   mission.location:GetSystemBody().name }
+
 	desc.details = {
 		"Mapping",
 		{lc.SYSTEM,       mission.location:GetStarSystem().name.." "..coordinates},
-		{luc.STATION,     mission.location:GetSystemBody().name},
-		-- {l.OBJECTIVE,     mission.location:GetSystemBody().name},
+		destination,
 		{l.DISTANCE,      dist .. lc.UNIT_LY},
 		{l.DEADLINE,      Format.Date(mission.due)},
-		{l.DANGER,        danger},
-		{luc.STATUS,      mission.status},
-		--{lc.STATUS,       l[mission.status]},
+		{luc.TYPE..":",   mission.orbital and l.ORBITAL_SCAN or l.SURFACE_SCAN},
+		{l.COVERAGE,      format_coverage(mission.orbital, mission.coverage) },
+		{l.RESOLUTION,    format_resolution(mission.resolution) },
+		{luc.STATUS,      luc[mission.status]},
 	}
 
-	-- elseif mission.status =="COMPLETED" then
-	-- elseif mission.status =="SUSPENDED" then
-	-- elseif mission.status =="FAILED" then
-	--	return "ERROR"
 	return desc
 end
 
@@ -788,11 +785,17 @@ Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 
+Event.Register("onScanRangeEnter", onScanRangeEnter)
+Event.Register("onScanRangeExit", onScanRangeExit)
+Event.Register("onScanPaused", onScanPaused)
 Event.Register("onScanComplete", onScanComplete)
 
 -- Ensure the player ship has a ScanManager available
 Event.Register('onGameStart', function()
-	Game.player:SetComponent("ScanManager", ScanManager.New(Game.player))
+	-- If we loaded a saved game, the player may have a ScanManager component already
+	if not Game.player:GetComponent("ScanManager") then
+		Game.player:SetComponent("ScanManager", ScanManager.New(Game.player))
+	end
 end)
 
 Mission.RegisterType('Scout', l.MAPPING, buildMissionDescription)

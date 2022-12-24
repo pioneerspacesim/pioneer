@@ -45,7 +45,7 @@
   },
   "ADTEXT_3_INTRO" : {
     "description" : "",
-    "message" : "Greetings. You may call me {name}. I am willing to pay {cash} for a thorough scan of {systembody} in {system} ({sectorx}, {sectory}, {sectorz}) located some {dist} ly from here."
+    "message" : "Greetings. You may call me {name}. I am willing to pay {cash} for a thorough scan of {systembody} in {system} ({sectorx}, {sectory}, {sectorz}) located some {dist} ly from here. It is imperative the data must be delivered to a privately-disclosed location."
   },
   "ADTEXT_3_SUCCESSMSG" : {
     "description" : "",
@@ -165,7 +165,7 @@
   },
   "ADTEXT_9_INTRO" : {
     "description" : "",
-    "message" : "Hi!, I'm {name}. Me and my family need a detailed survey of {systembody} in {system} ({sectorx}, {sectory}, {sectorz}), before anyone else claims it. For a fast pilot we will pay {cash}."
+    "message" : "Hi!, I'm {name}. Me and my family need a detailed survey of {systembody} in {system} ({sectorx}, {sectory}, {sectorz}), before anyone else claims it. For a fast pilot we will pay {cash}. We'll message you with the delivery location once you have the data."
   },
   "ADTEXT_9_SUCCESSMSG" : {
     "description" : "",
@@ -195,9 +195,13 @@
     "description" : "",
     "message" : "Distance:"
   },
-  "Distance_reached" : {
+  "DISTANCE_REACHED_ORBITAL" : {
     "description" : "",
-    "message" : "DISTANCE REACHED. MAPPING. Keep in orbit "
+    "message" : "DISTANCE REACHED. MAPPING. Remain within orbit parameters until scan completed."
+  },
+  "DISTANCE_REACHED_SURFACE" : {
+    "description" : "",
+    "message" : "DISTANCE REACHED. MAPPING. Remain below altitude ceiling until scan completed."
   },
   "EXCELLENT_I_AWAIT_YOUR_REPORT" : {
     "description" : "",
@@ -248,20 +252,68 @@
     "message" : "Please have the data back before {date}"
   },
   "MAPPING" : {
-    "description" : "As in cartogrophy",
+    "description" : "As in cartography",
     "message" : "Mapping"
   },
-  "MAPPING_INTERRUPTED" : {
+  "MAPPING_INTERRUPTED_ORBITAL" : {
     "description" : "",
-    "message" : "MAPPING INTERRUPTED. Orbit correction needed."
+    "message" : "MAPPING INTERRUPTED. Too far from target. Orbit correction needed."
+  },
+  "MAPPING_INTERRUPTED_SURFACE" : {
+    "description" : "",
+    "message" : "MAPPING INTERRUPTED. Too far from target. Flight ceiling correction needed."
+  },
+  "MAPPING_PAUSED" : {
+    "description" : "",
+    "message" : "MAPPING SUSPENDED. Data incomplete. Further mapping required."
   },
   "OBJECTIVE" : {
     "description" : "",
     "message" : "Objective:"
   },
+  "ORBITAL_SCAN" : {
+    "description" : "",
+    "message" : "Orbital Scan"
+  },
+  "SURFACE_SCAN" : {
+    "description" : "",
+    "message" : "Surface Scan"
+  },
+  "AN_ORBITAL_SCAN" : {
+    "description" : "",
+    "message" : "an Orbital scan"
+  },
+  "A_SURFACE_SCAN" : {
+    "description" : "",
+    "message" : "a Surface scan"
+  },
+  "TARGET_BODY" : {
+    "description" : "",
+    "message" : "Target Body:"
+  },
+  "DESTINATION" : {
+    "description" : "",
+    "message" : "Destination:"
+  },
+  "RESOLUTION" : {
+    "description" : "",
+    "message" : "Required Resolution:"
+  },
+  "COVERAGE" : {
+    "description" : "",
+    "message" : "Required Coverage:"
+  },
+  "WHAT_DATA_DO_YOU_NEED" : {
+    "description" : "",
+    "message" : "What data do you need?"
+  },
+  "SCAN_DETAILS": {
+    "description": "",
+    "message": "You need to perform {type} of {body}. \n\nThe scan must include {coverage} of the body with a data resolution of at most {resolution} meters / sample.\n\nYou'll need to fly at a specific altitude determined by your scanning equipment to accomplish this."
+  },
   "ACCEPT_AND_SET_SYSTEM_TARGET" : {
     "description" : "",
-    "message" : "Accept and set system target\nin the navigation chart."
+    "message" : "Accept and set system target"
   },
   "REPEAT_THE_ORIGINAL_REQUEST" : {
     "description" : "",
@@ -291,21 +343,17 @@
     "description" : "",
     "message" : "You will be paid on my behalf at the NEW DESTINATION"
   },
-  "ADDITIONAL_INFORMATION" : {
+  "ADDITIONAL_INFORMATION_ORBITAL" : {
+    "description" : "Note. 'orbital scanner' is the name of an equipment, that should be translated the same",
+    "message" : "You will need an orbital scanner fitted to your ship. Once you're at the body in question, activate the scanner, and orbit within the maximum altitude until the scan is complete. Then deliver the data to me."
+  },
+  "ADDITIONAL_INFORMATION_SURFACE" : {
     "description" : "Note. 'surface scanner' is the name of an equipment, that should be translated the same",
-    "message" : "You will need a surface scanner fitted to your ship. Once you're at the body in question, activate the scanner, and fly at low altitude, until scan is complete. Then deliver the data to me."
+    "message" : "You will need a surface scanner fitted to your ship. Once you're at the body in question, activate the scanner, and fly at low altitude until the scan is complete. Then deliver the data to me."
   },
   "COMPUTER" : {
     "description" : "The ship on board computer",
     "message" : "Computer"
-  },
-  "minutes" : {
-    "description" : "",
-    "message" : " minutes."
-  },
-  "suspended_mission" : {
-    "description" : "",
-    "message" : "Mapping process interrupted, too far from target."
   },
 
   "HUD_SCAN_PROGRESS": {
