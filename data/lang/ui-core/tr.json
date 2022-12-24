@@ -1671,6 +1671,10 @@
     "description": "Welcome message to the paintshop.",
     "message": "Galakside en güzel görünmek hiç daha kolay olmamıştı!"
   },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Yolcu kabini kapasitesi"
+  },
   "PATTERN": {
     "description": "Ship painting pattern.",
     "message": "Desen"
@@ -2098,6 +2102,10 @@
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
     "message": "Bu yerleşimde askeri teknoloji belgesi var."
+  },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Teknoloji seviyesi"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
