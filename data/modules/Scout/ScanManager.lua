@@ -333,6 +333,10 @@ function ScanManager:SetActiveScan(id)
 	utils.remove_elem(self.pendingScans, scan)
 	table.insert(self.pendingScans, self.activeScan)
 
+	if self.activeScan then
+		Event.Queue("onScanPaused", self.ship, scan.id)
+	end
+
 	self.activeScan = scan
 	self.withinParameters = false
 
@@ -341,9 +345,14 @@ end
 
 -- Clear the currently active scan and running callback
 function ScanManager:ClearActiveScan()
-	table.insert(self.pendingScans, self.activeScan)
+	if self.activeScan then
+		table.insert(self.pendingScans, self.activeScan)
+		Event.Queue("onScanPaused", self.ship, self.activeScan.id)
+	end
+
 	self.activeScan = nil
 	self.activeCallback = nil
+	self.withinParameters = false
 end
 
 -- Check if the given scan is within viable parameters (e.g. in correct body frame, etc)
@@ -508,6 +517,10 @@ function ScanManager:OnUpdateScan(scan)
 
 		scan.coverage = scan.coverage + coverage
 
+	elseif withinParams then
+		Event.Queue("onScanRangeEnter", self.ship, scan.id)
+	elseif self.withinParameters then
+		Event.Queue("onScanRangeExit", self.ship, scan.id)
 	end
 
 	self.lastScanPos = currentScanPos
@@ -519,6 +532,8 @@ function ScanManager:OnUpdateScan(scan)
 		self.activeCallback = nil
 
 		table.insert(self.completedScans, scan)
+		Event.Queue("onScanComplete", self.ship, scan.id)
+
 		return true
 	end
 
