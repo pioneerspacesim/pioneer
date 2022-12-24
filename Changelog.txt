@@ -3,6 +3,7 @@ December 2022
     * Implement select target and cycle hostile contact buttons (#5429)
     * Nav target icons indicate whether the target is on the other side of a body (#5438)
     * Display station tech-level in System Map info panel (#5439)
+    * Added more varied and interesting donation mission titles (#5445)
   
   * Internal Changes
     * Load mods from unpacked directories as well as zip files (#5432)
@@ -17,6 +18,8 @@ December 2022
     * Fix SAR missions generating invalid configurations (#5446)
     * Fix SAR missions not giving the player enough time to reach the target (#5446)
     * Fix high-priority messages not interrupting timewarp (#5446)
+    * Fix incorrect message when landing at ground stations (#5450)
+    * 
 
 November 2022
   * New Features
