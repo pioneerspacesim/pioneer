@@ -1106,6 +1106,10 @@ void GameLoop::End()
 	Pi::luaConsole->CloseTCPDebugConnection();
 #endif
 
+	// we have to make sure to autosave the game before the end game process starts
+	LuaEvent::Queue("onAutoSaveBeforeGameEnds");
+	LuaEvent::Emit();
+
 	// final event
 	LuaEvent::Queue("onGameEnd");
 	LuaEvent::Emit();

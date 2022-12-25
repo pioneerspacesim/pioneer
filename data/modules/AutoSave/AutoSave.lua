@@ -50,4 +50,5 @@ Event.Register('onShipDocked', f)
 Event.Register('onShipLanded', f)
 Event.Register('onShipUndocked', f)
 Event.Register('onShipTakeOff', f)
-Event.Register('onGameEnd', function() CheckedSave('_exit'); end)
+-- we have to make sure to autosave the game before the end game process starts
+Event.Register('onAutoSaveBeforeGameEnds', function() CheckedSave('_exit'); end)
