@@ -624,9 +624,11 @@ local onScanComplete = function (player, scanId)
 	if mission.dropoff and not flavours[mission.flavour].localscout then
 		-- XXX-TODO GetNearbyStationPaths triggers bug in Gliese 190 mission. Empty system!
 		local nearbystations =
-		StarSystem:GetNearbyStationPaths(Engine.rand:Integer(10, 20), nil, function(s) return (s.type ~= 'STARPORT_SURFACE') or
+		MissionUtils.GetNearbyStationPaths(Game.system, Engine.rand:Integer(10, 20), nil,
+			function(s) return (s.type ~= 'STARPORT_SURFACE') or
 				(s.parent.type ~= 'PLANET_ASTEROID')
 		end)
+
 		if nearbystations and #nearbystations > 0 then
 			newlocation = nearbystations[Engine.rand:Integer(1, #nearbystations)]
 			Comms.ImportantMessage(l.YOU_WILL_BE_PAID_ON_MY_BEHALF_AT_NEW_DESTINATION,
