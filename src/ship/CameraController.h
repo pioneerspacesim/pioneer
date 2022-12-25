@@ -96,6 +96,9 @@ public:
 	Type GetType() const override { return INTERNAL; }
 	const char *GetName() const override { return m_name; }
 
+	void SetSmoothingEnabled(bool enabled);
+	bool GetSmoothingEnabled() const { return m_smoothing; }
+
 	void SetMode(Mode m);
 	Mode GetMode() const { return m_mode; }
 
@@ -134,6 +137,8 @@ private:
 	float m_zoomPct;
 	float m_zoomPctTo;
 	matrix3x3d m_viewOrient;
+
+	bool m_smoothing;
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship

@@ -56,7 +56,8 @@ InternalCameraController::InternalCameraController(RefCountedPtr<CameraContext> 
 	m_origFov(camera->GetFovAng()),
 	m_zoomPct(1),
 	m_zoomPctTo(1),
-	m_viewOrient(matrix3x3d::Identity())
+	m_viewOrient(matrix3x3d::Identity()),
+	m_smoothing(false)
 {
 	Reset();
 }
@@ -106,8 +107,13 @@ void InternalCameraController::Reset()
 
 void InternalCameraController::Update()
 {
-	AnimationCurves::Approach(m_rotX, m_rotToX, Pi::GetFrameTime(), 15.f);
-	AnimationCurves::Approach(m_rotY, m_rotToY, Pi::GetFrameTime(), 15.f);
+	if (m_smoothing) {
+		AnimationCurves::Approach(m_rotX, m_rotToX, Pi::GetFrameTime(), 13.f);
+		AnimationCurves::Approach(m_rotY, m_rotToY, Pi::GetFrameTime(), 13.f);
+	} else {
+		m_rotX = m_rotToX;
+		m_rotY = m_rotToY;
+	}
 
 	m_viewOrient =
 		matrix3x3d::RotateY(-m_rotY) *
@@ -124,6 +130,11 @@ void InternalCameraController::getRots(double &rX, double &rY)
 {
 	rX = m_rotX;
 	rY = m_rotY;
+}
+
+void InternalCameraController::SetSmoothingEnabled(bool enabled)
+{
+	m_smoothing = enabled;
 }
 
 void InternalCameraController::SetMode(Mode m)

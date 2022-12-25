@@ -109,6 +109,10 @@ void ShipViewController::Init()
 	m_flybyCameraController.reset(new FlyByCameraController(m_cameraContext, Pi::player));
 	SetCamType(m_camType); //set the active camera
 
+	// setup camera smoothing
+	// TODO: expose this via UI once setting/updating config values from Lua is nicer
+	m_internalCameraController->SetSmoothingEnabled(Pi::config->Int("CameraSmoothing", 0));
+
 	std::string headtrackingIP = Pi::config->String("HeadtrackingIP", "");
 	int port = Pi::config->Int("HeadtrackingPort", 4242);
 
