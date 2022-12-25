@@ -171,10 +171,8 @@ do
 end
 
 local serialize = function()
-	-- all we need to save is trade_ships, the rest can be rebuilt on load
+	-- all we need to save is Core.ships, the rest can be rebuilt on load
 	-- The serializer will crash if we try to serialize dead objects (issue #3123)
-	-- also, trade_ships may be nil, because it is cleared in 'onGameEnd', and this may
-	-- happen before the autosave module creates its '_exit' save
 	if Core.ships ~= nil then
 		local count = 0
 		for k,_ in pairs(Core.ships) do
