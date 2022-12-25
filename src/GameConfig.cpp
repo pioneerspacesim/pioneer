@@ -54,6 +54,8 @@ GameConfig::GameConfig(const map_string &override_)
 	map["LogVerbose"] = "1";
 	map["ProfileSlowFrames"] = "0";
 	map["ProfilerZoneOutput"] = "0";
+	map["CameraSmoothing"] = "0";
+	map["AimingSensitivity"] = "1.0";
 
 	Read(FileSystem::userFiles, "config.ini");
 
