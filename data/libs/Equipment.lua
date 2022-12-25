@@ -188,7 +188,7 @@ misc.planetscanner = BodyScannerType.New({
 	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
 	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
 	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
-	stats={ aperture = 55.0, minAltitude = 150, resolution = 768, orbital = false },
+	stats={ aperture = 50.0, minAltitude = 150, resolution = 768, orbital = false },
 	icon_name="equip_planet_scanner"
 })
 misc.planetscanner_good = BodyScannerType.New({
@@ -206,7 +206,7 @@ misc.orbitscanner = BodyScannerType.New({
 	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
 	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
 	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
-	stats={ aperture = 5.0, minAltitude = 650000, resolution = 6802, orbital = true },
+	stats={ aperture = 4.0, minAltitude = 650000, resolution = 6802, orbital = true },
 	icon_name="equip_planet_scanner"
 })
 misc.orbitscanner_good = BodyScannerType.New({

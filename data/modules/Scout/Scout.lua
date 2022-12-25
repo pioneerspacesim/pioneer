@@ -187,6 +187,11 @@ local format_resolution = function(val)
 	return ui.Format.Distance(val, "%.1f")
 end
 
+local format_dist = function(ad)
+	local flavour = flavours[ad.flavour]
+	return flavour.localscout and ui.Format.Distance(ad.dist) or string.format("%.2f ", ad.dist) .. lc.UNIT_LY
+end
+
 local onChat = function (form, ref, option)
 	local ad      = ads[ref]
 	local station = Game.player:GetDockedWith().path
@@ -199,18 +204,14 @@ local onChat = function (form, ref, option)
 	if option == 0 then
 		form:SetFace(ad.client)
 
-		local sys   = ad.location:GetStarSystem()     -- mission system
-		local sbody = ad.location:GetSystemBody()     -- mission body
+		local sbody = ad.location:GetSystemBody()     ---@type SystemBody mission body
 
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
 			name       = ad.client.name,
 			cash       = Format.Money(ad.reward, false),
 			systembody = sbody.name,
-			system     = sys.name,
-			sectorx    = ad.location.sectorX,
-			sectory    = ad.location.sectorY,
-			sectorz    = ad.location.sectorZ,
-			dist       = string.format("%.2f", ad.dist),
+			system     = ui.Format.SystemPath(ad.location:SystemOnly()),
+			dist       = format_dist(ad),
 		})
 		form:SetMessage(introtext)
 
@@ -263,9 +264,10 @@ local onChat = function (form, ref, option)
 			mission.scanId = scanMgr:AddNewSurfaceScan(ad.location, ad.resolution, ad.coverage)
 		end
 
+		mission = Mission.New(mission)
+		table.insert(missions, mission)
 		missionKey[mission.scanId] = mission
 
-		table.insert(missions, Mission.New(mission))
 		Game.player:SetHyperspaceTarget(mission.location:GetStarSystem().path)
 		form:SetMessage(l.EXCELLENT_I_AWAIT_YOUR_REPORT)
 		return
@@ -414,12 +416,36 @@ local filterBodyOrbital = function(station, sBody)
 	end
 
 	-- no missions in the backyard please
-	local body = sBody.body
-	if body and station.frameBody == body then
+	if station:GetSystemBody().parent == sBody then
 		return false
 	end
 
 	return true
+end
+
+local function placeAdvert(station, ad)
+	local system = ad.location:GetStarSystem()
+
+	local title = flavours[ad.flavour].adtitle
+	local desc = flavours[ad.flavour].adtext % {
+		system     = system.name,
+		cash       = Format.Money(ad.reward),
+		dist       = format_dist(ad),
+		systembody = ad.location:GetSystemBody().name
+	}
+
+	local ref = station:AddAdvert({
+		title       = title,
+		description = desc,
+		icon        = "scout",
+		location    = ad.location,
+		due         = ad.due,
+		reward      = ad.reward,
+		onChat      = onChat,
+		onDelete    = onDelete
+	})
+
+	ads[ref] = ad
 end
 
 ---@param station SpaceStation
@@ -498,25 +524,8 @@ local makeAdvert = function (station)
 		resolution = info.minResolution,
 	}
 
-	ad.desc = string.interp(flavour.adtext, {
-		system     = nearbysystem.name,
-		cash       = Format.Money(ad.reward),
-		dist       = flavour.localscout and ui.Format.Distance(ad.dist) or string.format("%.2f ", ad.dist) .. lc.UNIT_LY,
-		systembody = ad.location:GetSystemBody().name
-	})
-
-	local ref = station:AddAdvert({
-		title       = flavour.adtitle,
-		description = ad.desc,
-		icon        = "scout",
-		due         = ad.due,
-		reward      = ad.reward,
-		onChat      = onChat,
-		onDelete    = onDelete})
-
-	ads[ref] = ad
+	placeAdvert(station, ad)
 end
-
 
 local onCreateBB = function (station)
 	local num = Engine.rand:Integer(math.ceil(Game.system.population)) / 3
@@ -563,7 +572,8 @@ local onScanRangeEnter = function(player, scanId)
 
 	Comms.ImportantMessage(mission.orbital and l.DISTANCE_REACHED_ORBITAL or l.DISTANCE_REACHED_SURFACE, l.COMPUTER)
 	-- TODO: this will be muted if the player has music muted - needs a dedicated SFX channel
-	Music.FadeIn("music/core/radar-mapping/scanner-in-operation", 0.6, true)
+	-- FIXME: the MusicPlayer immediately overrides this track
+	-- Music.FadeIn("music/core/radar-mapping/scanner-in-operation", 0.6, true)
 end
 
 local onScanRangeExit = function(player, scanId)
@@ -574,7 +584,8 @@ local onScanRangeExit = function(player, scanId)
 	end
 
 	Comms.ImportantMessage(mission.orbital and l.MAPPING_INTERRUPTED_ORBITAL or l.MAPPING_INTERRUPTED_SURFACE, l.COMPUTER)
-	Music.FadeOut(0.8)
+	-- Music.FadeOut(0.8)
+	-- TODO: should play a short notification sound here
 end
 
 local onScanPaused = function(player, scanId)
@@ -585,7 +596,8 @@ local onScanPaused = function(player, scanId)
 	end
 
 	Comms.ImportantMessage(l.MAPPING_PAUSED, l.COMPUTER)
-	Music.FadeOut(0.8)
+	-- Music.FadeOut(0.8)
+	-- TODO: should play a short notification sound here
 end
 
 local onScanComplete = function (player, scanId)
@@ -596,7 +608,8 @@ local onScanComplete = function (player, scanId)
 	end
 
 	Comms.ImportantMessage(l.MAPPING_COMPLETED, l.COMPUTER)
-	Music.FadeOut(0.8)
+	-- Music.FadeOut(0.8)
+	-- TODO: should play a short notification sound here
 
 	mission.status = "COMPLETED"
 
@@ -681,11 +694,7 @@ local onGameStart = function ()
 
 	if loaded_data then
 		for k,ad in pairs(loaded_data.ads) do
-			ads[ad.station:AddAdvert({
-				description = ad.desc,
-				icon        = "scout",
-				onChat      = onChat,
-				onDelete    = onDelete})] = ad
+			placeAdvert(ad.station, ad)
 		end
 
 		-- Recreate mission lookup key
@@ -721,10 +730,7 @@ local buildMissionDescription = function (mission)
 			{
 				name       = mission.client.name,
 				systembody = mission.location:GetSystemBody().name,
-				system     = mission.location:GetStarSystem().name,
-				sectorx    = mission.location.sectorX,
-				sectory    = mission.location.sectorY,
-				sectorz    = mission.location.sectorZ,
+				system     = ui.Format.SystemPath(mission.location:SystemOnly()),
 				dist       = dist,
 				cash       = Format.Money(mission.reward),
 			})
@@ -776,9 +782,7 @@ end
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onUpdateBB", onUpdateBB)
---Event.Register("onLeaveSystem", onLeaveSystem)
 Event.Register("onEnterSystem", onEnterSystem)
--- Event.Register("onFrameChanged", onFrameChanged)
 Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 

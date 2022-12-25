@@ -1,11 +1,11 @@
 {
   "ADTEXT_1" : {
     "description" : "The Galactic Geographical Society is comparable to National Geographical society. But in space!",
-    "message" : "THE GALACTIC GEOGRAPHICAL SOCIETY: Mapping of body in {system} system ({dist} ly) wanted"
+    "message" : "THE GALACTIC GEOGRAPHICAL SOCIETY: Mapping of body in the {system} system wanted"
   },
   "ADTEXT_1_INTRO" : {
     "description" : "GGS=Galactic Geographical Society",
-    "message" : "Hello, my name is {name}, and I'm with the GGS. We are interested in updating the map for {systembody} in {system} ({sectorx}, {sectory}, {sectorz}), ({dist} ly) for which we will pay {cash}."
+    "message" : "Hello, my name is {name}, and I'm with the GGS. We are interested in updating the map for {systembody} in {system}, ({dist}) for which we will pay {cash}."
   },
   "ADTEXT_1_SUCCESSMSG" : {
     "description" : "",
@@ -21,11 +21,11 @@
   },
   "ADTEXT_2" : {
     "description" : "",
-    "message" : "CARTOGRAPHER NEED: Contract for pilot to {system}, ({dist} ly)"
+    "message" : "CARTOGRAPHER NEED: Contract for pilot to {system}"
   },
   "ADTEXT_2_INTRO" : {
     "description" : "",
-    "message" : "Hello. I'm {name}. I'll pay {cash} for mapping of {systembody} in {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly distant."
+    "message" : "Hello. I'm {name}. I'll pay {cash} for mapping of {systembody} in {system}, {dist} distant."
   },
   "ADTEXT_2_SUCCESSMSG" : {
     "description" : "",
@@ -41,11 +41,11 @@
   },
   "ADTEXT_3" : {
     "description" : "",
-    "message" : "PLANETARY MAPPING NEEDED: For {system} system, ({dist} ly)"
+    "message" : "PLANETARY MAPPING NEEDED: For {system} system"
   },
   "ADTEXT_3_INTRO" : {
     "description" : "",
-    "message" : "Greetings. You may call me {name}. I am willing to pay {cash} for a thorough scan of {systembody} in {system} ({sectorx}, {sectory}, {sectorz}) located some {dist} ly from here. It is imperative the data must be delivered to a privately-disclosed location."
+    "message" : "Greetings. You may call me {name}. I am willing to pay {cash} for a thorough scan of {systembody} in {system} located some {dist} from here. It is imperative the data must be delivered to a privately-disclosed location."
   },
   "ADTEXT_3_SUCCESSMSG" : {
     "description" : "",
@@ -61,11 +61,11 @@
   },
   "ADTEXT_4" : {
     "description" : "",
-    "message" : "MAPPING: In {system} system ({dist} ly) needed for the sake of science"
+    "message" : "MAPPING: In {system} system needed for the sake of science"
   },
   "ADTEXT_4_INTRO" : {
     "description" : "",
-    "message" : "Hi! My name is {name}, and I'm doing some research for my PhD on the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly from here. I need to get some additional data for {systembody} in form of updated maps, or my supervisor will kill me. I will pay {cash} to any pilot that can deliver this information to me in time, preferably yesterday, as I'm stressed out of my mind."
+    "message" : "Hi! My name is {name}, and I'm doing some research for my PhD on the {system} system, {dist} from here. I need to get some additional data for {systembody} in form of updated maps, or my supervisor will kill me. I will pay {cash} to any pilot that can deliver this information to me in time, preferably yesterday, as I'm stressed out of my mind."
   },
   "ADTEXT_4_SUCCESSMSG" : {
     "description" : "",
@@ -81,11 +81,11 @@
   },
   "ADTEXT_5" : {
     "description" : "",
-    "message" : "CARTOGRAPHY CONTRACT: Mapping of planet in {system} system ({dist} ly)"
+    "message" : "CARTOGRAPHY CONTRACT: Mapping of planet in {system} system"
   },
   "ADTEXT_5_INTRO" : {
     "description" : "",
-    "message" : "Hello. My name is {name}. Information is my business and I'll pay {cash} for a mapping of {systembody} in {system} ({sectorx}, {sectory}, {sectorz}) which is {dist} ly from our present location."
+    "message" : "Hello. My name is {name}. Information is my business and I'll pay {cash} for a mapping of {systembody} in {system} which is {dist} from our present location."
   },
   "ADTEXT_5_SUCCESSMSG" : {
     "description" : "",
@@ -161,11 +161,11 @@
   },
   "ADTEXT_9" : {
     "description" : "",
-    "message" : "MAPPING: Will pay for fast delivery of data on {systembody} in {system} ({dist} ly)"
+    "message" : "MAPPING: Will pay for fast delivery of data on {systembody} in {system}"
   },
   "ADTEXT_9_INTRO" : {
     "description" : "",
-    "message" : "Hi!, I'm {name}. Me and my family need a detailed survey of {systembody} in {system} ({sectorx}, {sectory}, {sectorz}), before anyone else claims it. For a fast pilot we will pay {cash}. We'll message you with the delivery location once you have the data."
+    "message" : "Hi!, I'm {name}. Me and my family need a detailed survey of {systembody} in {system}, before anyone else claims it. For a fast pilot we will pay {cash}. We'll message you with the delivery location once you have the data."
   },
   "ADTEXT_9_SUCCESSMSG" : {
     "description" : "",
@@ -443,10 +443,6 @@
   "COMPLETED_SCAN_TOOLTIP": {
     "description": "",
     "message": "This scan is complete and ready to be delivered."
-  },
-  "": {
-    "description": "",
-    "message": ""
   }
 
 }
