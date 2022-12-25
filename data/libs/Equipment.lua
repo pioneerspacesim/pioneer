@@ -207,7 +207,7 @@ misc.orbitscanner = BodyScannerType.New({
 	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
 	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
 	stats={ aperture = 4.0, minAltitude = 650000, resolution = 6802, orbital = true },
-	icon_name="equip_planet_scanner"
+	icon_name="equip_orbit_scanner"
 })
 misc.orbitscanner_good = BodyScannerType.New({
 	l10n_key = 'ORBITSCANNER_GOOD', slots="sensor", price=15,
@@ -216,7 +216,7 @@ misc.orbitscanner_good = BodyScannerType.New({
 	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
 	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
 	stats={ aperture = 2.2, minAltitude = 1750000, resolution = 11375, orbital = true },
-	icon_name="equip_planet_scanner"
+	icon_name="equip_orbit_scanner"
 })
 
 hyperspace.hyperdrive_1 = HyperdriveType.New({

@@ -60,7 +60,7 @@ end
 
 local scanDisplay = {
 	side = "left",
-	icon = icons.equip_planet_scanner,
+	icon = icons.equip_orbit_scanner,
 	tooltip = ls.SCAN_MANAGER,
 	exclusive = false,
 
