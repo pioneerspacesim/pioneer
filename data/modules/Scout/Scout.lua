@@ -23,15 +23,6 @@ local l = Lang.GetResource("module-scout")
 local lc = Lang.GetResource("core")
 local luc = Lang.GetResource("ui-core")
 
--- TODO:
--- * days / flat deadline, always e.g. 3 months (depending on contractor?)
--- * adjust deadline for each flavour
--- * ...thus remove "why so much" line
--- X have propper progress bar for surface scanner
--- * look over each flavour's deadline, rewards and difficulty
--- X round reward utils.round()
--- * use svg icon instead of png, remove png
-
  -- don't produce missions for further than this many light years away
 local max_scout_dist = 30
 
@@ -169,7 +160,7 @@ for i = 1,#flavours do
 	f.adtitle    = l["ADTITLE_"..i]
 	f.adtext     = l["ADTEXT_"..i]
 	f.introtext  = l["ADTEXT_"..i.."_INTRO"]
-	f.introtext2 = l["INTROTEXT_COMPLETED_"..i]   -- xxx
+	f.introtext2 = l["INTROTEXT_COMPLETED_"..i]
 	f.whysomuch	 = l["ADTEXT_"..i.."_WHYSOMUCH"]
 	f.successmsg = l["ADTEXT_"..i.."_SUCCESSMSG"]
 	f.failmsg	 = l["ADTEXT_"..i.."_FAILMSG"]
@@ -275,8 +266,8 @@ local onChat = function (form, ref, option)
 
 	form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
 	form:AddOption(l.WHEN_DO_YOU_NEED_THE_DATA, 2)
-	form:AddOption(l.WHAT_DATA_DO_YOU_NEED, 4)             --- foo xxx
-	form:AddOption(l.HOW_DOES_IT_WORK, 5)             --- foo xxx
+	form:AddOption(l.WHAT_DATA_DO_YOU_NEED, 4)
+	form:AddOption(l.HOW_DOES_IT_WORK, 5)
 	form:AddOption(l.REPEAT_THE_ORIGINAL_REQUEST, 0)
 	form:AddOption(l.ACCEPT_AND_SET_SYSTEM_TARGET, 3)
 end
@@ -356,9 +347,6 @@ local function calcSurfaceScanMission(sBody, difficulty, reward)
 	-- calculate some normalized mean between 1.0 and ~3
 	bodyReward = 1 + bodyReward / 5
 
-	-- print("{name} | g: {gravity} v: {volatileGas} e: {eccentricity}" % sBody)
-	-- print("difficulty: {}, reward: {}, coverage: {}, resolution: {}" % { bodyDifficulty, bodyReward, p.reward_per_km * coverage, resolution })
-
 	local rewardAmount = reward
 		* p.reward_per_km * coverage
 		* math.lerp(p.reward_resolution_min, p.reward_resolution_max,
@@ -367,8 +355,6 @@ local function calcSurfaceScanMission(sBody, difficulty, reward)
 		* bodyDifficulty
 		+ p.reward_interesting
 		* bodyReward
-
-	-- print(rewardAmount)
 
 	return {
 		coverage = coverage,
@@ -386,7 +372,7 @@ local nearbysystems
 local filterBodySurface = function(station, sBody)
 	-- Allow only planets
 	if sBody.superType ~= "ROCKY_PLANET" or sBody.type == "PLANET_ASTEROID" then
-		return false --- xxx why SUPER type? only allow satellites?
+		return false
 	end
 
 	-- filter out bodies unless at least 100km in diameter
@@ -407,7 +393,7 @@ end
 local filterBodyOrbital = function(station, sBody)
 	-- Allow scanning planets and gas giants
 	if (sBody.superType ~= "ROCKY_PLANET" and sBody.superType ~= "GAS_GIANT") or sBody.type == "PLANET_ASTEROID" then
-		return false --- xxx why SUPER type? only allow satellites?
+		return false
 	end
 
 	-- filter out bodies unless at least 300km in diameter
@@ -627,7 +613,7 @@ local onScanComplete = function (player, scanId)
 		MissionUtils.GetNearbyStationPaths(Game.system, Engine.rand:Integer(10, 20), nil,
 			function(s) return (s.type ~= 'STARPORT_SURFACE') or
 				(s.parent.type ~= 'PLANET_ASTEROID')
-		end)
+			end)
 
 		if nearbystations and #nearbystations > 0 then
 			newlocation = nearbystations[Engine.rand:Integer(1, #nearbystations)]
@@ -745,7 +731,6 @@ local buildMissionDescription = function (mission)
 		..mission.location.sectorZ..")"
 
 	-- station is shown for return station, after mission is completed
-	-- mission status should be translated
 
 	local finished = mission.status == "COMPLETED" or mission.status == "FAILED"
 	local destination = not finished and

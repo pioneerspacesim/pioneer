@@ -7,6 +7,57 @@ local Serializer = require 'Serializer'
 
 local utils = require 'utils'
 
+--
+-- Class: ScanManager
+--
+-- This file implements a generic ship component to manage and carry out
+-- orbital or surface scan missions, provide a relatively realistic abstraction
+-- for gathering scan data, and serve as the "backend" for a mission module
+-- that generates scans and provides a reward to the player.
+--
+-- It does not currently have support for arbitrary player-driven scans, nor
+-- is it designed to be integrated with some Point-of-Interest system to allow
+-- for any kind of discovery-related gameplay. These are features that could be
+-- very useful in the future, but there exists no gameplay reason to support
+-- them at the time of writing
+--
+-- The ScanManager assumes that all sensors on the player's ship are 1D beam
+-- sensors with a specified aperture and resolution. It is assumed to be able
+-- to scan in all directions regardless of the player's orientation relative to
+-- the surface.
+--
+-- Differing scanner capabilities can be provided by ship equipment. It is
+-- assumed that an equipment item provides either surface scanning capability
+-- or orbital scanning capability, but never both.
+--
+-- No attempt is made to de-duplicate the orbital coverage of a body - the
+-- player can keep scanning in the exact same orbit and will gain scan data
+-- at the same rate.
+--
+-- There is some room for future improvement of this module, as recorded in
+-- these TODOs:
+--
+-- TODO: use either orbital inclination or player velocity relative to the
+-- surface rotation of the body to modulate orbital scan data gain rate.
+-- This should not be a 100% realistic factor, but provide a small bonus for
+-- maneuvering to a more "interesting" orbit (e.g. 30%).
+--
+-- TODO: Allow defining surface or orbital scan missions to require data be
+-- gathered within a certain distance of a surface location (e.g. lat/lon or a
+-- SurfaceBookmark abstraction).
+-- Missions of this type should have significantly lower coverage requirements.
+--
+-- TODO: the ScanManager should provide some sort of visual or audio feedback
+-- to the player that a scan is ongoing. E.g. a "scan beam" visual element,
+-- a visible sensor object on the outside of the ship, etc.
+--
+-- TODO: the ScanManager should be extensible to provide some kind of planetary
+-- discovery scanning capaibility - hidden outposts, mineral concentrations,
+-- or other procedurally-generated geological features should be able to create
+-- some kind of "sensor return" that is integrated into the ScanManager.
+-- This is a very low-priority feature and may require the ScanManager be
+-- integrated into a larger "sensors suite" abstraction instead.
+
 --=============================================================================
 
 ---@alias ScanID string
@@ -491,10 +542,6 @@ function ScanManager:OnUpdateScan(scan)
 	-- Determine if we're currently in range to record scan data
 	local withinParams = resolution <= scan.minResolution and altitude > self.activeSensor.minAltitude
 
-	-- print("altitude", altitude)
-	-- print("resolution", resolution)
-	-- print("within params", withinParams)
-
 	-- Use great-arc distance to calculate the amount of scan coverage in square meters
 	-- distance = Δσ * radius = arctan( |n1 ⨯ n2| / n1 · n2 ) * radius
 	-- See https://en.wikipedia.org/wiki/Great-circle_distance#Vector_version
@@ -518,10 +565,6 @@ function ScanManager:OnUpdateScan(scan)
 			-- total coverage gain in square kilometers
 			coverage = beamWidth * distance / SQUARE_KILOMETERS
 		end
-
-		-- print("beam width", beamWidth)
-		-- print("coverage", coverage)
-		-- print("target", scan.targetCoverage)
 
 		scan.coverage = scan.coverage + coverage
 

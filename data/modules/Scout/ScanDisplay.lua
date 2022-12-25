@@ -2,10 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game        = require 'Game'
-local Event       = require 'Event'
 local Lang        = require 'Lang'
-local Format      = require 'Format'
-local Equipment   = require 'Equipment'
 local ItemCard    = require 'pigui.libs.item-card'
 
 local utils = require 'utils'
