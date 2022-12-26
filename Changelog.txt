@@ -4,9 +4,17 @@ December 2022
     * Nav target icons indicate whether the target is on the other side of a body (#5438)
     * Display station tech-level in System Map info panel (#5439)
     * Added more varied and interesting donation mission titles (#5445)
+    * Anti-aliased rendering of ship ID labels (#5459)
   
   * Internal Changes
     * Load mods from unpacked directories as well as zip files (#5432)
+    * Improve LuaTimer per-frame performance (#5453)
+    * Allow model files to reference textures in other folders (#5459)
+    * Add a model hierarchy view to the ModelViewer (#5459)
+    * Add a hyperspace-to-system button to the debug menu (#5455)
+    * Add additional attributes to LuaStarSystem (#5455)
+    * Improve lua autoload utilities (#5454)
+    * Provide "equipment item card" as an independent UI widget (#5454)
   
   * Fixes
     * Fix shield recharging being disabled after selling shield booster (#5434)
@@ -19,7 +27,12 @@ December 2022
     * Fix SAR missions not giving the player enough time to reach the target (#5446)
     * Fix high-priority messages not interrupting timewarp (#5446)
     * Fix incorrect message when landing at ground stations (#5450)
-    * 
+    * Fix an issue that duplicated BBS adverts when autosaving (#5456)
+    * Fix tradeships becoming unresponsive and filling all station pads (#5456)
+    * Fix several crashes when changing player / model debug flags (#5459)
+    * Fix ModelViewer camera was extremely zoomed out when opening small models (#5459)
+    * Fix UI error when pumping fuel in hyperspace (#5455)
+    * Fix pigui tooltips having extremely inconsistent font sizes (#5454)
 
 November 2022
   * New Features
@@ -31,6 +44,7 @@ November 2022
     * Cargo is now handled completely separately from ship equipment (#5389)
     * Fuel / cargo scooping is now moddable by Lua (#5389)
     * Cargo life support expiration is now handled in Lua (#5389)
+    * Add teleport-to-station button to debug menu (#5430)
   
   * Fixes
     * Fix undefined behavior when clearing joystick axis bindings (#5415)
