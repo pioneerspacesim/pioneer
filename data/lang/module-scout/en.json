@@ -1,11 +1,15 @@
 {
+  "ADTITLE_1": {
+    "description": "",
+    "message": "THE GALACTIC GEOGRAPHICAL SOCIETY"
+  },
   "ADTEXT_1" : {
     "description" : "The Galactic Geographical Society is comparable to National Geographical society. But in space!",
-    "message" : "THE GALACTIC GEOGRAPHICAL SOCIETY: Mapping of body in the {system} system wanted"
+    "message" : "Mapping of body in the {system} system wanted"
   },
   "ADTEXT_1_INTRO" : {
     "description" : "GGS=Galactic Geographical Society",
-    "message" : "Hello, my name is {name}, and I'm with the GGS. We are interested in updating the map for {systembody} in {system}, ({dist}) for which we will pay {cash}."
+    "message" : "Hello! \nMy name is {name}, and I'm with the GGS. We are interested in updating the map for {systembody} in {system}, ({dist}) for which we will pay {cash}."
   },
   "ADTEXT_1_SUCCESSMSG" : {
     "description" : "",
@@ -17,15 +21,19 @@
   },
   "ADTEXT_1_WHYSOMUCH" : {
     "description" : "",
-    "message" : "It is our standard fee for these services."
+    "message" : "It is our standard reward for these services."
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "CARTOGRAPHER NEEDED"
   },
   "ADTEXT_2" : {
     "description" : "",
-    "message" : "CARTOGRAPHER NEED: Contract for pilot to {system}"
+    "message" : "Contract for pilot to {system}"
   },
   "ADTEXT_2_INTRO" : {
     "description" : "",
-    "message" : "Hello. I'm {name}. I'll pay {cash} for mapping of {systembody} in {system}, {dist} distant."
+    "message" : "Hello! \nI'm {name}. I'll pay {cash} for the mapping of {systembody} in {system}, {dist} distant."
   },
   "ADTEXT_2_SUCCESSMSG" : {
     "description" : "",
@@ -37,11 +45,15 @@
   },
   "ADTEXT_2_WHYSOMUCH" : {
     "description" : "",
-    "message" : "We demand high quality maps generated from low altitude, and we pay accordingly."
+    "message" : "High quality maps must be generated from low altitude. Payment is accordingly."
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "PLANETARY MAPPING NEEDED"
   },
   "ADTEXT_3" : {
     "description" : "",
-    "message" : "PLANETARY MAPPING NEEDED: For {system} system"
+    "message" : "For {system} system"
   },
   "ADTEXT_3_INTRO" : {
     "description" : "",
@@ -59,13 +71,17 @@
     "description" : "",
     "message" : "I'm expecting high yield on this investment, if I find what I'm looking for, which is why I need you to fly extra low."
   },
+  "ADTITLE_4": {
+    "description": "",
+    "message": "MAPPING"
+  },
   "ADTEXT_4" : {
     "description" : "",
-    "message" : "MAPPING: In {system} system needed for the sake of science"
+    "message" : "In {system} system needed for the sake of science"
   },
   "ADTEXT_4_INTRO" : {
     "description" : "",
-    "message" : "Hi! My name is {name}, and I'm doing some research for my PhD on the {system} system, {dist} from here. I need to get some additional data for {systembody} in form of updated maps, or my supervisor will kill me. I will pay {cash} to any pilot that can deliver this information to me in time, preferably yesterday, as I'm stressed out of my mind."
+    "message" : "Hi! \nMy name is {name}, and I'm doing some research for my PhD on the {system} system, {dist} from here. I need to get some additional data for {systembody} in form of updated maps, or my supervisor will kill me. I will pay {cash} to any pilot that can deliver this information to me in time, preferably yesterday, as I'm stressed out of my mind."
   },
   "ADTEXT_4_SUCCESSMSG" : {
     "description" : "",
@@ -79,13 +95,17 @@
     "description" : "'High impact journals' is a recognized term for journals like Nature and Science, yielding many citations.",
     "message" : "I'm hoping this new data, with pretty pictures and maps, will increase my chanses of getting my article published in some high impact journal."
   },
+  "ADTITLE_5": {
+    "description": "",
+    "message": "CARTOGRAPHY CONTRACT"
+  },
   "ADTEXT_5" : {
     "description" : "",
-    "message" : "CARTOGRAPHY CONTRACT: Mapping of planet in {system} system"
+    "message" : "Mapping of planet in {system} system"
   },
   "ADTEXT_5_INTRO" : {
     "description" : "",
-    "message" : "Hello. My name is {name}. Information is my business and I'll pay {cash} for a mapping of {systembody} in {system} which is {dist} from our present location."
+    "message" : "Hello! \nMy name is {name}. Information is my business and I'll pay {cash} for a mapping of {systembody} in {system} which is {dist} from our present location."
   },
   "ADTEXT_5_SUCCESSMSG" : {
     "description" : "",
@@ -97,15 +117,19 @@
   },
   "ADTEXT_5_WHYSOMUCH" : {
     "description" : "",
-    "message" : "You can not put a price on information"
+    "message" : "You can not put a high enough price on information these days"
+  },
+  "ADTITLE_6": {
+    "description": "",
+    "message": "MAP UPDATE"
   },
   "ADTEXT_6" : {
     "description" : "",
-    "message" : "MAP UPDATE: Our system administration needs help to update maps for {systembody}"
+    "message" : "Our system administration need help to update the maps for {systembody}"
   },
   "ADTEXT_6_INTRO" : {
     "description" : "",
-    "message" : "I'm with the administration of {system}, my name is {name}. We need to update our files and are willing to award you with {cash} for updating our information on {systembody}."
+    "message" : "My name is {name}, I'm with the administration of {system}. We need to update our files and are willing to award you with {cash} for updating our information on {systembody}."
   },
   "ADTEXT_6_SUCCESSMSG" : {
     "description" : "",
@@ -119,13 +143,17 @@
     "description" : "",
     "message" : "Working for the government has its benefits."
   },
+  "ADTITLE_7": {
+    "description": "",
+    "message": "MAP UPDATE"
+  },
   "ADTEXT_7" : {
     "description" : "",
-    "message" : "MAP UPDATE: Urgent data needed for {systembody}"
+    "message" : "Urgent data needed for {systembody}"
   },
   "ADTEXT_7_INTRO" : {
     "description" : "",
-    "message" : "Hello! I am {name}, and my family is in urgent need to find more land, before we're kicked out of our current prospecting territory. We will pay {cash} for good survey data on {systembody}."
+    "message" : "Hello! \nI am {name}, and my family is in urgent need to find more land, before we're kicked out of our current prospecting territory. We will pay {cash} for good survey data on {systembody}."
   },
   "ADTEXT_7_SUCCESSMSG" : {
     "description" : "",
@@ -139,17 +167,21 @@
     "description" : "",
     "message" : "Time is money."
   },
+  "ADTITLE_8": {
+    "description": "",
+    "message": "CARTOGRAPHY ORDER"
+  },
   "ADTEXT_8" : {
     "description" : "",
-    "message" : "CARTOGRAPHY ORDER: Update of data for {systembody} needed"
+    "message" : "Update of data for {systembody} needed"
   },
   "ADTEXT_8_INTRO" : {
     "description" : "",
-    "message" : "Hi! I'm with the geographical society, and we need to update our maps of {systembody}. We are willing to pay {cash} for a pilot willing to fly lower than our previous."
+    "message" : "Hi! \nI'm with the geographical society, and we need to update our maps of {systembody}. We are willing to pay {cash} for a pilot willing to fly lower than our previous."
   },
   "ADTEXT_8_SUCCESSMSG" : {
     "description" : "",
-    "message" : "Another map to the collection. Please find our appreciation reflected on your bank account."
+    "message" : "Another map to the collection. Please find our appreciation reflected in your bank account."
   },
   "ADTEXT_8_FAILMSG" : {
     "description" : "",
@@ -157,15 +189,19 @@
   },
   "ADTEXT_8_WHYSOMUCH" : {
     "description" : "",
-    "message" : "The worlds must be documented and mapped, in finer and better detail."
+    "message" : "The worlds must be documented and mapped, in ever finer and greater detail."
+  },
+  "ADTITLE_9": {
+    "description": "",
+    "message": "MAPPING"
   },
   "ADTEXT_9" : {
     "description" : "",
-    "message" : "MAPPING: Will pay for fast delivery of data on {systembody} in {system}"
+    "message" : "Will pay for fast delivery of data on {systembody} in {system}"
   },
   "ADTEXT_9_INTRO" : {
     "description" : "",
-    "message" : "Hi!, I'm {name}. Me and my family need a detailed survey of {systembody} in {system}, before anyone else claims it. For a fast pilot we will pay {cash}. We'll message you with the delivery location once you have the data."
+    "message" : "Hi! \nI'm {name}. Me and my family need a detailed survey of {systembody} in {system}, before anyone else claims it. We will pay {cash} for a fast pilot. We'll message you with the delivery location once you have the data."
   },
   "ADTEXT_9_SUCCESSMSG" : {
     "description" : "",
@@ -176,7 +212,7 @@
     "message" : "You're late! Now this is of no use to us, since it has already been claimed. Another opportunity lost. Like tears in rain."
   },
   "ADTEXT_9_WHYSOMUCH" : {
-    "description" : "scooped as in missing an exclusive unique opportunity",
+    "description" : "'scooped' as in missing an exclusive unique opportunity, before someone else gets to it first",
     "message" : "We do not want to be scooped on this possible acquisition"
   },
   "MAPPING_COMPLETED" : {
@@ -213,11 +249,11 @@
   },
   "INTROTEXT_COMPLETED_1" : {
     "description" : "",
-    "message" : "Hello. If you are seeing this is because the data were obtained and confirmed what we suspected.\nSee you at:"
+    "message" : "Hello! \nIf you are seeing this is because the data were obtained and confirmed what we suspected.\nSee you at:"
   },
   "INTROTEXT_COMPLETED_2" : {
     "description" : "",
-    "message" : "Hello. If you are seeing this is because the data were successfully mapped. Will be very useful to my friends.\n To complete the mission, you must go to:"
+    "message" : "Hello! \nIf you are seeing this is because the data were successfully mapped. Will be very useful to my friends.\n To complete the mission, you must go to:"
   },
   "INTROTEXT_COMPLETED_3" : {
     "description" : "",
@@ -225,19 +261,19 @@
   },
   "INTROTEXT_COMPLETED_4" : {
     "description" : "",
-    "message" : "Hello. What you are seeing this means that the data collected are very interesting and will be very useful to my editor.\n The delivery shall be in:"
+    "message" : "Hello! \nWhat you are seeing this means that the data collected are very interesting and will be very useful to my editor.\n The delivery shall be in:"
   },
   "INTROTEXT_COMPLETED_5" : {
     "description" : "",
-    "message" : "Hello. If you are seeing this is that the mission is successful now. The data will be very useful.\n Your reward awaits you in:"
+    "message" : "Hello! \nIf you are seeing this is that the mission is successful now. The data will be very useful.\n Your reward awaits you in:"
   },
   "INTROTEXT_COMPLETED_6" : {
     "description" : "",
-    "message" : "You are viewing this because, surely, the first part of mission has been successful.\n To complete it should be directed to:"
+    "message" : "You are viewing this because, the first part of mission has been successful.\n To complete it should be directed to:"
   },
   "INTROTEXT_COMPLETED_7" : {
     "description" : "",
-    "message" : "If you are seeing this, the first part of mission seems to have been successful. To complete it you directed to:"
+    "message" : "If you are seeing this, the first part of mission seems to have been successful. To complete it you are directed to go to:"
   },
   "INTROTEXT_COMPLETED_8" : {
     "description" : "",
@@ -326,7 +362,7 @@
   "SCOUT" : {
     "description" : "",
     "message" : "Scout"
-   },
+  },
   "WHEN_DO_YOU_NEED_THE_DATA" : {
     "description" : "",
     "message" : "When do you need the data?"
@@ -344,18 +380,17 @@
     "message" : "You will be paid on my behalf at the NEW DESTINATION"
   },
   "ADDITIONAL_INFORMATION_ORBITAL" : {
-    "description" : "Note. 'orbital scanner' is the name of an equipment, that should be translated the same",
-    "message" : "You will need an orbital scanner fitted to your ship. Once you're at the body in question, activate the scanner, and orbit within the maximum altitude until the scan is complete. Then deliver the data to me."
+    "description" : "Note. 'orbital scanner' is the name of an equipment, that should be translated the same as the equipment",
+    "message" : "You will need an orbital scanner fitted to your ship. Once you're at the body in question, activate the scanner, and orbit within the maximum altitude until the scan is comple. Then deliver the data to me."
   },
   "ADDITIONAL_INFORMATION_SURFACE" : {
-    "description" : "Note. 'surface scanner' is the name of an equipment, that should be translated the same",
+    "description" : "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
     "message" : "You will need a surface scanner fitted to your ship. Once you're at the body in question, activate the scanner, and fly at low altitude until the scan is complete. Then deliver the data to me."
   },
   "COMPUTER" : {
     "description" : "The ship on board computer",
     "message" : "Computer"
   },
-
   "HUD_SCAN_PROGRESS": {
     "description": "",
     "message": "Current Scan Progress"
@@ -444,5 +479,4 @@
     "description": "",
     "message": "This scan is complete and ready to be delivered."
   }
-
 }
