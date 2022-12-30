@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: "💡 Suggest a feature"
-    url: https://pioneerspacesim.net/forum
+    url: https://forum.pioneerspacesim.net/
     about: Feature requests and development discussions go on the forum - not on the issue tracker
   - name: "❓ Pioneer FAQ"
     url: https://pioneerwiki.com/wiki/FAQ
