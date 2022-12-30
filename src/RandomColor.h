@@ -26,7 +26,7 @@
 #define _RANDOM_COLOR_H_
 
 // Andrew Copland (2016/03/10 )This is a port of a port! Done under the MIT license (see ^^^Above^^^).
-// Originally pointed out to me by RobN in a forum thread (http://pioneerspacesim.net/forum/viewtopic.php?f=3&t=221)
+// Originally pointed out to me by RobN in a forum thread (https://forum.pioneerspacesim.net/viewtopic.php?f=3&t=221)
 // I was deterred by A) not knowing any javascript, B) the more I saw of it the more I hated it.
 // Then I noticed the C# port by Nathan Jones (https://github.com/nathanpjones/randomColorSharped) which was a much more logical starting point.
 // I have included a snippet of his readme below about how he himself came to port it.

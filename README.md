@@ -39,7 +39,7 @@ Join the player's forum:
   http://spacesimcentral.com/community/pioneer/
 
 Join the development forum:
-  http://pioneerspacesim.net/forum
+  http://forum.pioneerspacesim.net
 
 
 ## Manual
