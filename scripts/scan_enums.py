@@ -370,7 +370,7 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
         return None
 
 def write_license_header(fl):
-    fl.write('/* Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details */\n')
+    fl.write('/* Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details */\n')
     fl.write('/* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */\n')
     fl.write('\n')
 
@@ -415,7 +415,7 @@ def write_tables(enums, headers, hpath, fl):
     fl.write('};\n')
 
 def write_meta(enums, fl):
-    fl.write('-- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details\n')
+    fl.write('-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details\n')
     fl.write('-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n')
     fl.write('\n')
     fl.write('-- THIS FILE IS AUTO-GENERATED, CHANGES WILL BE OVERWRITTEN\n')
