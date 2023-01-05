@@ -71,6 +71,54 @@
     "description": "",
     "message": "解放你的飞船! 请选择一个捐献金额. 黑的愉快."
   },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "退伍军人日"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "支持退伍军人{MILITARY}."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "你可以一直依靠他们{MILITARY}\n他们能指望你吗?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "他们有你的支持吗?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "支持退伍军人{POLICE}."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "Those brave men and women of the {POLICE} who have dedicated their lives to keeping {SYSTEM} safe need your support!"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "支持我们的退伍军人!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Support the veterans of our armed forces."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "The brave soldiers of the {MILITARY} place themselves in harm's way for you!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "END POVERTY!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Support the fight against poverty in the {FACTION}."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "We empower families in the {FACTION} to create a better future for all."
+  },
   "SALES_PITCH": {
     "description": "",
     "message": "向我们的事业捐赠{现金}将有助于你的声誉，任何捐赠都会有所帮助。"
