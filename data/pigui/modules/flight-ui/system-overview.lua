@@ -9,6 +9,7 @@ local Vector2 = _G.Vector2
 local ui = require 'pigui'
 local gameView = require 'pigui.views.game'
 
+local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core");
 
 local height_fraction = 1.6
@@ -52,17 +53,25 @@ gameView.registerSidebarModule("system-overview", {
 		local pos = ui.getCursorPos() + Vector2(ui.getContentRegion().x - button_width, 0)
 		systemOverview.buttonSize = Vector2(ui.getLineHeight() - style.buttonPadding * 2)
 
-		ui.text(Game.system.name)
+		if Game.system then
+			ui.text(Game.system.name)
 
-		ui.setCursorPos(pos)
-		ui.withStyleVars({ ItemSpacing = spacing }, function()
-			ui.withFont(ui.fonts.pionillium.medium, function()
-				systemOverview:drawControlButtons()
+			ui.setCursorPos(pos)
+			ui.withStyleVars({ ItemSpacing = spacing }, function()
+				ui.withFont(ui.fonts.pionillium.medium, function()
+					systemOverview:drawControlButtons()
+				end)
 			end)
-		end)
+		else
+			ui.text(lc.HYPERSPACE)
+		end
 	end,
 
 	drawBody = function()
+		if not Game.system then
+			return
+		end
+
 		systemOverview:displaySearch()
 
 		systemOverview.size.y = math.max(ui.getContentRegion().y, ui.screenHeight / height_fraction)
