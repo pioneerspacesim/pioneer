@@ -497,6 +497,12 @@ static int l_input_set_mouse_y_inverted(lua_State *l)
 	return 0;
 }
 
+static int l_input_get_mouse_captured(lua_State *l)
+{
+	LuaPush<bool>(l, Pi::input->IsCapturingMouse());
+	return 1;
+}
+
 static int l_input_get_joystick_enabled(lua_State *l)
 {
 	lua_pushboolean(l, Pi::input->IsJoystickEnabled());
@@ -641,6 +647,9 @@ void LuaInput::Register()
 		{ "SetMouseYInverted", l_input_set_mouse_y_inverted },
 		{ "GetJoystickEnabled", l_input_get_joystick_enabled },
 		{ "SetJoystickEnabled", l_input_set_joystick_enabled },
+
+		{ "GetMouseCaptured", l_input_get_mouse_captured },
+
 		{ NULL, NULL }
 	};
 

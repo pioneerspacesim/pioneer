@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Engine = require 'Engine'
 local Format = require 'Format'
+local Input = require 'Input'
 local Lang = require 'Lang'
 local Game = require 'Game'
 local ui = require 'pigui.baseui'
@@ -412,7 +413,7 @@ end
 --   font    - optional font table, used to display the given tooltip
 --
 function ui.maybeSetTooltip(tooltip, font)
-	if not Game.player:IsMouseActive() then
+	if not Input.GetMouseCaptured() then
 		ui.withFont(font or ui.fonts.pionillium.details, function()
 			pigui.SetTooltip(tooltip)
 		end)
