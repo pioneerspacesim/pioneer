@@ -24,7 +24,10 @@ public:
 	virtual void PostLoadFixup(Space *space) override;
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 	void ECMAttack(int power_val);
+
 	Body *GetOwner() const { return m_owner; }
+	const Body *GetTarget() const;
+
 	bool IsArmed() const { return m_armed; }
 	void Arm();
 	void Disarm();
@@ -35,6 +38,8 @@ protected:
 
 private:
 	void Explode();
+	bool IsValidTarget(const Body *body);
+
 	AICommand *m_curAICmd;
 	int m_power;
 	Body *m_owner;
