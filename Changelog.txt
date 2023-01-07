@@ -1,3 +1,13 @@
+January 2023
+  * New Features
+    * New ship: Coronatrix Courier (remodel and conversion of the Amphiesma) (#5462)
+  
+  * Internal Changes
+  
+  * Fixes
+    * Fix error in main-menu tooltips (#5468)
+    * Fix error with system overview open in hyperspace (#5468)
+
 December 2022
   * New Features
     * Implement select target and cycle hostile contact buttons (#5429)
