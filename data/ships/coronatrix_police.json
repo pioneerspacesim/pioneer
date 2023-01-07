@@ -1,0 +1,52 @@
+{
+	"model": "coronatrix",
+	"name": "Coronatrix Police",
+	"cockpit": "coronatrix_cockpit",
+	"manufacturer": "opli",
+	"ship_class": "light_courier",
+	"min_crew": 1,
+	"max_crew": 1,
+	"price": 0,
+	"hull_mass": 18,
+	"atmospheric_pressure_limit": 3.2,
+	"capacity": 30,
+	"slots": {
+		"engine": 1,
+		"cabin": 1,
+		"laser_front": 1,
+		"missile": 10,
+		"shield": 3,
+		"cargo": 16
+	},
+	"roles": ["mercenary"],
+	"effective_exhaust_velocity": 12600000,
+	"thruster_fuel_use": -1.0,
+	"fuel_tank_mass": 23,
+	"hyperdrive_class": 2,
+
+	"forward_thrust": 1800000,
+	"forward_acceleration_cap": 26.487,
+	"reverse_thrust": 920000,
+	"reverse_acceleration_cap": 20.601,
+	"up_thrust": 1400000,
+	"up_acceleration_cap": 20.601,
+	"down_thrust": 920000,
+	"down_acceleration_cap": 11.4777,
+	"left_thrust": 920000,
+	"left_acceleration_cap": 11.4777,
+	"right_thrust": 920000,
+	"right_acceleration_cap": 11.4777,
+
+	"angular_thrust": 3799843.41896781,
+
+	"front_cross_section": 16.2,
+	"side_cross_section": 39,
+	"top_cross_section": 125,
+
+	"front_drag_coeff": 0.27,
+	"side_drag_coeff": 0.45,
+	"top_drag_coeff": 0.96,
+
+	"lift_coeff": 0.1,
+	"aero_stability": 0.35
+}
