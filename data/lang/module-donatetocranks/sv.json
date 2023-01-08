@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "DONERA!"
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+    "message": "Kyrkan av det flygande spaghettimonstret behöver DINA pengar för att sprida guds ord."
   },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "DONERA"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "De fria själarnas beskyddare ber ödmjukast om dina allmosor för att stötta våra kloster."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "FEELING GENEROUS?"
+    "message": "KÄNNER DU DIG GIVMILD?"
   },
   "FLAVOUR_2_DESC": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUTE"
+    "message": "BIDRA"
   },
   "FLAVOUR_3_DESC": {
     "description": "",
-    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "Galaxens Vänners Kampanj \"Förbjud Militära Motorer\" behöver dina pengar."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "DONERA!"
   },
   "FLAVOUR_4_DESC": {
     "description": "",
@@ -70,6 +70,54 @@
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Befria ditt skepp! Var god välj en summa att donera. Hacka lugnt."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "VETERANS DAY!"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "Support the veterans of the {MILITARY}."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "The {MILITARY}. You can always count on them.\nCan they count on you?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "DO THEY HAVE YOUR SUPPORT?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "Support the veterans of the {POLICE}."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "Those brave men and women of the {POLICE} who have dedicated their lives to keeping {SYSTEM} safe need your support!"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "SUPPORT OUR VETERANS!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Support the veterans of our armed forces."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "The brave soldiers of the {MILITARY} place themselves in harm's way for you!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "END POVERTY!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Support the fight against poverty in the {FACTION}."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "We empower families in the {FACTION} to create a better future for all."
   },
   "SALES_PITCH": {
     "description": "",
