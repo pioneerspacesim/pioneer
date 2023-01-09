@@ -37,7 +37,7 @@
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "\" Argon atmosphere\""
+    "message": "argon atmosphere"
   },
   "ASTEROID": {
     "description": "",
@@ -169,11 +169,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "\" Methane atmosphere\""
+    "message": "methane atmosphere"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\" Carbon Dioxide atmosphere\""
+    "message": "carbon dioxide atmosphere"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -269,7 +269,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "\" Carbon Monoxide atmosphere\""
+    "message": "carbon monoxide atmosphere"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -497,7 +497,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "\" Helium atmosphere\""
+    "message": "helium atmosphere"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -561,7 +561,7 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "\" Hydrogen atmosphere\""
+    "message": "hydrogen atmosphere"
   },
   "ICE_WORLD": {
     "description": "",
@@ -953,7 +953,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "\" Nitrogen atmosphere\""
+    "message": "nitrogen atmosphere"
   },
   "N_CELSIUS": {
     "description": "",
@@ -993,7 +993,7 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "\" Oxygen atmosphere\""
+    "message": "oxygen atmosphere"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
@@ -1545,7 +1545,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "\" Sulfuric atmosphere\""
+    "message": "sulfuric atmosphere"
   },
   "TAKEOFF": {
     "description": "",
@@ -1557,7 +1557,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "tenuous"
+    "message": "\"tenuous \""
   },
   "TEXTILES": {
     "description": "",
@@ -1565,11 +1565,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "thick"
+    "message": "\"thick \""
   },
   "THIN": {
     "description": "",
-    "message": "thin"
+    "message": "\"thin \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1761,7 +1761,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "very dense"
+    "message": "\"very dense \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
