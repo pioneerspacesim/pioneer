@@ -5,8 +5,6 @@ local utils = require 'utils'
 local Serializer = require 'Serializer'
 local Lang = require 'Lang'
 local ShipDef = require 'ShipDef'
-local Timer = require 'Timer'
-local Comms = require 'Comms'
 
 local Game = package.core['Game']
 local Space = package.core['Space']
@@ -327,139 +325,11 @@ function HyperdriveType:OnLeaveHyperspace(ship)
 	end
 end
 
+-- NOTE: "sensors" have no general-purpose code associated with the equipment type
 local SensorType = utils.inherits(EquipType, "SensorType")
 
-function SensorType:BeginAcquisition(callback)
-	self:ClearAcquisition()
-	self.callback = callback
-	if self:OnBeginAcquisition() then
-		self.state = "RUNNING"
-		self.stop_timer = false
-		Timer:CallEvery(1, function()
-			return self:ScanProgress()
-		end)
-	end
-	self:DoCallBack()
-end
-
-function SensorType:ScanProgress()
-	if self.stop_timer == true then
-		return true
-	end
-	if self:IsScanning() then
-		self:OnProgress()
-		if self:IsScanning() then
-			self.stop_timer = false
-		end
-	elseif self.state == "PAUSED" then
-		self.stop_timer = false
-	elseif self.state == "DONE" then
-		self.stop_timer = true
-	end
-	self:DoCallBack()
-	return self.stop_timer
-end
-
-function SensorType:PauseAcquisition()
-	if self:IsScanning() then
-		self.state = "PAUSED"
-	end
-	self:DoCallBack()
-end
-
-function SensorType:UnPauseAcquisition()
-	if self.state == "PAUSED" then
-		self.state = "RUNNING"
-	end
-	self:DoCallBack()
-end
-
-function SensorType:ClearAcquisition()
-	self:OnClear()
-	self.state = "DONE"
-	self.stop_timer = true
-	self:DoCallBack()
-	self.callback = nil
-end
-
-function SensorType:GetLastResults()
-	return self.progress
-end
-
--- gets called from C++ to set the MeterBar value
--- must return a number
-function SensorType:GetProgress()
-	if type(self.progress) == "number" then
-		return self.progress
-	else
-		return 0
-	end
-end
-
-function SensorType:IsScanning()
-	return self.state == "RUNNING" or self.state == "HALTED"
-end
-
-function SensorType:DoCallBack()
-	if self.callback then self.callback(self.progress, self.state) end
-end
-
+-- NOTE: all code related to managing a body scanner is implemented in the ScanManager component
 local BodyScannerType = utils.inherits(SensorType, "BodyScannerType")
-
-function BodyScannerType:OnBeginAcquisition()
-	local closest_planet = Game.player:FindNearestTo("PLANET")
-	if closest_planet then
-		local altitude = self:DistanceToSurface(closest_planet)
-		if altitude and altitude < self.max_range then
-			self.target_altitude = altitude
-			self.target_body_path = closest_planet.path
-			local l = Lang.GetResource(self.l10n_resource)
-			Comms.Message(l.STARTING_SCAN.." "..string.format('%6.3f km',self.target_altitude/1000))
-			return true
-		end
-	end
-	return false
-end
-
-function BodyScannerType:OnProgress()
-	local l = Lang.GetResource(self.l10n_resource)
-	local target_body = Space.GetBody(self.target_body_path.bodyIndex)
-	if target_body and target_body:exists() then
-		local altitude = self:DistanceToSurface(target_body)
-		local distance_diff = math.abs(altitude - self.target_altitude)
-		local percentual_diff = distance_diff/self.target_altitude
-		if percentual_diff <= self.bodyscanner_stats.scan_tolerance then
-			if self.state == "HALTED" then
-				Comms.Message(l.SCAN_RESUMED)
-				self.state = "RUNNING"
-			end
-			self.progress = self.progress + self.bodyscanner_stats.scan_speed
-			if self.progress > 100 then
-				self.state = "DONE"
-				self.progress = {body=target_body.path, altitude=self.target_altitude}
-				Comms.Message(l.SCAN_COMPLETED)
-			end
-		else -- strayed out off range
-			if self.state == "RUNNING" then
-				local lower_limit = self.target_altitude-(percentual_diff*self.target_altitude)
-				local upper_limit = self.target_altitude+(percentual_diff*self.target_altitude)
-				Comms.Message(l.OUT_OF_SCANRANGE.." "..string.format('%6.3f km',lower_limit/1000).." - "..string.format('%6.3f km',upper_limit/1000))
-			end
-			self.state = "HALTED"
-		end
-	else -- we lost the target body
-		self:ClearAcquisition()
-	end
-end
-
-function BodyScannerType:OnClear()
-	self.target_altitude = 0
-	self.progress = 0
-end
-
-function BodyScannerType:DistanceToSurface(body)
-	return  select(3,Game.player:GetGroundPosition(body)) -- altitude
-end
 
 Serializer:RegisterClass("LaserType", LaserType)
 Serializer:RegisterClass("EquipType", EquipType)
