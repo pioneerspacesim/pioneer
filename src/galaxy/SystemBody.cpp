@@ -297,6 +297,8 @@ std::string SystemBody::GetAstroDescription() const
 			s += ".";
 		}
 
+		s[0] = std::toupper(s[0]);
+
 		return s;
 	}
 	case TYPE_STARPORT_ORBITAL:
