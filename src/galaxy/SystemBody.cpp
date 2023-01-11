@@ -214,7 +214,7 @@ std::string SystemBody::GetAstroDescription() const
 			return Lang::MEDIUM_GAS_GIANT;
 		else
 			return Lang::SMALL_GAS_GIANT;
-	case TYPE_PLANET_ASTEROID: return Lang::ASTEROID;
+	case TYPE_PLANET_ASTEROID:
 	case TYPE_PLANET_TERRESTRIAL: {
 		std::string s;
 
@@ -222,6 +222,16 @@ std::string SystemBody::GetAstroDescription() const
 		bool moon = false;
 		if (m_parent && (m_parent->GetType() == TYPE_PLANET_TERRESTRIAL || m_parent->GetType() == TYPE_PLANET_GAS_GIANT))
 			moon = true;
+
+		// Is it an asteroid or a tiny moon?
+		if (m_type == TYPE_PLANET_ASTEROID) {
+			if (moon) {
+				s += Lang::TINY;
+				s += Lang::ROCKY_MOON;
+				return s;
+			}
+			else return Lang::ASTEROID;
+		}
 
 		if (m_mass > fixed(2, 1))
 			s = Lang::MASSIVE;
