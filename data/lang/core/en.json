@@ -1077,7 +1077,7 @@
   },
   "MOON_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "\" planet containing liquid water\""
+    "message": "\" moon containing liquid water\""
   },
   "PLANET_WITH_SOME_ICE": {
     "description": "",
@@ -1085,7 +1085,7 @@
   },
   "MOON_WITH_SOME_ICE": {
     "description": "",
-    "message": "\" planet with some ice\""
+    "message": "\" moon with some ice\""
   },
   "PLANNED_ECONOMY": {
     "description": "",
