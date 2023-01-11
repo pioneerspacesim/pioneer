@@ -1631,10 +1631,6 @@
     "description": "Adjective used to describe the size of an object.",
     "message": "Tiny"
   },
-  "DWARF_PLANET": {
-    "description": "Adjective used to describe the size of an object.",
-    "message": "Dwarf planet"
-  },
   "TOGGLE_EQUIPMENT_VIEW": {
     "description": "Tooltip for the Equipment View button",
     "message": "Equipment View"
