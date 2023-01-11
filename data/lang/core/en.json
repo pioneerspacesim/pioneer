@@ -567,6 +567,10 @@
     "description": "",
     "message": "\" ice world\""
   },
+  "ICE_MOON": {
+    "description": "",
+    "message": "\" ice moon\""
+  },
   "ILLEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
     "message": "Illegal (current system):"
@@ -1003,6 +1007,10 @@
     "description": "",
     "message": "\" oceanic world\""
   },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" oceanic moon\""
+  },
   "ORBITAL_PERIOD": {
     "description": "",
     "message": "Orbital period"
@@ -1067,7 +1075,15 @@
     "description": "",
     "message": "\" planet containing liquid water\""
   },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" planet containing liquid water\""
+  },
   "PLANET_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" planet with some ice\""
+  },
+  "MOON_WITH_SOME_ICE": {
     "description": "",
     "message": "\" planet with some ice\""
   },
@@ -1154,6 +1170,14 @@
   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
     "description": "",
     "message": "\" rocky planet containing some liquids,\""
+  },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" rocky moon\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" rocky moon containing some liquids,\""
   },
   "ROLL": {
     "description": "",
@@ -1606,6 +1630,10 @@
   "TINY": {
     "description": "Adjective used to describe the size of an object.",
     "message": "Tiny"
+  },
+  "DWARF_PLANET": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "Dwarf planet"
   },
   "TOGGLE_EQUIPMENT_VIEW": {
     "description": "Tooltip for the Equipment View button",

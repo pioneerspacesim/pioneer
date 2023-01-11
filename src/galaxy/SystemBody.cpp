@@ -217,6 +217,12 @@ std::string SystemBody::GetAstroDescription() const
 	case TYPE_PLANET_ASTEROID: return Lang::ASTEROID;
 	case TYPE_PLANET_TERRESTRIAL: {
 		std::string s;
+
+		// Is it a moon?
+		bool moon = false;
+		if (m_parent && (m_parent->GetType() == TYPE_PLANET_TERRESTRIAL || m_parent->GetType() == TYPE_PLANET_GAS_GIANT))
+			moon = true;
+
 		if (m_mass > fixed(2, 1))
 			s = Lang::MASSIVE;
 		else if (m_mass > fixed(3, 2))
@@ -240,13 +246,25 @@ std::string SystemBody::GetAstroDescription() const
 
 		if (m_volatileIces + m_volatileLiquid > fixed(4, 5)) {
 			if (m_volatileIces > m_volatileLiquid) {
-				s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::ROCKY_PLANET;
+				if (moon) {
+					s += (m_averageTemp < 273) ? Lang::ICE_MOON: Lang::ROCKY_MOON;
+				} else {
+					s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::ROCKY_PLANET;
+				}
 			} else {
-				s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::OCEANICWORLD;
+				if (moon) {
+					s += (m_averageTemp < 273) ? Lang::ICE_MOON : Lang::OCEANICMOON;
+				} else {
+					s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::OCEANICWORLD;
+				}
 			}
 			// what is a waterworld with temperature above 100C? possible?
+		} else if (m_volatileLiquid > fixed(2, 5) && moon) {
+			s += (m_averageTemp > 273) ? Lang::MOON_CONTAINING_LIQUID_WATER : Lang::MOON_WITH_SOME_ICE;
 		} else if (m_volatileLiquid > fixed(2, 5)) {
 			s += (m_averageTemp > 273) ? Lang::PLANET_CONTAINING_LIQUID_WATER : Lang::PLANET_WITH_SOME_ICE;
+		} else if (moon) {
+			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_MOON_CONTAINING_SOME_LIQUIDS : Lang::ROCKY_MOON;
 		} else {
 			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS : Lang::ROCKY_PLANET;
 		}
