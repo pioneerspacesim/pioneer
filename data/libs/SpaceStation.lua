@@ -4,22 +4,24 @@
 ---@class SpaceStation : ModelBody
 local SpaceStation = package.core['SpaceStation']
 
-local Event = require 'Event'
-local Rand = require 'Rand'
-local Space = require 'Space'
-local utils = require 'utils'
-local ShipDef = require 'ShipDef'
-local Engine = require 'Engine'
-local Timer = require 'Timer'
-local Game = require 'Game'
-local Ship = require 'Ship'
-local Model = require 'SceneGraph.Model'
-local ModelSkin = require 'SceneGraph.ModelSkin'
-local Serializer = require 'Serializer'
-local Equipment = require 'Equipment'
+local Economy     = require 'Economy'
+local Event       = require 'Event'
+local Rand        = require 'Rand'
+local Space       = require 'Space'
+local utils       = require 'utils'
+local ShipDef     = require 'ShipDef'
+local Engine      = require 'Engine'
+local Timer       = require 'Timer'
+local Game        = require 'Game'
+local Ship        = require 'Ship'
+local Model       = require 'SceneGraph.Model'
+local ModelSkin   = require 'SceneGraph.ModelSkin'
+local Serializer  = require 'Serializer'
+local Equipment   = require 'Equipment'
 local Commodities = require 'Commodities'
-local Faction = require 'Faction'
-local Lang = require 'Lang'
+local Faction     = require 'Faction'
+local Lang        = require 'Lang'
+
 local l = Lang.GetResource("ui-core")
 
 --
@@ -31,7 +33,7 @@ function SpaceStation.GetTechLevel(systemBody)
 	local rand = Rand.New(systemBody.seed .. '-techLevel')
 	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
 	local system = systemBody.path:GetStarSystem()
-	
+
 	if system.faction ~= nil and system.faction.hasHomeworld and system.faction.homeworld == systemBody.parent.path then
 		techLevel = math.max(techLevel, 6) -- bump it upto at least 6 if it's a homeworld like Earth
 	end
@@ -41,7 +43,7 @@ function SpaceStation.GetTechLevel(systemBody)
 end
 
 function SpaceStation:Constructor()
-	techLevel = SpaceStation.GetTechLevel(self.path:GetSystemBody())
+	local techLevel = SpaceStation.GetTechLevel(self.path:GetSystemBody())
 
 	self:setprop("techLevel", techLevel)
 end
@@ -51,104 +53,56 @@ end
 local visited = {}
 local equipmentStock = {}
 
--- track commodity stocks for stations present in the current system
-local commodityStock = {}
--- track commodity prices for stations present in the current system
-local commodityPrice = {}
-
 -- stationMarket is a persistent table of stock information for every station
 -- the player has visited in their journey
 local stationMarket = {}
 
+-- transientMarket is a cache for non-serialized commodity markets
+-- it's used for goods that have little trade importance / as a cache to reduce
+-- the impact of lookups into stations that haven't had a full market generated
+local transientMarket = utils.automagic()
+
 local ensureStationData
-
--- Return the target stock level for a given commodity based on whether the
--- commodity is an import/export good at this port (based on pricemod)
---
--- Pricemod is technically a percentage modification of the commodity price
--- but functions more like a factor controlling relative supply and demand of
--- the commodity - positive values indicate higher demand, while negative
--- values indicate higher supply
-local function applyStockPriceMod(maxStock, stock, pricemod)
-	if pricemod > 10 then --major import, low stock
-		stock = stock - (maxStock*0.10)     -- shifting .10 = 2% chance of 0 stock
-	elseif pricemod > 4 then --minor import
-		stock = stock - (maxStock*0.07)     -- shifting .07 = 1% chance of 0 stock
-	elseif pricemod < -10 then --major export
-		stock = stock + (maxStock*0.8)
-	elseif pricemod < -4 then --minor export
-		stock = stock + (maxStock*0.3)
-	end
-	return math.max(0.0, math.floor(stock))
-end
-
--- Function: GetMaxStockForPrice
---
--- Returns the maximum commodity stocking at any station based on price
--- adjusted for some rarity curve by an exponent.
---
--- The higher the nominal price of the commodity, the exponentially less
--- maximum stock this station will have of it - this models commodity rarity
--- as a function of commodity price.
-function SpaceStation.GetMaxStockForPrice(price)
-	return 950000 / price^1.387
-end
-
--- Function: GetStationTargetStock
---
--- Calculate the target stock level for a commodity based on the given station
--- seed number. This is used to determine the persistent equilibrium stock for
--- a given commodity at a specific space station.
---
--- This is the "baseline" amount that the stock level will naturally return to
--- over time in the absense of any external factors.
---
--- Parameters:
---   key  - string, name of the commodity
---   seed - number, the target space station's unique seed value
---
--- Returns:
---  targetStock - the persistent equilibrium stock amount of the commodity for
---                the given station steed.
-function SpaceStation.GetStationTargetStock(key, seed)
-	-- use a deterministic random function to determine target stock numbers
-	local rand = Rand.New(seed .. '-stock-' .. key)
-	local comm = Commodities[key]
-	local rn = SpaceStation.GetMaxStockForPrice(math.abs(comm.price))
-
-	local pricemod = Game.system:GetCommodityBasePriceAlterations(key)
-	local targetStock = rn * (rand:Number() + rand:Number()) / 2.0 -- normal 0-100% "permanent" stock
-	return applyStockPriceMod(rn, targetStock, pricemod)
-end
 
 -- create a persistent entry for the given station's commodity market if it
 -- does not already exist, and populate persistent and transient stock info
 --
 -- This function will be run if there is no prior information available about
 -- the station and a persistent entry needs to be made "from scratch"
+---@param station SpaceStation
 local function createStationMarket(station)
 	assert(station and station:exists())
-	if stationMarket[station.path] then return end
+	local sBody = assert(station:GetSystemBody())
+	local path = sBody.path
+
+	if stationMarket[path] then return end
 
 	local storedStation = {
 		commodities = {},
 		lastStockUpdate = Game.time
 	}
-	stationMarket[station.path] = storedStation
+
+	stationMarket[path] = storedStation
 
 	local h2 = Commodities.hydrogen
 	for key, comm in pairs (Commodities) do
 		-- Don't add entries for mission commodities or "haulaway" commodities
 		if comm.purchasable and comm.price > 0.0 and comm ~= h2 then
 			-- Initialize the station's stock levels to the equilibrium
-			local targetStock = SpaceStation.GetStationTargetStock(key, station.seed)
-			storedStation.commodities[key] = targetStock
+
+			local cMarket = Economy.CreateStationCommodityMarket(sBody, key)
+			storedStation.commodities[key] = cMarket
+
+			logVerbose("\t{}\n\tstock: {}, demand: {}, priceMod: {}, priceMod2: {}, system priceMod: {}" % {
+				key, cMarket[1], cMarket[2], cMarket[3],
+				Economy.GetStationCommodityPriceMod(sBody, key, cMarket),
+				sBody.system:GetCommodityBasePriceAlterations(key)
+			})
 		end
 	end
 end
 
 local kTickDuration = 7 * 24 * 60 * 60 -- 1 week
-local kAvgTicksToRestock = 12
 
 -- Handle gradually restocking commodities at a station over time.
 --
@@ -165,25 +119,22 @@ local function updateStationMarket (station)
 	local timeSinceUpdate = Game.time - lastStockUpdate
 	if timeSinceUpdate <= kTickDuration then return end
 
+	local sBody = assert(station:GetSystemBody())
+
 	-- make sure the next tick happens at the correct time
-	storedStation.lastStockUpdate = lastStockUpdate + math.floor(timeSinceUpdate / kTickDuration) * kTickDuration
+	local numTicks = math.floor(timeSinceUpdate / kTickDuration)
+	storedStation.lastStockUpdate = lastStockUpdate + numTicks * kTickDuration
 
 	-- use a *different* random function to tally up restocks
 	-- this ensures that each restock uses a different random number based on game start time
 	local randRestock = Rand.New(station.seed .. '-stockMarketUpdate-' .. math.floor(lastStockUpdate))
 
-	for key, stock in pairs (storedStation.commodities) do
-		local targetStock = SpaceStation.GetStationTargetStock(key, station.seed)
+	for key, data in pairs (storedStation.commodities) do
+		logVerbose("\tcommodity {} was {}/{} (%{})" % { key, data[1], data[2], data[3] })
 
-		for i = 1, math.floor(timeSinceUpdate / kTickDuration) do
-			stock = stock + randRestock:Normal(1, 1) / kAvgTicksToRestock * targetStock
-		end
-		stock = math.min(targetStock, math.ceil(stock))
+		Economy.UpdateStationCommodityMarket(sBody, randRestock, data, key, numTicks)
 
-		storedStation.commodities[key] = stock
-		if commodityStock[station] then
-			commodityStock[station][key] = stock
-		end
+		logVerbose("\tcommodity {} now {}/{} (%{})" % { key, data[1], data[2], data[3] })
 	end
 end
 
@@ -203,32 +154,47 @@ end
 -- Create a transient entry for this station's commodity stocks and seed it with
 -- commodity stock information from persistent data
 local function createCommodityStock (station)
-	if commodityStock[station] then error("Attempt to create station commodity stock twice!") end
-	commodityStock[station] = {}
+	local market = Economy.CreateStationMarket(station:GetSystemBody())
+
+	if rawget(transientMarket, station) then
+		logVerbose("Overwriting transient market data for station {}" % { station:GetLabel() })
+	end
 
 	-- stationMarket data is persistent across systems and will be created
-	-- before the commodityStock table, so we want to import the data from the
+	-- before the transientMarket table, so we want to import the data from the
 	-- station market if it exists
-	if stationMarket[station.path] then
-		for key, stock in pairs(stationMarket[station.path].commodities) do
-			commodityStock[station][key] = stock
-		end
+	for key, data in pairs(market.commodities) do
+		transientMarket[station][key] = data
 	end
 
 	local h2 = Commodities.hydrogen
 	for key, e in pairs(Commodities) do
 		if e.purchasable and e.price < 0.0 then
+
 			-- "haulaway" commodities
 			-- approximately 1t rubbish for every 10 people
-			local stock = math.floor(math.max(station:GetSystemBody().population * 1e8, 100) / math.abs(e.price))
-			commodityStock[station][key] = Engine.rand:Integer(stock / 10, stock)
+			local rn = math.floor(math.max(station:GetSystemBody().population * 1e8, 100) / math.abs(e.price))
+			local stock = Engine.rand:Integer(rn / 10, rn)
+			local demand = Engine.rand:Integer(0, stock / 50) -- extremely low buyback demand if any
+			local pricemod = station:GetSystemBody().system:GetCommodityBasePriceAlterations(key)
+
+			transientMarket[station][key] = { stock, demand, pricemod }
+
 		elseif e == h2 then
+
 			-- make sure we always have enough hydrogen here at the station
-			local targetStock = SpaceStation.GetStationTargetStock(key, station.seed)
-			commodityStock[station][key] = Engine.rand:Integer((targetStock + 1)/4, targetStock + 1)
+			local rn = Economy.GetStationTargetStock(key, station.seed)
+			local stock = Engine.rand:Integer((rn + 1)/4, rn + 1)
+			local demand = Engine.rand:Integer(stock / 10, stock / 4)
+			local pricemod = station:GetSystemBody().system:GetCommodityBasePriceAlterations(key)
+
+			transientMarket[station][key] = { stock, demand, pricemod }
+
 		end
 	end
 end
+
+-- ============================================================================
 
 local equipmentPrice = {}
 
@@ -351,6 +317,52 @@ end
 
 -- ============================================================================
 
+-- track commodity prices for stations present in the current system
+local commodityPrice = utils.automagic()
+
+--
+-- Method: GetCommodityMarket
+--
+-- Get commodity market data for a commodity traded at this station.
+--
+-- > price = station:GetCommodityMarket(itemType)
+--
+-- Parameters:
+--
+--   itemType - the <CommodityType> of the commodity item in question
+--
+-- Returns:
+--
+--   market - the market information for the specified commodity in
+--            { stock, demand, pricemod } triplet form
+--
+-- Availability:
+--
+--   January 2023
+--
+-- Status:
+--
+--   stable
+--
+---@param itemType CommodityType
+---@return table market
+function SpaceStation:GetCommodityMarket(itemType)
+	assert(self:exists())
+
+	local market = transientMarket[self]
+	local sBody = assert(self:GetSystemBody())
+
+	local comm = market[itemType.name]
+	if not comm then
+		logVerbose("Creating commodity market for {}: {}" % { self:GetLabel(), itemType.name })
+		comm = Economy.CreateStationCommodityMarket(sBody, itemType.name)
+
+		market[itemType.name] = comm
+	end
+
+	return comm
+end
+
 --
 -- Method: GetCommodityPrice
 --
@@ -379,11 +391,17 @@ end
 function SpaceStation:GetCommodityPrice(itemType)
 	assert(self:exists())
 
-	local price = commodityPrice[self] and commodityPrice[self][itemType.name]
+	-- TODO: this cache exists to allow special-case pricing for commodities from events
+	-- This should ideally be handled with a queue of temporary modifiers which
+	-- adjust supply/demand/pricemod and avoid this cache entirely
+	local price = commodityPrice[self][itemType.name]
 	if price then return price end
 
-	local mul = (100 + Game.system:GetCommodityBasePriceAlterations(itemType.name)) / 100
-	return itemType.price * mul
+	-- determine the commodity price modifier for the market conditions
+	-- NOTE: the commodity price cache is not written to so that prices can update as stock changes
+	-- This is not the best design, and should be re-thought if/when a market event queue is established
+	local commodityMarket = self:GetCommodityMarket(itemType)
+	return Economy.GetMarketPrice(itemType.price, commodityMarket[3])
 end
 
 --
@@ -412,10 +430,6 @@ end
 function SpaceStation:SetCommodityPrice(itemType, price)
 	assert(self:exists())
 
-	if not commodityPrice[self] then
-		commodityPrice[self] = {}
-	end
-
 	commodityPrice[self][itemType.name] = price
 end
 
@@ -436,7 +450,7 @@ end
 --
 -- Availability:
 --
---   201308
+--   June 2022
 --
 -- Status:
 --
@@ -447,13 +461,44 @@ end
 function SpaceStation:GetCommodityStock(itemType)
 	assert(self:exists())
 
-	return commodityStock[self] and commodityStock[self][itemType.name] or 0
+	return self:GetCommodityMarket(itemType)[1]
+end
+
+--
+-- Method: GetCommodityDemand
+--
+-- Get the quantity of a cargo item this station wants to purchase
+--
+-- > demand = station:GetCommodityDemand(itemType)
+--
+-- Parameters:
+--
+--   itemType - the <CommodityType> of the commodity item in question
+--
+-- Returns:
+--
+--   demand - the amount the station is willing to buy
+--
+-- Availability:
+--
+--   January 2023
+--
+-- Status:
+--
+--   stable
+--
+---@param itemType CommodityType
+---@return integer stock
+function SpaceStation:GetCommodityDemand(itemType)
+	return self:GetCommodityMarket(itemType)[2]
 end
 
 --
 -- Method: AddCommodityStock
 --
--- Modify the quantity of a cargo item this station has available for trade
+-- Modify the quantity of a cargo item this station has available for trade.
+-- This function assumes this is taking place as part of a gameplay action,
+-- so it modifies stock + demand levels based on the `amount` parameter.
 --
 -- > station:AddCommodityStock(itemType, amount)
 --
@@ -476,18 +521,52 @@ end
 function SpaceStation:AddCommodityStock(itemType, amount)
 	assert(self:exists())
 	ensureStationData(self)
-	assert(commodityStock[self])
 
-	-- update transient stocking numbers
-	commodityStock[self][itemType.name] = math.max(0, (commodityStock[self][itemType.name] or 0) + amount)
+	local market = self:GetCommodityMarket(itemType)
 
-	-- update persistent station stock values
-	local commodities = stationMarket[self.path].commodities
-	if commodities[itemType.name] then
-		commodities[itemType.name] = math.max(0, commodities[itemType.name] + amount)
-
-		assert(commodityStock[self][itemType.name] == commodities[itemType.name])
+	if amount < 0 then
+		market[1] = market[1] + amount
+	else
+		market[2] = market[2] - amount
 	end
+
+	market[3] = Economy.GetStationCommodityPriceMod(assert(self:GetSystemBody()), itemType.name, market)
+end
+
+--
+-- Method: SetCommodityStock
+--
+-- Modify the stock and demand values of a cargo item this station has
+-- available for trade. This function does not update the commodity price.
+--
+-- > station:SetCommodityStock(itemType, newStock, newDemand)
+--
+-- Parameters:
+--
+--   itemType - a <CommodityType> cargo item
+--
+--   stock - optional, the new stock number for the commodity type
+--   demand - optional, the new demand number for the commodity type
+--
+-- Availability:
+--
+--   January 2023
+--
+-- Status:
+--
+--   stable
+--
+---@param itemType CommodityType
+---@param stock integer? new commodity stock number
+---@param demand integer? new commodity demand number
+function SpaceStation:SetCommodityStock(itemType, stock, demand)
+	assert(self:exists())
+	ensureStationData(self)
+
+	local market = self:GetCommodityMarket(itemType)
+
+	market[1] = stock  or market[1]
+	market[2] = demand or market[2]
 end
 
 -- ============================================================================
@@ -972,7 +1051,8 @@ end
 local function updateSystem ()
 	local stations = Space.GetBodies(function (b) return b.superType == "STARPORT" end)
 	for i, station in ipairs(stations) do
-		updateStationMarket(station)
+		-- updateStationMarket(station)
+		Economy.UpdateStationMarket(station:GetSystemBody())
 
 		if visited[station] then
 			updateShipsOnSale(station)
@@ -986,10 +1066,6 @@ local function createStationData (station)
 	shipsOnSale[station] = {}
 	visited[station] = true
 
-	if not stationMarket[station.path] then
-		createStationMarket(station)
-	end
-
 	createEquipmentStock(station)
 	createCommodityStock(station)
 
@@ -1000,7 +1076,7 @@ local function createStationData (station)
 end
 
 ensureStationData = function (station)
-	if not visited[station] or not commodityStock[station] or not equipmentStock[station] then
+	if not visited[station] or not equipmentStock[station] then
 		logWarning("Creating station data for station " .. station.label .. " before onShipDocked event is processed for that station")
 		logVerbose(debug.dumpstack(2))
 
@@ -1011,16 +1087,17 @@ end
 local function destroySystem ()
 	equipmentStock = {}
 	equipmentPrice = {}
-	commodityStock = {}
-	commodityPrice = {}
+
+	-- Don't clean up the stationMarket as it tracks persistent data outside of
+	-- this system's context
+	commodityPrice = utils.automagic()
+	transientMarket = utils.automagic()
 
 	visited = {}
 
 	police = {}
 
 	shipsOnSale = {}
-
-	-- Don't clean up the stationMarket as it tracks persistent data outside of this system
 
 	for station,ads in pairs(SpaceStation.adverts) do
 		for ref,ad in pairs(ads) do
@@ -1037,10 +1114,9 @@ Event.Register("onGameStart", function ()
 	if (loaded_data) then
 		equipmentStock = loaded_data.equipmentStock
 		equipmentPrice = loaded_data.equipmentPrice or {} -- handle missing in old saves
-		commodityStock = loaded_data.commodityStock or {} -- handle missing in old saves
-		commodityPrice = loaded_data.commodityPrice or {} -- handle missing in old saves
+		commodityPrice = utils.automagic(loaded_data.commodityPrice)
 
-		stationMarket = loaded_data.stationMarket or {}
+		-- stationMarket = loaded_data.stationMarket or {}
 		visited = loaded_data.visited or {}
 		police = loaded_data.police
 
@@ -1076,7 +1152,7 @@ Event.Register("onShipDocked", function (ship, station)
 	if not visited[station] then
 		createStationData(station)
 	else
-		updateStationMarket(station)
+		Economy.UpdateStationMarket(station:GetSystemBody())
 	end
 end)
 
@@ -1101,7 +1177,8 @@ Event.Register("onGameEnd", function ()
 	-- XXX clean up for next game
 	nextRef = 0
 
-	stationMarket = {}
+	-- stationMarket = {}
+	Economy.OnGameEnd()
 end)
 
 
@@ -1110,9 +1187,8 @@ Serializer:Register("SpaceStation",
 		local data = {
 			equipmentStock = equipmentStock,
 			equipmentPrice = equipmentPrice,
-			commodityStock = commodityStock,
 			commodityPrice = commodityPrice,
-			stationMarket = stationMarket,
+			-- stationMarket = stationMarket,
 			visited = visited,
 			police = police,  --todo fails if a police ship is killed
 			shipsOnSale = {},
