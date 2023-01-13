@@ -184,8 +184,9 @@ public:
 	double GetLife() const { return m_life.ToDouble(); }
 
 	fixed GetAgriculturalAsFixed() const { return m_agricultural; }
-	double GetPopulation() const { return m_population.ToDouble(); }
+	double GetAgricultural() const { return m_agricultural.ToDouble(); }
 	fixed GetPopulationAsFixed() const { return m_population; }
+	double GetPopulation() const { return m_population.ToDouble(); }
 
 	double CalcSurfaceGravity() const;
 

@@ -13,6 +13,7 @@
 ---@field superType BodySuperType
 ---@field seed integer
 ---@field parent SystemBody?
+---@field system StarSystem
 ---
 --- The population of the body, in billions of people.
 ---@field population number
@@ -59,6 +60,9 @@
 --- The measure of life present on the body:
 --- 0.0 = dead, 1.0 = teeming (~= pandora)
 ---@field life number
+--- The measure of agricultural activity present on the body:
+--- 0.0 = dead, 1.0 = teeming (~= breadbasket)
+---@field agricultural number
 ---
 ---@field hasRings boolean
 ---@field hasAtmosphere boolean
