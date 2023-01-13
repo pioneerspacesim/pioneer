@@ -282,36 +282,64 @@ std::string SystemBody::GetAstroDescription() const
 		if (m_volatileGas < fixed(1, 100)) {
 			s += Lang::WITH_NO_SIGNIFICANT_ATMOSPHERE;
 		} else {
+			bool article = false;
 			std::string thickness;
 			if (m_volatileGas < fixed(1, 10))
 				thickness = Lang::TENUOUS;
 			else if (m_volatileGas < fixed(1, 5))
 				thickness = Lang::THIN;
 			else if (m_volatileGas < fixed(2, 1)) // normal atmosphere
-			{
-			} else if (m_volatileGas < fixed(4, 1))
+				article = true;
+			else if (m_volatileGas < fixed(4, 1))
 				thickness = Lang::THICK;
 			else
 				thickness = Lang::VERY_DENSE;
 
 			if (m_atmosOxidizing > fixed(95, 100)) {
-				s += Lang::WITH_A + thickness + Lang::O2_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::AN_O2_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::O2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(7, 10)) {
-				s += Lang::WITH_A + thickness + Lang::CO2_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_CO2_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::CO2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(65, 100)) {
-				s += Lang::WITH_A + thickness + Lang::CO_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_CO_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::CO_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(55, 100)) {
-				s += Lang::WITH_A + thickness + Lang::CH4_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_CH4_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::CH4_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(3, 10)) {
-				s += Lang::WITH_A + thickness + Lang::H_ATMOSPHERE; // IsScoopable depends on these if/then/else values fixed(3,10) -> fixed(55,100) == hydrogen
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_H_ATMOSPHERE; // IsScoopable depends on these if/then/} else values fixed(3,10) -> fixed(55,100) == hydrogen
+				} else
+					s += Lang::WITH + thickness + Lang::H_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(2, 10)) {
-				s += Lang::WITH_A + thickness + Lang::HE_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_HE_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::HE_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(15, 100)) {
-				s += Lang::WITH_A + thickness + Lang::AR_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::AN_AR_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::AR_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(1, 10)) {
-				s += Lang::WITH_A + thickness + Lang::S_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_S_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::S_ATMOSPHERE;
 			} else {
-				s += Lang::WITH_A + thickness + Lang::N_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_N_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::N_ATMOSPHERE;
 			}
 		}
 

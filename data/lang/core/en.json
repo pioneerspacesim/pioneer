@@ -39,6 +39,10 @@
     "description": "",
     "message": "argon atmosphere"
   },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "an argon atmosphere"
+  },
   "ASTEROID": {
     "description": "",
     "message": "Asteroid"
@@ -171,9 +175,17 @@
     "description": "",
     "message": "methane atmosphere"
   },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "a methane atmosphere"
+  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "carbon dioxide atmosphere"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon dioxide atmosphere"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -270,6 +282,10 @@
   "CO_ATMOSPHERE": {
     "description": "",
     "message": "carbon monoxide atmosphere"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon monoxide atmosphere"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -499,6 +515,10 @@
     "description": "",
     "message": "helium atmosphere"
   },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "a helium atmosphere"
+  },
   "HIGHLY_VOLCANIC": {
     "description": "",
     "message": "Highly volcanic"
@@ -562,6 +582,10 @@
   "H_ATMOSPHERE": {
     "description": "",
     "message": "hydrogen atmosphere"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "a hydrogen atmosphere"
   },
   "ICE_WORLD": {
     "description": "",
@@ -959,6 +983,10 @@
     "description": "",
     "message": "nitrogen atmosphere"
   },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "a nitrogen atmosphere"
+  },
   "N_CELSIUS": {
     "description": "",
     "message": "%temperature C"
@@ -998,6 +1026,10 @@
   "O2_ATMOSPHERE": {
     "description": "",
     "message": "oxygen atmosphere"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "an oxygen atmosphere"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
@@ -1571,6 +1603,10 @@
     "description": "",
     "message": "sulfuric atmosphere"
   },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "a sulfuric atmosphere"
+  },
   "TAKEOFF": {
     "description": "",
     "message": "Takeoff"
@@ -1823,7 +1859,7 @@
     "description": "",
     "message": "White dwarf stellar remnant"
   },
-  "WITH_A": {
+  "WITH": {
     "description": "",
     "message": "\" with \""
   },
