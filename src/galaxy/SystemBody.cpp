@@ -214,9 +214,25 @@ std::string SystemBody::GetAstroDescription() const
 			return Lang::MEDIUM_GAS_GIANT;
 		else
 			return Lang::SMALL_GAS_GIANT;
-	case TYPE_PLANET_ASTEROID: return Lang::ASTEROID;
+	case TYPE_PLANET_ASTEROID:
 	case TYPE_PLANET_TERRESTRIAL: {
 		std::string s;
+
+		// Is it a moon?
+		bool moon = false;
+		if (m_parent && (m_parent->GetType() == TYPE_PLANET_TERRESTRIAL || m_parent->GetType() == TYPE_PLANET_GAS_GIANT))
+			moon = true;
+
+		// Is it an asteroid or a tiny moon?
+		if (m_type == TYPE_PLANET_ASTEROID) {
+			if (moon) {
+				s += Lang::TINY;
+				s += Lang::ROCKY_MOON;
+				return s;
+			}
+			else return Lang::ASTEROID;
+		}
+
 		if (m_mass > fixed(2, 1))
 			s = Lang::MASSIVE;
 		else if (m_mass > fixed(3, 2))
@@ -240,13 +256,25 @@ std::string SystemBody::GetAstroDescription() const
 
 		if (m_volatileIces + m_volatileLiquid > fixed(4, 5)) {
 			if (m_volatileIces > m_volatileLiquid) {
-				s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::ROCKY_PLANET;
+				if (moon) {
+					s += (m_averageTemp < 273) ? Lang::ICE_MOON: Lang::ROCKY_MOON;
+				} else {
+					s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::ROCKY_PLANET;
+				}
 			} else {
-				s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::OCEANICWORLD;
+				if (moon) {
+					s += (m_averageTemp < 273) ? Lang::ICE_MOON : Lang::OCEANICMOON;
+				} else {
+					s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::OCEANICWORLD;
+				}
 			}
 			// what is a waterworld with temperature above 100C? possible?
+		} else if (m_volatileLiquid > fixed(2, 5) && moon) {
+			s += (m_averageTemp > 273) ? Lang::MOON_CONTAINING_LIQUID_WATER : Lang::MOON_WITH_SOME_ICE;
 		} else if (m_volatileLiquid > fixed(2, 5)) {
 			s += (m_averageTemp > 273) ? Lang::PLANET_CONTAINING_LIQUID_WATER : Lang::PLANET_WITH_SOME_ICE;
+		} else if (moon) {
+			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_MOON_CONTAINING_SOME_LIQUIDS : Lang::ROCKY_MOON;
 		} else {
 			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS : Lang::ROCKY_PLANET;
 		}
@@ -254,36 +282,64 @@ std::string SystemBody::GetAstroDescription() const
 		if (m_volatileGas < fixed(1, 100)) {
 			s += Lang::WITH_NO_SIGNIFICANT_ATMOSPHERE;
 		} else {
+			bool article = false;
 			std::string thickness;
 			if (m_volatileGas < fixed(1, 10))
 				thickness = Lang::TENUOUS;
 			else if (m_volatileGas < fixed(1, 5))
 				thickness = Lang::THIN;
 			else if (m_volatileGas < fixed(2, 1)) // normal atmosphere
-			{
-			} else if (m_volatileGas < fixed(4, 1))
+				article = true;
+			else if (m_volatileGas < fixed(4, 1))
 				thickness = Lang::THICK;
 			else
 				thickness = Lang::VERY_DENSE;
 
 			if (m_atmosOxidizing > fixed(95, 100)) {
-				s += Lang::WITH_A + thickness + Lang::O2_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::AN_O2_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::O2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(7, 10)) {
-				s += Lang::WITH_A + thickness + Lang::CO2_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_CO2_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::CO2_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(65, 100)) {
-				s += Lang::WITH_A + thickness + Lang::CO_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_CO_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::CO_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(55, 100)) {
-				s += Lang::WITH_A + thickness + Lang::CH4_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_CH4_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::CH4_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(3, 10)) {
-				s += Lang::WITH_A + thickness + Lang::H_ATMOSPHERE; // IsScoopable depends on these if/then/else values fixed(3,10) -> fixed(55,100) == hydrogen
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_H_ATMOSPHERE; // IsScoopable depends on these if/then/} else values fixed(3,10) -> fixed(55,100) == hydrogen
+				} else
+					s += Lang::WITH + thickness + Lang::H_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(2, 10)) {
-				s += Lang::WITH_A + thickness + Lang::HE_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_HE_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::HE_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(15, 100)) {
-				s += Lang::WITH_A + thickness + Lang::AR_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::AN_AR_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::AR_ATMOSPHERE;
 			} else if (m_atmosOxidizing > fixed(1, 10)) {
-				s += Lang::WITH_A + thickness + Lang::S_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_S_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::S_ATMOSPHERE;
 			} else {
-				s += Lang::WITH_A + thickness + Lang::N_ATMOSPHERE;
+				if  (article) {
+					s += Lang::WITH + thickness + Lang::A_N_ATMOSPHERE;
+				} else
+					s += Lang::WITH + thickness + Lang::N_ATMOSPHERE;
 			}
 		}
 
@@ -296,6 +352,8 @@ std::string SystemBody::GetAstroDescription() const
 		} else {
 			s += ".";
 		}
+
+		s[0] = std::toupper(s[0]);
 
 		return s;
 	}
