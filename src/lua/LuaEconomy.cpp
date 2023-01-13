@@ -56,6 +56,20 @@ static void pi_lua_generic_push(lua_State *l, GalacticEconomy::EconomyInfo info)
 	pi_lua_settable(l, "large", info.l10n_key.large);
 	pi_lua_settable(l, "huge", info.l10n_key.huge);
 	lua_setfield(l, -2, "l10n_key");
+
+	lua_newtable(l);
+	pi_lua_settable(l, "agricultural", info.affinity.agricultural.ToDouble());
+	pi_lua_settable(l, "industrial",   info.affinity.industrial.ToDouble());
+	pi_lua_settable(l, "metallicity",  info.affinity.metallicity.ToDouble());
+	lua_setfield(l, -2, "affinity");
+
+	lua_newtable(l);
+	pi_lua_settable(l, "agricultural", info.generation.agricultural.ToDouble());
+	pi_lua_settable(l, "industrial", info.generation.industrial.ToDouble());
+	pi_lua_settable(l, "metallicity", info.generation.metallicity.ToDouble());
+	pi_lua_settable(l, "population", info.generation.population.ToDouble());
+	pi_lua_settable(l, "random", info.generation.random.ToDouble());
+	lua_setfield(l, -2, "generation");
 }
 
 static int l_economy_get_economies(lua_State *l)

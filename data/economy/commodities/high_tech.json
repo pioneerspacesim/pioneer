@@ -3,13 +3,13 @@
 	"commodities": {
 		"medicines": {
 			"l10n_key": "MEDICINES",
-			"inputs": [ "computers", "carbon_ore" ],
+			"inputs": [ "carbon_ore", [ "computers", 0.4 ] ],
 			"producer": "industrial",
 			"price": 563
 		},
 		"computers": {
 			"l10n_key": "COMPUTERS",
-			"inputs": [ "precious_metals", "industrial_machinery" ],
+			"inputs": [ [ "precious_metals", 0.2 ], "industrial_machinery" ],
 			"producer": "industrial",
 			"price": 461
 		},
