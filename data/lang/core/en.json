@@ -1617,7 +1617,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "\"tenuous \""
+    "message": "\"a tenuous \""
   },
   "TEXTILES": {
     "description": "",
@@ -1625,11 +1625,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "\"thick \""
+    "message": "\"a thick \""
   },
   "THIN": {
     "description": "",
-    "message": "\"thin \""
+    "message": "\"a thin \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1821,7 +1821,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "\"very dense \""
+    "message": "\"a very dense \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
