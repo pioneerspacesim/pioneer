@@ -31,13 +31,21 @@
     "description": "",
     "message": "Животинско месо"
   },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "атмосфера от аргон"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "атмосфера от кислород"
+  },
   "APOAPSIS_DISTANCE": {
     "description": "",
     "message": "Разстояние при апоапсидата"
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "\" атмосфера от аргон\""
+    "message": "атмосфера от аргон"
   },
   "ASTEROID": {
     "description": "",
@@ -79,9 +87,37 @@
     "description": "",
     "message": "Наклон на оста"
   },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "атмосфера от метан"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "атмосфера от въглероден диоксид"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "атмосфера от въглероден монооксид"
+  },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
     "message": "Само няколко хиляди"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "атмосфера от хелий"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "атмосфера от водород"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "атмосфера от азот"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "атмосфера от сяра"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -169,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "\" атмосфера от метан\""
+    "message": "атмосфера от метан"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\" атмосфера от въглероден диоксид\""
+    "message": "атмосфера от въглероден диоксид"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -269,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "\" атмосфера от въглероден оксид\""
+    "message": "атмосфера от въглероден монооксид"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -497,7 +533,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "\" атмосфера от хелий\""
+    "message": "атмосфера от хелий"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -561,7 +597,11 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "\" атмосфера от водород\""
+    "message": "атмосфера от водород"
+  },
+  "ICE_MOON": {
+    "description": "",
+    "message": "\" ледена луна\""
   },
   "ICE_WORLD": {
     "description": "",
@@ -847,6 +887,14 @@
     "description": "",
     "message": "Сеп"
   },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" луна, с наличие на течна вода\""
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" луна с наличие на лед\""
+  },
   "NAME_OBJECT": {
     "description": "For an item or object",
     "message": "Наименование"
@@ -953,7 +1001,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "\" атмосфера от азот\""
+    "message": "атмосфера от азот"
   },
   "N_CELSIUS": {
     "description": "",
@@ -993,11 +1041,15 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "\" атмосфера от кислород\""
+    "message": "атмосфера от кислород"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
     "message": "Информация за обекта"
+  },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" водна луна\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1065,7 +1117,7 @@
   },
   "PLANET_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "\" планета, съдържаща течна вода\""
+    "message": "\" планета, с наличие на течна вода\""
   },
   "PLANET_WITH_SOME_ICE": {
     "description": "",
@@ -1147,13 +1199,21 @@
     "description": "",
     "message": "Роботи"
   },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" скалиста луна\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" скалиста луна, с наличие на течни вещества,\""
+  },
   "ROCKY_PLANET": {
     "description": "",
     "message": "\" скалиста планета\""
   },
   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
     "description": "",
-    "message": "\" скалиста планета, съдържаща течни вещества,\""
+    "message": "\" скалиста планета, с наличие на течни вещества,\""
   },
   "ROLL": {
     "description": "",
@@ -1545,7 +1605,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "\" атмосфера от сяра\""
+    "message": "атмосфера от сяра"
   },
   "TAKEOFF": {
     "description": "",
@@ -1557,7 +1617,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "тънка"
+    "message": "\"разредена \""
   },
   "TEXTILES": {
     "description": "",
@@ -1565,11 +1625,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "плътна"
+    "message": "\"гъста \""
   },
   "THIN": {
     "description": "",
-    "message": "тънка"
+    "message": "\"тънка \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1761,7 +1821,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "много плътна"
+    "message": "\"много плътна \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1799,7 +1859,7 @@
     "description": "",
     "message": "Бяло джудже"
   },
-  "WITH_A": {
+  "WITH": {
     "description": "",
     "message": "\" с \""
   },

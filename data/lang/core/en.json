@@ -31,6 +31,14 @@
     "description": "",
     "message": "Animal Meat"
   },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "an argon atmosphere"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "an oxygen atmosphere"
+  },
   "APOAPSIS_DISTANCE": {
     "description": "",
     "message": "Apoapsis distance"
@@ -38,10 +46,6 @@
   "AR_ATMOSPHERE": {
     "description": "",
     "message": "argon atmosphere"
-  },
-  "AN_AR_ATMOSPHERE": {
-    "description": "",
-    "message": "an argon atmosphere"
   },
   "ASTEROID": {
     "description": "",
@@ -83,9 +87,37 @@
     "description": "",
     "message": "Axial tilt"
   },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "a methane atmosphere"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon dioxide atmosphere"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon monoxide atmosphere"
+  },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
     "message": "Only a few thousand"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "a helium atmosphere"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "a hydrogen atmosphere"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "a nitrogen atmosphere"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "a sulfuric atmosphere"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -175,17 +207,9 @@
     "description": "",
     "message": "methane atmosphere"
   },
-  "A_CH4_ATMOSPHERE": {
-    "description": "",
-    "message": "a methane atmosphere"
-  },
   "CO2_ATMOSPHERE": {
     "description": "",
     "message": "carbon dioxide atmosphere"
-  },
-  "A_CO2_ATMOSPHERE": {
-    "description": "",
-    "message": "a carbon dioxide atmosphere"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -282,10 +306,6 @@
   "CO_ATMOSPHERE": {
     "description": "",
     "message": "carbon monoxide atmosphere"
-  },
-  "A_CO_ATMOSPHERE": {
-    "description": "",
-    "message": "a carbon monoxide atmosphere"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -515,10 +535,6 @@
     "description": "",
     "message": "helium atmosphere"
   },
-  "A_HE_ATMOSPHERE": {
-    "description": "",
-    "message": "a helium atmosphere"
-  },
   "HIGHLY_VOLCANIC": {
     "description": "",
     "message": "Highly volcanic"
@@ -583,17 +599,13 @@
     "description": "",
     "message": "hydrogen atmosphere"
   },
-  "A_H_ATMOSPHERE": {
+  "ICE_MOON": {
     "description": "",
-    "message": "a hydrogen atmosphere"
+    "message": "\" ice moon\""
   },
   "ICE_WORLD": {
     "description": "",
     "message": "\" ice world\""
-  },
-  "ICE_MOON": {
-    "description": "",
-    "message": "\" ice moon\""
   },
   "ILLEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -875,6 +887,14 @@
     "description": "",
     "message": "Sep"
   },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" moon containing liquid water\""
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" moon with some ice\""
+  },
   "NAME_OBJECT": {
     "description": "For an item or object",
     "message": "Name"
@@ -983,10 +1003,6 @@
     "description": "",
     "message": "nitrogen atmosphere"
   },
-  "A_N_ATMOSPHERE": {
-    "description": "",
-    "message": "a nitrogen atmosphere"
-  },
   "N_CELSIUS": {
     "description": "",
     "message": "%temperature C"
@@ -1027,21 +1043,17 @@
     "description": "",
     "message": "oxygen atmosphere"
   },
-  "AN_O2_ATMOSPHERE": {
-    "description": "",
-    "message": "an oxygen atmosphere"
-  },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
     "message": "Object info"
   },
-  "OCEANICWORLD": {
-    "description": "",
-    "message": "\" oceanic world\""
-  },
   "OCEANICMOON": {
     "description": "",
     "message": "\" oceanic moon\""
+  },
+  "OCEANICWORLD": {
+    "description": "",
+    "message": "\" oceanic world\""
   },
   "ORBITAL_PERIOD": {
     "description": "",
@@ -1107,17 +1119,9 @@
     "description": "",
     "message": "\" planet containing liquid water\""
   },
-  "MOON_CONTAINING_LIQUID_WATER": {
-    "description": "",
-    "message": "\" moon containing liquid water\""
-  },
   "PLANET_WITH_SOME_ICE": {
     "description": "",
     "message": "\" planet with some ice\""
-  },
-  "MOON_WITH_SOME_ICE": {
-    "description": "",
-    "message": "\" moon with some ice\""
   },
   "PLANNED_ECONOMY": {
     "description": "",
@@ -1195,14 +1199,6 @@
     "description": "",
     "message": "Robots"
   },
-  "ROCKY_PLANET": {
-    "description": "",
-    "message": "\" rocky planet\""
-  },
-  "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
-    "description": "",
-    "message": "\" rocky planet containing some liquids,\""
-  },
   "ROCKY_MOON": {
     "description": "",
     "message": "\" rocky moon\""
@@ -1210,6 +1206,14 @@
   "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
     "description": "",
     "message": "\" rocky moon containing some liquids,\""
+  },
+  "ROCKY_PLANET": {
+    "description": "",
+    "message": "\" rocky planet\""
+  },
+  "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+    "description": "",
+    "message": "\" rocky planet containing some liquids,\""
   },
   "ROLL": {
     "description": "",
@@ -1602,10 +1606,6 @@
   "S_ATMOSPHERE": {
     "description": "",
     "message": "sulfuric atmosphere"
-  },
-  "A_S_ATMOSPHERE": {
-    "description": "",
-    "message": "a sulfuric atmosphere"
   },
   "TAKEOFF": {
     "description": "",

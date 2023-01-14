@@ -31,13 +31,21 @@
     "description": "",
     "message": "Świeże mięso"
   },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "an argon atmosphere"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "an oxygen atmosphere"
+  },
   "APOAPSIS_DISTANCE": {
     "description": "",
     "message": "Apocentrum"
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na argonie\""
+    "message": "argon atmosphere"
   },
   "ASTEROID": {
     "description": "",
@@ -79,9 +87,37 @@
     "description": "",
     "message": "Nachylenie osi"
   },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "a methane atmosphere"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon dioxide atmosphere"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon monoxide atmosphere"
+  },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
     "message": "Tylko kilka tysięcy"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "a helium atmosphere"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "a hydrogen atmosphere"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "a nitrogen atmosphere"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "a sulfuric atmosphere"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -169,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na metanie\""
+    "message": "methane atmosphere"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na dwutlenku węgla\""
+    "message": "carbon dioxide atmosphere"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -269,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na tlenku węgla\""
+    "message": "carbon monoxide atmosphere"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -497,7 +533,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na helu\""
+    "message": "helium atmosphere"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -561,7 +597,11 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na wodorze\""
+    "message": "hydrogen atmosphere"
+  },
+  "ICE_MOON": {
+    "description": "",
+    "message": "\" ice moon\""
   },
   "ICE_WORLD": {
     "description": "",
@@ -847,6 +887,14 @@
     "description": "",
     "message": "Wrz"
   },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" moon containing liquid water\""
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" moon with some ice\""
+  },
   "NAME_OBJECT": {
     "description": "For an item or object",
     "message": "Nazwa"
@@ -953,7 +1001,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na azocie\""
+    "message": "nitrogen atmosphere"
   },
   "N_CELSIUS": {
     "description": "",
@@ -993,11 +1041,15 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na tlenie\""
+    "message": "oxygen atmosphere"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
     "message": "Informacje o obiekcie"
+  },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" oceanic moon\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1146,6 +1198,14 @@
   "ROBOTS": {
     "description": "",
     "message": "Roboty"
+  },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" rocky moon\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" rocky moon containing some liquids,\""
   },
   "ROCKY_PLANET": {
     "description": "",
@@ -1545,7 +1605,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera przepełniona siarką\""
+    "message": "sulfuric atmosphere"
   },
   "TAKEOFF": {
     "description": "",
@@ -1557,7 +1617,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "śladowa"
+    "message": "\"a tenuous \""
   },
   "TEXTILES": {
     "description": "",
@@ -1565,11 +1625,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "gęsta"
+    "message": "\"a thick \""
   },
   "THIN": {
     "description": "",
-    "message": "rozrzedzona"
+    "message": "\"a thin \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1761,7 +1821,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "bardzo gęsta"
+    "message": "\"a very dense \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1799,9 +1859,9 @@
     "description": "",
     "message": "Biały karzeł"
   },
-  "WITH_A": {
+  "WITH": {
     "description": "",
-    "message": "\", \""
+    "message": "\" with \""
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",

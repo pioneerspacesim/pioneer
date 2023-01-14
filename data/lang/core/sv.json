@@ -31,13 +31,21 @@
     "description": "",
     "message": "Djurkött"
   },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "argonatmosfär"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "syreatmosfär"
+  },
   "APOAPSIS_DISTANCE": {
     "description": "",
     "message": "Apoapsisavstånd"
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "\" Argonatmosfär\""
+    "message": "argonatmosfär"
   },
   "ASTEROID": {
     "description": "",
@@ -79,9 +87,37 @@
     "description": "",
     "message": "Axiallutning"
   },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "metanatmosfär"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "koldioxidatmosfär"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "kolmonoxidatmosfär"
+  },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
     "message": "Bara några tusen"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "heliumatmosfär"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "väteatmosfär"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "kväveatmosfär"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "en svavelhaltig atmosfär"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -169,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "\" Metanatmosfär\""
+    "message": "metanatmosfär"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\" Koldioxidatmosfär\""
+    "message": "koldioxidatmosfär"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -269,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "\" Kolmonoxidatmosfär\""
+    "message": "kolmonoxidatmosfär"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -497,7 +533,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "\" Heliumatmosfär\""
+    "message": "heliumatmosfär"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -561,7 +597,11 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "\" Vätgasatmosfär\""
+    "message": "väteatmosfär"
+  },
+  "ICE_MOON": {
+    "description": "",
+    "message": "ismåne"
   },
   "ICE_WORLD": {
     "description": "",
@@ -729,7 +769,7 @@
   },
   "MEDIUM": {
     "description": "Adjective used to describe the size of an object.",
-    "message": "Medium"
+    "message": "Medelstor"
   },
   "MEDIUM_GAS_GIANT": {
     "description": "",
@@ -847,6 +887,14 @@
     "description": "",
     "message": "Sep"
   },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "måne med flytande vatten"
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "delvis istäckt måne"
+  },
   "NAME_OBJECT": {
     "description": "For an item or object",
     "message": "Namn"
@@ -870,6 +918,10 @@
   "NERVE_GAS": {
     "description": "",
     "message": "Nervgas"
+  },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
   },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
@@ -949,7 +1001,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "\" Kväveatmosfär\""
+    "message": "kväveatmosfär"
   },
   "N_CELSIUS": {
     "description": "",
@@ -989,11 +1041,15 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "\" syreatmosfär\""
+    "message": "syreatmosfär"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
     "message": "Objektinfo"
+  },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" oceanic moon\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1061,7 +1117,7 @@
   },
   "PLANET_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "\" planet innehållande flytande vatten\""
+    "message": "\" planet med flytande vatten\""
   },
   "PLANET_WITH_SOME_ICE": {
     "description": "",
@@ -1143,13 +1199,21 @@
     "description": "",
     "message": "Robotar"
   },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" stenig måne\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" stenig måne med vissa vätskor,\""
+  },
   "ROCKY_PLANET": {
     "description": "",
-    "message": "\" stenig planet\""
+    "message": "\" stenplanet\""
   },
   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
     "description": "",
-    "message": "\" stenig planet som innehåller vissa vätskor.\""
+    "message": "\" stenplanet som innehåller vissa vätskor.\""
   },
   "ROLL": {
     "description": "",
@@ -1258,6 +1322,10 @@
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
     "message": "Sätt lägsta gaspåslagsnivå till %power%%"
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Set maximum speed limit"
   },
   "SET_NAVTARGET_TO": {
     "description": "",
@@ -1537,7 +1605,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "\" Svavelatmosfär\""
+    "message": "svavelhaltig atmosfär"
   },
   "TAKEOFF": {
     "description": "",
@@ -1549,7 +1617,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "svagt"
+    "message": "en mycket tunn"
   },
   "TEXTILES": {
     "description": "",
@@ -1557,11 +1625,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "tjock"
+    "message": "en tät"
   },
   "THIN": {
     "description": "",
-    "message": "smal"
+    "message": "en tunn"
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1753,7 +1821,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "mycket kompakt"
+    "message": "en mycket tät atmosfär"
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1789,11 +1857,11 @@
   },
   "WHITE_DWARF": {
     "description": "",
-    "message": "Kvarleva från vit dvärgstjärna"
+    "message": "Vit dvärg"
   },
-  "WITH_A": {
+  "WITH": {
     "description": "",
-    "message": "\" med en \""
+    "message": "\" med \""
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",

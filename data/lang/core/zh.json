@@ -31,13 +31,21 @@
     "description": "",
     "message": "动物肉"
   },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "an argon atmosphere"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "an oxygen atmosphere"
+  },
   "APOAPSIS_DISTANCE": {
     "description": "",
     "message": "远拱点距离"
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "\"氩气大气\""
+    "message": "argon atmosphere"
   },
   "ASTEROID": {
     "description": "",
@@ -79,9 +87,37 @@
     "description": "",
     "message": "转轴倾角"
   },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "a methane atmosphere"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon dioxide atmosphere"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon monoxide atmosphere"
+  },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
     "message": "只有几千"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "a helium atmosphere"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "a hydrogen atmosphere"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "a nitrogen atmosphere"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "a sulfuric atmosphere"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -169,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "\"甲烷大气\""
+    "message": "methane atmosphere"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\"二氧化碳大气\""
+    "message": "carbon dioxide atmosphere"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -269,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "\"一氧化碳大气\""
+    "message": "carbon monoxide atmosphere"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -497,7 +533,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "\"氦气大气\""
+    "message": "helium atmosphere"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -561,7 +597,11 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "\"氢气大气\""
+    "message": "hydrogen atmosphere"
+  },
+  "ICE_MOON": {
+    "description": "",
+    "message": "\" ice moon\""
   },
   "ICE_WORLD": {
     "description": "",
@@ -847,6 +887,14 @@
     "description": "",
     "message": "九月"
   },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" moon containing liquid water\""
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" moon with some ice\""
+  },
   "NAME_OBJECT": {
     "description": "For an item or object",
     "message": "名称"
@@ -953,7 +1001,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "\"氮气大气\""
+    "message": "nitrogen atmosphere"
   },
   "N_CELSIUS": {
     "description": "",
@@ -993,11 +1041,15 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "\"氧气大气\""
+    "message": "oxygen atmosphere"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
     "message": "对象信息"
+  },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" oceanic moon\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1146,6 +1198,14 @@
   "ROBOTS": {
     "description": "",
     "message": "机器人"
+  },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" rocky moon\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" rocky moon containing some liquids,\""
   },
   "ROCKY_PLANET": {
     "description": "",
@@ -1545,7 +1605,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "\"硫化大气\""
+    "message": "sulfuric atmosphere"
   },
   "TAKEOFF": {
     "description": "",
@@ -1557,7 +1617,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "稀薄的"
+    "message": "\"a tenuous \""
   },
   "TEXTILES": {
     "description": "",
@@ -1565,11 +1625,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "厚"
+    "message": "\"a thick \""
   },
   "THIN": {
     "description": "",
-    "message": "较薄的"
+    "message": "\"a thin \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1761,7 +1821,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "高密度的"
+    "message": "\"a very dense \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1799,9 +1859,9 @@
     "description": "",
     "message": "白矮星残骸"
   },
-  "WITH_A": {
+  "WITH": {
     "description": "",
-    "message": "\"并拥有\""
+    "message": "\" with \""
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",

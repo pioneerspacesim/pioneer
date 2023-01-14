@@ -31,13 +31,21 @@
     "description": "",
     "message": "Feòil bheathaichean"
   },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "an argon atmosphere"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "an oxygen atmosphere"
+  },
   "APOAPSIS_DISTANCE": {
     "description": "",
     "message": "Astar an apoapsis"
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "\" àile argoin\""
+    "message": "argon atmosphere"
   },
   "ASTEROID": {
     "description": "",
@@ -79,9 +87,37 @@
     "description": "",
     "message": "Claonadh aisealach"
   },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "a methane atmosphere"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon dioxide atmosphere"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon monoxide atmosphere"
+  },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
     "message": "Mìle no dhà"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "a helium atmosphere"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "a hydrogen atmosphere"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "a nitrogen atmosphere"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "a sulfuric atmosphere"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -169,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "\" àile meatain\""
+    "message": "methane atmosphere"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\" àile dà-ogsaid carboin\""
+    "message": "carbon dioxide atmosphere"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -269,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "\" àile aon-ogsaid carboin\""
+    "message": "carbon monoxide atmosphere"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -497,7 +533,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "\" àile hilium\""
+    "message": "helium atmosphere"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -561,7 +597,11 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "\" àile hàidhdreaidein\""
+    "message": "hydrogen atmosphere"
+  },
+  "ICE_MOON": {
+    "description": "",
+    "message": "\" ice moon\""
   },
   "ICE_WORLD": {
     "description": "",
@@ -847,6 +887,14 @@
     "description": "",
     "message": "Sult"
   },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" moon containing liquid water\""
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" moon with some ice\""
+  },
   "NAME_OBJECT": {
     "description": "For an item or object",
     "message": "Ainm"
@@ -870,6 +918,10 @@
   "NERVE_GAS": {
     "description": "",
     "message": "Gas-nearbha"
+  },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
   },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
@@ -949,7 +1001,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "\" àile naidhtreoidsean\""
+    "message": "nitrogen atmosphere"
   },
   "N_CELSIUS": {
     "description": "",
@@ -989,11 +1041,15 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "\" àile ogsaidein\""
+    "message": "oxygen atmosphere"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
     "message": "Fiosrachadh mun chuspair"
+  },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" oceanic moon\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1143,6 +1199,14 @@
     "description": "",
     "message": "Robotairean"
   },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" rocky moon\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" rocky moon containing some liquids,\""
+  },
   "ROCKY_PLANET": {
     "description": "",
     "message": "\" planaid chreagach\""
@@ -1258,6 +1322,10 @@
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
     "message": "Suidhidh lùths ìosal a’ phutaidh air %power%%"
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Set maximum speed limit"
   },
   "SET_NAVTARGET_TO": {
     "description": "",
@@ -1537,7 +1605,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "\" àile pronnaisg\""
+    "message": "sulfuric atmosphere"
   },
   "TAKEOFF": {
     "description": "",
@@ -1549,7 +1617,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "tana"
+    "message": "\"a tenuous \""
   },
   "TEXTILES": {
     "description": "",
@@ -1557,11 +1625,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "tiugh"
+    "message": "\"a thick \""
   },
   "THIN": {
     "description": "",
-    "message": "tana"
+    "message": "\"a thin \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1753,7 +1821,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "glè dhùmhail"
+    "message": "\"a very dense \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1791,9 +1859,9 @@
     "description": "",
     "message": "Throich bhàn - iarsmadh rèile"
   },
-  "WITH_A": {
+  "WITH": {
     "description": "",
-    "message": "\" le \""
+    "message": "\" with \""
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",
