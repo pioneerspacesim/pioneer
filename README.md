@@ -27,7 +27,7 @@ Come by #pioneer at irc.libera.chat and say hi to the team:
   https://kiwiirc.com/client/irc.libera.chat/pioneer
 
 Bugs? Please log an issue:
-  http://pioneerspacesim.net/issues
+  https://github.com/pioneerspacesim/pioneer/issues
 
 Follow Pioneer on Twitter:
   https://twitter.com/pioneerspacesim/
@@ -74,6 +74,9 @@ If you are hungry to contribute, more information can be found here:
 If you have a contribution you want to share, and want to learn how to make a
 pull request, see:
   http://pioneerwiki.com/wiki/Using_git_and_GitHub
+
+Pioneer development documentation
+  https://dev.pioneerspacesim.net/
 
 ## Localization
 

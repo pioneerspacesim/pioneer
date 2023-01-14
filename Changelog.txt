@@ -3,10 +3,16 @@ January 2023
     * New ship: Coronatrix Courier (remodel and conversion of the Amphiesma) (#5462)
   
   * Internal Changes
-  
+    * Improved code for Advice module / smaller saves (#5467)
+    * Fix URLs changed, to forum (#5464)
+    * Introduces a new Input.GetMouseCaptured() method (#5468)
+
   * Fixes
     * Fix error in main-menu tooltips (#5468)
     * Fix error with system overview open in hyperspace (#5468)
+    * Improved language for planet description (#5469)
+    * Fix crash from main menu (#5457)
+    * Fix Lua UI error on hyperjump (#5463)
 
 December 2022
   * New Features
@@ -15,7 +21,7 @@ December 2022
     * Display station tech-level in System Map info panel (#5439)
     * Added more varied and interesting donation mission titles (#5445)
     * Anti-aliased rendering of ship ID labels (#5459)
-  
+
   * Internal Changes
     * Load mods from unpacked directories as well as zip files (#5432)
     * Improve LuaTimer per-frame performance (#5453)
@@ -25,7 +31,7 @@ December 2022
     * Add additional attributes to LuaStarSystem (#5455)
     * Improve lua autoload utilities (#5454)
     * Provide "equipment item card" as an independent UI widget (#5454)
-  
+
   * Fixes
     * Fix shield recharging being disabled after selling shield booster (#5434)
     * Fix ship passenger cabin capacity not being shown when buying a ship (#5439)
@@ -55,7 +61,7 @@ November 2022
     * Fuel / cargo scooping is now moddable by Lua (#5389)
     * Cargo life support expiration is now handled in Lua (#5389)
     * Add teleport-to-station button to debug menu (#5430)
-  
+
   * Fixes
     * Fix undefined behavior when clearing joystick axis bindings (#5415)
     * Fix SAR allowing ships without suitable passenger capacity (#5413)
