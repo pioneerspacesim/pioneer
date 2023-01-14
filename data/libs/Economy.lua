@@ -5,6 +5,7 @@ local Rand       = require 'Rand'
 local Game       = require 'Game'
 local Serializer = require 'Serializer'
 local utils      = require 'utils'
+local Engine     = require 'Engine'
 
 ---@class Economy
 local Economy = package.core['Economy']
@@ -20,6 +21,8 @@ local kMaxCommodityVariance = 12
 local Economies = Economy.GetEconomies()
 local Commodities = Economy.GetCommodities()
 
+-- stationMarket is a persistent table of stock information for every station
+-- the player has visited in their journey
 local stationMarket = {}
 
 local affinityCache = {}
@@ -210,29 +213,23 @@ function Economy.CreateStationCommodityMarket(stationBody, key)
 	-- item at equilibrium
 	local stock, demand = Economy.GetCommodityStockFromFlow(comm, flow, affinity)
 
-	local market = { stock, demand, 0 }
-
-	market[3] = Economy.GetStationCommodityPriceMod(stationBody, key, market)
-
-	return market
+	return { stock, demand, 0 }
 end
 
--- Function: GetStationCommodityPriceMod
+-- Function: UpdateCommodityPriceMod
 --
 -- Recompute the price modifier of the given commodity according to the current
--- market parameters and return the new price modifier
+-- market parameters
 --
 -- Parameters:
 --   stationBody - SystemBody, the target space station body
 --   key         - string, name of the commodity
 --   commMarket  - table, information about the commodity market
 --
--- Returns:
---  pricemod - number, percentage modifier of the commodity price from 'base' value
 ---@param sBody SystemBody the station's SystemBody
 ---@param key string the string name of the commodity
 ---@param commMarket table the current state of the commmodity market
-function Economy.GetStationCommodityPriceMod(sBody, key, commMarket)
+function Economy.UpdateCommodityPriceMod(sBody, key, commMarket)
 	local comm = Commodities[key]
 	if not comm then return 0 end
 
@@ -243,7 +240,7 @@ function Economy.GetStationCommodityPriceMod(sBody, key, commMarket)
 	local stockPrice  = commMarket[1] / maxStock * -kMaxCommodityVariance
 	local demandPrice = commMarket[2] / maxStock *  kMaxCommodityVariance
 
-	return utils.round(stockPrice + demandPrice, 0.01) + systemMod
+	commMarket[3] = utils.round(stockPrice + demandPrice, 0.01) + systemMod
 end
 
 -- Function: GetStationCommodityPrice
@@ -271,13 +268,13 @@ function Economy.UpdateStationCommodityMarket(sBody, rand, market, key, numTicks
 
 	stock = math.clamp(math.ceil(stock), 0, targetStock)
 	demand = math.clamp(math.ceil(demand), 0, targetDemand)
-	pricemod = Economy.GetStationCommodityPriceMod(sBody, key, market)
 
 	market[1] = stock
 	market[2] = demand
-	market[3] = pricemod
 end
 
+-- create a persistent entry for the given station's commodity market if it
+-- does not already exist, and populate persistent and transient stock info
 ---@param sBody SystemBody
 ---@return Economy.StationMarket
 function Economy.CreateStationMarket(sBody)
@@ -294,18 +291,44 @@ function Economy.CreateStationMarket(sBody)
 
 	local h2 = Commodities.hydrogen
 	for key, comm in pairs (Commodities) do
-		-- Don't add entries for "haulaway" commodities or fuel
+		local market
+
 		if comm.price > 0.0 and comm ~= h2 then
+			-- Don't create a persistent equilibrium for "haulaway" commodities or fuel
+
 			-- Initialize the station's stock levels to the equilibrium
+			market = Economy.CreateStationCommodityMarket(sBody, key)
 
-			local cMarket = Economy.CreateStationCommodityMarket(sBody, key)
-			storedStation.commodities[key] = cMarket
+		elseif comm.price < 0.0 then
+			-- Create a random stock value which can be different for every save
 
-			logVerbose("\t{}\n\tstock: {}, demand: {}, priceMod: {}, system priceMod: {}" % {
-				key, cMarket[1], cMarket[2], cMarket[3],
-				sBody.system:GetCommodityBasePriceAlterations(key)
-			})
+			-- "haulaway" commodities
+			-- approximately 1t rubbish for every 10 people
+			local rn = math.floor(math.max(sBody.population * 1e8, 100) / math.abs(comm.price))
+			local stock = Engine.rand:Integer(rn / 10, rn)
+			local demand = Engine.rand:Integer(0, stock / 50) -- extremely low buyback demand if any
+
+			market = { stock, demand, 0 }
+
+		elseif comm == h2 then
+			-- Create a random stock value which can be different for every save
+
+			-- make sure we always have enough hydrogen here at the station
+			local rn = Economy.GetStationTargetStock(key, sBody.seed)
+			local stock = Engine.rand:Integer((rn + 1)/4, rn + 1)
+			local demand = Engine.rand:Integer(stock / 10, stock / 4)
+
+			market = { stock, demand, 0 }
+
 		end
+
+		Economy.UpdateCommodityPriceMod(sBody, key, market)
+		storedStation.commodities[key] = market
+
+		logVerbose("\t{}\n\tstock: {}, demand: {}, priceMod: {}, system priceMod: {}" % {
+			key, market[1], market[2], market[3],
+			sBody.system:GetCommodityBasePriceAlterations(key)
+		})
 	end
 
 	return storedStation
@@ -316,26 +339,44 @@ function Economy.GetStationMarket(path)
 end
 
 local kTickDuration = 7 * 24 * 60 * 60 -- 1 week
-function Economy.UpdateStationMarket(sBody)
-	local market = stationMarket[sBody.path]
-	if not market then return end
 
-	local lastStockUpdate = market.lastStockUpdate
+-- Handle gradually restocking commodities at a station over time.
+--
+-- By default, a station restores to its maximum stock from complete depletion
+-- after 12 weeks.
+--
+-- This function is safe to call at any time, though it should be rate-limited
+function Economy.UpdateStationMarket(sBody)
+	local storedStation = stationMarket[sBody.path]
+	if not storedStation then return end
+
+	local lastStockUpdate = storedStation.lastStockUpdate
 	local timeSinceUpdate = Game.time - lastStockUpdate
 	if timeSinceUpdate <= kTickDuration then return end
 
 	-- make sure the next tick happens at the correct time
 	local numTicks = math.floor(timeSinceUpdate / kTickDuration)
-	market.lastStockUpdate = lastStockUpdate + numTicks * kTickDuration
+	storedStation.lastStockUpdate = lastStockUpdate + numTicks * kTickDuration
 
 	-- use a unique random function to tally up restocks
 	-- this ensures that each restock uses a different random number based on game start time
 	local randRestock = Rand.New(sBody.seed .. '-stockMarketUpdate-' .. math.floor(lastStockUpdate))
 
-	for key, data in pairs (market.commodities) do
+	local h2 = Commodities.hydrogen
+	for key, data in pairs (storedStation.commodities) do
+		local comm = Commodities[key]
 		logVerbose("\tcommodity {} was {}/{} (%{})" % { key, data[1], data[2], data[3] })
 
-		Economy.UpdateStationCommodityMarket(sBody, randRestock, data, key, numTicks)
+		if comm.price > 0 and comm ~= h2 then
+			-- persistent commodities get a full simulation returning towards equilibrium
+			Economy.UpdateStationCommodityMarket(sBody, randRestock, data, key, numTicks)
+		else
+			-- simple random walk for h2/haulaway commodities
+			data[1] = math.ceil(math.abs(Engine.rand:Normal(data[1], data[1] / kAvgTicksToRestock)))
+			data[2] = math.ceil(math.abs(Engine.rand:Normal(data[2], data[2] / kAvgTicksToRestock)))
+		end
+
+		Economy.UpdateCommodityPriceMod(sBody, key, data)
 
 		logVerbose("\tcommodity {} now {}/{} (%{})" % { key, data[1], data[2], data[3] })
 	end
@@ -343,6 +384,7 @@ end
 
 function Economy.OnGameEnd()
 	stationMarket = {}
+	affinityCache = {}
 end
 
 Serializer:Register("Economy",

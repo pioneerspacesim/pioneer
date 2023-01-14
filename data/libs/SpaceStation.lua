@@ -53,90 +53,11 @@ end
 local visited = {}
 local equipmentStock = {}
 
--- stationMarket is a persistent table of stock information for every station
--- the player has visited in their journey
-local stationMarket = {}
-
--- transientMarket is a cache for non-serialized commodity markets
--- it's used for goods that have little trade importance / as a cache to reduce
--- the impact of lookups into stations that haven't had a full market generated
+-- transientMarket is a cache for commodity markets initialized in unvisited stations
+-- it's used to reduce the impact of looking up goods in stations that haven't been generated yet
 local transientMarket = utils.automagic()
 
 local ensureStationData
-
--- create a persistent entry for the given station's commodity market if it
--- does not already exist, and populate persistent and transient stock info
---
--- This function will be run if there is no prior information available about
--- the station and a persistent entry needs to be made "from scratch"
----@param station SpaceStation
-local function createStationMarket(station)
-	assert(station and station:exists())
-	local sBody = assert(station:GetSystemBody())
-	local path = sBody.path
-
-	if stationMarket[path] then return end
-
-	local storedStation = {
-		commodities = {},
-		lastStockUpdate = Game.time
-	}
-
-	stationMarket[path] = storedStation
-
-	local h2 = Commodities.hydrogen
-	for key, comm in pairs (Commodities) do
-		-- Don't add entries for mission commodities or "haulaway" commodities
-		if comm.purchasable and comm.price > 0.0 and comm ~= h2 then
-			-- Initialize the station's stock levels to the equilibrium
-
-			local cMarket = Economy.CreateStationCommodityMarket(sBody, key)
-			storedStation.commodities[key] = cMarket
-
-			logVerbose("\t{}\n\tstock: {}, demand: {}, priceMod: {}, priceMod2: {}, system priceMod: {}" % {
-				key, cMarket[1], cMarket[2], cMarket[3],
-				Economy.GetStationCommodityPriceMod(sBody, key, cMarket),
-				sBody.system:GetCommodityBasePriceAlterations(key)
-			})
-		end
-	end
-end
-
-local kTickDuration = 7 * 24 * 60 * 60 -- 1 week
-
--- Handle gradually restocking commodities at a station over time.
---
--- By default, a station restores to its maximum stock from complete depletion
--- after 12 weeks.
---
--- This function is safe to call at any time, though it should be rate-limited
-local function updateStationMarket (station)
-	assert(station and station:exists())
-	if not stationMarket[station.path] then return end
-
-	local storedStation = stationMarket[station.path]
-	local lastStockUpdate = storedStation.lastStockUpdate
-	local timeSinceUpdate = Game.time - lastStockUpdate
-	if timeSinceUpdate <= kTickDuration then return end
-
-	local sBody = assert(station:GetSystemBody())
-
-	-- make sure the next tick happens at the correct time
-	local numTicks = math.floor(timeSinceUpdate / kTickDuration)
-	storedStation.lastStockUpdate = lastStockUpdate + numTicks * kTickDuration
-
-	-- use a *different* random function to tally up restocks
-	-- this ensures that each restock uses a different random number based on game start time
-	local randRestock = Rand.New(station.seed .. '-stockMarketUpdate-' .. math.floor(lastStockUpdate))
-
-	for key, data in pairs (storedStation.commodities) do
-		logVerbose("\tcommodity {} was {}/{} (%{})" % { key, data[1], data[2], data[3] })
-
-		Economy.UpdateStationCommodityMarket(sBody, randRestock, data, key, numTicks)
-
-		logVerbose("\tcommodity {} now {}/{} (%{})" % { key, data[1], data[2], data[3] })
-	end
-end
 
 -- create a transient entry for this station's equipment stock
 local function createEquipmentStock (station)
@@ -156,41 +77,11 @@ end
 local function createCommodityStock (station)
 	local market = Economy.CreateStationMarket(station:GetSystemBody())
 
-	if rawget(transientMarket, station) then
-		logVerbose("Overwriting transient market data for station {}" % { station:GetLabel() })
-	end
-
-	-- stationMarket data is persistent across systems and will be created
+	-- Station Market data is persistent across saves and will be created
 	-- before the transientMarket table, so we want to import the data from the
 	-- station market if it exists
 	for key, data in pairs(market.commodities) do
 		transientMarket[station][key] = data
-	end
-
-	local h2 = Commodities.hydrogen
-	for key, e in pairs(Commodities) do
-		if e.purchasable and e.price < 0.0 then
-
-			-- "haulaway" commodities
-			-- approximately 1t rubbish for every 10 people
-			local rn = math.floor(math.max(station:GetSystemBody().population * 1e8, 100) / math.abs(e.price))
-			local stock = Engine.rand:Integer(rn / 10, rn)
-			local demand = Engine.rand:Integer(0, stock / 50) -- extremely low buyback demand if any
-			local pricemod = station:GetSystemBody().system:GetCommodityBasePriceAlterations(key)
-
-			transientMarket[station][key] = { stock, demand, pricemod }
-
-		elseif e == h2 then
-
-			-- make sure we always have enough hydrogen here at the station
-			local rn = Economy.GetStationTargetStock(key, station.seed)
-			local stock = Engine.rand:Integer((rn + 1)/4, rn + 1)
-			local demand = Engine.rand:Integer(stock / 10, stock / 4)
-			local pricemod = station:GetSystemBody().system:GetCommodityBasePriceAlterations(key)
-
-			transientMarket[station][key] = { stock, demand, pricemod }
-
-		end
 	end
 end
 
@@ -356,6 +247,7 @@ function SpaceStation:GetCommodityMarket(itemType)
 	if not comm then
 		logVerbose("Creating commodity market for {}: {}" % { self:GetLabel(), itemType.name })
 		comm = Economy.CreateStationCommodityMarket(sBody, itemType.name)
+		Economy.UpdateCommodityPriceMod(sBody, itemType.name, comm)
 
 		market[itemType.name] = comm
 	end
@@ -530,7 +422,7 @@ function SpaceStation:AddCommodityStock(itemType, amount)
 		market[2] = market[2] - amount
 	end
 
-	market[3] = Economy.GetStationCommodityPriceMod(assert(self:GetSystemBody()), itemType.name, market)
+	Economy.UpdateCommodityPriceMod(assert(self:GetSystemBody()), itemType.name, market)
 end
 
 --
@@ -1088,8 +980,6 @@ local function destroySystem ()
 	equipmentStock = {}
 	equipmentPrice = {}
 
-	-- Don't clean up the stationMarket as it tracks persistent data outside of
-	-- this system's context
 	commodityPrice = utils.automagic()
 	transientMarket = utils.automagic()
 
@@ -1116,7 +1006,6 @@ Event.Register("onGameStart", function ()
 		equipmentPrice = loaded_data.equipmentPrice or {} -- handle missing in old saves
 		commodityPrice = utils.automagic(loaded_data.commodityPrice)
 
-		-- stationMarket = loaded_data.stationMarket or {}
 		visited = loaded_data.visited or {}
 		police = loaded_data.police
 
@@ -1135,11 +1024,6 @@ Event.Register("onGameStart", function ()
 			end
 		end
 
-		-- SAVEBUMP: fixup for save version 87 where player is docked to station without visited data
-		local dockedStation = Game.player:GetDockedWith()
-		if dockedStation and not visited[dockedStation] then
-			createStationData(dockedStation)
-		end
 		loaded_data = nil
 	end
 
@@ -1177,7 +1061,6 @@ Event.Register("onGameEnd", function ()
 	-- XXX clean up for next game
 	nextRef = 0
 
-	-- stationMarket = {}
 	Economy.OnGameEnd()
 end)
 
@@ -1188,7 +1071,6 @@ Serializer:Register("SpaceStation",
 			equipmentStock = equipmentStock,
 			equipmentPrice = equipmentPrice,
 			commodityPrice = commodityPrice,
-			-- stationMarket = stationMarket,
 			visited = visited,
 			police = police,  --todo fails if a police ship is killed
 			shipsOnSale = {},
