@@ -65,15 +65,15 @@
   },
   "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Kretsa i högt omlopp runt {target}"
+    "message": "Autopilot: Gå in i en hög omloppsbana runt {target}"
   },
   "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Kretsa i lågt omlopp kring {target}"
+    "message": "Autopilot: Gå in i en låg omloppsbana runt {target}"
   },
   "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
     "description": "",
-    "message": "Autopilot: Kretsa i medel-högt omlopp kring {target}"
+    "message": "Autopilot: Gå in i medelhög omloppsbana runt {target}"
   },
   "AUTOPILOT_FLY_TO_VICINITY_OF": {
     "description": "",
@@ -301,7 +301,7 @@
   },
   "COUNT_STARPORTS": {
     "description": "",
-    "message": "rymdhanmnar"
+    "message": "rymdhamnar"
   },
   "CO_ATMOSPHERE": {
     "description": "",
@@ -1061,7 +1061,7 @@
   },
   "ORBITAL_STARPORT": {
     "description": "",
-    "message": "Rymdhamn i omlopp"
+    "message": "Rymdhamn i omloppsbana"
   },
   "ORBIT_PLANNER": {
     "description": "",
@@ -1617,7 +1617,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "en mycket tunn"
+    "message": "\"en mycket tunn \""
   },
   "TEXTILES": {
     "description": "",
@@ -1625,11 +1625,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "en tät"
+    "message": "\"en tät \""
   },
   "THIN": {
     "description": "",
-    "message": "en tunn"
+    "message": "\"en tunn \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1821,7 +1821,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "en mycket tät atmosfär"
+    "message": "\"en mycket tät \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",

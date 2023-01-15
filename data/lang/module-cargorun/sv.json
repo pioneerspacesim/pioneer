@@ -25,23 +25,23 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Ship needed for delivery of cargo to the {system} system."
+    "message": "Skepp behövs för leverans av last till {system}-systemet."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "Transport av varor till {system}-systemet behövs. Betalar {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "Leverera värdefull last till {system}-systemet. {cash} till en erfaren pilot."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
+    "message": "Åkare sökes för transport inom systemet. Flytt av varor till {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "Need local delivery of personal cargo to {starport}."
+    "message": "Behöver lokal leverans av personlig last till {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",

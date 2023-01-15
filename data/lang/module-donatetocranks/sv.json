@@ -61,11 +61,11 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "STÖD FRIHET!"
   },
   "FLAVOUR_5_DESC": {
     "description": "",
-    "message": "Stop the great injustice of proprietary software controlling your ship."
+    "message": "Stoppa den stora orättvisan med proprietär programvara som styr ditt skepp."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
@@ -73,23 +73,23 @@
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "VETERANS DAY!"
+    "message": "VETERANENS DAG!"
   },
   "FLAVOUR_6_DESC": {
     "description": "",
-    "message": "Support the veterans of the {MILITARY}."
+    "message": "Stöd veteranerna i {MILITARY}."
   },
   "FLAVOUR_6_MESSAGE": {
     "description": "",
-    "message": "The {MILITARY}. You can always count on them.\nCan they count on you?"
+    "message": "{MILITARY}. Du kan alltid räkna med dom.\nKan dom räkna med dig?"
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "DO THEY HAVE YOUR SUPPORT?"
+    "message": "HAR DOM DITT STÖD?"
   },
   "FLAVOUR_7_DESC": {
     "description": "",
-    "message": "Support the veterans of the {POLICE}."
+    "message": "Stöd veteranerna i {POLICE}."
   },
   "FLAVOUR_7_MESSAGE": {
     "description": "",
@@ -97,11 +97,11 @@
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "SUPPORT OUR VETERANS!"
+    "message": "STÖD VÅRA VETERANER!"
   },
   "FLAVOUR_8_DESC": {
     "description": "",
-    "message": "Support the veterans of our armed forces."
+    "message": "Stöd veteranerna från våra väpnade styrkor."
   },
   "FLAVOUR_8_MESSAGE": {
     "description": "",
@@ -109,11 +109,11 @@
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "END POVERTY!"
+    "message": "KAMP MOT FATTIGDOM!"
   },
   "FLAVOUR_9_DESC": {
     "description": "",
-    "message": "Support the fight against poverty in the {FACTION}."
+    "message": "Stöd kampen mot fattigdom i {FACTION}."
   },
   "FLAVOUR_9_MESSAGE": {
     "description": "",

@@ -37,7 +37,7 @@
   },
   "FLAVOUR_11_NEWSBODY": {
     "description": "Imply high demand of ANIMAL_MEAT.",
-    "message": "Som en blixt från himlen vaknade jordbrukare i {system} systemet ({sectorx}, {sectory}, {sectorz}) till tomma lador. \"Det är århundradets boskapsstöld\" rapporterar polisen."
+    "message": "Som en blixt från klarblå himmel vaknade jordbrukare i {system} systemet ({sectorx}, {sectory}, {sectorz}) till tomma lador. \"Det är århundradets boskapsstöld\" rapporterar polisen."
   },
   "FLAVOUR_12_HEADLINE": {
     "description": "",
