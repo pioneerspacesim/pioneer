@@ -420,10 +420,12 @@ local function placeAdvert(station, ad)
 		systembody = ad.location:GetSystemBody().name
 	}
 
+	local icon = ad.orbital and "scout_orbital" or "scout_surface"
+
 	local ref = station:AddAdvert({
 		title       = title,
 		description = desc,
-		icon        = "scout",
+		icon        = icon,
 		location    = ad.location,
 		due         = ad.due,
 		reward      = ad.reward,
