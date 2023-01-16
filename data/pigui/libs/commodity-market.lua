@@ -11,6 +11,7 @@ local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local PiImage = require 'pigui.libs.image'
 local MarketWidget = require 'pigui.libs.equipment-market'
+local EconView = require 'pigui.modules.system-econ-view'
 
 local l = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
@@ -44,6 +45,10 @@ local colorVariant = {
 
 local sellPriceReduction = 0.8
 
+local function get_pricemod(itemType, price)
+	return (price / itemType.price - 1) * 100
+end
+
 local CommodityMarketWidget = {}
 
 function CommodityMarketWidget.New(id, title, config)
@@ -51,11 +56,11 @@ function CommodityMarketWidget.New(id, title, config)
 	config.style = config.style or {}
 	config.style.size = config.style.size or Vector2(0,0)
 	config.itemTypes = config.itemTypes or { Commodities }
-	config.columnCount = config.columnCount or 5
+	config.columnCount = config.columnCount or 6
 
 	config.initTable = config.initTable or function(self)
 		ui.setColumnWidth(0, commodityIconSize.x + ui.getItemSpacing().x)
-		ui.setColumnWidth(1, self.style.size.x / 2 - 50 * self.style.widgetSizes.rescaleVector.x)
+		ui.setColumnWidth(1, self.style.size.x / 2.2 - 50 * self.style.widgetSizes.rescaleVector.x)
 	end
 
 	config.renderHeaderRow = config.renderHeaderRow or function(_)
@@ -66,6 +71,8 @@ function CommodityMarketWidget.New(id, title, config)
 		ui.text(l.PRICE)
 		ui.nextColumn()
 		ui.text(l.IN_STOCK)
+		ui.nextColumn()
+		ui.text(l.DEMAND)
 		ui.nextColumn()
 		ui.text(l.CARGO)
 		ui.nextColumn()
@@ -79,14 +86,30 @@ function CommodityMarketWidget.New(id, title, config)
 		ui.nextColumn()
 
 		ui.withStyleVars({ItemSpacing = (self.style.itemSpacing / 2)}, function()
+			local price = self.funcs.getBuyPrice(self, item)
+
 			ui.dummy(vZero)
 			ui.text(item:GetName())
+
+			local pricemod = get_pricemod(item, price) - Game.system:GetCommodityBasePriceAlterations(item.name)
+			local cls = EconView.ClassifyPrice(pricemod)
+
+			if cls then
+				ui.sameLine()
+				ui.addCursorPos(Vector2(ui.getContentRegion().x - ui.getTextLineHeightWithSpacing(), 0))
+
+				ui.icon(cls[1], Vector2(ui.getTextLineHeight()), cls[2])
+			end
+
 			ui.nextColumn()
 			ui.dummy(vZero)
-			ui.text(Format.Money(self.funcs.getBuyPrice(self, item)))
+			ui.text(Format.Money(price))
 			ui.nextColumn()
 			ui.dummy(vZero)
-			ui.text(self.funcs.getStock(self, item))
+			ui.text(config.getStock(self, item))
+			ui.nextColumn()
+			ui.dummy(vZero)
+			ui.text(config.getDemand(self, item))
 			ui.nextColumn()
 			ui.dummy(vZero)
 			local n = self.cargoMgr:CountCommodity(item)
@@ -103,6 +126,10 @@ function CommodityMarketWidget.New(id, title, config)
     config.getStock = config.getStock or function (self, commodity)
         return self.station:GetCommodityStock(commodity)
     end
+
+	config.getDemand = function (self, commodity)
+		return self.station:GetCommodityDemand(commodity)
+	end
 
     -- what do we charge for this item if we are buying
     config.getBuyPrice = config.getBuyPrice or function (self, commodity)
@@ -126,7 +153,7 @@ function CommodityMarketWidget.New(id, title, config)
 
     config.sold = function (self, commodity, tradeamount)
 		local count = tradeamount or 1
-        Game.player:GetDockedWith():AddCommodityStock(commodity, count)
+        self.station:AddCommodityStock(commodity, count)
     end
 
 	config.onClickItem = config.onClickItem or function(s,e,_)
@@ -179,7 +206,7 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 	local playerCash = Game.player:GetMoney()
 
 	--blank value, needs to be initialized or later on lua will complain
-	local stock
+	local stock, demand
 
 	if self.tradeModeBuy then
 		price = self.funcs.getBuyPrice(self, self.selectedItem)
@@ -199,6 +226,7 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 	else
 		price = self.funcs.getSellPrice(self, self.selectedItem)
 		stock = self.cargoMgr:CountCommodity(self.selectedItem)
+		demand = self.station:GetCommodityDemand(self.selectedItem)
 	end
 
 	--we cant trade more units than we have in stock
@@ -231,6 +259,8 @@ function CommodityMarketWidget:ChangeTradeAmount(delta)
 			--enough credits to sell 5, this kludge will ignore the +100 completely
 			--todo: change amount to 5 instead
 		end
+		wantamount = math.min(wantamount, demand)
+
 		self.tradeText = l.MARKET_SELLINE
 	end
 	--wantamount is now checked and modified to a safe bounded amount
@@ -355,23 +385,17 @@ function CommodityMarketWidget:TradeMenu()
 			ui.newLine()
 
 			ui.withFont(pionillium.heading, function()
-				local pricemod = Game.system:GetCommodityBasePriceAlterations(self.selectedItem.name)
-				-- TODO: unify this with logic in system-econ-view.lua
-				local ptext, picon, pcolor
-				if pricemod > 10 then
-					ptext, picon, pcolor = l.MAJOR_IMPORT, icons.econ_major_import, colors.econMajorImport
-				elseif pricemod > 4 then
-					ptext, picon, pcolor = l.MINOR_IMPORT, icons.econ_minor_import, colors.econMinorImport
-				elseif pricemod < -10 then
-					ptext, picon, pcolor = l.MAJOR_EXPORT, icons.econ_major_export, colors.econMajorExport
-				elseif pricemod < -4 then
-					ptext, picon, pcolor = l.MINOR_EXPORT, icons.econ_minor_export, colors.econMinorExport
-				end
+				local price = self.station:GetCommodityPrice(self.selectedItem)
+				local pricemod = get_pricemod(self.selectedItem, price)
+				local cls = EconView.ClassifyPrice(pricemod)
 
-				if ptext then
-					ui.icon(picon, Vector2(ui.getTextLineHeight()), pcolor)
+				if cls and self.tradeComputer > 0 then
+					ui.text(l.INTERSTELLAR_TRADE_AVG)
 					ui.sameLine()
-					ui.text(ptext)
+
+					ui.icon(cls[1], Vector2(ui.getTextLineHeight()), cls[2])
+					ui.sameLine()
+					ui.text(cls[3])
 					ui.spacing()
 				end
 			end)
@@ -443,6 +467,7 @@ function CommodityMarketWidget:Refresh()
 	---@type CargoManager
 	self.cargoMgr = Game.player:GetComponent('CargoManager')
 	self.station = Game.player:GetDockedWith()
+	self.tradeComputer = Game.player["trade_computer_cap"] or 0
 end
 
 function CommodityMarketWidget:Render(size)

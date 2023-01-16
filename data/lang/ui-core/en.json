@@ -2346,5 +2346,13 @@
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
     "message": "Zoom"
+  },
+  "DEMAND": {
+	"description": "Column label for commodity demand at a market.",
+	"message": "Demand"
+  },
+  "INTERSTELLAR_TRADE_AVG": {
+	"description": "Label displaying commodity flow at a per-system level",
+	"message": "Interstellar Trade:"
   }
 }
