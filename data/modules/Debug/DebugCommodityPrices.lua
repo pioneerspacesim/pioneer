@@ -140,7 +140,7 @@ local build_nearby_systems = function (dist, display)
 	local max_dist = dist or 30
 	local display = display or false
 
-	nearbysystems = Game.system:GetNearbySystems(max_dist, function (s) return #s:GetStationPaths() > 0 end)
+	local nearbysystems = Game.system:GetNearbySystems(max_dist, function (s) return #s:GetStationPaths() > 0 end)
 
 	if display then
 		for key, sys in pairs(nearbysystems) do
