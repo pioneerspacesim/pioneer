@@ -1,7 +1,7 @@
 {
   "ACCIDENT_DESTROYED_TARGET": {
     "description": "",
-    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
+    "message": "Vi har nåtts av den sorgliga nyheten att {shiplabel} har förstörts. Vi kommer därför betala hälften av det överenskomna priset för er insats."
   },
   "AU": {
     "description": "",
@@ -41,27 +41,27 @@
   },
   "ENTITY_FAMILY_BUSINESS_1": {
     "description": "",
-    "message": "{name} and Sons"
+    "message": "{name} och Söner"
   },
   "ENTITY_FAMILY_BUSINESS_10": {
     "description": "",
-    "message": "{name} Taxi Services"
+    "message": "{name} Taxi Tjänster"
   },
   "ENTITY_FAMILY_BUSINESS_2": {
     "description": "",
-    "message": "{name} and Daughters"
+    "message": "{name} och Döttrar"
   },
   "ENTITY_FAMILY_BUSINESS_3": {
     "description": "",
-    "message": "{name} Flowers of {locality}"
+    "message": "{name} Blommor från {locality}"
   },
   "ENTITY_FAMILY_BUSINESS_4": {
     "description": "",
-    "message": "{name} Custom Painted Missiles"
+    "message": "{name} Customlackade Missiler"
   },
   "ENTITY_FAMILY_BUSINESS_5": {
     "description": "",
-    "message": "{name} Courier Services"
+    "message": "{name} budtjänster"
   },
   "ENTITY_FAMILY_BUSINESS_6": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "ENTITY_FAMILY_BUSINESS_8": {
     "description": "",
-    "message": "{name} Authentic {locality} Foods"
+    "message": "{name} Autentisk {locality} Mat"
   },
   "ENTITY_FAMILY_BUSINESS_9": {
     "description": "",
-    "message": "{name} Transports"
+    "message": "{name} Transport"
   },
   "ENTITY_GENERAL_1": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "ENTITY_GENERAL_9": {
     "description": "",
-    "message": "{locality} Burial-Services Corp"
+    "message": "{locality} Begravningsbyrå AB"
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
@@ -165,11 +165,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "Lokal rymdfartskontroll rapporterar, skepp har kraschlandat på {planet}. Begär assistans."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "SHIP CRASH LANDED"
+    "message": "SKEPP I KRASCHLANDNING"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "{starport} STC mottog meddelande om låg bränslenivå från ankommande skepp. Tankningstjänster efterfrågas."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "SKEPP HAR SLUT PÅ BRÄNSLE"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -237,11 +237,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+    "message": "Skepp nära {starport} signalerar medicinsk nödsituation. Brådskande sjukhustransport krävs."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "MEDICAL EMERGENCY"
+    "message": "MEDICINSKT NÖDLÄGE"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -273,11 +273,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+    "message": "Nödsignal mottagen: fartyg är strandat och har slut på bränsle på {planet}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "SKEPP HAR SLUT PÅ BRÄNSLE"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -309,11 +309,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+    "message": "Strandsat skepp begär tankning nära {starport}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "SKEPP HAR SLUT PÅ BRÄNSLE"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -345,11 +345,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+    "message": "Nödsituation: fartyg tillhörande företags svarar inte i {system}-systemet."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "VESSEL UNRESPONSIVE"
+    "message": "FARTYG SVARAR INTE"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -381,11 +381,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Immediate crew transport to drifting ship in the {system} system requested."
+    "message": "Begär omedelbar transport av besättning till drivande fartyg i {system}-systemet."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "EMERGENCY CREW TRANSPORT"
+    "message": "NÖDFALL: BESÄTTNINGSTRANSPORT"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
@@ -509,7 +509,7 @@
   },
   "PLAYER_DESTROYED_TARGET": {
     "description": "",
-    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities for destroying the very ship you were sent out to help. A criminal lawsuit will follow."
+    "message": "Vi har hört om dina gärningar, kapten! Du kan vara säker på att vi kommer att rapportera dig till de lokala myndigheterna för att ha förstört just det skepp som du skickades ut för att hjälpa. Vi kommer att vidta rättsliga åtgärder!"
   },
   "PLEASE_LAND": {
     "description": "",
@@ -637,27 +637,27 @@
   },
   "RESULT_DELIVERY_COMM": {
     "description": "",
-    "message": "Transferred {done} of {todo} tons of {cargotype} to target ship."
+    "message": "Överförde {done} av {todo} ton {cargotype} till målet."
   },
   "RESULT_DELIVERY_CREW": {
     "description": "",
-    "message": "Transferred {done} of {todo} crew members to target ship."
+    "message": "Överfört {done} av {todo} besättningsmedlemmar till målet."
   },
   "RESULT_DELIVERY_PASS": {
     "description": "",
-    "message": "Transferred {done} of {todo} passengers to target ship."
+    "message": "Överfört {done} av {todo} passagerare till målfartyget."
   },
   "RESULT_PICKUP_COMM": {
     "description": "",
-    "message": "Picked up {done} of {todo} tons of {cargotype} from target ship."
+    "message": "Plockade upp {done} av {todo} ton {cargotype} från målfartyget."
   },
   "RESULT_PICKUP_CREW": {
     "description": "",
-    "message": "Picked up {done} of {todo} crew members from target ship."
+    "message": "Plockade upp {done} av {todo} besättningsmedlemmar från målfartyget."
   },
   "RESULT_PICKUP_PASS": {
     "description": "",
-    "message": "Picked up {done} of {todo} passengers from target ship."
+    "message": "Plockade upp {done} av {todo} passagerare från målfartyget."
   },
   "RETURN_TO": {
     "description": "",

@@ -601,7 +601,7 @@
   },
   "ICE_MOON": {
     "description": "",
-    "message": "ismåne"
+    "message": "\" ismåne\""
   },
   "ICE_WORLD": {
     "description": "",
@@ -893,7 +893,7 @@
   },
   "MOON_WITH_SOME_ICE": {
     "description": "",
-    "message": "delvis istäckt måne"
+    "message": "\" delvis istäckt måne\""
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
@@ -1213,7 +1213,7 @@
   },
   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
     "description": "",
-    "message": "\" stenplanet som innehåller vissa vätskor.\""
+    "message": "\" stenplanet som innehåller vissa vätskor\""
   },
   "ROLL": {
     "description": "",

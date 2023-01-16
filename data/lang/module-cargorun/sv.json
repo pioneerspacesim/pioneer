@@ -45,19 +45,19 @@
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
+    "message": "Privat fraktkontrakt. Behöver certifierad leverans av varor till {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Pickup of cargo from the {system} system required. Details available on request."
+    "message": "Upphämtning av last från {system}-systemet krävs. Detaljer tillgängliga på begäran."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
+    "message": "Transporttjänst behövs. Flytt av last till denna starport från {starport} önskas."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+    "message": "Kvalificerad entreprenör behövs för lastkörning. Vi begär ett fartyg för bulkleverans till {system}-systemet."
   },
   "ADTITLE_1": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Vänligen reppetera din ursprungliga uttalande."
+    "message": "Vänligen repetera ditt ursprungliga uttalande."
   },
   "DANGER": {
     "description": "the risk level",

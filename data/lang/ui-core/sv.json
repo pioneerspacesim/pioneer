@@ -113,7 +113,7 @@
   },
   "CARGO_CAPACITY": {
     "description": "Label to show a ship's total cargo space.",
-    "message": "Cargo Capacity"
+    "message": "Lastkapacitet"
   },
   "CARGO_SPACE": {
     "description": "",
@@ -245,7 +245,7 @@
   },
   "CONTRACT_FRAUD": {
     "description": "Crime committed by intentionally breaking a contract",
-    "message": "Contract fraud"
+    "message": "Kontraktsbedrägeri"
   },
   "CONTROLS": {
     "description": "",
@@ -297,7 +297,7 @@
   },
   "DATE": {
     "description": "Date of an event, used in flight log",
-    "message": "Date"
+    "message": "Datum"
   },
   "DEADLY": {
     "description": "Player combat rating",
@@ -345,7 +345,7 @@
   },
   "DISABLE_SCREENSHOT_INFO_DESC": {
     "description": "",
-    "message": "Hide all displayed info, including system coordinates, when in screenshot mode (toggle HUD mode)."
+    "message": "Dölj all visad information, inklusive systemkoordinater, i skärmbildsläge (växla HUD-läge)."
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -377,7 +377,7 @@
   },
   "DOCKED_AT": {
     "description": "",
-    "message": "Docked at"
+    "message": "Dockad vid"
   },
   "DOCK_AT_CURRENT_TARGET": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "save state when docking, might cause some lag depending on disk access time"
+    "message": "spara tillstånd vid dockning, kan orsaka viss fördröjning beroende på diskåtkomsttid"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -437,7 +437,7 @@
   },
   "ENABLE_COCKPIT_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Display a 3D model of the pilot's cockpit. (Currently the dashboard is a placeholder)"
+    "message": "Visa en 3D-modell av pilotens cockpit. (Nuvarande instrumentpanel är en tillfällig lösning)"
   },
   "ENABLE_JOYSTICK": {
     "description": "",
@@ -637,7 +637,7 @@
   },
   "FUGITIVE": {
     "description": "Legal status of player",
-    "message": "Fugitive"
+    "message": "Flykting"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -2069,15 +2069,15 @@
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
-    "message": "Our total capacity is {total_docking_pads} docking pads."
+    "message": "Vår totala kapacitet är {total_docking_pads} dockningsplattor."
   },
   "STATION_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Local gravity here is %.2f g."
+    "message": "Lokala gravitationen här är %.2f g."
   },
   "STATION_LOCAL_GRAVITY_PRESSURE": {
     "description": "",
-    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
+    "message": "Lokala gravitationen här är %.2f g, och atmosfärstrycket är %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",
@@ -2173,11 +2173,11 @@
   },
   "TOTAL_DISTANCE": {
     "description": "Total distance of a (possibly series) of hyper jump(s)",
-    "message": "Total Distance:"
+    "message": "Totalt Avstånd:"
   },
   "TOTAL_DURATION": {
     "description": "Total duration of a (possibly series) of hyper jump(s)",
-    "message": "Total Duration:"
+    "message": "Total Varaktighet:"
   },
   "TOTAL_MASS": {
     "description": "",
