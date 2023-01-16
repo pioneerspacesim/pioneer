@@ -46,9 +46,17 @@ local function getSaveTooltip(name)
 		return stats
 	end
 	ret = lui.GAME_TIME..":    " .. Format.Date(stats.time)
-	if stats.system then    ret = ret .. "\n"..lc.SYSTEM..": " .. stats.system end
-	if stats.credits then   ret = ret .. "\n"..lui.CREDITS..": " .. Format.Money(stats.credits) end
-	if stats.ship   then    ret = ret .. "\n"..lc.SHIP..": " .. ShipDef[stats.ship].name end
+	local ship = stats.ship and ShipDef[stats.ship]
+
+	if stats.system then ret = ret .. "\n"..lc.SYSTEM..": " .. stats.system end
+	if stats.credits then ret = ret .. "\n"..lui.CREDITS..": " .. Format.Money(stats.credits) end
+
+	if ship then
+		ret = ret .. "\n"..lc.SHIP..": " .. ship.name
+	else
+		ret = ret .. "\n" .. lc.SHIP .. ": " .. lc.UNKNOWN
+	end
+
 	if stats.flight_state then
 		ret = ret .. "\n"..lui.FLIGHT_STATE..": "
 		if stats.flight_state == "docked" then ret = ret .. lc.DOCKED
