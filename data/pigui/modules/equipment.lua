@@ -72,23 +72,6 @@ local function displayECM(uiPos)
 	return uiPos
 end
 
-local function displayBodyScanner(uiPos)
-	player = Game.player
-	local current_view = Game.CurrentView()
-	if current_view == "world" then
-		local sensors = player:GetEquip('sensor')
-		for i,sensor in ipairs(sensors) do
-			local size,clicked = iconEqButton(uiPos, icons.scanner, false, mainIconSize, sensor:GetName(), false, mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, 'Body scanner')
-			uiPos.y = uiPos.y + size.y + 10
-			if clicked then
-				player:StartSensor(i)
-				-- or StopSensor(i)
-			end
-		end
-	end
-	return uiPos
-end
-
 local function getMissileIcon(missile)
 	if icons[missile.missile_type] then
 		return icons[missile.missile_type]
@@ -137,7 +120,6 @@ local function displayEquipment()
 	local uiPos = Vector2(15, ui.screenHeight / 3 + 10)
 	uiPos = displayMissiles(uiPos)
 	uiPos = displayECM(uiPos + Vector2(0, 10))
-	uiPos = displayBodyScanner(uiPos + Vector2(0, 10))
 end
 
 ui.registerModule("game", displayEquipment)

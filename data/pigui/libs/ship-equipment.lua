@@ -307,6 +307,18 @@ local function makeEquipmentData(equip)
 			string.format("%.1f KW", equip.laser_stats.damage),
 			le.DAMAGE_PER_SHOT
 		})
+	elseif equip:Class() == EquipType.BodyScannerType then
+		table.insert(out, {
+			icons.scanner,
+			string.format("%s px", ui.Format.Number(equip.stats.resolution, 0)),
+			le.SENSOR_RESOLUTION
+		})
+
+		table.insert(out, {
+			icons.altitude,
+			ui.Format.Distance(equip.stats.minAltitude),
+			le.SENSOR_MIN_ALTITUDE
+		})
 	-- elseif equip:Class() == EquipType.HyperdriveType then
 	-- elseif equip:Class() == EquipType.SensorType then
 	-- elseif utils.contains(equip.slots, "missile") then

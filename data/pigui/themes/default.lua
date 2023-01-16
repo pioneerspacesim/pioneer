@@ -83,6 +83,11 @@ theme.buttonColors = {
 		hovered = styleColors.primary_600,
 		active  = styleColors.primary_500
 	},
+	deselected = {
+		normal  = styleColors.gray_800,
+		hovered = styleColors.gray_700,
+		active  = styleColors.gray_600
+	},
 	selected = {
 		normal = styleColors.primary_500,
 		hovered = styleColors.primary_400,
@@ -176,6 +181,7 @@ theme.colors = {
 
 	gaugeBackground			= styleColors.gray_800:opacity(0.85),
 	gaugePressure			= styleColors.primary_600,
+	gaugeScanner			= styleColors.primary_500,
 	gaugeTemperature		= styleColors.danger_500,
 	gaugeShield				= styleColors.primary_300,
 	gaugeHull				= styleColors.gray_200,
@@ -549,7 +555,7 @@ theme.icons = {
 	equip_atmo_shield_generator = 293,
 	equip_scanner = 294,
 	equip_radar = 295,
-	equip_planet_scanner = 296,
+	equip_orbit_scanner = 296,
 	equip_generic = 297,
 	equip_cabin_empty = 298,
 	equip_cabin_occupied = 299,
