@@ -133,6 +133,22 @@ void Missile::StaticUpdate(const float timeStep)
 	}
 }
 
+bool Missile::IsValidTarget(const Body *body)
+{
+	switch (body->GetType()) {
+	case ObjectType::MODELBODY:
+	case ObjectType::CARGOBODY:
+	case ObjectType::TERRAINBODY:
+	case ObjectType::PLANET:
+	case ObjectType::SHIP:
+	case ObjectType::SPACESTATION:
+	case ObjectType::PLAYER:
+		return true;
+	default:
+		return false;
+	}
+}
+
 void Missile::TimeStepUpdate(const float timeStep)
 {
 
@@ -144,14 +160,25 @@ void Missile::TimeStepUpdate(const float timeStep)
 	m_propulsion->UpdateFuel(timeStep);
 
 	const float MISSILE_DETECTION_RADIUS = 100.0f;
+	const float MISSILE_TRIGGER_RADIUS = 10.0f;
+
+	const Body *target = GetTarget();
+
 	if (!m_owner) {
 		Explode();
 	} else if (m_armed) {
 		Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, MISSILE_DETECTION_RADIUS);
 		for (Body *body : nearby) {
 			if (body == this) continue;
+
+			if (body != target && !IsValidTarget(body))
+				continue;
+
+			// Explode only when we've gotten as close as we possibly can to the target - if we start moving away then trigger an explosion immediately
 			double dist = (body->GetPosition() - GetPosition()).Length();
-			if (dist < MISSILE_DETECTION_RADIUS) {
+			const bool trigger = dist < MISSILE_DETECTION_RADIUS && body->GetVelocityRelTo(GetFrame()).Dot(GetVelocity()) < 0.0;
+
+			if (trigger || dist < MISSILE_TRIGGER_RADIUS) {
 				Explode();
 				break;
 			}
@@ -196,9 +223,16 @@ void Missile::Explode()
 	// defaults to 2 km, this is sufficient for most explosions
 	double queryRadius = Properties().Get("missile_explosion_radius_cap").get_number(2000.0);
 
+	// How effective is the blast at hitting a target compared to a omnidirectional warhead?
+	// defaults to 4x effectiveness, this is sufficient for most anti-ship missile explosions
+	double chargeShapeScalar = Properties().Get("missile_charge_effect_cap").get_number(4.0);
+
 	CollisionContact dummy;
 	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, queryRadius);
 	for (Body *body : nearby) {
+		if (body->GetType() == ObjectType::PROJECTILE)
+			continue; // early-out over projectiles, we can't actually damage them
+
 		const double distSqr = (body->GetPosition() - GetPosition()).LengthSqr();
 		if (body->GetFrame() != GetFrame() || body == this || distSqr >= queryRadius * queryRadius)
 			continue;
@@ -208,6 +242,10 @@ void Missile::Explode()
 		const double areaSphere = calcAreaSphere(std::max(0.0, dist - targetRadius));
 		const double crossSectionTarget = calcAreaCircle(targetRadius);
 		double ratioArea = crossSectionTarget / areaSphere; // compute ratio of areas to know how much energy was transfered to target
+
+		if (body == GetTarget())                            // missiles have shaped-charge warheads to focus the blast towards the target
+			ratioArea = ratioArea * chargeShapeScalar;      // assume the warhead is oriented towards the target correctly
+
 		ratioArea = std::min(ratioArea, 1.0);				// we must limit received energy to finite amount
 
 		const double mjReceivedEnergy = ratioArea * mjYield; // compute received energy by blast
@@ -215,8 +253,9 @@ void Missile::Explode()
 		double kgDamage = mjReceivedEnergy * 16.18033; // received energy back to damage in pioneer "kg" unit, using Phi*10 because we can
 		if (kgDamage < 5.0)
 			continue; // early-out if we're dealing a negligable amount of damage
-		// Log::Info("Missile impact on {}\n\ttarget.radius={} dist={} sphereArea={} crossSection={} (ratio={}) => received energy {}mj={}kgD\n",
-		// 	body->GetLabel(), targetRadius, dist, areaSphere, crossSectionTarget, ratioArea, mjReceivedEnergy, kgDamage);
+
+		// Log::Info("Missile impact on {} | {}\n\ttarget.radius={} dist={} sphereArea={} crossSection={} (ratio={}) => received energy {}mj={}kgD\n",
+		// 	body->GetLabel(), body->GetType(), targetRadius, dist, areaSphere, crossSectionTarget, ratioArea, mjReceivedEnergy, kgDamage);
 
 		body->OnDamage(m_owner, kgDamage, dummy);
 		if (body->IsType(ObjectType::SHIP))
@@ -245,6 +284,15 @@ void Missile::Disarm()
 {
 	m_armed = false;
 	Properties().Set("isArmed", false);
+}
+
+const Body *Missile::GetTarget() const
+{
+	if (m_curAICmd) {
+		return static_cast<AICmdKamikaze *>(m_curAICmd)->GetTarget();
+	}
+
+	return nullptr;
 }
 
 void Missile::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
