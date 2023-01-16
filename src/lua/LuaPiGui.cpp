@@ -155,7 +155,8 @@ int PiGui::pushOnScreenPositionDirection(lua_State *l, vector3d position)
 static LuaFlags<ImGuiSelectableFlags_> imguiSelectableFlagsTable = {
 	{ "DontClosePopups", ImGuiSelectableFlags_DontClosePopups },
 	{ "SpanAllColumns", ImGuiSelectableFlags_SpanAllColumns },
-	{ "AllowDoubleClick", ImGuiSelectableFlags_AllowDoubleClick }
+	{ "AllowDoubleClick", ImGuiSelectableFlags_AllowDoubleClick },
+	{ "AllowItemOverlap", ImGuiSelectableFlags_AllowItemOverlap }
 };
 
 void pi_lua_generic_pull(lua_State *l, int index, ImColor &color)
