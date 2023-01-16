@@ -2183,6 +2183,10 @@
     "description": "",
     "message": "Total mass"
   },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "At {system}:"
+  },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
     "message": "From {system}:"
