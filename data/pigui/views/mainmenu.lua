@@ -46,7 +46,7 @@ local startLocations = {
 		['location']   = SystemPath.New(0,0,0,0,18),
 		['logmsg']     = lui.START_LOG_ENTRY_1,
 		['shipType']   = 'coronatrix',
-		['money']      = 100,
+		['money']      = 600,
 		['hyperdrive'] = true,
 		['equipment']  = {
 			{ laser.pulsecannon_1mw,      1 },
@@ -64,7 +64,7 @@ local startLocations = {
 		['location']   = SystemPath.New(1,-1,-1,0,4),
 		['logmsg']     = lui.START_LOG_ENTRY_2,
 		['shipType']   = 'pumpkinseed',
-		['money']      = 100,
+		['money']      = 400,
 		['hyperdrive'] = true,
 		['equipment']  = {
 			{ laser.pulsecannon_1mw,      1 },
