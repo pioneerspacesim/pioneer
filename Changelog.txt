@@ -1,6 +1,10 @@
 January 2023
   * New Features
     * New ship: Coronatrix Courier (remodel and conversion of the Amphiesma) (#5462)
+    * New mission type: perform orbital or surface scans of a body for large rewards (#5433)
+    * Improved missile targeting to make them significantly more dangerous (#5472)
+    * Player starts with a Coronatrix at sol (#5462)
+    * Increased equipment capacity and tank size of Sinonatrix (#5472)
   
   * Internal Changes
     * Improved code for Advice module / smaller saves (#5467)
@@ -10,7 +14,7 @@ January 2023
   * Fixes
     * Fix error in main-menu tooltips (#5468)
     * Fix error with system overview open in hyperspace (#5468)
-    * Improved language for planet description (#5469)
+    * Fix typographical issues in planet description (#5469)
     * Fix crash from main menu (#5457)
     * Fix Lua UI error on hyperjump (#5463)
 
