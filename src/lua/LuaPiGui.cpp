@@ -323,6 +323,7 @@ static LuaFlags<ImGuiStyleVar_> imguiStyleVarTable = {
 	{ "ItemSpacing", ImGuiStyleVar_ItemSpacing },
 	{ "ItemInnerSpacing", ImGuiStyleVar_ItemInnerSpacing },
 	{ "IndentSpacing", ImGuiStyleVar_IndentSpacing },
+	{ "CellPadding", ImGuiStyleVar_CellPadding },
 	{ "ScrollbarSize", ImGuiStyleVar_ScrollbarSize },
 	{ "ScrollbarRounding", ImGuiStyleVar_ScrollbarRounding },
 	{ "GrabMinSize", ImGuiStyleVar_GrabMinSize },
@@ -3139,6 +3140,7 @@ void PiGui::load_theme_from_table(LuaTable &table, ImGuiStyle &style)
 	SET_STYLE(PopupRounding);
 	SET_STYLE(PopupBorderSize);
 	SET_STYLE(FramePadding);
+	SET_STYLE(CellPadding);
 	SET_STYLE(FrameRounding);
 	SET_STYLE(FrameBorderSize);
 	SET_STYLE(ItemSpacing);
