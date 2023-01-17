@@ -103,6 +103,10 @@ private:
 		Action *toggleCruise;
 		Action *toggleSpeedLimiter;
 
+		// Landing Controls
+		Action *toggleLandingGear;
+		Axis *controlLandingGear;
+
 		void RegisterBindings() override;
 	} InputBindings;
 
@@ -117,6 +121,9 @@ private:
 	void FlightAssist(const float timeStep, TotalDesiredAction &outParams);
 	// send a control request to propulsion
 	void ApplyTotalAction(const TotalDesiredAction &params);
+
+	void OnToggleLandingGear();
+	void UpdateLandingGear();
 
 	// FIXME: separate the propusion controller from the input system, pass in wanted velocity correction directly.
 	friend class Propulsion;
@@ -156,6 +163,7 @@ private:
 	ConnectionTicket m_fireMissileKey;
 	ConnectionTicket m_toggleCruise;
 	ConnectionTicket m_toggleSpeedLimiter;
-	ConnectionTicket m_SelectTarget;
-	ConnectionTicket m_CycleHostiles;
+	ConnectionTicket m_selectTarget;
+	ConnectionTicket m_cycleHostiles;
+	ConnectionTicket m_toggleLandingGear;
 };
