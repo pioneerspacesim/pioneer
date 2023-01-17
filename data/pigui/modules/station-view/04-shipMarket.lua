@@ -17,7 +17,6 @@ local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
 local styleColors = ui.theme.styleColors
 local l = Lang.GetResource("ui-core")
-local textTable = require 'pigui.libs.text-table'
 local Vector2 = _G.Vector2
 
 local vZero = Vector2(0,0)
@@ -34,7 +33,7 @@ local icons = {}
 local manufacturerIcons = {}
 local selectedItem
 
-local shipSellPriceReduction = 0.5
+local shipSellPriceReduction = 0.65
 local equipSellPriceReduction = 0.8
 
 local modelSpinner = ModelSpinner()
