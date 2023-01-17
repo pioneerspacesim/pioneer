@@ -273,10 +273,14 @@ function module:drawBody()
 	ui.spacing()
 
 	ui.alignTextToButtonPadding()
-	ui.text(lui.TOTAL .. cargoMgr:GetUsedSpace() .. "t")
-	ui.sameLine()
+	ui.text("{} {}t {} / {}t {}" % {
+		lui.TOTAL,
+		cargoMgr:GetUsedSpace(), lui.USED,
+		cargoMgr:GetFreeSpace(), lui.FREE
+	})
 
 	if self.transferMode then
+		ui.sameLine()
 		local amount = self:countTransfer()
 
 		local buttonText = string.format("%s %st", self.transferMode.label, amount)
