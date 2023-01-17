@@ -145,6 +145,7 @@ local crewTasks = {
 local dismissButton = function(crewMember)
 	if Game.player:Dismiss(crewMember) then
 		crewMember:Save() -- Save to persistent characters list
+
 		if crewMember.contract then
 			if crewMember.contract.outstanding > 0 then
 				Comms.Message(l.IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS,crewMember.name)
@@ -173,7 +174,7 @@ end
 local function makeCrewList()
 	local t = {
 		separated = true, headerOnly = true,
-		{ l.NAME_PERSON, l.POSITION, l.WAGE, l.OWED, l.NEXT_PAID, "", font = orbiteer.xlarge }
+		{ l.NAME_PERSON, l.POSITION, l.WAGE, l.OWED, l.NEXT_PAID, "", font = orbiteer.heading }
 	}
 
 	local wageTotal = 0
@@ -216,7 +217,7 @@ local function drawCrewList(crewList)
 	textTable.drawTable(6, nil, crewList)
 
 	ui.newLine()
-	ui.withFont(orbiteer.xlarge, function() ui.text(l.GIVE_ORDERS_TO_CREW .. ":") end)
+	ui.withFont(orbiteer.heading, function() ui.text(l.GIVE_ORDERS_TO_CREW .. ":") end)
 	for label, task in pairs(crewTasks) do
 		if ui.button(l[label], Vector2(0, 0)) then lastTaskResult = task() end
 		ui.sameLine()
@@ -234,16 +235,17 @@ local function drawCrewInfo(crew)
 	local spacing = InfoView.windowPadding.x * 2.0
 	local info_column_width = (ui.getColumnWidth() - spacing) / 2
 	ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), function()
-		ui.withFont(orbiteer.xlarge, function() ui.text(crew.name) end)
+		ui.withFont(orbiteer.heading, function() ui.text(crew.name) end)
+		ui.newLine()
 
-		textTable.withHeading(l.QUALIFICATION_SCORES, orbiteer.large, {
+		textTable.withHeading(l.QUALIFICATION_SCORES, orbiteer.body, {
 			{ l.ENGINEERING,	crew.engineering },
 			{ l.PILOTING,		crew.piloting },
 			{ l.NAVIGATION,		crew.navigation },
 			{ l.SENSORS,		crew.sensors },
 		})
 		ui.newLine()
-		textTable.withHeading(l.REPUTATION, orbiteer.large, {
+		textTable.withHeading(l.REPUTATION, orbiteer.body, {
 			{ l.RATING,			l[crew:GetCombatRating()] },
 			{ l.KILLS,			ui.Format.Number(crew.killcount) },
 			{ l.REPUTATION..":",l[crew:GetReputationRating()] },
@@ -251,7 +253,7 @@ local function drawCrewInfo(crew)
 
 		if not crew.player then
 			ui.newLine()
-			ui.withFont(orbiteer.xlarge, function() ui.text(l.EMPLOYMENT) end)
+			ui.withFont(orbiteer.body, function() ui.text(l.EMPLOYMENT) end)
 
 			if Game.player.flightState == 'DOCKED' then
 				if ui.button(l.DISMISS, Vector2(0, 0)) then dismissButton(crew) end
@@ -287,7 +289,7 @@ InfoView:registerView({
     showView = true,
 	draw = function()
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
-			ui.withFont(pionillium.medlarge, function()
+			ui.withFont(pionillium.body, function()
 				if inspectingCrewMember then
 					drawCrewInfo(inspectingCrewMember)
 				else
