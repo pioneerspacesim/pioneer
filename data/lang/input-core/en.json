@@ -111,6 +111,10 @@
     "description": "Axis binding",
     "message": "Map Yaw"
   },
+  "BIND_MAP_VIEW_ZOOM": {
+    "description": "Axis binding",
+    "message": "Map Zoom"
+  },
   "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "Descriptive name for the MapWarpToCurrentSystem action.",
     "message": "Warp to Current System"
@@ -321,5 +325,17 @@
   "Z": {
     "description": "keybinding: z axis",
     "message": "Z"
+  },
+  "GROUP_LANDING_CONTROL": {
+	"description": "Group label for landing-related inputs",
+	"message": "Landing Control"
+  },
+  "BIND_CONTROL_LANDING_GEAR": {
+	"description": "Axis description",
+	"message": "Raise / Lower Landing Gear"
+  },
+  "BIND_TOGGLE_LANDING_GEAR": {
+	"description": "Action description",
+	"message": "Toggle Landing Gear"
   }
 }

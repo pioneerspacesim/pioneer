@@ -96,7 +96,7 @@ end
 --
 function bindManager.localizeBindingId(str)
 	local jsonIndex = str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
-	return rawget(linput, jsonIndex) or ('[NO_JSON] '..jsonIndex)
+	return linput[jsonIndex]
 end
 
 --
