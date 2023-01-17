@@ -15,6 +15,7 @@ local CommodityType= require 'CommodityType'
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
+local styleColors = ui.theme.styleColors
 local l = Lang.GetResource("ui-core")
 local textTable = require 'pigui.libs.text-table'
 local Vector2 = _G.Vector2
@@ -178,23 +179,25 @@ local tradeMenu = function()
 				ui.columns(2, "shipMarketInfo")
 				ui.setColumnWidth(0, colHeadingWidth)
 
-				ui.withFont(orbiteer.xlarge, function()
+				ui.withFont(orbiteer.title, function()
 					ui.text(selectedItem.def.name)
 				end)
-				ui.withFont(orbiteer.medlarge, function()
+				ui.withFont(orbiteer.body, function()
 					ui.text(shipClassString[selectedItem.def.shipClass])
 				end)
 
-				ui.text(l.PRICE..": "..Format.Money(selectedItem.def.basePrice, false))
-				ui.sameLine()
-				ui.text(l.AFTER_TRADE_IN..": "..Format.Money(selectedItem.def.basePrice - tradeInValue(ShipDef[Game.player.shipId]), false))
+				ui.withFont(pionillium.heading, function()
+					ui.text(l.PRICE..": "..Format.Money(selectedItem.def.basePrice, false))
+					ui.sameLine()
+					ui.text(l.AFTER_TRADE_IN..": "..Format.Money(selectedItem.def.basePrice - tradeInValue(ShipDef[Game.player.shipId]), false))
+				end)
 
 				ui.nextColumn()
 				ui.dummy(widgetSizes.iconSpacer)
 				ui.sameLine()
 				manufacturerIcon(selectedItem.def.manufacturer)
 				local shipBought = false
-				ui.withFont(pionillium.medlarge, function()
+				ui.withFont(pionillium.body, function()
 					shipBought = ui.button(l.BUY_SHIP, widgetSizes.buyButton)
 				end)
 				ui.columns(1, "")
@@ -265,11 +268,35 @@ local tradeMenu = function()
 				}
 
 				ui.child("ShipSpecs", Vector2(0, 0), function()
-					local colSpecNameWidth = ui.getContentRegion().x / 3.6
-					local colSpecValWidth = (ui.getContentRegion().x - colSpecNameWidth*2) / 2
-					local widths = { colSpecNameWidth, colSpecValWidth, colSpecNameWidth, colSpecValWidth }
-					textTable.drawTable(4, widths, shipInfoTable)
+					ui.withStyleVars({ CellPadding = Vector2(8, 4) }, function()
+
+						ui.beginTable("specs", 4)
+						ui.tableSetupColumn("name1")
+						ui.tableSetupColumn("body1")
+						ui.tableSetupColumn("name2")
+						ui.tableSetupColumn("body2")
+
+						for _, item in ipairs(shipInfoTable) do
+							ui.tableNextRow()
+
+							ui.tableSetColumnIndex(0)
+							ui.textColored(styleColors.gray_300, item[1])
+
+							ui.tableSetColumnIndex(1)
+							ui.textAligned(item[2], 1.0)
+
+							ui.tableSetColumnIndex(2)
+							ui.textColored(styleColors.gray_300, item[3])
+
+							ui.tableSetColumnIndex(3)
+							ui.textAligned(item[4], 1.0)
+						end
+
+						ui.endTable()
+
+					end)
 				end)
+
 			end)
 		end)
 	end
@@ -286,7 +313,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		ui.setColumnWidth(3, columnWidth)
 	end,
 	renderHeaderRow = function(_)
-		ui.withFont(orbiteer.xlarge, function()
+		ui.withFont(orbiteer.heading, function()
 			ui.text('')
 			ui.nextColumn()
 			ui.text(l.SHIP)
@@ -334,14 +361,18 @@ StationView:registerView({
 	icon = ui.theme.icons.ship,
 	showView = true,
 	draw = function()
-		ui.withFont(pionillium.large, function()
+		ui.withFont(pionillium.heading, function()
 			shipMarket:render()
-			ui.sameLine(0, widgetSizes.itemSpacing.x)
-			tradeMenu()
 		end)
+
+		ui.sameLine(0, widgetSizes.itemSpacing.x)
+		tradeMenu()
 	end,
 	refresh = function()
 		refreshShipMarket()
 		shipMarket.scrollReset = true
 	end,
+	debugReload = function()
+		package.reimport()
+	end
 })

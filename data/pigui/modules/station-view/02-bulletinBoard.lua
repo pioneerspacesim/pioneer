@@ -202,7 +202,7 @@ local function renderBulletinBoard()
 		ui.sameLine()
 
 		ui.child("BulletinBoardSearch", Vector2(0, 0), function()
-			ui.withFont(orbiteer.xlarge, function()
+			ui.withFont(orbiteer.title, function()
 				ui.text(l.SEARCH)
 			end)
 			ui.pushItemWidth(ui.getContentRegion().x)

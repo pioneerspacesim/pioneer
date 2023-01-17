@@ -180,7 +180,7 @@ local function lobbyMenu()
 	ui.nextColumn()
 
 	-- internal tank refill costs
-	ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
+	ui.withFont(pionillium.body, function()
 		ui.text(Format.Money(station:GetCommodityPrice(Commodities.hydrogen)) .. "/t")
 		ui.text(Format.Money(station:GetCommodityPrice(Commodities.hydrogen) * shipDef.fuelTankMass/100 * Game.player.fuel))
 	end)
@@ -196,12 +196,13 @@ local function lobbyMenu()
 
 	-- internal tank fuel gauge
 	local gaugePos = ui.getCursorScreenPos()
+	local gaugeHeight = widgetSizes.buttonSizeBase.y
 	gaugePos.y = gaugePos.y + widgetSizes.buttonSizeBase.y/2
 	local gaugeWidth = ui.getContentRegion().x
 	ui.gauge(gaugePos, Game.player.fuel, '', string.format(l.FUEL .. ": %dt \t" .. l.DELTA_V .. ": %d km/s",
 		shipDef.fuelTankMass/100 * Game.player.fuel, Game.player:GetRemainingDeltaV()/1000),
 		0, 100, icons.fuel,
-		colors.gaugeEquipmentMarket, '', gaugeWidth, widgetSizes.buttonSizeBase.y, ui.fonts.pionillium.medlarge)
+		colors.gaugeEquipmentMarket, '', gaugeWidth, gaugeHeight, pionillium.body)
 
 	-- hyperspace fuel
 	ui.nextColumn()
@@ -214,7 +215,7 @@ local function lobbyMenu()
 	local stored_hyperfuel = cargoMgr:CountCommodity(hyperdrive_fuel)
 
 	-- hyperspace fuel prices
-	ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
+	ui.withFont(pionillium.body, function()
 		ui.text(Format.Money(station:GetCommodityPrice(hyperdrive_fuel)) .. "/t")
 		ui.text(Format.Money(station:GetCommodityPrice(hyperdrive_fuel) * stored_hyperfuel))
 	end)
@@ -237,7 +238,7 @@ local function lobbyMenu()
 		stored_hyperfuel, Game.player:GetHyperspaceRange()),
 		0, cargoMgr:GetFreeSpace() + stored_hyperfuel,
 		icons.hyperspace, colors.gaugeEquipmentMarket, '',
-		gaugeWidth, widgetSizes.buttonSizeBase.y, ui.fonts.pionillium.medlarge)
+		gaugeWidth, gaugeHeight, pionillium.body)
 
 	ui.columns(1, '', false)
 end
@@ -277,7 +278,7 @@ local function drawPlayerInfo()
 				parent_body = station.path:GetSystemBody().parent.name})
 	end
 
-	ui.withFont(pionillium.large.name, pionillium.large.size, function()
+	ui.withFont(pionillium.heading, function()
 		ui.withStyleVars({ItemSpacing = widgetSizes.itemSpacing}, function()
 			local buttonSizeSpacing = widgetSizes.buttonLaunchSize.y + widgetSizes.itemSpacing.y
 			local lobbyMenuHeight = widgetSizes.buttonSizeBase.y*2 + widgetSizes.itemSpacing.y*3 -- use an extra itemSpacing to avoid scrollbar
@@ -286,7 +287,7 @@ local function drawPlayerInfo()
 				-- face display has 1:1 aspect ratio, and we need size for a launch button underneath
 				local infoColumnWidth = -math.min(ui.getContentRegion().y - buttonSizeSpacing, widgetSizes.faceSize.x) - widgetSizes.itemSpacing.x
 				ui.child("PlayerShipFuel", Vector2(infoColumnWidth, 0), function()
-					textTable.withHeading(station.label, orbiteer.xlarge, {
+					textTable.withHeading(station.label, orbiteer.title, {
 						{ tech_certified, "" },
 						{ station_docks, "" },
 						{ station_orbit_info, "" },
@@ -299,7 +300,7 @@ local function drawPlayerInfo()
 				ui.group(function()
 					if(face ~= nil) then face:render() end
 
-					ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size, function()
+					ui.withFont(orbiteer.title, function()
 						local size = Vector2(ui.getContentRegion().x, widgetSizes.buttonLaunchSize.y)
 						if ui.button(l.REQUEST_LAUNCH, size) then
 							requestLaunch(station)

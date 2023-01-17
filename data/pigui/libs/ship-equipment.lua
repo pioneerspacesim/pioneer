@@ -175,7 +175,7 @@ return EquipMarket.New("EquipmentMarket", l.AVAILABLE_FOR_PURCHASE, {
 	onMouseOverItem = function(s, e)
 		local tooltip = e:GetDescription()
 		if string.len(tooltip) > 0 then
-			ui.withFont(pionillium.medium, function() ui.setTooltip(tooltip) end)
+			ui.withFont(pionillium.body, function() ui.setTooltip(tooltip) end)
 		end
 	end,
 	onClickItem = function(s,e)

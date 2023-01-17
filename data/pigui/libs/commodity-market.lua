@@ -20,7 +20,7 @@ local Color = _G.Color
 
 local baseWidgetSizes = {
 	rescaleVector = Vector2(1, 1),
-	buySellSize = Vector2(128, 48),
+	buySellSize = Vector2(160, 36),
 	fontSizeLarge = 22.5, -- pionillium.large.size,
 	fontSizeXLarge = 27, -- pionillium.xlarge.size,
 	iconSize = Vector2(0, 22.5 * 1.5),
@@ -314,17 +314,26 @@ end
 function CommodityMarketWidget:TradeMenu()
 	if(self.selectedItem) then
 		ui.child(self.id .. "TradeMenu", vZero, function()
-			if ui.button(l.BUY, self.style.widgetSizes.buySellSize, colorVariant[self.tradeModeBuy]) then
-				self.tradeModeBuy = true
-				self:ChangeTradeAmount(-self.tradeAmount)
-			end
-			ui.sameLine()
-			if ui.button(l.SELL, self.style.widgetSizes.buySellSize, colorVariant[not self.tradeModeBuy]) then
-				self.tradeModeBuy = false
-				self:ChangeTradeAmount(-self.tradeAmount)
-			end
 
-			ui.text('')
+			ui.withFont(pionillium.heading, function()
+				-- center the buy/sell switch buttons
+				ui.addCursorPos(Vector2(ui.getContentRegion().x * 0.5 - self.style.widgetSizes.buySellSize.x - ui.getItemSpacing().x, 0))
+
+				if ui.button(l.BUY, self.style.widgetSizes.buySellSize, colorVariant[self.tradeModeBuy]) then
+					self.tradeModeBuy = true
+					self:ChangeTradeAmount(-self.tradeAmount)
+				end
+
+				ui.sameLine()
+
+				if ui.button(l.SELL, self.style.widgetSizes.buySellSize, colorVariant[not self.tradeModeBuy]) then
+					self.tradeModeBuy = false
+					self:ChangeTradeAmount(-self.tradeAmount)
+				end
+			end)
+
+			ui.newLine()
+
 			local bottomHalf = ui.getCursorPos()
 			bottomHalf.y = bottomHalf.y + ui.getContentRegion().y/1.65
 			if(self.icons[self.selectedItem.icon_name] == nil) then
@@ -336,17 +345,16 @@ function CommodityMarketWidget:TradeMenu()
 			self.icons[self.selectedItem.icon_name]:Draw(commodityIconSize)
 			ui.nextColumn()
 			ui.withStyleVars({ItemSpacing = self.style.itemSpacing/2}, function()
-				ui.withFont(orbiteer.xlarge.name, self.style.widgetSizes.fontSizeLarge, function()
+				ui.withFont(orbiteer.heading, function()
 					-- align the height to the center relative to the icon
-					local fontsize = self.style.widgetSizes.fontSizeLarge
-					ui.addCursorPos(Vector2(0, math.max(0, (commodityIconSize.y - fontsize) / 2)))
+					ui.alignTextToLineHeight(commodityIconSize.y)
 					ui.text(self.selectedItem:GetName())
 				end)
 			end)
 			ui.columns(1, "", false)
 			ui.newLine()
 
-			ui.withFont(pionillium.medlarge, function()
+			ui.withFont(pionillium.heading, function()
 				local pricemod = Game.system:GetCommodityBasePriceAlterations(self.selectedItem.name)
 				-- TODO: unify this with logic in system-econ-view.lua
 				local ptext, picon, pcolor
@@ -366,7 +374,9 @@ function CommodityMarketWidget:TradeMenu()
 					ui.text(ptext)
 					ui.spacing()
 				end
+			end)
 
+			ui.withFont(pionillium.body, function()
 				ui.textWrapped(self.selectedItem:GetDescription())
 			end)
 
@@ -387,13 +397,13 @@ function CommodityMarketWidget:TradeMenu()
 
 			ui.dummy(self.style.itemSpacing/2)
 			ui.withStyleColors({["Text"] = self.tradeTextColor }, function()
-				ui.withFont(pionillium.xlarge.name, self.style.widgetSizes.fontSizeLarge, function()
+				ui.withFont(pionillium.heading, function()
 					ui.text(self.tradeText)
 				end)
 			end)
 
 			ui.addCursorPos(Vector2(0, ui.getContentRegion().y - self.style.widgetSizes.confirmButtonSize.y))
-			ui.withFont(orbiteer.xlarge.name, self.style.widgetSizes.fontSizeXLarge, function()
+			ui.withFont(orbiteer.heading, function()
 				if ui.button(self.tradeModeBuy and l.CONFIRM_PURCHASE or l.CONFIRM_SALE, self.style.widgetSizes.confirmButtonSize) then
 					if self.tradeModeBuy then self:DoBuy()
 					else self:DoSell() end
@@ -438,14 +448,12 @@ end
 function CommodityMarketWidget:Render(size)
 	self:SetSize(size or ui.getContentRegion())
 
-	ui.withFont(pionillium.large, function()
-		ui.withStyleVars({ItemSpacing = self.style.itemSpacing}, function()
-			--ui.child(self.id .. "Container", self.style.widgetSize, containerFlags, function()
+	ui.withStyleVars({ItemSpacing = self.style.itemSpacing}, function()
+		ui.withFont(pionillium.heading, function()
 			MarketWidget.render(self)
-			ui.sameLine(0, self.style.widgetSizes.windowGutter)
-			self:TradeMenu()
-			--end)
 		end)
+		ui.sameLine(0, self.style.widgetSizes.windowGutter)
+		self:TradeMenu()
 	end)
 end
 
