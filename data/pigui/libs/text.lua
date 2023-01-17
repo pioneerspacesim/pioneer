@@ -50,6 +50,12 @@ ui.fonts = {
 		medium	= { name = "orbiteer", size = fontScale(20) },
 		small	= { name = "orbiteer", size = fontScale(14) },
 		tiny	= { name = "orbiteer", size = fontScale(10) },
+
+		-- alternate font breakpoints
+		title   = { name = "orbiteer", size = fontScale(30) },
+		heading = { name = "orbiteer", size = fontScale(24) },
+		body    = { name = "orbiteer", size = fontScale(20) },
+		details = { name = "orbiteer", size = fontScale(16) },
 	},
 }
 
