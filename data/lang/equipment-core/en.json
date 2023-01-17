@@ -323,13 +323,13 @@
     "description": "Category name of sensor-related equipment",
     "message": "Sensors"
   },
-  "SENSOR_RESOLUTION": {
-    "description": "Resolution of e.g. optical sensor",
-    "message": "Sensor resolution"
-  },
   "SENSOR_MIN_ALTITUDE": {
     "description": "",
     "message": "Sensor min altitude"
+  },
+  "SENSOR_RESOLUTION": {
+    "description": "Resolution of e.g. optical sensor",
+    "message": "Sensor resolution"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",

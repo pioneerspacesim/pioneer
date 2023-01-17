@@ -49,7 +49,7 @@
   },
   "SLOGAN_2": {
     "description": "",
-    "message": "Tillhandahåller dig med de mest okonventionella varorna!"
+    "message": "Tillhandahåller det bästa av de mest okonventionella varorna!"
   },
   "SLOGAN_3": {
     "description": "",
@@ -69,6 +69,6 @@
   },
   "WELCOME_TO": {
     "description": "",
-    "message": "Välkommen till"
+    "message": "\"Välkommen till \""
   }
 }

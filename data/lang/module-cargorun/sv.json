@@ -49,7 +49,7 @@
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Upphämtning av last från {system}-systemet krävs. Detaljer tillgängliga på begäran."
+    "message": "Upphämtning av last från {system}-systemet önskas. Detaljer tillgängliga på begäran."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Kvalificerad entreprenör behövs för lastkörning. Vi begär ett fartyg för bulkleverans till {system}-systemet."
+    "message": "Kvalificerad entreprenör behövs för en körning. Vi behöver ett skepp för en bulkleverans till {system}-systemet."
   },
   "ADTITLE_1": {
     "description": "",
