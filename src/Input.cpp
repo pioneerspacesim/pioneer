@@ -105,7 +105,7 @@ SDL_JoystickGUID Input::JoystickGUID(int joystick)
 
 static std::string saveAxisConfig(const Input::JoystickInfo::Axis &axis)
 {
-	return fmt::format("DZ{:.1f} CV{:.1f}{}", axis.deadzone, axis.curve, (axis.zeroToOne ? " Half" : ""));
+	return fmt::format("DZ{:.2f} CV{:.2f}{}", axis.deadzone, axis.curve, (axis.zeroToOne ? " Half" : ""));
 }
 
 static void loadAxisConfig(const std::string &str, Input::JoystickInfo::Axis &outAxis)
@@ -120,7 +120,7 @@ static void loadAxisConfig(const std::string &str, Input::JoystickInfo::Axis &ou
 	outAxis.value = 0;
 }
 
-static JoystickInfo loadJoystick(SDL_Joystick *joystick, IniConfig *config)
+static JoystickInfo loadJoystick(SDL_Joystick *joystick, const IniConfig *config)
 {
 	JoystickInfo state;
 	state.joystick = joystick;
@@ -136,13 +136,11 @@ static JoystickInfo loadJoystick(SDL_Joystick *joystick, IniConfig *config)
 	Output("  - %ld axes, %ld buttons, %ld hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
 
 	std::string joystickName = "Joystick." + std::string(joystickGUIDName.data());
-	config->SetString(joystickName, "Name", state.name);
 
 	for (size_t i = 0; i < state.axes.size(); i++) {
 		std::string axisName = "Axis" + std::to_string(i);
 		if (!config->HasEntry(joystickName, axisName)) {
-			state.axes[i].deadzone = 0.1;
-			config->SetString(joystickName, axisName, saveAxisConfig(state.axes[i]));
+			state.axes[i] = JoystickInfo::Axis {};
 			continue;
 		}
 
@@ -151,6 +149,25 @@ static JoystickInfo loadJoystick(SDL_Joystick *joystick, IniConfig *config)
 			i, state.axes[i].deadzone, state.axes[i].curve, state.axes[i].zeroToOne);
 	}
 	return state;
+}
+
+void Input::SaveJoystickConfig(uint32_t joystick, IniConfig *config)
+{
+	if (joystick > GetJoysticks().size())
+		return;
+
+	JoystickInfo &state = GetJoysticks()[joystick];
+
+	std::array<char, 33> joystickGUIDName;
+	SDL_JoystickGetGUIDString(state.guid, joystickGUIDName.data(), joystickGUIDName.size());
+
+	std::string joystickName = "Joystick." + std::string(joystickGUIDName.data());
+	config->SetString(joystickName, "Name", state.name);
+
+	for (size_t i = 0; i < state.axes.size(); i++) {
+		std::string axisName = "Axis" + std::to_string(i);
+		config->SetString(joystickName, axisName, saveAxisConfig(state.axes[i]));
+	}
 }
 
 void Input::AddJoystickID(SDL_JoystickID sdl_id, uint32_t internal_id)
@@ -183,6 +200,10 @@ void Input::InitJoysticks(IniConfig *config)
 		SDL_JoystickID instance_id = SDL_JoystickInstanceID(state.joystick);
 		AddJoystickID(instance_id, m_joysticks.size());
 		m_joysticks.push_back(state);
+	}
+
+	for (size_t joystick = 0; joystick < m_joysticks.size(); joystick++) {
+		SaveJoystickConfig(joystick, config);
 	}
 
 	config->Save();
@@ -595,7 +616,7 @@ static int8_t keys_in_chord(InputBindings::KeyChord *chord)
 static float applyDeadzoneAndCurve(const JoystickInfo::Axis &axis, float value)
 {
 	float absVal = std::fabs(value);
-	float sign = value < 0.0 ? 1.0 : -1.0;
+	float sign = value < 0.0 ? -1.0 : 1.0;
 	if (absVal < axis.deadzone) return 0.0f;
 	// renormalize value to 0..1 after deadzone
 	absVal = (absVal - axis.deadzone) * (1.0 / (1.0 - axis.deadzone));
@@ -645,11 +666,13 @@ void Manager::HandleSDLEvent(SDL_Event &event)
 		if (!GetJoysticks()[Input::JoystickFromID(event.jaxis.which)].joystick)
 			break;
 		auto &axis = GetJoysticks()[Input::JoystickFromID(event.jaxis.which)].axes[event.jaxis.axis];
+		float value = (event.jaxis.value == -32768 ? -1.f : event.jaxis.value / 32767.f);
+
 		if (axis.zeroToOne)
-			// assume -32768 == 0.0 in half-axis mode (this is true for most controllers)
-			axis.value = applyDeadzoneAndCurve(axis, (event.jaxis.value + 32768) / 65535.f);
+			axis.value = applyDeadzoneAndCurve(axis, std::abs((value + 1.0f) * 0.5f));
 		else
-			axis.value = applyDeadzoneAndCurve(axis, (event.jaxis.value == -32768 ? -1.f : event.jaxis.value / 32767.f));
+			// by convention, positive values are mapped to left/down, negative values right/up; so we flip them here
+			axis.value = applyDeadzoneAndCurve(axis, -value); // flip direction of physical axes from -left +right
 	} break;
 	case SDL_JOYBUTTONUP:
 	case SDL_JOYBUTTONDOWN:
