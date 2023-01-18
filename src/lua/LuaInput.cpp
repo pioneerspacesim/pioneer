@@ -240,13 +240,58 @@ struct LuaInputAxis : public LuaWrappable {
 	Axis *getAxis() const { return Pi::input->GetAxisBinding(id); }
 };
 
-template <typename T>
-static int lua_deleter(lua_State *l)
-{
-	T *ref = LuaPull<T *>(l, 1);
-	ref->~T();
-	return 0;
-}
+struct LuaJoystickInfo : public LuaWrappable {
+	LuaJoystickInfo(int joystickIndex) :
+		m_id(joystickIndex)
+	{}
+
+	const char *getName() const { return getInfo()->name.c_str(); }
+
+	uint32_t numButtons() const { return getInfo()->buttons.size(); }
+	uint32_t numHats() const { return getInfo()->hats.size(); }
+	uint32_t numAxes() const { return getInfo()->axes.size(); }
+
+	bool getButtonState(uint32_t button) const { return button < getInfo()->buttons.size() ? getInfo()->buttons[button] : false; }
+	bool getHatState(uint32_t hat) const { return hat < getInfo()->hats.size() ? getInfo()->hats[hat] : false; }
+	float getAxisValue(uint32_t axis) const { return axis < getInfo()->axes.size() ? getInfo()->axes[axis].value : false; }
+
+	float getAxisDeadzone(uint32_t axis) const { return axis < getInfo()->axes.size() ? getInfo()->axes[axis].deadzone : 0.0f; }
+
+	bool setAxisDeadzone(uint32_t axis, float dz) {
+		auto *js = getInfo();
+		if (axis >= js->axes.size())
+			return false;
+
+		js->axes[axis].deadzone = dz;
+		return true;
+	}
+
+	float getAxisCurve(uint32_t axis) const { return axis < getInfo()->axes.size() ? getInfo()->axes[axis].curve : 0.0f; }
+
+	bool setAxisCurve(uint32_t axis, float curve) {
+		auto *js = getInfo();
+		if (axis >= js->axes.size())
+			return false;
+
+		js->axes[axis].curve = curve;
+		return true;
+	}
+
+	bool getAxisZeroToOne(uint32_t axis) const { return axis < getInfo()->axes.size() ? getInfo()->axes[axis].zeroToOne : false; }
+
+	bool setAxisZeroToOne(uint32_t axis, bool enabled) {
+		auto *js = getInfo();
+		if (axis >= js->axes.size())
+			return false;
+
+		js->axes[axis].zeroToOne = enabled;
+		return true;
+	}
+
+private:
+	Input::JoystickInfo *getInfo() const { return &Input::GetJoysticks()[m_id]; }
+	int m_id;
+};
 
 #define GENERIC_COPY_OBJ_DEF(Typename)                                      \
 	template <>                                                             \
@@ -264,6 +309,7 @@ static int lua_deleter(lua_State *l)
 
 GENERIC_COPY_OBJ_DEF(LuaInputAction)
 GENERIC_COPY_OBJ_DEF(LuaInputAxis)
+GENERIC_COPY_OBJ_DEF(LuaJoystickInfo)
 
 /*
  * Interface: Input
@@ -411,6 +457,28 @@ static int l_input_get_joystick_name(lua_State *l)
 	auto joystick = LuaPull<int>(l, 1);
 	lua_pushstring(l, Input::JoystickName(joystick).c_str());
 	return 1;
+}
+
+static int l_input_get_joystick(lua_State *l)
+{
+	uint32_t joystick = LuaPull<uint32_t>(l, 1);
+	if (joystick < Input::GetJoysticks().size())
+		LuaPush(l, LuaJoystickInfo(joystick));
+	else
+		lua_pushnil(l);
+
+	return 1;
+}
+
+static int l_input_save_joystick_config(lua_State *l)
+{
+	uint32_t joystick = LuaPull<uint32_t>(l, 1);
+	if (joystick < Input::GetJoysticks().size()) {
+		Input::SaveJoystickConfig(joystick, Pi::config);
+		Pi::config->Save();
+	}
+
+	return 0;
 }
 
 /*
@@ -627,6 +695,7 @@ void pi_lua_generic_pull(lua_State *l, int index, InputBindings::KeyChord &out)
 
 static LuaMetaType<LuaInputAction> s_inputActionBinding("LuaInputAction");
 static LuaMetaType<LuaInputAxis> s_inputAxisBinding("LuaInputAxis");
+static LuaMetaType<LuaJoystickInfo> s_joystickInfoBinding("LuaJoystickInfo");
 void LuaInput::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -642,6 +711,8 @@ void LuaInput::Register()
 		{ "GetJoystickCount", l_input_get_joystick_count },
 		{ "GetJoystickName", l_input_get_joystick_name },
 		{ "IsJoystickConnected", l_input_is_joystick_connected },
+		{ "GetJoystick", l_input_get_joystick },
+		{ "SaveJoystickConfig", l_input_save_joystick_config },
 		{ "SaveBinding", l_input_save_binding },
 		{ "GetMouseYInverted", l_input_get_mouse_y_inverted },
 		{ "SetMouseYInverted", l_input_set_mouse_y_inverted },
@@ -672,9 +743,6 @@ void LuaInput::Register()
 		.AddFunction("OnRelease", &LuaInputAction::onRelease)
 		.AddFunction("IsActive", &LuaInputAction::isActive)
 		.AddFunction("IsJustActive", &LuaInputAction::isJustActive);
-
-	lua_pushcfunction(l, lua_deleter<LuaInputAction>);
-	lua_setfield(l, -2, "__gc");
 	s_inputActionBinding.StopRecording();
 
 	s_inputAxisBinding.CreateMetaType(l);
@@ -686,9 +754,24 @@ void LuaInput::Register()
 		.AddMember("negative", &LuaInputAxis::getNegative, &LuaInputAxis::setNegative)
 		.AddFunction("SetValue", &LuaInputAxis::setValue)
 		.AddFunction("GetValue", &LuaInputAxis::getValue);
-	lua_pushcfunction(l, lua_deleter<LuaInputAxis>);
-	lua_setfield(l, -2, "__gc");
 	s_inputAxisBinding.StopRecording();
+
+	s_joystickInfoBinding.CreateMetaType(l);
+	s_joystickInfoBinding.StartRecording()
+		.AddMember("name", &LuaJoystickInfo::getName)
+		.AddMember("numButtons", &LuaJoystickInfo::numButtons)
+		.AddMember("numHats", &LuaJoystickInfo::numHats)
+		.AddMember("numAxes", &LuaJoystickInfo::numAxes)
+		.AddFunction("GetButtonState", &LuaJoystickInfo::getButtonState)
+		.AddFunction("GetHatState", &LuaJoystickInfo::getHatState)
+		.AddFunction("GetAxisValue", &LuaJoystickInfo::getAxisValue)
+		.AddFunction("GetAxisDeadzone", &LuaJoystickInfo::getAxisDeadzone)
+		.AddFunction("SetAxisDeadzone", &LuaJoystickInfo::setAxisDeadzone)
+		.AddFunction("GetAxisCurve", &LuaJoystickInfo::getAxisCurve)
+		.AddFunction("SetAxisCurve", &LuaJoystickInfo::setAxisCurve)
+		.AddFunction("GetAxisZeroToOne", &LuaJoystickInfo::getAxisZeroToOne)
+		.AddFunction("SetAxisZeroToOne", &LuaJoystickInfo::setAxisZeroToOne);
+	s_joystickInfoBinding.StopRecording();
 
 	LUA_DEBUG_END(l, 0);
 }
