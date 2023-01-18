@@ -162,7 +162,10 @@ theme.colors = {
 	white					= styleColors.white,
 	lightGrey				= styleColors.gray_300,
 	grey					= styleColors.gray_500,
+	darkGrey				= styleColors.gray_800,
 	black					= styleColors.black,
+	primary					= styleColors.primary_500,
+	darkPrimary				= styleColors.primary_700,
 
 	alertYellow				= styleColors.warning_300,
 	alertRed				= styleColors.danger_500,
