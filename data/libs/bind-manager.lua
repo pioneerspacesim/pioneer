@@ -6,6 +6,13 @@ local Input = require 'Input'
 local linput = require 'Lang'.GetResource("input-core")
 local lc = require 'Lang'.GetResource("core")
 
+local axis_names = { linput.X, linput.Y, linput.Z, linput.RX, linput.RY, linput.RZ }
+local mouse_names = { linput.MOUSE_LMB, linput.MOUSE_MMB, linput.MOUSE_RMB }
+
+function bindManager.getAxisName(axis)
+	return linput.AXIS .. (axis_names[axis + 1] or tostring(axis))
+end
+
 --
 -- Function: bindManager.getBindingDesc
 --
@@ -25,8 +32,6 @@ local lc = require 'Lang'.GetResource("core")
 --
 function bindManager.getBindingDesc(bind)
 	if not bind then return end
-	local axis_names = { linput.X, linput.Y, linput.Z }
-	local mouse_names = { linput.MOUSE_LMB, linput.MOUSE_MMB, linput.MOUSE_RMB }
 	if bind.key then
 		return Input.GetKeyName(bind.key)
 	elseif bind.joystick and bind.hat then
@@ -34,7 +39,7 @@ function bindManager.getBindingDesc(bind)
 	elseif bind.joystick and bind.button then
 		return bindManager.joyAcronym(bind.joystick) .. linput.BUTTON .. bind.button
 	elseif bind.joystick and bind.axis then
-		return (bind.direction < 0 and "-" or "") .. bindManager.joyAcronym(bind.joystick) .. linput.AXIS .. (axis_names[bind.axis + 1] or tostring(bind.axis))
+		return (bind.direction < 0 and "-" or "") .. bindManager.joyAcronym(bind.joystick) .. bindManager.getAxisName(bind.axis)
 	elseif bind.mouse then
 		return linput.MOUSE .. (mouse_names[bind.mouse] or tostring(bind.mouse))
 	end

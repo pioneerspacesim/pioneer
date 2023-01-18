@@ -337,5 +337,45 @@
   "BIND_TOGGLE_LANDING_GEAR": {
 	"description": "Action description",
 	"message": "Toggle Landing Gear"
+  },
+  "NUM_AXES": {
+	"description": "",
+	"message": "Number of axes:"
+  },
+  "NUM_BUTTONS": {
+	"description": "",
+	"message": "Number of buttons:"
+  },
+  "NUM_HATS": {
+	"description": "",
+	"message": "Number of hats:"
+  },
+  "CURRENT_VALUE": {
+	"description": "",
+	"message": "Current value:"
+  },
+  "HALF_AXIS_MODE": {
+	"description": "",
+	"message": "Half-Axis mode"
+  },
+  "DEADZONE": {
+	"description": "",
+	"message": "Deadzone"
+  },
+  "CURVE": {
+	"description": "",
+	"message": "Curve"
+  },
+  "RX": {
+    "description": "keybinding: second x axis",
+    "message": "RX"
+  },
+  "RY": {
+    "description": "keybinding: second y axis",
+    "message": "RY"
+  },
+  "RZ": {
+    "description": "keybinding: second z axis",
+    "message": "RZ"
   }
 }
