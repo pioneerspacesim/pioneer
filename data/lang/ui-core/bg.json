@@ -1505,7 +1505,7 @@
   },
   "NEXT_PAID": {
     "description": "",
-    "message": "Следващо плащане"
+    "message": "Следваща"
   },
   "NO": {
     "description": "Negative answer to a question",
@@ -1641,7 +1641,7 @@
   },
   "OWED": {
     "description": "Player owing money to crew members",
-    "message": "Дължимо"
+    "message": "Дължима"
   },
   "PAINTSHOP": {
     "description": "Station tab title",
@@ -2277,7 +2277,7 @@
   },
   "WAGE": {
     "description": "Salary of crew shown in crew roster",
-    "message": "Заплащане"
+    "message": "Заплата"
   },
   "WEIGHT_EMPTY": {
     "description": "",

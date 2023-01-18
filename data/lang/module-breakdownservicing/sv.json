@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "ENGINE SERVICING"
+    "message": "MOTORSERVICE"
   },
   "FLAVOUR_0_INTRO": {
     "description": "",
-    "message": "Avoid the inconvenience of a broken-down hyperspace engine. Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n"
+    "message": "Undvik besväret med en trasig hyperrymdmotor. Få din servad idag av det officiellt godkända {name} Engine Servicing Company.\n"
   },
   "FLAVOUR_0_PRICE": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
-    "message": "Hi there. We at {proprietor} & Co stake our reputation on our work.\nWe can tune your ship's hyperdrive, ensuring 12 months of trouble-free operation. "
+    "message": "Hallå där. Vi på {proprietor} & Co satsar vårt rykte på vårt arbete.\nVi kan trimma ditt fartygs hyperdrive, vilket säkerställer 12 månaders problemfri drift."
   },
   "FLAVOUR_2_PRICE": {
     "description": "",
@@ -77,11 +77,11 @@
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
-    "message": "Welcome SuperFix Maintenance. Time for your biannual maintenance? Let us SuperFix your hyperdrive!"
+    "message": "Välkommen tlll SuperFix Underhåll. Dags för ditt halvårskontroll med underhåll? Låt oss SuperFixa din hyperdrive!"
   },
   "FLAVOUR_3_PRICE": {
     "description": "",
-    "message": "\n\n{lasttime}\nWe can tune your {drive} for just {price}. There's nobody cheaper!"
+    "message": "\n\n{lasttime}\nVi kan trimma din {drive} för bara {price}. Det finns ingen billigare!"
   },
   "FLAVOUR_3_RESPONSE": {
     "description": "",
@@ -97,15 +97,15 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "ENGINE SERVICING"
+    "message": "MOTORSERVICE"
   },
   "FLAVOUR_4_INTRO": {
     "description": "",
-    "message": "Välkommen till Tid och Rymd.\n\nVi specialiserar oss på interstellära motorer. Allt underhållsarbete kommer med två års garanti."
+    "message": "Välkommen till Tid och Rum.\n\nVi specialiserar oss på interstellära motorer. Allt underhållsarbete kommer med två års garanti."
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
-    "message": "\n{lasttime}\nServicing your {drive} will cost {price}. Would you like to proceed?"
+    "message": "\n{lasttime}\nAtt serva din {drive} kommer att kosta {price}. Vill du fortsätta?"
   },
   "FLAVOUR_4_RESPONSE": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_5_INTRO": {
     "description": "",
-    "message": "Avoid the inconvenience of a broken-down hyperspace engine. Get yours serviced today.\n"
+    "message": "Undvik besväret med en trasig hyperrymdmotor. Få din servad idag.\n"
   },
   "FLAVOUR_5_PRICE": {
     "description": "",

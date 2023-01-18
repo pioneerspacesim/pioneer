@@ -13,7 +13,7 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
+    "message": "Kvalificerad pilot behövs för hemligt uppdrag: Ersättning {cash}."
   },
   "ADTEXT_2": {
     "description": "",
@@ -133,11 +133,11 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "Du borde skämmas. Försvinn ur min åsyn!"
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! You have caused great losses. You will not be paid!"
+    "message": "Du är för sen och det har orsakat oss stora förluster! Du kommer inte att få betalt!"
   },
   "FAILUREMSG_3": {
     "description": "",
@@ -177,15 +177,15 @@
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Please help! We received a distress call from one of our freighters orbiting {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The call was interrupted, so we fear the worst. Distance to {system} is {dist} ly. The pay is {cash}."
+    "message": "Snälla hjälp! Vi fick ett nödanrop från ett av våra fraktfartyg som kretsade runt {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Samtalet avbröts så vi fruktar det värsta. Avståndet till {system} är {dist} ly. Lönen är {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+    "message": "Det är viktigt att uppdraget är avklart senast {date}. Vänligen håll tyst om operationen."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+    "message": "Vi har en säljansvarig i alla närliggande stjärnsystem. Den här personen kommer att kontakta dig när du är på marken."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -197,7 +197,7 @@
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "Chef"
   },
   "MEET_ME_THERE": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} is in a dispute with a rival company about {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To push through our claims we need a reliable and combat experienced mercenary. We offer {cash} for the expenses. Distance to {system} is {dist} ly."
+    "message": "{org} är i en tvist med ett konkurrerande företag om {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). För att driva igenom våra anspråk behöver vi en pålitlig och erfaren legosoldat. Vi erbjuder {cash} för utgifterna. Avståndet till {system} är {dist} ly."
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
@@ -233,7 +233,7 @@
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for a {mission} mission. Distance to {area} is {dist} ly."
+    "message": "Jag arbetar för {org}. Några av våra fraktfartyg kommer inom kort att anlända till {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). För att öka säkerheten för våra anställda och för att skydda utrustningen är vi villiga att betala {cash} för ett {mission} uppdrag. Avståndet till {area} är {dist}."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "OBJECTIVE_1": {
     "description": "",
-    "message": "It's not necessary to attack the enemy. We want data about the defence capability and response time."
+    "message": "Det är inte nödvändigt att attackera fienden. Vi vill ha data om försvarsförmågan och svarstid."
   },
   "OBJECTIVE_2": {
     "description": "",
@@ -281,7 +281,7 @@
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Clear the area around {area}. Break any resistance."
+    "message": "Rensa området runt {area}. Bryt eventuellt motstånd."
   },
   "OK_AGREED": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our markets were flooded by contraband. The source has been traced back to a hidden base at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). Only a distance of {dist} ly. Because of the reduced police budget the local authorities would like to outsource this mission and have allotted {cash} credits for this operation."
+    "message": "Våra marknader översvämmades av smuggelgods. Källan har spårats tillbaka till en dold bas vid {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Ett avstånd av endast {distans} ly. På grund av den minskade polisbudgeten skulle de lokala myndigheterna vilja lägga ut uppdraget på entreprenad och har tilldelat {cash} krediter för denna operation."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Thank you for making it. I have transferred the money."
+    "message": "Tack för att du fixade det. Jag har fört över pengarna."
   },
   "SUCCESSMSG_3": {
     "description": "",
@@ -365,10 +365,10 @@
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "What are the mission objectives?"
+    "message": "Vilka är uppdragets mål?"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "Kommer jag att stöta på problem?"
   }
 }

@@ -29,7 +29,7 @@
   },
   "FLAVOUR_2_DESC": {
     "description": "",
-    "message": "War Orphan's Support needs your help to keep up its essential work."
+    "message": "War Orphans Support behöver din hjälp för att fortsätta sitt avgörande arbete."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_4_DESC": {
     "description": "",
-    "message": "Save our species. Stop the carnage of newly settled worlds."
+    "message": "Rädda vår art. Stoppa blodbadet i nyligen etablerade världar."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "FLAVOUR_7_MESSAGE": {
     "description": "",
-    "message": "Those brave men and women of the {POLICE} who have dedicated their lives to keeping {SYSTEM} safe need your support!"
+    "message": "De modiga män och kvinnor i {POLICE} som har vigt sina liv åt att hålla {SYSTEM} säkert, behöver ditt stöd!"
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "FLAVOUR_8_MESSAGE": {
     "description": "",
-    "message": "The brave soldiers of the {MILITARY} place themselves in harm's way for you!"
+    "message": "De modiga soldaterna i {MILITARY} trotsar farorna för din skull!"
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_9_MESSAGE": {
     "description": "",
-    "message": "We empower families in the {FACTION} to create a better future for all."
+    "message": "Vi ger familjer i {FACTION} möjlighet att skapa en bättre framtid för alla."
   },
   "SALES_PITCH": {
     "description": "",

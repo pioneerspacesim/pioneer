@@ -71,6 +71,54 @@
     "description": "",
     "message": "Libera la tua nave! Prego, seleziona l'ammontare da donare. Felice hacking."
   },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "GIORNATA DEI VETERANI!"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "Sostieni i veterani di {MILITARY}."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "{MILITARY}. Puoi sempre contare su di loro.\nE su di te possono contare?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "HANNO IL TUO SOSTEGNO?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "Sostieni i veterani di  {POLICE}."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "I coraggiosi e le coraggiose di {POLICE} che hanno dedicato la vita a mantenere sicuro {SYSTEM} hanno bisogno del tuo sostegno!"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "SOSTIENI I NOSTRI VETERANI!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Sostieni i veterani delle nostre forze armate."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "I coraggiosi soldati di {MILITARY} affrontano ogni giorni il pericolo per te!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "FERMA LA POVERTÀ!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Sostieni la battaglia contro la povertà a {FACTION}."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "Rendiamo indipendenti finanziariamente le famiglie di {FACTION} per creare un futuro migliore per tutti."
+  },
   "SALES_PITCH": {
     "description": "",
     "message": "Se donassi {cash} alla nostra causa, la tua reputazione ne beneficerebbe, ma qualsiasi somma sarebbe d'aiuto."

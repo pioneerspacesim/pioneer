@@ -157,7 +157,7 @@
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
-    "message": "Equipment Integrity"
+    "message": "Utrustning, skick"
   },
   "EQUIPMENT_WEIGHT": {
     "description": "Tooltip explaining equipment weight",
@@ -233,7 +233,7 @@
   },
   "MISSILE_UNGUIDED": {
     "description": "",
-    "message": "R40 ostyrd raket"
+    "message": "R40 oguidad raket"
   },
   "MULTI_SCOOP": {
     "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
@@ -249,7 +249,7 @@
   },
   "ORBIT_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data"
+    "message": "Söker av planet från omloppsbana för vetenskapliga data"
   },
   "ORBIT_SCANNER_GOOD": {
     "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
@@ -257,7 +257,7 @@
   },
   "ORBIT_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data, with high resolution and wide aperture lens"
+    "message": "Skannar planet från omloppsbana, för vetenskapliga data, med hög upplösning och bred bländare"
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "SCOOPS": {
     "description": "Category name of scoop-related equipment",
-    "message": "Scoops"
+    "message": "Skopor"
   },
   "SENSORS": {
     "description": "Category name of sensor-related equipment",
@@ -329,7 +329,7 @@
   },
   "SENSOR_RESOLUTION": {
     "description": "Resolution of e.g. optical sensor",
-    "message": "Sensor resolution"
+    "message": "Sensorupplösning"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
@@ -413,7 +413,7 @@
   },
   "TOTAL_MODULE_CAPACITY": {
     "description": "Tooltip explaining module capacity of specific slot",
-    "message": "Total Kapasitet"
+    "message": "Total Kapacitet"
   },
   "TOTAL_MODULE_WEIGHT": {
     "description": "Tooltip explaining total equipped weight of specific slot",

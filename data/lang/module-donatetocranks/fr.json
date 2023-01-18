@@ -71,6 +71,54 @@
     "description": "",
     "message": "Libérez vote vaisseau ! S'il vous plait, choisissez la somme à donner. Joyeux piratage !"
   },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "JOURNÉE des ANCIENS COMBATTANTS !"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "Soutenez les ancients combattants de {MILITARY}"
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "Vous pouvez toujours compter sur {MILITARY}. Peuvent-ils compter sur vous ?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "ONT-ILS VOTRE SUPPORT ?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "Supportez les vétérans de {POLICE}"
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "Ces femmes et hommes valeureux de {POLICE}, qui ont dédiés leur vie à garder {SYSTEM} sûr, ont besoin de votre soutient !"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "SOUTENEZ VOS VÉTÉRANS !"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Soutenez les ancients combattants de nos forces armées."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "Les soldats courageux de {MILITARY} se sont mis en danger pour vous !"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "METTONS FIN À LA PAUVRETÉ !"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Soutenez le combat contre la pauvreté dans la faction {FACTION}."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "Nous donnons les moyens aux familles de {FACTION} de créer un meilleur avenir pour tous."
+  },
   "SALES_PITCH": {
     "description": "",
     "message": "Un don de {cash} à notre cause serait bénéfique pour votre réputation, mais n'importe quel montant nous aiderait."

@@ -37,7 +37,7 @@
   },
   "CORPORATIONS_7": {
     "description": "",
-    "message": "Marettrymd"
+    "message": "Marett Space"
   },
   "CORPORATIONS_8": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Skepp önskas för resa i business-class till {system} system. Betalar {cash}."
+    "message": "Skepp önskas för resa i business-class till {system} systemet. Betalar {cash}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -585,11 +585,11 @@
   },
   "HOW_SOON_YOU_MUST_BE_THERE": {
     "description": "",
-    "message": "Hur snart måste du vara där?"
+    "message": "Hur snart måste ni vara där?"
   },
   "I_MUST_BE_THERE_BEFORE": {
     "description": "",
-    "message": "Jag måste vara där innan"
+    "message": "\"Jag måste vara där innan \""
   },
   "OK_AGREED": {
     "description": "",
@@ -625,7 +625,7 @@
   },
   "WE_WANT_TO_BE_THERE_BEFORE": {
     "description": "",
-    "message": "Vi vill vara där innan"
+    "message": "\"Vi vill vara där innan \""
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",

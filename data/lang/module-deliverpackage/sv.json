@@ -305,7 +305,7 @@
   },
   "IT_MUST_BE_DELIVERED_BY": {
     "description": "",
-    "message": "Det måste levereras till"
+    "message": "\"Det måste vara framme till \""
   },
   "I_HIGHLY_DOUBT_IT": {
     "description": "",
