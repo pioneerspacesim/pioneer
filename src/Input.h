@@ -76,7 +76,7 @@ namespace Input {
 	struct JoystickInfo {
 		struct Axis {
 			float value = 0.0;
-			float deadzone = 0.0;
+			float deadzone = 0.1;
 			float curve = 1.0;
 			bool zeroToOne = false;
 		};
@@ -99,6 +99,8 @@ namespace Input {
 	// fetch the GUID for the named joystick
 	SDL_JoystickGUID JoystickGUID(int joystick);
 	std::string JoystickGUIDString(int joystick);
+	// update the joystick's saved configuration
+	void SaveJoystickConfig(uint32_t joystick, IniConfig *config);
 
 	// reverse map a JoystickGUID to the actual internal ID.
 	int JoystickFromGUIDString(const std::string &guid);

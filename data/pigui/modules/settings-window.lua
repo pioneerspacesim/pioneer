@@ -451,6 +451,129 @@ local function axisBinding(info)
 	end
 end
 
+local function drawJoystickAxisInfo(joystick, i)
+	local c, val, enabled
+
+	ui.columns(2, "axis info")
+
+	ui.text(linput.CURRENT_VALUE)
+	ui.sameLine()
+	ui.text(string.format("%0.2f", joystick:GetAxisValue(i)))
+
+	ui.nextColumn()
+
+	c, enabled = ui.checkbox(linput.HALF_AXIS_MODE, joystick:GetAxisZeroToOne(i))
+	if c then
+		joystick:SetAxisZeroToOne(i, enabled)
+	end
+
+	ui.nextColumn()
+
+	val, c = ui.sliderFloat(linput.DEADZONE, joystick:GetAxisDeadzone(i), 0.0, 1.0, "%0.2f")
+	if c then joystick:SetAxisDeadzone(i, val) end
+
+	ui.nextColumn()
+
+	val, c = ui.sliderFloat(linput.CURVE, joystick:GetAxisCurve(i), 0.0, 2.0, "%0.2f")
+	if c then joystick:SetAxisCurve(i, val) end
+
+	ui.columns(1, "")
+end
+
+local selectedJoystick = nil
+local function showJoystickInfo(id)
+	local joystick = Input.GetJoystick(id)
+
+	ui.withFont(pionillium.heading, function()
+		local buttonSize = Vector2(ui.getTextLineHeightWithSpacing())
+
+		if ui.iconButton(icons.time_backward_1x, buttonSize, lui.GO_BACK .. "##" .. id) then
+			Input.SaveJoystickConfig(selectedJoystick)
+			selectedJoystick = nil
+		end
+
+		ui.sameLine()
+		ui.alignTextToLineHeight()
+		ui.text(joystick.name)
+	end)
+
+	ui.spacing()
+
+	ui.text(linput.NUM_BUTTONS)
+	ui.sameLine()
+	ui.text(joystick.numButtons)
+
+	ui.text(linput.NUM_HATS)
+	ui.sameLine()
+	ui.text(joystick.numHats)
+
+	ui.text(linput.NUM_AXES)
+	ui.sameLine()
+	ui.text(joystick.numAxes)
+
+	ui.spacing()
+
+	for i = 0, joystick.numAxes - 1 do
+
+		local width = ui.getContentRegion().x * 0.5
+		local open = ui.collapsingHeader(bindManager.getAxisName(i))
+
+		local isHalfAxis = joystick:GetAxisZeroToOne(i)
+		local value = joystick:GetAxisValue(i)
+
+		-- Draw axis preview indicator
+		ui.sameLine(width)
+
+		local pos = ui.getCursorScreenPos()
+		pos.y = pos.y + ui.getItemSpacing().y * 0.5
+
+		local size = Vector2(width - ui.getItemSpacing().x, ui.getTextLineHeight())
+		ui.addRectFilled(pos, pos + size, colors.darkGrey, 0, 0)
+
+		if isHalfAxis then
+			size.x = size.x * value
+		else
+			pos.x = pos.x + size.x * 0.5
+			size.x = size.x * 0.5 * value
+		end
+
+		ui.addRectFilled(pos, pos + size, colors.primary, 0, 0)
+		ui.newLine()
+
+		-- Draw axis details
+		if open then
+			ui.withID(i, function()
+				drawJoystickAxisInfo(joystick, i)
+			end)
+		end
+
+		ui.spacing()
+
+	end
+
+end
+
+local function showJoystickList(id)
+	local connected = Input.IsJoystickConnected(id)
+	local buttonSize = Vector2(ui.getTextLineHeightWithSpacing())
+
+	if connected then
+		if ui.iconButton(icons.pencil, buttonSize, lui.EDIT .. "##" .. id) then
+			selectedJoystick = id
+		end
+	else
+		ui.dummy(buttonSize)
+	end
+
+	ui.sameLine()
+	ui.alignTextToLineHeight()
+	ui.text(bindManager.joyAcronym(id) .. ":")
+
+	local status = connected and linput.CONNECTED or linput.NOT_CONNECTED
+	ui.sameLine()
+	ui.textColored(ui.theme.colors.grey, Input.GetJoystickName(id) .. ", " .. status)
+end
+
 local function showControlsOptions()
 	ui.text(lui.CONTROL_OPTIONS)
 
@@ -470,14 +593,17 @@ local function showControlsOptions()
 	if joystick_count > 0 then
 		ui.separator()
 		ui.text(linput.JOYSTICKS .. ":")
-		for id = 0, joystick_count - 1 do
-			ui.text("  " .. bindManager.joyAcronym(id) .. ":")
-			ui.sameLine()
-			ui.withStyleColors({["Text"] = ui.theme.colors.grey}, function()
-				local status = Input.IsJoystickConnected(id) and linput.CONNECTED or linput.NOT_CONNECTED
-				ui.text(Input.GetJoystickName(id) .. ", " .. status)
-			end)
-		end
+		ui.spacing()
+
+		ui.withFont(pionillium.body, function()
+			if selectedJoystick then
+				showJoystickInfo(selectedJoystick)
+			else
+				for id = 0, joystick_count - 1 do
+					showJoystickList(id)
+				end
+			end
+		end)
 	end
 
 	for _,page in ipairs(binding_pages) do
@@ -557,6 +683,9 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 		if Game.player then
 			Game.SetTimeAcceleration("1x")
 			Input.EnableBindings();
+		end
+		if selectedJoystick then
+			Input.SaveJoystickConfig(selectedJoystick)
 		end
 	end)
 

@@ -2622,15 +2622,16 @@ static int l_pigui_slider_float(lua_State *l)
 {
 	PROFILE_SCOPED()
 	std::string lbl = LuaPull<std::string>(l, 1);
-	float value = LuaPull<int>(l, 2);
-	float val_min = LuaPull<int>(l, 3);
-	float val_max = LuaPull<int>(l, 4);
+	float value = LuaPull<float>(l, 2);
+	float val_min = LuaPull<float>(l, 3);
+	float val_max = LuaPull<float>(l, 4);
 	std::string format = LuaPull<std::string>(l, 5, "%.3f");
 
-	ImGui::SliderFloat(lbl.c_str(), &value, val_min, val_max, format.c_str());
+	bool changed = ImGui::SliderFloat(lbl.c_str(), &value, val_min, val_max, format.c_str());
 
 	LuaPush<float>(l, value);
-	return 1;
+	LuaPush<bool>(l, changed);
+	return 2;
 }
 
 /*
@@ -2662,10 +2663,11 @@ static int l_pigui_slider_int(lua_State *l)
 	int val_max = LuaPull<int>(l, 4);
 	std::string format = LuaPull<std::string>(l, 5, "%d");
 
-	ImGui::SliderInt(lbl.c_str(), &value, val_min, val_max, format.c_str());
+	bool changed = ImGui::SliderInt(lbl.c_str(), &value, val_min, val_max, format.c_str());
 
 	LuaPush<int>(l, value);
-	return 1;
+	LuaPush<bool>(l, changed);
+	return 2;
 }
 
 static int l_pigui_vsliderint(lua_State *l)
@@ -2678,11 +2680,12 @@ static int l_pigui_vsliderint(lua_State *l)
 	int val_min = LuaPull<int>(l, 4);
 	int val_max = LuaPull<int>(l, 5);
 
-	ImGui::VSliderInt(lbl.c_str(), size, &value, val_min, val_max);
+	bool changed = ImGui::VSliderInt(lbl.c_str(), size, &value, val_min, val_max);
 
 	LuaPush<int>(l, value);
+	LuaPush<bool>(l, changed);
 
-	return 1;
+	return 2;
 }
 
 static int l_pigui_vsliderfloat(lua_State *l)

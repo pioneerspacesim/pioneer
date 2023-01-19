@@ -29,7 +29,7 @@ struct PlayerShipController::TotalDesiredAction {
 	vector3d linPower = vector3d(1.0);
 	// true means that desiredLinear contains speed, false means thrust
 	bool desireLinVel = false;
-	// false means that zero desireAngVel components are to be ignored 
+	// false means that zero desireAngVel components are to be ignored
 	// used for rotation damping off
 	bool desireAngVelFull = false;
 };
@@ -159,6 +159,10 @@ REGISTER_INPUT_BINDING(PlayerShipController)
 	input->AddAxisBinding("BindSpeedControl", speedGroup, Axis({}, { SDLK_RETURN }, { SDLK_RSHIFT }));
 	input->AddActionBinding("BindToggleCruise", speedGroup, Action({ SDLK_v }));
 	input->AddActionBinding("BindToggleSpeedLimiter", speedGroup, Action({ SDLK_l, SDLK_RALT }));
+
+	auto landingGroup = controlsPage->GetBindingGroup("LandingControl");
+	input->AddActionBinding("BindToggleLandingGear", landingGroup, Action({ SDLK_n }));
+	input->AddAxisBinding("BindControlLandingGear", landingGroup, Axis());
 }
 
 PlayerShipController::PlayerShipController() :
@@ -200,11 +204,14 @@ PlayerShipController::PlayerShipController() :
 			this->SetSpeedLimiterActive(not this->IsSpeedLimiterActive());
 		});
 
-	m_SelectTarget = InputBindings.targetObject->onPressed.connect (
+	m_selectTarget = InputBindings.targetObject->onPressed.connect (
 		sigc::mem_fun(this, &PlayerShipController::SelectTarget));
 
-	m_CycleHostiles = InputBindings.cycleHostiles->onPressed.connect (
+	m_cycleHostiles = InputBindings.cycleHostiles->onPressed.connect (
 		sigc::mem_fun(this, &PlayerShipController::CycleHostiles));
+
+	m_toggleLandingGear = InputBindings.toggleLandingGear->onPressed.connect(
+		sigc::mem_fun(this, &PlayerShipController::OnToggleLandingGear));
 }
 
 void PlayerShipController::InputBinding::RegisterBindings()
@@ -229,6 +236,9 @@ void PlayerShipController::InputBinding::RegisterBindings()
 	speedControl = AddAxis("BindSpeedControl");
 	toggleCruise = AddAction("BindToggleCruise");
 	toggleSpeedLimiter = AddAction("BindToggleSpeedLimiter");
+
+	toggleLandingGear = AddAction("BindToggleLandingGear");
+	controlLandingGear = AddAxis("BindControlLandingGear");
 }
 
 PlayerShipController::~PlayerShipController()
@@ -499,6 +509,8 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	// have to use this function. SDL mouse position event is bugged in windows
 	SDL_GetRelativeMouseState(mouseMotion + 0, mouseMotion + 1); // call to flush
 
+	UpdateLandingGear();
+
 	if (m_ship->GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
@@ -516,7 +528,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 				act.desiredAngular += m_followTarget->GetAngVelocity() * Pi::player->GetOrient();
 			}
 			//m_followMode == FOLLOW_ORI is when we try to match rotation speeds with a target
-			//so all axes should be matched even with rotation damping off 
+			//so all axes should be matched even with rotation damping off
 			act.desireAngVelFull = m_rotationDamping || (m_followTarget && m_followMode == FOLLOW_ORI);
 			ApplyTotalAction(act);
 			break;
@@ -766,6 +778,22 @@ void PlayerShipController::FireMissile()
 	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", "any", static_cast<Ship *>(Pi::player->GetCombatTarget()));
 }
 
+void PlayerShipController::OnToggleLandingGear()
+{
+	Pi::player->SetWheelState(!Pi::player->GetWheelState());
+}
+
+void PlayerShipController::UpdateLandingGear()
+{
+	const float value = InputBindings.controlLandingGear->GetValue();
+	if (value == 0.0)
+		return;
+
+	const bool state = value > 0.0;
+	if (Pi::player->GetWheelState() != state)
+		Pi::player->SetWheelState(state);
+}
+
 static constexpr double MAX_SELECT_VIEW_ANGLE = DEG2RAD(3.0);
 static constexpr double RELATIVE_DIST_EPSILON = 1.0/20.0;
 
@@ -792,7 +820,7 @@ static bool HierarchyAndDistanceComparator(const Space::BodyDist& bd1, const Spa
 
 		fid =  bd1.body->GetFrame();
 		f = nullptr;
-		
+
 		//check if first body is parent of second
 		while((f = Frame::GetFrame(fid))) {
 			if(f->GetBody() == bd2.body)
