@@ -14,10 +14,8 @@ function textTable.draw(t)
 	for _, entry in ipairs(t) do
 		if type(entry) == "table" then
 			ui.text(entry[1])
-			-- ui.getColumnWidth() seems to ignore some amount of window padding. More investigation required.
 			local width, textWidth = ui.getContentRegion().x, ui.calcTextSize(entry[2]).x
-			-- FIXME: add support for ui.getStyleVar("ItemSpacing"). Hardcoding to 8 for now
-			ui.sameLine(math.max(width - textWidth, width / 2 + 8), 0)
+			ui.sameLine(math.max(width - textWidth, width / 2 + ui.getItemSpacing().x), 0)
 			ui.textWrapped(entry[2])
 		elseif type(entry) == "string" then
 			ui.spacing()

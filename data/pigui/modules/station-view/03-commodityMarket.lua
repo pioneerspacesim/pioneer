@@ -6,8 +6,6 @@ local StationView = require 'pigui.views.station-view'
 local CommodityWidget = require 'pigui.libs.commodity-market'
 
 local ui = require 'pigui'
-local pionillium = ui.fonts.pionillium
-local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("ui-core")
 
 local commodityMarket = CommodityWidget.New("commodityMarket", false)
@@ -27,4 +25,8 @@ StationView:registerView({
 		commodityMarket.scrollReset = true
 		commodityMarket.selectedItem = nil
 	end,
+	debugReload = function()
+		package.reimport('pigui.libs.commodity-market')
+		package.reimport()
+	end
 })

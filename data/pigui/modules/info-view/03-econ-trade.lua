@@ -16,6 +16,7 @@ local l = Lang.GetResource("ui-core")
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 local pionillium = ui.fonts.pionillium
+local orbiteer = ui.fonts.orbiteer
 local Vector2 = _G.Vector2
 
 local iconSize = ui.rescaleUI(Vector2(28, 28))
@@ -42,13 +43,11 @@ local jettison = function (item)
 end
 
 -- Memoize the contents of the player's cargo hold to avoid recalculating them every frame
----@type { commodity: CommodityType, count: number }[]
+---@type { commodity: CommodityType, count: number }[]?
 local cachedCargoList = nil
-local maxCargoWidth = 0
 
 local function rebuildCargoList()
 	local count = {}
-	local maxCargoCount = 0
 
 	---@type CargoManager
 	local cargoMgr = Game.player:GetComponent('CargoManager')
@@ -57,37 +56,39 @@ local function rebuildCargoList()
 			commodity = CommodityType.GetCommodity(name),
 			count = info.count
 		})
-
-		maxCargoCount = math.max(maxCargoCount, info.count)
 	end
 
 	table.sort(count, function(a, b) return a.count > b.count end)
 
 	cachedCargoList = count
-	maxCargoWidth = ui.calcTextSize(maxCargoCount.."t").x + itemSpacing.x * 2
 	return count
 end
 
 local function cargolist ()
 	local count = cachedCargoList or rebuildCargoList()
 
-	ui.columns(3, "cargoTable")
+	ui.beginTable("cargoTable", 3, { "SizingFixedFit" })
+	ui.tableSetupColumn("Amount")
+	ui.tableSetupColumn("Name", { "WidthStretch" })
+	ui.tableSetupColumn("Jettison")
 
-	ui.setColumnWidth(0, maxCargoWidth)
 	for _, entry in ipairs(count) do
+		ui.tableNextRow()
+
 		-- count
+		ui.tableNextColumn()
 		ui.text(entry.count .. "t")
-		ui.nextColumn()
 
 		-- name
+		ui.tableNextColumn()
 		ui.text(entry.commodity:GetName())
-		ui.nextColumn()
 
 		-- jettison button
+		ui.tableNextColumn()
 		jettison(entry.commodity)
-		ui.nextColumn()
 	end
-	ui.columns(1, "")
+
+	ui.endTable()
 end
 
 
@@ -126,17 +127,17 @@ end
 
 -- wrapper around gaugees, for consistent size, and vertical spacing
 local function gauge_bar(x, text, min, max, icon)
-	local height = ui.getTextLineHeight()
-	local gaugePos = ui.getCursorScreenPos()
+	local height = ui.getTextLineHeightWithSpacing()
+	local cursorPos = ui.getCursorScreenPos()
 	local fudge_factor = 1.0
 	local gaugeWidth = ui.getContentRegion().x * fudge_factor
-	gaugePos.y = gaugePos.y + height
+	local gaugePos = Vector2(cursorPos.x, cursorPos.y + height * 0.5)
 
 	ui.gauge(gaugePos, x, '', text, min, max, icon,
 		colors.gaugeEquipmentMarket, '', gaugeWidth, height)
 
-	ui.text("")
-	ui.text("")
+	-- ui.addRect(cursorPos, cursorPos + Vector2(gaugeWidth, height), colors.gaugeCargo, 0, 0, 1)
+	ui.dummy(Vector2(gaugeWidth, height))
 end
 
 -- Gauge bar for internal, interplanetary, fuel tank
@@ -178,61 +179,66 @@ local function gauge_cabins()
 		0, cabins_total, icons.personal)
 end
 
+local function drawPumpDialog()
+	local width1 = ui.calcTextSize(l.PUMP_DOWN)
+	local width2 = ui.calcTextSize(l.REFUEL)
+
+	local width
+	if width2.x > width1.x then width = width2.x else width = width1.x end
+	width = width * 1.2
+
+	-- to-do: maybe show disabled version of button if fuel==100 or hydrogen==0
+	-- (if so, what about military fuel?)
+	-- at the moment: no visual cue for this.
+	ui.alignTextToLineHeight(ui.getButtonHeight())
+	ui.text(l.REFUEL)
+	ui.sameLine(width)
+	local options = {1, 10, 100}
+	for _, k in ipairs(options) do
+		if ui.button(tostring(k)  .. "##fuel", Vector2(100, 0)) then
+			-- Refuel k tonnes from cargo hold
+			Game.player:Refuel(Commodities.hydrogen, k)
+		end
+		ui.sameLine()
+	end
+	ui.text("")
+
+	-- To-do: Maybe also show disabled version of button if currentfuel == 0 or player:GetEquipFree("cargo") == 0
+	-- at the moment: no visual cue for this.
+	ui.alignTextToLineHeight(ui.getButtonHeight())
+	ui.text(l.PUMP_DOWN)
+	ui.sameLine(width)
+	for _, v in ipairs(options) do
+		local fuel = -1*v
+		if ui.button(fuel .. "##pump", Vector2(100, 0)) then
+			pumpDown(fuel)
+		end
+		ui.sameLine()
+	end
+	ui.text("")
+end
+
 local function drawEconTrade()
 	local player = Game.player
 
-	if ui.collapsingHeader(l.FUEL, {"DefaultOpen"}) then
-		gauge_fuel()
+	ui.withFont(orbiteer.heading, function() ui.text(l.FUEL) end)
 
-		local width1 = ui.calcTextSize(l.PUMP_DOWN)
-		local width2 = ui.calcTextSize(l.REFUEL)
-
-		local width
-		if width2.x > width1.x then width = width2.x else width = width1.x end
-		width = width * 1.2
-
-		-- to-do: maybe show disabled version of button if fuel==100 or hydrogen==0
-		-- (if so, what about military fuel?)
-		-- at the moment: no visual cue for this.
-		ui.text(l.REFUEL)
-		ui.sameLine(width)
-		local options = {1, 10, 100}
-		for _, k in ipairs(options) do
-			if ui.button(tostring(k)  .. "##fuel", Vector2(100, 0)) then
-				-- Refuel k tonnes from cargo hold
-				Game.player:Refuel(Commodities.hydrogen, k)
-			end
-			ui.sameLine()
-		end
-		ui.text("")
-
-		-- To-do: Maybe also show disabled version of button if currentfuel == 0 or player:GetEquipFree("cargo") == 0
-		-- at the moment: no visual cue for this.
-		ui.text(l.PUMP_DOWN)
-		ui.sameLine(width)
-		for _, v in ipairs(options) do
-			local fuel = -1*v
-			if ui.button(fuel .. "##pump", Vector2(100, 0)) then
-				pumpDown(fuel)
-			end
-			ui.sameLine()
-		end
-		ui.text("")
-	end
-
+	gauge_fuel()
 	gauge_hyperdrive()
 
-	if ui.collapsingHeader(l.CABINS, {"DefaultOpen"}) then
+	drawPumpDialog()
 
-		gauge_cabins()
-	end
+	ui.newLine()
+	ui.withFont(orbiteer.heading, function() ui.text(l.CABINS) end)
 
-	if ui.collapsingHeader(l.FINANCE, {"DefaultOpen"}) then
-		local cash = player:GetMoney()
-		ui.text(l.CASH)
-		ui.sameLine()
-		ui.text(Format.Money(cash))
-	end
+	gauge_cabins()
+
+	ui.newLine()
+
+	ui.withFont(orbiteer.heading, function() ui.text(l.FINANCE) end)
+	ui.text(l.CASH)
+	ui.sameLine()
+	ui.text(ui.Format.Money(player:GetMoney()))
 
 end
 
@@ -244,21 +250,21 @@ InfoView:registerView({
 
 	draw = function()
 		ui.withStyleVars({ItemSpacing = itemSpacing}, function()
-			ui.withFont(pionillium.medlarge, function()
-				local sizex = (ui.getColumnWidth() - itemSpacing.x) / 2
+			ui.withFont(pionillium.body, function()
+				local spacing = itemSpacing.x * 3
+				local sizex = (ui.getColumnWidth() - spacing) / 2
 				local sizey = ui.getContentRegion().y - StationView.style.height
 
 				ui.child("leftpanel", Vector2(sizex, sizey), function()
 					drawEconTrade()
 				end)
 
-				ui.sameLine()
+				ui.sameLine(0, spacing)
 
 				ui.child("rightpanel", Vector2(sizex, sizey), function()
-					if ui.collapsingHeader(l.CARGO, {"DefaultOpen"}) then
-						gauge_cargo()
-						cargolist()
-					end
+					ui.withFont(orbiteer.heading, function() ui.text(l.CARGO) end)
+					gauge_cargo()
+					cargolist()
 				end)
 			end)
 		end)

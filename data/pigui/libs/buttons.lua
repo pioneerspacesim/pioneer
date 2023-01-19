@@ -149,13 +149,11 @@ function ui.iconButton(icon, size, tooltip, variant, fg_color, frame_padding, ic
 
 	ui.withID(tooltip, function()
 		ui.withButtonColors(variant, function()
-			pigui.PushID(tooltip)
 			if icon_size then
 				res = pigui.ButtonImageSized(ui.get_icons_texture(size), size, icon_size, uv0, uv1, frame_padding, ui.theme.colors.transparent, fg_color)
 			else
 				res = pigui.ImageButton(ui.get_icons_texture(size), size, uv0, uv1, frame_padding, ui.theme.colors.transparent, fg_color)
 			end
-			pigui.PopID()
 		end)
 	end)
 

@@ -56,9 +56,10 @@ end
 local function crime_record()
 	local past_crimes, stump = Game.player:GetCrimeRecord()
 	if #utils.build_array(pairs(past_crimes)) > 0 then
-		ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size,
-			function() ui.textColored(gray, l.CRIMINAL_RECORD) end)
-		ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function ()
+		ui.withFont(orbiteer.heading, function()
+			ui.textColored(gray, l.CRIMINAL_RECORD)
+		end)
+		ui.withFont(pionillium.body, function ()
 			for k,v in pairs(past_crimes) do
 				ui.textColored(gray, v.count)
 				-- start second column at this position:
@@ -76,10 +77,12 @@ local function outstanding_fines()
 
 		-- headline
 		ui.dummy(widgetSizes.dummySpaceSmall)
-		ui.withFont(orbiteer.xlarge.name, orbiteer.xlarge.size,
-			function() ui.text(l.OUTSTANDING_FINES) end)
+		ui.withFont(orbiteer.heading, function()
+			ui.text(l.OUTSTANDING_FINES)
+		end)
+
 		-- wrap list in medlarge font
-		ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
+		ui.withFont(pionillium.body, function()
 			for k,v in pairs(crimes) do
 				ui.text(v.count)
 				-- start second column at this position:
@@ -95,8 +98,9 @@ local function outstanding_fines()
 			end
 		end)
 	else
-		ui.withFont(pionillium.large.name, pionillium.large.size,
-			function() ui.text(l.WE_HAVE_NO_BUSINESS_WITH_YOU) end)
+		ui.withFont(pionillium.body, function()
+			ui.text(l.WE_HAVE_NO_BUSINESS_WITH_YOU)
+		end)
 	end
 end
 
@@ -110,8 +114,11 @@ local function drawPolice()
 			- widgetSizes.faceSize.x - widgetSizes.itemSpacing.x
 
 		ui.child("CrimeStats", Vector2(infoColumnWidth, 0), {}, function()
-			ui.withFont(pionillium.large.name, pionillium.large.size,
-				function () ui.text(intro_txt) end)
+			ui.withFont(pionillium.heading, function ()
+				ui.text(intro_txt)
+			end)
+
+			ui.newLine()
 
 			-- 1. If outstanding fines, show list & offer to pay
 			outstanding_fines()
@@ -145,4 +152,7 @@ StationView:registerView({
 			end
 		end
 	end,
+	debugReload = function()
+		package.reimport()
+	end
 })
