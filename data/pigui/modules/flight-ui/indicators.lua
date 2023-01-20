@@ -80,6 +80,64 @@ local function displayIndicator(onscreen, position, direction, icon, color, show
 	end
 end
 
+local function isTargetObscured(navTarget)
+
+	local frameBody = player.frameBody
+
+	-- checks if the nav target is  behind (on the other side of) the player's framebody
+	
+	if frameBody and frameBody.path:GetSystemBody().radius > 0 and frameBody ~= navTarget then
+
+		local starport = navTarget.type == "STARPORT_SURFACE" and navTarget or
+			navTarget:IsShip() and navTarget:IsDocked() and navTarget:GetDockedWith().type == "STARPORT_SURFACE" and navTarget:GetDockedWith()
+
+		local isTargetOnFrameBody = starport and starport.path:GetSystemBody().parent.path == frameBody.path
+			or navTarget:IsShip() and navTarget:IsLanded() and navTarget.frameBody == frameBody
+
+		--local isPlayerOnFrameBody = player:IsLanded() or player:IsDocked() and player:GetDockedWith().type == "STARPORT_SURFACE"
+
+		local navWrtPlayer = navTarget:GetPositionRelTo(player)
+		--avoiding calculation of length - no sqrt() 
+		local targetDistSqr = navWrtPlayer:lengthSqr()
+
+		--below 10km distance visibility assumed
+		if targetDistSqr < 100000000 then
+			--print("Too close")
+			return false
+		end
+
+		local frameWrtPlayer = frameBody:GetPositionRelTo(player)
+		local navWrtFrame = navWrtPlayer - frameWrtPlayer
+
+		--ground ports are straightforward - if player is above the zero-horizon from the station's POV, the station is visible
+		if isTargetOnFrameBody then
+			--print("isTargetOnFrameBody")
+			if navWrtFrame:dot(navWrtPlayer) > 0 then return true end
+
+		--player parked another trivial case
+		elseif player:IsLanded() or player:IsDocked() and player:GetDockedWith().type == "STARPORT_SURFACE" then
+			--print("player on gournd")
+			if frameWrtPlayer:dot(navWrtPlayer) > 0 then return true end
+
+		-- generic case both angles have to be acute
+		elseif navWrtPlayer:dot(frameWrtPlayer) > 0 and navWrtPlayer:dot(navWrtFrame) > 0 then
+			--print("generic case")
+			local areaSqr = navWrtPlayer:cross(frameWrtPlayer):lengthSqr()
+			-- these will be used to check if the distance between the planet's centre and the line that connects the player and the target
+			-- is larger than the planet's radius
+			local pointLineDistSqr = areaSqr / targetDistSqr
+			local frameRadius = frameBody.path:GetSystemBody().radius
+
+			if pointLineDistSqr < frameRadius^2 then
+				return true
+			end
+		end
+	end
+
+	--print("BINGO2")
+	return false
+end
+
 gameView.displayIndicator = displayIndicator
 
 -- display the indicator pointing at the combat target
@@ -88,7 +146,9 @@ local function displayCombatTargetIndicator(combatTarget)
 	local vel = -combatTarget:GetVelocityRelTo(player)
 	local onscreen,position,direction = Engine.ProjectRelPosition(pos)
 
-	displayIndicator(onscreen, position, direction, icons.square, colors.combatTarget, true)
+
+	local targetIcon = isTargetObscured(combatTarget) and icons.square_dashed or icons.square
+	displayIndicator(onscreen, position, direction, targetIcon, colors.combatTarget, true)
 	onscreen,position,direction = Engine.ProjectRelDirection(vel)
 	displayIndicator(onscreen, position, direction, icons.prograde, colors.combatTarget, true, lui.HUD_INDICATOR_COMBAT_TARGET_PROGRADE)
 	onscreen,position,direction = Engine.ProjectRelDirection(-vel)
@@ -110,54 +170,15 @@ local function displayFrameIndicators(frame, navTarget)
 	displayIndicator(onscreen, position, direction, icons.frame_away, colors.frame, false, lui.HUD_INDICATOR_AWAY_FROM_FRAME)
 end
 
+
 -- display the indicator pointing at the nav target, and pro- and retrograde
 local function displayNavTargetIndicator(navTarget)
 	local onscreen,position,direction = Engine.GetTargetIndicatorScreenPosition(navTarget)
 	local frameBody = player.frameBody
 
-	-- checks if the nav target is a starport behind (on the other side of) the player's framebody
-	local isaPortBehindPlanet = false
-	
-	if frameBody and frameBody.path:GetSystemBody().radius > 0 then
-	
-		-- ground ports are straightforward - if player is above the zero-horizon from the station's POV, the station is visible
-		if navTarget.type == "STARPORT_SURFACE"  and navTarget.path:GetSystemBody().parent.path == frameBody.path then
-			if navTarget:GetPositionRelTo(frameBody):dot(player:GetPositionRelTo(navTarget)) < 0 then
-				isaPortBehindPlanet = true
-			end
 
-		-- orbital ports are a bit trickier
-		elseif navTarget.type == "STARPORT_ORBITAL" and navTarget.path:GetSystemBody().parent.path == frameBody.path then
-			local navWrtPlayer = navTarget:GetPositionRelTo(player)
-			local frameWrtPlayer = frameBody:GetPositionRelTo(player)
-			local navWrtFrame = navTarget:GetPositionRelTo(frameBody)
-			local area = navWrtPlayer:cross(frameWrtPlayer):length()
-
-			-- in the unlikely case that we are absolutely on target, no need to check anything else. also prevents an edge-case zero division.
-			if navWrtPlayer:length() > 0 then
-				-- these will be used to check if the distance between the planet's centre and the line that connects the player and the target
-				-- is larger than the planet's radius
-				local pointLineDist = area / navWrtPlayer:length()
-				local frameRadius = frameBody.path:GetSystemBody().radius
-
-				-- the dot product ensures that the planet and the station are in the same general direction from player's POV
-				-- the length check ensures that the station is actually distant enough to be on the far side.
-				-- without this check, isaPortBehindPlanet also returns true if the station is intersecting the planet's silhouette
-				-- while passing in front of the planet
-				if navWrtPlayer:dot(frameWrtPlayer) > 0 and navWrtPlayer:length() > frameWrtPlayer:length() then
-					if pointLineDist < frameRadius then
-						isaPortBehindPlanet = true
-					end
-				end
-			end
-		end
-	end
-
-	if isaPortBehindPlanet then
-		displayIndicator(onscreen, position, direction, icons.square_dashed, colors.navTargetDark, true)
-	else
-		displayIndicator(onscreen, position, direction, icons.square, colors.navTarget, true)
-	end
+	local targetIcon = isTargetObscured(navTarget) and icons.square_dashed or icons.square
+	displayIndicator(onscreen, position, direction, targetIcon, colors.navTargetDark, true)
 	
 	local navVelocity = -navTarget:GetVelocityRelTo(player)
 	if navVelocity:length() > 1 then
