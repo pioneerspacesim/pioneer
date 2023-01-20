@@ -48,6 +48,9 @@ local major_export = -10
 local minor_import = 4
 local major_import = 10
 
+-- price percentage difference necessary to make a trade viable
+local viable_trade = 4 + Economy.TotalTradeFees
+
 function SystemEconView.ClassifyPrice(pricemod)
 	if not pricemod then
 		return priceModTab.illegal
@@ -110,13 +113,13 @@ function SystemEconView.buildStationCommodityList(system, station, otherStation)
 	for name, item in pairs(Commodities) do
 		local legal = system:IsCommodityLegal(name)
 		local systemPrice = system:GetCommodityBasePriceAlterations(name)
-		local price = station:GetCommodityPrice(item) - systemPrice
-		local otherPrice = otherStation and otherStation:GetCommodityPrice(item) - systemPrice
+		local price = station:GetCommodityPrice(item)
+		local otherPrice = otherStation and otherStation:GetCommodityPrice(item)
 
 		local tab = {
 			item.l10n_key,
-			legal and SystemEconView.GetPricemod(item, price),
-			legal and otherPrice and SystemEconView.GetPricemod(item, otherPrice)
+			legal and SystemEconView.GetPricemod(item, price) - systemPrice,
+			legal and otherPrice and SystemEconView.GetPricemod(item, otherPrice) - systemPrice
 		}
 
 		table.insert(legal and commodityList or illegalList, tab)
@@ -130,7 +133,7 @@ end
 local function getProfitabilityInfo(priceA, priceB)
 	local priceDiff = (priceA and priceB) and priceA - priceB
 
-	if priceDiff and math.abs(priceDiff) > major_import then
+	if priceDiff and math.abs(priceDiff) > viable_trade then
 		return priceDiff > 0 and profitTab.profit or profitTab.loss
 	end
 end

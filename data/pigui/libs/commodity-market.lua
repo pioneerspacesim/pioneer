@@ -5,6 +5,7 @@ local Game = require 'Game'
 local Lang = require 'Lang'
 local Format = require 'Format'
 local Commodities = require 'Commodities'
+local Economy     = require 'Economy'
 
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
@@ -86,7 +87,7 @@ function CommodityMarketWidget.New(id, title, config)
 		ui.nextColumn()
 
 		ui.withStyleVars({ItemSpacing = (self.style.itemSpacing / 2)}, function()
-			local price = self.funcs.getBuyPrice(self, item)
+			local price = self.station:GetCommodityPrice(item)
 
 			ui.dummy(vZero)
 			ui.text(item:GetName())
@@ -133,17 +134,14 @@ function CommodityMarketWidget.New(id, title, config)
 
     -- what do we charge for this item if we are buying
     config.getBuyPrice = config.getBuyPrice or function (self, commodity)
-        return self.station:GetCommodityPrice(commodity)
+		local price = self.station:GetCommodityPrice(commodity)
+		return price * (1.0 + math.sign(price) * Economy.TradeFeeSplit * 0.01)
     end
 
     -- what do we get for this item if we are selling
     config.getSellPrice = config.getSellPrice or function (self, commodity)
-        local basePrice = self.station:GetCommodityPrice(commodity)
-        if basePrice > 0 then
-			return basePrice
-        else
-            return 1.0/sellPriceReduction * basePrice
-        end
+        local price = self.station:GetCommodityPrice(commodity)
+		return price * (1.0 - math.sign(price) * Economy.TradeFeeSplit * 0.01)
     end
 
 	config.bought = function (self, commodity, tradeamount)

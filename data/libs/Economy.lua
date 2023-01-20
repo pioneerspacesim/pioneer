@@ -16,10 +16,16 @@ local Economy = package.core['Economy']
 
 -- Determines how far a commodity's price can be perturbed from the system-wide
 -- average price at an individual station
-local kMaxCommodityVariance = 12
+local kMaxCommodityVariance = 15
 
 local Economies = Economy.GetEconomies()
 local Commodities = Economy.GetCommodities()
+
+
+-- Percentage modifier applied to buying/selling commodities
+-- Prevents buying a commodity at a station and immediately reselling it
+Economy.TradeFeeSplit = 2
+Economy.TotalTradeFees = 2 * Economy.TradeFeeSplit
 
 -- stationMarket is a persistent table of stock information for every station
 -- the player has visited in their journey
