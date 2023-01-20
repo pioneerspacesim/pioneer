@@ -599,9 +599,21 @@
     "description": "",
     "message": "hydrogen atmosphere"
   },
+  "DWARF_ICE_PLANET": {
+    "description": "",
+    "message": "Dwarf ice planet"
+  },
   "ICE_MOON": {
     "description": "",
     "message": "\" ice moon\""
+  },
+  "DWARF_PLANET": {
+    "description": "",
+    "message": "Dwarf planet"
+  },
+  "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "Dwarf planet containing some liquids,"
   },
   "ICE_WORLD": {
     "description": "",

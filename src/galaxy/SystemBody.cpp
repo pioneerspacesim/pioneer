@@ -218,7 +218,8 @@ std::string SystemBody::GetAstroDescription() const
 	case TYPE_PLANET_TERRESTRIAL: {
 		std::string s;
 
-		// Is it a moon?
+		// Is it a moon? or a dwarf planet?
+		bool dwarfplanet = false;
 		bool moon = false;
 		if (m_parent && (m_parent->GetType() == TYPE_PLANET_TERRESTRIAL || m_parent->GetType() == TYPE_PLANET_GAS_GIANT))
 			moon = true;
@@ -237,12 +238,23 @@ std::string SystemBody::GetAstroDescription() const
 			s = Lang::MASSIVE;
 		else if (m_mass > fixed(3, 2))
 			s = Lang::LARGE;
-		else if (m_mass < fixed(1, 10))
-			s = Lang::TINY;
-		else if (m_mass < fixed(1, 5))
-			s = Lang::SMALL;
-		else
+		else if (m_mass > fixed(1, 2))
 			s = Lang::MEDIUM;
+		else if (m_mass > fixed(1, 81))			// ~Weight of the moon (By definition here to be
+			s = Lang::SMALL;					// the upper limit of a Dwarf planet
+		else if (m_mass > fixed(1, 11000)) {	// ~Larger than the weight of Salacia (0.7% moon mass)
+			if (moon) {							// which is concidered not a dwarf planet
+				s = Lang::TINY;
+			} else {
+				dwarfplanet = true;
+			}
+		} else {
+			if (moon) {
+				s = Lang::TINY;
+			} else {
+				return Lang::ASTEROID;
+			}
+		}
 
 		if (m_volcanicity > fixed(7, 10)) {
 			if (s.size())
@@ -258,12 +270,16 @@ std::string SystemBody::GetAstroDescription() const
 			if (m_volatileIces > m_volatileLiquid) {
 				if (moon) {
 					s += (m_averageTemp < 273) ? Lang::ICE_MOON: Lang::ROCKY_MOON;
+				} else if (dwarfplanet) {
+					s += (m_averageTemp < 273) ? Lang::DWARF_ICE_PLANET : Lang::DWARF_PLANET;
 				} else {
 					s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::ROCKY_PLANET;
 				}
 			} else {
 				if (moon) {
 					s += (m_averageTemp < 273) ? Lang::ICE_MOON : Lang::OCEANICMOON;
+				} else if (dwarfplanet) {
+					s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::WATER_DWARF_PLANET;
 				} else {
 					s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::OCEANICWORLD;
 				}
@@ -275,6 +291,8 @@ std::string SystemBody::GetAstroDescription() const
 			s += (m_averageTemp > 273) ? Lang::PLANET_CONTAINING_LIQUID_WATER : Lang::PLANET_WITH_SOME_ICE;
 		} else if (moon) {
 			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_MOON_CONTAINING_SOME_LIQUIDS : Lang::ROCKY_MOON;
+		} else if (dwarfplanet) {
+			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_DWARF_PLANET_CONTAINING_SOME_LIQUIDS : Lang::DWARF_PLANET;
 		} else {
 			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS : Lang::ROCKY_PLANET;
 		}
@@ -290,7 +308,7 @@ std::string SystemBody::GetAstroDescription() const
 				thickness = Lang::THIN;
 			else if (m_volatileGas < fixed(2, 1)) // normal atmosphere
 				article = true;
-			else if (m_volatileGas < fixed(4, 1))
+			else if (m_volatileGas < fixed(20, 1))
 				thickness = Lang::THICK;
 			else
 				thickness = Lang::VERY_DENSE;

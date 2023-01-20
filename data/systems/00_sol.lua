@@ -660,6 +660,7 @@ local neptune_moons = {
 		:eccentricity(f(53,100000))
 		:inclination(math.deg2rad(0.524))
 		:rotation_period(f(1122,1000))
+		:ice_cover(f(8,10)) -- Made up rock/ice ratio. Currently unknown.
 		:rings(false),
 	CustomSystemBody:new('Triton', 'PLANET_TERRESTRIAL')
 		:radius(f(2122,10000))
@@ -672,6 +673,7 @@ local neptune_moons = {
 		:rotation_period(f(141,24))
 		:atmos_density(f(100,1225))
 		:atmos_oxidizing(f(1,20))
+		:ice_cover(f(1,1))
 		:rings(false),
 	{
 		CustomSystemBody:new('Poseidon Station', 'STARPORT_ORBITAL')
@@ -700,6 +702,7 @@ local pluto = CustomSystemBody:new('Pluto', 'PLANET_TERRESTRIAL')
 	:rotation_period(f(153,24))
 	:axial_tilt(fixed.deg2rad(f(296,10)))
 	:orbital_phase_at_start(fixed.deg2rad(f(315,1)))
+	:ice_cover(f(1,1))
 	:rings(false)
 
 local pluto_starports = {
@@ -719,6 +722,7 @@ local charon = {
 		:rotation_period(f(6,10))
 		:axial_tilt(fixed.deg2rad(f(668,100)))
 		:volcanicity(f(0,1))
+		:ice_cover(f(1,1))
 		:rings(false),
 }
 
