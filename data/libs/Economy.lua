@@ -18,9 +18,15 @@ local Economy = package.core['Economy']
 -- average price at an individual station
 local kMaxCommodityVariance = 15
 
-local Economies = Economy.GetEconomies()
+local Economies = {}
 local Commodities = Economy.GetCommodities()
 
+-- Create a stable iteration order for economies to avoid non-deterministic results
+for _, econ in pairs(Economy.GetEconomies()) do
+	table.insert(Economies, econ)
+end
+
+table.sort(Economies, function(a, b) return a.id < b.id end)
 
 -- Percentage modifier applied to buying/selling commodities
 -- Prevents buying a commodity at a station and immediately reselling it
@@ -63,17 +69,18 @@ function Economy.GetStationEconomy(stationBody)
 
 	local rand = Rand.New('station-econ-{}' % { stationBody.seed })
 
-	for _, econ in pairs(Economies) do
+	for _, econ in ipairs(Economies) do
 		local score = 0.0
 		score = score + econ.generation.agricultural * math.max(sBody.agricultural, sBody.life * 0.75)
 		score = score + econ.generation.metallicity * (sBody.metallicity + sBody.volatileIces) * 0.5
 		score = score + econ.generation.industrial * (sBody.volcanicity * sBody.metallicity + sBody.atmosOxidizing) * 0.5
+		score = score + rand:Number(0, 1)
 
 		econAffinity[econ.id] = score
 		sum = sum + score
 	end
 
-	for _, econ in pairs(Economies) do
+	for _, econ in ipairs(Economies) do
 		local score = econAffinity[econ.id]
 		local offset = rand:Number(0, math.min(sum, score))
 
@@ -159,6 +166,7 @@ function Economy.GetStationFlowParams(stationBody, comm)
 
 	-- Calculate the total flow for a commodity at this station based on a
 	-- normal distribution.
+
 	-- "Flow" models both supply and demand of a commodity, and is used to
 	-- determine equilibrium state
 	-- NOTE: a better model for calculating commodity flow would be nice -
@@ -167,11 +175,24 @@ function Economy.GetStationFlowParams(stationBody, comm)
 
 	-- Calculate this station's proportion of export to import based on its
 	-- affinity to the producing economy.
-	-- A station with high affinity primarily exports the commodity while a
-	-- station with low affinity primarily imports the commodity.
-	local affinity = affinities[comm.producer] or 1
-	affinity = weight_affinity(affinity * 2 - 1)
+	-- A station with positive affinity primarily exports the commodity while a
+	-- station with negative affinity primarily imports the commodity.
+	local affinity = (affinities[comm.producer] or 1) * 2 - 1
+
+	-- Randomly scale or invert commodity affinity at this station to provide more variance
+	-- TODO: this should be removed (or its intensity reduced) once more economy types exist
+	-- This term is only here to avoid all stations in the galaxy being primarily agrarian
+	affinity = affinity * rand:Normal(0, 1)
+
+	-- Weight and clamp the affinity away from 0 to ensure stations have at least minimal trade
+	affinity = weight_affinity(affinity)
 	affinity = math.clamp(affinity, -0.99, 0.99)
+
+	-- Adjust the flow at this station to reduce stocking for minimal trade commodities
+	-- The smaller the absolute value of affinity is, the lower commodity trade at this station
+	-- Apply the weighting function to affinity again to reduce the chance of a commodity having
+	-- no trade at all
+	flow = flow * math.abs(weight_affinity(affinity) * 1.2)
 
 	-- logVerbose("{}: flow {}, affinity: {}" % { comm.name, flow, affinity })
 
