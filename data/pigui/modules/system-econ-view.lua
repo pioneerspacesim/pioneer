@@ -62,6 +62,10 @@ function SystemEconView.ClassifyPrice(pricemod)
 	end
 end
 
+function SystemEconView.GetPricemod(item, price)
+	return (price / item.price - 1.0) * 100
+end
+
 function SystemEconView:Constructor()
 	self.compareMode = CompareMode.BySystem
 	self.selectedCommodity = nil
@@ -89,6 +93,33 @@ function SystemEconView.buildCommodityList(sys, otherSys)
 		else
 			table.insert(illegalList, tab)
 		end
+	end
+
+	table.sort(commodityList, function(a, b) return a[1] < b[1] end)
+	table.sort(illegalList, function(a, b) return a[1] < b[1] end)
+	return commodityList, illegalList
+end
+
+---@param system StarSystem
+---@param station SpaceStation
+---@param otherStation SpaceStation?
+function SystemEconView.buildStationCommodityList(system, station, otherStation)
+	local commodityList = {}
+	local illegalList = {}
+
+	for name, item in pairs(Commodities) do
+		local legal = system:IsCommodityLegal(name)
+		local systemPrice = system:GetCommodityBasePriceAlterations(name)
+		local price = station:GetCommodityPrice(item) - systemPrice
+		local otherPrice = otherStation and otherStation:GetCommodityPrice(item) - systemPrice
+
+		local tab = {
+			item.l10n_key,
+			legal and SystemEconView.GetPricemod(item, price),
+			legal and otherPrice and SystemEconView.GetPricemod(item, otherPrice)
+		}
+
+		table.insert(legal and commodityList or illegalList, tab)
 	end
 
 	table.sort(commodityList, function(a, b) return a[1] < b[1] end)
@@ -142,8 +173,8 @@ local function drawCommodityTooltip(info, thisSystem, otherSystem)
 	end)
 end
 
----@param thisSystem StarSystem
----@param otherSystem StarSystem?
+---@param thisSystem table
+---@param otherSystem table?
 function SystemEconView:drawCommodityList(commList, illegalList, thisSystem, otherSystem)
 	local width = ui.getColumnWidth()
 	local iconWidth = ui.getTextLineHeight() + 4
@@ -206,7 +237,7 @@ end
 ---@param selected StarSystem
 ---@param current StarSystem
 function SystemEconView:drawSystemComparison(selected, current)
-	local showComparison = current ~= selected and selected.population > 0
+	local showComparison = current ~= selected and current and selected.population > 0
 		and (Game.player["trade_computer_cap"] or 0) > 0
 
 	local otherSys = showComparison and current or nil
@@ -235,6 +266,46 @@ function SystemEconView:drawSystemComparison(selected, current)
 		else
 			local commList, illegalList = SystemEconView.buildCommodityList(selected, otherSys)
 			self:drawCommodityList(commList, illegalList, selected, otherSys)
+		end
+	end)
+end
+
+---@param selected SystemBody
+---@param current SystemBody?
+function SystemEconView:drawStationComparison(selected, current)
+	local showComparison = current ~= selected and current
+		and (Game.player["trade_computer_cap"] or 0) > 0
+
+	if not showComparison then current = nil end
+
+	local system = selected.system
+	local station = selected.body --[[@as SpaceStation]]
+	local otherStation = current and current.body --[[@as SpaceStation?]]
+
+	ui.withFont(pionillium.body, function()
+		ui.text(lui.COMMODITY_TRADE_ANALYSIS)
+		ui.spacing()
+
+		ui.withFont(pionillium.heading, function()
+			if current then
+				ui.text(current.name)
+				ui.sameLine(ui.getContentRegion().x - ui.calcTextSize(selected.name).x)
+			end
+
+			ui.text(selected.name)
+		end)
+
+		ui.spacing()
+		ui.separator()
+		ui.spacing()
+
+		if not station or (showComparison and not otherStation) then
+			ui.icon(icons.alert_generic, Vector2(ui.getTextLineHeight()), ui.theme.colors.font)
+			ui.sameLine()
+			ui.text(lc.NO_AVAILABLE_DATA)
+		else
+			local commList, illegalList = SystemEconView.buildStationCommodityList(system, station, otherStation)
+			self:drawCommodityList(commList, illegalList, selected, current)
 		end
 	end)
 end
