@@ -6,8 +6,11 @@ local Format = require 'Format'
 local Lang = require 'Lang'
 local utils = require "libs.utils"
 
-local ui = require 'pigui'
+local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
+
+local ui = require 'pigui'
+
 local getBodyIcon = require 'pigui.modules.flight-ui.body-icons'
 
 local colors = ui.theme.colors
@@ -235,6 +238,28 @@ function SystemOverviewWidget:display(system, root, selected)
 			ui.text(lui.NO_FILTER_MATCHES)
 		end
 	end)
+end
+
+function SystemOverviewWidget:displaySidebarTitle(system)
+	local spacing = styles.ItemInnerSpacing
+	local numButtons = self.shouldDisplayPlayerDistance and 3 or 2
+	local button_width = (ui.getLineHeight() + spacing.x) * numButtons - spacing.x
+
+	local pos = ui.getCursorPos() + Vector2(ui.getContentRegion().x - button_width, 0)
+	self.buttonSize = Vector2(ui.getLineHeight() - styles.MainButtonPadding * 2)
+
+	if system then
+		ui.text(system.name)
+
+		ui.setCursorPos(pos)
+		ui.withStyleVars({ ItemSpacing = spacing }, function()
+			ui.withFont(ui.fonts.pionillium.medium, function()
+				self:drawControlButtons()
+			end)
+		end)
+	else
+		ui.text(lc.HYPERSPACE)
+	end
 end
 
 return SystemOverviewWidget
