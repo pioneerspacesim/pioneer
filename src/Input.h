@@ -195,9 +195,9 @@ public:
 	void SetMouseYInvert(bool state);
 
 	bool IsMouseButtonPressed(int button) { return mouseButton[button] == 1; }
-	bool IsMouseButtonReleased(int button) { return mouseButton[button] == 3; }
+	bool IsMouseButtonReleased(int button) { return mouseButton[button] == 4; }
 
-	int MouseButtonState(int button) { return mouseButton[button] & 3; }
+	bool MouseButtonState(int button) { return mouseButton[button] & 3; }
 	void SetMouseButtonState(int button, bool state) { mouseButton[button] = state; }
 
 	void GetMousePosition(int position[2]);

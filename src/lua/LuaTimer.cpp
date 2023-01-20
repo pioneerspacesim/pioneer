@@ -94,6 +94,7 @@ void LuaTimer::Tick()
 
 	// Clear the scratch buffer
 	m_called.clear();
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }

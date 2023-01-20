@@ -111,7 +111,6 @@ std::unique_ptr<LuaConsole> Pi::luaConsole;
 Game *Pi::game;
 Random Pi::rng;
 float Pi::frameTime;
-bool Pi::doingMouseGrab;
 bool Pi::showDebugInfo = false;
 int Pi::statSceneTris = 0;
 int Pi::statNumPatches = 0;
@@ -1102,8 +1101,6 @@ void GameLoop::End()
 	// Clean up any left-over mouse state
 	Pi::input->SetCapturingMouse(false);
 
-	Pi::SetMouseGrab(false);
-
 #ifdef REMOTE_LUA_REPL
 	Pi::luaConsole->CloseTCPDebugConnection();
 #endif
@@ -1230,17 +1227,6 @@ float Pi::GetMoveSpeedShiftModifier()
 	if (Pi::input->KeyState(SDLK_LSHIFT)) return 100.f;
 	if (Pi::input->KeyState(SDLK_RSHIFT)) return 10.f;
 	return 1;
-}
-
-void Pi::SetMouseGrab(bool on)
-{
-	if (!doingMouseGrab && on) {
-		Pi::input->SetCapturingMouse(true);
-		doingMouseGrab = true;
-	} else if (doingMouseGrab && !on) {
-		Pi::input->SetCapturingMouse(false);
-		doingMouseGrab = false;
-	}
 }
 
 // This absolutely ought not to be part of the Pi class
