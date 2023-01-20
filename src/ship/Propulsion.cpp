@@ -185,9 +185,9 @@ vector3d Propulsion::GetThrust(const vector3d &dir) const
 double Propulsion::GetThrustMin() const
 {
 	// These are the weakest thrusters in a ship
-	double val = static_cast<double>(m_linThrust[THRUSTER_UP]);
-	val = std::min(val, static_cast<double>(m_linThrust[THRUSTER_RIGHT]));
-	val = std::min(val, static_cast<double>(m_linThrust[THRUSTER_LEFT]));
+	double val = GetThrust(THRUSTER_UP);
+	val = std::min(val, GetThrust(THRUSTER_RIGHT));
+	val = std::min(val, GetThrust(THRUSTER_LEFT));
 	return val;
 }
 

@@ -137,10 +137,10 @@ private:
 	bool m_tangent;		   // true if path is to a tangent of the target frame's body
 	int m_state;
 
-	bool m_lockhead;
 	int m_targetIndex; // used during deserialisation
 	vector3d m_reldir; // target direction relative to ship at last frame change
 	FrameId m_frameId; // last frame of ship
+	bool m_suicideRecovery;
 };
 
 class AICmdFlyAround : public AICommand {
