@@ -202,7 +202,11 @@ namespace FileSystem {
 		m_dirLen(0),
 		m_type(type)
 	{
-		assert((m_path.size() <= 1) || (m_path[m_path.size() - 1] != '/'));
+		if (!m_path.empty() && m_path[m_path.size() - 1] == '/') {
+			// remove trailing slash
+			m_path.pop_back();
+		}
+
 		std::size_t slashpos = m_path.rfind('/');
 		if (slashpos != std::string::npos) {
 			m_dirLen = slashpos + 1;
