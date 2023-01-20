@@ -305,7 +305,7 @@ function SystemEconView:drawStationComparison(selected, current)
 		if not station or (showComparison and not otherStation) then
 			ui.icon(icons.alert_generic, Vector2(ui.getTextLineHeight()), ui.theme.colors.font)
 			ui.sameLine()
-			ui.text(lc.NO_AVAILABLE_DATA)
+			ui.text(lui.NO_AVAILABLE_DATA)
 		else
 			local commList, illegalList = SystemEconView.buildStationCommodityList(system, station, otherStation)
 			self:drawCommodityList(commList, illegalList, selected, current)
@@ -355,6 +355,7 @@ function SystemEconView:drawSystemFinder()
 	local key = commodityOptions[selectedIndex]
 	local comm = Commodities[key]
 	local commName = lcomm[comm.l10n_key]
+	local station = Game.player:GetDockedWith() ---@type SpaceStation
 
 	ui.withFont(pionillium.body, function()
 
@@ -364,6 +365,14 @@ function SystemEconView:drawSystemFinder()
 			if ui.button("[This System]") then self.compareMode = CompareMode.BySystem end
 		end
 
+		if station then
+			ui.sameLine()
+
+			if ui.button("Load Market Data") then
+				self:loadMarketData(Economy.GetStationMarket(station.path).commodities)
+			end
+		end
+
 		ui.nextItemWidth(-1)
 		local changed, index = ui.combo("##commodityCombo", selectedIndex - 1, commodityOptions)
 		ui.spacing()
@@ -371,11 +380,7 @@ function SystemEconView:drawSystemFinder()
 
 
 		if not self.savedMarket then
-			local station = Game.player:GetDockedWith() ---@type SpaceStation
 
-			if station and ui.button("Load Market Data") then
-				self:loadMarketData(Economy.GetStationMarket(station.path).commodities)
-			end
 		else
 			ui.text(lui.COMMODITY_TRADE_ANALYSIS)
 			ui.spacing()

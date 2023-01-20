@@ -363,7 +363,7 @@ local onShipDocked = function (ship, station)
 			else
 				error("demand should probably not be 0.")
 			end
-			-- print("--- NewsEvent: cargo:", cargo_item:GetName(), "price:", newPrice, "stock:", newStockChange)
+			-- print("--- NewsEvent: cargo:", cargo_item:GetName(), "price:", newPrice, "stock:", newStock)
 			station:SetCommodityPrice(cargo_item, newPrice)
 			station:SetCommodityStock(cargo_item, newStock)
 		end

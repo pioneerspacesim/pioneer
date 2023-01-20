@@ -2354,5 +2354,9 @@
   "INTERSTELLAR_TRADE_AVG": {
 	"description": "Label displaying commodity flow at a per-system level",
 	"message": "Interstellar Trade:"
+  },
+  "NO_AVAILABLE_DATA": {
+	"description": "Message displaying no stored data available",
+	"message": "No data available"
   }
 }
