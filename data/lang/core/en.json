@@ -599,17 +599,17 @@
     "description": "",
     "message": "hydrogen atmosphere"
   },
-  "DWARF_ICE_PLANET": {
+  "DWARF_PLANET_ICE": {
     "description": "",
-    "message": "Dwarf ice planet"
+    "message": "Dwarf planet \"ice dwarf\""
   },
   "ICE_MOON": {
     "description": "",
     "message": "\" ice moon\""
   },
-  "DWARF_PLANET": {
+  "DWARF_PLANET_TERRESTRIAL": {
     "description": "",
-    "message": "Dwarf planet"
+    "message": "Dwarf planet \"terrestrial\""
   },
   "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
     "description": "",
