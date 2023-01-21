@@ -240,7 +240,7 @@ std::string SystemBody::GetAstroDescription() const
 			s = Lang::LARGE;
 		else if (m_mass > fixed(1, 2))
 			s = Lang::MEDIUM;
-		else if (m_mass > fixed(1, 81))			// ~Weight of the moon (By definition here to be
+		else if (m_mass > fixed(12,1000))		// ~Weight of the moon (By definition here to be
 			s = Lang::SMALL;					// the upper limit of a Dwarf planet
 		else if (m_mass > fixed(1, 11000)) {	// ~Larger than the weight of Salacia (0.7% moon mass)
 			if (moon) {							// which is concidered not a dwarf planet
