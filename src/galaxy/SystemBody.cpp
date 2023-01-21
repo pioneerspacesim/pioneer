@@ -271,7 +271,7 @@ std::string SystemBody::GetAstroDescription() const
 				if (moon) {
 					s += (m_averageTemp < 273) ? Lang::ICE_MOON: Lang::ROCKY_MOON;
 				} else if (dwarfplanet) {
-					s += (m_averageTemp < 273) ? Lang::DWARF_ICE_PLANET : Lang::ROCKY_DWARF_PLANET;
+					s += (m_averageTemp < 273) ? Lang::DWARF_PLANET_ICE : Lang::DWARF_PLANET_TERRESTRIAL;
 				} else {
 					s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::ROCKY_PLANET;
 				}
@@ -292,7 +292,7 @@ std::string SystemBody::GetAstroDescription() const
 		} else if (moon) {
 			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_MOON_CONTAINING_SOME_LIQUIDS : Lang::ROCKY_MOON;
 		} else if (dwarfplanet) {
-			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_DWARF_PLANET_CONTAINING_SOME_LIQUIDS : Lang::ROCKY_DWARF_PLANET;
+			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::DWARF_PLANET_TERRESTRIAL_CONTAINING_SOME_LIQUIDS : Lang::DWARF_PLANET_TERRESTRIAL;
 		} else {
 			s += (m_volatileLiquid > fixed(1, 5)) ? Lang::ROCKY_PLANET_CONTAINING_COME_LIQUIDS : Lang::ROCKY_PLANET;
 		}

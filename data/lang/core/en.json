@@ -601,7 +601,7 @@
   },
   "DWARF_PLANET_ICE": {
     "description": "",
-    "message": "Dwarf planet \"ice dwarf\""
+    "message": "Dwarf planet, ice"
   },
   "ICE_MOON": {
     "description": "",
@@ -609,9 +609,9 @@
   },
   "DWARF_PLANET_TERRESTRIAL": {
     "description": "",
-    "message": "Dwarf planet \"terrestrial\""
+    "message": "Dwarf planet"
   },
-  "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
+  "DWARF_PLANET_TERRESTRIAL_CONTAINING_SOME_LIQUIDS": {
     "description": "",
     "message": "Dwarf planet containing some liquids,"
   },
