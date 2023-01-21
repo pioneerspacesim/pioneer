@@ -279,7 +279,7 @@ std::string SystemBody::GetAstroDescription() const
 				if (moon) {
 					s += (m_averageTemp < 273) ? Lang::ICE_MOON : Lang::OCEANICMOON;
 				} else if (dwarfplanet) {
-					s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::WATER_DWARF_PLANET;
+					s += (m_averageTemp < 273) ? Lang::DWARF_PLANET_ICE : Lang::DWARF_PLANET_WATER;
 				} else {
 					s += (m_averageTemp < 273) ? Lang::ICE_WORLD : Lang::OCEANICWORLD;
 				}
