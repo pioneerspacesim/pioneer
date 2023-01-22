@@ -209,7 +209,7 @@ local mars_moons = {
 
 local eros = CustomSystemBody:new('Eros', 'PLANET_TERRESTRIAL')
 	:seed(842785371)
-	:radius(f(3,1000)) -- 16.84km mean
+	:radius(f(15,10000)) -- 8.42km mean
 	:mass(f(112,100000000000)) -- 6.687e15 kg
 	:temp(164)
 	:semi_major_axis(f(1458,1000)) -- 1.458 AU
@@ -220,7 +220,7 @@ local eros = CustomSystemBody:new('Eros', 'PLANET_TERRESTRIAL')
 	:rings(false)
 
 local pallas = CustomSystemBody:new('Pallas', 'PLANET_TERRESTRIAL')
-	:radius(f(08,100)) -- 512km
+	:radius(f(04,100)) -- 256km
 	:mass(f(353,10000000)) -- 2.11e20 kg
 	:temp(164)
 	:semi_major_axis(f(27716,10000)) -- 2.7716 AU
@@ -231,7 +231,7 @@ local pallas = CustomSystemBody:new('Pallas', 'PLANET_TERRESTRIAL')
 	:rings(false)
 
 local vesta = CustomSystemBody:new('Vesta', 'PLANET_TERRESTRIAL')
-	:radius(f(082,1000)) -- 525km
+	:radius(f(041,1000)) -- 263km
 	:mass(f(4338,100000000)) -- 2.590e20 kg
 	:temp(177) -- 85 - 270K
 	:semi_major_axis(f(236179,100000)) -- 2.36179 AU
