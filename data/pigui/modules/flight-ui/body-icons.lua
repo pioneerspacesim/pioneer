@@ -6,7 +6,7 @@ local ui = require 'pigui'
 
 local icons = ui.theme.icons
 
-local ASTEROID_RADIUS = 950000 -- rocky planets smaller than this (in meters) are considered an asteroid, not a planet
+local ASTEROID_RADIUS = 450000 -- rocky planets smaller than this (in meters) are considered an asteroid, not a planet
 
 -- Return the icon used to display the given body
 -- If forWorld is true, returns an icon variant suitable
