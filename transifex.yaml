@@ -1,0 +1,186 @@
+filters:
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/core/en.json
+      translation_file_expression: 'data/lang/core/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/ui-core/en.json
+      translation_file_expression: 'data/lang/ui-core/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/equipment-core/en.json
+      translation_file_expression: 'data/lang/equipment-core/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/input-core/en.json
+      translation_file_expression: 'data/lang/input-core/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/commodity/en.json
+      translation_file_expression: 'data/lang/commodity/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/quitconfirmation-core/en.json
+      translation_file_expression: 'data/lang/quitconfirmation-core/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-advice/en.json
+      translation_file_expression: 'data/module-advice/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-aiwarning/en.json
+      translation_file_expression: 'data/module-aiwarning/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-assassination/en.json
+      translation_file_expression: 'data/module-assassination/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-breakdownservicing/en.json
+      translation_file_expression: 'data/module-breakdownservicing/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-deliverpackage/en.json
+      translation_file_expression: 'data/module-deliverpackage/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-donatetocranks/en.json
+      translation_file_expression: 'data/module-donatetocranks/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-cargorun/en.json
+      translation_file_expression: 'data/module-cargorun/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-combat/en.json
+      translation_file_expression: 'data/module-combat/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-crewcontracts/en.json
+      translation_file_expression: 'data/module-crewcontracts/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-easteregg/en.json
+      translation_file_expression: 'data/module-easteregg/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-fuelclub/en.json
+      translation_file_expression: 'data/module-fuelclub/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-goodstrader/en.json
+      translation_file_expression: 'data/module-goodstrader/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-newseventcommodity/en.json
+      translation_file_expression: 'data/module-newseventcommodity/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-policepatrol/en.json
+      translation_file_expression: 'data/module-policepatrol/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-rondel/en.json
+      translation_file_expression: 'data/module-rondel/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-scoop/en.json
+      translation_file_expression: 'data/module-scoop/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-scout/en.json
+      translation_file_expression: 'data/module-scout/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-searchrescue/en.json
+      translation_file_expression: 'data/module-searchrescue/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-secondhand/en.json
+      translation_file_expression: 'data/module-secondhand/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-soldout/en.json
+      translation_file_expression: 'data/module-soldout/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-stationrefuelling/en.json
+      translation_file_expression: 'data/module-stationrefuelling/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-stationtrafficcontrol/en.json
+      translation_file_expression: 'data/module-stationtrafficcontrol/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-statstracking/en.json
+      translation_file_expression: 'data/module-statstracking/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-system/en.json
+      translation_file_expression: 'data/module-system/<lang>.json'
+
+    - filter_type: file
+      file_format: CHROME
+      source_language: en
+      source_file: data/lang/module-taxi/en.json
+      translation_file_expression: 'data/module-taxi/<lang>.json'
