@@ -31,13 +31,21 @@
     "description": "",
     "message": "Carne animale"
   },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "un'atmosfera di argon"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "un'atmosfera d'ossigeno"
+  },
   "APOAPSIS_DISTANCE": {
     "description": "",
     "message": "Distanza dall'apoapside"
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera a prevalenza di argon\""
+    "message": "atmosfera d'argon"
   },
   "ASTEROID": {
     "description": "",
@@ -79,9 +87,37 @@
     "description": "",
     "message": "Inclinazione"
   },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "un'atmosfera di metano"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "un'atmosfera di diossido di carbonio"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "un'atmosfera di monossido di carbonio"
+  },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
     "message": "Poche migliaia"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "un'atmosfera d'elio"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "un'atmosfera d'idrogeno"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "un'atmosfera d'azoto"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "un'atmosfera solforosa"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -169,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera a prevalenza di metano\""
+    "message": "atmosfera di metano"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera a prevalenza di anidride carbonica\""
+    "message": "atmosfera di diossido di carbonio"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -269,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera a prevalenza di monossido di carbonio\""
+    "message": "atmosfera di monossido di carbonio"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -497,7 +533,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera a prevalenza di elio\""
+    "message": "atmosfera d'elio"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -561,7 +597,11 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera a prevalenza di idrogeno\""
+    "message": "atmosfera d'idrogeno"
+  },
+  "ICE_MOON": {
+    "description": "",
+    "message": "\" luna ghiacciata\""
   },
   "ICE_WORLD": {
     "description": "",
@@ -847,6 +887,14 @@
     "description": "",
     "message": "Set"
   },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" luna contenente acqua liquida\""
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" luna con del ghiaccio\""
+  },
   "NAME_OBJECT": {
     "description": "For an item or object",
     "message": "Nome"
@@ -870,6 +918,10 @@
   "NERVE_GAS": {
     "description": "",
     "message": "Gas nervini"
+  },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
   },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
@@ -949,7 +1001,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera a prevalenza di azoto\""
+    "message": "atmosfera d'azoto"
   },
   "N_CELSIUS": {
     "description": "",
@@ -989,11 +1041,15 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera a prevalenza di ossigeno\""
+    "message": "atmosfera d'ossigeno"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
     "message": "Informazioni Oggetto"
+  },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" luna oceanica\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1143,6 +1199,14 @@
     "description": "",
     "message": "Robot"
   },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" luna rocciosa\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" luna rocciosa contenente alcuni liquidi,\""
+  },
   "ROCKY_PLANET": {
     "description": "",
     "message": "\" pianeta roccioso\""
@@ -1258,6 +1322,10 @@
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
     "message": "Imposta livello di spinta ridotta a %power%%"
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Imposta velocità massima"
   },
   "SET_NAVTARGET_TO": {
     "description": "",
@@ -1537,7 +1605,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera di composti sulfurei\""
+    "message": "atmosfera solforosa"
   },
   "TAKEOFF": {
     "description": "",
@@ -1549,7 +1617,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "Tenue"
+    "message": "\"una tenue\""
   },
   "TEXTILES": {
     "description": "",
@@ -1557,11 +1625,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "spessa"
+    "message": "\"una spessa\""
   },
   "THIN": {
     "description": "",
-    "message": "sottile"
+    "message": "\"una sottile\""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1753,7 +1821,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "spessa"
+    "message": "\"una molto densa\""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1791,9 +1859,9 @@
     "description": "",
     "message": "Residui stellari di nana bianca"
   },
-  "WITH_A": {
+  "WITH": {
     "description": "",
-    "message": "\" con una \""
+    "message": "\" con \""
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",

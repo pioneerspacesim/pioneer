@@ -1,13 +1,16 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
 #include "Json.h"
 #include "LuaMetaType.h"
+#include "LuaPropertyMap.h"
+#include "LuaSerializer.h"
 #include "LuaUtils.h"
+#include "LuaWrappable.h"
 #include "PropertiedObject.h"
-#include "PropertyMap.h"
 #include "libs.h"
+#include "lua.h"
 
 #include <map>
 #include <utility>
@@ -131,16 +134,19 @@ int LuaObjectHelpers::l_hasprop(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	luaL_checktype(l, 2, LUA_TSTRING);
-	lua_getuservalue(l, 1);
 
-	if (lua_isnil(l, -1)) { // Doesn't have properties
+	PropertyMap *map = LuaObjectBase::GetPropertiesFromObject(l, 1);
+	if (map) {
+		LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
+		LuaWrappable *o = lo->GetObject();
+		if (!o)
+			return luaL_error(l, "Object is no longer valid");
+
+		lua_pushboolean(l, !map->Get(lua_tostring(l, 2)).is_null());
+	} else { // Doesn't have properties
 		lua_pushboolean(l, false);
-	} else {
-		lua_pushvalue(l, 2);
-		lua_gettable(l, -2);
-		// We consider that a value isn't set if it is nil
-		lua_pushboolean(l, !lua_isnil(l, -1));
 	}
+
 	return 1;
 }
 
@@ -151,8 +157,8 @@ int LuaObjectHelpers::l_unsetprop(lua_State *l)
 
 	// quick check to make sure this object actually has properties
 	// before we go diving through the stack etc
-	lua_getuservalue(l, 1);
-	if (lua_isnil(l, -1))
+	PropertyMap *map = LuaObjectBase::GetPropertiesFromObject(l, 1);
+	if (!map)
 		return luaL_error(l, "Object has no property map");
 
 	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
@@ -160,14 +166,7 @@ int LuaObjectHelpers::l_unsetprop(lua_State *l)
 	if (!o)
 		return luaL_error(l, "Object is no longer valid");
 
-	PropertiedObject *po = dynamic_cast<PropertiedObject *>(o);
-	assert(po);
-
-	po->Properties().PushLuaTable();
-	lua_pushvalue(l, 2);
-	lua_pushnil(l);
-	lua_settable(l, -3);
-
+	map->Set(key, nullptr);
 	return 0;
 }
 
@@ -176,10 +175,14 @@ int LuaObjectHelpers::l_setprop(lua_State *l)
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	const std::string key(luaL_checkstring(l, 2));
 
+	int type = lua_type(l, 3);
+	if (type == LUA_TFUNCTION || type == LUA_TTABLE || type == LUA_TTHREAD)
+		return luaL_error(l, "Bad argument #2 to 'setprop', got %s", luaL_typename(l, 3));
+
 	// quick check to make sure this object actually has properties
 	// before we go diving through the stack etc
-	lua_getuservalue(l, 1);
-	if (lua_isnil(l, -1))
+	PropertyMap *map = LuaObjectBase::GetPropertiesFromObject(l, 1);
+	if (!map)
 		return luaL_error(l, "Object has no property map");
 
 	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
@@ -187,18 +190,7 @@ int LuaObjectHelpers::l_setprop(lua_State *l)
 	if (!o)
 		return luaL_error(l, "Object is no longer valid");
 
-	PropertiedObject *po = dynamic_cast<PropertiedObject *>(o);
-	assert(po);
-
-	if (lua_isnumber(l, 3))
-		po->Properties().Set(key, lua_tonumber(l, 3));
-	else if (lua_isboolean(l, 3))
-		po->Properties().Set(key, lua_toboolean(l, 3));
-	else if (lua_isstring(l, 3))
-		po->Properties().Set(key, lua_tostring(l, 3));
-	else
-		return luaL_error(l, "Bad argument #2 to 'setprop' (number, string, or boolean expected, got %s)", luaL_typename(l, 3));
-
+	map->Set(key, LuaPull<Property>(l, 3));
 	return 0;
 }
 
@@ -217,8 +209,6 @@ int LuaObjectHelpers::l_gc(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
 	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, 1));
-
-	LuaObjectBase::Deregister(lo);
 
 	lo->~LuaObjectBase();
 
@@ -240,16 +230,21 @@ PropertyMap *LuaObjectBase::GetPropertiesFromObject(lua_State *l, int object)
 	if (!lua_isuserdata(l, object))
 		return nullptr;
 
-	LuaObjectBase *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, object));
-	LuaWrappable *o = lo->GetObject();
-	if (!o)
+	lua_getuservalue(l, object);
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
 		return nullptr;
+	}
 
-	PropertiedObject *po = dynamic_cast<PropertiedObject *>(o);
-	if (!po)
+	lua_getfield(l, -1, "__properties");
+	if (!lua_islightuserdata(l, -1)) {
+		lua_pop(l, 2);
 		return nullptr;
+	}
 
-	return &po->Properties();
+	PropertyMap *ret = static_cast<PropertyMap *>(lua_touserdata(l, -1));
+	lua_pop(l, 2);
+	return ret;
 }
 
 static void register_functions(lua_State *l, const luaL_Reg *methods, bool protect)
@@ -326,21 +321,19 @@ static void initialize_object_registry(lua_State *l)
 	// create the object registry if it doesn't already exist. this is the
 	// best place we have to do this since classes will always be registered
 	// before any objects actually turn up
-	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
-	if (lua_isnil(l, -1)) {
-		// create the LuaObjectRegistry table
-		lua_newtable(l);
-
+	if (!luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectRegistry")) {
 		// configure the registry to use weak values
 		lua_newtable(l);
-		lua_pushstring(l, "__mode");
 		lua_pushstring(l, "v");
-		lua_rawset(l, -3);
+		lua_setfield(l, -2, "__mode");
 		lua_setmetatable(l, -2);
-
-		lua_setfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 	}
-	lua_pop(l, 1);
+
+	// Create the persistent object registry - values stored in here have
+	// lifetimes controlled by C++ and should not have their handles deleted
+	// by the Lua GC.
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectPersistentRegistry");
+	lua_pop(l, 2);
 }
 
 void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
@@ -549,7 +542,10 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 	// attach properties table if available
 	PropertiedObject *po = dynamic_cast<PropertiedObject *>(lo->GetObject());
 	if (po) {
-		po->Properties().PushLuaTable();
+		lua_newtable(l);
+		lua_pushlightuserdata(l, &po->Properties());
+		lua_setfield(l, -2, "__properties");
+
 		lua_setuservalue(l, -3);
 	}
 
@@ -564,17 +560,67 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 	LUA_DEBUG_END(l, 0);
 }
 
-void LuaObjectBase::Deregister(LuaObjectBase *lo)
+void LuaObjectBase::RegisterPersistent(LuaObjectBase *lo)
 {
-	LuaWrappable *o = lo->GetObject();
-
 	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l); // lo userdata
 
+	Register(lo);
+
+	// Register the userdata object in the persistent registry to avoid it being garbage-collected
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectPersistentRegistry");
+	lua_pushlightuserdata(l, lo->GetObject()); // lo userdata, registry, o lightuserdata
+	lua_pushvalue(l, -3);
+	lua_settable(l, -3);
+
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+}
+
+void LuaObjectBase::DeregisterObject(LuaWrappable *o)
+{
+	lua_State *l = Lua::manager->GetLuaState();
 	LUA_DEBUG_START(l);
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
-	assert(lua_istable(l, -1));
+	// Remove the object from the transient registry in case the object address
+	// is reused by the allocator.
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 
+	lua_pushlightuserdata(l, o);
+	lua_pushnil(l);
+	lua_rawset(l, -3);
+	lua_pop(l, 1);
+
+	// Remove the object from the persistent registry as well
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectPersistentRegistry");
+
+	// Retrieve the full userdata object from the registry
+	lua_pushlightuserdata(l, o);
+	lua_rawget(l, -2);
+
+	if (lua_isuserdata(l, -1)) {
+		// Clear the LuaObject's underlying reference and convert it into an orphan LuaObject
+		auto *lo = static_cast<LuaObjectBase *>(lua_touserdata(l, -1));
+		lo->ClearObject();
+
+		// Check for (and clear) the registered properties object -
+		// it is deleted with the object being deregistered.
+		lua_getuservalue(l, -1);
+
+		if (!lua_isnil(l, -1)) {
+			lua_pushstring(l, "__properties");
+			lua_pushnil(l);
+			lua_rawset(l, -3);
+		}
+
+		lua_pop(l, 1);
+	}
+
+	// Wind the stack back to the registry
+	lua_pop(l, 1);
+
+	// Clear the object from the registry
 	lua_pushlightuserdata(l, o);
 	lua_pushnil(l);
 	lua_rawset(l, -3);
@@ -582,8 +628,6 @@ void LuaObjectBase::Deregister(LuaObjectBase *lo)
 	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
-
-	return;
 }
 
 LuaWrappable *LuaObjectBase::CheckFromLua(int index, const char *type)
@@ -688,6 +732,96 @@ void LuaObjectBase::RegisterSerializer(const char *type, SerializerPair pair)
 	LUA_DEBUG_END(l, 0);
 }
 
+bool LuaObjectBase::SerializeComponents(LuaWrappable *object, Json &out)
+{
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
+
+	// Get the LuaObject for the given LuaWrappable passed in
+	lua_pushlightuserdata(l, object);
+	lua_rawget(l, -2); // Registry, LuaObject
+
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 2);
+		LUA_DEBUG_END(l, 0);
+
+		return false;
+	}
+
+	lua_getuservalue(l, -1); // Registry, LuaObject, Uservalue
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 3);
+		LUA_DEBUG_END(l, 0);
+
+		return false;
+	}
+
+	lua_pushnil(l);
+	while (lua_next(l, -2) != 0) {
+		if (!lua_isstring(l, -2)) {
+			lua_pop(l, 1);
+			continue;
+		}
+
+		// Don't serialize the properties object
+		std::string_view key = lua_tostring(l, -2);
+		if (key == "__properties") {
+			lua_pop(l, 1);
+			continue;
+		}
+
+		// Pickle the table to json
+		LuaSerializer::pickle_json(l, lua_gettop(l), out[key.data()], "BodyComponent");
+		lua_pop(l, 1);
+	}
+
+	lua_pop(l, 3);
+	LUA_DEBUG_END(l, 0);
+
+	return true;
+}
+
+bool LuaObjectBase::DeserializeComponents(LuaWrappable *object, const Json &obj)
+{
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
+
+	// Get the LuaObject for the given LuaWrappable passed in
+	lua_pushlightuserdata(l, object);
+	lua_rawget(l, -2); // Registry, LuaObject
+
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 2);
+		LUA_DEBUG_END(l, 0);
+
+		return false;
+	}
+
+	lua_getuservalue(l, -1); // Registry, LuaObject, Uservalue
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 3);
+		LUA_DEBUG_END(l, 0);
+
+		return false;
+	}
+
+	// Deserialize all components
+	for (const auto &pair : obj.items()) {
+		lua_pushstring(l, pair.key().c_str());
+		LuaSerializer::unpickle_json(l, pair.value());
+		lua_rawset(l, -3);
+	}
+
+	lua_pop(l, 3);
+	LUA_DEBUG_END(l, 0);
+
+	return true;
+}
+
 // Takes a lua userdata object at the top of the stack and serializes it to json
 bool LuaObjectBase::SerializeToJson(lua_State *l, Json &out)
 {
@@ -740,7 +874,6 @@ bool LuaObjectBase::DeserializeFromJson(lua_State *l, const Json &obj)
 
 	return deserializer(l, obj["inner"]);
 }
-
 
 void *LuaObjectBase::Allocate(size_t n)
 {

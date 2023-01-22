@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Equipment = require 'Equipment'
@@ -76,6 +76,7 @@ local function shipStats()
 		{ l.CREW_CABINS..":",                 shipDef.maxCrew },
 		{ l.UNOCCUPIED_PASSENGER_CABINS..":", cabinEmpty },
 		{ l.OCCUPIED_PASSENGER_CABINS..":",   cabinOccupied },
+		{ l.PASSENGER_CABIN_CAPACITY..":",    shipDef.equipSlotCapacity.cabin},
 		false,
 		{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
 		{ l.SCOOP_MOUNTS..":",              shipDef.equipSlotCapacity.scoop},

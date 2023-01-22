@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sensors.h"
@@ -56,10 +56,14 @@ Sensors::Sensors(Ship *owner)
 	m_owner = owner;
 }
 
-bool Sensors::ChooseTarget(TargetingCriteria crit)
+Body* Sensors::ChooseTarget(TargetingCriteria crit, const Body* oldTarget )
 {
 	PROFILE_SCOPED();
-	bool found = false;
+
+	if(!m_owner->IsType(ObjectType::PLAYER))
+		return nullptr;
+		
+	const Body* currTarget = oldTarget;
 
 	m_radarContacts.sort(ContactDistanceSort);
 
@@ -67,16 +71,24 @@ bool Sensors::ChooseTarget(TargetingCriteria crit)
 		//match object type
 		//match iff
 		if (it->body->IsType(ObjectType::SHIP)) {
-			//if (it->iff != IFF_HOSTILE) continue;
+
+			if(crit == CYCLE_HOSTILE && currTarget) {
+				if(currTarget == it->body) {
+					currTarget = nullptr;
+					//next hostile will be selected
+				}
+				continue;
+			}
+
+			if (it->iff != IFF_HOSTILE) continue;
 			//should move the target to ship after all (from PlayerShipController)
 			//targeting inputs stay in PSC
-			static_cast<Player *>(m_owner)->SetCombatTarget(it->body);
-			found = true;
-			break;
+
+			return it->body;
 		}
 	}
 
-	return found;
+	return nullptr;
 }
 
 Sensors::IFF Sensors::CheckIFF(Body *other)
@@ -84,9 +96,12 @@ Sensors::IFF Sensors::CheckIFF(Body *other)
 	PROFILE_SCOPED();
 	//complicated relationship check goes here
 	if (other->IsType(ObjectType::SHIP)) {
-		Uint8 rel = m_owner->GetRelations(other);
-		if (rel == 0)
+		Ship* ship = static_cast<Ship*>(other);
+		Uint8 rel = m_owner->GetRelations(ship);
+		if (rel == 0 || ship->IsAIAttacking(m_owner))
+		{
 			return IFF_HOSTILE;
+		}
 		else if (rel == 100)
 			return IFF_ALLY;
 		return IFF_NEUTRAL;
@@ -133,9 +148,11 @@ void Sensors::Update(float time)
 		if (!it->fresh) {
 			m_radarContacts.erase(it++);
 		} else {
-			const Ship *ship = dynamic_cast<Ship *>(it->body);
+			const Ship *ship = it->body->IsType(ObjectType::SHIP) ? static_cast<Ship *>(it->body) : nullptr;
 			if (ship && Ship::FLYING == ship->GetFlightState()) {
 				it->distance = m_owner->GetPositionRelTo(it->body).Length();
+				it->iff = CheckIFF(it->body);
+				it->trail->SetColor(IFFColor(it->iff));
 				it->trail->Update(time);
 			} else {
 				it->trail->Reset(FrameId::Invalid);

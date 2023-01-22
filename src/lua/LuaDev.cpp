@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaDev.h"
@@ -138,7 +138,7 @@ static int l_dev_galaxy_stats(lua_State *l)
 		void ProcessSystem(const Sector::System &system) override
 		{
 			RefCountedPtr<StarSystem> starsystem = galaxy->GetStarSystem(system.GetPath());
-			for (const auto b : starsystem->GetBodies()) {
+			for (const auto &b : starsystem->GetBodies()) {
 				auto children = b->GetChildren();
 				if (std::find_if(children.cbegin(), children.cend(), [](const SystemBody *kid) {
 						return kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE;

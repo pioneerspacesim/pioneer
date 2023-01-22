@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Character	= require 'Character'
@@ -43,7 +43,7 @@ local function drawMissionDescription(missionDesc)
 	local contentRegion = ui.getContentRegion()
 	local leftColWidth = contentRegion.x / 1.618 - columnPadding.x / 2
 	ui.child("MissionDetailsColumn", Vector2(leftColWidth, 0), function()
-		ui.withFont(orbiteer.xlarge, function() ui.text(l.MISSION_DETAILS) end)
+		ui.withFont(orbiteer.heading, function() ui.text(l.MISSION_DETAILS) end)
 		ui.newLine()
 
 		if missionDesc.description then
@@ -92,7 +92,7 @@ local rowCache = nil
 local function makeMissionRows()
 	rowCache = {
 		separated = true,
-		{ l.TYPE, l.CLIENT, l.LOCATION, l.DUE, l.REWARD, l.STATUS, font = orbiteer.xlarge }
+		{ l.TYPE, l.CLIENT, l.LOCATION, l.DUE, l.REWARD, l.STATUS, font = orbiteer.heading }
 	}
 
 	for _, mission in pairs(Character.persistent.player.missions) do
@@ -134,7 +134,7 @@ InfoView:registerView({
     icon = ui.theme.icons.star,
     showView = true,
 	draw = function()
-		ui.withFont(pionillium.medlarge, function()
+		ui.withFont(pionillium.body, function()
 			if not rowCache then makeMissionRows() end
 			if activeMission then
 				drawMissionDescription(activeMission)

@@ -1,0 +1,446 @@
+{
+  "ADVANCED_TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "Advanced target scanner"
+  },
+  "ADVANCED_TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "星系を幅広くカバーする長距離スキャナー"
+  },
+  "ATMOSPHERIC_SHIELDING": {
+    "description": "",
+    "message": "Atmospheric Shielding"
+  },
+  "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
+    "description": "",
+    "message": "大気圏再突入の熱からあなたの宇宙船を保護します"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY": {
+    "description": "Will withstand higher pressures than normal Atmospheric Shielding",
+    "message": "Heavy Atmospheric Shielding"
+  },
+  "ATMOSPHERIC_SHIELDING_HEAVY_DESCRIPTION": {
+    "description": "",
+    "message": "より高性能なバージョンの大気シールド"
+  },
+  "AUTOPILOT": {
+    "description": "",
+    "message": "Autopilot"
+  },
+  "AUTOPILOT_DESCRIPTION": {
+    "description": "",
+    "message": "電子基盤に実装されたフライトコンピューター"
+  },
+  "BEAMLASER_1MW": {
+    "description": "",
+    "message": "1MW beam laser"
+  },
+  "BEAMLASER_DUAL_1MW": {
+    "description": "",
+    "message": "1MW dual-fire beam laser"
+  },
+  "BEAMLASER_RAPID_2MW": {
+    "description": "",
+    "message": "2MW rapid-fire beam laser"
+  },
+  "CARGO_LIFE_SUPPORT": {
+    "description": "",
+    "message": "Cargo Bay Life Support"
+  },
+  "CARGO_LIFE_SUPPORT_DESCRIPTION": {
+    "description": "",
+    "message": "生物貨物の輸送を可能にする"
+  },
+  "CARGO_SCOOP": {
+    "description": "",
+    "message": "Cargo Scoop"
+  },
+  "CARGO_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "宇宙からカーゴポッドを回収することを可能にする"
+  },
+  "DAMAGE_PER_SHOT": {
+    "description": "Tooltip explaining weapon damage per shot",
+    "message": "一撃あたりのダメージ"
+  },
+  "DRIVE_CLASS1": {
+    "description": "",
+    "message": "Class 1 ハイパードライブ"
+  },
+  "DRIVE_CLASS2": {
+    "description": "",
+    "message": "Class 2 ハイパードライブ"
+  },
+  "DRIVE_CLASS3": {
+    "description": "",
+    "message": "Class 3 ハイパードライブ"
+  },
+  "DRIVE_CLASS4": {
+    "description": "",
+    "message": "Class 4 ハイパードライブ"
+  },
+  "DRIVE_CLASS5": {
+    "description": "",
+    "message": "Class 5 ハイパードライブ"
+  },
+  "DRIVE_CLASS6": {
+    "description": "",
+    "message": "Class 6 ハイパードライブ"
+  },
+  "DRIVE_CLASS7": {
+    "description": "",
+    "message": "Class 7 ハイパードライブ"
+  },
+  "DRIVE_CLASS8": {
+    "description": "",
+    "message": "Class 8 ハイパードライブ"
+  },
+  "DRIVE_CLASS9": {
+    "description": "",
+    "message": "Class 9 ハイパードライブ"
+  },
+  "DRIVE_MIL1": {
+    "description": "",
+    "message": "Class 1 Military drive"
+  },
+  "DRIVE_MIL2": {
+    "description": "",
+    "message": "Class 2 Military drive"
+  },
+  "DRIVE_MIL3": {
+    "description": "",
+    "message": "Class 3 Military drive"
+  },
+  "DRIVE_MIL4": {
+    "description": "",
+    "message": "Class 4 Military drive"
+  },
+  "DRIVE_MIL5": {
+    "description": "",
+    "message": "Class 5 Military drive"
+  },
+  "DRIVE_MIL6": {
+    "description": "",
+    "message": "\"Class 6 Military drive"
+  },
+  "DRIVE_MIL7": {
+    "description": "",
+    "message": "Class 7 Military drive"
+  },
+  "DRIVE_MIL8": {
+    "description": "",
+    "message": "Class 8 Military drive"
+  },
+  "DRIVE_MIL9": {
+    "description": "",
+    "message": "Class 9 Military drive"
+  },
+  "ECM_ADVANCED": {
+    "description": "",
+    "message": "Advanced ECM system"
+  },
+  "ECM_ADVANCED_DESCRIPTION": {
+    "description": "",
+    "message": "より高度な種類のミサイルを破壊できる、電子ミサイル対抗防御システム"
+  },
+  "ECM_BASIC": {
+    "description": "",
+    "message": "ECM system"
+  },
+  "ECM_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "一部の自動追尾ミサイルを破壊できる 電子ミサイル対抗 - Electronic Countermeasure Missile(ECM) 防御システム"
+  },
+  "EMPTY_SLOT": {
+    "description": "Text indicating an empty equipment slot.",
+    "message": "EMPTY"
+  },
+  "EQUIPMENT_INTEGRITY": {
+    "description": "Tooltip explaining remaining equipment integrity",
+    "message": "機器の完全性"
+  },
+  "EQUIPMENT_WEIGHT": {
+    "description": "Tooltip explaining equipment weight",
+    "message": "機器の重さ"
+  },
+  "FUEL_SCOOP": {
+    "description": "",
+    "message": "Fuel Scoop"
+  },
+  "FUEL_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "ガスジャイアントから水素燃料を回収することを可能にします"
+  },
+  "HULL_AUTOREPAIR": {
+    "description": "",
+    "message": "Hull Auto-Repair System"
+  },
+  "HULL_AUTOREPAIR_DESCRIPTION": {
+    "description": "",
+    "message": "損傷が発生したとき船体を自動修理します"
+  },
+  "HYPERCLOUD_ANALYZER": {
+    "description": "",
+    "message": "Hypercloud Analyzer"
+  },
+  "HYPERCLOUD_ANALYZER_DESCRIPTION": {
+    "description": "",
+    "message": "ハイパースペースの雲を分析して目的地と、到着または出発時刻を測定します"
+  },
+  "LARGE_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Large plasma accelerator"
+  },
+  "LASER_COOLING_BOOSTER": {
+    "description": "",
+    "message": "Laser Cooling Booster"
+  },
+  "LASER_COOLING_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "銃身冷却システムの改善"
+  },
+  "MININGCANNON_17MW": {
+    "description": "",
+    "message": "17MW blast-mining cannon"
+  },
+  "MININGCANNON_17MW_DESCRIPTION": {
+    "description": "",
+    "message": "鉱物豊富な小惑星を爆破採掘するのに使われます"
+  },
+  "MININGCANNON_5MW": {
+    "description": "",
+    "message": "5MW blast-mining cannon"
+  },
+  "MININGCANNON_5MW_DESCRIPTION": {
+    "description": "",
+    "message": "鉱物豊富な小惑星を爆破採掘するのに使われます"
+  },
+  "MISSILES": {
+    "description": "Category name of missile-related equipment",
+    "message": "ミサイル"
+  },
+  "MISSILE_GUIDED": {
+    "description": "",
+    "message": "Guided Missile"
+  },
+  "MISSILE_NAVAL": {
+    "description": "",
+    "message": "Naval Missile"
+  },
+  "MISSILE_SMART": {
+    "description": "",
+    "message": "Smart Missile"
+  },
+  "MISSILE_UNGUIDED": {
+    "description": "",
+    "message": "R40 Unguided Rocket"
+  },
+  "MULTI_SCOOP": {
+    "description": "A ship equipment: a cargo scoop and fuel scoop combined into one",
+    "message": "Multi Scoop"
+  },
+  "MULTI_SCOOP_DESCRIPTION": {
+    "description": "",
+    "message": "Fuel Scoop ほど効果的ではないが、貨物と燃料を両方とも回収できます"
+  },
+  "ORBIT_SCANNER": {
+    "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
+    "message": "Orbital scanner XKM-650"
+  },
+  "ORBIT_SCANNER_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Scans planet from orbit, for scientific data"
+  },
+  "ORBIT_SCANNER_GOOD": {
+    "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
+    "message": "Orbital scanner XKM-1750"
+  },
+  "ORBIT_SCANNER_GOOD_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Scans planet from orbit, for scientific data, with high resolution and wide aperture lens"
+  },
+  "OUT_OF_SCANRANGE": {
+    "description": "",
+    "message": "最大スキャン範囲を上回りました:"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "Passenger cabin"
+  },
+  "PROPULSION": {
+    "description": "Category name of propulsion-related equipment",
+    "message": "推進"
+  },
+  "PULSECANNON_10MW": {
+    "description": "",
+    "message": "10MW pulse cannon"
+  },
+  "PULSECANNON_1MW": {
+    "description": "",
+    "message": "1MW pulse cannon"
+  },
+  "PULSECANNON_20MW": {
+    "description": "",
+    "message": "20MW pulse cannon"
+  },
+  "PULSECANNON_2MW": {
+    "description": "",
+    "message": "2MW pulse cannon"
+  },
+  "PULSECANNON_4MW": {
+    "description": "",
+    "message": "4MW pulse cannon"
+  },
+  "PULSECANNON_DUAL_1MW": {
+    "description": "",
+    "message": "1MW dual-fire pulse cannon"
+  },
+  "PULSECANNON_RAPID_2MW": {
+    "description": "",
+    "message": "2MW rapid-fire pulse cannon"
+  },
+  "RADAR": {
+    "description": "",
+    "message": "Radar"
+  },
+  "RADAR_DESCRIPTION": {
+    "description": "",
+    "message": "近くの船の3Dマップを提供します"
+  },
+  "SCAN_COMPLETED": {
+    "description": "",
+    "message": "スキャン完了"
+  },
+  "SCAN_RESUMED": {
+    "description": "",
+    "message": "スキャン再開"
+  },
+  "SCOOPS": {
+    "description": "Category name of scoop-related equipment",
+    "message": "Scoops"
+  },
+  "SENSORS": {
+    "description": "Category name of sensor-related equipment",
+    "message": "センサー類"
+  },
+  "SENSOR_MIN_ALTITUDE": {
+    "description": "",
+    "message": "Sensor min altitude"
+  },
+  "SENSOR_RESOLUTION": {
+    "description": "Resolution of e.g. optical sensor",
+    "message": "Sensor resolution"
+  },
+  "SHIELDS": {
+    "description": "Category name of shield-related equipment",
+    "message": "シールド"
+  },
+  "SHIELD_ENERGY_BOOSTER": {
+    "description": "",
+    "message": "Shield Energy Booster"
+  },
+  "SHIELD_ENERGY_BOOSTER_DESCRIPTION": {
+    "description": "",
+    "message": "シールドの回復速度を上げます"
+  },
+  "SHIELD_GENERATOR": {
+    "description": "",
+    "message": "Shield Generator"
+  },
+  "SHIELD_GENERATOR_DESCRIPTION": {
+    "description": "",
+    "message": "各機器が取り付けられた状態で追加の船体防御を提供します"
+  },
+  "SHOTS_PER_MINUTE": {
+    "description": "Tooltip explaining weapon fire rate / RPM counter",
+    "message": "発射速度 / 分"
+  },
+  "SMALL_PLASMA_ACCEL": {
+    "description": "",
+    "message": "Small plasma accelerator"
+  },
+  "STARTING_SCAN": {
+    "description": "",
+    "message": "スキャン開始、目標との距離は"
+  },
+  "SURFACE_SCANNER": {
+    "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
+    "message": "Surface scanner Nadir-150"
+  },
+  "SURFACE_SCANNER_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Cartography mapping and geological survey recorder"
+  },
+  "SURFACE_SCANNER_GOOD": {
+    "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
+    "message": "Surface scanner Xeiss-250"
+  },
+  "SURFACE_SCANNER_GOOD_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "High resolution cartography mapping and geological survey recorder"
+  },
+  "TARGET_SCANNER": {
+    "description": "ship equipment showing target information/stats",
+    "message": "Target Scanner"
+  },
+  "TARGET_SCANNER_DESCRIPTION": {
+    "description": "",
+    "message": "他の船の機器、貨物、状態を遠隔で調査するのに使われます"
+  },
+  "THRUSTERS_BASIC": {
+    "description": "",
+    "message": "Modified Thrusters"
+  },
+  "THRUSTERS_BASIC_DESCRIPTION": {
+    "description": "",
+    "message": "あなたの船のために承認された、修正された型のスラスター"
+  },
+  "THRUSTERS_BEST": {
+    "description": "",
+    "message": "Bespoke Thrusters"
+  },
+  "THRUSTERS_BEST_DESCRIPTION": {
+    "description": "",
+    "message": "可能な最大の出力を提供するカスタムメイドのスラスター"
+  },
+  "THRUSTERS_MEDIUM": {
+    "description": "",
+    "message": "Optimised Thrusters"
+  },
+  "THRUSTERS_MEDIUM_DESCRIPTION": {
+    "description": "",
+    "message": "非効率性を減らし出力が改善されたスラスター"
+  },
+  "TOTAL_MODULE_CAPACITY": {
+    "description": "Tooltip explaining module capacity of specific slot",
+    "message": "合計能力"
+  },
+  "TOTAL_MODULE_WEIGHT": {
+    "description": "Tooltip explaining total equipped weight of specific slot",
+    "message": "合計重量"
+  },
+  "TRADE_COMPUTER": {
+    "description": "Ship equipment computing profitable commodities to trade between two systems",
+    "message": "Trade Computer"
+  },
+  "TRADE_COMPUTER_DESCRIPTION": {
+    "description": "",
+    "message": "選択した星系と現在の星系の間での収益性の高い商品を表示します"
+  },
+  "UNOCCUPIED_CABIN": {
+    "description": "",
+    "message": "Extra Passenger Cabin"
+  },
+  "UNOCCUPIED_CABIN_DESCRIPTION": {
+    "description": "",
+    "message": "一人の乗客の輸送に必要"
+  },
+  "UTILITY": {
+    "description": "Category name of utility equipment",
+    "message": "効果"
+  },
+  "WEAPONS": {
+    "description": "Category name of weapon-related equipment",
+    "message": "銃"
+  }
+}

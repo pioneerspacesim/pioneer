@@ -47,9 +47,21 @@
     "description": "Descriptive name for the CycleCameraMode action.",
     "message": "Commuta Modalità Camera"
   },
+  "BIND_CYCLE_HOSTILES": {
+    "description": "Descriptive name for the CycleHostiles action.",
+    "message": "Prossimo Nemico"
+  },
   "BIND_DECREASE_TIME_ACCELERATION": {
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
     "message": "Riduci Accelerazione Temporale"
+  },
+  "BIND_FIXHEADING_RADIAL": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Apri Menu Radiale Assetto"
+  },
+  "BIND_FLIGHT_ASSIST_RADIAL": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Apri Menu Radiale Assistenza Volo"
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
@@ -111,6 +123,14 @@
     "description": "Descriptive name for the PrimaryFire action.",
     "message": "Fuoco Primario"
   },
+  "BIND_RADIAL_HORIZONTAL_SELECTION": {
+    "description": "Input axis name to select in the radial menu.",
+    "message": "Menu Radiale Sinistra/Destra"
+  },
+  "BIND_RADIAL_VERTICAL_SELECTION": {
+    "description": "Input axis name to select in the radial menu.",
+    "message": "Menu Radiale Su/Giù"
+  },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
     "message": "Commuta a Camera Posteriore"
@@ -143,6 +163,10 @@
     "description": "Descriptive name for the ThrustLowPower action.",
     "message": "Modalità Spinta Ridotta (mantenuta)"
   },
+  "BIND_TOGGLE_CRUISE": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Commuta Modo Crociera"
+  },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
     "message": "Cambia Modalità HUD"
@@ -155,9 +179,9 @@
     "description": "Descriptive name for the ToggleRotationDamping action.",
     "message": "Attenuazione Rotazione"
   },
-  "BIND_TOGGLE_SET_SPEED": {
-    "description": "Descriptive name for the ToggleSetSpeed action.",
-    "message": "Modalità Controllo Velocità"
+  "BIND_TOGGLE_SPEED_LIMITER": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Commuta Limite Velocià"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
@@ -170,6 +194,10 @@
   "BUTTON": {
     "description": "",
     "message": "\" Pulsante \""
+  },
+  "CONNECTED": {
+    "description": "Joystick status in the list",
+    "message": "Connesso"
   },
   "DIRECTION": {
     "description": "Direction",
@@ -206,6 +234,14 @@
     "description": "Hat switch: Is the top button on a joystick",
     "message": "\" Hat\""
   },
+  "JOY": {
+    "description": "An acronym for the joystick",
+    "message": "Joy"
+  },
+  "JOYSTICKS": {
+    "description": "Header for the joystick's list.",
+    "message": "Joystick"
+  },
   "MOUSE": {
     "description": "A computer mouse, used to create the name for a mouse button binding",
     "message": "Mouse"
@@ -221,6 +257,10 @@
   "MOUSE_RMB": {
     "description": "An acronym for the right mouse button",
     "message": "M. DX"
+  },
+  "NOT_CONNECTED": {
+    "description": "Joystick status in the list",
+    "message": "Non connesso"
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",

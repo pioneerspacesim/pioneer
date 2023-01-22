@@ -1,7 +1,7 @@
 {
 	"model": "xylophis",
 	"name": "Xylophis",
-	"cockpit": "",
+	"cockpit": "xylophis_cockpit",
 	"manufacturer": "opli",
 	"ship_class": "light_passenger_shuttle",
 	"min_crew": 1,

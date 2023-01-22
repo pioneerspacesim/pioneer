@@ -49,7 +49,7 @@ endif(APPLE)
 option(USE_LLD_LINKER "Use the LLVM lld linker instead of gcc's linker" OFF)
 if (CMAKE_COMPILER_IS_GNUCXX)
 	add_compile_options(
-		-fdiagnostics-color
+		-fdiagnostics-color=auto
 		-Wall
 		-Wextra
 		-Wno-unused-parameter
@@ -219,7 +219,7 @@ else (MSVC)
 	pkg_check_modules(SDL2 REQUIRED sdl2)
 	pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
 
-	pkg_check_modules(ASSIMP REQUIRED assimp)
+	pkg_check_modules(ASSIMP REQUIRED assimp>=5.0)
 	pkg_check_modules(SIGCPP REQUIRED sigc++-2.0)
 	pkg_check_modules(VORBISFILE REQUIRED vorbisfile)
 endif (MSVC)
@@ -318,9 +318,17 @@ if (NATURALDOCS)
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 endif()
 
+find_program(PYTHON NAMES python)
+if (PYTHON)
+	add_custom_target(enums
+		COMMAND scripts/scan_enums.py -o src/enum_table.cpp --pattern='*.h' -r src
+		WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+endif()
+
 target_link_libraries(pioneer-lib PUBLIC lz4 fmt::fmt)
 
 list(APPEND pioneerLibs
+	pioneer-core
 	pioneer-lib
 	pioneer-lua
 	${ASSIMP_LIBRARIES}

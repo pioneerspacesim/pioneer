@@ -1,11 +1,13 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "PiGui.h"
+#include "FileSystem.h"
 #include "Input.h"
 #include "Pi.h"
 #include "PiGuiRenderer.h"
 
+#include "core/TaskGraph.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Texture.h"
@@ -24,90 +26,124 @@
 
 using namespace PiGui;
 
-std::vector<Graphics::Texture *> m_svg_textures;
+namespace {
+	std::vector<Graphics::Texture *> m_svg_textures;
+}
 
 std::vector<Graphics::Texture *> &PiGui::GetSVGTextures()
 {
 	return m_svg_textures;
 }
 
-static ImTextureID makeTexture(Graphics::Renderer *renderer, unsigned char *pixels, int width, int height)
+// Handle GPU upload of texture image data on the main application thread.
+class UpdateImageTask : public Task
 {
-	PROFILE_SCOPED()
-	// this is not very pretty code
-	// Texture descriptor defines the size, type.
-	// Gone for LINEAR_CLAMP here and RGBA like the original code
-	const vector2f texSize(1.0f, 1.0f);
-	const vector3f dataSize(width, height, 0.0f);
-	const Graphics::TextureDescriptor texDesc(Graphics::TEXTURE_RGBA_8888,
-		dataSize, texSize, Graphics::LINEAR_CLAMP,
-		false, false, false, 0, Graphics::TEXTURE_2D);
-	// Create the texture, calling it via renderer directly avoids the caching call of TextureBuilder
-	// However interestingly this gets called twice which would have been a WIN for the TextureBuilder :/
-	Graphics::Texture *pTex = renderer->CreateTexture(texDesc);
-	// Update it with the actual pixels, this is a two step process due to legacy code
-	pTex->Update(pixels, dataSize, Graphics::TEXTURE_RGBA_8888);
-	PiGui::GetSVGTextures().push_back(pTex); // store for cleanup later
-	return ImTextureID(pTex);
+public:
+	Graphics::Texture *texture;
+	const unsigned char *imageData;
+
+	UpdateImageTask(Graphics::Texture *tex, const unsigned char *data) :
+		texture(tex),
+		imageData(data)
+	{}
+
+	virtual void OnExecute(TaskRange range) override
+	{
+		PROFILE_SCOPED()
+
+		const Graphics::TextureDescriptor &desc = texture->GetDescriptor();
+		texture->Update(imageData, desc.dataSize, desc.format);
+		delete[] imageData;
+	}
+};
+
+// Run SVG loading and rasterization on a separate thread, defer GPU upload until end-of-frame.
+class RasterizeSVGTask : public Task
+{
+public:
+	RasterizeSVGTask(std::string filename, int width, int height, Graphics::Texture *outputTexture) :
+		filename(filename),
+		width(width),
+		height(height),
+		texture(outputTexture)
+	{}
+
+	bool LoadFile()
+	{
+		PROFILE_SCOPED();
+
+		image = nsvgParseFromFile(filename.c_str(), "px", 96.0f);
+		if (image == NULL) {
+			Log::Error("Could not open SVG image {}.\n", filename);
+			return false;
+		}
+
+		return true;
+	}
+
+	virtual void OnExecute(TaskRange range) override
+	{
+		PROFILE_SCOPED()
+
+		if (!LoadFile())
+			return;
+
+		size_t stride = width * 4;
+		uint8_t *imageData = new uint8_t[stride*height];
+
+		if (!imageData) {
+			Log::Error("Couldn't allocate memory for SVG image {}.\n", filename);
+			return;
+		}
+
+		memset(imageData, 0, stride * height);
+
+		NSVGrasterizer *rast = nsvgCreateRasterizer();
+		if (!rast) {
+			Log::Error("Couldn't create SVG rasterizer for SVG image {}.\n", filename);
+			delete[] imageData;
+			return;
+		}
+
+		float scale = double(width) / int(image->width);
+		nsvgRasterize(rast, image, 0, 0, scale, imageData, width, height, stride);
+
+		nsvgDeleteRasterizer(rast);
+		nsvgDelete(image);
+
+		Pi::GetApp()->GetTaskGraph()->QueueTaskPinned(new UpdateImageTask(texture, imageData));
+	}
+
+private:
+	std::string filename;
+	int width;
+	int height;
+	Graphics::Texture *texture;
+	NSVGimage *image;
+};
+
+static Graphics::Texture* makeSVGTexture(Graphics::Renderer *renderer, int width, int height)
+{
+	const vector3f dataSize(width, height, 0.f);
+	const Graphics::TextureDescriptor texDesc(
+		Graphics::TEXTURE_RGBA_8888, dataSize,
+		Graphics::LINEAR_CLAMP, false, false, false, 0,
+		Graphics::TEXTURE_2D);
+
+	Graphics::Texture *tex = renderer->CreateTexture(texDesc);
+	return tex;
 }
 
 ImTextureID PiGui::RenderSVG(Graphics::Renderer *renderer, std::string svgFilename, int width, int height)
 {
-	PROFILE_SCOPED()
-	Output("nanosvg: %s %dx%d\n", svgFilename.c_str(), width, height);
+	PROFILE_SCOPED();
 
-	// // re-use existing texture if already loaded
-	// for(auto strTex : m_svg_textures) {
-	// 	if(strTex.first == svgFilename) {
-	// 		// nasty bit as I invoke the TextureGL
-	// 		Graphics::TextureGL *pGLTex = reinterpret_cast<Graphics::TextureGL*>(strTex.second);
-	// 		Uint32 result = pGLTex->GetTexture();
-	// 		Output("Re-used existing texture with id: %i\n", result);
-	// 		return reinterpret_cast<void*>(result);
-	// 	}
-	// }
+	Graphics::Texture *tex = makeSVGTexture(renderer, width, height);
+	PiGui::GetSVGTextures().push_back(tex);
 
-	NSVGimage *image = NULL;
-	NSVGrasterizer *rast = NULL;
-	unsigned char *img = NULL;
-	int w;
-	// size of each icon
-	//	int size = 64;
-	// 16 columns
-	//	int W = 16*size;
-	int W = width;
-	// 16 rows
-	//	int H = 16*size;
-	int H = height;
-	img = static_cast<unsigned char *>(malloc(W * H * 4));
-	memset(img, 0, W * H * 4);
-	{
-		PROFILE_SCOPED_DESC("nsvgParseFromFile")
-		image = nsvgParseFromFile(svgFilename.c_str(), "px", 96.0f);
-		if (image == NULL) {
-			Error("Could not open SVG image.\n");
-		}
-	}
-	w = static_cast<int>(image->width);
+	Pi::GetApp()->GetTaskGraph()->QueueTask(new RasterizeSVGTask(svgFilename, width, height, tex));
 
-	rast = nsvgCreateRasterizer();
-	if (rast == NULL) {
-		Error("Could not init rasterizer.\n");
-	}
-
-	if (img == NULL) {
-		Error("Could not alloc image buffer.\n");
-	}
-	{
-		PROFILE_SCOPED_DESC("nsvgRasterize")
-		float scale = double(W) / w;
-		float tx = 0;
-		float ty = 0;
-		nsvgRasterize(rast, image, tx, ty, scale, img, W, H, W * 4);
-	}
-	nsvgDeleteRasterizer(rast);
-	nsvgDelete(image);
-	return makeTexture(renderer, img, W, H);
+	return ImTextureID(tex);
 }
 
 // Colors taken with love from the Limit Theory editor
@@ -328,10 +364,10 @@ void Instance::Init(Graphics::Renderer *renderer)
 	ImGui::StyleColorsDark();
 
 	std::string imguiIni = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini");
-	// this will be leaked, not sure how to deal with it properly in imgui...
-	char *ioIniFilename = new char[imguiIni.size() + 1];
-	std::strncpy(ioIniFilename, imguiIni.c_str(), imguiIni.size() + 1);
-	io.IniFilename = ioIniFilename;
+
+	m_ioIniFilename = new char[imguiIni.size() + 1];
+	std::strncpy(m_ioIniFilename, imguiIni.c_str(), imguiIni.size() + 1);
+	io.IniFilename = m_ioIniFilename;
 }
 
 bool Instance::ProcessEvent(SDL_Event *event)
@@ -514,6 +550,7 @@ void Instance::Uninit()
 
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+	delete[] m_ioIniFilename;
 }
 
 //

@@ -1,9 +1,11 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
+local Event = require 'Event'
 local Input = require 'Input'
 local Game = require 'Game'
+local utils= require 'utils'
 local Vector2 = _G.Vector2
 
 local Lang = require 'Lang'
@@ -12,6 +14,7 @@ local lc = Lang.GetResource("core");
 local ui = require 'pigui'
 
 local vutil = require 'pigui.libs.view-util'
+local Sidebar = require 'pigui.libs.sidebar'
 
 -- cache ui
 local pionillium = ui.fonts.pionillium
@@ -26,70 +29,80 @@ ui.reticuleCircleThickness = reticuleCircleThickness
 
 -- settings
 local IN_SPACE_INDICATOR_SHIP_MAX_DISTANCE = 1000000 -- ships farther away than this don't show up on as in-space indicators
--- center of screen, set each frame by the handler
-local center = nil
-
--- cache player each frame
-local player = nil
 
 -- cache some data each frame
 local gameView = {
-	center = nil,
-	player = nil
+	center  = nil,
+	player  = nil,
+	shouldRefresh = false,
+
+	leftSidebar = Sidebar.New("##SidebarL", "left"),
+	rightSidebar = Sidebar.New("##SidebarR", "right"),
+
+	modulesDirty = false,
+	modules = {},
+	hudModules = {},
+	sidebarModules = {},
 }
 
---import("pigui.libs.view-util").mixin_modules(gameView)
-vutil.mixin_modules(gameView)
+function gameView.debugReload()
+	package.reimport('pigui.libs.sidebar')
+	Sidebar = require 'pigui.libs.sidebar'
+
+	gameView.leftSidebar = Sidebar.New("##SidebarL", "left")
+	gameView.rightSidebar = Sidebar.New("##SidebarR", "right")
+end
+
+local function onRegisterSidebar(name, module, idx)
+	module.side = module.side or "left"
+	module.priority = module.priority or idx
+	gameView.modulesDirty = true
+end
+
+-- Register a general world-view module that should always be visible
+gameView.registerModule = vutil.mixin_modules(gameView.modules)
+
+-- Register a module to be displayed in the left or right "hud" areas under the sidebar
+gameView.registerHudModule = vutil.mixin_modules(gameView.hudModules, onRegisterSidebar)
+
+-- Register a module to be displayed in the left or right sidebar panes
+gameView.registerSidebarModule = vutil.mixin_modules(gameView.sidebarModules, onRegisterSidebar)
+
+-- Assign hud and sidebar modules to the appropriate sidebar
+function gameView:updateModules()
+	if not self.modulesDirty then return end
+	self.modulesDirty = false
+
+	local assignModules = function(sidebar)
+		local priority = function (a, b) return a.priority < b.priority end
+		local filter = function(v) return v.side == sidebar.side end
+		sidebar.modules = utils.filter_array(self.sidebarModules, filter)
+		sidebar.hudModules = utils.filter_array(self.hudModules, filter)
+
+		table.sort(sidebar.modules, priority)
+		table.sort(sidebar.hudModules, priority)
+	end
+
+	assignModules(self.leftSidebar)
+	assignModules(self.rightSidebar)
+end
 
 local getBodyIcon = require 'pigui.modules.flight-ui.body-icons'
 
 local function setTarget(body)
 	if body:IsShip() or body:IsMissile() then
-		player:SetCombatTarget(body)
+		gameView.player:SetCombatTarget(body)
 	else
-		player:SetNavTarget(body)
+		gameView.player:SetNavTarget(body)
 		ui.playSfx("OK")
 	end
 end
 
-local function callModules(mode)
-	for k,v in ipairs(ui.getModules(mode)) do
-		v.draw()
-	end
-end
-
-local radial_menu_actions_orbital = {
-	{icon = ui.theme.icons.normal_thin,
-	 tooltip=lc.HEADING_LOCK_NORMAL,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_NORMAL") end},
-	{icon = ui.theme.icons.radial_out_thin,
-	 tooltip=lc.HEADING_LOCK_RADIALLY_OUTWARD,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_RADIALLY_OUTWARD") end},
-	{icon = ui.theme.icons.retrograde_thin,
-	 tooltip=lc.HEADING_LOCK_BACKWARD,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_BACKWARD") end},
-	{icon = ui.theme.icons.antinormal_thin,
-	 tooltip=lc.HEADING_LOCK_ANTINORMAL,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_ANTINORMAL") end},
-	{icon = ui.theme.icons.radial_in_thin,
-	 tooltip=lc.HEADING_LOCK_RADIALLY_INWARD,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_RADIALLY_INWARD") end},
-	{icon = ui.theme.icons.prograde_thin,
-	 tooltip=lc.HEADING_LOCK_FORWARD,
-	 action=function(target) Game.player:SetFlightControlState("CONTROL_FIXHEADING_FORWARD") end},
-}
-
 local function displayOnScreenObjects()
-	if ui.altHeld() and not ui.isAnyWindowHovered() and ui.isMouseClicked(1) then
-		local frame = player.frameBody
-		if frame then
-			ui.openRadialMenu(frame, 1, 30, radial_menu_actions_orbital)
-		end
-	end
+	local player = gameView.player
+
 	local navTarget = player:GetNavTarget()
 	local combatTarget = player:GetCombatTarget()
-
-	ui.radialMenu("onscreenobjects")
 
 	local should_show_label = ui.shouldShowLabels()
 	local iconsize = Vector2(20, 20)
@@ -118,14 +131,14 @@ local function displayOnScreenObjects()
 		local mp = ui.getMousePos()
 		-- mouse release handler for radial menu
 		if (mp - mainCoords):length() < click_radius then
-			if not ui.isAnyWindowHovered() and ui.isMouseClicked(1) then
+			if ui.canClickOnScreenObjectHere() and ui.isMouseClicked(1) then
 				local body = mainBody
-				ui.openDefaultRadialMenu(body)
+				ui.openDefaultRadialMenu("game", body)
 			end
 		end
 		-- mouse release handler
 		if (mp - mainCoords):length() < click_radius then
-			if not ui.isAnyWindowHovered() and ui.isMouseReleased(0) then
+			if ui.canClickOnScreenObjectHere() and ui.isMouseReleased(0) then
 				if group.hasNavTarget or combatTarget == mainBody then
 					-- if clicked and is target, unset target
 					if group.hasNavTarget then
@@ -133,20 +146,12 @@ local function displayOnScreenObjects()
 					else
 						player:SetCombatTarget(nil)
 					end
-					-- if not in setspeed mode or ctrl-click and is setspeed target,
-					-- clear setspeed target
-					if not player:GetSetSpeed() or (ui.ctrlHeld() and group.hasSetSpeedTarget) then
-						player:SetSetSpeedTarget(nil)
-					end
 				elseif not group.multiple then
 					-- clicked on single, just set navtarget/combatTarget
 					setTarget(mainBody)
 					if ui.ctrlHeld() then
-						-- also set setspeed target on ctrl-click
-						player:SetSetSpeedTarget(mainBody)
-					elseif not player:GetSetSpeed() then
-						-- clear setspeed target if not in setspeed mode
-						player:SetSetSpeedTarget(nil)
+						-- also set follow target on ctrl-click
+						player:SetFollowTarget(mainBody)
 					end
 				else
 					-- clicked on group, show popup
@@ -168,11 +173,8 @@ local function displayOnScreenObjects()
 						ui.playSfx("OK")
 					end
 					if ui.ctrlHeld() then
-						-- also set setspeed target on ctrl-click
-						player:SetSetSpeedTarget(b)
-					elseif not player:GetSetSpeed() then
-						-- clear setspeed target if not in setspeed mode
-						player:SetSetSpeedTarget(nil)
+						-- also set follow-target target on ctrl-click
+						player:SetFollowTarget(b)
 					end
 				end
 			end
@@ -187,11 +189,37 @@ gameView.registerModule("onscreen-objects", {
 	end
 })
 
+function gameView:draw()
+	if self.shouldRefresh then
+		self.leftSidebar:Refresh()
+		self.rightSidebar:Refresh()
+
+		self.shouldRefresh = false
+	end
+
+	self:updateModules()
+
+	for i, module in ipairs(gameView.modules) do
+		local shouldDraw = not Game.InHyperspace() or module.showInHyperspace
+		if (not module.disabled) and shouldDraw then
+			local ok, err = ui.pcall(module.draw, module, Engine.frameTime)
+			if not ok then
+				module.disabled = true
+				-- TODO: visually notify the user of an error
+			end
+		end
+	end
+
+	self.leftSidebar:Draw()
+
+	self.rightSidebar:Draw()
+end
+
 local function displayScreenshotInfo()
 	if not Engine.GetDisableScreenshotInfo() then
 		local current_system = Game.system
 		if current_system then
-			local frame = player.frameBody
+			local frame = Game.player.frameBody
 			if frame then
 				local info = frame.label .. ", " .. ui.Format.SystemPath(current_system.path)
 				ui.addStyledText(Vector2(20, 20), ui.anchor.left, ui.anchor.top, info , colors.white, pionillium.large)
@@ -200,23 +228,48 @@ local function displayScreenshotInfo()
 	end
 end
 
-local function drawGameModules(delta_t)
-	for i, module in ipairs(gameView.modules) do
-		local shouldDraw = not Game.InHyperspace() or module.showInHyperspace
-		if (not module.disabled) and shouldDraw then
-			local ok, err = ui.pcall(module.draw, module, delta_t)
-			if not ok then
-				module.disabled = true
-				logWarning(err)
-			end
+local function callModules(mode)
+	for k,v in ipairs(ui.getModules(mode)) do
+		if not v.disabled then
+			v.disabled = not ui.pcall(v.draw)
 		end
 	end
 end
 
+local drawHUD = ui.makeFullScreenHandler("HUD", function()
+	if ui.shouldDrawUI() then
+		if Game.CurrentView() == "world" then
+			gameView:draw()
+		else
+			gameView.shouldRefresh = true
+		end
+
+		ui.radialMenu("game")
+		callModules("game")
+	elseif Game.CurrentView() == "world" then
+		displayScreenshotInfo()
+	end
+end)
+
+local debugReload = function(t)
+	for i, v in ipairs(t) do
+		if type(v) == 'table' and v.debugReload then
+			v.debugReload()
+		end
+	end
+end
+
+Event.Register("onGameStart", function()
+	gameView.shouldRefresh = true
+	gameView.leftSidebar:Reset()
+	gameView.rightSidebar:Reset()
+end)
+
 ui.registerHandler('game', function(delta_t)
 		-- delta_t is ignored for now
-		player = Game.player
-		gameView.player = player
+		gameView.player = Game.player
+		gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
+
 		-- TODO: add a handler mechanism for theme changes
 		-- colors = ui.theme.colors -- if the theme changes
 		-- icons = ui.theme.icons -- if the theme changes
@@ -224,26 +277,12 @@ ui.registerHandler('game', function(delta_t)
 		-- without triggering the options dialog
 		local currentView = Game.CurrentView()
 
-		ui.setNextWindowPos(Vector2(0, 0), "Always")
-		ui.setNextWindowSize(Vector2(ui.screenWidth, ui.screenHeight), "Always")
-		ui.withStyleColors({ ["WindowBg"] = colors.transparent }, function()
-			ui.window("HUD", ui.fullScreenWindowFlags, function()
-				gameView.center = Vector2(ui.screenWidth / 2, ui.screenHeight / 2)
-				if ui.shouldDrawUI() then
-					if Game.CurrentView() == "world" then
-						drawGameModules(delta_t)
-						ui.radialMenu("worldloopworld")
-					else
-						ui.radialMenu("worldloopnotworld")
-					end
-
-					callModules("game")
-				elseif Game.CurrentView() == "world" then
-					displayScreenshotInfo()
-				end
-			end)
+		-- Ensure we're wrapping the whole UI in a font that scales with the rest of the game
+		ui.withFont(pionillium.medium, function()
+			ui.withStyleColors({ WindowBg = colors.transparent }, drawHUD)
 		end)
 
+		-- TODO: dispatch escape key to views and let them handle it
 		if currentView == "world" and ui.escapeKeyReleased(true) then
 			if not ui.optionsWindow.isOpen then
 				Game.SetTimeAcceleration("paused")
@@ -259,6 +298,15 @@ ui.registerHandler('game', function(delta_t)
 		end
 
 		callModules('modal')
+
+		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+			gameView.debugReload()
+
+			debugReload(ui.getModules("game"))
+			debugReload(gameView.modules)
+			debugReload(gameView.hudModules)
+			debugReload(gameView.sidebarModules)
+		end
 end)
 
 return gameView

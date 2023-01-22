@@ -1,10 +1,14 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSerializer.h"
 #include "GameSaveError.h"
 #include "JsonUtils.h"
 #include "LuaObject.h"
+
+// Needed for LuaComponent serialization
+#include "Body.h"
+#include "Space.h"
 
 // every module can save one object. that will usually be a table.  we call
 // each serializer in turn and capture its return value we build a table like
@@ -301,7 +305,19 @@ void LuaSerializer::unpickle_json(lua_State *l, const Json &value)
 							lua_insert(l, -3); // [klass.Unserialize] [t] [klass]
 							lua_pop(l, 1); // [klass.Unserialize] [t]
 
-							pi_lua_protected_call(l, 1, 1);
+							pi_lua_protected_call(l, 1, 1); // [t]
+							if (lua_isnil(l, -1)) {
+								luaL_error(l, "The Unserialize method for class '%s' didn't return a value\n", cl);
+							}
+
+							// Update the TableRefs cache with the new value
+							// NOTE: recursive references to the original table will not be affected,
+							// only references in tables deserialized later.
+							lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs"); // [t] [refs]
+							lua_pushinteger(l, ptr); // [t] [refs] [key]
+							lua_pushvalue(l, -3); // [t] [refs] [key] [t]
+							lua_rawset(l, -3); // [t] [refs]
+							lua_pop(l, 1); // [t]
 						}
 					}
 				}
@@ -435,6 +451,82 @@ void LuaSerializer::FromJson(const Json &jsonObj)
 	LUA_DEBUG_END(l, 0);
 }
 
+void LuaSerializer::SaveComponents(Json &jsonObj, Space *space)
+{
+	Json &bodies = jsonObj["space"]["bodies"];
+	if (!bodies.is_array())
+		return;
+
+	// Note: this loop relies on the ordering and contents of Space::m_bodies not changing
+	// between when bodies were serialized and when this function is called.
+
+	for (size_t idx = 0; idx < bodies.size(); idx++) {
+		Body *body = space->GetBodies()[idx];
+
+		// Serialize lua components
+		Json luaComponentsObj = Json::object();
+		if (!LuaObjectBase::SerializeComponents(body, luaComponentsObj))
+			break;
+
+		if (!luaComponentsObj.empty()) {
+			bodies[idx]["lua_components"] = luaComponentsObj;
+		}
+	}
+}
+
+void LuaSerializer::LoadComponents(const Json &jsonObj, Space *space)
+{
+	const Json &bodies = jsonObj["space"]["bodies"];
+	if (!bodies.is_array())
+		return;
+
+	// Note: this loop relies on the ordering and contents of Space::m_bodies not changing
+	// between when bodies were deserialized and when this function is called.
+	// Space::GetBodyByIndex cannot be used to lookup bodies as it can be different from the
+	// index into the JSON bodies array when loading.
+
+	for (size_t idx = 0; idx < bodies.size(); idx++) {
+		const Json &bodyObj = bodies[idx];
+
+		if (bodyObj.count("lua_components") != 0) {
+			const Json &luaComponents = bodyObj["lua_components"];
+			if (luaComponents.is_object() && !luaComponents.empty()) {
+				Body *body = space->GetBodies()[idx];
+
+				// Ensure we've registered the body object in Lua
+				LuaObject<Body>::PushToLua(body);
+				lua_pop(Lua::manager->GetLuaState(), 1);
+
+				LuaObjectBase::DeserializeComponents(body, luaComponents);
+			}
+		}
+	}
+}
+
+/*
+ * Interface: Serializer
+ */
+
+/*
+ * Function: Register
+ *
+ * Registers a function pair to serialize per-module data across savegames.
+ *
+ * The serializer function can only serialize a single table object, but may
+ * store any serializable objects inside that table.
+ *
+ * Example:
+ *
+ * > Serializer.Register("MyModule", function() return {} end, function(data) ... end)
+ *
+ * Parameters:
+ *
+ *   key          - unique string key of the module serializer to register
+ *   serializer   - function that should return the object to be serialized
+ *   unserializer - function that receives the unserialized object and should
+ *                  restore needed module state
+ *
+ */
 int LuaSerializer::l_register(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -472,6 +564,24 @@ int LuaSerializer::l_register(lua_State *l)
 	return 0;
 }
 
+/*
+ * Function: RegisterClass
+ *
+ * Registers a class object to be serialized across savegames. Objects of the
+ * passed class will be serialized via the Serialize / Unserialize class
+ * methods if referred to by other serialized data.
+ *
+ * Example:
+ *
+ * > Serializer.RegisterClass("MyClass", MyClass)
+ *
+ * Parameters:
+ *
+ *   key   - unique string key of the class to register
+ *   class - a class object containing a Serialize() and Unserialize() method.
+ *           These methods will be called to save / restore state for instances
+ *           of this class.
+ */
 int LuaSerializer::l_register_class(lua_State *l)
 {
 	LUA_DEBUG_START(l);

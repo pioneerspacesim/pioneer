@@ -1,0 +1,74 @@
+{
+  "ILLEGAL_GOODS_DETECTED": {
+    "description": "",
+    "message": "Illegal goods detected."
+  },
+  "INITIATE_CARGO_SCAN_1": {
+    "description": "",
+    "message": "Initiate cargo scan."
+  },
+  "INITIATE_CARGO_SCAN_2": {
+    "description": "",
+    "message": "Maintain speed and course for a cargo scan."
+  },
+  "INITIATE_CARGO_SCAN_3": {
+    "description": "",
+    "message": "Initiate contraband search."
+  },
+  "NOTHING_DETECTED": {
+    "description": "",
+    "message": "No illegal cargo detected. You may proceed."
+  },
+  "OUTLAW_DETECTED_1": {
+    "description": "",
+    "message": "{ship_label} is flown by a known outlaw. Attack and destroy!"
+  },
+  "OUTLAW_DETECTED_2": {
+    "description": "",
+    "message": "Bandit, your days are numbered!"
+  },
+  "OUTLAW_DETECTED_3": {
+    "description": "",
+    "message": "Hah, caught! You will not leave this system alive!"
+  },
+  "POLICE_TAUNT_1": {
+    "description": "",
+    "message": "Boy, this was a bad idea!"
+  },
+  "POLICE_TAUNT_2": {
+    "description": "",
+    "message": "Smuggler, you will pay the utimate price!"
+  },
+  "POLICE_TAUNT_3": {
+    "description": "",
+    "message": "Fool, crime doesn't pay off!"
+  },
+  "RESPECT_THE_LAW_1": {
+    "description": "",
+    "message": "Respect the law! Crime doesn't pay off in the {system} system!"
+  },
+  "RESPECT_THE_LAW_2": {
+    "description": "",
+    "message": "You have entered the {system} system. Respect the law!"
+  },
+  "TAKE_A_HIKE": {
+    "description": "",
+    "message": "Ok, you got a second chance. Take a hike!"
+  },
+  "TARGET_DESTROYED_1": {
+    "description": "",
+    "message": "Target destroyed!"
+  },
+  "TARGET_DESTROYED_2": {
+    "description": "",
+    "message": "Yeah!"
+  },
+  "TARGET_DESTROYED_3": {
+    "description": "",
+    "message": "Rest in pieces! Haha."
+  },
+  "TARGET_DESTROYED_4": {
+    "description": "",
+    "message": "Another one bites the dust!"
+  }
+}

@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils = require 'utils'
@@ -7,6 +7,9 @@ local Serializer = require 'Serializer'
 -- Class: EquipSet
 --
 -- A container for a ship's equipment.
+
+---@class EquipSet
+---@field meta table
 local EquipSet = utils.inherits(nil, "EquipSet")
 
 EquipSet.default = {
@@ -34,6 +37,7 @@ EquipSet.default = {
 }
 
 function EquipSet.New (slots)
+	---@class EquipSet
 	local obj = {}
 	obj.slots = {}
 	for k, n in pairs(EquipSet.default) do
@@ -48,17 +52,18 @@ end
 
 local listeners = {}
 function EquipSet:AddListener(listener)
-	listeners[self] = listener
+	listeners[self] = listeners[self] or {}
+	table.insert(listeners[self], listener)
 end
 
 function EquipSet:CallListener(slot)
-	if listeners[self] then
-		listeners[self](slot)
+	if not listeners[self] then return end
+
+	for _, listener in ipairs(listeners[self]) do
+		listener(slot)
 	end
 end
 
--- XXX(sturnclaw): to fix massive save-file inflation, we manually coalesce cargo items
--- This is suboptimal; cargo should be logically different from ship equipment
 function EquipSet:Serialize()
 	local serialize = {
 		slots = {}
@@ -68,45 +73,10 @@ function EquipSet:Serialize()
 		serialize.slots[k] = v
 	end
 
-	serialize.slots.cargo = {
-		__limit = self.slots.cargo.__limit,
-		__occupied = self.slots.cargo.__occupied,
-		__version = 2
-	}
-
-	-- count the number of cargo items in the bay
-	local occupancy = {}
-	for _, v in pairs(self.slots.cargo) do
-		if type (_) == "number" and type(v) == "table" then
-			occupancy[v] = (occupancy[v] or 0) + 1
-		end
-	end
-
-	-- Collapse instances of the same cargo item into one
-	for k, v in pairs(occupancy) do
-		table.insert(serialize.slots.cargo, { item = k, count = v })
-	end
-
 	return serialize
 end
 
 function EquipSet.Unserialize(data)
-	local cargo = data.slots.cargo
-
-	if (cargo.__version or 0) >= 2 then
-		local newCargo = {
-			__limit = cargo.__limit,
-			__occupied = cargo.__occupied
-		}
-
-		-- unpack collapsed cargo items
-		for _, v in ipairs(cargo) do
-			for i = 1, v.count do table.insert(newCargo, v.item) end
-		end
-
-		data.slots.cargo = newCargo
-	end
-
 	setmetatable(data, EquipSet.meta)
 	return data
 end
@@ -208,11 +178,8 @@ end
 
 function EquipSet:__TriggerCallbacks(ship, slot)
 	ship:UpdateEquipStats()
-	if slot == "cargo" then -- TODO: build a proper property system for the slots
-		ship:setprop("usedCargo", self.slots.cargo.__occupied)
-	else
-		ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, self.slots.cargo.__occupied+ship.freeCapacity))
-	end
+	-- if we reduce the available capacity, we need to update the maximum amount of cargo available
+	ship:setprop("totalCargo", math.min(self.slots.cargo.__limit, ship.usedCargo+ship.freeCapacity))
 	self:CallListener(slot)
 end
 
@@ -307,6 +274,7 @@ function EquipSet:Add(ship, item, num, slot)
 	elseif not item:IsValidSlot(slot, ship) then
 		return -1
 	end
+	assert(slot ~= "cargo", "Cargo slots for equipment are no longer valid")
 
 	local added = self:__Add_NoCheck(item, num, slot)
 	if added == 0 then
@@ -343,6 +311,8 @@ function EquipSet:Remove(ship, item, num, slot)
 	if not slot then
 		slot = item:GetDefaultSlot(ship)
 	end
+	assert(slot ~= "cargo", "Cargo slots for equipment are no longer valid")
+
 	local removed = self:__Remove_NoCheck(item, num, slot)
 	if removed == 0 then
 		return 0

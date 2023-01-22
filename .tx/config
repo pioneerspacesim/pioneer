@@ -111,6 +111,11 @@ file_filter = data/lang/module-scoop/<lang>.json
 source_file = data/lang/module-scoop/en.json
 source_lang = en
 
+[pioneer.module-scout]
+file_filter = data/lang/module-scout/<lang>.json
+source_file = data/lang/module-scout/en.json
+source_lang = en
+
 [pioneer.module-searchrescue]
 file_filter = data/lang/module-searchrescue/<lang>.json
 source_file = data/lang/module-searchrescue/en.json

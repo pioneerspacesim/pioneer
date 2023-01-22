@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -63,8 +63,8 @@ function PiGuiFace.New (character, style, allowModification)
 			showCharInfo = style.showCharInfo == nil and true or style.showCharInfo,
 			charInfoPadding = style.charInfoPadding or ui.rescaleUI(Vector2(24,24), Vector2(1600, 900)),
 			charInfoBgColor = style.bgColor or Color(0,0,0,160),
-			nameFont = style.nameFont or orbiteer.xlarge,
-			titleFont = style.titleFont or orbiteer.large,
+			nameFont = style.nameFont or orbiteer.heading,
+			titleFont = style.titleFont or orbiteer.body,
 		}
 	}
 
@@ -105,46 +105,58 @@ function PiGuiFace:changeFeature(featureId, amt, callback)
 end
 
 local pigui = Engine.pigui
-local buttonSize = ui.rescaleUI(Vector2(30, 42))
-local iconSize = ui.rescaleUI(Vector2(42, 42))
+local buttonSize = ui.rescaleUI(Vector2(36, 36))
+local iconSize = ui.rescaleUI(Vector2(36, 36))
+
 local function faceGenButton(self, feature)
+
 	if ui.button('<##' .. feature.id, buttonSize) then
 		self:changeFeature(feature.id, -1, feature.callback)
 	end
 	ui.sameLine()
+
 	pigui.PushID(feature.id)
 	ui.icon(feature.icon, iconSize, colors.white)
 	pigui.PopID()
 	if pigui.IsItemHovered() then pigui.SetTooltip(feature.tooltip) end
+
 	ui.sameLine()
 	if ui.button('>##' .. feature.id, buttonSize) then
 		self:changeFeature(feature.id, 1, feature.callback)
 	end
+
 end
 
-local facegenSpacing = ui.rescaleUI(Vector2(24, 6))
+local facegenSpacing = ui.rescaleUI(Vector2(18, 6))
 local facegenSize = Vector2(buttonSize.x * 2 + iconSize.x + facegenSpacing.x * 2, 0)
 local buttonSpaceSize = Vector2(facegenSpacing.x * 2 + buttonSize.x * 2 + iconSize.x, iconSize.y)
-local inputTextPadding = ui.rescaleUI(Vector2(18, 18))
+local inputTextPadding = ui.rescaleUI(Vector2(12, 12))
+
 function PiGuiFace:render()
 	local char = self.character
+
 	if not self.allowModification then
 		self:renderFaceDisplay()
 		return
 	end
+
 	ui.child("CharacterInfoDetails" .. tostring(char), self.style.size or Vector2(0, 0), noSavedSettings, function()
-		ui.withFont(orbiteer.xlarge, function()
+		ui.withFont(self.style.nameFont, function()
 			ui.withStyleVars({FramePadding = inputTextPadding}, function()
+
 				ui.pushItemWidth(ui.getColumnWidth())
 				local text, entered = ui.inputText("", char.name, {})
+
 				if entered then
 					char.name = text
 				end
+
 			end)
 		end)
 
 		local lastPos = ui.getCursorPos()
 		local itemSpacing = self.style.itemSpacing
+
 		ui.child("Face", Vector2(ui.getColumnWidth() - (facegenSize.x + itemSpacing.x), 0), {}, function()
 			self:renderFaceDisplay()
 		end)
@@ -167,26 +179,35 @@ function PiGuiFace:render()
 	end)
 end
 
-function PiGuiFace:renderFaceDisplay ()
+function PiGuiFace:renderFaceDisplay()
+
 	local lastPos = ui.getCursorPos()
 	local region = self.style.size or ui.getContentRegion()
 	local size = math.min(region.x, region.y)
+
 	ui.image(self.faceGen.textureId, Vector2(size), Vector2(0.0, 0.0), self.faceGen.textureSize, colors.white)
 
 	if(self.style.showCharInfo) then
+
 		ui.setCursorPos(lastPos + Vector2(0.0, size - self.style.charInfoHeight))
-		ui.withStyleColorsAndVars({ChildBg = self.style.charInfoBgColor}, {WindowPadding = self.style.charInfoPadding, ItemSpacing = self.style.itemSpacing}, function ()
+		local styles = {WindowPadding = self.style.charInfoPadding, ItemSpacing = self.style.itemSpacing}
+
+		ui.withStyleColorsAndVars({ChildBg = self.style.charInfoBgColor}, styles, function ()
+
 			ui.child("PlayerInfoDetails", Vector2(size, self.style.charInfoHeight), charInfoFlags, function ()
 				ui.withFont(self.style.nameFont.name, self.style.nameFont.size, function()
 					ui.text(self.character.name)
 				end)
+
 				if self.character.title then
 					ui.withFont(self.style.titleFont.name, self.style.titleFont.size, function()
 						ui.text(self.character.title)
 					end)
 				end
 			end)
+
 		end)
+
 	end
 end
 

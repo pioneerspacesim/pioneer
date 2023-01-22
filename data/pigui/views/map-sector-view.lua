@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -71,6 +71,8 @@ local onGameStart = function ()
 	sectorView:SetDrawUninhabitedLabels(draw_uninhabited_labels)
 	sectorView:SetDrawVerticalLines(draw_vertical_lines)
 	sectorView:SetLabelParams("orbiteer", font.size, 2.0, svColor.LABEL_HIGHLIGHT, svColor.LABEL_SHADE)
+	-- allow hyperjump planner to register its events
+	hyperJumpPlanner.onGameStart()
 end
 
 local function getHyperspaceDetails(path)

@@ -31,13 +31,21 @@
     "description": "",
     "message": "Hayvan Eti"
   },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "argon bir atmosfer"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "oksijen bir atmosfer"
+  },
   "APOAPSIS_DISTANCE": {
     "description": "",
     "message": "Apoapsis uzaklığı"
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "\" Argon atmosfer\""
+    "message": "argon atmosfer"
   },
   "ASTEROID": {
     "description": "",
@@ -79,9 +87,37 @@
     "description": "",
     "message": "Eksen eğimi"
   },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "metan bir atmosfer"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "karbondioksit bir atmosfer"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "karbonmonoksit bir atmosfer"
+  },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
     "message": "Sadece birkaç bin"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "helyum bir atmosfer"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "hidrojen bir atmosfer"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "azot bir atmosfer"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "sülfürik bir atmosfer"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -169,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "\" Metan atmosfer\""
+    "message": "metan atmosfer"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\" Karbondioksit atmosfer\""
+    "message": "karbondioksit atmosfer"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -269,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "\" Karbonmonoksit atmosfer\""
+    "message": "karbonmonoksit atmosfer"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -497,7 +533,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "\" Helyum atmosfer\""
+    "message": "helyum atmosfer"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -561,7 +597,11 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "\" Hidrojen atmosfer\""
+    "message": "hidrojen atmosfer"
+  },
+  "ICE_MOON": {
+    "description": "",
+    "message": "\" buz uydu\""
   },
   "ICE_WORLD": {
     "description": "",
@@ -847,6 +887,14 @@
     "description": "",
     "message": "Eyl"
   },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" sıvı su barındıran uydu\""
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" biraz buzlu bir uydu\""
+  },
   "NAME_OBJECT": {
     "description": "For an item or object",
     "message": "İsim"
@@ -870,6 +918,10 @@
   "NERVE_GAS": {
     "description": "",
     "message": "Sinir Gazı"
+  },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
   },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
@@ -949,7 +1001,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "\" Azot atmosfer\""
+    "message": "azot atmosfer"
   },
   "N_CELSIUS": {
     "description": "",
@@ -989,11 +1041,15 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "\" Oksijen atmosfer\""
+    "message": "oksijen atmosfer"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
     "message": "Cisim bilgisi"
+  },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" okyanus uydusu\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1143,6 +1199,14 @@
     "description": "",
     "message": "Robotlar"
   },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" kayalık uydu\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" biraz sıvı barındıran kayalık bir uydu,\""
+  },
   "ROCKY_PLANET": {
     "description": "",
     "message": "\" kayalık gezegen\""
@@ -1258,6 +1322,10 @@
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
     "message": "Düşük itiş güç seviyesini %%%power olarak ayarlayın"
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Maksimum hız limitini ayarla"
   },
   "SET_NAVTARGET_TO": {
     "description": "",
@@ -1537,7 +1605,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "\" Sülfürik atmosfer\""
+    "message": "sülfürik atmosfer"
   },
   "TAKEOFF": {
     "description": "",
@@ -1549,7 +1617,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "zayıf"
+    "message": "incecik bir "
   },
   "TEXTILES": {
     "description": "",
@@ -1557,11 +1625,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "kalın"
+    "message": "\"kalın \""
   },
   "THIN": {
     "description": "",
-    "message": "ince"
+    "message": "\"ince \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1753,7 +1821,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "çok yoğun"
+    "message": "\"çok yoğun \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1791,7 +1859,7 @@
     "description": "",
     "message": "Beyaz cüce yıldız kalıntısı"
   },
-  "WITH_A": {
+  "WITH": {
     "description": "",
     "message": "\" ile \""
   },

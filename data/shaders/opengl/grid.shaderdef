@@ -1,0 +1,10 @@
+## Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+## Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+Shader grid
+
+Buffer DrawData binding=1
+Buffer GridData binding=2
+
+Vertex "grid.vert"
+Fragment "grid.frag"

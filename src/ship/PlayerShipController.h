@@ -1,10 +1,11 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
 
 #include "Input.h"
 #include "ShipController.h"
+#include "ConnectionTicket.h"
 
 // autopilot AI + input
 class PlayerShipController : public ShipController {
@@ -17,12 +18,10 @@ public:
 	void LoadFromJson(const Json &jsonObj) override;
 	void PostLoadFixup(Space *s) override;
 	void StaticUpdate(float timeStep) override;
-	// Poll controls, set thruster states, gun states and target velocity
-	void PollControls(float timeStep, const bool force_rotation_damping, int *mouseMotion);
 	bool IsMouseActive() const { return m_mouseActive; }
 	void SetDisableMouseFacing(bool disabled) { m_disableMouseFacing = disabled; }
-	double GetSetSpeed() const override { return m_setSpeed; }
-	void ChangeSetSpeed(double delta) override { m_setSpeed += delta; }
+	double GetCruiseSpeed() const override { return m_cruiseSpeed; }
+	void ChangeCruiseSpeed(double delta) override { m_cruiseSpeed += delta; }
 	FlightControlState GetFlightControlState() const override { return m_flightControlState; }
 	vector3d GetMouseDir() const; // in local frame
 
@@ -37,20 +36,44 @@ public:
 	void SetRotationDamping(bool enabled);
 	void ToggleRotationDamping();
 	void FireMissile();
-	void ToggleSetSpeedMode();
+	void ToggleCruise();
+	void SelectTarget();
+	void CycleHostiles();
+
+
 
 	//targeting
 	//XXX AI should utilize one or more of these
 	Body *GetCombatTarget() const;
 	Body *GetNavTarget() const;
-	Body *GetSetSpeedTarget() const override;
-	void SetCombatTarget(Body *const target, bool setSpeedTo = false);
+	Body *GetFollowTarget() const override;
+	void SetCombatTarget(Body *const target, bool setFollowTo = false);
 	void SetNavTarget(Body *const target);
-	void SetSetSpeedTarget(Body *const target);
+	void SetFollowTarget(Body *const target);
 
 	sigc::signal<void> onRotationDampingChanged;
 	sigc::signal<void> onChangeTarget;
 	sigc::signal<void> onChangeFlightControlState;
+
+	enum CruiseDirection { // <enum scope='PlayerShipController' name=CruiseDirection public>
+		CRUISE_FWD,
+		CRUISE_UP
+	};
+
+	enum FollowMode { // <enum scope='PlayerShipController' name=FollowMode public>
+		FOLLOW_POS,
+		FOLLOW_ORI
+	};
+
+	void SetCruiseDirection(CruiseDirection mode);
+	CruiseDirection GetCruiseDirection() const { return m_cruiseDirection; }
+	void SetFollowMode(FollowMode mode) { m_followMode = mode; }
+	FollowMode GetFollowMode() const { return m_followMode; }
+	void SetSpeedLimit(double limit) { m_speedLimit = limit; }
+	double GetSpeedLimit() { return m_speedLimit; }
+	void SetSpeedLimiterActive(bool active) { m_speedLimiterActive = active; }
+	bool IsSpeedLimiterActive() const { return m_speedLimiterActive; }
+	bool IsShipDrifting(); // 'setted' speed is very different from real speed
 
 private:
 	struct InputBinding : public Input::InputFrame {
@@ -58,6 +81,7 @@ private:
 
 		// Weapons
 		Action *targetObject;
+		Action *cycleHostiles;
 		Action *primaryFire;
 		Action *secondaryFire;
 
@@ -76,39 +100,70 @@ private:
 
 		// Speed Control
 		Axis *speedControl;
-		Action *toggleSetSpeed;
+		Action *toggleCruise;
+		Action *toggleSpeedLimiter;
+
+		// Landing Controls
+		Action *toggleLandingGear;
+		Axis *controlLandingGear;
 
 		void RegisterBindings() override;
 	} InputBindings;
 
+	// cumulative action from the input and flight assistance
+	struct TotalDesiredAction;
+	// static functions with access to private members
+	struct Util;
+
+	// Poll controls, set gun states
+	void PollControls(float timeStep, int *mouseMotion, TotalDesiredAction &outParams);
+	// desired speed of linear and rotary movement, calculated by flight control assistance
+	void FlightAssist(const float timeStep, TotalDesiredAction &outParams);
+	// send a control request to propulsion
+	void ApplyTotalAction(const TotalDesiredAction &params);
+
+	void OnToggleLandingGear();
+	void UpdateLandingGear();
+
 	// FIXME: separate the propusion controller from the input system, pass in wanted velocity correction directly.
 	friend class Propulsion;
 
+	double m_speedLimit = 0.0;
+	bool m_speedLimiterActive = false;
 	bool IsAnyAngularThrusterKeyDown();
 	bool IsAnyLinearThrusterKeyDown();
 	//do a variety of checks to see if input is allowed
-	void CheckControlsLock();
+	bool AreControlsLocked();
 	Body *m_combatTarget;
 	Body *m_navTarget;
-	Body *m_setSpeedTarget;
-	bool m_controlsLocked;
+	Body *m_followTarget;
 	bool m_invertMouse; // used for rear view, *not* for invert Y-axis option (which is Pi::input->IsMouseYInvert)
 	bool m_mouseActive;
 	bool m_disableMouseFacing;
 	bool m_rotationDamping;
+	bool m_stickySpeedKey = false; // helps cruise speed sticks to 0 when it crosses it
+	matrix3x3d m_followTargetPrevOrient;
+	vector3d m_followTargetPrevVel;
 	double m_mouseX;
 	double m_mouseY;
-	double m_setSpeed;
+	double m_cruiseSpeed;
 	FlightControlState m_flightControlState;
 	float m_fovY; //for mouse acceleration adjustment
 	float m_joystickDeadzone;
 	float m_lowThrustPower;
 	int m_combatTargetIndex; //for PostLoadFixUp
 	int m_navTargetIndex;
-	int m_setSpeedTargetIndex;
+	int m_followTargetIndex;
 	vector3d m_mouseDir;
 
-	sigc::connection m_connRotationDampingToggleKey;
-	sigc::connection m_fireMissileKey;
-	sigc::connection m_setSpeedMode;
+	FollowMode m_followMode = FOLLOW_POS;
+	CruiseDirection m_cruiseDirection = CRUISE_FWD;
+
+	ConnectionTicket m_connRotationDampingToggleKey;
+	ConnectionTicket m_fireMissileKey;
+	ConnectionTicket m_toggleCruise;
+	ConnectionTicket m_toggleSpeedLimiter;
+	ConnectionTicket m_selectTarget;
+	ConnectionTicket m_cycleHostiles;
+	ConnectionTicket m_toggleLandingGear;
 };

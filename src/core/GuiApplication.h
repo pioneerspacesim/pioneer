@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -59,9 +59,9 @@ protected:
 
 	// Consume events from SDL and dispatch to pigui / input
 	void HandleEvents();
-
-	// Override point for classes to add custom event handling
-	virtual bool HandleEvent(SDL_Event &ev) { return false; }
+	// the function from above actually calls the following two:
+	void PollEvents();	   // writes events to ImGui and Input structures, also generate signals for low-level handling
+	void DispatchEvents(); // triggers action-related signals, updates actions and axes
 
 	// Override point to handle an application quit notification
 	virtual void HandleQuit(SDL_QuitEvent &ev) { RequestQuit(); }

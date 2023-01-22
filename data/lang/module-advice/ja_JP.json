@@ -1,0 +1,110 @@
+{
+  "ADVICE_10_BODYTEXT": {
+    "description": "",
+    "message": "地方当局とトラブルになったとき、別の派閥に移動することは良いアイデアです。"
+  },
+  "ADVICE_10_HEADLINE": {
+    "description": "",
+    "message": "街を出る時を知る"
+  },
+  "ADVICE_1_BODYTEXT": {
+    "description": "Point made is: the real illegal goods traders are fixed to each station, but police's fake illegal goods traders will be random every time.",
+    "message": "あなたがステーションに戻った時、見覚えのない市場には用心してください。そうすれば罪に問われることはないだろう。"
+  },
+  "ADVICE_1_HEADLINE": {
+    "description": "",
+    "message": "Black Market を使いこなす"
+  },
+  "ADVICE_2_BODYTEXT": {
+    "description": "",
+    "message": "小距離移動の繰り返しは、一回の長距離移動より速い。"
+  },
+  "ADVICE_2_HEADLINE": {
+    "description": "(A reference to the famous poem The Road Not Taken, by Robert Frost)",
+    "message": "より速い道"
+  },
+  "ADVICE_3_BODYTEXT": {
+    "description": "(it simply says, to have enough fuel to leave a place where there is no possibility to refuel)",
+    "message": "離れる手段を持たずに、無人星系にジャンプすることは避けてください。"
+  },
+  "ADVICE_3_HEADLINE": {
+    "description": "",
+    "message": "立往生を避ける: ジャンプの順序を前もって計画しよう"
+  },
+  "ADVICE_4_BODYTEXT": {
+    "description": "",
+    "message": "基準系を選ぼう、特に動くターゲットに速度とコースを合わせたいときは。"
+  },
+  "ADVICE_4_HEADLINE": {
+    "description": "",
+    "message": "全ては相対的"
+  },
+  "ADVICE_5_BODYTEXT": {
+    "description": "",
+    "message": "安く買い、高く売る。"
+  },
+  "ADVICE_5_HEADLINE": {
+    "description": "",
+    "message": "決して損しない方法"
+  },
+  "ADVICE_6_BODYTEXT": {
+    "description": "",
+    "message": "報じられたニュースには細心の注意を払ってください。情報は市場価格に影響を与えることがあります。"
+  },
+  "ADVICE_6_HEADLINE": {
+    "description": "",
+    "message": "社会の動向に耳を傾ける"
+  },
+  "ADVICE_7_BODYTEXT": {
+    "description": "",
+    "message": "寄付によって、あなたは社会的に良い立ち位置を得ることができる。しかし、全ての慈善行為があなたの評判を高めるわけではありません。"
+  },
+  "ADVICE_7_HEADLINE": {
+    "description": "",
+    "message": "寛大に"
+  },
+  "ADVICE_8_BODYTEXT": {
+    "description": "",
+    "message": "連星系に旅をするときは、必ず正しい恒星を目標にしてください。"
+  },
+  "ADVICE_8_HEADLINE": {
+    "description": "",
+    "message": "2重のトラブルを避ける"
+  },
+  "ADVICE_9_BODYTEXT": {
+    "description": "",
+    "message": "定期的にエンジンをメンテナンスしてください。そして忘れるな: 支払いに見合った物だけを手に入れることができる。"
+  },
+  "ADVICE_9_HEADLINE": {
+    "description": "",
+    "message": "あなたの船を大切に"
+  },
+  "RUMOUR": {
+    "description": "Headline starts with this pre-headline",
+    "message": "RUMOUR"
+  },
+  "RUMOUR_1_BODYTEXT": {
+    "description": "",
+    "message": "Federal Navy の誰かが私に言った、ある日、彼らのコルベットの1つが誤って、 Sol から 50ly 離れた Rondel と呼ばれる Haber のアウトポスト星系にジャンプした。Rondel はあからさまな対立を引き起こした。海軍以外の多くの人々はこの事件を知らないようだ。しかし、一部の人は Rondel 政府は事件以来訪問者に攻撃的で、貨物パイロットは星系を避け始めたと言う。"
+  },
+  "RUMOUR_1_HEADLINE": {
+    "description": "",
+    "message": "Rondel 事件"
+  },
+  "TALE_1_BODYTEXT": {
+    "description": "",
+    "message": "Hades が Epsilon Eridani からの光を遮る New Hope での美しい日食を見逃さないで。"
+  },
+  "TALE_1_HEADLINE": {
+    "description": "Blade runner?",
+    "message": "\"私はあなた方が信じられないようなものを見てきた\""
+  },
+  "TRAVELLERS_ADVICE": {
+    "description": "Headline starts with this pre-headline",
+    "message": "TRAVELLER'S ADVICE"
+  },
+  "TRAVELLERS_TALE": {
+    "description": "Headline starts with this pre-headline",
+    "message": "TRAVELLER'S TALE"
+  }
+}

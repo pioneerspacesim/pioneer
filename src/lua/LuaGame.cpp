@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaGame.h"
@@ -9,6 +9,7 @@
 #include "GameSaveError.h"
 #include "Lang.h"
 #include "LuaObject.h"
+#include "LuaTable.h"
 #include "LuaUtils.h"
 #include "Pi.h"
 #include "Player.h"
@@ -76,25 +77,25 @@ static int l_game_start_game(lua_State *l)
 }
 
 /*
-* Function: SaveGameStats
-*
-* Return stats about a game.
-*
-* > Game.SaveGameStats(filename)
-*
-* Parameters:
-*
-*   filename - The filename of the save game to retrieve stats for.
-*              Stats will be loaded from the 'savefiles' directory in the user's game directory.
-*
-* Availability:
-*
-*   2018-02-10
-*
-* Status:
-*
-*   experimental
-*/
+ * Function: SaveGameStats
+ *
+ * Return stats about a game.
+ *
+ * > Game.SaveGameStats(filename)
+ *
+ * Parameters:
+ *
+ *   filename - The filename of the save game to retrieve stats for.
+ *              Stats will be loaded from the 'savefiles' directory in the user's game directory.
+ *
+ * Availability:
+ *
+ *   2018-02-10
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_game_savegame_stats(lua_State *l)
 {
 	std::string filename = LuaPull<std::string>(l, 1);

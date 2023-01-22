@@ -29,7 +29,7 @@
   },
   "CARBON_ORE_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Węgiel to jeden z najpowszechniejszych znanych nam pierwiastków. Używany jest w niemal wszystkim, od plastiku po stopy a nawet produkcję energii. Jest drogim, ale ważnym towarem. Jako taki, jest importowany przez niemal wszyskie osady przemysłowe."
+    "message": "Węgiel to jeden z najpowszechniejszych znanych nam pierwiastków. Używany jest w niemal wszystkim, od plastiku po stopy a nawet produkcję energii. Jest niedrogim, ale ważnym towarem. Jako taki, jest importowany przez niemal wszystkie osady przemysłowe."
   },
   "COMPUTERS": {
     "description": "",
@@ -213,7 +213,7 @@
   },
   "ROBOTS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Roboty są często importowane do układów przemysłowychi górniczych, ze względu na swoje zdolności łatwego wykonywania zadań zbyt trudnych, nudnych lub niebezpiecznych dla ludzi. Mogą również służyć za policjantów i prawników."
+    "message": "Roboty są często importowane do układów przemysłowych i górniczych, ze względu na swoje zdolności łatwego wykonywania zadań zbyt trudnych, nudnych lub niebezpiecznych dla ludzi. Mogą również służyć za policjantów i prawników."
   },
   "RUBBISH": {
     "description": "",

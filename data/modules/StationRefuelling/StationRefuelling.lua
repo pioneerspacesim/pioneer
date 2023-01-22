@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -32,7 +32,11 @@ local onShipDocked = function (ship, station)
 
 	local fee = calculateFee()
 	if ship:GetMoney() < fee then
-		Comms.Message(l.THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH:interp({station = station.label,fee = Format.Money(fee)}))
+		if station.isGroundStation == true then
+			Comms.Message(l.THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_LANDING:interp({station = station.label,fee = Format.Money(fee)}))
+		else
+			Comms.Message(l.THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_DOCKING:interp({station = station.label,fee = Format.Money(fee)}))
+		end
 		ship:SetMoney(0)
 	else
 		if station.isGroundStation == true then

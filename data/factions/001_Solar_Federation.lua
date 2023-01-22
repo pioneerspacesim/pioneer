@@ -1,10 +1,10 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local f = Faction:new('Solar Federation')
 	:description_short('The historical birthplace of humankind')
 	:description('Sol is a fine joint')
-	:homeworld(0,0,0,0,4)
+	:homeworld(0,0,0,0,16) --Mars
 	:foundingDate(3050)
 	:expansionRate(1)
 	:military_name('SolFed Military')

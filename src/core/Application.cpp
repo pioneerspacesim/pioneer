@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Application.h"
@@ -6,6 +6,8 @@
 #include "JobQueue.h"
 #include "OS.h"
 #include "SDL.h"
+#include "StringName.h"
+#include "TaskGraph.h"
 #include "profiler/Profiler.h"
 #include "utils.h"
 
@@ -18,7 +20,7 @@ static constexpr Uint32 SYNC_JOBS_PER_LOOP = 1;
 Application::Application() {}
 Application::~Application() {}
 
-void Application::QueueLifecycle(std::shared_ptr<Lifecycle> cycle)
+void Application::QueueLifecycle(RefCountedPtr<Lifecycle> cycle)
 {
 	if (!cycle)
 		throw std::runtime_error("Invalid Lifecycle object pushed to Application queue!");
@@ -103,7 +105,7 @@ bool Application::StartLifecycle()
 	// Lifecycle objects returned from Lifecycle::End() take priority over queued objects
 	if (m_priorityLifecycle) {
 		m_activeLifecycle = m_priorityLifecycle;
-		m_priorityLifecycle = nullptr;
+		m_priorityLifecycle.Reset();
 	} else {
 		m_activeLifecycle = std::move(m_queuedLifecycles.front());
 		m_queuedLifecycles.pop();
@@ -133,7 +135,7 @@ void Application::EndLifecycle()
 	// wait until we've finished the control flow for the lifecycle;
 	// the lifecycle may decide to set the next lifecycle in End()
 	m_priorityLifecycle = m_activeLifecycle->m_nextLifecycle;
-	m_activeLifecycle = nullptr;
+	m_activeLifecycle.Reset();
 }
 
 void Application::ClearQueuedLifecycles()
@@ -148,6 +150,9 @@ void Application::HandleJobs()
 	m_syncJobQueue->RunJobs(SYNC_JOBS_PER_LOOP);
 	m_syncJobQueue->FinishJobs();
 	m_taskGraph->GetJobQueue()->FinishJobs();
+
+	// Reclaim StringTable memory periodically
+	StringTable::Get()->Reclaim();
 }
 
 void Application::Run()
@@ -203,16 +208,22 @@ void Application::Run()
 		// TODO: potential pigui frame profile inspector
 		m_runtime.SoftStop();
 		thisTime = m_runtime.seconds();
+
 		// profile frames taking longer than 100ms
-		if (m_doTempProfile || (m_doSlowProfile && thisTime - m_totalTime > 0.100)) {
+		bool isSlowProfile = (m_doSlowProfile && thisTime - m_totalTime > 0.100);
+		if (m_doTempProfile || isSlowProfile) {
 			const std::string path = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(),
 				m_tempProfilePath.empty() ? m_profilerPath : m_tempProfilePath);
 			m_tempProfilePath.clear();
 			m_doTempProfile = false;
 
 			Profiler::dumphtml(path.c_str());
-			if (m_profileZones)
-				Profiler::dumpzones(path.c_str());
+			if (m_profileZones) {
+				if (m_profileTrace)
+					Profiler::dumptrace(path.c_str());
+				else
+					Profiler::dumpzones(path.c_str());
+			}
 		}
 
 		// reset the profiler at the end of the frame

@@ -111,6 +111,10 @@
     "description": "",
     "message": "Товар"
   },
+  "CARGO_CAPACITY": {
+    "description": "Label to show a ship's total cargo space.",
+    "message": "Товарен капацитет"
+  },
   "CARGO_SPACE": {
     "description": "",
     "message": "Товарно място"
@@ -147,6 +151,14 @@
     "description": "Key binding option",
     "message": "Промяна на контролите"
   },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+    "message": "Промяна на цвета"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+    "message": "Промяна на шаблона"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Главен механик"
@@ -178,6 +190,10 @@
   "CLOSE": {
     "description": "",
     "message": "Затваряне"
+  },
+  "COLOR": {
+    "description": "",
+    "message": "Цвят"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -727,6 +743,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Изстрелване"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "Режим на круиз напред"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Режим на круиз нагоре"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Автопилот"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Режим на круиз"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Режим на насочване"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Режим на следване"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Оборудване"
@@ -855,6 +895,10 @@
     "description": "Cargo Mass",
     "message": "Товарна маса"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Круизна скорост"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "Текущата бойна цел"
@@ -906,6 +950,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "Продължителността до средата на маневрата"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: Следване на ориентацията"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: Следването на ориентацията не е възможно."
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Следването на ориентацията не е възможно – целта е твърде далече."
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: Следване на позицията"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: Следването на позицията не е възможно."
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Следването на позицията не е възможно – целта е твърде далече."
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Следване на целта"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -990,6 +1062,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Текуща навигационна цел"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Ограничителят на скоростта е включен"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1118,6 +1194,10 @@
   "JETTISON": {
     "description": "",
     "message": "Изхвърляне"
+  },
+  "JETTISON_MODE": {
+    "description": "",
+    "message": "Режим на изхвърляне"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1415,13 +1495,17 @@
     "description": "",
     "message": "Договаряне"
   },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+    "message": "Новата цветова схема е приложена успешно."
+  },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
     "message": "Следващо"
   },
   "NEXT_PAID": {
     "description": "",
-    "message": "Следващо плащане"
+    "message": "Следваща"
   },
   "NO": {
     "description": "Negative answer to a question",
@@ -1454,6 +1538,10 @@
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
     "message": "{equipment} не се поддържа на този кораб"
+  },
+  "NO_CARGO": {
+    "description": "Message displayed when the player has no cargo in their hold.",
+    "message": "НЯМА ТОВАР"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
@@ -1553,7 +1641,43 @@
   },
   "OWED": {
     "description": "Player owing money to crew members",
-    "message": "Дължимо"
+    "message": "Дължима"
+  },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+    "message": "Отдел за боядисване"
+  },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+    "message": "Този космодрум не разполага с отдел за боядисване."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Добре дошли! Ние ще разкрасим Вашия кораб!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Здравейте! Имате нужда от промяна на външния вид?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+    "message": "При нас, Вашият кораб няма да стане по-бърз, но ще стане по-красив!"
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Добре дошли. Време е да направите Вашия кораб неповторим."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Да изглеждате добре в галактиката никога не е било по-лесно!"
+  },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Капацитет на пасажерската кабина"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+    "message": "Шаблон"
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
@@ -1595,6 +1719,10 @@
     "description": "",
     "message": "Планетни текстури"
   },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+    "message": "Избиране на цветова схема:"
+  },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
     "message": "Нещо се обърка! Моля, докладвайте как се е стигнало до тази неизправност в „Github“. Приложете изходния дневник на „Pioneer” и запазената игра към докладa.\nИзходният дневник се намира в: {path}/output.txt"
@@ -1634,6 +1762,10 @@
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
     "message": "Източване"
+  },
+  "PURCHASE_PAINTJOB": {
+    "description": "Paintshop button",
+    "message": "Купуване"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1718,6 +1850,10 @@
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
     "message": "Нулиране на ориентацията и мащаба"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+    "message": "Нулиране на изгледа"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1815,6 +1951,18 @@
     "description": "",
     "message": "Задаване на маршрут за връщане"
   },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Задаване на 45% от оставащата Δ-v"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Задаване на текущата скорост"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Задаване на нула"
+  },
   "SHIP": {
     "description": "",
     "message": "Кораб"
@@ -1844,8 +1992,8 @@
     "message": "Пазар за кораби"
   },
   "SHIP_REPAIRS": {
-    "description": "",
-    "message": "Ремонт на кораби"
+    "description": "Station tab name",
+    "message": "Сервиз за кораби"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -1955,6 +2103,10 @@
     "description": "Lobby screen shows the tech level of the station",
     "message": "Това съоръжение има разрешение за изполване на военна технология."
   },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Технологично ниво"
+  },
   "TEXTURE_COMPRESSION": {
     "description": "",
     "message": "Компресирането на текстурите освобождава памет за графичния процесор, за сметка на по-бавно зареждане при започване на играта."
@@ -1978,6 +2130,10 @@
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Ръкав 3-кпс"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+    "description": "Label for a button toggling the cargo display window.",
+    "message": "Преглед на товара"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
@@ -2043,6 +2199,10 @@
     "description": "For player reputation",
     "message": "Достоен"
   },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Изключване"
+  },
   "TYPE": {
     "description": "",
     "message": "Вид"
@@ -2099,6 +2259,14 @@
     "description": "Tooltip for video mode/resultion setting",
     "message": "По-голямата резолюция позволява показването повече информация с по-малък размер, но може да намали производителността."
   },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+    "message": "Отдел за боядисване"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+    "message": "Отдел за ремонти"
+  },
   "VSYNC": {
     "description": "For the checkbox in settings window",
     "message": "Вертикална синхронизация"
@@ -2109,7 +2277,7 @@
   },
   "WAGE": {
     "description": "Salary of crew shown in crew roster",
-    "message": "Заплащане"
+    "message": "Заплата"
   },
   "WEIGHT_EMPTY": {
     "description": "",

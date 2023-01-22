@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DumpVisitor.h"
@@ -49,7 +49,6 @@ namespace SceneGraph {
 
 	void DumpVisitor::ApplyNode(Node &n)
 	{
-		PutIndent();
 		PutNodeName(n);
 
 		m_stats.nodeCount++;
@@ -57,7 +56,6 @@ namespace SceneGraph {
 
 	void DumpVisitor::ApplyGroup(Group &g)
 	{
-		PutIndent();
 		PutNodeName(g);
 
 		m_level++;
@@ -93,17 +91,11 @@ namespace SceneGraph {
 		ApplyNode(static_cast<Node &>(g));
 	}
 
-	void DumpVisitor::PutIndent() const
-	{
-		for (unsigned int i = 0; i < m_level; i++)
-			Output("  ");
-	}
-
 	void DumpVisitor::PutNodeName(const Node &g) const
 	{
 		if (g.GetName().empty())
-			Output("%s\n", g.GetTypeName());
+			Log::Info("{0:{1}}{2}", " ", m_level * 2, g.GetTypeName());
 		else
-			Output("%s - %s\n", g.GetTypeName(), g.GetName().c_str());
+			Log::Info("{0:{1}}{2} - {3}", " ", m_level * 2, g.GetTypeName(), g.GetName());
 	}
 } // namespace SceneGraph

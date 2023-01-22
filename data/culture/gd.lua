@@ -1,7 +1,7 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
--- source: http://pioneerspacesim.net/forum/viewtopic.php?f=3&t=466
+-- source: https://forum.pioneerspacesim.net/viewtopic.php?f=3&t=466
 
 local CultureName = require './common'
 

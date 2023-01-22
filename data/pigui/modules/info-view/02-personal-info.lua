@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -8,7 +8,7 @@ local Engine = require 'Engine'
 local Character = require 'Character'
 local PiGuiFace = require 'pigui.libs.face'
 local Event = require 'Event'
-local pigui = Engine.pigui
+local Game  = require 'Game'
 
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
@@ -20,21 +20,27 @@ local textTable = require 'pigui/libs/text-table'
 local l = Lang.GetResource("ui-core")
 
 local itemSpacing = ui.rescaleUI(Vector2(6, 12), Vector2(1920, 1200))
-local faceSize = Vector2(440,424) * (ui.screenWidth / 1200)
 
 local face = nil
 
 local function drawPlayerInfo()
     local player = Character.persistent.player
 
-	textTable.withHeading(l.COMBAT, orbiteer.xlarge, {
+	textTable.withHeading(l.COMBAT, orbiteer.heading, {
 		{ l.RATING, l[player:GetCombatRating()] },
 		{ l.KILLS,  string.format('%d',player.killcount) },
 	})
-	ui.text("")
 
-	textTable.withHeading(l.REPUTATION, orbiteer.xlarge, {
+	ui.newLine()
+
+	textTable.withHeading(l.REPUTATION, orbiteer.heading, {
 		{ l.STATUS..":", l[player:GetReputationRating()] },
+	})
+
+	ui.newLine()
+
+	textTable.withHeading(l.FINANCE, orbiteer.heading, {
+		{ l.CASH .. ":", ui.Format.Money(Game.player:GetMoney()) }
 	})
 end
 
@@ -46,18 +52,27 @@ InfoView:registerView({
 	draw = function()
 		local spacing = InfoView.windowPadding.x * 2.0
         local info_column_width = (ui.getColumnWidth() - spacing) / 2
+
         ui.withStyleVars({ItemSpacing = itemSpacing}, function()
-            ui.withFont(pionillium.large, function()
+            ui.withFont(pionillium.heading, function()
+
                 ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), drawPlayerInfo)
+
                 ui.sameLine(0, spacing)
+
 				ui.child("PlayerView", Vector2(info_column_width, 0), function()
 					face = face or PiGuiFace.New(Character.persistent.player, nil, true)
 					face:render()
 				end)
+
             end)
         end)
     end,
     refresh = function() end,
+	debugReload = function()
+		package.reimport('pigui.libs.face')
+		package.reimport()
+	end
 })
 
 Event.Register("onGameEnd", function ()

@@ -1,10 +1,11 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TaskGraph.h"
 
 #include "JobQueue.h"
 #include "SDL_timer.h"
+#include "core/StringName.h"
 #include "fmt/format.h"
 #include "profiler/Profiler.h"
 #include <atomic_queue/atomic_queue.h>
@@ -162,6 +163,12 @@ TaskGraph::~TaskGraph()
 	delete m_jobHandlerImpl;
 	delete m_jobQueue;
 	delete m_jobFinishedQueue;
+}
+
+uint32_t TaskGraph::GetNumWorkerThreads() const
+{
+	// m_threads[0] is the thread entry for the main thread
+	return m_threads.size() - 1;
 }
 
 void TaskGraph::SetWorkerThreads(uint32_t numThreads)
@@ -343,6 +350,9 @@ void TaskGraph::ThreadData::RunThread()
 			}
 		} else {
 			spinCount = 0;
+
+			// reclaim used space in this thread's StringTable periodically
+			StringTable::Get()->Reclaim();
 		}
 	}
 

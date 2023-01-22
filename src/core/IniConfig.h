@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _INICONFIG_H
@@ -15,6 +15,8 @@ namespace FileSystem {
 
 class IniConfig {
 public:
+	typedef std::map<std::string, std::string> MapType;
+	typedef std::map<std::string, MapType> SectionMapType;
 	IniConfig() = default;
 
 	// Read from a file on disk. If fs is a FileSourceFS, enables in-place saving
@@ -56,12 +58,11 @@ public:
 		return (it != m_map.end()) && it->second.count(key);
 	}
 	bool HasEntry(const std::string &key) const { return HasEntry("", key); }
+	SectionMapType &GetSections() { return m_map; }
 
 protected:
 	void Read(const FileSystem::FileData &data);
 
-	typedef std::map<std::string, std::string> MapType;
-	typedef std::map<std::string, MapType> SectionMapType;
 	SectionMapType m_map;
 
 	FileSystem::FileSourceFS *m_fs = nullptr;

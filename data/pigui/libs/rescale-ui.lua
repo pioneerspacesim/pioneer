@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local pigui = require 'Engine'.pigui
@@ -33,6 +33,9 @@ local defaultBaseResolution = Vector2(1600, 900)
 --
 --   number|Vector2|Table - the scaled value
 --
+---@generic T
+---@param val T
+---@return T
 local function rescaleUI(val, baseResolution, rescaleToScreenAspect, targetResolution, disableCeil)
 	if not targetResolution then
 		targetResolution = Vector2(pigui.screen_width, pigui.screen_height)

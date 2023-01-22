@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaManager.h"
@@ -22,6 +22,11 @@ LuaManager::LuaManager() :
 	// this will print nothing currently because there's no stack yet, but it means that the function is included
 	// in the codebase and thus available via the "immediate" window in the MSVC debugger for us in any C++ lua function
 	pi_lua_stacktrace(m_lua);
+
+	// this will print the lua version as a string and ensure the function is included for use while debugging.
+	lua_pushstring(m_lua, LUA_VERSION);
+	pi_lua_printvalue(m_lua, -1);
+	lua_pop(m_lua, 1);
 
 	instantiated = true;
 }

@@ -179,6 +179,14 @@ void ShipCockpit::Update(const Player *player, float timeStep)
 	} else {
 		m_rotInterp = 0.0f;
 	}
+
+	// setup thruster levels
+	if (GetModel()) {
+		Propulsion *prop = player->GetComponent<Propulsion>();
+		vector3f linthrust{ prop->GetLinThrusterState() };
+		vector3f angthrust{ prop->GetAngThrusterState() };
+		GetModel()->SetThrust(linthrust, -angthrust);
+	}
 }
 
 void ShipCockpit::RenderCockpit(Graphics::Renderer *renderer, const Camera *camera, FrameId frameId)

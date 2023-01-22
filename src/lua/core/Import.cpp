@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CoreFwdDecl.h"
@@ -90,13 +90,13 @@ static std::string get_caller(lua_State *L)
 		int start = 0;
 		int end = strlen(ar.source);
 
-		// strip the trusted annotation if present
-		if ((ar.source[start] != '@') && (end > 5))
-			start = 4;
-
 		// if we have an @, this is a file name. Strip it and return the file name
 		if (ar.source[start] == '@') {
 			start++;
+
+			// strip the trusted annotation ("@[T] ") if present
+			if ((ar.source[start] == '[') && (end > 5))
+				start += 4;
 
 			caller = std::string(&ar.source[start], end - start);
 		}
@@ -473,7 +473,7 @@ static int l_reimport_package(lua_State *L)
 		return 1;
 	else {
 		lua_pushnil(L);
-		lua_insert(L, lua_gettop(L) - 2);
+		lua_insert(L, lua_gettop(L) - 1);
 		return 2;
 	}
 }

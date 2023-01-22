@@ -1,0 +1,16 @@
+## Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
+## Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+# Draws alpha-blended SDF text
+
+Shader label
+
+Texture sampler2D texture0 name=diffuse
+
+PushConstant vec4 lightIntensity binding=1
+
+Buffer LightData binding=0
+Buffer DrawData binding=1
+
+Vertex "multi.vert"
+Fragment "label.frag"

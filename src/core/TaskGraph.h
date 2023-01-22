@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -99,6 +99,8 @@ public:
 	struct Handle {
 		Handle(const Handle &) = delete;
 		Handle &operator=(const Handle &) = delete;
+		Handle(Handle &&) = default;
+		Handle &operator=(Handle &&) = default;
 		bool IsComplete() { return !m_set || m_set->IsComplete(); }
 
 	private:
@@ -141,6 +143,7 @@ public:
 
 	// Set the total number of worker threads
 	void SetWorkerThreads(uint32_t numThreads);
+	uint32_t GetNumWorkerThreads() const;
 
 	// Queues all tasks in a TaskSet for execution. The TaskGraph now owns
 	// the underlying TaskSet and is responsible for deletion.

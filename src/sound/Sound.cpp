@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 /*
@@ -8,12 +8,15 @@
 #include "Sound.h"
 #include "Body.h"
 #include "FileSystem.h"
+#include "JobQueue.h"
 #include "Pi.h"
 #include "Player.h"
+
 #include "SDL_audio.h"
 #include "SDL_events.h"
 #include <SDL.h>
 #include <vorbis/vorbisfile.h>
+
 #include <cassert>
 #include <cerrno>
 #include <cstdio>
@@ -533,6 +536,8 @@ namespace Sound {
 			}
 		}
 
+		ov_clear(&oggv);
+
 		if (is_music) {
 			sample.isMusic = true;
 			// music keyed by pathname minus (datapath)/music/ and extension
@@ -542,8 +547,6 @@ namespace Sound {
 			// sfx keyed by basename minus the .ogg
 			return { basename.substr(0, basename.size() - 4), sample };
 		}
-
-		ov_clear(&oggv);
 	}
 
 	class LoadSoundJob : public Job {

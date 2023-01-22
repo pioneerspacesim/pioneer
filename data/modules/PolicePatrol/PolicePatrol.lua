@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -12,6 +12,7 @@ local Serializer = require 'Serializer'
 local Equipment = require 'Equipment'
 local ShipDef = require 'ShipDef'
 local Timer = require 'Timer'
+local Commodities = require 'Commodities'
 
 local l = Lang.GetResource("module-policepatrol")
 local l_ui_core = Lang.GetResource("ui-core")
@@ -32,8 +33,8 @@ end
 local hasIllegalGoods = function (cargo)
 	local illegal = false
 
-	for _, e in pairs(cargo) do
-		if not Game.system:IsCommodityLegal(e.name) then
+	for name in pairs(cargo) do
+		if not Game.system:IsCommodityLegal(name) then
 			illegal = true
 			break
 		end
@@ -114,7 +115,7 @@ local onJettison = function (ship, cargo)
 	if not ship:IsPlayer() or Game.system:IsCommodityLegal(cargo.name) then return end
 
 	if #patrol > 0 and showMercy then
-		local manifest = ship:GetEquip("cargo")
+		local manifest = ship:GetComponent('CargoManager').commodities
 		if not hasIllegalGoods(manifest) then
 			Comms.ImportantMessage(l.TAKE_A_HIKE, patrol[1].label)
 			piracy = false
@@ -128,7 +129,7 @@ end
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
 
-	if not hasIllegalGoods(Equipment.cargo) then return end
+	if not hasIllegalGoods(Commodities) then return end
 
 	local system = Game.system
 	if (1 - system.lawlessness) < Engine.rand:Number(4) then return end
@@ -156,7 +157,8 @@ local onEnterSystem = function (player)
 			Comms.ImportantMessage(l["INITIATE_CARGO_SCAN_" .. Engine.rand:Integer(1, getNumberOfFlavours("INITIATE_CARGO_SCAN"))], ship.label)
 			Timer:CallAt(Game.time + Engine.rand:Integer(3, 9), function ()
 				if not Game.system then return end -- Shut up when the player is already in hyperspace
-				local manifest = player:GetEquip("cargo")
+
+				local manifest = player:GetComponent('CargoManager').commodities
 				if hasIllegalGoods(manifest) then
 					Comms.ImportantMessage(l.ILLEGAL_GOODS_DETECTED, ship.label)
 					attackShip(player)

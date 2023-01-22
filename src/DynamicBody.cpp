@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DynamicBody.h"
@@ -16,9 +16,7 @@ static const float KINETIC_ENERGY_MULT = 0.00001f;
 const double DynamicBody::DEFAULT_DRAG_COEFF = 0.1; // 'smooth sphere'
 
 DynamicBody::DynamicBody() :
-	ModelBody(),
-	m_propulsion(nullptr),
-	m_fixedGuns(nullptr)
+	ModelBody()
 {
 	m_dragCoeff = DEFAULT_DRAG_COEFF;
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
@@ -39,8 +37,6 @@ DynamicBody::DynamicBody() :
 	m_lastTorque = vector3d(0.0);
 	m_aiMessage = AIError::AIERROR_NONE;
 	m_decelerating = false;
-	for (int i = 0; i < Feature::MAX_FEATURE; i++)
-		m_features[i] = false;
 }
 
 DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
@@ -50,9 +46,7 @@ DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
 	m_atmosForce(vector3d(0.0)),
 	m_gravityForce(vector3d(0.0)),
 	m_lastForce(vector3d(0.0)),
-	m_lastTorque(vector3d(0.0)),
-	m_propulsion(nullptr),
-	m_fixedGuns(nullptr)
+	m_lastTorque(vector3d(0.0))
 {
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
 	m_oldPos = GetPosition();
@@ -68,15 +62,25 @@ DynamicBody::DynamicBody(const Json &jsonObj, Space *space) :
 		m_mass = dynamicBodyObj["mass"];
 		m_massRadius = dynamicBodyObj["mass_radius"];
 		m_angInertia = dynamicBodyObj["ang_inertia"];
-		m_isMoving = dynamicBodyObj["is_moving"];
+		SetMoving(dynamicBodyObj["is_moving"]);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
 
 	m_aiMessage = AIError::AIERROR_NONE;
 	m_decelerating = false;
-	for (int i = 0; i < Feature::MAX_FEATURE; i++)
-		m_features[i] = false;
+}
+
+void DynamicBody::SetMoving(bool isMoving)
+{
+	m_isMoving = isMoving;
+
+	if (!m_isMoving) {
+		m_vel = vector3d(0.0);
+		m_angVel = vector3d(0.0);
+		m_force = vector3d(0.0);
+		m_torque = vector3d(0.0);
+	}
 }
 
 void DynamicBody::SaveToJson(Json &jsonObj, Space *space)
@@ -118,18 +122,6 @@ void DynamicBody::PostLoadFixup(Space *space)
 
 DynamicBody::~DynamicBody()
 {
-	m_propulsion.Reset();
-	m_fixedGuns.Reset();
-}
-
-void DynamicBody::AddFeature(Feature f)
-{
-	m_features[f] = true;
-	if (f == Feature::PROPULSION && m_propulsion == nullptr) {
-		m_propulsion.Reset(new Propulsion());
-	} else if (f == Feature::FIXED_GUNS && m_fixedGuns == nullptr) {
-		m_fixedGuns.Reset(new FixedGuns());
-	}
 }
 
 void DynamicBody::SetForce(const vector3d &f)
@@ -155,30 +147,6 @@ void DynamicBody::AddRelForce(const vector3d &f)
 void DynamicBody::AddRelTorque(const vector3d &t)
 {
 	m_torque += GetOrient() * t;
-}
-
-const Propulsion *DynamicBody::GetPropulsion() const
-{
-	assert(m_propulsion != nullptr);
-	return m_propulsion.Get();
-}
-
-Propulsion *DynamicBody::GetPropulsion()
-{
-	assert(m_propulsion != nullptr);
-	return m_propulsion.Get();
-}
-
-const FixedGuns *DynamicBody::GetFixedGuns() const
-{
-	assert(m_fixedGuns != nullptr);
-	return m_fixedGuns.Get();
-}
-
-FixedGuns *DynamicBody::GetFixedGuns()
-{
-	assert(m_fixedGuns != nullptr);
-	return m_fixedGuns.Get();
 }
 
 void DynamicBody::SetTorque(const vector3d &t)

@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EnumStrings.h"
@@ -581,6 +581,20 @@ static int l_starsystem_attr_number_of_stars(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_attr_number_of_stations(lua_State *l)
+{
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	LuaPush(l, s->GetNumSpaceStations());
+	return 1;
+}
+
+static int l_starsystem_attr_number_of_bodies(lua_State *l)
+{
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	LuaPush(l, s->GetNumBodies());
+	return 1;
+}
+
 static int l_starsystem_attr_root_system_body(lua_State *l)
 {
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
@@ -717,6 +731,8 @@ void LuaObject<StarSystem>::RegisterClass()
 		{ "govtype", l_starsystem_attr_govtype },
 		{ "explored", l_starsystem_attr_explored },
 		{ "numberOfStars", l_starsystem_attr_number_of_stars },
+		{ "numberOfStations", l_starsystem_attr_number_of_stations },
+		{ "numberOfBodies", l_starsystem_attr_number_of_bodies },
 		{ "rootSystemBody", l_starsystem_attr_root_system_body },
 		{ "shortDescription", l_starsystem_attr_short_description },
 		{ "govDescription", l_starsystem_attr_gov_description },

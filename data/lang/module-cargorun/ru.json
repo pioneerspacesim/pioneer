@@ -25,47 +25,47 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Ship needed for delivery of cargo to the {system} system."
+    "message": "Корабль, необходимый для доставки груза в систему {system}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "Требуется транспортировка грузов в систему {system}. Оплата {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "Доставьте ценный груз в систему {system}. {cash} опытному пилоту."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
+    "message": "Требуются перевозчики для внутрисистемного транспорта. Перемещение товаров в {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "Need local delivery of personal cargo to {starport}."
+    "message": "Требуется локальная доставка личного груза в {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
+    "message": "Контракт на доставку частного груза. Требуется сертифицированная доставка товаров в {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Pickup of cargo from the {system} system required. Details available on request."
+    "message": "Требуется забор груза из системы {system}. Подробная информация предоставляется по запросу."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
+    "message": "Необходима услуга по перемещению груза. Требуется перемещение груза в этот звездный порт из {starport}."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+    "message": "Квалифицированный подрядчик, необходимый для перевозки грузов. Нам требуется корабль для массовой доставки в систему {system}."
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "CARGO RUN"
+    "message": "ГРУЗОВОЙ РЕЙС"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "NEED CARGO TRANSPORT"
+    "message": "НУЖЕН ГРУЗОВОЙ ТРАНСПОРТ"
   },
   "ADTITLE_EXPENSIVE_1": {
     "description": "",
@@ -73,15 +73,15 @@
   },
   "ADTITLE_LOCAL_1": {
     "description": "",
-    "message": "SHORT-RANGE FREIGHT"
+    "message": "ПЕРЕВОЗКИ НА КОРОТКИЕ РАССТОЯНИЯ"
   },
   "ADTITLE_LOCAL_2": {
     "description": "",
-    "message": "LOCAL FREIGHT TRANSPORT"
+    "message": "МЕСТНЫЕ ГРУЗОВЫЕ ПЕРЕВОЗКИ"
   },
   "ADTITLE_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN"
+    "message": "МЕСТНЫЙ ГРУЗОВОЙ РЕЙС"
   },
   "ADTITLE_PICKUP_1": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "ADTITLE_WHOLESALER_1": {
     "description": "",
-    "message": "BULK CARGO SERVICE"
+    "message": "ОБСЛУЖИВАНИЕ СЫПУЧИХ ГРУЗОВ"
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",

@@ -1,0 +1,730 @@
+{
+  "ACCIDENT_DESTROYED_TARGET": {
+    "description": "",
+    "message": "The sad news has reached us that {shiplabel} has been destroyed. We will pay half of the agreed price for you efforts."
+  },
+  "AU": {
+    "description": "",
+    "message": "AU"
+  },
+  "BOARDED_PASSENGER": {
+    "description": "",
+    "message": "{name} has boarded the ship."
+  },
+  "COMMODITIES": {
+    "description": "",
+    "message": "Commodities"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "先ほどの内容をもう一度教えてくれませんか?"
+  },
+  "CREW": {
+    "description": "",
+    "message": "Crew"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Deadline:"
+  },
+  "DELIVERED_PASSENGER": {
+    "description": "",
+    "message": "{name} has left the ship."
+  },
+  "DELIVERY": {
+    "description": "",
+    "message": "DELIVERY"
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "距離:"
+  },
+  "ENTITY_FAMILY_BUSINESS_1": {
+    "description": "",
+    "message": "{name} and Sons"
+  },
+  "ENTITY_FAMILY_BUSINESS_10": {
+    "description": "",
+    "message": "{name} Taxi Services"
+  },
+  "ENTITY_FAMILY_BUSINESS_2": {
+    "description": "",
+    "message": "{name} and Daughters"
+  },
+  "ENTITY_FAMILY_BUSINESS_3": {
+    "description": "",
+    "message": "{name} Flowers of {locality}"
+  },
+  "ENTITY_FAMILY_BUSINESS_4": {
+    "description": "",
+    "message": "{name} Custom Painted Missiles"
+  },
+  "ENTITY_FAMILY_BUSINESS_5": {
+    "description": "",
+    "message": "{name} Courier Services"
+  },
+  "ENTITY_FAMILY_BUSINESS_6": {
+    "description": "",
+    "message": "{name} Space Pets"
+  },
+  "ENTITY_FAMILY_BUSINESS_7": {
+    "description": "",
+    "message": "{name} & {name}"
+  },
+  "ENTITY_FAMILY_BUSINESS_8": {
+    "description": "",
+    "message": "{name} Authentic {locality} Foods"
+  },
+  "ENTITY_FAMILY_BUSINESS_9": {
+    "description": "",
+    "message": "{name} Transports"
+  },
+  "ENTITY_GENERAL_1": {
+    "description": "",
+    "message": "the {locality} General Prospectors Inc"
+  },
+  "ENTITY_GENERAL_10": {
+    "description": "",
+    "message": "{locality} Infinity Energy One"
+  },
+  "ENTITY_GENERAL_2": {
+    "description": "",
+    "message": "the {locality} Society for Ecological Preservation"
+  },
+  "ENTITY_GENERAL_3": {
+    "description": "",
+    "message": "the Interest Rights Groups for {locality}"
+  },
+  "ENTITY_GENERAL_4": {
+    "description": "",
+    "message": "the {locality} Mining Rights Office"
+  },
+  "ENTITY_GENERAL_5": {
+    "description": "",
+    "message": "the Landowners Association of {locality}"
+  },
+  "ENTITY_GENERAL_6": {
+    "description": "",
+    "message": "the Statistical Institute of {locality}"
+  },
+  "ENTITY_GENERAL_7": {
+    "description": "",
+    "message": "the {locality} branch office of SpaceCruise Inc"
+  },
+  "ENTITY_GENERAL_8": {
+    "description": "",
+    "message": "{locality} iSatellite Ltd"
+  },
+  "ENTITY_GENERAL_9": {
+    "description": "",
+    "message": "{locality} Burial-Services Corp"
+  },
+  "ENTITY_RESEARCH_1": {
+    "description": "",
+    "message": "the {locality} Biological Society"
+  },
+  "ENTITY_RESEARCH_10": {
+    "description": "",
+    "message": "the {locality} Center of Zoological Research"
+  },
+  "ENTITY_RESEARCH_2": {
+    "description": "",
+    "message": "the {locality} Microbiological Society"
+  },
+  "ENTITY_RESEARCH_3": {
+    "description": "",
+    "message": "the {locality} Chemical Society"
+  },
+  "ENTITY_RESEARCH_4": {
+    "description": "",
+    "message": "the {locality} Astrobiological Society"
+  },
+  "ENTITY_RESEARCH_5": {
+    "description": "",
+    "message": "the {locality} Geological Society"
+  },
+  "ENTITY_RESEARCH_6": {
+    "description": "",
+    "message": "the {locality} Society for Astropaleontology"
+  },
+  "ENTITY_RESEARCH_7": {
+    "description": "",
+    "message": "the {locality} Astrophysics Research Center"
+  },
+  "ENTITY_RESEARCH_8": {
+    "description": "",
+    "message": "the {locality} Astrochemistry Research Center"
+  },
+  "ENTITY_RESEARCH_9": {
+    "description": "",
+    "message": "the {locality} Center for Botany"
+  },
+  "EQUIPMENT": {
+    "description": "",
+    "message": "You are not equipped to handle this mission. {unit} {equipment} required."
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "SHIP CRASH LANDED"
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "I can't believe you are just returning now! How much time has been wasted!"
+  },
+  "FLAVOUR_1_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "For full reimbursement of expenses you have to be back by {due}."
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+  },
+  "FLAVOUR_1_LOCATIONTEXT": {
+    "description": "",
+    "message": "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Thank you, this is a great relief! We will transmit the money momentarily."
+  },
+  "FLAVOUR_1_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} has boarded the ship."
+  },
+  "FLAVOUR_1_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SHIP OUT OF FUEL"
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "I can't believe you kept me waiting out here this long! Forget about your payment!"
+  },
+  "FLAVOUR_2_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "To receive full payment you are asked to deliver the fuel by {due}."
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+  },
+  "FLAVOUR_2_LOCATIONTEXT": {
+    "description": "",
+    "message": "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Thank you so much! I have transferred the full reward."
+  },
+  "FLAVOUR_2_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} ton of fuel has been transferred."
+  },
+  "FLAVOUR_2_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "The pilot is requesting {unit} tons of {cargo}."
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "MEDICAL EMERGENCY"
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "Unacceptable performance! We will update our records accordingly."
+  },
+  "FLAVOUR_3_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "The substitute pilot will need to reach the ship by {due}."
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+  },
+  "FLAVOUR_3_LOCATIONTEXT": {
+    "description": "",
+    "message": "The ship had to emergency land at the coordinates: {lat} / {long}. "
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Thank you, commander! Your help has been duly noted."
+  },
+  "FLAVOUR_3_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} has left the ship."
+  },
+  "FLAVOUR_3_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "SHIP OUT OF FUEL"
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "I will send someone else. Don't bother anymore."
+  },
+  "FLAVOUR_4_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "For full pay the pilot expects you to deliver the fuel by {due}."
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+  },
+  "FLAVOUR_4_LOCATIONTEXT": {
+    "description": "",
+    "message": "The ship is stranded on {planet} at coordinates {lat} / {long}."
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Very good. We will recommend you for future assignments."
+  },
+  "FLAVOUR_4_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} ton of fuel has been transferred."
+  },
+  "FLAVOUR_4_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "The pilot is asking for {unit} tons of {cargo}."
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "SHIP OUT OF FUEL"
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "People are just not dependable anymore."
+  },
+  "FLAVOUR_5_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "Please complete refueling by {due}."
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+  },
+  "FLAVOUR_5_LOCATIONTEXT": {
+    "description": "",
+    "message": "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "We will make record of your timely completion of the task."
+  },
+  "FLAVOUR_5_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} ton of fuel has been transferred."
+  },
+  "FLAVOUR_5_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "We request the delivery of {unit} tons of {cargo} to the ship."
+  },
+  "FLAVOUR_6_ADTEXT": {
+    "description": "",
+    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "VESSEL UNRESPONSIVE"
+  },
+  "FLAVOUR_6_FAILUREMSG": {
+    "description": "",
+    "message": "What a disaster! This is the death sentence to our poor colleagues!"
+  },
+  "FLAVOUR_6_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "You have to be back by {due}."
+  },
+  "FLAVOUR_6_INTROTEXT": {
+    "description": "",
+    "message": "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+  },
+  "FLAVOUR_6_LOCATIONTEXT": {
+    "description": "",
+    "message": "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+  },
+  "FLAVOUR_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Thank you! You can't imagine how relieved we are."
+  },
+  "FLAVOUR_6_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} has boarded the ship."
+  },
+  "FLAVOUR_6_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+  },
+  "FLAVOUR_7_ADTEXT": {
+    "description": "",
+    "message": "Immediate crew transport to drifting ship in the {system} system requested."
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "EMERGENCY CREW TRANSPORT"
+  },
+  "FLAVOUR_7_FAILUREMSG": {
+    "description": "",
+    "message": "Thank you very much, but you are too late!"
+  },
+  "FLAVOUR_7_HOWMUCHTIMETEXT": {
+    "description": "",
+    "message": "The replacement crew has to reach the ship by {due}."
+  },
+  "FLAVOUR_7_INTROTEXT": {
+    "description": "",
+    "message": "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+  },
+  "FLAVOUR_7_LOCATIONTEXT": {
+    "description": "",
+    "message": "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+  },
+  "FLAVOUR_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Thank you! I have been authorized to transmit the full payment."
+  },
+  "FLAVOUR_7_TRANSFERMSG": {
+    "description": "",
+    "message": "{unit} has transferred to the target ship."
+  },
+  "FLAVOUR_7_TYPEOFHELPTEXT": {
+    "description": "",
+    "message": "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+  },
+  "FULL_CARGO": {
+    "description": "",
+    "message": "Ship full. No more room for additional cargo."
+  },
+  "FULL_CREW": {
+    "description": "",
+    "message": "Crew roster full. No more space for more crew."
+  },
+  "FULL_PASSENGERS": {
+    "description": "",
+    "message": "All cabins full. No more space for more passengers."
+  },
+  "HOW_FAR": {
+    "description": "",
+    "message": "How far away is the target?"
+  },
+  "HOW_MUCH_TIME": {
+    "description": "",
+    "message": "How much time do I have?"
+  },
+  "INTERACTION_ABORTED": {
+    "description": "",
+    "message": "Interaction aborted. Please come closer and try again."
+  },
+  "INTERACTION_DISTANCE_REACHED": {
+    "description": "",
+    "message": "Interaction distance reached."
+  },
+  "IT_MUST_BE_COMPLETED_BY": {
+    "description": "",
+    "message": "It must be completed by "
+  },
+  "KM": {
+    "description": "",
+    "message": "km"
+  },
+  "LAST_KNOWN_LOCATION": {
+    "description": "",
+    "message": "Last known location:"
+  },
+  "LAT": {
+    "description": "",
+    "message": "緯度:"
+  },
+  "LON": {
+    "description": "",
+    "message": "Lon:"
+  },
+  "MISSING_COMM": {
+    "description": "",
+    "message": "Cannot complete transfer. {cargotype} missing."
+  },
+  "MISSING_CREW": {
+    "description": "",
+    "message": "Cannot complete transfer. Crew missing."
+  },
+  "MISSING_PASS": {
+    "description": "",
+    "message": "Cannot complete transfer. Passengers missing."
+  },
+  "MISSING_PASSENGER": {
+    "description": "",
+    "message": "Cannot complete transfer. Passenger missing."
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Ok, 同意した。"
+  },
+  "ORBIT": {
+    "description": "",
+    "message": "Orbit"
+  },
+  "PARTIAL": {
+    "description": "",
+    "message": "Thank you for your efforts. I hope you will return to complete the task!"
+  },
+  "PASSENGERS": {
+    "description": "",
+    "message": "Passengers"
+  },
+  "PAYMENT_LOCATION": {
+    "description": "",
+    "message": "Payment location:"
+  },
+  "PICKUP": {
+    "description": "",
+    "message": "PICKUP"
+  },
+  "PLACE_OF_ASSISTANCE": {
+    "description": "",
+    "message": "At the place of assistance"
+  },
+  "PLAYER_DESTROYED_TARGET": {
+    "description": "",
+    "message": "We have heard of your deeds, captain! Rest assured that we will report you to the local authorities for destroying the very ship you were sent out to help. A criminal lawsuit will follow."
+  },
+  "PLEASE_LAND": {
+    "description": "",
+    "message": "Please land ship to allow transfer."
+  },
+  "PROBLEM_CREW_1": {
+    "description": "",
+    "message": "a deadly fight among the crew members"
+  },
+  "PROBLEM_CREW_10": {
+    "description": "",
+    "message": "a mutiny"
+  },
+  "PROBLEM_CREW_2": {
+    "description": "",
+    "message": "the crew had to chase a deadly {locality} snake found loose on the ship"
+  },
+  "PROBLEM_CREW_3": {
+    "description": "",
+    "message": "a {locality} spider killed all the others"
+  },
+  "PROBLEM_CREW_4": {
+    "description": "",
+    "message": "what it seems like a {locality} scorpion got into the crew quarters at night"
+  },
+  "PROBLEM_CREW_5": {
+    "description": "",
+    "message": "a severe form of {locality} fever killed the others"
+  },
+  "PROBLEM_CREW_6": {
+    "description": "",
+    "message": "the other crew members did not return from a space walk"
+  },
+  "PROBLEM_CREW_7": {
+    "description": "",
+    "message": "a severe form of food poisoning on the ship"
+  },
+  "PROBLEM_CREW_8": {
+    "description": "",
+    "message": "a terrible accident that lead to the ejection of the others into space"
+  },
+  "PROBLEM_CREW_9": {
+    "description": "",
+    "message": "a circumstance that I can't comment on publicly"
+  },
+  "PROBLEM_GENERAL_1": {
+    "description": "",
+    "message": "a fire in the cargo hold"
+  },
+  "PROBLEM_GENERAL_10": {
+    "description": "",
+    "message": "the receipt of a distress call from within {locality}"
+  },
+  "PROBLEM_GENERAL_2": {
+    "description": "",
+    "message": "a power failure in the engine core"
+  },
+  "PROBLEM_GENERAL_3": {
+    "description": "",
+    "message": "an air leak"
+  },
+  "PROBLEM_GENERAL_4": {
+    "description": "",
+    "message": "a severe form of food poisoning involving all personnel on board the ship"
+  },
+  "PROBLEM_GENERAL_5": {
+    "description": "",
+    "message": "a small meteor impact"
+  },
+  "PROBLEM_GENERAL_6": {
+    "description": "",
+    "message": "a fight among crew members"
+  },
+  "PROBLEM_GENERAL_7": {
+    "description": "",
+    "message": "contact with an unidentified flight object"
+  },
+  "PROBLEM_GENERAL_8": {
+    "description": "",
+    "message": "a dispute with a competitor's vessel"
+  },
+  "PROBLEM_GENERAL_9": {
+    "description": "",
+    "message": "a reboot of the main computer"
+  },
+  "PROBLEM_RESEARCH_1": {
+    "description": "",
+    "message": "an unexpected chemical reaction in one of the reaction chambers"
+  },
+  "PROBLEM_RESEARCH_10": {
+    "description": "",
+    "message": "a major discovery at {locality} that I am not at liberty to disclose at this time"
+  },
+  "PROBLEM_RESEARCH_2": {
+    "description": "",
+    "message": "an infection of a crew member with a pathogen local to {locality}"
+  },
+  "PROBLEM_RESEARCH_3": {
+    "description": "",
+    "message": "a leak of experimental pathogens into the main air supply"
+  },
+  "PROBLEM_RESEARCH_4": {
+    "description": "",
+    "message": "crew exposure to a specimen collected at {locality}"
+  },
+  "PROBLEM_RESEARCH_5": {
+    "description": "",
+    "message": "a chemical explosion in one of the on-board fume hoods"
+  },
+  "PROBLEM_RESEARCH_6": {
+    "description": "",
+    "message": "an experimental recreation of {locality} atmospheric gases"
+  },
+  "PROBLEM_RESEARCH_7": {
+    "description": "",
+    "message": "a heated dispute between scientists on board the ship"
+  },
+  "PROBLEM_RESEARCH_8": {
+    "description": "",
+    "message": "the sudden disappearance of a lead investigator on board the ship"
+  },
+  "PROBLEM_RESEARCH_9": {
+    "description": "",
+    "message": "the accidental combination of incompatible specimens from {locality}"
+  },
+  "RESULT_DELIVERY_COMM": {
+    "description": "",
+    "message": "Transferred {done} of {todo} tons of {cargotype} to target ship."
+  },
+  "RESULT_DELIVERY_CREW": {
+    "description": "",
+    "message": "Transferred {done} of {todo} crew members to target ship."
+  },
+  "RESULT_DELIVERY_PASS": {
+    "description": "",
+    "message": "Transferred {done} of {todo} passengers to target ship."
+  },
+  "RESULT_PICKUP_COMM": {
+    "description": "",
+    "message": "Picked up {done} of {todo} tons of {cargotype} from target ship."
+  },
+  "RESULT_PICKUP_CREW": {
+    "description": "",
+    "message": "Picked up {done} of {todo} crew members from target ship."
+  },
+  "RESULT_PICKUP_PASS": {
+    "description": "",
+    "message": "Picked up {done} of {todo} passengers from target ship."
+  },
+  "RETURN_TO": {
+    "description": "",
+    "message": "Return To:"
+  },
+  "REWARD": {
+    "description": "",
+    "message": "Reward:"
+  },
+  "SEARCH_RESCUE": {
+    "description": "",
+    "message": "Search & Rescue"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "ナビゲーションターゲットとして設定"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "帰路を設定"
+  },
+  "SHIP_UNRESPONSIVE": {
+    "description": "",
+    "message": "Target ship unresponsive."
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "星系:"
+  },
+  "TARGET_SHIP_ID": {
+    "description": "",
+    "message": "Target ship ID:"
+  },
+  "THANK_YOU_ACCEPTANCE_TXT": {
+    "description": "",
+    "message": "Thank you so much. Your help is greatly appreciated."
+  },
+  "TONS_OF_FREE_CARGO_SPACE": {
+    "description": "",
+    "message": "tons of free cargo space"
+  },
+  "TRANSFER_ABORTED": {
+    "description": "",
+    "message": "Transfer has been aborted!"
+  },
+  "TRANSFER_COMPLETE": {
+    "description": "",
+    "message": "Transfer has been completed!"
+  },
+  "TRANSFER_PARTIAL": {
+    "description": "",
+    "message": "Transfer has been partially completed. Please return to finish transfer."
+  },
+  "TRANSFER_TIME": {
+    "description": "",
+    "message": "Please allow {minutes} minutes for transfer."
+  },
+  "TYPE_OF_HELP": {
+    "description": "",
+    "message": "What type of help is needed?"
+  },
+  "UNOCCUPIED_PASSENGER_CABINS": {
+    "description": "",
+    "message": "unoccupied passenger cabins"
+  },
+  "WHERE_IS_THE_TARGET": {
+    "description": "",
+    "message": "Where do I find the target?"
+  }
+}

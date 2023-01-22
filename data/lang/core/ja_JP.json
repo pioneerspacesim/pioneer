@@ -1,0 +1,1894 @@
+{
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "空気清浄機"
+  },
+  "ALERT_CANCELLED": {
+    "description": "",
+    "message": "警報解除"
+  },
+  "ALLEGIANCE": {
+    "description": "",
+    "message": "忠誠:"
+  },
+  "ALT": {
+    "description": "Alt key on keyboard",
+    "message": "Alt"
+  },
+  "AND_HIGHLY_COMPLEX_ECOSYSTEM": {
+    "description": "",
+    "message": "\" と非常に複雑な生態系\""
+  },
+  "AND_INDIGENOUS_MICROBIAL_LIFE": {
+    "description": "",
+    "message": "\" と固有の微生物\""
+  },
+  "AND_INDIGENOUS_PLANT_LIFE": {
+    "description": "",
+    "message": "\" と固有の植物\""
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "動物肉"
+  },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "an argon atmosphere"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "an oxygen atmosphere"
+  },
+  "APOAPSIS_DISTANCE": {
+    "description": "",
+    "message": "遠点"
+  },
+  "AR_ATMOSPHERE": {
+    "description": "",
+    "message": "argon atmosphere"
+  },
+  "ASTEROID": {
+    "description": "",
+    "message": "小惑星"
+  },
+  "AUTOMATIC_SYSTEM_SELECTION": {
+    "description": "for star map, select star system when mouse close to it",
+    "message": "星系を自動選択"
+  },
+  "AUTOPILOT_CONTROL": {
+    "description": "Indicating that ship is flying under autopilot control",
+    "message": "自動操縦で制御中"
+  },
+  "AUTOPILOT_DOCK_WITH_STATION": {
+    "description": "",
+    "message": "Autopilot: {target} へドッキング"
+  },
+  "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: {target} の高高度周回軌道に入る"
+  },
+  "AUTOPILOT_ENTER_LOW_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: {target} の低高度周回軌道に入る"
+  },
+  "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND": {
+    "description": "",
+    "message": "Autopilot: {target} の中高度周回軌道に入る"
+  },
+  "AUTOPILOT_FLY_TO_VICINITY_OF": {
+    "description": "",
+    "message": "Autopilot: {target} の近くへ飛行"
+  },
+  "AUTOPILOT_ON": {
+    "description": "",
+    "message": "Autopilot on"
+  },
+  "AXIAL_TILT": {
+    "description": "",
+    "message": "軸傾斜"
+  },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "a methane atmosphere"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon dioxide atmosphere"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "a carbon monoxide atmosphere"
+  },
+  "A_FEW_THOUSAND": {
+    "description": "regarding population",
+    "message": "数千人程"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "a helium atmosphere"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "a hydrogen atmosphere"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "a nitrogen atmosphere"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "a sulfuric atmosphere"
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "戦闘兵器"
+  },
+  "BINARY_SYSTEM": {
+    "description": "",
+    "message": "連星系"
+  },
+  "BODIES": {
+    "description": "space bodies",
+    "message": "天体"
+  },
+  "BODY": {
+    "description": "",
+    "message": "天体"
+  },
+  "BROWN_DWARF": {
+    "description": "",
+    "message": "褐色矮星 亜恒星"
+  },
+  "CAMERA_BOTTOM_VIEW": {
+    "description": "",
+    "message": "下方カメラ"
+  },
+  "CAMERA_FRONT_VIEW": {
+    "description": "",
+    "message": "前方カメラ"
+  },
+  "CAMERA_LEFT_VIEW": {
+    "description": "",
+    "message": "左側カメラ"
+  },
+  "CAMERA_REAR_VIEW": {
+    "description": "",
+    "message": "後方カメラ"
+  },
+  "CAMERA_RIGHT_VIEW": {
+    "description": "",
+    "message": "右側カメラ"
+  },
+  "CAMERA_TOP_VIEW": {
+    "description": "",
+    "message": "上方カメラ"
+  },
+  "CANT_SAVE_DEAD_PLAYER": {
+    "description": "",
+    "message": "プレイヤーが死亡した後ではセーブできません"
+  },
+  "CANT_SAVE_IN_HYPERSPACE": {
+    "description": "",
+    "message": "ハイパースペース中はゲームを保存できません"
+  },
+  "CAPITALIST": {
+    "description": "",
+    "message": "資本主義"
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "炭素鉱石"
+  },
+  "CARGO": {
+    "description": "",
+    "message": "Cargo"
+  },
+  "CARGO_BAY_LIFE_SUPPORT_LOST": {
+    "description": "",
+    "message": "センサーが Cargo bay life-support の深刻な状態を報告"
+  },
+  "CARGO_N": {
+    "description": "",
+    "message": "Cargo: %{mass}t"
+  },
+  "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED": {
+    "description": "",
+    "message": "Cargo scoop 起動。 1t の %item を回収。"
+  },
+  "CARGO_SCOOP_ATTEMPTED": {
+    "description": "",
+    "message": "Cargo scoop 試行。 貨物室に十分な空間がありません。"
+  },
+  "CENTER": {
+    "description": "",
+    "message": "中心"
+  },
+  "CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "methane atmosphere"
+  },
+  "CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "carbon dioxide atmosphere"
+  },
+  "COMMA_HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": "、非常に活発な火山活動"
+  },
+  "COMMODITY_NONE": {
+    "description": "When no commodities exist",
+    "message": "None"
+  },
+  "COMMODITY_TRADE_ANALYSIS_COMPARE": {
+    "description": "",
+    "message": "#ff0%selected_system#fff (選択した) - #ff0%current_system#fff (現在地) 間の商品取引分析:"
+  },
+  "COMMODITY_TRADE_ANALYSIS_SELF": {
+    "description": "",
+    "message": "#fff%system#fff の商品取引分析"
+  },
+  "COMMS": {
+    "description": "Title of communications log window, on world view",
+    "message": "Comms"
+  },
+  "COMMUNIST": {
+    "description": "",
+    "message": "共産主義"
+  },
+  "COMPASS_E": {
+    "description": "Abbreviation for compass direction: East",
+    "message": "E"
+  },
+  "COMPASS_N": {
+    "description": "Abbreviation for compass direction: North",
+    "message": "N"
+  },
+  "COMPASS_NE": {
+    "description": "Abbreviation for compass direction: North East",
+    "message": "NE"
+  },
+  "COMPASS_NW": {
+    "description": "Abbreviation for compass direction: North West",
+    "message": "NW"
+  },
+  "COMPASS_S": {
+    "description": "Abbreviation for compass direction: South",
+    "message": "S"
+  },
+  "COMPASS_SE": {
+    "description": "Abbreviation for compass direction: South East",
+    "message": "SE"
+  },
+  "COMPASS_SW": {
+    "description": "Abbreviation for compass direction: South West",
+    "message": "SW"
+  },
+  "COMPASS_W": {
+    "description": "Abbreviation for compass direction: West",
+    "message": "W"
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "コンピューター"
+  },
+  "COMPUTER_HEADING_CONTROL": {
+    "description": "",
+    "message": "コンピューターによる指向制御"
+  },
+  "COMPUTER_SPEED_CONTROL": {
+    "description": "",
+    "message": "コンピューターによる速度制御"
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "最終財"
+  },
+  "CONTROLS": {
+    "description": "",
+    "message": "制御系"
+  },
+  "CORPORATE_SYSTEM": {
+    "description": "",
+    "message": "企業統治"
+  },
+  "COULD_NOT_OPEN_FILENAME": {
+    "description": "",
+    "message": "%path を開けません"
+  },
+  "COUNT_ON_SURFACE": {
+    "description": "",
+    "message": "\" (%surfacecount は表面上)\""
+  },
+  "COUNT_STARPORTS": {
+    "description": "",
+    "message": "スターポート"
+  },
+  "CO_ATMOSPHERE": {
+    "description": "",
+    "message": "carbon monoxide atmosphere"
+  },
+  "CTRL": {
+    "description": "Ctrl key on keyboard",
+    "message": "Ctrl"
+  },
+  "CURRENT_SYSTEM": {
+    "description": "selected current star system",
+    "message": "現在の星系"
+  },
+  "DATE_DUE_N": {
+    "description": "",
+    "message": "期日: %date"
+  },
+  "DAY_LENGTH": {
+    "description": "",
+    "message": "一日の長さ"
+  },
+  "DECREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "レーダー範囲を狭める"
+  },
+  "DECREASE_SET_SPEED": {
+    "description": "",
+    "message": "設定速度を下げる"
+  },
+  "DECREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "時間の加速を緩める"
+  },
+  "DEMOGRAPHICS": {
+    "description": "",
+    "message": "人口"
+  },
+  "DESTINATION": {
+    "description": "",
+    "message": "目的地"
+  },
+  "DISTANCE_LY": {
+    "description": "",
+    "message": "距離: %distance{f.2} ly"
+  },
+  "DOCKED": {
+    "description": "",
+    "message": "ドッキング完了"
+  },
+  "DOCKING": {
+    "description": "",
+    "message": "ドッキング"
+  },
+  "DOWNGRADING_ALERT_STATUS": {
+    "description": "",
+    "message": "60秒間発砲が検出されなかったため、警報のステータスが下がりました。"
+  },
+  "DRAW_OUT_RANGE_LABELS": {
+    "description": "",
+    "message": "範囲外の星系を表示"
+  },
+  "DRAW_UNINHABITED_LABELS": {
+    "description": "",
+    "message": "無人星系を表示"
+  },
+  "DRAW_VERTICAL_LINES": {
+    "description": "",
+    "message": "垂直線を描画"
+  },
+  "EARTH_FEDERATION_COLONIAL_RULE": {
+    "description": "",
+    "message": "Earth Federation 植民地支配領"
+  },
+  "EARTH_FEDERATION_DEMOCRACY": {
+    "description": "",
+    "message": "Earth Federation 自治領"
+  },
+  "ECCENTRICITY": {
+    "description": "",
+    "message": "離心率"
+  },
+  "ECONOMIC_INFO": {
+    "description": "",
+    "message": "経済情報"
+  },
+  "ECONOMY_TYPE": {
+    "description": "",
+    "message": "経済体系:"
+  },
+  "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO": {
+    "description": "",
+    "message": "赤道半径と極半径の比率"
+  },
+  "EXACT_MATCH_X": {
+    "description": "",
+    "message": "完全一致: %system"
+  },
+  "EXTENSIVE_MINING": {
+    "description": "",
+    "message": "全面的な採掘作業"
+  },
+  "EXTERNAL_ATMOSPHERIC_PRESSURE": {
+    "description": "",
+    "message": "外気圧"
+  },
+  "EXTERNAL_VIEW": {
+    "description": "",
+    "message": "船外視点"
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "農業機械"
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "肥料"
+  },
+  "FIRE_LASER": {
+    "description": "",
+    "message": "発砲する"
+  },
+  "FIRE_MISSILE": {
+    "description": "",
+    "message": "ミサイルを撃つ"
+  },
+  "FLYBY_VIEW": {
+    "description": "camera view setting",
+    "message": "接近視点"
+  },
+  "FOLLOWING_SELECTION": {
+    "description": "",
+    "message": "次の選択"
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "果物と野菜"
+  },
+  "FUEL": {
+    "description": "",
+    "message": "燃料"
+  },
+  "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED": {
+    "description": "",
+    "message": "Fuel scoop 起動。現在 %quantity t の水素を所持。"
+  },
+  "GALACTIC_VIEW": {
+    "description": "view galactic map",
+    "message": "銀河を見る"
+  },
+  "GALAXY_SECTOR_VIEW": {
+    "description": "",
+    "message": "銀河区分を表示"
+  },
+  "GAME_LOAD_CANNOT_OPEN": {
+    "description": "",
+    "message": "セーブファイル '%filename' は見つかりませんでした (もしくはゲームがファイルを開く権限を所持していません)"
+  },
+  "GAME_LOAD_CORRUPT": {
+    "description": "",
+    "message": "このセーブデータにはエラーが含まれているのでロードできません"
+  },
+  "GAME_LOAD_WRONG_VERSION": {
+    "description": "",
+    "message": "このセーブデータは異なるバージョンの Pioneer によって作成されたのでロードできません"
+  },
+  "GAME_SAVED_TO": {
+    "description": "",
+    "message": "\"ゲーム保存\""
+  },
+  "GAME_SAVE_CANNOT_WRITE": {
+    "description": "",
+    "message": "システムエラーのためセーブデータに書き込めません"
+  },
+  "GENERAL_VIEW_CONTROLS": {
+    "description": "",
+    "message": "一般的な描画の制御"
+  },
+  "GOVERNMENT_TYPE": {
+    "description": "",
+    "message": "政治体系:"
+  },
+  "GRAIN": {
+    "description": "like wheat or barley",
+    "message": "穀物"
+  },
+  "GRID_DISPLAY_MODE_TOGGLE": {
+    "description": "Switch show no grid",
+    "message": "グリッド表示モードを切り替え"
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "小火器"
+  },
+  "HARD_CAPITALIST": {
+    "description": "",
+    "message": "完全資本主義 - 政府による福祉なし"
+  },
+  "HEADING_LOCK_ANTINORMAL": {
+    "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
+    "message": "{target} をアンチノーマル方向に保つ"
+  },
+  "HEADING_LOCK_BACKWARD": {
+    "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
+    "message": "{target} を逆行方向に保つ"
+  },
+  "HEADING_LOCK_FORWARD": {
+    "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
+    "message": "{target} を順行方向に保つ"
+  },
+  "HEADING_LOCK_KILLROT": {
+    "description": "",
+    "message": "回転を止める"
+  },
+  "HEADING_LOCK_NORMAL": {
+    "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
+    "message": "{target} をノーマル方向に保つ"
+  },
+  "HEADING_LOCK_RADIALLY_INWARD": {
+    "description": "Autopilot direction, relative to orbit (face towards planet)",
+    "message": "{target} をラジアルイン方向に保つ"
+  },
+  "HEADING_LOCK_RADIALLY_OUTWARD": {
+    "description": "Autopilot direction, relative to orbit (face away from palent)",
+    "message": "{target} をラジアルアウト方向に保つ"
+  },
+  "HEAVY_INDUSTRY": {
+    "description": "",
+    "message": "重工業"
+  },
+  "HE_ATMOSPHERE": {
+    "description": "",
+    "message": "helium atmosphere"
+  },
+  "HIGHLY_VOLCANIC": {
+    "description": "",
+    "message": "非常に活発な火山活動"
+  },
+  "HIGH_POPULATION_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "人口の多いアウトドアワールド"
+  },
+  "HULL_INTEGRITY": {
+    "description": "",
+    "message": "船体状況"
+  },
+  "HULL_TEMP": {
+    "description": "",
+    "message": "船体温度"
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "水素"
+  },
+  "HYPERSPACE": {
+    "description": "",
+    "message": "ハイパースペース"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD": {
+    "description": "",
+    "message": "ハイパースペース出口の雲"
+  },
+  "HYPERSPACE_ARRIVAL_CLOUD_REMNANT": {
+    "description": "",
+    "message": "ハイパースペース出口の雲の残骸"
+  },
+  "HYPERSPACE_DEPARTURE_CLOUD": {
+    "description": "",
+    "message": "ハイパースペース入口の雲"
+  },
+  "HYPERSPACE_JUMP_ABORT": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "ハイパードライブを停止"
+  },
+  "HYPERSPACE_JUMP_ABORTED": {
+    "description": "",
+    "message": "ハイパースペースジャンプを緊急停止"
+  },
+  "HYPERSPACE_JUMP_DISABLED": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "ハイパードライブを無効化"
+  },
+  "HYPERSPACE_JUMP_ENGAGE": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "ハイパードライブを起動"
+  },
+  "HYPERSPACE_JUMP_FORBIDDEN": {
+    "description": "Mouse over text for hyperdrive button on ship control panel",
+    "message": "ハイパードライブ禁止区域"
+  },
+  "HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "ハイパースペースの目標"
+  },
+  "H_ATMOSPHERE": {
+    "description": "",
+    "message": "hydrogen atmosphere"
+  },
+  "ICE_MOON": {
+    "description": "",
+    "message": "\" ice moon\""
+  },
+  "ICE_WORLD": {
+    "description": "",
+    "message": "\" 氷の世界\""
+  },
+  "ILLEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "違法 (現在の星系):"
+  },
+  "ILLEGAL_GOODS": {
+    "description": "",
+    "message": "違法な物品:"
+  },
+  "IMPERIAL_RULE": {
+    "description": "",
+    "message": "帝国主義"
+  },
+  "INCREASE_RADAR_RANGE": {
+    "description": "",
+    "message": "レーダー範囲を広げる"
+  },
+  "INCREASE_SET_SPEED": {
+    "description": "",
+    "message": "設定速度を上げる"
+  },
+  "INCREASE_TIME_ACCELERATION": {
+    "description": "",
+    "message": "時間の加速を強める"
+  },
+  "INDUSTRIAL_COLONY": {
+    "description": "",
+    "message": "工業コロニー"
+  },
+  "INDUSTRIAL_HUB_SYSTEM": {
+    "description": "",
+    "message": "工業中枢星系"
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "工業機械"
+  },
+  "INTERNAL_VIEW": {
+    "description": "",
+    "message": "内部視点"
+  },
+  "JOY": {
+    "description": "Short for Joystick",
+    "message": "スティック"
+  },
+  "JOYSTICK_INPUT": {
+    "description": "",
+    "message": "ジョイティック入力"
+  },
+  "L4L5_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show L4/L5 points or don't",
+    "message": "ラグランジュ点 L4/L5 表示モード切替"
+  },
+  "LANDED": {
+    "description": "",
+    "message": "着陸完了"
+  },
+  "LANG_NAME": {
+    "description": "The name that native speakers use for this language. This will be used in the language selection screen.",
+    "message": "日本語(日本)"
+  },
+  "LARGE": {
+    "description": "regarding terrestrial planet size (mass actually)",
+    "message": "大質量"
+  },
+  "LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "大型ガスジャイアント"
+  },
+  "LASER_FIRE_DETECTED": {
+    "description": "",
+    "message": "発砲を検知"
+  },
+  "LATITUDE": {
+    "description": "Short for latitude",
+    "message": "緯度:"
+  },
+  "LATITUDE_NORTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'north'",
+    "message": "N"
+  },
+  "LATITUDE_SOUTH_ABBREV": {
+    "description": "Abbreviation letter for latitude 'south'",
+    "message": "S"
+  },
+  "LEGAL_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+    "message": "合法 (現在の星系):"
+  },
+  "LIBERAL_DEMOCRACY": {
+    "description": "",
+    "message": "自由民主主義"
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "液体酸素"
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "蒸留酒"
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "生きている動物"
+  },
+  "LOCKED": {
+    "description": "to lock a hyperspace target",
+    "message": "固定された目標"
+  },
+  "LONGITUDE": {
+    "description": "Short for longitude",
+    "message": "経度:"
+  },
+  "LONGITUDE_EAST_ABBREV": {
+    "description": "Abbreviation letter for longitude 'east'",
+    "message": "E"
+  },
+  "LONGITUDE_WEST_ABBREV": {
+    "description": "Abbreviation letter for latitude 'west'",
+    "message": "W"
+  },
+  "MAJOR_EXPORTS": {
+    "description": "",
+    "message": "主な輸出:"
+  },
+  "MAJOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "主な輸出 (現在の星系)"
+  },
+  "MAJOR_IMPORTS": {
+    "description": "",
+    "message": "主な輸入:"
+  },
+  "MAJOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "主な輸入 (現在の星系)"
+  },
+  "MANUAL_CONTROL": {
+    "description": "",
+    "message": "手動制御"
+  },
+  "MANUAL_CONTROL_MODE": {
+    "description": "",
+    "message": "手動制御モード"
+  },
+  "MASS": {
+    "description": "",
+    "message": "質量"
+  },
+  "MASSIVE": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "重い"
+  },
+  "MASS_N_TONNES": {
+    "description": "",
+    "message": "重量: %{mass}t"
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "医薬品"
+  },
+  "MEDIUM": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "中型"
+  },
+  "MEDIUM_GAS_GIANT": {
+    "description": "",
+    "message": "中型ガスジャイアント"
+  },
+  "MESSAGE_FROM_X": {
+    "description": "",
+    "message": "%sender からのメッセージ:"
+  },
+  "META": {
+    "description": "'Meta' key on keyboard",
+    "message": "Meta"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "合金"
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "金属鉱石"
+  },
+  "MILITARY_DICTATORSHIP": {
+    "description": "",
+    "message": "軍事政権"
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "軍用燃料"
+  },
+  "MINING_COLONY": {
+    "description": "",
+    "message": "鉱業コロニー"
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "鉱業機械"
+  },
+  "MINOR_EXPORTS": {
+    "description": "",
+    "message": "2次的な輸出:"
+  },
+  "MINOR_EXPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "2次的な輸出 (現在の星系)"
+  },
+  "MINOR_IMPORTS": {
+    "description": "",
+    "message": "2次的な輸入:"
+  },
+  "MINOR_IMPORT_CURRENT_SYSTEM": {
+    "description": "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+    "message": "2次的な輸入 (現在の星系)"
+  },
+  "MISCELLANEOUS": {
+    "description": "",
+    "message": "その他"
+  },
+  "MISSILE": {
+    "description": "",
+    "message": "ミサイル"
+  },
+  "MISSILE_DETECTED": {
+    "description": "",
+    "message": "ミサイルの発射を検出"
+  },
+  "MIXED_ECONOMY": {
+    "description": "",
+    "message": "混合した経済体系"
+  },
+  "MONTH_APR": {
+    "description": "",
+    "message": "4月"
+  },
+  "MONTH_AUG": {
+    "description": "",
+    "message": "8月"
+  },
+  "MONTH_DEC": {
+    "description": "",
+    "message": "12月"
+  },
+  "MONTH_FEB": {
+    "description": "",
+    "message": "2月"
+  },
+  "MONTH_JAN": {
+    "description": "",
+    "message": "1月"
+  },
+  "MONTH_JUL": {
+    "description": "",
+    "message": "7月"
+  },
+  "MONTH_JUN": {
+    "description": "",
+    "message": "6月"
+  },
+  "MONTH_MAR": {
+    "description": "",
+    "message": "3月"
+  },
+  "MONTH_MAY": {
+    "description": "",
+    "message": "5月"
+  },
+  "MONTH_NOV": {
+    "description": "",
+    "message": "11月"
+  },
+  "MONTH_OCT": {
+    "description": "",
+    "message": "10月"
+  },
+  "MONTH_SEP": {
+    "description": "",
+    "message": "9月"
+  },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" moon containing liquid water\""
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" moon with some ice\""
+  },
+  "NAME_OBJECT": {
+    "description": "For an item or object",
+    "message": "名前"
+  },
+  "NAME_PERSON": {
+    "description": "For a person",
+    "message": "名前"
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "麻薬"
+  },
+  "NAVIGATION_STAR_MAPS": {
+    "description": "",
+    "message": "制御と星図"
+  },
+  "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
+    "description": "",
+    "message": "この星系でのナビゲーションターゲット"
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "神経ガス"
+  },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
+  },
+  "NOT_FOUND": {
+    "description": "searching star system in sector view",
+    "message": "Not found"
+  },
+  "NOT_FOUND_BEST_MATCH_X": {
+    "description": "",
+    "message": "Not found, 最も一致: %system"
+  },
+  "NOW": {
+    "description": "In System Orbit View",
+    "message": "Now"
+  },
+  "NO_ALERT": {
+    "description": "",
+    "message": "No alert"
+  },
+  "NO_AUTOPILOT_INSTALLED": {
+    "description": "",
+    "message": "オートパイロットが搭載されていないため起動できません"
+  },
+  "NO_CENTRAL_GOVERNANCE": {
+    "description": "",
+    "message": "中央政府無し"
+  },
+  "NO_ESTABLISHED_ORDER": {
+    "description": "",
+    "message": "体制は確立されていない"
+  },
+  "NO_HYPERDRIVE": {
+    "description": "",
+    "message": "ハイパードライブが無い"
+  },
+  "NO_REGISTERED_INHABITANTS": {
+    "description": "",
+    "message": "登録されている住民はいない"
+  },
+  "NO_TARGET_SELECTED": {
+    "description": "",
+    "message": "Ship Computer: ターゲットが選択されていません"
+  },
+  "NUMBER_DAYS": {
+    "description": "",
+    "message": "%days{f.0} 日"
+  },
+  "NUMBER_DECIMAL_POINT": {
+    "description": "Decimal delimiter used in numbers.",
+    "message": "."
+  },
+  "NUMBER_G": {
+    "description": "",
+    "message": "%acceleration{f.1} G"
+  },
+  "NUMBER_GROUP_MIN": {
+    "description": "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+    "message": "1000"
+  },
+  "NUMBER_GROUP_NUM": {
+    "description": "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+    "message": "3"
+  },
+  "NUMBER_GROUP_SEP": {
+    "description": "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+    "message": ","
+  },
+  "NUMBER_HOURS": {
+    "description": "",
+    "message": "%hours{f.1} 時間"
+  },
+  "NUMBER_LY": {
+    "description": "",
+    "message": "%distance{f.2} ly"
+  },
+  "NUMBER_TONNES": {
+    "description": "",
+    "message": "%{mass}t"
+  },
+  "N_ATMOSPHERE": {
+    "description": "",
+    "message": "nitrogen atmosphere"
+  },
+  "N_CELSIUS": {
+    "description": "",
+    "message": "%temperature C"
+  },
+  "N_DAYS": {
+    "description": "",
+    "message": "%days{f.1} 日"
+  },
+  "N_DEGREES": {
+    "description": "",
+    "message": "%angle{f.1} 度"
+  },
+  "N_EARTH_DAYS": {
+    "description": "",
+    "message": "%days{f.1} 地球日"
+  },
+  "N_EARTH_MASSES": {
+    "description": "",
+    "message": "地球の質量の %mass{f.3} 倍"
+  },
+  "N_EARTH_RADII": {
+    "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
+    "message": "地球の半径の %radius{f.3} 倍 (%radkm{f.0} km)"
+  },
+  "N_SOLAR_MASSES": {
+    "description": "",
+    "message": "太陽の質量の %mass{f.3} 倍"
+  },
+  "N_SOLAR_RADII": {
+    "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
+    "message": "太陽の半径の %radius{f.3} 倍 (%radkm{f.0} km)"
+  },
+  "N_YEARS": {
+    "description": "",
+    "message": "%years{f.1} 年"
+  },
+  "O2_ATMOSPHERE": {
+    "description": "",
+    "message": "oxygen atmosphere"
+  },
+  "OBJECT_INFO": {
+    "description": "Originally for use as a window title and a button tooltip in the system map",
+    "message": "天体情報"
+  },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" oceanic moon\""
+  },
+  "OCEANICWORLD": {
+    "description": "",
+    "message": "\" 海の世界\""
+  },
+  "ORBITAL_PERIOD": {
+    "description": "",
+    "message": "公転周期"
+  },
+  "ORBITAL_STARPORT": {
+    "description": "",
+    "message": "軌道上のスターポート"
+  },
+  "ORBIT_PLANNER": {
+    "description": "",
+    "message": "軌道計画"
+  },
+  "OUTDOOR_AGRICULTURAL_WORLD": {
+    "description": "",
+    "message": "アウトドア農業世界"
+  },
+  "OVER_N_BILLION": {
+    "description": "",
+    "message": "%population billion 以上"
+  },
+  "OVER_N_MILLION": {
+    "description": "",
+    "message": "%population million 以上"
+  },
+  "PASSENGER_CABIN": {
+    "description": "",
+    "message": "使用されている Passenger Cabin"
+  },
+  "PAUSED": {
+    "description": "",
+    "message": "ポーズ中"
+  },
+  "PAY_FINE_REMOTELY": {
+    "description": "",
+    "message": "罰金を転送して支払う (%amount)"
+  },
+  "PERIAPSIS_DISTANCE": {
+    "description": "",
+    "message": "近点"
+  },
+  "PIONEER": {
+    "description": "",
+    "message": "PIONEER"
+  },
+  "PITCH": {
+    "description": "",
+    "message": "ピッチ"
+  },
+  "PITCH_DOWN": {
+    "description": "",
+    "message": "下にピッチ"
+  },
+  "PITCH_UP": {
+    "description": "",
+    "message": "上にピッチ"
+  },
+  "PLANETARY_INFO": {
+    "description": "",
+    "message": "惑星情報"
+  },
+  "PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" 液体の水を含む惑星\""
+  },
+  "PLANET_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" 部分的に氷のある惑星\""
+  },
+  "PLANNED_ECONOMY": {
+    "description": "",
+    "message": "計画経済が中心"
+  },
+  "PLANNER_RESET_FACTOR": {
+    "description": "For system orbit view",
+    "message": "delta-v 増加率。クリックでデフォルトにリセット。"
+  },
+  "PLANNER_RESET_NORMAL": {
+    "description": "For system orbit view",
+    "message": "ノーマル delta-v。クリックでゼロにリセット。"
+  },
+  "PLANNER_RESET_PROGRADE": {
+    "description": "For system orbit view",
+    "message": "順行 delta-v。クリックでゼロにリセット。"
+  },
+  "PLANNER_RESET_RADIAL": {
+    "description": "For system orbit view",
+    "message": "ラジアル delta-v。クリックでゼロにリセット。"
+  },
+  "PLANNER_RESET_START": {
+    "description": "For system orbit view",
+    "message": "マニューバスタート。クリックでデフォルトにリセット。"
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "プラスチック"
+  },
+  "PLUTOCRATIC_DICTATORSHIP": {
+    "description": "",
+    "message": "金権独裁政権"
+  },
+  "POPULATION": {
+    "description": "",
+    "message": "人口:"
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "貴金属"
+  },
+  "PRESSURE_N_ATMOSPHERES": {
+    "description": "",
+    "message": "P: %pressure{f.2} atm"
+  },
+  "QUADRUPLE_SYSTEM": {
+    "description": "",
+    "message": "4重連星系"
+  },
+  "RADAR_CONTROL": {
+    "description": "",
+    "message": "レーダーの制御"
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "放射性廃棄物"
+  },
+  "RADIUS": {
+    "description": "",
+    "message": "半径"
+  },
+  "RECENTLY_EXPLORED_SYSTEM": {
+    "description": "",
+    "message": "この星系は %date に探査されました"
+  },
+  "REQUEST_DOCKING_CLEARANCE": {
+    "description": "",
+    "message": "{target} にドッキングクリアランスを要求"
+  },
+  "RESET": {
+    "description": "",
+    "message": "Reset"
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "ロボット"
+  },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" rocky moon\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" rocky moon containing some liquids,\""
+  },
+  "ROCKY_PLANET": {
+    "description": "",
+    "message": "\" 岩石惑星\""
+  },
+  "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
+    "description": "",
+    "message": "\" 一部液体を含む岩石惑星\""
+  },
+  "ROLL": {
+    "description": "",
+    "message": "ロール"
+  },
+  "ROLL_LEFT": {
+    "description": "",
+    "message": "左にロール"
+  },
+  "ROLL_RIGHT": {
+    "description": "",
+    "message": "右にロール"
+  },
+  "ROTATE_DOWN": {
+    "description": "",
+    "message": "下に回転"
+  },
+  "ROTATE_LEFT": {
+    "description": "",
+    "message": "左に回転"
+  },
+  "ROTATE_RIGHT": {
+    "description": "",
+    "message": "右に回転"
+  },
+  "ROTATE_UP": {
+    "description": "",
+    "message": "上に回転"
+  },
+  "ROTATIONAL_PERIOD": {
+    "description": "",
+    "message": "\" (自転周期)\""
+  },
+  "ROTATION_DAMPING_OFF": {
+    "description": "",
+    "message": "回転抹殺 Off"
+  },
+  "ROTATION_DAMPING_ON": {
+    "description": "",
+    "message": "回転抹殺 On"
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "廃棄物"
+  },
+  "SCOOP": {
+    "description": "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+    "message": "Scoop"
+  },
+  "SCREENSHOT_FILENAME_TEMPLATE": {
+    "description": "",
+    "message": "screenshot%index{d08}.png"
+  },
+  "SEARCH": {
+    "description": "",
+    "message": "検索"
+  },
+  "SEARCH_MAP": {
+    "description": "",
+    "message": "マップを検索"
+  },
+  "SECTOR_COORDINATES": {
+    "description": "",
+    "message": "区分座標:"
+  },
+  "SECTOR_MAP_VIEW": {
+    "description": "",
+    "message": "区分別地図を表示"
+  },
+  "SECTOR_X_Y_Z": {
+    "description": "",
+    "message": "区分: %x,%y,%z"
+  },
+  "SELECTED_SYSTEM": {
+    "description": "",
+    "message": "選択した星系"
+  },
+  "SELECT_A_TARGET": {
+    "description": "",
+    "message": "目標を選択"
+  },
+  "SELECT_LOW_THRUST_POWER_LEVEL": {
+    "description": "",
+    "message": "低出力推力を選択"
+  },
+  "SEMI_MAJOR_AXIS": {
+    "description": "",
+    "message": "軌道長半径"
+  },
+  "SET_AS_COMBAT_TARGET": {
+    "description": "",
+    "message": "コンバットターゲットとして設定"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "ナビゲーションターゲットとして設定"
+  },
+  "SET_HYPERSPACE_DESTINATION_TO": {
+    "description": "",
+    "message": "ハイパースペースの行先を %system に設定"
+  },
+  "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE": {
+    "description": "",
+    "message": "Hyperspace cloud analyzer: ハイパースペースの目標をこの出発を追うように設定しました"
+  },
+  "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
+    "description": "",
+    "message": "低出力推力を %power%% に設定"
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Set maximum speed limit"
+  },
+  "SET_NAVTARGET_TO": {
+    "description": "",
+    "message": "ナビゲーションターゲットに設定: "
+  },
+  "SET_SPEED_KM_S": {
+    "description": "",
+    "message": "速度設定: %speed{f.2} km/s"
+  },
+  "SET_SPEED_M_S": {
+    "description": "",
+    "message": "速度設定: %speed{f.0} m/s"
+  },
+  "SHIELD_INTEGRITY": {
+    "description": "",
+    "message": "シールドの状態"
+  },
+  "SHIELD_STRENGTH_N": {
+    "description": "",
+    "message": "シールド耐久度: %shields{f.2}"
+  },
+  "SHIFT": {
+    "description": "Shift key on keyboard",
+    "message": "Shift"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "船"
+  },
+  "SHIPS_DISPLAY_MODE_TOGGLE": {
+    "description": "Either show no ships, show ships, or show ships + their orbits",
+    "message": "船表示モード切り替え"
+  },
+  "SHIP_DETECTED_NEARBY": {
+    "description": "",
+    "message": "付近に船を検出"
+  },
+  "SHIP_INFORMATION": {
+    "description": "",
+    "message": "船体情報"
+  },
+  "SHIP_MASS_N_TONNES": {
+    "description": "",
+    "message": "船体重量: %{mass}t"
+  },
+  "SHIP_NEARBY": {
+    "description": "",
+    "message": "近くの船"
+  },
+  "SHIP_ORIENTATION": {
+    "description": "",
+    "message": "船首方位"
+  },
+  "SHIP_VELOCITY_BY_REFERENCE_OBJECT": {
+    "description": "",
+    "message": "参照したオブジェクトに対する船の速度"
+  },
+  "SIDEREAL_VIEW": {
+    "description": "camera view setting",
+    "message": "恒星描画"
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "奴隷"
+  },
+  "SMALL": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "小型"
+  },
+  "SMALL_GAS_GIANT": {
+    "description": "",
+    "message": "小型ガスジャイアント"
+  },
+  "SMALL_INDUSTRIAL_OUTPOST": {
+    "description": "",
+    "message": "小規模工業アウトポスト"
+  },
+  "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS": {
+    "description": "",
+    "message": "小規模な試掘。登録された定住者はいない。"
+  },
+  "SOCIAL_DEMOCRACY": {
+    "description": "",
+    "message": "社会民主主義"
+  },
+  "SOME_ESTABLISHED_MINING": {
+    "description": "",
+    "message": "いくつかの開設された鉱山"
+  },
+  "SOURCE": {
+    "description": "tell source system of hyperjump entry cloud",
+    "message": "出発星系"
+  },
+  "SPEED_CONTROL_MODE": {
+    "description": "",
+    "message": "速度制御モード"
+  },
+  "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS": {
+    "description": "",
+    "message": "%bodycount の主な %{body(s)} と %portcount の %{starport(s)} を持つ安定した星系"
+  },
+  "STARPORT": {
+    "description": "",
+    "message": "スターポート"
+  },
+  "STARPORTS": {
+    "description": "",
+    "message": "スターポート"
+  },
+  "STAR_A": {
+    "description": "",
+    "message": "熱いA型白色星"
+  },
+  "STAR_AF_GIANT": {
+    "description": "",
+    "message": "白色巨星"
+  },
+  "STAR_AF_HYPER_GIANT": {
+    "description": "",
+    "message": "白色極超巨星"
+  },
+  "STAR_AF_SUPER_GIANT": {
+    "description": "",
+    "message": "白色超巨星"
+  },
+  "STAR_B": {
+    "description": "",
+    "message": "明るいB型青色星"
+  },
+  "STAR_B_GIANT": {
+    "description": "",
+    "message": "青色巨星"
+  },
+  "STAR_B_HYPER_GIANT": {
+    "description": "",
+    "message": "青色極超巨星"
+  },
+  "STAR_B_SUPER_GIANT": {
+    "description": "",
+    "message": "青色超巨星"
+  },
+  "STAR_B_WF": {
+    "description": "",
+    "message": "ウォルフ-ライエ星 - 崩壊の危険"
+  },
+  "STAR_F": {
+    "description": "",
+    "message": "F型白色星"
+  },
+  "STAR_G": {
+    "description": "",
+    "message": "G型黄色星"
+  },
+  "STAR_G_GIANT": {
+    "description": "",
+    "message": "黄色巨星 - 不安定"
+  },
+  "STAR_G_HYPER_GIANT": {
+    "description": "",
+    "message": "黄色極超巨星 - 不安定"
+  },
+  "STAR_G_SUPER_GIANT": {
+    "description": "",
+    "message": "黄色超巨星"
+  },
+  "STAR_IM_BH": {
+    "description": "",
+    "message": "中間質量ブラックホール"
+  },
+  "STAR_K": {
+    "description": "",
+    "message": "K型橙色星"
+  },
+  "STAR_K_GIANT": {
+    "description": "",
+    "message": "橙色巨星 - 不安定"
+  },
+  "STAR_K_HYPER_GIANT": {
+    "description": "",
+    "message": "橙色極超巨星 - 不安定"
+  },
+  "STAR_K_SUPER_GIANT": {
+    "description": "",
+    "message": "橙色超巨星"
+  },
+  "STAR_M": {
+    "description": "",
+    "message": "M型赤色星"
+  },
+  "STAR_M_GIANT": {
+    "description": "",
+    "message": "赤色巨星"
+  },
+  "STAR_M_HYPER_GIANT": {
+    "description": "",
+    "message": "赤色極超巨星"
+  },
+  "STAR_M_SUPER_GIANT": {
+    "description": "",
+    "message": "赤色超巨星"
+  },
+  "STAR_M_WF": {
+    "description": "",
+    "message": "ウォルフ-ライエ星 - 不安定"
+  },
+  "STAR_O": {
+    "description": "",
+    "message": "熱いO型大質量星"
+  },
+  "STAR_O_GIANT": {
+    "description": "",
+    "message": "熱い青色巨星"
+  },
+  "STAR_O_HYPER_GIANT": {
+    "description": "",
+    "message": "熱い青色極超巨星"
+  },
+  "STAR_O_SUPER_GIANT": {
+    "description": "",
+    "message": "熱い青色超巨星"
+  },
+  "STAR_O_WF": {
+    "description": "",
+    "message": "ウォルフ-ライエ星 - 差し迫った崩壊"
+  },
+  "STAR_SM_BH": {
+    "description": "",
+    "message": "私たちの銀河の錨"
+  },
+  "STAR_SYSTEM_INFORMATION": {
+    "description": "",
+    "message": "星、星系の情報"
+  },
+  "STAR_S_BH": {
+    "description": "",
+    "message": "恒星ブラックホール"
+  },
+  "SUGGESTED_RESPONSES": {
+    "description": "",
+    "message": "提示された応答:"
+  },
+  "SURFACE_GRAVITY": {
+    "description": "",
+    "message": "表面重力"
+  },
+  "SURFACE_TEMPERATURE": {
+    "description": "",
+    "message": "表面温度"
+  },
+  "SWAP_SELECTED_HYPERSPACE_TARGET": {
+    "description": "",
+    "message": "選択とハイパージャンプの目標を入れ替える"
+  },
+  "SWITCHED_TO_PARENT": {
+    "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+    "message": "方位表示は星系座標系に切り替えられた"
+  },
+  "SWITCHED_TO_ROTATIONAL": {
+    "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+    "message": "方位表示は惑星座標系に切り替えられた"
+  },
+  "SYSTEM": {
+    "description": "star system",
+    "message": "星系"
+  },
+  "SYSTEM_NUMBER": {
+    "description": "",
+    "message": "星系番号:"
+  },
+  "SYSTEM_ORBIT_VIEW": {
+    "description": "",
+    "message": "星の軌道を表示"
+  },
+  "SYSTEM_TYPE": {
+    "description": "",
+    "message": "星系の種類:"
+  },
+  "S_ATMOSPHERE": {
+    "description": "",
+    "message": "sulfuric atmosphere"
+  },
+  "TAKEOFF": {
+    "description": "",
+    "message": "離陸"
+  },
+  "TARGET_OBJECT_IN_SIGHTS": {
+    "description": "",
+    "message": "十字線上の目標物"
+  },
+  "TENUOUS": {
+    "description": "atmosphere thickness",
+    "message": "\"a tenuous \""
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "生地"
+  },
+  "THICK": {
+    "description": "",
+    "message": "\"a thick \""
+  },
+  "THIN": {
+    "description": "",
+    "message": "\"a thin \""
+  },
+  "THRIVING_OUTDOOR_WORLD": {
+    "description": "",
+    "message": "繁栄しているアウトドアワールド"
+  },
+  "THRUSTER_DORSAL": {
+    "description": "",
+    "message": "下に推進"
+  },
+  "THRUSTER_MAIN": {
+    "description": "",
+    "message": "前に推進"
+  },
+  "THRUSTER_PORT": {
+    "description": "",
+    "message": "左に推進"
+  },
+  "THRUSTER_RETRO": {
+    "description": "",
+    "message": "後ろに推進"
+  },
+  "THRUSTER_STARBOARD": {
+    "description": "",
+    "message": "右に推進"
+  },
+  "THRUSTER_VENTRAL": {
+    "description": "",
+    "message": "上に推進"
+  },
+  "TIME_POINT": {
+    "description": "",
+    "message": "時点:"
+  },
+  "TINY": {
+    "description": "Adjective used to describe the size of an object.",
+    "message": "極小"
+  },
+  "TOGGLE_EQUIPMENT_VIEW": {
+    "description": "Tooltip for the Equipment View button",
+    "message": "装置の表示"
+  },
+  "TOGGLE_HUD_MODE": {
+    "description": "",
+    "message": "HUDモード切り替え"
+  },
+  "TOGGLE_RADAR_MODE": {
+    "description": "",
+    "message": "レーダーモード切り替え"
+  },
+  "TOGGLE_RADAR_VIEW": {
+    "description": "Tooltip for the Radar View button",
+    "message": "レーダーの表示"
+  },
+  "TOGGLE_ROTATION_DAMPING": {
+    "description": "",
+    "message": "回転抹殺を切り替え"
+  },
+  "TOMBSTONE_EPITAPH": {
+    "description": "shown on tombstone when player dies",
+    "message": "RIP OLD BEAN"
+  },
+  "TRADING_ILLEGAL_GOODS": {
+    "description": "",
+    "message": "違法品の取引"
+  },
+  "TRIPLE_SYSTEM": {
+    "description": "",
+    "message": "3重連星系"
+  },
+  "UNDOCKING": {
+    "description": "Flight state of ship when leaving station",
+    "message": "離陸状態"
+  },
+  "UNEXPLORED_SYSTEM_NO_DATA": {
+    "description": "",
+    "message": "未探査の星系。さらなる情報は利用不可。"
+  },
+  "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
+    "description": "",
+    "message": "未探査の星系。星図は利用不可。"
+  },
+  "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
+    "description": "",
+    "message": "未探査の星系。恒星の情報はリモートテレスコープによって収集されました。しかし、惑星の情報は利用できません。"
+  },
+  "UNIT_AU": {
+    "description": "Distance unit: an astronomical unit, radius of Earth's orbit",
+    "message": "AU"
+  },
+  "UNIT_DAYS": {
+    "description": "Duration unit: one 24-hour day",
+    "message": "d"
+  },
+  "UNIT_EARTH_GRAVITY": {
+    "description": "Acceleration unit: one earth gravity (g)",
+    "message": "g"
+  },
+  "UNIT_GIGATONNES": {
+    "description": "Mass unit: one gigatonne",
+    "message": "Gt"
+  },
+  "UNIT_HOURS": {
+    "description": "Duration unit: one 60-minute hour",
+    "message": "h"
+  },
+  "UNIT_KILOGRAMS": {
+    "description": "Mass unit: one kilogram",
+    "message": "kg"
+  },
+  "UNIT_KILOMETERS": {
+    "description": "Distance unit: one kilometer",
+    "message": "km"
+  },
+  "UNIT_KILOMETERS_PER_SECOND": {
+    "description": "Speed unit: one kilometer per second",
+    "message": "km/s"
+  },
+  "UNIT_KILOTONNES": {
+    "description": "Mass unit: one kilotonne",
+    "message": "kt"
+  },
+  "UNIT_LY": {
+    "description": "Distance unit: a light year",
+    "message": "ly"
+  },
+  "UNIT_MEGATONNES": {
+    "description": "Mass unit: one megatonne",
+    "message": "Mt"
+  },
+  "UNIT_METERS": {
+    "description": "Distance unit: one meter",
+    "message": "m"
+  },
+  "UNIT_METERS_PER_SECOND": {
+    "description": "Speed unit: one meter per second",
+    "message": "m/s"
+  },
+  "UNIT_MILLION_METERS": {
+    "description": "Distance unit: one million meters",
+    "message": "Mm"
+  },
+  "UNIT_MILLION_METERS_PER_SECOND": {
+    "description": "Speed unit: one million meters per second",
+    "message": "Mm/s"
+  },
+  "UNIT_MINUTES": {
+    "description": "Duration unit: one 60-second minute",
+    "message": "m"
+  },
+  "UNIT_PETATONNES": {
+    "description": "Mass unit: one petatonne",
+    "message": "Pt"
+  },
+  "UNIT_PRESSURE_ATMOSPHERES": {
+    "description": "Pressure unit: one earth atmosphere (atm)",
+    "message": "atm"
+  },
+  "UNIT_SECONDS": {
+    "description": "Duration unit: one second",
+    "message": "s"
+  },
+  "UNIT_TERATONNES": {
+    "description": "Mass unit: one teratonne",
+    "message": "Tt"
+  },
+  "UNIT_TONNES": {
+    "description": "Mass unit: one tonne (t)",
+    "message": "t"
+  },
+  "UNIT_WEEKS": {
+    "description": "Duration unit: one 7-day week",
+    "message": "w"
+  },
+  "UNKNOWN": {
+    "description": "",
+    "message": "<unknown>"
+  },
+  "UNSET_NAVTARGET": {
+    "description": "",
+    "message": "ナビゲーションターゲットから解除"
+  },
+  "USE_LOW_THRUST": {
+    "description": "",
+    "message": "低出力スラスターを使用"
+  },
+  "VAST_STRIP_MINE": {
+    "description": "",
+    "message": "広大な露天掘りコロニー"
+  },
+  "VERY_DENSE": {
+    "description": "",
+    "message": "\"a very dense \""
+  },
+  "VERY_LARGE_GAS_GIANT": {
+    "description": "",
+    "message": "巨大ガスジャイアント"
+  },
+  "VIEW": {
+    "description": "",
+    "message": "表示"
+  },
+  "VIOLENT_ANARCHY": {
+    "description": "",
+    "message": "無秩序 - 武装勢力による全面的な政権争い"
+  },
+  "WATER": {
+    "description": "",
+    "message": "水"
+  },
+  "WEAPONS": {
+    "description": "",
+    "message": "銃"
+  },
+  "WEAPON_TEMP": {
+    "description": "",
+    "message": "銃の温度"
+  },
+  "WHEELS_ARE_DOWN": {
+    "description": "",
+    "message": "車輪は展開状態"
+  },
+  "WHEELS_ARE_UP": {
+    "description": "",
+    "message": "車輪は格納状態"
+  },
+  "WHITE_DWARF": {
+    "description": "",
+    "message": "白色矮星の残骸"
+  },
+  "WITH": {
+    "description": "",
+    "message": "\" with \""
+  },
+  "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
+    "description": "",
+    "message": "\" と主な大気はない\""
+  },
+  "YAW": {
+    "description": "",
+    "message": "ヨー"
+  },
+  "YAW_LEFT": {
+    "description": "",
+    "message": "ヨー左"
+  },
+  "YAW_RIGHT": {
+    "description": "",
+    "message": "ヨー右"
+  },
+  "YOUNG_FARMING_COLONY": {
+    "description": "",
+    "message": "若い農業コロニー"
+  },
+  "ZOOM_IN": {
+    "description": "",
+    "message": "ズームイン"
+  },
+  "ZOOM_OUT": {
+    "description": "",
+    "message": "ズームアウト"
+  }
+}

@@ -243,6 +243,22 @@
     "description": "",
     "message": "Malgré une efficacité moindre que celle d'une écope à carubrant, cela permet d'écoper et la cargaison, et le carburant."
   },
+  "ORBIT_SCANNER": {
+    "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
+    "message": "Scanner orbital XKM-650"
+  },
+  "ORBIT_SCANNER_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Scanne les planètes depuis l'orbite, pour des données scientifique"
+  },
+  "ORBIT_SCANNER_GOOD": {
+    "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
+    "message": "Scanner orbital XKM-1750"
+  },
+  "ORBIT_SCANNER_GOOD_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Scanne les planètes depuis l'orbite, avec une haute résolution et une optique à grande ouverture"
+  },
   "OUT_OF_SCANRANGE": {
     "description": "",
     "message": "Distance maximale de scannage dépassée:"
@@ -250,14 +266,6 @@
   "PASSENGER_CABIN": {
     "description": "",
     "message": "Cabine passager"
-  },
-  "PLANETSCANNER": {
-    "description": "Scans the nearest body for resources",
-    "message": "Scannage de l'objet"
-  },
-  "PLANETSCANNER_DESCRIPTION": {
-    "description": "",
-    "message": "Scanne les plus proches objets afin de trouver des ressources."
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
@@ -315,6 +323,14 @@
     "description": "Category name of sensor-related equipment",
     "message": "Capteurs"
   },
+  "SENSOR_MIN_ALTITUDE": {
+    "description": "",
+    "message": "Altitude min du capteur"
+  },
+  "SENSOR_RESOLUTION": {
+    "description": "Resolution of e.g. optical sensor",
+    "message": "Résolution du capteur"
+  },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
     "message": "Boucliers"
@@ -346,6 +362,22 @@
   "STARTING_SCAN": {
     "description": "",
     "message": "Démarrage du scannage, la distance de cible est "
+  },
+  "SURFACE_SCANNER": {
+    "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
+    "message": "Scanner de surface Nadir-150"
+  },
+  "SURFACE_SCANNER_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Enregistreur géologique et cartographique"
+  },
+  "SURFACE_SCANNER_GOOD": {
+    "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
+    "message": "Scanner de surface Xeiss-250"
+  },
+  "SURFACE_SCANNER_GOOD_DESCRIPTION": {
+    "description": "tooltip",
+    "message": "Enregistreur de géologie et cartographe haute-résolution"
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",

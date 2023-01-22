@@ -1,9 +1,10 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SECTORVIEW_H
 #define _SECTORVIEW_H
 
+#include "ConnectionTicket.h"
 #include "DeleteEmitter.h"
 #include "Input.h"
 #include "galaxy/Sector.h"
@@ -162,11 +163,11 @@ private:
 
 	Uint8 m_detailBoxVisible;
 
-	sigc::connection m_onMouseWheelCon;
-	sigc::connection m_onToggleSelectionFollowView;
-	sigc::connection m_onWarpToCurrent;
-	sigc::connection m_onWarpToSelected;
-	sigc::connection m_onViewReset;
+	ConnectionTicket m_onMouseWheelCon;
+	ConnectionTicket m_onToggleSelectionFollowView;
+	ConnectionTicket m_onWarpToCurrent;
+	ConnectionTicket m_onWarpToSelected;
+	ConnectionTicket m_onViewReset;
 
 	RefCountedPtr<SectorCache::Slave> m_sectorCache;
 	std::string m_previousSearch;

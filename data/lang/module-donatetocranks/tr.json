@@ -71,6 +71,54 @@
     "description": "",
     "message": "Geminizi özgür kılın! Lütfen bağış yapılacak miktarı seçin. Mutlu kırmalar."
   },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "GAZİLER GÜNÜ!"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "{MILITARY} gazilerini destekleyin."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "{MILITARY}. Her zaman güven verir.\nPeki onlar size güvenebilir mi?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "ARKALARINDA DURUYOR MUSUNUZ?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "{POLICE} gazilerini destekleyin."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "Hayatlarını {SYSTEM} sistemini korumaya adayan cesur {POLICE} ekibinin yardımınıza ihtiyacı var!"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "GAZİLERİMİZİ DESTEKLEYİN!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Silahlı güçlerimizin gazilerini destekleyin."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "{MILITARY} mensubu cesur askerler sizi korumak için kendilerini feda ediyor!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "FAKİRLİĞE SON VERİN!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "{FACTION} topraklarında fakirliği yok etme mücadelesine destek verin."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "Hepimize güzel bir gelecek yaratmak için {FACTION} ailelerini güçlendiriyoruz!"
+  },
   "SALES_PITCH": {
     "description": "",
     "message": "Bize {cash} bağışlamanız itibarınızı arttırabilir, ama her türlü yardıma açığız."

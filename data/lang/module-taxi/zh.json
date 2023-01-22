@@ -357,7 +357,7 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "BUSINESS PASSAGE"
+    "message": "商务通道"
   },
   "FLAVOUR_4_DANGER": {
     "description": "",
@@ -389,11 +389,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Require confidential passage of anonymous VIP to {system} system. Will pay {cash}."
+    "message": "需要隐秘的运输匿名VIP去{system}星系，将支付{cash}。"
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "CONFIDENTIAL PASSAGE"
+    "message": "机密通行证"
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Reporter needs proximity to story developing in the {system} system. Will pay {cash}."
+    "message": "通讯员需要接近{system}星系中的故事发展。将支付{cash}。"
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -465,7 +465,7 @@
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "SAFE PASSAGE NEEDED"
+    "message": "需要安全通道"
   },
   "FLAVOUR_7_DANGER": {
     "description": "",
@@ -501,7 +501,7 @@
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "FAST PERSONAL TRANSPORT"
+    "message": "快速个人运输"
   },
   "FLAVOUR_8_DANGER": {
     "description": "",
@@ -537,7 +537,7 @@
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "LEGITIMATE PASSAGE"
+    "message": "合法通行"
   },
   "FLAVOUR_9_DANGER": {
     "description": "",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef MODELVIEWER_H
@@ -40,7 +40,7 @@ protected:
 
 private:
 	std::string m_modelName;
-	std::shared_ptr<ModelViewer> m_modelViewer;
+	RefCountedPtr<ModelViewer> m_modelViewer;
 };
 
 class ModelViewer : public Application::Lifecycle {
@@ -101,6 +101,7 @@ private:
 	void DrawModelOptions();
 	void DrawModelTags();
 	void DrawTagNames();
+	void DrawModelHierarchy();
 	void DrawShipControls();
 	void DrawLog();
 	void DrawPiGui();
@@ -116,6 +117,7 @@ private:
 		bool showGeomBBox;
 		bool showShields;
 		bool showGrid;
+		bool showVerticalGrids;
 		bool showLandingPad;
 		bool showUI;
 		bool wireframe;
@@ -202,12 +204,11 @@ private:
 	float m_landingMinOffset;
 
 	std::unique_ptr<Graphics::Material> m_bgMaterial;
-	std::unique_ptr<Graphics::Material> m_gridMaterial;
 	std::unique_ptr<Graphics::MeshObject> m_bgMesh;
 
 	sigc::signal<void> onModelChanged;
 
-	Graphics::Drawables::Lines m_gridLines;
+	std::unique_ptr<Graphics::Drawables::GridLines> m_gridLines;
 };
 
 #endif

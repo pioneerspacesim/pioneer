@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LOADERDEFINITIONS_H_
@@ -64,14 +64,13 @@ namespace SceneGraph {
 		double end;
 		bool loop;
 	};
-	typedef std::vector<AnimDefinition> AnimList;
 
 	struct ModelDefinition {
 		std::string name;
 		std::vector<LodDefinition> lodDefs;
 		std::vector<MaterialDefinition> matDefs;
 		std::vector<std::string> collisionDefs;
-		AnimList animDefs;
+		std::vector<AnimDefinition> animDefs;
 	};
 
 } // namespace SceneGraph

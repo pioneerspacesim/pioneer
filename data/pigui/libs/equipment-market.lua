@@ -1,8 +1,9 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
 local Lang = require 'Lang'
+local utils= require 'utils'
 
 local ui = require 'pigui'
 local ModalWindow = require 'pigui.libs.modal-win'
@@ -15,7 +16,7 @@ local sellPriceReduction = 0.8
 local defaultFuncs = {
     -- can we display this item
     canDisplayItem = function (self, e)
-        return e.purchasable and e:IsValidSlot("cargo") and Game.system:IsCommodityLegal(e.name)
+        return e.purchasable
     end,
 
     -- how much of this item do we have in stock?
@@ -117,9 +118,9 @@ local defaultFuncs = {
 
         -- remove from last free slot (reverse table)
         local slot
-        for i=#e.slots,1,-1 do
-            if player:CountEquip(e, e.slots[i]) > 0 then
-                slot = e.slots[i]
+        for i, s in utils.reverse(e.slots) do
+            if player:CountEquip(e, s) > 0 then
+                slot = s
                 break
             end
         end
@@ -180,8 +181,7 @@ local MarketWidget = {
 }
 
 function MarketWidget.New(id, title, config)
-    local self
-    self = TableWidget.New(id, title, config)
+    local self = TableWidget.New(id, title, config)
 
     self.popup = config.popup or ModalWindow.New('popupMsg' .. id, function()
         ui.text(self.popup.msg)
@@ -195,18 +195,19 @@ function MarketWidget.New(id, title, config)
     self.items = {}
     self.itemTypes = config.itemTypes or {}
     self.columnCount = config.columnCount or 0
-    self.funcs.getStock = config.getStock or defaultFuncs.getStock
-    self.funcs.getBuyPrice = config.getBuyPrice or defaultFuncs.getBuyPrice
-    self.funcs.getSellPrice = config.getSellPrice or defaultFuncs.getSellPrice
-    self.funcs.onClickBuy = config.onClickBuy or defaultFuncs.onClickBuy
-    self.funcs.onClickSell = config.onClickSell or defaultFuncs.onClickSell
-    self.funcs.buy = config.buy or defaultFuncs.buy
-    self.funcs.bought = config.bought or defaultFuncs.bought
-    self.funcs.onBuyFailed = config.onBuyFailed or defaultFuncs.onBuyFailed
-    self.funcs.sell = config.sell or defaultFuncs.sell
-    self.funcs.sold = config.sold or defaultFuncs.sold
-    self.funcs.initTable = config.initTable or defaultFuncs.initTable
-    self.funcs.canDisplayItem = config.canDisplayItem or defaultFuncs.canDisplayItem
+
+    self.funcs.getStock        = config.getStock        or defaultFuncs.getStock
+    self.funcs.getBuyPrice     = config.getBuyPrice     or defaultFuncs.getBuyPrice
+    self.funcs.getSellPrice    = config.getSellPrice    or defaultFuncs.getSellPrice
+    self.funcs.onClickBuy      = config.onClickBuy      or defaultFuncs.onClickBuy
+    self.funcs.onClickSell     = config.onClickSell     or defaultFuncs.onClickSell
+    self.funcs.buy             = config.buy             or defaultFuncs.buy
+    self.funcs.bought          = config.bought          or defaultFuncs.bought
+    self.funcs.onBuyFailed     = config.onBuyFailed     or defaultFuncs.onBuyFailed
+    self.funcs.sell            = config.sell            or defaultFuncs.sell
+    self.funcs.sold            = config.sold            or defaultFuncs.sold
+    self.funcs.initTable       = config.initTable       or defaultFuncs.initTable
+    self.funcs.canDisplayItem  = config.canDisplayItem  or defaultFuncs.canDisplayItem
     self.funcs.sortingFunction = config.sortingFunction or defaultFuncs.sortingFunction
     self.funcs.onMouseOverItem = config.onMouseOverItem or defaultFuncs.onMouseOverItem
 

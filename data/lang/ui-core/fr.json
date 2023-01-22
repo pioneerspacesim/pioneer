@@ -111,6 +111,10 @@
     "description": "",
     "message": "Cargaison"
   },
+  "CARGO_CAPACITY": {
+    "description": "Label to show a ship's total cargo space.",
+    "message": "Capacité Cargaison"
+  },
   "CARGO_SPACE": {
     "description": "",
     "message": "Espace cargo"
@@ -147,6 +151,14 @@
     "description": "Key binding option",
     "message": "Change"
   },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+    "message": "Changer la couleur"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+    "message": "Changer le motif"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Chef mécanicien"
@@ -178,6 +190,10 @@
   "CLOSE": {
     "description": "",
     "message": "Fermer"
+  },
+  "COLOR": {
+    "description": "",
+    "message": "Couleur"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -727,6 +743,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Décollage"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "Mode croisière: avancer"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Mode croisière: vers le haut"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Désactiver autopilote"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Désactiver mode croisière"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Désactiver mode direction fixe"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Désactiver mode poursuite"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Equipement"
@@ -855,6 +895,10 @@
     "description": "Cargo Mass",
     "message": "Poids de la cargaison"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Vitesse de croisière"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "La cible de combat courante"
@@ -906,6 +950,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "La durée jusqu'à la moitié de la manoeuvre de mise à feu"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: suivre l'orientation"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: 'suivre l'orientation' indisponible"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: cible trop loin pour 'suivre l'orientation'"
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: suivre la position"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: 'suivre la position' indisponible"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: cible trop loin pour 'suivre la position'"
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Suivre la cible"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -990,6 +1062,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Affiche la cible de navigation courante"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Limiteur de vitesse activé"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1118,6 +1194,10 @@
   "JETTISON": {
     "description": "",
     "message": "Ejecter"
+  },
+  "JETTISON_MODE": {
+    "description": "",
+    "message": "Mode Largage"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1415,6 +1495,10 @@
     "description": "",
     "message": "Négocier"
   },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+    "message": "La nouvelle peinture de votre vaisseau a été posée."
+  },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
     "message": "Suivant"
@@ -1454,6 +1538,10 @@
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
     "message": "{equipment} n'est pas compatible avec ce type de vaisseau"
+  },
+  "NO_CARGO": {
+    "description": "Message displayed when the player has no cargo in their hold.",
+    "message": "Pas de Cargaison"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
@@ -1555,6 +1643,42 @@
     "description": "Player owing money to crew members",
     "message": "Dû"
   },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+    "message": "Atelier de peinture"
+  },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+    "message": "Atelier de peinture non disponible dans cette station."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Bienvenue! Votre vaisseau va devenir une oeuvre d'art!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Bonjour! Vous souhaitez changer l'apparence de votre vaisseau?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Avec nous votre vaisseau ne sera peut-être pas plus rapide, mais il aura la classe!"
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Bienvenue voyageur. Prenez votre temps et laissez parler votre créativité."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+    "message": "La beauté n'aura jamais été aussi facile dans la galaxie!"
+  },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Capacité cabine passager"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+    "message": "Motif"
+  },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
     "message": "Payer"
@@ -1595,6 +1719,10 @@
     "description": "",
     "message": "Textures de planète"
   },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+    "message": "Créez votre nouvelle peinture:"
+  },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
     "message": "Oups, quelque chose est allé de travers! Vous pouvez enregistrer un nouveau bug (issue) dans notre Github en donnant les étapes permettant de reproduire le problème, votre fichier de messages et votre sauvegarde.\nVous trouverez votre fichier de messages ici: {path}/output.txt"
@@ -1634,6 +1762,10 @@
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
     "message": "Vidange"
+  },
+  "PURCHASE_PAINTJOB": {
+    "description": "Paintshop button",
+    "message": "Acheter peinture"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1718,6 +1850,10 @@
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
     "message": "Réinitialise l'orientation et le zoom"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+    "message": "Réinitialiser l'aperçu"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1815,6 +1951,18 @@
     "description": "",
     "message": "Définir le trajet de retour"
   },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Ajuster à 45% du delta-v restant"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Ajuster à la vitesse courante"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Mettre à zéro"
+  },
   "SHIP": {
     "description": "",
     "message": "Vaisseau"
@@ -1844,8 +1992,8 @@
     "message": "Marché de vaisseaux"
   },
   "SHIP_REPAIRS": {
-    "description": "",
-    "message": "Réparation de vaisseaux"
+    "description": "Station tab name",
+    "message": "Réparation de vaisseau et peinture"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -1955,6 +2103,10 @@
     "description": "Lobby screen shows the tech level of the station",
     "message": "Cette installation possède un accès aux technologies militaires."
   },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Niveau technologique"
+  },
   "TEXTURE_COMPRESSION": {
     "description": "",
     "message": "La compression de texture libère de la mémoire de la carte graphique car les textures prennent moins de place, ce qui est probablement ce que vous voulez, en échange de leur compression (et donc d'un peu de performance) pendant le départ du jeu."
@@ -1978,6 +2130,10 @@
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Bras de la voie lactée 3kpc"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+    "description": "Label for a button toggling the cargo display window.",
+    "message": "Ouverture/Fermeture Fenêtre Cargaison"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
@@ -2043,6 +2199,10 @@
     "description": "For player reputation",
     "message": "De confiance"
   },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Éteindre"
+  },
   "TYPE": {
     "description": "",
     "message": "Type"
@@ -2098,6 +2258,14 @@
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
     "message": "Les résolutions plus élevées affichent plus d'informations (plus de pixels) pour un même espace d'écran, mais dans certains cas peuvent réduire les performances."
+  },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+    "message": "Visiter l'atelier de peinture"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+    "message": "Visiter le garagiste"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

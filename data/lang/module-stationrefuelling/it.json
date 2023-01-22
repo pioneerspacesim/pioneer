@@ -1,5 +1,9 @@
 {
-  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_DOCKING": {
+    "description": "",
+    "message": "Qui {station}. Non avete abbastanza denaro per pagare la vostra tassa d'attracco di {fee}."
+  },
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_LANDING": {
     "description": "",
     "message": "Qui {station}. Non avete abbastanza denaro per pagare la vostra tassa d'attracco di {fee}."
   },

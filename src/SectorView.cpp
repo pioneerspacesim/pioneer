@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SectorView.h"
@@ -25,6 +25,7 @@
 #include "imgui/imgui.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaObject.h"
+#include "lua/LuaTable.h"
 #include "matrix4x4.h"
 #include "pigui/PiGui.h"
 #include "pigui/PiGuiRenderer.h"
@@ -33,6 +34,8 @@
 #include <algorithm>
 #include <sstream>
 #include <unordered_set>
+
+SectorView::~SectorView() {}
 
 using namespace Graphics;
 
@@ -622,15 +625,6 @@ void SectorView::InitObject()
 	m_drawList.reset(new ImDrawList(ImGui::GetDrawListSharedData()));
 }
 
-SectorView::~SectorView()
-{
-	m_onMouseWheelCon.disconnect();
-	m_onToggleSelectionFollowView.disconnect();
-	m_onWarpToCurrent.disconnect();
-	m_onWarpToSelected.disconnect();
-	m_onViewReset.disconnect();
-}
-
 void SectorView::SaveToJson(Json &jsonObj)
 {
 	Json sectorViewObj({}); // Create JSON object to contain sector view data.
@@ -1203,6 +1197,8 @@ const std::string SectorView::AutoRoute(const SystemPath &start, const SystemPat
 			outRoute.push_back(m_galaxy->GetStarSystem(nodes[u])->GetStars()[0]->GetPath());
 			u = path_prev[u];
 		}
+		//End at given body in multistar systems
+		outRoute.begin()->bodyIndex = target.bodyIndex;
 		std::reverse(std::begin(outRoute), std::end(outRoute));
 		return "OKAY";
 	}

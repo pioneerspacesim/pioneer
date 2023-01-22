@@ -1,14 +1,18 @@
 {
-  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_DOCKING": {
     "description": "",
     "message": "Detta är {station}. Du har inte tillräckligt med pengar för din dockningsavgift på {fee}."
   },
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_LANDING": {
+    "description": "",
+    "message": "Detta är {station}. Du har inte tillräckligt med pengar för din landningsavgift på {fee}."
+  },
   "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
     "description": "Station welcome message, docking in orbit",
-    "message": "Välkommen till {station}. Din dockningsavgift {fee} har blivit fakturerad."
+    "message": "Välkommen till {station}. Din dockningsavgift på {fee} har dragits från ditt konto."
   },
   "WELCOME_TO_STATION_FEE_DEDUCTED": {
     "description": "Station welcome message, ground station landing",
-    "message": "Välkommen till {station}. Din landningsavgif på {fee} har dragits från ditt konto."
+    "message": "Välkommen till {station}. Din landningsavgift på {fee} har dragits från ditt konto."
   }
 }

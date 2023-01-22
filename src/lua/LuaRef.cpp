@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaRef.h"
@@ -42,7 +42,6 @@ void LuaRef::Unref()
 {
 	if (m_id != LUA_NOREF && m_lua) {
 		--(*m_copycount);
-		m_id = LUA_NOREF;
 		CheckCopyCount();
 	}
 }
@@ -70,6 +69,7 @@ void LuaRef::CheckCopyCount()
 		PushGlobalToStack();
 		luaL_unref(m_lua, -1, m_id);
 		lua_pop(m_lua, 1);
+		m_id = LUA_NOREF;
 	}
 }
 

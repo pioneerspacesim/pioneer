@@ -7,6 +7,7 @@ Timer = require 'Timer'
 Equipment = require 'Equipment'
 
 import Vector2 from _G
+
 ui = require 'pigui'
 debug_ui = require 'pigui.views.debug'
 
@@ -148,10 +149,21 @@ ship_spawn_debug_window = ->
 			if ui.button "Spawn Docked", Vector2(0, 0)
 				spawn_ship_docked ship_name, ai_options[ai_opt_selected], ship_equip
 
-		if Game.player\GetCombatTarget!
+		SectorView = Game.sectorView
+		if not Game.player\GetDockedWith!
 			ui.sameLine!
-			if ui.button "Spawn Missile", Vector2(0, 0)
+			if nav_target and nav_target\isa "SpaceStation"
+				if ui.button "Teleport To", Vector2(0, 0)
+					Game.player\SetDockedWith nav_target
+
+			if SectorView\GetSelectedSystemPath! and Game.system and not SectorView\GetSelectedSystemPath!\IsSameSystem(Game.system.path)
+				if ui.button "Hyperjump To", Vector2(0, 0)
+					Game.player\InitiateHyperjumpTo(SectorView\GetSelectedSystemPath(), 1.0, 0.0, {})
+
+		if Game.player\GetCombatTarget!
+			if ui.button "Spawn##Missile", Vector2(0, 0)
 				do_spawn_missile missile_types[missile_selected + 1]
+			ui.sameLine 0, 2
 
 		ui.nextItemWidth -1.0
 		_, missile_selected = ui.combo "##missile_type", missile_selected, missile_names

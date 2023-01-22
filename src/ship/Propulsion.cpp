@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Propulsion.h"
@@ -8,6 +8,16 @@
 #include "Pi.h"
 #include "Player.h"
 #include "PlayerShipController.h"
+
+// #include "lua/LuaBodyComponent.h"
+
+REGISTER_COMPONENT_TYPE(Propulsion) {
+	BodyComponentDB::RegisterComponent<Propulsion>("Propulsion");
+	// Commented out as serialization is still handled in Ship
+	// BodyComponentDB::RegisterSerializer<Propulsion>();
+	// Commented out as Propulsion has no lua interface at current
+	// BodyComponentDB::RegisterLuaInterface<Propulsion>();
+}
 
 void Propulsion::SaveToJson(Json &jsonObj, Space *space)
 {
@@ -306,15 +316,15 @@ double calc_ivel_pos(double dist, double vel, double acc)
 
 // vel is desired velocity in ship's frame
 // returns true if this can be attained in a single timestep
-bool Propulsion::AIMatchVel(const vector3d &vel)
+bool Propulsion::AIMatchVel(const vector3d &vel, const vector3d &powerLimit)
 {
 	vector3d diffvel = (vel - m_dBody->GetVelocity()) * m_dBody->GetOrient();
-	return AIChangeVelBy(diffvel);
+	return AIChangeVelBy(diffvel, powerLimit);
 }
 
 // diffvel is required change in velocity in object space
 // returns true if this can be done in a single timestep
-bool Propulsion::AIChangeVelBy(const vector3d &diffvel)
+bool Propulsion::AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLimit)
 {
 	// counter external forces
 	vector3d extf = m_dBody->GetExternalForce() * (Pi::game->GetTimeStep() / m_dBody->GetMass());
@@ -322,9 +332,10 @@ bool Propulsion::AIChangeVelBy(const vector3d &diffvel)
 
 	vector3d maxThrust = GetThrust(diffvel2);
 	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / m_dBody->GetMass());
-	vector3d thrust(diffvel2.x / maxFrameAccel.x,
-		diffvel2.y / maxFrameAccel.y,
-		diffvel2.z / maxFrameAccel.z);
+	vector3d thrust(
+		Clamp(diffvel2.x / maxFrameAccel.x, -powerLimit.x, powerLimit.x),
+		Clamp(diffvel2.y / maxFrameAccel.y, -powerLimit.y, powerLimit.y),
+		Clamp(diffvel2.z / maxFrameAccel.z, -powerLimit.z, powerLimit.z));
 	SetLinThrusterState(thrust); // use clamping
 	if (thrust.x * thrust.x > 1.0 || thrust.y * thrust.y > 1.0 || thrust.z * thrust.z > 1.0) return false;
 	return true;
@@ -352,13 +363,25 @@ vector3d Propulsion::AIChangeVelDir(const vector3d &reqdiffvel)
 }
 
 // Input in object space
-void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel, double softness)
+void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel, const vector3d &powerLimit, bool ignoreZeroValues)
 {
 	double maxAccel = m_angThrust / m_dBody->GetAngularInertia();
-	double invFrameAccel = 1.0 / (maxAccel * Pi::game->GetTimeStep() * softness);
+	double invFrameAccel = 1.0 / maxAccel / Pi::game->GetTimeStep();
 
-	vector3d diff = angvel - m_dBody->GetAngVelocity() * m_dBody->GetOrient(); // find diff between current & desired angvel
-	SetAngThrusterState(diff * invFrameAccel);
+	vector3d currAngVel = m_dBody->GetAngVelocity() * m_dBody->GetOrient();
+	vector3d diff;
+
+	for (int axis = 0; axis < 3; axis++) {
+
+		if (!ignoreZeroValues || abs(angvel[axis]) > 0.001) {
+			diff[axis] = (angvel[axis] - currAngVel[axis]);
+			diff[axis] = diff[axis] * invFrameAccel;
+			diff[axis] = Clamp(diff[axis], -powerLimit[axis], powerLimit[axis]);
+		} else
+			diff[axis] = 0.0;
+	}
+
+	SetAngThrusterState(diff);
 }
 
 // get updir as close as possible just using roll thrusters

@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Log.h"
@@ -19,12 +19,12 @@ namespace Log {
 	Logger s_defaultLog;
 
 	std::map<Severity, std::string> s_severityNames = {
-		{ Severity::Fatal, "Fatal" },
-		{ Severity::Error, "Error" },
-		{ Severity::Warning, "Warning" },
-		{ Severity::Info, "Info" },
-		{ Severity::Debug, "Debug" },
-		{ Severity::Verbose, "Verbose" }
+		{ Severity::Fatal, "Fatal:" },
+		{ Severity::Error, "Error:" },
+		{ Severity::Warning, "Warning:" },
+		{ Severity::Info, "Info:" },
+		{ Severity::Debug, "Debug:" },
+		{ Severity::Verbose, "Verbose:" }
 	};
 
 } // namespace Log
@@ -73,9 +73,10 @@ void Log::Logger::LogLevel(Severity sv, std::string_view message)
 	Time::DateTime epoch(1970, 1, 1);
 	Time::DateTime time = epoch + Time::TimeDelta(t.count(), Time::Microsecond);
 
-	// FIXME: make StringRange derive from string_view so we can use its overloads *and* format it easily
-	while (!message.empty() && is_space(message[0])) {
-		message.remove_prefix(1);
+	// Remove any trailing space suffixes (extra newlines, spaces, etc.)
+	// We'll automatically add a newline to the end of the message when printing it
+	while (!message.empty() && is_space(message.back())) {
+		message.remove_suffix(1);
 	}
 
 	WriteLog(time, sv, message);
@@ -89,12 +90,16 @@ void Log::Logger::WriteLog(Time::DateTime time, Severity sv, std::string_view ms
 	   Builds on /subsystem:WINDOWS will not usually have a console
 	   and fmt::print will throw an exception in this case */
 #ifndef WIN32
-	if (sv <= Severity::Warning) {
-		fmt::print(stderr, "{}: {}", svName, msg);
-	} else if (sv <= m_maxSeverity) {
-		fmt::print(stdout, "{}", msg);
-		// flush stdout because it might have a different cache size than stderr
-		fflush(stdout);
+	auto *outFile = (sv <= Severity::Warning ? stderr : stdout);
+
+	if (sv <= m_maxSeverity) {
+		if (!msg.empty() && msg.back() == '\n')
+			fmt::print(outFile, "{} {}", svName, msg);
+		else
+			fmt::print(outFile, "{} {}\n", svName, msg);
+
+		// flush log messages to ensure that we retain information in the event of a crash
+		fflush(outFile);
 	}
 #endif
 
@@ -103,7 +108,12 @@ void Log::Logger::WriteLog(Time::DateTime time, Severity sv, std::string_view ms
 	}
 
 	if (file && sv <= m_maxFileSeverity) {
-		fmt::print(file, "[{0}]{1:>8}: {2}", time.ToTimeString(), svName, msg);
+		if (!msg.empty() && msg.back() == '\n')
+			fmt::print(file, "[{0}] {1:<8}  {2}", time.ToTimeString(), svName, msg);
+		else
+			fmt::print(file, "[{0}] {1:<8}  {2}\n", time.ToTimeString(), svName, msg);
+		// flush log file to ensure we have complete data in case of a crash
+		fflush(file);
 	}
 
 	if (sv <= m_maxMsgSeverity) {

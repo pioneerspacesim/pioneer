@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GalaxyGenerator.h"
@@ -170,7 +170,6 @@ GalaxyGenerator *GalaxyGenerator::AddStarSystemStage(StarSystemGeneratorStage *s
 
 RefCountedPtr<Sector> GalaxyGenerator::GenerateSector(RefCountedPtr<Galaxy> galaxy, const SystemPath &path, SectorCache *cache)
 {
-	PROFILE_SCOPED()
 	const Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rng(_init, 4);
 	SectorConfig config;

@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Input.h"
@@ -9,6 +9,7 @@
 #include "SDL.h"
 #include "SDL_events.h"
 #include "SDL_joystick.h"
+#include "SDL_mouse.h"
 
 #include <array>
 #include <regex>
@@ -42,7 +43,9 @@ namespace Input {
 */
 
 namespace Input {
-	std::map<SDL_JoystickID, JoystickInfo> m_joysticks;
+	// mapping SDL instance ID of joystick to internal ID
+	std::vector<uint32_t> m_joyIDs;
+	std::vector<JoystickInfo> m_joysticks;
 
 	InputBindings::Action nullAction;
 	InputBindings::Axis nullAxis;
@@ -79,13 +82,20 @@ int Input::JoystickFromGUIDString(const char *guid)
 int Input::JoystickFromGUID(SDL_JoystickGUID guid)
 {
 	const int guidLength = 16; // as defined
-	for (auto pair : m_joysticks) {
-		JoystickInfo &state = pair.second;
+	for (unsigned i = 0; i < m_joysticks.size(); ++i) {
+		auto &state = m_joysticks[i];
 		if (0 == memcmp(state.guid.data, guid.data, guidLength)) {
-			return static_cast<int>(pair.first);
+			return i;
 		}
 	}
 	return -1;
+}
+
+int Input::JoystickFromID(SDL_JoystickID id)
+{
+	assert(id >= 0 && "this ID means no joystick");
+	assert(static_cast<unsigned>(id) < m_joyIDs.size() && "there is no internal ID for this SDL ID");
+	return m_joyIDs[id];
 }
 
 SDL_JoystickGUID Input::JoystickGUID(int joystick)
@@ -95,7 +105,7 @@ SDL_JoystickGUID Input::JoystickGUID(int joystick)
 
 static std::string saveAxisConfig(const Input::JoystickInfo::Axis &axis)
 {
-	return fmt::format("DZ{:.1f} CV{:.1f}{}", axis.deadzone, axis.curve, (axis.zeroToOne ? " Half" : ""));
+	return fmt::format("DZ{:.2f} CV{:.2f}{}", axis.deadzone, axis.curve, (axis.zeroToOne ? " Half" : ""));
 }
 
 static void loadAxisConfig(const std::string &str, Input::JoystickInfo::Axis &outAxis)
@@ -110,6 +120,65 @@ static void loadAxisConfig(const std::string &str, Input::JoystickInfo::Axis &ou
 	outAxis.value = 0;
 }
 
+static JoystickInfo loadJoystick(SDL_Joystick *joystick, const IniConfig *config)
+{
+	JoystickInfo state;
+	state.joystick = joystick;
+	state.name = SDL_JoystickName(state.joystick);
+	state.guid = SDL_JoystickGetGUID(state.joystick);
+	state.axes.resize(SDL_JoystickNumAxes(state.joystick));
+	state.buttons.resize(SDL_JoystickNumButtons(state.joystick));
+	state.hats.resize(SDL_JoystickNumHats(state.joystick));
+
+	std::array<char, 33> joystickGUIDName;
+	SDL_JoystickGetGUIDString(state.guid, joystickGUIDName.data(), joystickGUIDName.size());
+	Output("Found joystick '%s' (GUID: %s)\n", SDL_JoystickName(state.joystick), joystickGUIDName.data());
+	Output("  - %ld axes, %ld buttons, %ld hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
+
+	std::string joystickName = "Joystick." + std::string(joystickGUIDName.data());
+
+	for (size_t i = 0; i < state.axes.size(); i++) {
+		std::string axisName = "Axis" + std::to_string(i);
+		if (!config->HasEntry(joystickName, axisName)) {
+			state.axes[i] = JoystickInfo::Axis {};
+			continue;
+		}
+
+		loadAxisConfig(config->String(joystickName, axisName, ""), state.axes[i]);
+		Output("  - axis %ld: deadzone %.2f, curve: %.2f, half-axis mode: %b\n",
+			i, state.axes[i].deadzone, state.axes[i].curve, state.axes[i].zeroToOne);
+	}
+	return state;
+}
+
+void Input::SaveJoystickConfig(uint32_t joystick, IniConfig *config)
+{
+	if (joystick > GetJoysticks().size())
+		return;
+
+	JoystickInfo &state = GetJoysticks()[joystick];
+
+	std::array<char, 33> joystickGUIDName;
+	SDL_JoystickGetGUIDString(state.guid, joystickGUIDName.data(), joystickGUIDName.size());
+
+	std::string joystickName = "Joystick." + std::string(joystickGUIDName.data());
+	config->SetString(joystickName, "Name", state.name);
+
+	for (size_t i = 0; i < state.axes.size(); i++) {
+		std::string axisName = "Axis" + std::to_string(i);
+		config->SetString(joystickName, axisName, saveAxisConfig(state.axes[i]));
+	}
+}
+
+void Input::AddJoystickID(SDL_JoystickID sdl_id, uint32_t internal_id)
+{
+	assert(sdl_id < 1000 && "SDL IDs seem to be big enough to use vector as map");
+	assert(sdl_id >= 0 && "attempt to add absent ID");
+	if (m_joyIDs.size() <= static_cast<unsigned>(sdl_id))
+		m_joyIDs.resize(sdl_id + 1);
+	m_joyIDs[sdl_id] = internal_id;
+}
+
 void Input::InitJoysticks(IniConfig *config)
 {
 	PROFILE_SCOPED()
@@ -119,48 +188,47 @@ void Input::InitJoysticks(IniConfig *config)
 	Output("Initializing joystick subsystem.\n");
 
 	for (int n = 0; n < joy_count; n++) {
-		JoystickInfo state;
 
-		state.joystick = SDL_JoystickOpen(n);
-		if (!state.joystick) {
+		SDL_Joystick *joystick = SDL_JoystickOpen(n);
+		if (!joystick) {
 			Warning("SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
 			continue;
 		}
 
-		state.name = SDL_JoystickName(state.joystick);
-		state.guid = SDL_JoystickGetGUID(state.joystick);
-		state.axes.resize(SDL_JoystickNumAxes(state.joystick));
-		state.buttons.resize(SDL_JoystickNumButtons(state.joystick));
-		state.hats.resize(SDL_JoystickNumHats(state.joystick));
+		JoystickInfo state = loadJoystick(joystick, config);
 
-		std::array<char, 33> joystickGUIDName;
-		SDL_JoystickGetGUIDString(state.guid, joystickGUIDName.data(), joystickGUIDName.size());
-		Output("Found joystick '%s' (GUID: %s)\n", SDL_JoystickName(state.joystick), joystickGUIDName.data());
-		Output("  - %ld axes, %ld buttons, %ld hats\n", state.axes.size(), state.buttons.size(), state.hats.size());
+		SDL_JoystickID instance_id = SDL_JoystickInstanceID(state.joystick);
+		AddJoystickID(instance_id, m_joysticks.size());
+		m_joysticks.push_back(state);
+	}
 
-		std::string joystickName = "Joystick." + std::string(joystickGUIDName.data());
-		config->SetString(joystickName, "Name", state.name);
-
-		for (size_t i = 0; i < state.axes.size(); i++) {
-			std::string axisName = "Axis" + std::to_string(i);
-			if (!config->HasEntry(joystickName, axisName)) {
-				config->SetString(joystickName, axisName, saveAxisConfig(state.axes[i]));
-				continue;
-			}
-
-			loadAxisConfig(config->String(joystickName, axisName, ""), state.axes[i]);
-			Output("  - axis %ld: deadzone %.2f, curve: %.2f, half-axis mode: %b\n",
-				i, state.axes[i].deadzone, state.axes[i].curve, state.axes[i].zeroToOne);
-		}
-
-		SDL_JoystickID joyID = SDL_JoystickInstanceID(state.joystick);
-		m_joysticks[joyID] = state;
+	for (size_t joystick = 0; joystick < m_joysticks.size(); joystick++) {
+		SaveJoystickConfig(joystick, config);
 	}
 
 	config->Save();
+
+	// now let's look for joysticks that are in the config, but not connected
+	for (auto &section : config->GetSections()) {
+		if (section.first.find("Joystick.") != 0) continue;
+		auto guid = section.first.substr(9);
+		if (JoystickFromGUIDString(guid.c_str()) >= 0) continue; // already connected
+		// create unconnected joystick
+		JoystickInfo state;
+		state.joystick = nullptr;
+		state.name = section.second["Name"];
+		state.guid = SDL_JoystickGetGUIDFromString(guid.c_str());
+		state.axes.resize(section.second.size());
+		for (auto &param : section.second) {
+			if (param.first.find("Axis") != 0) continue;
+			int i = std::stoi(param.first.substr(4));
+			loadAxisConfig(param.second, state.axes[i]);
+		}
+		m_joysticks.push_back(state);
+	}
 }
 
-std::map<SDL_JoystickID, JoystickInfo> &Input::GetJoysticks()
+std::vector<JoystickInfo> &Input::GetJoysticks()
 {
 	return m_joysticks;
 }
@@ -193,14 +261,12 @@ void Manager::InitGame()
 	//reset input states
 	keyState.clear();
 	keyModState = 0;
-	mouseButton.fill(0);
-	mouseMotion.fill(0);
+	ClearMouse();
 
 	// Force a rebuild of key chords and modifier state
 	m_frameListChanged = true;
 
-	for (auto &pair : Input::GetJoysticks()) {
-		JoystickInfo &state = pair.second;
+	for (auto &state : Input::GetJoysticks()) {
 		std::fill(state.buttons.begin(), state.buttons.end(), false);
 		std::fill(state.hats.begin(), state.hats.end(), 0);
 		for (auto &ax : state.axes) {
@@ -434,6 +500,11 @@ void Manager::SetMouseYInvert(bool state)
 	}
 }
 
+void Manager::GetMousePosition(int position[2])
+{
+	SDL_GetMouseState(&position[0], &position[1]);
+}
+
 /*
 
 	FRAME AND EVENT HANDLING
@@ -444,6 +515,14 @@ void Manager::NewFrame()
 {
 	mouseMotion.fill(0);
 	mouseWheel = 0;
+
+	for (char &m : mouseButton) {
+		if (m == 1) // if we were just pressed last frame, migrate to held state
+			m = 2;
+		if (m == 4) // if we were just released last frame, migrate to empty state
+			m = 0;
+	}
+
 	for (auto &k : keyState) {
 		auto &val = keyState[k.first];
 		switch (k.second) {
@@ -525,6 +604,8 @@ void Manager::RebuildInputFrames()
 		if (chord->modifier2.Enabled())
 			m_modifiers.emplace(chord->modifier2, GetBindingState(chord->modifier2));
 	}
+
+	m_frameListChanged = false;
 }
 
 static int8_t keys_in_chord(InputBindings::KeyChord *chord)
@@ -535,7 +616,7 @@ static int8_t keys_in_chord(InputBindings::KeyChord *chord)
 static float applyDeadzoneAndCurve(const JoystickInfo::Axis &axis, float value)
 {
 	float absVal = std::fabs(value);
-	float sign = value < 0.0 ? 1.0 : -1.0;
+	float sign = value < 0.0 ? -1.0 : 1.0;
 	if (absVal < axis.deadzone) return 0.0f;
 	// renormalize value to 0..1 after deadzone
 	absVal = (absVal - axis.deadzone) * (1.0 / (1.0 - axis.deadzone));
@@ -568,7 +649,7 @@ void Manager::HandleSDLEvent(SDL_Event &event)
 		break;
 	case SDL_MOUSEBUTTONUP:
 		if (event.button.button < mouseButton.size()) {
-			mouseButton[event.button.button] = 0;
+			mouseButton[event.button.button] = 4;
 			onMouseButtonUp.emit(event.button.button,
 				event.button.x, event.button.y);
 		}
@@ -582,26 +663,57 @@ void Manager::HandleSDLEvent(SDL_Event &event)
 		mouseMotion[1] += event.motion.yrel;
 		break;
 	case SDL_JOYAXISMOTION: {
-		if (!GetJoysticks()[event.jaxis.which].joystick)
+		if (!GetJoysticks()[Input::JoystickFromID(event.jaxis.which)].joystick)
 			break;
-		auto &axis = GetJoysticks()[event.jaxis.which].axes[event.jaxis.axis];
+		auto &axis = GetJoysticks()[Input::JoystickFromID(event.jaxis.which)].axes[event.jaxis.axis];
+		float value = (event.jaxis.value == -32768 ? -1.f : event.jaxis.value / 32767.f);
+
 		if (axis.zeroToOne)
-			// assume -32768 == 0.0 in half-axis mode (this is true for most controllers)
-			axis.value = applyDeadzoneAndCurve(axis, (event.jaxis.value + 32768) / 65535.f);
+			axis.value = applyDeadzoneAndCurve(axis, std::abs((value + 1.0f) * 0.5f));
 		else
-			axis.value = applyDeadzoneAndCurve(axis, (event.jaxis.value == -32768 ? -1.f : event.jaxis.value / 32767.f));
+			// by convention, positive values are mapped to left/down, negative values right/up; so we flip them here
+			axis.value = applyDeadzoneAndCurve(axis, -value); // flip direction of physical axes from -left +right
 	} break;
 	case SDL_JOYBUTTONUP:
 	case SDL_JOYBUTTONDOWN:
-		if (!GetJoysticks()[event.jaxis.which].joystick)
+		if (!GetJoysticks()[Input::JoystickFromID(event.jaxis.which)].joystick)
 			break;
-		GetJoysticks()[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
+		GetJoysticks()[Input::JoystickFromID(event.jbutton.which)].buttons[event.jbutton.button] = event.jbutton.state != 0;
 		break;
 	case SDL_JOYHATMOTION:
-		if (!GetJoysticks()[event.jaxis.which].joystick)
+		if (!GetJoysticks()[Input::JoystickFromID(event.jaxis.which)].joystick)
 			break;
-		GetJoysticks()[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
+		GetJoysticks()[Input::JoystickFromID(event.jhat.which)].hats[event.jhat.hat] = event.jhat.value;
 		break;
+	case SDL_JOYDEVICEADDED: {
+		int device_id = event.jdevice.which;
+		SDL_Joystick *newJoystick = SDL_JoystickOpen(device_id);
+		if (!newJoystick) {
+			Warning("SDL_JoystickOpen(%i): %s\n", device_id, SDL_GetError());
+			break;
+		}
+		int id = JoystickFromGUID(SDL_JoystickGetGUID(newJoystick));
+		if (id >= 0) {
+			// this joystick is in the list, but not connected
+			JoystickInfo &state = GetJoysticks()[id];
+			state.joystick = newJoystick;
+			state.buttons.resize(SDL_JoystickNumButtons(state.joystick));
+			state.hats.resize(SDL_JoystickNumHats(state.joystick));
+			int instance_id = SDL_JoystickInstanceID(state.joystick);
+			AddJoystickID(instance_id, id);
+		} else {
+			// brand new joystick, never plugged in
+			JoystickInfo state = loadJoystick(newJoystick, Pi::config);
+			int instance_id = SDL_JoystickInstanceID(state.joystick);
+			AddJoystickID(instance_id, m_joysticks.size());
+			m_joysticks.push_back(state);
+		}
+		break;
+	}
+	case SDL_JOYDEVICEREMOVED: {
+		int id = JoystickFromID(event.jdevice.which);
+		GetJoysticks()[id].joystick = nullptr;
+	} break;
 	default:
 		// Don't process non-input events any further.
 		return;
@@ -699,6 +811,7 @@ void Manager::DispatchEvents()
 
 		value += axis->positive.IsActive();
 		value -= axis->negative.IsActive();
+		value += axis->m_manualValue;
 
 		value = Clamp(value, -1.0f, 1.0f);
 		if (value != 0.0 || axis->m_value != 0.0) {
@@ -723,4 +836,10 @@ void Manager::SetCapturingMouse(bool grabbed)
 	SDL_SetWindowGrab(m_window, SDL_bool(grabbed));
 	SDL_SetRelativeMouseMode(SDL_bool(grabbed));
 	m_capturingMouse = grabbed;
+}
+
+void Manager::ClearMouse()
+{
+	mouseButton.fill(0);
+	mouseMotion.fill(0);
 }

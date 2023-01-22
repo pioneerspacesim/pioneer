@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "DONERA!"
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+    "message": "Kyrkan av det flygande spaghettimonstret behöver DINA pengar för att sprida guds ord."
   },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "DONERA"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "De fria själarnas beskyddare ber ödmjukast om dina allmosor för att stötta våra kloster."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "FEELING GENEROUS?"
+    "message": "KÄNNER DU DIG GIVMILD?"
   },
   "FLAVOUR_2_DESC": {
     "description": "",
-    "message": "War Orphan's Support needs your help to keep up its essential work."
+    "message": "War Orphans Support behöver din hjälp för att fortsätta sitt avgörande arbete."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUTE"
+    "message": "BIDRA"
   },
   "FLAVOUR_3_DESC": {
     "description": "",
-    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "Galaxens Vänners Kampanj \"Förbjud Militära Motorer\" behöver dina pengar."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
@@ -49,11 +49,11 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "DONERA!"
   },
   "FLAVOUR_4_DESC": {
     "description": "",
-    "message": "Save our species. Stop the carnage of newly settled worlds."
+    "message": "Rädda vår art. Stoppa blodbadet i nyligen etablerade världar."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
@@ -61,15 +61,63 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "STÖD FRIHET!"
   },
   "FLAVOUR_5_DESC": {
     "description": "",
-    "message": "Stop the great injustice of proprietary software controlling your ship."
+    "message": "Stoppa den stora orättvisan med proprietär programvara som styr ditt skepp."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Befria ditt skepp! Var god välj en summa att donera. Hacka lugnt."
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "VETERANENS DAG!"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "Stöd veteranerna i {MILITARY}."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "{MILITARY}. Du kan alltid räkna med dom.\nKan dom räkna med dig?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "HAR DOM DITT STÖD?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "Stöd veteranerna i {POLICE}."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "De modiga män och kvinnor i {POLICE} som har vigt sina liv åt att hålla {SYSTEM} säkert, behöver ditt stöd!"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "STÖD VÅRA VETERANER!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Stöd veteranerna från våra väpnade styrkor."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "De modiga soldaterna i {MILITARY} trotsar farorna för din skull!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "KAMP MOT FATTIGDOM!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Stöd kampen mot fattigdom i {FACTION}."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "Vi ger familjer i {FACTION} möjlighet att skapa en bättre framtid för alla."
   },
   "SALES_PITCH": {
     "description": "",

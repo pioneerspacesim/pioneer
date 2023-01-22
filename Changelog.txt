@@ -1,3 +1,140 @@
+January 2023
+  * New Features
+    * New ship: Coronatrix Courier (remodel and conversion of the Amphiesma) (#5462)
+    * New mission type: perform orbital or surface scans of a body for large rewards (#5433)
+    * Improved missile targeting to make them significantly more dangerous (#5472)
+    * Player starts with a Coronatrix at sol (#5462)
+    * Increased equipment capacity and tank size of Sinonatrix (#5472)
+  
+  * Internal Changes
+    * Improved code for Advice module / smaller saves (#5467)
+    * Fix URLs changed, to forum (#5464)
+    * Introduces a new Input.GetMouseCaptured() method (#5468)
+
+  * Fixes
+    * Fix error in main-menu tooltips (#5468)
+    * Fix error with system overview open in hyperspace (#5468)
+    * Fix typographical issues in planet description (#5469)
+    * Fix crash from main menu (#5457)
+    * Fix Lua UI error on hyperjump (#5463)
+
+December 2022
+  * New Features
+    * Implement select target and cycle hostile contact buttons (#5429)
+    * Nav target icons indicate whether the target is on the other side of a body (#5438)
+    * Display station tech-level in System Map info panel (#5439)
+    * Added more varied and interesting donation mission titles (#5445)
+    * Anti-aliased rendering of ship ID labels (#5459)
+
+  * Internal Changes
+    * Load mods from unpacked directories as well as zip files (#5432)
+    * Improve LuaTimer per-frame performance (#5453)
+    * Allow model files to reference textures in other folders (#5459)
+    * Add a model hierarchy view to the ModelViewer (#5459)
+    * Add a hyperspace-to-system button to the debug menu (#5455)
+    * Add additional attributes to LuaStarSystem (#5455)
+    * Improve lua autoload utilities (#5454)
+    * Provide "equipment item card" as an independent UI widget (#5454)
+
+  * Fixes
+    * Fix shield recharging being disabled after selling shield booster (#5434)
+    * Fix ship passenger cabin capacity not being shown when buying a ship (#5439)
+    * Fix SolFed homeworld was pointing at Shanghai instead of Mars (#5439)
+    * Fix auto-route button routing to the wrong body in the target system (#5435)
+    * Fix hostile ships running away from the player and never engaging (#5436)
+    * Fix illegal scoop missions didn't spawn saleable goods (#5446)
+    * Fix SAR missions generating invalid configurations (#5446)
+    * Fix SAR missions not giving the player enough time to reach the target (#5446)
+    * Fix high-priority messages not interrupting timewarp (#5446)
+    * Fix incorrect message when landing at ground stations (#5450)
+    * Fix an issue that duplicated BBS adverts when autosaving (#5456)
+    * Fix tradeships becoming unresponsive and filling all station pads (#5456)
+    * Fix several crashes when changing player / model debug flags (#5459)
+    * Fix ModelViewer camera was extremely zoomed out when opening small models (#5459)
+    * Fix UI error when pumping fuel in hyperspace (#5455)
+    * Fix pigui tooltips having extremely inconsistent font sizes (#5454)
+
+November 2022
+  * New Features
+    * Improved lead calculation for pulse and beam weapons (#5417)
+    * New sidebars and cargo display in the Flight UI (#5431)
+    * Massively expanded and improved spaceport city generation (#5430)
+
+  * Internal Changes
+    * Cargo is now handled completely separately from ship equipment (#5389)
+    * Fuel / cargo scooping is now moddable by Lua (#5389)
+    * Cargo life support expiration is now handled in Lua (#5389)
+    * Add teleport-to-station button to debug menu (#5430)
+
+  * Fixes
+    * Fix undefined behavior when clearing joystick axis bindings (#5415)
+    * Fix SAR allowing ships without suitable passenger capacity (#5413)
+    * Fix potential to buy more than the available amount of a commodity (#5413)
+    * Fix issues where cargo types could have different values across save/load (#5389)
+    * Fix joystick axis reporting invalid joystick value when cleared (#5415)
+    * Fix crash when opening System View in hyperspace (#5428)
+    * Fix MusicPlayer crashing when music ends on sector view while in hyperspace (#5425)
+    * Fix cargo life support not being correctly handled (#5419)
+    * Fix catastrophic rotation after undocking from space station (#5422)
+    * Fix ship having no gun cooling after selling laser cooler (#5426)
+
+October 2022
+  * Fixes
+    * Fix broken Scoop mission, due to onCargoDestroyed event not triggered (#5407)
+    * Fix animation import issues with assimp >= 5.1.0 (#5412)
+
+September 2022
+  * The busy nature of life consumes all
+
+August 2022
+  * Contributors all working on unmerged code
+
+July 2022
+  * Internal Changes
+    * Improve error reporting and debug printing utilities (#5391)
+
+  * Fixes
+    * Search and Rescue: fix refueling mission (#5383)
+    * Fix randomly-generated background stars being invisible (#5390)
+
+June 2022
+  * New Features
+    * Add custom two-seater cockpit for the Xylophis (#5373)
+    * New follow-target and follow-orient flight control modes (#5371)
+    * Add player-controllable flight speed limiter (#5371)
+    * New radial menu for autopilot hold-orientation functions (#5371)
+
+  * Internal Changes
+    * Reduce ship stress creaking sound occurance (#5377)
+    * Refactor input binding widget to allow binding key chords (#5371)
+    * Add axis input to select radial menu options with gamepad (#5371)
+    * Add Chrome-Tracing output support to profiler (#5380)
+    * Optimize starfield filling during new-game startup (#5381)
+    * Rasterize SVG images on a background thread (#5381)
+    * Add BodyComponent and LuaComponent systems (#5384)
+    * Add better grid rendering for ModelViewer (#5386)
+
+  * Fixes
+    * Fix docked music not playing (#5378)
+    * Fix PropertyMap use-after-free with orphaned LuaObjects (#5382)
+
+May 2022
+  * New Features
+    * New, more detailed default cockpit model (#5368)
+    * Add bespoke cockpit for the Sinonatrix (#5370)
+    * New paintshop customization interface for stations (#5342)
+    * Metal creaking sound feedback under high acceleration (#5335)
+    * Display thruster plumes in cockpit view for enabled ships (#5370)
+
+  * Internal Changes
+    * Add riscv compilation support (#5345)
+    * [Loader] Add assimp version information and error string when loading a model fails (#5340)
+    * Rewrite PropertyMap implementation to use C++-side hashtable (#5300)
+
+  * Fixes
+    * [FlightLog] Use Game.GetStartTime() instead of the Jan 1 3200-based Game.time (#5263)
+    * Fix 20MB of memory leaks (#5372)
+
 April 2022
   * New Features
     * Adding the new and fixed patterns and texture to ships (#5347)

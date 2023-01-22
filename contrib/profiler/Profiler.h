@@ -8,7 +8,7 @@
 #define __PROFILER_FULL_TYPE_EXPANSION__
 
 //#define USE_CHRONO
-#if !defined(USE_CHRONO) && (defined(__arm__) || defined(__aarch64__) || defined(__PPC64__) || defined(_M_AMD64) || defined(_WIN64) || defined(_M_X64))
+#if !defined(USE_CHRONO) && (defined(__arm__) || defined(__aarch64__) || defined(__PPC64__) || defined(_M_AMD64) || defined(_WIN64) || defined(_M_X64) || defined(__riscv))
 // this isn't optional for __arm__ or x64 builds
 #define USE_CHRONO
 #endif
@@ -252,6 +252,7 @@ namespace Profiler {
 	void detect( int argc, char **argv );
 	//void detect( const char *commandLine );
 	void dump(const char *dir = 0);
+	void dumptrace(const char *dir = 0);
 	void dumpzones(const char *dir = 0);
 	void dumphtml(const char *dir = 0);
 	void fastcall enter( const char *name );

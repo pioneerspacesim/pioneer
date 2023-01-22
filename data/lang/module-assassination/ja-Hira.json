@@ -1,0 +1,354 @@
+{
+  "ASSASSINATION": {
+    "description": "",
+    "message": "Assassination"
+  },
+  "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "先ほどの内容をもう一度教えてくれませんか?"
+  },
+  "DENY_0": {
+    "description": "",
+    "message": "申し訳ないが、あなたは信頼できない。"
+  },
+  "DENY_1": {
+    "description": "",
+    "message": "ふさわしい能力を身につけたら戻ってきてください。"
+  },
+  "DENY_2": {
+    "description": "",
+    "message": "私が探しているのはあなたではありません。"
+  },
+  "DENY_3": {
+    "description": "",
+    "message": "あなたは私が求めていることをできる人のようには見えない。"
+  },
+  "DENY_4": {
+    "description": "",
+    "message": "あなたは明らかに、この仕事と釣り合う人ではない。"
+  },
+  "DENY_5": {
+    "description": "",
+    "message": "あなたはこの重要な契約を扱うには未熟すぎます。"
+  },
+  "DENY_6": {
+    "description": "",
+    "message": "私はあなたのことを耳にしたことがありません。私はこの契約に経験者を必要としています。"
+  },
+  "DENY_7": {
+    "description": "",
+    "message": "私はあなたのような未熟な人にこの契約を任せることによって、リスクを冒すことはできない。"
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "距離:"
+  },
+  "EXCELLENT": {
+    "description": "",
+    "message": "素晴らしい。"
+  },
+  "FLAVOUR_0_ADTEXT": {
+    "description": "",
+    "message": "Wanted: {system} 星系からの {target} の排除"
+  },
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "REMOVAL WANTED"
+  },
+  "FLAVOUR_0_FAILUREMSG": {
+    "description": "",
+    "message": "私は {target} が依然として生きていることを知って、とても不快に感じます。言うまでもなく、あなたは支払いを受けることはできません。"
+  },
+  "FLAVOUR_0_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} の排除はあなたによって行われませんでした。よって、今回は支払い無し。"
+  },
+  "FLAVOUR_0_INTROTEXT": {
+    "description": "",
+    "message": "やぁ、私は {name}。{target} を排除するために {cash} 支払う用意がある。"
+  },
+  "FLAVOUR_0_SUCCESSMSG": {
+    "description": "",
+    "message": "{target} の長期休暇のニュースは有難く受け取った。見事だった。全額の支払いを開始した。"
+  },
+  "FLAVOUR_1_ADTEXT": {
+    "description": "",
+    "message": "WANTED: {system} 星系で {target} を殺害する者"
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "TARGET ELIMINATION"
+  },
+  "FLAVOUR_1_FAILUREMSG": {
+    "description": "",
+    "message": "{target} は健康だと聞きました。これは私を苦しめます。"
+  },
+  "FLAVOUR_1_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} の死因はあなたが原因ではありません。そのため、私に支払いを要求しないでください。"
+  },
+  "FLAVOUR_1_INTROTEXT": {
+    "description": "",
+    "message": "私は {target} を写真から取り除く必要があります。これを実行した人に {cash} 支払うつもりです。"
+  },
+  "FLAVOUR_1_SUCCESSMSG": {
+    "description": "",
+    "message": "{target} の死去を聞いてとても悲しいです。あなたに全額支払いました。"
+  },
+  "FLAVOUR_2_ADTEXT": {
+    "description": "",
+    "message": "{target} は {system} 星系で不必要になりました。除去専門家が必要です。"
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "REMOVAL OPERATION"
+  },
+  "FLAVOUR_2_FAILUREMSG": {
+    "description": "",
+    "message": "{target} が未だに健在であることはとても残念だ。契約を完了しなかったため支払いはありません。"
+  },
+  "FLAVOUR_2_FAILUREMSG2": {
+    "description": "",
+    "message": "契約は他の誰かによって完了された。次はより早く!"
+  },
+  "FLAVOUR_2_INTROTEXT": {
+    "description": "",
+    "message": "私は {name} だ。私は {target} を終わらせるために {cash} 支払うつもりです。"
+  },
+  "FLAVOUR_2_SUCCESSMSG": {
+    "description": "",
+    "message": "あなたは重要な契約を完了した。あなたに全額支払いました。"
+  },
+  "FLAVOUR_3_ADTEXT": {
+    "description": "",
+    "message": "{target} を排除する契約暗殺人"
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "TERMINATION"
+  },
+  "FLAVOUR_3_FAILUREMSG": {
+    "description": "",
+    "message": "{target} を廃除しない事に対してあなたは支払いをすることになるだろう!"
+  },
+  "FLAVOUR_3_FAILUREMSG2": {
+    "description": "",
+    "message": "あなたは他の誰かによって行われた仕事に対して支払いを求めるのか? 消えろ。"
+  },
+  "FLAVOUR_3_INTROTEXT": {
+    "description": "",
+    "message": "{target} を宇宙塵に縮める必要がある。私はこれを実行した者に {cash} を授与するつもりだ。"
+  },
+  "FLAVOUR_3_SUCCESSMSG": {
+    "description": "",
+    "message": "{target} は死にました。あなたへの授与はここに。"
+  },
+  "FLAVOUR_4_ADTEXT": {
+    "description": "",
+    "message": "{target}の致死的引退を保証する、用心深い実行者が必要。"
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "RETIREMENT"
+  },
+  "FLAVOUR_4_FAILUREMSG": {
+    "description": "",
+    "message": "{target} はまだ息をしている。そして、あなたに金は渡さない。"
+  },
+  "FLAVOUR_4_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} の引退は他の誰かによって行われました。"
+  },
+  "FLAVOUR_4_INTROTEXT": {
+    "description": "",
+    "message": "{cash} で、私達は {target} に永久に仕事をやめるよう促したい。"
+  },
+  "FLAVOUR_4_SUCCESSMSG": {
+    "description": "",
+    "message": "{target} の引退のニュースを喜んで手に入れました。あなたのお金はここにあります。"
+  },
+  "FLAVOUR_5_ADTEXT": {
+    "description": "",
+    "message": "一部の崇拝者は {target} の死を望む。資格ある終了専門家の応募はこちら"
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "BIOGRAPHICAL"
+  },
+  "FLAVOUR_5_FAILUREMSG": {
+    "description": "",
+    "message": "私達は {target} がまだ活動していることを知りました。これにはとても悲しんでいる。"
+  },
+  "FLAVOUR_5_FAILUREMSG2": {
+    "description": "",
+    "message": "{target} は他の誰かによって無力化されました。"
+  },
+  "FLAVOUR_5_INTROTEXT": {
+    "description": "",
+    "message": "私達は {cash} で {target} が {system} 星系で適切に生涯を終えることを望みます。"
+  },
+  "FLAVOUR_5_SUCCESSMSG": {
+    "description": "",
+    "message": "{target} の生涯終了の一報を幸せに受け取っている。ここにあなたの {cash} がある。"
+  },
+  "HOW_SOON_MUST_IT_BE_DONE": {
+    "description": "",
+    "message": "いつまでに終えればよいか?"
+  },
+  "HOW_WILL_I_BE_PAID": {
+    "description": "",
+    "message": "どのように支払われるか?"
+  },
+  "IT_MUST_BE_DONE_AFTER": {
+    "description": "",
+    "message": "{target} が {spaceport} を出発した後にこれを実行する必要がある。この機会を逃さないように。"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Ok, 同意した。"
+  },
+  "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID": {
+    "description": "",
+    "message": "契約を完了し、ここに戻って来た時に支払われる。"
+  },
+  "SET_AS_TARGET": {
+    "description": "",
+    "message": "ナビゲーションターゲットとして設定"
+  },
+  "SET_RETURN_ROUTE": {
+    "description": "",
+    "message": "帰路を設定"
+  },
+  "SHIP": {
+    "description": "",
+    "message": "Ship:"
+  },
+  "SHIP_ID": {
+    "description": "",
+    "message": "Ship ID:"
+  },
+  "SPACEPORT": {
+    "description": "",
+    "message": "スペースポート:"
+  },
+  "SYSTEM": {
+    "description": "",
+    "message": "星系:"
+  },
+  "TARGET_NAME": {
+    "description": "",
+    "message": "ターゲット:"
+  },
+  "TARGET_WILL_BE_LEAVING_SPACEPORT_AT": {
+    "description": "",
+    "message": "ターゲットはこの時刻にスペースポートを出発するだろう:"
+  },
+  "TITLE_0": {
+    "description": "",
+    "message": "Admiral"
+  },
+  "TITLE_1": {
+    "description": "",
+    "message": "Ambassador"
+  },
+  "TITLE_10": {
+    "description": "",
+    "message": "Ensign"
+  },
+  "TITLE_11": {
+    "description": "",
+    "message": "General"
+  },
+  "TITLE_12": {
+    "description": "",
+    "message": "Judge"
+  },
+  "TITLE_13": {
+    "description": "",
+    "message": "Lawyer"
+  },
+  "TITLE_14": {
+    "description": "",
+    "message": "Lieutenant"
+  },
+  "TITLE_15": {
+    "description": "",
+    "message": "Marshal"
+  },
+  "TITLE_16": {
+    "description": "",
+    "message": "Merchant"
+  },
+  "TITLE_17": {
+    "description": "",
+    "message": "Officer"
+  },
+  "TITLE_18": {
+    "description": "",
+    "message": "Private"
+  },
+  "TITLE_19": {
+    "description": "",
+    "message": "Professor"
+  },
+  "TITLE_2": {
+    "description": "",
+    "message": "Brigadier"
+  },
+  "TITLE_20": {
+    "description": "",
+    "message": "Prosecutor"
+  },
+  "TITLE_21": {
+    "description": "",
+    "message": "Provost"
+  },
+  "TITLE_22": {
+    "description": "",
+    "message": "Seaman"
+  },
+  "TITLE_23": {
+    "description": "",
+    "message": "Senator"
+  },
+  "TITLE_24": {
+    "description": "",
+    "message": "Sergeant"
+  },
+  "TITLE_3": {
+    "description": "",
+    "message": "Cadet"
+  },
+  "TITLE_4": {
+    "description": "",
+    "message": "Captain"
+  },
+  "TITLE_5": {
+    "description": "",
+    "message": "Cardinal"
+  },
+  "TITLE_6": {
+    "description": "",
+    "message": "Colonel"
+  },
+  "TITLE_7": {
+    "description": "",
+    "message": "Commandant"
+  },
+  "TITLE_8": {
+    "description": "",
+    "message": "Commodore"
+  },
+  "TITLE_9": {
+    "description": "",
+    "message": "Corporal"
+  },
+  "WHERE_CAN_I_FIND_X": {
+    "description": "",
+    "message": "どこで {target} を見つけられるか?"
+  },
+  "X_WILL_BE_LEAVING": {
+    "description": "",
+    "message": "{target} は {system} 星系 ({sectorX}, {sectorY}, {sectorZ}), 距離 {dist} ly, にある {spaceport} を {date} に出発するだろう。船は {shipname} で登録 id は {shipregid}。"
+  }
+}

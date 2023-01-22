@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUACONSOLE_H
@@ -7,7 +7,7 @@
 #include "Input.h"
 #include "LuaManager.h"
 #include "RefCounted.h"
-#include "sigc++/connection.h"
+#include "ConnectionTicket.h"
 #include <deque>
 
 struct ImGuiInputTextCallbackData;
@@ -15,7 +15,6 @@ struct ImGuiInputTextCallbackData;
 class LuaConsole {
 public:
 	LuaConsole();
-	~LuaConsole();
 
 	void SetupBindings();
 	void Toggle();
@@ -25,6 +24,7 @@ public:
 
 #ifdef REMOTE_LUA_REPL
 	void OpenTCPDebugConnection(int portnumber);
+	void CloseTCPDebugConnection();
 	void HandleTCPDebugConnections();
 #endif
 
@@ -50,7 +50,7 @@ private:
 	bool m_active;
 	Input::InputFrame m_inputFrame;
 	InputBindings::Action *toggleLuaConsole;
-	sigc::connection m_logCallbackConn;
+	ConnectionTicket m_logCallbackConn;
 
 	// Output log
 	std::vector<std::string> m_outputLines;

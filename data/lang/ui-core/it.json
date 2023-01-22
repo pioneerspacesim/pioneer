@@ -111,6 +111,10 @@
     "description": "",
     "message": "Carico"
   },
+  "CARGO_CAPACITY": {
+    "description": "Label to show a ship's total cargo space.",
+    "message": "Capacità di carico"
+  },
   "CARGO_SPACE": {
     "description": "",
     "message": "Capacità di carico"
@@ -147,6 +151,14 @@
     "description": "Key binding option",
     "message": "Cambia associazioni"
   },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+    "message": "Cambia il colore"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+    "message": "Cambia il motivo"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Capo Meccanico"
@@ -178,6 +190,10 @@
   "CLOSE": {
     "description": "",
     "message": "Chiudi"
+  },
+  "COLOR": {
+    "description": "",
+    "message": "Colore"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -727,6 +743,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Decollo"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "Modo crociera avanti"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Modo crociera su"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Disabilita autopilota"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Disabilita modo crociera"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Disabilita modo orientamento fisso"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Disabilita modo inseguimento"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Equipaggiamento"
@@ -855,6 +895,10 @@
     "description": "Cargo Mass",
     "message": "Massa del Carico"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Velocità di crociera"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "Bersaglio selezionato"
@@ -906,6 +950,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "La durata fino a metà della manovra orbitale"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: Segui orientamento"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: Segui orientamento, non disponibile."
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Segui orientamento non disponibile - troppo lontano."
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: Segui posizione"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: Segui posizione non disponibile."
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Segui posizione non disponibile - troppo lontano."
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Segui obiettivo"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -990,6 +1062,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Mostra l'obiettivo di navigazione"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Limite velocità attivo"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1118,6 +1194,10 @@
   "JETTISON": {
     "description": "",
     "message": "Espelli"
+  },
+  "JETTISON_MODE": {
+    "description": "",
+    "message": "Modalità espulsione"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1415,6 +1495,10 @@
     "description": "",
     "message": "Negoziare"
   },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+    "message": "La nuova livrea è stata applicata alla tua nave."
+  },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
     "message": "Successivo"
@@ -1454,6 +1538,10 @@
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
     "message": "{equipment} non è supportato da questo modello di astronave."
+  },
+  "NO_CARGO": {
+    "description": "Message displayed when the player has no cargo in their hold.",
+    "message": "STIVA VUOTA"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
@@ -1555,6 +1643,42 @@
     "description": "Player owing money to crew members",
     "message": "Dovuto"
   },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+    "message": "Carrozziere"
+  },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+    "message": "In questo porto spaziale non è disponibile un carrozziere."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Benvenuto! Renderemo la sua nave un capolavoro!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Salve! Sta cercando un cambio di stile?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Non renderemo la sua nave più veloce, ma volerà con gran stile!"
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Benvenuto, viaggiatore. Prenda il tempo necessario per far fluire la sua creatività."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Essere i più belli della galassia, non è mai stato così facile!"
+  },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Capienza passeggeri"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+    "message": "Motivo"
+  },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
     "message": "Paga"
@@ -1595,6 +1719,10 @@
     "description": "",
     "message": "Texture pianeta"
   },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+    "message": "Disegni qua la sua nuova livrea:"
+  },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
     "message": "Oops, qualcosa è andata storta! Ti preghiamo di fornirci i passi necessari per riprodurre questo errore, il log di output ed il tuo file di salvataggio sul issue tracker di Pioneer su Girhub.\nIl log di output si trova qui: {path}/output.txt"
@@ -1634,6 +1762,10 @@
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
     "message": "Scarica"
+  },
+  "PURCHASE_PAINTJOB": {
+    "description": "Paintshop button",
+    "message": "Chiedi una riverniciatura"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1718,6 +1850,10 @@
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
     "message": "Reimposta Orientamento e Zoom"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+    "message": "Reimposta Anteprima"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1815,6 +1951,18 @@
     "description": "",
     "message": "Imposta rotta di ritorno"
   },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Imposta al 45% del delta-v restante"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Imposta all'attuale velocità"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Azzera"
+  },
   "SHIP": {
     "description": "",
     "message": "Astronave"
@@ -1844,8 +1992,8 @@
     "message": "Mercato delle Astronavi"
   },
   "SHIP_REPAIRS": {
-    "description": "",
-    "message": "Riparazione Astronavi"
+    "description": "Station tab name",
+    "message": "Carrozziere di Astronavi"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -1955,6 +2103,10 @@
     "description": "Lobby screen shows the tech level of the station",
     "message": "Questa installazione detiene un'autorizzazione tecnologica di livello militare."
   },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Livello tecnologico"
+  },
   "TEXTURE_COMPRESSION": {
     "description": "",
     "message": "Questo libera più memoria per la scheda video, cosa che probabilmente vorrai, al costo di comprimerle all'avvio del gioco."
@@ -1978,6 +2130,10 @@
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Braccio dei 3-kpc"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+    "description": "Label for a button toggling the cargo display window.",
+    "message": "Vista Cargo"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
@@ -2043,6 +2199,10 @@
     "description": "For player reputation",
     "message": "Fidato"
   },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Spegni"
+  },
   "TYPE": {
     "description": "",
     "message": "Tipo"
@@ -2098,6 +2258,14 @@
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
     "message": "Risoluzioni più elevate possono mostrare più informazioni di piccole dimensioni e ridurre le prestazioni."
+  },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+    "message": "Visita la Carrozzeria"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+    "message": "Visita i servizi di riparazione"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

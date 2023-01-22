@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Body.h"
@@ -116,6 +116,90 @@ static int l_body_attr_path(lua_State *l)
 	LuaObject<SystemPath>::PushToLua(path);
 
 	return 1;
+}
+
+/*
+ * Function: GetComponent
+ *
+ * Returns a handle to the specified LuaComponent or C++ Component attached
+ * to the given body, if present. Will return nil if the specified component
+ * does not exist on this body.
+ *
+ * Availability:
+ *
+ *   June 2022
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_body_get_component(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	std::string componentName = luaL_checkstring(l, 2);
+
+	BodyComponentDB::PoolBase *pool = BodyComponentDB::GetComponentType(componentName);
+	if (pool && pool->luaInterface) {
+		pool->luaInterface->PushToLua(b);
+		return 1;
+	}
+
+	if (componentName == "__properties") {
+		lua_pushnil(l);
+		return 1;
+	}
+
+	lua_getuservalue(l, 1);
+	lua_pushvalue(l, 2);
+	lua_rawget(l, -2);
+
+	return 1;
+}
+
+/*
+ * Function: SetComponent
+ *
+ * Sets the given LuaComponent slot to a specific table value. Will error if
+ * the slot name is reserved by C++ components or if the caller is attempting
+ * to set the `__properties` reserved name.
+ *
+ * Parameters:
+ *
+ *   comp - a table object to be used as the component value or nil to remove
+ *          the component from the Body.
+ *
+ * Availability:
+ *
+ *   June 2022
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_body_set_component(lua_State *l)
+{
+	LuaObject<Body>::CheckFromLua(1);
+	std::string componentName = luaL_checkstring(l, 2);
+
+	BodyComponentDB::PoolBase *pool = BodyComponentDB::GetComponentType(componentName);
+	if (pool) {
+		return luaL_error(l, "Cannot set C++ body component '%s' to a lua value.");
+	}
+
+	if (componentName == "__properties") {
+		return luaL_error(l, "'__properties' is a reserved name and cannot be used as a component.");
+	}
+
+	int type = lua_type(l, 3);
+	if (type != LUA_TNIL && type != LUA_TTABLE) {
+		return luaL_error(l, "Cannot set body component '%s' to non-table value.", componentName.data());
+	}
+
+	lua_getuservalue(l, 1);
+	lua_replace(l, 1);
+	lua_rawset(l, -3);
+
+	return 0;
 }
 
 /*
@@ -729,6 +813,13 @@ static int l_body_set_velocity(lua_State *l)
 	return 0;
 }
 
+static int l_body_set_ang_velocity(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	b->SetAngVelocity(LuaPull<vector3d>(l, 2));
+	return 0;
+}
+
 template <>
 const char *LuaObject<Body>::s_type = "Body";
 
@@ -738,6 +829,8 @@ void LuaObject<Body>::RegisterClass()
 	const char *l_parent = "PropertiedObject";
 
 	static luaL_Reg l_methods[] = {
+		{ "GetComponent", l_body_get_component },
+		{ "SetComponent", l_body_set_component },
 		{ "IsDynamic", l_body_is_dynamic },
 		{ "DistanceTo", l_body_distance_to },
 		{ "GetGroundPosition", l_body_get_ground_position },
@@ -761,6 +854,7 @@ void LuaObject<Body>::RegisterClass()
 		{ "GetSystemBody", l_body_get_system_body },
 		{ "GetVelocity", l_body_get_velocity },
 		{ "SetVelocity", l_body_set_velocity },
+		{ "SetAngVelocity", l_body_set_ang_velocity },
 		{ 0, 0 }
 	};
 
@@ -775,9 +869,9 @@ void LuaObject<Body>::RegisterClass()
 	};
 
 	// const SerializerPair body_serializers(_body_serializer, _body_deserializer, _body_to_json, _body_from_json);
-	const SerializerPair body_serializers { pi_lua_body_serializer, pi_lua_body_deserializer };
+	const SerializerPair body_serializers{ pi_lua_body_serializer, pi_lua_body_deserializer };
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
+	LuaObjectBase::CreateClass(s_type, 0, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Body>::DynamicCastPromotionTest);
 	LuaObjectBase::RegisterSerializer(s_type, body_serializers);
 

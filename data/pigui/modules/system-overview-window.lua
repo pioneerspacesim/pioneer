@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -12,6 +12,7 @@ local getBodyIcon = require 'pigui.modules.flight-ui.body-icons'
 
 local colors = ui.theme.colors
 local icons = ui.theme.icons
+local styles = ui.theme.styles
 local Vector2 = _G.Vector2
 
 local style = ui.rescaleUI {
@@ -25,11 +26,10 @@ local style = ui.rescaleUI {
 -- and the system info view as a list of bodies in-system
 
 ---@class SystemOverviewWidget
-local SystemOverviewWidget = utils.inherits(nil, 'ui.SystemOverviewWidget')
+---@field New fun(): SystemOverviewWidget
+local SystemOverviewWidget = utils.class('ui.SystemOverviewWidget')
 
-function SystemOverviewWidget.New(args)
-	---@type SystemOverviewWidget
-	local self = {}
+function SystemOverviewWidget:Constructor()
 	self.shouldDisplayPlayerDistance = false
 	self.shouldSortByPlayerDistance = false
 	self.shouldShowStations = false
@@ -37,8 +37,8 @@ function SystemOverviewWidget.New(args)
 	self.focusSearchResults = false
 	self.visible = false
 	self.filterText = ""
-
-	return setmetatable(self, SystemOverviewWidget.meta)
+	self.size = Vector2(0, 0)
+	self.buttonSize = nil
 end
 
 local function sortByPlayerDistance(a,b)
@@ -67,8 +67,7 @@ end
 -- Returns a table of entries.
 -- Each entry will have { children_visible = true } if they are a parent of, or are a selected object
 -- Entries that are excluded by the current filter will have { visible = false }
----@return table @ SystemBody entry
----@return boolean @ whether this entry is part of the chain of selected objects
+---@return table @ information about a given SystemBody
 local function calculateEntry(systemBody, parent, selected, filter)
 	local result = nil
 	local isSelected = selected[systemBody] or (systemBody.body and selected[systemBody.body]) or false
@@ -177,33 +176,39 @@ function SystemOverviewWidget:showEntry(entry, indent, sortFunction)
 end
 
 function SystemOverviewWidget:drawControlButtons()
-	if ui.mainMenuButton(icons.moon, lui.TOGGLE_OVERVIEW_SHOW_MOONS, self.shouldShowMoons) then
+	local buttonSize = self.buttonSize or styles.MainButtonSize
+
+	if self.shouldDisplayPlayerDistance then
+		if ui.mainMenuButton(icons.distance, lui.TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE, self.shouldSortByPlayerDistance, buttonSize) then
+			self.shouldSortByPlayerDistance = not self.shouldSortByPlayerDistance
+		end
+		ui.sameLine()
+	end
+
+	if ui.mainMenuButton(icons.moon, lui.TOGGLE_OVERVIEW_SHOW_MOONS, self.shouldShowMoons, buttonSize) then
 		self.shouldShowMoons = not self.shouldShowMoons
 	end
 	ui.sameLine()
-	if ui.mainMenuButton(icons.filter_stations, lui.TOGGLE_OVERVIEW_SHOW_STATIONS, self.shouldShowStations) then
+	if ui.mainMenuButton(icons.filter_stations, lui.TOGGLE_OVERVIEW_SHOW_STATIONS, self.shouldShowStations, buttonSize) then
 		self.shouldShowStations = not self.shouldShowStations
 	end
 end
 
-function SystemOverviewWidget:overrideDrawButtons()
-	self:drawControlButtons()
-end
-
-function SystemOverviewWidget:display(system, root, selected)
-	self:overrideDrawButtons()
-
-	root = root or system.rootSystemBody
-
+function SystemOverviewWidget:displaySearch()
 	local filterText = ui.inputText("", self.filterText, {})
 	self.filterText = filterText
 	self.focusSearchResults = filterText and filterText ~= ""
 
 	ui.sameLine()
 	ui.icon(icons.filter_bodies, style.buttonSize, colors.frame, lui.OVERVIEW_NAME_FILTER)
+end
+
+function SystemOverviewWidget:display(system, root, selected)
+	root = root or system.rootSystemBody
 
 	local sortFunction = self.shouldSortByPlayerDistance and sortByPlayerDistance or sortBySystemDistance
 
+	local filterText = self.filterText
 	local filterFunction = function(systemBody)
 		-- only plain text matches, no regexes
 		if filterText ~= "" and filterText ~= nil and not string.find(systemBody.name:lower(), filterText:lower(), 1, true) then
@@ -217,7 +222,7 @@ function SystemOverviewWidget:display(system, root, selected)
 		return true
 	end
 
-	ui.child("spaceTargets", function()
+	ui.child("spaceTargets", self.size, function()
 		local tree = calculateEntry(root, nil, selected, filterFunction)
 
 		if tree then

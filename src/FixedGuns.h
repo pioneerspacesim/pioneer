@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef FIXEDGUNS_H
@@ -49,6 +49,7 @@ public:
 	inline float GetProjSpeed(int idx) const { return m_gun[idx].projData.speed; };
 	inline const vector3d &GetTargetLeadPos() const { return m_targetLeadPos; }
 	inline const vector3d &GetCurrentLeadDir() const { return m_currentLeadDir; }
+	inline bool IsFiringSolutionOk() const { return m_firingSolutionOk; }
 	inline void SetCoolingBoost(float cooler) { m_cooler_boost = cooler; };
 
 private:
@@ -75,6 +76,7 @@ private:
 	bool m_shouldUseLeadCalc = false;
 	vector3d m_targetLeadPos;
 	vector3d m_currentLeadDir;
+	bool m_firingSolutionOk = false;
 };
 
 #endif // FIXEDGUNS_H

@@ -105,7 +105,7 @@
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "ТРЕБУЕТСЯ ПРОХОД"
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "FLAVOUR_10_ADTITLE": {
     "description": "",
-    "message": "DISCREET SHIP WANTED"
+    "message": "ТРЕБУЕТСЯ НЕЗАМЕТНЫЙ КОРАБЛЬ"
   },
   "FLAVOUR_10_DANGER": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "FLAVOUR_11_ADTEXT": {
     "description": "",
-    "message": "Corporate inspector needs passage on a fast ship to {system} system."
+    "message": "Корпоративному инспектору необходим проход на быстром корабле в систему {system}."
   },
   "FLAVOUR_11_ADTITLE": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "Urgent transport required for fleeing citizen. Passage to {system} system needed."
+    "message": "Срочно требуется транспорт для убегающего гражданина. Требуется переход в систему {system}."
   },
   "FLAVOUR_12_ADTITLE": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "ТРЕБУЕТСЯ ПРОХОД"
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SMALL GROUP PASSAGE"
+    "message": "ПРОХОД ДЛЯ МАЛЫХ ГРУПП"
   },
   "FLAVOUR_2_DANGER": {
     "description": "",
@@ -317,7 +317,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship required for high-risk passage to {system} system. Will pay {cash}."
+    "message": "Корабль, необходимый для перехода с высоким риском в систему {system}. Плачу {cash}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -353,11 +353,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for business-class passage to {system} system. Will pay {cash}."
+    "message": "Требуется корабль бизнес-класса для перехода в систему {system}. Оплата {cash}."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "BUSINESS PASSAGE"
+    "message": "ДЕЛОВОЙ ПРОХОД"
   },
   "FLAVOUR_4_DANGER": {
     "description": "",
@@ -389,11 +389,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Require confidential passage of anonymous VIP to {system} system. Will pay {cash}."
+    "message": "Требуется конфиденциальный проход анонимного VIP клиента в систему {system}. Заплатит {cash}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "CONFIDENTIAL PASSAGE"
+    "message": "КОНФИДЕНЦИАЛЬНЫЙ ПРОХОД"
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Reporter needs proximity to story developing in the {system} system. Will pay {cash}."
+    "message": "Репортеру нужна близость к сюжету, развивающемуся в системе {system}. Заплатит {cash}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -461,11 +461,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for safe passage to {system} system. Secure transport required. Will pay {cash}."
+    "message": "Корабль разыскивается для безопасного прохода в систему {system}. Требуется безопасный транспорт. Будет оплачено {cash}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "SAFE PASSAGE NEEDED"
+    "message": "ТРЕБУЕТСЯ БЕЗОПАСНЫЙ ПРОХОД"
   },
   "FLAVOUR_7_DANGER": {
     "description": "",
@@ -497,7 +497,7 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal passage to {system} system required. Surcharge included in payment."
+    "message": "Требуется срочный личный проход в систему {system}. Доплата включена в оплату."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
@@ -533,11 +533,11 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Require urgent transport for honest citizen. Fast passage needed to {system} system."
+    "message": "Срочно требуется транспорт для честного гражданина. Необходим быстрый проход в систему {system}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "LEGITIMATE PASSAGE"
+    "message": "ЗАКОННЫЙ ПРОХОД"
   },
   "FLAVOUR_9_DANGER": {
     "description": "",

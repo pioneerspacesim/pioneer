@@ -147,6 +147,14 @@
     "description": "Key binding option",
     "message": "Modificar"
   },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+    "message": "Cambiar el Color"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+    "message": "Modificar Patrón"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Mecánico Jefe"
@@ -178,6 +186,10 @@
   "CLOSE": {
     "description": "",
     "message": "Cerrar"
+  },
+  "COLOR": {
+    "description": "",
+    "message": "Color"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -727,6 +739,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Despegar"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "Modo crucero hacia adelante"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Modo crucero hacia arriba"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Apagar piloto automático"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Apagar modo crucero"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Apagar modo de encabezamiento fijo"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Apagar modo de seguimiento"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Equipo"
@@ -855,6 +891,10 @@
     "description": "Cargo Mass",
     "message": "Masa de Carga"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Velocidad de crucero"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "El actual objetivo de combate"
@@ -906,6 +946,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "La duración hasta la mitad de la maniobra de quemado"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: Orientación de seguimiento"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: La orientación de seguimiento no está disponible."
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: La orientación de seguimiento no está disponible - demasiado lejos."
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: Posición de seguimiento"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: La posición de seguimiento no está disponible."
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: La posición de seguimiento no está disponible - demasiado lejos."
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Seguimiento de objetivo"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -990,6 +1058,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Muestra el objetivo de navegación actual"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "El limitador de velocidad está activado"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1415,6 +1487,10 @@
     "description": "",
     "message": "Negociar"
   },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+    "message": "El nuevo trabajo de pintura se ha aplicado a su nave."
+  },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
     "message": "Siguiente"
@@ -1555,6 +1631,38 @@
     "description": "Player owing money to crew members",
     "message": "Deuda"
   },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+    "message": "Trabajo de pintura"
+  },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+    "message": "El trabajo de pintura no está disponible en este puerto espacial."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+    "message": "¡Bienvenidos! ¡Le daremos a su nave una bonita capa de pintura!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+    "message": "¡Hola! ¿Anda buscando un cambio estético?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+    "message": "¡No podemos hacer que su nave sea más rápida, pero podemos hacer que vuele con estilo!"
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Bienvenido viajero. Por favor tómese su tiempo y deje fluir su creatividad."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+    "message": "¡Lucir como el mejor de la galaxia nunca había sido tan fácil!"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+    "message": "Patrón"
+  },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
     "message": "Pagar"
@@ -1595,6 +1703,10 @@
     "description": "",
     "message": "Texturas planetarias"
   },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+    "message": "Por favor diseñe su nuevo trabajo de pintura:"
+  },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
     "message": "¡Vaya, algo salió mal! Por favor, informe de los pasos para reproducir este error, el registro de salida y su archivo guardado al rastreador de problemas de Pioneer en Github. Puede encontrar su registro de salida en: {path}/output.txt"
@@ -1634,6 +1746,10 @@
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
     "message": "Bombear"
+  },
+  "PURCHASE_PAINTJOB": {
+    "description": "Paintshop button",
+    "message": "Comprar Trabajo de pintura"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1718,6 +1834,10 @@
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
     "message": "Reiniciar orientación y zoom"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+    "message": "Reiniciar Vista Previa"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1815,6 +1935,18 @@
     "description": "",
     "message": "Establecer ruta de retorno"
   },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Establecer en un 45% del delta-v restante."
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Establecer a la velocidad actual"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Establecer a cero"
+  },
   "SHIP": {
     "description": "",
     "message": "Nave"
@@ -1844,8 +1976,8 @@
     "message": "Mercado de Naves"
   },
   "SHIP_REPAIRS": {
-    "description": "",
-    "message": "Astillero"
+    "description": "Station tab name",
+    "message": "Reparación de Naves & Trabajos de pintura"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2043,6 +2175,10 @@
     "description": "For player reputation",
     "message": "Confiable"
   },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Apagar"
+  },
   "TYPE": {
     "description": "",
     "message": "Tipo"
@@ -2098,6 +2234,14 @@
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
     "message": "Resoluciones mayores muestran más información a un tamaño menor y pueden reducir el rendimiento."
+  },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+    "message": "Visitar Trabajos de pintura"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+    "message": "Visitar Servicios de Reparación"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

@@ -1,0 +1,74 @@
+{
+  "ADTITLE_0": {
+    "description": "",
+    "message": "CARGO EMPORIUM"
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "TRADING HOUSE"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "TRADE WAREHOUSE"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "GOODS EXCHANGE"
+  },
+  "GOODS_TRADER_0": {
+    "description": "",
+    "message": "Honest {name}'s Goods Emporium"
+  },
+  "GOODS_TRADER_1": {
+    "description": "",
+    "message": "{name}'s Trading House"
+  },
+  "GOODS_TRADER_2": {
+    "description": "",
+    "message": "{name}'s Warehouse"
+  },
+  "GOODS_TRADER_3": {
+    "description": "",
+    "message": "{name}'s Goods Exchange"
+  },
+  "GOODS_TRADER_4": {
+    "description": "",
+    "message": "{name} Holdings"
+  },
+  "GOODS_TRADER_5": {
+    "description": "",
+    "message": "{name} & Sons"
+  },
+  "SLOGAN_0": {
+    "description": "",
+    "message": "We deal in what others don't."
+  },
+  "SLOGAN_1": {
+    "description": "",
+    "message": "A truly free market."
+  },
+  "SLOGAN_2": {
+    "description": "",
+    "message": "Bringing the best unconventional goods to you!"
+  },
+  "SLOGAN_3": {
+    "description": "",
+    "message": "We believe in a market without restrictions."
+  },
+  "SLOGAN_4": {
+    "description": "",
+    "message": "The unregulated market, for your freedom."
+  },
+  "SLOGAN_5": {
+    "description": "",
+    "message": "The trustworthy dealer."
+  },
+  "SLOGAN_6": {
+    "description": "",
+    "message": "Allways a special price just for you."
+  },
+  "WELCOME_TO": {
+    "description": "",
+    "message": "Welcome to "
+  }
+}

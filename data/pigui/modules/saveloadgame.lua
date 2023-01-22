@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -46,9 +46,17 @@ local function getSaveTooltip(name)
 		return stats
 	end
 	ret = lui.GAME_TIME..":    " .. Format.Date(stats.time)
-	if stats.system then    ret = ret .. "\n"..lc.SYSTEM..": " .. stats.system end
-	if stats.credits then   ret = ret .. "\n"..lui.CREDITS..": " .. Format.Money(stats.credits) end
-	if stats.ship   then    ret = ret .. "\n"..lc.SHIP..": " .. ShipDef[stats.ship].name end
+	local ship = stats.ship and ShipDef[stats.ship]
+
+	if stats.system then ret = ret .. "\n"..lc.SYSTEM..": " .. stats.system end
+	if stats.credits then ret = ret .. "\n"..lui.CREDITS..": " .. Format.Money(stats.credits) end
+
+	if ship then
+		ret = ret .. "\n"..lc.SHIP..": " .. ship.name
+	else
+		ret = ret .. "\n" .. lc.SHIP .. ": " .. lc.UNKNOWN
+	end
+
 	if stats.flight_state then
 		ret = ret .. "\n"..lui.FLIGHT_STATE..": "
 		if stats.flight_state == "docked" then ret = ret .. lc.DOCKED
@@ -126,12 +134,12 @@ ui.saveLoadWindow = ModalWindow.New("LoadGame", function()
 		-- for vertical center alignment
 		local txt_hshift = math.max(0, (optionButtonSize.y - ui.getFrameHeight()) / 2)
 		ui.nextItemWidth(txt_width, 0)
-		ui.setCursorPos(ui.getCursorPos() + Vector2(0, txt_hshift))
+		ui.addCursorPos(Vector2(0, txt_hshift))
 		selectedSave = ui.inputText("##saveFileName", selectedSave or "", {})
 		ui.sameLine(txt_width + ui.getWindowPadding().x + ui.getItemSpacing().x)
-		ui.setCursorPos(ui.getCursorPos() + Vector2(0, -txt_hshift))
+		ui.addCursorPos(Vector2(0, -txt_hshift))
 	else
-		ui.setCursorPos(ui.getCursorPos() + Vector2(txt_width + ui.getItemSpacing().x, 0))
+		ui.addCursorPos(Vector2(txt_width + ui.getItemSpacing().x, 0))
 	end
 
 	local mode = saving and lui.SAVE or lui.LOAD

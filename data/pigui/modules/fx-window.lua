@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
@@ -100,6 +100,8 @@ local function button_comms(current_view)
 	end
 end
 
+local windowFlags = ui.WindowFlags {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"}
+
 local function displayFxWindow()
 	if ui.optionsWindow.isOpen then return end
 	player = Game.player
@@ -109,16 +111,15 @@ local function displayFxWindow()
 	ui.setNextWindowSize(Vector2(window_width, window_height), "Always")
 	local aux = Vector2(ui.screenWidth / 2 - window_width / 2, 0)
 	ui.setNextWindowPos(aux , "Always")
-	ui.window("Fx", {"NoTitleBar", "NoResize", "NoFocusOnAppearing", "NoBringToFrontOnFocus", "NoScrollbar"},
-		function()
-			button_world(current_view)
+	ui.window("Fx", windowFlags, function()
+		button_world(current_view)
 
-			button_info(current_view)
+		button_info(current_view)
 
-			button_comms(current_view)
+		button_comms(current_view)
 
-			buttons_map(current_view)
-		end)
+		buttons_map(current_view)
+	end)
 end
 
 ui.registerModule("game", { id = "fx-window", draw = displayFxWindow })

@@ -1,4 +1,4 @@
-/* Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details */
+/* Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details */
 /* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */
 
 /* THIS FILE IS AUTO-GENERATED, CHANGES WILL BE OVERWRITTEN */
@@ -18,6 +18,7 @@
 #include "lua/LuaFileSystem.h"
 #include "pigui/Face.h"
 #include "scenegraph/Model.h"
+#include "ship/PlayerShipController.h"
 #include "ship/Propulsion.h"
 #include "ship/ShipController.h"
 
@@ -258,6 +259,19 @@ const struct EnumItem ENUM_ModelDebugFlags[] = {
 	{ "WIREFRAME", int(SceneGraph::Model::DEBUG_WIREFRAME) },
 	{ "TAGS", int(SceneGraph::Model::DEBUG_TAGS) },
 	{ "DOCKING", int(SceneGraph::Model::DEBUG_DOCKING) },
+	{ "GEOMBBOX", int(SceneGraph::Model::DEBUG_GEOMBBOX) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_CruiseDirection[] = {
+	{ "CRUISE_FWD", int(PlayerShipController::CRUISE_FWD) },
+	{ "CRUISE_UP", int(PlayerShipController::CRUISE_UP) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_FollowMode[] = {
+	{ "FOLLOW_POS", int(PlayerShipController::FOLLOW_POS) },
+	{ "FOLLOW_ORI", int(PlayerShipController::FOLLOW_ORI) },
 	{ 0, 0 },
 };
 
@@ -314,6 +328,8 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PiGuiFaceFlags", ENUM_PiGuiFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
+	{ "CruiseDirection", ENUM_CruiseDirection },
+	{ "FollowMode", ENUM_FollowMode },
 	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
 	{ "PropulsionFuelStatus", ENUM_PropulsionFuelStatus },
 	{ "ShipControllerFlightControlState", ENUM_ShipControllerFlightControlState },
@@ -342,6 +358,8 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PiGuiFaceFlags", ENUM_PiGuiFaceFlags },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
+	{ "CruiseDirection", ENUM_CruiseDirection },
+	{ "FollowMode", ENUM_FollowMode },
 	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
 	{ "PropulsionFuelStatus", ENUM_PropulsionFuelStatus },
 	{ "ShipControllerFlightControlState", ENUM_ShipControllerFlightControlState },

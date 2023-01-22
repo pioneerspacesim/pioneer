@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Loader.h"
@@ -9,14 +9,17 @@
 #include "Parser.h"
 #include "SceneGraph.h"
 #include "StringF.h"
+#include "core/Log.h"
 #include "graphics/RenderState.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/Animation.h"
+#include "scenegraph/LoaderDefinitions.h"
 #include "utils.h"
 #include <assimp/material.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
+#include <assimp/version.h>
 #include <assimp/IOStream.hpp>
 #include <assimp/IOSystem.hpp>
 #include <assimp/Importer.hpp>
@@ -310,12 +313,26 @@ namespace SceneGraph {
 		return model;
 	}
 
-	RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs)
+	RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const std::vector<AnimDefinition> &animDefs)
 	{
 		PROFILE_SCOPED()
+		Log::Verbose("Loading mesh '{}'", filename);
+
 		//remove path from filename for nicer logging
 		size_t slashpos = filename.rfind("/");
 		m_curMeshDef = filename.substr(slashpos + 1, filename.length() - slashpos);
+
+		std::string_view ext = filename;
+		ext = ext.substr(ext.rfind("."));
+
+		if (ext == ".dae")
+			m_modelFormat = ModelFormat::COLLADA;
+		else if (ext == ".gltf")
+			m_modelFormat = ModelFormat::GLTF;
+		else if (ext == ".obj")
+			m_modelFormat = ModelFormat::WAVEFRONT;
+		else
+			m_modelFormat = ModelFormat::UNKNOWN;
 
 		Assimp::Importer importer;
 		importer.SetIOHandler(new AssimpFileSystem(FileSystem::gameDataFiles));
@@ -340,8 +357,12 @@ namespace SceneGraph {
 				aiProcess_FindDegenerates |
 				aiProcess_FindInvalidData);
 
-		if (!scene)
-			throw LoadingError("Couldn't load file");
+		if (!scene) {
+			// Assimp 3.1.1 doesn't have aiGetVersionPatch(), add it back in at some point
+			std::string err = fmt::format("Assimp {}.{} importer error: {}\n",
+				aiGetVersionMajor(), aiGetVersionMinor(), importer.GetErrorString());
+			throw LoadingError(err);
+		}
 
 		if (scene->mNumMeshes == 0)
 			throw LoadingError("No geometry found");
@@ -568,54 +589,60 @@ namespace SceneGraph {
 		}
 	}
 
-	void Loader::ConvertAnimations(const aiScene *scene, const AnimList &animDefs, Node *meshRoot)
+	void Loader::ConvertAnimations(const aiScene *scene, const std::vector<AnimDefinition> &animDefs, Node *meshRoot)
 	{
 		PROFILE_SCOPED()
 		//Split convert assimp animations according to anim defs
 		//This is very limited, and all animdefs are processed for all
 		//meshes, potentially leading to duplicate and wrongly split animations
-		if (animDefs.empty() || scene->mNumAnimations == 0) return;
-		if (scene->mNumAnimations > 1) Output("File has %d animations, treating as one animation\n", scene->mNumAnimations);
+		if (animDefs.empty() || scene->mNumAnimations == 0)
+			return;
+
+		if (scene->mNumAnimations > 1)
+			Output("File has %d animations, treating as one animation\n", scene->mNumAnimations);
 
 		std::vector<Animation *> &animations = m_model->m_animations;
 
-		for (AnimList::const_iterator def = animDefs.begin();
-			 def != animDefs.end();
-			 ++def) {
+		for (const AnimDefinition &def : animDefs) {
+			Log::Verbose("\tLoading animation definition {}\n", def.name);
+
 			//XXX format differences: for a 40-frame animation exported from Blender,
 			//.X results in duration 39 and Collada in Duration 1.25.
 			//duration is calculated after adding all keys
 			//take TPS from the first animation
 			const aiAnimation *firstAnim = scene->mAnimations[0];
-			const double ticksPerSecond = firstAnim->mTicksPerSecond > 0.0 ? firstAnim->mTicksPerSecond : 24.0;
-			const double secondsPerTick = 1.0 / ticksPerSecond;
+			double ticksPerSecond = firstAnim->mTicksPerSecond > 0.0 ? firstAnim->mTicksPerSecond : 24.0;
+			double secondsPerTick = 1.0 / ticksPerSecond;
+
+			// FIXME: we assume 24 frames per second here, this should be specified in the model file
+			//Ranges are specified in frames (since that's nice) but Assimp
+			//uses seconds. This is easiest to detect from ticksPerSecond,
+			//but assuming 24 FPS here
+			//Could make FPS an additional define or always require 24
+			const double framesPerSecond = 24.0;
 
 			double start = DBL_MAX;
 			double end = -DBL_MAX;
 
-			//Ranges are specified in frames (since that's nice) but Collada
-			//uses seconds. This is easiest to detect from ticksPerSecond,
-			//but assuming 24 FPS here
-			//Could make FPS an additional define or always require 24
-			double defStart = def->start;
-			double defEnd = def->end;
-			if (is_equal_exact(ticksPerSecond, 1.0)) {
-				defStart /= 24.0;
-				defEnd /= 24.0;
-			}
+			double defStart = def.start * ticksPerSecond / framesPerSecond;
+			double defEnd = def.end * ticksPerSecond / framesPerSecond;
 
 			// Add channels to current animation if it's already present
 			// Necessary to make animations work in multiple LODs
-			Animation *animation = m_model->FindAnimation(def->name);
+			Animation *animation = m_model->FindAnimation(def.name);
 			const bool newAnim = !animation;
-			if (newAnim) animation = new Animation(def->name, 0.0);
+			if (newAnim)
+				animation = new Animation(def.name, 0.0);
 
 			const size_t first_new_channel = animation->m_channels.size();
 
 			for (unsigned int i = 0; i < scene->mNumAnimations; i++) {
 				const aiAnimation *aianim = scene->mAnimations[i];
+				Log::Verbose("\tProcessing model animation [{}] '{}' ({} channels)\n", i, aianim->mName.C_Str(), aianim->mNumChannels);
+
 				for (unsigned int j = 0; j < aianim->mNumChannels; j++) {
 					const aiNodeAnim *aichan = aianim->mChannels[j];
+
 					//do a preliminary check that at least two keys in one channel are within range
 					if (!CheckKeysInRange(aichan, defStart, defEnd))
 						continue;
@@ -689,8 +716,10 @@ namespace SceneGraph {
 			//do final sanity checking before adding
 			try {
 				CheckAnimationConflicts(animation, animations);
-			} catch (LoadingError &) {
-				if (newAnim) delete animation;
+			} catch (LoadingError &e) {
+				Log::Warning("\tError processing animation conflicts for animation definition {}: {}", def.name, e.what());
+				if (newAnim)
+					delete animation;
 				throw;
 			}
 
@@ -728,12 +757,15 @@ namespace SceneGraph {
 		return m;
 	}
 
-	void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
+	void Loader::CreateLabel(const std::string &name, Group *parent, const matrix4x4f &m)
 	{
 		PROFILE_SCOPED()
 		MatrixTransform *trans = new MatrixTransform(m_renderer, m);
+
 		Label3D *label = new Label3D(m_renderer, m_labelFont);
 		label->SetText("Bananas");
+		label->SetName(name);
+
 		trans->AddChild(label);
 		parent->AddChild(trans);
 	}
@@ -829,7 +861,7 @@ namespace SceneGraph {
 			} else if (starts_with(nodename, "thruster_")) {
 				CreateThruster(nodename, accum * m);
 			} else if (starts_with(nodename, "label_")) {
-				CreateLabel(parent, m);
+				CreateLabel(nodename, parent, m);
 			} else if (starts_with(nodename, "tag_")) {
 				m_model->AddTag(nodename, new MatrixTransform(m_renderer, accum * m));
 			} else if (starts_with(nodename, "entrance_")) {

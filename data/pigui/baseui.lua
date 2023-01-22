@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -44,11 +44,7 @@ function ui.makeFullScreenHandler(window_name, window_fnc)
 	return function()
 		ui.setNextWindowPos(Vector2(0, 0), "Always")
 		ui.setNextWindowSize(Vector2(ui.screenWidth, ui.screenHeight), "Always")
-		ui.window(window_name, ui.fullScreenWindowFlags, function()
-			if ui.shouldDrawUI() then
-				window_fnc()
-			end
-		end)
+		ui.window(window_name, ui.fullScreenWindowFlags, window_fnc)
 	end
 end
 
@@ -64,6 +60,56 @@ function ui.circleSegments(radius)
 	else
 		return 128
 	end
+end
+
+local sides = {
+	top = 1,
+	bottom = 2,
+	left = 3,
+	right = 4
+}
+
+ui.sides = sides
+
+-- Function: ui.rectcut
+--
+-- Simple rect-cutting UI layout implementation to cut and return space from
+-- the given rectangle. This function intentionally modifies the input vectors.
+--
+-- Parameters:
+--
+--   min  - Vector2, minimum bound of the rectangle. Will be modified in-place.
+--   max  - Vector2, maximum bound of the rectangle. Will be modified in-place.
+--   amt  - number, amount of space (in pixels) to reserve from the rectangle.
+--   side - integer, indicates the side of the rectangle to cut
+--
+-- Returns:
+--
+--   pos  - Vector2, upper-left corner of the reserved space
+--   size - Vector2, x and y size of the reserved space
+function ui.rectcut(min, max, amt, side)
+	local size = max - min ---@type Vector2
+	local pos = Vector2(0, 0)
+
+	if side == sides.top then
+		pos(min.x, min.y)
+		size.y = math.min(size.y, amt)
+		min.y = min.y + size.y
+	elseif side == sides.bottom then
+		size.y = math.min(size.y, amt)
+		max.y = max.y - size.y
+		pos(min.x, max.y)
+	elseif side == sides.left then
+		pos(min.x, min.y)
+		size.x = math.min(size.x, amt)
+		min.x = min.x + size.x
+	else
+		size.x = math.min(size.x, amt)
+		max.x = max.x - size.x
+		pos(max.x, min.y)
+	end
+
+	return pos, size
 end
 
 local modules = {}

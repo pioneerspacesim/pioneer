@@ -110,6 +110,9 @@ PointerAlignment: Right
 #SpacesInCStyleCastParentheses: false
 #SpacesInParentheses: false
 #SpacesInSquareBrackets: false
+SpacesInLineCommentPrefix:
+  Maximum: -1
+  Minimum: 0
 Standard:           Cpp11
 TabWidth:           4
 UseTab:             Always

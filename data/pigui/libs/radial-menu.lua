@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 local Lang = require 'Lang'
 local Engine = require 'Engine'
@@ -7,21 +7,16 @@ local Game = require 'Game'
 local ui = require 'pigui.baseui'
 
 local lc = Lang.GetResource("core")
+local Vector2 = _G.Vector2
 
-
-local shouldShowRadialMenu = false
-local radialMenuPos = Vector2(0,0)
-local radialMenuSize = 10
-local radialMenuIconSize = Vector2(radialMenuSize)
-local radialMenuTarget = nil
-local radialMenuMouseButton = 1
-local radialMenuActions = {}
-local radialMenuMousePos = nil
+local radialMenu = {}
+local defaultRadialMenuIconSize = ui.theme.styles.MainButtonSize.x
+local defaultRadialMenuPadding = ui.theme.styles.MainButtonPadding
 
 --
 -- Function: ui.openRadialMenu
 --
--- ui.openRadialMenu(target, mouse_button, size, actions)
+-- ui.openRadialMenu(id, target, mouse_button, size, actions, padding, pos, action_binding)
 --
 -- Show a radial menu
 --
@@ -32,34 +27,52 @@ local radialMenuMousePos = nil
 --
 -- Parameters:
 --
---   target -
---   mouse_button -
---   size -
---   action - table
+--   id - any value, the value with which the radialMenu function will subsequently be launched
+--   target - object that will be passed as an argument to the procedure of the
+--            selected action
+--   mouse_button - imgui id of the mouse button that caused the radial menu to open.
+--                  ignored, if action_binding is not nil
+--   size - icon size
+--   actions - array of type:
+--       icon - id of the icon from the theme
+--       tooltip - string
+--       action - function of one argument (target)
+--   padding - number
+--   pos - position of the center of the radial menu, if it is nil, the mouse
+--         position is taken
+--   action_binding - LuaInputAction, the input action that brought up the menu.
 --
 -- Returns:
 --
 --   nil
 --
-function ui.openRadialMenu(target, mouse_button, size, actions)
+function ui.openRadialMenu(id, target, mouse_button, size, actions, padding, pos, action_binding)
 	ui.openPopup("##radialmenupopup")
-	shouldShowRadialMenu = true
-	radialMenuTarget = target
-	radialMenuPos = ui.getMousePos()
-	radialMenuSize = size
-	radialMenuMouseButton = mouse_button
-	radialMenuActions = actions
-	radialMenuMousePos = ui.getMousePos()
+	radialMenu = {
+		id = id,
+		target = target,
+		pos = pos or ui.getMousePos(),
+		size = size,
+		iconSize = Vector2(size),
+		actions = actions,
+		padding = padding or 0,
+		actionBinding = action_binding
+	}
+	-- ignore mouse button if input action passed
+	radialMenu.mouseButton = action_binding and -1 or mouse_button
 	-- move away from screen edge
-	radialMenuPos.x = math.min(math.max(radialMenuPos.x, size*3), ui.screenWidth - size*3)
-	radialMenuPos.y = math.min(math.max(radialMenuPos.y, size*3), ui.screenHeight - size*3)
+	radialMenu.pos.x = math.min(math.max(radialMenu.pos.x, size*3), ui.screenWidth - size*3)
+	radialMenu.pos.y = math.min(math.max(radialMenu.pos.y, size*3), ui.screenHeight - size*3)
+	if not action_binding then
+		ui.clearMouse()
+	end
 end
 
 -- TODO: add cloud Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
 local radial_menu_actions_station = {
 	{icon=ui.theme.icons.comms, tooltip=lc.REQUEST_DOCKING_CLEARANCE,
 		action=function(target)
-			local clearanceGranted = target:RequestDockingClearance(Game.player)
+			target:RequestDockingClearance(Game.player)
 			-- TODO: play a negative sound if clearance is refused
 			Game.player:SetNavTarget(target)
 			ui.playSfx("OK")
@@ -127,7 +140,7 @@ local radial_menu_actions_systembody = {
 		end},
 }
 
-function ui.openDefaultRadialMenu(body)
+function ui.openDefaultRadialMenu(id, body)
 	if body then
 		local actions = {}
 		for _,v in pairs(radial_menu_actions_all_bodies) do
@@ -142,46 +155,45 @@ function ui.openDefaultRadialMenu(body)
 				table.insert(actions, v)
 			end
 		end
-		ui.openRadialMenu(body, 1, 30, actions)
+		ui.openRadialMenu(id, body, 1, defaultRadialMenuIconSize, actions, defaultRadialMenuPadding)
 	end
 end
 
-local radialMenuWasOpen = {}
 function ui.radialMenu(id)
-	if not radialMenuActions or #radialMenuActions == 0 then
+	if radialMenu.id ~= id then return end
+	if not radialMenu.actions or #radialMenu.actions == 0 then
 		return
  	end
 	local icons = {}
 	local tooltips = {}
-	for _,action in pairs(radialMenuActions) do
+	local colors = {}
+	for _,action in pairs(radialMenu.actions) do
 		local uv0, uv1 = ui.get_icon_tex_coords(action.icon)
-		table.insert(icons, { id = ui.get_icons_texture(radialMenuIconSize), uv0 = uv0, uv1 = uv1 })
-		-- TODO: don't just assume that radialMenuTarget is a Body
-		table.insert(tooltips, string.interp(action.tooltip, { target = radialMenuTarget and radialMenuTarget.label or "UNKNOWN" }))
+		table.insert(icons, { id = ui.get_icons_texture(radialMenu.iconSize), uv0 = uv0, uv1 = uv1 })
+		-- TODO: don't just assume that radialMenu.Target is a Body
+		table.insert(tooltips, string.interp(action.tooltip, { target = radialMenu.target and radialMenu.target.label or "UNKNOWN" }))
+		table.insert(colors, action.color or ui.theme.colors.white);
 	end
-	local n = pigui.RadialMenu(radialMenuPos, "##radialmenupopup", radialMenuMouseButton, icons, radialMenuSize, tooltips)
-	if n == -1 then
-		pigui.DisableMouseFacing(true)
-		radialMenuWasOpen[id] = true
-	elseif n >= 0 or n == -2 then
-		radialMenuWasOpen[id] = false
-		shouldShowRadialMenu = false
-		local target = radialMenuTarget
-		radialMenuTarget = nil
-		pigui.DisableMouseFacing(false)
-		-- hack, imgui lets the press go through, but eats the release, so Pi still thinks rmb is held
-		pigui.SetMouseButtonState(3, false);
-		-- ui.setMousePos(radialMenuMousePos)
-		-- do this last, so it can theoretically open a new radial menu
-		-- though we can't as no button is pressed that could be released :-/
-		if n >= 0 then
-			radialMenuActions[n+1].action(target)
+	local n = pigui.RadialMenu(radialMenu.pos, "##radialmenupopup", radialMenu.mouseButton, icons, colors, tooltips, radialMenu.size, radialMenu.padding)
+
+	-- radial menu launched by input action
+	if radialMenu.actionBinding then
+		if radialMenu.actionBinding:IsActive() then
+			return n -- continue show the radial, while the input action is active
 		end
-	end
-	if n == -3 and radialMenuWasOpen[id] then
-		pigui.SetMouseButtonState(3, false)
+	-- radial menu launched by mouse click
+	elseif ui.isMouseDown(radialMenu.mouseButton) then
+		pigui.DisableMouseFacing(true)
+		return n -- continue show the radial, while the mouse button is pressed
+	else
 		pigui.DisableMouseFacing(false)
-		radialMenuWasOpen[id] = false
 	end
+
+	-- closing radial, fire item callback (if selected)
+	radialMenu.id = nil
+	if n > 0 then
+		radialMenu.actions[n].action(radialMenu.target)
+	end
+
 	return n
 end

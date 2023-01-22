@@ -193,6 +193,20 @@ ship_spawn_debug_window = function()
         spawn_ship_docked(ship_name, ai_options[ai_opt_selected], ship_equip)
       end
     end
+    local SectorView = Game.sectorView
+    if not Game.player:GetDockedWith() then
+      ui.sameLine()
+      if nav_target and nav_target:isa("SpaceStation") then
+        if ui.button("Teleport To", Vector2(0, 0)) then
+          Game.player:SetDockedWith(nav_target)
+        end
+      end
+      if SectorView:GetSelectedSystemPath() and Game.system and not SectorView:GetSelectedSystemPath():IsSameSystem(Game.system.path) then
+        if ui.button("Hyperjump To", Vector2(0, 0)) then
+          Game.player:InitiateHyperjumpTo(SectorView:GetSelectedSystemPath(), 1.0, 0.0, { })
+        end
+      end
+    end
     if Game.player:GetCombatTarget() then
       if ui.button("Spawn##Missile", Vector2(0, 0)) then
         do_spawn_missile(missile_types[missile_selected + 1])

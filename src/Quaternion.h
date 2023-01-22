@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _QUATERNION_H
@@ -98,6 +98,13 @@ public:
 		r.y = a.y * s;
 		r.z = a.z * s;
 		return r;
+	}
+	// vector transform with quaternion
+	// (see https://community.khronos.org/t/quaternion-functions-for-glsl/50140/3)
+	friend vector3<T> operator*(const Quaternion &a, const vector3<T> &vec)
+	{
+		vector3<T> xyz = vector3<T>(a.x, a.y, a.z);
+		return vec + 2.0 * (vec.Cross(xyz) + a.w * vec).Cross(xyz);
 	}
 	friend Quaternion operator+(const Quaternion &a, const Quaternion &b)
 	{

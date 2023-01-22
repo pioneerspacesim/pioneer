@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Missile.h"
@@ -13,10 +13,12 @@
 #include "collider/CollisionContact.h"
 #include "core/Log.h"
 #include "lua/LuaEvent.h"
+#include "ship/Propulsion.h"
 
 Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
 {
-	AddFeature(Feature::PROPULSION); // add component propulsion
+	m_propulsion = AddComponent<Propulsion>();
+
 	if (power < 0) {
 		m_power = 0;
 		if (shipId == ShipType::MISSILE_GUIDED) m_power = 1;
@@ -37,21 +39,21 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)
 
 	Disarm();
 
-	GetPropulsion()->SetFuel(1.0);
-	GetPropulsion()->SetFuelReserve(0.0);
+	m_propulsion->SetFuel(1.0);
+	m_propulsion->SetFuelReserve(0.0);
 
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
 
-	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
+	m_propulsion->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
 Missile::Missile(const Json &jsonObj, Space *space) :
 	DynamicBody(jsonObj, space)
 {
-	AddFeature(Feature::PROPULSION);
-	GetPropulsion()->LoadFromJson(jsonObj, space);
+	m_propulsion = AddComponent<Propulsion>();
+	m_propulsion->LoadFromJson(jsonObj, space);
 	Json missileObj = jsonObj["missile"];
 
 	try {
@@ -69,13 +71,13 @@ Missile::Missile(const Json &jsonObj, Space *space) :
 		throw SavedGameCorruptException();
 	}
 
-	GetPropulsion()->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
+	m_propulsion->Init(this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust);
 }
 
 void Missile::SaveToJson(Json &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
-	GetPropulsion()->SaveToJson(jsonObj, space);
+	m_propulsion->SaveToJson(jsonObj, space);
 	Json missileObj = Json::object(); // Create JSON object to contain missile data.
 
 	if (m_curAICmd) m_curAICmd->SaveToJson(missileObj);
@@ -114,8 +116,8 @@ void Missile::StaticUpdate(const float timeStep)
 	// Note: direct call to AI->TimeStepUpdate
 
 	if (!m_curAICmd) {
-		GetPropulsion()->ClearLinThrusterState();
-		GetPropulsion()->ClearAngThrusterState();
+		m_propulsion->ClearLinThrusterState();
+		m_propulsion->ClearAngThrusterState();
 	} else if (m_curAICmd->TimeStepUpdate()) {
 		delete m_curAICmd;
 		m_curAICmd = nullptr;
@@ -123,33 +125,60 @@ void Missile::StaticUpdate(const float timeStep)
 	//Add smoke trails for missiles on thruster state
 	static double s_timeAccum = 0.0;
 	s_timeAccum += timeStep;
-	if (!is_equal_exact(GetPropulsion()->GetLinThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1 * Pi::rng.Double() < timeStep)) {
+	if (!is_equal_exact(m_propulsion->GetLinThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1 * Pi::rng.Double() < timeStep)) {
 		s_timeAccum = 0.0;
 		const vector3d pos = GetOrient() * vector3d(0, 0, 5);
-		const float speed = std::min(10.0 * GetVelocity().Length() * std::max(1.0, fabs(GetPropulsion()->GetLinThrusterState().z)), 100.0);
+		const float speed = std::min(10.0 * GetVelocity().Length() * std::max(1.0, fabs(m_propulsion->GetLinThrusterState().z)), 100.0);
 		SfxManager::AddThrustSmoke(this, speed, pos);
+	}
+}
+
+bool Missile::IsValidTarget(const Body *body)
+{
+	switch (body->GetType()) {
+	case ObjectType::MODELBODY:
+	case ObjectType::CARGOBODY:
+	case ObjectType::TERRAINBODY:
+	case ObjectType::PLANET:
+	case ObjectType::SHIP:
+	case ObjectType::SPACESTATION:
+	case ObjectType::PLAYER:
+		return true;
+	default:
+		return false;
 	}
 }
 
 void Missile::TimeStepUpdate(const float timeStep)
 {
 
-	const vector3d thrust = GetPropulsion()->GetActualLinThrust();
+	const vector3d thrust = m_propulsion->GetActualLinThrust();
 	AddRelForce(thrust);
-	AddRelTorque(GetPropulsion()->GetActualAngThrust());
+	AddRelTorque(m_propulsion->GetActualAngThrust());
 
 	DynamicBody::TimeStepUpdate(timeStep);
-	GetPropulsion()->UpdateFuel(timeStep);
+	m_propulsion->UpdateFuel(timeStep);
 
 	const float MISSILE_DETECTION_RADIUS = 100.0f;
+	const float MISSILE_TRIGGER_RADIUS = 10.0f;
+
+	const Body *target = GetTarget();
+
 	if (!m_owner) {
 		Explode();
 	} else if (m_armed) {
 		Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, MISSILE_DETECTION_RADIUS);
 		for (Body *body : nearby) {
 			if (body == this) continue;
+
+			if (body != target && !IsValidTarget(body))
+				continue;
+
+			// Explode only when we've gotten as close as we possibly can to the target - if we start moving away then trigger an explosion immediately
 			double dist = (body->GetPosition() - GetPosition()).Length();
-			if (dist < MISSILE_DETECTION_RADIUS) {
+			const bool trigger = dist < MISSILE_DETECTION_RADIUS && body->GetVelocityRelTo(GetFrame()).Dot(GetVelocity()) < 0.0;
+
+			if (trigger || dist < MISSILE_TRIGGER_RADIUS) {
 				Explode();
 				break;
 			}
@@ -188,15 +217,22 @@ void Missile::Explode()
 	Pi::game->GetSpace()->KillBody(this);
 
 	// how much energy was converted in the explosion?
-	double mjYield = 4.184 * 200; // defaults to 200kg of TNT
-	Properties().Get("missile_yield_cap", mjYield);
+	// defaults to 200kg of TNT
+	double mjYield = Properties().Get("missile_yield_cap").get_number(4.184 * 200);
 
-	double queryRadius = 2000.0; // defaults to 2 km, this is sufficient for most explosions
-	Properties().Get("missile_explosion_radius_cap", queryRadius);
+	// defaults to 2 km, this is sufficient for most explosions
+	double queryRadius = Properties().Get("missile_explosion_radius_cap").get_number(2000.0);
+
+	// How effective is the blast at hitting a target compared to a omnidirectional warhead?
+	// defaults to 4x effectiveness, this is sufficient for most anti-ship missile explosions
+	double chargeShapeScalar = Properties().Get("missile_charge_effect_cap").get_number(4.0);
 
 	CollisionContact dummy;
 	Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, queryRadius);
 	for (Body *body : nearby) {
+		if (body->GetType() == ObjectType::PROJECTILE)
+			continue; // early-out over projectiles, we can't actually damage them
+
 		const double distSqr = (body->GetPosition() - GetPosition()).LengthSqr();
 		if (body->GetFrame() != GetFrame() || body == this || distSqr >= queryRadius * queryRadius)
 			continue;
@@ -206,6 +242,10 @@ void Missile::Explode()
 		const double areaSphere = calcAreaSphere(std::max(0.0, dist - targetRadius));
 		const double crossSectionTarget = calcAreaCircle(targetRadius);
 		double ratioArea = crossSectionTarget / areaSphere; // compute ratio of areas to know how much energy was transfered to target
+
+		if (body == GetTarget())                            // missiles have shaped-charge warheads to focus the blast towards the target
+			ratioArea = ratioArea * chargeShapeScalar;      // assume the warhead is oriented towards the target correctly
+
 		ratioArea = std::min(ratioArea, 1.0);				// we must limit received energy to finite amount
 
 		const double mjReceivedEnergy = ratioArea * mjYield; // compute received energy by blast
@@ -213,8 +253,9 @@ void Missile::Explode()
 		double kgDamage = mjReceivedEnergy * 16.18033; // received energy back to damage in pioneer "kg" unit, using Phi*10 because we can
 		if (kgDamage < 5.0)
 			continue; // early-out if we're dealing a negligable amount of damage
-		// Log::Info("Missile impact on {}\n\ttarget.radius={} dist={} sphereArea={} crossSection={} (ratio={}) => received energy {}mj={}kgD\n",
-		// 	body->GetLabel(), targetRadius, dist, areaSphere, crossSectionTarget, ratioArea, mjReceivedEnergy, kgDamage);
+
+		// Log::Info("Missile impact on {} | {}\n\ttarget.radius={} dist={} sphereArea={} crossSection={} (ratio={}) => received energy {}mj={}kgD\n",
+		// 	body->GetLabel(), body->GetType(), targetRadius, dist, areaSphere, crossSectionTarget, ratioArea, mjReceivedEnergy, kgDamage);
 
 		body->OnDamage(m_owner, kgDamage, dummy);
 		if (body->IsType(ObjectType::SHIP))
@@ -245,11 +286,20 @@ void Missile::Disarm()
 	Properties().Set("isArmed", false);
 }
 
+const Body *Missile::GetTarget() const
+{
+	if (m_curAICmd) {
+		return static_cast<AICmdKamikaze *>(m_curAICmd)->GetTarget();
+	}
+
+	return nullptr;
+}
+
 void Missile::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (IsDead()) return;
 
-	GetPropulsion()->Render(renderer, camera, viewCoords, viewTransform);
+	m_propulsion->Render(renderer, camera, viewCoords, viewTransform);
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 }
 

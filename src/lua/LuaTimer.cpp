@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaTimer.h"
@@ -8,62 +8,92 @@
 #include "LuaUtils.h"
 #include "Pi.h"
 
+#include <algorithm>
+
+LuaTimer::LuaTimer()
+{
+	m_called.reserve(8);
+}
+
+LuaTimer::~LuaTimer()
+{
+}
+
+void LuaTimer::Insert(double at, int callbackId, bool repeats)
+{
+	CallInfo info { at, callbackId, repeats };
+
+	// Keep the queue sorted when inserting new elements.
+	// This is O(log N) + O(N/2) worst-case
+	auto iter = std::lower_bound(m_timeouts.cbegin(), m_timeouts.cend(), info, [](const CallInfo &timeout, const CallInfo &val) {
+		return timeout.at < val.at;
+	});
+
+	m_timeouts.insert(iter, std::move(info));
+}
+
 void LuaTimer::RemoveAll()
 {
 	lua_State *l = Lua::manager->GetLuaState();
 
 	lua_pushnil(l);
 	lua_setfield(l, LUA_REGISTRYINDEX, "PiTimerCallbacks");
+	m_timeouts.clear();
 }
 
 void LuaTimer::Tick()
 {
+	PROFILE_SCOPED()
+
 	assert(Pi::game);
 	lua_State *l = Lua::manager->GetLuaState();
 
-	LUA_DEBUG_START(l);
-
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiTimerCallbacks");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		LUA_DEBUG_END(l, 0);
-		return;
-	}
-	assert(lua_istable(l, -1));
-
 	double now = Pi::game->GetTime();
 
-	lua_pushnil(l);
-	while (lua_next(l, -2)) {
-		assert(lua_istable(l, -1));
+	// Move called timeouts out of the list into our scratch buffer
+	while (!m_timeouts.empty() && m_timeouts.front().at <= now) {
+		m_called.push_back(m_timeouts.front());
+		m_timeouts.pop_front();
+	}
 
-		lua_getfield(l, -1, "at");
-		double at = lua_tonumber(l, -1);
+	if (m_called.empty())
+		return;
+
+	LUA_DEBUG_START(l);
+
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "PiTimerCallbacks");
+	int callbackRegistry = lua_gettop(l);
+
+	// Call each callback for the timeout and re-queue if appropriate
+	for (CallInfo &call : m_called) {
+		lua_rawgeti(l, callbackRegistry, call.callbackId);
+		lua_getfield(l, -1, "callback");
+
+		pi_lua_protected_call(l, 0, 1);
+		bool cancel = lua_toboolean(l, -1);
 		lua_pop(l, 1);
 
-		if (at <= now) {
-			lua_getfield(l, -1, "callback");
-			pi_lua_protected_call(l, 0, 1);
-			bool cancel = lua_toboolean(l, -1);
+		if (cancel || !call.repeats) {
+			// Cleanup and remove the callback info
 			lua_pop(l, 1);
-
-			lua_getfield(l, -1, "every");
-			if (lua_isnil(l, -1) || cancel) {
-				lua_pop(l, 1);
-
-				lua_pushvalue(l, -2);
-				lua_pushnil(l);
-				lua_settable(l, -5);
-			} else {
-				double every = lua_tonumber(l, -1);
-				lua_pop(l, 1);
-
-				pi_lua_settable(l, "at", Pi::game->GetTime() + every);
-			}
+			luaL_unref(l, callbackRegistry, call.callbackId);
+			continue;
 		}
 
+		lua_getfield(l, -1, "every");
+		double next = call.at + lua_tonumber(l, -1);
 		lua_pop(l, 1);
+
+		lua_pushnumber(l, next); // [ cb, next ]
+		lua_setfield(l, -2, "at");
+
+		lua_pop(l, 1); // remove callback info from the stack
+
+		Insert(next, call.callbackId, true);
 	}
+
+	// Clear the scratch buffer
+	m_called.clear();
 	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
@@ -105,26 +135,19 @@ void LuaTimer::Tick()
  * underlying object exists before trying to use it.
  */
 
-static void _finish_timer_create(lua_State *l)
+static int _finish_timer_create(lua_State *l, int callbackIdx)
 {
+	// Expects the callback data table available at the top of the stack
 	lua_pushstring(l, "callback");
-	lua_pushvalue(l, 3);
+	lua_pushvalue(l, callbackIdx);
 	lua_settable(l, -3);
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiTimerCallbacks");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushvalue(l, -1);
-		lua_setfield(l, LUA_REGISTRYINDEX, "PiTimerCallbacks");
-	}
-
-	lua_insert(l, -2);
-	lua_pushinteger(l, lua_rawlen(l, -2) + 1);
-	lua_insert(l, -2);
-	lua_settable(l, -3);
+	luaL_getsubtable(l, LUA_REGISTRYINDEX, "PiTimerCallbacks");
+	lua_insert(l, callbackIdx);
+	int ref = luaL_ref(l, callbackIdx);
 
 	lua_pop(l, 1);
+	return ref;
 }
 
 /*
@@ -176,7 +199,8 @@ static int l_timer_call_at(lua_State *l)
 	lua_newtable(l);
 	pi_lua_settable(l, "at", at);
 
-	_finish_timer_create(l);
+	int ref = _finish_timer_create(l, 3);
+	Pi::luaTimer->Insert(at, ref, false);
 
 	LUA_DEBUG_END(l, 0);
 
@@ -238,11 +262,14 @@ static int l_timer_call_every(lua_State *l)
 
 	LUA_DEBUG_START(l);
 
+	double at = Pi::game->GetTime() + every;
+
 	lua_newtable(l);
 	pi_lua_settable(l, "every", every);
-	pi_lua_settable(l, "at", Pi::game->GetTime() + every);
+	pi_lua_settable(l, "at", at);
 
-	_finish_timer_create(l);
+	int ref = _finish_timer_create(l, 3);
+	Pi::luaTimer->Insert(at, ref, true);
 
 	LUA_DEBUG_END(l, 0);
 

@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -10,12 +10,13 @@ local StationView = require 'pigui.views.station-view'
 local Table = require 'pigui.libs.table'
 local PiImage = require 'pigui.libs.image'
 local ModelSpinner = require 'PiGui.Modules.ModelSpinner'
+local CommodityType= require 'CommodityType'
 
 local ui = require 'pigui'
 local pionillium = ui.fonts.pionillium
 local orbiteer = ui.fonts.orbiteer
+local styleColors = ui.theme.styleColors
 local l = Lang.GetResource("ui-core")
-local textTable = require 'pigui.libs.text-table'
 local Vector2 = _G.Vector2
 
 local vZero = Vector2(0,0)
@@ -32,7 +33,7 @@ local icons = {}
 local manufacturerIcons = {}
 local selectedItem
 
-local shipSellPriceReduction = 0.5
+local shipSellPriceReduction = 0.65
 local equipSellPriceReduction = 0.8
 
 local modelSpinner = ModelSpinner()
@@ -133,7 +134,6 @@ local function buyShip (mkt, sos)
 		return
 	end
 
-	local manifest = player:GetEquip("cargo")
 	player:AddMoney(-cost)
 
 	station:ReplaceShipOnSale(sos, {
@@ -147,12 +147,11 @@ local function buyShip (mkt, sos)
 	player:SetSkin(sos.skin)
 	if sos.pattern then player.model:SetPattern(sos.pattern) end
 	player:SetLabel(sos.label)
+
 	if def.hyperdriveClass > 0 then
 		player:AddEquip(Equipment.hyperspace["hyperdrive_" .. def.hyperdriveClass])
 	end
-	for _, e in pairs(manifest) do
-		player:AddEquip(e)
-	end
+
 	player:SetFuelPercent(100)
 	refreshShipMarket();
 
@@ -179,23 +178,25 @@ local tradeMenu = function()
 				ui.columns(2, "shipMarketInfo")
 				ui.setColumnWidth(0, colHeadingWidth)
 
-				ui.withFont(orbiteer.xlarge, function()
+				ui.withFont(orbiteer.title, function()
 					ui.text(selectedItem.def.name)
 				end)
-				ui.withFont(orbiteer.medlarge, function()
+				ui.withFont(orbiteer.body, function()
 					ui.text(shipClassString[selectedItem.def.shipClass])
 				end)
 
-				ui.text(l.PRICE..": "..Format.Money(selectedItem.def.basePrice, false))
-				ui.sameLine()
-				ui.text(l.AFTER_TRADE_IN..": "..Format.Money(selectedItem.def.basePrice - tradeInValue(ShipDef[Game.player.shipId]), false))
+				ui.withFont(pionillium.heading, function()
+					ui.text(l.PRICE..": "..Format.Money(selectedItem.def.basePrice, false))
+					ui.sameLine()
+					ui.text(l.AFTER_TRADE_IN..": "..Format.Money(selectedItem.def.basePrice - tradeInValue(ShipDef[Game.player.shipId]), false))
+				end)
 
 				ui.nextColumn()
 				ui.dummy(widgetSizes.iconSpacer)
 				ui.sameLine()
 				manufacturerIcon(selectedItem.def.manufacturer)
 				local shipBought = false
-				ui.withFont(pionillium.medlarge, function()
+				ui.withFont(pionillium.body, function()
 					shipBought = ui.button(l.BUY_SHIP, widgetSizes.buyButton)
 				end)
 				ui.columns(1, "")
@@ -260,16 +261,41 @@ local tradeMenu = function()
 						l.ATMOSPHERIC_SHIELDING, yes_no(def.equipSlotCapacity["atmo_shield"]),
 						l.ATMO_PRESS_LIMIT, atmoSlot
 					}, {
-						l.SCOOP_MOUNTS, def.equipSlotCapacity["scoop"]
+						l.SCOOP_MOUNTS, def.equipSlotCapacity["scoop"],
+						l.PASSENGER_CABIN_CAPACITY, def.equipSlotCapacity["cabin"]
 					},
 				}
 
 				ui.child("ShipSpecs", Vector2(0, 0), function()
-					local colSpecNameWidth = ui.getContentRegion().x / 3.6
-					local colSpecValWidth = (ui.getContentRegion().x - colSpecNameWidth*2) / 2
-					local widths = { colSpecNameWidth, colSpecValWidth, colSpecNameWidth, colSpecValWidth }
-					textTable.drawTable(4, widths, shipInfoTable)
+					ui.withStyleVars({ CellPadding = Vector2(8, 4) }, function()
+
+						ui.beginTable("specs", 4)
+						ui.tableSetupColumn("name1")
+						ui.tableSetupColumn("body1")
+						ui.tableSetupColumn("name2")
+						ui.tableSetupColumn("body2")
+
+						for _, item in ipairs(shipInfoTable) do
+							ui.tableNextRow()
+
+							ui.tableSetColumnIndex(0)
+							ui.textColored(styleColors.gray_300, item[1])
+
+							ui.tableSetColumnIndex(1)
+							ui.textAligned(item[2], 1.0)
+
+							ui.tableSetColumnIndex(2)
+							ui.textColored(styleColors.gray_300, item[3])
+
+							ui.tableSetColumnIndex(3)
+							ui.textAligned(item[4], 1.0)
+						end
+
+						ui.endTable()
+
+					end)
 				end)
+
 			end)
 		end)
 	end
@@ -286,7 +312,7 @@ shipMarket = Table.New("shipMarketWidget", false, {
 		ui.setColumnWidth(3, columnWidth)
 	end,
 	renderHeaderRow = function(_)
-		ui.withFont(orbiteer.xlarge, function()
+		ui.withFont(orbiteer.heading, function()
 			ui.text('')
 			ui.nextColumn()
 			ui.text(l.SHIP)
@@ -334,14 +360,18 @@ StationView:registerView({
 	icon = ui.theme.icons.ship,
 	showView = true,
 	draw = function()
-		ui.withFont(pionillium.large, function()
+		ui.withFont(pionillium.heading, function()
 			shipMarket:render()
-			ui.sameLine(0, widgetSizes.itemSpacing.x)
-			tradeMenu()
 		end)
+
+		ui.sameLine(0, widgetSizes.itemSpacing.x)
+		tradeMenu()
 	end,
 	refresh = function()
 		refreshShipMarket()
 		shipMarket.scrollReset = true
 	end,
+	debugReload = function()
+		package.reimport()
+	end
 })

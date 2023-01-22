@@ -1,0 +1,42 @@
+material Coronatrix-fuselage
+diffuse 1.0 1.0 1.0
+specular 0.3 0.3 0.3
+shininess 40
+tex_diff coronatrix_diff.dds
+tex_spec coronatrix_spec.dds
+tex_norm coronatrix_norm.png
+tex_glow coronatrix_glow.dds
+use_patterns
+
+material Coronatrix-canopy
+diffuse 1.0 1.0 1.0
+specular 0.8 0.8 0.8
+shininess 120
+opacity 90
+tex_diff coronatrix_diff.dds
+tex_spec coronatrix_spec.dds
+tex_norm coronatrix_norm.png
+tex_glow coronatrix_glow.dds
+
+material Coronatrix_parts
+diffuse 1.0 1.0 1.0
+specular 0.4 0.4 0.4
+shininess 80
+tex_diff parts_diff.dds
+tex_spec parts_spec.dds
+tex_norm parts_norm.png
+tex_glow parts_glow.dds
+
+lod 300
+mesh coronatrix_hi.dae
+
+lod 150
+mesh coronatrix_mid.dae
+
+lod 50
+mesh coronatrix_low.dae
+
+anim gear_down 1 100
+
+collision coronatrix_coll.dae
+mesh coronatrix_shield.dae

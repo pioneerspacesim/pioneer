@@ -1,10 +1,11 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = require 'Game'
 local Format = require "Format"
 local ui = require 'pigui'
 local debugView = require 'pigui.views.debug'
+local Commodities = require 'Commodities'
 local amount = 1000
 local selected = 0
 
@@ -21,18 +22,20 @@ end
 
 local Character = require "Character"
 
-local Equipment = require 'Equipment'
-local ci = 0
-
 local commodities = {}
 local commodities_name = {}
 local selected_commodity = 0
 local cargo_amount = 0
-local changed_commodity = false
+
 local get_commodities = function()
-	for key, equip in pairs(Equipment.cargo) do
-		table.insert(commodities, equip)
-		table.insert(commodities_name, equip:GetName())
+	for _, commodity in pairs(Commodities) do
+		table.insert(commodities, commodity)
+	end
+
+	table.sort(commodities, function(a, b) return a:GetName() < b:GetName() end)
+
+	for _, commodity in ipairs(commodities) do
+		table.insert(commodities_name, commodity:GetName())
 	end
 end
 
@@ -69,7 +72,6 @@ debugView.registerTab("RPG-debug-view", function()
 
 		local rows = 10
 		if ui.collapsingHeader("Crime", {}) then
-			local changed, ret = 0
 
 			ui.text("ADD CRIMINAL CHARGES:")
 			local selected_crime = 0
@@ -104,27 +106,27 @@ debugView.registerTab("RPG-debug-view", function()
 
 		-- Load up on commodities
 		if ui.collapsingHeader("Cargo", {}) then  -- {"OpenOnDoubleClick"}
-			-- to do: max cargo space
-			cargo_amount = ui.sliderInt("##CommodityAmount", cargo_amount, 0, 100)
+
+			---@type CargoManager
+			local cargoMgr = Game.player:GetComponent('CargoManager')
+			local free_space = cargoMgr:GetFreeSpace()
+
+			ui.nextItemWidth(-1.0)
+			cargo_amount = ui.sliderInt("##CommodityAmount", math.min(cargo_amount, free_space), 0, free_space)
 
 			if #commodities == 0 then
 				get_commodities()
 			end
 
-			changed_commodity, commodity_idx = ui.combo("Commodities", selected_commodity, commodities_name)
-
-			if changed_commodity then
-				selected_commodity = commodity_idx
-				ci = selected_commodity + 1
+			if ui.button("Buy commodity") then
+				cargoMgr:AddCommodity(commodities[selected_commodity + 1], cargo_amount)
 			end
-			ui.text("Selected comodity index " ..selected_commodity)
 
-			if ui.button("Buy commodity", Vector2(100, 0)) then
-				print(commodities, ci)            -- when ci=0
-				print(commodities[ci])			  -- and this is nil, next line crashes. If nothing has been selected?
-				print(commodities[ci]:GetName())
-				Game.player:AddEquip(commodities[ci], cargo_amount, "cargo")
-			end
+			ui.sameLine()
+			ui.nextItemWidth(-1.0)
+
+			local _
+			_, selected_commodity = ui.combo("##Commodities", selected_commodity, commodities_name)
 
 		end
 

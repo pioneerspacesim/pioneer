@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Create a news event on the BBS (to do: place it on
@@ -22,12 +22,13 @@ local Game = require 'Game'
 local Event = require 'Event'
 local Format = require 'Format'
 local Serializer = require 'Serializer'
+local Commodities = require 'Commodities'
 local Equipment = require 'Equipment'
 
 local l = Lang.GetResource("module-newseventcommodity")
 
 local maxDist = 50          -- for spawning news (ly)
-local minTime = 15768000    -- no news the first 5 months of a new game (sec)
+local minTime = 15768000    -- no news the first 6 months of a new game (sec)
 
 -- to spawn a new event per hyperjump, provided no other news.
 local eventProbability = 1/20
@@ -40,76 +41,76 @@ local maxIndexOfGreetings = 5
 
 local flavours = {
 	{                                           -- flavour 0 in en.json
-		cargo = Equipment.cargo.medicines.name, -- which commodity is affected
+		cargo = Commodities.medicines.name, -- which commodity is affected
 		demand = 4,                             -- change in price (and stock)
 	}, {
-		cargo = Equipment.cargo.battle_weapons.name,       --1
+		cargo = Commodities.battle_weapons.name,       --1
 		demand = 4,
 	}, {
-		cargo = Equipment.cargo.grain.name,                --2
+		cargo = Commodities.grain.name,                --2
 		demand = 10,
 	}, {
-		cargo = Equipment.cargo.fruit_and_veg.name,        --3
+		cargo = Commodities.fruit_and_veg.name,        --3
 		demand = 6,
 	}, {
-		cargo = Equipment.cargo.narcotics.name,            --4
+		cargo = Commodities.narcotics.name,            --4
 		demand = -4,
 	}, {
-		cargo = Equipment.cargo.slaves.name,               --5
+		cargo = Commodities.slaves.name,               --5
 		demand = 7,
 	}, {
-		cargo = Equipment.cargo.liquor.name,               --6
+		cargo = Commodities.liquor.name,               --6
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.industrial_machinery.name, --7
+		cargo = Commodities.industrial_machinery.name, --7
 		demand = 6,
 	}, {
-		cargo = Equipment.cargo.mining_machinery.name,     --8
+		cargo = Commodities.mining_machinery.name,     --8
 		demand = 6,
 	}, {
-		cargo = Equipment.cargo.live_animals.name,         --9
+		cargo = Commodities.live_animals.name,         --9
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.air_processors.name,       --10
+		cargo = Commodities.air_processors.name,       --10
 		demand = 5,
 	}, {
-		cargo = Equipment.cargo.animal_meat.name,          --11
+		cargo = Commodities.animal_meat.name,          --11
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.computers.name,            --12
+		cargo = Commodities.computers.name,            --12
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.robots.name,               --13
+		cargo = Commodities.robots.name,               --13
 		demand = -4,
 	}, {
-		cargo = Equipment.cargo.plastics.name,             --14
+		cargo = Commodities.plastics.name,             --14
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.narcotics.name,            --15
+		cargo = Commodities.narcotics.name,            --15
 		demand = 4,
 	}, {
-		cargo = Equipment.cargo.farm_machinery.name,       --16
+		cargo = Commodities.farm_machinery.name,       --16
 		demand = 5,
 	}, {
-		cargo = Equipment.cargo.metal_ore.name,            --17
+		cargo = Commodities.metal_ore.name,            --17
 		demand = -10,
 	}, {
-		cargo = Equipment.cargo.consumer_goods.name,       --18
+		cargo = Commodities.consumer_goods.name,       --18
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.precious_metals.name,      --19
+		cargo = Commodities.precious_metals.name,      --19
 		demand = -3,
 	}, {
-		cargo = Equipment.cargo.fertilizer.name,           --20
+		cargo = Commodities.fertilizer.name,           --20
 		demand = -3,
 	}, {
-		cargo = Equipment.cargo.nerve_gas.name,            --21
+		cargo = Commodities.nerve_gas.name,            --21
 		demand = -4,
 	}, {
-		cargo = Equipment.cargo.hand_weapons.name,         --22
+		cargo = Commodities.hand_weapons.name,         --22
 		demand = 3,
 	}, {
-		cargo = Equipment.cargo.metal_alloys.name,         --23
+		cargo = Commodities.metal_alloys.name,         --23
 		demand = 3,
 	}
 }
@@ -120,15 +121,6 @@ for i = 1,#flavours do
 	local f = flavours[i]
 	f.headline = l["FLAVOUR_" .. i-1 .. "_HEADLINE"]
 	f.newsbody = l["FLAVOUR_" .. i-1 .. "_NEWSBODY"]
-
-	-- make sure future changes to Equipment won't break this module:
-	local is_valid = false
-	for key, e in pairs(Equipment.cargo) do
-		if key == f.cargo then
-			is_valid = true
-		end
-	end
-	assert(is_valid)
 end
 
 -- will hold the ads of the current system
@@ -243,7 +235,7 @@ local createNewsEvent = function (timeInHyper)
 	-- add headline from flavour, and more info to be displayed
 	newsEvent.description = string.interp(flavours[flavour].headline, {
 		system = system.name,
-		cargo = Equipment.cargo[cargo]:GetName(),
+		cargo = Commodities[cargo]:GetName(),
 		-- Turn string "23:09:27 3 Jan 3200" into "3 Jan 3200:"
 		date  = Format.DateOnly(date),
 	})
@@ -319,7 +311,7 @@ local onEnterSystem = function (player)
 
 	-- create a news event with low probability
 	if Engine.rand:Number(0,1) < eventProbability and
-		#news <= maxNumberNews and Game.time > minTime then
+		#news <= maxNumberNews and Game.GetStartTime() > minTime then
 		createNewsEvent(timeInHyperspace)
 	end
 
@@ -350,15 +342,16 @@ local onShipDocked = function (ship, station)
 		-- if this is the system of the news
 		if currentSystem:IsSameSystem(n.syspath) then
 			-- send a grateful greeting from the station if the player cargo is right
-			local cargo_item = Equipment.cargo[n.cargo]
-			if ship:CountEquip(cargo_item, "cargo") > 0 and n.demand > 0 then
+			local cargo_item = Commodities[n.cargo]
+
+			if ship:GetComponent('CargoManager'):CountCommodity(cargo_item) > 0 and n.demand > 0 then
 				local greeting = string.interp(l["GRATEFUL_GREETING_"..Engine.rand:Integer(0,maxIndexOfGreetings)],
 					{cargo = cargo_item:GetName()})
 				Comms.Message(greeting)
 			end
 
-			local price = station:GetEquipmentPrice(cargo_item)
-			local stock = station:GetEquipmentStock(cargo_item)
+			local price = station:GetCommodityPrice(cargo_item)
+			local stock = station:GetCommodityStock(cargo_item)
 
 			local newPrice, newStockChange
 			if n.demand > 0 then
@@ -371,8 +364,8 @@ local onShipDocked = function (ship, station)
 				error("demand should probably not be 0.")
 			end
 			-- print("--- NewsEvent: cargo:", cargo_item:GetName(), "price:", newPrice, "stock:", newStockChange)
-			station:SetEquipmentPrice(cargo_item, newPrice)
-			station:AddEquipmentStock(cargo_item, newStockChange)
+			station:SetCommodityPrice(cargo_item, newPrice)
+			station:AddCommodityStock(cargo_item, newStockChange)
 		end
 	end
 end
@@ -417,17 +410,6 @@ end
 
 local unserialize = function (data)
 	loadedData = data
-
-	-- Saves are backwards compatible with new format, where we save
-	-- cargo string, instead of EquipType object (memory address)
-	-- (remove in a year or so)
-	if data.news then
-		for key, value in pairs(data.news) do
-			if type(value.cargo) == 'table' then
-				value.cargo = value.cargo.name
-			end
-		end
-	end
 end
 
 Event.Register("onCreateBB", onCreateBB)

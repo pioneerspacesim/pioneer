@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GuiApplication.h"
@@ -106,7 +106,7 @@ Graphics::RenderTarget *GuiApplication::CreateRenderTarget(const Graphics::Setti
 	return nullptr;
 }
 
-void GuiApplication::HandleEvents()
+void GuiApplication::PollEvents()
 {
 	PROFILE_SCOPED()
 	SDL_Event event;
@@ -146,14 +146,19 @@ void GuiApplication::HandleEvents()
 			}
 		}
 
-		// TODO: virtual method dispatch for each event isn't great. Let's find a better solution
-		if (HandleEvent(event))
-			continue;
-
 		m_input->HandleSDLEvent(event);
 	}
+}
 
+void GuiApplication::DispatchEvents()
+{
 	m_input->DispatchEvents();
+}
+
+void GuiApplication::HandleEvents()
+{
+	PollEvents();
+	DispatchEvents();
 }
 
 Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidden)

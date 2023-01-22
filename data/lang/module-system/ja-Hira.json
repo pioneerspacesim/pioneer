@@ -1,0 +1,38 @@
+{
+  "BASE": {
+    "description": "",
+    "message": "base"
+  },
+  "BASES": {
+    "description": "",
+    "message": "bases"
+  },
+  "BODIES": {
+    "description": "",
+    "message": "天体"
+  },
+  "BODY": {
+    "description": "",
+    "message": "天体"
+  },
+  "DISCOVERED_HIDDEN_BASES": {
+    "description": "",
+    "message": "You have discovered {portcount} hidden {bases}!"
+  },
+  "EXPLORED_SYSTEM": {
+    "description": "",
+    "message": "Explored system with {bodycount} major {bodies}."
+  },
+  "GETTING_SENSOR_DATA": {
+    "description": "Shown when entering an unexplored system",
+    "message": "System data gathering and analysis in progress..."
+  },
+  "YOUR_FUEL_TANK_IS_ALMOST_EMPTY": {
+    "description": "",
+    "message": "Your fuel tank is almost empty."
+  },
+  "YOUR_FUEL_TANK_IS_EMPTY": {
+    "description": "",
+    "message": "Your fuel tank is empty."
+  }
+}

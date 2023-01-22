@@ -201,7 +201,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Komisja ruchu kosmicznego {starport} otrzymała informacje o potrzebie paliwa nadlatującego statku. Poszukiwany dostawca paliwa."
+    "message": "Komisja ruchu kosmicznego {starport} otrzymała informacje o potrzebie zatankowania nadlatującego statku. Poszukiwany dostawca paliwa."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -253,7 +253,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Nazywam się {name} z kontroli lotów {starport}. Wzywam do pomocy w odpowiedzi na nagłą potrzebę medyczną dla pilota lotu {shiplabel}, kierowaną z {starport}."
+    "message": "Nazywam się {name} z kontroli lotów {starport}. W odpowiedzi na nagłą potrzebę medyczną dla pilota lotu {shiplabel}, kierowaną z {starport} - wzywam do udzielenia pomocy."
   },
   "FLAVOUR_3_LOCATIONTEXT": {
     "description": "",
@@ -381,7 +381,7 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Natychmiastowy transport załogi do dryfującego statku w systemie {system} potrzebny."
+    "message": "Potrzebny natychmiastowy transport załogi do dryfującego statku w systemie {system}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",

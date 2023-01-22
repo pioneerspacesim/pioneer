@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _USE_MATH_DEFINES
@@ -107,6 +107,18 @@ namespace JsonUtils {
 } // namespace JsonUtils
 
 #define USE_STRING_VERSIONS
+
+void VectorToJson(Json &jsonObj, const vector2f &vec)
+{
+	// Create JSON array to contain vector data.
+	jsonObj = Json::array({ vec.x, vec.y });
+}
+
+void VectorToJson(Json &jsonObj, const vector2d &vec)
+{
+	// Create JSON array to contain vector data.
+	jsonObj = Json::array({ vec.x, vec.y });
+}
 
 void VectorToJson(Json &jsonObj, const vector3f &vec)
 {
@@ -286,6 +298,18 @@ void BinStrToJson(Json &jsonObj, const std::string &binStr)
 		// release the compressed data
 		mz_free(pCompressedData);
 	}
+}
+
+void JsonToVector(vector2f *pVec, const Json &jsonObj)
+{
+	pVec->x = jsonObj[0];
+	pVec->y = jsonObj[1];
+}
+
+void JsonToVector(vector2d *pVec, const Json &jsonObj)
+{
+	pVec->x = jsonObj[0];
+	pVec->y = jsonObj[1];
 }
 
 void JsonToVector(vector3f *pVec, const Json &jsonObj)

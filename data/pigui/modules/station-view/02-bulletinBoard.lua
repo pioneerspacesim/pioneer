@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -202,7 +202,7 @@ local function renderBulletinBoard()
 		ui.sameLine()
 
 		ui.child("BulletinBoardSearch", Vector2(0, 0), function()
-			ui.withFont(orbiteer.xlarge, function()
+			ui.withFont(orbiteer.title, function()
 				ui.text(l.SEARCH)
 			end)
 			ui.pushItemWidth(ui.getContentRegion().x)

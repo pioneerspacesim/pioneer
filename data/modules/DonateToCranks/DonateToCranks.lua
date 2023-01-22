@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -12,7 +12,7 @@ local Format = require 'Format'
 local l = Lang.GetResource("module-donatetocranks")
 
 local flavours = {}
-for i = 0,5 do
+for i = 0,9 do
 	table.insert(flavours, {
 		title     = l["FLAVOUR_" .. i .. "_ADTITLE"],
 		desc      = l["FLAVOUR_" .. i .. "_DESC"],
@@ -63,7 +63,7 @@ local onChat = function (form, ref, option)
 	local ad = ads[ref]
 	form:Clear()
 
-	form:SetTitle(ad.title)
+	form:SetTitle(string.interp(flavours[ad.n].desc, ad.stringVariables))
 	form:SetFace(ad.character)
 
 	if option == -1 then
@@ -72,7 +72,7 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetMessage(ad.message .. "\n\n" .. string.interp(
+		form:SetMessage(string.interp(flavours[ad.n].message, ad.stringVariables) .. "\n\n" .. string.interp(
 			l.SALES_PITCH, {cash = Format.Money(computeReputation(ad), false)}))
 
 	elseif Game.player:GetMoney() < option then
@@ -106,23 +106,28 @@ local onCreateBB = function (station)
 		return
 	end
 
+	local faction = Game.system.faction.name
+	local military = Game.system.faction.militaryName
+	local police = Game.system.faction.policeName
+	local system = Game.system.name
+	local stringVariables = {SYSTEM = system, FACTION = faction, MILITARY = military, POLICE = police}
 	local ad = {
 		modifier = n == 6 and 1.5 or 1.0, -- donating to FOSS is twice as good
-		title    = flavours[n].desc,
-		message  = flavours[n].message,
+		stringVariables = stringVariables,
 		station  = station,
 		character = Character.New({armour=false}),
 		n        = n
 	}
 
 	local ref = station:AddAdvert({
-		title       = flavours[n].title,
-		description = flavours[n].desc,
+		title       = string.interp(flavours[n].title, stringVariables),
+		description = string.interp(flavours[n].desc, stringVariables),
 		icon        = "donate_to_cranks",
 		onChat      = onChat,
 		onDelete    = onDelete})
 	ads[ref] = ad
 end
+
 
 local loaded_data
 
@@ -133,8 +138,8 @@ local onGameStart = function ()
 
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
-			title       = flavours[ad.n].title,
-			description = flavours[ad.n].desc,
+			title       = string.interp(flavours[ad.n].title, ad.stringVariables),
+			description = string.interp(flavours[ad.n].desc, ad.stringVariables),
 			icon        = "donate_to_cranks",
 			onChat      = onChat,
 			onDelete    = onDelete})

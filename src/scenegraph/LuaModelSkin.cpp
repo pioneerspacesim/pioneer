@@ -1,9 +1,11 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelSkin.h"
 #include "Serializer.h"
+#include "lua/LuaColor.h"
 #include "lua/LuaObject.h"
+#include "lua/LuaTable.h"
 
 namespace SceneGraph {
 
@@ -13,6 +15,16 @@ namespace SceneGraph {
 		{
 			ModelSkin skin;
 			LuaObject<ModelSkin>::PushToLua(skin);
+			return 1;
+		}
+
+		static int l_get_colors(lua_State *l)
+		{
+			ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
+			std::vector<Color> v = skin->GetColors();
+			LuaTable t = LuaTable(l);
+			t.LoadVector(v.begin(), v.end());
+			LuaPush(l, t);
 			return 1;
 		}
 
@@ -119,6 +131,7 @@ void LuaObject<SceneGraph::ModelSkin>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "New", LuaModelSkin::l_new },
+		{ "GetColors", LuaModelSkin::l_get_colors },
 		{ "SetColors", LuaModelSkin::l_set_colors },
 		{ "SetRandomColors", LuaModelSkin::l_set_random_colors },
 		{ "SetDecal", LuaModelSkin::l_set_decal },

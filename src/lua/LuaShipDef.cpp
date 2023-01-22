@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaShipDef.h"
@@ -249,6 +249,9 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "hyperdriveClass", st.hyperdriveClass);
 		pi_lua_settable(l, "effectiveExhaustVelocity", st.effectiveExhaustVelocity);
 		pi_lua_settable(l, "thrusterFuelUse", st.GetFuelUseRate());
+		pi_lua_settable(l, "frontCrossSec", st.frontCrossSection);
+		pi_lua_settable(l, "sideCrossSec", st.sideCrossSection);
+		pi_lua_settable(l, "topCrossSec", st.topCrossSection);
 		pi_lua_settable(l, "atmosphericPressureLimit", st.atmosphericPressureLimit);
 
 		lua_newtable(l);

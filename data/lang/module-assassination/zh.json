@@ -49,11 +49,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Wanted: Removal of {target} from the {system} system."
+    "message": "悬赏: 干掉在 {system} 星系的 {target}."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "REMOVAL WANTED"
+    "message": "消除通缉"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "TARGET ELIMINATION"
+    "message": "消灭目标"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "REMOVAL OPERATION"
+    "message": "拆除作业"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "TERMINATION"
+    "message": "结局"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "RETIREMENT"
+    "message": "退休"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "BIOGRAPHICAL"
+    "message": "传记"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",

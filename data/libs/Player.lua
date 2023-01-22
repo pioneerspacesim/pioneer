@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -7,7 +7,9 @@
 -- Functions for interacting with the Player.
 --
 
+---@class Player
 local Player = package.core["Player"]
+
 local Serializer = require 'Serializer'
 local Event = require 'Event'
 local Game = require 'Game'

@@ -1,0 +1,321 @@
+{
+  "AXIS": {
+    "description": "Cardinal name used to compose Joystick <X> Button <Y>",
+    "message": "軸"
+  },
+  "BIND_AXIS_PITCH": {
+    "description": "Descriptive name for the Pitch axis.",
+    "message": "ピッチ"
+  },
+  "BIND_AXIS_ROLL": {
+    "description": "Descriptive name for the Roll axis",
+    "message": "ロール"
+  },
+  "BIND_AXIS_THRUST_FORWARD": {
+    "description": "Descriptive name for the ThrustForward axis",
+    "message": "スラスター 前 / 後"
+  },
+  "BIND_AXIS_THRUST_LEFT": {
+    "description": "Descriptive name for the ThrustLeft axis",
+    "message": "スラスター 左 / 右"
+  },
+  "BIND_AXIS_THRUST_UP": {
+    "description": "Descriptive name for the ThrustUp axis",
+    "message": "スラスター 上 / 下"
+  },
+  "BIND_AXIS_YAW": {
+    "description": "Descriptive name for the Yaw axis.",
+    "message": "ヨー"
+  },
+  "BIND_BOTTOM_CAMERA": {
+    "description": "Descriptive name for the BottomCamera action.",
+    "message": "下方カメラに切り替え"
+  },
+  "BIND_CAMERA_PITCH": {
+    "description": "Descriptive name for the Camera Pitch axis.",
+    "message": "カメラのピッチ"
+  },
+  "BIND_CAMERA_ROLL": {
+    "description": "Descriptive name for the Camera Roll axis",
+    "message": "カメラのロール"
+  },
+  "BIND_CAMERA_YAW": {
+    "description": "Descriptive name for the Camera Yaw axis.",
+    "message": "カメラのヨー"
+  },
+  "BIND_CYCLE_CAMERA_MODE": {
+    "description": "Descriptive name for the CycleCameraMode action.",
+    "message": "カメラモードの切り替え"
+  },
+  "BIND_DECREASE_TIME_ACCELERATION": {
+    "description": "Descriptive name for the DecreaseTimeAcceleration action.",
+    "message": "時間の加速を緩める"
+  },
+  "BIND_FIXHEADING_RADIAL": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Open Attitude Hold Radial Menu"
+  },
+  "BIND_FLIGHT_ASSIST_RADIAL": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Open Flight Assist Radial Menu"
+  },
+  "BIND_FRONT_CAMERA": {
+    "description": "Descriptive name for the FrontCamera action.",
+    "message": "前方カメラに切り替え"
+  },
+  "BIND_INCREASE_TIME_ACCELERATION": {
+    "description": "Descriptive name for the IncreaseTimeAcceleration action.",
+    "message": "時間の加速を強める"
+  },
+  "BIND_KILL_ROT": {
+    "description": "Descriptive name for the KillRot action.",
+    "message": "回転を抹殺する"
+  },
+  "BIND_LEFT_CAMERA": {
+    "description": "Descriptive name for the LeftCamera action.",
+    "message": "左側カメラに切り替え"
+  },
+  "BIND_LOOK_PITCH": {
+    "description": "Descriptive name for the Freelook Pitch axis.",
+    "message": "フリールックピッチ"
+  },
+  "BIND_LOOK_YAW": {
+    "description": "Descriptive name for the Freelook Yaw axis.",
+    "message": "フリールックヨー"
+  },
+  "BIND_MAP_TOGGLE_SELECTION_FOLLOW_VIEW": {
+    "description": "Descriptive name for the MapToggleSelectionFollowView action.",
+    "message": "次の表示に切り替え"
+  },
+  "BIND_MAP_VIEW_MOVE_FORWARD": {
+    "description": "Axis binding",
+    "message": "マップを縦方向にずらす"
+  },
+  "BIND_MAP_VIEW_MOVE_LEFT": {
+    "description": "Axis binding",
+    "message": "マップを横方向にずらす"
+  },
+  "BIND_MAP_VIEW_MOVE_UP": {
+    "description": "Axis binding",
+    "message": "マップを鉛直方向にずらす"
+  },
+  "BIND_MAP_VIEW_PITCH": {
+    "description": "Axis binding",
+    "message": "マップでのピッチ"
+  },
+  "BIND_MAP_VIEW_YAW": {
+    "description": "Axis binding",
+    "message": "マップでのヨー"
+  },
+  "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToCurrentSystem action.",
+    "message": "現在の星系に視点を合わせる"
+  },
+  "BIND_MAP_WARP_TO_SELECTED_SYSTEM": {
+    "description": "Descriptive name for the MapWarpToSelectedSystem action.",
+    "message": "選択した星系に視点を合わせる"
+  },
+  "BIND_PRIMARY_FIRE": {
+    "description": "Descriptive name for the PrimaryFire action.",
+    "message": "プライマリファイア"
+  },
+  "BIND_RADIAL_HORIZONTAL_SELECTION": {
+    "description": "Input axis name to select in the radial menu.",
+    "message": "Radial Menu Left/Right"
+  },
+  "BIND_RADIAL_VERTICAL_SELECTION": {
+    "description": "Input axis name to select in the radial menu.",
+    "message": "Radial Menu Up/Down"
+  },
+  "BIND_REAR_CAMERA": {
+    "description": "Descriptive name for the RearCamera action.",
+    "message": "後方カメラに切り替え"
+  },
+  "BIND_RESET_CAMERA": {
+    "description": "Descriptive name for the ResetCamera action.",
+    "message": "カメラの表示をデフォルトにリセット"
+  },
+  "BIND_RESET_ORIENTATION_AND_ZOOM": {
+    "description": "Descriptive name for the ResetOrientationAndZoom action.",
+    "message": "角度とズームをリセット"
+  },
+  "BIND_RIGHT_CAMERA": {
+    "description": "Descriptive name for the RightCamera action.",
+    "message": "右側カメラに切り替え"
+  },
+  "BIND_SECONDARY_FIRE": {
+    "description": "Descriptive name for the SecondaryFire action.",
+    "message": "セカンダリファイア"
+  },
+  "BIND_SPEED_CONTROL": {
+    "description": "Descriptive name for the SpeedControl axis.",
+    "message": "目標スピードを設定"
+  },
+  "BIND_TARGET_OBJECT": {
+    "description": "Descriptive name for the TargetObject action.",
+    "message": "目標物"
+  },
+  "BIND_THRUST_LOW_POWER": {
+    "description": "Descriptive name for the ThrustLowPower action.",
+    "message": "低出力推進モード (固定)"
+  },
+  "BIND_TOGGLE_CRUISE": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Toggle Cruise Mode"
+  },
+  "BIND_TOGGLE_HUD_MODE": {
+    "description": "Descriptive name for the ToggleHudMode action.",
+    "message": "HUDモードの切り替え"
+  },
+  "BIND_TOGGLE_LUA_CONSOLE": {
+    "description": "Descriptive name for the ToggleLuaConsole action.",
+    "message": "Luaコンソールの切り替え"
+  },
+  "BIND_TOGGLE_ROTATION_DAMPING": {
+    "description": "Descriptive name for the ToggleRotationDamping action.",
+    "message": "回転抹殺の切り替え"
+  },
+  "BIND_TOGGLE_SPEED_LIMITER": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Toggle Speed Limiter"
+  },
+  "BIND_TOP_CAMERA": {
+    "description": "Descriptive name for the TopCamera action.",
+    "message": "上方カメラに切り替え"
+  },
+  "BIND_VIEW_ZOOM": {
+    "description": "Descriptive name for the View Zoom axis",
+    "message": "ズームする"
+  },
+  "BUTTON": {
+    "description": "",
+    "message": "\" ボタン \""
+  },
+  "CONNECTED": {
+    "description": "Joystick status in the list",
+    "message": "Connected"
+  },
+  "DIRECTION": {
+    "description": "Direction",
+    "message": "\" 方向 \""
+  },
+  "GROUP_GENERAL_VIEW_CONTROLS": {
+    "description": "Header for the GeneralViewControls input group.",
+    "message": "一般的な表示の制御"
+  },
+  "GROUP_MANUAL_CONTROL": {
+    "description": "Header for the ManualControl input group.",
+    "message": "手動スラスター制御"
+  },
+  "GROUP_MISCELLANEOUS": {
+    "message": "その他"
+  },
+  "GROUP_SECTOR_MAP_VIEW_CONTROLS": {
+    "description": "Header for the SectorMapViewControls input group.",
+    "message": "区分地図の制御"
+  },
+  "GROUP_SHIP_ORIENT": {
+    "description": "Header for the ShipOrient input group.",
+    "message": "Ship Orientation"
+  },
+  "GROUP_SPEED_CONTROL": {
+    "description": "Header for the SpeedControl input group.",
+    "message": "Set-Speed Thrust Control"
+  },
+  "GROUP_WEAPONS": {
+    "description": "Header for the Weapons input group.",
+    "message": "武器"
+  },
+  "HAT": {
+    "description": "Hat switch: Is the top button on a joystick",
+    "message": "\" ハット\""
+  },
+  "JOY": {
+    "description": "An acronym for the joystick",
+    "message": "スティック"
+  },
+  "JOYSTICKS": {
+    "description": "Header for the joystick's list.",
+    "message": "ジョイスティック"
+  },
+  "MOUSE": {
+    "description": "A computer mouse, used to create the name for a mouse button binding",
+    "message": "マウス"
+  },
+  "MOUSE_LMB": {
+    "description": "An acronym for the left mouse button",
+    "message": "左クリック"
+  },
+  "MOUSE_MMB": {
+    "description": "An acronym for the middle mouse button",
+    "message": "中クリック"
+  },
+  "MOUSE_RMB": {
+    "description": "An acronym for the right mouse button",
+    "message": "右クリック"
+  },
+  "NOT_CONNECTED": {
+    "description": "Joystick status in the list",
+    "message": "Not connected"
+  },
+  "PAGE_GENERAL": {
+    "description": "Header for the General input page.",
+    "message": "一般的な制御"
+  },
+  "PAGE_MAP_CONTROLS": {
+    "description": "Header for the MapControls input page.",
+    "message": "マップの制御"
+  },
+  "PAGE_SHIP_CONTROLS": {
+    "description": "Header for the ShipControls input page.",
+    "message": "船 - 制御"
+  },
+  "PAGE_SHIP_VIEW": {
+    "description": "Header for the ShipView input page.",
+    "message": "船 - 表示"
+  },
+  "TEXT_ALT_BINDING": {
+    "description": "",
+    "message": "Altを割り当て:"
+  },
+  "TEXT_AXIS_DEADZONE": {
+    "description": "Message shown for the axis deadzone slider.",
+    "message": "軸の最大値"
+  },
+  "TEXT_AXIS_SENSITIVITY": {
+    "description": "Message shown for the axis sensitivity slider.",
+    "message": "軸の感度"
+  },
+  "TEXT_BINDING": {
+    "description": "",
+    "message": "割り当て:"
+  },
+  "TEXT_INVERT_AXIS": {
+    "description": "Message shown for the invert axis checkbox.",
+    "message": "軸を反転"
+  },
+  "TEXT_KEY_BINDINGS": {
+    "description": "Section header for an axis or action's key bindings.",
+    "message": "キーの割り当て:"
+  },
+  "TEXT_KEY_NEGATIVE": {
+    "description": "Indicates the negative half of a key-binding pair.",
+    "message": "負:"
+  },
+  "TEXT_KEY_POSITIVE": {
+    "description": "Indicates the positive half of a key-binding pair.",
+    "message": "正:"
+  },
+  "X": {
+    "description": "keybinding: x axis",
+    "message": "X"
+  },
+  "Y": {
+    "description": "keybinding: y axis",
+    "message": "Y"
+  },
+  "Z": {
+    "description": "keybinding: z axis",
+    "message": "Z"
+  }
+}

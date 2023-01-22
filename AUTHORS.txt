@@ -13,6 +13,7 @@ The Pioneer Developers are:
 * Alexander Noack
 * Andrew Cook
 * Andrew Copland
+* Andrzej Zięba
 * Anton Korzun
 * Antti Salonen
 * Arda Güler
@@ -51,6 +52,7 @@ The Pioneer Developers are:
 * Gaz Davidson
 * Georgi Georgiev
 * Gernot
+* Gliese852
 * HeadHunter
 * Jan Olsina
 * jmf
@@ -123,7 +125,7 @@ The Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2022 Pioneer Developers
+Copyright © 2008-2023 Pioneer Developers
 Portions copyright © 2013-2014 Meteoric Games Ltd.
 
 Pioneer's core code and extension modules are licensed under the terms of the

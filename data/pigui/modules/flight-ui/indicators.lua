@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
@@ -113,7 +113,52 @@ end
 -- display the indicator pointing at the nav target, and pro- and retrograde
 local function displayNavTargetIndicator(navTarget)
 	local onscreen,position,direction = Engine.GetTargetIndicatorScreenPosition(navTarget)
-	displayIndicator(onscreen, position, direction, icons.square, colors.navTarget, true)
+	local frameBody = player.frameBody
+
+	-- checks if the nav target is a starport behind (on the other side of) the player's framebody
+	local isaPortBehindPlanet = false
+	
+	if frameBody and frameBody.path:GetSystemBody().radius > 0 then
+	
+		-- ground ports are straightforward - if player is above the zero-horizon from the station's POV, the station is visible
+		if navTarget.type == "STARPORT_SURFACE"  and navTarget.path:GetSystemBody().parent.path == frameBody.path then
+			if navTarget:GetPositionRelTo(frameBody):dot(player:GetPositionRelTo(navTarget)) < 0 then
+				isaPortBehindPlanet = true
+			end
+
+		-- orbital ports are a bit trickier
+		elseif navTarget.type == "STARPORT_ORBITAL" and navTarget.path:GetSystemBody().parent.path == frameBody.path then
+			local navWrtPlayer = navTarget:GetPositionRelTo(player)
+			local frameWrtPlayer = frameBody:GetPositionRelTo(player)
+			local navWrtFrame = navTarget:GetPositionRelTo(frameBody)
+			local area = navWrtPlayer:cross(frameWrtPlayer):length()
+
+			-- in the unlikely case that we are absolutely on target, no need to check anything else. also prevents an edge-case zero division.
+			if navWrtPlayer:length() > 0 then
+				-- these will be used to check if the distance between the planet's centre and the line that connects the player and the target
+				-- is larger than the planet's radius
+				local pointLineDist = area / navWrtPlayer:length()
+				local frameRadius = frameBody.path:GetSystemBody().radius
+
+				-- the dot product ensures that the planet and the station are in the same general direction from player's POV
+				-- the length check ensures that the station is actually distant enough to be on the far side.
+				-- without this check, isaPortBehindPlanet also returns true if the station is intersecting the planet's silhouette
+				-- while passing in front of the planet
+				if navWrtPlayer:dot(frameWrtPlayer) > 0 and navWrtPlayer:length() > frameWrtPlayer:length() then
+					if pointLineDist < frameRadius then
+						isaPortBehindPlanet = true
+					end
+				end
+			end
+		end
+	end
+
+	if isaPortBehindPlanet then
+		displayIndicator(onscreen, position, direction, icons.square_dashed, colors.navTargetDark, true)
+	else
+		displayIndicator(onscreen, position, direction, icons.square, colors.navTarget, true)
+	end
+	
 	local navVelocity = -navTarget:GetVelocityRelTo(player)
 	if navVelocity:length() > 1 then
 		onscreen,position,direction = Engine.ProjectRelDirection(navVelocity)

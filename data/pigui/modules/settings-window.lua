@@ -1,56 +1,19 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
 local Input = require 'Input'
 local Game = require 'Game'
 local Lang = require 'Lang'
-local Color = _G.Color
 local Vector2 = _G.Vector2
+local bindManager = require 'bind-manager'
 
+local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
 local linput = Lang.GetResource("input-core")
 
 local ui = require 'pigui'
 local ModalWindow = require 'pigui.libs.modal-win'
-
-
--- convert an axis binding style ID to a translation resource identifier
-local function localize_binding_id(str)
-	local jsonIndex = str:gsub("([^A-Z0-9_])([A-Z0-9])", "%1_%2"):upper()
-	return rawget(linput, jsonIndex) or ('[NO_JSON] '..jsonIndex)
-end
-
-local function get_binding_desc(bind)
-	if not bind then return end
-	local axis_names = { linput.X, linput.Y, linput.Z }
-	local mouse_names = { linput.MOUSE_LMB, linput.MOUSE_MMB, linput.MOUSE_RMB }
-	if bind.key then
-		return Input.GetKeyName(bind.key)
-	elseif bind.joystick and bind.hat then
-		return Input.GetJoystickName(bind.joystick) .. linput.HAT .. bind.hat .. linput.DIRECTION .. bind.dir
-	elseif bind.joystick and bind.button then
-		return Input.GetJoystickName(bind.joystick) .. linput.BUTTON .. bind.button
-	elseif bind.joystick and bind.axis then
-		return (bind.direction < 0 and "-" or "") .. Input.GetJoystickName(bind.joystick) .. linput.AXIS .. (axis_names[bind.axis + 1] or tostring(bind.axis))
-	elseif bind.mouse then
-		return linput.MOUSE .. (mouse_names[bind.mouse + 1] or tostring(bind.mouse))
-	end
-end
-
--- Get a localized name for a key chord to display on a binding
-local function get_chord_desc(chord)
-	if not chord.enabled then return "" end
-
-	local str = get_binding_desc(chord.activator)
-	local mod1 = chord.modifier1
-	local mod2 = chord.modifier2
-
-	if mod1 then str = str .. " + " .. get_binding_desc(mod1) end
-	if mod2 then str = str .. " + " .. get_binding_desc(mod2) end
-
-	return str
-end
 
 local colors = ui.theme.colors
 local icons = ui.theme.icons
@@ -311,45 +274,57 @@ local function showVideoOptions()
 end
 
 local captureBindingWindow
+local bindState = nil -- state, to capture the key combination
 captureBindingWindow = ModalWindow.New("CaptureBinding", function()
 	local info = keyCaptureBind
 
-	ui.text(localize_binding_id(info.id))
+	ui.text(bindManager.localizeBindingId(info.id))
 	ui.text(lui.PRESS_A_KEY_OR_CONTROLLER_BUTTON)
 
 	if info.type == 'Action' then
 		local desc = keyCaptureNum == 1 and info.binding or info.binding2
-		ui.text(desc.enabled and get_chord_desc(desc) or '<None>')
+		ui.text(desc.enabled and bindManager.getChordDesc(desc) or lc.NONE)
 
-		local set, bindingKey = Engine.pigui.GetKeyBinding()
+		local set, bindingKey = Engine.pigui.GetKeyBinding(bindState)
 		if set then
-			if keyCaptureNum == 1 then info.binding = bindingKey
-			else info.binding2 = bindingKey end
+			if keyCaptureNum == 1 then
+				info.binding = bindingKey
+			else
+				info.binding2 = bindingKey
+			end
 		end
+		bindState = bindingKey
 	elseif info.type == 'Axis' then
 		local desc
 		if keyCaptureNum == 1 then
-			desc = get_binding_desc(info.axis) or '<None>'
+			desc = bindManager.getBindingDesc(info.axis) or lc.NONE
 		else
 			desc = keyCaptureNum == 2 and info.positive or info.negative
-			desc = desc.enabled and get_chord_desc(desc) or '<None>'
+			desc = desc.enabled and bindManager.getChordDesc(desc) or lc.NONE
 		end
 		ui.text(desc)
 
 		if keyCaptureNum == 1 then
 			local set, bindingAxis = Engine.pigui.GetAxisBinding()
-			if set then info.axis = bindingAxis end
-		elseif keyCaptureNum == 2 then
-			local set, bindingKey = Engine.pigui.GetKeyBinding()
-			if set then info.positive = bindingKey end
+			if set then
+				info.axis = bindingAxis
+			end
 		else
-			local set, bindingKey = Engine.pigui.GetKeyBinding()
-			if set then info.negative = bindingKey end
+			local set, bindingKey = Engine.pigui.GetKeyBinding(bindState)
+			if set then
+				if keyCaptureNum == 2 then
+					info.positive = bindingKey
+				else
+					info.negative = bindingKey
+				end
+			end
+			bindState = bindingKey
 		end
 	end
 
 	optionTextButton(lui.OK, nil, true, function()
 		Input.SaveBinding(info)
+		bindManager.updateBinding(info.id)
 		captureBindingWindow:close()
 	end)
 end, function (_, drawPopupFn)
@@ -409,11 +384,11 @@ end
 
 local function actionBinding(info)
 	local descs = {
-		get_chord_desc(info.binding),
-		get_chord_desc(info.binding2)
+		bindManager.getChordDesc(info.binding),
+		bindManager.getChordDesc(info.binding2)
 	}
 
-	if (ui.collapsingHeader(localize_binding_id(info.id), {})) then
+	if (ui.collapsingHeader(bindManager.localizeBindingId(info.id), {})) then
 		ui.columns(3,"##bindings",false)
 		ui.nextColumn()
 		ui.text(linput.TEXT_BINDING)
@@ -435,9 +410,9 @@ end
 
 local function axisBinding(info)
 	local axis, positive, negative = info.axis, info.positive, info.negative
-	local descs = { get_binding_desc(axis), get_chord_desc(positive), get_chord_desc(negative) }
+	local descs = { bindManager.getBindingDesc(axis), bindManager.getChordDesc(positive), bindManager.getChordDesc(negative) }
 
-	if (ui.collapsingHeader(localize_binding_id(info.id), {})) then
+	if (ui.collapsingHeader(bindManager.localizeBindingId(info.id), {})) then
 		ui.columns(3,"##axisjoybindings",false)
 		ui.text("Axis:")
 		ui.nextColumn()
@@ -476,6 +451,129 @@ local function axisBinding(info)
 	end
 end
 
+local function drawJoystickAxisInfo(joystick, i)
+	local c, val, enabled
+
+	ui.columns(2, "axis info")
+
+	ui.text(linput.CURRENT_VALUE)
+	ui.sameLine()
+	ui.text(string.format("%0.2f", joystick:GetAxisValue(i)))
+
+	ui.nextColumn()
+
+	c, enabled = ui.checkbox(linput.HALF_AXIS_MODE, joystick:GetAxisZeroToOne(i))
+	if c then
+		joystick:SetAxisZeroToOne(i, enabled)
+	end
+
+	ui.nextColumn()
+
+	val, c = ui.sliderFloat(linput.DEADZONE, joystick:GetAxisDeadzone(i), 0.0, 1.0, "%0.2f")
+	if c then joystick:SetAxisDeadzone(i, val) end
+
+	ui.nextColumn()
+
+	val, c = ui.sliderFloat(linput.CURVE, joystick:GetAxisCurve(i), 0.0, 2.0, "%0.2f")
+	if c then joystick:SetAxisCurve(i, val) end
+
+	ui.columns(1, "")
+end
+
+local selectedJoystick = nil
+local function showJoystickInfo(id)
+	local joystick = Input.GetJoystick(id)
+
+	ui.withFont(pionillium.heading, function()
+		local buttonSize = Vector2(ui.getTextLineHeightWithSpacing())
+
+		if ui.iconButton(icons.time_backward_1x, buttonSize, lui.GO_BACK .. "##" .. id) then
+			Input.SaveJoystickConfig(selectedJoystick)
+			selectedJoystick = nil
+		end
+
+		ui.sameLine()
+		ui.alignTextToLineHeight()
+		ui.text(joystick.name)
+	end)
+
+	ui.spacing()
+
+	ui.text(linput.NUM_BUTTONS)
+	ui.sameLine()
+	ui.text(joystick.numButtons)
+
+	ui.text(linput.NUM_HATS)
+	ui.sameLine()
+	ui.text(joystick.numHats)
+
+	ui.text(linput.NUM_AXES)
+	ui.sameLine()
+	ui.text(joystick.numAxes)
+
+	ui.spacing()
+
+	for i = 0, joystick.numAxes - 1 do
+
+		local width = ui.getContentRegion().x * 0.5
+		local open = ui.collapsingHeader(bindManager.getAxisName(i))
+
+		local isHalfAxis = joystick:GetAxisZeroToOne(i)
+		local value = joystick:GetAxisValue(i)
+
+		-- Draw axis preview indicator
+		ui.sameLine(width)
+
+		local pos = ui.getCursorScreenPos()
+		pos.y = pos.y + ui.getItemSpacing().y * 0.5
+
+		local size = Vector2(width - ui.getItemSpacing().x, ui.getTextLineHeight())
+		ui.addRectFilled(pos, pos + size, colors.darkGrey, 0, 0)
+
+		if isHalfAxis then
+			size.x = size.x * value
+		else
+			pos.x = pos.x + size.x * 0.5
+			size.x = size.x * 0.5 * value
+		end
+
+		ui.addRectFilled(pos, pos + size, colors.primary, 0, 0)
+		ui.newLine()
+
+		-- Draw axis details
+		if open then
+			ui.withID(i, function()
+				drawJoystickAxisInfo(joystick, i)
+			end)
+		end
+
+		ui.spacing()
+
+	end
+
+end
+
+local function showJoystickList(id)
+	local connected = Input.IsJoystickConnected(id)
+	local buttonSize = Vector2(ui.getTextLineHeightWithSpacing())
+
+	if connected then
+		if ui.iconButton(icons.pencil, buttonSize, lui.EDIT .. "##" .. id) then
+			selectedJoystick = id
+		end
+	else
+		ui.dummy(buttonSize)
+	end
+
+	ui.sameLine()
+	ui.alignTextToLineHeight()
+	ui.text(bindManager.joyAcronym(id) .. ":")
+
+	local status = connected and linput.CONNECTED or linput.NOT_CONNECTED
+	ui.sameLine()
+	ui.textColored(ui.theme.colors.grey, Input.GetJoystickName(id) .. ", " .. status)
+end
+
 local function showControlsOptions()
 	ui.text(lui.CONTROL_OPTIONS)
 
@@ -490,10 +588,28 @@ local function showControlsOptions()
 	c,joystickEnabled = checkbox(lui.ENABLE_JOYSTICK, joystickEnabled)
 	if c then Input.SetJoystickEnabled(joystickEnabled) end
 
+	-- list all the joysticks
+	local joystick_count = Input.GetJoystickCount()
+	if joystick_count > 0 then
+		ui.separator()
+		ui.text(linput.JOYSTICKS .. ":")
+		ui.spacing()
+
+		ui.withFont(pionillium.body, function()
+			if selectedJoystick then
+				showJoystickInfo(selectedJoystick)
+			else
+				for id = 0, joystick_count - 1 do
+					showJoystickList(id)
+				end
+			end
+		end)
+	end
+
 	for _,page in ipairs(binding_pages) do
 		ui.text ''
 		ui.withFont(pionillium.medium, function()
-			ui.text(localize_binding_id("Page" .. page.id))
+			ui.text(bindManager.localizeBindingId("Page" .. page.id))
 		end)
 		ui.separator()
 		Engine.pigui.PushID(page.id)
@@ -502,7 +618,7 @@ local function showControlsOptions()
 				Engine.pigui.PushID(group.id)
 				if _ > 1 then ui.text '' end
 				ui.withFont(pionillium.medium, function()
-					ui.text(localize_binding_id("Group" .. group.id))
+					ui.text(bindManager.localizeBindingId("Group" .. group.id))
 				end)
 				ui.separator()
 				for _,binding in ipairs(group) do
@@ -568,6 +684,9 @@ ui.optionsWindow = ModalWindow.New("Options", function()
 			Game.SetTimeAcceleration("1x")
 			Input.EnableBindings();
 		end
+		if selectedJoystick then
+			Input.SaveJoystickConfig(selectedJoystick)
+		end
 	end)
 
 	if Game.player then
@@ -590,5 +709,10 @@ end, function (_, drawPopupFn)
 	ui.withStyleColors({ PopupBg = ui.theme.colors.modalBackground }, drawPopupFn)
 end)
 
+function ui.optionsWindow:close()
+	if not captureBindingWindow.isOpen then
+		ModalWindow.close(self)
+	end
+end
 
 return {}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACESTATION_H
@@ -44,7 +44,7 @@ public:
 	SpaceStation(const Json &jsonObj, Space *space);
 
 	virtual ~SpaceStation();
-	virtual vector3d GetAngVelocity() const { return vector3d(0, m_type->AngVel(), 0); }
+	virtual vector3d GetAngVelocity() const override { return vector3d(0, m_type->AngVel(), 0); }
 	virtual bool OnCollision(Body *b, Uint32 flags, double relVel) override;
 	bool DoShipDamage(Ship *s, Uint32 flags, double relVel);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;

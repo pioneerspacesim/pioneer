@@ -1,36 +1,25 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-local utils = require 'utils'
-local Serializer = require 'Serializer'
-local Lang = require 'Lang'
-local ShipDef = require 'ShipDef'
-local Timer = require 'Timer'
-local Comms = require 'Comms'
+local Commodities = require 'Commodities'
+local EquipTypes  = require 'EquipType'
+local Serializer  = require 'Serializer'
 
-local Game = package.core['Game']
-local Space = package.core['Space']
-
-
-local EquipTypes = require 'EquipType'
-
-local LaserType = EquipTypes.LaserType
-local EquipType = EquipTypes.EquipType
-local HyperdriveType = EquipTypes.HyperdriveType
-local SensorType = EquipTypes.SensorType
+local LaserType       = EquipTypes.LaserType
+local EquipType       = EquipTypes.EquipType
+local HyperdriveType  = EquipTypes.HyperdriveType
+local SensorType      = EquipTypes.SensorType
 local BodyScannerType = EquipTypes.BodyScannerType
 
-local cargo = require 'Commodities'
-local laser = EquipTypes.laser
-local hyperspace = EquipTypes.hyperspace
-local misc = EquipTypes.misc
+local laser           = EquipTypes.laser
+local hyperspace      = EquipTypes.hyperspace
+local misc            = EquipTypes.misc
 
 -- Constants: EquipSlot
 --
--- Equipment slots. Every equipment or cargo type has a corresponding
+-- Equipment slots. Every equipment item has a corresponding
 -- "slot" that it fits in to. Each slot has an independent capacity.
 --
--- cargo - any cargo (commodity) item
 -- engine - hyperdrives and military drives
 -- laser_front - front attachment point for lasers and plasma accelerators
 -- laser_rear - rear attachment point for lasers and plasma accelerators
@@ -53,13 +42,13 @@ local misc = EquipTypes.misc
 misc.missile_unguided = EquipType.New({
 	l10n_key="MISSILE_UNGUIDED", slots="missile", price=30,
 	missile_type="missile_unguided", tech_level=1,
-	capabilities={mass=1, missile=1}, purchasable=true,
+	capabilities={mass=0.2}, purchasable=true,
 	icon_name="equip_missile_unguided"
 })
 misc.missile_guided = EquipType.New({
 	l10n_key="MISSILE_GUIDED", slots="missile", price=50,
 	missile_type="missile_guided", tech_level=5,
-	capabilities={mass=1}, purchasable=true,
+	capabilities={mass=0.5}, purchasable=true,
 	icon_name="equip_missile_guided"
 })
 misc.missile_smart = EquipType.New({
@@ -71,7 +60,7 @@ misc.missile_smart = EquipType.New({
 misc.missile_naval = EquipType.New({
 	l10n_key="MISSILE_NAVAL", slots="missile", price=160,
 	missile_type="missile_naval", tech_level="MILITARY",
-	capabilities={mass=1}, purchasable=true,
+	capabilities={mass=1.5}, purchasable=true,
 	icon_name="equip_missile_naval"
 })
 misc.atmospheric_shielding = EquipType.New({
@@ -194,102 +183,126 @@ misc.trade_computer = EquipType.New({
 	icon_name="equip_trade_computer"
 })
 misc.planetscanner = BodyScannerType.New({
-	l10n_key = 'PLANETSCANNER', slots="sensor", price=15000,
-	capabilities={mass=1,sensor=1}, purchasable=false, tech_level=1,
-	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
+	l10n_key = 'SURFACE_SCANNER', slots="sensor", price=2950,
+	capabilities={mass=1,sensor=1}, purchasable=true, tech_level=5,
 	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
 	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
+	stats={ aperture = 50.0, minAltitude = 150, resolution = 768, orbital = false },
 	icon_name="equip_planet_scanner"
+})
+misc.planetscanner_good = BodyScannerType.New({
+	l10n_key = 'SURFACE_SCANNER_GOOD', slots="sensor", price=5000,
+	capabilities={mass=2,sensor=1}, purchasable=true, tech_level=8,
+	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
+	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
+	stats={ aperture = 65.0, minAltitude = 250, resolution = 1092, orbital = false },
+	icon_name="equip_planet_scanner"
+})
+misc.orbitscanner = BodyScannerType.New({
+	l10n_key = 'ORBIT_SCANNER', slots="sensor", price=7500,
+	capabilities={mass=3,sensor=1}, purchasable=true, tech_level=3,
+	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
+	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
+	stats={ aperture = 4.0, minAltitude = 650000, resolution = 6802, orbital = true },
+	icon_name="equip_orbit_scanner"
+})
+misc.orbitscanner_good = BodyScannerType.New({
+	l10n_key = 'ORBIT_SCANNER_GOOD', slots="sensor", price=11000,
+	capabilities={mass=7,sensor=1}, purchasable=true, tech_level=8,
+	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
+	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
+	stats={ aperture = 2.2, minAltitude = 1750000, resolution = 11375, orbital = true },
+	icon_name="equip_orbit_scanner"
 })
 
 hyperspace.hyperdrive_1 = HyperdriveType.New({
-	l10n_key="DRIVE_CLASS1", fuel=cargo.hydrogen, slots="engine",
-	price=700, capabilities={mass=4, hyperclass=1}, purchasable=true, tech_level=3,
+	l10n_key="DRIVE_CLASS1", fuel=Commodities.hydrogen, slots="engine",
+	price=700, capabilities={mass=2, hyperclass=1}, purchasable=true, tech_level=3,
 	icon_name="equip_hyperdrive"
 })
 hyperspace.hyperdrive_2 = HyperdriveType.New({
-	l10n_key="DRIVE_CLASS2", fuel=cargo.hydrogen, slots="engine",
-	price=1300, capabilities={mass=10, hyperclass=2}, purchasable=true, tech_level=4,
+	l10n_key="DRIVE_CLASS2", fuel=Commodities.hydrogen, slots="engine",
+	price=1300, capabilities={mass=6, hyperclass=2}, purchasable=true, tech_level=4,
 	icon_name="equip_hyperdrive"
 })
 hyperspace.hyperdrive_3 = HyperdriveType.New({
-	l10n_key="DRIVE_CLASS3", fuel=cargo.hydrogen, slots="engine",
-	price=2500, capabilities={mass=20, hyperclass=3}, purchasable=true, tech_level=4,
+	l10n_key="DRIVE_CLASS3", fuel=Commodities.hydrogen, slots="engine",
+	price=2500, capabilities={mass=11, hyperclass=3}, purchasable=true, tech_level=4,
 	icon_name="equip_hyperdrive"
 })
 hyperspace.hyperdrive_4 = HyperdriveType.New({
-	l10n_key="DRIVE_CLASS4", fuel=cargo.hydrogen, slots="engine",
-	price=5000, capabilities={mass=40, hyperclass=4}, purchasable=true, tech_level=5,
+	l10n_key="DRIVE_CLASS4", fuel=Commodities.hydrogen, slots="engine",
+	price=5000, capabilities={mass=25, hyperclass=4}, purchasable=true, tech_level=5,
 	icon_name="equip_hyperdrive"
 })
 hyperspace.hyperdrive_5 = HyperdriveType.New({
-	l10n_key="DRIVE_CLASS5", fuel=cargo.hydrogen, slots="engine",
-	price=10000, capabilities={mass=120, hyperclass=5}, purchasable=true, tech_level=5,
+	l10n_key="DRIVE_CLASS5", fuel=Commodities.hydrogen, slots="engine",
+	price=10000, capabilities={mass=60, hyperclass=5}, purchasable=true, tech_level=5,
 	icon_name="equip_hyperdrive"
 })
 hyperspace.hyperdrive_6 = HyperdriveType.New({
-	l10n_key="DRIVE_CLASS6", fuel=cargo.hydrogen, slots="engine",
-	price=20000, capabilities={mass=225, hyperclass=6}, purchasable=true, tech_level=6,
+	l10n_key="DRIVE_CLASS6", fuel=Commodities.hydrogen, slots="engine",
+	price=20000, capabilities={mass=130, hyperclass=6}, purchasable=true, tech_level=6,
 	icon_name="equip_hyperdrive"
 })
 hyperspace.hyperdrive_7 = HyperdriveType.New({
-	l10n_key="DRIVE_CLASS7", fuel=cargo.hydrogen, slots="engine",
-	price=30000, capabilities={mass=400, hyperclass=7}, purchasable=true, tech_level=8,
+	l10n_key="DRIVE_CLASS7", fuel=Commodities.hydrogen, slots="engine",
+	price=30000, capabilities={mass=245, hyperclass=7}, purchasable=true, tech_level=8,
 	icon_name="equip_hyperdrive"
 })
 hyperspace.hyperdrive_8 = HyperdriveType.New({
-	l10n_key="DRIVE_CLASS8", fuel=cargo.hydrogen, slots="engine",
-	price=60000, capabilities={mass=580, hyperclass=8}, purchasable=true, tech_level=9,
+	l10n_key="DRIVE_CLASS8", fuel=Commodities.hydrogen, slots="engine",
+	price=60000, capabilities={mass=360, hyperclass=8}, purchasable=true, tech_level=9,
 	icon_name="equip_hyperdrive"
 })
 hyperspace.hyperdrive_9 = HyperdriveType.New({
-	l10n_key="DRIVE_CLASS9", fuel=cargo.hydrogen, slots="engine",
-	price=120000, capabilities={mass=740, hyperclass=9}, purchasable=true, tech_level=10,
+	l10n_key="DRIVE_CLASS9", fuel=Commodities.hydrogen, slots="engine",
+	price=120000, capabilities={mass=540, hyperclass=9}, purchasable=true, tech_level=10,
 	icon_name="equip_hyperdrive"
 })
 hyperspace.hyperdrive_mil1 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL1", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
+	l10n_key="DRIVE_MIL1", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
 	price=23000, capabilities={mass=3, hyperclass=1}, purchasable=true, tech_level=10,
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil2 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL2", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
-	price=47000, capabilities={mass=8, hyperclass=2}, purchasable=true, tech_level="MILITARY",
+	l10n_key="DRIVE_MIL2", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
+	price=47000, capabilities={mass=7, hyperclass=2}, purchasable=true, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil3 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL3", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
-	price=85000, capabilities={mass=16, hyperclass=3}, purchasable=true, tech_level=11,
+	l10n_key="DRIVE_MIL3", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
+	price=85000, capabilities={mass=12, hyperclass=3}, purchasable=true, tech_level=11,
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil4 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL4", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
-	price=214000, capabilities={mass=30, hyperclass=4}, purchasable=true, tech_level=12,
+	l10n_key="DRIVE_MIL4", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
+	price=214000, capabilities={mass=28, hyperclass=4}, purchasable=true, tech_level=12,
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil5 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL5", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
-	price=540000, capabilities={mass=53, hyperclass=5}, purchasable=false, tech_level="MILITARY",
+	l10n_key="DRIVE_MIL5", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
+	price=540000, capabilities={mass=63, hyperclass=5}, purchasable=false, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil6 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL6", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
-	price=1350000, capabilities={mass=78, hyperclass=6}, purchasable=false, tech_level="MILITARY",
+	l10n_key="DRIVE_MIL6", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
+	price=1350000, capabilities={mass=128, hyperclass=6}, purchasable=false, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil7 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL7", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
-	price=3500000, capabilities={mass=128, hyperclass=7}, purchasable=false, tech_level="MILITARY",
+	l10n_key="DRIVE_MIL7", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
+	price=3500000, capabilities={mass=196, hyperclass=7}, purchasable=false, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil8 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL8", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
-	price=8500000, capabilities={mass=196, hyperclass=8}, purchasable=false, tech_level="MILITARY",
+	l10n_key="DRIVE_MIL8", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
+	price=8500000, capabilities={mass=285, hyperclass=8}, purchasable=false, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil9 = HyperdriveType.New({
-	l10n_key="DRIVE_MIL9", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
-	price=22000000, capabilities={mass=285, hyperclass=9}, purchasable=false, tech_level="MILITARY",
+	l10n_key="DRIVE_MIL9", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
+	price=22000000, capabilities={mass=400, hyperclass=9}, purchasable=false, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 
@@ -411,7 +424,7 @@ laser.large_plasma_accelerator = LaserType.New({
 
 local serialize = function()
 	local ret = {}
-	for _,k in ipairs{"cargo","laser", "hyperspace", "misc"} do
+	for _,k in ipairs{"laser", "hyperspace", "misc"} do
 		local tmp = {}
 		for kk, vv in pairs(EquipTypes[k]) do
 			tmp[kk] = vv
@@ -422,7 +435,7 @@ local serialize = function()
 end
 
 local unserialize = function (data)
-	for _,k in ipairs{"cargo","laser", "hyperspace", "misc"} do
+	for _,k in ipairs{"laser", "hyperspace", "misc"} do
 		local tmp = EquipTypes[k]
 		for kk, vv in pairs(data[k]) do
 			tmp[kk] = vv

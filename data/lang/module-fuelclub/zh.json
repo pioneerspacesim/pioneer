@@ -13,7 +13,7 @@
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "Contact the local Interstellar Pilots' Fuel Co-operative representative."
+    "message": "联系当地星际飞行员的燃料合作代表。"
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "FLAVOUR_0_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "PILOT'S FUEL CO-OP"
+    "message": "飞行员燃料合作社"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "FLAVOUR_1_DESC": {
     "description": "Fuel club for the Federation faction",
-    "message": "Authorized contact for The Federal Fuel Foundation."
+    "message": "联邦燃料基金会的授权联系人。"
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
@@ -45,7 +45,7 @@
   },
   "FLAVOUR_1_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "FEDERAL FUEL FOUNDATION"
+    "message": "联邦燃料基金会"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_2_DESC": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "Make an appointment to speak with the Commonwealth Fuel Union."
+    "message": "预约与英联邦燃料联盟对话。"
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_2_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "COMMONWEALTH FUEL UNION"
+    "message": "联邦燃料联盟"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
@@ -73,7 +73,7 @@
   },
   "FLAVOUR_3_DESC": {
     "description": "Fuel club for the Haber faction",
-    "message": "Branch office of the Haber Propellant and Perishables Division."
+    "message": "哈伯推进剂和易腐品部分支办公室。"
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
@@ -85,11 +85,11 @@
   },
   "FLAVOUR_3_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "HABER PROPELLANT"
+    "message": "哈伯推进剂"
   },
   "FUEL_LEVEL": {
     "description": "",
-    "message": "Your current fuel level is {level}%."
+    "message": "您当前的燃料存量{level}%。"
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Fuel tank refilling, once per day"
+    "message": "燃油箱加注，每天一次"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "REFUEL_FREE": {
     "description": "",
-    "message": "Refuel internal fuel tank for free."
+    "message": "免费为内部燃油箱加油。"
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",

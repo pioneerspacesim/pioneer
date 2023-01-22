@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -6,8 +6,6 @@ local StationView = require 'pigui.views.station-view'
 local CommodityWidget = require 'pigui.libs.commodity-market'
 
 local ui = require 'pigui'
-local pionillium = ui.fonts.pionillium
-local orbiteer = ui.fonts.orbiteer
 local l = Lang.GetResource("ui-core")
 
 local commodityMarket = CommodityWidget.New("commodityMarket", false)
@@ -27,4 +25,8 @@ StationView:registerView({
 		commodityMarket.scrollReset = true
 		commodityMarket.selectedItem = nil
 	end,
+	debugReload = function()
+		package.reimport('pigui.libs.commodity-market')
+		package.reimport()
+	end
 })

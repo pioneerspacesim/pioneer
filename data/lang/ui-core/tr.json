@@ -111,6 +111,10 @@
     "description": "",
     "message": "Kargo"
   },
+  "CARGO_CAPACITY": {
+    "description": "Label to show a ship's total cargo space.",
+    "message": "Kargo Kapasitesi"
+  },
   "CARGO_SPACE": {
     "description": "",
     "message": "Kargo alanı"
@@ -147,6 +151,14 @@
     "description": "Key binding option",
     "message": "Atamayı Değiştir"
   },
+  "CHANGE_COLOR": {
+    "description": "Paintshop button",
+    "message": "Renk Değiştir"
+  },
+  "CHANGE_PATTERN": {
+    "description": "Paintshop button",
+    "message": "Desen Değiştir"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Şef Tamirci"
@@ -178,6 +190,10 @@
   "CLOSE": {
     "description": "",
     "message": "Kapat"
+  },
+  "COLOR": {
+    "description": "",
+    "message": "Renk"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -727,6 +743,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Kalkış"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "İleri seyir modu"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Yukarı seyir modu"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Otopilotu devre dışı bırak"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Seyir modunu devre dışı bırak"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Sabit yönelim modunu devre dışı bırak"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Takip modunu devre dışı bırak"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Ekipman"
@@ -855,6 +895,10 @@
     "description": "Cargo Mass",
     "message": "Kargo Kütlesi"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Seyir hızı"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "Şu anki savaş hedefi"
@@ -906,6 +950,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "Manevranın ortasına kadar geçecek süre"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: Yönelimi takip et"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: Yönelim takibi mümkün değil."
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Yönelim takibi mümkün değil - çok uzak."
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: Konumu takip et"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: Konum takibi mümkün değil."
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Konum takibi mümkün değil - çok uzak."
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Hedefi takip et"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -990,6 +1062,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Şu anki navigasyon hedefini göster"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Hız sınırlayıcı aktif"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1118,6 +1194,10 @@
   "JETTISON": {
     "description": "",
     "message": "Fırlat"
+  },
+  "JETTISON_MODE": {
+    "description": "",
+    "message": "Yük Atma Modu"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1415,6 +1495,10 @@
     "description": "",
     "message": "Uzlaş"
   },
+  "NEW_PAINTJOB_APPLIED": {
+    "description": "Paintshop popup",
+    "message": "Yeni boya tasarımı geminize uygulandı."
+  },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
     "message": "Sonraki"
@@ -1454,6 +1538,10 @@
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
     "message": "{equipment} bu gemi modelini tarafından desteklenmiyor"
+  },
+  "NO_CARGO": {
+    "description": "Message displayed when the player has no cargo in their hold.",
+    "message": "KARGO YOK"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
@@ -1555,6 +1643,42 @@
     "description": "Player owing money to crew members",
     "message": "Borç"
   },
+  "PAINTSHOP": {
+    "description": "Station tab title",
+    "message": "Boya Atölyesi"
+  },
+  "PAINTSHOP_NOT_AVAILABLE": {
+    "description": "",
+    "message": "Bu uzay limanında bir boya atölyesi mevcut değil."
+  },
+  "PAINTSHOP_WELCOME_0": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Hoşgeldiniz! Geminize zarafet katacağız!"
+  },
+  "PAINTSHOP_WELCOME_1": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Selam! Estetik bir değişiklik mi arıyorsunuz?"
+  },
+  "PAINTSHOP_WELCOME_2": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Geminizin daha hızlı uçmasını sağlayamayız, ama klas bir şekilde uçmasını sağlayabiliriz."
+  },
+  "PAINTSHOP_WELCOME_3": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Hoşgeldin, gezgin. Lütfen acele etme ve yaratıcılığını ortaya koy."
+  },
+  "PAINTSHOP_WELCOME_4": {
+    "description": "Welcome message to the paintshop.",
+    "message": "Galakside en güzel görünmek hiç daha kolay olmamıştı!"
+  },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Yolcu kabini kapasitesi"
+  },
+  "PATTERN": {
+    "description": "Ship painting pattern.",
+    "message": "Desen"
+  },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
     "message": "Öde"
@@ -1595,6 +1719,10 @@
     "description": "",
     "message": "Gezegen dokuları"
   },
+  "PLEASE_DESIGN_NEW_PAINTJOB": {
+    "description": "",
+    "message": "Lütfen yeni boya kaplamasını tasarlayın:"
+  },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
     "message": "Hay aksi, bireşyler ters gitti! Lütfen bu hatayı alırken izlenilen adımları, çıktı günlüğünü ve kayıt dosyanızı Github'daki Pioneer sorun takipçisine rapor edin.\nÇıktı günlüğünü şurada bulabilirsiniz: {path}/output.txt"
@@ -1634,6 +1762,10 @@
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
     "message": "Geri pompala"
+  },
+  "PURCHASE_PAINTJOB": {
+    "description": "Paintshop button",
+    "message": "Tasarımı Satın Al"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1718,6 +1850,10 @@
   "RESET_ORIENTATION_AND_ZOOM": {
     "description": "",
     "message": "Yönelim ve Yakınlaştırmayı Sıfırla"
+  },
+  "RESET_PREVIEW": {
+    "description": "Paintshop button",
+    "message": "Önizlemeyi Sıfırla"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1815,6 +1951,18 @@
     "description": "",
     "message": "Dönüş yolunu seç"
   },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Kalan delta-v'nin %45'ine ayarla"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Şu anki hıza ayarla"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Sıfıra ayarla"
+  },
   "SHIP": {
     "description": "",
     "message": "Gemi"
@@ -1844,8 +1992,8 @@
     "message": "Gemi Pazarı"
   },
   "SHIP_REPAIRS": {
-    "description": "",
-    "message": "Gemi Tamiri"
+    "description": "Station tab name",
+    "message": "Gemi Tamiri & Boya Atölyesi"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -1955,6 +2103,10 @@
     "description": "Lobby screen shows the tech level of the station",
     "message": "Bu yerleşimde askeri teknoloji belgesi var."
   },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Teknoloji seviyesi"
+  },
   "TEXTURE_COMPRESSION": {
     "description": "",
     "message": "Bu, muhtemelen sizin de isteyeceğiniz gibi, dokuları oyun başlangıcında sıkıştırarak grafik kartına daha fazla bellek ayırır."
@@ -1978,6 +2130,10 @@
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "3kpc kolu"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+    "description": "Label for a button toggling the cargo display window.",
+    "message": "Kargo Penceresi"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
@@ -2043,6 +2199,10 @@
     "description": "For player reputation",
     "message": "İtimat edilir"
   },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Kapat"
+  },
   "TYPE": {
     "description": "",
     "message": "Tür"
@@ -2098,6 +2258,14 @@
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
     "message": "Yüksek çözünürlük, ekrana daha fazla ve daha küçük bilgiler gönderir, performansı düşürebilir."
+  },
+  "VISIT_PAINTSHOP": {
+    "description": "Ship Repair tab button.",
+    "message": "Boya Atölyesini Ziyaret Et"
+  },
+  "VISIT_REPAIR_SERVICES": {
+    "description": "Ship Repair tab button.",
+    "message": "Tamir Hizmetlerini Ziyaret Et"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

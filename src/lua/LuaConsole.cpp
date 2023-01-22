@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaMetaType.h"
@@ -58,11 +58,6 @@ LuaConsole::LuaConsole() :
 	m_logCallbackConn = Log::GetLog()->printCallback.connect(sigc::mem_fun(this, &LuaConsole::LogCallback));
 	m_editBuffer.reset(new char[EDIT_BUFFER_LENGTH]);
 	std::fill_n(m_editBuffer.get(), EDIT_BUFFER_LENGTH, '\0');
-}
-
-LuaConsole::~LuaConsole()
-{
-	m_logCallbackConn.disconnect();
 }
 
 REGISTER_INPUT_BINDING(LuaConsole)
@@ -618,6 +613,22 @@ void LuaConsole::OpenTCPDebugConnection(int portnumber)
 			m_debugSocket = 0;
 			return;
 		}
+	}
+}
+
+void LuaConsole::CloseTCPDebugConnection()
+{
+	const char *cmd = "CloseTCPDebugConnection";
+	if (m_debugSocket) {
+		errno = 0;
+		if (close(m_debugSocket) == -1) {
+			Output("%s: FAIL(%d).\n", cmd, errno);
+		} else {
+			Output("%s: OK.\n", cmd);
+		}
+		m_debugSocket = 0;
+	} else {
+		Output("%s: FAIL - already closed.\n", cmd);
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Shader.h"
@@ -101,7 +101,7 @@ Program *Shader::GetProgramForDesc(const MaterialDescriptor &desc)
 
 	Program *program = LoadProgram(desc);
 	if (program->Loaded())
-		m_variants.push_back({ desc, LoadProgram(desc) });
+		m_variants.push_back({ desc, program });
 
 	return program;
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "WorldView.h"
@@ -13,6 +13,7 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "Player.h"
+#include "SDL_keycode.h"
 #include "SectorView.h"
 #include "Sensors.h"
 #include "SpeedLines.h"
@@ -25,6 +26,8 @@
 #include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"
 #include "sound/Sound.h"
+
+WorldView::~WorldView() {}
 
 namespace {
 	static const float HUD_CROSSHAIR_SIZE = 8.0f;
@@ -40,6 +43,12 @@ REGISTER_INPUT_BINDING(WorldView)
 	input->AddActionBinding("BindToggleHudMode", group, Action({ SDLK_TAB }));
 	input->AddActionBinding("BindIncreaseTimeAcceleration", group, Action({ SDLK_PAGEUP }));
 	input->AddActionBinding("BindDecreaseTimeAcceleration", group, Action({ SDLK_PAGEDOWN }));
+	// universal axes for selecting an item from a radial menu
+	input->AddAxisBinding("BindRadialHorizontalSelection", group, Axis({}, { SDLK_LEFT }, { SDLK_RIGHT }));
+	input->AddAxisBinding("BindRadialVerticalSelection", group, Axis({}, { SDLK_UP }, { SDLK_DOWN }));
+	// radial menu activators
+	input->AddActionBinding("BindFlightAssistRadial", group, Action{});
+	input->AddActionBinding("BindFixheadingRadial", group, Action{});
 }
 
 void WorldView::InputBinding::RegisterBindings()
@@ -47,6 +56,10 @@ void WorldView::InputBinding::RegisterBindings()
 	toggleHudMode = AddAction("BindToggleHudMode");
 	increaseTimeAcceleration = AddAction("BindIncreaseTimeAcceleration");
 	decreaseTimeAcceleration = AddAction("BindDecreaseTimeAcceleration");
+	AddAxis("BindRadialVerticalSelection");
+	AddAxis("BindRadialHorizontalSelection");
+	AddAction("BindFlightAssistRadial");
+	AddAction("BindFixheadingRadial");
 }
 
 WorldView::WorldView(Game *game) :
@@ -110,12 +123,6 @@ void WorldView::InitObject()
 	m_onDecTimeAccelCon = InputBindings.decreaseTimeAcceleration->onPressed.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
 }
 
-WorldView::~WorldView()
-{
-	m_onToggleHudModeCon.disconnect();
-	m_onIncTimeAccelCon.disconnect();
-	m_onDecTimeAccelCon.disconnect();
-}
 
 void WorldView::SaveToJson(Json &jsonObj)
 {
@@ -325,8 +332,9 @@ void WorldView::UpdateProjectedObjects()
 			}
 		}
 
-		if (laser >= 0 && Pi::player->GetFixedGuns()->IsGunMounted(laser)) {
-			UpdateIndicator(m_targetLeadIndicator, cam_rot * Pi::player->GetFixedGuns()->GetTargetLeadPos());
+		FixedGuns *gunManager = Pi::player->GetComponent<FixedGuns>();
+		if (laser >= 0 && gunManager->IsGunMounted(laser) && gunManager->IsFiringSolutionOk()) {
+			UpdateIndicator(m_targetLeadIndicator, cam_rot * gunManager->GetTargetLeadPos());
 			if ((m_targetLeadIndicator.side != INDICATOR_ONSCREEN) || (m_combatTargetIndicator.side != INDICATOR_ONSCREEN))
 				HideIndicator(m_targetLeadIndicator);
 		} else {

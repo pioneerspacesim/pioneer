@@ -1,39 +1,39 @@
 {
   "ACCEPTED_1": {
     "description": "",
-    "message": "Very well. Good luck!"
+    "message": "Då så, lycka till!"
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Excellent!"
+    "message": "Utmärkt"
   },
   "ACCEPTED_3": {
     "description": "",
-    "message": "Good. We count on you!"
+    "message": "Bra. Vi räknar med dig!"
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
+    "message": "Kvalificerad pilot behövs för hemligt uppdrag: Ersättning {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Ship and crew wanted for a combat mission in the {system} system."
+    "message": "Fartyg och besättning sökes för ett stridsuppdrag i {system}-systemet."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
+    "message": "Behöver kvalificerad legosoldat med välutrustat skepp. Information om uppdraget finns tillgänglig på begäran."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
+    "message": "{org} söker orädd legosoldat för ett uppdrag till {system}-systemet. Betalar {cash}."
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Mission: Salary {cash}."
+    "message": "{mission} Uppdrag: Lön {cash}."
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED"
+    "message": "PÅLITLIG PILOT SÖKES"
   },
   "ADTITLE_2": {
     "description": "",
@@ -41,15 +41,15 @@
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "COMBAT FLIGHT"
+    "message": "STRIDSFLYGNING"
   },
   "ADTITLE_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED"
+    "message": "ORÄDD LEGOKNEKT SÖKES"
   },
   "ADTITLE_5": {
     "description": "",
-    "message": "AUTHORIZED COMBAT MISSION"
+    "message": "AUKTORISERAT STRIDSUPPDRAG"
   },
   "AGENT": {
     "description": "Secret Service Agent",
@@ -57,23 +57,23 @@
   },
   "AREA": {
     "description": "An allotted area for the mission",
-    "message": "Area:"
+    "message": "Område:"
   },
   "BONUS_1": {
     "description": "",
-    "message": "My supervisor was impressed about your performance and has allotted a bonus of {cash} for this mission."
+    "message": "Min handledare var imponerad över din prestation och har tilldelat en bonus på {cash} för det här uppdraget."
   },
   "BONUS_2": {
     "description": "",
-    "message": "You have served us well! I pay you a bonus of {cash}."
+    "message": "Du har gjort väl ifrån dig! Jag lägger till en bonus på {cash}."
   },
   "BONUS_3": {
     "description": "",
-    "message": "Very impressive! I'm authorized to pay you a bonus of {cash}."
+    "message": "Väldigt imponerande! Jag är behörig att betala dig en bonus på {cash}."
   },
   "BONUS_4": {
     "description": "",
-    "message": "I'm very pleased of your performance! I have transferred additional {cash} credits."
+    "message": "Jag är mycket nöjd med din prestation! Jag har överfört ytterligare {cash} krediter."
   },
   "COMBAT": {
     "description": "Name of mission type",
@@ -117,11 +117,11 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Sorry, I need a pilot who has more combat experience."
+    "message": "Ledsen, jag behöver en pilot som har med mer stridsvana."
   },
   "DENY_2": {
     "description": "",
-    "message": "Excuse me sir. I need a real professional."
+    "message": "Ursäkta mig. Jag behöver ett riktigt proffs."
   },
   "DETECTIVE": {
     "description": "Police Detective",
@@ -133,31 +133,31 @@
   },
   "FAILUREMSG_1": {
     "description": "",
-    "message": "Shame on you. Get out of my sight."
+    "message": "Du borde skämmas. Försvinn ur min åsyn!"
   },
   "FAILUREMSG_2": {
     "description": "",
-    "message": "You are too late! You have caused great losses. You will not be paid!"
+    "message": "Du är för sen och det har orsakat oss stora förluster! Du kommer inte att få betalt!"
   },
   "FAILUREMSG_3": {
     "description": "",
-    "message": "You're a disgrace to all pilots. I cannot pay you!"
+    "message": "Du är en skamfläck för pilotkåren. Jag kan inte betala dig!"
   },
   "FAILUREMSG_4": {
     "description": "",
-    "message": "You failed! I will not pay you!"
+    "message": "Du har misslyckats! Jag kommer inte att betala!"
   },
   "GREETING_1": {
     "description": "",
-    "message": "Hi, I'm {name}."
+    "message": "Hej, jag heter {name}."
   },
   "GREETING_2": {
     "description": "",
-    "message": "Hello. My name is {name}."
+    "message": "Hej, jag heter {name}."
   },
   "GREETING_3": {
     "description": "",
-    "message": "How are you. I'm {name}."
+    "message": "Hej, jag heter {name}."
   },
   "GREETING_4": {
     "description": "",
@@ -165,27 +165,27 @@
   },
   "GREETING_5": {
     "description": "",
-    "message": "Good day. My name is {name}."
+    "message": "God dag, mitt namn är {name}."
   },
   "HARVESTING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We have reason to believe that a ruthless market competitor is responsible for the disappearance of our freighters at {area}. Distance to the target area is {dist} ly."
+    "message": "{org} betalar {cash} för ett {mission}-uppdrag i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Vi har anledning att tro att en hänsynslös konkurrent är ansvarig för försvinnandet av våra fraktfartyg vid {area}. Avståndet till målområdet är {dist} ly."
   },
   "HARVESTING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our market competitor is seriously claiming he has ownership of {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The {org} totally disagree and is willing to pay {cash} for a combat mission at {area}. {area} is in a distance of {dist} ly."
+    "message": "Vår konkurrent hävdar på fullaste allvar att han äger {area} i {system}-systemet ({sectorx}, {sector}, {sectorz}). {org} håller helt enkelt inte med och är villiga att betala {cash} för ett stridsuppdrag vid {area}. {area} ligger på ett avstånd av {dist} ly."
   },
   "HARVESTING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Please help! We received a distress call from one of our freighters orbiting {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The call was interrupted, so we fear the worst. Distance to {system} is {dist} ly. The pay is {cash}."
+    "message": "Snälla hjälp! Vi fick ett nödanrop från ett av våra fraktfartyg som kretsade runt {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Samtalet avbröts så vi fruktar det värsta. Avståndet till {system} är {dist} ly. Lönen är {cash}."
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}. Please keep quiet about this operation."
+    "message": "Det är viktigt att uppdraget är avklart senast {date}. Vänligen håll tyst om operationen."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
-    "message": "We have a salesperson in every nearby star system. This person will get in contact with you when landed."
+    "message": "Vi har en säljansvarig i alla närliggande stjärnsystem. Den här personen kommer att kontakta dig när du är på marken."
   },
   "HOW_WILL_I_BE_PAID": {
     "description": "",
@@ -193,95 +193,95 @@
   },
   "IS_THERE_A_TIME_LIMIT": {
     "description": "",
-    "message": "Is there a time limit?"
+    "message": "Finns det någon tidsfrist?"
   },
   "MANAGER": {
     "description": "",
-    "message": "Manager"
+    "message": "Chef"
   },
   "MEET_ME_THERE": {
     "description": "",
-    "message": "Meet me in the {rendezvous} system to finish the job!"
+    "message": "Möt mig i {rendezvous}-systemet för att avsluta jobbet!"
   },
   "MILITARY_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Military intelligence believe that a hostile faction has set up a secret listening outpost on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). The government can not tolerate this and have approved a series of operations to wipe out this facility. The enemy tries to disguise its origin by using only civilian spacecraft types. We do it like this too! So we are willing to hire a mercenary for {cash}. {area} is located {dist} ly from here."
+    "message": "Militär underrättelsetjänst tror att en fientlig fraktion har skapat en hemlig signalspaningsanläggning på {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Regeringen kan inte tolerera detta och har godkänt en rad operationer för att utplåna denna anläggning. Fienden försöker dölja sitt ursprung genom att endast använda civila rymdfarkoster, så det gör vi med! Vi är villiga att anställa en legosoldat för {cash}. {area} ligger {dist} ly härifrån."
   },
   "MILITARY_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "In response to a case of piracy in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly, the local authorities pay {cash} for a combat mission at {area}."
+    "message": "Som svar på en piratattack i {system}-systemet ({sectorx}, {sectory}, {sectorz}), {dist} ly, betalar de lokala myndigheterna {cash} för ett stridsuppdrag vid {area}."
   },
   "MILITARY_3": {
     "description": "",
-    "message": "The counter intelligence corps needs a civil pilot who asks no questions for a {mission} mission in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pay is {cash}."
+    "message": "Militärens kontraspionage behöver en civil pilot som inte ställer några frågor för ett {mission}-uppdrag i {system}-systemet ({sectorx}, {sectory}, {sectorz}), {dist} ly. Lönen är {cash}."
   },
   "MILITARY_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A task force will be assembled to regain control of {area}. It's important that the mission is successfully completed by {date}."
+    "message": "En insatsstyrka kommer att kallas samman för att återta kontrollen över {area}. Det är viktigt att uppdraget är slutfört senast {date}."
   },
   "MILITARY_LAND_THERE": {
     "description": "",
-    "message": "Visit a station in the territory protected by the {org}!"
+    "message": "Besök en station i området som står under beskydd av {org}!"
   },
   "MINING_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} is in a dispute with a rival company about {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To push through our claims we need a reliable and combat experienced mercenary. We offer {cash} for the expenses. Distance to {system} is {dist} ly."
+    "message": "{org} är i en tvist med ett konkurrerande företag om {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). För att driva igenom våra anspråk behöver vi en pålitlig och erfaren legosoldat. Vi erbjuder {cash} för utgifterna. Avståndet till {system} är {dist} ly."
   },
   "MINING_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "I'm a manager of the {org}. We need additional help in a longtime legal dispute with a competitor about the mining rights in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. We lost patience and would like to speed things up outside of the courtroom. Your mission would be to jump to {area} for {cash}."
+    "message": "Jag är chef för {org}. Vi behöver ytterligare hjälp i en långvarig juridisk tvist med en konkurrent om utvinningsrättigheterna i {system}-systemet ({sectorx}, {sectory}, {sectorz}), {dist} ly. Vi har tappat tålamodet och skulle vilja skynda på saken utanför rättssalen. Ditt uppdrag skulle vara att hoppa till {area} för {cash}."
   },
   "MINING_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "I work for the {org}. Some of our freighters will arrive shortly at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). To increase the safety of our employees and to protect the equipment we are willing to pay {cash} for a {mission} mission. Distance to {area} is {dist} ly."
+    "message": "Jag arbetar för {org}. Några av våra fraktfartyg kommer inom kort att anlända till {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). För att öka säkerheten för våra anställda och för att skydda utrustningen är vi villiga att betala {cash} för ett {mission} uppdrag. Avståndet till {area} är {dist}."
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "A convoy is enroute to {area}. It is essential that the mission is completed by {date}."
+    "message": "En konvoj är på väg till {area}. Det är viktigt att uppdraget är slutfört senast {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
-    "message": "We have employees in every nearby star system. Just visit the nearest station and get in contact with the local office there."
+    "message": "Vi har anställda i alla närliggande stjärnsystem. Besök bara närmaste station och ta kontakt med det lokala kontoret där."
   },
   "MISSION": {
     "description": "",
-    "message": "Mission:"
+    "message": "Uppdrag:"
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
-    "message": "Primary mission objective complete"
+    "message": "primärt uppdragsmål uppnått"
   },
   "MISSION_INFO": {
     "description": "Message from the ship computer",
-    "message": "Target area reached. Start data logging. Predicted maximum mission time {duration}."
+    "message": "Målområdet nått. Starta dataloggning. Förutspådd maximal uppdragstid {duration}."
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Reconnaissance"
+    "message": "Spaning"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Armed Reconnaissance"
+    "message": "Väpnad spaning"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "Area Sweep"
+    "message": "Utrensning"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
-    "message": "Target area too far away. Cannot complete data collection."
+    "message": "Målområdet för långt bort. Det går inte att slutföra datainsamlingen."
   },
   "OBJECTIVE_1": {
     "description": "",
-    "message": "It's not necessary to attack the enemy. We want data about the defence capability and response time."
+    "message": "Det är inte nödvändigt att attackera fienden. Vi vill ha data om försvarsförmågan och svarstid."
   },
   "OBJECTIVE_2": {
     "description": "",
-    "message": "Weaken the enemy's strength as much as possible and then jump to safety."
+    "message": "Försvaga fiendens styrka så mycket som möjligt och hoppa sedan i säkerhet."
   },
   "OBJECTIVE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Clear the area around {area}. Break any resistance."
+    "message": "Rensa området runt {area}. Bryt eventuellt motstånd."
   },
   "OK_AGREED": {
     "description": "",
@@ -293,47 +293,47 @@
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",
-    "message": "Please repeat the mission details!"
+    "message": "Vänligen upprepa uppdragsdetaljerna!"
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Police detectives have discovered that a group of pirates try to establish a stronghold on {area} in the {system} system ({sectorx}, {sectory}, {sectorz}), {dist} ly. This must not happen. The local authorities pay {cash} for a mission to {area} as preparation of a police operation."
+    "message": "Polisens spanare har upptäckt att en grupp pirater försöker etablera ett fäste på {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}), {dist} ly. Detta får inte hända. De lokala myndigheterna betalar {cash} för ett uppdrag till {area} som förberedelse för en polisinsats."
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
-    "message": "The {org} will pay {cash} for a combat mission in the {system} system ({sectorx}, {sectory}, {sectorz}). We are short on pilots and ships. So this will be an opportunity for a loyal citizen to make money. The target is a small pirate base on {area}. You need hyperdrive propellant for {dist} ly and additional fuel for the return route."
+    "message": "{org} betalar {cash} för ett stridsuppdrag i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Vi har ont om piloter och skepp. Så detta kommer att vara en möjlighet för en lojal medborgare att tjäna pengar. Målet är en liten piratbas på {area}. Du behöver hyperdrive-drivmedel för {dist} ly och ytterligare bränsle för returvägen."
   },
   "POLICE_3": {
     "description": "{area} is an asteroid or planet",
-    "message": "Our markets were flooded by contraband. The source has been traced back to a hidden base at {area} in the {system} system ({sectorx}, {sectory}, {sectorz}). Only a distance of {dist} ly. Because of the reduced police budget the local authorities would like to outsource this mission and have allotted {cash} credits for this operation."
+    "message": "Våra marknader översvämmades av smuggelgods. Källan har spårats tillbaka till en dold bas vid {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}). Ett avstånd av endast {distans} ly. På grund av den minskade polisbudgeten skulle de lokala myndigheterna vilja lägga ut uppdraget på entreprenad och har tilldelat {cash} krediter för denna operation."
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "It's important that the mission is completed by {date}, because more hostile ships are on their way."
+    "message": "Det är viktigt att uppdraget är avklarat senast {date}, eftersom fler fientliga fartyg är på väg."
   },
   "POLICE_LAND_THERE": {
     "description": "",
-    "message": "Just land at a station with a {org} office."
+    "message": "Bara landa vid en station med ett {org} kontor."
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
-    "message": "Sorry, I don't think you can handle this without a radar."
+    "message": "Ledsen, jag tro inte att du kan klara uppdraget utan en radar."
   },
   "RISK_1": {
     "description": "",
-    "message": "The competitor has only limited resources. Nothing you can't handle."
+    "message": "Konkurrenten har bara begränsade resurser. Inget du inte klarar av."
   },
   "RISK_2": {
     "description": "",
-    "message": "The competitor has only minor resources. But he will defend his position if necessary."
+    "message": "Konkurrenten har endast mindre resurser. Men han kommer att försvara sin position om det behövs."
   },
   "RISK_3": {
     "description": "",
-    "message": "The competitor is well equipped. Please keep your eyes open!"
+    "message": "Konkurrenten är välutrustad. Håll ögonen öppna!"
   },
   "RISK_4": {
     "description": "",
-    "message": "The enemy is very well equipped and has access to the latest technology. Be careful!"
+    "message": "Fienden är mycket välutrustad och har tillgång till den senaste tekniken. Var försiktig!"
   },
   "SET_AS_TARGET": {
     "description": "",
@@ -341,19 +341,19 @@
   },
   "SUCCESSMSG_1": {
     "description": "",
-    "message": "I knew you were the right person for such a mission. Here is your payment."
+    "message": "Jag visste att du var rätt person för ett sådant uppdrag. Här är din betalning."
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Thank you for making it. I have transferred the money."
+    "message": "Tack för att du fixade det. Jag har fört över pengarna."
   },
   "SUCCESSMSG_3": {
     "description": "",
-    "message": "I hope you had no big trouble. I just paid you."
+    "message": "Jag hoppas att du inte hade några större problem. Jag har precis betalat dig."
   },
   "SUCCESSMSG_4": {
     "description": "",
-    "message": "Very well done. I have paid the bill."
+    "message": "Väldigt bra gjort. Jag har betalat räkningen."
   },
   "SYSTEM": {
     "description": "",
@@ -361,14 +361,14 @@
   },
   "TIME_LIMIT": {
     "description": "",
-    "message": "Time limit:"
+    "message": "Tidsfrist:"
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "What are the mission objectives?"
+    "message": "Vilka är uppdragets mål?"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",
-    "message": "Will I be in trouble?"
+    "message": "Kommer jag att stöta på problem?"
   }
 }

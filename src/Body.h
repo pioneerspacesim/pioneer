@@ -1,9 +1,10 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BODY_H
 #define _BODY_H
 
+#include "BodyComponent.h"
 #include "DeleteEmitter.h"
 #include "FrameId.h"
 #include "lua/PropertiedObject.h"
@@ -41,18 +42,21 @@ enum class ObjectType { // <enum name=PhysicsObjectType scope='ObjectType' publi
 	HYPERSPACECLOUD // <enum skip>
 };
 
-#define OBJDEF(__thisClass, __parentClass, __TYPE)                             \
-	virtual ObjectType GetType() const override { return ObjectType::__TYPE; } \
-	virtual bool IsType(ObjectType c) const override                           \
-	{                                                                          \
-		if (__thisClass::GetType() == (c))                                     \
-			return true;                                                       \
-		else                                                                   \
-			return __parentClass::IsType(c);                                   \
+#define OBJDEF(__thisClass, __parentClass, __TYPE)                                  \
+	static constexpr ObjectType StaticType() { return ObjectType::__TYPE; }         \
+	static constexpr ObjectType SuperType() { return __parentClass::StaticType(); } \
+	virtual ObjectType GetType() const override { return ObjectType::__TYPE; }      \
+	virtual bool IsType(ObjectType c) const override                                \
+	{                                                                               \
+		if (__thisClass::GetType() == (c))                                          \
+			return true;                                                            \
+		else                                                                        \
+			return __parentClass::IsType(c);                                        \
 	}
 
 class Body : public DeleteEmitter, public PropertiedObject {
 public:
+	static constexpr ObjectType StaticType() { return ObjectType::BODY; }
 	virtual ObjectType GetType() const { return ObjectType::BODY; }
 	virtual bool IsType(ObjectType c) const { return GetType() == c; }
 
@@ -69,6 +73,8 @@ public:
 	const matrix3x3d &GetOrient() const { return m_orient; }
 	virtual void SetVelocity(const vector3d &v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
+	virtual void SetAngVelocity(const vector3d &v) { assert(0); }
+	virtual vector3d GetAngVelocity() const { return vector3d(0.0); }
 
 	void SetPhysRadius(double r) { m_physRadius = r; }
 	double GetPhysRadius() const { return m_physRadius; }
@@ -123,6 +129,38 @@ public:
 			m_flags &= ~flag;
 	}
 
+	// Check if a specific component is present. This involves a lookup through std::map
+	// so it's not quite as efficient as it should be.
+	template <typename T>
+	bool HasComponent() const
+	{
+		return m_components & (uint64_t(1) << uint8_t(BodyComponentDB::GetComponentType<T>()->componentIndex));
+	}
+
+	// Return a pointer to the component of type T attached to this instance or nullptr.
+	// This returns a non-const pointer for simplicity as the component is technically
+	// not part of the object.
+	template <typename T>
+	T *GetComponent() const
+	{
+		auto *type = BodyComponentDB::GetComponentType<T>();
+		return m_components & (uint64_t(1) << uint8_t(type->componentIndex)) ? type->get(this) : nullptr;
+	}
+
+	template <typename T>
+	T *AddComponent()
+	{
+		auto *type = BodyComponentDB::GetComponentType<T>();
+		if (m_components & (uint64_t(1) << uint8_t(type->componentIndex)))
+			return type->get(this);
+
+		m_components |= (uint64_t(1) << uint8_t(type->componentIndex));
+		return type->newComponent(this);
+	}
+
+	// Returns the bitset of components attached to this body. Prefer using HasComponent<> or GetComponent<> instead.
+	uint64_t GetComponentList() const { return m_components; }
+
 	// Only Space::KillBody() should call this method.
 	void MarkDead() { m_dead = true; }
 	bool IsDead() const { return m_dead; }
@@ -157,9 +195,12 @@ public:
 		FLAG_DRAW_EXCLUDE = (1 << 3) // do not draw this body, intended for e.g. when camera is inside
 	};
 
+private:
+	uint64_t m_components = 0;
+
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space);
-	unsigned int m_flags;
+	unsigned int m_flags = 0;
 
 	// Interpolated draw orientation-position
 	vector3d m_interpPos;

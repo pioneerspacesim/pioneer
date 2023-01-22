@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PLAYER_H
@@ -34,11 +34,11 @@ public:
 	//XXX temporary things to avoid causing too many changes right now
 	Body *GetCombatTarget() const;
 	Body *GetNavTarget() const;
-	Body *GetSetSpeedTarget() const;
-	void SetCombatTarget(Body *const target, bool setSpeedTo = false);
+	Body *GetFollowTarget() const;
+	void SetCombatTarget(Body *const target, bool setFollowTo = false);
 	void SetNavTarget(Body *const target);
-	void SetSetSpeedTarget(Body *const target);
-	void ChangeSetSpeed(double delta);
+	void SetFollowTarget(Body *const target);
+	void ChangeCruiseSpeed(double delta);
 
 	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, const HyperdriveSoundsTable &sounds, LuaRef checks) override;
 	virtual void AbortHyperjump() override;
@@ -61,6 +61,9 @@ protected:
 
 private:
 	std::unique_ptr<ShipCockpit> m_cockpit;
+	Sound::Event m_creakSound;
+	vector3d m_accel;
+	vector3d m_jerk[20] = { vector3d(0.0, 0.0, 0.0) };
 };
 
 #endif /* _PLAYER_H */

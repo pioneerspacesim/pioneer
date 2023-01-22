@@ -1,8 +1,8 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui'
-local InfoView = require 'pigui/views/info-view'
+local InfoView = require 'pigui.views.info-view'
 local Lang = require 'Lang'
 local FlightLog = require 'FlightLog'
 local Format = require 'Format'
@@ -211,7 +211,7 @@ local function drawFlightHistory()
 end
 
 local function drawLog ()
-	ui.withFont(pionillium.medlarge.name, pionillium.medlarge.size, function()
+	ui.withFont(pionillium.body, function()
 		drawFlightHistory()
 	end)
 end

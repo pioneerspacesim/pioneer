@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ShipDef = require 'ShipDef'
@@ -8,6 +8,7 @@ local e = require 'Equipment'
 local Game = require 'Game'
 local ui = require 'pigui.baseui'
 local utils = require 'utils'
+local CommodityType = require 'CommodityType'
 local Vector2 = Vector2
 local Space = require 'Space'
 
@@ -280,8 +281,10 @@ debugView.registerTab('debug-trade-ships', function()
 	if obj.type ~= Engine.GetEnumValue("ProjectableTypes", "NONE") and Core.ships[obj.ref] then
 		local ship = obj.ref
 		local trader = Core.ships[ship]
+
 		if ui.collapsingHeader("Info:", {"DefaultOpen"}) then
 			property("Trader: ", ship:GetShipType() .. " " .. ship:GetLabel())
+
 			local status = trader.status
 			if status == "docked" then
 				status = status .. " (" .. trader.starport:GetLabel() .. ")"
@@ -290,15 +293,18 @@ debugView.registerTab('debug-trade-ships', function()
 				status = status .. " (" .. trader.starport:GetLabel() .. " - " .. d .. ")"
 			end
 			property("Status: ", status)
+
 			if trader.fnc then
 				property("Task: ", trader.fnc .. " in " .. ui.Format.Duration(trader.delay - Game.time))
 			end
 			property("Fuel: ", string.format("%.4f", ship.fuelMassLeft) .. "/" .. ShipDef[ship.shipId].fuelTankMass .. " t")
 		end
+
 		if ui.collapsingHeader("Internals:", {"DefaultOpen"}) then
 			local equipItems = {}
 			local total_mass = 0
-			local equips = { "cargo", "misc", "hyperspace", "laser" }
+
+			local equips = { "misc", "hyperspace", "laser" }
 			for _,t in ipairs(equips) do
 				for _,et in pairs(e[t]) do
 					local count = ship:CountEquip(et)
@@ -315,7 +321,24 @@ debugView.registerTab('debug-trade-ships', function()
 					end
 				end
 			end
+
+			---@type CargoManager
+			local cargoMgr = ship:GetComponent('CargoManager')
+
+			for name, info in pairs(cargoMgr.commodities) do
+				local ct = CommodityType.GetCommodity(name)
+				total_mass = total_mass + ct.mass * info.count
+				table.insert(equipItems, {
+					name = ct:GetName(),
+					eq_type = "cargo",
+					count = info.count,
+					mass = ct.mass,
+					all_mass = ct.mass * info.count
+				})
+			end
+
 			local capacity = ShipDef[ship.shipId].capacity
+
 			arrayTable.draw("tradeships_traderequipment", equipItems, ipairs, {
 				{ name = "Name",        key = "name",     string = true       },
 				{ name = "Type",        key = "eq_type",  string = true       },

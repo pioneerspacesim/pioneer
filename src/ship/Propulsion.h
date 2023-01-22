@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef PROPULSION_H
@@ -113,10 +113,10 @@ public:
 	// AI on Propulsion
 	void AIModelCoordsMatchSpeedRelTo(const vector3d &v, const DynamicBody *other);
 	void AIAccelToModelRelativeVelocity(const vector3d &v);
-	bool AIMatchVel(const vector3d &vel);
-	bool AIChangeVelBy(const vector3d &diffvel);	  // acts in object space
-	vector3d AIChangeVelDir(const vector3d &diffvel); // object space, maintain direction
-	void AIMatchAngVelObjSpace(const vector3d &angvel, double softness = 1.0);
+	bool AIMatchVel(const vector3d &vel, const vector3d &powerLimit = vector3d(1.0));
+	bool AIChangeVelBy(const vector3d &diffvel, const vector3d &powerLimit = vector3d(1.0)); // acts in object space
+	vector3d AIChangeVelDir(const vector3d &diffvel);										 // object space, maintain direction
+	void AIMatchAngVelObjSpace(const vector3d &angvel, const vector3d &powerLimit = vector3d(1.0), bool ignoreZeroValues = false);
 	double AIFaceUpdir(const vector3d &updir, double av = 0);
 	double AIFaceDirection(const vector3d &dir, double av = 0);
 	vector3d AIGetLeadDir(const Body *target, const vector3d &targaccel, double projspeed);

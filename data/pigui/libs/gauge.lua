@@ -1,7 +1,8 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = require 'pigui.baseui'
+local Vector2 = _G.Vector2
 
 local gauge_show_percent = true
 ui.gauge_height = ui.rescaleUI(25, Vector2(1600, 900))
@@ -46,7 +47,6 @@ ui.gauge_width = ui.rescaleUI(275, Vector2(1600, 900))
 --
 ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color, tooltip, width, height, formatFont, percentFont)
 	local percent = math.clamp((value - minimum) / (maximum - minimum), 0, 1)
-	local offset = 60
 	local uiPos = Vector2(position.x, position.y)
 	local gauge_width = width or ui.gauge_width
 	local gauge_height = height or ui.gauge_height
@@ -64,7 +64,7 @@ ui.gauge = function(position, value, unit, format, minimum, maximum, icon, color
 
 		formatFont = formatFont or ui.fonts.pionillium.small
 		if value and format then
-			ui.addFancyText(Vector2(uiPos.x + gauge_height/2, uiPos.y + math.ceil(formatFont.size/2)), ui.anchor.left, ui.anchor.center, {
+			ui.addFancyText(Vector2(uiPos.x + gauge_height/2, uiPos.y), ui.anchor.left, ui.anchor.center, {
 				{ text=string.format(format, value), color=ui.theme.colors.reticuleCircle,     font=formatFont, tooltip=tooltip },
 				{ text=unit,                         color=ui.theme.colors.reticuleCircleDark, font=formatFont, tooltip=tooltip }},
 				ui.theme.colors.gaugeBackground)

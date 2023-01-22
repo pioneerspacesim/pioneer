@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -52,7 +52,7 @@ namespace Log {
 
 		FILE *file;
 		Severity m_maxSeverity = Severity::Info;
-		Severity m_maxFileSeverity = Severity::Verbose;
+		Severity m_maxFileSeverity = Severity::Debug;
 		Severity m_maxMsgSeverity = Severity::Error;
 		uint8_t current_indent;
 		std::string m_logName;

@@ -1,7 +1,11 @@
 {
-  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH": {
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_DOCKING": {
     "description": "",
     "message": "هذه هي {station}. أنت ليس لديك مال كافي لسعر الرسو من {fee}."
+  },
+  "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH_LANDING": {
+    "description": "",
+    "message": "This is {station}. You do not have enough money for your landing fee of {fee}."
   },
   "WELCOME_ABOARD_STATION_FEE_DEDUCTED": {
     "description": "Station welcome message, docking in orbit",

@@ -1,10 +1,9 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PI_H
 #define _PI_H
 
-#include "JobQueue.h"
 #include "Random.h"
 #include "core/GuiApplication.h"
 #include "gameconsts.h"
@@ -25,9 +24,9 @@ namespace PiGui {
 } //namespace PiGui
 
 class Game;
-
 class GameConfig;
 class Intro;
+class JobSet;
 class LuaConsole;
 class LuaNameGen;
 class LuaTimer;
@@ -107,7 +106,6 @@ public:
 		void RunJobs();
 
 		void HandleRequests();
-		bool HandleEvent(SDL_Event &ev) override;
 
 	private:
 		// msgs/requests that can be posted which the game processes at the end of a game loop in HandleRequests
@@ -121,9 +119,9 @@ public:
 
 		bool m_noGui;
 
-		std::shared_ptr<Lifecycle> m_loader;
-		std::shared_ptr<Lifecycle> m_mainMenu;
-		std::shared_ptr<Lifecycle> m_gameLoop;
+		RefCountedPtr<Lifecycle> m_loader;
+		RefCountedPtr<Lifecycle> m_mainMenu;
+		RefCountedPtr<Lifecycle> m_gameLoop;
 	};
 
 public:
@@ -152,9 +150,6 @@ public:
 	static void SetSpeedLinesDisplayed(bool state) { speedLinesDisplayed = state; }
 	static bool AreHudTrailsDisplayed() { return hudTrailsDisplayed; }
 	static void SetHudTrailsDisplayed(bool state) { hudTrailsDisplayed = state; }
-
-	static void SetMouseGrab(bool on);
-	static bool DoingMouseGrab() { return doingMouseGrab; }
 
 	// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
 	// This is a default value only, centralized here to promote uniform user expericience.

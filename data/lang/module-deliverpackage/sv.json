@@ -57,7 +57,7 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Going to the {system} system? Money paid for delivery of a small package."
+    "message": "På väg till {system}-systemet? Betalar för leverans av ett mindre paket."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
@@ -81,7 +81,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Delivery of a package to the {system} system."
+    "message": "Önskas: Leverans av ett paket till {system}-systemet."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Urgent! Fast ship needed to deliver a package to the {system} system."
+    "message": "Brådskande! Snabbt skepp behövs för leverans av ett paket till {system}-systemet."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Delivery of sensitive documents to the {system} system. {cash} to an experienced pilot."
+    "message": "Leverans av känsliga dokument till {system}-systemet. {cash} till en erfaren pilot."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -153,7 +153,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Interstellar Postal Services. We require a ship for the delivery run to {system} system."
+    "message": "Interstellar Postal Services. Vi behöver ett skepp för leverans till {system}-systemet."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Transport belongings to {starport} from port storage facility."
+    "message": "Transportera tillhörigheter till {starport} från hamnförråd."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "In-system courier services required. Delivery of a small package to {starport}."
+    "message": "Kurirtjänster inom systemet önskas. Leverans av ett litet paket till {starport}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Standardized inter-planetary transport contract. Freight of local cargo to {starport}."
+    "message": "Standardavtal för interplanetär transport. Frakt av last lokalt till {starport}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal delivery contract. Require quick delivery of an item to {starport}."
+    "message": "Brådskande personligt leveransavtal. Behöver snabb leverans av en vara till {starport}."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Package drop-off required. Urgent dispatch of perishables to {starport}."
+    "message": "Paketleverans önskas. Brådskande utskick av färskvaror till {starport}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "IT_MUST_BE_DELIVERED_BY": {
     "description": "",
-    "message": "Det måste levereras till"
+    "message": "\"Det måste vara framme till \""
   },
   "I_HIGHLY_DOUBT_IT": {
     "description": "",

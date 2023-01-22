@@ -537,7 +537,7 @@
   },
   "SET_RETURN_ROUTE": {
     "description": "",
-    "message": "Set return route"
+    "message": "帰路を設定"
   },
   "SPACEPORT": {
     "description": "",

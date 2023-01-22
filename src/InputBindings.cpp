@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "InputBindings.h"
@@ -59,10 +59,10 @@ Response KeyBinding::Matches(const SDL_Event &ev) const
 	if (type == Type::KeyboardKey) {
 		return (ev.key.keysym.sym == keycode) ? r : Response::Ignored;
 	} else if (type == Type::JoystickButton) {
-		bool cond = (joystick.id == ev.jbutton.which && joystick.button == ev.jbutton.button);
+		bool cond = (joystick.id == Input::JoystickFromID(ev.jbutton.which) && joystick.button == ev.jbutton.button);
 		return cond ? r : Response::Ignored;
 	} else if (type == Type::JoystickHat) {
-		bool cond = (joystick.id == ev.jhat.which && joystick.hat == ev.jhat.hat);
+		bool cond = (joystick.id == Input::JoystickFromID(ev.jhat.which) && joystick.hat == ev.jhat.hat);
 		return cond ? r : Response::Ignored;
 	} else if (type == Type::MouseButton) {
 		return (mouse.button == ev.button.button) ? r : Response::Ignored;
@@ -113,8 +113,8 @@ bool KeyBinding::operator<(const KeyBinding &rhs) const
 	default:
 		break;
 	}
-
-	return this < &rhs;
+	// apparently they are the same
+	return false;
 }
 #undef ret_if_different
 
@@ -277,8 +277,12 @@ std::string_view &InputBindings::operator>>(std::string_view &str, KeyChord &out
 	smatch match_results;
 
 	// Early-out for disabled key chord
-	if (consumeMatch(str, match_results, disabled_matcher))
+	if (consumeMatch(str, match_results, disabled_matcher)) {
+		// erase hardcoded defaults
+		// (since the binding is present in the configuration file)
+		out = KeyBinding{};
 		return str;
+	}
 
 	// make a copy of the string view so we can nondestructively consume matches.
 	std::string_view iterstr = str;

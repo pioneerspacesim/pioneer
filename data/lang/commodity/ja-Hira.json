@@ -1,0 +1,250 @@
+{
+  "AIR_PROCESSORS": {
+    "description": "",
+    "message": "空気清浄機"
+  },
+  "AIR_PROCESSORS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "空気は綺麗であるべきだ。空気清浄の技術は火星のエイリアンの遺物から来ていると噂されています。多くの企業は毒性のある空気を活動可能な空気にできる様々な空気清浄機を製造しています。そして政府は空気清浄機の独占を許しません。"
+  },
+  "ANIMAL_MEAT": {
+    "description": "",
+    "message": "動物肉"
+  },
+  "ANIMAL_MEAT_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "動物の肉は論争の重要なポイントです。多くの人はすぐに入手できる合成タンパク質があるので、動物は殺すべきではないと考えています。そのため、動物の肉は多くの主要な中心星系で違法です。しかし、生きた動物とその肉は、伝統的な暮らしをしている世界の人々にとって重要です。"
+  },
+  "BATTLE_WEAPONS": {
+    "description": "",
+    "message": "戦闘兵器"
+  },
+  "BATTLE_WEAPONS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "装甲ホバー戦車、地上対宇宙ミサイル、などの軍用の重火器。それらの取引は通常政府が独占して行います。しかし闇市場においてこれらの物品はしばしば多額の利益を上げます。"
+  },
+  "CARBON_ORE": {
+    "description": "",
+    "message": "炭素鉱石"
+  },
+  "CARBON_ORE_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "炭素は私たちが知っている多様な元素の1つです。炭素はプラスチック、合金、時々発電など色々なことに使われています。炭素は安いが重要です。そのため、ほとんどの産業地区は炭素を輸入しています。"
+  },
+  "COMPUTERS": {
+    "description": "",
+    "message": "コンピューター"
+  },
+  "COMPUTERS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "千年前のそろばん、PDP-11、Motorola 68k chip、そして最新の HAL 9001 と Multivac line に至るまでコンピューターは情報時代を作り上げました。ハイパースペースに入る事と同じぐらい UniNet で面白い動画を共有することは必要不可欠です。"
+  },
+  "CONSUMER_GOODS": {
+    "description": "",
+    "message": "最終財"
+  },
+  "CONSUMER_GOODS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "一般消費者向けの最終製品です。歯ブラシ、キッチン家電、ホバーカーなど。"
+  },
+  "FARM_MACHINERY": {
+    "description": "",
+    "message": "農業機械"
+  },
+  "FARM_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "まれに牛が土を耕すところを見ることができます。しかし、農業が行われているほとんどの場所では機械が土地を耕作しています。たとえそこが地下の水耕栽培場や果てしなく続く耕作地帯の世界であっても。"
+  },
+  "FERTILIZER": {
+    "description": "",
+    "message": "肥料"
+  },
+  "FERTILIZER_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "肥料は産業規模で作物を育てるのに不可欠です。これは単作を可能にしより多くの作物を生み出します。しかし、これには多くの場合いつ影響が出るか分からない環境的コストを伴います。"
+  },
+  "FRUIT_AND_VEG": {
+    "description": "",
+    "message": "果物と野菜"
+  },
+  "FRUIT_AND_VEG_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "合成代替品はたくさん存在します。しかし、本物の果実と野菜は依然として、私たちの料理と栄養の重要な点です。農業世界もしくは生息地の生命活動の一環として育った植物は、植物の育成が不可能な星系に出荷されます。"
+  },
+  "GRAIN": {
+    "description": "",
+    "message": "穀物"
+  },
+  "GRAIN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "多くの人々の主食。これは農業、動物の餌、合成食品の素材として使われます。穀物は他にもオートミールや焼き菓子にも利用されます。ほとんどの星系移動者の文化は生育地の気候に合わせていくつかの穀物を育て消費します。"
+  },
+  "HAND_WEAPONS": {
+    "description": "",
+    "message": "小火器"
+  },
+  "HAND_WEAPONS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "厚い法の範囲を超えて、保護を提供する小火器は彼方の宇宙トレーダーにとって必要不可欠です。しかし、多くの政府は住民管理の脅威と見なし取引と所有を厳重に管理しています。"
+  },
+  "HYDROGEN": {
+    "description": "",
+    "message": "水素"
+  },
+  "HYDROGEN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "水素はハイパードライブの燃料や宇宙船の推進剤として利用される重要な元素です。これを保管することは簡単ではありません。しかし幸いにも水素は宇宙で最も一般的な元素であり、市場で最も安い商品の1つです。スターポートはいつでも十分に提供します。"
+  },
+  "INDUSTRIAL_MACHINERY": {
+    "description": "",
+    "message": "工業機械"
+  },
+  "INDUSTRIAL_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "生産ライン、製油所、精錬所、他の製品の機械生産に必要です。これらの高度な機械を生産するには高度な技術が求められます。"
+  },
+  "LIQUID_OXYGEN": {
+    "description": "",
+    "message": "液体酸素"
+  },
+  "LIQUID_OXYGEN_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "液体酸素には多くの用途があります。一般的には医療や産業、時には廃棄物処理にも使われます。酸素は水から簡単に得ることができるので非常に安いです。"
+  },
+  "LIQUOR": {
+    "description": "",
+    "message": "蒸留酒"
+  },
+  "LIQUOR_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "多くのアウトポストには、訪問者には耐え難い地元の一杯があります。アルコールは一部の星系では精神を濁すとして禁止されることがあります。法律に関係なく一杯のスコッチは闇市場で、ほぼ必ず高額で売られています。"
+  },
+  "LIVE_ANIMALS": {
+    "description": "",
+    "message": "生きている動物"
+  },
+  "LIVE_ANIMALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "道徳、経済、環境の部分を理由に多くの中心星系では動物の飼育と取引は厳しく規制、または違法とされています。銀河の外側に行くと家畜は栄養源と輸送で人々の生活の重要な部分になります。外来の動物園と野生動物保護区は違法な狩場に抵抗するため、通常規制の厳しい国家の統制下にある銀河周辺での、動物を使った商売に貢献しています。"
+  },
+  "MEDICINES": {
+    "description": "",
+    "message": "医薬品"
+  },
+  "MEDICINES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "天然成分または人工的に合成されて作られた医薬品は人が行くどのような場所でも求められています。薬は長期の宇宙旅行に悪影響を及ぼす風邪を治すので星間人類の発展に不可欠です。麻薬を医薬品に偽装することは珍しくないので税関職員は注意深く監視しています。"
+  },
+  "METAL_ALLOYS": {
+    "description": "",
+    "message": "合金"
+  },
+  "METAL_ALLOYS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "金属鉱石は抽出と精錬をされた後、加工されて色々な合金になります。合金は好ましい特性を得るために複数の金属を正確な比率で合成してできます。そのため、ほとんどの消費者向けの金属は合金です。"
+  },
+  "METAL_ORE": {
+    "description": "",
+    "message": "金属鉱石"
+  },
+  "METAL_ORE_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "多くのコロニーは輸出または精錬して工業生産に使われる金属鉱石を採掘しています。小さいおもちゃから宇宙船にまで様々な形で使われる金属は現代文明に不可欠です。"
+  },
+  "MILITARY_FUEL": {
+    "description": "",
+    "message": "軍用燃料"
+  },
+  "MILITARY_FUEL_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "より高度なミリタリードライブの燃料として使われています。これらの装置は運転中に放射性廃棄物を生成するためそれらを廃棄する必要があります。合成された物質のため軍用燃料は、水素より高額で一般的ではなく、自然に発生したものを見つけることはできません。"
+  },
+  "MINING_MACHINERY": {
+    "description": "",
+    "message": "鉱業機械"
+  },
+  "MINING_MACHINERY_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "従来の採掘の骨の折れる作業は、採掘者が鉱石を見つける、採掘する、近い処理施設に輸送するのを助ける、機械を使用することで軽減されます。"
+  },
+  "NARCOTICS": {
+    "description": "",
+    "message": "麻薬"
+  },
+  "NARCOTICS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "精神と体の状態を変える、天然または合成物質。麻薬の娯楽および医療での使用は人類の歴史と同じぐらい古いが、輸送と取引は一般的に違法です。"
+  },
+  "NERVE_GAS": {
+    "description": "",
+    "message": "神経ガス"
+  },
+  "NERVE_GAS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "これは一般的に大量破壊兵器とされているので、ほとんどの星系で軍隊ですら使用を避けています。そのため、ほとんどの星系で違法です。"
+  },
+  "PLASTICS": {
+    "description": "",
+    "message": "プラスチック"
+  },
+  "PLASTICS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "日用品から宇宙船の建造まで色々なことに使われる、合成または半合成物質。これは製造に使いやすく、成形しやすく安価に製造できるので人類文明の重要な部分です。"
+  },
+  "PRECIOUS_METALS": {
+    "description": "",
+    "message": "貴金属"
+  },
+  "PRECIOUS_METALS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "貴金属は一般的に反応性が低く、多くは採掘が難しく、希少なため高い経済的価値があります。これには金、銀、プラチナ、レアアースが含まれます。金、シリコン、レアアースなどの特定の元素はコンピューターや電子機器の製造に不可欠です。"
+  },
+  "RADIOACTIVES": {
+    "description": "",
+    "message": "放射性廃棄物"
+  },
+  "RADIOACTIVES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "原子炉とミリタリーハイパードライブによって造り出される放射性廃棄物は輸送と処分が最も困難かつ危険な商品です。この理由のため、多くのスターポートは過剰な備蓄を引き取ってもらうために料金を支払います。放射性廃棄物の投棄は重罪です。"
+  },
+  "ROBOTS": {
+    "description": "",
+    "message": "ロボット"
+  },
+  "ROBOTS_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "ロボットは人間の労働者にとっては難しい、冗長、安全ではない仕事を簡単に行えるため、多くの鉱業星系や工業星系によく輸入されます。ロボットは政治家や弁護士として勤めることもできます。"
+  },
+  "RUBBISH": {
+    "description": "",
+    "message": "廃棄物"
+  },
+  "RUBBISH_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "廃棄物は文明の副産物で産業廃棄物、家庭ごみ、使い古された機材などで構成されています。ほとんどの廃棄物は再加工、リサイクル、または他の世界に輸送するためにスターポートに送られます。人が居住している星系に廃棄物を投棄することはほとんどの場合違法です。スターポートは通常、廃棄物処理費を要求するが、在庫を取り除くために料金を支払うことがあります。"
+  },
+  "SLAVES": {
+    "description": "",
+    "message": "奴隷"
+  },
+  "SLAVES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "文明の動力は奴隷から機械に置き換わったので奴隷制は現在、一般に不道徳とみなされます。そして、禁則に対する違反者は厳罰に処されます。しかし、人道主義者の最大の努力にもかかわらず奴隷制は発達した世界で依然としてよく存在します。"
+  },
+  "TEXTILES": {
+    "description": "",
+    "message": "生地"
+  },
+  "TEXTILES_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "生地は合成、植物または動物繊維から織られたものです。通常大規模工場のロボットによって作られますが、今でも独自の生地を作る織工を見つけることができます。"
+  },
+  "WATER": {
+    "description": "",
+    "message": "水"
+  },
+  "WATER_DESCRIPTION": {
+    "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
+    "message": "私たちは水が生活に不可欠であることを知っています。水は人が行くところで必要とされていますが、よく見過ごされる商品です。そのようなこともあって、水のない世界のコロニーの大部分は、彗星や地球に似た惑星から水を輸入しています。水は水素と酸素の生成に大規模に使用されます。"
+  }
+}

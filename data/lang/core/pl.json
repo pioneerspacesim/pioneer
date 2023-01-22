@@ -31,13 +31,21 @@
     "description": "",
     "message": "Świeże mięso"
   },
+  "AN_AR_ATMOSPHERE": {
+    "description": "",
+    "message": "atmosfera argonowa"
+  },
+  "AN_O2_ATMOSPHERE": {
+    "description": "",
+    "message": "atmosfera tlenowa"
+  },
   "APOAPSIS_DISTANCE": {
     "description": "",
     "message": "Apocentrum"
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na argonie\""
+    "message": "atmosfera argonowa"
   },
   "ASTEROID": {
     "description": "",
@@ -79,9 +87,37 @@
     "description": "",
     "message": "Nachylenie osi"
   },
+  "A_CH4_ATMOSPHERE": {
+    "description": "",
+    "message": "atmosfera metanowa"
+  },
+  "A_CO2_ATMOSPHERE": {
+    "description": "",
+    "message": "atmosfera dwutlenku węgla"
+  },
+  "A_CO_ATMOSPHERE": {
+    "description": "",
+    "message": "atmosfera tlenku węgla"
+  },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
     "message": "Tylko kilka tysięcy"
+  },
+  "A_HE_ATMOSPHERE": {
+    "description": "",
+    "message": "atmosfera helowa"
+  },
+  "A_H_ATMOSPHERE": {
+    "description": "",
+    "message": "atmosfera wodorowa"
+  },
+  "A_N_ATMOSPHERE": {
+    "description": "",
+    "message": "atmosfera azotowa"
+  },
+  "A_S_ATMOSPHERE": {
+    "description": "",
+    "message": "atmosfera siarkowa"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -169,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na metanie\""
+    "message": "atmosfera metanowa"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na dwutlenku węgla\""
+    "message": "atmosfera dwutlenku węgla"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -269,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na tlenku węgla\""
+    "message": "atmosfera tlenku węgla"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -497,7 +533,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na helu\""
+    "message": "atmosfera helowa"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -561,7 +597,11 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na wodorze\""
+    "message": "atmosfera wodorowa"
+  },
+  "ICE_MOON": {
+    "description": "",
+    "message": "\" księżyc lodowy\""
   },
   "ICE_WORLD": {
     "description": "",
@@ -847,6 +887,14 @@
     "description": "",
     "message": "Wrz"
   },
+  "MOON_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "\" księżyc z ciekłą wodą\""
+  },
+  "MOON_WITH_SOME_ICE": {
+    "description": "",
+    "message": "\" księżyc z występowaniem lodu\""
+  },
   "NAME_OBJECT": {
     "description": "For an item or object",
     "message": "Nazwa"
@@ -870,6 +918,10 @@
   "NERVE_GAS": {
     "description": "",
     "message": "Gaz paraliżujący"
+  },
+  "NONE": {
+    "description": "To indicate the absence of something",
+    "message": "<None>"
   },
   "NOT_FOUND": {
     "description": "searching star system in sector view",
@@ -949,7 +1001,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na azocie\""
+    "message": "atmosfera azotowa"
   },
   "N_CELSIUS": {
     "description": "",
@@ -989,11 +1041,15 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera oparta na tlenie\""
+    "message": "atmosfera tlenowa"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
     "message": "Informacje o obiekcie"
+  },
+  "OCEANICMOON": {
+    "description": "",
+    "message": "\" księżyc oceaniczny\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1133,7 +1189,7 @@
   },
   "REQUEST_DOCKING_CLEARANCE": {
     "description": "",
-    "message": "Rządanie oddokowania od {target}"
+    "message": "Żądanie pozwolenia oddokowania od {target}"
   },
   "RESET": {
     "description": "",
@@ -1142,6 +1198,14 @@
   "ROBOTS": {
     "description": "",
     "message": "Roboty"
+  },
+  "ROCKY_MOON": {
+    "description": "",
+    "message": "\" księżyc skalisty\""
+  },
+  "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "\" skalisty księżyc z obecnością płynów,\""
   },
   "ROCKY_PLANET": {
     "description": "",
@@ -1258,6 +1322,10 @@
   "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT": {
     "description": "",
     "message": "Siła ciągu w trybie precyzyjnym %power%%"
+  },
+  "SET_MAXIMUM_SPEED_LIMIT": {
+    "description": "Speed limiter tooltip.",
+    "message": "Ustaw maksymalny limit prędkości"
   },
   "SET_NAVTARGET_TO": {
     "description": "",
@@ -1537,7 +1605,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "\" atmosfera przepełniona siarką\""
+    "message": "atmosfera siarkowa"
   },
   "TAKEOFF": {
     "description": "",
@@ -1549,7 +1617,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "śladowa"
+    "message": "\"śladowa \""
   },
   "TEXTILES": {
     "description": "",
@@ -1557,11 +1625,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "gęsta"
+    "message": "\"gęsta \""
   },
   "THIN": {
     "description": "",
-    "message": "rozrzedzona"
+    "message": "\"rzadka \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1597,7 +1665,7 @@
   },
   "TINY": {
     "description": "Adjective used to describe the size of an object.",
-    "message": "Średnia"
+    "message": "Mały"
   },
   "TOGGLE_EQUIPMENT_VIEW": {
     "description": "Tooltip for the Equipment View button",
@@ -1753,7 +1821,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "bardzo gęsta"
+    "message": "\"bardzo gęsta \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1791,9 +1859,9 @@
     "description": "",
     "message": "Biały karzeł"
   },
-  "WITH_A": {
+  "WITH": {
     "description": "",
-    "message": "\", \""
+    "message": "\" z \""
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",

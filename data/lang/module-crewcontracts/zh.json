@@ -21,11 +21,11 @@
   },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
-    "message": "Potential crew available for hire at this starport."
+    "message": "在这个星港可以雇用的潜在船员。"
   },
   "CREW_FOR_HIRE_TITLE": {
     "description": "",
-    "message": "CREW FOR HIRE"
+    "message": "出租船员"
   },
   "GO_BACK": {
     "description": "",

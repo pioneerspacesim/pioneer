@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaEngine.h"
@@ -76,6 +76,48 @@ static int l_engine_attr_rand(lua_State *l)
 static int l_engine_attr_ticks(lua_State *l)
 {
 	lua_pushinteger(l, SDL_GetTicks());
+	return 1;
+}
+
+/*
+ * Attribute: time
+ *
+ * Number of real-time seconds since Pioneer was started. This should be used
+ * for debugging or UI purposes only (eg animations), and should never be used
+ * in game logic of any kind.
+ *
+ * Availability:
+ *
+ *   July 2022
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_engine_attr_time(lua_State *l)
+{
+	lua_pushnumber(l, Pi::GetApp()->GetTime());
+	return 1;
+}
+
+/*
+ * Attribute: frameTime
+ *
+ * Length of the last frame in seconds. This should be used for debugging or UI
+ * purposes only (e.g. animations) and should never be used in game logic of
+ * any kind.
+ *
+ * Availability:
+ *
+ *   July 2022
+ *
+ * Status:
+ *
+ *   stable
+ */
+static int l_engine_attr_frame_time(lua_State *l)
+{
+	lua_pushnumber(l, Pi::GetFrameTime());
 	return 1;
 }
 
@@ -964,6 +1006,17 @@ static int l_engine_get_model(lua_State *l)
 	return 1;
 }
 
+static int l_engine_request_profile_frame(lua_State *l)
+{
+	if (lua_gettop(l) > 0) {
+		Pi::GetApp()->RequestProfileFrame(luaL_checkstring(l, 1));
+	} else {
+		Pi::GetApp()->RequestProfileFrame();
+	}
+
+	return 0;
+}
+
 static int l_get_can_browse_user_folders(lua_State *l)
 {
 	lua_pushboolean(l, OS::SupportsFolderBrowser());
@@ -1065,12 +1118,16 @@ void LuaEngine::Register()
 		{ "GetBodyProjectedScreenPosition", l_engine_get_projected_screen_position },
 		{ "GetTargetIndicatorScreenPosition", l_engine_get_target_indicator_screen_position },
 		{ "GetEnumValue", l_engine_get_enum_value },
+
+		{ "RequestProfileFrame", l_engine_request_profile_frame },
 		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {
 		{ "rand", l_engine_attr_rand },
 		{ "ticks", l_engine_attr_ticks },
+		{ "time", l_engine_attr_time },
+		{ "frameTime", l_engine_attr_frame_time },
 		{ "pigui", l_engine_attr_pigui },
 		{ "version", l_engine_attr_version },
 		{ 0, 0 }

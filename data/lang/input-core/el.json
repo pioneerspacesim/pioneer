@@ -51,6 +51,14 @@
     "description": "Descriptive name for the DecreaseTimeAcceleration action.",
     "message": "Μείωση επιτάχυνσης χρόνου"
   },
+  "BIND_FIXHEADING_RADIAL": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Open Attitude Hold Radial Menu"
+  },
+  "BIND_FLIGHT_ASSIST_RADIAL": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Open Flight Assist Radial Menu"
+  },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
     "message": "Αλλαγή στην Εμπρός κάμερα"
@@ -111,6 +119,14 @@
     "description": "Descriptive name for the PrimaryFire action.",
     "message": "Πρωτεύον πυρ"
   },
+  "BIND_RADIAL_HORIZONTAL_SELECTION": {
+    "description": "Input axis name to select in the radial menu.",
+    "message": "Radial Menu Left/Right"
+  },
+  "BIND_RADIAL_VERTICAL_SELECTION": {
+    "description": "Input axis name to select in the radial menu.",
+    "message": "Radial Menu Up/Down"
+  },
   "BIND_REAR_CAMERA": {
     "description": "Descriptive name for the RearCamera action.",
     "message": "Αλλαγή στην Πίσω κάμερα"
@@ -143,6 +159,10 @@
     "description": "Descriptive name for the ThrustLowPower action.",
     "message": "Λειτουργία ώθησης χαμηλής ισχύος (κράτημα)"
   },
+  "BIND_TOGGLE_CRUISE": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Toggle Cruise Mode"
+  },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
     "message": "Εναλλαγή λειτουργίας HUD"
@@ -155,9 +175,9 @@
     "description": "Descriptive name for the ToggleRotationDamping action.",
     "message": "Εναλλαγή Απόσβεσης Περιστροφής"
   },
-  "BIND_TOGGLE_SET_SPEED": {
-    "description": "Descriptive name for the ToggleSetSpeed action.",
-    "message": "Εναλλαγή λειτουργίας ελέγχου ταχύτητας"
+  "BIND_TOGGLE_SPEED_LIMITER": {
+    "description": "Descriptive name for the action binding.",
+    "message": "Toggle Speed Limiter"
   },
   "BIND_TOP_CAMERA": {
     "description": "Descriptive name for the TopCamera action.",
@@ -170,6 +190,10 @@
   "BUTTON": {
     "description": "",
     "message": "\" Κουμπί \""
+  },
+  "CONNECTED": {
+    "description": "Joystick status in the list",
+    "message": "Connected"
   },
   "DIRECTION": {
     "description": "Direction",
@@ -206,6 +230,14 @@
     "description": "Hat switch: Is the top button on a joystick",
     "message": "\" Hat\""
   },
+  "JOY": {
+    "description": "An acronym for the joystick",
+    "message": "Joy"
+  },
+  "JOYSTICKS": {
+    "description": "Header for the joystick's list.",
+    "message": "Joysticks"
+  },
   "MOUSE": {
     "description": "A computer mouse, used to create the name for a mouse button binding",
     "message": "Ποντίκι"
@@ -221,6 +253,10 @@
   "MOUSE_RMB": {
     "description": "An acronym for the right mouse button",
     "message": "RMB"
+  },
+  "NOT_CONNECTED": {
+    "description": "Joystick status in the list",
+    "message": "Not connected"
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",

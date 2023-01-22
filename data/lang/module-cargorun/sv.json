@@ -25,39 +25,39 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Ship needed for delivery of cargo to the {system} system."
+    "message": "Skepp behövs för leverans av last till {system}-systemet."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "Transport av varor till {system}-systemet behövs. Betalar {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "Leverera värdefull last till {system}-systemet. {cash} till en erfaren pilot."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
+    "message": "Åkare sökes för transport inom systemet. Flytt av varor till {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "Need local delivery of personal cargo to {starport}."
+    "message": "Behöver lokal leverans av personlig last till {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
+    "message": "Privat fraktkontrakt. Behöver certifierad leverans av varor till {starport}."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Pickup of cargo from the {system} system required. Details available on request."
+    "message": "Upphämtning av last från {system}-systemet önskas. Detaljer tillgängliga på begäran."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
+    "message": "Transporttjänst behövs. Flytt av last till denna starport från {starport} önskas."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+    "message": "Kvalificerad entreprenör behövs för en körning. Vi behöver ett skepp för en bulkleverans till {system}-systemet."
   },
   "ADTITLE_1": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Vänligen reppetera din ursprungliga uttalande."
+    "message": "Vänligen repetera ditt ursprungliga uttalande."
   },
   "DANGER": {
     "description": "the risk level",
@@ -173,15 +173,15 @@
   },
   "DENY_AGAIN_1": {
     "description": "",
-    "message": "Sorry, we already have a deal. However, I would be happy to do business with you again after a successful delivery."
+    "message": "Tyvärr, vi har redan ett avtal. Jag skulle dock gärna göra affärer med dig igen efter en lyckad leverans."
   },
   "DENY_AGAIN_2": {
     "description": "",
-    "message": "Excuse me sir, please complete our existing contract first. Then we can negotiate another delivery."
+    "message": "Ursäkta mig, vänligen slutför vårt befintliga kontrakt först. Sedan kan vi förhandla om en annan leverans."
   },
   "DENY_AGAIN_3": {
     "description": "",
-    "message": "Sir, please deliver my cargo first. Then I will do more business with you."
+    "message": "Sir, snälla leverera min last först. Då kommer jag att göra fler affärer med dig."
   },
   "DIAMONDS": {
     "description": "custom cargo",
@@ -357,7 +357,7 @@
   },
   "INTROTEXT_WEDDING_1": {
     "description": "",
-    "message": "Hälsningar. Har du hört talas om bröllopssäsongen på {startport} i systemet {system} ({sectorx}, {sectory}, {sectorz})? Vi vill transportera {cargoname} dit. Det är {dist} ly bort. Betalningen är {cash}. Vad säger du?"
+    "message": "Hälsningar. Har du hört talas om bröllopssäsongen på {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz})-systemet? Vi vill transportera {cargoname} dit. Det är {dist} ly bort. Betalningen är {cash}. Vad säger du?"
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
@@ -369,7 +369,7 @@
   },
   "IS_IT_NEGOTIABLE": {
     "description": "",
-    "message": "Is the amount of cargo negotiable?"
+    "message": "Är mängden last förhandlingsbar?"
   },
   "I_AM_ON_MY_WAY": {
     "description": "",

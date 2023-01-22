@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GeoSphere.h"
@@ -53,12 +53,12 @@ void GeoSphere::Uninit()
 
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
 {
-	Output(
-		"%s:\n"
-		"    height fractal: %s\n"
-		"    colour fractal: %s\n"
-		"    seed: %u\n",
-		sbody->GetName().c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->GetSeed());
+	Log::Verbose(
+		"Geosphere Init for {}:\n" \
+		"\theight fractal: {}\n" \
+		"\tcolour fractal: {}\n" \
+		"\tseed: {}\n",
+		sbody->GetName(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->GetSeed());
 }
 
 // static

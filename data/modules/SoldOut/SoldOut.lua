@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = require 'Engine'
@@ -8,7 +8,7 @@ local Event = require 'Event'
 local Serializer = require 'Serializer'
 local Character = require 'Character'
 local Format = require 'Format'
-local Equipment = require 'Equipment'
+local Commodities = require 'Commodities'
 
 local l = Lang.GetResource("module-soldout")
 
@@ -16,8 +16,12 @@ local ads = {}
 
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
+
+	---@type CargoManager
+	local cargoMgr = Game.player:GetComponent('CargoManager')
+
 	-- Maximum amount the player can sell:
-	local max = Game.player:CountEquip(ad.commodity, "cargo")
+	local max = cargoMgr:CountCommodity(ad.commodity)
 	max = ad.amount < max and ad.amount or max
 
 	form:Clear()
@@ -33,7 +37,7 @@ local onChat = function (form, ref, option)
 		if max < 1 then
 			form:SetMessage(string.interp(l.NOT_IN_STOCK, {commodity = ad.commodity:GetName()}))
 		else
-			Game.player:RemoveEquip(ad.commodity, max)
+			cargoMgr:RemoveCommodity(ad.commodity, max)
 			Game.player:AddMoney(ad.price * max)
 			ad.amount = ad.amount - max
 			form:SetMessage(ad.message .. "\n\n" .. string.interp(l.AMOUNT, {amount = ad.amount}))
@@ -42,7 +46,7 @@ local onChat = function (form, ref, option)
 		if max < option then
 			form:SetMessage(string.interp(l.NOT_IN_STOCK, {commodity = ad.commodity:GetName()}))
 		else
-			Game.player:RemoveEquip(ad.commodity, option)
+			cargoMgr:RemoveCommodity(ad.commodity, option)
 			Game.player:AddMoney(ad.price * option)
 			ad.amount = ad.amount - option
 			form:SetMessage(ad.message .. "\n\n" .. string.interp(l.AMOUNT, {amount = ad.amount}))
@@ -83,7 +87,7 @@ local makeAdvert = function(station, commodity)
 	local ad = {
 		station   = station,
 		client    = Character.New(),
-		price     = 2 * station:GetEquipmentPrice(commodity) * ((not Game.system:IsCommodityLegal(commodity:GetName()) and 2) or 1),
+		price     = 2 * station:GetCommodityPrice(commodity) * ((not Game.system:IsCommodityLegal(commodity:GetName()) and 2) or 1),
 		commodity = commodity,
 	}
 
@@ -112,10 +116,12 @@ local onCreateBB = function (station)
 	-- Only relevant to create an advert for goods that are have zero stock
 	-- (probability for that is set in SpaceStation.lua)
 	local sold_out = {}
-	for i, c in pairs(Equipment.cargo) do
-		local stock = station:GetEquipmentStock(c)
-		if stock == 0 then
-			table.insert(sold_out, c)
+	for i, c in pairs(Commodities) do
+		if c.purchasable then
+			local stock = station:GetCommodityStock(c)
+			if stock == 0 then
+				table.insert(sold_out, c)
+			end
 		end
 	end
 

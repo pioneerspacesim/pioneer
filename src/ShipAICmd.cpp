@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipAICmd.h"
@@ -11,6 +11,7 @@
 #include "Space.h"
 #include "SpaceStation.h"
 #include "perlin.h"
+#include "ship/Propulsion.h"
 
 static const double VICINITY_MIN = 15000.0;
 static const double VICINITY_MUL = 4.0;
@@ -232,7 +233,7 @@ AICmdKamikaze::AICmdKamikaze(DynamicBody *dBody, Body *target) :
 	AICommand(dBody, CMD_KAMIKAZE)
 {
 	m_target = target;
-	m_prop.Reset(m_dBody->GetPropulsion());
+	m_prop = m_dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 }
 
@@ -257,7 +258,7 @@ void AICmdKamikaze::PostLoadFixup(Space *space)
 	AICommand::PostLoadFixup(space);
 	m_target = space->GetBodyByIndex(m_targetIndex);
 	// Ensure needed sub-system:
-	m_prop.Reset(m_dBody->GetPropulsion());
+	m_prop = m_dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 }
 
@@ -324,8 +325,8 @@ AICmdKill::AICmdKill(DynamicBody *dBody, Ship *target) :
 	m_target = target;
 	m_leadTime = m_evadeTime = m_closeTime = 0.0;
 	m_lastVel = m_target->GetVelocity();
-	m_prop.Reset(m_dBody->GetPropulsion());
-	m_fguns.Reset(m_dBody->GetFixedGuns());
+	m_prop = m_dBody->GetComponent<Propulsion>();
+	m_fguns = m_dBody->GetComponent<FixedGuns>();
 	assert(m_prop != nullptr);
 	assert(m_fguns != nullptr);
 }
@@ -357,8 +358,8 @@ void AICmdKill::PostLoadFixup(Space *space)
 	m_leadTime = m_evadeTime = m_closeTime = 0.0;
 	m_lastVel = m_target->GetVelocity();
 	// Ensure needed sub-system:
-	m_prop.Reset(m_dBody->GetPropulsion());
-	m_fguns.Reset(m_dBody->GetFixedGuns());
+	m_prop = m_dBody->GetComponent<Propulsion>();
+	m_fguns = m_dBody->GetComponent<FixedGuns>();
 	assert(m_prop != nullptr);
 	assert(m_fguns != nullptr);
 }
@@ -380,11 +381,22 @@ bool AICmdKill::TimeStepUpdate()
 		return false;
 	}
 
-	if (!ProcessChild()) return false;
 	if (!m_target || m_target->IsDead()) return true;
 
+	const vector3d targpos = m_target->GetPositionRelTo(m_dBody);
+	double dist = targpos.LengthSqr();
+
+	//Autopilot leads to a point VICINITY_MIN in front of target
+	//If terget (Player) is manouvering this point might never be reached..
+	if(m_child) {
+		if(dist < (VICINITY_MIN + 1000.0) * (VICINITY_MIN + 1000.0)) //no sqrt on dist yet
+			m_child.reset();
+		else if (!ProcessChild())
+			return false;
+	}
+
+	dist = sqrt(dist);
 	const matrix3x3d &rot = m_dBody->GetOrient();
-	vector3d targpos = m_target->GetPositionRelTo(m_dBody);
 	vector3d targvel = m_target->GetVelocityRelTo(m_dBody);
 	vector3d targdir = targpos.NormalizedSafe();
 	vector3d heading = -rot.VectorZ();
@@ -393,7 +405,7 @@ bool AICmdKill::TimeStepUpdate()
 	m_lastVel = m_target->GetVelocity(); // may need next frame
 	vector3d leaddir = m_prop->AIGetLeadDir(m_target, targaccel, m_fguns->GetProjSpeed(0));
 
-	if (targpos.Length() >= VICINITY_MIN + 1000.0) { // if really far from target, intercept
+	if (dist >= VICINITY_MIN + 1000.0) { // if really far from target, intercept
 		//		Output("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
 		m_child.reset(new AICmdFlyTo(m_dBody, m_target));
 		ProcessChild();
@@ -418,7 +430,7 @@ bool AICmdKill::TimeStepUpdate()
 
 		// Shoot only when close to target
 
-		double vissize = 1.3 * m_dBody->GetPhysRadius() / targpos.Length();
+		double vissize = 1.3 * m_dBody->GetPhysRadius() / dist;
 		vissize += (0.05 + 0.5 * leaddiff) * Pi::rng.Double() * skillShoot;
 		if (vissize > headdiff)
 			m_fguns->SetGunFiringState(0, 1);
@@ -426,8 +438,7 @@ bool AICmdKill::TimeStepUpdate()
 			m_fguns->SetGunFiringState(0, 0);
 		float max_fire_dist = m_fguns->GetGunRange(0);
 		if (max_fire_dist > 4000) max_fire_dist = 4000;
-		max_fire_dist *= max_fire_dist;
-		if (targpos.LengthSqr() > max_fire_dist) m_fguns->SetGunFiringState(0, 0); // temp
+		if (dist > max_fire_dist) m_fguns->SetGunFiringState(0, 0); // temp
 	}
 	m_leadOffset += m_leadDrift * Pi::game->GetTimeStep();
 	double leadAV = (leaddir - targdir).Dot((leaddir - heading).NormalizedSafe()); // leaddir angvel
@@ -451,7 +462,7 @@ bool AICmdKill::TimeStepUpdate()
 				evadethrust.y = objvel.y > 0.0 ? 1.0 : -1.0;
 			}
 		} else {
-			skillEvade += targpos.Length() / 2000; // 0.25 per 500m
+			skillEvade += dist / 2000; // 0.25 per 500m
 
 			if (skillEvade < 1.0 && targav.Length() < 0.05) { // smart evade, assumes facing
 				evadethrust.x = targhead.x < 0.0 ? 1.0 : -1.0;
@@ -478,7 +489,7 @@ bool AICmdKill::TimeStepUpdate()
 		m_closeTime = Pi::game->GetTime() + skillEvade * Pi::rng.Double(1.0, 5.0);
 
 		double reqdist = 500.0 + skillEvade * Pi::rng.Double(-500.0, 250);
-		double dist = targpos.Length(), ispeed;
+		double ispeed;
 		double rearaccel = m_prop->GetAccelRev();
 		rearaccel += targaccel.Dot(targdir);
 		// v = sqrt(2as), positive => towards
@@ -722,9 +733,10 @@ static vector3d GenerateTangent(DynamicBody *dBody, FrameId targframeId, const v
 //4 - probable path intercept
 int CheckCollision(DynamicBody *dBody, const vector3d &pathdir, double pathdist, const vector3d &tpos, double endvel, double r)
 {
-	if (!dBody->Have(DynamicBody::PROPULSION)) return 0;
-	Propulsion *prop = dBody->GetPropulsion();
-	assert(prop != nullptr);
+	Propulsion *prop = dBody->GetComponent<Propulsion>();
+	if (!prop) // This body doesn't have any propulsion to avoid collision
+		return 0;
+
 	// ship is in obstructor's frame anyway, so is tpos
 	if (pathdist < 100.0) return 0;
 	Body *body = Frame::GetFrame(dBody->GetFrame())->GetBody();
@@ -805,7 +817,7 @@ static bool ParentSafetyAdjust(DynamicBody *dBody, FrameId targframeId, vector3d
 
 	// aim for zero velocity at surface of that body
 	// still along path to target
-	Propulsion *prop = dBody->GetPropulsion();
+	Propulsion *prop = dBody->GetComponent<Propulsion>();
 	if (prop == nullptr) return false;
 	vector3d targpos2 = targpos - dBody->GetPosition();
 	double targdist = targpos2.Length();
@@ -821,8 +833,8 @@ static bool ParentSafetyAdjust(DynamicBody *dBody, FrameId targframeId, vector3d
 static bool CheckSuicide(DynamicBody *dBody, const vector3d &tandir)
 {
 	Body *body = Frame::GetFrame(dBody->GetFrame())->GetBody();
-	if (dBody->Have(DynamicBody::PROPULSION)) return false;
-	Propulsion *prop = dBody->GetPropulsion();
+	if (!dBody->HasComponent<Propulsion>()) return false;
+	Propulsion *prop = dBody->GetComponent<Propulsion>();
 	assert(prop != nullptr);
 	if (!body || !body->IsType(ObjectType::TERRAINBODY)) return false;
 
@@ -860,7 +872,7 @@ void AICmdFlyTo::PostLoadFixup(Space *space)
 	m_lockhead = true;
 	m_frameId = m_target ? m_target->GetFrame() : FrameId();
 	// Ensure needed sub-system:
-	m_prop.Reset(m_dBody->GetPropulsion());
+	m_prop = m_dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 }
 
@@ -868,7 +880,7 @@ void AICmdFlyTo::PostLoadFixup(Space *space)
 AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) :
 	AICommand(dBody, CMD_FLYTO)
 {
-	m_prop.Reset(dBody->GetPropulsion());
+	m_prop = dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 	m_frameId = FrameId::Invalid;
 	m_state = -6;
@@ -879,7 +891,7 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) :
 	if (!target->IsType(ObjectType::TERRAINBODY))
 		m_dist = VICINITY_MIN;
 	else
-		m_dist = VICINITY_MUL * MaxEffectRad(target, m_prop.Get());
+		m_dist = VICINITY_MUL * MaxEffectRad(target, m_prop);
 
 	if (target->IsType(ObjectType::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
 		m_posoff = target->GetPosition() + VICINITY_MIN * target->GetOrient().VectorY();
@@ -906,7 +918,7 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, FrameId targframe, const vector3d &po
 	m_lockhead(true),
 	m_frameId(FrameId::Invalid)
 {
-	m_prop.Reset(dBody->GetPropulsion());
+	m_prop = dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 }
 
@@ -1003,7 +1015,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	// TODO: collision needs to be processed according to vdiff, not reldir?
 
 	Body *body = Frame::GetFrame(m_frameId)->GetBody();
-	double erad = MaxEffectRad(body, m_prop.Get());
+	double erad = MaxEffectRad(body, m_prop);
 	Frame *targframe = Frame::GetFrame(targframeId);
 	if ((m_target && body != m_target) || (targframe && (!m_tangent || body != targframe->GetBody()))) {
 		int coll = CheckCollision(m_dBody, reldir, targdist, targpos, m_endvel, erad);
@@ -1156,7 +1168,7 @@ void AICmdDock::PostLoadFixup(Space *space)
 	AICommand::PostLoadFixup(space);
 	m_target = static_cast<SpaceStation *>(space->GetBodyByIndex(m_targetIndex));
 	// Ensure needed sub-system:
-	m_prop.Reset(m_dBody->GetPropulsion());
+	m_prop = m_dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 }
 
@@ -1170,7 +1182,7 @@ AICmdDock::AICmdDock(DynamicBody *dBody, SpaceStation *target) :
 	ship = static_cast<Ship *>(dBody);
 	assert(ship != nullptr);
 
-	m_prop.Reset(ship->GetPropulsion());
+	m_prop = ship->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 
 	if (target->IsGroundStation()) {
@@ -1356,7 +1368,7 @@ bool AICmdDock::TimeStepUpdate()
 AICmdHoldPosition::AICmdHoldPosition(DynamicBody *dBody) :
 	AICommand(dBody, CMD_HOLDPOSITION)
 {
-	m_prop.Reset(m_dBody->GetPropulsion());
+	m_prop = m_dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 }
 
@@ -1364,7 +1376,7 @@ AICmdHoldPosition::AICmdHoldPosition(const Json &jsonObj) :
 	AICommand(jsonObj, CMD_HOLDPOSITION)
 {
 	// Ensure needed sub-system:
-	m_prop.Reset(m_dBody->GetPropulsion());
+	m_prop = m_dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 }
 
@@ -1389,7 +1401,7 @@ void AICmdFlyAround::PostLoadFixup(Space *space)
 	AICommand::PostLoadFixup(space);
 	m_obstructor = space->GetBodyByIndex(m_obstructorIndex);
 	// Ensure needed sub-system:
-	m_prop.Reset(m_dBody->GetPropulsion());
+	m_prop = m_dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 }
 
@@ -1403,7 +1415,7 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 	m_targmode = mode;
 
 	// push out of effect radius (gravity safety & station parking zones)
-	alt = std::max(alt, MaxEffectRad(obstructor, m_prop.Get()));
+	alt = std::max(alt, MaxEffectRad(obstructor, m_prop));
 
 	// drag within frame because orbits are impossible otherwise
 	// timestep code also doesn't work correctly for ex-frame cases, should probably be fixed
@@ -1420,7 +1432,7 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double relalt, int mode) :
 	AICommand(dBody, CMD_FLYAROUND)
 {
-	m_prop.Reset(dBody->GetPropulsion());
+	m_prop = dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 
 	assert(!std::isnan(relalt));
@@ -1432,7 +1444,7 @@ AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double rela
 AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double alt, double vel, int mode) :
 	AICommand(dBody, CMD_FLYAROUND)
 {
-	m_prop.Reset(dBody->GetPropulsion());
+	m_prop = dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 
 	assert(!std::isnan(alt));
@@ -1468,7 +1480,7 @@ void AICmdFlyAround::SaveToJson(Json &jsonObj)
 
 double AICmdFlyAround::MaxVel(double targdist, double targalt)
 {
-	Propulsion *prop = m_dBody->GetPropulsion();
+	Propulsion *prop = m_dBody->GetComponent<Propulsion>();
 	assert(prop != 0);
 
 	if (targalt > m_alt) return m_vel;
@@ -1590,7 +1602,7 @@ AICmdFormation::AICmdFormation(DynamicBody *dBody, DynamicBody *target, const ve
 	m_target(target),
 	m_posoff(posoff)
 {
-	m_prop.Reset(dBody->GetPropulsion());
+	m_prop = dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 }
 
@@ -1622,7 +1634,7 @@ void AICmdFormation::PostLoadFixup(Space *space)
 	AICommand::PostLoadFixup(space);
 	m_target = static_cast<Ship *>(space->GetBodyByIndex(m_targetIndex));
 	// Ensure needed sub-system:
-	m_prop.Reset(m_dBody->GetPropulsion());
+	m_prop = m_dBody->GetComponent<Propulsion>();
 	assert(m_prop != nullptr);
 }
 

@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = require 'Lang'
@@ -8,8 +8,8 @@ local Event = require 'Event'
 local NameGen = require 'NameGen'
 local Rand = require 'Rand'
 local Serializer = require 'Serializer'
-local Equipment = require 'Equipment'
 local Character = require 'Character'
+local Commodities = require 'Commodities'
 
 local l = Lang.GetResource("module-goodstrader")
 
@@ -111,7 +111,7 @@ end
 
 local onCreateBB = function (station)
 	local has_illegal_goods = false
-	for key in pairs(Equipment.cargo) do
+	for key in pairs(Commodities) do
 		if not Game.system:IsCommodityLegal(key) then
 			has_illegal_goods = true
 		end
@@ -153,11 +153,11 @@ local onCreateBB = function (station)
 
 			ad.stock = {}
 			ad.price = {}
-			for key, e in pairs(Equipment.cargo) do
+			for key, comm in pairs(Commodities) do
 				if not Game.system:IsCommodityLegal(key) then
-					ad.stock[e] = Engine.rand:Integer(1,50)
+					ad.stock[comm] = Engine.rand:Integer(1,50)
 					-- going rate on the black market will be twice normal
-					ad.price[e] = ad.station:GetEquipmentPrice(e) * 2
+					ad.price[comm] = ad.station:GetCommodityPrice(comm) * 2
 				end
 			end
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CargoBody.h"
@@ -10,6 +10,7 @@
 #include "Ship.h"
 #include "Space.h"
 #include "lua/LuaEvent.h"
+#include "lua/LuaTable.h"
 
 CargoBody::CargoBody(const LuaRef &cargo, float selfdestructTimer) :
 	m_cargo(cargo)
@@ -86,8 +87,6 @@ void CargoBody::Init()
 	skin.SetDecal("pioneer");
 	skin.Apply(GetModel());
 	GetModel()->SetColors(colors);
-
-	Properties().Set("type", cargoname);
 }
 
 void CargoBody::TimeStepUpdate(const float timeStep)
@@ -128,8 +127,7 @@ bool CargoBody::OnCollision(Body *b, Uint32 flags, double relVel)
 {
 	// ignore collision if its about to be scooped
 	if (b->IsType(ObjectType::SHIP)) {
-		int cargoscoop_cap = 0;
-		static_cast<Ship *>(b)->Properties().Get("cargo_scoop_cap", cargoscoop_cap);
+		int cargoscoop_cap = b->Properties().Get("cargo_scoop_cap");
 		if (cargoscoop_cap > 0) {
 			LuaEvent::Queue("onCargoDestroyed", this);
 			return true;

@@ -1,0 +1,174 @@
+{
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
+  "FLAVOUR_0_INTRO": {
+    "description": "",
+    "message": "ハイパースペースエンジンが壊れたことによる不都合を避けよう。公的に承認された {name} Engine Servicing Company で今日、整備を受けよう。\n"
+  },
+  "FLAVOUR_0_PRICE": {
+    "description": "",
+    "message": "\nエンジン: {drive}\n整備: {price}\n保証: 18ヶ月\n{lasttime}"
+  },
+  "FLAVOUR_0_RESPONSE": {
+    "description": "",
+    "message": "あなたのエンジンは整備されました。"
+  },
+  "FLAVOUR_0_TITLE": {
+    "description": "",
+    "message": "{name} Engine Servicing Company"
+  },
+  "FLAVOUR_0_YESPLEASE": {
+    "description": "",
+    "message": "ハイパースペースエンジンを整備する"
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
+  },
+  "FLAVOUR_1_INTRO": {
+    "description": "",
+    "message": "私は {proprietor} です。あなたのハイパードライブを整備できます。そして、少なくとも1年間トラブルなく機能することを保証します。 "
+  },
+  "FLAVOUR_1_PRICE": {
+    "description": "",
+    "message": "あなたの {drive} の整備費用は {price} です\n{lasttime}"
+  },
+  "FLAVOUR_1_RESPONSE": {
+    "description": "",
+    "message": "ハイパードライブを整備しました。"
+  },
+  "FLAVOUR_1_TITLE": {
+    "description": "",
+    "message": "{proprietor}: ハイパードライブ整備の専門家"
+  },
+  "FLAVOUR_1_YESPLEASE": {
+    "description": "",
+    "message": "ドライブを整備する"
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "SHIP HYPER-MECHANICS"
+  },
+  "FLAVOUR_2_INTRO": {
+    "description": "",
+    "message": "皆様、私達 {proprietor} & Co stake は私達の評判を賭けて仕事をします。\n私達はあなたの船のハイパードライブを調整できます。そして、12ヶ月のトラブルのない運転を保証します。"
+  },
+  "FLAVOUR_2_PRICE": {
+    "description": "",
+    "message": "\n\n{lasttime}\nあなたの {drive} は私自身が仕事を監督するので、合計 {price} で確実に良い仕事がされます。"
+  },
+  "FLAVOUR_2_RESPONSE": {
+    "description": "",
+    "message": "整備完了。利用してくれてありがとう。"
+  },
+  "FLAVOUR_2_TITLE": {
+    "description": "",
+    "message": "{proprietor} & Co HyperMechanics"
+  },
+  "FLAVOUR_2_YESPLEASE": {
+    "description": "",
+    "message": "見積価格でハイパードライブを調整してください"
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE MAINTENANCE"
+  },
+  "FLAVOUR_3_INTRO": {
+    "description": "",
+    "message": "ようこそ SuperFix Maintenance へ。半年に一度のメンテナンスの時期ですか? 私達があなたのハイパードライブを SuperFix しましょう!"
+  },
+  "FLAVOUR_3_PRICE": {
+    "description": "",
+    "message": "\n\n{lasttime}\n私達は {price} だけであなたの {drive} を調節できます。ここほど安い店は他にはないよ!"
+  },
+  "FLAVOUR_3_RESPONSE": {
+    "description": "",
+    "message": "SuperFix 整備が完了しました。SuperFix 保証もあります!"
+  },
+  "FLAVOUR_3_TITLE": {
+    "description": "",
+    "message": "SuperFix Maintenance ({name} 支店)"
+  },
+  "FLAVOUR_3_YESPLEASE": {
+    "description": "",
+    "message": "SuperFix を私に!"
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "ENGINE SERVICING"
+  },
+  "FLAVOUR_4_INTRO": {
+    "description": "",
+    "message": "ようこそ Time and Space へ。\n\n私達は星間エンジンを専門にしています。すべてのメンテナンス作業は2年間保証されます。"
+  },
+  "FLAVOUR_4_PRICE": {
+    "description": "",
+    "message": "\n{lasttime}\nあなたの {drive} を整備するには {price} 掛かります。開始しますか?"
+  },
+  "FLAVOUR_4_RESPONSE": {
+    "description": "",
+    "message": "あなたのハイパードライブの作業が完了しました。"
+  },
+  "FLAVOUR_4_TITLE": {
+    "description": "",
+    "message": "Time and Space Engines, Inc."
+  },
+  "FLAVOUR_4_YESPLEASE": {
+    "description": "",
+    "message": "はい、始めてください"
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "HYPERDRIVE SERVICE"
+  },
+  "FLAVOUR_5_INTRO": {
+    "description": "",
+    "message": "ハイパースペースエンジンが壊れたことによる不都合を避けよう。今日、整備を受けよう。\n"
+  },
+  "FLAVOUR_5_PRICE": {
+    "description": "",
+    "message": "\nエンジン: {drive}\n整備: {price}\n{lasttime}"
+  },
+  "FLAVOUR_5_RESPONSE": {
+    "description": "",
+    "message": "あなたのエンジンは整備されました。"
+  },
+  "FLAVOUR_5_TITLE": {
+    "description": "",
+    "message": "{proprietor} Engine Servicing Company"
+  },
+  "FLAVOUR_5_YESPLEASE": {
+    "description": "",
+    "message": "ハイパースペースエンジンを整備する"
+  },
+  "I_DONT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "十分なお金を持っていない"
+  },
+  "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
+    "description": "",
+    "message": "私はハイパードライブが壊れる前に修理した。"
+  },
+  "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
+    "description": "",
+    "message": "船のハイパードライブは異常により破壊されました"
+  },
+  "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED": {
+    "description": "",
+    "message": "あなたのドライブは {date} に取り付けられてから整備されていません"
+  },
+  "YOUR_DRIVE_WAS_LAST_SERVICED_ON": {
+    "description": "",
+    "message": "あなたのドライブは {date} に {company} によって最後の整備をされました"
+  },
+  "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE": {
+    "description": "",
+    "message": "あなたは整備するドライブを持っていない!"
+  },
+  "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
+    "description": "",
+    "message": "あなたはハイパードライブが壊れる前に修理した。"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "FLAVOUR_0_ADTITLE": {
+    "description": "",
+    "message": "DONATE!"
+  },
+  "FLAVOUR_0_DESC": {
+    "description": "",
+    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+  },
+  "FLAVOUR_0_MESSAGE": {
+    "description": "",
+    "message": "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster."
+  },
+  "FLAVOUR_1_ADTITLE": {
+    "description": "",
+    "message": "DONATE"
+  },
+  "FLAVOUR_1_DESC": {
+    "description": "",
+    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+  },
+  "FLAVOUR_1_MESSAGE": {
+    "description": "",
+    "message": "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit."
+  },
+  "FLAVOUR_2_ADTITLE": {
+    "description": "",
+    "message": "FEELING GENEROUS?"
+  },
+  "FLAVOUR_2_DESC": {
+    "description": "",
+    "message": "War Orphan's Support needs your help to keep up its essential work."
+  },
+  "FLAVOUR_2_MESSAGE": {
+    "description": "",
+    "message": "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
+  },
+  "FLAVOUR_3_ADTITLE": {
+    "description": "",
+    "message": "CONTRIBUTE"
+  },
+  "FLAVOUR_3_DESC": {
+    "description": "",
+    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+  },
+  "FLAVOUR_3_MESSAGE": {
+    "description": "",
+    "message": "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy."
+  },
+  "FLAVOUR_4_ADTITLE": {
+    "description": "",
+    "message": "DONATE!"
+  },
+  "FLAVOUR_4_DESC": {
+    "description": "",
+    "message": "Save our species. Stop the carnage of newly settled worlds."
+  },
+  "FLAVOUR_4_MESSAGE": {
+    "description": "",
+    "message": "Please select an amount to donate."
+  },
+  "FLAVOUR_5_ADTITLE": {
+    "description": "",
+    "message": "SUPPORT FREEDOM!"
+  },
+  "FLAVOUR_5_DESC": {
+    "description": "",
+    "message": "Stop the great injustice of proprietary software controlling your ship."
+  },
+  "FLAVOUR_5_MESSAGE": {
+    "description": "",
+    "message": "Liberate your ship! Please choose amount to donate. Happy hacking."
+  },
+  "SALES_PITCH": {
+    "description": "",
+    "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."
+  },
+  "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
+    "description": "",
+    "message": "Thank you. All donations are welcome."
+  },
+  "WOW_THAT_WAS_VERY_GENEROUS": {
+    "description": "",
+    "message": "Wow! That was very generous."
+  },
+  "YOU_DO_NOT_HAVE_ENOUGH_MONEY": {
+    "description": "",
+    "message": "You do not have enough money."
+  }
+}

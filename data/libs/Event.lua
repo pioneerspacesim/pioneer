@@ -1,4 +1,4 @@
--- Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -332,10 +332,35 @@ Event = {
 --   experimental
 --
 
+
+--
+-- Event: onShipCreated
+--
+-- Triggered when a ship is pushed to Lua and its constructor is called.
+-- This event may be used to start timers related to the ship or add optional
+-- components to the ship object.
+--
+-- > local onShipCreated = function (ship) ... end
+-- > Event.Register("onShipCreated", onShipCreated)
+--
+-- Parameters:
+--
+--   ship - the ship that was created
+--
+-- Availability:
+--
+--   June 2022
+--
+-- Status:
+--
+--   stable
+--
+
 --
 -- Event: onShipDestroyed
 --
--- Triggered when a ship is destroyed.
+-- Triggered when a ship is destroyed by gunfire or collision.
+-- This event will not be triggered when a ship is simply deleted from space.
 --
 -- > local onShipDestroyed = function (ship, attacker) ... end
 -- > Event.Register("onShipDestroyed", onShipDestroyed)
@@ -742,6 +767,52 @@ Event = {
 -- Availability:
 --
 --   alpha 20
+--
+-- Status:
+--
+--   experimental
+--
+
+--
+-- Event: onShipScoopFuel
+--
+-- Triggered when a ship has stayed in the atmosphere of a star or gas giant
+-- and a unit of fuel should be scooped into the players' cargo hold.
+--
+-- > local onShipScoopFuel = function (ship, body) ... end
+-- > Event.Register("onShipScoopFuel", onShipScoopFuel)
+--
+-- Parameters:
+--
+--   ship - the <Ship> which just scooped fuel
+--
+--   body - the <SystemBody> the fuel was scooped from
+--
+-- Availability:
+--
+--   June 2022
+--
+-- Status:
+--
+--   experimental
+--
+
+--
+-- Event: onShipScoopCargo
+--
+-- Triggered when a ship attempts to scoop up a cargo container.
+--
+-- Parameters:
+--
+--   ship - the <Ship> which attempted to scoop a cargo item
+--
+--   success - was the cargo container successfully scooped?
+--
+--   cargoType - the <CommodityType> contained in the cargo item
+--
+-- Availability:
+--
+--   June 2022
 --
 -- Status:
 --

@@ -1,4 +1,4 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIP_H
@@ -51,7 +51,7 @@ struct shipstats_t {
 	int atmo_shield_cap;
 	int radar_cap;
 	int fuel_scoop_cap;
-	int cargo_bay_life_support_cap;
+	int cargo_life_support_cap;
 	int hull_autorepair_cap;
 };
 
@@ -91,7 +91,7 @@ public:
 	inline void ClearThrusterState()
 	{
 		ClearAngThrusterState();
-		if (m_launchLockTimeout <= 0.0f) ClearLinThrusterState();
+		ClearLinThrusterState();
 	}
 	void UpdateLuaStats();
 	void UpdateEquipStats();
@@ -102,7 +102,6 @@ public:
 	void Explode();
 	virtual bool DoDamage(float kgDamage); // can be overloaded in Player to add audio
 	void SetGunState(int idx, int state);
-	float GetGunTemperature(int idx) const { return GetFixedGuns()->GetGunTemperature(idx); }
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
@@ -199,6 +198,7 @@ public:
 	void AIBodyDeleted(const Body *const body){}; // Note: defined in Ship-AI.cpp // todo: signals
 
 	const AICommand *GetAICommand() const { return m_curAICmd; }
+	bool IsAIAttacking(const Ship *target) const;
 
 	virtual void PostLoadFixup(Space *space) override;
 
@@ -240,6 +240,8 @@ public:
 
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
 
+	Propulsion *GetPropulsion() { return m_propulsion; }
+
 protected:
 	vector3d CalcAtmosphericForce() const override;
 
@@ -270,6 +272,9 @@ protected:
 	} m_hyperspace;
 
 	LuaRef m_equipSet;
+
+	Propulsion *m_propulsion;
+	FixedGuns *m_fixedGuns;
 
 private:
 	float GetECMRechargeTime();
@@ -326,19 +331,23 @@ private:
 	std::string m_shipName;
 
 public:
-	void ClearAngThrusterState() { GetPropulsion()->ClearAngThrusterState(); }
-	void ClearLinThrusterState() { GetPropulsion()->ClearLinThrusterState(); }
-	double GetAccelFwd() { return GetPropulsion()->GetAccelFwd(); }
-	void SetAngThrusterState(const vector3d &levels) { GetPropulsion()->SetAngThrusterState(levels); }
-	double GetFuel() const { return GetPropulsion()->GetFuel(); }
-	double GetAccel(Thruster thruster) const { return GetPropulsion()->GetAccel(thruster); }
-	void SetFuel(const double f) { GetPropulsion()->SetFuel(f); }
-	void SetFuelReserve(const double f) { GetPropulsion()->SetFuelReserve(f); }
+	// FIXME: these methods are deprecated; all calls should use the propulsion object directly.
+	void ClearAngThrusterState() { m_propulsion->ClearAngThrusterState(); }
+	void ClearLinThrusterState() { m_propulsion->ClearLinThrusterState(); }
+	double GetAccelFwd() { return m_propulsion->GetAccelFwd(); }
+	void SetAngThrusterState(const vector3d &levels) { m_propulsion->SetAngThrusterState(levels); }
+	double GetFuel() const { return m_propulsion->GetFuel(); }
+	double GetAccel(Thruster thruster) const { return m_propulsion->GetAccel(thruster); }
+	void SetFuel(const double f) { m_propulsion->SetFuel(f); }
+	void SetFuelReserve(const double f) { m_propulsion->SetFuelReserve(f); }
 
-	bool AIMatchVel(const vector3d &vel) { return GetPropulsion()->AIMatchVel(vel); }
-	double AIFaceDirection(const vector3d &dir, double av = 0) { return GetPropulsion()->AIFaceDirection(dir, av); }
-	void SetThrusterState(int axis, double level) { return GetPropulsion()->SetLinThrusterState(axis, level); }
-	void AIMatchAngVelObjSpace(const vector3d &desiredAngVel, double softness = 1.0) { return GetPropulsion()->AIMatchAngVelObjSpace(desiredAngVel, softness); }
+	bool AIMatchVel(const vector3d &vel, const vector3d &powerLimit = vector3d(1.0)) { return m_propulsion->AIMatchVel(vel, powerLimit); }
+	double AIFaceDirection(const vector3d &dir, double av = 0) { return m_propulsion->AIFaceDirection(dir, av); }
+	void SetThrusterState(int axis, double level) { return m_propulsion->SetLinThrusterState(axis, level); }
+	void AIMatchAngVelObjSpace(const vector3d &desiredAngVel, const vector3d &powerLimit = vector3d(1.0), bool ignoreZeroValues = false)
+	{
+		m_propulsion->AIMatchAngVelObjSpace(desiredAngVel, powerLimit, ignoreZeroValues);
+	}
 };
 
 #endif /* _SHIP_H */
