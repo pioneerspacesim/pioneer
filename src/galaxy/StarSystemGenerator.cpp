@@ -739,7 +739,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		sbody->m_radius = fixed(rand.Int32(starTypeInfo[sbody->GetType()].radius[0], starTypeInfo[sbody->GetType()].radius[1]), 100);
 	} else if (sbody->GetMassAsFixed() > 6) {
 		sbody->m_type = SystemBody::TYPE_PLANET_GAS_GIANT;
-	} else if (sbody->GetMassAsFixed() > fixed(1, 15000)) {
+	} else if (sbody->GetMassAsFixed() > fixed(1, 12000)) {
 		sbody->m_type = SystemBody::TYPE_PLANET_TERRESTRIAL;
 
 		fixed amount_volatiles = fixed(2, 1) * rand.Fixed();
