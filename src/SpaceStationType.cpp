@@ -112,17 +112,14 @@ void SpaceStationType::OnSetupComplete()
 		m_ports.push_back(new_port);
 	}
 
-	int bay = 0;
 	for (auto locIter : locator_mts) {
-		int bayStr, portId;
+		int bay, portId;
 		int minSize, maxSize;
 		char padname[8];
 		const matrix4x4f &locTransform = locIter->GetTransform();
 
-		++bay;
-
 		// eg:loc_A001_p01_s0_500_b01
-		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname[0], &portId, &minSize, &maxSize, &bayStr));
+		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname[0], &portId, &minSize, &maxSize, &bay));
 		PiVerify(bay > 0 && portId > 0);
 
 		// find the port and setup the rest of it's information
