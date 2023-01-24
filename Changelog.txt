@@ -4,7 +4,9 @@ January 2023
     * New mission type: perform orbital or surface scans of a body for large rewards (#5433)
     * Improved missile targeting to make them significantly more dangerous (#5472)
     * Player starts with a Coronatrix at sol (#5462)
-    * Increased equipment capacity and tank size of Sinonatrix (#5472)
+    * Add interface to configure joystick axes and deadzones (#5477)
+    * Allow treating joystick axes as "half axes" (e.g. gamepad triggers) (#5477)
+    * Increase trade-in value of ships from 50% to 65% (#5475)
   
   * Internal Changes
     * Improved code for Advice module / smaller saves (#5467)
@@ -17,6 +19,13 @@ January 2023
     * Fix typographical issues in planet description (#5469)
     * Fix crash from main menu (#5457)
     * Fix Lua UI error on hyperjump (#5463)
+    * Adjust descriptions for dwarf planets, asteroids and atmosphere density (#5482)
+    * Increased equipment capacity and tank size of Sinonatrix (#5472)
+    * Ensure fonts in info and station comms have consistent sizes (#5475)
+    * Fix lua stack overflow (#5480)
+    * Fix saves with invalid ships causing menu errors (#5480)
+    * Fix shading of Vlastan Library building (#5483)
+    * Fix lodos missing a gun mount tag (#5486)
 
 December 2022
   * New Features
