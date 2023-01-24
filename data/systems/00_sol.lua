@@ -209,7 +209,7 @@ local mars_moons = {
 
 local eros = CustomSystemBody:new('Eros', 'PLANET_TERRESTRIAL')
 	:seed(842785371)
-	:radius(f(3,1000)) -- 16.84km mean
+	:radius(f(15,10000)) -- 8.42km mean
 	:mass(f(112,100000000000)) -- 6.687e15 kg
 	:temp(164)
 	:semi_major_axis(f(1458,1000)) -- 1.458 AU
@@ -220,7 +220,7 @@ local eros = CustomSystemBody:new('Eros', 'PLANET_TERRESTRIAL')
 	:rings(false)
 
 local pallas = CustomSystemBody:new('Pallas', 'PLANET_TERRESTRIAL')
-	:radius(f(08,100)) -- 512km
+	:radius(f(04,100)) -- 256km
 	:mass(f(353,10000000)) -- 2.11e20 kg
 	:temp(164)
 	:semi_major_axis(f(27716,10000)) -- 2.7716 AU
@@ -231,7 +231,7 @@ local pallas = CustomSystemBody:new('Pallas', 'PLANET_TERRESTRIAL')
 	:rings(false)
 
 local vesta = CustomSystemBody:new('Vesta', 'PLANET_TERRESTRIAL')
-	:radius(f(082,1000)) -- 525km
+	:radius(f(041,1000)) -- 263km
 	:mass(f(4338,100000000)) -- 2.590e20 kg
 	:temp(177) -- 85 - 270K
 	:semi_major_axis(f(236179,100000)) -- 2.36179 AU
@@ -660,6 +660,7 @@ local neptune_moons = {
 		:eccentricity(f(53,100000))
 		:inclination(math.deg2rad(0.524))
 		:rotation_period(f(1122,1000))
+		:ice_cover(f(8,10)) -- Made up rock/ice ratio. Currently unknown.
 		:rings(false),
 	CustomSystemBody:new('Triton', 'PLANET_TERRESTRIAL')
 		:radius(f(2122,10000))
@@ -672,6 +673,7 @@ local neptune_moons = {
 		:rotation_period(f(141,24))
 		:atmos_density(f(100,1225))
 		:atmos_oxidizing(f(1,20))
+		:ice_cover(f(1,1))
 		:rings(false),
 	{
 		CustomSystemBody:new('Poseidon Station', 'STARPORT_ORBITAL')
@@ -700,6 +702,7 @@ local pluto = CustomSystemBody:new('Pluto', 'PLANET_TERRESTRIAL')
 	:rotation_period(f(153,24))
 	:axial_tilt(fixed.deg2rad(f(296,10)))
 	:orbital_phase_at_start(fixed.deg2rad(f(315,1)))
+	:ice_cover(f(1,1))
 	:rings(false)
 
 local pluto_starports = {
@@ -719,6 +722,7 @@ local charon = {
 		:rotation_period(f(6,10))
 		:axial_tilt(fixed.deg2rad(f(668,100)))
 		:volcanicity(f(0,1))
+		:ice_cover(f(1,1))
 		:rings(false),
 }
 
