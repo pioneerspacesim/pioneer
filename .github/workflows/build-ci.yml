@@ -31,12 +31,12 @@ jobs:
     runs-on: windows-2019
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         path: pioneer
 
     - name: Checkout pioneer-thirdparty
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: pioneerspacesim/pioneer-thirdparty
         path: pioneer-thirdparty
@@ -52,12 +52,12 @@ jobs:
     runs-on: windows-2019
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         path: pioneer
 
     - name: Checkout pioneer-thirdparty
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: pioneerspacesim/pioneer-thirdparty
         path: pioneer-thirdparty
@@ -106,7 +106,7 @@ jobs:
 
     steps:
     # Checkout the repository as $GITHUB_WORKSPACE
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Install Dependencies
       run: |
@@ -146,7 +146,7 @@ jobs:
     steps:
 
     # Checkout the repository as $GITHUB_WORKSPACE
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Install Dependencies
       run: |
