@@ -200,9 +200,9 @@ public:
 	// aligned with the Z-axis. Unless you know what you're doing, you shouldn't use this.
 	//
 	// @param left - the minimum x-value of the view volume at the near plane
-	// @param right - the maxiumum x-value of the view volume at the near plane
-	// @param bottom - the maxiumum y-value of the view volume at the near plane
-	// @param top - the maxiumum y-value of the view volume at the near plane
+	// @param right - the maximum x-value of the view volume at the near plane
+	// @param bottom - the maximum y-value of the view volume at the near plane
+	// @param top - the maximum y-value of the view volume at the near plane
 	// @param znear - the near clipping plane
 	// @param zfar - the far clipping plane
 	static matrix4x4 FrustumMatrix(T left, T right, T bottom, T top, T znear, T zfar)

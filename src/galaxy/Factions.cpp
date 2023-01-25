@@ -137,7 +137,7 @@ static int l_fac_govtype_weight(lua_State *L)
 
 	if (weight < 0) {
 		pi_lua_warn(L,
-			"weight must a postive integer: Faction{%s}:govtype_weight('%s', %d)",
+			"weight must be a positive integer: Faction{%s}:govtype_weight('%s', %d)",
 			fac->name.c_str(), typeName, weight);
 		return 0;
 	}

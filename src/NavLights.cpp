@@ -133,7 +133,7 @@ NavLights::NavLights(SceneGraph::Model *model, float period) :
 		} else if (mt->GetName().substr(9, 3) == "pad") {
 			//group by pad number
 			// due to this problem: http://stackoverflow.com/questions/15825254/why-is-scanfhhu-char-overwriting-other-variables-when-they-are-local
-			// where MSVC is still using a C89 compiler the format identifer %hhu is not recognised. Therefore I've switched to Uint32 for group.
+			// where MSVC is still using a C89 compiler the format identifier %hhu is not recognised. Therefore I've switched to Uint32 for group.
 			PiVerify(1 == sscanf(mt->GetName().c_str(), "navlight_pad%u", &group));
 			mask = 0xf8;
 		}

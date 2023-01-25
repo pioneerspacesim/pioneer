@@ -53,7 +53,7 @@ namespace GasGiantJobs {
 		double fracStep = 1.0 / double(UVDims() - 1);
 		for (Sint32 v = 0; v < UVDims(); v++) {
 			for (Sint32 u = 0; u < UVDims(); u++) {
-				// where in this row & colum are we now.
+				// where in this row & column are we now.
 				const double ustep = double(u) * fracStep;
 				const double vstep = double(v) * fracStep;
 

@@ -47,7 +47,7 @@ public:
 
 	void GetAxisAngle(T &angle, vector3<T> &axis)
 	{
-		if (w > 1.0) *this = Normalized(); // if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
+		if (w > 1.0) *this = Normalized(); // if w>1 acos and sqrt will produce errors, this can't happen if quaternion is normalised
 		angle = 2.0 * acos(w);
 		double s = sqrt(1.0 - w * w); // assuming quaternion normalised then w is less than 1, so term always positive.
 		if (s < 0.001) {			  // test to avoid divide by zero, s is always positive due to sqrt

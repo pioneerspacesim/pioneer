@@ -15,7 +15,7 @@
 #include "Missile.h"
 #include "NavLights.h"
 #include "Planet.h"
-#include "Player.h" // <-- Here only for 1 occurence of "Pi::player" in Ship::Explode
+#include "Player.h" // <-- Here only for 1 occurrence of "Pi::player" in Ship::Explode
 #include "Sensors.h"
 #include "Sfx.h"
 #include "Shields.h"
