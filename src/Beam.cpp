@@ -228,7 +228,7 @@ static void MiningLaserSpawnTastyStuff(FrameId fId, const SystemBody *asteroid, 
 {
 	lua_State *l = Lua::manager->GetLuaState();
 
-	// lua cant push "const SystemBody", needs to convert to non-const
+	// lua can't push "const SystemBody", needs to convert to non-const
 	RefCountedPtr<StarSystem> s = Pi::game->GetGalaxy()->GetStarSystem(asteroid->GetPath());
 	SystemBody *liveasteroid = s->GetBodyByPath(asteroid->GetPath());
 

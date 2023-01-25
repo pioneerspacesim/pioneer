@@ -845,8 +845,8 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		sbody->m_rotationPeriod = fixed(int(round(sbody->GetOrbit().Period())), 3600 * 24);
 		sbody->m_axialTilt = sbody->GetInclinationAsFixed();
 	} else if (invTidalLockTime > fixed(1, 100)) { // rotation speed changed in favour of tidal lock
-		// XXX: there should be some chance the satellite was captured only recenly and ignore this
-		//		I'm ommiting that now, I do not want to change the Universe by additional rand call.
+		// XXX: there should be some chance the satellite was captured only recently and ignore this
+		//		I'm omitting that now, I do not want to change the Universe by additional rand call.
 
 		fixed lambda = invTidalLockTime / (fixed(1, 20) + invTidalLockTime);
 		sbody->m_rotationPeriod = (1 - lambda) * sbody->GetRotationPeriodAsFixed() + lambda * sbody->GetOrbit().Period() / 3600 / 24;
@@ -1140,7 +1140,7 @@ void StarSystemRandomGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fix
 	a->m_orbit.SetPlane(matrix3x3d::RotateY(rotY) * matrix3x3d::RotateX(rotX));
 	b->m_orbit.SetPlane(matrix3x3d::RotateY(rotY - M_PI) * matrix3x3d::RotateX(rotX));
 
-	// store orbit parameters for later use to be accesible in other way than by rotMatrix
+	// store orbit parameters for later use to be accessible in other way than by rotMatrix
 	b->m_orbitalPhaseAtStart = b->m_orbitalPhaseAtStart + FIXED_PI;
 	b->m_orbitalPhaseAtStart = b->m_orbitalPhaseAtStart > 2 * FIXED_PI ? b->m_orbitalPhaseAtStart - 2 * FIXED_PI : b->m_orbitalPhaseAtStart;
 	a->m_orbitalPhaseAtStart = a->m_orbitalPhaseAtStart > 2 * FIXED_PI ? a->m_orbitalPhaseAtStart - 2 * FIXED_PI : a->m_orbitalPhaseAtStart;
@@ -1320,7 +1320,7 @@ void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody *sbody, 
 
 	// store latitude and longitude to equivalent orbital parameters to
 	// be accessible easier
-	sbody->m_inclination = fixed(r1 * 10000, 10000) + FIXED_PI / 2; // latitide
+	sbody->m_inclination = fixed(r1 * 10000, 10000) + FIXED_PI / 2; // latitude
 	sbody->m_orbitalOffset = FIXED_PI / 2;							// longitude
 }
 
@@ -1630,7 +1630,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		system->AddSpaceStation(sp);
 	}
 
-	// garuantee that there is always a star port on a populated world
+	// guarantee that there is always a star port on a populated world
 	if (!system->HasSpaceStations()) {
 		SystemBody *sp = system->NewBody();
 		sp->m_type = SystemBody::TYPE_STARPORT_SURFACE;

@@ -37,8 +37,8 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Planet *planet, vecto
 	pos = rot * vector3d(0, 1, 0);
 
 	// Check if height varies too much around the starport center
-	// by sampling 6 points around it. try upto 100 new positions randomly until a match is found
-	// this is not guaranteed to find a match but greatly increases the chancessteroids which are not too steep.
+	// by sampling 6 points around it. Try up to 100 new positions randomly until a match is found.
+	// This is not guaranteed to find a match but greatly increases the chancessteroids which are not too steep.
 
 	bool variationWithinLimits = true;
 	double bestVariation = 1e10; // any high value
@@ -77,7 +77,7 @@ static void RelocateStarportIfNecessary(SystemBody *sbody, Planet *planet, vecto
 
 		// check height at 6 points around the starport center stays within variation tolerances
 		// GetHeight gives a varying height field in 3 dimensions.
-		// Given it's smoothly varying it's fine to sample it in arbitary directions to get an idea of how sharply it varies
+		// Given it's smoothly varying it's fine to sample it in arbitrary directions to get an idea of how sharply it varies
 		double v[6];
 		v[0] = fabs(planet->GetTerrainHeight(vector3d(pos_.x + delta, pos_.y, pos_.z)) - radius - height);
 		v[1] = fabs(planet->GetTerrainHeight(vector3d(pos_.x - delta, pos_.y, pos_.z)) - radius - height);
@@ -549,7 +549,7 @@ std::vector<Space::BodyDist> Space::BodiesInAngle(const Body *b, const vector3d 
 		//offset from the body center - like for view from ship cocpit
 		vector3d dirBody = body->GetPositionRelTo(b) * b->GetOrient() -  offset;
 		double d = dirBody.Length();
-		//Normalizing but not using Normalized() function to avoid calculating Lenght again
+		//Normalizing but not using Normalized() function to avoid calculating Length again
 		dirBody = dirBody / d;
 
 		//Bodies outside of the cone disregarded

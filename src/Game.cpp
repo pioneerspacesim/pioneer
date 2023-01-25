@@ -449,7 +449,7 @@ void Game::SwitchToHyperspace()
 		// can clean up
 		m_player->NotifyRemoved(cloud);
 
-		// turn the cloud arround
+		// turn the cloud around
 		cloud->GetShip()->SetHyperspaceDest(m_hyperspaceSource);
 		cloud->SetIsArrival(true);
 

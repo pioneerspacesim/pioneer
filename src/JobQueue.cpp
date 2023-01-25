@@ -131,7 +131,7 @@ Uint32 SyncJobQueue::FinishJobs()
 
 void SyncJobQueue::Cancel(Job *job)
 {
-	// check the waiting list. if its there then it hasn't run yet. just forget about it
+	// Check the waiting list. If it's there then it hasn't run yet. Just forget about it.
 	for (std::deque<Job *>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
 		if (*i == job) {
 			i = m_queue.erase(i);
@@ -140,8 +140,8 @@ void SyncJobQueue::Cancel(Job *job)
 		}
 	}
 
-	// check the finshed list. if its there then it can't be cancelled, because
-	// its alread finished! we remove it because the caller is saying "I don't care"
+	// Check the finshed list. If it's there then it can't be cancelled, because
+	// it's already finished! We remove it because the caller is saying "I don't care".
 	for (std::deque<Job *>::iterator i = m_finished.begin(); i != m_finished.end(); ++i) {
 		if (*i == job) {
 			i = m_finished.erase(i);
@@ -150,7 +150,7 @@ void SyncJobQueue::Cancel(Job *job)
 		}
 	}
 
-	// its running, so we have to tell it to cancel
+	// it's running, so we have to tell it to cancel
 	job->cancelled = true;
 	job->UnlinkHandle();
 	job->OnCancel();

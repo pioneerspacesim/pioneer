@@ -21,7 +21,7 @@ public:
 	// empty space (eg for hyperspace)
 	Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace = nullptr);
 
-	// initalise with system bodies
+	// initialise with system bodies
 	Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space *oldSpace = nullptr);
 
 	// initialise from save file

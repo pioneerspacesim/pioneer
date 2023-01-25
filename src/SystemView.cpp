@@ -307,7 +307,7 @@ void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 void SystemView::GetTransformTo(Projectable &p, vector3d &pos)
 {
 	if (p.type == Projectable::NONE) {
-		// notning selected
+		// nothing selected
 		pos *= 0.0;
 		return;
 	}
@@ -321,7 +321,7 @@ void SystemView::GetTransformTo(Projectable &p, vector3d &pos)
 		const Ship *s = static_cast<const Ship *>(p.ref.body);
 		CalculateShipPositionAtTime(s, s->ComputeOrbit(), m_time, pos);
 		pos = -pos;
-		// sometimes ships can dissapear from world (i.e. docking / undocking)
+		// sometimes ships can disappear from world (i.e. docking / undocking)
 		if (std::isnan(pos.x)) { // failsafe: calculate parent systembody instead
 			pos = vector3d(0., 0., 0.);
 			GetTransformTo(Frame::GetFrame(Frame::GetFrame(Pi::player->GetFrame())->GetNonRotFrame())->GetSystemBody(), pos);

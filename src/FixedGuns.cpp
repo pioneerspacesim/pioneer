@@ -266,7 +266,7 @@ void FixedGuns::UpdateLead(float timeStep, int num, Body *ship, Body *target)
 			//we solve for l which can be interpreted as 1/time for the projectile to reach the target
 			//it gives:
 			// |targpos|^2 * l^2 + targpos*targvel * 2l + |targvel|^2 - projspeed^2 = 0;
-			// so it gives scalar quadratic equation with two posible solutions - we care only about the positive one - shooting forward
+			// so it gives scalar quadratic equation with two possible solutions - we care only about the positive one - shooting forward
 			// A basic math for solving, there is probably more elegant and efficient way to do this:
 			double a = targpos.LengthSqr();
 			double b = targpos.Dot(targvel) * 2;
@@ -287,7 +287,7 @@ void FixedGuns::UpdateLead(float timeStep, int num, Body *ship, Body *target)
 				m_currentLeadDir = forwardVector;
 				return;
 			} else {
-				//This is an exact solution as opposed to 2 step aproximation used before
+				//This is an exact solution as opposed to 2 step approximation used before.
 				//It does not improve the accuracy as expected though.
 				//If the target is accelerating and is far enough then this aim assist will
 				//actually make sure that it is mpossible to hit..

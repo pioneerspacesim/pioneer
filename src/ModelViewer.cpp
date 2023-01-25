@@ -424,7 +424,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 		m_gridLines->Draw(m_renderer, { max, max }, m_options.gridInterval);
 	}
 
-	// industry-standard red/green/blue XYZ axis indiactor
+	// industry-standard red/green/blue XYZ axis indicator
 	m_renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(radius));
 	Graphics::Drawables::GetAxes3DDrawable(m_renderer)->Draw(m_renderer);
 }
@@ -471,7 +471,7 @@ void ModelViewer::Update(float deltaTime)
 		m_navLights->Update(deltaTime);
 		m_shields->SetEnabled(m_options.showShields || m_shieldIsHit);
 
-		//Calculate the impact's radius dependant on time
+		//Calculate the impact's radius dependent on time
 		const float dif1 = 0.34 - (-1.48f);
 		const float dif2 = m_shieldHitPan - (-1.48f);
 		//Range from start (0.0) to end (1.0)

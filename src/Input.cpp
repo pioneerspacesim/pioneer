@@ -65,13 +65,13 @@ std::string Input::JoystickGUIDString(int joystick)
 	return std::string(guidBuffer);
 }
 
-// conveniance version of JoystickFromGUID below that handles the string mangling.
+// convenience version of JoystickFromGUID below that handles the string mangling.
 int Input::JoystickFromGUIDString(const std::string &guid)
 {
 	return JoystickFromGUIDString(guid.c_str());
 }
 
-// conveniance version of JoystickFromGUID below that handles the string mangling.
+// convenience version of JoystickFromGUID below that handles the string mangling.
 int Input::JoystickFromGUIDString(const char *guid)
 {
 	return JoystickFromGUID(SDL_JoystickGetGUIDFromString(guid));

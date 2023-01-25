@@ -551,7 +551,7 @@ void GasGiant::GenerateTexture()
 			Color *colors = new Color[(s_texture_size_small * s_texture_size_small)];
 			for (Uint32 v = 0; v < s_texture_size_small; v++) {
 				for (Uint32 u = 0; u < s_texture_size_small; u++) {
-					// where in this row & colum are we now.
+					// where in this row & column are we now.
 					const double ustep = double(u) * fracStep;
 					const double vstep = double(v) * fracStep;
 
