@@ -1,157 +1,157 @@
 [main]
 host = https://www.transifex.com
 
-[pioneer.core]
+[o:pioneer:p:pioneer:r:core]
 file_filter = data/lang/core/<lang>.json
 source_file = data/lang/core/en.json
 source_lang = en
 
-[pioneer.ui-core]
+[o:pioneer:p:pioneer:r:ui-core]
 file_filter = data/lang/ui-core/<lang>.json
 source_file = data/lang/ui-core/en.json
 source_lang = en
 
-[pioneer.equipment-core]
+[o:pioneer:p:pioneer:r:equipment-core]
 file_filter = data/lang/equipment-core/<lang>.json
 source_file = data/lang/equipment-core/en.json
 source_lang = en
 
-[pioneer.input-core]
+[o:pioneer:p:pioneer:r:input-core]
 file_filter = data/lang/input-core/<lang>.json
 source_file = data/lang/input-core/en.json
 source_lang = en
 
-[pioneer.commodity]
+[o:pioneer:p:pioneer:r:commodity]
 file_filter = data/lang/commodity/<lang>.json
 source_file = data/lang/commodity/en.json
 source_lang = en
 
-[pioneer.quitconfirmation-core]
+[o:pioneer:p:pioneer:r:quitconfirmation-core]
 file_filter = data/lang/quitconfirmation-core/<lang>.json
 source_file = data/lang/quitconfirmation-core/en.json
 source_lang = en
 
-[pioneer.module-advice]
+[o:pioneer:p:pioneer:r:module-advice]
 file_filter = data/lang/module-advice/<lang>.json
 source_file = data/lang/module-advice/en.json
 source_lang = en
 
-[pioneer.module-aiwarning]
+[o:pioneer:p:pioneer:r:module-aiwarning]
 file_filter = data/lang/module-aiwarning/<lang>.json
 source_file = data/lang/module-aiwarning/en.json
 source_lang = en
 
-[pioneer.module-assassination]
+[o:pioneer:p:pioneer:r:module-assassination]
 file_filter = data/lang/module-assassination/<lang>.json
 source_file = data/lang/module-assassination/en.json
 source_lang = en
 
-[pioneer.module-breakdownservicing]
+[o:pioneer:p:pioneer:r:module-breakdownservicing]
 file_filter = data/lang/module-breakdownservicing/<lang>.json
 source_file = data/lang/module-breakdownservicing/en.json
 source_lang = en
 
-[pioneer.module-deliverpackage]
+[o:pioneer:p:pioneer:r:module-deliverpackage]
 file_filter = data/lang/module-deliverpackage/<lang>.json
 source_file = data/lang/module-deliverpackage/en.json
 source_lang = en
 
-[pioneer.module-donatetocranks]
+[o:pioneer:p:pioneer:r:module-donatetocranks]
 file_filter = data/lang/module-donatetocranks/<lang>.json
 source_file = data/lang/module-donatetocranks/en.json
 source_lang = en
 
-[pioneer.module-cargorun]
+[o:pioneer:p:pioneer:r:module-cargorun]
 file_filter = data/lang/module-cargorun/<lang>.json
 source_file = data/lang/module-cargorun/en.json
 source_lang = en
 
-[pioneer.module-combat]
+[o:pioneer:p:pioneer:r:module-combat]
 file_filter = data/lang/module-combat/<lang>.json
 source_file = data/lang/module-combat/en.json
 source_lang = en
 
-[pioneer.module-crewcontracts]
+[o:pioneer:p:pioneer:r:module-crewcontracts]
 file_filter = data/lang/module-crewcontracts/<lang>.json
 source_file = data/lang/module-crewcontracts/en.json
 source_lang = en
 
-[pioneer.module-easteregg-message]
+[o:pioneer:p:pioneer:r:module-easteregg-message]
 file_filter = data/lang/module-easteregg-message/<lang>.json
 source_file = data/lang/module-easteregg-message/en.json
 source_lang = en
 
-[pioneer.module-fuelclub]
+[o:pioneer:p:pioneer:r:module-fuelclub]
 file_filter = data/lang/module-fuelclub/<lang>.json
 source_file = data/lang/module-fuelclub/en.json
 source_lang = en
 
-[pioneer.module-goodstrader]
+[o:pioneer:p:pioneer:r:module-goodstrader]
 file_filter = data/lang/module-goodstrader/<lang>.json
 source_file = data/lang/module-goodstrader/en.json
 source_lang = en
 
-[pioneer.module-newseventcommodity]
+[o:pioneer:p:pioneer:r:module-newseventcommodity]
 file_filter = data/lang/module-newseventcommodity/<lang>.json
 source_file = data/lang/module-newseventcommodity/en.json
 source_lang = en
 
-[pioneer.module-policepatrol]
+[o:pioneer:p:pioneer:r:module-policepatrol]
 file_filter = data/lang/module-policepatrol/<lang>.json
 source_file = data/lang/module-policepatrol/en.json
 source_lang = en
 
-[pioneer.module-rondel]
+[o:pioneer:p:pioneer:r:module-rondel]
 file_filter = data/lang/module-rondel/<lang>.json
 source_file = data/lang/module-rondel/en.json
 source_lang = en
 
-[pioneer.module-scoop]
+[o:pioneer:p:pioneer:r:module-scoop]
 file_filter = data/lang/module-scoop/<lang>.json
 source_file = data/lang/module-scoop/en.json
 source_lang = en
 
-[pioneer.module-scout]
+[o:pioneer:p:pioneer:r:module-scout]
 file_filter = data/lang/module-scout/<lang>.json
 source_file = data/lang/module-scout/en.json
 source_lang = en
 
-[pioneer.module-searchrescue]
+[o:pioneer:p:pioneer:r:module-searchrescue]
 file_filter = data/lang/module-searchrescue/<lang>.json
 source_file = data/lang/module-searchrescue/en.json
 source_lang = en
 
-[pioneer.module-secondhand]
+[o:pioneer:p:pioneer:r:module-secondhand]
 file_filter = data/lang/module-secondhand/<lang>.json
 source_file = data/lang/module-secondhand/en.json
 source_lang = en
 
-[pioneer.module-soldout]
+[o:pioneer:p:pioneer:r:module-soldout]
 file_filter = data/lang/module-soldout/<lang>.json
 source_file = data/lang/module-soldout/en.json
 source_lang = en
 
-[pioneer.module-stationrefuelling]
+[o:pioneer:p:pioneer:r:module-stationrefuelling]
 file_filter = data/lang/module-stationrefuelling/<lang>.json
 source_file = data/lang/module-stationrefuelling/en.json
 source_lang = en
 
-[pioneer.module-stationtrafficcontrol]
+[o:pioneer:p:pioneer:r:module-stationtrafficcontrol]
 file_filter = data/lang/module-stationtrafficcontrol/<lang>.json
 source_file = data/lang/module-stationtrafficcontrol/en.json
 source_lang = en
 
-[pioneer.module-statstracking]
+[o:pioneer:p:pioneer:r:module-statstracking]
 file_filter = data/lang/module-statstracking/<lang>.json
 source_file = data/lang/module-statstracking/en.json
 source_lang = en
 
-[pioneer.module-system]
+[o:pioneer:p:pioneer:r:module-system]
 file_filter = data/lang/module-system/<lang>.json
 source_file = data/lang/module-system/en.json
 source_lang = en
 
-[pioneer.module-taxi]
+[o:pioneer:p:pioneer:r:module-taxi]
 file_filter = data/lang/module-taxi/<lang>.json
 source_file = data/lang/module-taxi/en.json
 source_lang = en
