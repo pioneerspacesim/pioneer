@@ -47,24 +47,7 @@ gameView.registerSidebarModule("system-overview", {
 	end,
 
 	drawTitle = function()
-		local spacing = style.innerSpacing
-		local button_width = (ui.getLineHeight() + spacing.x) * 3 - spacing.x
-
-		local pos = ui.getCursorPos() + Vector2(ui.getContentRegion().x - button_width, 0)
-		systemOverview.buttonSize = Vector2(ui.getLineHeight() - style.buttonPadding * 2)
-
-		if Game.system then
-			ui.text(Game.system.name)
-
-			ui.setCursorPos(pos)
-			ui.withStyleVars({ ItemSpacing = spacing }, function()
-				ui.withFont(ui.fonts.pionillium.medium, function()
-					systemOverview:drawControlButtons()
-				end)
-			end)
-		else
-			ui.text(lc.HYPERSPACE)
-		end
+		systemOverview:displaySidebarTitle(Game.system)
 	end,
 
 	drawBody = function()

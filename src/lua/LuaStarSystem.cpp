@@ -255,6 +255,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 
 	const int diff_sec = int(ceil(dist_ly / Sector::SIZE));
 
+	uint32_t numSystems = 0;
 	for (int x = here_x - diff_sec; x <= here_x + diff_sec; x++) {
 		for (int y = here_y - diff_sec; y <= here_y + diff_sec; y++) {
 			for (int z = here_z - diff_sec; z <= here_z + diff_sec; z++) {
@@ -279,7 +280,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 						lua_pop(l, 1);
 					}
 
-					lua_pushinteger(l, lua_rawlen(l, -1) + 1);
+					lua_pushinteger(l, ++numSystems);
 					LuaObject<StarSystem>::PushToLua(sys.Get());
 					lua_rawset(l, -3);
 				}

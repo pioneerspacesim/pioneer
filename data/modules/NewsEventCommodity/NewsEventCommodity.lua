@@ -353,19 +353,19 @@ local onShipDocked = function (ship, station)
 			local price = station:GetCommodityPrice(cargo_item)
 			local stock = station:GetCommodityStock(cargo_item)
 
-			local newPrice, newStockChange
+			local newPrice, newStock
 			if n.demand > 0 then
 				newPrice = n.demand * price -- increase price
-				newStockChange = -1 * stock -- remove all stock
+				newStock = 0 -- remove all stock
 			elseif n.demand < 0 then
 				newPrice = math.ceil(price / (1 + math.abs(n.demand)))  -- dump price
-				newStockChange = math.ceil(math.abs(n.demand * stock))  -- spam stock
+				newStock = math.ceil(math.abs(n.demand * stock))  -- spam stock
 			else
 				error("demand should probably not be 0.")
 			end
-			-- print("--- NewsEvent: cargo:", cargo_item:GetName(), "price:", newPrice, "stock:", newStockChange)
+			-- print("--- NewsEvent: cargo:", cargo_item:GetName(), "price:", newPrice, "stock:", newStock)
 			station:SetCommodityPrice(cargo_item, newPrice)
-			station:AddCommodityStock(cargo_item, newStockChange)
+			station:SetCommodityStock(cargo_item, newStock)
 		end
 	end
 end

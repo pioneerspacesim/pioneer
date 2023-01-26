@@ -2183,6 +2183,10 @@
     "description": "",
     "message": "Total mass"
   },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "At {system}:"
+  },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
     "message": "From {system}:"
@@ -2342,5 +2346,17 @@
   "ZOOM": {
     "description": "Label for a zoom (magnification) control bar.",
     "message": "Zoom"
+  },
+  "DEMAND": {
+	"description": "Column label for commodity demand at a market.",
+	"message": "Demand"
+  },
+  "INTERSTELLAR_TRADE_AVG": {
+	"description": "Label displaying commodity flow at a per-system level",
+	"message": "Interstellar Trade:"
+  },
+  "NO_AVAILABLE_DATA": {
+	"description": "Message displaying no stored data available",
+	"message": "No data available"
   }
 }

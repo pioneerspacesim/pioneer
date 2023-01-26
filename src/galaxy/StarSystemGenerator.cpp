@@ -1433,6 +1433,11 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 		// arbitrary percentage price reduction.
 		fixed howmuch = affinity * 256;
 
+		// TODO(sturnclaw): quick and dirty patch to provide a bit more variance in galactic
+		// economy demand. This reduces the 'global' dependence on certain input commodities
+		// and allows a system to conceptually produce more of the commodity than it consumes
+		howmuch = howmuch * rand.Fixed() * 3;
+
 		if (howmuch.ToInt32() == 0)
 			continue;
 

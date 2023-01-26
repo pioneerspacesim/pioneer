@@ -6,7 +6,7 @@ local Event = require 'Event'
 local Format = require 'Format'
 local SystemPath = require 'SystemPath'
 local hyperJumpPlanner = require 'pigui.modules.hyperjump-planner'
-local systemEconView = require 'pigui.modules.system-econ-view'
+local systemEconView = require 'pigui.modules.system-econ-view'.New()
 
 local Lang = require 'Lang'
 local lc = Lang.GetResource("core");
@@ -319,8 +319,12 @@ function Windows.searchBar:Show()
 	if ui.mainMenuButton(icons.search_lens, lc.SEARCH) then leftBarMode = "SEARCH" end
 	ui.sameLine()
 	if ui.mainMenuButton(icons.money, lui.ECONOMY_TRADE) then
-		leftBarMode = "ECONOMY"
 		self.size.y = self.fullHeight
+		if ui.altHeld() then
+			leftBarMode = "TRADE_COMPUTER"
+		else
+			leftBarMode = "ECONOMY"
+		end
 	end
 
 	ui.spacing()
@@ -351,34 +355,9 @@ function Windows.searchBar:Show()
 		local selectedPath = sectorView:GetSelectedSystemPath()
 		local currentPath = sectorView:GetCurrentSystemPath()
 
-		local currentSys = currentPath:GetStarSystem()
-		local selectedSys = selectedPath and selectedPath:GetStarSystem()
-		local showComparison = selectedSys.population > 0
-			and not currentPath:IsSameSystem(selectedPath)
-			and (Game.player.trade_computer_cap or 0) > 0
-
-		ui.withFont(smallfont, function() ui.text(lui.COMMODITY_TRADE_ANALYSIS) end)
-		ui.spacing()
-		if showComparison then
-			ui.text(currentSys.name)
-			ui.sameLine(ui.getColumnWidth() - ui.calcTextSize(selectedSys.name).x)
-		end
-		ui.text(selectedSys.name)
-
-		ui.spacing()
-		ui.separator()
-		ui.spacing()
-
-		ui.withFont(smallfont, function()
-			if selectedSys.population <= 0 then
-				textIcon(icons.alert_generic)
-				ui.text(lc.NO_REGISTERED_INHABITANTS)
-			elseif showComparison then
-				systemEconView.draw(currentSys, selectedSys)
-			else
-				systemEconView.draw(selectedSys)
-			end
-		end)
+		systemEconView:drawSystemComparison(selectedPath:GetStarSystem(), currentPath:GetStarSystem())
+	elseif leftBarMode == "TRADE_COMPUTER" then
+		systemEconView:drawSystemFinder()
 	end
 end
 
@@ -459,6 +438,9 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 			Game.SetView("world")
 		end
 
+		if ui.ctrlHeld() and ui.isKeyReleased(ui.keys.delete) then
+			systemEconView = package.reimport('pigui.modules.system-econ-view').New()
+		end
 	end
 end})
 

@@ -44,7 +44,7 @@
 		},
 		"hand_weapons": {
 			"l10n_key": "HAND_WEAPONS",
-			"inputs": [ "metal_alloys", "computers" ],
+			"inputs": [ "metal_alloys", [ "computers", 0.2 ] ],
 			"producer": "industrial",
 			"price": 251,
 			"default_legality": [ 1, 2 ]

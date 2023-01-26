@@ -161,6 +161,26 @@ static int l_sbody_attr_parent(lua_State *l)
 }
 
 /*
+ * Attribute: system
+ *
+ * The StarSystem which contains this SystemBody
+ *
+ * Availability:
+ *
+ *   alpha 16
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_sbody_attr_system(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	LuaPush(l, sbody->GetStarSystem());
+	return 1;
+}
+
+/*
  * Attribute: population
  *
  * The population of the body, in billions of people.
@@ -548,6 +568,27 @@ static int l_sbody_attr_life(lua_State *l)
 }
 
 /*
+ * Attribute: agricultural
+ *
+ * Returns the measure of agricultural activity present on the body
+ * 0.0 = dead, 1.0 = teeming (~= breadbasket)
+ *
+ * Availability:
+ *
+ *   January 2023
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_sbody_attr_agricultural(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->GetAgriculturalAsFixed().ToDouble());
+	return 1;
+}
+
+/*
  * Attribute: hasRings
  *
  * Returns true if the body has a ring or rings of debris or ice in orbit around it
@@ -711,6 +752,7 @@ void LuaObject<SystemBody>::RegisterClass()
 		{ "superType", l_sbody_attr_super_type },
 		{ "seed", l_sbody_attr_seed },
 		{ "parent", l_sbody_attr_parent },
+		{ "system", l_sbody_attr_system },
 		{ "population", l_sbody_attr_population },
 		{ "radius", l_sbody_attr_radius },
 		{ "mass", l_sbody_attr_mass },
@@ -731,6 +773,7 @@ void LuaObject<SystemBody>::RegisterClass()
 		{ "volcanicity", l_sbody_attr_volcanicity },
 		{ "life", l_sbody_attr_life },
 		{ "hasRings", l_sbody_attr_has_rings },
+		{ "agricultural", l_sbody_attr_agricultural },
 		{ "hasAtmosphere", l_sbody_attr_has_atmosphere },
 		{ "isScoopable", l_sbody_attr_is_scoopable },
 		{ "astroDescription", l_sbody_attr_astro_description },

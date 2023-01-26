@@ -254,6 +254,31 @@ function utils.stable_sort(values, cmp)
 	return merge_sort(values)
 end
 
+local __automagic = {
+	__index = function(t, k)
+		local nt = {}
+		t[k] = nt
+		return nt
+	end
+}
+
+--
+-- Function: automagic
+--
+-- Returns an "automagic" table - the table will automatically create a new
+-- subtable if accessed via a key that doesn't yet exist in the table.
+--
+-- Created subtables will be "regular" Lua tables with no automagic capability.
+-- To check if an index exists in the table, `rawget()` must be used.
+--
+-- Example:
+-- > local t = utils.automagic()
+-- > t.someIndexNotPresent.value = "no error will be thrown!"
+--
+function utils.automagic(t)
+	return setmetatable(t or {}, __automagic)
+end
+
 --
 -- Class: utils.object
 --
