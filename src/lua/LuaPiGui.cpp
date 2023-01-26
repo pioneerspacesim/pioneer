@@ -3073,6 +3073,11 @@ static int l_pigui_table_set_column_index(lua_State *l)
 
 static int l_pigui_table_setup_column(lua_State *l)
 {
+	ImGuiContext* g = ImGui::GetCurrentContext();
+
+	if (g == NULL || g->CurrentTable == NULL)
+		return luaL_error(l, "Cannot call tableSetupColumn() outside of a beginTable() / endTable() pair");
+
 	const char *label = luaL_checkstring(l, 1);
 	ImGuiTableColumnFlags flags = LuaPull<ImGuiTableColumnFlags_>(l, 2, {});
 	float width_or_weight = luaL_optnumber(l, 3, 0.f);
