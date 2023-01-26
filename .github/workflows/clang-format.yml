@@ -10,6 +10,10 @@ on:
     - 'src/**.cpp'
     - 'src/**.h'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-format
+  cancel-in-progress: ${{ github.ref == 'refs/heads/master' }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   clang-format-check:
