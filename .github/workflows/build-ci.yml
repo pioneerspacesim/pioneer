@@ -88,7 +88,7 @@ jobs:
         cmake --build . --target win-installer
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: Windows-Artifacts
         path: pioneer/pioneer-*-win.exe
@@ -126,7 +126,7 @@ jobs:
       run: ./scripts/build-travis.sh
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: Linux-Artifacts
         path: release/zip/*.tar.gz
