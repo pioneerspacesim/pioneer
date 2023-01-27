@@ -15,4 +15,4 @@ target_link_libraries(pioneer-core PUBLIC
 	profiler
 	lz4
 	fmt::fmt
-	nanosockets_static)
+	nanosockets)
