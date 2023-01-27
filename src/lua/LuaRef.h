@@ -14,7 +14,7 @@ public:
 	LuaRef() :
 		m_lua(0),
 		m_id(LUA_NOREF),
-		m_copycount(new int(0)) {}
+		m_copycount(nullptr) {}
 	LuaRef(lua_State *l, int index);
 	LuaRef(const LuaRef &ref);
 	~LuaRef();

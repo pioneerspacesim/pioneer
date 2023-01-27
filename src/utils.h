@@ -145,6 +145,45 @@ inline bool compare_ci(const std::string_view s, const std::string_view t)
 	return true;
 }
 
+inline std::string_view read_line(std::string_view &s)
+{
+	if (s.empty())
+		return {};
+
+	std::string_view out = s;
+
+	size_t end = s.find_first_of("\r\n");
+	if (end == std::string_view::npos) {
+		s = {};
+		return out;
+	}
+
+	out = { s.data(), end };
+
+	size_t start = s.find_first_not_of("\r\n", end);
+	if (start == std::string_view::npos) {
+		s = {};
+		return out;
+	}
+
+	s.remove_prefix(start);
+	return out;
+}
+
+inline std::string_view strip_spaces(std::string_view &s)
+{
+	if (s.empty())
+		return s;
+
+	size_t start = s.find_first_not_of(" \t\r\n\v");
+	if (start == std::string::npos)
+		return {};
+
+	size_t end = s.find_last_not_of(" \t\r\n\v");
+
+	return s.substr(start, end);
+}
+
 static inline size_t SplitSpec(const std::string &spec, std::vector<int> &output)
 {
 	static const std::string delim(",");

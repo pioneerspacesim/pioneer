@@ -70,6 +70,7 @@ ShipViewController::ShipViewController(WorldView *v) :
 	ViewController(v),
 	m_camType(CAM_INTERNAL),
 	headtracker_input_priority(false),
+	m_mouseActive(false),
 	InputBindings(Pi::input)
 {
 	InputBindings.RegisterBindings();

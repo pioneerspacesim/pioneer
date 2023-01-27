@@ -22,8 +22,12 @@
  * char id=32 x=253.875 y=0 width=2 height=2.125 xoffset=-1 yoffset=30.875 xadvance=16 page=0 chnl=15
  * (etc)
  */
-#include "StringRange.h"
-#include "libs.h"
+
+#include "RefCounted.h"
+#include "vector2.h"
+
+#include <string>
+#include <map>
 
 namespace Graphics {
 	class Texture;
@@ -54,9 +58,9 @@ namespace Text {
 		float m_fontSize; //32 etc. Glyph size/advance will be scaled to 1/fontSize.
 
 		void AddGlyph(Graphics::VertexArray &va, const vector2f &pos, const Glyph &, vector2f &bounds);
-		void ParseChar(const StringRange &line);
-		void ParseCommon(const StringRange &line);
-		void ParseInfo(const StringRange &line);
+		void ParseChar(std::string_view line);
+		void ParseCommon(std::string_view line);
+		void ParseInfo(std::string_view line);
 	};
 
 } // namespace Text
