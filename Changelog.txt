@@ -7,11 +7,15 @@ January 2023
     * Add interface to configure joystick axes and deadzones (#5477)
     * Allow treating joystick axes as "half axes" (e.g. gamepad triggers) (#5477)
     * Increase trade-in value of ships from 50% to 65% (#5475)
+    * Add station stock and demand, with impact on commodity prices (#5474)
+    * Enable in-system trading between different stations (#5474)
+    * Increase amount of credits granted at Mars and New Hope starts (#5474)
   
   * Internal Changes
     * Improved code for Advice module / smaller saves (#5467)
     * Fix URLs changed, to forum (#5464)
     * Introduces a new Input.GetMouseCaptured() method (#5468)
+    * Update CI workflow files (#5491, #5494)
 
   * Fixes
     * Fix error in main-menu tooltips (#5468)
@@ -26,6 +30,7 @@ January 2023
     * Fix saves with invalid ships causing menu errors (#5480)
     * Fix shading of Vlastan Library building (#5483)
     * Fix lodos missing a gun mount tag (#5486)
+    * Fix station pads being assigned wrong bay indicies (#5488)
 
 December 2022
   * New Features
