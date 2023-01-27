@@ -168,7 +168,7 @@ namespace GasGiantJobs {
 
 		inline Sint32 UVDims() const { return uvDIMs; }
 		Graphics::Texture *Texture() const { return m_texture.Get(); }
-		GenFaceQuad *Quad() const { return pQuad; }
+		GenFaceQuad *Quad() const { return pQuad.get(); }
 		const SystemPath &SysPath() const { return sysPath; }
 		void SetupMaterialParams(const int face);
 
@@ -186,7 +186,7 @@ namespace GasGiantJobs {
 		Terrain *pTerrain;
 		const float planetRadius;
 		const float hueAdjust;
-		GenFaceQuad *pQuad;
+		std::unique_ptr<GenFaceQuad> pQuad;
 	};
 
 	// ********************************************************************************
