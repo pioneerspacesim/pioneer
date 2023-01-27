@@ -186,6 +186,7 @@ PlayerShipController::PlayerShipController() :
 	m_joystickDeadzone = Clamp(deadzone, 0.01f, 1.0f); // do not use (deadzone * deadzone) as values are 0<>1 range, aka: 0.1 * 0.1 = 0.01 or 1% deadzone!!! Not what player asked for!
 	m_fovY = Pi::config->Float("FOVVertical");
 	m_lowThrustPower = Pi::config->Float("DefaultLowThrustPower");
+	m_aimingSens = Pi::config->Float("AimSensitivity", 1.0f);
 
 	InputBindings.RegisterBindings();
 	Pi::input->AddInputFrame(&InputBindings);
@@ -659,17 +660,19 @@ void PlayerShipController::PollControls(const float timeStep, int *mouseMotion, 
 
 		vector3d objDir = m_mouseDir * rot;
 
+		// TODO: this FOV value can be out-of-sync with the value used to render the frame
+		// PlayerShipController likely needs to know about the camera being rendered through
 		const double radiansPerPixel = 0.00002 * m_fovY;
 		const int maxMotion = std::max(abs(mouseMotion[0]), abs(mouseMotion[1]));
 		const double accel = Clamp(maxMotion / 4.0, 0.0, 90.0 / m_fovY);
 
-		m_mouseX += mouseMotion[0] * accel * radiansPerPixel;
+		m_mouseX += mouseMotion[0] * accel * radiansPerPixel * m_aimingSens;
 		double modx = clipmouse(objDir.x, m_mouseX);
 		m_mouseX -= modx;
 
 		const bool invertY = (Pi::input->IsMouseYInvert() ? !m_invertMouse : m_invertMouse);
 
-		m_mouseY += mouseMotion[1] * accel * radiansPerPixel * (invertY ? -1 : 1);
+		m_mouseY += mouseMotion[1] * accel * radiansPerPixel * (invertY ? -1 : 1) * m_aimingSens;
 		double mody = clipmouse(objDir.y, m_mouseY);
 		m_mouseY -= mody;
 

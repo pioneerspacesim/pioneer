@@ -43,6 +43,12 @@ CameraContext::~CameraContext()
 		EndFrame();
 }
 
+void CameraContext::SetFovAng(float newAng)
+{
+	m_fovAng = newAng;
+	m_frustum = Frustum(m_width, m_height, m_fovAng, m_zNear, m_zFar);
+}
+
 void CameraContext::BeginFrame()
 {
 	assert(m_frame.valid());

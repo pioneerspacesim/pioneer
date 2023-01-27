@@ -14,4 +14,5 @@ target_link_libraries(pioneer-core PUBLIC
 	${SIGCPP_LIBRARIES}
 	profiler
 	lz4
-	fmt::fmt)
+	fmt::fmt
+	nanosockets)

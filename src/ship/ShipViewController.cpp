@@ -4,7 +4,9 @@
 #include "ShipViewController.h"
 
 #include "CameraController.h"
+#include "GameConfig.h"
 #include "GameSaveError.h"
+#include "Headtracker.h"
 #include "Input.h"
 #include "WorldView.h"
 
@@ -13,7 +15,7 @@
 #include "PlayerShipController.h"
 
 namespace {
-	static const float MOUSELOOK_SPEED = 0.01;
+	static const float MOUSELOOK_SPEED = 0.45 * 0.01;
 	static const float ZOOM_SPEED = 1.f;
 	static const float WHEEL_SENSITIVITY = .05f; // Should be a variable in user settings.
 } // namespace
@@ -73,6 +75,9 @@ ShipViewController::ShipViewController(WorldView *v) :
 	InputBindings.RegisterBindings();
 }
 
+ShipViewController::~ShipViewController()
+{}
+
 void ShipViewController::LoadFromJson(const Json &jsonObj)
 {
 	if (!jsonObj["cam_type"].is_number_integer())
@@ -103,6 +108,16 @@ void ShipViewController::Init()
 	m_siderealCameraController.reset(new SiderealCameraController(m_cameraContext, Pi::player));
 	m_flybyCameraController.reset(new FlyByCameraController(m_cameraContext, Pi::player));
 	SetCamType(m_camType); //set the active camera
+
+	// setup camera smoothing
+	// TODO: expose this via UI once setting/updating config values from Lua is nicer
+	m_internalCameraController->SetSmoothingEnabled(Pi::config->Int("CameraSmoothing", 0));
+
+	std::string headtrackingIP = Pi::config->String("HeadtrackingIP", "");
+	int port = Pi::config->Int("HeadtrackingPort", 4242);
+
+	m_headtrackingManager.reset(new HeadtrackingManager());
+	m_headtrackingManager->Connect(headtrackingIP.c_str(), port);
 }
 
 void ShipViewController::Activated()
@@ -129,9 +144,10 @@ void ShipViewController::SetCamType(enum CamType c)
 	// TODO: add collision testing for external cameras to avoid clipping through
 	// stations / spaceports the ship is docked to.
 
-	m_camType = c;
+	if (c != m_camType)
+		m_activeCameraController->OnDeactivated();
 
-	switch (m_camType) {
+	switch (c) {
 	case CAM_INTERNAL:
 		m_activeCameraController = m_internalCameraController.get();
 		Pi::player->OnCockpitActivated();
@@ -147,6 +163,10 @@ void ShipViewController::SetCamType(enum CamType c)
 		break;
 	}
 
+	if (c != m_camType)
+		m_activeCameraController->OnActivated();
+
+	m_camType = c;
 	if (m_camType != CAM_INTERNAL) {
 		headtracker_input_priority = false;
 	}
@@ -178,6 +198,8 @@ void ShipViewController::Update()
 	auto *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
 	auto frameTime = Pi::GetFrameTime();
 
+	m_headtrackingManager->Update();
+
 	if (!InputBindings.active) {
 		m_activeCameraController->Update();
 
@@ -208,7 +230,16 @@ void ShipViewController::Update()
 			InputBindings.lookYaw->GetValue() * M_PI / 2.0,
 			0.0);
 
-		if (rotate.LengthSqr() > 0.0001) {
+		const HeadtrackingManager::State *headState = m_headtrackingManager->GetHeadState();
+		vector3f headRot = vector3f(
+			DEG2RAD(-headState->pitch),
+			DEG2RAD(-headState->yaw),
+			DEG2RAD(headState->roll));
+
+		if (headRot.LengthSqr() > 0.0001) {
+			cam->SetRotationAngles(headRot);
+			headtracker_input_priority = true;
+		} else if (rotate.LengthSqr() > 0.0001) {
 			cam->SetRotationAngles(rotate);
 			headtracker_input_priority = true;
 		} else if (headtracker_input_priority) {
@@ -228,13 +259,13 @@ void ShipViewController::Update()
 		if (rotate.y != 0.0) cam->YawCamera(rotate.y);
 		if (rotate.x != 0.0) cam->PitchCamera(rotate.x);
 		if (rotate.z != 0.0) cam->RollCamera(rotate.z);
-
-		if (InputBindings.cameraZoom->IsActive())
-			cam->ZoomEvent(-InputBindings.cameraZoom->GetValue() * ZOOM_SPEED * frameTime);
-		if (InputBindings.resetCamera->IsActive())
-			cam->Reset();
-		cam->ZoomEventUpdate(frameTime);
 	}
+
+	if (InputBindings.cameraZoom->IsActive())
+		cam->ZoomEvent(-InputBindings.cameraZoom->GetValue() * ZOOM_SPEED * frameTime);
+	if (InputBindings.resetCamera->IsActive())
+		cam->Reset();
+	cam->ZoomEventUpdate(frameTime);
 
 	int mouseMotion[2];
 	Pi::input->GetMouseMotion(mouseMotion);
@@ -249,8 +280,8 @@ void ShipViewController::Update()
 
 		// invert the mouse input to convert between screen coordinates and
 		// right-hand coordinate system rotation.
-		cam->YawCamera(-mouseMotion[0] * MOUSELOOK_SPEED);
-		cam->PitchCamera(-mouseMotion[1] * MOUSELOOK_SPEED);
+		cam->YawCamera(float(-mouseMotion[0]) * MOUSELOOK_SPEED / M_PI);
+		cam->PitchCamera(float(-mouseMotion[1]) * MOUSELOOK_SPEED / M_PI);
 	}
 
 	if (!mouse_down && m_mouseActive) {
@@ -271,12 +302,10 @@ void ShipViewController::Draw(Camera *camera)
 
 void ShipViewController::MouseWheel(bool up)
 {
-	if (m_activeCameraController->IsExternal()) {
-		MoveableCameraController *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
+	MoveableCameraController *cam = static_cast<MoveableCameraController *>(m_activeCameraController);
 
-		if (!up) // Zoom out
-			cam->ZoomEvent(ZOOM_SPEED * WHEEL_SENSITIVITY);
-		else
-			cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
-	}
+	if (!up) // Zoom out
+		cam->ZoomEvent(ZOOM_SPEED * WHEEL_SENSITIVITY);
+	else
+		cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
 }

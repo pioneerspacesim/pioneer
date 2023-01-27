@@ -49,9 +49,15 @@ void CameraController::Update()
 InternalCameraController::InternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	MoveableCameraController(camera, ship),
 	m_mode(MODE_FRONT),
+	m_rotToX(0),
+	m_rotToY(0),
 	m_rotX(0),
 	m_rotY(0),
-	m_viewOrient(matrix3x3d::Identity())
+	m_origFov(camera->GetFovAng()),
+	m_zoomPct(1),
+	m_zoomPctTo(1),
+	m_viewOrient(matrix3x3d::Identity()),
+	m_smoothing(false)
 {
 	Reset();
 }
@@ -101,11 +107,21 @@ void InternalCameraController::Reset()
 
 void InternalCameraController::Update()
 {
+	if (m_smoothing) {
+		AnimationCurves::Approach(m_rotX, m_rotToX, Pi::GetFrameTime(), 13.f);
+		AnimationCurves::Approach(m_rotY, m_rotToY, Pi::GetFrameTime(), 13.f);
+	} else {
+		m_rotX = m_rotToX;
+		m_rotY = m_rotToY;
+	}
+
 	m_viewOrient =
 		matrix3x3d::RotateY(-m_rotY) *
 		matrix3x3d::RotateX(-m_rotX);
 
 	SetOrient(m_initOrient[m_mode] * m_viewOrient);
+
+	m_camera->SetFovAng(m_origFov * m_zoomPct);
 
 	CameraController::Update();
 }
@@ -114,6 +130,11 @@ void InternalCameraController::getRots(double &rX, double &rY)
 {
 	rX = m_rotX;
 	rY = m_rotY;
+}
+
+void InternalCameraController::SetSmoothingEnabled(bool enabled)
+{
+	m_smoothing = enabled;
 }
 
 void InternalCameraController::SetMode(Mode m)
@@ -133,8 +154,18 @@ void InternalCameraController::SetMode(Mode m)
 
 	m_name = m_names[m_mode];
 
-	m_rotX = 0;
-	m_rotY = 0;
+	m_rotToX = m_rotX = 0;
+	m_rotToY = m_rotY = 0;
+}
+
+void InternalCameraController::ZoomEvent(float amount)
+{
+	m_zoomPctTo = Clamp(m_zoomPctTo + amount * 2.0f * m_zoomPctTo, 0.4f, 1.0f);
+}
+
+void InternalCameraController::ZoomEventUpdate(float frameTime)
+{
+	AnimationCurves::Approach(m_zoomPct, m_zoomPctTo, frameTime, 10.f, 0.1f);
 }
 
 void InternalCameraController::SaveToJson(Json &jsonObj)
@@ -142,8 +173,8 @@ void InternalCameraController::SaveToJson(Json &jsonObj)
 	Json internalCameraObj = Json::object(); // Create JSON object to contain internal camera data.
 
 	internalCameraObj["mode"] = m_mode;
-	internalCameraObj["rotX"] = m_rotX;
-	internalCameraObj["rotY"] = m_rotY;
+	internalCameraObj["rotX"] = m_rotToX;
+	internalCameraObj["rotY"] = m_rotToY;
 
 	jsonObj["internal"] = internalCameraObj; // Add internal camera object to supplied object.
 }
@@ -154,11 +185,16 @@ void InternalCameraController::LoadFromJson(const Json &jsonObj)
 		Json internalCameraObj = jsonObj["internal"];
 		SetMode(internalCameraObj.value<Mode>("mode", MODE_FRONT));
 
-		m_rotX = internalCameraObj.value("rotX", 0.0f);
-		m_rotY = internalCameraObj.value("rotY", 0.0f);
+		m_rotX = m_rotToX = internalCameraObj.value("rotX", 0.0f);
+		m_rotY = m_rotToY = internalCameraObj.value("rotY", 0.0f);
 	} catch (Json::type_error &) {
 		throw SavedGameCorruptException();
 	}
+}
+
+void InternalCameraController::OnDeactivated()
+{
+	m_camera->SetFovAng(m_origFov);
 }
 
 ExternalCameraController::ExternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :

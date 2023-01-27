@@ -42,6 +42,8 @@ public:
 	const matrix3x3d &GetOrient() const { return m_orient; }
 
 	virtual void Update();
+	virtual void OnActivated(){};
+	virtual void OnDeactivated(){};
 
 	const Ship *GetShip() const { return m_ship; }
 
@@ -94,19 +96,27 @@ public:
 	Type GetType() const override { return INTERNAL; }
 	const char *GetName() const override { return m_name; }
 
+	void SetSmoothingEnabled(bool enabled);
+	bool GetSmoothingEnabled() const { return m_smoothing; }
+
 	void SetMode(Mode m);
 	Mode GetMode() const { return m_mode; }
+
+	void ZoomEvent(float amount) override;
+	void ZoomEventUpdate(float frameTime) override;
 
 	void SaveToJson(Json &jsonObj) override;
 	void LoadFromJson(const Json &jsonObj) override;
 
-	void PitchCamera(float amount) override { m_rotX += amount; }
-	void YawCamera(float amount) override { m_rotY += amount; }
+	void OnDeactivated() override;
+
+	void PitchCamera(float amount) override { m_rotToX += amount * m_zoomPct; }
+	void YawCamera(float amount) override { m_rotToY += amount * m_zoomPct; }
 
 	void SetRotationAngles(vector3f rotation) override
 	{
-		m_rotX = rotation.x;
-		m_rotY = rotation.y;
+		m_rotToX = rotation.x;
+		m_rotToY = rotation.y;
 	}
 
 	// TODO: remove this and replace with a better function.
@@ -119,9 +129,16 @@ private:
 	matrix3x3d m_initOrient[MODE_MAX];
 	vector3d m_initPos[MODE_MAX];
 
-	double m_rotX; //vertical rot
-	double m_rotY; //horizontal rot
+	float m_rotToX; //vertical target rot
+	float m_rotToY; //horizontal target rot
+	float m_rotX;	//vertical rot
+	float m_rotY;	//horizontal rot
+	float m_origFov;
+	float m_zoomPct;
+	float m_zoomPctTo;
 	matrix3x3d m_viewOrient;
+
+	bool m_smoothing;
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship

@@ -31,6 +31,10 @@ public:
 	float GetZNear() const { return m_zNear; }
 	float GetZFar() const { return m_zFar; }
 
+	// Set the field of view of this camera context.
+	// Should be called before ApplyDrawTransforms.
+	void SetFovAng(float newAng);
+
 	// frame to position the camera relative to
 	void SetCameraFrame(FrameId frame) { m_frame = frame; }
 	// return the parent frame of this camera

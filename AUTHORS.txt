@@ -198,6 +198,10 @@ Pioneer includes the following third-party software:
   Copyright (c) 2016-2021 Viktor Kirilov
   Licensed under the MIT license
 
+  nanosockets - Lightweight UDP sockets abstraction for rapid implementation of message-oriented protocols
+  Copyright (c) 2019 Stanislav Denisov
+  Licensed under the MIT license
+
   High Performance C++ Profiler
   https://code.google.com/p/high-performance-cplusplus-profiler/
   Licensed under the MIT license

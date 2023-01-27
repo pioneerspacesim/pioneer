@@ -151,6 +151,7 @@ private:
 	float m_fovY; //for mouse acceleration adjustment
 	float m_joystickDeadzone;
 	float m_lowThrustPower;
+	float m_aimingSens;
 	int m_combatTargetIndex; //for PostLoadFixUp
 	int m_navTargetIndex;
 	int m_followTargetIndex;
