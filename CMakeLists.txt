@@ -231,6 +231,9 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(contrib/lz4)
 add_subdirectory(contrib/fmt)
 
+set(NANOSOCKETS_STATIC "1")
+add_subdirectory(contrib/nanosockets)
+
 set(PIONEER_SRC ${CMAKE_SOURCE_DIR}/src)
 set(PIONEER_CONTRIB ${CMAKE_SOURCE_DIR}/contrib)
 
