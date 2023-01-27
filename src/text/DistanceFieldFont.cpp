@@ -3,7 +3,6 @@
 
 #include "DistanceFieldFont.h"
 #include "FileSystem.h"
-#include "StringRange.h"
 #include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
 #include "utils.h"
@@ -19,22 +18,23 @@ namespace Text {
 	{
 		//parse definition
 		RefCountedPtr<FileSystem::FileData> fontdef = FileSystem::gameDataFiles.ReadFile(definition);
-		StringRange data = fontdef->AsStringRange();
+
+		std::string_view data = fontdef->AsStringView();
 
 		bool doingCharacters = false;
 
-		while (!data.Empty()) {
-			const StringRange line = data.ReadLine();
-			if (line.Empty()) continue;
+		while (!data.empty()) {
+			const std::string_view line = read_line(data);
+			if (line.empty()) continue;
 
 			if (doingCharacters) {
 				ParseChar(line);
 			} else {
-				if (starts_with(line.begin, "info")) //contains font size
+				if (starts_with(line, "info")) //contains font size
 					ParseInfo(line);
-				else if (starts_with(line.begin, "common ")) //contains UV sheet w/h
+				else if (starts_with(line, "common ")) //contains UV sheet w/h
 					ParseCommon(line);
-				else if (starts_with(line.begin, "chars ")) //after this, file should be all characters
+				else if (starts_with(line, "chars ")) //after this, file should be all characters
 					doingCharacters = true;
 			}
 		}
@@ -126,9 +126,9 @@ namespace Text {
 	}
 
 	//get font definitions from a line of xml, insert glyph information into the map
-	void DistanceFieldFont::ParseChar(const StringRange &r)
+	void DistanceFieldFont::ParseChar(std::string_view r)
 	{
-		std::stringstream ss(r.ToString());
+		std::stringstream ss(std::string { r });
 		std::string token;
 
 		Uint32 id = 0;
@@ -173,9 +173,9 @@ namespace Text {
 		m_glyphs[id] = g;
 	}
 
-	void DistanceFieldFont::ParseCommon(const StringRange &line)
+	void DistanceFieldFont::ParseCommon(std::string_view line)
 	{
-		std::stringstream ss(line.ToString());
+		std::stringstream ss(std::string { line });
 		std::string token;
 
 		while (ss >> token) {
@@ -190,9 +190,9 @@ namespace Text {
 		}
 	}
 
-	void DistanceFieldFont::ParseInfo(const StringRange &line)
+	void DistanceFieldFont::ParseInfo(std::string_view line)
 	{
-		std::stringstream ss(line.ToString());
+		std::stringstream ss(std::string { line });
 		std::string token;
 
 		while (ss >> token) {

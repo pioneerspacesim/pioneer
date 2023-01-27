@@ -168,6 +168,7 @@ namespace FileSystem {
 		}
 		StringRange AsStringRange() const { return StringRange(m_data, m_size); }
 		ByteRange AsByteRange() const { return ByteRange(m_data, m_size); }
+		std::string_view AsStringView() const { return std::string_view(m_data, m_size); }
 
 	protected:
 		FileData(const FileInfo &info, size_t size, char *data) :
