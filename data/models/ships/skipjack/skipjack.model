@@ -5,6 +5,7 @@ use_patterns
 tex_norm skipjack_norm.png
 tex_diff skipjack_diff.dds
 tex_spec skipjack_spec.dds
+tex_glow skipjack_glow.dds
 
 lod 300
 mesh skipjack_hi.dae
