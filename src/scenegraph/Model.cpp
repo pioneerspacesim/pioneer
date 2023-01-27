@@ -39,6 +39,7 @@ namespace SceneGraph {
 		m_boundingRadius(10.f),
 		m_renderer(r),
 		m_name(name),
+		m_activeAnimations(0),
 		m_curPatternIndex(0),
 		m_curPattern(0),
 		m_debugFlags(0)
@@ -56,6 +57,7 @@ namespace SceneGraph {
 		m_collMesh(model.m_collMesh), //might have to make this per-instance at some point
 		m_renderer(model.m_renderer),
 		m_name(model.m_name),
+		m_activeAnimations(0),
 		m_curPatternIndex(model.m_curPatternIndex),
 		m_curPattern(model.m_curPattern),
 		m_debugFlags(0)
