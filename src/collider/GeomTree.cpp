@@ -212,7 +212,9 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	for (int i = 0; i < m_numEdges; i++) {
 		edgeIdxs[i] = i;
 	}
+
 	m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, &m_aabbs[0]));
+	delete[] edgeIdxs;
 }
 
 static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vector3f &invDir, isect_t *isect)
