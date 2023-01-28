@@ -421,7 +421,7 @@ Serializer:Register("Economy",
 		}
 	end,
 	function(data)
-		stationMarket = data.market
+		stationMarket = data.market or {}
 	end
 )
 

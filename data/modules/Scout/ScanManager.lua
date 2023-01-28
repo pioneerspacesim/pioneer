@@ -126,12 +126,6 @@ ScanManager.State = {
 
 ---@param ship Ship
 function ScanManager:Constructor(ship)
-	ship.equipSet:AddListener(function(slot)
-		if slot == "sensor" then
-			self:UpdateSensorEquipInfo()
-		end
-	end)
-
 	self.ship = ship
 
 	---@type ScanData
@@ -161,6 +155,18 @@ function ScanManager:Constructor(ship)
 
 	-- is there a currently running scan callback
 	self.activeCallback = false
+
+	self:SetupShipEquipListener()
+end
+
+---@package
+-- Register an equipment listener on the player's ship
+function ScanManager:SetupShipEquipListener()
+	self.ship.equipSet:AddListener(function(slot)
+		if slot == "sensor" then
+			self:UpdateSensorEquipInfo()
+		end
+	end)
 
 	self:UpdateSensorEquipInfo()
 end
@@ -597,6 +603,11 @@ end
 function ScanManager:Unserialize()
 	setmetatable(self, ScanManager.meta)
 
+	-- FIXME: the order of component deserialization is undefined
+	-- The Unserialize() method should only mutate this component's state;
+	-- these calls should be deferred into a PostLoad() method or event
+	self:SetupShipEquipListener()
+
 	-- Restore the scanning callback on loading a saved game
 	if self.activeCallback then
 		self:StartScanCallback()
@@ -614,6 +625,15 @@ Event.Register("onFrameChanged", function(body)
 
 	if scanMgr then
 		scanMgr:OnEnteredFrame(body)
+	end
+end)
+
+---@param ship Ship
+Event.Register("onShipTypeChanged", function(ship)
+	local scanMgr = ship:GetComponent("ScanManager")
+
+	if scanMgr then
+		scanMgr:SetupShipEquipListener()
 	end
 end)
 
