@@ -3,13 +3,13 @@
 	"name": "Bowfin",
 	"cockpit": "",
 	"manufacturer": "kaluri",
-	"ship_class": "medium_fighter",
+	"ship_class": "light_fighter",
 	"min_crew": 1,
 	"max_crew": 1,
-	"price": 32822,
+	"price": 34430,
 	"hull_mass": 25,
 	"atmospheric_pressure_limit": 6.5,
-	"capacity": 12,
+	"capacity": 18,
 	"slots": {
 		"engine": 1,
 		"cabin": 0,
@@ -18,7 +18,7 @@
 		"missile": 24,
 		"cargo": 6
 	},
-	"roles": ["mercenary", "merchant", "pirate", "courier"],
+	"roles": ["mercenary", "pirate", "courier"],
 
 	"effective_exhaust_velocity": 8400000,
 	"thruster_fuel_use": -1.0,
