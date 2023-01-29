@@ -22,9 +22,6 @@ local FlightLogSystem = {}
 local FlightLogStation = {}
 local FlightLogCustom = {}
 
--- Version for backwards compability
-local version = 1
-
 local FlightLog
 FlightLog = {
 
@@ -379,24 +376,6 @@ FlightLog = {
 			{path, Game.time, Game.player:GetMoney(), location, text})
 	end,
 
---
--- Group: Attributes
---
-
---
--- Attribute: version
---
--- Marks version of flight log, can be used for non-breaking backwards
--- compatibility, if new features are added to FlightLog
---
--- Example:
---
--- > if FlightLog.version > 2 then
--- >     FlightLog.useNewFeature()
--- > end
---
-
-	version = version,
 }
 
 -- LOGGING
@@ -433,11 +412,10 @@ end
 local loaded_data
 
 local onGameStart = function ()
-	if loaded_data and loaded_data.Version then
+	if loaded_data and loaded_data.Version >= 1 then
 		FlightLogSystem = loaded_data.System
 		FlightLogStation = loaded_data.Station
 		FlightLogCustom = loaded_data.Custom
-		version = loaded_data.Version
 	else
 		table.insert(FlightLogSystem,1,{Game.system.path,nil,nil,""})
 	end
@@ -448,14 +426,13 @@ local onGameEnd = function ()
 	FlightLogSystem = {}
 	FlightLogStation = {}
 	FlightLogCustom = {}
-	version = nil
 end
 
 local serialize = function ()
 	return { System = FlightLogSystem,
 			 Station = FlightLogStation,
 			 Custom = FlightLogCustom,
-			 Version = version
+			 Version = 1 -- version for backwards compatibility
 	}
 end
 
