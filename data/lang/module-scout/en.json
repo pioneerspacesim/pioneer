@@ -1,8 +1,4 @@
 {
-  "ACCEPT_AND_SET_SYSTEM_TARGET": {
-    "description": "",
-    "message": "Accept and set system target"
-  },
   "ACTIVE_SCAN_TOOLTIP": {
     "description": "",
     "message": "Data is currently being collected for this scan."
@@ -378,6 +374,10 @@
   "ORBITAL_SCAN": {
     "description": "",
     "message": "Orbital Scan"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Ok, agreed."
   },
   "PENDING_SCANS": {
     "description": "Button text for pending scans",
