@@ -199,7 +199,7 @@ table.insert(leftSidebar.modules, {
 
 	drawTitle = function()
 		if Windows.unexplored.visible then
-			ui.text(luc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW)
+			ui.text(lc.UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW)
 		else
 			systemOverviewWidget:displaySidebarTitle(systemView:GetSystem())
 		end
