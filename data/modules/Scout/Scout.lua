@@ -192,6 +192,8 @@ local onChat = function (form, ref, option)
 		return
 	end
 
+	form:AddNavButton(ad.location)
+
 	if option == 0 then
 		form:SetFace(ad.client)
 
@@ -259,7 +261,6 @@ local onChat = function (form, ref, option)
 		table.insert(missions, mission)
 		missionKey[mission.scanId] = mission
 
-		Game.player:SetHyperspaceTarget(mission.location:GetStarSystem().path)
 		form:SetMessage(l.EXCELLENT_I_AWAIT_YOUR_REPORT)
 		return
 	end
@@ -269,7 +270,7 @@ local onChat = function (form, ref, option)
 	form:AddOption(l.WHAT_DATA_DO_YOU_NEED, 4)
 	form:AddOption(l.HOW_DOES_IT_WORK, 5)
 	form:AddOption(l.REPEAT_THE_ORIGINAL_REQUEST, 0)
-	form:AddOption(l.ACCEPT_AND_SET_SYSTEM_TARGET, 3)
+	form:AddOption(l.OK_AGREED, 3)
 end
 
 
