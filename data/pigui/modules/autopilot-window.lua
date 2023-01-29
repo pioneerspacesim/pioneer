@@ -4,6 +4,7 @@
 local Game = require 'Game'
 local Event = require 'Event'
 local bindManager = require 'bind-manager'
+local AutoSave    = require 'modules.AutoSave.AutoSave'
 
 local Lang = require 'Lang'
 local lui = Lang.GetResource("ui-core");
@@ -66,12 +67,14 @@ local function button_undock()
 	if player:IsLanded() then
 		if ui.mainMenuButton(icons.autopilot_blastoff, lui.HUD_BUTTON_BLASTOFF) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 			Game.SetTimeAcceleration("1x")
+			AutoSave.Save()
 			player:BlastOff()
 		end
 		return true
 	elseif player:IsDocked() then
 		if ui.mainMenuButton(icons.autopilot_undock, lui.HUD_BUTTON_UNDOCK) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f5)) then
 			Game.SetTimeAcceleration("1x")
+			AutoSave.Save()
 			player:Undock()
 		end
 		return true
