@@ -66,14 +66,17 @@ end
 
 local function button_wheelstate()
 	local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
-	if wheelstate == 0.0 then -- gear is up
-		if ui.mainMenuButton(icons.landing_gear_down, lui.HUD_BUTTON_LANDING_GEAR_IS_UP) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f6)) then
+	local locked = player:GetFlightControlState() == "CONTROL_AUTOPILOT"
+	if locked and wheelstate == 0.0 then
+		ui.mainMenuButton(icons.landing_gear_down, lc.AUTOPILOT_CONTROL, ui.theme.buttonColors.disabled)
+	elseif wheelstate == 0.0 then -- gear is up
+		if ui.mainMenuButton(icons.landing_gear_down, lui.HUD_BUTTON_LANDING_GEAR_IS_UP) then
 			player:ToggleWheelState()
-	end
+		end
 	elseif wheelstate == 1.0 then -- gear is down
-		if ui.mainMenuButton(icons.landing_gear_up, lui.HUD_BUTTON_LANDING_GEAR_IS_DOWN) or (ui.noModifierHeld() and ui.isKeyReleased(ui.keys.f6)) then
+		if ui.mainMenuButton(icons.landing_gear_up, lui.HUD_BUTTON_LANDING_GEAR_IS_DOWN) then
 			player:ToggleWheelState()
-	end
+		end
 	else
 		ui.mainMenuButton(icons.landing_gear_up, lui.HUD_BUTTON_LANDING_GEAR_IS_MOVING, ui.theme.buttonColors.disabled)
 	end
