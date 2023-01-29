@@ -279,6 +279,10 @@
     "description": "",
     "message": "DISTANCE REACHED. MAPPING. Remain below altitude ceiling until scan completed."
   },
+  "DROP_OFF_DATA": {
+    "description": "",
+    "message": "Drop off data at {location} before {date}"
+  },
   "EXCELLENT_I_AWAIT_YOUR_REPORT": {
     "description": "",
     "message": "Excellent. I will await your report."
