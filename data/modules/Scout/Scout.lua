@@ -246,6 +246,7 @@ local onChat = function (form, ref, option)
 			dropoff     = ad.dropoff,
 			coverage    = ad.coverage,
 			resolution  = ad.resolution,
+			orbital     = ad.orbital,
 			status      = 'ACTIVE',
 		}
 
