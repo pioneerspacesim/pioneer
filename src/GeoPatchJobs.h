@@ -124,29 +124,29 @@ protected:
 	SSingleSplitRequest(const SSingleSplitRequest &r) = delete;
 };
 
+struct SSplitResultData {
+	SSplitResultData() :
+		patchID(0) {}
+	SSplitResultData(double *heights_, vector3f *n_, Color3ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
+		heights(heights_),
+		normals(n_),
+		colors(c_),
+		v0(v0_),
+		v1(v1_),
+		v2(v2_),
+		v3(v3_),
+		patchID(patchID_)
+	{}
+
+	double *heights;
+	vector3f *normals;
+	Color3ub *colors;
+	vector3d v0, v1, v2, v3;
+	GeoPatchID patchID;
+};
+
 class SBaseSplitResult {
 public:
-	struct SSplitResultData {
-		SSplitResultData() :
-			patchID(0) {}
-		SSplitResultData(double *heights_, vector3f *n_, Color3ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
-			heights(heights_),
-			normals(n_),
-			colors(c_),
-			v0(v0_),
-			v1(v1_),
-			v2(v2_),
-			v3(v3_),
-			patchID(patchID_)
-		{}
-
-		double *heights;
-		vector3f *normals;
-		Color3ub *colors;
-		vector3d v0, v1, v2, v3;
-		GeoPatchID patchID;
-	};
-
 	SBaseSplitResult(const int32_t face_, const int32_t depth_) :
 		mFace(face_),
 		mDepth(depth_) {}
