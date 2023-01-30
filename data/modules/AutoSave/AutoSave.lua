@@ -45,10 +45,28 @@ local function CheckedSave(filename)
 	end
 end
 
-local f = function (ship) if ship:IsPlayer() then CheckedSave(PickNextAutosave()); end; end
+local function AutoSave(type)
+	if type == 'exit' then
+		CheckedSave('_exit')
+	else
+		CheckedSave(PickNextAutosave())
+	end
+end
+
+Event.Register('onAutoSave', AutoSave)
+
+local f = function (ship)
+	if ship:IsPlayer() then Event.Queue('onAutoSave') end
+end
+
 Event.Register('onShipDocked', f)
 Event.Register('onShipLanded', f)
-Event.Register('onShipUndocked', f)
-Event.Register('onShipTakeOff', f)
+
 -- we have to make sure to autosave the game before the end game process starts
-Event.Register('onAutoSaveBeforeGameEnds', function() CheckedSave('_exit'); end)
+Event.Register('onAutoSaveBeforeGameEnds', function()
+	CheckedSave('_exit')
+end)
+
+return {
+	Save = AutoSave
+}

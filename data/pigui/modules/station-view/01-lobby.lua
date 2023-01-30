@@ -3,6 +3,7 @@
 
 local ui = require 'pigui'
 local StationView = require 'pigui.views.station-view'
+local AutoSave    = require 'modules.AutoSave.AutoSave'
 
 local Game = require 'Game'
 local Rand = require 'Rand'
@@ -67,11 +68,17 @@ local requestLaunch = function (station)
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_CREW, station.label)
 		popupMsg = l.LAUNCH_PERMISSION_DENIED_CREW
 		popup:open()
+		return
 	elseif fine > 0 then
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_FINED, station.label)
 		popupMsg = l.LAUNCH_PERMISSION_DENIED_FINED
 		popup:open()
-	elseif not Game.player:Undock() then
+		return
+	end
+
+	AutoSave.Save()
+
+	if not Game.player:Undock() then
 		Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_BUSY, station.label)
 		popupMsg = l.LAUNCH_PERMISSION_DENIED_BUSY
 		popup:open()

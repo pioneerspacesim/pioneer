@@ -22,8 +22,14 @@
 #include <algorithm>
 #include <deque>
 
+#define DEBUG_CENTROIDS 0
+
 #ifdef DEBUG_BOUNDING_SPHERES
 #include "graphics/RenderState.h"
+#endif
+
+#if DEBUG_CENTROIDS
+#include "graphics/Drawables.h"
 #endif
 
 // tri edge lengths
@@ -294,6 +300,12 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 
 		m_geosphere->GetSurfaceMaterial()->SetPushConstant("PatchDetailFrequency"_hash, fDetailFrequency);
 		renderer->DrawMesh(m_patchMesh.get(), m_geosphere->GetSurfaceMaterial().Get());
+
+#if DEBUG_CENTROIDS
+		renderer->SetTransform(matrix4x4f(modelView * matrix4x4d::Translation(m_centroid - campos) * matrix4x4d::ScaleMatrix(0.2 / pow(2.0f, m_depth))));
+		Graphics::Drawables::GetAxes3DDrawable(renderer)->Draw(renderer);
+#endif
+
 #ifdef DEBUG_BOUNDING_SPHERES
 		if (m_boundsphere.get()) {
 			renderer->SetWireFrameMode(true);
@@ -401,7 +413,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 		const int newDepth = m_depth + 1;
 		for (int i = 0; i < NUM_KIDS; i++) {
 			assert(!m_kids[i]);
-			const SQuadSplitResult::SSplitResultData &data = psr->data(i);
+			const SSplitResultData &data = psr->data(i);
 			assert(i == data.patchID.GetPatchIdx(newDepth));
 			assert(0 == data.patchID.GetPatchIdx(newDepth + 1));
 			m_kids[i].reset(new GeoPatch(m_ctx, m_geosphere,
@@ -411,13 +423,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 		m_kids[0]->m_parent = m_kids[1]->m_parent = m_kids[2]->m_parent = m_kids[3]->m_parent = this;
 
 		for (int i = 0; i < NUM_KIDS; i++) {
-			const SQuadSplitResult::SSplitResultData &data = psr->data(i);
-			m_kids[i]->m_heights.reset(data.heights);
-			m_kids[i]->m_normals.reset(data.normals);
-			m_kids[i]->m_colors.reset(data.colors);
-		}
-		for (int i = 0; i < NUM_KIDS; i++) {
-			m_kids[i]->NeedToUpdateVBOs();
+			m_kids[i]->ReceiveHeightResult(psr->data(i));
 		}
 		m_HasJobRequest = false;
 	}
@@ -429,13 +435,29 @@ void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 	assert(nullptr == m_parent);
 	assert(nullptr != psr);
 	assert(m_HasJobRequest);
-	{
-		const SSingleSplitResult::SSplitResultData &data = psr->data();
-		m_heights.reset(data.heights);
-		m_normals.reset(data.normals);
-		m_colors.reset(data.colors);
-	}
+
+	ReceiveHeightResult(psr->data());
 	m_HasJobRequest = false;
+}
+
+void GeoPatch::ReceiveHeightResult(const SSplitResultData &data)
+{
+	m_heights.reset(data.heights);
+	m_normals.reset(data.normals);
+	m_colors.reset(data.colors);
+
+	// skirt vertices are not present in the heights array
+	const int edgeLen = m_ctx->GetEdgeLen() - 2;
+
+	const double h0 = m_heights[0];
+	const double h1 = m_heights[edgeLen - 1];
+	const double h2 = m_heights[edgeLen * (edgeLen - 1)];
+	const double h3 = m_heights[edgeLen * edgeLen - 1];
+
+	const double height = (h0 + h1 + h2 + h3) * 0.25;
+	m_centroid *= (1.0 + height);
+
+	NeedToUpdateVBOs();
 }
 
 void GeoPatch::ReceiveJobHandle(Job::Handle job)
