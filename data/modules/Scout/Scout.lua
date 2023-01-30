@@ -160,7 +160,6 @@ for i = 1,#flavours do
 	f.adtitle    = l["ADTITLE_"..i]
 	f.adtext     = l["ADTEXT_"..i]
 	f.introtext  = l["ADTEXT_"..i.."_INTRO"]
-	f.introtext2 = l["INTROTEXT_COMPLETED_"..i]
 	f.whysomuch	 = l["ADTEXT_"..i.."_WHYSOMUCH"]
 	f.successmsg = l["ADTEXT_"..i.."_SUCCESSMSG"]
 	f.failmsg	 = l["ADTEXT_"..i.."_FAILMSG"]
