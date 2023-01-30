@@ -295,42 +295,6 @@
     "description": "",
     "message": "Current Scan Progress"
   },
-  "INTROTEXT_COMPLETED_1": {
-    "description": "",
-    "message": "Hello! \nIf you are seeing this is because the data were obtained and confirmed what we suspected.\nSee you at:"
-  },
-  "INTROTEXT_COMPLETED_2": {
-    "description": "",
-    "message": "Hello! \nIf you are seeing this is because the data were successfully mapped. Will be very useful to my friends.\n To complete the mission, you must go to:"
-  },
-  "INTROTEXT_COMPLETED_3": {
-    "description": "",
-    "message": "Greetings again. Apparently, the mission has been a success.\nYou must carry this information to:"
-  },
-  "INTROTEXT_COMPLETED_4": {
-    "description": "",
-    "message": "Hello! \nWhat you are seeing this means that the data collected are very interesting and will be very useful to my editor.\n The delivery shall be in:"
-  },
-  "INTROTEXT_COMPLETED_5": {
-    "description": "",
-    "message": "Hello! \nIf you are seeing this is that the mission is successful now. The data will be very useful.\n Your reward awaits you in:"
-  },
-  "INTROTEXT_COMPLETED_6": {
-    "description": "",
-    "message": "You are viewing this because, the first part of mission has been successful.\n To complete it should be directed to:"
-  },
-  "INTROTEXT_COMPLETED_7": {
-    "description": "",
-    "message": "If you are seeing this, the first part of mission seems to have been successful. To complete it you are directed to go to:"
-  },
-  "INTROTEXT_COMPLETED_8": {
-    "description": "",
-    "message": "xxx"
-  },
-  "INTROTEXT_COMPLETED_9": {
-    "description": "",
-    "message": "xxx"
-  },
   "INVALID_SCANNER": {
     "description": "Shown when a scan altitude cannot be calculated",
     "message": "-----"
@@ -474,10 +438,6 @@
   "WHY_SO_MUCH_MONEY": {
     "description": "",
     "message": "Why so much money?"
-  },
-  "YOU_NEED_RADAR_MAPPER": {
-    "description": "Radar Mapper is a ship equipment",
-    "message": "Your ship must have a Radar Mapper to perform this task."
   },
   "YOU_WILL_BE_PAID_ON_MY_BEHALF_AT_NEW_DESTINATION": {
     "description": "",
