@@ -32,7 +32,7 @@ EquipSet.default = {
 	cargo_life_support=1,
 	autopilot=1,
 	trade_computer=1,
-	sensor = 8,
+	sensor = 2,
 	thruster = 1
 }
 
