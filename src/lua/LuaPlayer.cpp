@@ -610,7 +610,7 @@ static int l_get_gps(lua_State *l)
 			if (!playerFrame->IsRotFrame())
 				playerFrame = Frame::GetFrame(playerFrame->GetRotFrame());
 			vector3d surface_pos = pos.Normalized();
-			double radius = 0.0;
+			double radius = terrain->GetSystemBody()->GetRadius();
 			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
 				radius = terrain->GetTerrainHeight(surface_pos);
 			}
