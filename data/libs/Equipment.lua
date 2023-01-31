@@ -211,7 +211,7 @@ misc.orbitscanner_good = BodyScannerType.New({
 	capabilities={mass=7,sensor=1}, purchasable=true, tech_level=8,
 	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
 	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05},
-	stats={ aperture = 2.2, minAltitude = 1750000, resolution = 11375, orbital = true },
+	stats={ aperture = 2.8, minAltitude = 1750000, resolution = 12375, orbital = true },
 	icon_name="equip_orbit_scanner"
 })
 
