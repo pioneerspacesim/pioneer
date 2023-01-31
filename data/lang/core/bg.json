@@ -371,6 +371,22 @@
     "description": "",
     "message": "Показване на вертикалните линии"
   },
+  "DWARF_PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "Планета джудже с наличие на течна вода"
+  },
+  "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "Планета джудже с наличие на течни вещества,"
+  },
+  "DWARF_PLANET_MOSTLY_COVERED_IN_ICE": {
+    "description": "",
+    "message": "Планета джудже с покритие от лед"
+  },
+  "DWARF_PLANET_TERRESTRIAL": {
+    "description": "",
+    "message": "Планета джудже"
+  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Колониално управление на Земната федерация"
@@ -598,6 +614,10 @@
   "H_ATMOSPHERE": {
     "description": "",
     "message": "атмосфера от водород"
+  },
+  "ICE_DWARF_PLANET": {
+    "description": "",
+    "message": "Ледена планета джудже"
   },
   "ICE_MOON": {
     "description": "",
@@ -889,7 +909,7 @@
   },
   "MOON_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "\" луна, с наличие на течна вода\""
+    "message": "\" луна с наличие на течна вода\""
   },
   "MOON_WITH_SOME_ICE": {
     "description": "",
@@ -1117,7 +1137,7 @@
   },
   "PLANET_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "\" планета, с наличие на течна вода\""
+    "message": "\" планета с наличие на течна вода\""
   },
   "PLANET_WITH_SOME_ICE": {
     "description": "",
@@ -1205,7 +1225,7 @@
   },
   "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
     "description": "",
-    "message": "\" скалиста луна, с наличие на течни вещества,\""
+    "message": "\" скалиста луна с наличие на течни вещества,\""
   },
   "ROCKY_PLANET": {
     "description": "",
@@ -1213,7 +1233,7 @@
   },
   "ROCKY_PLANET_CONTAINING_COME_LIQUIDS": {
     "description": "",
-    "message": "\" скалиста планета, с наличие на течни вещества,\""
+    "message": "\" скалиста планета с наличие на течни вещества,\""
   },
   "ROLL": {
     "description": "",
@@ -1585,7 +1605,7 @@
   },
   "SWITCHED_TO_ROTATIONAL": {
     "description": "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-    "message": "Използване на планетарните координати"
+    "message": "Използване на планетните координати"
   },
   "SYSTEM": {
     "description": "star system",

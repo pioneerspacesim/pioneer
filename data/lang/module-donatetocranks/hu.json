@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "ADAKOZZON!"
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+    "message": "A Repülő Mennyei Spagettiszörny Egyházának szüksége van a támogatásodra urunk szavának terjesztésére!"
   },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "ADAKOZZ!"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "Mi, a Szabad Szellem Őrzői alázatosan kérjük, hogy támogasd kolostoraink működését."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "FEELING GENEROUS?"
+    "message": "NAGYLELKŰNEK ÉRZI MAGÁT?"
   },
   "FLAVOUR_2_DESC": {
     "description": "",
-    "message": "War Orphan's Support needs your help to keep up its essential work."
+    "message": "A Háborús Árvák Támogató Szolgálatának szüksége van a segítségére nélkülözhetetlen munkájuk fenntartásához."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUTE"
+    "message": "JÁRULJON HOZZÁ!"
   },
   "FLAVOUR_3_DESC": {
     "description": "",
-    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "A Galaxis Barátai 'Tiltsák be a katonai hiperhajtóműveket!' kampányának szüksége van a pénzére."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
@@ -49,11 +49,11 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "ADAKOZZON!"
   },
   "FLAVOUR_4_DESC": {
     "description": "",
-    "message": "Save our species. Stop the carnage of newly settled worlds."
+    "message": "Mentsük meg a fajokat! Állítsuk meg a mészárlást az újonnan betelepített világokon!"
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
@@ -61,15 +61,63 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "TÁMOGASD A SZABADSÁGOT!"
   },
   "FLAVOUR_5_DESC": {
     "description": "",
-    "message": "Stop the great injustice of proprietary software controlling your ship."
+    "message": "Állítsuk meg a hajóinkat vezérlő szabadalmaztatott szoftverek igazságtalanságát!"
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Szabadságot az űrhajóknak! Mennyit szeretnél felajánlani? Jó bütykölést!"
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "VETERÁNOK NAPJA"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "Támogassa {MILITARY} veteránjait."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "{MILITARY}. Mindig számthat rájuk. De vajon ők számíthatnak önre?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "TÁMOGATJA ŐKET?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "Támogassa {POLICE} veteránjait."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "A {POLICE} bátor férfiainak és nőinek, akik az életüket tették {system} védelmezésére, szükségük van a támogatására."
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "TÁMOGASSUK VETERÁNJAINKAT!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Támogassuk a fegyveres erőink veteránjait."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "{MILITARY} bátor katonái önért is veszélyeztetik életüket!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "VESSÜNK VÉGET A NYOMORNAK!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Támogassa {FACTION}-szerte elharapódzó nyomor elleni harcunkat!"
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "{FACTION} családjainak támogatjuk, hogy mindannyiunk számára jobb legyen a jövő."
   },
   "SALES_PITCH": {
     "description": "",

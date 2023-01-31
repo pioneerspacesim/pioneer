@@ -371,6 +371,22 @@
     "description": "",
     "message": "Rita vertikala linjer"
   },
+  "DWARF_PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "Dvärgplanet med flytande vatten"
+  },
+  "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "Dvärgplanet med vissa vätskor"
+  },
+  "DWARF_PLANET_MOSTLY_COVERED_IN_ICE": {
+    "description": "",
+    "message": "Dvärgplanet, mestadels täckt av is"
+  },
+  "DWARF_PLANET_TERRESTRIAL": {
+    "description": "",
+    "message": "Dvärgplanet"
+  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Jordfederatiskt kolonialstyre"
@@ -381,7 +397,7 @@
   },
   "ECCENTRICITY": {
     "description": "",
-    "message": "Orginalitet"
+    "message": "Excentricitet"
   },
   "ECONOMIC_INFO": {
     "description": "",
@@ -598,6 +614,10 @@
   "H_ATMOSPHERE": {
     "description": "",
     "message": "väteatmosfär"
+  },
+  "ICE_DWARF_PLANET": {
+    "description": "",
+    "message": "Istäckt dvärgplanet"
   },
   "ICE_MOON": {
     "description": "",
@@ -1021,7 +1041,7 @@
   },
   "N_EARTH_MASSES": {
     "description": "",
-    "message": "%mass{f.3} Earth masses"
+    "message": "%mass{f.3} Jordmassor"
   },
   "N_EARTH_RADII": {
     "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
@@ -1029,7 +1049,7 @@
   },
   "N_SOLAR_MASSES": {
     "description": "",
-    "message": "%mass{f.3} Solar masses"
+    "message": "%mass{f.3} Solmassor"
   },
   "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
@@ -1049,7 +1069,7 @@
   },
   "OCEANICMOON": {
     "description": "",
-    "message": "\" oceanic moon\""
+    "message": "\" måne och vattenvärld\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1325,7 +1345,7 @@
   },
   "SET_MAXIMUM_SPEED_LIMIT": {
     "description": "Speed limiter tooltip.",
-    "message": "Set maximum speed limit"
+    "message": "Ställ in högsta hastighetsgräns"
   },
   "SET_NAVTARGET_TO": {
     "description": "",

@@ -33,7 +33,7 @@
   },
   "FLAVOUR_2_BODY": {
     "description": "",
-    "message": "Var hälsad! Jag heter {name} och jag har en mycket fin {equipment} vilken skulle kunna bli din för nätta {price}."
+    "message": "God dag! Jag heter {name} och jag har en mycket fin {equipment} vilken skulle kunna bli din för nätta {price}."
   },
   "FLAVOUR_2_TEXT": {
     "description": "Selling second hand ship equipment",

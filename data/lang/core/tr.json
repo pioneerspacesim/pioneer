@@ -371,6 +371,22 @@
     "description": "",
     "message": "Dikey çizgiler çek"
   },
+  "DWARF_PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "Sıvı su barındıran cüce gezegen"
+  },
+  "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "Bir miktar sıvı barındıran cüce gezegen,"
+  },
+  "DWARF_PLANET_MOSTLY_COVERED_IN_ICE": {
+    "description": "",
+    "message": "Çoğunluğu buzla kaplı cüce gezegen"
+  },
+  "DWARF_PLANET_TERRESTRIAL": {
+    "description": "",
+    "message": "Cüce gezegen"
+  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Dünya Federasyon Kolonisi"
@@ -598,6 +614,10 @@
   "H_ATMOSPHERE": {
     "description": "",
     "message": "hidrojen atmosfer"
+  },
+  "ICE_DWARF_PLANET": {
+    "description": "",
+    "message": "Buzlu cüce gezegen"
   },
   "ICE_MOON": {
     "description": "",

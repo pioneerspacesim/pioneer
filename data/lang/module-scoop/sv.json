@@ -9,7 +9,7 @@
   },
   "ACCEPTED_LEGAL_GOODS": {
     "description": "",
-    "message": "Tack. Du du känner igen en bra affär när du ser en!"
+    "message": "Tack. Du känner igen en bra affär när du ser en!"
   },
   "ACCEPTED_RESCUE": {
     "description": "",
@@ -17,7 +17,7 @@
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Upphämtningsuppdrag: snabb återhämtning av drivande behållare krävs."
+    "message": "Bärgningsuppdrag: snabb upplockning av drivande behållare önskas."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "ADTEXT_RESCUE": {
     "description": "",
-    "message": "HJÄLP EFTERFRÅGAS: Brådskande operation för räddning av livkapsel"
+    "message": "RÄDDNINGSINSATS: Brådskande bärgning av livkapsel."
   },
   "ADTITLE_ARMS_DEALER": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "FAILURE_MSG_ARMS_DEALER": {
     "description": "",
-    "message": "Din imbicil. Klienten kommer inte gilla detta!"
+    "message": "Din imbecill. Klienten kommer inte gilla detta!"
   },
   "FAILURE_MSG_RESCUE": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "HOW_MUCH_TIME_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Slösa ingen tid. 'Only the early bird catches the worm!'"
+    "message": "Slösa ingen mer tid. Morgonstund har guld i mun heter det. Det är nu eftermiddag!"
   },
   "HOW_MUCH_TIME_LEGAL_GOODS": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "INTROTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Hej min vän. Jag är {client}. Jag hörde om en laståkare som fick problem nära {planet} på grund av dåligt underhåll av fartyget. Fantastiskt vem som får flyga ett rymdskepp nuförtiden, eller hur? Hur som helst, de var tvungna att dumpa mycket av lasten. Om du är snabb kan du ta tag i lasten väldigt enkelt! Denna information är så god som ny! Jag säljer dig koordinaterna för endast {cash}. Vad säger du?"
+    "message": "Hej min vän. Jag är {client}. Jag hörde om en speditör som fick problem nära {planet} på grund av dåligt underhåll av fartyget. Fantastiskt vem som får flyga ett rymdskepp nuförtiden, eller hur? Hur som helst, de var tvungna att dumpa mycket av lasten. Om du är snabb kan du ta tag i lasten väldigt enkelt! Denna information är så god som ny! Jag säljer dig koordinaterna för endast {cash}. Vad säger du?"
   },
   "INTROTEXT_RESCUE": {
     "description": "",

@@ -97,7 +97,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "За съжаление, {target} вече не е желан в системата {system}. Нужен е специалист по отстраняване."
+    "message": "За съжаление, {target} вече не е желан в системата {system}. Необходим е специалист по отстраняване."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",

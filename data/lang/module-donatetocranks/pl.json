@@ -71,6 +71,54 @@
     "description": "",
     "message": "Wyzwól swój statek! Prosimy wybrać kwotę datku. Życzymy udanego hackingu."
   },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "DZIEŃ WETERANÓW!"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "Wesprzyj weteranów z {MILITARY}."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "{MILITARY}. Zawsze możesz na nich liczyć.\nCzy oni mogą liczyć na ciebie?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "CZY MAJĄ TWOJE WSPARCIE?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "Wesprzyj weteranów z {POLICE}."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "Ci dzielni ludzie z {POLICE}, którzy poświęcili życie dla bezpieczeństwa {SYSTEM}, potrzebują twojego wsparcia!"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "WESPRZYJ NASZYCH WETERANÓW!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Wesprzyj weteranów naszych sił zbrojnych."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "Dzielni żołnierze z {MILITARY} ponoszą szkody dla ciebie!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "ZAKOŃCZYĆ UBÓSTWO!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Wesprzyj walkę z ubóstwem w {FACTION}."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "Wspieramy rodziny w {FACTION} aby budować lepszą przyszłość dla wszystkich."
+  },
   "SALES_PITCH": {
     "description": "",
     "message": "Twoja reputacja zyska dzięki wpłaceniu na naszą sprawę {cash}, ale pomogłaby jakakolwiek donacja."

@@ -111,6 +111,10 @@
     "description": "",
     "message": "Lading"
   },
+  "CARGO_CAPACITY": {
+    "description": "Label to show a ship's total cargo space.",
+    "message": "Cargo Capacity"
+  },
   "CARGO_SPACE": {
     "description": "",
     "message": "Laadruim"
@@ -318,6 +322,10 @@
   "DELTA_V_MAX": {
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Delta-v (max)"
+  },
+  "DEMAND": {
+    "description": "Column label for commodity demand at a market.",
+    "message": "Demand"
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
@@ -739,6 +747,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Lanceer"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "Forward cruise mode"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Up cruise mode"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Disable autopilot"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Disable cruise mode"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Disable fixheading mode"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Disable follow mode"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Uitrusting"
@@ -867,6 +899,10 @@
     "description": "Cargo Mass",
     "message": "Ladingsmassa"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Cruise speed"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "Het huidige gevechtsdoel"
@@ -918,6 +954,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "De tijd tot het midden van de manoeuvre"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: Follow orientation"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: Follow orientation is not available."
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Follow orientation is not available - too far."
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: Follow position"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: Follow position is not available."
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: Follow position is not available - too far."
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Follow target"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -1002,6 +1066,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Toon het huidige navigatiedoel"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Speed limiter is active"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1103,6 +1171,10 @@
     "description": "",
     "message": "Onvoldoende saldo"
   },
+  "INTERSTELLAR_TRADE_AVG": {
+    "description": "Label displaying commodity flow at a per-system level",
+    "message": "Interstellar Trade:"
+  },
   "INVERT_MOUSE_Y": {
     "description": "",
     "message": "Keer Muis Y om"
@@ -1130,6 +1202,10 @@
   "JETTISON": {
     "description": "",
     "message": "Uitwerpen"
+  },
+  "JETTISON_MODE": {
+    "description": "",
+    "message": "Jettison Mode"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1471,6 +1547,14 @@
     "description": "",
     "message": "{equipment} wordt niet ondersteund op dit model schip"
   },
+  "NO_AVAILABLE_DATA": {
+    "description": "Message displaying no stored data available",
+    "message": "No data available"
+  },
+  "NO_CARGO": {
+    "description": "Message displayed when the player has no cargo in their hold.",
+    "message": "NO CARGO"
+  },
   "NO_DRIVE": {
     "description": "Ship jump status",
     "message": "No drive"
@@ -1598,6 +1682,10 @@
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
     "message": "Looking the best in the galaxy has never been easier!"
+  },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Passenger cabin capacity"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -1875,6 +1963,18 @@
     "description": "",
     "message": "Stel route terugweg in"
   },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "Set to 45% of remaining delta-v"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Set to current velocity"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Set to zero"
+  },
   "SHIP": {
     "description": "",
     "message": "Schip"
@@ -2015,6 +2115,10 @@
     "description": "Lobby screen shows the tech level of the station",
     "message": "Deze installatie heeft een militaire technologie-uitklaring."
   },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Tech level"
+  },
   "TEXTURE_COMPRESSION": {
     "description": "",
     "message": "Dit maakt meer geheugen vrij voor de grafische kaart, wat vermoedelijk is wat je wil, ten koste van het comprimeren ervan tijdens het starten van het spel."
@@ -2038,6 +2142,10 @@
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "3kpc-arm"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+    "description": "Label for a button toggling the cargo display window.",
+    "message": "Toggle Cargo Window"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
@@ -2087,6 +2195,10 @@
     "description": "",
     "message": "Totale massa"
   },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "At {system}:"
+  },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
     "message": "From {system}:"
@@ -2102,6 +2214,10 @@
   "TRUSTWORTHY": {
     "description": "For player reputation",
     "message": "Betrouwbaar"
+  },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Turn off"
   },
   "TYPE": {
     "description": "",

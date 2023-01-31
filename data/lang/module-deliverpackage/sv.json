@@ -61,7 +61,7 @@
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "INTERSTELLAR DELIVERY"
+    "message": "INTERSTELLÄR LEVERANS"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -85,7 +85,7 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DELIVERY WANTED"
+    "message": "LEVERANS ÖNSKAS"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "URGENT DELIVERY"
+    "message": "BRÅDSKANDE LEVERANS"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "DOCUMENT DELIVERY"
+    "message": "LEVERANS AV DOKUMENT"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "POSTAL SERVICE"
+    "message": "POSTTJÄNST"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -181,7 +181,7 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "MOVING HOME"
+    "message": "FLYTTAR HEM"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -205,7 +205,7 @@
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHORT-RANGE COURIER"
+    "message": "KURIRTJÄNST KORTDISTANS"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "INTER-PLANETARY CARGO"
+    "message": "INTERPLANETÄR LAST"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
@@ -253,7 +253,7 @@
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "NEARBY DELIVERY"
+    "message": "LEVERANS 'RUNT HÖRNET'"
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",

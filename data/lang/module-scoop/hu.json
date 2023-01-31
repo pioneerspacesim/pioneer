@@ -17,15 +17,15 @@
   },
   "ADTEXT_ARMS_DEALER": {
     "description": "",
-    "message": "Pick-up mission: prompt recovery of drifting container required."
+    "message": "Begyűjtő küldetés: sodródó konténerek gyors begyűjtése."
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Have a cargo scoop and looking for your next score? Valuable information for sale."
+    "message": "Rendelkezik rakomány begyűjtővel és a következő szajrét keresi? Értékes információ eladó."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Derelict Brokerage Services: information regarding a debris field with valuable cargo."
+    "message": "Roncs-bróker szolgáltatás: információ értékes rakományt tartalmazó hulladékmezőről."
   },
   "ADTEXT_RESCUE": {
     "description": "",
@@ -33,19 +33,19 @@
   },
   "ADTITLE_ARMS_DEALER": {
     "description": "",
-    "message": "CARGO RECOVERY"
+    "message": "RAKOMÁNY MENTÉS"
   },
   "ADTITLE_ILLEGAL_GOODS": {
     "description": "",
-    "message": "EASY MONEY"
+    "message": "KÖNNYŰ PÉNZ"
   },
   "ADTITLE_LEGAL_GOODS": {
     "description": "",
-    "message": "INFORMATION FOR SALE"
+    "message": "INFORMÁCIÓ ELADÓ"
   },
   "ADTITLE_RESCUE": {
     "description": "",
-    "message": "HELP NEEDED"
+    "message": "SEGÍTSÉG"
   },
   "CLIENT": {
     "description": "",

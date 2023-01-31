@@ -73,7 +73,7 @@
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
-    "message": "Благодаря Ви за доставката. Получихте договорената сума."
+    "message": "Благодаря Ви за доставката. Платих Ви договорената сума."
   },
   "FLAVOUR_0_WHYSOMUCHTEXT": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Мога да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+    "message": "Здравейте, аз съм {name}. Мога да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Мога да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+    "message": "Здравейте, аз съм {name}. Мога да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Здрасти, аз съм {name}. Мога да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
+    "message": "Здравейте, аз съм {name}. Мога да платя {cash} за кораб, който да достави пакет в {starport}, в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. "
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",

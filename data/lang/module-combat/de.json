@@ -13,19 +13,19 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Qualified pilot needed for clandestine assignment: Pay {cash}."
+    "message": "Qualifizierter Pilot gesucht für geheimen Kampfeinsatz. Zahle {cash}."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Ship and crew wanted for a combat mission in the {system} system."
+    "message": "Schiff und Mannschaft gesucht für einen Kampfeinsatz im {system} System."
   },
   "ADTEXT_3": {
     "description": "",
-    "message": "Need qualified mercenary with well-equipped ship. Mission details available on request."
+    "message": "Brauche qualifizierten Söldner mit gut ausgerüstetem Schiff. Missionsdetails auf Anfrage."
   },
   "ADTEXT_4": {
     "description": "",
-    "message": "{org} seeks fearless mercenary for a mission to the {system} system. Will pay {cash}."
+    "message": "{org} sucht furchtlosen Söldner für eine Mission im {system} System. Wir zahlen {cash}."
   },
   "ADTEXT_5": {
     "description": "",
@@ -33,23 +33,23 @@
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "RELIABLE PILOT WANTED"
+    "message": "SUCHE ZUVERLÄSSIGEN PILOTEN"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "CHALLENGE RESOLUTION"
+    "message": "BEENDEN EINER FEHDE"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "COMBAT FLIGHT"
+    "message": "KAMPFEINSATZ"
   },
   "ADTITLE_4": {
     "description": "",
-    "message": "FEARLESS MERCENARY WANTED"
+    "message": "SUCHE UNERSCHROCKENEN SÖLDNER"
   },
   "ADTITLE_5": {
     "description": "",
-    "message": "AUTHORIZED COMBAT MISSION"
+    "message": "LEGALE KAMPFMISSION"
   },
   "AGENT": {
     "description": "Secret Service Agent",
@@ -253,7 +253,7 @@
   },
   "MISSION_INFO": {
     "description": "Message from the ship computer",
-    "message": "Target area reached. Start data logging. Predicted maximum mission time {duration}."
+    "message": "Zielgebiet erreicht. Starte Datenaufzeichnung. Maximal erwartete Missionsdauer: {duration}."
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
@@ -269,7 +269,7 @@
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
-    "message": "Target area too far away. Cannot complete data collection."
+    "message": "Zielgebiet zu weit entfernt. Datensammlung kann nicht abgeschlossen werden."
   },
   "OBJECTIVE_1": {
     "description": "",

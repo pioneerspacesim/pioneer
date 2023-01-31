@@ -1,7 +1,7 @@
 {
   "ADTEXT": {
     "description": "",
-    "message": "Wanted: {commodity}. Will pay {price} per tonne"
+    "message": "Keres: [comodity]. Vételár: [price] / tonna."
   },
   "AMOUNT": {
     "description": "The amount (for now in tonne) of goods person wants to buy",
@@ -29,6 +29,6 @@
   },
   "TITLE": {
     "description": "",
-    "message": "COMMODITY WANTED"
+    "message": "ÁRUCIKKET KERESEK"
   }
 }

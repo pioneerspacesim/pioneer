@@ -57,7 +57,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase"
+    "message": "Megvásárolható"
   },
   "AVERAGE": {
     "description": "",
@@ -111,6 +111,10 @@
     "description": "",
     "message": "Raktér"
   },
+  "CARGO_CAPACITY": {
+    "description": "Label to show a ship's total cargo space.",
+    "message": "Raktér kapacitás"
+  },
   "CARGO_SPACE": {
     "description": "",
     "message": "Raktér kapacitás"
@@ -149,11 +153,11 @@
   },
   "CHANGE_COLOR": {
     "description": "Paintshop button",
-    "message": "Change Color"
+    "message": "Szín kiválasztása"
   },
   "CHANGE_PATTERN": {
     "description": "Paintshop button",
-    "message": "Change Pattern"
+    "message": "Minta kiválasztása"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -189,7 +193,7 @@
   },
   "COLOR": {
     "description": "",
-    "message": "Color"
+    "message": "Szín"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -318,6 +322,10 @@
   "DELTA_V_MAX": {
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Delta-v (max)"
+  },
+  "DEMAND": {
+    "description": "Column label for commodity demand at a market.",
+    "message": "Kereslet"
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
@@ -489,7 +497,7 @@
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
-    "message": "Factions"
+    "message": "Tömb"
   },
   "FAILED": {
     "description": "When failed mission",
@@ -739,6 +747,30 @@
     "description": "Tooltip: Blastoff",
     "message": "Felszállás"
   },
+  "HUD_BUTTON_CRUISE_FORWARD": {
+    "description": "Tooltip for button",
+    "message": "Tempomat"
+  },
+  "HUD_BUTTON_CRUISE_UP": {
+    "description": "Tooltip for button",
+    "message": "Leszálló tempomat"
+  },
+  "HUD_BUTTON_DISABLE_AUTOPILOT": {
+    "description": "Tooltip for button",
+    "message": "Robotpilóta kikapcsolása"
+  },
+  "HUD_BUTTON_DISABLE_CRUISE": {
+    "description": "Tooltip for button",
+    "message": "Tempomat kikapcsolása"
+  },
+  "HUD_BUTTON_DISABLE_FIXHEADING": {
+    "description": "Tooltip for button",
+    "message": "Iránytartás kikapcsolása"
+  },
+  "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
+    "description": "Tooltip for button",
+    "message": "Követő mód kikapcsolása"
+  },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
     "message": "Felszerelés"
@@ -867,6 +899,10 @@
     "description": "Cargo Mass",
     "message": "Rakomány tömeg"
   },
+  "HUD_CRUISE_SPEED": {
+    "description": "Tooltip for cruise speed indicator",
+    "message": "Célsebesség"
+  },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
     "message": "Harci célpont"
@@ -918,6 +954,34 @@
   "HUD_DURATION_UNTIL_MANEUVER_BURN": {
     "description": "Tooltip: The duration until the middle of the maneuver burn.",
     "message": "Hátralévő idő a manőver feléig"
+  },
+  "HUD_FOLLOW_ORIENTATION": {
+    "description": "Tooltip for follow mode 'orientation' button",
+    "message": "{targetname}: orientáció követés"
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
+    "message": "{targetname}: orientáció követés nem elérhető."
+  },
+  "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: orientációkövetés nem elérhető - célpont túl távol"
+  },
+  "HUD_FOLLOW_POSITION": {
+    "description": "Tooltip for follow mode 'position' button",
+    "message": "{targetname}: pozíciókövetés"
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
+    "message": "{targetname}: pozíciókövetés nem elérhető."
+  },
+  "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
+    "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
+    "message": "{targetname}: pozíciókövetés nem elérhető - célpont túl távol"
+  },
+  "HUD_FOLLOW_TARGET": {
+    "description": "Tooltip for followed target's name in reticule",
+    "message": "Célpont követése"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -1002,6 +1066,10 @@
   "HUD_SHOW_NAV_TARGET": {
     "description": "Tooltip: Show current navigational target.",
     "message": "Navigációs célpont"
+  },
+  "HUD_SPEED_LIMITER_ACTIVE": {
+    "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
+    "message": "Sebességkorlátozó aktív"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1103,6 +1171,10 @@
     "description": "",
     "message": "Insufficient funds."
   },
+  "INTERSTELLAR_TRADE_AVG": {
+    "description": "Label displaying commodity flow at a per-system level",
+    "message": "Csillagközi kereskedelem"
+  },
   "INVERT_MOUSE_Y": {
     "description": "",
     "message": "Egér Y tengely megfordítása"
@@ -1130,6 +1202,10 @@
   "JETTISON": {
     "description": "",
     "message": "Kidob"
+  },
+  "JETTISON_MODE": {
+    "description": "",
+    "message": "Kidobó mód"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1429,7 +1505,7 @@
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
-    "message": "The new paintjob has been applied to your ship."
+    "message": "Az új színterv elkészült"
   },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
@@ -1471,6 +1547,14 @@
     "description": "",
     "message": "Ezen a típuson nincs {equipment} foglalat."
   },
+  "NO_AVAILABLE_DATA": {
+    "description": "Message displaying no stored data available",
+    "message": "Nem áll rendelkezésre adat"
+  },
+  "NO_CARGO": {
+    "description": "Message displayed when the player has no cargo in their hold.",
+    "message": "NINCS RAKOMÁNY"
+  },
   "NO_DRIVE": {
     "description": "Ship jump status",
     "message": "Nincs hiperhajtómű"
@@ -1505,7 +1589,7 @@
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Occupied Passenger Cabins"
+    "message": "Foglalt kabin"
   },
   "OFF": {
     "description": "",
@@ -1541,11 +1625,11 @@
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
-    "message": "Apoapsis"
+    "message": "Apoapszis"
   },
   "ORBIT_PERIAPSIS": {
     "description": "Label for the point of an orbit nearest to the orbited body",
-    "message": "Periapsis"
+    "message": "Periapszis"
   },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1573,35 +1657,39 @@
   },
   "PAINTSHOP": {
     "description": "Station tab title",
-    "message": "Paintshop"
+    "message": "Festőműhely"
   },
   "PAINTSHOP_NOT_AVAILABLE": {
     "description": "",
-    "message": "Paintshop is not available in this spaceport."
+    "message": "Ezen az állomáson nem található festőműhely"
   },
   "PAINTSHOP_WELCOME_0": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome! We will paint your ship pretty!"
+    "message": "Isten hozta! Gyönyörűen lefestjük hajóját!"
   },
   "PAINTSHOP_WELCOME_1": {
     "description": "Welcome message to the paintshop.",
-    "message": "Hi there! Looking for a change in aesthetics?"
+    "message": "Helló! Esztétikai változást szeretnél?"
   },
   "PAINTSHOP_WELCOME_2": {
     "description": "Welcome message to the paintshop.",
-    "message": "We can't make your ship fly fast, but we can make it fly in style!"
+    "message": "Ha gyorsabbá nem is, de annál stílusosabbá varázsoljuk járgányát!"
   },
   "PAINTSHOP_WELCOME_3": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome, traveller. Please take your time and let out your creativity."
+    "message": "Üdvözlet utazó! Nem kell kapkodnia, engedje szabadjára kreativitását!"
   },
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
-    "message": "Looking the best in the galaxy has never been easier!"
+    "message": "Sosem volt ilyen könnyű a galaxis leg mutatósabb hajóját megszerezni!"
+  },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Kabin kapacitás"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
-    "message": "Pattern"
+    "message": "Minta"
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
@@ -1645,7 +1733,7 @@
   },
   "PLEASE_DESIGN_NEW_PAINTJOB": {
     "description": "",
-    "message": "Please design your new paintjob:"
+    "message": "Kérlek tervezd meg az új színterved:"
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
@@ -1689,7 +1777,7 @@
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
-    "message": "Purchase Paintjob"
+    "message": "Színterv megvásárlása"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1753,7 +1841,7 @@
   },
   "REPLACE_EQUIPMENT_WITH": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Alkatrész kicserélése erre: "
   },
   "REPUTATION": {
     "description": "",
@@ -1777,7 +1865,7 @@
   },
   "RESET_PREVIEW": {
     "description": "Paintshop button",
-    "message": "Reset Preview"
+    "message": "Előnézet visszaállítása"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1853,7 +1941,7 @@
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
-    "message": "Sell Equipped"
+    "message": "Alkatrész eladása"
   },
   "SENSORS": {
     "description": "",
@@ -1874,6 +1962,18 @@
   "SET_RETURN_ROUTE": {
     "description": "",
     "message": "Visszaút"
+  },
+  "SET_TO_45PERCENT_OF_DELTAV": {
+    "description": "For the speed limiter button",
+    "message": "45% deltaV"
+  },
+  "SET_TO_CURRENT_VELOCITY": {
+    "description": "For the speed limiter button",
+    "message": "Jelenlegi sebesség"
+  },
+  "SET_TO_ZERO": {
+    "description": "For the speed limiter button",
+    "message": "Nulla"
   },
   "SHIP": {
     "description": "",
@@ -1905,7 +2005,7 @@
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
-    "message": "Ship Repairs & Paintshop"
+    "message": "Hajó javító és festőműhely"
   },
   "SHIP_TYPE": {
     "description": "",
@@ -2015,6 +2115,10 @@
     "description": "Lobby screen shows the tech level of the station",
     "message": "This installation holds a military technology clearance."
   },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Technológiai szint"
+  },
   "TEXTURE_COMPRESSION": {
     "description": "",
     "message": "Felszabadít grafikai memóriát. Valószínűleg szükséges, cserébe tömöríteni kell őket a játék indulásakor."
@@ -2038,6 +2142,10 @@
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "3kpsz kar"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+    "description": "Label for a button toggling the cargo display window.",
+    "message": "Rakomány ablak"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
@@ -2087,6 +2195,10 @@
     "description": "",
     "message": "Teljes tömeg"
   },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "{system} rendszerben: "
+  },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
     "message": "{system} rendszerből:"
@@ -2103,6 +2215,10 @@
     "description": "For player reputation",
     "message": "Felelős"
   },
+  "TURN_OFF": {
+    "description": "",
+    "message": "Kikapcsol"
+  },
   "TYPE": {
     "description": "",
     "message": "Típus"
@@ -2113,7 +2229,7 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Szabad kabin"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
@@ -2161,11 +2277,11 @@
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Paintshop"
+    "message": "Festőműhely meglátogatása"
   },
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Repair Services"
+    "message": "Javítóműhely meglátogatása"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

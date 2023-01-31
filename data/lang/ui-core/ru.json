@@ -111,6 +111,10 @@
     "description": "",
     "message": "Трюм"
   },
+  "CARGO_CAPACITY": {
+    "description": "Label to show a ship's total cargo space.",
+    "message": "Грузоподъемность"
+  },
   "CARGO_SPACE": {
     "description": "",
     "message": "Грузовой отсек"
@@ -318,6 +322,10 @@
   "DELTA_V_MAX": {
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Дельта v (макс.)"
+  },
+  "DEMAND": {
+    "description": "Column label for commodity demand at a market.",
+    "message": "Спрос"
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
@@ -1163,6 +1171,10 @@
     "description": "",
     "message": "Недостаточно финансов."
   },
+  "INTERSTELLAR_TRADE_AVG": {
+    "description": "Label displaying commodity flow at a per-system level",
+    "message": "Межзвёздная торговля:"
+  },
   "INVERT_MOUSE_Y": {
     "description": "",
     "message": "Инвертировать мышь по оси Y"
@@ -1190,6 +1202,10 @@
   "JETTISON": {
     "description": "",
     "message": "Сброс груза"
+  },
+  "JETTISON_MODE": {
+    "description": "",
+    "message": "Режим сброса"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1531,6 +1547,14 @@
     "description": "",
     "message": "{equipment} неподдерживается на данной модели корабля"
   },
+  "NO_AVAILABLE_DATA": {
+    "description": "Message displaying no stored data available",
+    "message": "Данных нет"
+  },
+  "NO_CARGO": {
+    "description": "Message displayed when the player has no cargo in their hold.",
+    "message": "НЕТ ГРУЗА"
+  },
   "NO_DRIVE": {
     "description": "Ship jump status",
     "message": "Гиперпривод не установлен"
@@ -1658,6 +1682,10 @@
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
     "message": "Выглядеть лучшим в галактике еще никогда не было так просто!"
+  },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Вместимость пассажирской каюты"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -2087,6 +2115,10 @@
     "description": "Lobby screen shows the tech level of the station",
     "message": "This installation holds a military technology clearance."
   },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Технологический уровень"
+  },
   "TEXTURE_COMPRESSION": {
     "description": "",
     "message": "Освобождает больше памяти видеокарты, за счет сжатия текстур во время запуска игры."
@@ -2110,6 +2142,10 @@
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
     "message": "Рукав в 3 кпк от центра"
+  },
+  "TOGGLE_CARGO_WINDOW": {
+    "description": "Label for a button toggling the cargo display window.",
+    "message": "Переключить окно груза"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
@@ -2158,6 +2194,10 @@
   "TOTAL_MASS": {
     "description": "",
     "message": "Общая масса"
+  },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "В {system}:"
   },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",

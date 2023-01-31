@@ -5,7 +5,7 @@
   },
   "DEFENSE_CRAFT_ELIMINATED": {
     "description": "",
-    "message": "System defense craft eliminated. Incident has been logged."
+    "message": "System försvarsfarkost eliminerad. Incidenten har loggats."
   },
   "HABER_DEFENSE_CRAFT": {
     "description": "",
@@ -13,31 +13,31 @@
   },
   "HEY_OVER_HERE": {
     "description": "",
-    "message": "Hey, over here."
+    "message": "Hey, här borta!"
   },
   "HOSTILE_ACTION_REPORTED": {
     "description": "",
-    "message": "Hostile action reported. Intercept and destroy!"
+    "message": "Fientlig aktivitet rapporterad. Genskjut och oskadliggör!"
   },
   "INTERCEPTION_SUCCESSFUL": {
     "description": "",
-    "message": "Interception successful. Hostile craft destroyed."
+    "message": "Operationen lyckad. Fientlig farkost genskjuten och förstörd."
   },
   "JETTISON_DEFENSIVE_PRECAUTION": {
     "description": "",
-    "message": "Jettison detected. Apply defensive precautions!"
+    "message": "Dumpning upptäckt. Tillämpa defensiva försiktighetsåtgärder!"
   },
   "NOT_INTERESTED": {
     "description": "",
-    "message": "What if I'm not interested?"
+    "message": "Och om jag inte är intresserad?"
   },
   "PERFECT": {
     "description": "",
-    "message": "Perfect. If anyone asks... Surely no one will ask, but if anyone asks, please remember that we were just haggling over a second hand shield generator."
+    "message": "Perfekt. Om någon frågar... Naturligtvis kommer ingen fråga, men om någon frågar, kom ihåg att vi bara diskuterade priset på en begagnad sköldgenerator."
   },
   "RONDEL_RESTRICTED_ZONE": {
     "description": "",
-    "message": "{playerShipLabel}, this star system is a restricted zone. You must leave within {seconds} seconds. Should you fail to comply, you will be assumed hostile and defensive precautions will be taken."
+    "message": "{playerShipLabel}, detta stjärnsystem är en begränsad zon. Du måste lämna inom {seconds} sekunder. Om du underlåter att följa ordern kommer du att antas vara fientlig och defensiva åtgärder kommer att vidtas."
   },
   "SOLFED_INTEL": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "SOLFED_INTEL_INTRO": {
     "description": "",
-    "message": "Keep your voice down, pilot. I'm an undercover agent working for Solar Federation Intelligence. Your ship's computer memory has some data we are interested in."
+    "message": "Dämpa rösten, pilot. Jag är en hemlig agent som arbetar för Solar Federation Intelligence. Ditt fartygs datorminne har vissa data som vi är intresserade av."
   },
   "WEAPONS_EVASIVE_ACTION": {
     "description": "",
@@ -53,14 +53,14 @@
   },
   "WHAT_IS_THIS_ABOUT": {
     "description": "",
-    "message": "What data? What is this all about?"
+    "message": "Vilken data? Vad handlar allt det här om?"
   },
   "YOU_SHALL_HAVE_THE_DATA": {
     "description": "",
-    "message": "You shall have the data."
+    "message": "Du ska få datan."
   },
   "YOU_VISITED_STAR_SYSTEM": {
     "description": "",
-    "message": "You may or may not have visited some star system we would like to know more about."
+    "message": "Du kanske eller kanske inte har besökt något stjärnsystem som vi skulle vilja veta mer om."
   }
 }

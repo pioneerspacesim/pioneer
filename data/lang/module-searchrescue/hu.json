@@ -165,11 +165,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "A helyi forgalomirányítás jelentése alapján egy hajó lezuhant bplanet} bolygón. Segítségnyújtás szükséges."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "SHIP CRASH LANDED"
+    "message": "HAJÓBALESET"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "{starport} forgalomirányítása segélyhívást kapott. Egy bejövő hajónak elfogyott az üzemanyaga. Üzemanyagszállítót segítségét kérik."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "SODRÓDÓ HAJÓ"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -237,11 +237,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+    "message": "{starport} közelében egy űrhajó egészésgügyi vészhelyzetet jelentett. Betegszállítást kérnek."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "MEDICAL EMERGENCY"
+    "message": "EGÉSZSÉGÜGYI VÉSZHELYZET"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -273,11 +273,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+    "message": "Beérkező segélyhívás: elfogyott az üzemanyag, hajó {planet} bolygón rekedt."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "HAJÓ ÜRES TANK-AL"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -309,11 +309,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+    "message": "{starport} közelében sodródó hajó üzemanyag-újratöltést kér."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "SODRÓDÓ HAJÓ"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -345,11 +345,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+    "message": "Vészhelyzet: vállalati űrjármű nem válaszol {system} rendszerben."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "VESSEL UNRESPONSIVE"
+    "message": "JÁRMŰ NEM VÁLASZOL"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -381,11 +381,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Immediate crew transport to drifting ship in the {system} system requested."
+    "message": "Azonnali legénység szállítás szükséges {system} rendszerben sodródó hajóra."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "EMERGENCY CREW TRANSPORT"
+    "message": "VÉSZHELYZETI LEGÉNYSÉGSZÁLLÍTÁS"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",

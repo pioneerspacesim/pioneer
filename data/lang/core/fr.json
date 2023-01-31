@@ -371,6 +371,22 @@
     "description": "",
     "message": "Montrer les tiges verticales"
   },
+  "DWARF_PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "Planète naine contenant de l'eau liquide"
+  },
+  "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "Planète naine contenant quelques liquides,"
+  },
+  "DWARF_PLANET_MOSTLY_COVERED_IN_ICE": {
+    "description": "",
+    "message": "Planète naine, majoritairement couverte de glace"
+  },
+  "DWARF_PLANET_TERRESTRIAL": {
+    "description": "",
+    "message": "Planète naine"
+  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Loi coloniale de la Fédération"
@@ -598,6 +614,10 @@
   "H_ATMOSPHERE": {
     "description": "",
     "message": "atmosphère d'hydrogène"
+  },
+  "ICE_DWARF_PLANET": {
+    "description": "",
+    "message": "Planète naine glacée"
   },
   "ICE_MOON": {
     "description": "",

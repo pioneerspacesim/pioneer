@@ -323,6 +323,10 @@
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "速度增量(最大)"
   },
+  "DEMAND": {
+    "description": "Column label for commodity demand at a market.",
+    "message": "Demand"
+  },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "出发日期"
@@ -1167,6 +1171,10 @@
     "description": "",
     "message": "资金不足。"
   },
+  "INTERSTELLAR_TRADE_AVG": {
+    "description": "Label displaying commodity flow at a per-system level",
+    "message": "Interstellar Trade:"
+  },
   "INVERT_MOUSE_Y": {
     "description": "",
     "message": "反转鼠标Y轴"
@@ -1539,6 +1547,10 @@
     "description": "",
     "message": "{equipment} 无法安装在该飞船上"
   },
+  "NO_AVAILABLE_DATA": {
+    "description": "Message displaying no stored data available",
+    "message": "No data available"
+  },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
     "message": "没有货物"
@@ -1670,6 +1682,10 @@
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
     "message": "寻找银河系中最好的人从未如此容易！"
+  },
+  "PASSENGER_CABIN_CAPACITY": {
+    "description": "Entry for ship info",
+    "message": "Passenger cabin capacity"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -2099,6 +2115,10 @@
     "description": "Lobby screen shows the tech level of the station",
     "message": "这个装置有军事技术许可证。"
   },
+  "TECH_LEVEL": {
+    "description": "System view label for technology level",
+    "message": "Tech level"
+  },
   "TEXTURE_COMPRESSION": {
     "description": "",
     "message": "这为图形卡释放了更多的内存，这很可能是您想要的，但在游戏开始时会以压缩它们为代价。"
@@ -2174,6 +2194,10 @@
   "TOTAL_MASS": {
     "description": "",
     "message": "总质量"
+  },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "At {system}:"
   },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",

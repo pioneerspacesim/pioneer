@@ -71,6 +71,54 @@
     "description": "",
     "message": "Fuascail do long! Roghnaigh an méid airgid le bronnadh. Ríomhéigse abú!"
   },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "VETERANS DAY!"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "Support the veterans of the {MILITARY}."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "The {MILITARY}. You can always count on them.\nCan they count on you?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "DO THEY HAVE YOUR SUPPORT?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "Support the veterans of the {POLICE}."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "Those brave men and women of the {POLICE} who have dedicated their lives to keeping {SYSTEM} safe need your support!"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "SUPPORT OUR VETERANS!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Support the veterans of our armed forces."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "The brave soldiers of the {MILITARY} place themselves in harm's way for you!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "END POVERTY!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Support the fight against poverty in the {FACTION}."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "We empower families in the {FACTION} to create a better future for all."
+  },
   "SALES_PITCH": {
     "description": "",
     "message": "Your reputation would benefit by donating {cash} to our cause, but any donation would help."

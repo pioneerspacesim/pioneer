@@ -49,11 +49,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Wanted: Removal of {target} from the {system} system."
+    "message": "{target} eltávolítása {system} rendszerből."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "REMOVAL WANTED"
+    "message": "ELTÁVOLÍTÓT KERESEK"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -73,11 +73,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Someone to kill {target} from the {system} system."
+    "message": "KERESEK: Olyat, aki megölné {system} rendszerben tartózodó {target} nem kívánatos személyt."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "TARGET ELIMINATION"
+    "message": "CÉLPONT ELTŰNTETÉS"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -97,11 +97,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{target} is tragically no longer wanted in the {system} system. Removal specialist needed."
+    "message": "Sajnálatos módon {target} nem kívánt személlyé vált {system} rendszerben. Eltávolítására specialistát keresünk."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "REMOVAL OPERATION"
+    "message": "ELTÁVOLÍTÓ MŰVELET"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -121,11 +121,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Contract killer needed to eliminate {target}."
+    "message": "Bérgyilkost keresünk {target} eliminálására."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "TERMINATION"
+    "message": "VÉGELSZÁMOLÁS"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -145,11 +145,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Discreet operator needed to ensure fatal retirement of {target}."
+    "message": "Diszkrét operátort keresünk {target} \"nyugdíjazásának\" elvégzésére."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "RETIREMENT"
+    "message": "NYUGDÍJAZÁS"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -169,11 +169,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Some admirers wish {target} dead. Qualified termination experts apply within."
+    "message": "Tisztelői {target} halálát kívánják. Kvalifikált szakemberek jelentkezését várjuk."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "BIOGRAPHICAL"
+    "message": "ÉLETRAJZ ÍRÁS"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",

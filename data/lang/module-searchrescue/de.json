@@ -165,11 +165,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "Lokale Raumflugsicherung meldet Absturz eines Schiffes auf {planet}. Hilfe benötigt."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "SHIP CRASH LANDED"
+    "message": "SCHIFF ABGESTÜRZT"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "{starport} Raumflugsicherung hat eine Meldung über ein Schiff mit zu wenig Treibstoff erhalten. Tankdienst benötigt."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "SCHIFF OHNE TREIBSTOFF"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -237,11 +237,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+    "message": "Schiff in der Nähe von {starport} meldet medizinischen Notfall. Dringende Krankenfahrt benötigt."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "MEDICAL EMERGENCY"
+    "message": "MEDIZINISCHER NOTFALL"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -273,11 +273,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+    "message": "Notsignal empfangen: Schiff ist ohne Treibstoff auf {planet} gestrandet."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "SCHIFF MIT LEEREM TANK GESTRANDET"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -309,11 +309,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+    "message": "Gestrandetes Schiff benötigt Auftankdienste in der Nähe von {starport}."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SHIP OUT OF FUEL"
+    "message": "TANK LEER, HILFE GESUCHT"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -345,11 +345,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+    "message": "Notfall: Dienstraumschiff antwortet nicht im {system} System."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "VESSEL UNRESPONSIVE"
+    "message": "SCHIFF ANTWORTET NICHT"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -381,11 +381,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Immediate crew transport to drifting ship in the {system} system requested."
+    "message": "Anfrage für sofortigen Mannschaftstransport zu einem führerlosen Schiff im {system} System."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "EMERGENCY CREW TRANSPORT"
+    "message": "NOTFALLTRANSPORT VON BESATZUNG"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",

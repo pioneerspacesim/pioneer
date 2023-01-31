@@ -1,19 +1,19 @@
 {
   "ADTITLE_0": {
     "description": "",
-    "message": "CARGO EMPORIUM"
+    "message": "SZÁLLÍTMÁNY ÁRUDA"
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "TRADING HOUSE"
+    "message": "KERESKEDŐHÁZ"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "TRADE WAREHOUSE"
+    "message": "KERESKEDELMI RAKTÁR"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "GOODS EXCHANGE"
+    "message": "ÁRU KERESKEDŐ"
   },
   "GOODS_TRADER_0": {
     "description": "",
