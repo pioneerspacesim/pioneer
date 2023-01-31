@@ -400,6 +400,8 @@ local onFrameChanged = function (player)
 				mission.duration = planet_radius/1000
 				Comms.ImportantMessage(string.interp(l.MISSION_INFO, { duration = Format.Duration(mission.duration) }))
 				missionTimer(mission)
+			else
+				Comms.ImportantMessage(l.TARGET_AREA_REACHED)
 			end
 		end
 		if mission.status == "ACTIVE" and Game.time > mission.due then
