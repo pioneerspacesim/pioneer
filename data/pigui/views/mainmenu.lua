@@ -10,8 +10,9 @@ local Equipment = require 'Equipment'
 local Format = require 'Format'
 local MusicPlayer = require 'modules.MusicPlayer'
 local Lang = require 'Lang'
-local FlightLog = require ("FlightLog")
-local Commodities = require("Commodities")
+local FlightLog = require 'FlightLog'
+local Commodities = require 'Commodities'
+local Character = require 'Character'
 local Vector2 = _G.Vector2
 
 local lc = Lang.GetResource("core")
@@ -184,6 +185,14 @@ local function startAtLocation(location)
 	Game.player:SetLabel(Ship.MakeRandomLabel())
 
 	Game.player:SetMoney(location.money)
+
+	local ship = Game.player
+	-- Generate crew for the starting ship
+	for i = 2, ShipDef[ship.shipId].minCrew do
+		local newCrew = Character.New()
+		newCrew:RollNew(true)
+		ship:Enroll(newCrew)
+	end
 
 	if location.hyperdrive then
 		Game.player:AddEquip(hyperspace['hyperdrive_'..ShipDef[Game.player.shipId].hyperdriveClass])

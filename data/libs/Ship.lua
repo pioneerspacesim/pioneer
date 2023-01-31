@@ -885,10 +885,13 @@ local onGameStart = function ()
 	if loaded_data then
 		CrewRoster = loaded_data
 		Event.Queue('crewAvailable') -- Signal any scripts that depend on initialised crew
-	else
-		CrewRoster = {}
 	end
+
 	loaded_data = nil
+end
+
+local onGameEnd = function()
+	CrewRoster = {}
 end
 
 local serialize = function ()
@@ -940,6 +943,7 @@ end
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
+Event.Register("onGameEnd", onGameEnd)
 Event.Register("onShipTypeChanged", onShipTypeChanged)
 Serializer:Register("ShipClass", serialize, unserialize)
 

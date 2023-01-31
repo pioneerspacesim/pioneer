@@ -15,7 +15,7 @@ local orbiteer = ui.fonts.orbiteer
 local colors = ui.theme.colors
 local icons = ui.theme.icons
 
-local textTable = require 'pigui/libs/text-table'
+local textTable = require 'pigui.libs.text-table'
 
 local l = Lang.GetResource("ui-core")
 
