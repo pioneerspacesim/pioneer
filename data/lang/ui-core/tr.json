@@ -323,6 +323,10 @@
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Delta-v (en çok)"
   },
+  "DEMAND": {
+    "description": "Column label for commodity demand at a market.",
+    "message": "Talep"
+  },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Ayrılış tarihi"
@@ -1167,6 +1171,10 @@
     "description": "",
     "message": "Yeteriz para."
   },
+  "INTERSTELLAR_TRADE_AVG": {
+    "description": "Label displaying commodity flow at a per-system level",
+    "message": "Yıldızlararası Ticaret"
+  },
   "INVERT_MOUSE_Y": {
     "description": "",
     "message": "Ters Fare Y"
@@ -1538,6 +1546,10 @@
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
     "message": "{equipment} bu gemi modelini tarafından desteklenmiyor"
+  },
+  "NO_AVAILABLE_DATA": {
+    "description": "Message displaying no stored data available",
+    "message": "Veri mevcut değil"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -2182,6 +2194,10 @@
   "TOTAL_MASS": {
     "description": "",
     "message": "Toplam kütle"
+  },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "{system} sisteminde:"
   },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",

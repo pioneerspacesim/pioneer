@@ -249,7 +249,7 @@
   },
   "ORBIT_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data"
+    "message": "Сканира планетата от орбита за научни цели"
   },
   "ORBIT_SCANNER_GOOD": {
     "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
@@ -257,7 +257,7 @@
   },
   "ORBIT_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data, with high resolution and wide aperture lens"
+    "message": "Сканира планетата с висока резолюция и обектив с широка бленда от орбита за научни цели"
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
@@ -365,19 +365,19 @@
   },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
-    "message": "Орбитален скенер Nadir-150"
+    "message": "Повърхностен скенер Nadir-150"
   },
   "SURFACE_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Cartography mapping and geological survey recorder"
+    "message": "Записващо устройство за картографиране и геоложко проучване"
   },
   "SURFACE_SCANNER_GOOD": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
-    "message": "Орбитален скенер Xeiss-250"
+    "message": "Повърхностен скенер Xeiss-250"
   },
   "SURFACE_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "High resolution cartography mapping and geological survey recorder"
+    "message": "Записващо устройство с висока резолюция за картографиране и геоложко проучване"
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",

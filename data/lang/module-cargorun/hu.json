@@ -25,75 +25,75 @@
   },
   "ADTEXT_1": {
     "description": "",
-    "message": "Ship needed for delivery of cargo to the {system} system."
+    "message": "Hajót keresünk rakomány szállítására {system} rendszerbe."
   },
   "ADTEXT_2": {
     "description": "",
-    "message": "Transport of goods to the {system} system needed. Pay {cash}."
+    "message": "Termékek szállítása {system} rendszerbe. Díjazás: {cash}."
   },
   "ADTEXT_EXPENSIVE_1": {
     "description": "",
-    "message": "Deliver valuable cargo to the {system} system. {cash} to an experienced pilot."
+    "message": "Értékes rakomány szállítása {system} rendszerbe. {cash} díjazás gyakorlott pilóta számára."
   },
   "ADTEXT_LOCAL_1": {
     "description": "",
-    "message": "Haulers wanted for in-system transport. Move of goods to {starport}."
+    "message": "Fuvarozót keresünk rendszeren belüli szállításra. Rakomány úticélja {starport}."
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "Need local delivery of personal cargo to {starport}."
+    "message": "Helyi kiszállítót keresek {starport} kikötőjébe."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
-    "message": "Private cargo delivery contract. Need certified delivery of goods to {starport}."
+    "message": "Privát árúszállítási megbízás. Hitelesített kiszállítás {starport} kikötőbe."
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Pickup of cargo from the {system} system required. Details available on request."
+    "message": "Árúszállítás {system} rendszerből. Keressen meg a részletekért."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "Cargo relocation service needed. Move of cargo to this starport from {starport} required."
+    "message": "Rakomány szállító szolgáltatót keresünk. Innen {starport} kikötőjébe szeretnénk szállíttatni."
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Qualified contractor needed for cargo run. We require a ship for a bulk delivery to {system} system."
+    "message": "Gyakorlott szállítmányozási vállalkozót keresünk, nagy mennyiségű rakomány {system} rendszerbe szállításához."
   },
   "ADTITLE_1": {
     "description": "",
-    "message": "CARGO RUN"
+    "message": "TEFU"
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "NEED CARGO TRANSPORT"
+    "message": "ÁRÚSZÁLLÍTÓT KERES"
   },
   "ADTITLE_EXPENSIVE_1": {
     "description": "",
-    "message": "INSURED DELIVERY"
+    "message": "BIZTOSÍTOTT FUVAR"
   },
   "ADTITLE_LOCAL_1": {
     "description": "",
-    "message": "SHORT-RANGE FREIGHT"
+    "message": "RÖVID-TÁVÚ SZÁLLÍTMÁNY"
   },
   "ADTITLE_LOCAL_2": {
     "description": "",
-    "message": "LOCAL FREIGHT TRANSPORT"
+    "message": "HELYI TEHERSZÁLLÍTÁS"
   },
   "ADTITLE_LOCAL_3": {
     "description": "",
-    "message": "LOCAL CARGO RUN"
+    "message": "HELYI TEHERFUVAR"
   },
   "ADTITLE_PICKUP_1": {
     "description": "",
-    "message": "CARGO PICKUP"
+    "message": "RAKOMÁNY SZÁLLÍTÁS"
   },
   "ADTITLE_PICKUP_LOCAL_1": {
     "description": "",
-    "message": "IN-SYSTEM RELOCATION"
+    "message": "RENDSZEREN BELÜLI KÖLTÖZTETÉS"
   },
   "ADTITLE_WHOLESALER_1": {
     "description": "",
-    "message": "BULK CARGO SERVICE"
+    "message": "NAGY RAKOMÁNY SZÁLLÍTÁS"
   },
   "ALUMINIUM_TUBES": {
     "description": "custom cargo",

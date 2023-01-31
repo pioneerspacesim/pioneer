@@ -325,7 +325,7 @@
   },
   "SENSOR_MIN_ALTITUDE": {
     "description": "",
-    "message": "Sensor min altitude"
+    "message": "Sensor min höjd"
   },
   "SENSOR_RESOLUTION": {
     "description": "Resolution of e.g. optical sensor",
@@ -369,7 +369,7 @@
   },
   "SURFACE_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Cartography mapping and geological survey recorder"
+    "message": "Kartografi, kartering och geologisk undersökningslogger"
   },
   "SURFACE_SCANNER_GOOD": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
@@ -377,7 +377,7 @@
   },
   "SURFACE_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "High resolution cartography mapping and geological survey recorder"
+    "message": "Högupplöst kartografi, kartering och geologisk undersökningslogger"
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
@@ -437,7 +437,7 @@
   },
   "UTILITY": {
     "description": "Category name of utility equipment",
-    "message": "Utility"
+    "message": "Verktyg"
   },
   "WEAPONS": {
     "description": "Category name of weapon-related equipment",

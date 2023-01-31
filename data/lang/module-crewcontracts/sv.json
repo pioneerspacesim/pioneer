@@ -21,11 +21,11 @@
   },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
-    "message": "Potential crew available for hire at this starport."
+    "message": "Potentiella bestättningsmän tillgängliga för tjänst på den här stationen."
   },
   "CREW_FOR_HIRE_TITLE": {
     "description": "",
-    "message": "CREW FOR HIRE"
+    "message": "ANSTÄLLNING SÖKES"
   },
   "GO_BACK": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
-    "message": "Potentiella bestättningsmän är registrerade som jobbsökande på {station}:"
+    "message": "Potentiella bestättningsmän som är registrerade som arbetssökande på {station}:"
   },
   "SIMULATOR_TRAINING_ONLY": {
     "description": "",

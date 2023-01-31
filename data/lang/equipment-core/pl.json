@@ -245,19 +245,19 @@
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
-    "message": "Orbital scanner XKM-650"
+    "message": "Skaner orbitalny XKM-650"
   },
   "ORBIT_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data"
+    "message": "Skanuje planetę z orbity, zbierając dane naukowe"
   },
   "ORBIT_SCANNER_GOOD": {
     "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
-    "message": "Orbital scanner XKM-1750"
+    "message": "Skaner orbitalny XKM-1750"
   },
   "ORBIT_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data, with high resolution and wide aperture lens"
+    "message": "Skanuje planetę z orbity, zbierając dane naukowe, ma wysoką rozdzielczość i szeroki kąt"
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
@@ -325,11 +325,11 @@
   },
   "SENSOR_MIN_ALTITUDE": {
     "description": "",
-    "message": "Sensor min altitude"
+    "message": "Minimalny pułap czujnika"
   },
   "SENSOR_RESOLUTION": {
     "description": "Resolution of e.g. optical sensor",
-    "message": "Sensor resolution"
+    "message": "Rozdzielczość czujnika"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
@@ -365,19 +365,19 @@
   },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
-    "message": "Surface scanner Nadir-150"
+    "message": "Skaner powierzchni Nadir-150"
   },
   "SURFACE_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Cartography mapping and geological survey recorder"
+    "message": "Rejestrator mapowania kartograficznego i badań geologicznych"
   },
   "SURFACE_SCANNER_GOOD": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
-    "message": "Surface scanner Xeiss-250"
+    "message": "Skaner powierzchni Xeiss-250"
   },
   "SURFACE_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "High resolution cartography mapping and geological survey recorder"
+    "message": "Rejestrator wysokiej rozdzielczości do mapowania kartograficznego i badań geologicznych"
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",

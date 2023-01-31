@@ -371,6 +371,22 @@
     "description": "",
     "message": "Disegna linee verticali"
   },
+  "DWARF_PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "Pianeta nano contenente acqua in stato liquido"
+  },
+  "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "Pianeta nano contenente dei liquidi,"
+  },
+  "DWARF_PLANET_MOSTLY_COVERED_IN_ICE": {
+    "description": "",
+    "message": "Pianeta nano, quasi del tutto coperto di ghiaccio"
+  },
+  "DWARF_PLANET_TERRESTRIAL": {
+    "description": "",
+    "message": "Pianeta nano"
+  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Colonia della Federazione Terrestre"
@@ -598,6 +614,10 @@
   "H_ATMOSPHERE": {
     "description": "",
     "message": "atmosfera d'idrogeno"
+  },
+  "ICE_DWARF_PLANET": {
+    "description": "",
+    "message": "Pianeta nano congelato"
   },
   "ICE_MOON": {
     "description": "",

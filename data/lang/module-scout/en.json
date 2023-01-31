@@ -339,13 +339,13 @@
     "description": "",
     "message": "Objective:"
   },
-  "ORBITAL_SCAN": {
-    "description": "",
-    "message": "Orbital Scan"
-  },
   "OK_AGREED": {
     "description": "",
     "message": "Ok, agreed."
+  },
+  "ORBITAL_SCAN": {
+    "description": "",
+    "message": "Orbital Scan"
   },
   "PENDING_SCANS": {
     "description": "Button text for pending scans",

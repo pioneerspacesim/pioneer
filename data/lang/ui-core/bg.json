@@ -323,6 +323,10 @@
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Δ-v (максимален)"
   },
+  "DEMAND": {
+    "description": "Column label for commodity demand at a market.",
+    "message": "Търсене"
+  },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Дата на отпътуване"
@@ -1167,6 +1171,10 @@
     "description": "",
     "message": "Недостатъчни средства."
   },
+  "INTERSTELLAR_TRADE_AVG": {
+    "description": "Label displaying commodity flow at a per-system level",
+    "message": "Междузвездна търговия:"
+  },
   "INVERT_MOUSE_Y": {
     "description": "",
     "message": "Обръщане на вертикалната посока на мишката"
@@ -1539,6 +1547,10 @@
     "description": "",
     "message": "{equipment} не се поддържа на този кораб"
   },
+  "NO_AVAILABLE_DATA": {
+    "description": "Message displaying no stored data available",
+    "message": "Няма налични данни"
+  },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
     "message": "НЯМА ТОВАР"
@@ -1725,7 +1737,7 @@
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Нещо се обърка! Моля, докладвайте как се е стигнало до тази неизправност в „Github“. Приложете изходния дневник на „Pioneer” и запазената игра към докладa.\nИзходният дневник се намира в: {path}/output.txt"
+    "message": "Нещо се обърка! Моля, докладвайте как се е стигнало до тази неизправност в „Github“. Приложете изходния дневник на „Pioneer” и запазената игра към отчета.\nИзходният дневник се намира в: {path}/output.txt"
   },
   "POLICE": {
     "description": "",
@@ -1841,7 +1853,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Нужно гориво:"
+    "message": "Необходимо гориво:"
   },
   "RESET": {
     "description": "",
@@ -2183,6 +2195,10 @@
     "description": "",
     "message": "Обща маса"
   },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "В {system}:"
+  },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
     "message": "От {system}:"
@@ -2321,19 +2337,19 @@
   },
   "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER": {
     "description": "",
-    "message": "Командире, първо трябва да изберете бойна цел."
+    "message": "Командире, първо, трябва да изберете бойна цел."
   },
   "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER": {
     "description": "",
-    "message": "Командире, първо трябва да изберете подходяща навигационна цел."
+    "message": "Командире, първо, трябва да изберете подходяща навигационна цел."
   },
   "YOU_MUST_LAUNCH_FIRST_COMMANDER": {
     "description": "",
-    "message": "Командире, първо трябва да излетите."
+    "message": "Командире, първо, трябва да излетите."
   },
   "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER": {
     "description": "",
-    "message": "Командире, първо трябва да заявите излитане."
+    "message": "Командире, първо, трябва да заявите излитане."
   },
   "YOU_NOT_ENOUGH_MONEY": {
     "description": "",

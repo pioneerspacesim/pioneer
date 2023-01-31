@@ -33,11 +33,11 @@
   },
   "AN_AR_ATMOSPHERE": {
     "description": "",
-    "message": "an argon atmosphere"
+    "message": "argon légkörrel"
   },
   "AN_O2_ATMOSPHERE": {
     "description": "",
-    "message": "an oxygen atmosphere"
+    "message": "oxigén légkörrel"
   },
   "APOAPSIS_DISTANCE": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "argon atmosphere"
+    "message": "argon légkörrel"
   },
   "ASTEROID": {
     "description": "",
@@ -89,15 +89,15 @@
   },
   "A_CH4_ATMOSPHERE": {
     "description": "",
-    "message": "a methane atmosphere"
+    "message": "metán légkörrel"
   },
   "A_CO2_ATMOSPHERE": {
     "description": "",
-    "message": "a carbon dioxide atmosphere"
+    "message": "széndioxid légkörrel"
   },
   "A_CO_ATMOSPHERE": {
     "description": "",
-    "message": "a carbon monoxide atmosphere"
+    "message": "szénmonoxid légkörrel"
   },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
@@ -105,19 +105,19 @@
   },
   "A_HE_ATMOSPHERE": {
     "description": "",
-    "message": "a helium atmosphere"
+    "message": "hélium légkörrel"
   },
   "A_H_ATMOSPHERE": {
     "description": "",
-    "message": "a hydrogen atmosphere"
+    "message": "hidrogén légkörrel"
   },
   "A_N_ATMOSPHERE": {
     "description": "",
-    "message": "a nitrogen atmosphere"
+    "message": "nitrogén légkörrel"
   },
   "A_S_ATMOSPHERE": {
     "description": "",
-    "message": "a sulfuric atmosphere"
+    "message": "kénes légkörrel"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -205,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "methane atmosphere"
+    "message": "metán légkörrel"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "carbon dioxide atmosphere"
+    "message": "szénmonoxid légkörrel"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "carbon monoxide atmosphere"
+    "message": "szénmonoxid légkörrel"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -370,6 +370,22 @@
   "DRAW_VERTICAL_LINES": {
     "description": "",
     "message": "Függőleges vonalak rajzolása"
+  },
+  "DWARF_PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "Folyékony vízzel rendelkező törpebolygó"
+  },
+  "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "Sziklás kisbolygó felszínén némi folyadékkal, "
+  },
+  "DWARF_PLANET_MOSTLY_COVERED_IN_ICE": {
+    "description": "",
+    "message": "Nagyrészt jéggel borított kisbolygó"
+  },
+  "DWARF_PLANET_TERRESTRIAL": {
+    "description": "",
+    "message": "Kisbolygó"
   },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
@@ -533,7 +549,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "helium atmosphere"
+    "message": "hélium légkörrel"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -597,11 +613,15 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "hydrogen atmosphere"
+    "message": "hidrogén légkörrel"
+  },
+  "ICE_DWARF_PLANET": {
+    "description": "",
+    "message": "Jeges kisbolygó"
   },
   "ICE_MOON": {
     "description": "",
-    "message": "\" ice moon\""
+    "message": "\" jég hold\""
   },
   "ICE_WORLD": {
     "description": "",
@@ -889,11 +909,11 @@
   },
   "MOON_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "\" moon containing liquid water\""
+    "message": "\" vízzel rendelkező hold\""
   },
   "MOON_WITH_SOME_ICE": {
     "description": "",
-    "message": "\" moon with some ice\""
+    "message": "\" némi jéggel borított hold\""
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
@@ -1001,7 +1021,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "nitrogen atmosphere"
+    "message": "nitrogén légkörrel"
   },
   "N_CELSIUS": {
     "description": "",
@@ -1041,7 +1061,7 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "oxygen atmosphere"
+    "message": "oxigén légkörrel"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
@@ -1049,7 +1069,7 @@
   },
   "OCEANICMOON": {
     "description": "",
-    "message": "\" oceanic moon\""
+    "message": "\" óceáni hold\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1201,11 +1221,11 @@
   },
   "ROCKY_MOON": {
     "description": "",
-    "message": "\" rocky moon\""
+    "message": "\" sziklás hold\""
   },
   "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
     "description": "",
-    "message": "\" rocky moon containing some liquids,\""
+    "message": "\" sziklás hold felszínén némi folyadékkal,\""
   },
   "ROCKY_PLANET": {
     "description": "",
@@ -1605,7 +1625,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "sulfuric atmosphere"
+    "message": "kénes légkörrel"
   },
   "TAKEOFF": {
     "description": "",
@@ -1617,7 +1637,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "\"a tenuous \""
+    "message": "\"minimális \""
   },
   "TEXTILES": {
     "description": "",
@@ -1625,11 +1645,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "\"a thick \""
+    "message": "\"vastag \""
   },
   "THIN": {
     "description": "",
-    "message": "\"a thin \""
+    "message": "\"vékony \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1821,7 +1841,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "\"a very dense \""
+    "message": "\"nagyon sűrű \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1861,7 +1881,7 @@
   },
   "WITH": {
     "description": "",
-    "message": "\" with \""
+    "message": "\" \""
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",

@@ -9,7 +9,7 @@
   },
   "ADD_JUMP": {
     "description": "UI-button: Add hyper jump to list of planned jumps",
-    "message": "Add Jump"
+    "message": "Lägg till hopp"
   },
   "AFTER_TRADE_IN": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "ANISOTROPIC_FILTERING_DESC": {
     "description": "",
-    "message": "Samples the texture across multiple mip levels to produce a much clearer texture when viewed at shallow angles. Stops the textures from becoming as blurred; however, it can come at a heavy performance cost."
+    "message": "Samplar texturen över flera mip-nivåer för att producera en mycket tydligare textur när den ses i ytliga vinklar. Förhindrar att texturerna blir lika suddiga; prestandan kan dock bli lidande."
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Atmo. pressure limit"
+    "message": "Atmosfäriskt tryck max"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -53,7 +53,7 @@
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
-    "message": "Auto-rutt"
+    "message": "Auto Route"
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
@@ -209,7 +209,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Commodity trade analysis of:"
+    "message": "Råvaruhandel analys av:"
   },
   "COMPACT_RADAR": {
     "description": "Game settings option",
@@ -323,6 +323,10 @@
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Delta-v (max)"
   },
+  "DEMAND": {
+    "description": "Column label for commodity demand at a market.",
+    "message": "Efterfrågan"
+  },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Avresedatum"
@@ -357,7 +361,7 @@
   },
   "DISPLAY_HUD_TRAILS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Guides the eye by showing the trajectory of ships on the HUD"
+    "message": "Guidar ögat genom att visa fartygens bana på HUD:en"
   },
   "DISPLAY_NAV_TUNNELS": {
     "description": "Settings option: hyperspace tunnel effect",
@@ -365,7 +369,7 @@
   },
   "DISPLAY_NAV_TUNNELS_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Shows a virtual tunnel to current selected target on the HUD"
+    "message": "Visar en virtuell tunnel till aktuellt valt mål på HUD:en"
   },
   "DISPLAY_SPEED_LINES": {
     "description": "Settings option: effect when travelling in space",
@@ -373,7 +377,7 @@
   },
   "DISPLAY_SPEED_LINES_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Assists the sense of direction of movement in space"
+    "message": "Hjälper känslan av rörelseriktning i rymden"
   },
   "DOCKED_AT": {
     "description": "",
@@ -401,7 +405,7 @@
   },
   "ECONOMY_TRADE": {
     "description": "",
-    "message": "Ekonomi & handel"
+    "message": "Ekonomi & Handel"
   },
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
@@ -453,7 +457,7 @@
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
-    "message": "Entry"
+    "message": "Notering"
   },
   "EQUIPMENT": {
     "description": "",
@@ -549,7 +553,7 @@
   },
   "FINAL_TARGET": {
     "description": "Hyperjump planner, referring to star system target",
-    "message": "Final Target:"
+    "message": "Slutligt mål"
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
@@ -557,15 +561,15 @@
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Docking at {primary_info}"
+    "message": "Dockar vid {primary_info}"
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
-    "message": "Flying in space, relative {primary_info}"
+    "message": "Flyger i rymden, relativt {primary_info}"
   },
   "FLIGHTLOG_HYPERSPACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "In Hyperspace, enroute to {primary_info}"
+    "message": "I hyperrymden, på väg till {primary_info}"
   },
   "FLIGHTLOG_JUMPING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
@@ -573,23 +577,23 @@
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+    "message": "Landad på {primary_info}, position ({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, in orbit around {secondary_info}"
+    "message": "Dockad vid {primary_info}, i omloppsbana runt {secondary_info}"
   },
   "FLIGHTLOG_STARPORT_SURFACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, on {secondary_info}"
+    "message": "Dockad vid {primary_info}, på {secondary_info}"
   },
   "FLIGHTLOG_UNDOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Undocking at {primary_info}"
+    "message": "Avdockar från {primary_info}"
   },
   "FLIGHT_LOG": {
     "description": "Title for flight log screen, in info view",
-    "message": "Flight Log"
+    "message": "Flyglogg"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -665,11 +669,11 @@
   },
   "GPU_JOBS": {
     "description": "",
-    "message": "GPU Jobs"
+    "message": "GPU jobb"
   },
   "GPU_JOBS_DESC": {
     "description": "",
-    "message": "Utilize GPU for certain actions, possibly improving performance."
+    "message": "Använd GPU:n för vissa jobb och därmed eventuellt förbättra prestandan."
   },
   "HANG_UP": {
     "description": "",
@@ -897,7 +901,7 @@
   },
   "HUD_CRUISE_SPEED": {
     "description": "Tooltip for cruise speed indicator",
-    "message": "Cruise speed"
+    "message": "Kryssningshastighet"
   },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
@@ -933,7 +937,7 @@
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "% of max Δv"
+    "message": "% af max Δv"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
@@ -977,7 +981,7 @@
   },
   "HUD_FOLLOW_TARGET": {
     "description": "Tooltip for followed target's name in reticule",
-    "message": "Follow target"
+    "message": "Följ mål"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -1045,7 +1049,7 @@
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
-    "message": "Request time acceleration: {time}"
+    "message": "Begär tidsacceleration: {time}"
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
@@ -1065,7 +1069,7 @@
   },
   "HUD_SPEED_LIMITER_ACTIVE": {
     "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
-    "message": "Speed limiter is active"
+    "message": "Fartbegränsning är aktiv"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1129,11 +1133,11 @@
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
-    "message": "Illegal in System"
+    "message": "Olagligt i systemet"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
-    "message": "Vårdslös hyperhopp registrerat"
+    "message": "Vårdslöst hyperhopp registrerat"
   },
   "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS": {
     "description": "",
@@ -1161,11 +1165,15 @@
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
-    "message": "Insufficient fuel"
+    "message": "Otillräckligt bränsle"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
     "message": "Otillräcklig likvid"
+  },
+  "INTERSTELLAR_TRADE_AVG": {
+    "description": "Label displaying commodity flow at a per-system level",
+    "message": "Interstellär Handel:"
   },
   "INVERT_MOUSE_Y": {
     "description": "",
@@ -1201,7 +1209,7 @@
   },
   "JUMPING": {
     "description": "Flight State",
-    "message": "Jumping"
+    "message": "Hoppar"
   },
   "KILLS": {
     "description": "",
@@ -1229,7 +1237,7 @@
   },
   "LAUNCH_PERMISSION_GRANTED": {
     "description": "",
-    "message": "Launch permission granted."
+    "message": "Starttillstånd beviljat."
   },
   "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
     "description": "",
@@ -1237,7 +1245,7 @@
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
-    "message": "Permission granted. Watch for traffic on your departure."
+    "message": "Tillstånd beviljat. Se upp för annan trafik på vägen ut."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1297,15 +1305,15 @@
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
-    "message": "New Entry"
+    "message": "Ny notering"
   },
   "LOG_STATION": {
     "description": "Label tab for showing logged station events",
-    "message": "Station Log"
+    "message": "Ny Notering"
   },
   "LOG_SYSTEM": {
     "description": "Label tab for showing logged system events",
-    "message": "System Log"
+    "message": "Systemlogg"
   },
   "LOW": {
     "description": "",
@@ -1317,7 +1325,7 @@
   },
   "MAJOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Export"
+    "message": "Stor Export"
   },
   "MAJOR_EXPORTS_ITEM": {
     "description": "",
@@ -1325,7 +1333,7 @@
   },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Import"
+    "message": "Stor Import"
   },
   "MAJOR_IMPORTS_ITEM": {
     "description": "",
@@ -1405,7 +1413,7 @@
   },
   "MINIMAL_TRADE": {
     "description": "Indicates a system does not have a significant amount of trade in a commodity.",
-    "message": "Minimal Trade"
+    "message": "Minimal Handel"
   },
   "MINIMUM_CREW": {
     "description": "",
@@ -1413,7 +1421,7 @@
   },
   "MINOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Export"
+    "message": "Liten Export"
   },
   "MINOR_EXPORTS_ITEM": {
     "description": "",
@@ -1421,7 +1429,7 @@
   },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Import"
+    "message": "Liten Import"
   },
   "MINOR_IMPORTS_ITEM": {
     "description": "",
@@ -1497,7 +1505,7 @@
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
-    "message": "The new paintjob has been applied to your ship."
+    "message": "Lackjobbet är färdigt."
   },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
@@ -1521,7 +1529,7 @@
   },
   "NONE_FOR_SALE_IN_THIS_STATION": {
     "description": "",
-    "message": "Inget tillsalu vid denna station"
+    "message": "Inget till salu vid denna station"
   },
   "NORMA_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1539,13 +1547,17 @@
     "description": "",
     "message": "{equipment} stöds inte av den här skeppsmodellen"
   },
+  "NO_AVAILABLE_DATA": {
+    "description": "Message displaying no stored data available",
+    "message": "Inga uppgifter tillgängliga"
+  },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
-    "message": "NO CARGO"
+    "message": "INGEN LAST"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
-    "message": "No drive"
+    "message": "Ingen hyperdrift"
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
@@ -1557,7 +1569,7 @@
   },
   "NO_VALID_ROUTE": {
     "description": "Message in the sector map, issued by the autoroute function.",
-    "message": "No valid route to the selected system."
+    "message": "Ingen giltig rutt till det valda systemet."
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
@@ -1577,7 +1589,7 @@
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Occupied Passenger Cabins"
+    "message": "Upptagna passagerarhytter"
   },
   "OFF": {
     "description": "",
@@ -1625,7 +1637,7 @@
   },
   "OUTLAW": {
     "description": "Legal status of player",
-    "message": "Outlaw"
+    "message": "Fredlös"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
@@ -1645,39 +1657,39 @@
   },
   "PAINTSHOP": {
     "description": "Station tab title",
-    "message": "Paintshop"
+    "message": "Lackeringsverkstad"
   },
   "PAINTSHOP_NOT_AVAILABLE": {
     "description": "",
-    "message": "Paintshop is not available in this spaceport."
+    "message": "Lackverkstad är inte tillgänglig i denna rymdhamn."
   },
   "PAINTSHOP_WELCOME_0": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome! We will paint your ship pretty!"
+    "message": "Välkommen! Vi målar ditt skepp snyggt!"
   },
   "PAINTSHOP_WELCOME_1": {
     "description": "Welcome message to the paintshop.",
-    "message": "Hi there! Looking for a change in aesthetics?"
+    "message": "Hallå där! Letar du efter en ny stil?"
   },
   "PAINTSHOP_WELCOME_2": {
     "description": "Welcome message to the paintshop.",
-    "message": "We can't make your ship fly fast, but we can make it fly in style!"
+    "message": "Vi kan inte få ditt skepp att flyga snabbt, men vi kan få det att flyga med stil!"
   },
   "PAINTSHOP_WELCOME_3": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome, traveller. Please take your time and let out your creativity."
+    "message": "Välkommen, resande. Ta dig tid och släpp loss din kreativitet."
   },
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
-    "message": "Looking the best in the galaxy has never been easier!"
+    "message": "Att se bäst ut i galaxen har aldrig varit lättare!"
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Passenger cabin capacity"
+    "message": "Passagerarkapacitet"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
-    "message": "Pattern"
+    "message": "Mönster"
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
@@ -1721,11 +1733,11 @@
   },
   "PLEASE_DESIGN_NEW_PAINTJOB": {
     "description": "",
-    "message": "Please design your new paintjob:"
+    "message": "Varsågod och designa din nya stil:"
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Oops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on Github.\nYou can find your output log at: {path}/output.txt"
+    "message": "Oj, något gick fel här! Vänligen rapportera stegen för att återskapa felet, utdataloggen och din sparade fil till Pioneers problemlösare på GitHub.\n Du hittar din utdatalogg på: {path}/output.txt\n\n\nOops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on GitHub.\nYou can find your output log at: {path}/output.txt"
   },
   "POLICE": {
     "description": "",
@@ -1757,7 +1769,7 @@
   },
   "PROFITABLE_TRADE": {
     "description": "Indicates a profitable trade route.",
-    "message": "Profitable Trade"
+    "message": "Lönsam Handel"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1765,7 +1777,7 @@
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
-    "message": "Purchase Paintjob"
+    "message": "Köp omlackering"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1821,7 +1833,7 @@
   },
   "REMOVE_WHEN_COMPLETED": {
     "description": "For UI hyperjump planner, referring to jump target system",
-    "message": "Remove jump when completed"
+    "message": "Ta bort hoppet när det är klart"
   },
   "REPAIR_X_HULL_DAMAGE_FOR_X": {
     "description": "",
@@ -1841,7 +1853,7 @@
   },
   "REQUIRED_FUEL": {
     "description": "Fuel usage for traveling to star system",
-    "message": "Required Fuel:"
+    "message": "Nödvändigt bränsle"
   },
   "RESET": {
     "description": "",
@@ -1853,7 +1865,7 @@
   },
   "RESET_PREVIEW": {
     "description": "Paintshop button",
-    "message": "Reset Preview"
+    "message": "Återställ förhandsvisning"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1877,7 +1889,7 @@
   },
   "ROTATE_VIEW": {
     "description": "Indicates that the button must be kept pressed down, to rotate camera view with mouse",
-    "message": "Hold down to Rotate view"
+    "message": "Håll ner för att rotera vyn"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
@@ -1929,7 +1941,7 @@
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
-    "message": "Sell Equipped"
+    "message": "Sälj utrustad"
   },
   "SENSORS": {
     "description": "",
@@ -1993,11 +2005,11 @@
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
-    "message": "Ship Repairs & Paintshop"
+    "message": "Reparation och Lackering"
   },
   "SHIP_TYPE": {
     "description": "",
-    "message": "Ship Type"
+    "message": "Fartygstyp"
   },
   "SHIP_VIEWING_WAS_SOLD": {
     "description": "",
@@ -2017,7 +2029,7 @@
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "This is a difficult start from the System Administration Resting prison station."
+    "message": "Det här är en svår start från System Administration Restings fängelsestation."
   },
   "START_AT_EARTH": {
     "description": "",
@@ -2033,7 +2045,7 @@
   },
   "START_AT_MARS_DESC": {
     "description": "",
-    "message": "This is an easy start from Cydonia on Mars in the Sol system."
+    "message": "Detta är en enkel start från Cydonia på Mars i Solsystemet."
   },
   "START_AT_NEW_HOPE": {
     "description": "New Hope is an in game location",
@@ -2041,7 +2053,7 @@
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
-    "message": "This is a moderate start from Itzalean on New Hope in the Epsilon Eridani system."
+    "message": "Detta är en måttligt svår start från Itzalean på New Hope i Epsilon Eridani-systemet."
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2089,7 +2101,7 @@
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
-    "message": "Station tech level too low to sell this item"
+    "message": "Stationens tek nivå är för låg för att sälja det här föremålet."
   },
   "STATUS": {
     "description": "",
@@ -2097,7 +2109,7 @@
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
-    "message": "Denna station innehar nivå {tech_level} teknologi-certifikat "
+    "message": "Den här station innehar nivå {tech_level} teknologi-certifikat."
   },
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
@@ -2109,7 +2121,7 @@
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
-    "message": "This frees up more memory for the graphics card, which is likely what you want, at the expense of compressing them during game start."
+    "message": "Detta frigör mer minne för grafikkortet, vilket förmodligen är vad du vill, på bekostnad av att komprimera dem under spelstart."
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",
@@ -2125,7 +2137,7 @@
   },
   "THIS_IS_FACTION_POLICE": {
     "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
-    "message": "This is the {faction_police} of the {faction}"
+    "message": "Det här är {faction_police} från {faction}"
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -2153,7 +2165,7 @@
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
-    "message": "Switch between sorting by distance from player and distance from system center"
+    "message": "Växla mellan sortering efter avstånd från spelare och avstånd från systemets mitt"
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
@@ -2183,9 +2195,13 @@
     "description": "",
     "message": "Total massa"
   },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "Vid {system}:"
+  },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
-    "message": "From {system}:"
+    "message": "Från {system}:"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
@@ -2193,7 +2209,7 @@
   },
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
-    "message": "To {system}:"
+    "message": "Till {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -2201,7 +2217,7 @@
   },
   "TURN_OFF": {
     "description": "",
-    "message": "Turn off"
+    "message": "Stäng av"
   },
   "TYPE": {
     "description": "",
@@ -2213,11 +2229,11 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Lediga Passagerarhytter"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
-    "message": "Unprofitable Trade"
+    "message": "Olönsam Handel"
   },
   "UNRELIABLE": {
     "description": "",
@@ -2257,15 +2273,15 @@
   },
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",
-    "message": "Higher resolutions display more information at a smaller size and can decrease performance."
+    "message": "Högre upplösningar visar mer information i en mindre storlek och kan minska prestandan."
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Paintshop"
+    "message": "Besök Lackverkstad"
   },
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Repair Services"
+    "message": "Besök Verkstad"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",

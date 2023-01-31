@@ -323,6 +323,10 @@
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
     "message": "Delta-v (max)"
   },
+  "DEMAND": {
+    "description": "Column label for commodity demand at a market.",
+    "message": "Demande"
+  },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Date de départ"
@@ -1167,6 +1171,10 @@
     "description": "",
     "message": "Fonds insuffisants"
   },
+  "INTERSTELLAR_TRADE_AVG": {
+    "description": "Label displaying commodity flow at a per-system level",
+    "message": "Commerce Interstellaire:"
+  },
   "INVERT_MOUSE_Y": {
     "description": "",
     "message": "Inverser souris Y"
@@ -1538,6 +1546,10 @@
   "NOT_SUPPORTED_ON_THIS_SHIP": {
     "description": "",
     "message": "{equipment} n'est pas compatible avec ce type de vaisseau"
+  },
+  "NO_AVAILABLE_DATA": {
+    "description": "Message displaying no stored data available",
+    "message": "Pas de données disponibles"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
@@ -2183,9 +2195,13 @@
     "description": "",
     "message": "Masse totale"
   },
+  "TRADING_AT": {
+    "description": "Indicates the current system for inspecting commodities.",
+    "message": "À {system}:"
+  },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
-    "message": "De (système):"
+    "message": "Depuis {système}:"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
@@ -2193,7 +2209,7 @@
   },
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
-    "message": "Vers (système):"
+    "message": "Vers {système}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",

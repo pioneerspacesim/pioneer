@@ -13,11 +13,11 @@
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "Contact the local Interstellar Pilots' Fuel Co-operative representative."
+    "message": "Kapcsolatba lépés a hely Csillagközi Pilóták Üzemanyag-szövetkezetének a képviselőjével."
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
-    "message": "You may purchase fuel and dispose of {radioactives} here."
+    "message": "Itt vásárolhat üzemanyagot, és kezeltetheti a {radioactives} mellékterméket."
   },
   "FLAVOUR_0_NONMEMBER_INTRO": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "FLAVOUR_0_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "PILOT'S FUEL CO-OP"
+    "message": "Csillagközi Pilóták Üzemanyag-szövetkezete"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -37,15 +37,15 @@
   },
   "FLAVOUR_1_DESC": {
     "description": "Fuel club for the Federation faction",
-    "message": "Authorized contact for The Federal Fuel Foundation."
+    "message": "A Szövetségi Üzemanyag Alap megbízott kapcsolattartója"
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
-    "message": "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+    "message": "{clubname} a Solar Szövetség vezető kedvezményes üzemanyag-szolgáltatója. A tagság az alábbiakra jogosítja fel:"
   },
   "FLAVOUR_1_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "FEDERAL FUEL FOUNDATION"
+    "message": "SZÖVETTSÉGI ÜZEMANYAG ALAP"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
@@ -53,19 +53,19 @@
   },
   "FLAVOUR_2_DESC": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "Make an appointment to speak with the Commonwealth Fuel Union."
+    "message": "Kérjen időpontot a Nemzetközösségi Üzemanyag Unió képviselőjéhez."
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
-    "message": "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+    "message": "{clubname} a szinte határtalan Független Világok Nemzetközösségének legjobb kedvezményes üzemanyag- és hulladékkezelési szolgáltatója. Tagjaink számára a következőket biztosítjuk:"
   },
   "FLAVOUR_2_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "COMMONWEALTH FUEL UNION"
+    "message": "Nemzetközösségi Üzemanyag Unió"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
-    "message": "Greetings and salutations! We hope you enjoy our services."
+    "message": "Köszöntöm önt! Remélem örömére válnak szolgáltatásaink."
   },
   "FLAVOUR_3_CLUBNAME": {
     "description": "Fuel club for the Haber faction",
@@ -73,23 +73,23 @@
   },
   "FLAVOUR_3_DESC": {
     "description": "Fuel club for the Haber faction",
-    "message": "Branch office of the Haber Propellant and Perishables Division."
+    "message": "A Haber Hajtóanyag és Romlandó-áru Divízió Fiókirodája"
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
-    "message": "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+    "message": "Ürvözlet, pilóta! Üzemanyag-utántöltési és feltételes melléktermék-kezelési engedélyt megadom."
   },
   "FLAVOUR_3_NONMEMBER_INTRO": {
     "description": "for the Haber faction",
-    "message": "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+    "message": "Üdvözlöm, a Haber Hajtóanyag és Romlandó-árú Divízió Fiókirodájában. Feladatunk a Haber tulajdonában lévő területek üzemanyag-disztribúciójának felügyelete."
   },
   "FLAVOUR_3_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "HABER PROPELLANT"
+    "message": "HABER HAJTÓANYAG"
   },
   "FUEL_LEVEL": {
     "description": "",
-    "message": "Your current fuel level is {level}%."
+    "message": "Jelenlegi üzemanyagszint: {level}%."
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Fuel tank refilling, once per day"
+    "message": "Üzemanyag feltöltés, naponta egyszer"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
@@ -113,11 +113,11 @@
   },
   "REFUEL_FREE": {
     "description": "",
-    "message": "Refuel internal fuel tank for free."
+    "message": "Üzemanyag feltöltés ingyen."
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",
-    "message": "Annyi tonna {radioactives} semlegesítését vállaljuk, amennyi {military_fuel} vásárolsz tőlünk."
+    "message": "Annyi tonna {radioactives} semlegesítését vállaljuk, amennyi {military_fuel} vásárol tőlünk."
   },
   "WHAT_CONDITIONS_APPLY": {
     "description": "",
@@ -125,11 +125,11 @@
   },
   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
     "description": "",
-    "message": "A belépési igényedet visszautasítottuk."
+    "message": "A belépési igényét visszautasítottuk."
   },
   "YOU_ARE_NOW_A_MEMBER": {
     "description": "",
-    "message": "Immáron tag vagy. A tagságod {expiry_date} napján jár le."
+    "message": "Immáron taggá vált. A tagság {expiry_date} napján jár le."
   },
   "YOU_MUST_BUY": {
     "description": "",

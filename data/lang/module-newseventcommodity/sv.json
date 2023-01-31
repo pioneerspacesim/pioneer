@@ -17,11 +17,11 @@
   },
   "FLAVOUR_0_HEADLINE": {
     "description": "",
-    "message": "Nyheter {date}: En pest drar genom hela {system} systemet. Dödsantalet ökar."
+    "message": "Nyheter {date}: En epidemi drar igenom hela {system} systemet. Dödsantalet ökar."
   },
   "FLAVOUR_0_NEWSBODY": {
     "description": "Imply high demand for MEDICINE commodity.",
-    "message": "Pest skördar liv i {system} systemet ({sectorx}, {sectory}, {sectorz}). Tjänstemän efterfrågar medicinsk hjälp."
+    "message": "Epidemi skördar liv i {system} systemet ({sectorx}, {sectory}, {sectorz}). Tjänstemän efterfrågar medicinsk hjälp."
   },
   "FLAVOUR_10_HEADLINE": {
     "description": "",
@@ -57,11 +57,11 @@
   },
   "FLAVOUR_14_HEADLINE": {
     "description": "",
-    "message": "NYHETER {date}: Protuberans orsakar det största strömavbrottet på ett årtusendeblackout i {system}-systemet."
+    "message": "NYHETER {date}: Protuberans orsakar det största strömavbrottet på ett årtusende i {system}-systemet."
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Det ystemomfattande strömavbrottet orsakar förödelse för {system}-systemet ({sectorx}, {sectory}, {sectorz}). Konsumenter står i kö för att köpa den sista Trapperwaren för att ersätta deras kylskåp, sedan tillverkaren har fått slut på råvara."
+    "message": "Det systemomfattande strömavbrottet orsakar förödelse för {system}-systemet ({sectorx}, {sectory}, {sectorz}). Konsumenter står i kö för att köpa den sista Trapperwaren för att ersätta deras kylskåp, sedan tillverkaren har fått slut på råvara."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
@@ -69,7 +69,7 @@
   },
   "FLAVOUR_15_NEWSBODY": {
     "description": "Imply high demand of NARCOTICS.",
-    "message": "Administrationen i {system} systemet ({sectorx}, {sectory}, {sectorz}) hoppas på att brott kommer att minska när droger inte finns tillgängliga längre efter att ett flertal gangster blivit arresterade."
+    "message": "Administrationen i {system} systemet ({sectorx}, {sectory}, {sectorz}) hoppas på att brott kommer att minska när droger inte finns tillgängliga längre efter att ett flertal gangstrar blivit arresterade."
   },
   "FLAVOUR_16_HEADLINE": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "FLAVOUR_18_NEWSBODY": {
     "description": "Imply vast demand of CONSUMER_GOODS.",
-    "message": "Hjulen rullar snabbare och snabbare i  {system} systemet ({sectorx}, {sectory}, {sectorz}) när konsumenterna får mer pengar att spendera."
+    "message": "Hjulen rullar snabbare och snabbare i {system} systemet ({sectorx}, {sectory}, {sectorz}) när konsumenterna får mer pengar att spendera."
   },
   "FLAVOUR_19_HEADLINE": {
     "description": "",
@@ -121,7 +121,7 @@
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
-    "message": "NYHETER {date}: Avtal om mer \"human\" krigföring har signerats i {system} systemet."
+    "message": "NYHETER {date}: Avtal om mer \"human\" krigföring har undertecknats i {system} systemet."
   },
   "FLAVOUR_21_NEWSBODY": {
     "description": "Imply vast abundance of NERVE_GAS.",
@@ -141,11 +141,11 @@
   },
   "FLAVOUR_23_NEWSBODY": {
     "description": "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-    "message": "Den nya Amissionox fabriken i {system} systemet  ({sectorx}, {sectory}, {sectorz}) har nu startat. Den kommer producera högkvalitativa knivar vassa nog att skära genom en rymdstövel; på grund av dock, låg tillgänglighet av resurser för bladen har de ännu inte nått full produktion."
+    "message": "Den nya Amissionox fabriken i {system} systemet ({sectorx}, {sectory}, {sectorz}) har nu startat. Den kommer producera högkvalitativa knivar vassa nog att skära genom en rymdstövel; dock, på grund av brist på material för bladen, har de ännu inte nått full produktion."
   },
   "FLAVOUR_2_HEADLINE": {
     "description": "",
-    "message": "NYHETER {date}: Torka i {system}. Skördar förstörda."
+    "message": "NYHETER {date}: Torka i {system}. Skörden förstörd."
   },
   "FLAVOUR_2_NEWSBODY": {
     "description": "Hint there will be high demand of GRAIN.",
@@ -177,11 +177,11 @@
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
-    "message": "NYHETER {date}: Glädjefylld ordleksfestival i {system] systemet."
+    "message": "NYHETER {date}: Glädjefylld Quibblefestival i {system] systemet."
   },
   "FLAVOUR_6_NEWSBODY": {
     "description": "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-    "message": "Det druckna firandet i {system} systemet ({sectorx}, {sectory}, {sectorz}) fortsätter medans de hedrar det lilla håriga djuret."
+    "message": "Det överförfriskade firandet i {system} systemet ({sectorx}, {sectory}, {sectorz}) fortsätter medan de hedrar det håriga lilla djuret."
   },
   "FLAVOUR_7_HEADLINE": {
     "description": "",
@@ -257,7 +257,7 @@
   },
   "NEWSPAPER_IND_2": {
     "description": "",
-    "message": "Glaxposten"
+    "message": "The Galactic Post"
   },
   "NEWSPAPER_IND_3": {
     "description": "",

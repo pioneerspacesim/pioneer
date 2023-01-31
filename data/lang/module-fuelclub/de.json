@@ -13,7 +13,7 @@
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "Contact the local Interstellar Pilots' Fuel Co-operative representative."
+    "message": "Kontaktieren Sie den lokalen Vertreter der Interstellaren Treibstoffgenossenschaft der Piloten."
   },
   "FLAVOUR_0_MEMBER_INTRO": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "FLAVOUR_0_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "PILOT'S FUEL CO-OP"
+    "message": "TREIBSTOFFGENOSSENSCHAFT DER PILOTEN"
   },
   "FLAVOUR_0_WELCOME": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "FLAVOUR_1_DESC": {
     "description": "Fuel club for the Federation faction",
-    "message": "Authorized contact for The Federal Fuel Foundation."
+    "message": "Offizieller Kontakt mit der Staatlichen Schifftreibstoff Stiftung."
   },
   "FLAVOUR_1_NONMEMBER_INTRO": {
     "description": "For the Solar Federation faction",
@@ -45,7 +45,7 @@
   },
   "FLAVOUR_1_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "FEDERAL FUEL FOUNDATION"
+    "message": "STAATLICHE SCHIFFTREIBSTOFF STIFTUNG"
   },
   "FLAVOUR_2_CLUBNAME": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
@@ -53,7 +53,7 @@
   },
   "FLAVOUR_2_DESC": {
     "description": "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-    "message": "Make an appointment to speak with the Commonwealth Fuel Union."
+    "message": "Machen Sie einen Termin mit der Commonwealth Treibstoffunion."
   },
   "FLAVOUR_2_NONMEMBER_INTRO": {
     "description": "Commonwealth of Independent Worlds is the name of the CIW faction",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_2_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "COMMONWEALTH FUEL UNION"
+    "message": "COMMONWEALTH TREIBSTOFFUNION"
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
@@ -73,7 +73,7 @@
   },
   "FLAVOUR_3_DESC": {
     "description": "Fuel club for the Haber faction",
-    "message": "Branch office of the Haber Propellant and Perishables Division."
+    "message": "Zweigstelle der Haber Treibstoffe und Öl Division."
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
@@ -85,11 +85,11 @@
   },
   "FLAVOUR_3_TITLE": {
     "description": "Title of the BBS advertisement",
-    "message": "HABER PROPELLANT"
+    "message": "HABER TREIBSTOFFE"
   },
   "FUEL_LEVEL": {
     "description": "",
-    "message": "Your current fuel level is {level}%."
+    "message": "Der momentane Tankstand ist {level}%."
   },
   "LIST_BENEFITS_DISPOSAL": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "LIST_BENEFITS_FUEL_TANK": {
     "description": "",
-    "message": "Fuel tank refilling, once per day"
+    "message": "Tägliche Tankfüllung"
   },
   "LIST_BENEFITS_JOIN": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "REFUEL_FREE": {
     "description": "",
-    "message": "Refuel internal fuel tank for free."
+    "message": "Tanken Sie Ihren eingebauten Tank umsonst."
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",

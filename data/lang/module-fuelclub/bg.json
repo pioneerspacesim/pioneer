@@ -65,7 +65,7 @@
   },
   "FLAVOUR_2_WELCOME": {
     "description": "",
-    "message": "Здравейте и поздрави от нас! Насладете се на нашите услуги."
+    "message": "Много поздрави! Насладете се на нашите услуги."
   },
   "FLAVOUR_3_CLUBNAME": {
     "description": "Fuel club for the Haber faction",
@@ -77,11 +77,11 @@
   },
   "FLAVOUR_3_MEMBER_INTRO": {
     "description": "For the greedy Haber faction, very corporate formulated",
-    "message": "Здравейте. Може да презаредите с гориво или да унищожите Вашите отпадъци."
+    "message": "Поздрави. Може да презаредите с гориво или да унищожите Вашите отпадъци."
   },
   "FLAVOUR_3_NONMEMBER_INTRO": {
     "description": "for the Haber faction",
-    "message": "Здравейте. Намирате се в Хаберската дивизия за гориво и отпадъци, ние се занимаваме с доставките на гориво в контролираната от нас територия."
+    "message": "Поздрави. Намирате се в Хаберската дивизия за гориво и отпадъци, ние се занимаваме с доставките на гориво в контролираната от нас територия."
   },
   "FLAVOUR_3_TITLE": {
     "description": "Title of the BBS advertisement",

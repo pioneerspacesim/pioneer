@@ -73,7 +73,7 @@
   },
   "BONUS_4": {
     "description": "",
-    "message": "Много съм доволен от свършената работа! Преведох допълнителни {cash} по сметката Ви."
+    "message": "Много съм доволен от свършената работа! Преведох допълнителни {cash} по Вашата сметка."
   },
   "COMBAT": {
     "description": "Name of mission type",
@@ -181,7 +181,7 @@
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Мисията трябва да се изпълни до {date}. Нека информацията за тази операция да остане в тайна."
+    "message": "Мисията трябва да се завърши до {date}. Нека информацията за тази операция да остане в тайна."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Има конвой на път за {area}. Мисията трябва да се изпълни до {date}."
+    "message": "Има конвой на път за {area}. Мисията трябва да се завърши до {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
@@ -289,7 +289,7 @@
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Място за плащане:"
+    "message": "Заплащане:"
   },
   "PLEASE_REPEAT_THE_MISSION_DETAILS": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Мисията трябва да се изпълни до {date}, защото се задават още вражески кораби."
+    "message": "Мисията трябва да се завърши до {date}, защото се задават още вражески кораби."
   },
   "POLICE_LAND_THERE": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Благодаря Ви, че го направихте. Преведох кредитите по сметката Ви."
+    "message": "Благодаря Ви, че го направихте. Преведох кредитите по Вашата сметка."
   },
   "SUCCESSMSG_3": {
     "description": "",

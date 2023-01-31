@@ -371,6 +371,22 @@
     "description": "",
     "message": "Pokazuj pionowe linie"
   },
+  "DWARF_PLANET_CONTAINING_LIQUID_WATER": {
+    "description": "",
+    "message": "Planeta karłowata z ciekłą wodą"
+  },
+  "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
+    "description": "",
+    "message": "Planeta karłowata posiadająca nieco cieczy,"
+  },
+  "DWARF_PLANET_MOSTLY_COVERED_IN_ICE": {
+    "description": "",
+    "message": "Planeta karłowata, w większości pokryta lodem"
+  },
+  "DWARF_PLANET_TERRESTRIAL": {
+    "description": "",
+    "message": "Planeta karłowata"
+  },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
     "message": "Ziemska Federacja rządy kolonialne"
@@ -598,6 +614,10 @@
   "H_ATMOSPHERE": {
     "description": "",
     "message": "atmosfera wodorowa"
+  },
+  "ICE_DWARF_PLANET": {
+    "description": "",
+    "message": "Lodowa planeta karłowata"
   },
   "ICE_MOON": {
     "description": "",

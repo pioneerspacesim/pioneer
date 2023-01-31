@@ -5,7 +5,7 @@
   },
   "ACCEPTED_2": {
     "description": "",
-    "message": "Utmärkt"
+    "message": "Utmärkt!"
   },
   "ACCEPTED_3": {
     "description": "",
@@ -29,7 +29,7 @@
   },
   "ADTEXT_5": {
     "description": "",
-    "message": "{mission} Uppdrag: Lön {cash}."
+    "message": "{mission}: Lön {cash}."
   },
   "ADTITLE_1": {
     "description": "",
@@ -37,7 +37,7 @@
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "CHALLENGE RESOLUTION"
+    "message": "UTMANING - LÖSNING"
   },
   "ADTITLE_3": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "COMBAT": {
     "description": "Name of mission type",
-    "message": "Strid"
+    "message": "Stridsuppdrag"
   },
   "CORPORATION_1": {
     "description": "Name of a corporation",
@@ -117,7 +117,7 @@
   },
   "DENY_1": {
     "description": "",
-    "message": "Ledsen, jag behöver en pilot som har med mer stridsvana."
+    "message": "Ledsen, jag behöver en pilot som har mer stridsvana."
   },
   "DENY_2": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "DETECTIVE": {
     "description": "Police Detective",
-    "message": "Detective"
+    "message": "Kriminalpolis"
   },
   "DISTANCE": {
     "description": "Distance in space, between two locations",
@@ -161,7 +161,7 @@
   },
   "GREETING_4": {
     "description": "",
-    "message": "Greetings! Call me {name}."
+    "message": "God dag! Kalla mig {name}."
   },
   "GREETING_5": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "MISSION_COMPLETE": {
     "description": "Message from the ship computer",
-    "message": "primärt uppdragsmål uppnått"
+    "message": "Primärt uppdragsmål uppnått"
   },
   "MISSION_INFO": {
     "description": "Message from the ship computer",
@@ -257,15 +257,15 @@
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
-    "message": "Spaning"
+    "message": "Spaningsuppdrag"
   },
   "MISSION_TYPE_2": {
     "description": "Name of mission type",
-    "message": "Väpnad spaning"
+    "message": "Väpnat spaningsuppdrag"
   },
   "MISSION_TYPE_3": {
     "description": "Name of mission type. Derived from Fighter Sweep. An aggressive mission to hunt down and destroy every enemy fighter in the allotted area.",
-    "message": "Utrensning"
+    "message": "Stridsuppdrag jaktsvep"
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
@@ -273,7 +273,7 @@
   },
   "OBJECTIVE_1": {
     "description": "",
-    "message": "Det är inte nödvändigt att attackera fienden. Vi vill ha data om försvarsförmågan och svarstid."
+    "message": "Det är inte nödvändigt att attackera fienden. Vi vill ha information om försvarsförmågan och svarstid."
   },
   "OBJECTIVE_2": {
     "description": "",
@@ -297,7 +297,7 @@
   },
   "POLICE_1": {
     "description": "{area} is an asteroid or planet",
-    "message": "Polisens spanare har upptäckt att en grupp pirater försöker etablera ett fäste på {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}), {dist} ly. Detta får inte hända. De lokala myndigheterna betalar {cash} för ett uppdrag till {area} som förberedelse för en polisinsats."
+    "message": "Polisens spanare har upptäckt att en grupp pirater försöker etablera ett fäste på {area} i {system}-systemet ({sectorx}, {sectory}, {sectorz}), {dist} ly. Det får inte hända. De lokala myndigheterna betalar {cash} för ett uppdrag till {area} som förberedelse för en polisinsats."
   },
   "POLICE_2": {
     "description": "{area} is an asteroid or planet",
@@ -317,7 +317,7 @@
   },
   "RADAR_NOT_INSTALLED": {
     "description": "",
-    "message": "Ledsen, jag tro inte att du kan klara uppdraget utan en radar."
+    "message": "Ledsen, jag tror inte att du kan klara uppdraget utan en radar."
   },
   "RISK_1": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "SUCCESSMSG_2": {
     "description": "",
-    "message": "Tack för att du fixade det. Jag har fört över pengarna."
+    "message": "Tack för att du klarade det. Jag har fört över pengarna."
   },
   "SUCCESSMSG_3": {
     "description": "",

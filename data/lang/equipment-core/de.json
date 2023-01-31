@@ -61,7 +61,7 @@
   },
   "DAMAGE_PER_SHOT": {
     "description": "Tooltip explaining weapon damage per shot",
-    "message": "Damage Per Shot"
+    "message": "Schaden pro Schuss"
   },
   "DRIVE_CLASS1": {
     "description": "",
@@ -153,15 +153,15 @@
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
-    "message": "EMPTY"
+    "message": "LEER"
   },
   "EQUIPMENT_INTEGRITY": {
     "description": "Tooltip explaining remaining equipment integrity",
-    "message": "Equipment Integrity"
+    "message": "Ausrüstungsintegrität"
   },
   "EQUIPMENT_WEIGHT": {
     "description": "Tooltip explaining equipment weight",
-    "message": "Equipment Weight"
+    "message": "Ausrüstungsgewicht"
   },
   "FUEL_SCOOP": {
     "description": "",
@@ -217,7 +217,7 @@
   },
   "MISSILES": {
     "description": "Category name of missile-related equipment",
-    "message": "Missiles"
+    "message": "Raketen"
   },
   "MISSILE_GUIDED": {
     "description": "",
@@ -245,19 +245,19 @@
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
-    "message": "Orbital scanner XKM-650"
+    "message": "Orbitaler Scanner XKM-650"
   },
   "ORBIT_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data"
+    "message": "Scannt wissenschaftliche Daten des Planeten vom Orbit aus"
   },
   "ORBIT_SCANNER_GOOD": {
     "description": "A sensor used to scan planets from high altitude / orbit + model number (that's minimum km altitude)",
-    "message": "Orbital scanner XKM-1750"
+    "message": "Orbitaler Scanner XKM-1750"
   },
   "ORBIT_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Scans planet from orbit, for scientific data, with high resolution and wide aperture lens"
+    "message": "Scannt wissenschaftliche Daten des Planeten vom Orbit aus, mit hoher Auflösung und Abdeckung"
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
@@ -269,7 +269,7 @@
   },
   "PROPULSION": {
     "description": "Category name of propulsion-related equipment",
-    "message": "Propulsion"
+    "message": "Antrieb"
   },
   "PULSECANNON_10MW": {
     "description": "",
@@ -317,23 +317,23 @@
   },
   "SCOOPS": {
     "description": "Category name of scoop-related equipment",
-    "message": "Scoops"
+    "message": "Schöpfer"
   },
   "SENSORS": {
     "description": "Category name of sensor-related equipment",
-    "message": "Sensors"
+    "message": "Sensoren"
   },
   "SENSOR_MIN_ALTITUDE": {
     "description": "",
-    "message": "Sensor min altitude"
+    "message": "Sensor min. Flughöhe"
   },
   "SENSOR_RESOLUTION": {
     "description": "Resolution of e.g. optical sensor",
-    "message": "Sensor resolution"
+    "message": "Sensorauflösung"
   },
   "SHIELDS": {
     "description": "Category name of shield-related equipment",
-    "message": "Shields"
+    "message": "Schilde"
   },
   "SHIELD_ENERGY_BOOSTER": {
     "description": "",
@@ -353,7 +353,7 @@
   },
   "SHOTS_PER_MINUTE": {
     "description": "Tooltip explaining weapon fire rate / RPM counter",
-    "message": "Firing Rate / Minute"
+    "message": "Schuss / Minute"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
@@ -365,19 +365,19 @@
   },
   "SURFACE_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude. Model manufacturer name is meant to sound like a cheap brand.",
-    "message": "Surface scanner Nadir-150"
+    "message": "Oberflächsenscanner Nadir-150"
   },
   "SURFACE_SCANNER_DESCRIPTION": {
     "description": "tooltip",
-    "message": "Cartography mapping and geological survey recorder"
+    "message": "Scanner zur Kartierung und geologische Vermessung"
   },
   "SURFACE_SCANNER_GOOD": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types. Model manufacturer name is meant to be associated with high quality.",
-    "message": "Surface scanner Xeiss-250"
+    "message": "Oberflächenscanner Xeiss-250"
   },
   "SURFACE_SCANNER_GOOD_DESCRIPTION": {
     "description": "tooltip",
-    "message": "High resolution cartography mapping and geological survey recorder"
+    "message": "Hochauflösender Scanner zur Kartierung und geologischen Vermessung"
   },
   "TARGET_SCANNER": {
     "description": "ship equipment showing target information/stats",
@@ -413,11 +413,11 @@
   },
   "TOTAL_MODULE_CAPACITY": {
     "description": "Tooltip explaining module capacity of specific slot",
-    "message": "Total Capacity"
+    "message": "Gesamtkapazität"
   },
   "TOTAL_MODULE_WEIGHT": {
     "description": "Tooltip explaining total equipped weight of specific slot",
-    "message": "Total Weight"
+    "message": "Gesamtgewicht"
   },
   "TRADE_COMPUTER": {
     "description": "Ship equipment computing profitable commodities to trade between two systems",
@@ -437,7 +437,7 @@
   },
   "UTILITY": {
     "description": "Category name of utility equipment",
-    "message": "Utility"
+    "message": "Sonstiges"
   },
   "WEAPONS": {
     "description": "Category name of weapon-related equipment",

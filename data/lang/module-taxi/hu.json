@@ -101,11 +101,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "KERESÜNK: Egy kisebb csoportot {system} rendszerbe elszállító hajót. A fizetség {cash} kredit."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "SZEMÉLYSZÁLLÍTÁS"
   },
   "FLAVOUR_0_DANGER": {
     "description": "",
@@ -137,11 +137,11 @@
   },
   "FLAVOUR_10_ADTEXT": {
     "description": "",
-    "message": "VIP needs urgent passage on a fast ship to {system} system. No questions asked."
+    "message": "VIP keres sürgős útra diszkrét személyszállítót {system} rendszerbe."
   },
   "FLAVOUR_10_ADTITLE": {
     "description": "",
-    "message": "DISCREET SHIP WANTED"
+    "message": "DISZKRÉT HAJÓT KERES"
   },
   "FLAVOUR_10_DANGER": {
     "description": "",
@@ -173,11 +173,11 @@
   },
   "FLAVOUR_11_ADTEXT": {
     "description": "",
-    "message": "Corporate inspector needs passage on a fast ship to {system} system."
+    "message": "Vállalati ellenőr keres hajót {system} rendszerbe utazáshoz."
   },
   "FLAVOUR_11_ADTITLE": {
     "description": "",
-    "message": "FAST SHIP NEEDED"
+    "message": "GYORS HAJÓT KERES"
   },
   "FLAVOUR_11_DANGER": {
     "description": "",
@@ -209,11 +209,11 @@
   },
   "FLAVOUR_12_ADTEXT": {
     "description": "",
-    "message": "Urgent transport required for fleeing citizen. Passage to {system} system needed."
+    "message": "Menekülő polgár keres sürgősen hajót {system} rendszerbe jutáshoz."
   },
   "FLAVOUR_12_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "UTASSZÁLLÍTÓT KERES"
   },
   "FLAVOUR_12_DANGER": {
     "description": "",
@@ -245,11 +245,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "KERESÜNK: Egy kisebb csoportot {system} rendszerbe elszállító hajót. A fizetség {cash} kredit."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "PASSAGE WANTED"
+    "message": "SZEMÉLYSZÁLLÍTÁS"
   },
   "FLAVOUR_1_DANGER": {
     "description": "",
@@ -281,11 +281,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Wanted: Passage for a small group to {system} system. Will pay {cash}."
+    "message": "KERESÜNK: Egy kisebb csoportot {system} rendszerbe elszállító hajót. A fizetség {cash} kredit."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "SMALL GROUP PASSAGE"
+    "message": "KIS CSOPORT UTAS"
   },
   "FLAVOUR_2_DANGER": {
     "description": "",
@@ -317,11 +317,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship required for high-risk passage to {system} system. Will pay {cash}."
+    "message": "Hajót keresünk rizikós úthoz {system} rendszerbe. Díjazás: {cash}."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "UTAS KERES HAJÓT"
   },
   "FLAVOUR_3_DANGER": {
     "description": "",
@@ -353,11 +353,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for business-class passage to {system} system. Will pay {cash}."
+    "message": "Első osztályú kényelmű hajót keres {system} rendszerbe utazáshoz. Díjazás: {cash}"
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "BUSINESS PASSAGE"
+    "message": "ÜZLETI UTAS"
   },
   "FLAVOUR_4_DANGER": {
     "description": "",
@@ -389,11 +389,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Require confidential passage of anonymous VIP to {system} system. Will pay {cash}."
+    "message": "Bizalmasan kezelt utazáshoz keres hajót meg nem nevezett VIP {system} rendszerbe {cash} díjazásért."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "CONFIDENTIAL PASSAGE"
+    "message": "BIZALMAS UTAZÁS"
   },
   "FLAVOUR_5_DANGER": {
     "description": "",
@@ -425,11 +425,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Reporter needs proximity to story developing in the {system} system. Will pay {cash}."
+    "message": "Újságíró közel kerülne {system}-beli eseményekhez. Díjazás: {cash}"
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHIP REQUIRED"
+    "message": "UTASSZÁLLÍTÓT KERES"
   },
   "FLAVOUR_6_DANGER": {
     "description": "",
@@ -461,11 +461,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Ship wanted for safe passage to {system} system. Secure transport required. Will pay {cash}."
+    "message": "Hajót keres {system} rendszerbe való biztonságos eljutáshoz, {cash} ellenében."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "SAFE PASSAGE NEEDED"
+    "message": "BIZTONSÁGOS UTASSZÁLLÍTÓT KERES"
   },
   "FLAVOUR_7_DANGER": {
     "description": "",
@@ -497,11 +497,11 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal passage to {system} system required. Surcharge included in payment."
+    "message": "Sürgős személyszállításra keres hajót {system} rendszerbe. {cash} ellentételezés tartalmazza a veszélyességi pótlékot."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "FAST PERSONAL TRANSPORT"
+    "message": "GYORS SZEMÉLYSZÁLLÍTÁS"
   },
   "FLAVOUR_8_DANGER": {
     "description": "",
@@ -533,11 +533,11 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Require urgent transport for honest citizen. Fast passage needed to {system} system."
+    "message": "Tisztességes polgár keres gyors hajót {system} rendszerbe utazáshoz."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "LEGITIMATE PASSAGE"
+    "message": "TÖRVÉNYE UTAZÁS"
   },
   "FLAVOUR_9_DANGER": {
     "description": "",

@@ -57,11 +57,11 @@
   },
   "FLAVOUR_0_ADTEXT": {
     "description": "",
-    "message": "Going to the {system} system? Money paid for delivery of a small package."
+    "message": "Auf dem Weg ins {system} System? Zahle gutes Geld für die Lieferung eines kleinen Paketes."
   },
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "INTERSTELLAR DELIVERY"
+    "message": "INTERSTELLARE LIEFERUNG"
   },
   "FLAVOUR_0_FAILUREMSG": {
     "description": "",
@@ -81,11 +81,11 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Wanted: Delivery of a package to the {system} system."
+    "message": "Gesucht: Lieferung eines Paketes ins {system} System."
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DELIVERY WANTED"
+    "message": "LIEFERUNG BENÖTIGT"
   },
   "FLAVOUR_1_FAILUREMSG": {
     "description": "",
@@ -105,11 +105,11 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "Urgent! Fast ship needed to deliver a package to the {system} system."
+    "message": "Eilfracht! Brauche schnelles Schiff für Paketlieferung ins {system} System."
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "URGENT DELIVERY"
+    "message": "DRINGENDE LIEFERUNG"
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
@@ -129,11 +129,11 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Delivery of sensitive documents to the {system} system. {cash} to an experienced pilot."
+    "message": "Lieferung von heiklen Dokumenten ins {system} System. {cash} für einen erfahrenen Piloten."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "DOCUMENT DELIVERY"
+    "message": "LIEFERUNG VON DOKUMENTEN"
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
@@ -153,11 +153,11 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Interstellar Postal Services. We require a ship for the delivery run to {system} system."
+    "message": "Interstellarer Zustellservice. Wir benötigen ein Schiff für einen Lieferflug ins {system} System."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "POSTAL SERVICE"
+    "message": "POSTDIENST"
   },
   "FLAVOUR_4_FAILUREMSG": {
     "description": "",
@@ -177,11 +177,11 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Transport belongings to {starport} from port storage facility."
+    "message": "Transport von Habseligkeiten nach {starport} aus dem Lager des Raumhafens."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "MOVING HOME"
+    "message": "ZIEHE UM"
   },
   "FLAVOUR_5_FAILUREMSG": {
     "description": "",
@@ -201,11 +201,11 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "In-system courier services required. Delivery of a small package to {starport}."
+    "message": "Systeminterner Kurierdienst gesucht. Lieferung eines kleinen Pakets nach {starport}."
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "SHORT-RANGE COURIER"
+    "message": "KURZSTRECKENKURIER"
   },
   "FLAVOUR_6_FAILUREMSG": {
     "description": "",
@@ -225,11 +225,11 @@
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
-    "message": "Standardized inter-planetary transport contract. Freight of local cargo to {starport}."
+    "message": "Standardvertrag für interplanetarischen Transport. Lokale Fracht nach {starport}."
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "INTER-PLANETARY CARGO"
+    "message": "INTERPLANETARISCHE FRACHT"
   },
   "FLAVOUR_7_FAILUREMSG": {
     "description": "",
@@ -249,11 +249,11 @@
   },
   "FLAVOUR_8_ADTEXT": {
     "description": "",
-    "message": "Urgent personal delivery contract. Require quick delivery of an item to {starport}."
+    "message": "Eiliger persönlicher Liefervertrag. Brauche schnelle Lieferung eines Objekts nach {starport}."
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "NEARBY DELIVERY"
+    "message": "LOKALE LIEFERUNG"
   },
   "FLAVOUR_8_FAILUREMSG": {
     "description": "",
@@ -273,11 +273,11 @@
   },
   "FLAVOUR_9_ADTEXT": {
     "description": "",
-    "message": "Package drop-off required. Urgent dispatch of perishables to {starport}."
+    "message": "Benötige Paketzustellung. Dringende Sendung von vergänglichen Waren nach {starport}."
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "PACKAGE DROP"
+    "message": "PAKETLIEFERUNG"
   },
   "FLAVOUR_9_FAILUREMSG": {
     "description": "",

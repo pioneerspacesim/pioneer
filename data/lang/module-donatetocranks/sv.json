@@ -77,7 +77,7 @@
   },
   "FLAVOUR_6_DESC": {
     "description": "",
-    "message": "Stöd veteranerna i {MILITARY}."
+    "message": "Stöd veteranerna inom {MILITARY}."
   },
   "FLAVOUR_6_MESSAGE": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "FLAVOUR_7_DESC": {
     "description": "",
-    "message": "Stöd veteranerna i {POLICE}."
+    "message": "Stöd veteranerna inom {POLICE}."
   },
   "FLAVOUR_7_MESSAGE": {
     "description": "",
@@ -105,7 +105,7 @@
   },
   "FLAVOUR_8_MESSAGE": {
     "description": "",
-    "message": "De modiga soldaterna i {MILITARY} trotsar farorna för din skull!"
+    "message": "De modiga soldaterna inom {MILITARY} trotsar farorna för din skull!"
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "FLAVOUR_9_DESC": {
     "description": "",
-    "message": "Stöd kampen mot fattigdom i {FACTION}."
+    "message": "Stöd kampen mot fattigdom inom {FACTION}."
   },
   "FLAVOUR_9_MESSAGE": {
     "description": "",

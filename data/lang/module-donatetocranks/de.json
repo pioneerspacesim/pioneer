@@ -1,11 +1,11 @@
 {
   "FLAVOUR_0_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "SPENDEN SIE!"
   },
   "FLAVOUR_0_DESC": {
     "description": "",
-    "message": "The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+    "message": "Die Kirche des fliegenden Spaghettimonsters braucht IHRE Spende um das Wort Gottes zu verbreiten."
   },
   "FLAVOUR_0_MESSAGE": {
     "description": "",
@@ -13,11 +13,11 @@
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
-    "message": "DONATE"
+    "message": "GÖNNER GESUCHT"
   },
   "FLAVOUR_1_DESC": {
     "description": "",
-    "message": "The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+    "message": "Die Wächter des Freien Geistes bitten Sie inständig um Ihre Almosen zur Unterstützung unserer Klöster."
   },
   "FLAVOUR_1_MESSAGE": {
     "description": "",
@@ -25,11 +25,11 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "FEELING GENEROUS?"
+    "message": "HABEN SIE ZU GEBEN?"
   },
   "FLAVOUR_2_DESC": {
     "description": "",
-    "message": "War Orphan's Support needs your help to keep up its essential work."
+    "message": "Der Verein zur Unterstützung von Kriegswaisen e.V. benötigt Ihre Hilfe um seine unverzichtbare Arbeit fortzusetzen."
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
@@ -37,11 +37,11 @@
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
-    "message": "CONTRIBUTE"
+    "message": "HELFT MIT"
   },
   "FLAVOUR_3_DESC": {
     "description": "",
-    "message": "The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+    "message": "Die Freunde der Galaxie brauchen Ihr Geld für die 'Verbietet Militärische Antriebe'-Kampagne."
   },
   "FLAVOUR_3_MESSAGE": {
     "description": "",
@@ -49,11 +49,11 @@
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
-    "message": "DONATE!"
+    "message": "SPENDET!"
   },
   "FLAVOUR_4_DESC": {
     "description": "",
-    "message": "Save our species. Stop the carnage of newly settled worlds."
+    "message": "Rettet unsere Spezies. Stoppt die Massaker auf neu besiedelten Welten."
   },
   "FLAVOUR_4_MESSAGE": {
     "description": "",
@@ -61,15 +61,63 @@
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
-    "message": "SUPPORT FREEDOM!"
+    "message": "UNTERSTÜTZEN SIE DIE FREIHEIT!"
   },
   "FLAVOUR_5_DESC": {
     "description": "",
-    "message": "Stop the great injustice of proprietary software controlling your ship."
+    "message": "Helfen Sie unserem Kampf gegen proprietäre Software, die Ihr Schiff kontrolliert."
   },
   "FLAVOUR_5_MESSAGE": {
     "description": "",
     "message": "Befreie dein Schiff! Wähle deinen Spendenbetrag. Fröhliches Hacken!"
+  },
+  "FLAVOUR_6_ADTITLE": {
+    "description": "",
+    "message": "VETERANENTAG!"
+  },
+  "FLAVOUR_6_DESC": {
+    "description": "",
+    "message": "Unterstützt die Veteranen von {MILITARY}."
+  },
+  "FLAVOUR_6_MESSAGE": {
+    "description": "",
+    "message": "{MILITARY}. Man kann immer auf sie zählen.\nKönnen sie auch auf Sie zählen?"
+  },
+  "FLAVOUR_7_ADTITLE": {
+    "description": "",
+    "message": "HABEN SIE IHRE UNTERSTÜTZUNG?"
+  },
+  "FLAVOUR_7_DESC": {
+    "description": "",
+    "message": "Unterstützen Sie die Veteranen von {POLICE}."
+  },
+  "FLAVOUR_7_MESSAGE": {
+    "description": "",
+    "message": "Diese tapferen Männer und Frauen der {POLICE}, die ihr Leben der Sicherheit von {SYSTEM} gewidmet haben, brauchen Ihre Hilfe!"
+  },
+  "FLAVOUR_8_ADTITLE": {
+    "description": "",
+    "message": "UNTERSTÜTZT UNSERE VETERANEN!"
+  },
+  "FLAVOUR_8_DESC": {
+    "description": "",
+    "message": "Unterstützt die Veteranen unserer Streitkräfte."
+  },
+  "FLAVOUR_8_MESSAGE": {
+    "description": "",
+    "message": "Die mutigen Soldaten von {MILITARY} begeben sich für Sie in jede Gefahr!"
+  },
+  "FLAVOUR_9_ADTITLE": {
+    "description": "",
+    "message": "BEENDET DIE ARMUT!"
+  },
+  "FLAVOUR_9_DESC": {
+    "description": "",
+    "message": "Unterstützen Sie den Kampf gegen die Armut in der {FACTION}."
+  },
+  "FLAVOUR_9_MESSAGE": {
+    "description": "",
+    "message": "Wir helfen Familien in der {FACTION}, eine bessere Zukunft für alle zu schaffen."
   },
   "SALES_PITCH": {
     "description": "",

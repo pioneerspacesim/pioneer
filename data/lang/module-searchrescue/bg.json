@@ -213,7 +213,7 @@
   },
   "FLAVOUR_2_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "За да получите пълното си възнаграждение, трябва да доставите горивото до {due}."
+    "message": "За да получите цялото заплащане, трябва да доставите горивото преди {due}."
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
@@ -225,7 +225,7 @@
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
-    "message": "Много Ви благодаря! Преведох пълното възнаграждение по сметката Ви."
+    "message": "Много Ви благодаря! Преведох пълното възнаграждение по Вашата сметка."
   },
   "FLAVOUR_2_TRANSFERMSG": {
     "description": "",
@@ -405,7 +405,7 @@
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
-    "message": "Благодаря Ви! Упълномощен съм да Ви предам пълното възнаграждение."
+    "message": "Благодаря Ви! Упълномощен съм да Ви предам цялото заплащане."
   },
   "FLAVOUR_7_TRANSFERMSG": {
     "description": "",
@@ -497,7 +497,7 @@
   },
   "PAYMENT_LOCATION": {
     "description": "",
-    "message": "Място за плащане:"
+    "message": "Заплащане:"
   },
   "PICKUP": {
     "description": "",

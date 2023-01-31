@@ -21,11 +21,11 @@
   },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
-    "message": "Potential crew available for hire at this starport."
+    "message": "Mannschaftsmitglieder, die an diesem Raumhafen anheuern möchten."
   },
   "CREW_FOR_HIRE_TITLE": {
     "description": "",
-    "message": "CREW FOR HIRE"
+    "message": "ANSTELLUNG GESUCHT"
   },
   "GO_BACK": {
     "description": "",
