@@ -145,7 +145,7 @@ REGISTER_INPUT_BINDING(PlayerShipController)
 	auto flightGroup = controlsPage->GetBindingGroup("ShipOrient");
 	input->AddAxisBinding("BindAxisPitch", flightGroup, Axis({}, { SDLK_k }, { SDLK_i }));
 	input->AddAxisBinding("BindAxisYaw", flightGroup, Axis({}, { SDLK_j }, { SDLK_l }));
-	input->AddAxisBinding("BindAxisRoll", flightGroup, Axis({}, { SDLK_u }, { SDLK_o }));
+	input->AddAxisBinding("BindAxisRoll", flightGroup, Axis({}, { SDLK_q }, { SDLK_e }));
 	input->AddActionBinding("BindKillRot", flightGroup, Action({ SDLK_p }, { SDLK_x }));
 	input->AddActionBinding("BindToggleRotationDamping", flightGroup, Action({ SDLK_v }));
 
