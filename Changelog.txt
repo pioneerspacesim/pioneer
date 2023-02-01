@@ -1,3 +1,15 @@
+February 2023
+  * New Features
+  
+  * Internal Changes
+  
+  * Fixes
+    * Fix issue with player not being assigned as crew on their own ship (#5515)
+    * Fix distance to planet surface being calculated relative to body center (#5515)
+    * Fix Skipjack having only 1 sensor slot (#5515)
+    * Default flight roll keys to Q/E (#5515)
+    * Armed recon mission informs the player when they've reached the target area (#5522)
+
 January 2023
   * New Features
     * New ship: Coronatrix Courier (remodel and conversion of the Amphiesma) (#5462)
@@ -10,6 +22,7 @@ January 2023
     * Add station stock and demand, with impact on commodity prices (#5474)
     * Enable in-system trading between different stations (#5474)
     * Increase amount of credits granted at Mars and New Hope starts (#5474)
+    * Increase Bowfin's equipment capacity to improve its utility (#5498)
   
   * Internal Changes
     * Improved code for Advice module / smaller saves (#5467)
@@ -31,6 +44,13 @@ January 2023
     * Fix shading of Vlastan Library building (#5483)
     * Fix lodos missing a gun mount tag (#5486)
     * Fix station pads being assigned wrong bay indicies (#5488)
+    * Fix several memory leaks and uninitialized variables (#5495)
+    * Fix issues with skipjack patterns and textures (#5496)
+    * Fix custom flightlog data sometimes not being loaded with a save (#5498)
+    * Fix multiple issues with autosave on landing causing incorrect save states (#5498)
+    * Fix scan manager not detecting sensors when player buys a new ship (#5498)
+    * Fix a major defect in terrain quality at high elevations (#5498)
+    * Fix multiple issues with scout mission (#5505)
 
 December 2022
   * New Features
