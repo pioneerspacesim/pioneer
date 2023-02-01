@@ -16,11 +16,11 @@
 		"scoop": 2,
 		"laser_front": 1,
 		"missile": 8,
-		"sensor": 1,
+		"sensor": 3,
 		"cargo": 140
 	},
 	"roles": ["mercenary", "merchant", "pirate", "courier"],
-	
+
 	"effective_exhaust_velocity": 18900000,
 	"thruster_fuel_use": -1.0,
 	"fuel_tank_mass": 135,
