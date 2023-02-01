@@ -1263,6 +1263,14 @@
     "description": "",
     "message": "Lobby"
   },
+  "LOCAL_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Local arm"
+  },
+  "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
+    "description": "",
+    "message": "Located {distance}km from the centre of {name}:"
+  },
   "LOCATION": {
     "description": "",
     "message": "Location"
@@ -1483,6 +1491,10 @@
     "description": "",
     "message": "None for sale in this station."
   },
+  "NORMA_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Norma arm"
+  },
   "NOTES": {
     "description": "",
     "message": "Notes:"
@@ -1567,6 +1579,10 @@
     "description": "Label for the point of an orbit nearest to the orbited body",
     "message": "Periapsis"
   },
+  "OUTER_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Outer arm"
+  },
   "OUTLAW": {
     "description": "Legal status of player",
     "message": "Outlaw"
@@ -1630,6 +1646,10 @@
   "PAY_FINE_OF_N": {
     "description": "",
     "message": "Pay fine of {amount}"
+  },
+  "PERSEUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Perseus arm"
   },
   "PERSONAL_INFORMATION": {
     "description": "",
@@ -1831,6 +1851,10 @@
     "description": "Ship jump status",
     "message": "Safety lockout"
   },
+  "SAGITTARIUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Sagittarius arm"
+  },
   "SAVE": {
     "description": "",
     "message": "Save"
@@ -1838,6 +1862,10 @@
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
     "message": "Scoop mounts"
+  },
+  "SCUTUM_CENTAURUS_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "Scutum-Centaurus arm"
   },
   "SELECT": {
     "description": "",
@@ -2046,6 +2074,10 @@
   "THIS_IS_FACTION_POLICE": {
     "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
     "message": "This is the {faction_police} of the {faction}"
+  },
+  "THREE_KPC_ARM": {
+    "description": "Arm of the Milky Way galaxy",
+    "message": "3kpc arm"
   },
   "TOGGLE_CARGO_WINDOW": {
     "description": "Label for a button toggling the cargo display window.",
