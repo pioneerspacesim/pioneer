@@ -323,7 +323,8 @@ function SystemEconView:drawPriceList(key, prices)
 	local iconSize = Vector2(ui.getTextLineHeight() + 4)
 	local out = nil
 
-	ui.beginTable("prices", 3)
+	if not ui.beginTable("prices", 3) then return end
+
 	ui.tableSetupColumn("Name", { "WidthStretch" })
 	ui.tableSetupColumn("Indicators")
 	ui.tableSetupColumn("Amount")

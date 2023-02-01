@@ -67,7 +67,8 @@ end
 local function cargolist ()
 	local count = cachedCargoList or rebuildCargoList()
 
-	ui.beginTable("cargoTable", 3, { "SizingFixedFit" })
+	if not ui.beginTable("cargoTable", 3, { "SizingFixedFit" }) then return end
+
 	ui.tableSetupColumn("Amount")
 	ui.tableSetupColumn("Name", { "WidthStretch" })
 	ui.tableSetupColumn("Jettison")

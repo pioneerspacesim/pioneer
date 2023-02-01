@@ -392,7 +392,7 @@ static int l_body_get_altitude_rel_to(lua_State *l)
 	if (other && other->IsType(ObjectType::TERRAINBODY)) {
 		const TerrainBody *terrain = static_cast<const TerrainBody *>(other);
 		vector3d surface_pos = pos.Normalized();
-		double radius = 0.0;
+		double radius = terrain->GetSystemBody()->GetRadius();
 		if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
 			radius = terrain->GetTerrainHeight(surface_pos);
 		}

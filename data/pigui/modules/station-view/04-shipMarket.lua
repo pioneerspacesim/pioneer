@@ -269,7 +269,8 @@ local tradeMenu = function()
 				ui.child("ShipSpecs", Vector2(0, 0), function()
 					ui.withStyleVars({ CellPadding = Vector2(8, 4) }, function()
 
-						ui.beginTable("specs", 4)
+						if not ui.beginTable("specs", 4) then return end
+
 						ui.tableSetupColumn("name1")
 						ui.tableSetupColumn("body1")
 						ui.tableSetupColumn("name2")

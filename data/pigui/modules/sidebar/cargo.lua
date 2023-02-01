@@ -252,17 +252,18 @@ function module:drawBody()
 
 	if cargoMgr:GetUsedSpace() > 0 then
 
-		ui.beginTable("cargo", 4)
-		ui.tableSetupColumn("Cargo")
-		ui.tableSetupColumn("Amount")
-		ui.tableSetupColumn("Gauge", { "WidthStretch" })
-		ui.tableSetupColumn("Buttons")
+		if ui.beginTable("cargo", 4) then
+			ui.tableSetupColumn("Cargo")
+			ui.tableSetupColumn("Amount")
+			ui.tableSetupColumn("Gauge", { "WidthStretch" })
+			ui.tableSetupColumn("Buttons")
 
-		for _, v in ipairs(sortTable) do
-			self:drawCargoRow(v, maxWidth, totalSpace)
+			for _, v in ipairs(sortTable) do
+				self:drawCargoRow(v, maxWidth, totalSpace)
+			end
+
+			ui.endTable()
 		end
-
-		ui.endTable()
 
 	else
 		ui.alignTextToButtonPadding()

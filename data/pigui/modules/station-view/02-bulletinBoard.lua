@@ -150,6 +150,14 @@ bulletinBoard = Table.New("BulletinBoardTable", false, {
 		local ref = item.__ref
 		local ad = SpaceStation.adverts[station][ref]
 
+		-- TODO: if the player is watching the BBS while an ad expires, the ad
+		-- will be grayed-out but not removed until the player clicks on
+		-- something.
+		if not ad then
+			refresh()
+			return
+		end
+
 		if Game.paused then
 			return
 		end
