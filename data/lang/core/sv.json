@@ -49,7 +49,7 @@
   },
   "ASTEROID": {
     "description": "",
-    "message": "Astroid"
+    "message": "Asteroid"
   },
   "AUTOMATIC_SYSTEM_SELECTION": {
     "description": "for star map, select star system when mouse close to it",

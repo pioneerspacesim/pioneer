@@ -181,7 +181,7 @@
   },
   "HARVESTING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Мисията трябва да се завърши до {date}. Нека информацията за тази операция да остане в тайна."
+    "message": "Мисията трябва да се завърши преди {date}. Нека информацията за тази операция да остане в тайна."
   },
   "HARVESTING_LAND_THERE": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "MINING_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Има конвой на път за {area}. Мисията трябва да се завърши до {date}."
+    "message": "Има конвой на път за {area}. Мисията трябва да се завърши преди {date}."
   },
   "MINING_LAND_THERE": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "POLICE_IT_MUST_BE_COMPLETED_BY": {
     "description": "",
-    "message": "Мисията трябва да се завърши до {date}, защото се задават още вражески кораби."
+    "message": "Мисията трябва да се завърши преди {date}, защото се задават още вражески кораби."
   },
   "POLICE_LAND_THERE": {
     "description": "",

@@ -1,0 +1,446 @@
+{
+  "ACTIVE_SCAN_TOOLTIP": {
+    "description": "",
+    "message": "Trwa zbieranie danych z tego skanowania."
+  },
+  "ADDITIONAL_INFORMATION_ORBITAL": {
+    "description": "Note. 'orbital scanner' is the name of an equipment, that should be translated the same as the equipment",
+    "message": "Będziesz potrzebować skanera orbitalnego, pasującego do twojego statku. Będąc już nad badanym ciałem, aktywuj skaner, następnie orbituj nie przekraczając maksymalnej wysokości, aż skanowanie dobiegnie końca. Potem dostarcz mi dane."
+  },
+  "ADDITIONAL_INFORMATION_SURFACE": {
+    "description": "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
+    "message": "Będziesz potrzebować skanera powierzchni, odpowiedniego dla twojego statku. Będąc już na właściwym ciele, aktywuj skaner i leć na niskiej wysokości, dopóki skan się nie zakończy. Potem dostarcz mi dane."
+  },
+  "ADTEXT_1": {
+    "description": "The Galactic Geographical Society is comparable to National Geographical society. But in space!",
+    "message": "Pożądane mapowanie ciała w układzie {system}"
+  },
+  "ADTEXT_1_FAILMSG": {
+    "description": "",
+    "message": "Nie będzie zapłaty, gdyż nie dostarczono danych w terminie."
+  },
+  "ADTEXT_1_INTRO": {
+    "description": "GGS=Galactic Geographical Society",
+    "message": "Cześć!\nNazywam się {name}, jestem z GGS. Jesteśmy zainteresowani uaktualnieniem mapy ciała {systembody} w układzie {system}, ({dist}), za cenę {cash}."
+  },
+  "ADTEXT_1_SUCCESSMSG": {
+    "description": "",
+    "message": "Dzięki za informację. Umówiona kwota została przelana na twoje konto."
+  },
+  "ADTEXT_1_WHYSOMUCH": {
+    "description": "",
+    "message": "To nasze standardowe wynagrodzenie za te usługi."
+  },
+  "ADTEXT_2": {
+    "description": "",
+    "message": "Kontrakt dla pilota do {system}"
+  },
+  "ADTEXT_2_FAILMSG": {
+    "description": "",
+    "message": "Nie dotrzymano warunków umowy."
+  },
+  "ADTEXT_2_INTRO": {
+    "description": "",
+    "message": "Cześć!\nJestem {name}. Zapłacę {cash} za zmapowanie {systembody} w układzie {system}, odległego o {dist}."
+  },
+  "ADTEXT_2_SUCCESSMSG": {
+    "description": "",
+    "message": "Otrzymaliśmy dane i przelewam ci właśnie pieniądze."
+  },
+  "ADTEXT_2_WHYSOMUCH": {
+    "description": "",
+    "message": "Wysokiej jakości mapy trzeba generować a małej wysokości. Zapłata jest odpowiednia."
+  },
+  "ADTEXT_3": {
+    "description": "",
+    "message": "Dla układu {system}"
+  },
+  "ADTEXT_3_FAILMSG": {
+    "description": "",
+    "message": "Twoja niekompetencja będzie cię kiedyś kosztować życie."
+  },
+  "ADTEXT_3_INTRO": {
+    "description": "",
+    "message": "Pozdrowienia. Możesz nazywać mnie {name}. Jestem skłonny zapłacić {cash} za dokładny skan {systembody} w układzie {system}, odległego o jakieś {dist}. Konieczne jest, aby dane dostarczyć do poufnego miejsca."
+  },
+  "ADTEXT_3_SUCCESSMSG": {
+    "description": "",
+    "message": "Otrzymaliśmy mapę i jest ona przetwarzana. Twoja zapłata została przekazana."
+  },
+  "ADTEXT_3_WHYSOMUCH": {
+    "description": "",
+    "message": "Spodziewam się wysokiego zarobku na tej inwestycji, o ile znajdę to, czego szukam, i dlatego potrzebuję od ciebie szczególnie niskiego lotu."
+  },
+  "ADTEXT_4": {
+    "description": "",
+    "message": "W układzie {system} dla nauki."
+  },
+  "ADTEXT_4_FAILMSG": {
+    "description": "",
+    "message": "Teraz nie ma mowy, żebym kiedykolwiek zdobył doktorat! Dzięki za zruinowanie mojego życia!"
+  },
+  "ADTEXT_4_INTRO": {
+    "description": "",
+    "message": "Hej!\nNazywam się {name} i robię pewne badania na mój doktorat, w układzie {system}, {dist} stąd. Potrzebuję pewnych dodatkowych danych dla {systembody} w postaci uaktualnionych map, albo mój promotor mnie zabije. Zapłacę {cash} każdemu pilotowi, który może dostarczyć tych danych na czas, najlepiej jutro, bo odchodzę od zmysłów."
+  },
+  "ADTEXT_4_SUCCESSMSG": {
+    "description": "",
+    "message": "Dziękuję! Oby te nowe dane pomogły w moich rewolucyjnych badaniach."
+  },
+  "ADTEXT_4_WHYSOMUCH": {
+    "description": "'High impact journals' is a recognized term for journals like Nature and Science, yielding many citations.",
+    "message": "Mam nadzieję, że te nowe dane, z pięknymi zdjęciami i mapami, zwiększą moje szanse na opublikowanie mojego artykułu w jakimś wpływowym czasopiśmie."
+  },
+  "ADTEXT_5": {
+    "description": "",
+    "message": "Mapowanie planety w układzie {system}"
+  },
+  "ADTEXT_5_FAILMSG": {
+    "description": "",
+    "message": "Powinieneś się nauczyć, że informacje mają datę ważności. Nie zapłacę ci ani centa."
+  },
+  "ADTEXT_5_INTRO": {
+    "description": "",
+    "message": "Cześć!\nNazywam się {name}. Informacja to mój biznes i zapłacę {cash} za zmapowanie {systembody} w układzie {system}, odległym o {dist} od twojego obecnego położenia."
+  },
+  "ADTEXT_5_SUCCESSMSG": {
+    "description": "",
+    "message": "Dziękuję za twój trud. Dokonano pełnej zapłaty."
+  },
+  "ADTEXT_5_WHYSOMUCH": {
+    "description": "",
+    "message": "W tych czasach nie da się przecenić informacji"
+  },
+  "ADTEXT_6": {
+    "description": "",
+    "message": "Administracja naszego układu potrzebuje pomocy w uaktualnieniu map dla {systembody}"
+  },
+  "ADTEXT_6_FAILMSG": {
+    "description": "",
+    "message": "Odnotujemy w naszych archiwach twoje duże opóźnienie."
+  },
+  "ADTEXT_6_INTRO": {
+    "description": "",
+    "message": "Nazywam się {name}, reprezentuję administrację układu {system}. Potrzebujemy zaktualizować nasze pliki i jesteśmy skłonni nagrodzić cię kwotą {cash} za zaktualizowanie informacji o {systembody}."
+  },
+  "ADTEXT_6_SUCCESSMSG": {
+    "description": "",
+    "message": "Twoja zapłata właśnie się przelewa."
+  },
+  "ADTEXT_6_WHYSOMUCH": {
+    "description": "",
+    "message": "Praca dla rządu ma swoje korzyści."
+  },
+  "ADTEXT_7": {
+    "description": "",
+    "message": "Pilnie potrzeba danych o {systembody}."
+  },
+  "ADTEXT_7_FAILMSG": {
+    "description": "",
+    "message": "Teraz się pokazujesz? Zawiodłeś moją rodzinę i będziesz odpowiadać za to, co teraz nas spotka!"
+  },
+  "ADTEXT_7_INTRO": {
+    "description": "",
+    "message": "Część!\nJestem {name} a moja rodzina pilnie potrzebuje znaleźć więcej ziemi, zanim zostaniemy wyrzuceni z obecnego, kwitnącego terytorium. Zapłacimy {cash} za dobre dane badawcze z {systembody}."
+  },
+  "ADTEXT_7_SUCCESSMSG": {
+    "description": "",
+    "message": "Doceniamy szybką pracę, pilocie. Pieniądze zostały przelane."
+  },
+  "ADTEXT_7_WHYSOMUCH": {
+    "description": "",
+    "message": "Czas to pieniądz."
+  },
+  "ADTEXT_8": {
+    "description": "",
+    "message": "Potrzebna aktualizacja danych o {systembody}."
+  },
+  "ADTEXT_8_FAILMSG": {
+    "description": "",
+    "message": "Nie doceniłeś subtelności mapowania ani dostarczenia w uzgodnionym czasie!"
+  },
+  "ADTEXT_8_INTRO": {
+    "description": "",
+    "message": "Hej!\nJestem ze stowarzyszenia geograficznego, Potrzebujemy zaktualizować nasze mapy obiektu {systembody}. Chętnie zapłacimy {cash} pilotowi, który poleci niżej niż poprzedni."
+  },
+  "ADTEXT_8_SUCCESSMSG": {
+    "description": "",
+    "message": "Kolejna mapa do kolekcji. Na swoim koncie bankowym znajdziesz odbicie naszej wdzięczności."
+  },
+  "ADTEXT_8_WHYSOMUCH": {
+    "description": "",
+    "message": "Światy muszą być udokumentowane i zmapowane, nawet w jeszcze drobniejszych i większych szczegółach."
+  },
+  "ADTEXT_9": {
+    "description": "",
+    "message": "Zapłacimy za szybkie dostarczenie danych o {systembody} w układzie {system}."
+  },
+  "ADTEXT_9_FAILMSG": {
+    "description": "",
+    "message": "Spóźniłeś się! Teraz to dla nas bezużyteczne, gdyż ktoś już to zajął. Kolejna okazja stracona. Jak łzy w deszczu."
+  },
+  "ADTEXT_9_INTRO": {
+    "description": "",
+    "message": "Cześć!\nNazywam się {name}. Razem z moją rodziną potrzebujemy szczegółowego rozeznania {systembody} w {system}, zanim zrobi to ktoś inny. Zapłacimy {cash} szybkiemu pilotowi. Wyślemy adres dostawy kiedy tylko zdobędziesz dane."
+  },
+  "ADTEXT_9_SUCCESSMSG": {
+    "description": "",
+    "message": "Doceniam Twoją dyskrecje oraz punktualność."
+  },
+  "ADTEXT_9_WHYSOMUCH": {
+    "description": "'scooped' as in missing an exclusive unique opportunity, before someone else gets to it first",
+    "message": "Nie chcemy żeby ktoś nam zabrał okazję sprzed nosa."
+  },
+  "ADTITLE_1": {
+    "description": "",
+    "message": "GALAKTYCZNE SPOŁECZEŃSTWO GEOGRAFICZNE"
+  },
+  "ADTITLE_2": {
+    "description": "",
+    "message": "POTRZEBNY KARTOGRAF"
+  },
+  "ADTITLE_3": {
+    "description": "",
+    "message": "POTRZEBNE MAPOWANIE PLANETY"
+  },
+  "ADTITLE_4": {
+    "description": "",
+    "message": "MAPOWANIE"
+  },
+  "ADTITLE_5": {
+    "description": "",
+    "message": "KONTRAKT KARTOGRAFICZNY"
+  },
+  "ADTITLE_6": {
+    "description": "",
+    "message": "AKTUALIZACJA MAPY"
+  },
+  "ADTITLE_7": {
+    "description": "",
+    "message": "AKTUALIZACJA MAPY"
+  },
+  "ADTITLE_8": {
+    "description": "",
+    "message": "ZLECENIE KARTOGRAFICZNE"
+  },
+  "ADTITLE_9": {
+    "description": "",
+    "message": "MAPOWANIE"
+  },
+  "AN_ORBITAL_SCAN": {
+    "description": "",
+    "message": "skan orbitalny "
+  },
+  "AVAILABLE_SCAN_TOOLTIP": {
+    "description": "",
+    "message": "Skanowanie może zostać aktywowane żeby zacząć zbierać dane."
+  },
+  "A_SURFACE_SCAN": {
+    "description": "",
+    "message": "skan powierzchniowy"
+  },
+  "COMPLETED_SCANS": {
+    "description": "Button text for completed scans",
+    "message": "{} Ukończone"
+  },
+  "COMPLETED_SCAN_TOOLTIP": {
+    "description": "",
+    "message": "Skanowanie zostało zakończone i jest gotowe do dostawy."
+  },
+  "COMPUTER": {
+    "description": "The ship on board computer",
+    "message": "Komputer"
+  },
+  "COVERAGE": {
+    "description": "",
+    "message": "Wymagany zasięg:"
+  },
+  "DANGER": {
+    "description": "",
+    "message": "Zagrożenie:"
+  },
+  "DEADLINE": {
+    "description": "",
+    "message": "Termin:"
+  },
+  "DESTINATION": {
+    "description": "",
+    "message": "Miejsce docelowe:"
+  },
+  "DISTANCE": {
+    "description": "",
+    "message": "Dystans:"
+  },
+  "DISTANCE_REACHED_ORBITAL": {
+    "description": "",
+    "message": "ODLEGŁOŚĆ OSIĄGNIĘTA. MAPOWANIE. Pozostań na aktualnej orbicie dopóki skan nie zostanie ukończony."
+  },
+  "DISTANCE_REACHED_SURFACE": {
+    "description": "",
+    "message": "ODLEGŁOŚĆ OSIĄGNIĘTA. MAPOWANIE. Pozostań poniżej pułapu wysokości do zakończenia skanowania."
+  },
+  "DROP_OFF_DATA": {
+    "description": "",
+    "message": "Dostarcz dane do {location} przed {date}"
+  },
+  "EXCELLENT_I_AWAIT_YOUR_REPORT": {
+    "description": "",
+    "message": "Wspaniale. Czekam na Twój raport."
+  },
+  "HOW_DOES_IT_WORK": {
+    "description": "",
+    "message": "Jak to działa?"
+  },
+  "HUD_SCAN_PROGRESS": {
+    "description": "",
+    "message": "Stan skanowania"
+  },
+  "INVALID_SCANNER": {
+    "description": "Shown when a scan altitude cannot be calculated",
+    "message": "-----"
+  },
+  "MAPPING": {
+    "description": "As in cartography",
+    "message": "Mapowanie"
+  },
+  "MAPPING_COMPLETED": {
+    "description": "",
+    "message": "MAPOWANIE ZAKOŃCZONE. Dane zapisane."
+  },
+  "MAPPING_INTERRUPTED_ORBITAL": {
+    "description": "",
+    "message": "MAPOWANIE PRZERWANE. Za daleko od celu. Potrzebna korekta orbity."
+  },
+  "MAPPING_INTERRUPTED_SURFACE": {
+    "description": "",
+    "message": "MAPOWANIE PRZERWANE. Za daleko od celu. Konieczna korekta pułapu lotu."
+  },
+  "MAPPING_PAUSED": {
+    "description": "",
+    "message": "MAPOWANIE WSTRZYMANE. Dane niekompletne. Potrzebne dalsze mapowanie."
+  },
+  "NO_ACTIVE_SCAN": {
+    "description": "Displayed to indicate no scans are active",
+    "message": "BRAK AKTYWNYCH SKANÓW"
+  },
+  "NO_ACTIVE_SCAN_TOOLTIP": {
+    "description": "",
+    "message": "Wybierz dostępne skanowanie, żeby zacząć zbierać dane."
+  },
+  "NO_AVAILABLE_SCANNER": {
+    "description": "",
+    "message": "BRAK DOSTĘPNYCH CZUJNIKÓW"
+  },
+  "NO_AVAILABLE_SCANNER_TOOLTIP": {
+    "description": "",
+    "message": "Na statku nie ma zamontowanych czujników do skanowania."
+  },
+  "OBJECTIVE": {
+    "description": "",
+    "message": "Cel:"
+  },
+  "OK_AGREED": {
+    "description": "",
+    "message": "Zgoda."
+  },
+  "ORBITAL_SCAN": {
+    "description": "",
+    "message": "Skan orbitalny"
+  },
+  "PENDING_SCANS": {
+    "description": "Button text for pending scans",
+    "message": "{} Oczekiwanie"
+  },
+  "PENDING_SCAN_TOOLTIP": {
+    "description": "",
+    "message": "Tego skanowania nie można jeszcze rozpocząć."
+  },
+  "PLEASE_HAVE_THE_DATA_BACK_BEFORE": {
+    "description": "",
+    "message": "Proszę dostarcz te dane przed {date}"
+  },
+  "REPEAT_THE_ORIGINAL_REQUEST": {
+    "description": "",
+    "message": "Możesz powtórzyć szczegóły zadania?"
+  },
+  "RESOLUTION": {
+    "description": "",
+    "message": "Wymagana rozdzielczość:"
+  },
+  "SCAN_DETAILS": {
+    "description": "",
+    "message": "Musisz wykonać {type} {body}.\n\nSkan musi zawierać {coverage} celu z roździelczością minimum {resolution} metrów na próbkę.\n\nBędziesz musiał polecieć na wysokość określoną Twoim sprzętem do skanowania żeby Ci się to udało."
+  },
+  "SCAN_MANAGER": {
+    "description": "",
+    "message": "Zarządzanie skanowaniem"
+  },
+  "SCAN_MAXIMUM_ALTITUDE": {
+    "description": "Tooltip for scan max. altitude parameter",
+    "message": "Maksymalna wysokość do skanowania"
+  },
+  "SCAN_MAXIMUM_SPATIAL_RESOLUTION": {
+    "description": "Tooltip for scan max. resolution parameter",
+    "message": "Maksymalna dopuszczalna roździelczość (metry na próbkę)"
+  },
+  "SCAN_TARGET_COVERAGE": {
+    "description": "Tooltip for scan target coverage parameter",
+    "message": "Wymagany zasięg do celu"
+  },
+  "SCOUT": {
+    "description": "",
+    "message": "Zwiadowca"
+  },
+  "STATE_INACTIVE": {
+    "description": "",
+    "message": "NIEAKTYWNY"
+  },
+  "STATE_MIN_ALTITUDE": {
+    "description": "",
+    "message": "MINIMALNA WYSOKOŚĆ"
+  },
+  "STATE_NO_SENSORS": {
+    "description": "",
+    "message": "BRAK CZUJNIKA"
+  },
+  "STATE_OUT_OF_RANGE": {
+    "description": "",
+    "message": "POZA ZASIĘGIEM"
+  },
+  "STATE_SCANNING": {
+    "description": "",
+    "message": "SKANOWANIE"
+  },
+  "STORED_SCAN_DATA": {
+    "description": "",
+    "message": "Zgromadzone dane skanu:"
+  },
+  "SURFACE_SCAN": {
+    "description": "",
+    "message": "Skan powierzchni"
+  },
+  "SUSPENDED": {
+    "description": "",
+    "message": "Wstrzymany"
+  },
+  "TARGET_BODY": {
+    "description": "",
+    "message": "Ciało docelowe:"
+  },
+  "WHAT_DATA_DO_YOU_NEED": {
+    "description": "",
+    "message": "Jakich danych potrzebujesz?"
+  },
+  "WHEN_DO_YOU_NEED_THE_DATA": {
+    "description": "",
+    "message": "Na kiedy potrzebujesz tych danych?"
+  },
+  "WHY_SO_MUCH_MONEY": {
+    "description": "",
+    "message": "Dlaczego tyle pieniędzy?"
+  },
+  "YOU_WILL_BE_PAID_ON_MY_BEHALF_AT_NEW_DESTINATION": {
+    "description": "",
+    "message": "Dostaniesz zapłatę w moim imieniu w NOWYM MIEJSCU"
+  }
+}

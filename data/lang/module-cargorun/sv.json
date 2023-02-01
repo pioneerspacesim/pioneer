@@ -309,7 +309,7 @@
   },
   "INTROTEXT_3": {
     "description": "",
-    "message": "God dag. Jag är {name} Ltd. Jag behöver någon pålitlig som levererar {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Jag betalar {cash} för det {dist} ly långa flygningen."
+    "message": "God dag. Jag är {name}, grundare av {name} Ltd. Jag behöver någon pålitlig som levererar {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Jag betalar {cash} för det {dist} ly långa flygningen."
   },
   "INTROTEXT_EXPENSIVE_1": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Hej, mitt namn är {name}. Jag är en grossist i systemet {system}. Jag betalar {cash} för leveransen till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly."
+    "message": "Hej, mitt namn är {name}. Jag är en grossist i systemet {system}. Jag betalar {cash} för leverans till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly."
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
