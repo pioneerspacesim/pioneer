@@ -40,6 +40,9 @@
     <Filter Include="src\core">
       <UniqueIdentifier>{077edfac-2118-4205-94da-792445afd8da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\nanosockets">
+      <UniqueIdentifier>{1b3c4a96-acf0-43c9-a71f-5ca25dec7883}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Body.cpp">
@@ -599,6 +602,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\lua\LuaPropertyMap.cpp">
       <Filter>src\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\nanosockets\nanosockets.c">
+      <Filter>src\nanosockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ship\Headtracker.cpp">
+      <Filter>src\ship</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1189,6 +1198,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\lua\LuaPropertyMap.h">
       <Filter>src\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\nanosockets\nanosockets.h">
+      <Filter>src\nanosockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ship\Headtracker.h">
+      <Filter>src\ship</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

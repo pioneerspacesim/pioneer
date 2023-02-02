@@ -108,7 +108,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;collider.lib;galaxy.lib;graphics.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;collider.lib;galaxy.lib;graphics.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2019;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LargeAddressAware>true</LargeAddressAware>
@@ -122,7 +122,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;collider.lib;galaxy.lib;graphics.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;collider.lib;galaxy.lib;graphics.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2019;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -145,7 +145,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;scenegraph.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;scenegraph.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2019;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
@@ -171,7 +171,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;scenegraph.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmt.lib;Psapi.lib;glew.lib;profiler.lib;assimp-vc142-mt.lib;lua.lib;jenkins.lib;shlwapi.lib;ogg.lib;vorbis.lib;vorbisfile.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype.lib;sigc-vc140-2_0.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;scenegraph.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib/x64/vs2019;$(SolutionDir)\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -205,6 +205,7 @@
     <ClCompile Include="..\..\contrib\lz4\lz4frame.c" />
     <ClCompile Include="..\..\contrib\lz4\lz4hc.c" />
     <ClCompile Include="..\..\contrib\lz4\xxhash.c" />
+    <ClCompile Include="..\..\contrib\nanosockets\nanosockets.c" />
     <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp" />
     <ClCompile Include="..\..\src\Background.cpp" />
     <ClCompile Include="..\..\src\BaseSphere.cpp" />
@@ -380,6 +381,7 @@
     <ClCompile Include="..\..\src\ShipCockpit.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\ship\CameraController.cpp" />
+    <ClCompile Include="..\..\src\ship\Headtracker.cpp" />
     <ClCompile Include="..\..\src\ship\PlayerShipController.cpp" />
     <ClCompile Include="..\..\src\ship\PrecalcPath.cpp" />
     <ClCompile Include="..\..\src\ship\Propulsion.cpp" />
@@ -424,6 +426,7 @@
     <ClInclude Include="..\..\contrib\lz4\lz4frame.h" />
     <ClInclude Include="..\..\contrib\lz4\lz4hc.h" />
     <ClInclude Include="..\..\contrib\lz4\xxhash.h" />
+    <ClInclude Include="..\..\contrib\nanosockets\nanosockets.h" />
     <ClInclude Include="..\..\contrib\nanosvg\nanosvg.h" />
     <ClInclude Include="..\..\contrib\nanosvg\nanosvgrast.h" />
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h" />
@@ -573,6 +576,7 @@
     <ClInclude Include="..\..\src\ShipCockpit.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\ship\CameraController.h" />
+    <ClInclude Include="..\..\src\ship\Headtracker.h" />
     <ClInclude Include="..\..\src\ship\PlayerShipController.h" />
     <ClInclude Include="..\..\src\ship\PrecalcPath.h" />
     <ClInclude Include="..\..\src\ship\Propulsion.h" />
