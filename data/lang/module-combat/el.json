@@ -359,6 +359,10 @@
     "description": "",
     "message": "Σύστημα:"
   },
+  "TARGET_AREA_REACHED": {
+    "description": "",
+    "message": "Target area reached. Start data logging."
+  },
   "TIME_LIMIT": {
     "description": "",
     "message": "Χρονικό όριο:"

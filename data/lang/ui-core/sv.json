@@ -1957,7 +1957,7 @@
   },
   "SET_AS_TARGET": {
     "description": "",
-    "message": "Använd destination som navigationsmål"
+    "message": "Använd destination som navigationsmål."
   },
   "SET_RETURN_ROUTE": {
     "description": "",
