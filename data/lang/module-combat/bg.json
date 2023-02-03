@@ -253,7 +253,7 @@
   },
   "MISSION_INFO": {
     "description": "Message from the ship computer",
-    "message": "Районът е достигнат. Записване на данните. Прогнозираното време за изпълнение на мисията е {duration}."
+    "message": "Целта е достигната. Записване на данните. Прогнозираното време за изпълнение на мисията е {duration}."
   },
   "MISSION_TYPE_1": {
     "description": "Name of mission type",
@@ -269,7 +269,7 @@
   },
   "MISSION_WARNING": {
     "description": "Message from the ship computer",
-    "message": "Районът все още не е достигнат. Записването на данните не може да започне."
+    "message": "Целта все още не е достигната. Записването на данните не може да започне."
   },
   "OBJECTIVE_1": {
     "description": "",
@@ -361,7 +361,7 @@
   },
   "TARGET_AREA_REACHED": {
     "description": "",
-    "message": "Target area reached. Start data logging."
+    "message": "Целта е достигната. Записване на данните."
   },
   "TIME_LIMIT": {
     "description": "",

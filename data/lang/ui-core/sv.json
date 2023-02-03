@@ -621,7 +621,7 @@
   },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
-    "message": "gratis"
+    "message": "ledigt"
   },
   "FRONT_WEAPON": {
     "description": "",
@@ -2025,7 +2025,7 @@
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
-    "message": "Starta vid Bernard's Stjärna"
+    "message": "Starta vid Barnards stjärna"
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
@@ -2109,7 +2109,7 @@
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
-    "message": "Den här station innehar nivå {tech_level} teknologi-certifikat."
+    "message": "Den här stationen innehar nivå {tech_level} teknologi-certifikat."
   },
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",

@@ -373,7 +373,7 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Hej, jag är {name} och jag behöver transport till {system} ({sectorx}, {sectory}, {sectorz}) systemet, ett avstpnd på {dist} ly. Jag betalar {cash}."
+    "message": "Mitt namn är {name} och jag behöver transport till {system} ({sectorx}, {sectory}, sectorz}) systemet, ett avstånd på {dist} ly. Jag är villig att betala {cash}."
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",

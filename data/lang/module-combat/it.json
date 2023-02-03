@@ -361,7 +361,7 @@
   },
   "TARGET_AREA_REACHED": {
     "description": "",
-    "message": "Target area reached. Start data logging."
+    "message": "Raggiunta zona obiettivo. Inizio raccolta dati."
   },
   "TIME_LIMIT": {
     "description": "",

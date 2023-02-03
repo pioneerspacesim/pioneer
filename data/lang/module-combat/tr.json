@@ -361,7 +361,7 @@
   },
   "TARGET_AREA_REACHED": {
     "description": "",
-    "message": "Target area reached. Start data logging."
+    "message": "Hedef bölgeye ulaşıldı. Veri toplama başlıyor."
   },
   "TIME_LIMIT": {
     "description": "",

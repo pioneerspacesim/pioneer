@@ -181,7 +181,7 @@
   },
   "BIND_TOGGLE_LANDING_GEAR": {
     "description": "Action description",
-    "message": "Toggle Landing Gear"
+    "message": "Växla Landningsställets Läge"
   },
   "BIND_TOGGLE_LUA_CONSOLE": {
     "description": "Descriptive name for the ToggleLuaConsole action.",
@@ -217,7 +217,7 @@
   },
   "CURVE": {
     "description": "",
-    "message": "Curve"
+    "message": "Kurva"
   },
   "DEADZONE": {
     "description": "",
@@ -296,15 +296,15 @@
   },
   "NUM_AXES": {
     "description": "",
-    "message": "Number of axes:"
+    "message": "Antal axlar:"
   },
   "NUM_BUTTONS": {
     "description": "",
-    "message": "Number of buttons:"
+    "message": "Antal knappar:"
   },
   "NUM_HATS": {
     "description": "",
-    "message": "Number of hats:"
+    "message": "Antal hattar:"
   },
   "PAGE_GENERAL": {
     "description": "Header for the General input page.",
