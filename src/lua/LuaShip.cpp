@@ -19,7 +19,7 @@
 #include "SpaceStation.h"
 #include "ship/PlayerShipController.h"
 #include "ship/PrecalcPath.h"
-#include "src/lua.h"
+#include "lua.h"
 
 /*
  * Class: Ship
