@@ -173,7 +173,7 @@
   },
   "BIND_TOGGLE_CRUISE": {
     "description": "Descriptive name for the action binding.",
-    "message": "Режим на круиз"
+    "message": "Круизен режим"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",

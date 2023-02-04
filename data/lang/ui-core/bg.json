@@ -749,11 +749,11 @@
   },
   "HUD_BUTTON_CRUISE_FORWARD": {
     "description": "Tooltip for button",
-    "message": "Режим на круиз напред"
+    "message": "Круизен режим напред"
   },
   "HUD_BUTTON_CRUISE_UP": {
     "description": "Tooltip for button",
-    "message": "Режим на круиз нагоре"
+    "message": "Круизен режим нагоре"
   },
   "HUD_BUTTON_DISABLE_AUTOPILOT": {
     "description": "Tooltip for button",
@@ -761,7 +761,7 @@
   },
   "HUD_BUTTON_DISABLE_CRUISE": {
     "description": "Tooltip for button",
-    "message": "Режим на круиз"
+    "message": "Круизен режим"
   },
   "HUD_BUTTON_DISABLE_FIXHEADING": {
     "description": "Tooltip for button",
