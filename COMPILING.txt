@@ -118,7 +118,7 @@ questions are welcome anytime.
    in a directory side by side. Don't rename pioneer-thirdparty because the
    relative path to it is included in the project files.
 
-2. Open Visual Sudio 2019 and do not open a solution or project ('Continue without code').
+2. Open Visual Studio 2019 and do not open a solution or project ('Continue without code').
 
 3. Go to File->Open->CMake and select pioneer/CMakeLists.txt
 
