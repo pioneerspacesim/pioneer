@@ -796,6 +796,8 @@ local onChat = function (form, ref, option)
 
 	form:SetFace(ad.client)
 
+	form:AddNavButton(ad.location)
+
 	--   TODO: work out a better system for equipment qualification check
 	--   local qualified = isQualifiedFor(ad)
 	--   if not qualified then
