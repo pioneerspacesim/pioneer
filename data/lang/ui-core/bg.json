@@ -45,7 +45,7 @@
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Максимално атмосферно налягане"
+    "message": "Максимално атм. налягане"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -449,7 +449,7 @@
   },
   "END_GAME": {
     "description": "",
-    "message": "Край на играта"
+    "message": "Излизане"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
@@ -729,7 +729,7 @@
   },
   "HUD_BRAKE_DISTANCE_MAIN_THRUSTERS": {
     "description": "Tooltip: The braking distance using the main thrusters.",
-    "message": "Спирачният път при използване на главните ускорители"
+    "message": "Спирачен път при използване на главните ускорители"
   },
   "HUD_BUTTON_AUTOPILOT_DOCKING": {
     "description": "Tooltip: Autopilot docking",
@@ -785,7 +785,7 @@
   },
   "HUD_BUTTON_FIX_NORMAL": {
     "description": "Tooltip: fix heading normal",
-    "message": "Задържане на направлението в сегашната посока"
+    "message": "Задържане на направлението в текущата посока"
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
@@ -905,27 +905,27 @@
   },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
-    "message": "Текущата бойна цел"
+    "message": "Текуща бойна цел"
   },
   "HUD_CURRENT_FRAME": {
     "description": "Tooltip: The current frame of reference.",
-    "message": "Текущата отправна система"
+    "message": "Текуща отправна система"
   },
   "HUD_CURRENT_HEADING": {
     "description": "Tooltip: the current heading.",
-    "message": "Текущото направление"
+    "message": "Текущо направление"
   },
   "HUD_CURRENT_NAV_TARGET": {
     "description": "Tooltip: The current navigational target.",
-    "message": "Текущата навигационна цел"
+    "message": "Текуща навигационна цел"
   },
   "HUD_CURRENT_PITCH": {
     "description": "Tooltip: the current pitch.",
-    "message": "Текущото наклоняване"
+    "message": "Текущо наклоняване"
   },
   "HUD_CURRENT_ROLL": {
     "description": "Tooltip: the current roll.",
-    "message": "Текущото завъртане"
+    "message": "Текущо завъртане"
   },
   "HUD_DELTA_V": {
     "description": "Tooltip: The remaining Δv.",
@@ -1077,15 +1077,15 @@
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "Скоростта на приближаване, спрямо целта"
+    "message": "Скорост на приближаване, спрямо целта"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
-    "message": "Скоростта, спрямо целта"
+    "message": "Скорост, спрямо целта"
   },
   "HUD_THRUST_INDICATOR": {
     "description": "Tooltip: describe what the thrust/velocity indicator shows",
-    "message": "Показване на текущата скорост за всяка посока (като тънки линии) и ускорението (като дебел фон)"
+    "message": "Текуща скорост за всяка посока (като тънки линии) и ускорението (като дебел фон)"
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
@@ -1121,7 +1121,7 @@
   },
   "HYPERDRIVE_FITTED": {
     "description": "",
-    "message": "Монтирани хипердвигатели:"
+    "message": "Монтиран хипердвигател:"
   },
   "HYPERJUMP_ROUTE": {
     "description": "",
@@ -1225,7 +1225,7 @@
   },
   "LAUNCH_PERMISSION_DENIED_BUSY": {
     "description": "",
-    "message": "Разрешението за излитане е отказано: има трафик."
+    "message": "Разрешението за излитане е отказано: площадката е заета."
   },
   "LAUNCH_PERMISSION_DENIED_CREW": {
     "description": "",
@@ -1605,7 +1605,7 @@
   },
   "OPEN_USER_FOLDER": {
     "description": "",
-    "message": "Игрална папка"
+    "message": "Папка"
   },
   "OPTIONS": {
     "description": "",
@@ -1685,7 +1685,7 @@
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Капацитет на пасажерската кабина"
+    "message": "Капацитет на кабината"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",

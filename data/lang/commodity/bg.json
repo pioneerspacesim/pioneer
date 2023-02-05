@@ -37,7 +37,7 @@
   },
   "COMPUTERS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "От преди повече от хиляда години, като започнем с „Абакус“, „PDP-11“ и чиповете „Моторола 68К“, и стигнем до съвременните „HAL 9001“ и серията „Мултивак“, компютрите бележат зората на информационната епоха. Важни са както за космическите пътувания, така и за споделянето на видео и файлове през мрежата „УниНет“."
+    "message": "От преди повече от хиляда години, като започнем с Абакус, PDP-11 и чиповете Моторола 68К, и стигнем до съвременните HAL 9001 и серията Мултивак, компютрите бележат зората на информационната епоха. Важни са както за космическите пътувания, така и за споделянето на видео и файлове през мрежата УниНет."
   },
   "CONSUMER_GOODS": {
     "description": "",
@@ -109,7 +109,7 @@
   },
   "LIQUID_OXYGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Течният кислород има много предназначения, главно в медицината и индустрията, и понякога в обработката на отпадъци. На достъпна цена е, защото извличането му от водата е лесно."
+    "message": "Течният кислород има много предназначения, главно в медицината и индустрията, понякога и в обработката на отпадъци. На достъпна цена е, защото извличането му от водата е лесно."
   },
   "LIQUOR": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "MINING_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Традиционната черна работа на миньорите се свързва с използването на машини, които служат за откриването и добива на различни видове руда, както и нейното транспортиране до най-близките съоръжения за преработка на руда."
+    "message": "Традиционната черна работа на миньорите се свързва с използването на машини, които служат за откриване и добиване на различни видове руда, както и нейното транспортиране до най-близките съоръжения за преработка на руда."
   },
   "NARCOTICS": {
     "description": "",
@@ -177,7 +177,7 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Нервнопаралитичен газ"
+    "message": "Нервопаралитичен газ"
   },
   "NERVE_GAS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

@@ -177,7 +177,7 @@
   },
   "FLAVOUR_1_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "За пълно възстановяване на сумата, трябва да се върнете до {due}."
+    "message": "За пълно възстановяване на сумата, трябва да се върнете преди {due}."
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "FLAVOUR_2_LOCATIONTEXT": {
     "description": "",
-    "message": "Корабът се намира на географска ширина {lat} / географска дължина {long} на планетата {planet}."
+    "message": "Корабът се намира на географска ширина {lat} / географска дължина {long}, на {planet}."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -249,7 +249,7 @@
   },
   "FLAVOUR_3_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Заместник-пилотът трябва да е в кораба до {due}."
+    "message": "Заместник-пилотът трябва да е в кораба преди {due}."
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "FLAVOUR_4_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "За да получите пълното си възнаграждение, пилотът очаква да доставите горивото му до {due}."
+    "message": "За да получите пълното си възнаграждение, пилотът очаква да доставите горивото му преди {due}."
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "FLAVOUR_5_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Моля, завършете презареждането до {due}."
+    "message": "Моля, завършете презареждането преди {due}."
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
@@ -341,7 +341,7 @@
   },
   "FLAVOUR_5_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Желаем доставката на {unit} тона {cargo} на кораба."
+    "message": "Желаем доставката на {unit} тона {cargo} за кораба."
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "FLAVOUR_7_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Новият екипаж трябва да е в кораба до {due}."
+    "message": "Новият екипаж трябва да е в кораба преди {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",

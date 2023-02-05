@@ -29,7 +29,7 @@
   },
   "FLAVOUR_10_NEWSBODY": {
     "description": "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-    "message": "Фирмата „Прикал“ иска да монополизира въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последният безплатен."
+    "message": "Фирмата Прикал иска да монополизира въздуха в {system} ({sectorx}, {sectory}, {sectorz}). Поемете дълбоко въздух, защото може да е последният безплатен."
   },
   "FLAVOUR_11_HEADLINE": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "FLAVOUR_12_NEWSBODY": {
     "description": "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-    "message": "Гаден вирус причини унищожаване на хард дисковете на компютрите „Начософт“ в системата {system} ({sectorx}, {sectory}, {sectorz}). Компютърните специалисти споделиха, че повредените твърди дискове стават за фризби."
+    "message": "Гаден вирус причини унищожаване на хард дисковете на компютрите Начософт в системата {system} ({sectorx}, {sectory}, {sectorz}). Компютърните специалисти споделиха, че повредените твърди дискове стават за фризби."
   },
   "FLAVOUR_13_HEADLINE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FLAVOUR_14_NEWSBODY": {
     "description": "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-    "message": "Спирането на тока в цялата система {system} ({sectorx}, {sectory}, {sectorz}) причини масови безредици. Потребителите се надпреварват да купят последния „Трапъруеър“ за да си подменят хладилниците, защото техният производител си е изчерпал запасите."
+    "message": "Спирането на тока в цялата система {system} ({sectorx}, {sectory}, {sectorz}) причини масови безредици. Потребителите се надпреварват да купят последния Трапъруеър за да си подменят хладилниците, защото техният производител си е изчерпал запасите."
   },
   "FLAVOUR_15_HEADLINE": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_20_NEWSBODY": {
     "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-    "message": "{system} ({sectorx}, {sectory}, {sectorz}) навлезе във фаза, благоприятна за жълтите водорасли, които виреят в атмосферата на местния газов гигант, което доведе до добра реколта на компанията за торове „Жълтият Сойлент“."
+    "message": "{system} ({sectorx}, {sectory}, {sectorz}) навлезе във фаза, благоприятна за жълтите водорасли, които виреят в атмосферата на местния газов гигант, което доведе до добра реколта на компанията за торове Соево жълто."
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "FLAVOUR_23_NEWSBODY": {
     "description": "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-    "message": "Новата фабрика „Амисионокс“ в системата {system} ({sectorx}, {sectory}, {sectorz}) вече работи. Тя ще произвежда висококачествени ножове, способни да отрежат космически ботуш, но поради липса на достатъчно материали за направата на остриетата, все още не е достигнала пълния си производствен потенциал."
+    "message": "Новата фабрика Амисионокс в системата {system} ({sectorx}, {sectory}, {sectorz}) вече работи. Тя ще произвежда висококачествени ножове, способни да отрежат космически ботуш, но поради липса на достатъчно материали за направата на остриетата, все още не е достигнала пълния си производствен потенциал."
   },
   "FLAVOUR_2_HEADLINE": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "FLAVOUR_5_NEWSBODY": {
     "description": "Imply high demand of SLAVES.",
-    "message": "Работници в системата {system} ({sectorx}, {sectory}, {sectorz}) изхвърлиха оковите си и дигнаха въстание, понеже не искат да работят на полетата с лотус. Местната икономиката е парализирана, защото не може да се намери нова евтина работна ръка."
+    "message": "Работници в системата {system} ({sectorx}, {sectory}, {sectorz}) изхвърлиха оковите си и вдигнаха въстание, понеже не искат да работят на полетата с лотус. Местната икономиката е парализирана, защото не може да се намери нова евтина работна ръка."
   },
   "FLAVOUR_6_HEADLINE": {
     "description": "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -209,15 +209,15 @@
   },
   "GRATEFUL_GREETING_0": {
     "description": "",
-    "message": "Добре сте ни дошли! Предлагаме добра цена за {cargo}."
+    "message": "Добре дошъл, търговецо! Предлагаме добра цена за {cargo}."
   },
   "GRATEFUL_GREETING_1": {
     "description": "",
-    "message": "Приветстваме Вас и Вашата доставка на {cargo}!"
+    "message": "Приветстваме Вашата доставка на {cargo}!"
   },
   "GRATEFUL_GREETING_2": {
     "description": "",
-    "message": "Поздравяваме Ви за добре дошли! Тук може да продадете {cargo}."
+    "message": "Много поздрави! Тук може да продадете {cargo}."
   },
   "GRATEFUL_GREETING_3": {
     "description": "",
@@ -233,47 +233,47 @@
   },
   "NEWSPAPER_CIW": {
     "description": "",
-    "message": "Обществената Хроника"
+    "message": "Обществената хроника"
   },
   "NEWSPAPER_FED": {
     "description": "",
-    "message": "Федералните Времена"
+    "message": "Федералните времена"
   },
   "NEWSPAPER_IMP": {
     "description": "",
-    "message": "Имперският Вестител"
+    "message": "Имперският вестител"
   },
   "NEWSPAPER_IND_0": {
     "description": "",
-    "message": "Пионерският Куриер"
+    "message": "Пионерският куриер"
   },
   "NEWSPAPER_IND_1": {
     "description": "",
-    "message": "Независимата Трибуна"
+    "message": "Независимата трибуна"
   },
   "NEWSPAPER_IND_10": {
     "description": "",
-    "message": "Орбиталният Наблюдател"
+    "message": "Орбиталният наблюдател"
   },
   "NEWSPAPER_IND_2": {
     "description": "",
-    "message": "Галактическата Служба"
+    "message": "Галактическата служба"
   },
   "NEWSPAPER_IND_3": {
     "description": "",
-    "message": "Универсалното Слънце"
+    "message": "Универсалното слънце"
   },
   "NEWSPAPER_IND_4": {
     "description": "",
-    "message": "Планетната Преса"
+    "message": "Планетната преса"
   },
   "NEWSPAPER_IND_5": {
     "description": "",
-    "message": "Кралският Вестник"
+    "message": "Кралският вестник"
   },
   "NEWSPAPER_IND_6": {
     "description": "",
-    "message": "Универсалната Поща"
+    "message": "Универсалната поща"
   },
   "NEWSPAPER_IND_7": {
     "description": "",
@@ -281,30 +281,30 @@
   },
   "NEWSPAPER_IND_8": {
     "description": "",
-    "message": "Телурският Телеграф"
+    "message": "Земният телеграф"
   },
   "NEWSPAPER_IND_9": {
     "description": "",
-    "message": "Сателитният Дневник"
+    "message": "Сателитният дневник"
   },
   "TITLE_0": {
     "description": "",
-    "message": "Нов репортаж от „{newspaper}“"
+    "message": "Нов репортаж от {newspaper}"
   },
   "TITLE_1": {
     "description": "",
-    "message": "Новини от „{newspaper}“"
+    "message": "Новини от {newspaper}"
   },
   "TITLE_2": {
     "description": "",
-    "message": "Репортаж от „{newspaper}“"
+    "message": "Репортаж от {newspaper}"
   },
   "TITLE_3": {
     "description": "",
-    "message": "Най-новото от „{newspaper}“"
+    "message": "Най-новото от {newspaper}"
   },
   "TITLE_4": {
     "description": "",
-    "message": "Извадки от „{newspaper}“"
+    "message": "Извадки от {newspaper}"
   }
 }

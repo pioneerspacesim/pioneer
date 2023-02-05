@@ -65,11 +65,11 @@
   },
   "BONUS_2": {
     "description": "",
-    "message": "Доволни сме от свършеното! Ще Ви дадем {cash} допълнително."
+    "message": "Доволни сме от свършеното! Ще Ви платим {cash} допълнително."
   },
   "BONUS_3": {
     "description": "",
-    "message": " Много впечатляващо! Упълномощен съм да Ви дам {cash} допълнително."
+    "message": " Много впечатляващо! Упълномощен съм да Ви платя {cash} допълнително."
   },
   "BONUS_4": {
     "description": "",
@@ -369,7 +369,7 @@
   },
   "WHAT_ARE_THE_MISSION_OBJECTIVES": {
     "description": "",
-    "message": "Какви са целите на тази мисия?"
+    "message": "Какви са целите на мисията?"
   },
   "WILL_I_BE_IN_TROUBLE": {
     "description": "",

@@ -13,7 +13,7 @@
   },
   "CREWTESTRESULTSBB": {
     "description": "",
-    "message": "Резултати от изпита:\n\nОбщи способности на екипажа: {general}%\nИнженерство и поправка: {engineering}%\nПилотиране и космически полет: {piloting}%\nНавигация и планиране: {navigation}%\nСензори и защита: {sensors}%\nОбщ резултат: {overall}%"
+    "message": "Резултати от изпита:\n\nОбщи способности на екипажа: {general}%\nИнженерство и поправка: {engineering}%\nПилотиране и полет: {piloting}%\nНавигация и планиране: {navigation}%\nСензори и защита: {sensors}%\nОбщ резултат: {overall}%"
   },
   "CREW_FOR_HIRE": {
     "description": "",
@@ -25,7 +25,7 @@
   },
   "CREW_FOR_HIRE_TITLE": {
     "description": "",
-    "message": "ЕКИПАЖ ЗА НАЕМАНЕ"
+    "message": "НАЕМАНЕ НА ЕКИПАЖ"
   },
   "GO_BACK": {
     "description": "",

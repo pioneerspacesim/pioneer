@@ -169,7 +169,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Някои почитатели желаят смъртта на {target}. Квалифицираните експерти са на същото мнение."
+    "message": "Някои почитатели желаят смъртта на {target}. Квалифицирани експерти са на същото мнение."
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -253,7 +253,7 @@
   },
   "TITLE_10": {
     "description": "",
-    "message": "Значка"
+    "message": "Старшина"
   },
   "TITLE_11": {
     "description": "",

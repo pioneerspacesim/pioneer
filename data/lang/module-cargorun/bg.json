@@ -249,7 +249,7 @@
   },
   "GO_BACK": {
     "description": "Shown on a button in a sub-menu, to move back, to previous menu",
-    "message": "Назад."
+    "message": "Добре, разбрах."
   },
   "GREENHOUSES": {
     "description": "custom cargo",
@@ -345,7 +345,7 @@
   },
   "INTROTEXT_PICKUP_2": {
     "description": "",
-    "message": "Как сте? Аз съм {name}. Един от моите клиенти трябва да внесе {cargoname} от {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще плати {cash} за този разнос. Върнете се в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за да разтоварите товара."
+    "message": "Как сте? Аз съм {name}. Един от моите клиенти трябва да внесе {cargoname} от {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг. Ще плати {cash} за разноса. Върнете се в {dom_starport}, в системата {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) за да разтоварите товара."
   },
   "INTROTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -361,11 +361,11 @@
   },
   "INTROTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Здравейте, името ми е {name}, аз съм търговец на едро в системата {system}. Ще Ви платя {cash} за разноса до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Здравейте, името ми е {name}, аз съм търговец на едро в системата {system}. Ще Ви платя {cash} за разнос до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
   "INTROTEXT_WHOLESALER_2": {
     "description": "",
-    "message": "Поздрави, името ми е {name} и работя за Хаберската Корпорация. Ще платя {cash} за разноса до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
+    "message": "Поздрави, името ми е {name} и работя за Хаберската Корпорация. Ще платя {cash} за разнос до {starport} в системата {system} ({sectorx}, {sectory}, {sectorz}), на разстояние от {dist} сг."
   },
   "IS_IT_NEGOTIABLE": {
     "description": "",

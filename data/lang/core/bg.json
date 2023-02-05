@@ -533,7 +533,7 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Задържане на {target} в сегашната посока"
+    "message": "Задържане на {target} в текущата посока"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
@@ -937,7 +937,7 @@
   },
   "NERVE_GAS": {
     "description": "",
-    "message": "Нервнопаралитичен газ"
+    "message": "Нервопаралитичен газ"
   },
   "NONE": {
     "description": "To indicate the absence of something",

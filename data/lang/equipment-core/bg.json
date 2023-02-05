@@ -13,7 +13,7 @@
   },
   "ATMOSPHERIC_SHIELDING_DESCRIPTION": {
     "description": "",
-    "message": "Предпазва Вашия кораб от горещината на навлизането в атмосферата."
+    "message": "Предпазва кораба от горещината при навлизане в атмосферата."
   },
   "ATMOSPHERIC_SHIELDING_HEAVY": {
     "description": "Will withstand higher pressures than normal Atmospheric Shielding",
@@ -197,7 +197,7 @@
   },
   "LASER_COOLING_BOOSTER_DESCRIPTION": {
     "description": "",
-    "message": "Подобрена охлаждаща система за Вашите оръжия."
+    "message": "Подобрена охладителна система за оръжията на кораба."
   },
   "MININGCANNON_17MW": {
     "description": "",
@@ -393,7 +393,7 @@
   },
   "THRUSTERS_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "Модифицирани ускорители, които са одобрени за Вашия кораб."
+    "message": "Модифицирани ускорители, които са лицензирани за кораба."
   },
   "THRUSTERS_BEST": {
     "description": "",

@@ -5,11 +5,11 @@
   },
   "ADDITIONAL_INFORMATION_ORBITAL": {
     "description": "Note. 'orbital scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "Ще имате нужда от орбитален скенер. Когато достигнете целта, активирайте скенера и спазвайте орбита в допустимата висока надморска височина, докато сканирането завърши. След това, ще ми предоставите събраните данни."
+    "message": "Ще имате нужда от орбитален скенер. Когато достигнете целта, активирайте скенера и спазвайте висока надморска височина, докато сканирането завърши. След това, ще ми предоставите данните."
   },
   "ADDITIONAL_INFORMATION_SURFACE": {
     "description": "Note. 'surface scanner' is the name of an equipment, that should be translated the same as the equipment",
-    "message": "Ще имате нужда от повърхностен скенер. Когато достигнете целта, активирайте скенера и спазвайте допустимата ниска надморска височина, докато сканирането завърши. След това, ще ми предоставите събраните данни."
+    "message": "Ще имате нужда от повърхностен скенер. Когато достигнете целта, активирайте скенера и спазвайте ниска надморска височина, докато сканирането завърши. След това, ще ми предоставите данните."
   },
   "ADTEXT_1": {
     "description": "The Galactic Geographical Society is comparable to National Geographical society. But in space!",
@@ -141,7 +141,7 @@
   },
   "ADTEXT_7_INTRO": {
     "description": "",
-    "message": "Здравейте!\nАз съм {name}, моето семейство трябва спешно да намери нова земя, преди да ни изселят от сегашния ни имот. Ще платим {cash} за добро проучване на {systembody}."
+    "message": "Здравейте!\nАз съм {name}, моето семейство трябва спешно да намери нова земя, преди да ни изселят от нашия имот. Ще платим {cash} за добро проучване на {systembody}."
   },
   "ADTEXT_7_SUCCESSMSG": {
     "description": "",
@@ -373,7 +373,7 @@
   },
   "SCAN_MANAGER": {
     "description": "",
-    "message": "Управление на сканирането"
+    "message": "Преглед на сензорите"
   },
   "SCAN_MAXIMUM_ALTITUDE": {
     "description": "Tooltip for scan max. altitude parameter",

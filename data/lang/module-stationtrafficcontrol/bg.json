@@ -1,11 +1,11 @@
 {
   "CLEARANCE_ALREADY_GRANTED_BAY_N": {
     "description": "",
-    "message": "Заявката е вече приета. Започнете скачване с {bay}."
+    "message": "Заявката е вече приета. Започнете скачване с площадка №{bay}."
   },
   "CLEARANCE_DENIED_NO_BAYS": {
     "description": "",
-    "message": "Заявката е отхвърлена. Няма свободни места."
+    "message": "Заявката е отхвърлена. Няма свободни площадки."
   },
   "CLEARANCE_DENIED_TOO_FAR": {
     "description": "Shown if player requests docking too far away from station",
@@ -13,7 +13,7 @@
   },
   "CLEARANCE_GRANTED_BAY_N": {
     "description": "",
-    "message": "Заявката е приета. Започнете скачване с {bay}."
+    "message": "Заявката е приета. Започнете скачване с площадка №{bay}."
   },
   "DOCKING_CLEARANCE_EXPIRED": {
     "description": "",

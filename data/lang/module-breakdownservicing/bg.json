@@ -17,7 +17,7 @@
   },
   "FLAVOUR_0_TITLE": {
     "description": "",
-    "message": "Обслужваща компания „{name}“"
+    "message": "Обслужваща компания {name}"
   },
   "FLAVOUR_0_YESPLEASE": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
-    "message": "ХИПЕРМЕХАНИКА НА КОРАБА"
+    "message": "ХИПЕРМЕХАНИКА НА КОРАБИ"
   },
   "FLAVOUR_2_INTRO": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "FLAVOUR_3_INTRO": {
     "description": "",
-    "message": "Добре дошли в „Суперфикс“. Време е за поддръжка? Ние ще Суперфиксираме Вашия хипердвигател!"
+    "message": "Добре дошли в Суперфикс. Време е за поддръжка? Ние ще Суперфиксираме Вашия хипердвигател!"
   },
   "FLAVOUR_3_PRICE": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "FLAVOUR_4_INTRO": {
     "description": "",
-    "message": "Добре дошли във „Време и пространство“.\n\nНие се занимаваме с междузвездни двигатели. Предлагаме гаранция за срок от две години."
+    "message": "Добре дошли във Време и пространство.\n\nНие се занимаваме с междузвездни двигатели. Предлагаме гаранция за срок от две години."
   },
   "FLAVOUR_4_PRICE": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "FLAVOUR_5_TITLE": {
     "description": "",
-    "message": "Обслужваща компания „{proprietor}“"
+    "message": "Обслужваща компания {proprietor}"
   },
   "FLAVOUR_5_YESPLEASE": {
     "description": "",
