@@ -252,7 +252,7 @@ namespace Graphics {
 		// The visual density of the grid can be controlled by the lineSpacing parameter
 		class GridSphere {
 		public:
-			GridSphere(Graphics::Renderer *r, uint32_t numSubdivs = 12);
+			GridSphere(Graphics::Renderer *r, uint32_t numSubdivs = 4);
 
 			void SetLineColors(Color minorLineColor, Color majorLineColor, float lineWidth = 2.0);
 

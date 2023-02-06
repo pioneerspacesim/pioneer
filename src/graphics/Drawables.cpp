@@ -483,7 +483,7 @@ namespace Graphics {
 
 		Graphics::MeshObject *Icosphere::Generate(Graphics::Renderer *r, int subdivs, float scale, AttributeSet attribs)
 		{
-			subdivs = Clamp(subdivs, 0, 4);
+			subdivs = Clamp(subdivs, 0, 10);
 			scale = fabs(scale);
 			matrix4x4f trans = matrix4x4f::Identity();
 			trans.Scale(scale, scale, scale);
