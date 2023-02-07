@@ -2101,7 +2101,7 @@
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
-    "message": "Stationens tek nivå är för låg för att sälja det här föremålet."
+    "message": "Stationens tech nivå är för låg för att sälja det här föremålet."
   },
   "STATUS": {
     "description": "",
@@ -2117,7 +2117,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech level"
+    "message": "Tech nivå"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
