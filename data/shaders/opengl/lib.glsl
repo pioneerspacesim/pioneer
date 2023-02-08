@@ -45,23 +45,16 @@ void BlinnPhongDirectionalLight(in Light light, in float intensity, in Surface s
 	specular += surf.specular * light.specular.xyz * intensity * pow(max(dot(H, surf.normal), 0.0), surf.shininess);
 }
 
-//Currently used by: planet ring shader, geosphere shaders
-float findSphereEyeRayEntryDistance(in vec3 sphereCenter, in vec3 eyeTo, in float radius)
+// Simple ray-sphere intersection test, assuming ray starts at origin and rayDir is pre-normalized.
+// Returns distance to first and second intersections in {x, y} or 0.0 if no intersection.
+vec2 raySphereIntersect(in vec3 sphereCenter, in vec3 rayDir, in float radius)
 {
 	vec3 v = -sphereCenter;
-	vec3 dir = normalize(eyeTo);
-	float b = -dot(v, dir);
+	float b = -dot(v, rayDir);
 	float det = (b * b) - dot(v, v) + (radius * radius);
-	float entryDist = 0.0;
-	if (det > 0.0) {
-		det = sqrt(det);
-		float i1 = b - det;
-		float i2 = b + det;
-		if (i2 > 0.0) {
-			entryDist = max(i1, 0.0);
-		}
-	}
-	return entryDist;
+	float sdet = sqrt(det);
+
+	return det > 0.0 ? max(vec2(b - sdet, b + sdet), vec2(0.0)) : vec2(0.0);
 }
 
 // Used by: geosphere shaders
@@ -74,15 +67,21 @@ float AtmosLengthDensityProduct(vec3 a, vec3 b, float surfaceDensity, float len,
 {
 	/* 4 samples */
 	float ldprod = 0.0;
+
 	vec3 dir = b-a;
+	float ln = max(length(b)-1.0, 0.0);
+
+	/* simple 6-tap raymarch through the atmosphere to sample an average density */
 	ldprod = surfaceDensity * (
-			exp(-invScaleHeight*(length(a)-1.0)) +
-			exp(-invScaleHeight*(length(a + 0.2*dir)-1.0)) +
-			exp(-invScaleHeight*(length(a + 0.4*dir)-1.0)) +
-			exp(-invScaleHeight*(length(a + 0.6*dir)-1.0)) +
-			exp(-invScaleHeight*(length(a + 0.8*dir)-1.0)) +
-			exp(-invScaleHeight*max(length(b)-1.0, 0.0)));
+			exp(-invScaleHeight * (length(a)           -1.0)) +
+			exp(-invScaleHeight * (length(a + 0.2*dir) -1.0)) +
+			exp(-invScaleHeight * (length(a + 0.4*dir) -1.0)) +
+			exp(-invScaleHeight * (length(a + 0.6*dir) -1.0)) +
+			exp(-invScaleHeight * (length(a + 0.8*dir) -1.0)) +
+			exp(-invScaleHeight * (ln)));
+
 	ldprod *= len;
 	return ldprod;
 }
+
 #endif

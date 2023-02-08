@@ -92,8 +92,8 @@ void BaseSphere::SetMaterialParameters(const matrix4x4d &trans, const float radi
 {
 	BaseSphereDataBlock matData{};
 
-	matData.geosphereCenter = vector3f(trans * vector3d(0.0));
-	matData.geosphereRadius = radius;
+	matData.geosphereCenter = vector3f(trans * vector3d(0.0)) / radius;
+	matData.geosphereRadius = ap.planetRadius;
 	matData.geosphereInvRadius = 1.0f / radius;
 	matData.geosphereAtmosTopRad = ap.atmosRadius;
 	matData.geosphereAtmosFogDensity = ap.atmosDensity;

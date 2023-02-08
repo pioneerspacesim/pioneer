@@ -403,7 +403,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		// that the edges of the pixel shader atmosphere jizz doesn't
 		// show ugly polygonal angles
 		DrawAtmosphereSurface(renderer, trans, campos,
-			ap.atmosRadius * 1.01,
+			ap.atmosRadius * 1.02,
 			m_atmosphereMaterial);
 	}
 
@@ -494,7 +494,7 @@ void GeoSphere::SetUpMaterials()
 		Graphics::RenderStateDesc rsd;
 		// atmosphere is blended over the background
 		rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
-		rsd.cullMode = Graphics::CULL_NONE;
+		rsd.cullMode = Graphics::CULL_FRONT;
 		rsd.depthWrite = false;
 
 		Graphics::MaterialDescriptor skyDesc;
