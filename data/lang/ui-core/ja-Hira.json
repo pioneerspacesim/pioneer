@@ -211,10 +211,6 @@
     "description": "",
     "message": "Commodity trade analysis of:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Compact radar"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Competent"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Departure date"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Descent-to-ground speed:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Forward accel (full)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Fractal detail"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "free"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Rotation damping is on"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Scanner"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,17 +1311,9 @@
     "description": "For displaying commodity information",
     "message": "Major Export"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Major exports"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Major Import"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Major imports"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1423,17 +1399,9 @@
     "description": "For displaying commodity information",
     "message": "Minor Export"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Minor exports"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Minor Import"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Minor imports"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Orbit"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Orbital Analysis"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Ship Type"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "The ship you were viewing has been sold"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Simulating evolution of the universe: {age} billion years ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "This is a difficult start from the System Administration Resting prison station."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Start at Earth"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "This is an easy start from London on Earth in the Sol system."
   },
   "START_AT_MARS": {
     "description": "",

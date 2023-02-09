@@ -211,10 +211,6 @@
     "description": "",
     "message": "Commodity trade analysis of:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Radar dlúth"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Cumasach"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Departure date"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Luas tuirlingt-go-talamh:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Luasghéarú ar aghaidh (lán)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Mionsonraí na bhfrachtal"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "ar fáil"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Maolú rothlaithe ar siúl"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Scanóir"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,17 +1311,9 @@
     "description": "For displaying commodity information",
     "message": "Major Export"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Príomheaspórtálacha"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Major Import"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Príomhiompórtálacha"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1423,17 +1399,9 @@
     "description": "For displaying commodity information",
     "message": "Minor Export"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Mioniompórtálacha"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Minor Import"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Mioneaspórtálacha"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Fithis"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Anailís ar Fhithis"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "Treoluas tadhlaíoch atá i luas na fithise ciorclaí. Ba chóir don long a bheith ag taisteal i dtreo ingearach (90°) le hais na loinge/{name}.\n\nIs é an luas tuirlingthe an t-íosmhéid, agus is treoluas tadhlaíoch é freisin. Má thagann tú isteach ar luas níos moille nó ar uillinn níos lú, buailfidh an long le dromchla an phláinéid {name}.\n\nOibríonn an luas éalaithe i dtreo ar bith, go teoiriciúil, chomh fada is nach mbuailfidh an long le {name} ar an mbealach.\n  "
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Ship Type"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "Díoladh an long a raibh spéis agat inti"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Éabhlóid na cruinne á hionsamhlú: {age} billiún bliain ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "This is a difficult start from the System Administration Resting prison station."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Tosaigh ar an Domhan"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "This is an easy start from London on Earth in the Sol system."
   },
   "START_AT_MARS": {
     "description": "",

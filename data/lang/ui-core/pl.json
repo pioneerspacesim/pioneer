@@ -211,10 +211,6 @@
     "description": "",
     "message": "Analiza dóbr handlowych systemu:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Radar kompaktowy"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Fachowiec"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Czas odlotu"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Prędkość graniczna:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Ciąg w przód (pełny)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Dokładność fraktali"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "wolne"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Tłumienie rotacji włączone"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Skaner"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,16 +1311,8 @@
     "description": "For displaying commodity information",
     "message": "Główny eksport"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Główny eksport"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Główny import"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
     "message": "Główny import"
   },
   "MAKE_NEW_FACE": {
@@ -1423,16 +1399,8 @@
     "description": "For displaying commodity information",
     "message": "Poboczny eksport"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Poboczny eksport"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Poboczny import"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
     "message": "Poboczny import"
   },
   "MISSILE_MOUNTS": {
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Orbita"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Analiza Orbity"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "Prędkość orbitalna to stała prędkość z jaką powinien poruszać się statek pod kątem 90° względem osi statek/{name}.\n\nPrędkość graniczna, jest minimalną prędkością przy której statek pozostaje na orbicie.  Przy mniejszej prędkości lub kącie, rozpocznie się opadanie ku powierzchni {name}.\n\nPrędkość ucieczki teoretycznie powoduje opuszczenie orbity, jeśli tylko statek nie jest na kursie kolizyjnym z {name}.\n\t\t"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Rodzaj statku"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "Statek który oglądasz został sprzedany"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Symulacja ewolucji wszechświata: {age} miliardów lat ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "Jest to trudny start ze stacji więziennej System Administration Resting."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Rozpocznij na Ziemi"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "Jest to łatwy start z Londynu na Ziemi w układzie Słońca."
   },
   "START_AT_MARS": {
     "description": "",

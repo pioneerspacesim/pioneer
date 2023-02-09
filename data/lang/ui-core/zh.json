@@ -211,10 +211,6 @@
     "description": "",
     "message": "商品贸易分析:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "小型雷达"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "胜任"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "出发日期"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "减速至地速为:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "向前加速度(满载)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "分形细节"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "空闲"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "开启旋转阻尼"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "扫描仪"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,16 +1311,8 @@
     "description": "For displaying commodity information",
     "message": "主要出口"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "主要出口"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "主要入口"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
     "message": "主要入口"
   },
   "MAKE_NEW_FACE": {
@@ -1423,16 +1399,8 @@
     "description": "For displaying commodity information",
     "message": "次要出口"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "次要出口"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "次要入口"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
     "message": "次要入口"
   },
   "MISSILE_MOUNTS": {
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "轨道"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "轨道分析"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "环绕速度是指飞船的轨道速度在垂直于(90度)飞船-{name}方向上的分量.\n\n下降速度取最小绝对值, 同时也是切向的. 一个较慢的轨道速度或较低的角度会导致飞船的轨道与 {name} 表面交会.\n\n逃逸速度在任何方向上都相同, 除非飞船的轨道与 {name} 表面交会.\n\\t\\t"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "飞船类型"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "你正在查看的飞船已经售出"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "正在模拟宇宙演化进程: {age} Gyr ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "这是一个艰难的开始，从星系管理休息监狱站。"
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "从地球开始"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "在太阳系中，这是从地球上的伦敦开始的一个简单的开端。"
   },
   "START_AT_MARS": {
     "description": "",

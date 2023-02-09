@@ -211,10 +211,6 @@
     "description": "",
     "message": "Анализ на стоковата търговия в:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Компактен радар"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Компетентен"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Дата на отпътуване"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Скорост на спускане към повърхността:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Ускорение >| (пълен)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Фрактален детайл"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "Свободни"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Плавното завъртане е включено"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Скенер"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,16 +1311,8 @@
     "description": "For displaying commodity information",
     "message": "Основен износ"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Основен износ"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Основен внос"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
     "message": "Основен внос"
   },
   "MAKE_NEW_FACE": {
@@ -1423,16 +1399,8 @@
     "description": "For displaying commodity information",
     "message": "Незначителен износ"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Незначителен износ"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Незначителен внос"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
     "message": "Незначителен внос"
   },
   "MISSILE_MOUNTS": {
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Орбита"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Орбитален анализ"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "Скоростта при кръгова орбита е представена като тангенционална скорост. Корабът трябва да се движи в посока от 90°, спрямо неговата {name} ос.\n\nСкоростта на спускане е абсолютния минимум и също е тангенционална. При по-ниска скорост или по-малък ъгъл ще се стигне до сблъсък с {name}.\n\nВтората космическа скорост ще има ефект във всяка посока на движение, стига да не се стигне до сблъсък с {name} .\n\t\t"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Вид на кораба"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "Корабът, който разглеждахте, беше продаден"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Симулиране на еволюцията на Вселената: {age} милиарда години ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "Това е труден старт от космическия затвор „Почивна база на системната администрация“"
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Стартиране от Земята"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "Това е лесен старт от Лондон – Земята в Слънчевата система."
   },
   "START_AT_MARS": {
     "description": "",

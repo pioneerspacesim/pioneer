@@ -211,10 +211,6 @@
     "description": "",
     "message": "Råvaruhandel analys av:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Kompakt radar"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Kompetent"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Avresedatum"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Hastighet-mot-marken:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Acceleration framåt (full)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Fraktaldetaljer"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "ledigt"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Rotationsdämpare är på"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Scanner"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,17 +1311,9 @@
     "description": "For displaying commodity information",
     "message": "Stor Export"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Huvudexporter"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Stor Import"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Huvudimporter"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1423,17 +1399,9 @@
     "description": "For displaying commodity information",
     "message": "Liten Export"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Mindre exporter"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Liten Import"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Mindre importer"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Omloppsbana"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Analys av omloppsbana"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "Cirkulär omloppshastighet är angiven för en tangerande hastighet. Skeppet borde röras i 90° riktning mot skep/{name} axeln.\n\nNedstigningshastighet är ett absolut minimum och är också tangerande. En lägre hastighet eller lägre vinkel kommer att resultera i en kurs som korsar ytan på {name}.\n\nFlykthastighet fungerar i teorin i alla riktningar så länge inte skeppet krockar med {name} på vägen.\n\t\t"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Fartygstyp"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "Skeppet du tittade på har blivit sålt"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Simulerar universums evolution: {age} miljarder år ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "Det här är en svår start från System Administration Restings fängelsestation."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Starta på Jorden"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "This is an easy start from London on Earth in the Sol system."
   },
   "START_AT_MARS": {
     "description": "",

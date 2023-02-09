@@ -211,10 +211,6 @@
     "description": "",
     "message": "Análisis de comercio de productos básicos de:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Radar compacto"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Competente"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Fecha de partida"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Velocidad de descenso a tierra:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Aceleración (máx)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Detalles Fractales"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "libre"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Rotación amortiguada activa"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Escáner"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,17 +1311,9 @@
     "description": "For displaying commodity information",
     "message": "Exportación Principal"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Exportaciones principales"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Importación Principal"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Importaciones principales"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1423,17 +1399,9 @@
     "description": "For displaying commodity information",
     "message": "Exportación Menor"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Exportaciones menores"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Importación Menor"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Importaciones menores"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Órbita"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Análisis Orbital"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "La velocidad de órbita circular es dada por una velocidad tangencial. La nave se debería mover en una dirección a 90° del eje de la nave/{name}.\n\nLa velocidad de descenso es un mínimo absoluto, y es también tangencial. Una velocidad o ángulo más bajos resultarán en un curso que intersecta con la superficie de {name}.\n\nLa velocidad de escape funcionará, en teoría, en cualquier dirección, mientras que la nave no colisione con {name} en la ruta.\n\t\t"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Tipo de Nave"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "La nave que estaba viendo se ha vendido"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Simulando la evolución del universo: {age} mil millones de años ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "Comienzo de juego difícil en la estación penitenciaria Sistema Administrativo Resting."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Comenzar en la Tierra"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "Comienzo de juego fácil en Londres/Tierra, en el Sistema Solar."
   },
   "START_AT_MARS": {
     "description": "",

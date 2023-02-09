@@ -211,10 +211,6 @@
     "description": "",
     "message": "Анализ торговли товарами:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Компактный радар"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Квалифицированный"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Дата отбытия"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Скорость снижения:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Ускорение вперёд (полный)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Фрактальная детализация"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "свободно"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Компенсация вращения включена"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Сканер"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,17 +1311,9 @@
     "description": "For displaying commodity information",
     "message": "Основной товар для продажи"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Основные товары для продажи"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Основной товар для ввоза"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Основные товары для ввоза"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1423,17 +1399,9 @@
     "description": "For displaying commodity information",
     "message": "Второстепенный товар для продажи"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Второстепенные товары для продажи"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Второстепенный товар для ввоза"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Второстепенные товары для ввоза"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Орбита"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Анализ орбиты"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "Круговая скорость орбиты выражает тангенциальную скорость. Корабль должен двигаться в направлении 90° к оси корабля-{name}.\n\nСкорость снижения это абсолютный минимум скорости, так-же являющейся тангенциальной. Меньшая скорость или меньший угол приведут к пересечению с поверхностью {name}.\n\nПараболическая скорость теоретически будет справедлива для любого направления, до тех пор пока корабль не пересекается с поверхностью {name}."
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Тип корабля"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "Корабль, который вы смотрели, был продан"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Моделируем эволюцию вселенной: {age} млрд. лет ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "Трудный старт с тюремной станции System Administration Resting."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Новый старт: Earth"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "Лёгкий старт из Лондона на Земле в Солнечной Системе."
   },
   "START_AT_MARS": {
     "description": "",

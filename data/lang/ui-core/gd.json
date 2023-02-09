@@ -211,10 +211,6 @@
     "description": "",
     "message": "Sgrùdadh air malart bhatharan ann an:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Rèidear teannta"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Comasach"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Ceann-là fhàgail"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Luaths teàrnadh dhan làr:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Luathachadh air adhart (làn)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Mion-shealladh fractalach"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "saor"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Tha lasachadh a’ chuairteachaidh air"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Sganair"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,16 +1311,8 @@
     "description": "For displaying commodity information",
     "message": "Prìomh às-mhalairt"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Prìomh às-mhalairt"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Prìomh ion-mhalairt"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
     "message": "Prìomh ion-mhalairt"
   },
   "MAKE_NEW_FACE": {
@@ -1423,16 +1399,8 @@
     "description": "For displaying commodity information",
     "message": "Beagan às-mhalairt"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Beagan às-mhalairt"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Beagan ion-mhalairt"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
     "message": "Beagan ion-mhalairt"
   },
   "MISSILE_MOUNTS": {
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Reul-chuairt"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Sgrùdadh na reul-chuairte"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "Thèid luaths cearcallach na reul-cuairte a shealltainn mar luaths beantanach. Mu chòir dhan t-soitheach a bhith a’ siubhal le 90° an comhair aiseal an t-soithich/{name}.\n\nTha an luaths teàrnaidh cho beag ’s a ghabhas agus tha e beantanach cuideachd. Bheir luaths as ìsle le ceum as ìsle cùrsa dhut a dh’eadar-ghearras ris an uachdar aig {name}.\n\nBu chòir don luaths teichidh obrachadh air comhair sam bith cho fad ’s nach buail an soitheach ri {name} air an t-slighe.\n\t\t"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Seòrsa an t-soithich"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "Tha an soitheach a bha thu a’ coimhead air rèic"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "A’ cruthachadh gnè an domhain: {age} billean bliadhna ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "Seo toiseach doirbh o stèisean prìosain aig riaghaltas siostam Resting."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Tòisich air an Talamh"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "Seo toiseach furasta o Lunnainn air an Talamh ann an siostam Sol."
   },
   "START_AT_MARS": {
     "description": "",

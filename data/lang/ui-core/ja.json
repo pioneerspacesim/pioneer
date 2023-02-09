@@ -211,10 +211,6 @@
     "description": "",
     "message": "Commodity trade analysis of:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "コンパクトレーダー"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Competent"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "出発日"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "対地降下速度:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Forward accel (full)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Fractal detail"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "空き"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "回転減衰機能オン"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "スキャナー"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,16 +1311,8 @@
     "description": "For displaying commodity information",
     "message": "主要輸出品"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "主要輸出品"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "主要輸入品"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
     "message": "主要輸入品"
   },
   "MAKE_NEW_FACE": {
@@ -1423,16 +1399,8 @@
     "description": "For displaying commodity information",
     "message": "小規模輸出品"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "小規模輸出品"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "小規模輸入品"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
     "message": "小規模輸入品"
   },
   "MISSILE_MOUNTS": {
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "軌道"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "軌道解析"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "円軌道速度は接線速度として与えられる。ship/{name} 軸に対して90°の方向に移動する。\n\n降下速度はその最小値で、接線方向である。より遅い速度または低い角度では{name}の表面と交わることになる。\n\n脱出速度は理論上どの方向でも、船が{name}に衝突しない限り離脱するだろう。"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "船種"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "あなたが見ていた船は売り切れです"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "宇宙の進化をシミュレーション中:{age}0億年 ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "これはSystem Administration Resting prison stationからの難しいスタートです。"
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "地球でスタート"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "太陽系の地球にあるロンドンからの簡単なスタートです。"
   },
   "START_AT_MARS": {
     "description": "",

@@ -211,10 +211,6 @@
     "description": "",
     "message": "Malın ticari analizi:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Sıkıştırılmış radar"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Mücadeleci"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Ayrılış tarihi"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Yere-alçalma hızı"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "İleri ivme (dolu)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Fraktal detay"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "boş"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Dönüş durdurma açık"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Tarayıcı"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,17 +1311,9 @@
     "description": "For displaying commodity information",
     "message": "Ana İhracat"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Ana ihracatlar"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Ana İthalat"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Ana ithalatlar"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1423,17 +1399,9 @@
     "description": "For displaying commodity information",
     "message": "İkincil İhracat"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Yan ihracatlar"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "İkincil İthalat"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Yan ithalatlar"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Yörünge"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Yörünge Analizi"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "Dairesel yörünge hızı teğet hız için verilmiştir. Gemi {name} eksenine 90° yönünde hareket ediyor olmalıdır.\n\nAlçalma hızı mutlak en az ve yine teğettir. Daha düşük bir hız veya açı {name} yüzeyiyle kesişen bir rotaya neden olacaktır.\n\nKaçış hızı , gemi {name} ile yol üstünde çarpışmadığı sürece, teorik olarak her hangi bir yönde işleyecektir.\n "
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Gemi Tipi"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "Bakmakta oldunuz gemi satıldı."
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Evrenin evrimi hesaplanıyor: {age} milyar yıl ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "Bu, System Administration Resting hapishane istasyonundan yapılan zor başlangıç."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Dünya'da Başla"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "Bu, Sol sistemindeki Dünya'da bulunan Londra'dan yapılan kolay başlangıç."
   },
   "START_AT_MARS": {
     "description": "",

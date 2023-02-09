@@ -211,10 +211,6 @@
     "description": "",
     "message": "Commodity trade analysis of:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Compact radar"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Schopný"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Datum odletu"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Přistávací rychlost:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Zrychlení vpřed (plná)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Detaily fraktálů"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "volných"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Tlumení otáčení je zapnuto"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Radar"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,17 +1311,9 @@
     "description": "For displaying commodity information",
     "message": "Major Export"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Major exports"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Major Import"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Major imports"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1423,17 +1399,9 @@
     "description": "For displaying commodity information",
     "message": "Minor Export"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Drobný vývoz"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Drobný dovoz"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Drobné dovozy"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Orbita"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Orbitální analýza"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat v úhlu 90° k ose lodi/{name}.\n\nRychlost sestupu je absolutní minimum a je taktéž tangenciální. Menší rychlost nebo menší úhel bude mít za následek trajektorii, která se protíná s povrchem {name}.\n\nÚniková rychlost může být teoreticky libovolná ve všech směrech, dokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.\n\t\t"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Typ lodi"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "Loď, kterou si prohlížíte, byla prodána"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Simulace vývoje vesmíru: {age} miliard let ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "This is a difficult start from the System Administration Resting prison station."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Start: Earth"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "Jedná se o snadný start z Londýna na Zemi v systému Sol."
   },
   "START_AT_MARS": {
     "description": "",

@@ -211,10 +211,6 @@
     "description": "",
     "message": "Ανάλυση συναλλαγών μεταξύ των:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Συμπαγές ραντάρ"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Ικανός"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Ημερομηνία αναχώρησης"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Ταχύτητα καθόδου στο έδαφος:"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Επιτάχυνση προς τα εμπρός (πλήρες)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Λεπτομέρεια fractal"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "ελεύθερα"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Η απόσβεση περιστροφής είναι ενεργοποιημένη"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Σαρωτής"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,17 +1311,9 @@
     "description": "For displaying commodity information",
     "message": "Κύρια Εξαγωγή:"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Κύριες εξαγωγές:"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Κύρια Εισαγωγή"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Κύριες εισαγωγές"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1423,17 +1399,9 @@
     "description": "For displaying commodity information",
     "message": "Δευτερεύουσα Εξαγωγή"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Δευτερεύουσες εξαγωγές"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Δευτερεύουσα Εισαγωγή"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Δευτερεύουσες εισαγωγές"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Τροχιά"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Ανάλυση τροχιάς"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "Η ταχύτητα κυκλικής τροχιάς ορίζεται ως  ίση με την εφαπτομενική ταχύτητα. Το πλοίο πρέπει να κινείται προς μια κατεύθυνση 90° ως προς τον άξονα σκάφους/{name}.\n\nΗ ταχύτητα καθόδου είναι ένα απόλυτο ελάχιστο και είναι επίσης εφαπτομενική. Μια μικρότερη ταχύτητα ή μια μικρότερη γωνία θα έχει ως αποτέλεσμα μια πορεία σύγκρουσης που τέμνει την επιφάνεια του {name}.\n\nΗ ταχύτητα διαφυγής θα λειτουργήσει θεωρητικά προς οποιαδήποτε κατεύθυνση, αρκεί το σκάφος να μην συγκρουστεί με το {name} στην πορεία, πριν την διαφυγή του.\n\n\t\t"
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Τύπος σκάφους"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "Το σκάφος που βλέπατε έχει πωληθεί"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Προσομοίωση της εξέλιξης του σύμπαντος: {age} δισεκατομμύρια χρόνια ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "Πρόκειται για μια δύσκολη εκκίνηση από το σταθμό της φυλακής 'Για μια Ήρεμη Διαχείριση Συστήματος'."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Ξεκινήστε από τη Γη"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "Αυτή είναι μια εύκολη εκκίνηση από το Λονδίνο της Γης του Ηλιακού συστήματος."
   },
   "START_AT_MARS": {
     "description": "",

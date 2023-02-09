@@ -211,10 +211,6 @@
     "description": "",
     "message": "Analyse du marché pour le produit:"
   },
-  "COMPACT_RADAR": {
-    "description": "Game settings option",
-    "message": "Radar compact"
-  },
   "COMPETENT": {
     "description": "Combat rating",
     "message": "Compétent"
@@ -330,10 +326,6 @@
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
     "message": "Date de départ"
-  },
-  "DESCENT_TO_GROUND_SPEED": {
-    "description": "",
-    "message": "Vitesse de descente"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -615,10 +607,6 @@
     "description": "",
     "message": "Accélération (totale)"
   },
-  "FRACTAL_DETAIL": {
-    "description": "",
-    "message": "Details fractals"
-  },
   "FREE": {
     "description": "Used in Ship Information view as in Capacity: 10t (5t free)",
     "message": "libre"
@@ -850,10 +838,6 @@
   "HUD_BUTTON_ROTATION_DAMPING_IS_ON": {
     "description": "Tooltip: Rotation damping is on",
     "message": "Amortissement de la rotation enclenchée"
-  },
-  "HUD_BUTTON_SCANNER": {
-    "description": "Tooltip: Scanner",
-    "message": "Senseurs"
   },
   "HUD_BUTTON_SET_SPEED": {
     "description": "Tooltip: set speed",
@@ -1327,17 +1311,9 @@
     "description": "For displaying commodity information",
     "message": "Exportation majeure"
   },
-  "MAJOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Exportations majeures"
-  },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Importation majeure"
-  },
-  "MAJOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Importations majeures"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1423,17 +1399,9 @@
     "description": "For displaying commodity information",
     "message": "Exportation mineure"
   },
-  "MINOR_EXPORTS_ITEM": {
-    "description": "",
-    "message": "Exportations mineures"
-  },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
     "message": "Importation mineure"
-  },
-  "MINOR_IMPORTS_ITEM": {
-    "description": "",
-    "message": "Importations mineures"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1614,14 +1582,6 @@
   "ORBIT": {
     "description": "",
     "message": "Orbite"
-  },
-  "ORBITAL_ANALYSIS": {
-    "description": "",
-    "message": "Analyse Orbitale"
-  },
-  "ORBITAL_ANALYSIS_NOTES": {
-    "description": "",
-    "message": "La vitesse orbitale est donnée pour un vecteur tangenciel : La trajectoire doit etre de 90° par rapport a l'axe  vaisseau/{name}.\n\nLa vitesse de descente est un minimum absolu, et c'est aussi la vitesse tangencielle : Une vitesse plus base ou un angle plus bas donneront a coup sur une collision avec {name}.\n\nLa vitesse de libération fonctionne en théorie dans toute les directions, tant que le vaisseau n'entre pas en collision avec {name}."
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
@@ -2011,10 +1971,6 @@
     "description": "",
     "message": "Type de vaisseau"
   },
-  "SHIP_VIEWING_WAS_SOLD": {
-    "description": "",
-    "message": "Le vaisseau que vous observiez a été vendu"
-  },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
     "message": "Simulation de l'évolution de l'univers : {age} milliards d'années ;-)"
@@ -2030,14 +1986,6 @@
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
     "message": "Départ difficile du pénitentier spatial de l'administration du système \"Resting\"."
-  },
-  "START_AT_EARTH": {
-    "description": "",
-    "message": "Commencer sur Terre"
-  },
-  "START_AT_EARTH_DESC": {
-    "description": "",
-    "message": "Départ facile de Londres sur Terre dans le système Sol."
   },
   "START_AT_MARS": {
     "description": "",
