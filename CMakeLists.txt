@@ -71,6 +71,12 @@ if (HAS_FECLEAREXCEPT AND HAS_FEENABLEEXCEPT AND HAS_FEDISABLEEXCEPT)
 	set(HAS_FPE_OPS ON)
 endif()
 
+include(CheckCXXSourceCompiles)
+check_cxx_source_compiles("#include <cstddef>\nvoid foo(size_t){}; void foo(unsigned int){};int main(){}" SIZE_T_AND_UNSIGNED_INT_ARE_DIFFERENT_TYPES)
+if (SIZE_T_AND_UNSIGNED_INT_ARE_DIFFERENT_TYPES)
+	add_definitions(-DSIZE_T_AND_UNSIGNED_INT_ARE_DIFFERENT_TYPES)
+endif ()
+
 if (NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
 		"Choose the type of build, options are: None(CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel."
