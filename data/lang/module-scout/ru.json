@@ -281,7 +281,7 @@
   },
   "DROP_OFF_DATA": {
     "description": "",
-    "message": "Drop off data at {location} before {date}"
+    "message": "Отправка данных в {location} до {date}"
   },
   "EXCELLENT_I_AWAIT_YOUR_REPORT": {
     "description": "",
@@ -289,7 +289,7 @@
   },
   "HOW_DOES_IT_WORK": {
     "description": "",
-    "message": "How does it work?"
+    "message": "Как это работает?"
   },
   "HUD_SCAN_PROGRESS": {
     "description": "",
@@ -373,7 +373,7 @@
   },
   "SCAN_MANAGER": {
     "description": "",
-    "message": "Диспетчер сканирования"
+    "message": "Окно сканирования"
   },
   "SCAN_MAXIMUM_ALTITUDE": {
     "description": "Tooltip for scan max. altitude parameter",

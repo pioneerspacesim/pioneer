@@ -517,15 +517,15 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Удерживать {target} против нормали"
+    "message": "Удерживать анти-нормаль к {target}"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Удерживать {target} против курса"
+    "message": "Удерживать {target} ретроградно"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Удерживать {target} по курсу"
+    "message": "Удерживать {target} проградно"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -533,15 +533,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Удерживать {target} нормаль"
+    "message": "Удерживать нормаль к {target}"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "Удерживать {target} в радиале"
+    "message": "Удерживать {target} радиально внутрь"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "Удерживать {target} из радиали"
+    "message": "Удерживать {target} радиально наружу"
   },
   "HEAVY_INDUSTRY": {
     "description": "",
@@ -765,7 +765,7 @@
   },
   "MANUAL_CONTROL": {
     "description": "",
-    "message": "Пилотаж"
+    "message": "Ручное управление"
   },
   "MANUAL_CONTROL_MODE": {
     "description": "",
@@ -1317,7 +1317,7 @@
   },
   "SELECT_LOW_THRUST_POWER_LEVEL": {
     "description": "",
-    "message": "Зафиксировать уровень тяги"
+    "message": "Выбор уровня тяги"
   },
   "SEMI_MAJOR_AXIS": {
     "description": "",
@@ -1745,7 +1745,7 @@
   },
   "UNIT_EARTH_GRAVITY": {
     "description": "Acceleration unit: one earth gravity (g)",
-    "message": "g"
+    "message": "г"
   },
   "UNIT_GIGATONNES": {
     "description": "Mass unit: one gigatonne",
@@ -1881,7 +1881,7 @@
   },
   "WITH": {
     "description": "",
-    "message": "\" с\""
+    "message": "\" с \""
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",

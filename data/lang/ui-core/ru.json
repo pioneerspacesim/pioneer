@@ -305,19 +305,19 @@
   },
   "DELTA_V": {
     "description": "",
-    "message": "Дельта v"
+    "message": "Дельта-v"
   },
   "DELTA_V_EMPTY": {
     "description": "Delta-v capacity of a ship with no cargo or upgrades",
-    "message": "Дельта v (пустой)"
+    "message": "Дельта-v (пустой)"
   },
   "DELTA_V_FULL": {
     "description": "Delta-v capacity of a ship with maximum cargo",
-    "message": "Дельта v (полный)"
+    "message": "Дельта-v (полный)"
   },
   "DELTA_V_MAX": {
     "description": "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-    "message": "Дельта v (макс.)"
+    "message": "Дельта-v (макс.)"
   },
   "DEMAND": {
     "description": "Column label for commodity demand at a market.",
@@ -441,7 +441,7 @@
   },
   "END_GAME": {
     "description": "",
-    "message": "Конец игры"
+    "message": "Из игры"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
@@ -753,7 +753,7 @@
   },
   "HUD_BUTTON_DISABLE_FIXHEADING": {
     "description": "Tooltip for button",
-    "message": "Отключить режим фиксации заголовка"
+    "message": "Отключить режим фиксации направления"
   },
   "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
     "description": "Tooltip for button",
@@ -769,27 +769,27 @@
   },
   "HUD_BUTTON_FIX_ANTINORMAL": {
     "description": "Tooltip: fix heading antinormal",
-    "message": "Установить направление противоположное нормальному"
+    "message": "Удержание направления противоположного нормальному"
   },
   "HUD_BUTTON_FIX_NORMAL": {
     "description": "Tooltip: fix heading normal",
-    "message": "Установить нормальное направление"
+    "message": "Удержание нормального направления"
   },
   "HUD_BUTTON_FIX_PROGRADE": {
     "description": "Tooltip: fix heading prograde",
-    "message": "Удержание направления по курсу"
+    "message": "Удержание проградного направления"
   },
   "HUD_BUTTON_FIX_RADIAL_IN": {
     "description": "Tooltip: fix heading radially inward",
-    "message": "Удерживается направление на систему отсчёта"
+    "message": "Удержание направления радиально внутрь"
   },
   "HUD_BUTTON_FIX_RADIAL_OUT": {
     "description": "Tooltip: fix heading radially outward",
-    "message": "Удерживается направление от системы отсчёта"
+    "message": "Удержание направления радиально наружу"
   },
   "HUD_BUTTON_FIX_RETROGRADE": {
     "description": "Tooltip: fix heading retrograde",
-    "message": "Удержание обратного направления"
+    "message": "Удержание ретроградного направления"
   },
   "HUD_BUTTON_FLYBY_VIEW": {
     "description": "Tooltip: Flyby camera view",
@@ -829,7 +829,7 @@
   },
   "HUD_BUTTON_MANUAL_CONTROL": {
     "description": "Tooltip: Manual control",
-    "message": "Пилотаж"
+    "message": "Ручное управление"
   },
   "HUD_BUTTON_ROTATION_DAMPING_IS_OFF": {
     "description": "Tooltip: Rotation damping is off",
@@ -1573,7 +1573,7 @@
   },
   "OPEN_USER_FOLDER": {
     "description": "",
-    "message": "Файлы\nпрофиля"
+    "message": "Файлы"
   },
   "OPTIONS": {
     "description": "",
@@ -1869,7 +1869,7 @@
   },
   "SAVE": {
     "description": "",
-    "message": "Сохранить игру"
+    "message": "Сохранение"
   },
   "SCOOP_MOUNTS": {
     "description": "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
@@ -2021,7 +2021,7 @@
   },
   "STAR_FIELD_STAR_SIZE_FACTOR": {
     "description": "",
-    "message": "Размер звезд в звездном поле"
+    "message": "Размер звёзд поля"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
@@ -2093,11 +2093,11 @@
   },
   "TOGGLE_CARGO_WINDOW": {
     "description": "Label for a button toggling the cargo display window.",
-    "message": "Переключить окно груза"
+    "message": "Окно груза"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
-    "message": "Переключить полное окно связи"
+    "message": "Окно связи"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
