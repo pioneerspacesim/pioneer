@@ -12,10 +12,10 @@
 #include <tuple>
 
 inline void pi_lua_generic_push(lua_State *l, bool value) { lua_pushboolean(l, value); }
-inline void pi_lua_generic_push(lua_State *l, int value) { lua_pushinteger(l, value); }
+inline void pi_lua_generic_push(lua_State *l, int32_t value) { lua_pushinteger(l, value); }
 inline void pi_lua_generic_push(lua_State *l, int64_t value) { lua_pushinteger(l, value); }
-inline void pi_lua_generic_push(lua_State *l, unsigned int value) { lua_pushinteger(l, value); }
-inline void pi_lua_generic_push(lua_State *l, size_t value) { lua_pushinteger(l, value); }
+inline void pi_lua_generic_push(lua_State *l, uint32_t value) { lua_pushinteger(l, value); }
+inline void pi_lua_generic_push(lua_State *l, uint64_t value) { lua_pushinteger(l, value); }
 inline void pi_lua_generic_push(lua_State *l, double value) { lua_pushnumber(l, value); }
 inline void pi_lua_generic_push(lua_State *l, const char *value) { lua_pushstring(l, value); }
 inline void pi_lua_generic_push(lua_State *l, const std::string &value)
@@ -29,10 +29,10 @@ inline void pi_lua_generic_push(lua_State *l, std::string_view &value)
 inline void pi_lua_generic_push(lua_State *l, const std::nullptr_t &value) { lua_pushnil(l); }
 
 inline void pi_lua_generic_pull(lua_State *l, int index, bool &out) { out = lua_toboolean(l, index); }
-inline void pi_lua_generic_pull(lua_State *l, int index, int &out) { out = luaL_checkinteger(l, index); }
+inline void pi_lua_generic_pull(lua_State *l, int index, int32_t &out) { out = luaL_checkinteger(l, index); }
 inline void pi_lua_generic_pull(lua_State *l, int index, int64_t &out) { out = luaL_checkinteger(l, index); }
-inline void pi_lua_generic_pull(lua_State *l, int index, unsigned int &out) { out = luaL_checkunsigned(l, index); }
-inline void pi_lua_generic_pull(lua_State *l, int index, size_t &out) { out = luaL_checkunsigned(l, index); }
+inline void pi_lua_generic_pull(lua_State *l, int index, uint32_t &out) { out = luaL_checkinteger(l, index); }
+inline void pi_lua_generic_pull(lua_State *l, int index, uint64_t &out) { out = luaL_checkinteger(l, index); }
 inline void pi_lua_generic_pull(lua_State *l, int index, float &out) { out = luaL_checknumber(l, index); }
 inline void pi_lua_generic_pull(lua_State *l, int index, double &out) { out = luaL_checknumber(l, index); }
 inline void pi_lua_generic_pull(lua_State *l, int index, const char *&out) { out = luaL_checkstring(l, index); }
