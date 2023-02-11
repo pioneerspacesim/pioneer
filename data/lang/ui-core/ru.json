@@ -2261,7 +2261,7 @@
   },
   "X_CANNOT_BE_TOLERATED_HERE": {
     "description": "Message to be sent over comms by police when crime is committed by player",
-    "message": "{crime} нельзя допускать здесь!"
+    "message": "{crime} здесь недопустимо!"
   },
   "YES": {
     "description": "Positive answer to a question",
