@@ -82,6 +82,7 @@ The Pioneer Developers are:
 * Nic
 * Nick Wanstall
 * Oleg Ovcharenko
+* Oskar Wallgren aka zonkmachine
 * Paul Cercueil
 * Paul Mahol
 * Paul Roberts
