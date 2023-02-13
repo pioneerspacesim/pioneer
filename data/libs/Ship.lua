@@ -159,7 +159,8 @@ end
 --   experimental
 --
 function Ship:AddEquip(item, count, slot)
-	local ret = self.equipSet:Add(self, item, count, slot)
+	assert(not count or count == 1)
+	local ret = self.equipSet:Add(self, item(), count, slot)
 	if ret > 0 then
 		Event.Queue("onShipEquipmentChanged", self, item)
 	end
