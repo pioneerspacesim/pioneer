@@ -63,6 +63,8 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	}
 
 	id = _id;
+	definitionPath = path;
+
 	name = data.value("name", "");
 	shipClass = data.value("ship_class", "");
 	manufacturer = data.value("manufacturer", "");

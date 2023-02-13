@@ -72,6 +72,8 @@ struct ShipType {
 
 	int hyperdriveClass;
 	int minCrew, maxCrew; // XXX really only for Lua, but needs to be declared in the ship def
+
+	std::string definitionPath;
 	///////
 
 	// percentage (ie, 0--100) of tank used per second at full thrust
