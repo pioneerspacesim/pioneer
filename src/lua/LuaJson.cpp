@@ -13,7 +13,7 @@
  */
 
 // Do a simple JSON->Lua translation.
-static void _push_json_to_lua(lua_State *l, Json &obj)
+void LuaJson::PushToLua(lua_State *l, const Json &obj)
 {
 	lua_checkstack(l, 20);
 
@@ -40,15 +40,15 @@ static void _push_json_to_lua(lua_State *l, Json &obj)
 		size_t size = obj.size();
 		for (size_t idx = 0; idx < size; idx++) {
 			lua_pushinteger(l, idx + 1);
-			_push_json_to_lua(l, obj[idx]);
+			PushToLua(l, obj[idx]);
 			lua_settable(l, -3);
 		}
 	} break;
 	case Json::value_t::object: {
 		lua_newtable(l);
-		for (Json::iterator it = obj.begin(); it != obj.end(); it++) {
-			lua_pushstring(l, it.key().c_str());
-			_push_json_to_lua(l, it.value());
+		for (const auto &pair : obj.items()) {
+			lua_pushstring(l, pair.key().c_str());
+			PushToLua(l, pair.value());
 			lua_settable(l, -3);
 		}
 	} break;
@@ -79,7 +79,7 @@ static int l_load_json(lua_State *l)
 	if (data.is_null())
 		return luaL_error(l, "Error loading JSON file %s.", filename.c_str());
 
-	_push_json_to_lua(l, data);
+	LuaJson::PushToLua(l, data);
 
 	return 1;
 }
@@ -106,7 +106,7 @@ static int l_load_save_file(lua_State *l)
 		return luaL_error(l, "Error loading JSON file %s.", filename.c_str());
 	}
 
-	_push_json_to_lua(l, data);
+	LuaJson::PushToLua(l, data);
 
 	return 1;
 }
