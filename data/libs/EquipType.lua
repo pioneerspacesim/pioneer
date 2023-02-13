@@ -39,19 +39,61 @@ function EquipType.New (specs)
 	for i,v in pairs(specs) do
 		obj[i] = v
 	end
+
 	if not obj.l10n_resource then
 		obj.l10n_resource = "equipment-core"
 	end
-	local l = Lang.GetResource(obj.l10n_resource)
-	obj.volatile = {
-		description = l:get(obj.l10n_key.."_DESCRIPTION") or "",
-		name = l[obj.l10n_key] or ""
-	}
+
 	setmetatable(obj, EquipType.meta)
+	EquipType._createTransient(obj)
+
 	if type(obj.slots) ~= "table" then
 		obj.slots = {obj.slots}
 	end
 	return obj
+end
+
+function EquipType._createTransient(obj)
+	local l = Lang.GetResource(obj.l10n_resource)
+	obj.transient = {
+		description = l:get(obj.l10n_key .. "_DESCRIPTION") or "",
+		name = l[obj.l10n_key] or ""
+	}
+end
+
+function EquipType.isProto(inst)
+	return not rawget(inst, "__proto")
+end
+
+-- Patch an EquipType class to support a prototype-based equipment system
+-- `equipProto = EquipType.New({ ... })` to create an equipment prototype
+-- `equipInst = equipProto()` to create a new instance based on the created prototype
+function EquipType.SetupPrototype(type)
+	local old = type.New
+	local un = type.Unserialize
+
+	-- Create a new metatable for instances of the prototype object;
+	-- delegates serialization to the base class of the proto
+	function type.New(...)
+		local inst = old(...)
+		inst.meta = { __index = inst, class = type.meta.class }
+		return inst
+	end
+
+	function type.Unserialize(inst)
+		inst = un(inst) ---@type any
+
+		-- if we have a "__proto" field we're an instance of the equipment prototype
+		if rawget(inst, "__proto") then
+			setmetatable(inst, inst.__proto.meta)
+		end
+
+		return inst
+	end
+
+	type.meta.__call = function(equip)
+		return setmetatable({ __proto = equip }, equip.meta)
+	end
 end
 
 function EquipType:Serialize()
@@ -63,21 +105,19 @@ function EquipType:Serialize()
 		end
 	end
 
-	ret.volatile = nil
+	ret.transient = nil
 	return ret
 end
 
 function EquipType.Unserialize(data)
 	local obj = EquipType.Super().Unserialize(data)
 	setmetatable(obj, EquipType.meta)
-	if not obj.l10n_resource then
-		obj.l10n_resource = "equipment-core"
+
+	-- Only patch the common prototype with runtime transient data
+	if EquipType.isProto(obj) then
+		EquipType._createTransient(obj)
 	end
-	local l = Lang.GetResource(obj.l10n_resource)
-	obj.volatile = {
-		description = l:get(obj.l10n_key.."_DESCRIPTION") or "",
-		name = l[obj.l10n_key] or ""
-	}
+
 	return obj
 end
 
@@ -127,11 +167,11 @@ function EquipType:IsValidSlot(slot, ship)
 end
 
 function EquipType:GetName()
-	return self.volatile.name
+	return self.transient.name
 end
 
 function EquipType:GetDescription()
-	return self.volatile.description
+	return self.transient.description
 end
 
 local function __ApplyMassLimit(ship, capabilities, num)
@@ -170,6 +210,7 @@ end
 
 -- Base type for weapons
 local LaserType = utils.inherits(EquipType, "LaserType")
+
 function LaserType:Install(ship, num, slot)
 	if num > 1 then num = 1 end -- FIXME: support installing multiple lasers (e.g., in the "cargo" slot?)
 	if LaserType.Super().Install(self, ship, 1, slot) < 1 then return 0 end
@@ -336,6 +377,12 @@ Serializer:RegisterClass("EquipType", EquipType)
 Serializer:RegisterClass("HyperdriveType", HyperdriveType)
 Serializer:RegisterClass("SensorType", SensorType)
 Serializer:RegisterClass("BodyScannerType", BodyScannerType)
+
+EquipType:SetupPrototype()
+LaserType:SetupPrototype()
+HyperdriveType:SetupPrototype()
+SensorType:SetupPrototype()
+BodyScannerType:SetupPrototype()
 
 return {
 	laser			= laser,

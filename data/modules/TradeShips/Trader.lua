@@ -35,7 +35,10 @@ Trader.addEquip = function (ship)
 	if Engine.rand:Number(1) - 0.1 < lawlessness then
 		local num = math.floor(math.sqrt(ship.freeCapacity / 50)) -
 			ship:CountEquip(e.misc.shield_generator)
-		if num > 0 then ship:AddEquip(e.misc.shield_generator, num) end
+		for i = 1, num do
+			ship:AddEquip(e.misc.shield_generator)
+		end
+
 		if ship_type.equipSlotCapacity.energy_booster > 0 and
 			Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
 			ship:AddEquip(e.misc.shield_energy_booster)

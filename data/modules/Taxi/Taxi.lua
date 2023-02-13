@@ -107,14 +107,18 @@ local missions = {}
 local passengers = 0
 
 local add_passengers = function (group)
-	Game.player:RemoveEquip(eq.misc.cabin,  group)
-	Game.player:AddEquip(eq.misc.cabin_occupied, group)
+	for i = 1, group do
+		Game.player:RemoveEquip(eq.misc.cabin, 1)
+		Game.player:AddEquip(eq.misc.cabin_occupied, 1)
+	end
 	passengers = passengers + group
 end
 
 local remove_passengers = function (group)
-	Game.player:RemoveEquip(eq.misc.cabin_occupied,  group)
-	Game.player:AddEquip(eq.misc.cabin, group)
+	for i = 1, group do
+		Game.player:RemoveEquip(eq.misc.cabin_occupied, 1)
+		Game.player:AddEquip(eq.misc.cabin, 1)
+	end
 	passengers = passengers - group
 end
 
