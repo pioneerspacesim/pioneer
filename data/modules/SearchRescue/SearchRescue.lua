@@ -281,12 +281,74 @@ local getNumberOfFlavours = function (str)
 	return num - 1
 end
 
+-- Test string for presence of non-ASCII characters.
+function isascii(str)
+    for i = 1, #str do
+        local byte = string.byte(str, i)
+        if byte > 128 or byte < 31 then
+            return false
+        end
+    end
+    return true
+end
+
+-- Takes a name (string), returns success (boolean) and a prepared name (string).
+-- Tries to return a surname and should this fail it returns the original full name. It also
+-- returns a status flag to declare if the returned name is known to be a surname or if the
+-- operation is uncertain and returned unchanged. The reason for a failed operation is either
+-- that the name consists of more than two names which makes it hard to know what names are
+-- first names and what are surnames. Or it contains non-ASCII characters or non-printable
+-- characters which makes the split algorithm fail.
 local splitName = function (name)
-	-- Splits the supplied name into first and last name and returns a table of both separately.
-	-- Idea from http://stackoverflow.com/questions/2779700/lua-split-into-words.
+
+	-- 1. If there are non-ASCII stuff in the name, then test where the spaces are and
+	-- return what's after the last one.
+	if not isascii(name) then
+		spaces = {}
+		count = 1
+		while count < #name do
+			local byte = string.byte(name, count)
+			if byte == 32 then
+				spaces[#spaces + 1] = count
+			end
+			count = count + 1
+		end
+
+		if #spaces > 0 then
+			return true, string.trim(string.sub(name,spaces[#spaces]))
+		else
+			return false, name
+		end
+	end
+
+	-- We now have a word without non-ASCII signs.
 	local names = {}
-	for word in name:gmatch("%w+") do table.insert(names, word) end
-	return names
+
+	-- 2. Splits the supplied name into first and last name and returns a table of both separately.
+	-- Idea from http://stackoverflow.com/questions/2779700/lua-split-into-words. Modified to
+	-- allow hyphen and apostrophe.
+	for word in name:gmatch("[a-zA-Z\'][a-zA-Z-\']*[a-zA-Z\']") do
+		table.insert(names, word)
+	end
+
+	-- 3. return the last of two component names. it is always a surname.
+	if #names == 2 then
+		return true, names[2] -- Most names are one given name and a surname.
+	end
+
+	-- 4. test for names with common multiple names. 'de', 'van' etc.'
+	local splits = {" van ", " Van ", " de ", " De ", " Cel ","Mac", "Obar "}
+	local test = 1
+	while test < #splits + 1 do
+		pattern = " " .. splits[test] .. " "
+		local place = string.find(name, splits[test])
+		if place then	-- ex. 'Van Damme', return and capitalize.
+			return true, string.trim(string.sub(name,place)):gsub("^%l", string.upper)
+		end
+		test = test + 1
+	end							-- Less than one in a hundred runs end here. Only names
+	-- 5.						-- of type, first name, second name, surname has been
+	return true, names[#names]	-- observed here and they are represented correctly.
 end
 
 local decToDegMinSec = function (coord_orig)
@@ -1276,7 +1338,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 
 	elseif flavour.id == 7 then
 		client = Character.New()
-		local lastname = splitName(client.name)[2]
+		local tested, lastname = splitName(client.name)
 
 		-- select posting entity
 		entity = string.interp(l["ENTITY_FAMILY_BUSINESS_" .. Engine.rand:Integer(1, getNumberOfFlavours("ENTITY_FAMILY_BUSINESS"))],
