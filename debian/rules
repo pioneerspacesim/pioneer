@@ -9,19 +9,10 @@
 #export DH_VERBOSE=1
 
 PIONEER_DATA_DIR = /usr/share/games/pioneer/data
-CFLAGS = $(shell dpkg-buildflags --get CFLAGS)
-CXXFLAGS = $(shell dpkg-buildflags --get CXXFLAGS)
-CFLAGSMORE =
-CXXFLAGSMORE =
 
 %:
-	dh $@ --with autoreconf --parallel
+	dh $@
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
-			     --with-external-liblua \
-			     PIONEER_DATA_DIR="$(PIONEER_DATA_DIR)" \
-			     CFLAGS="$(CFLAGS) $(CFLAGSMORE)" \
-			     CXXFLAGS="$(CXXFLAGS) $(CXXFLAGSMORE)"
-
-override_dh_auto_test:;
+			     -DPIONEER_DATA_DIR="$(PIONEER_DATA_DIR)"
