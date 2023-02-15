@@ -333,7 +333,7 @@
   },
   "DETAIL_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "Снижение улучшает производительность за счет визуальной эстетики"
+    "message": "Снижение улучшает производительность но ухудшает качество изображения"
   },
   "DISABLE_SCREENSHOT_INFO": {
     "description": "",
@@ -1261,7 +1261,7 @@
   },
   "LOAD": {
     "description": "",
-    "message": "Загрузка игры"
+    "message": "Загрузить"
   },
   "LOAD_GAME": {
     "description": "",

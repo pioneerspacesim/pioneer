@@ -201,7 +201,7 @@
   },
   "MININGCANNON_17MW": {
     "description": "",
-    "message": "17MW технологическое орудие"
+    "message": "17МВт технологическое орудие"
   },
   "MININGCANNON_17MW_DESCRIPTION": {
     "description": "",
@@ -209,7 +209,7 @@
   },
   "MININGCANNON_5MW": {
     "description": "",
-    "message": "5MW взрыводобывающая пушка"
+    "message": "5МВт взрывное добывающее орудие"
   },
   "MININGCANNON_5MW_DESCRIPTION": {
     "description": "",
@@ -273,31 +273,31 @@
   },
   "PULSECANNON_10MW": {
     "description": "",
-    "message": "10MW импульсное орудие"
+    "message": "10МВт импульсное орудие"
   },
   "PULSECANNON_1MW": {
     "description": "",
-    "message": "1MW импульсное орудие"
+    "message": "1МВт импульсное орудие"
   },
   "PULSECANNON_20MW": {
     "description": "",
-    "message": "20MW импульсное орудие"
+    "message": "20МВт импульсное орудие"
   },
   "PULSECANNON_2MW": {
     "description": "",
-    "message": "2MW импульсное орудие"
+    "message": "2МВт импульсное орудие"
   },
   "PULSECANNON_4MW": {
     "description": "",
-    "message": "4MW импульсное орудие"
+    "message": "4МВт импульсное орудие"
   },
   "PULSECANNON_DUAL_1MW": {
     "description": "",
-    "message": "1MW сдвоенное имп.орудие"
+    "message": "1МВт сдвоенное импульсное орудие"
   },
   "PULSECANNON_RAPID_2MW": {
     "description": "",
-    "message": "2MW скоростное имп.орудие"
+    "message": "2МВт скоростное импульсное орудие"
   },
   "RADAR": {
     "description": "",

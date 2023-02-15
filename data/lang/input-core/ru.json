@@ -65,7 +65,7 @@
   },
   "BIND_FLIGHT_ASSIST_RADIAL": {
     "description": "Descriptive name for the action binding.",
-    "message": "Открыть круговое меню Помощь при полете"
+    "message": "Открыть круговое меню помощи при полете"
   },
   "BIND_FRONT_CAMERA": {
     "description": "Descriptive name for the FrontCamera action.",
