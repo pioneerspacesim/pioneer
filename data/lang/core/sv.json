@@ -593,7 +593,7 @@
   },
   "HYPERSPACE_JUMP_ABORTED": {
     "description": "",
-    "message": "Hyerrymdshopp avbrutet."
+    "message": "Hyperrymdshopp avbrutet."
   },
   "HYPERSPACE_JUMP_DISABLED": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -697,7 +697,7 @@
   },
   "LASER_FIRE_DETECTED": {
     "description": "",
-    "message": "Avfyrade vapen detekterade"
+    "message": "Vapeneld upptäckt."
   },
   "LATITUDE": {
     "description": "Short for latitude",
@@ -813,7 +813,7 @@
   },
   "MILITARY_DICTATORSHIP": {
     "description": "",
-    "message": "Militär diktatur"
+    "message": "Militärdiktatur"
   },
   "MILITARY_FUEL": {
     "description": "",
@@ -909,7 +909,7 @@
   },
   "MOON_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "måne med flytande vatten"
+    "message": "\" måne med flytande vatten\""
   },
   "MOON_WITH_SOME_ICE": {
     "description": "",
@@ -929,7 +929,7 @@
   },
   "NAVIGATION_STAR_MAPS": {
     "description": "",
-    "message": "Navigation och stjärkartor"
+    "message": "Navigation och stjärnkartor"
   },
   "NAVIGATION_TARGETS_IN_THIS_SYSTEM": {
     "description": "",
@@ -1177,7 +1177,7 @@
   },
   "POPULATION": {
     "description": "",
-    "message": "Population:"
+    "message": "Befolkning:"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -1729,7 +1729,7 @@
   },
   "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW": {
     "description": "",
-    "message": "Outforskat system, Systemvy otillgänglig."
+    "message": "Outforskat system. Systemvy otillgänglig."
   },
   "UNEXPLORED_SYSTEM_STAR_INFO_ONLY": {
     "description": "",
