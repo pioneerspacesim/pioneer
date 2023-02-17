@@ -32,8 +32,12 @@ local misc = {}
 -- author, but who knows ? Some people might find it useful.)
 --
 --
+---@class EquipType
+---@field transient table
+---@field slots table -- deprecated
 local EquipType = utils.inherits(nil, "EquipType")
 
+---@return EquipType
 function EquipType.New (specs)
 	local obj = {}
 	for i,v in pairs(specs) do
@@ -50,6 +54,15 @@ function EquipType.New (specs)
 	if type(obj.slots) ~= "table" then
 		obj.slots = {obj.slots}
 	end
+
+	-- fixup old capabilities system to explicitly specified mass/volume
+	if obj.capabilities and obj.capabilities.mass then
+		obj.mass = obj.capabilities.mass
+		obj.volume = obj.mass
+
+		-- obj.capabilities.mass = nil
+	end
+
 	return obj
 end
 
