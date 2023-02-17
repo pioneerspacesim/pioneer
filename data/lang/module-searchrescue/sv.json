@@ -81,7 +81,7 @@
   },
   "ENTITY_GENERAL_1": {
     "description": "",
-    "message": "[locality] General Prospectors Inc"
+    "message": "{locality} General Prospectors Inc"
   },
   "ENTITY_GENERAL_10": {
     "description": "",
@@ -89,27 +89,27 @@
   },
   "ENTITY_GENERAL_2": {
     "description": "",
-    "message": "[locality] förening för ekologiskt bevarande"
+    "message": "{locality} förening för ekologiskt bevarande"
   },
   "ENTITY_GENERAL_3": {
     "description": "",
-    "message": "Intressegruppen för [locality]"
+    "message": "Intressegruppen för {locality} "
   },
   "ENTITY_GENERAL_4": {
     "description": "",
-    "message": "[locality] Gruvrättighetskontoret"
+    "message": "{locality} Gruvrättighetskontoret"
   },
   "ENTITY_GENERAL_5": {
     "description": "",
-    "message": "[locality]s landägarassociation"
+    "message": "{locality}s landägarassociation"
   },
   "ENTITY_GENERAL_6": {
     "description": "",
-    "message": "[locality] statistiska institut"
+    "message": "{locality} statistiska institut"
   },
   "ENTITY_GENERAL_7": {
     "description": "",
-    "message": "[locality] avdelningskontor för SpaceCruise Inc"
+    "message": "{locality} avdelningskontor för SpaceCruise Inc"
   },
   "ENTITY_GENERAL_8": {
     "description": "",
@@ -121,47 +121,47 @@
   },
   "ENTITY_RESEARCH_1": {
     "description": "",
-    "message": "[locality] biologiska förening"
+    "message": "{locality} biologiska förening"
   },
   "ENTITY_RESEARCH_10": {
     "description": "",
-    "message": "[locality] center för zoologisk forskning"
+    "message": "{locality} center för zoologisk forskning"
   },
   "ENTITY_RESEARCH_2": {
     "description": "",
-    "message": "[locality] mikrobilogiska förening"
+    "message": "{locality} mikrobilogiska förening"
   },
   "ENTITY_RESEARCH_3": {
     "description": "",
-    "message": "[locality] kemiförening"
+    "message": "{locality} kemiförening"
   },
   "ENTITY_RESEARCH_4": {
     "description": "",
-    "message": "[locality] astrobiologiska förening"
+    "message": "{locality} astrobiologiska förening"
   },
   "ENTITY_RESEARCH_5": {
     "description": "",
-    "message": "[locality] geologiska förening"
+    "message": "{locality} geologiska förening"
   },
   "ENTITY_RESEARCH_6": {
     "description": "",
-    "message": "[locality] förening för astropaleontologi"
+    "message": "{locality} förening för astropaleontologi"
   },
   "ENTITY_RESEARCH_7": {
     "description": "",
-    "message": "[locality] astrofysiska forskningscenter"
+    "message": "{locality} astrofysiska forskningscenter"
   },
   "ENTITY_RESEARCH_8": {
     "description": "",
-    "message": "[locality] astrokemiska forskningscenter"
+    "message": "{locality} astrokemiska forskningscenter"
   },
   "ENTITY_RESEARCH_9": {
     "description": "",
-    "message": "[locality] botaniska center"
+    "message": "{locality} botaniska center"
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "Du har inte utrustning för att utföra detta uppdrag. {} {equipment} behövs."
+    "message": "Du har inte utrustning för att utföra uppdraget. {unit} {equipment} behövs."
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
@@ -325,7 +325,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Flygledningen på {starport} har identifierat ett rymdskepp med ID {shiplabel} drivandes utan bränsle i närheten. Vi betalar {cach} till den som vill tanka skeppet så att det kan lämna {starport]. "
+    "message": "Flygledningen på {starport} har identifierat ett rymdskepp med ID {shiplabel} drivandes utan bränsle i närheten. Vi betalar {cach} till den som vill tanka skeppet så att det kan lämna {starport}. "
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
@@ -365,7 +365,7 @@
   },
   "FLAVOUR_6_LOCATIONTEXT": {
     "description": "",
-    "message": "Den senaste kända positionen var i närheten av [planet] i  {system} [{sectorx},{sectory},{sectorz}] systemet, [dist] ly härifrån."
+    "message": "Den senaste kända positionen var i närheten av {planet} i  {system} [{sectorx},{sectory},{sectorz}] systemet, {dist} ly härifrån."
   },
   "FLAVOUR_6_SUCCESSMSG": {
     "description": "",
@@ -377,7 +377,7 @@
   },
   "FLAVOUR_6_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Jag behöver någon som är villig att åka och hämta tillbaka våra kollegor, om de är vid liv, till [starport]  omedelbart. Skeppet hade [crew] besättningsmän och [pass] passagerare ombord."
+    "message": "Jag behöver någon som är villig att åka och hämta tillbaka våra kollegor, om de är vid liv, till {starport}  omedelbart. Skeppet hade {crew} besättningsmän och {pass} passagerare ombord."
   },
   "FLAVOUR_7_ADTEXT": {
     "description": "",
@@ -393,15 +393,15 @@
   },
   "FLAVOUR_7_HOWMUCHTIMETEXT": {
     "description": "",
-    "message": "Utbytesbesättningen har nått fram till skeppet till [due]."
+    "message": "Utbytesbesättningen har nått fram till skeppet till {due}."
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "Mitt namn är [name] från [entity]. Vårt enda skepp, [ship] [shiplabel] driver omkring med en besättning på [crew] efter [problem]. Jag är beredd att betala [cash] för omedelbar hjälp."
+    "message": "Mitt namn är {name} från {entity}. Vårt enda skepp, {ship} {shiplabel} driver omkring med en besättning på {crew} efter {problem}. Jag är beredd att betala {cash} för omedelbar hjälp."
   },
   "FLAVOUR_7_LOCATIONTEXT": {
     "description": "",
-    "message": "Du kommer att hitta skeppet i  {system} [{sectorx},{sectory},{sectorz}] systemet, [dist] ly härifrån. Det hålls i omlopp kring [planet]."
+    "message": "Du kommer att hitta skeppet i  {system} [{sectorx},{sectory},{sectorz}] systemet, {dist} ly härifrån. Det hålls i omlopp kring {planet}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
@@ -409,11 +409,11 @@
   },
   "FLAVOUR_7_TRANSFERMSG": {
     "description": "",
-    "message": "[unit] har flyttats över till målskeppet."
+    "message": "{unit} har flyttats över till målskeppet."
   },
   "FLAVOUR_7_TYPEOFHELPTEXT": {
     "description": "",
-    "message": "Vi kan inte skicka tillbaka skeppet utan att minimal besättning finns tillgänglig. Jag letar efter någon som är beredd att transportera en utbytesbesättning på [deliver_crew] till vårt rymdskepp omedelbart."
+    "message": "Vi kan inte skicka tillbaka skeppet utan att minimal besättning finns tillgänglig. Jag letar efter någon som är beredd att transportera en utbytesbesättning på {deliver_crew} till vårt rymdskepp omedelbart."
   },
   "FULL_CARGO": {
     "description": "",
@@ -525,19 +525,19 @@
   },
   "PROBLEM_CREW_2": {
     "description": "",
-    "message": "besättningen blev tvungna att jag en dödlig [locality] orm som hittats på skeppet"
+    "message": "besättningen blev tvungna att jag en dödlig {locality} orm som hittats på skeppet"
   },
   "PROBLEM_CREW_3": {
     "description": "",
-    "message": "en [locality] spindel dödade alla andra"
+    "message": "en {locality} spindel dödade alla andra"
   },
   "PROBLEM_CREW_4": {
     "description": "",
-    "message": "vad som ser ut att vara en [locality] skorpion kom in i besättningens rum på natten"
+    "message": "vad som ser ut att vara en {locality} skorpion kom in i besättningens rum på natten"
   },
   "PROBLEM_CREW_5": {
     "description": "",
-    "message": "en alvarlig typ av [locality] feber dödade de andra"
+    "message": "en alvarlig typ av {locality} feber dödade de andra"
   },
   "PROBLEM_CREW_6": {
     "description": "",
@@ -561,7 +561,7 @@
   },
   "PROBLEM_GENERAL_10": {
     "description": "",
-    "message": "mottagandet av en nödsignal från [locality]"
+    "message": "mottagandet av en nödsignal från {locality}"
   },
   "PROBLEM_GENERAL_2": {
     "description": "",
@@ -601,11 +601,11 @@
   },
   "PROBLEM_RESEARCH_10": {
     "description": "",
-    "message": "en stor upptäckt vid [locality] som jag inte kan diskutera just nu"
+    "message": "en stor upptäckt vid {locality} som jag inte kan diskutera just nu"
   },
   "PROBLEM_RESEARCH_2": {
     "description": "",
-    "message": "en besättningsman som blivit infekterad av en patogen hemmahörande i [locality]"
+    "message": "en besättningsman som blivit infekterad av en patogen hemmahörande i {locality}"
   },
   "PROBLEM_RESEARCH_3": {
     "description": "",
@@ -613,7 +613,7 @@
   },
   "PROBLEM_RESEARCH_4": {
     "description": "",
-    "message": "besättningen utsattes för ett insamlat exemplar vid [locality]"
+    "message": "besättningen utsattes för ett insamlat exemplar vid {locality}"
   },
   "PROBLEM_RESEARCH_5": {
     "description": "",
@@ -621,7 +621,7 @@
   },
   "PROBLEM_RESEARCH_6": {
     "description": "",
-    "message": "en experimentellt återskapande av [locality] atmosfära gaser"
+    "message": "en experimentellt återskapande av {locality} atmosfära gaser"
   },
   "PROBLEM_RESEARCH_7": {
     "description": "",
@@ -633,7 +633,7 @@
   },
   "PROBLEM_RESEARCH_9": {
     "description": "",
-    "message": "av misstag kombinerat oförenliga prov från [locality]"
+    "message": "av misstag kombinerat oförenliga prov från {locality}"
   },
   "RESULT_DELIVERY_COMM": {
     "description": "",

@@ -289,7 +289,7 @@
   },
   "DANGEROUS": {
     "description": "Player combat rating",
-    "message": "Farligt"
+    "message": "Farlig"
   },
   "DATE": {
     "description": "Date of an event, used in flight log",
@@ -297,7 +297,7 @@
   },
   "DEADLY": {
     "description": "Player combat rating",
-    "message": "Dödligt"
+    "message": "Dödlig"
   },
   "DECREASE": {
     "description": "Decrease something.",
@@ -401,7 +401,7 @@
   },
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
-    "message": "Edit"
+    "message": "Redigera"
   },
   "EFFECTS": {
     "description": "",
@@ -409,7 +409,7 @@
   },
   "ELITE": {
     "description": "Player combat rating",
-    "message": "ELITE"
+    "message": "ELIT"
   },
   "EMPLOYMENT": {
     "description": "",
@@ -649,7 +649,7 @@
   },
   "GOOD_RIDDANCE_TO_YOU_TOO": {
     "description": "",
-    "message": "Hejdå till dig också."
+    "message": "Lycka till du med."
   },
   "GO_BACK": {
     "description": "",
@@ -853,7 +853,7 @@
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
-    "message": "Sidovy"
+    "message": "Siderisk vy"
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
@@ -941,7 +941,7 @@
   },
   "HUD_FOLLOW_ORIENTATION": {
     "description": "Tooltip for follow mode 'orientation' button",
-    "message": "{targetname}: Follow orientation"
+    "message": "{targetname}: Följ orientering"
   },
   "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
     "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
@@ -1029,7 +1029,7 @@
   },
   "HUD_RADAR_DISTANCE": {
     "description": "Tooltip: Current distance of the radar.",
-    "message": "Aktiv radaravstånd"
+    "message": "Aktivt radaravstånd"
   },
   "HUD_REQUEST_TIME_ACCEL": {
     "description": "Tooltip: Request time acceleration {time}",
@@ -1073,15 +1073,15 @@
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
-    "message": "DESCENT RATE"
+    "message": "Nedstigningshastighet"
   },
   "HUD_WARNING_IMPACT": {
     "description": "Alert tooltip",
-    "message": "Impact warning"
+    "message": "Kollisionsvarning"
   },
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
-    "message": "Impact imminent"
+    "message": "Kollision överhängande"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -1145,7 +1145,7 @@
   },
   "INITIATED": {
     "description": "Ship jump status",
-    "message": "Initiated"
+    "message": "påbörjat"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
@@ -1153,7 +1153,7 @@
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
-    "message": "Otillräcklig likvid"
+    "message": "Otillräckliga medel"
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
@@ -1173,7 +1173,7 @@
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
-    "message": "In system"
+    "message": "System"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -1277,7 +1277,7 @@
   },
   "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME": {
     "description": "",
-    "message": "Befinner sig {distance}km från centrum av {name}:"
+    "message": "Befinner sig {distance} km från centrum av {name}:"
   },
   "LOCATION": {
     "description": "",
@@ -1285,7 +1285,7 @@
   },
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
-    "message": "Custom Log"
+    "message": "Anpassad log"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
@@ -1293,7 +1293,7 @@
   },
   "LOG_STATION": {
     "description": "Label tab for showing logged station events",
-    "message": "Ny Notering"
+    "message": "Stationslogg"
   },
   "LOG_SYSTEM": {
     "description": "Label tab for showing logged system events",
@@ -1437,7 +1437,7 @@
   },
   "MULTISAMPLING_DESC": {
     "description": "",
-    "message": "A graphical fine-tuning feature, used to reduce jagged, pixelated contours. It can be quite resource-intensive."
+    "message": "En grafisk teknik som används för att minska ojämna, pixlade konturer. Den kan vara ganska resurskrävande."
   },
   "MURDER": {
     "description": "",
@@ -1565,7 +1565,7 @@
   },
   "OFFENDER": {
     "description": "Legal status of player",
-    "message": "Offender"
+    "message": "Lagbrytare"
   },
   "OK": {
     "description": "",
@@ -1609,7 +1609,7 @@
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
-    "message": "Filter overview window entries by name"
+    "message": "Filtrera poster efter namn"
   },
   "OWED": {
     "description": "Player owing money to crew members",
@@ -1713,7 +1713,7 @@
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
-    "message": "Press a key or controller button or escape to clear"
+    "message": "Tryck på en knapp, kontrollknapp eller escape för att rensa."
   },
   "PREVIOUS_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
@@ -1785,7 +1785,7 @@
   },
   "REMOVE": {
     "description": "Remove, e.g. deleting a log entry",
-    "message": "Remove"
+    "message": "Avlägsna"
   },
   "REMOVE_JUMP": {
     "description": "UI-button: remove hyper jump from list of planned jumps",
@@ -1925,15 +1925,15 @@
   },
   "SET_TO_45PERCENT_OF_DELTAV": {
     "description": "For the speed limiter button",
-    "message": "Set to 45% of remaining delta-v"
+    "message": "Ställ in på 45 % av återstående delta-v"
   },
   "SET_TO_CURRENT_VELOCITY": {
     "description": "For the speed limiter button",
-    "message": "Set to current velocity"
+    "message": "Ställ in på aktuell hastighet"
   },
   "SET_TO_ZERO": {
     "description": "For the speed limiter button",
-    "message": "Set to zero"
+    "message": "Ställ in på noll"
   },
   "SHIP": {
     "description": "",
@@ -2093,7 +2093,7 @@
   },
   "TOGGLE_CARGO_WINDOW": {
     "description": "Label for a button toggling the cargo display window.",
-    "message": "Toggle Cargo Window"
+    "message": "Lastfönster"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
@@ -2173,7 +2173,7 @@
   },
   "UNLAWFUL_WEAPONS_DISCHARGE": {
     "description": "",
-    "message": "Olaglig vapenavfyring"
+    "message": "Olaglig vapenavfyrning"
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
