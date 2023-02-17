@@ -1038,41 +1038,44 @@ bool AICmdFlyTo::TimeStepUpdate()
 	double targdist = relpos.Length();
 
 	Body* planetNear = Frame::GetFrame(m_dBody->GetFrame())->GetBody();
-	double M = planetNear->IsType(ObjectType::TERRAINBODY) ? planetNear->GetMass() : 0;
-	double safeAlt = MaxEffectRad(planetNear, m_prop);
-	vector3d obspos = -m_dBody->GetPosition();
-
 	double targetAlt = targpos.Length();
 
-	if ((m_suicideRecovery = CheckSuicide(m_dBody, obspos, M, safeAlt, targetAlt, m_suicideRecovery))) {
+	if(planetNear) {
+		double M = planetNear->IsType(ObjectType::TERRAINBODY) ? planetNear->GetMass() : 0;
+		double safeAlt = MaxEffectRad(planetNear, m_prop);
+		vector3d obspos = -m_dBody->GetPosition();
 
-		//find best orientationg to get to horizon
-		vector3d sidedir = obspos.Cross(m_dBody->GetVelocity()).NormalizedSafe();
-		vector3d updir = sidedir.Cross(m_dBody->GetVelocity()).NormalizedSafe();
 
-		//clamped tangent of Yaw mismatch to target - for driving side trust  
-		constexpr double cSideDriveRange = 0.02;
-		double targetSideTan = Clamp(targdist > 1 ? relpos.Dot(sidedir)/targdist : 0, -cSideDriveRange, cSideDriveRange);
-		
-		//Bellow safe alt (gravity too big for thrusters) breaking will kill the ship eventually
-		//so in this case ship accelerates along speed vector otherwise it is safe to break
-		float sign = G*M/obspos.LengthSqr() > 0.9 * m_prop->GetAccelUp() ? 1.0 : -1.0;
-		
-		double ang = m_prop->AIFaceDirection(m_dBody->GetVelocity() * sign);
-		m_prop->AIFaceUpdir(updir);
+		if ((m_suicideRecovery = CheckSuicide(m_dBody, obspos, M, safeAlt, targetAlt, m_suicideRecovery))) {
+
+			//find best orientationg to get to horizon
+			vector3d sidedir = obspos.Cross(m_dBody->GetVelocity()).NormalizedSafe();
+			vector3d updir = sidedir.Cross(m_dBody->GetVelocity()).NormalizedSafe();
+
+			//clamped tangent of Yaw mismatch to target - for driving side trust  
+			constexpr double cSideDriveRange = 0.02;
+			double targetSideTan = Clamp(targdist > 1 ? relpos.Dot(sidedir)/targdist : 0, -cSideDriveRange, cSideDriveRange);
+			
+			//Bellow safe alt (gravity too big for thrusters) breaking will kill the ship eventually
+			//so in this case ship accelerates along speed vector otherwise it is safe to break
+			float sign = G*M/obspos.LengthSqr() > 0.9 * m_prop->GetAccelUp() ? 1.0 : -1.0;
+			
+			double ang = m_prop->AIFaceDirection(m_dBody->GetVelocity() * sign);
+			m_prop->AIFaceUpdir(updir);
 #ifdef DEBUG_CHECK_SUICIDE
-		if (m_dBody->IsType(ObjectType::PLAYER)) {
-			std::cout << "SUICIDE recovery! ang=" << ang << " targetSideTan=" << targetSideTan << std::endl;
-			std::cout << "safeAlt=" << safeAlt << " obsdist=" << obspos.Length() << " targetpos.Length()=" << targpos.Length() << std::endl;
-		}
+			if (m_dBody->IsType(ObjectType::PLAYER)) {
+				std::cout << "SUICIDE recovery! ang=" << ang << " targetSideTan=" << targetSideTan << std::endl;
+				std::cout << "safeAlt=" << safeAlt << " obsdist=" << obspos.Length() << " targetpos.Length()=" << targpos.Length() << std::endl;
+			}
 #endif
 
-		//Full Up and Forward thruster.
-		//Side thrust depends on relative pos of the target - not relevant for recovery but it is nice
-		//to be aligned with the target after surviving.
-		m_prop->SetLinThrusterState(ang < 0.05 ? vector3d(sign * targetSideTan * (1/cSideDriveRange), 1, -1) : vector3d(0.0));
+			//Full Up and Forward thruster.
+			//Side thrust depends on relative pos of the target - not relevant for recovery but it is nice
+			//to be aligned with the target after surviving.
+			m_prop->SetLinThrusterState(ang < 0.05 ? vector3d(sign * targetSideTan * (1/cSideDriveRange), 1, -1) : vector3d(0.0));
 
-		return false;
+			return false;
+		}
 	}
 
 	vector3d reldir = relpos.NormalizedSafe();
