@@ -9,7 +9,7 @@
   },
   "FLAVOUR_0_BODY": {
     "description": "",
-    "message": "Hej! Jag heter {name} och jag säljer min {equipment} från min gamla skrothög, för {price}."
+    "message": "Hej! Jag heter {name} och jag säljer min {equipment} från min gamla skrothög för {price}."
   },
   "FLAVOUR_0_TEXT": {
     "description": "Selling second hand ship equipment",

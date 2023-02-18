@@ -25,7 +25,7 @@
   },
   "CORPORATIONS_4": {
     "description": "",
-    "message": "Aquarians Skeppbyggare"
+    "message": "Aquarians Skeppsbyggare"
   },
   "CORPORATIONS_5": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "FLAVOUR_10_INTROTEXT": {
     "description": "",
-    "message": "Mitt namn är {name}- Jag vill ha en snabb transport till {system} ({sectorx}, {sectory}, {sectorz}) systemet, ett avstånd på {dist} ly. Betalar {cash}."
+    "message": "Mitt namn är {name}. Jag vill ha en snabb transport till {system} ({sectorx}, {sectory}, {sectorz}) systemet, ett avstånd på {dist} ly. Jag betalar {cash}."
   },
   "FLAVOUR_10_SUCCESSMSG": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "FLAVOUR_12_INTROTEXT": {
     "description": "",
-    "message": "Mitt namn är {name}. Jag behöver en transport till {system} ({sectorx}, {sectory}, {sectorz}) systemet, ett avstånd på {dist}ly. Betalar {cash}."
+    "message": "Mitt namn är {name}. Jag behöver en transport till {system} ({sectorx}, {sectory}, {sectorz}) systemet, ett avstånd på {dist} ly. Betalar {cash}."
   },
   "FLAVOUR_12_SUCCESSMSG": {
     "description": "",
@@ -517,7 +517,7 @@
   },
   "FLAVOUR_8_INTROTEXT": {
     "description": "",
-    "message": "Mitt namn är {name}. Jag behöver snabb transport till {system} ({sectorx}, {sectory}, {sectorz}) systemet, ett avstånd på {dist} ly. Betlar {cash}."
+    "message": "Mitt namn är {name}. Jag behöver snabb transport till {system} ({sectorx}, {sectory}, {sectorz}) systemet, ett avstånd på {dist} ly. Jag är villig att betala {cash}."
   },
   "FLAVOUR_8_SUCCESSMSG": {
     "description": "",

@@ -329,7 +329,7 @@
   },
   "FLAVOUR_5_LOCATIONTEXT": {
     "description": "",
-    "message": "Målskeppet driver för närvarande inom {dist}km härifrån. Du måste leta reda på den exakta positionen själv."
+    "message": "Målskeppet driver för närvarande inom {dist} km härifrån. Du måste leta reda på den exakta positionen själv."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",

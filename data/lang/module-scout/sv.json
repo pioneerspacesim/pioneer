@@ -289,7 +289,7 @@
   },
   "HOW_DOES_IT_WORK": {
     "description": "",
-    "message": "How does it work?"
+    "message": "Hur går det till?"
   },
   "HUD_SCAN_PROGRESS": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "TARGET_BODY": {
     "description": "",
-    "message": "Target Body:"
+    "message": "Mål för kartläggning:"
   },
   "WHAT_DATA_DO_YOU_NEED": {
     "description": "",

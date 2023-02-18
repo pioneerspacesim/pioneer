@@ -41,7 +41,7 @@
   },
   "ADTEXT_LOCAL_2": {
     "description": "",
-    "message": "Behöver lokal leverans av personlig last till {starport}."
+    "message": "Behöver lokal leverans av egen last till {starport}."
   },
   "ADTEXT_LOCAL_3": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "ADTEXT_PICKUP_1": {
     "description": "",
-    "message": "Upphämtning av last från {system}-systemet önskas. Detaljer tillgängliga på begäran."
+    "message": "Upphämtning av last från {system}-systemet önskas. Ytterligare uppgifter på begäran."
   },
   "ADTEXT_PICKUP_LOCAL_1": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "ADTEXT_WHOLESALER_1": {
     "description": "",
-    "message": "Kvalificerad entreprenör behövs för en körning. Vi behöver ett skepp för en bulkleverans till {system}-systemet."
+    "message": "Kvalificerad entreprenör behövs för körning. Vi behöver ett skepp för en bulkleverans till {system}-systemet."
   },
   "ADTITLE_1": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST": {
     "description": "",
-    "message": "Vänligen repetera ditt ursprungliga uttalande."
+    "message": "Vänligen repetera din ursprungliga begäran."
   },
   "DANGER": {
     "description": "the risk level",
@@ -301,7 +301,7 @@
   },
   "INTROTEXT_1": {
     "description": "",
-    "message": "Hej! Jag heter {name}. Jag betalar dig {cash} om du levererar {cargoname} till {starport} i {system} ({sectorx},{sectory},{sectorz}) systemet, en sträcka på {dist} lå."
+    "message": "Hej! Jag heter {name}. Jag betalar dig {cash} om du levererar {cargoname} till {starport} i {system} ({sectorx},{sectory},{sectorz}) systemet, en sträcka på {dist} ly."
   },
   "INTROTEXT_2": {
     "description": "{name} is the full name of a person",

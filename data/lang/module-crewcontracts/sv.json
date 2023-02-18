@@ -45,7 +45,7 @@
   },
   "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
     "description": "",
-    "message": "Minsta tjänstgöringstid ombord på skeppet"
+    "message": "Minimal tjänstgöringstid ombord på skepp"
   },
   "NO_CREW_AVAILABLE": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
     "description": "",
-    "message": "OK, jag antar att det är korrekt."
+    "message": "Jag antar att det är okej."
   },
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
@@ -93,10 +93,10 @@
   },
   "TIME_SERVED_CREW_MEMBER": {
     "description": "",
-    "message": "Tid som bestättningsman"
+    "message": "Erfaren besättningsman"
   },
   "VETERAN_TIME_SERVED_CREW_MEMBER": {
     "description": "",
-    "message": "Veteran, tid som bestättningsman"
+    "message": "Veteran, mycket erfaren besättningsman"
   }
 }

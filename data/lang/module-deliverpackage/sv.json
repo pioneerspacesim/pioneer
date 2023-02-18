@@ -141,7 +141,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Hej! Jag är {name}. Jag är beredd att betala {cash} för att ett skepp skall föra med sig ett paket till {starport} ({sectorx}. {sectory}, {sectorz}) systemet. Ett avstånd på {dist} ly"
+    "message": "Hej! Jag är {name}. Jag är beredd att betala {cash} för att ett skepp skall föra med sig ett paket till {starport} ({sectorx}. {sectory}, {sectorz}) systemet. Ett avstånd på {dist} ly."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "FLAVOUR_7_INTROTEXT": {
     "description": "",
-    "message": "Hej! Vi behöver leverera dessa lådor till {starport} så snart som möjligt. Standardbetalning för denna leverans är {cash}"
+    "message": "Hej! Vi behöver leverera dessa lådor till {starport} så snart som möjligt. Standardbetalning för denna leverans är {cash}."
   },
   "FLAVOUR_7_SUCCESSMSG": {
     "description": "",
@@ -285,7 +285,7 @@
   },
   "FLAVOUR_9_INTROTEXT": {
     "description": "",
-    "message": "Hej, vi ligger efter i produktionen av lasten och behöver leverera den snabbt till {starport}. Vi betalar dig {cash} för besväret."
+    "message": "Hej, Vi ligger efter i våra leveranser av färska grönsaker och behöver få iväg en leverans till {starport} omgående. Vi betalar dig {cash} för besväret."
   },
   "FLAVOUR_9_SUCCESSMSG": {
     "description": "",

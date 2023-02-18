@@ -221,7 +221,7 @@
   },
   "DEADZONE": {
     "description": "",
-    "message": "Deadzone"
+    "message": "Dödzon"
   },
   "DIRECTION": {
     "description": "Direction",
@@ -233,7 +233,7 @@
   },
   "GROUP_LANDING_CONTROL": {
     "description": "Group label for landing-related inputs",
-    "message": "Landing Control"
+    "message": "Landningsställ"
   },
   "GROUP_MANUAL_CONTROL": {
     "description": "Header for the ManualControl input group.",
@@ -260,7 +260,7 @@
   },
   "HALF_AXIS_MODE": {
     "description": "",
-    "message": "Half-Axis mode"
+    "message": "Halv-axel läge"
   },
   "HAT": {
     "description": "Hat switch: Is the top button on a joystick",

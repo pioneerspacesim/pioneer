@@ -17,7 +17,7 @@
   },
   "FLAVOUR_0_HEADLINE": {
     "description": "",
-    "message": "Nyheter {date}: En epidemi drar igenom hela {system} systemet. Dödsantalet ökar."
+    "message": "Nyheter {date}: En epidemi drar igenom hela {system} systemet. Dödstalet ökar."
   },
   "FLAVOUR_0_NEWSBODY": {
     "description": "Imply high demand for MEDICINE commodity.",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_20_NEWSBODY": {
     "description": "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-    "message": "När {system} systemet ({sectorx}, {sectory}, {sectorz}) går in i en fas som är fördelaktig för den gula alg som kan hittas i atmosfären på en lokal gasjätte så kan skörden bli exceptionellt bra för konstgödselföretaget Soylent Yellot Inc."
+    "message": "När {system} systemet ({sectorx}, {sectory}, {sectorz}) går in i en fas som är fördelaktig för den gula alg som kan hittas i atmosfären på en lokal gasjätte så kan skörden bli exceptionellt bra för konstgödselföretaget Soylent Yellow Inc."
   },
   "FLAVOUR_21_HEADLINE": {
     "description": "",
@@ -129,11 +129,11 @@
   },
   "FLAVOUR_22_HEADLINE": {
     "description": "",
-    "message": "NYHETER {date}: Polis strejkar i {system} systemet. Medborgare får klara sig själva."
+    "message": "NYHETER {date}: Polis strejkar i {system} systemet. Medborgarna får klara sig själva."
   },
   "FLAVOUR_22_NEWSBODY": {
     "description": "Imply high demand of HAND_WEAPONS.",
-    "message": "Polisen i {system} systemet ({sectorx}, {sectory}, {sectorz}) vägrar arbeta som protest mot underbemanning. Under tiden formar civilister medborgargarden och beväpnar sig själva med högafflar och skjutvapen medan de förbereder sig på det värsta."
+    "message": "Polisen i {system} systemet ({sectorx}, {sectory}, {sectorz}) vägrar arbeta som protest mot underbemanning. Under tiden bildar civilister medborgargarden och beväpnar sig själva med högafflar och skjutvapen medan de förbereder sig på det värsta."
   },
   "FLAVOUR_23_HEADLINE": {
     "description": "",

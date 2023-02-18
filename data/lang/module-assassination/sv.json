@@ -105,7 +105,7 @@
   },
   "FLAVOUR_2_FAILUREMSG": {
     "description": "",
-    "message": "Det är beklagligt att {target} fortfarande är vid god vigör. Du får ingen betaling eftersom du inte uppfyllde ditt kontrakt."
+    "message": "Det är beklagligt att {target} fortfarande är vid god vigör. Du får ingen betalning eftersom du inte uppfyllde ditt kontrakt."
   },
   "FLAVOUR_2_FAILUREMSG2": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "FLAVOUR_3_FAILUREMSG": {
     "description": "",
-    "message": "Du kommer att få betala för att du inte eliminerade {target}"
+    "message": "Du kommer att få betala för att du inte eliminerade {target}!"
   },
   "FLAVOUR_3_FAILUREMSG2": {
     "description": "",

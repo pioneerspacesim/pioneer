@@ -1037,7 +1037,7 @@
   },
   "N_EARTH_DAYS": {
     "description": "",
-    "message": "%days{f.1} Earth days"
+    "message": "%days{f.1} Jorddagar"
   },
   "N_EARTH_MASSES": {
     "description": "",
@@ -1045,7 +1045,7 @@
   },
   "N_EARTH_RADII": {
     "description": "Used in system info view. E.g.: \"0.17 Earth radii (118235 km)\"",
-    "message": "%radius{f.3} Earth radii (%radkm{f.0} km)"
+    "message": "%radius{f.3} Jordradier (%radkm{f.0} km)"
   },
   "N_SOLAR_MASSES": {
     "description": "",
@@ -1053,7 +1053,7 @@
   },
   "N_SOLAR_RADII": {
     "description": "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-    "message": "%radius{f.3} Solar radii (%radkm{f.0} km)"
+    "message": "%radius{f.3} Solradier (%radkm{f.0} km)"
   },
   "N_YEARS": {
     "description": "",

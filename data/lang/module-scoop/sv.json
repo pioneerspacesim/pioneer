@@ -21,7 +21,7 @@
   },
   "ADTEXT_ILLEGAL_GOODS": {
     "description": "",
-    "message": "Har du en lastskopa och letar du efter din nästa framgång? Värdefull information till salu."
+    "message": "Har du en lastskopa och letar efter din nästa framgång? Värdefull information till salu."
   },
   "ADTEXT_LEGAL_GOODS": {
     "description": "",
@@ -113,7 +113,7 @@
   },
   "INTROTEXT_LEGAL_GOODS": {
     "description": "",
-    "message": "Hej min vän. Jag är {client}. Jag hörde om en speditör som fick problem nära {planet} på grund av dåligt underhåll av fartyget. Fantastiskt vem som får flyga ett rymdskepp nuförtiden, eller hur? Hur som helst, de var tvungna att dumpa mycket av lasten. Om du är snabb kan du ta tag i lasten väldigt enkelt! Denna information är så god som ny! Jag säljer dig koordinaterna för endast {cash}. Vad säger du?"
+    "message": "Hej min vän. Jag är {client}. Jag hörde om en speditör som fick problem nära {planet} på grund av dåligt underhåll av fartyget. Fantastiskt vem som får flyga ett rymdskepp nuförtiden, eller hur? Hur som helst, de var tvungna att dumpa mycket av lasten. Om du är snabb kan du håva in lasten väldigt enkelt! Den här informationen är så gott som ny! Jag säljer dig koordinaterna för endast {cash}. Vad säger du?"
   },
   "INTROTEXT_RESCUE": {
     "description": "",
