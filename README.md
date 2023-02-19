@@ -33,7 +33,7 @@ Follow Pioneer on Twitter:
   https://twitter.com/pioneerspacesim/
 
 Pioneer wiki
-  http://pioneerwiki.com/wiki/Pioneer_Wiki
+  https://wiki.pioneerspacesim.net
 
 Join the player's forum:
   http://spacesimcentral.com/community/pioneer/
@@ -45,35 +45,35 @@ Join the development forum:
 ## Manual
 
 Manual can be found at:
-  http://pioneerwiki.com/wiki/Manual
+  https://wiki.pioneerspacesim.net/wiki/Manual
 
 Basic flight:
-  https://pioneerwiki.com/wiki/Basic_flight
+  https://wiki.pioneerspacesim.net/wiki/Basic_flight
 
 Keyboard and mouse control is found at:
-  http://pioneerwiki.com/wiki/Keyboard_and_mouse_controls
+  https://wiki.pioneerspacesim.net/wiki/Keyboard_and_mouse_controls
 
 
 ## FAQ
 
 For frequently asked questions, please see
-  http://pioneerwiki.com/wiki/FAQ
+  https://wiki.pioneerspacesim.net/wiki/FAQ
 
 
 ## BUG Reporting
 
-Please see the section of the FAQ pertaining to bugs, crashs and reporting other issues: [Bug Reporting FAQs](http://pioneerwiki.com/wiki/FAQ#How.2Fwhere_do_I_report_my_bug.2Fcrash).
+Please see the section of the FAQ pertaining to bugs, crashs and reporting other issues: [Bug Reporting FAQs](https://wiki.pioneerspacesim.net/wiki/FAQ#How.2Fwhere_do_I_report_my_bug.2Fcrash).
 
 Please do your best to fill out the issue template as completely as possible, especially when you're reporting a crash bug or a graphical issue. Having system information including graphics drivers and the method you used to install Pioneer helps immensely to diagnose and fix these kinds of issues.
 
 ## Contributing
 
 If you are hungry to contribute, more information can be found here:
-  http://pioneerwiki.com/wiki/How_you_can_contribute
+  https://wiki.pioneerspacesim.net/wiki/How_you_can_contribute
 
 If you have a contribution you want to share, and want to learn how to make a
 pull request, see:
-  http://pioneerwiki.com/wiki/Using_git_and_GitHub
+  https://dev.pioneerspacesim.net/contribute/git-and-github
 
 Pioneer development documentation
   https://dev.pioneerspacesim.net/

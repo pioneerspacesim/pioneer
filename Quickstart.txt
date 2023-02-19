@@ -78,8 +78,8 @@ corner of the flight view. Right click on your destination to see the radial
 menu,  from which you can instruct your autopilot to "fly to vicinity" or "dock 
 with target". 
 
-If you wish to fly manually, you should see the following wiki page: 
-https://pioneerwiki.com/wiki/How_to_fly_without_autopilot
+If you wish to fly manually, you should see the following wiki page:
+https://wiki.pioneerspacesim.net/wiki/How_to_fly_without_autopilot
 
 Press Escape while in-game (not the main menu) to open the settings screen.
 Here you can change screen res/fullscreen mode, language, controls and other
