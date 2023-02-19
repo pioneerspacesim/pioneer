@@ -5,7 +5,7 @@
 #define _SCENEGRAPH_MODEL_H
 /*
  * A new model system with a scene graph based approach.
- * Also see: http://pioneerwiki.com/wiki/New_Model_System
+ * Also see: https://wiki.pioneerspacesim.net/wiki/Model_system
  * Open Asset Import Library (assimp) is used as the mesh loader.
  *
  * Similar systems:

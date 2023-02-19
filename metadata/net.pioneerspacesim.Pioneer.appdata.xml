@@ -6,8 +6,8 @@
 	<name>Pioneer</name>
 	<summary>A game of lonely space adventure</summary>
 	<url type="homepage">https://pioneerspacesim.net/</url>
-	<url type="faq">https://pioneerwiki.com/wiki/FAQ</url>
 	<launchable type="desktop-id">net.pioneerspacesim.Pioneer.desktop</launchable>
+	<url type="faq">https://wiki.pioneerspacesim.net/wiki/FAQ</url>
 
 	<description>
 		<p>Pioneer is a space adventure game set in our galaxy at the

@@ -18,7 +18,7 @@
  *
  * This page documents the API only. There are other things that need to be
  * done to enable and use this interface. See
- * http://pioneerwiki.com/wiki/ServerAgent for more information.
+ * https://wiki.pioneerspacesim.net/wiki/ServerAgent for more information.
  */
 
 struct CallbackPair {
