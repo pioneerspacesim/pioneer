@@ -153,7 +153,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Interstellar Postal Services. Vi behöver ett skepp för leverans till {system}-systemet."
+    "message": "Interstellar Postal Services. Vi behöver ett skepp för leveransen till {system}-systemet."
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -169,7 +169,7 @@
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
-    "message": "Din lägliga och diskreta service är mycket uppskattad. Du har erhållit full betalning."
+    "message": "Din punktliga och diskreta service är mycket uppskattad. Du har erhållit full betalning."
   },
   "FLAVOUR_4_WHYSOMUCHTEXT": {
     "description": "",
@@ -293,7 +293,7 @@
   },
   "FLAVOUR_9_WHYSOMUCHTEXT": {
     "description": "",
-    "message": "Ve är beroende av det för vårt levebröd."
+    "message": "Vi är beroende av det för vårt levebröd."
   },
   "HOW_SOON_MUST_IT_BE_DELIVERED": {
     "description": "",

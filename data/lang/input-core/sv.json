@@ -9,7 +9,7 @@
   },
   "BIND_AXIS_ROLL": {
     "description": "Descriptive name for the Roll axis",
-    "message": "Rulla"
+    "message": "Roll"
   },
   "BIND_AXIS_THRUST_FORWARD": {
     "description": "Descriptive name for the ThrustForward axis",
@@ -173,7 +173,7 @@
   },
   "BIND_TOGGLE_CRUISE": {
     "description": "Descriptive name for the action binding.",
-    "message": "Växka Cruise Mode"
+    "message": "Växla Cruise Mode"
   },
   "BIND_TOGGLE_HUD_MODE": {
     "description": "Descriptive name for the ToggleHudMode action.",
@@ -344,7 +344,7 @@
   },
   "TEXT_AXIS_SENSITIVITY": {
     "description": "Message shown for the axis sensitivity slider.",
-    "message": "Axelkännslighet"
+    "message": "Axelkänslighet"
   },
   "TEXT_BINDING": {
     "description": "",

@@ -229,7 +229,7 @@
   },
   "MISSILE_SMART": {
     "description": "",
-    "message": "Smartmissil"
+    "message": "Smart missil"
   },
   "MISSILE_UNGUIDED": {
     "description": "",
@@ -241,7 +241,7 @@
   },
   "MULTI_SCOOP_DESCRIPTION": {
     "description": "",
-    "message": "Skopar både last containrar och bränsle, dock mindre effektiv än vanlig bränsleskopa"
+    "message": "Skopar både lastbehållare och bränsle, dock mindre effektiv än vanlig bränsleskopa"
   },
   "ORBIT_SCANNER": {
     "description": "A ship equipment that records data of terrain, for cartography mapping/geological survey. Note: Scout Mission module reference and distinguishes between 'orbital' and 'surface' scanner types, the former scans planet from orbit, the latter from low altitude.",
@@ -349,7 +349,7 @@
   },
   "SHIELD_GENERATOR_DESCRIPTION": {
     "description": "",
-    "message": "Ger skrovet med mer skydd för varje enhet som monteras."
+    "message": "Ger skrovet mer skydd för varje enhet som monteras."
   },
   "SHOTS_PER_MINUTE": {
     "description": "Tooltip explaining weapon fire rate / RPM counter",
@@ -357,7 +357,7 @@
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",
-    "message": "Liten plasmaaccellerator"
+    "message": "Liten plasmaaccelerator"
   },
   "STARTING_SCAN": {
     "description": "",

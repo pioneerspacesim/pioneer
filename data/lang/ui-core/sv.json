@@ -589,7 +589,7 @@
   },
   "FLIGHT_STATE": {
     "description": "",
-    "message": "Flight State"
+    "message": "Flygstatus"
   },
   "FLYING": {
     "description": "",
@@ -701,7 +701,7 @@
   },
   "HUD_2D_RADAR": {
     "description": "Popup text: the name of the azimuthal equidistant projection radar",
-    "message": "2D azimuthal equidistant projection"
+    "message": "2D azimutal ekvidistant projektion"
   },
   "HUD_3D_RADAR": {
     "description": "Popup text: the name of the planar projection radar (traditional frontier-style)",
@@ -737,19 +737,19 @@
   },
   "HUD_BUTTON_CRUISE_FORWARD": {
     "description": "Tooltip for button",
-    "message": "Forward cruise mode"
+    "message": "Kryssningsläge framåt"
   },
   "HUD_BUTTON_CRUISE_UP": {
     "description": "Tooltip for button",
-    "message": "Up cruise mode"
+    "message": "Kryssningsläge uppåt"
   },
   "HUD_BUTTON_DISABLE_AUTOPILOT": {
     "description": "Tooltip for button",
-    "message": "Disable autopilot"
+    "message": "Inaktivera autopilot"
   },
   "HUD_BUTTON_DISABLE_CRUISE": {
     "description": "Tooltip for button",
-    "message": "Disable cruise mode"
+    "message": "Inaktivera kryssningsläge"
   },
   "HUD_BUTTON_DISABLE_FIXHEADING": {
     "description": "Tooltip for button",
@@ -1225,7 +1225,7 @@
   },
   "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
     "description": "",
-    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+    "message": "Tillstånd beviljat. Vänligen, belamra inte landningsområdet och kom iväg snabbt."
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
@@ -2237,7 +2237,7 @@
   },
   "VSYNC_DESC": {
     "description": "",
-    "message": "Vertical Sync can eliminate visual tearing or artifacts, and input latency."
+    "message": "Vertical Sync kan eliminera visuella rivningar (tearing) eller artefakter och inmatningsfördröjning."
   },
   "WAGE": {
     "description": "Salary of crew shown in crew roster",
