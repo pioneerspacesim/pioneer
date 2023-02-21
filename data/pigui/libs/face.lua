@@ -36,7 +36,7 @@ local function rerollFaceDesc(oldDesc)
 		FEATURE_NOSE = Engine.rand:Integer() % 2^31,
 		FEATURE_MOUTH = Engine.rand:Integer() % 2^31,
 		FEATURE_HAIRSTYLE = Engine.rand:Integer() % 2^31,
-		FEATURE_ACCESSORIES = Engine.rand:Integer() % 2^31,
+		FEATURE_ACCESSORIES = Engine.rand:Integer() % 4 == 0 and Engine.rand:Integer() % 2^31 or 0, -- accessory on one out of four faces
 		FEATURE_CLOTHES = Engine.rand:Integer() % 2^31,
 		FEATURE_ARMOUR = oldDesc.FEATURE_ARMOUR or 0,
 	}
