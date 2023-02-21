@@ -186,7 +186,15 @@ public:
 	 * not leak anything.
 	 */
 	template <class Value>
-	class VecIter : public std::iterator<std::input_iterator_tag, Value> {
+	class VecIter {
+	public:
+		// iterator category defines
+		using difference_type = std::ptrdiff_t;
+		using value_type = Value;
+		using pointer = Value *;
+		using reference = Value &;
+		using iterator_category = std::input_iterator_tag;
+
 	public:
 		VecIter() :
 			m_table(0),
