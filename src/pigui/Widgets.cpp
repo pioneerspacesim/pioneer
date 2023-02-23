@@ -316,60 +316,114 @@ bool PiGui::ButtonImageSized(ImTextureID user_texture_id, const ImVec2 &size, co
 	return pressed;
 }
 
-void PiGui::IncrementDrag(const std::string &label, int &v, const int v_min, const int v_max, const std::string &format)
+PiGui::DragChangeMode PiGui::IncrementDrag(const char *label, double &v, float v_speed, double v_min, double v_max, const char *format, bool draw_progress_bar)
 {
 	PROFILE_SCOPED()
+
 	// getting vars storage for given label, use label as id
-	ImGui::PushID(ImGui::GetID(label.c_str()));
+	ImGui::PushID(ImGui::GetID(label));
 	auto storage = ImGui::GetStateStorage();
-	// getting "static" vars
+	// getting permanent vars
+	// this is used to speed up the change when the button is held down
 	float inc = storage->GetFloat(ImGui::GetID("##inc"), 0.1f);
 	float waiting = storage->GetFloat(ImGui::GetID("##waiting"), 0.0f);
-
-	// fill bar color
-	const ImU32 col = ImGui::GetColorU32(ImGuiCol_FrameBgActive);
+	bool typing = storage->GetBool(ImGui::GetID("##typing"), false);
+	bool changed = false;
 
 	float w = ImGui::CalcItemWidth();		   // full width of the widget
 	float h = ImGui::GetFrameHeight();		   // full height of the widget
 	ImVec2 pos = ImGui::GetCursorPos();		   // relative to window, for buttons
 	ImVec2 spos = ImGui::GetCursorScreenPos(); // relative to screen, for lines
 
-	// draw thick line
-	ImGui::GetWindowDrawList()->AddLine(ImVec2(spos.x, spos.y + h / 2 - 0.5), ImVec2(spos.x + w / v_max * (v), spos.y + h / 2 - 0.5), col, h);
-	// draw buttons before the drag so that the click event gets to them
-	ImGui::PushButtonRepeat(true);										// can hold button to continue increment
-	bool LeftButtonClick = ImGui::ArrowButton("##left", ImGuiDir_Left); // this can be false, even when the button is holded
-	bool LeftButtonHold = ImGui::IsItemActive();						// if the button is holded, this is always true
-	if (LeftButtonClick && waiting < inc && (v -= std::ceil(inc)) <= v_min) v = v_min;
-	int bw = ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x; // the width of the left button, used to place the right button properly
-	ImGui::SetCursorPos(ImVec2(pos.x + w - bw, pos.y));
-	bool RightButtonClick = ImGui::ArrowButton("##right", ImGuiDir_Right);
-	bool RightButtonHold = ImGui::IsItemActive();
-	if (RightButtonClick && waiting < inc && (v += std::ceil(inc)) >= v_max)
-		v = v_max;
-	ImGui::SetCursorPos(pos);
-	ImGui::SetNextItemWidth(w);
-	ImGui::DragInt(label.c_str(), &v, v_max / w / 0.7, v_min, v_max, format.c_str());
-	ImGui::PopButtonRepeat();
+	ImGui::PushButtonRepeat(true); // can hold button to continue increment
 
-	// if user manually entered a number out of range
-	v = Clamp(v, v_min, v_max);
-	// this code makes the increment acceleration
-	if (RightButtonClick || LeftButtonClick) {
-		if (waiting < inc) {
-			inc *= 1.1f;					// acceleration of the increment
-			if (inc > 123.0f) inc = 123.0f; // max increment in one frame
-			waiting = 1.0f;					// x10 of start increment -> 10 frames to wait for the first increment
-		} else
-			waiting -= inc;
-	} else if (!RightButtonHold && !LeftButtonHold) {
-		// nothing touched, reset
-		inc = 0.1f;
-		waiting = 0.0f; // because first click always increment
+	bool LeftButtonClick{}, LeftButtonHold{}, RightButtonHold{}, RightButtonClick{};
+	if (draw_progress_bar) {
+		float ratio = Clamp((v - v_min) / (v_max - v_min), 0.0, 1.0);
+		ImGui::PushStyleColor(ImGuiCol_PlotHistogram, ImGui::GetColorU32(ImGuiCol_FrameBgActive));
+		ImGui::ProgressBar(ratio, ImVec2(w, 0), "");
+		ImGui::PopStyleColor();
+		ImGui::SetCursorPos(pos);
+	} else {
+		// fill the background because the drag is drawn transparent
+		auto col = ImGui::GetColorU32(ImGuiCol_FrameBg);
+		ImGui::GetWindowDrawList()->AddLine(ImVec2(spos.x, spos.y + h / 2 - 0.5), ImVec2(spos.x + w, spos.y + h / 2 - 0.5), col, h);
 	}
 
-	// remember "static" vars
+	bool arrowsHovered{};
+	if (!typing) {
+		// draw buttons before the drag so that the click event gets to them
+		LeftButtonClick = ImGui::ArrowButton("##left", ImGuiDir_Left); // this can be false, even when the button is holded
+		arrowsHovered = arrowsHovered || ImGui::IsItemHovered();
+		LeftButtonHold = ImGui::IsItemActive(); // if the button is holded, this is always true
+		if (LeftButtonClick && waiting < inc) {
+			v -= (double)ceilf(inc);
+			changed = true;
+			if (v < v_min) {
+				v = v_min;
+			}
+		}
+		int bw = ImGui::GetItemRectMax().x - ImGui::GetItemRectMin().x; // the width of the left button, used to place the right button properly
+		ImGui::SetCursorPos(ImVec2(pos.x + w - bw, pos.y));
+		RightButtonClick = ImGui::ArrowButton("##right", ImGuiDir_Right);
+		arrowsHovered = arrowsHovered || ImGui::IsItemHovered();
+		RightButtonHold = ImGui::IsItemActive();
+		if (RightButtonClick && waiting < inc) {
+			v += (double)ceilf(inc);
+			changed = true;
+			if (v > v_max) {
+				v = v_max;
+			}
+		}
+		ImGui::SetCursorPos(pos);
+	}
+
+	ImVec2 mousePos = ImGui::GetIO().MousePos;
+
+	// we need to know this before we draw a scalar
+	bool hovered = mousePos.x > spos.x && mousePos.y > spos.y && mousePos.x < spos.x + w && mousePos.y < spos.y + h;
+
+	// this is used to remove format artifacts when editing from the keyboard, just the underlying number
+	const char *raw_format = "%.0f";
+	const char **f = hovered && !arrowsHovered && ImGui::IsMouseDoubleClicked(0) ? &raw_format : &format;
+
+	ImGui::SetNextItemWidth(w);
+	ImGui::PushStyleColor(ImGuiCol_FrameBg, 0);
+	changed = ImGui::DragScalar(label, ImGuiDataType_Double, &v, v_speed, &v_min, &v_max, *f, ImGuiSliderFlags_AlwaysClamp) || changed;
+	ImGui::PopStyleColor();
+	ImGui::PopButtonRepeat();
+
+	typing = typing ? ImGui::IsItemActive() : hovered && !arrowsHovered && ImGui::IsMouseDoubleClicked(0);
+
+	if (hovered && ImGui::GetIO().MouseWheel) {
+		changed = true;
+		v += ImGui::GetIO().MouseWheel;
+	}
+
+	v = Clamp(v, v_min, v_max);
+
+	// this code makes the increment acceleration
+	if (!typing) {
+		if (RightButtonClick || LeftButtonClick) {
+			if (waiting < inc) {
+				inc *= 1.1f;					// acceleration of the increment
+				if (inc > 123.0f) inc = 123.0f; // max increment in one frame
+				waiting = 1.0f;					// x10 of start increment -> 10 frames to wait for the first increment
+			} else
+				waiting -= inc;
+		} else if (!RightButtonHold && !LeftButtonHold) {
+			// nothing touched, reset
+			inc = 0.1f;
+			waiting = 0.0f; // because first click always increment
+		}
+	}
+
+	// remember permanent vars
 	storage->SetFloat(ImGui::GetID("##inc"), inc);
 	storage->SetFloat(ImGui::GetID("##waiting"), waiting);
+	storage->SetBool(ImGui::GetID("##typing"), typing);
 	ImGui::PopID();
+
+	using DCM = PiGui::DragChangeMode;
+	return changed ? typing ? DCM::CHANGED_BY_TYPING : DCM::CHANGED : DCM::NOT_CHANGED;
 }

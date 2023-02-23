@@ -875,3 +875,39 @@ end
 function ui.loadTexture(filename)
 	return pigui:LoadTexture(filename)
 end
+
+--
+-- Function: ui.incrementDrag
+--
+-- ui.incrementDrag(label, value, v_speed, v_min, v_max, format, draw_progress_bar)
+--
+-- Create a "drag with arrows and progress bar" widget, uses type double as value.
+--
+-- Example:
+--
+-- > value, changed = ui.incrementDrag("##mydrag", value, 1, 0, 20, "%.0f", false)
+--
+-- Parameters:
+--
+--   label - string, text, also used as ID
+--   value - int, set drag to this value
+--   v_speed - minimum change step
+--   v_min - int, lower bound
+--   v_max - int, upper bound
+--   format - string, format according to snprintf
+--   draw_progress_bar - optional boolean, whether to draw a progress bar as
+--                       the value changes from minimum to maximum
+--
+-- Returns:
+--
+--   value - the value that the drag was set to
+--   changed - nil, if the value has not changed
+--             1, if value is changed by mouse
+--             2, if the value is changed by keyboard input
+--
+function ui.incrementDrag(...)
+	local args = table.pack(...)
+	return ui.withButtonColors(ui.theme.buttonColors.transparent, function()
+		return pigui.IncrementDrag(table.unpack(args))
+	end)
+end

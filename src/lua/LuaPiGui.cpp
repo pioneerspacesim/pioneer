@@ -2818,16 +2818,20 @@ static int l_pigui_drag_int_4(lua_State *l)
 
 static int l_pigui_increment_drag(lua_State *l)
 {
-	std::string label = LuaPull<std::string>(l, 1);
-	int v = LuaPull<int>(l, 2);
-	int v_min = LuaPull<int>(l, 3);
-	int v_max = LuaPull<int>(l, 4);
-	std::string format = LuaPull<std::string>(l, 5);
+	const char *label = LuaPull<const char*>(l, 1);
+	double value = LuaPull<double>(l, 2);
+	float v_speed = LuaPull<float>(l, 3);
+	double v_min = LuaPull<double>(l, 4);
+	double v_max = LuaPull<double>(l, 5);
+	const char* format = LuaPull<const char*>(l, 6);
+	// optional bool - auto false if empty
+	bool drawProgressBar = LuaPull<bool>(l, 7);
 
-	PiGui::IncrementDrag(label, v, v_min, v_max, format);
+	PiGui::DragChangeMode mode = PiGui::IncrementDrag(label, value, v_speed, v_min, v_max, format, drawProgressBar);
 
-	LuaPush<int>(l, v);
-	return 1;
+	LuaPush(l, value);
+	mode == PiGui::DragChangeMode::NOT_CHANGED ? lua_pushnil(l) : LuaPush(l, (int)mode);
+	return 2;
 }
 
 static int l_pigui_add_convex_poly_filled(lua_State *l)
