@@ -472,6 +472,39 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableColumnFlags_ &thefla
 	theflags = parse_imgui_flags(l, index, imguiTableColumnFlagsTable);
 }
 
+static LuaFlags<ImGuiColorEditFlags_> imguiColorEditFlagsTable = {
+	{ "None", ImGuiColorEditFlags_None },
+	{ "NoAlpha", ImGuiColorEditFlags_NoAlpha },
+	{ "NoPicker", ImGuiColorEditFlags_NoPicker },
+	{ "NoOptions", ImGuiColorEditFlags_NoOptions },
+	{ "NoSmallPreview", ImGuiColorEditFlags_NoSmallPreview },
+	{ "NoInputs", ImGuiColorEditFlags_NoInputs },
+	{ "NoTooltip", ImGuiColorEditFlags_NoTooltip },
+	{ "NoLabel", ImGuiColorEditFlags_NoLabel },
+	{ "NoSidePreview", ImGuiColorEditFlags_NoSidePreview },
+	{ "NoDragDrop", ImGuiColorEditFlags_NoDragDrop },
+	{ "NoBorder", ImGuiColorEditFlags_NoBorder },
+	{ "AlphaBar", ImGuiColorEditFlags_AlphaBar },
+	{ "AlphaPreview", ImGuiColorEditFlags_AlphaPreview },
+	{ "AlphaPreviewHalf", ImGuiColorEditFlags_AlphaPreviewHalf },
+	{ "HDR", ImGuiColorEditFlags_HDR },
+	{ "DisplayRGB", ImGuiColorEditFlags_DisplayRGB },
+	{ "DisplayHSV", ImGuiColorEditFlags_DisplayHSV },
+	{ "DisplayHex", ImGuiColorEditFlags_DisplayHex },
+	{ "Uint8", ImGuiColorEditFlags_Uint8 },
+	{ "Float", ImGuiColorEditFlags_Float },
+	{ "PickerHueBar", ImGuiColorEditFlags_PickerHueBar },
+	{ "PickerHueWheel", ImGuiColorEditFlags_PickerHueWheel },
+	{ "InputRGB", ImGuiColorEditFlags_InputRGB },
+	{ "InputHSV", ImGuiColorEditFlags_InputHSV },
+	{ "DefaultOptions", ImGuiColorEditFlags_DefaultOptions_ }
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiColorEditFlags_ &theflags)
+{
+	theflags = parse_imgui_flags(l, index, imguiColorEditFlagsTable);
+}
+
 int l_pigui_check_table_column_flags(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TTABLE);
@@ -2715,10 +2748,10 @@ static int l_pigui_color_edit(lua_State *l)
 {
 	const char *lbl = LuaPull<const char *>(l, 1);
 	Color4f color = LuaPull<Color>(l, 2).ToColor4f();
-	bool hasAlpha = LuaPull<bool>(l, 3, true);
+	const auto lua_flags = LuaPull<ImGuiColorEditFlags_>(l, 3, ImGuiColorEditFlags_None);
 
 	const auto flags = ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_NoDragDrop;
-	bool ok = ImGui::ColorEdit4(lbl, &color.r, flags | (hasAlpha ? ImGuiColorEditFlags_None : ImGuiColorEditFlags_NoAlpha));
+	bool ok = ImGui::ColorEdit4(lbl, &color.r, flags | lua_flags );
 	LuaPush(l, ok);
 	LuaPush(l, Color(color));
 
@@ -3381,4 +3414,5 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	imguiHoveredFlagsTable.Register(l, "ImGuiHoveredFlags");
 	imguiTableFlagsTable.Register(l, "ImGuiTableFlags");
 	imguiTableColumnFlagsTable.Register(l, "ImGuiTableColumnFlags");
+	imguiColorEditFlagsTable.Register(l, "ImGuiTableColumnFlags");
 }

@@ -18,7 +18,7 @@ debugView.registerTab('debug-theme-colors', function()
 	ui.text("Palette Colors")
 	ui.separator()
 	for _, name in ipairs(sortedStyleColors) do
-		local changed, ncolor = ui.colorEdit(name, styleColors[name], false)
+		local changed, ncolor = ui.colorEdit(name, styleColors[name], { "NoAlpha" })
 		-- if we're changing semantic colors, we want to update all uses of the color object
 		if changed then styleColors[name](ncolor.r, ncolor.g, ncolor.b) end
 	end
@@ -27,7 +27,7 @@ debugView.registerTab('debug-theme-colors', function()
 	ui.text("Semantic Colors")
 	ui.separator()
 	for _, name in ipairs(sortedColors) do
-		local changed, color = ui.colorEdit(name, colors[name], true)
+		local changed, color = ui.colorEdit(name, colors[name])
 		if changed then colors[name] = color end
 	end
 	ui.endTabItem()

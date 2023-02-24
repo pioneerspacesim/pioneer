@@ -133,23 +133,14 @@ local popupChangesApplied = ModalWindow.New('paintshopPopupChangesApplied', func
 end)
 
 -- prepares color for use on the ship model
-local function reformatColor()
-	local newColor = {}
-
-	for i, paintColor in next, {"primary", "secondary", "trim"} do
-		newColor[paintColor] = {}
-		for _, val in next, {"r", "g", "b", "a"} do
-			newColor[paintColor][val] = previewColors[i][val] / 255
-		end
-	end
-
-	return newColor
+local function reformatColor(colors)
+	return { primary = colors[1], secondary = colors[2], trim = colors[3] }
 end
 
 local function changeColor()
 	local player = Game.player
 	local shipDef = ShipDef[player.shipId]
-	local newColor = reformatColor()
+	local newColor = reformatColor(previewColors)
 	previewSkin = ModelSkin.New():SetColors(newColor):SetDecal(shipDef.manufacturer)
 	refreshModelSpinner()
 end
@@ -193,21 +184,6 @@ local function resetPreview()
 	previewPattern = player.model.pattern
 	previewSkin = player:GetSkin()
 	previewColors = previewSkin:GetColors()
-
-	-- convert to a color format that works with ui.colorEdit
-	for i=1, 3, 1 do
-		local r = previewColors[i]["r"]
-		local g = previewColors[i]["g"]
-		local b = previewColors[i]["b"]
-		local rgb = (r * 0x10000) + (g * 0x100) + b
-		previewColors[i] = Color(string.format("%x", rgb))
-	end
-
-	-- If you do this like below, the ui.colorEdit color turns pitch black (#000000) if any of the r, g or b values is 0.
-	-- previewColors[1] = Color(string.format("%x%x%x", previewColors[1]["r"], previewColors[1]["g"], previewColors[1]["b"]))
-	-- previewColors[2] = Color(string.format("%x%x%x", previewColors[2]["r"], previewColors[2]["g"], previewColors[2]["b"]))
-	-- previewColors[3] = Color(string.format("%x%x%x", previewColors[3]["r"], previewColors[3]["g"], previewColors[3]["b"]))
-
 	refreshModelSpinner()
 	updatePrice()
 	changesMade = false
@@ -318,9 +294,9 @@ local function drawPaintshop()
 			ui.dummy(verticalDummy)
 			ui.text(l.PLEASE_DESIGN_NEW_PAINTJOB)
 			local priChanged, secChanged, triChanged
-			priChanged, previewColors[1] = ui.colorEdit((l.COLOR.." 1"), previewColors[1], false)
-			secChanged, previewColors[2] = ui.colorEdit((l.COLOR.." 2"), previewColors[2], false)
-			triChanged, previewColors[3] = ui.colorEdit((l.COLOR.." 3"), previewColors[3], false)
+			priChanged, previewColors[1] = ui.colorEdit((l.COLOR.." 1"), previewColors[1], { "NoAlpha" })
+			secChanged, previewColors[2] = ui.colorEdit((l.COLOR.." 2"), previewColors[2], { "NoAlpha" })
+			triChanged, previewColors[3] = ui.colorEdit((l.COLOR.." 3"), previewColors[3], { "NoAlpha" })
 
 			local colorChanged = (priChanged or secChanged or triChanged)
 			if colorChanged then
