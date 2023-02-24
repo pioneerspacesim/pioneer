@@ -62,8 +62,8 @@ protected:
 private:
 	std::unique_ptr<ShipCockpit> m_cockpit;
 	Sound::Event m_creakSound;
-	vector3d m_accel;
-	vector3d m_jerk[20] = { vector3d(0.0, 0.0, 0.0) };
+	vector3d m_atmosAccel;
+	vector3d m_atmosJerk;
 };
 
 #endif /* _PLAYER_H */
