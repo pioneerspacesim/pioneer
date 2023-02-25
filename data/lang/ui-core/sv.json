@@ -1341,7 +1341,7 @@
   },
   "MASTER_VOL": {
     "description": "Master sound in settings option",
-    "message": "Mästare:"
+    "message": "Huvudkanal:"
   },
   "MAX": {
     "description": "",
