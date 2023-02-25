@@ -23,17 +23,18 @@ local Vector2 = _G.Vector2
 --
 -- Returns:
 --
---  none
+--   what the function fnc returns
 --
 function ui.withButtonColors(variant, fnc)
 	if variant then
 		pigui.PushStyleColor("Button", variant.normal)
 		pigui.PushStyleColor("ButtonHovered", variant.hovered)
 		pigui.PushStyleColor("ButtonActive", variant.active)
-		fnc()
+		local ret = table.pack(fnc())
 		pigui.PopStyleColor(3)
+		return table.unpack(ret, 1, ret.n)
 	else
-		fnc()
+		return fnc()
 	end
 end
 

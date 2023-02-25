@@ -639,9 +639,9 @@ function ui.withStyleColors(styles, fun)
 	for k,v in pairs(styles) do
 		pigui.PushStyleColor(k, v)
 	end
-	local res = fun()
+	local res = table.pack(fun())
 	pigui.PopStyleColor(utils.count(styles))
-	return res
+	return table.unpack(res, 1, res.n)
 end
 
 --
