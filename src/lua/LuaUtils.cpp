@@ -2,7 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaUtils.h"
+#include "DateTime.h"
 #include "FileSystem.h"
+#include "LuaPushPull.h"
 #include "libs.h"
 
 extern "C" {
@@ -166,9 +168,103 @@ static int l_trim(lua_State *l)
 	}
 }
 
+/*
+ * Function: timePartsToGameTime
+ *
+ * > gameTime = util.timePartsToGameTime(year, month, day, hour, minute, second)
+ *
+ * Parameters:
+ *
+ *   year, month, day, hour, minute, second - numbers
+ *
+ * Return:
+ *
+ *   gameTime - number, 0 means 3200-01-01 00:00:00
+ *
+ * Availability:
+ *
+ *   2023
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_time_parts_to_game_time(lua_State *L)
+{
+	Time::DateTime t{
+		LuaPull<int>(L, 1), LuaPull<int>(L, 2), LuaPull<int>(L, 3),
+		LuaPull<int>(L, 4), LuaPull<int>(L, 5), LuaPull<int>(L, 6)
+	};
+	LuaPush(L, t.ToGameTime());
+	return 1;
+}
+
+/*
+ * Function: gameTimeToTimeParts
+ *
+ * > gameTime = util.gameTimeToTimeParts(gameTime)
+ *
+ * Parameters:
+ *
+ *   gameTime - number, 0 means 3200-01-01 00:00:00
+ *
+ * Return:
+ *
+ *   year, month, day, hour, minute, second - numbers
+ *
+ * Availability:
+ *
+ *   2023
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_time_to_time_parts(lua_State *L)
+{
+	Time::DateTime t{ LuaPull<double>(L, 1) };
+	int year, month, day, hour, minute, second;
+	t.GetDateParts(&year, &month, &day);
+	t.GetTimeParts(&hour, &minute, &second);
+	LuaPush(L, year); LuaPush(L, month);  LuaPush(L, day);
+	LuaPush(L, hour); LuaPush(L, minute); LuaPush(L, second);
+	return 6;
+}
+
+/*
+ * Function: standardGameStartTime
+ *
+ * > gameTime = util.standardGameStartTime()
+ *
+ * Returns the time, offset from the current system time by 1200 years.
+ *
+ * Return:
+ *
+ *   gameTime - number, 0 means 3200-01-01 00:00:00
+ *
+ * Availability:
+ *
+ *   2023
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_standard_game_start_time(lua_State *L)
+{
+	time_t now;
+	time(&now);
+	double start_time = difftime(now, 946684799); // <--- Friday, 31 December 1999 23:59:59 GMT+00:00 as UNIX epoch time in seconds
+	LuaPush(L, start_time);
+	return 1;
+}
+
 static const luaL_Reg UTIL_FUNCTIONS[] = {
 	{ "trim", l_trim },
 	{ "hash_random", l_hash_random },
+	{ "timePartsToGameTime", l_time_parts_to_game_time },
+	{ "gameTimeToTimeParts", l_game_time_to_time_parts },
+	{ "standardGameStartTime", l_standard_game_start_time },
 	{ 0, 0 }
 };
 

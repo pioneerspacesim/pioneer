@@ -931,6 +931,15 @@ static int l_pigui_pop_style_color(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_get_style_color(lua_State *l)
+{
+	PROFILE_SCOPED()
+	auto style = LuaPull<ImGuiCol_>(l, 1);
+	auto c = ImGui::GetStyleColorVec4(style);
+	LuaPush<Color>(l, Color4f(c.x, c.y, c.z, c.w));
+	return 1;
+}
+
 static int l_pigui_push_style_var(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -1897,6 +1906,13 @@ static int l_pigui_next_item_width(lua_State *l)
 	double width = LuaPull<double>(l, 1);
 	ImGui::SetNextItemWidth(width);
 	return 0;
+}
+
+static int l_pigui_calc_item_width(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush(l, ImGui::CalcItemWidth());
+	return 1;
 }
 
 static int l_pigui_push_id(lua_State *l)
@@ -3245,6 +3261,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetAxisBinding", l_pigui_get_axisbinding },
 		{ "PushStyleColor", l_pigui_push_style_color },
 		{ "PopStyleColor", l_pigui_pop_style_color },
+		{ "GetStyleColor", l_pigui_get_style_color },
 		{ "PushStyleVar", l_pigui_push_style_var },
 		{ "PopStyleVar", l_pigui_pop_style_var },
 		{ "Columns", l_pigui_columns },
@@ -3291,6 +3308,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "PushItemWidth", l_pigui_push_item_width },
 		{ "PopItemWidth", l_pigui_pop_item_width },
 		{ "NextItemWidth", l_pigui_next_item_width },
+		{ "CalcItemWidth", l_pigui_calc_item_width },
 		{ "PushTextWrapPos", l_pigui_push_text_wrap_pos },
 		{ "PopTextWrapPos", l_pigui_pop_text_wrap_pos },
 		{ "BeginPopup", l_pigui_begin_popup },

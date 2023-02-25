@@ -121,9 +121,11 @@ ui.isWindowHovered = pigui.IsWindowHovered
 ui.vSliderInt = pigui.VSliderInt ---@type fun(l: string, v: integer, min: integer, max: integer, fmt: string?): value:integer, changed:boolean
 ui.sliderInt = pigui.SliderInt ---@type fun(l: string, v: integer, min: integer, max: integer, fmt: string?): value:integer, changed:boolean
 ui.colorEdit = pigui.ColorEdit
+ui.getStyleColor = pigui.GetStyleColor
 ui.nextItemWidth = pigui.NextItemWidth
 ui.pushItemWidth = pigui.PushItemWidth
 ui.popItemWidth = pigui.PopItemWidth
+ui.calcItemWidth = pigui.CalcItemWidth
 ui.sliderFloat = pigui.SliderFloat ---@type fun(l: string, v: number, min: number, max: number, fmt: string?): value:number, changed:boolean
 ui.beginTabBar = pigui.BeginTabBar
 ui.beginTabItem = pigui.BeginTabItem
@@ -190,7 +192,7 @@ ui.image = pigui.Image
 --
 -- Example:
 --
--- > value = ui.dragFloat("##mydrag", value, 0, 20, "%dt")
+-- > value = ui.dragFloat("##mydrag", value, 0.5, 0, 20, "%dt")
 --
 -- Parameters:
 --
