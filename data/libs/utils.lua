@@ -482,6 +482,33 @@ utils.contains = function(t, val)
 end
 
 --
+-- Function: utils.indexOf
+--
+-- looking for the first counter index of an element in an array.
+--
+-- Example:
+--
+-- > local index = utils.indexOf(ShipType.shipIDs, shipID)
+--
+-- Parameters:
+--
+--   array
+--
+--   value - searched array element
+--
+-- Return:
+--
+--   value - any, array item
+--
+utils.indexOf = function(array, value)
+	for i, v in ipairs(array) do
+		if v == value then
+			return i
+		end
+	end
+end
+
+--
 -- Function: remove_elem
 --
 -- Remove the given value element from the passed array table

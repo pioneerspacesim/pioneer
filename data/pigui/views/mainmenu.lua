@@ -14,6 +14,7 @@ local FlightLog = require 'FlightLog'
 local Commodities = require 'Commodities'
 local Character = require 'Character'
 local Vector2 = _G.Vector2
+local NewGameWindow = require("pigui.modules.new-game-window.class")
 
 local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
@@ -293,6 +294,11 @@ local function showMainMenu()
 				end
 				mainTextButton(loc.name, desc, true, function() startAtLocation(loc) end)
 			end
+
+			mainTextButton(lui.NEW_GAME, nil, true, function()
+				NewGameWindow:setDebugMode(ui.ctrlHeld())
+				NewGameWindow:open();
+			end)
 
 			mainTextButton(lui.LOAD_GAME, nil, true, function()
 				ui.saveLoadWindow.mode = "LOAD"
