@@ -52,6 +52,7 @@ local Game = require 'Game'
 local Event = require 'Event'
 local NameGen = require 'NameGen'
 local Serializer = require 'Serializer'
+local utils = require 'utils'
 
 local Character;
 Character = {
@@ -965,6 +966,18 @@ Character = {
 		end
 	end,
 
+	combatRatings = {
+		{ 'HARMLESS'            },
+		{ 'MOSTLY_HARMLESS',  8 },
+		{ 'POOR',            16 },
+		{ 'AVERAGE',         32 },
+		{ 'ABOVE_AVERAGE',   64 },
+		{ 'COMPETENT',      128 },
+		{ 'DANGEROUS',      512 },
+		{ 'DEADLY',        2400 },
+		{ 'ELITE',         6000 }
+	},
+
 --
 -- Method: GetCombatRating
 --
@@ -994,25 +1007,7 @@ Character = {
 --   experimental
 --
 	GetCombatRating = function (self)
-		if self.killcount < 8 then
-			return('HARMLESS')
-		elseif self.killcount < 16 then
-			return('MOSTLY_HARMLESS')
-		elseif self.killcount < 32 then
-			return('POOR')
-		elseif self.killcount < 64 then
-			return('AVERAGE')
-		elseif self.killcount < 128 then
-			return('ABOVE_AVERAGE')
-		elseif self.killcount < 512 then
-			return('COMPETENT')
-		elseif self.killcount < 2400 then
-			return('DANGEROUS')
-		elseif self.killcount < 6000 then
-			return('DEADLY')
-		else
-			return('ELITE')
-		end
+		return utils.getFromIntervals(self.combatRatings, self.killcount)
 	end,
 
 --
@@ -1055,20 +1050,12 @@ Character = {
 		-- This function is completely agnostic of the values of the ratings.
 		local ratingflag = false
 		local combatrating = self:GetCombatRating()
-		for i,testrating in ipairs {'HARMLESS',
-									'MOSTLY_HARMLESS',
-									'POOR',
-									'AVERAGE',
-									'ABOVE_AVERAGE',
-									'COMPETENT',
-									'DANGEROUS',
-									'DEADLY',
-									'ELITE'} do
-			if testrating == rating then
+		for i,testrating in ipairs(self.combatRatings) do
+			if testrating[1] == rating then
 				-- We have reached the desired rating
 				ratingflag = true
 			end
-			if testrating == combatrating and ratingflag then
+			if testrating[1] == combatrating and ratingflag then
 				-- The character's rating is equal to the one we've rached, and
 				-- we have either reached or passed the desired rating
 				return true
@@ -1076,6 +1063,21 @@ Character = {
 		end --for
 		return false
 	end,
+
+	reputations = {
+		{ 'INCOMPETENT'        },
+		{ 'UNRELIABLE',     -8 },
+		{ 'NOBODY',          0 },
+		{ 'INEXPERIENCED',   4 },
+		{ 'EXPERIENCED',     8 },
+		{ 'CREDIBLE',       16 },
+		{ 'RELIABLE',       32 },
+		{ 'TRUSTWORTHY',    64 },
+		{ 'PROFESSIONAL',  128 },
+		{ 'EXPERT',        256 },
+		{ 'MASTER',        512 }
+	},
+
 
 --
 -- Method: GetReputationRating
@@ -1106,29 +1108,7 @@ Character = {
 --   experimental
 --
 	GetReputationRating = function (self)
-		if self.reputation < -8 then
-			return('INCOMPETENT')
-		elseif self.reputation < 0 then
-			return('UNRELIABLE')
-		elseif self.reputation < 4 then
-			return('NOBODY')
-		elseif self.reputation < 8 then
-			return('INEXPERIENCED')
-		elseif self.reputation < 16 then
-			return('EXPERIENCED')
-		elseif self.reputation < 32 then
-			return('CREDIBLE')
-		elseif self.reputation < 64 then
-			return('RELIABLE')
-		elseif self.reputation < 128 then
-			return('TRUSTWORTHY')
-		elseif self.reputation < 256 then
-			return('PROFESSIONAL')
-		elseif self.reputation < 512 then
-			return('EXPERT')
-		else
-			return('MASTER')
-		end
+		return utils.getFromIntervals(self.reputations, self.reputation)
 	end,
 
 	-- Debug function
