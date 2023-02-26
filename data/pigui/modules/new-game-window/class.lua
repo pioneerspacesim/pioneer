@@ -5,6 +5,10 @@ local Lang = require 'Lang'
 local ui = require 'pigui'
 local lui = Lang.GetResource("ui-core")
 local msgbox = require 'pigui.libs.message-box'
+local Character = require 'Character'
+local Commodities = require 'Commodities'
+local Equipment = require 'Equipment'
+local FlightLog = require 'FlightLog'
 local ModalWindow = require 'pigui.libs.modal-win'
 local ModelSkin = require 'SceneGraph.ModelSkin'
 local ShipDef = require "ShipDef"
@@ -99,6 +103,80 @@ local function setStartVariant(variant)
 	Defs.currentStartVariant = variant
 end
 
+local function startGame(gameParams)
+
+	-- space, ship in dock / orbit
+	Game.StartGame(gameParams.location.path, gameParams.time, gameParams.ship.type)
+	local player = Game.player
+
+	player:SetLabel(gameParams.ship.label)
+	player:SetMoney(gameParams.player.money)
+	player:SetShipName(gameParams.ship.name)
+
+	local pattern = gameParams.ship.model.pattern
+	if pattern > 0 then
+		player:SetPattern(gameParams.ship.model.pattern - 1)
+	end
+	local colors = gameParams.ship.model.colors
+	local shipDef = ShipDef[gameParams.ship.type]
+	local skin = ModelSkin.New()
+	skin:SetColors({ primary = colors[1], secondary = colors[2], trim = colors[3] })
+	skin:SetDecal(shipDef.manufacturer)
+	player:SetSkin(skin)
+
+	-- setup player character
+	local PlayerCharacter = gameParams.player.char
+	-- Gave the player a missions table (for Misssions.lua)
+	PlayerCharacter.missions = {}
+	-- Insert the player character into the persistent character
+	-- table.  Player won't be ennumerated with NPCs, because player
+	-- is not numerically keyed.
+	Character.persistent = { player = PlayerCharacter }
+	-- Enroll the player in their own crew
+	player:Enroll(PlayerCharacter)
+
+	-- Generate crew for the starting ship
+	for _, member in ipairs(gameParams.crew) do
+		member.char.contract = {
+			wage = member.wage,
+			payday = gameParams.time + 604800, -- in a week
+			outstanding = 0
+		}
+		player:Enroll(member.char)
+	end
+
+	local eqSections = {
+		engine = 'hyperspace',
+		laser_rear = 'laser',
+		laser_front = 'laser'
+	}
+	for _, slot in pairs({ 'engine', 'laser_rear', 'laser_front' }) do
+		local eqSection = eqSections[slot]
+		local eqEntry = gameParams.ship.equipment[slot]
+		if eqEntry then
+			player:AddEquip(Equipment[eqSection][eqEntry], 1, slot)
+		end
+	end
+
+	for _,equip in pairs(gameParams.ship.equipment.misc) do
+		player:AddEquip(Equipment.misc[equip.id], equip.amount)
+	end
+
+	---@type CargoManager
+	local cargoMgr = player:GetComponent('CargoManager')
+	for id, amount in pairs(gameParams.ship.cargo) do
+		cargoMgr:AddCommodity(Commodities[id], amount)
+	end
+
+	-- XXX horrible hack here to avoid paying a spawn-in docking fee
+	player:setprop("is_first_spawn", true)
+	FlightLog.MakeCustomEntry(gameParams.player.log)
+
+	if gameParams.autoExec then
+		gameParams.autoExec()
+	end
+end
+
 local NewGameWindow = {}
 
 local function putByPath(tbl, path, value)
@@ -127,7 +205,8 @@ local function drawBottomButtons()
 			for _, param in ipairs(Layout.UpdateOrder) do
 				putByPath(gameParams, param.path, param.value)
 			end
-			-- start game here from gameParams
+			startGame(gameParams)
+			NewGameWindow:close()
 		else
 			msg = lui.SOME_PARAMETERS_ARE_NOT_OK
 			for _, v in ipairs(errors) do

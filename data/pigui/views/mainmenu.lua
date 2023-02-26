@@ -5,27 +5,19 @@ local Engine = require 'Engine'
 local Game = require 'Game'
 local Ship = require 'Ship'
 local ShipDef = require 'ShipDef'
-local SystemPath = require 'SystemPath'
 local Equipment = require 'Equipment'
-local Format = require 'Format'
 local MusicPlayer = require 'modules.MusicPlayer'
 local Lang = require 'Lang'
 local FlightLog = require 'FlightLog'
-local Commodities = require 'Commodities'
 local Character = require 'Character'
 local Vector2 = _G.Vector2
 local NewGameWindow = require("pigui.modules.new-game-window.class")
 
-local lc = Lang.GetResource("core")
 local lui = Lang.GetResource("ui-core")
 local qlc = Lang.GetResource("quitconfirmation-core")
-local elc = Lang.GetResource("equipment-core")
-local clc = Lang.GetResource("commodity")
 
 local ui = require 'pigui'
 
-local misc = Equipment.misc
-local laser = Equipment.laser
 local hyperspace = Equipment.hyperspace
 
 local colors = ui.theme.colors
@@ -40,61 +32,6 @@ local quitPadding = ui.rescaleUI(Vector2(12, 12))
 local showQuitConfirm = false
 local quitConfirmMsg
 local max_flavours = 22
-
-local startLocations = {
-	{
-		['name']       = lui.START_AT_MARS,
-		['desc']       = lui.START_AT_MARS_DESC,
-		['location']   = SystemPath.New(0,0,0,0,18),
-		['logmsg']     = lui.START_LOG_ENTRY_1,
-		['shipType']   = 'coronatrix',
-		['money']      = 600,
-		['hyperdrive'] = true,
-		['equipment']  = {
-			{ laser.pulsecannon_1mw,      1 },
-			{ misc.atmospheric_shielding, 1 },
-			{ misc.autopilot,             1 },
-			{ misc.radar,                 1 }
-		},
-		['cargo']      = {
-			{ Commodities.hydrogen, 2 }
-		}
-	},
-	{
-		['name']       = lui.START_AT_NEW_HOPE,
-		['desc']       = lui.START_AT_NEW_HOPE_DESC,
-		['location']   = SystemPath.New(1,-1,-1,0,4),
-		['logmsg']     = lui.START_LOG_ENTRY_2,
-		['shipType']   = 'pumpkinseed',
-		['money']      = 400,
-		['hyperdrive'] = true,
-		['equipment']  = {
-			{ laser.pulsecannon_1mw,      1 },
-			{ misc.atmospheric_shielding, 1 },
-			{ misc.autopilot,             1 },
-			{ misc.radar,                 1 }
-		},
-		['cargo']      = {
-			{ Commodities.hydrogen, 2 }
-		}
-	},
-	{	['name']        = lui.START_AT_BARNARDS_STAR,
-		['desc']        = lui.START_AT_BARNARDS_STAR_DESC,
-		['location']    = SystemPath.New(-1,0,0,0,16),
-		['logmsg']      = lui.START_LOG_ENTRY_3,
-		['shipType']    = 'xylophis',
-		['money']       = 100,
-		['hyperdrive']  = false,
-		['equipment']   = {
-			{misc.atmospheric_shielding,1},
-			{misc.autopilot,1},
-			{misc.radar,1}
-		},
-		['cargo']       = {
-			{Commodities.hydrogen,2}
-		}
-	}
-}
 
 local function dialogTextButton(label, enabled, callback)
 	local variant = not enabled and ui.theme.buttonColors.disabled or nil
@@ -178,41 +115,6 @@ local function canContinue()
 end
 
 local hasMusicList = false -- required false at init, see showMainMenu() for usage
-local function startAtLocation(location)
-	hasMusicList = false -- set false so that player restarts music
-	Game.StartGame(location.location)
-
-	Game.player:SetShipType(location.shipType)
-	Game.player:SetLabel(Ship.MakeRandomLabel())
-
-	Game.player:SetMoney(location.money)
-
-	local ship = Game.player
-	-- Generate crew for the starting ship
-	for i = 2, ShipDef[ship.shipId].minCrew do
-		local newCrew = Character.New()
-		newCrew:RollNew(true)
-		ship:Enroll(newCrew)
-	end
-
-	if location.hyperdrive then
-		Game.player:AddEquip(hyperspace['hyperdrive_'..ShipDef[Game.player.shipId].hyperdriveClass])
-	end
-
-	for _,equip in pairs(location.equipment) do
-		Game.player:AddEquip(equip[1],equip[2])
-	end
-
-	---@type CargoManager
-	local cargoMgr = Game.player:GetComponent('CargoManager')
-	for _,cargo in pairs(location.cargo) do
-		cargoMgr:AddCommodity(cargo[1], cargo[2])
-	end
-
-	-- XXX horrible hack here to avoid paying a spawn-in docking fee
-	Game.player:setprop("is_first_spawn", true)
-	FlightLog.MakeCustomEntry(location.logmsg)
-end
 
 local function callModules(mode)
 	for _,v in ipairs(ui.getModules(mode)) do
@@ -272,28 +174,6 @@ local function showMainMenu()
 	ui.withStyleColors({["WindowBg"] = colors.lightBlackBackground}, function()
 		ui.window("MainMenuButtons", mainMenuFlags, function()
 			mainTextButton(lui.CONTINUE_GAME, nil, showContinue, continueGame)
-
-			for _,loc in pairs(startLocations) do
-				local desc = loc.desc .. "\n"
-				local name = loc.shipType
-				local sd = ShipDef[loc.shipType]
-				if sd then
-					name = sd.name
-				end
-				desc = desc .. lc.SHIP .. ": " .. name .. "\n"
-				desc = desc .. lui.CREDITS .. ": "  .. Format.Money(loc.money) .. "\n"
-				desc = desc .. lui.HYPERDRIVE .. ": " .. (loc.hyperdrive and lui.YES or lui.NO) .. "\n"
-				desc = desc .. lui.EQUIPMENT .. ":\n"
-				for _,eq in pairs(loc.equipment) do
-					local equipname = rawget(elc, eq[1].l10n_key) or rawget(clc, eq[1].l10n_key)
-					desc = desc .. "  - " .. equipname
-					if eq[2] > 1 then
-						desc = desc .. " x" .. eq[2] .. "\n"
-					else desc = desc .. "\n"
-					end
-				end
-				mainTextButton(loc.name, desc, true, function() startAtLocation(loc) end)
-			end
 
 			mainTextButton(lui.NEW_GAME, nil, true, function()
 				NewGameWindow:setDebugMode(ui.ctrlHeld())

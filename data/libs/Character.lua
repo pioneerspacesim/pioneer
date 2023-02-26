@@ -1153,7 +1153,7 @@ local onGameStart = function ()
 		for k,newCharacter in pairs(loaded_data.PersistentCharacters) do
 			Character.persistent[k] = newCharacter
 		end
-	else
+	elseif not Character.persistent.player then
 		-- Make a new character sheet for the player, with just
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
@@ -1174,6 +1174,10 @@ end
 
 local serialize = function ()
     return { PersistentCharacters = Character.persistent}
+end
+
+local function onGameEnd ()
+	Character.persistent = {}
 end
 
 local unserialize = function (data)
@@ -1223,6 +1227,7 @@ end
 --
 
 Event.Register("onGameStart", onGameStart)
+Event.Register("onGameEnd", onGameEnd)
 Serializer:Register("Characters", serialize, unserialize)
 Serializer:RegisterClass("Character", Character)
 
