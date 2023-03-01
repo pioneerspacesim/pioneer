@@ -25,3 +25,7 @@ note: See FAQ on how to report bugs and crashes, and common causes
 
 
 __My pioneer version (and OS):__
+
+
+__My output.txt (required) and game save (optional, but recommended)__
+
