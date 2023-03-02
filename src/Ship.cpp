@@ -1502,7 +1502,7 @@ void Ship::EnterHyperspace()
 			SetFlightState(FLYING);
 		return;
 	}
-
+	AIClearInstructions();
 	SetFlightState(Ship::HYPERSPACE);
 
 	// virtual call, do class-specific things
