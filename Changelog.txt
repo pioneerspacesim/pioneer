@@ -1,14 +1,28 @@
-February 2023
+March 2023
   * New Features
   
   * Internal Changes
-  
+    * Use explicit-size types in LuaPushPull to fix 32-bit builds (#5538)
+ 
+  * Fixes
+    * Fix empty accessory files used to reduce facegen accessory spawn chance (#5558)
+    * Fix autopilot crash with no body in frame of reference (#5551)
+
+February 2023
+  * New Features
+    * Improved and cleaned up facegen parts (#5537)
+    * Reduce chance of autopilot crashing into planets between ship and target (#5481)
+
+  * Internal Changes
+    * Modernized debian package build rules to work with CMake (#5543)
+
   * Fixes
     * Fix issue with player not being assigned as crew on their own ship (#5515)
     * Fix distance to planet surface being calculated relative to body center (#5515)
     * Fix Skipjack having only 1 sensor slot (#5515)
     * Default flight roll keys to Q/E (#5515)
     * Armed recon mission informs the player when they've reached the target area (#5522)
+    * Fix set hyperspace target button missing from SAR mission (#5531)
 
 January 2023
   * New Features
