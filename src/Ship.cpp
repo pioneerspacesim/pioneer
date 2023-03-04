@@ -34,6 +34,7 @@
 #include "lua/LuaUtils.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/Tag.h"
+#include "scenegraph/CollisionGeometry.h"
 #include "ship/PlayerShipController.h"
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
@@ -522,12 +523,11 @@ bool Ship::OnDamage(Body *attacker, float kgDamage, const CollisionContact &cont
 
 bool Ship::OnCollision(Body *b, Uint32 flags, double relVel)
 {
-	// Collision with SpaceStation docking surface is
+	// Collision with SpaceStation docking or entrance surface is
 	// completely handled by SpaceStations, you only
 	// need to return a "true" value in order to trigger
 	// a bounce in Space::OnCollision
-	// NOTE: 0x10 is a special flag set on docking surfaces
-	if (b->IsType(ObjectType::SPACESTATION) && (flags & 0x10)) {
+	if (b->IsType(ObjectType::SPACESTATION) && (flags & (SceneGraph::CollisionGeometry::DOCKING | SceneGraph::CollisionGeometry::ENTRANCE))) {
 		return true;
 	}
 

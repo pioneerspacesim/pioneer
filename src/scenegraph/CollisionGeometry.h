@@ -43,6 +43,11 @@ namespace SceneGraph {
 		Geom *GetGeom() const { return m_geom; }
 		void SetGeom(Geom *g) { m_geom = g; }
 
+		enum Flag : unsigned int {
+			DOCKING  = 0x01,
+			ENTRANCE = 0x02
+		};
+
 	protected:
 		~CollisionGeometry();
 

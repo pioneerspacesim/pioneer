@@ -104,6 +104,7 @@ public:
 	void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
+	virtual bool ManualDocking() const { return false; }
 	void Blastoff();
 	bool Undock();
 	virtual void TimeStepUpdate(const float timeStep) override;
@@ -184,7 +185,7 @@ public:
 	AlertState GetAlertState() { return m_alertState; }
 
 	void AIClearInstructions(); // Note: defined in Ship-AI.cpp
-	bool AIIsActive() { return m_curAICmd ? true : false; }
+	bool AIIsActive() const { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str); // Note: defined in Ship-AI.cpp
 
 	void AIKamikaze(Body *target); // Note: defined in Ship-AI.cpp

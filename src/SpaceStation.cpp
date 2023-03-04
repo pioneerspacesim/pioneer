@@ -22,6 +22,7 @@
 #include "graphics/Renderer.h"
 #include "lua/LuaEvent.h"
 #include "scenegraph/Animation.h"
+#include "scenegraph/CollisionGeometry.h"
 #include "scenegraph/MatrixTransform.h"
 #include "scenegraph/ModelSkin.h"
 #include "utils.h"
@@ -383,8 +384,9 @@ bool SpaceStation::GetDockingClearance(Ship *s)
 
 bool SpaceStation::OnCollision(Body *b, Uint32 flags, double relVel)
 {
-	if ((flags >= 0x10) && (b->IsType(ObjectType::SHIP))) {
+	if ((flags & (SceneGraph::CollisionGeometry::DOCKING | SceneGraph::CollisionGeometry::ENTRANCE)) && (b->IsType(ObjectType::SHIP))) {
 		Ship *s = static_cast<Ship *>(b);
+		if(s->ManualDocking() && (flags & SceneGraph::CollisionGeometry::ENTRANCE)) return false;
 
 		int port = -1;
 		for (Uint32 i = 0; i < m_shipDocking.size(); i++) {

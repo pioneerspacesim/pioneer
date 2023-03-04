@@ -27,6 +27,7 @@ public:
 	virtual Missile *SpawnMissile(ShipType::Id missile_type, int power = -1) override;
 	virtual void SetAlertState(Ship::AlertState as) override;
 	virtual void NotifyRemoved(const Body *const removedBody) override;
+	virtual bool ManualDocking() const override { return !AIIsActive(); }
 
 	virtual void SetShipType(const ShipType::Id &shipId) override;
 
