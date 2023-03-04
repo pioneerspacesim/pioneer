@@ -7,6 +7,7 @@ March 2023
   * Fixes
     * Fix empty accessory files used to reduce facegen accessory spawn chance (#5558)
     * Fix autopilot crash with no body in frame of reference (#5551)
+    * Fix crashes when ships jump into system from hyperspace (#5564)
 
 February 2023
   * New Features
