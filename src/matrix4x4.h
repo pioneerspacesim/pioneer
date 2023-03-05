@@ -680,17 +680,17 @@ public:
 	//from rotation matrices
 	vector3<T> Right() const
 	{
-		return vector3<T>(cell[0], cell[4], cell[8]);
+		return vector3<T>(cell[0], cell[1], cell[2]);
 	}
 
 	vector3<T> Up() const
 	{
-		return vector3<T>(cell[1], cell[5], cell[9]);
+		return vector3<T>(cell[4], cell[5], cell[6]);
 	}
 
 	vector3<T> Back() const
 	{
-		return vector3<T>(cell[2], cell[6], cell[10]);
+		return vector3<T>(cell[8], cell[9], cell[10]);
 	}
 };
 

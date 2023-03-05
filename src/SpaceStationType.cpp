@@ -11,6 +11,7 @@
 #include "scenegraph/Tag.h"
 #include "scenegraph/Model.h"
 #include "utils.h"
+#include "EnumStrings.h"
 
 #include <algorithm>
 
@@ -27,9 +28,8 @@ SpaceStationType::SpaceStationType(const std::string &id_, const std::string &pa
 	angVel(0.f),
 	dockMethod(SURFACE),
 	numDockingPorts(0),
-	numDockingStages(0),
-	numUndockStages(0),
-	shipLaunchStage(3),
+	lastDockStage(DockStage::DOCK_ANIMATION_NONE),
+	lastUndockStage(DockStage::UNDOCK_ANIMATION_NONE),
 	parkingDistance(0),
 	parkingGapSize(0)
 {
@@ -78,9 +78,6 @@ void SpaceStationType::OnSetupComplete()
 	// on autopilot - this is the only option for docking with SPACE stations currently.
 	// This mostly means offsetting from one locator to create the next in the sequence.
 
-	// ground stations have a "special-fucking-case" 0 stage launch process
-	shipLaunchStage = ((SURFACE == dockMethod) ? 0 : 3);
-
 	// gather the tags
 	std::vector<SceneGraph::Tag *> entrance_mts;
 	std::vector<SceneGraph::Tag *> locator_mts;
@@ -105,15 +102,16 @@ void SpaceStationType::OnSetupComplete()
 
 		if (SURFACE == dockMethod) {
 			const vector3f offDir = trans.Up().Normalized();
-			new_port.m_approach[1] = trans;
-			new_port.m_approach[1].SetTranslate(trans.GetTranslate() + (offDir * 500.0f));
+			new_port.m_approach[DockStage::APPROACH1] = trans;
+			new_port.m_approach[DockStage::APPROACH1].SetTranslate(trans.GetTranslate() + (offDir * 500.0f));
 		} else {
 			const vector3f offDir = -trans.Back().Normalized();
-			new_port.m_approach[1] = trans;
-			new_port.m_approach[1].SetTranslate(trans.GetTranslate() + (offDir * 1500.0f));
+			new_port.m_approach[DockStage::APPROACH1] = trans;
+			new_port.m_approach[DockStage::APPROACH1].SetTranslate(trans.GetTranslate() + (offDir * 1500.0f));
 		}
-
-		new_port.m_approach[2] = trans;
+		new_port.m_approach[DockStage::APPROACH2] = trans;
+		new_port.m_approach[DockStage::APPROACH1].Renormalize();
+		new_port.m_approach[DockStage::APPROACH2].Renormalize();
 		m_ports.push_back(new_port);
 	}
 
@@ -121,7 +119,8 @@ void SpaceStationType::OnSetupComplete()
 		int bay, portId;
 		int minSize, maxSize;
 		char padname[8];
-		const matrix4x4f &locTransform = locIter->GetGlobalTransform();
+		matrix4x4f locTransform = locIter->GetGlobalTransform();
+		locTransform.Renormalize();
 
 		// eg:loc_A001_p01_s0_500_b01
 		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname[0], &portId, &minSize, &maxSize, &bay));
@@ -141,8 +140,8 @@ void SpaceStationType::OnSetupComplete()
 #ifndef NDEBUG
 				bFoundPort = true;
 #endif
-				approach1 = rPort.m_approach[1];
-				approach2 = rPort.m_approach[2];
+				approach1 = rPort.m_approach[DockStage::APPROACH1];
+				approach2 = rPort.m_approach[DockStage::APPROACH2];
 				break;
 			}
 		}
@@ -151,9 +150,9 @@ void SpaceStationType::OnSetupComplete()
 		// now build the docking/leaving waypoints
 		if (SURFACE == dockMethod) {
 			// ground stations don't have leaving waypoints.
-			m_portPaths[bay].m_docking[2] = locTransform; // final (docked)
-			numDockingStages = 2;
-			numUndockStages = 1;
+			m_bayPaths[bay].m_docking[DockStage::DOCKED] = locTransform; // final (docked)
+			lastDockStage = DockStage::DOCK_ANIMATION_NONE;
+			lastUndockStage = DockStage::UNDOCK_ANIMATION_NONE;
 		} else {
 			struct TPointLine {
 				// for reference: http://paulbourke.net/geometry/pointlineplane/
@@ -178,9 +177,7 @@ void SpaceStationType::OnSetupComplete()
 			};
 
 			// create the docking locators
-			// start
-			m_portPaths[bay].m_docking[2] = approach2;
-			m_portPaths[bay].m_docking[2].SetRotationOnly(locTransform.GetOrient());
+
 			// above the pad
 			vector3f intersectionPos(0.0f);
 			const vector3f approach1Pos = approach1.GetTranslate();
@@ -194,80 +191,26 @@ void SpaceStationType::OnSetupComplete()
 					Output("No point found on line segment");
 				}
 			}
-			m_portPaths[bay].m_docking[3] = locTransform;
-			m_portPaths[bay].m_docking[3].SetTranslate(intersectionPos);
+			m_bayPaths[bay].m_docking[DockStage::DOCK_ANIMATION_1] = locTransform;
+			m_bayPaths[bay].m_docking[DockStage::DOCK_ANIMATION_1].SetTranslate(intersectionPos);
 			// final (docked)
-			m_portPaths[bay].m_docking[4] = locTransform;
-			numDockingStages = 4;
+			m_bayPaths[bay].m_docking[DockStage::DOCK_ANIMATION_2] = locTransform;
+			lastDockStage = DockStage::DOCK_ANIMATION_2;
 
-			// leaving locators ...
-			matrix4x4f orient = locTransform.GetOrient(), EndOrient;
-			if (exit_mts.empty()) {
-				// leaving locators need to face in the opposite direction
-				const matrix4x4f rot = matrix3x3f::Rotate(DEG2RAD(180.0f), orient.Back());
-				orient = orient * rot;
-				orient.SetTranslate(locTransform.GetTranslate());
-				EndOrient = approach2;
-				EndOrient.SetRotationOnly(orient);
-			} else {
-				// leaving locators, use whatever orientation they have
-				orient.SetTranslate(locTransform.GetTranslate());
-				int exitport = 0;
-				for (auto &exitIt : exit_mts) {
-					PiVerify(1 == sscanf(exitIt->GetName().c_str(), "exit_port%d", &exitport));
-					if (exitport == portId) {
-						EndOrient = exitIt->GetGlobalTransform();
-						break;
-					}
-				}
-				if (exitport == 0) {
-					EndOrient = approach2;
-				}
-			}
+			m_bayPaths[bay].m_docking[DockStage::DOCKED] = locTransform;
 
 			// create the leaving locators
-			m_portPaths[bay].m_leaving[1] = locTransform;				 // start - maintain the same orientation and position as when docked.
-			m_portPaths[bay].m_leaving[2] = orient;						 // above the pad - reorient...
-			m_portPaths[bay].m_leaving[2].SetTranslate(intersectionPos); //  ...and translate to new position
-			m_portPaths[bay].m_leaving[3] = EndOrient;					 // end (on manual after here)
-			numUndockStages = 3;
+
+			// above the pad
+			m_bayPaths[bay].m_docking[DockStage::UNDOCK_ANIMATION_1] = locTransform;
+			m_bayPaths[bay].m_docking[DockStage::UNDOCK_ANIMATION_1].SetTranslate(intersectionPos);
+			lastUndockStage = DockStage::UNDOCK_ANIMATION_1;
 		}
 	}
 
-	numDockingPorts = m_portPaths.size();
+	numDockingPorts = m_bayPaths.size();
 
-	// sanity
-	assert(!m_portPaths.empty());
-	assert(numDockingStages > 0);
-	assert(numUndockStages > 0);
-
-	// insanity
-	for (PortPathMap::const_iterator pIt = m_portPaths.begin(), pItEnd = m_portPaths.end(); pIt != pItEnd; ++pIt) {
-		if (Uint32(numDockingStages - 1) < pIt->second.m_docking.size()) {
-			Error(
-				"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n"
-				"Must have at least the same number of entries as the number of docking stages "
-				"PLUS the docking timeout at the start of the array.",
-				modelName.c_str(), (numDockingStages - 1), pIt->second.m_docking.size());
-
-		} else if (Uint32(numDockingStages - 1) != pIt->second.m_docking.size()) {
-			Warning(
-				"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n",
-				modelName.c_str(), (numDockingStages - 1), pIt->second.m_docking.size());
-		}
-
-		if (0 != pIt->second.m_leaving.size() && Uint32(numUndockStages) < pIt->second.m_leaving.size()) {
-			Error(
-				"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n"
-				"Must have at least the same number of entries as the number of leaving stages.",
-				modelName.c_str(), (numDockingStages - 1), pIt->second.m_docking.size());
-
-		} else if (0 != pIt->second.m_leaving.size() && Uint32(numUndockStages) != pIt->second.m_leaving.size()) {
-			Warning(
-				"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n",
-				modelName.c_str(), numUndockStages, pIt->second.m_leaving.size());
-		}
-	}
+	assert(!m_bayPaths.empty());
 }
 
 const SpaceStationType::SPort *SpaceStationType::FindPortByBay(const int zeroBaseBayID) const
@@ -296,12 +239,12 @@ SpaceStationType::SPort *SpaceStationType::GetPortByBay(const int zeroBaseBayID)
 	return 0;
 }
 
-bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const int stage, positionOrient_t &outPosOrient) const
+bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, DockStage stage, positionOrient_t &outPosOrient) const
 {
 	bool gotOrient = false;
 
 	const SPort *pPort = FindPortByBay(port);
-	if (pPort && stage > 0) {
+	if (pPort) {
 		TMapBayIDMat::const_iterator stageDataIt = pPort->m_approach.find(stage);
 		if (stageDataIt != pPort->m_approach.end()) {
 			const matrix4x4f &mt = pPort->m_approach.at(stage);
@@ -317,79 +260,6 @@ bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const i
 	}
 	return gotOrient;
 }
-
-double SpaceStationType::GetDockAnimStageDuration(const int stage) const
-{
-	return (stage == 0) ? 300.0 : ((SURFACE == dockMethod) ? 0.0 : 3.0);
-}
-
-double SpaceStationType::GetUndockAnimStageDuration(const int stage) const
-{
-	return ((SURFACE == dockMethod) ? 0.0 : 5.0);
-}
-
-static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from,
-	SpaceStationType::positionOrient_t &outPosOrient)
-{
-	bool gotOrient = false;
-
-	vector3d toPos;
-
-	const SpaceStationType::TMapBayIDMat::const_iterator stageDataIt = bayMap.find(stage);
-	const bool bHasStageData = (stageDataIt != bayMap.end());
-	assert(bHasStageData);
-	if (bHasStageData) {
-		const matrix4x4f &mt = stageDataIt->second;
-		outPosOrient.xaxis = vector3d(mt.GetOrient().VectorX()).Normalized();
-		outPosOrient.yaxis = vector3d(mt.GetOrient().VectorY()).Normalized();
-		outPosOrient.zaxis = vector3d(mt.GetOrient().VectorZ()).Normalized();
-		toPos = vector3d(mt.GetTranslate());
-		gotOrient = true;
-	}
-
-	if (gotOrient) {
-		vector3d pos = MathUtil::mix<vector3d, double>(from, toPos, t);
-		outPosOrient.pos = pos;
-	}
-
-	return gotOrient;
-}
-
-/* when ship is on rails it returns true and fills outPosOrient.
- * when ship has been released (or docked) it returns false.
- * Note station animations may continue for any number of stages after
- * ship has been released and is under player control again */
-bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
-{
-	assert(ship);
-	if (stage < -shipLaunchStage) {
-		stage = -shipLaunchStage;
-		t = 1.0;
-	}
-	if (stage > numDockingStages || !stage) {
-		stage = numDockingStages;
-		t = 1.0;
-	}
-	// note case for stageless launch (shipLaunchStage==0)
-
-	bool gotOrient = false;
-
-	assert(port <= m_portPaths.size());
-	const PortPath &rPortPath = m_portPaths.at(port + 1);
-	if (stage < 0) {
-		const int leavingStage = (-1 * stage);
-		gotOrient = GetPosOrient(rPortPath.m_leaving, leavingStage, t, from, outPosOrient);
-		const vector3d up = outPosOrient.yaxis.Normalized() * ship->GetLandingPosOffset();
-		outPosOrient.pos = outPosOrient.pos - up;
-	} else if (stage > 0) {
-		gotOrient = GetPosOrient(rPortPath.m_docking, stage, t, from, outPosOrient);
-		const vector3d up = outPosOrient.yaxis.Normalized() * ship->GetLandingPosOffset();
-		outPosOrient.pos = outPosOrient.pos - up;
-	}
-
-	return gotOrient;
-}
-
 /*static*/
 void SpaceStationType::Init()
 {
@@ -439,4 +309,32 @@ const SpaceStationType *SpaceStationType::FindByName(const std::string &name)
 		if (sst.id == name)
 			return &sst;
 	return nullptr;
+}
+
+DockStage SpaceStationType::PivotStage(DockStage s) const {
+	switch (s) {
+		// at these stages, the position of the ship relative to the station has
+		// already been calculated and is in the shipDocking_t data
+		case DockStage::TOUCHDOWN:
+		case DockStage::JUST_DOCK:
+		case DockStage::LEVELING:
+		case DockStage::REPOSITION:
+			return DockStage::MANUAL;
+		// at these stages, the station does not control the position of the ship
+		case DockStage::CLEARANCE_GRANTED:
+		case DockStage::LEAVE:
+		case DockStage::APPROACH1:
+		case DockStage::APPROACH2:
+			return DockStage::NONE;
+		default: return s;
+	}
+}
+
+const char *SpaceStationType::DockStageName(DockStage s) const {
+	return EnumStrings::GetString("DockStage", int(s));
+}
+
+matrix4x4f SpaceStationType::GetStageTransform(int bay, DockStage stage) const
+{
+	return m_bayPaths.at(bay + 1).m_docking.at(stage);
 }

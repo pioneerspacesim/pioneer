@@ -1350,7 +1350,8 @@ bool AICmdDock::TimeStepUpdate()
 	}
 
 	switch (ship->GetFlightState()) {
-	case Ship::UNDOCKING: return false; // allow undock animation to proceed
+	case Ship::DOCKING:
+	case Ship::UNDOCKING: return false; // allow dock / undock animation to proceed
 	case Ship::DOCKED:
 	case Ship::LANDED:
 		LaunchShip(ship);
@@ -1359,7 +1360,6 @@ bool AICmdDock::TimeStepUpdate()
 	case Ship::HYPERSPACE:
 		return false;
 	case Ship::FLYING:
-	case Ship::DOCKING:
 		break;
 	}
 
@@ -1385,7 +1385,7 @@ bool AICmdDock::TimeStepUpdate()
 	if (m_state == eDockGetDataStart || m_state == eDockGetDataEnd || m_state == eDockingComplete) {
 		const SpaceStationType *type = m_target->GetStationType();
 		SpaceStationType::positionOrient_t dockpos;
-		type->GetShipApproachWaypoints(port, (m_state == 0) ? 1 : 2, dockpos);
+		type->GetShipApproachWaypoints(port, (m_state == 0) ? DockStage::APPROACH1 : DockStage::APPROACH2, dockpos);
 		if (m_state != eDockGetDataEnd) {
 			m_dockpos = dockpos.pos;
 		}

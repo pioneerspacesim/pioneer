@@ -133,10 +133,17 @@ void ModelBody::SetStatic(bool isStatic)
 void ModelBody::SetColliding(bool colliding)
 {
 	m_colliding = colliding;
-	if (colliding)
+	if (colliding) {
 		m_geom->Enable();
-	else
+		for(auto &g : m_dynGeoms) {
+			g->Enable();
+		}
+	} else {
 		m_geom->Disable();
+		for(auto &g : m_dynGeoms) {
+			g->Disable();
+		}
+	}
 }
 
 void ModelBody::RebuildCollisionMesh()
@@ -152,6 +159,7 @@ void ModelBody::RebuildCollisionMesh()
 
 	//static geom
 	m_geom = new Geom(m_collMesh->GetGeomTree(), GetOrient(), GetPosition(), this);
+	if(!IsColliding()) m_geom->Disable();
 
 	SetPhysRadius(maxRadius);
 
@@ -166,6 +174,7 @@ void ModelBody::RebuildCollisionMesh()
 		SceneGraph::CollisionGeometry *cg = dgf.GetCgForTree(*it);
 		if (cg)
 			cg->SetGeom(dynG);
+		if(!IsColliding()) dynG->Disable();
 		m_dynGeoms.push_back(dynG);
 	}
 

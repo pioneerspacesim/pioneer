@@ -11,11 +11,11 @@
 #include "ShipAICmd.h"
 #include "ShipType.h"
 #include "SpaceStation.h"
+#include "SpaceStationType.h"
 #include "SystemView.h"
 #include "galaxy/Polit.h"
 #include "galaxy/SystemBody.h"
 #include "lua/LuaEngine.h"
-#include "lua/LuaFileSystem.h"
 #include "pigui/Face.h"
 #include "scenegraph/Model.h"
 #include "ship/PlayerShipController.h"
@@ -112,6 +112,37 @@ const struct EnumItem ENUM_DockingRefusedReason[] = {
 	{ "ClearanceAlreadyGranted", int(SpaceStation::DockingRefusedReason::ClearanceAlreadyGranted) },
 	{ "TooFarFromStation", int(SpaceStation::DockingRefusedReason::TooFarFromStation) },
 	{ "NoBaysAvailable", int(SpaceStation::DockingRefusedReason::NoBaysAvailable) },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_DockStage[] = {
+	{ "NONE", int(DockStage::NONE) },
+	{ "MANUAL", int(DockStage::MANUAL) },
+	{ "DOCK_STAGES_BEGIN", int(DockStage::DOCK_STAGES_BEGIN) },
+	{ "CLEARANCE_GRANTED", int(DockStage::CLEARANCE_GRANTED) },
+	{ "DOCK_ANIMATION_NONE", int(DockStage::DOCK_ANIMATION_NONE) },
+	{ "DOCK_ANIMATION_1", int(DockStage::DOCK_ANIMATION_1) },
+	{ "DOCK_ANIMATION_2", int(DockStage::DOCK_ANIMATION_2) },
+	{ "DOCK_ANIMATION_3", int(DockStage::DOCK_ANIMATION_3) },
+	{ "DOCK_ANIMATION_MAX", int(DockStage::DOCK_ANIMATION_MAX) },
+	{ "TOUCHDOWN", int(DockStage::TOUCHDOWN) },
+	{ "LEVELING", int(DockStage::LEVELING) },
+	{ "REPOSITION", int(DockStage::REPOSITION) },
+	{ "JUST_DOCK", int(DockStage::JUST_DOCK) },
+	{ "DOCK_STAGES_END", int(DockStage::DOCK_STAGES_END) },
+	{ "DOCKED", int(DockStage::DOCKED) },
+	{ "UNDOCK_STAGES_BEGIN", int(DockStage::UNDOCK_STAGES_BEGIN) },
+	{ "UNDOCK_BEGIN", int(DockStage::UNDOCK_BEGIN) },
+	{ "UNDOCK_ANIMATION_NONE", int(DockStage::UNDOCK_ANIMATION_NONE) },
+	{ "UNDOCK_ANIMATION_1", int(DockStage::UNDOCK_ANIMATION_1) },
+	{ "UNDOCK_ANIMATION_2", int(DockStage::UNDOCK_ANIMATION_2) },
+	{ "UNDOCK_ANIMATION_3", int(DockStage::UNDOCK_ANIMATION_3) },
+	{ "UNDOCK_ANIMATION_MAX", int(DockStage::UNDOCK_ANIMATION_MAX) },
+	{ "UNDOCK_END", int(DockStage::UNDOCK_END) },
+	{ "LEAVE", int(DockStage::LEAVE) },
+	{ "UNDOCK_STAGES_END", int(DockStage::UNDOCK_STAGES_END) },
+	{ "APPROACH1", int(DockStage::APPROACH1) },
+	{ "APPROACH2", int(DockStage::APPROACH2) },
 	{ 0, 0 },
 };
 
@@ -318,6 +349,7 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
 	{ "ShipTypeTag", ENUM_ShipTypeTag },
 	{ "DockingRefusedReason", ENUM_DockingRefusedReason },
+	{ "DockStage", ENUM_DockStage },
 	{ "ProjectableTypes", ENUM_ProjectableTypes },
 	{ "ProjectableBases", ENUM_ProjectableBases },
 	{ "SystemViewMode", ENUM_SystemViewMode },
@@ -348,6 +380,7 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
 	{ "ShipTypeTag", ENUM_ShipTypeTag },
 	{ "DockingRefusedReason", ENUM_DockingRefusedReason },
+	{ "DockStage", ENUM_DockStage },
 	{ "ProjectableTypes", ENUM_ProjectableTypes },
 	{ "ProjectableBases", ENUM_ProjectableBases },
 	{ "SystemViewMode", ENUM_SystemViewMode },

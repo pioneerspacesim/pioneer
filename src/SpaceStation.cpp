@@ -3,6 +3,7 @@
 
 #include "SpaceStation.h"
 
+#include "AnimationCurves.h"
 #include "Camera.h"
 #include "CityOnPlanet.h"
 #include "EnumStrings.h"
@@ -12,18 +13,22 @@
 #include "GameSaveError.h"
 #include "JsonUtils.h"
 #include "Lang.h"
+#include "MathUtil.h"
 #include "NavLights.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Player.h"
+#include "Quaternion.h"
 #include "Ship.h"
 #include "Space.h"
+#include "SpaceStationType.h"
 #include "StringF.h"
 #include "graphics/Renderer.h"
 #include "lua/LuaEvent.h"
 #include "scenegraph/Animation.h"
 #include "scenegraph/CollisionGeometry.h"
 #include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Model.h"
 #include "scenegraph/ModelSkin.h"
 #include "utils.h"
 
@@ -143,11 +148,25 @@ void SpaceStation::SaveToJson(Json &jsonObj, Space *space)
 	jsonObj["space_station"] = spaceStationObj; // Add space station object to supplied object.
 }
 
+static float calculate_max_offset_squared(float portMaxShipSize, float shipBboxRad)
+{
+	float maxOffset = std::max((portMaxShipSize * 0.5f - shipBboxRad), portMaxShipSize / 5.f);
+	return maxOffset * maxOffset;
+}
+
 void SpaceStation::PostLoadFixup(Space *space)
 {
 	ModelBody::PostLoadFixup(space);
 	for (Uint32 i = 0; i < m_shipDocking.size(); i++) {
-		m_shipDocking[i].ship = static_cast<Ship *>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
+		auto &sd = m_shipDocking[i];
+		sd.ship = static_cast<Ship *>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
+
+		if (!sd.ship) continue;
+
+		auto pPort = m_type->FindPortByBay(i);
+		const Aabb &bbox = sd.ship->GetAabb();
+		const float bboxRad = vector2f(float(bbox.max.x), float(bbox.max.z)).Length();
+		sd.maxOffset = calculate_max_offset_squared(pPort->maxShipSize, bboxRad);
 	}
 }
 
@@ -271,52 +290,60 @@ int SpaceStation::GetFreeDockingPort(const Ship *s) const
 	return -1;
 }
 
-void SpaceStation::SetDocked(Ship *ship, const int port)
+void SpaceStation::SetDocked(Ship *ship, const int bay)
 {
-	assert(m_shipDocking.size() > Uint32(port));
-	m_shipDocking[port].ship = ship;
-	m_shipDocking[port].stage = m_type->NumDockingStages() + 3;
+	assert(m_shipDocking.size() > Uint32(bay));
+	m_shipDocking[bay].ship = ship;
 
 	// have to do this crap again in case it was called directly (Ship::SetDockWith())
 	ship->SetFlightState(Ship::DOCKED);
 	ship->SetVelocity(vector3d(0.0));
 	ship->SetAngVelocity(vector3d(0.0));
-	PositionDockedShip(ship, port);
+	PositionDockedShip(ship, bay);
+	SwitchToStage(bay, DockStage::DOCKED);
 }
 
-void SpaceStation::SwapDockedShipsPort(const int oldPort, const int newPort)
+void SpaceStation::SwapDockedShipsPort(const int oldBay, const int newBay)
 {
-	if (oldPort == newPort)
+	if (oldBay == newBay)
 		return;
 
 	// set new location
-	Ship *ship = m_shipDocking[oldPort].ship;
+	Ship *ship = m_shipDocking[oldBay].ship;
 	assert(ship);
-	ship->SetDockedWith(this, newPort);
+	ship->SetDockedWith(this, newBay);
 
-	m_shipDocking[oldPort].ship = 0;
-	m_shipDocking[oldPort].stage = 0;
+	m_shipDocking[oldBay].ship = nullptr;
+	SwitchToStage(oldBay, DockStage::NONE);
 }
 
-bool SpaceStation::LaunchShip(Ship *ship, const int port)
+bool SpaceStation::LaunchShip(Ship *ship, const int bay)
 {
-	shipDocking_t &sd = m_shipDocking[port];
-	if (sd.stage < 0) return true;		  // already launching
-	if (IsPortLocked(port)) return false; // another ship docking
-	LockPort(port, true);
+	if (IsPortLocked(bay)) return false; // another ship docking
+
+	if (ship->ManualDocking()) {
+		// no one except the player can launch without the autopilot
+		assert(ship->IsType(ObjectType::PLAYER));
+		auto p = static_cast<Player*>(ship);
+		p->DoFixspeedTakeoff(this);
+		SwitchToStage(bay, DockStage::LEAVE);
+		return true;;
+	}
+
+	shipDocking_t &sd = m_shipDocking[bay];
+	if (SpaceStationType::IsUndockStage(sd.stage)) return true; // already launching
+	LockPort(bay, true);
 
 	sd.ship = ship;
-	sd.stage = -1;
 	sd.stagePos = 0.0;
 
 	m_doorAnimationStep = 0.3; // open door
 
-	const vector3d up = ship->GetOrient().VectorY().Normalized() * ship->GetLandingPosOffset();
-
-	sd.fromPos = (ship->GetPosition() - GetPosition() + up) * GetOrient(); // station space
+	sd.fromPos = (ship->GetPosition() - GetPosition()) * GetOrient(); // station space
 	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * ship->GetOrient());
 
 	ship->SetFlightState(Ship::UNDOCKING);
+	SwitchToStage(bay, DockStage::UNDOCK_BEGIN);
 
 	return true;
 }
@@ -340,7 +367,7 @@ bool SpaceStation::GetDockingClearance(Ship *s)
 		if (m_shipDocking[i].ship == s) {
 			LuaEvent::Queue("onDockingClearanceDenied", this, s,
 				EnumStrings::GetString("DockingRefusedReason", int(DockingRefusedReason::ClearanceAlreadyGranted)));
-			return (m_shipDocking[i].stage > 0); // grant docking only if the ship is not already docked/undocking
+			return (m_shipDocking[i].stage != DockStage::NONE); // grant docking only if the ship is not already docked/undocking
 		}
 	}
 
@@ -367,12 +394,10 @@ bool SpaceStation::GetDockingClearance(Ship *s)
 		if (pPort->minShipSize < bboxRad && bboxRad < pPort->maxShipSize) {
 			shipDocking_t &sd = m_shipDocking[i];
 			sd.ship = s;
-			sd.stage = 1;
 			sd.stagePos = 0;
-			// Note: maxOffset is squared
-			sd.maxOffset = std::max((pPort->maxShipSize / 2 - bboxRad), float(pPort->maxShipSize / 5.0));
-			sd.maxOffset *= sd.maxOffset;
+			sd.maxOffset = calculate_max_offset_squared(pPort->maxShipSize, bboxRad);
 			LuaEvent::Queue("onDockingClearanceGranted", this, s);
+			SwitchToStage(i, DockStage::CLEARANCE_GRANTED);
 			return true;
 		}
 	}
@@ -384,73 +409,73 @@ bool SpaceStation::GetDockingClearance(Ship *s)
 
 bool SpaceStation::OnCollision(Body *b, Uint32 flags, double relVel)
 {
-	if ((flags & (SceneGraph::CollisionGeometry::DOCKING | SceneGraph::CollisionGeometry::ENTRANCE)) && (b->IsType(ObjectType::SHIP))) {
-		Ship *s = static_cast<Ship *>(b);
-		if(s->ManualDocking() && (flags & SceneGraph::CollisionGeometry::ENTRANCE)) return false;
+	if (!b->IsType(ObjectType::SHIP)) return true;
+	if (!(flags & (SceneGraph::CollisionGeometry::DOCKING | SceneGraph::CollisionGeometry::ENTRANCE))) return true;
 
-		int port = -1;
-		for (Uint32 i = 0; i < m_shipDocking.size(); i++) {
-			if (m_shipDocking[i].ship == s) {
-				port = i;
-				break;
-			}
+	Ship *s = static_cast<Ship *>(b);
+	if(s->ManualDocking() && (flags & SceneGraph::CollisionGeometry::ENTRANCE)) return false;
+
+	bool touchOrbitalPad = (flags & SceneGraph::CollisionGeometry::DOCKING) && !IsGroundStation();
+
+	int bay = -1;
+	for (Uint32 i = 0; i < m_shipDocking.size(); i++) {
+		if (m_shipDocking[i].ship == s) {
+			bay = i;
+			break;
 		}
-		if (port == -1) {
-			if (IsGroundStation()) {
-				return DoShipDamage(s, flags, relVel); // no permission
-			} else
-				return false;
+	}
+
+	bool bayUnavailable = bay == -1 || IsPortLocked(bay) || m_shipDocking[bay].stage == DockStage::NONE;
+	if (bayUnavailable) {
+		return DoShipDamage(s, flags, relVel);
+	}
+
+	if (IsGroundStation() || touchOrbitalPad) {
+		// must be oriented sensibly and have wheels down
+		matrix4x4d bayTrans = GetBayTransform(bay);
+
+		vector3d dockingNormal = bayTrans.Up();
+		const double dot = s->GetOrient().VectorY().Dot(dockingNormal);
+		if ((dot < 0.99) || (s->GetWheelState() < 1.0))
+		{
+			return DoShipDamage(s, flags, relVel); // <0.99 harsh?
 		}
-		if (IsPortLocked(port)) {
+		// check speed
+		if (s->GetVelocity().Length() > MAX_LANDING_SPEED)
+		{
 			return DoShipDamage(s, flags, relVel);
 		}
-		if (m_shipDocking[port].stage != 1) return DoShipDamage(s, flags, relVel); // already docking?
-
-		SpaceStationType::positionOrient_t dport;
-
-		if (IsGroundStation()) {
-			// must be oriented sensibly and have wheels down
-			PiVerify(m_type->GetDockAnimPositionOrient(port, m_type->NumDockingStages(), 1.0f, vector3d(0.0), dport, s));
-			vector3d dockingNormal = GetOrient() * dport.yaxis;
-			const double dot = s->GetOrient().VectorY().Dot(dockingNormal);
-			if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return DoShipDamage(s, flags, relVel); // <0.99 harsh?
-			// check speed
-			if (s->GetVelocity().Length() > MAX_LANDING_SPEED) return DoShipDamage(s, flags, relVel);
-			// check if you're near your pad
-			float dist = (s->GetPosition() - GetPosition() - GetOrient() * dport.pos).LengthSqr();
-			// docking allowed only if inside a circle 70% greater than pad itself (*1.7)
-			float maxDist = static_cast<float>(m_type->FindPortByBay(port)->maxShipSize / 2) * 1.7;
-			if (dist > (maxDist * maxDist)) return DoShipDamage(s, flags, relVel);
+		// check if you're near your pad
+		float dist = (s->GetPosition() - bayTrans.GetTranslate()).LengthSqr();
+		// docking allowed only if inside a circle 70% greater than pad itself (*1.7)
+		float maxDist = static_cast<float>(m_type->FindPortByBay(bay)->maxShipSize / 2) * 1.7;
+		if (dist > (maxDist * maxDist))
+		{
+			return DoShipDamage(s, flags, relVel);
 		}
-
-		// why stage 2? Because stage 1 is permission to dock
-		// granted, stage 2 is start of docking animation.
-		PiVerify(m_type->GetDockAnimPositionOrient(port, 2, 0.0, vector3d(0.0), dport, s));
-
-		// if there is more docking port anim to do, don't set docked yet
-		if (m_type->NumDockingStages() >= 2) {
-			shipDocking_t &sd = m_shipDocking[port];
-			sd.ship = s;
-			sd.stage = 2;
-			sd.stagePos = 0;
-			sd.fromPos = (s->GetPosition() - GetPosition()) * GetOrient(); // station space
-			sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * s->GetOrient());
-			LockPort(port, true);
-
-			s->SetFlightState(Ship::DOCKING);
-			s->SetVelocity(vector3d(0.0));
-			s->SetAngVelocity(vector3d(0.0));
-			s->ClearThrusterState();
-		} else {
-			s->SetDockedWith(this, port); // bounces back to SS::SetDocked()
-			LuaEvent::Queue("onShipDocked", s, this);
-		}
-		// If this is reached, then you have permission
-		// to dock and a collision with docking surface
-		return false;
-	} else {
-		return true;
 	}
+
+	// docking is in progress
+	if (s->GetFlightState() == Ship::DOCKING) return false;
+
+	// launch docking
+	// set up a control structure
+	// from now on, the location of the ship will be set by the station using this data
+	shipDocking_t &sd = m_shipDocking[bay];
+	sd.ship = s;
+	sd.stagePos = 0;
+	// capture the current location of the ship
+	sd.fromPos = (s->GetPosition() - GetPosition()) * GetOrient(); // station space
+	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * s->GetOrient());
+	// prepare the ship for passive existence
+	s->SetFlightState(Ship::DOCKING);
+	s->SetVelocity(vector3d(0.0));
+	s->SetAngVelocity(vector3d(0.0));
+	s->ClearThrusterState();
+
+	SwitchToStage(bay, (touchOrbitalPad || m_type->NumUndockStages() == 0) ? DockStage::TOUCHDOWN : DockStage::DOCK_ANIMATION_1);
+
+	return false;
 }
 
 bool SpaceStation::DoShipDamage(Ship *s, Uint32 flags, double relVel)
@@ -460,138 +485,152 @@ bool SpaceStation::DoShipDamage(Ship *s, Uint32 flags, double relVel)
 	return true;
 }
 
-// XXX SGModel door animation. We have one station (hoop_spacestation) with a
-// door, so this is pretty much based on how it does things. This all needs
-// rewriting to handle triggering animations at waypoints.
-//
-// Docking:
-//   Stage 1 (clearance granted): open
-//           (clearance expired): close
-//   Docked:                      close
-//
-// Undocking:
-//   Stage -1 (LaunchShip): open
-//   Post-launch:           close
-//
+void SpaceStation::SwitchToStage(Uint32 bay, DockStage stage)
+{
+	shipDocking_t &dt = m_shipDocking[bay];
+
+	switch (stage) {
+
+	case DockStage::TOUCHDOWN: {
+		dt.ship->ClearThrusterState();
+		// remember the position of the ship relative to the pad
+		matrix4x4d padSpace = GetBayTransform(bay);
+		padSpace.Translate(0.0, -dt.ship->GetLandingPosOffset(), 0.0);
+		padSpace = padSpace.Inverse();
+		matrix3x3d shipToPadOrient = padSpace.GetOrient() * dt.ship->GetOrient();
+		// the position of the ship relative to the pad will be saved here
+		// all subsequent stages will use this
+		dt.fromRot = Quaterniond::FromMatrix3x3(shipToPadOrient);
+		dt.fromPos = padSpace * dt.ship->GetPosition();
+
+		SwitchToStage(bay, DockStage::LEVELING);
+		break;
+	}
+
+	// if we want to generate a docking event
+	case DockStage::JUST_DOCK: {
+		LuaEvent::Queue("onShipDocked", dt.ship, this);
+		m_doorAnimationStep = -0.3; // close door
+		dt.ship->SetDockedWith(this, bay);
+		break;
+	}
+
+	case DockStage::UNDOCK_BEGIN:
+		if (m_type->NumUndockStages() > 0) {
+			SwitchToStage(bay, DockStage::UNDOCK_ANIMATION_1);
+		} else {
+			SwitchToStage(bay, DockStage::UNDOCK_END);
+		}
+		break;
+
+	case DockStage::UNDOCK_END:
+		dt.ship->SetAngVelocity(GetAngVelocity());
+		if (m_type->IsSurfaceStation()) {
+			dt.ship->SetThrusterState(1, 1.0); // up
+		} else {
+			dt.ship->SetThrusterState(2, -1.0); // forward
+		}
+		dt.ship->SetFlightState(Ship::FLYING);
+		SwitchToStage(bay, DockStage::LEAVE);
+		break;
+
+	case DockStage::LEAVE:
+		LuaEvent::Queue("onShipUndocked", dt.ship, this);
+		dt.ship = nullptr;
+		dt.stagePos = 0;
+		dt.maxOffset = 0;
+		LockPort(bay, false);
+		m_doorAnimationStep = -0.3; // close door
+		SwitchToStage(bay, DockStage::NONE);
+		break;
+
+	case DockStage::CLEARANCE_GRANTED:
+		m_doorAnimationStep = 0.3; // open door
+		dt.stage = stage;
+		break;
+
+	default:
+		dt.stage = stage;
+		break;
+	}
+}
 
 void SpaceStation::DockingUpdate(const double timeStep)
 {
 	for (Uint32 i = 0; i < m_shipDocking.size(); i++) {
 		shipDocking_t &dt = m_shipDocking[i];
 		if (!dt.ship) continue;
-		if (dt.stage > m_type->NumDockingStages()) {
-			int extraStage = dt.stage - m_type->NumDockingStages();
-			SpaceStationType::positionOrient_t dport;
-			float dist = 0.0;
-			switch (extraStage) {
-			case 1: // Level ship & Reposition eval
-				// PS: This is to avoid to float around if dock
-				// at high time steps on an orbital
-				if (!IsGroundStation()) {
-					dt.fromPos = vector3d(0.0);					  //No offset
-					dt.fromRot = Quaterniond(1.0, 0.0, 0.0, 0.0); //Identity (no rotation)
-					dt.stage += 2;
-					continue;
-				}
-				if (!LevelShip(dt.ship, i, timeStep)) continue;
-				PiVerify(m_type->GetDockAnimPositionOrient(i, m_type->NumDockingStages(), 1.0f, dt.fromPos, dport, dt.ship));
-				dist = (dt.ship->GetPosition() - GetPosition() - GetOrient() * dport.pos).LengthSqr();
-				if (dist > dt.maxOffset) {
-					// Reposition needed
-					dt.fromPos = dt.ship->GetPosition();
-					matrix3x3d padOrient = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis);
-					dt.fromRot = Quaterniond::FromMatrix3x3((GetOrient() * padOrient).Transpose() * dt.ship->GetOrient());
-					dt.stage++;
-					dt.stagePos = 0.0;
-				} else {
-					// Save ship position
-					dt.fromPos = (dt.ship->GetPosition() - GetPosition() - GetOrient() * dport.pos) * GetOrient();
-					matrix3x3d padOrient = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis);
-					dt.fromRot = Quaterniond::FromMatrix3x3((GetOrient() * padOrient).Transpose() * dt.ship->GetOrient());
-					dt.stage += 2;
-				}
-				continue;
-			case 2: // Reposition stage
-				dt.stagePos += timeStep / 2.0;
-				if (dt.stagePos >= 1.0) {
-					dt.stage++;
-					dt.fromPos = vector3d(0.0);					  //No offset
-					dt.fromRot = Quaterniond(1.0, 0.0, 0.0, 0.0); //Identity (no rotation)
-				}
-				continue;
-			case 3: // Just docked
-				dt.ship->SetDockedWith(this, i);
-				LuaEvent::Queue("onShipDocked", dt.ship, this);
-				if (dt.fromPos.LengthSqr() > 0.5) LuaEvent::Queue("onShipBadDocked", dt.ship, this);
-				LockPort(i, false);
-				m_doorAnimationStep = -0.3; // close door
-				dt.stage++;
-				continue;
-			case 4: // Docked
-			default: continue;
-			}
-		}
 
-		double stageDuration = (dt.stage > 0 ?
-				  m_type->GetDockAnimStageDuration(dt.stage - 1) :
-				  m_type->GetUndockAnimStageDuration(abs(dt.stage) - 1));
-		dt.stagePos += timeStep / stageDuration;
+		switch (dt.stage) {
 
-		if (dt.stage == 1) {
-			// SPECIAL stage! Docking granted but waiting for ship to dock
+		case DockStage::LEVELING: // aligning the ship with the plane of the pad
+			if (!LevelShip(dt.ship, i, timeStep)) continue;
+			SwitchToStage(i, DockStage::REPOSITION);
+			continue;
 
-			m_doorAnimationStep = 0.3; // open door
-
-			if (dt.stagePos >= 1.0) {
-				LuaEvent::Queue("onDockingClearanceExpired", this, dt.ship);
-				dt.ship = 0;
-				dt.stage = 0;
-				m_doorAnimationStep = -0.3; // close door
+		case DockStage::REPOSITION:
+			// moving the ship if it is displaced too much
+			// until it is not displaced too much
+			// the ship should already be correctly aligned with the wheels with the pad
+			if (dt.fromPos.LengthSqr() > dt.maxOffset) {
+				const float MOVE_PER_FRAME = 0.1; // meter per frame
+				// with perfect alignmend fromPos is zero
+				dt.fromPos -= dt.fromPos.Normalized() * MOVE_PER_FRAME;
+			} else {
+				SwitchToStage(i, DockStage::JUST_DOCK);
 			}
 			continue;
+
+		case DockStage::DOCKED:
+			continue;
+
+		case DockStage::CLEARANCE_GRANTED: // waiting for collision
+			if (dt.stagePos >= 1.0) {
+				LuaEvent::Queue("onDockingClearanceExpired", this, dt.ship);
+				dt.ship = nullptr;
+				m_doorAnimationStep = -0.3; // close door
+				SwitchToStage(i, DockStage::NONE);
+			}
+			continue;
+
+		default:
+			break;
 		}
 
+		// by default docking or undocking animation occurs
+
+		// next animation step
+		double stageDuration = SpaceStationType::IsDockStage(dt.stage) ?
+			GetDockAnimStageDuration(i, dt.stage) :
+			GetUndockAnimStageDuration(i, dt.stage);
+		dt.stagePos += timeStep / stageDuration;
+
+		// next animation stage
 		if (dt.stagePos > 1.0) {
-			// use end position of last segment for start position of new segment
-			SpaceStationType::positionOrient_t dport;
-			PiVerify(m_type->GetDockAnimPositionOrient(i, dt.stage, 1.0f, dt.fromPos, dport, dt.ship));
-			matrix3x3d fromRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis);
-			dt.fromRot = Quaterniond::FromMatrix3x3(fromRot);
-			dt.fromPos = dport.pos;
+
+			// overrun due to too much time acceleration?
+			if (dt.stagePos > 1.05) {
+				dt.stagePos = 1.0;
+				PositionDockingShip(dt.ship, i);
+			}
 
 			// transition between docking stages
 			dt.stagePos = 0;
-			if (dt.stage >= 0)
-				dt.stage++;
-			else
-				dt.stage--;
-		}
-
-		if (dt.stage < -m_type->ShipLaunchStage() && dt.ship->GetFlightState() != Ship::FLYING) {
-			// launch ship
-			dt.ship->SetFlightState(Ship::FLYING);
-			dt.ship->SetAngVelocity(GetAngVelocity());
-			if (m_type->IsSurfaceStation()) {
-				if(!dt.ship->ManualDocking()) {
-					dt.ship->SetThrusterState(1, 1.0); // up
-				} else {
-					// only the player can launch without autopilot
-					auto player = static_cast<Player*>(dt.ship);
-					player->DoFixspeedTakeoff();
-				}
+			if (dt.stage == m_type->LastDockStage()) {
+				// end dock animation
+				SwitchToStage(i, DockStage::TOUCHDOWN);
+				continue;
+			} else if (dt.stage == m_type->LastUndockStage()) {
+				// end undock animation
+				SwitchToStage(i, DockStage::UNDOCK_END);
+				continue;
 			} else {
-				dt.ship->SetThrusterState(2, -1.0); // forward
+				dt.fromPos = (dt.ship->GetPosition() - GetPosition()) * GetOrient();
+				dt.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * dt.ship->GetOrient());
+				// continue dock or undock animation
+				SwitchToStage(i, SpaceStationType::NextAnimStage(dt.stage));
+				continue;
 			}
-			LuaEvent::Queue("onShipUndocked", dt.ship, this);
-		}
-		if (dt.stage < -m_type->NumUndockStages()) {
-			// undock animation finished, clear port
-			dt.stage = 0;
-			dt.ship = nullptr;
-			dt.stagePos = 0;
-			dt.maxOffset = 0;
-			LockPort(i, false);
-			m_doorAnimationStep = -0.3; // close door
 		}
 	}
 
@@ -600,20 +639,15 @@ void SpaceStation::DockingUpdate(const double timeStep)
 		m_doorAnimation->SetProgress(m_doorAnimationState);
 }
 
-bool SpaceStation::LevelShip(Ship *ship, int port, const float timeStep) const
+bool SpaceStation::LevelShip(Ship *ship, int bay, const float timeStep)
 {
-	const shipDocking_t &dt = m_shipDocking[port];
-	SpaceStationType::positionOrient_t dport;
-	PiVerify(m_type->GetDockAnimPositionOrient(port, dt.stage, dt.stagePos, dt.fromPos, dport, ship));
-	matrix3x3d shipOrient = ship->GetOrient();
-	vector3d dockingNormal = GetOrient() * dport.yaxis;
+	shipDocking_t &dt = m_shipDocking[bay];
 
-	const vector3d &shipPos = ship->GetPosition();
-
-	vector3d dist = (shipPos - GetPosition()) * GetOrient() - dport.pos;
+	auto shipOrient = dt.fromRot.ToMatrix3x3<double>();
+	vector3d dist = dt.fromPos;
+	vector3d dockingNormal(0.0, 1.0, 0.0);
 
 	double cosUp = dockingNormal.Dot(shipOrient.VectorY());
-	ship->ClearThrusterState();
 	if (cosUp < 0.999999) {
 		// need level ship
 		double angle;
@@ -623,56 +657,62 @@ bool SpaceStation::LevelShip(Ship *ship, int port, const float timeStep) const
 			angle = -acos(cosUp);
 		vector3d rotAxis = dockingNormal.Cross(shipOrient.VectorY());
 		rotAxis = rotAxis.NormalizedSafe();
-		shipOrient = matrix3x3d::Rotate(angle, rotAxis) * shipOrient;
-		ship->SetOrient(shipOrient);
+
+		Quaterniond rot(angle, rotAxis);
+		dt.fromRot = (rot * dt.fromRot).Normalized();
 	}
 	if (fabs(dist.y) > 0.01) {
-		vector3d inc(0.0, -dist.y, 0.0);
-		inc = GetOrient() * inc;
-		ship->SetPosition(shipPos + inc);
+		dt.fromPos.y = 0.0;
 	}
 	return (cosUp >= 0.999999) && (fabs(dist.y) < 0.01);
 }
 
-void SpaceStation::PositionDockingShip(Ship *ship, int port) const
+void SpaceStation::PositionDockingShip(Ship *ship, int bay) const
 {
-	const shipDocking_t &dt = m_shipDocking[port];
-	SpaceStationType::positionOrient_t dport;
-	PiVerify(m_type->GetDockAnimPositionOrient(port, dt.stage, dt.stagePos, dt.fromPos, dport, ship));
-	if (dt.stage > m_type->NumDockingStages()) {
-		if (dt.stage == m_type->NumDockingStages() + 1) {
-			// Leveling
-			return;
-		} else if (dt.stage == m_type->NumDockingStages() + 2) {
-			// Repositioning
-			vector3d wantPos = GetPosition() + GetOrient() * dport.pos;
-			ship->SetPosition(dt.fromPos - (dt.fromPos - wantPos) * dt.stagePos);
-		}
-	} else {
-		ship->SetPosition(GetPosition() + GetOrient() * dport.pos);
+	const shipDocking_t &dt = m_shipDocking[bay];
+	DockStage pStage = m_type->PivotStage(dt.stage);
+	// the position of the ship at this stage is not controlled by the station
+	if (pStage == DockStage::NONE) return;
+	if (pStage == DockStage::MANUAL) {
+		// at these stages the ship has already touched the pad,
+		// so it is positioned based on dt.fromPos
+		PositionDockedShip(ship, bay);
+		return;
 	}
-	matrix3x3d wantRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis);
+
+	auto stageTrans = matrix4x4d(m_type->GetStageTransform(bay, pStage));
+
+	// the last stage of the docking animation should take into account the
+	// displacement of the center of the ship
+	if (dt.stage == m_type->LastDockStage()) {
+		stageTrans.Translate(0.0, -dt.ship->GetLandingPosOffset(), 0.0);
+	}
+
+	float ratio = pStage == DockStage::DOCK_ANIMATION_1 ?
+		AnimationCurves::  OutSineEasing(dt.stagePos):
+		AnimationCurves::InOutSineEasing(dt.stagePos);
+
+	vector3d interPos = MathUtil::mix<vector3d, double>(dt.fromPos, stageTrans.GetTranslate(), ratio);
+
+	ship->SetPosition(GetPosition() + GetOrient() * interPos);
 	// use quaternion spherical linear interpolation to do
 	// rotation smoothly
-	Quaterniond wantQuat = Quaterniond::FromMatrix3x3(wantRot);
-	Quaterniond q = Quaterniond::Nlerp(dt.fromRot, wantQuat, dt.stagePos);
-	wantRot = q.ToMatrix3x3<double>();
-	ship->SetOrient(GetOrient() * wantRot);
+	Quaterniond wantQuat = Quaterniond::FromMatrix3x3(stageTrans.GetOrient());
+	// use Slerp so that the turn takes the smallest path
+	Quaterniond q = Quaterniond::Slerp(dt.fromRot, wantQuat, AnimationCurves::InOutSineEasing(dt.stagePos));
+	ship->SetOrient(GetOrient() * q.ToMatrix3x3<double>());
 }
 
-void SpaceStation::PositionDockedShip(Ship *ship, int port) const
+void SpaceStation::PositionDockedShip(Ship *ship, int bay) const
 {
-	const shipDocking_t &dt = m_shipDocking[port];
-	SpaceStationType::positionOrient_t dport;
-	PiVerify(m_type->GetDockAnimPositionOrient(port, dt.stage, dt.stagePos, dt.fromPos, dport, ship));
-	assert(dt.ship == ship);
+	const shipDocking_t &dt = m_shipDocking[bay];
+	// pad placement in the world:
+	auto padTrans = GetBayTransform(bay);
+	// ship center height
+	padTrans.Translate(0.0, -ship->GetLandingPosOffset(), 0.0);
 
-	ship->SetPosition(GetPosition() + GetOrient() * (dport.pos + dt.fromPos));
-	// Note: ship bounding box is used to generate dport.pos
-	Quaterniond dportQ = Quaterniond::FromMatrix3x3(matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis));
-	dportQ = dportQ * dt.fromRot;
-	matrix3x3d shipRot = dportQ.ToMatrix3x3<double>();
-	ship->SetOrient(GetOrient() * shipRot);
+	ship->SetPosition(padTrans * dt.fromPos);
+	ship->SetOrient(padTrans.GetOrient() * dt.fromRot.ToMatrix3x3<double>());
 }
 
 void SpaceStation::StaticUpdate(const float timeStep)
@@ -698,20 +738,17 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 			m_navLights->SetColor(i + 1, NavLights::NAVLIGHT_OFF);
 			continue;
 		}
-		if (dt.stage == 1) { // reserved
+		if (SpaceStationType::IsDockStage(dt.stage)) {
 			m_navLights->SetColor(i + 1, NavLights::NAVLIGHT_GREEN);
 			m_navLights->SetMask(i + 1, 0x33); // 00110011 on two off two
-			continue;
 		}
-
-		if (dt.stage == -1) { // undocking anim
+		if (SpaceStationType::IsUndockStage(dt.stage)) { // undocking anim
 			m_navLights->SetColor(i + 1, NavLights::NAVLIGHT_YELLOW);
 		}
-		if (dt.stage == m_type->NumDockingStages() + 3) { // just docked
+		if (dt.stage == DockStage::JUST_DOCK) { // just docked
 			m_navLights->SetColor(i + 1, NavLights::NAVLIGHT_BLUE);
 			m_navLights->SetMask(i + 1, 0xf6); // 11110110
 		}
-
 		if (dt.ship->GetFlightState() == Ship::DOCKED) { //docked
 			PositionDockedShip(dt.ship, i);
 		} else if (dt.ship->GetFlightState() == Ship::DOCKING || dt.ship->GetFlightState() == Ship::UNDOCKING) {
@@ -804,15 +841,9 @@ vector3d SpaceStation::GetTargetIndicatorPosition() const
 	// return the next waypoint if permission has been granted for player,
 	// and the docking point's position once the docking anim starts
 	for (Uint32 i = 0; i < m_shipDocking.size(); i++) {
-		if (i >= m_type->NumDockingPorts()) break;
-		if ((m_shipDocking[i].ship == Pi::player) && (m_shipDocking[i].stage > 0) && (m_shipDocking[i].stage != m_type->NumDockingStages() + 1)) { // last part is "not currently docked"
-
-			SpaceStationType::positionOrient_t dport;
-			if (!m_type->GetShipApproachWaypoints(i, m_shipDocking[i].stage + 1, dport))
-				PiVerify(m_type->GetDockAnimPositionOrient(i, m_type->NumDockingStages(),
-					1.0f, vector3d(0.0), dport, m_shipDocking[i].ship));
-
-			return dport.pos;
+		if ((m_shipDocking[i].ship == Pi::player) &&
+				(m_shipDocking[i].stage == DockStage::CLEARANCE_GRANTED)) { // last part is "not currently docked" ????
+			return vector3d(m_type->GetStageTransform(i, DockStage::DOCKED).GetTranslate());
 		}
 	}
 	return Body::GetTargetIndicatorPosition();
@@ -842,3 +873,33 @@ void SpaceStation::LockPort(const int bay, const bool lockIt)
 		}
 	}
 }
+
+matrix4x4d SpaceStation::GetBayTransform(Uint32 bay) const {
+	matrix4x4d bayTrans = matrix4x4d::Translation(GetPosition()) * GetOrient();
+	bayTrans = bayTrans * matrix4x4d(m_type->GetStageTransform(bay, DockStage::DOCKED));
+	return bayTrans;
+}
+
+double SpaceStation::GetDockAnimStageDuration(int bay, DockStage stage) const
+{
+	if (stage == DockStage::NONE) return 0.0;
+	if (m_type->IsSurfaceStation()) return 0.0;
+	auto dt = m_shipDocking[bay];
+	vector3f p1 = vector3f(dt.fromPos);
+	vector3f p2 = m_type->GetStageTransform(bay, stage).GetTranslate();
+	float stageLength = (p2 - p1).Length();
+	float averageVelocity = stage == m_type->LastDockStage() ? 10 : 30; // m/s
+	return stageLength / averageVelocity;
+}
+
+double SpaceStation::GetUndockAnimStageDuration(int bay, DockStage stage) const
+{
+	if (m_type->IsSurfaceStation()) return 0.0;
+	auto dt = m_shipDocking[bay];
+	vector3f p1 = vector3f(dt.fromPos);
+	vector3f p2 = m_type->GetStageTransform(bay, stage).GetTranslate();
+	float stageLength = (p2 - p1).Length();
+	float averageVelocity = 10; // m/s
+	return stageLength / averageVelocity;
+}
+
