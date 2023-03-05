@@ -69,7 +69,7 @@
   },
   "FRUIT_AND_VEG_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Bien qu'il y ait beaucoup d'alternatives synthétiques, les fruits et légumes réels sont toujours une part importante de notre cuisine et de notre nuitrition. Ils sont cultivés sur des mondes agricoles ou bien dans les modules de support vitaux des habitats et sont exportés vers les systèmes dans lesquels la culture des plantes n'est pas possible."
+    "message": "Bien qu'il y ait beaucoup d'alternatives synthétiques, les fruits et légumes réels sont toujours une part importante de notre cuisine et de notre nutrition. Ils sont cultivés sur des mondes agricoles ou bien dans les modules de support vitaux des habitats et sont exportés vers les systèmes dans lesquels la culture des plantes n'est pas possible."
   },
   "GRAIN": {
     "description": "",
@@ -137,7 +137,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Alliages Mettaliques"
+    "message": "Alliages métalliques"
   },
   "METAL_ALLOYS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
@@ -221,7 +221,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "Sous-produit de la civilisation, consistant en déchéts industriels, ordures ménagères et équipements usagés. La plupart des déchets sont reconditionnés, recyclés ou envoyés vers des ports spatiaux pour transport vers d'autres mondes. Déposer des ordures sur des systèmes habités est presque systématiquement illégal. Les ports spatiaux font habituellement payer tout dépôt de déchets, mais vous payeront si vous décidiez de les enlever."
+    "message": "Sous-produit de la civilisation, consistant en déchets industriels, ordures ménagères et équipements usagés. La plupart des déchets sont reconditionnés, recyclés ou envoyés vers des ports spatiaux pour transport vers d'autres mondes. Déposer des ordures sur des systèmes habités est presque systématiquement illégal. Les ports spatiaux font habituellement payer tout dépôt de déchets, mais vous payeront si vous décidiez de les enlever."
   },
   "SLAVES": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Etoffes"
+    "message": "Étoffes"
   },
   "TEXTILES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",

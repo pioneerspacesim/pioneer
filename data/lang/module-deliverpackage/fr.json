@@ -69,7 +69,7 @@
   },
   "FLAVOUR_0_INTROTEXT": {
     "description": "",
-    "message": "Salut , Je suis {name}. Je vous payerai {cash} si vous livrez ce petit paquet a  {starport} dans le systeme  {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
+    "message": "Salut , Je suis {name}. Je vous payerai {cash} si vous livrez ce petit paquet a {starport} dans le système  {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
   },
   "FLAVOUR_0_SUCCESSMSG": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Bonjour. je suis {name}. Je suis pret a payer {cash} un vaisseau pour emmener un paquet vers  {starport} dans le systeme {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
+    "message": "Bonjour. je suis {name}. Je suis prêt a payer {cash} un vaisseau pour emmener un paquet vers  {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Bonjour. je suis {name}. Je suis pret a payer {cash} un vaisseau pour tranporter un colis vers  {starport} dans le systeme {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
+    "message": "Bonjour. je suis {name}. Je suis prêt a payer {cash} un vaisseau pour transporter un colis vers  {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
@@ -141,7 +141,7 @@
   },
   "FLAVOUR_3_INTROTEXT": {
     "description": "",
-    "message": "Bonjour. je suis {name}. Je suis pret a payer {cash} un vaisseau pour tranporter un colis vers  {starport} dans le systeme {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
+    "message": "Bonjour. Je suis {name}. Je suis prêt a payer {cash} un vaisseau pour transporter un colis vers  {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
   },
   "FLAVOUR_3_SUCCESSMSG": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "FLAVOUR_4_INTROTEXT": {
     "description": "",
-    "message": "Salutations. Cci est un message automatisé de Bedford &  {name} services postaux. nous payons {cash} pour une course vers {starport} dans le systeme {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al. "
+    "message": "Salutations. Ceci est un message automatisé de Bedford &  {name} services postaux. nous payons {cash} pour une course vers {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al. "
   },
   "FLAVOUR_4_SUCCESSMSG": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Ravi de vous rencontrer, je suis {name} et je suis prêt a payer {cash} a quelqu'un possèdant un vaisseau pour m'aider a transporter des affaires vers {starport}. Pas d'urgence, ce sont juste des restes suite a un déménagement."
+    "message": "Ravi de vous rencontrer, je suis {name} et je suis prêt à payer {cash} à quelqu'un possédant un vaisseau pour m'aider à transporter des affaires vers {starport}. Pas d'urgence, ce sont juste des restes suite à un déménagement."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "IT_MUST_BE_DELIVERED_BY": {
     "description": "",
-    "message": "Ce doit etre livré avant"
+    "message": "Ce doit être livré avant "
   },
   "I_HIGHLY_DOUBT_IT": {
     "description": "",
@@ -369,7 +369,7 @@
   },
   "SYSTEM": {
     "description": "",
-    "message": "Systeme:"
+    "message": "Système:"
   },
   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN": {
     "description": "",

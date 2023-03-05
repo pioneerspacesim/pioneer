@@ -9,11 +9,11 @@
   },
   "ADTITLE_2": {
     "description": "",
-    "message": "ENTREPOT DE COMMERCE"
+    "message": "ENTREPÔT DE COMMERCE"
   },
   "ADTITLE_3": {
     "description": "",
-    "message": "ECHANGE DE MARCHANDISES"
+    "message": "ÉCHANGE DE MARCHANDISES"
   },
   "GOODS_TRADER_0": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "SLOGAN_5": {
     "description": "",
-    "message": "Le marchant de confiance."
+    "message": "Le marchand de confiance."
   },
   "SLOGAN_6": {
     "description": "",
@@ -69,6 +69,6 @@
   },
   "WELCOME_TO": {
     "description": "",
-    "message": "Bienvenue à "
+    "message": "Bienvenue "
   }
 }

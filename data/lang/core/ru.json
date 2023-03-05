@@ -33,11 +33,11 @@
   },
   "AN_AR_ATMOSPHERE": {
     "description": "",
-    "message": "с аргоновой атмосферой"
+    "message": "аргоновой атмосферой"
   },
   "AN_O2_ATMOSPHERE": {
     "description": "",
-    "message": "с кислородной атмосферой"
+    "message": "кислородной атмосферой"
   },
   "APOAPSIS_DISTANCE": {
     "description": "",
@@ -89,15 +89,15 @@
   },
   "A_CH4_ATMOSPHERE": {
     "description": "",
-    "message": "с метановой атмосферой"
+    "message": "метановой атмосферой"
   },
   "A_CO2_ATMOSPHERE": {
     "description": "",
-    "message": "с углекислотной атмосферой"
+    "message": "углекислотной атмосферой"
   },
   "A_CO_ATMOSPHERE": {
     "description": "",
-    "message": "с атмосферой из окиси углерода"
+    "message": "атмосферой из окиси углерода"
   },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
@@ -105,19 +105,19 @@
   },
   "A_HE_ATMOSPHERE": {
     "description": "",
-    "message": "с гелиевой атмосферой"
+    "message": "гелиевой атмосферой"
   },
   "A_H_ATMOSPHERE": {
     "description": "",
-    "message": "с водородной атмосферой"
+    "message": "водородной атмосферой"
   },
   "A_N_ATMOSPHERE": {
     "description": "",
-    "message": "с азотной атмосферой"
+    "message": "азотной атмосферой"
   },
   "A_S_ATMOSPHERE": {
     "description": "",
-    "message": "с серной атмосферой"
+    "message": "серной атмосферой"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -801,7 +801,7 @@
   },
   "META": {
     "description": "'Meta' key on keyboard",
-    "message": "Meta"
+    "message": "Мета"
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -1013,7 +1013,7 @@
   },
   "NUMBER_LY": {
     "description": "",
-    "message": "%distance{f.2} СвЛ"
+    "message": "%distance{f.2} св.л."
   },
   "NUMBER_TONNES": {
     "description": "",

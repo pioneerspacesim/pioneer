@@ -353,7 +353,7 @@
   },
   "SHOTS_PER_MINUTE": {
     "description": "Tooltip explaining weapon fire rate / RPM counter",
-    "message": "Cadence de tir / Minute"
+    "message": "Cadence de tir / minute"
   },
   "SMALL_PLASMA_ACCEL": {
     "description": "",

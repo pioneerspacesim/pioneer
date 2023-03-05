@@ -17,7 +17,7 @@
   },
   "CREW_FOR_HIRE": {
     "description": "",
-    "message": "Equipage pour embauche"
+    "message": "Équipage pour embauche"
   },
   "CREW_FOR_HIRE_DESC": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "MINIMAL_TIME_SERVED_ABOARD_SHIP": {
     "description": "",
-    "message": "Temps minimal servi à bord"
+    "message": "Temps minimal servi à bord d'un vaisseau"
   },
   "NO_CREW_AVAILABLE": {
     "description": "",

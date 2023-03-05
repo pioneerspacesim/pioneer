@@ -45,7 +45,7 @@
   },
   "FLAVOUR_1_YESPLEASE": {
     "description": "",
-    "message": "Révisez ma Propulsion"
+    "message": "Révisez ma propulsion"
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
     "description": "",
-    "message": "J'ai  réparé l'Hyperpropulsion avant qu'elle ne casse."
+    "message": "J'ai  réparé l'hyperpropulsion avant qu'elle ne casse."
   },
   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION": {
     "description": "",
@@ -169,6 +169,6 @@
   },
   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN": {
     "description": "",
-    "message": "Vous avez réparé l'Hyperpropulsion avant qu'elle ne casse."
+    "message": "Vous avez réparé l'hyperpropulsion avant qu'elle ne casse."
   }
 }

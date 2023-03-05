@@ -33,7 +33,7 @@
   },
   "FLAVOUR_2_MESSAGE": {
     "description": "",
-    "message": "Svp choisissez le montant de votre don pour L'Aide aux Orphelins de Guerre, et mettez fin a la souffrance des enfants a traver la galaxie."
+    "message": "Svp choisissez le montant de votre don pour L'Aide aux Orphelins de Guerre, et mettez fin à la souffrance des enfants à travers la galaxie."
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -85,11 +85,11 @@
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "ONT-ILS VOTRE SUPPORT ?"
+    "message": "ONT-ILS VOTRE SOUTIEN ?"
   },
   "FLAVOUR_7_DESC": {
     "description": "",
-    "message": "Supportez les vétérans de {POLICE}"
+    "message": "Soutenez les vétérans de {POLICE}"
   },
   "FLAVOUR_7_MESSAGE": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME": {
     "description": "",
-    "message": "Merci, touts les dons sont importants"
+    "message": "Merci, tous les dons sont importants."
   },
   "WOW_THAT_WAS_VERY_GENEROUS": {
     "description": "",

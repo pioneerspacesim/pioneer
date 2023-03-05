@@ -185,7 +185,7 @@
   },
   "FLAVOUR_11_FAILUREMSG": {
     "description": "",
-    "message": "Je vais perdre mon boulot a cause de votre incompétence. Je vais avoir besoin de cet argent plus que vous !"
+    "message": "Je vais perdre mon boulot à cause de votre incompétence. Je vais avoir besoin de cet argent plus que vous !"
   },
   "FLAVOUR_11_HOWMANY": {
     "description": "",
@@ -589,7 +589,7 @@
   },
   "I_MUST_BE_THERE_BEFORE": {
     "description": "",
-    "message": "Je dois être arrivé avant"
+    "message": "Je dois être arrivé avant "
   },
   "OK_AGREED": {
     "description": "",
@@ -625,7 +625,7 @@
   },
   "WE_WANT_TO_BE_THERE_BEFORE": {
     "description": "",
-    "message": "Nous voulons être arrivés avant"
+    "message": "Nous voulons être arrivés avant "
   },
   "WHY_SO_MUCH_MONEY": {
     "description": "",

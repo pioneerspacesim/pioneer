@@ -1965,7 +1965,7 @@
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
-    "message": "Судоремонт и покрасочный цех"
+    "message": "Судоремонтный и покрасочный цех"
   },
   "SHIP_TYPE": {
     "description": "",

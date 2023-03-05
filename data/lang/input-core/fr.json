@@ -117,7 +117,7 @@
   },
   "BIND_MAP_VIEW_ZOOM": {
     "description": "Axis binding",
-    "message": "Zoom Carte"
+    "message": "Zoom carte"
   },
   "BIND_MAP_WARP_TO_CURRENT_SYSTEM": {
     "description": "Descriptive name for the MapWarpToCurrentSystem action.",
@@ -185,7 +185,7 @@
   },
   "BIND_TOGGLE_LUA_CONSOLE": {
     "description": "Descriptive name for the ToggleLuaConsole action.",
-    "message": "Console LUA on/off"
+    "message": "Activer/désactiver console Lua"
   },
   "BIND_TOGGLE_ROTATION_DAMPING": {
     "description": "Descriptive name for the ToggleRotationDamping action.",

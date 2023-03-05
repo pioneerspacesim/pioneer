@@ -25,11 +25,11 @@
   },
   "FLAVOUR_1_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "équipement ({equipment}) pratiquement pas utilisé, à un prix abordable!"
+    "message": "Équipement ({equipment}) pratiquement pas utilisé, à un prix abordable!"
   },
   "FLAVOUR_1_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VEND EQUIPEMENT"
+    "message": "VEND ÉQUIPEMENT"
   },
   "FLAVOUR_2_BODY": {
     "description": "",
@@ -41,7 +41,7 @@
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VEND EQUIPEMENT"
+    "message": "VEND ÉQUIPEMENT"
   },
   "FLAVOUR_3_BODY": {
     "description": "",
@@ -77,7 +77,7 @@
   },
   "FLAVOUR_5_TITLE": {
     "description": "Selling second hand ship equipment",
-    "message": "VEND EQUIPEMENT"
+    "message": "VEND ÉQUIPEMENT"
   },
   "HAS_BEEN_FITTED_TO_YOUR_SHIP": {
     "description": "",

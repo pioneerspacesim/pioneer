@@ -41,11 +41,11 @@
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-    "message": "Boucliers Thermiques"
+    "message": "Boucliers thermiques"
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Limite Pression Atmos."
+    "message": "Limite pression atmos."
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -165,7 +165,7 @@
   },
   "CIRCULAR_ORBIT_SPEED": {
     "description": "",
-    "message": "Vitesse Orbitale"
+    "message": "Vitesse orbitale"
   },
   "CITY_DETAIL_LEVEL": {
     "description": "Game graphics option",
@@ -209,7 +209,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Analyse du marché pour le produit:"
+    "message": "Analyse du commerce de marchandises de:"
   },
   "COMPETENT": {
     "description": "Combat rating",
@@ -385,7 +385,7 @@
   },
   "DUE": {
     "description": "mission deadline date",
-    "message": "Dois"
+    "message": "Échéance"
   },
   "DUMPING": {
     "description": "The illegal act of dumping waste",
@@ -397,7 +397,7 @@
   },
   "ECONOMY_TRADE": {
     "description": "",
-    "message": "Economies & Commerce"
+    "message": "Économie et commerce"
   },
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
@@ -453,7 +453,7 @@
   },
   "EQUIPMENT": {
     "description": "",
-    "message": "Equipement"
+    "message": "Équipement"
   },
   "EQUIPMENT_MARKET": {
     "description": "",
@@ -537,7 +537,7 @@
   },
   "FEATURE_SPECIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Espèce"
+    "message": "Aspect"
   },
   "FEMALE": {
     "description": "",
@@ -613,7 +613,7 @@
   },
   "FRONT_WEAPON": {
     "description": "",
-    "message": "Arme Avant"
+    "message": "Arme avant"
   },
   "FUEL": {
     "description": "",
@@ -633,7 +633,7 @@
   },
   "FULL_SCREEN": {
     "description": "",
-    "message": "Plein Ecran"
+    "message": "Plein écran"
   },
   "GAME_TIME": {
     "description": "",
@@ -641,7 +641,7 @@
   },
   "GENERAL_CREW": {
     "description": "",
-    "message": "Equipage général"
+    "message": "Équipage général"
   },
   "GIVE_ORDERS_TO_CREW": {
     "description": "",
@@ -761,7 +761,7 @@
   },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
-    "message": "Equipement"
+    "message": "Équipement"
   },
   "HUD_BUTTON_EXTERNAL_VIEW": {
     "description": "Tooltip: External camera view",
@@ -981,7 +981,7 @@
   },
   "HUD_HYPERSPACING_TO_N_IN_N_SECONDS": {
     "description": "",
-    "message": "Départ en hyper-espace vers {destination} dans {countdown} seconds"
+    "message": "Départ en hyper-espace vers {destination} dans {countdown} secondes"
   },
   "HUD_INDICATOR_AWAY_FROM_FRAME": {
     "description": "Indicator: Away from the current frame.",
@@ -1197,7 +1197,7 @@
   },
   "KILLS": {
     "description": "",
-    "message": "Kills:"
+    "message": "Tués:"
   },
   "LANGUAGE": {
     "description": "",
@@ -1205,7 +1205,7 @@
   },
   "LANGUAGE_RESTART_GAME_TO_APPLY": {
     "description": "",
-    "message": "Langue (relancer pour appliquer)"
+    "message": "Langue (redémarrer pour appliquer)"
   },
   "LAUNCH_PERMISSION_DENIED_BUSY": {
     "description": "",
@@ -1253,7 +1253,7 @@
   },
   "LIGHT_PASSENGER_SHUTTLE": {
     "description": "",
-    "message": "Navette de passagers léger"
+    "message": "Navette de passagers légère"
   },
   "LIGHT_PASSENGER_TRANSPORT": {
     "description": "",
@@ -1349,7 +1349,7 @@
   },
   "MAXIMUM_CREW": {
     "description": "",
-    "message": "Equipage maximum"
+    "message": "Équipage maximum"
   },
   "MEDIUM": {
     "description": "Game settings option: graphics resolution",
@@ -1381,7 +1381,7 @@
   },
   "METAL_ALLOYS": {
     "description": "",
-    "message": "Alliages Mettaliques"
+    "message": "Alliages métalliques"
   },
   "MILITARY": {
     "description": "",
@@ -1393,7 +1393,7 @@
   },
   "MINIMUM_CREW": {
     "description": "",
-    "message": "Equipage mini."
+    "message": "Équipage minimum"
   },
   "MINOR_EXPORT": {
     "description": "For displaying commodity information",
@@ -1665,7 +1665,7 @@
   },
   "PERSONAL_INFORMATION": {
     "description": "",
-    "message": "Info. Perso."
+    "message": "Informations personnelles"
   },
   "PILOT": {
     "description": "",
@@ -1713,7 +1713,7 @@
   },
   "PRESS_A_KEY_OR_CONTROLLER_BUTTON": {
     "description": "",
-    "message": "Appuyez sur une touche ou un bouton du controlleur ou ECHAP pour effacer"
+    "message": "Appuyez sur une touche ou un bouton du contrôleur ou échap pour effacer"
   },
   "PREVIOUS_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
@@ -1841,7 +1841,7 @@
   },
   "REVERSE_ACCEL_FULL": {
     "description": "",
-    "message": "Décélération (Complète)"
+    "message": "Décélération (complète)"
   },
   "REWARD": {
     "description": "",
@@ -1985,7 +1985,7 @@
   },
   "START_AT_BARNARDS_STAR_DESC": {
     "description": "",
-    "message": "Départ difficile du pénitentier spatial de l'administration du système \"Resting\"."
+    "message": "Départ difficile depuis le pénitencier spatial System Administration Resting."
   },
   "START_AT_MARS": {
     "description": "",
@@ -2001,7 +2001,7 @@
   },
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
-    "message": "Départ modérement facile depuis Itzalean sur New Hope dans le système Epsilon Eridani."
+    "message": "Départ modérément facile depuis Itzalean sur New Hope dans le système Epsilon Eridani."
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2053,7 +2053,7 @@
   },
   "STATUS": {
     "description": "",
-    "message": "Status"
+    "message": "Statut"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
@@ -2069,7 +2069,7 @@
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
-    "message": "La compression de texture libère de la mémoire de la carte graphique car les textures prennent moins de place, ce qui est probablement ce que vous voulez, en échange de leur compression (et donc d'un peu de performance) pendant le départ du jeu."
+    "message": "La compression de texture libère de la mémoire de la carte graphique car les textures prennent moins de place, ce qui est probablement ce que vous voulez, en échange de leur compression (et donc d'un peu de performance) pendant le démarrage du jeu."
   },
   "THANKS_AND_REMEMBER_TO_BUY_FUEL": {
     "description": "",
@@ -2201,7 +2201,7 @@
   },
   "VERY_LOW": {
     "description": "Game settings option: graphic resolution",
-    "message": "Très lent"
+    "message": "Très bas"
   },
   "VICINITY_OF": {
     "description": "",
@@ -2213,11 +2213,11 @@
   },
   "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY": {
     "description": "",
-    "message": "Config. vidéo (relancer pour appliquer)"
+    "message": "Configuration vidéo (redémarrer pour appliquer)"
   },
   "VIDEO_RESOLUTION": {
     "description": "",
-    "message": "Résolution Vidéo"
+    "message": "Résolution vidéo"
   },
   "VIDEO_RESOLUTION_DESC": {
     "description": "Tooltip for video mode/resultion setting",

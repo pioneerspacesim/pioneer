@@ -185,7 +185,7 @@
   },
   "FLAVOUR_5_INTROTEXT": {
     "description": "",
-    "message": "Nous voulons que {target} finisse sa carrière dans le systeme {system} pour {cash}."
+    "message": "Nous voulons que {target} finisse sa carrière dans le système {system} pour {cash}."
   },
   "FLAVOUR_5_SUCCESSMSG": {
     "description": "",
@@ -233,7 +233,7 @@
   },
   "SYSTEM": {
     "description": "",
-    "message": "Systeme:"
+    "message": "Système:"
   },
   "TARGET_NAME": {
     "description": "",
@@ -349,6 +349,6 @@
   },
   "X_WILL_BE_LEAVING": {
     "description": "",
-    "message": "{target} quittera {spaceport} dans le systeme {system} ({sectorX}, {sectorY}, {sectorZ}),a une distance de {dist} al, en date du {date}. Le transport sera un modèle {shipname} et sera enregistré sous l'ID {shipregid}."
+    "message": "{target} quittera {spaceport} dans le système {system} ({sectorX}, {sectorY}, {sectorZ}), a une distance de {dist} al, en date du {date}. Le transport sera un modèle {shipname} et sera enregistré sous l'ID {shipregid}."
   }
 }

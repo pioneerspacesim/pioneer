@@ -361,7 +361,7 @@
   },
   "DRAW_OUT_RANGE_LABELS": {
     "description": "",
-    "message": "Def. Systemes distants"
+    "message": "Label des systèmes distants"
   },
   "DRAW_UNINHABITED_LABELS": {
     "description": "",
@@ -597,7 +597,7 @@
   },
   "HYPERSPACE_JUMP_DISABLED": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
-    "message": "Hyperpropulsion desactivée"
+    "message": "Hyperpropulsion désactivée"
   },
   "HYPERSPACE_JUMP_ENGAGE": {
     "description": "Mouse over text for hyperdrive button on ship control panel",
@@ -621,11 +621,11 @@
   },
   "ICE_MOON": {
     "description": "",
-    "message": "\"lune glacée\""
+    "message": "\" lune glacée\""
   },
   "ICE_WORLD": {
     "description": "",
-    "message": "\" Monde glacé\""
+    "message": "\" monde glacé\""
   },
   "ILLEGAL_CURRENT_SYSTEM": {
     "description": "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -677,7 +677,7 @@
   },
   "L4L5_DISPLAY_MODE_TOGGLE": {
     "description": "Either show L4/L5 points or don't",
-    "message": "Afficher/Cacher les points Lagrange L4/L5."
+    "message": "Afficher/cacher les points Lagrange L4/L5."
   },
   "LANDED": {
     "description": "",
@@ -909,11 +909,11 @@
   },
   "MOON_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "\"lune contenant de l'eau liquide\""
+    "message": "\" lune contenant de l'eau liquide\""
   },
   "MOON_WITH_SOME_ICE": {
     "description": "",
-    "message": "\"lune avec un peu de glace\""
+    "message": "\" lune avec un peu de glace\""
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
@@ -1069,7 +1069,7 @@
   },
   "OCEANICMOON": {
     "description": "",
-    "message": "\"lune océanique\""
+    "message": "\" lune océanique\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1081,7 +1081,7 @@
   },
   "ORBITAL_STARPORT": {
     "description": "",
-    "message": "Station Orbitale"
+    "message": "Station orbitale"
   },
   "ORBIT_PLANNER": {
     "description": "",
@@ -1221,11 +1221,11 @@
   },
   "ROCKY_MOON": {
     "description": "",
-    "message": "\"lune rocheuse\""
+    "message": "\" lune rocheuse\""
   },
   "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
     "description": "",
-    "message": "\"lune rocheuse contenant un peu de liquides,\""
+    "message": "\" lune rocheuse contenant un peu de liquides,\""
   },
   "ROCKY_PLANET": {
     "description": "",
@@ -1641,7 +1641,7 @@
   },
   "TEXTILES": {
     "description": "",
-    "message": "Etoffes"
+    "message": "Étoffes"
   },
   "THICK": {
     "description": "",
