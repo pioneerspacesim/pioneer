@@ -315,8 +315,9 @@ void Player::StaticUpdate(const float timeStep)
 	m_atmosJerk = (current_atmosAccel - m_atmosAccel) * Pi::game->GetInvTimeAccelRate();
 	bool playCreak = false;
 
-	// no metal creaking sfx if accel is lower than 30 m s-2 (around 3g)
-	if (m_atmosAccel.Length() > 30 && m_atmosJerk.Length() > 50) {
+	// play creaking sfx if the acceleration along the Y axis (up/down directions) is higher than 1g
+	// and the rate of change of acceleration is more than 2.5 m s-3 
+	if ((abs(m_atmosAccel.Dot(Player::m_interpOrient.VectorY()))) > 10 && abs(m_atmosJerk.Dot(Player::m_interpOrient.VectorY())) > 2.5) {
 		playCreak = true;
 	}
 
@@ -327,7 +328,7 @@ void Player::StaticUpdate(const float timeStep)
 			m_creakSound.VolumeAnimate(creakVol, creakVol, 0.3f, 0.3f);
 		}
 	} else if (m_creakSound.IsPlaying()) {
-		m_creakSound.VolumeAnimate(0.0f, 0.0f, 0.75f, 0.75f);
+		m_creakSound.VolumeAnimate(0.0f, 0.0f, 1.5f, 1.5f);
 		m_creakSound.SetOp(Sound::OP_STOP_AT_TARGET_VOLUME);
 	}
 	m_atmosAccel = current_atmosAccel;
