@@ -93,7 +93,7 @@
   },
   "FLAVOUR_1_INTROTEXT": {
     "description": "",
-    "message": "Bonjour. je suis {name}. Je suis prêt a payer {cash} un vaisseau pour emmener un paquet vers  {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
+    "message": "Bonjour. Je suis {name}. Je suis prêt a payer {cash} un vaisseau pour emmener un paquet vers  {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
   },
   "FLAVOUR_1_SUCCESSMSG": {
     "description": "",
@@ -117,7 +117,7 @@
   },
   "FLAVOUR_2_INTROTEXT": {
     "description": "",
-    "message": "Bonjour. je suis {name}. Je suis prêt a payer {cash} un vaisseau pour transporter un colis vers  {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
+    "message": "Bonjour. Je suis {name}. Je suis prêt a payer {cash} un vaisseau pour transporter un colis vers  {starport} dans le système {system} ({sectorx}, {sectory}, {sectorz}), a une distance de {dist} al."
   },
   "FLAVOUR_2_SUCCESSMSG": {
     "description": "",
