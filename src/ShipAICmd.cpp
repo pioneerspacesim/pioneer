@@ -1203,7 +1203,11 @@ bool AICmdFlyTo::TimeStepUpdate()
 	// then flip the ship so we can use our main thrusters to decelerate
 	if (m_state && !is_zero_exact(sdiff) && sdiff < maxdecel * timestep * 60) head = -head;
 	if (!m_state && decel) sidefactor = -sidefactor;
-	head = head * maxdecel + perpdir * sidefactor;
+
+	// check that head does not become zero length
+	if (maxdecel > 0.001 || abs(sidefactor) > 0.001) {
+		head = head * maxdecel + perpdir * sidefactor;
+	}
 
 	// face appropriate direction
 	if (m_state >= 3) {
