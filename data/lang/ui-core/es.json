@@ -113,7 +113,7 @@
   },
   "CARGO_CAPACITY": {
     "description": "Label to show a ship's total cargo space.",
-    "message": "Cargo Capacity"
+    "message": "Capacidad de Carga"
   },
   "CARGO_SPACE": {
     "description": "",
@@ -321,7 +321,7 @@
   },
   "DEMAND": {
     "description": "Column label for commodity demand at a market.",
-    "message": "Demand"
+    "message": "Demanda"
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
@@ -1157,7 +1157,7 @@
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
-    "message": "Interstellar Trade:"
+    "message": "Comercio Interestelar:"
   },
   "INVERT_MOUSE_Y": {
     "description": "",
@@ -1189,7 +1189,7 @@
   },
   "JETTISON_MODE": {
     "description": "",
-    "message": "Jettison Mode"
+    "message": "Modo Eyección"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1517,11 +1517,11 @@
   },
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
-    "message": "No data available"
+    "message": "Sin datos disponibles"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
-    "message": "NO CARGO"
+    "message": "SIN CARGA"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
@@ -1645,7 +1645,7 @@
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Passenger cabin capacity"
+    "message": "Capacidad de la cabina de pasajeros"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -2065,7 +2065,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech level"
+    "message": "Nivel de tecnología"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2093,7 +2093,7 @@
   },
   "TOGGLE_CARGO_WINDOW": {
     "description": "Label for a button toggling the cargo display window.",
-    "message": "Toggle Cargo Window"
+    "message": "Alternar Ventana de Carga"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
@@ -2145,7 +2145,7 @@
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
-    "message": "At {system}:"
+    "message": "En {system}:"
   },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",

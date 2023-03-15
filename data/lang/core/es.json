@@ -33,11 +33,11 @@
   },
   "AN_AR_ATMOSPHERE": {
     "description": "",
-    "message": "an argon atmosphere"
+    "message": "una atmósfera de argón"
   },
   "AN_O2_ATMOSPHERE": {
     "description": "",
-    "message": "an oxygen atmosphere"
+    "message": "una atmósfera de oxígeno"
   },
   "APOAPSIS_DISTANCE": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "argon atmosphere"
+    "message": "atmósfera de argón"
   },
   "ASTEROID": {
     "description": "",
@@ -89,15 +89,15 @@
   },
   "A_CH4_ATMOSPHERE": {
     "description": "",
-    "message": "a methane atmosphere"
+    "message": "una atmósfera de metano"
   },
   "A_CO2_ATMOSPHERE": {
     "description": "",
-    "message": "a carbon dioxide atmosphere"
+    "message": "una atmósfera de dióxido de carbono"
   },
   "A_CO_ATMOSPHERE": {
     "description": "",
-    "message": "a carbon monoxide atmosphere"
+    "message": "una atmósfera de monóxido de carbono"
   },
   "A_FEW_THOUSAND": {
     "description": "regarding population",
@@ -105,19 +105,19 @@
   },
   "A_HE_ATMOSPHERE": {
     "description": "",
-    "message": "a helium atmosphere"
+    "message": "una atmósfera de helio"
   },
   "A_H_ATMOSPHERE": {
     "description": "",
-    "message": "a hydrogen atmosphere"
+    "message": "una atmósfera de hidrógeno"
   },
   "A_N_ATMOSPHERE": {
     "description": "",
-    "message": "a nitrogen atmosphere"
+    "message": "una atmósfera de nitrógeno"
   },
   "A_S_ATMOSPHERE": {
     "description": "",
-    "message": "a sulfuric atmosphere"
+    "message": "una atmósfera de sulfuro"
   },
   "BATTLE_WEAPONS": {
     "description": "",
@@ -205,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "methane atmosphere"
+    "message": "atmósfera de metano"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "carbon dioxide atmosphere"
+    "message": "atmósfera de dióxido de carbono"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "carbon monoxide atmosphere"
+    "message": "atmósfera de monóxido de carbono"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -373,19 +373,19 @@
   },
   "DWARF_PLANET_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "Dwarf planet containing liquid water"
+    "message": "Planeta enano que contiene agua en estado líquido"
   },
   "DWARF_PLANET_CONTAINING_SOME_LIQUIDS": {
     "description": "",
-    "message": "Dwarf planet containing some liquids,"
+    "message": "Planeta enano que contiene ciertos líquidos,"
   },
   "DWARF_PLANET_MOSTLY_COVERED_IN_ICE": {
     "description": "",
-    "message": "Dwarf planet, mostly covered in ice"
+    "message": "Planeta enano, mayormente cubierto de hielo"
   },
   "DWARF_PLANET_TERRESTRIAL": {
     "description": "",
-    "message": "Dwarf planet"
+    "message": "Planeta enano"
   },
   "EARTH_FEDERATION_COLONIAL_RULE": {
     "description": "",
@@ -549,7 +549,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "helium atmosphere"
+    "message": "atmósfera de helio"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -613,15 +613,15 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "hydrogen atmosphere"
+    "message": "atmósfera de hidrógeno"
   },
   "ICE_DWARF_PLANET": {
     "description": "",
-    "message": "Icy dwarf planet"
+    "message": "Planeta enano helado"
   },
   "ICE_MOON": {
     "description": "",
-    "message": "\" ice moon\""
+    "message": "\"luna helada\""
   },
   "ICE_WORLD": {
     "description": "",
@@ -909,11 +909,11 @@
   },
   "MOON_CONTAINING_LIQUID_WATER": {
     "description": "",
-    "message": "\" moon containing liquid water\""
+    "message": "\" luna que contiene agua líquida\""
   },
   "MOON_WITH_SOME_ICE": {
     "description": "",
-    "message": "\" moon with some ice\""
+    "message": "\" luna con algo de hielo\""
   },
   "NAME_OBJECT": {
     "description": "For an item or object",
@@ -1021,7 +1021,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "nitrogen atmosphere"
+    "message": "atmósfera de nitrógeno"
   },
   "N_CELSIUS": {
     "description": "",
@@ -1061,7 +1061,7 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "oxygen atmosphere"
+    "message": "atmósfera de oxígeno"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
@@ -1069,7 +1069,7 @@
   },
   "OCEANICMOON": {
     "description": "",
-    "message": "\" oceanic moon\""
+    "message": "\" luna oceánica\""
   },
   "OCEANICWORLD": {
     "description": "",
@@ -1221,11 +1221,11 @@
   },
   "ROCKY_MOON": {
     "description": "",
-    "message": "\" rocky moon\""
+    "message": "\" luna rocosa\""
   },
   "ROCKY_MOON_CONTAINING_SOME_LIQUIDS": {
     "description": "",
-    "message": "\" rocky moon containing some liquids,\""
+    "message": "\" luna rocosa que contiene ciertos líquidos,\""
   },
   "ROCKY_PLANET": {
     "description": "",
@@ -1625,7 +1625,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "sulfuric atmosphere"
+    "message": "atmósfera de sulfuro"
   },
   "TAKEOFF": {
     "description": "",
@@ -1637,7 +1637,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "\"a tenuous \""
+    "message": "\"una tenue \""
   },
   "TEXTILES": {
     "description": "",
@@ -1645,11 +1645,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "\"a thick \""
+    "message": "\"una espesa \""
   },
   "THIN": {
     "description": "",
-    "message": "\"a thin \""
+    "message": "\"una delgada \""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1841,7 +1841,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "\"a very dense \""
+    "message": "\"una muy densa \""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
@@ -1881,7 +1881,7 @@
   },
   "WITH": {
     "description": "",
-    "message": "\" with \""
+    "message": "\" con \""
   },
   "WITH_NO_SIGNIFICANT_ATMOSPHERE": {
     "description": "",
