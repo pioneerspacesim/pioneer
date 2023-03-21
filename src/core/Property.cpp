@@ -115,7 +115,7 @@ PropertyMap::iterator PropertyMap::iterator::operator++()
 {
 	size_t sz = map->m_keys.size();
 	if (map && sz > idx)
-		while (!map->m_keys[++idx] && idx < sz) {
+		while (++idx < sz && !map->m_keys[idx]) {
 		}
 	return *this;
 }
