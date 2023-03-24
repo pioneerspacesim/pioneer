@@ -1,0 +1,81 @@
+# Test all pull requests to ensure they build
+
+name: Build Lua API
+
+# Controls when the action will run.
+on:
+  push:
+    branches:
+    - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+env:
+  packages: >
+      "mono-runtime"
+      "unzip"
+  nd-src: >
+      "https://www.naturaldocs.org/download/natural_docs/2.2/Natural_Docs_2.2.zip"
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+
+    # Checkout the repository as $GITHUB_WORKSPACE
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-fast update
+        sudo apt-fast install -y ${{ env.packages }}
+
+    - name: Download natural docs
+      uses: wei/wget@v1
+      with:
+          args: -O nd.zip ${{ env.nd-src }}
+
+    - name: Run natural docs
+      run: |
+          mkdir -p docs
+          unzip nd.zip
+          mono Natural\ Docs/NaturalDocs.exe -i . -o HTML docs -p nd
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: "Lua API documentation"
+        path: docs
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+
+    - name: Upload pages
+      uses: actions/upload-pages-artifact@v1
+      with:
+        # only upload docs/ folder
+        path: 'docs'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
