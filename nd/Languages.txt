@@ -1,24 +1,36 @@
-Format: 1.51
+﻿Format: 2.2
 
 # This is the Natural Docs languages file for this project.  If you change
-# anything here, it will apply to THIS PROJECT ONLY.  If you'd like to change
-# something for all your projects, edit the Languages.txt in Natural Docs'
-# Config directory instead.
+# anything here, it will apply to THIS PROJECT ONLY.  You can edit the version
+# in Natural Docs' Config folder to make the changes apply to all projects,
+# but it's recommended that you edit this version instead.
 
 
-# You can prevent certain file extensions from being scanned like this:
+# Ignored Extensions
+# ------------------------------------------------------------------------
+
+# If you'd like to prevent certain file extensions from being scanned by
+# Natural Docs, you can do it like this:
+#
 # Ignore Extensions: [extension] [extension] ...
 
 
-#-------------------------------------------------------------------------------
-# SYNTAX:
-#
-# Unlike other Natural Docs configuration files, in this file all comments
-# MUST be alone on a line.  Some languages deal with the # character, so you
-# cannot put comments on the same line as content.
-#
-# Also, all lists are separated with spaces, not commas, again because some
-# languages may need to use them.
+# Languages
+# ------------------------------------------------------------------------
+# The syntax reference is after the definitions.
+
+Alter Language: Lua
+
+   Add Extension: lua
+
+   Line Comment: --
+   Block Comment: --[[ ]]
+
+
+# These settings define the languages Natural Docs knows how to parse.  You
+# can define your own here or override the settings of the existing ones.
+# Note that all lists are space separated so that commas can be used as
+# values.
 #
 # Language: [name]
 # Alter Language: [name]
@@ -32,33 +44,32 @@ Format: 1.51
 #    always treated this way.
 #
 #    The language Text File is also special.  It's treated as one big comment
-#    so you can put Natural Docs content in them without special symbols.  Also,
-#    if you don't specify a package separator, ignored prefixes, or enum value
-#    behavior, it will copy those settings from the language that is used most
-#    in the source tree.
+#    so you can put Natural Docs content in them without special symbols.
 #
 # Extensions: [extension] [extension] ...
 # [Add/Replace] Extensions: [extension] [extension] ...
-#    Defines the file extensions of the language's source files.  You can
-#    redefine extensions found in the main languages file.  You can use * to
-#    mean any undefined extension.
+#    Defines the file extensions of the language's source files.
 #
 # Shebang Strings: [string] [string] ...
 # [Add/Replace] Shebang Strings: [string] [string] ...
 #    Defines a list of strings that can appear in the shebang (#!) line to
-#    designate that it's part of the language.  You can redefine strings found
-#    in the main languages file.
+#    designate that it's part of the language.
 #
-# Ignore Prefixes in Index: [prefix] [prefix] ...
-# [Add/Replace] Ignored Prefixes in Index: [prefix] [prefix] ...
+# Simple Identifier: [name]
+#    The name of the language using only the letters A to Z.  No spaces,
+#    numbers, symbols, or Unicode allowed.  Defaults to the language name
+#    minus any unacceptable characters.  This is used to generate things like
+#    CSS class names.
 #
-# Ignore [Topic Type] Prefixes in Index: [prefix] [prefix] ...
-# [Add/Replace] Ignored [Topic Type] Prefixes in Index: [prefix] [prefix] ...
-#    Specifies prefixes that should be ignored when sorting symbols in an
-#    index.  Can be specified in general or for a specific topic type.
+# Aliases: [alias] [alias] ...
+# [Add/Replace] Aliases: [alias] [alias] ...
+#    Defines alternative names for the language that can be used to start a
+#    code block.
 #
-#------------------------------------------------------------------------------
-# For basic language support only:
+#
+# Properties for Basic Language Support Only
+# ------------------------------------------------------------------------
+# If you're adding your own language to Natural Docs you must define these.
 #
 # Line Comments: [symbol] [symbol] ...
 #    Defines a space-separated list of symbols that are used for line comments,
@@ -68,13 +79,8 @@ Format: 1.51
 #    Defines a space-separated list of symbol pairs that are used for block
 #    comments, if any.
 #
-# Package Separator: [symbol]
-#    Defines the default package separator symbol.  The default is a dot.
-#
-# [Topic Type] Prototype Enders: [symbol] [symbol] ...
-#    When defined, Natural Docs will attempt to get a prototype from the code
-#    immediately following the topic type.  It stops when it reaches one of
-#    these symbols.  Use \n for line breaks.
+# Member Operator: [symbol]
+#    Defines the default member operator symbol.  The default is a dot.
 #
 # Line Extender: [symbol]
 #    Defines the symbol that allows a prototype to span multiple lines if
@@ -84,37 +90,15 @@ Format: 1.51
 #    Defines how enum values are referenced.  The default is global.
 #    global       - Values are always global, referenced as 'value'.
 #    under type   - Values are under the enum type, referenced as
-#               'package.enum.value'.
+#                   'class.enum.value'.
 #    under parent - Values are under the enum's parent, referenced as
-#               'package.value'.
+#                   'class.value'.
 #
-# Perl Package: [perl package]
-#    Specifies the Perl package used to fine-tune the language behavior in ways
-#    too complex to do in this file.
+# Case Sensitive: [yes|no]
+#    Defines whether the language's identifiers are case sensitive.  The
+#    default is yes.
 #
-#------------------------------------------------------------------------------
-# For full language support only:
-#
-# Full Language Support: [perl package]
-#    Specifies the Perl package that has the parsing routines necessary for full
-#    language support.
-#
-#-------------------------------------------------------------------------------
-
-# The following languages are defined in the main file, if you'd like to alter
-# them:
-#
-#    Text File, Shebang Script, C/C++, C#, Java, JavaScript, Perl, Python,
-#    PHP, SQL, Visual Basic, Pascal, Assembly, Ada, Tcl, Ruby, Makefile,
-#    ActionScript, ColdFusion, R, Fortran
-
-# If you add a language that you think would be useful to other developers
-# and should be included in Natural Docs by default, please e-mail it to
-# languages [at] naturaldocs [dot] org.
-
-
-Language: Lua
-
-   Extension: lua
-   Line Comment: --
-   Block Comment: --[[ ]]
+# [Comment Type] Prototype Enders: [symbol] [symbol] ...
+#    When defined, Natural Docs will attempt to get a prototype from the code
+#    immediately following the comment type.  It stops when it reaches one of
+#    these symbols.  Use \n for line breaks.
