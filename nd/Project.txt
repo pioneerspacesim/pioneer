@@ -1,0 +1,188 @@
+﻿Format: 2.2
+
+# This is the main file you use to configure Natural Docs for your project.
+
+
+# Project Information
+# ------------------------------------------------------------------------
+
+# This is where you put general information about your project.  None of these
+# settings are required, though Title is recommended.
+#
+Title: Pioneer
+#    The name of your project.  (R) and (TM) will be converted to their
+#    respective symbols.
+#
+Subtitle: API documentation
+#    A subtitle for your project, if desired.
+#
+# Copyright: [text]
+#    The copyright notice for your project.  (C) will be converted to the
+#    copyright symbol.
+#
+Timestamp: yyyy-mm-dd
+#    Text explaining when the documentation was generated, such as "Last
+#    Updated Month Day Year", if you want that to be included.  The following
+#    substitutions are performed:
+#
+#    m     - Single digit month, when possible.  January is "1".
+#    mm    - Always double digit month.  January is "01".
+#    mon   - Short month word.  January is "Jan".
+#    month - Long month word.  January is "January".
+#    d     - Single digit day, when possible.  1 is "1".
+#    dd    - Always double digit day.  1 is "01".
+#    day   - Day with text extension.  1 is "1st".
+#    yy    - Double digit year.  2022 is "22".
+#    yyyy  - Four digit year.  2022 is "2022".
+#    year  - Four digit year.  2022 is "2022".
+#
+# Style: [style]
+#    A custom style to apply to the generated documentation.  See
+#    https://naturaldocs.org/reference/styles for more information.
+#
+# Home Page:
+#    A custom home page for the generated documentation.  It could be a
+#    documented file in one of the source folders or a HTML file in any
+#    location.
+#
+# Encoding: [name or code page number]
+# Encoding: [name or code page number] *.[extension]
+#    The character encoding source files use if it is something other than
+#    Unicode.  It can be specified as a name such as "iso-8859-1" or a code
+#    page number such as "28591".  You can see the list of encodings your
+#    system supports by running Natural Docs with the --list-encodings command
+#    line option.
+#
+#    Natural Docs defaults to Unicode which will handle all forms of UTF-8,
+#    UTF-16, and UTF-32.  You can set a new default for all files or you can
+#    limit it to an extension such as "*.txt".  You can use multiple Encoding
+#    lines to cover all the extensions that need them.
+#
+#    You can also set encodings for specific folders by adding Encoding lines
+#    in Source Folder sections.
+
+
+# Source Code
+# ------------------------------------------------------------------------
+
+Source Folder: ..
+
+
+# This is where you tell Natural Docs which folders it should scan for source
+# files.  If you add any on the command line this section is ignored except
+# for the properties of the ones from the command line.
+#
+# Source Folder: [folder]
+#    Specifies a folder which will be searched for source files.  The path is
+#    relative to the project configuration folder, which lets this file remain
+#    portable across computers and not cause problems in version control
+#    systems.  You can enter an absolute path and it will be converted
+#    automatically.
+#
+#    Additional properties can be added after each source folder:
+#
+#    Name: [name]
+#       How this source folder will appear in the menu if you have more than
+#       one.
+#
+#    Encoding: [name or code page number]
+#    Encoding: [name or code page number] *.[extension]
+#    Encoding: [name or code page number] [folder]
+#    Encoding: [name or code page number] [folder]\*.[extension]
+#       The character encoding source files use if it's something other than
+#       Unicode.  It can be specified as a name such as "iso-8859-1" or a code
+#       page number such as "28591".  You can see the list of encodings your
+#       system supports by running Natural Docs with the --list-encodings
+#       command line option.
+#
+#       Natural Docs defaults to Unicode which will handle all forms of UTF-8,
+#       UTF-16, and UTF-32.  You can set a new default for all files in this
+#       folder, limit it to an extension such as "*.txt", limit it to a
+#       subfolder, or limit it to extensions in a subfolder.  You can use
+#       multiple Encoding lines to cover all the subfolders and extensions
+#       that need them.
+
+
+# Source Filtering
+# ------------------------------------------------------------------------
+
+# If there are any subfolders in the source code that you would like Natural
+# Docs to ignore they can be added here.  If you use any of these options on
+# the command line this section is ignored.
+#
+# Ignore Source Folder: [folder]
+#    Tells Natural Docs to skip this folder when scanning files.
+#
+# Ignore Source Folder Pattern: [pattern]
+#    Tells Natural Docs to skip all folder names which match this pattern when
+#    scanning files.  ? matches a single character, * matches zero or more
+#    characters.  It applies to the entire folder name, so "cli" will not
+#    match "client", although "cli*" will.
+#
+#    The data folders of common version control systems (.git, .svn, .cvs, .hg)
+#    are ignored automatically.  You don't have to add them here.
+
+
+# Images
+# ------------------------------------------------------------------------
+
+# This is where you tell Natural Docs which folders it should look for images
+# in.  When you put something like (see diagram.jpg) in a comment Natural Docs
+# will look for it relative to the source file it appears in plus any folders
+# added here.  If you add any on the command line this section is ignored.
+#
+# Image Folder: [folder]
+#    Specifies a folder which will be searched for image files.  The path is
+#    relative to the project configuration folder, which lets this file remain
+#    portable across computers and not cause problems in version control
+#    systems.  You can enter absolute paths and they will be converted
+#    automatically.
+
+
+
+# Generated Documentation
+# ------------------------------------------------------------------------
+
+HTML Output Folder: ../docs
+
+
+# This is where you tell Natural Docs what kind of documentation you want
+# built and where it should be put.  If you use any of these options on the
+# command line this section is ignored except for the properties of the ones
+# from the command line.
+#
+# HTML Output Folder: [folder]
+#    Generates HTML documentation in the specified folder.  The path is
+#    relative to the project configuration folder, which lets this file remain
+#    portable across computers and not cause problems in version control
+#    systems.  You can enter an absolute path and it will be converted
+#    automatically.
+#
+#    Additional properties can be added after each output folder:
+#
+#    Title: [text]
+#    Subtitle: [text]
+#    Copyright: [text]
+#    Timestamp: [text]
+#    Style: [style]
+#    Home Page: [file]
+#       These properties can be overridden for just this output folder, which
+#       allows you to have multiple output folders with different styles or
+#       titles.  See the Project Information section for descriptions of them.
+
+
+# Global Settings
+# ------------------------------------------------------------------------
+
+# Other settings that apply to your entire project.  Settings specified on the
+# command line override the settings here.
+#
+# Tab Width: [width]
+#    The number of spaces tabs should be expanded to.
+#
+# Documented Only: [yes|no]
+#    Whether only documented code elements should appear in the output.
+#    Defaults to no.
+#
+# Auto Group: [yes|no]
+#    Whether groups should automatically apply to you code.  Defaults to yes.
