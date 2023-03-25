@@ -9,7 +9,7 @@ between binary star systems.
 
 This documents the C++ source code. There is also the Lua-API documentation
 available after a `make codedoc` or from
-[here](http://eatenbyagrue.org/f/pioneer/codedoc/).
+[here](https://codedoc.pioneerspacesim.net).
 
 There is important documentation on the
 [wiki](https://wiki.pioneerspacesim.net/wiki/Pioneer_Wiki) on coding conventions, design,
