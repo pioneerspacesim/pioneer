@@ -1,7 +1,7 @@
 {
-  "ASK_CANDIDATE_TO_SIT_A_TEST": {
+  "ASK_CANDIDATE_FOR_INTERVIEW_AND_TEST": {
     "description": "",
-    "message": "Ask candidate to sit a test"
+    "message": "Ask candidate for interview and test"
   },
   "CREWDETAILSHEETBB": {
     "description": "",
@@ -13,7 +13,7 @@
   },
   "CREWTESTRESULTSBB": {
     "description": "",
-    "message": "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+    "message": "Interview Impressions\n\nLawfulness: {lawfulness_impression}\nAffinity for civilization: {civaffinity_impression}\n\nTest Results\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
   },
   "CREW_FOR_HIRE": {
     "description": "",
@@ -27,9 +27,25 @@
     "description": "",
     "message": "CREW FOR HIRE"
   },
+  "DOESNT_NEED_FREQUENT_CULTURE": {
+    "description": "",
+    "message": "doesn't need frequent cultural and social interactions"
+  },
+  "FOLLOWS_LAW_TO_THE_LETTER": {
+    "description": "",
+    "message": "follows the law to the letter"
+  },
   "GO_BACK": {
     "description": "",
     "message": "Go back"
+  },
+  "I_WILL_SEND_SOMEONE_AFTER_YOU": {
+    "description": "",
+    "message": "And I'll send some friends after you to collect my outstanding pay!"
+  },
+  "I_WOULD_NEVER_CONSIDER_WORKING_FOR_YOU": {
+    "description": "",
+    "message": "Are you joking? I would never consider working for you!"
   },
   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER": {
     "description": "",
@@ -38,6 +54,18 @@
   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME": {
     "description": "",
     "message": "I'm sorry, your offer isn't attractive to me."
+  },
+  "LAW_ABIDING_CITIZEN": {
+    "description": "",
+    "message": "generally law abiding citizen"
+  },
+  "LAWS_ARE_FOR_OTHERS": {
+    "description": "",
+    "message": "laws are for others"
+  },
+  "LOVES_CULTURE": {
+    "description": "",
+    "message": "loves culture and diverse social interactions"
   },
   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT": {
     "description": "",
@@ -55,6 +83,10 @@
     "description": "",
     "message": "No experience"
   },
+  "NOT_PRO_OR_CONTRA_LAW": {
+    "description": "",
+    "message": "not particularly pro or contra law"
+  },
   "OK_I_SUPPOSE_THATS_ALL_RIGHT": {
     "description": "",
     "message": "OK, I suppose that's all right."
@@ -62,6 +94,10 @@
   "POTENTIAL_CREW_MEMBERS": {
     "description": "",
     "message": "Potential crew members are registered as seeking employment at {station}:"
+  },
+  "SICK_OF_WORKING_FOR_YOU": {
+    "description": "",
+    "message": "I'm sick of working for you! I'm going to look for employment elsewhere and I'll make sure to spread the word about you around here. Good luck finding new crew!"
   },
   "SIMULATOR_TRAINING_ONLY": {
     "description": "",
@@ -95,8 +131,72 @@
     "description": "",
     "message": "Time served crew member"
   },
+  "THOUGHT_EMPLOYMENT": {
+    "description": "",
+    "message": "found employment aboard a ship"
+  },
+  "THOUGHT_HAPPY_HOME": {
+    "description": "",
+    "message": "happy to be home again"
+  },
+  "THOUGHT_ILLEGAL_TRADING_BAD": {
+    "description": "",
+    "message": "complicit in illegal trade"
+  },
+  "THOUGHT_ILLEGAL_TRADING_GOOD": {
+    "description": "",
+    "message": "excited about illegal trade"
+  },
+  "THOUGHT_OFFENDER": {
+    "description": "",
+    "message": "working for an offender"
+  },
+  "THOUGHT_CRIMINAL": {
+    "description": "",
+    "message": "working for a criminal"
+  },
+  "THOUGHT_OUTLAW": {
+    "description": "",
+    "message": "working for an outlaw"
+  },
+  "THOUGHT_FUGITIVE": {
+    "description": "",
+    "message": "working for a fugitive"
+  },
+  "THOUGHT_TOO_MANY_BUSY_SYSTEMS": {
+    "description": "",
+    "message": "visiting busy systems too much"
+  },
+  "THOUGHT_TOO_FEW_BUSY_SYSTEMS": {
+    "description": "",
+    "message": "visiting not enough busy sytems"
+  },
+  "THOUGHT_WELL_DEVELOPED_SYSTEMS": {
+    "description": "",
+    "message": "visiting well-developed systems"
+  },
+  "THOUGHT_QUIET_SYSTEMS": {
+    "description": "",
+    "message": "visiting nice and quiet systems"
+  },
+  "THOUGHT_EXPLORING_THE_FRONTIER": {
+    "description": "",
+    "message": "exploring the frontier"
+  },
+  "THOUGHT_DULL_FRONTIER": {
+    "description": "",
+    "message": "wasting my time in empty systems"
+  },
   "VETERAN_TIME_SERVED_CREW_MEMBER": {
     "description": "",
     "message": "Veteran, time served crew member"
+  },
+  "WANTS_TO_GET_AWAY_FROM_CIVILIZATION": {
+    "description": "",
+    "message": "wants to get away from civilization"
+  },
+  "WILL_DO_WHAT_THEY_WANT": {
+    "description": "",
+    "message": "will do whatever they can get away with it"
   }
 }

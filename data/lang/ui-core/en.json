@@ -159,6 +159,10 @@
     "description": "Paintshop button",
     "message": "Change Pattern"
   },
+  "CHARISMA": {
+    "description": "",
+    "message": "Charisma"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Chief Mechanic"
@@ -445,7 +449,7 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Engineering:"
+    "message": "Engineering"
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -666,6 +670,10 @@
   "HANG_UP": {
     "description": "",
     "message": "Hang up."
+  },
+  "HAPPINESS": {
+    "description": "",
+    "message": "Happiness"
   },
   "HARMLESS": {
     "description": "Player combat rating",
@@ -1155,6 +1163,10 @@
     "description": "",
     "message": "Insufficient funds."
   },
+  "INTELLIGENCE": {
+    "description": "",
+    "message": "Intelligence"
+  },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
     "message": "Interstellar Trade:"
@@ -1231,6 +1243,10 @@
     "description": "",
     "message": "Permission granted. Watch for traffic on your departure."
   },
+  "LAWFULNESS": {
+    "description": "",
+    "message": "Lawfulness"
+  },
   "LEGAL_STATUS": {
     "description": "",
     "message": "Legal status"
@@ -1302,6 +1318,10 @@
   "LOW": {
     "description": "",
     "message": "Low"
+  },
+  "LUCK": {
+    "description": "",
+    "message": "Luck"
   },
   "LY": {
     "description": "Light year",
@@ -1461,7 +1481,7 @@
   },
   "NAVIGATION": {
     "description": "",
-    "message": "Navigation:"
+    "message": "Navigation"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1506,6 +1526,10 @@
   "NOTES": {
     "description": "",
     "message": "Notes:"
+  },
+  "NOTORIETY": {
+    "description": "",
+    "message": "Notoriety"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
@@ -1673,7 +1697,7 @@
   },
   "PILOTING": {
     "description": "",
-    "message": "Piloting:"
+    "message": "Piloting"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1778,6 +1802,10 @@
   "REGISTRATION_NUMBER": {
     "description": "",
     "message": "Registration number"
+  },
+  "RELATIONSHIP_WITH_CAPTAIN": {
+    "description": "",
+    "message": "Relationship with Captain"
   },
   "RELIABLE": {
     "description": "For player reputation",
@@ -1905,7 +1933,7 @@
   },
   "SENSORS": {
     "description": "",
-    "message": "Sensors:"
+    "message": "Sensors"
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",
@@ -2050,6 +2078,10 @@
   "STATION_TECH_TOO_LOW": {
     "description": "",
     "message": "Station tech level too low to sell this item"
+  },
+  "STATS": {
+    "description": "",
+    "message": "Stats"
   },
   "STATUS": {
     "description": "",
