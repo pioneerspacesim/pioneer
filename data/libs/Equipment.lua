@@ -262,47 +262,47 @@ hyperspace.hyperdrive_9 = HyperdriveType.New({
 })
 hyperspace.hyperdrive_mil1 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL1", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
-	price=23000, capabilities={mass=3, hyperclass=1}, purchasable=true, tech_level=10,
+	price=23000, capabilities={mass=1, hyperclass=1}, purchasable=true, tech_level=10,
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil2 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL2", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
-	price=47000, capabilities={mass=7, hyperclass=2}, purchasable=true, tech_level="MILITARY",
+	price=47000, capabilities={mass=3, hyperclass=2}, purchasable=true, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil3 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL3", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
-	price=85000, capabilities={mass=12, hyperclass=3}, purchasable=true, tech_level=11,
+	price=85000, capabilities={mass=5, hyperclass=3}, purchasable=true, tech_level=11,
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil4 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL4", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
-	price=214000, capabilities={mass=28, hyperclass=4}, purchasable=true, tech_level=12,
+	price=214000, capabilities={mass=13, hyperclass=4}, purchasable=true, tech_level=12,
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil5 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL5", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
-	price=540000, capabilities={mass=63, hyperclass=5}, purchasable=false, tech_level="MILITARY",
+	price=540000, capabilities={mass=29, hyperclass=5}, purchasable=false, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil6 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL6", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
-	price=1350000, capabilities={mass=128, hyperclass=6}, purchasable=false, tech_level="MILITARY",
+	price=1350000, capabilities={mass=60, hyperclass=6}, purchasable=false, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil7 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL7", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
-	price=3500000, capabilities={mass=196, hyperclass=7}, purchasable=false, tech_level="MILITARY",
+	price=3500000, capabilities={mass=135, hyperclass=7}, purchasable=false, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil8 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL8", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
-	price=8500000, capabilities={mass=285, hyperclass=8}, purchasable=false, tech_level="MILITARY",
+	price=8500000, capabilities={mass=190, hyperclass=8}, purchasable=false, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 hyperspace.hyperdrive_mil9 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL9", fuel=Commodities.military_fuel, byproduct=Commodities.radioactives, slots="engine",
-	price=22000000, capabilities={mass=400, hyperclass=9}, purchasable=false, tech_level="MILITARY",
+	price=22000000, capabilities={mass=260, hyperclass=9}, purchasable=false, tech_level="MILITARY",
 	icon_name="equip_hyperdrive_mil"
 })
 
