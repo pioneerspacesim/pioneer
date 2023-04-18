@@ -73,51 +73,51 @@
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",
-    "message": "VETERANS DAY!"
+    "message": "¡EL DIA DEL VETERANO!"
   },
   "FLAVOUR_6_DESC": {
     "description": "",
-    "message": "Support the veterans of the {MILITARY}."
+    "message": "Apoya a los veteranos de {MILITARY}."
   },
   "FLAVOUR_6_MESSAGE": {
     "description": "",
-    "message": "The {MILITARY}. You can always count on them.\nCan they count on you?"
+    "message": "Los {MILITARY}. Siempre puedes contar con ellos.\n¿Pueden ellos contar contigo?"
   },
   "FLAVOUR_7_ADTITLE": {
     "description": "",
-    "message": "DO THEY HAVE YOUR SUPPORT?"
+    "message": "¿TIENEN TU APOYO?"
   },
   "FLAVOUR_7_DESC": {
     "description": "",
-    "message": "Support the veterans of the {POLICE}."
+    "message": "Apoye a los veteranos de {POLICE}."
   },
   "FLAVOUR_7_MESSAGE": {
     "description": "",
-    "message": "Those brave men and women of the {POLICE} who have dedicated their lives to keeping {SYSTEM} safe need your support!"
+    "message": "¡Esos valientes hombres y mujeres de los {POLICE} que han dedicado sus vidas a mantener seguro {SYSTEM} necesitan tu apoyo!"
   },
   "FLAVOUR_8_ADTITLE": {
     "description": "",
-    "message": "SUPPORT OUR VETERANS!"
+    "message": "¡APOYE A NUESTROS VETERANOS!"
   },
   "FLAVOUR_8_DESC": {
     "description": "",
-    "message": "Support the veterans of our armed forces."
+    "message": "Apoya a los veteranos de nuestras fuerzas armadas."
   },
   "FLAVOUR_8_MESSAGE": {
     "description": "",
-    "message": "The brave soldiers of the {MILITARY} place themselves in harm's way for you!"
+    "message": "¡Los valientes soldados de los {MILITARY} se arriesgan por ti!"
   },
   "FLAVOUR_9_ADTITLE": {
     "description": "",
-    "message": "END POVERTY!"
+    "message": "¡ACABEMOS CON LA POBREZA!"
   },
   "FLAVOUR_9_DESC": {
     "description": "",
-    "message": "Support the fight against poverty in the {FACTION}."
+    "message": "Apoya la lucha contra la pobreza con {FACTION}."
   },
   "FLAVOUR_9_MESSAGE": {
     "description": "",
-    "message": "We empower families in the {FACTION} to create a better future for all."
+    "message": "Empoderamos a las familias de {FACTION} para así crear un futuro mejor para todos."
   },
   "SALES_PITCH": {
     "description": "",
