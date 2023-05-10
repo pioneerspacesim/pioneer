@@ -1,9 +1,13 @@
+April 2023
+  * Fixes
+    * Fix military drive being too heavy (#5580)
+
 March 2023
   * New Features
-  
+
   * Internal Changes
     * Use explicit-size types in LuaPushPull to fix 32-bit builds (#5538)
- 
+
   * Fixes
     * Fix empty accessory files used to reduce facegen accessory spawn chance (#5558)
     * Fix autopilot crash with no body in frame of reference (#5551)
@@ -38,7 +42,7 @@ January 2023
     * Enable in-system trading between different stations (#5474)
     * Increase amount of credits granted at Mars and New Hope starts (#5474)
     * Increase Bowfin's equipment capacity to improve its utility (#5498)
-  
+
   * Internal Changes
     * Improved code for Advice module / smaller saves (#5467)
     * Fix URLs changed, to forum (#5464)
