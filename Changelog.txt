@@ -1,10 +1,12 @@
+May 2023
+  * Fixes
+    * Fix SIGFPE from zero length vector if flying long time enough (#5569)
+
 April 2023
   * Fixes
     * Fix military drive being too heavy (#5580)
 
 March 2023
-  * New Features
-
   * Internal Changes
     * Use explicit-size types in LuaPushPull to fix 32-bit builds (#5538)
 
