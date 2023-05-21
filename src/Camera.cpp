@@ -355,7 +355,7 @@ void Camera::Draw(const Body *excludeBody)
 //        as optical thickness increases the fraction of ambient light increases
 //        this takes altitude into account automatically
 //    * As suns set the split is biased towards ambient
-void Camera::CalcLighting(const Body *b, double &ambient, double &direct)
+void Camera::CalcLighting(const Body *b, double &ambient, double &direct) const
 {
 	const double minAmbient = 0.05;
 	ambient = minAmbient;
