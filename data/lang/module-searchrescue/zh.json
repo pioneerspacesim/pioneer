@@ -165,7 +165,7 @@
   },
   "FLAVOUR_1_ADTEXT": {
     "description": "",
-    "message": "Local STC reports ship crash landed on {planet}. Assistance required."
+    "message": "当地STC报告飞船坠毁降落在{planet}上。需要协助。"
   },
   "FLAVOUR_1_ADTITLE": {
     "description": "",
@@ -201,7 +201,7 @@
   },
   "FLAVOUR_2_ADTEXT": {
     "description": "",
-    "message": "{starport} STC received low fuel message from incoming ship. Refueling services requested."
+    "message": "{starport}STC收到来自进港飞船的低燃料信息。要求提供加油服务。"
   },
   "FLAVOUR_2_ADTITLE": {
     "description": "",
@@ -237,7 +237,7 @@
   },
   "FLAVOUR_3_ADTEXT": {
     "description": "",
-    "message": "Ship close to {starport} signalled medical emergency. Urgent hospital transport required."
+    "message": "靠近{starport}的飞船发出医疗紧急情况信号。需要紧急医院运输。"
   },
   "FLAVOUR_3_ADTITLE": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "FLAVOUR_4_ADTEXT": {
     "description": "",
-    "message": "Distress signal received: ship is stranded and out of fuel on {planet}."
+    "message": "收到求救信号：飞船搁浅并在{行星}上耗尽燃料。"
   },
   "FLAVOUR_4_ADTITLE": {
     "description": "",
@@ -309,7 +309,7 @@
   },
   "FLAVOUR_5_ADTEXT": {
     "description": "",
-    "message": "Stranded ship is requesting refuelling operation close to {starport}."
+    "message": "搁浅的飞船正在请求在{starport}附近加油。"
   },
   "FLAVOUR_5_ADTITLE": {
     "description": "",
@@ -345,7 +345,7 @@
   },
   "FLAVOUR_6_ADTEXT": {
     "description": "",
-    "message": "Emergency: corporate vessel unresponsive in the {system} system."
+    "message": "紧急情况：公司飞船在{system}星系中失联。"
   },
   "FLAVOUR_6_ADTITLE": {
     "description": "",

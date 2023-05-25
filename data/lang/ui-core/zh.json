@@ -1189,7 +1189,7 @@
   },
   "JETTISON_MODE": {
     "description": "",
-    "message": "Jettison Mode"
+    "message": "抛弃模式"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1645,7 +1645,7 @@
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Passenger cabin capacity"
+    "message": "客舱容量"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
@@ -2065,7 +2065,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech level"
+    "message": "科技等级"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2093,7 +2093,7 @@
   },
   "TOGGLE_CARGO_WINDOW": {
     "description": "Label for a button toggling the cargo display window.",
-    "message": "Toggle Cargo Window"
+    "message": "切换货仓窗口"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",

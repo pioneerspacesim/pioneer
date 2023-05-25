@@ -33,7 +33,7 @@
   },
   "AN_AR_ATMOSPHERE": {
     "description": "",
-    "message": "an argon atmosphere"
+    "message": "一个氩气大气层"
   },
   "AN_O2_ATMOSPHERE": {
     "description": "",
@@ -45,7 +45,7 @@
   },
   "AR_ATMOSPHERE": {
     "description": "",
-    "message": "argon atmosphere"
+    "message": "氩气大气层"
   },
   "ASTEROID": {
     "description": "",
@@ -89,7 +89,7 @@
   },
   "A_CH4_ATMOSPHERE": {
     "description": "",
-    "message": "a methane atmosphere"
+    "message": "一个甲烷大气层"
   },
   "A_CO2_ATMOSPHERE": {
     "description": "",
@@ -205,11 +205,11 @@
   },
   "CH4_ATMOSPHERE": {
     "description": "",
-    "message": "methane atmosphere"
+    "message": "甲烷大气层"
   },
   "CO2_ATMOSPHERE": {
     "description": "",
-    "message": "carbon dioxide atmosphere"
+    "message": "二氧化碳大气层"
   },
   "COMMA_HIGHLY_VOLCANIC": {
     "description": "",
@@ -305,7 +305,7 @@
   },
   "CO_ATMOSPHERE": {
     "description": "",
-    "message": "carbon monoxide atmosphere"
+    "message": "一氧化碳大气层"
   },
   "CTRL": {
     "description": "Ctrl key on keyboard",
@@ -549,7 +549,7 @@
   },
   "HE_ATMOSPHERE": {
     "description": "",
-    "message": "helium atmosphere"
+    "message": "氦气大气层"
   },
   "HIGHLY_VOLCANIC": {
     "description": "",
@@ -613,7 +613,7 @@
   },
   "H_ATMOSPHERE": {
     "description": "",
-    "message": "hydrogen atmosphere"
+    "message": "氢气大气层"
   },
   "ICE_DWARF_PLANET": {
     "description": "",
@@ -1021,7 +1021,7 @@
   },
   "N_ATMOSPHERE": {
     "description": "",
-    "message": "nitrogen atmosphere"
+    "message": "氮气大气层"
   },
   "N_CELSIUS": {
     "description": "",
@@ -1061,7 +1061,7 @@
   },
   "O2_ATMOSPHERE": {
     "description": "",
-    "message": "oxygen atmosphere"
+    "message": "氧气大气层"
   },
   "OBJECT_INFO": {
     "description": "Originally for use as a window title and a button tooltip in the system map",
@@ -1625,7 +1625,7 @@
   },
   "S_ATMOSPHERE": {
     "description": "",
-    "message": "sulfuric atmosphere"
+    "message": "硫酸大气层"
   },
   "TAKEOFF": {
     "description": "",
@@ -1637,7 +1637,7 @@
   },
   "TENUOUS": {
     "description": "atmosphere thickness",
-    "message": "\"a tenuous \""
+    "message": "\"稀薄\""
   },
   "TEXTILES": {
     "description": "",
@@ -1645,11 +1645,11 @@
   },
   "THICK": {
     "description": "",
-    "message": "\"a thick \""
+    "message": "\"稠密\""
   },
   "THIN": {
     "description": "",
-    "message": "\"a thin \""
+    "message": "\"稀薄\""
   },
   "THRIVING_OUTDOOR_WORLD": {
     "description": "",
@@ -1841,7 +1841,7 @@
   },
   "VERY_DENSE": {
     "description": "",
-    "message": "\"a very dense \""
+    "message": "\"非常密集\""
   },
   "VERY_LARGE_GAS_GIANT": {
     "description": "",
