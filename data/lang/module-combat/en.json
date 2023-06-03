@@ -381,6 +381,6 @@
   },
   "YOU_NEED_A_RADAR": {
     "description": "",
-    "message": "You need a radar! If you agree, I will program your ship's computer to record the radar data we need. You must hand over this data to us the next time we meet!"
+    "message": "Yes, you need a radar! If you agree, I will program your ship's computer to record the radar data we need. The data will be transferred to me next you come back."
   }
 }
