@@ -55,12 +55,12 @@ local function refresh()
 	bulletinBoard.items = {}
 
 	for ref,ad in pairs(ads or {}) do
-		if searchText == ""
-			or searchText ~= "" and string.find(
+		if not searchText or searchText == ""
+			or string.find(
 				string.lower(ad.title),
 				string.lower(searchText),
 				1, true)
-			or searchText ~= "" and string.find(
+			or string.find(
 				string.lower(ad.description),
 				string.lower(searchText),
 				1, true)
