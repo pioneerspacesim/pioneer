@@ -117,11 +117,11 @@
   },
   "WE_WILL_ONLY_DISPOSE_OF": {
     "description": "",
-    "message": "Vi kommer bara att göra oss av med så många ton {radioactives} som du har köpt {military_fuel} av oss."
+    "message": "Vi kommer bara att ta emot så många ton {radioactives} som du har köpt {military_fuel} av oss."
   },
   "WHAT_CONDITIONS_APPLY": {
     "description": "",
-    "message": "Vilka förhållanden gäller för avyttring av {radioactives}?"
+    "message": "Vilka villkor gäller för avyttring av {radioactives}?"
   },
   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED": {
     "description": "",
@@ -129,7 +129,7 @@
   },
   "YOU_ARE_NOW_A_MEMBER": {
     "description": "",
-    "message": "Du är nu en medlem. Ditt medlemskap går ut {expiry_date}."
+    "message": "Du är nu medlem. Ditt medlemskap går ut {expiry_date}."
   },
   "YOU_MUST_BUY": {
     "description": "",
