@@ -62,7 +62,7 @@ local function displayECM(uiPos)
 	if current_view == "world" then
 		local ecms = player:GetEquip('ecm')
 		for i,ecm in ipairs(ecms) do
-			local size, clicked = iconEqButton(uiPos, icons[ecm.ecm_type], false, mainIconSize, "ECM", not player:IsECMReady(), mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, 'ECM')
+			local size, clicked = iconEqButton(uiPos, icons[ecm.ecm_type], false, mainIconSize, "ECM", not player:IsECMReady(), mainBackgroundColor, mainForegroundColor, mainHoverColor, mainPressedColor, lec[ecm.hover_message])
 			uiPos.y = uiPos.y + size.y + 10
 			if clicked then
 				player:UseECM()

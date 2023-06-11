@@ -78,12 +78,14 @@ misc.heavy_atmospheric_shielding = EquipType.New({
 misc.ecm_basic = EquipType.New({
 	l10n_key="ECM_BASIC", slots="ecm", price=6000,
 	capabilities={mass=2, ecm_power=2, ecm_recharge=5},
-	purchasable=true, tech_level=9, ecm_type = 'ecm'
+	purchasable=true, tech_level=9, ecm_type = 'ecm',
+	hover_message="ECM_HOVER_MESSAGE"
 })
 misc.ecm_advanced = EquipType.New({
 	l10n_key="ECM_ADVANCED", slots="ecm", price=15200,
 	capabilities={mass=2, ecm_power=3, ecm_recharge=5},
-	purchasable=true, tech_level="MILITARY", ecm_type = 'ecm_advanced'
+	purchasable=true, tech_level="MILITARY", ecm_type = 'ecm_advanced',
+	hover_message="ECM_HOVER_MESSAGE"
 })
 misc.radar = EquipType.New({
 	l10n_key="RADAR", slots="radar", price=680,
