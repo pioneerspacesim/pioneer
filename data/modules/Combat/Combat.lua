@@ -163,12 +163,15 @@ local onChat = function (form, ref, option)
 		table.insert(missions,Mission.New(mission))
 		form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
 		return
+	elseif option == 6 then
+		form:SetMessage(l.YOU_NEED_A_RADAR)
 	end
 
 	form:AddOption(l.WHAT_ARE_THE_MISSION_OBJECTIVES, 1)
 	form:AddOption(l.WILL_I_BE_IN_TROUBLE, 2)
 	form:AddOption(l.IS_THERE_A_TIME_LIMIT, 3)
 	form:AddOption(l.HOW_WILL_I_BE_PAID, 4)
+	form:AddOption(l.DO_I_NEED_SPECIAL_EQUIPMENT, 6)
 	form:AddOption(l.PLEASE_REPEAT_THE_MISSION_DETAILS, 0)
 	form:AddOption(l.OK_AGREED, 5)
 end
