@@ -151,6 +151,10 @@
     "description": "",
     "message": "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Activate Electronic Countermeasures"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "EMPTY"

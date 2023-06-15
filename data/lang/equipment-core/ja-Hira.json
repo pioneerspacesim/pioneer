@@ -151,6 +151,10 @@
     "description": "",
     "message": "一部の自動追尾ミサイルを破壊できる 電子ミサイル対抗 - Electronic Countermeasure Missile(ECM) 防御システム"
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Activate Electronic Countermeasures"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "EMPTY"

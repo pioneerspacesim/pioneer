@@ -151,6 +151,10 @@
     "description": "",
     "message": "Egy elektronikus rakétazavaró védelmi rendszer, amely bizonyos fajta követőrakéták megsemmisítésére alkalmas."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Activate Electronic Countermeasures"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "ÜRES"

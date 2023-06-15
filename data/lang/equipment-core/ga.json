@@ -151,6 +151,10 @@
     "description": "",
     "message": "Córas cosanta frithdhiúracán a úsáideann frithbhearta leictreonacha, atá in ann diúracáin fhrithinge áirithe a scriosadh."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Activate Electronic Countermeasures"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "EMPTY"

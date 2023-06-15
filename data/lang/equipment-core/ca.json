@@ -151,6 +151,10 @@
     "description": "",
     "message": "Sistema bàsic de contramesures electròniques, capaç de neutralitzar alguns tipus de míssils."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Activate Electronic Countermeasures"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "EMPTY"

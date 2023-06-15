@@ -151,6 +151,10 @@
     "description": "",
     "message": "一套电子反导防御系统,有能力摧毁一些制导导弹."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Activate Electronic Countermeasures"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "空的"

@@ -151,6 +151,10 @@
     "description": "",
     "message": "Un sistema de defensa de contramedidas electrónicas (ECM), capaz de neutralizar ciertos tipos de misiles guiados."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Activate Electronic Countermeasures"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "VACÍO"

@@ -151,6 +151,10 @@
     "description": "",
     "message": "Contromisure elettroniche a difesa da attacchi missilistici. È in grado di distruggere alcuni missili a ricerca."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Activate Electronic Countermeasures"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "VUOTO"

@@ -151,6 +151,10 @@
     "description": "",
     "message": "Elektronski sustav obrane od raketa, sposoban za uništavanje nekih raketa."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Activate Electronic Countermeasures"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "EMPTY"

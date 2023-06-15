@@ -151,6 +151,10 @@
     "description": "",
     "message": "Електронна противомярка за защита от ракети, способна да унищожава някои видове самонасочващи се ракети."
   },
+  "ECM_HOVER_MESSAGE": {
+    "description": "",
+    "message": "Activate Electronic Countermeasures"
+  },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
     "message": "ПРАЗНО"
