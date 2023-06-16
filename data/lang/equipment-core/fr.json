@@ -153,7 +153,7 @@
   },
   "ECM_HOVER_MESSAGE": {
     "description": "",
-    "message": "Activate Electronic Countermeasures"
+    "message": "Activer les contre-mesures electroniques"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",

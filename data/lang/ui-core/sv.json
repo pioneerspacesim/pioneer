@@ -2105,11 +2105,11 @@
   },
   "TOGGLE_OVERVIEW_SHOW_MOONS": {
     "description": "toggle whether the overview window shows moons or not",
-    "message": "Toggle showing moons in the overview"
+    "message": "Visa månar i översikten"
   },
   "TOGGLE_OVERVIEW_SHOW_STATIONS": {
     "description": "toggle whether the overview window shows stations or not",
-    "message": "Toggle showing stations in the overview"
+    "message": "Visa rymdstationer i översikten"
   },
   "TOGGLE_OVERVIEW_SORT_BY_PLAYER_DISTANCE": {
     "description": "toggle whether the overview window sorts by distance from the player or from the system center",
@@ -2117,7 +2117,7 @@
   },
   "TOGGLE_OVERVIEW_WINDOW": {
     "description": "show/hide the overview window / navigation window",
-    "message": "Toggle the overview window"
+    "message": "Översikt"
   },
   "TOO_SMALL_FOR_CURRENT_CREW": {
     "description": "",
