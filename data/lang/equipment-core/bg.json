@@ -153,7 +153,7 @@
   },
   "ECM_HOVER_MESSAGE": {
     "description": "",
-    "message": "Activate Electronic Countermeasures"
+    "message": "Активиране на електронната противомярка"
   },
   "EMPTY_SLOT": {
     "description": "Text indicating an empty equipment slot.",
