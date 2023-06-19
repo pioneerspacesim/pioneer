@@ -29,6 +29,9 @@ static const fixed AU_EARTH_RADIUS = fixed(3, 65536); // XXX Duplication from St
 static const fixed FIXED_PI = fixed(103993, 33102);	  // XXX Duplication from StarSystem.cpp
 static const double CELSIUS = 273.15;
 
+// max surface gravity for a permanent human settlement
+static const double MAX_SETTLEMENT_SURFACE_GRAVITY = 50; // m/s2 .. roughly 5 g
+
 static const Uint32 POLIT_SEED = 0x1234abcd;
 static const Uint32 POLIT_SALT = 0x8732abdf;
 
@@ -655,7 +658,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 	// We get some more fractional bits for small bodies otherwise we can easily end up with 0 radius which breaks stuff elsewhere
 	//
 	// AndyC - Updated to use the empirically gathered data from this site:
-	// http://phl.upr.edu/library/notes/standardmass-radiusrelationforexoplanets
+	// https://phl.upr.edu/library/labnotes/standard-mass-radius-relation-for-exoplanets
 	// but we still limit at the lowest end
 	if (sbody->GetMassAsFixed() <= fixed(1, 1)) {
 		sbody->m_radius = fixed(fixedf<48>::CubeRootOf(fixedf<48>(sbody->GetMassAsFixed())));
@@ -669,6 +672,9 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		// Anything bigger than 200 EU masses is a Gas Giant or bigger but the density changes to decrease from here on up...
 		sbody->m_radius = fixed::FromDouble(22.6 * (1.0 / pow(sbody->GetMassAsFixed().ToDouble(), double(0.0886))));
 	}
+	// randomize radius or the surface gravity will be consistently 1.0 g for planets in the 1 - 200 EU range.
+	sbody->m_radius = fixed::FromDouble(sbody->GetRadiusAsFixed().ToDouble() * ( 1.2 - (0.4 * rand.Double()))); // +/-20% radius
+
 	// enforce minimum size of 10km
 	sbody->m_radius = std::max(sbody->GetRadiusAsFixed(), fixed(1, 630));
 
@@ -1447,7 +1453,7 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 	sbody->m_population = fixed();
 
 	/* Bad type of planet for settlement */
-	if ((sbody->GetAverageTemp() > CELSIUS + 100) || (sbody->GetAverageTemp() < 100) ||
+	if ((sbody->GetAverageTemp() > CELSIUS + 100) || (sbody->GetAverageTemp() < 100) || (sbody->CalcSurfaceGravity() > MAX_SETTLEMENT_SURFACE_GRAVITY) ||
 		(sbody->GetType() != SystemBody::TYPE_PLANET_TERRESTRIAL && sbody->GetType() != SystemBody::TYPE_PLANET_ASTEROID)) {
 		Random starportPopRand;
 		starportPopRand.seed(_init, 6);
@@ -1458,9 +1464,14 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 			sbody->m_population = fixed(1, 100000) + fixed(starportPopRand.Int32(-1000, 20000), 1000000000);
 			outTotalPop += sbody->m_population;
 		} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
-			// give surface spaceports a population between 80000 and 250000
-			sbody->m_population = fixed(1, 10000) + fixed(starportPopRand.Int32(-2000, 15000), 100000000);
-			outTotalPop += sbody->m_population;
+			// No permanent population on gravities larger than defined in MAX_SETTLEMENT_SURFACE_GRAVITY
+			if (sbody->CalcSurfaceGravity() > MAX_SETTLEMENT_SURFACE_GRAVITY) {
+				outTotalPop = fixed();
+			} else {
+				// give surface spaceports a population between 80000 and 250000
+				sbody->m_population = fixed(1, 10000) + fixed(starportPopRand.Int32(-2000, 15000), 100000000);
+				outTotalPop += sbody->m_population;
+			}
 		}
 
 		return;
@@ -1622,6 +1633,9 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 		while (pop >= 0) {
 			++NumToMake;
 			pop -= rand.Fixed();
+		}
+		if ((NumToMake == 0) and (sbody->CalcSurfaceGravity() > 10.5)) {  // 10.5 m/s2 = 1,07 g
+			NumToMake = 1;
 		}
 
 		// Any to position?

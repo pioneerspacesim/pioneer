@@ -261,6 +261,47 @@ static int l_sbody_attr_gravity(lua_State *l)
 }
 
 /*
+ * Attribute: escapeVelocity
+ *
+ * The speed an object need to break free from the gravitational influence
+ * of a body and leave it behind with no further acceleration.
+ *
+ * Availability:
+ *
+ *   July 2023
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_sbody_attr_escape_velocity(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->CalcEscapeVelocity());
+	return 1;
+}
+
+/*
+ * Attribute: meanDensity
+ *
+ * The mean density of a body (kg/m3).
+ *
+ * Availability:
+ *
+ *   July 2023
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_sbody_attr_mean_density(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->CalcMeanDensity());
+	return 1;
+}
+
+/*
  * Attribute: periapsis
  *
  * The periapsis of the body's orbit, in metres (m).
@@ -758,6 +799,8 @@ void LuaObject<SystemBody>::RegisterClass()
 		{ "radius", l_sbody_attr_radius },
 		{ "mass", l_sbody_attr_mass },
 		{ "gravity", l_sbody_attr_gravity },
+		{ "escapeVelocity", l_sbody_attr_escape_velocity },
+		{ "meanDensity", l_sbody_attr_mean_density },
 		{ "periapsis", l_sbody_attr_periapsis },
 		{ "apoapsis", l_sbody_attr_apoapsis },
 		{ "orbitPeriod", l_sbody_attr_orbital_period },
