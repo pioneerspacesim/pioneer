@@ -253,6 +253,8 @@ public:
 	double GetPopulation() const { return m_population.ToDouble(); }
 
 	double CalcSurfaceGravity() const;
+	double CalcEscapeVelocity() const;
+	double CalcMeanDensity() const;
 
 	double GetMaxChildOrbitalDistance() const;
 

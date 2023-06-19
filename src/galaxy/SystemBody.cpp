@@ -805,6 +805,26 @@ double SystemBody::CalcSurfaceGravity() const
 	}
 }
 
+double SystemBody::CalcEscapeVelocity() const
+{
+	double r = GetRadius();
+	if (r > 0.0) {
+		return pow((2 * CalcSurfaceGravity() * r) , 0.5);
+	} else {
+		return 0.0;
+	}
+}
+
+double SystemBody::CalcMeanDensity() const
+{
+	double r = GetRadius();
+	if (r > 0.0) {
+		return GetMass()  / (4.0 / 3.0 * M_PI * pow(r, 3)); // Density = Mass / Volume
+	} else {
+		return 0.0;
+	}
+}
+
 void SystemBody::Dump(FILE *file, const char *indent) const
 {
 	fprintf(file, "%sSystemBody(%d,%d,%d,%u,%u) : %s/%s %s{\n", indent, m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex,

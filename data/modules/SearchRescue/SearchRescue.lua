@@ -862,7 +862,8 @@ local onChat = function (form, ref, option)
 			pass         = ad.pickup_pass,
 			deliver_crew = ad.deliver_crew,
 			unit         = unit,
-			cargo        = cargo
+			cargo        = cargo,
+			high_gravity = ad.high_gravity,
 		})
 		form:SetMessage(typeofhelptext)
 
@@ -1203,7 +1204,7 @@ end
 
 local makeAdvert = function (station, manualFlavour, closestplanets)
 	-- Make a single advertisement for the bulletin board of the supplied station.
-	local due, dist, client, entity, problem, location
+	local due, dist, client, entity, problem, location, high_gravity
 	local lat = 0
 	local long = 0
 
@@ -1268,6 +1269,15 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		location = planet_target
 		dist = system_local:DistanceTo(system_target)
 		due = (5 * dist + 4) * Engine.rand:Integer(20,24) * 60 * 60     -- TODO: adjust due date based on urgency
+	end
+
+	-- Create message string for the cases where the target landed on a planet that is higher gravity (> 1.2 g)
+	high_gravity = ""
+	if planet_target:GetSystemBody().gravity / 9.8066 > 1.2 and flavour.id == 4 then -- flavour id 4 is landed on a planet
+		high_gravity = string.interp(l["HIGHGRAVITY_" .. Engine.rand:Integer(0, getNumberOfFlavours("HIGHGRAVITY"))], {
+			planet       = planet_target:GetSystemBody().name,
+			gravity      = string.format("%.2f", planet_target:GetSystemBody().gravity / 9.8066),
+		})
 	end
 
 	--double the time if return to original station is required
@@ -1358,6 +1368,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		system_local   = system_local,
 		station_target = station_target,
 		planet_target  = planet_target,
+		high_gravity   = high_gravity,
 		system_target  = system_target,
 		flavour	       = flavour,
 		client	       = client,
