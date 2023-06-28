@@ -13,7 +13,7 @@
   },
   "FLAVOUR_0_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Specialerbjudande. Selling one {equipment}."
+    "message": "Specialerbjudande. {equipment} säljes."
   },
   "FLAVOUR_0_TITLE": {
     "description": "Selling second hand ship equipment",
@@ -37,7 +37,7 @@
   },
   "FLAVOUR_2_TEXT": {
     "description": "Selling second hand ship equipment",
-    "message": "Säljer en {equipment}, till ett humant pris!"
+    "message": "{equipment} säljes till ett humant pris!"
   },
   "FLAVOUR_2_TITLE": {
     "description": "Selling second hand ship equipment",

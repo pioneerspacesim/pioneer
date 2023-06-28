@@ -2021,7 +2021,7 @@
   },
   "STAR_FIELD_STAR_SIZE_FACTOR": {
     "description": "",
-    "message": "Size of stars in star field"
+    "message": "Storlek på bakgrundsstjärnor"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
@@ -2093,11 +2093,11 @@
   },
   "TOGGLE_CARGO_WINDOW": {
     "description": "Label for a button toggling the cargo display window.",
-    "message": "Lastfönster"
+    "message": "Last"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
-    "message": "Toggle full comms window"
+    "message": "Meddelanden"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
