@@ -133,7 +133,7 @@
   },
   "DO_I_NEED_SPECIAL_EQUIPMENT": {
     "description": "",
-    "message": "Do I need any special equipment?"
+    "message": "Трябва ли ми някакво специално оборудване?"
   },
   "FAILUREMSG_1": {
     "description": "",
@@ -381,6 +381,6 @@
   },
   "YOU_NEED_A_RADAR": {
     "description": "",
-    "message": "Yes, you need a radar! If you agree, I will program your ship's computer to record the radar data we need. The data will be transferred to me next you come back."
+    "message": "Да, имате нужда от радар! Ако се съгласите, ще програмирам компютъра на Вашия кораб да записва данните от радара. Те ще бъдат прехвърлени към мен, когато се върнете."
   }
 }
