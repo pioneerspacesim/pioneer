@@ -23,6 +23,7 @@ local inv_tau = 1.0 / (4*24)
 
 -- Note: including the 0
 local max_flavour_index = 5
+local max_surprise_index = 2
 
 local flavours = {}
 for i = 0,max_flavour_index do
@@ -91,7 +92,11 @@ local onChat = function (form, ref, option)
 		form:SetMessage(l.FITTING_IS_INCLUDED_IN_THE_PRICE)
 		form:AddOption(l.REPEAT_OFFER, 0);
     elseif option == 2 then    --- "Buy"
-		if Game.player:GetMoney() >= ad.price then
+		if Engine.rand:Integer(0, 99) == 0 then -- This is a one in a hundred event
+			form:SetMessage(l["NO_LONGER_AVAILABLE_" .. Engine.rand:Integer(0, max_surprise_index)])
+			form:RemoveAdvertOnClose()
+			ads[ref] = nil
+		elseif Game.player:GetMoney() >= ad.price then
 			local state, message_str = canFit(ad.equipment)
 			if state then
 				local buy_message = string.interp(l.HAS_BEEN_FITTED_TO_YOUR_SHIP,
