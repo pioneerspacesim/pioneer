@@ -89,15 +89,15 @@
   },
   "NO_LONGER_AVAILABLE_0": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "Sorry, it has just been sold!"
+    "message": "Tyvärr, den har precis sålts!"
   },
   "NO_LONGER_AVAILABLE_1": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "It seems like my colleague just sold it to another customer. Sorry!"
+    "message": "Det verkar som att min kollega precis sålt den till en annan kund. Förlåt!"
   },
   "NO_LONGER_AVAILABLE_2": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "I've changed my mind, it's not for sale anymore."
+    "message": "Jag har ändrat mig, den är inte längre till salu."
   },
   "REPEAT_OFFER": {
     "description": "",
