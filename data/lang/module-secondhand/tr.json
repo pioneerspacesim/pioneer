@@ -89,15 +89,15 @@
   },
   "NO_LONGER_AVAILABLE_0": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "Sorry, it has just been sold!"
+    "message": "Özür dilerim, az önce satıldı!"
   },
   "NO_LONGER_AVAILABLE_1": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "It seems like my colleague just sold it to another customer. Sorry!"
+    "message": "Görünüyor ki arkadaşım az önce başka birine satmış. Üzgünüm!"
   },
   "NO_LONGER_AVAILABLE_2": {
     "description": "If the sentence is hard to translate, just make up an excuse why the item is no longer available.",
-    "message": "I've changed my mind, it's not for sale anymore."
+    "message": "Fikrimi değiştirdim, sanırım satmayacağım."
   },
   "REPEAT_OFFER": {
     "description": "",
