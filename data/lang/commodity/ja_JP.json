@@ -21,7 +21,7 @@
   },
   "BATTLE_WEAPONS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "装甲ホバー戦車、地上対宇宙ミサイル、などの軍用の重火器。それらの取引は通常政府が独占して行います。しかし闇市場においてこれらの物品はしばしば多額の利益を上げます。"
+    "message": "装甲ホバー戦車、地上対宇宙ミサイル、などの軍用の重火器。それらの取引は通常政府が独占して行います。しかし、闇市場においてこれらの物品は、しばしば多額の利益を上げます。"
   },
   "CARBON_ORE": {
     "description": "",
@@ -61,7 +61,7 @@
   },
   "FERTILIZER_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "肥料は産業規模で作物を育てるのに不可欠です。これは単作を可能にしより多くの作物を生み出します。しかし、これには多くの場合いつ影響が出るか分からない環境的コストを伴います。"
+    "message": "肥料は産業規模で作物を育てるのに不可欠です。これは単作を可能にしより多くの作物を生み出します。しかし、これには多くの場合、いつ影響が出るか分からない環境的コストを伴います。"
   },
   "FRUIT_AND_VEG": {
     "description": "",
@@ -93,7 +93,7 @@
   },
   "HYDROGEN_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "水素はハイパードライブの燃料や宇宙船の推進剤として利用される重要な元素です。これを保管することは簡単ではありません。しかし、幸いにも水素は宇宙で最も一般的な元素であり、市場で最も安い商品の1つです。スターポートはいつでも十分に提供します。"
+    "message": "水素はハイパードライブの燃料や宇宙船の推進剤として利用される重要な元素です。これを保管することは簡単ではありません。しかし、幸いにも水素は宇宙で最も一般的な元素であり、市場で最も安い商品の一つです。スターポートはいつでも十分に提供します。"
   },
   "INDUSTRIAL_MACHINERY": {
     "description": "",
@@ -101,7 +101,7 @@
   },
   "INDUSTRIAL_MACHINERY_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "生産ライン、製油所、精錬所、他の製品の機械生産に必要です。これらの高度な機械を生産するには高度な技術が求められます。"
+    "message": "生産ライン、製油所、精錬所、他の製品の機械生産に必要です。これらの高度な機械を生産するには、高度な技術が求められます。"
   },
   "LIQUID_OXYGEN": {
     "description": "",
@@ -125,7 +125,7 @@
   },
   "LIVE_ANIMALS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "道徳、経済、環境の部分を理由に多くの中心星系では動物の飼育と取引は厳しく規制、または違法とされています。銀河の外側に行くと家畜は栄養源と輸送で人々の生活の重要な部分になります。外来の動物園と野生動物保護区は違法な狩場に抵抗するため、通常規制の厳しい国家の統制下にある銀河周辺での、動物を使った商売に貢献しています。"
+    "message": "道徳、経済、環境の部分を理由に多くの中心星系では動物の飼育と取引は厳しく規制、または違法とされています。銀河の外側に行くと家畜は栄養源と輸送で人々の生活の重要な部分になります。熱帯動物園と野生動物保護区は、通常、規制の厳しい国家の統制下にある銀河周辺での、動物を使った商売に貢献し、違法な狩場と闘っています。"
   },
   "MEDICINES": {
     "description": "",
@@ -133,7 +133,7 @@
   },
   "MEDICINES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "天然成分または人工的に合成されて作られた医薬品は人が行くどのような場所でも求められています。薬は長期の宇宙旅行に悪影響を及ぼす風邪を治すので星間人類の発展に不可欠です。麻薬を医薬品に偽装することは珍しくないので税関職員は注意深く監視しています。"
+    "message": "天然成分または人工的に合成されて作られた医薬品は、人が行くどのような場所でも求められています。薬は長期の宇宙旅行に悪影響を及ぼす風邪を治すので、星間人類の発展に不可欠です。麻薬を医薬品に偽装することは珍しくないので、税関職員は注意深く監視しています。"
   },
   "METAL_ALLOYS": {
     "description": "",
@@ -157,7 +157,7 @@
   },
   "MILITARY_FUEL_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "より高度なミリタリードライブの燃料として使われています。これらの装置は運転中に放射性廃棄物を生成するためそれらを廃棄する必要があります。合成された物質のため軍用燃料は、水素より高額で一般的ではなく、自然に発生したものを見つけることはできません。"
+    "message": "より高度なミリタリードライブの燃料として使われています。これらの装置は運転中に放射性廃棄物を生成するため、それらを廃棄する必要があります。合成された物質のため軍用燃料は、水素より高額で一般的ではなく、自然に発生したものを見つけることはできません。"
   },
   "MINING_MACHINERY": {
     "description": "",
@@ -173,7 +173,7 @@
   },
   "NARCOTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "精神と体の状態を変える、天然または合成物質。麻薬の娯楽および医療での使用は人類の歴史と同じぐらい古いが、輸送と取引は一般的に違法です。"
+    "message": "精神と体の状態を変える、天然または合成物質。麻薬の娯楽および医療での使用は、人類の歴史と同じぐらい古いが、輸送と取引は一般的に違法です。"
   },
   "NERVE_GAS": {
     "description": "",
@@ -189,7 +189,7 @@
   },
   "PLASTICS_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "日用品から宇宙船の建造まで色々なことに使われる、合成または半合成物質。これは製造に使いやすく、成形しやすく安価に製造できるので人類文明の重要な部分です。"
+    "message": "日用品から宇宙船の建造まで色々なことに使われる、合成または半合成物質。これは製造に使いやすく、成形しやすく安価に製造できるので、人類文明の重要な部分です。"
   },
   "PRECIOUS_METALS": {
     "description": "",
@@ -221,7 +221,7 @@
   },
   "RUBBISH_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "廃棄物は文明の副産物で産業廃棄物、家庭ごみ、使い古された機材などで構成されています。ほとんどの廃棄物は再加工、リサイクル、または他の世界に輸送するためにスターポートに送られます。人が居住している星系に廃棄物を投棄することはほとんどの場合違法です。スターポートは通常、廃棄物処理費を要求するが、在庫を取り除くために料金を支払うことがあります。"
+    "message": "廃棄物は文明の副産物で産業廃棄物、家庭ごみ、使い古された機材などで構成されています。ほとんどの廃棄物は再加工、リサイクル、または他の世界に輸送するためにスターポートに送られます。人が居住している星系に廃棄物を投棄することはほとんどの場合違法です。スターポートは通常、廃棄物処理費を要求する一方で、在庫を取り除くために料金を支払うでしょう。"
   },
   "SLAVES": {
     "description": "",
@@ -229,7 +229,7 @@
   },
   "SLAVES_DESCRIPTION": {
     "description": "This is an artistic description of the commodity. Translate as you deem appropriate or come up with your own description, long or short, its up to you.",
-    "message": "文明の動力は奴隷から機械に置き換わったので奴隷制は現在、一般に不道徳とみなされます。そして、禁則に対する違反者は厳罰に処されます。しかし、人道主義者の最大の努力にもかかわらず奴隷制は発達した世界で依然としてよく存在します。"
+    "message": "文明の動力は奴隷から機械に置き換わったので、奴隷制は現在、一般に不道徳とみなされます。そして、禁則に対する違反者は厳罰に処されます。しかし、人道主義者の最大の努力にもかかわらず奴隷制は発達した世界で依然としてよく存在します。"
   },
   "TEXTILES": {
     "description": "",
