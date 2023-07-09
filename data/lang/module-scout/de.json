@@ -281,7 +281,7 @@
   },
   "DROP_OFF_DATA": {
     "description": "",
-    "message": "Drop off data at {location} before {date}"
+    "message": "Liefern Sie die Daten vor vor {date} nach {location}"
   },
   "EXCELLENT_I_AWAIT_YOUR_REPORT": {
     "description": "",
@@ -289,7 +289,7 @@
   },
   "HOW_DOES_IT_WORK": {
     "description": "",
-    "message": "How does it work?"
+    "message": "Wie geht das?"
   },
   "HUD_SCAN_PROGRESS": {
     "description": "",
