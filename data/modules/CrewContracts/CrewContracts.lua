@@ -379,6 +379,24 @@ local isEnabled = function (ref)
 	return numCrewmenAvailable > 0
 end
 
+local newCrew = function()
+	local hopefulCrew = Character.New()
+	-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
+	hopefulCrew:RollNew(Engine.rand:Integer(0, 2) > 0)
+	-- Make them a title if they're good at anything
+	local maxScore = math.max(hopefulCrew.engineering,
+								hopefulCrew.piloting,
+								hopefulCrew.navigation,
+								hopefulCrew.sensors)
+	if maxScore > 45 then
+		if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
+		if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
+		if hopefulCrew.navigation == maxScore then hopefulCrew.title = lui.NAVIGATOR end
+		if hopefulCrew.sensors == maxScore then hopefulCrew.title = lui.SENSORS_AND_DEFENCE end
+	end
+	return hopefulCrew
+end
+
 local onCreateBB = function (station)
 	-- Create non-persistent Characters as available crew
 	nonPersistentCharactersForCrew[station] = {}
@@ -393,25 +411,37 @@ local onCreateBB = function (station)
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
 	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
-		local hopefulCrew = Character.New()
-		-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
-		hopefulCrew:RollNew(Engine.rand:Integer(0, 2) > 0)
-		-- Make them a title if they're good at anything
-		local maxScore = math.max(hopefulCrew.engineering,
-									hopefulCrew.piloting,
-									hopefulCrew.navigation,
-									hopefulCrew.sensors)
-		if maxScore > 45 then
-			if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
-			if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
-			if hopefulCrew.navigation == maxScore then hopefulCrew.title = lui.NAVIGATOR end
-			if hopefulCrew.sensors == maxScore then hopefulCrew.title = lui.SENSORS_AND_DEFENCE end
-		end
-		table.insert(nonPersistentCharactersForCrew[station],hopefulCrew)
+		table.insert(nonPersistentCharactersForCrew[station],newCrew())
 	end
 end
-
 Event.Register("onCreateBB", onCreateBB)
+
+local onUpdateBB = function (station)
+	-- If no crew available (ad is greyed out), reseed the table after a while
+	if #nonPersistentCharactersForCrew[station] < 1 and Engine.rand:Integer(0, 10) == 0 then -- Not much crew around
+		table.insert(nonPersistentCharactersForCrew[station],newCrew())
+		print("Reseeding crew candidates")
+	else
+		-- 1 in 30 to be removed and then maybe someone new inserted
+		for k,v in pairs(nonPersistentCharactersForCrew[station]) do
+			if #nonPersistentCharactersForCrew[station] > 0 then
+				if Engine.rand:Integer(0, 100) == 0 then
+					table.remove(nonPersistentCharactersForCrew[station],k)
+					print("Removing crew candidate. #nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
+				end
+			end
+		end
+		for k,v in pairs(nonPersistentCharactersForCrew[station]) do
+			if #nonPersistentCharactersForCrew[station] < math.ceil(Game.system.population) * 2 + 1 then
+				if Engine.rand:Integer(0, 100) == 0 then
+					table.insert(nonPersistentCharactersForCrew[station],k,newCrew())
+					print("Adding crew candidate. #nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
+				end
+			end
+		end
+	end
+end
+Event.Register("onUpdateBB", onUpdateBB)
 
 -- Wipe temporary crew out when hyperspacing
 Event.Register("onEnterSystem", function(ship)
