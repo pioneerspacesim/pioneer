@@ -418,14 +418,14 @@ Event.Register("onCreateBB", onCreateBB)
 
 local onUpdateBB = function (station)
 	-- If no crew available (ad is greyed out), reseed the table after a while
-	if #nonPersistentCharactersForCrew[station] < 1 and Engine.rand:Integer(0, 10) == 0 then -- Not much crew around
+	if #nonPersistentCharactersForCrew[station] < 1 and Engine.rand:Integer(0, 99) == 0 then -- Not much crew around
 		table.insert(nonPersistentCharactersForCrew[station],newCrew())
 		print("Reseeding crew candidates")
 	else
-		-- 1 in 30 to be removed and then maybe someone new inserted
+		-- 1 in 100 to be removed and then maybe someone new inserted
 		for k,v in pairs(nonPersistentCharactersForCrew[station]) do
 			if #nonPersistentCharactersForCrew[station] > 0 then
-				if Engine.rand:Integer(0, 100) == 0 then
+				if Engine.rand:Integer(0, 99) == 0 then
 					table.remove(nonPersistentCharactersForCrew[station],k)
 					print("Removing crew candidate. #nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
 				end
@@ -433,7 +433,7 @@ local onUpdateBB = function (station)
 		end
 		for k,v in pairs(nonPersistentCharactersForCrew[station]) do
 			if #nonPersistentCharactersForCrew[station] < math.ceil(Game.system.population) * 2 + 1 then
-				if Engine.rand:Integer(0, 100) == 0 then
+				if Engine.rand:Integer(0, 99) == 0 then
 					table.insert(nonPersistentCharactersForCrew[station],k,newCrew())
 					print("Adding crew candidate. #nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
 				end
