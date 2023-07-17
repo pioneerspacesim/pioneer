@@ -424,7 +424,7 @@ Event.Register("onCreateBB", onCreateBB)
 local onUpdateBB = function (station)
 	-- If no crew available (ad is greyed out), reseed the table after a while
 	if #nonPersistentCharactersForCrew[station] < 1 then
-		if Engine.rand:Integer(0, 99) == 0 then -- Not much crew around
+		if Engine.rand:Integer(0, 29) == 0 then -- Not much crew around
 			table.insert(nonPersistentCharactersForCrew[station],newCrew())
 			print("Reseeding crew candidates")
 		end
