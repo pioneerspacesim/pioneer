@@ -397,6 +397,11 @@ local newCrew = function()
 	return hopefulCrew
 end
 
+-- Returns a suitable max number of applicants depending on system population
+local maxCrewForStation = function ()
+  return math.ceil(Game.system.population) * 2 + 1
+end
+
 local onCreateBB = function (station)
 	-- Create non-persistent Characters as available crew
 	nonPersistentCharactersForCrew[station] = {}
@@ -410,7 +415,7 @@ local onCreateBB = function (station)
 		isEnabled   = isEnabled})] = station
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
-	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
+	for i = 1, Engine.rand:Integer(0, maxCrewForStation()) do
 		table.insert(nonPersistentCharactersForCrew[station],newCrew())
 	end
 end
@@ -418,28 +423,31 @@ Event.Register("onCreateBB", onCreateBB)
 
 local onUpdateBB = function (station)
 	-- If no crew available (ad is greyed out), reseed the table after a while
-	if #nonPersistentCharactersForCrew[station] < 1 and Engine.rand:Integer(0, 99) == 0 then -- Not much crew around
-		table.insert(nonPersistentCharactersForCrew[station],newCrew())
-		print("Reseeding crew candidates")
+	if #nonPersistentCharactersForCrew[station] < 1 then
+		if Engine.rand:Integer(0, 99) == 0 then -- Not much crew around
+			table.insert(nonPersistentCharactersForCrew[station],newCrew())
+			print("Reseeding crew candidates")
+		end
 	else
 		-- 1 in 100 to be removed and then maybe someone new inserted
 		for k,v in pairs(nonPersistentCharactersForCrew[station]) do
 			if #nonPersistentCharactersForCrew[station] > 0 then
 				if Engine.rand:Integer(0, 99) == 0 then
 					table.remove(nonPersistentCharactersForCrew[station],k)
-					print("Removing crew candidate. #nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
+					--print("Removing crew candidate. #nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
 				end
 			end
 		end
 		for k,v in pairs(nonPersistentCharactersForCrew[station]) do
-			if #nonPersistentCharactersForCrew[station] < math.ceil(Game.system.population) * 2 + 1 then
+			if #nonPersistentCharactersForCrew[station] < maxCrewForStation() then
 				if Engine.rand:Integer(0, 99) == 0 then
 					table.insert(nonPersistentCharactersForCrew[station],k,newCrew())
-					print("Adding crew candidate. #nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
+					--print("Adding crew candidate. #nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
 				end
 			end
 		end
 	end
+	print("#nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
 end
 Event.Register("onUpdateBB", onUpdateBB)
 
