@@ -379,6 +379,16 @@ local isEnabled = function (ref)
 	return numCrewmenAvailable > 0
 end
 
+local function N_equilibrium(station)
+	local pop = station.path:GetSystemBody().parent.population -- E.g. Earth=7, Mars=0.3
+	local pop_bonus = 9 * math.log(pop * 0.45 + 1)       -- something that gives resonable result
+	if station.type == "STARPORT_SURFACE" then
+		pop_bonus = pop_bonus * 1.5
+	end
+
+	return 2 + pop_bonus
+end
+
 local newCrew = function()
 	local hopefulCrew = Character.New()
 	-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
@@ -397,9 +407,11 @@ local newCrew = function()
 	return hopefulCrew
 end
 
--- Returns a suitable max number of applicants depending on system population
-local maxCrewForStation = function ()
-  return math.ceil(Game.system.population) * 2 + 1
+local function removeAd (station, num)
+	if not nonPersistentCharactersForCrew[station] then
+		nonPersistentCharactersForCrew[station] = {}
+	end
+	table.remove(nonPersistentCharactersForCrew[station], num)
 end
 
 local onCreateBB = function (station)
@@ -415,43 +427,30 @@ local onCreateBB = function (station)
 		isEnabled   = isEnabled})] = station
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
-	for i = 1, Engine.rand:Integer(0, maxCrewForStation()) do
+	for i = 1, Engine.rand:Poisson(N_equilibrium(station)) do
 		table.insert(nonPersistentCharactersForCrew[station],newCrew())
 	end
 end
 Event.Register("onCreateBB", onCreateBB)
 
 local onUpdateBB = function (station)
-	-- If no crew available (ad is greyed out), reseed the table after a while
-	if #nonPersistentCharactersForCrew[station] < 1 then
-		if Engine.rand:Integer(0, 29) == 0 then -- One in thirty to reseed with one candidate. We're a bit off season.
-			table.insert(nonPersistentCharactersForCrew[station],newCrew())
-			print("Reseeding. One candidate added.")
-			return
-		else
-			print("#nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
-			return
-		end
-	else
-		-- 1 in 100 to be removed and then maybe someone new inserted
-		for k,v in pairs(nonPersistentCharactersForCrew[station]) do
-			if #nonPersistentCharactersForCrew[station] > 0 then
-				if Engine.rand:Integer(0, 99) == 0 then
-					table.remove(nonPersistentCharactersForCrew[station],k)
-					--print("Removing crew candidate. #nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
-				end
-			end
-		end
-		for k,v in pairs(nonPersistentCharactersForCrew[station]) do
-			if #nonPersistentCharactersForCrew[station] < maxCrewForStation() then
-				if Engine.rand:Integer(0, 99) == 0 then
-					table.insert(nonPersistentCharactersForCrew[station],k,newCrew())
-					--print("Adding crew candidate. #nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
-				end
-			end
+	local tau = 7*24                              -- half life of a ship advert in hours
+	local lambda = 0.693147 / tau                 -- removal probability= ln(2) / tau
+	local prod = N_equilibrium(station) * lambda  -- creation probability
+
+	-- remove with decay rate lambda. Call ONCE/hour for each ship advert in station
+	for k,v in pairs(nonPersistentCharactersForCrew[station]) do
+		if Engine.rand:Number(0,1) < lambda then  -- remove one random ship (sold)
+			table.remove(nonPersistentCharactersForCrew[station],k)
 		end
 	end
+
+	-- spawn a new ship adverts, call for each station
+	if Engine.rand:Number(0,1) <= prod then
+		table.insert(nonPersistentCharactersForCrew[station], 1, newCrew())
+	end
 	print("#nonPersistentCharactersForCrew: " .. #nonPersistentCharactersForCrew[station])
+	if prod > 1 then print("Warning: crew market not in equilibrium") end
 end
 Event.Register("onUpdateBB", onUpdateBB)
 
