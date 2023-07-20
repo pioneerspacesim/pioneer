@@ -205,7 +205,7 @@ void LuaConsole::Draw()
 		ImGui::EndChild();
 		ImGui::Separator();
 
-		if (ImGui::IsKeyPressed(SDL_GetScancodeFromKey(SDLK_ESCAPE)))
+		if (ImGui::IsKeyReleased(SDL_GetScancodeFromKey(SDLK_ESCAPE)))
 			Toggle();
 
 		ImGui::SetNextItemWidth(ImGui::GetColumnWidth());
