@@ -1,3 +1,18 @@
+July 2023
+  * New Features
+    * SecondHand - Add possibility to refuse selling (#5593)
+
+  * Fixes
+    * Fix issues when quitting Lua console (#5597)
+
+June 2023
+  * Fixes
+    * Mouseover tooltip for the ECM and the Advanced ECM systems (#5590)
+
+  * Internal Changes
+    * Include ad title in bulletin board search (#5589)
+    * Combat mission explanation about special equipment (#5588)
+
 May 2023
   * Fixes
     * Fix SIGFPE from zero length vector if flying long time enough (#5569)
