@@ -69,7 +69,7 @@ REGISTER_INPUT_BINDING(LuaConsole)
 void LuaConsole::SetupBindings()
 {
 	toggleLuaConsole = m_inputFrame.AddAction("BindToggleLuaConsole");
-	toggleLuaConsole->onPressed.connect(sigc::mem_fun(this, &LuaConsole::Toggle));
+	toggleLuaConsole->onReleased.connect(sigc::mem_fun(this, &LuaConsole::Toggle));
 	Pi::input->AddInputFrame(&m_inputFrame);
 }
 
