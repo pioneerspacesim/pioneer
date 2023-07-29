@@ -727,15 +727,20 @@ Ship::ECMResult Ship::UseECM()
 		Space::BodyNearList nearby = Pi::game->GetSpace()->GetBodiesMaybeNear(this, ECM_RADIUS);
 		for (Body *body : nearby) {
 			if (body->GetFrame() != GetFrame()) continue;
-			if (!body->IsType(ObjectType::MISSILE)) continue;
 
 			double dist = (body->GetPosition() - GetPosition()).Length();
-			if (dist < ECM_RADIUS) {
-				// increasing chance of destroying it with proximity
-				if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
-					static_cast<Missile *>(body)->ECMAttack(ecm_power_cap);
+			if (body->IsType(ObjectType::MISSILE)) {
+				if (dist < ECM_RADIUS) {
+					// increasing chance of destroying it with proximity
+					if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
+						static_cast<Missile *>(body)->ECMAttack(ecm_power_cap);
+					}
 				}
 			}
+			else if (body->IsType(ObjectType::SPACESTATION) && dist < ECM_RADIUS) {
+				LuaEvent::Queue("unlawfulDischargeECM", this);
+			}
+			else { continue; }
 		}
 		return ECM_ACTIVATED;
 	} else

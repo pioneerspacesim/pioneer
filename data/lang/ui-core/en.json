@@ -2583,6 +2583,10 @@
     "description": "",
     "message": "Unlawful weapons discharge"
   },
+  "UNLAWFUL_ECM_DISCHARGE": {
+    "description": "",
+    "message": "Unlawful ECM discharge"
+  },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
     "message": "Unoccupied Passenger Cabins"
