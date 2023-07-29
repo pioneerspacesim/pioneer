@@ -102,6 +102,13 @@ local onShipFiring = function(ship)
 end
 
 
+local unlawfulDischargeECM = function(ship)
+	if ship:IsPlayer() then
+		Legal:notifyOfCrime(ship,"ECM_DISCHARGE")
+	end
+end
+
+
 local onLeaveSystem = function(ship)
 	if not ship:IsPlayer() then return end
 	-- if we leave the system, the space station object will be invalid
@@ -121,6 +128,7 @@ end
 Event.Register("onShipHit", onShipHit)
 Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onShipFiring", onShipFiring)
+Event.Register("unlawfulDischargeECM", unlawfulDischargeECM)
 Event.Register("onJettison", onJettison)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
