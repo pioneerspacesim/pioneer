@@ -218,7 +218,7 @@ local function renderBulletinBoard()
 				ui.text(l.SEARCH)
 			end)
 			ui.pushItemWidth(ui.getContentRegion().x)
-			searchText, searchTextEntered = ui.inputText("", searchText, {})
+			searchText, searchTextEntered = ui.inputText("##searchText", searchText, {})
 			if searchTextEntered then
 				refresh()
 			end

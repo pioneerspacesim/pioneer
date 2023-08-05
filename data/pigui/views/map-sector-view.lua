@@ -331,7 +331,7 @@ function Windows.searchBar:Show()
 
 	if leftBarMode == "SEARCH" then
 		ui.text(lc.SEARCH)
-		local search_text, changed = ui.inputText("", searchString, {})
+		local search_text, changed = ui.inputText("##searchText", searchString, {})
 		ui.spacing()
 		local parsedSystem = changed and search_text ~= "" and SystemPath.ParseString(search_text)
 		if parsedSystem and parsedSystem ~= nil then
@@ -365,7 +365,7 @@ function Windows.searchBar.Dummy()
 	ui.mainMenuButton(icons.search_lens, lc.SEARCH)
 	ui.spacing()
 	ui.text("***************")
-	ui.inputText("", "", {})
+	ui.inputText("##searchText", "", {})
 	ui.spacing()
 	ui.text("***************")
 end

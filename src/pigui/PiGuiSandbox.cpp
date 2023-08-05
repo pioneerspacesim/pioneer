@@ -28,7 +28,7 @@ static void ErrorCheckRecover(ImGuiStackSizes *on_begin, ImGuiErrorLogCallback l
 #endif
 	IM_ASSERT(window != NULL);
 	if (on_begin == NULL)
-		on_begin = &window->DC.StackSizesOnBegin;
+		on_begin = &g.CurrentWindowStack.back().StackSizesOnBegin;
 
 	while (g.CurrentTabBarStack.Size > on_begin->SizeOfTabBarStack) {
 		if (log_callback) log_callback(user_data, "Recovered from missing EndTabBar() in '%s'", window->Name);

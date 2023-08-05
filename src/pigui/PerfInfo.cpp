@@ -518,7 +518,8 @@ void PerfInfo::DrawTextureCache()
 					continue;
 
 				if (ImGui::BeginChild("##Texture List Scroll")) {
-					const int num_columns = std::max(int(ImGui::GetWindowContentRegionWidth()) / item_width, 1);
+					const int window_width = ImGui::GetWindowContentRegionMax().x - ImGui::GetWindowContentRegionMin().x;
+					const int num_columns = std::max(int(window_width) / item_width, 1);
 					ImGui::Columns(num_columns);
 					if (num_columns > 1) {
 						for (int idx = 0; idx < num_columns; idx++)

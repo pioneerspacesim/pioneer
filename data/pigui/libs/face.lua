@@ -145,7 +145,7 @@ function PiGuiFace:render()
 			ui.withStyleVars({FramePadding = inputTextPadding}, function()
 
 				ui.pushItemWidth(ui.getColumnWidth())
-				local text, entered = ui.inputText("", char.name, {})
+				local text, entered = ui.inputText("##name", char.name, {})
 
 				if entered then
 					char.name = text
