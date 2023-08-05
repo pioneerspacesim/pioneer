@@ -35,6 +35,7 @@ struct PerfInfo::ImGuiState {
 	bool perfWindowOpen = true;
 	bool updatePause = false;
 	bool metricsWindowOpen = false;
+	bool stackToolOpen = false;
 	uint32_t playerModelDebugFlags = 0;
 
 	bool textureCacheViewerOpen = false;
@@ -200,6 +201,9 @@ void PerfInfo::Draw()
 
 	if (m_state->metricsWindowOpen)
 		ImGui::ShowMetricsWindow(&m_state->metricsWindowOpen);
+
+	if (m_state->stackToolOpen)
+		ImGui::ShowStackToolWindow(&m_state->stackToolOpen);
 }
 
 void PerfInfo::DrawPerfWindow()
@@ -452,6 +456,10 @@ void PerfInfo::DrawImGuiStats()
 
 	if (ImGui::Button("Toggle Metrics Window")) {
 		m_state->metricsWindowOpen = !m_state->metricsWindowOpen;
+	}
+
+	if (ImGui::Button("Toggle Stack Tool")) {
+		m_state->stackToolOpen = !m_state->stackToolOpen;
 	}
 }
 
