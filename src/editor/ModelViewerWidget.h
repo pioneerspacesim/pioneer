@@ -51,7 +51,7 @@ namespace Editor
 
 			bool showLandingPad;
 
-			int lightPreset;
+			uint32_t lightPreset;
 		};
 
 		enum class CameraPreset : uint8_t {
@@ -74,6 +74,7 @@ namespace Editor
 		void OnDisappearing() override;
 
 		void SetDecals(std::string_view decalPath);
+		void SetRandomColors();
 
 		const char *GetWindowName() override;
 
@@ -89,6 +90,11 @@ namespace Editor
 		bool OnCloseRequested() override { return true; };
 
 		virtual void PostRender() {};
+
+		virtual void DrawMenus();
+		virtual void DrawViewportControls();
+
+		const matrix4x4f &GetModelViewMat() const { return m_modelViewMat; }
 
 		sigc::signal<void> m_onModelChanged;
 
@@ -140,9 +146,16 @@ namespace Editor
 		std::vector<SceneGraph::Animation *> m_animations;
 		SceneGraph::Animation *m_currentAnimation = nullptr;
 
+		bool m_modelSupportsPatterns = false;
+		std::vector<std::string> m_patterns;
+		uint32_t m_currentPattern = 0;
+
 		Graphics::Texture *m_decalTexture;
 
 		Options m_options;
+
+		// Model pattern colors
+		std::vector<Color> m_colors;
 
 		float m_baseDistance;
 		float m_gridDistance;

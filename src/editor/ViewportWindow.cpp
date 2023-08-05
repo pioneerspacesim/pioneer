@@ -34,22 +34,27 @@ void ViewportWindow::OnDisappearing()
 
 }
 
+ImGuiWindowFlags ViewportWindow::SetupWindowFlags()
+{
+	return ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
+}
+
 void ViewportWindow::Update(float deltaTime)
 {
-	ImGuiWindowFlags flags =
-		ImGuiWindowFlags_NoCollapse |
-        ImGuiWindowFlags_NoScrollbar |
-        ImGuiWindowFlags_NoScrollWithMouse;
+	ImGuiWindowFlags flags = SetupWindowFlags();
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 1.f, 1.f });
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.f);
 
 	bool shouldClose = false;
-	bool open = ImGui::Begin(GetWindowName(), &shouldClose, flags);
+	bool open = ImGui::Begin(GetWindowName(), (flags & ImGuiWindowFlags_NoTitleBar) ? nullptr : &shouldClose, flags);
 
 	ImGui::PopStyleVar(2);
 
 	if (open) {
+		// Perform scene updates before rendering
+		OnUpdate(deltaTime);
+
 		ImVec2 size = ImGui::GetContentRegionAvail();
 
 		m_viewportExtents.w = int(size.x);

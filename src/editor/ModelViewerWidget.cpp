@@ -2,18 +2,25 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelViewerWidget.h"
+
 #include "EditorApp.h"
+#include "EditorDraw.h"
 #include "NavLights.h"
-#include "SDL_keycode.h"
+#include "Shields.h"
+
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+
 #include "scenegraph/Animation.h"
 #include "scenegraph/BinaryConverter.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/Loader.h"
 #include "scenegraph/Model.h"
+#include "scenegraph/ModelSkin.h"
 #include "scenegraph/Tag.h"
+
+#include "SDL_keycode.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
@@ -36,6 +43,18 @@ namespace {
 	}
 }
 
+namespace ImGui {
+
+	static bool ColorEdit3(const char *label, Color &color)
+	{
+		Color4f _c = color.ToColor4f();
+		bool changed = ColorEdit3(label, &_c[0]);
+		color = Color(_c);
+		return changed;
+	}
+
+}
+
 // ─── Setup ───────────────────────────────────────────────────────────────────
 
 ModelViewerWidget::ModelViewerWidget(EditorApp *app) :
@@ -43,7 +62,10 @@ ModelViewerWidget::ModelViewerWidget(EditorApp *app) :
 	m_bindings(app->GetInput()),
 	m_input(app->GetInput()),
 	m_renderer(app->GetRenderer()),
-	m_options({})
+	m_options({}),
+	m_colors({ Color(255, 0, 0),
+		Color(0, 255, 0),
+		Color(0, 0, 255) })
 {
 	m_onModelChanged.connect(sigc::mem_fun(*this, &ModelViewerWidget::OnModelChanged));
 
@@ -100,7 +122,7 @@ void ModelViewerWidget::LoadModel(std::string_view path)
 			return;
 		}
 
-		// Shields::ReparentShieldNodes(m_model.get());
+		Shields::ReparentShieldNodes(m_model.get());
 
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment
@@ -157,8 +179,15 @@ void ModelViewerWidget::OnModelChanged()
 
 	m_animations = m_model->GetAnimations();
 	m_currentAnimation = m_animations.size() ? m_animations.front() : nullptr;
-	// if (m_currentAnimation)
-		// m_model->SetAnimationActive(0, true);
+
+	m_patterns.clear();
+	m_currentPattern = 0;
+	m_modelSupportsPatterns = m_model->SupportsPatterns();
+	if (m_modelSupportsPatterns) {
+		for (const auto &pattern : m_model->GetPatterns()) {
+			m_patterns.push_back(pattern.name);
+		}
+	}
 }
 
 void ModelViewerWidget::CreateTestResources()
@@ -187,14 +216,22 @@ void ModelViewerWidget::SetDecals(std::string_view texname)
 	m_model->SetDecalTexture(m_decalTexture, 3);
 }
 
+void ModelViewerWidget::SetRandomColors()
+{
+	if (!m_model || !m_model->SupportsPatterns())
+		return;
+
+	Random rng(uint32_t(GetApp()->GetTime()));
+
+	SceneGraph::ModelSkin skin;
+	skin.SetRandomColors(rng);
+	skin.Apply(m_model.get());
+
+	m_colors = skin.GetColors();
+}
+
 const char *ModelViewerWidget::GetWindowName()
 {
-	// if (m_model) {
-	// 	return m_model->GetName().c_str();
-	// } else {
-	// 	return "Model Viewer";
-	// }
-
 	return "Model Viewer";
 }
 
@@ -598,43 +635,6 @@ void ModelViewerWidget::UpdateLights()
 
 // ─── Draw Overlays ───────────────────────────────────────────────────────────
 
-namespace ImGui {
-
-	bool MenuButton(const char *label)
-	{
-		ImVec2 screenPos = ImGui::GetCursorScreenPos();
-
-		if (ImGui::Button(label))
-			ImGui::OpenPopup(label);
-
-		if (ImGui::IsPopupOpen(label)) {
-			ImGuiPopupFlags flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavFocus;
-			ImGui::SetNextWindowPos(screenPos + ImVec2(0.f, ImGui::GetFrameHeightWithSpacing()));
-
-			return ImGui::BeginPopup(label, flags);
-		}
-
-		return false;
-	}
-
-	bool ToggleIconButton(const char *icon, bool *value, ImVec4 activeColor)
-	{
-		if (*value)
-			ImGui::PushStyleColor(ImGuiCol_Button, activeColor);
-
-		bool changed = ImGui::Button(icon);
-
-		if (*value)
-			ImGui::PopStyleColor(1);
-
-		if (changed)
-			*value = !*value;
-
-		return changed;
-	}
-
-}
-
 void ModelViewerWidget::OnDraw()
 {
 	if (m_options.hideUI) {
@@ -643,7 +643,40 @@ void ModelViewerWidget::OnDraw()
 
 	ImVec2 cursorPos = ImGui::GetCursorPos();
 
-	if (ImGui::MenuButton("Options")) {
+	DrawMenus();
+
+	ImGui::Separator();
+
+	DrawViewportControls();
+
+	if (m_animations.empty()) {
+		return;
+	}
+
+	uint32_t animIndex = m_model->FindAnimationIndex(m_currentAnimation);
+	bool animActive = m_model->GetAnimationActive(animIndex);
+
+	float bottomPosOffset = ImGui::GetContentRegionAvail().y - ImGui::GetFrameHeightWithSpacing();
+	ImGui::SetCursorPos(cursorPos + ImVec2(0.f, bottomPosOffset));
+
+	const char *play_pause = animActive ? "||###Play/Pause" : ">###Play/Pause";
+
+	if (Draw::ToggleButton(play_pause, &animActive, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive])) {
+		m_model->SetAnimationActive(animIndex, animActive);
+	}
+
+	float progress = m_currentAnimation->GetProgress();
+
+	ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x);
+	if (ImGui::SliderFloat("##AnimProgress", &progress, 0.f, 1.f)) {
+		m_currentAnimation->SetProgress(progress);
+		m_currentAnimation->Interpolate();
+	}
+}
+
+void ModelViewerWidget::DrawMenus()
+{
+	if (Draw::MenuButton("Options")) {
 		ImGui::Checkbox("Show Scale Model", &m_options.showLandingPad);
 		ImGui::Checkbox("Show Collision Mesh", &m_options.showCollMesh);
 		m_options.showAabb = m_options.showCollMesh;
@@ -654,10 +687,77 @@ void ModelViewerWidget::OnDraw()
 		ImGui::EndMenu();
 	}
 
-	ImGui::Separator();
+	if (m_model && Draw::MenuButton("Model")) {
 
+		// ensure the menu is wide enough to display the animation names properly
+		ImGui::Dummy(ImVec2(150.f, 0.f));
+
+		if (!m_animations.empty()) {
+			ImGui::TextUnformatted("Animation");
+			ImGui::Spacing();
+
+			ImGui::SetNextItemWidth(-FLT_MIN);
+			if (ImGui::BeginCombo("##Animation", m_currentAnimation->GetName().c_str())) {
+				for (const auto anim : m_animations) {
+					const bool selected = m_currentAnimation == anim;
+					if (ImGui::Selectable(anim->GetName().c_str(), selected) && !selected) {
+						// selected a new animation entry
+						m_model->SetAnimationActive(m_model->FindAnimationIndex(m_currentAnimation), false);
+						m_model->SetAnimationActive(m_model->FindAnimationIndex(anim), true);
+						m_currentAnimation = anim;
+					}
+				}
+
+				ImGui::EndCombo();
+			}
+
+			ImGui::Spacing();
+		}
+
+		if (m_modelSupportsPatterns) {
+
+			ImGui::TextUnformatted("Pattern");
+			ImGui::Spacing();
+
+			const char *preview_name = m_patterns[m_currentPattern].c_str();
+			if (ImGui::BeginCombo("##Pattern", preview_name)) {
+				for (size_t idx = 0; idx < m_patterns.size(); idx++) {
+					const bool selected = m_currentPattern == idx;
+					if (ImGui::Selectable(m_patterns[idx].c_str(), selected) && !selected) {
+						m_currentPattern = idx;
+						m_model->SetPattern(idx);
+					}
+				}
+
+				ImGui::EndCombo();
+			}
+
+			ImGui::Spacing();
+
+			ImGui::TextUnformatted("Pattern Colors");
+			ImGui::Spacing();
+
+			if (ImGui::Button("Set Random Colors", ImVec2(-1.f, 0.f)))
+				SetRandomColors();
+
+			bool valuesChanged = false;
+			valuesChanged |= ImGui::ColorEdit3("##Color 1", m_colors[0]);
+			valuesChanged |= ImGui::ColorEdit3("##Color 2", m_colors[1]);
+			valuesChanged |= ImGui::ColorEdit3("##Color 3", m_colors[2]);
+
+			if (valuesChanged)
+				m_model->SetColors(m_colors);
+
+		}
+
+		ImGui::EndMenu();
+	}
+}
+
+void ModelViewerWidget::DrawViewportControls()
+{
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.f, 0.f));
-	ImGui::ToggleIconButton("#", &m_options.showGrid, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+	Draw::ToggleButton("#", &m_options.showGrid, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
 	ImGui::PopStyleVar(1);
 
 	float width = ImGui::CalcTextSize("1000m").x + ImGui::GetFrameHeightWithSpacing();
@@ -680,28 +780,23 @@ void ModelViewerWidget::OnDraw()
 		ImGui::EndCombo();
 	}
 
-	if (m_animations.empty()) {
-		return;
-	}
+	ImGui::Separator();
 
-	uint32_t animIndex = m_model->FindAnimationIndex(m_currentAnimation);
-	bool animActive = m_model->GetAnimationActive(animIndex);
+	static std::vector<std::string> lightSetups = {
+		"Front Light", "Two-point", "Backlight"
+	};
 
-	float frameHeight = ImGui::GetFrameHeight();
-	float bottomPosOffset = ImGui::GetContentRegionAvail().y - ImGui::GetFrameHeightWithSpacing();
-	ImGui::SetCursorPos(cursorPos + ImVec2(0.f, bottomPosOffset));
+	const char *lightPreviewStr = lightSetups[m_options.lightPreset].c_str();
+	ImGui::SetNextItemWidth(ImGui::CalcTextSize(lightPreviewStr).x + ImGui::GetFrameHeightWithSpacing() * 2.f);
 
-	const char *play_pause = animActive ? "||###Play/Pause" : ">###Play/Pause";
+	if (ImGui::BeginCombo("##Lights", lightPreviewStr)) {
+		for (size_t idx = 0; idx < lightSetups.size(); idx++) {
+			const bool selected = m_options.lightPreset == idx;
+			if (ImGui::Selectable(lightSetups[idx].c_str(), selected) && !selected) {
+				m_options.lightPreset = idx;
+			}
+		}
 
-	if (ImGui::Button(play_pause, ImVec2(frameHeight, frameHeight))) {
-		m_model->SetAnimationActive(animIndex, !animActive);
-	}
-
-	float progress = m_currentAnimation->GetProgress();
-
-	ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x);
-	if (ImGui::SliderFloat("##AnimProgress", &progress, 0.f, 1.f)) {
-		m_currentAnimation->SetProgress(progress);
-		m_currentAnimation->Interpolate();
+		ImGui::EndCombo();
 	}
 }

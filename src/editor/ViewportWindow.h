@@ -35,6 +35,8 @@ namespace Editor
 
 		virtual void OnHandleInput(bool clicked, bool released, ImVec2 mousePos) = 0;
 
+		virtual ImGuiWindowFlags SetupWindowFlags();
+
 		void CreateRenderTarget();
 
 		Graphics::RenderTarget *GetRenderTarget() { return m_renderTarget.get(); }

@@ -3,6 +3,7 @@
 
 #include "EditorDraw.h"
 #include "UndoSystem.h"
+
 #include "imgui/imgui.h"
 
 using namespace Editor;
@@ -113,4 +114,37 @@ bool Draw::ComboUndoHelper(std::string_view entryName, const char *label, const 
 bool Draw::ComboUndoHelper(std::string_view label, const char *preview, UndoSystem *undo)
 {
 	return ComboUndoHelper(label, label.data(), preview, undo);
+}
+
+bool Draw::MenuButton(const char *label)
+{
+	ImVec2 screenPos = ImGui::GetCursorScreenPos();
+
+	if (ImGui::Button(label))
+		ImGui::OpenPopup(label);
+
+	if (ImGui::IsPopupOpen(label)) {
+		ImGuiPopupFlags flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavFocus;
+		ImGui::SetNextWindowPos(screenPos + ImVec2(0.f, ImGui::GetFrameHeightWithSpacing()));
+
+		return ImGui::BeginPopup(label, flags);
+	}
+
+	return false;
+}
+
+bool Draw::ToggleButton(const char *label, bool *value, ImVec4 activeColor)
+{
+	if (*value)
+		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);
+
+	bool changed = ImGui::Button(label);
+
+	if (*value)
+		ImGui::PopStyleColor(1);
+
+	if (changed)
+		*value = !*value;
+
+	return changed;
 }

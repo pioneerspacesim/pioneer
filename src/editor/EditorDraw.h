@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "imgui/imgui.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
+#include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
 #include "FloatComparison.h"
@@ -49,6 +49,12 @@ namespace Editor::Draw {
 
 	// The above, but defaulting the label to the entryName
 	bool ComboUndoHelper(std::string_view label, const char *preview, UndoSystem *undo);
+
+	// Simple button that summons a popup menu underneath it
+	bool MenuButton(const char *label);
+
+	// Simple on/off toggle button with a text label
+	bool ToggleButton(const char *label, bool *value, ImVec4 activeColor);
 
 }
 
