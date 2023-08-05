@@ -455,6 +455,7 @@ void ImDrawList::AddDrawCmd()
     draw_cmd.TextureId = _CmdHeader.TextureId;
     draw_cmd.VtxOffset = _CmdHeader.VtxOffset;
     draw_cmd.IdxOffset = IdxBuffer.Size;
+	draw_cmd.PrimDepth = 0.0f;
 
     IM_ASSERT(draw_cmd.ClipRect.x <= draw_cmd.ClipRect.z && draw_cmd.ClipRect.y <= draw_cmd.ClipRect.w);
     CmdBuffer.push_back(draw_cmd);
@@ -498,7 +499,7 @@ void ImDrawList::_TryMergeDrawCmds()
     IM_ASSERT_PARANOID(CmdBuffer.Size > 0);
     ImDrawCmd* curr_cmd = &CmdBuffer.Data[CmdBuffer.Size - 1];
     ImDrawCmd* prev_cmd = curr_cmd - 1;
-    if (ImDrawCmd_HeaderCompare(curr_cmd, prev_cmd) == 0 && curr_cmd->UserCallback == NULL && prev_cmd->UserCallback == NULL)
+    if (ImDrawCmd_HeaderCompare(curr_cmd, prev_cmd) == 0 && prev_cmd->PrimDepth == curr_cmd->PrimDepth && curr_cmd->UserCallback == NULL && prev_cmd->UserCallback == NULL)
     {
         prev_cmd->ElemCount += curr_cmd->ElemCount;
         CmdBuffer.pop_back();
@@ -1741,7 +1742,7 @@ void ImDrawListSplitter::Merge(ImDrawList* draw_list)
         if (ch._CmdBuffer.Size > 0 && last_cmd != NULL)
         {
             ImDrawCmd* next_cmd = &ch._CmdBuffer[0];
-            if (ImDrawCmd_HeaderCompare(last_cmd, next_cmd) == 0 && last_cmd->UserCallback == NULL && next_cmd->UserCallback == NULL)
+            if (ImDrawCmd_HeaderCompare(last_cmd, next_cmd) == 0 && last_cmd->PrimDepth == next_cmd->PrimDepth && last_cmd->UserCallback == NULL && next_cmd->UserCallback == NULL)
             {
                 // Merge previous channel last draw command with current channel first draw command if matching.
                 last_cmd->ElemCount += next_cmd->ElemCount;
@@ -3309,13 +3310,21 @@ void ImFont::AddRemapChar(ImWchar dst, ImWchar src, bool overwrite_dst)
     IndexAdvanceX[dst] = (src < index_size) ? IndexAdvanceX.Data[src] : 1.0f;
 }
 
-const ImFontGlyph* ImFont::FindGlyph(ImWchar c) const
+const ImFontGlyph* ImFont::FindGlyph(ImWchar c, bool report_missing) const
 {
-    if (c >= (size_t)IndexLookup.Size)
+    if (c >= (size_t)IndexLookup.Size) {
+		if (report_missing)
+			if (!MissingGlyphs.contains(c))
+				MissingGlyphs.push_back(c);
         return FallbackGlyph;
+	}
     const ImWchar i = IndexLookup.Data[c];
-    if (i == (ImWchar)-1)
+    if (i == (ImWchar)-1) {
+		if (report_missing)
+			if (!MissingGlyphs.contains(c))
+				MissingGlyphs.push_back(c);
         return FallbackGlyph;
+	}
     return &Glyphs.Data[i];
 }
 
@@ -3525,7 +3534,7 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
 // Note: as with every ImDrawList drawing function, this expects that the font atlas texture is bound.
 void ImFont::RenderChar(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col, ImWchar c) const
 {
-    const ImFontGlyph* glyph = FindGlyph(c);
+    const ImFontGlyph* glyph = FindGlyph(c, true);
     if (!glyph || !glyph->Visible)
         return;
     if (glyph->Colored)
@@ -3650,7 +3659,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
                 continue;
         }
 
-        const ImFontGlyph* glyph = FindGlyph((ImWchar)c);
+        const ImFontGlyph* glyph = FindGlyph((ImWchar)c, true);
         if (glyph == NULL)
             continue;
 

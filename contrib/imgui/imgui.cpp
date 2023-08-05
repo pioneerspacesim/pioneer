@@ -7654,6 +7654,8 @@ void ImGuiStackSizes::SetToCurrentState()
     SizeOfItemFlagsStack = (short)g.ItemFlagsStack.Size;
     SizeOfBeginPopupStack = (short)g.BeginPopupStack.Size;
     SizeOfDisabledStack = (short)g.DisabledStackSize;
+    SizeOfTabBarStack = (short)g.CurrentTabBarStack.Size;
+    SizeOfWindowStack = (short)g.CurrentWindowStack.Size;
 }
 
 // Compare to detect usage errors
