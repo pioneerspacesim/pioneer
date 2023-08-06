@@ -1230,6 +1230,8 @@ struct IMGUI_API ImGuiStackSizes
     short   SizeOfItemFlagsStack;
     short   SizeOfBeginPopupStack;
     short   SizeOfDisabledStack;
+    short   SizeOfTabBarStack;
+    short   SizeOfWindowStack;
 
     ImGuiStackSizes() { memset(this, 0, sizeof(*this)); }
     void SetToContextState(ImGuiContext* ctx);

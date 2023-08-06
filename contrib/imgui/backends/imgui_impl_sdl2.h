@@ -19,7 +19,7 @@
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
 #pragma once
-#include "imgui.h"      // IMGUI_IMPL_API
+#include "imgui/imgui.h"      // IMGUI_IMPL_API
 #ifndef IMGUI_DISABLE
 
 struct SDL_Window;
@@ -34,6 +34,8 @@ IMGUI_IMPL_API bool     ImGui_ImplSDL2_InitForSDLRenderer(SDL_Window* window, SD
 IMGUI_IMPL_API void     ImGui_ImplSDL2_Shutdown();
 IMGUI_IMPL_API void     ImGui_ImplSDL2_NewFrame();
 IMGUI_IMPL_API bool     ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event);
+
+IMGUI_IMPL_API ImGuiKey ImGui_ImplSDL2_KeycodeToImGuiKey(int keycode);
 
 #ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
 static inline void ImGui_ImplSDL2_NewFrame(SDL_Window*) { ImGui_ImplSDL2_NewFrame(); } // 1.84: removed unnecessary parameter
