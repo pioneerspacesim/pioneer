@@ -20,6 +20,7 @@
 #include "Space.h"
 #include "WorldView.h"
 #include "graphics/Graphics.h"
+#include "imgui/backends/imgui_impl_sdl2.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include "pigui/LuaFlags.h"
@@ -1229,7 +1230,7 @@ static int l_pigui_get_axisbinding(lua_State *l)
 
 	// Escape is used to clear an existing binding
 	// io.KeysDown uses scancodes, but we want to use keycodes.
-	if (ImGui::GetIO().KeysDown[SDL_GetScancodeFromKey(SDLK_ESCAPE)]) {
+	if (ImGui::IsKeyDown(ImGui_ImplSDL2_KeycodeToImGuiKey(SDLK_ESCAPE))) {
 		LuaPush(l, true);
 		lua_pushnil(l);
 		return 2;
@@ -2727,7 +2728,7 @@ static int l_pigui_color_edit(lua_State *l)
 static int l_pigui_is_key_released(lua_State *l)
 {
 	SDL_Keycode key = LuaPull<int>(l, 1);
-	LuaPush<bool>(l, ImGui::IsKeyReleased(SDL_GetScancodeFromKey(key)));
+	LuaPush<bool>(l, ImGui::IsKeyReleased(ImGui_ImplSDL2_KeycodeToImGuiKey(key)));
 	return 1;
 }
 

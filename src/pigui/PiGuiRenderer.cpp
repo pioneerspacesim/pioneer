@@ -10,8 +10,8 @@
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
 
-#include "imgui/imgui.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
+#include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
 using namespace PiGui;

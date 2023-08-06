@@ -802,7 +802,7 @@ void SectorView::DrawLabels()
 	ImDrawList *dl = m_drawList.get();
 
 	drawData.Valid = true;
-	drawData.CmdLists = &dl;
+	drawData.CmdLists.push_back(dl);
 	drawData.CmdListsCount = 1;
 	drawData.TotalVtxCount = dl->VtxBuffer.size();
 	drawData.TotalIdxCount = dl->IdxBuffer.size();

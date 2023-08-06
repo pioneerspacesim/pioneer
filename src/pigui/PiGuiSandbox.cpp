@@ -4,6 +4,7 @@
 #include "LuaPiGui.h"
 #include "PiGui.h"
 
+#include "imgui/imgui.h"
 #include "lua/LuaUtils.h"
 
 #include "imgui/imgui_internal.h"
@@ -16,7 +17,7 @@ const char *s_meta_name = "PiGui.SavedImguiStackInfo";
 // If the on_begin parameter is passed, recover from all calls since the specified state.
 static void ErrorCheckRecover(ImGuiStackSizes *on_begin, ImGuiErrorLogCallback log_callback, void *user_data)
 {
-	ImGuiContext &g = *GImGui;
+	ImGuiContext &g = *ImGui::GetCurrentContext();
 	ImGuiWindow *window = g.CurrentWindow;
 #ifdef IMGUI_HAS_TABLE
 	while (g.CurrentTable && (g.CurrentTable->OuterWindow == window || g.CurrentTable->InnerWindow == window)) {
@@ -95,7 +96,7 @@ static int l_new_stack_info(lua_State *L)
 
 	// placement new to initialize this new userdata
 	new (savedStackInfo) ImGuiStackSizes();
-	savedStackInfo->SetToCurrentState();
+	savedStackInfo->SetToContextState(ImGui::GetCurrentContext());
 
 	luaL_setmetatable(L, s_meta_name);
 	return 1;

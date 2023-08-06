@@ -264,7 +264,10 @@ if (NOT USE_SYSTEM_LIBGLEW)
 	# (required on Windows)
 	add_definitions(-DGLEW_STATIC)
 endif (NOT USE_SYSTEM_LIBGLEW)
+
 add_subdirectory(contrib/imgui)
+add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
+
 add_subdirectory(contrib/jenkins)
 add_subdirectory(contrib/PicoDDS)
 add_subdirectory(contrib/profiler)
