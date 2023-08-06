@@ -141,7 +141,7 @@
   },
   "ECM_ADVANCED_DESCRIPTION": {
     "description": "",
-    "message": "Ett elektroniskt anti-missil system som klarar av att förstöra mer avancerade typer av målsökande missiler."
+    "message": "Ett elektroniskt antimissilsystem som klarar av att förstöra mer avancerade typer av målsökande missiler."
   },
   "ECM_BASIC": {
     "description": "",
@@ -149,7 +149,7 @@
   },
   "ECM_BASIC_DESCRIPTION": {
     "description": "",
-    "message": "Ett elektroniskt anti-missilsystem som klarar av att förstöra vissa målsökande missiler."
+    "message": "Ett elektroniskt antimissilsystem som klarar av att förstöra vissa målsökande missiler."
   },
   "ECM_HOVER_MESSAGE": {
     "description": "",
@@ -265,7 +265,7 @@
   },
   "OUT_OF_SCANRANGE": {
     "description": "",
-    "message": "Max scan-avstånd överskridet."
+    "message": "Max skanningsintervall har överskridits:"
   },
   "PASSENGER_CABIN": {
     "description": "",

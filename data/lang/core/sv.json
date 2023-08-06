@@ -325,7 +325,7 @@
   },
   "DECREASE_RADAR_RANGE": {
     "description": "",
-    "message": "Minska radar-avstånd"
+    "message": "Minska radaravstånd"
   },
   "DECREASE_SET_SPEED": {
     "description": "",
@@ -641,7 +641,7 @@
   },
   "INCREASE_RADAR_RANGE": {
     "description": "",
-    "message": "Öka radar-avstånd"
+    "message": "Öka radaravstånd"
   },
   "INCREASE_SET_SPEED": {
     "description": "",
@@ -1321,7 +1321,7 @@
   },
   "SEMI_MAJOR_AXIS": {
     "description": "",
-    "message": "Semi-stor axel"
+    "message": "Halv storaxel"
   },
   "SET_AS_COMBAT_TARGET": {
     "description": "",
@@ -1489,7 +1489,7 @@
   },
   "STAR_B_WF": {
     "description": "",
-    "message": "Wolf-Rayet - Riskerar kollaps"
+    "message": "Wolf-Rayet-stjärna - Riskerar kollaps"
   },
   "STAR_F": {
     "description": "",
@@ -1549,7 +1549,7 @@
   },
   "STAR_M_WF": {
     "description": "",
-    "message": "Wolf-Rayet - Ostabil"
+    "message": "Wolf-Rayet-stjärna - Ostabil"
   },
   "STAR_O": {
     "description": "",
@@ -1569,7 +1569,7 @@
   },
   "STAR_O_WF": {
     "description": "",
-    "message": "Wolf-Rayet - Nära förestående kollaps"
+    "message": "Wolf-Rayet-stjärna - Nära förestående kollaps"
   },
   "STAR_SM_BH": {
     "description": "",
@@ -1597,7 +1597,7 @@
   },
   "SWAP_SELECTED_HYPERSPACE_TARGET": {
     "description": "",
-    "message": "Byt markerad och hyper-mål"
+    "message": "Byt markerad och hypermål"
   },
   "SWITCHED_TO_PARENT": {
     "description": "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
@@ -1697,7 +1697,7 @@
   },
   "TOGGLE_RADAR_MODE": {
     "description": "",
-    "message": "Växla radar-läge"
+    "message": "Växla radarläge"
   },
   "TOGGLE_RADAR_VIEW": {
     "description": "Tooltip for the Radar View button",

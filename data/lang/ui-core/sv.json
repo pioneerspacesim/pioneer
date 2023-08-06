@@ -29,7 +29,7 @@
   },
   "ANISOTROPIC_FILTERING_DESC": {
     "description": "",
-    "message": "Samplar texturen över flera mip-nivåer för att producera en mycket tydligare textur när den ses i ytliga vinklar. Förhindrar att texturerna blir lika suddiga; prestandan kan dock bli lidande."
+    "message": "Samplar texturen över flera mipnivåer för att producera en mycket tydligare textur när den ses i ytliga vinklar. Förhindrar att texturerna blir suddiga; prestandan kan dock bli lidande."
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
@@ -425,7 +425,7 @@
   },
   "ENABLE_AUTOSAVE_DESC": {
     "description": "tooltip description in settings menu",
-    "message": "spara tillstånd vid dockning, kan orsaka viss fördröjning beroende på diskåtkomsttid"
+    "message": "Spara tillstånd vid dockning. Kan orsaka viss fördröjning beroende på diskåtkomsttid"
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
@@ -849,7 +849,7 @@
   },
   "HUD_BUTTON_SHOW_PERSONAL_INFO": {
     "description": "Tooltip: Show personal info",
-    "message": "Visa person-information"
+    "message": "Visa personinformation"
   },
   "HUD_BUTTON_SIDEREAL_VIEW": {
     "description": "Tooltip: Sidereal camera view",
@@ -857,19 +857,19 @@
   },
   "HUD_BUTTON_SWITCH_TO_GALAXY_MAP": {
     "description": "Tooltip: Switch to galaxy map",
-    "message": "Byt till galax-karta"
+    "message": "Byt till galaxkarta"
   },
   "HUD_BUTTON_SWITCH_TO_SECTOR_MAP": {
     "description": "Tooltip: Switch to sector map",
-    "message": "Byt till sektor-karta"
+    "message": "Byt till sektorkarta"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_MAP": {
     "description": "Tooltip: Switch to system map",
-    "message": "Byt till system-karta"
+    "message": "Byt till systemkarta"
   },
   "HUD_BUTTON_SWITCH_TO_SYSTEM_OVERVIEW": {
     "description": "Tooltip: Switch to system overview",
-    "message": "Byt till system-översikt"
+    "message": "Byt till systemöversikt"
   },
   "HUD_BUTTON_SWITCH_TO_WORLD_VIEW": {
     "description": "Tooltip: Switch to world view",
@@ -1037,7 +1037,7 @@
   },
   "HUD_SHIELD_STRENGTH": {
     "description": "Tooltip: Shield Strength.",
-    "message": "Sköld-styrka"
+    "message": "Sköldstyrka"
   },
   "HUD_SHOW_COMBAT_TARGET": {
     "description": "Tooltip: Show the current combat target.",
@@ -1777,7 +1777,7 @@
   },
   "REGISTRATION_NUMBER": {
     "description": "",
-    "message": "Registretingsnummer"
+    "message": "Registreringsnummer"
   },
   "RELIABLE": {
     "description": "For player reputation",
@@ -2005,15 +2005,15 @@
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
-    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+    "message": "Tyvärr visade farbror mig aldrig hur man sköter den här gamla pråmen när han levde, men jag tror att jag skriver in i fartygets logg nu. Det är konstigt, jag kan fortfarande känna honom, som om han är i själva väggarna på det här skeppet. Kanske kan han bli min andrapilot, och tillsammans kommer vi att manifestera vårt öde i det stora tomrummet. Men först behöver jag köpa lite vätgas till hypermotorn, planera en kurs mot lukrativa handelsmöjligheter och be till himlen att trafikkontrollen ska tillåta en oerfaren pilot som jag att lyfta, sedan får vi se vad den här bebisen kan göra. Dags att skapa ett rykte för mig själv!"
   },
   "START_LOG_ENTRY_2": {
     "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
-    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+    "message": "Mina stövlar är fortfarande blöta efter det kraftiga regnet i natt därhemma. Trottoaren blev så blöt att den - till synes i en hämndaktion - dränkte natthimlen med det reflekterade skenet från neonskyltarna som såg ned på den våta gatan. Men jag tog mig, genom regnet, till mitt anslutningsflyg till stationen där mitt nya skepp väntade på mig. Rymdstationens säkerhetschef gav mig en utforskande blick när jag sa till honom att jag är här för att hämta ett skepp. Jag antar att jag inte såg ut som den typiska spacern, efter att ha sålt allt jag behövde investera i den rostiga gamla skorven, då jag nu stod framför honom, blöta stövlar och allt. Men jag känner verkligen att från och med nu kommer min framtid att skrivas i stjärnorna. Nu behöver jag bara hitta startnyckeln."
   },
   "START_LOG_ENTRY_3": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
-    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+    "message": "Efter en lång byråkratisk process fick jag äntligen tillbaka mitt skepp från förvaret, men de hade klätt av henne till den rena metallen för att betala \"skulden\" som de påstod att jag hade. De tog inte bara min favoritkaffebryggare, utan de där jävlarna slet också ur hypermotorn, så jag har fastnat i det här systemet för tillfället. Om jag inte säljer det som finns kvar i skeppet för att finansiera en ny enhet. Men som man säger: när livet ger dig citroner – gör lemonad; så även om jag är tillbaka på ruta ett kommer jag att se det här som en möjlighet istället för som ett bakslag, en andra chans. Utan kaffe. Genom att släppa taget om det jag är kommer jag att bli den jag kan vara. Världen kommer att vända sig åt sidan och låta mig passera, som den gör för dem som vet vart de är på väg, och jag är på väg till stjärnorna."
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
@@ -2057,7 +2057,7 @@
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
-    "message": "Den här stationen innehar nivå {tech_level} teknologi-certifikat."
+    "message": "Den här stationen innehar nivå {tech_level} teknologicertifikat."
   },
   "TECH_CERTIFIED_MILITARY": {
     "description": "Lobby screen shows the tech level of the station",
