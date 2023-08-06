@@ -929,10 +929,7 @@
     <ClInclude Include="..\..\contrib\imgui\stb_truetype.h">
       <Filter>src\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_opengl3.h">
-      <Filter>src\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_sdl.h">
+    <ClInclude Include="..\..\contrib\imgui\backends\imgui_impl_sdl2.h">
       <Filter>src\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\contrib\base64\base64.hpp">

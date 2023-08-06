@@ -1,11 +1,11 @@
-diff --git a/contrib/imgui/examples/imgui_impl_sdl.cpp b/contrib/imgui/examples/imgui_impl_sdl.cpp
+diff --git a/contrib/imgui/backends/imgui_impl_sdl2.cpp b/contrib/imgui/backends/imgui_impl_sdl2.cpp
 index b725e0ac2..e10d29b43 100644
---- a/contrib/imgui/examples/imgui_impl_sdl.cpp
-+++ b/contrib/imgui/examples/imgui_impl_sdl.cpp
+--- a/contrib/imgui/backends/imgui_impl_sdl2.cpp
++++ b/contrib/imgui/backends/imgui_impl_sdl2.cpp
 @@ -165,6 +165,62 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
      return false;
  }
- 
+
 +// The Pioneer cursor.
 +static const char mouse_cursor[] = {
 +	"XXXXXXXXXX              "
@@ -67,7 +67,7 @@ index b725e0ac2..e10d29b43 100644
      ImGuiIO& io = ImGui::GetIO();
 @@ -220,7 +276,7 @@ static bool ImGui_ImplSDL2_Init(SDL_Window* window)
      io.ClipboardUserData = NULL;
- 
+
      // Load mouse cursors
 -    bd->MouseCursors[ImGuiMouseCursor_Arrow] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
 +    bd->MouseCursors[ImGuiMouseCursor_Arrow] = CreatePioneerCursor();
@@ -77,7 +77,7 @@ index b725e0ac2..e10d29b43 100644
 @@ -315,8 +371,11 @@ static void ImGui_ImplSDL2_UpdateMousePosAndButtons()
      io.MouseDown[2] = bd->MousePressed[2] || (mouse_buttons & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0;
      bd->MousePressed[0] = bd->MousePressed[1] = bd->MousePressed[2] = false;
- 
+
 -    // Obtain focused and hovered window. We forward mouse input when focused or when hovered (and no other window is capturing)
 -#if SDL_HAS_CAPTURE_AND_GLOBAL_MOUSE
 +// Using this code-path causes several issues in Pioneer - when capturing the
@@ -88,16 +88,16 @@ index b725e0ac2..e10d29b43 100644
      SDL_Window* focused_window = SDL_GetKeyboardFocus();
      SDL_Window* hovered_window = SDL_HAS_MOUSE_FOCUS_CLICKTHROUGH ? SDL_GetMouseFocus() : NULL; // This is better but is only reliably useful with SDL 2.0.5+ and SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH.
      SDL_Window* mouse_window = NULL;
-diff --git a/contrib/imgui/examples/imgui_impl_sdl.h b/contrib/imgui/examples/imgui_impl_sdl.h
+diff --git a/contrib/imgui/backends/imgui_impl_sdl2.h b/contrib/imgui/backends/imgui_impl_sdl2.h
 index d2439eb7b..b8697dd1a 100644
---- a/contrib/imgui/examples/imgui_impl_sdl.h
-+++ b/contrib/imgui/examples/imgui_impl_sdl.h
+--- a/contrib/imgui/backends/imgui_impl_sdl2.h
++++ b/contrib/imgui/backends/imgui_impl_sdl2.h
 @@ -16,7 +16,7 @@
  // Read online: https://github.com/ocornut/imgui/tree/master/docs
- 
+
  #pragma once
 -#include "imgui.h"      // IMGUI_IMPL_API
 +#include "imgui/imgui.h"      // IMGUI_IMPL_API
- 
+
  struct SDL_Window;
  typedef union SDL_Event SDL_Event;

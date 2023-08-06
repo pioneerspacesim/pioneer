@@ -14,7 +14,7 @@
 #include "graphics/VertexBuffer.h"
 #include "imgui/imgui.h"
 
-#include "imgui/examples/imgui_impl_sdl.h"
+#include "imgui/backends/imgui_impl_sdl2.h"
 
 #include <float.h>
 #include <stdio.h>

@@ -8,7 +8,7 @@ add_library(${PROJECT_NAME}
 	imgui_tables.cpp
 	imgui_widgets.cpp
 	imgui_stdlib.cpp
-	examples/imgui_impl_sdl.cpp
+	backends/imgui_impl_sdl2.cpp
 )
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE
 	${OPENGL_LIBRARIES}

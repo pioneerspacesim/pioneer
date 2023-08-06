@@ -412,8 +412,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\contrib\base64\base64.hpp" />
-    <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_sdl.h" />
+    <ClInclude Include="..\..\contrib\imgui\backends\imgui_impl_sdl2.h" />
     <ClInclude Include="..\..\contrib\imgui\imconfig.h" />
     <ClInclude Include="..\..\contrib\imgui\imgui.h" />
     <ClInclude Include="..\..\contrib\imgui\imgui_internal.h" />
