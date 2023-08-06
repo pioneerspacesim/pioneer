@@ -1,8 +1,8 @@
 diff --git a/contrib/imgui/imgui.h b/contrib/imgui/imgui.h
-index e986e6c0f..2e9010d26 100644
+index 7d6a13151..c28143b6a 100644
 --- a/contrib/imgui/imgui.h
 +++ b/contrib/imgui/imgui.h
-@@ -2760,11 +2760,12 @@ struct ImFont
+@@ -3106,11 +3106,12 @@ struct ImFont
      float                       Ascent, Descent;    // 4+4   // out //            // Ascent: distance from top to bottom of e.g. 'A' [0..FontSize]
      int                         MetricsTotalSurface;// 4     // out //            // Total surface in pixels to get an idea of the font rasterization/texture cost (not exact, we approximate the cost of padding between glyphs)
      ImU8                        Used4kPagesMap[(IM_UNICODE_CODEPOINT_MAX+1)/4096/8]; // 2 bytes if ImWchar=ImWchar16, 34 bytes if ImWchar==ImWchar32. Store 1-bit for each block of 4K codepoints that has one active glyph. This is mainly used to facilitate iterations across all used codepoints.
@@ -17,10 +17,10 @@ index e986e6c0f..2e9010d26 100644
      float                       GetCharAdvance(ImWchar c) const     { return ((int)c < IndexAdvanceX.Size) ? IndexAdvanceX[(int)c] : FallbackAdvanceX; }
      bool                        IsLoaded() const                    { return ContainerAtlas != NULL; }
 diff --git a/contrib/imgui/imgui_draw.cpp b/contrib/imgui/imgui_draw.cpp
-index bf1da15b9..fc09fae87 100644
+index 26bed1ebc..38bd9384c 100644
 --- a/contrib/imgui/imgui_draw.cpp
 +++ b/contrib/imgui/imgui_draw.cpp
-@@ -3309,13 +3309,21 @@ void ImFont::AddRemapChar(ImWchar dst, ImWchar src, bool overwrite_dst)
+@@ -3395,13 +3395,21 @@ void ImFont::AddRemapChar(ImWchar dst, ImWchar src, bool overwrite_dst)
      IndexAdvanceX[dst] = (src < index_size) ? IndexAdvanceX.Data[src] : 1.0f;
  }
  
@@ -45,16 +45,16 @@ index bf1da15b9..fc09fae87 100644
      return &Glyphs.Data[i];
  }
  
-@@ -3525,7 +3533,7 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
+@@ -3607,7 +3615,7 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
  // Note: as with every ImDrawList drawing function, this expects that the font atlas texture is bound.
- void ImFont::RenderChar(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col, ImWchar c) const
+ void ImFont::RenderChar(ImDrawList* draw_list, float size, const ImVec2& pos, ImU32 col, ImWchar c) const
  {
 -    const ImFontGlyph* glyph = FindGlyph(c);
 +    const ImFontGlyph* glyph = FindGlyph(c, true);
      if (!glyph || !glyph->Visible)
          return;
      if (glyph->Colored)
-@@ -3650,7 +3658,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, ImVec2 pos, ImU32 col
+@@ -3725,7 +3733,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, Im
                  continue;
          }
  

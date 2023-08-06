@@ -1,8 +1,8 @@
 diff --git a/contrib/imgui/imgui.cpp b/contrib/imgui/imgui.cpp
-index d7653d41f..c5a0d8819 100644
+index 6e624096e..ff6a32c27 100644
 --- a/contrib/imgui/imgui.cpp
 +++ b/contrib/imgui/imgui.cpp
-@@ -7654,6 +7654,8 @@ void ImGuiStackSizes::SetToCurrentState()
+@@ -10020,6 +10020,8 @@ void ImGuiStackSizes::SetToContextState(ImGuiContext* ctx)
      SizeOfItemFlagsStack = (short)g.ItemFlagsStack.Size;
      SizeOfBeginPopupStack = (short)g.BeginPopupStack.Size;
      SizeOfDisabledStack = (short)g.DisabledStackSize;
@@ -12,10 +12,10 @@ index d7653d41f..c5a0d8819 100644
  
  // Compare to detect usage errors
 diff --git a/contrib/imgui/imgui_internal.h b/contrib/imgui/imgui_internal.h
-index 73d58f6b8..78aefc1e5 100644
+index 29b088793..cef844abe 100644
 --- a/contrib/imgui/imgui_internal.h
 +++ b/contrib/imgui/imgui_internal.h
-@@ -1142,6 +1142,8 @@ struct IMGUI_API ImGuiStackSizes
+@@ -1230,6 +1230,8 @@ struct IMGUI_API ImGuiStackSizes
      short   SizeOfItemFlagsStack;
      short   SizeOfBeginPopupStack;
      short   SizeOfDisabledStack;
@@ -23,4 +23,4 @@ index 73d58f6b8..78aefc1e5 100644
 +    short   SizeOfWindowStack;
  
      ImGuiStackSizes() { memset(this, 0, sizeof(*this)); }
-     void SetToCurrentState();
+     void SetToContextState(ImGuiContext* ctx);
