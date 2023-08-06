@@ -194,8 +194,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\contrib\imgui\examples\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\..\contrib\imgui\examples\imgui_impl_sdl.cpp" />
+    <ClCompile Include="..\..\contrib\imgui\backends\imgui_impl_sdl2.cpp" />
     <ClCompile Include="..\..\contrib\imgui\imgui.cpp" />
     <ClCompile Include="..\..\contrib\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\contrib\imgui\imgui_draw.cpp" />
