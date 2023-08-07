@@ -99,7 +99,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32;../../src/lua</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;IMGUI_DEFINE_MATH_OPERATORS;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FloatingPointModel>Fast</FloatingPointModel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -130,7 +130,7 @@
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32;../../src/lua</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;IMGUI_DEFINE_MATH_OPERATORS;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
@@ -152,7 +152,7 @@
     <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32;../../src/lua</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;IMGUI_DEFINE_MATH_OPERATORS;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <SDLCheck>false</SDLCheck>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -179,7 +179,7 @@
     <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../contrib/fmt/include;../../../contrib/fmt/include;../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../../../pioneer-thirdparty/win32/include/sigc++-2.0;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui;../../contrib/lua;../../src/win32;../../src/lua</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PSAPI_VERSION=1;_ITERATOR_DEBUG_LEVEL=0;IMGUI_IMPL_OPENGL_LOADER_GLEW;IMGUI_DEFINE_MATH_OPERATORS;GLEW_NO_GLU;GLEW_STATIC;_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/Qpar-report:2 /Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>false</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
