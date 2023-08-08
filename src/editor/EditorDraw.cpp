@@ -35,6 +35,25 @@ bool Draw::BeginWindow(ImRect rect, const char *label, bool *open, ImGuiWindowFl
 	return ImGui::Begin(label, open, flags);
 }
 
+bool Draw::BeginHostWindow(const char *label, bool *open, ImGuiWindowFlags flags)
+{
+	ImGuiViewport *vp = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(vp->Pos, ImGuiCond_Always);
+	ImGui::SetNextWindowSize(vp->Size, ImGuiCond_Always);
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
+	flags |= ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+	bool shouldSubmit = ImGui::Begin(label, open, flags);
+
+	ImGui::PopStyleVar(3);
+
+	return shouldSubmit;
+}
+
 bool Draw::EditFloat2(const char *label, ImVec2 *vec, float step, float step_fast, const char *format)
 {
 	bool changed = false;

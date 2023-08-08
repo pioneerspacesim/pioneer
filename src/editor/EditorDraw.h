@@ -30,6 +30,9 @@ namespace Editor::Draw {
 	// Set the next window size to the given rect and begin it
 	bool BeginWindow(ImRect rect, const char *name, bool *p_open = NULL, ImGuiWindowFlags flags = 0);
 
+	// Draw a fullscreen host window for a dockspace
+	bool BeginHostWindow(const char *name, bool *p_open = NULL, ImGuiWindowFlags flags = 0);
+
 	// Draw an edit box for an ImVec2 with the given settings
 	bool EditFloat2(const char *label, ImVec2 *vec, float step = 0.f, float step_fast = 0.f, const char *format = "%.3f");
 
