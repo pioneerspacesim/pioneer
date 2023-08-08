@@ -104,6 +104,7 @@ void ViewportWindow::Update(float deltaTime)
 			ImGui::EndChild();
 
 			ImGuiID viewportID = ImGui::GetID("##ViewportOverlay");
+			ImGui::KeepAliveID(viewportID);
 
 			// Update mouse down state, etc; handle active layout area interaction
 
@@ -115,7 +116,7 @@ void ViewportWindow::Update(float deltaTime)
 			ImRect area = { screenPos, screenPos + size };
 
 			bool wasPressed = m_viewportActive;
-			bool clicked = ImGui::ButtonBehavior(area, ImGui::GetID("ViewportContents"),
+			bool clicked = ImGui::ButtonBehavior(area, viewportID,
 				&m_viewportHovered, &m_viewportActive, flags);
 
 			// if the viewport is hovered/active or we just released it,

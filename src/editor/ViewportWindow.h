@@ -42,6 +42,8 @@ namespace Editor
 		Graphics::RenderTarget *GetRenderTarget() { return m_renderTarget.get(); }
 		const Graphics::ViewportExtents &GetViewportExtents() const { return m_viewportExtents; }
 
+		bool IsViewportPressed() const { return m_viewportActive; }
+		bool IsViewportHovered() const { return m_viewportHovered; }
 
 	private:
 
