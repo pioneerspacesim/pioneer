@@ -37,8 +37,6 @@ namespace Editor
 
 	class ModelViewerWidget : public ViewportWindow {
 	public:
-		using LogDelegate = sigc::signal<void(Log::Severity, const std::string &)>;
-
 		struct Options {
 			bool orthoView;
 			bool mouselookEnabled;
@@ -90,9 +88,6 @@ namespace Editor
 
 		const matrix4x4f &GetModelViewMat() const { return m_modelViewMat; }
 
-		// Connect to handle log messages from this widget
-		LogDelegate &GetLogDelegate() { return m_logDelegate; }
-
 		// Extend to render on top of the viewport surface using ImDrawList
 		UIDelegate &GetUIExtOverlay() { return m_extOverlay; }
 		// Extend to add additional viewport menu buttons
@@ -110,8 +105,6 @@ namespace Editor
 		bool OnCloseRequested() override { return true; };
 
 		virtual void PostRender() {};
-
-		LogDelegate m_logDelegate;
 
 		UIDelegate m_extOverlay;
 		UIDelegate m_extMenus;

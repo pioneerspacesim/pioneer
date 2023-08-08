@@ -51,7 +51,7 @@ protected:
 	void HandleInput();
 
 private:
-	void AddLog(Log::Severity sv, const std::string &line);
+	void AddLog(Time::DateTime, Log::Severity, std::string_view line);
 
 	void UpdateModelList();
 	void UpdateDecalList();

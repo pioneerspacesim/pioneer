@@ -54,7 +54,6 @@ ModelViewer::ModelViewer(EditorApp *app, LuaManager *lm) :
 {
 	m_modelWindow.reset(new ModelViewerWidget(app));
 
-	m_modelWindow->GetLogDelegate().connect(sigc::mem_fun(this, &ModelViewer::AddLog));
 	m_modelWindow->GetUIExtOverlay().connect(sigc::mem_fun(this, &ModelViewer::DrawTagNames));
 	m_modelWindow->GetUIExtMenu().connect(sigc::mem_fun(this, &ModelViewer::DrawShipControls));
 
@@ -73,6 +72,8 @@ void ModelViewer::Start()
 	UpdateModelList();
 	UpdateDecalList();
 
+	Log::GetLog()->printCallback.connect(sigc::mem_fun(this, &ModelViewer::AddLog));
+
 	m_modelWindow->OnAppearing();
 }
 
@@ -86,7 +87,7 @@ void ModelViewer::End()
 
 void ModelViewer::ReloadModel()
 {
-	AddLog(Log::Severity::Info, fmt::format("Reloading model {}", m_modelName));
+	Log::Info("Reloading model {}", m_modelName);
 	m_requestedModelName = m_modelName;
 	m_resetLogScroll = true;
 }
@@ -98,7 +99,7 @@ void ModelViewer::ToggleGuns()
 	}
 
 	if (!m_gunModel) {
-		AddLog(Log::Severity::Info, "test_gun.model not available");
+		Log::Info("test_gun.model not available");
 		return;
 	}
 
@@ -109,7 +110,7 @@ void ModelViewer::ToggleGuns()
 	model->FindTagsByStartOfName("tag_gun_", tags);
 	model->FindTagsByStartOfName("tag_gunmount_", tags);
 	if (tags.empty()) {
-		AddLog(Log::Severity::Info, "Missing tags \"tag_gun_XXX\" in model");
+		Log::Info("Missing tags \"tag_gun_XXX\" in model");
 		return;
 	}
 
@@ -176,10 +177,10 @@ void ModelViewer::HitIt()
 	m_shieldIsHit = true;
 }
 
-void ModelViewer::AddLog(Log::Severity sv, const std::string &line)
+void ModelViewer::AddLog(Time::DateTime, Log::Severity sv, std::string_view line)
 {
-	m_log.push_back(line);
-	Log::GetLog()->LogLevel(sv, line.c_str());
+	if (sv < Log::Severity::Verbose)
+		m_log.push_back(std::string(line));
 }
 
 void ModelViewer::ClearModel()
@@ -208,7 +209,7 @@ void ModelViewer::CreateTestResources()
 		SceneGraph::Model *m = loader.LoadModel("test_gun");
 		m_gunModel.reset(m);
 	} catch (SceneGraph::LoadingError &) {
-		AddLog(Log::Severity::Warning, "Could not load test_gun model");
+		Log::Warning("Could not load test_gun model");
 	}
 }
 
@@ -338,13 +339,13 @@ void ModelViewer::Screenshot()
 	Graphics::ScreendumpState sd;
 	m_renderer->Screendump(sd);
 	write_screenshot(sd, buf);
-	AddLog(Log::Severity::Verbose, fmt::format("Screenshot {} saved", buf));
+	Log::Verbose("Screenshot {} saved", buf);
 }
 
 void ModelViewer::SaveModelToBinary()
 {
 	if (!m_modelWindow->GetModel())
-		return AddLog(Log::Severity::Warning, "No current model to binarize");
+		return Log::Warning("No current model to binarize");
 
 	//load the current model in a pristine state (no navlights, shields...)
 	//and then save it into binary
@@ -355,24 +356,24 @@ void ModelViewer::SaveModelToBinary()
 		model.reset(ld.LoadModel(m_modelName));
 	} catch (...) {
 		//minimal error handling, this is not expected to happen since we got this far.
-		AddLog(Log::Severity::Warning, "Could not load model");
+		Log::Warning("Could not load model");
 		return;
 	}
 
 	try {
 		SceneGraph::BinaryConverter bc(m_renderer);
 		bc.Save(m_modelName, model.get());
-		AddLog(Log::Severity::Info, "Saved binary model file");
+		Log::Info("Saved binary model file");
 	} catch (const CouldNotOpenFileException &) {
-		AddLog(Log::Severity::Warning, "Could not open file or directory for writing");
+		Log::Warning("Could not open file or directory for writing");
 	} catch (const CouldNotWriteToFileException &) {
-		AddLog(Log::Severity::Warning, "Error while writing to file");
+		Log::Warning("Error while writing to file");
 	}
 }
 
 void ModelViewer::SetModel(const std::string &filename)
 {
-	AddLog(Log::Severity::Info, fmt::format("Loading model {}...", filename));
+	Log::Info("Loading model {}...", filename);
 
 	//this is necessary to reload textures
 	m_renderer->RemoveAllCachedTextures();
@@ -394,7 +395,7 @@ void ModelViewer::OnModelLoaded()
 	m_shields.reset(new Shields(model));
 	SceneGraph::DumpVisitor d(model);
 	model->GetRoot()->Accept(d);
-	AddLog(Log::Severity::Verbose, d.GetModelStatistics());
+	Log::Verbose("{}", d.GetModelStatistics());
 
 	SceneGraph::FindNodeVisitor visitor(SceneGraph::FindNodeVisitor::MATCH_NAME_STARTSWITH, "thruster_");
 	model->GetRoot()->Accept(visitor);

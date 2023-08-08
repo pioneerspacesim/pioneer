@@ -114,12 +114,12 @@ bool ModelViewerWidget::LoadModel(std::string_view path)
 			//dump warnings
 			for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
 				 it != loader.GetLogMessages().end(); ++it) {
-				m_logDelegate.emit(Log::Severity::Warning, *it);
+				Log::Warning("{}", *it);
 			}
 		}
 
 		if (!m_model) {
-			m_logDelegate.emit(Log::Severity::Warning, fmt::format("Could not load model {}", path));
+			Log::Warning("Could not load model {}", path);
 			return false;
 		}
 
@@ -150,7 +150,7 @@ bool ModelViewerWidget::LoadModel(std::string_view path)
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
 		m_model.reset();
-		m_logDelegate.emit(Log::Severity::Warning, fmt::format("Could not load model {}: {}", path, err.what()));
+		Log::Warning("Could not load model {}: {}", path, err.what());
 		return false;
 	}
 
@@ -198,7 +198,7 @@ void ModelViewerWidget::CreateTestResources()
 		SceneGraph::Model *m = loader.LoadModel("scale");
 		m_scaleModel.reset(m);
 	} catch (SceneGraph::LoadingError &) {
-		m_logDelegate.emit(Log::Severity::Warning, "Could not load scale model");
+		Log::Warning("Could not load scale model");
 	}
 }
 
