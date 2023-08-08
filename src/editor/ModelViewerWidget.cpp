@@ -3,10 +3,12 @@
 
 #include "ModelViewerWidget.h"
 
-#include "EditorApp.h"
-#include "EditorDraw.h"
 #include "NavLights.h"
 #include "Shields.h"
+
+#include "core/Log.h"
+#include "editor/EditorApp.h"
+#include "editor/EditorDraw.h"
 
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
@@ -65,10 +67,9 @@ ModelViewerWidget::ModelViewerWidget(EditorApp *app) :
 	m_options({}),
 	m_colors({ Color(255, 0, 0),
 		Color(0, 255, 0),
-		Color(0, 0, 255) })
+		Color(0, 0, 255) }),
+	m_windowName("Model Viewer")
 {
-	m_onModelChanged.connect(sigc::mem_fun(*this, &ModelViewerWidget::OnModelChanged));
-
 	SetupInputAxes();
 	ResetCamera();
 
@@ -95,7 +96,7 @@ SceneGraph::Model *ModelViewerWidget::GetModel()
 	return m_model.get();
 }
 
-void ModelViewerWidget::LoadModel(std::string_view path)
+bool ModelViewerWidget::LoadModel(std::string_view path)
 {
 	ClearModel();
 
@@ -113,16 +114,19 @@ void ModelViewerWidget::LoadModel(std::string_view path)
 			//dump warnings
 			for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
 				 it != loader.GetLogMessages().end(); ++it) {
-				Log::Warning("{}", *it);
+				m_logDelegate.emit(Log::Severity::Warning, *it);
 			}
 		}
 
 		if (!m_model) {
-			Log::Warning("Could not load model {}", path);
-			return;
+			m_logDelegate.emit(Log::Severity::Warning, fmt::format("Could not load model {}", path));
+			return false;
 		}
 
 		Shields::ReparentShieldNodes(m_model.get());
+
+		// set model colorsm_model->SetColors(m_colors);
+		m_model->SetColors(m_colors);
 
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment
@@ -130,10 +134,6 @@ void ModelViewerWidget::LoadModel(std::string_view path)
 
 		// TODO: preload grid option from approximate model bounds
 		m_options.gridInterval = 10.f;
-
-		SceneGraph::DumpVisitor d(m_model.get());
-		m_model->GetRoot()->Accept(d);
-		Log::Verbose("{}", d.GetModelStatistics());
 
 		// If we've got the tag_landing set then use it for an offset otherwise grab the AABB
 		const SceneGraph::Tag *mt = m_model->FindTagByName("tag_landing");
@@ -147,20 +147,20 @@ void ModelViewerWidget::LoadModel(std::string_view path)
 		//note: stations won't demonstrate full docking light logic in MV
 		m_navLights.reset(new NavLights(m_model.get()));
 		m_navLights->SetEnabled(true);
-
-		// m_shields.reset(new Shields(m_model.get()));
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
 		m_model.reset();
-		Log::Warning("Could not load model {}: {}", path, err.what());
+		m_logDelegate.emit(Log::Severity::Warning, fmt::format("Could not load model {}: {}", path, err.what()));
+		return false;
 	}
 
-	if (m_model)
-		m_onModelChanged.emit();
+	OnModelLoaded();
+	return true;
 }
 
 void ModelViewerWidget::ClearModel()
 {
+	ResetCamera();
 	m_model.reset();
 
 	m_animations.clear();
@@ -173,7 +173,7 @@ void ModelViewerWidget::ClearModel()
 	m_viewPos = vector3f(0.0f, 0.0f, 10.0f);
 }
 
-void ModelViewerWidget::OnModelChanged()
+void ModelViewerWidget::OnModelLoaded()
 {
 	ResetCamera();
 
@@ -198,7 +198,7 @@ void ModelViewerWidget::CreateTestResources()
 		SceneGraph::Model *m = loader.LoadModel("scale");
 		m_scaleModel.reset(m);
 	} catch (SceneGraph::LoadingError &) {
-		Log::Warning("Could not load scale model");
+		m_logDelegate.emit(Log::Severity::Warning, "Could not load scale model");
 	}
 }
 
@@ -310,6 +310,17 @@ void ModelViewerWidget::OnHandleInput(bool clicked, bool released, ImVec2 mouseP
 	if (m_input->IsKeyPressed(SDLK_f))
 		ToggleViewControlMode();
 
+	if (m_input->IsKeyPressed(SDLK_t))
+		m_options.showTags = !m_options.showTags;
+
+	//landing pad test
+	if (m_input->IsKeyPressed(SDLK_p))
+		m_options.showLandingPad = !m_options.showLandingPad;
+
+	// random colors, eastereggish
+	if (m_input->IsKeyPressed(SDLK_r))
+		SetRandomColors();
+
 	if (!released) {
 		HandleCameraInput(GetApp()->DeltaTime());
 	}
@@ -333,7 +344,7 @@ void ModelViewerWidget::HandleCameraInput(float deltaTime)
 	std::array<int, 2> mouseMotion;
 	m_input->GetMouseMotion(mouseMotion.data());
 
-	bool rightMouseDown = m_input->MouseButtonState(SDL_BUTTON_RIGHT);
+	bool rightMouseDown = ImGui::IsMouseDown(ImGuiMouseButton_Right); //m_input->MouseButtonState(SDL_BUTTON_LEFT);
 
 	if (m_options.mouselookEnabled) {
 		const float degrees_per_pixel = 0.2f;
@@ -494,6 +505,8 @@ void ModelViewerWidget::OnRender(Graphics::Renderer *r)
 	if (m_options.showGrid) {
 		DrawGrid(r, m_gridDistance);
 	}
+
+	m_extOverlay.emit();
 }
 
 void ModelViewerWidget::DrawBackground()
@@ -641,13 +654,13 @@ void ModelViewerWidget::OnDraw()
 		return;
 	}
 
-	ImVec2 cursorPos = ImGui::GetCursorPos();
-
 	DrawMenus();
+	m_extMenus.emit();
 
 	ImGui::Separator();
 
 	DrawViewportControls();
+	m_extViewportControls.emit();
 
 	if (m_animations.empty()) {
 		return;
@@ -656,8 +669,10 @@ void ModelViewerWidget::OnDraw()
 	uint32_t animIndex = m_model->FindAnimationIndex(m_currentAnimation);
 	bool animActive = m_model->GetAnimationActive(animIndex);
 
+	ImGui::NewLine();
+
 	float bottomPosOffset = ImGui::GetContentRegionAvail().y - ImGui::GetFrameHeightWithSpacing();
-	ImGui::SetCursorPos(cursorPos + ImVec2(0.f, bottomPosOffset));
+	ImGui::SetCursorPos(ImGui::GetCursorPos() + ImVec2(0.f, bottomPosOffset));
 
 	const char *play_pause = animActive ? "||###Play/Pause" : ">###Play/Pause";
 
@@ -687,7 +702,9 @@ void ModelViewerWidget::DrawMenus()
 		ImGui::EndMenu();
 	}
 
-	if (m_model && Draw::MenuButton("Model")) {
+	bool showModelWindow = !m_animations.empty() || m_modelSupportsPatterns;
+
+	if (m_model && showModelWindow && Draw::MenuButton("Model")) {
 
 		// ensure the menu is wide enough to display the animation names properly
 		ImGui::Dummy(ImVec2(150.f, 0.f));
@@ -758,6 +775,10 @@ void ModelViewerWidget::DrawViewportControls()
 {
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.f, 0.f));
 	Draw::ToggleButton("#", &m_options.showGrid, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+
+	if (m_options.showGrid)
+		Draw::ToggleButton("V", &m_options.showVerticalGrids, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+
 	ImGui::PopStyleVar(1);
 
 	float width = ImGui::CalcTextSize("1000m").x + ImGui::GetFrameHeightWithSpacing();

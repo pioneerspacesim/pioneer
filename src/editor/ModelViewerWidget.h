@@ -4,12 +4,14 @@
 #pragma once
 
 #include "ViewportWindow.h"
+
+#include "Input.h"
+#include "core/Log.h"
+
 #include "vector2.h"
 #include "vector3.h"
 #include "matrix3x3.h"
 #include "matrix4x4.h"
-
-#include "Input.h"
 
 #include <string_view>
 
@@ -31,8 +33,12 @@ namespace Graphics {
 
 namespace Editor
 {
+	using UIDelegate = sigc::signal<void>;
+
 	class ModelViewerWidget : public ViewportWindow {
 	public:
+		using LogDelegate = sigc::signal<void(Log::Severity, const std::string &)>;
+
 		struct Options {
 			bool orthoView;
 			bool mouselookEnabled;
@@ -67,7 +73,7 @@ namespace Editor
 		ModelViewerWidget(EditorApp *app);
 		~ModelViewerWidget();
 
-		void LoadModel(std::string_view path);
+		bool LoadModel(std::string_view path);
 		void ClearModel();
 
 		void OnAppearing() override;
@@ -78,7 +84,21 @@ namespace Editor
 
 		const char *GetWindowName() override;
 
+		Options &GetOptions() { return m_options; }
+
 		SceneGraph::Model *GetModel();
+
+		const matrix4x4f &GetModelViewMat() const { return m_modelViewMat; }
+
+		// Connect to handle log messages from this widget
+		LogDelegate &GetLogDelegate() { return m_logDelegate; }
+
+		// Extend to render on top of the viewport surface using ImDrawList
+		UIDelegate &GetUIExtOverlay() { return m_extOverlay; }
+		// Extend to add additional viewport menu buttons
+		UIDelegate &GetUIExtMenu() { return m_extMenus; }
+		// Extend to add additional viewport control widgets
+		UIDelegate &GetUIExtViewportControls() { return m_extViewportControls; }
 
 	protected:
 
@@ -91,12 +111,11 @@ namespace Editor
 
 		virtual void PostRender() {};
 
-		virtual void DrawMenus();
-		virtual void DrawViewportControls();
+		LogDelegate m_logDelegate;
 
-		const matrix4x4f &GetModelViewMat() const { return m_modelViewMat; }
-
-		sigc::signal<void> m_onModelChanged;
+		UIDelegate m_extOverlay;
+		UIDelegate m_extMenus;
+		UIDelegate m_extViewportControls;
 
 	private:
 		struct Inputs : Input::InputFrame {
@@ -115,16 +134,22 @@ namespace Editor
 			Action *viewFront;
 		} m_bindings;
 
-		void OnModelChanged();
-
+		// Initialization
 		void SetupInputAxes();
 		void CreateTestResources();
+		void OnModelLoaded();
 
+		// Input controls
 		void ChangeCameraPreset(CameraPreset preset);
 		void ToggleViewControlMode();
 		void ResetCamera();
 		void HandleCameraInput(float deltaTime);
 
+		// Interface drawing
+		void DrawMenus();
+		void DrawViewportControls();
+
+		// Viewport rendering
 		void UpdateCamera();
 		void UpdateLights();
 		void DrawBackground();
@@ -156,6 +181,9 @@ namespace Editor
 
 		// Model pattern colors
 		std::vector<Color> m_colors;
+
+		std::string m_windowName;
+		std::string m_windowID;
 
 		float m_baseDistance;
 		float m_gridDistance;
