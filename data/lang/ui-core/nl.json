@@ -37,7 +37,7 @@
   },
   "ARRIVAL_DATE": {
     "description": "Time of arrival, used in flight log",
-    "message": "Arrival date"
+    "message": "Aankomstdatum"
   },
   "ATMOSPHERIC_SHIELDING": {
     "description": "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
@@ -45,7 +45,7 @@
   },
   "ATMO_PRESS_LIMIT": {
     "description": "Base external pressure limit of a ship (without atmo shield)",
-    "message": "Atmo. pressure limit"
+    "message": "Atmo. druklimiet"
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
@@ -57,7 +57,7 @@
   },
   "AVAILABLE_FOR_PURCHASE": {
     "description": "Market header when buying items",
-    "message": "Available For Purchase"
+    "message": "Te koop"
   },
   "AVERAGE": {
     "description": "",
@@ -97,7 +97,7 @@
   },
   "CANNOT_SELL_ITEM": {
     "description": "",
-    "message": "This item cannot be sold"
+    "message": "Dit voorwerp is niet te koop"
   },
   "CAPACITY": {
     "description": "Capacity of ship to fit more equipment",
@@ -113,7 +113,7 @@
   },
   "CARGO_CAPACITY": {
     "description": "Label to show a ship's total cargo space.",
-    "message": "Cargo Capacity"
+    "message": "Vrachtcapaciteit"
   },
   "CARGO_SPACE": {
     "description": "",
@@ -145,7 +145,7 @@
   },
   "CHANGE": {
     "description": "Face feature option",
-    "message": "Change:"
+    "message": "Verandering:"
   },
   "CHANGE_BINDING": {
     "description": "Key binding option",
@@ -153,11 +153,11 @@
   },
   "CHANGE_COLOR": {
     "description": "Paintshop button",
-    "message": "Change Color"
+    "message": "Aanpassen kleur"
   },
   "CHANGE_PATTERN": {
     "description": "Paintshop button",
-    "message": "Change Pattern"
+    "message": "Aanpassen patroon"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -193,7 +193,7 @@
   },
   "COLOR": {
     "description": "",
-    "message": "Color"
+    "message": "Kleur"
   },
   "COMBAT": {
     "description": "Headline for kills and combat rating",
@@ -209,7 +209,7 @@
   },
   "COMMODITY_TRADE_ANALYSIS": {
     "description": "",
-    "message": "Commodity trade analysis of:"
+    "message": "Analyse van handel van:"
   },
   "COMPETENT": {
     "description": "Combat rating",
