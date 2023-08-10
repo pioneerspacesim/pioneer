@@ -1,7 +1,7 @@
 {
   "MSG_1": {
     "description": "",
-    "message": "Say {yes} to get out of here and go back to your boring programs?"
+    "message": "Zeg {yes} om terug te gaan naar je saaie programma's?"
   },
   "MSG_10": {
     "description": "",
@@ -33,7 +33,7 @@
   },
   "MSG_17": {
     "description": "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
-    "message": "Stoppen is voor watjes!"
+    "message": "Stoppen is voor zwakkelingen!"
   },
   "MSG_18": {
     "description": "Catch phrase of 2016?",
@@ -45,47 +45,47 @@
   },
   "MSG_2": {
     "description": "",
-    "message": "Don't go now, there's a pirate waiting for you in the other program."
+    "message": "Niet weggen, er wacht een piraat op je in dat andere programma."
   },
   "MSG_20": {
     "description": "",
-    "message": "Do you really have to go?"
+    "message": "Moet je echt weg?"
   },
   "MSG_21": {
     "description": "alluding to suicide",
-    "message": "Taking the cowards way out?"
+    "message": "Neem je de weg van lafaards?"
   },
   "MSG_22": {
     "description": "alluding to suicide",
-    "message": "Don't do it! It can only get better from here! Still want to give up?"
+    "message": "Niet doen! Vanaf hier kan het alleen maar beter worden! Wil je het nog steeds opgeven?"
   },
   "MSG_3": {
     "description": "",
-    "message": "Are you sure you want to quit this great game that cost you nothing?"
+    "message": "Weet je zeker dat je dit geweldige spel dat je niks kost wil stoppen?"
   },
   "MSG_4": {
     "description": "",
-    "message": "Doest thou wish to leave with such hasty abandon?"
+    "message": "Wenst gij met zulke overhaaste verlatenheid te gaan?"
   },
   "MSG_5": {
     "description": "(Inspired by Wolfenstein 3D)",
-    "message": "Choose {no} for guns and glory, {yes} for work and worry."
+    "message": "Kies {no} voor geld en glorie, {yes} voor sufheid en stress."
   },
   "MSG_6": {
     "description": "",
-    "message": "Click {no} to be brave, click {yes} to cower in shame."
+    "message": "Klik {no} om dapper te zijn, klik {yes} om laf in een hoekje te gaan zitten."
   },
   "MSG_7": {
     "description": "Doom 1 anyone? Although it said DOS instead of Command line",
-    "message": "I wouldn't leave if I were you. The command line is much worse."
+    "message": "Ik zou niet weggaan als ik jou was. De commandoregel is zoveel erger."
   },
   "MSG_8": {
     "description": "",
-    "message": "I'm thinking you want to click {no} to play more. You do it."
+    "message": "Ik denk dat je {no} wil klikken om verder te spelen. Doe maar."
   },
   "MSG_9": {
     "description": "",
-    "message": "Clicking {yes} means you must return to the humdrum workday world."
+    "message": "{yes} klikken betekent dat je terug moet naar de saaiheid van de wereld van de werkdag."
   },
   "NO": {
     "description": "No, don't quit program",
@@ -93,7 +93,7 @@
   },
   "QUIT": {
     "description": "Quit game, as a question",
-    "message": "Quit?"
+    "message": "Stoppen?"
   },
   "YES": {
     "description": "Yes, quit program",

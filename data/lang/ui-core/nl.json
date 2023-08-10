@@ -29,7 +29,7 @@
   },
   "ANISOTROPIC_FILTERING_DESC": {
     "description": "",
-    "message": "Hierbij wordt de texture over meerder MIP-levels gesampeld om een gedetailleerdere texture vanuit kleine kijkhoeken te krijgen. Voorkomt vertroebeling van de textures maar kost behoorlijk veel performance."
+    "message": "Hierbij wordt de textuur over meerdere MIP-levels gesampled om een gedetailleerdere textuur vanuit kleine kijkhoeken te krijgen. Voorkomt vertroebeling van de texturen maar kost behoorlijk veel performance."
   },
   "AN_ERROR_HAS_OCCURRED": {
     "description": "",
@@ -49,7 +49,7 @@
   },
   "ATTEMPT_TO_REPAIR_HULL": {
     "description": "",
-    "message": "Romp repareren"
+    "message": "Poging repareren romp"
   },
   "AUTO_ROUTE": {
     "description": "Automatically find shortest jump route (measured in time) in star map",
@@ -241,7 +241,7 @@
   },
   "CONTRACT_FRAUD": {
     "description": "Crime committed by intentionally breaking a contract",
-    "message": "Contract fraud"
+    "message": "Contractfraude"
   },
   "CONTROLS": {
     "description": "",
@@ -273,7 +273,7 @@
   },
   "CRIMINAL": {
     "description": "Legal status of player",
-    "message": "Criminal"
+    "message": "Crimineel"
   },
   "CRIMINAL_RECORD": {
     "description": "Past crimes / crime history of character",
@@ -293,7 +293,7 @@
   },
   "DATE": {
     "description": "Date of an event, used in flight log",
-    "message": "Date"
+    "message": "Datum"
   },
   "DEADLY": {
     "description": "Player combat rating",
@@ -301,7 +301,7 @@
   },
   "DECREASE": {
     "description": "Decrease something.",
-    "message": "Decrease"
+    "message": "Neem af"
   },
   "DELTA_V": {
     "description": "",
@@ -321,11 +321,11 @@
   },
   "DEMAND": {
     "description": "Column label for commodity demand at a market.",
-    "message": "Demand"
+    "message": "Vraag"
   },
   "DEPARTURE_DATE": {
     "description": "Time of departure, used in flight log",
-    "message": "Departure date"
+    "message": "Vertrekdatum"
   },
   "DESTROY_ENEMY_SHIP": {
     "description": "",
@@ -337,11 +337,11 @@
   },
   "DISABLE_SCREENSHOT_INFO": {
     "description": "",
-    "message": "Disable Screenshot Info"
+    "message": "Uitschakelen Screenshot Info"
   },
   "DISABLE_SCREENSHOT_INFO_DESC": {
     "description": "",
-    "message": "Hide all displayed info, including system coordinates, when in screenshot mode (toggle HUD mode)."
+    "message": "Verberg alle getoonde info, inclusief stelselcoördinaten, wanneer in screenshotmodus (wissel HUD-modus)"
   },
   "DISMISS": {
     "description": "Terminate crew memeber's contract",
@@ -381,7 +381,7 @@
   },
   "DRIVE_ACTIVE": {
     "description": "Ship jump status",
-    "message": "Drive active"
+    "message": "Drive actief"
   },
   "DUE": {
     "description": "mission deadline date",
@@ -401,7 +401,7 @@
   },
   "EDIT": {
     "description": "Tooltip, to edit a flight log entry",
-    "message": "Edit"
+    "message": "Wijzig"
   },
   "EFFECTS": {
     "description": "",
@@ -429,7 +429,7 @@
   },
   "ENABLE_COCKPIT": {
     "description": "Game settings option: to use a cockpit 3D model",
-    "message": "Zet cockpit aan (EXPERIMENTAL)"
+    "message": "Zet cockpit aan (EXPERIMENTEEL)"
   },
   "ENABLE_COCKPIT_DESC": {
     "description": "tooltip description in settings menu",
@@ -441,7 +441,7 @@
   },
   "END_GAME": {
     "description": "",
-    "message": "Stop spel"
+    "message": "Beëindig spel"
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
@@ -449,7 +449,7 @@
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
-    "message": "Entry"
+    "message": "Vermelding"
   },
   "EQUIPMENT": {
     "description": "",
@@ -489,7 +489,7 @@
   },
   "FACTIONS": {
     "description": "Button to toggle the display of factions on the sector map",
-    "message": "Factions"
+    "message": "Groeperingen"
   },
   "FAILED": {
     "description": "When failed mission",
@@ -497,47 +497,47 @@
   },
   "FEATURE_ACCESSORIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Accessories"
+    "message": "Accesoires"
   },
   "FEATURE_ARMOUR": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Armour"
+    "message": "Bescherming"
   },
   "FEATURE_CLOTHES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Clothes"
+    "message": "Kleding"
   },
   "FEATURE_EYES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Eyes"
+    "message": "Ogen"
   },
   "FEATURE_GENDER": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Gender"
+    "message": "Geslacht"
   },
   "FEATURE_HAIRSTYLE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Hairstyle"
+    "message": "Haarstijl"
   },
   "FEATURE_HEAD": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Head"
+    "message": "Hoofd"
   },
   "FEATURE_MOUTH": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Mouth"
+    "message": "Mond"
   },
   "FEATURE_NOSE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Nose"
+    "message": "Neus"
   },
   "FEATURE_RACE": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Race"
+    "message": "Ras"
   },
   "FEATURE_SPECIES": {
     "description": "Face feature for FaceGenerator in the PersonalInfo view",
-    "message": "Species"
+    "message": "Soort"
   },
   "FEMALE": {
     "description": "",
@@ -549,43 +549,43 @@
   },
   "FINANCE": {
     "description": "Financial statement of player, e.g. cash",
-    "message": "Finance"
+    "message": "Financiën"
   },
   "FLIGHTLOG_DOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Docking at {primary_info}"
+    "message": "Afmering bij {primary_info}"
   },
   "FLIGHTLOG_FLYING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the name of a space body",
-    "message": "Flying in space, relative {primary_info}"
+    "message": "Vliegen in de ruimte, relatief {primary_info}"
   },
   "FLIGHTLOG_HYPERSPACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "In Hyperspace, enroute to {primary_info}"
+    "message": "In Hyperspace, op weg naar  {primary_info}"
   },
   "FLIGHTLOG_JUMPING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is the star system targeted for hyperspace jump.",
-    "message": "Hyper jumping towards {primary_info}"
+    "message": "Hypersprong naar {primary_info}"
   },
   "FLIGHTLOG_LANDED": {
     "description": "Used in Flight Log, to indicate player's position, 'primary_info' is the name of a space body, typically a planet, the other two variables are latitude and longitude as floating point number, e.g. 'Landed on Trantor, position (-43.23, 67.89)'",
-    "message": "Landed on {primary_info}, position ({secondary_info}, {tertiary_info})"
+    "message": "Geland op  {primary_info}, positie ({secondary_info}, {tertiary_info})"
   },
   "FLIGHTLOG_STARPORT_ORBITAL": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, in orbit around {secondary_info}"
+    "message": "Afgemeerd bij {primary_info}, in een baan rond {secondary_info}"
   },
   "FLIGHTLOG_STARPORT_SURFACE": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name, 'secondary_info' is a space body (planet, moon/satelite, star) name",
-    "message": "Docked at {primary_info}, on {secondary_info}"
+    "message": "Afgemeerd bij {primary_info}, op {secondary_info}"
   },
   "FLIGHTLOG_UNDOCKING": {
     "description": "Used in Flight Log, to indicate player's position. 'primary_info' is a station name",
-    "message": "Undocking at {primary_info}"
+    "message": "Afmeren bij  {primary_info}"
   },
   "FLIGHT_LOG": {
     "description": "Title for flight log screen, in info view",
-    "message": "Flight Log"
+    "message": "Vluchtlog"
   },
   "FLIGHT_STATE": {
     "description": "",
@@ -629,7 +629,7 @@
   },
   "FUGITIVE": {
     "description": "Legal status of player",
-    "message": "Fugitive"
+    "message": "Op de vlucht"
   },
   "FULL_SCREEN": {
     "description": "",
@@ -737,27 +737,27 @@
   },
   "HUD_BUTTON_CRUISE_FORWARD": {
     "description": "Tooltip for button",
-    "message": "Forward cruise mode"
+    "message": "Voorwaardse cruisemodus"
   },
   "HUD_BUTTON_CRUISE_UP": {
     "description": "Tooltip for button",
-    "message": "Up cruise mode"
+    "message": "Opwaardse cruisemodus"
   },
   "HUD_BUTTON_DISABLE_AUTOPILOT": {
     "description": "Tooltip for button",
-    "message": "Disable autopilot"
+    "message": "Uitschakelen automatische piloot"
   },
   "HUD_BUTTON_DISABLE_CRUISE": {
     "description": "Tooltip for button",
-    "message": "Disable cruise mode"
+    "message": "Uitschakelen cruisemodus"
   },
   "HUD_BUTTON_DISABLE_FIXHEADING": {
     "description": "Tooltip for button",
-    "message": "Disable fixheading mode"
+    "message": "Uitschakelen fixheading-modus"
   },
   "HUD_BUTTON_DISABLE_FOLLOW_MODE": {
     "description": "Tooltip for button",
-    "message": "Disable follow mode"
+    "message": "Uitschakelen volgmodus"
   },
   "HUD_BUTTON_EQUIPMENT": {
     "description": "Tooltip: Equipment",
@@ -885,7 +885,7 @@
   },
   "HUD_CRUISE_SPEED": {
     "description": "Tooltip for cruise speed indicator",
-    "message": "Cruise speed"
+    "message": "Cruisesnelheid"
   },
   "HUD_CURRENT_COMBAT_TARGET": {
     "description": "Tooltip: The current combat target.",
@@ -921,7 +921,7 @@
   },
   "HUD_DELTA_V_PERCENT": {
     "description": "Tooltip: The remaining Δv in percent.",
-    "message": "% of max Δv"
+    "message": "% van max Δv"
   },
   "HUD_DISTANCE_TO_SURFACE_OF_FRAME": {
     "description": "Tooltip: Distance to the surface of the frame of reference.",
@@ -941,31 +941,31 @@
   },
   "HUD_FOLLOW_ORIENTATION": {
     "description": "Tooltip for follow mode 'orientation' button",
-    "message": "{targetname}: Follow orientation"
+    "message": "{targetname}: Volg-oriëntatie"
   },
   "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE": {
     "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object.",
-    "message": "{targetname}: Follow orientation is not available."
+    "message": "{targetname}: Volg-oriëntatie is niet beschikbaar."
   },
   "HUD_FOLLOW_ORIENTATION_NOT_AVAILABLE_TOO_FAR": {
     "description": "Tooltip for follow mode 'orientation' button, when it's not available for the current object, because it's too far.",
-    "message": "{targetname}: Follow orientation is not available - too far."
+    "message": "{targetname}: Volg-oriëntatie is niet beschikbaar - te ver."
   },
   "HUD_FOLLOW_POSITION": {
     "description": "Tooltip for follow mode 'position' button",
-    "message": "{targetname}: Follow position"
+    "message": "{targetname}: Volg positie"
   },
   "HUD_FOLLOW_POSITION_NOT_AVAILABLE": {
     "description": "Tooltip for follow mode 'position' button, when it's not available for the current object.",
-    "message": "{targetname}: Follow position is not available."
+    "message": "{targetname}: Volg positie niet beschikbaar."
   },
   "HUD_FOLLOW_POSITION_NOT_AVAILABLE_TOO_FAR": {
     "description": "Tooltip for follow mode 'position' button, when it's not available for the current object, because it's too far.",
-    "message": "{targetname}: Follow position is not available - too far."
+    "message": "{targetname}: Volg positie niet beschikbaar - te ver."
   },
   "HUD_FOLLOW_TARGET": {
     "description": "Tooltip for followed target's name in reticule",
-    "message": "Follow target"
+    "message": "Volg doel"
   },
   "HUD_FORWARD_GUN_TEMPERATURE": {
     "description": "Tooltip: Forward Gun Temperature.",
@@ -1053,7 +1053,7 @@
   },
   "HUD_SPEED_LIMITER_ACTIVE": {
     "description": "Tooltip for the icon in the reticule that appears if the speed limiter is active",
-    "message": "Speed limiter is active"
+    "message": "Snelheidsbeperking is actief"
   },
   "HUD_SPEED_OF_APPROACH_TO_FRAME": {
     "description": "Tooltip: The speed of approach towards the frame of reference.",
@@ -1073,15 +1073,15 @@
   },
   "HUD_WARNING_DESCENT_RATE": {
     "description": "Shown on HUD as a warning flasher",
-    "message": "DESCENT RATE"
+    "message": "DAALSNELHEID"
   },
   "HUD_WARNING_IMPACT": {
     "description": "Alert tooltip",
-    "message": "Impact warning"
+    "message": "Waarschuwing aanvaring"
   },
   "HUD_WARNING_IMPACT_IMMINENT": {
     "description": "Alert tooltip",
-    "message": "Impact imminent"
+    "message": "Aanvaring dreigend"
   },
   "HULL_DOES_NOT_REQUIRE_REPAIR": {
     "description": "",
@@ -1117,7 +1117,7 @@
   },
   "ILLEGAL_IN_SYSTEM": {
     "description": "An illegal action or commodity",
-    "message": "Illegal in System"
+    "message": "Verboden in stelsel"
   },
   "ILLEGAL_JUMP": {
     "description": "A finable crime",
@@ -1137,7 +1137,7 @@
   },
   "INCREASE": {
     "description": "Increase something.",
-    "message": "Increase"
+    "message": "Vergroot"
   },
   "INEXPERIENCED": {
     "description": "For player reputation",
@@ -1145,11 +1145,11 @@
   },
   "INITIATED": {
     "description": "Ship jump status",
-    "message": "Initiated"
+    "message": "Begonnen"
   },
   "INSUFFICIENT_FUEL": {
     "description": "Ship jump status",
-    "message": "Insufficient fuel"
+    "message": "Onvoldoende brandstof"
   },
   "INSUFFICIENT_FUNDS": {
     "description": "",
@@ -1157,7 +1157,7 @@
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
-    "message": "Interstellar Trade:"
+    "message": "Interstellaire Handel:"
   },
   "INVERT_MOUSE_Y": {
     "description": "",
@@ -1173,7 +1173,7 @@
   },
   "IN_SYSTEM": {
     "description": "Used in flight log, show which star system we are/were in",
-    "message": "In system"
+    "message": "In stelsel"
   },
   "ITEM_IS_OUT_OF_STOCK": {
     "description": "",
@@ -1189,7 +1189,7 @@
   },
   "JETTISON_MODE": {
     "description": "",
-    "message": "Jettison Mode"
+    "message": "Uitwerpmodus"
   },
   "JUMPING": {
     "description": "Flight State",
@@ -1221,15 +1221,15 @@
   },
   "LAUNCH_PERMISSION_GRANTED": {
     "description": "",
-    "message": "Launch permission granted."
+    "message": "Lanceertoestemming verleend."
   },
   "LAUNCH_PERMISSION_GRANTED_DEPART_QUICK": {
     "description": "",
-    "message": "Permission granted. Please do not clutter the landing area and depart quickly."
+    "message": "Toestemming verleend. Maakt u alstublieft het landingsgebied vlot vrij."
   },
   "LAUNCH_PERMISSION_GRANTED_WATCH_TRAFFIC": {
     "description": "",
-    "message": "Permission granted. Watch for traffic on your departure."
+    "message": "Toestemming verleend. Kijk uit voor verkeer tijdens uw vertrek."
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1285,19 +1285,19 @@
   },
   "LOG_CUSTOM": {
     "description": "Label tab for showing custom logged events",
-    "message": "Custom Log"
+    "message": "Aangepast Log"
   },
   "LOG_NEW": {
     "description": "Indicate to make an entry into flight log system",
-    "message": "New Entry"
+    "message": "Nieuwe vermelding"
   },
   "LOG_STATION": {
     "description": "Label tab for showing logged station events",
-    "message": "Station Log"
+    "message": "Stationslog"
   },
   "LOG_SYSTEM": {
     "description": "Label tab for showing logged system events",
-    "message": "System Log"
+    "message": "Stelsellog"
   },
   "LOW": {
     "description": "",
@@ -1309,11 +1309,11 @@
   },
   "MAJOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Export"
+    "message": "Belangrijke Export"
   },
   "MAJOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Major Import"
+    "message": "Belangrijke Import"
   },
   "MAKE_NEW_FACE": {
     "description": "",
@@ -1389,7 +1389,7 @@
   },
   "MINIMAL_TRADE": {
     "description": "Indicates a system does not have a significant amount of trade in a commodity.",
-    "message": "Minimal Trade"
+    "message": "Minimale handel"
   },
   "MINIMUM_CREW": {
     "description": "",
@@ -1397,11 +1397,11 @@
   },
   "MINOR_EXPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Export"
+    "message": "Kleine Export"
   },
   "MINOR_IMPORT": {
     "description": "For displaying commodity information",
-    "message": "Minor Import"
+    "message": "Kleine import"
   },
   "MISSILE_MOUNTS": {
     "description": "",
@@ -1473,11 +1473,11 @@
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
-    "message": "The new paintjob has been applied to your ship."
+    "message": "De nieuwe decoratie is aangebracht op uw schip."
   },
   "NEXT_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
-    "message": "Next"
+    "message": "Volgende"
   },
   "NEXT_PAID": {
     "description": "",
@@ -1517,15 +1517,15 @@
   },
   "NO_AVAILABLE_DATA": {
     "description": "Message displaying no stored data available",
-    "message": "No data available"
+    "message": "Geen gegevens beschikbaar"
   },
   "NO_CARGO": {
     "description": "Message displayed when the player has no cargo in their hold.",
-    "message": "NO CARGO"
+    "message": "GEEN LADING"
   },
   "NO_DRIVE": {
     "description": "Ship jump status",
-    "message": "No drive"
+    "message": "Geen aandrijving"
   },
   "NO_FILTER_MATCHES": {
     "description": "No matches to this filter.",
@@ -1537,7 +1537,7 @@
   },
   "NO_VALID_ROUTE": {
     "description": "Message in the sector map, issued by the autoroute function.",
-    "message": "No valid route to the selected system."
+    "message": "Geen valide route naar het gekozen stelsel"
   },
   "N_LIGHT_YEARS_N_MAX": {
     "description": "",
@@ -1557,7 +1557,7 @@
   },
   "OCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Occupied Passenger Cabins"
+    "message": "Bezette Passagiers Hutten"
   },
   "OFF": {
     "description": "",
@@ -1565,7 +1565,7 @@
   },
   "OFFENDER": {
     "description": "Legal status of player",
-    "message": "Offender"
+    "message": "Kleine crimineel"
   },
   "OK": {
     "description": "",
@@ -1585,11 +1585,11 @@
   },
   "ORBIT_APOAPSIS": {
     "description": "Label for the point of an orbit furthest from the orbited body",
-    "message": "Apoapsis"
+    "message": "Apofocus"
   },
   "ORBIT_PERIAPSIS": {
     "description": "Label for the point of an orbit nearest to the orbited body",
-    "message": "Periapsis"
+    "message": "Perifocus"
   },
   "OUTER_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1597,7 +1597,7 @@
   },
   "OUTLAW": {
     "description": "Legal status of player",
-    "message": "Outlaw"
+    "message": "Misdadiger"
   },
   "OUTSTANDING_FINES": {
     "description": "Unpaid fines for crimes committed",
@@ -1605,11 +1605,11 @@
   },
   "OUT_OF_RANGE": {
     "description": "Ship jump status",
-    "message": "Out of range"
+    "message": "Buiten bereik"
   },
   "OVERVIEW_NAME_FILTER": {
     "description": "Filter overview window entries by name",
-    "message": "Filter overzicht-window entries op naam"
+    "message": "Filter overzicht-venster vermeldingen op naam"
   },
   "OWED": {
     "description": "Player owing money to crew members",
@@ -1617,43 +1617,43 @@
   },
   "PAINTSHOP": {
     "description": "Station tab title",
-    "message": "Paintshop"
+    "message": "Decoratie"
   },
   "PAINTSHOP_NOT_AVAILABLE": {
     "description": "",
-    "message": "Paintshop is not available in this spaceport."
+    "message": "Decoratie is niet beschikbaar in deze ruimtehaven"
   },
   "PAINTSHOP_WELCOME_0": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome! We will paint your ship pretty!"
+    "message": "Welkom! Wij maken uw schip mooi!"
   },
   "PAINTSHOP_WELCOME_1": {
     "description": "Welcome message to the paintshop.",
-    "message": "Hi there! Looking for a change in aesthetics?"
+    "message": "Hai! Op zoek naar een esthetiek-verandering?"
   },
   "PAINTSHOP_WELCOME_2": {
     "description": "Welcome message to the paintshop.",
-    "message": "We can't make your ship fly fast, but we can make it fly in style!"
+    "message": "Wij kunnen uw schip niet sneller maken, maar we kunnen het stijlvol laten vliegen!"
   },
   "PAINTSHOP_WELCOME_3": {
     "description": "Welcome message to the paintshop.",
-    "message": "Welcome, traveller. Please take your time and let out your creativity."
+    "message": "Welkom, reiziger. Neemt u de tijd en laat uw creativiteit vrij."
   },
   "PAINTSHOP_WELCOME_4": {
     "description": "Welcome message to the paintshop.",
-    "message": "Looking the best in the galaxy has never been easier!"
+    "message": "Er het beste uitzien in de melkweg is nog nooit makkelijker geweest!"
   },
   "PASSENGER_CABIN_CAPACITY": {
     "description": "Entry for ship info",
-    "message": "Passenger cabin capacity"
+    "message": "Capaciteit passagiershutten"
   },
   "PATTERN": {
     "description": "Ship painting pattern.",
-    "message": "Pattern"
+    "message": "Patroon"
   },
   "PAY": {
     "description": "Pay for a transaction of services, e.g. for paying fines, (or repairs)",
-    "message": "Pay"
+    "message": "Betaal"
   },
   "PAY_FINE_OF_N": {
     "description": "",
@@ -1685,19 +1685,19 @@
   },
   "PLANET_DETAIL_DISTANCE": {
     "description": "",
-    "message": "Paneetdetail afstand"
+    "message": "Afstand paneet-detail"
   },
   "PLANET_TEXTURES": {
     "description": "",
-    "message": "Planeet-textures"
+    "message": "Planeettexturen"
   },
   "PLEASE_DESIGN_NEW_PAINTJOB": {
     "description": "",
-    "message": "Please design your new paintjob:"
+    "message": "Ontwerpt u a.u.b. uw decoratie:"
   },
   "PLEASE_REPORT_THIS_ERROR": {
     "description": "Informational text mentioning the error and asking the player to report it.",
-    "message": "Oops, something went wrong here! Please report the steps to reproduce this error, the output log, and your save file to the Pioneer issue tracker on Github.\nYou can find your output log at: {path}/output.txt"
+    "message": "Oeps, er ging iets fout! Geef a.u.b. de stappen om deze fout te reproduceren en het uitvoerlog door en sla uw bestand op in de Pioneer issue tracker op Github.\nU kunt het uitvoerlog vinden op: {path}/output.txt"
   },
   "POLICE": {
     "description": "",
@@ -1717,7 +1717,7 @@
   },
   "PREVIOUS_FACE_FEATURE": {
     "description": "Face feature switch button for FaceGenerator in the PersonalInfo view",
-    "message": "Previous"
+    "message": "Vorige"
   },
   "PRICE": {
     "description": "",
@@ -1729,7 +1729,7 @@
   },
   "PROFITABLE_TRADE": {
     "description": "Indicates a profitable trade route.",
-    "message": "Profitable Trade"
+    "message": "Winstgevende handel"
   },
   "PUMP_DOWN": {
     "description": "Drain the fuel tank",
@@ -1737,7 +1737,7 @@
   },
   "PURCHASE_PAINTJOB": {
     "description": "Paintshop button",
-    "message": "Purchase Paintjob"
+    "message": "Koop decoratie"
   },
   "QUALIFICATION_SCORES": {
     "description": "",
@@ -1753,7 +1753,7 @@
   },
   "RANDOM_FACE": {
     "description": "Generate random face",
-    "message": "Random"
+    "message": "Willekeurig"
   },
   "RANK": {
     "description": "",
@@ -1801,7 +1801,7 @@
   },
   "REPLACE_EQUIPMENT_WITH": {
     "description": "Market header when replacing equipped items",
-    "message": "Replace Equipment With"
+    "message": "Vervang Uitrusting Door"
   },
   "REPUTATION": {
     "description": "",
@@ -1825,7 +1825,7 @@
   },
   "RESET_PREVIEW": {
     "description": "Paintshop button",
-    "message": "Reset Preview"
+    "message": "Herstel Voorbeeld"
   },
   "RETURN_TO_GAME": {
     "description": "",
@@ -1849,7 +1849,7 @@
   },
   "ROTATE_VIEW": {
     "description": "Indicates that the button must be kept pressed down, to rotate camera view with mouse",
-    "message": "Hold down to Rotate view"
+    "message": "Houdt ingedrukt om Rond te draaien"
   },
   "ROUTE_INFO": {
     "description": "For hyperjump planner",
@@ -1861,7 +1861,7 @@
   },
   "SAFETY_LOCKOUT": {
     "description": "Ship jump status",
-    "message": "Safety lockout"
+    "message": "Veiligheidsuitsluiting"
   },
   "SAGITTARIUS_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -1901,7 +1901,7 @@
   },
   "SELL_EQUIPPED": {
     "description": "Button text to sell selected ship equipment",
-    "message": "Sell Equipped"
+    "message": "Verkoop Uitrusting"
   },
   "SENSORS": {
     "description": "",
@@ -1925,15 +1925,15 @@
   },
   "SET_TO_45PERCENT_OF_DELTAV": {
     "description": "For the speed limiter button",
-    "message": "Set to 45% of remaining delta-v"
+    "message": "Stel in op 45% van de overblijvende delta-v"
   },
   "SET_TO_CURRENT_VELOCITY": {
     "description": "For the speed limiter button",
-    "message": "Set to current velocity"
+    "message": "Stel in op huidige snelheid"
   },
   "SET_TO_ZERO": {
     "description": "For the speed limiter button",
-    "message": "Set to zero"
+    "message": "Stel op nul in"
   },
   "SHIP": {
     "description": "",
@@ -1965,11 +1965,11 @@
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
-    "message": "Ship Repairs & Paintshop"
+    "message": "Schipreparatie & Decoratie"
   },
   "SHIP_TYPE": {
     "description": "",
-    "message": "Ship Type"
+    "message": "Scheepstype"
   },
   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS": {
     "description": "",
@@ -2005,15 +2005,15 @@
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
-    "message": "Unfortunately, uncle never showed me how to operate this old barge when he was alive, but I think I'm making an entry in the ship's log now. It's strange, I can still feel him, as if he's in the very walls of this ship. Maybe he can be my co-pilot, and together we will manifest our destiny in the great void. But first, I just need to buy some hydrogen for the jump drive, plot a course to lucrative trading opportunities, and pray to the heavens that traffic control will allow an inexperienced pilot like me to take off, then we'll see what this baby can do. Time to make a reputation for myself!"
+    "message": "Jammer genoeg heeft oom me, toen hij nog leefde, nooit laten zien hoe je deze oude kist moest bedienen, maar het lijkt erop dat ik nu iets in het log schrijf. Het is raar. Ik kan hem nog altijd voelen, alsof hij in de wanden van het schip zit. Hij zou mijn co-piloot kunnen zijn, en samen konden we dan ons lot manifesteren in het grote niets. Maar goed. Eerst moet ik wat waterstof inslaan voor de sprongaandrijving, een route uitzetten naar lucratieve kansen, en de  hard hopen dat de verkeersleiding een onervaren piloot als mij laat opstijgen. Dan zullen we wel zien wat deze baby kan doen. Tijd om een eigen reputatie te maken!"
   },
   "START_LOG_ENTRY_2": {
     "description": "First custom log message when starting a new game, giving backstory to the character, here going for a Blade Runner feeling",
-    "message": "My boots are still wet from the heavy rainfall last night, back home. The pavement got so wet it - seemingly, in an act of revenge - drenched the night sky with the reflected glow from the neon signs that looked down on the wet street. But I made it, through the rain, to my connecting flight to the starport where my new ship was waiting for me. The starport security officer gave me a funny look when I told him I'm here to pick up a ship. I guess I didn't look like the typical spacer, having sold everything I had to invest in this rusty old bucket, as I was standing in front of him, wet boots and all. But I truly feel, that from now on, my future will be written in the stars. Now, I just need to find the start-key."
+    "message": "Mijn laarzen zijn nog steeds nat van de hevige regenval gisteravond, thuis. De stoep werd zo nat, het leek wel of het, uit wraak, de nachtelijke lucht onderdompelde in de reflectie van het neonlamplicht dat neerscheen op de natte straat. Maar ik haalde, door de regen, mijn overstapvlucht nog naar de ruimtehaven waar mijn nieuwe schip op me stond te wachten. De veiligheidsbeambte van de ruimtehaven keek me wat raar aan toen ik hem vertelde voor een schip te komen. I denk dat ik er niet als een typische spacer uitzag, toen ik voor hem stond in mijn natte laarzen. Ik heb tenslotte alles wat ik heb in deze roestige oude badkuip geïnvesteerd. Maar ik voel echt dat, van nu af aan, mijn toekomst in de sterren geschreven staat. Maar eerst moet ik die contactsleutel vinden. "
   },
   "START_LOG_ENTRY_3": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Here explaining why there's no hyperdrive in the ship, and what to do about it.",
-    "message": "After a long bureaucratic process, I finally got my ship back from the impound, but they had stripped her down to the bare metal, to pay 'the debt' they claimed I had. Not only did they take my favourite coffee brewer, but those bastards also ripped out the hyper drive, so I'm stuck for now in this system, unless I sell whatever is left in the ship, to finance a new drive. But as they say: when life gives you lemons - make lemonade; so even if I'm back at square one, I will think of this as an opportunity instead of as a setback, a second chance. Without coffee. By letting go of what I am, I will become what I might be. The world will turn aside, and let me pass, as it does for those who know where they are going, and I am heading to the stars."
+    "message": "Na een lang en bureaucratisch proces heb ik eindelijk mijn schip terug van de inbeslagname, maar ze hebben heel mijn uitrusting eraf gehaald, om er mijn 'schulden' mee te betalen. Niet alleen hebben ze mijn favoriete koffiezetapparaat meegenomen, maar de klootzakken hebben de hyperruimte-aandrijving er ook uitgehaald, dus zit ik nu vast in dit stelsel, tenzij ik alles wat er nog over is verkoop om een nieuwe aandrijving aan te schaffen. Maar ze zeggen niet voor niks: maak van de nood een deugd; dus zelfs nu ik terug naar af ben, zie ik dit als een tweede kans, in plaats van een tegenslag. Zonder koffie. Door te laten gaan wat ik ben, kan ik worden wat ik kan zijn. De wereld zal voor mij opzij gaan en me erdoor laten, zoals het dat doet voor hen die weten waar ze heen willen, en ik ga naar de sterren."
   },
   "STAR_FIELD_DENSITY": {
     "description": "",
@@ -2021,7 +2021,7 @@
   },
   "STAR_FIELD_STAR_SIZE_FACTOR": {
     "description": "",
-    "message": "Size of stars in star field"
+    "message": "Stergrootte in sterrenveld"
   },
   "STATION": {
     "description": "Flight log info, will refer to a station by name",
@@ -2029,15 +2029,15 @@
   },
   "STATION_DOCKS": {
     "description": "Information shown in the station lobby, for total number of docking pads",
-    "message": "Our total capacity is {total_docking_pads} docking pads."
+    "message": "Onze total capaciteit is {total_docking_pads} landingsplaatsen."
   },
   "STATION_LOCAL_GRAVITY": {
     "description": "",
-    "message": "Local gravity here is %.2f g."
+    "message": "Lokale zwaartekracht is hier %.2f g."
   },
   "STATION_LOCAL_GRAVITY_PRESSURE": {
     "description": "",
-    "message": "Local gravity here is %.2f g, and atmospheric pressure is %.2f atm."
+    "message": "Lokale zwaartekracht is hier %.2f g, en de luchtdruk is %.2f atm."
   },
   "STATION_MANAGER": {
     "description": "",
@@ -2049,7 +2049,7 @@
   },
   "STATION_TECH_TOO_LOW": {
     "description": "",
-    "message": "Station tech level too low to sell this item"
+    "message": "Het technisch niveau van het station is te laag om dit voorwerp te verkopen"
   },
   "STATUS": {
     "description": "",
@@ -2065,7 +2065,7 @@
   },
   "TECH_LEVEL": {
     "description": "System view label for technology level",
-    "message": "Tech level"
+    "message": "Technisch niveau"
   },
   "TEXTURE_COMPRESSION": {
     "description": "",
@@ -2085,7 +2085,7 @@
   },
   "THIS_IS_FACTION_POLICE": {
     "description": "Greeting message in police station. 'faction' is one of (English, non-translatable) strings: 'Solar Federation', 'Commonwealth of Independent Worlds', or 'Haber Corporation', and 'faction_police' is one of: 'SolFed Police Force', 'Confederal Police' or, 'Haber Enforcement Division'",
-    "message": "This is the {faction_police} of the {faction}"
+    "message": "Dit is de {faction_police} van het {faction}"
   },
   "THREE_KPC_ARM": {
     "description": "Arm of the Milky Way galaxy",
@@ -2093,11 +2093,11 @@
   },
   "TOGGLE_CARGO_WINDOW": {
     "description": "Label for a button toggling the cargo display window.",
-    "message": "Toggle Cargo Window"
+    "message": "Wissel Ladingvenster"
   },
   "TOGGLE_FULL_COMMS_WINDOW": {
     "description": "on world view / main screen",
-    "message": "Toggle full comms window"
+    "message": "Wissel volledig communicatievenster"
   },
   "TOGGLE_MALE_FEMALE": {
     "description": "player gender",
@@ -2145,11 +2145,11 @@
   },
   "TRADING_AT": {
     "description": "Indicates the current system for inspecting commodities.",
-    "message": "At {system}:"
+    "message": "In {system}:"
   },
   "TRADING_FROM": {
     "description": "Indicates the source system of a commodity trade.",
-    "message": "From {system}:"
+    "message": "Uit {system}:"
   },
   "TRADING_ILLEGAL_GOODS": {
     "description": "",
@@ -2157,7 +2157,7 @@
   },
   "TRADING_TO": {
     "description": "Indicates the destination system of a commodity trade.",
-    "message": "To {system}:"
+    "message": "Naar {system}:"
   },
   "TRUSTWORTHY": {
     "description": "For player reputation",
@@ -2165,7 +2165,7 @@
   },
   "TURN_OFF": {
     "description": "",
-    "message": "Turn off"
+    "message": "Zet uit"
   },
   "TYPE": {
     "description": "",
@@ -2177,11 +2177,11 @@
   },
   "UNOCCUPIED_PASSENGER_CABINS": {
     "description": "",
-    "message": "Unoccupied Passenger Cabins"
+    "message": "Onbezette passagiershutten"
   },
   "UNPROFITABLE_TRADE": {
     "description": "Indicates an unprofitable trade route.",
-    "message": "Unprofitable Trade"
+    "message": "Niet-winstgevende Handel"
   },
   "UNRELIABLE": {
     "description": "",
@@ -2225,11 +2225,11 @@
   },
   "VISIT_PAINTSHOP": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Paintshop"
+    "message": "Bezoek Decoratie"
   },
   "VISIT_REPAIR_SERVICES": {
     "description": "Ship Repair tab button.",
-    "message": "Visit Repair Services"
+    "message": "Bezoek Reparatiediensten"
   },
   "VSYNC": {
     "description": "For the checkbox in settings window",
