@@ -198,7 +198,7 @@ function SystemOverviewWidget:drawControlButtons()
 end
 
 function SystemOverviewWidget:displaySearch()
-	local filterText = ui.inputText("", self.filterText, {})
+	local filterText = ui.inputText("##FilterText", self.filterText, {})
 	self.filterText = filterText
 	self.focusSearchResults = filterText and filterText ~= ""
 

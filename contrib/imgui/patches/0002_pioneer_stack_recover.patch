@@ -1,0 +1,26 @@
+diff --git a/contrib/imgui/imgui.cpp b/contrib/imgui/imgui.cpp
+index 6e624096e..ff6a32c27 100644
+--- a/contrib/imgui/imgui.cpp
++++ b/contrib/imgui/imgui.cpp
+@@ -10020,6 +10020,8 @@ void ImGuiStackSizes::SetToContextState(ImGuiContext* ctx)
+     SizeOfItemFlagsStack = (short)g.ItemFlagsStack.Size;
+     SizeOfBeginPopupStack = (short)g.BeginPopupStack.Size;
+     SizeOfDisabledStack = (short)g.DisabledStackSize;
++    SizeOfTabBarStack = (short)g.CurrentTabBarStack.Size;
++    SizeOfWindowStack = (short)g.CurrentWindowStack.Size;
+ }
+ 
+ // Compare to detect usage errors
+diff --git a/contrib/imgui/imgui_internal.h b/contrib/imgui/imgui_internal.h
+index 29b088793..cef844abe 100644
+--- a/contrib/imgui/imgui_internal.h
++++ b/contrib/imgui/imgui_internal.h
+@@ -1230,6 +1230,8 @@ struct IMGUI_API ImGuiStackSizes
+     short   SizeOfItemFlagsStack;
+     short   SizeOfBeginPopupStack;
+     short   SizeOfDisabledStack;
++    short   SizeOfTabBarStack;
++    short   SizeOfWindowStack;
+ 
+     ImGuiStackSizes() { memset(this, 0, sizeof(*this)); }
+     void SetToContextState(ImGuiContext* ctx);

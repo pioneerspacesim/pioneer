@@ -3,10 +3,8 @@
 
 #include "Pi.h"
 #include "PiGui.h"
-#include "imgui/imgui.h"
 
-// to get ImVec2 + ImVec2
-#define IMGUI_DEFINE_MATH_OPERATORS true
+// For ImRect
 #include "imgui/imgui_internal.h"
 
 int PiGui::RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int mouse_button, const std::vector<ImTextureID> &tex_ids, const std::vector<std::pair<ImVec2, ImVec2>> &uvs, const std::vector<ImU32> &colors, const std::vector<const char *> &tooltips, unsigned int size, unsigned int padding)

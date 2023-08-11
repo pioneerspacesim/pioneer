@@ -1,0 +1,65 @@
+diff --git a/contrib/imgui/imgui.h b/contrib/imgui/imgui.h
+index 7d6a13151..c28143b6a 100644
+--- a/contrib/imgui/imgui.h
++++ b/contrib/imgui/imgui.h
+@@ -3106,11 +3106,12 @@ struct ImFont
+     float                       Ascent, Descent;    // 4+4   // out //            // Ascent: distance from top to bottom of e.g. 'A' [0..FontSize]
+     int                         MetricsTotalSurface;// 4     // out //            // Total surface in pixels to get an idea of the font rasterization/texture cost (not exact, we approximate the cost of padding between glyphs)
+     ImU8                        Used4kPagesMap[(IM_UNICODE_CODEPOINT_MAX+1)/4096/8]; // 2 bytes if ImWchar=ImWchar16, 34 bytes if ImWchar==ImWchar32. Store 1-bit for each block of 4K codepoints that has one active glyph. This is mainly used to facilitate iterations across all used codepoints.
++    mutable ImVector<ImWchar>   MissingGlyphs;
+ 
+     // Methods
+     IMGUI_API ImFont();
+     IMGUI_API ~ImFont();
+-    IMGUI_API const ImFontGlyph*FindGlyph(ImWchar c) const;
++    IMGUI_API const ImFontGlyph*FindGlyph(ImWchar c, bool report_missing = false) const;
+     IMGUI_API const ImFontGlyph*FindGlyphNoFallback(ImWchar c) const;
+     float                       GetCharAdvance(ImWchar c) const     { return ((int)c < IndexAdvanceX.Size) ? IndexAdvanceX[(int)c] : FallbackAdvanceX; }
+     bool                        IsLoaded() const                    { return ContainerAtlas != NULL; }
+diff --git a/contrib/imgui/imgui_draw.cpp b/contrib/imgui/imgui_draw.cpp
+index 26bed1ebc..38bd9384c 100644
+--- a/contrib/imgui/imgui_draw.cpp
++++ b/contrib/imgui/imgui_draw.cpp
+@@ -3395,13 +3395,21 @@ void ImFont::AddRemapChar(ImWchar dst, ImWchar src, bool overwrite_dst)
+     IndexAdvanceX[dst] = (src < index_size) ? IndexAdvanceX.Data[src] : 1.0f;
+ }
+ 
+-const ImFontGlyph* ImFont::FindGlyph(ImWchar c) const
++const ImFontGlyph* ImFont::FindGlyph(ImWchar c, bool report_missing) const
+ {
+-    if (c >= (size_t)IndexLookup.Size)
++    if (c >= (size_t)IndexLookup.Size) {
++		if (report_missing)
++			if (!MissingGlyphs.contains(c))
++				MissingGlyphs.push_back(c);
+         return FallbackGlyph;
++	}
+     const ImWchar i = IndexLookup.Data[c];
+-    if (i == (ImWchar)-1)
++    if (i == (ImWchar)-1) {
++		if (report_missing)
++			if (!MissingGlyphs.contains(c))
++				MissingGlyphs.push_back(c);
+         return FallbackGlyph;
++	}
+     return &Glyphs.Data[i];
+ }
+ 
+@@ -3607,7 +3615,7 @@ ImVec2 ImFont::CalcTextSizeA(float size, float max_width, float wrap_width, cons
+ // Note: as with every ImDrawList drawing function, this expects that the font atlas texture is bound.
+ void ImFont::RenderChar(ImDrawList* draw_list, float size, const ImVec2& pos, ImU32 col, ImWchar c) const
+ {
+-    const ImFontGlyph* glyph = FindGlyph(c);
++    const ImFontGlyph* glyph = FindGlyph(c, true);
+     if (!glyph || !glyph->Visible)
+         return;
+     if (glyph->Colored)
+@@ -3725,7 +3733,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, Im
+                 continue;
+         }
+ 
+-        const ImFontGlyph* glyph = FindGlyph((ImWchar)c);
++        const ImFontGlyph* glyph = FindGlyph((ImWchar)c, true);
+         if (glyph == NULL)
+             continue;
+ 

@@ -315,10 +315,7 @@
     <ClCompile Include="..\..\contrib\imgui\imgui_widgets.cpp">
       <Filter>src\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\contrib\imgui\examples\imgui_impl_opengl3.cpp">
-      <Filter>src\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\contrib\imgui\examples\imgui_impl_sdl.cpp">
+    <ClCompile Include="..\..\contrib\imgui\backends\imgui_impl_sdl2.cpp">
       <Filter>src\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\sound\AmbientSounds.cpp">
@@ -929,10 +926,7 @@
     <ClInclude Include="..\..\contrib\imgui\stb_truetype.h">
       <Filter>src\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_opengl3.h">
-      <Filter>src\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\contrib\imgui\examples\imgui_impl_sdl.h">
+    <ClInclude Include="..\..\contrib\imgui\backends\imgui_impl_sdl2.h">
       <Filter>src\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\contrib\base64\base64.hpp">

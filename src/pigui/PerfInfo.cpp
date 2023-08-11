@@ -35,6 +35,7 @@ struct PerfInfo::ImGuiState {
 	bool perfWindowOpen = true;
 	bool updatePause = false;
 	bool metricsWindowOpen = false;
+	bool stackToolOpen = false;
 	uint32_t playerModelDebugFlags = 0;
 
 	bool textureCacheViewerOpen = false;
@@ -200,6 +201,9 @@ void PerfInfo::Draw()
 
 	if (m_state->metricsWindowOpen)
 		ImGui::ShowMetricsWindow(&m_state->metricsWindowOpen);
+
+	if (m_state->stackToolOpen)
+		ImGui::ShowStackToolWindow(&m_state->stackToolOpen);
 }
 
 void PerfInfo::DrawPerfWindow()
@@ -453,6 +457,10 @@ void PerfInfo::DrawImGuiStats()
 	if (ImGui::Button("Toggle Metrics Window")) {
 		m_state->metricsWindowOpen = !m_state->metricsWindowOpen;
 	}
+
+	if (ImGui::Button("Toggle Stack Tool")) {
+		m_state->stackToolOpen = !m_state->stackToolOpen;
+	}
 }
 
 void PerfInfo::DrawStatList(const Perf::Stats::FrameInfo &fi)
@@ -518,7 +526,8 @@ void PerfInfo::DrawTextureCache()
 					continue;
 
 				if (ImGui::BeginChild("##Texture List Scroll")) {
-					const int num_columns = std::max(int(ImGui::GetWindowContentRegionWidth()) / item_width, 1);
+					const int window_width = ImGui::GetWindowContentRegionMax().x - ImGui::GetWindowContentRegionMin().x;
+					const int num_columns = std::max(int(window_width) / item_width, 1);
 					ImGui::Columns(num_columns);
 					if (num_columns > 1) {
 						for (int idx = 0; idx < num_columns; idx++)

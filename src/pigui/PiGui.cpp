@@ -12,9 +12,10 @@
 #include "graphics/Material.h"
 #include "graphics/Texture.h"
 #include "graphics/VertexBuffer.h"
-#include "imgui/imgui.h"
 
-#include "imgui/examples/imgui_impl_sdl.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
+#include "imgui/backends/imgui_impl_sdl2.h"
 
 #include <float.h>
 #include <stdio.h>
@@ -362,6 +363,10 @@ void Instance::Init(Graphics::Renderer *renderer)
 	ImGuiIO &io = ImGui::GetIO();
 	// Apply the base style
 	ImGui::StyleColorsDark();
+
+	// Disable ctrl+tab / ctrl+shift+tab window switching
+	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyNext, ImGuiKeyOwner_None);
+	ImGui::SetShortcutRouting(ImGui::GetCurrentContext()->ConfigNavWindowingKeyPrev, ImGuiKeyOwner_None);
 
 	std::string imguiIni = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini");
 
