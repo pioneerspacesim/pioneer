@@ -517,15 +517,15 @@
   },
   "HEADING_LOCK_ANTINORMAL": {
     "description": "Autopilot direction (perpendicular, down), relative to plane of orbit",
-    "message": "Hold {target} anti-normal"
+    "message": "Håll {target} antinormal"
   },
   "HEADING_LOCK_BACKWARD": {
     "description": "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-    "message": "Hold {target} retrograde"
+    "message": "Håll {target} retrograd"
   },
   "HEADING_LOCK_FORWARD": {
     "description": "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-    "message": "Hold {target} prograde"
+    "message": "Håll {target} prograd"
   },
   "HEADING_LOCK_KILLROT": {
     "description": "",
@@ -533,15 +533,15 @@
   },
   "HEADING_LOCK_NORMAL": {
     "description": "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-    "message": "Hold {target} normal"
+    "message": "Håll {target} normal"
   },
   "HEADING_LOCK_RADIALLY_INWARD": {
     "description": "Autopilot direction, relative to orbit (face towards planet)",
-    "message": "Hold {target} radially in"
+    "message": "Håll {target} radiellt"
   },
   "HEADING_LOCK_RADIALLY_OUTWARD": {
     "description": "Autopilot direction, relative to orbit (face away from palent)",
-    "message": "Hold {target} radially out"
+    "message": "Håll {target} antiradiellt"
   },
   "HEAVY_INDUSTRY": {
     "description": "",

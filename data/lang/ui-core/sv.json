@@ -1061,7 +1061,7 @@
   },
   "HUD_SPEED_OF_APPROACH_TO_TARGET": {
     "description": "Tooltip: The speed of approach relative to target.",
-    "message": "The speed of approach relative to target"
+    "message": "Inflygningshastighet i förhållande till målet"
   },
   "HUD_SPEED_RELATIVE_TO_TARGET": {
     "description": "Tooltip: The speed relative to the target.",
