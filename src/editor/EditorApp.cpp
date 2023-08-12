@@ -9,6 +9,8 @@
 #include "Lang.h"
 #include "ModManager.h"
 #include "ModelViewer.h"
+#include "SDL_keycode.h"
+#include "EnumStrings.h"
 
 #include "argh/argh.h"
 #include "core/IniConfig.h"
@@ -17,7 +19,7 @@
 #include "lua/Lua.h"
 #include "graphics/opengl/RendererGL.h"
 
-#include "SDL_keycode.h"
+#include "system/SystemEditor.h"
 
 using namespace Editor;
 
@@ -53,6 +55,20 @@ void EditorApp::Initialize(argh::parser &cmdline)
 		SetAppName("ModelViewer");
 		return;
 	}
+
+	if (cmdline("--system")) {
+		std::string systemPath;
+		cmdline("--system") >> systemPath;
+
+		RefCountedPtr<SystemEditor> systemEditor(new SystemEditor(this));
+
+		if (!systemPath.empty())
+			systemEditor->LoadSystem(systemPath);
+
+		QueueLifecycle(systemEditor);
+		SetAppName("SystemEditor");
+		return;
+	}
 }
 
 void EditorApp::AddLoadingTask(TaskSet::Handle handle)
@@ -78,8 +94,8 @@ void EditorApp::OnStartup()
 	cfg.Read(FileSystem::userFiles, "editor.ini");
 	cfg.Save(); // write defaults if the file doesn't exist
 
+	EnumStrings::Init();
 	Lua::Init();
-
 	ModManager::Init();
 
 	ModManager::LoadMods(&cfg);
