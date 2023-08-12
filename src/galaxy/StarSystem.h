@@ -30,6 +30,7 @@ public:
 	friend class SystemBody;
 	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
 	class GeneratorAPI; // Complete definition below
+	class EditorAPI; // Defined in editor module
 
 	enum ExplorationState {
 		eUNEXPLORED = 0,
@@ -165,9 +166,10 @@ private:
 class StarSystem::GeneratorAPI : public StarSystem {
 private:
 	friend class GalaxyGenerator;
-	GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand);
 
 public:
+	GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache *cache, Random &rand);
+
 	bool HasCustomBodies() const { return m_hasCustomBodies; }
 
 	void SetCustom(bool isCustom, bool hasCustomBodies)
