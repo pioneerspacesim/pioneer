@@ -419,7 +419,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 
 		kid->m_metallicity = csbody->metallicity;
 		//multiple of Earth's surface density
-		kid->m_volatileGas = csbody->volatileGas * fixed(1225, 1000);
+		kid->m_volatileGas = csbody->volatileGas; // * fixed(1225, 1000); // XXX breaks round-trip from custom system definitions
 		kid->m_volatileLiquid = csbody->volatileLiquid;
 		kid->m_volatileIces = csbody->volatileIces;
 		kid->m_volcanicity = csbody->volcanicity;
@@ -500,50 +500,66 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 	}
 }
 
+bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const CustomSystem *customSys)
+{
+	system->SetCustom(true, false);
+	system->SetNumStars(customSys->numStars);
+	if (customSys->name.length() > 0) system->SetName(customSys->name);
+	if (customSys->shortDesc.length() > 0) system->SetShortDesc(customSys->shortDesc);
+	if (customSys->longDesc.length() > 0) system->SetLongDesc(customSys->longDesc);
+
+	SysPolit sysPolit;
+	sysPolit.govType = customSys->govType;
+	sysPolit.lawlessness = customSys->want_rand_lawlessness ?
+		Polit::GetBaseLawlessness(sysPolit.govType) * rng.Fixed() :
+		customSys->lawlessness;
+
+	system->SetSysPolit(sysPolit);
+
+	if (customSys->IsRandom())
+		return false;
+
+	system->SetCustom(true, true);
+	const CustomSystemBody *csbody = customSys->sBody;
+	SystemBody *rootBody = system->NewBody();
+	rootBody->m_type = csbody->type;
+	rootBody->m_parent = 0;
+	rootBody->m_seed = csbody->want_rand_seed ? rng.Int32() : csbody->seed;
+	rootBody->m_seed = rng.Int32();
+	rootBody->m_radius = csbody->radius;
+	rootBody->m_aspectRatio = csbody->aspectRatio;
+	rootBody->m_mass = csbody->mass;
+	rootBody->m_averageTemp = csbody->averageTemp;
+	rootBody->m_name = csbody->name;
+	rootBody->m_isCustomBody = true;
+
+	rootBody->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
+	rootBody->m_orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
+	system->SetRootBody(rootBody);
+
+	int humanInfestedness = 0;
+	CustomGetKidsOf(system, rootBody, csbody->children, &humanInfestedness, rng);
+	unsigned countedStars = 0;
+	for (RefCountedPtr<SystemBody> b : system->GetBodies()) {
+		if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+			++countedStars;
+			system->AddStar(b.Get());
+		}
+	}
+
+	assert(countedStars == system->GetNumStars());
+	return true;
+}
+
 bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config)
 {
 	PROFILE_SCOPED()
 	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	system->SetCustom(false, false);
-	if (const CustomSystem *customSys = sec->m_systems[system->GetPath().systemIndex].GetCustomSystem()) {
-		system->SetCustom(true, false);
-		system->SetNumStars(customSys->numStars);
-		if (customSys->shortDesc.length() > 0) system->SetShortDesc(customSys->shortDesc);
-		if (customSys->longDesc.length() > 0) system->SetLongDesc(customSys->longDesc);
-		if (!customSys->IsRandom()) {
-			system->SetCustom(true, true);
-			config->isCustomOnly = true;
-			const CustomSystemBody *csbody = customSys->sBody;
-			SystemBody *rootBody = system->NewBody();
-			rootBody->m_type = csbody->type;
-			rootBody->m_parent = 0;
-			rootBody->m_seed = csbody->want_rand_seed ? rng.Int32() : csbody->seed;
-			rootBody->m_seed = rng.Int32();
-			rootBody->m_radius = csbody->radius;
-			rootBody->m_aspectRatio = csbody->aspectRatio;
-			rootBody->m_mass = csbody->mass;
-			rootBody->m_averageTemp = csbody->averageTemp;
-			rootBody->m_name = csbody->name;
-			rootBody->m_isCustomBody = true;
 
-			rootBody->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
-			rootBody->m_orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
-			system->SetRootBody(rootBody);
+	if (const CustomSystem *customSys = sec->m_systems[system->GetPath().systemIndex].GetCustomSystem())
+		config->isCustomOnly = ApplyToSystem(rng, system, customSys);
 
-			int humanInfestedness = 0;
-			CustomGetKidsOf(system, rootBody, csbody->children, &humanInfestedness, rng);
-			unsigned countedStars = 0;
-			for (RefCountedPtr<SystemBody> b : system->GetBodies()) {
-				if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
-					++countedStars;
-					system->AddStar(b.Get());
-				}
-			}
-			assert(countedStars == system->GetNumStars());
-
-			return true;
-		}
-	}
 	return true;
 }
 

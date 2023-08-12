@@ -31,6 +31,9 @@ class StarSystemCustomGenerator : public StarSystemLegacyGeneratorBase {
 public:
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
 
+	// returns true if the system is custom, false if the contents should be randomly generated
+	bool ApplyToSystem(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const CustomSystem *customSys);
+
 private:
 	void CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent, const std::vector<CustomSystemBody *> &children, int *outHumanInfestedness, Random &rand);
 };
