@@ -2,9 +2,16 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EditorDraw.h"
-#include "UndoSystem.h"
+
+#include "Color.h"
+#include "EnumStrings.h"
+
+#include "UndoStepType.h"
+#include "editor/UndoSystem.h"
 
 #include "imgui/imgui.h"
+
+#include "fmt/format.h"
 
 using namespace Editor;
 
@@ -92,6 +99,45 @@ void Draw::EndLayout()
 	ImGui::Spacing();
 }
 
+void Draw::ShowUndoDebugWindow(UndoSystem *undo, bool *p_open)
+{
+	if (!ImGui::Begin("Undo Stack", p_open, 0)) {
+		ImGui::End();
+		return;
+	}
+
+	ImGui::Text("Undo Depth: %ld", undo->GetEntryDepth());
+	ImGui::Separator();
+
+	size_t numEntries = undo->GetNumEntries();
+	size_t currentIdx = undo->GetCurrentEntry();
+	size_t selectedIdx = currentIdx;
+
+	if (ImGui::Selectable("<Initial State>", currentIdx == 0))
+		selectedIdx = 0;
+
+	for (size_t idx = 0; idx < numEntries; idx++)
+	{
+		const UndoEntry *entry = undo->GetEntry(idx);
+
+		bool isSelected = currentIdx == idx + 1;
+		std::string label = fmt::format("{}##{}", entry->GetName(), idx);
+
+		if (ImGui::Selectable(label.c_str(), isSelected))
+			selectedIdx = idx + 1;
+	}
+
+	ImGui::End();
+
+	// If we selected an earlier history entry, undo to that point
+	for (; currentIdx > selectedIdx; --currentIdx)
+		undo->Undo();
+
+	// If we selected a later history entry, redo to that point
+	for (; currentIdx < selectedIdx; ++currentIdx)
+		undo->Redo();
+}
+
 bool Draw::UndoHelper(std::string_view label, UndoSystem *undo)
 {
 	if (ImGui::IsItemDeactivated()) {
@@ -135,6 +181,27 @@ bool Draw::ComboUndoHelper(std::string_view label, const char *preview, UndoSyst
 	return ComboUndoHelper(label, label.data(), preview, undo);
 }
 
+void Draw::EditEnum(std::string_view label, const char *name, const char *ns, int *val, size_t val_max, UndoSystem *undo)
+{
+	size_t selected = size_t(*val);
+	const char *preview = EnumStrings::GetString(ns, selected);
+	if (!preview)
+		preview = "<invalid>";
+
+	if (ComboUndoHelper(label, name, preview, undo)) {
+		if (ImGui::IsWindowAppearing())
+			AddUndoSingleValue(undo, val);
+
+		for (size_t idx = 0; idx <= val_max; ++idx) {
+			const char *name = EnumStrings::GetString(ns, idx);
+			if (name && ImGui::Selectable(name, selected == idx))
+				*val = int(idx);
+		}
+
+		ImGui::EndCombo();
+	}
+}
+
 bool Draw::MenuButton(const char *label)
 {
 	ImVec2 screenPos = ImGui::GetCursorScreenPos();
@@ -165,5 +232,13 @@ bool Draw::ToggleButton(const char *label, bool *value, ImVec4 activeColor)
 	if (changed)
 		*value = !*value;
 
+	return changed;
+}
+
+bool Draw::ColorEdit3(const char *label, Color *color)
+{
+	Color4f _c = color->ToColor4f();
+	bool changed = ImGui::ColorEdit3(label, &_c[0]);
+	*color = Color(_c);
 	return changed;
 }

@@ -11,6 +11,8 @@
 
 #include <string_view>
 
+struct Color4ub;
+
 namespace Editor {
 	class UndoSystem;
 }
@@ -42,6 +44,9 @@ namespace Editor::Draw {
 	// End a horizontal layout block
 	void EndLayout();
 
+	// Show a window to debug the state of the passed undo system
+	void ShowUndoDebugWindow(UndoSystem *undo, bool *p_open = nullptr);
+
 	// Manage pushing/popping an UndoEntry after an input widget that provides IsItemActivated() and IsItemDeactivated()
 	// Note: this helper relies on the widget *not* changing the underlying value the frame IsItemActivated() is true
 	bool UndoHelper(std::string_view label, UndoSystem *undo);
@@ -53,11 +58,17 @@ namespace Editor::Draw {
 	// The above, but defaulting the label to the entryName
 	bool ComboUndoHelper(std::string_view label, const char *preview, UndoSystem *undo);
 
+	// Show an edit dialog box to chose a value from an enumeration
+	void EditEnum(std::string_view label, const char *name, const char *ns, int *val, size_t val_max, UndoSystem *undo);
+
 	// Simple button that summons a popup menu underneath it
 	bool MenuButton(const char *label);
 
 	// Simple on/off toggle button with a text label
 	bool ToggleButton(const char *label, bool *value, ImVec4 activeColor);
+
+	// Color edit button
+	bool ColorEdit3(const char *label, Color4ub *color);
 
 }
 

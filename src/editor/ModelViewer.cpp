@@ -33,16 +33,6 @@ namespace {
 	static constexpr const char *LOG_WND_NAME = "Log";
 }
 
-namespace ImGui {
-	bool ColorEdit3(const char *label, Color &color)
-	{
-		Color4f _c = color.ToColor4f();
-		bool changed = ColorEdit3(label, &_c[0]);
-		color = Color(_c);
-		return changed;
-	}
-} // namespace ImGui
-
 ModelViewer::ModelViewer(EditorApp *app, LuaManager *lm) :
 	m_app(app),
 	m_input(app->GetInput()),
