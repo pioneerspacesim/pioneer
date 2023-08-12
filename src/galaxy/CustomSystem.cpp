@@ -629,10 +629,8 @@ static void RegisterCustomSystemsAPI(lua_State *L)
 	register_class(L, LuaCustomSystemBody_TypeName, LuaCustomSystemBody_meta);
 }
 
-void CustomSystemsDatabase::Load()
+lua_State *CustomSystemsDatabase::CreateLoaderState()
 {
-	assert(!s_activeCustomSystemsDatabase);
-	s_activeCustomSystemsDatabase = this;
 	lua_State *L = luaL_newstate();
 	LUA_DEBUG_START(L);
 
@@ -660,12 +658,44 @@ void CustomSystemsDatabase::Load()
 
 	RegisterCustomSystemsAPI(L);
 
-	LUA_DEBUG_CHECK(L, 0);
+	LUA_DEBUG_END(L, 0);
+	return L;
+}
+
+void CustomSystemsDatabase::Load()
+{
+	assert(!s_activeCustomSystemsDatabase);
+	s_activeCustomSystemsDatabase = this;
+	lua_State *L = CreateLoaderState();
+	LUA_DEBUG_START(L);
+
 	pi_lua_dofile_recursive(L, m_customSysDirectory);
 
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);
 	s_activeCustomSystemsDatabase = nullptr;
+}
+
+const CustomSystem *CustomSystemsDatabase::LoadSystem(std::string_view filepath)
+{
+	assert(!s_activeCustomSystemsDatabase);
+	s_activeCustomSystemsDatabase = this;
+
+	m_lastAddedSystem.second = SIZE_MAX;
+
+	lua_State *L = CreateLoaderState();
+	LUA_DEBUG_START(L);
+
+	pi_lua_dofile(L, std::string(filepath));
+
+	LUA_DEBUG_END(L, 0);
+	lua_close(L);
+	s_activeCustomSystemsDatabase = nullptr;
+
+	if (m_lastAddedSystem.second == SIZE_MAX)
+		return nullptr;
+
+	return m_sectorMap[m_lastAddedSystem.first][m_lastAddedSystem.second];
 }
 
 CustomSystemsDatabase::~CustomSystemsDatabase()
@@ -688,6 +718,8 @@ const CustomSystemsDatabase::SystemList &CustomSystemsDatabase::GetCustomSystems
 
 void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem *csys)
 {
+	csys->systemIndex = m_sectorMap[path].size();
+	m_lastAddedSystem = SystemIndex(path, csys->systemIndex);
 	m_sectorMap[path].push_back(csys);
 }
 

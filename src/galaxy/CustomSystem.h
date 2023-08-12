@@ -80,6 +80,7 @@ public:
 	SystemBody::BodyType primaryType[4];
 	unsigned numStars;
 	int sectorX, sectorY, sectorZ;
+	Uint32 systemIndex;
 	vector3f pos;
 	Uint32 seed;
 	bool want_rand_explored;
@@ -105,6 +106,8 @@ public:
 
 	void Load();
 
+	const CustomSystem *LoadSystem(std::string_view filepath);
+
 	typedef std::vector<const CustomSystem *> SystemList;
 	// XXX this is not as const-safe as it should be
 	const SystemList &GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ) const;
@@ -113,10 +116,14 @@ public:
 
 private:
 	typedef std::map<SystemPath, SystemList> SectorMap;
+	typedef std::pair<SystemPath, size_t> SystemIndex;
+
+	lua_State *CreateLoaderState();
 
 	Galaxy *const m_galaxy;
 	const std::string m_customSysDirectory;
 	SectorMap m_sectorMap;
+	SystemIndex m_lastAddedSystem;
 	static const SystemList s_emptySystemList; // see: Null Object pattern
 };
 
