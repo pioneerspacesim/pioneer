@@ -525,7 +525,7 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 	rootBody->m_type = csbody->type;
 	rootBody->m_parent = 0;
 	rootBody->m_seed = csbody->want_rand_seed ? rng.Int32() : csbody->seed;
-	rootBody->m_seed = rng.Int32();
+	// rootBody->m_seed = rng.Int32(); // XXX breaks manual seed set on root body
 	rootBody->m_radius = csbody->radius;
 	rootBody->m_aspectRatio = csbody->aspectRatio;
 	rootBody->m_mass = csbody->mass;
