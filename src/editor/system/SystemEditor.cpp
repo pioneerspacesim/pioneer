@@ -12,6 +12,7 @@
 #include "galaxy/Economy.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
+#include "galaxy/NameGenerator.h"
 #include "galaxy/Polit.h"
 #include "galaxy/StarSystemGenerator.h"
 #include "editor/UndoSystem.h"
@@ -93,6 +94,10 @@ public:
 		std::string code_name = body->GetName();
 		std::transform(code_name.begin(), code_name.end(), code_name.begin(), ::tolower);
 		code_name.erase(remove_if(code_name.begin(), code_name.end(), InvalidSystemNameChar), code_name.end());
+
+		// Ensure we prepend a character to numbers to avoid generating an invalid identifier
+		if (isdigit(code_name.front()))
+			code_name = "body_" + code_name;
 
 		// find the body type index so we can lookup the name
 		const char *pBodyTypeName = EnumStrings::GetString("BodyType", body->GetType());
@@ -403,12 +408,29 @@ public:
 			sec->m_systems[pa.systemIndex].GetPosition().z / Sector::SIZE);
 	}
 
-	static void EditProperties(StarSystem *system, UndoSystem *undo)
+	static void EditName(StarSystem *system, Random &rng, UndoSystem *undo)
 	{
-		ImGui::InputText("Name", &system->m_name);
+		float buttonSize = ImGui::GetFrameHeight();
+		ImGui::SetNextItemWidth(ImGui::CalcItemWidth() - buttonSize - ImGui::GetStyle().ItemSpacing.x);
+
+		ImGui::InputText("##Name", &system->m_name);
 		if (Draw::UndoHelper("Edit System Name", undo))
 			AddUndoSingleValue(undo, &system->m_name);
 
+		ImGui::SameLine();
+		if (ImGui::Button("R", ImVec2(buttonSize, buttonSize))) {
+			system->m_name.clear();
+			NameGenerator::GetSystemName(*&system->m_name, rng);
+		}
+		if (Draw::UndoHelper("Edit System Name", undo))
+			AddUndoSingleValue(undo, &system->m_name);
+
+		ImGui::SameLine(0.f, ImGui::GetStyle().ItemInnerSpacing.x);
+		ImGui::TextUnformatted("Name");
+	}
+
+	static void EditProperties(StarSystem *system, UndoSystem *undo)
+	{
 		// TODO: other names
 
 		ImGui::InputText("Short Description", &system->m_shortDesc);
@@ -471,14 +493,21 @@ bool SystemEditor::LoadSystem(const std::string &filepath)
 	Random rng(_init, 6);
 
 	RefCountedPtr<StarSystem::GeneratorAPI> system(new StarSystem::GeneratorAPI(path, m_galaxy, nullptr, rng));
-	auto generator = std::make_unique<StarSystemCustomGenerator>();
+	auto customStage = std::make_unique<StarSystemCustomGenerator>();
 
-	if (!generator->ApplyToSystem(rng, system, csys)) {
+	if (!customStage->ApplyToSystem(rng, system, csys)) {
 		Log::Error("System is fully random, cannot load from file");
 		return false;
 	}
 
 	// FIXME: need to run StarSystemPopulateGenerator here to finish filling out system
+	// Setting up faction affinity etc. requires running full gamut of generator stages
+
+	// auto populateStage = std::make_unique<PopulateStarSystemGenerator>();
+	// GalaxyGenerator::StarSystemConfig config;
+	// config.isCustomOnly = true;
+
+	// populateStage->Apply(rng, m_galaxy, system, &config);
 
 	if (!system->GetRootBody()) {
 		Log::Error("Custom system doesn't have a root body");
@@ -684,6 +713,9 @@ void SystemEditor::DrawSystemProperties()
 	ImGui::PopFont();
 
 	ImGui::Spacing();
+
+	Random rng (Uint32(m_app->GetTime() * 4.0) ^ m_system->GetSeed());
+	StarSystem::EditorAPI::EditName(m_system.Get(), rng, GetUndo());
 
 	StarSystem::EditorAPI::EditProperties(m_system.Get(), GetUndo());
 }
