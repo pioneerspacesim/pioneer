@@ -83,6 +83,7 @@ public:
 	Uint32 systemIndex;
 	vector3f pos;
 	Uint32 seed;
+	bool want_rand_seed;
 	bool want_rand_explored;
 	bool explored;
 	const Faction *faction;

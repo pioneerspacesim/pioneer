@@ -386,6 +386,7 @@ static int l_csys_seed(lua_State *L)
 {
 	CustomSystem *cs = l_csys_check(L, 1);
 	cs->seed = luaL_checkunsigned(L, 2);
+	cs->want_rand_seed = cs->seed == 0;
 	lua_settop(L, 1);
 	return 1;
 }
@@ -727,6 +728,7 @@ CustomSystem::CustomSystem() :
 	sBody(nullptr),
 	numStars(0),
 	seed(0),
+	want_rand_seed(true),
 	want_rand_explored(true),
 	faction(nullptr),
 	govType(Polit::GOV_INVALID),

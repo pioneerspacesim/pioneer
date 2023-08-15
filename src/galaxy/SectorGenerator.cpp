@@ -42,6 +42,9 @@ bool SectorCustomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 		}
 		s.m_customSys = cs;
 		s.m_seed = cs->seed;
+		if (cs->want_rand_seed)
+			s.m_seed = rng.Int32();
+
 		if (cs->want_rand_explored) {
 			/*
 			 * 0 - ~500ly from sol: explored
@@ -320,6 +323,8 @@ bool SectorRandomSystemsGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> gala
 
 		s.m_name = GenName(galaxy, *sector, s, customCount + i, rng);
 		//Output("%s: \n", s.m_name.c_str());
+
+		s.m_seed = rng.Int32();
 
 		sector->m_systems.push_back(s);
 	}

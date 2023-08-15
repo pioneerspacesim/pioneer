@@ -1364,7 +1364,7 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody *sbody, StarSystem::
 		return;
 	}
 
-	Uint32 _init[6] = { system->GetPath().systemIndex, Uint32(system->GetPath().sectorX),
+	Uint32 _init[6] = { Uint32(system->GetSeed()), Uint32(system->GetPath().sectorX),
 		Uint32(system->GetPath().sectorY), Uint32(system->GetPath().sectorZ), UNIVERSE_SEED, Uint32(sbody->GetSeed()) };
 
 	Random rand;
@@ -1527,7 +1527,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 	for (auto *child : sbody->GetChildren())
 		PopulateAddStations(child, system);
 
-	Uint32 _init[6] = { system->GetPath().systemIndex, Uint32(system->GetPath().sectorX),
+	Uint32 _init[6] = { Uint32(system->GetSeed()), Uint32(system->GetPath().sectorX),
 		Uint32(system->GetPath().sectorY), Uint32(system->GetPath().sectorZ), sbody->GetSeed(), UNIVERSE_SEED };
 
 	Random rand;
@@ -1672,7 +1672,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
 {
 	SystemPath path = system->GetPath();
-	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
+	const Uint32 _init[5] = { Uint32(system->GetSeed()), Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), POLIT_SEED };
 	Random rand(_init, 5);
 
 	RefCountedPtr<const Sector> sec = galaxy->GetSector(path);
@@ -1709,7 +1709,7 @@ void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefC
 void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem::GeneratorAPI> system)
 {
 	const SystemPath path = system->GetPath();
-	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
+	const Uint32 _init[5] = { Uint32(system->GetSeed()), Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), POLIT_SALT };
 	Random rand(_init, 5);
 
 	// All legal flags were set to true on initialization
@@ -1749,7 +1749,7 @@ bool PopulateStarSystemGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galax
 {
 	PROFILE_SCOPED()
 	const bool addSpaceStations = !config->isCustomOnly;
-	Uint32 _init[5] = { system->GetPath().systemIndex, Uint32(system->GetPath().sectorX), Uint32(system->GetPath().sectorY), Uint32(system->GetPath().sectorZ), UNIVERSE_SEED };
+	Uint32 _init[5] = { Uint32(system->GetSeed()), Uint32(system->GetPath().sectorX), Uint32(system->GetPath().sectorY), Uint32(system->GetPath().sectorZ), UNIVERSE_SEED };
 	Random rand;
 	rand.seed(_init, 5);
 
