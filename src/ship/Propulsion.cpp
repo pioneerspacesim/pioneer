@@ -165,10 +165,10 @@ double Propulsion::GetThrust(Thruster thruster) const
 {
 	// acceleration = thrust / mass
 	// thrust = acceleration * mass
-	const float mass = static_cast<float>(m_dBody->GetMass());
+	const double mass = m_dBody->GetMass();
 	return std::min(
-		m_linThrust[thruster],
-		m_linAccelerationCap[thruster] * mass);
+		static_cast<double>(m_linThrust[thruster]),
+		mass * m_linAccelerationCap[thruster]);
 }
 
 vector3d Propulsion::GetThrust(const vector3d &dir) const
