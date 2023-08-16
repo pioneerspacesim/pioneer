@@ -38,8 +38,7 @@ namespace Editor {
 			std::swap(m_state, *m_dataRef);
 		}
 
-		void Undo() override { std::swap(*m_dataRef, m_state); }
-		void Redo() override { std::swap(*m_dataRef, m_state); }
+		void Swap() override { std::swap(*m_dataRef, m_state); }
 
 		// Implement HasChanged as !(a == b) to reduce the number of operator overloads required
 		bool HasChanged() const override { return !(*m_dataRef == m_state); }
@@ -65,17 +64,10 @@ namespace Editor {
 			m_state(newValue),
 			m_onUpdate(std::move(updateClosure))
 		{
-			std::swap(*m_dataRef, m_state);
-			m_onUpdate();
+			Swap();
 		}
 
-		void Undo() override
-		{
-			std::swap(*m_dataRef, m_state);
-			m_onUpdate();
-		}
-
-		void Redo() override
+		void Swap() override
 		{
 			std::swap(*m_dataRef, m_state);
 			m_onUpdate();
@@ -141,22 +133,19 @@ namespace Editor {
 			m_dataRef(data),
 			m_state(newValue)
 		{
-			swap();
+			Swap();
 		}
 
-		void Undo() override { swap(); }
-		void Redo() override { swap(); }
-
-		bool HasChanged() const override { return !((m_dataRef->*GetterFn)() == m_state); }
-
-	private:
 		// two-way swap with opaque setter/getter functions
-		void swap() {
+		void Swap() override {
 			ValueType t = (m_dataRef->*GetterFn)();
 			std::swap(t, m_state);
 			(m_dataRef->*SetterFn)(std::move(t));
 		}
 
+		bool HasChanged() const override { return !((m_dataRef->*GetterFn)() == m_state); }
+
+	private:
 		Obj *m_dataRef;
 		ValueType m_state;
 	};
@@ -177,17 +166,11 @@ namespace Editor {
 			m_state(newValue),
 			m_update(std::move(updateClosure))
 		{
-			swap();
+			Swap();
 		}
 
-		void Undo() override { swap(); }
-		void Redo() override { swap(); }
-
-		bool HasChanged() const override { return !((m_dataRef->*GetterFn)() == m_state); }
-
-	private:
 		// two-way swap with opaque setter/getter functions and update closure
-		void swap() {
+		void Swap() {
 			ValueType t = (m_dataRef->*GetterFn)();
 			std::swap(t, m_state);
 			(m_dataRef->*SetterFn)(std::move(t));
@@ -195,6 +178,9 @@ namespace Editor {
 			m_update();
 		}
 
+		bool HasChanged() const override { return !((m_dataRef->*GetterFn)() == m_state); }
+
+	private:
 		Obj *m_dataRef;
 		ValueType m_state;
 		ClosureType m_update;

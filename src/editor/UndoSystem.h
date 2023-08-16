@@ -34,10 +34,13 @@ public:
 	virtual ~UndoStep() = default;
 
 	// Execute an undo step (replace application state with stored state)
-	virtual void Undo() = 0;
+	virtual void Undo() { Swap(); }
 
 	// Execute a redo step (replace stored state with application state)
-	virtual void Redo() = 0;
+	virtual void Redo() { Swap(); }
+
+	// Helper method to allow state changes in a single function
+	virtual void Swap() {};
 
 	// Optimization step: entries for which none of the steps represent a
 	// change in state will not be added to the undo stack
