@@ -7,7 +7,6 @@
 #include "core/Application.h"
 #include "pigui/PiGui.h"
 #include "RefCounted.h"
-#include "editor/UndoSystem.h"
 
 #include <memory>
 
@@ -19,6 +18,7 @@ class CustomSystemsDatabase;
 namespace Editor {
 
 class EditorApp;
+class UndoSystem;
 
 class SystemEditor : public Application::Lifecycle {
 public:
@@ -52,6 +52,8 @@ private:
 	UndoSystem *GetUndo() { return m_undo.get(); }
 
 private:
+	class UndoSetSelection;
+
 	EditorApp *m_app;
 
 	RefCountedPtr<Galaxy> m_galaxy;
