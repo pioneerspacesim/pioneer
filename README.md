@@ -62,7 +62,7 @@ For frequently asked questions, please see
 
 ## BUG Reporting
 
-Please see the section of the FAQ pertaining to bugs, crashs and reporting other issues: [Bug Reporting FAQs](https://wiki.pioneerspacesim.net/wiki/FAQ#How.2Fwhere_do_I_report_my_bug.2Fcrash).
+Please see the section of the FAQ pertaining to bugs, crashes and reporting other issues: [Bug Reporting FAQs](https://wiki.pioneerspacesim.net/wiki/FAQ#How.2Fwhere_do_I_report_my_bug.2Fcrash).
 
 Please do your best to fill out the issue template as completely as possible, especially when you're reporting a crash bug or a graphical issue. Having system information including graphics drivers and the method you used to install Pioneer helps immensely to diagnose and fix these kinds of issues.
 
