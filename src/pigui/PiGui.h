@@ -29,55 +29,58 @@ namespace PiGui {
 
 		float sizefactor() const { return m_sizefactor; }
 
-		//std::unordered_map<unsigned short, unsigned short> &invalid_glyphs() const { return m_invalid_glyphs; }
-		const std::vector<UsedRange> &used_ranges() const { return m_used_ranges; }
-
-		bool isValidGlyph(unsigned short glyph) const;
-		void addGlyph(unsigned short glyph);
-		void sortUsedRanges() const;
+		ImFont *addFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges);
 
 	private:
 		friend class Instance; // need access to some private data
 
 		std::string m_ttfname; // only the ttf name, it is automatically sought in data/fonts/
 		float m_sizefactor;	   // the requested pixelsize is multiplied by this factor
-
-		std::unordered_set<unsigned short> m_invalid_glyphs;
-		mutable std::vector<UsedRange> m_used_ranges;
-
-		ImVector<ImWchar> m_imgui_ranges;
 	};
 
-	class PiFont {
+	class PiFontDefinition {
 	public:
-		PiFont(const std::string &name) :
+		PiFontDefinition(const std::string &name) :
 			m_name(name) {}
-		PiFont(const std::string &name, const std::vector<PiFace> &faces) :
+		PiFontDefinition(const std::string &name, const std::vector<PiFace> &faces) :
 			m_name(name),
 			m_faces(faces) {}
-		PiFont() :
+		PiFontDefinition() :
 			m_name("unknown") {}
+
+		const std::string &name() const { return m_name; }
 
 		const std::vector<PiFace> &faces() const { return m_faces; }
 		std::vector<PiFace> &faces() { return m_faces; }
 
-		const std::string &name() const { return m_name; }
-
-		int pixelsize() const { return m_pixelsize; }
-		void setPixelsize(int pixelsize) { m_pixelsize = pixelsize; }
-
-		void describe() const
-		{
-			Output("font %s:\n", name().c_str());
-			for (const PiFace &face : faces()) {
-				Output("- %s %f\n", face.ttfname().c_str(), face.sizefactor());
-			}
-		}
-
 	private:
 		std::string m_name;
 		std::vector<PiFace> m_faces;
+	};
+
+	class PiFont {
+	public:
+		using UsedRange = std::pair<uint16_t, uint16_t>;
+
+		PiFont(PiFontDefinition &fontDef, int pixelSize) :
+			m_fontDef(fontDef),
+			m_pixelsize(pixelSize)
+		{}
+
+		const std::string &name() const { return m_fontDef.name(); }
+		std::vector<PiFace> &faces() const { return m_fontDef.faces(); }
+		const std::vector<UsedRange> &used_ranges() const { return m_used_ranges; }
+		int pixelsize() const { return m_pixelsize; }
+
+		void describe(bool withFaces = false) const;
+
+		void addGlyph(unsigned short glyph);
+		void sortUsedRanges();
+
+	private:
+		PiFontDefinition &m_fontDef;
 		int m_pixelsize;
+		std::vector<UsedRange> m_used_ranges;
 	};
 
 	class InstanceRenderer;
@@ -114,8 +117,6 @@ namespace PiGui {
 
 		bool ProcessEvent(SDL_Event *event);
 
-		void RefreshFontsTexture();
-
 	private:
 		Graphics::Renderer *m_renderer;
 		std::unique_ptr<InstanceRenderer> m_instanceRenderer;
@@ -129,14 +130,20 @@ namespace PiGui {
 		std::map<std::pair<std::string, int>, PiFont> m_pi_fonts;
 		bool m_should_bake_fonts;
 
-		std::map<std::string, PiFont> m_font_definitions;
+		std::map<std::string, PiFontDefinition> m_font_definitions;
+
+		std::vector<ImVector<ImWchar> *> m_glyphRanges;
 
 		ImGuiStyle m_debugStyle;
 		bool m_debugStyleActive;
 
+		void AddFontDefinition(const PiFontDefinition &font)
+		{
+			m_font_definitions[font.name()] = font;
+		}
+
 		void BakeFonts();
 		void BakeFont(PiFont &font);
-		void AddFontDefinition(const PiFont &font) { m_font_definitions[font.name()] = font; }
 		void ClearFonts();
 	};
 

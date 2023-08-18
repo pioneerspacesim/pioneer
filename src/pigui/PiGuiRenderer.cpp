@@ -81,6 +81,7 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data)
 
 void InstanceRenderer::RenderDrawData(ImDrawData *draw_data, Graphics::Material* material)
 {
+	PROFILE_SCOPED()
 	Graphics::Renderer::StateTicket st(m_renderer);
 
 	ImGuiIO &io = ImGui::GetIO();
@@ -146,6 +147,8 @@ void InstanceRenderer::RenderDrawData(ImDrawData *draw_data, Graphics::Material*
 
 void InstanceRenderer::CreateFontsTexture()
 {
+	PROFILE_SCOPED()
+
 	ImGuiIO &io = ImGui::GetIO();
 	unsigned char *pixels;
 	int width, height;

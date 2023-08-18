@@ -216,14 +216,14 @@ Instance::Instance() :
 	// first face, that has some ranges defined
 	// ( see Instance::BakeFont )
 
-	PiFont uiheading("orbiteer", {
+	PiFontDefinition uiheading("orbiteer", {
 		PiFace("Orbiteer-Bold.ttf", 1.0), // imgui only supports 0xffff, not 0x10ffff
 		PiFace("DejaVuSans.ttf", /*18.0/20.0*/ 1.2),
 		PiFace("wqy-microhei.ttc", 1.0)
 	});
 	AddFontDefinition(uiheading);
 
-	PiFont guifont("pionillium", {
+	PiFontDefinition guifont("pionillium", {
 		PiFace("PionilliumText22L-Medium.ttf", 1.0),
 		PiFace("DejaVuSans.ttf", 13.0 / 14.0),
 		PiFace("wqy-microhei.ttc", 1.0)
@@ -231,10 +231,9 @@ Instance::Instance() :
 	AddFontDefinition(guifont);
 	// clang-format on
 
-	// Output("Fonts:\n");
-	for (auto entry : m_font_definitions) {
-		//		Output("  entry %s:\n", entry.first.c_str());
-		entry.second.describe();
+	Log::Info("Font Sources:");
+	for (auto &entry : m_font_definitions) {
+		PiFont(entry.second, 0).describe(true);
 	}
 
 	// ensure the tooltip font exists
@@ -286,20 +285,17 @@ void Instance::AddGlyph(ImFont *font, unsigned short glyph)
 		Error("No registered PiFont for name %s size %i\n", iter->second.first.c_str(), iter->second.second);
 		assert(false);
 	}
-	// as a result, we look at all the faces of the font in turn, for the
-	// presence of this glyph.
+
+	// add the glyph..glyph range in this font
+	// the first face with a valid glyph will be used to represent it
+
 	PiFont &pifont = pifont_iter->second;
-	for (PiFace &face : pifont.faces()) {
-		if (face.isValidGlyph(glyph)) {
-			// and as soon as we find it, we define the glyph..glyph range in this face
-			face.addGlyph(glyph);
-			// and enable the flag that all fonts should be rebaked
-			// ( see Instance::BakeFont )
-			m_should_bake_fonts = true;
-			return;
-		}
-	}
-	Error("No face in font %s handles glyph %i\n", pifont.name().c_str(), glyph);
+	pifont.addGlyph(glyph);
+
+	// and enable the flag that all fonts should be rebaked
+	// ( see Instance::BakeFont )
+	m_should_bake_fonts = true;
+	return;
 }
 
 ImFont *Instance::AddFont(const std::string &name, int size)
@@ -316,24 +312,22 @@ ImFont *Instance::AddFont(const std::string &name, int size)
 		assert(false);
 	}
 
-	PiFont &pifont = iter->second;
-	pifont.setPixelsize(size);
-	// here we add the range 0x0020 .. 0x0020 to the first face of the font
-	// the other faces of this font do not yet have ranges, so they will not be
-	// used for baking for the first time
-	pifont.faces()[0].addGlyph(0x20);
-	m_pi_fonts[std::make_pair(name, size)] = pifont;
+	PiFontDefinition &fontDef = iter->second;
+
+	PiFont &font = m_pi_fonts.try_emplace(std::make_pair(name, size), fontDef, size).first->second;
+
+	// here we add the range 0x0020 .. 0x0020 and 0xFFFD .. 0xFFFD to the font
+	// so it can render at the very least the fallback character
+	font.addGlyph(0x20);
+	font.addGlyph(IM_UNICODE_CODEPOINT_INVALID);
+
+	// Log::Info("adding font (from {}):", (void *)&iter->second);
+	// font.describe();
 
 	m_should_bake_fonts = true;
 
+	// return nullptr, apparently
 	return m_fonts[std::make_pair(name, size)];
-}
-
-void Instance::RefreshFontsTexture()
-{
-	PROFILE_SCOPED()
-	ImGui::GetIO().Fonts->Build();
-	m_instanceRenderer->CreateFontsTexture();
 }
 
 // TODO: this isn't very RAII friendly, are we sure we need to call Init() seperately from creating the instance?
@@ -404,6 +398,11 @@ void Instance::NewFrame()
 	// issuing draw commands and rendering
 	if (m_should_bake_fonts) {
 		BakeFonts();
+
+		// Log::Info("POST FONT BAKE:");
+		// for (auto &pair : m_im_fonts) {
+		// 	Log::Info("({}) -> {}:{}", (void *)pair.first, pair.second.first, pair.second.second);
+		// }
 	}
 
 	switch (m_renderer->GetRendererType()) {
@@ -467,47 +466,50 @@ void Instance::BakeFont(PiFont &font)
 	PROFILE_SCOPED()
 	ImGuiIO &io = ImGui::GetIO();
 	ImFont *imfont = nullptr;
+
+	// note that if there are no ranges at all in the font, it is ignored
+	font.sortUsedRanges();
+	if (font.used_ranges().empty()) {
+		Log::Warning("PiGui font {}:{} has no glyphs, not baking!", font.name(), font.pixelsize());
+		return;
+	}
+
+	ImFontGlyphRangesBuilder gb;
+
+	// ( default imgui glyph range - 0x0020 .. 0x00FF : Basic Latin + Latin Supplement )
+	gb.AddRanges(io.Fonts->GetGlyphRangesDefault());
+
+	// Add any glyphs outside of the default range that have been used at least once before
+	ImWchar gr[3] = { 0, 0, 0 };
+	for (const auto &range : font.used_ranges()) {
+		gr[0] = range.first;
+		gr[1] = range.second;
+		gb.AddRanges(gr);
+	}
+
+	ImVector<ImWchar> *font_char_ranges = new ImVector<ImWchar>;
+	m_glyphRanges.emplace_back(font_char_ranges);
+
+	gb.BuildRanges(font_char_ranges);
+
 	for (PiFace &face : font.faces()) {
 		ImFontConfig config;
-		config.MergeMode = true;
-		float size = font.pixelsize() * face.sizefactor();
-		const std::string path = FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), face.ttfname());
-		//		Output("- baking face %s at size %f\n", path.c_str(), size);
-		face.sortUsedRanges();
-		// note that if there are no ranges at all in the face, it is ignored
-		if (face.used_ranges().size() > 0) {
-			face.m_imgui_ranges.clear();
-			ImFontGlyphRangesBuilder gb;
-			// but if at least one range is defined for a face, then we are trying to
-			// add a default range to it
-			gb.AddRanges(io.Fonts->GetGlyphRangesDefault());
-			// ( default imgui glyph range - 0x0020 .. 0x00FF : Basic Latin + Latin Supplement )
-			// it turns out that if ranges are defined in several faces of the font,
-			// we try to add a default range to each. but since the repeated range
-			// is ignored, the default range is baked only from the first face that
-			// falls into this scope
-			ImWchar gr[3] = { 0, 0, 0 };
-			for (auto &range : face.used_ranges()) {
-				// Output("Used range: %x - %x", range.first, range.second);
-				gr[0] = range.first;
-				gr[1] = range.second;
-				gb.AddRanges(gr);
-			}
-			gb.BuildRanges(&face.m_imgui_ranges);
-			ImFont *f = io.Fonts->AddFontFromFileTTF(path.c_str(), size, imfont == nullptr ? nullptr : &config, face.m_imgui_ranges.Data);
-			assert(f);
-			if (imfont != nullptr)
-				assert(f == imfont);
-			imfont = f;
-		}
+		config.MergeMode = imfont != nullptr;
+
+		ImFont *f = face.addFaceToAtlas(font.pixelsize(), &config, font_char_ranges);
+		if (imfont != nullptr)
+			assert(f == imfont);
+
+		imfont = f;
 	}
+
 	m_im_fonts[imfont] = std::make_pair(font.name(), font.pixelsize());
 	// 	Output("setting %s %i to %p\n", font.name(), font.pixelsize(), imfont);
 	m_fonts[std::make_pair(font.name(), font.pixelsize())] = imfont;
 	if (!imfont->MissingGlyphs.empty()) {
-		Output("WARNING: glyphs missing in shiny new font\n");
+		Log::Warning("PiGui: newly-built font {}:{} has glyphs missing", font.name(), font.pixelsize());
+		imfont->MissingGlyphs.clear();
 	}
-	imfont->MissingGlyphs.clear();
 }
 
 void Instance::BakeFonts()
@@ -525,7 +527,7 @@ void Instance::BakeFonts()
 	ClearFonts();
 
 	// first bake tooltip/default font
-	BakeFont(m_pi_fonts[std::make_pair("pionillium", 14)]);
+	BakeFont(m_pi_fonts.at(std::make_pair("pionillium", 14)));
 
 	for (auto &iter : m_pi_fonts) {
 		// don't bake tooltip/default font again
@@ -534,7 +536,15 @@ void Instance::BakeFonts()
 		//		Output("Fonts registered: %i\n", io.Fonts->Fonts.Size);
 	}
 
-	RefreshFontsTexture();
+	ImGui::GetIO().Fonts->Build();
+
+	for (ImVector<ImWchar> *scratchVec : m_glyphRanges) {
+		delete scratchVec;
+	}
+
+	m_glyphRanges.clear();
+
+	m_instanceRenderer->CreateFontsTexture();
 }
 
 void Instance::Uninit()
@@ -562,35 +572,42 @@ void Instance::Uninit()
 // PiGui::PiFace
 //
 
-bool PiFace::isValidGlyph(unsigned short glyph) const
+ImFont *PiFace::addFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges)
 {
-	PROFILE_SCOPED()
-	return (m_invalid_glyphs.count(glyph) == 0);
+	float size = pixelSize * sizefactor();
+	const std::string path = FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), ttfname());
+	ImFont *f = ImGui::GetIO().Fonts->AddFontFromFileTTF(path.c_str(), size, config, ranges->Data);
+	assert(f);
+
+	return f;
 }
 
-void PiFace::addGlyph(unsigned short glyph)
+//
+// PiGui::PiFont
+//
+
+void PiFont::addGlyph(unsigned short glyph)
 {
 	PROFILE_SCOPED()
-	// Output("- PiFace %s adding glyph 0x%x\n", ttfname().c_str(), glyph);
+	Log::Debug("- PiFont {}:{} adding glyph {:x}", name(), pixelsize(), glyph);
 	for (auto &range : m_used_ranges) {
 		if (range.first <= glyph && glyph <= range.second) {
-			// Output(" - already added, not adding again\n");
-			m_invalid_glyphs.insert(glyph); //if already added it once and trying to add it again, it's invalid
+			// if we already added it once and are trying to add it again,
+			// it's invalid and not covered by any of the faces in this font
 			return;
 		}
 	}
-	//	Output(" - added\n");
 	m_used_ranges.push_back(std::make_pair(glyph, glyph));
 }
 
-void PiFace::sortUsedRanges() const
+void PiFont::sortUsedRanges()
 {
 	PROFILE_SCOPED()
 	// sort by ascending lower end of range
-	std::sort(m_used_ranges.begin(), m_used_ranges.end(), [](const std::pair<unsigned short, unsigned short> &a, const std::pair<unsigned short, unsigned short> &b) { return a.first < b.first; });
+	std::sort(m_used_ranges.begin(), m_used_ranges.end(), [](const UsedRange &a, const UsedRange &b) { return a.first < b.first; });
 	// merge adjacent ranges
-	std::vector<std::pair<unsigned short, unsigned short>> merged;
-	std::pair<unsigned short, unsigned short> current(0xffff, 0xffff);
+	std::vector<UsedRange> merged;
+	UsedRange current(0xffff, 0xffff);
 	for (auto &range : m_used_ranges) {
 		//		Output("> checking 0x%x-0x%x\n", range.first, range.second);
 		if (current.first == 0xffff && current.second == 0xffff)
@@ -610,4 +627,15 @@ void PiFace::sortUsedRanges() const
 	if (current.first != 0xffff && current.second != 0xffff)
 		merged.push_back(current);
 	m_used_ranges.assign(merged.begin(), merged.end());
+}
+
+void PiFont::describe(bool withFaces) const
+{
+	Log::Info("font {}:{} ({})\n", name(), pixelsize(), (void *)this);
+
+	if (withFaces) {
+		for (const PiFace &face : faces()) {
+			Log::Info("- {} {}\n", face.ttfname(), face.sizefactor());
+		}
+	}
 }
