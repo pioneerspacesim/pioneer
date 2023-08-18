@@ -76,6 +76,16 @@ namespace Editor::Draw {
 	// Color edit button
 	bool ColorEdit3(const char *label, Color4ub *color);
 
+	enum DragDropTarget {
+		DROP_NONE = 0,
+		DROP_BEFORE = 1,
+		DROP_CHILD = 2,
+		DROP_AFTER = 3
+	};
+
+	// Begin tri-mode drag-drop handling on a
+	DragDropTarget HierarchyDragDrop(const char *type, ImGuiID targetID, void *data, void *outData, size_t dataSize);
+
 }
 
 inline bool operator==(const ImVec2 &a, const ImVec2 &b)

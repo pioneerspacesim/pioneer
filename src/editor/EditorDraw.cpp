@@ -254,3 +254,85 @@ bool Draw::ColorEdit3(const char *label, Color *color)
 	*color = Color(_c);
 	return changed;
 }
+
+Draw::DragDropTarget Draw::HierarchyDragDrop(const char *type, ImGuiID targetID, void *data, void *outData, size_t dataSize)
+{
+	ImGuiContext &g = *ImGui::GetCurrentContext();
+
+	ImU32 col_highlight = ImGui::GetColorU32(ImGuiCol_ButtonHovered);
+	ImU32 col_trans = ImGui::GetColorU32(ImGuiCol_ButtonHovered, 0.f);
+
+	Draw::DragDropTarget ret = DragDropTarget::DROP_NONE;
+
+	ImGui::PushID(targetID);
+
+	if (ImGui::BeginDragDropSource()) {
+		ImGui::SetDragDropPayload(type, data, dataSize);
+		ImGui::EndDragDropSource();
+	}
+
+	ImVec2 min = ImGui::GetItemRectMin();
+	ImVec2 max = ImGui::GetItemRectMax();
+	float halfHeight = ImGui::GetItemRectSize().y * 0.4f;
+	float text_offset = g.FontSize + ImGui::GetStyle().FramePadding.x * 2.f;
+	float inner_x = ImGui::GetCursorScreenPos().x + text_offset;
+
+	ImGuiID beforeTarget = ImGui::GetID("##drop_before");
+	ImGuiID afterTarget = ImGui::GetID("##drop_after");
+	ImGuiID innerTarget = ImGui::GetID("##drop-in");
+
+	ImRect beforeRect(min.x, min.y, max.x, min.y + halfHeight);
+	ImRect afterRect(min.x, max.y - halfHeight, max.x, max.y);
+	ImRect innerRect(inner_x, min.y, max.x, max.y);
+
+	if (ImGui::BeginDragDropTargetCustom(beforeRect, beforeTarget)) {
+		const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(type, ImGuiDragDropFlags_AcceptBeforeDelivery | ImGuiDragDropFlags_AcceptNoDrawDefaultRect);
+		if (payload && payload->Preview) {
+			ImGui::GetWindowDrawList()->AddRectFilledMultiColor(beforeRect.Min, beforeRect.Max, col_highlight, col_highlight, col_trans, col_trans);
+		}
+
+		if (payload && payload->Delivery) {
+			assert(size_t(payload->DataSize) == dataSize);
+			memcpy(outData, payload->Data, payload->DataSize);
+
+			ret = DragDropTarget::DROP_BEFORE;
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	if (ImGui::BeginDragDropTargetCustom(afterRect, afterTarget)) {
+		const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(type, ImGuiDragDropFlags_AcceptBeforeDelivery | ImGuiDragDropFlags_AcceptNoDrawDefaultRect);
+		if (payload && payload->Preview) {
+			ImGui::GetWindowDrawList()->AddRectFilledMultiColor(afterRect.Min, afterRect.Max, col_trans, col_trans, col_highlight, col_highlight);
+		}
+
+		if (payload && payload->Delivery) {
+			assert(size_t(payload->DataSize) == dataSize);
+			memcpy(outData, payload->Data, payload->DataSize);
+
+			ret = DragDropTarget::DROP_AFTER;
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	if (ImGui::BeginDragDropTargetCustom(innerRect, innerTarget)) {
+		const ImGuiPayload *payload = ImGui::AcceptDragDropPayload(type, ImGuiDragDropFlags_AcceptBeforeDelivery | ImGuiDragDropFlags_AcceptNoDrawDefaultRect);
+		if (payload && payload->Preview) {
+			ImGui::GetWindowDrawList()->AddRectFilledMultiColor(innerRect.Min, innerRect.Max, col_trans, col_highlight, col_highlight, col_trans);
+		}
+
+		if (payload && payload->Delivery) {
+			assert(size_t(payload->DataSize) == dataSize);
+			memcpy(outData, payload->Data, payload->DataSize);
+
+			ret = DragDropTarget::DROP_CHILD;
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	ImGui::PopID();
+	return ret;
+}
