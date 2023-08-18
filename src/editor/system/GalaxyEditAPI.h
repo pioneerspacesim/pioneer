@@ -33,6 +33,7 @@ public:
 
 	static void AddChild(SystemBody *parent, SystemBody *child, size_t idx = -1);
 	static SystemBody *RemoveChild(SystemBody *parent, size_t idx = -1);
+	static size_t GetIndexInParent(SystemBody *body);
 
 	static void UpdateBodyOrbit(SystemBody *body);
 	static void UpdateOrbitAroundParent(SystemBody *body, SystemBody *parent);

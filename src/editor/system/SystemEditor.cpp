@@ -55,7 +55,8 @@ private:
 SystemEditor::SystemEditor(EditorApp *app) :
 	m_app(app),
 	m_undo(new UndoSystem()),
-	m_selectedBody(nullptr)
+	m_selectedBody(nullptr),
+	m_pendingReparent()
 {
 	GalacticEconomy::Init();
 
@@ -147,6 +148,19 @@ void SystemEditor::Update(float deltaTime)
 
 	DrawInterface();
 
+	if (m_pendingReparent.body) {
+		size_t parentIdx = SystemBody::EditorAPI::GetIndexInParent(m_pendingReparent.body);
+
+		GetUndo()->BeginEntry("Reorder Body");
+		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get());
+		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(m_pendingReparent.body->GetParent(), parentIdx);
+		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(m_pendingReparent.parent, m_pendingReparent.body, m_pendingReparent.idx);
+		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get(), true);
+		GetUndo()->EndEntry();
+
+		m_pendingReparent = {};
+	}
+
 	if (ImGui::IsKeyPressed(ImGuiKey_F1)) {
 		WriteSystem(m_filepath);
 	}
@@ -212,12 +226,18 @@ void SystemEditor::DrawOutliner()
 {
 	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
 
+	std::string name = m_system.Valid() ? m_system->GetName() : "<None>";
+
 	std::string label = fmt::format("System: {}", m_system->GetName());
 	if (ImGui::Selectable(label.c_str(), !m_selectedBody)) {
 		m_selectedBody = nullptr;
 	}
 
 	ImGui::PopFont();
+
+	if (!m_system) {
+		return;
+	}
 
 	ImGui::Spacing();
 
@@ -228,21 +248,41 @@ void SystemEditor::DrawOutliner()
 		SystemBody *body = StarSystem::EditorAPI::NewBody(m_system.Get());
 
 		GetUndo()->BeginEntry("Add Body");
-		GetUndo()->AddUndoStep<SystemEditorHelpers::UndoManageStarSystemBody>(m_system.Get(), body);
-		GetUndo()->AddUndoStep<SystemEditorHelpers::UndoAddRemoveChildBody>(parent, body);
+		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get());
+		GetUndo()->AddUndoStep<SystemEditorUndo::ManageStarSystemBody>(m_system.Get(), body);
+		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(parent, body);
+		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get(), true);
 		GetUndo()->AddUndoStep<SystemEditor::UndoSetSelection>(this, body);
 		GetUndo()->EndEntry();
 	}
 
 	bool canDeleteBody = m_selectedBody && m_selectedBody != m_system->GetRootBody().Get();
 	if (canDeleteBody && ImGui::Button("D##DeleteBody")) {
-		SystemBody *parent = m_selectedBody->GetParent();
-		auto iter = std::find(parent->GetChildren().begin(), parent->GetChildren().end(), m_selectedBody);
-		size_t idx = std::distance(parent->GetChildren().begin(), iter);
+
+		std::vector<SystemBody *> toDelete { m_selectedBody };
+		size_t sliceBegin = 0;
+
+		while (sliceBegin < toDelete.size()) {
+			size_t sliceEnd = toDelete.size();
+			for (size_t idx = sliceBegin; idx < sliceEnd; idx++) {
+				if (toDelete[idx]->HasChildren())
+					for (auto &child : toDelete[idx]->GetChildren())
+						toDelete.push_back(child);
+			}
+			sliceBegin = sliceEnd;
+		}
 
 		GetUndo()->BeginEntry("Delete Body");
-		GetUndo()->AddUndoStep<SystemEditorHelpers::UndoAddRemoveChildBody>(parent, idx);
-		GetUndo()->AddUndoStep<SystemEditorHelpers::UndoManageStarSystemBody>(m_system.Get(), nullptr, m_selectedBody, true);
+		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get());
+
+		for (auto &child : reverse_container(toDelete)) {
+			SystemBody *parent = child->GetParent();
+			size_t idx = SystemBody::EditorAPI::GetIndexInParent(child);
+			GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(parent, idx);
+			GetUndo()->AddUndoStep<SystemEditorUndo::ManageStarSystemBody>(m_system.Get(), nullptr, child, true);
+		}
+
+		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get(), true);
 		GetUndo()->AddUndoStep<SystemEditor::UndoSetSelection>(this, nullptr);
 		GetUndo()->EndEntry();
 	}
@@ -254,7 +294,7 @@ void SystemEditor::DrawOutliner()
 			{ m_system->GetRootBody().Get(), 0 }
 		};
 
-		if (!DrawBodyNode(m_system->GetRootBody().Get())) {
+		if (!DrawBodyNode(m_system->GetRootBody().Get(), true)) {
 			ImGui::EndChild();
 			return;
 		}
@@ -262,27 +302,48 @@ void SystemEditor::DrawOutliner()
 		while (!m_systemStack.empty()) {
 			auto &pair = m_systemStack.back();
 
-			if (pair.second == pair.first->GetNumChildren()) {
+			if (pair.second >= pair.first->GetNumChildren()) {
 				m_systemStack.pop_back();
 				ImGui::TreePop();
 				continue;
 			}
 
 			SystemBody *body = pair.first->GetChildren()[pair.second++];
-			if (DrawBodyNode(body))
+			if (DrawBodyNode(body, false))
 				m_systemStack.push_back({ body, 0 });
 		}
 	}
 	ImGui::EndChild();
 }
 
-bool SystemEditor::DrawBodyNode(SystemBody *body)
+void SystemEditor::HandleOutlinerDragDrop(SystemBody *refBody)
+{
+	// Handle drag-drop re-order/re-parent
+	SystemBody *dropBody = nullptr;
+	Draw::DragDropTarget dropTarget = Draw::HierarchyDragDrop("SystemBody", ImGui::GetID(refBody), &refBody, &dropBody, sizeof(SystemBody *));
+
+	if (dropTarget != Draw::DragDropTarget::DROP_NONE && refBody != dropBody) {
+		size_t targetIdx = SystemBody::EditorAPI::GetIndexInParent(refBody);
+
+		m_pendingReparent.body = dropBody;
+		m_pendingReparent.parent = dropTarget == Draw::DROP_CHILD ? refBody : refBody->GetParent();
+		m_pendingReparent.idx = 0;
+
+		if (dropTarget == Draw::DROP_BEFORE)
+			m_pendingReparent.idx = targetIdx;
+		else if (dropTarget == Draw::DROP_AFTER)
+			m_pendingReparent.idx = targetIdx + 1;
+	}
+}
+
+bool SystemEditor::DrawBodyNode(SystemBody *body, bool isRoot)
 {
 	ImGuiTreeNodeFlags flags =
 		ImGuiTreeNodeFlags_DefaultOpen |
 		ImGuiTreeNodeFlags_OpenOnDoubleClick |
 		ImGuiTreeNodeFlags_OpenOnArrow |
-		ImGuiTreeNodeFlags_SpanFullWidth;
+		ImGuiTreeNodeFlags_SpanFullWidth |
+		ImGuiTreeNodeFlags_FramePadding;
 
 	if (body->GetNumChildren() == 0)
 		flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
@@ -291,6 +352,10 @@ bool SystemEditor::DrawBodyNode(SystemBody *body)
 		flags |= ImGuiTreeNodeFlags_Selected;
 
 	bool open = ImGui::TreeNodeEx(body->GetName().c_str(), flags);
+
+	if (!isRoot) {
+		HandleOutlinerDragDrop(body);
+	}
 
 	if (ImGui::IsItemActivated()) {
 		m_selectedBody = body;

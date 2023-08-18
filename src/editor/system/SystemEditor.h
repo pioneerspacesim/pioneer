@@ -39,7 +39,8 @@ private:
 	void SetupLayout(ImGuiID dockspaceID);
 	void DrawInterface();
 
-	bool DrawBodyNode(SystemBody *body);
+	bool DrawBodyNode(SystemBody *body, bool isRoot);
+	void HandleOutlinerDragDrop(SystemBody *refBody);
 	void DrawOutliner();
 
 	void DrawBodyProperties();
@@ -65,6 +66,14 @@ private:
 	std::string m_filepath;
 
 	SystemBody *m_selectedBody;
+
+	struct ReparentRequest {
+		SystemBody *parent = nullptr;
+		SystemBody *body = nullptr;
+		size_t idx = 0;
+	};
+
+	ReparentRequest m_pendingReparent;
 };
 
 } // namespace Editor

@@ -9,11 +9,11 @@
 #include "galaxy/StarSystem.h"
 #include "galaxy/SystemBody.h"
 
-namespace Editor::SystemEditorHelpers {
+namespace Editor::SystemEditorUndo {
 
-	class UndoManageStarSystemBody : public UndoStep {
+	class ManageStarSystemBody : public UndoStep {
 	public:
-		UndoManageStarSystemBody(StarSystem *system, SystemBody *add, SystemBody *rem = nullptr, bool apply = false) :
+		ManageStarSystemBody(StarSystem *system, SystemBody *add, SystemBody *rem = nullptr, bool apply = false) :
 			m_system(system),
 			m_addBody(add),
 			m_remBody(rem)
@@ -36,10 +36,35 @@ namespace Editor::SystemEditorHelpers {
 		RefCountedPtr<SystemBody> m_remBody;
 	};
 
-	// UndoStep helper to handle adding or deleting a child SystemBody from a parent
-	class UndoAddRemoveChildBody : public UndoStep {
+	// Helper to reorder body indexes at the end of an undo / redo operation by adding two undo steps
+	class ReorderStarSystemBodies : public UndoStep {
 	public:
-		UndoAddRemoveChildBody(SystemBody *parent, SystemBody *add, size_t idx) :
+		ReorderStarSystemBodies(StarSystem *system, bool onRedo = false) :
+			m_system(system),
+			m_onRedo(onRedo)
+		{
+			Redo();
+		}
+
+		void Undo() override {
+			if (!m_onRedo)
+				StarSystem::EditorAPI::ReorderBodyIndex(m_system);
+		}
+
+		void Redo() override {
+			if (m_onRedo)
+				StarSystem::EditorAPI::ReorderBodyIndex(m_system);
+		}
+
+	private:
+		StarSystem *m_system;
+		bool m_onRedo;
+	};
+
+	// UndoStep helper to handle adding or deleting a child SystemBody from a parent
+	class AddRemoveChildBody : public UndoStep {
+	public:
+		AddRemoveChildBody(SystemBody *parent, SystemBody *add, size_t idx) :
 			m_parent(parent),
 			m_add(add),
 			m_idx(idx)
@@ -47,7 +72,7 @@ namespace Editor::SystemEditorHelpers {
 			Swap();
 		}
 
-		UndoAddRemoveChildBody(SystemBody *parent, SystemBody *add) :
+		AddRemoveChildBody(SystemBody *parent, SystemBody *add) :
 			m_parent(parent),
 			m_add(add),
 			m_idx(-1)
@@ -55,7 +80,7 @@ namespace Editor::SystemEditorHelpers {
 			Swap();
 		}
 
-		UndoAddRemoveChildBody(SystemBody *parent, size_t idx) :
+		AddRemoveChildBody(SystemBody *parent, size_t idx) :
 			m_parent(parent),
 			m_add(nullptr),
 			m_idx(idx)

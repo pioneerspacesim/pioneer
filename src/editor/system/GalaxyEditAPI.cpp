@@ -75,6 +75,34 @@ void StarSystem::EditorAPI::RemoveBody(StarSystem *system, SystemBody *body)
 		system->m_bodies.erase(iter);
 }
 
+void StarSystem::EditorAPI::ReorderBodyIndex(StarSystem *system)
+{
+	size_t index = 0;
+	system->GetRootBody()->m_path.bodyIndex = index++;
+
+	std::vector<std::pair<SystemBody *, size_t>> orderStack {
+		{ system->GetRootBody().Get(), 0 }
+	};
+
+	while (!orderStack.empty()) {
+		auto &pair = orderStack.back();
+
+		if (pair.second >= pair.first->GetNumChildren()) {
+			orderStack.pop_back();
+			continue;
+		}
+
+		SystemBody *body = pair.first->GetChildren()[pair.second++];
+		orderStack.push_back({ body, 0 });
+
+		body->m_path.bodyIndex = index ++;
+	}
+
+	std::sort(system->m_bodies.begin(), system->m_bodies.end(), [](auto a, auto b) {
+		return a->m_path.bodyIndex < b->m_path.bodyIndex;
+	});
+}
+
 void StarSystem::EditorAPI::EditName(StarSystem *system, Random &rng, UndoSystem *undo)
 {
 	float buttonSize = ImGui::GetFrameHeight();
@@ -277,6 +305,19 @@ SystemBody *SystemBody::EditorAPI::RemoveChild(SystemBody *parent, size_t idx)
 	outBody->m_parent = nullptr;
 
 	return outBody;
+}
+
+size_t SystemBody::EditorAPI::GetIndexInParent(SystemBody *body)
+{
+	SystemBody *parent = body->GetParent();
+	if (!parent)
+		return size_t(-1);
+
+	auto iter = std::find(parent->GetChildren().begin(), parent->GetChildren().end(), body);
+	if (iter == parent->GetChildren().end())
+		return size_t(-1);
+
+	return std::distance(parent->GetChildren().begin(), iter);
 }
 
 void SystemBody::EditorAPI::UpdateBodyOrbit(SystemBody *body)
