@@ -195,7 +195,8 @@ void StyleColorsDarkPlus(ImGuiStyle &style)
 //	PiGui::Instance
 //
 
-Instance::Instance() :
+Instance::Instance(GuiApplication *app) :
+	m_app(app),
 	m_should_bake_fonts(true),
 	m_debugStyle(),
 	m_debugStyleActive(false)

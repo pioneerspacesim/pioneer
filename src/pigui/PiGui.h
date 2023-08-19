@@ -16,6 +16,8 @@ namespace Graphics {
 	class Renderer;
 } // namespace Graphics
 
+class GuiApplication;
+
 namespace PiGui {
 
 	class PiFace {
@@ -88,7 +90,7 @@ namespace PiGui {
 	/* Class to wrap ImGui. */
 	class Instance : public RefCounted {
 	public:
-		Instance();
+		Instance(GuiApplication *app);
 
 		void Init(Graphics::Renderer *renderer);
 		void Uninit();
@@ -118,6 +120,7 @@ namespace PiGui {
 		bool ProcessEvent(SDL_Event *event);
 
 	private:
+		GuiApplication *m_app;
 		Graphics::Renderer *m_renderer;
 		std::unique_ptr<InstanceRenderer> m_instanceRenderer;
 

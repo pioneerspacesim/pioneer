@@ -7,7 +7,6 @@
 #include "Input.h"
 #include "RefCounted.h"
 #include "SDL_events.h"
-#include "pigui/PiGui.h"
 
 #include "graphics/RenderState.h"
 #include "graphics/RenderTarget.h"
@@ -15,11 +14,14 @@
 
 class IniConfig;
 
+namespace PiGui {
+	class Instance;
+}
+
 class GuiApplication : public Application {
 public:
-	GuiApplication(std::string title) :
-		Application(), m_applicationTitle(title)
-	{}
+	GuiApplication(std::string title);
+	~GuiApplication();
 
 	Graphics::Renderer *GetRenderer() { return m_renderer.get(); }
 	Input::Manager *GetInput() { return m_input.get(); }
