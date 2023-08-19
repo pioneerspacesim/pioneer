@@ -7,9 +7,10 @@
 #include "RefCounted.h"
 #include "imgui/imgui.h"
 
-#include "utils.h"
-
+#include <map>
 #include <unordered_set>
+
+union SDL_Event;
 
 namespace Graphics {
 	class Texture;
@@ -20,24 +21,61 @@ class GuiApplication;
 
 namespace PiGui {
 
+	class RasterizeSVGTask;
+
+	struct RasterizeSVGResult {
+		RasterizeSVGResult(uint8_t *data, int width, int height) :
+			data(data),
+			width(width),
+			height(height)
+		{
+		}
+
+		std::unique_ptr<uint8_t[]> data;
+		int width;
+		int height;
+	};
+
 	class PiFace {
 	public:
 		using UsedRange = std::pair<uint16_t, uint16_t>;
+
 		PiFace(const std::string &ttfname, float sizefactor) :
 			m_ttfname(ttfname),
 			m_sizefactor(sizefactor) {}
 
-		const std::string &ttfname() const { return m_ttfname; }
+		PiFace(const std::string &svgname, uint16_t startGlyph, int columns, int rows) :
+			m_svgname(svgname),
+			m_svgrows(rows),
+			m_svgcolumns(columns),
+			m_loadrange({ startGlyph, startGlyph + (rows * columns) })
+		{
+		}
 
+		const std::string &ttfname() const { return m_ttfname; }
 		float sizefactor() const { return m_sizefactor; }
 
-		ImFont *addFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges);
+		const std::string &svgname() const { return m_svgname; }
+		bool isSvgFont() const { return !m_svgname.empty(); }
+
+		// Add this fontface at the specified size to the global font atlas
+		ImFont *addTTFFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges);
+
+		// Add this SVG fontface at the specified size to the global font atlas
+		ImFont *addSVGFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges, RasterizeSVGResult *svgData, ImVector<int> *outGlyphRects);
+		// Copy the pixel data for this fontface into the global font atlas
+		void finishSVGFaceData(ImFont *font, int pixelSize, RasterizeSVGResult *svgData, ImVector<int> *glyphRects);
 
 	private:
 		friend class Instance; // need access to some private data
 
 		std::string m_ttfname; // only the ttf name, it is automatically sought in data/fonts/
 		float m_sizefactor;	   // the requested pixelsize is multiplied by this factor
+
+		std::string m_svgname; // path to svg file for font-face
+		int m_svgrows;		   // number of character rows
+		int m_svgcolumns;	   // number of character columns
+		UsedRange m_loadrange; // start and end of font glyphs to load
 	};
 
 	class PiFontDefinition {
@@ -64,15 +102,25 @@ namespace PiGui {
 	public:
 		using UsedRange = std::pair<uint16_t, uint16_t>;
 
+		struct CustomGlyphData {
+			ImFont *font;
+			PiFace *face;
+			std::unique_ptr<ImVector<int>> glyphRects;
+			RasterizeSVGResult *svgData;
+		};
+
 		PiFont(PiFontDefinition &fontDef, int pixelSize) :
 			m_fontDef(fontDef),
 			m_pixelsize(pixelSize)
-		{}
+		{
+		}
 
 		const std::string &name() const { return m_fontDef.name(); }
 		std::vector<PiFace> &faces() const { return m_fontDef.faces(); }
 		const std::vector<UsedRange> &used_ranges() const { return m_used_ranges; }
 		int pixelsize() const { return m_pixelsize; }
+
+		std::vector<CustomGlyphData> &custom_glyphs() { return m_custom_glyphs; }
 
 		void describe(bool withFaces = false) const;
 
@@ -83,6 +131,7 @@ namespace PiGui {
 		PiFontDefinition &m_fontDef;
 		int m_pixelsize;
 		std::vector<UsedRange> m_used_ranges;
+		std::vector<CustomGlyphData> m_custom_glyphs;
 	};
 
 	class InstanceRenderer;
@@ -136,6 +185,8 @@ namespace PiGui {
 		std::map<std::string, PiFontDefinition> m_font_definitions;
 
 		std::vector<ImVector<ImWchar> *> m_glyphRanges;
+		std::vector<RasterizeSVGTask *> m_svgFontTasks;
+		std::map<std::string, std::vector<RasterizeSVGResult>> m_svgFontRasterData;
 
 		ImGuiStyle m_debugStyle;
 		bool m_debugStyleActive;
@@ -148,6 +199,8 @@ namespace PiGui {
 		void BakeFonts();
 		void BakeFont(PiFont &font);
 		void ClearFonts();
+
+		RasterizeSVGResult *RequestSVGFaceData(PiFace *face, int pixelsize);
 	};
 
 	int RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int mouse_button, const std::vector<ImTextureID> &tex_ids, const std::vector<std::pair<ImVec2, ImVec2>> &uvs, const std::vector<ImU32> &colors, const std::vector<const char *> &tooltips, unsigned int size, unsigned int padding);

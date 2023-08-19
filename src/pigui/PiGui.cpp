@@ -13,13 +13,14 @@
 #include "graphics/Texture.h"
 #include "graphics/VertexBuffer.h"
 
+#include "imgui/backends/imgui_impl_sdl2.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
-#include "imgui/backends/imgui_impl_sdl2.h"
 
 #include <float.h>
 #include <stdio.h>
 #include <string.h>
+
 #define NANOSVG_IMPLEMENTATION
 #include "nanosvg/nanosvg.h"
 #define NANOSVGRAST_IMPLEMENTATION
@@ -37,8 +38,7 @@ std::vector<Graphics::Texture *> &PiGui::GetSVGTextures()
 }
 
 // Handle GPU upload of texture image data on the main application thread.
-class UpdateImageTask : public Task
-{
+class UpdateImageTask : public Task {
 public:
 	Graphics::Texture *texture;
 	const unsigned char *imageData;
@@ -46,7 +46,8 @@ public:
 	UpdateImageTask(Graphics::Texture *tex, const unsigned char *data) :
 		texture(tex),
 		imageData(data)
-	{}
+	{
+	}
 
 	virtual void OnExecute(TaskRange range) override
 	{
@@ -59,15 +60,27 @@ public:
 };
 
 // Run SVG loading and rasterization on a separate thread, defer GPU upload until end-of-frame.
-class RasterizeSVGTask : public Task
-{
+class PiGui::RasterizeSVGTask : public Task, public CompleteNotifier {
 public:
+	// Rasterize an SVG file to a texture and upload to GPU on main thread
 	RasterizeSVGTask(std::string filename, int width, int height, Graphics::Texture *outputTexture) :
 		filename(filename),
 		width(width),
 		height(height),
 		texture(outputTexture)
-	{}
+	{
+	}
+
+	// Rasterize an SVG file to CPU buffer for use with font data
+	RasterizeSVGTask(std::string filename, int width, int height, PiFace *fontFace) :
+		filename(filename),
+		width(width),
+		height(height),
+		texture(nullptr),
+		fontFace(fontFace)
+	{
+		SetOwner(this);
+	}
 
 	bool LoadFile()
 	{
@@ -90,7 +103,7 @@ public:
 			return;
 
 		size_t stride = width * 4;
-		uint8_t *imageData = new uint8_t[stride*height];
+		imageData = new uint8_t[stride * height];
 
 		if (!imageData) {
 			Log::Error("Couldn't allocate memory for SVG image {}.\n", filename);
@@ -112,18 +125,34 @@ public:
 		nsvgDeleteRasterizer(rast);
 		nsvgDelete(image);
 
-		Pi::GetApp()->GetTaskGraph()->QueueTaskPinned(new UpdateImageTask(texture, imageData));
+		if (texture) {
+			Pi::GetApp()->GetTaskGraph()->QueueTaskPinned(new UpdateImageTask(texture, imageData));
+			imageData = nullptr;
+		}
 	}
 
-private:
+	virtual void OnComplete() override
+	{
+		if (imageData)
+			delete[] imageData;
+	}
+
+	uint8_t *GetImageData() { return imageData; }
+	PiFace *GetFontFace() { return fontFace; }
+
+public:
 	std::string filename;
 	int width;
 	int height;
+
+private:
 	Graphics::Texture *texture;
+	uint8_t *imageData;
+	PiFace *fontFace;
 	NSVGimage *image;
 };
 
-static Graphics::Texture* makeSVGTexture(Graphics::Renderer *renderer, int width, int height)
+static Graphics::Texture *makeSVGTexture(Graphics::Renderer *renderer, int width, int height)
 {
 	const vector3f dataSize(width, height, 0.f);
 	const Graphics::TextureDescriptor texDesc(
@@ -216,18 +245,22 @@ Instance::Instance(GuiApplication *app) :
 	// - the default imgui glyph range ( 0x20 .. 0xFF ) is always baked from the
 	// first face, that has some ranges defined
 	// ( see Instance::BakeFont )
+	//
+	// NOTE: most of this winds up handled by ImGui's font builder code
 
 	PiFontDefinition uiheading("orbiteer", {
 		PiFace("Orbiteer-Bold.ttf", 1.0), // imgui only supports 0xffff, not 0x10ffff
 		PiFace("DejaVuSans.ttf", /*18.0/20.0*/ 1.2),
-		PiFace("wqy-microhei.ttc", 1.0)
+		PiFace("wqy-microhei.ttc", 1.0),
+		PiFace("icons/icons.svg", 0xF000, 16, 19)
 	});
 	AddFontDefinition(uiheading);
 
 	PiFontDefinition guifont("pionillium", {
 		PiFace("PionilliumText22L-Medium.ttf", 1.0),
 		PiFace("DejaVuSans.ttf", 13.0 / 14.0),
-		PiFace("wqy-microhei.ttc", 1.0)
+		PiFace("wqy-microhei.ttc", 1.0),
+		PiFace("icons/icons.svg", 0xF000, 16, 19)
 	});
 	AddFontDefinition(guifont);
 	// clang-format on
@@ -394,6 +427,21 @@ void Instance::NewFrame()
 		}
 	}
 
+	for (auto &task : m_svgFontTasks) {
+		if (task->IsComplete()) {
+			PiFace *face = task->GetFontFace();
+			m_svgFontRasterData[face->svgname()].emplace_back(task->GetImageData(), task->width, task->height);
+
+			delete task;
+			task = nullptr;
+
+			// we have improved SVG data for a font, rebuild the atlas
+			m_should_bake_fonts = true;
+		}
+	}
+
+	m_svgFontTasks.erase(std::remove(m_svgFontTasks.begin(), m_svgFontTasks.end(), nullptr), m_svgFontTasks.end());
+
 	// Bake fonts before a frame is begun.
 	// This avoids any dangling texture pointers from recreating the texture between
 	// issuing draw commands and rendering
@@ -461,6 +509,32 @@ void Instance::ClearFonts()
 	io.Fonts->Clear();
 }
 
+RasterizeSVGResult *Instance::RequestSVGFaceData(PiFace *face, int pixelsize)
+{
+	int width = face->m_svgcolumns * pixelsize;
+	int height = face->m_svgrows * pixelsize;
+
+	RasterizeSVGResult *bestResult = nullptr;
+	int bestWidth = 0;
+
+	for (auto &result : m_svgFontRasterData[face->svgname()]) {
+		if (std::abs(result.width - width) < std::abs(bestWidth - width)) {
+			bestResult = &result;
+			bestWidth = result.width;
+		}
+	}
+
+	if (!bestResult || bestWidth != width) {
+		std::string filename = FileSystem::JoinPathBelow(FileSystem::GetDataDir(), face->svgname());
+		RasterizeSVGTask *rasterTask = new RasterizeSVGTask(filename, width, height, face);
+
+		m_app->GetTaskGraph()->QueueTask(rasterTask);
+		m_svgFontTasks.push_back(rasterTask);
+	}
+
+	return bestResult;
+}
+
 // this function rasterizes a specific font
 void Instance::BakeFont(PiFont &font)
 {
@@ -497,11 +571,27 @@ void Instance::BakeFont(PiFont &font)
 		ImFontConfig config;
 		config.MergeMode = imfont != nullptr;
 
-		ImFont *f = face.addFaceToAtlas(font.pixelsize(), &config, font_char_ranges);
-		if (imfont != nullptr)
-			assert(f == imfont);
+		if (face.isSvgFont()) {
+			PiFont::CustomGlyphData data = {};
+			data.face = &face;
 
-		imfont = f;
+			data.svgData = RequestSVGFaceData(&face, font.pixelsize());
+			if (!data.svgData) {
+				Log::Warning("No SVG data available to rasterize icon font {}", face.svgname());
+				continue;
+			}
+
+			data.glyphRects.reset(new ImVector<int>);
+			data.font = face.addSVGFaceToAtlas(font.pixelsize(), &config, font_char_ranges, data.svgData, data.glyphRects.get());
+
+			if (!data.glyphRects->empty())
+				font.custom_glyphs().emplace_back(std::move(data));
+		} else {
+			ImFont *f = face.addTTFFaceToAtlas(font.pixelsize(), &config, font_char_ranges);
+			if (imfont != nullptr)
+				assert(f == imfont);
+			imfont = f;
+		}
 	}
 
 	m_im_fonts[imfont] = std::make_pair(font.name(), font.pixelsize());
@@ -539,6 +629,14 @@ void Instance::BakeFonts()
 
 	ImGui::GetIO().Fonts->Build();
 
+	for (auto &iter : m_pi_fonts) {
+		for (auto &glyph_data : iter.second.custom_glyphs()) {
+			glyph_data.face->finishSVGFaceData(glyph_data.font, iter.second.pixelsize(), glyph_data.svgData, glyph_data.glyphRects.get());
+		}
+
+		iter.second.custom_glyphs().clear();
+	}
+
 	for (ImVector<ImWchar> *scratchVec : m_glyphRanges) {
 		delete scratchVec;
 	}
@@ -573,7 +671,7 @@ void Instance::Uninit()
 // PiGui::PiFace
 //
 
-ImFont *PiFace::addFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges)
+ImFont *PiFace::addTTFFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges)
 {
 	float size = pixelSize * sizefactor();
 	const std::string path = FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), ttfname());
@@ -581,6 +679,74 @@ ImFont *PiFace::addFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImW
 	assert(f);
 
 	return f;
+}
+
+ImFont *PiFace::addSVGFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges, RasterizeSVGResult *svgData, ImVector<int> *outGlyphRects)
+{
+	assert(config->MergeMode);
+
+	ImFontAtlas *atlas = ImGui::GetIO().Fonts;
+	ImFont *font = atlas->Fonts.back();
+
+	// we'll stretch the icon/character size if we're rendering with a lower-resolution fallback
+	// (e.g. while waiting for high-res version to be rendered)
+	int glyphWidth = svgData->width / m_svgcolumns;
+	int glyphHeight = svgData->height / m_svgrows;
+
+	for (int idx = 0; idx < ranges->size() - 1; idx += 2) {
+		ImWchar firstChar = std::max(ranges->Data[idx], m_loadrange.first);
+		ImWchar lastChar = std::min(ranges->Data[idx + 1], m_loadrange.second);
+
+		if (firstChar > m_loadrange.second || lastChar < m_loadrange.first)
+			continue;
+
+		for (ImWchar glyph = firstChar; glyph <= lastChar; glyph++) {
+			int slotIdx = atlas->AddCustomRectFontGlyph(font, glyph, glyphWidth, glyphHeight, pixelSize);
+			outGlyphRects->push_back(slotIdx);
+		}
+	}
+
+	return font;
+}
+
+int RGBA32TexOffsetFromCoords(int x, int y, int pitch)
+{
+	return (pitch * y * 4) + (x * 4);
+}
+
+void PiFace::finishSVGFaceData(ImFont *font, int pixelSize, RasterizeSVGResult *svgData, ImVector<int> *glyphRects)
+{
+	ImFontAtlas *atlas = ImGui::GetIO().Fonts;
+
+	// Ensure texture data pointer is available and in RGBA32
+	uint8_t *texData;
+	int texWidth;
+	atlas->GetTexDataAsRGBA32(&texData, &texWidth, nullptr);
+
+	int glyphWidth = svgData->width / m_svgcolumns;
+	int glyphHeight = svgData->height / m_svgrows;
+
+	for (int rectIdx : *glyphRects) {
+		ImFontAtlasCustomRect *rect = atlas->GetCustomRectByIndex(rectIdx);
+		int glyphIndex = rect->GlyphID - m_loadrange.first;
+
+		int glyphX = (glyphIndex % m_svgcolumns) * glyphWidth;
+		int glyphY = (glyphIndex / m_svgcolumns) * glyphHeight;
+
+		for (int line = 0; line < rect->Height; line++) {
+			memcpy(
+				texData + RGBA32TexOffsetFromCoords(rect->X, rect->Y + line, texWidth),
+				svgData->data.get() + RGBA32TexOffsetFromCoords(glyphX, glyphY + line, svgData->width),
+				glyphWidth * 4 // RGBA32
+			);
+		}
+
+		// Size the glyph according to the pixel size rather than the rendered size
+		// (which might be different with fallback data)
+		ImFontGlyph *glyph = &font->Glyphs[font->IndexLookup[rect->GlyphID]];
+		glyph->X1 = pixelSize;
+		glyph->Y1 = pixelSize;
+	}
 }
 
 //
