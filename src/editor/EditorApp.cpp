@@ -11,6 +11,7 @@
 
 #include "argh/argh.h"
 #include "core/IniConfig.h"
+#include "core/OS.h"
 #include "graphics/Graphics.h"
 #include "lua/Lua.h"
 #include "graphics/opengl/RendererGL.h"
@@ -79,6 +80,11 @@ void EditorApp::OnStartup()
 	Lua::Init();
 
 	ModManager::Init();
+
+	// get threads up
+	Uint32 numThreads = cfg.Int("WorkerThreads");
+	numThreads = numThreads ? numThreads : std::max(OS::GetNumCores() - 1, 1U);
+	GetTaskGraph()->SetWorkerThreads(numThreads);
 
 	Graphics::RendererOGL::RegisterRenderer();
 
