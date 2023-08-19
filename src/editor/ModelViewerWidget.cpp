@@ -3,6 +3,7 @@
 
 #include "ModelViewerWidget.h"
 
+#include "EditorIcons.h"
 #include "MathUtil.h"
 #include "NavLights.h"
 #include "Shields.h"
@@ -676,7 +677,7 @@ void ModelViewerWidget::OnDraw()
 	float bottomPosOffset = ImGui::GetContentRegionAvail().y - ImGui::GetFrameHeightWithSpacing();
 	ImGui::SetCursorPos(ImGui::GetCursorPos() + ImVec2(0.f, bottomPosOffset));
 
-	const char *play_pause = animActive ? "||###Play/Pause" : ">###Play/Pause";
+	const char *play_pause = animActive ? EICON_PAUSE "###Play/Pause" : EICON_PLAY "###Play/Pause";
 
 	if (Draw::ToggleButton(play_pause, &animActive, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive])) {
 		m_model->SetAnimationActive(animIndex, animActive);
@@ -776,10 +777,10 @@ void ModelViewerWidget::DrawMenus()
 void ModelViewerWidget::DrawViewportControls()
 {
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.f, 0.f));
-	Draw::ToggleButton("#", &m_options.showGrid, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+	Draw::ToggleButton(EICON_GRID "##Grid", &m_options.showGrid, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
 
 	if (m_options.showGrid)
-		Draw::ToggleButton("V", &m_options.showVerticalGrids, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
+		Draw::ToggleButton(EICON_AXES "##VerticalGrid", &m_options.showVerticalGrids, ImGui::GetStyle().Colors[ImGuiCol_ButtonActive]);
 
 	ImGui::PopStyleVar(1);
 
@@ -808,6 +809,9 @@ void ModelViewerWidget::DrawViewportControls()
 	static std::vector<std::string> lightSetups = {
 		"Front Light", "Two-point", "Backlight"
 	};
+
+	ImGui::TextUnformatted(EICON_SUN);
+	ImGui::SameLine(0.f, ImGui::GetStyle().ItemInnerSpacing.x);
 
 	const char *lightPreviewStr = lightSetups[m_options.lightPreset].c_str();
 	ImGui::SetNextItemWidth(ImGui::CalcTextSize(lightPreviewStr).x + ImGui::GetFrameHeightWithSpacing() * 2.f);
