@@ -3,14 +3,14 @@
 
 #pragma once
 
-#define EICON_GRAVPOINT "\uF01F"
 #define EICON_SUN "\uF023"
 #define EICON_ASTEROID "\uF024"
+#define EICON_GRAVPOINT "\uF025"
 #define EICON_ROCKY_PLANET "\uF033"
 #define EICON_MOON "\uF043"
 #define EICON_GAS_GIANT "\uF053"
 #define EICON_SPACE_STATION "\uF063"
-#define EICON_SURFACE_STATION "\uF0F2"
+#define EICON_SURFACE_STATION "\uF073"
 
 #define EICON_PAUSE "\uF055"
 #define EICON_PLAY "\uF056"

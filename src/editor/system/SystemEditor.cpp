@@ -3,6 +3,7 @@
 
 #include "SystemEditor.h"
 
+#include "EditorIcons.h"
 #include "GalaxyEditAPI.h"
 #include "SystemEditorHelpers.h"
 
@@ -32,6 +33,25 @@ namespace {
 	static constexpr const char *PROPERTIES_WND_ID = "Properties";
 	static constexpr const char *VIEWPORT_WND_ID = "Viewport";
 
+	const char *GetBodyIcon(SystemBody *body) {
+		if (body->GetType() == SystemBody::TYPE_GRAVPOINT)
+			return EICON_GRAVPOINT;
+		if (body->GetType() == SystemBody::TYPE_STARPORT_ORBITAL)
+			return EICON_SPACE_STATION;
+		if (body->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
+			return EICON_SURFACE_STATION;
+		if (body->GetType() == SystemBody::TYPE_PLANET_ASTEROID)
+			return EICON_ASTEROID;
+		if (body->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET)
+			return (!body->GetParent() || body->GetParent()->GetSuperType() < SystemBody::SUPERTYPE_ROCKY_PLANET) ?
+				EICON_ROCKY_PLANET : EICON_MOON;
+		if (body->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT)
+			return EICON_GAS_GIANT;
+		if (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+			return EICON_SUN;
+
+		return "?";
+	}
 }
 
 class SystemEditor::UndoSetSelection : public UndoStep {
@@ -289,12 +309,15 @@ void SystemEditor::DrawOutliner()
 
 	Draw::EndHorizontalBar();
 
+
+	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
 	if (ImGui::BeginChild("OutlinerList")) {
 		std::vector<std::pair<SystemBody *, size_t>> m_systemStack {
 			{ m_system->GetRootBody().Get(), 0 }
 		};
 
 		if (!DrawBodyNode(m_system->GetRootBody().Get(), true)) {
+			ImGui::PopFont();
 			ImGui::EndChild();
 			return;
 		}
@@ -314,6 +337,7 @@ void SystemEditor::DrawOutliner()
 		}
 	}
 	ImGui::EndChild();
+	ImGui::PopFont();
 }
 
 void SystemEditor::HandleOutlinerDragDrop(SystemBody *refBody)
@@ -351,7 +375,9 @@ bool SystemEditor::DrawBodyNode(SystemBody *body, bool isRoot)
 	if (body == m_selectedBody)
 		flags |= ImGuiTreeNodeFlags_Selected;
 
-	bool open = ImGui::TreeNodeEx(body->GetName().c_str(), flags);
+	ImGuiID bodyId = ImGui::GetID(body);
+	std::string name = fmt::format("{} {}###{:x}", GetBodyIcon(body), body->GetName(), bodyId);
+	bool open = ImGui::TreeNodeEx(name.c_str(), flags);
 
 	if (!isRoot) {
 		HandleOutlinerDragDrop(body);
