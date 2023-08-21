@@ -1,6 +1,7 @@
 // Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "SDL_keycode.h"
 #include "galaxy/SystemBody.h"
 #include "pigui/LuaPiGui.h"
 
@@ -50,19 +51,229 @@ static const int MAX_TRANSITION_FRAMES = 60;
 
 static const float ATLAS_SCROLL_SENS = .1f;
 
-void SystemView::InputBindings::RegisterBindings()
+// ─── System View ─────────────────────────────────────────────────────────────
+
+SystemView::SystemView(Game *game) :
+	PiGuiView("system-view"),
+	m_game(game),
+	m_displayMode(Mode::Orrery),
+	m_viewingCurrentSystem(false),
+	m_unexplored(true)
+{
+	m_map.reset(new SystemMapViewport(Pi::GetApp()));
+	m_map->GetStarportHeightAboveTerrain = sigc::mem_fun(this, &SystemView::CalculateStarportHeight);
+
+	RefreshShips();
+	m_planner = Pi::planner;
+}
+
+SystemView::~SystemView()
+{
+}
+
+void SystemView::CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos)
+{
+	pos = vector3d(0., 0., 0.);
+	FrameId shipFrameId = s->GetFrame();
+	FrameId shipNonRotFrameId = Frame::GetFrame(shipFrameId)->GetNonRotFrame();
+	// if the ship is in a rotating frame, we will rotate it with the frame
+	if (Frame::GetFrame(shipFrameId)->IsRotFrame()) {
+		vector3d rpos(0.0);
+		Frame *rotframe = Frame::GetFrame(shipFrameId);
+		if (t == m_game->GetTime()) {
+			pos = s->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
+			return;
+		} else
+			rpos = s->GetPositionRelTo(shipNonRotFrameId) * rotframe->GetOrient() * matrix3x3d::RotateY(rotframe->GetAngSpeed() * (t - m_game->GetTime())) * rotframe->GetOrient().Transpose();
+		vector3d fpos(0.0);
+		CalculateFramePositionAtTime(shipNonRotFrameId, t, fpos);
+		pos += fpos + rpos;
+	} else {
+		vector3d fpos(0.0);
+		CalculateFramePositionAtTime(shipNonRotFrameId, t, fpos);
+		pos += (fpos + o.OrbitalPosAtTime(t - m_game->GetTime()));
+	}
+}
+
+//frame must be nonrotating
+void SystemView::CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos)
+{
+	if (frameId == m_game->GetSpace()->GetRootFrame())
+		pos = vector3d(0., 0., 0.);
+	else {
+		Frame *frame = Frame::GetFrame(frameId);
+		CalculateFramePositionAtTime(frame->GetParent(), t, pos);
+		pos += frame->GetSystemBody()->GetOrbit().OrbitalPosAtTime(t);
+	}
+}
+
+double SystemView::CalculateStarportHeight(const SystemBody *body)
+{
+	if (m_viewingCurrentSystem)
+		// if we look at the current system, the relief is known, we take the height from the physical body
+		return m_game->GetSpace()->FindBodyForPath(&(body->GetPath()))->GetPosition().Length();
+	else
+		// if the remote system - take the radius of the planet
+		return body->GetParent()->GetRadius();
+}
+
+void SystemView::RefreshShips(void)
+{
+	m_contacts.clear();
+	auto bs = m_game->GetSpace()->GetBodies();
+	for (auto s = bs.begin(); s != bs.end(); s++) {
+		if ((*s) != Pi::player &&
+			(*s)->GetType() == ObjectType::SHIP) {
+
+			const auto c = static_cast<Ship *>(*s);
+			m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
+		}
+	}
+}
+
+void SystemView::AddShipTracks(double time)
+{
+	using Col = SystemMapViewport::ColorIndex;
+
+	// offset - translate vector to selected object, scaled to camera scale
+	for (auto s = m_contacts.begin(); s != m_contacts.end(); s++) {
+		vector3d pos(0.0);
+		CalculateShipPositionAtTime((*s).first, (*s).second, time, pos);
+		//draw highlighted orbit for selected ship
+		Projectable p = { Projectable::OBJECT, Projectable::SHIP, s->first, pos };
+		const bool isSelected = *m_map->GetSelectedObject() == p;
+		m_map->AddObjectTrack(p);
+
+		if (m_map->GetShipDrawing() == ORBITS && s->first->GetFlightState() == Ship::FlightState::FLYING) {
+			const Color orbitColor = isSelected ? m_map->svColor[Col::SELECTED_SHIP_ORBIT] : m_map->svColor[Col::SHIP_ORBIT];
+			vector3d framepos(0.0);
+			CalculateFramePositionAtTime(s->first->GetFrame(), time, framepos);
+			m_map->AddOrbitTrack({ Projectable::ORBIT, Projectable::SHIP, s->first, framepos }, &s->second, orbitColor, 0);
+		}
+	}
+}
+
+void SystemView::Update()
+{
+	const float ft = Pi::GetFrameTime();
+	m_map->SetReferenceTime(m_game->GetTime());
+
+	SystemPath path = m_game->GetSectorView()->GetSelected().SystemOnly();
+	m_viewingCurrentSystem = m_game->IsNormalSpace() && m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(path);
+
+	RefCountedPtr<StarSystem> system = m_map->GetCurrentSystem();
+	if (!system || (system->GetUnexplored() != m_unexplored || !system->GetPath().IsSameSystem(path))) {
+		system = m_game->GetGalaxy()->GetStarSystem(path);
+		m_unexplored = system->GetUnexplored();
+		m_map->SetCurrentSystem(system);
+	}
+
+	m_map->Update(ft);
+
+	if (m_map->GetShipDrawing() != OFF) {
+		RefreshShips();
+
+		Projectable *viewed = m_map->GetViewedObject();
+		// if we are attached to the ship, check if we not deleted it in the previous frame
+		if (viewed->type != Projectable::NONE && viewed->base == Projectable::SHIP) {
+			auto bs = m_game->GetSpace()->GetBodies();
+			if (std::find(bs.begin(), bs.end(), viewed->ref.body) == bs.end())
+				m_map->ResetViewpoint();
+		}
+
+		Projectable *selected = m_map->GetSelectedObject();
+		if (selected->type != Projectable::NONE && selected->base == Projectable::SHIP) {
+			auto bs = m_game->GetSpace()->GetBodies();
+			if (std::find(bs.begin(), bs.end(), selected->ref.body) == bs.end())
+				selected->type = Projectable::NONE;
+		}
+	}
+
+	if (m_game->IsNormalSpace() && m_viewingCurrentSystem) {
+		using Col = SystemMapViewport::ColorIndex;
+
+		double time = m_map->GetTime();
+
+		// draw ships
+		if (m_map->GetShipDrawing() != OFF) {
+			AddShipTracks(time);
+		}
+
+		// draw player and planner
+		vector3d ppos(0.0);
+		Orbit playerOrbit = Pi::player->ComputeOrbit();
+		Body *PlayerBody = static_cast<Body *>(Pi::player);
+
+		CalculateShipPositionAtTime(static_cast<Ship *>(Pi::player), playerOrbit, time, ppos);
+		m_map->AddObjectTrack({ Projectable::OBJECT, Projectable::PLAYER, PlayerBody, ppos });
+
+		FrameId playerNonRotFrameId = Frame::GetFrame(PlayerBody->GetFrame())->GetNonRotFrame();
+		Frame *playerNonRotFrame = Frame::GetFrame(playerNonRotFrameId);
+		SystemBody *playerAround = playerNonRotFrame->GetSystemBody();
+
+		vector3d offset(0.0);
+		CalculateFramePositionAtTime(playerNonRotFrameId, time, offset);
+
+		if (Pi::player->GetFlightState() == Ship::FlightState::FLYING) {
+			const double planetRadius = playerAround->GetRadius();
+			m_map->AddOrbitTrack({ Projectable::ORBIT, Projectable::PLAYER, PlayerBody, offset }, &playerOrbit, m_map->svColor[Col::PLAYER_ORBIT], planetRadius);
+
+			const double plannerStartTime = m_planner->GetStartTime();
+			if (!m_planner->GetPosition().ExactlyEqual(vector3d(0, 0, 0))) {
+				Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
+					m_planner->GetVel(),
+					playerAround->GetMass());
+
+				m_map->AddOrbitTrack({ Projectable::ORBIT, Projectable::PLANNER, PlayerBody, offset }, &plannedOrbit, m_map->svColor[Col::PLANNER_ORBIT], planetRadius);
+				if (std::fabs(time - m_game->GetTime()) > 1. && (time - plannerStartTime) > 0.)
+					m_map->AddObjectTrack({ Projectable::OBJECT, Projectable::PLANNER, PlayerBody, offset + plannedOrbit.OrbitalPosAtTime(time - plannerStartTime) });
+				else
+					m_map->AddObjectTrack({ Projectable::OBJECT, Projectable::PLANNER, PlayerBody, offset + m_planner->GetPosition() });
+			}
+		}
+	}
+}
+
+void SystemView::Draw3D()
+{
+	PROFILE_SCOPED()
+	m_renderer->ClearScreen();
+
+	auto *background = m_game->GetSpace()->GetBackground();
+	Uint32 cachedFlags = background->GetDrawFlags();
+
+	if (!m_game->IsNormalSpace() || !m_viewingCurrentSystem)
+		background->SetDrawFlags(Background::Container::DRAW_SKYBOX);
+
+	m_map->SetBackground(background);
+
+	m_map->SetDisplayMode(m_displayMode);
+	m_map->Draw3D();
+
+	background->SetDrawFlags(cachedFlags);
+}
+
+void SystemView::OnSwitchFrom()
+{
+	// because ships from the previous system may remain after last update
+	// m_projected.clear();
+}
+
+// ─── System Map Input ────────────────────────────────────────────────────────
+
+void SystemMapViewport::InputBindings::RegisterBindings()
 {
 	mapViewPitch = AddAxis("BindMapViewPitch");
 	mapViewYaw = AddAxis("BindMapViewYaw");
 	mapViewZoom = AddAxis("BindMapViewZoom");
 }
 
-SystemView::SystemView(Game *game) :
-	PiGuiView("system-view"),
-	m_input(Pi::input),
-	m_game(game),
-	m_viewingCurrentSystem(false),
-	m_displayMode(Mode::Orrery),
+// ─── System Map Display ──────────────────────────────────────────────────────
+
+SystemMapViewport::SystemMapViewport(GuiApplication *app) :
+	m_input(app->GetInput()),
+	m_app(app),
+	m_renderer(app->GetRenderer()),
 	m_showL4L5(LAG_OFF),
 	m_shipDrawing(OFF),
 	m_gridDrawing(GridDrawing::OFF),
@@ -82,43 +293,35 @@ SystemView::SystemView(Game *game) :
 	Graphics::RenderStateDesc rsd;
 	rsd.primitiveType = Graphics::LINE_STRIP;
 
-	m_lineMat.reset(Pi::renderer->CreateMaterial("vtxColor", lineMatDesc, rsd)); //m_renderer not set yet
+	m_lineMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd)); //m_renderer not set yet
 
 	rsd.primitiveType = Graphics::LINE_SINGLE;
-	m_gridMat.reset(Pi::renderer->CreateMaterial("vtxColor", lineMatDesc, rsd));
+	m_gridMat.reset(m_renderer->CreateMaterial("vtxColor", lineMatDesc, rsd));
 
 	m_realtime = true;
-	m_unexplored = true;
-
-	m_onMouseWheelCon =
-		Pi::input->onMouseWheel.connect(sigc::mem_fun(this, &SystemView::MouseWheel));
 
 	ResetViewpoint();
-
-	RefreshShips();
-	m_planner = Pi::planner;
 
 	m_orbitVts.reset(new vector3f[N_VERTICES_MAX + 1]);
 	m_orbitColors.reset(new Color[N_VERTICES_MAX + 1]);
 }
 
-SystemView::~SystemView()
+SystemMapViewport::~SystemMapViewport()
 {
-	m_contacts.clear();
 }
 
-void SystemView::AccelerateTime(float step)
+void SystemMapViewport::AccelerateTime(float step)
 {
 	m_realtime = false;
 	m_timeStep = step;
 }
 
-void SystemView::SetRealTime()
+void SystemMapViewport::SetRealTime()
 {
 	m_realtime = true;
 }
 
-void SystemView::ResetViewpoint()
+void SystemMapViewport::ResetViewpoint()
 {
 	m_viewedObject.type = Projectable::NONE;
 	m_rot_y_to = 0;
@@ -152,12 +355,26 @@ void SystemView::ResetViewpoint()
 	m_atlasZoomTo = m_atlasZoomDefault;
 }
 
-RefCountedPtr<StarSystem> SystemView::GetCurrentSystem()
+RefCountedPtr<StarSystem> SystemMapViewport::GetCurrentSystem()
 {
 	return m_system;
 }
 
-void SystemView::RenderOrbit(Projectable p, const ProjectedOrbit *orbitData, const vector3d &offset)
+void SystemMapViewport::SetCurrentSystem(RefCountedPtr<StarSystem> system)
+{
+	ClearSelectedObject();
+
+	m_system = system;
+
+	SystemBody *body = m_system->GetRootBody().Get();
+	m_atlasLayout = {};
+	m_atlasLayout.isVertical = body->GetType() == SystemBody::TYPE_GRAVPOINT;
+	LayoutSystemBody(body, m_atlasLayout);
+
+	ResetViewpoint();
+}
+
+void SystemMapViewport::RenderOrbit(Projectable p, const ProjectedOrbit *orbitData, const vector3d &offset)
 {
 	PROFILE_SCOPED()
 
@@ -230,7 +447,7 @@ void SystemView::RenderOrbit(Projectable p, const ProjectedOrbit *orbitData, con
 }
 
 // returns the position of the ground spaceport relative to the center of the planet at the specified time
-static vector3d position_of_surface_starport_relative_to_parent(const SystemBody *starport, double time)
+static vector3d position_of_surface_starport_relative_to_parent(const SystemBody *starport, double time, double radius)
 {
 	const SystemBody *parent = starport->GetParent();
 	// planet axis tilt
@@ -240,16 +457,10 @@ static vector3d position_of_surface_starport_relative_to_parent(const SystemBody
 		// the original coordinates of the starport are saved as a 3x3 matrix,
 		starport->GetOrbit().GetPlane() *
 		// to get the direction to the station, you need to multiply them by 0.0, 1.0, 0.0
-		vector3d(0.0, 1.0, 0.0) *
-		// we need the distance to the center of the planet
-		(Pi::game->IsNormalSpace() && Pi::game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(Pi::game->GetSectorView()->GetSelected()) ?
-				// if we look at the current system, the relief is known, we take the height from the physical body
-				Pi::game->GetSpace()->FindBodyForPath(&(starport->GetPath()))->GetPosition().Length() :
-				// if the remote system - take the radius of the planet
-				parent->GetRadius());
+		vector3d(0.0, 1.0, 0.0) * radius;
 }
 
-void SystemView::AddBodyTrack(const SystemBody *b, const vector3d &offset)
+void SystemMapViewport::AddBodyTrack(const SystemBody *b, const vector3d &offset)
 {
 	if (b->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
 		return;
@@ -262,8 +473,11 @@ void SystemView::AddBodyTrack(const SystemBody *b, const vector3d &offset)
 	if (b->HasChildren()) {
 		for (const SystemBody *kid : b->GetChildren()) {
 			if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+				// we need the distance to the center of the planet
+				double radius = GetStarportHeightAboveTerrain ? GetStarportHeightAboveTerrain(kid) : b->GetRadius();
+
 				AddObjectTrack({ Projectable::OBJECT, Projectable::SYSTEMBODY, kid,
-					offset + position_of_surface_starport_relative_to_parent(kid, m_time) });
+					offset + position_of_surface_starport_relative_to_parent(kid, m_time, radius) });
 				continue;
 			}
 
@@ -281,7 +495,7 @@ void SystemView::AddBodyTrack(const SystemBody *b, const vector3d &offset)
 	}
 }
 
-void SystemView::RenderBody(const SystemBody *b, const vector3d &position, const matrix4x4f &trans)
+void SystemMapViewport::RenderBody(const SystemBody *b, const vector3d &position, const matrix4x4f &trans)
 {
 	const double radius = b->GetRadius();
 
@@ -300,49 +514,9 @@ void SystemView::RenderBody(const SystemBody *b, const vector3d &position, const
 	m_bodyIcon->Draw(m_renderer, m_bodyMat.get());
 }
 
-void SystemView::CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos)
-{
-	pos = vector3d(0., 0., 0.);
-	FrameId shipFrameId = s->GetFrame();
-	FrameId shipNonRotFrameId = Frame::GetFrame(shipFrameId)->GetNonRotFrame();
-	// if the ship is in a rotating frame, we will rotate it with the frame
-	if (Frame::GetFrame(shipFrameId)->IsRotFrame()) {
-		vector3d rpos(0.0);
-		Frame *rotframe = Frame::GetFrame(shipFrameId);
-		if (t == m_game->GetTime()) {
-			pos = s->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
-			return;
-		} else
-			rpos = s->GetPositionRelTo(shipNonRotFrameId) * rotframe->GetOrient() * matrix3x3d::RotateY(rotframe->GetAngSpeed() * (t - m_game->GetTime())) * rotframe->GetOrient().Transpose();
-		vector3d fpos(0.0);
-		CalculateFramePositionAtTime(shipNonRotFrameId, t, fpos);
-		pos += fpos + rpos;
-	} else {
-		vector3d fpos(0.0);
-		CalculateFramePositionAtTime(shipNonRotFrameId, t, fpos);
-		pos += (fpos + o.OrbitalPosAtTime(t - m_game->GetTime()));
-	}
-}
-
-//frame must be nonrotating
-void SystemView::CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos)
-{
-	if (frameId == m_game->GetSpace()->GetRootFrame())
-		pos = vector3d(0., 0., 0.);
-	else {
-		Frame *frame = Frame::GetFrame(frameId);
-		CalculateFramePositionAtTime(frame->GetParent(), t, pos);
-		pos += frame->GetSystemBody()->GetOrbit().OrbitalPosAtTime(t);
-	}
-}
-
-void SystemView::Draw3D()
+void SystemMapViewport::Draw3D()
 {
 	PROFILE_SCOPED()
-	m_renderer->ClearScreen();
-	m_objectTracks.clear();
-	m_orbitTracks.clear();
-	m_projected.clear();
 
 	if (!m_bodyIcon) {
 		Graphics::MaterialDescriptor desc;
@@ -365,90 +539,15 @@ void SystemView::Draw3D()
 		m_atlasMat->SetTexture(Graphics::Renderer::GetName("texture0"), TextureBuilder::GetWhiteTexture(m_renderer));
 	}
 
-	SystemPath path = m_game->GetSectorView()->GetSelected().SystemOnly();
-	if (m_system) {
-		if (m_system->GetUnexplored() != m_unexplored || !m_system->GetPath().IsSameSystem(path)) {
-			m_system.Reset();
-		}
-	}
-
-	m_viewingCurrentSystem = m_game->IsNormalSpace() && m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(path);
-
-	if (m_realtime) {
-		m_time = m_game->GetTime();
-	} else {
-		m_time += m_timeStep * Pi::GetFrameTime();
-	}
-	std::string t = Lang::TIME_POINT + format_date(m_time);
-
-	if (!m_system) {
-		ClearSelectedObject();
-
-		m_system = m_game->GetGalaxy()->GetStarSystem(path);
-		m_unexplored = m_system->GetUnexplored();
-
-		SystemBody *body = m_system->GetRootBody().Get();
-		m_atlasLayout = {};
-		m_atlasLayout.isVertical = body->GetType() == SystemBody::TYPE_GRAVPOINT;
-		LayoutSystemBody(body, m_atlasLayout);
-
-		ResetViewpoint();
-	}
-
-	if (m_displayMode == Mode::Orrery) {
+	if (m_displayMode == SystemView::Mode::Orrery)
 		DrawOrreryView();
-	} else if (m_displayMode == Mode::Atlas) {
+	else
 		DrawAtlasView();
-	}
 }
 
-void SystemView::DrawOrreryView()
+void SystemMapViewport::DrawOrreryView()
 {
 	PROFILE_SCOPED()
-
-	if (!m_system->GetUnexplored() && m_system->GetRootBody()) {
-		// all systembodies draws here
-		AddBodyTrack(m_system->GetRootBody().Get(), vector3d(0, 0, 0));
-	}
-
-	if (m_game->IsNormalSpace() && m_viewingCurrentSystem) {
-		// draw ships
-		if (m_shipDrawing != OFF) {
-			DrawShips(m_time);
-		}
-		// draw player and planner
-		vector3d ppos(0.0);
-		Orbit playerOrbit = Pi::player->ComputeOrbit();
-		Body *PlayerBody = static_cast<Body *>(Pi::player);
-
-		CalculateShipPositionAtTime(static_cast<Ship *>(Pi::player), playerOrbit, m_time, ppos);
-		AddObjectTrack({ Projectable::OBJECT, Projectable::PLAYER, PlayerBody, ppos });
-
-		FrameId playerNonRotFrameId = Frame::GetFrame(PlayerBody->GetFrame())->GetNonRotFrame();
-		Frame *playerNonRotFrame = Frame::GetFrame(playerNonRotFrameId);
-		SystemBody *playerAround = playerNonRotFrame->GetSystemBody();
-
-		vector3d offset(0.0);
-		CalculateFramePositionAtTime(playerNonRotFrameId, m_time, offset);
-
-		if (Pi::player->GetFlightState() == Ship::FlightState::FLYING) {
-			const double planetRadius = playerAround->GetRadius();
-			AddOrbitTrack({ Projectable::ORBIT, Projectable::PLAYER, PlayerBody, offset }, &playerOrbit, svColor[PLAYER_ORBIT], planetRadius);
-
-			const double plannerStartTime = m_planner->GetStartTime();
-			if (!m_planner->GetPosition().ExactlyEqual(vector3d(0, 0, 0))) {
-				Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
-					m_planner->GetVel(),
-					playerAround->GetMass());
-
-				AddOrbitTrack({ Projectable::ORBIT, Projectable::PLANNER, PlayerBody, offset }, &plannedOrbit, svColor[PLANNER_ORBIT], planetRadius);
-				if (std::fabs(m_time - m_game->GetTime()) > 1. && (m_time - plannerStartTime) > 0.)
-					AddObjectTrack({ Projectable::OBJECT, Projectable::PLANNER, PlayerBody, offset + plannedOrbit.OrbitalPosAtTime(m_time - plannerStartTime) });
-				else
-					AddObjectTrack({ Projectable::OBJECT, Projectable::PLANNER, PlayerBody, offset + m_planner->GetPosition() });
-			}
-		}
-	}
 
 	// Set up the perspective projection for the background stars
 	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1500.f);
@@ -458,16 +557,8 @@ void SystemView::DrawOrreryView()
 	trans2bg.RotateX(DEG2RAD(-m_rot_x));
 	trans2bg.RotateY(DEG2RAD(-m_rot_y));
 
-	auto *background = m_game->GetSpace()->GetBackground();
-	background->SetIntensity(0.6);
-	if (!m_game->IsNormalSpace() || !m_viewingCurrentSystem) {
-		Uint32 cachedFlags = background->GetDrawFlags();
-		background->SetDrawFlags(Background::Container::DRAW_SKYBOX);
-		background->Draw(trans2bg);
-		background->SetDrawFlags(cachedFlags);
-	} else {
-		background->Draw(trans2bg);
-	}
+	m_background->SetIntensity(0.6);
+	m_background->Draw(trans2bg);
 
 	m_renderer->ClearDepthBuffer();
 
@@ -475,6 +566,10 @@ void SystemView::DrawOrreryView()
 	// distant objects in the background.
 	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1000.f * m_zoom * float(AU) + DEFAULT_VIEW_DISTANCE * 2);
 	//TODO add reserve
+
+	double surfaceDistance = 0.0;
+	if (m_viewedObject.type == Projectable::OBJECT && m_viewedObject.base == Projectable::SYSTEMBODY && m_viewedObject.getRef())
+		surfaceDistance += m_viewedObject.ref.sbody->GetRadius();
 
 	// The matrix is shifted from the (0,0,0) by DEFAULT_VIEW_DISTANCE
 	// and then rotated (around 0,0,0) and scaled by m_zoom, shift doesn't scale.
@@ -488,8 +583,11 @@ void SystemView::DrawOrreryView()
 	// Therefore the default "apparent" view distance is DEFAULT_VIEW_DISTANCE, in AU
 	// When we change m_zoom, we actually change the "apparent" view distance, because
 	// the coordinates of the objects are scaled, but the shift is not.
+	// The surface distance translation ensures the view does not go inside of a planet.
+	// This matrix operation is read in reverse order (bottom-to-top).
 	m_cameraSpace = matrix4x4f::Identity();
 	m_cameraSpace.Translate(0, 0, -DEFAULT_VIEW_DISTANCE);
+	m_cameraSpace.Translate(0, 0, -surfaceDistance * m_zoom); // apply scale from m_zoom
 	m_cameraSpace.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
 	m_cameraSpace.Rotate(DEG2RAD(m_rot_y), 0, 1, 0);
 	m_cameraSpace.Scale(m_zoom);
@@ -510,7 +608,7 @@ void SystemView::DrawOrreryView()
 		m_transTo = m_viewedObject.worldpos;
 		// now the difference between the new and the old value is added to m_trans
 		m_trans += m_transTo;
-		const float ft = Pi::GetFrameTime();
+		const float ft = m_app->DeltaTime();
 		m_animateTransition--;
 		AnimationCurves::Approach(m_trans.x, m_transTo.x, ft);
 		AnimationCurves::Approach(m_trans.y, m_transTo.y, ft);
@@ -573,7 +671,7 @@ double get_body_radius(SystemBody *b)
 // layout parameter. The size of the layout is measured from the center of the
 // root body to the trailing edge of the furthest child body in both directions.
 // The offset and isVertical layout fields are reserved for the caller to set.
-void SystemView::LayoutSystemBody(SystemBody *body, AtlasBodyLayout &layout)
+void SystemMapViewport::LayoutSystemBody(SystemBody *body, AtlasBodyLayout &layout)
 {
 	layout.body = body;
 	layout.radius = get_body_radius(body);
@@ -626,7 +724,7 @@ void SystemView::LayoutSystemBody(SystemBody *body, AtlasBodyLayout &layout)
 	}
 }
 
-void SystemView::RenderAtlasBody(const AtlasBodyLayout &layout, vector3f pos, const matrix4x4f &cameraTrans)
+void SystemMapViewport::RenderAtlasBody(const AtlasBodyLayout &layout, vector3f pos, const matrix4x4f &cameraTrans)
 {
 	pos += vector3f(layout.offset.x, -layout.offset.y, 0.f);
 
@@ -657,7 +755,7 @@ void SystemView::RenderAtlasBody(const AtlasBodyLayout &layout, vector3f pos, co
 	}
 }
 
-void SystemView::DrawAtlasView()
+void SystemMapViewport::DrawAtlasView()
 {
 	// Set up the perspective projection for the background stars
 	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1500.f);
@@ -674,16 +772,8 @@ void SystemView::DrawAtlasView()
 	trans2bg.RotateX(DEG2RAD(-5.f));
 	trans2bg.RotateY(DEG2RAD(-45.f));
 
-	auto *background = m_game->GetSpace()->GetBackground();
-	background->SetIntensity(0.6);
-	if (!m_game->IsNormalSpace() || !m_viewingCurrentSystem) {
-		Uint32 cachedFlags = background->GetDrawFlags();
-		background->SetDrawFlags(Background::Container::DRAW_SKYBOX);
-		background->Draw(trans2bg);
-		background->SetDrawFlags(cachedFlags);
-	} else {
-		background->Draw(trans2bg);
-	}
+	m_background->SetIntensity(0.6);
+	m_background->Draw(trans2bg);
 
 	m_renderer->ClearDepthBuffer();
 
@@ -701,17 +791,78 @@ void SystemView::DrawAtlasView()
 	DrawGrid(64.0);
 
 	// Don't draw bodies in unexplored systems
-	if (m_unexplored)
+	if (m_system->GetUnexplored())
 		return;
 
 	// Draw the system atlas layout, offsetting the position to ensure it's roughly centered on the grid
 	RenderAtlasBody(m_atlasLayout, vector3f{ -m_atlasPosDefault.x, m_atlasPosDefault.y, 0.0f }, cameraTrans);
 }
 
-void SystemView::Update()
+void SystemMapViewport::HandleInput(float ft)
 {
-	const float ft = Pi::GetFrameTime();
-	m_refTime = m_game->GetTime();
+	Input::Manager *inputMgr = m_app->GetInput();
+
+	// to capture mouse when button was pressed and release when released
+	if (inputMgr->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
+		m_rotateWithMouseButton = !m_rotateWithMouseButton;
+		inputMgr->SetCapturingMouse(m_rotateWithMouseButton);
+	}
+
+	float speedMod = inputMgr->KeyState(SDLK_LSHIFT) ? 10.f : (inputMgr->KeyState(SDLK_LCTRL) ? 0.1f : 1.f);
+
+	if (m_rotateWithMouseButton || m_rotateView) {
+		int motion[2];
+		inputMgr->GetMouseMotion(motion);
+		if (m_displayMode == SystemView::Mode::Orrery) {
+			m_rot_x_to += motion[1] * 20 * ft * speedMod;
+			m_rot_y_to += motion[0] * 20 * ft * speedMod;
+		} else {
+			const double pixToUnits = Graphics::GetScreenHeight() / m_atlasViewH;
+			constexpr float mouseAcceleration = 1.5f;
+			m_atlasPosTo.x += motion[0] * m_atlasZoom / pixToUnits * mouseAcceleration;
+			m_atlasPosTo.y += motion[1] * m_atlasZoom / pixToUnits * mouseAcceleration;
+		}
+	} else if (m_zoomView) {
+		inputMgr->SetCapturingMouse(true);
+		int motion[2];
+		inputMgr->GetMouseMotion(motion);
+		if (m_displayMode == SystemView::Mode::Orrery)
+			m_zoomTo *= pow(ZOOM_IN_SPEED * 0.003 * speedMod + 1, -motion[1]);
+		else
+			m_atlasZoomTo += motion[1] * 0.005 * speedMod * Clamp(m_atlasZoomTo, MIN_ATLAS_ZOOM, MAX_ATLAS_ZOOM);
+	}
+
+	// camera control signals from devices, sent to the SectorView
+	if (m_input.mapViewZoom->IsActive()) {
+		if (m_displayMode == SystemView::Mode::Orrery)
+			m_zoomTo *= pow(ZOOM_IN_SPEED * 0.006 * speedMod + 1, m_input.mapViewZoom->GetValue());
+		else
+			m_atlasZoomTo -= m_input.mapViewZoom->GetValue() * ATLAS_SCROLL_SENS;
+	}
+	if (m_input.mapViewYaw->IsActive())
+		m_rot_y_to += m_input.mapViewYaw->GetValue() * ft * 60;
+	if (m_input.mapViewPitch->IsActive())
+		m_rot_x_to += m_input.mapViewPitch->GetValue() * ft * 60;
+
+	m_rot_x_to = Clamp(m_rot_x_to, -80.0f, 80.0f);
+
+	int scroll = inputMgr->GetMouseWheel();
+
+	if (scroll && m_displayMode == SystemView::Mode::Orrery) {
+		if (scroll < 0)
+			m_zoomTo *= 1 / ((ZOOM_OUT_SPEED - 1) * WHEEL_SENSITIVITY * speedMod + 1);
+		else
+			m_zoomTo *= ((ZOOM_IN_SPEED - 1) * WHEEL_SENSITIVITY * speedMod + 1);
+	} else if (scroll) {
+		m_atlasZoomTo -= (scroll > 0 ? 1.0 : -1.0) * ATLAS_SCROLL_SENS;
+	}
+}
+
+void SystemMapViewport::Update(float ft)
+{
+	m_objectTracks.clear();
+	m_orbitTracks.clear();
+	m_projected.clear();
 
 	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom
 	m_zoomTo = Clamp(m_zoomTo, MIN_ZOOM, MAX_ZOOM);
@@ -743,113 +894,23 @@ void SystemView::Update()
 		m_atlasPos = m_atlasPosTo;
 	}
 
-	// to capture mouse when button was pressed and release when released
-	if (Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
-		m_rotateWithMouseButton = !m_rotateWithMouseButton;
-		Pi::input->SetCapturingMouse(m_rotateWithMouseButton);
-	}
+	HandleInput(ft);
 
-	if (m_rotateWithMouseButton || m_rotateView) {
-		int motion[2];
-		Pi::input->GetMouseMotion(motion);
-		if (m_displayMode == Mode::Orrery) {
-			m_rot_x_to += motion[1] * 20 * ft;
-			m_rot_y_to += motion[0] * 20 * ft;
-		} else {
-			const double pixToUnits = Graphics::GetScreenHeight() / m_atlasViewH;
-			constexpr float mouseAcceleration = 1.5f;
-			m_atlasPosTo.x += motion[0] * m_atlasZoom / pixToUnits * mouseAcceleration;
-			m_atlasPosTo.y += motion[1] * m_atlasZoom / pixToUnits * mouseAcceleration;
-		}
-	} else if (m_zoomView) {
-		Pi::input->SetCapturingMouse(true);
-		int motion[2];
-		Pi::input->GetMouseMotion(motion);
-		if (m_displayMode == Mode::Orrery)
-			m_zoomTo *= pow(ZOOM_IN_SPEED * 0.003 + 1, -motion[1]);
-		else
-			m_atlasZoomTo += motion[1] * 0.005 * Clamp(m_atlasZoomTo, MIN_ATLAS_ZOOM, MAX_ATLAS_ZOOM);
-	}
-
-	// camera control signals from devices, sent to the SectorView
-	if (m_input.mapViewZoom->IsActive()) {
-		if (m_displayMode == Mode::Orrery)
-			m_zoomTo *= pow(ZOOM_IN_SPEED * 0.006 + 1, m_input.mapViewZoom->GetValue());
-		else
-			m_atlasZoomTo -= m_input.mapViewZoom->GetValue() * ATLAS_SCROLL_SENS;
-	}
-	if (m_input.mapViewYaw->IsActive())
-		m_rot_y_to += m_input.mapViewYaw->GetValue() * ft * 60;
-	if (m_input.mapViewPitch->IsActive())
-		m_rot_x_to += m_input.mapViewPitch->GetValue() * ft * 60;
-
-	m_rot_x_to = Clamp(m_rot_x_to, -80.0f, 80.0f);
-
-	if (m_shipDrawing != OFF) {
-		RefreshShips();
-		// if we are attached to the ship, check if we not deleted it in the previous frame
-		if (m_viewedObject.type != Projectable::NONE && m_viewedObject.base == Projectable::SHIP) {
-			auto bs = m_game->GetSpace()->GetBodies();
-			if (std::find(bs.begin(), bs.end(), m_viewedObject.ref.body) == bs.end())
-				ResetViewpoint();
-		}
-		if (m_selectedObject.type != Projectable::NONE && m_selectedObject.base == Projectable::SHIP) {
-			auto bs = m_game->GetSpace()->GetBodies();
-			if (std::find(bs.begin(), bs.end(), m_selectedObject.ref.body) == bs.end())
-				m_selectedObject.type = Projectable::NONE;
-		}
-	}
-}
-
-void SystemView::MouseWheel(bool up)
-{
-	if (this != Pi::GetView())
-		return;
-
-	if (m_displayMode == Mode::Orrery) {
-		if (!up)
-			m_zoomTo *= 1 / ((ZOOM_OUT_SPEED - 1) * WHEEL_SENSITIVITY + 1) / Pi::GetMoveSpeedShiftModifier();
-		else
-			m_zoomTo *= ((ZOOM_IN_SPEED - 1) * WHEEL_SENSITIVITY + 1) * Pi::GetMoveSpeedShiftModifier();
+	if (m_realtime) {
+		m_time = m_refTime;
 	} else {
-		m_atlasZoomTo -= (up ? 1.0 : -1.0) * ATLAS_SCROLL_SENS;
+		m_time += m_timeStep * ft;
 	}
-}
 
-void SystemView::RefreshShips(void)
-{
-	m_contacts.clear();
-	auto bs = m_game->GetSpace()->GetBodies();
-	for (auto s = bs.begin(); s != bs.end(); s++) {
-		if ((*s) != Pi::player &&
-			(*s)->GetType() == ObjectType::SHIP) {
-
-			const auto c = static_cast<Ship *>(*s);
-			m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
+	if (m_displayMode == SystemView::Mode::Orrery) {
+		if (!m_system->GetUnexplored() && m_system->GetRootBody()) {
+			// all systembodies draws here
+			AddBodyTrack(m_system->GetRootBody().Get(), vector3d(0, 0, 0));
 		}
 	}
 }
 
-void SystemView::DrawShips(const double t)
-{
-	// offset - translate vector to selected object, scaled to camera scale
-	for (auto s = m_contacts.begin(); s != m_contacts.end(); s++) {
-		vector3d pos(0.0);
-		CalculateShipPositionAtTime((*s).first, (*s).second, t, pos);
-		//draw highlighted orbit for selected ship
-		const bool isSelected = m_selectedObject.type == Projectable::OBJECT && m_selectedObject.base != Projectable::SYSTEMBODY && m_selectedObject.ref.body == (*s).first;
-		AddObjectTrack({ Projectable::OBJECT, Projectable::SHIP, s->first, pos });
-
-		if (m_shipDrawing == ORBITS && s->first->GetFlightState() == Ship::FlightState::FLYING) {
-			const Color orbitColor = isSelected ? svColor[SELECTED_SHIP_ORBIT] : svColor[SHIP_ORBIT];
-			vector3d framepos(0.0);
-			CalculateFramePositionAtTime(s->first->GetFrame(), m_time, framepos);
-			AddOrbitTrack({ Projectable::ORBIT, Projectable::SHIP, s->first, framepos }, &s->second, orbitColor, 0);
-		}
-	}
-}
-
-void SystemView::DrawGrid(uint32_t radius)
+void SystemMapViewport::DrawGrid(uint32_t radius)
 {
 	int half_lines = radius + 1;
 
@@ -879,10 +940,10 @@ void SystemView::DrawGrid(uint32_t radius)
 		}
 
 	m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
-	m_lines.Draw(Pi::renderer, m_gridMat.get());
+	m_lines.Draw(m_renderer, m_gridMat.get());
 }
 
-void SystemView::AddObjectTrack(Projectable p)
+void SystemMapViewport::AddObjectTrack(Projectable p)
 {
 	m_objectTracks.push_back(p);
 
@@ -897,7 +958,7 @@ void SystemView::AddObjectTrack(Projectable p)
 		m_viewedObject.worldpos = p.worldpos;
 }
 
-void SystemView::AddOrbitTrack(Projectable p, const Orbit *orbit, Color color, double planetRadius)
+void SystemMapViewport::AddOrbitTrack(Projectable p, const Orbit *orbit, Color color, double planetRadius)
 {
 	p.type = Projectable::ORBIT;
 	p.orbitIdx = int(m_orbitTracks.size());
@@ -906,7 +967,7 @@ void SystemView::AddOrbitTrack(Projectable p, const Orbit *orbit, Color color, d
 	m_orbitTracks.push_back({ *orbit, color, planetRadius });
 }
 
-void SystemView::AddProjected(Projectable p, Projectable::types type, const vector3d &transformedPos, float screensize)
+void SystemMapViewport::AddProjected(Projectable p, Projectable::types type, const vector3d &transformedPos, float screensize)
 {
 	vector3d pos = Graphics::ProjectToScreen(m_renderer, transformedPos);
 	if (pos.z > 0.0) return; // reject back-projected objects
@@ -918,7 +979,7 @@ void SystemView::AddProjected(Projectable p, Projectable::types type, const vect
 	m_projected.push_back(p);
 }
 
-void SystemView::SetVisibility(std::string param)
+void SystemMapViewport::SetVisibility(std::string param)
 {
 	if (param == "RESET_VIEW")
 		ResetViewpoint();
@@ -949,49 +1010,30 @@ void SystemView::SetVisibility(std::string param)
 		Output("Unknown visibility: %s\n", param.c_str());
 }
 
-void SystemView::SetZoomMode(bool enable)
+void SystemMapViewport::SetZoomMode(bool enable)
 {
 	if (enable != m_zoomView) {
-		Pi::input->SetCapturingMouse(enable);
+		m_app->GetInput()->SetCapturingMouse(enable);
 		m_zoomView = enable;
 		if (m_zoomView) m_rotateView = false;
 	}
 }
 
-void SystemView::SetRotateMode(bool enable)
+void SystemMapViewport::SetRotateMode(bool enable)
 {
 	if (enable != m_rotateView) {
-		Pi::input->SetCapturingMouse(enable);
+		m_app->GetInput()->SetCapturingMouse(enable);
 		m_rotateView = enable;
 		if (m_rotateView) m_zoomView = false;
 	}
 }
 
-Projectable *SystemView::GetSelectedObject()
-{
-	return &m_selectedObject;
-}
-
-void SystemView::SetSelectedObject(Projectable::types type, Projectable::bases base, SystemBody *sb)
-{
-	m_selectedObject.type = type;
-	m_selectedObject.base = base;
-	m_selectedObject.ref.sbody = sb;
-}
-
-void SystemView::SetSelectedObject(Projectable::types type, Projectable::bases base, Body *b)
-{
-	m_selectedObject.type = type;
-	m_selectedObject.base = base;
-	m_selectedObject.ref.body = b;
-}
-
-void SystemView::ClearSelectedObject()
+void SystemMapViewport::ClearSelectedObject()
 {
 	m_selectedObject.type = Projectable::NONE;
 }
 
-void SystemView::ViewSelectedObject()
+void SystemMapViewport::ViewSelectedObject()
 {
 	// we will immediately determine the coordinates of the viewed body so that
 	// there is a correct starting point of the transition animation, otherwise
@@ -1000,7 +1042,7 @@ void SystemView::ViewSelectedObject()
 	m_animateTransition = MAX_TRANSITION_FRAMES;
 }
 
-double SystemView::ProjectedSize(double size, vector3d pos)
+double SystemMapViewport::ProjectedSize(double size, vector3d pos)
 {
 	matrix4x4d dtrans = matrix4x4d(m_cameraSpace);
 	pos = dtrans * pos; //position in camera space to know distance
@@ -1008,18 +1050,12 @@ double SystemView::ProjectedSize(double size, vector3d pos)
 	return result;
 }
 
-float SystemView::GetZoom() const
+float SystemMapViewport::GetZoom() const
 {
-	return m_displayMode == Mode::Orrery ? 1.0 / m_zoom : m_atlasZoom;
+	return m_displayMode == SystemView::Mode::Orrery ? 1.0 / m_zoom : m_atlasZoom;
 }
 
-void SystemView::OnSwitchFrom()
-{
-	// because ships from the previous system may remain after last update
-	m_projected.clear();
-}
-
-float SystemView::AtlasViewPixelPerUnit()
+float SystemMapViewport::AtlasViewPixelPerUnit()
 {
 	return Graphics::GetScreenHeight() / (m_atlasViewH * m_atlasZoom);
 }

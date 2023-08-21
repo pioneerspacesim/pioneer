@@ -1,11 +1,12 @@
 // Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#pragma once
+
 #ifndef _SYSTEMVIEW_H
 #define _SYSTEMVIEW_H
 
 #include "Color.h"
-#include "ConnectionTicket.h"
 #include "DeleteEmitter.h"
 #include "Frame.h"
 #include "Input.h"
@@ -17,12 +18,19 @@
 #include "pigui/PiGuiView.h"
 #include "vector3.h"
 
+#include <sigc++/signal.h>
+
+class GuiApplication;
 class StarSystem;
 class SystemBody;
 class Orbit;
 class Ship;
 class Game;
 class Body;
+
+namespace Background {
+	class Container;
+}
 
 enum ShipDrawing {
 	BOXES,
@@ -106,6 +114,8 @@ struct AtlasBodyLayout {
 	std::vector<AtlasBodyLayout> children;
 };
 
+class SystemMapViewport;
+
 class SystemView : public PiGuiView, public DeleteEmitter {
 public:
 	enum class Mode { // <enum name=SystemViewMode scope='SystemView::Mode' public>
@@ -119,12 +129,56 @@ public:
 	void Draw3D() override;
 	void OnSwitchFrom() override;
 
-	Projectable *GetSelectedObject();
-	void SetSelectedObject(Projectable::types type, Projectable::bases base, SystemBody *sb);
-	void SetSelectedObject(Projectable::types type, Projectable::bases base, Body *b);
+	Mode GetDisplayMode() { return m_displayMode; }
+	void SetDisplayMode(Mode displayMode) { m_displayMode = displayMode; }
+
+	TransferPlanner *GetTransferPlanner() const { return m_planner; }
+	double GetOrbitPlannerStartTime() const { return m_planner->GetStartTime(); }
+
+	SystemMapViewport *GetMap() { return m_map.get(); }
+
+private:
+	void RefreshShips(void);
+	void AddShipTracks(double atTime);
+
+	void CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos);
+	void CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos);
+
+	double CalculateStarportHeight(const SystemBody *body);
+
+private:
+	Game *m_game;
+
+	std::unique_ptr<SystemMapViewport> m_map;
+	TransferPlanner *m_planner;
+	std::list<std::pair<Ship *, Orbit>> m_contacts;
+
+	Mode m_displayMode;
+	bool m_viewingCurrentSystem;
+	bool m_unexplored;
+};
+
+class SystemMapViewport {
+public:
+	SystemMapViewport(GuiApplication *app);
+	~SystemMapViewport();
+
+	void Update(float deltaTime);
+	void HandleInput(float deltaTime);
+	void Draw3D();
+
+	Projectable *GetSelectedObject() { return &m_selectedObject; }
+	void SetSelectedObject(Projectable p) { m_selectedObject = p; }
 	void ClearSelectedObject();
+
 	void ViewSelectedObject();
 	void ResetViewpoint();
+
+	Projectable *GetViewedObject() { return &m_viewedObject; }
+
+	ShowLagrange GetShowLagrange() { return m_showL4L5; }
+	ShipDrawing GetShipDrawing() { return m_shipDrawing; }
+	GridDrawing GetGridDrawing() { return m_gridDrawing; }
 
 	// Push a tracked object / sensor contact for display on the map.
 	// Object tracks are cleared every frame.
@@ -140,27 +194,26 @@ public:
 	void AddBodyTrack(const SystemBody *b, const vector3d &offset = vector3d());
 
 	RefCountedPtr<StarSystem> GetCurrentSystem();
+	void SetCurrentSystem(RefCountedPtr<StarSystem> system);
 
-	TransferPlanner *GetTransferPlanner() const { return m_planner; }
-	double GetOrbitPlannerStartTime() const { return m_planner->GetStartTime(); }
-	double GetOrbitPlannerTime() const { return m_time; }
 	void AccelerateTime(float step);
 	void SetRealTime();
+	void SetReferenceTime(double time) { m_refTime = time; }
+	double GetTime() { return m_time; }
 	std::vector<Projectable> GetProjected() const { return m_projected; }
 	void SetVisibility(std::string param);
 	void SetZoomMode(bool enable);
 	void SetRotateMode(bool enable);
+	void SetDisplayMode(SystemView::Mode displayMode) { m_displayMode = displayMode; }
+	void SetBackground(Background::Container *bg) { m_background = bg; }
 	double ProjectedSize(double size, vector3d pos);
 	float AtlasViewPlanetGap(float planetRadius) { return std::max(planetRadius * 0.6, 1.33); }
 	float AtlasViewPixelPerUnit();
 
 	float GetZoom() const;
 
-	Mode GetDisplayMode() { return m_displayMode; }
-	void SetDisplayMode(Mode displayMode) { m_displayMode = displayMode; }
-
 	// all used colors. defined in system-view-ui.lua
-	enum ColorIndex { // <enum name=SystemViewColorIndex scope='SystemView' public>
+	enum ColorIndex { // <enum name=SystemViewColorIndex scope='SystemMapViewport' public>
 		GRID = 0,
 		GRID_LEG = 1,
 		SYSTEMBODY = 2,
@@ -173,6 +226,8 @@ public:
 
 	Color svColor[8];
 	void SetColor(ColorIndex color_index, Color *color_value) { svColor[color_index] = *color_value; }
+
+	sigc::slot<double(const SystemBody *)> GetStarportHeightAboveTerrain;
 
 private:
 	struct InputBindings : public Input::InputFrame {
@@ -195,17 +250,13 @@ private:
 	void RenderBody(const SystemBody *b, const vector3d &pos, const matrix4x4f &trans);
 	void RenderOrbit(Projectable p, const ProjectedOrbit *orbitData, const vector3d &transformedPos);
 
-	void MouseWheel(bool up);
-	void RefreshShips(void);
-	void DrawShips(const double t);
-
 	// draw a grid with `radius` * 2 gridlines on an evenly spaced 1-AU grid
 	void DrawGrid(uint32_t radius);
 
-	void CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos);
-	void CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos);
-
-	Game *m_game;
+private:
+	GuiApplication *m_app;
+	Graphics::Renderer *m_renderer;
+	Background::Container *m_background;
 
 	RefCountedPtr<StarSystem> m_system;
 	Projectable m_selectedObject;
@@ -215,15 +266,15 @@ private:
 	std::vector<ProjectedOrbit> m_orbitTracks;
 
 	std::vector<Projectable> m_projected;
-	bool m_unexplored;
-	bool m_viewingCurrentSystem;
-	std::list<std::pair<Ship *, Orbit>> m_contacts;
+
+	SystemView::Mode m_displayMode; // FIXME: separate Atlas from SystemMapViewport
 
 	AtlasBodyLayout m_atlasLayout = {};
+	float m_atlasZoom, m_atlasZoomTo, m_atlasZoomDefault;
+	vector2f m_atlasPos, m_atlasPosTo, m_atlasPosDefault;
+	float m_atlasViewW, m_atlasViewH;
 
-	Mode m_displayMode;
 	ShowLagrange m_showL4L5;
-	TransferPlanner *m_planner;
 	ShipDrawing m_shipDrawing;
 	GridDrawing m_gridDrawing;
 
@@ -237,9 +288,6 @@ private:
 	float m_rot_x, m_rot_y;
 	float m_rot_x_to, m_rot_y_to;
 	float m_zoom, m_zoomTo;
-	float m_atlasZoom, m_atlasZoomTo, m_atlasZoomDefault;
-	vector2f m_atlasPos, m_atlasPosTo, m_atlasPosDefault;
-	float m_atlasViewW, m_atlasViewH;
 	int m_animateTransition;
 	vector3d m_trans;
 	vector3d m_transTo;
@@ -248,15 +296,12 @@ private:
 	bool m_realtime;
 	double m_timeStep;
 
-	ConnectionTicket m_onMouseWheelCon;
-
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
 	std::unique_ptr<Graphics::Material> m_bodyMat;
 	std::unique_ptr<Graphics::Material> m_atlasMat;
 	std::unique_ptr<Graphics::Material> m_lineMat;
 	std::unique_ptr<Graphics::Material> m_gridMat;
 	Graphics::Drawables::Lines m_orbits;
-	Graphics::Drawables::Lines m_selectBox;
 
 	std::unique_ptr<vector3f[]> m_orbitVts;
 	std::unique_ptr<Color[]> m_orbitColors;

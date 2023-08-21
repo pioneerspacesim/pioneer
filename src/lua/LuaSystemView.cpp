@@ -29,9 +29,9 @@ LuaTable projectable_to_lua_row(Projectable &p, lua_State *l)
 static int l_systemview_set_color(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
-	auto color_index = static_cast<SystemView::ColorIndex>(EnumStrings::GetValue("SystemViewColorIndex", LuaPull<const char *>(l, 2)));
+	auto color_index = static_cast<SystemMapViewport::ColorIndex>(EnumStrings::GetValue("SystemViewColorIndex", LuaPull<const char *>(l, 2)));
 	auto color_value = LuaColor::CheckFromLua(l, 3);
-	sv->SetColor(color_index, color_value);
+	sv->GetMap()->SetColor(color_index, color_value);
 	return 0;
 }
 
@@ -41,9 +41,9 @@ static int l_systemview_set_selected_object(lua_State *l)
 	Projectable::types type = static_cast<Projectable::types>(luaL_checkinteger(l, 2));
 	Projectable::bases base = static_cast<Projectable::bases>(luaL_checkinteger(l, 3));
 	if (base == Projectable::SYSTEMBODY)
-		sv->SetSelectedObject(type, base, LuaObject<SystemBody>::CheckFromLua(4));
+		sv->GetMap()->SetSelectedObject({ type, base, LuaObject<SystemBody>::CheckFromLua(4) });
 	else
-		sv->SetSelectedObject(type, base, LuaObject<Body>::CheckFromLua(4));
+		sv->GetMap()->SetSelectedObject({ type, base, LuaObject<Body>::CheckFromLua(4) });
 	return 0;
 }
 
@@ -121,7 +121,7 @@ static int l_systemview_get_projected_grouped(lua_State *l)
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
 	const vector2d gap = LuaPull<vector2d>(l, 2);
 
-	std::vector<Projectable> projected = sv->GetProjected();
+	std::vector<Projectable> projected = sv->GetMap()->GetProjected();
 
 	// types of special object
 	const int NOT_SPECIAL = -1;
@@ -276,14 +276,14 @@ static int l_systemview_get_projected_grouped(lua_State *l)
 static int l_systemview_get_system(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
-	LuaPush(l, sv->GetCurrentSystem());
+	LuaPush(l, sv->GetMap()->GetCurrentSystem());
 	return 1;
 }
 
 static int l_systemview_get_selected_object(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
-	Projectable *p = sv->GetSelectedObject();
+	Projectable *p = sv->GetMap()->GetSelectedObject();
 	LuaPush(l, projectable_to_lua_row(*p, l));
 	return 1;
 }
@@ -291,28 +291,28 @@ static int l_systemview_get_selected_object(lua_State *l)
 static int l_systemview_clear_selected_object(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
-	sv->ClearSelectedObject();
+	sv->GetMap()->ClearSelectedObject();
 	return 0;
 }
 
 static int l_systemview_view_selected_object(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
-	sv->ViewSelectedObject();
+	sv->GetMap()->ViewSelectedObject();
 	return 0;
 }
 
 static int l_systemview_reset_viewpoint(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
-	sv->ResetViewpoint();
+	sv->GetMap()->ResetViewpoint();
 	return 0;
 }
 
 static int l_systemview_set_visibility(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
-	sv->SetVisibility(LuaPull<std::string>(l, 2));
+	sv->GetMap()->SetVisibility(LuaPull<std::string>(l, 2));
 	return 0;
 }
 
@@ -330,7 +330,7 @@ static int l_systemview_get_orbit_planner_start_time(lua_State *l)
 static int l_systemview_get_orbit_planner_time(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
-	double t = sv->GetOrbitPlannerTime();
+	double t = sv->GetMap()->GetTime();
 	LuaPush<double>(l, t);
 	return 1;
 }
@@ -339,10 +339,10 @@ static int l_systemview_accelerate_time(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
 	if (lua_isnil(l, 2))
-		sv->SetRealTime();
+		sv->GetMap()->SetRealTime();
 	else {
 		double step = LuaPull<double>(l, 2);
-		sv->AccelerateTime(step);
+		sv->GetMap()->AccelerateTime(step);
 	}
 	return 0;
 }
@@ -351,7 +351,7 @@ static int l_systemview_set_rotate_mode(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
 	bool b = LuaPull<bool>(l, 2);
-	sv->SetRotateMode(b);
+	sv->GetMap()->SetRotateMode(b);
 	return 0;
 }
 
@@ -359,14 +359,14 @@ static int l_systemview_set_zoom_mode(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
 	bool b = LuaPull<bool>(l, 2);
-	sv->SetZoomMode(b);
+	sv->GetMap()->SetZoomMode(b);
 	return 0;
 }
 
 static int l_systemview_get_zoom(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
-	LuaPush(l, sv->GetZoom());
+	LuaPush(l, sv->GetMap()->GetZoom());
 	return 1;
 }
 
@@ -374,14 +374,14 @@ static int l_systemview_atlas_view_planet_gap(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
 	auto radius = LuaPull<float>(l, 2);
-	LuaPush(l, sv->AtlasViewPlanetGap(radius));
+	LuaPush(l, sv->GetMap()->AtlasViewPlanetGap(radius));
 	return 1;
 }
 
 static int l_systemview_atlas_view_pixel_per_unit(lua_State *l)
 {
 	SystemView *sv = LuaObject<SystemView>::CheckFromLua(1);
-	LuaPush(l, sv->AtlasViewPixelPerUnit());
+	LuaPush(l, sv->GetMap()->AtlasViewPixelPerUnit());
 	return 1;
 }
 
