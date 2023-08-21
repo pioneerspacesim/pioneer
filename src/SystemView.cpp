@@ -737,7 +737,8 @@ void SystemView::Update()
 	}
 
 	// to capture mouse when button was pressed and release when released
-	if (Pi::input->MouseButtonState(SDL_BUTTON_MIDDLE) != m_rotateWithMouseButton) {
+	const int mouseButton = (Pi::input->IsMiddleMouseButton() ? SDL_BUTTON_LEFT : SDL_BUTTON_MIDDLE);
+	if (Pi::input->MouseButtonState(mouseButton) != m_rotateWithMouseButton) {
 		m_rotateWithMouseButton = !m_rotateWithMouseButton;
 		Pi::input->SetCapturingMouse(m_rotateWithMouseButton);
 	}
