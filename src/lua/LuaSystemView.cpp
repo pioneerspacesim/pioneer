@@ -47,7 +47,7 @@ static int l_systemview_set_selected_object(lua_State *l)
 	return 0;
 }
 
-bool too_near(const vector3d &a, const vector3d &b, const vector2d &gain)
+bool too_near(const vector3f &a, const vector3f &b, const vector2d &gain)
 {
 	return std::abs(a.x - b.x) < gain.x && std::abs(a.y - b.y) < gain.y
 		// we don’t want to group objects that simply overlap and are located at different distances
@@ -249,7 +249,7 @@ static int l_systemview_get_projected_grouped(lua_State *l)
 	for (auto groups : { orbitIcons, lagrangeIcons, bodyIcons }) {
 		for (GroupInfo &group : groups) {
 			LuaTable info_table(l, 0, 6);
-			info_table.Set("screenCoordinates", group.m_mainObject.screenpos);
+			info_table.Set("screenCoordinates", vector3d(group.m_mainObject.screenpos));
 			info_table.Set("screenSize", group.m_mainObject.screensize);
 			info_table.Set("mainObject", projectable_to_lua_row(group.m_mainObject, l));
 			lua_pop(l, 1);

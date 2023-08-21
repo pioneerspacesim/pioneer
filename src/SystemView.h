@@ -5,16 +5,17 @@
 #define _SYSTEMVIEW_H
 
 #include "Color.h"
+#include "ConnectionTicket.h"
 #include "DeleteEmitter.h"
 #include "Frame.h"
 #include "Input.h"
+#include "Orbit.h"
 #include "TransferPlanner.h"
 #include "enum_table.h"
 #include "graphics/Drawables.h"
 #include "matrix4x4.h"
 #include "pigui/PiGuiView.h"
 #include "vector3.h"
-#include "ConnectionTicket.h"
 
 class StarSystem;
 class SystemBody;
@@ -41,6 +42,12 @@ enum ShowLagrange {
 	LAG_OFF
 };
 
+struct ProjectedOrbit {
+	Orbit orbit;
+	Color color;
+	double planetRadius;
+};
+
 struct Projectable {
 	enum types {	// <enum name=ProjectableTypes scope='Projectable' public>
 		NONE = 0,	// empty projectable, don't try to get members
@@ -48,7 +55,8 @@ struct Projectable {
 		L4 = 2,
 		L5 = 3,
 		APOAPSIS = 4,
-		PERIAPSIS = 5
+		PERIAPSIS = 5,
+		ORBIT = 6 // <enum skip>
 	} type;
 	enum bases {		// <enum name=ProjectableBases scope='Projectable' public>
 		SYSTEMBODY = 0, // ref class SystemBody, may not have a physical body
@@ -61,22 +69,30 @@ struct Projectable {
 		const Body *body;
 		const SystemBody *sbody;
 	} ref;
-	vector3d screenpos; // x,y - screen coordinate, z - in NDC
-	vector3d worldpos;
+	vector3f screenpos;		// x,y - screen coordinate, z - in NDC
 	float screensize = 0.f; // approximate size in screen pixels
+	vector3d worldpos;
+	int orbitIdx = -1;
 
-	Projectable(const types t, const bases b, const Body *obj) :
-		type(t), base(b)
+	Projectable(const types t, const bases b, const Body *obj, const vector3d &pos = vector3d()) :
+		type(t), base(b), worldpos(pos)
 	{
 		ref.body = obj;
 	}
-	Projectable(const types t, const bases b, const SystemBody *obj) :
-		type(t), base(b)
+	Projectable(const types t, const bases b, const SystemBody *obj, const vector3d &pos = vector3d()) :
+		type(t), base(b), worldpos(pos)
 	{
 		ref.sbody = obj;
 	}
 	Projectable() :
-		type(NONE) {}
+		type(NONE), worldpos() {}
+
+	void *getRef() const { return base == SYSTEMBODY ? (void *)ref.sbody : (void *)ref.body; }
+
+	bool operator==(const Projectable &rhs) const
+	{
+		return (type == rhs.type && base == rhs.base && getRef() == rhs.getRef());
+	}
 };
 
 struct AtlasBodyLayout {
@@ -109,6 +125,19 @@ public:
 	void ClearSelectedObject();
 	void ViewSelectedObject();
 	void ResetViewpoint();
+
+	// Push a tracked object / sensor contact for display on the map.
+	// Object tracks are cleared every frame.
+	void AddObjectTrack(Projectable p);
+
+	// Push an orbital conic for display on the map
+	// Expects the orbit's center to be provide as p.worldpos
+	// Orbit tracks are cleared every frame.
+	void AddOrbitTrack(Projectable p, const Orbit *orbit, Color color, double planetRadius);
+
+	// Push the passed system body tree as object tracks
+	// This should be called before pushing any other tracks for best results
+	void AddBodyTrack(const SystemBody *b, const vector3d &offset = vector3d());
 
 	RefCountedPtr<StarSystem> GetCurrentSystem();
 
@@ -161,33 +190,31 @@ private:
 	void LayoutSystemBody(SystemBody *body, AtlasBodyLayout &layout);
 	void RenderAtlasBody(const AtlasBodyLayout &layout, vector3f pos, const matrix4x4f &cameraTrans);
 
-	template <typename RefType>
-	void PutOrbit(Projectable::bases base, RefType *ref, const Orbit *orb, const vector3d &offset, const Color &color, const double planetRadius = 0.0, const bool showLagrange = false);
-	void PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans);
-	void GetTransformTo(const SystemBody *b, vector3d &pos);
-	void GetTransformTo(Projectable &p, vector3d &pos);
+	// Project a track to screenspace with the current renderer state and add it to the list of projected objects
+	void AddProjected(Projectable p, Projectable::types type, const vector3d &transformedPos, float screensize = 0.f);
+	void RenderBody(const SystemBody *b, const vector3d &pos, const matrix4x4f &trans);
+	void RenderOrbit(Projectable p, const ProjectedOrbit *orbitData, const vector3d &transformedPos);
+
 	void MouseWheel(bool up);
 	void RefreshShips(void);
-	void DrawShips(const double t, const vector3d &offset);
+	void DrawShips(const double t);
 
 	// draw a grid with `radius` * 2 gridlines on an evenly spaced 1-AU grid
 	void DrawGrid(uint32_t radius);
 
-	// Project a position in the current renderer project to screenspace and add it to the list of projected objects
-	template <typename T>
-	void AddProjected(Projectable::types type, Projectable::bases base, T *ref, const vector3d &worldpos, float screensize = 0.f);
 	void CalculateShipPositionAtTime(const Ship *s, Orbit o, double t, vector3d &pos);
 	void CalculateFramePositionAtTime(FrameId frameId, double t, vector3d &pos);
-	double GetOrbitTime(double t, const SystemBody *b);
-	double GetOrbitTime(double t, const Body *b);
 
 	Game *m_game;
 
 	RefCountedPtr<StarSystem> m_system;
 	Projectable m_selectedObject;
 	Projectable m_viewedObject;
+
+	std::vector<Projectable> m_objectTracks;
+	std::vector<ProjectedOrbit> m_orbitTracks;
+
 	std::vector<Projectable> m_projected;
-	std::vector<SystemBody *> m_displayed_sbody;
 	bool m_unexplored;
 	bool m_viewingCurrentSystem;
 	std::list<std::pair<Ship *, Orbit>> m_contacts;
@@ -217,6 +244,7 @@ private:
 	vector3d m_trans;
 	vector3d m_transTo;
 	double m_time;
+	double m_refTime;
 	bool m_realtime;
 	double m_timeStep;
 
