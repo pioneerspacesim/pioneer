@@ -51,6 +51,20 @@ static const int MAX_TRANSITION_FRAMES = 60;
 
 static const float ATLAS_SCROLL_SENS = .1f;
 
+namespace {
+	static bool too_near(const vector3f &a, const vector3f &b, const vector2f &gain, float width)
+	{
+		return std::abs(a.x - b.x) < gain.x && std::abs(a.y - b.y) < gain.y
+			// Gliese852:
+			// we don’t want to group objects that simply overlap and are located at different distances
+			// therefore, depth is also taken into account, we have z_NDC (normalized device coordinates)
+			// in order to make a strict translation of delta z_NDC into delta "pixels", one also needs to know
+			// the z coordinates in the camera space. I plan to implement this later
+			// at the moment I just picked up a number that works well (6.0)
+			&& std::abs(a.z - b.z) * width * 6.0 < gain.x;
+	}
+}
+
 // ─── System View ─────────────────────────────────────────────────────────────
 
 SystemView::SystemView(Game *game) :
@@ -942,6 +956,81 @@ void SystemMapViewport::DrawGrid(uint32_t radius)
 
 	m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
 	m_lines.Draw(m_renderer, m_gridMat.get());
+}
+
+std::vector<Projectable::GroupInfo> SystemMapViewport::GroupProjectables(vector2f groupThreshold, const std::vector<Projectable> &specialObjects)
+{
+	PROFILE_SCOPED()
+
+	std::vector<Projectable::GroupInfo> outGroups;
+	std::vector<std::pair<int, int>> overlappingSpecial;
+
+	// Loop over all projectables and assemble groups
+	for (size_t idx = 0; idx < m_projected.size(); idx++) {
+		Projectable &p = m_projected[idx];
+
+		bool intersect = false;
+		std::pair<int, int> specialIdx = { -1, -1 };
+		for (size_t sidx = 0; sidx < specialObjects.size(); sidx++) {
+			if (p == specialObjects[sidx]) {
+				// Special objects are evaluated in a second pass to determine
+				// which group they should be added to
+				specialIdx = { sidx, idx };
+				break;
+			}
+		}
+
+		for (auto &group : outGroups) {
+			if (group.type == p.type && too_near(p.screenpos, group.screenpos, groupThreshold, m_viewportSize.w)) {
+				// Regular objects are added to a group if intersecting,
+				// special objects are reserved for later
+				if (specialIdx.first == -1)
+					group.tracks.push_back(idx);
+				else
+					overlappingSpecial.push_back(specialIdx);
+				intersect = true;
+				break;
+			}
+		}
+
+		if (!intersect) {
+			// object is not intersecting with any group, so it starts a new group
+			outGroups.emplace_back(idx, p.screenpos, p.type);
+			if (specialIdx.first != -1)
+				outGroups.back().setSpecial(specialIdx.first);
+		}
+	}
+
+	// Insert special objects into groups if overlapping or add new groups
+	for (auto [sidx, idx] : overlappingSpecial) {
+		Projectable &p = m_projected[idx];
+		Projectable::GroupInfo *nearest = nullptr;
+		double min_length = 1e64;
+
+		// Find any groups this special object might be overlapping
+		for (auto &group : outGroups) {
+			double screendist = (group.screenpos - p.screenpos).LengthSqr();
+			if (screendist < min_length && group.type == p.type && too_near(p.screenpos, group.screenpos, groupThreshold, m_viewportSize.w)) {
+				nearest = &group;
+				min_length = screendist;
+			}
+		}
+
+		if (nearest) {
+			// Overlapping a group, mark the group as special and add the object
+			nearest->setSpecial(sidx);
+			nearest->tracks.push_back(idx);
+		} else {
+			// Make a new group
+			outGroups.emplace_back(idx, p.screenpos, p.type);
+			outGroups.back().setSpecial(sidx);
+		}
+	}
+
+	//shuffle groups so Object groups are drawn after other groups
+	std::stable_sort(outGroups.begin(), outGroups.end(), [](const auto &a, const auto &b){ return a.type > b.type; });
+
+	return outGroups;
 }
 
 void SystemMapViewport::AddObjectTrack(Projectable p)

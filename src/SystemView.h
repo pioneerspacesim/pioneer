@@ -102,6 +102,24 @@ struct Projectable {
 	{
 		return (type == rhs.type && base == rhs.base && getRef() == rhs.getRef());
 	}
+
+	struct GroupInfo {
+		GroupInfo(int trackIdx, vector3f screenpos, types type = OBJECT) :
+			type(type),
+			screenpos(screenpos),
+			specials(0),
+			tracks({ trackIdx })
+		{
+		}
+
+		types type;
+		vector3f screenpos;
+		uint32_t specials;
+		std::vector<int> tracks;
+
+		void setSpecial(int index) { specials |= (1 << (index & 0x1F)); }
+		bool hasSpecial(int index) const { return specials & (1 << (index & 0x1F)); }
+	};
 };
 
 struct AtlasBodyLayout {
@@ -181,6 +199,11 @@ public:
 	ShipDrawing GetShipDrawing() { return m_shipDrawing; }
 	GridDrawing GetGridDrawing() { return m_gridDrawing; }
 
+	// Generate a sorted list of non-overlapping projectable icon groups
+	// Up to 32 objects can be treated as "special" and will be noted in the
+	// GroupInfo bitvector of any group they appear in
+	std::vector<Projectable::GroupInfo> GroupProjectables(vector2f groupThreshold, const std::vector<Projectable> &specialObjects);
+
 	// Push a tracked object / sensor contact for display on the map.
 	// Object tracks are cleared every frame.
 	void AddObjectTrack(Projectable p);
@@ -190,10 +213,6 @@ public:
 	// Orbit tracks are cleared every frame.
 	void AddOrbitTrack(Projectable p, const Orbit *orbit, Color color, double planetRadius);
 
-	// Push the passed system body tree as object tracks
-	// This should be called before pushing any other tracks for best results
-	void AddBodyTrack(const SystemBody *b, const vector3d &offset = vector3d());
-
 	RefCountedPtr<StarSystem> GetCurrentSystem();
 	void SetCurrentSystem(RefCountedPtr<StarSystem> system);
 
@@ -201,7 +220,7 @@ public:
 	void SetRealTime();
 	void SetReferenceTime(double time) { m_refTime = time; }
 	double GetTime() { return m_time; }
-	std::vector<Projectable> GetProjected() const { return m_projected; }
+	const std::vector<Projectable> &GetProjected() const { return m_projected; }
 	void SetVisibility(std::string param);
 	void SetZoomMode(bool enable);
 	void SetRotateMode(bool enable);
@@ -242,6 +261,9 @@ private:
 
 	void DrawOrreryView();
 	void DrawAtlasView();
+
+	// Push the system body tree as object tracks
+	void AddBodyTrack(const SystemBody *b, const vector3d &offset = vector3d());
 
 	void LayoutSystemBody(SystemBody *body, AtlasBodyLayout &layout);
 	void RenderAtlasBody(const AtlasBodyLayout &layout, vector3f pos, const matrix4x4f &cameraTrans);
