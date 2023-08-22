@@ -12,11 +12,11 @@ local lc = Lang.GetResource("core")
 -- These callbacks are triggered from C++ or Lua and are responsible for
 -- providing UI feedback about the scooping process.
 
-Event.Register("onShipScoopFuel", function(ship, body)
+Event.Register("onShipScoopFuel", function(ship, body, amount)
 	---@type CargoManager
 	local cargoMgr = ship:GetComponent('CargoManager')
 
-	cargoMgr:AddCommodity(Commodities.hydrogen, 1)
+	cargoMgr:AddCommodity(Commodities.hydrogen, amount)
 
 	if ship == Game.player then
 		Game.AddCommsLogLine(lc.FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED:gsub('%%quantity',
