@@ -348,14 +348,15 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 	ImGui::SeparatorText("Orbital Parameters");
 
 	bool orbitChanged = false;
+	auto updateBodyOrbit = [=](){ UpdateBodyOrbit(body); };
 
 	orbitChanged |= ImGui::InputFixedAU("Semi-Major Axis", &body->m_semiMajorAxis);
 	if (Draw::UndoHelper("Edit Semi-Major Axis", undo))
-		AddUndoSingleValueClosure(undo, &body->m_semiMajorAxis, [=](){ UpdateBodyOrbit(body); });
+		AddUndoSingleValueClosure(undo, &body->m_semiMajorAxis, updateBodyOrbit);
 
 	orbitChanged |= ImGui::InputFixed("Eccentricity", &body->m_eccentricity);
 	if (Draw::UndoHelper("Edit Eccentricity", undo))
-		AddUndoSingleValueClosure(undo, &body->m_eccentricity, [=](){ UpdateBodyOrbit(body); });
+		AddUndoSingleValueClosure(undo, &body->m_eccentricity, updateBodyOrbit);
 
 	ImGui::BeginDisabled();
 	ImGui::InputFixed("Periapsis", &body->m_orbMin, 0.0, 0.0, "%0.6f AU");
@@ -364,27 +365,27 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 
 	orbitChanged |= ImGui::InputFixedDegrees("Axial Tilt", &body->m_axialTilt);
 	if (Draw::UndoHelper("Edit Axial Tilt", undo))
-		AddUndoSingleValue(undo, &body->m_axialTilt);
+		AddUndoSingleValueClosure(undo, &body->m_axialTilt, updateBodyOrbit);
 
 	orbitChanged |= ImGui::InputFixedDegrees("Inclination", &body->m_inclination);
 	if (Draw::UndoHelper("Edit Inclination", undo))
-		AddUndoSingleValue(undo, &body->m_inclination);
+		AddUndoSingleValueClosure(undo, &body->m_inclination, updateBodyOrbit);
 
 	orbitChanged |= ImGui::InputFixedDegrees("Orbital Offset", &body->m_orbitalOffset);
 	if (Draw::UndoHelper("Edit Orbital Offset", undo))
-		AddUndoSingleValue(undo, &body->m_orbitalOffset);
+		AddUndoSingleValueClosure(undo, &body->m_orbitalOffset, updateBodyOrbit);
 
 	orbitChanged |= ImGui::InputFixedDegrees("Orbital Phase at Start", &body->m_orbitalPhaseAtStart);
 	if (Draw::UndoHelper("Edit Orbital Phase at Start", undo))
-		AddUndoSingleValue(undo, &body->m_orbitalPhaseAtStart);
+		AddUndoSingleValueClosure(undo, &body->m_orbitalPhaseAtStart, updateBodyOrbit);
 
 	orbitChanged |= ImGui::InputFixedDegrees("Rotation at Start", &body->m_rotationalPhaseAtStart);
 	if (Draw::UndoHelper("Edit Rotational Phase at Start", undo))
-		AddUndoSingleValue(undo, &body->m_rotationalPhaseAtStart);
+		AddUndoSingleValueClosure(undo, &body->m_rotationalPhaseAtStart, updateBodyOrbit);
 
 	orbitChanged |= ImGui::InputFixed("Rotation Period (Days)", &body->m_rotationPeriod, 1.0, 10.0);
 	if (Draw::UndoHelper("Edit Rotation Period", undo))
-		AddUndoSingleValue(undo, &body->m_rotationPeriod);
+		AddUndoSingleValueClosure(undo, &body->m_rotationPeriod, updateBodyOrbit);
 
 	if (orbitChanged)
 		UpdateBodyOrbit(body);
