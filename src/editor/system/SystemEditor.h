@@ -4,11 +4,14 @@
 #pragma once
 
 #include "Input.h"
-#include "core/Application.h"
-#include "pigui/PiGui.h"
+#include "Random.h"
 #include "RefCounted.h"
+#include "core/Application.h"
 
 #include <memory>
+
+// Forward declaration
+typedef unsigned int ImGuiID;
 
 class Galaxy;
 class StarSystem;
@@ -19,6 +22,9 @@ namespace Editor {
 
 class EditorApp;
 class UndoSystem;
+class SystemEditorViewport;
+
+const char *GetBodyIcon(const SystemBody *body);
 
 class SystemEditor : public Application::Lifecycle {
 public:
@@ -27,6 +33,12 @@ public:
 
 	bool LoadSystem(const std::string &filepath);
 	void WriteSystem(const std::string &filepath);
+
+	Random &GetRng() { return m_random; }
+	RefCountedPtr<Galaxy> GetGalaxy();
+
+	void SetSelectedBody(SystemBody *body);
+	SystemBody *GetSystemBody();
 
 protected:
 	void Start() override;
@@ -60,6 +72,10 @@ private:
 	RefCountedPtr<Galaxy> m_galaxy;
 	RefCountedPtr<StarSystem> m_system;
 	std::unique_ptr<CustomSystemsDatabase> m_systemLoader;
+
+	std::unique_ptr<SystemEditorViewport> m_viewport;
+
+	Random m_random;
 
 	std::unique_ptr<UndoSystem> m_undo;
 

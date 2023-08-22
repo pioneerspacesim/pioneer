@@ -18,11 +18,12 @@
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystemGenerator.h"
-
 #include "lua/Lua.h"
+#include "pigui/PiGui.h"
 
 #include "imgui/imgui.h"
 #include "system/SystemBodyUndo.h"
+#include "system/SystemEditorViewport.h"
 
 #include <memory>
 
@@ -32,26 +33,26 @@ namespace {
 	static constexpr const char *OUTLINE_WND_ID = "Outline";
 	static constexpr const char *PROPERTIES_WND_ID = "Properties";
 	static constexpr const char *VIEWPORT_WND_ID = "Viewport";
+}
 
-	const char *GetBodyIcon(SystemBody *body) {
-		if (body->GetType() == SystemBody::TYPE_GRAVPOINT)
-			return EICON_GRAVPOINT;
-		if (body->GetType() == SystemBody::TYPE_STARPORT_ORBITAL)
-			return EICON_SPACE_STATION;
-		if (body->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
-			return EICON_SURFACE_STATION;
-		if (body->GetType() == SystemBody::TYPE_PLANET_ASTEROID)
-			return EICON_ASTEROID;
-		if (body->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET)
-			return (!body->GetParent() || body->GetParent()->GetSuperType() < SystemBody::SUPERTYPE_ROCKY_PLANET) ?
-				EICON_ROCKY_PLANET : EICON_MOON;
-		if (body->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT)
-			return EICON_GAS_GIANT;
-		if (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)
-			return EICON_SUN;
+const char *Editor::GetBodyIcon(const SystemBody *body) {
+	if (body->GetType() == SystemBody::TYPE_GRAVPOINT)
+		return EICON_GRAVPOINT;
+	if (body->GetType() == SystemBody::TYPE_STARPORT_ORBITAL)
+		return EICON_SPACE_STATION;
+	if (body->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
+		return EICON_SURFACE_STATION;
+	if (body->GetType() == SystemBody::TYPE_PLANET_ASTEROID)
+		return EICON_ASTEROID;
+	if (body->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET)
+		return (!body->GetParent() || body->GetParent()->GetSuperType() < SystemBody::SUPERTYPE_ROCKY_PLANET) ?
+			EICON_ROCKY_PLANET : EICON_MOON;
+	if (body->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT)
+		return EICON_GAS_GIANT;
+	if (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+		return EICON_SUN;
 
-		return "?";
-	}
+	return "?";
 }
 
 class SystemEditor::UndoSetSelection : public UndoStep {
@@ -82,6 +83,8 @@ SystemEditor::SystemEditor(EditorApp *app) :
 
 	m_galaxy = GalaxyGenerator::Create();
 	m_systemLoader.reset(new CustomSystemsDatabase(m_galaxy.Get(), "systems"));
+
+	m_viewport.reset(new SystemEditorViewport(m_app, this));
 
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
@@ -125,6 +128,8 @@ bool SystemEditor::LoadSystem(const std::string &filepath)
 	m_system = system;
 	m_filepath = filepath;
 
+	m_viewport->SetSystem(system);
+
 	return true;
 }
 
@@ -140,6 +145,15 @@ void SystemEditor::WriteSystem(const std::string &filepath)
 	StarSystem::EditorAPI::ExportToLua(f, m_system.Get(), m_galaxy.Get());
 
 	fclose(f);
+}
+
+// Here to avoid needing to drag in the Galaxy header in SystemEditor.h
+RefCountedPtr<Galaxy> SystemEditor::GetGalaxy() { return m_galaxy; }
+
+void SystemEditor::SetSelectedBody(SystemBody *body)
+{
+	// note: using const_cast here to work with Projectables which store a const pointer
+	m_selectedBody = body;
 }
 
 void SystemEditor::Start()
@@ -195,8 +209,8 @@ void SystemEditor::SetupLayout(ImGuiID dockspaceID)
 	ImGui::DockBuilderSetNodePos(nodeID, ImGui::GetWindowPos());
 	ImGui::DockBuilderSetNodeSize(nodeID, ImGui::GetWindowSize());
 
-	ImGuiID leftSide = ImGui::DockBuilderSplitNode(nodeID, ImGuiDir_Left, 0.25, nullptr, &nodeID);
-	ImGuiID rightSide = ImGui::DockBuilderSplitNode(nodeID, ImGuiDir_Right, 0.25 / (1.0 - 0.25), nullptr, &nodeID);
+	ImGuiID leftSide = ImGui::DockBuilderSplitNode(nodeID, ImGuiDir_Left, 0.2, nullptr, &nodeID);
+	ImGuiID rightSide = ImGui::DockBuilderSplitNode(nodeID, ImGuiDir_Right, 0.2 / (1.0 - 0.2), nullptr, &nodeID);
 	// ImGuiID bottom = ImGui::DockBuilderSplitNode(nodeID, ImGuiDir_Down, 0.2, nullptr, &nodeID);
 
 	ImGui::DockBuilderDockWindow(OUTLINE_WND_ID, leftSide);
@@ -209,6 +223,7 @@ void SystemEditor::SetupLayout(ImGuiID dockspaceID)
 void SystemEditor::DrawInterface()
 {
 	Draw::ShowUndoDebugWindow(GetUndo());
+	ImGui::ShowMetricsWindow();
 
 	static bool isFirstRun = true;
 
@@ -235,6 +250,8 @@ void SystemEditor::DrawInterface()
 			DrawSystemProperties();
 	}
 	ImGui::End();
+
+	m_viewport->Update(m_app->DeltaTime());
 
 	ImGui::End();
 
