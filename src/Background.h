@@ -61,7 +61,7 @@ namespace Background {
 	class Starfield : public BackgroundElement {
 	public:
 		//does not Fill the starfield
-		Starfield(Graphics::Renderer *r, Random &rand, const SystemPath *const systemPath, RefCountedPtr<Galaxy> galaxy);
+		Starfield(Graphics::Renderer *r);
 		void Draw();
 		//create or recreate the starfield
 		void Fill(Random &rand, const SystemPath *const systemPath, RefCountedPtr<Galaxy> galaxy);
@@ -95,12 +95,14 @@ namespace Background {
 			DRAW_SKYBOX = 1 << 2
 		};
 
-		Container(Graphics::Renderer *, Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy, const SystemPath *const systemPath = nullptr);
+		Container(Graphics::Renderer *, Random &rand);
 		void Draw(const matrix4x4d &transform);
 
 		void SetIntensity(float intensity);
 		void SetDrawFlags(const Uint32 flags);
 		Uint32 GetDrawFlags() const { return m_drawFlags; }
+
+		Starfield *GetStarfield() { return &m_starField; }
 
 	private:
 		Graphics::Renderer *m_renderer;

@@ -14,8 +14,8 @@
 
 #include "core/TaskGraph.h"
 
-#include "galaxy/StarSystem.h"
 #include "galaxy/GalaxyGenerator.h"
+#include "galaxy/StarSystem.h"
 
 #include "graphics/Graphics.h"
 #include "graphics/RenderState.h"
@@ -200,11 +200,10 @@ namespace Background {
 		m_material->SetTexture("texture0"_hash, m_cubemap.Get());
 	}
 
-	Starfield::Starfield(Graphics::Renderer *renderer, Random &rand, const SystemPath *const systemPath, RefCountedPtr<Galaxy> galaxy)
+	Starfield::Starfield(Graphics::Renderer *renderer)
 	{
 		m_renderer = renderer;
 		Init();
-		Fill(rand, systemPath, galaxy);
 	}
 
 	void Starfield::Init()
@@ -262,7 +261,7 @@ namespace Background {
 
 	class SampleStarTask : public Task {
 	public:
-		SampleStarTask( RefCountedPtr<Galaxy> galaxy, StarQueryInfo info, StarInfo* outStars, TaskRange range ) :
+		SampleStarTask(RefCountedPtr<Galaxy> galaxy, StarQueryInfo info, StarInfo *outStars, TaskRange range) :
 			Task(range),
 			galaxy(galaxy),
 			info(info),
@@ -276,7 +275,7 @@ namespace Background {
 		void SampleStars(TaskRange range)
 		{
 			PROFILE_SCOPED()
-			const SystemPath* systemPath = info.systemPath;
+			const SystemPath *systemPath = info.systemPath;
 
 			int32_t minZ = info.sectorMin + int32_t(range.begin);
 			int32_t maxZ = info.sectorMin + int32_t(range.end);
@@ -325,7 +324,7 @@ namespace Background {
 							//const Color col(Color::PINK); // debug pink
 
 							// use a logarithmic scala for brightness since this looks more natural to the human eye
-							float brightness = log( luminositySystemSum / (4 * M_PI * distance.Length() * distance.Length()) );
+							float brightness = log(luminositySystemSum / (4 * M_PI * distance.Length() * distance.Length()));
 
 							stars.pos.push_back(distance.Normalized() * 1000.0f);
 							stars.color.push_back(col);
@@ -485,7 +484,6 @@ namespace Background {
 			// star collection on the 'main' thread as well.
 			auto handle = graph->QueueTaskSet(pickStarTaskSet);
 			graph->WaitForTaskSet(handle);
-
 		}
 		num = stars.pos.size();
 		Output("Stars picked from galaxy: %d\n", stars.pos.size());
@@ -660,10 +658,10 @@ namespace Background {
 		m_renderer->DrawMesh(m_meshObject.get(), m_material.Get());
 	}
 
-	Container::Container(Graphics::Renderer *renderer, Random &rand, const Space *space, RefCountedPtr<Galaxy> galaxy, const SystemPath *const systemPath) :
+	Container::Container(Graphics::Renderer *renderer, Random &rand) :
 		m_renderer(renderer),
 		m_milkyWay(renderer),
-		m_starField(renderer, rand, space && space->GetStarSystem() ? &space->GetStarSystem()->GetPath() : systemPath, galaxy),
+		m_starField(renderer),
 		m_universeBox(renderer),
 		m_drawFlags(DRAW_SKYBOX | DRAW_STARS)
 	{

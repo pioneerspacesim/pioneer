@@ -202,7 +202,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space *oldSpace) :
 	m_processingFinalizationQueue(false)
 #endif
 {
-	m_background.reset(new Background::Container(Pi::renderer, Pi::rng, this, m_game->GetGalaxy()));
+	RefreshBackground();
 
 	m_rootFrameId = Frame::CreateFrame(FrameId::Invalid, Lang::SYSTEM, Frame::FLAG_DEFAULT, FLT_MAX);
 
@@ -222,9 +222,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 #endif
 {
 	PROFILE_SCOPED()
-	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
-	Random rand(_init, 5);
-	m_background.reset(new Background::Container(Pi::renderer, rand, this, m_game->GetGalaxy()));
+	RefreshBackground();
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
@@ -253,10 +251,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 
 	m_starSystem = StarSystem::FromJson(galaxy, spaceObj);
 
-	const SystemPath &path = m_starSystem->GetPath();
-	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
-	Random rand(_init, 5);
-	m_background.reset(new Background::Container(Pi::renderer, rand, this, m_game->GetGalaxy()));
+	RefreshBackground();
 
 	RebuildSystemBodyIndex();
 
@@ -303,7 +298,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json &jsonObj, doub
 		}
 	}
 
-	GenSectorCache(galaxy, &path);
+	GenSectorCache(galaxy, &m_starSystem->GetPath());
 
 	//DebugDumpFrames();
 }
@@ -326,10 +321,16 @@ Space::~Space()
 void Space::RefreshBackground()
 {
 	PROFILE_SCOPED()
-	const SystemPath &path = m_starSystem->GetPath();
-	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
-	Random rand(_init, 5);
-	m_background.reset(new Background::Container(Pi::renderer, rand, this, m_game->GetGalaxy()));
+	if (m_starSystem.Valid()) {
+		const SystemPath &path = m_starSystem->GetPath();
+		Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+		Random rand(_init, 5);
+		m_background.reset(new Background::Container(Pi::renderer, rand));
+		m_background->GetStarfield()->Fill(rand, &this->GetStarSystem()->GetPath(), m_game->GetGalaxy());
+	} else {
+		m_background.reset(new Background::Container(Pi::renderer, Pi::rng));
+		m_background->GetStarfield()->Fill(Pi::rng, nullptr, m_game->GetGalaxy());
+	}
 }
 
 void Space::ToJson(Json &jsonObj)
@@ -555,13 +556,13 @@ std::vector<Space::BodyDist> Space::BodiesInAngle(const Body *b, const vector3d 
 		if (body->IsDead()) continue;
 
 		//offset from the body center - like for view from ship cocpit
-		vector3d dirBody = body->GetPositionRelTo(b) * b->GetOrient() -  offset;
+		vector3d dirBody = body->GetPositionRelTo(b) * b->GetOrient() - offset;
 		double d = dirBody.Length();
 		//Normalizing but not using Normalized() function to avoid calculating Length again
 		dirBody = dirBody / d;
 
 		//Bodies outside of the cone disregarded
-		if(dirBody.Dot(view_dir) < cosOfMaxAngle)
+		if (dirBody.Dot(view_dir) < cosOfMaxAngle)
 			continue;
 
 		ret.emplace_back(body, d);
@@ -620,7 +621,8 @@ public:
 	}
 	SectorDistanceSort(const SystemPath *centre) :
 		here(centre)
-	{}
+	{
+	}
 
 private:
 	SectorDistanceSort() {}
