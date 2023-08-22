@@ -169,6 +169,7 @@ void SystemView::Update()
 	}
 
 	m_map->Update(ft);
+	m_map->HandleInput(ft);
 
 	if (m_map->GetShipDrawing() != OFF) {
 		RefreshShips();
@@ -274,6 +275,7 @@ SystemMapViewport::SystemMapViewport(GuiApplication *app) :
 	m_input(app->GetInput()),
 	m_app(app),
 	m_renderer(app->GetRenderer()),
+	m_displayMode(SystemView::Mode::Orrery),
 	m_showL4L5(LAG_OFF),
 	m_shipDrawing(OFF),
 	m_gridDrawing(GridDrawing::OFF),
@@ -517,6 +519,7 @@ void SystemMapViewport::RenderBody(const SystemBody *b, const vector3d &position
 void SystemMapViewport::Draw3D()
 {
 	PROFILE_SCOPED()
+	m_viewportSize = m_renderer->GetViewport();
 
 	if (!m_bodyIcon) {
 		Graphics::MaterialDescriptor desc;
@@ -550,7 +553,7 @@ void SystemMapViewport::DrawOrreryView()
 	PROFILE_SCOPED()
 
 	// Set up the perspective projection for the background stars
-	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1500.f);
+	m_renderer->SetPerspectiveProjection(CAMERA_FOV, float(m_viewportSize.w) / m_viewportSize.h, 1.f, 1500.f);
 
 	// Background is rotated around (0,0,0) and drawn
 	matrix4x4d trans2bg = matrix4x4d::Identity();
@@ -564,7 +567,7 @@ void SystemMapViewport::DrawOrreryView()
 
 	// We need to adjust the "far" cutoff plane, so that at high magnifications you can see
 	// distant objects in the background.
-	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1000.f * m_zoom * float(AU) + DEFAULT_VIEW_DISTANCE * 2);
+	m_renderer->SetPerspectiveProjection(CAMERA_FOV, float(m_viewportSize.w) / m_viewportSize.h, 1.f, 1000.f * m_zoom * float(AU) + DEFAULT_VIEW_DISTANCE * 2);
 	//TODO add reserve
 
 	double surfaceDistance = 0.0;
@@ -758,7 +761,7 @@ void SystemMapViewport::RenderAtlasBody(const AtlasBodyLayout &layout, vector3f 
 void SystemMapViewport::DrawAtlasView()
 {
 	// Set up the perspective projection for the background stars
-	m_renderer->SetPerspectiveProjection(CAMERA_FOV, m_renderer->GetDisplayAspect(), 1.f, 1500.f);
+	m_renderer->SetPerspectiveProjection(CAMERA_FOV, float(m_viewportSize.w) / m_viewportSize.h, 1.f, 1500.f);
 
 	// Background is rotated around (0,0,0), adjusted for parallax effect, and drawn
 	matrix4x4d trans2bg = matrix4x4d::Identity();
@@ -817,7 +820,7 @@ void SystemMapViewport::HandleInput(float ft)
 			m_rot_x_to += motion[1] * 20 * ft * speedMod;
 			m_rot_y_to += motion[0] * 20 * ft * speedMod;
 		} else {
-			const double pixToUnits = Graphics::GetScreenHeight() / m_atlasViewH;
+			const double pixToUnits = m_viewportSize.h / m_atlasViewH;
 			constexpr float mouseAcceleration = 1.5f;
 			m_atlasPosTo.x += motion[0] * m_atlasZoom / pixToUnits * mouseAcceleration;
 			m_atlasPosTo.y += motion[1] * m_atlasZoom / pixToUnits * mouseAcceleration;
@@ -886,15 +889,13 @@ void SystemMapViewport::Update(float ft)
 		// FIXME The ImGui method one frame out of date
 		// either add the appropriate method to Input or start the pigui frame earlier
 		auto mpos = ImGui::GetMousePos();
-		mpos.x = Clamp(mpos.x, 0.f, float(Graphics::GetScreenWidth()));
-		mpos.y = Clamp(mpos.y, 0.f, float(Graphics::GetScreenHeight()));
-		auto cpos = vector2f(mpos.x, mpos.y) - vector2f(Graphics::GetScreenWidth() / 2, Graphics::GetScreenHeight() / 2);
-		auto shift = cpos * (m_atlasZoom - prevAtlasZoom) * m_atlasViewH / Graphics::GetScreenHeight();
+		mpos.x = Clamp(mpos.x, 0.f, float(m_viewportSize.w));
+		mpos.y = Clamp(mpos.y, 0.f, float(m_viewportSize.h));
+		auto cpos = vector2f(mpos.x, mpos.y) - vector2f(m_viewportSize.w / 2.f, m_viewportSize.h / 2.f);
+		auto shift = cpos * (m_atlasZoom - prevAtlasZoom) * m_atlasViewH / m_viewportSize.h;
 		m_atlasPosTo += shift;
 		m_atlasPos = m_atlasPosTo;
 	}
-
-	HandleInput(ft);
 
 	if (m_realtime) {
 		m_time = m_refTime;
@@ -1057,5 +1058,5 @@ float SystemMapViewport::GetZoom() const
 
 float SystemMapViewport::AtlasViewPixelPerUnit()
 {
-	return Graphics::GetScreenHeight() / (m_atlasViewH * m_atlasZoom);
+	return m_viewportSize.h / (m_atlasViewH * m_atlasZoom);
 }

@@ -14,6 +14,7 @@
 #include "TransferPlanner.h"
 #include "enum_table.h"
 #include "graphics/Drawables.h"
+#include "graphics/Graphics.h"
 #include "matrix4x4.h"
 #include "pigui/PiGuiView.h"
 #include "vector3.h"
@@ -268,6 +269,7 @@ private:
 	std::vector<Projectable> m_projected;
 
 	SystemView::Mode m_displayMode; // FIXME: separate Atlas from SystemMapViewport
+	Graphics::ViewportExtents m_viewportSize;
 
 	AtlasBodyLayout m_atlasLayout = {};
 	float m_atlasZoom, m_atlasZoomTo, m_atlasZoomDefault;
