@@ -97,13 +97,13 @@ namespace Editor {
 	}
 
 	template<typename T, typename UpdateClosure>
-	inline void AddUndoSingleValueClosure(UndoSystem *s, T *dataRef, UpdateClosure &&closure)
+	inline void AddUndoSingleValueClosure(UndoSystem *s, T *dataRef, UpdateClosure closure)
 	{
 		s->AddUndoStep<UndoSingleValueClosureStep<T, UpdateClosure>>(dataRef, std::move(closure));
 	}
 
 	template<typename T, typename UpdateClosure>
-	inline void AddUndoSingleValueClosure(UndoSystem *s, T *dataRef, const T &newValue, UpdateClosure &&closure)
+	inline void AddUndoSingleValueClosure(UndoSystem *s, T *dataRef, const T &newValue, UpdateClosure closure)
 	{
 		s->AddUndoStep<UndoSingleValueClosureStep<T, UpdateClosure>>(dataRef, newValue, std::move(closure));
 	}
