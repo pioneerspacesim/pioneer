@@ -37,6 +37,10 @@
 #include "Pi.h"
 #include "scenegraph/Node.h"
 
+#include "editor/ModelViewerWidget.h"
+
+static Editor::ModelViewerWidget *s_mv = nullptr;
+
 using namespace Editor;
 
 //default options
@@ -127,6 +131,8 @@ ModelViewer::ModelViewer(EditorApp *app, LuaManager *lm) :
 	m_bgMaterial.reset(m_renderer->CreateMaterial("vtxColor", desc, rsd));
 
 	m_gridLines.reset(new Graphics::Drawables::GridLines(m_renderer));
+
+	s_mv = new ModelViewerWidget(app);
 }
 
 ModelViewer::~ModelViewer()
@@ -401,6 +407,9 @@ void ModelViewer::Update(float deltaTime)
 	// if we've requested a different model then switch too it
 	if (!m_requestedModelName.empty()) {
 		SetModel(m_requestedModelName);
+		s_mv->LoadModel(m_requestedModelName);
+		s_mv->OnAppearing();
+
 		m_requestedModelName.clear();
 	}
 
@@ -476,6 +485,9 @@ void ModelViewer::Update(float deltaTime)
 	if (m_options.showUI && !m_screenshotQueued) {
 		DrawPiGui();
 	}
+
+	s_mv->Update(deltaTime);
+
 	if (m_screenshotQueued) {
 		m_screenshotQueued = false;
 		Screenshot();
@@ -564,6 +576,8 @@ void ModelViewer::HandleInput()
 
 	if (m_input->IsKeyPressed(SDLK_ESCAPE)) {
 		if (m_model) {
+			s_mv->ClearModel();
+
 			ClearModel();
 			ResetCamera();
 			UpdateModelList();
