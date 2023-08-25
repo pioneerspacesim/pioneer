@@ -32,6 +32,9 @@
 
 #include "libs.h"
 #include "matrix4x4.h"
+
+#include "imgui/imgui.h"
+
 #include <iomanip>
 #include <sstream>
 
@@ -727,6 +730,7 @@ void SystemView::Update()
 	if (prevAtlasZoom != m_atlasZoom) {
 		// FIXME The ImGui method one frame out of date
 		// either add the appropriate method to Input or start the pigui frame earlier
+		// FIXME: atlas code needs to be separated from orrery code
 		auto mpos = ImGui::GetMousePos();
 		mpos.x = Clamp(mpos.x, 0.f, float(Graphics::GetScreenWidth()));
 		mpos.y = Clamp(mpos.y, 0.f, float(Graphics::GetScreenHeight()));
