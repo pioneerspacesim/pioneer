@@ -55,6 +55,7 @@ public:
 	};
 
 	ModelViewer(ModelViewerApp *app, LuaManager *l);
+	~ModelViewer();
 
 	void SetModel(const std::string &modelName);
 	bool SetRandomColor();
@@ -169,7 +170,7 @@ private:
 	std::unique_ptr<SceneGraph::Model> m_model;
 	bool m_modelIsShip = false;
 
-	SceneGraph::MatrixTransform *m_selectedTag = nullptr;
+	SceneGraph::Tag *m_selectedTag = nullptr;
 
 	std::vector<SceneGraph::Animation *> m_animations;
 	SceneGraph::Animation *m_currentAnimation = nullptr;

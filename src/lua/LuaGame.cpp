@@ -35,7 +35,7 @@
  *
  * Start a new game.
  *
- * > Game.StartGame(system_path, start_time)
+ * > Game.StartGame(system_path, start_time, ship_type)
  *
  * Parameters:
  *
@@ -43,12 +43,15 @@
  *                 will begin docked here; otherwise the player will begin in
  *                 orbit around the specified body.
  *
- *   start_time - optional, default 0. Time to start at in seconds from the
- *                Pioneer epoch (i.e. from 3200-01-01 00:00 UTC).
+ *   start_time - Time to start at in seconds from the Pioneer epoch
+ *                (i.e. from 3200-01-01 00:00 UTC).
+ *
+ *   ship_type - string, ship id, i.e. 'sinonatrix'
+ *
  *
  * Availability:
  *
- *   alpha 28
+ *   2023
  *
  * Status:
  *
@@ -61,18 +64,11 @@ static int l_game_start_game(lua_State *l)
 		return 0;
 	}
 
-	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-	double start_time = luaL_optnumber(l, 2, 0.0);
-	try {
-		if (start_time == 0.0f) {
-			time_t now;
-			time(&now);
-			start_time = difftime(now, 946684799); // <--- Friday, 31 December 1999 23:59:59 GMT+00:00 as UNIX epoch time in seconds
-		}
-		Pi::StartGame(new Game(*path, start_time));
-	} catch (InvalidGameStartLocation &e) {
-		luaL_error(l, "invalid starting location for game: %s", e.error.c_str());
-	}
+	auto path = LuaPull<SystemPath>(l, 1);
+	auto time = LuaPull<double>(l, 2);
+	auto shipType = LuaPull<const char*>(l, 3);
+
+	Pi::StartGame(new Game(path, time, shipType));
 	return 0;
 }
 

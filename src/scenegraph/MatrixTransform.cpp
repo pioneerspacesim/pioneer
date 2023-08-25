@@ -7,6 +7,7 @@
 #include "NodeVisitor.h"
 #include "Serializer.h"
 #include "graphics/Renderer.h"
+
 namespace SceneGraph {
 
 	MatrixTransform::MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m) :
@@ -29,6 +30,11 @@ namespace SceneGraph {
 	void MatrixTransform::Accept(NodeVisitor &nv)
 	{
 		nv.ApplyMatrixTransform(*this);
+	}
+
+	matrix4x4f MatrixTransform::CalcGlobalTransform() const
+	{
+		return GetParent() ? GetParent()->CalcGlobalTransform() * m_transform : m_transform;
 	}
 
 	void MatrixTransform::Render(const matrix4x4f &trans, const RenderData *rd)

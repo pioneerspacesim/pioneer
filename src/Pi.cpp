@@ -342,7 +342,7 @@ void Pi::App::Startup()
 
 	ModManager::Init();
 
-	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
+	Lang::Resource &res(Lang::GetResource("core", config->String("Lang")));
 	Lang::MakeCore(res);
 
 	// FIXME: move these out of the Pi namespace
@@ -1219,14 +1219,6 @@ static void OnPlayerDockOrUndock()
 {
 	Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
 	Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
-}
-
-float Pi::GetMoveSpeedShiftModifier()
-{
-	// Suggestion: make x1000 speed on pressing both keys?
-	if (Pi::input->KeyState(SDLK_LSHIFT)) return 100.f;
-	if (Pi::input->KeyState(SDLK_RSHIFT)) return 10.f;
-	return 1;
 }
 
 // This absolutely ought not to be part of the Pi class

@@ -151,10 +151,6 @@ public:
 	static bool AreHudTrailsDisplayed() { return hudTrailsDisplayed; }
 	static void SetHudTrailsDisplayed(bool state) { hudTrailsDisplayed = state; }
 
-	// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
-	// This is a default value only, centralized here to promote uniform user expericience.
-	static float GetMoveSpeedShiftModifier();
-
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string &, bool allowPlaceholder = true);
 
@@ -244,8 +240,6 @@ private:
 	static bool bRefreshBackgroundStars;
 	static float amountOfBackgroundStarsDisplayed;
 	static float starFieldStarSizeFactor;
-
-	static bool doingMouseGrab;
 
 	static bool isRecordingVideo;
 	static FILE *ffmpegFile;

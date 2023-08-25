@@ -21,6 +21,7 @@ namespace SceneGraph {
 	class MatrixTransform;
 	class Node;
 	class StaticGeometry;
+	class Tag;
 	class Thruster;
 
 	class NodeVisitor {
@@ -31,6 +32,7 @@ namespace SceneGraph {
 		virtual void ApplyStaticGeometry(StaticGeometry &);
 		virtual void ApplyLabel(Label3D &);
 		virtual void ApplyMatrixTransform(MatrixTransform &);
+		virtual void ApplyTag(Tag &);
 		virtual void ApplyBillboard(Billboard &);
 		virtual void ApplyThruster(Thruster &);
 		virtual void ApplyLOD(LOD &);

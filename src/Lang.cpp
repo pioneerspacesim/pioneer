@@ -104,23 +104,27 @@ namespace Lang {
 		return true;
 	}
 
-	const std::string &Resource::Get(const std::string &token) const
+	static const std::string _empty = "";
+	const std::string &Resource::Get(std::string_view token) const
 	{
 		std::map<std::string, std::string>::const_iterator i = m_strings.find(token);
 		if (i == m_strings.end()) {
-			static const std::string empty;
-			return empty;
+			return _empty;
 		}
 		return (*i).second;
 	}
 
-	std::vector<std::string> Resource::GetAvailableLanguages(const std::string &resourceName)
+	std::vector<std::string> Resource::GetAvailableLanguages(std::string_view resourceName)
 	{
 		std::vector<std::string> languages;
 
-		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "lang/" + resourceName); !files.Finished(); files.Next()) {
+		std::string searchPath = "lang/";
+		searchPath.append(resourceName);
+
+		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, searchPath); !files.Finished(); files.Next()) {
 			assert(files.Current().IsFile());
 			const std::string &path = files.Current().GetPath();
+
 			if (ends_with_ci(path, ".json")) {
 				const std::string name = files.Current().GetName();
 				languages.push_back(name.substr(0, name.size() - 5));
@@ -175,21 +179,21 @@ namespace Lang {
 
 		for (token_map::iterator i = s_token_map.begin(); i != s_token_map.end(); ++i) {
 			const std::string &token = i->first;
-			std::string text = res.Get(token);
+			std::string_view text = res.Get(token);
 
 			if (text.empty()) {
-				Log::Info("{}/{}: token '{}' not found\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
+				Log::Info("{}/{}: token '{}' not found\n", res.GetName(), res.GetLangCode(), token);
 				text = token;
 			}
 
 			if (text.size() > size_t(STRING_RECORD_SIZE)) {
-				Log::Info("{}/{}: text for token '{}' is too long and will be truncated\n", res.GetName().c_str(), res.GetLangCode().c_str(), token.c_str());
-				text.resize(STRING_RECORD_SIZE);
+				Log::Info("{}/{}: text for token '{}' is too long and will be truncated\n", res.GetName(), res.GetLangCode(), token);
+				text = text.substr(0, STRING_RECORD_SIZE);
 			}
 
 			// const_cast so we can set the string, see above
 			char *record = const_cast<char *>(i->second);
-			copy_string(record, text.c_str(), text.size(), STRING_RECORD_SIZE);
+			copy_string(record, text.data(), text.size(), STRING_RECORD_SIZE);
 		}
 
 		s_coreResource = res;
@@ -202,9 +206,9 @@ namespace Lang {
 
 	static std::map<std::string, Resource> m_cachedResources;
 
-	Resource GetResource(const std::string &name, const std::string &langCode)
+	Resource &GetResource(std::string_view name, std::string_view langCode)
 	{
-		auto key = name + ":" + langCode;
+		std::string key = fmt::format("{}:{}", name, langCode);
 
 		auto i = m_cachedResources.find(key);
 		if (i != m_cachedResources.end())
@@ -214,19 +218,18 @@ namespace Lang {
 		bool loaded = res.Load();
 		if (!loaded) {
 			if (langCode != "en") {
-				Log::Warning("couldn't load language resource {}/{}, trying {}/en\n", name.c_str(), langCode.c_str(), name.c_str());
+				Log::Warning("couldn't load language resource {}/{}, trying {}/en\n", name, langCode, name);
 				res = Lang::Resource(name, "en");
 				loaded = res.Load();
-				key = name + ":" + "en";
+				key.replace(key.size() - langCode.size(), langCode.size(), "en");
 			}
 			if (!loaded)
-				Log::Warning("couldn't load language resource {}/en\n", name.c_str());
+				Log::Warning("couldn't load language resource {}/en\n", name);
 		}
 
-		if (loaded)
-			m_cachedResources.insert(std::make_pair(key, res));
+		m_cachedResources.insert(std::make_pair(key, std::move(res)));
 
-		return res;
+		return m_cachedResources.at(key);
 	}
 
 } // namespace Lang

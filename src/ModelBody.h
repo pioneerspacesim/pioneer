@@ -44,15 +44,12 @@ public:
 
 	void SetModel(const char *modelName);
 
-	void RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, const bool setLighting = true);
+	void RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	virtual void TimeStepUpdate(const float timeStep) override;
 
 protected:
 	virtual void SaveToJson(Json &jsonObj, Space *space) override;
-
-	void SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<float> &oldIntensity, Color &oldAmbient);
-	void ResetLighting(Graphics::Renderer *r, const std::vector<float> &oldIntensity, const Color &oldAmbient);
 
 	Shields *GetShields() const { return m_shields.get(); }
 
@@ -62,8 +59,6 @@ private:
 	void AddGeomsToFrame(Frame *);
 	void RemoveGeomsFromFrame(Frame *);
 	void MoveGeoms(const matrix4x4d &, const vector3d &);
-
-	void CalcLighting(double &ambient, double &direct, const Camera *camera);
 
 	bool m_isStatic;
 	bool m_colliding;

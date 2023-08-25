@@ -18,7 +18,7 @@ class InternalCameraController;
 
 class ShipCockpit : public ModelBody {
 public:
-	explicit ShipCockpit(const std::string &modelName);
+	explicit ShipCockpit(const std::string &modelName, Body *ship);
 	virtual ~ShipCockpit();
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
@@ -34,6 +34,8 @@ protected:
 private:
 	ShipCockpit(const ShipCockpit &) = delete;
 	ShipCockpit &operator=(const ShipCockpit &) = delete;
+
+	Body *m_ship; // current ship body, for rendering
 
 	vector3d m_shipDir; // current ship direction
 	vector3d m_shipYaw; // current ship yaw vector

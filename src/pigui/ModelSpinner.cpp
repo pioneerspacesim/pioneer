@@ -8,7 +8,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/RenderTarget.h"
 #include "graphics/Renderer.h"
-#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Tag.h"
 
 #include <algorithm>
 
@@ -73,7 +73,7 @@ void ModelSpinner::Render()
 	r->SetClearColor(Color(0, 0, 0, 0));
 	r->ClearScreen();
 
-	r->SetPerspectiveProjection(SPINNER_FOV, m_size.x / m_size.y, 1.f, 10000.f);
+	r->SetProjection(matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f, true));
 	r->SetTransform(matrix4x4f::Identity());
 
 	r->SetLights(1, &m_light);
@@ -135,7 +135,7 @@ void ModelSpinner::DrawPiGui()
 
 vector3f ModelSpinner::ModelSpaceToScreenSpace(vector3f modelSpaceVec)
 {
-	matrix4x4f projection = matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f);
+	matrix4x4f projection = matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f, true);
 	matrix4x4f modelView = MakeModelViewMat();
 	Graphics::ViewportExtents vp = { 0, 0, int32_t(m_size.x), int32_t(m_size.y) };
 
@@ -148,11 +148,11 @@ vector2d ModelSpinner::GetTagPos(const char *tagName)
 		return vector2d(0);
 
 	std::string tName = tagName;
-	const SceneGraph::MatrixTransform *mt = m_model->FindTagByName(tName);
+	const SceneGraph::Tag *tagNode = m_model->FindTagByName(tName);
 
-	if (!mt)
+	if (!tagNode)
 		return vector2d(0);
 
-	vector3f screenSpace = ModelSpaceToScreenSpace(mt->GetTransform().GetTranslate());
+	vector3f screenSpace = ModelSpaceToScreenSpace(tagNode->GetGlobalTransform().GetTranslate());
 	return { screenSpace.x, m_size.y - screenSpace.y };
 }

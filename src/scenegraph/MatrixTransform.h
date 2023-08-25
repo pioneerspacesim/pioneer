@@ -39,6 +39,8 @@ namespace SceneGraph {
 		const matrix4x4f &GetTransform() const { return m_transform; }
 		void SetTransform(const matrix4x4f &m) { m_transform = m; }
 
+		virtual matrix4x4f CalcGlobalTransform() const override;
+
 	protected:
 		virtual ~MatrixTransform() {}
 

@@ -25,6 +25,7 @@ namespace SceneGraph {
 	class NodeVisitor;
 	class NodeCopyCache;
 	class Model;
+	class Group;
 
 	//Node traversal mask - for other
 	//purposes, use NodeFlags
@@ -86,6 +87,10 @@ namespace SceneGraph {
 		void SetName(const std::string &name) { m_name = name; }
 		const std::string &GetName() const { return m_name; }
 
+		void SetParent(Group *parent) { m_parent = parent; }
+		Group *GetParent() { return m_parent; }
+		const Group *GetParent() const { return m_parent; }
+
 		virtual Node *FindNode(const std::string &);
 
 		unsigned int GetNodeMask() const { return m_nodeMask; }
@@ -103,6 +108,7 @@ namespace SceneGraph {
 		unsigned int m_nodeMask;
 		unsigned int m_nodeFlags;
 		Graphics::Renderer *m_renderer;
+		Group *m_parent;
 	};
 
 } // namespace SceneGraph

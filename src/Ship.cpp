@@ -32,7 +32,7 @@
 #include "lua/LuaTable.h"
 #include "lua/LuaUtils.h"
 #include "scenegraph/Animation.h"
-#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Tag.h"
 #include "ship/PlayerShipController.h"
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
@@ -241,9 +241,9 @@ void Ship::Init()
 
 	// If we've got the tag_landing set then use it for an offset
 	// otherwise use zero so that it will dock but look clearly incorrect
-	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName("tag_landing");
-	if (mt) {
-		m_landingMinOffset = mt->GetTransform().GetTranslate().y;
+	const SceneGraph::Tag *tagNode = GetModel()->FindTagByName("tag_landing");
+	if (tagNode) {
+		m_landingMinOffset = tagNode->GetGlobalTransform().GetTranslate().y;
 	} else {
 		m_landingMinOffset = 0.0; // GetAabb().min.y;
 	}

@@ -11,7 +11,8 @@
 #include "graphics/Renderer.h"
 #include "ship/CameraController.h"
 
-ShipCockpit::ShipCockpit(const std::string &modelName) :
+ShipCockpit::ShipCockpit(const std::string &modelName, Body *ship) :
+	m_ship(ship),
 	m_shipDir(0.0),
 	m_shipYaw(0.0),
 	m_dir(0.0),
@@ -38,6 +39,18 @@ ShipCockpit::~ShipCockpit()
 void ShipCockpit::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	PROFILE_SCOPED()
+
+	double ambient, direct;
+	camera->CalcLighting(m_ship, ambient, direct);
+
+	std::vector<float> lightIntensities;
+	for (int i = 0; i < camera->GetNumLightSources(); i++)
+		lightIntensities.push_back(direct * camera->ShadowedIntensity(i, m_ship));
+
+	// Setup dynamic lighting parameters
+	renderer->SetAmbientColor(Color(ambient * 255, ambient * 255, ambient * 255));
+	renderer->SetLightIntensity(camera->GetNumLightSources(), lightIntensities.data());
+
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 }
 

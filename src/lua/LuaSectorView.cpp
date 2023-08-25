@@ -7,6 +7,7 @@
 #include "LuaObject.h"
 #include "LuaVector.h"
 #include "SectorView.h"
+#include "SectorMap.h"
 
 template <>
 const char *LuaObject<SectorView>::s_type = "SectorView";
@@ -17,50 +18,19 @@ void LuaObject<SectorView>::RegisterClass()
 	static LuaMetaType<SectorView> metaType(s_type);
 	metaType.CreateMetaType(Lua::manager->GetLuaState());
 	metaType.StartRecording()
-		.AddFunction("GetCenterDistance", &SectorView::GetCenterDistance)
-		.AddFunction("GetZoomLevel", &SectorView::GetZoomLevel)
-		.AddFunction("ZoomIn", &SectorView::ZoomIn)
-		.AddFunction("ZoomOut", &SectorView::ZoomOut)
 		.AddFunction("GetCurrentSystemPath", &SectorView::GetCurrent)
-		.AddFunction("SetDrawVerticalLines", &SectorView::SetDrawVerticalLines)
 		.AddFunction("SetDrawOutRangeLabels", &SectorView::SetDrawOutRangeLabels)
 		.AddFunction("SetAutomaticSystemSelection", &SectorView::SetAutomaticSystemSelection)
-		.AddFunction("SetFactionVisible", &SectorView::SetFactionVisible)
 		.AddFunction("ClearRoute", &SectorView::ClearRoute)
 		.AddFunction("GetSelectedSystemPath", &SectorView::GetSelected)
 		.AddFunction("GetHyperspaceTargetSystemPath", &SectorView::GetHyperspaceTarget)
-		.AddFunction("SetDrawUninhabitedLabels", &SectorView::SetDrawUninhabitedLabels)
 		.AddFunction("AddToRoute", &SectorView::AddToRoute)
 		.AddFunction("SwitchToPath", &SectorView::SwitchToPath)
-		.AddFunction("GotoSectorPath", &SectorView::GotoSector)
-		.AddFunction("GotoSystemPath", &SectorView::GotoSystem)
-		.AddFunction("SetRotateMode", &SectorView::SetRotateMode)
-		.AddFunction("SetZoomMode", &SectorView::SetZoomMode)
 		.AddFunction("ResetView", &SectorView::ResetView)
 		.AddFunction("SetHyperspaceTarget", &SectorView::SetHyperspaceTarget)
 		.AddFunction("ResetHyperspaceTarget", &SectorView::ResetHyperspaceTarget)
-		.AddFunction("IsCenteredOn", &SectorView::IsCenteredOn)
-		.AddFunction("SetLabelParams", &SectorView::SetLabelParams)
-		.AddFunction("DrawLabels", &SectorView::DrawLabels)
-		.AddFunction("SetLabelsVisibility", &SectorView::SetLabelsVisibility)
-		.AddFunction("GetFactions", [](lua_State *l, SectorView *sv) -> int {
-			const std::set<const Faction *> visible = sv->GetVisibleFactions();
-			const std::set<const Faction *> hidden = sv->GetHiddenFactions();
-			lua_newtable(l); // outer table
-			int i = 1;
-			for (const Faction *f : visible) {
-				lua_pushnumber(l, i++);
-				lua_newtable(l); // inner table
-				LuaObject<Faction>::PushToLua(const_cast<Faction *>(f));
-				lua_setfield(l, -2, "faction");
-				lua_pushboolean(l, hidden.count(f) == 0);
-				lua_setfield(l, -2, "visible"); // inner table
-				lua_settable(l, -3);			// outer table
-			}
-			return 1;
-		})
-		.AddFunction("GetCenterSector", [](lua_State *l, SectorView *sv) -> int {
-			LuaPush<vector3d>(l, vector3d(sv->GetCenterSector()));
+		.AddFunction("GetMap", [](lua_State *l, SectorView *sv) {
+			LuaObject<SectorMap>::PushToLua(&sv->GetMap());
 			return 1;
 		})
 		.AddFunction("MoveRouteItemUp", [](lua_State *l, SectorView *sv) -> int {
@@ -92,18 +62,6 @@ void LuaObject<SectorView>::RegisterClass()
 			SystemPath *path = LuaObject<SystemPath>::CheckFromLua(3);
 			sv->UpdateRouteItem(element, path);
 			return 0;
-		})
-		.AddFunction("SearchNearbyStarSystemsByName", [](lua_State *l, SectorView *sv) -> int {
-			std::string pattern = LuaPull<std::string>(l, 2);
-			std::vector<SystemPath> matches = sv->GetNearbyStarSystemsByName(pattern);
-			int i = 1;
-			lua_newtable(l);
-			for (const SystemPath &path : matches) {
-				lua_pushnumber(l, i++);
-				LuaObject<SystemPath>::PushToLua(path);
-				lua_settable(l, -3);
-			}
-			return 1;
 		})
 		.AddFunction("GetRouteSize", [](lua_State *l, SectorView *sv) -> int {
 			std::vector<SystemPath> route = sv->GetRoute();

@@ -101,7 +101,7 @@ void Player::InitCockpit()
 			cockpitModelName = "default_cockpit";
 	}
 	if (!cockpitModelName.empty())
-		m_cockpit.reset(new ShipCockpit(cockpitModelName));
+		m_cockpit.reset(new ShipCockpit(cockpitModelName, this));
 
 	OnCockpitActivated();
 }

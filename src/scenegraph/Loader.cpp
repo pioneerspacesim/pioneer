@@ -2,12 +2,16 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Loader.h"
+
+#include "Animation.h"
 #include "BinaryConverter.h"
 #include "CollisionGeometry.h"
-#include "FileSystem.h"
 #include "LOD.h"
 #include "Parser.h"
 #include "SceneGraph.h"
+#include "Tag.h"
+
+#include "FileSystem.h"
 #include "StringF.h"
 #include "core/Log.h"
 #include "graphics/RenderState.h"
@@ -16,6 +20,7 @@
 #include "scenegraph/Animation.h"
 #include "scenegraph/LoaderDefinitions.h"
 #include "utils.h"
+
 #include <assimp/material.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
@@ -309,6 +314,9 @@ namespace SceneGraph {
 		//find usable pattern textures from the model directory
 		if (patternsUsed)
 			SetUpPatterns();
+
+		// initialize tag transforms
+		m_model->UpdateTagTransforms();
 
 		return model;
 	}
@@ -649,7 +657,12 @@ namespace SceneGraph {
 
 					const std::string channame(aichan->mNodeName.C_Str());
 					MatrixTransform *trans = dynamic_cast<MatrixTransform *>(meshRoot->FindNode(channame));
-					assert(trans);
+
+					if (!trans) {
+						// possibly dummy single-frame data for a node that's been converted to e.g. a label
+						continue;
+					}
+
 					animation->m_channels.push_back(AnimationChannel(trans));
 					AnimationChannel &chan = animation->m_channels.back();
 
@@ -854,22 +867,34 @@ namespace SceneGraph {
 		const aiMatrix4x4 &trans = node->mTransformation;
 		matrix4x4f m = ConvertMatrix(trans);
 
+		bool isLeafNode = node->mNumChildren == 0 && node->mNumMeshes == 0;
+
+		if (m_modelFormat == ModelFormat::GLTF) {
+			// Blender's GLTF exporter writes text nodes as mesh nodes,
+			// so treat label_xxxx nodes as leaf nodes even though they have the text mesh present
+			isLeafNode |= node->mNumChildren == 0 && starts_with(nodename, "label_");
+		}
+
 		//lights, and possibly other special nodes should be leaf nodes (without meshes)
-		if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
+		if (isLeafNode) {
 			if (starts_with(nodename, "navlight_")) {
 				CreateNavlight(nodename, accum * m);
 			} else if (starts_with(nodename, "thruster_")) {
 				CreateThruster(nodename, accum * m);
 			} else if (starts_with(nodename, "label_")) {
-				CreateLabel(nodename, parent, m);
+				// labels point to +Z which matches Blender output to Collada but not GLTF (which has a correct node orientation)
+				if (m_modelFormat == ModelFormat::GLTF)
+					CreateLabel(nodename, parent, m * matrix4x4f::RotateXMatrix(M_PI_2));
+				else
+					CreateLabel(nodename, parent, m);
 			} else if (starts_with(nodename, "tag_")) {
-				m_model->AddTag(nodename, new MatrixTransform(m_renderer, accum * m));
+				m_model->AddTag(nodename, parent, new Tag(m_renderer, m));
 			} else if (starts_with(nodename, "entrance_")) {
-				m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
+				m_model->AddTag(nodename, parent, new Tag(m_renderer, m));
 			} else if (starts_with(nodename, "loc_")) {
-				m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
+				m_model->AddTag(nodename, parent, new Tag(m_renderer, m));
 			} else if (starts_with(nodename, "exit_")) {
-				m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
+				m_model->AddTag(nodename, parent, new Tag(m_renderer, m));
 			}
 			return;
 		}

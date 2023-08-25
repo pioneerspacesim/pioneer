@@ -90,8 +90,10 @@ namespace Lua {
 		LuaObject<SystemPath>::RegisterClass();
 		LuaObject<SystemView>::RegisterClass();
 		LuaObject<SectorView>::RegisterClass();
+		LuaObject<SectorMap>::RegisterClass();
 		LuaObject<SystemBody>::RegisterClass();
 		LuaObject<Faction>::RegisterClass();
+		LuaObject<Galaxy>::RegisterClass();
 
 		Pi::luaSerializer = new LuaSerializer();
 		Pi::luaTimer = new LuaTimer();

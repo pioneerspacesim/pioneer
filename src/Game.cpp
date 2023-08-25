@@ -34,7 +34,7 @@
 
 static const int s_saveVersion = 89;
 
-Game::Game(const SystemPath &path, const double startDateTime) :
+Game::Game(const SystemPath &path, const double startDateTime, const char *shipType) :
 	m_galaxy(GalaxyGenerator::Create()),
 	m_time(startDateTime),
 	m_state(State::NORMAL),
@@ -70,7 +70,7 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
-	m_player.reset(new Player("kanara"));
+	m_player.reset(new Player(shipType));
 
 	m_space->AddBody(m_player.get());
 
@@ -79,9 +79,25 @@ Game::Game(const SystemPath &path, const double startDateTime) :
 	if (b->GetType() == ObjectType::SPACESTATION) {
 		m_player->SetDockedWith(static_cast<SpaceStation *>(b), 0);
 	} else {
+		// random orbit
+		// Taken from: LuaSpace.cpp, _orbital_velocity_random_direction()
 		const SystemBody *sbody = b->GetSystemBody();
-		m_player->SetPosition(vector3d(0, 1.5 * sbody->GetRadius(), 0));
-		m_player->SetVelocity(vector3d(0, 0, 0));
+		vector3d pos{ MathUtil::RandomPointOnSphere(1.2 * sbody->GetRadius()) };
+		// calculating basis from radius - vector
+		vector3d k = pos.Normalized();
+		vector3d i;
+		if (std::fabs(k.z) > 0.999999)	 // very vertical = z
+			i = vector3d(1.0, 0.0, 0.0); // second ort = x
+		else
+			i = k.Cross(vector3d(0.0, 0.0, 1.0)).Normalized();
+		vector3d j = k.Cross(i);
+		// generating random 2d direction and putting it into basis
+		vector3d randomOrthoDirection = MathUtil::RandomPointOnCircle(1.0) * matrix3x3d::FromVectors(i, j, k).Transpose();
+		// calculate the value of the orbital velocity
+		double orbitalVelocity = sqrt(G * sbody->GetMass() / pos.Length());
+
+		m_player->SetPosition(pos);
+		m_player->SetVelocity(randomOrthoDirection * orbitalVelocity);
 	}
 
 	CreateViews();
