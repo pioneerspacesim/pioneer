@@ -8,30 +8,33 @@
 #include <SDL_stdinc.h>
 #include <map>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace Lang {
 
 	class Resource {
 	public:
-		Resource(const std::string &name, const std::string &langCode) :
+		using StringMap = std::map<std::string, std::string, std::less<>>;
+
+		Resource(std::string_view name, std::string_view langCode) :
 			m_name(name),
 			m_langCode(langCode),
 			m_loaded(false) {}
 
-		const std::string &GetName() const { return m_name; }
-		const std::string &GetLangCode() const { return m_langCode; }
+		std::string_view GetName() const { return m_name; }
+		std::string_view GetLangCode() const { return m_langCode; }
 
 		bool Load();
 
 		Uint32 GetNumStrings() const { return static_cast<Uint32>(m_strings.size()); }
 
-		const std::string &Get(const std::string &token) const;
+		const std::string &Get(std::string_view token) const;
 
-		static std::vector<std::string> GetAvailableLanguages(const std::string &resourceName);
+		static std::vector<std::string> GetAvailableLanguages(std::string_view resourceName);
 
-		IterationProxy<std::map<std::string, std::string>> GetStrings() { return MakeIterationProxy(m_strings); }
-		const IterationProxy<const std::map<std::string, std::string>> GetStrings() const { return MakeIterationProxy(m_strings); }
+		IterationProxy<StringMap> GetStrings() { return MakeIterationProxy(m_strings); }
+		const IterationProxy<const StringMap> GetStrings() const { return MakeIterationProxy(m_strings); }
 
 	private:
 		std::string m_name;
@@ -39,7 +42,7 @@ namespace Lang {
 
 		bool m_loaded;
 
-		std::map<std::string, std::string> m_strings;
+		StringMap m_strings;
 	};
 
 // declare all strings
@@ -50,7 +53,7 @@ namespace Lang {
 	void MakeCore(Resource &res);
 	const Resource &GetCore();
 
-	Resource GetResource(const std::string &name, const std::string &langCode);
+	Resource &GetResource(std::string_view name, std::string_view langCode);
 
 } // namespace Lang
 

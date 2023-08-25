@@ -342,7 +342,7 @@ void Pi::App::Startup()
 
 	ModManager::Init();
 
-	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
+	Lang::Resource &res(Lang::GetResource("core", config->String("Lang")));
 	Lang::MakeCore(res);
 
 	// FIXME: move these out of the Pi namespace
