@@ -269,6 +269,25 @@ namespace FileSystem {
 			Recurse = 8
 		};
 
+		// Iterator interface for use with C++11 range-for only
+		struct iter {
+			FileEnumerator &m_enum;
+			bool m_atend = false;
+
+			using iterator_category = std::input_iterator_tag;
+			using reference = const FileInfo &;
+			using value_type = const FileInfo;
+
+			reference operator*() const { return m_enum.Current(); }
+			bool operator!=(const iter &rhs) { return m_enum.Finished() != rhs.m_atend; }
+
+			iter &operator++()
+			{
+				m_enum.Next();
+				return *this;
+			}
+		};
+
 		explicit FileEnumerator(FileSource &fs, int flags = 0);
 		explicit FileEnumerator(FileSource &fs, const std::string &path, int flags = 0);
 		~FileEnumerator();
@@ -278,6 +297,9 @@ namespace FileSystem {
 		bool Finished() const { return m_queue.empty(); }
 		void Next();
 		const FileInfo &Current() const { return m_queue.front(); }
+
+		iter begin() { return iter{ *this, false }; }
+		iter end() { return iter{ *this, true }; }
 
 	private:
 		void ExpandDirQueue();
