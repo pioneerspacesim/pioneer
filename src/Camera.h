@@ -109,6 +109,7 @@ public:
 		bool operator<(const Shadow &other) const { return srad / lrad < other.srad / other.lrad; }
 	};
 
+	void CalcLighting(const Body *b, double &ambient, double &direct) const;
 	void CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const;
 	float ShadowedIntensity(const int lightNum, const Body *b) const;
 	void PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &shadowsOut) const;
@@ -136,6 +137,9 @@ private:
 
 		// body flags. DRAW_LAST is the interesting one
 		Uint32 bodyFlags;
+
+		// if true, calculate atmosphere-attenuated light intensity for the body
+		bool calcAtmosphereLighting;
 
 		// if true, draw object as billboard of billboardSize at billboardPos
 		bool billboard;

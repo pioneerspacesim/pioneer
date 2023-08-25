@@ -8,7 +8,7 @@
 #include "Pi.h"
 #include "Ship.h"
 #include "StringF.h"
-#include "scenegraph/MatrixTransform.h"
+#include "scenegraph/Tag.h"
 #include "scenegraph/Model.h"
 
 #include <algorithm>
@@ -81,9 +81,9 @@ void SpaceStationType::OnSetupComplete()
 	shipLaunchStage = ((SURFACE == dockMethod) ? 0 : 3);
 
 	// gather the tags
-	SceneGraph::Model::TVecMT entrance_mts;
-	SceneGraph::Model::TVecMT locator_mts;
-	SceneGraph::Model::TVecMT exit_mts;
+	std::vector<SceneGraph::Tag *> entrance_mts;
+	std::vector<SceneGraph::Tag *> locator_mts;
+	std::vector<SceneGraph::Tag *> exit_mts;
 	model->FindTagsByStartOfName("entrance_", entrance_mts);
 	model->FindTagsByStartOfName("loc_", locator_mts);
 	model->FindTagsByStartOfName("exit_", exit_mts);
@@ -91,24 +91,28 @@ void SpaceStationType::OnSetupComplete()
 	Output("%s has:\n %lu entrances,\n %lu pads,\n %lu exits\n", modelName.c_str(), entrance_mts.size(), locator_mts.size(), exit_mts.size());
 
 	// Add the partially initialised ports
-	for (auto apprIter : entrance_mts) {
+	for (SceneGraph::Tag *tag : entrance_mts) {
 		int portId;
-		PiVerify(1 == sscanf(apprIter->GetName().c_str(), "entrance_port%d", &portId));
+		PiVerify(1 == sscanf(tag->GetName().c_str(), "entrance_port%d", &portId));
 		PiVerify(portId > 0);
+
+		const matrix4x4f &trans = tag->GetGlobalTransform();
 
 		SPort new_port;
 		new_port.portId = portId;
-		new_port.name = apprIter->GetName();
+		new_port.name = tag->GetName();
+
 		if (SURFACE == dockMethod) {
-			const vector3f offDir = apprIter->GetTransform().Up().Normalized();
-			new_port.m_approach[1] = apprIter->GetTransform();
-			new_port.m_approach[1].SetTranslate(apprIter->GetTransform().GetTranslate() + (offDir * 500.0f));
+			const vector3f offDir = trans.Up().Normalized();
+			new_port.m_approach[1] = trans;
+			new_port.m_approach[1].SetTranslate(trans.GetTranslate() + (offDir * 500.0f));
 		} else {
-			const vector3f offDir = -apprIter->GetTransform().Back().Normalized();
-			new_port.m_approach[1] = apprIter->GetTransform();
-			new_port.m_approach[1].SetTranslate(apprIter->GetTransform().GetTranslate() + (offDir * 1500.0f));
+			const vector3f offDir = -trans.Back().Normalized();
+			new_port.m_approach[1] = trans;
+			new_port.m_approach[1].SetTranslate(trans.GetTranslate() + (offDir * 1500.0f));
 		}
-		new_port.m_approach[2] = apprIter->GetTransform();
+
+		new_port.m_approach[2] = trans;
 		m_ports.push_back(new_port);
 	}
 
