@@ -870,6 +870,12 @@ static void OnPlayerDockOrUndock();
 void GameLoop::Start()
 {
 	PROFILE_SCOPED()
+
+	// NOTE: this is here because Clang 15+ and GCC 13+ ignore fp-model when
+	// generating vectorized/optimized code and will happily perform exception-
+	// raising operations on the contents of uninitialized or aliased memory
+	OS::DisableFPE();
+
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
 	Pi::input->InitGame();

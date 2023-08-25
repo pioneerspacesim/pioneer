@@ -7,7 +7,5 @@
 
 void ShipController::StaticUpdate(float timeStep)
 {
-	OS::EnableFPE();
 	m_ship->AITimeStep(timeStep);
-	OS::DisableFPE();
 }
