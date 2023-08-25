@@ -209,6 +209,10 @@ void SectorView::SaveToJson(Json &jsonObj)
 	m_current.ToJson(currentSystemObj);
 	sectorViewObj["current"] = currentSystemObj; // Add current system object to sector view object.
 
+	Json selectedSystemObj({}); // Create JSON object to contain selected system data.
+	m_selected.ToJson(selectedSystemObj);
+	sectorViewObj["selected"] = selectedSystemObj; // Add selected system object to sector view object.
+
 	Json hyperspaceSystemObj({}); // Create JSON object to contain hyperspace system data.
 	m_hyperspaceTarget.ToJson(hyperspaceSystemObj);
 	sectorViewObj["hyperspace"] = hyperspaceSystemObj; // Add hyperspace system object to sector view object.
