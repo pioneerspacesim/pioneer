@@ -44,7 +44,7 @@ end
 
 local PiGuiFace = {}
 
-function PiGuiFace.New (character, style, allowModification)
+function PiGuiFace.New (character, style, drawButtons)
 	character = ensureCharacter(character)
 	style = style or {}
 	character.faceDescription = character.faceDescription or rerollFaceDesc {
@@ -56,7 +56,7 @@ function PiGuiFace.New (character, style, allowModification)
 	local piguiFace = {
 		faceGen = faceTexGen,
 		character = character,
-		allowModification = allowModification,
+		drawButtons = drawButtons,
 		style = {
 			size = style.size or nil,
 			itemSpacing = style.itemSpacing or ui.rescaleUI(Vector2(6, 12), Vector2(1600, 900)),
@@ -105,12 +105,13 @@ function PiGuiFace:changeFeature(featureId, amt, callback)
 end
 
 local pigui = Engine.pigui
-local buttonSize = ui.rescaleUI(Vector2(36, 36))
-local iconSize = ui.rescaleUI(Vector2(36, 36))
-
+local font = ui.fonts.pionillium.medium
+local iconSize = Vector2(font.size * 2.3, font.size * 2.3)
+local buttonSize = iconSize
 local function faceGenButton(self, feature)
-
-	if ui.button('<##' .. feature.id, buttonSize) then
+	local bg_style = ui.theme.buttonColors.transparent
+	local fg_color = ui.theme.colors.grey
+	if ui.iconButton(ui.theme.icons.time_backward_1x, buttonSize, "##<" .. feature.id, bg_style, fg_color) then
 		self:changeFeature(feature.id, -1, feature.callback)
 	end
 	ui.sameLine()
@@ -121,21 +122,38 @@ local function faceGenButton(self, feature)
 	if pigui.IsItemHovered() then pigui.SetTooltip(feature.tooltip) end
 
 	ui.sameLine()
-	if ui.button('>##' .. feature.id, buttonSize) then
+	if ui.iconButton(ui.theme.icons.time_forward_1x, buttonSize, '##>' .. feature.id, bg_style, fg_color) then
 		self:changeFeature(feature.id, 1, feature.callback)
 	end
 
 end
 
-local facegenSpacing = ui.rescaleUI(Vector2(18, 6))
-local facegenSize = Vector2(buttonSize.x * 2 + iconSize.x + facegenSpacing.x * 2, 0)
+local facegenSpacing = Vector2(font.size * 0.3, font.size * 0.3)
+local facegenSize = Vector2(buttonSize.x * 2 + iconSize.x + facegenSpacing.x * 2, (buttonSize.y + facegenSpacing.y) * (#faceFeatures + 1) - facegenSpacing.y)
 local buttonSpaceSize = Vector2(facegenSpacing.x * 2 + buttonSize.x * 2 + iconSize.x, iconSize.y)
-local inputTextPadding = ui.rescaleUI(Vector2(12, 12))
+local inputTextPadding = ui.rescaleUI(Vector2(18, 18))
+
+function PiGuiFace:renderFaceGenButtons(can_random)
+	local char = self.character
+	ui.withStyleVars({ItemSpacing = facegenSpacing}, function()
+		local numFeatures = #faceFeatures
+		if can_random then numFeatures = numFeatures + 1 end
+		facegenSize.y = (buttonSize.y + facegenSpacing.y) * numFeatures - facegenSpacing.y
+		ui.child("FaceGen", facegenSize, {'AlwaysAutoResize'}, function()
+			for _, v in ipairs(faceFeatures) do
+				faceGenButton(self, v)
+			end
+			if can_random and (ui.iconButton(icons.random, buttonSpaceSize, l.RANDOM_FACE, nil, nil, 0, iconSize)) then
+				char.faceDescription = rerollFaceDesc(char.faceDescription)
+				self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
+			end
+		end)
+	end)
+end
 
 function PiGuiFace:render()
 	local char = self.character
-
-	if not self.allowModification then
+	if not self.drawButtons then
 		self:renderFaceDisplay()
 		return
 	end
@@ -164,23 +182,16 @@ function PiGuiFace:render()
 		ui.setCursorPos(lastPos)
 		ui.sameLine(0, itemSpacing.x)
 
-		ui.withStyleVars({ItemSpacing = facegenSpacing}, function()
-			ui.child("FaceGen", facegenSize, {}, function()
-				for _, v in ipairs(faceFeatures) do
-					faceGenButton(self, v)
-				end
+		self:renderFaceGenButtons(true)
 
-				if (ui.iconButton(icons.random, buttonSpaceSize, l.RANDOM_FACE, nil, nil, 0, iconSize)) then
-					char.faceDescription = rerollFaceDesc(char.faceDescription)
-					self.faceGen = FaceTextureGenerator.New(char.faceDescription, char.seed)
-				end
-			end)
-		end)
 	end)
 end
 
-function PiGuiFace:renderFaceDisplay()
+function PiGuiFace.getFaceGenButtonsSize()
+	return facegenSize
+end
 
+function PiGuiFace:renderFaceDisplay ()
 	local lastPos = ui.getCursorPos()
 	local region = self.style.size or ui.getContentRegion()
 	local size = math.min(region.x, region.y)

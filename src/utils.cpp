@@ -20,7 +20,7 @@ std::string format_money(double cents, bool showCents)
 	size_t groupDigits = strtol(Lang::NUMBER_GROUP_NUM, &end, 10);
 	assert(*end == 0);
 
-	double money = showCents ? 0.01 * cents : roundf(0.01 * cents);
+	double money = showCents ? 0.01 * cents : round(0.01 * cents);
 
 	const char *format = (money < 0) ? "-$%.2f" : "$%.2f";
 	char buf[64];

@@ -115,6 +115,16 @@ static int l_starsystem_get_body_paths(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_get_body_by_path(lua_State *l)
+{
+	PROFILE_SCOPED()
+
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	const SystemPath *path = LuaObject<SystemPath>::CheckFromLua(2);
+	LuaObject<SystemBody>::PushToLua(s->GetBodyByPath(*path));
+	return 1;
+}
+
 /*
  * Method: GetCommodityBasePriceAlterations
  *
@@ -704,6 +714,7 @@ void LuaObject<StarSystem>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "GetStationPaths", l_starsystem_get_station_paths },
 		{ "GetBodyPaths", l_starsystem_get_body_paths },
+		{ "GetBodyByPath", l_starsystem_get_body_by_path },
 		{ "GetStars", l_starsystem_get_stars },
 		{ "GetJumpable", l_starsystem_get_jumpable },
 

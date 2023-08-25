@@ -148,7 +148,16 @@ namespace PiGui {
 
 	void ThrustIndicator(const std::string &id_string, const ImVec2 &size, const ImVec4 &thrust, const ImVec4 &velocity, const ImVec4 &bg_col, int frame_padding, ImColor vel_fg, ImColor vel_bg, ImColor thrust_fg, ImColor thrust_bg);
 
-	void IncrementDrag(const std::string &label, int &v, const int v_min, const int v_max, const std::string &format);
+	// we need to know if the change was made by direct input or the change was
+	// made by mouse movement, to successfully serve values such as YYYY-MM-DD
+	// when changing with the mouse, we get some internal delta value and add
+	// it to previous internal value
+	// when we receive direct input from the keyboard, we get a completely
+	// different (face value), an integer of the form YYYY-MM-DD so we just
+	// convert it to internal value.
+	// Also see: data/pigui/modules/new-game-window/location.lua
+	enum class DragChangeMode : unsigned { NOT_CHANGED, CHANGED, CHANGED_BY_TYPING };
+	DragChangeMode IncrementDrag(const char *label, double &v, float v_speed, const double v_min, const double v_max, const char *format, bool draw_progress_bar);
 
 	inline bool WantCaptureMouse()
 	{

@@ -58,10 +58,12 @@ InfoView:registerView({
 
                 ui.child("PlayerInfoDetails", Vector2(info_column_width, 0), drawPlayerInfo)
 
-                ui.sameLine(0, spacing)
+				ui.sameLine(0, spacing)
+				ui.dummy(Vector2(info_column_width * 0.15), 0)
+				ui.sameLine(0, 0)
 
-				ui.child("PlayerView", Vector2(info_column_width, 0), function()
-					face = face or PiGuiFace.New(Character.persistent.player, nil, true)
+				ui.child("PlayerView", Vector2(info_column_width * 0.7, 0), function()
+					face = face or PiGuiFace.New(Character.persistent.player, nil, false)
 					face:render()
 				end)
 

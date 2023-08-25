@@ -73,7 +73,7 @@ void ModelSpinner::Render()
 	r->SetClearColor(Color(0, 0, 0, 0));
 	r->ClearScreen();
 
-	r->SetPerspectiveProjection(SPINNER_FOV, m_size.x / m_size.y, 1.f, 10000.f);
+	r->SetProjection(matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f, true));
 	r->SetTransform(matrix4x4f::Identity());
 
 	r->SetLights(1, &m_light);
@@ -135,7 +135,7 @@ void ModelSpinner::DrawPiGui()
 
 vector3f ModelSpinner::ModelSpaceToScreenSpace(vector3f modelSpaceVec)
 {
-	matrix4x4f projection = matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f);
+	matrix4x4f projection = matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f, true);
 	matrix4x4f modelView = MakeModelViewMat();
 	Graphics::ViewportExtents vp = { 0, 0, int32_t(m_size.x), int32_t(m_size.y) };
 

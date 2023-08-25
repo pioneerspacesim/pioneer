@@ -482,6 +482,33 @@ utils.contains = function(t, val)
 end
 
 --
+-- Function: utils.indexOf
+--
+-- looking for the first counter index of an element in an array.
+--
+-- Example:
+--
+-- > local index = utils.indexOf(ShipType.shipIDs, shipID)
+--
+-- Parameters:
+--
+--   array
+--
+--   value - searched array element
+--
+-- Return:
+--
+--   value - any, array item
+--
+utils.indexOf = function(array, value)
+	for i, v in ipairs(array) do
+		if v == value then
+			return i
+		end
+	end
+end
+
+--
 -- Function: remove_elem
 --
 -- Remove the given value element from the passed array table
@@ -682,6 +709,75 @@ end
 utils.chooseEqual = function(array, rand)
 	if not rand then rand = Engine.rand end
 	return array[rand:Integer(1, #array)]
+end
+
+--
+-- Function: utils.getIndexFromIntervals
+--
+-- Searches for the index of an element from an array of intervals. Each array
+-- element is itself an array of two elements, the first is the return value
+-- and the second is the interval. The value lies in the interval from its
+-- number and above.
+--
+-- Example:
+--
+-- >    reputations = {
+-- >        { 'INCOMPETENT'        },
+-- >        { 'UNRELIABLE',     -8 },
+-- >        { 'NOBODY',          0 },
+-- >        { 'INEXPERIENCED',   4 },
+-- >        { 'EXPERIENCED',     8 },
+-- >        { 'CREDIBLE',       16 },
+-- >        { 'RELIABLE',       32 },
+-- >        { 'TRUSTWORTHY',    64 },
+-- >        { 'PROFESSIONAL',  128 },
+-- >        { 'EXPERT',        256 },
+-- >        { 'MASTER',        512 }
+-- >    },
+-- >
+-- > reputation = utils.getIndexFromIntervals(reputations, 42)
+-- > assert(reputation == 7)
+--
+-- Parameters:
+--
+--   array - sorted array of intervals
+--   number - some value in intervals,
+--
+-- Returns:
+--
+--  number - index
+--
+utils.getIndexFromIntervals = function(array, value)
+	for i = #array, 1, -1 do
+		if not array[i][2] or value >= array[i][2] then
+			return i
+		end
+	end
+	assert(false, "array of intervals is not valid!")
+end
+
+--
+-- Function: utils.getFromIntervals
+--
+-- Searches for the  element from an array of intervals. Similar to
+-- getIndexFromIntervals but returns the value at the index.
+--
+-- Example:
+--
+-- > reputation = utils.getFromIntervals(reputations, 42) -- see getIndexFromIntervals
+-- > assert(reputation == 'RELIABLE')
+--
+-- Parameters:
+--
+--   array - sorted array of intervals
+--   number - some value in intervals
+--
+-- Returns:
+--
+--  value - any, what is contained in the array (without a number-interval)
+--
+utils.getFromIntervals = function(array, value)
+	return array[utils.getIndexFromIntervals(array, value)][1]
 end
 
 return utils

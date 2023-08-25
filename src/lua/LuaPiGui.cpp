@@ -472,6 +472,39 @@ void pi_lua_generic_pull(lua_State *l, int index, ImGuiTableColumnFlags_ &thefla
 	theflags = parse_imgui_flags(l, index, imguiTableColumnFlagsTable);
 }
 
+static LuaFlags<ImGuiColorEditFlags_> imguiColorEditFlagsTable = {
+	{ "None", ImGuiColorEditFlags_None },
+	{ "NoAlpha", ImGuiColorEditFlags_NoAlpha },
+	{ "NoPicker", ImGuiColorEditFlags_NoPicker },
+	{ "NoOptions", ImGuiColorEditFlags_NoOptions },
+	{ "NoSmallPreview", ImGuiColorEditFlags_NoSmallPreview },
+	{ "NoInputs", ImGuiColorEditFlags_NoInputs },
+	{ "NoTooltip", ImGuiColorEditFlags_NoTooltip },
+	{ "NoLabel", ImGuiColorEditFlags_NoLabel },
+	{ "NoSidePreview", ImGuiColorEditFlags_NoSidePreview },
+	{ "NoDragDrop", ImGuiColorEditFlags_NoDragDrop },
+	{ "NoBorder", ImGuiColorEditFlags_NoBorder },
+	{ "AlphaBar", ImGuiColorEditFlags_AlphaBar },
+	{ "AlphaPreview", ImGuiColorEditFlags_AlphaPreview },
+	{ "AlphaPreviewHalf", ImGuiColorEditFlags_AlphaPreviewHalf },
+	{ "HDR", ImGuiColorEditFlags_HDR },
+	{ "DisplayRGB", ImGuiColorEditFlags_DisplayRGB },
+	{ "DisplayHSV", ImGuiColorEditFlags_DisplayHSV },
+	{ "DisplayHex", ImGuiColorEditFlags_DisplayHex },
+	{ "Uint8", ImGuiColorEditFlags_Uint8 },
+	{ "Float", ImGuiColorEditFlags_Float },
+	{ "PickerHueBar", ImGuiColorEditFlags_PickerHueBar },
+	{ "PickerHueWheel", ImGuiColorEditFlags_PickerHueWheel },
+	{ "InputRGB", ImGuiColorEditFlags_InputRGB },
+	{ "InputHSV", ImGuiColorEditFlags_InputHSV },
+	{ "DefaultOptions", ImGuiColorEditFlags_DefaultOptions_ }
+};
+
+void pi_lua_generic_pull(lua_State *l, int index, ImGuiColorEditFlags_ &theflags)
+{
+	theflags = parse_imgui_flags(l, index, imguiColorEditFlagsTable);
+}
+
 int l_pigui_check_table_column_flags(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TTABLE);
@@ -896,6 +929,15 @@ static int l_pigui_pop_style_color(lua_State *l)
 	int num = LuaPull<int>(l, 1);
 	ImGui::PopStyleColor(num);
 	return 0;
+}
+
+static int l_pigui_get_style_color(lua_State *l)
+{
+	PROFILE_SCOPED()
+	auto style = LuaPull<ImGuiCol_>(l, 1);
+	auto c = ImGui::GetStyleColorVec4(style);
+	LuaPush<Color>(l, Color4f(c.x, c.y, c.z, c.w));
+	return 1;
 }
 
 static int l_pigui_push_style_var(lua_State *l)
@@ -1866,6 +1908,13 @@ static int l_pigui_next_item_width(lua_State *l)
 	return 0;
 }
 
+static int l_pigui_calc_item_width(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LuaPush(l, ImGui::CalcItemWidth());
+	return 1;
+}
+
 static int l_pigui_push_id(lua_State *l)
 {
 	PROFILE_SCOPED()
@@ -2715,10 +2764,10 @@ static int l_pigui_color_edit(lua_State *l)
 {
 	const char *lbl = LuaPull<const char *>(l, 1);
 	Color4f color = LuaPull<Color>(l, 2).ToColor4f();
-	bool hasAlpha = LuaPull<bool>(l, 3, true);
+	const auto lua_flags = LuaPull<ImGuiColorEditFlags_>(l, 3, ImGuiColorEditFlags_None);
 
 	const auto flags = ImGuiColorEditFlags_InputRGB | ImGuiColorEditFlags_NoDragDrop;
-	bool ok = ImGui::ColorEdit4(lbl, &color.r, flags | (hasAlpha ? ImGuiColorEditFlags_None : ImGuiColorEditFlags_NoAlpha));
+	bool ok = ImGui::ColorEdit4(lbl, &color.r, flags | lua_flags );
 	LuaPush(l, ok);
 	LuaPush(l, Color(color));
 
@@ -2818,16 +2867,20 @@ static int l_pigui_drag_int_4(lua_State *l)
 
 static int l_pigui_increment_drag(lua_State *l)
 {
-	std::string label = LuaPull<std::string>(l, 1);
-	int v = LuaPull<int>(l, 2);
-	int v_min = LuaPull<int>(l, 3);
-	int v_max = LuaPull<int>(l, 4);
-	std::string format = LuaPull<std::string>(l, 5);
+	const char *label = LuaPull<const char*>(l, 1);
+	double value = LuaPull<double>(l, 2);
+	float v_speed = LuaPull<float>(l, 3);
+	double v_min = LuaPull<double>(l, 4);
+	double v_max = LuaPull<double>(l, 5);
+	const char* format = LuaPull<const char*>(l, 6);
+	// optional bool - auto false if empty
+	bool drawProgressBar = LuaPull<bool>(l, 7);
 
-	PiGui::IncrementDrag(label, v, v_min, v_max, format);
+	PiGui::DragChangeMode mode = PiGui::IncrementDrag(label, value, v_speed, v_min, v_max, format, drawProgressBar);
 
-	LuaPush<int>(l, v);
-	return 1;
+	LuaPush(l, value);
+	mode == PiGui::DragChangeMode::NOT_CHANGED ? lua_pushnil(l) : LuaPush(l, (int)mode);
+	return 2;
 }
 
 static int l_pigui_add_convex_poly_filled(lua_State *l)
@@ -3208,6 +3261,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "GetAxisBinding", l_pigui_get_axisbinding },
 		{ "PushStyleColor", l_pigui_push_style_color },
 		{ "PopStyleColor", l_pigui_pop_style_color },
+		{ "GetStyleColor", l_pigui_get_style_color },
 		{ "PushStyleVar", l_pigui_push_style_var },
 		{ "PopStyleVar", l_pigui_pop_style_var },
 		{ "Columns", l_pigui_columns },
@@ -3254,6 +3308,7 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 		{ "PushItemWidth", l_pigui_push_item_width },
 		{ "PopItemWidth", l_pigui_pop_item_width },
 		{ "NextItemWidth", l_pigui_next_item_width },
+		{ "CalcItemWidth", l_pigui_calc_item_width },
 		{ "PushTextWrapPos", l_pigui_push_text_wrap_pos },
 		{ "PopTextWrapPos", l_pigui_pop_text_wrap_pos },
 		{ "BeginPopup", l_pigui_begin_popup },
@@ -3377,4 +3432,5 @@ void LuaObject<PiGui::Instance>::RegisterClass()
 	imguiHoveredFlagsTable.Register(l, "ImGuiHoveredFlags");
 	imguiTableFlagsTable.Register(l, "ImGuiTableFlags");
 	imguiTableColumnFlagsTable.Register(l, "ImGuiTableColumnFlags");
+	imguiColorEditFlagsTable.Register(l, "ImGuiTableColumnFlags");
 }

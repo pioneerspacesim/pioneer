@@ -46,7 +46,7 @@ public:
 	static void SaveGame(const std::string &filename, Game *game);
 
 	// start docked in station referenced by path or nearby to body if it is no station
-	Game(const SystemPath &path, const double startDateTime = 0.0);
+	Game(const SystemPath &path, const double startDateTime, const char *shipType = "kanara");
 
 	// load game
 	Game(const Json &jsonObj);

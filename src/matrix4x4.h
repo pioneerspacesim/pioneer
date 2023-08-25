@@ -245,7 +245,7 @@ public:
 
 		const T e = 1 / tan(fovR / T(2));
 		const T x = fovX ? e : e / aspect;
-		const T y = fovX ? e / aspect : e;
+		const T y = fovX ? e * aspect : e;
 		const T z = (znear) / (zfar - znear);
 		const T w = (zfar * znear) / (zfar - znear);
 

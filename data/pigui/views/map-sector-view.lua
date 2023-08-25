@@ -68,9 +68,9 @@ local onGameStart = function ()
 	-- update visibility states
 	sectorView:SetAutomaticSystemSelection(automatic_system_selection)
 	sectorView:SetDrawOutRangeLabels(draw_out_range_labels)
-	sectorView:SetDrawUninhabitedLabels(draw_uninhabited_labels)
-	sectorView:SetDrawVerticalLines(draw_vertical_lines)
-	sectorView:SetLabelParams("orbiteer", font.size, 2.0, svColor.LABEL_HIGHLIGHT, svColor.LABEL_SHADE)
+	sectorView:GetMap():SetDrawUninhabitedLabels(draw_uninhabited_labels)
+	sectorView:GetMap():SetDrawVerticalLines(draw_vertical_lines)
+	sectorView:GetMap():SetLabelParams("orbiteer", font.size, 2.0, svColor.LABEL_HIGHLIGHT, svColor.LABEL_SHADE)
 	-- allow hyperjump planner to register its events
 	hyperJumpPlanner.onGameStart()
 end
@@ -134,11 +134,11 @@ function Windows.systemInfo:Show()
 		-- selected system label
 		textIcon(icons.info)
 		ui.text(ui.Format.SystemPath(systempath))
-		if not sectorView:IsCenteredOn(systempath) then
+		if not sectorView:GetMap():IsCenteredOn(systempath) then
 			-- add button to center on the object
 			ui.sameLine()
 			if ui.iconButton(icons.maneuver, Vector2(ui.getTextLineHeight()), lui.CENTER_ON_SYSTEM, ui.theme.buttonColors.transparent) then
-				sectorView:GotoSystemPath(systempath)
+				sectorView:GetMap():GotoSystemPath(systempath)
 			end
 		end
 
@@ -247,7 +247,7 @@ local function showSettings()
 	local changed
 	changed, draw_vertical_lines = ui.checkbox(lc.DRAW_VERTICAL_LINES, draw_vertical_lines)
 	if changed then
-		sectorView:SetDrawVerticalLines(draw_vertical_lines)
+		sectorView:GetMap():SetDrawVerticalLines(draw_vertical_lines)
 	end
 	changed, draw_out_range_labels = ui.checkbox(lc.DRAW_OUT_RANGE_LABELS, draw_out_range_labels)
 	if changed then
@@ -255,7 +255,7 @@ local function showSettings()
 	end
 	changed, draw_uninhabited_labels = ui.checkbox(lc.DRAW_UNINHABITED_LABELS, draw_uninhabited_labels)
 	if changed then
-		sectorView:SetDrawUninhabitedLabels(draw_uninhabited_labels)
+		sectorView:GetMap():SetDrawUninhabitedLabels(draw_uninhabited_labels)
 	end
 	changed, automatic_system_selection = ui.checkbox(lc.AUTOMATIC_SYSTEM_SELECTION, automatic_system_selection)
 	if changed then
@@ -270,9 +270,9 @@ function Windows.edgeButtons.Show()
 		sectorView:ResetView()
 	end
 	ui.mainMenuButton(icons.rotate_view, lui.ROTATE_VIEW)
-	sectorView:SetRotateMode(ui.isItemActive())
+	sectorView:GetMap():SetRotateMode(ui.isItemActive())
 	ui.mainMenuButton(icons.search_lens, lui.ZOOM)
-	sectorView:SetZoomMode(ui.isItemActive())
+	sectorView:GetMap():SetZoomMode(ui.isItemActive())
 	ui.text("")
 	-- settings buttons
 	if ui.mainMenuButton(icons.settings, lui.SETTINGS) then
@@ -335,11 +335,11 @@ function Windows.searchBar:Show()
 		ui.spacing()
 		local parsedSystem = changed and search_text ~= "" and SystemPath.ParseString(search_text)
 		if parsedSystem and parsedSystem ~= nil then
-			sectorView:GotoSectorPath(parsedSystem)
+			sectorView:GetMap():GotoSectorPath(parsedSystem)
 		end
 
 		if search_text ~= searchString then
-			systemPaths = search_text ~= "" and sectorView:SearchNearbyStarSystemsByName(search_text)
+			systemPaths = search_text ~= "" and sectorView:GetMap():SearchNearbyStarSystemsByName(search_text)
 			searchString = search_text
 		end
 
@@ -381,14 +381,14 @@ end
 function Windows.factions.Show()
 	textIcon(icons.shield)
 	ui.text("Factions")
-	local factions = sectorView:GetFactions()
+	local factions = sectorView:GetMap():GetFactions()
 	for _,f in pairs(factions) do
 		local changed, value
 		ui.withStyleColors({ ["Text"] = Color(f.faction.colour.r, f.faction.colour.g, f.faction.colour.b) }, function()
 			changed, value = ui.checkbox(f.faction.name, f.visible)
 		end)
 		if changed then
-			sectorView:SetFactionVisible(f.faction, value)
+			sectorView:GetMap():SetFactionVisible(f.faction, value)
 		end
 	end
 end
@@ -431,7 +431,7 @@ ui.registerModule("game", { id = 'map-sector-view', draw = function()
 
 		if ui.isKeyReleased(ui.keys.tab) then
 			sectorViewLayout.enabled = not sectorViewLayout.enabled
-			sectorView:SetLabelsVisibility(not sectorViewLayout.enabled)
+			sectorView:GetMap():SetLabelsVisibility(not sectorViewLayout.enabled)
 		end
 
 		if ui.escapeKeyReleased() then
