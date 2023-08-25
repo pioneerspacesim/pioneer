@@ -19,32 +19,28 @@
 
 #include "core/macros.h"
 
-// void Error(const char *format, ...) __attribute((format(printf, 1, 2))) __attribute((noreturn));
-// void Warning(const char *format, ...) __attribute((format(printf, 1, 2)));
-// void Output(const char *format, ...) __attribute((format(printf, 1, 2)));
-
 template <typename... Args>
 inline void Output(const char *message, Args... args)
 {
-	Log::LogOld(Log::Severity::Info, fmt::sprintf(message, args...));
+	Log::LogOld(Log::Severity::Info, message, fmt::make_printf_args(args...));
 }
 
 template <typename... Args>
 inline void Warning(const char *message, Args... args)
 {
-	Log::LogOld(Log::Severity::Warning, fmt::sprintf(message, args...));
+	Log::LogOld(Log::Severity::Warning, message, fmt::make_printf_args(args...));
 }
 
 template <typename... Args>
 [[noreturn]] inline void Error(const char *message, Args... args)
 {
-	Log::LogFatalOld(fmt::sprintf(message, args...));
+	Log::LogFatalOld(message, fmt::make_printf_args(args...));
 }
 
 template <typename... Args>
 inline void DebugMsg(const char *message, Args... args)
 {
-	Log::LogOld(Log::Severity::Debug, fmt::sprintf(message, args...));
+	Log::LogOld(Log::Severity::Debug, message, fmt::make_printf_args(args...));
 }
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
