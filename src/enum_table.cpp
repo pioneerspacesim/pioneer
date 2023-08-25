@@ -134,14 +134,14 @@ const struct EnumItem ENUM_SystemViewMode[] = {
 };
 
 const struct EnumItem ENUM_SystemViewColorIndex[] = {
-	{ "GRID", int(SystemView::GRID) },
-	{ "GRID_LEG", int(SystemView::GRID_LEG) },
-	{ "SYSTEMBODY", int(SystemView::SYSTEMBODY) },
-	{ "SYSTEMBODY_ORBIT", int(SystemView::SYSTEMBODY_ORBIT) },
-	{ "PLAYER_ORBIT", int(SystemView::PLAYER_ORBIT) },
-	{ "PLANNER_ORBIT", int(SystemView::PLANNER_ORBIT) },
-	{ "SELECTED_SHIP_ORBIT", int(SystemView::SELECTED_SHIP_ORBIT) },
-	{ "SHIP_ORBIT", int(SystemView::SHIP_ORBIT) },
+	{ "GRID", int(SystemMapViewport::GRID) },
+	{ "GRID_LEG", int(SystemMapViewport::GRID_LEG) },
+	{ "SYSTEMBODY", int(SystemMapViewport::SYSTEMBODY) },
+	{ "SYSTEMBODY_ORBIT", int(SystemMapViewport::SYSTEMBODY_ORBIT) },
+	{ "PLAYER_ORBIT", int(SystemMapViewport::PLAYER_ORBIT) },
+	{ "PLANNER_ORBIT", int(SystemMapViewport::PLANNER_ORBIT) },
+	{ "SELECTED_SHIP_ORBIT", int(SystemMapViewport::SELECTED_SHIP_ORBIT) },
+	{ "SHIP_ORBIT", int(SystemMapViewport::SHIP_ORBIT) },
 	{ 0, 0 },
 };
 
