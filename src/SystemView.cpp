@@ -1,43 +1,33 @@
 // Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "SDL_keycode.h"
-#include "galaxy/SystemBody.h"
-#include "pigui/LuaPiGui.h"
-
 #include "SystemView.h"
 
 #include "AnimationCurves.h"
 #include "Background.h"
 #include "Game.h"
-#include "GameLog.h"
 #include "Input.h"
-#include "Lang.h"
 #include "Pi.h"
 #include "Player.h"
 #include "SectorView.h"
 #include "Space.h"
-#include "StringF.h"
+#include "gameconsts.h"
+#include "matrix4x4.h"
+
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/SystemPath.h"
-#include "gameconsts.h"
+#include "galaxy/SystemBody.h"
+
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
-#include "lua/LuaObject.h"
-#include "lua/LuaTable.h"
-
-#include "libs.h"
-#include "matrix4x4.h"
 
 #include "imgui/imgui.h"
-
-#include <iomanip>
-#include <sstream>
+#include "SDL_keycode.h"
 
 using namespace Graphics;
 
