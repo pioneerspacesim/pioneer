@@ -26,6 +26,8 @@
 #include "lua/LuaTable.h"
 #include "matrix4x4.h"
 
+#include <unordered_set>
+
 SectorView::~SectorView() {}
 
 using namespace Graphics;
