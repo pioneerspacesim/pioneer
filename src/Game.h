@@ -135,15 +135,15 @@ private:
 
 		void SetRenderer(Graphics::Renderer *r);
 
-		SectorView *m_sectorView;
-		SystemView *m_systemView;
-		WorldView *m_worldView;
-		DeathView *m_deathView;
-		View *m_spaceStationView;
-		View *m_infoView;
+		SectorView *m_sectorView = nullptr;
+		SystemView *m_systemView = nullptr;
+		WorldView *m_worldView = nullptr;
+		DeathView *m_deathView = nullptr;
+		View *m_spaceStationView = nullptr;
+		View *m_infoView = nullptr;
 
 		/* Only use #if WITH_OBJECTVIEWER */
-		ObjectViewerView *m_objectViewerView;
+		ObjectViewerView *m_objectViewerView = nullptr;
 	};
 
 	void CreateViews();
@@ -155,12 +155,12 @@ private:
 	void SwitchToHyperspace();
 	void SwitchToNormalSpace();
 
+	std::unique_ptr<Player> m_player;
+
 	RefCountedPtr<Galaxy> m_galaxy;
 	std::unique_ptr<Views> m_gameViews;
 	std::unique_ptr<Space> m_space;
 	double m_time;
-
-	std::unique_ptr<Player> m_player;
 
 	enum class State {
 		NORMAL,

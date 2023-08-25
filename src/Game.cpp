@@ -814,15 +814,15 @@ void Game::Views::LoadFromJson(const Json &jsonObj, Game *game)
 Game::Views::~Views()
 {
 #if WITH_OBJECTVIEWER
-	delete m_objectViewerView;
+	if (m_objectViewerView) delete m_objectViewerView;
 #endif
 
-	delete m_deathView;
-	delete m_infoView;
-	delete m_spaceStationView;
-	delete m_systemView;
-	delete m_worldView;
-	delete m_sectorView;
+	if (m_deathView) delete m_deathView;
+	if (m_infoView) delete m_infoView;
+	if (m_spaceStationView) delete m_spaceStationView;
+	if (m_systemView) delete m_systemView;
+	if (m_worldView) delete m_worldView;
+	if (m_sectorView) delete m_sectorView;
 }
 
 // XXX this should be in some kind of central UI management class that
