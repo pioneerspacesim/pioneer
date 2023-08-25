@@ -123,8 +123,7 @@ namespace PiGui {
 
 		void describe(bool withFaces = false) const;
 
-		void addGlyph(unsigned short glyph);
-		void sortUsedRanges();
+		bool addGlyph(unsigned short glyph);
 
 	private:
 		PiFontDefinition &m_fontDef;

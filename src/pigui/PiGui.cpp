@@ -344,12 +344,10 @@ void Instance::AddGlyph(ImFont *font, unsigned short glyph)
 	// the first face with a valid glyph will be used to represent it
 
 	PiFont &pifont = pifont_iter->second;
-	pifont.addGlyph(glyph);
-
-	// and enable the flag that all fonts should be rebaked
+	// rebake fonts if the font is capable of providing the glyph
 	// ( see Instance::BakeFont )
-	m_should_bake_fonts = true;
-	return;
+	if (pifont.addGlyph(glyph))
+		m_should_bake_fonts = true;
 }
 
 ImFont *Instance::AddFont(const std::string &name, int size)
@@ -558,7 +556,6 @@ void Instance::BakeFont(PiFont &font)
 	ImFont *imfont = nullptr;
 
 	// note that if there are no ranges at all in the font, it is ignored
-	font.sortUsedRanges();
 	if (font.used_ranges().empty()) {
 		Log::Warning("PiGui font {}:{} has no glyphs, not baking!", font.name(), font.pixelsize());
 		return;
@@ -784,46 +781,20 @@ void PiFace::finishSVGFaceData(ImFont *font, int pixelSize, RasterizeSVGResult *
 // PiGui::PiFont
 //
 
-void PiFont::addGlyph(unsigned short glyph)
+bool PiFont::addGlyph(unsigned short glyph)
 {
 	PROFILE_SCOPED()
 	for (auto &range : m_used_ranges) {
 		if (range.first <= glyph && glyph <= range.second) {
 			// if we already added it once and are trying to add it again,
 			// it's invalid and not covered by any of the faces in this font
-			return;
+			// this avoids spurious rebakes if the font does not provide a glyph
+			// in any of its faces
+			return false;
 		}
 	}
 	m_used_ranges.push_back(std::make_pair(glyph, glyph));
-}
-
-void PiFont::sortUsedRanges()
-{
-	PROFILE_SCOPED()
-	// sort by ascending lower end of range
-	std::sort(m_used_ranges.begin(), m_used_ranges.end(), [](const UsedRange &a, const UsedRange &b) { return a.first < b.first; });
-	// merge adjacent ranges
-	std::vector<UsedRange> merged;
-	UsedRange current(0xffff, 0xffff);
-	for (auto &range : m_used_ranges) {
-		//		Output("> checking 0x%x-0x%x\n", range.first, range.second);
-		if (current.first == 0xffff && current.second == 0xffff)
-			current = range;
-		else {
-			// if only a few are missing in range, just merge nontheless. +5 is 4 missing
-			if (current.second + 5 >= range.first) { // (current.second + 1 == range.first)
-				//				Output("> merging 0x%x-0x%x and 0x%x-0x%x\n", current.first, current.second, range.first, range.second);
-				current.second = range.second;
-			} else {
-				//				Output("> pushing 0x%x-0x%x\n", current.first, current.second);
-				merged.push_back(current);
-				current = range;
-			}
-		}
-	}
-	if (current.first != 0xffff && current.second != 0xffff)
-		merged.push_back(current);
-	m_used_ranges.assign(merged.begin(), merged.end());
+	return true;
 }
 
 void PiFont::describe(bool withFaces) const
