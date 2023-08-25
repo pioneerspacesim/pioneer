@@ -495,9 +495,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 {
 	// call autopilot AI, if active
 	if (m_ship->AIIsActive()) {
-		OS::EnableFPE();
 		m_ship->AITimeStep(timeStep);
-		OS::DisableFPE();
 		// the speed limiter should not work when the autopilot is working
 		if (IsSpeedLimiterActive()) SetSpeedLimiterActive(false);
 		return;
