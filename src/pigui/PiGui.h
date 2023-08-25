@@ -58,6 +58,9 @@ namespace PiGui {
 		const std::string &svgname() const { return m_svgname; }
 		bool isSvgFont() const { return !m_svgname.empty(); }
 
+		int svgRows() const { return m_svgrows; }
+		int svgCols() const { return m_svgcolumns; }
+
 		// Add this fontface at the specified size to the global font atlas
 		ImFont *addTTFFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges);
 
@@ -78,24 +81,19 @@ namespace PiGui {
 		UsedRange m_loadrange; // start and end of font glyphs to load
 	};
 
-	class PiFontDefinition {
+	struct PiFontDefinition {
 	public:
 		PiFontDefinition(const std::string &name) :
-			m_name(name) {}
+			name(name) {}
 		PiFontDefinition(const std::string &name, const std::vector<PiFace> &faces) :
-			m_name(name),
-			m_faces(faces) {}
+			name(name),
+			faces(faces) {}
 		PiFontDefinition() :
-			m_name("unknown") {}
+			name("unknown") {}
 
-		const std::string &name() const { return m_name; }
-
-		const std::vector<PiFace> &faces() const { return m_faces; }
-		std::vector<PiFace> &faces() { return m_faces; }
-
-	private:
-		std::string m_name;
-		std::vector<PiFace> m_faces;
+		std::string name;
+		std::vector<PiFace> faces;
+		bool loadDefaultRange = true;
 	};
 
 	class PiFont {
@@ -115,10 +113,11 @@ namespace PiGui {
 		{
 		}
 
-		const std::string &name() const { return m_fontDef.name(); }
-		std::vector<PiFace> &faces() const { return m_fontDef.faces(); }
+		const std::string &name() const { return m_fontDef.name; }
+		std::vector<PiFace> &faces() const { return m_fontDef.faces; }
 		const std::vector<UsedRange> &used_ranges() const { return m_used_ranges; }
 		int pixelsize() const { return m_pixelsize; }
+		const PiFontDefinition &definition() const { return m_fontDef; }
 
 		std::vector<CustomGlyphData> &custom_glyphs() { return m_custom_glyphs; }
 
@@ -193,8 +192,10 @@ namespace PiGui {
 
 		void AddFontDefinition(const PiFontDefinition &font)
 		{
-			m_font_definitions[font.name()] = font;
+			m_font_definitions[font.name] = font;
 		}
+
+		void LoadFontDefinitionFromFile(const std::string &filePath);
 
 		void BakeFonts();
 		void BakeFont(PiFont &font);

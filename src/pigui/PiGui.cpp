@@ -4,6 +4,7 @@
 #include "PiGui.h"
 #include "FileSystem.h"
 #include "Input.h"
+#include "JsonUtils.h"
 #include "Pi.h"
 #include "PiGuiRenderer.h"
 
@@ -230,42 +231,18 @@ Instance::Instance(GuiApplication *app) :
 	m_debugStyle(),
 	m_debugStyleActive(false)
 {
-	// TODO: clang-format doesn't like list initializers inside function calls
-	// clang-format off
+	FileSystem::FileEnumerator dir(FileSystem::gameDataFiles, "fonts/");
+	for(const FileSystem::FileInfo &fileInfo : dir) {
+		if (ends_with_ci(fileInfo.GetPath(), ".json")) {
+			try {
+				LoadFontDefinitionFromFile(fileInfo.GetPath());
+			} catch (Json::type_error &e) {
+				Log::Warning("Malformed font definition file {}, not loading.", fileInfo.GetPath());
+			}
+		}
+	}
 
-	// The main face of the font should go first in the list, because:
-	//
-	// - during the first initialization, only the first face is used to bake the
-	// font ( see Instance::AddFont )
-	//
-	// - when a non-standard glyph is found in the text, a search is started in
-	// the faces, and the faces are scanned in the order of this list
-	// ( see Instance::AddGlyph )
-	//
-	// - the default imgui glyph range ( 0x20 .. 0xFF ) is always baked from the
-	// first face, that has some ranges defined
-	// ( see Instance::BakeFont )
-	//
-	// NOTE: most of this winds up handled by ImGui's font builder code
-
-	PiFontDefinition uiheading("orbiteer", {
-		PiFace("Orbiteer-Bold.ttf", 1.0), // imgui only supports 0xffff, not 0x10ffff
-		PiFace("DejaVuSans.ttf", /*18.0/20.0*/ 1.2),
-		PiFace("wqy-microhei.ttc", 1.0),
-		PiFace("icons/icons.svg", 0xF000, 16, 19)
-	});
-	AddFontDefinition(uiheading);
-
-	PiFontDefinition guifont("pionillium", {
-		PiFace("PionilliumText22L-Medium.ttf", 1.0),
-		PiFace("DejaVuSans.ttf", 13.0 / 14.0),
-		PiFace("wqy-microhei.ttc", 1.0),
-		PiFace("icons/icons.svg", 0xF000, 16, 19)
-	});
-	AddFontDefinition(guifont);
-	// clang-format on
-
-	Log::Info("Font Sources:");
+	Log::Info("Loaded PiGui fonts from disk:");
 	for (auto &entry : m_font_definitions) {
 		PiFont(entry.second, 0).describe(true);
 	}
@@ -274,6 +251,49 @@ Instance::Instance(GuiApplication *app) :
 	GetFont("pionillium", 14);
 
 	StyleColorsDarkPlus(m_debugStyle);
+}
+
+void Instance::LoadFontDefinitionFromFile(const std::string &filePath)
+{
+	Json fontInfo = JsonUtils::LoadJsonDataFile(filePath);
+
+	std::string fontName = fontInfo["name"].get<std::string>();
+	if (fontName.empty()) {
+		Log::Warning("Malformed font definition {}, not loading.", filePath);
+		return;
+	}
+
+	PiFontDefinition fontDef (fontName);
+	fontDef.loadDefaultRange = fontInfo.value("loadDefaultRange", true);
+
+	for (auto &entry : fontInfo["faces"]) {
+		if (!entry.is_object())
+			continue;
+
+		if (entry["fontFile"].is_string()) {
+			fontDef.faces.emplace_back(
+				entry["fontFile"].get<std::string>(),
+				entry.value("scale", 1.0)
+			);
+		} else if (entry["svgFile"].is_string()) {
+			uint32_t rangeBase = 0xF000;
+			sscanf(entry.value("rangeBase", "0xF000").c_str(), "%x", &rangeBase);
+
+			fontDef.faces.emplace_back(
+				entry["svgFile"].get<std::string>(),
+				rangeBase,
+				entry["grid"][0].get<int>(),
+				entry["grid"][1].get<int>()
+			);
+		}
+	}
+
+	if (fontDef.faces.empty()) {
+		Log::Warning("Font definition {} has no valid faces.", filePath);
+		return;
+	}
+
+	AddFontDefinition(fontDef);
 }
 
 void Instance::SetDebugStyle()
@@ -447,11 +467,6 @@ void Instance::NewFrame()
 	// issuing draw commands and rendering
 	if (m_should_bake_fonts) {
 		BakeFonts();
-
-		// Log::Info("POST FONT BAKE:");
-		// for (auto &pair : m_im_fonts) {
-		// 	Log::Info("({}) -> {}:{}", (void *)pair.first, pair.second.first, pair.second.second);
-		// }
 	}
 
 	switch (m_renderer->GetRendererType()) {
@@ -552,7 +567,8 @@ void Instance::BakeFont(PiFont &font)
 	ImFontGlyphRangesBuilder gb;
 
 	// ( default imgui glyph range - 0x0020 .. 0x00FF : Basic Latin + Latin Supplement )
-	gb.AddRanges(io.Fonts->GetGlyphRangesDefault());
+	if (font.definition().loadDefaultRange)
+		gb.AddRanges(io.Fonts->GetGlyphRangesDefault());
 
 	// Add any glyphs outside of the default range that have been used at least once before
 	ImWchar gr[3] = { 0, 0, 0 };
@@ -567,8 +583,23 @@ void Instance::BakeFont(PiFont &font)
 
 	gb.BuildRanges(font_char_ranges);
 
+	ImFontConfig config;
+
+	// Set the ImGui font name for debugging purposes
+	std::string name = fmt::format("{}:{}", font.name(), font.pixelsize());
+	strncpy(config.Name, name.c_str(), 40);
+
+	// The main face of the font should go first in the list, because:
+	//
+	// - when a glyph is loaded from the font, a search is started in
+	// the faces, and the faces are scanned in the order of this list
+	// ( see ImFontAtlasBuildWithStbTruetype in imgui.cpp )
+	//
+	// - the default imgui glyph range ( 0x20 .. 0xFF ) is almost always
+	// defined in every font, so the first font will provide the glyphs for
+	// the basic range
+	//
 	for (PiFace &face : font.faces()) {
-		ImFontConfig config;
 		config.MergeMode = imfont != nullptr;
 
 		if (face.isSvgFont()) {
@@ -756,7 +787,6 @@ void PiFace::finishSVGFaceData(ImFont *font, int pixelSize, RasterizeSVGResult *
 void PiFont::addGlyph(unsigned short glyph)
 {
 	PROFILE_SCOPED()
-	Log::Debug("- PiFont {}:{} adding glyph {:x}", name(), pixelsize(), glyph);
 	for (auto &range : m_used_ranges) {
 		if (range.first <= glyph && glyph <= range.second) {
 			// if we already added it once and are trying to add it again,
@@ -798,11 +828,14 @@ void PiFont::sortUsedRanges()
 
 void PiFont::describe(bool withFaces) const
 {
-	Log::Info("font {}:{} ({})\n", name(), pixelsize(), (void *)this);
+	Log::Info("font {}:{}\n", name(), pixelsize());
 
 	if (withFaces) {
 		for (const PiFace &face : faces()) {
-			Log::Info("- {} {}\n", face.ttfname(), face.sizefactor());
+			if (face.isSvgFont())
+				Log::Info("  - {} {}x{}\n", face.svgname(), face.svgCols(), face.svgRows());
+			else
+				Log::Info("  - {} {}\n", face.ttfname(), face.sizefactor());
 		}
 	}
 }

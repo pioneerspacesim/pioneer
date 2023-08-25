@@ -1,35 +1,23 @@
 {
-   "name" : "UIMonoFont",
-   "faces" : [
-      {
-         "fontFile" : "Inpionata.ttf",
-         "pixelWidth" : 18,
-         "pixelHeight" : 18
-      },
-      {
-         "fontFile" : "DejaVuSansMono.ttf",
-         "pixelWidth" : 16,
-         "pixelHeight" : 16,
-         "ranges" : [
-            [ "0x0400", "0x04FF" ],
-            [ "0x0500", "0x0527" ],
-            [ "0x2DE0", "0x2DFF" ],
-            [ "0xA640", "0xA697" ],
-            [ "0xA69F", "0xA69F" ],
-			[ "0x0600", "0x06FF" ]
-         ]
-      },
-      {
-        "fontFile" : "wqy-microhei.ttc",
-        "pixelWidth" : 18,
-        "pixelHeight" : 18,
-        "ranges" : [
-            [ "0x4E00",  "0x9FFF"  ],
-            [ "0x3400",  "0x4DFF"  ],
-            [ "0x20000", "0x2A6DF" ],
-            [ "0xF900",  "0xFAFF"  ],
-            [ "0x2F800", "0x2FA1F" ]
-        ]
-      }
+	"name": "console",
+	"loadDefaultRange": true,
+	"faces": [
+		{
+			"fontFile": "Inpionata.ttf",
+			"scale": 1.0
+	  	},
+		{
+			"fontFile": "DejaVuSansMono.ttf",
+			"scale": 1.2
+	  	},
+		{
+			"fontFile": "wqy-microhei.ttc",
+			"scale": 1.0
+	  	},
+		{
+			"svgFile": "icons/icons.svg",
+			"rangeBase": "0xF000",
+			"grid": [ 16, 19 ]
+		}
    ]
 }

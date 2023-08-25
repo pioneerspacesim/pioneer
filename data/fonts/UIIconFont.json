@@ -1,17 +1,9 @@
 {
-	"name": "pionillium",
-	"loadDefaultRange": true,
+	"name": "icons",
+	"loadDefaultRange": false,
 	"faces": [
 		{
 			"fontFile": "PionilliumText22L-Medium.ttf",
-			"scale": 1.0
-		},
-		{
-			"fontFile": "DejaVuSans.ttf",
-			"scale": 0.928571429
-		},
-		{
-			"fontFile": "wqy-microhei.ttc",
 			"scale": 1.0
 		},
 		{
