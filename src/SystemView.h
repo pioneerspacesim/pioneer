@@ -57,6 +57,24 @@ struct ProjectedOrbit {
 	double planetRadius;
 };
 
+/**
+ * Projectable is used as an opaque data container to represent an
+ * "object track" that the system map operates on. External systems push
+ * a projectable to represent a sensor contact or object in worldspace that
+ * should be visible to the player, and the map is responsible for transforming
+ * and culling them.
+ *
+ * OBJECT-type projectables refer to a concrete body or sensor contact, and can
+ * potentially be centered, focused, and selected by the user.
+ *
+ * All other projectable types represent visual-only elements which represent
+ * the intent to draw icons or orbit lines to the system map.
+ *
+ * User code is permitted to extend the Projectable::types enum by passing
+ * integer values beyond types::_MAX to implement custom projectable types if
+ * needed. This should only be done with a wholly-owned SystemMapViewport
+ * however (i.e. don't use it with SystemView).
+ */
 struct Projectable {
 	enum types {	// <enum name=ProjectableTypes scope='Projectable' public>
 		NONE = 0,	// empty projectable, don't try to get members
@@ -65,7 +83,8 @@ struct Projectable {
 		L5 = 3,
 		APOAPSIS = 4,
 		PERIAPSIS = 5,
-		ORBIT = 6 // <enum skip>
+		ORBIT = 6, // <enum skip>
+		_MAX = 7 // <enum skip>
 	} type;
 	enum bases {		// <enum name=ProjectableBases scope='Projectable' public>
 		SYSTEMBODY = 0, // ref class SystemBody, may not have a physical body
@@ -135,6 +154,13 @@ struct AtlasBodyLayout {
 
 class SystemMapViewport;
 
+/**
+ * SystemView glues a SystemMapViewport to the PiGuiView framework and handles
+ * most user interaction in the context of a running game.
+ *
+ * It is responsible for pushing ship contacts and managing the orbit planner
+ * interface.
+ */
 class SystemView : public PiGuiView, public DeleteEmitter {
 public:
 	enum class Mode { // <enum name=SystemViewMode scope='SystemView::Mode' public>
@@ -177,6 +203,30 @@ private:
 	bool m_unexplored;
 };
 
+/**
+ * The SystemMapViewport is a context-agnostic map interface concerned with
+ * rendering the layout of the selected system and optionally positioning and
+ * processing Projectables pushed to it by external code.
+ *
+ * It is intentionally "blind" to all Game-related functionality so it can be
+ * used in both a gameplay and tools-related context regardless of whether the
+ * Pi framework is currently running.
+ *
+ * The typical flow for the SystemMap is:
+ *
+ * - Call Update(deltaTime) to handle all per-frame setup and generate
+ *   projectables for all SystemBodies in the current system.
+ *
+ * - Call AddObjectTrack() / AddOrbitTrack() to push any external contacts
+ *   that should be displayed in the map at this time.
+ *
+ * - Call Draw3D() to process all tracks and project bodies to the viewport.
+ *
+ * - Call GroupProjectables() to receive a list of screen-space Projectables
+ *   which the owning application can use to render icons etc. This is an
+ *   expensive operation and should not be called spuriously.
+ *
+ */
 class SystemMapViewport {
 public:
 	SystemMapViewport(GuiApplication *app);
