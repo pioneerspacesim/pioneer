@@ -59,7 +59,7 @@ static void ErrorCheckRecover(ImGuiStackSizes *on_begin, ImGuiErrorLogCallback l
 		if (log_callback) log_callback(user_data, "Recovered from missing PopFont() in '%s'", window->Name);
 		ImGui::PopFont();
 	}
-	while (g.FocusScopeStack.Size > on_begin->SizeOfFocusScopeStack) {
+	while (g.FocusScopeStack.Size > on_begin->SizeOfFocusScopeStack + 1) {
 		if (log_callback) log_callback(user_data, "Recovered from missing PopFocusScope() in '%s'", window->Name);
 		ImGui::PopFocusScope();
 	}
