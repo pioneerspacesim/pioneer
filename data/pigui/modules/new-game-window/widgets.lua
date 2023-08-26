@@ -40,17 +40,14 @@ Widgets.alignLabel = function(label, layout, fnc)
 		-- calculate item's width
 		local before = ui.getCursorPos()
 		fnc()
-		local backup = ui.getCursorPos()
 		ui.sameLine(0)
 		local after = ui.getCursorPos()
 		local width = after.x - before.x
-		layout.itemWidth = layout.itemWidth or width
-		if width < layout.itemWidth then
-			ui.dummy(Vector2(layout.itemWidth - width, 1))
-		else
+
+		if not layout.itemWidth or width > layout.itemWidth then
 			layout.itemWidth = width
-			ui.setCursorPos(backup)
 		end
+		ui.dummy(Vector2(layout.itemWidth - width, 1))
 	end
 end
 
