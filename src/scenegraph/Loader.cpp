@@ -1018,6 +1018,9 @@ namespace SceneGraph {
 				if (padID < 240) {
 					return 0x10 + padID;
 				}
+			} else if (nodename.length() >= 14 && nodename.substr(10, 4) == "port") {
+				// entrance port
+				return 0x10;
 			}
 		}
 		//anything else is static collision
