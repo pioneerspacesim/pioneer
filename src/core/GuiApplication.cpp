@@ -248,14 +248,14 @@ void GuiApplication::ShutdownInput()
 PiGui::Instance *GuiApplication::StartupPiGui()
 {
 	PROFILE_SCOPED()
-	m_pigui.reset(new PiGui::Instance(this));
+	m_pigui.Reset(new PiGui::Instance(this));
 	m_pigui->Init(GetRenderer());
-	return m_pigui.get();
+	return m_pigui.Get();
 }
 
 void GuiApplication::ShutdownPiGui()
 {
 	PROFILE_SCOPED()
 	m_pigui->Uninit();
-	m_pigui.reset();
+	m_pigui.Reset();
 }

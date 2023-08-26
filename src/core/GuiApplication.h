@@ -28,7 +28,7 @@ public:
 
 	Graphics::Renderer *GetRenderer() { return m_renderer.get(); }
 	Input::Manager *GetInput() { return m_input.get(); }
-	PiGui::Instance *GetPiGui() { return m_pigui.get(); }
+	PiGui::Instance *GetPiGui() { return m_pigui.Get(); }
 
 protected:
 	// Called at the end of the frame automatically, blits the RT onto the application
@@ -77,7 +77,7 @@ protected:
 private:
 	Graphics::RenderTarget *CreateRenderTarget(const Graphics::Settings &settings);
 
-	std::unique_ptr<PiGui::Instance> m_pigui;
+	RefCountedPtr<PiGui::Instance> m_pigui;
 	std::unique_ptr<Input::Manager> m_input;
 
 	std::string m_applicationTitle;
