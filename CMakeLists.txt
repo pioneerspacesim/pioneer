@@ -37,6 +37,8 @@ if (MSVC)
     # Disable warning C4506 so that src/lua/LuaObject.h: template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o);
     # doesn't spew multiple warnings
 
+	add_definitions(-DNOMINMAX)
+
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /wd4506")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /wd4506")
 endif (MSVC)

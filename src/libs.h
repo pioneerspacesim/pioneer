@@ -39,8 +39,6 @@
 #endif
 #endif
 
-#define SIZET_FMT "%zu"
-
 #include "fixed.h"
 #include "matrix3x3.h"
 #include "matrix4x4.h"
@@ -57,6 +55,7 @@
 
 #include "profiler/Profiler.h"
 
+#include "core/StringUtils.h"
 #include "core/macros.h"
 
 #include "MathUtil.h"

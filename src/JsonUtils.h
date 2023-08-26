@@ -97,4 +97,22 @@ inline void from_json(const Json &obj, Color3ub &col) { JsonToColor(&col, obj); 
 inline void from_json(const Json &obj, Color4ub &col) { JsonToColor(&col, obj); }
 inline void from_json(const Json &obj, FrameId &id) { id = (int)obj; }
 
+// String formatting utils
+// TODO: nlohmann::json can round-trip doubles to and from json with no precision loss
+// should we keep munging doubles to string?
+
+void Vector3fToStr(const vector3f &val, char *out, size_t size);
+void Vector3dToStr(const vector3d &val, char *out, size_t size);
+void Matrix3x3fToStr(const matrix3x3f &val, char *out, size_t size);
+void Matrix3x3dToStr(const matrix3x3d &val, char *out, size_t size);
+void Matrix4x4fToStr(const matrix4x4f &val, char *out, size_t size);
+void Matrix4x4dToStr(const matrix4x4d &val, char *out, size_t size);
+
+void StrToVector3f(const char *str, vector3f &val);
+void StrToVector3d(const char *str, vector3d &val);
+void StrToMatrix3x3f(const char *str, matrix3x3f &val);
+void StrToMatrix3x3d(const char *str, matrix3x3d &val);
+void StrToMatrix4x4f(const char *str, matrix4x4f &val);
+void StrToMatrix4x4d(const char *str, matrix4x4d &val);
+
 #endif /* _JSON_UTILS_H */

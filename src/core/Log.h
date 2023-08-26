@@ -111,3 +111,28 @@ namespace Log {
 	}
 
 } // namespace Log
+
+// Compatibility functions for old printf-style formatting
+template <typename... Args>
+inline void Output(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Info, message, fmt::make_printf_args(args...));
+}
+
+template <typename... Args>
+inline void Warning(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Warning, message, fmt::make_printf_args(args...));
+}
+
+template <typename... Args>
+[[noreturn]] inline void Error(const char *message, Args... args)
+{
+	Log::LogFatalOld(message, fmt::make_printf_args(args...));
+}
+
+template <typename... Args>
+inline void DebugMsg(const char *message, Args... args)
+{
+	Log::LogOld(Log::Severity::Debug, message, fmt::make_printf_args(args...));
+}
