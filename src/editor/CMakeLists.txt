@@ -25,5 +25,6 @@ list(APPEND EDITOR_LIBRARIES
 )
 
 add_executable(editor WIN32 editormain.cpp ${RESOURCES})
+set_cxx_properties(editor)
 target_link_libraries(editor LINK_PRIVATE ${EDITOR_LIBRARIES} ${pioneerLibs} ${winLibs})
 set_target_properties(editor PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
