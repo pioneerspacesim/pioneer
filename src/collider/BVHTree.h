@@ -5,9 +5,7 @@
 #define _BVHTREE_H
 
 #include "../Aabb.h"
-#include "../utils.h"
 #include "../vector3.h"
-#include <assert.h>
 #include <vector>
 
 struct BVHNode {
@@ -50,11 +48,7 @@ private:
 		const Aabb *objAabbs,
 		std::vector<objPtr_t> &activeObjIdxs);
 	void MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs);
-	BVHNode *AllocNode()
-	{
-		if (m_nodeAllocPos >= m_nodeAllocMax) Error("Out of space in m_bvhNodes.");
-		return &m_bvhNodes[m_nodeAllocPos++];
-	}
+	BVHNode *AllocNode();
 	BVHNode *m_root;
 	objPtr_t *m_objPtrAlloc;
 	size_t m_objPtrAllocPos;

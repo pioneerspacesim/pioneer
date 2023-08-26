@@ -9,7 +9,6 @@
 #include "StringName.h"
 #include "TaskGraph.h"
 #include "profiler/Profiler.h"
-#include "utils.h"
 
 #include "SDL_timer.h"
 

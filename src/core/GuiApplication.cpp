@@ -16,7 +16,6 @@
 #include "pigui/PiGui.h"
 #include "pigui/PiGuiRenderer.h"
 #include "profiler/Profiler.h"
-#include "utils.h"
 #include "versioningInfo.h"
 
 GuiApplication::GuiApplication(std::string title) :

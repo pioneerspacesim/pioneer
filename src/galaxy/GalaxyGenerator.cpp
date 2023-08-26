@@ -5,10 +5,10 @@
 
 #include "GameSaveError.h"
 #include "Json.h"
+#include "core/Log.h"
 #include "SectorGenerator.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystemGenerator.h"
-#include "utils.h"
 
 static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 1;
 

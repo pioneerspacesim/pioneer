@@ -8,7 +8,7 @@
 #include "GameSaveError.h"
 #include "Json.h"
 #include "Sector.h"
-#include "utils.h"
+#include "core/Log.h"
 
 // FIXME(sturnclaw): don't need to be pulling in SDL_image here
 #include <SDL_image.h>
