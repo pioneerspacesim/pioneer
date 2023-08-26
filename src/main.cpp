@@ -11,6 +11,7 @@
 #include "utils.h"
 #include "versioningInfo.h"
 
+#include <SDL.h>
 #include <cstdio>
 #include <cstdlib>
 
