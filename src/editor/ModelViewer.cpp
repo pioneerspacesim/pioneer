@@ -7,6 +7,7 @@
 #include "GameSaveError.h"
 #include "NavLights.h"
 #include "PngWriter.h"
+#include "Random.h"
 #include "SDL_keycode.h"
 
 #include "core/Log.h"

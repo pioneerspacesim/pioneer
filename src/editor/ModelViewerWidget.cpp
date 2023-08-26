@@ -3,10 +3,12 @@
 
 #include "ModelViewerWidget.h"
 
+#include "MathUtil.h"
 #include "NavLights.h"
 #include "Shields.h"
 
 #include "core/Log.h"
+#include "core/StringUtils.h"
 #include "editor/EditorApp.h"
 #include "editor/EditorDraw.h"
 

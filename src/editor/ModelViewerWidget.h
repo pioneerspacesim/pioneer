@@ -5,6 +5,7 @@
 
 #include "ViewportWindow.h"
 
+#include "Color.h"
 #include "Input.h"
 #include "core/Log.h"
 
