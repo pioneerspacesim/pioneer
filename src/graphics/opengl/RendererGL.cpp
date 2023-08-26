@@ -3,6 +3,7 @@
 
 #include "RendererGL.h"
 #include "RefCounted.h"
+#include "MathUtil.h"
 #include "SDL_video.h"
 #include "StringF.h"
 
@@ -28,6 +29,8 @@
 #include "VertexBufferGL.h"
 
 #include "core/Log.h"
+
+#include <SDL.h>
 
 #include <cstddef> //for offsetof
 #include <iterator>

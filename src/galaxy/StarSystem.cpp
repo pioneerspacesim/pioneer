@@ -15,7 +15,9 @@
 #include "enum_table.h"
 #include "galaxy/Economy.h"
 #include "lua/LuaEvent.h"
-#include "utils.h"
+#include "core/StringUtils.h"
+#include "profiler/Profiler.h"
+
 #include <SDL_stdinc.h>
 #include <algorithm>
 #include <map>

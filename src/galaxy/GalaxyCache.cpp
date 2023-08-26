@@ -9,7 +9,8 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
-#include "utils.h"
+#include "core/Log.h"
+#include "profiler/Profiler.h"
 #include <utility>
 
 //#define DEBUG_CACHE

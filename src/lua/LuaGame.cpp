@@ -7,6 +7,7 @@
 #include "FileSystem.h"
 #include "Game.h"
 #include "GameSaveError.h"
+#include "Json.h"
 #include "Lang.h"
 #include "LuaObject.h"
 #include "LuaTable.h"

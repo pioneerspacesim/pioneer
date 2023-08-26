@@ -5,7 +5,7 @@
 #define _FRUSTUM_H
 
 #include "Plane.h"
-#include "libs.h"
+#include "matrix4x4.h"
 #include "vector3.h"
 
 namespace Graphics {

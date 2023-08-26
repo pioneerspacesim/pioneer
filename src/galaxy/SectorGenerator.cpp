@@ -9,7 +9,8 @@
 #include "Galaxy.h"
 #include "GameSaveError.h"
 #include "Json.h"
-#include "utils.h"
+#include "core/StringUtils.h"
+#include "core/macros.h"
 
 #define Square(x) ((x) * (x))
 
@@ -122,7 +123,7 @@ namespace Katakana {
 		"fu","he","ho","ba","bi","bu","be","ma",
 		"mi","mu","me","mo","ya","yu","yo","ri",
 		"ru","wa","jo","a","i","u","e","o",
-		
+
 	};
 	static const char *MiddleFragments[] = {
 		"sshi","ppo","tto","mbo","kka","kyu","sho","chu",

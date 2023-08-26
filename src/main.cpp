@@ -8,9 +8,10 @@
 #include "core/OS.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
-#include "libs.h"
 #include "utils.h"
 #include "versioningInfo.h"
+
+#include <SDL.h>
 #include <cstdio>
 #include <cstdlib>
 

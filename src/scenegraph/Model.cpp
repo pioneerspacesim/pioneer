@@ -7,6 +7,7 @@
 #include "FindNodeVisitor.h"
 #include "GameSaveError.h"
 #include "JsonUtils.h"
+#include "MathUtil.h"
 #include "NodeCopyCache.h"
 #include "StringF.h"
 #include "Thruster.h"

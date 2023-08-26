@@ -5,6 +5,7 @@
 
 #include "Game.h"
 #include "Lang.h"
+#include "Json.h"
 #include "Pi.h"
 #include "Sfx.h"
 #include "Ship.h"

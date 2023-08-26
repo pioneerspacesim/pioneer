@@ -2,9 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BVHTree.h"
-#include "buildopts.h"
-#include <float.h>
-#include <stdio.h>
+
+#include "core/Log.h"
+#include "profiler/Profiler.h"
 
 const int MAX_SPLITPOS_RETRIES = 15;
 
@@ -30,21 +30,22 @@ BVHTree::BVHTree(int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs)
 	BuildNode(m_root, objPtrs, objAabbs, activeObjIdxs);
 
 	timer.Stop();
-	//Output(" - - - BVHTree::BVHTree took: %lf milliseconds\n", timer.millicycles());
+	//Log::Debug(" - - - BVHTree::BVHTree took: {} milliseconds\n", timer.millicycles());
 }
 
 void BVHTree::MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs)
 {
 	const size_t numTris = objs.size();
-	if (numTris <= 0) Error("MakeLeaf called with no elements in objs.");
+	if (numTris <= 0)
+		Log::Error("MakeLeaf called with no elements in objs.");
 
 	if (numTris > m_objPtrAllocMax - m_objPtrAllocPos) {
-		Error("Out of space in m_objPtrAlloc. Left: " SIZET_FMT "; required: " SIZET_FMT ".", m_objPtrAllocMax - m_objPtrAllocPos, numTris);
+		Log::Error("Out of space in m_objPtrAlloc. Left: {}; required: {}.", m_objPtrAllocMax - m_objPtrAllocPos, numTris);
 	}
 
 	node->numTris = numTris;
 	node->triIndicesStart = &m_objPtrAlloc[m_objPtrAllocPos];
-	//if (objs.size()>3) Output("fat node %d\n", objs.size());
+	//if (objs.size()>3) Log::Debug("fat node {}\n", objs.size());
 
 	// copy tri indices to the stinking flat array
 	for (int i = numTris - 1; i >= 0; i--) {
@@ -58,7 +59,8 @@ void BVHTree::BuildNode(BVHNode *node,
 	std::vector<objPtr_t> &activeObjIdx)
 {
 	const int numTris = activeObjIdx.size();
-	if (numTris <= 0) Error("BuildNode called with no elements in activeObjIndex.");
+	if (numTris <= 0)
+		Log::Error("BuildNode called with no elements in activeObjIndex.");
 
 	if (numTris == 1) {
 		MakeLeaf(node, objPtrs, activeObjIdx);
@@ -148,4 +150,11 @@ void BVHTree::BuildNode(BVHNode *node,
 
 	BuildNode(node->kids[0], objPtrs, objAabbs, side[0]);
 	BuildNode(node->kids[1], objPtrs, objAabbs, side[1]);
+}
+
+BVHNode *BVHTree::AllocNode()
+{
+	if (m_nodeAllocPos >= m_nodeAllocMax)
+		Log::Error("Out of space in m_bvhNodes.");
+	return &m_bvhNodes[m_nodeAllocPos++];
 }

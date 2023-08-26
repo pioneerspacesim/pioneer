@@ -8,6 +8,7 @@
 #include "FrameId.h"
 #include "Random.h"
 #include "JsonFwd.h"
+#include "matrix4x4.h"
 
 #include <set>
 
@@ -25,7 +26,7 @@ namespace Graphics {
 } // namespace Graphics
 
 namespace FileSystem {
-	struct FileInfo;
+	class FileInfo;
 } // namespace FileSystem
 
 namespace SceneGraph {

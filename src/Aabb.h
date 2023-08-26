@@ -4,7 +4,7 @@
 #ifndef _AABB_H
 #define _AABB_H
 
-#include "libs.h"
+#include "vector3.h"
 
 struct Aabb {
 	vector3d min, max;

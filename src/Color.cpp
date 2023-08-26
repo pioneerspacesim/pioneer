@@ -4,6 +4,8 @@
 #include "Color.h"
 #include "lua/LuaUtils.h"
 
+#include <cassert>
+
 const Color4f Color4f::BLACK = Color4f(0.0f, 0.0f, 0.0f, 1.0f);
 const Color4f Color4f::WHITE = Color4f(1.0f, 1.0f, 1.0f, 1.0f);
 const Color4f Color4f::RED = Color4f(1.0f, 0.0f, 0.0f, 1.0f);

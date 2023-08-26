@@ -5,7 +5,6 @@
 #define _OBJECTVIEWERVIEW_H
 
 #include "Camera.h"
-#include "libs.h"
 #include "pigui/PiGuiView.h"
 
 class Body;

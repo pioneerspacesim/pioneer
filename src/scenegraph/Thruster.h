@@ -6,8 +6,8 @@
 /*
  * Spaceship thruster
  */
+
 #include "Node.h"
-#include "libs.h"
 
 namespace Graphics {
 	class Renderer;

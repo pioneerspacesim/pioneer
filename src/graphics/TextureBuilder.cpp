@@ -3,6 +3,7 @@
 
 #include "TextureBuilder.h"
 #include "FileSystem.h"
+#include "MathUtil.h"
 #include "profiler/Profiler.h"
 #include "utils.h"
 #include <SDL_image.h>

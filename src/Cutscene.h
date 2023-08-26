@@ -4,9 +4,11 @@
 #ifndef _CUTSCENE_H
 #define _CUTSCENE_H
 
+#include "Color.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
-#include "libs.h"
+
+#include <vector>
 
 namespace SceneGraph {
 	class Model;

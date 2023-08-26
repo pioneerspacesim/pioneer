@@ -7,6 +7,9 @@
 #include "ShipController.h"
 #include "ConnectionTicket.h"
 
+#include "vector3.h"
+#include "matrix3x3.h"
+
 // autopilot AI + input
 class PlayerShipController : public ShipController {
 public:

@@ -9,7 +9,7 @@
  */
 #include "CollMesh.h"
 #include "NodeVisitor.h"
-#include "libs.h"
+#include "matrix4x4.h"
 
 namespace SceneGraph {
 	class Group;

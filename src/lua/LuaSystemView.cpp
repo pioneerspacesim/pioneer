@@ -11,6 +11,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "SystemView.h"
+#include "core/Log.h"
 #include "graphics/Graphics.h"
 
 LuaTable projectable_to_lua_row(const Projectable &p, lua_State *l)

@@ -10,6 +10,7 @@
 #include "HudTrail.h"
 #include "HyperspaceCloud.h"
 #include "Input.h"
+#include "Json.h"
 #include "Lang.h"
 #include "Pi.h"
 #include "Player.h"

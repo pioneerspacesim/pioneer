@@ -8,6 +8,7 @@
 #include "Radar.h"
 #include "lua/LuaPiGuiInternal.h"
 #include "lua/LuaTable.h"
+#include "utils.h"
 
 static std::vector<std::pair<std::string, int>> m_keycodes = {
 	{ "left", SDLK_LEFT },

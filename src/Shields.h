@@ -7,8 +7,12 @@
 /*
  * Mesh shields for ships and other objects.
  */
+#include "Color.h"
 #include "JsonFwd.h"
-#include "libs.h"
+#include "RefCounted.h"
+#include "matrix4x4.h"
+#include "vector3.h"
+
 #include <deque>
 
 namespace Graphics {

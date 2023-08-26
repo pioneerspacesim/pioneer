@@ -9,7 +9,8 @@
 #include "galaxy/CustomSystem.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/SystemPath.h"
-#include "libs.h"
+
+#include <sigc++/signal.h>
 #include <string>
 #include <vector>
 

@@ -10,7 +10,6 @@
 #include "ShipAICmd.h"
 #include "Space.h"
 #include "SpaceStation.h"
-#include "libs.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaEvent.h"
 #include "perlin.h"

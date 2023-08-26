@@ -16,6 +16,7 @@
 #include "scenegraph/Node.h"
 #include "scenegraph/SceneGraph.h"
 #include <sstream>
+#include <SDL_timer.h>
 
 namespace {
 	static constexpr size_t MAX_SHIELD_HITS = 8;
@@ -274,6 +275,7 @@ void Shields::LoadFromJson(const Json &jsonObj)
 void Shields::Update(const float coolDown, const float shieldStrength)
 {
 	// update hits on the shields
+	// FIXME: this should use a game-specific clock...
 	const Uint32 tickTime = SDL_GetTicks();
 	{
 		auto it = m_hits.begin();
@@ -334,6 +336,7 @@ void Shields::SetColor(const Color3ub &inCol)
 
 void Shields::AddHit(const vector3d &hitPos)
 {
+	// FIXME: should use the game time
 	Uint32 tickTime = SDL_GetTicks();
 	m_hits.push_back(Hits(hitPos, tickTime, tickTime + 1000));
 }

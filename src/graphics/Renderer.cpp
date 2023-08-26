@@ -5,6 +5,8 @@
 #include "Texture.h"
 #include "jenkins/lookup3.h"
 
+#include <SDL.h>
+
 namespace Graphics {
 
 	Renderer::Renderer(SDL_Window *window, int w, int h) :

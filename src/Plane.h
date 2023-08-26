@@ -6,8 +6,6 @@
 #ifndef _PLANE_H
 #define _PLANE_H
 
-#include <SDL_stdinc.h>
-
 #include "vector3.h"
 
 struct SPlane {

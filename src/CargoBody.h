@@ -5,7 +5,6 @@
 #define _CARGOBODY_H
 
 #include "DynamicBody.h"
-#include "libs.h"
 #include "lua/LuaRef.h"
 
 namespace Graphics {

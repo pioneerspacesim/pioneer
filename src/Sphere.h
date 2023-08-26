@@ -6,8 +6,6 @@
 #ifndef _SPHERE_H
 #define _SPHERE_H
 
-#include <SDL_stdinc.h>
-
 #include "vector3.h"
 
 struct SSphere {

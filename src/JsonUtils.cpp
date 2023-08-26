@@ -10,6 +10,8 @@
 #include "base64/base64.hpp"
 #include "core/GZipFormat.h"
 #include "utils.h"
+
+#include <cinttypes>
 #include <cmath>
 
 extern "C" {
@@ -553,4 +555,281 @@ void from_json(const Json &obj, fixed &f)
 
 		f = fixed(numerator, denominator);
 	}
+}
+
+// TODO: remove these methods and use nlohmann::json's round-trip functionality
+// for IEEE744 doubles
+
+//#define USE_HEX_FLOATS
+#ifndef USE_HEX_FLOATS
+union fu32 {
+	fu32() {}
+	fu32(float fIn) :
+		f(fIn) {}
+	fu32(uint32_t uIn) :
+		u(uIn) {}
+	float f;
+	uint32_t u;
+};
+union fu64 {
+	fu64() {}
+	fu64(double dIn) :
+		d(dIn) {}
+	fu64(uint64_t uIn) :
+		u(uIn) {}
+	double d;
+	uint64_t u;
+};
+#endif // USE_HEX_FLOATS
+
+void Vector3fToStr(const vector3f &val, char *out, size_t size)
+{
+	PROFILE_SCOPED()
+	static_assert(sizeof(vector3f) == 12, "vector3f isn't 12 bytes");
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sprintf(out, "%a,%a,%a", val.x, val.y, val.z);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#else
+	fu32 a(val.x);
+	fu32 b(val.y);
+	fu32 c(val.z);
+	const int amt = sprintf(out, "(%" PRIu32 ",%" PRIu32 ",%" PRIu32 ")", a.u, b.u, c.u);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#endif
+}
+
+void Vector3dToStr(const vector3d &val, char *out, size_t size)
+{
+	PROFILE_SCOPED()
+	static_assert(sizeof(vector3d) == 24, "vector3d isn't 24 bytes");
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sprintf(out, "%la,%la,%la", val.x, val.y, val.z);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#else
+	fu64 a(val.x);
+	fu64 b(val.y);
+	fu64 c(val.z);
+	const int amt = sprintf(out, "(%" PRIu64 ",%" PRIu64 ",%" PRIu64 ")", a.u, b.u, c.u);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#endif
+}
+
+void Matrix3x3fToStr(const matrix3x3f &val, char *out, size_t size)
+{
+	PROFILE_SCOPED()
+	static_assert(sizeof(matrix3x3f) == 36, "matrix3x3f isn't 36 bytes");
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8]);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#else
+	fu32 fuvals[9];
+	for (int i = 0; i < 9; i++)
+		fuvals[i].f = val[i];
+	const int amt = sprintf(out,
+		"(%" PRIu32 ",%" PRIu32 ",%" PRIu32
+		",%" PRIu32 ",%" PRIu32 ",%" PRIu32
+		",%" PRIu32 ",%" PRIu32 ",%" PRIu32 ")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u,
+		fuvals[3].u, fuvals[4].u, fuvals[5].u,
+		fuvals[6].u, fuvals[7].u, fuvals[8].u);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#endif
+}
+
+void Matrix3x3dToStr(const matrix3x3d &val, char *out, size_t size)
+{
+	PROFILE_SCOPED()
+	static_assert(sizeof(matrix3x3d) == 72, "matrix3x3d isn't 72 bytes");
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8]);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#else
+	fu64 fuvals[9];
+	for (int i = 0; i < 9; i++)
+		fuvals[i].d = val[i];
+	const int amt = sprintf(out,
+		"(%" PRIu64 ",%" PRIu64 ",%" PRIu64
+		",%" PRIu64 ",%" PRIu64 ",%" PRIu64
+		",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u,
+		fuvals[3].u, fuvals[4].u, fuvals[5].u,
+		fuvals[6].u, fuvals[7].u, fuvals[8].u);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#endif
+}
+
+void Matrix4x4fToStr(const matrix4x4f &val, char *out, size_t size)
+{
+	PROFILE_SCOPED()
+	static_assert(sizeof(matrix4x4f) == 64, "matrix4x4f isn't 64 bytes");
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8], val[9], val[10], val[11], val[12], val[13], val[14], val[15]);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#else
+	fu32 fuvals[16];
+	for (int i = 0; i < 16; i++)
+		fuvals[i].f = val[i];
+	const int amt = sprintf(out,
+		"(%" PRIu32 ",%" PRIu32 ",%" PRIu32 ",%" PRIu32
+		",%" PRIu32 ",%" PRIu32 ",%" PRIu32 ",%" PRIu32
+		",%" PRIu32 ",%" PRIu32 ",%" PRIu32 ",%" PRIu32
+		",%" PRIu32 ",%" PRIu32 ",%" PRIu32 ",%" PRIu32 ")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u, fuvals[3].u,
+		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u,
+		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u,
+		fuvals[12].u, fuvals[13].u, fuvals[14].u, fuvals[15].u);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#endif
+}
+
+void Matrix4x4dToStr(const matrix4x4d &val, char *out, size_t size)
+{
+	PROFILE_SCOPED()
+	static_assert(sizeof(matrix4x4d) == 128, "matrix4x4d isn't 128 bytes");
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8], val[9], val[10], val[11], val[12], val[13], val[14], val[15]);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#else
+	fu64 fuvals[16];
+	for (int i = 0; i < 16; i++)
+		fuvals[i].d = val[i];
+	const int amt = sprintf(out,
+		"(%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64
+		",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64
+		",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64
+		",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ",%" PRIu64 ")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u, fuvals[3].u,
+		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u,
+		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u,
+		fuvals[12].u, fuvals[13].u, fuvals[14].u, fuvals[15].u);
+	assert(static_cast<size_t>(amt) <= size);
+	(void)amt;
+#endif
+}
+
+void StrToVector3f(const char *str, vector3f &val)
+{
+	PROFILE_SCOPED()
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sscanf(str, "%a,%a,%a", &val.x, &val.y, &val.z);
+	assert(amt == 3);
+	(void)amt;
+#else
+	fu32 a, b, c;
+	const int amt = std::sscanf(str, "(%" SCNu32 ",%" SCNu32 ",%" SCNu32 ")", &a.u, &b.u, &c.u);
+	assert(amt == 3);
+	(void)amt;
+	val.x = a.f;
+	val.y = b.f;
+	val.z = c.f;
+#endif
+}
+
+void StrToVector3d(const char *str, vector3d &val)
+{
+	PROFILE_SCOPED()
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sscanf(str, "%la,%la,%la", &val.x, &val.y, &val.z);
+	assert(amt == 3);
+	(void)amt;
+#else
+	fu64 a, b, c;
+	const int amt = std::sscanf(str, "(%" SCNu64 ",%" SCNu64 ",%" SCNu64 ")", &a.u, &b.u, &c.u);
+	assert(amt == 3);
+	(void)amt;
+	val.x = a.d;
+	val.y = b.d;
+	val.z = c.d;
+#endif
+}
+
+void StrToMatrix3x3f(const char *str, matrix3x3f &val)
+{
+	PROFILE_SCOPED()
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sscanf(str, "%a,%a,%a,%a,%a,%a,%a,%a,%a", &val[0], &val[1], &val[2], &val[3], &val[4], &val[5], &val[6], &val[7], &val[8]);
+	assert(amt == 9);
+	(void)amt;
+#else
+	fu32 fu[9];
+	const int amt = std::sscanf(str, "(%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ")",
+		&fu[0].u, &fu[1].u, &fu[2].u,
+		&fu[3].u, &fu[4].u, &fu[5].u,
+		&fu[6].u, &fu[7].u, &fu[8].u);
+	assert(amt == 9);
+	(void)amt;
+	for (int i = 0; i < 9; i++)
+		val[i] = fu[i].f;
+#endif
+}
+
+void StrToMatrix3x3d(const char *str, matrix3x3d &val)
+{
+	PROFILE_SCOPED()
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sscanf(str, "%la,%la,%la,%la,%la,%la,%la,%la,%la", &val[0], &val[1], &val[2], &val[3], &val[4], &val[5], &val[6], &val[7], &val[8]);
+	assert(amt == 9);
+	(void)amt;
+#else
+	fu64 fu[9];
+	const int amt = std::sscanf(str, "(%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ")",
+		&fu[0].u, &fu[1].u, &fu[2].u,
+		&fu[3].u, &fu[4].u, &fu[5].u,
+		&fu[6].u, &fu[7].u, &fu[8].u);
+	assert(amt == 9);
+	(void)amt;
+	for (int i = 0; i < 9; i++)
+		val[i] = fu[i].d;
+#endif
+}
+
+void StrToMatrix4x4f(const char *str, matrix4x4f &val)
+{
+	PROFILE_SCOPED()
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sscanf(str, "%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a", &val[0], &val[1], &val[2], &val[3], &val[4], &val[5], &val[6], &val[7], &val[8], &val[9], &val[10], &val[11], &val[12], &val[13], &val[14], &val[15]);
+	assert(amt == 16);
+#else
+	fu32 fu[16];
+	const int amt = std::sscanf(str, "(%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ",%" SCNu32 ")",
+		&fu[0].u, &fu[1].u, &fu[2].u, &fu[3].u,
+		&fu[4].u, &fu[5].u, &fu[6].u, &fu[7].u,
+		&fu[8].u, &fu[9].u, &fu[10].u, &fu[11].u,
+		&fu[12].u, &fu[13].u, &fu[14].u, &fu[15].u);
+	assert(amt == 16);
+	(void)amt;
+	for (int i = 0; i < 16; i++)
+		val[i] = fu[i].f;
+#endif
+}
+
+void StrToMatrix4x4d(const char *str, matrix4x4d &val)
+{
+	PROFILE_SCOPED()
+#ifdef USE_HEX_FLOATS
+	const int amt = std::sscanf(str, "%la,%la,%la,%la,%la,%la,%la,%la,%la,%la,%la,%la,%la,%la,%la,%la", &val[0], &val[1], &val[2], &val[3], &val[4], &val[5], &val[6], &val[7], &val[8], &val[9], &val[10], &val[11], &val[12], &val[13], &val[14], &val[15]);
+	assert(amt == 16);
+#else
+	fu64 fu[16];
+	const int amt = std::sscanf(str, "(%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ",%" SCNu64 ")",
+		&fu[0].u, &fu[1].u, &fu[2].u, &fu[3].u,
+		&fu[4].u, &fu[5].u, &fu[6].u, &fu[7].u,
+		&fu[8].u, &fu[9].u, &fu[10].u, &fu[11].u,
+		&fu[12].u, &fu[13].u, &fu[14].u, &fu[15].u);
+	assert(amt == 16);
+	(void)amt;
+	for (int i = 0; i < 16; i++)
+		val[i] = fu[i].d;
+#endif
 }

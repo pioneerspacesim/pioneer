@@ -3,6 +3,8 @@
 
 #include "LuaManager.h"
 #include "FileSystem.h"
+#include "utils.h"
+
 #include <cstdlib>
 
 bool instantiated = false;

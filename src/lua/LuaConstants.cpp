@@ -7,6 +7,8 @@
 #include "EnumStrings.h"
 #include "enum_table.h"
 
+#include <cassert>
+
 /*
  * Namespace: Constants
  *

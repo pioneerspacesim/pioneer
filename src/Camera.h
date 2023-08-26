@@ -6,10 +6,15 @@
 
 #include "Color.h"
 #include "FrameId.h"
+#include "RefCounted.h"
 #include "graphics/Frustum.h"
 #include "graphics/Light.h"
 #include "matrix4x4.h"
 #include "vector3.h"
+
+#include <list>
+#include <memory>
+#include <vector>
 
 class Body;
 class Frame;

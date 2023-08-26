@@ -5,6 +5,7 @@
 #include "FileSystem.h"
 #include "SDLWrappers.h"
 #include "graphics/TextureBuilder.h"
+#include "profiler/Profiler.h"
 
 namespace PiGui {
 

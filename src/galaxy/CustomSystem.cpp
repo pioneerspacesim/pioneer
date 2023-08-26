@@ -11,10 +11,12 @@
 #include "Factions.h"
 #include "FileSystem.h"
 #include "Polit.h"
+#include "core/Log.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaFixed.h"
 #include "lua/LuaUtils.h"
 #include "lua/LuaVector.h"
+
 #include <map>
 
 const CustomSystemsDatabase::SystemList CustomSystemsDatabase::s_emptySystemList; // see: Null Object pattern

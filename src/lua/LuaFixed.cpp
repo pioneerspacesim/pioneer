@@ -3,7 +3,6 @@
 
 #include "LuaFixed.h"
 #include "LuaUtils.h"
-#include "libs.h"
 
 static int l_fixed_new(lua_State *L)
 {

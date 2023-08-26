@@ -12,7 +12,8 @@
  *  - allow "pinned" radar contacts (visible at all ranges, for missions)
  */
 #include "Body.h"
-#include "libs.h"
+
+#include <list>
 
 class Body;
 class HudTrail;

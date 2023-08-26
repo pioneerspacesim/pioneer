@@ -3,6 +3,8 @@
 
 #include "VertexArray.h"
 
+#include "profiler/Profiler.h"
+
 namespace Graphics {
 
 	VertexArray::VertexArray(AttributeSet attribs, int size)

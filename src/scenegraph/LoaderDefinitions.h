@@ -6,7 +6,11 @@
 /*
  * Data strcutrures used by Loader
  */
-#include "libs.h"
+#include "Color.h"
+
+#include <string>
+#include <vector>
+
 namespace SceneGraph {
 
 	struct MaterialDefinition {

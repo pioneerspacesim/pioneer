@@ -39,6 +39,16 @@ if (MSVC)
 
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /wd4506")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /wd4506")
+
+	# Disable warnings to avoid MSVC spam (moved from libs.h):
+	# #pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
+	# #pragma warning(disable : 4800) // int-to-bool "performance warning"
+	# #pragma warning(disable : 4355) // 'this' used in base member initializer list
+	# #pragma warning(disable : 4351) // new behavior [after vs2003!]: elements of array 'array' will be default initialized
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4244 /wd4800 /wd4355 /wd4351")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244 /wd4800 /wd4355 /wd4351")
+
+	add_definitions(-DNOMINMAX)
 endif (MSVC)
 
 if (APPLE)
@@ -62,6 +72,11 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 	endif(USE_LLD_LINKER)
 	set(CMAKE_CXX_FLAGS_DEBUG "-g -Og")
 endif (CMAKE_COMPILER_IS_GNUCXX)
+
+option(USE_TIME_TRACE "Use -ftime-trace to profile compile times (requires Clang)" OFF)
+if (USE_TIME_TRACE)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftime-trace")
+endif()
 
 include(CheckSymbolExists)
 check_symbol_exists(feclearexcept "fenv.h" HAS_FECLEAREXCEPT)
@@ -309,7 +324,6 @@ add_executable(savegamedump
 	src/savegamedump.cpp
 	src/JsonUtils.cpp
 	src/FileSystem.cpp
-	src/utils.cpp
 	src/StringF.cpp
 	src/DateTime.cpp
 	src/Lang.cpp

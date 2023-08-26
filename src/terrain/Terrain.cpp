@@ -6,8 +6,10 @@
 #include "FileSystem.h"
 #include "FloatComparison.h"
 #include "GameConfig.h"
+#include "MathUtil.h"
 #include "perlin.h"
-#include "../utils.h"
+#include "core/macros.h"
+#include "core/Log.h"
 #include "../galaxy/SystemBody.h"
 
 // static instancer. selects the best height and color classes for the body

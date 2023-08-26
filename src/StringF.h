@@ -4,8 +4,9 @@
 #ifndef _STRINGF_H
 #define _STRINGF_H
 
-#include "libs.h"
-#include <SDL_stdinc.h>
+#include "fixed.h"
+#include "core/macros.h"
+
 #include <string>
 
 //   provides (for integer types, floating point types, const char* and std::string):

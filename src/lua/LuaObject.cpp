@@ -9,7 +9,6 @@
 #include "LuaUtils.h"
 #include "LuaWrappable.h"
 #include "PropertiedObject.h"
-#include "libs.h"
 #include "lua.h"
 
 #include <map>

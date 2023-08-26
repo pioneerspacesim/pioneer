@@ -5,10 +5,11 @@
 #include "Beam.h"
 #include "DynamicBody.h"
 #include "GameSaveError.h"
+#include "JsonUtils.h"
+#include "MathUtil.h"
 #include "Projectile.h"
 #include "Quaternion.h"
 #include "StringF.h"
-#include "libs.h"
 #include "scenegraph/Tag.h"
 #include "vector3.h"
 

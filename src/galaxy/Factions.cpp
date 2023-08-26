@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Factions.h"
+#include "core/Log.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Economy.h"
 #include "galaxy/Galaxy.h"
@@ -19,6 +20,9 @@
 #include "lua/LuaFixed.h"
 #include "lua/LuaUtils.h"
 #include "lua/LuaVector.h"
+
+#include "profiler/Profiler.h"
+
 #include <algorithm>
 #include <list>
 #include <set>
@@ -467,7 +471,7 @@ void FactionsDatabase::Init()
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);
 
-	Output("Number of factions added: " SIZET_FMT "\n", m_factions.size());
+	Log::Info("Number of factions added: {}", m_factions.size());
 	ClearHomeSectors();
 	m_galaxy->FlushCaches(); // clear caches of anything we used for faction generation
 	while (!m_missingFactionsMap.empty()) {

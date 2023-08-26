@@ -8,6 +8,7 @@
 #include "MatrixTransform.h"
 #include "StaticGeometry.h"
 #include "collider/GeomTree.h"
+#include "profiler/Profiler.h"
 
 namespace SceneGraph {
 	CollisionVisitor::CollisionVisitor() :

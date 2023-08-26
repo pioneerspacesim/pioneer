@@ -7,6 +7,7 @@
 #include "GameConfig.h"
 #include "GameSaveError.h"
 #include "Input.h"
+#include "Json.h"
 #include "Pi.h"
 #include "Player.h"
 #include "SDL_keycode.h"

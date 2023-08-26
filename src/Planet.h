@@ -4,7 +4,7 @@
 #ifndef _PLANET_H
 #define _PLANET_H
 
-#include "SmartPtr.h"
+#include "RefCounted.h"
 #include "TerrainBody.h"
 #include "graphics/VertexArray.h"
 

@@ -5,6 +5,7 @@
 
 #include "Frame.h"
 #include "Game.h"
+#include "JsonUtils.h"
 #include "Pi.h"
 #include "Planet.h"
 #include "Ship.h"

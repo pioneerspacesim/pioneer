@@ -4,7 +4,7 @@
 #ifndef FIXEDGUNS_H
 #define FIXEDGUNS_H
 
-#include "Json.h"
+#include "JsonFwd.h"
 #include "Projectile.h"
 #include "scenegraph/Model.h"
 #include "vector3.h"

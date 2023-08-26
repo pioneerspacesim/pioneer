@@ -3,6 +3,7 @@
 
 #include "Frustum.h"
 #include "Graphics.h"
+#include "MathUtil.h"
 
 namespace Graphics {
 

@@ -70,9 +70,10 @@
 #include "sound/Sound.h"
 #include "sound/SoundMusic.h"
 
-#include "libs.h"
 #include "versioningInfo.h"
 #include "profiler/Profiler.h"
+
+#include <SDL.h>
 
 #ifdef PROFILE_LUA_TIME
 #include <time.h>

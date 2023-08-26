@@ -5,12 +5,10 @@
 #define _PI_H
 
 #include "Random.h"
+#include "MathUtil.h"
 #include "core/GuiApplication.h"
 #include "gameconsts.h"
-#include "libs.h"
 
-#include "SDL_keyboard.h"
-#include <sigc++/sigc++.h>
 #include <map>
 #include <string>
 #include <vector>

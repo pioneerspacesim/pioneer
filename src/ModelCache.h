@@ -7,7 +7,8 @@
  * This class is a quick thoughtless hack
  * Also it only deals in New Models
  */
-#include "libs.h"
+
+#include <map>
 #include <stdexcept>
 
 namespace Graphics {

@@ -5,7 +5,7 @@
 #define _TERRAINNOISE_H
 
 #include "perlin.h"
-#include "../libs.h"
+#include "MathUtil.h"
 
 namespace TerrainNoise {
 

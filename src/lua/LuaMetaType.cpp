@@ -7,6 +7,8 @@
 #include "LuaPropertyMap.h"
 #include "core/Property.h"
 
+#include "utils.h"
+
 // if found, returns true, leaves item to return to lua on top of stack
 // if not found, returns false
 static bool get_method(lua_State *l, int metatable, int name)

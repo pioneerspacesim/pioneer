@@ -5,11 +5,13 @@
 #define INPUT_H
 
 #include "InputBindings.h"
-#include "SDL_joystick.h"
-#include "utils.h"
 
-#include <algorithm>
+#include "SDL_joystick.h"
+
 #include <array>
+#include <vector>
+#include <map>
+#include <string>
 
 class IniConfig;
 
