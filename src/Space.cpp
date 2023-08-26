@@ -314,6 +314,12 @@ Space::~Space()
 	for (Body *body : m_bodies)
 		KillBody(body);
 	UpdateBodies();
+
+	// since the player is owned by the game, we cannot delete it, but it
+	// stores the id of the frame we are going to delete
+	auto player = m_game->GetPlayer();
+	if (player) player->SetFrame(FrameId::Invalid);
+
 	Frame::DeleteFrames();
 }
 
