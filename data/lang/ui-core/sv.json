@@ -159,6 +159,14 @@
     "description": "Paintshop button",
     "message": "Byt Mönster"
   },
+  "CHARACTER": {
+    "description": "",
+    "message": "Karaktär"
+  },
+  "CHARISMA": {
+    "description": "Character parameter",
+    "message": "Karisma"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Chefsmekaniker"
@@ -262,6 +270,10 @@
   "CREDITS": {
     "description": "in game currency",
     "message": "Krediter"
+  },
+  "CREW": {
+    "description": "Tab item in the start game menu",
+    "message": "Besättning"
   },
   "CREW_CABINS": {
     "description": "",
@@ -445,7 +457,7 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Ingenjör:"
+    "message": "Engineering"
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -1155,6 +1167,10 @@
     "description": "",
     "message": "Otillräckliga medel"
   },
+  "INTELLIGENCE": {
+    "description": "Character parameter",
+    "message": "Intelligens"
+  },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
     "message": "Interstellär Handel:"
@@ -1231,6 +1247,10 @@
     "description": "",
     "message": "Tillstånd beviljat. Se upp för annan trafik på vägen ut."
   },
+  "LAWFULNESS": {
+    "description": "Character parameter",
+    "message": "Laglydighet"
+  },
   "LEGAL_STATUS": {
     "description": "",
     "message": "Legal status"
@@ -1302,6 +1322,10 @@
   "LOW": {
     "description": "",
     "message": "Låg"
+  },
+  "LUCK": {
+    "description": "Character parameter",
+    "message": "Tur"
   },
   "LY": {
     "description": "Light year",
@@ -1415,6 +1439,14 @@
     "description": "",
     "message": "Uppdragsdetaljer"
   },
+  "MODEL": {
+    "description": "3d model of the ship",
+    "message": "Modell"
+  },
+  "MONEY": {
+    "description": "",
+    "message": "Money"
+  },
   "MORE_INFO": {
     "description": "",
     "message": "Mer info..."
@@ -1460,8 +1492,8 @@
     "message": "Namn"
   },
   "NAVIGATION": {
-    "description": "",
-    "message": "Navigation:"
+    "description": "Crew skill",
+    "message": "Navigation"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1470,6 +1502,10 @@
   "NEGOTIATE": {
     "description": "",
     "message": "Förhandla"
+  },
+  "NEW_GAME": {
+    "description": "Main menu item",
+    "message": "Nytt spel"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1506,6 +1542,10 @@
   "NOTES": {
     "description": "",
     "message": "Anteckningar:"
+  },
+  "NOTORIETY": {
+    "description": "Character parameter",
+    "message": "Rykte"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
@@ -1672,8 +1712,8 @@
     "message": "Pilot"
   },
   "PILOTING": {
-    "description": "",
-    "message": "Pilot:"
+    "description": "Crew skill",
+    "message": "Piloting"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1895,6 +1935,10 @@
     "description": "",
     "message": "Välj spel att ladda..."
   },
+  "SELECT_START_PROFILE": {
+    "description": "Combo box for selecting the starting position",
+    "message": "Välj startprofil:"
+  },
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "Sälja"
@@ -1904,8 +1948,8 @@
     "message": "Sälj utrustad"
   },
   "SENSORS": {
-    "description": "",
-    "message": "Sensorer:"
+    "description": "Crew skill",
+    "message": "Sensorer"
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",
@@ -1963,6 +2007,14 @@
     "description": "",
     "message": "Skeppsmarknad"
   },
+  "SHIP_NAME": {
+    "description": "",
+    "message": "Skeppsnamn"
+  },
+  "SHIP_PARAMETERS": {
+    "description": "",
+    "message": "Skeppsparametrar"
+  },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
     "message": "Reparation och Lackering"
@@ -1975,9 +2027,17 @@
     "description": "",
     "message": "Simulerar universums evolution: {age} miljarder år ;-)"
   },
+  "SOME_PARAMETERS_ARE_NOT_OK": {
+    "description": "Diagnostics at game start",
+    "message": "Some parameters are not OK:"
+  },
   "SOUND": {
     "description": "",
     "message": "Ljud"
+  },
+  "STANDARD_GAME_START_TIME": {
+    "description": "Standard game start time, current moment + 1200 years",
+    "message": "Standard game start time"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2002,6 +2062,10 @@
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
     "message": "Detta är en måttligt svår start från Itzalean på New Hope i Epsilon Eridani-systemet."
+  },
+  "START_GAME": {
+    "description": "Button",
+    "message": "Starta spel"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2054,6 +2118,10 @@
   "STATUS": {
     "description": "",
     "message": "Status"
+  },
+  "SUMMARY": {
+    "description": "Tab item in the start game menu",
+    "message": "Översikt"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",

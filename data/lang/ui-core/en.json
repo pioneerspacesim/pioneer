@@ -1167,13 +1167,13 @@
     "description": "",
     "message": "Insufficient funds."
   },
-  "INTERSTELLAR_TRADE_AVG": {
-    "description": "Label displaying commodity flow at a per-system level",
-    "message": "Interstellar Trade:"
-  },
   "INTELLIGENCE": {
     "description": "Character parameter",
     "message": "Intelligence"
+  },
+  "INTERSTELLAR_TRADE_AVG": {
+    "description": "Label displaying commodity flow at a per-system level",
+    "message": "Interstellar Trade:"
   },
   "INVERT_MOUSE_Y": {
     "description": "",

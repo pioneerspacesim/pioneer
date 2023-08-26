@@ -159,6 +159,14 @@
     "description": "Paintshop button",
     "message": "Modificar Patrón"
   },
+  "CHARACTER": {
+    "description": "",
+    "message": "Character"
+  },
+  "CHARISMA": {
+    "description": "Character parameter",
+    "message": "Charisma"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Mecánico Jefe"
@@ -262,6 +270,10 @@
   "CREDITS": {
     "description": "in game currency",
     "message": "Créditos"
+  },
+  "CREW": {
+    "description": "Tab item in the start game menu",
+    "message": "Tripulación"
   },
   "CREW_CABINS": {
     "description": "",
@@ -445,7 +457,7 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Ingeniería:"
+    "message": "Engineering"
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -1155,6 +1167,10 @@
     "description": "",
     "message": "Fondos insuficientes."
   },
+  "INTELLIGENCE": {
+    "description": "Character parameter",
+    "message": "Intelligence"
+  },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
     "message": "Comercio Interestelar:"
@@ -1231,6 +1247,10 @@
     "description": "",
     "message": "Permiso concedido. Esté atento al tráfico durante su salida."
   },
+  "LAWFULNESS": {
+    "description": "Character parameter",
+    "message": "Lawfulness"
+  },
   "LEGAL_STATUS": {
     "description": "",
     "message": "Estatus legal"
@@ -1302,6 +1322,10 @@
   "LOW": {
     "description": "",
     "message": "Bajo"
+  },
+  "LUCK": {
+    "description": "Character parameter",
+    "message": "Luck"
   },
   "LY": {
     "description": "Light year",
@@ -1415,6 +1439,14 @@
     "description": "",
     "message": "Detalles de Misión"
   },
+  "MODEL": {
+    "description": "3d model of the ship",
+    "message": "Model"
+  },
+  "MONEY": {
+    "description": "",
+    "message": "Money"
+  },
   "MORE_INFO": {
     "description": "",
     "message": "Más información..."
@@ -1460,8 +1492,8 @@
     "message": "Nombre"
   },
   "NAVIGATION": {
-    "description": "",
-    "message": "Navegación:"
+    "description": "Crew skill",
+    "message": "Navigation"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1470,6 +1502,10 @@
   "NEGOTIATE": {
     "description": "",
     "message": "Negociar"
+  },
+  "NEW_GAME": {
+    "description": "Main menu item",
+    "message": "New game"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1506,6 +1542,10 @@
   "NOTES": {
     "description": "",
     "message": "Notas:"
+  },
+  "NOTORIETY": {
+    "description": "Character parameter",
+    "message": "Notoriety"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
@@ -1672,8 +1712,8 @@
     "message": "Piloto"
   },
   "PILOTING": {
-    "description": "",
-    "message": "Pilotaje:"
+    "description": "Crew skill",
+    "message": "Piloting"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1895,6 +1935,10 @@
     "description": "",
     "message": "Selecciona juego para cargar..."
   },
+  "SELECT_START_PROFILE": {
+    "description": "Combo box for selecting the starting position",
+    "message": "Select start profile:"
+  },
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "Vender"
@@ -1904,8 +1948,8 @@
     "message": "Vender lo Equipado"
   },
   "SENSORS": {
-    "description": "",
-    "message": "Sensores:"
+    "description": "Crew skill",
+    "message": "Sensores"
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",
@@ -1963,6 +2007,14 @@
     "description": "",
     "message": "Mercado de Naves"
   },
+  "SHIP_NAME": {
+    "description": "",
+    "message": "Ship name"
+  },
+  "SHIP_PARAMETERS": {
+    "description": "",
+    "message": "Ship parameters"
+  },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
     "message": "Reparación de Naves & Trabajos de pintura"
@@ -1975,9 +2027,17 @@
     "description": "",
     "message": "Simulando la evolución del universo: {age} mil millones de años ;-)"
   },
+  "SOME_PARAMETERS_ARE_NOT_OK": {
+    "description": "Diagnostics at game start",
+    "message": "Some parameters are not OK:"
+  },
   "SOUND": {
     "description": "",
     "message": "Sonido"
+  },
+  "STANDARD_GAME_START_TIME": {
+    "description": "Standard game start time, current moment + 1200 years",
+    "message": "Standard game start time"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2002,6 +2062,10 @@
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
     "message": "Comienzo de juego moderado en Itzalean/New Hope. en el sistema Epsilon Eridani."
+  },
+  "START_GAME": {
+    "description": "Button",
+    "message": "Start game"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2054,6 +2118,10 @@
   "STATUS": {
     "description": "",
     "message": "Estatus"
+  },
+  "SUMMARY": {
+    "description": "Tab item in the start game menu",
+    "message": "Summary"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",

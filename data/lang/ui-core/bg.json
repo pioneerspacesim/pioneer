@@ -159,6 +159,14 @@
     "description": "Paintshop button",
     "message": "Промяна на шаблона"
   },
+  "CHARACTER": {
+    "description": "",
+    "message": "Character"
+  },
+  "CHARISMA": {
+    "description": "Character parameter",
+    "message": "Charisma"
+  },
   "CHIEF_MECHANIC": {
     "description": "",
     "message": "Главен механик"
@@ -262,6 +270,10 @@
   "CREDITS": {
     "description": "in game currency",
     "message": "Кредити"
+  },
+  "CREW": {
+    "description": "Tab item in the start game menu",
+    "message": "Екипаж"
   },
   "CREW_CABINS": {
     "description": "",
@@ -445,7 +457,7 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Инженерство:"
+    "message": "Инженерство"
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -1155,6 +1167,10 @@
     "description": "",
     "message": "Недостатъчни средства."
   },
+  "INTELLIGENCE": {
+    "description": "Character parameter",
+    "message": "Intelligence"
+  },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
     "message": "Междузвездна търговия:"
@@ -1231,6 +1247,10 @@
     "description": "",
     "message": "Имате разрешение. Оглеждайте се за трафик по време на излитането."
   },
+  "LAWFULNESS": {
+    "description": "Character parameter",
+    "message": "Lawfulness"
+  },
   "LEGAL_STATUS": {
     "description": "",
     "message": "Правно положение"
@@ -1302,6 +1322,10 @@
   "LOW": {
     "description": "",
     "message": "Ниски"
+  },
+  "LUCK": {
+    "description": "Character parameter",
+    "message": "Luck"
   },
   "LY": {
     "description": "Light year",
@@ -1415,6 +1439,14 @@
     "description": "",
     "message": "Подробности за мисията"
   },
+  "MODEL": {
+    "description": "3d model of the ship",
+    "message": "Model"
+  },
+  "MONEY": {
+    "description": "",
+    "message": "Money"
+  },
   "MORE_INFO": {
     "description": "",
     "message": "Подробности..."
@@ -1460,8 +1492,8 @@
     "message": "Име"
   },
   "NAVIGATION": {
-    "description": "",
-    "message": "Навигация:"
+    "description": "Crew skill",
+    "message": "Навигация"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1470,6 +1502,10 @@
   "NEGOTIATE": {
     "description": "",
     "message": "Договаряне"
+  },
+  "NEW_GAME": {
+    "description": "Main menu item",
+    "message": "Начало"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1506,6 +1542,10 @@
   "NOTES": {
     "description": "",
     "message": "Бележки:"
+  },
+  "NOTORIETY": {
+    "description": "Character parameter",
+    "message": "Notoriety"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
@@ -1672,8 +1712,8 @@
     "message": "Пилот"
   },
   "PILOTING": {
-    "description": "",
-    "message": "Пилотиране:"
+    "description": "Crew skill",
+    "message": "Пилотиране"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1895,6 +1935,10 @@
     "description": "",
     "message": "Изберете игра за зареждане..."
   },
+  "SELECT_START_PROFILE": {
+    "description": "Combo box for selecting the starting position",
+    "message": "Select start profile:"
+  },
   "SELL": {
     "description": "Commodities and equipment prices",
     "message": "Продажба"
@@ -1904,8 +1948,8 @@
     "message": "Продаване"
   },
   "SENSORS": {
-    "description": "",
-    "message": "Сензори:"
+    "description": "Crew skill",
+    "message": "Сензори"
   },
   "SENSORS_AND_DEFENCE": {
     "description": "",
@@ -1963,6 +2007,14 @@
     "description": "",
     "message": "Пазар за кораби"
   },
+  "SHIP_NAME": {
+    "description": "",
+    "message": "Ship name"
+  },
+  "SHIP_PARAMETERS": {
+    "description": "",
+    "message": "Ship parameters"
+  },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
     "message": "Сервиз за кораби"
@@ -1975,9 +2027,17 @@
     "description": "",
     "message": "Симулиране на еволюцията на Вселената: {age} милиарда години ;-)"
   },
+  "SOME_PARAMETERS_ARE_NOT_OK": {
+    "description": "Diagnostics at game start",
+    "message": "Some parameters are not OK:"
+  },
   "SOUND": {
     "description": "",
     "message": "Звук"
+  },
+  "STANDARD_GAME_START_TIME": {
+    "description": "Standard game start time, current moment + 1200 years",
+    "message": "Standard game start time"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2002,6 +2062,10 @@
   "START_AT_NEW_HOPE_DESC": {
     "description": "",
     "message": "Това е умерен старт от „Ицалиян“ – Нова надежда в системата Епсилон Еридани."
+  },
+  "START_GAME": {
+    "description": "Button",
+    "message": "Start game"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2054,6 +2118,10 @@
   "STATUS": {
     "description": "",
     "message": "Статус"
+  },
+  "SUMMARY": {
+    "description": "Tab item in the start game menu",
+    "message": "Обобщение"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
