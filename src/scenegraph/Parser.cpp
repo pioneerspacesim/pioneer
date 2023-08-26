@@ -3,8 +3,11 @@
 
 #include "Parser.h"
 #include "FileSystem.h"
+#include "MathUtil.h"
 #include "StringF.h"
 #include "StringRange.h"
+#include "profiler/Profiler.h"
+
 #include <sstream>
 
 namespace SceneGraph {

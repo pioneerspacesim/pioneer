@@ -9,6 +9,7 @@
 #include "graphics/Texture.h"
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
+#include "profiler/Profiler.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"

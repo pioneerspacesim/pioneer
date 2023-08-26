@@ -21,6 +21,8 @@
 #include "lua/LuaUtils.h"
 #include "lua/LuaVector.h"
 
+#include "profiler/Profiler.h"
+
 #include <algorithm>
 #include <list>
 #include <set>

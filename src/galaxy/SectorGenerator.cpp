@@ -9,6 +9,8 @@
 #include "Galaxy.h"
 #include "GameSaveError.h"
 #include "Json.h"
+#include "core/StringUtils.h"
+#include "core/macros.h"
 
 #define Square(x) ((x) * (x))
 

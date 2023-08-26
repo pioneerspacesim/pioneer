@@ -7,7 +7,6 @@
 #include "LuaMetaType.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "libs.h"
 
 void pi_lua_generic_pull(lua_State *l, int index, Color4ub *&out)
 {

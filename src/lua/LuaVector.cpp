@@ -7,7 +7,6 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaVector2.h"
-#include "libs.h"
 
 void pi_lua_generic_pull(lua_State *l, int index, vector3d *&out)
 {

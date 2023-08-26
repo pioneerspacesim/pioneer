@@ -11,8 +11,10 @@
 #include "Pi.h"
 #include "Sector.h"
 #include "core/Log.h"
+#include "core/macros.h"
 #include "galaxy/Economy.h"
 #include "lua/LuaNameGen.h"
+#include "profiler/Profiler.h"
 
 #include <functional>
 

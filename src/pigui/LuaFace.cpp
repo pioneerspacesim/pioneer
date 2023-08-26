@@ -7,6 +7,7 @@
 #include "lua/LuaObject.h"
 #include "lua/LuaTable.h"
 #include "lua/LuaVector2.h"
+#include "profiler/Profiler.h"
 
 namespace PiGui {
 

@@ -3,10 +3,11 @@
 
 #include "CollisionSpace.h"
 
-#include "../libs.h"
 #include "CollisionContact.h"
 #include "Geom.h"
 #include "GeomTree.h"
+
+#include "../utils.h"
 
 /* volnode!!!!!!!!!!! */
 struct BvhNode {

@@ -3,7 +3,6 @@
 
 #include "SDLWrappers.h"
 #include "FileSystem.h"
-#include "libs.h"
 #include "utils.h"
 
 #include <SDL_image.h>

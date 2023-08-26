@@ -4,7 +4,7 @@
 #include "GeoPatchJobs.h"
 
 #include "GeoSphere.h"
-#include "libs.h"
+#include "MathUtil.h"
 #include "perlin.h"
 #include "profiler/Profiler.h"
 

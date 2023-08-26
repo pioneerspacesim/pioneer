@@ -37,10 +37,18 @@ if (MSVC)
     # Disable warning C4506 so that src/lua/LuaObject.h: template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o);
     # doesn't spew multiple warnings
 
-	add_definitions(-DNOMINMAX)
-
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /wd4506")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /wd4506")
+
+	# Disable warnings to avoid MSVC spam (moved from libs.h):
+	# #pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
+	# #pragma warning(disable : 4800) // int-to-bool "performance warning"
+	# #pragma warning(disable : 4355) // 'this' used in base member initializer list
+	# #pragma warning(disable : 4351) // new behavior [after vs2003!]: elements of array 'array' will be default initialized
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4244 /wd4800 /wd4355 /wd4351")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244 /wd4800 /wd4355 /wd4351")
+
+	add_definitions(-DNOMINMAX)
 endif (MSVC)
 
 if (APPLE)

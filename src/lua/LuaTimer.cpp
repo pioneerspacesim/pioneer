@@ -7,6 +7,7 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "Pi.h"
+#include "profiler/Profiler.h"
 
 #include <algorithm>
 

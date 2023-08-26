@@ -18,6 +18,7 @@
 #include "graphics/Types.h"
 #include "graphics/VertexBuffer.h"
 #include "perlin.h"
+#include "profiler/Profiler.h"
 #include "vcacheopt/vcacheopt.h"
 #include <algorithm>
 #include <deque>

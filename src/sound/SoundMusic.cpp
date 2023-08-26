@@ -3,7 +3,7 @@
 
 #include "SoundMusic.h"
 #include "Pi.h"
-#include "libs.h" //for clamp
+#include "utils.h"
 #include <map>
 
 namespace Sound {

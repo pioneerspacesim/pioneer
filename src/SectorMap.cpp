@@ -10,6 +10,7 @@
 #include "GameSaveError.h"
 #include "Input.h"
 #include "Json.h"
+#include "MathUtil.h"
 #include "pigui/PiGuiRenderer.h"
 #include "galaxy/Sector.h"
 #include "galaxy/Galaxy.h"

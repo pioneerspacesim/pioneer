@@ -5,7 +5,6 @@
 #include "LuaManager.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "libs.h"
 
 namespace LuaEvent {
 
