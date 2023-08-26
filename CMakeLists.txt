@@ -316,7 +316,6 @@ add_executable(savegamedump
 	src/savegamedump.cpp
 	src/JsonUtils.cpp
 	src/FileSystem.cpp
-	src/utils.cpp
 	src/StringF.cpp
 	src/DateTime.cpp
 	src/Lang.cpp
