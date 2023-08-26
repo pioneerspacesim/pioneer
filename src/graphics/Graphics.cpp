@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "FileSystem.h"
 #include "Material.h"
+#include "MathUtil.h"
 #include "Renderer.h"
 #include "StringF.h"
 #include "graphics/RenderState.h"

@@ -7,8 +7,13 @@
 #include "ConnectionTicket.h"
 #include "DeleteEmitter.h"
 #include "Input.h"
+#include "JsonFwd.h"
+
 #include "galaxy/SystemPath.h"
 #include "pigui/PiGuiView.h"
+
+#include "vector3.h"
+#include "matrix4x4.h"
 
 class Game;
 class Galaxy;

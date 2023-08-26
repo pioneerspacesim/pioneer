@@ -8,13 +8,7 @@
 #include "core/StringUtils.h"
 #include "core/macros.h"
 
-#include "libs.h"
-
-#include <fmt/printf.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <string>
-#include <vector>
+#include "profiler/Profiler.h"
 
 // An adaptor for automagic reverse range-for iteration of containers
 // One might be able to specialize this for raw arrays, but that's beyond the

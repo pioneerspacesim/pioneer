@@ -16,6 +16,7 @@
 #include "lua/LuaManager.h"
 #include "scenegraph/Model.h"
 
+#include <fmt/core.h>
 #include <imgui/imgui.h>
 #include <algorithm>
 #include <cstddef>

@@ -3,6 +3,7 @@
 
 #include "RendererGL.h"
 #include "RefCounted.h"
+#include "MathUtil.h"
 #include "SDL_video.h"
 #include "StringF.h"
 

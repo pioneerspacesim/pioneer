@@ -20,6 +20,7 @@
 #include "SectorMap.h"
 #include "SectorMapContext.h"
 #include "Space.h"
+#include "core/Log.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"

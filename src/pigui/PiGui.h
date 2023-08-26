@@ -7,6 +7,8 @@
 #include "RefCounted.h"
 #include "imgui/imgui.h"
 
+#include "utils.h"
+
 #include <map>
 #include <unordered_set>
 

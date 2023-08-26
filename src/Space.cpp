@@ -18,6 +18,7 @@
 #include "SpaceStation.h"
 #include "Star.h"
 #include "SystemView.h"
+#include "core/Log.h"
 #include "collider/CollisionContact.h"
 #include "collider/CollisionSpace.h"
 #include "galaxy/Galaxy.h"

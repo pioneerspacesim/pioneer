@@ -8,6 +8,7 @@
 #include "LuaManager.h"
 #include "RefCounted.h"
 #include "ConnectionTicket.h"
+#include "core/Log.h"
 #include <deque>
 
 struct ImGuiInputTextCallbackData;

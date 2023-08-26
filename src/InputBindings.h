@@ -4,11 +4,13 @@
 #pragma once
 
 #include "DeleteEmitter.h"
+
 #include <SDL_events.h>
 #include <SDL_keycode.h>
 #include <sigc++/sigc++.h>
+
 #include <cstdint>
-#include <iostream>
+#include <iosfwd>
 #include <string_view>
 
 namespace InputBindings {

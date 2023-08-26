@@ -13,6 +13,7 @@
 #include "Space.h"
 #include "gameconsts.h"
 #include "matrix4x4.h"
+#include "core/Log.h"
 
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"

@@ -8,7 +8,7 @@
 #include "CollisionSpace.h"
 #include "GeomTree.h"
 
-#include <float.h>
+#include "profiler/Profiler.h"
 
 static const unsigned int MAX_CONTACTS = 8;
 
