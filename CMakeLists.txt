@@ -400,7 +400,7 @@ else (MODELCOMPILER)
 	message(WARNING "No modelcompiler provided, models won't be optimized!")
 endif(MODELCOMPILER)
 
-install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
+install(TARGETS ${PROJECT_NAME} editor modelcompiler savegamedump
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 install(DIRECTORY data/

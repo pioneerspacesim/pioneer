@@ -2,7 +2,7 @@
 
 # Package a build and prepare it for upload via Travis.
 
-BINARIES=("build/pioneer" "build/modelcompiler" "build/savegamedump")
+BINARIES=("build/pioneer" "build/modelcompiler" "build/savegamedump" "build/editor")
 COPY_DIR=release
 
 # Append .exe to the binaries if we're building for windows.

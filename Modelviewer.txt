@@ -2,20 +2,20 @@
 		~~~~~~~~~~~~
 
 This is a simple tool to view a game model using the game's rendering engine.
-It's main purpose is to test and debug models, and generally isn't for 
+It's main purpose is to test and debug models, and generally isn't for
 end-user use.
 
 Usage:
 ~~~~~~
-pioneer -mv <model>
+editor -mv <model>
 
 <model>		- name of the model defined in lua
 
 	Example:
-	./pioneer -mv interdictor
+	./editor -mv interdictor
 		- will load the model interdictor
 
-	./pioneer -mv
+	./editor -mv
 		- will launch modelviewer, prompting for a model name.
 
 Keyboard commands:

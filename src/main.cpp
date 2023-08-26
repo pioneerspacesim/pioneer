@@ -216,7 +216,6 @@ start:
 			"usage: pioneer [mode] [options...]\n"
 			"available modes:\n"
 			"    -game        [-g]     game (default)\n"
-			"    -modelviewer [-mv]    model viewer\n"
 			"    -galaxydump  [-gd]    galaxy dumper\n"
 			"    -startat     [-sa]    skip main menu and start at Mars\n"
 			"    -startat=sp  [-sa=sp]  skip main menu and start at systempath x,y,z,si,bi\n"
