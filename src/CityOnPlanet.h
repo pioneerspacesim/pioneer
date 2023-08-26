@@ -26,7 +26,7 @@ namespace Graphics {
 } // namespace Graphics
 
 namespace FileSystem {
-	struct FileInfo;
+	class FileInfo;
 } // namespace FileSystem
 
 namespace SceneGraph {
