@@ -5,9 +5,10 @@
 
 #include "argh/argh.h"
 
+#include <SDL.h>
 #include <memory>
 
-extern "C" int main(int argc, const char **argv) {
+extern "C" int main(int argc, char **argv) {
 	argh::parser cmdline(argc, argv);
 
 	Editor::EditorApp *app = Editor::EditorApp::Get(); // instance the editor application
