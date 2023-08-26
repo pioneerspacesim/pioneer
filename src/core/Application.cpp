@@ -46,10 +46,14 @@ void Application::Startup()
 #endif
 
 	SDL_Init(SDL_INIT_EVENTS);
+
+	OnStartup();
 }
 
 void Application::Shutdown()
 {
+	OnShutdown();
+
 	m_taskGraph.reset();
 	m_syncJobQueue.reset();
 
@@ -156,18 +160,16 @@ void Application::HandleJobs()
 
 void Application::Run()
 {
-	Profiler::Clock m_runtime{};
-	m_runtime.Start();
-	m_applicationRunning = true;
-
-	Startup();
-
 	if (!m_queuedLifecycles.size())
 		throw std::runtime_error("Application::Run must have a queued lifecycle object (did you forget to queue one?)");
 
 	// SoftStop updates the elapsed time measured by the clock, and continues to run the clock.
+	Profiler::Clock m_runtime{};
+	m_runtime.Start();
 	m_runtime.SoftStop();
 	m_totalTime = m_runtime.seconds();
+
+	m_applicationRunning = true;
 	while (m_applicationRunning) {
 		m_runtime.SoftStop();
 		double thisTime = m_runtime.seconds();
@@ -230,6 +232,4 @@ void Application::Run()
 			Profiler::reset();
 #endif
 	}
-
-	Shutdown();
 }

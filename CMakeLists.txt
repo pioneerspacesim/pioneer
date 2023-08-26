@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(pioneer LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 17)
 
 # If both libGL.so and libOpenGL.so are found, default to the latter
 # (former is a legacy name).
@@ -371,6 +372,8 @@ if (WIN32)
 	list(APPEND winLibs shlwapi psapi)
 endif (WIN32)
 
+add_subdirectory(src/editor)
+
 target_link_libraries(${PROJECT_NAME} LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(unittest LINK_PRIVATE ${pioneerLibs} ${winLibs})
 target_link_libraries(modelcompiler LINK_PRIVATE ${pioneerLibs} ${winLibs})
@@ -411,7 +414,7 @@ else (MODELCOMPILER)
 	message(WARNING "No modelcompiler provided, models won't be optimized!")
 endif(MODELCOMPILER)
 
-install(TARGETS ${PROJECT_NAME} modelcompiler savegamedump
+install(TARGETS ${PROJECT_NAME} editor modelcompiler savegamedump
 	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 install(DIRECTORY data/

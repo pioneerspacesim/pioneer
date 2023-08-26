@@ -261,6 +261,8 @@ void Pi::Init(const std::map<std::string, std::string> &options, bool no_gui)
 	GetApp()->m_gameLoop.Reset(new GameLoop());
 
 	m_instance->m_noGui = no_gui;
+
+	m_instance->Startup();
 }
 
 void Pi::App::SetStartPath(const SystemPath &startPath)
@@ -307,21 +309,13 @@ void TestGPUJobsSupport()
 	}
 }
 
-void Pi::App::Startup()
+void Pi::App::OnStartup()
 {
 	PROFILE_SCOPED()
 	Profiler::Clock startupTimer;
 	startupTimer.Start();
 
-	Application::Startup();
-
-	SetProfilerPath("profiler/");
-	SetProfileSlowFrames(config->Int("ProfileSlowFrames", 0));
-	bool profileZones = config->Int("ProfilerZoneOutput", 0);
-	bool profileTraces = config->Int("ProfilerTraceOutput", 0);
-
-	SetProfileZones(profileZones || profileTraces);
-	SetProfileTrace(profileTraces);
+	SetupProfiler(Pi::config);
 
 	Log::GetLog()->SetLogFile("output.txt");
 
@@ -412,7 +406,7 @@ void Pi::App::Startup()
 */
 
 // Immediately destroy everything and end the game.
-void Pi::App::Shutdown()
+void Pi::App::OnShutdown()
 {
 	PROFILE_SCOPED()
 	Output("Pi shutting down.\n");
@@ -461,8 +455,11 @@ void Pi::App::Shutdown()
 
 	delete Pi::config;
 	delete Pi::planner;
+}
 
-	Application::Shutdown();
+void Pi::Uninit()
+{
+	m_instance->Shutdown();
 
 	SDL_Quit();
 	delete Pi::m_instance;

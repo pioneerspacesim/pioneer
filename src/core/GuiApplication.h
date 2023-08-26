@@ -35,23 +35,26 @@ protected:
 	// framebuffer
 	void DrawRenderTarget();
 
+	// Call this from your OnStartup() method
+	void SetupProfiler(IniConfig *config);
+
 	// TODO: unify config handling, possibly make the config an Application member
-	// Call this from your Startup() method
+	// Call this from your OnStartup() method
 	Graphics::Renderer *StartupRenderer(IniConfig *config, bool hidden = false);
 
-	// Call this from your Startup() method
+	// Call this from your OnStartup() method
 	Input::Manager *StartupInput(IniConfig *config);
 
-	// Call this from your Startup() method
+	// Call this from your OnStartup() method
 	PiGui::Instance *StartupPiGui();
 
-	// Call this from your Shutdown() method
+	// Call this from your OnShutdown() method
 	void ShutdownRenderer();
 
-	// Call this from your Shutdown() method
+	// Call this from your OnShutdown() method
 	void ShutdownInput();
 
-	// Call this from your shutdown() method
+	// Call this from your OnShutdown() method
 	void ShutdownPiGui();
 
 	// Hook to bind the RT and clear the screen.

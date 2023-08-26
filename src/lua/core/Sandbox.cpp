@@ -323,7 +323,7 @@ void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nret)
 	LUA_DEBUG_END(l, nret);
 }
 
-void pi_lua_dofile(lua_State *l, const std::string &path)
+void pi_lua_dofile(lua_State *l, const std::string &path, int nret)
 {
 	assert(l);
 	LUA_DEBUG_START(l);
@@ -334,7 +334,7 @@ void pi_lua_dofile(lua_State *l, const std::string &path)
 		return;
 	}
 
-	pi_lua_dofile(l, *code);
+	pi_lua_dofile(l, *code, nret);
 
 	LUA_DEBUG_END(l, 0);
 }

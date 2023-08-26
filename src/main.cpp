@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
-#include "ModelViewer.h"
 #include "Pi.h"
 #include "buildopts.h"
 #include "core/OS.h"
@@ -17,7 +16,6 @@
 
 enum RunMode {
 	MODE_GAME,
-	MODE_MODELVIEWER,
 	MODE_GALAXYDUMP,
 	MODE_START_AT,
 	MODE_VERSION,
@@ -47,11 +45,6 @@ extern "C" int main(int argc, char **argv)
 
 		if (modeopt == "game" || modeopt == "g") {
 			mode = MODE_GAME;
-			goto start;
-		}
-
-		if (modeopt == "modelviewer" || modeopt == "mv") {
-			mode = MODE_MODELVIEWER;
 			goto start;
 		}
 
@@ -202,16 +195,8 @@ start:
 				Output("pioneer: writing to \"%s\" failed: %s\n", filename.c_str(), strerror(errno));
 			}
 		}
-		break;
-	}
 
-	case MODE_MODELVIEWER: {
-		std::string modelName;
-		if (argc > 2)
-			modelName = argv[2];
-		auto modelViewer = ModelViewerApp();
-		modelViewer.SetInitialModel(modelName);
-		modelViewer.Run();
+		Pi::Uninit();
 		break;
 	}
 
@@ -232,7 +217,6 @@ start:
 			"usage: pioneer [mode] [options...]\n"
 			"available modes:\n"
 			"    -game        [-g]     game (default)\n"
-			"    -modelviewer [-mv]    model viewer\n"
 			"    -galaxydump  [-gd]    galaxy dumper\n"
 			"    -startat     [-sa]    skip main menu and start at Mars\n"
 			"    -startat=sp  [-sa=sp]  skip main menu and start at systempath x,y,z,si,bi\n"
