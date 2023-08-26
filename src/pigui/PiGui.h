@@ -7,34 +7,67 @@
 #include "RefCounted.h"
 #include "imgui/imgui.h"
 
-#include "utils.h"
-
+#include <map>
 #include <unordered_set>
+
+union SDL_Event;
 
 namespace Graphics {
 	class Texture;
 	class Renderer;
 } // namespace Graphics
 
+class GuiApplication;
+
 namespace PiGui {
+
+	class RasterizeSVGTask;
+
+	struct RasterizeSVGResult {
+		RasterizeSVGResult(uint8_t *data, int width, int height) :
+			data(data),
+			width(width),
+			height(height)
+		{
+		}
+
+		std::unique_ptr<uint8_t[]> data;
+		int width;
+		int height;
+	};
 
 	class PiFace {
 	public:
 		using UsedRange = std::pair<uint16_t, uint16_t>;
+
 		PiFace(const std::string &ttfname, float sizefactor) :
 			m_ttfname(ttfname),
 			m_sizefactor(sizefactor) {}
 
-		const std::string &ttfname() const { return m_ttfname; }
+		PiFace(const std::string &svgname, uint16_t startGlyph, int columns, int rows) :
+			m_svgname(svgname),
+			m_svgrows(rows),
+			m_svgcolumns(columns),
+			m_loadrange({ startGlyph, startGlyph + (rows * columns) })
+		{
+		}
 
+		const std::string &ttfname() const { return m_ttfname; }
 		float sizefactor() const { return m_sizefactor; }
 
-		//std::unordered_map<unsigned short, unsigned short> &invalid_glyphs() const { return m_invalid_glyphs; }
-		const std::vector<UsedRange> &used_ranges() const { return m_used_ranges; }
+		const std::string &svgname() const { return m_svgname; }
+		bool isSvgFont() const { return !m_svgname.empty(); }
 
-		bool isValidGlyph(unsigned short glyph) const;
-		void addGlyph(unsigned short glyph);
-		void sortUsedRanges() const;
+		int svgRows() const { return m_svgrows; }
+		int svgCols() const { return m_svgcolumns; }
+
+		// Add this fontface at the specified size to the global font atlas
+		ImFont *addTTFFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges);
+
+		// Add this SVG fontface at the specified size to the global font atlas
+		ImFont *addSVGFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges, RasterizeSVGResult *svgData, ImVector<int> *outGlyphRects);
+		// Copy the pixel data for this fontface into the global font atlas
+		void finishSVGFaceData(ImFont *font, int pixelSize, RasterizeSVGResult *svgData, ImVector<int> *glyphRects);
 
 	private:
 		friend class Instance; // need access to some private data
@@ -42,42 +75,61 @@ namespace PiGui {
 		std::string m_ttfname; // only the ttf name, it is automatically sought in data/fonts/
 		float m_sizefactor;	   // the requested pixelsize is multiplied by this factor
 
-		std::unordered_set<unsigned short> m_invalid_glyphs;
-		mutable std::vector<UsedRange> m_used_ranges;
+		std::string m_svgname; // path to svg file for font-face
+		int m_svgrows;		   // number of character rows
+		int m_svgcolumns;	   // number of character columns
+		UsedRange m_loadrange; // start and end of font glyphs to load
+	};
 
-		ImVector<ImWchar> m_imgui_ranges;
+	struct PiFontDefinition {
+	public:
+		PiFontDefinition(const std::string &name) :
+			name(name) {}
+		PiFontDefinition(const std::string &name, const std::vector<PiFace> &faces) :
+			name(name),
+			faces(faces) {}
+		PiFontDefinition() :
+			name("unknown") {}
+
+		std::string name;
+		std::vector<PiFace> faces;
+		bool loadDefaultRange = true;
 	};
 
 	class PiFont {
 	public:
-		PiFont(const std::string &name) :
-			m_name(name) {}
-		PiFont(const std::string &name, const std::vector<PiFace> &faces) :
-			m_name(name),
-			m_faces(faces) {}
-		PiFont() :
-			m_name("unknown") {}
+		using UsedRange = std::pair<uint16_t, uint16_t>;
 
-		const std::vector<PiFace> &faces() const { return m_faces; }
-		std::vector<PiFace> &faces() { return m_faces; }
+		struct CustomGlyphData {
+			ImFont *font;
+			PiFace *face;
+			std::unique_ptr<ImVector<int>> glyphRects;
+			RasterizeSVGResult *svgData;
+		};
 
-		const std::string &name() const { return m_name; }
-
-		int pixelsize() const { return m_pixelsize; }
-		void setPixelsize(int pixelsize) { m_pixelsize = pixelsize; }
-
-		void describe() const
+		PiFont(PiFontDefinition &fontDef, int pixelSize) :
+			m_fontDef(fontDef),
+			m_pixelsize(pixelSize)
 		{
-			Output("font %s:\n", name().c_str());
-			for (const PiFace &face : faces()) {
-				Output("- %s %f\n", face.ttfname().c_str(), face.sizefactor());
-			}
 		}
 
+		const std::string &name() const { return m_fontDef.name; }
+		std::vector<PiFace> &faces() const { return m_fontDef.faces; }
+		const std::vector<UsedRange> &used_ranges() const { return m_used_ranges; }
+		int pixelsize() const { return m_pixelsize; }
+		const PiFontDefinition &definition() const { return m_fontDef; }
+
+		std::vector<CustomGlyphData> &custom_glyphs() { return m_custom_glyphs; }
+
+		void describe(bool withFaces = false) const;
+
+		bool addGlyph(unsigned short glyph);
+
 	private:
-		std::string m_name;
-		std::vector<PiFace> m_faces;
+		PiFontDefinition &m_fontDef;
 		int m_pixelsize;
+		std::vector<UsedRange> m_used_ranges;
+		std::vector<CustomGlyphData> m_custom_glyphs;
 	};
 
 	class InstanceRenderer;
@@ -85,7 +137,7 @@ namespace PiGui {
 	/* Class to wrap ImGui. */
 	class Instance : public RefCounted {
 	public:
-		Instance();
+		Instance(GuiApplication *app);
 
 		void Init(Graphics::Renderer *renderer);
 		void Uninit();
@@ -114,9 +166,8 @@ namespace PiGui {
 
 		bool ProcessEvent(SDL_Event *event);
 
-		void RefreshFontsTexture();
-
 	private:
+		GuiApplication *m_app;
 		Graphics::Renderer *m_renderer;
 		std::unique_ptr<InstanceRenderer> m_instanceRenderer;
 
@@ -129,15 +180,27 @@ namespace PiGui {
 		std::map<std::pair<std::string, int>, PiFont> m_pi_fonts;
 		bool m_should_bake_fonts;
 
-		std::map<std::string, PiFont> m_font_definitions;
+		std::map<std::string, PiFontDefinition> m_font_definitions;
+
+		std::vector<ImVector<ImWchar> *> m_glyphRanges;
+		std::vector<RasterizeSVGTask *> m_svgFontTasks;
+		std::map<std::string, std::vector<RasterizeSVGResult>> m_svgFontRasterData;
 
 		ImGuiStyle m_debugStyle;
 		bool m_debugStyleActive;
 
+		void AddFontDefinition(const PiFontDefinition &font)
+		{
+			m_font_definitions[font.name] = font;
+		}
+
+		void LoadFontDefinitionFromFile(const std::string &filePath);
+
 		void BakeFonts();
 		void BakeFont(PiFont &font);
-		void AddFontDefinition(const PiFont &font) { m_font_definitions[font.name()] = font; }
 		void ClearFonts();
+
+		RasterizeSVGResult *RequestSVGFaceData(PiFace *face, int pixelsize);
 	};
 
 	int RadialPopupSelectMenu(const ImVec2 center, const char *popup_id, int mouse_button, const std::vector<ImTextureID> &tex_ids, const std::vector<std::pair<ImVec2, ImVec2>> &uvs, const std::vector<ImU32> &colors, const std::vector<const char *> &tooltips, unsigned int size, unsigned int padding);

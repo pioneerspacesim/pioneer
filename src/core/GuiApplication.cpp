@@ -3,6 +3,7 @@
 
 #include "GuiApplication.h"
 #include "IniConfig.h"
+#include "Input.h"
 #include "OS.h"
 
 #include "SDL.h"
@@ -19,6 +20,13 @@
 
 // FIXME: add support for offscreen rendertarget drawing and multisample RTs
 #define RTT 0
+
+GuiApplication::GuiApplication(std::string title) :
+	Application(), m_applicationTitle(title)
+{}
+
+GuiApplication::~GuiApplication()
+{}
 
 void GuiApplication::BeginFrame()
 {
@@ -227,7 +235,7 @@ void GuiApplication::ShutdownInput()
 PiGui::Instance *GuiApplication::StartupPiGui()
 {
 	PROFILE_SCOPED()
-	m_pigui.Reset(new PiGui::Instance());
+	m_pigui.Reset(new PiGui::Instance(this));
 	m_pigui->Init(GetRenderer());
 	return m_pigui.Get();
 }

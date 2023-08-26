@@ -4,6 +4,7 @@
 #include "PiGui.h"
 #include "FileSystem.h"
 #include "Input.h"
+#include "JsonUtils.h"
 #include "Pi.h"
 #include "PiGuiRenderer.h"
 
@@ -13,13 +14,14 @@
 #include "graphics/Texture.h"
 #include "graphics/VertexBuffer.h"
 
+#include "imgui/backends/imgui_impl_sdl2.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
-#include "imgui/backends/imgui_impl_sdl2.h"
 
 #include <float.h>
 #include <stdio.h>
 #include <string.h>
+
 #define NANOSVG_IMPLEMENTATION
 #include "nanosvg/nanosvg.h"
 #define NANOSVGRAST_IMPLEMENTATION
@@ -37,8 +39,7 @@ std::vector<Graphics::Texture *> &PiGui::GetSVGTextures()
 }
 
 // Handle GPU upload of texture image data on the main application thread.
-class UpdateImageTask : public Task
-{
+class UpdateImageTask : public Task {
 public:
 	Graphics::Texture *texture;
 	const unsigned char *imageData;
@@ -46,7 +47,8 @@ public:
 	UpdateImageTask(Graphics::Texture *tex, const unsigned char *data) :
 		texture(tex),
 		imageData(data)
-	{}
+	{
+	}
 
 	virtual void OnExecute(TaskRange range) override
 	{
@@ -59,15 +61,27 @@ public:
 };
 
 // Run SVG loading and rasterization on a separate thread, defer GPU upload until end-of-frame.
-class RasterizeSVGTask : public Task
-{
+class PiGui::RasterizeSVGTask : public Task, public CompleteNotifier {
 public:
+	// Rasterize an SVG file to a texture and upload to GPU on main thread
 	RasterizeSVGTask(std::string filename, int width, int height, Graphics::Texture *outputTexture) :
 		filename(filename),
 		width(width),
 		height(height),
 		texture(outputTexture)
-	{}
+	{
+	}
+
+	// Rasterize an SVG file to CPU buffer for use with font data
+	RasterizeSVGTask(std::string filename, int width, int height, PiFace *fontFace) :
+		filename(filename),
+		width(width),
+		height(height),
+		texture(nullptr),
+		fontFace(fontFace)
+	{
+		SetOwner(this);
+	}
 
 	bool LoadFile()
 	{
@@ -90,7 +104,7 @@ public:
 			return;
 
 		size_t stride = width * 4;
-		uint8_t *imageData = new uint8_t[stride*height];
+		imageData = new uint8_t[stride * height];
 
 		if (!imageData) {
 			Log::Error("Couldn't allocate memory for SVG image {}.\n", filename);
@@ -112,18 +126,34 @@ public:
 		nsvgDeleteRasterizer(rast);
 		nsvgDelete(image);
 
-		Pi::GetApp()->GetTaskGraph()->QueueTaskPinned(new UpdateImageTask(texture, imageData));
+		if (texture) {
+			Pi::GetApp()->GetTaskGraph()->QueueTaskPinned(new UpdateImageTask(texture, imageData));
+			imageData = nullptr;
+		}
 	}
 
-private:
+	virtual void OnComplete() override
+	{
+		if (imageData)
+			delete[] imageData;
+	}
+
+	uint8_t *GetImageData() { return imageData; }
+	PiFace *GetFontFace() { return fontFace; }
+
+public:
 	std::string filename;
 	int width;
 	int height;
+
+private:
 	Graphics::Texture *texture;
+	uint8_t *imageData;
+	PiFace *fontFace;
 	NSVGimage *image;
 };
 
-static Graphics::Texture* makeSVGTexture(Graphics::Renderer *renderer, int width, int height)
+static Graphics::Texture *makeSVGTexture(Graphics::Renderer *renderer, int width, int height)
 {
 	const vector3f dataSize(width, height, 0.f);
 	const Graphics::TextureDescriptor texDesc(
@@ -195,52 +225,75 @@ void StyleColorsDarkPlus(ImGuiStyle &style)
 //	PiGui::Instance
 //
 
-Instance::Instance() :
+Instance::Instance(GuiApplication *app) :
+	m_app(app),
 	m_should_bake_fonts(true),
 	m_debugStyle(),
 	m_debugStyleActive(false)
 {
-	// TODO: clang-format doesn't like list initializers inside function calls
-	// clang-format off
+	FileSystem::FileEnumerator dir(FileSystem::gameDataFiles, "fonts/");
+	for(const FileSystem::FileInfo &fileInfo : dir) {
+		if (ends_with_ci(fileInfo.GetPath(), ".json")) {
+			try {
+				LoadFontDefinitionFromFile(fileInfo.GetPath());
+			} catch (Json::type_error &e) {
+				Log::Warning("Malformed font definition file {}, not loading.", fileInfo.GetPath());
+			}
+		}
+	}
 
-	// The main face of the font should go first in the list, because:
-	//
-	// - during the first initialization, only the first face is used to bake the
-	// font ( see Instance::AddFont )
-	//
-	// - when a non-standard glyph is found in the text, a search is started in
-	// the faces, and the faces are scanned in the order of this list
-	// ( see Instance::AddGlyph )
-	//
-	// - the default imgui glyph range ( 0x20 .. 0xFF ) is always baked from the
-	// first face, that has some ranges defined
-	// ( see Instance::BakeFont )
-
-	PiFont uiheading("orbiteer", {
-		PiFace("Orbiteer-Bold.ttf", 1.0), // imgui only supports 0xffff, not 0x10ffff
-		PiFace("DejaVuSans.ttf", /*18.0/20.0*/ 1.2),
-		PiFace("wqy-microhei.ttc", 1.0)
-	});
-	AddFontDefinition(uiheading);
-
-	PiFont guifont("pionillium", {
-		PiFace("PionilliumText22L-Medium.ttf", 1.0),
-		PiFace("DejaVuSans.ttf", 13.0 / 14.0),
-		PiFace("wqy-microhei.ttc", 1.0)
-	});
-	AddFontDefinition(guifont);
-	// clang-format on
-
-	// Output("Fonts:\n");
-	for (auto entry : m_font_definitions) {
-		//		Output("  entry %s:\n", entry.first.c_str());
-		entry.second.describe();
+	Log::Info("Loaded PiGui fonts from disk:");
+	for (auto &entry : m_font_definitions) {
+		PiFont(entry.second, 0).describe(true);
 	}
 
 	// ensure the tooltip font exists
 	GetFont("pionillium", 14);
 
 	StyleColorsDarkPlus(m_debugStyle);
+}
+
+void Instance::LoadFontDefinitionFromFile(const std::string &filePath)
+{
+	Json fontInfo = JsonUtils::LoadJsonDataFile(filePath);
+
+	std::string fontName = fontInfo["name"].get<std::string>();
+	if (fontName.empty()) {
+		Log::Warning("Malformed font definition {}, not loading.", filePath);
+		return;
+	}
+
+	PiFontDefinition fontDef (fontName);
+	fontDef.loadDefaultRange = fontInfo.value("loadDefaultRange", true);
+
+	for (auto &entry : fontInfo["faces"]) {
+		if (!entry.is_object())
+			continue;
+
+		if (entry["fontFile"].is_string()) {
+			fontDef.faces.emplace_back(
+				entry["fontFile"].get<std::string>(),
+				entry.value("scale", 1.0)
+			);
+		} else if (entry["svgFile"].is_string()) {
+			uint32_t rangeBase = 0xF000;
+			sscanf(entry.value("rangeBase", "0xF000").c_str(), "%x", &rangeBase);
+
+			fontDef.faces.emplace_back(
+				entry["svgFile"].get<std::string>(),
+				rangeBase,
+				entry["grid"][0].get<int>(),
+				entry["grid"][1].get<int>()
+			);
+		}
+	}
+
+	if (fontDef.faces.empty()) {
+		Log::Warning("Font definition {} has no valid faces.", filePath);
+		return;
+	}
+
+	AddFontDefinition(fontDef);
 }
 
 void Instance::SetDebugStyle()
@@ -286,20 +339,15 @@ void Instance::AddGlyph(ImFont *font, unsigned short glyph)
 		Error("No registered PiFont for name %s size %i\n", iter->second.first.c_str(), iter->second.second);
 		assert(false);
 	}
-	// as a result, we look at all the faces of the font in turn, for the
-	// presence of this glyph.
+
+	// add the glyph..glyph range in this font
+	// the first face with a valid glyph will be used to represent it
+
 	PiFont &pifont = pifont_iter->second;
-	for (PiFace &face : pifont.faces()) {
-		if (face.isValidGlyph(glyph)) {
-			// and as soon as we find it, we define the glyph..glyph range in this face
-			face.addGlyph(glyph);
-			// and enable the flag that all fonts should be rebaked
-			// ( see Instance::BakeFont )
-			m_should_bake_fonts = true;
-			return;
-		}
-	}
-	Error("No face in font %s handles glyph %i\n", pifont.name().c_str(), glyph);
+	// rebake fonts if the font is capable of providing the glyph
+	// ( see Instance::BakeFont )
+	if (pifont.addGlyph(glyph))
+		m_should_bake_fonts = true;
 }
 
 ImFont *Instance::AddFont(const std::string &name, int size)
@@ -316,24 +364,22 @@ ImFont *Instance::AddFont(const std::string &name, int size)
 		assert(false);
 	}
 
-	PiFont &pifont = iter->second;
-	pifont.setPixelsize(size);
-	// here we add the range 0x0020 .. 0x0020 to the first face of the font
-	// the other faces of this font do not yet have ranges, so they will not be
-	// used for baking for the first time
-	pifont.faces()[0].addGlyph(0x20);
-	m_pi_fonts[std::make_pair(name, size)] = pifont;
+	PiFontDefinition &fontDef = iter->second;
+
+	PiFont &font = m_pi_fonts.try_emplace(std::make_pair(name, size), fontDef, size).first->second;
+
+	// here we add the range 0x0020 .. 0x0020 and 0xFFFD .. 0xFFFD to the font
+	// so it can render at the very least the fallback character
+	font.addGlyph(0x20);
+	font.addGlyph(IM_UNICODE_CODEPOINT_INVALID);
+
+	// Log::Info("adding font (from {}):", (void *)&iter->second);
+	// font.describe();
 
 	m_should_bake_fonts = true;
 
+	// return nullptr, apparently
 	return m_fonts[std::make_pair(name, size)];
-}
-
-void Instance::RefreshFontsTexture()
-{
-	PROFILE_SCOPED()
-	ImGui::GetIO().Fonts->Build();
-	m_instanceRenderer->CreateFontsTexture();
 }
 
 // TODO: this isn't very RAII friendly, are we sure we need to call Init() seperately from creating the instance?
@@ -399,6 +445,21 @@ void Instance::NewFrame()
 		}
 	}
 
+	for (auto &task : m_svgFontTasks) {
+		if (task->IsComplete()) {
+			PiFace *face = task->GetFontFace();
+			m_svgFontRasterData[face->svgname()].emplace_back(task->GetImageData(), task->width, task->height);
+
+			delete task;
+			task = nullptr;
+
+			// we have improved SVG data for a font, rebuild the atlas
+			m_should_bake_fonts = true;
+		}
+	}
+
+	m_svgFontTasks.erase(std::remove(m_svgFontTasks.begin(), m_svgFontTasks.end(), nullptr), m_svgFontTasks.end());
+
 	// Bake fonts before a frame is begun.
 	// This avoids any dangling texture pointers from recreating the texture between
 	// issuing draw commands and rendering
@@ -461,53 +522,113 @@ void Instance::ClearFonts()
 	io.Fonts->Clear();
 }
 
+RasterizeSVGResult *Instance::RequestSVGFaceData(PiFace *face, int pixelsize)
+{
+	int width = face->m_svgcolumns * pixelsize;
+	int height = face->m_svgrows * pixelsize;
+
+	RasterizeSVGResult *bestResult = nullptr;
+	int bestWidth = 0;
+
+	for (auto &result : m_svgFontRasterData[face->svgname()]) {
+		if (std::abs(result.width - width) < std::abs(bestWidth - width)) {
+			bestResult = &result;
+			bestWidth = result.width;
+		}
+	}
+
+	if (!bestResult || bestWidth != width) {
+		std::string filename = FileSystem::JoinPathBelow(FileSystem::GetDataDir(), face->svgname());
+		RasterizeSVGTask *rasterTask = new RasterizeSVGTask(filename, width, height, face);
+
+		m_app->GetTaskGraph()->QueueTask(rasterTask);
+		m_svgFontTasks.push_back(rasterTask);
+	}
+
+	return bestResult;
+}
+
 // this function rasterizes a specific font
 void Instance::BakeFont(PiFont &font)
 {
 	PROFILE_SCOPED()
 	ImGuiIO &io = ImGui::GetIO();
 	ImFont *imfont = nullptr;
+
+	// note that if there are no ranges at all in the font, it is ignored
+	if (font.used_ranges().empty()) {
+		Log::Warning("PiGui font {}:{} has no glyphs, not baking!", font.name(), font.pixelsize());
+		return;
+	}
+
+	ImFontGlyphRangesBuilder gb;
+
+	// ( default imgui glyph range - 0x0020 .. 0x00FF : Basic Latin + Latin Supplement )
+	if (font.definition().loadDefaultRange)
+		gb.AddRanges(io.Fonts->GetGlyphRangesDefault());
+
+	// Add any glyphs outside of the default range that have been used at least once before
+	ImWchar gr[3] = { 0, 0, 0 };
+	for (const auto &range : font.used_ranges()) {
+		gr[0] = range.first;
+		gr[1] = range.second;
+		gb.AddRanges(gr);
+	}
+
+	ImVector<ImWchar> *font_char_ranges = new ImVector<ImWchar>;
+	m_glyphRanges.emplace_back(font_char_ranges);
+
+	gb.BuildRanges(font_char_ranges);
+
+	ImFontConfig config;
+
+	// Set the ImGui font name for debugging purposes
+	std::string name = fmt::format("{}:{}", font.name(), font.pixelsize());
+	strncpy(config.Name, name.c_str(), 40);
+
+	// The main face of the font should go first in the list, because:
+	//
+	// - when a glyph is loaded from the font, a search is started in
+	// the faces, and the faces are scanned in the order of this list
+	// ( see ImFontAtlasBuildWithStbTruetype in imgui.cpp )
+	//
+	// - the default imgui glyph range ( 0x20 .. 0xFF ) is almost always
+	// defined in every font, so the first font will provide the glyphs for
+	// the basic range
+	//
 	for (PiFace &face : font.faces()) {
-		ImFontConfig config;
-		config.MergeMode = true;
-		float size = font.pixelsize() * face.sizefactor();
-		const std::string path = FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), face.ttfname());
-		//		Output("- baking face %s at size %f\n", path.c_str(), size);
-		face.sortUsedRanges();
-		// note that if there are no ranges at all in the face, it is ignored
-		if (face.used_ranges().size() > 0) {
-			face.m_imgui_ranges.clear();
-			ImFontGlyphRangesBuilder gb;
-			// but if at least one range is defined for a face, then we are trying to
-			// add a default range to it
-			gb.AddRanges(io.Fonts->GetGlyphRangesDefault());
-			// ( default imgui glyph range - 0x0020 .. 0x00FF : Basic Latin + Latin Supplement )
-			// it turns out that if ranges are defined in several faces of the font,
-			// we try to add a default range to each. but since the repeated range
-			// is ignored, the default range is baked only from the first face that
-			// falls into this scope
-			ImWchar gr[3] = { 0, 0, 0 };
-			for (auto &range : face.used_ranges()) {
-				// Output("Used range: %x - %x", range.first, range.second);
-				gr[0] = range.first;
-				gr[1] = range.second;
-				gb.AddRanges(gr);
+		config.MergeMode = imfont != nullptr;
+
+		if (face.isSvgFont()) {
+			PiFont::CustomGlyphData data = {};
+			data.face = &face;
+
+			data.svgData = RequestSVGFaceData(&face, font.pixelsize());
+			if (!data.svgData) {
+				Log::Warning("No SVG data available to rasterize icon font {}", face.svgname());
+				continue;
 			}
-			gb.BuildRanges(&face.m_imgui_ranges);
-			ImFont *f = io.Fonts->AddFontFromFileTTF(path.c_str(), size, imfont == nullptr ? nullptr : &config, face.m_imgui_ranges.Data);
-			assert(f);
+
+			data.glyphRects.reset(new ImVector<int>);
+			data.font = face.addSVGFaceToAtlas(font.pixelsize(), &config, font_char_ranges, data.svgData, data.glyphRects.get());
+
+			if (!data.glyphRects->empty())
+				font.custom_glyphs().emplace_back(std::move(data));
+		} else {
+			ImFont *f = face.addTTFFaceToAtlas(font.pixelsize(), &config, font_char_ranges);
 			if (imfont != nullptr)
 				assert(f == imfont);
 			imfont = f;
 		}
 	}
+
 	m_im_fonts[imfont] = std::make_pair(font.name(), font.pixelsize());
 	// 	Output("setting %s %i to %p\n", font.name(), font.pixelsize(), imfont);
 	m_fonts[std::make_pair(font.name(), font.pixelsize())] = imfont;
 	if (!imfont->MissingGlyphs.empty()) {
-		Output("WARNING: glyphs missing in shiny new font\n");
+		Log::Warning("PiGui: newly-built font {}:{} has glyphs missing", font.name(), font.pixelsize());
+		imfont->MissingGlyphs.clear();
 	}
-	imfont->MissingGlyphs.clear();
 }
 
 void Instance::BakeFonts()
@@ -525,7 +646,7 @@ void Instance::BakeFonts()
 	ClearFonts();
 
 	// first bake tooltip/default font
-	BakeFont(m_pi_fonts[std::make_pair("pionillium", 14)]);
+	BakeFont(m_pi_fonts.at(std::make_pair("pionillium", 14)));
 
 	for (auto &iter : m_pi_fonts) {
 		// don't bake tooltip/default font again
@@ -534,7 +655,23 @@ void Instance::BakeFonts()
 		//		Output("Fonts registered: %i\n", io.Fonts->Fonts.Size);
 	}
 
-	RefreshFontsTexture();
+	ImGui::GetIO().Fonts->Build();
+
+	for (auto &iter : m_pi_fonts) {
+		for (auto &glyph_data : iter.second.custom_glyphs()) {
+			glyph_data.face->finishSVGFaceData(glyph_data.font, iter.second.pixelsize(), glyph_data.svgData, glyph_data.glyphRects.get());
+		}
+
+		iter.second.custom_glyphs().clear();
+	}
+
+	for (ImVector<ImWchar> *scratchVec : m_glyphRanges) {
+		delete scratchVec;
+	}
+
+	m_glyphRanges.clear();
+
+	m_instanceRenderer->CreateFontsTexture();
 }
 
 void Instance::Uninit()
@@ -562,52 +699,114 @@ void Instance::Uninit()
 // PiGui::PiFace
 //
 
-bool PiFace::isValidGlyph(unsigned short glyph) const
+ImFont *PiFace::addTTFFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges)
 {
-	PROFILE_SCOPED()
-	return (m_invalid_glyphs.count(glyph) == 0);
+	float size = pixelSize * sizefactor();
+	const std::string path = FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), ttfname());
+	ImFont *f = ImGui::GetIO().Fonts->AddFontFromFileTTF(path.c_str(), size, config, ranges->Data);
+	assert(f);
+
+	return f;
 }
 
-void PiFace::addGlyph(unsigned short glyph)
+ImFont *PiFace::addSVGFaceToAtlas(int pixelSize, ImFontConfig *config, ImVector<ImWchar> *ranges, RasterizeSVGResult *svgData, ImVector<int> *outGlyphRects)
+{
+	assert(config->MergeMode);
+
+	ImFontAtlas *atlas = ImGui::GetIO().Fonts;
+	ImFont *font = atlas->Fonts.back();
+
+	// we'll stretch the icon/character size if we're rendering with a lower-resolution fallback
+	// (e.g. while waiting for high-res version to be rendered)
+	int glyphWidth = svgData->width / m_svgcolumns;
+	int glyphHeight = svgData->height / m_svgrows;
+
+	for (int idx = 0; idx < ranges->size() - 1; idx += 2) {
+		ImWchar firstChar = std::max(ranges->Data[idx], m_loadrange.first);
+		ImWchar lastChar = std::min(ranges->Data[idx + 1], m_loadrange.second);
+
+		if (firstChar > m_loadrange.second || lastChar < m_loadrange.first)
+			continue;
+
+		for (ImWchar glyph = firstChar; glyph <= lastChar; glyph++) {
+			int slotIdx = atlas->AddCustomRectFontGlyph(font, glyph, glyphWidth, glyphHeight, pixelSize);
+			outGlyphRects->push_back(slotIdx);
+		}
+	}
+
+	return font;
+}
+
+int RGBA32TexOffsetFromCoords(int x, int y, int pitch)
+{
+	return (pitch * y * 4) + (x * 4);
+}
+
+void PiFace::finishSVGFaceData(ImFont *font, int pixelSize, RasterizeSVGResult *svgData, ImVector<int> *glyphRects)
+{
+	ImFontAtlas *atlas = ImGui::GetIO().Fonts;
+
+	// Ensure texture data pointer is available and in RGBA32
+	uint8_t *texData;
+	int texWidth;
+	atlas->GetTexDataAsRGBA32(&texData, &texWidth, nullptr);
+
+	int glyphWidth = svgData->width / m_svgcolumns;
+	int glyphHeight = svgData->height / m_svgrows;
+
+	for (int rectIdx : *glyphRects) {
+		ImFontAtlasCustomRect *rect = atlas->GetCustomRectByIndex(rectIdx);
+		int glyphIndex = rect->GlyphID - m_loadrange.first;
+
+		int glyphX = (glyphIndex % m_svgcolumns) * glyphWidth;
+		int glyphY = (glyphIndex / m_svgcolumns) * glyphHeight;
+
+		for (int line = 0; line < rect->Height; line++) {
+			memcpy(
+				texData + RGBA32TexOffsetFromCoords(rect->X, rect->Y + line, texWidth),
+				svgData->data.get() + RGBA32TexOffsetFromCoords(glyphX, glyphY + line, svgData->width),
+				glyphWidth * 4 // RGBA32
+			);
+		}
+
+		// Size the glyph according to the pixel size rather than the rendered size
+		// (which might be different with fallback data)
+		ImFontGlyph *glyph = &font->Glyphs[font->IndexLookup[rect->GlyphID]];
+		glyph->X1 = pixelSize;
+		glyph->Y1 = pixelSize;
+	}
+}
+
+//
+// PiGui::PiFont
+//
+
+bool PiFont::addGlyph(unsigned short glyph)
 {
 	PROFILE_SCOPED()
-	// Output("- PiFace %s adding glyph 0x%x\n", ttfname().c_str(), glyph);
 	for (auto &range : m_used_ranges) {
 		if (range.first <= glyph && glyph <= range.second) {
-			// Output(" - already added, not adding again\n");
-			m_invalid_glyphs.insert(glyph); //if already added it once and trying to add it again, it's invalid
-			return;
+			// if we already added it once and are trying to add it again,
+			// it's invalid and not covered by any of the faces in this font
+			// this avoids spurious rebakes if the font does not provide a glyph
+			// in any of its faces
+			return false;
 		}
 	}
-	//	Output(" - added\n");
 	m_used_ranges.push_back(std::make_pair(glyph, glyph));
+	return true;
 }
 
-void PiFace::sortUsedRanges() const
+void PiFont::describe(bool withFaces) const
 {
-	PROFILE_SCOPED()
-	// sort by ascending lower end of range
-	std::sort(m_used_ranges.begin(), m_used_ranges.end(), [](const std::pair<unsigned short, unsigned short> &a, const std::pair<unsigned short, unsigned short> &b) { return a.first < b.first; });
-	// merge adjacent ranges
-	std::vector<std::pair<unsigned short, unsigned short>> merged;
-	std::pair<unsigned short, unsigned short> current(0xffff, 0xffff);
-	for (auto &range : m_used_ranges) {
-		//		Output("> checking 0x%x-0x%x\n", range.first, range.second);
-		if (current.first == 0xffff && current.second == 0xffff)
-			current = range;
-		else {
-			// if only a few are missing in range, just merge nontheless. +5 is 4 missing
-			if (current.second + 5 >= range.first) { // (current.second + 1 == range.first)
-				//				Output("> merging 0x%x-0x%x and 0x%x-0x%x\n", current.first, current.second, range.first, range.second);
-				current.second = range.second;
-			} else {
-				//				Output("> pushing 0x%x-0x%x\n", current.first, current.second);
-				merged.push_back(current);
-				current = range;
-			}
+	Log::Info("font {}:{}\n", name(), pixelsize());
+
+	if (withFaces) {
+		for (const PiFace &face : faces()) {
+			if (face.isSvgFont())
+				Log::Info("  - {} {}x{}\n", face.svgname(), face.svgCols(), face.svgRows());
+			else
+				Log::Info("  - {} {}\n", face.ttfname(), face.sizefactor());
 		}
 	}
-	if (current.first != 0xffff && current.second != 0xffff)
-		merged.push_back(current);
-	m_used_ranges.assign(merged.begin(), merged.end());
 }
