@@ -8,6 +8,7 @@
 #include "fmt/core.h"
 #include "gameconsts.h"
 
+#include <cinttypes>
 #include <sstream>
 #include <cassert>
 

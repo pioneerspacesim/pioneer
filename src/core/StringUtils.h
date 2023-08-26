@@ -8,6 +8,13 @@
 #include <string_view>
 #include <vector>
 
+#ifdef _MSC_VER
+#ifndef __MINGW32__
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
+#endif
+#endif
+
 // Pioneer String Utility Helpers
 
 #define SIZET_FMT "%zu"

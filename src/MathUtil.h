@@ -9,6 +9,8 @@
 #include "vector3.h"
 #include "fixed.h"
 
+#include <cmath>
+
 template <class T>
 inline const T &Clamp(const T &x, const T &min, const T &max) { return x > max ? max : (x < min ? min : x); }
 

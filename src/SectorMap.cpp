@@ -3,14 +3,11 @@
 
 #include "SectorMap.h"
 
-#include <float.h>
-#include <array>
-#include <cmath>
-#include <sstream>
 #include "GameSaveError.h"
 #include "Input.h"
 #include "Json.h"
 #include "MathUtil.h"
+#include "core/StringUtils.h"
 #include "pigui/PiGuiRenderer.h"
 #include "galaxy/Sector.h"
 #include "galaxy/Galaxy.h"
@@ -22,6 +19,11 @@
 #include "matrix4x4.h"
 #include "vector3.h"
 #include "pigui/PiGui.h"
+
+#include <float.h>
+#include <array>
+#include <cmath>
+#include <sstream>
 
 using namespace Graphics;
 

@@ -10,6 +10,8 @@
 #include "base64/base64.hpp"
 #include "core/GZipFormat.h"
 #include "utils.h"
+
+#include <cinttypes>
 #include <cmath>
 
 extern "C" {
