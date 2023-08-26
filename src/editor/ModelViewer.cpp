@@ -659,7 +659,9 @@ void ModelViewer::DrawPiGui()
 	ImGuiID dockspaceID = ImGui::GetID("DockSpace");
 	static bool isFirstRun = true;
 
-	if (!ImGui::DockBuilderGetNode(dockspaceID))
+	// TODO: need some way to load user's docking layout but ensure windows are
+	// docked into dock nodes
+	if (isFirstRun /* !ImGui::DockBuilderGetNode(dockspaceID) */)
 		SetupLayout(dockspaceID);
 
 	ImGui::DockSpace(dockspaceID);
