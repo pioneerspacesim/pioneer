@@ -121,7 +121,7 @@ void SpaceStationType::OnSetupComplete()
 		int bay, portId;
 		int minSize, maxSize;
 		char padname[8];
-		const matrix4x4f &locTransform = locIter->GetTransform();
+		const matrix4x4f &locTransform = locIter->GetGlobalTransform();
 
 		// eg:loc_A001_p01_s0_500_b01
 		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname[0], &portId, &minSize, &maxSize, &bay));
@@ -216,7 +216,7 @@ void SpaceStationType::OnSetupComplete()
 				for (auto &exitIt : exit_mts) {
 					PiVerify(1 == sscanf(exitIt->GetName().c_str(), "exit_port%d", &exitport));
 					if (exitport == portId) {
-						EndOrient = exitIt->GetTransform();
+						EndOrient = exitIt->GetGlobalTransform();
 						break;
 					}
 				}
