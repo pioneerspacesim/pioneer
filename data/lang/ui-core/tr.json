@@ -161,11 +161,11 @@
   },
   "CHARACTER": {
     "description": "",
-    "message": "Character"
+    "message": "Karakter"
   },
   "CHARISMA": {
     "description": "Character parameter",
-    "message": "Charisma"
+    "message": "Karizma"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Engineering"
+    "message": "Mühendislik"
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -1169,7 +1169,7 @@
   },
   "INTELLIGENCE": {
     "description": "Character parameter",
-    "message": "Intelligence"
+    "message": "Zeka"
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
@@ -1249,7 +1249,7 @@
   },
   "LAWFULNESS": {
     "description": "Character parameter",
-    "message": "Lawfulness"
+    "message": "Yasaya Uyum"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1325,7 +1325,7 @@
   },
   "LUCK": {
     "description": "Character parameter",
-    "message": "Luck"
+    "message": "Şans"
   },
   "LY": {
     "description": "Light year",
@@ -1445,7 +1445,7 @@
   },
   "MONEY": {
     "description": "",
-    "message": "Money"
+    "message": "Para"
   },
   "MORE_INFO": {
     "description": "",
@@ -1493,7 +1493,7 @@
   },
   "NAVIGATION": {
     "description": "Crew skill",
-    "message": "Navigation"
+    "message": "Navigasyon"
   },
   "NAVIGATOR": {
     "description": "",
@@ -1505,7 +1505,7 @@
   },
   "NEW_GAME": {
     "description": "Main menu item",
-    "message": "New game"
+    "message": "Yeni oyun"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1545,7 +1545,7 @@
   },
   "NOTORIETY": {
     "description": "Character parameter",
-    "message": "Notoriety"
+    "message": "Şöhret"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
@@ -1713,7 +1713,7 @@
   },
   "PILOTING": {
     "description": "Crew skill",
-    "message": "Piloting"
+    "message": "Pilotaj"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1937,7 +1937,7 @@
   },
   "SELECT_START_PROFILE": {
     "description": "Combo box for selecting the starting position",
-    "message": "Select start profile:"
+    "message": "Başlangıç profili seç:"
   },
   "SELL": {
     "description": "Commodities and equipment prices",
@@ -2009,11 +2009,11 @@
   },
   "SHIP_NAME": {
     "description": "",
-    "message": "Ship name"
+    "message": "Gemi adı"
   },
   "SHIP_PARAMETERS": {
     "description": "",
-    "message": "Ship parameters"
+    "message": "Gemi parametreleri"
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
@@ -2029,7 +2029,7 @@
   },
   "SOME_PARAMETERS_ARE_NOT_OK": {
     "description": "Diagnostics at game start",
-    "message": "Some parameters are not OK:"
+    "message": "Bazı parametreler uygun değil:"
   },
   "SOUND": {
     "description": "",
@@ -2037,7 +2037,7 @@
   },
   "STANDARD_GAME_START_TIME": {
     "description": "Standard game start time, current moment + 1200 years",
-    "message": "Standard game start time"
+    "message": "Standart oyun başlama zamanı"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2065,7 +2065,7 @@
   },
   "START_GAME": {
     "description": "Button",
-    "message": "Start game"
+    "message": "Oyunu başlat"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2121,7 +2121,7 @@
   },
   "SUMMARY": {
     "description": "Tab item in the start game menu",
-    "message": "Summary"
+    "message": "Özet"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
