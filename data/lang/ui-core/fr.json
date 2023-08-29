@@ -161,11 +161,11 @@
   },
   "CHARACTER": {
     "description": "",
-    "message": "Character"
+    "message": "Caractère"
   },
   "CHARISMA": {
     "description": "Character parameter",
-    "message": "Charisma"
+    "message": "Charisme"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -457,7 +457,7 @@
   },
   "ENGINEERING": {
     "description": "Engineering skills of crew",
-    "message": "Engineering"
+    "message": "Ingénierie"
   },
   "ENTRY": {
     "description": "A note/entry/record into the flight log",
@@ -1249,7 +1249,7 @@
   },
   "LAWFULNESS": {
     "description": "Character parameter",
-    "message": "Lawfulness"
+    "message": "Légalité"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1325,7 +1325,7 @@
   },
   "LUCK": {
     "description": "Character parameter",
-    "message": "Luck"
+    "message": "Chance"
   },
   "LY": {
     "description": "Light year",
@@ -1441,11 +1441,11 @@
   },
   "MODEL": {
     "description": "3d model of the ship",
-    "message": "Model"
+    "message": "Modèle"
   },
   "MONEY": {
     "description": "",
-    "message": "Money"
+    "message": "Monnaie"
   },
   "MORE_INFO": {
     "description": "",
