@@ -754,6 +754,20 @@ static int l_engine_set_gpu_jobs_enabled(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_realistic_scattering(lua_State *l)
+{
+	lua_pushinteger(l, Pi::config->Int("RealisticScattering"));
+	return 1;
+}
+
+static int l_engine_set_realistic_scattering(lua_State *l)
+{
+	const int scattering = luaL_checkinteger(l, 1);
+	Pi::config->SetInt("RealisticScattering", scattering);
+	Pi::config->Save();
+	return 0;
+}
+
 static int l_engine_is_intro_zooming(lua_State *l)
 {
 	if (Pi::intro) {
@@ -1063,6 +1077,9 @@ void LuaEngine::Register()
 
 		{ "GetGpuJobsEnabled", l_engine_get_gpu_jobs_enabled },
 		{ "SetGpuJobsEnabled", l_engine_set_gpu_jobs_enabled },
+
+		{ "GetRealisticScattering", l_engine_get_realistic_scattering },
+		{ "SetRealisticScattering", l_engine_set_realistic_scattering },
 
 		{ "GetPlanetDetailLevel", l_engine_get_planet_detail_level },
 		{ "SetPlanetDetailLevel", l_engine_set_planet_detail_level },

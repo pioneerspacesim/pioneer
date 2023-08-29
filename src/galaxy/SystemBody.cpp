@@ -262,6 +262,42 @@ bool SystemBody::IsScoopable() const
 	return false;
 }
 
+// all input units are in km
+double SystemBody::ComputeDensity(const double radius, const double atmosphereHeight, const double h, const double baricStep) const
+{
+        int numSamples = 16;
+        double totalHeight = radius + atmosphereHeight;
+        double minHeight = radius + h;
+        double tmax = sqrt(totalHeight*totalHeight - minHeight*minHeight); // maximum t
+        double tmin = -tmax;
+        double length = tmax - tmin;
+        double step = length / numSamples;
+
+        double density = 0.0;
+        for (int i = 0; i < numSamples; ++i) {
+                double t = tmin + step * (i + 0.5);
+                double h = sqrt(minHeight*minHeight + t*t) - radius;
+                density += step * exp(-h / baricStep);
+        }
+
+        return density;
+}
+
+// all input units are in km
+vector3f SystemBody::GetCoefficients(const double radius, const double atmHeight, const double baricStep) const
+{
+	float k, b, c;
+	k = ComputeDensity(radius, atmHeight, 0.f, baricStep);
+	b = log(k / ComputeDensity(radius, atmHeight, 1.f, baricStep));
+
+	float erf1_minus_erf0 = 0.421463;
+	float sHeight = sqrt(radius*radius + 1.f) - radius;
+	float c1 = exp(-sHeight / baricStep);
+	float c2 = k * erf1_minus_erf0;
+	c = c1 / c2;
+	return vector3f(k, b, c);
+}
+
 // Calculate parameters used in the atmospheric model for shaders
 AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 {
@@ -319,6 +355,11 @@ AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	params.atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / GetRadius();
 
 	params.planetRadius = static_cast<float>(radiusPlanet_in_m);
+
+	const float radiusPlanet_in_km = radiusPlanet_in_m / 1000;
+	const float atmosHeight_in_km = radiusPlanet_in_km * (params.atmosRadius - 1);
+	params.rayleighCoefficients = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, 7994);
+	params.mieCoefficients      = GetCoefficients(radiusPlanet_in_km, atmosHeight_in_km, 1200);
 
 	return params;
 }

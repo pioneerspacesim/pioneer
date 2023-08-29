@@ -13,6 +13,8 @@ layout(std140) uniform BaseSphereData {
 	float geosphereAtmosFogDensity;		// TODO documentation
 	float geosphereAtmosInvScaleHeight; // TODO documentation
 	vec4 atmosColor;
+	vec3 coefficientsR;
+	vec3 coefficientsM;
 
 	// Eclipse data
 	Eclipse eclipse;

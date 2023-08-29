@@ -11,6 +11,8 @@ struct AtmosphereParameters {
 	float planetRadius;
 	Color atmosCol;
 	vector3d center;
+	vector3f rayleighCoefficients;
+	vector3f mieCoefficients;
 };
 
 #endif // ATMOSPHEREPARAMETERS_H_INCLUDED
