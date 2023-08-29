@@ -244,10 +244,15 @@ void SystemEditor::DrawInterface()
 	ImGui::End();
 
 	if (ImGui::Begin(PROPERTIES_WND_ID)) {
+		// Adjust default window label position
+		ImGui::PushItemWidth(ImFloor(ImGui::GetWindowSize().x * 0.55f));
+
 		if (m_selectedBody)
 			DrawBodyProperties();
 		else
 			DrawSystemProperties();
+
+		ImGui::PopItemWidth();
 	}
 	ImGui::End();
 
@@ -396,6 +401,9 @@ bool SystemEditor::DrawBodyNode(SystemBody *body, bool isRoot)
 	std::string name = fmt::format("{} {}###{:x}", GetBodyIcon(body), body->GetName(), bodyId);
 	bool open = ImGui::TreeNodeEx(name.c_str(), flags);
 
+	if (body == m_selectedBody)
+		ImGui::SetItemDefaultFocus();
+
 	if (!isRoot) {
 		HandleOutlinerDragDrop(body);
 	}
@@ -417,7 +425,13 @@ void SystemEditor::DrawBodyProperties()
 
 	ImGui::Spacing();
 
+	ImGui::PushID(m_selectedBody);
+	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 13));
+
 	SystemBody::EditorAPI::EditProperties(m_selectedBody, GetUndo());
+
+	ImGui::PopFont();
+	ImGui::PopID();
 }
 
 void SystemEditor::DrawSystemProperties()

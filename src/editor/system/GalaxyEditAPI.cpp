@@ -105,23 +105,26 @@ void StarSystem::EditorAPI::ReorderBodyIndex(StarSystem *system)
 
 void StarSystem::EditorAPI::EditName(StarSystem *system, Random &rng, UndoSystem *undo)
 {
-	float buttonSize = ImGui::GetFrameHeight();
-	ImGui::SetNextItemWidth(ImGui::CalcItemWidth() - buttonSize - ImGui::GetStyle().ItemSpacing.x);
-
-	ImGui::InputText("##Name", &system->m_name);
-	if (Draw::UndoHelper("Edit System Name", undo))
-		AddUndoSingleValue(undo, &system->m_name);
-
-	ImGui::SameLine();
-	if (ImGui::Button("R", ImVec2(buttonSize, buttonSize))) {
+	ImGui::BeginGroup();
+	if (Draw::RandomButton()) {
 		system->m_name.clear();
 		NameGenerator::GetSystemName(*&system->m_name, rng);
 	}
+
+	ImGui::InputText("Name", &system->m_name);
+	ImGui::EndGroup();
+
 	if (Draw::UndoHelper("Edit System Name", undo))
 		AddUndoSingleValue(undo, &system->m_name);
 
-	ImGui::SameLine(0.f, ImGui::GetStyle().ItemInnerSpacing.x);
-	ImGui::TextUnformatted("Name");
+	// ImGui::SameLine();
+	// if (ImGui::Button("R", ImVec2(buttonSize, buttonSize))) {
+	// }
+	// if (Draw::UndoHelper("Edit System Name", undo))
+	// 	AddUndoSingleValue(undo, &system->m_name);
+
+	// ImGui::SameLine(0.f, ImGui::GetStyle().ItemInnerSpacing.x);
+	// ImGui::TextUnformatted("Name");
 }
 
 void StarSystem::EditorAPI::EditProperties(StarSystem *system, UndoSystem *undo)
@@ -154,7 +157,7 @@ void StarSystem::EditorAPI::EditProperties(StarSystem *system, UndoSystem *undo)
 	Draw::EditEnum("Edit System Government", "Government", "PolitGovType",
 		reinterpret_cast<int *>(&system->m_polit.govType), Polit::GovType::GOV_MAX - 1, undo);
 
-	ImGui::InputFixed("Lawlessness", &system->m_polit.lawlessness);
+	Draw::InputFixedSlider("Lawlessness", &system->m_polit.lawlessness);
 	if (Draw::UndoHelper("Edit System Lawlessness", undo))
 		AddUndoSingleValue(undo, &system->m_polit.lawlessness);
 }
@@ -350,40 +353,42 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 	bool orbitChanged = false;
 	auto updateBodyOrbit = [=](){ UpdateBodyOrbit(body); };
 
-	orbitChanged |= ImGui::InputFixedAU("Semi-Major Axis", &body->m_semiMajorAxis);
+	orbitChanged |= Draw::InputFixedDistance("Semi-Major Axis", &body->m_semiMajorAxis);
 	if (Draw::UndoHelper("Edit Semi-Major Axis", undo))
 		AddUndoSingleValueClosure(undo, &body->m_semiMajorAxis, updateBodyOrbit);
 
-	orbitChanged |= ImGui::InputFixed("Eccentricity", &body->m_eccentricity);
+	orbitChanged |= Draw::InputFixedSlider("Eccentricity", &body->m_eccentricity);
 	if (Draw::UndoHelper("Edit Eccentricity", undo))
 		AddUndoSingleValueClosure(undo, &body->m_eccentricity, updateBodyOrbit);
+
+	orbitChanged |= Draw::InputFixedDegrees("Inclination", &body->m_inclination);
+	if (Draw::UndoHelper("Edit Inclination", undo))
+		AddUndoSingleValueClosure(undo, &body->m_inclination, updateBodyOrbit);
+
+	orbitChanged |= Draw::InputFixedDegrees("Orbital Offset", &body->m_orbitalOffset);
+	if (Draw::UndoHelper("Edit Orbital Offset", undo))
+		AddUndoSingleValueClosure(undo, &body->m_orbitalOffset, updateBodyOrbit);
+
+	orbitChanged |= Draw::InputFixedDegrees("Orbital Phase", &body->m_orbitalPhaseAtStart);
+	if (Draw::UndoHelper("Edit Orbital Phase", undo))
+		AddUndoSingleValueClosure(undo, &body->m_orbitalPhaseAtStart, updateBodyOrbit);
 
 	ImGui::BeginDisabled();
 	ImGui::InputFixed("Periapsis", &body->m_orbMin, 0.0, 0.0, "%0.6f AU");
 	ImGui::InputFixed("Apoapsis", &body->m_orbMax, 0.0, 0.0, "%0.6f AU");
 	ImGui::EndDisabled();
 
-	orbitChanged |= ImGui::InputFixedDegrees("Axial Tilt", &body->m_axialTilt);
+	ImGui::SeparatorText("Rotation Parameters");
+
+	orbitChanged |= Draw::InputFixedDegrees("Axial Tilt", &body->m_axialTilt);
 	if (Draw::UndoHelper("Edit Axial Tilt", undo))
 		AddUndoSingleValueClosure(undo, &body->m_axialTilt, updateBodyOrbit);
 
-	orbitChanged |= ImGui::InputFixedDegrees("Inclination", &body->m_inclination);
-	if (Draw::UndoHelper("Edit Inclination", undo))
-		AddUndoSingleValueClosure(undo, &body->m_inclination, updateBodyOrbit);
-
-	orbitChanged |= ImGui::InputFixedDegrees("Orbital Offset", &body->m_orbitalOffset);
-	if (Draw::UndoHelper("Edit Orbital Offset", undo))
-		AddUndoSingleValueClosure(undo, &body->m_orbitalOffset, updateBodyOrbit);
-
-	orbitChanged |= ImGui::InputFixedDegrees("Orbital Phase at Start", &body->m_orbitalPhaseAtStart);
-	if (Draw::UndoHelper("Edit Orbital Phase at Start", undo))
-		AddUndoSingleValueClosure(undo, &body->m_orbitalPhaseAtStart, updateBodyOrbit);
-
-	orbitChanged |= ImGui::InputFixedDegrees("Rotation at Start", &body->m_rotationalPhaseAtStart);
+	orbitChanged |= Draw::InputFixedDegrees("Rotation at Start", &body->m_rotationalPhaseAtStart);
 	if (Draw::UndoHelper("Edit Rotational Phase at Start", undo))
 		AddUndoSingleValueClosure(undo, &body->m_rotationalPhaseAtStart, updateBodyOrbit);
 
-	orbitChanged |= ImGui::InputFixed("Rotation Period (Days)", &body->m_rotationPeriod, 1.0, 10.0);
+	orbitChanged |= ImGui::InputFixed("Rotation Period", &body->m_rotationPeriod, 1.0, 10.0, "%.3f days");
 	if (Draw::UndoHelper("Edit Rotation Period", undo))
 		AddUndoSingleValueClosure(undo, &body->m_rotationPeriod, updateBodyOrbit);
 
@@ -409,11 +414,11 @@ void SystemBody::EditorAPI::EditStarportProperties(SystemBody *body, UndoSystem 
 	if (body->GetType() == TYPE_STARPORT_SURFACE) {
 		ImGui::SeparatorText("Surface Parameters");
 
-		ImGui::InputFixedDegrees("Latitude", &body->m_inclination);
+		Draw::InputFixedDegrees("Latitude", &body->m_inclination);
 		if (Draw::UndoHelper("Edit Latitude", undo))
 			AddUndoSingleValue(undo, &body->m_inclination);
 
-		ImGui::InputFixedDegrees("Longitude", &body->m_orbitalOffset);
+		Draw::InputFixedDegrees("Longitude", &body->m_orbitalOffset);
 		if (Draw::UndoHelper("Edit Longitude", undo))
 			AddUndoSingleValue(undo, &body->m_orbitalOffset);
 	} else {
@@ -427,8 +432,6 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, UndoSystem *undo)
 {
 	bool isStar = body->GetSuperType() <= SUPERTYPE_STAR;
 
-	ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.5);
-
 	ImGui::InputText("Name", &body->m_name);
 	if (Draw::UndoHelper("Edit Name", undo))
 		AddUndoSingleValue(undo, &body->m_name);
@@ -440,74 +443,72 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, UndoSystem *undo)
 		AddUndoSingleValue(undo, &body->m_seed);
 
 	if (body->GetSuperType() < SUPERTYPE_STARPORT) {
-		ImGui::InputFixed(isStar ? "Radius (sol)" : "Radius (earth)", &body->m_radius);
-		if (Draw::UndoHelper("Edit Radius", undo))
-			AddUndoSingleValue(undo, &body->m_radius);
 
-		ImGui::InputFixed("Aspect Ratio", &body->m_aspectRatio);
-		if (Draw::UndoHelper("Edit Aspect Ratio", undo))
-			AddUndoSingleValue(undo, &body->m_aspectRatio);
+		ImGui::SeparatorText("Body Parameters");
 
-		ImGui::InputFixed(isStar ? "Mass (sol)" : "Mass (earth)", &body->m_mass);
+		Draw::InputFixedMass("Mass", &body->m_mass, isStar);
 		if (Draw::UndoHelper("Edit Mass", undo))
 			AddUndoSingleValue(undo, &body->m_mass);
 
-		ImGui::InputInt("Temperature (K)", &body->m_averageTemp, 1, 10);
+		Draw::InputFixedRadius("Radius",  &body->m_radius, isStar);
+		if (Draw::UndoHelper("Edit Radius", undo))
+			AddUndoSingleValue(undo, &body->m_radius);
+
+		Draw::InputFixedSlider("Aspect Ratio", &body->m_aspectRatio, 0.0, 2.0);
+		if (Draw::UndoHelper("Edit Aspect Ratio", undo))
+			AddUndoSingleValue(undo, &body->m_aspectRatio);
+
+		ImGui::InputInt("Temperature (K)", &body->m_averageTemp, 1, 10, "%d°K");
 		if (Draw::UndoHelper("Edit Temperature", undo))
 			AddUndoSingleValue(undo, &body->m_averageTemp);
 
 	} else {
 		EditStarportProperties(body, undo);
-
-		ImGui::PopItemWidth();
 		return;
 	}
 
-	// TODO: orbital parameters not needed for root body
-
-	EditOrbitalParameters(body, undo);
+	if (body->GetParent()) {
+		EditOrbitalParameters(body, undo);
+	}
 
 	if (isStar) {
-		ImGui::PopItemWidth();
 		return;
 	}
 
 	ImGui::SeparatorText("Surface Parameters");
 
-	ImGui::InputFixed("Metallicity", &body->m_metallicity);
+	Draw::InputFixedSlider("Metallicity", &body->m_metallicity);
 	if (Draw::UndoHelper("Edit Metallicity", undo))
 		AddUndoSingleValue(undo, &body->m_metallicity);
 
-	ImGui::InputFixed("Volcanicity", &body->m_volcanicity);
+	Draw::InputFixedSlider("Volcanicity", &body->m_volcanicity);
 	if (Draw::UndoHelper("Edit Volcanicity", undo))
 		AddUndoSingleValue(undo, &body->m_volcanicity);
 
-	ImGui::InputFixed("Atmosphere Density", &body->m_volatileGas);
+	Draw::InputFixedSlider("Atm. Density", &body->m_volatileGas);
 	if (Draw::UndoHelper("Edit Atmosphere Density", undo))
 		AddUndoSingleValue(undo, &body->m_volatileGas);
 
-	ImGui::InputFixed("Atmosphere Oxidizing", &body->m_atmosOxidizing);
-	if (Draw::UndoHelper("Edit Atmosphere Oxidizing", undo))
+	Draw::InputFixedSlider("Atm. Oxygen", &body->m_atmosOxidizing);
+	if (Draw::UndoHelper("Edit Atmosphere Oxygen", undo))
 		AddUndoSingleValue(undo, &body->m_atmosOxidizing);
 
-	ImGui::InputFixed("Ocean Coverage", &body->m_volatileLiquid);
+	Draw::InputFixedSlider("Ocean Coverage", &body->m_volatileLiquid);
 	if (Draw::UndoHelper("Edit Ocean Coverage", undo))
 		AddUndoSingleValue(undo, &body->m_volatileLiquid);
 
-	ImGui::InputFixed("Ice Coverage", &body->m_volatileIces);
+	Draw::InputFixedSlider("Ice Coverage", &body->m_volatileIces);
 	if (Draw::UndoHelper("Edit Ice Coverage", undo))
 		AddUndoSingleValue(undo, &body->m_volatileIces);
 
 	// TODO: unused by other code
-	// ImGui::InputFixed("Human Activity", &body->m_humanActivity);
+	// Draw::InputFixedSlider("Human Activity", &body->m_humanActivity);
 	// if (Draw::UndoHelper("Edit Human Activity", undo))
 	// 	AddUndoSingleValue(undo, &body->m_humanActivity);
 
-	ImGui::InputFixed("Life", &body->m_life);
+	Draw::InputFixedSlider("Life", &body->m_life);
 	if (Draw::UndoHelper("Edit Life", undo))
 		AddUndoSingleValue(undo, &body->m_life);
 
 	EditEconomicProperties(body, undo);
-
-	ImGui::PopItemWidth();
 }
