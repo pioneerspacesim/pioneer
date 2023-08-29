@@ -81,6 +81,8 @@ void EditorApp::OnStartup()
 
 	ModManager::Init();
 
+	ModManager::LoadMods(&cfg);
+
 	// get threads up
 	Uint32 numThreads = cfg.Int("WorkerThreads");
 	numThreads = numThreads ? numThreads : std::max(OS::GetNumCores() - 1, 1U);
@@ -105,6 +107,8 @@ void EditorApp::OnShutdown()
 {
 	Lua::Uninit();
 	Graphics::Uninit();
+
+	ModManager::Uninit();
 
 	ShutdownPiGui();
 	ShutdownRenderer();
