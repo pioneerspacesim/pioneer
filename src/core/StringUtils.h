@@ -7,6 +7,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <cstdint>
 
 #ifdef _MSC_VER
 #ifndef __MINGW32__

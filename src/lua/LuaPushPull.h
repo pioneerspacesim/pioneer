@@ -10,6 +10,7 @@
 #include <cstddef>
 #include <string>
 #include <tuple>
+#include <cstdint>
 
 inline void pi_lua_generic_push(lua_State *l, bool value) { lua_pushboolean(l, value); }
 inline void pi_lua_generic_push(lua_State *l, int32_t value) { lua_pushinteger(l, value); }
