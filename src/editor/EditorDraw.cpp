@@ -7,6 +7,7 @@
 #include "EnumStrings.h"
 
 #include "UndoStepType.h"
+#include "editor/EditorIcons.h"
 #include "editor/UndoSystem.h"
 
 #include "imgui/imgui.h"
@@ -335,4 +336,19 @@ Draw::DragDropTarget Draw::HierarchyDragDrop(const char *type, ImGuiID targetID,
 
 	ImGui::PopID();
 	return ret;
+}
+
+void Draw::HelpMarker(const char* desc, bool same_line)
+{
+	if (same_line)
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x /*- ImGui::GetFontSize()*/);
+
+    ImGui::TextDisabled(EICON_INFO);
+    if (ImGui::BeginItemTooltip())
+    {
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+        ImGui::TextUnformatted(desc);
+        ImGui::PopTextWrapPos();
+        ImGui::EndTooltip();
+    }
 }

@@ -44,7 +44,7 @@ namespace Editor::Draw {
 	}
 
 	bool InputFixedSlider(const char *str, fixed *val, double val_min = 0.0, double val_max = 1.0, const char *format = "%.4f", ImGuiInputTextFlags flags = 0);
-	bool InputFixedDegrees(const char *str, fixed *val, ImGuiInputTextFlags flags = 0);
+	bool InputFixedDegrees(const char *str, fixed *val, double val_min = -360.0, double val_max = 360.0, ImGuiInputTextFlags flags = 0);
 	bool InputFixedDistance(const char *str, fixed *val, ImGuiInputTextFlags flags = 0);
 	bool InputFixedMass(const char *str, fixed *val, bool is_solar, ImGuiInputTextFlags flags = 0);
 	bool InputFixedRadius(const char *str, fixed *val, bool is_solar, ImGuiInputTextFlags flags = 0);

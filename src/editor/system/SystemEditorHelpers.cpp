@@ -99,11 +99,9 @@ bool Draw::InputFixedSlider(const char *str, fixed *val, double val_min, double 
 	return changed && !ImGui::IsItemActivated();
 }
 
-bool Draw::InputFixedDegrees(const char *str, fixed *val, ImGuiInputTextFlags flags)
+bool Draw::InputFixedDegrees(const char *str, fixed *val, double val_min, double val_max, ImGuiInputTextFlags flags)
 {
 	double val_d = RAD2DEG(val->ToDouble());
-	const double val_min = -360.0;
-	const double val_max = 360.0;
 
 	bool changed = ImGui::SliderScalar(str, ImGuiDataType_Double, &val_d, &val_min, &val_max, "%.3f°", ImGuiSliderFlags_NoRoundToFormat);
 	// bool changed = ImGui::InputDouble(str, &val_d, 1.0, 10.0, "%.3f°", flags | ImGuiInputTextFlags_EnterReturnsTrue);
@@ -126,9 +124,9 @@ bool Draw::InputFixedDistance(const char *str, fixed *val, ImGuiInputTextFlags f
 	int unit_type = DISTANCE_AU;
 
 	double val_d = val->ToDouble();
-	if (val_d < 0.0001)
+	if (val_d < 0.001)
 		unit_type = DISTANCE_LS;
-	if (val_d < 0.000001)
+	if (val_d < 0.00001)
 		unit_type = DISTANCE_KM;
 
 	unit_type = ImGui::GetStateStorage()->GetInt(unit_type_id, unit_type);

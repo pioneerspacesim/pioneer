@@ -86,6 +86,9 @@ namespace Editor::Draw {
 	// Begin tri-mode drag-drop handling on a
 	DragDropTarget HierarchyDragDrop(const char *type, ImGuiID targetID, void *data, void *outData, size_t dataSize);
 
+	// Show a help tooltip
+	void HelpMarker(const char* desc, bool same_line = true);
+
 }
 
 inline bool operator==(const ImVec2 &a, const ImVec2 &b)

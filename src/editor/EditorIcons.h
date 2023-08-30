@@ -15,6 +15,8 @@
 #define EICON_PAUSE "\uF055"
 #define EICON_PLAY "\uF056"
 
+#define EICON_INFO "\uF088"
+
 #define EICON_RANDOM "\uF0C7"
 
 #define EICON_AXES "\uF0CA"

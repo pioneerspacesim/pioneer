@@ -26,6 +26,8 @@ namespace {
 			(c >= 'A' && c <= 'Z') ||
 			(c >= '0' && c <= '9'));
 	}
+
+	static constexpr double SECONDS_TO_DAYS = 1.0 / (3600.0 * 24.0);
 }
 
 void StarSystem::EditorAPI::ExportToLua(FILE *f, StarSystem *system, Galaxy *galaxy)
@@ -341,9 +343,16 @@ void SystemBody::EditorAPI::UpdateOrbitAroundParent(SystemBody *body, SystemBody
 
 	body->m_orbit.SetPhase(body->m_orbitalPhaseAtStart.ToDouble());
 
-	double latitude = body->m_inclination.ToDouble();
+	// orbit longitude of ascending node
 	double longitude = body->m_orbitalOffset.ToDouble();
-	body->m_orbit.SetPlane(matrix3x3d::RotateY(longitude) * matrix3x3d::RotateX(-0.5 * M_PI + latitude));
+	// orbit inclination
+	double inclination = body->m_inclination.ToDouble();
+	// orbit argument of periapsis
+	double argument = body->m_argOfPeriapsis.ToDouble();
+	body->m_orbit.SetPlane(
+		matrix3x3d::RotateY(-longitude) *
+		matrix3x3d::RotateX(-0.5 * M_PI + inclination) *
+		matrix3x3d::RotateZ(argument));
 }
 
 void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *undo)
@@ -361,21 +370,47 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 	if (Draw::UndoHelper("Edit Eccentricity", undo))
 		AddUndoSingleValueClosure(undo, &body->m_eccentricity, updateBodyOrbit);
 
-	orbitChanged |= Draw::InputFixedDegrees("Inclination", &body->m_inclination);
+	orbitChanged |= Draw::InputFixedDegrees("Inclination", &body->m_inclination, 0.0, 180.0);
 	if (Draw::UndoHelper("Edit Inclination", undo))
 		AddUndoSingleValueClosure(undo, &body->m_inclination, updateBodyOrbit);
 
 	orbitChanged |= Draw::InputFixedDegrees("Orbital Offset", &body->m_orbitalOffset);
 	if (Draw::UndoHelper("Edit Orbital Offset", undo))
 		AddUndoSingleValueClosure(undo, &body->m_orbitalOffset, updateBodyOrbit);
+	Draw::HelpMarker("Longitude of Ascending Node");
+
+	orbitChanged |= Draw::InputFixedDegrees("Arg. of Periapsis", &body->m_argOfPeriapsis);
+	if (Draw::UndoHelper("Edit Argument of Periapsis", undo))
+		AddUndoSingleValueClosure(undo, &body->m_argOfPeriapsis, updateBodyOrbit);
+	Draw::HelpMarker("Argument of Periapsis\nRelative to Longitude of Ascending Node");
 
 	orbitChanged |= Draw::InputFixedDegrees("Orbital Phase", &body->m_orbitalPhaseAtStart);
 	if (Draw::UndoHelper("Edit Orbital Phase", undo))
 		AddUndoSingleValueClosure(undo, &body->m_orbitalPhaseAtStart, updateBodyOrbit);
+	Draw::HelpMarker("True Anomaly at Epoch\nRelative to Argument of Periapsis");
 
 	ImGui::BeginDisabled();
 	ImGui::InputFixed("Periapsis", &body->m_orbMin, 0.0, 0.0, "%0.6f AU");
 	ImGui::InputFixed("Apoapsis", &body->m_orbMax, 0.0, 0.0, "%0.6f AU");
+
+	double orbit_period = body->GetOrbit().Period() * SECONDS_TO_DAYS;
+	ImGui::InputDouble("Orbital Period", &orbit_period, 0.0, 0.0, "%.2f days");
+
+	if (body->GetParent()) {
+		// calculate the time offset from periapsis at epoch
+		double orbit_time_at_start = (body->GetOrbit().GetOrbitalPhaseAtStart() / (2.0 * M_PI)) * body->GetOrbit().Period();
+
+		double orbit_vel_ap = body->GetOrbit().OrbitalVelocityAtTime(
+			body->GetParent()->GetMass(),
+			body->GetOrbit().Period() * 0.5 - orbit_time_at_start).Length() / 1000.0;
+
+		double orbit_vel_pe = body->GetOrbit().OrbitalVelocityAtTime(
+			body->GetParent()->GetMass(),
+			-orbit_time_at_start).Length() / 1000.0;
+
+		ImGui::InputDouble("Orbital Velocity (AP)", &orbit_vel_ap, 0.0, 0.0, "%.2f km/s");
+		ImGui::InputDouble("Orbital Velocity (PE)", &orbit_vel_pe, 0.0, 0.0, "%.2f km/s");
+	}
 	ImGui::EndDisabled();
 
 	ImGui::SeparatorText("Rotation Parameters");
