@@ -28,6 +28,8 @@ SystemEditorViewport::SystemEditorViewport(EditorApp *app, SystemEditor *editor)
 {
 	m_map.reset(new SystemMapViewport(m_app));
 
+	m_map->SetShowGravpoints(true);
+
 	m_map->svColor[SystemMapViewport::GRID] = Color(0x24242BFF);
 	m_map->svColor[SystemMapViewport::GRID_LEG] = Color(0x787878FF);
 	m_map->svColor[SystemMapViewport::SYSTEMBODY] = Color(0xB5BCE3FF).Shade(0.5);
@@ -56,6 +58,8 @@ bool SystemEditorViewport::OnCloseRequested()
 void SystemEditorViewport::OnUpdate(float deltaTime)
 {
 	m_map->Update(deltaTime);
+
+	m_map->AddObjectTrack({ Projectable::types(Projectable::_MAX + 1), Projectable::BODY, static_cast<Body *>(nullptr), vector3d(1e12, 0.0, 0.0) });
 }
 
 void SystemEditorViewport::OnRender(Graphics::Renderer *r)
@@ -77,18 +81,20 @@ void SystemEditorViewport::OnDraw()
 
 	split.SetCurrentChannel(ImGui::GetWindowDrawList(), 1);
 
-	ImVec2 windowTL = ImGui::GetWindowPos();
-	ImVec2 windowBR = ImVec2(windowTL.x + ImGui::GetWindowSize().x, windowTL.y + ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().WindowPadding.y * 2.f);
-	ImGui::GetWindowDrawList()->PushClipRect(windowTL, windowBR);
-	ImGui::GetWindowDrawList()->AddQuadFilled(
-		windowTL, ImVec2(windowBR.x, windowTL.y),
-		windowBR, ImVec2(windowTL.x, windowBR.y),
-		ImColor(1.f, 1.f, 1.f, 0.25f));
+	// Draw background
+	ImVec2 toolbar_bg_size = ImVec2(ImGui::GetWindowSize().x, ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().WindowPadding.y * 2.f);
+	ImColor toolbar_bg_color = ImGui::GetStyle().Colors[ImGuiCol_FrameBg];
+
+	ImGui::GetWindowDrawList()->PushClipRect(ImGui::GetWindowPos(), ImGui::GetWindowPos() + ImGui::GetWindowSize());
+	ImGui::GetWindowDrawList()->AddRectFilled(
+		ImGui::GetWindowPos(), ImGui::GetWindowPos() + toolbar_bg_size,
+		toolbar_bg_color);
 	ImGui::GetWindowDrawList()->PopClipRect();
 
-	if (ImGui::Button("This is a test!")) {}
+	DrawTimelineControls();
 
 	// Render all GUI elements over top of viewport overlays
+	// (Items rendered earlier take priority when using IsItemHovered)
 
 	split.SetCurrentChannel(ImGui::GetWindowDrawList(), 0);
 
@@ -100,33 +106,27 @@ void SystemEditorViewport::OnDraw()
 
 	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
 
+	ImRect screen_rect = ImRect(ImVec2(0, 0), ImGui::GetWindowSize());
+
 	// Then draw "under" the GUI elements so we can use ImGui::IsItemHovered et al.
 	for (auto &group : groups) {
 		ImVec2 itempos = { group.screenpos.x, group.screenpos.y };
 		ImVec2 iconSize = { ImGui::GetFontSize(), ImGui::GetFontSize() };
 
+		// Simple screen clipping rejection test
+		if (!screen_rect.Contains(itempos))
+			continue;
+
 		const Projectable &item = projected[group.tracks[0]];
 		if (group.type == Projectable::OBJECT && item.base == Projectable::SYSTEMBODY) {
 			ImColor icon_col(0xFFC8C8C8);
-			const char *bodyName = item.ref.sbody->GetName().c_str();
 
-			ImVec2 drawPos = windowTL + itempos - iconSize * 0.5f;
-			ImGui::GetWindowDrawList()->AddText(drawPos, icon_col, GetBodyIcon(item.ref.sbody));
+			std::string label = group.tracks.size() > 1 ?
+				fmt::format("{} ({})", item.ref.sbody->GetName(), group.tracks.size()) :
+				item.ref.sbody->GetName();
 
-			ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 12));
-			ImVec2 textPos = windowTL + itempos + ImVec2(iconSize.x, -ImGui::GetFontSize() * 0.5f);
-			ImVec2 textSize = ImGui::CalcTextSize(bodyName);
-			// label shadow
-			ImGui::GetWindowDrawList()->AddText(textPos + ImVec2(1.f, 1.f), IM_COL32_BLACK, bodyName);
-			// body label
-			ImGui::GetWindowDrawList()->AddText(textPos, icon_col, bodyName);
-			ImGui::PopFont();
-
-			ImRect hoverRect(drawPos, drawPos + iconSize);
-			hoverRect.Add(textPos + textSize);
-
-			if (ImGui::ItemHoverable(hoverRect, 0, 0)) {
-				ImGui::SetTooltip("%s", bodyName);
+			if (DrawIcon(itempos, icon_col, GetBodyIcon(item.ref.sbody), label.c_str())) {
+				ImGui::SetTooltip("%s", label.c_str());
 
 				if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 					m_map->SetSelectedObject(item);
@@ -138,9 +138,90 @@ void SystemEditorViewport::OnDraw()
 				}
 			}
 		}
+
+		#if 0 // TODO: visual edit gizmos for body axes
+		if (int(group.type) == Projectable::_MAX + 1) {
+			DrawIcon(itempos, IM_COL32_WHITE, EICON_AXES);
+		}
+		#endif
 	}
 
 	ImGui::PopFont();
 
 	split.Merge(ImGui::GetWindowDrawList());
+}
+
+void SystemEditorViewport::DrawTimelineControls()
+{
+	double timeAccel = 0.0;
+
+	ImGui::PushFont(m_app->GetPiGui()->GetFont("icons", ImGui::GetFrameHeight()));
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.f, 0.f));
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImGui::GetStyle().ItemInnerSpacing);
+
+	ImGui::Button(EICON_REWIND3);
+	if (ImGui::IsItemActive())
+		timeAccel = -3600.0 * 24.0 * 730.0; // 2 years per second
+
+	ImGui::Button(EICON_REWIND2);
+	if (ImGui::IsItemActive())
+		timeAccel = -3600.0 * 24.0 * 60.0; // 2 months per second
+
+	ImGui::Button(EICON_REWIND1);
+	if (ImGui::IsItemActive())
+		timeAccel = -3600.0 * 24.0 * 5.0; // 5 days per second
+
+	bool timeStop = ImGui::ButtonEx(EICON_TIMESTOP, ImVec2(0,0), ImGuiButtonFlags_PressedOnClick);
+
+	ImGui::Button(EICON_FORWARD1);
+	if (ImGui::IsItemActive())
+		timeAccel = 3600.0 * 24.0 * 5.0; // 5 days per second
+
+	ImGui::Button(EICON_FORWARD2);
+	if (ImGui::IsItemActive())
+		timeAccel = 3600.0 * 24.0 * 60.0; // 2 months per second
+
+	ImGui::Button(EICON_FORWARD3);
+	if (ImGui::IsItemActive())
+		timeAccel = 3600.0 * 24.0 * 730.0; // 2 years per second
+
+	ImGui::PopStyleVar(2);
+	ImGui::PopFont();
+
+	ImGui::AlignTextToFramePadding();
+
+	if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
+		timeAccel *= 0.1;
+
+	if (!timeStop)
+		m_map->AccelerateTime(timeAccel);
+	else
+		m_map->SetRealTime();
+
+	ImGui::Text("%s", format_date(m_map->GetTime()).c_str());
+}
+
+bool SystemEditorViewport::DrawIcon(const ImVec2 &icon_pos, const ImColor &color, const char *icon, const char *label)
+{
+	ImVec2 icon_size = ImVec2(ImGui::GetFontSize(), ImGui::GetFontSize());
+	ImVec2 draw_pos = ImGui::GetWindowPos() + icon_pos - icon_size * 0.5f;
+
+	ImGui::GetWindowDrawList()->AddText(draw_pos, color, icon);
+
+	ImRect hover_rect = ImRect(draw_pos, draw_pos + icon_size);
+
+	if (label) {
+		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 12));
+		ImVec2 text_pos = ImGui::GetWindowPos() + icon_pos + ImVec2(icon_size.x, -ImGui::GetFontSize() * 0.5f);
+		ImVec2 text_size = ImGui::CalcTextSize(label);
+		// label shadow
+		ImGui::GetWindowDrawList()->AddText(text_pos + ImVec2(1.f, 1.f), IM_COL32_BLACK, label);
+		// body label
+		ImGui::GetWindowDrawList()->AddText(text_pos, color, label);
+		ImGui::PopFont();
+
+		hover_rect.Add(text_pos + text_size);
+	}
+
+	return ImGui::ItemHoverable(hover_rect, 0, 0);
 }

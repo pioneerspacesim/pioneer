@@ -23,6 +23,8 @@ namespace Editor {
 
 		void SetSystem(RefCountedPtr<StarSystem> system);
 
+		SystemMapViewport *GetMap() { return m_map.get(); }
+
 	protected:
 		void OnUpdate(float deltaTime) override;
 		void OnRender(Graphics::Renderer *renderer) override;
@@ -35,6 +37,10 @@ namespace Editor {
 		const char *GetWindowName() override { return "Viewport"; }
 
 	private:
+
+		void DrawTimelineControls();
+		bool DrawIcon(const ImVec2 &iconPos, const ImColor &color, const char *icon, const char *label = nullptr);
+
 		EditorApp *m_app;
 		SystemEditor *m_editor;
 
