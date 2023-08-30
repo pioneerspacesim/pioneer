@@ -6,6 +6,7 @@
 #include "EditorDraw.h"
 
 #include "FileSystem.h"
+#include "Lang.h"
 #include "ModManager.h"
 #include "ModelViewer.h"
 
@@ -87,6 +88,9 @@ void EditorApp::OnStartup()
 	Uint32 numThreads = cfg.Int("WorkerThreads");
 	numThreads = numThreads ? numThreads : std::max(OS::GetNumCores() - 1, 1U);
 	GetTaskGraph()->SetWorkerThreads(numThreads);
+
+	Lang::Resource &res(Lang::GetResource("core", cfg.String("Lang")));
+	Lang::MakeCore(res);
 
 	Graphics::RendererOGL::RegisterRenderer();
 
