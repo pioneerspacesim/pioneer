@@ -285,6 +285,7 @@ SystemMapViewport::SystemMapViewport(GuiApplication *app) :
 	m_app(app),
 	m_renderer(app->GetRenderer()),
 	m_displayMode(SystemView::Mode::Orrery),
+	m_showGravpoints(false),
 	m_showL4L5(LAG_OFF),
 	m_shipDrawing(OFF),
 	m_gridDrawing(GridDrawing::OFF),
@@ -377,10 +378,12 @@ void SystemMapViewport::SetCurrentSystem(RefCountedPtr<StarSystem> system)
 
 	m_system = system;
 
-	SystemBody *body = m_system->GetRootBody().Get();
-	m_atlasLayout = {};
-	m_atlasLayout.isVertical = body->GetType() == SystemBody::TYPE_GRAVPOINT;
-	LayoutSystemBody(body, m_atlasLayout);
+	if (m_system) {
+		SystemBody *body = m_system->GetRootBody().Get();
+		m_atlasLayout = {};
+		m_atlasLayout.isVertical = body->GetType() == SystemBody::TYPE_GRAVPOINT;
+		LayoutSystemBody(body, m_atlasLayout);
+	}
 
 	ResetViewpoint();
 }
@@ -476,9 +479,8 @@ void SystemMapViewport::AddBodyTrack(const SystemBody *b, const vector3d &offset
 	if (b->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
 		return;
 
-	if (b->GetType() != SystemBody::TYPE_GRAVPOINT) {
+	if (b->GetType() != SystemBody::TYPE_GRAVPOINT || m_showGravpoints)
 		AddObjectTrack({ Projectable::OBJECT, Projectable::SYSTEMBODY, b, offset });
-	}
 
 	// perfect-knowledge abstraction: track all child bodies
 	if (b->HasChildren()) {
@@ -492,13 +494,12 @@ void SystemMapViewport::AddBodyTrack(const SystemBody *b, const vector3d &offset
 				continue;
 			}
 
-			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis()))
-				return;
-
-			// Add the body's orbit
-			Projectable p(Projectable::ORBIT, Projectable::SYSTEMBODY, kid);
-			p.worldpos = offset;
-			AddOrbitTrack(p, &kid->GetOrbit(), svColor[SYSTEMBODY_ORBIT], 0.0);
+			if (!is_zero_general(kid->GetOrbit().GetSemiMajorAxis())) {
+				// Add the body's orbit
+				Projectable p(Projectable::ORBIT, Projectable::SYSTEMBODY, kid);
+				p.worldpos = offset;
+				AddOrbitTrack(p, &kid->GetOrbit(), svColor[SYSTEMBODY_ORBIT], 0.0);
+			}
 
 			// not using current time yet
 			AddBodyTrack(kid, offset + kid->GetOrbit().OrbitalPosAtTime(m_time));
@@ -571,6 +572,9 @@ void SystemMapViewport::DrawOrreryView()
 
 	m_background->SetIntensity(0.6);
 	m_background->Draw(trans2bg);
+
+	if (!m_system)
+		return;
 
 	m_renderer->ClearDepthBuffer();
 
@@ -915,7 +919,7 @@ void SystemMapViewport::Update(float ft)
 	}
 
 	if (m_displayMode == SystemView::Mode::Orrery) {
-		if (!m_system->GetUnexplored() && m_system->GetRootBody()) {
+		if (m_system && !m_system->GetUnexplored() && m_system->GetRootBody()) {
 			// all systembodies draws here
 			AddBodyTrack(m_system->GetRootBody().Get(), vector3d(0, 0, 0));
 		}
@@ -1120,12 +1124,12 @@ void SystemMapViewport::ClearSelectedObject()
 	m_selectedObject.type = Projectable::NONE;
 }
 
-void SystemMapViewport::ViewSelectedObject()
+void SystemMapViewport::SetViewedObject(Projectable p)
 {
 	// we will immediately determine the coordinates of the viewed body so that
 	// there is a correct starting point of the transition animation, otherwise
 	// there may be an unwanted shift in the next frame
-	m_viewedObject = m_selectedObject;
+	m_viewedObject = p;
 	m_animateTransition = MAX_TRANSITION_FRAMES;
 }
 
