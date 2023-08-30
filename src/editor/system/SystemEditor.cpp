@@ -5,11 +5,13 @@
 
 #include "EditorIcons.h"
 #include "GalaxyEditAPI.h"
+#include "ModManager.h"
 #include "SystemEditorHelpers.h"
 
 #include "EnumStrings.h"
 #include "FileSystem.h"
 
+#include "SystemView.h"
 #include "editor/EditorApp.h"
 #include "editor/EditorDraw.h"
 #include "editor/UndoSystem.h"
@@ -25,6 +27,8 @@
 #include "system/SystemBodyUndo.h"
 #include "system/SystemEditorViewport.h"
 
+#include "portable-file-dialogs/pfd.h"
+
 #include <memory>
 
 using namespace Editor;
@@ -33,6 +37,7 @@ namespace {
 	static constexpr const char *OUTLINE_WND_ID = "Outline";
 	static constexpr const char *PROPERTIES_WND_ID = "Properties";
 	static constexpr const char *VIEWPORT_WND_ID = "Viewport";
+	static constexpr const char *FILE_MODAL_ID = "File Window Open";
 }
 
 const char *Editor::GetBodyIcon(const SystemBody *body) {
@@ -77,7 +82,7 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	m_app(app),
 	m_undo(new UndoSystem()),
 	m_selectedBody(nullptr),
-	m_pendingReparent()
+	m_pendingOp()
 {
 	GalacticEconomy::Init();
 
@@ -127,6 +132,7 @@ bool SystemEditor::LoadSystem(const std::string &filepath)
 
 	m_system = system;
 	m_filepath = filepath;
+	m_filedir = filepath.substr(0, filepath.rfind('/')),
 
 	m_viewport->SetSystem(system);
 
@@ -164,6 +170,36 @@ void SystemEditor::End()
 {
 }
 
+void SystemEditor::ActivateOpenDialog()
+{
+	// FIXME: need to handle loading files outside of game data dir
+	m_openFile.reset(new pfd::open_file(
+		"Open Custom System File",
+		FileSystem::JoinPath(FileSystem::GetDataDir(), m_filedir),
+		{
+			"Lua System Definition (.lua)", "*.lua",
+			"JSON System Definition (.json)", "*.json"
+		})
+	);
+
+	ImGui::OpenPopup(m_fileActionActiveModal);
+}
+
+void SystemEditor::ActivateSaveDialog()
+{
+	// FIXME: need to handle saving files outside of game data dir
+	m_saveFile.reset(new pfd::save_file(
+		"Save Custom System File",
+		FileSystem::JoinPath(FileSystem::GetDataDir(), m_filedir),
+		{
+			"Lua System Definition (.lua)", "*.lua",
+			"JSON System Definition (.json)", "*.json"
+		})
+	);
+
+	ImGui::OpenPopup(m_fileActionActiveModal);
+}
+
 // ─── Update Loop ─────────────────────────────────────────────────────────────
 
 void SystemEditor::HandleInput()
@@ -180,24 +216,120 @@ void SystemEditor::Update(float deltaTime)
 		GetUndo()->Undo();
 	}
 
+	m_fileActionActiveModal = ImGui::GetID(FILE_MODAL_ID);
+
 	DrawInterface();
 
-	if (m_pendingReparent.body) {
-		size_t parentIdx = SystemBody::EditorAPI::GetIndexInParent(m_pendingReparent.body);
+	HandleBodyOperations();
+
+	if (m_openFile && m_openFile->ready(0)) {
+		std::vector<std::string> resultFiles = m_openFile->result();
+		m_openFile.reset();
+
+		if (!resultFiles.empty()) {
+			Log::Info("OpenFile: {}", resultFiles[0]);
+		}
+	}
+
+	if (m_saveFile && m_saveFile->ready(0)) {
+		std::string filePath = m_saveFile->result();
+		m_saveFile.reset();
+
+		if (!filePath.empty()) {
+			Log::Info("SaveFile: {}", filePath);
+		}
+	}
+
+	bool fileModalOpen = ImGui::IsPopupOpen(m_fileActionActiveModal, ImGuiPopupFlags_AnyPopupLevel);
+
+	// Finished all pending file operations
+	if (fileModalOpen && !m_openFile && !m_saveFile) {
+		auto &popupStack = ImGui::GetCurrentContext()->OpenPopupStack;
+		for (size_t idx = 0; idx < popupStack.size(); ++idx) {
+			if (popupStack[idx].PopupId == m_fileActionActiveModal) {
+				ImGui::ClosePopupToLevel(idx, true);
+				break;
+			}
+		}
+	}
+}
+
+void SystemEditor::HandleBodyOperations()
+{
+	if (m_pendingOp.type == BodyRequest::TYPE_None)
+		return;
+
+	if (m_pendingOp.type == BodyRequest::TYPE_Add) {
+
+		// TODO: generate body parameters according to m_pendingOp.newBodyType
+		SystemBody *body = StarSystem::EditorAPI::NewBody(m_system.Get());
+
+		GetUndo()->BeginEntry("Add Body");
+		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get());
+
+		// Mark the body for removal on undo
+		GetUndo()->AddUndoStep<SystemEditorUndo::ManageStarSystemBody>(m_system.Get(), body);
+		// Add the new body to its parent
+		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(m_pendingOp.parent, body);
+
+		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get(), true);
+		GetUndo()->AddUndoStep<SystemEditor::UndoSetSelection>(this, body);
+		GetUndo()->EndEntry();
+
+	}
+
+	if (m_pendingOp.type == BodyRequest::TYPE_Delete) {
+
+		std::vector<SystemBody *> toDelete { m_pendingOp.body };
+		size_t sliceBegin = 0;
+
+		// Iterate over all child bodies of this system body and mark for deletion
+		while (sliceBegin < toDelete.size()) {
+			size_t sliceEnd = toDelete.size();
+			for (size_t idx = sliceBegin; idx < sliceEnd; idx++) {
+				if (toDelete[idx]->HasChildren())
+					for (auto &child : toDelete[idx]->GetChildren())
+						toDelete.push_back(child);
+			}
+			sliceBegin = sliceEnd;
+		}
+
+		GetUndo()->BeginEntry("Delete Body");
+		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get());
+
+		// Record deletion of each marked body in reverse order (ending with the topmost body to delete)
+		for (auto &child : reverse_container(toDelete)) {
+			SystemBody *parent = child->GetParent();
+			size_t idx = SystemBody::EditorAPI::GetIndexInParent(child);
+			GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(parent, idx);
+			GetUndo()->AddUndoStep<SystemEditorUndo::ManageStarSystemBody>(m_system.Get(), nullptr, child, true);
+		}
+
+		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get(), true);
+		GetUndo()->AddUndoStep<SystemEditor::UndoSetSelection>(this, nullptr);
+		GetUndo()->EndEntry();
+
+	}
+
+	if (m_pendingOp.type == BodyRequest::TYPE_Reparent) {
+
+		size_t sourceIdx = SystemBody::EditorAPI::GetIndexInParent(m_pendingOp.body);
+
+		if (m_pendingOp.parent == m_pendingOp.body->GetParent() && m_pendingOp.idx > sourceIdx) {
+			m_pendingOp.idx -= 1;
+		}
 
 		GetUndo()->BeginEntry("Reorder Body");
 		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get());
-		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(m_pendingReparent.body->GetParent(), parentIdx);
-		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(m_pendingReparent.parent, m_pendingReparent.body, m_pendingReparent.idx);
+		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(m_pendingOp.body->GetParent(), sourceIdx);
+		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(m_pendingOp.parent, m_pendingOp.body, m_pendingOp.idx);
 		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get(), true);
 		GetUndo()->EndEntry();
 
-		m_pendingReparent = {};
 	}
 
-	if (ImGui::IsKeyPressed(ImGuiKey_F1)) {
-		WriteSystem(m_filepath);
-	}
+	// Clear the pending operation
+	m_pendingOp = {};
 }
 
 // ─── Interface Rendering ─────────────────────────────────────────────────────
@@ -223,11 +355,32 @@ void SystemEditor::SetupLayout(ImGuiID dockspaceID)
 void SystemEditor::DrawInterface()
 {
 	Draw::ShowUndoDebugWindow(GetUndo());
+	// ImGui::ShowDemoWindow();
 	ImGui::ShowMetricsWindow();
 
 	static bool isFirstRun = true;
 
-	Draw::BeginHostWindow("HostWindow", nullptr, ImGuiWindowFlags_NoSavedSettings);
+	Draw::BeginHostWindow("HostWindow", nullptr, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar);
+
+	if (ImGui::BeginMenuBar()) {
+
+		if (ImGui::BeginMenu("File")) {
+
+			if (ImGui::MenuItem("Open File", "Ctrl+O"))
+				ActivateOpenDialog();
+
+			if (ImGui::MenuItem("Save", "Ctrl+S")) {
+				WriteSystem(m_filepath);
+			}
+
+			if (ImGui::MenuItem("Save As", "Ctrl+Shift+S"))
+				ActivateSaveDialog();
+
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMenuBar();
+	}
 
 	ImGuiID dockspaceID = ImGui::GetID("DockSpace");
 
@@ -235,6 +388,10 @@ void SystemEditor::DrawInterface()
 		SetupLayout(dockspaceID);
 
 	ImGui::DockSpace(dockspaceID);
+
+	// BUG: Right-click on button can break undo handling if it happens after active InputText is submitted
+	// We work around it by rendering the viewport first
+	m_viewport->Update(m_app->DeltaTime());
 
 	if (ImGui::Begin(OUTLINE_WND_ID)) {
 		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 14));
@@ -252,13 +409,38 @@ void SystemEditor::DrawInterface()
 		else
 			DrawSystemProperties();
 
+		ImGui::ButtonEx("Break undo system!", ImVec2(0, 0), ImGuiButtonFlags_MouseButtonRight);
+
 		ImGui::PopItemWidth();
 	}
 	ImGui::End();
 
-	m_viewport->Update(m_app->DeltaTime());
+#if 0
+	if (ImGui::Begin("ModList")) {
+		for (const auto &mod : ModManager::EnumerateMods()) {
+			if (!mod.enabled)
+				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 64, 64, 255));
+
+			ImGui::PushFont(m_app->GetPiGui()->GetFont("orbiteer", 14));
+			ImGui::TextUnformatted(mod.name.c_str());
+			ImGui::PopFont();
+
+			ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 12));
+			ImGui::TextUnformatted(mod.path.c_str());
+			ImGui::PopFont();
+
+			if (!mod.enabled)
+				ImGui::PopStyleColor();
+
+			ImGui::Spacing();
+		}
+	}
+	ImGui::End();
+#endif
 
 	ImGui::End();
+
+	DrawFileActionModal();
 
 	if (isFirstRun)
 		isFirstRun = false;
@@ -286,47 +468,15 @@ void SystemEditor::DrawOutliner()
 	Draw::BeginHorizontalBar();
 
 	if (ImGui::Button("A##AddBody")) {
-		SystemBody *parent = m_selectedBody ? m_selectedBody : m_system->GetRootBody().Get();
-		SystemBody *body = StarSystem::EditorAPI::NewBody(m_system.Get());
-
-		GetUndo()->BeginEntry("Add Body");
-		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get());
-		GetUndo()->AddUndoStep<SystemEditorUndo::ManageStarSystemBody>(m_system.Get(), body);
-		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(parent, body);
-		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get(), true);
-		GetUndo()->AddUndoStep<SystemEditor::UndoSetSelection>(this, body);
-		GetUndo()->EndEntry();
+		m_pendingOp.type = BodyRequest::TYPE_Add;
+		m_pendingOp.parent = m_selectedBody ? m_selectedBody : m_system->GetRootBody().Get();
+		m_pendingOp.newBodyType = SystemBody::BodyType::TYPE_GRAVPOINT;
 	}
 
 	bool canDeleteBody = m_selectedBody && m_selectedBody != m_system->GetRootBody().Get();
 	if (canDeleteBody && ImGui::Button("D##DeleteBody")) {
-
-		std::vector<SystemBody *> toDelete { m_selectedBody };
-		size_t sliceBegin = 0;
-
-		while (sliceBegin < toDelete.size()) {
-			size_t sliceEnd = toDelete.size();
-			for (size_t idx = sliceBegin; idx < sliceEnd; idx++) {
-				if (toDelete[idx]->HasChildren())
-					for (auto &child : toDelete[idx]->GetChildren())
-						toDelete.push_back(child);
-			}
-			sliceBegin = sliceEnd;
-		}
-
-		GetUndo()->BeginEntry("Delete Body");
-		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get());
-
-		for (auto &child : reverse_container(toDelete)) {
-			SystemBody *parent = child->GetParent();
-			size_t idx = SystemBody::EditorAPI::GetIndexInParent(child);
-			GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(parent, idx);
-			GetUndo()->AddUndoStep<SystemEditorUndo::ManageStarSystemBody>(m_system.Get(), nullptr, child, true);
-		}
-
-		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get(), true);
-		GetUndo()->AddUndoStep<SystemEditor::UndoSetSelection>(this, nullptr);
-		GetUndo()->EndEntry();
+		m_pendingOp.type = BodyRequest::TYPE_Delete;
+		m_pendingOp.body = m_selectedBody;
 	}
 
 	Draw::EndHorizontalBar();
@@ -371,14 +521,15 @@ void SystemEditor::HandleOutlinerDragDrop(SystemBody *refBody)
 	if (dropTarget != Draw::DragDropTarget::DROP_NONE && refBody != dropBody) {
 		size_t targetIdx = SystemBody::EditorAPI::GetIndexInParent(refBody);
 
-		m_pendingReparent.body = dropBody;
-		m_pendingReparent.parent = dropTarget == Draw::DROP_CHILD ? refBody : refBody->GetParent();
-		m_pendingReparent.idx = 0;
+		m_pendingOp.type = BodyRequest::TYPE_Reparent;
+		m_pendingOp.body = dropBody;
+		m_pendingOp.parent = dropTarget == Draw::DROP_CHILD ? refBody : refBody->GetParent();
+		m_pendingOp.idx = 0;
 
 		if (dropTarget == Draw::DROP_BEFORE)
-			m_pendingReparent.idx = targetIdx;
+			m_pendingOp.idx = targetIdx;
 		else if (dropTarget == Draw::DROP_AFTER)
-			m_pendingReparent.idx = targetIdx + 1;
+			m_pendingOp.idx = targetIdx + 1;
 	}
 }
 
@@ -409,7 +560,34 @@ bool SystemEditor::DrawBodyNode(SystemBody *body, bool isRoot)
 	}
 
 	if (ImGui::IsItemActivated()) {
+		m_viewport->GetMap()->SetSelectedObject({ Projectable::OBJECT, Projectable::SYSTEMBODY, body });
 		m_selectedBody = body;
+	}
+
+	if (ImGui::BeginPopupContextItem()) {
+		if (ImGui::MenuItem("Center")) {
+			m_viewport->GetMap()->SetViewedObject({ Projectable::OBJECT, Projectable::SYSTEMBODY, body });
+		}
+
+		if (ImGui::MenuItem("Add Child")) {
+			m_pendingOp.type = BodyRequest::TYPE_Add;
+			m_pendingOp.parent = body;
+			m_pendingOp.idx = body->GetNumChildren();
+		}
+
+		if (ImGui::MenuItem("Add Sibling")) {
+			m_pendingOp.type = BodyRequest::TYPE_Add;
+			m_pendingOp.parent = body->GetParent();
+			m_pendingOp.idx = SystemBody::EditorAPI::GetIndexInParent(body) + 1;
+		}
+
+		// TODO: "add body" context menu
+		if (body->GetParent() && ImGui::MenuItem("Delete")) {
+			m_pendingOp.type = BodyRequest::TYPE_Delete;
+			m_pendingOp.body = m_selectedBody;
+		}
+
+		ImGui::EndPopup();
 	}
 
 	// TODO: custom rendering on body entry, e.g. icon / contents etc.
@@ -455,4 +633,20 @@ void SystemEditor::DrawSystemProperties()
 	StarSystem::EditorAPI::EditName(m_system.Get(), rng, GetUndo());
 
 	StarSystem::EditorAPI::EditProperties(m_system.Get(), GetUndo());
+}
+
+void SystemEditor::DrawFileActionModal()
+{
+	ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5, ImGuiCond_Always, ImVec2(0.5, 0.5));
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(30, 30));
+
+	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
+	if (ImGui::BeginPopupModal(FILE_MODAL_ID, nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize)) {
+		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 14));
+		ImGui::TextUnformatted("Waiting on a file action to complete...");
+		ImGui::PopFont();
+		ImGui::EndPopup();
+	}
+	ImGui::PopFont();
+	ImGui::PopStyleVar();
 }

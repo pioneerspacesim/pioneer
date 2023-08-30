@@ -13,6 +13,11 @@
 // Forward declaration
 typedef unsigned int ImGuiID;
 
+namespace pfd {
+	class open_file;
+	class save_file;
+} // namespace pfd
+
 class Galaxy;
 class StarSystem;
 class SystemBody;
@@ -38,7 +43,7 @@ public:
 	RefCountedPtr<Galaxy> GetGalaxy();
 
 	void SetSelectedBody(SystemBody *body);
-	SystemBody *GetSystemBody();
+	SystemBody *GetSelectedBody() { return m_selectedBody; }
 
 protected:
 	void Start() override;
@@ -62,6 +67,13 @@ private:
 
 	void DrawUndoDebug();
 
+	void ActivateOpenDialog();
+	void ActivateSaveDialog();
+
+	void DrawFileActionModal();
+
+	void HandleBodyOperations();
+
 	UndoSystem *GetUndo() { return m_undo.get(); }
 
 private:
@@ -80,16 +92,31 @@ private:
 	std::unique_ptr<UndoSystem> m_undo;
 
 	std::string m_filepath;
+	std::string m_filedir;
 
 	SystemBody *m_selectedBody;
 
-	struct ReparentRequest {
+	struct BodyRequest {
+		enum Type {
+			TYPE_None,
+			TYPE_Add,
+			TYPE_Delete,
+			TYPE_Reparent
+		};
+
+		Type type = TYPE_None;
+		uint32_t newBodyType = 0; // SystemBody::BodyType
 		SystemBody *parent = nullptr;
 		SystemBody *body = nullptr;
 		size_t idx = 0;
 	};
 
-	ReparentRequest m_pendingReparent;
+	BodyRequest m_pendingOp;
+
+	std::unique_ptr<pfd::open_file> m_openFile;
+	std::unique_ptr<pfd::save_file> m_saveFile;
+
+	ImGuiID m_fileActionActiveModal;
 };
 
 } // namespace Editor

@@ -145,6 +145,9 @@ bool Draw::InputFixedDistance(const char *str, fixed *val, ImGuiInputTextFlags f
 	if (changed)
 		*val = fixed::FromDouble(val_d / distance_multipliers[unit_type]);
 
+	if (ImGui::IsItemActivated())
+		ImGui::GetStateStorage()->SetInt(unit_type_id, unit_type);
+
 	ImGui::PopID();
 	ImGui::EndGroup();
 
@@ -193,6 +196,9 @@ bool Draw::InputFixedMass(const char *str, fixed *val, bool is_solar, ImGuiInput
 	if (changed)
 		*val = fixed::FromDouble(val_d);
 
+	if (ImGui::IsItemActivated())
+		ImGui::GetStateStorage()->SetInt(unit_type_id, unit_type);
+
 	ImGui::PopID();
 	ImGui::EndGroup();
 
@@ -240,6 +246,9 @@ bool Draw::InputFixedRadius(const char *str, fixed *val, bool is_solar, ImGuiInp
 
 	if (changed)
 		*val = fixed::FromDouble(val_d);
+
+	if (ImGui::IsItemActivated())
+		ImGui::GetStateStorage()->SetInt(unit_type_id, unit_type);
 
 	ImGui::PopID();
 	ImGui::EndGroup();
