@@ -429,8 +429,9 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_rotationPeriod = csbody->rotationPeriod;
 		kid->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
 		kid->m_eccentricity = csbody->eccentricity;
-		kid->m_orbitalOffset = csbody->orbitalOffset;
-		kid->m_orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
+		kid->m_orbitalOffset = csbody->want_rand_offset ? fixed::FromDouble(rand.Double(2 * M_PI)) : csbody->orbitalOffset;
+		kid->m_orbitalPhaseAtStart = csbody->want_rand_phase ? fixed::FromDouble(rand.Double(2 * M_PI)) : csbody->orbitalPhaseAtStart;
+		kid->m_argOfPeriapsis = csbody->want_rand_arg_periapsis ? fixed::FromDouble(rand.Double(2 * M_PI)) : csbody->argOfPeriapsis;
 		kid->m_axialTilt = csbody->axialTilt;
 		kid->m_inclination = fixed(csbody->latitude * 10000, 10000);
 		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
@@ -447,7 +448,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		else
 			kid->m_orbit.SetShapeAroundPrimary(csbody->semiMajorAxis.ToDouble() * AU, parent->GetMass(), csbody->eccentricity.ToDouble());
 
-		kid->m_orbit.SetPhase(csbody->orbitalPhaseAtStart.ToDouble());
+		kid->m_orbit.SetPhase(kid->m_orbitalPhaseAtStart.ToDouble());
 
 		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(csbody->longitude) * matrix3x3d::RotateX(-0.5 * M_PI + csbody->latitude));
@@ -462,8 +463,11 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 					Error("%s's orbit is too close to its parent", csbody->name.c_str());
 				}
 			}
-			double offset = csbody->want_rand_offset ? rand.Double(2 * M_PI) : (csbody->orbitalOffset.ToDouble());
-			kid->m_orbit.SetPlane(matrix3x3d::RotateY(offset) * matrix3x3d::RotateX(-0.5 * M_PI + csbody->latitude));
+			// NOTE: rotate -Y == counter-clockwise parameterization of longitude of ascending node
+			kid->m_orbit.SetPlane(
+				matrix3x3d::RotateY(-kid->m_orbitalOffset.ToDouble()) *
+				matrix3x3d::RotateX(-0.5 * M_PI + kid->m_inclination.ToDouble()) *
+				matrix3x3d::RotateZ(kid->m_argOfPeriapsis.ToDouble()));
 		}
 		if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;

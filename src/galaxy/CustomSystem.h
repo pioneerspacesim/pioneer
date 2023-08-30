@@ -29,7 +29,10 @@ public:
 	fixed eccentricity;
 	fixed orbitalOffset;
 	fixed orbitalPhaseAtStart; // mean anomaly at start 0 to 2 pi
+	fixed argOfPeriapsis;
 	bool want_rand_offset;
+	bool want_rand_phase;
+	bool want_rand_arg_periapsis;
 	// for orbiting things, latitude = inclination
 	float latitude, longitude; // radians
 	fixed rotationPeriod; // in days

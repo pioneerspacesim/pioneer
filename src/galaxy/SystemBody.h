@@ -162,6 +162,7 @@ public:
 	double GetSemiMajorAxis() const { return m_semiMajorAxis.ToDouble(); }
 	fixed GetSemiMajorAxisAsFixed() const { return m_semiMajorAxis; }
 	fixed GetInclinationAsFixed() const { return m_inclination; }
+	fixed GetArgOfPeriapsisAsFixed() const { return m_argOfPeriapsis; }
 	void SetOrbitPlane(const matrix3x3d &orient) { m_orbit.SetPlane(orient); }
 
 	int GetAverageTemp() const { return m_averageTemp; }
@@ -248,11 +249,12 @@ private:
 	fixed m_rotationalPhaseAtStart; // 0 to 2 pi
 	fixed m_humanActivity;			// 0 - 1
 	fixed m_semiMajorAxis;			// in AUs
-	fixed m_eccentricity;
-	fixed m_orbitalOffset;
-	fixed m_orbitalPhaseAtStart; // 0 to 2 pi
-	fixed m_axialTilt;			 // in radians
-	fixed m_inclination;		 // in radians, for surface bodies = latitude
+	fixed m_eccentricity;           // 0 - 1
+	fixed m_orbitalOffset;          // 0 to 2 pi in radians, counterclockwise (long. of ascending node)
+	fixed m_orbitalPhaseAtStart;    // 0 to 2 pi in radians, counterclockwise (true anomaly at epoch)
+	fixed m_axialTilt;			    // in radians
+	fixed m_inclination;		    // in radians, for surface bodies = latitude
+	fixed m_argOfPeriapsis;         // in radians, counterclockwise
 	int m_averageTemp;
 	BodyType m_type;
 	bool m_isCustomBody;

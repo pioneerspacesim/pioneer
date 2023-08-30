@@ -186,6 +186,7 @@ static int l_csb_orbital_phase_at_start(lua_State *L)
 	if ((*value < 0.0) || (*value > double(2.0 * M_PI)))
 		return luaL_error(L, "Error: Custom system definition: Orbital phase at game start must be between 0 and 2 PI radians (including 0 but not 2 PI).");
 	csb->orbitalPhaseAtStart = fixed::FromDouble(*value);
+	csb->want_rand_phase = false;
 	lua_settop(L, 1);
 	return 1;
 }
@@ -755,6 +756,8 @@ CustomSystemBody::CustomSystemBody() :
 	aspectRatio(fixed(1, 1)),
 	averageTemp(1),
 	want_rand_offset(true),
+	want_rand_arg_periapsis(true),
+	want_rand_phase(true),
 	latitude(0.0),
 	longitude(0.0),
 	volatileGas(0),
