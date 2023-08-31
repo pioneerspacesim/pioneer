@@ -56,14 +56,16 @@ void EditorApp::Initialize(argh::parser &cmdline)
 		return;
 	}
 
-	if (cmdline("--system")) {
+	if (cmdline["--system"]) {
 		std::string systemPath;
 		cmdline("--system") >> systemPath;
 
 		RefCountedPtr<SystemEditor> systemEditor(new SystemEditor(this));
 
-		if (!systemPath.empty())
-			systemEditor->LoadSystem(systemPath);
+		if (!systemPath.empty()) {
+			systemPath = FileSystem::JoinPathBelow(FileSystem::GetDataDir(), systemPath);
+			systemEditor->LoadSystemFromDisk(systemPath);
+		}
 
 		QueueLifecycle(systemEditor);
 		SetAppName("SystemEditor");

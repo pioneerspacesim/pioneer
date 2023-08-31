@@ -4,7 +4,9 @@
 #include "SystemEditor.h"
 
 #include "EditorIcons.h"
+#include "Json.h"
 #include "GalaxyEditAPI.h"
+#include "JsonUtils.h"
 #include "ModManager.h"
 #include "SystemEditorHelpers.h"
 
@@ -12,6 +14,7 @@
 #include "FileSystem.h"
 
 #include "SystemView.h"
+#include "core/StringUtils.h"
 #include "editor/EditorApp.h"
 #include "editor/EditorDraw.h"
 #include "editor/UndoSystem.h"
@@ -29,6 +32,7 @@
 
 #include "portable-file-dialogs/pfd.h"
 
+#include <cstdlib>
 #include <memory>
 
 using namespace Editor;
@@ -99,12 +103,101 @@ SystemEditor::~SystemEditor()
 {
 }
 
-bool SystemEditor::LoadSystem(const std::string &filepath)
+void SystemEditor::NewSystem()
 {
-	const CustomSystem *csys = m_systemLoader->LoadSystem(filepath);
-	if (!csys)
+	ClearSystem();
+
+	SystemPath path(0, 0, 0, 0);
+
+	auto *newSystem = new StarSystem::GeneratorAPI(path, m_galaxy, nullptr, GetRng());
+	m_system.Reset(newSystem);
+
+	newSystem->SetRootBody(newSystem->NewBody());
+}
+
+bool SystemEditor::LoadSystemFromDisk(const std::string &absolutePath)
+{
+	if (ends_with_ci(absolutePath, ".lua")) {
+		std::string filepath = FileSystem::GetRelativePath(FileSystem::GetDataDir(), absolutePath);
+
+		if (filepath.empty()) {
+			Log::Error("Cannot read .lua Custom System files from outside the game's data directory!");
+			return false;
+		}
+
+		return LoadSystem(FileSystem::gameDataFiles.Lookup(filepath));
+	} else {
+		std::string dirpath = absolutePath.substr(0, absolutePath.find_last_of("/\\"));
+		std::string filename = absolutePath.substr(dirpath.size() + 1);
+
+		// Hack: construct a temporary FileSource to load from an arbitrary path
+		auto fs = FileSystem::FileSourceFS(dirpath);
+
+		return LoadSystem(fs.Lookup(filename));
+	}
+}
+
+bool SystemEditor::LoadSystem(const FileSystem::FileInfo &file)
+{
+	if (!file.Exists()) {
+		Log::Error("Cannot open file path {}", file.GetAbsolutePath());
+		return false;
+	}
+
+	ClearSystem();
+
+	m_filepath = file.GetAbsolutePath();
+	m_filedir = file.GetAbsoluteDir();
+
+	bool ok = false;
+	if (ends_with_ci(file.GetPath(), ".json")) {
+		const CustomSystem *csys = m_systemLoader->LoadSystemFromJSON(file.GetName(), JsonUtils::LoadJson(file.Read()));
+		if (csys)
+			ok = LoadCustomSystem(csys);
+	} else if (ends_with_ci(file.GetPath(), ".lua")) {
+		const CustomSystem *csys = m_systemLoader->LoadSystem(file.GetPath());
+		if (csys)
+			ok = LoadCustomSystem(csys);
+	}
+
+	if (ok) {
+		std::string windowTitle = fmt::format("System Editor - {}", m_filepath);
+		SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), windowTitle.c_str());
+	} else {
+		m_filepath.clear();
+	}
+
+
+	return ok;
+}
+
+bool SystemEditor::WriteSystem(const std::string &filepath)
+{
+	Log::Info("Writing to path: {}/{}", FileSystem::GetDataDir(), filepath);
+	// FIXME: need better file-saving interface for the user
+	// FileSystem::FileSourceFS(FileSystem::GetDataDir()).OpenWriteStream(filepath, FileSystem::FileSourceFS::WRITE_TEXT);
+
+	FILE *f = fopen(filepath.c_str(), "w");
+
+	if (!f)
 		return false;
 
+	// StarSystem::EditorAPI::ExportToLua(f, m_system.Get(), m_galaxy.Get());
+
+	Json systemdef = Json::object();
+
+	m_system->DumpToJson(systemdef);
+
+	std::string jsonData = systemdef.dump(1, '\t');
+
+	fwrite(jsonData.data(), 1, jsonData.size(), f);
+	fclose(f);
+
+	return true;
+}
+
+bool SystemEditor::LoadCustomSystem(const CustomSystem *csys)
+{
 	SystemPath path = {csys->sectorX, csys->sectorY, csys->sectorZ, csys->systemIndex};
 	Uint32 _init[5] = { Uint32(csys->seed), Uint32(csys->sectorX), Uint32(csys->sectorY), Uint32(csys->sectorZ), UNIVERSE_SEED };
 	Random rng(_init, 5);
@@ -132,26 +225,23 @@ bool SystemEditor::LoadSystem(const std::string &filepath)
 	}
 
 	m_system = system;
-	m_filepath = filepath;
-	m_filedir = filepath.substr(0, filepath.rfind('/')),
-
 	m_viewport->SetSystem(system);
 
 	return true;
 }
 
-void SystemEditor::WriteSystem(const std::string &filepath)
+void SystemEditor::ClearSystem()
 {
-	Log::Info("Writing to path: {}/{}", FileSystem::GetDataDir(), filepath);
-	// FIXME: need better file-saving interface for the user
-	FILE *f = FileSystem::FileSourceFS(FileSystem::GetDataDir()).OpenWriteStream(filepath, FileSystem::FileSourceFS::WRITE_TEXT);
+	m_undo->Clear();
 
-	if (!f)
-		return;
+	m_system.Reset();
+	m_viewport->SetSystem(m_system);
+	m_selectedBody = nullptr;
+	m_pendingOp = {};
 
-	StarSystem::EditorAPI::ExportToLua(f, m_system.Get(), m_galaxy.Get());
+	m_filepath.clear();
 
-	fclose(f);
+	SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), "System Editor");
 }
 
 // Here to avoid needing to drag in the Galaxy header in SystemEditor.h
@@ -178,6 +268,7 @@ void SystemEditor::ActivateOpenDialog()
 		"Open Custom System File",
 		FileSystem::JoinPath(FileSystem::GetDataDir(), m_filedir),
 		{
+			"All System Definition Files", "*.lua *.json",
 			"Lua System Definition (.lua)", "*.lua",
 			"JSON System Definition (.json)", "*.json"
 		})
@@ -193,7 +284,6 @@ void SystemEditor::ActivateSaveDialog()
 		"Save Custom System File",
 		FileSystem::JoinPath(FileSystem::GetDataDir(), m_filedir),
 		{
-			"Lua System Definition (.lua)", "*.lua",
 			"JSON System Definition (.json)", "*.json"
 		})
 	);
@@ -229,6 +319,7 @@ void SystemEditor::Update(float deltaTime)
 
 		if (!resultFiles.empty()) {
 			Log::Info("OpenFile: {}", resultFiles[0]);
+			LoadSystemFromDisk(resultFiles[0]);
 		}
 	}
 
@@ -238,6 +329,10 @@ void SystemEditor::Update(float deltaTime)
 
 		if (!filePath.empty()) {
 			Log::Info("SaveFile: {}", filePath);
+			bool success = WriteSystem(filePath);
+
+			if (success)
+				m_lastSavedUndoStack = m_undo->GetCurrentEntry();
 		}
 	}
 
@@ -367,11 +462,24 @@ void SystemEditor::DrawInterface()
 
 		if (ImGui::BeginMenu("File")) {
 
-			if (ImGui::MenuItem("Open File", "Ctrl+O"))
+			if (ImGui::MenuItem("New File", "Ctrl+N")) {
+				// TODO: show nag dialog if attempting open with unsaved changes
+
+				NewSystem();
+			}
+
+			if (ImGui::MenuItem("Open File", "Ctrl+O")) {
+				// TODO: show nag dialog if attempting open with unsaved changes
+
 				ActivateOpenDialog();
+			}
 
 			if (ImGui::MenuItem("Save", "Ctrl+S")) {
-				WriteSystem(m_filepath);
+				// Cannot write back .lua files
+				if (ends_with_ci(m_filepath, ".lua"))
+					ActivateSaveDialog();
+				else
+					WriteSystem(m_filepath);
 			}
 
 			if (ImGui::MenuItem("Save As", "Ctrl+Shift+S"))
@@ -410,8 +518,6 @@ void SystemEditor::DrawInterface()
 		else
 			DrawSystemProperties();
 
-		ImGui::ButtonEx("Break undo system!", ImVec2(0, 0), ImGuiButtonFlags_MouseButtonRight);
-
 		ImGui::PopItemWidth();
 	}
 	ImGui::End();
@@ -442,6 +548,8 @@ void SystemEditor::DrawInterface()
 	ImGui::End();
 
 	DrawFileActionModal();
+
+	DrawPickSystemModal();
 
 	if (isFirstRun)
 		isFirstRun = false;
@@ -634,6 +742,11 @@ void SystemEditor::DrawSystemProperties()
 	StarSystem::EditorAPI::EditName(m_system.Get(), rng, GetUndo());
 
 	StarSystem::EditorAPI::EditProperties(m_system.Get(), GetUndo());
+}
+
+void SystemEditor::DrawPickSystemModal()
+{
+
 }
 
 void SystemEditor::DrawFileActionModal()

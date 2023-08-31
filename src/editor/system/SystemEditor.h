@@ -7,6 +7,7 @@
 #include "Random.h"
 #include "RefCounted.h"
 #include "core/Application.h"
+#include "galaxy/SystemPath.h"
 
 #include <memory>
 
@@ -18,9 +19,14 @@ namespace pfd {
 	class save_file;
 } // namespace pfd
 
+namespace FileSystem {
+	class FileInfo;
+} // namespace FileSystem
+
 class Galaxy;
 class StarSystem;
 class SystemBody;
+class CustomSystem;
 class CustomSystemsDatabase;
 
 namespace Editor {
@@ -36,8 +42,11 @@ public:
 	SystemEditor(EditorApp *app);
 	~SystemEditor();
 
-	bool LoadSystem(const std::string &filepath);
-	void WriteSystem(const std::string &filepath);
+	void NewSystem();
+	bool LoadSystemFromDisk(const std::string &absolutePath);
+
+	// Write the currently edited system out to disk as a JSON file
+	bool WriteSystem(const std::string &filepath);
 
 	Random &GetRng() { return m_random; }
 	RefCountedPtr<Galaxy> GetGalaxy();
@@ -53,6 +62,11 @@ protected:
 	void HandleInput();
 
 private:
+	void ClearSystem();
+	bool LoadSystem(const FileSystem::FileInfo &file);
+	bool LoadCustomSystem(const CustomSystem *system);
+	void LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system);
+
 	void SetupLayout(ImGuiID dockspaceID);
 	void DrawInterface();
 
@@ -71,6 +85,7 @@ private:
 	void ActivateSaveDialog();
 
 	void DrawFileActionModal();
+	void DrawPickSystemModal();
 
 	void HandleBodyOperations();
 
@@ -90,6 +105,7 @@ private:
 	Random m_random;
 
 	std::unique_ptr<UndoSystem> m_undo;
+	size_t m_lastSavedUndoStack;
 
 	std::string m_filepath;
 	std::string m_filedir;
@@ -115,6 +131,8 @@ private:
 
 	std::unique_ptr<pfd::open_file> m_openFile;
 	std::unique_ptr<pfd::save_file> m_saveFile;
+
+	SystemPath m_openSystemPath;
 
 	ImGuiID m_fileActionActiveModal;
 };
