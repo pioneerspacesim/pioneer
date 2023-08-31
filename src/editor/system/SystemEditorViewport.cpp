@@ -34,6 +34,10 @@ SystemEditorViewport::SystemEditorViewport(EditorApp *app, SystemEditor *editor)
 	m_map->svColor[SystemMapViewport::GRID_LEG] = Color(0x787878FF);
 	m_map->svColor[SystemMapViewport::SYSTEMBODY] = Color(0xB5BCE3FF).Shade(0.5);
 	m_map->svColor[SystemMapViewport::SYSTEMBODY_ORBIT] = Color(0x5ACC0AFF);
+
+	m_background.reset(new Background::Container(m_app->GetRenderer(), m_editor->GetRng()));
+	m_background->SetDrawFlags(Background::Container::DRAW_SKYBOX);
+	m_map->SetBackground(m_background.get());
 }
 
 SystemEditorViewport::~SystemEditorViewport()
@@ -44,10 +48,6 @@ void SystemEditorViewport::SetSystem(RefCountedPtr<StarSystem> system)
 {
 	m_map->SetReferenceTime(0.0); // Jan 1 3200
 	m_map->SetCurrentSystem(system);
-
-	m_background.reset(new Background::Container(m_app->GetRenderer(), m_editor->GetRng()));
-	m_background->SetDrawFlags(Background::Container::DRAW_SKYBOX);
-	m_map->SetBackground(m_background.get());
 }
 
 bool SystemEditorViewport::OnCloseRequested()

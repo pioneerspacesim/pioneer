@@ -81,6 +81,7 @@ private:
 SystemEditor::SystemEditor(EditorApp *app) :
 	m_app(app),
 	m_undo(new UndoSystem()),
+	m_system(nullptr),
 	m_selectedBody(nullptr),
 	m_pendingOp()
 {
@@ -452,7 +453,7 @@ void SystemEditor::DrawOutliner()
 
 	std::string name = m_system.Valid() ? m_system->GetName() : "<None>";
 
-	std::string label = fmt::format("System: {}", m_system->GetName());
+	std::string label = fmt::format("System: {}", name);
 	if (ImGui::Selectable(label.c_str(), !m_selectedBody)) {
 		m_selectedBody = nullptr;
 	}
