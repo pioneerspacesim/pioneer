@@ -538,14 +538,14 @@ void from_json(const Json &obj, fixed &f)
 	else {
 		std::string str = obj;
 		// must have at least f1/1, though can be f1234567/135758548 etc.
-		if (str.size() < 4 || obj[0] != 'f')
+		if (str.size() < 4 || str[0] != 'f')
 			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
 
 		char *next_str = const_cast<char *>(str.c_str()) + 1;
 		int64_t numerator = std::strtol(next_str, &next_str, 10);
 
 		// handle cases: f/34, f1356, f14+4
-		if (numerator == 0 || next_str == nullptr || size_t(next_str - str.c_str()) >= str.size() || *next_str++ != '/')
+		if (next_str == nullptr || size_t(next_str - str.c_str()) >= str.size() || *next_str++ != '/')
 			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
 
 		int64_t denominator = std::strtol(next_str, &next_str, 10);
@@ -553,7 +553,7 @@ void from_json(const Json &obj, fixed &f)
 		if (next_str != str.c_str() + str.size())
 			throw Json::type_error::create(320, "cannot pickle string to fixed point number");
 
-		f = fixed(numerator, denominator);
+		f = fixed(numerator << f.FRAC | denominator);
 	}
 }
 
