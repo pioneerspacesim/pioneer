@@ -325,42 +325,12 @@ size_t SystemBody::EditorAPI::GetIndexInParent(SystemBody *body)
 	return std::distance(parent->GetChildren().begin(), iter);
 }
 
-void SystemBody::EditorAPI::UpdateBodyOrbit(SystemBody *body)
-{
-	body->m_orbMin = body->m_semiMajorAxis - body->m_eccentricity * body->m_semiMajorAxis;
-	body->m_orbMax = 2 * body->m_semiMajorAxis - body->m_orbMin;
-
-	if (body->m_parent)
-		UpdateOrbitAroundParent(body, body->m_parent);
-}
-
-void SystemBody::EditorAPI::UpdateOrbitAroundParent(SystemBody *body, SystemBody *parent)
-{
-	if (parent->GetType() == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
-		body->m_orbit.SetShapeAroundBarycentre(body->m_semiMajorAxis.ToDouble() * AU, parent->GetMass(), body->GetMass(), body->m_eccentricity.ToDouble());
-	else
-		body->m_orbit.SetShapeAroundPrimary(body->m_semiMajorAxis.ToDouble() * AU, parent->GetMass(), body->m_eccentricity.ToDouble());
-
-	body->m_orbit.SetPhase(body->m_orbitalPhaseAtStart.ToDouble());
-
-	// orbit longitude of ascending node
-	double longitude = body->m_orbitalOffset.ToDouble();
-	// orbit inclination
-	double inclination = body->m_inclination.ToDouble();
-	// orbit argument of periapsis
-	double argument = body->m_argOfPeriapsis.ToDouble();
-	body->m_orbit.SetPlane(
-		matrix3x3d::RotateY(-longitude) *
-		matrix3x3d::RotateX(-0.5 * M_PI + inclination) *
-		matrix3x3d::RotateZ(argument));
-}
-
 void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *undo)
 {
 	ImGui::SeparatorText("Orbital Parameters");
 
 	bool orbitChanged = false;
-	auto updateBodyOrbit = [=](){ UpdateBodyOrbit(body); };
+	auto updateBodyOrbit = [=](){ body->SetOrbitFromParameters(); };
 
 	orbitChanged |= Draw::InputFixedDistance("Semi-Major Axis", &body->m_semiMajorAxis);
 	if (Draw::UndoHelper("Edit Semi-Major Axis", undo))
@@ -428,7 +398,7 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 		AddUndoSingleValueClosure(undo, &body->m_rotationPeriod, updateBodyOrbit);
 
 	if (orbitChanged)
-		UpdateBodyOrbit(body);
+		body->SetOrbitFromParameters();
 }
 
 void SystemBody::EditorAPI::EditEconomicProperties(SystemBody *body, UndoSystem *undo)

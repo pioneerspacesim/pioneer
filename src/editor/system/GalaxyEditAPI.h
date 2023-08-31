@@ -35,9 +35,6 @@ public:
 	static SystemBody *RemoveChild(SystemBody *parent, size_t idx = -1);
 	static size_t GetIndexInParent(SystemBody *body);
 
-	static void UpdateBodyOrbit(SystemBody *body);
-	static void UpdateOrbitAroundParent(SystemBody *body, SystemBody *parent);
-
 	static void EditOrbitalParameters(SystemBody *body, Editor::UndoSystem *undo);
 	static void EditEconomicProperties(SystemBody *body, Editor::UndoSystem *undo);
 	static void EditStarportProperties(SystemBody *body, Editor::UndoSystem *undo);
