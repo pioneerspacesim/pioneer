@@ -8,10 +8,13 @@
 #include "core/LZ4Format.h"
 
 #include "../gameconsts.h"
+#include "EnumStrings.h"
+#include "JsonUtils.h"
 #include "Factions.h"
 #include "FileSystem.h"
 #include "Polit.h"
 #include "core/Log.h"
+#include "galaxy/SystemBody.h"
 #include "lua/LuaConstants.h"
 #include "lua/LuaFixed.h"
 #include "lua/LuaUtils.h"
@@ -315,6 +318,54 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ 0, 0 }
 };
 
+void CustomSystemBody::LoadFromJson(const Json &obj)
+{
+	// XXX: this is copied from SystemBody::LoadFromJson because this architecture is a bit of a mess
+
+	seed = obj.value<uint32_t>("seed", 0);
+	name = obj.value<std::string>("name", "");
+
+	int typeVal = EnumStrings::GetValue("BodyType", obj.value<std::string>("type", "GRAVPOINT").c_str());
+	type = SystemBody::BodyType(typeVal);
+
+	radius = obj.value<fixed>("radius", 0);
+	aspectRatio = obj.value<fixed>("aspectRatio", 0);
+	mass = obj.value<fixed>("mass", 0);
+	rotationPeriod = obj.value<fixed>("rotationPeriod", 0);
+	// humanActivity = obj.value<fixed>("humanActivity", 0);
+	semiMajorAxis = obj.value<fixed>("semiMajorAxis", 0);
+	eccentricity = obj.value<fixed>("eccentricity", 0);
+	orbitalOffset = obj.value<fixed>("orbitalOffset", 0);
+	orbitalPhaseAtStart = obj.value<fixed>("orbitalPhase", 0);
+	axialTilt = obj.value<fixed>("axialTilt", 0);
+	latitude = obj.value<fixed>("inclination", 0).ToDouble();
+	argOfPeriapsis = obj.value<fixed>("argOfPeriapsis", 0);
+	averageTemp = obj.value<uint32_t>("averageTemp", 0);
+	// isCustomBody = obj.value<bool>("isCustom", false);
+
+	metallicity = obj.value<fixed>("metallicity", 0);
+	volatileGas = obj.value<fixed>("volatileGas", 0);
+	volatileLiquid = obj.value<fixed>("volatileLiquid", 0);
+	volatileIces = obj.value<fixed>("volatileIces", 0);
+	volcanicity = obj.value<fixed>("volcanicity", 0);
+	atmosOxidizing = obj.value<fixed>("atmosOxidizing", 0);
+	atmosDensity = obj.value<double>("atmosDensity", 0);
+	atmosColor = obj.value<Color>("atmosColor", 0);
+	life = obj.value<fixed>("life", 0);
+	population = obj.value<fixed>("population", 0);
+	agricultural = obj.value<fixed>("agricultural", 0);
+
+	spaceStationType = obj.value<std::string>("spaceStationType", "");
+
+	heightMapFilename = obj.value<std::string>("heightMapFilename", "");
+	heightMapFractal = obj.value<uint32_t>("heightMapFractal", 0);
+
+	want_rand_arg_periapsis = !obj.count("argOfPeriapsis");
+	want_rand_offset = !obj.count("orbitalOffset");
+	want_rand_phase = !obj.count("orbitalPhase");
+	want_rand_seed = !obj.count("seed");
+}
+
 // ------- CustomSystem --------
 
 static const char LuaCustomSystem_TypeName[] = "CustomSystem";
@@ -607,6 +658,80 @@ static luaL_Reg LuaCustomSystem_meta[] = {
 	{ 0, 0 }
 };
 
+void CustomSystem::LoadFromJson(const Json &systemdef)
+{
+	name = systemdef["name"].get<std::string>();
+
+	if (systemdef.count("otherNames") && systemdef["otherNames"].is_array()) {
+		for (const Json &name : systemdef["otherNames"])
+			other_names.push_back(name.get<std::string>());
+	}
+
+	numStars = systemdef["stars"].size();
+
+	size_t starIdx = 0;
+	for (const Json &type : systemdef["stars"]) {
+		if (starIdx >= COUNTOF(primaryType))
+			break;
+		primaryType[starIdx++] = SystemBody::BodyType(EnumStrings::GetValue("BodyType", type.get<std::string>().c_str()));
+	}
+
+	sectorX = systemdef["sectorX"];
+	sectorY = systemdef["sectorY"];
+	sectorZ = systemdef["sectorZ"];
+
+	pos = systemdef["pos"];
+	seed = systemdef.value<uint32_t>("seed", 0);
+	explored = systemdef.value<bool>("explored", true);
+	lawlessness = systemdef.value<fixed>("lawlessness", 0);
+
+	want_rand_seed = !systemdef.count("seed");
+	want_rand_explored = !systemdef.count("explored");
+	want_rand_lawlessness = !systemdef.count("lawlessness");
+
+	govType = Polit::GovType(EnumStrings::GetValue("PolitGovType", systemdef.value<std::string>("govType", "NONE").c_str()));
+
+	shortDesc = systemdef.value<std::string>("shortDesc", "");
+	longDesc = systemdef.value<std::string>("longDesc", "");
+}
+
+// NOTE: not currently used, custom systems are initially generated using StarSystem::DumpToJson instead.
+void CustomSystem::SaveToJson(Json &obj)
+{
+	obj["name"] = name;
+
+	if (!other_names.empty()) {
+		Json &out_names = obj["otherNames"] = Json::array();
+		for (auto &name : other_names)
+			out_names.push_back(name);
+	}
+
+	Json &out_types = obj["stars"] = Json::array();
+	for (size_t idx = 0; idx < numStars; idx++)
+		out_types.push_back(EnumStrings::GetString("BodyType", primaryType[idx]));
+
+	obj["numStars"] = numStars;
+
+	obj["sectorX"] = sectorX;
+	obj["sectorY"] = sectorY;
+	obj["sectorZ"] = sectorZ;
+
+	obj["pos"] = pos;
+
+	if (!want_rand_seed)
+		obj["seed"] = seed;
+	if (!want_rand_explored)
+		obj["explored"] = explored;
+	if(!want_rand_lawlessness)
+		obj["lawlessness"] = lawlessness;
+
+	obj["govType"] = EnumStrings::GetString("PolitGovType", govType);
+
+	obj["shortDesc"] = shortDesc;
+	obj["longDesc"] = longDesc;
+
+}
+
 // ------ CustomSystem initialisation ------
 
 static void register_class(lua_State *L, const char *tname, luaL_Reg *meta)
@@ -698,6 +823,87 @@ const CustomSystem *CustomSystemsDatabase::LoadSystem(std::string_view filepath)
 		return nullptr;
 
 	return m_sectorMap[m_lastAddedSystem.first][m_lastAddedSystem.second];
+}
+
+const CustomSystem *CustomSystemsDatabase::LoadSystemFromJSON(std::string_view filename, const Json &systemdef)
+{
+	CustomSystem *sys = new CustomSystem();
+
+	try {
+
+		sys->LoadFromJson(systemdef);
+
+		// Validate number of stars
+		constexpr int MAX_STARS = COUNTOF(sys->primaryType);
+		if (sys->numStars > MAX_STARS) {
+			Log::Warning("Custom system {} defines {} stars of {} max! Extra stars will not be used in Sector generation.",
+				filename, sys->numStars, MAX_STARS);
+			sys->numStars = MAX_STARS;
+		}
+
+		// Set system faction pointer
+		auto factionName = systemdef.value<std::string>("faction", "");
+		if (!factionName.empty()) {
+			if (!GetGalaxy()->GetFactions()->IsInitialized()) {
+				GetGalaxy()->GetFactions()->RegisterCustomSystem(sys, factionName);
+			} else {
+				sys->faction = GetGalaxy()->GetFactions()->GetFaction(factionName);
+				if (sys->faction->idx == Faction::BAD_FACTION_IDX) {
+					Log::Warning("Unknown faction {} for custom system {}.", factionName, filename);
+					sys->faction = nullptr;
+				}
+			}
+		}
+
+		size_t numBodies = systemdef["bodies"].size();
+		sys->bodies.reserve(numBodies);
+
+		// Load all bodies in order
+		for (const Json &bodynode : systemdef["bodies"]) {
+
+			sys->bodies.emplace_back(new CustomSystemBody());
+
+			CustomSystemBody *body = sys->bodies.back();
+			body->LoadFromJson(bodynode);
+
+			if (bodynode.count("children")) {
+
+				for (const Json &childIndex : bodynode["children"]) {
+					if (childIndex >= numBodies) {
+						Log::Warning("Body {} in system {} has out-of-range child index {}",
+							body->name, filename, childIndex.get<uint32_t>());
+						continue;
+					}
+
+					body->childIndicies.push_back(childIndex.get<uint32_t>());
+				}
+
+			}
+
+		}
+
+		sys->sBody = sys->bodies[0];
+
+		// Resolve body children pointers
+		for (CustomSystemBody *body : sys->bodies) {
+
+			for (uint32_t childIdx : body->childIndicies) {
+				body->children.push_back(sys->bodies[childIdx]);
+			}
+
+		}
+
+		SystemPath path(sys->sectorX, sys->sectorY, sys->sectorZ, 0, 0);
+		AddCustomSystem(path, sys);
+
+		return sys;
+
+	} catch (Json::out_of_range &e) {
+		Log::Warning("Could not load JSON system definition {}!", filename);
+
+		delete sys;
+		return nullptr;
+	}
 }
 
 CustomSystemsDatabase::~CustomSystemsDatabase()

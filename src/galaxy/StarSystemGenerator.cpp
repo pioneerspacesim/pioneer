@@ -443,41 +443,26 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 			kid->m_heightMapFractal = csbody->heightMapFractal;
 		}
 
-		if (parent->GetType() == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
-			kid->m_orbit.SetShapeAroundBarycentre(csbody->semiMajorAxis.ToDouble() * AU, parent->GetMass(), kid->GetMass(), csbody->eccentricity.ToDouble());
-		else
-			kid->m_orbit.SetShapeAroundPrimary(csbody->semiMajorAxis.ToDouble() * AU, parent->GetMass(), csbody->eccentricity.ToDouble());
+		kid->SetOrbitFromParameters();
 
-		kid->m_orbit.SetPhase(kid->m_orbitalPhaseAtStart.ToDouble());
-
-		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
-			kid->m_orbit.SetPlane(matrix3x3d::RotateY(csbody->longitude) * matrix3x3d::RotateX(-0.5 * M_PI + csbody->latitude));
-		} else {
+		if (kid->GetType() != SystemBody::TYPE_STARPORT_SURFACE) {
 			if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
 				fixed lowestOrbit = fixed().FromDouble(parent->CalcAtmosphereParams().atmosRadius + 500000.0 / EARTH_RADIUS);
-				if (kid->m_orbit.GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
-					Error("%s's orbit is too close to its parent (%.2f/%.2f)", csbody->name.c_str(), kid->m_orbit.GetSemiMajorAxis(), lowestOrbit.ToFloat());
+				if (kid->GetOrbit().GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
+					Error("%s's orbit is too close to its parent (%.2f/%.2f)", csbody->name.c_str(), kid->GetOrbit().GetSemiMajorAxis(), lowestOrbit.ToFloat());
 				}
 			} else {
-				if (kid->m_orbit.GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
+				if (kid->GetOrbit().GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
 					Error("%s's orbit is too close to its parent", csbody->name.c_str());
 				}
 			}
-			// NOTE: rotate -Y == counter-clockwise parameterization of longitude of ascending node
-			kid->m_orbit.SetPlane(
-				matrix3x3d::RotateY(-kid->m_orbitalOffset.ToDouble()) *
-				matrix3x3d::RotateX(-0.5 * M_PI + kid->m_inclination.ToDouble()) *
-				matrix3x3d::RotateZ(kid->m_argOfPeriapsis.ToDouble()));
 		}
+
 		if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
 			system->AddSpaceStation(kid);
 		}
 		parent->m_children.push_back(kid);
-
-		// perihelion and aphelion (in AUs)
-		kid->m_orbMin = csbody->semiMajorAxis - csbody->eccentricity * csbody->semiMajorAxis;
-		kid->m_orbMax = 2 * csbody->semiMajorAxis - kid->m_orbMin;
 
 		PickAtmosphere(kid);
 
@@ -508,6 +493,7 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 {
 	system->SetCustom(true, false);
 	system->SetNumStars(customSys->numStars);
+	system->SetPosition(customSys->pos);
 	if (customSys->name.length() > 0) system->SetName(customSys->name);
 	if (customSys->shortDesc.length() > 0) system->SetShortDesc(customSys->shortDesc);
 	if (customSys->longDesc.length() > 0) system->SetLongDesc(customSys->longDesc);
@@ -529,7 +515,6 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 	rootBody->m_type = csbody->type;
 	rootBody->m_parent = 0;
 	rootBody->m_seed = csbody->want_rand_seed ? rng.Int32() : csbody->seed;
-	// rootBody->m_seed = rng.Int32(); // XXX breaks manual seed set on root body
 	rootBody->m_radius = csbody->radius;
 	rootBody->m_aspectRatio = csbody->aspectRatio;
 	rootBody->m_mass = csbody->mass;

@@ -6,6 +6,7 @@
 #include "AtmosphereParameters.h"
 #include "EnumStrings.h"
 #include "Game.h"
+#include "JsonUtils.h"
 #include "Lang.h"
 #include "Pi.h"
 #include "enum_table.h"
@@ -31,6 +32,133 @@ SystemBody::SystemBody(const SystemPath &path, StarSystem *system) :
 	m_atmosDensity(0.0),
 	m_system(system)
 {
+}
+
+void SystemBody::SaveToJson(Json &out)
+{
+	// NOTE: we intentionally do not store information about parent/children/path
+	// CustomSystem will be responsible for serializing the whole-system state
+
+	// XXX: if you change anything in this function, ensure you update
+	// CustomSystemBody::LoadFromJson as well
+
+	out["seed"] = m_seed;
+	out["name"] = m_name;
+	out["type"] = EnumStrings::GetString("BodyType", m_type);
+
+	out["radius"] = m_radius;
+	out["aspectRatio"] = m_aspectRatio;
+	out["mass"] = m_mass;
+	out["rotationPeriod"] = m_rotationPeriod;
+	out["rotationPhase"] = m_rotationalPhaseAtStart;
+	out["humanActivity"] = m_humanActivity;
+	out["semiMajorAxis"] = m_semiMajorAxis;
+	out["eccentricity"] = m_eccentricity;
+	out["orbitalOffset"] = m_orbitalOffset;
+	out["orbitalPhase"] = m_orbitalPhaseAtStart;
+	out["axialTilt"] = m_axialTilt;
+	out["inclination"] = m_inclination;
+	out["argOfPeriapsis"] = m_argOfPeriapsis;
+	out["averageTemp"] = m_averageTemp;
+	out["isCustom"] = m_isCustomBody;
+
+	out["metallicity"] = m_metallicity;
+	out["volatileGas"] = m_volatileGas;
+	out["volatileLiquid"] = m_volatileLiquid;
+	out["volatileIces"] = m_volatileIces;
+	out["volcanicity"] = m_volcanicity;
+	out["atmosOxidizing"] = m_atmosOxidizing;
+	out["atmosDensity"] = m_atmosDensity;
+	out["atmosColor"] = m_atmosColor;
+	out["life"] = m_life;
+	out["population"] = m_population;
+	out["agricultural"] = m_agricultural;
+
+	out["spaceStationType"] = m_space_station_type;
+
+	if (!m_heightMapFilename.empty()) {
+		out["heightMapFileName"] = m_heightMapFilename;
+		out["heightMapFractal"] = m_heightMapFractal;
+	}
+}
+
+void SystemBody::LoadFromJson(const Json &obj)
+{
+	// NOTE: we intentionally do not load parent/children/path in this function
+
+	m_seed = obj.value<uint32_t>("seed", 0);
+	m_name = obj.value<std::string>("name", "");
+
+	int type = EnumStrings::GetValue("BodyType", obj.value<std::string>("type", "GRAVPOINT").c_str());
+	m_type = BodyType(type);
+
+	m_radius = obj.value<fixed>("radius", 0);
+	m_aspectRatio = obj.value<fixed>("aspectRatio", 0);
+	m_mass = obj.value<fixed>("mass", 0);
+	m_rotationPeriod = obj.value<fixed>("rotationPeriod", 0);
+	m_humanActivity = obj.value<fixed>("humanActivity", 0);
+	m_semiMajorAxis = obj.value<fixed>("semiMajorAxis", 0);
+	m_eccentricity = obj.value<fixed>("eccentricity", 0);
+	m_orbitalOffset = obj.value<fixed>("orbitalOffset", 0);
+	m_orbitalPhaseAtStart = obj.value<fixed>("orbitalPhase", 0);
+	m_axialTilt = obj.value<fixed>("axialTilt", 0);
+	m_inclination = obj.value<fixed>("inclination", 0);
+	m_argOfPeriapsis = obj.value<fixed>("argOfPeriapsis", 0);
+	m_averageTemp = obj.value<uint32_t>("averageTemp", 0);
+	m_isCustomBody = obj.value<bool>("isCustom", false);
+
+	m_metallicity = obj.value<fixed>("metallicity", 0);
+	m_volatileGas = obj.value<fixed>("volatileGas", 0);
+	m_volatileLiquid = obj.value<fixed>("volatileLiquid", 0);
+	m_volatileIces = obj.value<fixed>("volatileIces", 0);
+	m_volcanicity = obj.value<fixed>("volcanicity", 0);
+	m_atmosOxidizing = obj.value<fixed>("atmosOxidizing", 0);
+	m_atmosDensity = obj.value<double>("atmosDensity", 0);
+	m_atmosColor = obj.value<Color>("atmosColor", 0);
+	m_life = obj.value<fixed>("life", 0);
+	m_population = obj.value<fixed>("population", 0);
+	m_agricultural = obj.value<fixed>("agricultural", 0);
+
+	m_space_station_type = obj.value<std::string>("spaceStationType", "");
+
+	m_heightMapFilename = obj.value<std::string>("heightMapFilename", "");
+	m_heightMapFractal = obj.value<uint32_t>("heightMapFractal", 0);
+}
+
+void SystemBody::SetOrbitFromParameters()
+{
+	// Cannot orbit if no parent to orbit around
+	if (!m_parent) {
+		m_orbit = {};
+		m_orbMin = 0;
+		m_orbMax = 0;
+
+		return;
+	}
+
+	if (m_parent->GetType() == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
+		m_orbit.SetShapeAroundBarycentre(m_semiMajorAxis.ToDouble() * AU, m_parent->GetMass(), GetMass(), m_eccentricity.ToDouble());
+	else
+		m_orbit.SetShapeAroundPrimary(m_semiMajorAxis.ToDouble() * AU, m_parent->GetMass(), m_eccentricity.ToDouble());
+
+	m_orbit.SetPhase(m_orbitalPhaseAtStart.ToDouble());
+
+	if (GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
+		double longitude = m_orbitalOffset.ToDouble();
+		double latitude = m_inclination.ToDouble();
+
+		m_orbit.SetPlane(matrix3x3d::RotateY(longitude) * matrix3x3d::RotateX(-0.5 * M_PI + latitude));
+	} else {
+		// NOTE: rotate -Y == counter-clockwise parameterization of longitude of ascending node
+		m_orbit.SetPlane(
+			matrix3x3d::RotateY(-m_orbitalOffset.ToDouble()) *
+			matrix3x3d::RotateX(-0.5 * M_PI + m_inclination.ToDouble()) *
+			matrix3x3d::RotateZ(m_argOfPeriapsis.ToDouble()));
+	}
+
+	// perihelion and aphelion (in AUs)
+	m_orbMin = m_semiMajorAxis - m_eccentricity * m_semiMajorAxis;
+	m_orbMax = 2 * m_semiMajorAxis - m_orbMin;
 }
 
 bool SystemBody::HasAtmosphere() const

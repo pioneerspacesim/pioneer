@@ -6,6 +6,7 @@
 
 #include "Color.h"
 #include "IterationProxy.h"
+#include "JsonFwd.h"
 #include "Orbit.h"
 #include "RefCounted.h"
 #include "fixed.h"
@@ -231,6 +232,12 @@ private:
 	friend class StarSystemCustomGenerator;
 	friend class StarSystemRandomGenerator;
 	friend class PopulateStarSystemGenerator;
+	friend class CustomSystemsDatabase;
+
+	void SaveToJson(Json &out);
+	void LoadFromJson(const Json &obj);
+
+	void SetOrbitFromParameters();
 
 	void ClearParentAndChildPointers();
 
