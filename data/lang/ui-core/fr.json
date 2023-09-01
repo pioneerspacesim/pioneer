@@ -1505,7 +1505,7 @@
   },
   "NEW_GAME": {
     "description": "Main menu item",
-    "message": "New game"
+    "message": "Nouvelle partie"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1545,7 +1545,7 @@
   },
   "NOTORIETY": {
     "description": "Character parameter",
-    "message": "Notoriety"
+    "message": "Notoriété"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
@@ -1713,7 +1713,7 @@
   },
   "PILOTING": {
     "description": "Crew skill",
-    "message": "Piloting"
+    "message": "Pilotage"
   },
   "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME": {
     "description": "",
@@ -1937,7 +1937,7 @@
   },
   "SELECT_START_PROFILE": {
     "description": "Combo box for selecting the starting position",
-    "message": "Select start profile:"
+    "message": "Profil de départ:"
   },
   "SELL": {
     "description": "Commodities and equipment prices",
@@ -2009,11 +2009,11 @@
   },
   "SHIP_NAME": {
     "description": "",
-    "message": "Ship name"
+    "message": "Nom du vaisseau"
   },
   "SHIP_PARAMETERS": {
     "description": "",
-    "message": "Ship parameters"
+    "message": "Paramètres du vaisseau"
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
@@ -2029,7 +2029,7 @@
   },
   "SOME_PARAMETERS_ARE_NOT_OK": {
     "description": "Diagnostics at game start",
-    "message": "Some parameters are not OK:"
+    "message": "Des paramètres ne sont pas bons:"
   },
   "SOUND": {
     "description": "",
@@ -2037,7 +2037,7 @@
   },
   "STANDARD_GAME_START_TIME": {
     "description": "Standard game start time, current moment + 1200 years",
-    "message": "Standard game start time"
+    "message": "Date du début de partie"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2065,7 +2065,7 @@
   },
   "START_GAME": {
     "description": "Button",
-    "message": "Start game"
+    "message": "Démarrer la partie"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
@@ -2121,7 +2121,7 @@
   },
   "SUMMARY": {
     "description": "Tab item in the start game menu",
-    "message": "Summary"
+    "message": "Résumé"
   },
   "TECH_CERTIFIED": {
     "description": "Lobby screen shows the tech level (an integer number) of the station",
