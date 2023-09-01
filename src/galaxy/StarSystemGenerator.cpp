@@ -380,7 +380,7 @@ fixed StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody *sbody) const
 }
 
 void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent,
-	const std::vector<CustomSystemBody *> &children, int *outHumanInfestedness, Random &rand)
+	const std::vector<CustomSystemBody *> &children, int *outHumanInfestedness)
 {
 	PROFILE_SCOPED()
 	// replaces gravpoint mass by sum of masses of its children
@@ -406,7 +406,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		SystemBody *kid = system->NewBody();
 		kid->m_type = csbody->type;
 		kid->m_parent = parent;
-		kid->m_seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
+		kid->m_seed = csbody->seed;
 		kid->m_radius = csbody->radius;
 		kid->m_aspectRatio = csbody->aspectRatio;
 		kid->m_averageTemp = csbody->averageTemp;
@@ -429,9 +429,9 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_rotationPeriod = csbody->rotationPeriod;
 		kid->m_rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
 		kid->m_eccentricity = csbody->eccentricity;
-		kid->m_orbitalOffset = csbody->want_rand_offset ? fixed::FromDouble(rand.Double(2 * M_PI)) : csbody->orbitalOffset;
-		kid->m_orbitalPhaseAtStart = csbody->want_rand_phase ? fixed::FromDouble(rand.Double(2 * M_PI)) : csbody->orbitalPhaseAtStart;
-		kid->m_argOfPeriapsis = csbody->want_rand_arg_periapsis ? fixed::FromDouble(rand.Double(2 * M_PI)) : csbody->argOfPeriapsis;
+		kid->m_orbitalOffset = csbody->orbitalOffset;
+		kid->m_orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
+		kid->m_argOfPeriapsis = csbody->argOfPeriapsis;
 		kid->m_axialTilt = csbody->axialTilt;
 		kid->m_inclination = fixed(csbody->latitude * 10000, 10000);
 		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
@@ -485,7 +485,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 			break;
 		}
 
-		CustomGetKidsOf(system, kid, csbody->children, outHumanInfestedness, rand);
+		CustomGetKidsOf(system, kid, csbody->children, outHumanInfestedness);
 	}
 }
 
@@ -514,7 +514,7 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 	SystemBody *rootBody = system->NewBody();
 	rootBody->m_type = csbody->type;
 	rootBody->m_parent = 0;
-	rootBody->m_seed = csbody->want_rand_seed ? rng.Int32() : csbody->seed;
+	rootBody->m_seed = csbody->seed;
 	rootBody->m_radius = csbody->radius;
 	rootBody->m_aspectRatio = csbody->aspectRatio;
 	rootBody->m_mass = csbody->mass;
@@ -527,7 +527,7 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 	system->SetRootBody(rootBody);
 
 	int humanInfestedness = 0;
-	CustomGetKidsOf(system, rootBody, csbody->children, &humanInfestedness, rng);
+	CustomGetKidsOf(system, rootBody, csbody->children, &humanInfestedness);
 	unsigned countedStars = 0;
 	for (RefCountedPtr<SystemBody> b : system->GetBodies()) {
 		if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {

@@ -147,6 +147,8 @@ public:
 	void AddCustomSystem(const SystemPath &path, CustomSystem *csys);
 	Galaxy *GetGalaxy() const { return m_galaxy; }
 
+	void RunLuaSystemSanityChecks(CustomSystem *csys);
+
 private:
 	typedef std::map<SystemPath, SystemList> SectorMap;
 	typedef std::pair<SystemPath, size_t> SystemIndex;

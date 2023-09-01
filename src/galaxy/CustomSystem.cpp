@@ -5,6 +5,7 @@
 
 #include "Galaxy.h"
 #include "SystemPath.h"
+#include "core/FNV1a.h"
 #include "core/LZ4Format.h"
 
 #include "../gameconsts.h"
@@ -321,8 +322,7 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 void CustomSystemBody::LoadFromJson(const Json &obj)
 {
 	// XXX: this is copied from SystemBody::LoadFromJson because this architecture is a bit of a mess
-
-	seed = obj.value<uint32_t>("seed", 0);
+	seed = obj["seed"];
 	name = obj.value<std::string>("name", "");
 
 	int typeVal = EnumStrings::GetValue("BodyType", obj.value<std::string>("type", "GRAVPOINT").c_str());
@@ -359,11 +359,6 @@ void CustomSystemBody::LoadFromJson(const Json &obj)
 
 	heightMapFilename = obj.value<std::string>("heightMapFilename", "");
 	heightMapFractal = obj.value<uint32_t>("heightMapFractal", 0);
-
-	want_rand_arg_periapsis = !obj.count("argOfPeriapsis");
-	want_rand_offset = !obj.count("orbitalOffset");
-	want_rand_phase = !obj.count("orbitalPhase");
-	want_rand_seed = !obj.count("seed");
 }
 
 // ------- CustomSystem --------
@@ -528,7 +523,7 @@ static int l_csys_lawlessness(lua_State *L)
 	return 1;
 }
 
-static void _add_children_to_sbody(lua_State *L, CustomSystemBody *sbody)
+static void _add_children_to_sbody(lua_State *L, CustomSystem *cs, CustomSystemBody *sbody)
 {
 	lua_checkstack(L, 5); // grow the stack if necessary
 	LUA_DEBUG_START(L);
@@ -547,12 +542,14 @@ static void _add_children_to_sbody(lua_State *L, CustomSystemBody *sbody)
 		lua_pop(L, 1);
 		LUA_DEBUG_CHECK(L, 0);
 
+		cs->bodies.push_back(kid);
+
 		// then there are any number of sub-tables containing direct children
 		while (true) {
 			lua_rawgeti(L, -1, i + 1);
 			LUA_DEBUG_CHECK(L, 1);
 			if (!lua_istable(L, -1)) break;
-			_add_children_to_sbody(L, kid);
+			_add_children_to_sbody(L, cs, kid);
 			lua_pop(L, 1);
 			LUA_DEBUG_CHECK(L, 0);
 			++i;
@@ -592,8 +589,10 @@ static int l_csys_bodies(lua_State *L)
 	if (primary_type != cs->primaryType[0] && primary_type != SystemBody::TYPE_GRAVPOINT)
 		return luaL_error(L, "first body type does not match the system's primary star type");
 
+	cs->bodies.push_back(*primary_ptr);
+
 	lua_pushvalue(L, 3);
-	_add_children_to_sbody(L, *primary_ptr);
+	_add_children_to_sbody(L, cs, *primary_ptr);
 	lua_pop(L, 1);
 
 	cs->sBody = *primary_ptr;
@@ -624,9 +623,11 @@ static int l_csys_add_to_sector(lua_State *L)
 	(*csptr)->sectorX = x;
 	(*csptr)->sectorY = y;
 	(*csptr)->sectorZ = z;
-	(*csptr)->pos = vector3f(*v);
+	(*csptr)->pos = vector3f(*v) * Sector::SIZE; // NOTE: lua uses 0..1 interval inside a sector cell
 
 	//Output("l_csys_add_to_sector: %s added to %d, %d, %d\n", (*csptr)->name.c_str(), x, y, z);
+
+	s_activeCustomSystemsDatabase->RunLuaSystemSanityChecks(*csptr);
 
 	s_activeCustomSystemsDatabase->AddCustomSystem(SystemPath(x, y, z), *csptr);
 	*csptr = 0;
@@ -681,11 +682,11 @@ void CustomSystem::LoadFromJson(const Json &systemdef)
 	sectorZ = systemdef["sectorZ"];
 
 	pos = systemdef["pos"];
-	seed = systemdef.value<uint32_t>("seed", 0);
+	seed = systemdef["seed"];
 	explored = systemdef.value<bool>("explored", true);
 	lawlessness = systemdef.value<fixed>("lawlessness", 0);
 
-	want_rand_seed = !systemdef.count("seed");
+	want_rand_seed = false;
 	want_rand_explored = !systemdef.count("explored");
 	want_rand_lawlessness = !systemdef.count("lawlessness");
 
@@ -717,9 +718,8 @@ void CustomSystem::SaveToJson(Json &obj)
 	obj["sectorZ"] = sectorZ;
 
 	obj["pos"] = pos;
+	obj["seed"] = seed;
 
-	if (!want_rand_seed)
-		obj["seed"] = seed;
 	if (!want_rand_explored)
 		obj["explored"] = explored;
 	if(!want_rand_lawlessness)
@@ -929,6 +929,52 @@ void CustomSystemsDatabase::AddCustomSystem(const SystemPath &path, CustomSystem
 	csys->systemIndex = m_sectorMap[path].size();
 	m_lastAddedSystem = SystemIndex(path, csys->systemIndex);
 	m_sectorMap[path].push_back(csys);
+}
+
+void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
+{
+	SystemPath path(csys->sectorX, csys->sectorY, csys->sectorZ);
+	Random rand;
+	uint32_t _init[5] = { 0, uint32_t(csys->sectorX), uint32_t(csys->sectorY), uint32_t(csys->sectorZ), UNIVERSE_SEED };
+
+	// We need a unique source of randomness that does not depend on the
+	// order in which systems are loaded or generated.
+	// Use the hash of the system or body name to generate a unique seed if
+	// it was not specified in the custom system file.
+
+	if (csys->want_rand_seed) {
+		_init[0] = hash_32_fnv1a(csys->name.data(), csys->name.size());
+		rand.seed(_init, 5);
+
+		csys->seed = rand.Int32();
+		csys->want_rand_seed = false;
+	}
+
+	for (CustomSystemBody *body : csys->bodies) {
+
+		// Generate the body's seed if missing
+		if (body->want_rand_seed) {
+			_init[0] = hash_32_fnv1a(body->name.data(), body->name.size());
+			body->seed = rand.Int32();
+		}
+
+		if (!(body->want_rand_offset || body->want_rand_phase || body->want_rand_arg_periapsis))
+			continue;
+
+		// Generate body orbit parameters from its seed
+		_init[0] = body->seed;
+		rand.seed(_init, 5);
+
+		if (body->want_rand_offset)
+			body->orbitalOffset = fixed::FromDouble(rand.Double(2 * M_PI));
+
+		if (body->want_rand_phase)
+			body->orbitalPhaseAtStart = fixed::FromDouble(rand.Double(2 * M_PI));
+
+		if (body->want_rand_arg_periapsis)
+			body->argOfPeriapsis = fixed::FromDouble(rand.Double(2 * M_PI));
+
+	}
 }
 
 CustomSystem::CustomSystem() :

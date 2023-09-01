@@ -35,7 +35,7 @@ public:
 	bool ApplyToSystem(Random &rng, RefCountedPtr<StarSystem::GeneratorAPI> system, const CustomSystem *customSys);
 
 private:
-	void CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent, const std::vector<CustomSystemBody *> &children, int *outHumanInfestedness, Random &rand);
+	void CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent, const std::vector<CustomSystemBody *> &children, int *outHumanInfestedness);
 };
 
 class StarSystemRandomGenerator : public StarSystemLegacyGeneratorBase {
