@@ -357,22 +357,25 @@ void StarSystemLegacyGeneratorBase::PickRings(SystemBody *sbody, bool forceRings
 /*
  * http://en.wikipedia.org/wiki/Hill_sphere
  */
-fixed StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody *sbody) const
+fixedf<48> StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody *sbody) const
 {
 	PROFILE_SCOPED()
+	// high-precision for working with very small numbers
+	// system distances are not expected to be larger than 32k AU
+	using fixedp = fixedf<48>;
+
 	if (sbody->GetSuperType() <= SystemBody::SUPERTYPE_STAR) {
 		return fixed();
 	} else {
 		// playing with precision since these numbers get small
 		// masses in earth masses
-		fixedf<32> mprimary = sbody->GetParent()->GetMassInEarths();
+		fixed mprimary = sbody->GetParent()->GetMassInEarths();
 
-		fixedf<48> a = sbody->GetSemiMajorAxisAsFixed();
-		fixedf<48> e = sbody->GetEccentricityAsFixed();
+		fixedp a = sbody->GetSemiMajorAxisAsFixed();
+		fixedp e = sbody->GetEccentricityAsFixed();
+		fixedp pe = a * (fixedp(1, 1) - e); // periapsis in higher precision
 
-		return fixed(a * (fixedf<48>(1, 1) - e) *
-			fixedf<48>::CubeRootOf(fixedf<48>(
-				sbody->GetMassAsFixed() / (fixedf<32>(3, 1) * mprimary))));
+		return pe * fixedp::CubeRootOf(sbody->GetMassAsFixed() / (fixed(3, 1) * mprimary));
 
 		//fixed hr = semiMajorAxis*(fixed(1,1) - eccentricity) *
 		//  fixedcuberoot(mass / (3*mprimary));
@@ -904,13 +907,8 @@ static inline bool test_overlap(const fixed &x1, const fixed &x2, const fixed &y
 		(y2 >= x1 && y2 <= x2);
 }
 
-void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand)
+fixed StarSystemRandomGenerator::CalcBodySatelliteShellDensity(Random &rand, SystemBody *primary, fixed &discMin, fixed &discMax)
 {
-	PROFILE_SCOPED()
-	fixed discMin = fixed();
-	fixed discMax = fixed(5000, 1);
-	fixed discDensity;
-
 	SystemBody::BodySuperType parentSuperType = primary->GetSuperType();
 
 	if (parentSuperType <= SystemBody::SUPERTYPE_STAR) {
@@ -932,10 +930,9 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		} else {
 			discMax = 100 * rand.NFixed(2) * fixed::SqrtOf(primary->GetMassAsFixed());
 		}
-		// having limited discMin by bin-separation/fake roche, and
-		// discMax by some relation to star mass, we can now compute
-		// disc density
-		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(2, 100));
+
+		// NOTE: limits applied here scale the density distribution function so
+		// that bodies are naturally of low mass at the binary/trinary limit
 
 		if ((parentSuperType == SystemBody::SUPERTYPE_STAR) && (primary->m_parent)) {
 			// limit planets out to 10% distance to star's binary companion
@@ -943,77 +940,67 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		}
 
 		/* in trinary and quaternary systems don't bump into other pair... */
+		StarSystem *system = primary->GetStarSystem();
 		if (system->GetNumStars() >= 3) {
 			discMax = std::min(discMax, fixed(5, 100) * system->GetRootBody()->GetChildren()[0]->m_orbMin);
 		}
+
+		// having limited discMin by bin-separation/fake roche, and
+		// discMax by some relation to star mass, we can now compute
+		// disc density
+		return get_disc_density(primary, discMin, discMax, fixed(2, 100));
 	} else {
 		fixed primary_rad = primary->GetRadiusAsFixed() * AU_EARTH_RADIUS;
 		discMin = 4 * primary_rad;
-		/* use hill radius to find max size of moon system. for stars botch it.
-		   And use planets orbit around its primary as a scaler to a moon's orbit*/
-		discMax = std::min(discMax, fixed(1, 20) * CalcHillRadius(primary) * primary->m_orbMin * fixed(1, 10));
+		discMax = fixed(5000, 1);
+		// use hill radius to find max size of moon system. for stars botch it.
+		// And use planets orbit around its primary as a scaler to a moon's orbit
 
-		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(1, 500));
+		// assume satellites only exist max 1/10th of L1 distance
+		// generated value should be well within precision limits
+		// NOTE: this is opinionated and serves to limit "useless moons" for
+		// gameplay purposes instead of fully representing reality
+		fixedf<48> hillSphereRad = CalcHillRadius(primary) * fixedf<48>(1, 10);
+		discMax = std::min(discMax, fixed(hillSphereRad));
+
+		return get_disc_density(primary, discMin, discMax, fixed(1, 500));
 	}
+}
+
+void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand)
+{
+	PROFILE_SCOPED()
+	SystemBody::BodySuperType parentSuperType = primary->GetSuperType();
+
+	fixed discMin;
+	fixed discMax;
+	fixed discDensity = CalcBodySatelliteShellDensity(rand, primary, discMin, discMax);
+
+	// random density averaging 1/2 the maximum mass distribution
+	// discDensity *= rand.NormFixed(2, fixed(1, 2), fixed(1, 2));
 
 	//fixed discDensity = 20*rand.NFixed(4);
 
-	//Output("Around %s: Range %f -> %f AU\n", primary->GetName().c_str(), discMin.ToDouble(), discMax.ToDouble());
+	// Output("Around %s: Range %f -> %f AU, Density %g\n", primary->GetName().c_str(), discMin.ToDouble(), discMax.ToDouble(), discDensity.ToDouble());
 
-	fixed initialJump = rand.NFixed(5);
-	fixed pos = (fixed(1, 1) - initialJump) * discMin + (initialJump * discMax);
+	fixed initialJump = rand.NFixed(5) * discMax;
+	fixed pos = discMin + rand.NormFixed(fixed(3, 1), fixed(25, 10)) * discMin + initialJump;
 	const RingStyle &ring = primary->GetRings();
 	const bool hasRings = primary->HasRings();
 
-	while (pos < discMax) {
-		// periapsis, apoapsis = closest, farthest distance in orbit
-		fixed periapsis = pos + pos * fixed(1, 2) * rand.NFixed(2); /* + jump */
-		;
-		fixed ecc = rand.NFixed(3);
-		fixed semiMajorAxis = periapsis / (fixed(1, 1) - ecc);
-		fixed apoapsis = 2 * semiMajorAxis - periapsis;
-		if (apoapsis > discMax) break;
+	// Generating a body can fail if there is a small distance between pos and discMax
+	uint32_t numTries = 0;
 
-		fixed mass;
-		{
-			const fixed a = pos;
-			const fixed b = fixed(135, 100) * apoapsis;
-			mass = mass_from_disk_area(a, b, discMax);
-			mass *= rand.Fixed() * discDensity;
-		}
-		if (mass < 0) { // hack around overflow
-			Output("WARNING: planetary mass has overflowed! (child of %s)\n", primary->GetName().c_str());
-			mass = fixed(Sint64(0x7fFFffFFffFFffFFull));
-		}
-		assert(mass >= 0);
+	while (pos < discMax && numTries++ < 30) {
+		SystemBody *planet = MakeBodyInOrbitSlice(rand, system.Get(), primary, pos, fixed(0), discMax, discDensity);
 
-		SystemBody *planet = system->NewBody();
-		planet->m_eccentricity = ecc;
-		planet->m_axialTilt = fixed(100, 157) * rand.NFixed(2);
-		planet->m_semiMajorAxis = semiMajorAxis;
-		planet->m_type = SystemBody::TYPE_PLANET_TERRESTRIAL;
-		planet->m_seed = rand.Int32();
-		planet->m_parent = primary;
-		planet->m_mass = mass;
-		planet->m_rotationPeriod = fixed(rand.Int32(1, 200), 24);
+		if (!planet)
+			continue;
 
-		const double e = ecc.ToDouble();
-
-		if (primary->m_type == SystemBody::TYPE_GRAVPOINT)
-			planet->m_orbit.SetShapeAroundBarycentre(semiMajorAxis.ToDouble() * AU, primary->GetMass(), planet->GetMass(), e);
-		else
-			planet->m_orbit.SetShapeAroundPrimary(semiMajorAxis.ToDouble() * AU, primary->GetMass(), e);
-
-		double r1 = rand.Double(2 * M_PI); // function parameter evaluation order is implementation-dependent
-		double r2 = rand.NDouble(5);	   // can't put two rands in the same expression
-		planet->m_orbit.SetPlane(matrix3x3d::RotateY(r1) * matrix3x3d::RotateX(-0.5 * M_PI + r2 * M_PI / 2.0));
-		planet->m_orbit.SetPhase(rand.Double(2 * M_PI));
-
-		planet->m_inclination = FIXED_PI;
-		planet->m_inclination *= r2 / 2.0;
-		planet->m_orbMin = periapsis;
-		planet->m_orbMax = apoapsis;
 		primary->m_children.push_back(planet);
+
+		fixed periapsis = planet->m_orbMin;
+		fixed apoapsis = planet->m_orbMax;
 
 		if (hasRings &&
 			parentSuperType == SystemBody::SUPERTYPE_ROCKY_PLANET &&
@@ -1025,8 +1012,8 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 			primary->m_rings.baseColor = Color(255, 255, 255, 255);
 		}
 
-		/* minimum separation between planets of 1.35 */
-		pos = apoapsis * fixed(135, 100);
+		/* minimum separation between planets of 1.2x */
+		pos = apoapsis * (rand.NFixed(3) + fixed(12, 10));
 	}
 
 	int idx = 0;
@@ -1049,6 +1036,88 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		if (make_moons) MakePlanetsAround(system, *i, rand);
 		idx++;
 	}
+}
+
+SystemBody *StarSystemRandomGenerator::MakeBodyInOrbitSlice(Random &rand, StarSystem::GeneratorAPI *system, SystemBody *primary, fixed min_slice, fixed max_slice, fixed discMax, fixed discDensity)
+{
+	fixed semiMajorAxis;
+	fixed eccentricity;
+
+	if (max_slice != 0) {
+		// calculate apoapsis to fit within the given orbital slice
+
+		fixed periapsis = min_slice + (max_slice - min_slice) * fixed(1, 2) * rand.NFixed(2);
+		fixed apoapsis = max_slice - (max_slice - min_slice) * fixed(1, 2) * rand.NFixed(3);
+
+		// help avoid overflow by calculating this way instead of (ap + pe) * 0.5
+		semiMajorAxis = periapsis + (apoapsis - periapsis) * fixed(1, 2);
+
+		// rMax = a(1 + e) -> e = rMax / a - 1
+		eccentricity = apoapsis / semiMajorAxis - fixed(1, 1);
+
+	} else {
+		// Calculate a random orbit greater than pos and smaller than discMax
+
+		// periapsis, apoapsis = closest, farthest distance in orbit
+		fixed periapsis = min_slice + min_slice * fixed(1, 2) * rand.NFixed(3);
+
+		// the closer the orbit is to the primary, the higher chance of a regular, concentric orbit
+		fixed ecc_factor = fixed(1, 1) - periapsis / discMax;
+		ecc_factor *= ecc_factor;
+
+		eccentricity = rand.NFixed(3) * (fixed(1, 1) - ecc_factor);
+		semiMajorAxis = periapsis / (fixed(1, 1) - eccentricity);
+
+		fixed apoapsis = 2 * semiMajorAxis - periapsis;
+		if (apoapsis > discMax)
+			return nullptr;
+
+		max_slice = fixed(135, 100) * apoapsis;
+	}
+
+	// reduce disc area for bodies with highly elliptical orbits
+	fixed inv_eccentricity = fixed(1,1) - eccentricity;
+	fixed max_slice_eff = min_slice + (max_slice - min_slice) * (inv_eccentricity * inv_eccentricity);
+
+	// reduce mass of bodies between 0 .. 0.2(discMax)
+	fixed inner_factor = std::min(semiMajorAxis / (discMax * fixed(1, 5)), fixed(1, 1));
+
+	// random mass averaging ~1/2 the density distribution for this slice
+	fixed mass = mass_from_disk_area(min_slice, max_slice_eff, discMax) *
+		rand.NormFixed(fixed(1, 2), fixed(1, 2)) * discDensity * inner_factor;
+
+	if (mass < 0) { // hack around overflow
+		Output("WARNING: planetary mass has overflowed! (child %d of %s)\n", primary->GetNumChildren(), primary->GetName().c_str());
+		mass = fixed(Sint64(0x7fFFffFFffFFffFFull));
+	}
+	assert(mass >= 0);
+
+	SystemBody *planet = system->NewBody();
+	planet->m_semiMajorAxis = semiMajorAxis;
+	planet->m_eccentricity = eccentricity;
+	planet->m_axialTilt = fixed(100, 157) * rand.NFixed(2);
+	planet->m_type = SystemBody::TYPE_PLANET_TERRESTRIAL;
+	planet->m_seed = rand.Int32();
+	planet->m_parent = primary;
+	planet->m_mass = mass;
+	planet->m_rotationPeriod = fixed(rand.Int32(1, 200), 24);
+
+	// longitude of ascending node
+	planet->m_orbitalOffset = rand.Fixed() * 2 * FIXED_PI;
+	// inclination in the hemisphere above the equator, low probability of high-inclination orbits
+	planet->m_inclination = rand.SFixed(5).Abs() * FIXED_PI * fixed(1, 2);
+	// argument of periapsis, interval -PI .. PI
+	planet->m_argOfPeriapsis = rand.SFixed(1) * FIXED_PI;
+
+	// rare chance of reversed orbit
+	if (rand.Fixed() < fixed(1, 20))
+		planet->m_inclination = FIXED_PI - planet->m_inclination;
+
+	// true anomaly as rotation beyond periapsis
+	planet->m_orbitalPhaseAtStart = rand.Fixed() * 2 * FIXED_PI;
+
+	planet->SetOrbitFromParameters();
+	return planet;
 }
 
 void StarSystemRandomGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, Random &rand)
@@ -1526,7 +1595,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody *sbody, StarSys
 	namerand->seed(_init, 6);
 
 	if (sbody->GetPopulationAsFixed() < fixed(1, 1000)) return;
-	fixed orbMaxS = fixed(1, 4) * CalcHillRadius(sbody);
+	fixed orbMaxS = fixed(1, 4) * fixed(CalcHillRadius(sbody));
 	fixed orbMinS = fixed().FromDouble((sbody->CalcAtmosphereParams().atmosRadius + +500000.0 / EARTH_RADIUS)) * AU_EARTH_RADIUS;
 	if (sbody->GetNumChildren() > 0)
 		orbMaxS = std::min(orbMaxS, fixed(1, 2) * sbody->GetChildren()[0]->GetOrbMinAsFixed());

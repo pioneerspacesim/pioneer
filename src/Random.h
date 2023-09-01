@@ -233,6 +233,25 @@ public:
 		return o;
 	}
 
+	// interval (-1,1)
+	// triangle distribution at p=1
+	// increasing steepness of normal distribution at p > 1
+	inline fixed SFixed(int p)
+	{
+		fixed o = Fixed();
+		o -= Fixed();
+		while (--p > 0)
+			o *= (fixed(1, 4) + Fixed() * fixed(3, 4));
+		return o;
+	}
+
+	// interval (mean - stddev, mean + stddev)
+	// this is not a true gaussian distribution
+	inline fixed NormFixed(fixed mean, fixed stddev)
+	{
+		return mean + SFixed(2) * stddev;
+	}
+
 	const pcg32 &GetPCG() const { return mPCG; }
 
 private:

@@ -24,7 +24,7 @@ protected:
 
 	void PickAtmosphere(SystemBody *sbody);
 	void PickRings(SystemBody *sbody, bool forceRings = false);
-	fixed CalcHillRadius(SystemBody *sbody) const;
+	fixedf<48> CalcHillRadius(SystemBody *sbody) const;
 };
 
 class StarSystemCustomGenerator : public StarSystemLegacyGeneratorBase {
@@ -41,6 +41,11 @@ private:
 class StarSystemRandomGenerator : public StarSystemLegacyGeneratorBase {
 public:
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
+
+	// Calculate the min, max distances from the primary where satellites should be generated
+	// Returns the mass density of a 2d slice through the center of the shell
+	fixed CalcBodySatelliteShellDensity(Random &rng, SystemBody *primary, fixed &discMin, fixed &discMax);
+	SystemBody *MakeBodyInOrbitSlice(Random &rng, StarSystem::GeneratorAPI *system, SystemBody *primary, fixed min, fixed max, fixed discMax, fixed discDensity);
 
 private:
 	void MakePlanetsAround(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand);
