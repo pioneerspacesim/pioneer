@@ -8,7 +8,9 @@
 #include "LuaPiGui.h"
 #include "Pi.h"
 #include "Player.h"
+#include "SectorView.h"
 #include "Space.h"
+#include "core/Log.h"
 #include "graphics/Renderer.h"
 #include "graphics/Stats.h"
 #include "graphics/Texture.h"
@@ -392,6 +394,17 @@ void PerfInfo::DrawWorldViewStats()
 		const auto *sbody = Pi::player->GetNavTarget()->GetSystemBody();
 		ImGui::TextUnformatted(fmt::format("Name: {}, Population: {}", sbody->GetName(), sbody->GetPopulation() * 1e9).c_str());
 	}
+
+	if (Pi::GetView() == Pi::game->GetSectorView()) {
+		if (ImGui::Button("Dump Selected System")) {
+			SystemPath path = Pi::game->GetSectorView()->GetSelected();
+			RefCountedPtr<StarSystem> system = Pi::game->GetGalaxy()->GetStarSystem(path);
+
+			if (system)
+				system->Dump(Log::GetLog()->GetLogFileHandle());
+		}
+	}
+
 }
 
 void PerfInfo::DrawInputDebug()

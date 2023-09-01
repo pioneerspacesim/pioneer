@@ -29,6 +29,7 @@ namespace Log {
 		void LogLevel(Severity sv, const char *message);
 
 		bool SetLogFile(std::string filename);
+		FILE *GetLogFileHandle() { return file; }
 
 		// Return the severity cutoff at which log messages will be printed to stderr.
 		Severity GetSeverity() { return m_maxSeverity; }
