@@ -897,13 +897,22 @@ void Ship::Blastoff()
 
 	assert(f->GetBody()->IsType(ObjectType::PLANET));
 
-	const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
-	SetVelocity(vector3d(0, 0, 0));
-	SetAngVelocity(vector3d(0, 0, 0));
-	SetFlightState(FLYING);
+	if (ManualDocking()) {
+		if (!IsType(ObjectType::PLAYER)) {
+			Log::Warning("It wasn't the player's ship that tried to take off without an autopilot!");
+			return;
+		}
+		auto p = static_cast<Player*>(this);
+		p->DoFixspeedTakeoff();
+	} else {
+		const double planetRadius = 2.0 + static_cast<Planet *>(f->GetBody())->GetTerrainHeight(up);
+		SetVelocity(vector3d(0, 0, 0));
+		SetAngVelocity(vector3d(0, 0, 0));
+		SetFlightState(FLYING);
 
-	SetPosition(up * planetRadius - GetAabb().min.y * up);
-	SetThrusterState(1, 1.0); // thrust upwards
+		SetPosition(up * planetRadius - GetAabb().min.y * up);
+		SetThrusterState(1, 1.0); // thrust upwards
+	}
 
 	LuaEvent::Queue("onShipTakeOff", this, f->GetBody());
 }

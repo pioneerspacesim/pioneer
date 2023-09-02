@@ -29,6 +29,8 @@ public:
 	virtual void NotifyRemoved(const Body *const removedBody) override;
 	virtual bool ManualDocking() const override { return !AIIsActive(); }
 
+	void DoFixspeedTakeoff(SpaceStation *from = nullptr);
+
 	virtual void SetShipType(const ShipType::Id &shipId) override;
 
 	PlayerShipController *GetPlayerController() const;

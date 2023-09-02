@@ -572,7 +572,13 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			dt.ship->SetFlightState(Ship::FLYING);
 			dt.ship->SetAngVelocity(GetAngVelocity());
 			if (m_type->IsSurfaceStation()) {
-				dt.ship->SetThrusterState(1, 1.0); // up
+				if(!dt.ship->ManualDocking()) {
+					dt.ship->SetThrusterState(1, 1.0); // up
+				} else {
+					// only the player can launch without autopilot
+					auto player = static_cast<Player*>(dt.ship);
+					player->DoFixspeedTakeoff();
+				}
 			} else {
 				dt.ship->SetThrusterState(2, -1.0); // forward
 			}
