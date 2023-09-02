@@ -6,6 +6,8 @@
 #include "FileSystem.h"
 #include "LuaPushPull.h"
 
+#include "FloatComparison.h"
+
 extern "C" {
 #include "jenkins/lookup3.h"
 }
