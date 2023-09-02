@@ -12,6 +12,8 @@
 
 #include <assert.h>
 #include <cmath>
+#include <cstdint>
+#include <initializer_list>
 
 #include "RefCounted.h"
 #include "fixed.h"
@@ -55,6 +57,12 @@ public:
 		seed(reinterpret_cast<const Uint32 *>(seeds), length * 2);
 	}
 
+	// Construct a new generator given an array of 32-bit seeds.
+	Random(std::initializer_list<uint32_t> seeds)
+	{
+		seed(seeds);
+	}
+
 	//
 	// Seed functions
 	//
@@ -71,6 +79,11 @@ public:
 	void seed(const Uint64 *const seeds, size_t length)
 	{
 		seed(reinterpret_cast<const Uint32 *>(seeds), length * 2);
+	}
+
+	// Seed using an initializer_list of 32-bit integers
+	void seed(std::initializer_list<uint32_t> list) {
+		seed(&*list.begin(), list.size());
 	}
 
 	// Seed using a single 32-bit integer

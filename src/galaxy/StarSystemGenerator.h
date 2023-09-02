@@ -40,12 +40,15 @@ private:
 
 class StarSystemRandomGenerator : public StarSystemLegacyGeneratorBase {
 public:
+	static constexpr uint32_t BODY_SATELLITE_SALT = 0xf5123a90;
+
 	virtual bool Apply(Random &rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig *config);
 
 	// Calculate the min, max distances from the primary where satellites should be generated
 	// Returns the mass density of a 2d slice through the center of the shell
-	fixed CalcBodySatelliteShellDensity(Random &rng, SystemBody *primary, fixed &discMin, fixed &discMax);
-	SystemBody *MakeBodyInOrbitSlice(Random &rng, StarSystem::GeneratorAPI *system, SystemBody *primary, fixed min, fixed max, fixed discMax, fixed discDensity);
+	fixed CalcBodySatelliteShellDensity(Random &rand, SystemBody *primary, fixed &discMin, fixed &discMax);
+	SystemBody *MakeBodyInOrbitSlice(Random &rand, StarSystem::GeneratorAPI *system, SystemBody *primary, fixed min, fixed max, fixed discMax, fixed discDensity);
+	void PickPlanetType(SystemBody *sbody, Random &rand);
 
 private:
 	void MakePlanetsAround(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *primary, Random &rand);
@@ -56,7 +59,6 @@ private:
 
 	int CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse);
 	const SystemBody *FindStarAndTrueOrbitalRange(const SystemBody *planet, fixed &orbMin_, fixed &orbMax_) const;
-	void PickPlanetType(SystemBody *sbody, Random &rand);
 };
 
 class PopulateStarSystemGenerator : public StarSystemLegacyGeneratorBase {

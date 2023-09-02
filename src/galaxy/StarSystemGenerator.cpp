@@ -10,6 +10,7 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "Sector.h"
+#include "gameconsts.h"
 #include "core/Log.h"
 #include "core/macros.h"
 #include "galaxy/Economy.h"
@@ -915,7 +916,11 @@ fixed StarSystemRandomGenerator::CalcBodySatelliteShellDensity(Random &rand, Sys
 	if (parentSuperType <= SystemBody::SUPERTYPE_STAR) {
 		if (primary->GetType() == SystemBody::TYPE_GRAVPOINT) {
 			/* around a binary */
-			discMin = primary->m_children[0]->m_orbMax * SAFE_DIST_FROM_BINARY;
+			if (primary->HasChildren())
+				discMin = primary->m_children[0]->m_orbMax * SAFE_DIST_FROM_BINARY;
+			/* empty gravpoint, should only be encountered while creating custom system */
+			else
+				discMin = 0;
 		} else {
 			/* correct thing is roche limit, but lets ignore that because
 			 * it depends on body densities and gives some strange results */
@@ -973,9 +978,13 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 	PROFILE_SCOPED()
 	SystemBody::BodySuperType parentSuperType = primary->GetSuperType();
 
+	// NOTE: using a consistent seed value here as body shell density should be immutable across multiple invocations
+	const SystemPath &path = system->GetPath();
+	Random rng { BODY_SATELLITE_SALT, primary->GetSeed(), uint32_t(path.sectorX), uint32_t(path.sectorY), uint32_t(path.sectorZ), UNIVERSE_SEED };
+
 	fixed discMin;
 	fixed discMax;
-	fixed discDensity = CalcBodySatelliteShellDensity(rand, primary, discMin, discMax);
+	fixed discDensity = CalcBodySatelliteShellDensity(rng, primary, discMin, discMax);
 
 	// random density averaging 1/2 the maximum mass distribution
 	// discDensity *= rand.NormFixed(2, fixed(1, 2), fixed(1, 2));
