@@ -5,6 +5,7 @@
 
 #include "SystemEditorHelpers.h"
 
+#include "core/Log.h"
 #include "editor/UndoStepType.h"
 #include "editor/EditorDraw.h"
 
@@ -12,6 +13,7 @@
 #include "galaxy/Sector.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/NameGenerator.h"
+#include "galaxy/StarSystemGenerator.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_stdlib.h"
@@ -29,6 +31,21 @@ namespace {
 
 	static constexpr double SECONDS_TO_DAYS = 1.0 / (3600.0 * 24.0);
 }
+
+namespace Editor::Draw {
+
+	// Essentially CollapsingHeader without the frame and with consistent ID regardless of edited body
+	bool DerivedValues(std::string_view sectionLabel) {
+		constexpr ImGuiID detailSeed = "Editor Details"_hash32;
+
+		if (ImGui::GetCurrentWindow()->SkipItems)
+			return false;
+
+		ImGuiID treeId = ImGui::GetIDWithSeed(sectionLabel.data(), sectionLabel.data() + sectionLabel.size(), detailSeed);
+		return ImGui::TreeNodeBehavior(treeId, ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_NoAutoOpenOnLog, "Derived Values");
+	}
+
+} // namespace Editor::Draw
 
 void StarSystem::EditorAPI::ExportToLua(FILE *f, StarSystem *system, Galaxy *galaxy)
 {
@@ -59,6 +76,47 @@ void StarSystem::EditorAPI::ExportToLua(FILE *f, StarSystem *system, Galaxy *gal
 SystemBody *StarSystem::EditorAPI::NewBody(StarSystem *system)
 {
 	return system->NewBody();
+}
+
+SystemBody *StarSystem::EditorAPI::NewBodyAround(StarSystem *system, Random &rng, SystemBody *primary, size_t idx)
+{
+	StarSystemRandomGenerator gen = {};
+
+	// Ensure consistent density distribution parameters across multiple runs
+	const SystemPath &path = system->GetPath();
+	Random shellRng { StarSystemRandomGenerator::BODY_SATELLITE_SALT, primary->GetSeed(), uint32_t(path.sectorX), uint32_t(path.sectorY), uint32_t(path.sectorZ), UNIVERSE_SEED };
+
+	fixed discMin, discBound, discMax;
+	fixed discDensity = gen.CalcBodySatelliteShellDensity(shellRng, primary, discMin, discMax);
+
+	discBound = fixed(0);
+
+	size_t numChildren = primary->GetNumChildren();
+
+	// Set orbit slice parameters from surrounding bodies
+	if (idx > 0)
+		discMin = primary->m_children[idx - 1]->m_orbMax * fixed(105, 100);
+	if (idx < numChildren)
+		discBound = primary->m_children[idx]->m_orbMin;
+
+	// Ensure we have enough discMax to generate a body, even if it means "cheating"
+
+	if (discMin * fixed(12, 10) > discMax) {
+		Log::Warning("Creating body outside of parent {} natural satellite radius {:.8f}, generation may not be correct.", primary->GetName(), discMax.ToDouble());
+		discMax = numChildren > 0 ? primary->m_children[numChildren - 1]->m_orbMax : discMin;
+		discMax *= fixed(12, 10);
+	}
+
+	if (discMin > discMax || (discBound != 0 && discMin > discBound))
+		return nullptr;
+
+	SystemBody *body = gen.MakeBodyInOrbitSlice(rng, static_cast<StarSystem::GeneratorAPI *>(system), primary, discMin, discBound, discMax, discDensity);
+	if (!body)
+		return nullptr;
+
+	gen.PickPlanetType(body, rng);
+
+	return body;
 }
 
 void StarSystem::EditorAPI::AddBody(StarSystem *system, SystemBody *body, size_t idx)
@@ -118,15 +176,6 @@ void StarSystem::EditorAPI::EditName(StarSystem *system, Random &rng, UndoSystem
 
 	if (Draw::UndoHelper("Edit System Name", undo))
 		AddUndoSingleValue(undo, &system->m_name);
-
-	// ImGui::SameLine();
-	// if (ImGui::Button("R", ImVec2(buttonSize, buttonSize))) {
-	// }
-	// if (Draw::UndoHelper("Edit System Name", undo))
-	// 	AddUndoSingleValue(undo, &system->m_name);
-
-	// ImGui::SameLine(0.f, ImGui::GetStyle().ItemInnerSpacing.x);
-	// ImGui::TextUnformatted("Name");
 }
 
 void StarSystem::EditorAPI::EditProperties(StarSystem *system, UndoSystem *undo)
@@ -359,29 +408,34 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 		AddUndoSingleValueClosure(undo, &body->m_orbitalPhaseAtStart, updateBodyOrbit);
 	Draw::HelpMarker("True Anomaly at Epoch\nRelative to Argument of Periapsis");
 
-	ImGui::BeginDisabled();
-	ImGui::InputFixed("Periapsis", &body->m_orbMin, 0.0, 0.0, "%0.6f AU");
-	ImGui::InputFixed("Apoapsis", &body->m_orbMax, 0.0, 0.0, "%0.6f AU");
 
-	double orbit_period = body->GetOrbit().Period() * SECONDS_TO_DAYS;
-	ImGui::InputDouble("Orbital Period", &orbit_period, 0.0, 0.0, "%.2f days");
+	if (Draw::DerivedValues("Orbital Parameters")) {
+		ImGui::BeginDisabled();
 
-	if (body->GetParent()) {
-		// calculate the time offset from periapsis at epoch
-		double orbit_time_at_start = (body->GetOrbit().GetOrbitalPhaseAtStart() / (2.0 * M_PI)) * body->GetOrbit().Period();
+		ImGui::InputFixed("Periapsis", &body->m_orbMin, 0.0, 0.0, "%0.6f AU");
+		ImGui::InputFixed("Apoapsis", &body->m_orbMax, 0.0, 0.0, "%0.6f AU");
 
-		double orbit_vel_ap = body->GetOrbit().OrbitalVelocityAtTime(
-			body->GetParent()->GetMass(),
-			body->GetOrbit().Period() * 0.5 - orbit_time_at_start).Length() / 1000.0;
+		double orbit_period = body->GetOrbit().Period() * SECONDS_TO_DAYS;
+		ImGui::InputDouble("Orbital Period", &orbit_period, 0.0, 0.0, "%.2f days");
 
-		double orbit_vel_pe = body->GetOrbit().OrbitalVelocityAtTime(
-			body->GetParent()->GetMass(),
-			-orbit_time_at_start).Length() / 1000.0;
+		if (body->GetParent()) {
+			// calculate the time offset from periapsis at epoch
+			double orbit_time_at_start = (body->GetOrbit().GetOrbitalPhaseAtStart() / (2.0 * M_PI)) * body->GetOrbit().Period();
 
-		ImGui::InputDouble("Orbital Velocity (AP)", &orbit_vel_ap, 0.0, 0.0, "%.2f km/s");
-		ImGui::InputDouble("Orbital Velocity (PE)", &orbit_vel_pe, 0.0, 0.0, "%.2f km/s");
+			double orbit_vel_ap = body->GetOrbit().OrbitalVelocityAtTime(
+				body->GetParent()->GetMass(),
+				body->GetOrbit().Period() * 0.5 - orbit_time_at_start).Length() / 1000.0;
+
+			double orbit_vel_pe = body->GetOrbit().OrbitalVelocityAtTime(
+				body->GetParent()->GetMass(),
+				-orbit_time_at_start).Length() / 1000.0;
+
+			ImGui::InputDouble("Orbital Velocity (AP)", &orbit_vel_ap, 0.0, 0.0, "%.2f km/s");
+			ImGui::InputDouble("Orbital Velocity (PE)", &orbit_vel_pe, 0.0, 0.0, "%.2f km/s");
+		}
+
+		ImGui::EndDisabled();
 	}
-	ImGui::EndDisabled();
 
 	ImGui::SeparatorText("Rotation Parameters");
 
@@ -399,6 +453,7 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 
 	if (orbitChanged)
 		body->SetOrbitFromParameters();
+
 }
 
 void SystemBody::EditorAPI::EditEconomicProperties(SystemBody *body, UndoSystem *undo)
@@ -433,9 +488,14 @@ void SystemBody::EditorAPI::EditStarportProperties(SystemBody *body, UndoSystem 
 	EditEconomicProperties(body, undo);
 }
 
-void SystemBody::EditorAPI::EditProperties(SystemBody *body, UndoSystem *undo)
+void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSystem *undo)
 {
 	bool isStar = body->GetSuperType() <= SUPERTYPE_STAR;
+
+	bool bodyChanged = false;
+	auto updateBodyDerived = [=]() {
+		body->SetAtmFromParameters();
+	};
 
 	ImGui::InputText("Name", &body->m_name);
 	if (Draw::UndoHelper("Edit Name", undo))
@@ -449,23 +509,66 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, UndoSystem *undo)
 
 	if (body->GetSuperType() < SUPERTYPE_STARPORT) {
 
+		if (!isStar && ImGui::Button(EICON_RANDOM " Body Stats")) {
+			GenerateDerivedStats(body, rng, undo);
+			bodyChanged = true;
+		}
+
+		ImGui::SetItemTooltip("Generate body type, radius, temperature, and surface parameters using the same method as procedural system generation.");
+
 		ImGui::SeparatorText("Body Parameters");
 
-		Draw::InputFixedMass("Mass", &body->m_mass, isStar);
+		bodyChanged |= Draw::InputFixedMass("Mass", &body->m_mass, isStar);
 		if (Draw::UndoHelper("Edit Mass", undo))
-			AddUndoSingleValue(undo, &body->m_mass);
+			AddUndoSingleValueClosure(undo, &body->m_mass, updateBodyDerived);
 
-		Draw::InputFixedRadius("Radius",  &body->m_radius, isStar);
+		bodyChanged |= Draw::InputFixedRadius("Radius",  &body->m_radius, isStar);
 		if (Draw::UndoHelper("Edit Radius", undo))
-			AddUndoSingleValue(undo, &body->m_radius);
+			AddUndoSingleValueClosure(undo, &body->m_radius, updateBodyDerived);
 
-		Draw::InputFixedSlider("Aspect Ratio", &body->m_aspectRatio, 0.0, 2.0);
-		if (Draw::UndoHelper("Edit Aspect Ratio", undo))
-			AddUndoSingleValue(undo, &body->m_aspectRatio);
+		ImGui::BeginDisabled();
 
-		ImGui::InputInt("Temperature (K)", &body->m_averageTemp, 1, 10, "%d°K");
+		double surfaceGrav = body->CalcSurfaceGravity();
+		ImGui::InputDouble("Surface Gravity", &surfaceGrav, 0, 0, "%.4fg");
+
+		ImGui::EndDisabled();
+
+		if (body->GetSuperType() <= SUPERTYPE_GAS_GIANT && body->GetType() != TYPE_PLANET_ASTEROID) {
+
+			Draw::InputFixedSlider("Aspect Ratio", &body->m_aspectRatio, 0.0, 2.0);
+			if (Draw::UndoHelper("Edit Aspect Ratio", undo))
+				AddUndoSingleValue(undo, &body->m_aspectRatio);
+
+			Draw::HelpMarker("Ratio of body equatorial radius to polar radius, or \"bulge\" around axis of spin.");
+
+		}
+
+		bodyChanged |= ImGui::InputInt("Temperature (K)", &body->m_averageTemp, 1, 10, "%d°K");
 		if (Draw::UndoHelper("Edit Temperature", undo))
-			AddUndoSingleValue(undo, &body->m_averageTemp);
+			AddUndoSingleValueClosure(undo, &body->m_averageTemp, updateBodyDerived);
+
+		ImGui::Spacing();
+
+		const bool hasDerived = (body->GetType() != TYPE_GRAVPOINT || body->HasChildren());
+
+		if (hasDerived && Draw::DerivedValues("Body Parameters")) {
+			ImGui::BeginDisabled();
+
+			StarSystemRandomGenerator gen = {};
+
+			// Ensure consistent density distribution parameters across multiple runs
+			const SystemPath &path = body->GetStarSystem()->GetPath();
+			Random shellRng { StarSystemRandomGenerator::BODY_SATELLITE_SALT, body->GetSeed(), uint32_t(path.sectorX), uint32_t(path.sectorY), uint32_t(path.sectorZ), UNIVERSE_SEED };
+
+			fixed discMin, discBound, discMax;
+			fixed discDensity = gen.CalcBodySatelliteShellDensity(shellRng, body, discMin, discMax);
+
+			Draw::InputFixedDistance("Satellite Shell Min", &discMin);
+			Draw::InputFixedDistance("Satellite Shell Max", &discMax);
+			ImGui::InputFixed("Shell Density Dist", &discDensity, 0, 0, "%.6f");
+
+			ImGui::EndDisabled();
+		}
 
 	} else {
 		EditStarportProperties(body, undo);
@@ -490,13 +593,22 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, UndoSystem *undo)
 	if (Draw::UndoHelper("Edit Volcanicity", undo))
 		AddUndoSingleValue(undo, &body->m_volcanicity);
 
-	Draw::InputFixedSlider("Atm. Density", &body->m_volatileGas);
+	bool gasGiant = body->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
+
+	bodyChanged |= Draw::InputFixedSlider("Atm. Density", &body->m_volatileGas,
+		0.0, gasGiant ? 50.0 : 1.225, "%.3f kg/m³", 0);
 	if (Draw::UndoHelper("Edit Atmosphere Density", undo))
-		AddUndoSingleValue(undo, &body->m_volatileGas);
+		AddUndoSingleValueClosure(undo, &body->m_volatileGas, updateBodyDerived);
+
+	Draw::HelpMarker("Atmospheric density at the body's nominal surface.\n"
+		"Earth has a density of 1.225kg/m³ at normal surface pressure and temperature.");
 
 	Draw::InputFixedSlider("Atm. Oxygen", &body->m_atmosOxidizing);
 	if (Draw::UndoHelper("Edit Atmosphere Oxygen", undo))
 		AddUndoSingleValue(undo, &body->m_atmosOxidizing);
+
+	Draw::HelpMarker("Proportion of oxidizing elements in atmosphere, e.g. CO², O².\n"
+		"Oxidizing elements are a hallmark of outdoor worlds and are needed for human life to survive.");
 
 	Draw::InputFixedSlider("Ocean Coverage", &body->m_volatileLiquid);
 	if (Draw::UndoHelper("Edit Ocean Coverage", undo))
@@ -515,5 +627,50 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, UndoSystem *undo)
 	if (Draw::UndoHelper("Edit Life", undo))
 		AddUndoSingleValue(undo, &body->m_life);
 
+	if (Draw::DerivedValues("Surface Parameters")) {
+		ImGui::BeginDisabled();
+
+		if (bodyChanged)
+			body->SetAtmFromParameters();
+
+		double pressure_p0 = body->GetAtmSurfacePressure();
+		ImGui::InputDouble("Surface Pressure", &pressure_p0, 0.0, 0.0, "%.4f atm");
+
+		double atmRadius = body->GetAtmRadius() / 1000.0;
+		ImGui::InputDouble("Atmosphere Height", &atmRadius, 0.0, 0.0, "%.2f km");
+
+		bool scoopable = body->IsScoopable();
+		ImGui::Checkbox("Is Scoopable", &scoopable);
+
+		ImGui::EndDisabled();
+	}
+
 	EditEconomicProperties(body, undo);
+}
+
+void SystemBody::EditorAPI::GenerateDerivedStats(SystemBody *body, Random &rng, UndoSystem *undo)
+{
+	undo->BeginEntry("Generate Body Parameters");
+
+	// Back up all potentially-modified body variables
+	AddUndoSingleValue(undo, &body->m_mass);
+	AddUndoSingleValue(undo, &body->m_type);
+	AddUndoSingleValue(undo, &body->m_radius);
+	AddUndoSingleValue(undo, &body->m_averageTemp);
+
+	AddUndoSingleValue(undo, &body->m_axialTilt);
+	AddUndoSingleValue(undo, &body->m_rotationPeriod);
+
+	AddUndoSingleValue(undo, &body->m_metallicity);
+	AddUndoSingleValue(undo, &body->m_volcanicity);
+	AddUndoSingleValue(undo, &body->m_volatileGas);
+	AddUndoSingleValue(undo, &body->m_atmosOxidizing);
+	AddUndoSingleValue(undo, &body->m_volatileLiquid);
+	AddUndoSingleValue(undo, &body->m_volatileIces);
+	// AddUndoSingleValue(undo, &body->m_humanActivity);
+	AddUndoSingleValue(undo, &body->m_life);
+
+	StarSystemRandomGenerator().PickPlanetType(body, rng);
+
+	undo->EndEntry();
 }

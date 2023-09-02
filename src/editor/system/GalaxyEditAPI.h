@@ -13,7 +13,8 @@ class StarSystem::EditorAPI {
 public:
 	static void ExportToLua(FILE *f, StarSystem *system, Galaxy *galaxy);
 
-	static SystemBody* NewBody(StarSystem *system);
+	static SystemBody *NewBody(StarSystem *system);
+	static SystemBody *NewBodyAround(StarSystem *system, Random &rng, SystemBody *primary, size_t idx);
 
 	static void AddBody(StarSystem *system, SystemBody *body, size_t idx = -1);
 	static void RemoveBody(StarSystem *system, SystemBody *body);
@@ -38,5 +39,7 @@ public:
 	static void EditOrbitalParameters(SystemBody *body, Editor::UndoSystem *undo);
 	static void EditEconomicProperties(SystemBody *body, Editor::UndoSystem *undo);
 	static void EditStarportProperties(SystemBody *body, Editor::UndoSystem *undo);
-	static void EditProperties(SystemBody *body, Editor::UndoSystem *undo);
+	static void EditProperties(SystemBody *body, Random &rng, Editor::UndoSystem *undo);
+
+	static void GenerateDerivedStats(SystemBody *body, Random &rng, Editor::UndoSystem *undo);
 };

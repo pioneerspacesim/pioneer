@@ -3,20 +3,21 @@
 
 #include "SystemEditor.h"
 
-#include "EditorIcons.h"
-#include "Json.h"
 #include "GalaxyEditAPI.h"
-#include "JsonUtils.h"
-#include "ModManager.h"
 #include "SystemEditorHelpers.h"
+#include "SystemBodyUndo.h"
+#include "SystemEditorViewport.h"
 
 #include "EnumStrings.h"
 #include "FileSystem.h"
-
+#include "JsonUtils.h"
+#include "ModManager.h"
 #include "SystemView.h"
 #include "core/StringUtils.h"
+
 #include "editor/EditorApp.h"
 #include "editor/EditorDraw.h"
+#include "editor/EditorIcons.h"
 #include "editor/UndoSystem.h"
 #include "editor/UndoStepType.h"
 
@@ -27,11 +28,10 @@
 #include "pigui/PiGui.h"
 
 #include "imgui/imgui.h"
-#include "system/SystemBodyUndo.h"
-#include "system/SystemEditorViewport.h"
 
 #include "portable-file-dialogs/pfd.h"
 
+#include <chrono>
 #include <cstdlib>
 #include <memory>
 
@@ -95,6 +95,12 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	m_systemLoader.reset(new CustomSystemsDatabase(m_galaxy.Get(), "systems"));
 
 	m_viewport.reset(new SystemEditorViewport(m_app, this));
+
+	m_random.seed({
+		// generate random values not dependent on app runtime
+		uint32_t(std::chrono::system_clock::now().time_since_epoch().count()),
+		UNIVERSE_SEED
+	});
 
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
@@ -358,7 +364,18 @@ void SystemEditor::HandleBodyOperations()
 	if (m_pendingOp.type == BodyRequest::TYPE_Add) {
 
 		// TODO: generate body parameters according to m_pendingOp.newBodyType
-		SystemBody *body = StarSystem::EditorAPI::NewBody(m_system.Get());
+		SystemBody *body;
+
+		if (!m_pendingOp.parent)
+			body = StarSystem::EditorAPI::NewBody(m_system.Get());
+		else
+			body = StarSystem::EditorAPI::NewBodyAround(m_system.Get(), GetRng(), m_pendingOp.parent, m_pendingOp.idx);
+
+		if (!body) {
+			Log::Error("Failed to create requested body.");
+			m_pendingOp = {};
+			return;
+		}
 
 		GetUndo()->BeginEntry("Add Body");
 		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get());
@@ -366,7 +383,7 @@ void SystemEditor::HandleBodyOperations()
 		// Mark the body for removal on undo
 		GetUndo()->AddUndoStep<SystemEditorUndo::ManageStarSystemBody>(m_system.Get(), body);
 		// Add the new body to its parent
-		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(m_pendingOp.parent, body);
+		GetUndo()->AddUndoStep<SystemEditorUndo::AddRemoveChildBody>(m_pendingOp.parent, body, m_pendingOp.idx);
 
 		GetUndo()->AddUndoStep<SystemEditorUndo::ReorderStarSystemBodies>(m_system.Get(), true);
 		GetUndo()->AddUndoStep<SystemEditor::UndoSetSelection>(this, body);
@@ -383,8 +400,9 @@ void SystemEditor::HandleBodyOperations()
 		while (sliceBegin < toDelete.size()) {
 			size_t sliceEnd = toDelete.size();
 			for (size_t idx = sliceBegin; idx < sliceEnd; idx++) {
-				if (toDelete[idx]->HasChildren())
-					for (auto &child : toDelete[idx]->GetChildren())
+				SystemBody *body = toDelete[idx];
+				if (body->HasChildren())
+					for (auto &child : body->GetChildren())
 						toDelete.push_back(child);
 			}
 			sliceBegin = sliceEnd;
@@ -693,7 +711,7 @@ bool SystemEditor::DrawBodyNode(SystemBody *body, bool isRoot)
 		// TODO: "add body" context menu
 		if (body->GetParent() && ImGui::MenuItem("Delete")) {
 			m_pendingOp.type = BodyRequest::TYPE_Delete;
-			m_pendingOp.body = m_selectedBody;
+			m_pendingOp.body = body;
 		}
 
 		ImGui::EndPopup();
@@ -715,7 +733,7 @@ void SystemEditor::DrawBodyProperties()
 	ImGui::PushID(m_selectedBody);
 	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 13));
 
-	SystemBody::EditorAPI::EditProperties(m_selectedBody, GetUndo());
+	SystemBody::EditorAPI::EditProperties(m_selectedBody, GetRng(), GetUndo());
 
 	ImGui::PopFont();
 	ImGui::PopID();
