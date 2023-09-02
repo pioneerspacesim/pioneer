@@ -4,6 +4,7 @@
 #pragma once
 
 #include "galaxy/StarSystem.h"
+#include "galaxy/SystemBody.h"
 
 namespace Editor {
 	class UndoSystem;
@@ -11,8 +12,6 @@ namespace Editor {
 
 class StarSystem::EditorAPI {
 public:
-	static void ExportToLua(FILE *f, StarSystem *system, Galaxy *galaxy);
-
 	static SystemBody *NewBody(StarSystem *system);
 	static SystemBody *NewBodyAround(StarSystem *system, Random &rng, SystemBody *primary, size_t idx);
 
@@ -27,11 +26,6 @@ public:
 
 class SystemBody::EditorAPI {
 public:
-	// Return a list of star types in the system; expects to be passed the root body
-	static std::string GetStarTypes(SystemBody *body);
-	// NOTE: duplicated from StarSystem.cpp
-	static std::string ExportToLua(FILE *f, SystemBody *body);
-
 	static void AddChild(SystemBody *parent, SystemBody *child, size_t idx = -1);
 	static SystemBody *RemoveChild(SystemBody *parent, size_t idx = -1);
 	static size_t GetIndexInParent(SystemBody *body);
