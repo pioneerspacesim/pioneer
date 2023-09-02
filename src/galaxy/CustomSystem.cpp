@@ -958,6 +958,9 @@ void CustomSystemsDatabase::RunLuaSystemSanityChecks(CustomSystem *csys)
 			body->seed = rand.Int32();
 		}
 
+		if (body->volatileGas != 0)
+			body->volatileGas *= fixed(1225, 1000); // lua volatile gas treated as 1.0 = 1.225kg/m^3
+
 		if (!(body->want_rand_offset || body->want_rand_phase || body->want_rand_arg_periapsis))
 			continue;
 

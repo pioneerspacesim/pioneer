@@ -447,6 +447,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		}
 
 		kid->SetOrbitFromParameters();
+		kid->SetAtmFromParameters();
 
 		if (kid->GetType() != SystemBody::TYPE_STARPORT_SURFACE) {
 			if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
@@ -1117,6 +1118,8 @@ SystemBody *StarSystemRandomGenerator::MakeBodyInOrbitSlice(Random &rand, StarSy
 	planet->m_orbitalPhaseAtStart = rand.Fixed() * 2 * FIXED_PI;
 
 	planet->SetOrbitFromParameters();
+	planet->SetAtmFromParameters();
+
 	return planet;
 }
 

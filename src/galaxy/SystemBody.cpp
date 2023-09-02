@@ -161,6 +161,76 @@ void SystemBody::SetOrbitFromParameters()
 	m_orbMax = 2 * m_semiMajorAxis - m_orbMin;
 }
 
+// TODO: a more detailed atmospheric simulation should replace this
+double GetSpecificHeat(SystemBody::BodySuperType superType)
+{
+	if (superType == SystemBody::SUPERTYPE_GAS_GIANT)
+		return 12950.0; // constant pressure specific heat, for a combination of hydrogen and helium
+	else
+		return 1000.5; // constant pressure specific heat, for the combination of gasses that make up air
+}
+
+// TODO: a more detailed atmospheric simulation should replace this
+double GetMolarMass(SystemBody::BodySuperType superType)
+{
+	if (superType == SystemBody::SUPERTYPE_GAS_GIANT)
+		return 0.0023139903; // molar mass, for a combination of hydrogen and helium
+	else
+		// XXX using earth's molar mass of air...
+		return 0.02897;
+}
+
+double SystemBody::GetAtmPressure(double altitude) const
+{
+	const double gasMolarMass = GetMolarMass(GetSuperType());
+	const double surfaceGravity_g = CalcSurfaceGravity();
+	const double lapseRate_L = surfaceGravity_g / GetSpecificHeat(GetSuperType()); // deg/m
+	const double surfaceTemperature_T0 = GetAverageTemp();	//K
+
+	return m_atmosPressure * pow((1 - lapseRate_L * altitude / surfaceTemperature_T0),
+		(surfaceGravity_g * gasMolarMass / (GAS_CONSTANT_R * lapseRate_L))); // in ATM since p0 was in ATM
+}
+
+double SystemBody::GetAtmDensity(double altitude, double pressure) const
+{
+	double gasMolarMass = GetMolarMass(GetSuperType());
+	double aerialTemp = GetAtmAverageTemp(altitude);
+
+	return (pressure / (PA_2_ATMOS * GAS_CONSTANT_R * aerialTemp)) * gasMolarMass;
+}
+
+double SystemBody::GetAtmAverageTemp(double altitude) const
+{
+	// temperature at height
+	const double lapseRate_L = CalcSurfaceGravity() / GetSpecificHeat(GetSuperType()); // deg/m
+	return double(GetAverageTemp()) - lapseRate_L * altitude;
+}
+
+void SystemBody::SetAtmFromParameters()
+{
+	double gasMolarMass = GetMolarMass(GetSuperType());
+
+	double surfaceDensity = GetAtmSurfaceDensity() / gasMolarMass; // kg / m^3, convert to moles/m^3
+	double surfaceTemperature_T0 = GetAverageTemp(); //K
+
+	// surface pressure
+	//P = density*R*T=(n/V)*R*T
+	m_atmosPressure = PA_2_ATMOS * ((surfaceDensity) * GAS_CONSTANT_R * surfaceTemperature_T0); // in atmospheres
+
+	double surfaceGravity_g = CalcSurfaceGravity();
+	const double lapseRate_L = surfaceGravity_g / GetSpecificHeat(GetSuperType()); // deg/m
+
+	if (m_atmosPressure < 0.002)
+		m_atmosRadius = 0; // no meaningful radius for atmosphere
+	else {
+		//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
+		// want height for pressure 0.001 atm:
+		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
+		double RLdivgM = (GAS_CONSTANT_R * lapseRate_L) / (surfaceGravity_g * GetMolarMass(GetSuperType()));
+		m_atmosRadius = (1.0 - exp(RLdivgM * log(0.001 / m_atmosPressure))) * surfaceTemperature_T0 / lapseRate_L;
+	}
+}
+
 bool SystemBody::HasAtmosphere() const
 {
 	return (m_volatileGas > fixed(1, 100));
@@ -722,7 +792,7 @@ double SystemBody::CalcSurfaceGravity() const
 {
 	double r = GetRadius();
 	if (r > 0.0) {
-		return G * GetMass() / pow(r, 2);
+		return G * GetMass() / (r * r);
 	} else {
 		return 0.0;
 	}

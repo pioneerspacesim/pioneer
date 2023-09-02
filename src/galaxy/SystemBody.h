@@ -215,6 +215,19 @@ public:
 		*outDensity = m_atmosDensity;
 	}
 
+	double GetAtmSurfaceDensity() const { return m_volatileGas.ToDouble(); }
+	double GetAtmSurfacePressure() const { return m_atmosPressure; }
+	double GetAtmRadius() const { return m_atmosRadius; }
+
+	// Calculate atmosphere pressure at given altitude (atm)
+	double GetAtmPressure(double altitude) const;
+
+	// Calculate atmosphere average temperature at given altitude (deg)
+	double GetAtmAverageTemp(double altitude) const;
+
+	// Calculate atmosphere density at given altitude and pressure (kg/m^3)
+	double GetAtmDensity(double altitude, double pressure) const;
+
 	AtmosphereParameters CalcAtmosphereParams() const;
 
 	bool IsScoopable() const;
@@ -238,6 +251,7 @@ private:
 	void LoadFromJson(const Json &obj);
 
 	void SetOrbitFromParameters();
+	void SetAtmFromParameters();
 
 	void ClearParentAndChildPointers();
 
@@ -268,7 +282,7 @@ private:
 
 	/* composition */
 	fixed m_metallicity;	// (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
-	fixed m_volatileGas;	// 1.0 = earth atmosphere density
+	fixed m_volatileGas;	// 1.225 = earth atmosphere density, kg/m^3
 	fixed m_volatileLiquid; // 1.0 = 100% ocean cover (earth = 70%)
 	fixed m_volatileIces;	// 1.0 = 100% ice cover (earth = 3%)
 	fixed m_volcanicity;	// 0 = none, 1.0 = fucking volcanic
@@ -286,6 +300,11 @@ private:
 
 	Color m_atmosColor;
 	double m_atmosDensity;
+
+	// atmosphere surface pressure, unit: atm
+	double m_atmosPressure;
+	// atmosphere radius at 0.01atm, unit: meters
+	double m_atmosRadius;
 
 	StarSystem *m_system;
 
