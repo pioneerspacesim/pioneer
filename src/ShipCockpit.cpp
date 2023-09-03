@@ -40,8 +40,11 @@ void ShipCockpit::Render(Graphics::Renderer *renderer, const Camera *camera, con
 {
 	PROFILE_SCOPED()
 
-	double ambient, direct;
-	camera->CalcLighting(m_ship, ambient, direct);
+	double ambient = 0.0;
+	double direct = 0.5;
+
+	if (static_cast<Ship *>(m_ship)->GetFlightState() != Ship::HYPERSPACE)
+		camera->CalcLighting(m_ship, ambient, direct);
 
 	std::vector<float> lightIntensities;
 	for (int i = 0; i < camera->GetNumLightSources(); i++)
