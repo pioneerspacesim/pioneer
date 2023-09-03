@@ -57,8 +57,7 @@ void EditorApp::Initialize(argh::parser &cmdline)
 	}
 
 	if (cmdline["--system"]) {
-		std::string systemPath;
-		cmdline("--system") >> systemPath;
+		std::string systemPath = cmdline[1];
 
 		RefCountedPtr<SystemEditor> systemEditor(new SystemEditor(this));
 

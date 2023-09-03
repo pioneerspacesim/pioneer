@@ -117,7 +117,8 @@ private:
 			TYPE_None,
 			TYPE_Add,
 			TYPE_Delete,
-			TYPE_Reparent
+			TYPE_Reparent,
+			TYPE_Resort
 		};
 
 		Type type = TYPE_None;

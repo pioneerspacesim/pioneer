@@ -61,6 +61,30 @@ namespace Editor::SystemEditorUndo {
 		bool m_onRedo;
 	};
 
+	// Helper to sort body hierarchy from index at the end of an undo / redo operation by adding two undo steps
+	class SortStarSystemBodies : public UndoStep {
+	public:
+		SortStarSystemBodies(StarSystem *system, bool isRedo) :
+			m_system(system),
+			m_isRedo(isRedo)
+		{
+		}
+
+		void Undo() override {
+			if (!m_isRedo)
+				StarSystem::EditorAPI::ReorderBodyHierarchy(m_system);
+		}
+
+		void Redo() override {
+			if (m_isRedo)
+				StarSystem::EditorAPI::ReorderBodyHierarchy(m_system);
+		}
+
+	private:
+		StarSystem *m_system;
+		bool m_isRedo;
+	};
+
 	// UndoStep helper to handle adding or deleting a child SystemBody from a parent
 	class AddRemoveChildBody : public UndoStep {
 	public:

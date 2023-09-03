@@ -442,6 +442,14 @@ void SystemEditor::HandleBodyOperations()
 
 	}
 
+	if (m_pendingOp.type == BodyRequest::TYPE_Resort) {
+
+		GetUndo()->BeginEntry("Sort by Semi-Major Axis");
+		StarSystem::EditorAPI::SortBodyHierarchy(m_system.Get(), GetUndo());
+		GetUndo()->EndEntry();
+
+	}
+
 	// Clear the pending operation
 	m_pendingOp = {};
 }
@@ -502,6 +510,39 @@ void SystemEditor::DrawInterface()
 
 			if (ImGui::MenuItem("Save As", "Ctrl+Shift+S"))
 				ActivateSaveDialog();
+
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Edit")) {
+
+			if (m_selectedBody) {
+				if (ImGui::MenuItem("Add Child", "Ctrl+A")) {
+					m_pendingOp.type = BodyRequest::TYPE_Add;
+					m_pendingOp.parent = m_selectedBody ? m_selectedBody : m_system->GetRootBody().Get();
+					m_pendingOp.newBodyType = SystemBody::BodyType::TYPE_GRAVPOINT;
+				}
+
+				if (ImGui::MenuItem("Add Sibling", "Ctrl+Shift+A")) {
+					if (!m_selectedBody || !m_selectedBody->GetParent()) {
+						return;
+					}
+
+					m_pendingOp.type = BodyRequest::TYPE_Add;
+					m_pendingOp.parent = m_selectedBody->GetParent();
+					m_pendingOp.idx = SystemBody::EditorAPI::GetIndexInParent(m_selectedBody) + 1;
+					m_pendingOp.newBodyType = SystemBody::BodyType::TYPE_GRAVPOINT;
+				}
+
+				if (m_selectedBody != m_system->GetRootBody() && ImGui::MenuItem("Delete", "Ctrl+W")) {
+					m_pendingOp.type = BodyRequest::TYPE_Delete;
+					m_pendingOp.body = m_selectedBody;
+				}
+			}
+
+			if (ImGui::MenuItem("Sort Bodies")) {
+				m_pendingOp.type = BodyRequest::TYPE_Resort;
+			}
 
 			ImGui::EndMenu();
 		}
@@ -578,46 +619,26 @@ void SystemEditor::DrawOutliner()
 	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
 
 	std::string name = m_system.Valid() ? m_system->GetName() : "<None>";
-
 	std::string label = fmt::format("System: {}", name);
 	if (ImGui::Selectable(label.c_str(), !m_selectedBody)) {
 		m_selectedBody = nullptr;
 	}
 
-	ImGui::PopFont();
+	ImGui::Spacing();
 
 	if (!m_system) {
+		ImGui::PopFont();
 		return;
 	}
 
-	ImGui::Spacing();
-
-	Draw::BeginHorizontalBar();
-
-	if (ImGui::Button("A##AddBody")) {
-		m_pendingOp.type = BodyRequest::TYPE_Add;
-		m_pendingOp.parent = m_selectedBody ? m_selectedBody : m_system->GetRootBody().Get();
-		m_pendingOp.newBodyType = SystemBody::BodyType::TYPE_GRAVPOINT;
-	}
-
-	bool canDeleteBody = m_selectedBody && m_selectedBody != m_system->GetRootBody().Get();
-	if (canDeleteBody && ImGui::Button("D##DeleteBody")) {
-		m_pendingOp.type = BodyRequest::TYPE_Delete;
-		m_pendingOp.body = m_selectedBody;
-	}
-
-	Draw::EndHorizontalBar();
-
-
-	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
 	if (ImGui::BeginChild("OutlinerList")) {
 		std::vector<std::pair<SystemBody *, size_t>> m_systemStack {
 			{ m_system->GetRootBody().Get(), 0 }
 		};
 
 		if (!DrawBodyNode(m_system->GetRootBody().Get(), true)) {
-			ImGui::PopFont();
 			ImGui::EndChild();
+			ImGui::PopFont();
 			return;
 		}
 
@@ -636,6 +657,7 @@ void SystemEditor::DrawOutliner()
 		}
 	}
 	ImGui::EndChild();
+
 	ImGui::PopFont();
 }
 
@@ -702,7 +724,7 @@ bool SystemEditor::DrawBodyNode(SystemBody *body, bool isRoot)
 			m_pendingOp.idx = body->GetNumChildren();
 		}
 
-		if (ImGui::MenuItem("Add Sibling")) {
+		if (body->GetParent() && ImGui::MenuItem("Add Sibling")) {
 			m_pendingOp.type = BodyRequest::TYPE_Add;
 			m_pendingOp.parent = body->GetParent();
 			m_pendingOp.idx = SystemBody::EditorAPI::GetIndexInParent(body) + 1;

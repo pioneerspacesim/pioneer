@@ -18,7 +18,13 @@ public:
 	static void AddBody(StarSystem *system, SystemBody *body, size_t idx = -1);
 	static void RemoveBody(StarSystem *system, SystemBody *body);
 
+	// Set body index from hierarchy order
 	static void ReorderBodyIndex(StarSystem *system);
+	// Set body hierarchy from index order
+	static void ReorderBodyHierarchy(StarSystem *system);
+
+	// Sort the bodies in the system based on semi-major axis
+	static void SortBodyHierarchy(StarSystem *system, Editor::UndoSystem *undo);
 
 	static void EditName(StarSystem *system, Random &rng, Editor::UndoSystem *undo);
 	static void EditProperties(StarSystem *system, Editor::UndoSystem *undo);

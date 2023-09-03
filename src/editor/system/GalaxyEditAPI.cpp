@@ -17,6 +17,7 @@
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_stdlib.h"
+#include "system/SystemBodyUndo.h"
 
 using namespace Editor;
 
@@ -112,29 +113,93 @@ void StarSystem::EditorAPI::RemoveBody(StarSystem *system, SystemBody *body)
 void StarSystem::EditorAPI::ReorderBodyIndex(StarSystem *system)
 {
 	size_t index = 0;
-	system->GetRootBody()->m_path.bodyIndex = index++;
-
 	std::vector<std::pair<SystemBody *, size_t>> orderStack {
 		{ system->GetRootBody().Get(), 0 }
 	};
 
 	while (!orderStack.empty()) {
 		auto &pair = orderStack.back();
+		SystemBody *body = pair.first;
 
-		if (pair.second >= pair.first->GetNumChildren()) {
+		if (pair.second == 0)
+			// Set body index from hierarchy order
+			body->m_path.bodyIndex = index++;
+
+		if (pair.second < body->GetNumChildren())
+			orderStack.push_back({ body->GetChildren()[pair.second++], 0 });
+		else
 			orderStack.pop_back();
-			continue;
-		}
-
-		SystemBody *body = pair.first->GetChildren()[pair.second++];
-		orderStack.push_back({ body, 0 });
-
-		body->m_path.bodyIndex = index ++;
 	}
 
 	std::sort(system->m_bodies.begin(), system->m_bodies.end(), [](auto a, auto b) {
 		return a->m_path.bodyIndex < b->m_path.bodyIndex;
 	});
+}
+
+void StarSystem::EditorAPI::ReorderBodyHierarchy(StarSystem *system)
+{
+	size_t index = 0;
+	std::vector<std::pair<SystemBody *, size_t>> orderStack {
+		{ system->GetRootBody().Get(), 0 }
+	};
+
+	while (!orderStack.empty()) {
+		auto &pair = orderStack.back();
+		SystemBody *body = pair.first;
+
+		if (pair.second == 0)
+			// Sort body order from index
+			std::sort(body->m_children.begin(), body->m_children.end(),
+				[](auto *a, auto *b) { return a->m_path.bodyIndex < b->m_path.bodyIndex; });
+
+		if (pair.second < body->GetNumChildren())
+			orderStack.push_back({ body->GetChildren()[pair.second++], 0 });
+		else
+			orderStack.pop_back();
+	}
+
+	std::sort(system->m_bodies.begin(), system->m_bodies.end(), [](auto a, auto b) {
+		return a->m_path.bodyIndex < b->m_path.bodyIndex;
+	});
+}
+
+void StarSystem::EditorAPI::SortBodyHierarchy(StarSystem *system, UndoSystem *undo)
+{
+	size_t index = 0;
+	std::vector<std::pair<SystemBody *, size_t>> orderStack {
+		{ system->GetRootBody().Get(), 0 }
+	};
+
+	undo->AddUndoStep<SystemEditorUndo::SortStarSystemBodies>(system, false);
+
+	while (!orderStack.empty()) {
+		auto &pair = orderStack.back();
+		SystemBody *body = pair.first;
+
+		if (pair.second == 0) {
+
+			std::stable_sort(body->m_children.begin(), body->m_children.end(),
+				[](auto *a, auto *b) { return a->m_semiMajorAxis < b->m_semiMajorAxis; });
+
+			for (SystemBody *body : body->m_children)
+				AddUndoSingleValue(undo, &body->m_path.bodyIndex);
+
+			body->m_path.bodyIndex = index++;
+
+		}
+
+		if (pair.second < body->GetNumChildren()) {
+			orderStack.push_back({ body->GetChildren()[pair.second++], 0 });
+		} else {
+			orderStack.pop_back();
+		}
+	}
+
+	std::sort(system->m_bodies.begin(), system->m_bodies.end(), [](auto a, auto b) {
+		return a->m_path.bodyIndex < b->m_path.bodyIndex;
+	});
+
+	undo->AddUndoStep<SystemEditorUndo::SortStarSystemBodies>(system, true);
 }
 
 void StarSystem::EditorAPI::EditName(StarSystem *system, Random &rng, UndoSystem *undo)
