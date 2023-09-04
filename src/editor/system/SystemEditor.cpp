@@ -25,6 +25,8 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystemGenerator.h"
 #include "lua/Lua.h"
+#include "lua/LuaNameGen.h"
+#include "lua/LuaObject.h"
 #include "pigui/PiGui.h"
 
 #include "imgui/imgui.h"
@@ -90,6 +92,11 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	m_pendingOp()
 {
 	GalacticEconomy::Init();
+
+	LuaObject<SystemBody>::RegisterClass();
+	LuaObject<StarSystem>::RegisterClass();
+
+	m_nameGen.reset(new LuaNameGen(Lua::manager));
 
 	m_galaxy = GalaxyGenerator::Create();
 	m_systemLoader.reset(new CustomSystemsDatabase(m_galaxy.Get(), "systems"));
@@ -754,6 +761,8 @@ void SystemEditor::DrawBodyProperties()
 
 	ImGui::PushID(m_selectedBody);
 	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 13));
+
+	SystemBody::EditorAPI::EditBodyName(m_selectedBody, GetRng(), m_nameGen.get(), GetUndo());
 
 	SystemBody::EditorAPI::EditProperties(m_selectedBody, GetRng(), GetUndo());
 

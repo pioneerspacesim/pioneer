@@ -18,6 +18,7 @@
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_stdlib.h"
+#include "lua/LuaNameGen.h"
 #include "system/SystemBodyUndo.h"
 
 using namespace Editor;
@@ -443,6 +444,28 @@ void SystemBody::EditorAPI::EditStarportProperties(SystemBody *body, UndoSystem 
 	EditEconomicProperties(body, undo);
 }
 
+void SystemBody::EditorAPI::EditBodyName(SystemBody *body, Random &rng, LuaNameGen *nameGen, UndoSystem *undo)
+{
+	ImGui::BeginGroup();
+	ImGui::InputText("Name", &body->m_name);
+
+	if (ImGui::Button(EICON_RESET " Default Name"))
+		GenerateDefaultName(body);
+
+	ImGui::SameLine();
+
+	// allocate a new random generator here so it can be pushed to lua
+	RefCountedPtr<Random> rand { new Random({ rng.Int32() }) };
+
+	if (ImGui::Button(EICON_RANDOM " Random Name"))
+		body->m_name = nameGen->BodyName(body, rand);
+
+	ImGui::EndGroup();
+
+	if (Draw::UndoHelper("Edit Name", undo))
+		AddUndoSingleValue(undo, &body->m_name);
+}
+
 void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSystem *undo)
 {
 	bool isStar = body->GetSuperType() <= SUPERTYPE_STAR;
@@ -451,15 +474,6 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 	auto updateBodyDerived = [=]() {
 		body->SetAtmFromParameters();
 	};
-
-	ImGui::BeginGroup();
-	ImGui::InputText("Name", &body->m_name);
-	if (ImGui::Button(EICON_RESET " Default Name"))
-		GenerateDefaultName(body);
-	ImGui::EndGroup();
-
-	if (Draw::UndoHelper("Edit Name", undo))
-		AddUndoSingleValue(undo, &body->m_name);
 
 	Draw::EditEnum("Edit Body Type", "Body Type", "BodyType", reinterpret_cast<int *>(&body->m_type), BodyType::TYPE_MAX, undo);
 

@@ -23,6 +23,8 @@ namespace FileSystem {
 	class FileInfo;
 } // namespace FileSystem
 
+class LuaNameGen;
+
 class Galaxy;
 class StarSystem;
 class SystemBody;
@@ -103,6 +105,7 @@ private:
 	std::unique_ptr<SystemEditorViewport> m_viewport;
 
 	Random m_random;
+	std::unique_ptr<class LuaNameGen> m_nameGen;
 
 	std::unique_ptr<UndoSystem> m_undo;
 	size_t m_lastSavedUndoStack;

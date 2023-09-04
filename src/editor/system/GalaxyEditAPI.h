@@ -6,6 +6,8 @@
 #include "galaxy/StarSystem.h"
 #include "galaxy/SystemBody.h"
 
+class LuaNameGen;
+
 namespace Editor {
 	class UndoSystem;
 }
@@ -42,6 +44,7 @@ public:
 	static void EditOrbitalParameters(SystemBody *body, Editor::UndoSystem *undo);
 	static void EditEconomicProperties(SystemBody *body, Editor::UndoSystem *undo);
 	static void EditStarportProperties(SystemBody *body, Editor::UndoSystem *undo);
+	static void EditBodyName(SystemBody *body, Random &rng, LuaNameGen *nameGen, Editor::UndoSystem *undo);
 	static void EditProperties(SystemBody *body, Random &rng, Editor::UndoSystem *undo);
 
 	static void GenerateDerivedStats(SystemBody *body, Random &rng, Editor::UndoSystem *undo);
