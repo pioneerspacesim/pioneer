@@ -66,6 +66,8 @@ namespace Lua {
 		LuaColor::Register(manager->GetLuaState());
 
 		LuaEngine::Register();
+
+		pi_lua_dofile(manager->GetLuaState(), "libs/autoload.lua");
 	}
 
 	void InitModules()
@@ -122,7 +124,7 @@ namespace Lua {
 		SceneGraph::Lua::Init();
 
 		// XXX load everything. for now, just modules
-		pi_lua_dofile(l, "libs/autoload.lua");
+		// pi_lua_dofile(l, "libs/autoload.lua");
 		lua_pop(l, 1);
 
 		pi_lua_import(l, "pigui", true);
