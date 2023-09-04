@@ -165,7 +165,7 @@
   },
   "CHARISMA": {
     "description": "Character parameter",
-    "message": "Charisma"
+    "message": "Харизма"
   },
   "CHIEF_MECHANIC": {
     "description": "",
@@ -1169,7 +1169,7 @@
   },
   "INTELLIGENCE": {
     "description": "Character parameter",
-    "message": "Intelligence"
+    "message": "Интелигентност"
   },
   "INTERSTELLAR_TRADE_AVG": {
     "description": "Label displaying commodity flow at a per-system level",
@@ -1249,7 +1249,7 @@
   },
   "LAWFULNESS": {
     "description": "Character parameter",
-    "message": "Lawfulness"
+    "message": "Законосъобразност"
   },
   "LEGAL_STATUS": {
     "description": "",
@@ -1325,7 +1325,7 @@
   },
   "LUCK": {
     "description": "Character parameter",
-    "message": "Luck"
+    "message": "Късмет"
   },
   "LY": {
     "description": "Light year",
@@ -1441,11 +1441,11 @@
   },
   "MODEL": {
     "description": "3d model of the ship",
-    "message": "Model"
+    "message": "Модел"
   },
   "MONEY": {
     "description": "",
-    "message": "Money"
+    "message": "Кредити"
   },
   "MORE_INFO": {
     "description": "",
@@ -1505,7 +1505,7 @@
   },
   "NEW_GAME": {
     "description": "Main menu item",
-    "message": "Начало"
+    "message": "Нова игра"
   },
   "NEW_PAINTJOB_APPLIED": {
     "description": "Paintshop popup",
@@ -1545,7 +1545,7 @@
   },
   "NOTORIETY": {
     "description": "Character parameter",
-    "message": "Notoriety"
+    "message": "Известност"
   },
   "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR": {
     "description": "",
@@ -2009,11 +2009,11 @@
   },
   "SHIP_NAME": {
     "description": "",
-    "message": "Ship name"
+    "message": "Име на кораба"
   },
   "SHIP_PARAMETERS": {
     "description": "",
-    "message": "Ship parameters"
+    "message": "Параметри на кораба"
   },
   "SHIP_REPAIRS": {
     "description": "Station tab name",
@@ -2037,7 +2037,7 @@
   },
   "STANDARD_GAME_START_TIME": {
     "description": "Standard game start time, current moment + 1200 years",
-    "message": "Standard game start time"
+    "message": "Стандартно време за начало на играта"
   },
   "START_AT_BARNARDS_STAR": {
     "description": "",
@@ -2065,7 +2065,7 @@
   },
   "START_GAME": {
     "description": "Button",
-    "message": "Start game"
+    "message": "Начало"
   },
   "START_LOG_ENTRY_1": {
     "description": "First custom log message when starting a new game, giving backstory to the character. Importantly we here hint at what actions the player is best to take: buy fuel, get reputation, ask for take off clearance.",
