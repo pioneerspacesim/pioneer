@@ -350,7 +350,7 @@ void SystemMapViewport::ResetViewpoint()
 	m_atlasViewW = height * m_renderer->GetDisplayAspect();
 	m_atlasViewH = height;
 
-	bool hasChildren = m_atlasLayout.children.size();
+	bool hasChildren = !m_atlasLayout.children.empty();
 	bool isBinary = m_atlasLayout.isBinary;
 	vector2f size = m_atlasLayout.size;
 	vector2f avail = vector2f(m_atlasViewW, m_atlasViewH) * 0.85f;
@@ -829,7 +829,7 @@ void SystemMapViewport::HandleInput(float ft)
 			m_rot_y_to += motion[0] * 20 * ft * speedMod;
 		} else {
 			const double pixToUnits = m_viewportSize.h / m_atlasViewH;
-			constexpr float mouseAcceleration = 1.5f;
+			const float mouseAcceleration = m_rotateWithMouseButton ? 1.0f : 1.5f;
 			m_atlasPosTo.x += motion[0] * m_atlasZoom / pixToUnits * mouseAcceleration;
 			m_atlasPosTo.y += motion[1] * m_atlasZoom / pixToUnits * mouseAcceleration;
 		}
@@ -893,7 +893,8 @@ void SystemMapViewport::Update(float ft)
 	AnimationCurves::Approach(m_atlasPos.y, m_atlasPosTo.y, ft);
 
 	// make panning so that the zoom occurs on the mouse cursor
-	if (prevAtlasZoom != m_atlasZoom) {
+	// NOTE: if viewportSize is not yet set, divide-by-zero occurs
+	if (prevAtlasZoom != m_atlasZoom && m_viewportSize.h > 0) {
 		// FIXME The ImGui method one frame out of date
 		// either add the appropriate method to Input or start the pigui frame earlier
 		// FIXME: atlas code needs to be separated from orrery code
