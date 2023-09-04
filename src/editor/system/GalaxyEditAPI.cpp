@@ -3,6 +3,7 @@
 
 #include "GalaxyEditAPI.h"
 
+#include "EditorIcons.h"
 #include "SystemEditorHelpers.h"
 
 #include "core/Log.h"
@@ -90,6 +91,8 @@ SystemBody *StarSystem::EditorAPI::NewBodyAround(StarSystem *system, Random &rng
 		return nullptr;
 
 	gen.PickPlanetType(body, rng);
+
+	SystemBody::EditorAPI::GenerateDefaultName(body);
 
 	return body;
 }
@@ -254,6 +257,41 @@ void StarSystem::EditorAPI::EditProperties(StarSystem *system, UndoSystem *undo)
 
 // ─── SystemBody::EditorAPI ───────────────────────────────────────────────────
 
+void SystemBody::EditorAPI::GenerateDefaultName(SystemBody *body)
+{
+	SystemBody *parent = body->GetParent();
+
+	// We're the root body, should probably be named after the system
+	if (!parent) {
+		body->m_name = body->GetStarSystem()->GetName();
+		return;
+	}
+
+	// Starports get a consistent default 'identifier' name
+	if (body->GetSuperType() == SUPERTYPE_STARPORT) {
+		Random rand({ body->GetSeed(), UNIVERSE_SEED });
+
+		char ident_1 = rand.Int32('A', 'Z');
+		char ident_2 = rand.Int32('A', 'Z');
+
+		body->m_name = fmt::format("{} {}{}-{:04d}",
+			body->GetType() == TYPE_STARPORT_ORBITAL ? "Orbital" : "Port",
+			ident_1, ident_2, rand.Int32(10000));
+		return;
+	}
+
+	// Other bodies get a "hierarchy" name
+	size_t idx = GetIndexInParent(body);
+	if (parent->GetSuperType() <= SystemBody::SUPERTYPE_STAR) {
+		if (idx <= 26)
+			body->m_name = fmt::format("{} {}", parent->GetName(), char('a' + idx));
+		else
+			body->m_name = fmt::format("{} {}{}", parent->GetName(), char('a' + idx / 26), char('a' + idx % 26));
+	} else {
+		body->m_name = fmt::format("{} {}", parent->GetName(), 1 + idx);
+	}
+}
+
 void SystemBody::EditorAPI::AddChild(SystemBody *parent, SystemBody *child, size_t idx)
 {
 	if (idx == size_t(-1))
@@ -414,7 +452,12 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 		body->SetAtmFromParameters();
 	};
 
+	ImGui::BeginGroup();
 	ImGui::InputText("Name", &body->m_name);
+	if (ImGui::Button(EICON_RESET " Default Name"))
+		GenerateDefaultName(body);
+	ImGui::EndGroup();
+
 	if (Draw::UndoHelper("Edit Name", undo))
 		AddUndoSingleValue(undo, &body->m_name);
 

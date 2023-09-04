@@ -32,6 +32,9 @@ public:
 
 class SystemBody::EditorAPI {
 public:
+	static void GenerateDefaultName(SystemBody *body);
+	static void GenerateCustomName(SystemBody *body, Random &rng);
+
 	static void AddChild(SystemBody *parent, SystemBody *child, size_t idx = -1);
 	static SystemBody *RemoveChild(SystemBody *parent, size_t idx = -1);
 	static size_t GetIndexInParent(SystemBody *body);

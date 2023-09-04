@@ -16,6 +16,8 @@
 #define EICON_PAUSE "\uF055"
 #define EICON_PLAY "\uF056"
 
+#define EICON_RESET "\uF05F"
+
 #define EICON_REWIND3 "\uF064"
 #define EICON_REWIND2 "\uF065"
 #define EICON_REWIND1 "\uF066"
