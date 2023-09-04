@@ -558,30 +558,6 @@ bool StarSystemCustomGenerator::Apply(Random &rng, RefCountedPtr<Galaxy> galaxy,
 }
 
 /*
- * These are the nice floating point surface temp calculating turds.
- *
-static const double boltzman_const = 5.6704e-8;
-static double calcEnergyPerUnitAreaAtDist(double star_radius, double star_temp, double object_dist)
-{
-	const double total_solar_emission = boltzman_const *
-		star_temp*star_temp*star_temp*star_temp*
-		4*M_PI*star_radius*star_radius;
-
-	return total_solar_emission / (4*M_PI*object_dist*object_dist);
-}
-
-// bond albedo, not geometric
-static double CalcSurfaceTemp(double star_radius, double star_temp, double object_dist, double albedo, double greenhouse)
-{
-	const double energy_per_meter2 = calcEnergyPerUnitAreaAtDist(star_radius, star_temp, object_dist);
-	const double surface_temp = pow(energy_per_meter2*(1-albedo)/(4*(1-greenhouse)*boltzman_const), 0.25);
-	return surface_temp;
-}
-*/
-/*
- * Instead we use these butt-ugly overflow-prone spat of ejaculate:
- */
-/*
  * star_radius in sol radii
  * star_temp in kelvin,
  * object_dist in AU
@@ -589,6 +565,10 @@ static double CalcSurfaceTemp(double star_radius, double star_temp, double objec
  */
 static fixed calcEnergyPerUnitAreaAtDist(fixed star_radius, int star_temp, fixed object_dist)
 {
+	// energy = boltzmann * T^4 * 4 * PI * r^2
+	// energy_per_m2 = energy / ( 4 * PI * dist^2 )
+	// drop 4*PI because it directly cancels
+	// energy_per_m2 is later divided by the boltzmann constant so drop that too
 	fixed temp = star_temp * fixed(1, 5778); //normalize to Sun's temperature
 	const fixed total_solar_emission =
 		temp * temp * temp * temp * star_radius * star_radius;
@@ -659,6 +639,19 @@ int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed 
 		}
 		energy_per_meter2 += calcEnergyPerUnitAreaAtDist(s->m_radius, s->m_averageTemp, dist);
 	}
+
+	/*
+	// Can't use this version as pow() is nowhere near deterministic across multiple platforms and compilers
+	// Luckily pow(x, 0.25) can be expressed as two successive sqrt operations
+	// bond albedo, not geometric
+	static double CalcSurfaceTemp(double star_radius, double star_temp, double object_dist, double albedo, double greenhouse)
+	{
+		const double energy_per_meter2 = calcEnergyPerUnitAreaAtDist(star_radius, star_temp, object_dist);
+		const double surface_temp = pow(energy_per_meter2*(1-albedo)/(4*(1-greenhouse)*boltzman_const), 0.25);
+		return surface_temp;
+	}
+	*/
+
 	const fixed surface_temp_pow4 = energy_per_meter2 * (1 - albedo) / (1 - greenhouse);
 	return (279 * int(isqrt(isqrt((surface_temp_pow4.v))))) >> (fixed::FRAC / 4); //multiplied by 279 to convert from Earth's temps to Kelvin
 }
@@ -683,6 +676,28 @@ const SystemBody *StarSystemRandomGenerator::FindStarAndTrueOrbitalRange(const S
 	return star;
 }
 
+/**
+ * In this and following functions, we attempt to capture even a fraction of the
+ * true majesty of the infinite cosmos.
+ *
+ * System generation is based primarily around a mass-based metric, where the
+ * total mass of a primary body determines the maximum mass of its individual
+ * satellites.
+ *
+ * The area of a body's "orbital slice" (between itself and any neighboring
+ * bodies) informs the mass of a body to avoid obviously-unnatural
+ * configurations with high-mass bodies orbiting so closely as to perturb each
+ * others' orbits beyond what Pioneer can simulate.
+ *
+ * A series of post-processing factors are applied to this initial maximum mass
+ * value to curve the mass factor over the entire Hill Sphere of the parent
+ * body. This reduces the incidence of "gas giant spam" and produces more
+ * perceptually-realistic arrangements of body types and masses.
+ *
+ * Body radius and type is inferred from the mass of the body and applied based
+ * on a set of density heuristics (in PickPlanetType), and remaining body
+ * parameters are set to complete body generation.
+ */
 void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 {
 	PROFILE_SCOPED()
