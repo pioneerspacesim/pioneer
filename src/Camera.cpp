@@ -362,6 +362,9 @@ void Camera::CalcLighting(const Body *b, double &ambient, double &direct) const
 	direct = 1.0;
 
 	Body *astro = Frame::GetFrame(b->GetFrame())->GetBody();
+	if (!astro)
+		return;
+
 	Planet *planet = static_cast<Planet *>(astro);
 	FrameId rotFrame = planet->GetFrame();
 
