@@ -93,8 +93,6 @@ SystemBody *StarSystem::EditorAPI::NewBodyAround(StarSystem *system, Random &rng
 
 	gen.PickPlanetType(body, rng);
 
-	SystemBody::EditorAPI::GenerateDefaultName(body);
-
 	return body;
 }
 

@@ -379,9 +379,9 @@ void SystemEditor::HandleBodyOperations()
 			body = StarSystem::EditorAPI::NewBodyAround(m_system.Get(), GetRng(), m_pendingOp.parent, m_pendingOp.idx);
 
 		if (!body) {
-			Log::Error("Failed to create requested body.");
-			m_pendingOp = {};
-			return;
+			Log::Error("Body parameters could not be automatically generated for the new body.");
+
+			body = StarSystem::EditorAPI::NewBody(m_system.Get());
 		}
 
 		GetUndo()->BeginEntry("Add Body");
@@ -396,6 +396,8 @@ void SystemEditor::HandleBodyOperations()
 		GetUndo()->AddUndoStep<SystemEditor::UndoSetSelection>(this, body);
 		GetUndo()->EndEntry();
 
+		// Give the body a basic name based on its position in its parent
+		SystemBody::EditorAPI::GenerateDefaultName(body);
 	}
 
 	if (m_pendingOp.type == BodyRequest::TYPE_Delete) {
