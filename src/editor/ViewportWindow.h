@@ -48,6 +48,7 @@ namespace Editor
 	private:
 
 		std::unique_ptr<Graphics::RenderTarget> m_renderTarget;
+		std::unique_ptr<Graphics::RenderTarget> m_resolveTarget;
 		Graphics::ViewportExtents m_viewportExtents;
 
 		bool m_viewportActive;
