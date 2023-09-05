@@ -150,7 +150,10 @@ void Intro::Draw(float deltaTime)
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
 	m_renderer->SetAmbientColor(m_ambientColor);
+
+	float intensity[4] = { 1.f, 1.f, 1.f, 1.f };
 	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
+	m_renderer->SetLightIntensity(4, intensity);
 
 	// XXX all this stuff will be gone when intro uses a Camera
 	// rotate background by time, and a bit extra Z so it's not so flat

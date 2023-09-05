@@ -319,17 +319,16 @@ void Camera::Draw(const Body *excludeBody)
 			continue;
 		}
 
-		if (attrs->calcAtmosphereLighting) {
-			double ambient, direct;
+		double ambient = 0.05, direct = 1.0;
+		if (attrs->calcAtmosphereLighting)
 			CalcLighting(attrs->body, ambient, direct);
 
-			for (size_t i = 0; i < m_lightSources.size(); i++)
-				lightIntensities[i] = direct * ShadowedIntensity(i, attrs->body);
+		for (size_t i = 0; i < m_lightSources.size(); i++)
+			lightIntensities[i] = direct * ShadowedIntensity(i, attrs->body);
 
-			// Setup dynamic lighting parameters
-			m_renderer->SetAmbientColor(Color(ambient * 255, ambient * 255, ambient * 255));
-			m_renderer->SetLightIntensity(m_lightSources.size(), lightIntensities.data());
-		}
+		// Setup dynamic lighting parameters
+		m_renderer->SetAmbientColor(Color(ambient * 255, ambient * 255, ambient * 255));
+		m_renderer->SetLightIntensity(m_lightSources.size(), lightIntensities.data());
 
 		attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}

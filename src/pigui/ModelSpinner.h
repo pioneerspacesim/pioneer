@@ -52,6 +52,7 @@ namespace PiGui {
 
 	private:
 		std::unique_ptr<Graphics::RenderTarget> m_renderTarget;
+		std::unique_ptr<Graphics::RenderTarget> m_resolveTarget;
 		std::unique_ptr<SceneGraph::Model> m_model;
 		SceneGraph::ModelSkin m_skin;
 		std::unique_ptr<Shields> m_shields;
