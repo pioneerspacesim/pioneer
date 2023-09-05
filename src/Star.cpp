@@ -8,6 +8,7 @@
 #include "galaxy/SystemBody.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/RenderState.h"
 #include "graphics/Types.h"
 #include "graphics/VertexArray.h"
 #include "graphics/VertexBuffer.h"

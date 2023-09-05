@@ -251,8 +251,6 @@ namespace Graphics {
 		// create the state cache immediately after establishing baseline state.
 		m_renderStateCache.reset(new OGL::RenderStateCache());
 
-		m_clearColor = Color4f(0.f, 0.f, 0.f, 0.f);
-
 		// check enum PrimitiveType matches OpenGL values
 		static_assert(POINTS == GL_POINTS);
 		static_assert(LINE_SINGLE == GL_LINES);
@@ -263,23 +261,6 @@ namespace Graphics {
 		static_assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
 
 		m_drawCommandList.reset(new OGL::CommandList(this));
-
-		RenderTargetDesc windowTargetDesc(
-			m_width, m_height,
-			// TODO: sRGB format for render target?
-			TextureFormat::TEXTURE_RGBA_8888,
-			TextureFormat::TEXTURE_DEPTH,
-			false, vs.requestedSamples);
-		m_windowRenderTarget = static_cast<OGL::RenderTarget *>(CreateRenderTarget(windowTargetDesc));
-
-		m_windowRenderTarget->Bind();
-		if (!m_windowRenderTarget->CheckStatus()) {
-			GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-			Log::Fatal("Pioneer window render target is invalid. (Error: {})\n"
-				"Does your graphics driver support multisample anti-aliasing?\n"
-				"If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
-				gl_framebuffer_error_to_string(status));
-		}
 
 		m_viewport = ViewportExtents(0, 0, m_width, m_height);
 		SetRenderTarget(nullptr);
@@ -305,10 +286,6 @@ namespace Graphics {
 			delete m_shaders.back().second;
 			m_shaders.pop_back();
 		}
-
-		if (m_windowRenderTarget->m_active)
-			m_windowRenderTarget->Unbind();
-		delete m_windowRenderTarget;
 
 		SDL_GL_DeleteContext(m_glContext);
 	}
@@ -488,8 +465,6 @@ namespace Graphics {
 		PROFILE_SCOPED()
 		// clear the cached program state (program loading may have trashed it)
 		m_renderStateCache->SetProgram(nullptr);
-		m_renderStateCache->SetRenderTarget(m_windowRenderTarget, m_viewport);
-		m_renderStateCache->ClearBuffers(true, true, Color(0, 0, 0, 0));
 
 		m_frameNum++;
 		return true;
@@ -622,17 +597,23 @@ namespace Graphics {
 		// TODO(sturnclaw): handle upscaling to higher-resolution screens
 		// we'll need an intermediate target to resolve to; resolve and rescale are mutually exclusive
 		ViewportExtents ext = { 0, 0, m_width, m_height };
-		bool isMSAA = m_windowRenderTarget->GetDesc().numSamples > 0;
+		bool isMSAA = m_activeRenderTarget->GetDesc().numSamples > 0;
 
-		m_drawCommandList->AddBlitRenderTargetCmd(m_windowRenderTarget, nullptr, ext, ext, isMSAA);
+		m_drawCommandList->AddBlitRenderTargetCmd(m_activeRenderTarget, nullptr, ext, ext, isMSAA);
 
 		FlushCommandBuffers();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		SDL_GL_SwapWindow(m_window);
+		m_activeRenderTarget = nullptr;
 		m_renderStateCache->ResetFrame();
 		m_stats.NextFrame();
 		return true;
+	}
+
+	RenderTarget *RendererOGL::GetRenderTarget()
+	{
+		return m_activeRenderTarget;
 	}
 
 	bool RendererOGL::SetRenderTarget(RenderTarget *rt)
@@ -641,9 +622,7 @@ namespace Graphics {
 		FlushCommandBuffers();
 
 		m_activeRenderTarget = static_cast<OGL::RenderTarget *>(rt);
-		m_drawCommandList->AddRenderPassCmd(rt ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
-
-		m_renderStateCache->SetRenderTarget(rt ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
+		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget, m_viewport);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		return true;
@@ -669,21 +648,15 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::ClearScreen()
+	bool RendererOGL::ClearScreen(const Color &clearColor, bool depth)
 	{
-		m_drawCommandList->AddClearCmd(true, true, m_clearColor);
+		m_drawCommandList->AddClearCmd(true, depth, clearColor);
 		return true;
 	}
 
 	bool RendererOGL::ClearDepthBuffer()
 	{
 		m_drawCommandList->AddClearCmd(false, true, Color());
-		return true;
-	}
-
-	bool RendererOGL::SetClearColor(const Color &c)
-	{
-		m_clearColor = c;
 		return true;
 	}
 
@@ -697,7 +670,7 @@ namespace Graphics {
 	bool RendererOGL::SetViewport(ViewportExtents v)
 	{
 		m_viewport = v;
-		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
+		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget, m_viewport);
 		return true;
 	}
 
@@ -1089,12 +1062,16 @@ namespace Graphics {
 
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
+		if (desc.colorFormat != TEXTURE_NONE && desc.depthFormat != TEXTURE_NONE && !rt->CheckStatus()) {
+			GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+			Log::Error("Unable to create complete render target. (Error: {})\n"
+				"Does your graphics driver support multisample anti-aliasing?\n"
+				"If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
+				gl_framebuffer_error_to_string(status));
+		}
+
 		// Rebind the active render target
-		if (m_activeRenderTarget)
-			m_renderStateCache->SetRenderTarget(m_activeRenderTarget);
-		// we can't assume the window render target exists yet because we might be creating it
-		else if (m_windowRenderTarget)
-			m_renderStateCache->SetRenderTarget(m_activeRenderTarget);
+		m_renderStateCache->SetRenderTarget(m_activeRenderTarget);
 
 		return rt;
 	}

@@ -70,8 +70,7 @@ void ModelSpinner::Render()
 	const auto &desc = m_renderTarget.get()->GetDesc();
 	r->SetViewport({ 0, 0, desc.width, desc.height });
 
-	r->SetClearColor(Color(0, 0, 0, 0));
-	r->ClearScreen();
+	r->ClearScreen(Color(0, 0, 0, 0));
 
 	r->SetProjection(matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f, true));
 	r->SetTransform(matrix4x4f::Identity());
@@ -79,8 +78,6 @@ void ModelSpinner::Render()
 	r->SetLights(1, &m_light);
 	AnimationCurves::Approach(m_zoom, m_zoomTo, Pi::GetFrameTime(), 5.0f, 0.4f);
 	m_model->Render(MakeModelViewMat());
-
-	r->SetRenderTarget(nullptr);
 }
 
 void ModelSpinner::SetSize(vector2d size)

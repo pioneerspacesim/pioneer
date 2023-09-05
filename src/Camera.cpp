@@ -14,6 +14,7 @@
 #include "galaxy/StarSystem.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Types.h"
+#include "graphics/RenderState.h"
 
 using namespace Graphics;
 

@@ -699,17 +699,18 @@ void SectorMap::DrawEmbed()
 	ImGui::Image(m_renderTarget->GetColorTexture(), m_size, ImVec2(0, 1), ImVec2(1, 0));
 
 	auto *r = m_context.renderer;
-	Graphics::Renderer::StateTicket ticket(r);
-	r->SetRenderTarget(m_renderTarget.get());
 	const auto &desc = m_renderTarget.get()->GetDesc();
-	r->SetViewport({ 0, 0, desc.width, desc.height });
 
-	r->SetClearColor(Color(0, 0, 0, 255));
+	{
+		// state ticket resets all draw state at the end of the scope
+		Graphics::Renderer::StateTicket ticket(r);
 
-	Draw3D();
-	DrawLabels(ImGui::IsItemHovered(), imagePos);
+		r->SetRenderTarget(m_renderTarget.get());
+		r->SetViewport({ 0, 0, desc.width, desc.height });
 
-	r->SetRenderTarget(nullptr);
+		Draw3D();
+		DrawLabels(ImGui::IsItemHovered(), imagePos);
+	}
 
 	if (ImGui::IsItemHovered()) {
 		ImGui::CaptureMouseFromApp(false);

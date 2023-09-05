@@ -9,6 +9,7 @@
 #include "JobQueue.h"
 #include "graphics/Material.h"
 #include "graphics/VertexBuffer.h"
+#include "graphics/RenderState.h"
 #include "profiler/Profiler.h"
 #include "terrain/Terrain.h"
 #include "vector3.h"

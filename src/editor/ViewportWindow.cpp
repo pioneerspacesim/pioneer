@@ -85,8 +85,6 @@ void ViewportWindow::Update(float deltaTime)
 				r->ClearScreen(); // FIXME: add clear-command passing in immediate-state clear color
 
 				OnRender(r);
-
-				r->SetRenderTarget(nullptr);
 			}
 
 			ImGui::BeginChild("##ViewportContainer", ImVec2(0, 0), false,
