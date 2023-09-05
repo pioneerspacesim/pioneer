@@ -162,6 +162,8 @@ Graphics::Renderer *GuiApplication::StartupRenderer(IniConfig *config, bool hidd
 	m_renderer.reset(Graphics::Init(videoSettings));
 	m_renderTarget.reset(CreateRenderTarget(videoSettings));
 
+	m_settings = videoSettings;
+
 	return m_renderer.get();
 }
 

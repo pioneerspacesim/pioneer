@@ -7,7 +7,7 @@
 #include "RefCounted.h"
 #include "SDL_events.h"
 
-#include "graphics/Renderer.h"
+#include "graphics/Graphics.h"
 
 class IniConfig;
 
@@ -20,6 +20,7 @@ namespace PiGui {
 }
 
 namespace Graphics {
+	class Renderer;
 	class RenderTarget;
 }
 
@@ -33,6 +34,8 @@ public:
 	PiGui::Instance *GetPiGui() { return m_pigui.Get(); }
 
 	Graphics::RenderTarget *GetRenderTarget() { return m_renderTarget.get(); }
+
+	const Graphics::Settings &GetGraphicsSettings() { return m_settings; }
 
 protected:
 
@@ -85,4 +88,5 @@ private:
 
 	std::unique_ptr<Graphics::Renderer> m_renderer;
 	std::unique_ptr<Graphics::RenderTarget> m_renderTarget;
+	Graphics::Settings m_settings;
 };
