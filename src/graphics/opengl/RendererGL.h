@@ -63,6 +63,9 @@ namespace Graphics {
 		virtual bool SetRenderTarget(RenderTarget *) override final;
 		virtual bool SetScissor(ViewportExtents) override final;
 
+		virtual void CopyRenderTarget(RenderTarget *, RenderTarget *, ViewportExtents, ViewportExtents, bool) override final;
+		virtual void ResolveRenderTarget(RenderTarget *, RenderTarget *, ViewportExtents) override final;
+
 		virtual bool ClearScreen() override final;
 		virtual bool ClearDepthBuffer() override final;
 		virtual bool SetClearColor(const Color &c) override final;

@@ -615,19 +615,19 @@ namespace Graphics {
 	bool RendererOGL::SwapBuffers()
 	{
 		PROFILE_SCOPED()
-		FlushCommandBuffers();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
 
-		// Make sure we set the active FBO to our "default" window target
-		m_renderStateCache->SetRenderTarget(m_windowRenderTarget, m_viewport);
 		// Reset to a "known good" render state (disable scissor etc.)
 		m_renderStateCache->ApplyRenderState(RenderStateDesc{});
 
 		// TODO(sturnclaw): handle upscaling to higher-resolution screens
 		// we'll need an intermediate target to resolve to; resolve and rescale are mutually exclusive
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_windowRenderTarget->m_fbo);
+		ViewportExtents ext = { 0, 0, m_width, m_height };
+		bool isMSAA = m_windowRenderTarget->GetDesc().numSamples > 0;
+
+		m_drawCommandList->AddBlitRenderTargetCmd(m_windowRenderTarget, nullptr, ext, ext, isMSAA);
+
+		FlushCommandBuffers();
+		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		SDL_GL_SwapWindow(m_window);
 		m_renderStateCache->ResetFrame();
@@ -647,6 +647,20 @@ namespace Graphics {
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		return true;
+	}
+
+	void RendererOGL::CopyRenderTarget(RenderTarget *src, RenderTarget *dst, ViewportExtents srcExtents, ViewportExtents dstExtents, bool linearFilter)
+	{
+		m_drawCommandList->AddBlitRenderTargetCmd(src, dst, srcExtents, dstExtents, false, false, linearFilter);
+		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget, m_viewport);
+	}
+
+	void RendererOGL::ResolveRenderTarget(RenderTarget *src, RenderTarget *dst, ViewportExtents extents)
+	{
+		bool hasDepthTexture = src->GetDepthTexture() && dst->GetDepthTexture();
+
+		m_drawCommandList->AddBlitRenderTargetCmd(src, dst, extents, extents, true, hasDepthTexture);
+		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget, m_viewport);
 	}
 
 	bool RendererOGL::SetScissor(ViewportExtents extents)
@@ -861,6 +875,8 @@ namespace Graphics {
 				m_drawCommandList->ExecuteDynamicDrawCmd(*dynDrawCmd);
 			else if (auto *renderPassCmd = std::get_if<OGL::CommandList::RenderPassCmd>(&cmd))
 				m_drawCommandList->ExecuteRenderPassCmd(*renderPassCmd);
+			else if (auto *blitRenderTargetCmd = std::get_if<OGL::CommandList::BlitRenderTargetCmd>(&cmd))
+				m_drawCommandList->ExecuteBlitRenderTargetCmd(*blitRenderTargetCmd);
 		}
 
 		// we don't manually reset the active vertex array after each drawcall for performance,
@@ -1036,7 +1052,8 @@ namespace Graphics {
 		PROFILE_SCOPED()
 		OGL::RenderTarget *rt = new OGL::RenderTarget(this, desc);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
-		rt->Bind();
+		m_renderStateCache->SetRenderTarget(rt);
+
 		if (desc.colorFormat != TEXTURE_NONE) {
 			Graphics::TextureDescriptor cdesc(
 				desc.colorFormat,
@@ -1049,6 +1066,7 @@ namespace Graphics {
 				0, Graphics::TEXTURE_2D);
 			OGL::TextureGL *colorTex = new OGL::TextureGL(cdesc, false, false, desc.numSamples);
 			rt->SetColorTexture(colorTex);
+			CHECKERRORS();
 		}
 		if (desc.depthFormat != TEXTURE_NONE) {
 			if (desc.allowDepthTexture) {
@@ -1061,22 +1079,22 @@ namespace Graphics {
 					false,
 					false,
 					0, Graphics::TEXTURE_2D);
-				OGL::TextureGL *depthTex = new OGL::TextureGL(ddesc, false, false);
+				OGL::TextureGL *depthTex = new OGL::TextureGL(ddesc, false, false, desc.numSamples);
 				rt->SetDepthTexture(depthTex);
+				CHECKERRORS();
 			} else {
 				rt->CreateDepthRenderbuffer();
 			}
 		}
 
-		rt->Unbind();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		// Rebind the active render target
 		if (m_activeRenderTarget)
-			m_activeRenderTarget->Bind();
+			m_renderStateCache->SetRenderTarget(m_activeRenderTarget);
 		// we can't assume the window render target exists yet because we might be creating it
 		else if (m_windowRenderTarget)
-			m_windowRenderTarget->Bind();
+			m_renderStateCache->SetRenderTarget(m_activeRenderTarget);
 
 		return rt;
 	}

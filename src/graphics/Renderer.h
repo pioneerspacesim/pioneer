@@ -79,6 +79,13 @@ namespace Graphics {
 		//set 0 to render to screen
 		virtual bool SetRenderTarget(RenderTarget *) = 0;
 
+		// Copy a portion of one render target to another, optionally scaling the target
+		virtual void CopyRenderTarget(RenderTarget *src, RenderTarget *dst, ViewportExtents srcRect, ViewportExtents dstRect, bool linearFilter = true) = 0;
+
+		// Perform an MSAA resolve from a multisampled render target to regular render target
+		// No scaling can be performed.
+		virtual void ResolveRenderTarget(RenderTarget *src, RenderTarget *dst, ViewportExtents rect) = 0;
+
 		// Set the scissor extents. This has no effect if not drawing with a renderstate using scissorTest.
 		// In particular, the scissor state will not affect clearing the screen.
 		virtual bool SetScissor(ViewportExtents scissor) = 0;
