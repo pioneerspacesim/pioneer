@@ -437,9 +437,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 		kid->m_argOfPeriapsis = csbody->argOfPeriapsis;
 		kid->m_axialTilt = csbody->axialTilt;
-		kid->m_inclination = fixed(csbody->latitude * 10000, 10000);
-		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
-			kid->m_orbitalOffset = fixed(csbody->longitude * 10000, 10000);
+		kid->m_inclination = csbody->inclination;
 		kid->m_semiMajorAxis = csbody->semiMajorAxis;
 
 		if (csbody->heightMapFilename.length() > 0) {

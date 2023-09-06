@@ -36,7 +36,8 @@ public:
 	bool want_rand_phase;
 	bool want_rand_arg_periapsis;
 	// for orbiting things, latitude = inclination
-	float latitude, longitude; // radians
+	fixed inclination; // radians
+	fixed longitude; // radians
 	fixed rotationPeriod; // in days
 	fixed rotationalPhaseAtStart; // 0 to 2 pi
 	fixed axialTilt; // in radians

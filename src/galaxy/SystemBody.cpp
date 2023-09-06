@@ -77,7 +77,7 @@ void SystemBody::SaveToJson(Json &out)
 	out["spaceStationType"] = m_space_station_type;
 
 	if (!m_heightMapFilename.empty()) {
-		out["heightMapFileName"] = m_heightMapFilename;
+		out["heightMapFilename"] = m_heightMapFilename;
 		out["heightMapFractal"] = m_heightMapFractal;
 	}
 }
@@ -96,6 +96,7 @@ void SystemBody::LoadFromJson(const Json &obj)
 	m_aspectRatio = obj.value<fixed>("aspectRatio", 0);
 	m_mass = obj.value<fixed>("mass", 0);
 	m_rotationPeriod = obj.value<fixed>("rotationPeriod", 0);
+	m_rotationalPhaseAtStart = obj.value<fixed>("rotationPhase", 0);
 	m_humanActivity = obj.value<fixed>("humanActivity", 0);
 	m_semiMajorAxis = obj.value<fixed>("semiMajorAxis", 0);
 	m_eccentricity = obj.value<fixed>("eccentricity", 0);

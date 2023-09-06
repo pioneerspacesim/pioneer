@@ -133,8 +133,7 @@ CSB_FIELD_SETTER_FIXED(mass, mass)
 CSB_FIELD_SETTER_INT(temp, averageTemp)
 CSB_FIELD_SETTER_FIXED(semi_major_axis, semiMajorAxis)
 CSB_FIELD_SETTER_FIXED(eccentricity, eccentricity)
-CSB_FIELD_SETTER_REAL(latitude, latitude)
-CSB_FIELD_SETTER_REAL(longitude, longitude)
+CSB_FIELD_SETTER_FIXED(inclination, inclination)
 CSB_FIELD_SETTER_FIXED(rotation_period, rotationPeriod)
 CSB_FIELD_SETTER_FIXED(axial_tilt, axialTilt)
 CSB_FIELD_SETTER_FIXED(metallicity, metallicity)
@@ -298,10 +297,10 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "eccentricity", &l_csb_eccentricity },
 	{ "orbital_offset", &l_csb_orbital_offset },
 	{ "orbital_phase_at_start", &l_csb_orbital_phase_at_start },
-	{ "latitude", &l_csb_latitude },
+	{ "latitude", &l_csb_inclination },
 	// latitude is for surface bodies, inclination is for orbiting bodies (but they're the same field)
-	{ "inclination", &l_csb_latitude },
-	{ "longitude", &l_csb_longitude },
+	{ "inclination", &l_csb_inclination },
+	{ "longitude", &l_csb_orbital_offset },
 	{ "rotation_period", &l_csb_rotation_period },
 	{ "rotational_phase_at_start", &l_csb_rotational_phase_at_start }, // 0 to 2 pi
 	{ "axial_tilt", &l_csb_axial_tilt },
@@ -332,13 +331,14 @@ void CustomSystemBody::LoadFromJson(const Json &obj)
 	aspectRatio = obj.value<fixed>("aspectRatio", 0);
 	mass = obj.value<fixed>("mass", 0);
 	rotationPeriod = obj.value<fixed>("rotationPeriod", 0);
+	rotationalPhaseAtStart = obj.value<fixed>("rotationPhase", 0);
 	// humanActivity = obj.value<fixed>("humanActivity", 0);
 	semiMajorAxis = obj.value<fixed>("semiMajorAxis", 0);
 	eccentricity = obj.value<fixed>("eccentricity", 0);
 	orbitalOffset = obj.value<fixed>("orbitalOffset", 0);
 	orbitalPhaseAtStart = obj.value<fixed>("orbitalPhase", 0);
 	axialTilt = obj.value<fixed>("axialTilt", 0);
-	latitude = obj.value<fixed>("inclination", 0).ToDouble();
+	inclination = obj.value<fixed>("inclination", 0);
 	argOfPeriapsis = obj.value<fixed>("argOfPeriapsis", 0);
 	averageTemp = obj.value<uint32_t>("averageTemp", 0);
 	// isCustomBody = obj.value<bool>("isCustom", false);
@@ -1013,7 +1013,7 @@ CustomSystemBody::CustomSystemBody() :
 	want_rand_offset(true),
 	want_rand_arg_periapsis(true),
 	want_rand_phase(true),
-	latitude(0.0),
+	inclination(0.0),
 	longitude(0.0),
 	volatileGas(0),
 	ringStatus(WANT_RANDOM_RINGS),
