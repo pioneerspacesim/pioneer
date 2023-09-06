@@ -24,6 +24,7 @@
 #include "galaxy/Galaxy.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystemGenerator.h"
+#include "graphics/Renderer.h"
 #include "lua/Lua.h"
 #include "lua/LuaNameGen.h"
 #include "lua/LuaObject.h"
@@ -88,6 +89,7 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	m_app(app),
 	m_undo(new UndoSystem()),
 	m_system(nullptr),
+	m_systemInfo(),
 	m_selectedBody(nullptr),
 	m_pendingOp()
 {
@@ -126,6 +128,11 @@ void SystemEditor::NewSystem()
 	m_system.Reset(newSystem);
 
 	newSystem->SetRootBody(newSystem->NewBody());
+
+	SysPolit polit = {};
+	polit.govType = Polit::GOV_NONE;
+
+	newSystem->SetSysPolit(polit);
 }
 
 bool SystemEditor::LoadSystemFromDisk(const std::string &absolutePath)
@@ -164,9 +171,14 @@ bool SystemEditor::LoadSystem(const FileSystem::FileInfo &file)
 
 	bool ok = false;
 	if (ends_with_ci(file.GetPath(), ".json")) {
-		const CustomSystem *csys = m_systemLoader->LoadSystemFromJSON(file.GetName(), JsonUtils::LoadJson(file.Read()));
+		const Json &data = JsonUtils::LoadJson(file.Read());
+
+		const CustomSystem *csys = m_systemLoader->LoadSystemFromJSON(file.GetName(), data);
 		if (csys)
 			ok = LoadCustomSystem(csys);
+
+		if (ok)
+			m_systemInfo.comment = data["comment"];
 	} else if (ends_with_ci(file.GetPath(), ".lua")) {
 		const CustomSystem *csys = m_systemLoader->LoadSystem(file.GetPath());
 		if (csys)
@@ -200,6 +212,21 @@ bool SystemEditor::WriteSystem(const std::string &filepath)
 	Json systemdef = Json::object();
 
 	m_system->DumpToJson(systemdef);
+
+	if (m_systemInfo.randomFaction)
+		systemdef.erase("faction");
+	else
+		systemdef["faction"] = m_systemInfo.faction;
+
+	if (m_systemInfo.randomLawlessness)
+		systemdef.erase("lawlessness");
+
+	if (m_systemInfo.explored == CustomSystemInfo::EXPLORE_Random)
+		systemdef.erase("explored");
+	else
+		systemdef["explored"] = m_systemInfo.explored == CustomSystemInfo::EXPLORE_ExploredAtStart;
+
+	systemdef["comment"] = m_systemInfo.comment;
 
 	std::string jsonData = systemdef.dump(1, '\t');
 
@@ -240,6 +267,15 @@ bool SystemEditor::LoadCustomSystem(const CustomSystem *csys)
 	m_system = system;
 	m_viewport->SetSystem(system);
 
+	CustomSystemInfo::ExplorationState explored = csys->explored ?
+		CustomSystemInfo::EXPLORE_ExploredAtStart :
+		CustomSystemInfo::EXPLORE_Unexplored;
+
+	m_systemInfo.explored = csys->want_rand_explored ? CustomSystemInfo::EXPLORE_Random : explored;
+	m_systemInfo.randomLawlessness = csys->want_rand_lawlessness;
+	m_systemInfo.randomFaction = csys->faction == nullptr;
+	m_systemInfo.faction = csys->faction ? csys->faction->name : "";
+
 	return true;
 }
 
@@ -248,6 +284,7 @@ void SystemEditor::ClearSystem()
 	m_undo->Clear();
 
 	m_system.Reset();
+	m_systemInfo = {};
 	m_viewport->SetSystem(m_system);
 	m_selectedBody = nullptr;
 	m_pendingOp = {};
@@ -579,13 +616,15 @@ void SystemEditor::DrawInterface()
 
 	if (ImGui::Begin(PROPERTIES_WND_ID)) {
 		// Adjust default window label position
-		ImGui::PushItemWidth(ImFloor(ImGui::GetWindowSize().x * 0.55f));
+		ImGui::PushItemWidth(ImFloor(ImGui::GetWindowSize().x * 0.6f));
+		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 13));
 
 		if (m_selectedBody)
 			DrawBodyProperties();
 		else
 			DrawSystemProperties();
 
+		ImGui::PopFont();
 		ImGui::PopItemWidth();
 	}
 	ImGui::End();
@@ -762,13 +801,11 @@ void SystemEditor::DrawBodyProperties()
 	ImGui::Spacing();
 
 	ImGui::PushID(m_selectedBody);
-	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 13));
 
 	SystemBody::EditorAPI::EditBodyName(m_selectedBody, GetRng(), m_nameGen.get(), GetUndo());
 
 	SystemBody::EditorAPI::EditProperties(m_selectedBody, GetRng(), GetUndo());
 
-	ImGui::PopFont();
 	ImGui::PopID();
 }
 
@@ -789,10 +826,10 @@ void SystemEditor::DrawSystemProperties()
 
 	ImGui::Spacing();
 
-	Random rng (Uint32(m_app->GetTime() * 4.0) ^ m_system->GetSeed());
-	StarSystem::EditorAPI::EditName(m_system.Get(), rng, GetUndo());
+	StarSystem::EditorAPI::EditName(m_system.Get(), GetRng(), GetUndo());
 
-	StarSystem::EditorAPI::EditProperties(m_system.Get(), GetUndo());
+	StarSystem::EditorAPI::EditProperties(m_system.Get(), m_systemInfo, m_galaxy->GetFactions(), GetUndo());
+
 }
 
 void SystemEditor::DrawPickSystemModal()

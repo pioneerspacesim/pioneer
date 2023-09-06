@@ -7,6 +7,7 @@
 #include "SystemEditorHelpers.h"
 
 #include "core/Log.h"
+#include "core/macros.h"
 #include "editor/UndoStepType.h"
 #include "editor/EditorDraw.h"
 
@@ -33,6 +34,12 @@ namespace {
 	}
 
 	static constexpr double SECONDS_TO_DAYS = 1.0 / (3600.0 * 24.0);
+
+	static const char *explored_labels[] = {
+		"Randomly Generated",
+		"Explored at Start",
+		"Unexplored",
+	};
 }
 
 namespace Editor::Draw {
@@ -217,41 +224,152 @@ void StarSystem::EditorAPI::EditName(StarSystem *system, Random &rng, UndoSystem
 
 	if (Draw::UndoHelper("Edit System Name", undo))
 		AddUndoSingleValue(undo, &system->m_name);
-}
 
-void StarSystem::EditorAPI::EditProperties(StarSystem *system, UndoSystem *undo)
-{
-	// TODO: other names
+	ImGui::AlignTextToFramePadding();
+	ImGui::TextUnformatted("Other Names");
 
-	ImGui::InputText("Short Description", &system->m_shortDesc);
+	ImGui::SameLine(ImGui::GetContentRegionAvail().x - ImGui::GetStyle().WindowPadding.x * 2.f, 0.f);
+	ImGui::Button("+", ImVec2(ImGui::GetFrameHeight(), ImGui::GetFrameHeight()));
+	if (Draw::UndoHelper("Add System Other Name", undo))
+		AddUndoVectorInsert(undo, &system->m_other_names, "");
+
+	float window_height = ImGui::GetFrameHeightWithSpacing() * std::min(size_t(4), system->m_other_names.size()) + ImGui::GetStyle().WindowPadding.y * 2.f;
+
+	if (system->m_other_names.size() > 0) {
+		ImGui::BeginChild("##Other Names", ImVec2(0, window_height), true);
+
+		for (size_t idx = 0; idx < system->m_other_names.size(); idx++) {
+
+			ImGui::PushID(idx);
+
+			if (ImGui::Button("-")) {
+				undo->BeginEntry("Remove System Other Name");
+				AddUndoVectorErase(undo, &system->m_other_names, idx);
+				undo->EndEntry();
+
+				ImGui::PopID();
+				continue;
+			}
+
+			ImGui::SameLine(0.0f, ImGui::GetStyle().ItemInnerSpacing.x);
+			ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+			ImGui::InputText("##name", &system->m_other_names[idx]);
+
+			if (Draw::UndoHelper("Edit System Other Name", undo))
+				AddUndoVectorSingleValue(undo, &system->m_other_names, idx);
+
+			ImGui::PopID();
+
+		}
+		ImGui::EndChild();
+
+		ImGui::Spacing();
+	}
+
+	ImGui::SeparatorText("Short Description");
+	ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+	ImGui::InputText("##Short Description", &system->m_shortDesc);
 	if (Draw::UndoHelper("Edit System Short Description", undo))
 		AddUndoSingleValue(undo, &system->m_shortDesc);
 
-	ImGui::InputTextMultiline("Long Description", &system->m_longDesc, ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 5));
+	ImGui::SeparatorText("Long Description");
+	ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+	ImGui::InputTextMultiline("##Long Description", &system->m_longDesc, ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 5.f + ImGui::GetStyle().WindowPadding.y * 2.f));
 	if (Draw::UndoHelper("Edit System Long Description", undo))
 		AddUndoSingleValue(undo, &system->m_longDesc);
+}
 
+void StarSystem::EditorAPI::EditProperties(StarSystem *system, CustomSystemInfo &custom, FactionsDatabase *factions, UndoSystem *undo)
+{
 	ImGui::SeparatorText("Generation Parameters");
 
 	ImGui::InputInt("Seed", reinterpret_cast<int *>(&system->m_seed));
 	if (Draw::UndoHelper("Edit Seed", undo))
 		AddUndoSingleValue(undo, &system->m_seed);
 
-	bool explored = system->m_explored == ExplorationState::eEXPLORED_AT_START;
-	ImGui::Checkbox("Explored", &explored);
-	if (Draw::UndoHelper("Edit System Explored", undo))
-		AddUndoSingleValue(undo, &system->m_explored, explored ? eEXPLORED_AT_START : eUNEXPLORED);
+	bool comboOpen = Draw::ComboUndoHelper("Edit System Exploration State", "Explored State", explored_labels[custom.explored], undo);
+	if (comboOpen) {
+		if (ImGui::IsWindowAppearing()) {
+			AddUndoSingleValue(undo, &custom.explored);
+		}
 
-	ImGui::SeparatorText("Economic Parameters");
+		for (size_t idx = 0; idx < COUNTOF(explored_labels); idx++) {
+			if (ImGui::Selectable(explored_labels[idx], idx == custom.explored))
+				custom.explored = CustomSystemInfo::ExplorationState(idx);
+		}
 
-	// TODO: faction
+		ImGui::EndCombo();
+	}
+
+	if (Draw::LayoutHorizontal("Sector Path", 3, ImGui::GetFontSize())) {
+		ImGui::InputInt("X", &system->m_path.sectorX, 0, 0);
+		ImGui::InputInt("Y", &system->m_path.sectorY, 0, 0);
+		ImGui::InputInt("Z", &system->m_path.sectorZ, 0, 0);
+
+		Draw::EndLayout();
+	}
+
+	if (Draw::UndoHelper("Edit System Sector", undo))
+		AddUndoSingleValue(undo, &system->m_path);
+
+	if (Draw::LayoutHorizontal("Position in Sector", 3, ImGui::GetFontSize())) {
+		ImGui::SliderFloat("X", &system->m_pos.x, 0.f, 8.f, "%.3f ly", ImGuiSliderFlags_AlwaysClamp);
+		ImGui::SliderFloat("Y", &system->m_pos.y, 0.f, 8.f, "%.3f ly", ImGuiSliderFlags_AlwaysClamp);
+		ImGui::SliderFloat("Z", &system->m_pos.z, 0.f, 8.f, "%.3f ly", ImGuiSliderFlags_AlwaysClamp);
+
+		Draw::EndLayout();
+	}
+
+	if (Draw::UndoHelper("Edit System Position", undo))
+		AddUndoSingleValue(undo, &system->m_pos);
+
+	ImGui::SeparatorText("Legal Parameters");
 
 	Draw::EditEnum("Edit System Government", "Government", "PolitGovType",
 		reinterpret_cast<int *>(&system->m_polit.govType), Polit::GovType::GOV_MAX - 1, undo);
 
+	ImGui::Checkbox("Random Faction", &custom.randomFaction);
+	if (Draw::UndoHelper("Edit Faction", undo))
+		AddUndoSingleValue(undo, &custom.randomFaction);
+
+	ImGui::BeginDisabled(custom.randomFaction);
+
+	if (Draw::ComboUndoHelper("Edit Faction", "Faction", custom.faction.c_str(), undo)) {
+		if (ImGui::IsWindowAppearing())
+			AddUndoSingleValue(undo, &custom.faction);
+
+		for (size_t factionIdx = 0; factionIdx < factions->GetNumFactions(); factionIdx++) {
+			const Faction *fac = factions->GetFaction(factionIdx);
+
+			if (ImGui::Selectable(fac->name.c_str(), fac->name == custom.faction))
+				custom.faction = fac->name;
+		}
+
+		ImGui::EndCombo();
+	}
+
+	ImGui::EndDisabled();
+
+	ImGui::Checkbox("Random Lawlessness", &custom.randomLawlessness);
+	if (Draw::UndoHelper("Edit Lawlessness", undo))
+		AddUndoSingleValue(undo, &custom.randomLawlessness);
+
+	ImGui::BeginDisabled(custom.randomLawlessness);
+
 	Draw::InputFixedSlider("Lawlessness", &system->m_polit.lawlessness);
 	if (Draw::UndoHelper("Edit System Lawlessness", undo))
 		AddUndoSingleValue(undo, &system->m_polit.lawlessness);
+
+	ImGui::EndDisabled();
+
+	ImGui::SeparatorText("Author Comments");
+
+	ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+	ImGui::InputTextMultiline("##Comment", &custom.comment, ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 5.f + ImGui::GetStyle().WindowPadding.y * 2.f));
+
+	if (Draw::UndoHelper("Edit Comments", undo))
+		AddUndoSingleValue(undo, &custom.comment);
+
 }
 
 // ─── SystemBody::EditorAPI ───────────────────────────────────────────────────

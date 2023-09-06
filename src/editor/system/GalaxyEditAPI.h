@@ -7,9 +7,25 @@
 #include "galaxy/SystemBody.h"
 
 class LuaNameGen;
+class FactionsDatabase;
 
 namespace Editor {
 	class UndoSystem;
+
+	struct CustomSystemInfo {
+		enum ExplorationState {
+			EXPLORE_Random = 0,
+			EXPLORE_ExploredAtStart,
+			EXPLORE_Unexplored,
+		};
+
+		ExplorationState explored = EXPLORE_Random;
+		bool randomLawlessness = true;
+		bool randomFaction = true;
+
+		std::string faction;
+		std::string comment;
+	};
 }
 
 class StarSystem::EditorAPI {
@@ -29,7 +45,7 @@ public:
 	static void SortBodyHierarchy(StarSystem *system, Editor::UndoSystem *undo);
 
 	static void EditName(StarSystem *system, Random &rng, Editor::UndoSystem *undo);
-	static void EditProperties(StarSystem *system, Editor::UndoSystem *undo);
+	static void EditProperties(StarSystem *system, Editor::CustomSystemInfo &custom, FactionsDatabase *factions, Editor::UndoSystem *undo);
 };
 
 class SystemBody::EditorAPI {

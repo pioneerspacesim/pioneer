@@ -8,6 +8,7 @@
 #include "RefCounted.h"
 #include "core/Application.h"
 #include "galaxy/SystemPath.h"
+#include "GalaxyEditAPI.h"
 
 #include <memory>
 
@@ -101,6 +102,8 @@ private:
 	RefCountedPtr<Galaxy> m_galaxy;
 	RefCountedPtr<StarSystem> m_system;
 	std::unique_ptr<CustomSystemsDatabase> m_systemLoader;
+
+	CustomSystemInfo m_systemInfo;
 
 	std::unique_ptr<SystemEditorViewport> m_viewport;
 
