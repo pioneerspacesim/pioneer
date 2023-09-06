@@ -161,7 +161,7 @@
   },
   "CHARACTER": {
     "description": "",
-    "message": "Character"
+    "message": "Характер"
   },
   "CHARISMA": {
     "description": "Character parameter",
@@ -1937,7 +1937,7 @@
   },
   "SELECT_START_PROFILE": {
     "description": "Combo box for selecting the starting position",
-    "message": "Select start profile:"
+    "message": "Профил:"
   },
   "SELL": {
     "description": "Commodities and equipment prices",
@@ -2029,7 +2029,7 @@
   },
   "SOME_PARAMETERS_ARE_NOT_OK": {
     "description": "Diagnostics at game start",
-    "message": "Some parameters are not OK:"
+    "message": "Някои параметри са неточни:"
   },
   "SOUND": {
     "description": "",
