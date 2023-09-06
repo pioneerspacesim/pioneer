@@ -159,12 +159,15 @@ local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
 
 local mars_starports = {
 	CustomSystemBody:new('Bradbury Landing', 'STARPORT_SURFACE')
+		:seed(201299135)
 		:latitude(math.deg2rad(-4.5895))
 		:longitude(math.deg2rad(-137.4417)),
 	CustomSystemBody:new('Cydonia', 'STARPORT_SURFACE')
+		:seed(2874781459)
 		:latitude(math.deg2rad(-29))
 		:longitude(math.deg2rad(124)),
 	CustomSystemBody:new('Olympus Mons', 'STARPORT_SURFACE')
+		:seed(3046926584)
 		:latitude(math.deg2rad(25.60955))
 		:longitude(math.deg2rad(-41.35269)),
 	CustomSystemBody:new('Mars High', 'STARPORT_ORBITAL')

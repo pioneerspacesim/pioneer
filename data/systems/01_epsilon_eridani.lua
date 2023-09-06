@@ -74,6 +74,7 @@ local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
 
 	local newhope_starports = {
 	CustomSystemBody:new('Itzalean', 'STARPORT_SURFACE')
+		:seed(795500669)
 		:latitude(math.deg2rad(0.0))
 		:longitude(math.deg2rad(45.864)),
 	CustomSystemBody:new('New Hope', 'STARPORT_SURFACE')
