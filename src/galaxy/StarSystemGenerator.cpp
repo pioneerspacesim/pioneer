@@ -499,15 +499,15 @@ bool StarSystemCustomGenerator::ApplyToSystem(Random &rng, RefCountedPtr<StarSys
 	system->SetCustom(true, false);
 	system->SetNumStars(customSys->numStars);
 	system->SetPosition(customSys->pos);
+	system->SetOtherNames(customSys->other_names);
+
 	if (customSys->name.length() > 0) system->SetName(customSys->name);
 	if (customSys->shortDesc.length() > 0) system->SetShortDesc(customSys->shortDesc);
 	if (customSys->longDesc.length() > 0) system->SetLongDesc(customSys->longDesc);
 
 	SysPolit sysPolit;
 	sysPolit.govType = customSys->govType;
-	sysPolit.lawlessness = customSys->want_rand_lawlessness ?
-		Polit::GetBaseLawlessness(sysPolit.govType) * rng.Fixed() :
-		customSys->lawlessness;
+	sysPolit.lawlessness = customSys->lawlessness;
 
 	system->SetSysPolit(sysPolit);
 
@@ -1824,6 +1824,7 @@ void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefC
 	/* from custom system definition */
 	if (customSystem)
 		sysPolit.govType = customSystem->govType;
+
 	if (sysPolit.govType == Polit::GOV_INVALID) {
 		if (path == SystemPath(0, 0, 0, 0)) {
 			sysPolit.govType = Polit::GOV_EARTHDEMOC;
@@ -1840,9 +1841,7 @@ void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefC
 		}
 	}
 
-	if (customSystem && !customSystem->want_rand_lawlessness)
-		sysPolit.lawlessness = customSystem->lawlessness;
-	else
+	if (!customSystem || customSystem->want_rand_lawlessness)
 		sysPolit.lawlessness = Polit::GetBaseLawlessness(sysPolit.govType) * rand.Fixed();
 	system->SetSysPolit(sysPolit);
 }
