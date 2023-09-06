@@ -55,7 +55,6 @@ namespace Graphics {
 
 		Texture *RenderTarget::GetDepthTexture() const
 		{
-			assert(GetDesc().allowDepthTexture);
 			return m_depthTexture.Get();
 		}
 
