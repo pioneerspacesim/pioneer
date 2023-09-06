@@ -81,6 +81,11 @@ namespace Graphics {
 		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 
+		// HACK (sturnclaw): request RGBA backbuffer specifically for the purpose of using
+		// it as an intermediate multisample resolve target with RGBA textures.
+		// See ResolveRenderTarget() for more details
+		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+
 		winFlags |= (vs.hidden ? SDL_WINDOW_HIDDEN : SDL_WINDOW_SHOWN);
 		if (!vs.hidden && vs.fullscreen) // TODO: support for borderless fullscreen and changing window size
 			winFlags |= SDL_WINDOW_FULLSCREEN;
@@ -638,7 +643,21 @@ namespace Graphics {
 	{
 		bool hasDepthTexture = src->GetDepthTexture() && dst->GetDepthTexture();
 
-		m_drawCommandList->AddBlitRenderTargetCmd(src, dst, extents, extents, true, hasDepthTexture);
+		// HACK (sturnclaw): work around NVidia undocumented behavior of using a higher-quality filtering
+		// kernel when resolving to window backbuffer instead of offscreen FBO.
+		// Otherwise there's a distinct visual quality loss when performing MSAA resolve to offscreen FBO.
+		// Ideally this should be replaced by using a custom MSAA resolve shader; however builtin resolve
+		// usually has better performance (ref: https://therealmjp.github.io/posts/msaa-resolve-filters/)
+		// NOTE: this behavior appears to be independent of setting GL_MULTISAMPLE_FILTER_HINT_NV on Linux
+		if (!hasDepthTexture && extents.w <= m_width && extents.h <= m_height) {
+			ViewportExtents tmpExtents = { 0, 0, extents.w, extents.h };
+
+			m_drawCommandList->AddBlitRenderTargetCmd(src, nullptr, extents, tmpExtents, true);
+			m_drawCommandList->AddBlitRenderTargetCmd(nullptr, dst, tmpExtents, extents, true);
+		} else {
+			m_drawCommandList->AddBlitRenderTargetCmd(src, dst, extents, extents, true, hasDepthTexture);
+		}
+
 		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget, m_viewport);
 	}
 

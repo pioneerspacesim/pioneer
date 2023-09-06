@@ -330,7 +330,8 @@ void CommandList::ExecuteBlitRenderTargetCmd(const BlitRenderTargetCmd &cmd)
 	// invalidate cached render target state
 	stateCache->SetRenderTarget(nullptr);
 
-	cmd.srcTarget->Bind(RenderTarget::READ);
+	if (cmd.srcTarget)
+		cmd.srcTarget->Bind(RenderTarget::READ);
 
 	// dstTarget can be null if blitting to the window implicit backbuffer
 	if (cmd.dstTarget)
@@ -343,7 +344,8 @@ void CommandList::ExecuteBlitRenderTargetCmd(const BlitRenderTargetCmd &cmd)
 		cmd.dstExtents.x, cmd.dstExtents.y, cmd.dstExtents.x + cmd.dstExtents.w, cmd.dstExtents.y + cmd.dstExtents.h,
 		mask, cmd.linearFilter ? GL_LINEAR : GL_NEAREST);
 
-	cmd.srcTarget->Unbind(RenderTarget::READ);
+	if (cmd.srcTarget)
+		cmd.srcTarget->Unbind(RenderTarget::READ);
 
 	// dstTarget can be null if blitting to the window implicit backbuffer
 	if (cmd.dstTarget)
