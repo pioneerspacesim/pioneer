@@ -119,7 +119,20 @@ void Draw::ShowUndoDebugWindow(UndoSystem *undo, bool *p_open)
 		return;
 	}
 
+	ImGui::AlignTextToFramePadding();
 	ImGui::Text("Undo Depth: %ld", undo->GetEntryDepth());
+
+	if (ImGui::IsKeyDown(ImGuiKey_LeftAlt) && undo->GetEntryDepth()) {
+		ImGui::SameLine(ImGui::GetContentRegionAvail().x - ImGui::GetStyle().WindowPadding.x * 2.f, 0.f);
+
+		// Get out of jail free card to fix a broken undo state
+		if (ImGui::Button("X")) {
+			undo->ResetEntry();
+			while (undo->GetEntryDepth() > 0)
+				undo->EndEntry();
+		}
+	}
+
 	ImGui::Separator();
 
 	size_t numEntries = undo->GetNumEntries();
