@@ -543,16 +543,22 @@ void SystemBody::EditorAPI::EditEconomicProperties(SystemBody *body, UndoSystem 
 
 void SystemBody::EditorAPI::EditStarportProperties(SystemBody *body, UndoSystem *undo)
 {
+	bool orbitChanged = false;
+
 	if (body->GetType() == TYPE_STARPORT_SURFACE) {
 		ImGui::SeparatorText("Surface Parameters");
 
-		Draw::InputFixedDegrees("Latitude", &body->m_inclination);
+		orbitChanged |= Draw::InputFixedDegrees("Latitude", &body->m_inclination);
 		if (Draw::UndoHelper("Edit Latitude", undo))
-			AddUndoSingleValue(undo, &body->m_inclination);
+			AddUndoSingleValueClosure(undo, &body->m_inclination, [=](){ body->SetOrbitFromParameters(); });
 
-		Draw::InputFixedDegrees("Longitude", &body->m_orbitalOffset);
+		orbitChanged |= Draw::InputFixedDegrees("Longitude", &body->m_orbitalOffset);
 		if (Draw::UndoHelper("Edit Longitude", undo))
-			AddUndoSingleValue(undo, &body->m_orbitalOffset);
+			AddUndoSingleValueClosure(undo, &body->m_orbitalOffset, [=](){ body->SetOrbitFromParameters(); });
+
+		if (orbitChanged)
+			body->SetOrbitFromParameters();
+
 	} else {
 		EditOrbitalParameters(body, undo);
 	}
