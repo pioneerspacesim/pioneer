@@ -15,6 +15,7 @@
 #include "SystemView.h"
 #include "core/StringUtils.h"
 
+#include "editor/ActionBinder.h"
 #include "editor/EditorApp.h"
 #include "editor/EditorDraw.h"
 #include "editor/EditorIcons.h"
@@ -91,7 +92,10 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	m_system(nullptr),
 	m_systemInfo(),
 	m_selectedBody(nullptr),
-	m_pendingOp()
+	m_contextBody(nullptr),
+	m_pendingOp(),
+	m_pendingFileReq(FileRequest_None),
+	m_menuBinder(new ActionBinder())
 {
 	GalacticEconomy::Init();
 
@@ -112,6 +116,8 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	});
 
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+	RegisterMenuActions();
 }
 
 SystemEditor::~SystemEditor()
@@ -286,7 +292,7 @@ void SystemEditor::ClearSystem()
 	m_system.Reset();
 	m_systemInfo = {};
 	m_viewport->SetSystem(m_system);
-	m_selectedBody = nullptr;
+	SetSelectedBody(nullptr);
 	m_pendingOp = {};
 
 	m_filepath.clear();
@@ -301,6 +307,7 @@ void SystemEditor::SetSelectedBody(SystemBody *body)
 {
 	// note: using const_cast here to work with Projectables which store a const pointer
 	m_selectedBody = body;
+	m_contextBody = body;
 }
 
 void SystemEditor::Start()
@@ -309,6 +316,91 @@ void SystemEditor::Start()
 
 void SystemEditor::End()
 {
+}
+
+void SystemEditor::RegisterMenuActions()
+{
+	m_menuBinder->BeginMenu("File");
+
+	m_menuBinder->AddAction("New", {
+		"New File", ImGuiKey_N | ImGuiKey_ModCtrl,
+		sigc::mem_fun(this, &SystemEditor::NewSystem)
+	});
+
+	m_menuBinder->AddAction("Open", {
+		"Open File", ImGuiKey_O | ImGuiKey_ModCtrl,
+		sigc::mem_fun(this, &SystemEditor::ActivateOpenDialog)
+	});
+
+	m_menuBinder->AddAction("Save", {
+		"Save", ImGuiKey_S | ImGuiKey_ModCtrl,
+		[&]() { return m_system.Valid(); },
+		[&]() {
+			// Cannot write back .lua files
+			if (ends_with_ci(m_filepath, ".lua"))
+				ActivateSaveDialog();
+			else
+				WriteSystem(m_filepath);
+		}
+	});
+
+	m_menuBinder->AddAction("SaveAs", {
+		"Save As", ImGuiKey_S | ImGuiKey_ModCtrl | ImGuiKey_ModShift,
+		sigc::mem_fun(this, &SystemEditor::ActivateSaveDialog)
+	});
+
+	m_menuBinder->EndMenu();
+
+	m_menuBinder->BeginMenu("Edit");
+
+	auto hasSelectedBody = [&]() { return m_contextBody != nullptr; };
+	auto hasParentBody = [&]() { return m_contextBody && m_contextBody->GetParent(); };
+
+	m_menuBinder->BeginGroup("Body");
+
+	m_menuBinder->AddAction("Center", {
+		"Center on Body", {}, hasSelectedBody,
+		[&]() {
+			Projectable p = { Projectable::OBJECT, Projectable::SYSTEMBODY, m_contextBody };
+			m_viewport->GetMap()->SetViewedObject(p);
+		}
+	});
+
+	m_menuBinder->AddAction("AddChild", {
+		"Add Child", ImGuiKey_A | ImGuiKey_ModCtrl, hasSelectedBody,
+		[&]() {
+			m_pendingOp.type = BodyRequest::TYPE_Add;
+			m_pendingOp.parent = m_contextBody ? m_contextBody : m_system->GetRootBody().Get();
+			m_pendingOp.newBodyType = SystemBody::BodyType::TYPE_GRAVPOINT;
+		}
+	});
+
+	m_menuBinder->AddAction("AddSibling", {
+		"Add Sibling", ImGuiKey_A | ImGuiKey_ModCtrl | ImGuiKey_ModShift, hasParentBody,
+		[&]() {
+			m_pendingOp.type = BodyRequest::TYPE_Add;
+			m_pendingOp.parent = m_contextBody->GetParent();
+			m_pendingOp.idx = SystemBody::EditorAPI::GetIndexInParent(m_contextBody) + 1;
+			m_pendingOp.newBodyType = SystemBody::BodyType::TYPE_GRAVPOINT;
+		}
+	});
+
+	m_menuBinder->AddAction("Delete", {
+		"Delete Body", ImGuiKey_W | ImGuiKey_ModCtrl, hasParentBody,
+		[&]() {
+			m_pendingOp.type = BodyRequest::TYPE_Delete;
+			m_pendingOp.body = m_contextBody;
+		}
+	});
+
+	m_menuBinder->EndGroup();
+
+	m_menuBinder->AddAction("Sort", {
+		"Sort Bodies", {},
+		[&]() { m_pendingOp.type = BodyRequest::TYPE_Resort; }
+	});
+
+	m_menuBinder->EndGroup();
 }
 
 void SystemEditor::ActivateOpenDialog()
@@ -363,6 +455,8 @@ void SystemEditor::Update(float deltaTime)
 
 	HandleBodyOperations();
 
+	m_menuBinder->Update();
+
 	if (m_openFile && m_openFile->ready(0)) {
 		std::vector<std::string> resultFiles = m_openFile->result();
 		m_openFile.reset();
@@ -381,8 +475,12 @@ void SystemEditor::Update(float deltaTime)
 			Log::Info("SaveFile: {}", filePath);
 			bool success = WriteSystem(filePath);
 
-			if (success)
+			if (success) {
 				m_lastSavedUndoStack = m_undo->GetCurrentEntry();
+
+				m_filepath = filePath;
+				m_filedir = filePath.substr(0, filePath.find_last_of("/\\"));
+			}
 		}
 	}
 
@@ -391,11 +489,23 @@ void SystemEditor::Update(float deltaTime)
 	// Finished all pending file operations
 	if (fileModalOpen && !m_openFile && !m_saveFile) {
 		auto &popupStack = ImGui::GetCurrentContext()->OpenPopupStack;
+
 		for (size_t idx = 0; idx < popupStack.size(); ++idx) {
 			if (popupStack[idx].PopupId == m_fileActionActiveModal) {
 				ImGui::ClosePopupToLevel(idx, true);
 				break;
 			}
+		}
+
+		// Were there any pending operations waiting on a save dialog to close?
+		if (m_pendingFileReq == FileRequest_New) {
+			m_pendingFileReq = FileRequest_None;
+			NewSystem();
+		}
+
+		if (m_pendingFileReq == FileRequest_Open) {
+			m_pendingFileReq = FileRequest_None;
+			ActivateOpenDialog();
 		}
 	}
 }
@@ -518,87 +628,26 @@ void SystemEditor::SetupLayout(ImGuiID dockspaceID)
 	ImGui::DockBuilderDockWindow(VIEWPORT_WND_ID, nodeID);
 
 	ImGui::DockBuilderFinish(dockspaceID);
+
+	m_binderWindowOpen = false;
+	m_debugWindowOpen = false;
+	m_metricsWindowOpen = false;
+	m_undoStackWindowOpen = false;
+	m_resetDockingLayout = false;
 }
 
 void SystemEditor::DrawInterface()
 {
-	Draw::ShowUndoDebugWindow(GetUndo());
-	// ImGui::ShowDemoWindow();
-	ImGui::ShowMetricsWindow();
-
 	static bool isFirstRun = true;
 
 	Draw::BeginHostWindow("HostWindow", nullptr, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_MenuBar);
 
-	if (ImGui::BeginMenuBar()) {
-
-		if (ImGui::BeginMenu("File")) {
-
-			if (ImGui::MenuItem("New File", "Ctrl+N")) {
-				// TODO: show nag dialog if attempting open with unsaved changes
-
-				NewSystem();
-			}
-
-			if (ImGui::MenuItem("Open File", "Ctrl+O")) {
-				// TODO: show nag dialog if attempting open with unsaved changes
-
-				ActivateOpenDialog();
-			}
-
-			if (ImGui::MenuItem("Save", "Ctrl+S")) {
-				// Cannot write back .lua files
-				if (ends_with_ci(m_filepath, ".lua"))
-					ActivateSaveDialog();
-				else
-					WriteSystem(m_filepath);
-			}
-
-			if (ImGui::MenuItem("Save As", "Ctrl+Shift+S"))
-				ActivateSaveDialog();
-
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::BeginMenu("Edit")) {
-
-			if (m_selectedBody) {
-				if (ImGui::MenuItem("Add Child", "Ctrl+A")) {
-					m_pendingOp.type = BodyRequest::TYPE_Add;
-					m_pendingOp.parent = m_selectedBody ? m_selectedBody : m_system->GetRootBody().Get();
-					m_pendingOp.newBodyType = SystemBody::BodyType::TYPE_GRAVPOINT;
-				}
-
-				if (ImGui::MenuItem("Add Sibling", "Ctrl+Shift+A")) {
-					if (!m_selectedBody || !m_selectedBody->GetParent()) {
-						return;
-					}
-
-					m_pendingOp.type = BodyRequest::TYPE_Add;
-					m_pendingOp.parent = m_selectedBody->GetParent();
-					m_pendingOp.idx = SystemBody::EditorAPI::GetIndexInParent(m_selectedBody) + 1;
-					m_pendingOp.newBodyType = SystemBody::BodyType::TYPE_GRAVPOINT;
-				}
-
-				if (m_selectedBody != m_system->GetRootBody() && ImGui::MenuItem("Delete", "Ctrl+W")) {
-					m_pendingOp.type = BodyRequest::TYPE_Delete;
-					m_pendingOp.body = m_selectedBody;
-				}
-			}
-
-			if (ImGui::MenuItem("Sort Bodies")) {
-				m_pendingOp.type = BodyRequest::TYPE_Resort;
-			}
-
-			ImGui::EndMenu();
-		}
-
-		ImGui::EndMenuBar();
-	}
+	if (ImGui::BeginMenuBar())
+		DrawMenuBar();
 
 	ImGuiID dockspaceID = ImGui::GetID("DockSpace");
 
-	if (isFirstRun)
+	if (!ImGui::DockBuilderGetNode(dockspaceID) || m_resetDockingLayout)
 		SetupLayout(dockspaceID);
 
 	ImGui::DockSpace(dockspaceID);
@@ -609,13 +658,15 @@ void SystemEditor::DrawInterface()
 
 	if (ImGui::Begin(OUTLINE_WND_ID)) {
 		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 14));
+
 		DrawOutliner();
+
 		ImGui::PopFont();
 	}
 	ImGui::End();
 
 	if (ImGui::Begin(PROPERTIES_WND_ID)) {
-		// Adjust default window label position
+		// Adjust default item label position
 		ImGui::PushItemWidth(ImFloor(ImGui::GetWindowSize().x * 0.6f));
 		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 13));
 
@@ -652,6 +703,18 @@ void SystemEditor::DrawInterface()
 	ImGui::End();
 #endif
 
+	if (m_binderWindowOpen)
+		m_menuBinder->DrawOverview("Shortcut List", &m_binderWindowOpen);
+
+	if (m_undoStackWindowOpen)
+		Draw::ShowUndoDebugWindow(GetUndo(), &m_undoStackWindowOpen);
+
+	if (m_metricsWindowOpen)
+		ImGui::ShowMetricsWindow(&m_metricsWindowOpen);
+
+	if (m_debugWindowOpen)
+		ImGui::ShowDebugLogWindow(&m_debugWindowOpen);
+
 	ImGui::End();
 
 	DrawFileActionModal();
@@ -660,6 +723,32 @@ void SystemEditor::DrawInterface()
 
 	if (isFirstRun)
 		isFirstRun = false;
+}
+
+void SystemEditor::DrawMenuBar()
+{
+	m_menuBinder->DrawMenuBar();
+
+	if (ImGui::BeginMenu("Windows")) {
+		if (ImGui::MenuItem("Metrics Window", nullptr, m_metricsWindowOpen))
+			m_metricsWindowOpen = !m_metricsWindowOpen;
+
+		if (ImGui::MenuItem("Undo Stack", nullptr, m_undoStackWindowOpen))
+			m_undoStackWindowOpen = !m_undoStackWindowOpen;
+
+		if (ImGui::MenuItem("Shortcut List", nullptr, m_binderWindowOpen))
+			m_binderWindowOpen = !m_binderWindowOpen;
+
+		if (ImGui::MenuItem("ImGui Debug Log", nullptr, m_debugWindowOpen))
+			m_debugWindowOpen = !m_debugWindowOpen;
+
+		if (ImGui::MenuItem("Reset Layout"))
+			m_resetDockingLayout = true;
+
+		ImGui::EndMenu();
+	}
+
+	ImGui::EndMenuBar();
 }
 
 void SystemEditor::DrawOutliner()
@@ -734,7 +823,6 @@ bool SystemEditor::DrawBodyNode(SystemBody *body, bool isRoot)
 {
 	ImGuiTreeNodeFlags flags =
 		ImGuiTreeNodeFlags_DefaultOpen |
-		ImGuiTreeNodeFlags_OpenOnDoubleClick |
 		ImGuiTreeNodeFlags_OpenOnArrow |
 		ImGuiTreeNodeFlags_SpanFullWidth |
 		ImGuiTreeNodeFlags_FramePadding;
@@ -758,36 +846,16 @@ bool SystemEditor::DrawBodyNode(SystemBody *body, bool isRoot)
 
 	if (ImGui::IsItemActivated()) {
 		m_viewport->GetMap()->SetSelectedObject({ Projectable::OBJECT, Projectable::SYSTEMBODY, body });
-		m_selectedBody = body;
+		SetSelectedBody(body);
 	}
 
-	if (ImGui::BeginPopupContextItem()) {
-		if (ImGui::MenuItem("Center")) {
-			m_viewport->GetMap()->SetViewedObject({ Projectable::OBJECT, Projectable::SYSTEMBODY, body });
-		}
-
-		if (ImGui::MenuItem("Add Child")) {
-			m_pendingOp.type = BodyRequest::TYPE_Add;
-			m_pendingOp.parent = body;
-			m_pendingOp.idx = body->GetNumChildren();
-		}
-
-		if (body->GetParent() && ImGui::MenuItem("Add Sibling")) {
-			m_pendingOp.type = BodyRequest::TYPE_Add;
-			m_pendingOp.parent = body->GetParent();
-			m_pendingOp.idx = SystemBody::EditorAPI::GetIndexInParent(body) + 1;
-		}
-
-		// TODO: "add body" context menu
-		if (body->GetParent() && ImGui::MenuItem("Delete")) {
-			m_pendingOp.type = BodyRequest::TYPE_Delete;
-			m_pendingOp.body = body;
-		}
-
-		ImGui::EndPopup();
+	if (ImGui::IsItemClicked(0) && ImGui::IsMouseDoubleClicked(0)) {
+		m_viewport->GetMap()->SetViewedObject({ Projectable::OBJECT, Projectable::SYSTEMBODY, body });
 	}
 
 	// TODO: custom rendering on body entry, e.g. icon / contents etc.
+
+	DrawBodyContextMenu(body);
 
 	return open && body->GetNumChildren();
 }
@@ -830,6 +898,20 @@ void SystemEditor::DrawSystemProperties()
 
 	StarSystem::EditorAPI::EditProperties(m_system.Get(), m_systemInfo, m_galaxy->GetFactions(), GetUndo());
 
+}
+
+void SystemEditor::DrawBodyContextMenu(SystemBody *body)
+{
+	if (ImGui::BeginPopupContextItem()) {
+		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
+
+		m_contextBody = body;
+		m_menuBinder->DrawGroup("Edit.Body");
+		m_contextBody = m_selectedBody;
+
+		ImGui::PopFont();
+		ImGui::EndPopup();
+	}
 }
 
 void SystemEditor::DrawPickSystemModal()

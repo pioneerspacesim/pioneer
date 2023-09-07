@@ -37,6 +37,7 @@ namespace Editor {
 class EditorApp;
 class UndoSystem;
 class SystemEditorViewport;
+class ActionBinder;
 
 const char *GetBodyIcon(const SystemBody *body);
 
@@ -57,6 +58,8 @@ public:
 	void SetSelectedBody(SystemBody *body);
 	SystemBody *GetSelectedBody() { return m_selectedBody; }
 
+	void DrawBodyContextMenu(SystemBody *body);
+
 protected:
 	void Start() override;
 	void Update(float deltaTime) override;
@@ -65,6 +68,8 @@ protected:
 	void HandleInput();
 
 private:
+	void RegisterMenuActions();
+
 	void ClearSystem();
 	bool LoadSystem(const FileSystem::FileInfo &file);
 	bool LoadCustomSystem(const CustomSystem *system);
@@ -72,6 +77,8 @@ private:
 
 	void SetupLayout(ImGuiID dockspaceID);
 	void DrawInterface();
+
+	void DrawMenuBar();
 
 	bool DrawBodyNode(SystemBody *body, bool isRoot);
 	void HandleOutlinerDragDrop(SystemBody *refBody);
@@ -97,6 +104,31 @@ private:
 private:
 	class UndoSetSelection;
 
+	// Pending actions which require a "save/as" interrupt
+	enum FileRequestType {
+		FileRequest_None,
+		FileRequest_Open,
+		FileRequest_New
+	};
+
+	// Pending actions to the body tree hierarchy that should
+	// be handled at the end of the frame
+	struct BodyRequest {
+		enum Type {
+			TYPE_None,
+			TYPE_Add,
+			TYPE_Delete,
+			TYPE_Reparent,
+			TYPE_Resort
+		};
+
+		Type type = TYPE_None;
+		uint32_t newBodyType = 0; // SystemBody::BodyType
+		SystemBody *parent = nullptr;
+		SystemBody *body = nullptr;
+		size_t idx = 0;
+	};
+
 	EditorApp *m_app;
 
 	RefCountedPtr<Galaxy> m_galaxy;
@@ -117,24 +149,11 @@ private:
 	std::string m_filedir;
 
 	SystemBody *m_selectedBody;
-
-	struct BodyRequest {
-		enum Type {
-			TYPE_None,
-			TYPE_Add,
-			TYPE_Delete,
-			TYPE_Reparent,
-			TYPE_Resort
-		};
-
-		Type type = TYPE_None;
-		uint32_t newBodyType = 0; // SystemBody::BodyType
-		SystemBody *parent = nullptr;
-		SystemBody *body = nullptr;
-		size_t idx = 0;
-	};
+	SystemBody *m_contextBody;
 
 	BodyRequest m_pendingOp;
+
+	FileRequestType m_pendingFileReq;
 
 	std::unique_ptr<pfd::open_file> m_openFile;
 	std::unique_ptr<pfd::save_file> m_saveFile;
@@ -142,6 +161,15 @@ private:
 	SystemPath m_openSystemPath;
 
 	ImGuiID m_fileActionActiveModal;
+
+	std::unique_ptr<ActionBinder> m_menuBinder;
+
+	bool m_metricsWindowOpen = false;
+	bool m_undoStackWindowOpen = false;
+	bool m_binderWindowOpen = false;
+	bool m_debugWindowOpen = false;
+
+	bool m_resetDockingLayout = false;
 };
 
 } // namespace Editor
