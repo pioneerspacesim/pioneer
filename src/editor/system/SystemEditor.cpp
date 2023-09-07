@@ -46,6 +46,7 @@ namespace {
 	static constexpr const char *PROPERTIES_WND_ID = "Properties";
 	static constexpr const char *VIEWPORT_WND_ID = "Viewport";
 	static constexpr const char *FILE_MODAL_ID = "File Window Open";
+	static constexpr const char *PICK_SYSTEM_MODAL_ID = "Load System from Galaxy";
 }
 
 const char *Editor::GetBodyIcon(const SystemBody *body) {
@@ -95,6 +96,7 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	m_contextBody(nullptr),
 	m_pendingOp(),
 	m_pendingFileReq(FileRequest_None),
+	m_pickSystemPath(),
 	m_menuBinder(new ActionBinder())
 {
 	GalacticEconomy::Init();
@@ -124,11 +126,9 @@ SystemEditor::~SystemEditor()
 {
 }
 
-void SystemEditor::NewSystem()
+void SystemEditor::NewSystem(SystemPath path)
 {
 	ClearSystem();
-
-	SystemPath path(0, 0, 0, 0);
 
 	auto *newSystem = new StarSystem::GeneratorAPI(path, m_galaxy, nullptr, GetRng());
 	m_system.Reset(newSystem);
@@ -285,6 +285,28 @@ bool SystemEditor::LoadCustomSystem(const CustomSystem *csys)
 	return true;
 }
 
+void SystemEditor::LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system)
+{
+	if (!system->GetRootBody()) {
+		Log::Error("Randomly-generated system doesn't have a root body");
+		return;
+	}
+
+	ClearSystem();
+
+	StarSystem::EditorAPI::RemoveFromCache(system.Get());
+
+	m_system = system;
+	m_viewport->SetSystem(system);
+
+	bool explored = system->GetExplored() == StarSystem::eEXPLORED_AT_START;
+
+	m_systemInfo.explored = explored ? CustomSystemInfo::EXPLORE_ExploredAtStart : CustomSystemInfo::EXPLORE_Unexplored;
+	m_systemInfo.randomLawlessness = false;
+	m_systemInfo.randomFaction = system->GetFaction();
+	m_systemInfo.faction = system->GetFaction() ? system->GetFaction()->name : "";
+}
+
 void SystemEditor::ClearSystem()
 {
 	m_undo->Clear();
@@ -296,6 +318,7 @@ void SystemEditor::ClearSystem()
 	m_pendingOp = {};
 
 	m_filepath.clear();
+	m_pickSystemPath.systemIndex = 0;
 
 	SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), "System Editor");
 }
@@ -323,8 +346,8 @@ void SystemEditor::RegisterMenuActions()
 	m_menuBinder->BeginMenu("File");
 
 	m_menuBinder->AddAction("New", {
-		"New File", ImGuiKey_N | ImGuiKey_ModCtrl,
-		sigc::mem_fun(this, &SystemEditor::NewSystem)
+		"New System", ImGuiKey_N | ImGuiKey_ModCtrl,
+		sigc::mem_fun(this, &SystemEditor::ActivatePickSystemDialog)
 	});
 
 	m_menuBinder->AddAction("Open", {
@@ -337,7 +360,7 @@ void SystemEditor::RegisterMenuActions()
 		[&]() { return m_system.Valid(); },
 		[&]() {
 			// Cannot write back .lua files
-			if (ends_with_ci(m_filepath, ".lua"))
+			if (m_filepath.empty() || ends_with_ci(m_filepath, ".lua"))
 				ActivateSaveDialog();
 			else
 				WriteSystem(m_filepath);
@@ -433,6 +456,11 @@ void SystemEditor::ActivateSaveDialog()
 	ImGui::OpenPopup(m_fileActionActiveModal);
 }
 
+void SystemEditor::ActivatePickSystemDialog()
+{
+	ImGui::OpenPopup(m_pickSystemModal);
+}
+
 // ─── Update Loop ─────────────────────────────────────────────────────────────
 
 void SystemEditor::HandleInput()
@@ -450,6 +478,7 @@ void SystemEditor::Update(float deltaTime)
 	}
 
 	m_fileActionActiveModal = ImGui::GetID(FILE_MODAL_ID);
+	m_pickSystemModal = ImGui::GetID(PICK_SYSTEM_MODAL_ID);
 
 	DrawInterface();
 
@@ -500,7 +529,7 @@ void SystemEditor::Update(float deltaTime)
 		// Were there any pending operations waiting on a save dialog to close?
 		if (m_pendingFileReq == FileRequest_New) {
 			m_pendingFileReq = FileRequest_None;
-			NewSystem();
+			ActivatePickSystemDialog();
 		}
 
 		if (m_pendingFileReq == FileRequest_Open) {
@@ -916,7 +945,107 @@ void SystemEditor::DrawBodyContextMenu(SystemBody *body)
 
 void SystemEditor::DrawPickSystemModal()
 {
+	ImVec2 windSize = ImVec2(ImGui::GetMainViewport()->Size.x * 0.5, -1);
+	ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5, ImGuiCond_Always, ImVec2(0.5, 0.5));
+	ImGui::SetNextWindowSizeConstraints(windSize, windSize);
 
+	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
+	bool open = true;
+	if (ImGui::BeginPopupModal(PICK_SYSTEM_MODAL_ID, &open, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize)) {
+		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 14));
+
+		if (Draw::LayoutHorizontal("Sector", 3, ImGui::GetFontSize())) {
+			bool changed = false;
+			changed |= ImGui::InputInt("X", &m_pickSystemPath.sectorX, 0, 0);
+			changed |= ImGui::InputInt("Y", &m_pickSystemPath.sectorY, 0, 0);
+			changed |= ImGui::InputInt("Z", &m_pickSystemPath.sectorZ, 0, 0);
+
+			if (changed)
+				m_pickSystemPath.systemIndex = 0;
+
+			Draw::EndLayout();
+		}
+
+		ImGui::Separator();
+
+		RefCountedPtr<const Sector> sec = m_galaxy->GetSector(m_pickSystemPath.SectorOnly());
+
+		ImGui::BeginGroup();
+		if (ImGui::BeginChild("Systems", ImVec2(ImGui::GetContentRegionAvail().x * 0.33, -ImGui::GetFrameHeightWithSpacing()))) {
+
+			for (const Sector::System &system : sec->m_systems) {
+				std::string label = fmt::format("{} ({}x{})", system.GetName(), EICON_SUN, system.GetNumStars());
+
+				if (ImGui::Selectable(label.c_str(), system.idx == m_pickSystemPath.systemIndex))
+					m_pickSystemPath.systemIndex = system.idx;
+			}
+
+		}
+		ImGui::EndChild();
+
+		if (ImGui::Button("New System")) {
+			NewSystem(m_pickSystemPath.SectorOnly());
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndGroup();
+
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		if (m_pickSystemPath.systemIndex < sec->m_systems.size()) {
+			const Sector::System &system = sec->m_systems[m_pickSystemPath.systemIndex];
+
+			ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
+
+			ImGui::AlignTextToFramePadding();
+			ImGui::TextUnformatted(system.GetName().c_str());
+
+			ImGui::SameLine();
+			ImGui::SameLine(0.f, ImGui::GetContentRegionAvail().x - ImGui::GetFrameHeight());
+			if (ImGui::Button(EICON_FORWARD1)) {
+
+				// Load a fully-defined custom system from the custom system def
+				// NOTE: we cannot (currently) determine which file this custom system originated from
+				if (system.GetCustomSystem() && !system.GetCustomSystem()->IsRandom())
+					LoadCustomSystem(system.GetCustomSystem());
+				else
+					LoadSystemFromGalaxy(m_galaxy->GetStarSystem(m_pickSystemPath));
+
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::PopFont();
+
+			ImGui::Spacing();
+
+			ImGui::TextUnformatted("Is Custom:");
+			ImGui::SameLine(ImGui::CalcItemWidth());
+			ImGui::TextUnformatted(system.GetCustomSystem() ? "yes" : "no");
+
+			ImGui::TextUnformatted("Is Explored:");
+			ImGui::SameLine(ImGui::CalcItemWidth());
+			ImGui::TextUnformatted(system.GetExplored() == StarSystem::eEXPLORED_AT_START ? "yes" : "no");
+
+			ImGui::TextUnformatted("Faction:");
+			ImGui::SameLine(ImGui::CalcItemWidth());
+			ImGui::TextUnformatted(system.GetFaction() ? system.GetFaction()->name.c_str() : "<none>");
+
+			ImGui::TextUnformatted("Other Names:");
+			ImGui::SameLine(ImGui::CalcItemWidth());
+
+			ImGui::BeginGroup();
+			for (auto &name : system.GetOtherNames())
+				ImGui::TextUnformatted(name.c_str());
+			ImGui::EndGroup();
+		}
+		ImGui::EndGroup();
+
+		ImGui::PopFont();
+		ImGui::EndPopup();
+	}
+
+	ImGui::PopFont();
 }
 
 void SystemEditor::DrawFileActionModal()

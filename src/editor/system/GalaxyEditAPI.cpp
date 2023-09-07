@@ -1,7 +1,7 @@
 // Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
-
 #include "GalaxyEditAPI.h"
+
 
 #include "EditorIcons.h"
 #include "SystemEditorHelpers.h"
@@ -56,6 +56,14 @@ namespace Editor::Draw {
 	}
 
 } // namespace Editor::Draw
+
+void StarSystem::EditorAPI::RemoveFromCache(StarSystem *system)
+{
+	if (system->m_cache) {
+		system->m_cache->RemoveFromAttic(system->GetPath());
+		system->m_cache = nullptr;
+	}
+}
 
 SystemBody *StarSystem::EditorAPI::NewBody(StarSystem *system)
 {

@@ -30,6 +30,8 @@ namespace Editor {
 
 class StarSystem::EditorAPI {
 public:
+	static void RemoveFromCache(StarSystem *system);
+
 	static SystemBody *NewBody(StarSystem *system);
 	static SystemBody *NewBodyAround(StarSystem *system, Random &rng, SystemBody *primary, size_t idx);
 

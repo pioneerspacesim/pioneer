@@ -46,7 +46,7 @@ public:
 	SystemEditor(EditorApp *app);
 	~SystemEditor();
 
-	void NewSystem();
+	void NewSystem(SystemPath path);
 	bool LoadSystemFromDisk(const std::string &absolutePath);
 
 	// Write the currently edited system out to disk as a JSON file
@@ -93,6 +93,7 @@ private:
 
 	void ActivateOpenDialog();
 	void ActivateSaveDialog();
+	void ActivatePickSystemDialog();
 
 	void DrawFileActionModal();
 	void DrawPickSystemModal();
@@ -161,6 +162,9 @@ private:
 	SystemPath m_openSystemPath;
 
 	ImGuiID m_fileActionActiveModal;
+	ImGuiID m_pickSystemModal;
+
+	SystemPath m_pickSystemPath;
 
 	std::unique_ptr<ActionBinder> m_menuBinder;
 
