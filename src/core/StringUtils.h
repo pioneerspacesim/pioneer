@@ -7,6 +7,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <iterator>
 #include <cstdint>
 
 #ifdef _MSC_VER
@@ -119,53 +120,92 @@ inline std::string_view strip_spaces(std::string_view &s)
 	return s.substr(start, end);
 }
 
-static inline size_t SplitSpec(const std::string &spec, std::vector<int> &output)
-{
-	static const std::string delim(",");
+// Utility class to split a string based on a provided set of delimiters
+// Makes find_first_of / find_last_of more ergonomic to use
+struct SplitString {
+	struct iter {
+		using value_type = std::string_view;
+		using reference = std::string_view;
 
-	size_t i = 0, start = 0, end = 0;
-	while (end != std::string::npos) {
-		// get to the first non-delim char
-		start = spec.find_first_not_of(delim, end);
+		// "end" iterator
+		iter() : m_str(), m_parent(nullptr) {};
+		// "live" iterator
+		iter(SplitString *parent) :
+			m_parent(parent),
+			m_str(parent->m_orig),
+			m_next(parent->step(m_str))
+		{
+		}
 
-		// read the end, no more to do
-		if (start == std::string::npos)
-			break;
+		value_type operator*()
+		{
+			if (m_next != std::string_view::npos)
+				return m_parent->m_reverse ? m_str.substr(m_next + 1) : m_str.substr(0, m_next);
+			else
+				return m_str;
+		}
 
-		// find the end - next delim or end of string
-		end = spec.find_first_of(delim, start);
+		iter &operator++()
+		{
+			m_parent->trim(m_str, m_next);
+			m_next = m_parent->step(m_str);
+			return *this;
+		}
 
-		// extract the fragment and remember it
-		output[i++] = atoi(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str());
+		bool operator!=(const iter &rhs) { return !(*this == rhs); }
+		bool operator==(const iter &rhs) {
+			return (m_str.empty() && rhs.m_str.empty()) ||
+				(m_parent == rhs.m_parent && m_str.size() == rhs.m_str.size());
+		}
+
+	private:
+		SplitString *m_parent;
+		std::string_view m_str;
+		size_t m_next = std::string_view::npos;
+	};
+
+	SplitString(std::string_view source, std::string_view delim) :
+		m_orig(source), m_delim(delim)
+	{}
+
+	SplitString(std::string_view source, std::string_view delim, bool reverse) :
+		m_orig(source), m_delim(delim), m_reverse(reverse)
+	{}
+
+	iter begin() { return iter(this); }
+	iter end() { return iter(); }
+
+	// Split the input string to a vector of fragments using the specified type
+	template<typename T = std::string_view>
+	std::vector<T> to_vector() {
+		std::vector<T> out;
+		for (auto str : *this) {
+			out.push_back(T(str));
+		}
+
+		return out;
 	}
 
-	return i;
-}
-
-static inline size_t SplitSpec(const std::string &spec, std::vector<float> &output)
-{
-	static const std::string delim(",");
-
-	size_t i = 0, start = 0, end = 0;
-	while (end != std::string::npos) {
-		// get to the first non-delim char
-		start = spec.find_first_not_of(delim, end);
-
-		// read the end, no more to do
-		if (start == std::string::npos)
-			break;
-
-		// find the end - next delim or end of string
-		end = spec.find_first_of(delim, start);
-
-		// extract the fragment and remember it
-		output[i++] = atof(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str());
+	// Apply the given predicate to each fragment of the string and push the result into the given container
+	template<typename Container, typename Predicate>
+	void to_vector(Container &c, Predicate p) {
+		for (auto str : *this) {
+			c.push_back(p(str));
+		}
 	}
 
-	return i;
-}
+private:
+	friend struct iter;
 
-std::vector<std::string> SplitString(const std::string &source, const std::string &delim);
+	// find the boundary for the next token
+	size_t step(std::string_view str);
+	// remove previous substring if present
+	void trim(std::string_view &str, size_t next);
+
+	std::string_view m_orig;
+	std::string_view m_delim;
+	bool m_reverse = false;
+};
 
 // 'Numeric type' to string conversions.
 std::string FloatToStr(float val);

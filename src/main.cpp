@@ -122,7 +122,7 @@ start:
 		// fallthrough protect
 		if (mode == MODE_START_AT) {
 			// try to get start planet number
-			std::vector<std::string> keyValue = SplitString(modeopt, "=");
+			std::vector<std::string> keyValue = SplitString(modeopt, "=").to_vector<std::string>();
 
 			// if found value
 			if (keyValue.size() == 2) {
@@ -158,7 +158,7 @@ start:
 			// for each argument
 			for (; pos < argc; pos++) {
 				const std::string arg(argv[pos]);
-				std::vector<std::string> keyValue = SplitString(arg, "=");
+				std::vector<std::string> keyValue = SplitString(arg, "=").to_vector<std::string>();
 
 				// if there no key and value || key is empty || value is empty
 				if (keyValue.size() != 2 || keyValue[0].empty() || keyValue[1].empty()) {
