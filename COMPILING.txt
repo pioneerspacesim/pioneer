@@ -2,6 +2,7 @@ Table of Contents
 =================
 1 How to compile Pioneer
   1.1 Linux - CMake
+  1.1a Linux - VSCode + CMake
   1.2 Windows - MSVC
   1.3 Windows - CMake and MSYS2 (and MinGW-w64)
   1.4 Windows - CMake and MSVC
@@ -72,6 +73,40 @@ questions are welcome anytime.
    doubt, 4 is a good default. This will compile the pioneer executable.
 
 4. Run `./pioneer` to start the game!
+
+1.1a Linux - VSCode + CMake
+---------
+
+1. Install the required libraries as for '1.1 Linux - CMake'.
+
+   You'll want to install several VSCode extensions for best results:
+
+    CMake Tools  (ms-vscode.cmake-tools)
+    C/C++        (ms-vscode.cpptools)
+    clangd       (llvm-vs-code-extensions.vscode-clangd)
+    Code LLDB    (vadimcn.vscode-lldb)
+    Lua          (sumneko.lua)
+    Git Graph    (mhutchie.git-graph)
+
+   Of these extensions, only CMake Tools is required to compile the game from
+   within VSCode. All other extensions help to improve the development process
+   if you intend on making changes to the game's files.
+
+2. Copy ./pioneer-default.code-workspace to ./pioneer.code-workspace and
+   open it. This provides a quick-start workspace setup with useful workflow
+   defaults pre-configured. This file is ignored by Git and you can configure
+   the workspace to your liking from there.
+
+3. From the bottom bar, select a configure preset for your platform. 'Release'
+   is recommended unless you're in the process of debugging a specific issue.
+   This will generate CMake files in the 'build/' folder.
+
+4. Click the build button on the bottom toolbar, or execute the Run Build Task
+   command from the command pallette (Ctrl+Shift+P), selecting 'Build Pioneer'.
+   If all goes well, Pioneer should successfully compile.
+
+5. Click the triangle ("launch") button in the bottom toolbar and select
+   'pioneer' as the active launch target.
 
 
 1.2 Windows - MSVC

@@ -1,54 +1,190 @@
 {
-  "version": 2,
-  "configurePresets": [
-    {
-        "name": "x64-Debug",
-        "displayName": "Windows x64 Debug",
-        "description": "Target Windows with the Visual Studio development environment.",
-        "generator": "Ninja",
-        "binaryDir": "${sourceDir}/out/build/${presetName}",
-        "architecture": {
-            "value": "x64",
-            "strategy": "external"
-        },
-        "cacheVariables": {
-            "CMAKE_BUILD_TYPE": "Debug",
-            "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
-        },
-        "vendor": { "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "Windows" ] } }
-    },
-    {
-        "name": "x64-Release",
-        "displayName": "Windows x64 Release",
-        "description": "Target Windows with the Visual Studio development environment.",
-        "generator": "Ninja",
-        "binaryDir": "${sourceDir}/out/build/${presetName}",
-        "architecture": {
-            "value": "x64",
-            "strategy": "external"
-        },
-        "cacheVariables": {
-            "CMAKE_BUILD_TYPE": "Release",
-            "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
-        },
-        "vendor": { "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "Windows" ] } }
-    },
-    {
-        "name": "x64-Profiling",
-        "displayName": "Windows x64 Profiling",
-        "description": "Target Windows with the Visual Studio development environment.",
-        "generator": "Ninja",
-        "binaryDir": "${sourceDir}/out/build/${presetName}",
-        "architecture": {
-            "value": "x64",
-            "strategy": "external"
-        },
-        "cacheVariables": {
-            "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-            "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
-            "PROFILER_ENABLED": "1"
-        },
-        "vendor": { "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "Windows" ] } }
-    }
-  ]
+	"version": 2,
+	"configurePresets": [
+		{
+			"name": "x64-Debug",
+			"displayName": "Windows x64 Debug",
+			"description": "Target Windows with the Visual Studio development environment.",
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/out/build/${presetName}",
+			"architecture": {
+				"value": "x64",
+				"strategy": "external"
+			},
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Windows"
+					]
+				}
+			}
+		},
+		{
+			"name": "x64-Release",
+			"displayName": "Windows x64 Release",
+			"description": "Target Windows with the Visual Studio development environment.",
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/out/build/${presetName}",
+			"architecture": {
+				"value": "x64",
+				"strategy": "external"
+			},
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Windows"
+					]
+				}
+			}
+		},
+		{
+			"name": "x64-Profiling",
+			"displayName": "Windows x64 Profiling",
+			"description": "Target Windows with the Visual Studio development environment.",
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/out/build/${presetName}",
+			"architecture": {
+				"value": "x64",
+				"strategy": "external"
+			},
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo",
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"PROFILER_ENABLED": "1"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Windows"
+					]
+				}
+			}
+		},
+		{
+			"name": "x64-Linux-Debug",
+			"displayName": "Linux x64 Debug",
+			"description": "Use system compiler; Profiler=yes",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"CMAKE_BUILD_TYPE": "Debug",
+				"PROFILER_ENABLED": "1"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "x64-Linux-Profiler",
+			"displayName": "Linux x64 Profiling",
+			"description": "Use system compiler; Profiler=yes",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo",
+				"PROFILER_ENABLED": "1"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "x64-Linux-RelWithDebInfo",
+			"displayName": "Linux x64 Release",
+			"description": "Use system compiler; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "x64-Linux-Debug-Clang",
+			"displayName": "Linux x64 Debug (Clang)",
+			"description": "CC=clang CXX=clang++; Profiler=yes",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_C_COMPILER": "/usr/bin/clang",
+				"CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+				"PROFILER_ENABLED": "1"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "x64-Linux-Profiler-Clang",
+			"displayName": "Linux x64 Profiling (Clang)",
+			"description": "CC=clang CXX=clang++; Profiler=yes",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo",
+				"CMAKE_C_COMPILER": "/usr/bin/clang",
+				"CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+				"PROFILER_ENABLED": "1"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		},
+		{
+			"name": "x64-Linux-RelWithDebInfo-Clang",
+			"displayName": "Linux x64 Release (Clang)",
+			"description": "CC=clang CXX=clang++; Profiler=no",
+			"binaryDir": "${sourceDir}/build/",
+			"generator": "Unix Makefiles",
+			"cacheVariables": {
+				"CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+				"CMAKE_BUILD_TYPE": "RelWithDebInfo",
+				"CMAKE_C_COMPILER": "/usr/bin/clang",
+				"CMAKE_CXX_COMPILER": "/usr/bin/clang++"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"hostOS": [
+						"Linux"
+					]
+				}
+			}
+		}
+	]
 }

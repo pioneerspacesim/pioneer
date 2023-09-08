@@ -91,12 +91,13 @@ CMakeUserPresets.json
 compile
 
 # IDEs make their local configurations shouldn't be tracked
-.vscode/
+.vscode/*
 .vs/
 .project
 .cproject
 *.VC.db
 *.code-workspace
+!pioneer-default.code-workspace
 .idea
 
 # Core dumps shouldn't be tracked by git.
