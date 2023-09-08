@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "configurePresets": [
+    {
+        "name": "x64-Debug",
+        "displayName": "Windows x64 Debug",
+        "description": "Target Windows with the Visual Studio development environment.",
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/out/build/${presetName}",
+        "architecture": {
+            "value": "x64",
+            "strategy": "external"
+        },
+        "cacheVariables": {
+            "CMAKE_BUILD_TYPE": "Debug",
+            "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+        },
+        "vendor": { "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "Windows" ] } }
+    },
+    {
+        "name": "x64-Release",
+        "displayName": "Windows x64 Release",
+        "description": "Target Windows with the Visual Studio development environment.",
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/out/build/${presetName}",
+        "architecture": {
+            "value": "x64",
+            "strategy": "external"
+        },
+        "cacheVariables": {
+            "CMAKE_BUILD_TYPE": "Release",
+            "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+        },
+        "vendor": { "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "Windows" ] } }
+    },
+    {
+        "name": "x64-Profiling",
+        "displayName": "Windows x64 Profiling",
+        "description": "Target Windows with the Visual Studio development environment.",
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/out/build/${presetName}",
+        "architecture": {
+            "value": "x64",
+            "strategy": "external"
+        },
+        "cacheVariables": {
+            "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+            "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+            "PROFILER_ENABLED": "1"
+        },
+        "vendor": { "microsoft.com/VisualStudioSettings/CMake/1.0": { "hostOS": [ "Windows" ] } }
+    }
+  ]
+}
