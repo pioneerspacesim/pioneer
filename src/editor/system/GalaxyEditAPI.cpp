@@ -538,6 +538,10 @@ void SystemBody::EditorAPI::EditOrbitalParameters(SystemBody *body, UndoSystem *
 
 void SystemBody::EditorAPI::EditEconomicProperties(SystemBody *body, UndoSystem *undo)
 {
+	// TODO: system generation currently ignores these fields of a system body
+	// and overwrites them with randomly-rolled values.
+	return;
+
 	ImGui::SeparatorText("Economic Parameters");
 
 	ImGui::InputFixed("Population", &body->m_population);

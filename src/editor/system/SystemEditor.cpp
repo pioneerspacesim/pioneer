@@ -4,9 +4,10 @@
 #include "SystemEditor.h"
 
 #include "GalaxyEditAPI.h"
-#include "SystemEditorHelpers.h"
 #include "SystemBodyUndo.h"
+#include "SystemEditorHelpers.h"
 #include "SystemEditorViewport.h"
+#include "SystemEditorModals.h"
 
 #include "EnumStrings.h"
 #include "FileSystem.h"
@@ -45,8 +46,6 @@ namespace {
 	static constexpr const char *OUTLINE_WND_ID = "Outline";
 	static constexpr const char *PROPERTIES_WND_ID = "Properties";
 	static constexpr const char *VIEWPORT_WND_ID = "Viewport";
-	static constexpr const char *FILE_MODAL_ID = "File Window Open";
-	static constexpr const char *PICK_SYSTEM_MODAL_ID = "Load System from Galaxy";
 }
 
 const char *Editor::GetBodyIcon(const SystemBody *body) {
@@ -96,7 +95,7 @@ SystemEditor::SystemEditor(EditorApp *app) :
 	m_contextBody(nullptr),
 	m_pendingOp(),
 	m_pendingFileReq(FileRequest_None),
-	m_pickSystemPath(),
+	m_newSystemPath(),
 	m_menuBinder(new ActionBinder())
 {
 	GalacticEconomy::Init();
@@ -139,6 +138,9 @@ void SystemEditor::NewSystem(SystemPath path)
 	polit.govType = Polit::GOV_NONE;
 
 	newSystem->SetSysPolit(polit);
+
+	// mark current file as unsaved
+	m_lastSavedUndoStack = size_t(-1);
 }
 
 bool SystemEditor::LoadSystemFromDisk(const std::string &absolutePath)
@@ -151,7 +153,7 @@ bool SystemEditor::LoadSystemFromDisk(const std::string &absolutePath)
 			return false;
 		}
 
-		return LoadSystem(FileSystem::gameDataFiles.Lookup(filepath));
+		return LoadSystemFromFile(FileSystem::gameDataFiles.Lookup(filepath));
 	} else {
 		std::string dirpath = absolutePath.substr(0, absolutePath.find_last_of("/\\"));
 		std::string filename = absolutePath.substr(dirpath.size() + 1);
@@ -159,11 +161,35 @@ bool SystemEditor::LoadSystemFromDisk(const std::string &absolutePath)
 		// Hack: construct a temporary FileSource to load from an arbitrary path
 		auto fs = FileSystem::FileSourceFS(dirpath);
 
-		return LoadSystem(fs.Lookup(filename));
+		return LoadSystemFromFile(fs.Lookup(filename));
 	}
 }
 
-bool SystemEditor::LoadSystem(const FileSystem::FileInfo &file)
+bool SystemEditor::LoadSystem(SystemPath path)
+{
+	RefCountedPtr<const Sector> sec = m_galaxy->GetSector(path.SectorOnly());
+
+	if (path.systemIndex >= sec->m_systems.size()) {
+		Log::Error("System {} in sector ({},{},{}) does not exist", path.systemIndex, path.sectorX, path.sectorY, path.sectorZ);
+		return false;
+	}
+
+	const Sector::System &system = sec->m_systems.at(path.systemIndex);
+
+	// Load a fully-defined custom system from the custom system def
+	// NOTE: we cannot (currently) determine which file this custom system originated from
+	if (system.GetCustomSystem() && !system.GetCustomSystem()->IsRandom())
+		LoadCustomSystem(system.GetCustomSystem());
+	else
+		LoadSystemFromGalaxy(m_galaxy->GetStarSystem(path));
+
+	m_filepath = "";
+	m_filedir = "";
+
+	return true;
+}
+
+bool SystemEditor::LoadSystemFromFile(const FileSystem::FileInfo &file)
 {
 	if (!file.Exists()) {
 		Log::Error("Cannot open file path {}", file.GetAbsolutePath());
@@ -210,10 +236,10 @@ bool SystemEditor::WriteSystem(const std::string &filepath)
 
 	FILE *f = fopen(filepath.c_str(), "w");
 
-	if (!f)
+	if (!f) {
+		OnSaveComplete(false);
 		return false;
-
-	// StarSystem::EditorAPI::ExportToLua(f, m_system.Get(), m_galaxy.Get());
+	}
 
 	Json systemdef = Json::object();
 
@@ -239,6 +265,7 @@ bool SystemEditor::WriteSystem(const std::string &filepath)
 	fwrite(jsonData.data(), 1, jsonData.size(), f);
 	fclose(f);
 
+	OnSaveComplete(true);
 	return true;
 }
 
@@ -256,14 +283,9 @@ bool SystemEditor::LoadCustomSystem(const CustomSystem *csys)
 		return false;
 	}
 
-	// FIXME: need to run StarSystemPopulateGenerator here to finish filling out system
-	// Setting up faction affinity etc. requires running full gamut of generator stages
-
-	// auto populateStage = std::make_unique<PopulateStarSystemGenerator>();
-	// GalaxyGenerator::StarSystemConfig config;
-	// config.isCustomOnly = true;
-
-	// populateStage->Apply(rng, m_galaxy, system, &config);
+	// NOTE: we don't run the PopulateSystem generator here, due to its
+	// reliance on filled-out Sector information
+	// As a result, population information will not be correct
 
 	if (!system->GetRootBody()) {
 		Log::Error("Custom system doesn't have a root body");
@@ -309,7 +331,8 @@ void SystemEditor::LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system)
 
 void SystemEditor::ClearSystem()
 {
-	m_undo->Clear();
+	GetUndo()->Clear();
+	m_lastSavedUndoStack = 0;
 
 	m_system.Reset();
 	m_systemInfo = {};
@@ -318,7 +341,7 @@ void SystemEditor::ClearSystem()
 	m_pendingOp = {};
 
 	m_filepath.clear();
-	m_pickSystemPath.systemIndex = 0;
+	m_newSystemPath.systemIndex = 0;
 
 	SDL_SetWindowTitle(m_app->GetRenderer()->GetSDLWindow(), "System Editor");
 }
@@ -347,7 +370,7 @@ void SystemEditor::RegisterMenuActions()
 
 	m_menuBinder->AddAction("New", {
 		"New System", ImGuiKey_N | ImGuiKey_ModCtrl,
-		sigc::mem_fun(this, &SystemEditor::ActivatePickSystemDialog)
+		sigc::mem_fun(this, &SystemEditor::ActivateNewSystemDialog)
 	});
 
 	m_menuBinder->AddAction("Open", {
@@ -358,18 +381,23 @@ void SystemEditor::RegisterMenuActions()
 	m_menuBinder->AddAction("Save", {
 		"Save", ImGuiKey_S | ImGuiKey_ModCtrl,
 		[&]() { return m_system.Valid(); },
-		[&]() {
-			// Cannot write back .lua files
-			if (m_filepath.empty() || ends_with_ci(m_filepath, ".lua"))
-				ActivateSaveDialog();
-			else
-				WriteSystem(m_filepath);
-		}
+		sigc::mem_fun(this, &SystemEditor::SaveCurrentFile)
 	});
 
 	m_menuBinder->AddAction("SaveAs", {
 		"Save As", ImGuiKey_S | ImGuiKey_ModCtrl | ImGuiKey_ModShift,
+		[&]() { return m_system.Valid(); },
 		sigc::mem_fun(this, &SystemEditor::ActivateSaveDialog)
+	});
+
+	m_menuBinder->AddAction("Quit", {
+		"Quit", ImGuiKey_Q | ImGuiKey_ModCtrl,
+		[this]() {
+			if (HasUnsavedChanges()) {
+				m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
+				m_pendingFileReq = FileRequest_Quit;
+			}
+		}
 	});
 
 	m_menuBinder->EndMenu();
@@ -426,8 +454,46 @@ void SystemEditor::RegisterMenuActions()
 	m_menuBinder->EndGroup();
 }
 
+bool SystemEditor::HasUnsavedChanges()
+{
+	size_t undoStateHash = (m_undo->GetNumEntries() << 32) | m_undo->GetCurrentEntry();
+	return (m_system && undoStateHash != m_lastSavedUndoStack);
+}
+
+void SystemEditor::SaveCurrentFile()
+{
+	// Cannot write back .lua files
+	if (m_filepath.empty() || ends_with_ci(m_filepath, ".lua")) {
+		ActivateSaveDialog();
+	} else {
+		WriteSystem(m_filepath);
+	}
+}
+
+void SystemEditor::OnSaveComplete(bool success)
+{
+	if (!success) {
+		// Cancel any pending actions if we failed to save or cancelled the process
+		m_pendingFileReq = FileRequest_None;
+		return;
+	}
+
+	// "Simple" hash of undo state
+	m_lastSavedUndoStack = (m_undo->GetNumEntries() << 32) | m_undo->GetCurrentEntry();
+
+	if (m_pendingFileReq != FileRequest_None) {
+		HandlePendingFileRequest();
+	}
+}
+
 void SystemEditor::ActivateOpenDialog()
 {
+	if (HasUnsavedChanges()) {
+		m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
+		m_pendingFileReq = FileRequest_Open;
+		return;
+	}
+
 	// FIXME: need to handle loading files outside of game data dir
 	m_openFile.reset(new pfd::open_file(
 		"Open Custom System File",
@@ -439,12 +505,11 @@ void SystemEditor::ActivateOpenDialog()
 		})
 	);
 
-	ImGui::OpenPopup(m_fileActionActiveModal);
+	m_fileActionModal = m_app->PushModal<FileActionOpenModal>();
 }
 
 void SystemEditor::ActivateSaveDialog()
 {
-	// FIXME: need to handle saving files outside of game data dir
 	m_saveFile.reset(new pfd::save_file(
 		"Save Custom System File",
 		FileSystem::JoinPath(FileSystem::GetDataDir(), m_filedir),
@@ -453,12 +518,18 @@ void SystemEditor::ActivateSaveDialog()
 		})
 	);
 
-	ImGui::OpenPopup(m_fileActionActiveModal);
+	m_fileActionModal = m_app->PushModal<FileActionOpenModal>();
 }
 
-void SystemEditor::ActivatePickSystemDialog()
+void SystemEditor::ActivateNewSystemDialog()
 {
-	ImGui::OpenPopup(m_pickSystemModal);
+	if (HasUnsavedChanges()) {
+		m_unsavedFileModal = m_app->PushModal<UnsavedFileModal>();
+		m_pendingFileReq = FileRequest_New;
+		return;
+	}
+
+	m_newSystemModal = m_app->PushModal<NewSystemModal>(this, &m_newSystemPath);
 }
 
 // ─── Update Loop ─────────────────────────────────────────────────────────────
@@ -477,14 +548,9 @@ void SystemEditor::Update(float deltaTime)
 		GetUndo()->Undo();
 	}
 
-	m_fileActionActiveModal = ImGui::GetID(FILE_MODAL_ID);
-	m_pickSystemModal = ImGui::GetID(PICK_SYSTEM_MODAL_ID);
-
 	DrawInterface();
 
 	HandleBodyOperations();
-
-	m_menuBinder->Update();
 
 	if (m_openFile && m_openFile->ready(0)) {
 		std::vector<std::string> resultFiles = m_openFile->result();
@@ -502,41 +568,60 @@ void SystemEditor::Update(float deltaTime)
 
 		if (!filePath.empty()) {
 			Log::Info("SaveFile: {}", filePath);
-			bool success = WriteSystem(filePath);
 
-			if (success) {
-				m_lastSavedUndoStack = m_undo->GetCurrentEntry();
-
+			// Update current file path and directory from new "save-as" path
+			if (WriteSystem(filePath)) {
 				m_filepath = filePath;
 				m_filedir = filePath.substr(0, filePath.find_last_of("/\\"));
 			}
+		} else {
+			// Signal cancellation/failure to save
+			OnSaveComplete(false);
 		}
 	}
 
-	bool fileModalOpen = ImGui::IsPopupOpen(m_fileActionActiveModal, ImGuiPopupFlags_AnyPopupLevel);
+	// User responded to the unsaved changes modal
+	if (m_unsavedFileModal && m_unsavedFileModal->Ready()) {
+		auto result = m_unsavedFileModal->Result();
 
-	// Finished all pending file operations
-	if (fileModalOpen && !m_openFile && !m_saveFile) {
-		auto &popupStack = ImGui::GetCurrentContext()->OpenPopupStack;
-
-		for (size_t idx = 0; idx < popupStack.size(); ++idx) {
-			if (popupStack[idx].PopupId == m_fileActionActiveModal) {
-				ImGui::ClosePopupToLevel(idx, true);
-				break;
-			}
-		}
-
-		// Were there any pending operations waiting on a save dialog to close?
-		if (m_pendingFileReq == FileRequest_New) {
+		if (result == UnsavedFileModal::Result_Cancel) {
 			m_pendingFileReq = FileRequest_None;
-			ActivatePickSystemDialog();
+		} else if (result == UnsavedFileModal::Result_No) {
+			// User doesn't want to save, lose unsaved state
+			HandlePendingFileRequest();
+		} else {
+			// Trigger the save-file flow
+			m_menuBinder->TriggerAction("File.Save");
 		}
 
-		if (m_pendingFileReq == FileRequest_Open) {
-			m_pendingFileReq = FileRequest_None;
-			ActivateOpenDialog();
-		}
+		m_unsavedFileModal.Reset();
 	}
+
+	// Finished with all OS file dialogs, can close the file action modal
+	if (m_fileActionModal && !m_openFile && !m_saveFile) {
+		m_fileActionModal->Close();
+		m_fileActionModal.Reset();
+	}
+}
+
+void SystemEditor::HandlePendingFileRequest()
+{
+	if (m_pendingFileReq == FileRequest_New) {
+		ClearSystem();
+		ActivateNewSystemDialog();
+	}
+
+	if (m_pendingFileReq == FileRequest_Open) {
+		ClearSystem();
+		ActivateOpenDialog();
+	}
+
+	if (m_pendingFileReq == FileRequest_Quit) {
+		ClearSystem();
+		RequestEndLifecycle();
+	}
+
+	m_pendingFileReq = FileRequest_None;
 }
 
 void SystemEditor::HandleBodyOperations()
@@ -681,6 +766,11 @@ void SystemEditor::DrawInterface()
 
 	ImGui::DockSpace(dockspaceID);
 
+	// Needs to be inside host-context window
+	m_menuBinder->Update();
+
+	ImGui::End();
+
 	// BUG: Right-click on button can break undo handling if it happens after active InputText is submitted
 	// We work around it by rendering the viewport first
 	m_viewport->Update(m_app->DeltaTime());
@@ -744,12 +834,6 @@ void SystemEditor::DrawInterface()
 	if (m_debugWindowOpen)
 		ImGui::ShowDebugLogWindow(&m_debugWindowOpen);
 
-	ImGui::End();
-
-	DrawFileActionModal();
-
-	DrawPickSystemModal();
-
 	if (isFirstRun)
 		isFirstRun = false;
 }
@@ -775,6 +859,10 @@ void SystemEditor::DrawMenuBar()
 			m_resetDockingLayout = true;
 
 		ImGui::EndMenu();
+	}
+
+	if (HasUnsavedChanges()) {
+		ImGui::Text("*");
 	}
 
 	ImGui::EndMenuBar();
@@ -941,125 +1029,4 @@ void SystemEditor::DrawBodyContextMenu(SystemBody *body)
 		ImGui::PopFont();
 		ImGui::EndPopup();
 	}
-}
-
-void SystemEditor::DrawPickSystemModal()
-{
-	ImVec2 windSize = ImVec2(ImGui::GetMainViewport()->Size.x * 0.5, -1);
-	ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5, ImGuiCond_Always, ImVec2(0.5, 0.5));
-	ImGui::SetNextWindowSizeConstraints(windSize, windSize);
-
-	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
-	bool open = true;
-	if (ImGui::BeginPopupModal(PICK_SYSTEM_MODAL_ID, &open, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize)) {
-		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 14));
-
-		if (Draw::LayoutHorizontal("Sector", 3, ImGui::GetFontSize())) {
-			bool changed = false;
-			changed |= ImGui::InputInt("X", &m_pickSystemPath.sectorX, 0, 0);
-			changed |= ImGui::InputInt("Y", &m_pickSystemPath.sectorY, 0, 0);
-			changed |= ImGui::InputInt("Z", &m_pickSystemPath.sectorZ, 0, 0);
-
-			if (changed)
-				m_pickSystemPath.systemIndex = 0;
-
-			Draw::EndLayout();
-		}
-
-		ImGui::Separator();
-
-		RefCountedPtr<const Sector> sec = m_galaxy->GetSector(m_pickSystemPath.SectorOnly());
-
-		ImGui::BeginGroup();
-		if (ImGui::BeginChild("Systems", ImVec2(ImGui::GetContentRegionAvail().x * 0.33, -ImGui::GetFrameHeightWithSpacing()))) {
-
-			for (const Sector::System &system : sec->m_systems) {
-				std::string label = fmt::format("{} ({}x{})", system.GetName(), EICON_SUN, system.GetNumStars());
-
-				if (ImGui::Selectable(label.c_str(), system.idx == m_pickSystemPath.systemIndex))
-					m_pickSystemPath.systemIndex = system.idx;
-			}
-
-		}
-		ImGui::EndChild();
-
-		if (ImGui::Button("New System")) {
-			NewSystem(m_pickSystemPath.SectorOnly());
-			ImGui::CloseCurrentPopup();
-		}
-
-		ImGui::EndGroup();
-
-		ImGui::SameLine();
-		ImGui::BeginGroup();
-
-		if (m_pickSystemPath.systemIndex < sec->m_systems.size()) {
-			const Sector::System &system = sec->m_systems[m_pickSystemPath.systemIndex];
-
-			ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
-
-			ImGui::AlignTextToFramePadding();
-			ImGui::TextUnformatted(system.GetName().c_str());
-
-			ImGui::SameLine();
-			ImGui::SameLine(0.f, ImGui::GetContentRegionAvail().x - ImGui::GetFrameHeight());
-			if (ImGui::Button(EICON_FORWARD1)) {
-
-				// Load a fully-defined custom system from the custom system def
-				// NOTE: we cannot (currently) determine which file this custom system originated from
-				if (system.GetCustomSystem() && !system.GetCustomSystem()->IsRandom())
-					LoadCustomSystem(system.GetCustomSystem());
-				else
-					LoadSystemFromGalaxy(m_galaxy->GetStarSystem(m_pickSystemPath));
-
-				ImGui::CloseCurrentPopup();
-			}
-
-			ImGui::PopFont();
-
-			ImGui::Spacing();
-
-			ImGui::TextUnformatted("Is Custom:");
-			ImGui::SameLine(ImGui::CalcItemWidth());
-			ImGui::TextUnformatted(system.GetCustomSystem() ? "yes" : "no");
-
-			ImGui::TextUnformatted("Is Explored:");
-			ImGui::SameLine(ImGui::CalcItemWidth());
-			ImGui::TextUnformatted(system.GetExplored() == StarSystem::eEXPLORED_AT_START ? "yes" : "no");
-
-			ImGui::TextUnformatted("Faction:");
-			ImGui::SameLine(ImGui::CalcItemWidth());
-			ImGui::TextUnformatted(system.GetFaction() ? system.GetFaction()->name.c_str() : "<none>");
-
-			ImGui::TextUnformatted("Other Names:");
-			ImGui::SameLine(ImGui::CalcItemWidth());
-
-			ImGui::BeginGroup();
-			for (auto &name : system.GetOtherNames())
-				ImGui::TextUnformatted(name.c_str());
-			ImGui::EndGroup();
-		}
-		ImGui::EndGroup();
-
-		ImGui::PopFont();
-		ImGui::EndPopup();
-	}
-
-	ImGui::PopFont();
-}
-
-void SystemEditor::DrawFileActionModal()
-{
-	ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5, ImGuiCond_Always, ImVec2(0.5, 0.5));
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(30, 30));
-
-	ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
-	if (ImGui::BeginPopupModal(FILE_MODAL_ID, nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize)) {
-		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 14));
-		ImGui::TextUnformatted("Waiting on a file action to complete...");
-		ImGui::PopFont();
-		ImGui::EndPopup();
-	}
-	ImGui::PopFont();
-	ImGui::PopStyleVar();
 }

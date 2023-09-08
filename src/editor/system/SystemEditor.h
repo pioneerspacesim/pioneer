@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include "SystemEditorModals.h"
+
 #include "Input.h"
 #include "Random.h"
 #include "RefCounted.h"
@@ -47,6 +49,7 @@ public:
 	~SystemEditor();
 
 	void NewSystem(SystemPath path);
+	bool LoadSystem(SystemPath path);
 	bool LoadSystemFromDisk(const std::string &absolutePath);
 
 	// Write the currently edited system out to disk as a JSON file
@@ -68,12 +71,23 @@ protected:
 	void HandleInput();
 
 private:
-	void RegisterMenuActions();
-
-	void ClearSystem();
-	bool LoadSystem(const FileSystem::FileInfo &file);
+	bool LoadSystemFromFile(const FileSystem::FileInfo &file);
 	bool LoadCustomSystem(const CustomSystem *system);
 	void LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system);
+	void ClearSystem();
+
+	void RegisterMenuActions();
+
+	bool HasUnsavedChanges();
+	void SaveCurrentFile();
+	void OnSaveComplete(bool success);
+
+	void ActivateOpenDialog();
+	void ActivateSaveDialog();
+	void ActivateNewSystemDialog();
+
+	void HandlePendingFileRequest();
+	void HandleBodyOperations();
 
 	void SetupLayout(ImGuiID dockspaceID);
 	void DrawInterface();
@@ -91,25 +105,17 @@ private:
 
 	void DrawUndoDebug();
 
-	void ActivateOpenDialog();
-	void ActivateSaveDialog();
-	void ActivatePickSystemDialog();
-
-	void DrawFileActionModal();
-	void DrawPickSystemModal();
-
-	void HandleBodyOperations();
-
 	UndoSystem *GetUndo() { return m_undo.get(); }
 
 private:
 	class UndoSetSelection;
 
-	// Pending actions which require a "save/as" interrupt
+	// Pending file actions which triggered an unsaved changes modal
 	enum FileRequestType {
 		FileRequest_None,
 		FileRequest_Open,
-		FileRequest_New
+		FileRequest_New,
+		FileRequest_Quit
 	};
 
 	// Pending actions to the body tree hierarchy that should
@@ -161,10 +167,11 @@ private:
 
 	SystemPath m_openSystemPath;
 
-	ImGuiID m_fileActionActiveModal;
-	ImGuiID m_pickSystemModal;
+	RefCountedPtr<FileActionOpenModal> m_fileActionModal;
+	RefCountedPtr<UnsavedFileModal> m_unsavedFileModal;
+	RefCountedPtr<NewSystemModal> m_newSystemModal;
 
-	SystemPath m_pickSystemPath;
+	SystemPath m_newSystemPath;
 
 	std::unique_ptr<ActionBinder> m_menuBinder;
 
