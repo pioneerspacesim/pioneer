@@ -14,6 +14,8 @@ codedoc/
 nd/Data/
 doxygen/html
 doxygen/latex
+/release
+/out
 
 .deps
 *.swp
@@ -80,12 +82,12 @@ pioneer-*.tar.*
 # meta-build tooling products etc. shouldn't be tracked
 Makefile
 Makefile.in
-/release
 Debug/
 PreRelease/
 Profile/
 Release/
 cmake-*
+CMakeUserPresets.json
 compile
 
 # IDEs make their local configurations shouldn't be tracked

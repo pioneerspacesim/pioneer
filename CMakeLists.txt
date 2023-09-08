@@ -12,16 +12,12 @@ if(POLICY CMP0072)
 endif()
 
 include(GNUInstallDirs)
+include(cmake/InstallPioneer.cmake)
 
 if (MINGW)
 	# Fix build errors on AppVeyor with MinGW due to a broken GLEW config script
 	list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
 endif (MINGW)
-
-# We don't want a 'bin' folder on Windows
-if (WIN32)
-	set(CMAKE_INSTALL_BINDIR ${CMAKE_INSTALL_PREFIX})
-endif (WIN32)
 
 # Put the output into the root dir so it can be run from Visual Studio
 if (MSVC)
@@ -106,13 +102,6 @@ if (GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 endif()
 
 string(TIMESTAMP PROJECT_VERSION "%Y%m%d")
-
-if (NOT PIONEER_DATA_DIR)
-	set(PIONEER_DATA_DIR ${CMAKE_INSTALL_FULL_DATADIR}/pioneer/data CACHE PATH
-		"Path where game data will be installed" FORCE)
-endif (NOT PIONEER_DATA_DIR)
-
-file(TO_NATIVE_PATH ${PIONEER_DATA_DIR} _PIONEER_DATA_DIR)
 
 if (MINGW)
 	# Enable PRIxYY macros on MinGW
@@ -415,19 +404,31 @@ else (MODELCOMPILER)
 endif(MODELCOMPILER)
 
 install(TARGETS ${PROJECT_NAME} editor modelcompiler savegamedump
-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+	RUNTIME DESTINATION ${PIONEER_INSTALL_BINDIR}
 )
 install(DIRECTORY data/
-	DESTINATION ${PIONEER_DATA_DIR}
+	DESTINATION ${PIONEER_INSTALL_DATADIR}/data
 	REGEX "/models" EXCLUDE
 	PATTERN ".gitignore" EXCLUDE
 	PATTERN "listdata.*" EXCLUDE
 	PATTERN "Makefile.am" EXCLUDE
 )
 install(DIRECTORY data/models/
-	DESTINATION ${PIONEER_DATA_DIR}/models
+	DESTINATION ${PIONEER_INSTALL_DATADIR}/data/models
 	FILES_MATCHING PATTERN "*.sgm" PATTERN "*.dds" PATTERN "*.png"
 )
+
+list(APPEND install_txt
+	"AUTHORS.txt"
+	"Changelog.txt"
+	"Modelviewer.txt"
+	"Quickstart.txt"
+	"README.md")
+
+install(FILES ${install_txt} DESTINATION ${PIONEER_INSTALL_DATADIR})
+
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/licenses
+	DESTINATION ${PIONEER_INSTALL_DATADIR})
 
 if (WIN32)
 	configure_file(pioneer.iss.cmakein pioneer.iss @ONLY)
@@ -439,7 +440,7 @@ if (WIN32)
 	add_custom_target(win-installer COMMAND ${ISCC} /Q pioneer.iss)
 endif (WIN32)
 
-if (UNIX)
+if (UNIX AND NOT PIONEER_INSTALL_INPLACE)
 	set(PIONEER_DESKTOP_FILE ${CMAKE_BINARY_DIR}/metadata/net.pioneerspacesim.Pioneer.desktop)
 	configure_file(metadata/net.pioneerspacesim.Pioneer.desktop.cmakein ${PIONEER_DESKTOP_FILE} @ONLY)
 	install(FILES ${PIONEER_DESKTOP_FILE}
@@ -455,4 +456,4 @@ if (UNIX)
 			RENAME net.pioneerspacesim.Pioneer.png
 		)
 	endforeach()
-endif (UNIX)
+endif (UNIX AND NOT PIONEER_INSTALL_INPLACE)
