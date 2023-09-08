@@ -81,7 +81,8 @@ questions are welcome anytime.
    in a directory side by side. Don't rename pioneer-thirdparty because the
    relative path to it is included in the project files.
 
-2. Open the pioneer solution from /win32/vc2019/pioneer.sln.
+2. Open the pioneer folder which should open as a CMake project
+   see https://learn.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=msvc-160
 
 3. Build and run the project or solution. Note: the default is to build debug
    version, which is what you want if developing, but release gives an executable
