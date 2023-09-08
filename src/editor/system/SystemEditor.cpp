@@ -13,6 +13,7 @@
 #include "FileSystem.h"
 #include "JsonUtils.h"
 #include "ModManager.h"
+#include "Pi.h" // just here for Pi::luaNameGen
 #include "SystemView.h"
 #include "core/StringUtils.h"
 
@@ -105,6 +106,8 @@ SystemEditor::SystemEditor(EditorApp *app) :
 
 	m_nameGen.reset(new LuaNameGen(Lua::manager));
 
+	Pi::luaNameGen = m_nameGen.get();
+
 	m_galaxy = GalaxyGenerator::Create();
 	m_systemLoader.reset(new CustomSystemsDatabase(m_galaxy.Get(), "systems"));
 
@@ -185,6 +188,9 @@ bool SystemEditor::LoadSystem(SystemPath path)
 
 	m_filepath = "";
 	m_filedir = "";
+
+	// mark as unsaved
+	m_lastSavedUndoStack = size_t(-1);
 
 	return true;
 }
@@ -332,7 +338,7 @@ void SystemEditor::LoadSystemFromGalaxy(RefCountedPtr<StarSystem> system)
 void SystemEditor::ClearSystem()
 {
 	GetUndo()->Clear();
-	m_lastSavedUndoStack = 0;
+	m_lastSavedUndoStack = GetUndo()->GetStateHash();
 
 	m_system.Reset();
 	m_systemInfo = {};
@@ -456,8 +462,7 @@ void SystemEditor::RegisterMenuActions()
 
 bool SystemEditor::HasUnsavedChanges()
 {
-	size_t undoStateHash = (m_undo->GetNumEntries() << 32) | m_undo->GetCurrentEntry();
-	return (m_system && undoStateHash != m_lastSavedUndoStack);
+	return (m_system && GetUndo()->GetStateHash() != m_lastSavedUndoStack);
 }
 
 void SystemEditor::SaveCurrentFile()
@@ -478,8 +483,7 @@ void SystemEditor::OnSaveComplete(bool success)
 		return;
 	}
 
-	// "Simple" hash of undo state
-	m_lastSavedUndoStack = (m_undo->GetNumEntries() << 32) | m_undo->GetCurrentEntry();
+	m_lastSavedUndoStack = GetUndo()->GetStateHash();
 
 	if (m_pendingFileReq != FileRequest_None) {
 		HandlePendingFileRequest();
