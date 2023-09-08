@@ -406,7 +406,15 @@ void SystemBody::EditorAPI::GenerateDefaultName(SystemBody *body)
 	}
 
 	// Other bodies get a "hierarchy" name
-	size_t idx = GetIndexInParent(body);
+
+	size_t idx = 0;
+	for (SystemBody *child : parent->m_children) {
+		if (child == body)
+			break;
+		if (child->GetSuperType() != SUPERTYPE_STARPORT)
+			idx++;
+	}
+
 	if (parent->GetSuperType() <= SystemBody::SUPERTYPE_STAR) {
 		if (idx <= 26)
 			body->m_name = fmt::format("{} {}", parent->GetName(), char('a' + idx));
@@ -617,7 +625,7 @@ void SystemBody::EditorAPI::EditProperties(SystemBody *body, Random &rng, UndoSy
 
 	if (body->GetSuperType() < SUPERTYPE_STARPORT) {
 
-		if (!isStar && ImGui::Button(EICON_RANDOM " Body Stats")) {
+		if ((!isStar || body->GetType() == TYPE_BROWN_DWARF) && ImGui::Button(EICON_RANDOM " Body Stats")) {
 			GenerateDerivedStats(body, rng, undo);
 			bodyChanged = true;
 		}
