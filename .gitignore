@@ -71,6 +71,7 @@ pioneer-*.tar.*
 *.opensdf
 *.o
 *.a
+*.manifest
 /*.exe
 /*.dll
 /*.pdb
