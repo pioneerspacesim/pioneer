@@ -19,4 +19,6 @@ extern "C" int main(int argc, char **argv) {
 	app->Run();
 
 	app->Shutdown();
+
+	return 0;
 }
