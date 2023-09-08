@@ -7,9 +7,7 @@
 #include "RefCounted.h"
 #include "SDL_events.h"
 
-#include "graphics/RenderState.h"
-#include "graphics/RenderTarget.h"
-#include "graphics/Renderer.h"
+#include "graphics/Graphics.h"
 
 class IniConfig;
 
@@ -21,6 +19,11 @@ namespace PiGui {
 	class Instance;
 }
 
+namespace Graphics {
+	class Renderer;
+	class RenderTarget;
+}
+
 class GuiApplication : public Application {
 public:
 	GuiApplication(std::string title);
@@ -30,10 +33,11 @@ public:
 	Input::Manager *GetInput() { return m_input.get(); }
 	PiGui::Instance *GetPiGui() { return m_pigui.Get(); }
 
+	Graphics::RenderTarget *GetRenderTarget() { return m_renderTarget.get(); }
+
+	const Graphics::Settings &GetGraphicsSettings() { return m_settings; }
+
 protected:
-	// Called at the end of the frame automatically, blits the RT onto the application
-	// framebuffer
-	void DrawRenderTarget();
 
 	// Call this from your OnStartup() method
 	void SetupProfiler(IniConfig *config);
@@ -84,4 +88,5 @@ private:
 
 	std::unique_ptr<Graphics::Renderer> m_renderer;
 	std::unique_ptr<Graphics::RenderTarget> m_renderTarget;
+	Graphics::Settings m_settings;
 };

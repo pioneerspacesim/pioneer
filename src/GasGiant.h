@@ -54,6 +54,7 @@ public:
 
 	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
 	static void SetRenderTargetCubemap(const Uint32, Graphics::Texture *, const bool unBind = true);
+	static Graphics::RenderTarget *GetRenderTarget();
 	static void BeginRenderTarget();
 	static void EndRenderTarget();
 

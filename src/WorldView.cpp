@@ -23,6 +23,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/RenderState.h"
 #include "matrix4x4.h"
 #include "ship/PlayerShipController.h"
 #include "ship/ShipViewController.h"

@@ -1,8 +1,9 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EditorDraw.h"
 #include "UndoSystem.h"
+
 #include "imgui/imgui.h"
 
 using namespace Editor;
@@ -32,6 +33,25 @@ bool Draw::BeginWindow(ImRect rect, const char *label, bool *open, ImGuiWindowFl
 	flags |= ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus;
 
 	return ImGui::Begin(label, open, flags);
+}
+
+bool Draw::BeginHostWindow(const char *label, bool *open, ImGuiWindowFlags flags)
+{
+	ImGuiViewport *vp = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(vp->Pos, ImGuiCond_Always);
+	ImGui::SetNextWindowSize(vp->Size, ImGuiCond_Always);
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
+	flags |= ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+	bool shouldSubmit = ImGui::Begin(label, open, flags);
+
+	ImGui::PopStyleVar(3);
+
+	return shouldSubmit;
 }
 
 bool Draw::EditFloat2(const char *label, ImVec2 *vec, float step, float step_fast, const char *format)
@@ -113,4 +133,37 @@ bool Draw::ComboUndoHelper(std::string_view entryName, const char *label, const 
 bool Draw::ComboUndoHelper(std::string_view label, const char *preview, UndoSystem *undo)
 {
 	return ComboUndoHelper(label, label.data(), preview, undo);
+}
+
+bool Draw::MenuButton(const char *label)
+{
+	ImVec2 screenPos = ImGui::GetCursorScreenPos();
+
+	if (ImGui::Button(label))
+		ImGui::OpenPopup(label);
+
+	if (ImGui::IsPopupOpen(label)) {
+		ImGuiPopupFlags flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavFocus;
+		ImGui::SetNextWindowPos(screenPos + ImVec2(0.f, ImGui::GetFrameHeightWithSpacing()));
+
+		return ImGui::BeginPopup(label, flags);
+	}
+
+	return false;
+}
+
+bool Draw::ToggleButton(const char *label, bool *value, ImVec4 activeColor)
+{
+	if (*value)
+		ImGui::PushStyleColor(ImGuiCol_Button, activeColor);
+
+	bool changed = ImGui::Button(label);
+
+	if (*value)
+		ImGui::PopStyleColor(1);
+
+	if (changed)
+		*value = !*value;
+
+	return changed;
 }

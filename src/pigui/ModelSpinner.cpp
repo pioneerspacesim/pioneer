@@ -8,6 +8,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/RenderTarget.h"
 #include "graphics/Renderer.h"
+#include "graphics/Texture.h"
 #include "scenegraph/Tag.h"
 
 #include <algorithm>
@@ -32,15 +33,28 @@ void ModelSpinner::CreateRenderTarget()
 {
 	if (m_renderTarget)
 		m_renderTarget.reset();
+	if (m_resolveTarget)
+		m_resolveTarget.reset();
 
 	Graphics::RenderTargetDesc rtDesc{
 		uint16_t(m_size.x), uint16_t(m_size.y),
 		Graphics::TextureFormat::TEXTURE_RGBA_8888,
-		Graphics::TextureFormat::TEXTURE_DEPTH, true
+		Graphics::TextureFormat::TEXTURE_DEPTH, true,
+		uint16_t(Pi::GetApp()->GetGraphicsSettings().requestedSamples)
 	};
 
 	m_renderTarget.reset(Pi::renderer->CreateRenderTarget(rtDesc));
 	if (!m_renderTarget) Error("Error creating render target for model viewer.");
+
+
+	Graphics::RenderTargetDesc resolveDesc{
+		uint16_t(m_size.x), uint16_t(m_size.y),
+		Graphics::TextureFormat::TEXTURE_RGBA_8888,
+		Graphics::TextureFormat::TEXTURE_NONE, true
+	};
+
+	m_resolveTarget.reset(Pi::renderer->CreateRenderTarget(resolveDesc));
+	if (!m_resolveTarget) Error("Error creating MSAA resolve render target for model viewer.");
 
 	m_needsResize = false;
 }
@@ -66,12 +80,17 @@ void ModelSpinner::Render()
 	Graphics::Renderer *r = Pi::renderer;
 	Graphics::Renderer::StateTicket ticket(r);
 
-	r->SetRenderTarget(m_renderTarget.get());
 	const auto &desc = m_renderTarget.get()->GetDesc();
-	r->SetViewport({ 0, 0, desc.width, desc.height });
+	Graphics::ViewportExtents extents = { 0, 0, desc.width, desc.height };
 
-	r->SetClearColor(Color(0, 0, 0, 0));
-	r->ClearScreen();
+	r->SetRenderTarget(m_renderTarget.get());
+	r->SetViewport(extents);
+
+	float lightIntensity[4] = { 0.75f, 0.f, 0.f, 0.f };
+	r->SetLightIntensity(4, lightIntensity);
+	r->SetAmbientColor(Color(64, 64, 64));
+
+	r->ClearScreen(Color(0, 0, 0, 0));
 
 	r->SetProjection(matrix4x4f::PerspectiveMatrix(DEG2RAD(SPINNER_FOV), m_size.x / m_size.y, 1.f, 10000.f, true));
 	r->SetTransform(matrix4x4f::Identity());
@@ -80,7 +99,7 @@ void ModelSpinner::Render()
 	AnimationCurves::Approach(m_zoom, m_zoomTo, Pi::GetFrameTime(), 5.0f, 0.4f);
 	m_model->Render(MakeModelViewMat());
 
-	r->SetRenderTarget(nullptr);
+	r->ResolveRenderTarget(m_renderTarget.get(), m_resolveTarget.get(), extents);
 }
 
 void ModelSpinner::SetSize(vector2d size)
@@ -111,7 +130,7 @@ void ModelSpinner::DrawPiGui()
 	if (m_renderTarget) {
 		// Draw the image and stretch it over the available region.
 		// ImGui inverts the vertical axis to get top-left coordinates, so we need to invert our UVs to match.
-		ImGui::Image(m_renderTarget->GetColorTexture(), size, ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image(m_resolveTarget->GetColorTexture(), size, ImVec2(0, 1), ImVec2(1, 0));
 	} else {
 		ImGui::Dummy(size);
 	}

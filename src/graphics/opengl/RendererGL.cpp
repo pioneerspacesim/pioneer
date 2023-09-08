@@ -81,6 +81,11 @@ namespace Graphics {
 		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 
+		// HACK (sturnclaw): request RGBA backbuffer specifically for the purpose of using
+		// it as an intermediate multisample resolve target with RGBA textures.
+		// See ResolveRenderTarget() for more details
+		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+
 		winFlags |= (vs.hidden ? SDL_WINDOW_HIDDEN : SDL_WINDOW_SHOWN);
 		if (!vs.hidden && vs.fullscreen) // TODO: support for borderless fullscreen and changing window size
 			winFlags |= SDL_WINDOW_FULLSCREEN;
@@ -251,8 +256,6 @@ namespace Graphics {
 		// create the state cache immediately after establishing baseline state.
 		m_renderStateCache.reset(new OGL::RenderStateCache());
 
-		m_clearColor = Color4f(0.f, 0.f, 0.f, 0.f);
-
 		// check enum PrimitiveType matches OpenGL values
 		static_assert(POINTS == GL_POINTS);
 		static_assert(LINE_SINGLE == GL_LINES);
@@ -263,23 +266,6 @@ namespace Graphics {
 		static_assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
 
 		m_drawCommandList.reset(new OGL::CommandList(this));
-
-		RenderTargetDesc windowTargetDesc(
-			m_width, m_height,
-			// TODO: sRGB format for render target?
-			TextureFormat::TEXTURE_RGBA_8888,
-			TextureFormat::TEXTURE_DEPTH,
-			false, vs.requestedSamples);
-		m_windowRenderTarget = static_cast<OGL::RenderTarget *>(CreateRenderTarget(windowTargetDesc));
-
-		m_windowRenderTarget->Bind();
-		if (!m_windowRenderTarget->CheckStatus()) {
-			GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-			Log::Fatal("Pioneer window render target is invalid. (Error: {})\n"
-				"Does your graphics driver support multisample anti-aliasing?\n"
-				"If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
-				gl_framebuffer_error_to_string(status));
-		}
 
 		m_viewport = ViewportExtents(0, 0, m_width, m_height);
 		SetRenderTarget(nullptr);
@@ -305,10 +291,6 @@ namespace Graphics {
 			delete m_shaders.back().second;
 			m_shaders.pop_back();
 		}
-
-		if (m_windowRenderTarget->m_active)
-			m_windowRenderTarget->Unbind();
-		delete m_windowRenderTarget;
 
 		SDL_GL_DeleteContext(m_glContext);
 	}
@@ -488,8 +470,6 @@ namespace Graphics {
 		PROFILE_SCOPED()
 		// clear the cached program state (program loading may have trashed it)
 		m_renderStateCache->SetProgram(nullptr);
-		m_renderStateCache->SetRenderTarget(m_windowRenderTarget, m_viewport);
-		m_renderStateCache->ClearBuffers(true, true, Color(0, 0, 0, 0));
 
 		m_frameNum++;
 		return true;
@@ -615,24 +595,30 @@ namespace Graphics {
 	bool RendererOGL::SwapBuffers()
 	{
 		PROFILE_SCOPED()
-		FlushCommandBuffers();
-		CheckRenderErrors(__FUNCTION__, __LINE__);
 
-		// Make sure we set the active FBO to our "default" window target
-		m_renderStateCache->SetRenderTarget(m_windowRenderTarget, m_viewport);
 		// Reset to a "known good" render state (disable scissor etc.)
 		m_renderStateCache->ApplyRenderState(RenderStateDesc{});
 
 		// TODO(sturnclaw): handle upscaling to higher-resolution screens
 		// we'll need an intermediate target to resolve to; resolve and rescale are mutually exclusive
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBlitFramebuffer(0, 0, m_width, m_height, 0, 0, m_width, m_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_windowRenderTarget->m_fbo);
+		ViewportExtents ext = { 0, 0, m_width, m_height };
+		bool isMSAA = m_activeRenderTarget->GetDesc().numSamples > 0;
+
+		m_drawCommandList->AddBlitRenderTargetCmd(m_activeRenderTarget, nullptr, ext, ext, isMSAA);
+
+		FlushCommandBuffers();
+		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		SDL_GL_SwapWindow(m_window);
+		m_activeRenderTarget = nullptr;
 		m_renderStateCache->ResetFrame();
 		m_stats.NextFrame();
 		return true;
+	}
+
+	RenderTarget *RendererOGL::GetRenderTarget()
+	{
+		return m_activeRenderTarget;
 	}
 
 	bool RendererOGL::SetRenderTarget(RenderTarget *rt)
@@ -641,12 +627,38 @@ namespace Graphics {
 		FlushCommandBuffers();
 
 		m_activeRenderTarget = static_cast<OGL::RenderTarget *>(rt);
-		m_drawCommandList->AddRenderPassCmd(rt ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
-
-		m_renderStateCache->SetRenderTarget(rt ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
+		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget, m_viewport);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
 		return true;
+	}
+
+	void RendererOGL::CopyRenderTarget(RenderTarget *src, RenderTarget *dst, ViewportExtents srcExtents, ViewportExtents dstExtents, bool linearFilter)
+	{
+		m_drawCommandList->AddBlitRenderTargetCmd(src, dst, srcExtents, dstExtents, false, false, linearFilter);
+		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget, m_viewport);
+	}
+
+	void RendererOGL::ResolveRenderTarget(RenderTarget *src, RenderTarget *dst, ViewportExtents extents)
+	{
+		bool hasDepthTexture = src->GetDepthTexture() && dst->GetDepthTexture();
+
+		// HACK (sturnclaw): work around NVidia undocumented behavior of using a higher-quality filtering
+		// kernel when resolving to window backbuffer instead of offscreen FBO.
+		// Otherwise there's a distinct visual quality loss when performing MSAA resolve to offscreen FBO.
+		// Ideally this should be replaced by using a custom MSAA resolve shader; however builtin resolve
+		// usually has better performance (ref: https://therealmjp.github.io/posts/msaa-resolve-filters/)
+		// NOTE: this behavior appears to be independent of setting GL_MULTISAMPLE_FILTER_HINT_NV on Linux
+		if (!hasDepthTexture && extents.w <= m_width && extents.h <= m_height) {
+			ViewportExtents tmpExtents = { 0, 0, extents.w, extents.h };
+
+			m_drawCommandList->AddBlitRenderTargetCmd(src, nullptr, extents, tmpExtents, true);
+			m_drawCommandList->AddBlitRenderTargetCmd(nullptr, dst, tmpExtents, extents, true);
+		} else {
+			m_drawCommandList->AddBlitRenderTargetCmd(src, dst, extents, extents, true, hasDepthTexture);
+		}
+
+		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget, m_viewport);
 	}
 
 	bool RendererOGL::SetScissor(ViewportExtents extents)
@@ -655,21 +667,15 @@ namespace Graphics {
 		return true;
 	}
 
-	bool RendererOGL::ClearScreen()
+	bool RendererOGL::ClearScreen(const Color &clearColor, bool depth)
 	{
-		m_drawCommandList->AddClearCmd(true, true, m_clearColor);
+		m_drawCommandList->AddClearCmd(true, depth, clearColor);
 		return true;
 	}
 
 	bool RendererOGL::ClearDepthBuffer()
 	{
 		m_drawCommandList->AddClearCmd(false, true, Color());
-		return true;
-	}
-
-	bool RendererOGL::SetClearColor(const Color &c)
-	{
-		m_clearColor = c;
 		return true;
 	}
 
@@ -683,7 +689,7 @@ namespace Graphics {
 	bool RendererOGL::SetViewport(ViewportExtents v)
 	{
 		m_viewport = v;
-		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget ? m_activeRenderTarget : m_windowRenderTarget, m_viewport);
+		m_drawCommandList->AddRenderPassCmd(m_activeRenderTarget, m_viewport);
 		return true;
 	}
 
@@ -861,6 +867,8 @@ namespace Graphics {
 				m_drawCommandList->ExecuteDynamicDrawCmd(*dynDrawCmd);
 			else if (auto *renderPassCmd = std::get_if<OGL::CommandList::RenderPassCmd>(&cmd))
 				m_drawCommandList->ExecuteRenderPassCmd(*renderPassCmd);
+			else if (auto *blitRenderTargetCmd = std::get_if<OGL::CommandList::BlitRenderTargetCmd>(&cmd))
+				m_drawCommandList->ExecuteBlitRenderTargetCmd(*blitRenderTargetCmd);
 		}
 
 		// we don't manually reset the active vertex array after each drawcall for performance,
@@ -1036,7 +1044,8 @@ namespace Graphics {
 		PROFILE_SCOPED()
 		OGL::RenderTarget *rt = new OGL::RenderTarget(this, desc);
 		CheckRenderErrors(__FUNCTION__, __LINE__);
-		rt->Bind();
+		m_renderStateCache->SetRenderTarget(rt);
+
 		if (desc.colorFormat != TEXTURE_NONE) {
 			Graphics::TextureDescriptor cdesc(
 				desc.colorFormat,
@@ -1049,6 +1058,7 @@ namespace Graphics {
 				0, Graphics::TEXTURE_2D);
 			OGL::TextureGL *colorTex = new OGL::TextureGL(cdesc, false, false, desc.numSamples);
 			rt->SetColorTexture(colorTex);
+			CHECKERRORS();
 		}
 		if (desc.depthFormat != TEXTURE_NONE) {
 			if (desc.allowDepthTexture) {
@@ -1061,22 +1071,26 @@ namespace Graphics {
 					false,
 					false,
 					0, Graphics::TEXTURE_2D);
-				OGL::TextureGL *depthTex = new OGL::TextureGL(ddesc, false, false);
+				OGL::TextureGL *depthTex = new OGL::TextureGL(ddesc, false, false, desc.numSamples);
 				rt->SetDepthTexture(depthTex);
+				CHECKERRORS();
 			} else {
 				rt->CreateDepthRenderbuffer();
 			}
 		}
 
-		rt->Unbind();
 		CheckRenderErrors(__FUNCTION__, __LINE__);
 
+		if (desc.colorFormat != TEXTURE_NONE && desc.depthFormat != TEXTURE_NONE && !rt->CheckStatus()) {
+			GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+			Log::Error("Unable to create complete render target. (Error: {})\n"
+				"Does your graphics driver support multisample anti-aliasing?\n"
+				"If this issue persists, try setting AntiAliasingMode=0 in your config file.\n",
+				gl_framebuffer_error_to_string(status));
+		}
+
 		// Rebind the active render target
-		if (m_activeRenderTarget)
-			m_activeRenderTarget->Bind();
-		// we can't assume the window render target exists yet because we might be creating it
-		else if (m_windowRenderTarget)
-			m_windowRenderTarget->Bind();
+		m_renderStateCache->SetRenderTarget(m_activeRenderTarget);
 
 		return rt;
 	}

@@ -9,6 +9,15 @@
 namespace Graphics {
 	namespace OGL {
 
+		static GLuint get_binding(RenderTarget::Binding bind)
+		{
+			switch (bind) {
+				case RenderTarget::READ: return GL_READ_FRAMEBUFFER;
+				case RenderTarget::DRAW: return GL_DRAW_FRAMEBUFFER;
+				case RenderTarget::BOTH: return GL_FRAMEBUFFER;
+			}
+		}
+
 		// RAII helper to push/pop a framebuffer for temporary modification
 		struct ScopedActive {
 			ScopedActive(RenderStateCache *c, RenderTarget *t) :
@@ -46,7 +55,6 @@ namespace Graphics {
 
 		Texture *RenderTarget::GetDepthTexture() const
 		{
-			assert(GetDesc().allowDepthTexture);
 			return m_depthTexture.Get();
 		}
 
@@ -83,15 +91,15 @@ namespace Graphics {
 			m_depthTexture.Reset(t);
 		}
 
-		void RenderTarget::Bind()
+		void RenderTarget::Bind(Binding bind)
 		{
-			glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
+			glBindFramebuffer(get_binding(bind), m_fbo);
 			m_active = true;
 		}
 
-		void RenderTarget::Unbind()
+		void RenderTarget::Unbind(Binding bind)
 		{
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glBindFramebuffer(get_binding(bind), 0);
 			m_active = false;
 		}
 

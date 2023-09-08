@@ -262,7 +262,9 @@ namespace GasGiantJobs {
 		Pi::renderer->SetOrthographicProjection(0, mData->UVDims(), mData->UVDims(), 0, -1, 1);
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
-		GasGiant::BeginRenderTarget();
+		// render to offscreen rt
+		Pi::renderer->SetRenderTarget(GasGiant::GetRenderTarget());
+
 		for (Uint32 iFace = 0; iFace < NUM_PATCHES; iFace++) {
 			// render the scene
 			GasGiant::SetRenderTargetCubemap(iFace, mData->Texture());
@@ -277,7 +279,6 @@ namespace GasGiantJobs {
 			// FIXME: use different render targets for each cubemap face
 			Pi::renderer->FlushCommandBuffers();
 		}
-		GasGiant::EndRenderTarget();
 
 		// add this patches data
 		SGPUGenResult *sr = new SGPUGenResult();

@@ -35,15 +35,20 @@ namespace Editor
 
 		virtual void OnHandleInput(bool clicked, bool released, ImVec2 mousePos) = 0;
 
+		virtual ImGuiWindowFlags SetupWindowFlags();
+
 		void CreateRenderTarget();
 
 		Graphics::RenderTarget *GetRenderTarget() { return m_renderTarget.get(); }
 		const Graphics::ViewportExtents &GetViewportExtents() const { return m_viewportExtents; }
 
+		bool IsViewportPressed() const { return m_viewportActive; }
+		bool IsViewportHovered() const { return m_viewportHovered; }
 
 	private:
 
 		std::unique_ptr<Graphics::RenderTarget> m_renderTarget;
+		std::unique_ptr<Graphics::RenderTarget> m_resolveTarget;
 		Graphics::ViewportExtents m_viewportExtents;
 
 		bool m_viewportActive;

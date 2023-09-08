@@ -680,7 +680,6 @@ void MainMenu::Update(float deltaTime)
 
 	Pi::intro->Draw(deltaTime);
 
-	Pi::renderer->SetRenderTarget(0);
 	Pi::pigui->NewFrame();
 	PiGui::RunHandler(deltaTime, "mainMenu");
 

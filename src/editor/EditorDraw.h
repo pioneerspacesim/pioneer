@@ -1,10 +1,10 @@
-// Copyright © 2008-2022 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2023 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
 
-#include "imgui/imgui.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
+#include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
 #include "FloatComparison.h"
@@ -30,6 +30,9 @@ namespace Editor::Draw {
 	// Set the next window size to the given rect and begin it
 	bool BeginWindow(ImRect rect, const char *name, bool *p_open = NULL, ImGuiWindowFlags flags = 0);
 
+	// Draw a fullscreen host window for a dockspace
+	bool BeginHostWindow(const char *name, bool *p_open = NULL, ImGuiWindowFlags flags = 0);
+
 	// Draw an edit box for an ImVec2 with the given settings
 	bool EditFloat2(const char *label, ImVec2 *vec, float step = 0.f, float step_fast = 0.f, const char *format = "%.3f");
 
@@ -49,6 +52,12 @@ namespace Editor::Draw {
 
 	// The above, but defaulting the label to the entryName
 	bool ComboUndoHelper(std::string_view label, const char *preview, UndoSystem *undo);
+
+	// Simple button that summons a popup menu underneath it
+	bool MenuButton(const char *label);
+
+	// Simple on/off toggle button with a text label
+	bool ToggleButton(const char *label, bool *value, ImVec4 activeColor);
 
 }
 

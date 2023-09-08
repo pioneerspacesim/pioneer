@@ -16,6 +16,7 @@ namespace Graphics {
 	class Material;
 	class MeshObject;
 	class VertexArray;
+	class RenderTarget;
 
 	class RendererOGL;
 
@@ -63,6 +64,16 @@ namespace Graphics {
 				Color clearColor;
 			};
 
+			struct BlitRenderTargetCmd {
+				RenderTarget *srcTarget;
+				RenderTarget *dstTarget;
+				ViewportExtents srcExtents;
+				ViewportExtents dstExtents;
+				bool resolveMSAA;
+				bool blitDepthBuffer;
+				bool linearFilter;
+			};
+
 			// development asserts to ensure sizes are kept reasonable.
 			// if you need to go beyond these sizes, add a new command instead.
 			static_assert(sizeof(DrawCmd) <= 64);
@@ -76,8 +87,16 @@ namespace Graphics {
 			void AddScissorCmd(ViewportExtents extents);
 			void AddClearCmd(bool clearColors, bool clearDepth, Color color);
 
+			// NOTE: bound render target state will be invalidated.
+			// BlitRenderTargetCmd should be followed by a RenderPassCmd
+			void AddBlitRenderTargetCmd(
+				Graphics::RenderTarget *src, Graphics::RenderTarget *dst,
+				const ViewportExtents &srcExtents,
+				const ViewportExtents &dstExtents,
+				bool resolveMSAA = false, bool blitDepthBuffer = false, bool linearFilter = true);
+
 		protected:
-			using Cmd = std::variant<DrawCmd, DynamicDrawCmd, RenderPassCmd>;
+			using Cmd = std::variant<DrawCmd, DynamicDrawCmd, RenderPassCmd, BlitRenderTargetCmd>;
 			const std::vector<Cmd> &GetDrawCmds() const { return m_drawCmds; }
 
 			bool IsEmpty() const { return m_drawCmds.empty(); }
@@ -102,6 +121,7 @@ namespace Graphics {
 			void ExecuteDrawCmd(const DrawCmd &);
 			void ExecuteDynamicDrawCmd(const DynamicDrawCmd &);
 			void ExecuteRenderPassCmd(const RenderPassCmd &);
+			void ExecuteBlitRenderTargetCmd(const BlitRenderTargetCmd &);
 
 			static BufferBinding<UniformBuffer> *getBufferBindings(const Shader *shader, char *data);
 			static TextureGL **getTextureBindings(const Shader *shader, char *data);

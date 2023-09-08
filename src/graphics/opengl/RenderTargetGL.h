@@ -17,9 +17,16 @@ namespace Graphics {
 
 	namespace OGL {
 		class RenderStateCache;
+		class CommandList;
 
 		class RenderTarget : public Graphics::RenderTarget {
 		public:
+			enum Binding {
+				READ = 1,
+				DRAW = 2,
+				BOTH = 3
+			};
+
 			~RenderTarget();
 			virtual Texture *GetColorTexture() const override final;
 			virtual Texture *GetDepthTexture() const override final;
@@ -30,10 +37,11 @@ namespace Graphics {
 		protected:
 			friend class Graphics::RendererOGL;
 			friend class RenderStateCache;
+			friend class CommandList;
 
 			RenderTarget(RendererOGL *, const RenderTargetDesc &);
-			void Bind();
-			void Unbind();
+			void Bind(Binding bind = BOTH);
+			void Unbind(Binding bind = BOTH);
 			void CreateDepthRenderbuffer();
 			bool CheckStatus();
 

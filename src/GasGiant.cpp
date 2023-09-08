@@ -832,14 +832,8 @@ void GasGiant::SetRenderTargetCubemap(const Uint32 face, Graphics::Texture *pTex
 	s_renderTarget->SetCubeFaceTexture(face, pTexture);
 }
 
-//static
-void GasGiant::BeginRenderTarget()
+// static
+Graphics::RenderTarget *GasGiant::GetRenderTarget()
 {
-	Pi::renderer->SetRenderTarget(s_renderTarget);
-}
-
-//static
-void GasGiant::EndRenderTarget()
-{
-	Pi::renderer->SetRenderTarget(nullptr);
+	return s_renderTarget;
 }

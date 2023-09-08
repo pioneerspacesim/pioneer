@@ -38,12 +38,15 @@ namespace Graphics {
 		virtual bool EndFrame() override final { return true; }
 		virtual bool SwapBuffers() override final { return true; }
 
-		virtual bool SetRenderTarget(RenderTarget *) override final { return true; }
+		virtual RenderTarget *GetRenderTarget() override final { return m_rt; }
+		virtual bool SetRenderTarget(RenderTarget *rt) override final { m_rt = rt; return true; }
 		virtual bool SetScissor(ViewportExtents ext) override final { return true; }
 
-		virtual bool ClearScreen() override final { return true; }
+		virtual void CopyRenderTarget(RenderTarget *, RenderTarget *, ViewportExtents, ViewportExtents, bool) override final {}
+		virtual void ResolveRenderTarget(RenderTarget *, RenderTarget *, ViewportExtents) override final {}
+
+		virtual bool ClearScreen(const Color &, bool) override final { return true; }
 		virtual bool ClearDepthBuffer() override final { return true; }
-		virtual bool SetClearColor(const Color &c) override final { return true; }
 
 		virtual bool SetViewport(ViewportExtents v) override final { return true; }
 		virtual ViewportExtents GetViewport() const override final { return {}; }
@@ -95,6 +98,7 @@ namespace Graphics {
 
 	private:
 		const matrix4x4f m_identity;
+		Graphics::RenderTarget *m_rt;
 	};
 
 } // namespace Graphics

@@ -6,6 +6,7 @@
 #include "Program.h"
 #include "RenderStateCache.h"
 #include "RendererGL.h"
+#include "RenderTargetGL.h"
 #include "Shader.h"
 #include "TextureGL.h"
 #include "UniformBuffer.h"
@@ -124,6 +125,32 @@ void CommandList::AddClearCmd(bool clearColors, bool clearDepth, Color color)
 			lastCmd->clearColor = color;
 		}
 	}
+}
+
+void CommandList::AddBlitRenderTargetCmd(
+	Graphics::RenderTarget *src, Graphics::RenderTarget *dst,
+	const ViewportExtents &srcExtents,
+	const ViewportExtents &dstExtents,
+	bool resolveMSAA, bool blitDepthBuffer,
+	bool linearFilter)
+{
+	assert(!m_executing && "Attempt to append to a command list while it's being executed!");
+
+	if (resolveMSAA) {
+		assert(srcExtents.w == dstExtents.w && srcExtents.h == dstExtents.h &&
+			"Cannot scale a framebuffer while performing MSAA resolve!");
+	}
+
+	BlitRenderTargetCmd cmd{};
+	cmd.srcTarget = static_cast<OGL::RenderTarget *>(src);
+	cmd.dstTarget = static_cast<OGL::RenderTarget *>(dst);
+	cmd.srcExtents = srcExtents;
+	cmd.dstExtents = dstExtents;
+	cmd.resolveMSAA = resolveMSAA;
+	cmd.blitDepthBuffer = blitDepthBuffer;
+	cmd.linearFilter = linearFilter;
+
+	m_drawCmds.emplace_back(std::move(cmd));
 }
 
 void CommandList::Reset()
@@ -294,4 +321,36 @@ void CommandList::ExecuteRenderPassCmd(const RenderPassCmd &cmd)
 		stateCache->ClearBuffers(cmd.clearColors, cmd.clearDepth, cmd.clearColor);
 
 	CHECKERRORS();
+}
+
+void CommandList::ExecuteBlitRenderTargetCmd(const BlitRenderTargetCmd &cmd)
+{
+	RenderStateCache *stateCache = m_renderer->GetStateCache();
+
+	// invalidate cached render target state
+	stateCache->SetRenderTarget(nullptr);
+
+	if (cmd.srcTarget)
+		cmd.srcTarget->Bind(RenderTarget::READ);
+
+	// dstTarget can be null if blitting to the window implicit backbuffer
+	if (cmd.dstTarget)
+		cmd.dstTarget->Bind(RenderTarget::DRAW);
+
+	int mask = GL_COLOR_BUFFER_BIT | (cmd.blitDepthBuffer ? GL_DEPTH_BUFFER_BIT : 0);
+
+	glBlitFramebuffer(
+		cmd.srcExtents.x, cmd.srcExtents.y, cmd.srcExtents.x + cmd.srcExtents.w, cmd.srcExtents.y + cmd.srcExtents.h,
+		cmd.dstExtents.x, cmd.dstExtents.y, cmd.dstExtents.x + cmd.dstExtents.w, cmd.dstExtents.y + cmd.dstExtents.h,
+		mask, cmd.linearFilter ? GL_LINEAR : GL_NEAREST);
+
+	if (cmd.srcTarget)
+		cmd.srcTarget->Unbind(RenderTarget::READ);
+
+	// dstTarget can be null if blitting to the window implicit backbuffer
+	if (cmd.dstTarget)
+		cmd.dstTarget->Unbind(RenderTarget::DRAW);
+
+	CHECKERRORS();
+
 }
