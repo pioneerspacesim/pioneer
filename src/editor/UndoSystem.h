@@ -69,6 +69,7 @@ private:
 	bool HasChanged() const;
 
 	StringName m_name;
+	size_t m_id;
 	std::vector<std::unique_ptr<UndoStep>> m_steps;
 };
 
@@ -123,6 +124,9 @@ public:
 	// Return a pointer to the given undo entry if stackIdx < GetNumEntries().
 	const UndoEntry *GetEntry(size_t stackIdx) const;
 
+	// Calculate a hash value used to describe the current undo state
+	size_t GetStateHash();
+
 	bool CanUndo() const { return !m_undoStack.empty(); }
 	bool CanRedo() const { return !m_redoStack.empty(); }
 
@@ -162,6 +166,7 @@ private:
 
 	std::unique_ptr<UndoEntry> m_openUndoEntry;
 	size_t m_openUndoDepth;
+	size_t m_entryId;
 
 	bool m_doing;
 };
