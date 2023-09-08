@@ -8,6 +8,7 @@
 #include "vector3.h"
 
 #include <cassert>
+#include <cmath>
 
 class Orbit {
 public:
