@@ -33,8 +33,14 @@ static vector2f get_color(Uint8 c)
 
 static inline vector2f LoadLightColorUVoffset(const std::string &spec)
 {
-	std::vector<float> v(2);
-	SplitSpec(spec, v);
+	std::vector<float> v;
+	// parse float values in the spec
+	SplitString(spec, ",").to_vector(v, [](std::string_view str) {
+		return std::atof(std::string(str).c_str());
+	});
+
+	// ensure the spec has enough values
+	v.resize(2);
 	return vector2f(v[0], v[1]);
 }
 

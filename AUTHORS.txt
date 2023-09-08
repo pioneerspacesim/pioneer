@@ -203,6 +203,10 @@ Pioneer includes the following third-party software:
   Copyright (c) 2019 Stanislav Denisov
   Licensed under the MIT license
 
+  Portable File Dialogs
+  Copyright © 2018–2022 Sam Hocevar
+  Licensed under the WTFPLv2 license (http://www.wtfpl.net/)
+
   High Performance C++ Profiler
   https://code.google.com/p/high-performance-cplusplus-profiler/
   Licensed under the MIT license

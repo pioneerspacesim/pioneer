@@ -185,32 +185,22 @@ const char *pi_strcasestr(const char *haystack, const char *needle)
 	}
 }
 
-std::vector<std::string> SplitString(const std::string &source, const std::string &delim)
+size_t SplitString::step(std::string_view str)
 {
-	bool stringSplitted = false;
-	std::vector<std::string> splitted;
+	return m_reverse ? str.find_last_of(m_delim) : str.find_first_of(m_delim);
+}
 
-	size_t startPos = 0;
-	do {
-		// try to find delim
-		size_t delimPos = source.find(delim, startPos);
+void SplitString::trim(std::string_view &str, size_t next)
+{
+	if (next == std::string_view::npos) {
+		str = {};
+		return;
+	}
 
-		// if delim found
-		if (delimPos != std::string::npos) {
-			std::string element = source.substr(startPos, delimPos);
-			splitted.push_back(element);
-
-			// prepare next loop
-			startPos = delimPos + delim.length();
-		} else {
-			// push tail and exit
-			splitted.push_back(source.substr(startPos));
-			stringSplitted = true;
-		}
-
-	} while (!stringSplitted);
-
-	return splitted;
+	if (m_reverse)
+		str.remove_suffix((str.size() + 1) - str.find_last_not_of(m_delim, next));
+	else
+		str.remove_prefix(str.find_first_not_of(m_delim, next));
 }
 
 std::string FloatToStr(float val)

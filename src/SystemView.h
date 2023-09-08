@@ -240,7 +240,8 @@ public:
 	void SetSelectedObject(Projectable p) { m_selectedObject = p; }
 	void ClearSelectedObject();
 
-	void ViewSelectedObject();
+	void ViewSelectedObject() { SetViewedObject(m_selectedObject); }
+	void SetViewedObject(Projectable p);
 	void ResetViewpoint();
 
 	Projectable *GetViewedObject() { return &m_viewedObject; }
@@ -276,6 +277,8 @@ public:
 	void SetRotateMode(bool enable);
 	void SetDisplayMode(SystemView::Mode displayMode) { m_displayMode = displayMode; }
 	void SetBackground(Background::Container *bg) { m_background = bg; }
+	void SetShowGravpoints(bool enabled) { m_showGravpoints = enabled; }
+
 	double ProjectedSize(double size, vector3d pos);
 	float AtlasViewPlanetGap(float planetRadius) { return std::max(planetRadius * 0.6, 1.33); }
 	float AtlasViewPixelPerUnit();
@@ -348,6 +351,7 @@ private:
 	vector2f m_atlasPos, m_atlasPosTo, m_atlasPosDefault;
 	float m_atlasViewW, m_atlasViewH;
 
+	bool m_showGravpoints;
 	ShowLagrange m_showL4L5;
 	ShipDrawing m_shipDrawing;
 	GridDrawing m_gridDrawing;

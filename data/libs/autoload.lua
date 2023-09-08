@@ -4,8 +4,6 @@
 -- this is the only library automatically loaded at startup
 -- its the right place to extend core Lua tables
 
-require 'SpaceStation'
-
 string.trim = function(s)
 	return string.gsub(s or "", "^%s*(.-)%s*$", "%1")
 end

@@ -336,6 +336,7 @@ void Pi::App::OnStartup()
 	Output("%s\n", OS::GetOSInfoString().c_str());
 
 	ModManager::Init();
+	ModManager::LoadMods(config);
 
 	Lang::Resource &res(Lang::GetResource("core", config->String("Lang")));
 	Lang::MakeCore(res);
@@ -446,6 +447,8 @@ void Pi::App::OnShutdown()
 	GalaxyGenerator::Uninit();
 
 	BodyComponentDB::Uninit();
+
+	ModManager::Uninit();
 
 	ShutdownRenderer();
 	Pi::renderer = nullptr;

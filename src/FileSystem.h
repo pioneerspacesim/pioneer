@@ -194,6 +194,58 @@ namespace FileSystem {
 		virtual ~FileDataMalloc() { std::free(m_data); }
 	};
 
+
+	class FileEnumerator {
+	public:
+		enum Flags {
+			IncludeDirs = 1,
+			IncludeSpecials = 2,
+			ExcludeFiles = 4,
+			Recurse = 8
+		};
+
+		// Iterator interface for use with C++11 range-for only
+		struct iter {
+			FileEnumerator &m_enum;
+			bool m_atend = false;
+
+			using iterator_category = std::input_iterator_tag;
+			using reference = const FileInfo &;
+			using value_type = const FileInfo;
+
+			reference operator*() const { return m_enum.Current(); }
+			bool operator!=(const iter &rhs) { return m_enum.Finished() != rhs.m_atend; }
+
+			iter &operator++()
+			{
+				m_enum.Next();
+				return *this;
+			}
+		};
+
+		explicit FileEnumerator(FileSource &fs, int flags = 0);
+		explicit FileEnumerator(FileSource &fs, const std::string &path, int flags = 0);
+		~FileEnumerator();
+
+		void AddSearchRoot(const std::string &path);
+
+		bool Finished() const { return m_queue.empty(); }
+		void Next();
+		const FileInfo &Current() const { return m_queue.front(); }
+
+		iter begin() { return iter{ *this, false }; }
+		iter end() { return iter{ *this, true }; }
+
+	private:
+		void ExpandDirQueue();
+		void QueueDirectoryContents(const FileInfo &info);
+
+		FileSource *m_source;
+		std::deque<FileInfo> m_queue;
+		std::deque<FileInfo> m_dirQueue;
+		int m_flags;
+	};
+
 	class FileSource {
 	public:
 		explicit FileSource(const std::string &root, bool trusted = false) :
@@ -206,6 +258,16 @@ namespace FileSystem {
 		virtual FileInfo Lookup(const std::string &path) = 0;
 		virtual RefCountedPtr<FileData> ReadFile(const std::string &path) = 0;
 		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output) = 0;
+
+		virtual FileEnumerator Enumerate(int enumeratorFlags)
+		{
+			return FileEnumerator(*this, enumeratorFlags);
+		}
+
+		virtual FileEnumerator Enumerate(const std::string &path, int enumeratorFlags)
+		{
+			return FileEnumerator(*this, path, enumeratorFlags);
+		}
 
 		bool IsTrusted() const { return m_trusted; }
 
@@ -258,57 +320,6 @@ namespace FileSystem {
 
 	private:
 		std::vector<FileSource *> m_sources;
-	};
-
-	class FileEnumerator {
-	public:
-		enum Flags {
-			IncludeDirs = 1,
-			IncludeSpecials = 2,
-			ExcludeFiles = 4,
-			Recurse = 8
-		};
-
-		// Iterator interface for use with C++11 range-for only
-		struct iter {
-			FileEnumerator &m_enum;
-			bool m_atend = false;
-
-			using iterator_category = std::input_iterator_tag;
-			using reference = const FileInfo &;
-			using value_type = const FileInfo;
-
-			reference operator*() const { return m_enum.Current(); }
-			bool operator!=(const iter &rhs) { return m_enum.Finished() != rhs.m_atend; }
-
-			iter &operator++()
-			{
-				m_enum.Next();
-				return *this;
-			}
-		};
-
-		explicit FileEnumerator(FileSource &fs, int flags = 0);
-		explicit FileEnumerator(FileSource &fs, const std::string &path, int flags = 0);
-		~FileEnumerator();
-
-		void AddSearchRoot(const std::string &path);
-
-		bool Finished() const { return m_queue.empty(); }
-		void Next();
-		const FileInfo &Current() const { return m_queue.front(); }
-
-		iter begin() { return iter{ *this, false }; }
-		iter end() { return iter{ *this, true }; }
-
-	private:
-		void ExpandDirQueue();
-		void QueueDirectoryContents(const FileInfo &info);
-
-		FileSource *m_source;
-		std::deque<FileInfo> m_queue;
-		std::deque<FileInfo> m_dirQueue;
-		int m_flags;
 	};
 
 } // namespace FileSystem

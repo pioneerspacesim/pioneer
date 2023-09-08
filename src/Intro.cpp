@@ -96,7 +96,8 @@ void Intro::RefreshBackground(Graphics::Renderer *r)
 {
 	const SystemPath s(0, 0, 0);
 	RefCountedPtr<Galaxy> galaxy(GalaxyGenerator::Create());
-	m_background.reset(new Background::Container(r, Pi::rng, nullptr, galaxy, &s));
+	m_background.reset(new Background::Container(r, Pi::rng));
+	m_background->GetStarfield()->Fill(Pi::rng, &s, galaxy);
 }
 
 void Intro::Reset()
