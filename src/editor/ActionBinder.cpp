@@ -38,6 +38,14 @@ std::string ActionBinder::FormatShortcut(ImGuiKeyChord shortcut)
 
 void ActionBinder::Update()
 {
+	// Don't process shortcuts while a popup is open
+	if (ImGui::IsPopupOpen(ImGuiID(0), ImGuiPopupFlags_AnyPopupId)) {
+		for (auto &popup : ImGui::GetCurrentContext()->OpenPopupStack) {
+			if (popup.Window && popup.Window->Flags & ImGuiWindowFlags_Modal)
+				return;
+		}
+	}
+
 	for (auto &[id, action] : m_actionStorage) {
 		if (!action.shortcut)
 			continue;

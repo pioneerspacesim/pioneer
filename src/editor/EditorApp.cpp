@@ -4,6 +4,7 @@
 #include "EditorApp.h"
 
 #include "EditorDraw.h"
+#include "Modal.h"
 
 #include "FileSystem.h"
 #include "Lang.h"
@@ -82,6 +83,11 @@ void EditorApp::SetAppName(std::string_view name)
 	m_appName = name;
 }
 
+void EditorApp::PushModalInternal(Modal *modal)
+{
+	m_modalStack.push_back(RefCountedPtr<Modal>(modal));
+}
+
 void EditorApp::OnStartup()
 {
 	Log::GetLog()->SetLogFile("editor.txt");
@@ -144,6 +150,18 @@ void EditorApp::PreUpdate()
 
 void EditorApp::PostUpdate()
 {
+	// Clean up finished modals
+	for (int idx = int(m_modalStack.size()) - 1; idx >= 0; --idx) {
+		if (m_modalStack[idx]->Ready())
+			m_modalStack.erase(m_modalStack.begin() + idx);
+	}
+
+	// Draw modals after cleaning, to ensure application has all of frame+1
+	// to process modal results
+	for (auto &modal : m_modalStack) {
+		modal->Draw();
+	}
+
 	GetRenderer()->ClearDepthBuffer();
 	GetPiGui()->Render();
 

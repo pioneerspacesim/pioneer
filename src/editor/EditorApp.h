@@ -15,6 +15,7 @@ namespace Graphics {
 } // namespace Graphics
 
 namespace Editor {
+	class Modal;
 
 	class EditorApp : public GuiApplication {
 	public:
@@ -29,6 +30,14 @@ namespace Editor {
 
 		void SetAppName(std::string_view name);
 
+		template<typename T, typename ...Args>
+		RefCountedPtr<T> PushModal(Args&& ...args)
+		{
+			T *modal = new T(this, args...);
+			PushModalInternal(modal);
+			return RefCountedPtr<T>(modal);
+		}
+
 	protected:
 		void OnStartup() override;
 		void OnShutdown() override;
@@ -40,8 +49,12 @@ namespace Editor {
 		std::vector<TaskSet::Handle> &GetLoadingTasks() { return m_loadingTasks; }
 
 	private:
+		void PushModalInternal(Modal *m);
+
 		std::vector<TaskSet::Handle> m_loadingTasks;
 		Graphics::Renderer *m_renderer;
+
+		std::vector<RefCountedPtr<Modal>> m_modalStack;
 
 		std::string m_appName;
 	};
