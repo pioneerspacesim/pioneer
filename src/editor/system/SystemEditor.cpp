@@ -1020,7 +1020,7 @@ void SystemEditor::DrawSystemProperties()
 void SystemEditor::DrawBodyContextMenu(SystemBody *body)
 {
 	if (ImGui::BeginPopupContextItem()) {
-		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 16));
+		ImGui::PushFont(m_app->GetPiGui()->GetFont("pionillium", 15));
 
 		m_contextBody = body;
 		m_menuBinder->DrawGroup("Edit.Body");

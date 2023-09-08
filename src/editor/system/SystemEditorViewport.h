@@ -39,7 +39,7 @@ namespace Editor {
 	private:
 
 		void DrawTimelineControls();
-		bool DrawIcon(const ImVec2 &iconPos, const ImColor &color, const char *icon, const char *label = nullptr);
+		bool DrawIcon(ImGuiID id, const ImVec2 &iconPos, const ImColor &color, const char *icon, const char *label = nullptr);
 
 		EditorApp *m_app;
 		SystemEditor *m_editor;

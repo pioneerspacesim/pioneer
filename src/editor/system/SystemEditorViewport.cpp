@@ -125,18 +125,22 @@ void SystemEditorViewport::OnDraw()
 				fmt::format("{} ({})", item.ref.sbody->GetName(), group.tracks.size()) :
 				item.ref.sbody->GetName();
 
-			if (DrawIcon(itempos, icon_col, GetBodyIcon(item.ref.sbody), label.c_str())) {
-				ImGui::SetTooltip("%s", label.c_str());
+			bool clicked = DrawIcon(ImGui::GetID(item.ref.sbody), itempos, icon_col, GetBodyIcon(item.ref.sbody), label.c_str());
 
-				if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-					m_map->SetSelectedObject(item);
-					m_editor->SetSelectedBody(const_cast<SystemBody *>(item.ref.sbody));
-				}
+			if (clicked) {
+				m_map->SetSelectedObject(item);
+				m_editor->SetSelectedBody(const_cast<SystemBody *>(item.ref.sbody));
 
-				if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
+				if (ImGui::IsMouseDoubleClicked(0)) {
 					m_map->ViewSelectedObject();
 				}
 			}
+
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip("%s", label.c_str());
+
+			m_editor->DrawBodyContextMenu(const_cast<SystemBody *>(item.ref.sbody));
+
 		}
 
 		#if 0 // TODO: visual edit gizmos for body axes
@@ -201,7 +205,7 @@ void SystemEditorViewport::DrawTimelineControls()
 	ImGui::Text("%s", format_date(m_map->GetTime()).c_str());
 }
 
-bool SystemEditorViewport::DrawIcon(const ImVec2 &icon_pos, const ImColor &color, const char *icon, const char *label)
+bool SystemEditorViewport::DrawIcon(ImGuiID id, const ImVec2 &icon_pos, const ImColor &color, const char *icon, const char *label)
 {
 	ImVec2 icon_size = ImVec2(ImGui::GetFontSize(), ImGui::GetFontSize());
 	ImVec2 draw_pos = ImGui::GetWindowPos() + icon_pos - icon_size * 0.5f;
@@ -223,5 +227,24 @@ bool SystemEditorViewport::DrawIcon(const ImVec2 &icon_pos, const ImColor &color
 		hover_rect.Add(text_pos + text_size);
 	}
 
-	return ImGui::ItemHoverable(hover_rect, 0, 0);
+	ImGuiID prevHovered = ImGui::GetHoveredID();
+
+	ImGuiButtonFlags flags =
+		ImGuiButtonFlags_MouseButtonLeft |
+		ImGuiButtonFlags_PressedOnClickRelease |
+		ImGuiButtonFlags_PressedOnDoubleClick;
+
+	ImGui::ItemAdd(hover_rect, id);
+
+	// Allow interaction with this label
+	bool hovered, held;
+	bool pressed = ImGui::ButtonBehavior(hover_rect, id, &hovered, &held, flags);
+
+	// Reset hovered state so viewport ButtonBehavior receives middle-mouse clicks
+	// (otherwise this label "steals" hovered state and blocks all interaction)
+	// NOTE: this works with practically any button-like widget, not just ButtonBehavior
+	if (ImGui::IsItemHovered())
+		ImGui::SetHoveredID(prevHovered);
+
+	return pressed;
 }

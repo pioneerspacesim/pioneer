@@ -89,20 +89,6 @@ void ViewportWindow::Update(float deltaTime)
 				r->ResolveRenderTarget(m_renderTarget.get(), m_resolveTarget.get(), m_viewportExtents);
 			}
 
-			ImGui::BeginChild("##ViewportContainer", ImVec2(0, 0), false,
-				ImGuiWindowFlags_NoBackground |
-				ImGuiWindowFlags_NoScrollbar |
-				ImGuiWindowFlags_NoScrollWithMouse |
-				ImGuiWindowFlags_AlwaysUseWindowPadding);
-
-			// set Horizontal layout type since we're using this window effectively as a toolbar
-			ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Horizontal;
-
-			// Draw all "viewport overlay" UI here, to properly route inputs
-			OnDraw();
-
-			ImGui::EndChild();
-
 			ImGuiID viewportID = ImGui::GetID("##ViewportOverlay");
 			ImGui::KeepAliveID(viewportID);
 
@@ -111,6 +97,8 @@ void ViewportWindow::Update(float deltaTime)
 			ImGuiButtonFlags flags =
 				ImGuiButtonFlags_FlattenChildren |
 				ImGuiButtonFlags_PressedOnClick |
+				ImGuiButtonFlags_AllowOverlap |
+				ImGuiButtonFlags_NoSetKeyOwner |
 				ImGuiButtonFlags_MouseButtonMask_;
 
 			ImRect area = { screenPos, screenPos + size };
@@ -118,6 +106,9 @@ void ViewportWindow::Update(float deltaTime)
 			bool wasPressed = m_viewportActive;
 			bool clicked = ImGui::ButtonBehavior(area, viewportID,
 				&m_viewportHovered, &m_viewportActive, flags);
+
+			if (m_viewportActive)
+				ImGui::GetCurrentContext()->ActiveIdAllowOverlap = true;
 
 			// if the viewport is hovered/active or we just released it,
 			// update mouse interactions with it
@@ -132,6 +123,22 @@ void ViewportWindow::Update(float deltaTime)
 				OnHandleInput(clicked, wasPressed && !m_viewportActive, mousePos);
 			}
 
+			ImGui::BeginChild("##ViewportContainer", ImVec2(0, 0), false,
+				ImGuiWindowFlags_NoBackground |
+				ImGuiWindowFlags_NoScrollbar |
+				ImGuiWindowFlags_NoScrollWithMouse |
+				ImGuiWindowFlags_AlwaysUseWindowPadding);
+
+			// set Horizontal layout type since we're using this window effectively as a toolbar
+			ImGui::GetCurrentWindow()->DC.LayoutType = ImGuiLayoutType_Horizontal;
+
+			// Draw all "viewport overlay" UI here, to properly route inputs
+			OnDraw();
+
+			ImGui::EndChild();
+
+			if (m_viewportActive)
+				ImGui::GetCurrentContext()->ActiveIdAllowOverlap = false;
 		}
 	}
 
