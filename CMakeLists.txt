@@ -431,7 +431,6 @@ install(DIRECTORY data/models/
 
 if (WIN32)
 	configure_file(pioneer.iss.cmakein pioneer.iss @ONLY)
-	configure_file(CI/appveyor/msvc/publish.cmd.cmakein publish.cmd @ONLY)
 	file(GLOB win_libs ../pioneer-thirdparty/win32/bin/${MSVC_ARCH}/vs2019/*.dll)
 	install(FILES ${win_libs} DESTINATION ${CMAKE_INSTALL_PREFIX})
 	if(NOT ISCC)

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Package a build and prepare it for upload via Travis.
+# Package a build and prepare it for upload to Github.
 
 BINARIES=("build/pioneer" "build/modelcompiler" "build/savegamedump" "build/editor")
 COPY_DIR=release

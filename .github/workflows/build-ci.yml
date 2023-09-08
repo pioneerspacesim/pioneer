@@ -31,26 +31,6 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build-vs-solution:
-    runs-on: windows-2019
-
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        path: pioneer
-
-    - name: Checkout pioneer-thirdparty
-      uses: actions/checkout@v3
-      with:
-        repository: pioneerspacesim/pioneer-thirdparty
-        path: pioneer-thirdparty
-
-    - name: Build VS Solution
-      shell: cmd
-      run: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        cd pioneer
-        msbuild win32\vs2019\pioneer.sln /property:Configuration=Release
 
   build-msvc:
     runs-on: windows-2019
@@ -127,7 +107,7 @@ jobs:
       run: ./build/unittest
 
     - name: Build Release
-      run: ./scripts/build-travis.sh
+      run: ./scripts/build-release.sh
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
@@ -169,4 +149,4 @@ jobs:
       run: ./build/unittest
 
     - name: Build Release
-      run: ./scripts/build-travis.sh
+      run: ./scripts/build-release.sh
