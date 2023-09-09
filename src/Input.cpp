@@ -658,8 +658,10 @@ void Manager::HandleSDLEvent(SDL_Event &event)
 		}
 		break;
 	case SDL_MOUSEWHEEL:
-		mouseWheel = event.wheel.y;
-		onMouseWheel.emit(event.wheel.y > 0); // true = up
+		if (event.wheel.y != 0) {
+			mouseWheel = event.wheel.y;
+			onMouseWheel.emit(event.wheel.y > 0); // true = up
+		}
 		break;
 	case SDL_MOUSEMOTION:
 		mouseMotion[0] += event.motion.xrel;
