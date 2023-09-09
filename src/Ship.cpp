@@ -1257,9 +1257,17 @@ void Ship::StaticUpdate(const float timeStep)
 				const vector3d pdir = -GetOrient().VectorZ();
 				const double dot = vdir.Dot(pdir);
 				const double speed_times_density = speed * density;
-				// reference: speed > 100.0, density > 0.3
+				/*
+				 * speed = m/s, density = g/cm^3 -> T/m^3, pressure = Pa -> N/m^2 -> kg/(m*s^2)
+				 * m    T      kg         m*kg^2           kg^2
+				 * - * --- * ----- = 1000 ------- = 1000 -------
+				 * s   m^3   m*s^2        m^4*s^3        m^3*s^3
+				 *
+				 * fuel_scoop_cap = area, m^2. rate = kg^2/(m*s^3) = (Pa*kg)/s^2
+				 */
+				const double hydrogen_density = 0.00000333;
 				if ((m_stats.free_capacity) && (dot > 0.90) && speed_times_density > (100.0 * 0.3)) {
-					const double rate = speed_times_density * 0.00000333 * double(m_stats.fuel_scoop_cap);
+					const double rate = speed_times_density * hydrogen_density * double(m_stats.fuel_scoop_cap);
 					m_hydrogenScoopedAccumulator += rate * Pi::game->GetTimeAccelRate();
 					if (m_hydrogenScoopedAccumulator > 1) {
 						const double scoopedTons = floor(m_hydrogenScoopedAccumulator);
